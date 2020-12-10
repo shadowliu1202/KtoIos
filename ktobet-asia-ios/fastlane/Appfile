@@ -1,0 +1,23 @@
+
+app_identifier("com.higgstar.ktoasiabet") # The bundle identifier of your app
+
+apple_id("higgs-mobile@hotmail.com") # Your Apple email address
+
+itc_team_id("122351524") # App Store Connect Team ID
+
+team_id("277T679FZ2") # Developer Portal Team ID
+
+ENV["FASTLANE_USER"] = "higgs-mobile@hotmail.com"
+
+ENV["FASTLANE_PASSWORD"] = "Higgs@2020"
+
+ENV['SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER'] = "+886-919-794-496"
+
+ENV["MATCH_PASSWORD"] = "1qaz#EDC" 
+
+ENV["FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD"] = "uvmy-ntpz-iokt-dcqu"
+
+ENV["FASTLANE_SESSION"] = '---\n- !ruby/object:HTTP::Cookie\n  name: DES5bc0710282e82902426aa0101b0319cbc\n  value: HSARMTKNSRVXWFla2mzXw0w+i75mztYonD7GWV5cX75lGjc3HZBY8005O36dFexaaGJtxsyJ3EGQHRYs7Xz+PPnhaBL1WyqOWqILd3HVRwx3VAzbTvWy+ciw2+XIF6UIyE08CixtUn00bF7jnc4/bDTRtsu7wDXE6w==SRVX\n  domain: idmsa.apple.com\n  for_domain: true\n  path: "/"\n  secure: true\n  httponly: true\n  expires: \n  max_age: 2592000\n  created_at: 2020-11-23 10:51:56.227165000 +08:00\n  accessed_at: 2020-12-09 14:03:06.672207000 +08:00\n- !ruby/object:HTTP::Cookie\n  name: myacinfo\n  value: DAWTKNV2309c4e8f4cf527e93547595202176a4377f5e4bde19bc6a0ec41b71a6790b6ecbe54a4481e466820f43692cbb79d0d28c7c8655c36872695ebf441fe9574f7241b7acc63dad8f8fe10c6fc549281d300e9fbeabbfa1ceb1e0d14301bbb420a6d76862a0a32d0e5822483c43445425d318fdabee3d103eb17a418ee98ede79eeb22d2d055a01184abbe4f7a522ba23de233c2e80584268ee0f1cf8064a8b024d45067a7a7c8ddc1d1d2eaa481b757e490d024628aedca3e24d2cc0b23e1dfff465aa27d85ec2acf7d14325ef650e680606e08f127b3128f234ee8afe5fa5d20c65b2d0e2322cb534ae1d5816ad9d57c81ce04c148eaeb6e20668ed5bc2683989c61616631336436323239643663386137373732623963663861313666373465616336386366303735MVRYV2\n  domain: apple.com\n  for_domain: true\n  path: "/"\n  secure: true\n  httponly: true\n  expires: \n  max_age: \n  created_at: 2020-12-09 14:03:07.404260000 +08:00\n  accessed_at: 2020-12-09 15:46:36.694603000 +08:00\n- !ruby/object:HTTP::Cookie\n  name: dqsid\n  value: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDc0OTk5OTYsImp0aSI6Im9jYXhVRmZVc0phdkN1c0lsRzY5RncifQ.LboLqEHxcukxwx00_9JdeS-2X0ukB1HwxGyiglFu_Fc\n  domain: appstoreconnect.apple.com\n  for_domain: false\n  path: "/"\n  secure: true\n  httponly: true\n  expires: \n  max_age: 1800\n  created_at: &1 2020-12-09 15:46:37.828300000 +08:00\n  accessed_at: *1\n'
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

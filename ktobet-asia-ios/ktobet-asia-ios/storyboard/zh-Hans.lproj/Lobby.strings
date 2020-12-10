@@ -1,0 +1,57 @@
+
+/* Class = "UIButton"; normalTitle = "Logout"; ObjectID = "0AK-oh-jbs"; */
+"0AK-oh-jbs.normalTitle" = "Logout";
+
+/* Class = "UILabel"; text = "設定主頁"; ObjectID = "1CJ-Zn-pSn"; */
+"1CJ-Zn-pSn.text" = "設定主頁";
+
+/* Class = "UIBarButtonItem"; title = "Close"; ObjectID = "6VQ-v8-rQ8"; */
+"6VQ-v8-rQ8.title" = "Close";
+
+/* Class = "UIButton"; normalTitle = "下一步"; ObjectID = "7tB-uH-VgD"; */
+"7tB-uH-VgD.normalTitle" = "下一步";
+
+/* Class = "UIBarButtonItem"; title = "Gift"; ObjectID = "9ai-Jr-OkV"; */
+"9ai-Jr-OkV.title" = "Gift";
+
+/* Class = "UIBarButtonItem"; title = "Alert"; ObjectID = "CEX-Dn-r0w"; */
+"CEX-Dn-r0w.title" = "Alert";
+
+/* Class = "UIButton"; normalTitle = "Go To Socket Test"; ObjectID = "NjY-yT-Rxo"; */
+"NjY-yT-Rxo.normalTitle" = "Go To Socket Test";
+
+/* Class = "UILabel"; text = "KTO123456"; ObjectID = "UQW-Oq-2ag"; */
+"UQW-Oq-2ag.text" = "KTO123456";
+
+/* Class = "UILabel"; text = "￥999,999,999,999.99"; ObjectID = "Uoc-Mg-tc4"; */
+"Uoc-Mg-tc4.text" = "￥999,999,999,999.99";
+
+/* Class = "UIBarButtonItem"; title = "KTO"; ObjectID = "YqY-Yp-hpj"; */
+"YqY-Yp-hpj.title" = "KTO";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "bwQ-Wu-nLf"; */
+"bwQ-Wu-nLf.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Go To Game Test"; ObjectID = "bxh-Uf-eAq"; */
+"bxh-Uf-eAq.normalTitle" = "Go To Game Test";
+
+/* Class = "UILabel"; text = "體育"; ObjectID = "hVk-gZ-5gO"; */
+"hVk-gZ-5gO.text" = "體育";
+
+/* Class = "UIBarButtonItem"; title = "略過"; ObjectID = "hZJ-uw-Byz"; */
+"hZJ-uw-Byz.title" = "略過";
+
+/* Class = "UILabel"; text = "Lobby"; ObjectID = "jrg-Xc-z1y"; */
+"jrg-Xc-z1y.text" = "Lobby";
+
+/* Class = "UILabel"; text = "老虎機"; ObjectID = "kJp-UY-jhH"; */
+"kJp-UY-jhH.text" = "老虎機";
+
+/* Class = "UILabel"; text = "充值"; ObjectID = "oH6-dD-w3d"; */
+"oH6-dD-w3d.text" = "充值";
+
+/* Class = "UIBarButtonItem"; title = "sideBar"; ObjectID = "oYa-Ch-kxa"; */
+"oYa-Ch-kxa.title" = "sideBar";
+
+/* Class = "UILabel"; text = "john.doeeee@testaccount.com"; ObjectID = "yq7-S6-fh9"; */
+"yq7-S6-fh9.text" = "john.doeeee@testaccount.com";

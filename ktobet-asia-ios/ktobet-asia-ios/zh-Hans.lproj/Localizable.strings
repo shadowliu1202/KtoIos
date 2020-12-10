@@ -1,0 +1,142 @@
+/* 
+  Localizable.strings
+  ktobet-asia-ios
+
+  Created by Partick Chen on 2020/12/1.
+  
+*/
+
+// Register
+"language_option_chinese" = "简体中文 + 人民币";
+"language_option_thai" = "ภาษาไทย + บาทไทย";
+"language_option_vietnam" = "Người việt nam + đồng";
+"Step1_Title_1" = "注册 1/3";
+"Step1_Title_2" = "选择语言与货币";
+"Step1_Warning" = "该设定将与账户绑定，无法更改。";
+"Step1_Tips_1" = "按“下一步”代表您已阅读并同意以下条款";
+"Step1_Tips_1_Highlight" = "《服务条款》";
+"service_down" = "暂时无法注册，请稍后再试。";
+"Step2_Title_1" = "注册 2/3";
+"Step2_Title_2" = "填写基本资料";
+"Step2_Withdrawal_Name" = "提现姓名";
+"Step2_verify_mobile" = "开始验证手机";
+"Step2_verify_mail" = "开始验证邮箱";
+"Step2_Name_format_error" = "不能包含空白及数字，符号仅允许( “·”、“.”)且不连续";
+"Step2_password_not_match" = "密码不一致";
+"step2_sms_Inactive" = "非常抱歉，该注册方式暂不可用。";
+"step2_email_Inactive" = "非常抱歉，该注册方式暂不可用。";
+"Step3_Title_1" = "注册 3/3";
+"step3_verify_by_email_title" = "验证电子邮箱";
+"step3_verify_by_phone_title" = "验证手机";
+"Step3_content_email" = "已发送链结到您的邮箱<br/>{id}<br/>请前往验证";
+"Step3_Mobile_Limit_exceeded" = "手机注册方式暂不可用。";
+"Step3_Mail_Limit_exceeded" = "电子邮箱注册方式暂不可用。";
+"Step3_incorrect_otp" = "您输入的验证码不正确！";
+"Step3_verification_pending" = "您尚未完成验证";
+"Step3_open_mail" = "开启邮箱";
+"Step3_mail_varify_hint" = "若已通过验证，试试";
+"Step3_mail_varify_hint_highlight" = "这里";
+"Step4_Title_Fail" = "註冊失敗";
+"Step4_Content_Fail" = "操作过于频繁，请使用有效联系方式重新注册。";
+"Step4_retry_signup" = "重新注册";
+"Step4_Title_Success" = "注册成功";
+"Step4_Content_unknown_Fail" = "非常抱歉，该注册方式暂不可用。";
+
+// Login
+"Account_Identity" = "手机/电子邮箱";
+"Account_Remember_me" = "记住我的帐号";
+"Tips_1" = "忘记密码，使用";
+"Tips_1_highlight" = "重置密码";
+"Invalid_Username_password" = "用户名或密码不正确";
+"Invalid_Username_password_captcha" = "用户名，密码或验证码不正确";
+"Invalid_lockdown" = "您已多次输入错误，请使用重置密码或稍后登录";
+"Enter_Captcha_to_Prceed" = "您已多次输入错误密码，您现在需要额外输入图片中的信息来进行登录";
+"Button_countdown" = "登录({seconds})";
+"Captcha_New" = "看不清？换一组验证码。";
+"Captcha" = "图形验证码";
+"ResetPassword_service_down" = "暂时无法重置密码，请稍后再试。";
+"ResetPassword_Step1_Title_1" = "重置密码 1/3";
+"ResetPassword_Step1_Title_2" = "选择重置方式";
+"ResetPassword_Step1_sms_Inactive" = "非常抱歉，该重置方式暂不可用。";
+"ResetPassword_Step1_email_Inactive" = "非常抱歉，该重置方式暂不可用。";
+"ResetPassword_Step1_get_code" = "获取验证码";
+"ResetPassword_Step1_get_code_countdown" = "获取验证码({seconds})";
+"ResetPassword_lock_down" = "您已多次输入错误，请稍后再试。";
+"ResetPassword_Step2_Title_1" = "重置密码 2/3";
+"ResetPassword_Step2_verify_by_email_title" = "确认电子邮箱";
+"ResetPassword_Step2_verify_by_phone_title" = "确认手机";
+"ResetPassword_Step3_Title" = "重置密码 3/3";
+"ResetPassword_Step3_Title_2" = "设定新密码";
+"ResetPassword_Cancel_Title" = "确认取消当前操作?";
+"ResetPassword_Cancel_Content" = "重置密码将中断并结束。";
+"ResetPassword_Success" = "密码变更完成";
+"ResetPassword_Fail_Title" = "重置密码失败";
+"ResetPassword_Fail_unknown" = "非常抱歉，该重置方式暂不可用。";
+
+// Deposit
+"Title" = "充值";
+"Title_Tips" = "以下列表为您可用的充值方式。";
+"Alipay" = "支付宝在线";
+"Recommend" = "推荐";
+"Activiy" = "充值动态";
+"Activiy_Tips" = "提醒您，目前暂无相关通知。";
+"Log" = "充值纪录";
+"SetFavorite" = "将此充值方式设定为常用";
+"CancelFavorite" = "取消设定此充值方式为常用";
+"SelectBank" = "选择充值银行";
+"Offline_Step1_Title" = "ATM、临柜或银行卡转帐";
+"Info_Title" = "填写充值信息";
+"BankName" = "充值者银行帐户姓名";
+"AccountLastFourNumber" = "汇款银行卡尾数四位(选填)";
+"Amount" = "汇款金额";
+"Offline_Step1_Tips" = "充值单笔限额： {min}- {max}";
+"Offline_Step1_Button" = "申请充值";
+"Offline_Step2_Title" = "KTO收款方信息";
+"Offline_Step2_Title_Tips" = "请汇入以下提供的银行账户。";
+"ReceiveInfo" = "收款讯息";
+"ReceiveName" = "收款人姓名";
+"ReceiveBank" = "收款银行";
+"ReceiveAccount" = "收款银行卡号";
+"ValidDepositTime" = "有效充值时间";
+"RemmiterInfo" = "支付讯息";
+"RemmiterBankAccountName" = "支付者银行帐户名";
+"RemmiterAmount" = "支付金额";
+"Offline_Step2_Warning" = "请支付此金额，以便资金快速到帐。";
+"Offline_Step3_Title" = "已提交申请";
+"Offline_Step3_Fail" = "提交失敗";
+"TicketId" = "充值订单编号 {value}";
+"Offline_Step3_Content" = "目前平均充值处理时間为 <span style=\"padding-left: 16px;\">{value}</span>";
+"CheckLog" = "查看充值纪录";
+"Offline_Step3_Tips" = "系统将于30秒后重新导向 KTO 页面。";
+"DepositLog_Title" = "充值纪录";
+"Summary" = "充值总计";
+"Success" = "充值成功";
+"Detail_Title" = "订单明细";
+"Detail_Button" = "上传单据照片";
+"SelectPaymentGateway" = "选择充值帳號";
+"Input_Invalid" = "您输入的资料格式不正确";
+"Input_LowerMin" = "您的充值金额低於单笔限额";
+"Input_OverMax" = "您的充值金额超过单笔限额";
+"TicketNumber" = "充值编号";
+"BankName_Placeholder" = "汇款银行";
+"RemitterName_Placeholder" = "王大明";
+"InputAmount_Placeholder" = "¥1,000.00";
+"Input_BankNameEmpty" = "您必须提供您的汇款银行资讯";
+"Branch" = "支行名称";
+"selecttype" = "選擇充值方式";
+"my_account_detail" = "我的充值信息";
+"payee_detail" = "收款银行账户";
+"custom_cash" = "定制汇款金额";
+"offline_remitter_title" = "汇款提示";
+"offline_summary_tip" = "汇入定制金额有助于快速到账。";
+"limitation_hint" = "请在单笔限额范围内。";
+"offline_termniate" = "离线充值将中断并结束。";
+"online_terminate" = "在线充值将中断并结束。";
+"select_method" = "选择充值渠道";
+"no_available_type" = "目前暂无可用的充值方式";
+"no_records" = "目前暂无与您充值相关的纪录";
+"execeed_limitation" = "你的档案大小超过系统限制20MB";
+"name" = "汇款人姓名";
+"thirdparty_transaction_remind" = "你即将进入交易确认画面，在交易完成之前请勿关闭窗口。";
+
+// 

@@ -1,0 +1,6 @@
+framework module share_bu {
+    umbrella header "share_bu.h"
+
+    export *
+    module * { export * }
+}

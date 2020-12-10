@@ -1,0 +1,108 @@
+
+/* Class = "UILabel"; text = "注册 3/3"; ObjectID = "0S0-no-t0m"; */
+"0S0-no-t0m.text" = "注册 3/3";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "0W2-tk-T7i"; */
+"0W2-tk-T7i.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "手机"; ObjectID = "2DD-Rr-IEn"; */
+"2DD-Rr-IEn.normalTitle" = "手机";
+
+/* Class = "UILabel"; text = "6-12位字母与数字的组合，仅支持半角；\"#$%\"不可用，区分大小写。"; ObjectID = "3f3-cj-KDv"; */
+"3f3-cj-KDv.text" = "6-12位字母与数字的组合，仅支持半角；\"#$%\"不可用，区分大小写。";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "3nh-nT-nPw"; */
+"3nh-nT-nPw.text" = "Label";
+
+/* Class = "UILabel"; text = "定义"; ObjectID = "6x2-7F-BIV"; */
+"6x2-7F-BIV.text" = "定义";
+
+/* Class = "UILabel"; text = "手机"; ObjectID = "8Ju-Yi-izh"; */
+"8Ju-Yi-izh.text" = "手机";
+
+/* Class = "UILabel"; text = "简体中文 + 人民币"; ObjectID = "9hr-1T-0Ef"; */
+"9hr-1T-0Ef.text" = "简体中文 + 人民币";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "AoS-gH-VFq"; */
+"AoS-gH-VFq.title" = "Item";
+
+/* Class = "UILabel"; text = "確認密碼"; ObjectID = "CZL-Ck-PJ1"; */
+"CZL-Ck-PJ1.text" = "確認密碼";
+
+/* Class = "UILabel"; text = "按“下一步”代表您已阅读并同意以下条款"; ObjectID = "ENo-BW-qw0"; */
+"ENo-BW-qw0.text" = "按“下一步”代表您已阅读并同意以下条款";
+
+/* Class = "UILabel"; text = "验证手机"; ObjectID = "Kdf-qp-Jff"; */
+"Kdf-qp-Jff.text" = "验证手机";
+
+/* Class = "UIButton"; normalTitle = "验证"; ObjectID = "Mow-Bw-Uf2"; */
+"Mow-Bw-Uf2.normalTitle" = "验证";
+
+/* Class = "UILabel"; text = "注册 2/3"; ObjectID = "PYd-Kr-sgt"; */
+"PYd-Kr-sgt.text" = "注册 2/3";
+
+/* Class = "UILabel"; text = "选择语言与货币"; ObjectID = "Ptb-Lf-ku9"; */
+"Ptb-Lf-ku9.text" = "选择语言与货币";
+
+/* Class = "UIButton"; normalTitle = "电子邮箱"; ObjectID = "Q3d-os-Vie"; */
+"Q3d-os-Vie.normalTitle" = "电子邮箱";
+
+/* Class = "UILabel"; text = "请仔细阅读本条款，并确认你完全理解其内容。如果对于这一条款所产生的权利和义务有任何疑问，请向你所属法律管辖区域内的法律顾问寻求帮助。"; ObjectID = "SWJ-X8-0gj"; */
+"SWJ-X8-0gj.text" = "请仔细阅读本条款，并确认你完全理解其内容。如果对于这一条款所产生的权利和义务有任何疑问，请向你所属法律管辖区域内的法律顾问寻求帮助。";
+
+/* Class = "UILabel"; text = "此栏位必填。"; ObjectID = "V6m-DR-ft7"; */
+"V6m-DR-ft7.text" = "此栏位必填。";
+
+/* Class = "UIButton"; normalTitle = "重新发送"; ObjectID = "W34-QF-z7B"; */
+"W34-QF-z7B.normalTitle" = "重新发送";
+
+/* Class = "UILabel"; text = "密碼"; ObjectID = "WFI-r6-IkV"; */
+"WFI-r6-IkV.text" = "密碼";
+
+/* Class = "UILabel"; text = "密码不符合规则。"; ObjectID = "WTJ-r5-KRw"; */
+"WTJ-r5-KRw.text" = "密码不符合规则。";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "Ze1-Ax-1Zq"; */
+"Ze1-Ax-1Zq.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "验证"; ObjectID = "fy2-lC-fJr"; */
+"fy2-lC-fJr.normalTitle" = "验证";
+
+/* Class = "UILabel"; text = "提現姓名"; ObjectID = "iX7-Cv-Ya0"; */
+"iX7-Cv-Ya0.text" = "提現姓名";
+
+/* Class = "UILabel"; text = "非常抱歉，该注册方式暂不可用。"; ObjectID = "iyl-1d-dRQ"; */
+"iyl-1d-dRQ.text" = "非常抱歉，该注册方式暂不可用。";
+
+/* Class = "UIButton"; normalTitle = "下一步"; ObjectID = "jAD-JG-pVN"; */
+"jAD-JG-pVN.normalTitle" = "下一步";
+
+/* Class = "UIButton"; normalTitle = "《服务条款》"; ObjectID = "jUM-oH-Ayc"; */
+"jUM-oH-Ayc.normalTitle" = "《服务条款》";
+
+/* Class = "UIButton"; normalTitle = "重新发送"; ObjectID = "pS0-M7-Rf8"; */
+"pS0-M7-Rf8.normalTitle" = "重新发送";
+
+/* Class = "UILabel"; text = "注册 3/3"; ObjectID = "pTF-Hd-K6N"; */
+"pTF-Hd-K6N.text" = "注册 3/3";
+
+/* Class = "UIButton"; normalTitle = "开始验证邮箱"; ObjectID = "qcT-pD-crh"; */
+"qcT-pD-crh.normalTitle" = "开始验证邮箱";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "sM3-uY-HgD"; */
+"sM3-uY-HgD.title" = "Item";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "sow-xq-AzT"; */
+"sow-xq-AzT.title" = "Item";
+
+/* Class = "UILabel"; text = "注册 1/3"; ObjectID = "su5-Xz-dF0"; */
+"su5-Xz-dF0.text" = "注册 1/3";
+
+/* Class = "UILabel"; text = "请输入正确的电子邮箱。"; ObjectID = "u6e-Hi-2wO"; */
+"u6e-Hi-2wO.text" = "请输入正确的电子邮箱。";
+
+/* Class = "UILabel"; text = "填写基本资料"; ObjectID = "uzw-4o-il6"; */
+"uzw-4o-il6.text" = "填写基本资料";
+
+/* Class = "UILabel"; text = "验证电子邮箱"; ObjectID = "vVj-Jc-rpc"; */
+"vVj-Jc-rpc.text" = "验证电子邮箱";

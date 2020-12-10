@@ -1,0 +1,78 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+platform :ios do
+
+	before_all do
+	    create_keychain(name: "jenkinsKeyChain",default_keychain: true,unlock: true,timeout: 3600,lock_when_sleeps: true, password:"password")
+	end
+
+
+	lane :buildIpa  do
+		match(type: "adhoc", keychain_name: "jenkinsKeyChain", keychain_password: "password")
+		cert(keychain_password: "password")
+		sigh
+		update_code_signing_settings
+  		build_app(scheme: "ktobet-asia-ios",
+			  workspace: "ktobet-asia-ios.xcworkspace",
+            		  include_bitcode: true,
+			  clean: true,
+		   	  output_directory: "package/qat",
+			  export_method: "ad-hoc",
+	    		  export_options: { 
+					    method: "ad-hoc",
+					    manifest: {
+							appURL: "https://example.com/app.ipa", 
+					                displayImageURL: "https://example.com/app.png",
+							fullSizeImageURL: "https://example.com/app.png"
+						      }
+					  }
+			 )
+
+	end
+
+
+	lane :uploadToTestflight do
+
+		match(type: "appstore", keychain_name: "jenkinsKeyChain", keychain_password: "password")
+		update_info_plist(plist_path: "ktobet-asia-ios/info.plist", 
+				  block: proc do |plist|
+					version = plist["CFBundleVersion"].to_i + 1
+    					plist["CFBundleVersion"]  = "#{version}.0"
+  				  end)
+
+    		gym(	configuration: "Release",
+      		     	scheme: "ktobet-asia-ios",
+      		     	clean: true,
+      		     	include_bitcode: true,
+      			include_symbols: true,
+      			export_method: 'app-store',
+      			export_xcargs: "-allowProvisioningUpdates")
+      			#export_options: { provisioningProfiles: {"com.higgstar.ktoasiabet" => "kto_asia_adhoc"}})
+
+    		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
+  					app_identifier: "com.higgstar.ktoasiabet")
+
+		git_commit(path:".", message:"Bump build to next")
+
+		push_to_git_remote( remote: "origin",       
+      				    local_branch: "HEAD", 
+      				    remote_branch: "jenkins-patrick",
+      				    force: true,   
+      				    tags: true)
+	end
+
+end
