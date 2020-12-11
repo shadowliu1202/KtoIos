@@ -45,13 +45,16 @@ platform :ios do
 	end
 
 
-	lane :uploadToTestflight do
+	lane :uploadToTestflight do |options|
 
+		
 		match(type: "appstore", keychain_name: "jenkinsKeyChain", keychain_password: "password")
 		update_info_plist(plist_path: "ktobet-asia-ios/info.plist", 
 				  block: proc do |plist|
-					version = plist["CFBundleVersion"].to_i + 1
-    					plist["CFBundleVersion"]  = "#{version}.0"
+					#version = plist["CFBundleVersion"].to_i + 1
+    					#plist["CFBundleVersion"]  = "#{version}.0"
+					plist["CFBundleVersion"]  = options[:buildVersion]
+					plist["CFBundleShortVersionString"] = options[:appVersion]
   				  end)
 
     		gym(	configuration: "Release",
@@ -65,14 +68,6 @@ platform :ios do
 
     		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
   					app_identifier: "com.higgstar.ktoasiabet")
-
-		git_commit(path:".", message:"Bump build to next")
-
-		push_to_git_remote( remote: "origin",       
-      				    local_branch: "HEAD", 
-      				    remote_branch: "jenkins-patrick",
-      				    force: true,   
-      				    tags: true)
 	end
 
 end
