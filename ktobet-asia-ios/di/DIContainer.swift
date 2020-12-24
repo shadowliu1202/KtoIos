@@ -68,6 +68,10 @@ class DIContainer {
             let api = ctner.resolve(AuthenticationApi.self)!
             return IAuthRepositoryImpl( api, httpclient)
         }
+        ctner.register(SystemRepository.self) { resolver in
+            let api = ctner.resolve(PortalApi.self)!
+            return SystemRepositoryImpl(api)
+        }
     }
     
     func registUsecase(){
@@ -88,14 +92,11 @@ class DIContainer {
             let repoPlayer = ctner.resolve(IPlayerRepository.self)!
             return IAuthenticationUseCaseImpl(repoAuth, repoPlayer)
         }
-        ctner.register(LanguageUseCase.self){ resolver in
-            let repo = ctner.resolve(LanguageRepository.self)!
-            return LanguageUseCase(repo)
+        ctner.register(GetSystemStatusUseCase.self) { (resolver)  in
+            let repoSystem = ctner.resolve(SystemRepository.self)!
+            return GetSystemStatusUseCaseImpl(repoSystem)
         }
-        ctner.register(TermsOfServiceUseCase.self){ resolver in
-            let repo = ctner.resolve(LanguageRepository.self)!
-            return TermsOfServiceUseCase(repo)
-        }
+        
     }
     
     func registViewModel(){
@@ -124,15 +125,12 @@ class DIContainer {
         }
         ctner.register(SignupUserInfoViewModel.self){ resolver in
             let registerUseCase = ctner.resolve(IRegisterUseCase.self)!
-            return SignupUserInfoViewModel(registerUseCase)
+            let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
+            return SignupUserInfoViewModel(registerUseCase, systemUseCase)
         }
         ctner.register(SignupPhoneViewModel.self) { resolver in
             let usecase = ctner.resolve(IRegisterUseCase.self)!
             return SignupPhoneViewModel(usecase)
-        }
-        ctner.register(TermsOfServiceViewModel.self) { resolver in
-            let usecase = ctner.resolve(TermsOfServiceUseCase.self)!
-            return TermsOfServiceViewModel(usecase)
         }
         ctner.register(SignupEmailViewModel.self) { resolver in
             let usecaseRegister = ctner.resolve(IRegisterUseCase.self)!

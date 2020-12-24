@@ -12,6 +12,11 @@ import share_bu
 
 class SignupEmailViewModel{
     
+    enum RegistrationVerification{
+        case valid(player : Player)
+        case invalid
+    }
+    
     private var registerUseCase : IRegisterUseCase!
     private var configurationUseCase : IConfigurationUseCase!
     private var authenticationUseCase : IAuthenticationUseCase!
@@ -23,12 +28,23 @@ class SignupEmailViewModel{
         self.authenticationUseCase = authenticationUseCase
     }
     
-    func checkAndLogin(_ account : String, _ password : String) -> Single<Player>{
-        let checkAccount = registerUseCase.checkAccountVerification(account)
-        let login = authenticationUseCase.loginFrom(account: account, pwd: password, captcha: Captcha(passCode: ""))
-        return checkAccount.flatMap { (success) -> Single<Player> in
-            if success { return login}
-            else { return Single.error(self.unknownError) }
-        }
+    func checkRegistration(_ account: String, _ password: String)-> Single<RegistrationVerification>{
+        return registerUseCase
+            .checkAccountVerification(account)
+            .flatMap { (success) -> Single<RegistrationVerification> in
+                if success{
+                    return self.authenticationUseCase
+                        .loginFrom(account: account, pwd: password, captcha: Captcha(passCode: ""))
+                        .map { (player) -> RegistrationVerification in
+                            return .valid(player: player)
+                        }
+                } else {
+                    return Single.just(.invalid)
+                }
+            }
+    }
+    
+    func resendOtp()-> Completable{
+        return registerUseCase.resendRegisterOtp()
     }
 }

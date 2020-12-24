@@ -27,12 +27,23 @@ class SignupPhoneViewModel{
         self.registerUseCase = registerUseCase
     }
     
+    func checkCodeValid()-> Observable<Bool>{
+        return Observable
+            .combineLatest(code1, code2, code3, code4, code5, code6)
+            .map { (code1, code2, code3, code4, code5, code6) -> Bool in
+                return code1.count == 1 && code2.count == 1 && code3.count == 1 && code4.count == 1 && code5.count == 1 && code6.count == 1
+            }
+    }
+    
     func otpVerify()->Single<Player>{
-        
         var code = ""
         for c in [code1, code2, code3, code4, code5, code6]{
             code += c.value
         }
         return registerUseCase.loginFrom(otp: code)
+    }
+    
+    func resendRegisterOtp()->Completable{
+        return registerUseCase.resendRegisterOtp()
     }
 }

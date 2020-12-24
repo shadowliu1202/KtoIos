@@ -27,7 +27,6 @@ class IAuthRepositoryImpl : IAuthRepository{
     
     private var api : AuthenticationApi!
     private var httpClient : HttpClient!
-    private var unknownError = NSError.init(domain: "unknown error", code: 99999, userInfo: ["":""])
     
     init(_ api : AuthenticationApi, _ httpClient : HttpClient) {
         self.api = api
@@ -93,7 +92,7 @@ class IAuthRepositoryImpl : IAuthRepository{
     
     func checkRegistration(_ account : String)-> Single<Bool>{
         return api.checkAccount(account).map { (response) -> Bool in
-            return (response.data ?? false) 
+            return (response.data == "true" ? true : false) 
         }
     }
 }

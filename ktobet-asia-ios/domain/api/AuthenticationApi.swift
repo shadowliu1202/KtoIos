@@ -40,20 +40,20 @@ class AuthenticationApi {
     
     func resendRegisterOtp()-> Completable{
         let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "api/register",
+                               path: "api/register/resend-otp",
                                method: .post,
                                task: .requestPlain,
                                header: httpClient.headers)
         return httpClient.request(target).asCompletable()
     }
     
-    func checkAccount(_ account: String)-> Single<ResponseData<Bool>> {
+    func checkAccount(_ account: String)-> Single<ResponseData<String>> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
                                path: "api/check-account",
-                               method: .post,
-                               task: .requestParameters(parameters: ["accountName": account], encoding: JSONEncoding.default),
+                               method: .get,
+                               task: .requestParameters(parameters: ["accountName": account], encoding: URLEncoding.default),
                                header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<Bool>.self)
+        return httpClient.request(target).map(ResponseData<String>.self)
      }
     
     // MARK: 登入

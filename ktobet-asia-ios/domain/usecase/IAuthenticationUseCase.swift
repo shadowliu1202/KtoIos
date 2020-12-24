@@ -27,10 +27,9 @@ class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
     
     func loginFrom(account: String, pwd: String, captcha: Captcha)->Single<Player>{
         let login = authRepo.authorize(account, pwd, captcha)
-        let player = playerRepo.loadPlayer()
         return login.flatMap { (stat) -> Single<Player> in
             if stat.status == LoginStatus.TryStatus.success{
-                return player
+                return self.playerRepo.loadPlayer()
             } else {
                 return Single.error(NSError())
             }
@@ -44,5 +43,4 @@ class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
     func isLogged()->Single<Bool>{
         return authRepo.checkAuthorization()
     }
-    
 }
