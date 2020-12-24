@@ -9,13 +9,14 @@ import UIKit
 
 class LanguageAndCurrencyCell: UITableViewCell {
 
+    @IBOutlet weak var background : UIView!
     @IBOutlet weak var labTitle: UILabel!
     @IBOutlet weak var btnSelected: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = .clear
-        self.contentView.backgroundColor = .clear
+        background.layer.masksToBounds = true
+        background.layer.cornerRadius = 8
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -23,8 +24,11 @@ class LanguageAndCurrencyCell: UITableViewCell {
     }
 
     func setup(_ data : LanguageListData){
+        let tundoraGray = UIColor.init(rgb: 0x454545)
+        let shaftGray = UIColor.init(rgb: 0x333333)
         labTitle.text = data.title
-        btnSelected.isHidden = !data.selected!
+        btnSelected.isSelected = data.selected
+        background.backgroundColor = data.selected ? tundoraGray : shaftGray
     }
     
 }

@@ -16,26 +16,50 @@ struct DefaultProductItem {
     var desc = ""
     var selected = false
     var type : ProductType = .none
+    var selectImg : UIImage
+    var unselectImg : UIImage
 }
 
 class DefaultProductViewController: UIViewController {
 
     @IBOutlet private weak var btnIgnore: UIBarButtonItem!
+    @IBOutlet private weak var btnInfo : UIButton!
+    @IBOutlet private weak var labTitle : UILabel!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var btnNext : UIButton!
     
-    private let rowHeight : CGFloat = 140
+    private let rowHeight : CGFloat = 116
     private let segueLobby = "BackToLobby"
     private var viewModel = DI.resolve(DefaultProductViewModel.self)!
     private var disposeBag = DisposeBag()
     private var games : [DefaultProductItem] = {
-        let titles = ["體育", "娛樂場", "老虎機", "數字彩"]
-        let descs = ["最全的賽事，一但擁有，別無所求", "場地要紅，長龍在手，天下我有", "也許不經意的一次，就在紫禁之巔", "洞察數字的奧秘，牛頓也要扶我"]
+        
+        let titles = [Localize.string("Sportsbook"),
+                      Localize.string("Casino"),
+                      Localize.string("Slot"),
+                      Localize.string("Keno")]
+        let descs = [Localize.string("DefaultProduct_Sportsbook_description"),
+                     Localize.string("DefaultProduct_Casino_description"),
+                     Localize.string("DefaultProduct_Slot_description"),
+                     Localize.string("DefaultProduct_Keno_description")]
         let selected = [false, false, false, false]
         let type : [ProductType] = [.sbk, .casino, .slot, .numbergame]
+        let selectImg = [UIImage(named: "(375)SBK-Select"),
+                         UIImage(named: "(375)Casino-Select"),
+                         UIImage(named: "(375)Slot-Select"),
+                         UIImage(named: "(375)Number Game-Select")]
+        let unselectImg = [UIImage(named: "(375)SBK-Unselect"),
+                           UIImage(named: "(375)Casino-Unselect"),
+                           UIImage(named: "(375)Slot-Unselect"),
+                           UIImage(named: "(375)Number Game-Unselect")]
         var arr = [DefaultProductItem]()
         for idx in 0...3{
-            let game = DefaultProductItem(name: titles[idx], desc: descs[idx], selected: selected[idx], type: type[idx])
+            let game = DefaultProductItem(name: titles[idx],
+                                          desc: descs[idx],
+                                          selected: selected[idx],
+                                          type: type[idx],
+                                          selectImg: selectImg[idx]!,
+                                          unselectImg: unselectImg[idx]!)
             arr.append(game)
         }
         return arr
@@ -44,10 +68,21 @@ class DefaultProductViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        localize()
+        defaultStyle()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+
+    // MARK: METHOD
+    private func localize(){
+        btnIgnore.title = Localize.string("Skip")
+        btnNext.setTitle(Localize.string("Next"), for: .normal)
+        labTitle.text = Localize.string("DefaultProduct_Title")
+    }
+    
+    private func defaultStyle(){
+        self.btnNext.layer.cornerRadius = 9
+        self.btnNext.layer.masksToBounds = true
     }
     
     // MARK: BUTTON ACTION
@@ -61,7 +96,7 @@ class DefaultProductViewController: UIViewController {
                     self.performSegue(withIdentifier: self.segueLobby, sender: player)
                 }
             }, onError: { error in
-                
+                self.handleUnknownError(error)
             }).disposed(by: disposeBag)
     }
     
@@ -70,14 +105,20 @@ class DefaultProductViewController: UIViewController {
         guard let item = games.filter({ (element) -> Bool in return element.selected }).first else {
             return
         }
-        
-        viewModel.saveDefaultProduct(item.type)
+        viewModel
+            .saveDefaultProduct(item.type)
             .andThen(viewModel.getPlayerInfo())
             .subscribe(onSuccess: { player in
                 self.performSegue(withIdentifier: self.segueLobby, sender: player)
             }, onError: { error in
-                
+                self.handleUnknownError(error)
             }).disposed(by: disposeBag)
+    }
+    
+    @IBAction func btnInfoPressed(_ sender: UIButton){
+        let title = Localize.string("tip_title_warm")
+        let message = Localize.string("DefaultProduct_Description")
+        Alert.show(title, message, confirm: nil, cancel: nil)
     }
 }
 

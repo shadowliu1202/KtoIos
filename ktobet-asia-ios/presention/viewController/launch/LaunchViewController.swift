@@ -13,7 +13,6 @@ class LaunchViewController : UIViewController{
     private var viewModel = DI.resolve(LaunchViewModel.self)!
     private var disposeBag = DisposeBag()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         DispatchQueue.main.asyncAfter(deadline: .now() ) { [self] in

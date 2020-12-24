@@ -13,6 +13,7 @@ protocol IRegisterUseCase  {
     func register(account: UserAccount, password: UserPassword, locale: SupportLocale) -> Completable
     func loginFrom(otp: String)-> Single<Player>
     func checkAccountVerification(_ account : String)-> Single<Bool>
+    func resendRegisterOtp()->Completable
 }
 
 class IRegisterUseCaseImpl: IRegisterUseCase {

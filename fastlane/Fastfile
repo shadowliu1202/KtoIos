@@ -21,24 +21,24 @@ platform :ios do
 	end
 
 
-	lane :buildIpa  do
+	lane :buildIpa  do |options|
+
 		match(type: "adhoc", keychain_name: "jenkinsKeyChain", keychain_password: "password")
-		cert(keychain_password: "password")
-		sigh
-		update_code_signing_settings
+		update_info_plist(plist_path: "ktobet-asia-ios/info.plist", 
+				  block: proc do |plist|
+					#version = plist["CFBundleVersion"].to_i + 1
+    					#plist["CFBundleVersion"]  = "#{version}.0"
+					plist["CFBundleVersion"]  = options[:buildVersion]
+					plist["CFBundleShortVersionString"] = options[:appVersion]
+  				  end)
   		build_app(scheme: "ktobet-asia-ios",
 			  workspace: "ktobet-asia-ios.xcworkspace",
             		  include_bitcode: true,
 			  clean: true,
-		   	  output_directory: "package/qat",
+		   	  output_directory: "output",
 			  export_method: "ad-hoc",
 	    		  export_options: { 
 					    method: "ad-hoc",
-					    manifest: {
-							appURL: "https://example.com/app.ipa", 
-					                displayImageURL: "https://example.com/app.png",
-							fullSizeImageURL: "https://example.com/app.png"
-						      }
 					  }
 			 )
 

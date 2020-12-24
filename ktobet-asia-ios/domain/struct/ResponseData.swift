@@ -12,7 +12,7 @@ import share_bu
 struct ResponseData<T:Codable> : Codable {
     var statusCode : String
     var errorMsg : String
-    var node : String
+    var node : String?
     var data : T?
 }
 
@@ -40,7 +40,7 @@ struct ILocalizationData : Codable {
     var data: [String: String]
 }
 
-struct PortalData : Codable {
+struct OtpStatus : Codable {
     var isMailActive:Bool
     var isSmsActive: Bool
 }

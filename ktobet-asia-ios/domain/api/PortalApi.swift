@@ -17,13 +17,13 @@ class PortalApi{
         self.httpClient = httpClient
     }
     
-    func getPortalMaintenance()->Single<ResponseData<PortalData>>{
+    func getPortalMaintenance()->Single<ResponseData<OtpStatus>>{
         let target = APITarget(baseUrl: httpClient.baseUrl,
                                path: "api/init/portal-maintenance",
-                               method: .post,
+                               method: .get,
                                task: .requestPlain,
                                header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<PortalData>.self)
+        return httpClient.request(target).map(ResponseData<OtpStatus>.self)
     }
     
     func getLocalization()->Single<ResponseData<ILocalizationData>>{

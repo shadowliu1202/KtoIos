@@ -12,16 +12,21 @@ import share_bu
 
 
 struct LanguageListData{
-    var title : String?
-    var type : SupportLocale?
-    var selected : Bool?
+    var title : String
+    var type : SupportLocale
+    var selected : Bool
 }
 
 class SignupLanguageViewController: UIViewController{
     
     @IBOutlet private weak var naviItem: UINavigationItem!
     @IBOutlet private weak var btnBack: UIBarButtonItem!
+    @IBOutlet private weak var btnRegist : UIBarButtonItem!
     @IBOutlet private weak var btnNext : UIButton!
+    @IBOutlet private weak var btnTerms : UIButton!
+    @IBOutlet private weak var labTitle : UILabel!
+    @IBOutlet private weak var labDesc : UILabel!
+    @IBOutlet private weak var labTermsTip : UILabel!
     @IBOutlet private weak var btnTermsOfService : UIButton!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var constraintTableHeight: NSLayoutConstraint!
@@ -30,29 +35,56 @@ class SignupLanguageViewController: UIViewController{
     private let segueInfo = "GoToInfo"
     private let segueTerms = "GoToTermsOfService"
     private let rowHeight : CGFloat = 72
+    private let rowSpace : CGFloat = 12
 
     private var disposeBag = DisposeBag()
-    lazy private var arrLangs : [LanguageListData] = {
-        let texts = ["简体中文 + 人民币", "Người việt nam + đồng"]
-        let type = [SupportLocale.China(), SupportLocale.Vietnam()]
-        let selected = [true, false]
-        var arr = [LanguageListData]()
-        for idx in 0...1{
-            arr.append({
-                var item = LanguageListData()
-                item.title = texts[idx]
-                item.type = type[idx]
-                item.selected = selected[idx]
-                return item
-            }())
-        }
-        return arr
-    }()
+    private var arrLangs : [LanguageListData] = []
 
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        constraintTableHeight.constant = rowHeight * CGFloat(arrLangs.count)
+        localize()
+        reloadLanguageList()
+        setupStyle()
+    }
+    
+    // MARK: METHOD
+    private func localize(){
+        labTitle.text = Localize.string("Step1_Title_1")
+        labDesc.text = Localize.string("Step2_Title_2")
+        labTermsTip.text = Localize.string("Step1_Tips_1")
+        btnNext.setTitle(Localize.string("Next"), for: .normal)
+        btnTerms.setTitle(Localize.string("Step1_Tips_1_Highlight"), for: .normal)
+        btnRegist.title = Localize.string("Login")
+    }
+    
+    private func reloadLanguageList(){
+        arrLangs = {
+            let texts = [Localize.string("language_option_chinese"), Localize.string("language_option_vietnam")]
+            let type = [SupportLocale.China(), SupportLocale.Vietnam()]
+            let selected = [true, false]
+            var arr = [LanguageListData]()
+            for idx in 0...1{
+                arr.append({
+                    let item = LanguageListData(title: texts[idx],
+                                                type: type[idx],
+                                                selected: selected[idx])
+                    return item
+                }())
+            }
+            return arr
+        }()
+        constraintTableHeight.constant = {
+            var height = rowHeight * CGFloat(arrLangs.count)
+            if height > 12 { height -= 12 }
+            return height
+        }()
+    }
+    
+    private func setupStyle(){
+        naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
+        btnNext.layer.cornerRadius = 9
+        btnNext.layer.masksToBounds = true
     }
     
     // MARK: BUTTON ACTION
@@ -66,6 +98,19 @@ class SignupLanguageViewController: UIViewController{
     
     @IBAction func btnBackPressed(_ sender : UIButton){
         performSegue(withIdentifier: segueLogin, sender: nil)
+    }
+    
+    @IBAction func btnLoginPressed(_ sender : UIButton){
+        performSegue(withIdentifier: segueLogin, sender: nil)
+    }
+    
+    @IBAction func btnTipPressed(_ sender : UIButton){
+        let title = Localize.string("tip_title_warm")
+        let message = Localize.string("tip_content_bind")
+        let confirm = Localize.string("Determine")
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction.init(title: confirm, style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -103,10 +148,8 @@ extension SignupLanguageViewController{
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? SignupUserinfoViewController,
-           let locale = arrLangs.filter({ (data) -> Bool in return data.selected! }).first?.type{
+           let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type{
             vc.locale = locale
         }
     }
-    
-    
 }
