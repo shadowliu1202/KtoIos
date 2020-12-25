@@ -7,18 +7,6 @@ itc_team_id("122351524") # App Store Connect Team ID
 
 team_id("277T679FZ2") # Developer Portal Team ID
 
-ENV["FASTLANE_USER"] = "higgs-mobile@hotmail.com"
-
-ENV["FASTLANE_PASSWORD"] = "Higgs@2020"
-
-ENV['SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER'] = "+886-919-794-496"
-
-ENV["MATCH_PASSWORD"] = "1qaz#EDC" 
-
-ENV["FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD"] = "slei-fjkz-xwoa-pnqi"
-
-ENV["FASTLANE_SESSION"] = '---\n- !ruby/object:HTTP::Cookie\n  name: DES5bc0710282e82902426aa0101b0319cbc\n  value: HSARMTKNSRVXWFlaEgJUWlRIDt2shvOowDIyly8HKZyI8xMQeU9CiChq8JETQp7d8RbE2OsHKTfQXDQfzojFy0pJRB7jXj2/bE2ciEDge/ouZ0v03wx71tQXlyeZGJHV6CKzryVMRd2y+Ty8NBifwzMyj8yLSRU5pQ==SRVX\n  domain: idmsa.apple.com\n  for_domain: true\n  path: "/"\n  secure: true\n  httponly: true\n  expires:\n  max_age: 2592000\n  created_at: &1 2020-12-24 10:08:38.666243000 +08:00\n  accessed_at: *1\n- !ruby/object:HTTP::Cookie\n  name: myacinfo\n  value: DAWTKNV2310d8873b419adc403a79e0fd293bdc84346f1a78c8f20a0a6879196c3f1ecfc8cf848a7e3cf7d8016bee000733bf1fdd1595a67fd6dce4e53c72031180fb2e63a572c1ce8ca1ba16d4ec1625c7e147a4ffde53080f3dae1c1be46c85893b2999d185cdd959b92baa4cdf8673715a92e50ba850020a06cda54f2b9bd3ba385a608ea5e1f2132ca0d4c6d4f152876fe8c56752e3a1dc8272aa7fccffc3288b99cd7ba3957e9025e60993d4e54f067d4bc76d224c19c5cb72df232ad9e9879e8a5cc826f3fcdfce81bb57856b8c3ea06db4232c3fe200289a15243f5b47c2244a9f1486dbd88b6f1172e1ee1829c5354f30e60ee8fc0150a1b5184c213469a52587b57fe0027b8cfc5058503b5eb7bda896743c5ff7b1a2951cfe315c97082dd1c43973774d448a2420d16db511320528375490fcd4f0356aef5e046d14a7f9d8d4769a95e831bc0aa853a064a668504b52a1c97e0fa685b9eb334af15000b62332dd008abdbf58cd16787de69ae6bff04adc21b4bdccaf0fc0d95ab57fb90ca72c80fa172a2d9b6c5bdc7ba55ee68a13c2731f3520e677b3b4320eb90790a53b6cf6f94031e904d31f912688d52958870f447dc5d2be91cd0a408434159b0624bcd349abd28e0b03b02ac82554d23ec9807c74b760b22f3a401cf4d85b734d645fbef378ae92293f55edf6422b43aec7ab5de5801136a368756bf68652198d21fdd35fe69372f9cbb01802c195cd1619930666137653838363938633865646331353961646335313630656137633831643731363163643936MVRYV2\n  domain: apple.com\n  for_domain: true\n  path: "/"\n  secure: true\n  httponly: true\n  expires:\n  max_age:\n  created_at: 2020-12-24 10:08:38.666329000 +08:00\n  accessed_at: 2020-12-24 10:08:38.670204000 +08:00\n- !ruby/object:HTTP::Cookie\n  name: dqsid\n  value: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDg3NzU3MTgsImp0aSI6ImRxb1ZoN0FzY1hiWTNqeURUXzJENkEifQ.aGVJLB-nwclTsz2FNxd05pIEDLp90xTLtzrtYtwPxZk\n  domain: appstoreconnect.apple.com\n  for_domain: false\n  path: "/"\n  secure: true\n  httponly: true\n  expires:\n  max_age: 1800\n  created_at: &2 2020-12-24 10:08:39.765837000 +08:00\n  accessed_at: *2\n'
-
 
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile
