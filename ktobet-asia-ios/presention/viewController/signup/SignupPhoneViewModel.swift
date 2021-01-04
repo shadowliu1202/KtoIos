@@ -21,6 +21,8 @@ class SignupPhoneViewModel{
     var code5 = BehaviorRelay(value: "")
     var code6 = BehaviorRelay(value: "")
     
+    private var failCount = 0
+    
     private var registerUseCase : IRegisterUseCase!
     
     init(_ registerUseCase : IRegisterUseCase) {

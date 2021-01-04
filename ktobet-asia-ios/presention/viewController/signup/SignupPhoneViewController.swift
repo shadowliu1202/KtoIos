@@ -46,7 +46,8 @@ class SignupPhoneViewController: UIViewController {
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(SignupPhoneViewModel.self)!
     private var timer : Timer?
-    private var count = 0
+    private var resendTime = 0.0
+    private var verifyFailCount = 0
     var phoneNumber = ""
     var locale : SupportLocale = SupportLocale.China()
     
@@ -124,12 +125,12 @@ class SignupPhoneViewController: UIViewController {
     }
     
     private func launchTimer(){
-        count = 180
+        resendTime = Date().timeIntervalSince1970 + 180
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {timer in
-            self.count -= 1
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: {timer in
+            let count = Int(self.resendTime - Date().timeIntervalSince1970)
             let enable : Bool = {
-                if self.count > 0 { return false }
+                if count >= 0 { return false }
                 else { return true }
             }()
             if enable {
@@ -141,8 +142,8 @@ class SignupPhoneViewController: UIViewController {
                     let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
                     let resendTip = Localize.string("Otp_Resend_Tips")
                     let time : String = {
-                        let mm = self.count / 60
-                        let ss = self.count % 60
+                        let mm = count <= 0 ? 0 : count / 60
+                        let ss = count <= 0 ? 0 : count % 60
                         return String(format: "%02d:%02d", mm, ss)
                     }()
                     let text = String(format: resendTip, time)
@@ -166,18 +167,29 @@ class SignupPhoneViewController: UIViewController {
     private func handleError(_ error: Error) {
         let type = ErrorType(rawValue: (error as NSError).code)
         switch type {
-        case .PlayerOverOtpRetryLimit:
-            performSegue(withIdentifier: self.segueFail, sender: nil)
-        case .PlayerIpOverOtpDailyLimit:
+        case .PlayerIdOverOtpLimit, .PlayerIpOverOtpDailyLimit:
             let title = Localize.string("tip_title_warm")
             let message = Localize.string("sms_otp_exeed_send_limit")
             Alert.show(title, message, confirm: {
                 self.navigationController?.popToRootViewController(animated: true)
             }, cancel: nil)
+            break
+        case .PlayerOverOtpRetryLimit, .PlayerResentOtpOverTenTimes:
+            let title = Localize.string("tip_title_warm")
+            let message = Localize.string("sms_otp_exeed_send_limit")
+            Alert.show(title, message, confirm: {
+                self.navigationController?.popToRootViewController(animated: true)
+            }, cancel: nil)
+            break
         case .PlayerOtpCheckError:
+            verifyFailCount += 1
             showPasscodeUncorrectTip(true)
+            if verifyFailCount > 5{
+                performSegue(withIdentifier: self.segueFail, sender: nil)
+            }
+            break
         default:
-            handleUnknownError(error)
+            performSegue(withIdentifier: self.segueFail, sender: nil)
         }
     }
     
