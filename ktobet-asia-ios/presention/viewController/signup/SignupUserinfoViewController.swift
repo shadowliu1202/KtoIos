@@ -210,7 +210,21 @@ class SignupUserinfoViewController: UIViewController {
                     self.btnEmail.isSelected = true
                     self.btnSubmit.setTitle(Localize.string("Step2_verify_mail"), for: .normal)
                 }
+                
+                self.hideError()
             }).disposed(by: disposeBag)
+    }
+    
+    func displayError(error: String) {
+        self.viewRegistErrMessage.isHidden = false
+        self.labRegistErrMessage.text = error
+        self.constraintRegistErrMessageHeight.constant = 44
+    }
+    
+    func hideError() {
+        self.viewRegistErrMessage.isHidden = true
+        self.labRegistErrMessage.text = ""
+        self.constraintRegistErrMessageHeight.constant = 0
     }
 }
 
@@ -268,14 +282,19 @@ extension SignupUserinfoViewController{
                 self.performSegue(withIdentifier: segue, sender: para)
             }, onError: { error in
                 let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
-                let title = type == .PlayerIpOverOtpDailyLimit ? Localize.string("tip_title_warm") : ""
                 let message : String = {
                     switch type{
                     case .PlayerIpOverOtpDailyLimit: return Localize.string("email_otp_exeed_send_limit")
+                    case .DBPlayerAlreadyExist:
+                        switch self.viewModel.currentAccountType(){
+                        case .email: return Localize.string("step2_email_verify_fail")
+                        case .phone: return Localize.string("step2_phone_verify_fail")
+                        }
                     default: return String(format: Localize.string("UnknownError"), "\((error as NSError).code)")
                     }
                 }()
-                Alert.show(title, message, confirm: nil, cancel: nil)
+                
+                self.displayError(error: message)
             }).disposed(by: disposeBag)
     }
 }

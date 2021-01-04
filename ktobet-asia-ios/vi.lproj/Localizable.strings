@@ -25,6 +25,8 @@
 "Step2_password_not_match" = "密码不一致";
 "step2_sms_Inactive" = "非常抱歉，该注册方式暂不可用。";
 "step2_email_Inactive" = "非常抱歉，该注册方式暂不可用。";
+"step2_email_verify_fail" = "此电子邮件无法进行验证。";
+"step2_phone_verify_fail" = "此手机号无法进行验证。";
 "Step3_Title_1" = "注册 3/3";
 "step3_verify_by_email_title" = "验证电子邮箱";
 "step3_verify_by_phone_title" = "验证手机";
