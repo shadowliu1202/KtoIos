@@ -153,7 +153,9 @@ class SignupUserinfoViewController: UIViewController {
         
         event.nameValid
             .subscribe(onNext: { status in
-                let message = status == .errNameFormat ? Localize.string("Step2_Name_format_error") : ""
+                var message = ""
+                if status == .errNameFormat { message = Localize.string("Step2_Name_format_error") }
+                else if status == .empty && self.inputAccount.edited { message = Localize.string("field_must_fill")}
                 self.labNameTip.text = message
                 self.inputName.showUnderline(message.count > 0)
                 self.inputName.setCorner(topCorner: true, bottomCorner: message.count == 0)
