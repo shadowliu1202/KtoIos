@@ -25,7 +25,6 @@ class InputTextField : UIView{
     private var isAnimate = false
     private var cancelAnimate = false
     private var editingChangedHandler : ((String)->Void)?
-    var edited = false
     var confirmPassword : InputTextFieldProtocol?
     
     override func awakeFromNib() {
@@ -228,7 +227,6 @@ class InputTextField : UIView{
 
 extension InputTextField: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        edited = true
         isEditing = true
         layoutSubviews()
     }

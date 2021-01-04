@@ -48,6 +48,9 @@ class SignupUserinfoViewController: UIViewController {
     
     private var viewModel = DI.resolve(SignupUserInfoViewModel.self)!
     private var disposeBag = DisposeBag()
+    private var phoneEdited = false
+    private var mailEdited = false
+    private var passwordEdited = false
     var locale : SupportLocale = SupportLocale.China()
     
     // MARK: LIFE CYCLE
@@ -107,12 +110,19 @@ class SignupUserinfoViewController: UIViewController {
         viewModel.inputLocale(locale)
         inputAccount.setEditingChangedHandler { (text) in
             self.viewModel.inputAccount(text)
+            guard text.count > 0 else { return }
+            switch self.viewModel.currentAccountType(){
+            case .email: self.mailEdited = true
+            case .phone: self.phoneEdited = true
+            }
         }
         inputName.setEditingChangedHandler { (text) in
             self.viewModel.inputName(text)
         }
         inputPassword.setEditingChangedHandler { (text) in
             self.viewModel.inputPassword(text)
+            guard text.count > 0 else { return }
+            self.passwordEdited = true
         }
         inputCsPassword.setEditingChangedHandler { (text) in
             self.viewModel.inputConfirmPassword(text)
@@ -145,7 +155,13 @@ class SignupUserinfoViewController: UIViewController {
                 var message = ""
                 if status == .errEmailFormat { message = Localize.string("error_email_format")}
                 else if status == .errPhoneFormat { message = Localize.string("error_Mobile_format")}
-                else if status == .empty && self.inputAccount.edited { message = Localize.string("field_must_fill")}
+                else if status == .empty{
+                    if self.viewModel.currentAccountType() == .phone && self.phoneEdited {
+                        message = Localize.string("field_must_fill")
+                    } else if self.viewModel.currentAccountType() == .email && self.mailEdited{
+                        message = Localize.string("field_must_fill")
+                    }
+                }
                 self.labAccountTip.text = message
                 self.inputAccount.showUnderline(message.count > 0)
                 self.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
@@ -164,7 +180,7 @@ class SignupUserinfoViewController: UIViewController {
                 var message = ""
                 if (status == .errPasswordFormat) { message = Localize.string("Invalid_Username_password") }
                 if (status == .errPasswordNotMatch) { message = Localize.string("Step2_password_not_match")}
-                if status == .empty && self.inputPassword.edited { message = Localize.string("field_must_fill")}
+                if status == .empty && self.passwordEdited { message = Localize.string("field_must_fill")}
                 self.labPasswordTip.text = message
                 self.inputCsPassword.showUnderline(message.count > 0)
                 self.inputCsPassword.setCorner(topCorner: false, bottomCorner: message.count == 0)
