@@ -125,11 +125,11 @@ class SignupUserinfoViewController: UIViewController {
                 if status == .errEmailOtpInactive || status == .errSMSOtpInactive{
                     self.view.layoutIfNeeded()
                     let width = self.scrollView.bounds.size.width
-                    let height = self.btnSubmit.frame.maxY
-                    self.viewOtpInvalid.frame = CGRect.init(x: 0, y: 0, width: width, height: height)
+                    let height = self.btnSubmit.frame.maxY - self.viewButtons.frame.maxY
+                    self.viewOtpInvalid.frame = CGRect.init(x: 0, y: self.viewButtons.frame.maxY, width: width, height: height)
                     self.scrollView.addSubview(self.viewOtpInvalid)
                     self.labOtpInvalid.text = {
-                        switch status{
+                        switch status {
                         case .errEmailOtpInactive: return Localize.string("step2_email_Inactive")
                         case .errSMSOtpInactive: return Localize.string("step2_sms_Inactive")
                         default: return ""
