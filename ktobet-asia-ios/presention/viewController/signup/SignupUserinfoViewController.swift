@@ -51,6 +51,7 @@ class SignupUserinfoViewController: UIViewController {
     private var phoneEdited = false
     private var mailEdited = false
     private var passwordEdited = false
+    private var nameEdited = false
     var locale : SupportLocale = SupportLocale.China()
     
     // MARK: LIFE CYCLE
@@ -118,6 +119,8 @@ class SignupUserinfoViewController: UIViewController {
         }
         inputName.setEditingChangedHandler { (text) in
             self.viewModel.inputName(text)
+            guard text.count > 0 else { return }
+            self.nameEdited = true
         }
         inputPassword.setEditingChangedHandler { (text) in
             self.viewModel.inputPassword(text)
@@ -171,7 +174,7 @@ class SignupUserinfoViewController: UIViewController {
             .subscribe(onNext: { status in
                 var message = ""
                 if status == .errNameFormat { message = Localize.string("Step2_Name_format_error") }
-                else if status == .empty && self.inputAccount.edited { message = Localize.string("field_must_fill")}
+                else if status == .empty && self.nameEdited { message = Localize.string("field_must_fill")}
                 self.labNameTip.text = message
                 self.inputName.showUnderline(message.count > 0)
                 self.inputName.setCorner(topCorner: true, bottomCorner: message.count == 0)
