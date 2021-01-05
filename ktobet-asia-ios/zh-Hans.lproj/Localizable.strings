@@ -337,7 +337,7 @@
 "tip_title_warm" = "温馨提示";
 "tip_content_bind" = "该设定将与账户绑定，无法更改。";
 "tip_title_unfinished" = "当前页面数据未保存，确定要离开？";
-"tip_content_unfinished" = "一但删除，此笔帳戶资料就不存在";
+"tip_content_unfinished" = "一但删除，此笔帐户数据就不存在";
 "field_must_fill" = "此栏位必填";
 "field_format_incorrect" = "您所填写的格式不正确";
 "otp_content_error" = "您输入的验证码不正确";
