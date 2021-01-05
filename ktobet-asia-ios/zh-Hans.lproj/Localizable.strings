@@ -49,7 +49,7 @@
 "Account_Remember_me" = "记住我的帐号";
 "Tips_1" = "忘记密码，使用";
 "Tips_1_highlight" = "重置密码";
-"Invalid_Username_password" = "用户名或密码不正确";
+"Invalid_Username_password" = "您所填写的格式不正确";
 "Invalid_Username_password_captcha" = "用户名，密码或验证码不正确";
 "Invalid_lockdown" = "您已多次输入错误，请使用重置密码或稍后登录";
 "Enter_Captcha_to_Prceed" = "您已多次输入错误密码，您现在需要额外输入图片中的信息来进行登录";
