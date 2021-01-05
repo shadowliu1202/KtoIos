@@ -251,21 +251,20 @@ class SignupPhoneViewController: UIViewController {
     
     // MARK: TEXTFIELD EVENT
     @IBAction func textEditingChaged(_ sender : UITextField){
-        if (sender.text?.count ?? 0) >= 1 {
-            sender.text = {
-                let text = sender.text!
-                let index = text.index(text.endIndex, offsetBy: -1)
-                return String(text[index])
-            }()
-            switch  sender {
-            case textCode1: textCode2.becomeFirstResponder()
-            case textCode2: textCode3.becomeFirstResponder()
-            case textCode3: textCode4.becomeFirstResponder()
-            case textCode4: textCode5.becomeFirstResponder()
-            case textCode5: textCode6.becomeFirstResponder()
-            case textCode6: textCode6.resignFirstResponder()
-            default: break
-            }
+        if let otpCode = sender.text, otpCode.count >= 6 {
+            textCode1.text = String(otpCode[otpCode.startIndex])
+            textCode2.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 1)])
+            textCode3.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 2)])
+            textCode4.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 3)])
+            textCode5.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 4)])
+            textCode6.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 5)])
+            
+            textCode1.becomeFirstResponder()
+            textCode2.becomeFirstResponder()
+            textCode3.becomeFirstResponder()
+            textCode4.becomeFirstResponder()
+            textCode5.becomeFirstResponder()
+            textCode6.becomeFirstResponder()
         }
     }
     
