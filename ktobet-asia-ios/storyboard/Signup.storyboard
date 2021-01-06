@@ -328,11 +328,29 @@
                                             <constraint firstAttribute="height" constant="56" id="i2M-og-dDV"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HGs-bW-B7V" customClass="InputTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HGs-bW-B7V">
                                         <rect key="frame" x="30" y="230" width="354" height="60"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAz-E4-hOh" customClass="InputText" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tbC-WW-1u5" customClass="InputText" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="tbC-WW-1u5" secondAttribute="trailing" id="87z-Nv-Y8f"/>
+                                            <constraint firstAttribute="bottom" secondItem="MAz-E4-hOh" secondAttribute="bottom" id="Gfd-yV-jXT"/>
+                                            <constraint firstItem="tbC-WW-1u5" firstAttribute="top" secondItem="HGs-bW-B7V" secondAttribute="top" id="MN0-DW-PKt"/>
+                                            <constraint firstAttribute="bottom" secondItem="tbC-WW-1u5" secondAttribute="bottom" id="Rnv-Ok-rem"/>
+                                            <constraint firstItem="MAz-E4-hOh" firstAttribute="leading" secondItem="HGs-bW-B7V" secondAttribute="leading" id="Xap-s5-sdE"/>
+                                            <constraint firstItem="tbC-WW-1u5" firstAttribute="leading" secondItem="HGs-bW-B7V" secondAttribute="leading" id="fiQ-hP-8zB"/>
+                                            <constraint firstItem="MAz-E4-hOh" firstAttribute="top" secondItem="HGs-bW-B7V" secondAttribute="top" id="oOh-hc-wAw"/>
                                             <constraint firstAttribute="height" constant="60" id="rhS-dS-LYG"/>
+                                            <constraint firstAttribute="trailing" secondItem="MAz-E4-hOh" secondAttribute="trailing" id="woy-Ka-cQI"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请输入正确的电子邮箱。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EXo-3q-4zJ">
@@ -341,7 +359,7 @@
                                         <color key="textColor" red="1" green="0.50196078431372548" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aak-36-qgN" customClass="InputTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aak-36-qgN" customClass="InputText" customModule="ktobet_asia_ios" customModuleProvider="target">
                                         <rect key="frame" x="30" y="320.5" width="354" height="60"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
@@ -357,11 +375,11 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u2A-cp-AsB">
                                         <rect key="frame" x="30" y="411" width="354" height="120"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DGz-xI-fBW" customClass="InputTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DGz-xI-fBW" customClass="InputPassword" customModule="ktobet_asia_ios" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="354" height="60"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nJ6-5m-KuW" customClass="InputTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nJ6-5m-KuW" customClass="InputConfirmPassword" customModule="ktobet_asia_ios" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="60" width="354" height="60"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
@@ -479,8 +497,9 @@
                         <outlet property="btnPhone" destination="WOw-mw-6kM" id="T2A-1l-KMW"/>
                         <outlet property="btnSubmit" destination="qcT-pD-crh" id="yCZ-Rr-Ws2"/>
                         <outlet property="constraintRegistErrMessageHeight" destination="i2M-og-dDV" id="Bh4-3m-b4H"/>
-                        <outlet property="inputAccount" destination="HGs-bW-B7V" id="Rlr-zD-RiV"/>
                         <outlet property="inputCsPassword" destination="nJ6-5m-KuW" id="LMo-Rd-6Da"/>
+                        <outlet property="inputEmail" destination="tbC-WW-1u5" id="N0d-qm-bJq"/>
+                        <outlet property="inputMobile" destination="MAz-E4-hOh" id="w3a-Bf-5IQ"/>
                         <outlet property="inputName" destination="Aak-36-qgN" id="GOJ-I1-74D"/>
                         <outlet property="inputPassword" destination="DGz-xI-fBW" id="VZ5-2L-E43"/>
                         <outlet property="labAccountTip" destination="EXo-3q-4zJ" id="vMy-PC-Y4g"/>
@@ -1341,7 +1360,7 @@ john.doe@higgstar.com
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eEu-kh-kDn"/>
+        <segue reference="7cU-eX-MaJ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Back" width="24" height="24"/>
