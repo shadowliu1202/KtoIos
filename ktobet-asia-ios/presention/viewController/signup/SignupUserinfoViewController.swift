@@ -29,10 +29,11 @@ class SignupUserinfoViewController: UIViewController {
     @IBOutlet private weak var labPasswordDesc : UILabel!
     @IBOutlet private weak var labOtpInvalid : UILabel!
     
-    @IBOutlet private weak var inputAccount : InputTextField!
-    @IBOutlet private weak var inputName : InputTextField!
-    @IBOutlet private weak var inputPassword : InputTextField!
-    @IBOutlet private weak var inputCsPassword : InputTextField!
+    @IBOutlet private weak var inputMobile : InputText!
+    @IBOutlet private weak var inputEmail : InputText!
+    @IBOutlet private weak var inputName : InputText!
+    @IBOutlet private weak var inputPassword : InputPassword!
+    @IBOutlet private weak var inputCsPassword : InputConfirmPassword!
     
     @IBOutlet private weak var scrollView : UIScrollView!
     @IBOutlet private weak var viewButtons : UIView!
@@ -47,11 +48,15 @@ class SignupUserinfoViewController: UIViewController {
     private let segueEmail = "GoToEmail"
     
     private var viewModel = DI.resolve(SignupUserInfoViewModel.self)!
+    private var inputAccount : InputText {
+        get{
+            switch viewModel.currentAccountType() {
+            case .email: return inputEmail
+            case .phone: return inputMobile
+            }
+        }
+    }
     private var disposeBag = DisposeBag()
-    private var phoneEdited = false
-    private var mailEdited = false
-    private var passwordEdited = false
-    private var nameEdited = false
     var locale : SupportLocale = SupportLocale.China()
     
     // MARK: LIFE CYCLE
@@ -67,6 +72,8 @@ class SignupUserinfoViewController: UIViewController {
         btnPhone.setTitle(Localize.string("Mobile"), for: .normal)
         btnEmail.setTitle(Localize.string("Email"), for: .normal)
         btnSubmit.setTitle(Localize.string("Step2_verify_mobile"), for: .normal)
+        inputEmail.setTitle(Localize.string("Email"))
+        inputMobile.setTitle(Localize.string("Mobile"))
         inputName.setTitle(Localize.string("RealName"))
         inputPassword.setTitle(Localize.string("Password"))
         inputCsPassword.setTitle(Localize.string("Password_2"))
@@ -76,7 +83,6 @@ class SignupUserinfoViewController: UIViewController {
     }
     
     func defaultStyle(){
-        
         naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
         constraintRegistErrMessageHeight.constant = 0
         viewRegistErrMessage.isHidden = true
@@ -85,13 +91,20 @@ class SignupUserinfoViewController: UIViewController {
         labAccountTip.text = ""
         labNameTip.text = ""
         labPasswordTip.text = ""
-        inputAccount.setCorner(topCorner: true, bottomCorner: true)
+        inputMobile.setCorner(topCorner: true, bottomCorner: true)
+        inputMobile.setKeyboardType(.phonePad)
+        inputMobile.setSubTitle({
+            switch locale.cultureCode(){
+            case "zh-cn": return "+86"
+            default: return ""
+            }
+        }())
+        inputEmail.setCorner(topCorner: true, bottomCorner: true)
+        inputEmail.setKeyboardType(.emailAddress)
         inputName.setCorner(topCorner: true, bottomCorner: true)
         inputPassword.setCorner(topCorner: true, bottomCorner: false)
         inputPassword.confirmPassword = inputCsPassword
-        inputPassword.isPassword()
         inputCsPassword.setCorner(topCorner: false, bottomCorner: true)
-        inputCsPassword.isConfirmPassword()
         btnSubmit.layer.cornerRadius = 8
         btnSubmit.layer.masksToBounds = true
 
@@ -109,30 +122,14 @@ class SignupUserinfoViewController: UIViewController {
 
         viewModel.inputAccountType(.phone)
         viewModel.inputLocale(locale)
-        inputAccount.setEditingChangedHandler { (text) in
-            self.viewModel.inputAccount(text)
-            guard text.count > 0 else { return }
-            switch self.viewModel.currentAccountType(){
-            case .email: self.mailEdited = true
-            case .phone: self.phoneEdited = true
-            }
-        }
-        inputName.setEditingChangedHandler { (text) in
-            self.viewModel.inputName(text)
-            guard text.count > 0 else { return }
-            self.nameEdited = true
-        }
-        inputPassword.setEditingChangedHandler { (text) in
-            self.viewModel.inputPassword(text)
-            guard text.count > 0 else { return }
-            self.passwordEdited = true
-        }
-        inputCsPassword.setEditingChangedHandler { (text) in
-            self.viewModel.inputConfirmPassword(text)
-        }
+        
+        (self.inputMobile.text <-> self.viewModel.relayMobile).disposed(by: self.disposeBag)
+        (self.inputEmail.text <-> self.viewModel.relayEmail).disposed(by: self.disposeBag)
+        (self.inputName.text <-> self.viewModel.relayName).disposed(by: self.disposeBag)
+        (self.inputPassword.text <-> self.viewModel.relayPassword).disposed(by: self.disposeBag)
+        (self.inputCsPassword.text <-> self.viewModel.relayConfirmPassword).disposed(by: self.disposeBag)
 
         let event = viewModel.event()
-        
         event.otpValid
             .subscribe(onNext: { status  in
                 if status == .errEmailOtpInactive || status == .errSMSOtpInactive{
@@ -153,17 +150,26 @@ class SignupUserinfoViewController: UIViewController {
                 }
             }).disposed(by: disposeBag)
         
-        event.accountValid
-            .subscribe(onNext: { status  in
+        event.emailValid
+            .subscribe(onNext: {status in
                 var message = ""
-                if status == .errEmailFormat { message = Localize.string("error_email_format")}
-                else if status == .errPhoneFormat { message = Localize.string("error_Mobile_format")}
-                else if status == .empty{
-                    if self.viewModel.currentAccountType() == .phone && self.phoneEdited {
-                        message = Localize.string("field_must_fill")
-                    } else if self.viewModel.currentAccountType() == .email && self.mailEdited{
-                        message = Localize.string("field_must_fill")
-                    }
+                if status == .errEmailFormat {
+                    message = Localize.string("error_email_format")
+                } else if status == .empty {
+                    message = Localize.string("field_must_fill")
+                }
+                self.labAccountTip.text = message
+                self.inputAccount.showUnderline(message.count > 0)
+                self.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
+            }).disposed(by: disposeBag)
+        
+        event.mobileValid
+            .subscribe(onNext: { status in
+                var message = ""
+                if status == .errPhoneFormat {
+                    message = Localize.string("error_Mobile_format")
+                } else if status == .empty {
+                    message = Localize.string("field_must_fill")
                 }
                 self.labAccountTip.text = message
                 self.inputAccount.showUnderline(message.count > 0)
@@ -173,8 +179,11 @@ class SignupUserinfoViewController: UIViewController {
         event.nameValid
             .subscribe(onNext: { status in
                 var message = ""
-                if status == .errNameFormat { message = Localize.string("Step2_Name_format_error") }
-                else if status == .empty && self.nameEdited { message = Localize.string("field_must_fill")}
+                if status == .errNameFormat {
+                    message = Localize.string("Step2_Name_format_error")
+                } else if status == .empty {
+                    message = Localize.string("field_must_fill")
+                }
                 self.labNameTip.text = message
                 self.inputName.showUnderline(message.count > 0)
                 self.inputName.setCorner(topCorner: true, bottomCorner: message.count == 0)
@@ -183,9 +192,13 @@ class SignupUserinfoViewController: UIViewController {
         event.passwordValid
             .subscribe(onNext: { status in
                 var message = ""
-                if (status == .errPasswordFormat) { message = Localize.string("Invalid_Username_password") }
-                if (status == .errPasswordNotMatch) { message = Localize.string("Step2_password_not_match")}
-                if status == .empty && self.passwordEdited { message = Localize.string("field_must_fill")}
+                if status == .errPasswordFormat {
+                    message = Localize.string("Invalid_Username_password")
+                } else if status == .errPasswordNotMatch{
+                    message = Localize.string("Step2_password_not_match")
+                } else if status == .empty {
+                    message = Localize.string("field_must_fill")
+                }
                 self.labPasswordTip.text = message
                 self.inputCsPassword.showUnderline(message.count > 0)
                 self.inputCsPassword.setCorner(topCorner: false, bottomCorner: message.count == 0)
@@ -199,21 +212,20 @@ class SignupUserinfoViewController: UIViewController {
             .subscribe(onNext: {type in
                 switch type {
                 case .phone:
-                    self.inputAccount.setTitle(Localize.string("Mobile"))
-                    self.inputAccount.setContent("")
-                    self.inputAccount.setKeyboardType(.numberPad)
+                    self.inputEmail.isHidden = true
+                    self.inputMobile.isHidden = false
                     self.btnPhone.isSelected = true
                     self.btnEmail.isSelected = false
                     self.btnSubmit.setTitle(Localize.string("Step2_verify_mobile"), for: .normal)
                 case .email:
-                    self.inputAccount.setTitle(Localize.string("Email"))
-                    self.inputAccount.setContent("")
-                    self.inputAccount.setKeyboardType(.emailAddress)
+                    self.inputEmail.isHidden = false
+                    self.inputMobile.isHidden = true
                     self.btnPhone.isSelected = false
                     self.btnEmail.isSelected = true
                     self.btnSubmit.setTitle(Localize.string("Step2_verify_mail"), for: .normal)
                 }
-                
+                self.inputAccount.setContent("")
+                self.inputAccount.showKeyboard()
                 self.hideError()
             }).disposed(by: disposeBag)
     }
@@ -263,7 +275,6 @@ extension SignupUserinfoViewController{
     }
     
     @IBAction func btnBackPressed(_ sender : Any){
-        
         let title = Localize.string("tip_title_unfinished")
         let message = Localize.string("tip_content_unfinished")
         Alert.show(title, message) {
@@ -272,18 +283,19 @@ extension SignupUserinfoViewController{
     }
     
     @IBAction func btnSubmitPressed(_ sender : Any){
+        
         viewModel.register()
-            .subscribe(onCompleted: {
+            .subscribe(onSuccess: { info in
                 let segue : String = {
-                    switch self.viewModel.currentAccountType(){
+                    switch info.type {
                     case .email: return self.segueEmail
                     case .phone: return self.seguePhone
                     }
                 }()
-                let para = ["account" : self.viewModel.currentAccount(),
-                            "password" : self.viewModel.currentPassword()]
+                let para = ["account" : info.account,
+                            "password" : info.password]
                 self.performSegue(withIdentifier: segue, sender: para)
-            }, onError: { error in
+            }, onError: {error in
                 let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
                 let message : String = {
                     switch type{
