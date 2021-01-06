@@ -1,35 +1,32 @@
 //
-//  InputPasswordTextField.swift
+//  InputTextField.swift
 //  ktobet-asia-ios
 //
-//  Created by Partick Chen on 2021/1/5.
+//  Created by Partick Chen on 2020/12/16.
 //
 
+import Foundation
 import UIKit
 import RxSwift
 import RxCocoa
 
-protocol InputPasswordDelegate {
+protocol InputTextFieldProtocol {
     func shouldHidePassword(_ hide: Bool)
 }
 
-class InputPassword : UIView{
-    
-    private var isEditing = false
-    var confirmPassword : InputPasswordDelegate?
-    private var editingChangedHandler : ((String)->Void)?
+class InputTextField : UIView{
     
     private var labTitle = UILabel()
     private var textContent = UITextField()
     private var btnHideContent = UIButton()
     private var underline = UIView()
-    var text : ControlProperty<String> {
-        get {
-            return textContent.rx.text.orEmpty
-        }
-    }
+    private var isFirst = true
+    private var isEditing = false
+    private var isAnimate = false
+    private var cancelAnimate = false
+    private var editingChangedHandler : ((String)->Void)?
+    var confirmPassword : InputTextFieldProtocol?
     
-    // MARK: LIFE CYCLE
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -43,14 +40,13 @@ class InputPassword : UIView{
         textContent.font = UIFont.systemFont(ofSize: 16)
         textContent.borderStyle = .none
         textContent.delegate = self
-        textContent.isSecureTextEntry = true
         textContent.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
         
         btnHideContent.backgroundColor = .clear
         btnHideContent.setImage(UIImage(named: "Eye-Show"), for: .normal)
         btnHideContent.setImage(UIImage(named: "Eye-Hide"), for: .selected)
         btnHideContent.addTarget(self, action: #selector(btnHidePressed(_:)), for: .touchUpInside)
-        btnHideContent.isSelected = true
+        btnHideContent.isHidden = true
         
         underline.backgroundColor = UIColor.init(rgb: 0xff8000)
         underline.isHidden = true
@@ -60,38 +56,59 @@ class InputPassword : UIView{
         addSubview(btnHideContent)
         addSubview(underline)
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        adjustPosition()
-    }
-    
-    // MARK: POSITION
-    func adjustPosition(){
-        var position : (titleFont: UIFont, title: CGRect, hideBtn: CGRect, content: CGRect)
+        
+        var position : (title: CGRect, hideBtn: CGRect, content: CGRect)
+        var start = false
         
         if !isEditing && textContent.text?.count == 0{
-            position = emptyPosition()
+            position = startPosition()
+            start = true
         } else {
-            position = editedPosition()
+            position = endPosition()
+            start = false
         }
         
-        UIView.animate(withDuration: 0.2, animations: {
-            self.labTitle.font = position.titleFont
+        let positionChange : ()->Void = {
+            self.labTitle.font = UIFont.systemFont(ofSize: start ? 14 : 12)
             self.labTitle.frame = position.title
-            self.btnHideContent.frame = position.hideBtn
             self.textContent.frame = position.content
+            self.btnHideContent.frame = position.hideBtn
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-            self.backgroundColor = UIColor.init(rgb: self.isEditing ? 0x454545 : 0x333333)
-        }, completion: nil)
+            self.backgroundColor = UIColor.init(rgb: start ? 0x333333 : 0x454545)
+        }
+        
+        if isFirst{
+            positionChange()
+            isFirst = false
+        } else {
+            if (!labTitle.frame.equalTo(position.title) ||
+                !textContent.frame.equalTo(position.content) ||
+                !btnHideContent.frame.equalTo(position.hideBtn)) &&
+                !isAnimate{
+                isAnimate = true
+                if cancelAnimate{
+                    isAnimate = false
+                    cancelAnimate = false
+                    positionChange()
+                } else {
+                    UIView.animate(withDuration: 0.2, animations: positionChange) { (complete) in
+                        self.isAnimate = false
+                    }
+                }
+
+            }
+        }
     }
     
-    private func emptyPosition()->(titleFont: UIFont, title: CGRect, hideBtn: CGRect, content: CGRect){
-        let titleFont = UIFont.systemFont(ofSize: 14)
+    private func startPosition()->(title: CGRect, hideBtn: CGRect, content: CGRect){
         let border : CGFloat = 15
         let title : CGRect = {
-            let width : CGFloat = labTitle.text?.width(withConstrainedHeight: bounds.height, font: titleFont) ?? 0
-            let height : CGFloat = labTitle.text?.height(withConstrainedWidth: width, font: titleFont) ?? 0
+            let font = UIFont.systemFont(ofSize: 14)
+            let width : CGFloat = labTitle.text?.width(withConstrainedHeight: bounds.height, font: font) ?? 0
+            let height : CGFloat = labTitle.text?.height(withConstrainedWidth: width, font: font) ?? 0
             let x : CGFloat = border
             let y = bounds.midY - height * 0.5
             return CGRect(x: x, y: y, width: width, height: height)
@@ -110,15 +127,15 @@ class InputPassword : UIView{
             let y : CGFloat = bounds.midY - height * 0.5
             return CGRect(x: x, y: y, width: width, height: height)
         }()
-        return (titleFont, title, hideButton, content)
+        return (title, hideButton, content)
     }
     
-    private func editedPosition()->(titleFont: UIFont, title: CGRect, hideBtn: CGRect, content: CGRect){
-        let titleFont = UIFont.systemFont(ofSize: 12)
+    private func endPosition()->(title: CGRect, hideBtn: CGRect, content: CGRect){
         let border : CGFloat = 15
         let title : CGRect = {
-            let width = labTitle.text?.width(withConstrainedHeight: bounds.height, font: titleFont) ?? 0 + 2
-            let height = labTitle.text?.height(withConstrainedWidth: width, font: titleFont) ?? 0
+            let font = UIFont.systemFont(ofSize: 12)
+            let width = labTitle.text?.width(withConstrainedHeight: bounds.height, font: font) ?? 0
+            let height = labTitle.text?.height(withConstrainedWidth: width, font: font) ?? 0
             let x = border
             let y : CGFloat = 8
             return CGRect(x: x, y: y, width: width, height: height)
@@ -137,19 +154,58 @@ class InputPassword : UIView{
             let y = title.maxY + 8
             return CGRect(x: x, y: y, width: width, height: height)
         }()
-        return (titleFont, title, hideButton, content)
+        return (title, hideButton, content)
     }
     
-    // MARK: BUTTON EVENT
+    // MARK: EVENT
+    @objc private func textFieldEditingChanged(_ textField : UITextField){
+        if self.editingChangedHandler != nil {
+            self.editingChangedHandler!(textField.text ?? "")
+        }
+    }
+    
     @objc private func btnHidePressed(_ sender : UIButton){
         btnHideContent.isSelected = !btnHideContent.isSelected
         textContent.isSecureTextEntry = btnHideContent.isSelected
         confirmPassword?.shouldHidePassword(btnHideContent.isSelected)
     }
     
-    // MARK: SETUP UI
+    // MARK: SETUP
     func setTitle(_ title: String){
         labTitle.text = title
+        cancelAnimate = true
+        layoutSubviews()
+    }
+    
+    func setContent(_ content : String){
+        textContent.text = content
+        textFieldEditingChanged(textContent)
+    }
+    
+    func setEditingChangedHandler(_ editingChangedHandler : ((String)->Void)?){
+        self.editingChangedHandler = editingChangedHandler
+    }
+    
+    func setKeyboardType(_ keyboardType : UIKeyboardType){
+        textContent.keyboardType = keyboardType
+        if textContent.isFirstResponder{
+            textContent.resignFirstResponder()
+            textContent.becomeFirstResponder()
+        }
+    }
+    
+    func isPassword(){
+        btnHideContent.isSelected = true
+        btnHideContent.isHidden = false
+        textContent.isSecureTextEntry = true
+        layoutSubviews()
+    }
+    
+    func isConfirmPassword(){
+        btnHideContent.isSelected = true
+        btnHideContent.isHidden = true
+        textContent.isSecureTextEntry = true
+        layoutSubviews()
     }
     
     func setCorner(topCorner : Bool, bottomCorner : Bool){
@@ -164,40 +220,31 @@ class InputPassword : UIView{
         }
     }
     
-    // MARK: PRESENT
-    func showKeyboard(){
-        textContent.becomeFirstResponder()
-    }
-    
-    
     func showUnderline(_ show : Bool){
         underline.isHidden = !show
     }
-    
-    // MARK: TEXT HANDLER
-    @objc private func textFieldEditingChanged(_ textField: UITextField){
-        editingChangedHandler?(textField.text ?? "")
-    }
-    
-    func setEditingChangedHandler(_ editingChangedHandler:((String)->())?){
-        self.editingChangedHandler = editingChangedHandler
-    }
 }
 
-
-extension InputPassword: UITextFieldDelegate {
+extension InputTextField: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isEditing = true
-        adjustPosition()
+        layoutSubviews()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         isEditing = false
-        adjustPosition()
+        layoutSubviews()
     }
 }
 
-extension InputPassword {
+extension InputTextField : InputTextFieldProtocol{
+    func shouldHidePassword(_ hide: Bool){
+        btnHideContent.isSelected = hide
+        textContent.isSecureTextEntry = btnHideContent.isSelected
+    }
+}
+
+extension InputTextField {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !textContent.isFirstResponder{
             textContent.becomeFirstResponder()

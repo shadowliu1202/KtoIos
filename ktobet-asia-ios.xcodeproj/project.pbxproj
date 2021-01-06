@@ -22,10 +22,8 @@
 		485E35F12588AA8500EEF23F /* GetSystemStatusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E35F02588AA8500EEF23F /* GetSystemStatusUseCase.swift */; };
 		485F12AE2592E807007B07B6 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */; };
 		486B3E4D258B6DB10096BA79 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B3E4C258B6DB10096BA79 /* Alert.swift */; };
-		486CD98025A41BE6003244B1 /* InputPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD97F25A41BE6003244B1 /* InputPassword.swift */; };
-		486CD98425A41C0F003244B1 /* InputConfirmPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */; };
 		487288EA2589E94400D8983B /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487288E92589E94400D8983B /* UIImageExtension.swift */; };
-		4872891A258A08F500D8983B /* InputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48728919258A08F500D8983B /* InputText.swift */; };
+		4872891A258A08F500D8983B /* InputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48728919258A08F500D8983B /* InputTextField.swift */; };
 		4872891E258A17FB00D8983B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4872891D258A17FB00D8983B /* StringExtension.swift */; };
 		48840C472592065200245706 /* SignupRegistFailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48840C462592065200245706 /* SignupRegistFailViewController.swift */; };
 		48A005682594851000C7F1FB /* ReactiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A005672594851000C7F1FB /* ReactiveExtension.swift */; };
@@ -217,13 +215,11 @@
 		48672A532555294D009B2C59 /* IAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAuthRepository.swift; sourceTree = "<group>"; };
 		48685E6525593EED00145552 /* SocketTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketTestViewController.swift; sourceTree = "<group>"; };
 		486B3E4C258B6DB10096BA79 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
-		486CD97F25A41BE6003244B1 /* InputPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPassword.swift; sourceTree = "<group>"; };
-		486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputConfirmPassword.swift; sourceTree = "<group>"; };
 		48718155255E829C007B7764 /* AuthenticationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationApi.swift; sourceTree = "<group>"; };
 		4871815B255E8DC3007B7764 /* LobbyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewModel.swift; sourceTree = "<group>"; };
 		48718163255E9A5C007B7764 /* PlayerApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerApi.swift; sourceTree = "<group>"; };
 		487288E92589E94400D8983B /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
-		48728919258A08F500D8983B /* InputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputText.swift; sourceTree = "<group>"; };
+		48728919258A08F500D8983B /* InputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextField.swift; sourceTree = "<group>"; };
 		4872891D258A17FB00D8983B /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		487EC4C325553A2200BA8B8E /* IPlayerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPlayerRepository.swift; sourceTree = "<group>"; };
 		488000652553E72800529673 /* SideBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarViewController.swift; sourceTree = "<group>"; };
@@ -488,9 +484,7 @@
 			children = (
 				486B3E4C258B6DB10096BA79 /* Alert.swift */,
 				48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */,
-				48728919258A08F500D8983B /* InputText.swift */,
-				486CD97F25A41BE6003244B1 /* InputPassword.swift */,
-				486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */,
+				48728919258A08F500D8983B /* InputTextField.swift */,
 			);
 			path = customUI;
 			sourceTree = "<group>";
@@ -890,8 +884,6 @@
 				48AAA111256E458800E075CA /* HubConnectionDelegate.swift in Sources */,
 				48AAA112256E458800E075CA /* HubConnectionBuilder.swift in Sources */,
 				485F12AE2592E807007B07B6 /* UIViewControllerExtension.swift in Sources */,
-				486CD98025A41BE6003244B1 /* InputPassword.swift in Sources */,
-				486CD98425A41C0F003244B1 /* InputConfirmPassword.swift in Sources */,
 				48AAA113256E458800E075CA /* IPlayerRepository.swift in Sources */,
 				48AAA114256E458800E075CA /* AuthenticationApi.swift in Sources */,
 				48AAA115256E458800E075CA /* PlayerApi.swift in Sources */,
@@ -933,7 +925,7 @@
 				48AAA139256E458800E075CA /* UIColorExtension.swift in Sources */,
 				48AAA13A256E458800E075CA /* TransferFormat.swift in Sources */,
 				48AAA13B256E458800E075CA /* HttpResponse.swift in Sources */,
-				4872891A258A08F500D8983B /* InputText.swift in Sources */,
+				4872891A258A08F500D8983B /* InputTextField.swift in Sources */,
 				48AAA13D256E458800E075CA /* SideBarViewController.swift in Sources */,
 				4872891E258A17FB00D8983B /* StringExtension.swift in Sources */,
 				48AAA13F256E458800E075CA /* HubConnection.swift in Sources */,
