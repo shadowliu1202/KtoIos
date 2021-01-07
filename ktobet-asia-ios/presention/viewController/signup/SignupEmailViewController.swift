@@ -28,35 +28,22 @@ class SignupEmailViewController: UIViewController {
     private let segueDefault = "GoToDefault"
     private var viewModel = DI.resolve(SignupEmailViewModel.self)!
     private var disposebag = DisposeBag()
-    private var timer : Timer?
-    private var count = 0
-    
+    private var timerResend = KTOTimer()
+    private var timerVerify = KTOTimer()
+    private var checking = false
+
     var account : String = ""
     var password : String = ""
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter
-            .default
-            .addObserver(forName: UIApplication.willEnterForegroundNotification,
-                         object: nil,
-                         queue: nil,
-                         using: {notification in
-                            self.viewModel.checkRegistration(self.account, self.password)
-                                .subscribe(onSuccess: { valid in
-                                    switch valid{
-                                    case .valid(let player): self.goToLobby(player)
-                                    default: break
-                                    }
-                                }, onError: { error in
-                                    // do nothing
-                                }).disposed(by: self.disposebag)
-                         })
+        addNotificationCenter()
         localize()
         defaultStyle()
-        launchTimer()
         showTipOtpSend()
+        resendTimer(launch: true)
+        verifyTimer(launch: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,7 +55,9 @@ class SignupEmailViewController: UIViewController {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        removeNotificationCenter()
+        resendTimer(launch: false)
+        verifyTimer(launch: false)
     }
     
     // MARK: METHOD
@@ -104,49 +93,33 @@ class SignupEmailViewController: UIViewController {
         viewSendOtpTip.layer.masksToBounds = true
     }
     
-    private func launchTimer(){
-        count = 180
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {timer in
-            self.count -= 1
-            let enable : Bool = {
-                if self.count > 0 { return false }
-                else { return true }
+    private func setResendButton(_ seconds : Int){
+        let enable = seconds == 0
+        self.btnResend.setAttributedTitle({
+            let descColor = UIColor(rgb: 0x9b9b9b)
+            let enableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+            let disableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5)
+            let time : String = {
+                let mm = seconds / 60
+                let ss = seconds % 60
+                return String(format: "%02d:%02d", mm, ss)
             }()
-            if enable {
-                self.timer?.invalidate()
-            }
-            self.btnResend.setAttributedTitle({
-                let descColor = UIColor(rgb: 0x9b9b9b)
-                let enableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
-                let disableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5)
-                let time : String = {
-                    let mm = self.count / 60
-                    let ss = self.count % 60
-                    return String(format: "%02d:%02d", mm, ss)
-                }()
-                let str1 = String(format: Localize.string("Verify_mail_Resend_Tips"), time)
-                let str2 = " "
-                let str3 = Localize.string("ResendOtp")
-                let attriText = NSMutableAttributedString()
-                let attriText1 = NSAttributedString(string: str1, attributes: [.foregroundColor : descColor])
-                let attriText2 = NSAttributedString(string: str2)
-                let attriText3 = NSAttributedString(string: str3, attributes: [.foregroundColor : (enable ? enableColor : disableColor)])
-                attriText.append(attriText1)
-                attriText.append(attriText2)
-                attriText.append(attriText3)
-                return attriText
-            }(), for: .normal)
-            self.btnResend.isEnabled = enable
-        })
-        timer?.fire()
+            let str1 = String(format: Localize.string("Verify_mail_Resend_Tips"), time)
+            let str2 = " "
+            let str3 = Localize.string("ResendOtp")
+            let attriText = NSMutableAttributedString()
+            let attriText1 = NSAttributedString(string: str1, attributes: [.foregroundColor : descColor])
+            let attriText2 = NSAttributedString(string: str2)
+            let attriText3 = NSAttributedString(string: str3, attributes: [.foregroundColor : (enable ? enableColor : disableColor)])
+            attriText.append(attriText1)
+            attriText.append(attriText2)
+            attriText.append(attriText3)
+            return attriText
+        }(), for: .normal)
+        self.btnResend.isEnabled = enable
     }
     
-    private func stopTime(){
-        count = 0
-        timer?.invalidate()
-    }
-    
+    // MARK: SHOW TIP
     private func showTipOtpSend(){
         viewSendOtpTip.isHidden = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -168,30 +141,85 @@ class SignupEmailViewController: UIViewController {
         }
     }
     
+    // MARK: TIMER
+    func resendTimer(launch : Bool){
+        if launch{
+            timerResend
+                .countDown(timeInterval: 1, endTime: 180, block: {(index, second, finish) in
+                    self.setResendButton(second)
+                })
+        } else {
+            timerResend.stop()
+        }
+    }
+    
+    func verifyTimer(launch : Bool){
+        if launch{
+            timerVerify
+                .repeate(timeInterval: 5, block: { index  in
+                    self.checkRegistration(manual: false)
+                })
+        } else {
+            timerVerify.stop()
+        }
+    }
+    
+    // MARK: API
+    private func checkRegistration(manual: Bool){
+        if !checking{
+            checking = true
+            viewModel
+                .checkRegistration(account, password)
+                .subscribe(onSuccess: { valid in
+                    switch valid{
+                    case .valid(let player): self.goToLobby(player)
+                    default:
+                        self.checking = false
+                        if manual {
+                            let title = Localize.string("tip_title_warm")
+                            let message = Localize.string("Step3_verification_pending")
+                            Alert.show(title, message, confirm: nil, cancel: nil)
+                        }
+                    }
+                }, onError: { error in
+                    self.checking = false
+                    if manual { self.handleError(error) }
+                }).disposed(by: self.disposebag)
+        }
+    }
+        
+    // MARK: NOTIFICATION CENTER
+    private func addNotificationCenter(){
+        NotificationCenter
+            .default
+            .addObserver(forName: UIApplication.willEnterForegroundNotification,
+                         object: nil,
+                         queue: nil,
+                         using: {notification in
+                            self.checkRegistration(manual: false)
+                         })
+    }
+    
+    private func removeNotificationCenter(){
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: BUTTON ACTION
     @IBAction func btnVerifyPressed(_ sender : UIButton){
-        viewModel.checkRegistration(account, password)
-            .subscribe(onSuccess: { valid in
-                switch valid{
-                case .valid(let player): self.goToLobby(player)
-                case .invalid:
-                    let title = Localize.string("tip_title_warm")
-                    let message = Localize.string("Step3_verification_pending")
-                    Alert.show(title, message, confirm: nil, cancel: nil)
-                }
-            }, onError: { error in
-                self.handleError(error)
-            }).disposed(by: disposebag)
+        self.checkRegistration(manual: true)
+        self.view.isUserInteractionEnabled = true
     }
     
     @IBAction func btnResendPressed(_ sender: UIButton){
-        viewModel.resendOtp()
+        btnResend.isEnabled = false
+        self.viewModel.resendOtp()
             .subscribe(onCompleted: {
-                self.launchTimer()
+                self.resendTimer(launch: true)
                 self.showTipOtpSend()
             }, onError: { error in
+                self.btnResend.isEnabled = true
                 self.handleError(error)
-            }).disposed(by: disposebag)
+            }).disposed(by: self.disposebag)
     }
     
     @IBAction func btnEmailPressed(_ sender: UIButton){
@@ -200,7 +228,7 @@ class SignupEmailViewController: UIViewController {
             UIApplication.shared.open(mailUrl, options: [:], completionHandler: nil)
         }
     }
-        
+    
     @IBAction func btnBackPressed(_ sender : UIButton){
         let title = Localize.string("tip_title_unfinished")
         let message = Localize.string("tip_content_unfinished")
