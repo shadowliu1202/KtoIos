@@ -24,6 +24,7 @@
 		486B3E4D258B6DB10096BA79 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B3E4C258B6DB10096BA79 /* Alert.swift */; };
 		486CD98025A41BE6003244B1 /* InputPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD97F25A41BE6003244B1 /* InputPassword.swift */; };
 		486CD98425A41C0F003244B1 /* InputConfirmPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */; };
+		4870F49B25A6A9350052EE60 /* KTOTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4870F49A25A6A9350052EE60 /* KTOTimer.swift */; };
 		487288EA2589E94400D8983B /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487288E92589E94400D8983B /* UIImageExtension.swift */; };
 		4872891A258A08F500D8983B /* InputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48728919258A08F500D8983B /* InputText.swift */; };
 		4872891E258A17FB00D8983B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4872891D258A17FB00D8983B /* StringExtension.swift */; };
@@ -219,6 +220,7 @@
 		486B3E4C258B6DB10096BA79 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		486CD97F25A41BE6003244B1 /* InputPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPassword.swift; sourceTree = "<group>"; };
 		486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputConfirmPassword.swift; sourceTree = "<group>"; };
+		4870F49A25A6A9350052EE60 /* KTOTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTOTimer.swift; sourceTree = "<group>"; };
 		48718155255E829C007B7764 /* AuthenticationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationApi.swift; sourceTree = "<group>"; };
 		4871815B255E8DC3007B7764 /* LobbyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewModel.swift; sourceTree = "<group>"; };
 		48718163255E9A5C007B7764 /* PlayerApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerApi.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				48093855255D0864002EA837 /* HttpClientBack.swift */,
 				48B110A725664B470067B289 /* HttpClient.swift */,
 				4840645B25871D760064AAC9 /* LocalizeUtils.swift */,
+				4870F49A25A6A9350052EE60 /* KTOTimer.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -902,6 +905,7 @@
 				48AAA119256E458800E075CA /* SignalRError.swift in Sources */,
 				48AAA11A256E458800E075CA /* CodableHelpers.swift in Sources */,
 				48AAA11B256E458800E075CA /* HttpConnectionOptions.swift in Sources */,
+				4870F49B25A6A9350052EE60 /* KTOTimer.swift in Sources */,
 				48AAA11D256E458800E075CA /* TransportType.swift in Sources */,
 				48AAA11E256E458800E075CA /* CustomServiceApi.swift in Sources */,
 				48A005682594851000C7F1FB /* ReactiveExtension.swift in Sources */,

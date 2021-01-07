@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 import share_bu
 
 
@@ -20,14 +21,26 @@ class SignupEmailViewModel{
     private var registerUseCase : IRegisterUseCase!
     private var configurationUseCase : IConfigurationUseCase!
     private var authenticationUseCase : IAuthenticationUseCase!
-    private var unknownError = NSError.init(domain: "unknown error", code: 99999, userInfo: ["":""])
     
-    init(_ registerUseCase : IRegisterUseCase, _ configurationUseCase : IConfigurationUseCase, _ authenticationUseCase : IAuthenticationUseCase) {
+    // MARK: INITIALIZE
+    init(_ registerUseCase : IRegisterUseCase,
+         _ configurationUseCase : IConfigurationUseCase,
+         _ authenticationUseCase : IAuthenticationUseCase) {
+        
         self.registerUseCase = registerUseCase
         self.configurationUseCase = configurationUseCase
         self.authenticationUseCase = authenticationUseCase
     }
+        
+    func verifyTimer()->Observable<Int>{
+        let first = Observable<Int>.just(0)
+        let second = Observable<Int>.interval(RxTimeInterval.seconds(5), scheduler: MainScheduler.instance)
+        return Observable
+            .of(first, second)
+            .merge()
+    }
     
+    // MARK: API
     func checkRegistration(_ account: String, _ password: String)-> Single<RegistrationVerification>{
         return registerUseCase
             .checkAccountVerification(account)
