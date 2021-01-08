@@ -114,10 +114,7 @@ class SignupLanguageViewController: UIViewController{
     @IBAction func btnTipPressed(_ sender : UIButton){
         let title = Localize.string("tip_title_warm")
         let message = Localize.string("tip_content_bind")
-        let confirm = Localize.string("Determine")
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction.init(title: confirm, style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+        Alert.show(title, message, confirm: nil, cancel: nil)
     }
 }
 

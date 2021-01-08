@@ -9,6 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+protocol InputConfirmPasswordDelegate {
+    func shouldFocus(_ focus: Bool)
+}
+
 class InputConfirmPassword : UIView{
     
     private var isEditing = false
@@ -23,6 +27,8 @@ class InputConfirmPassword : UIView{
             return textContent.rx.text.orEmpty
         }
     }
+    var inputPassword : InputConfirmPasswordDelegate?
+    var isFocus = false
     
     // MARK: LIFE CYCLE
     override func awakeFromNib() {
@@ -75,7 +81,7 @@ class InputConfirmPassword : UIView{
             self.labSubTitle.frame = position.subTitle
             self.textContent.frame = position.content
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-            self.backgroundColor = UIColor.init(rgb: self.isEditing ? 0x454545 : 0x333333)
+            self.backgroundColor = UIColor.init(rgb: (self.isEditing || self.isFocus) ? 0x454545 : 0x333333)
         }, completion: nil)
     }
     
@@ -150,6 +156,8 @@ class InputConfirmPassword : UIView{
             layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         } else if bottomCorner{
             layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        } else {
+            layer.maskedCorners = []
         }
     }
     
@@ -176,11 +184,13 @@ class InputConfirmPassword : UIView{
 extension InputConfirmPassword : UITextFieldDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isEditing = true
+        inputPassword?.shouldFocus(true)
         adjustPosition()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         isEditing = false
+        inputPassword?.shouldFocus(false)
         adjustPosition()
     }
 }
@@ -195,6 +205,16 @@ extension InputConfirmPassword {
 }
 
 extension InputConfirmPassword : InputPasswordDelegate{
+    func shouldFocus(_ focus: Bool) {
+        isFocus = focus
+        self.backgroundColor = {
+            guard self.isFocus || self.isEditing else {
+                return UIColor(rgb: 0x333333)
+            }
+            return UIColor(rgb: 0x454545)
+        }()
+    }
+    
     func shouldHidePassword(_ hide: Bool){
         textContent.isSecureTextEntry = hide
     }
