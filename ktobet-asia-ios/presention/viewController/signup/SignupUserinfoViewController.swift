@@ -42,7 +42,7 @@ class SignupUserinfoViewController: UIViewController {
     
     @IBOutlet private weak var constraintRegistErrMessageHeight : NSLayoutConstraint!
     
-    private let errMsgHeight = 56
+    private let errMsgHeight = CGFloat(56)
     private let segueLanguage = "BackToLanguageList"
     private let seguePhone = "GoToPhone"
     private let segueEmail = "GoToEmail"
@@ -53,6 +53,14 @@ class SignupUserinfoViewController: UIViewController {
             switch viewModel.currentAccountType() {
             case .email: return inputEmail
             case .phone: return inputMobile
+            }
+        }
+    }
+    private var countryCode : String {
+        get {
+            switch locale.cultureCode(){
+            case "zh-cn": return "+86"
+            default: return ""
             }
         }
     }
@@ -86,6 +94,8 @@ class SignupUserinfoViewController: UIViewController {
         naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
         constraintRegistErrMessageHeight.constant = 0
         viewRegistErrMessage.isHidden = true
+        viewRegistErrMessage.layer.cornerRadius = 8
+        viewRegistErrMessage.layer.masksToBounds = true
         viewButtons.layer.cornerRadius = 8
         viewButtons.layer.masksToBounds = true
         labAccountTip.text = ""
@@ -93,17 +103,13 @@ class SignupUserinfoViewController: UIViewController {
         labPasswordTip.text = ""
         inputMobile.setCorner(topCorner: true, bottomCorner: true)
         inputMobile.setKeyboardType(.phonePad)
-        inputMobile.setSubTitle({
-            switch locale.cultureCode(){
-            case "zh-cn": return "+86"
-            default: return ""
-            }
-        }())
+        inputMobile.setSubTitle(countryCode)
         inputEmail.setCorner(topCorner: true, bottomCorner: true)
         inputEmail.setKeyboardType(.emailAddress)
         inputName.setCorner(topCorner: true, bottomCorner: true)
         inputPassword.setCorner(topCorner: true, bottomCorner: false)
         inputPassword.confirmPassword = inputCsPassword
+        inputCsPassword.inputPassword = inputPassword
         inputCsPassword.setCorner(topCorner: false, bottomCorner: true)
         btnSubmit.layer.cornerRadius = 8
         btnSubmit.layer.masksToBounds = true
@@ -135,7 +141,7 @@ class SignupUserinfoViewController: UIViewController {
                 if status == .errEmailOtpInactive || status == .errSMSOtpInactive{
                     self.view.layoutIfNeeded()
                     let width = self.scrollView.bounds.size.width
-                    let height = self.btnSubmit.frame.maxY - self.viewButtons.frame.maxY
+                    let height = self.scrollView.contentSize.height - self.viewButtons.frame.maxY
                     self.viewOtpInvalid.frame = CGRect.init(x: 0, y: self.viewButtons.frame.maxY, width: width, height: height)
                     self.scrollView.addSubview(self.viewOtpInvalid)
                     self.labOtpInvalid.text = {
@@ -233,7 +239,7 @@ class SignupUserinfoViewController: UIViewController {
     func displayError(error: String) {
         self.viewRegistErrMessage.isHidden = false
         self.labRegistErrMessage.text = error
-        self.constraintRegistErrMessageHeight.constant = 44
+        self.constraintRegistErrMessageHeight.constant = errMsgHeight
     }
     
     func hideError() {
@@ -256,6 +262,7 @@ extension SignupUserinfoViewController{
         if let vcPhone = segue.destination as? SignupPhoneViewController,
            let userInfo = sender as? [String : String],
            let account = userInfo["account"]{
+            vcPhone.countryCode = countryCode
             vcPhone.phoneNumber = account
             vcPhone.locale = locale
         }

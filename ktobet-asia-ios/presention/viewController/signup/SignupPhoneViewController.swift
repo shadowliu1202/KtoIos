@@ -51,6 +51,7 @@ class SignupPhoneViewController: UIViewController {
     private var countVerifyFail = 0
     private var countResend = 0
     private var otpExpire = false
+    var countryCode = ""
     var phoneNumber = ""
     var locale : SupportLocale = SupportLocale.China()
     
@@ -74,7 +75,7 @@ class SignupPhoneViewController: UIViewController {
         labStatusTip.text = Localize.string("Otp_Send_Success")
         labTitle.text = Localize.string("Step3_Title_1")
         labDesc.text = Localize.string("step3_verify_by_phone_title")
-        labTip.text = Localize.string("otp_sent_content") + "\n" + phoneNumber
+        labTip.text = Localize.string("otp_sent_content") + "\n" + [countryCode, phoneNumber].joined(separator: " ")
         labErrTip.text = Localize.string("Step3_incorrect_otp")
         btnVerify.setTitle(Localize.string("Verify") , for: .normal)
     }

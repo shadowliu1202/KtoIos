@@ -11,12 +11,12 @@ import RxCocoa
 
 protocol InputPasswordDelegate {
     func shouldHidePassword(_ hide: Bool)
+    func shouldFocus(_ focus: Bool)
 }
 
 class InputPassword : UIView{
     
     private var isEditing = false
-    var confirmPassword : InputPasswordDelegate?
     private var editingChangedHandler : ((String)->Void)?
     
     private var labTitle = UILabel()
@@ -28,6 +28,8 @@ class InputPassword : UIView{
             return textContent.rx.text.orEmpty
         }
     }
+    var confirmPassword : InputPasswordDelegate?
+    var isFocus = false
     
     // MARK: LIFE CYCLE
     override func awakeFromNib() {
@@ -82,7 +84,7 @@ class InputPassword : UIView{
             self.btnHideContent.frame = position.hideBtn
             self.textContent.frame = position.content
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-            self.backgroundColor = UIColor.init(rgb: self.isEditing ? 0x454545 : 0x333333)
+            self.backgroundColor = UIColor.init(rgb: (self.isEditing || self.isFocus) ? 0x454545 : 0x333333)
         }, completion: nil)
     }
     
@@ -188,11 +190,13 @@ class InputPassword : UIView{
 extension InputPassword: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isEditing = true
+        confirmPassword?.shouldFocus(true)
         adjustPosition()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         isEditing = false
+        confirmPassword?.shouldFocus(false)
         adjustPosition()
     }
 }
@@ -202,5 +206,17 @@ extension InputPassword {
         if !textContent.isFirstResponder{
             textContent.becomeFirstResponder()
         }
+    }
+}
+
+extension InputPassword : InputConfirmPasswordDelegate{
+    func shouldFocus(_ focus: Bool) {
+        isFocus = focus
+        self.backgroundColor = {
+            guard self.isFocus || self.isEditing else {
+                return UIColor(rgb: 0x333333)
+            }
+            return UIColor(rgb: 0x454545)
+        }()
     }
 }
