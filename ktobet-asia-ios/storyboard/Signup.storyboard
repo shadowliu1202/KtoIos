@@ -793,6 +793,7 @@ john.doe@higgstar.com
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <connections>
                                             <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="41A-Po-2Gm"/>
+                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="YZ8-HT-Tew"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OnI-lD-0qq" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -803,6 +804,7 @@ john.doe@higgstar.com
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <connections>
                                             <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="69V-Ja-q82"/>
+                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="J3Y-u5-lK8"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BjO-sD-aKi" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -813,6 +815,7 @@ john.doe@higgstar.com
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <connections>
                                             <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="IFr-K3-zYG"/>
+                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="fdt-WK-dYA"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5LE-0n-S6H" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -823,6 +826,7 @@ john.doe@higgstar.com
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <connections>
                                             <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="KnP-AB-V67"/>
+                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="OB6-ZB-2zF"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6wC-yJ-huD" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -833,6 +837,7 @@ john.doe@higgstar.com
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <connections>
                                             <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="H5R-K0-Anc"/>
+                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="SxB-X0-2GJ"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IcO-vr-VmG" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -843,6 +848,7 @@ john.doe@higgstar.com
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <connections>
                                             <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="fTP-1p-0iI"/>
+                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="JXC-ZD-T3O"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZD-4r-nVg">
@@ -1360,7 +1366,7 @@ john.doe@higgstar.com
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7cU-eX-MaJ"/>
+        <segue reference="eEu-kh-kDn"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Back" width="24" height="24"/>

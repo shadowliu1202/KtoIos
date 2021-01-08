@@ -21,6 +21,7 @@ class SignupPhoneViewController: UIViewController {
     @IBOutlet private weak var viewErrTip : UIView!
     @IBOutlet private weak var viewStatusTip : UIView!
     @IBOutlet private weak var imgStatusTip : UIImageView!
+    
     @IBOutlet private weak var textCode1: SMSCodeTextField!
     @IBOutlet private weak var textCode2: SMSCodeTextField!
     @IBOutlet private weak var textCode3: SMSCodeTextField!
@@ -33,9 +34,9 @@ class SignupPhoneViewController: UIViewController {
     @IBOutlet private weak var btnCode4 : UIButton!
     @IBOutlet private weak var btnCode5 : UIButton!
     @IBOutlet private weak var btnCode6 : UIButton!
-    @IBOutlet private weak var btnBack: UIBarButtonItem!
-    @IBOutlet private weak var btnVerify: UIButton!
-    @IBOutlet private weak var btnResend: UIButton!
+    @IBOutlet private weak var btnBack : UIBarButtonItem!
+    @IBOutlet private weak var btnVerify : UIButton!
+    @IBOutlet private weak var btnResend : UIButton!
     @IBOutlet private weak var constraintErrTipHeight : NSLayoutConstraint!
     @IBOutlet private weak var constraintErrTipBottom : NSLayoutConstraint!
     
@@ -45,9 +46,11 @@ class SignupPhoneViewController: UIViewController {
     private let errTipBottom = CGFloat(12)
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(SignupPhoneViewModel.self)!
-    private var timer : Timer?
-    private var resendTime = 0.0
-    private var verifyFailCount = 0
+    private var timerResend = KTOTimer()
+    private var timerOtpExpire = KTOTimer()
+    private var countVerifyFail = 0
+    private var countResend = 0
+    private var otpExpire = false
     var phoneNumber = ""
     var locale : SupportLocale = SupportLocale.China()
     
@@ -57,8 +60,13 @@ class SignupPhoneViewController: UIViewController {
         defaultStyle()
         localize()
         setViewModel()
-        launchTimer()
         showStatusTip()
+        resendTimer(launch: true)
+        otpExpireTimer()
+    }
+    
+    deinit {
+        timerOtpExpire.stop()
     }
     
     // MARK: METHOD
@@ -69,24 +77,6 @@ class SignupPhoneViewController: UIViewController {
         labTip.text = Localize.string("otp_sent_content") + "\n" + phoneNumber
         labErrTip.text = Localize.string("Step3_incorrect_otp")
         btnVerify.setTitle(Localize.string("Verify") , for: .normal)
-        btnResend.setAttributedTitle({
-            let text = NSMutableAttributedString()
-            let attr1 : NSAttributedString = {
-                let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
-                let resendTip = Localize.string("Otp_Resend_Tips")
-                let time = "00:00"
-                let text = String(format: resendTip, time)
-                return NSAttributedString.init(string: text, attributes: [.foregroundColor : color])
-            }()
-            let attr2 : NSAttributedString = {
-                let color = UIColor.init(red: 242.0/255.0, green: 0.0, blue: 0.0, alpha: 0.5)
-                let resend = Localize.string("ResendOtp")
-                return NSAttributedString.init(string: resend, attributes: [.foregroundColor : color])
-            }()
-            text.append(attr1)
-            text.append(attr2)
-            return text
-        }(), for: .normal)
     }
     
     private func defaultStyle(){
@@ -123,76 +113,56 @@ class SignupPhoneViewController: UIViewController {
             .bind(to: self.btnVerify.rx.valid)
             .disposed(by: disposeBag)
     }
-    
-    private func launchTimer(){
-        resendTime = Date().timeIntervalSince1970 + 180
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: {timer in
-            let count = Int(self.resendTime - Date().timeIntervalSince1970)
-            let enable : Bool = {
-                if count >= 0 { return false }
-                else { return true }
+        
+    private func setResendButton(_ seconds : Int){
+        let enable = seconds == 0
+        self.btnResend.setAttributedTitle({
+            let text = NSMutableAttributedString()
+            let attr1 : NSAttributedString = {
+                let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+                let resendTip = Localize.string("Otp_Resend_Tips")
+                let time : String = {
+                    let mm = seconds / 60
+                    let ss = seconds % 60
+                    return String(format: "%02d:%02d", mm, ss)
+                }()
+                let text = String(format: resendTip, time)
+                return NSAttributedString.init(string: text, attributes: [.foregroundColor : color])
             }()
-            if enable {
-                self.timer?.invalidate()
-            }
-            self.btnResend.setAttributedTitle({
-                let text = NSMutableAttributedString()
-                let attr1 : NSAttributedString = {
-                    let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
-                    let resendTip = Localize.string("Otp_Resend_Tips")
-                    let time : String = {
-                        let mm = count <= 0 ? 0 : count / 60
-                        let ss = count <= 0 ? 0 : count % 60
-                        return String(format: "%02d:%02d", mm, ss)
-                    }()
-                    let text = String(format: resendTip, time)
-                    return NSAttributedString.init(string: text, attributes: [.foregroundColor : color])
-                }()
-                let attr2 : NSAttributedString = {
-                    let enableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
-                    let disableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5)
-                    let resend = Localize.string("ResendOtp")
-                    return NSAttributedString.init(string: resend, attributes: [.foregroundColor : (enable ? enableColor : disableColor)])
-                }()
-                text.append(attr1)
-                text.append(attr2)
-                return text
-            }(), for: .normal)
-            self.btnResend.isEnabled = enable
-        })
-        timer?.fire()
+            let attr2 : NSAttributedString = {
+                let enableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+                let disableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5)
+                let resend = Localize.string("ResendOtp")
+                return NSAttributedString.init(string: resend, attributes: [.foregroundColor : (enable ? enableColor : disableColor)])
+            }()
+            text.append(attr1)
+            text.append(attr2)
+            return text
+        }(), for: .normal)
+        self.btnResend.isEnabled = enable
     }
     
-    private func handleError(_ error: Error) {
-        let type = ErrorType(rawValue: (error as NSError).code)
-        switch type {
-        case .PlayerIdOverOtpLimit, .PlayerIpOverOtpDailyLimit:
-            let title = Localize.string("tip_title_warm")
-            let message = Localize.string("sms_otp_exeed_send_limit")
-            Alert.show(title, message, confirm: {
-                self.navigationController?.popToRootViewController(animated: true)
-            }, cancel: nil)
-            break
-        case .PlayerOverOtpRetryLimit, .PlayerResentOtpOverTenTimes:
-            let title = Localize.string("tip_title_warm")
-            let message = Localize.string("sms_otp_exeed_send_limit")
-            Alert.show(title, message, confirm: {
-                self.navigationController?.popToRootViewController(animated: true)
-            }, cancel: nil)
-            break
-        case .PlayerOtpCheckError:
-            verifyFailCount += 1
-            showPasscodeUncorrectTip(true)
-            if verifyFailCount > 5{
-                performSegue(withIdentifier: self.segueFail, sender: nil)
-            }
-            break
-        default:
-            performSegue(withIdentifier: self.segueFail, sender: nil)
+    // MARK: TIMER
+    private func resendTimer(launch : Bool){
+        if launch{
+            timerResend
+                .countDown(timeInterval: 1, duration: 180, block: {(index, second, finish) in
+                    self.setResendButton(second)
+                })
+        } else {
+            timerResend
+                .stop()
         }
     }
     
+    private func otpExpireTimer(){
+        timerOtpExpire
+            .countDown(timeInterval: 1, duration: 600, block: {(index, second, finish) in
+                if finish { self.otpExpire = true }
+            })
+    }
+    
+    // MARK: PRESENT
     private func showPasscodeUncorrectTip(_ show : Bool){
         constraintErrTipHeight.constant = show ? errTipHeight : 0
         constraintErrTipBottom.constant = show ? errTipBottom : 0
@@ -203,6 +173,37 @@ class SignupPhoneViewController: UIViewController {
         viewStatusTip.isHidden = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.viewStatusTip.isHidden = true
+        }
+    }
+    
+    private func handleError(_ error: Error) {
+        let type = ErrorType(rawValue: (error as NSError).code)
+        switch type {
+        case .PlayerIdOverOtpLimit, .PlayerIpOverOtpDailyLimit:
+            let title = Localize.string("tip_title_warm")
+            let message = Localize.string("sms_otp_exeed_send_limit")
+            Alert
+                .show(title, message, confirm: {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }, cancel: nil)
+            break
+        case .PlayerOverOtpRetryLimit, .PlayerResentOtpOverTenTimes:
+            let title = Localize.string("tip_title_warm")
+            let message = Localize.string("sms_otp_exeed_send_limit")
+            Alert
+                .show(title, message, confirm: {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }, cancel: nil)
+            break
+        case .PlayerOtpCheckError:
+            countVerifyFail += 1
+            showPasscodeUncorrectTip(true)
+            if countVerifyFail > 5{
+                performSegue(withIdentifier: self.segueFail, sender: nil)
+            }
+            break
+        default:
+            performSegue(withIdentifier: self.segueFail, sender: nil)
         }
     }
     
@@ -219,7 +220,6 @@ class SignupPhoneViewController: UIViewController {
         }
     }
     
-    
     @IBAction func btnBackPressed(_ sender : Any){
         let title = Localize.string("tip_title_unfinished")
         let message = Localize.string("tip_content_unfinished")
@@ -229,10 +229,16 @@ class SignupPhoneViewController: UIViewController {
     }
     
     @IBAction func btnResendPressed(_ sender : Any){
+        
+        guard countResend < 6 else {
+            performSegue(withIdentifier: self.segueFail, sender: nil)
+            return
+        }
         viewModel
             .resendRegisterOtp()
             .subscribe(onCompleted: {
-                self.launchTimer()
+                self.resendTimer(launch: true)
+                self.countResend += 1
                 self.showStatusTip()
             }, onError: {error in
                 self.handleError(error)
@@ -240,6 +246,10 @@ class SignupPhoneViewController: UIViewController {
     }
     
     @IBAction func btnVerifyPressed(_ sender : Any){
+        guard otpExpire == false else{
+            performSegue(withIdentifier: self.segueFail, sender: nil)
+            return
+        }
         viewModel
             .otpVerify()
             .subscribe(onSuccess: {player in
@@ -251,20 +261,20 @@ class SignupPhoneViewController: UIViewController {
     
     // MARK: TEXTFIELD EVENT
     @IBAction func textEditingChaged(_ sender : UITextField){
-        if let otpCode = sender.text, otpCode.count >= 6 {
-            textCode1.text = String(otpCode[otpCode.startIndex])
-            textCode2.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 1)])
-            textCode3.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 2)])
-            textCode4.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 3)])
-            textCode5.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 4)])
-            textCode6.text = String(otpCode[otpCode.index(otpCode.startIndex, offsetBy: 5)])
-            
-            textCode1.becomeFirstResponder()
-            textCode2.becomeFirstResponder()
-            textCode3.becomeFirstResponder()
-            textCode4.becomeFirstResponder()
-            textCode5.becomeFirstResponder()
-            textCode6.becomeFirstResponder()
+        if let text = sender.text, text.count >= 1, text.count < 6 {
+            sender.text = {
+                let index = text.index(text.endIndex, offsetBy: -1)
+                return String(text[index])
+            }()
+            switch sender {
+            case textCode1: textCode2.becomeFirstResponder()
+            case textCode2: textCode3.becomeFirstResponder()
+            case textCode3: textCode4.becomeFirstResponder()
+            case textCode4: textCode5.becomeFirstResponder()
+            case textCode5: textCode6.becomeFirstResponder()
+            case textCode6: textCode6.resignFirstResponder()
+            default: break
+            }
         }
     }
     
@@ -280,11 +290,12 @@ class SignupPhoneViewController: UIViewController {
 }
 
 extension SignupPhoneViewController{
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {}
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    }
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {}
 }
 
-extension SignupPhoneViewController : SMSCodeTextFieldDelegate{
+extension SignupPhoneViewController : SMSCodeTextFieldDelegate, UITextFieldDelegate{
     func textFieldDidDelete(_ sender: SMSCodeTextField) {
         if (sender.text?.count ?? 0) == 0{
             switch sender {

@@ -7,6 +7,7 @@ PODS:
   - Moya/RxSwift (14.0.0):
     - Moya/Core
     - RxSwift (~> 5.0)
+  - OTPFieldView (1.0.1)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -26,6 +27,7 @@ DEPENDENCIES:
   - Alamofire
   - IQKeyboardManagerSwift
   - Moya/RxSwift
+  - OTPFieldView
   - RxCocoa
   - RxDataSources
   - RxSwift
@@ -40,6 +42,7 @@ SPEC REPOS:
     - Differentiator
     - IQKeyboardManagerSwift
     - Moya
+    - OTPFieldView
     - RxCocoa
     - RxDataSources
     - RxRelay
@@ -57,6 +60,7 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
+  OTPFieldView: 700a752fe62c41d1c4914c78aa500fb30d97c255
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
@@ -66,6 +70,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
 
-PODFILE CHECKSUM: dbb26dd8c1aadbfc8888e214b87c1b67d892c48b
+PODFILE CHECKSUM: dbf2e43bc7265a6a1568900478f896ec226e7ef8
 
 COCOAPODS: 1.10.0
