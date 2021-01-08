@@ -22,13 +22,12 @@ class SignupPhoneViewModel{
     var code6 = BehaviorRelay(value: "")
     
     private var failCount = 0
-    
     private var registerUseCase : IRegisterUseCase!
     
     init(_ registerUseCase : IRegisterUseCase) {
         self.registerUseCase = registerUseCase
     }
-    
+        
     func checkCodeValid()-> Observable<Bool>{
         return Observable
             .combineLatest(code1, code2, code3, code4, code5, code6)

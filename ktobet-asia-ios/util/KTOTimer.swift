@@ -21,12 +21,12 @@ class KTOTimer{
     }
     
     func countDown(timeInterval : TimeInterval,
-                   endTime : TimeInterval,
+                   duration : TimeInterval,
                    block: ((_ index: Int, _ countDownSeconds: Int, _ finish: Bool)->())?){
         stop()
-        if timeInterval <= 0 || endTime <= 0 { return }
-        if timeInterval > endTime { return }
-        finishTime = Date().timeIntervalSince1970 + endTime
+        if timeInterval <= 0 || duration <= 0 { return }
+        if timeInterval > duration { return }
+        finishTime = Date().timeIntervalSince1970 + duration
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true, block: { (t) in
             self.index += 1
             var countDownSeconds = Int(ceil(self.finishTime - Date().timeIntervalSince1970))
