@@ -11,13 +11,20 @@ import RxCocoa
 import share_bu
 
 
-struct LanguageListData{
-    var title : String
-    var type : SupportLocale
-    var selected : Bool
-}
+
 
 class SignupLanguageViewController: UIViewController{
+    
+    enum Language {
+        case China
+        case Vietnam
+    }
+    
+    struct LanguageListData{
+        var title : String
+        var type : Language
+        var selected : Bool
+    }
     
     @IBOutlet private weak var naviItem: UINavigationItem!
     @IBOutlet private weak var btnBack: UIBarButtonItem!
@@ -61,7 +68,7 @@ class SignupLanguageViewController: UIViewController{
     private func reloadLanguageList(){
         arrLangs = {
             let texts = [Localize.string("language_option_chinese"), Localize.string("language_option_vietnam")]
-            let type = [SupportLocale.China(), SupportLocale.Vietnam()]
+            let type : [Language] = [.China, .Vietnam]
             let selected = [true, false]
             var arr = [LanguageListData]()
             for idx in 0...1{
@@ -149,7 +156,14 @@ extension SignupLanguageViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? SignupUserinfoViewController,
            let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type{
-            vc.locale = locale
+            switch locale {
+            case .China:
+                Localize.setLanguage(language: .ZH)
+                vc.locale = SupportLocale.China()
+            case .Vietnam:
+                Localize.setLanguage(language: .VI)
+                vc.locale = SupportLocale.Vietnam()
+            }
         }
     }
 }

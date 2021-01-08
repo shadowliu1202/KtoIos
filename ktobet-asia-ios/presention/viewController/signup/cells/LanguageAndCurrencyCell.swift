@@ -23,7 +23,7 @@ class LanguageAndCurrencyCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    func setup(_ data : LanguageListData){
+    func setup(_ data : SignupLanguageViewController.LanguageListData){
         let tundoraGray = UIColor.init(rgb: 0x454545)
         let shaftGray = UIColor.init(rgb: 0x333333)
         labTitle.text = data.title

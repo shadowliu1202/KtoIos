@@ -37,8 +37,12 @@ class IPlayerRepositoryImpl : IPlayerRepository {
             .map { (defaultProduct, responseLocalization, responsePlayerInfo) -> Player in
                 let bindLocale : SupportLocale = {
                     switch responseLocalization.data?.cultureCode{
-                    case "zh-cn" : return SupportLocale.China()
-                    case "vi-vn" : return SupportLocale.Vietnam()
+                    case "zh-cn" :
+                        Localize.setLanguage(language: .ZH)
+                        return SupportLocale.China()
+                    case "vi-vn" :
+                        Localize.setLanguage(language: .VI)
+                        return SupportLocale.Vietnam()
                     default: return SupportLocale.China()
                     }
                 }()
