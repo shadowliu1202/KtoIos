@@ -130,12 +130,22 @@ class SignupEmailViewController: UIViewController {
     private func handleError(_ error : Error){
         let type = ErrorType(rawValue: (error as NSError).code)
         switch type {
-        case .PlayerIpOverOtpDailyLimit:
+        case .PlayerIdOverOtpLimit, .PlayerIpOverOtpDailyLimit:
             let title = Localize.string("tip_title_warm")
             let message = Localize.string("email_otp_exeed_send_limit")
-            Alert.show(title, message, confirm: {
-                self.navigationController?.popToRootViewController(animated: true)
-            }, cancel: nil)
+            Alert
+                .show(title, message, confirm: {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }, cancel: nil)
+            break
+        case .PlayerOverOtpRetryLimit, .PlayerResentOtpOverTenTimes:
+            let title = Localize.string("tip_title_warm")
+            let message = Localize.string("email_otp_exeed_send_limit")
+            Alert
+                .show(title, message, confirm: {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }, cancel: nil)
+            break
         default:
             self.handleUnknownError(error)
         }
