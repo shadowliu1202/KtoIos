@@ -58,7 +58,7 @@ class SignupLanguageViewController: UIViewController{
     // MARK: METHOD
     private func localize(){
         labTitle.text = Localize.string("Step1_Title_1")
-        labDesc.text = Localize.string("Step2_Title_2")
+        labDesc.text = Localize.string("Step1_Title_2")
         labTermsTip.text = Localize.string("Step1_Tips_1")
         btnNext.setTitle(Localize.string("Next"), for: .normal)
         btnTerms.setTitle(Localize.string("Step1_Tips_1_Highlight"), for: .normal)
