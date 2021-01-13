@@ -21,6 +21,11 @@ or alternatively using `brew install fastlane`
 fastlane ios buildIpa
 ```
 
+### ios buildIpaQat
+```
+fastlane ios buildIpaQat
+```
+
 ### ios uploadToTestflight
 ```
 fastlane ios uploadToTestflight

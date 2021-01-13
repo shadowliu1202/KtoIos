@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZeL-97-8Rz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZeL-97-8Rz">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -582,15 +582,15 @@
                                             <constraint firstAttribute="height" id="T17-y3-eYL"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="验证电子邮箱" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVj-Jc-rpc">
-                                        <rect key="frame" x="30" y="55" width="354" height="29"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="注册 3/3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0S0-no-t0m">
                                         <rect key="frame" x="30" y="30" width="354" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="验证电子邮箱" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVj-Jc-rpc">
+                                        <rect key="frame" x="30" y="55" width="354" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -716,6 +716,7 @@ john.doe@higgstar.com
                         <outlet property="labTip" destination="EvN-0b-Xh9" id="nuV-yr-uhd"/>
                         <outlet property="labTitle" destination="0S0-no-t0m" id="OP8-BT-76U"/>
                         <outlet property="naviItem" destination="WKw-N9-PD3" id="3az-jJ-kUw"/>
+                        <outlet property="scrollView" destination="cWF-VY-9lH" id="wDd-Ud-Qet"/>
                         <outlet property="viewSendOtpTip" destination="r5D-WN-HJ2" id="LUY-en-gbt"/>
                         <segue destination="SAq-wu-ybv" kind="unwind" identifier="BackToUserInfo" unwindAction="backToUserInfoWithSegue:" id="xOA-2i-qU1"/>
                         <segue destination="cIM-ka-iAc" kind="show" identifier="GoToDefault" id="7cU-eX-MaJ"/>
@@ -1366,7 +1367,7 @@ john.doe@higgstar.com
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eEu-kh-kDn"/>
+        <segue reference="7cU-eX-MaJ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Back" width="24" height="24"/>
