@@ -13,6 +13,7 @@ import share_bu
 class SignupEmailViewController: UIViewController {
     
     @IBOutlet private weak var naviItem : UINavigationItem!
+    @IBOutlet private weak var scrollView : UIScrollView!
     @IBOutlet private weak var labTitle: UILabel!
     @IBOutlet private weak var labDesc: UILabel!
     @IBOutlet private weak var labTip : UILabel!
@@ -31,6 +32,7 @@ class SignupEmailViewController: UIViewController {
     private var timerResend = KTOTimer()
     private var timerVerify = KTOTimer()
     private var checking = false
+    private var btnQatCancelAutoVerify : UIButton?
 
     var account : String = ""
     var password : String = ""
@@ -44,6 +46,29 @@ class SignupEmailViewController: UIViewController {
         showTipOtpSend()
         resendTimer(launch: true)
         verifyTimer(launch: true)
+        #if QAT
+        addQATButton()
+        #endif
+    }
+    
+    func addQATButton(){
+        btnQatCancelAutoVerify?.removeFromSuperview()
+        btnQatCancelAutoVerify = nil
+        btnQatCancelAutoVerify = UIButton()
+        btnQatCancelAutoVerify?.frame = {
+            let x = CGFloat(view.bounds.size.width * 0.5)
+            let y = CGFloat(30)
+            let width = CGFloat(200)
+            let height = CGFloat(40)
+            return CGRect(x: x, y: y, width: width, height: height)
+        }()
+        btnQatCancelAutoVerify?.setImage(UIImage(named: "Double Selection (Empty)"), for: .normal)
+        btnQatCancelAutoVerify?.setImage(UIImage(named: "Double Selection (Selected)"), for: .selected)
+        btnQatCancelAutoVerify?.setTitle("取消自動驗證", for: .normal)
+        btnQatCancelAutoVerify?.setTitleColor(.black, for: .normal)
+        btnQatCancelAutoVerify?.backgroundColor = .lightGray
+        btnQatCancelAutoVerify?.addTarget(self, action: #selector(btnQatCancelAutoVerifyPressed(_:)), for: .touchUpInside)
+        view.addSubview(btnQatCancelAutoVerify!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -206,7 +231,15 @@ class SignupEmailViewController: UIViewController {
                          object: nil,
                          queue: nil,
                          using: {notification in
-                            self.checkRegistration(manual: false)
+                            #if QAT
+                            if let btn = self.btnQatCancelAutoVerify,
+                               btn.isSelected == false  {
+                                self.checkRegistration(manual: false)
+                            }
+                            #else
+                                self.checkRegistration(manual: false)
+                            #endif
+                            
                          })
     }
     
@@ -245,6 +278,11 @@ class SignupEmailViewController: UIViewController {
         Alert.show(title, message) {
             self.navigationController?.popToRootViewController(animated: true)
         } cancel: {}
+    }
+    
+    @objc private func btnQatCancelAutoVerifyPressed(_ sender : UIButton){
+        sender.isSelected = !sender.isSelected
+        verifyTimer(launch: !sender.isSelected)
     }
     
     // MARK: PAGE ACTION

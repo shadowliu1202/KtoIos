@@ -8,6 +8,111 @@
 
 /* Begin PBXBuildFile section */
 		09ECD4853E5D54EBCA847BEC /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A023F77132D200A94A8C12EF /* Pods_ktobet_asia_ios.framework */; };
+		2562CC923C1B307A9A1F8CCC /* Pods_ktobet_asia_ios_qat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AB665CC11FF1E599A96DDA /* Pods_ktobet_asia_ios_qat.framework */; };
+		410A76C025AED584006F1141 /* ktobet-asia-ios-qat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */; };
+		4199A02825AE9918002E2D7E /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
+		4199A02925AE9918002E2D7E /* HubConnectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F6255CEB87002EA837 /* HubConnectionBuilder.swift */; };
+		4199A02A25AE9918002E2D7E /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */; };
+		4199A02B25AE9918002E2D7E /* InputPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD97F25A41BE6003244B1 /* InputPassword.swift */; };
+		4199A02C25AE9918002E2D7E /* InputConfirmPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */; };
+		4199A02D25AE9918002E2D7E /* IPlayerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487EC4C325553A2200BA8B8E /* IPlayerRepository.swift */; };
+		4199A02E25AE9918002E2D7E /* AuthenticationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718155255E829C007B7764 /* AuthenticationApi.swift */; };
+		4199A02F25AE9918002E2D7E /* PlayerApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718163255E9A5C007B7764 /* PlayerApi.swift */; };
+		4199A03025AE9918002E2D7E /* GameTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488000B32554071D00529673 /* GameTestViewController.swift */; };
+		4199A03125AE9918002E2D7E /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483F42BA258C41A90091960B /* UIWindowExtension.swift */; };
+		4199A03225AE9918002E2D7E /* HttpClientBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093855255D0864002EA837 /* HttpClientBack.swift */; };
+		4199A03325AE9918002E2D7E /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48339D40255A60E500AE6715 /* TestViewModel.swift */; };
+		4199A03425AE9918002E2D7E /* SignalRError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093807255CEB88002EA837 /* SignalRError.swift */; };
+		4199A03525AE9918002E2D7E /* CodableHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093802255CEB87002EA837 /* CodableHelpers.swift */; };
+		4199A03625AE9918002E2D7E /* HttpConnectionOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093810255CEB88002EA837 /* HttpConnectionOptions.swift */; };
+		4199A03725AE9918002E2D7E /* KTOTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4870F49A25A6A9350052EE60 /* KTOTimer.swift */; };
+		4199A03825AE9918002E2D7E /* TransportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380A255CEB88002EA837 /* TransportType.swift */; };
+		4199A03925AE9918002E2D7E /* CustomServiceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E9F472564D2F6000447F3 /* CustomServiceApi.swift */; };
+		4199A03A25AE9918002E2D7E /* ReactiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A005672594851000C7F1FB /* ReactiveExtension.swift */; };
+		4199A03B25AE9918002E2D7E /* EncodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4856CF7825624FB50086AC31 /* EncodableExtension.swift */; };
+		4199A03C25AE9918002E2D7E /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488F98182542CEB200D5829D /* TermsOfServiceViewController.swift */; };
+		4199A03D25AE9918002E2D7E /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
+		4199A03E25AE9918002E2D7E /* StreamHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F8255CEB87002EA837 /* StreamHandle.swift */; };
+		4199A03F25AE9918002E2D7E /* CustomServiceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093850255D053F002EA837 /* CustomServiceRepository.swift */; };
+		4199A04025AE9918002E2D7E /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380D255CEB88002EA837 /* Connection.swift */; };
+		4199A04125AE9918002E2D7E /* DefaultTransportFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093803255CEB87002EA837 /* DefaultTransportFactory.swift */; };
+		4199A04225AE9918002E2D7E /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48EDC9682564EE6D0046C337 /* LaunchViewController.swift */; };
+		4199A04325AE9918002E2D7E /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48EDC96C2564EE8D0046C337 /* LaunchViewModel.swift */; };
+		4199A04425AE9918002E2D7E /* SignupEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485888E8254BC8E500B7FE03 /* SignupEmailViewController.swift */; };
+		4199A04525AE9918002E2D7E /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F7255CEB87002EA837 /* Logger.swift */; };
+		4199A04625AE9918002E2D7E /* WebsocketsTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FC255CEB87002EA837 /* WebsocketsTransport.swift */; };
+		4199A04725AE9918002E2D7E /* LocalizeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4840645B25871D760064AAC9 /* LocalizeUtils.swift */; };
+		4199A04825AE9918002E2D7E /* SocketTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48685E6525593EED00145552 /* SocketTestViewController.swift */; };
+		4199A04925AE9918002E2D7E /* IAuthenticationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853B43225527A81001D618E /* IAuthenticationUseCase.swift */; };
+		4199A04A25AE9918002E2D7E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48080255254293510002AD41 /* LoginViewController.swift */; };
+		4199A04B25AE9918002E2D7E /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093806255CEB88002EA837 /* WebSocket.swift */; };
+		4199A04C25AE9918002E2D7E /* HandshakeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F5255CEB86002EA837 /* HandshakeProtocol.swift */; };
+		4199A04D25AE9918002E2D7E /* DefaultProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC321E2551432C00C9D1BF /* DefaultProductViewModel.swift */; };
+		4199A04E25AE9918002E2D7E /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC34AF254FFC3C00B89EC5 /* Operators.swift */; };
+		4199A04F25AE9918002E2D7E /* JSONHubProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093801255CEB87002EA837 /* JSONHubProtocol.swift */; };
+		4199A05025AE9918002E2D7E /* SignupPhoneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3448254F9DE400B89EC5 /* SignupPhoneViewModel.swift */; };
+		4199A05125AE9918002E2D7E /* DefaultProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC320825513B1D00C9D1BF /* DefaultProductViewController.swift */; };
+		4199A05225AE9918002E2D7E /* APITarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4854640525675B1C00FF4B72 /* APITarget.swift */; };
+		4199A05325AE9918002E2D7E /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489E010F255A3D0F0092C4FD /* ResponseData.swift */; };
+		4199A05425AE9918002E2D7E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFA8254A7A490047ECF9 /* UIColorExtension.swift */; };
+		4199A05525AE9918002E2D7E /* TransferFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093809255CEB88002EA837 /* TransferFormat.swift */; };
+		4199A05625AE9918002E2D7E /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FF255CEB87002EA837 /* HttpResponse.swift */; };
+		4199A05725AE9918002E2D7E /* InputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48728919258A08F500D8983B /* InputText.swift */; };
+		4199A05825AE9918002E2D7E /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488000652553E72800529673 /* SideBarViewController.swift */; };
+		4199A05925AE9918002E2D7E /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4872891D258A17FB00D8983B /* StringExtension.swift */; };
+		4199A05A25AE9918002E2D7E /* HubConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380E255CEB88002EA837 /* HubConnection.swift */; };
+		4199A05B25AE9918002E2D7E /* ProductItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4880006A2553EEBA00529673 /* ProductItemCell.swift */; };
+		4199A05C25AE9918002E2D7E /* SignupRegistFailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48840C462592065200245706 /* SignupRegistFailViewController.swift */; };
+		4199A05D25AE9918002E2D7E /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380B255CEB88002EA837 /* Transport.swift */; };
+		4199A05E25AE9918002E2D7E /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B110A725664B470067B289 /* HttpClient.swift */; };
+		4199A05F25AE9918002E2D7E /* IConfigurationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC32312551488F00C9D1BF /* IConfigurationUseCase.swift */; };
+		4199A06025AE9918002E2D7E /* SignupPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFE8254AD1D50047ECF9 /* SignupPhoneViewController.swift */; };
+		4199A06125AE9918002E2D7E /* DefaultProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC3213255141EC00C9D1BF /* DefaultProductCell.swift */; };
+		4199A06225AE9918002E2D7E /* LobbyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4871815B255E8DC3007B7764 /* LobbyViewModel.swift */; };
+		4199A06325AE9918002E2D7E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853B44A2552A019001D618E /* LoginViewModel.swift */; };
+		4199A06425AE9918002E2D7E /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487288E92589E94400D8983B /* UIImageExtension.swift */; };
+		4199A06525AE9918002E2D7E /* TermsOfServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481882362546A558000A45F0 /* TermsOfServiceCell.swift */; };
+		4199A06625AE9918002E2D7E /* DefaultHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FD255CEB87002EA837 /* DefaultHttpClient.swift */; };
+		4199A06725AE9918002E2D7E /* HttpConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093805255CEB87002EA837 /* HttpConnection.swift */; };
+		4199A06825AE9918002E2D7E /* SignupUserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF0A42541577A001F9D4A /* SignupUserInfoViewModel.swift */; };
+		4199A06925AE9918002E2D7E /* NegotiationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F2255CEB86002EA837 /* NegotiationResponse.swift */; };
+		4199A06A25AE9918002E2D7E /* ServerInvocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FE255CEB87002EA837 /* ServerInvocationHandler.swift */; };
+		4199A06B25AE9918002E2D7E /* SignupLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480802652542B7420002AD41 /* SignupLanguageViewController.swift */; };
+		4199A06C25AE9918002E2D7E /* GameInfoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48339D3C255A48B400AE6715 /* GameInfoRepository.swift */; };
+		4199A06D25AE9918002E2D7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF03B25415453001F9D4A /* AppDelegate.swift */; };
+		4199A06E25AE9918002E2D7E /* HubConnectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093800255CEB87002EA837 /* HubConnectionExtensions.swift */; };
+		4199A06F25AE9918002E2D7E /* HubProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FA255CEB87002EA837 /* HubProtocol.swift */; };
+		4199A07025AE9918002E2D7E /* FeatureItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4880006F2553EED700529673 /* FeatureItemCell.swift */; };
+		4199A07125AE9918002E2D7E /* SystemRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E35EC2588A01600EEF23F /* SystemRepository.swift */; };
+		4199A07225AE9918002E2D7E /* HttpClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380C255CEB88002EA837 /* HttpClientProtocol.swift */; };
+		4199A07325AE9918002E2D7E /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B3E4C258B6DB10096BA79 /* Alert.swift */; };
+		4199A07425AE9918002E2D7E /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF11D25418CCA001F9D4A /* DIContainer.swift */; };
+		4199A07525AE9918002E2D7E /* GameApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E9F432564CA2A000447F3 /* GameApi.swift */; };
+		4199A07625AE9918002E2D7E /* PortalApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4856CF6A2562152E0086AC31 /* PortalApi.swift */; };
+		4199A07725AE9918002E2D7E /* RequestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4856CF7225624EB70086AC31 /* RequestData.swift */; };
+		4199A07825AE9918002E2D7E /* TransportDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F4255CEB86002EA837 /* TransportDelegate.swift */; };
+		4199A07925AE9918002E2D7E /* ReconnectableConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F3255CEB86002EA837 /* ReconnectableConnection.swift */; };
+		4199A07A25AE9918002E2D7E /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489D5DB6255D1EA400A0E43C /* DataExtension.swift */; };
+		4199A07B25AE9918002E2D7E /* LongPollingTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093804255CEB87002EA837 /* LongPollingTransport.swift */; };
+		4199A07C25AE9918002E2D7E /* ReconnectPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380F255CEB88002EA837 /* ReconnectPolicy.swift */; };
+		4199A07D25AE9918002E2D7E /* SignupUserinfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF0A52541577A001F9D4A /* SignupUserinfoViewController.swift */; };
+		4199A07E25AE9918002E2D7E /* SignupEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3495254FF5C200B89EC5 /* SignupEmailViewModel.swift */; };
+		4199A07F25AE9918002E2D7E /* IRegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFC4254AC32F0047ECF9 /* IRegisterUseCase.swift */; };
+		4199A08025AE9918002E2D7E /* IAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48672A532555294D009B2C59 /* IAuthRepository.swift */; };
+		4199A08125AE9918002E2D7E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FB255CEB87002EA837 /* Util.swift */; };
+		4199A08225AE9918002E2D7E /* ConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093808255CEB88002EA837 /* ConnectionDelegate.swift */; };
+		4199A08325AE9918002E2D7E /* GetSystemStatusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E35F02588AA8500EEF23F /* GetSystemStatusUseCase.swift */; };
+		4199A08425AE9918002E2D7E /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
+		4199A08525AE9918002E2D7E /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC320D25513B2800C9D1BF /* LobbyViewController.swift */; };
+		4199A08A25AE9918002E2D7E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
+		4199A08B25AE9918002E2D7E /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* infoPlist.strings */; };
+		4199A08C25AE9918002E2D7E /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648C258742150064AAC9 /* Signup.storyboard */; };
+		4199A08D25AE9918002E2D7E /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648D258742150064AAC9 /* Login.storyboard */; };
+		4199A08E25AE9918002E2D7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648F258742150064AAC9 /* LaunchScreen.storyboard */; };
+		4199A08F25AE9918002E2D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485DF04425415454001F9D4A /* Assets.xcassets */; };
+		4199A09025AE9918002E2D7E /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648E258742150064AAC9 /* Launch.storyboard */; };
+		4199A09125AE9918002E2D7E /* Lobby.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48406490258742150064AAC9 /* Lobby.storyboard */; };
+		4199A0A225AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */; };
 		483F42BB258C41A90091960B /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483F42BA258C41A90091960B /* UIWindowExtension.swift */; };
 		4840645C25871D760064AAC9 /* LocalizeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4840645B25871D760064AAC9 /* LocalizeUtils.swift */; };
 		4840646B258721740064AAC9 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* infoPlist.strings */; };
@@ -113,11 +218,22 @@
 		48AAA173256E458800E075CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485DF04425415454001F9D4A /* Assets.xcassets */; };
 		48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
 		48FDF3692591ECB000C3AE75 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
+		8468FBAD73481BB0F9CC965B /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A023F77132D200A94A8C12EF /* Pods_ktobet_asia_ios.framework */; };
 		CFD1A663F718394B53E92BA0 /* libPods-ktobet-asia-iosUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B903FE319D2499B65CA0352 /* libPods-ktobet-asia-iosUITests.a */; };
 		E2116021544B4CFB4FF2B200 /* libPods-ktobet-asia-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09860B2DD5759D63C6E40617 /* libPods-ktobet-asia-iosTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4199A09325AE9918002E2D7E /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		48AAA175256E458800E075CA /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -135,6 +251,8 @@
 		15DB466EA4140EEF41EE124C /* Pods-ktobet-asia-ios_staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_staging.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_staging/Pods-ktobet-asia-ios_staging.debug.xcconfig"; sourceTree = "<group>"; };
 		249D63C4F61B0F1231CBB315 /* Pods-ktobet-asia-ios_staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_staging.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_staging/Pods-ktobet-asia-ios_staging.release.xcconfig"; sourceTree = "<group>"; };
 		33212F90CB6467C8EBB27888 /* Pods-ktobet-asia-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosTests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosTests/Pods-ktobet-asia-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4199A09725AE9918002E2D7E /* ktobet-asia-ios-qat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-qat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-qat-Info.plist"; sourceTree = "<group>"; };
 		44E57CDF4367035AF08F1169 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		48080255254293510002AD41 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		480802652542B7420002AD41 /* SignupLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupLanguageViewController.swift; sourceTree = "<group>"; };
@@ -255,21 +373,31 @@
 		5C8247C57875D3350D2EA0AD /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-ktobet-asia-iosUITests/Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E7EEE80F1B070628EE45D7F /* Pods-ktobet-asia-ios_production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_production.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_production/Pods-ktobet-asia-ios_production.debug.xcconfig"; sourceTree = "<group>"; };
 		67C0764A8D16164F9F8990F7 /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-ktobet-asia-iosUITests/Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
-		72660EE9D5E8B35E5F13E617 /* Pods-ktobet-asia-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		6D6356D9C40B516C54CBB9FB /* Pods-ktobet-asia-ios-qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.release.xcconfig"; sourceTree = "<group>"; };
+		768A46A2A6F183CF5C5D611F /* Pods-ktobet-asia-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		7B903FE319D2499B65CA0352 /* libPods-ktobet-asia-iosUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ktobet-asia-iosUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D0E6ADCAEE23581648C4CBE /* Pods-ktobet-asia-ios_production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_production.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_production/Pods-ktobet-asia-ios_production.release.xcconfig"; sourceTree = "<group>"; };
 		7F18CE73C17F0A3A1937B3E7 /* Pods-ktobet-asia-ios_qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_qat/Pods-ktobet-asia-ios_qat.release.xcconfig"; sourceTree = "<group>"; };
+		8018AEB41EC13AC4CA7DF63E /* Pods-ktobet-asia-ios-qat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.debug.xcconfig"; sourceTree = "<group>"; };
 		8A14F15742DA7C492776A396 /* Pods-ktobet-asia-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A023F77132D200A94A8C12EF /* Pods_ktobet_asia_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CB7438F92379D21783B2AB /* Pods_ktobet_asia_ios_staging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_staging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5CC72A288FD83F4E0FE02A0 /* Pods-ktobet-asia-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.release.xcconfig"; sourceTree = "<group>"; };
 		BA2820BA44474CE2E708026C /* Pods_ktobet_asia_ios_production.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_production.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE60E4B63BEC25D966891D97 /* Pods-ktobet-asia-ios_qat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_qat.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_qat/Pods-ktobet-asia-ios_qat.debug.xcconfig"; sourceTree = "<group>"; };
-		D6132CA77034990D2F6E8103 /* Pods-ktobet-asia-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.release.xcconfig"; sourceTree = "<group>"; };
 		E4AB665CC11FF1E599A96DDA /* Pods_ktobet_asia_ios_qat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_qat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDF221D13C7498EF259D97F6 /* Pods-ktobet-asia-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosTests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosTests/Pods-ktobet-asia-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4199A08625AE9918002E2D7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2562CC923C1B307A9A1F8CCC /* Pods_ktobet_asia_ios_qat.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		485DF04B25415454001F9D4A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -292,6 +420,7 @@
 			files = (
 				48AAA168256E458800E075CA /* (null) in Frameworks */,
 				09ECD4853E5D54EBCA847BEC /* Pods_ktobet_asia_ios.framework in Frameworks */,
+				8468FBAD73481BB0F9CC965B /* Pods_ktobet_asia_ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +486,7 @@
 				485DF04E25415454001F9D4A /* ktobet-asia-iosTests.xctest */,
 				485DF05925415454001F9D4A /* ktobet-asia-iosUITests.xctest */,
 				48AAA179256E458800E075CA /* ktobet-asia-ios.app */,
+				4199A09725AE9918002E2D7E /* ktobet-asia-ios-qat.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -376,6 +506,7 @@
 				485DF03B25415453001F9D4A /* AppDelegate.swift */,
 				485DF04425415454001F9D4A /* Assets.xcassets */,
 				485DF04925415454001F9D4A /* Info.plist */,
+				4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */,
 				4840646D258721740064AAC9 /* infoPlist.strings */,
 				48D7F9EB2575E38B00540B85 /* Localizable.strings */,
 			);
@@ -632,8 +763,6 @@
 		FB115C1C0A068F47EB84C1FE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				72660EE9D5E8B35E5F13E617 /* Pods-ktobet-asia-ios.debug.xcconfig */,
-				D6132CA77034990D2F6E8103 /* Pods-ktobet-asia-ios.release.xcconfig */,
 				5C8247C57875D3350D2EA0AD /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig */,
 				67C0764A8D16164F9F8990F7 /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig */,
 				33212F90CB6467C8EBB27888 /* Pods-ktobet-asia-iosTests.debug.xcconfig */,
@@ -646,6 +775,10 @@
 				7F18CE73C17F0A3A1937B3E7 /* Pods-ktobet-asia-ios_qat.release.xcconfig */,
 				15DB466EA4140EEF41EE124C /* Pods-ktobet-asia-ios_staging.debug.xcconfig */,
 				249D63C4F61B0F1231CBB315 /* Pods-ktobet-asia-ios_staging.release.xcconfig */,
+				768A46A2A6F183CF5C5D611F /* Pods-ktobet-asia-ios.debug.xcconfig */,
+				A5CC72A288FD83F4E0FE02A0 /* Pods-ktobet-asia-ios.release.xcconfig */,
+				8018AEB41EC13AC4CA7DF63E /* Pods-ktobet-asia-ios-qat.debug.xcconfig */,
+				6D6356D9C40B516C54CBB9FB /* Pods-ktobet-asia-ios-qat.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -653,6 +786,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4199A09425AE9918002E2D7E /* Build configuration list for PBXNativeTarget "ktobet-asia-ios-qat" */;
+			buildPhases = (
+				9871B2AADD6270F4660C4352 /* [CP] Check Pods Manifest.lock */,
+				4199A02725AE9918002E2D7E /* Sources */,
+				4199A08625AE9918002E2D7E /* Frameworks */,
+				4199A08925AE9918002E2D7E /* Resources */,
+				4199A09325AE9918002E2D7E /* Copy Files */,
+				2C8A8109D059A26B8D6B9F66 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ktobet-asia-ios-qat";
+			productName = "ktobet-asia-ios";
+			productReference = 4199A09725AE9918002E2D7E /* ktobet-asia-ios-qat.app */;
+			productType = "com.apple.product-type.application";
+		};
 		485DF04D25415454001F9D4A /* ktobet-asia-iosTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 485DF06525415454001F9D4A /* Build configuration list for PBXNativeTarget "ktobet-asia-iosTests" */;
@@ -747,11 +900,28 @@
 				48AAA10E256E458800E075CA /* ktobet-asia-ios */,
 				485DF04D25415454001F9D4A /* ktobet-asia-iosTests */,
 				485DF05825415454001F9D4A /* ktobet-asia-iosUITests */,
+				4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4199A08925AE9918002E2D7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4199A08A25AE9918002E2D7E /* Localizable.strings in Resources */,
+				4199A08B25AE9918002E2D7E /* infoPlist.strings in Resources */,
+				4199A08C25AE9918002E2D7E /* Signup.storyboard in Resources */,
+				410A76C025AED584006F1141 /* ktobet-asia-ios-qat-Info.plist in Resources */,
+				4199A08D25AE9918002E2D7E /* Login.storyboard in Resources */,
+				4199A08E25AE9918002E2D7E /* LaunchScreen.storyboard in Resources */,
+				4199A08F25AE9918002E2D7E /* Assets.xcassets in Resources */,
+				4199A09025AE9918002E2D7E /* Launch.storyboard in Resources */,
+				4199A09125AE9918002E2D7E /* Lobby.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		485DF04C25415454001F9D4A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -773,6 +943,7 @@
 				48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */,
 				4840646B258721740064AAC9 /* infoPlist.strings in Resources */,
 				48406491258742150064AAC9 /* Signup.storyboard in Resources */,
+				4199A0A225AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist in Resources */,
 				48406492258742150064AAC9 /* Login.storyboard in Resources */,
 				48406494258742150064AAC9 /* LaunchScreen.storyboard in Resources */,
 				48AAA173256E458800E075CA /* Assets.xcassets in Resources */,
@@ -804,6 +975,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2C8A8109D059A26B8D6B9F66 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		48AAA10F256E458800E075CA /* [CP] Check Pods Manifest.lock */ = {
@@ -867,9 +1055,132 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9871B2AADD6270F4660C4352 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ktobet-asia-ios-qat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4199A02725AE9918002E2D7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4199A02825AE9918002E2D7E /* HubConnectionDelegate.swift in Sources */,
+				4199A02925AE9918002E2D7E /* HubConnectionBuilder.swift in Sources */,
+				4199A02A25AE9918002E2D7E /* UIViewControllerExtension.swift in Sources */,
+				4199A02B25AE9918002E2D7E /* InputPassword.swift in Sources */,
+				4199A02C25AE9918002E2D7E /* InputConfirmPassword.swift in Sources */,
+				4199A02D25AE9918002E2D7E /* IPlayerRepository.swift in Sources */,
+				4199A02E25AE9918002E2D7E /* AuthenticationApi.swift in Sources */,
+				4199A02F25AE9918002E2D7E /* PlayerApi.swift in Sources */,
+				4199A03025AE9918002E2D7E /* GameTestViewController.swift in Sources */,
+				4199A03125AE9918002E2D7E /* UIWindowExtension.swift in Sources */,
+				4199A03225AE9918002E2D7E /* HttpClientBack.swift in Sources */,
+				4199A03325AE9918002E2D7E /* TestViewModel.swift in Sources */,
+				4199A03425AE9918002E2D7E /* SignalRError.swift in Sources */,
+				4199A03525AE9918002E2D7E /* CodableHelpers.swift in Sources */,
+				4199A03625AE9918002E2D7E /* HttpConnectionOptions.swift in Sources */,
+				4199A03725AE9918002E2D7E /* KTOTimer.swift in Sources */,
+				4199A03825AE9918002E2D7E /* TransportType.swift in Sources */,
+				4199A03925AE9918002E2D7E /* CustomServiceApi.swift in Sources */,
+				4199A03A25AE9918002E2D7E /* ReactiveExtension.swift in Sources */,
+				4199A03B25AE9918002E2D7E /* EncodableExtension.swift in Sources */,
+				4199A03C25AE9918002E2D7E /* TermsOfServiceViewController.swift in Sources */,
+				4199A03D25AE9918002E2D7E /* SMSCodeTextField.swift in Sources */,
+				4199A03E25AE9918002E2D7E /* StreamHandle.swift in Sources */,
+				4199A03F25AE9918002E2D7E /* CustomServiceRepository.swift in Sources */,
+				4199A04025AE9918002E2D7E /* Connection.swift in Sources */,
+				4199A04125AE9918002E2D7E /* DefaultTransportFactory.swift in Sources */,
+				4199A04225AE9918002E2D7E /* LaunchViewController.swift in Sources */,
+				4199A04325AE9918002E2D7E /* LaunchViewModel.swift in Sources */,
+				4199A04425AE9918002E2D7E /* SignupEmailViewController.swift in Sources */,
+				4199A04525AE9918002E2D7E /* Logger.swift in Sources */,
+				4199A04625AE9918002E2D7E /* WebsocketsTransport.swift in Sources */,
+				4199A04725AE9918002E2D7E /* LocalizeUtils.swift in Sources */,
+				4199A04825AE9918002E2D7E /* SocketTestViewController.swift in Sources */,
+				4199A04925AE9918002E2D7E /* IAuthenticationUseCase.swift in Sources */,
+				4199A04A25AE9918002E2D7E /* LoginViewController.swift in Sources */,
+				4199A04B25AE9918002E2D7E /* WebSocket.swift in Sources */,
+				4199A04C25AE9918002E2D7E /* HandshakeProtocol.swift in Sources */,
+				4199A04D25AE9918002E2D7E /* DefaultProductViewModel.swift in Sources */,
+				4199A04E25AE9918002E2D7E /* Operators.swift in Sources */,
+				4199A04F25AE9918002E2D7E /* JSONHubProtocol.swift in Sources */,
+				4199A05025AE9918002E2D7E /* SignupPhoneViewModel.swift in Sources */,
+				4199A05125AE9918002E2D7E /* DefaultProductViewController.swift in Sources */,
+				4199A05225AE9918002E2D7E /* APITarget.swift in Sources */,
+				4199A05325AE9918002E2D7E /* ResponseData.swift in Sources */,
+				4199A05425AE9918002E2D7E /* UIColorExtension.swift in Sources */,
+				4199A05525AE9918002E2D7E /* TransferFormat.swift in Sources */,
+				4199A05625AE9918002E2D7E /* HttpResponse.swift in Sources */,
+				4199A05725AE9918002E2D7E /* InputText.swift in Sources */,
+				4199A05825AE9918002E2D7E /* SideBarViewController.swift in Sources */,
+				4199A05925AE9918002E2D7E /* StringExtension.swift in Sources */,
+				4199A05A25AE9918002E2D7E /* HubConnection.swift in Sources */,
+				4199A05B25AE9918002E2D7E /* ProductItemCell.swift in Sources */,
+				4199A05C25AE9918002E2D7E /* SignupRegistFailViewController.swift in Sources */,
+				4199A05D25AE9918002E2D7E /* Transport.swift in Sources */,
+				4199A05E25AE9918002E2D7E /* HttpClient.swift in Sources */,
+				4199A05F25AE9918002E2D7E /* IConfigurationUseCase.swift in Sources */,
+				4199A06025AE9918002E2D7E /* SignupPhoneViewController.swift in Sources */,
+				4199A06125AE9918002E2D7E /* DefaultProductCell.swift in Sources */,
+				4199A06225AE9918002E2D7E /* LobbyViewModel.swift in Sources */,
+				4199A06325AE9918002E2D7E /* LoginViewModel.swift in Sources */,
+				4199A06425AE9918002E2D7E /* UIImageExtension.swift in Sources */,
+				4199A06525AE9918002E2D7E /* TermsOfServiceCell.swift in Sources */,
+				4199A06625AE9918002E2D7E /* DefaultHttpClient.swift in Sources */,
+				4199A06725AE9918002E2D7E /* HttpConnection.swift in Sources */,
+				4199A06825AE9918002E2D7E /* SignupUserInfoViewModel.swift in Sources */,
+				4199A06925AE9918002E2D7E /* NegotiationResponse.swift in Sources */,
+				4199A06A25AE9918002E2D7E /* ServerInvocationHandler.swift in Sources */,
+				4199A06B25AE9918002E2D7E /* SignupLanguageViewController.swift in Sources */,
+				4199A06C25AE9918002E2D7E /* GameInfoRepository.swift in Sources */,
+				4199A06D25AE9918002E2D7E /* AppDelegate.swift in Sources */,
+				4199A06E25AE9918002E2D7E /* HubConnectionExtensions.swift in Sources */,
+				4199A06F25AE9918002E2D7E /* HubProtocol.swift in Sources */,
+				4199A07025AE9918002E2D7E /* FeatureItemCell.swift in Sources */,
+				4199A07125AE9918002E2D7E /* SystemRepository.swift in Sources */,
+				4199A07225AE9918002E2D7E /* HttpClientProtocol.swift in Sources */,
+				4199A07325AE9918002E2D7E /* Alert.swift in Sources */,
+				4199A07425AE9918002E2D7E /* DIContainer.swift in Sources */,
+				4199A07525AE9918002E2D7E /* GameApi.swift in Sources */,
+				4199A07625AE9918002E2D7E /* PortalApi.swift in Sources */,
+				4199A07725AE9918002E2D7E /* RequestData.swift in Sources */,
+				4199A07825AE9918002E2D7E /* TransportDelegate.swift in Sources */,
+				4199A07925AE9918002E2D7E /* ReconnectableConnection.swift in Sources */,
+				4199A07A25AE9918002E2D7E /* DataExtension.swift in Sources */,
+				4199A07B25AE9918002E2D7E /* LongPollingTransport.swift in Sources */,
+				4199A07C25AE9918002E2D7E /* ReconnectPolicy.swift in Sources */,
+				4199A07D25AE9918002E2D7E /* SignupUserinfoViewController.swift in Sources */,
+				4199A07E25AE9918002E2D7E /* SignupEmailViewModel.swift in Sources */,
+				4199A07F25AE9918002E2D7E /* IRegisterUseCase.swift in Sources */,
+				4199A08025AE9918002E2D7E /* IAuthRepository.swift in Sources */,
+				4199A08125AE9918002E2D7E /* Util.swift in Sources */,
+				4199A08225AE9918002E2D7E /* ConnectionDelegate.swift in Sources */,
+				4199A08325AE9918002E2D7E /* GetSystemStatusUseCase.swift in Sources */,
+				4199A08425AE9918002E2D7E /* LanguageAndCurrencyCell.swift in Sources */,
+				4199A08525AE9918002E2D7E /* LobbyViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		485DF04A25415454001F9D4A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1015,6 +1326,69 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4199A09525AE9918002E2D7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8018AEB41EC13AC4CA7DF63E /* Pods-ktobet-asia-ios-qat.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 277T679FZ2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(SRCROOT)",
+				);
+				INFOPLIST_FILE = "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.higgstar.ktoasiabet;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.higgstar.ktoasiabet";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = QAT;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		4199A09625AE9918002E2D7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D6356D9C40B516C54CBB9FB /* Pods-ktobet-asia-ios-qat.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEVELOPMENT_TEAM = 277T679FZ2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(SRCROOT)",
+				);
+				INFOPLIST_FILE = "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.higgstar.ktoasiabet;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.higgstar.ktoasiabet";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = QAT;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 		485DF06025415454001F9D4A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1233,7 +1607,7 @@
 		};
 		48AAA177256E458800E075CA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72660EE9D5E8B35E5F13E617 /* Pods-ktobet-asia-ios.debug.xcconfig */;
+			baseConfigurationReference = 768A46A2A6F183CF5C5D611F /* Pods-ktobet-asia-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1256,7 +1630,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.higgstar.ktoasiabet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.higgstar.ktoasiabet";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = QAT;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEV;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1265,7 +1639,7 @@
 		};
 		48AAA178256E458800E075CA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D6132CA77034990D2F6E8103 /* Pods-ktobet-asia-ios.release.xcconfig */;
+			baseConfigurationReference = A5CC72A288FD83F4E0FE02A0 /* Pods-ktobet-asia-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1287,7 +1661,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.higgstar.ktoasiabet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.higgstar.ktoasiabet";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = QAT;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEV;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1297,6 +1671,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4199A09425AE9918002E2D7E /* Build configuration list for PBXNativeTarget "ktobet-asia-ios-qat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4199A09525AE9918002E2D7E /* Debug */,
+				4199A09625AE9918002E2D7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		485DF03325415453001F9D4A /* Build configuration list for PBXProject "ktobet-asia-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

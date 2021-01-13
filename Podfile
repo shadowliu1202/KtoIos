@@ -19,6 +19,10 @@ def default_pods
   use_frameworks!
 end
 
+target 'ktobet-asia-ios-qat' do
+  default_pods
+end
+
 target 'ktobet-asia-ios' do
   default_pods
 end
