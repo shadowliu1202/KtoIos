@@ -73,7 +73,7 @@ platform :ios do
 
 		
 		match(type: "appstore", keychain_name: "jenkinsKeyChain", keychain_password: "password")
-		update_info_plist(plist_path: "ktobet-asia-ios/info.plist", 
+		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
     					#plist["CFBundleVersion"]  = "#{version}.0"
