@@ -13,6 +13,7 @@ protocol IAuthenticationUseCase {
     func loginFrom(account: String, pwd: String, captcha: Captcha)->Single<Player>
     func logout()->Completable
     func isLogged()->Single<Bool>
+    func getCaptchaImage()->Single<UIImage>
 }
 
 class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
@@ -28,10 +29,13 @@ class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
     func loginFrom(account: String, pwd: String, captcha: Captcha)->Single<Player>{
         let login = authRepo.authorize(account, pwd, captcha)
         return login.flatMap { (stat) -> Single<Player> in
-            if stat.status == LoginStatus.TryStatus.success{
-                return self.playerRepo.loadPlayer()
-            } else {
-                return Single.error(NSError())
+            switch stat.status {
+            case .success: return self.playerRepo.loadPlayer()
+            default:
+                let error = LoginError()
+                error.status = stat.status
+                error.isLock = stat.isLocked
+                return Single.error(error)
             }
         }
     }
@@ -42,5 +46,9 @@ class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
     
     func isLogged()->Single<Bool>{
         return authRepo.checkAuthorization()
+    }
+    
+    func getCaptchaImage()->Single<UIImage>{
+        return authRepo.getCaptchaImage()
     }
 }

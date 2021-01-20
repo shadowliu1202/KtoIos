@@ -11,7 +11,7 @@ import RxCocoa
 import share_bu
 
 class SignupPhoneViewController: UIViewController {
-
+    
     @IBOutlet private weak var naviItem : UINavigationItem!
     @IBOutlet private weak var labTitle : UILabel!
     @IBOutlet private weak var labDesc : UILabel!
@@ -21,19 +21,7 @@ class SignupPhoneViewController: UIViewController {
     @IBOutlet private weak var viewErrTip : UIView!
     @IBOutlet private weak var viewStatusTip : UIView!
     @IBOutlet private weak var imgStatusTip : UIImageView!
-    
-    @IBOutlet private weak var textCode1: SMSCodeTextField!
-    @IBOutlet private weak var textCode2: SMSCodeTextField!
-    @IBOutlet private weak var textCode3: SMSCodeTextField!
-    @IBOutlet private weak var textCode4: SMSCodeTextField!
-    @IBOutlet private weak var textCode5: SMSCodeTextField!
-    @IBOutlet private weak var textCode6: SMSCodeTextField!
-    @IBOutlet private weak var btnCode1 : UIButton!
-    @IBOutlet private weak var btnCode2 : UIButton!
-    @IBOutlet private weak var btnCode3 : UIButton!
-    @IBOutlet private weak var btnCode4 : UIButton!
-    @IBOutlet private weak var btnCode5 : UIButton!
-    @IBOutlet private weak var btnCode6 : UIButton!
+    @IBOutlet private weak var smsVerifyView : SMSVerifyCodeInputView!
     @IBOutlet private weak var btnBack : UIBarButtonItem!
     @IBOutlet private weak var btnVerify : UIButton!
     @IBOutlet private weak var btnResend : UIButton!
@@ -72,27 +60,21 @@ class SignupPhoneViewController: UIViewController {
     
     // MARK: METHOD
     private func localize(){
-        labStatusTip.text = Localize.string("Otp_Send_Success")
-        labTitle.text = Localize.string("Step3_Title_1")
-        labDesc.text = Localize.string("step3_verify_by_phone_title")
-        labTip.text = Localize.string("otp_sent_content") + "\n" + [countryCode, phoneNumber].joined(separator: " ")
-        labErrTip.text = Localize.string("Step3_incorrect_otp")
-        btnVerify.setTitle(Localize.string("Verify") , for: .normal)
+        labStatusTip.text = Localize.string("common_otp_send_success")
+        labTitle.text = Localize.string("register_step3_title_1")
+        labDesc.text = Localize.string("register_step3_verify_by_phone_title")
+        labTip.text = Localize.string("common_otp_sent_content") + "\n" + [countryCode, phoneNumber].joined(separator: " ")
+        labErrTip.text = Localize.string("register_step3_incorrect_otp")
+        btnVerify.setTitle(Localize.string("common_verify") , for: .normal)
     }
     
     private func defaultStyle(){
         naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
-        
         viewErrTip.layer.cornerRadius = 8
         viewErrTip.layer.masksToBounds = true
         viewStatusTip.layer.cornerRadius = 8
         viewStatusTip.layer.masksToBounds = true
         showPasscodeUncorrectTip(false)
-        for textField in [textCode1, textCode2, textCode3, textCode4, textCode5, textCode6]{
-            textField?.layer.cornerRadius = 6
-            textField?.layer.masksToBounds = true
-            textField?.myDelegate = self
-        }
         btnVerify.isEnabled = false
         btnVerify.layer.cornerRadius = 8
         btnVerify.layer.masksToBounds = true
@@ -102,26 +84,27 @@ class SignupPhoneViewController: UIViewController {
     }
     
     private func setViewModel(){
-        (textCode1.rx.text.orEmpty <-> viewModel.code1).disposed(by: disposeBag)
-        (textCode2.rx.text.orEmpty <-> viewModel.code2).disposed(by: disposeBag)
-        (textCode3.rx.text.orEmpty <-> viewModel.code3).disposed(by: disposeBag)
-        (textCode4.rx.text.orEmpty <-> viewModel.code4).disposed(by: disposeBag)
-        (textCode5.rx.text.orEmpty <-> viewModel.code5).disposed(by: disposeBag)
-        (textCode6.rx.text.orEmpty <-> viewModel.code6).disposed(by: disposeBag)
+        
+        (smsVerifyView.code1.rx.text.orEmpty <-> viewModel.code1).disposed(by: disposeBag)
+        (smsVerifyView.code2.rx.text.orEmpty <-> viewModel.code2).disposed(by: disposeBag)
+        (smsVerifyView.code3.rx.text.orEmpty <-> viewModel.code3).disposed(by: disposeBag)
+        (smsVerifyView.code4.rx.text.orEmpty <-> viewModel.code4).disposed(by: disposeBag)
+        (smsVerifyView.code5.rx.text.orEmpty <-> viewModel.code5).disposed(by: disposeBag)
+        (smsVerifyView.code6.rx.text.orEmpty <-> viewModel.code6).disposed(by: disposeBag)
         
         viewModel
             .checkCodeValid()
             .bind(to: self.btnVerify.rx.valid)
             .disposed(by: disposeBag)
     }
-        
+    
     private func setResendButton(_ seconds : Int){
         let enable = seconds == 0
         self.btnResend.setAttributedTitle({
             let text = NSMutableAttributedString()
             let attr1 : NSAttributedString = {
-                let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
-                let resendTip = Localize.string("Otp_Resend_Tips")
+                let color = UIColor.textPrimaryDustyGray
+                let resendTip = Localize.string("common_otp_resend_tips")
                 let time : String = {
                     let mm = seconds / 60
                     let ss = seconds % 60
@@ -131,9 +114,9 @@ class SignupPhoneViewController: UIViewController {
                 return NSAttributedString.init(string: text, attributes: [.foregroundColor : color])
             }()
             let attr2 : NSAttributedString = {
-                let enableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
-                let disableColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5)
-                let resend = Localize.string("ResendOtp")
+                let enableColor = UIColor.red
+                let disableColor = UIColor.redForDark502
+                let resend = Localize.string("common_resendotp")
                 return NSAttributedString.init(string: resend, attributes: [.foregroundColor : (enable ? enableColor : disableColor)])
             }()
             text.append(attr1)
@@ -181,16 +164,16 @@ class SignupPhoneViewController: UIViewController {
         let type = ErrorType(rawValue: (error as NSError).code)
         switch type {
         case .PlayerIdOverOtpLimit, .PlayerIpOverOtpDailyLimit:
-            let title = Localize.string("tip_title_warm")
-            let message = Localize.string("sms_otp_exeed_send_limit")
+            let title = Localize.string("common_tip_title_warm")
+            let message = Localize.string("common_sms_otp_exeed_send_limit")
             Alert
                 .show(title, message, confirm: {
                     self.navigationController?.popToRootViewController(animated: true)
                 }, cancel: nil)
             break
         case .PlayerOverOtpRetryLimit, .PlayerResentOtpOverTenTimes:
-            let title = Localize.string("tip_title_warm")
-            let message = Localize.string("sms_otp_exeed_send_limit")
+            let title = Localize.string("common_tip_title_warm")
+            let message = Localize.string("common_sms_otp_exeed_send_limit")
             Alert
                 .show(title, message, confirm: {
                     self.navigationController?.popToRootViewController(animated: true)
@@ -209,21 +192,9 @@ class SignupPhoneViewController: UIViewController {
     }
     
     // MARK: BUTTON EVENT
-    @IBAction func btnCodePressed(_ sender: UIButton){
-        switch sender {
-        case btnCode1: textCode1.becomeFirstResponder()
-        case btnCode2: textCode2.becomeFirstResponder()
-        case btnCode3: textCode3.becomeFirstResponder()
-        case btnCode4: textCode4.becomeFirstResponder()
-        case btnCode5: textCode5.becomeFirstResponder()
-        case btnCode6: textCode6.becomeFirstResponder()
-        default: break
-        }
-    }
-    
     @IBAction func btnBackPressed(_ sender : Any){
-        let title = Localize.string("tip_title_unfinished")
-        let message = Localize.string("tip_content_unfinished")
+        let title = Localize.string("common_tip_title_unfinished")
+        let message = Localize.string("common_tip_content_unfinished")
         Alert.show(title, message) {
             self.navigationController?.popToRootViewController(animated: true)
         } cancel: {}
@@ -260,25 +231,6 @@ class SignupPhoneViewController: UIViewController {
             }).disposed(by: disposeBag)
     }
     
-    // MARK: TEXTFIELD EVENT
-    @IBAction func textEditingChaged(_ sender : UITextField){
-        if let text = sender.text, text.count >= 1, text.count < 6 {
-            sender.text = {
-                let index = text.index(text.endIndex, offsetBy: -1)
-                return String(text[index])
-            }()
-            switch sender {
-            case textCode1: textCode2.becomeFirstResponder()
-            case textCode2: textCode3.becomeFirstResponder()
-            case textCode3: textCode4.becomeFirstResponder()
-            case textCode4: textCode5.becomeFirstResponder()
-            case textCode5: textCode6.becomeFirstResponder()
-            case textCode6: textCode6.resignFirstResponder()
-            default: break
-            }
-        }
-    }
-    
     // MARK: PAGE ACTION
     private func goToLobby(_ player : Player){
         let storyboard = UIStoryboard(name: "Lobby", bundle: nil)
@@ -296,17 +248,3 @@ extension SignupPhoneViewController{
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {}
 }
 
-extension SignupPhoneViewController : SMSCodeTextFieldDelegate, UITextFieldDelegate{
-    func textFieldDidDelete(_ sender: SMSCodeTextField) {
-        if (sender.text?.count ?? 0) == 0{
-            switch sender {
-            case textCode6: textCode5.becomeFirstResponder()
-            case textCode5: textCode4.becomeFirstResponder()
-            case textCode4: textCode3.becomeFirstResponder()
-            case textCode3: textCode2.becomeFirstResponder()
-            case textCode2: textCode1.becomeFirstResponder()
-            default: break
-            }
-        }
-    }
-}

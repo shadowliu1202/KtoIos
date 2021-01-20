@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import share_bu
 
 
 struct LoginRequest : Encodable{
@@ -26,7 +27,7 @@ struct IVerifyOtpRequest : Encodable {
     var verifyCode: String?
 }
 
-struct IResetPassword : Encodable {
+struct IResetPasswordRequest : Encodable {
     var account: String?
     var accountType: Int?
 }

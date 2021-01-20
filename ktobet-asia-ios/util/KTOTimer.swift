@@ -39,6 +39,30 @@ class KTOTimer{
         timer?.fire()
     }
     
+    func countDown(timeInterval : TimeInterval,
+                   endTime : Date,
+                   block: ((_ index: Int, _ countDownSeconds: Int, _ finish: Bool)->())?){
+        stop()
+        if timeInterval <= 0 {
+            return
+            
+        }
+        
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true, block: { (t) in
+            self.index += 1
+            var countDownSeconds = Int(ceil(endTime.timeIntervalSince1970 - Date().timeIntervalSince1970))
+            if countDownSeconds <= 0 {
+                countDownSeconds = 0
+            }
+            
+            block?(self.index, countDownSeconds, countDownSeconds == 0)
+            if countDownSeconds == 0 {
+                self.stop()
+            }
+        })
+        timer?.fire()
+    }
+    
     func repeate(timeInterval : TimeInterval, block : ((_ index : Int)->())?){
         stop()
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true, block: { (t) in

@@ -34,14 +34,14 @@ class DefaultProductViewController: UIViewController {
     private var disposeBag = DisposeBag()
     private var games : [DefaultProductItem] = {
         
-        let titles = [Localize.string("Sportsbook"),
-                      Localize.string("Casino"),
-                      Localize.string("Slot"),
-                      Localize.string("Keno")]
-        let descs = [Localize.string("DefaultProduct_Sportsbook_description"),
-                     Localize.string("DefaultProduct_Casino_description"),
-                     Localize.string("DefaultProduct_Slot_description"),
-                     Localize.string("DefaultProduct_Keno_description")]
+        let titles = [Localize.string("landing_sportsbook_title"),
+                      Localize.string("landing_casino_title"),
+                      Localize.string("landing_slot_title"),
+                      Localize.string("common_keno")]
+        let descs = [Localize.string("accountinfo_defaultproduct_sportsbook_description"),
+                     Localize.string("accountinfo_defaultproduct_casino_description"),
+                     Localize.string("accountinfo_defaultproduct_slot_description"),
+                     Localize.string("accountinfo_defaultproduct_keno_description")]
         let selected = [false, false, false, false]
         let type : [ProductType] = [.sbk, .casino, .slot, .numbergame]
         let selectImg = [UIImage(named: "(375)SBK-Select"),
@@ -75,9 +75,9 @@ class DefaultProductViewController: UIViewController {
 
     // MARK: METHOD
     private func localize(){
-        btnIgnore.title = Localize.string("Skip")
-        btnNext.setTitle(Localize.string("Next"), for: .normal)
-        labTitle.text = Localize.string("DefaultProduct_Title")
+        btnIgnore.title = Localize.string("common_skip")
+        btnNext.setTitle(Localize.string("common_next"), for: .normal)
+        labTitle.text = Localize.string("accountinfo_defaultproduct_title")
     }
     
     private func defaultStyle(){
@@ -116,8 +116,8 @@ class DefaultProductViewController: UIViewController {
     }
     
     @IBAction func btnInfoPressed(_ sender: UIButton){
-        let title = Localize.string("tip_title_warm")
-        let message = Localize.string("DefaultProduct_Description")
+        let title = Localize.string("common_tip_title_warm")
+        let message = Localize.string("accountinfo_defaultproduct_description")
         Alert.show(title, message, confirm: nil, cancel: nil)
     }
 }

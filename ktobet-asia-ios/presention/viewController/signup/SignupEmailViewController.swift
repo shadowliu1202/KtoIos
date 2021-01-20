@@ -87,16 +87,16 @@ class SignupEmailViewController: UIViewController {
     
     // MARK: METHOD
     private func localize(){
-        labTitle.text = Localize.string("Step3_Title_1")
-        labDesc.text = Localize.string("step3_verify_by_email_title")
-        labTip.text = String(format: Localize.string("Step3_content_email"), account)
-        labSendOtpLabel.text = Localize.string("Otp_Mail_Send_Success")
-        btnOpenMail.setTitle(Localize.string("Step3_open_mail"), for: .normal)
+        labTitle.text = Localize.string("register_step3_title_1")
+        labDesc.text = Localize.string("register_step3_verify_by_email_title")
+        labTip.text = String(format: Localize.string("register_step3_content_email"), account)
+        labSendOtpLabel.text = Localize.string("common_otp_mail_send_success")
+        btnOpenMail.setTitle(Localize.string("register_step3_open_mail"), for: .normal)
         btnResend.setTitle("", for: .normal)
         btnCheckVerify.setAttributedTitle({
-            let str1 = Localize.string("Step3_mail_varify_hint")
+            let str1 = Localize.string("register_step3_mail_varify_hint")
             let str2 = " "
-            let str3 = Localize.string("Step3_mail_varify_hint_highlight")
+            let str3 = Localize.string("register_step3_mail_varify_hint_highlight")
             let greyColor = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
             let redColor = UIColor(red: 242.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
             let attriText = NSMutableAttributedString()
@@ -129,9 +129,9 @@ class SignupEmailViewController: UIViewController {
                 let ss = seconds % 60
                 return String(format: "%02d:%02d", mm, ss)
             }()
-            let str1 = String(format: Localize.string("Verify_mail_Resend_Tips"), time)
+            let str1 = String(format: Localize.string("common_verify_mail_resend_tips"), time)
             let str2 = " "
-            let str3 = Localize.string("ResendOtp")
+            let str3 = Localize.string("common_resendotp")
             let attriText = NSMutableAttributedString()
             let attriText1 = NSAttributedString(string: str1, attributes: [.foregroundColor : descColor])
             let attriText2 = NSAttributedString(string: str2)
@@ -156,16 +156,16 @@ class SignupEmailViewController: UIViewController {
         let type = ErrorType(rawValue: (error as NSError).code)
         switch type {
         case .PlayerIdOverOtpLimit, .PlayerIpOverOtpDailyLimit:
-            let title = Localize.string("tip_title_warm")
-            let message = Localize.string("email_otp_exeed_send_limit")
+            let title = Localize.string("common_tip_title_warm")
+            let message = Localize.string("common_email_otp_exeed_send_limit")
             Alert
                 .show(title, message, confirm: {
                     self.navigationController?.popToRootViewController(animated: true)
                 }, cancel: nil)
             break
         case .PlayerOverOtpRetryLimit, .PlayerResentOtpOverTenTimes:
-            let title = Localize.string("tip_title_warm")
-            let message = Localize.string("email_otp_exeed_send_limit")
+            let title = Localize.string("common_tip_title_warm")
+            let message = Localize.string("common_email_otp_exeed_send_limit")
             Alert
                 .show(title, message, confirm: {
                     self.navigationController?.popToRootViewController(animated: true)
@@ -211,8 +211,8 @@ class SignupEmailViewController: UIViewController {
                     default:
                         self.checking = false
                         if manual {
-                            let title = Localize.string("tip_title_warm")
-                            let message = Localize.string("Step3_verification_pending")
+                            let title = Localize.string("common_tip_title_warm")
+                            let message = Localize.string("register_step3_verification_pending")
                             Alert.show(title, message, confirm: nil, cancel: nil)
                         }
                     }
@@ -273,8 +273,8 @@ class SignupEmailViewController: UIViewController {
     }
     
     @IBAction func btnBackPressed(_ sender : UIButton){
-        let title = Localize.string("tip_title_unfinished")
-        let message = Localize.string("tip_content_unfinished")
+        let title = Localize.string("common_tip_title_unfinished")
+        let message = Localize.string("common_tip_content_unfinished")
         Alert.show(title, message) {
             self.navigationController?.popToRootViewController(animated: true)
         } cancel: {}

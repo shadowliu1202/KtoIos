@@ -9,13 +9,14 @@ import Foundation
 import UIKit
 
 class SignupRegistFailViewController : UIViewController{
-    
+    static let segueIdentifier = "GoToFail"
     @IBOutlet private weak var naviItem : UINavigationItem!
     @IBOutlet private weak var imgFailIcon : UIImageView!
     @IBOutlet private weak var labTitle : UILabel!
     @IBOutlet private weak var labDesc : UILabel!
     @IBOutlet private weak var btnRestart : UIButton!
     
+    var failedType: FailedType = .register
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +26,16 @@ class SignupRegistFailViewController : UIViewController{
     
     // MARK: METHOD
     private func localize(){
-        labTitle.text = Localize.string("Step4_Title_Fail")
-        labDesc.text = Localize.string("Step4_Content_Fail")
-        btnRestart.setTitle(Localize.string("Step4_retry_signup"), for: .normal)
+        switch failedType {
+        case .register:
+            labTitle.text = Localize.string("register_step4_title_fail")
+            labDesc.text = Localize.string("register_step4_content_fail")
+            btnRestart.setTitle(Localize.string("register_step4_retry_signup"), for: .normal)
+        case .resetPassword:
+            labTitle.text = Localize.string("login_resetpassword_fail_title")
+            labDesc.text = ""
+            btnRestart.setTitle(Localize.string("common_back"), for: .normal)
+        }
     }
     
     private func defaultStyle(){
@@ -37,7 +45,17 @@ class SignupRegistFailViewController : UIViewController{
     }
     
     @IBAction private func btnRestartPressed(_ sender : UIButton){
-        self.navigationController?.popToRootViewController(animated: true)
+        switch failedType {
+        case .register:
+            self.navigationController?.popToRootViewController(animated: true)
+        case .resetPassword:
+            self.dismiss(animated: true, completion: nil)
+        }
     }
-    
+}
+
+
+enum FailedType {
+    case register
+    case resetPassword
 }
