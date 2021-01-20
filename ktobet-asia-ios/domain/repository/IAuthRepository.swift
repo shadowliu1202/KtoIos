@@ -12,7 +12,6 @@ import SwiftyJSON
 
 
 protocol IAuthRepository {
-    
     func register(_ account: UserAccount, _ password: UserPassword, _ locale: SupportLocale)->Completable
     func authorize(_ otp : String) -> Single<String>
     func authorize(_ account: String, _ password: String, _ captcha: Captcha) -> Single<LoginStatus>
@@ -20,11 +19,18 @@ protocol IAuthRepository {
     func checkAuthorization()-> Single<Bool>
     func resendRegisterOtp()-> Completable
     func checkRegistration(_ account : String)-> Single<Bool>
+    func getCaptchaImage()->Single<UIImage>
+}
+
+protocol ResetPasswordRepository {
+    func requestResetPassword(_ account: Account) -> Completable
+    func requestResetOtp(_ otp: String) -> Single<Bool>
+    func requestResendOtp() -> Completable
+    func resetPassword(password: String) -> Completable
 }
 
 
-class IAuthRepositoryImpl : IAuthRepository{
-    
+class IAuthRepositoryImpl : IAuthRepository {
     private var api : AuthenticationApi!
     private var httpClient : HttpClient!
     
@@ -94,5 +100,30 @@ class IAuthRepositoryImpl : IAuthRepository{
         return api.checkAccount(account).map { (response) -> Bool in
             return (response.data == "true" ? true : false) 
         }
+    }
+    
+    func getCaptchaImage()->Single<UIImage>{
+        return api.getCaptchaImage()
+    }
+}
+
+extension IAuthRepositoryImpl: ResetPasswordRepository {
+    func requestResetOtp(_ otp: String) -> Single<Bool> {
+        let para = IVerifyOtpRequest(verifyCode: otp)
+        return api.verifyResetOtp(para).map { (response) -> Bool in
+            return response.data ?? false
+        }
+    }
+    
+    func requestResetPassword(_ account: Account) -> Completable {
+        return api.requestResetPassword(account.identity, accountType: account is Account.Phone ? AccountType.phone.rawValue : AccountType.email.rawValue)
+    }
+    
+    func requestResendOtp() -> Completable {
+        return api.resentOtp()
+    }
+    
+    func resetPassword(password: String) -> Completable {
+        return api.changePassword(INewPasswordRequest(newPassword: password))
     }
 }

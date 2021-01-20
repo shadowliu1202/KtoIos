@@ -783,113 +783,15 @@ john.doe@higgstar.com
                                             <constraint firstAttribute="trailing" secondItem="joK-CX-nUW" secondAttribute="trailing" constant="15" id="ttb-YO-E1R"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Np-1c-A92" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="30" y="223" width="47.5" height="47.5"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OK8-aD-JKV" customClass="SMSVerifyCodeInputView" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                        <rect key="frame" x="30" y="223" width="354" height="40"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="8Np-1c-A92" secondAttribute="height" id="HBv-os-dcm"/>
+                                            <constraint firstAttribute="height" constant="40" id="lh0-nT-DiY"/>
                                         </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
-                                        <connections>
-                                            <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="41A-Po-2Gm"/>
-                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="YZ8-HT-Tew"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OnI-lD-0qq" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="91.5" y="223" width="47" height="47.5"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
-                                        <connections>
-                                            <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="69V-Ja-q82"/>
-                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="J3Y-u5-lK8"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BjO-sD-aKi" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="152.5" y="223" width="47.5" height="47.5"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
-                                        <connections>
-                                            <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="IFr-K3-zYG"/>
-                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="fdt-WK-dYA"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5LE-0n-S6H" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="214" y="223" width="47.5" height="47.5"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
-                                        <connections>
-                                            <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="KnP-AB-V67"/>
-                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="OB6-ZB-2zF"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6wC-yJ-huD" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="275.5" y="223" width="47" height="47.5"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
-                                        <connections>
-                                            <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="H5R-K0-Anc"/>
-                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="SxB-X0-2GJ"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IcO-vr-VmG" customClass="SMSCodeTextField" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="336.5" y="223" width="47.5" height="47.5"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
-                                        <connections>
-                                            <action selector="textEditingChaged:" destination="HR5-23-ZKJ" eventType="editingChanged" id="fTP-1p-0iI"/>
-                                            <outlet property="delegate" destination="HR5-23-ZKJ" id="JXC-ZD-T3O"/>
-                                        </connections>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZD-4r-nVg">
-                                        <rect key="frame" x="30" y="223" width="47.5" height="47.5"/>
-                                        <connections>
-                                            <action selector="btnCodePressed:" destination="HR5-23-ZKJ" eventType="touchUpInside" id="DR6-88-XuQ"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ac-VL-NiL">
-                                        <rect key="frame" x="91.5" y="223" width="47" height="47.5"/>
-                                        <connections>
-                                            <action selector="btnCodePressed:" destination="HR5-23-ZKJ" eventType="touchUpInside" id="pYe-1Z-1Ny"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJC-rx-hfv">
-                                        <rect key="frame" x="152.5" y="223" width="47.5" height="47.5"/>
-                                        <connections>
-                                            <action selector="btnCodePressed:" destination="HR5-23-ZKJ" eventType="touchUpInside" id="cXo-IG-JbU"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hER-cw-FA3">
-                                        <rect key="frame" x="214" y="223" width="47.5" height="47.5"/>
-                                        <connections>
-                                            <action selector="btnCodePressed:" destination="HR5-23-ZKJ" eventType="touchUpInside" id="qF2-e8-lr7"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JF1-h7-vsj">
-                                        <rect key="frame" x="275.5" y="223" width="47" height="47.5"/>
-                                        <connections>
-                                            <action selector="btnCodePressed:" destination="HR5-23-ZKJ" eventType="touchUpInside" id="1hg-lC-Hx4"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1cW-ex-2a3">
-                                        <rect key="frame" x="336.5" y="223" width="47.5" height="47.5"/>
-                                        <connections>
-                                            <action selector="btnCodePressed:" destination="HR5-23-ZKJ" eventType="touchUpInside" id="O4K-4v-nf3"/>
-                                        </connections>
-                                    </button>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fy2-lC-fJr">
-                                        <rect key="frame" x="30" y="310.5" width="354" height="48"/>
+                                        <rect key="frame" x="30" y="303" width="354" height="48"/>
                                         <color key="backgroundColor" red="0.94901960784313721" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="HiC-QE-QfT"/>
@@ -901,7 +803,8 @@ john.doe@higgstar.com
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W34-QF-z7B">
-                                        <rect key="frame" x="30" y="382.5" width="354" height="34"/>
+                                        <rect key="frame" x="30" y="375" width="354" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="重新发送">
                                             <color key="titleColor" red="0.85098039215686272" green="0.0039215686274509803" blue="0.0039215686274509803" alpha="0.5" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         </state>
@@ -911,76 +814,32 @@ john.doe@higgstar.com
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="6ac-VL-NiL" firstAttribute="bottom" secondItem="OnI-lD-0qq" secondAttribute="bottom" id="02A-df-ep3"/>
-                                    <constraint firstItem="dJC-rx-hfv" firstAttribute="top" secondItem="BjO-sD-aKi" secondAttribute="top" id="13E-Ll-jUX"/>
-                                    <constraint firstItem="6ac-VL-NiL" firstAttribute="trailing" secondItem="OnI-lD-0qq" secondAttribute="trailing" id="2VS-nG-ZHf"/>
-                                    <constraint firstItem="rZD-4r-nVg" firstAttribute="top" secondItem="8Np-1c-A92" secondAttribute="top" id="484-Q7-tUh"/>
-                                    <constraint firstItem="JF1-h7-vsj" firstAttribute="leading" secondItem="6wC-yJ-huD" secondAttribute="leading" id="4Kj-V7-uLs"/>
+                                    <constraint firstItem="fy2-lC-fJr" firstAttribute="leading" secondItem="SAB-og-fqm" secondAttribute="leading" constant="30" id="0RG-io-6Tt"/>
                                     <constraint firstItem="W34-QF-z7B" firstAttribute="leading" secondItem="SAB-og-fqm" secondAttribute="leading" constant="30" id="4Ss-FE-pRt"/>
-                                    <constraint firstItem="8Np-1c-A92" firstAttribute="top" secondItem="sl0-uC-YJk" secondAttribute="bottom" constant="12" id="4xb-qQ-Ehr"/>
-                                    <constraint firstItem="JF1-h7-vsj" firstAttribute="bottom" secondItem="6wC-yJ-huD" secondAttribute="bottom" id="5gf-On-jiM"/>
-                                    <constraint firstItem="BjO-sD-aKi" firstAttribute="leading" secondItem="OnI-lD-0qq" secondAttribute="trailing" constant="14" id="68N-cG-Izs"/>
-                                    <constraint firstItem="hER-cw-FA3" firstAttribute="trailing" secondItem="5LE-0n-S6H" secondAttribute="trailing" id="6jk-bg-grL"/>
-                                    <constraint firstItem="1cW-ex-2a3" firstAttribute="trailing" secondItem="IcO-vr-VmG" secondAttribute="trailing" id="7WF-Qj-gTQ"/>
-                                    <constraint firstItem="IcO-vr-VmG" firstAttribute="leading" secondItem="6wC-yJ-huD" secondAttribute="trailing" constant="14" id="7e4-3l-WKo"/>
-                                    <constraint firstItem="6ac-VL-NiL" firstAttribute="top" secondItem="OnI-lD-0qq" secondAttribute="top" id="8By-Aa-neO"/>
-                                    <constraint firstItem="8Np-1c-A92" firstAttribute="width" secondItem="OnI-lD-0qq" secondAttribute="width" id="9hz-x7-Xqv"/>
+                                    <constraint firstAttribute="trailing" secondItem="fy2-lC-fJr" secondAttribute="trailing" constant="30" id="9bL-kJ-6r1"/>
                                     <constraint firstAttribute="trailing" secondItem="pTF-Hd-K6N" secondAttribute="trailing" constant="30" id="B8f-eI-JQb"/>
-                                    <constraint firstItem="1cW-ex-2a3" firstAttribute="bottom" secondItem="IcO-vr-VmG" secondAttribute="bottom" id="E0k-yd-3SM"/>
-                                    <constraint firstItem="JF1-h7-vsj" firstAttribute="trailing" secondItem="6wC-yJ-huD" secondAttribute="trailing" id="Gyy-wF-3qb"/>
-                                    <constraint firstItem="OnI-lD-0qq" firstAttribute="height" secondItem="8Np-1c-A92" secondAttribute="height" id="Hcs-hl-h9c"/>
-                                    <constraint firstItem="6wC-yJ-huD" firstAttribute="top" secondItem="5LE-0n-S6H" secondAttribute="top" id="J7T-mJ-9qq"/>
-                                    <constraint firstItem="5LE-0n-S6H" firstAttribute="top" secondItem="BjO-sD-aKi" secondAttribute="top" id="Kt3-8U-EAI"/>
-                                    <constraint firstItem="6ac-VL-NiL" firstAttribute="leading" secondItem="OnI-lD-0qq" secondAttribute="leading" id="L1U-B1-eYC"/>
-                                    <constraint firstItem="6wC-yJ-huD" firstAttribute="leading" secondItem="5LE-0n-S6H" secondAttribute="trailing" constant="14" id="LoP-Vh-bN0"/>
+                                    <constraint firstItem="fy2-lC-fJr" firstAttribute="top" secondItem="OK8-aD-JKV" secondAttribute="bottom" constant="40" id="D1S-Di-tRo"/>
+                                    <constraint firstAttribute="trailing" secondItem="OK8-aD-JKV" secondAttribute="trailing" constant="30" id="Hiu-Mr-nDA"/>
                                     <constraint firstItem="4VY-HL-cpN" firstAttribute="width" secondItem="SAB-og-fqm" secondAttribute="width" id="MmU-4O-Lz6"/>
                                     <constraint firstItem="Kdf-qp-Jff" firstAttribute="leading" secondItem="pTF-Hd-K6N" secondAttribute="leading" id="Mox-yM-EBU"/>
-                                    <constraint firstItem="5LE-0n-S6H" firstAttribute="height" secondItem="BjO-sD-aKi" secondAttribute="height" id="NOC-Nt-ACH"/>
-                                    <constraint firstItem="BjO-sD-aKi" firstAttribute="width" secondItem="5LE-0n-S6H" secondAttribute="width" id="OQB-yA-r95"/>
-                                    <constraint firstItem="dJC-rx-hfv" firstAttribute="bottom" secondItem="BjO-sD-aKi" secondAttribute="bottom" id="SJv-1S-QCU"/>
-                                    <constraint firstAttribute="trailing" secondItem="IcO-vr-VmG" secondAttribute="trailing" constant="30" id="Tbl-PQ-tXU"/>
-                                    <constraint firstItem="JF1-h7-vsj" firstAttribute="top" secondItem="6wC-yJ-huD" secondAttribute="top" id="Tpf-zq-ad2"/>
-                                    <constraint firstItem="1cW-ex-2a3" firstAttribute="leading" secondItem="IcO-vr-VmG" secondAttribute="leading" id="W9F-sL-z0M"/>
-                                    <constraint firstItem="OnI-lD-0qq" firstAttribute="top" secondItem="8Np-1c-A92" secondAttribute="top" id="WNp-qm-3YO"/>
+                                    <constraint firstItem="OK8-aD-JKV" firstAttribute="top" secondItem="sl0-uC-YJk" secondAttribute="bottom" constant="12" id="SaC-nk-uDO"/>
                                     <constraint firstItem="sl0-uC-YJk" firstAttribute="top" secondItem="Ptg-Ov-36L" secondAttribute="bottom" constant="30" id="WYv-Vd-HdP"/>
-                                    <constraint firstItem="OnI-lD-0qq" firstAttribute="leading" secondItem="8Np-1c-A92" secondAttribute="trailing" constant="14" id="Wpy-Ir-83a"/>
-                                    <constraint firstItem="rZD-4r-nVg" firstAttribute="leading" secondItem="8Np-1c-A92" secondAttribute="leading" id="XCl-Lq-wM7"/>
                                     <constraint firstAttribute="trailing" secondItem="4VY-HL-cpN" secondAttribute="trailing" id="YQ1-VG-1yw"/>
                                     <constraint firstItem="sl0-uC-YJk" firstAttribute="leading" secondItem="SAB-og-fqm" secondAttribute="leading" constant="30" id="YTk-cN-3Fy"/>
-                                    <constraint firstItem="IcO-vr-VmG" firstAttribute="height" secondItem="6wC-yJ-huD" secondAttribute="height" id="ZEb-pS-dbh"/>
                                     <constraint firstItem="Kdf-qp-Jff" firstAttribute="trailing" secondItem="pTF-Hd-K6N" secondAttribute="trailing" id="abp-nN-c1u"/>
                                     <constraint firstAttribute="bottom" secondItem="W34-QF-z7B" secondAttribute="bottom" constant="24" id="bpt-St-M2S"/>
                                     <constraint firstItem="4VY-HL-cpN" firstAttribute="leading" secondItem="SAB-og-fqm" secondAttribute="leading" id="cY2-rH-RVA"/>
-                                    <constraint firstItem="rZD-4r-nVg" firstAttribute="trailing" secondItem="8Np-1c-A92" secondAttribute="trailing" id="cvQ-ve-HCG"/>
-                                    <constraint firstItem="1cW-ex-2a3" firstAttribute="top" secondItem="IcO-vr-VmG" secondAttribute="top" id="dOb-eg-Vnf"/>
-                                    <constraint firstItem="hER-cw-FA3" firstAttribute="bottom" secondItem="5LE-0n-S6H" secondAttribute="bottom" id="eXC-FN-pjG"/>
-                                    <constraint firstItem="hER-cw-FA3" firstAttribute="leading" secondItem="5LE-0n-S6H" secondAttribute="leading" id="esJ-q6-jzl"/>
-                                    <constraint firstItem="fy2-lC-fJr" firstAttribute="top" secondItem="OnI-lD-0qq" secondAttribute="bottom" constant="40" id="f2W-BY-9ge"/>
                                     <constraint firstItem="W34-QF-z7B" firstAttribute="top" secondItem="fy2-lC-fJr" secondAttribute="bottom" constant="24" id="fT7-eE-dhA"/>
                                     <constraint firstAttribute="trailing" secondItem="sl0-uC-YJk" secondAttribute="trailing" constant="30" id="fx4-wi-gf3"/>
                                     <constraint firstItem="pTF-Hd-K6N" firstAttribute="top" secondItem="4VY-HL-cpN" secondAttribute="bottom" constant="30" id="gsi-HX-Lfi"/>
-                                    <constraint firstItem="dJC-rx-hfv" firstAttribute="trailing" secondItem="BjO-sD-aKi" secondAttribute="trailing" id="jU3-vt-vds"/>
-                                    <constraint firstItem="5LE-0n-S6H" firstAttribute="leading" secondItem="BjO-sD-aKi" secondAttribute="trailing" constant="14" id="jXf-CI-E8c"/>
-                                    <constraint firstItem="dJC-rx-hfv" firstAttribute="leading" secondItem="BjO-sD-aKi" secondAttribute="leading" id="kDT-sz-UV8"/>
-                                    <constraint firstItem="IcO-vr-VmG" firstAttribute="top" secondItem="6wC-yJ-huD" secondAttribute="top" id="mlB-eH-Rfp"/>
-                                    <constraint firstItem="6wC-yJ-huD" firstAttribute="height" secondItem="5LE-0n-S6H" secondAttribute="height" id="nQo-73-ams"/>
-                                    <constraint firstItem="5LE-0n-S6H" firstAttribute="width" secondItem="6wC-yJ-huD" secondAttribute="width" id="nmn-Of-oqE"/>
                                     <constraint firstItem="Ptg-Ov-36L" firstAttribute="leading" secondItem="Kdf-qp-Jff" secondAttribute="leading" id="oRw-Wb-BF3"/>
                                     <constraint firstItem="4VY-HL-cpN" firstAttribute="top" secondItem="SAB-og-fqm" secondAttribute="top" id="pUd-GB-qQY"/>
-                                    <constraint firstItem="OnI-lD-0qq" firstAttribute="width" secondItem="BjO-sD-aKi" secondAttribute="width" id="pqb-mc-xjz"/>
-                                    <constraint firstItem="rZD-4r-nVg" firstAttribute="bottom" secondItem="8Np-1c-A92" secondAttribute="bottom" id="qJ0-Z2-hvd"/>
                                     <constraint firstAttribute="trailing" secondItem="W34-QF-z7B" secondAttribute="trailing" constant="30" id="r7Z-qj-oqi"/>
                                     <constraint firstItem="Ptg-Ov-36L" firstAttribute="trailing" secondItem="Kdf-qp-Jff" secondAttribute="trailing" id="tJm-Zk-iST"/>
+                                    <constraint firstItem="OK8-aD-JKV" firstAttribute="leading" secondItem="SAB-og-fqm" secondAttribute="leading" constant="30" id="twj-lI-tdZ"/>
                                     <constraint firstItem="Ptg-Ov-36L" firstAttribute="top" secondItem="Kdf-qp-Jff" secondAttribute="bottom" constant="12" id="vXP-OY-Vrb"/>
-                                    <constraint firstItem="BjO-sD-aKi" firstAttribute="height" secondItem="OnI-lD-0qq" secondAttribute="height" id="w5X-K0-35R"/>
-                                    <constraint firstItem="fy2-lC-fJr" firstAttribute="trailing" secondItem="IcO-vr-VmG" secondAttribute="trailing" id="wj5-t5-sCF"/>
-                                    <constraint firstItem="BjO-sD-aKi" firstAttribute="top" secondItem="OnI-lD-0qq" secondAttribute="top" id="xaZ-J3-tRL"/>
-                                    <constraint firstItem="hER-cw-FA3" firstAttribute="top" secondItem="5LE-0n-S6H" secondAttribute="top" id="xoi-cC-oiR"/>
                                     <constraint firstItem="pTF-Hd-K6N" firstAttribute="leading" secondItem="SAB-og-fqm" secondAttribute="leading" constant="30" id="xt4-WH-eCu"/>
-                                    <constraint firstItem="6wC-yJ-huD" firstAttribute="width" secondItem="IcO-vr-VmG" secondAttribute="width" id="y7S-Up-U48"/>
-                                    <constraint firstItem="8Np-1c-A92" firstAttribute="leading" secondItem="SAB-og-fqm" secondAttribute="leading" constant="30" id="zg2-RM-GbJ"/>
                                     <constraint firstItem="Kdf-qp-Jff" firstAttribute="top" secondItem="pTF-Hd-K6N" secondAttribute="bottom" constant="8" id="zqv-g6-Sse"/>
-                                    <constraint firstItem="fy2-lC-fJr" firstAttribute="leading" secondItem="8Np-1c-A92" secondAttribute="leading" id="zwe-x2-I4i"/>
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hOu-dQ-nhy">
@@ -1032,15 +891,9 @@ john.doe@higgstar.com
                     </navigationItem>
                     <connections>
                         <outlet property="btnBack" destination="AoS-gH-VFq" id="itj-MN-Ve4"/>
-                        <outlet property="btnCode1" destination="rZD-4r-nVg" id="ds8-ES-I5j"/>
-                        <outlet property="btnCode2" destination="6ac-VL-NiL" id="NZv-7A-oZX"/>
-                        <outlet property="btnCode3" destination="dJC-rx-hfv" id="q1c-cd-Vlp"/>
-                        <outlet property="btnCode4" destination="hER-cw-FA3" id="AXw-tM-eoh"/>
-                        <outlet property="btnCode5" destination="JF1-h7-vsj" id="34T-Kb-SNq"/>
-                        <outlet property="btnCode6" destination="1cW-ex-2a3" id="7C7-SE-T6s"/>
                         <outlet property="btnResend" destination="W34-QF-z7B" id="uoE-jb-GiK"/>
                         <outlet property="btnVerify" destination="fy2-lC-fJr" id="Fua-TB-dR9"/>
-                        <outlet property="constraintErrTipBottom" destination="4xb-qQ-Ehr" id="d7c-oq-C0K"/>
+                        <outlet property="constraintErrTipBottom" destination="SaC-nk-uDO" id="Rwc-5k-WFL"/>
                         <outlet property="constraintErrTipHeight" destination="j04-HO-p93" id="ay1-Qk-KLl"/>
                         <outlet property="imgStatusTip" destination="lBc-dC-RxP" id="YWe-lb-6mw"/>
                         <outlet property="labDesc" destination="Kdf-qp-Jff" id="XWi-Y5-c8O"/>
@@ -1049,12 +902,7 @@ john.doe@higgstar.com
                         <outlet property="labTip" destination="Ptg-Ov-36L" id="wmc-Tp-nfi"/>
                         <outlet property="labTitle" destination="pTF-Hd-K6N" id="acV-j1-FWl"/>
                         <outlet property="naviItem" destination="jIm-4i-4n3" id="crT-JK-Lpc"/>
-                        <outlet property="textCode1" destination="8Np-1c-A92" id="fAZ-zI-tHe"/>
-                        <outlet property="textCode2" destination="OnI-lD-0qq" id="boA-f2-L5K"/>
-                        <outlet property="textCode3" destination="BjO-sD-aKi" id="w3E-RZ-POf"/>
-                        <outlet property="textCode4" destination="5LE-0n-S6H" id="1Pj-wl-BRh"/>
-                        <outlet property="textCode5" destination="6wC-yJ-huD" id="Brg-h4-8nQ"/>
-                        <outlet property="textCode6" destination="IcO-vr-VmG" id="qhL-3m-O16"/>
+                        <outlet property="smsVerifyView" destination="OK8-aD-JKV" id="Axf-r6-w6z"/>
                         <outlet property="viewErrTip" destination="sl0-uC-YJk" id="rMh-Zr-66E"/>
                         <outlet property="viewStatusTip" destination="hOu-dQ-nhy" id="36G-Uz-LFz"/>
                         <segue destination="hgK-Ah-e2s" kind="unwind" identifier="BackToUserInfo" unwindAction="backToUserInfoWithSegue:" id="pj8-79-Lzv"/>

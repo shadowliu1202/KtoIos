@@ -21,11 +21,23 @@ class LobbyViewController: UIViewController {
     private let segueDefault = "GoToDefault"
     private let disposeBag = DisposeBag()
     private let viewModel = DI.resolve(LobbyViewModel.self)
+    private var systemViewModel = DI.resolve(SystemViewModel.self)!
     var player : Player?
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        _ = systemViewModel.observeSystemMessage().subscribe { (target: Target) in
+            switch target {
+            case .Kickout:
+                Alert.show(Localize.string("common_notify_logout_title"), Localize.string("common_notify_logout_content"), confirm: {
+                    self.btnLogoutPressed(UIButton())
+                }, cancel: nil)
+            case .Balance:
+                print("refresh Balance")
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

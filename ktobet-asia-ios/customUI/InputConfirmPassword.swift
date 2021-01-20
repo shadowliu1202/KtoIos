@@ -185,7 +185,6 @@ extension InputConfirmPassword : UITextFieldDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isEditing = true
         inputPassword?.shouldFocus(true)
-        adjustPosition()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -214,7 +213,6 @@ extension InputConfirmPassword : InputPasswordDelegate{
             return UIColor(rgb: 0x454545)
         }()
     }
-    
     func shouldHidePassword(_ hide: Bool){
         textContent.isSecureTextEntry = hide
     }

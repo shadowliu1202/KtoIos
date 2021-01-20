@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		09ECD4853E5D54EBCA847BEC /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A023F77132D200A94A8C12EF /* Pods_ktobet_asia_ios.framework */; };
+		359994EF259D7A600020EF5A /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359994EE259D7A600020EF5A /* UIButtonExtension.swift */; };
+		35B9B37E259AE7CD00050914 /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
+		35B9B382259AFB4A00050914 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */; };
+		35B9B397259B028800050914 /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B396259B028800050914 /* ResetPasswordViewModel.swift */; };
+		35B9B39B259B034400050914 /* ResetPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */; };
+		35B9B3CE259C796F00050914 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
+		4139BA4825B01B0C00872D39 /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
+		4149B3BC25B13F93001F21C9 /* SMSVerifyCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */; };
 		2562CC923C1B307A9A1F8CCC /* Pods_ktobet_asia_ios_qat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AB665CC11FF1E599A96DDA /* Pods_ktobet_asia_ios_qat.framework */; };
 		410A76C025AED584006F1141 /* ktobet-asia-ios-qat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */; };
 		4199A02825AE9918002E2D7E /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
@@ -218,6 +226,14 @@
 		48AAA173256E458800E075CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485DF04425415454001F9D4A /* Assets.xcassets */; };
 		48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
 		48FDF3692591ECB000C3AE75 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
+		6008F15B25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6008F15A25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift */; };
+		605D986B25A5CC2E00634197 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D986A25A5CC2E00634197 /* DateExtension.swift */; };
+		607D1C5C25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607D1C5B25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift */; };
+		607FC20325B1413200180147 /* SystemSignalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC20225B1413200180147 /* SystemSignalRepository.swift */; };
+		607FC20725B142C200180147 /* SystemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC20625B142C200180147 /* SystemViewModel.swift */; };
+		607FC22A25B19AE300180147 /* SystemSignalRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC22925B19AE300180147 /* SystemSignalRUseCase.swift */; };
+		6089834C25AFD13800BE28BB /* Toast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6089834A25AFD13800BE28BB /* Toast.xib */; };
+		6089834D25AFD13800BE28BB /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6089834B25AFD13800BE28BB /* ToastView.swift */; };
 		8468FBAD73481BB0F9CC965B /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A023F77132D200A94A8C12EF /* Pods_ktobet_asia_ios.framework */; };
 		CFD1A663F718394B53E92BA0 /* libPods-ktobet-asia-iosUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B903FE319D2499B65CA0352 /* libPods-ktobet-asia-iosUITests.a */; };
 		E2116021544B4CFB4FF2B200 /* libPods-ktobet-asia-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09860B2DD5759D63C6E40617 /* libPods-ktobet-asia-iosTests.a */; };
@@ -251,6 +267,14 @@
 		15DB466EA4140EEF41EE124C /* Pods-ktobet-asia-ios_staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_staging.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_staging/Pods-ktobet-asia-ios_staging.debug.xcconfig"; sourceTree = "<group>"; };
 		249D63C4F61B0F1231CBB315 /* Pods-ktobet-asia-ios_staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_staging.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_staging/Pods-ktobet-asia-ios_staging.release.xcconfig"; sourceTree = "<group>"; };
 		33212F90CB6467C8EBB27888 /* Pods-ktobet-asia-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosTests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosTests/Pods-ktobet-asia-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
+		359994EE259D7A600020EF5A /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
+		35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ResetPassword.storyboard; sourceTree = "<group>"; };
+		35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
+		35B9B396259B028800050914 /* ResetPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewModel.swift; sourceTree = "<group>"; };
+		35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordUseCase.swift; sourceTree = "<group>"; };
+		35B9B3CD259C796F00050914 /* CommonEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonEnum.swift; sourceTree = "<group>"; };
+		4139BA4725B01B0C00872D39 /* KTOError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTOError.swift; sourceTree = "<group>"; };
+		4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerifyCodeInputView.swift; sourceTree = "<group>"; };
 		4199A09725AE9918002E2D7E /* ktobet-asia-ios-qat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-qat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-qat-Info.plist"; sourceTree = "<group>"; };
 		44E57CDF4367035AF08F1169 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -372,6 +396,14 @@
 		48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSCodeTextField.swift; sourceTree = "<group>"; };
 		5C8247C57875D3350D2EA0AD /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-ktobet-asia-iosUITests/Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E7EEE80F1B070628EE45D7F /* Pods-ktobet-asia-ios_production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_production.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_production/Pods-ktobet-asia-ios_production.debug.xcconfig"; sourceTree = "<group>"; };
+		6008F15A25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordStep2ViewController.swift; sourceTree = "<group>"; };
+		605D986A25A5CC2E00634197 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		607D1C5B25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordStep3ViewController.swift; sourceTree = "<group>"; };
+		607FC20225B1413200180147 /* SystemSignalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSignalRepository.swift; sourceTree = "<group>"; };
+		607FC20625B142C200180147 /* SystemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemViewModel.swift; sourceTree = "<group>"; };
+		607FC22925B19AE300180147 /* SystemSignalRUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSignalRUseCase.swift; sourceTree = "<group>"; };
+		6089834A25AFD13800BE28BB /* Toast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Toast.xib; sourceTree = "<group>"; };
+		6089834B25AFD13800BE28BB /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		67C0764A8D16164F9F8990F7 /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-ktobet-asia-iosUITests/Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6D6356D9C40B516C54CBB9FB /* Pods-ktobet-asia-ios-qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.release.xcconfig"; sourceTree = "<group>"; };
 		768A46A2A6F183CF5C5D611F /* Pods-ktobet-asia-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -440,11 +472,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		35B9B3CC259C794C00050914 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				35B9B3CD259C796F00050914 /* CommonEnum.swift */,
+				4139BA4725B01B0C00872D39 /* KTOError.swift */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
 		4808020C25428EA50002AD41 /* login */ = {
 			isa = PBXGroup;
 			children = (
 				48080255254293510002AD41 /* LoginViewController.swift */,
 				4853B44A2552A019001D618E /* LoginViewModel.swift */,
+				35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */,
+				6008F15A25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift */,
+				607D1C5B25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift */,
+				35B9B396259B028800050914 /* ResetPasswordViewModel.swift */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -499,6 +544,7 @@
 				48702AD2255BE829000D94F5 /* library */,
 				48BC34AE254FFC2900B89EC5 /* operators */,
 				4860EFA7254A7A190047ECF9 /* extension */,
+				35B9B3CC259C794C00050914 /* common */,
 				485911732542699900F2CF12 /* di */,
 				485DF089254156AD001F9D4A /* presention */,
 				485DF08A254156B7001F9D4A /* domain */,
@@ -558,6 +604,7 @@
 				48406490258742150064AAC9 /* Lobby.storyboard */,
 				4840648D258742150064AAC9 /* Login.storyboard */,
 				4840648C258742150064AAC9 /* Signup.storyboard */,
+				35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */,
 			);
 			path = storyboard;
 			sourceTree = "<group>";
@@ -586,6 +633,8 @@
 				4860EFC4254AC32F0047ECF9 /* IRegisterUseCase.swift */,
 				485E35F02588AA8500EEF23F /* GetSystemStatusUseCase.swift */,
 				48CC32312551488F00C9D1BF /* IConfigurationUseCase.swift */,
+				35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */,
+				607FC22925B19AE300180147 /* SystemSignalRUseCase.swift */,
 			);
 			path = usecase;
 			sourceTree = "<group>";
@@ -598,6 +647,7 @@
 				48339D3C255A48B400AE6715 /* GameInfoRepository.swift */,
 				48093850255D053F002EA837 /* CustomServiceRepository.swift */,
 				485E35EC2588A01600EEF23F /* SystemRepository.swift */,
+				607FC20225B1413200180147 /* SystemSignalRepository.swift */,
 			);
 			path = repository;
 			sourceTree = "<group>";
@@ -613,6 +663,8 @@
 				483F42BA258C41A90091960B /* UIWindowExtension.swift */,
 				485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */,
 				48A005672594851000C7F1FB /* ReactiveExtension.swift */,
+				359994EE259D7A600020EF5A /* UIButtonExtension.swift */,
+				605D986A25A5CC2E00634197 /* DateExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -620,11 +672,14 @@
 		486B3E4B258B6D8A0096BA79 /* customUI */ = {
 			isa = PBXGroup;
 			children = (
+				6089834A25AFD13800BE28BB /* Toast.xib */,
+				6089834B25AFD13800BE28BB /* ToastView.swift */,
 				486B3E4C258B6DB10096BA79 /* Alert.swift */,
 				48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */,
 				48728919258A08F500D8983B /* InputText.swift */,
 				486CD97F25A41BE6003244B1 /* InputPassword.swift */,
 				486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */,
+				4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */,
 			);
 			path = customUI;
 			sourceTree = "<group>";
@@ -704,6 +759,7 @@
 				4808020C25428EA50002AD41 /* login */,
 				485DF08C254156E7001F9D4A /* signup */,
 				48CC320425513ADA00C9D1BF /* lobby */,
+				607FC20625B142C200180147 /* SystemViewModel.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -948,7 +1004,9 @@
 				48406494258742150064AAC9 /* LaunchScreen.storyboard in Resources */,
 				48AAA173256E458800E075CA /* Assets.xcassets in Resources */,
 				48406493258742150064AAC9 /* Launch.storyboard in Resources */,
+				6089834C25AFD13800BE28BB /* Toast.xib in Resources */,
 				48406495258742150064AAC9 /* Lobby.storyboard in Resources */,
+				35B9B37E259AE7CD00050914 /* ResetPassword.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1215,6 +1273,7 @@
 				48AAA118256E458800E075CA /* TestViewModel.swift in Sources */,
 				48AAA119256E458800E075CA /* SignalRError.swift in Sources */,
 				48AAA11A256E458800E075CA /* CodableHelpers.swift in Sources */,
+				4139BA4825B01B0C00872D39 /* KTOError.swift in Sources */,
 				48AAA11B256E458800E075CA /* HttpConnectionOptions.swift in Sources */,
 				4870F49B25A6A9350052EE60 /* KTOTimer.swift in Sources */,
 				48AAA11D256E458800E075CA /* TransportType.swift in Sources */,
@@ -1222,6 +1281,7 @@
 				48A005682594851000C7F1FB /* ReactiveExtension.swift in Sources */,
 				48AAA11F256E458800E075CA /* EncodableExtension.swift in Sources */,
 				48AAA120256E458800E075CA /* TermsOfServiceViewController.swift in Sources */,
+				6008F15B25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift in Sources */,
 				48FDF3692591ECB000C3AE75 /* SMSCodeTextField.swift in Sources */,
 				48AAA121256E458800E075CA /* StreamHandle.swift in Sources */,
 				48AAA122256E458800E075CA /* CustomServiceRepository.swift in Sources */,
@@ -1229,11 +1289,14 @@
 				48AAA125256E458800E075CA /* DefaultTransportFactory.swift in Sources */,
 				48AAA126256E458800E075CA /* LaunchViewController.swift in Sources */,
 				48AAA128256E458800E075CA /* LaunchViewModel.swift in Sources */,
+				4149B3BC25B13F93001F21C9 /* SMSVerifyCodeInputView.swift in Sources */,
 				48AAA129256E458800E075CA /* SignupEmailViewController.swift in Sources */,
 				48AAA12A256E458800E075CA /* Logger.swift in Sources */,
 				48AAA12B256E458800E075CA /* WebsocketsTransport.swift in Sources */,
+				6089834D25AFD13800BE28BB /* ToastView.swift in Sources */,
 				4840645C25871D760064AAC9 /* LocalizeUtils.swift in Sources */,
 				48AAA12C256E458800E075CA /* SocketTestViewController.swift in Sources */,
+				35B9B3CE259C796F00050914 /* CommonEnum.swift in Sources */,
 				48AAA12D256E458800E075CA /* IAuthenticationUseCase.swift in Sources */,
 				48AAA12E256E458800E075CA /* LoginViewController.swift in Sources */,
 				48AAA12F256E458800E075CA /* WebSocket.swift in Sources */,
@@ -1244,6 +1307,7 @@
 				48AAA134256E458800E075CA /* SignupPhoneViewModel.swift in Sources */,
 				48AAA135256E458800E075CA /* DefaultProductViewController.swift in Sources */,
 				48AAA136256E458800E075CA /* APITarget.swift in Sources */,
+				359994EF259D7A600020EF5A /* UIButtonExtension.swift in Sources */,
 				48AAA138256E458800E075CA /* ResponseData.swift in Sources */,
 				48AAA139256E458800E075CA /* UIColorExtension.swift in Sources */,
 				48AAA13A256E458800E075CA /* TransferFormat.swift in Sources */,
@@ -1253,6 +1317,7 @@
 				4872891E258A17FB00D8983B /* StringExtension.swift in Sources */,
 				48AAA13F256E458800E075CA /* HubConnection.swift in Sources */,
 				48AAA141256E458800E075CA /* ProductItemCell.swift in Sources */,
+				607D1C5C25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift in Sources */,
 				48840C472592065200245706 /* SignupRegistFailViewController.swift in Sources */,
 				48AAA142256E458800E075CA /* Transport.swift in Sources */,
 				48AAA143256E458800E075CA /* HttpClient.swift in Sources */,
@@ -1263,11 +1328,14 @@
 				48AAA148256E458800E075CA /* LoginViewModel.swift in Sources */,
 				487288EA2589E94400D8983B /* UIImageExtension.swift in Sources */,
 				48AAA149256E458800E075CA /* TermsOfServiceCell.swift in Sources */,
+				607FC22A25B19AE300180147 /* SystemSignalRUseCase.swift in Sources */,
 				48AAA14A256E458800E075CA /* DefaultHttpClient.swift in Sources */,
 				48AAA14B256E458800E075CA /* HttpConnection.swift in Sources */,
 				48AAA14C256E458800E075CA /* SignupUserInfoViewModel.swift in Sources */,
 				48AAA14D256E458800E075CA /* NegotiationResponse.swift in Sources */,
+				35B9B382259AFB4A00050914 /* ResetPasswordViewController.swift in Sources */,
 				48AAA14E256E458800E075CA /* ServerInvocationHandler.swift in Sources */,
+				607FC20725B142C200180147 /* SystemViewModel.swift in Sources */,
 				48AAA14F256E458800E075CA /* SignupLanguageViewController.swift in Sources */,
 				48AAA150256E458800E075CA /* GameInfoRepository.swift in Sources */,
 				48AAA151256E458800E075CA /* AppDelegate.swift in Sources */,
@@ -1277,12 +1345,14 @@
 				485E35ED2588A01600EEF23F /* SystemRepository.swift in Sources */,
 				48AAA155256E458800E075CA /* HttpClientProtocol.swift in Sources */,
 				486B3E4D258B6DB10096BA79 /* Alert.swift in Sources */,
+				607FC20325B1413200180147 /* SystemSignalRepository.swift in Sources */,
 				48AAA156256E458800E075CA /* DIContainer.swift in Sources */,
 				48AAA157256E458800E075CA /* GameApi.swift in Sources */,
 				48AAA158256E458800E075CA /* PortalApi.swift in Sources */,
 				48AAA159256E458800E075CA /* RequestData.swift in Sources */,
 				48AAA15A256E458800E075CA /* TransportDelegate.swift in Sources */,
 				48AAA15B256E458800E075CA /* ReconnectableConnection.swift in Sources */,
+				35B9B39B259B034400050914 /* ResetPasswordUseCase.swift in Sources */,
 				48AAA15C256E458800E075CA /* DataExtension.swift in Sources */,
 				48AAA15D256E458800E075CA /* LongPollingTransport.swift in Sources */,
 				48AAA15E256E458800E075CA /* ReconnectPolicy.swift in Sources */,
@@ -1292,6 +1362,8 @@
 				48AAA162256E458800E075CA /* IAuthRepository.swift in Sources */,
 				48AAA163256E458800E075CA /* Util.swift in Sources */,
 				48AAA164256E458800E075CA /* ConnectionDelegate.swift in Sources */,
+				605D986B25A5CC2E00634197 /* DateExtension.swift in Sources */,
+				35B9B397259B028800050914 /* ResetPasswordViewModel.swift in Sources */,
 				485E35F12588AA8500EEF23F /* GetSystemStatusUseCase.swift in Sources */,
 				48AAA165256E458800E075CA /* LanguageAndCurrencyCell.swift in Sources */,
 				48AAA166256E458800E075CA /* LobbyViewController.swift in Sources */,
@@ -1427,6 +1499,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1490,6 +1563,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;

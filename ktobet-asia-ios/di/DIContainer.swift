@@ -72,6 +72,13 @@ class DIContainer {
             let api = ctner.resolve(PortalApi.self)!
             return SystemRepositoryImpl(api)
         }
+        ctner.register(ResetPasswordRepository.self) { resolver in
+            let api = ctner.resolve(AuthenticationApi.self)!
+            return IAuthRepositoryImpl(api, httpclient)
+        }
+        ctner.register(SystemSignalRepository.self) { resolver in
+            return SystemSignalRepositoryImpl(httpclient)
+        }
     }
     
     func registUsecase(){
@@ -95,6 +102,14 @@ class DIContainer {
         ctner.register(GetSystemStatusUseCase.self) { (resolver)  in
             let repoSystem = ctner.resolve(SystemRepository.self)!
             return GetSystemStatusUseCaseImpl(repoSystem)
+        }
+        ctner.register(ResetPasswordUseCase.self) { (resolver)  in
+            let repoSystem = ctner.resolve(ResetPasswordRepository.self)!
+            return ResetPasswordUseCaseImpl(repoSystem)
+        }
+        ctner.register(SystemSignalRUseCase.self) { (resolver)  in
+            let repoSystem = ctner.resolve(SystemSignalRepository.self)!
+            return SystemSignalRUseCaseImpl(repoSystem)
         }
         
     }
@@ -142,27 +157,14 @@ class DIContainer {
             let usecase = ctner.resolve(IConfigurationUseCase.self)!
             return DefaultProductViewModel(usecase)
         }
-    }
-    
-    func registLoginView(){
-        
-//        let ctner = container
-//        let httpclient = httpClient
-//        let story = UIStoryboard(name: "Login", bundle: nil)
-//        let viewModel = ctner.resolve(LoginViewModel.self)!
-//        
-//        ctner.register(LoginViewController.self) { (resolve)  in
-//            let identifier = String(describing: LoginViewController.self )
-//            return story.instantiateViewController(identifier: identifier) { (coder) -> LoginViewController in
-//                return LoginViewController.init(coder: coder)
-//            }
-//        }
-    }
-    
-    func registSignupView(){
-        
-//        let ctner = container
-//        let httpclient = httpClient
-//        let story = UIStoryboard(name: "Login", bundle: nil)
+        ctner.register(ResetPasswordViewModel.self) { resolver  in
+            let usecaseAuthentication = ctner.resolve(ResetPasswordUseCase.self)!
+            let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
+            return ResetPasswordViewModel(usecaseAuthentication, systemUseCase)
+        }
+        ctner.register(SystemViewModel.self) { (resolver) in
+            let sstemSignalRUseCase = ctner.resolve(SystemSignalRUseCase.self)!
+            return SystemViewModel(systemUseCase: sstemSignalRUseCase)
+        }
     }
 }

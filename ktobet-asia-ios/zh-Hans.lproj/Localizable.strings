@@ -1,431 +1,1246 @@
-/* 
-  Localizable.strings
-  ktobet-asia-ios
 
-  Created by Partick Chen on 2020/12/1.
-  
-*/
-
-//MARK: - Register
-"language_option_chinese" = "简体中文 + 人民币";
-"language_option_thai" = "ภาษาไทย + บาทไทย";
-"language_option_vietnam" = "Người việt nam + đồng";
-"Step1_Title_1" = "注册 1/3";
-"Step1_Title_2" = "选择语言与货币";
-"Step1_Warning" = "该设定将与账户绑定，无法更改。";
-"Step1_Tips_1" = "按“下一步”代表您已阅读并同意以下条款";
-"Step1_Tips_1_Highlight" = "《服务条款》";
-"service_down" = "暂时无法注册，请稍后再试。";
-"Step2_Title_1" = "注册 2/3";
-"Step2_Title_2" = "填写基本资料";
-"Step2_Withdrawal_Name" = "提现姓名";
-"Step2_verify_mobile" = "开始验证手机";
-"Step2_verify_mail" = "开始验证邮箱";
-"Step2_Name_format_error" = "不能包含空白及数字，符号仅允许( “·”、“.”)且不连续";
-"Step2_password_not_match" = "密码不一致";
-"step2_sms_Inactive" = "非常抱歉，该注册方式暂不可用。";
-"step2_email_Inactive" = "非常抱歉，该注册方式暂不可用。";
-"step2_email_verify_fail" = "此电子邮件无法进行验证。";
-"step2_phone_verify_fail" = "此手机号无法进行验证。";
-"Step3_Title_1" = "注册 3/3";
-"step3_verify_by_email_title" = "验证电子邮箱";
-"step3_verify_by_phone_title" = "验证手机";
-"Step3_content_email" = "已发送链结到您的邮箱\n%@\n请前往验证";
-"Step3_Mobile_Limit_exceeded" = "手机注册方式暂不可用。";
-"Step3_Mail_Limit_exceeded" = "电子邮箱注册方式暂不可用。";
-"Step3_incorrect_otp" = "您输入的验证码不正确！";
-"Step3_verification_pending" = "您尚未完成验证";
-"Step3_open_mail" = "开启邮箱";
-"Step3_mail_varify_hint" = "若已通过验证，试试";
-"Step3_mail_varify_hint_highlight" = "这里";
-"Step4_Title_Fail" = "註冊失敗";
-"Step4_Content_Fail" = "操作过于频繁，请使用有效联系方式重新注册。";
-"Step4_retry_signup" = "重新注册";
-"Step4_Title_Success" = "注册成功";
-"Step4_Content_unknown_Fail" = "非常抱歉，该注册方式暂不可用。";
-
-//MARK: - Login
-"Account_Identity" = "手机/电子邮箱";
-"Account_Remember_me" = "记住我的帐号";
-"Tips_1" = "忘记密码，使用";
-"Tips_1_highlight" = "重置密码";
-"Invalid_Username_password" = "您所填写的格式不正确";
-"Invalid_Username_password_captcha" = "用户名，密码或验证码不正确";
-"Invalid_lockdown" = "您已多次输入错误，请使用重置密码或稍后登录";
-"Enter_Captcha_to_Prceed" = "您已多次输入错误密码，您现在需要额外输入图片中的信息来进行登录";
-"Button_countdown" = "登录({seconds})";
-"Captcha_New" = "看不清？换一组验证码。";
-"Captcha" = "图形验证码";
-"ResetPassword_service_down" = "暂时无法重置密码，请稍后再试。";
-"ResetPassword_Step1_Title_1" = "重置密码 1/3";
-"ResetPassword_Step1_Title_2" = "选择重置方式";
-"ResetPassword_Step1_sms_Inactive" = "非常抱歉，该重置方式暂不可用。";
-"ResetPassword_Step1_email_Inactive" = "非常抱歉，该重置方式暂不可用。";
-"ResetPassword_Step1_get_code" = "获取验证码";
-"ResetPassword_Step1_get_code_countdown" = "获取验证码({seconds})";
-"ResetPassword_lock_down" = "您已多次输入错误，请稍后再试。";
-"ResetPassword_Step2_Title_1" = "重置密码 2/3";
-"ResetPassword_Step2_verify_by_email_title" = "确认电子邮箱";
-"ResetPassword_Step2_verify_by_phone_title" = "确认手机";
-"ResetPassword_Step3_Title" = "重置密码 3/3";
-"ResetPassword_Step3_Title_2" = "设定新密码";
-"ResetPassword_Cancel_Title" = "确认取消当前操作?";
-"ResetPassword_Cancel_Content" = "重置密码将中断并结束。";
-"ResetPassword_Success" = "密码变更完成";
-"ResetPassword_Fail_Title" = "重置密码失败";
-"ResetPassword_Fail_unknown" = "非常抱歉，该重置方式暂不可用。";
-
-//MARK: - Deposit
-"Title" = "充值";
-"Title_Tips" = "以下列表为您可用的充值方式。";
-"Alipay" = "支付宝在线";
-"Recommend" = "推荐";
-"Activiy" = "充值动态";
-"Activiy_Tips" = "提醒您，目前暂无相关通知。";
-"Log" = "充值纪录";
-"SetFavorite" = "将此充值方式设定为常用";
-"CancelFavorite" = "取消设定此充值方式为常用";
-"SelectBank" = "选择充值银行";
-"Offline_Step1_Title" = "ATM、临柜或银行卡转帐";
-"Info_Title" = "填写充值信息";
-"BankName" = "充值者银行帐户姓名";
-"AccountLastFourNumber" = "汇款银行卡尾数四位(选填)";
-"Amount" = "汇款金额";
-"Offline_Step1_Tips" = "充值单笔限额： {min}- {max}";
-"Offline_Step1_Button" = "申请充值";
-"Offline_Step2_Title" = "KTO收款方信息";
-"Offline_Step2_Title_Tips" = "请汇入以下提供的银行账户。";
-"ReceiveInfo" = "收款讯息";
-"ReceiveName" = "收款人姓名";
-"ReceiveBank" = "收款银行";
-"ReceiveAccount" = "收款银行卡号";
-"ValidDepositTime" = "有效充值时间";
-"RemmiterInfo" = "支付讯息";
-"RemmiterBankAccountName" = "支付者银行帐户名";
-"RemmiterAmount" = "支付金额";
-"Offline_Step2_Warning" = "请支付此金额，以便资金快速到帐。";
-"Offline_Step3_Title" = "已提交申请";
-"Offline_Step3_Fail" = "提交失敗";
-"TicketId" = "充值订单编号 {value}";
-"Offline_Step3_Content" = "目前平均充值处理时間为 <span style=\"padding-left: 16px;\">{value}</span>";
-"CheckLog" = "查看充值纪录";
-"Offline_Step3_Tips" = "系统将于30秒后重新导向 KTO 页面。";
-"DepositLog_Title" = "充值纪录";
-"Summary" = "充值总计";
-"Success" = "充值成功";
-"Detail_Title" = "订单明细";
-"Detail_Button" = "上传单据照片";
-"SelectPaymentGateway" = "选择充值帳號";
-"Input_Invalid" = "您输入的资料格式不正确";
-"Input_LowerMin" = "您的充值金额低於单笔限额";
-"Input_OverMax" = "您的充值金额超过单笔限额";
-"TicketNumber" = "充值编号";
-"BankName_Placeholder" = "汇款银行";
-"RemitterName_Placeholder" = "王大明";
-"InputAmount_Placeholder" = "¥1,000.00";
-"Input_BankNameEmpty" = "您必须提供您的汇款银行资讯";
-"Branch" = "支行名称";
-"selecttype" = "選擇充值方式";
-"my_account_detail" = "我的充值信息";
-"payee_detail" = "收款银行账户";
-"custom_cash" = "定制汇款金额";
-"offline_remitter_title" = "汇款提示";
-"offline_summary_tip" = "汇入定制金额有助于快速到账。";
-"limitation_hint" = "请在单笔限额范围内。";
-"offline_termniate" = "离线充值将中断并结束。";
-"online_terminate" = "在线充值将中断并结束。";
-"select_method" = "选择充值渠道";
-"no_available_type" = "目前暂无可用的充值方式";
-"no_records" = "目前暂无与您充值相关的纪录";
-"execeed_limitation" = "你的档案大小超过系统限制20MB";
-"name" = "汇款人姓名";
-"thirdparty_transaction_remind" = "你即将进入交易确认画面，在交易完成之前请勿关闭窗口。";
 
 //MARK: - Common
-"AccountInfo" = "个人资料";
-"Activity" = "帐户活动";
-"Adjustment" = "调整";
-"AfterBalance" = "余额";
-"All" = "全部";
-"Allow" = "允许";
-"Apply" = "申请";
-"ApplyDate" = "申请日期";
-"ApplyTime" = "申请时间";
-"Approved" = "成功";
-"Back" = "返回";
-"Bank" = "银行名称";
-"BeenCancelCommonly" = "取消设为常用";
-"BeenSetCommonly" = "已设为常用";
-"Bet" = "投注";
-"Birthday" = "玩家生日";
-"Bonus" = "彩金";
-"Cancel" = "取消";
-"CashLog" = "现金流";
-"Casino" = "娱乐场";
-"ChatSystem" = "聊天";
-"Close" = "关闭";
-"Confirm" = "确认";
-"Continue" = "继续";
-"Currency" = "人民币";
-"Custom" = "自定义";
-"DataError" = "数据有误";
-"Delete" = "删除";
-"Deleted" = "刪除成功";
-"Deposit" = "充值";
-"DespositId" = "充值单号";
-"DetailContent" = "详细内容";
-"Determine" = "确定";
-"DollarSign" = "¥";
-"Done" = "完成";
-"Email" = "电子邮箱";
-"Error" = "错误";
-"Floating" = "您需要上传文件";
-"Floating_2" = "需上传文件";
-"Fold" = "收起";
-"GameLobby" = "游戏大厅名称";
-"GameType" = "游戏类别";
-"Hour" = "时";
-"Invalid" = "您所填写的資料格式不符！";
-"Language" = "简体中文";
-"LastDay" = "最近{day}天";
-"Level" = "等级";
-"Level_2" = "LV{level}";
-"Login" = "登录";
-"Minute" = "分";
-"Mobile" = "手机";
-"Mobile_2" = "行动电话";
-"MobilePrefix" = "86";
-"Moblie_Number" = "电话号码";
-"Next" = "下一步";
-"NoRecord" = "查无纪录";
-"NoRelevantNotice" = "提醒您，目前暂无相关通知";
-"Notification" = "通知";
-"NotSet" = "暂时不设定";
-"Open" = "展开";
-"Password" = "密码";
-"Password_1" = "请输入密码";
-"Password_2" = "确认密码";
-"Password_3" = "请再次输入密码";
-"Password_4" = "请输入新密码";
-"Password_5" = "请再输入一次新密码";
-"Password_Repeat" = "与旧密码重复";
-"Password_Tips_1" = "6–12位字母与数字的组合，仅支持半角；\"#$%\"不可用，区分大小写。";
-"Pending" = "处理中";
-"Player_Inactive" = "您的帐户已被永久关闭，如有疑问请联系在线客服";
-"Player_Suspend" = "您的帐户被冻结，如有疑问请联系在线客服";
-"PlayerId" = "玩家ID";
-"Previous" = "上一步";
-"Promotion" = "优惠";
-"RealName" = "提现姓名";
-"Rebet" = "返现";
-"Redirect" = "系统将于 {value} 秒后重新导向 KTO 首页。";
-"Register" = "注册";
-"RegisterDate" = "注册日期";
-"Reject" = "失败";
-"Remark" = "备注";
-"Remove" = "移除";
-"ResendOtp" = "重新发送";
-"ReSettle" = "重新结算";
-"Second" = "秒";
-"SelectAll" = "所有选择";
-"SelectPhoto" = "选择照片";
-"SettingValue" = "设定值";
-"Settle" = "结算";
-"Show_All" = "显示全部";
-"Skip" = "略过";
-"Slot" = "老虎机";
-"Sportsbook" = "体育";
-"Status" = "状态";
-"Filter" = "筛选条件";
-"StatusFilter" = "状态筛选";
-"TicketNumber" = "单号";
-"TimeRange" = "时间范围";
-"Transaction" = "交易明细";
-"TransactionAmount" = "交易金额";
-"TransactionSummary" = "费用小计";
-"UnknowBank" = "提醒您此银行不在预设列表中，但您仍能使用并待后续人员审核。";
-"UnRegister" = "您尚未註冊帐戶";
-"Unverified" = "未验证";
-"Upload" = "上传";
-"UploadedFile" = "已上传验证文件";
-"UploadFail" = "上传单据照片失敗";
-"UploadFile" = "上传验证单据";
-"UploadPhoto" = "上传单据照片";
-"Verified" = "验证通过";
-"Verifing" = "验证中";
-"Verify" = "验证";
-"Version" = "1";
-"Withdrawal" = "提现";
-"WithdrawalName" = "提款名称";
-"Submit" = "送出";
-"DepositBonus" = "存送";
-"Freebet" = "免费金";
-"Rebate" = "返现";
-"Win" = "赢";
-"Lose" = "输";
-"Push" = "和";
-"Void" = "无效注单";
-"PlayerCancel" = "玩家取消";
-"UnSettle" = "未结算";
-"Otp_Send_Fail" = "验证码发送失敗";
-"Otp_Send_Success" = "验证码已发送";
-"Otp_Mail_Send_Success" = "验证信已发送";
-"Otp_Invalid" = "您輸入的验证码不正确！";
-"Otp_Resend_Tips" = "若没收到验证码，可于 %@ 后";
-"Verify_mail_Resend_Tips" = "若没收到验证信，可于 %@ 后";
-"Yes" = "是";
-"No" = "否";
-"MoveTo" = "前往";
-"CustomerService" = "呼叫客服";
-"Platinum" = "铂金厅";
-"Jade" = "翡翠厅";
-"Virtual" = "虚拟厅";
-"Search" = "搜寻";
-"Required" = "此欄位為必填";
-"Transaction_DateRange" = "申请时间";
-"DepositFeeRefund" = "%s 手续费回馈";
-"TicketStatus_Void" = "失败";
-"Edit" = "编辑";
-"New" = "新遊戲";
-"Jackpot" = "獎池";
-"Keno" = "数字彩";
-"show" = "显示";
-"hide" = "隐藏";
-"UnknownError" = "出現未知錯誤，錯誤代碼: %@";
-"ConnectionError" = "網路異常，請重新確認連接";
-"Try_again" = "再试一次";
-"password_not_the_same" = "密碼不一致";
-"wrong_password_format" = "密碼格式錯誤";
-"password_not_filled" = "密碼不該為空";
-"network_error" = "網路連接有問題，請確認後重新嘗試";
-"January" = "1月";
-"February" = "2月";
-"March" = "3月";
-"April" = "4月";
-"May" = "5月";
-"June" = "6月";
-"July" = "7月";
-"August" = "8月";
-"September" = "9月";
-"October" = "10月";
-"November" = "11月";
-"December" = "12月";
-"Monday" = "一";
-"Tuesday" = "二";
-"Wednesday" = "三";
-"Thursday" = "四";
-"Friday" = "五";
-"Saturday" = "六";
-"Sunday" = "日";
-"upload_file" = "上传验证文件";
-"click_to_upload" = "点击上传图片";
-"camera" = "拍照";
-"gallery" = "選擇圖庫";
-"upload_limit" = "最多上傳3張";
-"copy" = "复制";
-"copied" = "复制完成";
-"submit2" = "提交";
-"times_count" = "次";
-"privacy_terms" = "隐私政策";
-"service_terms" = "服务条款";
-"gambling_responsibility_terms" = "博彩责任";
-"about_kto" = "关于KTO";
-"legal_supervision" = "法律监管";
-"change_setting" = "变更设定";
-"change_done" = "变更完成";
-"change_fail" = "变更失敗";
-"tip_title_warm" = "温馨提示";
-"tip_content_bind" = "该设定将与账户绑定，无法更改。";
-"tip_title_unfinished" = "当前页面数据未保存，确定要离开？";
-"tip_content_unfinished" = "一但删除，此笔帐户数据就不存在";
-"field_must_fill" = "此栏位必填";
-"field_format_incorrect" = "您所填写的格式不正确";
-"otp_content_error" = "您输入的验证码不正确";
-"error_email_format" = "请输入正确的电子邮箱";
-"error_Mobile_format" = "请输入正确的手机号";
-"error_email_verify" = "此电子邮箱无法进行验证";
-"error_phone_verify" = "此手机号无法进行验证";
-"error_try_later" = "您已多次输入错误，请稍后再试。";
-"otp_sent_content" = "6位数字的验证码已经发送至";
-"notify_logout_title" = "登出通知";
-"notify_logout_content" = "很抱歉，您的帐号已在其它位置登录，请尝试重新登录。";
-"sms_otp_exeed_send_limit" = "该手机已达发送上限，请于隔日00:00再试。";
-"email_otp_exeed_send_limit" = "该邮箱已达发送上限，请于隔日00:00再试。";
-"app_version" = "{FLAVOR}-{CurrentVersionName}";
-"confirm_cancel_operation" = "确认取消当前操作?";
-"today" = "今天";
-"yesterday" = "昨天";
-"kindly_remind" = "温馨提醒";
-"success" = "成功";
-"fail" = "失败";
-"processing" = "处理中";
-"confirm_logout" = "您确定要登出吗？";
-"logout" = "登出";
-"last7day" = "最近7天";
-"select_day" = "选定某天";
-"select_month" = "选定某月";
-"last30day" = "最近30天";
-"experience" = "经验值 %s";
-"total_amount" = "总计";
-"select_all" = "全选";
-"unselect_all" = "取消全选";
-"request_submitted" = "已提交申请";
-"confirm_delete" = "确认删除？";
-"photo_upload_limit" = "上传限制: 一次最多3笔文件，单一档案不可超过20MB";
+"common_kto" = "KTO";
+"common_accountinfo" = "个人资料";
+"common_activity" = "帐户活动";
+"common_adjustment" = "调整";
+"common_afterbalance" = "余额";
+"common_all" = "全部";
+"common_allow" = "允许";
+"common_apply" = "申请";
+"common_applydate" = "申请日期";
+"common_applytime" = "申请时间";
+"common_approved" = "成功";
+"common_back" = "返回";
+"common_bank" = "银行名称";
+"common_beencancelcommonly" = "取消设为常用";
+"common_beensetcommonly" = "已设为常用";
+"common_bet" = "投注";
+"common_birthday" = "玩家生日";
+"common_bonus" = "彩金";
+"common_cancel" = "取消";
+"common_cashlog" = "现金流";
+"common_casino" = "娱乐场";
+"common_chatsystem" = "聊天";
+"common_close" = "关闭";
+"common_confirm" = "确认";
+"common_continue" = "继续";
+"common_currency" = "人民币";
+"common_custom" = "自定义";
+"common_dataerror" = "数据有误";
+"common_delete" = "删除";
+"common_deleted" = "刪除成功";
+"common_deposit" = "充值";
+"common_despositid" = "充值单号";
+"common_detailcontent" = "详细内容";
+"common_determine" = "确定";
+"common_dollarsign" = "¥";
+"common_done" = "完成";
+"common_email" = "电子邮箱";
+"common_error" = "错误";
+"common_floating" = "您需要上传文件";
+"common_floating_2" = "需上传文件";
+"common_fold" = "收起";
+"common_gamelobby" = "游戏大厅名称";
+"common_gametype" = "游戏类别";
+"common_hour" = "时";
+"common_invalid" = "您所填写的資料格式不符！";
+"common_language" = "简体中文";
+"common_lastday" = "最近%@天";
+"common_level" = "等级";
+"common_level_2" = "LV%@";
+"common_login" = "登录";
+"common_minute" = "分";
+"common_mobile" = "手机";
+"common_mobile_2" = "行动电话";
+"common_mobileprefix" = "86";
+"common_moblie_number" = "电话号码";
+"common_next" = "下一步";
+"common_norecord" = "查无纪录";
+"common_norelevantnotice" = "提醒您，目前暂无相关通知";
+"common_notification" = "通知";
+"common_notset" = "暂时不设定";
+"common_open" = "展开";
+"common_password" = "密码";
+"common_password_1" = "请输入密码";
+"common_password_2" = "确认密码";
+"common_password_3" = "请再次输入密码";
+"common_password_4" = "请输入新密码";
+"common_password_5" = "请再输入一次新密码";
+"common_password_repeat" = "与旧密码重复";
+"common_password_tips_1" = "6–12位字母与数字的组合，仅支持半角；\"#$%\"不可用，区分大小写。";
+"common_pending" = "处理中";
+"common_pending_hold" = "等待银行处理中";
+"common_player_inactive" = "您的帐户已被永久关闭，如有疑问请联系在线客服";
+"common_player_suspend" = "您的帐户被冻结，如有疑问请联系在线客服";
+"common_playerid" = "玩家ID";
+"common_previous" = "上一步";
+"common_promotion" = "优惠";
+"common_realname" = "提现姓名";
+"common_rebet" = "返现";
+"common_redirect" = "系统将于 %@ 秒后重新导向 KTO 首页。";
+"common_register" = "注册";
+"common_registerdate" = "注册日期";
+"common_reject" = "失败";
+"common_remark" = "备注";
+"common_remove" = "移除";
+"common_resendotp" = "重新发送";
+"common_resettle" = "重新结算";
+"common_second" = "秒";
+"common_selectall" = "所有选择";
+"common_selectphoto" = "选择照片";
+"common_settingvalue" = "设定值";
+"common_settle" = "结算";
+"common_show_all" = "显示全部";
+"common_skip" = "略过";
+"common_slot" = "老虎机";
+"common_sportsbook" = "体育";
+"common_status" = "状态";
+"common_filter" = "筛选条件";
+"common_statusfilter" = "状态筛选";
+"common_ticketnumber" = "单号";
+"common_timerange" = "时间范围";
+"common_transaction" = "交易明细";
+"common_transactionamount" = "交易金额";
+"common_transactionsummary" = "费用小计";
+"common_unknowbank" = "提醒您此银行不在预设列表中，但您仍能使用并待后续人员审核。";
+"common_unregister" = "您尚未註冊帐戶";
+"common_unverified" = "未验证";
+"common_upload" = "上传";
+"common_uploadedfile" = "已上传验证文件";
+"common_uploadfail" = "上传单据照片失敗";
+"common_uploadfile" = "上传验证单据";
+"common_uploadphoto" = "上传单据照片";
+"common_verified" = "验证通过";
+"common_verifing" = "验证中";
+"common_verify" = "验证";
+"common_version" = "1";
+"common_withdrawal" = "提现";
+"common_withdrawalname" = "提款名称";
+"common_submit" = "送出";
+"common_depositbonus" = "存送";
+"common_freebet" = "免费金";
+"common_rebate" = "返现";
+"common_win" = "赢";
+"common_lose" = "输";
+"common_push" = "和";
+"common_void" = "无效注单";
+"common_playercancel" = "玩家取消";
+"common_unsettle" = "未结算";
+"common_otp_send_fail" = "验证码发送失敗";
+"common_otp_send_success" = "验证码已发送";
+"common_otp_mail_send_success" = "验证信已发送";
+"common_otp_invalid" = "您輸入的验证码不正确！";
+"common_otp_resend_tips" = "若没收到验证码，可于 %@ 后";
+"common_verify_mail_resend_tips" = "若没收到验证信，可于 %@ 后";
+"common_yes" = "是";
+"common_no" = "否";
+"common_moveto" = "前往";
+"common_customerservice" = "呼叫客服";
+"common_platinum" = "铂金厅";
+"common_jade" = "翡翠厅";
+"common_virtual" = "虚拟厅";
+"common_search" = "搜寻";
+"common_required" = "此欄位為必填";
+"common_transaction_daterange" = "申请时间";
+"common_depositfeerefund" = "%@ 手续费回馈";
+"common_ticketstatus_void" = "失败";
+"common_edit" = "编辑";
+"common_new" = "新遊戲";
+"common_keno" = "数字彩";
+"common_show" = "显示";
+"common_hide" = "隐藏";
+"common_unknownerror" = "出現未知錯誤，錯誤代碼: %@";
+"common_connectionerror" = "網路異常，請重新確認連接";
+"common_try_again" = "再试一次";
+"common_password_not_the_same" = "密碼不一致";
+"common_wrong_password_format" = "密碼格式錯誤";
+"common_password_not_filled" = "密碼不該為空";
+"common_network_error" = "網路連接有問題，請確認後重新嘗試";
+"common_january" = "1月";
+"common_february" = "2月";
+"common_march" = "3月";
+"common_april" = "4月";
+"common_may" = "5月";
+"common_june" = "6月";
+"common_july" = "7月";
+"common_august" = "8月";
+"common_september" = "9月";
+"common_october" = "10月";
+"common_november" = "11月";
+"common_december" = "12月";
+"common_monday" = "一";
+"common_tuesday" = "二";
+"common_wednesday" = "三";
+"common_thursday" = "四";
+"common_friday" = "五";
+"common_saturday" = "六";
+"common_sunday" = "日";
+"common_upload_file" = "上传验证文件";
+"common_click_to_upload" = "点击上传图片";
+"common_camera" = "拍照";
+"common_gallery" = "選擇圖庫";
+"common_upload_limit" = "最多上傳3張";
+"common_copy" = "复制";
+"common_copied" = "复制完成";
+"common_submit2" = "提交";
+"common_times_count" = "次";
+"common_privacy_terms" = "隐私政策";
+"common_service_terms" = "服务条款";
+"common_gambling_responsibility_terms" = "博彩责任";
+"common_about_kto" = "关于KTO";
+"common_legal_supervision" = "法律监管";
+"common_change_setting" = "变更设定";
+"common_change_done" = "变更完成";
+"common_change_fail" = "变更失敗";
+"common_tip_title_warm" = "温馨提示";
+"common_tip_content_bind" = "该设定将与账户绑定，无法更改。";
+"common_tip_title_unfinished" = "当前页面数据未保存，确定要离开？";
+"common_tip_content_unfinished" = "一但删除，此笔帐户数据就不存在";
+"common_field_must_fill" = "此栏位必填";
+"common_field_format_incorrect" = "您所填写的格式不正确";
+"common_otp_content_error" = "您输入的验证码不正确";
+"common_error_email_format" = "请输入正确的电子邮箱";
+"common_error_mobile_format" = "请输入正确的手机号";
+"common_error_email_verify" = "此电子邮箱无法进行验证";
+"common_error_phone_verify" = "此手机号无法进行验证";
+"common_error_try_later" = "您已多次输入错误，请稍后再试。";
+"common_otp_sent_content" = "6位数字的验证码已经发送至";
+"common_notify_logout_title" = "登出通知";
+"common_notify_logout_content" = "很抱歉，您的帐号已在其它位置登录，请尝试重新登录。";
+"common_sms_otp_exeed_send_limit" = "该手机已达发送上限，请于隔日00:00再试。";
+"common_email_otp_exeed_send_limit" = "该邮箱已达发送上限，请于隔日00:00再试。";
+"common_app_version" = "%@";
+"common_confirm_cancel_operation" = "确认取消当前操作?";
+"common_today" = "今天";
+"common_yesterday" = "昨天";
+"common_kindly_remind" = "温馨提醒";
+"common_success" = "成功";
+"common_fail" = "失败";
+"common_processing" = "处理中";
+"common_pending_or_pending_hold" = "处理中 / 等待银行处理中";
+"common_confirm_logout" = "您确定要登出吗？";
+"common_logout" = "登出";
+"common_last7day" = "最近7天";
+"common_select_day" = "选定某天";
+"common_select_month" = "选定某月";
+"common_last30day" = "最近30天";
+"common_experience" = "经验值 %@";
+"common_total_amount" = "总计";
+"common_select_all" = "全选";
+"common_unselect_all" = "取消全选";
+"common_request_submitted" = "已提交申请";
+"common_confirm_delete" = "确认删除？";
+"common_photo_upload_limit" = "上传限制: 一次最多3笔文件，单一档案不可超过20MB";
+"common_photo_upload_limit_reached" = "一次最多上傳%@份文件";
+"common_kick_out_suspend" = "由于安全原因，您的会员账户已被冻结，请联系客服寻求协助。";
+"common_kick_out_inactive" = "由于安全原因，您的会员账户已被停用，请联系客服寻求协助。";
+"common_kick_out_maintenance" = "系統維護中";
+"common_kick_out_token_expired" = "我们发现您闲置时间过长, 建议您重新登录, 取得更好的使用体验。";
+"common_kick_out_token_expired_title" = "闲置过久自动登出说明";
 
-//MARK: - License
-"Warning" = "请仔细阅读本条款，并确认您完全理解其内容。如果对于这一条款所产生的权利和义务有任何疑问，请向您所属法律管辖区域内的法律顾问寻求帮助。";
-"Definition" = "定义";
-"Definition_Content" = "以下条规适用于会员使用、联接和参与由(统称KTO亚洲、「我们」及「我们的」，视具体情况而定)通过KTO亚洲经营的网站提供的网上博彩服务。本条规须与特定博彩的博彩规则及适用于博彩软件的使用及与连接进入博彩网站和其中所含条规一并阅读。我们有权通过网站向有关第三方支付平台服务提供商以及金融保险机构提供必要的个人信息以完成支付要求。\n\n「博彩」就本条规而言，包括但不限于通过博彩网站提供的任何及/或一切博彩服务进行的投注、游戏及各类博彩活动；「联接设备」指任何应用联接设备，包括但不限于为使用和联接博彩网站、参与博彩服务而采用的个人电脑、笔记本电脑、移动电话、个人数码助理、PDA电话、手提设备。";
-"Agree" = "同意";
-"Agree_Content" = "会员在注册过程中于「我声明我已年满18岁」及「我同意KTO亚洲的修款及条件与规则及规定。」字样之前的方框内打勾，并点击相应的「储存并继续」按钮，即表示会员确认并同意：\n\n1.会员已经阅读、完全理解并同意本条规。\n\n2.本条规构成会员与KTO亚洲之间关于博彩服务使用的具有法律约束力的协议(「使用协议」)。\n\n如果会员不同意本条规中的任何条款，请勾「本人不同意」按钮，并请不要点击「储存并继续」按钮，不要试图使用或继续使用任何博彩服务或下载和/或安装博彩软件。";
-"Modify" = "修改";
-"Modify_Content" = "KTO亚洲保留不时修订、更新和修改本条规和博彩规则(或其任何部分)的绝对权利。上述任何修订、更新或修改将在博彩网站上公布。经修订、更新或修改的本条规和博彩规则于其在博彩网站上公布时生效。会员在之后继续通过博彩网站和博彩设备使用、联接和参与博彩服务，将视为同意并接受所公布的经修改或更新的本条规和博彩规则。\n\n会员确认并同意及自行负责查阅上述修订、更新或修改。KTO亚洲可自主决定将上述修订、更新和修改通知会员。上述修订、更新和修改可由KTO亚洲自主决定不时通知会员，但KTO亚洲并无任何义务向会员通知任何修订、更新和修改。";
-"GamingInfo_IntellectualProperty" = " 博彩资讯和知识产权";
-"GamingInfo_IntellectualProperty_Content" = "通过博彩网站、博彩服务、博彩设备和/或任何其他方式提供向会员公开、获取、产生和/或收集的信息、资料和数据，包括但不限于营销计划和资料、成绩、统计数据、赛事数据、赛程表、概率和投注数据、文字、图标、音像资讯(「博彩资讯」)，将属于KTO亚洲和其许可人所有，仅供会员用于个人非商业性目的。\n\n除在本条规外，未经我们或第三方资料专有人的事先书面同意，会员不得以任何方式或手段改编、拷贝、修改、复制、储存、散发、展示、公开播放、制入有线节目、出版、传送、出售、出借、出租、许可使用博彩资讯。会员也不得或以其他方式使用任何他人网站、网上服务、公告板、任何媒体和/或联接设备可以获得、使用、或连接上述博彩资讯。\n\n在博彩网站和/或通过联接设备提供的博彩软件、博彩服务和博彩资讯享受著作权、商标和其他形式的知识产权和专利保护。博彩网站上的博彩软件、博彩服务和博彩资讯的所有权利、产权和利益均属KTO亚洲和其许可人所有、使用或控制。会员确认并未通过使用或联接在博彩网站和/或联接设备提供的博彩软件、博彩服务和博彩资讯取得KTO亚洲的博彩软件、博彩服务和博彩资讯的任何权利、利益或许可。";
-"Condition" = " 使用条件";
-"Condition_Content" = "作为使用博彩服务的条件，会员保证并承诺不得以任何违反适用于会员的任何法律、违反本条规和/或被本条规所禁止的目的使用或联接博彩网站、博彩软件、博彩服务和/博彩资讯。除了本条规中所列一切其他声明和保证之外，会员在此进一步保证并承诺，作为使用博彩服务的条件：\n\n1.会员以本人的身份及名义进行活动，而非代他人进行交易；\n\n2.会员的法律行为能力不受限制；\n\n3.会员未被诊断或认定为赌博强迫症；\n\n4.会员年龄(a)至少已满19周岁；或(b)已满任何适用于会员的法律所规定的其他法定年龄或成人年龄，以较大者为准(「法定年龄」)；\n\n5.会员充分了解在使用博彩服务的过程中亏损资金的风险；\n\n6.会员存入的款项并非来源于犯罪或其他非法、未经授权或许可的活动；\n\n7.会员并非从事犯罪或其他非法、未经授权或许可活动和/或企图利用会员在KTO亚洲开立的账户从事上述活动；会员不得利用或允许他人利用博彩服务或会员的博彩账户从事适用于会员或我们的任何法律所规定的任何犯罪或其他非法活动，包括但不限于洗钱；\n\n8.对会员的户名、账号和密码予以保密，防止非法联接或使用，在户名、账号或密码以任何方式失密的情况下立即更改密码或通知我们；\n\n9.对以会员的户名、账号和密码通过博彩网站和/或联接设备联接和使用博彩服务的任何及所有活动自行承担责任，不论上述联接和/或使用是否经会员授权或为会员所知晓；\n\n10.不以任何干扰或可能干扰其他会员使用博彩服务和博彩网站的方式使用博彩服务、博彩网站、联接设备、博彩软件和博彩资讯，不实施任何降低或可能降低博彩服务和博彩网站运行效能的行为；\n\n11.不征集或以任何方式企图获取有关其他会员的任何资料；\n\n12.不上传或散发任何含有病毒、已经毁坏或可能影响联接设备、博彩软件、博彩服务和/或博彩网站运行效能的程序、文件或数据；\n\n13.会员通过博彩网站和/或联接设备联接或使用博彩服务和博彩资讯不违反适用于会员的法律；亦不违反对会员个人或会员目前联接博彩网站或使用联接设备所在国家所有人具有约束力的合约义务；同时不受上述法律或合约义务禁止；\n\n14.不使用任何设备、机械、装置、软件、程序或其他方法(或任何具有上述性质的事物)干扰或企图干扰博彩服务、联接设备、博彩软件、博彩网站、博彩资讯或博彩网站和/或联接设备提供的任何交易的正常运行；\n\n15.不向博彩网站和/或联接设备或任何其他会员发布或传送任何违法、骚扰性、侮辱性、威胁性、诬蔑性、诽谤性、淫秽、猥亵、煽动性、种族歧视、色情或粗俗的内容，或可构成或教唆犯罪、引发民事责任或以其他方式违反任何法律的内容；\n\n16.会员不是KTO亚洲或其任何关联公司的管理人员、董事、雇员、顾问、关联人或代理人，或与上述任何人员具有亲属或同屋居住关系；\n\n17.不干扰其他会员使用博彩服务、博彩网站、博彩软件、联接设备和博彩资讯或发起和参与调查、竞赛、连锁信或发布传送「垃圾邮件」或其他未受请求的群发邮件。";
-"Register_Membership" = "注册开立博彩账户和会员资格";
-"Register_Membership_Content" = "欲通过KTO亚洲参与博彩、使用博彩服务，会员须按博彩网站所述程序完成开立账户和会员资格的申请(「会员资格申请」)。\n\n会员声明并承诺，会员在注册和办理会员资格申请时所提供的所有资料，包括会员资格申请所填会员姓名(「姓名」)、资金来源(包括有关银行账号和卡号)和住址，在一切方面均真实、准确、完整。\n\nKTO亚洲将采取必要和适当的措施对会员向我们披露的个人资料予以保密。我们将对所收到的会员个人数据和投注资料予以严格保密，除非法律、法规、规章、法院、监管机关、任何有关博彩管理、执法机关的命令和决定或本条规另要求披露。会员对其个人资料的保密自行承担责任。我们保留在完成博彩网站所提供的博彩服务的付款手续所需的范围内向我们支付结算服务提供者和金融机构披露会员个人数据的权利。\n\n会员还须自行负责确保会员使用和联接博彩网站和其中所含的博彩资讯、下载安装博彩软件和/或使用和参与博彩服务不受适用于会员的法律禁止。\n\n为验证会员的会员资格申请，我们还需要会员提供身份和年龄证明(如带照片的有效身份证明和借记卡或信用卡)。会员提供的具体原始资料如有任何变更，应及时通知我们。为确认会员的姓名和地址，KTO亚洲保留通过邮寄等方式确认会员姓名和地址的权利。KTO亚洲还可自行决定采用其他安全措施核实会员提供的任何资料。会员同意本条规，即同时表示同意KTO亚洲联接、使用、处理和储存对会员的任何身份验证或核实结果。\n\n我们保留基于任何理由拒绝会员会员资格申请的绝对权利。\n\n我们仅对在线即时帮助所公布的KTO亚洲官方备用网站负责。会员登录其它任意貌似KTO亚洲网站的链接，所造成的任何损失我们将不承担任何责任。如有其他疑问，请直接联络我们的在线客服。\n\n会员在KTO亚洲仅可开立一个账户。若我们发现会员在KTO亚洲开设不止一个账户，我们保留自行决定将会员在KTO亚洲的所有账户作为一个合并账户处理、取消多余账户或与会员终止本协议的权利。";
-"Bet_AcceptBet" = "下注及接受下注";
-"Bet_AcceptBet_Content" = "我们于博彩网站上和/或通过联接设备所不时提供的游戏、体育赛事和其他博彩活动开放给会员下注。会员下注须遵守具体游戏或博彩活动的博彩规则以及本条规的规定。若任何赌局出现明显错误或显示错误的参赌人，该赌局的所有下注均告作废。KTO亚洲博彩系统发生故障时，我们亦有权宣布任何或所有下注无效。\n\n尽管本条规可能存在其他规定，但KTO亚洲有权基于任何理由酌情拒绝会员的全部或部分下注。\n\n我们仅接受会员按本条规通过互联网和/或联接设备进行下注。其他下注形式(邮寄、电邮、传真等)一概不予接受。我们即使收到其他形式的下注，不论赌盘最后开出的结果如何，均视为无效。\n\n1.KTO亚洲有权搁置或拒绝疑用欺骗手段如通过攻击、操纵等破坏操作系统所进行的投注。\n\n2.任何不寻常的投注将被取消，而不需另行通知。特此声明，人工智能或软件(机器人\"Robots\")于线上投注服务的使用是被严禁的行为，而任何试图或利用该方式的投注将被取消，相关账号立即会被关闭。\n\n受限于本条规其他规定，会员输入正确的会员名和密码且账户内存有足够余额，会员即有效投下注码。\n\n会员均须对使用下列内容（或其各项结合）所进行的所有活动和交易负责（无论下述使用是否得到授权）：\n\n1.会员姓名；\n\n2.会员账户号；\n\n3.会员的会员名和密码。\n\n会员自行负责确保其下注细节的准确性。受限于本条规其他规定，一旦会员下注且我们确认接受会员的下注，即为会员下注的最终确证；会员不得取消、撤回下注或更改下注细节。\n\n所有下注均收录于交易记录数据库。KTO亚洲的交易记录为所有交易及下注的相关信息的最终确证。\n\n受限于本条规其他规定，当交易代号出现在会员屏幕上并有效显示在会员的交易历史中时，下注即视为有效及被KTO亚洲接受。\n\n比赛开始后和/或下注时比赛结果已被知晓之情况下不得下注。若比赛开始和/或会员下注时已经知晓比赛结果之情况下仍错误地开放给会员下注，KTO亚洲有权不经通知会员即可拒绝会员下注或宣布下注无效；KTO亚洲享有是否接受全部或部分该等下注的自主决定权。为避免疑义，本条款不排除「下半场」投注盘或「半场」投注盘。\n\n博彩网站上预告的开赛时间仅为信息参考之用。若KTO亚洲因任何原因无意中于比赛开始后仍接受下注，则我们有权取消和宣布该等下注无效。\n\n除非有关比赛和游戏的具体规则另有规定，否则为了博彩的目的，开放下注的比赛或游戏的结果将于比赛或游戏实际结束当天决定。KTO亚洲不承认任何后来的可能导致推翻上述结果的质询，原派彩仍然有效。\n\n体育赛事的比赛地点发生变化的，以原赛场为基础的所有下注均告无效。\n\n比赛或游戏的赢家将根据博彩规则在上述比赛或游戏实际结束当天予以定。\n\n为博彩目的，KTO亚洲不承认任何延期比赛、抗议或推翻的结果。\n\n会员下注的多重彩中如包括非参赛者选项或无效选项，派彩将以剩余的有效选项为基础进行结算。\n\n会员承认所有赔率、指数和让分可不经通知上下浮动，上述赔率、指数和让分仅在会员下注被我们接受时予以确定。\n\n若明显错误或系统故障造成会员下注的赔率、指数或让分不正确时，则会员的下注或多重彩的部分下注无效。若有关错误或故障及时得到纠正，KTO亚洲有权自主(但无义务)决定尽合理努力和会员联络允许会员以正确的赔率、指数和让分重新下注。\n\n我们不接受会员同时对同一赛事重复下注。\n\n就任何下注及其相关交易而言，KTO亚洲享有最后决定权，且其所作决定系终局性并具有最终确定力的。";
-"GamingSoftware_UsageRights" = "博彩软件使用权";
-"GamingSoftware_UsageRights_Content" = "会员特此确认并同意，会员通过联接设备以下载或其他方式获得的以便其远程使用的博彩网站的博彩软件属于博彩服务的一部分，为KTO亚洲和/其许可人的财产；会员对该等博彩软件不享有任何权利。会员不得以任何方式或以任何手段改编、拷贝、修改、复制、储存、散发、展示、公开播放、传播、广播、制入有线节目、出版、传送、出售、出借、出租、或许可使用博彩软件。会员也不得以其他方式交流或使博彩软件对任何他人网站、网上服务或公告板或任何其他媒体和/或联接设备开放。\n\nKTO亚洲特此授予会员在联连设备上安装和使用博彩软件的非专属性、不可转让的个人使用权(「使用权」)，但博彩软件的安装和使用所用的联接设备须以会员为主要使用人。\n\nKTO亚洲授权和散发博彩软件的目的仅为博彩软件的终端会员能完全连接和使用博彩服务。\n\n会员不得：\n\n1.安装或传载博彩软件至其他连网设备的服务器或采取其他步骤使博彩软件可以通过任何形式或公告板、网上服务或远程拨号或网络使他人得到；\n\n2.散发、出借、出租、转授权、拷贝、转让、转移或以其他方式使任何其他人得到博彩软件和/或使用博彩软件的使用权；\n\n3.允许其他人使用博彩软件；\n\n4.设立或提供任何方式(包括但不限于仿真程序)使他人使用博彩软件；\n\n5.翻译、反向工程、反向编译，反汇编、修改、破解、全部或部分的以博彩软件和其源代码为基础开发衍生产品。\n\n6.拷贝、修改、翻译或全部或部分地以博彩软件的相关会员文件为基础开发衍生产品。\n\n会员承认并同意，博彩网站上提供的及或通过联连设备或其他方式提供的博彩软件或博彩软件会员方件均归KTO亚洲和许可人所有，并受著作权、商标权和其他知识产权和专利权的保护。会员特此承认，博彩软件的结构、组织和源代码为KTO亚洲和其许可人的极具价值的商业秘密。会员承认除根据使用权向会员授予的权利外，会员对博彩软件和/或博彩软件会员文件不享有任何权利和权益。\n\n本协议因任何原因终止，本协议顶下所授予的使用权自动作废，会员应停止使用博彩软件并将博彩软件从联连设备中卸载。";
-"Transaction_Settlement" = "交易结算";
-"Transaction_Settlement_Content" = "会员使用信用卡或借记卡的，持卡人姓名须与会员登记和申请过程中所使用的姓名一致。若发生持卡人姓名和账户登记和会员申请所使用的姓名不一致的情况，KTO亚洲有权拒绝就相关交易进行结算。\n\n会员承担向KTO亚洲和/其他会员（视具体情况而定）支付所有应付款项的一切责任。会员同意对任何付款不实施或促使他人实施退款，不拒绝或撤销付款，并向KTO亚洲偿付所有被退还​​、拒绝或撤销的付款以及由此引起的所有损失和费用。KTO亚洲，根据自主判断，有权终止向个别会员或使用某类信用卡或借记卡付款的会员提供服务或支付款项。\n\n任何经KTO亚洲认可的有效彩金不包括下注额。\n\n任何款项或彩金在存入账户的过程中发生错误，KTO亚洲不负任何形式的任何责任，且我们有权在任何时候或在事后宣布涉及该等款项的交易无效。会员一旦发现账户内款项汇存有误，有责任立即通知KTO亚洲。\n\n在任何适用法律下就彩金所应缴付的税款和费用均由会员自行负责缴付。";
-"Bouns" = "领取彩金";
-"Bouns_Content" = "会员的彩金经结算后，将存入会员账户，具体提取办法参照我们彩金提取规定并须出示我们认可的有效带照身份证和信用/借记卡。\n\n在会员所持的信用/借记卡发行银行允许的情况下，彩金可以直接存入会员交纳押金所用的信用/借记卡账户。支票或电汇的收款人以登记或申请会员时所用的姓名为准。以信用卡或借记卡支付押金的，收款人还必须是信用卡或借记卡的登记持卡人。\n\n投注额必须与充值額相同才能进行提款，KTO亚洲将保留权利，收取必要的充值与提现手续费。\n\nKTO亚洲因会员的博彩交易而蒙受的所有银行收费均由会员承担和偿付，我们有权从会员彩金或账户中扣除和抵扣上述收费。";
-"Promotion_Reward" = "促销和奖励";
-"Promotion_Reward_Content" = "所有促销、奖励和特价均须遵守本条规及KTO亚洲针对具体促销活动所不时制定的规定。KTO亚洲保留在任何时候中止、取消或修改该等奖励或促销和/或其相关规定及条款的权力。\n\n若KTO亚洲认定有人滥用或企图滥用某项奖励或促销活动，或可能因该等滥用行为而获利，我们有权自主决定以其认为合适的方式阻止、拒绝，中止、或撤消任何会员参加有关奖励或促销活动。\n\n如发现任意带有串通勾结以及试图欺诈等嫌疑的个人或团队，我们将保留取消其部份或全部投注的权利。所涉及的个人，亲属，组织，博彩庄家及其员工账户中的金额会将被立即查封没收。";
-"Compensation" = "赔偿";
-"Compensation_Content" = "会员同意，由于会员连接博彩网站、下载或安装博彩软件、下注和/或以其他方式使用博彩服务、博彩软件和/或博彩资讯、及/或违背本条规和/或博彩规则，而对KTO亚洲、其股东、雇员、管理人员、董事、受许可方、经销商、关联方、子公司和/代理商造成的任何损失、损害或及索赔(包括合理的律师费)，会员须予以全额赔偿。";
-"Disclaimer_SpecialConsideration" = "免责声明及特别注意事项";
-"Disclaimer_SpecialConsideration_Content" = "博彩完全是一项个人选择，以个人判断与分析为依据，且风险自负的行为。会员下注的同时，即表明会员承认博彩服务、博彩网站和博彩资讯并无冒犯性，且并不令人反感、不公平或有悖公共道德。一些司法管辖区对网上及/或岸外网上博彩的合法性尚无定论；而另一些司法管辖区则明确规定网上博彩（在司法管辖区域内和/或岸外）均属非法行为。我们不鼓励任何人在非法的情况下使用和连接博彩网站、博彩资讯和/或博彩服​​务。博彩服务、博彩资讯和博彩网站的设立和提供并不构成我们发出要约、招揽或邀请任何人在那些规定使用或连接上述内容为非法行为的国家内使用或连接上述内容。会员独立承担遵守其所适用之相关法律规定的责任，而KTO亚洲不就博彩服务、博彩软件、博彩网站或其中的博彩资讯与会员所适用的法律规定相符作出任何声明。\n\n博彩服务、博彩软件、博彩网站和博彩资讯均按「原状原则」提供。除本条规明示的外，KTO亚洲不就博彩服务、博彩网站、博彩软件和博彩资讯作出任何声明或保证。故所有有关博彩服务、博彩软件、博彩网站和博彩资讯的声明或保证，不论明示或暗示、法定与否，特此在法律允许的最大范围内予以排除。KTO亚洲不就博彩服务、博彩软件、博彩网站或博彩资讯的准确性、及时性、安全性、连续性、正确性或抗外界干扰性（任何性​​质），以及更正所发现的任何缺陷作出保证。KTO亚洲亦不保证博彩服务、博彩软件、博彩网站和博彩资讯或提供上述内容的服务器不含有任何病毒、间​​谍软件、广告软件或其他具恶意性、破坏性或可导致电脑瘫痪的代码、程序、数据、宏指令或可影响任何联接设备和/或其中所存数据的其他软件或特性。会员承诺将自行自费采取预防措施，确保其使用或连接博彩服务所用的过程、方法和/或联接设备、以及博彩软件的安装和博彩网站的使用，均不会带来电脑病毒、间谍软件、广告软件或具恶意性、破坏性或可导致电脑瘫痪的其他代码，或导致其联接设备或其中所存数据受到干扰和破坏的其他风险。\n\n若发生与账户结算或博彩服务的其他方面有关的系统错误或通讯错误，KTO亚洲不承担由此引起的任何责任。在此情况下，KTO亚洲有权取消所有受上述错误影响的下注并采取任何更正行动。\n\n在任何情况下，因会员连接、使用或参与博彩服务、博彩网站、博彩软件和博彩资讯而发生任何损害、损失或支出，包括会员之联接设备或所存数据受到任何干扰或破坏，KTO亚洲不承担任何责任。此外，对博彩服务、博彩网站、博彩软件和博彩资讯中由第三方(包括但不限于宽带和电信服务供应商)所提供的内容，KTO亚洲亦不作任何保证和声明且不予负责；在任何情况下，KTO亚洲均不对上述第三方合作者的任何违约、过错或不作为承担责任。\n\n在任何情况下，KTO亚洲、其关联公司、关联方、合伙人、管理人员、雇员和代理均不对任何损害、损失或支出承担责任。上述包括但不限于因会员连接或使用博彩服务、博彩网站、博彩软件和博彩资讯、或与会员连接或使用博彩服务、博彩网站、博彩软件和博彩资讯有关的、或因会员下载、安装或使用博彩软件所引起的任何直接、间接、因果性或特别的损害或经济损失，不论KTO亚洲是否被告知可能发生上述损害、损失或支出。在任何情况下，就与会员下注直接相关的任何事宜、事件或情形所引起或与之相关的任何损失或损害(不论是否基于合约、侵权、严格责任或其他原因)，在法律允许的最大范围内，KTO亚洲对会员的全部责任(如有)应不超过会员的相应下注额。\n\n会员承认，博彩资讯在性质上可能全部或部分地具有临时性，并且可按本条规予以修订、修改或更改。因此，会员承认博彩资讯仅为参考之用，不构成任何建议、意见或招揽，不构成任何具约束力的声明、保证、合约义务或会员依据的内容和基础。\n\n会员特此承认并同意，在考虑所有相关因素，包括但不限于会员向KTO亚洲提供对价的价值后，本条规所述之所有责任豁免和义务排除代表会员和KTO亚洲协议中公平、合理的风险分担和利益分配。会员进一步同意上述免责和限制在适用法律允许的最大范围内具有强制执行力。\n\n如果会员对任何博彩或比赛的结果存有异议，应在该等结果宣布之日后十四(14)天内向我们书面投诉。若出现会员联接设备所显示与KTO亚洲系统的交易记录中所存的交易结果不符的情况(尽管发生这种情况的可能性很小)，会员同意KTO亚洲系统中交易记录所记载的由我们的技术总监认证的交易结果应为该等结果具终局性的不容置疑的证据。";
-"Termination" = "终止、关户及暂停博彩服务";
-"Termination_Content" = "如有充分理由相信或证明以下情形，除本条款项下所享有的其他权利外，KTO亚洲有权，根据自主判断，宣布任何彩金无效并没收会员下注账户中所存余额、终止本协议和/或暂停提供博彩服务/冻结会员账户：\n\n1.会员在KTO亚洲拥有不止一个活动账户；\n\n2.会员姓名与向KTO亚洲进行购卖或支付押金所用的信用卡或借记卡或其他付款账户的持有人姓名不符；\n\n3.会员参与KTO亚洲促销并在未满足促销要求之前退出该促销；\n\n4.会员提供不正确或误导性的注册信息；\n\n5.会员未提供或遗漏提供必要的身份资料；\n\n6.会员不满法定年龄；\n\n7.会员连接和使用博彩服务所在的地区在法律上禁止使用博彩服务；\n\n8.会员对我们实施或促使他人对我们实施「退款」，或否认以其账户名义进行的任何交易或押金；\n\n9.会员押金来源于刑事犯罪或其他非法或未经授权的活动；\n\n10.会员被发现欺诈或企图欺诈任何人或已经对任何人实施欺诈，或经KTO亚洲认定会员使用专门设计用以干扰/捣毁系统之人工智能或其他系统(包括机械、电脑、软件或其他自动化系统)，或被发现与其他博彩玩客勾结或企图与其他赌客勾结欺骗KTO亚洲或其他博彩玩客；\n\n11.会员允许(不论是否故意)他人使用其账户；\n\n12.会员未遵守本协议项下的任何使用规定；\n\n13.会员未披露其位置在菲律宾、台湾、美国、新加坡及香港境内的事实。\n\n14.若我们规定暂停提供博彩服务和/或冻结账户，在会员实施必要的纠正措施(如果可以纠正)，且我们确认完全满意会员的纠正措施之后，博彩服务和会员账户将被恢复和解冻。";
-"LinkToExternal" = "与外部网站的链接";
-"LinkToExternal_Content" = "博彩网站可能含有与并非KTO亚洲维护的外部网站的链接。与外部网站的链接仅为会员方便而提供，我们不承诺确保上述链接所含内容的准确性、时效性或被维护，且不就此承担任何责任。\n\nKTO亚洲不就外部网站的内容资讯或隐私保护政策或在外部网站宣传、出售或以其他方式开放的任何产品或服务承担任何责任、负责提供或审查、予以批准或核准、或作出任何声明或保证。\n\nKTO亚洲不就会员因使用博彩网站所提供的任何外部网站链接而发生的或与之相关的任何损失或损害承担合约、侵权、疏忽或其他责任。\n\n除非明文规定，否则KTO亚洲在任何情况下均不得被视为与外部网站上的任何声明、意见、产品或服务商标、标记、标志或其他图案、在外部网站宣传、出售或以其他方式开放的任何产品或服务、外部网站的经营者或所有者、或以任何方式与外部网站相关的任何人具有任何关系或联系。";
-"LinkToBettingSite" = "与博彩网站的链接/框入";
-"LinkToBettingSite_Content" = "会员不得就博彩网站或博彩服务的任何部分设置链接、深链接或文中链接(deep or in-line links)、或框入(frame)博彩资讯。";
-"AddOrBreak_GamblingCategories" = "增加或中断博彩种类";
-"AddOrBreak_GamblingCategories_Content" = "我们保留自行决定，不经通知会员，于任何时候在博彩网站增加新的博彩种类或功能，或开始、停止、中断、限制联接或修改任何博彩种类或功能的权利，且不就此对任何人承担任何责任。";
-"Violation" = "违反本条规";
-"Violation_Content" = "KTO亚洲保留就违反本条规的行为依法寻求救济(法律及衡平法)的权利，包括自行决定在任何时候基于任何理由拒绝或限制任何特定的人联接博彩服务、博彩网站和博彩资讯、阻止通过特定互联网地址或联接设备联接博彩服务、博彩网站和博彩资讯的权利。";
-"Priority_Order" = "优先顺序";
-"Priority_Order_Content" = "博彩规则(若适用)和适用于使用和联接博彩服务、博彩软件、博彩资讯和博彩网站的任何其他条规均构成本条规的组成部分。\n\n若博彩规则和适用于使用和联接博彩服务、博彩软件、博彩资讯和博彩网站的任何其他条规与本条规存有抵触，则除非另行明文规定，否则以本条规为准。";
-"ForceMajeure" = "不可抗力";
-"ForceMajeure_Content" = "若KTO亚洲由于发生下列其无法控制的任何性质的事件(包括但不限于天灾、适用法律法规的变更、政府、民政或军事机关的作为或不作为、法院命令、恐怖活动、闪电或火灾、罢工、停工或其他劳资纠纷、洪水、干旱、战争、暴乱、盗窃、传输或系统故障、通讯或宽带服务故障或中断、电力供应或设备故障或不足、恶劣气候、地震和自然灾害)未能或迟延履行本条规所规定的任何义务，不构成违反本条规。会员同意采取一切必要行动尽量减轻上述事件的后果。";
-"Abstain" = "弃权";
-"Abstain_Content" = "KTO亚洲在任何时候未能执行本条规任何条款不可视为放弃本条规所规定的权利或以任何方式影响本条规全部或部分的有效性，且不影响KTO亚洲采取进一步行动的权利。";
-"Severability" = "可分割性";
-"Severability_Content" = "若任何条款或其任何部分被有关机关认定为在任何程度上无效、不合法或不可执行，则该条款或该部分在上述程度上与其他条款分割，其他条款在法律允许的范围内继续完全有效。";
-"Law_Jurisdiction" = "适用法律和管辖";
-"Law_Jurisdiction_Content" = "1.会员同意，会员联接和使用博彩服务、博彩网站、博彩软件、博彩资讯及有关本条规的解释适用菲律宾法律，并按菲律宾法律解释。\n\n因本条规发生或与本条规有关的任何争议：\n\n2.若由会员提起，则提交菲律宾First Cagayan公司卡卡湾经济区管理局(Cagayan Economic Zone Authority, First Cagayan Leisure and Resort Corporation)互动游戏主许可人最终解决。\n\n3.若由KTO亚洲提起，则由KTO亚洲自行选择：\n\ni.根据以上规定提请仲裁最终解决。\n\nii.向会员同意的菲律宾法院提起诉讼或申请，但KTO亚洲在其他法律管辖区提起诉讼或法律程序的权利不受影响。";
+//MARK: - Register
+"register_language_option_chinese" = "简体中文 + 人民币";
+"register_language_option_thai" = "ภาษาไทย + บาทไทย";
+"register_language_option_vietnam" = "Người việt nam + đồng";
+"register_step1_title_1" = "注册 1/3";
+"register_step1_title_2" = "选择语言与货币";
+"register_step1_warning" = "该设定将与账户绑定，无法更改。";
+"register_step1_tips_1" = "按“下一步”代表您已阅读并同意以下条款";
+"register_step1_tips_1_highlight" = "《服务条款》";
+"register_service_down" = "暂时无法注册，请稍后再试。";
+"register_step2_title_1" = "注册 2/3";
+"register_step2_title_2" = "填写基本资料";
+"register_step2_withdrawal_name" = "提现姓名";
+"register_step2_verify_mobile" = "开始验证手机";
+"register_step2_verify_mail" = "开始验证邮箱";
+"register_step2_name_format_error" = "不能包含空白及数字，符号仅允许( “·”、“.”)且不连续";
+"register_step2_password_not_match" = "密码不一致";
+"register_step2_sms_inactive" = "非常抱歉，该注册方式暂不可用。";
+"register_step2_email_inactive" = "非常抱歉，该注册方式暂不可用。";
+"register_step3_title_1" = "注册 3/3";
+"register_step3_verify_by_email_title" = "验证电子邮箱";
+"register_step3_verify_by_phone_title" = "验证手机";
+"register_step3_content_email" = "已发送链结到您的邮箱
+%@
+请前往验证";
+"register_step3_mobile_limit_exceeded" = "手机注册方式暂不可用。";
+"register_step3_mail_limit_exceeded" = "电子邮箱注册方式暂不可用。";
+"register_step3_incorrect_otp" = "您输入的验证码不正确！";
+"register_step3_verification_pending" = "您尚未完成验证";
+"register_step3_open_mail" = "开启邮箱";
+"register_step3_mail_varify_hint" = "若已通过验证，试试";
+"register_step3_mail_varify_hint_highlight" = " 这里";
+"register_step4_title_fail" = "註冊失敗";
+"register_step4_content_fail" = "操作过于频繁，请使用有效联系方式重新注册。";
+"register_step4_retry_signup" = "重新注册";
+"register_step4_title_success" = "注册成功";
+"register_step4_content_unknown_fail" = "非常抱歉，该注册方式暂不可用。";
+
+//MARK: - Login
+"login_account_identity" = "手机/电子邮箱";
+"login_account_remember_me" = "记住我的帐号";
+"login_tips_1" = "忘记密码，使用";
+"login_tips_1_highlight" = "重置密码";
+"login_invalid_username_password" = "用户名或密码不正确";
+"login_invalid_username_password_captcha" = "用户名，密码或验证码不正确";
+"login_invalid_lockdown" = "您已多次输入错误，请使用重置密码或稍后登录";
+"login_enter_captcha_to_prceed" = "您已多次输入错误密码，您现在需要额外输入图片中的信息来进行登录";
+"login_button_countdown" = "登录(%@)";
+"login_captcha_new" = "看不清？换一组验证码。";
+"login_captcha" = "图形验证码";
+"login_resetpassword_service_down" = "暂时无法重置密码，请稍后再试。";
+"login_resetpassword_step1_title_1" = "重置密码 1/3";
+"login_resetpassword_step1_title_2" = "选择重置方式";
+"login_resetpassword_step1_sms_inactive" = "非常抱歉，该重置方式暂不可用。";
+"login_resetpassword_step1_email_inactive" = "非常抱歉，该重置方式暂不可用。";
+"login_resetpassword_step1_get_code" = "获取验证码";
+"login_resetpassword_step1_get_code_countdown" = "获取验证码(%@)";
+"login_resetpassword_lock_down" = "您已多次输入错误，请稍后再试。";
+"login_resetpassword_step2_title_1" = "重置密码 2/3";
+"login_resetpassword_step2_verify_by_email_title" = "确认电子邮箱";
+"login_resetpassword_step2_verify_by_phone_title" = "确认手机";
+"login_resetpassword_step3_title" = "重置密码 3/3";
+"login_resetpassword_step3_title_2" = "设定新密码";
+"login_resetpassword_cancel_title" = "确认取消当前操作?";
+"login_resetpassword_cancel_content" = "重置密码将中断并结束。";
+"login_resetpassword_success" = "密码变更完成";
+"login_resetpassword_fail_title" = "重置密码失败";
+"login_resetpassword_fail_unknown" = "非常抱歉，该重置方式暂不可用。";
+
+//MARK: - Deposit
+"deposit_title" = "充值";
+"deposit_title_tips" = "以下列表为您可用的充值方式。";
+"deposit_alipay" = "支付宝在线";
+"deposit_recommend" = "推荐";
+"deposit_activiy" = "充值动态";
+"deposit_activiy_tips" = "提醒您，目前暂无相关通知。";
+"deposit_log" = "充值纪录";
+"deposit_setfavorite" = "将此充值方式设定为常用";
+"deposit_cancelfavorite" = "取消设定此充值方式为常用";
+"deposit_selectbank" = "选择充值银行";
+"deposit_offline_step1_title" = "ATM、临柜或银行卡转帐";
+"deposit_info_title" = "填写充值信息";
+"deposit_bankname" = "充值者银行帐户姓名";
+"deposit_accountlastfournumber" = "汇款银行卡尾数四位(选填)";
+"deposit_amount" = "汇款金额";
+"deposit_offline_step1_tips" = "充值单笔限额： %@";
+"deposit_offline_step1_button" = "申请充值";
+"deposit_offline_step2_title" = "KTO收款方信息";
+"deposit_offline_step2_title_tips" = "请汇入以下提供的银行账户。   ";
+"deposit_receiveinfo" = "收款讯息";
+"deposit_receivename" = "收款人姓名";
+"deposit_receivebank" = "收款银行";
+"deposit_receiveaccount" = "收款银行卡号";
+"deposit_validdeposittime" = "有效充值时间 ";
+"deposit_remmiterinfo" = "支付讯息";
+"deposit_remmiterbankaccountname" = "汇款人姓名";
+"deposit_remmiteramount" = "支付金额";
+"deposit_offline_step2_warning" = "请支付此金额，以便资金快速到帐。";
+"deposit_offline_step3_title" = "已提交申请";
+"deposit_offline_step3_fail" = "提交失敗";
+"deposit_ticketid" = "充值订单编号 %@";
+"deposit_offline_step3_content" = "目前平均充值处理时間为 <span style=\"padding-left: 16px;\">%@</span>";
+"deposit_checklog" = "查看充值纪录";
+"deposit_offline_step3_tips" = "系统将于30秒后重新导向 KTO 页面。";
+"deposit_depositlog_title" = "充值纪录";
+"deposit_summary" = "充值总计";
+"deposit_success" = "充值成功";
+"deposit_detail_title" = "订单明细";
+"deposit_detail_button" = "上传单据照片";
+"deposit_selectpaymentgateway" = "选择充值帳號";
+"deposit_input_invalid" = "您输入的资料格式不正确";
+"deposit_input_lowermin" = "您的充值金额低於单笔限额";
+"deposit_input_overmax" = "您的充值金额超过单笔限额";
+"deposit_ticketnumber" = "充值编号";
+"deposit_bankname_placeholder" = "汇款银行";
+"deposit_remittername_placeholder" = "王大明";
+"deposit_inputamount_placeholder" = "¥1,000.00";
+"deposit_input_banknameempty" = "您必须提供您的汇款银行资讯";
+"deposit_branch" = "支行名称";
+"deposit_selecttype" = "選擇充值方式";
+"deposit_my_account_detail" = "我的充值信息";
+"deposit_payee_detail" = "收款银行账户";
+"deposit_custom_cash" = "定制汇款金额";
+"deposit_offline_remitter_title" = "汇款提示";
+"deposit_offline_summary_tip" = "汇入定制金额有助于快速到账。";
+"deposit_limitation_hint" = "请在单笔限额范围内。";
+"deposit_offline_termniate" = "离线充值将中断并结束。";
+"deposit_online_terminate" = "在线充值将中断并结束。";
+"deposit_select_method" = "选择充值渠道";
+"deposit_no_available_type" = "目前暂无可用的充值方式";
+"deposit_no_records" = "目前暂无与您充值相关的纪录";
+"deposit_execeed_limitation" = "你的档案大小超过系统限制20MB";
+"deposit_name" = "汇款人姓名";
+"deposit_thirdparty_transaction_remind" = "你即将进入交易确认画面，在交易完成之前请勿关闭窗口。";
+
+//MARK: - BalanceLog
+"balancelog_previousbalance" = "交易前金额";
+"balancelog_afterbalance" = "交易後金额";
+"balancelog_ticketid" = "工单号码";
+"balancelog_gamefilter" = "游戏筛选";
+"balancelog_bet" = "投注";
+"balancelog_settle" = "返还";
+"balancelog_cashflow" = "现金流";
+"balancelog_timezone _1" = "时区 ( GMT+8 )";
+"balancelog_timezone _2" = "时区 ( GMT-7 )";
+"balancelog_bonustype_2" = "%@存送金";
+"balancelog_bonustype_5" = "%@存送金";
+"balancelog_bonustype_1" = "%@免费金";
+"balancelog_producttype_1_bonustype_3" = "保险投注第%@期";
+"balancelog_producttype_2_bonustype_3" = "第%@期";
+"balancelog_producttype_1_bonustype_4" = "第%@期体育返现";
+"balancelog_producttype_2_bonustype_4" = "第%@期老虎机返现";
+"balancelog_producttype_3_bonustype_4" = "第%@期娛乐场返现";
+"balancelog_producttype_4_bonustype_4" = "第%@期数字彩返现";
+"balancelog_win" = "Win";
+"balancelog_push" = "Push";
+"balancelog_lose" = "Lose";
+"balancelog_timezone" = "時區 ( GMT%@ )";
+"balancelog_depositfeerefund" = "手续费回馈";
+"balancelog_summary" = "费用小计";
+"balancelog_categoryfilter" = "类别筛选";
+"balancelog_summary_start_date" = "起始天 %@";
+"balancelog_summary_start_amount" = "起始余额 %@";
+"balancelog_summary_end_date" = "結束天 %@";
+"balancelog_summary_end_amount" = "结束余额 %@";
+"balancelog_summary_end_date_is_today" = "当天进行中";
+"balancelog_detail_amount" = "交易金额";
+"balancelog_detail_after_amount" = "交易后余额";
+"balancelog_detail_datetime" = "申请时间";
+"balancelog_detail_id" = "交易单号";
+"balancelog_detail_remark" = "备注";
+"balancelog_deposit_a2p_in" = "伙伴协助";
+"balancelog_deposit_p2p_in" = "会员协助";
+"balancelog_withdrawal_p2a_out" = "至伙伴";
+"balancelog_withdrawal_p2p_out" = "至会员";
+"balancelog_deposit_refund" = "充值回馈";
+"balancelog_cash" = "现金";
+"balancelog_title" = "交易记录";
+"balancelog_player_cancel" = "自主取消";
+"balancelog_unsettled" = "结果重算";
+"balancelog_eventbonus" = "活动红利";
+"balancelog_other" = "其它";
+"balancelog_wager_detail" = "注单明细";
+
+//MARK: - Withdrawal
+"withdrawal_accountnumber" = "账户号码";
+"withdrawal_accountrealname" = "提现姓名";
+"withdrawal_accountsetting_title" = "管理我的提现帐户";
+"withdrawal_activity" = "提现动态";
+"withdrawal_addaccount" = "新增提现帐户";
+"withdrawal_amount" = "提现金额";
+"withdrawal_bankaccountdetail_modal_content" = "一旦删除，此笔提现帐户数据就不存在。";
+"withdrawal_bankaccountdetail_modal_title" = "删除提现帐户?";
+"withdrawal_bankaccountdetail_title" = "提现账户详情";
+"withdrawal_bankcity" = "银行所在县市";
+"withdrawal_bankstate" = "银行所在省份";
+"withdrawal_branch" = "支行名称";
+"withdrawal_cancel" = "提现取消";
+"withdrawal_dailywithdrawalamount" = "今日可提现金额：";
+"withdrawal_dailywithdrawalcount" = "今日可提现次数：";
+"withdrawal_detail_title" = "提现细单";
+"withdrawal_fail" = "提现失败";
+"withdrawal_log" = "提现纪录";
+"withdrawal_log_title" = "提现纪录";
+"withdrawal_modal_content" = "每天提现最多 %@";
+"withdrawal_modal_title" = "提現限制";
+"withdrawal_name" = "提现姓名";
+"withdrawal_realname_modal_content" = "提现姓名已绑定不能变更";
+"withdrawal_realname_modal_title" = "温馨小提醒";
+"withdrawal_selectbank" = "充值银行";
+"withdrawal_setaccount" = "管理提现帐户";
+"withdrawal_setbankaccount_button" = "新增提现帐户";
+"withdrawal_setbankaccount_modal_title" = "是否结束新增提现帐户?";
+"withdrawal_setbankaccount_tips" = "您必须先设定银行帐户才能进行提现。";
+"withdrawal_setbankaccount_title" = "设定银行帐户";
+"withdrawal_setbankaccountsuccess_modal_content" = "此帐户资料将不可变更内容只能删除";
+"withdrawal_setbankaccountsuccess_modal_title" = "新增完成";
+"withdrawal_setnewrealname_modal_content" = "如需要要变更提现姓名，请前往个人设定。";
+"withdrawal_setnewrealname_modal_title" = "是否要变更提现姓名?";
+"withdrawal_start" = "开始提现";
+"withdrawal_status" = "提现状态";
+"withdrawal_step1_title_1" = "提现 1/2";
+"withdrawal_selectbankcard" = "选择提现帐户";
+"withdrawal_step1_title_2" = "填写金额";
+"withdrawal_step2_button" = "提交申请";
+"withdrawal_step2_tips" = "单笔提现限额 %@";
+"withdrawal_step2_title_1" = "提现 2/2";
+"withdrawal_step2_title_2" = "提现确认";
+"withdrawal_step3_button" = "查看提现纪录";
+"withdrawal_step3_title" = "已提交申请";
+"withdrawal_step3_ticketid" = "提现订单编号: %@";
+"withdrawal_step3_title_tips" = "目前平均提现处理时間为 <span style=\"padding-left: 16px;\">%@</span>";
+"withdrawal_step3_content" = "您已完成提现流程，但目前仍需要大约 15 分钟的时间审核，您可以前往提现页面的<span class=\"highlight\">提现纪录</span>查看提现的审核状态。";
+"withdrawal_success" = "成功出款";
+"withdrawal_summary" = "成功提现";
+"withdrawal_title" = "提现";
+"withdrawal_success_confirm_title" = "姓名绑定：%@";
+"withdrawal_success_confirm_content" = "请注意！当您第一次提现成功后，您的姓名将永远绑定平台无法再修改！
+
+若需要改变姓名，请先取消提现单申请，再前往个人设定进行变更。";
+"withdrawal_bankcard_new" = "本账户尚未验证";
+"withdrawal_bankcard_locked" = "本账户资料审核中不可删除";
+"withdrawal_bankcard_verified" = "本账户已验证核可";
+"withdrawal_bankcard_fail" = "本账户资料不正确";
+"withdrawal_bankcard_delete" = "删除提现帐户";
+"withdrawal_bankcard_delete_confirm_title" = "是否删除提现帐户?";
+"withdrawal_bankcard_delete_confirm_content" = "一但删除，此笔帐户资料就不存在";
+"withdrawal_bankcard_name_placeholder" = "王大明";
+"withdrawal_bankcard_branch_placeholder" = "上海分行";
+"withdrawal_bankcard_state_placeholder" = "浙江省";
+"withdrawal_bankcard_city_placeholder" = "上海市";
+"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
+"withdrawal_bankcard_change_confirm_title" = "是否要变更姓名?";
+"withdrawal_bankcard_change_confirm_content" = "如需要变更姓名，请前往个人设定";
+"withdrawal_step2_title_1_tip" = "本次申请提现金额为";
+"withdrawal_step2_afterwithdrawal" = "当提现完成后";
+"withdrawal_bankcard_add_overlimit" = "很抱歉，您最多只能设置%@个提现账户。";
+"withdrawal_setbankaccountfail" = "新增賬戶失敗";
+"withdrawal_bankcard_delete_fail" = "刪除賬戶失敗";
+"withdrawal_input_overmax" = "您的提现金额超过单笔限额";
+"withdrawal_input_lowermin" = "您的提现金额低於单笔限额";
+"withdrawal_tickerstatus_void" = "失败";
+"withdrawal_isbatched_tip" = "如需取消提现, 请联系线上客服";
+"withdrawal_quota_title" = "提现额度";
+"withdrawal_quota_content" = "您目前每天可提现%@元";
+"withdrawal_quota_after_title" = "当提现完成后提現額度";
+"withdrawal_account_deleted" = "已删除提现账户";
+"withdrawal_minutes_seconds" = "%@分%@秒";
+"withdrawal_no_records" = "目前暂无与您提现相关的纪录";
+"withdrawal_bank_name" = "提现银行";
+"withdrawal_choose_account" = "选择提现账户";
+"withdrawal_account_added" = "已新增提现账户";
+"withdrawal_amount_range" = "提现金額，单笔限额 %@ - %@";
+"withdrawal_amount_beyond_range" = "您的提现金额超过单笔限额";
+"withdrawal_amount_below_range" = "您的提现金额低于单笔限额";
+"withdrawal_amount_exceed_daily_limit" = "您已超过本日提现金额，请于明日再提出申请";
+"withdrawal_balance_not_enough" = "您的钱包余额不足";
+"withdrawal_account" = "提现账户";
+"withdrawal_bank_card_deleting" = "此银行卡资料将不存在";
+"withdrawal_id" = "提现单号";
+
+//MARK: - Product
+"product_slot_recent_play" = "最近游玩";
+"product_slot_new" = "新";
+"product_slot_jackpot" = "奖池";
+"product_slot_summary" = "投注额 %@ %@ %@";
+"product_sbk_over" = "大";
+"product_sbk_under" = "小";
+"product_sbk_wager_stakes" = "投注金額 ＄%@";
+"product_sbk_win_amount" = "贏 ＄%@";
+"product_sbk_parlay" = "串關";
+"product_casino_ag" = "铂金厅";
+"product_casino_n2live" = "翡翠厅";
+"product_casino_pgsoft" = "虚拟厅";
+"product_winning_amount" = "赢 %@";
+"product_losing_amount" = "输 %@";
+"product_bet_id" = "注单编号";
+"product_game_name_id" = "投注游戏(局号)";
+"product_bet_content" = "投注内容";
+"product_bet_time" = "下注时间";
+"product_bet_amount" = "投注额";
+"product_bet_win_lose" = "赢/输";
+"product_bet_result" = "投注结果";
+"product_player_title" = "闲";
+"product_player_1_title" = "闲 1";
+"product_player_2_title" = "闲 2";
+"product_player_3_title" = "闲 3";
+"product_banker_title" = "庄";
+"product_tiger_title" = "虎";
+"product_dragon_title" = "龙";
+"product_phonix_title" = "凤";
+"product_first_card" = "发牌";
+"product_black_bull" = "黑牛";
+"product_red_bull" = "红牛";
+"product_top_search" = "热门搜寻";
+"product_enter_search_keyword" = "输入游戏名称";
+"product_popular" = "熱門";
+"product_under_maintenance" = "维护中";
+"product_game_removed" = "游戏已下架";
+"product_add_favorite" = "添加到关注";
+"product_remove_favorite" = "从关注中删除";
+"product_favorite" = "关注列表";
+"product_my_bet" = "我的注单";
+"product_count_bet_record" = "%@ 条纪录";
+"product_unsettled_game" = "未完成的游戏";
+"product_total_bet_with_win_lose" = "总投注额  %@    %@ %@";
+"product_total_bet" = "总投注额  %@";
+"product_maintenance_title" = "等待，为了更好的";
+"product_maintenance" = "产品维护中…";
+"product_none_favorite" = "没有关注的游戏";
+"product_add_now" = "现在添加";
+"product_none_my_bet_record" = "没有投注历史";
+"product_game_not_found" = "找不到你想玩的游戏吗？";
+"product_see_more" = "看更多";
+"product_slot_game_feature" = "游戏特性";
+"product_slot_game_theme" = "主题";
+"product_slot_game_payline" = "赔付线";
+"product_hot_sorting" = "热门排序";
+"product_name_sorting" = "A-Z 排序";
+"product_release_sorting" = "新-旧排序";
+"product_all_slot" = "全部老虎机";
+"product_all_games_selected" = "您的选择已经包含所有游戏";
+"product_count_selected_games" = "%@ 游戏被选中";
+"product_slot_filter" = "筛选老虎机";
+"product_clear_filters" = "清空条件";
+"product_slot_separate" = "分散符号";
+"product_slot_wild" = "百搭符号";
+"product_slot_feature" = "特色游戏";
+"product_slot_freespin" = "免费旋转";
+"product_slot_bidirectional_win" = "左右双向任赢";
+"product_slot_asia" = "亚洲";
+"product_slot_west" = "西方";
+"product_slot_below_15" = "少于15";
+"product_slot_from_15to30" = "15-30";
+"product_slot_above_30" = "多于30";
+"product_slot_all" = "所有线";
+"product_slot_others" = "其他";
+
+//MARK: - Landing
+"landing_product" = "KTO 产品";
+"landing_enter" = "进入";
+"landing_more" = "查看更多";
+"landing_sportsbook_title" = "体育";
+"landing_sportsbook_description" = "在 KTO 之前，你从未真正了解过有多少场赛事。";
+"landing_sportsbook_totalmatch" = "本月累积达 %@ 场！";
+"landing_casino_title" = "娱乐场";
+"landing_casino_description" = "好运，真的每秒都在发生。";
+"landing_casino_continuswingame" = "最高连胜游戏";
+"landing_casino_continuswinplayer" = "会员 %@ 元";
+"landing_slot_title" = "老虎机";
+"landing_slot_description" = "与100+精选老虎机共舞，下一个累计大奖！";
+"landing_slot_totalamount" = "目前最高累计奖金";
+"landing_whyus" = "选择 KTO 的理由";
+"landing_professional_title" = "与专业同行";
+"landing_professional_description" = "以庞大充足的人力及自动化系统作为后盾，无论充值或提现或投注都迅速。";
+"landing_experience_title" = "绝佳的用户体验";
+"landing_experience_description" = "拥有行动最佳化设计，快应用、单钱包系统，一支手机畅玩到底。";
+"landing_bonus_title" = "丰厚的福利";
+"landing_bonus_description" = "透过等级机制，让忠实的客户享有比其他平台更实质的优惠红利。";
+"landing_partner" = "KTO 合作伙伴";
+"landing_copyright" = "版权所有 © 2019 KTO Inc. 保留一切权利";
+"landing_newgame" = "新上线(60天内)";
+"landing_jackpot" = "累积奖池";
+"landing_slotdetail" = "共%@";
+"landing_platinum" = "铂金厅";
+"landing_platinumdetail" = "直播百家乐，牛牛，炸金花，龙虎，轮盘";
+"landing_jade" = "翡翠厅";
+"landing_jadedetail" = "免佣百家乐，轮盘，骰宝";
+"landing_sportsbook_support" = "热门赛事：投注支持度";
 
 //MARK: - AccountInfo
-"DefaultProduct_Description" = "目前默认为体育，现在可选择一个产品为新的主页，或以后更改。";
-"DefaultProduct_Title" = "设定主页";
-"DefaultProduct_Sportsbook_description" = "最全的赛事，一旦拥有，别无所求。";
-"DefaultProduct_Casino_description" = "场地要红，长龙在手，天下我有！";
-"DefaultProduct_Slot_description" = "也许不经意的一次，就在紫禁之巅。";
-"DefaultProduct_Keno_description" = "洞察数字的奥秘，牛顿也要扶我";
+"accountinfo_birthday_step1_button" = "建立玩家生日";
+"accountinfo_birthday_step1_title" = "设定玩家生日";
+"accountinfo_birthday_step1_warning" = "注意！ 玩家生日一经绑定就不得更改。";
+"accountinfo_birthday_step2_warning" = "您的生日必須年滿18歲";
+"accountinfo_birthday_step2_button" = "返回个人资料";
+"accountinfo_birthday_step2_content" = "您已成功绑定个人生日，如日后有需要更改请联络CS。";
+"accountinfo_birthday_step2_title" = "绑定完成";
+"accountinfo_changebirthday" = "变更生日";
+"accountinfo_changefail" = "更改失败";
+"accountinfo_changeemail" = "变更电子邮箱";
+"accountinfo_changepassword" = "变更密码";
+"accountinfo_changephonenumber" = "变更手机号码";
+"accountinfo_changerealname" = "变更提现姓名";
+"accountinfo_changerealname_step1_button" = "提交申请";
+"accountinfo_changerealname_step1_button_upload" = "上传身分证明";
+"accountinfo_changerealname_step1_example" = "范例：陆仁家";
+"accountinfo_changerealname_step1_title" = "修改提现姓名";
+"accountinfo_changerealname_step1_warning" = "注意！ 一旦提現成功就不得在做更改。";
+"accountinfo_changerealname_step2_button" = "返回个人资料";
+"accountinfo_changerealname_step2_content" = "您已变更姓名成功";
+"accountinfo_changerealname_step2_title" = "已提交申请";
+"accountinfo_confirmpassword_invalid" = "密码不正确！";
+"accountinfo_confirmpassword_tips" = "为了帐户安全，请再次输入密码进行验证。";
+"accountinfo_confirmpassword_title" = "安全验证";
+"accountinfo_gameloginid_button" = "返回个人资料";
+"accountinfo_gameloginid_cotent" = "系統根據您的帳戶自動生成, 為了保護隱私, 將做為您在遊玩各個KTO遊戲中的代號";
+"accountinfo_gameloginid_title" = "游戏 ID 说明";
+"accountinfo_getplayergameloginid" = "获得会员游戏 ID";
+"accountinfo_playergameloginid" = "会员游戏 ID";
+"accountinfo_playerid" = "玩家 ID";
+"accountinfo_playerprofilelog" = "个人资料修改纪录";
+"accountinfo_routercoupon" = "前往优惠专区";
+"accountinfo_realnamebinded" = "提现姓名已绑定";
+"accountinfo_resetpassword" = "重置密码";
+"accountinfo_resetpassword_step1_button" = "建立新密码";
+"accountinfo_resetpassword_step1_content" = "基于隐私安全，请不要与旧密码相同。";
+"accountinfo_resetpassword_step1_invalid" = "密碼不一致！";
+"accountinfo_resetpassword_step1_title" = "设定新密码";
+"accountinfo_resetpassword_step2_button" = "返回个人资料";
+"accountinfo_resetpassword_step2_content" = "您已成功更换密码，日后请以新密码进行登录或验证。";
+"accountinfo_resetpassword_step2_title" = "修改完成";
+"accountinfo_setbirthday" = "设置出生日期";
+"accountinfo_setemail" = "设定电子邮箱";
+"accountinfo_setemail_step1_button" = "建立新邮箱";
+"accountinfo_setemail_step1_tips" = "请输入电子邮箱以收取验证码。";
+"accountinfo_setemail_step1_title" = "设定电子邮箱";
+"accountinfo_setemail_step2_button" = "返回个人资料";
+"accountinfo_setemail_step2_content" = "您已成功设定电子邮箱，日后可以使用此电子邮箱进行登录或验证。";
+"accountinfo_setemail_step2_title" = "设定完成";
+"accountinfo_setgameloginid" = "设定玩家ID";
+"accountinfo_setmobile_step1_button" = "建立新号码";
+"accountinfo_setmobile_step1_content" = "请输入移动电话号码以收取验证码。";
+"accountinfo_setmobile_step1_title" = "建立新号码";
+"accountinfo_setmobile_step2_button" = "返回个人资料";
+"accountinfo_setmobile_step2_content" = "您已成功设定移动电话号码，日后可以使用此移动电话号码进行登录或验证。";
+"accountinfo_setmobile_step2_title" = "设定完成";
+"accountinfo_setpassword" = "设定密码";
+"accountinfo_setphonenumber" = "设定手机号码";
+"accountinfo_setplayerid_step1_tips" = "会员ID必须使用半型6-14个英数字元，不可使用#$%等特殊符号";
+"accountinfo_setplayerid_step1_title" = "设定玩家ID";
+"accountinfo_setplayerid_step1_warning" = "注意！ 玩家ID 一经绑定就不得更改。";
+"accountinfo_setplayerid_step2_button" = "返回个人资料";
+"accountinfo_setplayerid_step2_content" = "您已成功绑定个人玩家 ID，日后即不能进行变更。";
+"accountinfo_setplayerid_step2_title" = "绑定完成";
+"accountinfo_setrealname" = "设定提现姓名";
+"accountinfo_title" = "个人资料";
+"accountinfo_unsetted" = "尚未设定";
+"accountinfo_verify_mobile_title" = "验证移动电话号码";
+"accountinfo_verify_email_title" = "验证电子邮箱";
+"accountinfo_mobile_alreadyexist" = "行动电话已注册";
+"accountinfo_email_alreadexist" = "电子邮箱已注册";
+"accountinfo_rename_warning" = "您尚有提现交易申请中，请先至提现明细页面取消提现后再进行修改姓名。";
+"accountinfo_confirm_password_fail_over_5_times" = "";
+"accountinfo_realnamechange_warning" = "您尚有提现交易申请中，请先至提现明细页面取消提现后再进行修改姓名。";
+"accountinfo_defaultproduct_title" = "设定主页";
+"accountinfo_defaultproduct_description" = "目前默认为体育，现在可选择一个产品为新的主页，或以后更改。";
+"accountinfo_defaultproduct_sportsbook_description" = "最全的赛事，一旦拥有，别无所求。";
+"accountinfo_defaultproduct_casino_description" = "场地要红，长龙在手，天下我有！";
+"accountinfo_defaultproduct_slot_description" = "也许不经意的一次，就在紫禁之巅。";
+"accountinfo_defaultproduct_end_setting_title" = "是否结束设定？";
+"accountinfo_defaultproduct_end_setting_description" = "尚未完成主页设定，下次登录将默认为体育";
+"accountinfo_defaultproduct_keno_description" = "洞察数字的奥秘，牛顿也要扶我";
+"accountinfo_my_settings" = "我的设定";
+"accountinfo_setting" = "设定";
+"accountinfo_home_page_setting" = "首页设定";
+"accountinfo_record_period_setting" = "纪录保留时效设定";
+"accountinfo_anti_hacker_setting" = "账户防盗设定";
+"accountinfo_record_period_content" = "将依照设定之时效清空记录，范围包含投注记录，现金流，存提款记录，红利记录等。仅保留余额、未派彩及未完成投注，直到完成结算才于时效后消失。";
+"accountinfo_period_three_month" = "3个月(默认)";
+"accountinfo_period_one_month" = "30天";
+"accountinfo_period_three_day" = "72小时";
+"accountinfo_about" = "关于";
+"accountinfo_playergameloginid_hint" = "系统自动生成，为了保护您的账户隐私，作为您在KTO亚洲各个游戏中的代号。";
+"accountinfo_business_partner" = "商业伙伴";
+"accountinfo_partner_1_title_1" = "那不勒斯足球俱乐部";
+"accountinfo_partner_1_title_2" = "Società Sportiva Calcio Napoli";
+"accountinfo_partner_1_content" = "2018-2019 投注伙伴";
+"accountinfo_partner_2_title_1" = "巴西五人制室内足球联赛";
+"accountinfo_partner_2_title_2" = "Liga Gaúcha de Futsal";
+"accountinfo_partner_2_content" = "2019-2020 合作伙伴";
+"accountinfo_more_about_kto" = "了解KTO集团";
+"accountinfo_kto_url" = "https://ktoglobal.com/";
+
+//MARK: - Bonus
+"bonus_amount" = "彩金金额";
+"bonus_bonuslockstatus_0" = "不需投注流水";
+"bonus_bonuslockstatus_1" = "进行中";
+"bonus_bonuslockstatus_2" = "已完成";
+"bonus_bonuslockstatus_3" = "已取消";
+"bonus_bonusproducttype_1" = "保险投注";
+"bonus_bonusproducttype_2" = "老虎机救援金";
+"bonus_bonustype_1" = "免费金";
+"bonus_bonustype_2" = "存送";
+"bonus_bonustype_3" = "产品特有";
+"bonus_bonustype_4" = "返现";
+"bonus_bonustype_5" = "等级优惠";
+"bonus_categoryfilter" = "类别筛选";
+"bonus_freebonus" = "免费金";
+"bonus_getpromotion" = "获得优惠";
+"bonus_getcoupon" = "立即领取";
+"bonus_getcoupon_time_limit" = "领取期限";
+"bonus_gettop" = "最高";
+"bonus_history" = "优惠券历史";
+"bonus_levelprivilege" = "等级特权";
+"bonus_promotioncount" = "共 %@ 次优惠";
+"bonus_producttype_1" = "体育";
+"bonus_status_expirydate" = "有效期限";
+"bonus_status_progressing" = "距结束";
+"bonus_status_sbk_auditing" = "赛事结束，审核中";
+"bonus_status_sbk_notstart" = "赛事即将开始，距离开赛";
+"bonus_status_sbk_progressing" = "赛事进行中";
+"bonus_title" = "优惠券";
+"bonus_title_3_2" = "老虎机救援金";
+"bonus_title_4_1" = "体育返现 %@%%";
+"bonus_title_4_2" = "老虎机返现 %@%%";
+"bonus_title_4_3" = "娱乐场返现 %@%%";
+"bonus_use" = "手动领取";
+"bonus_applicationtrial" = "帐户当前余额:%@元
+可获取彩金:%@元
+领取后需要完成投注额:%@元
+计算方式:%@";
+"bonus_islocked" = "目前有未完成的优惠投注额，暂时无法领取其他优惠。
+细节如下：
+优惠编号:%@
+红利名称:%@
+获取红利金额:%@元
+获取红利日期:%@
+投注额要求:
+帐户当前余额:%@元
+可获取彩金:%@元
+领取后需要完成投注额:%@元
+计算方式:%@
+&lt;再加上充值:%@元&gt;
+目前已完成投注额:%@元
+投注额完成度:%@%%";
+"bonus_historyno" = "优惠编号";
+"bonus_historyname" = "红利名称";
+"bonus_historyamount" = "获取红利金额";
+"bonus_historydate" = "获取红利日期";
+"bonus_historybetmutipler" = "投注额要求";
+"bonus_historytrialbalance" = "帐户当前余额";
+"bonus_historytrialamount" = "可获取彩金";
+"bonus_historytrialrequest" = "领取后需要完成投注额";
+"bonus_historytrialachieved" = "目前已完成投注额";
+"bonus_historytrialpercentage" = "投注额完成度";
+"bonus_historytrialformula" = "计算方式";
+"bonus_unlimited" = "无上限";
+"bonus_allowautouse" = "允许日后自动领取返现红利?";
+"bonus_confirmapplication" = "确定申请";
+"bonus_applicationtips" = "温馨提示";
+"bonus_applicationtitle" = "红利名称:%@";
+"bonus_couponnostart" = "距可领取";
+"bonus_promotioncontent" = "优惠内容";
+"bonus_promotionrule" = "优惠规则和条款";
+"bonus_couponstatus_full_title" = "优惠已额满";
+"bonus_period" = "期";
+"bonus_promotion" = "优惠券";
+"bonus_compute" = "正在计算中，请稍后再查看...";
+"bonus_isturnoverremind" = "目前有红利名称: %@，
+需要完成投注额: %@元，
+目前已完成投注额: %@元，
+全部完成后账户才能进行提款，
+请确认现在领取返现。";
+"bonus_waiting" = "再等等";
+"bonus_computelocked" = "目前有未完成的优惠投注额，暂时无法领取其他优惠。
+细节如下：
+正在计算中，请稍后再查看…";
+"bonus_receive" = "领取";
+"bonus_condition_error" = "条件不符";
+"bonus_orderby_desc" = "时间(由近而远)";
+"bonus_orderby_asc" = "时间(由远而近)";
+"bonus_custom_filter" = "自订筛选";
+"bonus_custom_sorting" = "自订排序";
+"bonus_sortingandfilter" = "排序与筛选";
+"bonus_usefreebet_title" = "领取免费金优惠";
+"bonus_usefreebet" = "您是否要领取免费金 ";
+"bonus_usebonus_fail" = "领券失败";
+"bonus_turnover_adddeposit" = "再加上充值";
+"bonus_turnover_total" = "总共是";
+"bonus_detail_contentrule" = "KTO亞洲優惠活動一般規則和條款";
+"bonus_usedepositbonus" = "您是否要领取存送券";
+"bonus_rebate_unlimited" = "無上限";
+
+//MARK: - License
+"license_about_content_1" = "KTO于2001年开始从事体育盘口数据业务。随着多年业务的发展与成长，KTO团队所提供的数据已经成为世界数个知名体育投注站预测赛事的专业参考指标之一，其中包括参与一些国家的官方体育投注项目合作。不止步于B2B的业务扩展，KTO于2017年开始著手拓展B2C业务。";
+"license_about_content_2" = "KTO是英文KNOW THE ODDS的缩写，代表KTO对赔率数据的专业理解，即：我们了解机率，我们创造赔率。致力于提供最具竞争力的产品，同时也传递KTO对用户体验的理解，这就是我们核心的价值理念。";
+"license_about_content_3" = "我们是KTO，我们是独立的存在。";
+"license_about_title" = "关于KTO";
+"license_abstain" = "弃权";
+"license_abstain_content" = "KTO亚洲在任何时候未能执行本条规任何条款不可视为放弃本条规所规定的权利或以任何方式影响本条规全部或部分的有效性，且不影响KTO亚洲采取进一步行动的权利。
+";
+"license_addorbreak_gamblingcategories" = "增加或中断博彩种类";
+"license_addorbreak_gamblingcategories_content" = "我们保留自行决定，不经通知会员，于任何时候在博彩网站增加新的博彩种类或功能，或开始、停止、中断、限制联接或修改任何博彩种类或功能的权利，且不就此对任何人承担任何责任。
+";
+"license_agree" = "同意";
+"license_agree_content" = "会员在注册过程中于「我声明我已年满18岁」及「我同意KTO亚洲的修款及条件与规则及规定。」字样之前的方框内打勾，并点击相应的「储存并继续」按钮，即表示会员确认并同意：
+1. 会员已经阅读、完全理解并同意本条规。
+2. 本条规构成会员与KTO亚洲之间关于博彩服务使用的具有法律约束力的协议(「使用协议」)。
+如果会员不同意本条规中的任何条款，请勾「本人不同意」按钮，并请不要点击「储存并继续」按钮，不要试图使用或继续使用任何博彩服务或下载和/或安装博彩软件。
+";
+"license_bet_acceptbet" = "下注及接受下注";
+"license_bet_acceptbet_content" = "我们于博彩网站上和/或通过联接设备所不时提供的游戏、体育赛事和其他博彩活动开放给会员下注。会员下注须遵守具体游戏或博彩活动的博彩规则以及本条规的规定。若任何赌局出现明显错误或显示错误的参赌人，该赌局的所有下注均告作废。KTO亚洲博彩系统发生故障时，我们亦有权宣布任何或所有下注无效。
+尽管本条规可能存在其他规定，但KTO亚洲有权基于任何理由酌情拒绝会员的全部或部分下注。
+我们仅接受会员按本条规通过互联网和/或联接设备进行下注。其他下注形式(邮寄、电邮、传真等)一概不予接受。我们即使收到其他形式的下注，不论赌盘最后开出的结果如何，均视为无效。
+1. KTO亚洲有权搁置或拒绝疑用欺骗手段如通过攻击、操纵等破坏操作系统所进行的投注。
+2. 任何不寻常的投注将被取消，而不需另行通知。特此声明，人工智能或软件(机器人&quot;Robots&quot;)于线上投注服务的使用是被严禁的行为，而任何试图或利用该方式的投注将被取消，相关账号立即会被关闭。
+受限于本条规其他规定，会员输入正确的会员名和密码且账户内存有足够余额，会员即有效投下注码。
+会员均须对使用下列内容（或其各项结合）所进行的所有活动和交易负责（无论下述使用是否得到授权）：
+1. 会员姓名；
+2. 会员账户号；
+3. 会员的会员名和密码。
+会员自行负责确保其下注细节的准确性。受限于本条规其他规定，一旦会员下注且我们确认接受会员的下注，即为会员下注的最终确证；会员不得取消、撤回下注或更改下注细节。
+所有下注均收录于交易记录数据库。KTO亚洲的交易记录为所有交易及下注的相关信息的最终确证。
+受限于本条规其他规定，当交易代号出现在会员屏幕上并有效显示在会员的交易历史中时，下注即视为有效及被KTO亚洲接受。
+比赛开始后和/或下注时比赛结果已被知晓之情况下不得下注。若比赛开始和/或会员下注时已经知晓比赛结果之情况下仍错误地开放给会员下注，KTO亚洲有权不经通知会员即可拒绝会员下注或宣布下注无效；KTO亚洲享有是否接受全部或部分该等下注的自主决定权。为避免疑义，本条款不排除「下半场」投注盘或「半场」投注盘。
+博彩网站上预告的开赛时间仅为信息参考之用。若KTO亚洲因任何原因无意中于比赛开始后仍接受下注，则我们有权取消和宣布该等下注无效。
+除非有关比赛和游戏的具体规则另有规定，否则为了博彩的目的，开放下注的比赛或游戏的结果将于比赛或游戏实际结束当天决定。KTO亚洲不承认任何后来的可能导致推翻上述结果的质询，原派彩仍然有效。
+体育赛事的比赛地点发生变化的，以原赛场为基础的所有下注均告无效。
+比赛或游戏的赢家将根据博彩规则在上述比赛或游戏实际结束当天予以定。
+为博彩目的，KTO亚洲不承认任何延期比赛、抗议或推翻的结果。
+会员下注的多重彩中如包括非参赛者选项或无效选项，派彩将以剩余的有效选项为基础进行结算。
+会员承认所有赔率、指数和让分可不经通知上下浮动，上述赔率、指数和让分仅在会员下注被我们接受时予以确定。
+若明显错误或系统故障造成会员下注的赔率、指数或让分不正确时，则会员的下注或多重彩的部分下注无效。若有关错误或故障及时得到纠正，KTO亚洲有权自主(但无义务)决定尽合理努力和会员联络允许会员以正确的赔率、指数和让分重新下注。
+我们不接受会员同时对同一赛事重复下注。
+就任何下注及其相关交易而言，KTO亚洲享有最后决定权，且其所作决定系终局性并具有最终确定力的。
+";
+"license_bouns" = "领取彩金";
+"license_bouns_content" = "会员的彩金经结算后，将存入会员账户，具体提取办法参照我们彩金提取规定并须出示我们认可的有效带照身份证和信用/借记卡。
+在会员所持的信用/借记卡发行银行允许的情况下，彩金可以直接存入会员交纳押金所用的信用/借记卡账户。支票或电汇的收款人以登记或申请会员时所用的姓名为准。以信用卡或借记卡支付押金的，收款人还必须是信用卡或借记卡的登记持卡人。
+投注额必须与充值額相同才能进行提款，KTO亚洲将保留权利，收取必要的充值与提现手续费。
+KTO亚洲因会员的博彩交易而蒙受的所有银行收费均由会员承担和偿付，我们有权从会员彩金或账户中扣除和抵扣上述收费。
+";
+"license_businesspartner_title" = "商业伙伴";
+"license_compensation" = "赔偿";
+"license_compensation_content" = "会员同意，由于会员连接博彩网站、下载或安装博彩软件、下注和/或以其他方式使用博彩服务、博彩软件和/或博彩资讯、及/或违背本条规和/或博彩规则，而对KTO亚洲、其股东、雇员、管理人员、董事、受许可方、经销商、关联方、子公司和/代理商造成的任何损失、损害或及索赔(包括合理的律师费)，会员须予以全额赔偿。
+";
+"license_condition" = "使用条件";
+"license_condition_content" = "作为使用博彩服务的条件，会员保证并承诺不得以任何违反适用于会员的任何法律、违反本条规和/或被本条规所禁止的目的使用或联接博彩网站、博彩软件、博彩服务和/博彩资讯。除了本条规中所列一切其他声明和保证之外，会员在此进一步保证并承诺，作为使用博彩服务的条件：
+1. 会员以本人的身份及名义进行活动，而非代他人进行交易；
+2. 会员的法律行为能力不受限制；
+3. 会员未被诊断或认定为赌博强迫症；
+4. 会员年龄(a)至少已满19周岁；或(b)已满任何适用于会员的法律所规定的其他法定年龄或成人年龄，以较大者为准(「法定年龄」)；
+5. 会员充分了解在使用博彩服务的过程中亏损资金的风险；
+6. 会员存入的款项并非来源于犯罪或其他非法、未经授权或许可的活动；
+7. 会员并非从事犯罪或其他非法、未经授权或许可活动和/或企图利用会员在KTO亚洲开立的账户从事上述活动；会员不得利用或允许他人利用博彩服务或会员的博彩账户从事适用于会员或我们的任何法律所规定的任何犯罪或其他非法活动，包括但不限于洗钱；
+8. 对会员的户名、账号和密码予以保密，防止非法联接或使用，在户名、账号或密码以任何方式失密的情况下立即更改密码或通知我们；
+9. 对以会员的户名、账号和密码通过博彩网站和/或联接设备联接和使用博彩服务的任何及所有活动自行承担责任，不论上述联接和/或使用是否经会员授权或为会员所知晓；
+10. 不以任何干扰或可能干扰其他会员使用博彩服务和博彩网站的方式使用博彩服务、博彩网站、联接设备、博彩软件和博彩资讯，不实施任何降低或可能降低博彩服务和博彩网站运行效能的行为；
+11. 不征集或以任何方式企图获取有关其他会员的任何资料；
+12. 不上传或散发任何含有病毒、已经毁坏或可能影响联接设备、博彩软件、博彩服务和/或博彩网站运行效能的程序、文件或数据；
+13. 会员通过博彩网站和/或联接设备联接或使用博彩服务和博彩资讯不违反适用于会员的法律；亦不违反对会员个人或会员目前联接博彩网站或使用联接设备所在国家所有人具有约束力的合约义务；同时不受上述法律或合约义务禁止；
+14. 不使用任何设备、机械、装置、软件、程序或其他方法(或任何具有上述性质的事物)干扰或企图干扰博彩服务、联接设备、博彩软件、博彩网站、博彩资讯或博彩网站和/或联接设备提供的任何交易的正常运行；
+15. 不向博彩网站和/或联接设备或任何其他会员发布或传送任何违法、骚扰性、侮辱性、威胁性、诬蔑性、诽谤性、淫秽、猥亵、煽动性、种族歧视、色情或粗俗的内容，或可构成或教唆犯罪、引发民事责任或以其他方式违反任何法律的内容；
+16. 会员不是KTO亚洲或其任何关联公司的管理人员、董事、雇员、顾问、关联人或代理人，或与上述任何人员具有亲属或同屋居住关系；
+17. 不干扰其他会员使用博彩服务、博彩网站、博彩软件、联接设备和博彩资讯或发起和参与调查、竞赛、连锁信或发布传送「垃圾邮件」或其他未受请求的群发邮件。
+";
+"license_definition" = "定义";
+"license_definition_content" = "以下条规适用于会员使用、联接和参与由(统称KTO亚洲、「我们」及「我们的」，视具体情况而定)通过KTO亚洲经营的网站提供的网上博彩服务。本条规须与特定博彩的博彩规则及适用于博彩软件的使用及与连接进入博彩网站和其中所含条规一并阅读。我们有权通过网站向有关第三方支付平台服务提供商以及金融保险机构提供必要的个人信息以完成支付要求。
+「博彩」就本条规而言，包括但不限于通过博彩网站提供的任何及/或一切博彩服务进行的投注、游戏及各类博彩活动；「联接设备」指任何应用联接设备，包括但不限于为使用和联接博彩网站、参与博彩服务而采用的个人电脑、笔记本电脑、移动电话、个人数码助理、PDA电话、手提设备。
+";
+"license_disclaimer_specialconsideration" = "免责声明及特别注意事项";
+"license_disclaimer_specialconsideration_content" = "博彩完全是一项个人选择，以个人判断与分析为依据，且风险自负的行为。会员下注的同时，即表明会员承认博彩服务、博彩网站和博彩资讯并无冒犯性，且并不令人反感、不公平或有悖公共道德。一些司法管辖区对网上及/或岸外网上博彩的合法性尚无定论；而另一些司法管辖区则明确规定网上博彩（在司法管辖区域内和/或岸外）均属非法行为。我们不鼓励任何人在非法的情况下使用和连接博彩网站、博彩资讯和/或博彩服​​务。博彩服务、博彩资讯和博彩网站的设立和提供并不构成我们发出要约、招揽或邀请任何人在那些规定使用或连接上述内容为非法行为的国家内使用或连接上述内容。会员独立承担遵守其所适用之相关法律规定的责任，而KTO亚洲不就博彩服务、博彩软件、博彩网站或其中的博彩资讯与会员所适用的法律规定相符作出任何声明。
+
+博彩服务、博彩软件、博彩网站和博彩资讯均按「原状原则」提供。除本条规明示的外，KTO亚洲不就博彩服务、博彩网站、博彩软件和博彩资讯作出任何声明或保证。故所有有关博彩服务、博彩软件、博彩网站和博彩资讯的声明或保证，不论明示或暗示、法定与否，特此在法律允许的最大范围内予以排除。KTO亚洲不就博彩服务、博彩软件、博彩网站或博彩资讯的准确性、及时性、安全性、连续性、正确性或抗外界干扰性（任何性​​质），以及更正所发现的任何缺陷作出保证。KTO亚洲亦不保证博彩服务、博彩软件、博彩网站和博彩资讯或提供上述内容的服务器不含有任何病毒、间​​谍软件、广告软件或其他具恶意性、破坏性或可导致电脑瘫痪的代码、程序、数据、宏指令或可影响任何联接设备和/或其中所存数据的其他软件或特性。会员承诺将自行自费采取预防措施，确保其使用或连接博彩服务所用的过程、方法和/或联接设备、以及博彩软件的安装和博彩网站的使用，均不会带来电脑病毒、间谍软件、广告软件或具恶意性、破坏性或可导致电脑瘫痪的其他代码，或导致其联接设备或其中所存数据受到干扰和破坏的其他风险。
+
+若发生与账户结算或博彩服务的其他方面有关的系统错误或通讯错误，KTO亚洲不承担由此引起的任何责任。在此情况下，KTO亚洲有权取消所有受上述错误影响的下注并采取任何更正行动。
+
+在任何情况下，因会员连接、使用或参与博彩服务、博彩网站、博彩软件和博彩资讯而发生任何损害、损失或支出，包括会员之联接设备或所存数据受到任何干扰或破坏，KTO亚洲不承担任何责任。此外，对博彩服务、博彩网站、博彩软件和博彩资讯中由第三方(包括但不限于宽带和电信服务供应商)所提供的内容，KTO亚洲亦不作任何保证和声明且不予负责；在任何情况下，KTO亚洲均不对上述第三方合作者的任何违约、过错或不作为承担责任。
+
+在任何情况下，KTO亚洲、其关联公司、关联方、合伙人、管理人员、雇员和代理均不对任何损害、损失或支出承担责任。上述包括但不限于因会员连接或使用博彩服务、博彩网站、博彩软件和博彩资讯、或与会员连接或使用博彩服务、博彩网站、博彩软件和博彩资讯有关的、或因会员下载、安装或使用博彩软件所引起的任何直接、间接、因果性或特别的损害或经济损失，不论KTO亚洲是否被告知可能发生上述损害、损失或支出。在任何情况下，就与会员下注直接相关的任何事宜、事件或情形所引起或与之相关的任何损失或损害(不论是否基于合约、侵权、严格责任或其他原因)，在法律允许的最大范围内，KTO亚洲对会员的全部责任(如有)应不超过会员的相应下注额。
+
+会员承认，博彩资讯在性质上可能全部或部分地具有临时性，并且可按本条规予以修订、修改或更改。因此，会员承认博彩资讯仅为参考之用，不构成任何建议、意见或招揽，不构成任何具约束力的声明、保证、合约义务或会员依据的内容和基础。
+
+会员特此承认并同意，在考虑所有相关因素，包括但不限于会员向KTO亚洲提供对价的价值后，本条规所述之所有责任豁免和义务排除代表会员和KTO亚洲协议中公平、合理的风险分担和利益分配。会员进一步同意上述免责和限制在适用法律允许的最大范围内具有强制执行力。
+如果会员对任何博彩或比赛的结果存有异议，应在该等结果宣布之日后十四(14)天内向我们书面投诉。若出现会员联接设备所显示与KTO亚洲系统的交易记录中所存的交易结果不符的情况(尽管发生这种情况的可能性很小)，会员同意KTO亚洲系统中交易记录所记载的由我们的技术总监认证的交易结果应为该等结果具终局性的不容置疑的证据。
+";
+"license_forcemajeure" = "不可抗力";
+"license_forcemajeure_content" = "若KTO亚洲由于发生下列其无法控制的任何性质的事件(包括但不限于天灾、适用法律法规的变更、政府、民政或军事机关的作为或不作为、法院命令、恐怖活动、闪电或火灾、罢工、停工或其他劳资纠纷、洪水、干旱、战争、暴乱、盗窃、传输或系统故障、通讯或宽带服务故障或中断、电力供应或设备故障或不足、恶劣气候、地震和自然灾害)未能或迟延履行本条规所规定的任何义务，不构成违反本条规。会员同意采取一切必要行动尽量减轻上述事件的后果。
+";
+"license_gamblingprotection_content" = "我们强烈建议阁下定期审视您的博彩行为，检验自己是否投入过度。这是一份来自匿名戒赌互助会的问卷调查，以评估潜在的赌博问题。
+1. 有否曾因赌博而耽误工作时间?
+2. 赌博有否令您的生活不愉快?
+3. 赌博有否影响您的声望?
+4. 赌博之后，您是否感到自责?
+5. 阁下有否曾经用赌博所赢得的钱来还债，或者解决财政困难?
+6. 赌博有否导致您的抱负及效率减低?
+7. 输钱后，您是否感觉您一定要尽快回来赚您所失去的?
+8. 赢钱后，您是否有一种强烈的欲望，回来赢得更多?
+9. 您是否时常赌博至分文都用尽?
+10. 您是否借钱，作赌博之用?
+11. 您是否出卖任何物件，作赌博之用?
+12. 您是否不愿意用赌本来付正常的开支?
+13. 赌博是否令您疏忽您自己及您家人的健康快乐?
+14. 您是否花比预计更多的时间在赌博上?
+15. 您是否以赌博来逃避忧虑及困难?
+16. 您是否犯罪或考虑犯罪，为赌博筹备资金?
+17. 赌博有否令您有睡眠的困难?
+18. 围绕您的争执、失望或挫败有否造成赌博的推动力?
+19. 您是否为数小时的赌博而有冲动去庆祝好运?
+20. 您是否因赌博的结果而自毁或自杀?
+如果您的答案“是”越多，说明您存在赌博问题的风险越大。
+重要的是可以尽快发现赌博给您的生活带来的负面影响，以便采取预防措施，或请您联系在线客服来申请关闭您的账户。
+";
+"license_gamblingprotection_title" = "赌博问题防护";
+"license_gaminginfo_intellectualproperty" = "博彩资讯和知识产权";
+"license_gaminginfo_intellectualproperty_content" = "通过博彩网站、博彩服务、博彩设备和/或任何其他方式提供向会员公开、获取、产生和/或收集的信息、资料和数据，包括但不限于营销计划和资料、成绩、统计数据、赛事数据、赛程表、概率和投注数据、文字、图标、音像资讯(「博彩资讯」)，将属于KTO亚洲和其许可人所有，仅供会员用于个人非商业性目的。
+除在本条规外，未经我们或第三方资料专有人的事先书面同意，会员不得以任何方式或手段改编、拷贝、修改、复制、储存、散发、展示、公开播放、制入有线节目、出版、传送、出售、出借、出租、许可使用博彩资讯。会员也不得或以其他方式使用任何他人网站、网上服务、公告板、任何媒体和/或联接设备可以获得、使用、或连接上述博彩资讯。
+在博彩网站和/或通过联接设备提供的博彩软件、博彩服务和博彩资讯享受著作权、商标和其他形式的知识产权和专利保护。博彩网站上的博彩软件、博彩服务和博彩资讯的所有权利、产权和利益均属KTO亚洲和其许可人所有、使用或控制。会员确认并未通过使用或联接在博彩网站和/或联接设备提供的博彩软件、博彩服务和博彩资讯取得KTO亚洲的博彩软件、博彩服务和博彩资讯的任何权利、利益或许可。
+";
+"license_gamingsoftware_usagerights" = "博彩软件使用权";
+"license_gamingsoftware_usagerights_content" = "会员特此确认并同意，会员通过联接设备以下载或其他方式获得的以便其远程使用的博彩网站的博彩软件属于博彩服务的一部分，为KTO亚洲和/其许可人的财产；会员对该等博彩软件不享有任何权利。会员不得以任何方式或以任何手段改编、拷贝、修改、复制、储存、散发、展示、公开播放、传播、广播、制入有线节目、出版、传送、出售、出借、出租、或许可使用博彩软件。会员也不得以其他方式交流或使博彩软件对任何他人网站、网上服务或公告板或任何其他媒体和/或联接设备开放。
+KTO亚洲特此授予会员在联连设备上安装和使用博彩软件的非专属性、不可转让的个人使用权(「使用权」)，但博彩软件的安装和使用所用的联接设备须以会员为主要使用人。
+KTO亚洲授权和散发博彩软件的目的仅为博彩软件的终端会员能完全连接和使用博彩服务。
+会员不得：
+1. 安装或传载博彩软件至其他连网设备的服务器或采取其他步骤使博彩软件可以通过任何形式或公告板、网上服务或远程拨号或网络使他人得到；
+2. 散发、出借、出租、转授权、拷贝、转让、转移或以其他方式使任何其他人得到博彩软件和/或使用博彩软件的使用权；
+3. 允许其他人使用博彩软件；
+4. 设立或提供任何方式(包括但不限于仿真程序)使他人使用博彩软件；
+5. 翻译、反向工程、反向编译，反汇编、修改、破解、全部或部分的以博彩软件和其源代码为基础开发衍生产品。
+6. 拷贝、修改、翻译或全部或部分地以博彩软件的相关会员文件为基础开发衍生产品。
+会员承认并同意，博彩网站上提供的及或通过联连设备或其他方式提供的博彩软件或博彩软件会员方件均归KTO亚洲和许可人所有，并受著作权、商标权和其他知识产权和专利权的保护。会员特此承认，博彩软件的结构、组织和源代码为KTO亚洲和其许可人的极具价值的商业秘密。会员承认除根据使用权向会员授予的权利外，会员对博彩软件和/或博彩软件会员文件不享有任何权利和权益。
+本协议因任何原因终止，本协议顶下所授予的使用权自动作废，会员应停止使用博彩软件并将博彩软件从联连设备中卸载。
+";
+"license_ktoglobal" = "了解KTO集团";
+"license_key" = "zh-cn";
+"license_law_jurisdiction" = "适用法律和管辖";
+"license_law_jurisdiction_content" = "1. 会员同意，会员联接和使用博彩服务、博彩网站、博彩软件、博彩资讯及有关本条规的解释适用菲律宾法律，并按菲律宾法律解释。因本条规发生或与本条规有关的任何争议：
+ 2. 若由会员提起，则提交菲律宾First Cagayan公司卡卡湾经济区管理局(Cagayan Economic Zone Authority, First Cagayan Leisure and Resort Corporation)互动游戏主许可人最终解决。
+ 3. 若由KTO亚洲提起，则由KTO亚洲自行选择：i. 根据以上规定提请仲裁最终解决。
+ i.. 向会员同意的菲律宾法院提起诉讼或申请，但KTO亚洲在其他法律管辖区提起诉讼或法律程序的权利不受影响。
+
+";
+"license_linktobettingsite" = "与博彩网站的链接/框入";
+"license_linktobettingsite_content" = "会员不得就博彩网站或博彩服务的任何部分设置链接、深链接或文中链接(deep or in-line links)、或框入(frame)博彩资讯。
+";
+"license_linktoexternal" = "与外部网站的链接";
+"license_linktoexternal_content" = "博彩网站可能含有与并非KTO亚洲维护的外部网站的链接。与外部网站的链接仅为会员方便而提供，我们不承诺确保上述链接所含内容的准确性、时效性或被维护，且不就此承担任何责任。
+KTO亚洲不就外部网站的内容资讯或隐私保护政策或在外部网站宣传、出售或以其他方式开放的任何产品或服务承担任何责任、负责提供或审查、予以批准或核准、或作出任何声明或保证。
+KTO亚洲不就会员因使用博彩网站所提供的任何外部网站链接而发生的或与之相关的任何损失或损害承担合约、侵权、疏忽或其他责任。
+除非明文规定，否则KTO亚洲在任何情况下均不得被视为与外部网站上的任何声明、意见、产品或服务商标、标记、标志或其他图案、在外部网站宣传、出售或以其他方式开放的任何产品或服务、外部网站的经营者或所有者、或以任何方式与外部网站相关的任何人具有任何关系或联系。
+";
+"license_modify" = "修改";
+"license_modify_content" = "KTO亚洲保留不时修订、更新和修改本条规和博彩规则(或其任何部分)的绝对权利。上述任何修订、更新或修改将在博彩网站上公布。经修订、更新或修改的本条规和博彩规则于其在博彩网站上公布时生效。会员在之后继续通过博彩网站和博彩设备使用、联接和参与博彩服务，将视为同意并接受所公布的经修改或更新的本条规和博彩规则。
+会员确认并同意及自行负责查阅上述修订、更新或修改。KTO亚洲可自主决定将上述修订、更新和修改通知会员。上述修订、更新和修改可由KTO亚洲自主决定不时通知会员，但KTO亚洲并无任何义务向会员通知任何修订、更新和修改。
+";
+"license_priority_order" = "优先顺序";
+"license_priority_order_content" = "博彩规则(若适用)和适用于使用和联接博彩服务、博彩软件、博彩资讯和博彩网站的任何其他条规均构成本条规的组成部分。
+若博彩规则和适用于使用和联接博彩服务、博彩软件、博彩资讯和博彩网站的任何其他条规与本条规存有抵触，则除非另行明文规定，否则以本条规为准。
+";
+"license_privacy_advertisement" = "广告系统";
+"license_privacy_advertisement_content" = "我们的广告系统会自动记录点击者的网路IP地址，此项主要令网站宣传功能有效发挥。
+";
+"license_privacy_bonus" = "彩金";
+"license_privacy_bonus_content" = "我们会严格保密会员所赢取的彩金数额。如根据当地的法律规定，要求会员必须要向当地的政府机构申报所赢取之彩金数额。那这个申报权益则会留给会员作决定。
+";
+"license_privacy_definition_content" = "当会员在KTO亚洲开设及使用账户时，我们所收集的信息和数据包含姓名、位址、年龄、电邮、电话、IP地址等，而收集这些信息的目的为：
+1. 保留户口的交易记录
+2. 协助改善户口管理
+3. 安全理由(包括会员的身份证明)
+4. 建立会员档案
+5. 管理会员关系
+6. 在您同意的情况下，为您提供我们的优惠活动、产品和服务信息
+7. 为防止欺诈、不规律投注、洗黑钱和欺骗等行为而对交易进行监管
+";
+"license_privacy_docfile" = "小型文字档案(Cookies)";
+"license_privacy_docfile_content" = "1. 会员使用本网站后，我们出于以上目的可能使用Cookies技术从服务器中收集会员信息。如果您在KTO亚洲注册或者继续使用网站，则您将被视为同意我们使用Cookies。
+2. Cookies包含转至您电脑硬盘上的信息。这将帮助我们完善网站，并提供更优质且人性化的服务。我们使用的某些Cookies对于网站的运行至关重要。
+3. 如果您想删除任何已储存在您电脑上的Cookies，或想停止那些记录您浏览网站模式的Cookies，您可以删除您的现有Cookies和/或更改您浏览器上的隐私设置，以阻挡Cookies(此过程在各个浏览器间有所不同)。如果您想获知更多关于如何操作的信息，请访问http
+";
+"license_privacy_messagecollect_use" = "信息收集与使用";
+"license_privacy_phone" = "电话";
+"license_privacy_phone_content" = "出于员工培训和安全原因，我们所有的会员往来电话均有录音，同时也可为您之前所受到的服务提供进一步的帮助。
+";
+"license_privacy_playerinformation" = "更改您的个人资料";
+"license_privacy_playerinformationsafe" = "个人资料的安全与准确性";
+"license_privacy_playerinformationsafe_content" = "1. 我们承诺会妥善地保存会员的所有资料，并维护相关资料的准确性。根据法律，会员有权保留个人资料及要求更改任何错误。
+2. 同时，我们更会采取所有步骤以确保会员资料在处理过程中，能达至最严格的安全标准。此外，会员资料只有在适用的法律之下方有机会被透露，而资料则主要透露给KTO亚洲等有关部门、商业伙伴、顾问与供应商(如 信用卡处理机构)。我们承诺不会将会员的资料售卖给第三者。
+";
+"license_privacy_playerinformation_content" = "会员可随时更改个人资料。如有需要，可向我们的在线客服联络。
+";
+"license_privacy_promotion_information" = "传送优惠资讯";
+"license_privacy_promotion_information_content" = "在注册账号时，会员可选择是否希望收到优惠资讯。登记后，会员亦可随时透过电邮作出有关更改：(email)。请注意：当会员选择不希望收到优惠资讯时，我们会尽力地停止相关传送，并承诺于28天内完成这个步骤。
+";
+"license_privacy_responsibility" = "隐私政策";
+"license_privacy_safety" = "安全性";
+"license_privacy_safety_content" = "KTO亚洲为确保会员提供给我们的个人资讯及资料是绝对安全保密。所有传送给我们的相关内容，都必定经过高科技的保密设施后，然后储存进我们的伺服器内。这项保密设施，乃使用目前最先进的防火墙技术来维护。我们的娱乐网站和软体更会采用最佳的保密程式，目的是保证会员的个人资料不会被第三方胡乱使用。
+";
+"license_privacy_transaction" = "户口的交易状况";
+"license_privacy_transaction_content" = "为鉴别会员的兴趣以提供相关优惠及资讯，或基于交易与业务运作等安全理由，我们会保留会员的交易记录以作分析。
+";
+"license_privacy_warning_1" = "对于保存会员资料方面，KTO亚洲一向采取最谨慎的态度及工作程序作处理。我们对会员所肩负起的责任与承诺。另外，也清晰说明了我们处理会员资料的方式。";
+"license_privacy_warning_2" = "当阁下使用KTO亚洲官网时，表示您承认并接受KTO亚洲隐私政策的规则与条件，并了解收集各项资料之目的及处理之方式。如果您不同意本隐私政策中的条款，请不要使用网站或将您的个人信息提供给我们。";
+"license_privacy_warning_3" = "所有会员提供的个人信息，其传送都将通过安全端口(SSL 128 bit encryption Standard)并存放在公众无法进入的保密环境之下。所有数据的内部出入都受到限制及严密的监控。";
+"license_privacy_webmessage" = "网站信息";
+"license_privacy_webmessage_content" = "我们的系统会自动记录KTO亚洲浏览者的网路IP地址，但我们绝不会记录网站访问者的电邮地址，而此项主要是用作网站流量统计之用。
+";
+"license_promotion_privacyppolicy" = "KTO亚洲隐私政策";
+"license_promotion_reward" = "促销和奖励";
+"license_promotion_reward_content" = "所有促销、奖励和特价均须遵守本条规及KTO亚洲针对具体促销活动所不时制定的规定。KTO亚洲保留在任何时候中止、取消或修改该等奖励或促销和/或其相关规定及条款的权力。
+若KTO亚洲认定有人滥用或企图滥用某项奖励或促销活动，或可能因该等滥用行为而获利，我们有权自主决定以其认为合适的方式阻止、拒绝，中止、或撤消任何会员参加有关奖励或促销活动。
+如发现任意带有串通勾结以及试图欺诈等嫌疑的个人或团队，我们将保留取消其部份或全部投注的权利。所涉及的个人，亲属，组织，博彩庄家及其员工账户中的金额会将被立即查封没收。
+";
+"license_promotion_terms" = "KTO亚洲优惠活动一般规则和条款";
+"license_promotion_warning_1" = "1. 优惠促销只适用于拥有一个独立账户的会员。住址、电子邮箱地址﹑电话号码﹑支付方式(相同借记卡/信用卡/银行账户号码)IP地址，同一网络环境等将可以作为判定是否独立会员的条件。";
+"license_promotion_warning_2" = "2. 会员不能同时享有任意两种优惠，客户所参加一种优惠或获取一种优惠的彩金所需要的客观条件，比如存款额，有效投注额等或获取彩金后所需要完成的有效投注额要求均视为目前所拥有的优惠状态的参数，不会被计算到其他任意的优惠所需要的条件或获取优惠彩金后所需要完成的要求中。";
+"license_promotion_warning_3" = "3. 除非有特别说明，否则所有与投注额相关的数据都将以KTO亚洲有效投注额为依据，KTO亚洲有效投注额是指参与一定风险产生的投注金额，KTO以最终的输赢额进行考量：最终结果输赢额超过或等于本金的50%的注单投注实际扣除金额将被认定为有效投注额，反之则将不属于有效投注额的范畴。";
+"license_promotion_warning_4" = "例如：";
+"license_promotion_warning_5" = "案例1, 客户账户扣除100元进行投注，注单结果为赢，赢利的金额等于50元或高于50元，视为100元有效投注额";
+"license_promotion_warning_6" = "案例2, 客户账户扣除100元进行投注，注单结果为输，输掉的金额低于50元，有效投注额为0";
+"license_promotion_warning_7" = "案例3, 客户账户扣除100元进行投注，注单结果为输，输掉的金额高于或等于50元，有效投注额为100";
+"license_promotion_warning_8" = "案例4, 客户账户扣除100元进行投注，注单被取消，返还本金，赢利和负利都为0，有效投注额为0";
+"license_promotion_warning_9" = "4.智能下注的玩法不参与任何优惠投注额要求计算。";
+"license_promotion_warning_10" = "5. 对于发现任何有违背、欺骗、或利用规则和条款进行非法获利的会员， KTO亚洲保留所有权利在任何时候都可以停止、取消优惠或索回已支付的全部优惠。";
+"license_promotion_warning_11" = "6. 我们的优惠活动欢迎真实会员申请，真实会员的定义是指真正参与游戏而且有风险投注的会员。若发现任何有违背、欺骗、或利用规则和条款进行非法获利或获取其他利益，我们有权自行决定采取任何行动例如：终止登录、暂停使用网站，或者没收奖金及赢利。";
+"license_promotion_warning_12" = "7. 某些特定优惠可能需要客户提交身份证件或地址等要求以便发放奖金或奖品，客户申请优惠将视为遵守优惠的规则和条款，在规定的时间未提交合格资料的情况下，将视为客户主动放弃优惠。客户所提交的信息将遵循。";
+"license_promotion_warning_13" = "8. 会员需要遵守优惠的特定规则条款，优惠一般规则条款和网站条款。";
+"license_promotion_warning_14" = "9. 在某些未知因素超出可控范围的情况下，KTO亚洲保留可单方面执行的决定权，在任何时候无事先通知的情况下，修改、改变、停止、取消以及/或使此优惠失效。KTO亚洲承诺会在这类紧急问题发生时解释给客户原因并听取客户反馈与客户沟通协商解决。";
+"license_register_membership" = "注册开立博彩账户和会员资格";
+"license_register_membership_content" = "欲通过KTO亚洲参与博彩、使用博彩服务，会员须按博彩网站所述程序完成开立账户和会员资格的申请(「会员资格申请」)。
+会员声明并承诺，会员在注册和办理会员资格申请时所提供的所有资料，包括会员资格申请所填会员姓名(「姓名」)、资金来源(包括有关银行账号和卡号)和住址，在一切方面均真实、准确、完整。
+KTO亚洲将采取必要和适当的措施对会员向我们披露的个人资料予以保密。我们将对所收到的会员个人数据和投注资料予以严格保密，除非法律、法规、规章、法院、监管机关、任何有关博彩管理、执法机关的命令和决定或本条规另要求披露。会员对其个人资料的保密自行承担责任。我们保留在完成博彩网站所提供的博彩服务的付款手续所需的范围内向我们支付结算服务提供者和金融机构披露会员个人数据的权利。
+会员还须自行负责确保会员使用和联接博彩网站和其中所含的博彩资讯、下载安装博彩软件和/或使用和参与博彩服务不受适用于会员的法律禁止。
+为验证会员的会员资格申请，我们还需要会员提供身份和年龄证明(如带照片的有效身份证明和借记卡或信用卡)。会员提供的具体原始资料如有任何变更，应及时通知我们。为确认会员的姓名和地址，KTO亚洲保留通过邮寄等方式确认会员姓名和地址的权利。KTO亚洲还可自行决定采用其他安全措施核实会员提供的任何资料。会员同意本条规，即同时表示同意KTO亚洲联接、使用、处理和储存对会员的任何身份验证或核实结果。
+我们保留基于任何理由拒绝会员会员资格申请的绝对权利。
+我们仅对在线即时帮助所公布的KTO亚洲官方备用网站负责。会员登录其它任意貌似KTO亚洲网站的链接，所造成的任何损失我们将不承担任何责任。如有其他疑问，请直接联络我们的在线客服。
+会员在KTO亚洲仅可开立一个账户。若我们发现会员在KTO亚洲开设不止一个账户，我们保留自行决定将会员在KTO亚洲的所有账户作为一个合并账户处理、取消多余账户或与会员终止本协议的权利。
+";
+"license_responsibilitygambling_age_limit_content" = "阁下必须超过18岁(或在阁下居住的管辖范围内不被视为未成年人)才可进入此网站。任何未满18岁的人不得在我们网站开户和投注，我司以严谨的态度看待和处理此问题。
+如果您未满18岁，请勿在我们网站开户游戏，并请立即退出网站。未成年人在我们网站游戏，那么我司有没收其盈利的权利。
+以下是为预防未成年人访问在线游戏网站的一些参考网站
+http";
+"license_responsibilitygambling_age_limit_title" = "年龄限制";
+"license_responsibilitygambling_content" = "我们以提供最佳体育博彩，在线网上娱乐场服务而自豪，然而博彩只是一种娱乐消遣的方式，我们倾全力为顾客营造一个良好的网上娱乐环境并且衷心希望顾客能在这里获得最佳娱乐体验。作为一个声誉高责任感强的博彩公司，我们希望阁下您在尽情享受网站服务的同时调整好您的心态。我们所有的客户服务团队均有受到有关问题赌博的认识培训。有少部分客户或许过度沉迷于游戏以至于对其经济，事业，家庭和社会产生负面影响。对此，我司强烈建议阁下定时审视您的博彩行为，明确和调整您的娱乐心态。";
+"license_responsibilitygambling_title" = "博彩责任";
+"license_severability" = "可分割性";
+"license_severability_content" = "若任何条款或其任何部分被有关机关认定为在任何程度上无效、不合法或不可执行，则该条款或该部分在上述程度上与其他条款分割，其他条款在法律允许的范围内继续完全有效。
+";
+"license_termination" = "终止、关户及暂停博彩服务";
+"license_termination_content" = "如有充分理由相信或证明以下情形，除本条款项下所享有的其他权利外，KTO亚洲有权，根据自主判断，宣布任何彩金无效并没收会员下注账户中所存余额、终止本协议和/或暂停提供博彩服务/冻结会员账户：
+1. 会员在KTO亚洲拥有不止一个活动账户；
+2. 会员姓名与向KTO亚洲进行购卖或支付押金所用的信用卡或借记卡或其他付款账户的持有人姓名不符；
+3. 会员参与KTO亚洲促销并在未满足促销要求之前退出该促销；
+4. 会员提供不正确或误导性的注册信息；
+5. 会员未提供或遗漏提供必要的身份资料；
+6. 会员不满法定年龄；
+7. 会员连接和使用博彩服务所在的地区在法律上禁止使用博彩服务；
+8. 会员对我们实施或促使他人对我们实施「退款」，或否认以其账户名义进行的任何交易或押金；
+9. 会员押金来源于刑事犯罪或其他非法或未经授权的活动；
+10. 会员被发现欺诈或企图欺诈任何人或已经对任何人实施欺诈，或经KTO亚洲认定会员使用专门设计用以干扰/捣毁系统之人工智能或其他系统(包括机械、电脑、软件或其他自动化系统)，或被发现与其他博彩玩客勾结或企图与其他赌客勾结欺骗KTO亚洲或其他博彩玩客；
+11. 会员允许(不论是否故意)他人使用其账户；
+12. 会员未遵守本协议项下的任何使用规定；
+13. 会员未披露其位置在菲律宾、台湾、美国、新加坡及香港境内的事实。
+14. 若我们规定暂停提供博彩服务和/或冻结账户，在会员实施必要的纠正措施(如果可以纠正)，且我们确认完全满意会员的纠正措施之后，博彩服务和会员账户将被恢复和解冻。
+";
+"license_terms_service" = "服务条款";
+"license_transaction_settlement" = "交易结算";
+"license_transaction_settlement_content" = "会员使用信用卡或借记卡的，持卡人姓名须与会员登记和申请过程中所使用的姓名一致。若发生持卡人姓名和账户登记和会员申请所使用的姓名不一致的情况，KTO亚洲有权拒绝就相关交易进行结算。
+会员承担向KTO亚洲和/其他会员（视具体情况而定）支付所有应付款项的一切责任。会员同意对任何付款不实施或促使他人实施退款，不拒绝或撤销付款，并向KTO亚洲偿付所有被退还​​、拒绝或撤销的付款以及由此引起的所有损失和费用。KTO亚洲，根据自主判断，有权终止向个别会员或使用某类信用卡或借记卡付款的会员提供服务或支付款项。
+任何经KTO亚洲认可的有效彩金不包括下注额。
+任何款项或彩金在存入账户的过程中发生错误，KTO亚洲不负任何形式的任何责任，且我们有权在任何时候或在事后宣布涉及该等款项的交易无效。会员一旦发现账户内款项汇存有误，有责任立即通知KTO亚洲。
+在任何适用法律下就彩金所应缴付的税款和费用均由会员自行负责缴付。
+";
+"license_violation" = "违反本条规";
+"license_violation_content" = "KTO亚洲保留就违反本条规的行为依法寻求救济(法律及衡平法)的权利，包括自行决定在任何时候基于任何理由拒绝或限制任何特定的人联接博彩服务、博彩网站和博彩资讯、阻止通过特定互联网地址或联接设备联接博彩服务、博彩网站和博彩资讯的权利。
+";
+"license_warning" = "请仔细阅读本条款，并确认您完全理解其内容。如果对于这一条款所产生的权利和义务有任何疑问，请向您所属法律管辖区域内的法律顾问寻求帮助。";
+"license_lobby_announcement" = "通知";
+
+//MARK: - Notification
+"notification_type_0" = "维护公告";
+"notification_type_1" = "一般公告";
+"notification_type_2" = "个人信件";
+"notification_validate_message_1" = "至少輸入三個字元。";
+"notification_deleted" = "已刪除信件";
+"notification_delete_title" = "確認刪除";
+"notification_delete_content" = "確認刪除該信件?";
+"notification_delete_button" = "删除此信件";
+"notification_maintenancetime" = "维护时间";
+"notification_search_result" = "搜尋結果";
+"notification_title" = "通知";
+"notification_search" = "搜寻";
+"notification_result_empty" = "目前暂无相关资讯";
+"notification_search_result_empty" = "查无结果";
+
+//MARK: - Activity
+"activity_status" = "状态";
+"activity_0" = "个人账户";
+"activity_1" = "充值";
+"activity_2" = "提现";
+"activity_3" = "专属域名";
+"activity_4" = "登录/登出活动";
+"activity_5" = "彩金";
+"activity_6" = "调整";
+"activity_7" = "等级";
+"activity_8" = "手续费回馈";
+
+//MARK: - Notify
+"notify_10" = "注册成功";
+"notify_20" = "充值需要验证文件";
+"notify_30" = "提现需要验证文件";
+"notify_40" = "变更提现姓名需要验证文件";
+"notify_41" = "变更提现姓名成功";
+"notify_42" = "变更提现姓名失败";
+"notify_50" = "更换充值银行卡";
+"notify_60" = "获得专属功能";
+"notify_70" = "充值成功";
+"notify_72" = "充值失敗";
+"notify_80" = "提现成功";
+"notify_90" = "提现取消";
+"notify_100" = "提现失败";
+"notify_110" = "更换充值渠道";
+"notify_120" = "更换提现限额";
+"notify_121" = "更换提现次数";
+"notify_130" = "获得彩金";
+"notify_140" = "调整余额";
+"notify_150" = "提升等级";
+
+//MARK: - ActivityContent
+"activitycontent_0" = "登入活动";
+"activitycontent_1" = "注销活动";
+"activitycontent_2" = "注销活动";
+"activitycontent_10" = "恭喜你成为专属会员";
+"activitycontent_20" = "待用户确认";
+"activitycontent_30" = "提现需要文件";
+"activitycontent_40" = "改名需要文件";
+"activitycontent_41" = "改名成功";
+"activitycontent_42" = "改名失败";
+"activitycontent_50" = "充值银行卡已变更";
+"activitycontent_70" = "充值成功";
+"activitycontent_71" = "充值成功";
+"activitycontent_80" = "提现成功";
+"activitycontent_90" = "提现取消";
+"activitycontent_100" = "提现失败";
+"activitycontent_110" = "充值渠道已變更";
+"activitycontent_121" = "提现次数更改为: %@次";
+"activitycontent_130" = "彩金已发放";
+"activitycontent_140" = "已调整帐户余额";
+"activitycontent_150" = "等级提升, 目前等级%@";
+"activitycontent_72" = "充值失败";
+"activitycontent_120" = "提现限额更改为: %@元";
+
+//MARK: - Level
+"level_4" = "全场天天返，最高 %@%% 投注额返现。";
+"level_90" = "您的反馈，主管们会开会研究…";
+"level_91" = "每日 %@元。";
+"level_92" = "更快，更稳定，它只属于您。";
+"level_3_1" = "玩指定赛事，为您投保 %@元。 ";
+"level_3_1_leveltop" = "为特定赛事，给您买了顶级保险。";
+"level_3_2" = "我们的救援，元气满满！ 最高 %@元。";
+"level_3_2_leveltop" = "瞬间恢复，强劲的最高级救援金！";
+"level_4_leveltop" = "无限的最高级返现!";
+"level_5_0_level1" = "%@%%首次充值彩金！";
+"level_5_0_level2" = "再次充值, 获取 %@%%高额彩金！";
+"level_5_1" = "每月享 %@%%高额充值彩金。";
+"level_5_2" = "周周享 %@%%高额充值彩金。";
+"level_5_3" = "天天尊享！ %@%%高额充值彩金。";
+"level_91_leveltop" = "您的提现，我们会为您直接插队…";
+"level_desc_levelup" = "Level Up! 恭喜您升级为 Lv%@。";
+"level_desc_register" = "恭喜您顺利完成注册";
+"level_detail_3_1_content" = "当日负盈利金額越高，救援金即越高。";
+"level_detail_3_1_title" = "负盈利回馈";
+"level_detail_3_1_title1" = "保险比例";
+"level_detail_3_1_title2" = "最高金额";
+"level_detail_4_dailylimited" = "日限额";
+"level_detail_4_unlimited" = "无上限";
+"level_detail_5_content2_1" = "此存送周期为月月有奖，高频率发送";
+"level_detail_5_content2_2" = "此存送周期为周周有奖，高频率发送";
+"level_detail_5_content2_3" = "此存送周期为天天有奖，高频率发送";
+"level_detail_5_content3" = "最低充值%@元
+提现: (本金+紅利)%@ 倍投注额";
+"level_detail_5_maxamount" = "最高金额";
+"level_detail_5_title1" = "再存红利";
+"level_detail_5_title1_first" = "首存红利";
+"level_detail_5_title2_1" = "每月有奖";
+"level_detail_5_title2_2" = "周周有奖";
+"level_detail_5_title2_3" = "天天有奖";
+"level_detail_5_title3" = "存送规则";
+"level_disabled" = "目前尚未解鎖。";
+"level_experience" = "经验值";
+"level_experience_title" = "经验值说明";
+"level_experience_desc" = "等级的经验值是与您在网站使用行为相关，每一个等级升级的条件会有不同且变动，您累积的经验值越高等级越高，请您随时可查看您的帐户升级情形。";
+"level_exclusive_90" = "反馈";
+"level_exclusive_92" = "域名";
+"level_level" = "等级";
+"level_levelprivilege" = "等级特权";
+"level_privilegetype_3" = "产品特权";
+"level_privilegetype_4" = "返现特权";
+"level_privilegetype_5" = "存送特权";
+"level_privilegetype_90" = "专属特权";
+"level_privilegetype_91" = "提现特权";
+"level_privilegetype_92" = "专属特权";
+"level_producttype_1" = "保险投注";
+"level_producttype_2" = "老虎机救援金";

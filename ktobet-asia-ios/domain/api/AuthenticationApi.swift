@@ -76,38 +76,53 @@ class AuthenticationApi {
         return httpClient.request(target).map(ResponseData<Bool>.self)
     }
     
+    func getCaptchaImage()->Single<UIImage>{
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/auth/get-captcha-image",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient
+            .request(target)
+            .mapImage()
+            .map { (image) -> UIImage in
+                return image as UIImage
+            }
+    }
+    
     // MARK: 重置密碼
-    func requestResetPassword(_ request: IResetPassword)-> Completable {
+    func requestResetPassword(_ account: String, accountType: Int)-> Completable {
+        let para = IResetPasswordRequest(account: account, accountType: accountType)
         let target = APITarget(baseUrl: httpClient.baseUrl,
                                path: "api/forget-password",
-                               method: .get,
-                               task: .requestParameters(parameters: request.dictionary, encoding: URLEncoding.default),
+                               method: .post,
+                               task: .requestJSONEncodable(para),
                                header: httpClient.headers)
         return httpClient.request(target).asCompletable()
      }
 
-    func verifyResetOtp(_ request: IVerifyOtpRequest)-> Single<ResponseData<Bool>> {
+    func verifyResetOtp(_ params: IVerifyOtpRequest) -> Single<ResponseData<Bool>>{
         let target = APITarget(baseUrl: httpClient.baseUrl,
                                path: "api/forget-password/verify-otp",
-                               method: .get,
-                               task: .requestParameters(parameters: request.dictionary, encoding: URLEncoding.default),
+                               method: .post,
+                               task: .requestJSONEncodable(params),
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<Bool>.self)
      }
 
-    func changePassword(_ request: INewPasswordRequest)-> Single<ResponseData<Bool>> {
+    func changePassword(_ request: INewPasswordRequest)-> Completable {
         let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "api/forget-password/verify-otp",
-                               method: .get,
-                               task: .requestParameters(parameters: request.dictionary, encoding: URLEncoding.default),
+                               path: "api/forget-password/change-password",
+                               method: .post,
+                               task: .requestJSONEncodable(request),
                                header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<Bool>.self)
+        return httpClient.request(target).asCompletable()
     }
 
     func resentOtp()-> Completable {
         let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "forget-password/resend-otp",
-                               method: .get,
+                               path: "api/forget-password/resend-otp",
+                               method: .post,
                                task: .requestPlain,
                                header: httpClient.headers)
         return httpClient.request(target).asCompletable()

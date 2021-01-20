@@ -57,17 +57,17 @@ class SignupLanguageViewController: UIViewController{
     
     // MARK: METHOD
     private func localize(){
-        labTitle.text = Localize.string("Step1_Title_1")
-        labDesc.text = Localize.string("Step1_Title_2")
-        labTermsTip.text = Localize.string("Step1_Tips_1")
-        btnNext.setTitle(Localize.string("Next"), for: .normal)
-        btnTerms.setTitle(Localize.string("Step1_Tips_1_Highlight"), for: .normal)
-        btnRegist.title = Localize.string("Login")
+        labTitle.text = Localize.string("register_step1_title_1")
+        labDesc.text = Localize.string("register_step1_title_2")
+        labTermsTip.text = Localize.string("register_step1_tips_1")
+        btnNext.setTitle(Localize.string("common_next"), for: .normal)
+        btnTerms.setTitle(Localize.string("register_step1_tips_1_highlight"), for: .normal)
+        btnRegist.title = Localize.string("common_login")
     }
     
     private func reloadLanguageList(){
         arrLangs = {
-            let texts = [Localize.string("language_option_chinese"), Localize.string("language_option_vietnam")]
+            let texts = [Localize.string("register_language_option_chinese"), Localize.string("register_language_option_vietnam")]
             let type : [Language] = [.China, .Vietnam]
             let selected = [true, false]
             var arr = [LanguageListData]()
@@ -112,8 +112,8 @@ class SignupLanguageViewController: UIViewController{
     }
     
     @IBAction func btnTipPressed(_ sender : UIButton){
-        let title = Localize.string("tip_title_warm")
-        let message = Localize.string("tip_content_bind")
+        let title = Localize.string("common_tip_title_warm")
+        let message = Localize.string("common_tip_content_bind")
         Alert.show(title, message, confirm: nil, cancel: nil)
     }
 }

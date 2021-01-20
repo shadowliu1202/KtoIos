@@ -113,7 +113,6 @@ class SignupUserInfoViewModel {
                 else { return .errPhoneFormat}
             }
         
-        
         let password = relayPassword.asObservable()
         let confirmPassword = relayConfirmPassword.asObservable()
         let passwordValid = password

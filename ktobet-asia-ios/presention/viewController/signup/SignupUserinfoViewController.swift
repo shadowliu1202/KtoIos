@@ -77,17 +77,17 @@ class SignupUserinfoViewController: UIViewController {
     
     // MARK: METHOD
     func localize(){
-        btnPhone.setTitle(Localize.string("Mobile"), for: .normal)
-        btnEmail.setTitle(Localize.string("Email"), for: .normal)
-        btnSubmit.setTitle(Localize.string("Step2_verify_mobile"), for: .normal)
-        inputEmail.setTitle(Localize.string("Email"))
-        inputMobile.setTitle(Localize.string("Mobile"))
-        inputName.setTitle(Localize.string("RealName"))
-        inputPassword.setTitle(Localize.string("Password"))
-        inputCsPassword.setTitle(Localize.string("Password_2"))
-        labTitle.text = Localize.string("Step2_Title_1")
-        labDesc.text = Localize.string("Step2_Title_2")
-        labPasswordDesc.text = Localize.string("Password_Tips_1")
+        btnPhone.setTitle(Localize.string("common_mobile"), for: .normal)
+        btnEmail.setTitle(Localize.string("common_email"), for: .normal)
+        btnSubmit.setTitle(Localize.string("register_step2_verify_mobile"), for: .normal)
+        inputEmail.setTitle(Localize.string("common_email"))
+        inputMobile.setTitle(Localize.string("common_mobile"))
+        inputName.setTitle(Localize.string("common_realname"))
+        inputPassword.setTitle(Localize.string("common_password"))
+        inputCsPassword.setTitle(Localize.string("common_password_2"))
+        labTitle.text = Localize.string("register_step2_title_1")
+        labDesc.text = Localize.string("register_step2_title_2")
+        labPasswordDesc.text = Localize.string("common_password_tips_1")
     }
     
     func defaultStyle(){
@@ -146,8 +146,8 @@ class SignupUserinfoViewController: UIViewController {
                     self.scrollView.addSubview(self.viewOtpInvalid)
                     self.labOtpInvalid.text = {
                         switch status {
-                        case .errEmailOtpInactive: return Localize.string("step2_email_Inactive")
-                        case .errSMSOtpInactive: return Localize.string("step2_sms_Inactive")
+                        case .errEmailOtpInactive: return Localize.string("register_step2_email_inactive")
+                        case .errSMSOtpInactive: return Localize.string("register_step2_sms_inactive")
                         default: return ""
                         }
                     }()
@@ -160,9 +160,9 @@ class SignupUserinfoViewController: UIViewController {
             .subscribe(onNext: {status in
                 var message = ""
                 if status == .errEmailFormat {
-                    message = Localize.string("error_email_format")
+                    message = Localize.string("common_error_email_format")
                 } else if status == .empty {
-                    message = Localize.string("field_must_fill")
+                    message = Localize.string("common_field_must_fill")
                 }
                 self.labAccountTip.text = message
                 self.inputAccount.showUnderline(message.count > 0)
@@ -173,9 +173,9 @@ class SignupUserinfoViewController: UIViewController {
             .subscribe(onNext: { status in
                 var message = ""
                 if status == .errPhoneFormat {
-                    message = Localize.string("error_Mobile_format")
+                    message = Localize.string("common_error_mobile_format")
                 } else if status == .empty {
-                    message = Localize.string("field_must_fill")
+                    message = Localize.string("common_field_must_fill")
                 }
                 self.labAccountTip.text = message
                 self.inputAccount.showUnderline(message.count > 0)
@@ -186,9 +186,9 @@ class SignupUserinfoViewController: UIViewController {
             .subscribe(onNext: { status in
                 var message = ""
                 if status == .errNameFormat {
-                    message = Localize.string("Step2_Name_format_error")
+                    message = Localize.string("register_step2_name_format_error")
                 } else if status == .empty {
-                    message = Localize.string("field_must_fill")
+                    message = Localize.string("common_field_must_fill")
                 }
                 self.labNameTip.text = message
                 self.inputName.showUnderline(message.count > 0)
@@ -199,11 +199,11 @@ class SignupUserinfoViewController: UIViewController {
             .subscribe(onNext: { status in
                 var message = ""
                 if status == .errPasswordFormat {
-                    message = Localize.string("Invalid_Username_password")
+                    message = Localize.string("common_field_format_incorrect")
                 } else if status == .errPasswordNotMatch{
-                    message = Localize.string("Step2_password_not_match")
+                    message = Localize.string("register_step2_password_not_match")
                 } else if status == .empty {
-                    message = Localize.string("field_must_fill")
+                    message = Localize.string("common_field_must_fill")
                 }
                 self.labPasswordTip.text = message
                 self.inputCsPassword.showUnderline(message.count > 0)
@@ -222,13 +222,13 @@ class SignupUserinfoViewController: UIViewController {
                     self.inputMobile.isHidden = false
                     self.btnPhone.isSelected = true
                     self.btnEmail.isSelected = false
-                    self.btnSubmit.setTitle(Localize.string("Step2_verify_mobile"), for: .normal)
+                    self.btnSubmit.setTitle(Localize.string("register_step2_verify_mobile"), for: .normal)
                 case .email:
                     self.inputEmail.isHidden = false
                     self.inputMobile.isHidden = true
                     self.btnPhone.isSelected = false
                     self.btnEmail.isSelected = true
-                    self.btnSubmit.setTitle(Localize.string("Step2_verify_mail"), for: .normal)
+                    self.btnSubmit.setTitle(Localize.string("register_step2_verify_mail"), for: .normal)
                 }
                 self.inputAccount.setContent("")
                 self.inputAccount.showKeyboard()
@@ -282,8 +282,8 @@ extension SignupUserinfoViewController{
     }
     
     @IBAction func btnBackPressed(_ sender : Any){
-        let title = Localize.string("tip_title_unfinished")
-        let message = Localize.string("tip_content_unfinished")
+        let title = Localize.string("common_tip_title_unfinished")
+        let message = Localize.string("common_tip_content_unfinished")
         Alert.show(title, message) {
             self.performSegue(withIdentifier: self.segueLanguage, sender: nil)
         } cancel: {}
@@ -306,13 +306,13 @@ extension SignupUserinfoViewController{
                 let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
                 let message : String = {
                     switch type{
-                    case .PlayerIpOverOtpDailyLimit: return Localize.string("email_otp_exeed_send_limit")
+                    case .PlayerIpOverOtpDailyLimit: return Localize.string("common_email_otp_exeed_send_limit")
                     case .DBPlayerAlreadyExist:
                         switch self.viewModel.currentAccountType(){
-                        case .email: return Localize.string("step2_email_verify_fail")
-                        case .phone: return Localize.string("step2_phone_verify_fail")
+                        case .email: return Localize.string("common_error_email_verify")
+                        case .phone: return Localize.string("common_error_phone_verify")
                         }
-                    default: return String(format: Localize.string("UnknownError"), "\((error as NSError).code)")
+                    default: return String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
                     }
                 }()
                 
