@@ -97,6 +97,7 @@ class LoginViewController: UIViewController {
     }
     
     func defaulStyle(){
+        btnRememberMe.isSelected = viewModel.rememberAccount.count > 0 && viewModel.rememberPassword.count > 0
         viewLoginErr.isHidden = true
         viewLoginErrBg.layer.cornerRadius = 8
         viewLoginErrBg.layer.masksToBounds = true
