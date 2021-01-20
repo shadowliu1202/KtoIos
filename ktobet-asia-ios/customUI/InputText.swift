@@ -12,6 +12,7 @@ import RxCocoa
 
 class InputText : UIView{
     
+    private var firstPosition = true
     private var isEditing = false
     private var editingChangedHandler : ((String)->Void)?
     
@@ -69,15 +70,20 @@ class InputText : UIView{
         } else {
             position = editedPosition()
         }
-        
         self.labSubTitle.frame = position.subTitle
-        UIView.animate(withDuration: 0.2, animations: {
+        let changePosition = {
             self.labTitle.font = position.titleFont
             self.labTitle.frame = position.title
             self.textContent.frame = position.content
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
             self.backgroundColor = UIColor.init(rgb: self.isEditing ? 0x454545 : 0x333333)
-        }, completion: nil)
+        }
+        if firstPosition{
+            changePosition()
+            firstPosition = false
+        } else {
+            UIView.animate(withDuration: 0.2, animations: changePosition, completion: nil)
+        }
     }
     
     private func emptyPosition()->(titleFont: UIFont, title: CGRect, subTitle: CGRect, content: CGRect){

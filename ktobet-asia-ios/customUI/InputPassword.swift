@@ -16,6 +16,7 @@ protocol InputPasswordDelegate {
 
 class InputPassword : UIView{
     
+    private var firstPosition = true
     private var isEditing = false
     private var editingChangedHandler : ((String)->Void)?
     
@@ -77,15 +78,20 @@ class InputPassword : UIView{
         } else {
             position = editedPosition()
         }
-        
-        UIView.animate(withDuration: 0.2, animations: {
+        let changePosition = {
             self.labTitle.font = position.titleFont
             self.labTitle.frame = position.title
             self.btnHideContent.frame = position.hideBtn
             self.textContent.frame = position.content
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
             self.backgroundColor = UIColor.init(rgb: (self.isEditing || self.isFocus) ? 0x454545 : 0x333333)
-        }, completion: nil)
+        }
+        if firstPosition{
+            changePosition()
+            firstPosition = false
+        } else {
+            UIView.animate(withDuration: 0.2, animations: changePosition, completion: nil)
+        }
     }
     
     private func emptyPosition()->(titleFont: UIFont, title: CGRect, hideBtn: CGRect, content: CGRect){
