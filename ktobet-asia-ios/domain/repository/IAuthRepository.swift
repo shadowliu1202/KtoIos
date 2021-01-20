@@ -82,8 +82,7 @@ class IAuthRepositoryImpl : IAuthRepository {
     }
     
     func deAuthorize()->Completable{
-        return Completable.empty()
-//        return httpClient.clearCookie()
+        return httpClient.clearCookie()
     }
     
     func checkAuthorization()-> Single<Bool>{
