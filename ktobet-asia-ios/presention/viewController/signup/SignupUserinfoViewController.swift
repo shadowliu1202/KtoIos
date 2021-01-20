@@ -113,6 +113,7 @@ class SignupUserinfoViewController: UIViewController {
         inputCsPassword.setCorner(topCorner: false, bottomCorner: true)
         btnSubmit.layer.cornerRadius = 8
         btnSubmit.layer.masksToBounds = true
+        btnSubmit.backgroundColor = UIColor.red
 
         for button in [btnEmail, btnPhone]{
             let selectedColor = UIColor.init(rgb: 0x636366)
