@@ -32,7 +32,7 @@ class LobbyViewController: UIViewController {
         disposableNotify = systemViewModel.observeSystemMessage().subscribe { (target: Target) in
             switch target {
             case .Kickout:
-                Alert.show(Localize.string("notify_logout_title"), Localize.string("notify_logout_content"), confirm: {
+                Alert.show(Localize.string("common_notify_logout_title"), Localize.string("common_notify_logout_content"), confirm: {
                     self.btnLogoutPressed(UIButton())
                 }, cancel: nil)
             default:

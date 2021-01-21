@@ -14,23 +14,35 @@ protocol IAuthenticationUseCase {
     func logout()->Completable
     func isLogged()->Single<Bool>
     func getCaptchaImage()->Single<UIImage>
+    func getRemeberAccount()->String
+    func getRememberPassword()->String
+    func getLastOverLoginLimitDate()->Date
+    func getNeedCaptcha()->Bool
+    func setRemeberAccount(_ rememberAccount : String?)
+    func setRememberPassword(_ rememberPassword : String?)
+    func setLastOverLoginLimitDate(_ lastOverLoginLimitDate : Date?)
+    func setNeedCaptcha(_ needCaptcha : Bool?)
 }
 
 class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
     
-    var authRepo : IAuthRepository!
-    var playerRepo : PlayerRepository!
+    private var repoAuth : IAuthRepository!
+    private var repoPlayer : PlayerRepository!
+    private var repoLocalStorage : LocalStorageRepository!
     
-    init(_ authRepository : IAuthRepository, _ playerRepository : PlayerRepository) {
-        self.authRepo = authRepository
-        self.playerRepo = playerRepository
+    init(_ authRepository : IAuthRepository,
+         _ playerRepository : PlayerRepository,
+         _ localStroageRepo : LocalStorageRepository) {
+        self.repoAuth = authRepository
+        self.repoPlayer = playerRepository
+        self.repoLocalStorage = localStroageRepo
     }
     
     func loginFrom(account: String, pwd: String, captcha: Captcha)->Single<Player>{
-        let login = authRepo.authorize(account, pwd, captcha)
+        let login = repoAuth.authorize(account, pwd, captcha)
         return login.flatMap { (stat) -> Single<Player> in
             switch stat.status {
-            case .success: return self.playerRepo.loadPlayer()
+            case .success: return self.repoPlayer.loadPlayer()
             default:
                 let error = LoginError()
                 error.status = stat.status
@@ -41,14 +53,46 @@ class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
     }
     
     func logout()->Completable  {
-        return authRepo.deAuthorize()
+        return repoAuth.deAuthorize()
     }
     
     func isLogged()->Single<Bool>{
-        return authRepo.checkAuthorization()
+        return repoAuth.checkAuthorization()
     }
     
     func getCaptchaImage()->Single<UIImage>{
-        return authRepo.getCaptchaImage()
+        return repoAuth.getCaptchaImage()
+    }
+    
+    func getRemeberAccount()->String{
+        return repoLocalStorage.getRemeberAccount()
+    }
+    
+    func getRememberPassword()->String{
+        return repoLocalStorage.getRememberPassword()
+    }
+    
+    func getNeedCaptcha()->Bool{
+        return repoLocalStorage.getNeedCaptcha()
+    }
+    
+    func getLastOverLoginLimitDate()->Date{
+        return repoLocalStorage.getLastOverLoginLimitDate()
+    }
+    
+    func setRemeberAccount(_ rememberAccount : String?){
+        repoLocalStorage.setRemeberAccount(rememberAccount)
+    }
+    
+    func setRememberPassword(_ rememberPassword : String?){
+        repoLocalStorage.setRememberPassword(rememberPassword)
+    }
+    
+    func setLastOverLoginLimitDate(_ lastOverLoginLimitDate : Date?){
+        repoLocalStorage.setLastOverLoginLimitDate(lastOverLoginLimitDate)
+    }
+    
+    func setNeedCaptcha(_ needCaptcha : Bool?){
+        repoLocalStorage.setNeedCaptcha(needCaptcha)
     }
 }

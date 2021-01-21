@@ -79,6 +79,9 @@ class DIContainer {
         ctner.register(SystemSignalRepository.self) { resolver in
             return SystemSignalRepositoryImpl(httpclient)
         }
+        ctner.register(LocalStorageRepository.self) { resolver in
+            return LocalStorageRepository()
+        }
     }
     
     func registUsecase(){
@@ -97,7 +100,8 @@ class DIContainer {
         ctner.register(IAuthenticationUseCase.self) { (resolver)  in
             let repoAuth = ctner.resolve(IAuthRepository.self)!
             let repoPlayer = ctner.resolve(PlayerRepository.self)!
-            return IAuthenticationUseCaseImpl(repoAuth, repoPlayer)
+            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            return IAuthenticationUseCaseImpl(repoAuth, repoPlayer, repoLocalStorage)
         }
         ctner.register(GetSystemStatusUseCase.self) { (resolver)  in
             let repoSystem = ctner.resolve(SystemRepository.self)!

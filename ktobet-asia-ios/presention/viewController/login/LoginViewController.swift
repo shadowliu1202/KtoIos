@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
     private let heightCaptchaView = CGFloat(257)
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(LoginViewModel.self)!
-    private var timerOverLoginLimit : KTOTimer = KTOTimer()
+    
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -54,15 +54,12 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let last = viewModel.lastOverLoginLimitDate,
-           Date().timeIntervalSince1970 < last.timeIntervalSince1970{
-            launchLoginLimitTimer(endDate: last)
-        }
+        viewModel.continueLoginLimitTimer()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        stopLoginLimitTimer()
+        viewModel.stopLoginLimitTimer()
     }
     
     deinit {}
@@ -97,7 +94,7 @@ class LoginViewController: UIViewController {
     }
     
     func defaulStyle(){
-        btnRememberMe.isSelected = viewModel.rememberAccount.count > 0 && viewModel.rememberPassword.count > 0
+        btnRememberMe.isSelected = viewModel.isRememberMe()
         viewLoginErr.isHidden = true
         viewLoginErrBg.layer.cornerRadius = 8
         viewLoginErrBg.layer.masksToBounds = true
@@ -124,10 +121,8 @@ class LoginViewController: UIViewController {
             .subscribe(onNext: {status in
                 let message : String = {
                     switch status{
-                    case .firstEmpty: return ""
+                    case .firstEmpty, .valid, .invalid: return ""
                     case .empty: return Localize.string("common_field_must_fill")
-                    case .valid: return ""
-                    case .invalid: return ""
                     }
                 }()
                 self.labAccountErr.text = message
@@ -141,10 +136,8 @@ class LoginViewController: UIViewController {
             .subscribe(onNext: {status in
                 let message : String = {
                     switch status{
-                    case .firstEmpty: return ""
+                    case .firstEmpty, .valid, .invalid: return ""
                     case .empty: return Localize.string("common_field_must_fill")
-                    case .valid: return ""
-                    case .invalid: return ""
                     }
                 }()
                 self.labPasswordErr.text = message
@@ -157,10 +150,13 @@ class LoginViewController: UIViewController {
             .captchaImage
             .subscribe(onNext: { image in
                 if image == nil {
-                    self.hideCaptcha()
+                    self.viewCaptcha.isHidden = true
+                    self.constraintCaptchaHeight.constant = 0
                 } else {
-                    self.showLoginErrTip()
-                    self.showCaptcha()
+                    self.showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
+                    self.viewCaptcha.isHidden = false
+                    self.constraintCaptchaHeight.constant = self.heightCaptchaView
+                    self.labCaptchaTip.text = Localize.string("login_enter_captcha_to_prceed")
                     self.imgCaptcha.image = image
                 }
             })
@@ -170,56 +166,23 @@ class LoginViewController: UIViewController {
             .dataValid
             .bind(to: btnLogin.rx.valid)
             .disposed(by: disposeBag)
-    }
-    
-    // MARK: PRESENT
-    private func showLoginErrTip(){
-        viewLoginErr.isHidden = false
-        constraintLoginErrorHeight.constant = heightLoginError
-    }
-    
-    private func hideLoginErrTip(){
-        viewLoginErr.isHidden = true
-        constraintLoginErrorHeight.constant = 0
-    }
-    
-    private func showCaptcha(){
-        viewCaptcha.isHidden = false
-        constraintCaptchaHeight.constant = heightCaptchaView
-        labCaptchaTip.text = Localize.string("login_enter_captcha_to_prceed")
-    }
-    
-    private func hideCaptcha(){
-        viewCaptcha.isHidden = true
-        constraintCaptchaHeight.constant = 0
-    }
-    
-    // MARK: TIMER
-    private func launchLoginLimitTimer(endDate : Date){
         
-        guard Date().timeIntervalSince1970 < endDate.timeIntervalSince1970 else {
-            return
-        }
-        labLoginErr.text = Localize.string("login_invalid_lockdown")
-        showLoginErrTip()
-        viewModel.overLoginLimit(isOver: true)
-        timerOverLoginLimit
-            .countDown(timeInterval: 1, endTime: endDate) { (idx, countDown, finish) in
+        event
+            .countDown
+            .subscribe(onNext: { countDown in
+                if countDown > 0 {
+                    self.labLoginErr.text = Localize.string("login_invalid_lockdown")
+                    self.viewLoginErr.isHidden = false
+                    self.constraintLoginErrorHeight.constant = self.heightLoginError
+                }
                 self.btnLogin.setTitle({
                     var title = Localize.string("common_login")
-                    if countDown > 0{
-                        title += "(\(countDown))"
-                    }
+                    if countDown > 0{ title += "(\(countDown))" }
                     return title
                 }(), for: .normal)
-                if finish{
-                    self.viewModel.overLoginLimit(isOver: false)
-                }
-            }
-    }
-    
-    private func stopLoginLimitTimer(){
-        timerOverLoginLimit.stop()
+            })
+            .disposed(by: disposeBag)
+
     }
     
     // MARK: ERROR
@@ -227,30 +190,34 @@ class LoginViewController: UIViewController {
         if let loginFail = error as? LoginError, let status = loginFail.status{
             switch status {
             case .failed1to5:
-                showLoginErrTip()
-                labLoginErr.text = Localize.string("login_invalid_username_password")
+                showLoginError(message: Localize.string("login_invalid_username_password"))
             case .failed6to10:
-                if imgCaptcha.image == nil { getCaptcha()}
-                showLoginErrTip()
-                labLoginErr.text = Localize.string("login_invalid_username_password_captcha")
+                showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
+                if imgCaptcha.image == nil {
+                    getCaptcha()
+                }
             case .failedabove11:
-                if imgCaptcha.image == nil { getCaptcha()}
-                showLoginErrTip()
-                labLoginErr.text = Localize.string("login_invalid_lockdown")
-                viewModel.lastOverLoginLimitDate = Date.init(timeIntervalSince1970: Date().timeIntervalSince1970 + 60)
-                launchLoginLimitTimer(endDate: viewModel.lastOverLoginLimitDate!)
+                showLoginError(message: Localize.string("login_invalid_lockdown"))
+                viewModel.launchLoginLimitTimer()
+                if imgCaptcha.image == nil {
+                    getCaptcha()
+                }
             default: break
             }
         }
+    }
+    
+    func showLoginError( message : String){
+        viewLoginErr.isHidden = false
+        constraintLoginErrorHeight.constant = heightLoginError
+        labLoginErr.text = message
     }
     
     // MARK: API
     private func getCaptcha(){
         viewModel
             .getCaptchaImage()
-            .subscribe(onSuccess: { image in
-                self.viewModel.newCaptchaImage(image: image)
-            })
+            .subscribe(onSuccess: { image in })
             .disposed(by: disposeBag)
     }
     
@@ -261,12 +228,10 @@ class LoginViewController: UIViewController {
     
     @IBAction func btnLoginPressed(_ sender : UIButton){
         viewModel
-            .loginFrom()
+            .loginFrom(isRememberMe : btnRememberMe.isSelected)
             .subscribeOn(MainScheduler.instance)
-            .subscribe(onSuccess: {result in
-                self.viewModel.rememberAccount = self.btnRememberMe.isSelected ? result.account : ""
-                self.viewModel.rememberPassword = self.btnRememberMe.isSelected ? result.password : ""
-                self.goToLobby(result.player)
+            .subscribe(onSuccess: {player in
+                self.goToLobby(player)
             }, onError: {error in
                 self.handleError(error: error )
             }).disposed(by: disposeBag)

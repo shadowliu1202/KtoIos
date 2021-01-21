@@ -8,16 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		09ECD4853E5D54EBCA847BEC /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A023F77132D200A94A8C12EF /* Pods_ktobet_asia_ios.framework */; };
+		2562CC923C1B307A9A1F8CCC /* Pods_ktobet_asia_ios_qat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AB665CC11FF1E599A96DDA /* Pods_ktobet_asia_ios_qat.framework */; };
 		359994EF259D7A600020EF5A /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359994EE259D7A600020EF5A /* UIButtonExtension.swift */; };
 		35B9B37E259AE7CD00050914 /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
 		35B9B382259AFB4A00050914 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */; };
 		35B9B397259B028800050914 /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B396259B028800050914 /* ResetPasswordViewModel.swift */; };
 		35B9B39B259B034400050914 /* ResetPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */; };
 		35B9B3CE259C796F00050914 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
+		410A76C025AED584006F1141 /* ktobet-asia-ios-qat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */; };
 		4139BA4825B01B0C00872D39 /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
 		4149B3BC25B13F93001F21C9 /* SMSVerifyCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */; };
-		2562CC923C1B307A9A1F8CCC /* Pods_ktobet_asia_ios_qat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AB665CC11FF1E599A96DDA /* Pods_ktobet_asia_ios_qat.framework */; };
-		410A76C025AED584006F1141 /* ktobet-asia-ios-qat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */; };
+		418C605B25B92E12009F7101 /* LocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C605A25B92E12009F7101 /* LocalStorageRepository.swift */; };
 		4199A02825AE9918002E2D7E /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
 		4199A02925AE9918002E2D7E /* HubConnectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F6255CEB87002EA837 /* HubConnectionBuilder.swift */; };
 		4199A02A25AE9918002E2D7E /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */; };
@@ -281,6 +282,7 @@
 		35B9B3CD259C796F00050914 /* CommonEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonEnum.swift; sourceTree = "<group>"; };
 		4139BA4725B01B0C00872D39 /* KTOError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTOError.swift; sourceTree = "<group>"; };
 		4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerifyCodeInputView.swift; sourceTree = "<group>"; };
+		418C605A25B92E12009F7101 /* LocalStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageRepository.swift; sourceTree = "<group>"; };
 		4199A09725AE9918002E2D7E /* ktobet-asia-ios-qat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-qat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-qat-Info.plist"; sourceTree = "<group>"; };
 		44E57CDF4367035AF08F1169 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 				48093850255D053F002EA837 /* CustomServiceRepository.swift */,
 				485E35EC2588A01600EEF23F /* SystemRepository.swift */,
 				607FC20225B1413200180147 /* SystemSignalRepository.swift */,
+				418C605A25B92E12009F7101 /* LocalStorageRepository.swift */,
 			);
 			path = repository;
 			sourceTree = "<group>";
@@ -1359,6 +1362,7 @@
 				60D83E6E25B9185C0029205F /* SlideMenuViewModel.swift in Sources */,
 				48AAA14E256E458800E075CA /* ServerInvocationHandler.swift in Sources */,
 				607FC20725B142C200180147 /* SystemViewModel.swift in Sources */,
+				418C605B25B92E12009F7101 /* LocalStorageRepository.swift in Sources */,
 				48AAA14F256E458800E075CA /* SignupLanguageViewController.swift in Sources */,
 				48AAA150256E458800E075CA /* GameInfoRepository.swift in Sources */,
 				48AAA151256E458800E075CA /* AppDelegate.swift in Sources */,
