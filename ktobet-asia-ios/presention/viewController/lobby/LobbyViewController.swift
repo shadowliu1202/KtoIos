@@ -20,6 +20,7 @@ class LobbyViewController: UIViewController {
     private let segueSocket = "GoToSocket"
     private let segueDefault = "GoToDefault"
     private let disposeBag = DisposeBag()
+    private var disposable: Disposable?
     private let viewModel = DI.resolve(LobbyViewModel.self)
     private var systemViewModel = DI.resolve(SystemViewModel.self)!
     var player : Player?
@@ -28,7 +29,7 @@ class LobbyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        _ = systemViewModel.observeSystemMessage().subscribe { (target: Target) in
+        disposable = systemViewModel.observeSystemMessage().subscribe { (target: Target) in
             switch target {
             case .Kickout:
                 Alert.show(Localize.string("common_notify_logout_title"), Localize.string("common_notify_logout_content"), confirm: {
@@ -86,6 +87,7 @@ class LobbyViewController: UIViewController {
         viewModel?.logout()
             .subscribeOn(MainScheduler.instance)
             .subscribe(onCompleted: {
+                self.disposable?.dispose()
                 self.backToLogin()
             }, onError: {error in
                 
