@@ -9,14 +9,15 @@ import UIKit
 
 class ProductItemCell: UICollectionViewCell {
     
+    @IBOutlet private weak var imgIcon: UIImageView!
     @IBOutlet private weak var labTitle : UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .red
     }
     
-    func setup(_ title : String){
+    func setup(_ title : String, img: String){
         labTitle.text = title
+        imgIcon.image = UIImage(named: img)
     }
 }

@@ -192,7 +192,6 @@ extension InputConfirmPassword : UITextFieldDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isEditing = true
         inputPassword?.shouldFocus(true)
-        adjustPosition()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

@@ -13,4 +13,8 @@ class SystemViewModel {
     func observeSystemMessage() -> Observable<Target> {
         self.systemUseCase.observeSystemMessage()
     }
+    
+    func disconnectService() {
+        self.systemUseCase.disconnectService()
+    }
 }

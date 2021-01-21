@@ -24,3 +24,10 @@ enum UserInfoStatus{
     case errEmailOtpInactive
     case errSMSOtpInactive
 }
+
+public enum FeatureType : String {
+    case withdraw = "提現"
+    case diposit = "充值"
+    case callService = "呼叫客服"
+    case logout = "登出"
+}

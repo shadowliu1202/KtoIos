@@ -20,7 +20,7 @@ class LobbyViewController: UIViewController {
     private let segueSocket = "GoToSocket"
     private let segueDefault = "GoToDefault"
     private let disposeBag = DisposeBag()
-    private var disposable: Disposable?
+    private var disposableNotify: Disposable?
     private let viewModel = DI.resolve(LobbyViewModel.self)
     private var systemViewModel = DI.resolve(SystemViewModel.self)!
     var player : Player?
@@ -29,21 +29,20 @@ class LobbyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        disposable = systemViewModel.observeSystemMessage().subscribe { (target: Target) in
+        disposableNotify = systemViewModel.observeSystemMessage().subscribe { (target: Target) in
             switch target {
             case .Kickout:
-                Alert.show(Localize.string("common_notify_logout_title"), Localize.string("common_notify_logout_content"), confirm: {
+                Alert.show(Localize.string("notify_logout_title"), Localize.string("notify_logout_content"), confirm: {
                     self.btnLogoutPressed(UIButton())
                 }, cancel: nil)
-            case .Balance:
-                print("refresh Balance")
+            default:
+                break
             }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         viewModel?.checkPlayer(player: player)
             .subscribeOn(MainScheduler.instance)
             .subscribe(onSuccess: { player in
@@ -56,6 +55,12 @@ class LobbyViewController: UIViewController {
             }, onError: { error in
                 
             }).disposed(by: disposeBag)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        systemViewModel.disconnectService()
+        disposableNotify?.dispose()
     }
     
     // MARK: METHOD
@@ -87,7 +92,6 @@ class LobbyViewController: UIViewController {
         viewModel?.logout()
             .subscribeOn(MainScheduler.instance)
             .subscribe(onCompleted: {
-                self.disposable?.dispose()
                 self.backToLogin()
             }, onError: {error in
                 
@@ -102,6 +106,7 @@ extension LobbyViewController {
         if let vc = segue.destination as? SideMenuNavigationController,
            let sideBar = vc.viewControllers.first as? SideBarViewController{
             vc.menuWidth = view.bounds.width
+            sideBar.player = player
             sideBar.productDidSelected = {type  in
                 self.displayGameName(type)
             }

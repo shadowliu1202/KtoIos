@@ -19,9 +19,9 @@ protocol IRegisterUseCase  {
 class IRegisterUseCaseImpl: IRegisterUseCase {
 
     var repoAuth : IAuthRepository!
-    var repoPlayer : IPlayerRepository!
+    var repoPlayer : PlayerRepository!
     
-    init( _ repoAuth : IAuthRepository, _ repoPlayer : IPlayerRepository) {
+    init( _ repoAuth : IAuthRepository, _ repoPlayer : PlayerRepository) {
         self.repoAuth = repoAuth
         self.repoPlayer = repoPlayer
     }
