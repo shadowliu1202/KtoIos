@@ -17,9 +17,9 @@ protocol IConfigurationUseCase {
 
 class IConfigurationUseCaseImpl : IConfigurationUseCase{
     
-    var playerRepo : IPlayerRepository!
+    var playerRepo : PlayerRepository!
     
-    init(_ playerRepo : IPlayerRepository) {
+    init(_ playerRepo : PlayerRepository) {
         self.playerRepo = playerRepo
     }
     

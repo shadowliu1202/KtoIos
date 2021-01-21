@@ -19,9 +19,9 @@ protocol IAuthenticationUseCase {
 class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
     
     var authRepo : IAuthRepository!
-    var playerRepo : IPlayerRepository!
+    var playerRepo : PlayerRepository!
     
-    init(_ authRepository : IAuthRepository, _ playerRepository : IPlayerRepository) {
+    init(_ authRepository : IAuthRepository, _ playerRepository : PlayerRepository) {
         self.authRepo = authRepository
         self.playerRepo = playerRepository
     }

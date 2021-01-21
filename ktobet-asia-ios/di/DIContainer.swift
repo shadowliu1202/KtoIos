@@ -51,10 +51,10 @@ class DIContainer {
         let ctner = container
         let httpclient = httpClient
         
-        ctner.register(IPlayerRepository.self) { (resolver) in
+        ctner.register(PlayerRepository.self) { (resolver) in
             let player = ctner.resolve(PlayerApi.self)!
             let portal = ctner.resolve(PortalApi.self)!
-            return IPlayerRepositoryImpl(player, portal)
+            return PlayerRepositoryImpl(player, portal)
         }
         ctner.register(GameInfoRepository.self) { (resolver) in
             let gameApi = ctner.resolve(GameApi.self)!
@@ -87,16 +87,16 @@ class DIContainer {
         
         ctner.register(IRegisterUseCase.self) { (resolver)  in
             let auth = ctner.resolve(IAuthRepository.self)!
-            let player = ctner.resolve(IPlayerRepository.self)!
+            let player = ctner.resolve(PlayerRepository.self)!
             return IRegisterUseCaseImpl(auth, player)
         }
         ctner.register(IConfigurationUseCase.self) { (resolver) in
-            let repo = ctner.resolve(IPlayerRepository.self)!
+            let repo = ctner.resolve(PlayerRepository.self)!
             return IConfigurationUseCaseImpl.init(repo)
         }
         ctner.register(IAuthenticationUseCase.self) { (resolver)  in
             let repoAuth = ctner.resolve(IAuthRepository.self)!
-            let repoPlayer = ctner.resolve(IPlayerRepository.self)!
+            let repoPlayer = ctner.resolve(PlayerRepository.self)!
             return IAuthenticationUseCaseImpl(repoAuth, repoPlayer)
         }
         ctner.register(GetSystemStatusUseCase.self) { (resolver)  in
@@ -110,6 +110,10 @@ class DIContainer {
         ctner.register(SystemSignalRUseCase.self) { (resolver)  in
             let repoSystem = ctner.resolve(SystemSignalRepository.self)!
             return SystemSignalRUseCaseImpl(repoSystem)
+        }
+        ctner.register(PlayerDataUseCase.self) { (resolver)  in
+            let repoPlayer = ctner.resolve(PlayerRepository.self)!
+            return PlayerDataUseCaseImpl(repoPlayer)
         }
         
     }
@@ -166,5 +170,32 @@ class DIContainer {
             let sstemSignalRUseCase = ctner.resolve(SystemSignalRUseCase.self)!
             return SystemViewModel(systemUseCase: sstemSignalRUseCase)
         }
+        ctner.register(PlayerViewModel.self) { (resolver) in
+            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
+            let authUseCase = ctner.resolve(IAuthenticationUseCase.self)!
+            return PlayerViewModel(playerUseCase: playerUseCase, authUsecase: authUseCase)
+        }
+    }
+    
+    func registLoginView(){
+        
+//        let ctner = container
+//        let httpclient = httpClient
+//        let story = UIStoryboard(name: "Login", bundle: nil)
+//        let viewModel = ctner.resolve(LoginViewModel.self)!
+//        
+//        ctner.register(LoginViewController.self) { (resolve)  in
+//            let identifier = String(describing: LoginViewController.self )
+//            return story.instantiateViewController(identifier: identifier) { (coder) -> LoginViewController in
+//                return LoginViewController.init(coder: coder)
+//            }
+//        }
+    }
+    
+    func registSignupView(){
+        
+//        let ctner = container
+//        let httpclient = httpClient
+//        let story = UIStoryboard(name: "Login", bundle: nil)
     }
 }

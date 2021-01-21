@@ -145,7 +145,7 @@
 		48A005682594851000C7F1FB /* ReactiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A005672594851000C7F1FB /* ReactiveExtension.swift */; };
 		48AAA111256E458800E075CA /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
 		48AAA112256E458800E075CA /* HubConnectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F6255CEB87002EA837 /* HubConnectionBuilder.swift */; };
-		48AAA113256E458800E075CA /* IPlayerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487EC4C325553A2200BA8B8E /* IPlayerRepository.swift */; };
+		48AAA113256E458800E075CA /* PlayerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487EC4C325553A2200BA8B8E /* PlayerRepository.swift */; };
 		48AAA114256E458800E075CA /* AuthenticationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718155255E829C007B7764 /* AuthenticationApi.swift */; };
 		48AAA115256E458800E075CA /* PlayerApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718163255E9A5C007B7764 /* PlayerApi.swift */; };
 		48AAA116256E458800E075CA /* GameTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488000B32554071D00529673 /* GameTestViewController.swift */; };
@@ -234,6 +234,12 @@
 		607FC22A25B19AE300180147 /* SystemSignalRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC22925B19AE300180147 /* SystemSignalRUseCase.swift */; };
 		6089834C25AFD13800BE28BB /* Toast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6089834A25AFD13800BE28BB /* Toast.xib */; };
 		6089834D25AFD13800BE28BB /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6089834B25AFD13800BE28BB /* ToastView.swift */; };
+		60BCC2BE25B6821200C56D6E /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */; };
+		60BCC2CA25B6AB2E00C56D6E /* PlayerDataUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */; };
+		60BCC2D025B6D8AF00C56D6E /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */; };
+		60BCC2D425B7D2F200C56D6E /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2D325B7D2F200C56D6E /* DoubleExtension.swift */; };
+		60BCC2F625B7FA5700C56D6E /* AccountMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2F525B7FA5700C56D6E /* AccountMask.swift */; };
+		60D83E6E25B9185C0029205F /* SlideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */; };
 		8468FBAD73481BB0F9CC965B /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A023F77132D200A94A8C12EF /* Pods_ktobet_asia_ios.framework */; };
 		CFD1A663F718394B53E92BA0 /* libPods-ktobet-asia-iosUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B903FE319D2499B65CA0352 /* libPods-ktobet-asia-iosUITests.a */; };
 		E2116021544B4CFB4FF2B200 /* libPods-ktobet-asia-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09860B2DD5759D63C6E40617 /* libPods-ktobet-asia-iosTests.a */; };
@@ -369,7 +375,7 @@
 		487288E92589E94400D8983B /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		48728919258A08F500D8983B /* InputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputText.swift; sourceTree = "<group>"; };
 		4872891D258A17FB00D8983B /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		487EC4C325553A2200BA8B8E /* IPlayerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPlayerRepository.swift; sourceTree = "<group>"; };
+		487EC4C325553A2200BA8B8E /* PlayerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRepository.swift; sourceTree = "<group>"; };
 		488000652553E72800529673 /* SideBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarViewController.swift; sourceTree = "<group>"; };
 		4880006A2553EEBA00529673 /* ProductItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductItemCell.swift; sourceTree = "<group>"; };
 		4880006F2553EED700529673 /* FeatureItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureItemCell.swift; sourceTree = "<group>"; };
@@ -404,6 +410,12 @@
 		607FC22925B19AE300180147 /* SystemSignalRUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSignalRUseCase.swift; sourceTree = "<group>"; };
 		6089834A25AFD13800BE28BB /* Toast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Toast.xib; sourceTree = "<group>"; };
 		6089834B25AFD13800BE28BB /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = slideMenu.storyboard; sourceTree = "<group>"; };
+		60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDataUseCase.swift; sourceTree = "<group>"; };
+		60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
+		60BCC2D325B7D2F200C56D6E /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
+		60BCC2F525B7FA5700C56D6E /* AccountMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMask.swift; sourceTree = "<group>"; };
+		60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuViewModel.swift; sourceTree = "<group>"; };
 		67C0764A8D16164F9F8990F7 /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-ktobet-asia-iosUITests/Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6D6356D9C40B516C54CBB9FB /* Pods-ktobet-asia-ios-qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.release.xcconfig"; sourceTree = "<group>"; };
 		768A46A2A6F183CF5C5D611F /* Pods-ktobet-asia-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -501,6 +513,7 @@
 				48B110A725664B470067B289 /* HttpClient.swift */,
 				4840645B25871D760064AAC9 /* LocalizeUtils.swift */,
 				4870F49A25A6A9350052EE60 /* KTOTimer.swift */,
+				60BCC2F525B7FA5700C56D6E /* AccountMask.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -602,6 +615,7 @@
 				4840648E258742150064AAC9 /* Launch.storyboard */,
 				4840648F258742150064AAC9 /* LaunchScreen.storyboard */,
 				48406490258742150064AAC9 /* Lobby.storyboard */,
+				60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */,
 				4840648D258742150064AAC9 /* Login.storyboard */,
 				4840648C258742150064AAC9 /* Signup.storyboard */,
 				35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */,
@@ -635,6 +649,7 @@
 				48CC32312551488F00C9D1BF /* IConfigurationUseCase.swift */,
 				35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */,
 				607FC22925B19AE300180147 /* SystemSignalRUseCase.swift */,
+				60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */,
 			);
 			path = usecase;
 			sourceTree = "<group>";
@@ -643,7 +658,7 @@
 			isa = PBXGroup;
 			children = (
 				48672A532555294D009B2C59 /* IAuthRepository.swift */,
-				487EC4C325553A2200BA8B8E /* IPlayerRepository.swift */,
+				487EC4C325553A2200BA8B8E /* PlayerRepository.swift */,
 				48339D3C255A48B400AE6715 /* GameInfoRepository.swift */,
 				48093850255D053F002EA837 /* CustomServiceRepository.swift */,
 				485E35EC2588A01600EEF23F /* SystemRepository.swift */,
@@ -665,6 +680,7 @@
 				48A005672594851000C7F1FB /* ReactiveExtension.swift */,
 				359994EE259D7A600020EF5A /* UIButtonExtension.swift */,
 				605D986A25A5CC2E00634197 /* DateExtension.swift */,
+				60BCC2D325B7D2F200C56D6E /* DoubleExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -760,6 +776,7 @@
 				485DF08C254156E7001F9D4A /* signup */,
 				48CC320425513ADA00C9D1BF /* lobby */,
 				607FC20625B142C200180147 /* SystemViewModel.swift */,
+				60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -784,6 +801,7 @@
 				488000B32554071D00529673 /* GameTestViewController.swift */,
 				48685E6525593EED00145552 /* SocketTestViewController.swift */,
 				48339D40255A60E500AE6715 /* TestViewModel.swift */,
+				60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */,
 			);
 			path = lobby;
 			sourceTree = "<group>";
@@ -996,6 +1014,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60BCC2BE25B6821200C56D6E /* slideMenu.storyboard in Resources */,
 				48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */,
 				4840646B258721740064AAC9 /* infoPlist.strings in Resources */,
 				48406491258742150064AAC9 /* Signup.storyboard in Resources */,
@@ -1264,7 +1283,7 @@
 				485F12AE2592E807007B07B6 /* UIViewControllerExtension.swift in Sources */,
 				486CD98025A41BE6003244B1 /* InputPassword.swift in Sources */,
 				486CD98425A41C0F003244B1 /* InputConfirmPassword.swift in Sources */,
-				48AAA113256E458800E075CA /* IPlayerRepository.swift in Sources */,
+				48AAA113256E458800E075CA /* PlayerRepository.swift in Sources */,
 				48AAA114256E458800E075CA /* AuthenticationApi.swift in Sources */,
 				48AAA115256E458800E075CA /* PlayerApi.swift in Sources */,
 				48AAA116256E458800E075CA /* GameTestViewController.swift in Sources */,
@@ -1280,6 +1299,7 @@
 				48AAA11E256E458800E075CA /* CustomServiceApi.swift in Sources */,
 				48A005682594851000C7F1FB /* ReactiveExtension.swift in Sources */,
 				48AAA11F256E458800E075CA /* EncodableExtension.swift in Sources */,
+				60BCC2D025B6D8AF00C56D6E /* PlayerViewModel.swift in Sources */,
 				48AAA120256E458800E075CA /* TermsOfServiceViewController.swift in Sources */,
 				6008F15B25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift in Sources */,
 				48FDF3692591ECB000C3AE75 /* SMSCodeTextField.swift in Sources */,
@@ -1302,6 +1322,7 @@
 				48AAA12F256E458800E075CA /* WebSocket.swift in Sources */,
 				48AAA130256E458800E075CA /* HandshakeProtocol.swift in Sources */,
 				48AAA131256E458800E075CA /* DefaultProductViewModel.swift in Sources */,
+				60BCC2CA25B6AB2E00C56D6E /* PlayerDataUseCase.swift in Sources */,
 				48AAA132256E458800E075CA /* Operators.swift in Sources */,
 				48AAA133256E458800E075CA /* JSONHubProtocol.swift in Sources */,
 				48AAA134256E458800E075CA /* SignupPhoneViewModel.swift in Sources */,
@@ -1310,6 +1331,7 @@
 				359994EF259D7A600020EF5A /* UIButtonExtension.swift in Sources */,
 				48AAA138256E458800E075CA /* ResponseData.swift in Sources */,
 				48AAA139256E458800E075CA /* UIColorExtension.swift in Sources */,
+				60BCC2F625B7FA5700C56D6E /* AccountMask.swift in Sources */,
 				48AAA13A256E458800E075CA /* TransferFormat.swift in Sources */,
 				48AAA13B256E458800E075CA /* HttpResponse.swift in Sources */,
 				4872891A258A08F500D8983B /* InputText.swift in Sources */,
@@ -1334,6 +1356,7 @@
 				48AAA14C256E458800E075CA /* SignupUserInfoViewModel.swift in Sources */,
 				48AAA14D256E458800E075CA /* NegotiationResponse.swift in Sources */,
 				35B9B382259AFB4A00050914 /* ResetPasswordViewController.swift in Sources */,
+				60D83E6E25B9185C0029205F /* SlideMenuViewModel.swift in Sources */,
 				48AAA14E256E458800E075CA /* ServerInvocationHandler.swift in Sources */,
 				607FC20725B142C200180147 /* SystemViewModel.swift in Sources */,
 				48AAA14F256E458800E075CA /* SignupLanguageViewController.swift in Sources */,
@@ -1341,6 +1364,7 @@
 				48AAA151256E458800E075CA /* AppDelegate.swift in Sources */,
 				48AAA152256E458800E075CA /* HubConnectionExtensions.swift in Sources */,
 				48AAA153256E458800E075CA /* HubProtocol.swift in Sources */,
+				60BCC2D425B7D2F200C56D6E /* DoubleExtension.swift in Sources */,
 				48AAA154256E458800E075CA /* FeatureItemCell.swift in Sources */,
 				485E35ED2588A01600EEF23F /* SystemRepository.swift in Sources */,
 				48AAA155256E458800E075CA /* HttpClientProtocol.swift in Sources */,

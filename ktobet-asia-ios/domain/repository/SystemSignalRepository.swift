@@ -56,6 +56,7 @@ class SystemSignalRepositoryImpl : SystemSignalRepository {
     
     func disconnectService() {
         socketConnect?.stop()
+        socketConnect = nil
     }
 }
 

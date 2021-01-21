@@ -6,22 +6,11 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import share_bu
 
 class SideBarViewController: UIViewController {
-    
-    struct ProductItem {
-        var title = ""
-        var type = ProductType.none
-    }
-    
-    enum FeatureType : String {
-        case withdraw = "提現"
-        case diposit = "充值"
-        case callService = "呼叫客服"
-        case logout = "登出"
-    }
-    
     @IBOutlet private weak var btnGift: UIBarButtonItem!
     @IBOutlet private weak var btnNotification: UIBarButtonItem!
     @IBOutlet private weak var btnClose: UIBarButtonItem!
@@ -29,47 +18,39 @@ class SideBarViewController: UIViewController {
     @IBOutlet private weak var listFeature: UITableView!
     @IBOutlet private weak var constraintListProductHeight: NSLayoutConstraint!
     @IBOutlet private weak var constraintListFeatureHeight: NSLayoutConstraint!
+    @IBOutlet private weak var labBalance: UILabel!
+    @IBOutlet private weak var btnBalanceRefresh: UIButton!
+    @IBOutlet private weak var btnBalanceHide: UIButton!
+    @IBOutlet private weak var labUserLevel: UILabel!
+    @IBOutlet private weak var labUserAcoount: UILabel!
+    @IBOutlet private weak var labUserName: UILabel!
     
-    private let arrProducts : [ProductItem] = {
-        var titles = ["體育", "娛樂場", "老虎機", "數字彩"]
-        var type : [ProductType] = [.sbk, .casino, .slot, .numbergame]
-        var arr = [ProductItem]()
-        for idx in 0...3{
-            let item = ProductItem(title: titles[idx], type: type[idx])
-            arr.append(item)
-        }
-        return arr
-    }()
-    private let arrFeature : [FeatureType] = [.diposit, .withdraw, .callService, .logout]
     var productDidSelected : ((ProductType)->Void)?
+    var player : Player?
+    private var disposeBag = DisposeBag()
+    private var viewModel = DI.resolve(PlayerViewModel.self)!
+    private var slideViewModel = SlideMenuViewModel()
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        listFeature.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-        listProduct.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-        
-        listProduct.collectionViewLayout = {
-            let space = CGFloat(20)
-            let width = (UIScreen.main.bounds.size.width - space * 5) / 4
-            let flowLayout = UICollectionViewFlowLayout()
-            flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
-            flowLayout.itemSize = CGSize(width: width, height: width)
-            flowLayout.minimumLineSpacing = space
-            flowLayout.minimumInteritemSpacing = space
-            return flowLayout
-        }()
-        listProduct.reloadData()
-        listFeature.reloadData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        initUI()
+        dataBinding()
+        eventHandler()
     }
     
     // MARK: BUTTON EVENT
     @IBAction func btnClosePressed(_ sender : UIButton)  {
         navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func btnHideBalance(_ sender : UIButton) {
+        setBalanceHiddenState(isHidden: !viewModel.getBalanceHiddenState(gameId: player?.gameId ?? ""))
+    }
+    
+    @IBAction func btnRefreshBalance(_ sender : UIButton) {
+        setBalanceHiddenState(isHidden: false)
+        viewModel.getBalance().bind(to: labBalance.rx.text).disposed(by: disposeBag)
     }
     
     // MARK: KVO
@@ -84,47 +65,80 @@ class SideBarViewController: UIViewController {
         }
     }
     
-}
-
-extension SideBarViewController : UICollectionViewDataSource, UICollectionViewDelegate{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrProducts.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let identifier = String(describing: ProductItemCell.self)
-        let item = arrProducts[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! ProductItemCell
-        cell.setup(item.title)
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = arrProducts[indexPath.row]
-        dismiss(animated: true) {
-            self.productDidSelected?(item.type)
+    fileprivate func setBalanceHiddenState(isHidden: Bool) {
+        if isHidden {
+            btnBalanceHide.setTitle(Localize.string("common_show"), for: .normal)
+            viewModel.saveBalanceHiddenState(gameId: player?.gameId ?? "", isHidden: isHidden)
+            viewModel.balance = labBalance.text
+            labBalance.text = "\(viewModel.balance?.first ?? " ") *******"
+        } else {
+            btnBalanceHide.setTitle(Localize.string("common_hide"), for: .normal)
+            viewModel.saveBalanceHiddenState(gameId: player?.gameId ?? "", isHidden: isHidden)
+            labBalance.text = viewModel.balance
         }
     }
-}
-
-extension SideBarViewController : UITableViewDataSource, UITableViewDelegate{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrFeature.count
+    
+    fileprivate func initUI() {
+        labUserAcoount.numberOfLines = 0
+        labUserAcoount.lineBreakMode = .byWordWrapping
+        btnNotification.image = UIImage(named: "Notification-None")?.withRenderingMode(.alwaysOriginal)
+        listFeature.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+        listProduct.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+        listProduct.collectionViewLayout = {
+            let space = CGFloat(10)
+            let width = (UIScreen.main.bounds.size.width - space * 5) / 4
+            let flowLayout = UICollectionViewFlowLayout()
+            flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
+            flowLayout.itemSize = CGSize(width: width, height: 108)
+            flowLayout.minimumLineSpacing = space
+            flowLayout.minimumInteritemSpacing = space
+            return flowLayout
+        }()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let identifier = String(describing: FeatureItemCell.self)
-        let item = arrFeature[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! FeatureItemCell
-        cell.setup(item.rawValue)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    fileprivate func dataBinding() {
+        if let player = player {
+            labUserLevel.text = "LV\(player.playerInfo.level)"
+            labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
+            labUserName.text = "\(player.playerInfo.realName)"
+        }
         
+        viewModel.getBalance().subscribe(onNext: {[unowned self] balance in
+            self.labBalance.text = balance
+            self.viewModel.balance = balance
+            self.setBalanceHiddenState(isHidden: self.viewModel.getBalanceHiddenState(gameId: self.player?.gameId ?? ""))
+        }).disposed(by: disposeBag)
+        
+        slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
+            cell.setup(data.name.rawValue, image: UIImage(named: data.icon))
+        }.disposed(by: disposeBag)
+        
+        slideViewModel.arrProducts.bind(to: listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) { index, data, cell in
+            cell.setup(data.title, img: data.image)
+        }.disposed(by: disposeBag)
+        
+        listProduct.reloadData()
+        listFeature.reloadData()
+    }
+    
+    fileprivate func eventHandler() {
+        listFeature.rx.modelSelected(FeatureItem.self).subscribe { (data) in
+            guard let productType = data.element?.name else { return }
+            switch productType {
+            case .logout:
+                self.viewModel.logout()
+                    .subscribeOn(MainScheduler.instance)
+                    .subscribe(onCompleted: {
+                        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("common_confirm_logout"), confirm: {
+                            let story = UIStoryboard(name: "Login", bundle: nil)
+                            UIApplication.shared.keyWindow?.rootViewController = story.instantiateInitialViewController()
+                        }, cancel: {
+                            
+                        }, tintColor: UIColor.red)
+                    }).disposed(by: self.disposeBag)
+            default:
+                break
+            }
+        }.disposed(by: disposeBag)
     }
 }

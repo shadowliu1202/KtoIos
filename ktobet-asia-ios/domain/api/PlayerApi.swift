@@ -50,4 +50,13 @@ class PlayerApi {
             return productType
         }
     }
+    
+    func getCashBalance() -> Single<ResponseData<Int>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/cash/balance",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<Int>.self)
+    }
 }

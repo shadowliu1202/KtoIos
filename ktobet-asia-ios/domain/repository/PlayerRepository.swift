@@ -1,22 +1,15 @@
-//
-//  IPlayerRepository.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/6.
-//
-
 import Foundation
 import share_bu
 import RxSwift
 
-protocol IPlayerRepository {
+protocol PlayerRepository {
     func loadPlayer()-> Single<Player>
     func getDefaultProduct()->Single<ProductType>
     func saveDefaultProduct(_ productType: ProductType)->Completable
+    func getBalance() -> Single<CashAmount>
 }
 
-
-class IPlayerRepositoryImpl : IPlayerRepository {
+class PlayerRepositoryImpl : PlayerRepository {
     
     private var playerApi : PlayerApi!
     private var portalApi : PortalApi!
@@ -75,5 +68,9 @@ class IPlayerRepositoryImpl : IPlayerRepository {
     
     func saveDefaultProduct(_ productType: ProductType)->Completable{
         return playerApi.setFavoriteProduct(productId: Int(productType.ordinal))
+    }
+    
+    func getBalance() -> Single<CashAmount> {
+        return playerApi.getCashBalance().map { CashAmount(amount: Double($0.data ?? 0) )}
     }
 }
