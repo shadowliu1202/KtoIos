@@ -15,11 +15,9 @@ protocol IAuthenticationUseCase {
     func isLogged()->Single<Bool>
     func getCaptchaImage()->Single<UIImage>
     func getRemeberAccount()->String
-    func getRememberPassword()->String
     func getLastOverLoginLimitDate()->Date
     func getNeedCaptcha()->Bool
     func setRemeberAccount(_ rememberAccount : String?)
-    func setRememberPassword(_ rememberPassword : String?)
     func setLastOverLoginLimitDate(_ lastOverLoginLimitDate : Date?)
     func setNeedCaptcha(_ needCaptcha : Bool?)
 }
@@ -68,10 +66,6 @@ class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
         return repoLocalStorage.getRemeberAccount()
     }
     
-    func getRememberPassword()->String{
-        return repoLocalStorage.getRememberPassword()
-    }
-    
     func getNeedCaptcha()->Bool{
         return repoLocalStorage.getNeedCaptcha()
     }
@@ -82,10 +76,6 @@ class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
     
     func setRemeberAccount(_ rememberAccount : String?){
         repoLocalStorage.setRemeberAccount(rememberAccount)
-    }
-    
-    func setRememberPassword(_ rememberPassword : String?){
-        repoLocalStorage.setRememberPassword(rememberPassword)
     }
     
     func setLastOverLoginLimitDate(_ lastOverLoginLimitDate : Date?){

@@ -159,6 +159,7 @@ class SignupUserinfoViewController: UIViewController {
         
         event.emailValid
             .subscribe(onNext: {status in
+                guard status != .doNothing else { return }
                 var message = ""
                 if status == .errEmailFormat {
                     message = Localize.string("common_error_email_format")
@@ -172,6 +173,7 @@ class SignupUserinfoViewController: UIViewController {
         
         event.mobileValid
             .subscribe(onNext: { status in
+                guard status != .doNothing else { return }
                 var message = ""
                 if status == .errPhoneFormat {
                     message = Localize.string("common_error_mobile_format")
@@ -231,8 +233,8 @@ class SignupUserinfoViewController: UIViewController {
                     self.btnEmail.isSelected = true
                     self.btnSubmit.setTitle(Localize.string("register_step2_verify_mail"), for: .normal)
                 }
+                self.view.endEditing(true)
                 self.inputAccount.setContent("")
-                self.inputAccount.showKeyboard()
                 self.hideError()
             }).disposed(by: disposeBag)
     }

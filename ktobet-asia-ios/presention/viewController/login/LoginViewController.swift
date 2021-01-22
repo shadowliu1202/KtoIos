@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
     
     private var captcha : UIImage?
     private let segueSignup = "GoToSignup"
-    private let heightLoginError = CGFloat(80)
+    private let heightSpace = CGFloat(12)
     private let heightCaptchaView = CGFloat(257)
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(LoginViewModel.self)!
@@ -55,14 +55,32 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.continueLoginLimitTimer()
+        addNotificationCenter()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.stopLoginLimitTimer()
+        removeNotificationCenter()
     }
     
     deinit {}
+    
+    // MARK: NOTIFICATION
+    private func addNotificationCenter(){
+        NotificationCenter
+            .default
+            .addObserver(forName: UIApplication.willEnterForegroundNotification,
+                         object: nil,
+                         queue: nil,
+                         using: {notification in
+                            self.viewModel.continueLoginLimitTimer()
+                         })
+    }
+    
+    private func removeNotificationCenter(){
+        NotificationCenter.default.removeObserver(self)
+    }
     
     // MARK: METHOD
     func localize(){
@@ -125,9 +143,7 @@ class LoginViewController: UIViewController {
                     case .empty: return Localize.string("common_field_must_fill")
                     }
                 }()
-                self.labAccountErr.text = message
-                self.textAccount.showUnderline(message.count > 0)
-                self.textAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
+                self.showAccountValidtip(message: message)
             })
             .disposed(by: disposeBag)
         
@@ -140,9 +156,7 @@ class LoginViewController: UIViewController {
                     case .empty: return Localize.string("common_field_must_fill")
                     }
                 }()
-                self.labPasswordErr.text = message
-                self.textPassword.showUnderline(message.count > 0)
-                self.textPassword.setCorner(topCorner: true, bottomCorner: message.count == 0)
+                self.showPasswordValidTip(message: message)
             })
             .disposed(by: disposeBag)
         
@@ -150,14 +164,10 @@ class LoginViewController: UIViewController {
             .captchaImage
             .subscribe(onNext: { image in
                 if image == nil {
-                    self.viewCaptcha.isHidden = true
-                    self.constraintCaptchaHeight.constant = 0
+                    self.hideCaptcha()
                 } else {
                     self.showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
-                    self.viewCaptcha.isHidden = false
-                    self.constraintCaptchaHeight.constant = self.heightCaptchaView
-                    self.labCaptchaTip.text = Localize.string("login_enter_captcha_to_prceed")
-                    self.imgCaptcha.image = image
+                    self.showCaptcha(cpatchaTip: Localize.string("login_enter_captcha_to_prceed"), captcha: image!)
                 }
             })
             .disposed(by: disposeBag)
@@ -171,9 +181,7 @@ class LoginViewController: UIViewController {
             .countDown
             .subscribe(onNext: { countDown in
                 if countDown > 0 {
-                    self.labLoginErr.text = Localize.string("login_invalid_lockdown")
-                    self.viewLoginErr.isHidden = false
-                    self.constraintLoginErrorHeight.constant = self.heightLoginError
+                    self.showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
                 }
                 self.btnLogin.setTitle({
                     var title = Localize.string("common_login")
@@ -193,24 +201,46 @@ class LoginViewController: UIViewController {
                 showLoginError(message: Localize.string("login_invalid_username_password"))
             case .failed6to10:
                 showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
-                if imgCaptcha.image == nil {
-                    getCaptcha()
-                }
+                if imgCaptcha.image == nil { getCaptcha() }
             case .failedabove11:
                 showLoginError(message: Localize.string("login_invalid_lockdown"))
                 viewModel.launchLoginLimitTimer()
-                if imgCaptcha.image == nil {
-                    getCaptcha()
-                }
+                if imgCaptcha.image == nil { getCaptcha() }
             default: break
             }
         }
     }
     
+    // MARK: PRESENT TIP
     func showLoginError( message : String){
-        viewLoginErr.isHidden = false
-        constraintLoginErrorHeight.constant = heightLoginError
         labLoginErr.text = message
+        labLoginErr.layoutIfNeeded()
+        viewLoginErr.isHidden = false
+        constraintLoginErrorHeight.constant = labLoginErr.frame.height + heightSpace * 3
+    }
+    
+    func hideCaptcha(){
+        self.viewCaptcha.isHidden = true
+        self.constraintCaptchaHeight.constant = 0
+    }
+    
+    func showCaptcha( cpatchaTip: String, captcha: UIImage){
+        viewCaptcha.isHidden = false
+        constraintCaptchaHeight.constant = btnResendCaptcha.frame.maxY
+        labCaptchaTip.text = cpatchaTip
+        imgCaptcha.image = captcha
+    }
+    
+    func showPasswordValidTip(message : String){
+        labPasswordErr.text = message
+        textPassword.showUnderline(message.count > 0)
+        textPassword.setCorner(topCorner: true, bottomCorner: message.count == 0)
+    }
+    
+    func showAccountValidtip(message : String){
+        labAccountErr.text = message
+        textAccount.showUnderline(message.count > 0)
+        textAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
     }
     
     // MARK: API
@@ -248,7 +278,6 @@ class LoginViewController: UIViewController {
     @IBAction func btnResendCaptchaPressed(_ sender : UIButton){
         getCaptcha()
     }
-    
     
     // MARK: PAGE ACTION
     @IBAction func backToLogin(segue: UIStoryboardSegue){

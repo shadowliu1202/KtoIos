@@ -37,6 +37,7 @@ class TermsOfServiceViewController: UIViewController, UIScrollViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         localize()
+        defaultStyle()
         reloadTableView()
     }
     
@@ -50,6 +51,11 @@ class TermsOfServiceViewController: UIViewController, UIScrollViewDelegate {
         btnTitle.title = Localize.string("common_service_terms")
     }
     
+    private func defaultStyle(){
+        view.backgroundColor = UIColor.white
+        labDesc.textColor = UIColor.black_two
+    }
+        
     private func reloadTableView(){
         dataSourceTerms = {
             var arr = [TermsOfService]()

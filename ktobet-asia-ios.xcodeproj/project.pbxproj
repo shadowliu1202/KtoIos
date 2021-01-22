@@ -38,7 +38,8 @@
 		41077DCF25BA63E50057B340 /* SystemSignalRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC22925B19AE300180147 /* SystemSignalRUseCase.swift */; };
 		41077DD225BA63FC0057B340 /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */; };
 		41077DD525BA64020057B340 /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
-		410A76C025AED584006F1141 /* ktobet-asia-ios-qat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */; };
+		41077DF125BA71D00057B340 /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */; };
+		41077DF225BA71D00057B340 /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */; };
 		4139BA4825B01B0C00872D39 /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
 		4149B3BC25B13F93001F21C9 /* SMSVerifyCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */; };
 		418C605B25B92E12009F7101 /* LocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C605A25B92E12009F7101 /* LocalStorageRepository.swift */; };
@@ -264,7 +265,6 @@
 		60BCC2D425B7D2F200C56D6E /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2D325B7D2F200C56D6E /* DoubleExtension.swift */; };
 		60BCC2F625B7FA5700C56D6E /* AccountMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2F525B7FA5700C56D6E /* AccountMask.swift */; };
 		60D83E6E25B9185C0029205F /* SlideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */; };
-		8468FBAD73481BB0F9CC965B /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A023F77132D200A94A8C12EF /* Pods_ktobet_asia_ios.framework */; };
 		CFD1A663F718394B53E92BA0 /* libPods-ktobet-asia-iosUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B903FE319D2499B65CA0352 /* libPods-ktobet-asia-iosUITests.a */; };
 		E2116021544B4CFB4FF2B200 /* libPods-ktobet-asia-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09860B2DD5759D63C6E40617 /* libPods-ktobet-asia-iosTests.a */; };
 /* End PBXBuildFile section */
@@ -303,6 +303,7 @@
 		35B9B396259B028800050914 /* ResetPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewModel.swift; sourceTree = "<group>"; };
 		35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordUseCase.swift; sourceTree = "<group>"; };
 		35B9B3CD259C796F00050914 /* CommonEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonEnum.swift; sourceTree = "<group>"; };
+		41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		4139BA4725B01B0C00872D39 /* KTOError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTOError.swift; sourceTree = "<group>"; };
 		4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerifyCodeInputView.swift; sourceTree = "<group>"; };
 		418C605A25B92E12009F7101 /* LocalStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageRepository.swift; sourceTree = "<group>"; };
@@ -489,7 +490,6 @@
 			files = (
 				48AAA168256E458800E075CA /* (null) in Frameworks */,
 				09ECD4853E5D54EBCA847BEC /* Pods_ktobet_asia_ios.framework in Frameworks */,
-				8468FBAD73481BB0F9CC965B /* Pods_ktobet_asia_ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,15 +696,16 @@
 		4860EFA7254A7A190047ECF9 /* extension */ = {
 			isa = PBXGroup;
 			children = (
+				41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */,
+				485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */,
+				483F42BA258C41A90091960B /* UIWindowExtension.swift */,
 				487288E92589E94400D8983B /* UIImageExtension.swift */,
 				4860EFA8254A7A490047ECF9 /* UIColorExtension.swift */,
+				359994EE259D7A600020EF5A /* UIButtonExtension.swift */,
 				489D5DB6255D1EA400A0E43C /* DataExtension.swift */,
 				4856CF7825624FB50086AC31 /* EncodableExtension.swift */,
 				4872891D258A17FB00D8983B /* StringExtension.swift */,
-				483F42BA258C41A90091960B /* UIWindowExtension.swift */,
-				485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */,
 				48A005672594851000C7F1FB /* ReactiveExtension.swift */,
-				359994EE259D7A600020EF5A /* UIButtonExtension.swift */,
 				605D986A25A5CC2E00634197 /* DateExtension.swift */,
 				60BCC2D325B7D2F200C56D6E /* DoubleExtension.swift */,
 			);
@@ -969,7 +970,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1210;
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1230;
 				TargetAttributes = {
 					485DF04D25415454001F9D4A = {
 						CreatedOnToolsVersion = 12.1;
@@ -1014,7 +1015,6 @@
 				4199A08A25AE9918002E2D7E /* Localizable.strings in Resources */,
 				4199A08B25AE9918002E2D7E /* infoPlist.strings in Resources */,
 				4199A08C25AE9918002E2D7E /* Signup.storyboard in Resources */,
-				410A76C025AED584006F1141 /* ktobet-asia-ios-qat-Info.plist in Resources */,
 				41077DD525BA64020057B340 /* ResetPassword.storyboard in Resources */,
 				4199A08D25AE9918002E2D7E /* Login.storyboard in Resources */,
 				4199A08E25AE9918002E2D7E /* LaunchScreen.storyboard in Resources */,
@@ -1200,6 +1200,7 @@
 				4199A02B25AE9918002E2D7E /* InputPassword.swift in Sources */,
 				4199A02C25AE9918002E2D7E /* InputConfirmPassword.swift in Sources */,
 				4199A02D25AE9918002E2D7E /* PlayerRepository.swift in Sources */,
+				41077DF225BA71D00057B340 /* UINavigationControllerExtension.swift in Sources */,
 				41077DB725BA639C0057B340 /* DateExtension.swift in Sources */,
 				4199A02E25AE9918002E2D7E /* AuthenticationApi.swift in Sources */,
 				4199A02F25AE9918002E2D7E /* PlayerApi.swift in Sources */,
@@ -1337,6 +1338,7 @@
 				48AAA115256E458800E075CA /* PlayerApi.swift in Sources */,
 				48AAA116256E458800E075CA /* GameTestViewController.swift in Sources */,
 				483F42BB258C41A90091960B /* UIWindowExtension.swift in Sources */,
+				41077DF125BA71D00057B340 /* UINavigationControllerExtension.swift in Sources */,
 				48AAA117256E458800E075CA /* HttpClientBack.swift in Sources */,
 				48AAA118256E458800E075CA /* TestViewModel.swift in Sources */,
 				48AAA119256E458800E075CA /* SignalRError.swift in Sources */,

@@ -189,10 +189,12 @@ class InputConfirmPassword : UIView{
 
 
 extension InputConfirmPassword : UITextFieldDelegate{
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         isEditing = true
         inputPassword?.shouldFocus(true)
         adjustPosition()
+        return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -207,6 +209,7 @@ extension InputConfirmPassword {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !textContent.isFirstResponder{
             textContent.becomeFirstResponder()
+            isEditing = true
         }
     }
 }

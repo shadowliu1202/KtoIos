@@ -10,7 +10,6 @@ import Foundation
 class LocalStorageRepository{
     
     let kRememberAccount = "rememberAccount"
-    let kRememberPassword = "rememberPassword"
     let kLastOverLoginLimitDate = "overLoginLimit"
     let kNeedCaptcha = "needCaptcha"
     let kRememberMe = "rememberMe"
@@ -21,10 +20,6 @@ class LocalStorageRepository{
     
     func getRemeberAccount()->String{
         return UserDefaults.standard.string(forKey: kRememberAccount) ?? ""
-    }
-    
-    func getRememberPassword()->String{
-        return UserDefaults.standard.string(forKey: kRememberPassword) ?? ""
     }
     
     func getLastOverLoginLimitDate()->Date{
@@ -47,12 +42,6 @@ class LocalStorageRepository{
     func setRemeberAccount(_ rememberAccount : String?){
         if rememberAccount == nil{ UserDefaults.standard.removeObject(forKey: kRememberAccount)}
         else { UserDefaults.standard.setValue(rememberAccount, forKey: kRememberAccount)}
-        UserDefaults.standard.synchronize()
-    }
-    
-    func setRememberPassword(_ rememberPassword : String?){
-        if rememberPassword == nil { UserDefaults.standard.removeObject(forKey: kRememberPassword)}
-        else { UserDefaults.standard.setValue(rememberPassword, forKey: kRememberPassword) }
         UserDefaults.standard.synchronize()
     }
     

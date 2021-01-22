@@ -31,36 +31,35 @@ class LoginViewModel{
     var relayOverLoginLimit = BehaviorRelay(value: false)
     var relayCountDown = BehaviorRelay(value: 0)
     var relayImgCaptcha = BehaviorRelay<UIImage?>(value: nil)
-    
-    var lastLoginLimitDate : Date {
-        set { usecaseAuth.setLastOverLoginLimitDate(newValue) }
-        get { usecaseAuth.getLastOverLoginLimitDate() }
-    }
-    
+        
     init(_ authenticationUseCase : IAuthenticationUseCase, _ configurationUseCase : IConfigurationUseCase) {
         usecaseAuth = authenticationUseCase
         usecaseConfig = configurationUseCase
         relayAccount.accept(usecaseAuth.getRemeberAccount())
-        relayPassword.accept(usecaseAuth.getRememberPassword())
     }
     
     func continueLoginLimitTimer(){
+        var lastLoginLimitDate = usecaseAuth.getLastOverLoginLimitDate()
         let count = Int(ceil(lastLoginLimitDate.timeIntervalSince1970 - Date().timeIntervalSince1970))
-        if count > 0 {
-            relayOverLoginLimit.accept(true)
-            relayCountDown.accept(count)
-            timerOverLoginLimit
-                .countDown(timeInterval: 1, endTime: lastLoginLimitDate, block: {(idx, countDown, finish) in
-                    self.relayCountDown.accept(countDown)
-                    if finish {
-                        self.relayOverLoginLimit.accept(false)
-                    }
-                })
+        if count <= 0 {
+            let date = Date()
+            usecaseAuth.setLastOverLoginLimitDate(date)
+            lastLoginLimitDate = date
         }
+        relayOverLoginLimit.accept(true)
+        relayCountDown.accept(count)
+        timerOverLoginLimit
+            .countDown(timeInterval: 1, endTime: lastLoginLimitDate, block: {(idx, countDown, finish) in
+                self.relayCountDown.accept(countDown)
+                if finish {
+                    self.relayOverLoginLimit.accept(false)
+                }
+            })
     }
     
     func launchLoginLimitTimer(){
-        lastLoginLimitDate = Date(timeIntervalSince1970: Date().timeIntervalSince1970 + 60)
+        let lastLoginLimitDate = Date(timeIntervalSince1970: Date().timeIntervalSince1970 + 60)
+        usecaseAuth.setLastOverLoginLimitDate(lastLoginLimitDate)
         relayOverLoginLimit.accept(true)
         relayCountDown.accept(60)
         timerOverLoginLimit
@@ -83,10 +82,7 @@ class LoginViewModel{
         return usecaseAuth
             .loginFrom(account: account, pwd: password, captcha: captcha)
             .map { (player) -> Player in
-                if isRememberMe {
-                    self.usecaseAuth.setRemeberAccount(self.relayAccount.value)
-                    self.usecaseAuth.setRememberPassword(self.relayPassword.value)
-                }
+                self.usecaseAuth.setRemeberAccount(isRememberMe ? self.relayAccount.value : nil)
                 self.usecaseAuth.setNeedCaptcha(nil)
                 self.usecaseAuth.setLastOverLoginLimitDate(nil)
                 return player
@@ -95,8 +91,7 @@ class LoginViewModel{
     
     func isRememberMe()->Bool{
         let haveAccount = usecaseAuth.getRemeberAccount().count > 0
-        let havePassword = usecaseAuth.getRememberPassword().count > 0
-        return haveAccount && havePassword
+        return haveAccount
     }
     
     func getCaptchaImage()->Single<UIImage>{
@@ -111,6 +106,7 @@ class LoginViewModel{
     
     func event()-> (accountValid : Observable<LoginDataStatus>,
                     passwordValid : Observable<LoginDataStatus>,
+                    captchaValid : Observable<Bool>,
                     captchaImage : Observable<UIImage?>,
                     dataValid : Observable<Bool>,
                     countDown : Observable<Int>){
@@ -143,11 +139,24 @@ class LoginViewModel{
         }()
         
         let limit = relayOverLoginLimit.asObservable()
-        let dataValid = Observable.combineLatest(accountValid, passwordValid, limit){
-            return $0 == LoginDataStatus.valid && $1 == LoginDataStatus.valid && !$2
+        let captchaValid = relayImgCaptcha
+            .asObservable()
+            .flatMapLatest { (captchaImg) -> Observable<Bool> in
+                return self.relayCaptcha
+                    .asObservable()
+                    .map { (captcha) -> Bool in
+                        guard captchaImg != nil else {
+                            return true
+                        }
+                        return captcha.count > 0
+                    }
+            }
+        let dataValid = Observable.combineLatest(accountValid, passwordValid, limit, captchaValid){
+            return $0 == LoginDataStatus.valid && $1 == LoginDataStatus.valid && !$2 && $3
         }
         return (accountValid: accountValid,
                 passwordValid: passwordValid,
+                captchaValid: captchaValid,
                 captchaImage: image,
                 dataValid: dataValid,
                 countDown: relayCountDown.asObservable())
