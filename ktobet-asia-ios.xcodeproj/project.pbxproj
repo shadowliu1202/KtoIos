@@ -15,6 +15,29 @@
 		35B9B397259B028800050914 /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B396259B028800050914 /* ResetPasswordViewModel.swift */; };
 		35B9B39B259B034400050914 /* ResetPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */; };
 		35B9B3CE259C796F00050914 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
+		41077D9325BA62E30057B340 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */; };
+		41077D9625BA62E70057B340 /* SystemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC20625B142C200180147 /* SystemViewModel.swift */; };
+		41077D9925BA63140057B340 /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
+		41077D9C25BA63250057B340 /* SystemSignalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC20225B1413200180147 /* SystemSignalRepository.swift */; };
+		41077D9F25BA63330057B340 /* LocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C605A25B92E12009F7101 /* LocalStorageRepository.swift */; };
+		41077DA225BA634D0057B340 /* PlayerDataUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */; };
+		41077DA525BA63610057B340 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */; };
+		41077DA825BA636B0057B340 /* Toast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6089834A25AFD13800BE28BB /* Toast.xib */; };
+		41077DAB25BA636F0057B340 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6089834B25AFD13800BE28BB /* ToastView.swift */; };
+		41077DAE25BA63780057B340 /* SMSVerifyCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */; };
+		41077DB125BA637F0057B340 /* AccountMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2F525B7FA5700C56D6E /* AccountMask.swift */; };
+		41077DB425BA63980057B340 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359994EE259D7A600020EF5A /* UIButtonExtension.swift */; };
+		41077DB725BA639C0057B340 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D986A25A5CC2E00634197 /* DateExtension.swift */; };
+		41077DBA25BA639E0057B340 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2D325B7D2F200C56D6E /* DoubleExtension.swift */; };
+		41077DBD25BA63A20057B340 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
+		41077DC025BA63B40057B340 /* ResetPasswordStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6008F15A25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift */; };
+		41077DC325BA63B80057B340 /* ResetPasswordStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607D1C5B25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift */; };
+		41077DC625BA63BC0057B340 /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B396259B028800050914 /* ResetPasswordViewModel.swift */; };
+		41077DC925BA63D80057B340 /* SlideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */; };
+		41077DCC25BA63E20057B340 /* ResetPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */; };
+		41077DCF25BA63E50057B340 /* SystemSignalRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC22925B19AE300180147 /* SystemSignalRUseCase.swift */; };
+		41077DD225BA63FC0057B340 /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */; };
+		41077DD525BA64020057B340 /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
 		410A76C025AED584006F1141 /* ktobet-asia-ios-qat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */; };
 		4139BA4825B01B0C00872D39 /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
 		4149B3BC25B13F93001F21C9 /* SMSVerifyCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */; };
@@ -24,7 +47,7 @@
 		4199A02A25AE9918002E2D7E /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */; };
 		4199A02B25AE9918002E2D7E /* InputPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD97F25A41BE6003244B1 /* InputPassword.swift */; };
 		4199A02C25AE9918002E2D7E /* InputConfirmPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */; };
-		4199A02D25AE9918002E2D7E /* IPlayerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487EC4C325553A2200BA8B8E /* IPlayerRepository.swift */; };
+		4199A02D25AE9918002E2D7E /* PlayerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487EC4C325553A2200BA8B8E /* PlayerRepository.swift */; };
 		4199A02E25AE9918002E2D7E /* AuthenticationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718155255E829C007B7764 /* AuthenticationApi.swift */; };
 		4199A02F25AE9918002E2D7E /* PlayerApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718163255E9A5C007B7764 /* PlayerApi.swift */; };
 		4199A03025AE9918002E2D7E /* GameTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488000B32554071D00529673 /* GameTestViewController.swift */; };
@@ -987,13 +1010,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41077DD225BA63FC0057B340 /* slideMenu.storyboard in Resources */,
 				4199A08A25AE9918002E2D7E /* Localizable.strings in Resources */,
 				4199A08B25AE9918002E2D7E /* infoPlist.strings in Resources */,
 				4199A08C25AE9918002E2D7E /* Signup.storyboard in Resources */,
 				410A76C025AED584006F1141 /* ktobet-asia-ios-qat-Info.plist in Resources */,
+				41077DD525BA64020057B340 /* ResetPassword.storyboard in Resources */,
 				4199A08D25AE9918002E2D7E /* Login.storyboard in Resources */,
 				4199A08E25AE9918002E2D7E /* LaunchScreen.storyboard in Resources */,
 				4199A08F25AE9918002E2D7E /* Assets.xcassets in Resources */,
+				41077DA825BA636B0057B340 /* Toast.xib in Resources */,
 				4199A09025AE9918002E2D7E /* Launch.storyboard in Resources */,
 				4199A09125AE9918002E2D7E /* Lobby.storyboard in Resources */,
 			);
@@ -1165,26 +1191,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				4199A02825AE9918002E2D7E /* HubConnectionDelegate.swift in Sources */,
+				41077D9625BA62E70057B340 /* SystemViewModel.swift in Sources */,
 				4199A02925AE9918002E2D7E /* HubConnectionBuilder.swift in Sources */,
 				4199A02A25AE9918002E2D7E /* UIViewControllerExtension.swift in Sources */,
+				41077D9925BA63140057B340 /* KTOError.swift in Sources */,
+				41077DC925BA63D80057B340 /* SlideMenuViewModel.swift in Sources */,
+				41077DAE25BA63780057B340 /* SMSVerifyCodeInputView.swift in Sources */,
 				4199A02B25AE9918002E2D7E /* InputPassword.swift in Sources */,
 				4199A02C25AE9918002E2D7E /* InputConfirmPassword.swift in Sources */,
-				4199A02D25AE9918002E2D7E /* IPlayerRepository.swift in Sources */,
+				4199A02D25AE9918002E2D7E /* PlayerRepository.swift in Sources */,
+				41077DB725BA639C0057B340 /* DateExtension.swift in Sources */,
 				4199A02E25AE9918002E2D7E /* AuthenticationApi.swift in Sources */,
 				4199A02F25AE9918002E2D7E /* PlayerApi.swift in Sources */,
+				41077DB425BA63980057B340 /* UIButtonExtension.swift in Sources */,
 				4199A03025AE9918002E2D7E /* GameTestViewController.swift in Sources */,
 				4199A03125AE9918002E2D7E /* UIWindowExtension.swift in Sources */,
 				4199A03225AE9918002E2D7E /* HttpClientBack.swift in Sources */,
 				4199A03325AE9918002E2D7E /* TestViewModel.swift in Sources */,
 				4199A03425AE9918002E2D7E /* SignalRError.swift in Sources */,
+				41077DBA25BA639E0057B340 /* DoubleExtension.swift in Sources */,
 				4199A03525AE9918002E2D7E /* CodableHelpers.swift in Sources */,
 				4199A03625AE9918002E2D7E /* HttpConnectionOptions.swift in Sources */,
 				4199A03725AE9918002E2D7E /* KTOTimer.swift in Sources */,
 				4199A03825AE9918002E2D7E /* TransportType.swift in Sources */,
+				41077DCC25BA63E20057B340 /* ResetPasswordUseCase.swift in Sources */,
 				4199A03925AE9918002E2D7E /* CustomServiceApi.swift in Sources */,
 				4199A03A25AE9918002E2D7E /* ReactiveExtension.swift in Sources */,
+				41077DBD25BA63A20057B340 /* CommonEnum.swift in Sources */,
 				4199A03B25AE9918002E2D7E /* EncodableExtension.swift in Sources */,
+				41077DC325BA63B80057B340 /* ResetPasswordStep3ViewController.swift in Sources */,
 				4199A03C25AE9918002E2D7E /* TermsOfServiceViewController.swift in Sources */,
+				41077DC625BA63BC0057B340 /* ResetPasswordViewModel.swift in Sources */,
 				4199A03D25AE9918002E2D7E /* SMSCodeTextField.swift in Sources */,
 				4199A03E25AE9918002E2D7E /* StreamHandle.swift in Sources */,
 				4199A03F25AE9918002E2D7E /* CustomServiceRepository.swift in Sources */,
@@ -1195,6 +1232,8 @@
 				4199A04425AE9918002E2D7E /* SignupEmailViewController.swift in Sources */,
 				4199A04525AE9918002E2D7E /* Logger.swift in Sources */,
 				4199A04625AE9918002E2D7E /* WebsocketsTransport.swift in Sources */,
+				41077DA525BA63610057B340 /* ResetPasswordViewController.swift in Sources */,
+				41077DAB25BA636F0057B340 /* ToastView.swift in Sources */,
 				4199A04725AE9918002E2D7E /* LocalizeUtils.swift in Sources */,
 				4199A04825AE9918002E2D7E /* SocketTestViewController.swift in Sources */,
 				4199A04925AE9918002E2D7E /* IAuthenticationUseCase.swift in Sources */,
@@ -1212,6 +1251,7 @@
 				4199A05525AE9918002E2D7E /* TransferFormat.swift in Sources */,
 				4199A05625AE9918002E2D7E /* HttpResponse.swift in Sources */,
 				4199A05725AE9918002E2D7E /* InputText.swift in Sources */,
+				41077DC025BA63B40057B340 /* ResetPasswordStep2ViewController.swift in Sources */,
 				4199A05825AE9918002E2D7E /* SideBarViewController.swift in Sources */,
 				4199A05925AE9918002E2D7E /* StringExtension.swift in Sources */,
 				4199A05A25AE9918002E2D7E /* HubConnection.swift in Sources */,
@@ -1228,15 +1268,20 @@
 				4199A06525AE9918002E2D7E /* TermsOfServiceCell.swift in Sources */,
 				4199A06625AE9918002E2D7E /* DefaultHttpClient.swift in Sources */,
 				4199A06725AE9918002E2D7E /* HttpConnection.swift in Sources */,
+				41077D9C25BA63250057B340 /* SystemSignalRepository.swift in Sources */,
 				4199A06825AE9918002E2D7E /* SignupUserInfoViewModel.swift in Sources */,
 				4199A06925AE9918002E2D7E /* NegotiationResponse.swift in Sources */,
+				41077D9325BA62E30057B340 /* PlayerViewModel.swift in Sources */,
+				41077D9F25BA63330057B340 /* LocalStorageRepository.swift in Sources */,
 				4199A06A25AE9918002E2D7E /* ServerInvocationHandler.swift in Sources */,
 				4199A06B25AE9918002E2D7E /* SignupLanguageViewController.swift in Sources */,
 				4199A06C25AE9918002E2D7E /* GameInfoRepository.swift in Sources */,
+				41077DA225BA634D0057B340 /* PlayerDataUseCase.swift in Sources */,
 				4199A06D25AE9918002E2D7E /* AppDelegate.swift in Sources */,
 				4199A06E25AE9918002E2D7E /* HubConnectionExtensions.swift in Sources */,
 				4199A06F25AE9918002E2D7E /* HubProtocol.swift in Sources */,
 				4199A07025AE9918002E2D7E /* FeatureItemCell.swift in Sources */,
+				41077DCF25BA63E50057B340 /* SystemSignalRUseCase.swift in Sources */,
 				4199A07125AE9918002E2D7E /* SystemRepository.swift in Sources */,
 				4199A07225AE9918002E2D7E /* HttpClientProtocol.swift in Sources */,
 				4199A07325AE9918002E2D7E /* Alert.swift in Sources */,
@@ -1256,6 +1301,7 @@
 				4199A08125AE9918002E2D7E /* Util.swift in Sources */,
 				4199A08225AE9918002E2D7E /* ConnectionDelegate.swift in Sources */,
 				4199A08325AE9918002E2D7E /* GetSystemStatusUseCase.swift in Sources */,
+				41077DB125BA637F0057B340 /* AccountMask.swift in Sources */,
 				4199A08425AE9918002E2D7E /* LanguageAndCurrencyCell.swift in Sources */,
 				4199A08525AE9918002E2D7E /* LobbyViewController.swift in Sources */,
 			);
