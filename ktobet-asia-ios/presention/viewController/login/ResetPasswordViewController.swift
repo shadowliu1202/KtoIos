@@ -44,6 +44,8 @@ class ResetPasswordViewController: UIViewController {
         naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
         btnPhone.setTitle(Localize.string("common_mobile"), for: .normal)
         btnEmail.setTitle(Localize.string("common_email"), for: .normal)
+        inputEmail.setKeyboardType(.emailAddress)
+        inputMobile.setKeyboardType(.numberPad)
         inputEmail.setTitle(Localize.string("common_email"))
         inputMobile.setTitle(Localize.string("common_mobile"))
         btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code"), for: .normal)

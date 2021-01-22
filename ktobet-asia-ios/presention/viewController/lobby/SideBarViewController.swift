@@ -14,6 +14,7 @@ class SideBarViewController: UIViewController {
     @IBOutlet private weak var btnGift: UIBarButtonItem!
     @IBOutlet private weak var btnNotification: UIBarButtonItem!
     @IBOutlet private weak var btnClose: UIBarButtonItem!
+    @IBOutlet private weak var naviItem : UIBarButtonItem!
     @IBOutlet private weak var listProduct: UICollectionView!
     @IBOutlet private weak var listFeature: UITableView!
     @IBOutlet private weak var constraintListProductHeight: NSLayoutConstraint!
@@ -79,8 +80,14 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func initUI() {
+        let navigationBar = navigationController?.navigationBar
+        navigationBar?.barTintColor = UIColor.backgroundSidebarMineShaftGray
+        navigationBar?.isTranslucent = false
+        navigationBar?.setBackgroundImage(UIImage(), for: .default)
+        navigationBar?.shadowImage = UIImage()
         labUserAcoount.numberOfLines = 0
         labUserAcoount.lineBreakMode = .byWordWrapping
+        naviItem.image = UIImage(named: "KTO (D)")?.withRenderingMode(.alwaysOriginal)
         btnNotification.image = UIImage(named: "Notification-None")?.withRenderingMode(.alwaysOriginal)
         listFeature.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         listProduct.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
@@ -122,9 +129,24 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func eventHandler() {
+        Observable.zip(listProduct.rx.itemSelected, listProduct.rx.modelSelected(ProductItem.self)).bind { [weak self] (indexPath, data) in
+            self?.dismiss(animated: true) {
+                self?.productDidSelected?(data.type)
+            }
+            
+            let cell = self?.listProduct.cellForItem(at: indexPath) as? ProductItemCell
+            cell?.imgIcon.backgroundColor = UIColor.redForDark502
+        }.disposed(by: disposeBag)
+        
+        listProduct.rx.itemDeselected.subscribe { (indexPath) in
+            guard let indexPath = indexPath.element else { return }
+            let cell = self.listProduct.cellForItem(at: indexPath) as? ProductItemCell
+            cell?.imgIcon.backgroundColor = UIColor.black
+        }.disposed(by: disposeBag)
+        
         listFeature.rx.modelSelected(FeatureItem.self).subscribe { (data) in
-            guard let productType = data.element?.name else { return }
-            switch productType {
+            guard let featureType = data.element?.name else { return }
+            switch featureType {
             case .logout:
                 self.viewModel.logout()
                     .subscribeOn(MainScheduler.instance)

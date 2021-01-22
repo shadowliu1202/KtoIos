@@ -9,7 +9,7 @@ import UIKit
 
 class ProductItemCell: UICollectionViewCell {
     
-    @IBOutlet private weak var imgIcon: UIImageView!
+    @IBOutlet weak var imgIcon: UIImageView!
     @IBOutlet private weak var labTitle : UILabel!
     
     override func awakeFromNib() {
