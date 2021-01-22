@@ -29,6 +29,7 @@ class SignupUserInfoViewModel {
         case errPasswordNotMatch
         case errEmailOtpInactive
         case errSMSOtpInactive
+        case doNothing
     }
     
     private var usecaseRegister : IRegisterUseCase!
@@ -89,29 +90,39 @@ class SignupUserInfoViewModel {
                 }
             }
         
-        let emailValid = relayEmail
-            .map { (text) -> UserInfoStatus in
-                let valid = Account.Email(email: text).isValid()
-                if text.count > 0 { self.mailEdited = true }
-                if valid { return .valid}
-                else if text.count == 0 {
-                    if self.mailEdited{ return .empty }
-                    else { return .firstEmpty }
+        let emailValid = relayAccountType
+            .flatMapLatest { (type) -> Observable<UserInfoStatus> in
+                return self.relayEmail.map { (text) -> UserInfoStatus in
+                    guard type == .email else {
+                        return .doNothing
+                    }
+                    let valid = Account.Email(email: text).isValid()
+                    if text.count > 0 { self.mailEdited = true }
+                    if valid { return .valid}
+                    else if text.count == 0 {
+                        if self.mailEdited{ return .empty }
+                        else { return .firstEmpty }
+                    }
+                    else { return .errEmailFormat}
                 }
-                else { return .errEmailFormat}
             }
         
-        let mobileValid = relayMobile
-            .map { (text) -> UserInfoStatus in
-                let valid = Account.Phone(phone: text, locale: self.locale).isValid()
-                if text.count > 0 { self.phoneEdited = true }
-                if valid { return .valid}
-                else if text.count == 0 {
-                    if self.phoneEdited { return .empty }
-                    else { return .firstEmpty }
+        let mobileValid = relayAccountType.flatMapLatest { (type) -> Observable<UserInfoStatus> in
+            return self.relayMobile
+                .map { (text) -> UserInfoStatus in
+                    guard type == .phone else {
+                        return .doNothing
+                    }
+                    let valid = Account.Phone(phone: text, locale: self.locale).isValid()
+                    if text.count > 0 { self.phoneEdited = true }
+                    if valid { return .valid}
+                    else if text.count == 0 {
+                        if self.phoneEdited { return .empty }
+                        else { return .firstEmpty }
+                    }
+                    else { return .errPhoneFormat}
                 }
-                else { return .errPhoneFormat}
-            }
+        }
         
         let password = relayPassword.asObservable()
         let confirmPassword = relayConfirmPassword.asObservable()

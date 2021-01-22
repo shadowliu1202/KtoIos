@@ -137,6 +137,13 @@ extension SignupLanguageViewController : UITableViewDelegate, UITableViewDataSou
         for idx in 0..<arrLangs.count{
             arrLangs[idx].selected = indexPath.row == idx
         }
+        if let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type{
+            switch locale {
+            case .China: Localize.setLanguage(language: .ZH)
+            case .Vietnam: Localize.setLanguage(language: .VI)
+            }
+        }
+        localize()
         tableView.reloadData()
     }
     
@@ -154,12 +161,8 @@ extension SignupLanguageViewController{
         if let vc = segue.destination as? SignupUserinfoViewController,
            let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type{
             switch locale {
-            case .China:
-                Localize.setLanguage(language: .ZH)
-                vc.locale = SupportLocale.China()
-            case .Vietnam:
-                Localize.setLanguage(language: .VI)
-                vc.locale = SupportLocale.Vietnam()
+            case .China: vc.locale = SupportLocale.China()
+            case .Vietnam: vc.locale = SupportLocale.Vietnam()
             }
         }
     }

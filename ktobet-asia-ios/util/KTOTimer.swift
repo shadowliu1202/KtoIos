@@ -36,6 +36,7 @@ class KTOTimer{
                 self.stop()
             }
         })
+        RunLoop.main.add(timer!, forMode: .common)
         timer?.fire()
     }
     
@@ -60,6 +61,7 @@ class KTOTimer{
                 self.stop()
             }
         })
+        RunLoop.main.add(timer!, forMode: .common)
         timer?.fire()
     }
     
@@ -69,6 +71,7 @@ class KTOTimer{
             self.index += 1
             block?(self.index)
         })
+        RunLoop.main.add(timer!, forMode: .common)
         timer?.fire()
     }
     

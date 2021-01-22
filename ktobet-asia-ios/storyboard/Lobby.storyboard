@@ -37,7 +37,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设定主页" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1CJ-Zn-pSn">
-                                <rect key="frame" x="158.5" y="0.0" width="97.5" height="50"/>
+                                <rect key="frame" x="158.5" y="32" width="97.5" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="bJw-oR-IRg"/>
                                 </constraints>
@@ -46,7 +46,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3wp-KA-ypm">
-                                <rect key="frame" x="271" y="13" width="24" height="24"/>
+                                <rect key="frame" x="271" y="45" width="24" height="24"/>
                                 <state key="normal" image="Tips"/>
                                 <connections>
                                     <action selector="btnInfoPressed:" destination="6qd-Pc-rP2" eventType="touchUpInside" id="Zt0-Sw-faF"/>
@@ -64,7 +64,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mPW-qd-31G">
-                                <rect key="frame" x="0.0" y="74" width="414" height="602"/>
+                                <rect key="frame" x="0.0" y="106" width="414" height="570"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="DefaultProductCell" rowHeight="116" id="uLf-mK-nUQ" customClass="DefaultProductCell" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -150,7 +150,7 @@
                             <constraint firstItem="1CJ-Zn-pSn" firstAttribute="centerX" secondItem="tca-K2-gFl" secondAttribute="centerX" id="Fp9-Jd-W6i"/>
                             <constraint firstItem="Lkq-jh-dM4" firstAttribute="bottom" secondItem="7tB-uH-VgD" secondAttribute="bottom" constant="24" id="IaM-42-0U8"/>
                             <constraint firstItem="7tB-uH-VgD" firstAttribute="top" secondItem="mPW-qd-31G" secondAttribute="bottom" constant="24" id="KJQ-jq-VCw"/>
-                            <constraint firstItem="1CJ-Zn-pSn" firstAttribute="top" secondItem="Lkq-jh-dM4" secondAttribute="top" id="WKE-U3-e4C"/>
+                            <constraint firstItem="1CJ-Zn-pSn" firstAttribute="top" secondItem="Lkq-jh-dM4" secondAttribute="top" constant="32" id="WKE-U3-e4C"/>
                             <constraint firstItem="mPW-qd-31G" firstAttribute="top" secondItem="1CJ-Zn-pSn" secondAttribute="bottom" constant="24" id="ZzN-XZ-EyJ"/>
                             <constraint firstItem="Lkq-jh-dM4" firstAttribute="trailing" secondItem="mPW-qd-31G" secondAttribute="trailing" id="dQw-uO-aYd"/>
                             <constraint firstItem="7tB-uH-VgD" firstAttribute="leading" secondItem="Lkq-jh-dM4" secondAttribute="leading" constant="24" id="fD4-Gu-oZa"/>
