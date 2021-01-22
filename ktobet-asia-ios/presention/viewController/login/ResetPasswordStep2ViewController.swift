@@ -17,6 +17,7 @@ class ResetPasswordStep2ViewController: UIViewController {
     @IBOutlet private weak var btnResend: UIButton!
     @IBOutlet private weak var constraintErrTipHeight : NSLayoutConstraint!
     @IBOutlet private weak var constraintErrTipBottom : NSLayoutConstraint!
+    @IBOutlet private weak var constraintStatusTipBottom : NSLayoutConstraint!
     
     var viewModel: ResetPasswordViewModel!
     private let errTipHeight = CGFloat(44)
@@ -34,10 +35,24 @@ class ResetPasswordStep2ViewController: UIViewController {
         setViewModel()
         viewStatusTip.show(statusTip: Localize.string("common_otp_send_success"), img: UIImage(named: "Success"))
         showPasscodeUncorrectTip(false)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            constraintStatusTipBottom.constant = keyboardHeight
+        }
     }
     
     private func initialize() {
-
+        naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
         switch viewModel.currentAccountType() {
         case .email:
             labDesc.text = Localize.string("login_resetpassword_step2_verify_by_email_title")

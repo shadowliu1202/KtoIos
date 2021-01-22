@@ -232,15 +232,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lSl-BO-i3C">
-                        <leftBarButtonItems>
-                            <barButtonItem id="Bt7-3e-ykS"/>
-                            <barButtonItem title="sideBar" id="oYa-Ch-kxa">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="btnSideMenuPressed:" destination="o2W-1W-Gjl" id="DXV-fH-tfJ"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" image="Menu" id="oYa-Ch-kxa">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="btnSideMenuPressed:" destination="o2W-1W-Gjl" id="DXV-fH-tfJ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="btnSideBar" destination="oYa-Ch-kxa" id="yvQ-7c-DCc"/>
@@ -309,7 +306,9 @@
         <!--SideMenuNavigationController-->
         <scene sceneID="BRh-Xe-OaK">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="SideMenuNavigationController" storyboardName="slideMenu" referencedIdentifier="SideMenuNavigationController" id="U7c-eu-wld" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="SideMenuNavigationController" storyboardName="slideMenu" referencedIdentifier="SideMenuNavigationController" id="U7c-eu-wld" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="XF6-gq-KzB"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dKh-sL-tsf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1275" y="-777"/>
@@ -317,6 +316,7 @@
     </scenes>
     <resources>
         <image name="(375)SBK-Select" width="315" height="102"/>
+        <image name="Menu" width="24" height="24"/>
         <image name="Tips" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

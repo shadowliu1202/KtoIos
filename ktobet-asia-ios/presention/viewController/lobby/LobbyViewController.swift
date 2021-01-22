@@ -39,6 +39,10 @@ class LobbyViewController: UIViewController {
                 break
             }
         }
+        
+        SideMenuManager.default.leftMenuNavigationController = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "LeftMenuNavigationController") as? SideMenuNavigationController
+        SideMenuManager.default.addPanGestureToPresent(toView: navigationController!.navigationBar)
+        SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: view)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,6 +109,9 @@ extension LobbyViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? SideMenuNavigationController,
            let sideBar = vc.viewControllers.first as? SideBarViewController{
+            var settings = SideMenuSettings()
+            settings.presentationStyle = .menuSlideIn
+            vc.settings = settings
             vc.menuWidth = view.bounds.width
             sideBar.player = player
             sideBar.productDidSelected = {type  in
