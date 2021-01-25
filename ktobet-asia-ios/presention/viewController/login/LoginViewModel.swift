@@ -38,6 +38,15 @@ class LoginViewModel{
         relayAccount.accept(usecaseAuth.getRemeberAccount())
     }
     
+    func refresh(){
+        relayAccount.accept(relayAccount.value)
+        relayPassword.accept(relayPassword.value)
+        relayCaptcha.accept(relayCaptcha.value)
+        relayOverLoginLimit.accept(relayOverLoginLimit.value)
+        relayCountDown.accept(relayCountDown.value)
+        relayImgCaptcha.accept(relayImgCaptcha.value)
+    }
+    
     func continueLoginLimitTimer(){
         var lastLoginLimitDate = usecaseAuth.getLastOverLoginLimitDate()
         let count = Int(ceil(lastLoginLimitDate.timeIntervalSince1970 - Date().timeIntervalSince1970))

@@ -15,14 +15,10 @@ import share_bu
 
 class SignupLanguageViewController: UIViewController{
     
-    enum Language {
-        case China
-        case Vietnam
-    }
-    
+
     struct LanguageListData{
         var title : String
-        var type : Language
+        var type : LocalizeUtils.Language
         var selected : Bool
     }
     
@@ -46,6 +42,8 @@ class SignupLanguageViewController: UIViewController{
 
     private var disposeBag = DisposeBag()
     private var arrLangs : [LanguageListData] = []
+    
+    var languageChangeHandler : (()->())?
 
     // MARK: Life Cycle
     override func viewDidLoad() {
@@ -68,14 +66,14 @@ class SignupLanguageViewController: UIViewController{
     private func reloadLanguageList(){
         arrLangs = {
             let texts = [Localize.string("register_language_option_chinese"), Localize.string("register_language_option_vietnam")]
-            let type : [Language] = [.China, .Vietnam]
-            let selected = [true, false]
+            let type : [LocalizeUtils.Language] = [.ZH, .VI]
             var arr = [LanguageListData]()
             for idx in 0...1{
                 arr.append({
+                    let selected : Bool = type[idx].rawValue == Localize.getLanguage()
                     let item = LanguageListData(title: texts[idx],
                                                 type: type[idx],
-                                                selected: selected[idx])
+                                                selected: selected)
                     return item
                 }())
             }
@@ -139,11 +137,13 @@ extension SignupLanguageViewController : UITableViewDelegate, UITableViewDataSou
         }
         if let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type{
             switch locale {
-            case .China: Localize.setLanguage(language: .ZH)
-            case .Vietnam: Localize.setLanguage(language: .VI)
+            case .ZH: Localize.setLanguage(language: .ZH)
+            case .VI: Localize.setLanguage(language: .VI)
+            case .TH: break
             }
         }
         localize()
+        languageChangeHandler?()
         tableView.reloadData()
     }
     
@@ -161,8 +161,9 @@ extension SignupLanguageViewController{
         if let vc = segue.destination as? SignupUserinfoViewController,
            let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type{
             switch locale {
-            case .China: vc.locale = SupportLocale.China()
-            case .Vietnam: vc.locale = SupportLocale.Vietnam()
+            case .ZH: vc.locale = SupportLocale.China()
+            case .VI: vc.locale = SupportLocale.Vietnam()
+            case .TH: break
             }
         }
     }
