@@ -12,7 +12,7 @@ class Alert{
     class func show(_ title: String?, _ message : String?, confirm: (()->Void)?, cancel:(()->Void)? ){
         if let topVc = UIApplication.shared.keyWindow?.topViewController{
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.view.tintColor = UIColor(rgb: 0xd90101)
+            alert.view.tintColor = UIColor.redForLightFull
             alert.addAction(UIAlertAction(title: Localize.string("common_determine"), style: .default) { (action) in
                 confirm?()
             })

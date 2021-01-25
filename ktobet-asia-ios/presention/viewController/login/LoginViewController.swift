@@ -58,6 +58,7 @@ class LoginViewController: UIViewController {
         addNotificationCenter()
     }
     
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.stopLoginLimitTimer()
@@ -299,6 +300,14 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController{
     // MARK: PAGE PREPARE
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {}
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let navi = segue.destination as? UINavigationController,
+           let signupVc = navi.viewControllers.first as? SignupLanguageViewController{
+            signupVc.languageChangeHandler = {
+                self.localize()
+                self.viewModel.refresh()
+            }
+        }
+    }
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {}
 }

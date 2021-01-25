@@ -36,9 +36,9 @@ class InputPassword : UIView{
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        backgroundColor = UIColor(rgb: 0x454545)
+        backgroundColor = UIColor.inputSelectedTundoraGray
         labTitle.font = UIFont.systemFont(ofSize: 12)
-        labTitle.textColor = UIColor(rgb: 0x9b9b9b)
+        labTitle.textColor = UIColor.textPrimaryDustyGray
         labTitle.backgroundColor = .clear
         
         textContent.textColor = .white
@@ -53,9 +53,10 @@ class InputPassword : UIView{
         btnHideContent.setImage(UIImage(named: "Eye-Show"), for: .normal)
         btnHideContent.setImage(UIImage(named: "Eye-Hide"), for: .selected)
         btnHideContent.addTarget(self, action: #selector(btnHidePressed(_:)), for: .touchUpInside)
+        btnHideContent.imageView?.contentMode = .center
         btnHideContent.isSelected = true
         
-        underline.backgroundColor = UIColor.init(rgb: 0xff8000)
+        underline.backgroundColor = UIColor.orangeFull
         underline.isHidden = true
         
         addSubview(labTitle)
@@ -84,7 +85,7 @@ class InputPassword : UIView{
             self.btnHideContent.frame = position.hideBtn
             self.textContent.frame = position.content
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-            self.backgroundColor = UIColor.init(rgb: (self.isEditing || self.isFocus) ? 0x454545 : 0x333333)
+            self.backgroundColor = self.isEditing ? UIColor.inputSelectedTundoraGray : UIColor.inputBaseMineShaftGray
         }
         if firstPosition{
             changePosition()
@@ -105,14 +106,14 @@ class InputPassword : UIView{
             return CGRect(x: x, y: y, width: width, height: height)
         }()
         let hideButton : CGRect = {
-            let width : CGFloat = 24
-            let height : CGFloat = 24
+            let width : CGFloat = 24 + 8
+            let height : CGFloat = 24 + 8
             let x : CGFloat = bounds.width - border - width
             let y : CGFloat = bounds.midY - height * 0.5
             return CGRect(x: x, y: y, width: width, height: height)
         }()
         let content : CGRect = {
-            let width : CGFloat = bounds.width - title.maxX - hideButton.width - border * 3
+            let width : CGFloat = bounds.width - title.maxX - (hideButton.width - 8) - border * 3
             let height : CGFloat = bounds.height - border * 2
             let x : CGFloat = title.maxX + border
             let y : CGFloat = bounds.midY - height * 0.5
@@ -132,14 +133,14 @@ class InputPassword : UIView{
             return CGRect(x: x, y: y, width: width, height: height)
         }()
         let hideButton : CGRect = {
-            let width : CGFloat = 24
-            let height : CGFloat = 24
+            let width : CGFloat = 24 + 8
+            let height : CGFloat = 24 + 8
             let x : CGFloat = bounds.width - border - width
             let y : CGFloat = bounds.midY - height * 0.5
             return CGRect(x: x, y: y, width: width, height: height)
         }()
         let content : CGRect = {
-            let width = bounds.width - hideButton.width - border * 3
+            let width = bounds.width - (hideButton.width - 8) - border * 3
             let height = bounds.height - title.maxY - 8 - 8
             let x = border
             let y = title.maxY + 8
@@ -223,9 +224,9 @@ extension InputPassword : InputConfirmPasswordDelegate{
         isFocus = focus
         self.backgroundColor = {
             guard self.isFocus || self.isEditing else {
-                return UIColor(rgb: 0x333333)
+                return UIColor.inputBaseMineShaftGray
             }
-            return UIColor(rgb: 0x454545)
+            return UIColor.inputSelectedTundoraGray
         }()
     }
 }

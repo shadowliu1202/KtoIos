@@ -116,7 +116,7 @@ class SignupUserinfoViewController: UIViewController {
         btnSubmit.backgroundColor = UIColor.red
 
         for button in [btnEmail, btnPhone]{
-            let selectedColor = UIColor.init(rgb: 0x636366)
+            let selectedColor = UIColor.backgroundTabsGray
             let unSelectedColor = UIColor.clear
             button?.setBackgroundImage(UIImage(color: selectedColor), for: .selected)
             button?.setBackgroundImage(UIImage(color: unSelectedColor), for: .normal)

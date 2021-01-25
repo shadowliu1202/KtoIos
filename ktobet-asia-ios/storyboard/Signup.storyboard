@@ -46,11 +46,11 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMf-Xp-0tw">
-                                        <rect key="frame" x="215.5" y="54" width="24" height="24"/>
+                                        <rect key="frame" x="207.5" y="50" width="32" height="32"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="24" id="JF6-jt-xFi"/>
-                                            <constraint firstAttribute="width" constant="24" id="ftm-6S-avH"/>
+                                            <constraint firstAttribute="height" constant="32" id="JF6-jt-xFi"/>
+                                            <constraint firstAttribute="width" constant="32" id="ftm-6S-avH"/>
                                         </constraints>
                                         <state key="normal" image="Tips"/>
                                         <connections>
@@ -154,7 +154,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="clt-ea-XRo" firstAttribute="width" secondItem="sw4-Ms-sr3" secondAttribute="width" id="4Pt-Zi-ocW"/>
-                                    <constraint firstItem="ZMf-Xp-0tw" firstAttribute="leading" secondItem="Ptb-Lf-ku9" secondAttribute="trailing" constant="15" id="6aQ-UZ-WbE"/>
+                                    <constraint firstItem="ZMf-Xp-0tw" firstAttribute="leading" secondItem="Ptb-Lf-ku9" secondAttribute="trailing" constant="7" id="6aQ-UZ-WbE"/>
                                     <constraint firstItem="Nag-52-peI" firstAttribute="top" secondItem="Ptb-Lf-ku9" secondAttribute="bottom" constant="30" id="8Mu-Ca-lwu"/>
                                     <constraint firstItem="Ptb-Lf-ku9" firstAttribute="leading" secondItem="su5-Xz-dF0" secondAttribute="leading" id="D8C-zk-LI3"/>
                                     <constraint firstItem="clt-ea-XRo" firstAttribute="top" secondItem="sw4-Ms-sr3" secondAttribute="top" id="EVl-uy-Tat"/>

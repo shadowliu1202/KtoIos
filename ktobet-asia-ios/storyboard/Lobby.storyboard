@@ -45,8 +45,12 @@
                                 <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3wp-KA-ypm">
-                                <rect key="frame" x="271" y="45" width="24" height="24"/>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3wp-KA-ypm">
+                                <rect key="frame" x="263" y="41" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="SB0-a1-SAZ"/>
+                                    <constraint firstAttribute="height" constant="32" id="ogH-Hk-1xF"/>
+                                </constraints>
                                 <state key="normal" image="Tips"/>
                                 <connections>
                                     <action selector="btnInfoPressed:" destination="6qd-Pc-rP2" eventType="touchUpInside" id="Zt0-Sw-faF"/>
@@ -154,7 +158,7 @@
                             <constraint firstItem="mPW-qd-31G" firstAttribute="top" secondItem="1CJ-Zn-pSn" secondAttribute="bottom" constant="24" id="ZzN-XZ-EyJ"/>
                             <constraint firstItem="Lkq-jh-dM4" firstAttribute="trailing" secondItem="mPW-qd-31G" secondAttribute="trailing" id="dQw-uO-aYd"/>
                             <constraint firstItem="7tB-uH-VgD" firstAttribute="leading" secondItem="Lkq-jh-dM4" secondAttribute="leading" constant="24" id="fD4-Gu-oZa"/>
-                            <constraint firstItem="3wp-KA-ypm" firstAttribute="leading" secondItem="1CJ-Zn-pSn" secondAttribute="trailing" constant="15" id="g4n-Gx-rJQ"/>
+                            <constraint firstItem="3wp-KA-ypm" firstAttribute="leading" secondItem="1CJ-Zn-pSn" secondAttribute="trailing" constant="7" id="g4n-Gx-rJQ"/>
                             <constraint firstItem="Lkq-jh-dM4" firstAttribute="trailing" secondItem="7tB-uH-VgD" secondAttribute="trailing" constant="24" id="i4Y-vG-IDp"/>
                             <constraint firstItem="mPW-qd-31G" firstAttribute="leading" secondItem="Lkq-jh-dM4" secondAttribute="leading" id="vRm-Qd-8nz"/>
                         </constraints>

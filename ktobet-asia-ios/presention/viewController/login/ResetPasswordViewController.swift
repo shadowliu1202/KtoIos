@@ -50,7 +50,7 @@ class ResetPasswordViewController: UIViewController {
         inputMobile.setTitle(Localize.string("common_mobile"))
         btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code"), for: .normal)
         for button in [btnEmail, btnPhone]{
-            let selectedColor = UIColor.init(rgb: 0x636366)
+            let selectedColor = UIColor.backgroundTabsGray
             let unSelectedColor = UIColor.clear
             button?.setBackgroundImage(UIImage(color: selectedColor), for: .selected)
             button?.setBackgroundImage(UIImage(color: unSelectedColor), for: .normal)
