@@ -22,7 +22,7 @@ class PlayerViewModel {
     }
     
     func saveBalanceHiddenState(gameId: String, isHidden: Bool) {
-        self.playerUseCase.saveBalanceHiddenState(gameId: gameId, isHidden: isHidden)
+        self.playerUseCase.setBalanceHiddenState(gameId: gameId, isHidden: isHidden)
     }
     
     func logout() -> Completable {
