@@ -253,6 +253,14 @@
 		48FDF3692591ECB000C3AE75 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
 		6008F15B25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6008F15A25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift */; };
 		605D986B25A5CC2E00634197 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D986A25A5CC2E00634197 /* DateExtension.swift */; };
+		607CF2BD25BEBD4C00A9342D /* Game.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607CF2BC25BEBD4C00A9342D /* Game.storyboard */; };
+		607CF2C025BEBDA900A9342D /* Game.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607CF2BC25BEBD4C00A9342D /* Game.storyboard */; };
+		607CF2C425BEBECA00A9342D /* NavigationManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2C325BEBECA00A9342D /* NavigationManagement.swift */; };
+		607CF2C725BEBECD00A9342D /* NavigationManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2C325BEBECA00A9342D /* NavigationManagement.swift */; };
+		607CF2CB25BEC43000A9342D /* SBKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2CA25BEC43000A9342D /* SBKViewController.swift */; };
+		607CF2CE25BEC43300A9342D /* SBKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2CA25BEC43000A9342D /* SBKViewController.swift */; };
+		607CF2D625BECEDE00A9342D /* NumberGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2D525BECEDE00A9342D /* NumberGameViewController.swift */; };
+		607CF2D925BECEE400A9342D /* NumberGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2D525BECEDE00A9342D /* NumberGameViewController.swift */; };
 		607D1C5C25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607D1C5B25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift */; };
 		607FC20325B1413200180147 /* SystemSignalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC20225B1413200180147 /* SystemSignalRepository.swift */; };
 		607FC20725B142C200180147 /* SystemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC20625B142C200180147 /* SystemViewModel.swift */; };
@@ -430,6 +438,10 @@
 		5E7EEE80F1B070628EE45D7F /* Pods-ktobet-asia-ios_production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_production.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_production/Pods-ktobet-asia-ios_production.debug.xcconfig"; sourceTree = "<group>"; };
 		6008F15A25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordStep2ViewController.swift; sourceTree = "<group>"; };
 		605D986A25A5CC2E00634197 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		607CF2BC25BEBD4C00A9342D /* Game.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Game.storyboard; sourceTree = "<group>"; };
+		607CF2C325BEBECA00A9342D /* NavigationManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManagement.swift; sourceTree = "<group>"; };
+		607CF2CA25BEC43000A9342D /* SBKViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBKViewController.swift; sourceTree = "<group>"; };
+		607CF2D525BECEDE00A9342D /* NumberGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameViewController.swift; sourceTree = "<group>"; };
 		607D1C5B25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordStep3ViewController.swift; sourceTree = "<group>"; };
 		607FC20225B1413200180147 /* SystemSignalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSignalRepository.swift; sourceTree = "<group>"; };
 		607FC20625B142C200180147 /* SystemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemViewModel.swift; sourceTree = "<group>"; };
@@ -644,6 +656,7 @@
 				4840648D258742150064AAC9 /* Login.storyboard */,
 				4840648C258742150064AAC9 /* Signup.storyboard */,
 				35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */,
+				607CF2BC25BEBD4C00A9342D /* Game.storyboard */,
 			);
 			path = storyboard;
 			sourceTree = "<group>";
@@ -723,6 +736,7 @@
 				486CD97F25A41BE6003244B1 /* InputPassword.swift */,
 				486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */,
 				4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */,
+				607CF2C325BEBECA00A9342D /* NavigationManagement.swift */,
 			);
 			path = customUI;
 			sourceTree = "<group>";
@@ -829,6 +843,8 @@
 				48685E6525593EED00145552 /* SocketTestViewController.swift */,
 				48339D40255A60E500AE6715 /* TestViewModel.swift */,
 				60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */,
+				607CF2CA25BEC43000A9342D /* SBKViewController.swift */,
+				607CF2D525BECEDE00A9342D /* NumberGameViewController.swift */,
 			);
 			path = lobby;
 			sourceTree = "<group>";
@@ -1011,6 +1027,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				607CF2C025BEBDA900A9342D /* Game.storyboard in Resources */,
 				41077DD225BA63FC0057B340 /* slideMenu.storyboard in Resources */,
 				4199A08A25AE9918002E2D7E /* Localizable.strings in Resources */,
 				4199A08B25AE9918002E2D7E /* infoPlist.strings in Resources */,
@@ -1047,6 +1064,7 @@
 				48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */,
 				4840646B258721740064AAC9 /* infoPlist.strings in Resources */,
 				48406491258742150064AAC9 /* Signup.storyboard in Resources */,
+				607CF2BD25BEBD4C00A9342D /* Game.storyboard in Resources */,
 				4199A0A225AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist in Resources */,
 				48406492258742150064AAC9 /* Login.storyboard in Resources */,
 				48406494258742150064AAC9 /* LaunchScreen.storyboard in Resources */,
@@ -1194,6 +1212,7 @@
 				41077D9625BA62E70057B340 /* SystemViewModel.swift in Sources */,
 				4199A02925AE9918002E2D7E /* HubConnectionBuilder.swift in Sources */,
 				4199A02A25AE9918002E2D7E /* UIViewControllerExtension.swift in Sources */,
+				607CF2CE25BEC43300A9342D /* SBKViewController.swift in Sources */,
 				41077D9925BA63140057B340 /* KTOError.swift in Sources */,
 				41077DC925BA63D80057B340 /* SlideMenuViewModel.swift in Sources */,
 				41077DAE25BA63780057B340 /* SMSVerifyCodeInputView.swift in Sources */,
@@ -1201,8 +1220,10 @@
 				4199A02C25AE9918002E2D7E /* InputConfirmPassword.swift in Sources */,
 				4199A02D25AE9918002E2D7E /* PlayerRepository.swift in Sources */,
 				41077DF225BA71D00057B340 /* UINavigationControllerExtension.swift in Sources */,
+				607CF2C725BEBECD00A9342D /* NavigationManagement.swift in Sources */,
 				41077DB725BA639C0057B340 /* DateExtension.swift in Sources */,
 				4199A02E25AE9918002E2D7E /* AuthenticationApi.swift in Sources */,
+				607CF2D925BECEE400A9342D /* NumberGameViewController.swift in Sources */,
 				4199A02F25AE9918002E2D7E /* PlayerApi.swift in Sources */,
 				41077DB425BA63980057B340 /* UIButtonExtension.swift in Sources */,
 				4199A03025AE9918002E2D7E /* GameTestViewController.swift in Sources */,
@@ -1332,6 +1353,7 @@
 				48AAA112256E458800E075CA /* HubConnectionBuilder.swift in Sources */,
 				485F12AE2592E807007B07B6 /* UIViewControllerExtension.swift in Sources */,
 				486CD98025A41BE6003244B1 /* InputPassword.swift in Sources */,
+				607CF2CB25BEC43000A9342D /* SBKViewController.swift in Sources */,
 				486CD98425A41C0F003244B1 /* InputConfirmPassword.swift in Sources */,
 				48AAA113256E458800E075CA /* PlayerRepository.swift in Sources */,
 				48AAA114256E458800E075CA /* AuthenticationApi.swift in Sources */,
@@ -1339,8 +1361,10 @@
 				48AAA116256E458800E075CA /* GameTestViewController.swift in Sources */,
 				483F42BB258C41A90091960B /* UIWindowExtension.swift in Sources */,
 				41077DF125BA71D00057B340 /* UINavigationControllerExtension.swift in Sources */,
+				607CF2C425BEBECA00A9342D /* NavigationManagement.swift in Sources */,
 				48AAA117256E458800E075CA /* HttpClientBack.swift in Sources */,
 				48AAA118256E458800E075CA /* TestViewModel.swift in Sources */,
+				607CF2D625BECEDE00A9342D /* NumberGameViewController.swift in Sources */,
 				48AAA119256E458800E075CA /* SignalRError.swift in Sources */,
 				48AAA11A256E458800E075CA /* CodableHelpers.swift in Sources */,
 				4139BA4825B01B0C00872D39 /* KTOError.swift in Sources */,

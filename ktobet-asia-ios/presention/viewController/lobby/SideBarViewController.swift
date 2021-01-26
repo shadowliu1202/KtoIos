@@ -130,8 +130,13 @@ class SideBarViewController: UIViewController {
     
     fileprivate func eventHandler() {
         Observable.zip(listProduct.rx.itemSelected, listProduct.rx.modelSelected(ProductItem.self)).bind { [weak self] (indexPath, data) in
-            self?.dismiss(animated: true) {
-                self?.productDidSelected?(data.type)
+            switch data.type {
+            case .sbk:
+                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "SBKNavigationController")
+            case .numbergame:
+                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "NumberGameNavigationController")
+            default:
+                print("")
             }
             
             let cell = self?.listProduct.cellForItem(at: indexPath) as? ProductItemCell
