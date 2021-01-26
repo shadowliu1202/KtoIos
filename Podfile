@@ -42,6 +42,9 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
       config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+      config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
+      config.build_settings['SWIFT_SUPPRESS_WARNINGS'] = "YES"
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
     end
   end
 end

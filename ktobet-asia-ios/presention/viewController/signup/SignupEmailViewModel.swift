@@ -18,14 +18,14 @@ class SignupEmailViewModel{
         case invalid
     }
     
-    private var registerUseCase : IRegisterUseCase!
-    private var configurationUseCase : IConfigurationUseCase!
-    private var authenticationUseCase : IAuthenticationUseCase!
+    private var registerUseCase : RegisterUseCase!
+    private var configurationUseCase : ConfigurationUseCase!
+    private var authenticationUseCase : AuthenticationUseCase!
     
     // MARK: INITIALIZE
-    init(_ registerUseCase : IRegisterUseCase,
-         _ configurationUseCase : IConfigurationUseCase,
-         _ authenticationUseCase : IAuthenticationUseCase) {
+    init(_ registerUseCase : RegisterUseCase,
+         _ configurationUseCase : ConfigurationUseCase,
+         _ authenticationUseCase : AuthenticationUseCase) {
         
         self.registerUseCase = registerUseCase
         self.configurationUseCase = configurationUseCase

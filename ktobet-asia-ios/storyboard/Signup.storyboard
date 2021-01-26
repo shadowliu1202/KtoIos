@@ -765,7 +765,6 @@ john.doe@higgstar.com
                         <outlet property="scrollView" destination="cWF-VY-9lH" id="wDd-Ud-Qet"/>
                         <outlet property="viewSendOtpTip" destination="r5D-WN-HJ2" id="LUY-en-gbt"/>
                         <segue destination="SAq-wu-ybv" kind="unwind" identifier="BackToUserInfo" unwindAction="backToUserInfoWithSegue:" id="xOA-2i-qU1"/>
-                        <segue destination="cIM-ka-iAc" kind="show" identifier="GoToDefault" id="7cU-eX-MaJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gJC-ld-pI0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -956,7 +955,6 @@ john.doe@higgstar.com
                         <outlet property="viewErrTip" destination="sl0-uC-YJk" id="rMh-Zr-66E"/>
                         <outlet property="viewStatusTip" destination="hOu-dQ-nhy" id="36G-Uz-LFz"/>
                         <segue destination="hgK-Ah-e2s" kind="unwind" identifier="BackToUserInfo" unwindAction="backToUserInfoWithSegue:" id="pj8-79-Lzv"/>
-                        <segue destination="cIM-ka-iAc" kind="show" identifier="GoToDefault" id="eEu-kh-kDn"/>
                         <segue destination="ZeR-aa-VRx" kind="show" identifier="GoToFail" id="Crf-Fp-uSp"/>
                     </connections>
                 </viewController>
@@ -1059,16 +1057,6 @@ john.doe@higgstar.com
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WGv-Lf-ccn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4142" y="-977"/>
-        </scene>
-        <!--Default-->
-        <scene sceneID="Cfl-37-u1R">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Lobby" referencedIdentifier="Default" id="cIM-ka-iAc" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="mDW-BZ-TTE"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lTQ-h5-9YE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4790" y="-405"/>
         </scene>
         <!--Terms Of Service View Controller-->
         <scene sceneID="DWc-pd-Sjg">
@@ -1269,9 +1257,6 @@ john.doe@higgstar.com
             <point key="canvasLocation" x="921.73913043478262" y="112.5"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="eEu-kh-kDn"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="Back" width="24" height="24"/>
         <image name="Close" width="24" height="24"/>

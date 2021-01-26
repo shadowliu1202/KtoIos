@@ -1,15 +1,7 @@
-//
-//  DefaultSettingViewController.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/3.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
 import share_bu
-
 
 struct DefaultProductItem {
     var name = ""
@@ -21,7 +13,6 @@ struct DefaultProductItem {
 }
 
 class DefaultProductViewController: UIViewController {
-
     @IBOutlet private weak var btnIgnore: UIBarButtonItem!
     @IBOutlet private weak var btnInfo : UIButton!
     @IBOutlet private weak var labTitle : UILabel!
@@ -72,7 +63,6 @@ class DefaultProductViewController: UIViewController {
         defaultStyle()
     }
     
-
     // MARK: METHOD
     private func localize(){
         btnIgnore.title = Localize.string("common_skip")
@@ -93,7 +83,7 @@ class DefaultProductViewController: UIViewController {
             .subscribeOn(MainScheduler.instance)
             .subscribe(onSuccess: { player in
                 DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: self.segueLobby, sender: player)
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "SBKNavigationController")
                 }
             }, onError: { error in
                 self.handleUnknownError(error)
@@ -101,7 +91,6 @@ class DefaultProductViewController: UIViewController {
     }
     
     @IBAction func btnNextPressed(_ sender : UIButton){
-        
         guard let item = games.filter({ (element) -> Bool in return element.selected }).first else {
             return
         }
@@ -119,16 +108,6 @@ class DefaultProductViewController: UIViewController {
         let title = Localize.string("common_tip_title_warm")
         let message = Localize.string("accountinfo_defaultproduct_description")
         Alert.show(title, message, confirm: nil, cancel: nil)
-    }
-}
-
-// MARK: PAGE CHANGE
-extension DefaultProductViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let lobby = segue.destination as? LobbyViewController,
-           let player = sender as? Player{
-            lobby.player = player
-        }
     }
 }
 

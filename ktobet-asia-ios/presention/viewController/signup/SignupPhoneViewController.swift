@@ -225,20 +225,10 @@ class SignupPhoneViewController: UIViewController {
         viewModel
             .otpVerify()
             .subscribe(onSuccess: {player in
-                self.goToLobby(player)
+                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
             }, onError: {error in
                 self.handleError(error)
             }).disposed(by: disposeBag)
-    }
-    
-    // MARK: PAGE ACTION
-    private func goToLobby(_ player : Player){
-        let storyboard = UIStoryboard(name: "Lobby", bundle: nil)
-        if let initVc = storyboard.instantiateInitialViewController() as? UINavigationController,
-           let lobby = initVc.viewControllers.first as? LobbyViewController {
-            lobby.player = player
-            UIApplication.shared.keyWindow?.rootViewController = initVc
-        }
     }
 }
 

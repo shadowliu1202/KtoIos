@@ -19,8 +19,8 @@ class LoginViewModel{
         case invalid
     }
     
-    private var usecaseAuth : IAuthenticationUseCase!
-    private var usecaseConfig : IConfigurationUseCase!
+    private var usecaseAuth : AuthenticationUseCase!
+    private var usecaseConfig : ConfigurationUseCase!
     private var accountEdited = false
     private var passwordEdited = false
     private var timerOverLoginLimit : KTOTimer = KTOTimer()
@@ -32,7 +32,7 @@ class LoginViewModel{
     var relayCountDown = BehaviorRelay(value: 0)
     var relayImgCaptcha = BehaviorRelay<UIImage?>(value: nil)
         
-    init(_ authenticationUseCase : IAuthenticationUseCase, _ configurationUseCase : IConfigurationUseCase) {
+    init(_ authenticationUseCase : AuthenticationUseCase, _ configurationUseCase : ConfigurationUseCase) {
         usecaseAuth = authenticationUseCase
         usecaseConfig = configurationUseCase
         relayAccount.accept(usecaseAuth.getRemeberAccount())

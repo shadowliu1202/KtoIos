@@ -1,21 +1,14 @@
-//
-//  IConfigurationUseCase.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/3.
-//
-
 import Foundation
 import share_bu
 import RxSwift
 
-protocol IConfigurationUseCase {
+protocol ConfigurationUseCase {
     func defaultProduct()->Single<ProductType>
     func saveDefaultProduct(_ productType: ProductType)->Completable
     func getPlayerInfo()->Single<Player>
 }
 
-class IConfigurationUseCaseImpl : IConfigurationUseCase{
+class ConfigurationUseCaseImpl : ConfigurationUseCase{
     
     var playerRepo : PlayerRepository!
     

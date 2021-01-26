@@ -1,22 +1,22 @@
-//
-//  LaunchViewModel.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/18.
-//
-
 import Foundation
 import RxSwift
+import share_bu
 
 class LaunchViewModel {
     
-    var usecaseAuth : IAuthenticationUseCase!
+    var authUseCase: AuthenticationUseCase!
+    private var playerUseCase : PlayerDataUseCase!
     
-    init(_ usecaseAuth : IAuthenticationUseCase) {
-        self.usecaseAuth = usecaseAuth
+    init(_ authUseCase: AuthenticationUseCase, playerUseCase: PlayerDataUseCase) {
+        self.authUseCase = authUseCase
+        self.playerUseCase = playerUseCase
     }
     
-    func checkIsLogged()->Single<Bool>{
-        return usecaseAuth.isLogged()
+    func checkIsLogged() -> Single<Bool>{
+        return authUseCase.isLogged()
+    }
+    
+    func loadPlayerInfo() -> Single<Player> {
+        return self.playerUseCase.loadPlayer()
     }
 }

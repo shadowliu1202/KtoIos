@@ -13,9 +13,9 @@ import share_bu
 class DefaultProductViewModel {
     
     private var disposeBag = DisposeBag()
-    private var usecaseConfig : IConfigurationUseCase!
+    private var usecaseConfig : ConfigurationUseCase!
 
-    init(_ usecaseConfig : IConfigurationUseCase) {
+    init(_ usecaseConfig : ConfigurationUseCase) {
         self.usecaseConfig = usecaseConfig
     }
     

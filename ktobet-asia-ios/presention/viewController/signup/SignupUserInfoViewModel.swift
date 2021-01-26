@@ -32,7 +32,7 @@ class SignupUserInfoViewModel {
         case doNothing
     }
     
-    private var usecaseRegister : IRegisterUseCase!
+    private var usecaseRegister : RegisterUseCase!
     private var usecaseSystemStatus : GetSystemStatusUseCase!
     
     private var phoneEdited = false
@@ -48,7 +48,7 @@ class SignupUserInfoViewModel {
     var relayAccountType = BehaviorRelay(value: AccountType.phone)
     var locale : SupportLocale = SupportLocale.China()
     
-    init(_ usecaseRegister : IRegisterUseCase, _ usecaseSystem : GetSystemStatusUseCase) {
+    init(_ usecaseRegister : RegisterUseCase, _ usecaseSystem : GetSystemStatusUseCase) {
         self.usecaseRegister = usecaseRegister
         self.usecaseSystemStatus = usecaseSystem
     }
