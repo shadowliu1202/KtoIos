@@ -22,14 +22,12 @@ class LoginViewController: UIViewController {
     @IBOutlet private weak var textPassword : InputPassword!
     @IBOutlet private weak var labPasswordErr : UILabel!
     @IBOutlet private weak var btnRememberMe : UIButton!
-    
     @IBOutlet private weak var viewCaptcha : UIView!
     @IBOutlet private weak var viewCaptchaTipBg : UIView!
     @IBOutlet private weak var labCaptchaTip : UILabel!
     @IBOutlet private weak var textCaptcha : InputText!
     @IBOutlet private weak var imgCaptcha : UIImageView!
     @IBOutlet private weak var btnResendCaptcha : UIButton!
-    
     @IBOutlet private weak var btnLogin : UIButton!
     @IBOutlet private weak var btnResetPassword : UIButton!
     @IBOutlet private weak var constraintLoginErrorHeight : NSLayoutConstraint!
@@ -42,7 +40,6 @@ class LoginViewController: UIViewController {
     private let heightCaptchaView = CGFloat(257)
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(LoginViewModel.self)!
-    
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -191,7 +188,7 @@ class LoginViewController: UIViewController {
                 }(), for: .normal)
             })
             .disposed(by: disposeBag)
-
+        
     }
     
     // MARK: ERROR
@@ -262,7 +259,18 @@ class LoginViewController: UIViewController {
             .loginFrom(isRememberMe : btnRememberMe.isSelected)
             .subscribeOn(MainScheduler.instance)
             .subscribe(onSuccess: {player in
-                self.goToLobby(player)
+                switch player.defaultProduct {
+                case ProductType.casino:
+                    print("Go to casino")
+                case ProductType.sbk:
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "SBKNavigationController")
+                case ProductType.slot:
+                    print("Go to slot")
+                case ProductType.numbergame:
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "NumberGameNavigationController")
+                default:
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
+                }
             }, onError: {error in
                 self.handleError(error: error )
             }).disposed(by: disposeBag)
@@ -286,14 +294,6 @@ class LoginViewController: UIViewController {
             if vc.changePasswordSuccess {
                 toastView.show(statusTip: Localize.string("login_resetpassword_success"), img: UIImage(named: "Success"))
             }
-        }
-    }
-    private func goToLobby(_ player : Player){
-        let storyboard = UIStoryboard(name: "Lobby", bundle: nil)
-        if let initVc = storyboard.instantiateInitialViewController() as? UINavigationController,
-           let lobby = initVc.viewControllers.first as? LobbyViewController {
-            lobby.player = player
-            UIApplication.shared.keyWindow?.rootViewController = initVc
         }
     }
 }
