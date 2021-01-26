@@ -1,15 +1,8 @@
-//
-//  IAuthenticationUseCase.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/4.
-//
-
 import Foundation
 import share_bu
 import RxSwift
 
-protocol IAuthenticationUseCase {
+protocol AuthenticationUseCase {
     func loginFrom(account: String, pwd: String, captcha: Captcha)->Single<Player>
     func logout()->Completable
     func isLogged()->Single<Bool>
@@ -22,7 +15,7 @@ protocol IAuthenticationUseCase {
     func setNeedCaptcha(_ needCaptcha : Bool?)
 }
 
-class IAuthenticationUseCaseImpl : IAuthenticationUseCase {
+class AuthenticationUseCaseImpl : AuthenticationUseCase {
     
     private var repoAuth : IAuthRepository!
     private var repoPlayer : PlayerRepository!

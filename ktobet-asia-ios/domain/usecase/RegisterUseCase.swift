@@ -1,22 +1,15 @@
-//
-//  IRegisterUseCase.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/10/29.
-//
-
 import Foundation
 import share_bu
 import RxSwift
 
-protocol IRegisterUseCase  {
+protocol RegisterUseCase  {
     func register(account: UserAccount, password: UserPassword, locale: SupportLocale) -> Completable
     func loginFrom(otp: String)-> Single<Player>
     func checkAccountVerification(_ account : String)-> Single<Bool>
     func resendRegisterOtp()->Completable
 }
 
-class IRegisterUseCaseImpl: IRegisterUseCase {
+class RegisterUseCaseImpl: RegisterUseCase {
 
     var repoAuth : IAuthRepository!
     var repoPlayer : PlayerRepository!

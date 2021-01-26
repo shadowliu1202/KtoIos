@@ -104,18 +104,24 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func dataBinding() {
-        if let player = player {
-            labUserLevel.text = "LV\(player.playerInfo.level)"
-            labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
-            labUserName.text = "\(player.playerInfo.realName)"
-        }
-        
-        viewModel.getBalance().subscribe(onNext: {[unowned self] balance in
+        viewModel.loadPlayerInfo().subscribe {[weak self] (player) in
+            self?.labUserLevel.text = "LV\(player.playerInfo.level)"
+            self?.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
+            self?.labUserName.text = "\(player.playerInfo.realName)"
+        } onError: { (error) in
+            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
+            toastView.show(on: self.view, statusTip: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"), img: UIImage(named: "Failed"))
+        }.disposed(by: disposeBag)
+                
+        viewModel.getBalance().subscribe {[unowned self] (balance) in
             self.labBalance.text = balance
             self.viewModel.balance = balance
             self.setBalanceHiddenState(isHidden: self.viewModel.getBalanceHiddenState(gameId: self.player?.gameId ?? ""))
-        }).disposed(by: disposeBag)
-        
+        } onError: { (error) in
+            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
+            toastView.show(on: self.view, statusTip: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"), img: UIImage(named: "Failed"))
+        }.disposed(by: disposeBag)
+
         slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
             cell.setup(data.name.rawValue, image: UIImage(named: data.icon))
         }.disposed(by: disposeBag)
@@ -157,8 +163,7 @@ class SideBarViewController: UIViewController {
                     .subscribeOn(MainScheduler.instance)
                     .subscribe(onCompleted: {
                         Alert.show(Localize.string("common_tip_title_warm"), Localize.string("common_confirm_logout"), confirm: {
-                            let story = UIStoryboard(name: "Login", bundle: nil)
-                            UIApplication.shared.keyWindow?.rootViewController = story.instantiateInitialViewController()
+                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
                         }, cancel: {
                             
                         }, tintColor: UIColor.red)

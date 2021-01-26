@@ -88,20 +88,20 @@ class DIContainer {
         
         let ctner = container
         
-        ctner.register(IRegisterUseCase.self) { (resolver)  in
+        ctner.register(RegisterUseCase.self) { (resolver)  in
             let auth = ctner.resolve(IAuthRepository.self)!
             let player = ctner.resolve(PlayerRepository.self)!
-            return IRegisterUseCaseImpl(auth, player)
+            return RegisterUseCaseImpl(auth, player)
         }
-        ctner.register(IConfigurationUseCase.self) { (resolver) in
+        ctner.register(ConfigurationUseCase.self) { (resolver) in
             let repo = ctner.resolve(PlayerRepository.self)!
-            return IConfigurationUseCaseImpl.init(repo)
+            return ConfigurationUseCaseImpl.init(repo)
         }
-        ctner.register(IAuthenticationUseCase.self) { (resolver)  in
+        ctner.register(AuthenticationUseCase.self) { (resolver)  in
             let repoAuth = ctner.resolve(IAuthRepository.self)!
             let repoPlayer = ctner.resolve(PlayerRepository.self)!
             let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
-            return IAuthenticationUseCaseImpl(repoAuth, repoPlayer, repoLocalStorage)
+            return AuthenticationUseCaseImpl(repoAuth, repoPlayer, repoLocalStorage)
         }
         ctner.register(GetSystemStatusUseCase.self) { (resolver)  in
             let repoSystem = ctner.resolve(SystemRepository.self)!
@@ -130,13 +130,9 @@ class DIContainer {
         let httpclient = httpClient
         
         ctner.register(LaunchViewModel.self) { (resolver)  in
-            let usecaseAuth = ctner.resolve(IAuthenticationUseCase.self)!
-            return LaunchViewModel(usecaseAuth )
-        }
-        ctner.register(LobbyViewModel.self) { (resolver) in
-            let usecaseAuth = ctner.resolve(IAuthenticationUseCase.self)!
-            let usecaseConfig = ctner.resolve(IConfigurationUseCase.self)!
-            return LobbyViewModel.init(usecaseAuth, usecaseConfig)
+            let usecaseAuth = ctner.resolve(AuthenticationUseCase.self)!
+            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
+            return LaunchViewModel(usecaseAuth, playerUseCase: playerUseCase)
         }
         ctner.register(TestViewModel.self) { (resolver) in
             let gameRepo = ctner.resolve(GameInfoRepository.self)!
@@ -144,27 +140,27 @@ class DIContainer {
             return TestViewModel(gameRepo, csRepo, httpclient)
         }
         ctner.register(LoginViewModel.self) { resolver  in
-            let usecaseAuthentication = ctner.resolve(IAuthenticationUseCase.self)!
-            let usecaseConfiguration = ctner.resolve(IConfigurationUseCase.self)!
+            let usecaseAuthentication = ctner.resolve(AuthenticationUseCase.self)!
+            let usecaseConfiguration = ctner.resolve(ConfigurationUseCase.self)!
             return LoginViewModel(usecaseAuthentication, usecaseConfiguration)
         }
         ctner.register(SignupUserInfoViewModel.self){ resolver in
-            let registerUseCase = ctner.resolve(IRegisterUseCase.self)!
+            let registerUseCase = ctner.resolve(RegisterUseCase.self)!
             let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
             return SignupUserInfoViewModel(registerUseCase, systemUseCase)
         }
         ctner.register(SignupPhoneViewModel.self) { resolver in
-            let usecase = ctner.resolve(IRegisterUseCase.self)!
+            let usecase = ctner.resolve(RegisterUseCase.self)!
             return SignupPhoneViewModel(usecase)
         }
         ctner.register(SignupEmailViewModel.self) { resolver in
-            let usecaseRegister = ctner.resolve(IRegisterUseCase.self)!
-            let usecaseConfiguration = ctner.resolve(IConfigurationUseCase.self)!
-            let usecaseAuthentication = ctner.resolve(IAuthenticationUseCase.self)!
+            let usecaseRegister = ctner.resolve(RegisterUseCase.self)!
+            let usecaseConfiguration = ctner.resolve(ConfigurationUseCase.self)!
+            let usecaseAuthentication = ctner.resolve(AuthenticationUseCase.self)!
             return SignupEmailViewModel(usecaseRegister, usecaseConfiguration, usecaseAuthentication)
         }
         ctner.register(DefaultProductViewModel.self) { resolver in
-            let usecase = ctner.resolve(IConfigurationUseCase.self)!
+            let usecase = ctner.resolve(ConfigurationUseCase.self)!
             return DefaultProductViewModel(usecase)
         }
         ctner.register(ResetPasswordViewModel.self) { resolver  in
@@ -178,7 +174,7 @@ class DIContainer {
         }
         ctner.register(PlayerViewModel.self) { (resolver) in
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
-            let authUseCase = ctner.resolve(IAuthenticationUseCase.self)!
+            let authUseCase = ctner.resolve(AuthenticationUseCase.self)!
             return PlayerViewModel(playerUseCase: playerUseCase, authUsecase: authUseCase)
         }
     }

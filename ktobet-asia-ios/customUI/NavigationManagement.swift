@@ -8,6 +8,7 @@ class NavigationManagement {
     private var viewControllers: [String: UIViewController] = [:]
 
     static let sharedInstance = NavigationManagement()
+    
     private init() { }
     
     func addMenuToBarButtonItem(vc: UIViewController) {
@@ -32,6 +33,10 @@ class NavigationManagement {
     }
     
     func goTo(storyboard name: String, viewControllerId: String){
+        if name == "Login" && viewControllerId == "LoginNavigation" {
+            clean()
+        }
+        
         if !viewControllers.keys.contains(viewControllerId) {
             viewControllers[viewControllerId] =  UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
         }
@@ -42,5 +47,9 @@ class NavigationManagement {
         
         viewController = viewControllers[viewControllerId]
         UIApplication.shared.keyWindow?.rootViewController = viewControllers[viewControllerId]
+    }
+    
+    private func clean() {
+        viewControllers = [:]
     }
 }

@@ -35,4 +35,23 @@ class ToastView: UIView {
             self.xibView.removeFromSuperview()
         }
     }
+    
+    func show(on view: UIView, statusTip: String, img: UIImage?) {
+        xibView.isHidden = false
+        labStatusTip.text = statusTip
+        imgStatusTip.image = img
+        xibView.backgroundColor = UIColor.red
+        view.addSubview(xibView)
+        
+        xibView.translatesAutoresizingMaskIntoConstraints = false
+        xibView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        xibView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        xibView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        xibView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.xibView.removeFromSuperview()
+        }
+    }
+
 }

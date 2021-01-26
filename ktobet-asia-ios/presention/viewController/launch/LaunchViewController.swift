@@ -1,12 +1,6 @@
-//
-//  LaunchViewController.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/18.
-//
-
 import UIKit
 import RxSwift
+import share_bu
 
 class LaunchViewController : UIViewController{
     
@@ -18,25 +12,34 @@ class LaunchViewController : UIViewController{
         DispatchQueue.main.asyncAfter(deadline: .now() ) { [self] in
             self.viewModel
                 .checkIsLogged()
-                .subscribe(onSuccess: {isLogged in
+                .subscribe { (isLogged) in
                     self.nextPage(isLogged: isLogged)
-                }, onError: {error in
+                } onError: { (error) in
                     self.nextPage(isLogged: false)
-                }).disposed(by: self.disposeBag)
+                }.disposed(by: disposeBag)
         }
     }
     
     func nextPage(isLogged : Bool){
-        
-        let story : UIStoryboard = {
-            if isLogged { return UIStoryboard.init(name: "Lobby", bundle: nil)}
-            else { return UIStoryboard.init(name: "Login", bundle: nil) }
-        }()
-        if let nav = story.instantiateInitialViewController() as? UINavigationController{
-            if nav.viewControllers.first is LobbyViewController ||
-               nav.viewControllers.first is LoginViewController{
-                UIApplication.shared.keyWindow?.rootViewController = nav
-            }
+        if isLogged {
+            viewModel.loadPlayerInfo().subscribe { (player) in
+                switch player.defaultProduct {
+                case ProductType.casino:
+                    print("Go to casino")
+                case ProductType.sbk:
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "SBKNavigationController")
+                case ProductType.slot:
+                    print("Go to slot")
+                case ProductType.numbergame:
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "NumberGameNavigationController")
+                default:
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
+                }
+            } onError: { (error) in
+                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+            }.disposed(by: disposeBag)
+        } else {
+            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
         }
     }
     

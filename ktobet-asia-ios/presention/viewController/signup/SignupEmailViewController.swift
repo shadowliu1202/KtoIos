@@ -207,7 +207,8 @@ class SignupEmailViewController: UIViewController {
                 .checkRegistration(account, password)
                 .subscribe(onSuccess: { valid in
                     switch valid{
-                    case .valid(let player): self.goToLobby(player)
+                    case .valid:
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
                     default:
                         self.checking = false
                         if manual {
@@ -283,16 +284,6 @@ class SignupEmailViewController: UIViewController {
     @objc private func btnQatCancelAutoVerifyPressed(_ sender : UIButton){
         sender.isSelected = !sender.isSelected
         verifyTimer(launch: !sender.isSelected)
-    }
-    
-    // MARK: PAGE ACTION
-    private func goToLobby(_ player : Player){
-        let storyboard = UIStoryboard(name: "Lobby", bundle: nil)
-        if let initVc = storyboard.instantiateInitialViewController() as? UINavigationController,
-           let lobby = initVc.viewControllers.first as? LobbyViewController {
-            lobby.player = player
-            UIApplication.shared.keyWindow?.rootViewController = initVc
-        }
     }
 }
 

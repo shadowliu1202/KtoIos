@@ -12,7 +12,7 @@
         <!--Navigation Controller-->
         <scene sceneID="tdA-BR-Lgr">
             <objects>
-                <navigationController id="hyQ-QW-T94" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="LoginNavigation" id="hyQ-QW-T94" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="hTd-Tk-jCd">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -322,7 +322,6 @@
                         <outlet property="viewLoginErr" destination="mXm-3w-mWf" id="ZGJ-J9-FUn"/>
                         <outlet property="viewLoginErrBg" destination="fbA-a4-RWY" id="O7U-Cp-cdl"/>
                         <segue destination="Hwk-qb-uGL" kind="presentation" identifier="GoToSignup" id="1UM-Ga-wUH"/>
-                        <segue destination="5rz-h1-Lzo" kind="presentation" identifier="GoToLobby" id="WOF-nc-NKP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cjq-Zt-ujh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -336,14 +335,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nZi-Go-lBc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="967" y="41"/>
-        </scene>
-        <!--Lobby-->
-        <scene sceneID="fiC-Wu-pr7">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Lobby" id="5rz-h1-Lzo" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xnN-8T-UKi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="970" y="207"/>
         </scene>
         <!--ResetPassword-->
         <scene sceneID="Fnm-8T-DcI">

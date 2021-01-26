@@ -22,9 +22,9 @@ class SignupPhoneViewModel{
     var code6 = BehaviorRelay(value: "")
     
     private var failCount = 0
-    private var registerUseCase : IRegisterUseCase!
+    private var registerUseCase : RegisterUseCase!
     
-    init(_ registerUseCase : IRegisterUseCase) {
+    init(_ registerUseCase : RegisterUseCase) {
         self.registerUseCase = registerUseCase
     }
         
