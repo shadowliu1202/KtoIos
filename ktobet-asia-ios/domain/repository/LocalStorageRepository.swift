@@ -1,59 +1,99 @@
-//
-//  LocalStorageRepository.swift
-//  ktobet-asia-ios
-//
-//  Created by Patrick.chen on 2021/1/21.
-//
-
 import Foundation
 
 class LocalStorageRepository{
     
     let kRememberAccount = "rememberAccount"
+    let kRememberPassword = "rememberPassword"
     let kLastOverLoginLimitDate = "overLoginLimit"
     let kNeedCaptcha = "needCaptcha"
     let kRememberMe = "rememberMe"
+    let kRetryCount = "retryCount"
+    let kOtpRetryCount = "otpRetryCount"
+    let kCountDownEndTime = "countDownEndTime"
     
     func getRememberMe()-> Bool{
-        return UserDefaults.standard.bool(forKey: kRememberMe)
+        return getUserDefaultValue(key: kRememberMe) ?? false
     }
     
     func getRemeberAccount()->String{
-        return UserDefaults.standard.string(forKey: kRememberAccount) ?? ""
+        return getUserDefaultValue(key: kRememberAccount) ?? ""
+    }
+    
+    func getRememberPassword()->String{
+        return getUserDefaultValue(key: kRememberPassword) ?? ""
     }
     
     func getLastOverLoginLimitDate()->Date{
-        guard let date = UserDefaults.standard.object(forKey: kLastOverLoginLimitDate) as? Date else{
-            return Date()
-        }
-        return date
+        return getUserDefaultValue(key: kLastOverLoginLimitDate) ?? Date()
     }
     
     func getNeedCaptcha()->Bool{
-        return UserDefaults.standard.bool(forKey: kNeedCaptcha)
+        return getUserDefaultValue(key: kNeedCaptcha) ?? false
+    }
+    
+    func getRetryCount() -> Int {
+        return getUserDefaultValue(key: kRetryCount) ?? 0
+    }
+    
+    func getOtpRetryCount() -> Int {
+        return getUserDefaultValue(key: kOtpRetryCount) ?? 0
+    }
+    
+    func getCountDownEndTime() -> Date? {
+        return getUserDefaultValue(key: kCountDownEndTime)
+    }
+    
+    func getBalanceHiddenState(gameId: String) -> Bool {
+        return getUserDefaultValue(key: gameId) ?? false
     }
     
     func setRememberMe(_ rememberMe : Bool?){
-        if rememberMe == nil { UserDefaults.standard.removeObject(forKey: kRememberMe) }
-        else { UserDefaults.standard.setValue(rememberMe, forKey: kRememberMe) }
-        UserDefaults.standard.synchronize()
+        setUserDefaultValue(value: rememberMe, key: kRememberMe)
     }
     
     func setRemeberAccount(_ rememberAccount : String?){
-        if rememberAccount == nil{ UserDefaults.standard.removeObject(forKey: kRememberAccount)}
-        else { UserDefaults.standard.setValue(rememberAccount, forKey: kRememberAccount)}
-        UserDefaults.standard.synchronize()
+        setUserDefaultValue(value: rememberAccount, key: kRememberAccount)
+    }
+    
+    func setRememberPassword(_ rememberPassword : String?){
+        setUserDefaultValue(value: rememberPassword, key: kRememberPassword)
     }
     
     func setLastOverLoginLimitDate(_ lastOverLoginLimitDate : Date?){
-        if lastOverLoginLimitDate == nil { UserDefaults.standard.removeObject(forKey: kLastOverLoginLimitDate)}
-        else { UserDefaults.standard.setValue(lastOverLoginLimitDate, forKey: kLastOverLoginLimitDate)}
-        UserDefaults.standard.synchronize()
+        setUserDefaultValue(value: lastOverLoginLimitDate, key: kLastOverLoginLimitDate)
     }
     
     func setNeedCaptcha(_ needCaptcha : Bool?){
-        if needCaptcha == nil { UserDefaults.standard.removeObject(forKey: kNeedCaptcha)}
-        else { UserDefaults.standard.setValue(needCaptcha, forKey: kNeedCaptcha)}
+        setUserDefaultValue(value: needCaptcha, key: kNeedCaptcha)
+    }
+    
+    func setRetryCount(_ count: Int) {
+        setUserDefaultValue(value: count, key: kRetryCount)
+    }
+    
+    func setOtpRetryCount(_ count: Int) {
+        setUserDefaultValue(value: count, key: kOtpRetryCount)
+    }
+    
+    func setCountDownEndTime(date: Date?) {
+        setUserDefaultValue(value: date, key: kCountDownEndTime)
+    }
+    
+    func setBalanceHiddenState(isHidden: Bool, gameId: String) {
+        setUserDefaultValue(value: isHidden, key: gameId)
+    }
+    
+    private func setUserDefaultValue<T>(value: T?, key: String) {
+        if value == nil { UserDefaults.standard.removeObject(forKey: key)}
+        else { UserDefaults.standard.setValue(value, forKey: key)}
         UserDefaults.standard.synchronize()
+    }
+    
+    private func getUserDefaultValue<T>(key: String) -> T? {
+        guard let value = UserDefaults.standard.object(forKey: key) as? T else{
+            return nil
+        }
+        
+        return value
     }
 }

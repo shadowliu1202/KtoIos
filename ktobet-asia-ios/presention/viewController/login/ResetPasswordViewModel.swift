@@ -10,8 +10,8 @@ class ResetPasswordViewModel {
     static let retryCountDownTime = 60
     static let resendOtpCountDownSecond: Double = 180
     static let resetPasswordStep2CountDownSecond: Double = 600
-    private var resetService : ResetPasswordUseCase!
-    private var systemService : GetSystemStatusUseCase!
+    private var resetUseCase : ResetPasswordUseCase!
+    private var systemUseCase : GetSystemStatusUseCase!
     private var phoneEdited = false
     private var mailEdited = false
     private var passwordEdited = false
@@ -24,26 +24,26 @@ class ResetPasswordViewModel {
     var remainTime = 0
     var retryCount: Int {
         get {
-            return (UserDefaults.standard.object(forKey: "retryCount") as? Int) ?? 0
+            return resetUseCase.getRetryCount()
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "retryCount")
+            resetUseCase.setRetryCount(count: newValue)
         }
     }
     var otpRetryCount: Int {
         get {
-            return (UserDefaults.standard.object(forKey: "otpRetryCount") as? Int) ?? 0
+            return resetUseCase.getOtpRetryCount()
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "otpRetryCount")
+            resetUseCase.setOtpRetryCount(count: newValue)
         }
     }
     var countDownEndTime: Date? {
         get {
-            return UserDefaults.standard.object(forKey: "countDownEndTime") as? Date
+            return resetUseCase.getCountDownEndTime()
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "countDownEndTime")
+            resetUseCase.setCountDownEndTime(date: newValue)
         }
     }
     var code1 = BehaviorRelay(value: "")
@@ -53,9 +53,9 @@ class ResetPasswordViewModel {
     var code5 = BehaviorRelay(value: "")
     var code6 = BehaviorRelay(value: "")
     
-    init(_ authenticationUseCase : ResetPasswordUseCase, _ usecaseSystem : GetSystemStatusUseCase) {
-        self.resetService = authenticationUseCase
-        self.systemService = usecaseSystem
+    init(_ resetUseCase : ResetPasswordUseCase, _ systemUseCase : GetSystemStatusUseCase) {
+        self.resetUseCase = resetUseCase
+        self.systemUseCase = systemUseCase
     }
     
     func currentAccountType()->AccountType{
@@ -97,7 +97,7 @@ class ResetPasswordViewModel {
             }
         
         let typeChange = relayAccountType.asObservable()
-        let otpValid = systemService
+        let otpValid = systemUseCase
             .getOtpStatus()
             .asObservable()
             .concatMap { otpStatus  in
@@ -145,7 +145,7 @@ class ResetPasswordViewModel {
     func requestPasswordReset() -> Completable {
         let account = relayAccountType.value == .phone ? Account.Phone.init(phone: relayMobile.value, locale: locale) :
             Account.Email(email: relayEmail.value)
-        return resetService.forgetPassword(account: account)
+        return resetUseCase.forgetPassword(account: account)
     }
     
     func inputLocale(_ locale: SupportLocale){
@@ -170,14 +170,14 @@ class ResetPasswordViewModel {
             code += c.value
         }
         
-        return resetService.verifyResetOtp(otp: code)
+        return resetUseCase.verifyResetOtp(otp: code)
     }
     
     func resendOtp() -> Completable {
-        return resetService.resendOtp()
+        return resetUseCase.resendOtp()
     }
     
     func doResetPassword() -> Completable {
-        return resetService.resetPassword(password: relayPassword.value)
+        return resetUseCase.resetPassword(password: relayPassword.value)
     }
 }

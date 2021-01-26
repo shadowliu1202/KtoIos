@@ -109,7 +109,8 @@ class DIContainer {
         }
         ctner.register(ResetPasswordUseCase.self) { (resolver)  in
             let repoSystem = ctner.resolve(ResetPasswordRepository.self)!
-            return ResetPasswordUseCaseImpl(repoSystem)
+            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            return ResetPasswordUseCaseImpl(repoSystem, localRepository: repoLocal)
         }
         ctner.register(SystemSignalRUseCase.self) { (resolver)  in
             let repoSystem = ctner.resolve(SystemSignalRepository.self)!
@@ -117,7 +118,8 @@ class DIContainer {
         }
         ctner.register(PlayerDataUseCase.self) { (resolver)  in
             let repoPlayer = ctner.resolve(PlayerRepository.self)!
-            return PlayerDataUseCaseImpl(repoPlayer)
+            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            return PlayerDataUseCaseImpl(repoPlayer, localRepository: repoLocal)
         }
         
     }
