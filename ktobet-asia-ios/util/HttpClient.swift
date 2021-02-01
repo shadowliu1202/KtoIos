@@ -26,7 +26,13 @@ class HttpClient {
     
     let provider : MoyaProvider<MultiTarget>!
     var session : Session { return AF}
-    var host : String { return "https://qat1-mobile.affclub.xyz/"}
+    var host : String {
+        #if QATv
+        return "https://v-qat1-mobile.affclub.xyz/"
+        #else
+        return "https://qat1-mobile.affclub.xyz/"
+        #endif
+    }
 //    var host : String { return "https://qat1.pivotsite.com/"}
     var baseUrl : URL { return URL(string: self.host)!}
     var headers : [String : String] {
