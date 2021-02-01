@@ -239,11 +239,152 @@
 		48AAA163256E458800E075CA /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FB255CEB87002EA837 /* Util.swift */; };
 		48AAA164256E458800E075CA /* ConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093808255CEB88002EA837 /* ConnectionDelegate.swift */; };
 		48AAA165256E458800E075CA /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
-		48AAA168256E458800E075CA /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		48AAA168256E458800E075CA /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		48AAA173256E458800E075CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485DF04425415454001F9D4A /* Assets.xcassets */; };
 		48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
 		48FDF3692591ECB000C3AE75 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
 		6008F15B25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6008F15A25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift */; };
+		605AC70025C019F800873D63 /* Deposit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 605AC6FF25C019F800873D63 /* Deposit.storyboard */; };
+		605AC70125C019F800873D63 /* Deposit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 605AC6FF25C019F800873D63 /* Deposit.storyboard */; };
+		605AC71725C023CC00873D63 /* DepositViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC71625C023CC00873D63 /* DepositViewController.swift */; };
+		605AC71825C023CC00873D63 /* DepositViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC71625C023CC00873D63 /* DepositViewController.swift */; };
+		605AC72025C024AB00873D63 /* DepositTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC71F25C024AB00873D63 /* DepositTypeTableViewCell.swift */; };
+		605AC72125C024AB00873D63 /* DepositTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC71F25C024AB00873D63 /* DepositTypeTableViewCell.swift */; };
+		605AC72725C0FE5900873D63 /* DepositRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC72625C0FE5900873D63 /* DepositRecordTableViewCell.swift */; };
+		605AC72825C0FE5900873D63 /* DepositRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC72625C0FE5900873D63 /* DepositRecordTableViewCell.swift */; };
+		605AC73125C115BF00873D63 /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
+		605AC73225C115BF00873D63 /* SystemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC20625B142C200180147 /* SystemViewModel.swift */; };
+		605AC73325C115BF00873D63 /* HubConnectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F6255CEB87002EA837 /* HubConnectionBuilder.swift */; };
+		605AC73425C115BF00873D63 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */; };
+		605AC73525C115BF00873D63 /* SBKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2CA25BEC43000A9342D /* SBKViewController.swift */; };
+		605AC73625C115BF00873D63 /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
+		605AC73725C115BF00873D63 /* SlideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */; };
+		605AC73825C115BF00873D63 /* SMSVerifyCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */; };
+		605AC73925C115BF00873D63 /* InputPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD97F25A41BE6003244B1 /* InputPassword.swift */; };
+		605AC73A25C115BF00873D63 /* InputConfirmPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486CD98325A41C0F003244B1 /* InputConfirmPassword.swift */; };
+		605AC73B25C115BF00873D63 /* PlayerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487EC4C325553A2200BA8B8E /* PlayerRepository.swift */; };
+		605AC73C25C115BF00873D63 /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */; };
+		605AC73D25C115BF00873D63 /* NavigationManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2C325BEBECA00A9342D /* NavigationManagement.swift */; };
+		605AC73E25C115BF00873D63 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D986A25A5CC2E00634197 /* DateExtension.swift */; };
+		605AC73F25C115BF00873D63 /* AuthenticationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718155255E829C007B7764 /* AuthenticationApi.swift */; };
+		605AC74025C115BF00873D63 /* NumberGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2D525BECEDE00A9342D /* NumberGameViewController.swift */; };
+		605AC74125C115BF00873D63 /* PlayerApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718163255E9A5C007B7764 /* PlayerApi.swift */; };
+		605AC74225C115BF00873D63 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359994EE259D7A600020EF5A /* UIButtonExtension.swift */; };
+		605AC74325C115BF00873D63 /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483F42BA258C41A90091960B /* UIWindowExtension.swift */; };
+		605AC74425C115BF00873D63 /* HttpClientBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093855255D0864002EA837 /* HttpClientBack.swift */; };
+		605AC74525C115BF00873D63 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48339D40255A60E500AE6715 /* TestViewModel.swift */; };
+		605AC74625C115BF00873D63 /* SignalRError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093807255CEB88002EA837 /* SignalRError.swift */; };
+		605AC74725C115BF00873D63 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2D325B7D2F200C56D6E /* DoubleExtension.swift */; };
+		605AC74825C115BF00873D63 /* CodableHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093802255CEB87002EA837 /* CodableHelpers.swift */; };
+		605AC74925C115BF00873D63 /* HttpConnectionOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093810255CEB88002EA837 /* HttpConnectionOptions.swift */; };
+		605AC74A25C115BF00873D63 /* KTOTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4870F49A25A6A9350052EE60 /* KTOTimer.swift */; };
+		605AC74B25C115BF00873D63 /* TransportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380A255CEB88002EA837 /* TransportType.swift */; };
+		605AC74C25C115BF00873D63 /* ResetPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */; };
+		605AC74D25C115BF00873D63 /* CustomServiceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E9F472564D2F6000447F3 /* CustomServiceApi.swift */; };
+		605AC74E25C115BF00873D63 /* ReactiveExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A005672594851000C7F1FB /* ReactiveExtension.swift */; };
+		605AC74F25C115BF00873D63 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
+		605AC75025C115BF00873D63 /* EncodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4856CF7825624FB50086AC31 /* EncodableExtension.swift */; };
+		605AC75125C115BF00873D63 /* ResetPasswordStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607D1C5B25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift */; };
+		605AC75225C115BF00873D63 /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488F98182542CEB200D5829D /* TermsOfServiceViewController.swift */; };
+		605AC75325C115BF00873D63 /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B396259B028800050914 /* ResetPasswordViewModel.swift */; };
+		605AC75425C115BF00873D63 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
+		605AC75525C115BF00873D63 /* StreamHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F8255CEB87002EA837 /* StreamHandle.swift */; };
+		605AC75625C115BF00873D63 /* CustomServiceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093850255D053F002EA837 /* CustomServiceRepository.swift */; };
+		605AC75725C115BF00873D63 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380D255CEB88002EA837 /* Connection.swift */; };
+		605AC75825C115BF00873D63 /* DefaultTransportFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093803255CEB87002EA837 /* DefaultTransportFactory.swift */; };
+		605AC75925C115BF00873D63 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48EDC9682564EE6D0046C337 /* LaunchViewController.swift */; };
+		605AC75A25C115BF00873D63 /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48EDC96C2564EE8D0046C337 /* LaunchViewModel.swift */; };
+		605AC75B25C115BF00873D63 /* SignupEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485888E8254BC8E500B7FE03 /* SignupEmailViewController.swift */; };
+		605AC75C25C115BF00873D63 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F7255CEB87002EA837 /* Logger.swift */; };
+		605AC75D25C115BF00873D63 /* WebsocketsTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FC255CEB87002EA837 /* WebsocketsTransport.swift */; };
+		605AC75E25C115BF00873D63 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */; };
+		605AC75F25C115BF00873D63 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6089834B25AFD13800BE28BB /* ToastView.swift */; };
+		605AC76025C115BF00873D63 /* LocalizeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4840645B25871D760064AAC9 /* LocalizeUtils.swift */; };
+		605AC76125C115BF00873D63 /* SocketTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48685E6525593EED00145552 /* SocketTestViewController.swift */; };
+		605AC76225C115BF00873D63 /* AuthenticationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853B43225527A81001D618E /* AuthenticationUseCase.swift */; };
+		605AC76325C115BF00873D63 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48080255254293510002AD41 /* LoginViewController.swift */; };
+		605AC76425C115BF00873D63 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093806255CEB88002EA837 /* WebSocket.swift */; };
+		605AC76525C115BF00873D63 /* HandshakeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F5255CEB86002EA837 /* HandshakeProtocol.swift */; };
+		605AC76625C115BF00873D63 /* DefaultProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC321E2551432C00C9D1BF /* DefaultProductViewModel.swift */; };
+		605AC76725C115BF00873D63 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC34AF254FFC3C00B89EC5 /* Operators.swift */; };
+		605AC76825C115BF00873D63 /* JSONHubProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093801255CEB87002EA837 /* JSONHubProtocol.swift */; };
+		605AC76925C115BF00873D63 /* SignupPhoneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3448254F9DE400B89EC5 /* SignupPhoneViewModel.swift */; };
+		605AC76A25C115BF00873D63 /* DefaultProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC320825513B1D00C9D1BF /* DefaultProductViewController.swift */; };
+		605AC76B25C115BF00873D63 /* APITarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4854640525675B1C00FF4B72 /* APITarget.swift */; };
+		605AC76C25C115BF00873D63 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489E010F255A3D0F0092C4FD /* ResponseData.swift */; };
+		605AC76D25C115BF00873D63 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFA8254A7A490047ECF9 /* UIColorExtension.swift */; };
+		605AC76E25C115BF00873D63 /* TransferFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093809255CEB88002EA837 /* TransferFormat.swift */; };
+		605AC76F25C115BF00873D63 /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FF255CEB87002EA837 /* HttpResponse.swift */; };
+		605AC77025C115BF00873D63 /* InputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48728919258A08F500D8983B /* InputText.swift */; };
+		605AC77125C115BF00873D63 /* ResetPasswordStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6008F15A25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift */; };
+		605AC77225C115BF00873D63 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488000652553E72800529673 /* SideBarViewController.swift */; };
+		605AC77325C115BF00873D63 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4872891D258A17FB00D8983B /* StringExtension.swift */; };
+		605AC77425C115BF00873D63 /* HubConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380E255CEB88002EA837 /* HubConnection.swift */; };
+		605AC77525C115BF00873D63 /* ProductItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4880006A2553EEBA00529673 /* ProductItemCell.swift */; };
+		605AC77625C115BF00873D63 /* SignupRegistFailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48840C462592065200245706 /* SignupRegistFailViewController.swift */; };
+		605AC77725C115BF00873D63 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380B255CEB88002EA837 /* Transport.swift */; };
+		605AC77825C115BF00873D63 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B110A725664B470067B289 /* HttpClient.swift */; };
+		605AC77925C115BF00873D63 /* ConfigurationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC32312551488F00C9D1BF /* ConfigurationUseCase.swift */; };
+		605AC77A25C115BF00873D63 /* SignupPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFE8254AD1D50047ECF9 /* SignupPhoneViewController.swift */; };
+		605AC77B25C115BF00873D63 /* DefaultProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC3213255141EC00C9D1BF /* DefaultProductCell.swift */; };
+		605AC77C25C115BF00873D63 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853B44A2552A019001D618E /* LoginViewModel.swift */; };
+		605AC77D25C115BF00873D63 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487288E92589E94400D8983B /* UIImageExtension.swift */; };
+		605AC77E25C115BF00873D63 /* TermsOfServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481882362546A558000A45F0 /* TermsOfServiceCell.swift */; };
+		605AC77F25C115BF00873D63 /* DefaultHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FD255CEB87002EA837 /* DefaultHttpClient.swift */; };
+		605AC78025C115BF00873D63 /* HttpConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093805255CEB87002EA837 /* HttpConnection.swift */; };
+		605AC78125C115BF00873D63 /* SystemSignalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC20225B1413200180147 /* SystemSignalRepository.swift */; };
+		605AC78225C115BF00873D63 /* SignupUserInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF0A42541577A001F9D4A /* SignupUserInfoViewModel.swift */; };
+		605AC78325C115BF00873D63 /* NegotiationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F2255CEB86002EA837 /* NegotiationResponse.swift */; };
+		605AC78425C115BF00873D63 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */; };
+		605AC78525C115BF00873D63 /* LocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C605A25B92E12009F7101 /* LocalStorageRepository.swift */; };
+		605AC78625C115BF00873D63 /* ServerInvocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FE255CEB87002EA837 /* ServerInvocationHandler.swift */; };
+		605AC78725C115BF00873D63 /* SignupLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480802652542B7420002AD41 /* SignupLanguageViewController.swift */; };
+		605AC78825C115BF00873D63 /* GameInfoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48339D3C255A48B400AE6715 /* GameInfoRepository.swift */; };
+		605AC78925C115BF00873D63 /* PlayerDataUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */; };
+		605AC78A25C115BF00873D63 /* DepositViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC71625C023CC00873D63 /* DepositViewController.swift */; };
+		605AC78B25C115BF00873D63 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF03B25415453001F9D4A /* AppDelegate.swift */; };
+		605AC78C25C115BF00873D63 /* HubConnectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093800255CEB87002EA837 /* HubConnectionExtensions.swift */; };
+		605AC78D25C115BF00873D63 /* DepositRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC72625C0FE5900873D63 /* DepositRecordTableViewCell.swift */; };
+		605AC78E25C115BF00873D63 /* HubProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FA255CEB87002EA837 /* HubProtocol.swift */; };
+		605AC78F25C115BF00873D63 /* FeatureItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4880006F2553EED700529673 /* FeatureItemCell.swift */; };
+		605AC79025C115BF00873D63 /* SystemSignalRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FC22925B19AE300180147 /* SystemSignalRUseCase.swift */; };
+		605AC79125C115BF00873D63 /* SystemRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E35EC2588A01600EEF23F /* SystemRepository.swift */; };
+		605AC79225C115BF00873D63 /* HttpClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380C255CEB88002EA837 /* HttpClientProtocol.swift */; };
+		605AC79325C115BF00873D63 /* DepositTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC71F25C024AB00873D63 /* DepositTypeTableViewCell.swift */; };
+		605AC79425C115BF00873D63 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B3E4C258B6DB10096BA79 /* Alert.swift */; };
+		605AC79525C115BF00873D63 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF11D25418CCA001F9D4A /* DIContainer.swift */; };
+		605AC79625C115BF00873D63 /* GameApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E9F432564CA2A000447F3 /* GameApi.swift */; };
+		605AC79725C115BF00873D63 /* PortalApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4856CF6A2562152E0086AC31 /* PortalApi.swift */; };
+		605AC79825C115BF00873D63 /* RequestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4856CF7225624EB70086AC31 /* RequestData.swift */; };
+		605AC79925C115BF00873D63 /* TransportDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F4255CEB86002EA837 /* TransportDelegate.swift */; };
+		605AC79A25C115BF00873D63 /* ReconnectableConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F3255CEB86002EA837 /* ReconnectableConnection.swift */; };
+		605AC79B25C115BF00873D63 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489D5DB6255D1EA400A0E43C /* DataExtension.swift */; };
+		605AC79C25C115BF00873D63 /* LongPollingTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093804255CEB87002EA837 /* LongPollingTransport.swift */; };
+		605AC79D25C115BF00873D63 /* ReconnectPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4809380F255CEB88002EA837 /* ReconnectPolicy.swift */; };
+		605AC79E25C115BF00873D63 /* SignupUserinfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF0A52541577A001F9D4A /* SignupUserinfoViewController.swift */; };
+		605AC79F25C115BF00873D63 /* SignupEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3495254FF5C200B89EC5 /* SignupEmailViewModel.swift */; };
+		605AC7A025C115BF00873D63 /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFC4254AC32F0047ECF9 /* RegisterUseCase.swift */; };
+		605AC7A125C115BF00873D63 /* IAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48672A532555294D009B2C59 /* IAuthRepository.swift */; };
+		605AC7A225C115BF00873D63 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937FB255CEB87002EA837 /* Util.swift */; };
+		605AC7A325C115BF00873D63 /* ConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48093808255CEB88002EA837 /* ConnectionDelegate.swift */; };
+		605AC7A425C115BF00873D63 /* GetSystemStatusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E35F02588AA8500EEF23F /* GetSystemStatusUseCase.swift */; };
+		605AC7A525C115BF00873D63 /* AccountMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2F525B7FA5700C56D6E /* AccountMask.swift */; };
+		605AC7A625C115BF00873D63 /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
+		605AC7AA25C115BF00873D63 /* Game.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607CF2BC25BEBD4C00A9342D /* Game.storyboard */; };
+		605AC7AB25C115BF00873D63 /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */; };
+		605AC7AC25C115BF00873D63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
+		605AC7AD25C115BF00873D63 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* infoPlist.strings */; };
+		605AC7AE25C115BF00873D63 /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648C258742150064AAC9 /* Signup.storyboard */; };
+		605AC7AF25C115BF00873D63 /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
+		605AC7B025C115BF00873D63 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648D258742150064AAC9 /* Login.storyboard */; };
+		605AC7B125C115BF00873D63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648F258742150064AAC9 /* LaunchScreen.storyboard */; };
+		605AC7B225C115BF00873D63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485DF04425415454001F9D4A /* Assets.xcassets */; };
+		605AC7B325C115BF00873D63 /* Deposit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 605AC6FF25C019F800873D63 /* Deposit.storyboard */; };
+		605AC7B425C115BF00873D63 /* Toast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6089834A25AFD13800BE28BB /* Toast.xib */; };
+		605AC7B525C115BF00873D63 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648E258742150064AAC9 /* Launch.storyboard */; };
+		605AC7D625C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605AC7D525C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist */; };
+		605AC7D725C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605AC7D525C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist */; };
+		605AC7D825C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605AC7D525C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist */; };
 		605D986B25A5CC2E00634197 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D986A25A5CC2E00634197 /* DateExtension.swift */; };
 		607CF2BD25BEBD4C00A9342D /* Game.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607CF2BC25BEBD4C00A9342D /* Game.storyboard */; };
 		607CF2C025BEBDA900A9342D /* Game.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607CF2BC25BEBD4C00A9342D /* Game.storyboard */; };
@@ -265,7 +406,9 @@
 		60BCC2D425B7D2F200C56D6E /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2D325B7D2F200C56D6E /* DoubleExtension.swift */; };
 		60BCC2F625B7FA5700C56D6E /* AccountMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2F525B7FA5700C56D6E /* AccountMask.swift */; };
 		60D83E6E25B9185C0029205F /* SlideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */; };
+		AF74BB52619E374EEFEB9E30 /* Pods_ktobet_asia_ios_qat_v.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF900CE581B759E08DE6761 /* Pods_ktobet_asia_ios_qat_v.framework */; };
 		CFD1A663F718394B53E92BA0 /* libPods-ktobet-asia-iosUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B903FE319D2499B65CA0352 /* libPods-ktobet-asia-iosUITests.a */; };
+		D0819BC1ED64A60474BB7AF1 /* Pods_ktobet_asia_ios_qat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AB665CC11FF1E599A96DDA /* Pods_ktobet_asia_ios_qat.framework */; };
 		E2116021544B4CFB4FF2B200 /* libPods-ktobet-asia-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09860B2DD5759D63C6E40617 /* libPods-ktobet-asia-iosTests.a */; };
 /* End PBXBuildFile section */
 
@@ -290,9 +433,20 @@
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		605AC7B625C115BF00873D63 /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00CB1FA21392B5BA8294960D /* Pods-ktobet-asia-ios-qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.release.xcconfig"; sourceTree = "<group>"; };
 		09860B2DD5759D63C6E40617 /* libPods-ktobet-asia-iosTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ktobet-asia-iosTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15DB466EA4140EEF41EE124C /* Pods-ktobet-asia-ios_staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_staging.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_staging/Pods-ktobet-asia-ios_staging.debug.xcconfig"; sourceTree = "<group>"; };
 		249D63C4F61B0F1231CBB315 /* Pods-ktobet-asia-ios_staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_staging.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_staging/Pods-ktobet-asia-ios_staging.release.xcconfig"; sourceTree = "<group>"; };
@@ -425,6 +579,13 @@
 		5C8247C57875D3350D2EA0AD /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-ktobet-asia-iosUITests/Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E7EEE80F1B070628EE45D7F /* Pods-ktobet-asia-ios_production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_production.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_production/Pods-ktobet-asia-ios_production.debug.xcconfig"; sourceTree = "<group>"; };
 		6008F15A25A8076D0061FAF1 /* ResetPasswordStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordStep2ViewController.swift; sourceTree = "<group>"; };
+		605AC6FF25C019F800873D63 /* Deposit.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Deposit.storyboard; sourceTree = "<group>"; };
+		605AC71625C023CC00873D63 /* DepositViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositViewController.swift; sourceTree = "<group>"; };
+		605AC71F25C024AB00873D63 /* DepositTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositTypeTableViewCell.swift; sourceTree = "<group>"; };
+		605AC72625C0FE5900873D63 /* DepositRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositRecordTableViewCell.swift; sourceTree = "<group>"; };
+		605AC7BB25C115BF00873D63 /* ktobet-asia-ios-qat-v.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-qat-v.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		605AC7BC25C115BF00873D63 /* ktobet-asia-ios-qat copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ktobet-asia-ios-qat copy-Info.plist"; path = "/Users/weichen.cheng/Desktop/ktobet-asia-ios/ktobet-asia-ios-qat copy-Info.plist"; sourceTree = "<absolute>"; };
+		605AC7D525C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-qat-v-Info.plist"; sourceTree = "<group>"; };
 		605D986A25A5CC2E00634197 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		607CF2BC25BEBD4C00A9342D /* Game.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Game.storyboard; sourceTree = "<group>"; };
 		607CF2C325BEBECA00A9342D /* NavigationManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManagement.swift; sourceTree = "<group>"; };
@@ -443,13 +604,15 @@
 		60BCC2F525B7FA5700C56D6E /* AccountMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMask.swift; sourceTree = "<group>"; };
 		60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuViewModel.swift; sourceTree = "<group>"; };
 		67C0764A8D16164F9F8990F7 /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-ktobet-asia-iosUITests/Pods-ktobet-asia-ios-ktobet-asia-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
-		6D6356D9C40B516C54CBB9FB /* Pods-ktobet-asia-ios-qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.release.xcconfig"; sourceTree = "<group>"; };
 		768A46A2A6F183CF5C5D611F /* Pods-ktobet-asia-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		7B903FE319D2499B65CA0352 /* libPods-ktobet-asia-iosUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ktobet-asia-iosUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C6D0DDD8C84A8E21FCD6BF9 /* Pods-ktobet-asia-ios-qat-v.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat-v.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat-v/Pods-ktobet-asia-ios-qat-v.release.xcconfig"; sourceTree = "<group>"; };
+		7C768501EFBCA951226146EB /* Pods-ktobet-asia-ios-qat-v.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat-v.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat-v/Pods-ktobet-asia-ios-qat-v.debug.xcconfig"; sourceTree = "<group>"; };
 		7D0E6ADCAEE23581648C4CBE /* Pods-ktobet-asia-ios_production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_production.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_production/Pods-ktobet-asia-ios_production.release.xcconfig"; sourceTree = "<group>"; };
 		7F18CE73C17F0A3A1937B3E7 /* Pods-ktobet-asia-ios_qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_qat/Pods-ktobet-asia-ios_qat.release.xcconfig"; sourceTree = "<group>"; };
-		8018AEB41EC13AC4CA7DF63E /* Pods-ktobet-asia-ios-qat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.debug.xcconfig"; sourceTree = "<group>"; };
 		8A14F15742DA7C492776A396 /* Pods-ktobet-asia-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
+		8F8AA749C8DC41F558712FCD /* Pods-ktobet-asia-ios-qat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.debug.xcconfig"; sourceTree = "<group>"; };
+		9BF900CE581B759E08DE6761 /* Pods_ktobet_asia_ios_qat_v.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_qat_v.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A023F77132D200A94A8C12EF /* Pods_ktobet_asia_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CB7438F92379D21783B2AB /* Pods_ktobet_asia_ios_staging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_staging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CC72A288FD83F4E0FE02A0 /* Pods-ktobet-asia-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.release.xcconfig"; sourceTree = "<group>"; };
@@ -465,6 +628,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2562CC923C1B307A9A1F8CCC /* Pods_ktobet_asia_ios_qat.framework in Frameworks */,
+				D0819BC1ED64A60474BB7AF1 /* Pods_ktobet_asia_ios_qat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,8 +652,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48AAA168256E458800E075CA /* (null) in Frameworks */,
+				48AAA168256E458800E075CA /* BuildFile in Frameworks */,
 				09ECD4853E5D54EBCA847BEC /* Pods_ktobet_asia_ios.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		605AC7A725C115BF00873D63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF74BB52619E374EEFEB9E30 /* Pods_ktobet_asia_ios_qat_v.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +677,7 @@
 				BA2820BA44474CE2E708026C /* Pods_ktobet_asia_ios_production.framework */,
 				E4AB665CC11FF1E599A96DDA /* Pods_ktobet_asia_ios_qat.framework */,
 				A5CB7438F92379D21783B2AB /* Pods_ktobet_asia_ios_staging.framework */,
+				9BF900CE581B759E08DE6761 /* Pods_ktobet_asia_ios_qat_v.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -560,6 +733,7 @@
 				485DF03925415453001F9D4A /* Products */,
 				FB115C1C0A068F47EB84C1FE /* Pods */,
 				0C399EEDC489C0DCBE2430B2 /* Frameworks */,
+				605AC7BC25C115BF00873D63 /* ktobet-asia-ios-qat copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -570,6 +744,7 @@
 				485DF05925415454001F9D4A /* ktobet-asia-iosUITests.xctest */,
 				48AAA179256E458800E075CA /* ktobet-asia-ios.app */,
 				4199A09725AE9918002E2D7E /* ktobet-asia-ios-qat.app */,
+				605AC7BB25C115BF00873D63 /* ktobet-asia-ios-qat-v.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -591,6 +766,7 @@
 				485DF04425415454001F9D4A /* Assets.xcassets */,
 				485DF04925415454001F9D4A /* Info.plist */,
 				4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */,
+				605AC7D525C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist */,
 				4840646D258721740064AAC9 /* infoPlist.strings */,
 				48D7F9EB2575E38B00540B85 /* Localizable.strings */,
 			);
@@ -878,8 +1054,10 @@
 				249D63C4F61B0F1231CBB315 /* Pods-ktobet-asia-ios_staging.release.xcconfig */,
 				768A46A2A6F183CF5C5D611F /* Pods-ktobet-asia-ios.debug.xcconfig */,
 				A5CC72A288FD83F4E0FE02A0 /* Pods-ktobet-asia-ios.release.xcconfig */,
-				8018AEB41EC13AC4CA7DF63E /* Pods-ktobet-asia-ios-qat.debug.xcconfig */,
-				6D6356D9C40B516C54CBB9FB /* Pods-ktobet-asia-ios-qat.release.xcconfig */,
+				8F8AA749C8DC41F558712FCD /* Pods-ktobet-asia-ios-qat.debug.xcconfig */,
+				00CB1FA21392B5BA8294960D /* Pods-ktobet-asia-ios-qat.release.xcconfig */,
+				7C768501EFBCA951226146EB /* Pods-ktobet-asia-ios-qat-v.debug.xcconfig */,
+				7C6D0DDD8C84A8E21FCD6BF9 /* Pods-ktobet-asia-ios-qat-v.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -963,6 +1141,26 @@
 			productReference = 48AAA179256E458800E075CA /* ktobet-asia-ios.app */;
 			productType = "com.apple.product-type.application";
 		};
+		605AC72E25C115BF00873D63 /* ktobet-asia-ios-qat-v */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 605AC7B825C115BF00873D63 /* Build configuration list for PBXNativeTarget "ktobet-asia-ios-qat-v" */;
+			buildPhases = (
+				DA3F19B095707B9F1FCD560D /* [CP] Check Pods Manifest.lock */,
+				605AC73025C115BF00873D63 /* Sources */,
+				605AC7A725C115BF00873D63 /* Frameworks */,
+				605AC7A925C115BF00873D63 /* Resources */,
+				605AC7B625C115BF00873D63 /* Copy Files */,
+				4AF3C64FBE44BCCE6BC27906 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ktobet-asia-ios-qat-v";
+			productName = "ktobet-asia-ios";
+			productReference = 605AC7BB25C115BF00873D63 /* ktobet-asia-ios-qat-v.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1002,6 +1200,7 @@
 				485DF04D25415454001F9D4A /* ktobet-asia-iosTests */,
 				485DF05825415454001F9D4A /* ktobet-asia-iosUITests */,
 				4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */,
+				605AC72E25C115BF00873D63 /* ktobet-asia-ios-qat-v */,
 			);
 		};
 /* End PBXProject section */
@@ -1012,6 +1211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607CF2C025BEBDA900A9342D /* Game.storyboard in Resources */,
+				605AC7D725C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist in Resources */,
 				41077DD225BA63FC0057B340 /* slideMenu.storyboard in Resources */,
 				4199A08A25AE9918002E2D7E /* Localizable.strings in Resources */,
 				4199A08B25AE9918002E2D7E /* infoPlist.strings in Resources */,
@@ -1047,6 +1247,7 @@
 				48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */,
 				4840646B258721740064AAC9 /* infoPlist.strings in Resources */,
 				48406491258742150064AAC9 /* Signup.storyboard in Resources */,
+				605AC7D625C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist in Resources */,
 				607CF2BD25BEBD4C00A9342D /* Game.storyboard in Resources */,
 				4199A0A225AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist in Resources */,
 				48406492258742150064AAC9 /* Login.storyboard in Resources */,
@@ -1055,6 +1256,26 @@
 				48406493258742150064AAC9 /* Launch.storyboard in Resources */,
 				6089834C25AFD13800BE28BB /* Toast.xib in Resources */,
 				35B9B37E259AE7CD00050914 /* ResetPassword.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		605AC7A925C115BF00873D63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				605AC7AA25C115BF00873D63 /* Game.storyboard in Resources */,
+				605AC7D825C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist in Resources */,
+				605AC7AB25C115BF00873D63 /* slideMenu.storyboard in Resources */,
+				605AC7AC25C115BF00873D63 /* Localizable.strings in Resources */,
+				605AC7AD25C115BF00873D63 /* infoPlist.strings in Resources */,
+				605AC7AE25C115BF00873D63 /* Signup.storyboard in Resources */,
+				605AC7AF25C115BF00873D63 /* ResetPassword.storyboard in Resources */,
+				605AC7B025C115BF00873D63 /* Login.storyboard in Resources */,
+				605AC7B125C115BF00873D63 /* LaunchScreen.storyboard in Resources */,
+				605AC7B225C115BF00873D63 /* Assets.xcassets in Resources */,
+				605AC7B325C115BF00873D63 /* Deposit.storyboard in Resources */,
+				605AC7B425C115BF00873D63 /* Toast.xib in Resources */,
+				605AC7B525C115BF00873D63 /* Launch.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1139,6 +1360,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		4AF3C64FBE44BCCE6BC27906 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-qat-v/Pods-ktobet-asia-ios-qat-v-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-qat-v/Pods-ktobet-asia-ios-qat-v-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-qat-v/Pods-ktobet-asia-ios-qat-v-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		857F5CFBDCECE17FFDD1C762 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1177,6 +1415,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-ktobet-asia-ios-qat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA3F19B095707B9F1FCD560D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ktobet-asia-ios-qat-v-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1446,6 +1706,131 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		605AC73025C115BF00873D63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				605AC73125C115BF00873D63 /* HubConnectionDelegate.swift in Sources */,
+				605AC73225C115BF00873D63 /* SystemViewModel.swift in Sources */,
+				605AC73325C115BF00873D63 /* HubConnectionBuilder.swift in Sources */,
+				605AC73425C115BF00873D63 /* UIViewControllerExtension.swift in Sources */,
+				605AC73525C115BF00873D63 /* SBKViewController.swift in Sources */,
+				605AC73625C115BF00873D63 /* KTOError.swift in Sources */,
+				605AC73725C115BF00873D63 /* SlideMenuViewModel.swift in Sources */,
+				605AC73825C115BF00873D63 /* SMSVerifyCodeInputView.swift in Sources */,
+				605AC73925C115BF00873D63 /* InputPassword.swift in Sources */,
+				605AC73A25C115BF00873D63 /* InputConfirmPassword.swift in Sources */,
+				605AC73B25C115BF00873D63 /* PlayerRepository.swift in Sources */,
+				605AC73C25C115BF00873D63 /* UINavigationControllerExtension.swift in Sources */,
+				605AC73D25C115BF00873D63 /* NavigationManagement.swift in Sources */,
+				605AC73E25C115BF00873D63 /* DateExtension.swift in Sources */,
+				605AC73F25C115BF00873D63 /* AuthenticationApi.swift in Sources */,
+				605AC74025C115BF00873D63 /* NumberGameViewController.swift in Sources */,
+				605AC74125C115BF00873D63 /* PlayerApi.swift in Sources */,
+				605AC74225C115BF00873D63 /* UIButtonExtension.swift in Sources */,
+				605AC74325C115BF00873D63 /* UIWindowExtension.swift in Sources */,
+				605AC74425C115BF00873D63 /* HttpClientBack.swift in Sources */,
+				605AC74525C115BF00873D63 /* TestViewModel.swift in Sources */,
+				605AC74625C115BF00873D63 /* SignalRError.swift in Sources */,
+				605AC74725C115BF00873D63 /* DoubleExtension.swift in Sources */,
+				605AC74825C115BF00873D63 /* CodableHelpers.swift in Sources */,
+				605AC74925C115BF00873D63 /* HttpConnectionOptions.swift in Sources */,
+				605AC74A25C115BF00873D63 /* KTOTimer.swift in Sources */,
+				605AC74B25C115BF00873D63 /* TransportType.swift in Sources */,
+				605AC74C25C115BF00873D63 /* ResetPasswordUseCase.swift in Sources */,
+				605AC74D25C115BF00873D63 /* CustomServiceApi.swift in Sources */,
+				605AC74E25C115BF00873D63 /* ReactiveExtension.swift in Sources */,
+				605AC74F25C115BF00873D63 /* CommonEnum.swift in Sources */,
+				605AC75025C115BF00873D63 /* EncodableExtension.swift in Sources */,
+				605AC75125C115BF00873D63 /* ResetPasswordStep3ViewController.swift in Sources */,
+				605AC75225C115BF00873D63 /* TermsOfServiceViewController.swift in Sources */,
+				605AC75325C115BF00873D63 /* ResetPasswordViewModel.swift in Sources */,
+				605AC75425C115BF00873D63 /* SMSCodeTextField.swift in Sources */,
+				605AC75525C115BF00873D63 /* StreamHandle.swift in Sources */,
+				605AC75625C115BF00873D63 /* CustomServiceRepository.swift in Sources */,
+				605AC75725C115BF00873D63 /* Connection.swift in Sources */,
+				605AC75825C115BF00873D63 /* DefaultTransportFactory.swift in Sources */,
+				605AC75925C115BF00873D63 /* LaunchViewController.swift in Sources */,
+				605AC75A25C115BF00873D63 /* LaunchViewModel.swift in Sources */,
+				605AC75B25C115BF00873D63 /* SignupEmailViewController.swift in Sources */,
+				605AC75C25C115BF00873D63 /* Logger.swift in Sources */,
+				605AC75D25C115BF00873D63 /* WebsocketsTransport.swift in Sources */,
+				605AC75E25C115BF00873D63 /* ResetPasswordViewController.swift in Sources */,
+				605AC75F25C115BF00873D63 /* ToastView.swift in Sources */,
+				605AC76025C115BF00873D63 /* LocalizeUtils.swift in Sources */,
+				605AC76125C115BF00873D63 /* SocketTestViewController.swift in Sources */,
+				605AC76225C115BF00873D63 /* AuthenticationUseCase.swift in Sources */,
+				605AC76325C115BF00873D63 /* LoginViewController.swift in Sources */,
+				605AC76425C115BF00873D63 /* WebSocket.swift in Sources */,
+				605AC76525C115BF00873D63 /* HandshakeProtocol.swift in Sources */,
+				605AC76625C115BF00873D63 /* DefaultProductViewModel.swift in Sources */,
+				605AC76725C115BF00873D63 /* Operators.swift in Sources */,
+				605AC76825C115BF00873D63 /* JSONHubProtocol.swift in Sources */,
+				605AC76925C115BF00873D63 /* SignupPhoneViewModel.swift in Sources */,
+				605AC76A25C115BF00873D63 /* DefaultProductViewController.swift in Sources */,
+				605AC76B25C115BF00873D63 /* APITarget.swift in Sources */,
+				605AC76C25C115BF00873D63 /* ResponseData.swift in Sources */,
+				605AC76D25C115BF00873D63 /* UIColorExtension.swift in Sources */,
+				605AC76E25C115BF00873D63 /* TransferFormat.swift in Sources */,
+				605AC76F25C115BF00873D63 /* HttpResponse.swift in Sources */,
+				605AC77025C115BF00873D63 /* InputText.swift in Sources */,
+				605AC77125C115BF00873D63 /* ResetPasswordStep2ViewController.swift in Sources */,
+				605AC77225C115BF00873D63 /* SideBarViewController.swift in Sources */,
+				605AC77325C115BF00873D63 /* StringExtension.swift in Sources */,
+				605AC77425C115BF00873D63 /* HubConnection.swift in Sources */,
+				605AC77525C115BF00873D63 /* ProductItemCell.swift in Sources */,
+				605AC77625C115BF00873D63 /* SignupRegistFailViewController.swift in Sources */,
+				605AC77725C115BF00873D63 /* Transport.swift in Sources */,
+				605AC77825C115BF00873D63 /* HttpClient.swift in Sources */,
+				605AC77925C115BF00873D63 /* ConfigurationUseCase.swift in Sources */,
+				605AC77A25C115BF00873D63 /* SignupPhoneViewController.swift in Sources */,
+				605AC77B25C115BF00873D63 /* DefaultProductCell.swift in Sources */,
+				605AC77C25C115BF00873D63 /* LoginViewModel.swift in Sources */,
+				605AC77D25C115BF00873D63 /* UIImageExtension.swift in Sources */,
+				605AC77E25C115BF00873D63 /* TermsOfServiceCell.swift in Sources */,
+				605AC77F25C115BF00873D63 /* DefaultHttpClient.swift in Sources */,
+				605AC78025C115BF00873D63 /* HttpConnection.swift in Sources */,
+				605AC78125C115BF00873D63 /* SystemSignalRepository.swift in Sources */,
+				605AC78225C115BF00873D63 /* SignupUserInfoViewModel.swift in Sources */,
+				605AC78325C115BF00873D63 /* NegotiationResponse.swift in Sources */,
+				605AC78425C115BF00873D63 /* PlayerViewModel.swift in Sources */,
+				605AC78525C115BF00873D63 /* LocalStorageRepository.swift in Sources */,
+				605AC78625C115BF00873D63 /* ServerInvocationHandler.swift in Sources */,
+				605AC78725C115BF00873D63 /* SignupLanguageViewController.swift in Sources */,
+				605AC78825C115BF00873D63 /* GameInfoRepository.swift in Sources */,
+				605AC78925C115BF00873D63 /* PlayerDataUseCase.swift in Sources */,
+				605AC78A25C115BF00873D63 /* DepositViewController.swift in Sources */,
+				605AC78B25C115BF00873D63 /* AppDelegate.swift in Sources */,
+				605AC78C25C115BF00873D63 /* HubConnectionExtensions.swift in Sources */,
+				605AC78D25C115BF00873D63 /* DepositRecordTableViewCell.swift in Sources */,
+				605AC78E25C115BF00873D63 /* HubProtocol.swift in Sources */,
+				605AC78F25C115BF00873D63 /* FeatureItemCell.swift in Sources */,
+				605AC79025C115BF00873D63 /* SystemSignalRUseCase.swift in Sources */,
+				605AC79125C115BF00873D63 /* SystemRepository.swift in Sources */,
+				605AC79225C115BF00873D63 /* HttpClientProtocol.swift in Sources */,
+				605AC79325C115BF00873D63 /* DepositTypeTableViewCell.swift in Sources */,
+				605AC79425C115BF00873D63 /* Alert.swift in Sources */,
+				605AC79525C115BF00873D63 /* DIContainer.swift in Sources */,
+				605AC79625C115BF00873D63 /* GameApi.swift in Sources */,
+				605AC79725C115BF00873D63 /* PortalApi.swift in Sources */,
+				605AC79825C115BF00873D63 /* RequestData.swift in Sources */,
+				605AC79925C115BF00873D63 /* TransportDelegate.swift in Sources */,
+				605AC79A25C115BF00873D63 /* ReconnectableConnection.swift in Sources */,
+				605AC79B25C115BF00873D63 /* DataExtension.swift in Sources */,
+				605AC79C25C115BF00873D63 /* LongPollingTransport.swift in Sources */,
+				605AC79D25C115BF00873D63 /* ReconnectPolicy.swift in Sources */,
+				605AC79E25C115BF00873D63 /* SignupUserinfoViewController.swift in Sources */,
+				605AC79F25C115BF00873D63 /* SignupEmailViewModel.swift in Sources */,
+				605AC7A025C115BF00873D63 /* RegisterUseCase.swift in Sources */,
+				605AC7A125C115BF00873D63 /* IAuthRepository.swift in Sources */,
+				605AC7A225C115BF00873D63 /* Util.swift in Sources */,
+				605AC7A325C115BF00873D63 /* ConnectionDelegate.swift in Sources */,
+				605AC7A425C115BF00873D63 /* GetSystemStatusUseCase.swift in Sources */,
+				605AC7A525C115BF00873D63 /* AccountMask.swift in Sources */,
+				605AC7A625C115BF00873D63 /* LanguageAndCurrencyCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -1476,7 +1861,7 @@
 /* Begin XCBuildConfiguration section */
 		4199A09525AE9918002E2D7E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8018AEB41EC13AC4CA7DF63E /* Pods-ktobet-asia-ios-qat.debug.xcconfig */;
+			baseConfigurationReference = 8F8AA749C8DC41F558712FCD /* Pods-ktobet-asia-ios-qat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1508,7 +1893,7 @@
 		};
 		4199A09625AE9918002E2D7E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6D6356D9C40B516C54CBB9FB /* Pods-ktobet-asia-ios-qat.release.xcconfig */;
+			baseConfigurationReference = 00CB1FA21392B5BA8294960D /* Pods-ktobet-asia-ios-qat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1819,6 +2204,69 @@
 			};
 			name = Release;
 		};
+		605AC7B925C115BF00873D63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C768501EFBCA951226146EB /* Pods-ktobet-asia-ios-qat-v.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 277T679FZ2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(SRCROOT)",
+				);
+				INFOPLIST_FILE = "ktobet-asia-ios/ktobet-asia-ios-qat-v-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.higgstar.ktoasiabet.qatv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.higgstar.ktoasiabet.qatv";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = QATv;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		605AC7BA25C115BF00873D63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C6D0DDD8C84A8E21FCD6BF9 /* Pods-ktobet-asia-ios-qat-v.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEVELOPMENT_TEAM = 277T679FZ2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(SRCROOT)",
+				);
+				INFOPLIST_FILE = "ktobet-asia-ios/ktobet-asia-ios-qat-v-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.higgstar.ktoasiabet.qatv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.higgstar.ktoasiabet.qatv";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = QATv;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1863,6 +2311,15 @@
 			buildConfigurations = (
 				48AAA177256E458800E075CA /* Debug */,
 				48AAA178256E458800E075CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		605AC7B825C115BF00873D63 /* Build configuration list for PBXNativeTarget "ktobet-asia-ios-qat-v" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				605AC7B925C115BF00873D63 /* Debug */,
+				605AC7BA25C115BF00873D63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

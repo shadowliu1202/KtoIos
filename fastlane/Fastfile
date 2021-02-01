@@ -68,6 +68,29 @@ platform :ios do
 
 	end
 
+	lane :buildIpaQatv  do |options|
+
+		match(type: "adhoc", keychain_name: "jenkinsKeyChain", keychain_password: "password")
+		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-v-Info.plist", 
+				  block: proc do |plist|
+					#version = plist["CFBundleVersion"].to_i + 1
+    					#plist["CFBundleVersion"]  = "#{version}.0"
+					plist["CFBundleVersion"]  = options[:buildVersion]
+					plist["CFBundleShortVersionString"] = options[:appVersion]
+  				  end)
+  		build_app(scheme: "ktobet-asia-ios-qatv",
+			  workspace: "ktobet-asia-ios.xcworkspace",
+            		  include_bitcode: true,
+			  clean: true,
+		   	  output_directory: "output",
+			  export_method: "ad-hoc",
+	    		  export_options: { 
+					    method: "ad-hoc",
+					  }
+			 )
+
+	end
+
 
 	lane :uploadToTestflight do |options|
 
@@ -92,6 +115,31 @@ platform :ios do
 
     		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
   					app_identifier: "com.higgstar.ktoasiabet")
+	end
+
+	lane :uploadqatvToTestflight do |options|
+
+		
+		match(type: "appstore", keychain_name: "jenkinsKeyChain", keychain_password: "password")
+		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-v-Info.plist", 
+				  block: proc do |plist|
+					#version = plist["CFBundleVersion"].to_i + 1
+    					#plist["CFBundleVersion"]  = "#{version}.0"
+					plist["CFBundleVersion"]  = options[:buildVersion]
+					plist["CFBundleShortVersionString"] = options[:appVersion]
+  				  end)
+
+    		gym(	configuration: "Release",
+      		     	scheme: "ktobet-asia-ios-qatv",
+      		     	clean: true,
+      		     	include_bitcode: true,
+      			include_symbols: true,
+      			export_method: 'app-store',
+      			export_xcargs: "-allowProvisioningUpdates")
+      			#export_options: { provisioningProfiles: {"com.higgstar.ktoasiabet.qatv" => "kto_asia_adhoc"}})
+
+    		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
+  					app_identifier: "com.higgstar.ktoasiabet.qatv")
 	end
 
 
