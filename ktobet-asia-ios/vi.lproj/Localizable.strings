@@ -156,7 +156,7 @@
 "common_try_again" = "VIVN再试一次";
 "common_password_not_the_same" = "VIVN密碼不一致";
 "common_wrong_password_format" = "VIVN密碼格式錯誤";
-"common_password_not_filled" = "VIVN密碼不該為空";
+"common_password_not_filled" = "VIVN密碼不能為空";
 "common_network_error" = "VIVN網路連接有問題，請確認後重新嘗試";
 "common_january" = "1月";
 "common_february" = "2月";
@@ -210,7 +210,7 @@
 "common_notify_logout_title" = "VI登出通知";
 "common_notify_logout_content" = "VI很抱歉，您的帐号已在其它位置登录，请尝试重新登录。";
 "common_sms_otp_exeed_send_limit" = "VI该手机已达发送上限，请于隔日00:00再试。";
-"common_email_otp_exeed_send_limit" = "VI该邮箱已达发送上限，请于隔日00:00再试。";
+"common_email_otp_exeed_send_limit" = "VI该电子邮箱已达发送上限，请于隔日00:00再试。";
 "common_app_version" = "%@";
 "common_confirm_cancel_operation" = "VIVI确认取消当前操作?";
 "common_today" = "VIVI今天";

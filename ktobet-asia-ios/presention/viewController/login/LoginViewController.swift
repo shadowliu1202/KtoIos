@@ -164,7 +164,6 @@ class LoginViewController: UIViewController {
                 if image == nil {
                     self.hideCaptcha()
                 } else {
-                    self.showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
                     self.showCaptcha(cpatchaTip: Localize.string("login_enter_captcha_to_prceed"), captcha: image!)
                 }
             })
@@ -198,8 +197,12 @@ class LoginViewController: UIViewController {
             case .failed1to5:
                 showLoginError(message: Localize.string("login_invalid_username_password"))
             case .failed6to10:
-                showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
-                if imgCaptcha.image == nil { getCaptcha() }
+                if viewModel.relayImgCaptcha.value == nil {
+                    getCaptcha()
+                    showLoginError(message: Localize.string("login_invalid_username_password"))
+                } else {
+                    showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
+                }
             case .failedabove11:
                 showLoginError(message: Localize.string("login_invalid_lockdown"))
                 viewModel.launchLoginLimitTimer()

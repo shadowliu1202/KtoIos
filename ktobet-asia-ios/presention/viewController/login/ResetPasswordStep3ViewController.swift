@@ -50,11 +50,11 @@ class ResetPasswordStep3ViewController: UIViewController {
                 if status == .valid {
                     self.btnSubmit.isValid = true
                 } else if status == .errPasswordFormat {
-                    message = Localize.string("login_invalid_username_password")
+                    message = Localize.string("common_field_format_incorrect")
                 } else if status == .errPasswordNotMatch{
                     message = Localize.string("register_step2_password_not_match")
                 } else if status == .empty {
-                    message = Localize.string("common_field_must_fill")
+                    message = Localize.string("common_password_not_filled")
                 }
                 self.labPasswordTip.text = message
                 self.inputCsPassword.showUnderline(message.count > 0)
