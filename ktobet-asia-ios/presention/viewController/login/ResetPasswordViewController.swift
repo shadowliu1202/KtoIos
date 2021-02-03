@@ -138,7 +138,7 @@ class ResetPasswordViewController: UIViewController {
     private func handleError(_ error : Error) {
         let type = ErrorType(rawValue: (error as NSError).code)
         switch type {
-        case .PlayerIsNotExist:
+        case .PlayerIsNotExist, .PlayerIsSuspend, .PlayerIsInactive, .PlayerIsLocked:
             constraintResetErrorView.constant = 56
             constraintResetErrorViewPadding.constant = 12
             if viewModel.retryCount >= ResetPasswordViewModel.accountRetryLimit {

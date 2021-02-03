@@ -21,7 +21,7 @@ class InputPassword : UIView{
     private var editingChangedHandler : ((String)->Void)?
     
     private var labTitle = UILabel()
-    private var textContent = UITextField()
+    private var textContent = PasswordTextField()
     private var btnHideContent = UIButton()
     private var underline = UIView()
     var text : ControlProperty<String> {
@@ -175,9 +175,8 @@ class InputPassword : UIView{
     
     // MARK: PRESENT
     func showKeyboard(){
-        textContent.becomeFirstResponder()
+        _ = textContent.becomeFirstResponder()
     }
-    
     
     func showUnderline(_ show : Bool){
         underline.isHidden = !show
@@ -213,7 +212,7 @@ extension InputPassword: UITextFieldDelegate {
 extension InputPassword {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !textContent.isFirstResponder{
-            textContent.becomeFirstResponder()
+            _ = textContent.becomeFirstResponder()
             isEditing = true
         }
     }
@@ -228,5 +227,27 @@ extension InputPassword : InputConfirmPasswordDelegate{
             }
             return UIColor.inputSelectedTundoraGray
         }()
+    }
+}
+
+
+class PasswordTextField: UITextField {
+    override var isSecureTextEntry: Bool {
+        didSet {
+            if isFirstResponder {
+                _ = becomeFirstResponder()
+            }
+        }
+    }
+
+    override func becomeFirstResponder() -> Bool {
+        let success = super.becomeFirstResponder()
+        if isSecureTextEntry, let text = self.text {
+            self.text?.removeAll()
+            insertText(text)
+            self.text = text
+        }
+        
+        return success
     }
 }

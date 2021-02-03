@@ -21,7 +21,7 @@ class InputConfirmPassword : UIView{
 
     private var labTitle = UILabel()
     private var labSubTitle = UILabel()
-    private var textContent = UITextField()
+    private var textContent = PasswordTextField()
     private var underline = UIView()
     var text : ControlProperty<String> {
         get {
