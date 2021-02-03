@@ -129,23 +129,27 @@ class ResetPasswordStep2ViewController: UIViewController {
     private func handleError(_ error: Error) {
         let type = ErrorType(rawValue: (error as NSError).code)
         switch type {
-        case .PlayerIdOverOtpLimit, .PlayerIpOverOtpDailyLimit, .PlayerOverOtpRetryLimit, .PlayerResentOtpOverTenTimes:
-            let title = Localize.string("common_tip_title_warm")
-            let message = Localize.string("common_sms_otp_exeed_send_limit")
-            Alert.show(title, message, confirm: {
-                self.navigationController?.popToRootViewController(animated: true)
-            }, cancel: nil)
-            break
         case .PlayerOtpCheckError:
-            viewModel.otpRetryCount += 1
             showPasscodeUncorrectTip(true)
-            if viewModel.otpRetryCount >= ResetPasswordViewModel.otpRetryLimit {
-                performSegue(withIdentifier: SignupRegistFailViewController.segueIdentifier, sender: nil)
-            }
-            break
+        case .PlayerOverOtpRetryLimit:
+            showErrorPage()
+        case .PlayerIpOverOtpDailyLimit:
+            alertExccedResendLimit()
         default:
             viewStatusTip.show(statusTip: Localize.string("common_unknownerror"), img: UIImage(named: "Failed"))
         }
+    }
+    
+    private func showErrorPage() {
+        performSegue(withIdentifier: SignupRegistFailViewController.segueIdentifier, sender: nil)
+    }
+    
+    private func alertExccedResendLimit() {
+        let title = Localize.string("common_tip_title_warm")
+        let message = viewModel.currentAccountType() == .phone ? Localize.string("common_sms_otp_exeed_send_limit") : Localize.string("common_sms_otp_exeed_send_limit")
+        Alert.show(title, message, confirm: {
+            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+        }, cancel: nil)
     }
     
     @IBAction func btnResendPressed(_ sender: UIButton){
