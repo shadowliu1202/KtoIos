@@ -1,17 +1,9 @@
-//
-//  LoginViewController.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/10/23.
-//
-
 import UIKit
 import RxCocoa
 import RxSwift
 import share_bu
 
 class LoginViewController: UIViewController {
-    
     @IBOutlet private weak var btnSignup : UIBarButtonItem!
     @IBOutlet private weak var labTitle : UILabel!
     @IBOutlet private weak var viewLoginErr : UIView!
@@ -54,7 +46,6 @@ class LoginViewController: UIViewController {
         viewModel.continueLoginLimitTimer()
         addNotificationCenter()
     }
-    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -262,18 +253,7 @@ class LoginViewController: UIViewController {
             .loginFrom(isRememberMe : btnRememberMe.isSelected)
             .subscribeOn(MainScheduler.instance)
             .subscribe(onSuccess: {player in
-                switch player.defaultProduct {
-                case ProductType.casino:
-                    print("Go to casino")
-                case ProductType.sbk:
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "SBKNavigationController")
-                case ProductType.slot:
-                    print("Go to slot")
-                case ProductType.numbergame:
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "NumberGameNavigationController")
-                default:
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
-                }
+                NavigationManagement.sharedInstance.goTo(productType: player.defaultProduct)
             }, onError: {error in
                 self.handleError(error: error )
             }).disposed(by: disposeBag)

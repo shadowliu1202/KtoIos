@@ -1,14 +1,8 @@
-//
-//  SideBarViewController.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/5.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
 import share_bu
+import SideMenu
 
 class SideBarViewController: UIViewController {
     @IBOutlet private weak var btnGift: UIBarButtonItem!
@@ -26,10 +20,11 @@ class SideBarViewController: UIViewController {
     @IBOutlet private weak var labUserAcoount: UILabel!
     @IBOutlet private weak var labUserName: UILabel!
     
-    var productDidSelected : ((ProductType)->Void)?
-    var player : Player?
+    private var player : Player?
     private var disposeBag = DisposeBag()
+    private var disposableNotify: Disposable?
     private var viewModel = DI.resolve(PlayerViewModel.self)!
+    private var systemViewModel = DI.resolve(SystemViewModel.self)!
     private var slideViewModel = SlideMenuViewModel()
     
     // MARK: LIFE CYCLE
@@ -38,6 +33,7 @@ class SideBarViewController: UIViewController {
         initUI()
         dataBinding()
         eventHandler()
+        
     }
     
     // MARK: BUTTON EVENT
@@ -64,6 +60,33 @@ class SideBarViewController: UIViewController {
                 constraintListFeatureHeight.constant = (newvalue as! CGSize).height
             }
         }
+    }
+    
+    func observeSystemMessage() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.disposeSystemNotify(_:)), name: NSNotification.Name(rawValue: "disposeSystemNotify"), object: nil)
+        disposableNotify = systemViewModel.observeSystemMessage().subscribe {(target: Target) in
+            switch target {
+            case .Kickout:
+                Alert.show(Localize.string("common_notify_logout_title"), Localize.string("common_notify_logout_content"), confirm: {
+                    self.viewModel.logout()
+                        .subscribeOn(MainScheduler.instance)
+                        .subscribe(onCompleted: {
+                            self.systemViewModel.disconnectService()
+                            self.disposableNotify?.dispose()
+                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                        }).disposed(by: self.disposeBag)
+                    self.systemViewModel.disconnectService()
+                    self.disposableNotify?.dispose()
+                }, cancel: nil)
+            default:
+                break
+            }
+        }
+    }
+    
+    @objc func disposeSystemNotify(_ notification: Notification) {
+        self.systemViewModel.disconnectService()
+        self.disposableNotify?.dispose()
     }
     
     fileprivate func setBalanceHiddenState(isHidden: Bool) {
@@ -105,14 +128,25 @@ class SideBarViewController: UIViewController {
     
     fileprivate func dataBinding() {
         viewModel.loadPlayerInfo().subscribe {[weak self] (player) in
-            self?.labUserLevel.text = "LV\(player.playerInfo.level)"
-            self?.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
-            self?.labUserName.text = "\(player.playerInfo.realName)"
-        } onError: { (error) in
+            guard let self = self else { return }
+            self.player = player
+            self.labUserLevel.text = "LV\(player.playerInfo.level)"
+            self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
+            self.labUserName.text = "\(player.playerInfo.realName)"
+            self.slideViewModel.arrProducts.bind(to: self.listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) { index, data, cell in
+                cell.setup(data)
+                if let defaultProduct = player.defaultProduct {
+                    if defaultProduct == data.type {
+                        cell.imgIcon.backgroundColor = UIColor.redForDark502
+                        self.listProduct.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .init())
+                    }
+                }
+            }.disposed(by: self.disposeBag)
+        } onError: {(error) in
             let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
             toastView.show(on: self.view, statusTip: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"), img: UIImage(named: "Failed"))
         }.disposed(by: disposeBag)
-                
+        
         viewModel.getBalance().subscribe {[unowned self] (balance) in
             self.labBalance.text = balance
             self.viewModel.balance = balance
@@ -121,13 +155,9 @@ class SideBarViewController: UIViewController {
             let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
             toastView.show(on: self.view, statusTip: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"), img: UIImage(named: "Failed"))
         }.disposed(by: disposeBag)
-
+        
         slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
             cell.setup(data.name.rawValue, image: UIImage(named: data.icon))
-        }.disposed(by: disposeBag)
-        
-        slideViewModel.arrProducts.bind(to: listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) { index, data, cell in
-            cell.setup(data.title, img: data.image)
         }.disposed(by: disposeBag)
         
         listProduct.reloadData()
@@ -136,15 +166,7 @@ class SideBarViewController: UIViewController {
     
     fileprivate func eventHandler() {
         Observable.zip(listProduct.rx.itemSelected, listProduct.rx.modelSelected(ProductItem.self)).bind { [weak self] (indexPath, data) in
-            switch data.type {
-            case .sbk:
-                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "SBKNavigationController")
-            case .numbergame:
-                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "NumberGameNavigationController")
-            default:
-                print("")
-            }
-            
+            NavigationManagement.sharedInstance.goTo(productType: data.type)
             let cell = self?.listProduct.cellForItem(at: indexPath) as? ProductItemCell
             cell?.imgIcon.backgroundColor = UIColor.redForDark502
         }.disposed(by: disposeBag)
@@ -155,19 +177,31 @@ class SideBarViewController: UIViewController {
             cell?.imgIcon.backgroundColor = UIColor.black
         }.disposed(by: disposeBag)
         
-        listFeature.rx.modelSelected(FeatureItem.self).subscribe { (data) in
+        listFeature.rx.modelSelected(FeatureItem.self).subscribe {(data) in
             guard let featureType = data.element?.name else { return }
+            if featureType != .logout {
+                self.listProduct.visibleCells.forEach { (cell) in
+                    guard let cell = cell as? ProductItemCell else { return }
+                    cell.imgIcon.backgroundColor = UIColor.black
+                }
+            }
+            
             switch featureType {
             case .logout:
                 self.viewModel.logout()
                     .subscribeOn(MainScheduler.instance)
                     .subscribe(onCompleted: {
                         Alert.show(Localize.string("common_tip_title_warm"), Localize.string("common_confirm_logout"), confirm: {
+                            NotificationCenter.default.post(Notification(name: Notification.Name("disposeSystemNotify")))
                             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
                         }, cancel: {
                             
                         }, tintColor: UIColor.red)
                     }).disposed(by: self.disposeBag)
+            case .withdraw:
+                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "WithdrawNavigationController")
+            case .diposit:
+                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "DepositNavigationController")
             default:
                 break
             }
