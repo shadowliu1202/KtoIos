@@ -55,7 +55,7 @@ class DefaultProductViewController: UIViewController {
         }
         return arr
     }()
-
+    
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +77,6 @@ class DefaultProductViewController: UIViewController {
     
     // MARK: BUTTON ACTION
     @IBAction func btnIgnorePressed(_ sender : UIButton){
-        
         viewModel.saveDefaultProduct(.sbk)
             .andThen(viewModel.getPlayerInfo())
             .subscribeOn(MainScheduler.instance)
@@ -97,8 +96,8 @@ class DefaultProductViewController: UIViewController {
         viewModel
             .saveDefaultProduct(item.type)
             .andThen(viewModel.getPlayerInfo())
-            .subscribe(onSuccess: { player in
-                self.performSegue(withIdentifier: self.segueLobby, sender: player)
+            .subscribe(onSuccess: { _ in
+                NavigationManagement.sharedInstance.goTo(productType: item.type)
             }, onError: { error in
                 self.handleUnknownError(error)
             }).disposed(by: disposeBag)

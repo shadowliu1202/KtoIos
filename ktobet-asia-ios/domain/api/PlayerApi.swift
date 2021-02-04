@@ -51,12 +51,12 @@ class PlayerApi {
         }
     }
     
-    func getCashBalance() -> Single<ResponseData<Int>> {
+    func getCashBalance() -> Single<ResponseData<Double>> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
                                path: "api/cash/balance",
                                method: .get,
                                task: .requestPlain,
                                header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<Int>.self)
+        return httpClient.request(target).map(ResponseData<Double>.self)
     }
 }

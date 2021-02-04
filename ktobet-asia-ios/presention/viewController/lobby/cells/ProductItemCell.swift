@@ -1,11 +1,5 @@
-//
-//  ProductItemCell.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/5.
-//
-
 import UIKit
+import share_bu
 
 class ProductItemCell: UICollectionViewCell {
     
@@ -16,8 +10,8 @@ class ProductItemCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     
-    func setup(_ title : String, img: String){
-        labTitle.text = title
-        imgIcon.image = UIImage(named: img)
+    func setup(_ data : ProductItem){
+        labTitle.text = data.title
+        imgIcon.image = UIImage(named: data.image)
     }
 }
