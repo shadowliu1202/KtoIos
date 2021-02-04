@@ -56,7 +56,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="john.doeeee@testaccount.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yq7-S6-fh9">
-                                                <rect key="frame" x="83" y="10" width="281" height="20"/>
+                                                <rect key="frame" x="83" y="10" width="204.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="14"/>
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -91,6 +91,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="pK0-Rq-5wM" secondAttribute="trailing" id="fXQ-FX-Mrb"/>
                                                     <constraint firstItem="xMO-KA-HaY" firstAttribute="leading" secondItem="ry1-pG-CB1" secondAttribute="leading" id="lax-db-Pwv"/>
                                                     <constraint firstItem="xMO-KA-HaY" firstAttribute="top" secondItem="ry1-pG-CB1" secondAttribute="top" id="llW-Mv-1fy"/>
+                                                    <constraint firstAttribute="width" constant="30" id="pSW-H7-p4u"/>
                                                     <constraint firstItem="pK0-Rq-5wM" firstAttribute="top" relation="greaterThanOrEqual" secondItem="xMO-KA-HaY" secondAttribute="bottom" constant="3" id="rVj-D5-p8x"/>
                                                     <constraint firstAttribute="bottom" secondItem="xMO-KA-HaY" secondAttribute="bottom" constant="24" id="yNn-06-nWk"/>
                                                 </constraints>
@@ -105,7 +106,7 @@
                                             <constraint firstAttribute="trailing" secondItem="ry1-pG-CB1" secondAttribute="trailing" constant="30" id="LhC-cw-0Rm"/>
                                             <constraint firstAttribute="bottom" secondItem="UQW-Oq-2ag" secondAttribute="bottom" constant="10" id="XqP-F8-Hey"/>
                                             <constraint firstItem="S9m-Qu-pqd" firstAttribute="centerY" secondItem="zAz-CK-M4v" secondAttribute="centerY" id="bAF-cP-ENd"/>
-                                            <constraint firstAttribute="trailing" secondItem="yq7-S6-fh9" secondAttribute="trailing" constant="50" id="qO2-7G-50B"/>
+                                            <constraint firstItem="ry1-pG-CB1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yq7-S6-fh9" secondAttribute="trailing" constant="20" id="jc8-ee-ob0"/>
                                             <constraint firstItem="S9m-Qu-pqd" firstAttribute="leading" secondItem="zAz-CK-M4v" secondAttribute="leading" constant="36" id="sdL-MV-CKz"/>
                                             <constraint firstAttribute="trailing" secondItem="UQW-Oq-2ag" secondAttribute="trailing" constant="50" id="tZX-p8-9rS"/>
                                             <constraint firstItem="UQW-Oq-2ag" firstAttribute="top" secondItem="yq7-S6-fh9" secondAttribute="bottom" id="wfk-sd-JHB"/>
@@ -136,6 +137,9 @@
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58h-Dn-emq">
                                                 <rect key="frame" x="280" y="13.5" width="36" height="36"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="36" id="jSt-Lz-rFr"/>
+                                                </constraints>
                                                 <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                                 <state key="normal" image="Refresh"/>
                                                 <connections>
@@ -144,6 +148,9 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJd-Wa-R1U">
                                                 <rect key="frame" x="344" y="15.5" width="40" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="40" id="fzX-MT-bhK"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                                 <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                                 <state key="normal" title="隐藏">
@@ -330,9 +337,16 @@
                                     <action selector="btnClosePressed:" destination="OF6-mV-Bpi" id="B0E-JF-OV7"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" image="Notification-None" style="plain" id="CEX-Dn-r0w"/>
+                            <barButtonItem title="Item" image="Notification-None" style="plain" id="CEX-Dn-r0w">
+                                <connections>
+                                    <action selector="toNotify:" destination="OF6-mV-Bpi" id="Fql-5R-jRr"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem image="Promotion" id="9ai-Jr-OkV">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="toGift:" destination="OF6-mV-Bpi" id="fax-ZI-q08"/>
+                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>

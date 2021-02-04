@@ -16,6 +16,9 @@ class SlideMenuViewModel {
         }
         return arr
     }())
+    
+    var currentSelectedCell: ProductItemCell?
+    var currentSelectedProductType: ProductType?
 }
 
 struct ProductItem {

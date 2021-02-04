@@ -124,6 +124,11 @@ class SideBarViewController: UIViewController {
             flowLayout.minimumInteritemSpacing = space
             return flowLayout
         }()
+        
+        labBalance.numberOfLines = 0
+        labBalance.lineBreakMode = .byCharWrapping
+        labUserAcoount.numberOfLines = 0
+        labUserAcoount.lineBreakMode = .byCharWrapping
     }
     
     fileprivate func dataBinding() {
@@ -137,7 +142,9 @@ class SideBarViewController: UIViewController {
                 cell.setup(data)
                 if let defaultProduct = player.defaultProduct {
                     if defaultProduct == data.type {
-                        cell.imgIcon.backgroundColor = UIColor.redForDark502
+                        cell.setSelectedIcon(data.type, isSelected: true)
+                        self.slideViewModel.currentSelectedCell = cell
+                        self.slideViewModel.currentSelectedProductType = data.type
                         self.listProduct.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .init())
                     }
                 }
@@ -168,21 +175,21 @@ class SideBarViewController: UIViewController {
         Observable.zip(listProduct.rx.itemSelected, listProduct.rx.modelSelected(ProductItem.self)).bind { [weak self] (indexPath, data) in
             NavigationManagement.sharedInstance.goTo(productType: data.type)
             let cell = self?.listProduct.cellForItem(at: indexPath) as? ProductItemCell
-            cell?.imgIcon.backgroundColor = UIColor.redForDark502
+            cell?.setSelectedIcon(data.type, isSelected: true)
+            self?.slideViewModel.currentSelectedCell = cell
+            self?.slideViewModel.currentSelectedProductType = data.type
         }.disposed(by: disposeBag)
         
-        listProduct.rx.itemDeselected.subscribe { (indexPath) in
-            guard let indexPath = indexPath.element else { return }
-            let cell = self.listProduct.cellForItem(at: indexPath) as? ProductItemCell
-            cell?.imgIcon.backgroundColor = UIColor.black
+        Observable.zip(listProduct.rx.itemDeselected, listProduct.rx.modelDeselected(ProductItem.self)).bind { [weak self] (indexPath, data) in
+            let cell = self?.listProduct.cellForItem(at: indexPath) as? ProductItemCell
+            cell?.setSelectedIcon(data.type, isSelected: false)
         }.disposed(by: disposeBag)
         
         listFeature.rx.modelSelected(FeatureItem.self).subscribe {(data) in
             guard let featureType = data.element?.name else { return }
             if featureType != .logout {
-                self.listProduct.visibleCells.forEach { (cell) in
-                    guard let cell = cell as? ProductItemCell else { return }
-                    cell.imgIcon.backgroundColor = UIColor.black
+                if let productType = self.slideViewModel.currentSelectedProductType {
+                    self.slideViewModel.currentSelectedCell?.setSelectedIcon(productType, isSelected: false)
                 }
             }
             
@@ -202,9 +209,54 @@ class SideBarViewController: UIViewController {
                 NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "WithdrawNavigationController")
             case .diposit:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "DepositNavigationController")
-            default:
-                break
+            case .callService:
+                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "CallServiceNavigationController")
             }
         }.disposed(by: disposeBag)
+        
+        let labAccountTap = UITapGestureRecognizer(target: self, action: #selector(self.accountTap(_:)))
+        self.labUserAcoount.isUserInteractionEnabled = true
+        self.labUserAcoount.addGestureRecognizer(labAccountTap)
+        
+        let labAccountLevelTap = UITapGestureRecognizer(target: self, action: #selector(self.accountLevelTap(_:)))
+        self.labUserLevel.isUserInteractionEnabled = true
+        self.labUserLevel.addGestureRecognizer(labAccountLevelTap)
+        
+        let labBalanceTap = UITapGestureRecognizer(target: self, action: #selector(self.balanceTap(_:)))
+        self.labBalance.isUserInteractionEnabled = true
+        self.labBalance.addGestureRecognizer(labBalanceTap)
+    }
+    
+    @objc func accountTap(_ sender: UITapGestureRecognizer) {
+        if let productType = self.slideViewModel.currentSelectedProductType {
+            self.slideViewModel.currentSelectedCell?.setSelectedIcon(productType, isSelected: false)
+        }
+        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountInfoNavigationController")
+    }
+    
+    @objc func accountLevelTap(_ sender: UITapGestureRecognizer) {
+        setUnSelectProduct()
+        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountLevelNavigationController")
+    }
+    
+    @objc func balanceTap(_ sender: UITapGestureRecognizer) {
+        setUnSelectProduct()
+        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountBalanceNavigationController")
+    }
+    
+    @IBAction func toGift(_ sender : UIButton){
+        setUnSelectProduct()
+        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountGiftNavigationController")
+    }
+    
+    @IBAction func toNotify(_ sender : UIButton){
+        setUnSelectProduct()
+        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountNotifyNavigationController")
+    }
+    
+    fileprivate func setUnSelectProduct() {
+        if let productType = self.slideViewModel.currentSelectedProductType {
+            self.slideViewModel.currentSelectedCell?.setSelectedIcon(productType, isSelected: false)
+        }
     }
 }

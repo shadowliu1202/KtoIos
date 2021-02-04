@@ -115,6 +115,7 @@ class LoginViewController: UIViewController {
         btnLogin.layer.masksToBounds = true
         constraintLoginErrorHeight.constant = 0
         constraintCaptchaHeight.constant = 0
+        textAccount.setKeyboardType(.emailAddress)
     }
     
     func setViewModel(){
