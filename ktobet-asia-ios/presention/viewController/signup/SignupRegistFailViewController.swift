@@ -15,6 +15,7 @@ class SignupRegistFailViewController : UIViewController{
     @IBOutlet private weak var labTitle : UILabel!
     @IBOutlet private weak var labDesc : UILabel!
     @IBOutlet private weak var btnRestart : UIButton!
+    @IBOutlet private weak var scollView : UIScrollView!
     
     var failedType: FailedType = .register
     
@@ -42,6 +43,7 @@ class SignupRegistFailViewController : UIViewController{
         naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
         btnRestart.layer.cornerRadius = 9
         btnRestart.layer.masksToBounds = true
+        scollView.backgroundColor = UIColor.black_two
     }
     
     @IBAction private func btnRestartPressed(_ sender : UIButton){
