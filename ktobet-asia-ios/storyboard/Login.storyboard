@@ -192,14 +192,15 @@
                                             <constraint firstItem="K0m-SN-tQb" firstAttribute="leading" secondItem="u6b-gB-4uN" secondAttribute="leading" id="zS0-gn-8xJ"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MCa-mV-cyH">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MCa-mV-cyH">
                                         <rect key="frame" x="30" y="654" width="354" height="48"/>
                                         <color key="backgroundColor" red="0.94901960784313721" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="34g-hx-gP0"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <state key="normal" title="登录"/>
+                                        <state key="normal" title="登录">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <connections>
                                             <action selector="btnLoginPressed:" destination="PxA-hP-tdG" eventType="touchUpInside" id="xvc-FN-bIn"/>
                                         </connections>

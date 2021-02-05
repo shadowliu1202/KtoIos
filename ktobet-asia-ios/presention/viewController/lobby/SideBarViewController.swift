@@ -19,6 +19,9 @@ class SideBarViewController: UIViewController {
     @IBOutlet private weak var labUserLevel: UILabel!
     @IBOutlet private weak var labUserAcoount: UILabel!
     @IBOutlet private weak var labUserName: UILabel!
+    @IBOutlet private weak var accountView: UIView!
+    @IBOutlet private weak var levelView: UIView!
+    @IBOutlet private weak var balanceView: UIView!
     
     private var player : Player?
     private var disposeBag = DisposeBag()
@@ -155,6 +158,16 @@ class SideBarViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         viewModel.getBalance().subscribe {[unowned self] (balance) in
+            let paragraph = NSMutableParagraphStyle()
+            paragraph.firstLineHeadIndent = 0
+            paragraph.headIndent = 16
+            paragraph.lineBreakMode = .byCharWrapping
+            let mutString = NSAttributedString(
+                string: balance,
+                attributes: [NSAttributedString.Key.paragraphStyle: paragraph]
+            )
+
+            self.labBalance.attributedText = mutString
             self.labBalance.text = balance
             self.viewModel.balance = balance
             self.setBalanceHiddenState(isHidden: self.viewModel.getBalanceHiddenState(gameId: self.player?.gameId ?? ""))
@@ -185,8 +198,9 @@ class SideBarViewController: UIViewController {
             cell?.setSelectedIcon(data.type, isSelected: false)
         }.disposed(by: disposeBag)
         
-        listFeature.rx.modelSelected(FeatureItem.self).subscribe {(data) in
-            guard let featureType = data.element?.name else { return }
+//        listFeature.rx.modelSelected(FeatureItem.self).subscribe {(data) in
+        Observable.zip(listFeature.rx.itemSelected, listFeature.rx.modelSelected(FeatureItem.self)).bind { (indexPath, data) in
+            let featureType = data.name
             if featureType != .logout {
                 if let productType = self.slideViewModel.currentSelectedProductType {
                     self.slideViewModel.currentSelectedCell?.setSelectedIcon(productType, isSelected: false)
@@ -212,19 +226,21 @@ class SideBarViewController: UIViewController {
             case .callService:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "CallServiceNavigationController")
             }
+            
+            self.listFeature.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
         
         let labAccountTap = UITapGestureRecognizer(target: self, action: #selector(self.accountTap(_:)))
-        self.labUserAcoount.isUserInteractionEnabled = true
-        self.labUserAcoount.addGestureRecognizer(labAccountTap)
+        self.accountView.isUserInteractionEnabled = true
+        self.accountView.addGestureRecognizer(labAccountTap)
         
         let labAccountLevelTap = UITapGestureRecognizer(target: self, action: #selector(self.accountLevelTap(_:)))
-        self.labUserLevel.isUserInteractionEnabled = true
-        self.labUserLevel.addGestureRecognizer(labAccountLevelTap)
+        self.levelView.isUserInteractionEnabled = true
+        self.levelView.addGestureRecognizer(labAccountLevelTap)
         
         let labBalanceTap = UITapGestureRecognizer(target: self, action: #selector(self.balanceTap(_:)))
-        self.labBalance.isUserInteractionEnabled = true
-        self.labBalance.addGestureRecognizer(labBalanceTap)
+        self.balanceView.isUserInteractionEnabled = true
+        self.balanceView.addGestureRecognizer(labBalanceTap)
     }
     
     @objc func accountTap(_ sender: UITapGestureRecognizer) {

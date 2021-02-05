@@ -11,6 +11,7 @@ import RxCocoa
 
 protocol InputConfirmPasswordDelegate {
     func shouldFocus(_ focus: Bool)
+    func getFocus() -> Bool
 }
 
 class InputConfirmPassword : UIView{
@@ -82,7 +83,7 @@ class InputConfirmPassword : UIView{
             self.labSubTitle.frame = position.subTitle
             self.textContent.frame = position.content
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-            self.backgroundColor = self.isEditing ? UIColor.inputSelectedTundoraGray : UIColor.inputBaseMineShaftGray
+            self.backgroundColor = self.getAllFocus() ? UIColor.inputSelectedTundoraGray : UIColor.inputBaseMineShaftGray
         }
         if firstPosition{
             changePosition()
@@ -185,6 +186,10 @@ class InputConfirmPassword : UIView{
     func setEditingChangedHandler(_ editingChangedHandler:((String)->())?){
         self.editingChangedHandler = editingChangedHandler
     }
+    
+    func getAllFocus() -> Bool {
+        return self.isFocus || self.isEditing || (inputPassword?.getFocus() ?? false)
+    }
 }
 
 
@@ -215,10 +220,14 @@ extension InputConfirmPassword {
 }
 
 extension InputConfirmPassword : InputPasswordDelegate{
+    func getFocus() -> Bool {
+        return isFocus || isEditing
+    }
+    
     func shouldFocus(_ focus: Bool) {
         isFocus = focus
         self.backgroundColor = {
-            guard self.isFocus || self.isEditing else {
+            guard self.getAllFocus() else {
                 return UIColor.inputBaseMineShaftGray
             }
             return UIColor.inputSelectedTundoraGray
