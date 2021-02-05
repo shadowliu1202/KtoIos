@@ -12,6 +12,7 @@ import RxCocoa
 protocol InputPasswordDelegate {
     func shouldHidePassword(_ hide: Bool)
     func shouldFocus(_ focus: Bool)
+    func getFocus() -> Bool
 }
 
 class InputPassword : UIView{
@@ -85,7 +86,7 @@ class InputPassword : UIView{
             self.btnHideContent.frame = position.hideBtn
             self.textContent.frame = position.content
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-            self.backgroundColor = self.isEditing ? UIColor.inputSelectedTundoraGray : UIColor.inputBaseMineShaftGray
+            self.backgroundColor = self.getAllFocus() ? UIColor.inputSelectedTundoraGray : UIColor.inputBaseMineShaftGray
         }
         if firstPosition{
             changePosition()
@@ -190,6 +191,10 @@ class InputPassword : UIView{
     func setEditingChangedHandler(_ editingChangedHandler:((String)->())?){
         self.editingChangedHandler = editingChangedHandler
     }
+    
+    func getAllFocus() -> Bool {
+        return self.isFocus || self.isEditing || (confirmPassword?.getFocus() ?? false)
+    }
 }
 
 
@@ -219,10 +224,14 @@ extension InputPassword {
 }
 
 extension InputPassword : InputConfirmPasswordDelegate{
+    func getFocus() -> Bool {
+        return isFocus || isEditing
+    }
+    
     func shouldFocus(_ focus: Bool) {
         isFocus = focus
         self.backgroundColor = {
-            guard self.isFocus || self.isEditing else {
+            guard self.getAllFocus() else {
                 return UIColor.inputBaseMineShaftGray
             }
             return UIColor.inputSelectedTundoraGray
