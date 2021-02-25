@@ -130,7 +130,6 @@ class ResetPasswordViewController: UIViewController {
                     self.btnEmail.isSelected = true
                     self.btnSubmit.setTitle(Localize.string("register_step2_verify_mail"), for: .normal)
                 }
-                self.inputAccount.setContent("")
                 self.inputAccount.showKeyboard()
             }).disposed(by: disposeBag)
     }
