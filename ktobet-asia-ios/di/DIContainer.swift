@@ -17,7 +17,7 @@ class DIContainer {
     let container = Container()
     let httpClient = HttpClient()
     
-    init() {
+    private init() {
         registApi()
         registRepo()
         registUsecase()
@@ -43,6 +43,12 @@ class DIContainer {
         }
         ctner.register(CustomServiceApi.self) { (resolver) in
             return CustomServiceApi(httpclient)
+        }
+        ctner.register(BankApi.self) { (resolver) in
+            return BankApi(httpclient)
+        }
+        ctner.register(ImageApi.self) { (resolver) in
+            return ImageApi(httpclient)
         }
     }
     
@@ -81,6 +87,15 @@ class DIContainer {
         }
         ctner.register(LocalStorageRepository.self) { resolver in
             return LocalStorageRepository()
+        }
+        ctner.register(DepositRepository.self) { resolver in
+            let bankApi = ctner.resolve(BankApi.self)!
+            let imageApi = ctner.resolve(ImageApi.self)!
+            return DepositRepositoryImpl(bankApi, imageApi: imageApi)
+        }
+        ctner.register(ImageRepository.self) { resolver in
+            let imageApi = ctner.resolve(ImageApi.self)!
+            return ImageRepositoryImpl(imageApi)
         }
     }
     
@@ -121,7 +136,14 @@ class DIContainer {
             let repoLocal = ctner.resolve(LocalStorageRepository.self)!
             return PlayerDataUseCaseImpl(repoPlayer, localRepository: repoLocal)
         }
-        
+        ctner.register(DepositUseCase.self) { (resolver)  in
+            let repoDeposit = ctner.resolve(DepositRepository.self)!
+            return DepositUseCaseImpl(repoDeposit)
+        }
+        ctner.register(UploadImageUseCase.self) { (resolver)  in
+            let repoImage = ctner.resolve(ImageRepository.self)!
+            return UploadImageUseCaseImpl(repoImage)
+        }
     }
     
     func registViewModel(){
@@ -177,6 +199,16 @@ class DIContainer {
             let authUseCase = ctner.resolve(AuthenticationUseCase.self)!
             return PlayerViewModel(playerUseCase: playerUseCase, authUsecase: authUseCase)
         }
+        ctner.register(DepositViewModel.self) { (resolver) in
+            let depositUseCase = ctner.resolve(DepositUseCase.self)!
+            let authUseCase = ctner.resolve(AuthenticationUseCase.self)!
+            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
+            return DepositViewModel(depositUseCase: depositUseCase, usecaseAuth: authUseCase, playerUseCase: playerUseCase, httpclient)
+        }
+        ctner.register(UploadPhotoViewModel.self) { (resolver) in
+            let imageUseCase = ctner.resolve(UploadImageUseCase.self)!
+            return UploadPhotoViewModel(imageUseCase: imageUseCase)
+        }
     }
     
     func registLoginView(){
@@ -185,7 +217,7 @@ class DIContainer {
 //        let httpclient = httpClient
 //        let story = UIStoryboard(name: "Login", bundle: nil)
 //        let viewModel = ctner.resolve(LoginViewModel.self)!
-//        
+//
 //        ctner.register(LoginViewController.self) { (resolve)  in
 //            let identifier = String(describing: LoginViewController.self )
 //            return story.instantiateViewController(identifier: identifier) { (coder) -> LoginViewController in

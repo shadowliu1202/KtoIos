@@ -7,6 +7,7 @@ protocol PlayerRepository {
     func getDefaultProduct()->Single<ProductType>
     func saveDefaultProduct(_ productType: ProductType)->Completable
     func getBalance() -> Single<CashAmount>
+    func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]>
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
@@ -72,5 +73,11 @@ class PlayerRepositoryImpl : PlayerRepository {
     
     func getBalance() -> Single<CashAmount> {
         return playerApi.getCashBalance().map { CashAmount(amount: Double($0.data ?? 0) )}
+    }
+    
+    func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]> {
+        return playerApi.getCashLogSummary(begin: begin, end: end, balanceLogFilterType: balanceLogFilterType).map { (response) -> [String: Double] in
+            return response.data ?? [:]
+        }
     }
 }

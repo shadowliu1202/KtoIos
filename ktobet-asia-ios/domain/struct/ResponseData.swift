@@ -45,4 +45,117 @@ struct OtpStatus : Codable {
     var isSmsActive: Bool
 }
 
+struct DepositTypeData: Codable {
+    var depositTypeId: Int32
+    var depositTypeName: String
+    var isFavorite: Bool
+    var depositLimitMaximum: Double
+    var depositLimitMinimum: Double
+}
+
+struct DepositRecordData: Codable {
+    var displayId: String
+    var status: Int32
+    var ticketType: Int32
+    var createdDate: String
+    var updatedDate: String
+    var requestAmount: Double
+    var actualAmount: Double
+    var isFee: Bool
+    var isPendingHold: Bool
+}
+
+struct DepositOfflineBankAccountsData: Codable {
+    var paymentGroupPaymentCards: [String: PaymentGroupPaymentCard]
+}
+
+struct PaymentGroupPaymentCard: Codable {
+    var paymentTokenID: String
+    var bankID: Int32
+    var branch, accountName, accountNumber: String
+    
+    enum CodingKeys: String, CodingKey {
+        case paymentTokenID = "paymentTokenId"
+        case bankID = "bankId"
+        case branch, accountName, accountNumber
+    }
+}
+
+struct FullBankAccount {
+    var bank: Bank?
+    var bankAccount: BankAccount
+}
+
+struct SimpleBank: Codable {
+    var bankId: Int32
+    var name: String
+    var shortName: String
+}
+
+struct DepositMethodData: Codable {
+    var depositTypeID: Int32
+    var depositTypeName: String
+    var depositMethodID: Int32
+    var displayName: String
+    var isFavorite: Bool
+    var paymentTokenID: String
+    var depositLimitMaximum, depositLimitMinimum: Double
+    var specialDisplayType: Int
+
+    enum CodingKeys: String, CodingKey {
+        case depositTypeID = "depositTypeId"
+        case depositTypeName
+        case depositMethodID = "depositMethodId"
+        case displayName, isFavorite
+        case paymentTokenID = "paymentTokenId"
+        case depositLimitMaximum, depositLimitMinimum
+        case specialDisplayType
+    }
+}
+
+struct DepositTransactionData: Codable {
+    let displayID, providerAccountID, depositTransactionID: String
+    let bankID: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case displayID = "displayId"
+        case providerAccountID = "providerAccountId"
+        case depositTransactionID = "depositTransactionId"
+        case bankID = "bankId"
+    }
+}
+
+struct DepositRecordDetailData: Codable {
+    let displayID: String
+    let requestAmount: Double
+    let actualAmount: Double?
+    let createdDate, updatedDate: String
+    let status: Int32
+    let statusChangeHistories: [StatusChangeHistory]
+    let isPendingHold: Bool
+    let ticketType: Int32
+    let fee: Int32?
+
+    enum CodingKeys: String, CodingKey {
+        case displayID = "displayId"
+        case requestAmount, createdDate, updatedDate, status, statusChangeHistories, isPendingHold, ticketType, fee, actualAmount
+    }
+}
+
+struct StatusChangeHistory: Codable {
+    let remarkLevel1, remarkLevel2, remarkLevel3, createdDate: String
+    let imageIDS: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case remarkLevel1, remarkLevel2, remarkLevel3, createdDate
+        case imageIDS = "imageIds"
+    }
+}
+
+struct DepositRecordAllData: Codable {
+    let date: String
+    let logs: [DepositRecordData]
+}
+
 struct Nothing : Codable{}
+

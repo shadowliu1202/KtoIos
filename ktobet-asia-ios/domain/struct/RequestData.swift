@@ -36,4 +36,55 @@ struct INewPasswordRequest : Encodable {
     var newPassword : String?
 }
 
+struct DepositOfflineBankAccountsRequest: Codable {
+    let paymentTokenID, requestAmount, remitterAccountNumber, remitter: String
+    let remitterBankName: String
+    let channel, depositType: Int32
+
+    enum CodingKeys: String, CodingKey {
+        case paymentTokenID = "paymentTokenId"
+        case requestAmount, remitterAccountNumber, remitter, remitterBankName, channel, depositType
+    }
+}
+
+struct DepositOnlineAccountsRequest: Codable {
+    let paymentTokenID, requestAmount, remitter: String
+    let channel: Int
+    let remitterAccountNumber, remitterBankName: String
+    let depositType: Int32
+
+    enum CodingKeys: String, CodingKey {
+        case paymentTokenID = "paymentTokenId"
+        case requestAmount, remitter, channel, remitterAccountNumber, remitterBankName, depositType
+    }
+}
+
+struct UploadImagesData: Codable {
+    let ticketStatus: Int32
+    let images: [Image]
+}
+
+// MARK: - Image
+struct Image: Codable {
+    let imageID, fileName: String
+
+    enum CodingKeys: String, CodingKey {
+        case imageID = "imageId"
+        case fileName
+    }
+}
+
+struct ChunkImageDetil: Codable {
+    var resumableChunkNumber: String
+    var resumableChunkSize: String
+    var resumableCurrentChunkSize: String
+    var resumableTotalSize: String
+    var resumableType: String
+    var resumableIdentifier: String
+    var resumableFilename: String
+    var resumableRelativePath: String
+    var resumableTotalChunks: String
+    var file: Data
+}
+
 struct Empty : Encodable {}

@@ -158,6 +158,7 @@
 "common_wrong_password_format" = "VIVN密碼格式錯誤";
 "common_password_not_filled" = "VIVN密碼不能為空";
 "common_network_error" = "VIVN網路連接有問題，請確認後重新嘗試";
+"common_month" = "VIVN月";
 "common_january" = "1月";
 "common_february" = "2月";
 "common_march" = "3月";
@@ -239,6 +240,7 @@
 "common_kick_out_maintenance" = "系統維護中";
 "common_kick_out_token_expired" = "我们发现您闲置时间过长, 建议您重新登录, 取得更好的使用体验。";
 "common_kick_out_token_expired_title" = "闲置过久自动登出说明";
+"common_photo_upload_count_limit" = "最多只能选择３个文件";
 
 //MARK: - Register
 "register_language_option_chinese" = "简体中文 + 人民币";
@@ -1159,3 +1161,6 @@ http";
 "level_privilegetype_92" = "VIVN专属特权";
 "level_producttype_1" = "VIVN保险投注";
 "level_producttype_2" = "VIVN老虎机救援金";
+
+//MARK: - Image
+"bank_offline_default" = "Topup ₫(32)";

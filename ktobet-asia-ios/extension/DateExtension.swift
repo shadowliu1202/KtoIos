@@ -1,15 +1,150 @@
-//
-//  DateExtension.swift
-//  ktobet-asia-ios
-//
-//  Created by Weichen Cheng on 2021/1/6.
-//
-
 import Foundation
+import share_bu
 
 
 extension Date {
     func adding(value: Int, byAdding: Calendar.Component) -> Date {
         return Calendar.current.date(byAdding: byAdding, value: value, to: self)!
+    }
+    
+    private func convertToDateComponent(dateType: Calendar.Component) -> Int? {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([dateType], from: self)
+        switch dateType {
+        case .year:
+            return components.year
+        case .month:
+            return components.month
+        case .day:
+            return components.day
+        case .hour:
+            return components.hour
+        case .minute:
+            return components.minute
+        case .second:
+            return components.second
+        case .nanosecond:
+            return components.nanosecond
+        default:
+            return nil
+        }
+    }
+    
+    func getYear() -> Int32 {
+        return Int32(convertToDateComponent(dateType: .year) ?? 0)
+    }
+    
+    func getMonth() -> Int32 {
+        return Int32(convertToDateComponent(dateType: .month) ?? 1)
+    }
+    
+    func getDayOfMonth() -> Int32 {
+        return Int32(convertToDateComponent(dateType: .day) ?? 1)
+    }
+    
+    func getHour() -> Int32 {
+        return Int32(convertToDateComponent(dateType: .hour) ?? 0)
+    }
+    
+    func getMinute() -> Int32 {
+        return Int32(convertToDateComponent(dateType: .minute) ?? 0)
+    }
+    
+    func getSecond() -> Int32 {
+        return Int32(convertToDateComponent(dateType: .second) ?? 0)
+    }
+    
+    func getNanosecond() -> Int32 {
+        return Int32(convertToDateComponent(dateType: .nanosecond) ?? 0)
+    }
+    
+    func formated(withFormat format: String = "yyyy/MM/dd") -> Date? {
+        let formatter: DateFormatter = .init()
+        formatter.dateFormat = format
+        let dateString = formatter.string(from: self)
+        return formatter.date(from: dateString)
+    }
+    
+    func daysSince(_ anotherDate: Date) -> Int? {
+        if let fromDate = dateFromComponents(self), let toDate = dateFromComponents(anotherDate) {
+            let components = Calendar.current.dateComponents([.day], from: fromDate, to: toDate)
+            return components.day
+        }
+        return nil
+    }
+    
+    private func dateFromComponents(_ date: Date) -> Date? {
+        let calender   = Calendar.current
+        let components = calender.dateComponents([.year, .month, .day], from: date)
+        return calender.date(from: components)
+    }
+    
+    func formatDateToStringToSecond(with SeparatorSymbol: String = "/") -> String {
+        let comp = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        let year = comp.year
+        let month = comp.month
+        let dayOfMonth = comp.day
+        return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d", year!, month!, dayOfMonth!, 00, 00, 00)
+    }
+    
+    func formatDateToStringToDay(with SeparatorSymbol: String = "/") -> String {
+        let comp = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        let year = comp.year
+        let month = comp.month
+        let dayOfMonth = comp.day
+        return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", year!, month!, dayOfMonth!)
+    }
+    
+    func convertdateToUTC() -> Date {
+        var comp = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        comp.timeZone = TimeZone(abbreviation: "UTC")!
+        return Calendar.current.date(from: comp)!
+    }
+    
+    func betweenTwoDay(sencondDate: Date) -> Int {
+        let calendar = Calendar.current
+        let date1 = calendar.startOfDay(for: self)
+        let date2 = calendar.startOfDay(for: sencondDate)
+        let components = calendar.dateComponents([.day], from: date1, to: date2)
+        return components.day ?? 0
+    }
+    
+    func betweenTwoMonth(from date: Date) -> Int {
+        guard let diffMonth = Calendar.current.dateComponents([.month], from: date, to: self).month else { return 0 }
+        guard let diffDay = Calendar.current.dateComponents([.day], from: date, to: self).day else { return 0 }
+        return diffDay <= -40 ? diffMonth - 1 : diffMonth
+    }
+    
+    var startOfMonth: Date {
+        let calendar = Calendar(identifier: .gregorian)
+        let components = calendar.dateComponents([.year, .month], from: self)
+        return  calendar.date(from: components)!
+    }
+    
+    var endOfMonth: Date {
+        var components = DateComponents()
+        components.month = 1
+        components.second = -1
+        return Calendar(identifier: .gregorian).date(byAdding: components, to: startOfMonth)!
+    }
+}
+
+
+extension OffsetDateTime {
+    func formatDateToStringToSecond(with SeparatorSymbol: String = "/") -> String {
+        let year = self.localDateTime.year
+        let month = self.localDateTime.monthNumber
+        let dayOfMonth = self.localDateTime.dayOfMonth
+        let hour = self.localDateTime.hour
+        let minute = self.localDateTime.minute
+        let second = self.localDateTime.second
+        return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d", year, month, dayOfMonth, hour, minute, second)
+    }
+    
+    func formatDateToStringToDay() -> String {
+        let year = self.localDateTime.year
+        let month = self.localDateTime.monthNumber
+        let dayOfMonth = self.localDateTime.dayOfMonth
+        return String(format: "%02d/%02d/%02d", year, month, dayOfMonth)
     }
 }

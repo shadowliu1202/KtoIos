@@ -7,6 +7,7 @@ protocol PlayerDataUseCase {
     func setBalanceHiddenState(gameId: String, isHidden: Bool)
     func getBalanceHiddenState(gameId: String) -> Bool
     func loadPlayer() -> Single<Player>
+    func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]>
 }
 
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
@@ -32,5 +33,9 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
 
     func loadPlayer() -> Single<Player> {
         return playerRepository.loadPlayer()
+    }
+    
+    func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]> {
+        return playerRepository.getCashLogSummary(begin: begin, end: end, balanceLogFilterType: balanceLogFilterType)
     }
 }

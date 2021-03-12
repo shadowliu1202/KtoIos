@@ -10,15 +10,21 @@ import RxSwift
 import RxCocoa
 
 
-class InputText : UIView{
-    
+class InputText : UIView {
     private var firstPosition = true
     private var isEditing = false
-    private var editingChangedHandler : ((String)->Void)?
+    var isEdited: Bool {
+        return isEditing
+    }
+    var editingChangedHandler: ((String) -> Void)?
+    var showPickerView: (() -> ())?
+    var hidePickerView: (() -> ())?
+    var maxLength = Int32.max
+    var numberOnly = false
     
     private var labTitle = UILabel()
     private var labSubTitle = UILabel()
-    private var textContent = UITextField()
+    var textContent = UITextField()
     private var underline = UIView()
     var text : ControlProperty<String> {
         get {
@@ -59,7 +65,6 @@ class InputText : UIView{
         super.layoutSubviews()
         adjustPosition()
     }
-    
     
     // MARK: POSITION
     func adjustPosition(){
@@ -187,11 +192,34 @@ extension InputText: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isEditing = true
         adjustPosition()
+        showPickerView?()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         isEditing = false
         adjustPosition()
+        hidePickerView?()
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentString: NSString = (textField.text ?? "") as NSString
+        if numberOnly {
+            return isNumber(replacementString: string) && isLessThanLimitLength(currentString: currentString, shouldChangeCharactersIn: range, replacementString: string)
+        } else {
+            return isLessThanLimitLength(currentString: currentString, shouldChangeCharactersIn: range, replacementString: string)
+        }
+    }
+    
+    private func isNumber(replacementString string: String) -> Bool {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        return allowedCharacters.isSuperset(of: characterSet)
+    }
+    
+    private func isLessThanLimitLength(currentString: NSString, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
     }
 }
 
