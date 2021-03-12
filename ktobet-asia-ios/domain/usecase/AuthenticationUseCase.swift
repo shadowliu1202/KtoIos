@@ -10,9 +10,11 @@ protocol AuthenticationUseCase {
     func getRemeberAccount()->String
     func getLastOverLoginLimitDate()->Date
     func getNeedCaptcha()->Bool
+    func getUserName() -> String
     func setRemeberAccount(_ rememberAccount : String?)
     func setLastOverLoginLimitDate(_ lastOverLoginLimitDate : Date?)
     func setNeedCaptcha(_ needCaptcha : Bool?)
+    func setUserName(_ name: String)
 }
 
 class AuthenticationUseCaseImpl : AuthenticationUseCase {
@@ -67,6 +69,10 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
         return repoLocalStorage.getLastOverLoginLimitDate()
     }
     
+    func getUserName() -> String {
+        return repoLocalStorage.getUserName()
+    }
+    
     func setRemeberAccount(_ rememberAccount : String?){
         repoLocalStorage.setRemeberAccount(rememberAccount)
     }
@@ -77,5 +83,9 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
     
     func setNeedCaptcha(_ needCaptcha : Bool?){
         repoLocalStorage.setNeedCaptcha(needCaptcha)
+    }
+    
+    func setUserName(_ name: String) {
+        repoLocalStorage.setUserName(name)
     }
 }

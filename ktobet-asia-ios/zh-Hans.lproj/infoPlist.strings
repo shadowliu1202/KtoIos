@@ -7,3 +7,5 @@
 */
 
 "CFBundleDisplayName" = "KTO";
+"PhotoAccess" = "需要您的存取照片权限";
+"CameraAccess" = "需要您的相机权限";

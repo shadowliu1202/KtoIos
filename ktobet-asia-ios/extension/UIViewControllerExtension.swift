@@ -11,14 +11,7 @@ import UIKit
 extension UIViewController{
     
     func handleUnknownError(_ error : Error){
-        let type = ErrorType(rawValue: (error as NSError).code)
-        if type == .ApiUnknownException{
-            let message = String(format: Localize.string("UnknownError"), "\((error as NSError).code)")
-            Alert.show(nil, message, confirm: nil, cancel: nil)
-        } else if let message = (error as NSError).userInfo["errorMsg"] as? String{
-            Alert.show(nil, message, confirm: nil, cancel: nil)
-        } else {
-            Alert.show(nil, error.localizedDescription, confirm: nil, cancel: nil)
-        }
+        let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
+        toastView.show(on: self.view, statusTip: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"), img: UIImage(named: "Failed"))
     }
 }

@@ -11,13 +11,6 @@ import Foundation
 let Localize = LocalizeUtils.shared
 
 class LocalizeUtils: NSObject {
-    
-    enum Language : String {
-        case ZH = "zh-Hans"
-        case VI = "vi"
-        case TH = "th"
-    }
-    
     static let shared = LocalizeUtils()
     
     func string(_ key: String) -> String {

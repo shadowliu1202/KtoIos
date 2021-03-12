@@ -45,7 +45,7 @@ class ToastView: UIView {
         
         xibView.translatesAutoresizingMaskIntoConstraints = false
         xibView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        xibView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        xibView.widthAnchor.constraint(equalToConstant: view.frame.width - 20).isActive = true
         xibView.heightAnchor.constraint(equalToConstant: 48).isActive = true
         xibView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
 

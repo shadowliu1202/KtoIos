@@ -94,6 +94,7 @@ class LoginViewModel{
                 self.usecaseAuth.setRemeberAccount(isRememberMe ? self.relayAccount.value : nil)
                 self.usecaseAuth.setNeedCaptcha(nil)
                 self.usecaseAuth.setLastOverLoginLimitDate(nil)
+                self.usecaseAuth.setUserName(player.playerInfo.realName)
                 return player
             }
     }

@@ -1,10 +1,3 @@
-//
-//  StringExtension.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/12/16.
-//
-
 import Foundation
 import UIKit
 
@@ -21,5 +14,21 @@ extension String {
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
 
         return ceil(boundingBox.width)
+    }
+    
+    func convertDateTime() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ"
+        let date = dateFormatter.date(from: self)
+        return date
+    }
+    
+    func convertDateTIme(format: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = format
+        dateFormatter.timeZone = .current
+        let date = dateFormatter.date(from: self)
+        return date
     }
 }

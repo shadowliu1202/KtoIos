@@ -7,15 +7,23 @@
 
 import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
 
 extension UIButton {
     var isValid: Bool {
         get {
-            return self.isValid
+            return self.isEnabled
         }
         set {
             self.isEnabled = newValue
             self.alpha = newValue ? 1 : 0.3
         }
+    }
+}
+
+extension Reactive where Base: UIButton {
+    public var touchUpInside: ControlEvent<Void> {
+        self.controlEvent(.touchUpInside)
     }
 }

@@ -140,7 +140,7 @@ class SideBarViewController: UIViewController {
             self.player = player
             self.labUserLevel.text = "LV\(player.playerInfo.level)"
             self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
-            self.labUserName.text = "\(player.playerInfo.realName)"
+            self.labUserName.text = "\(player.playerInfo.gameId)"
             self.slideViewModel.arrProducts.bind(to: self.listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) { index, data, cell in
                 cell.setup(data)
                 if let defaultProduct = player.defaultProduct {
@@ -153,8 +153,7 @@ class SideBarViewController: UIViewController {
                 }
             }.disposed(by: self.disposeBag)
         } onError: {(error) in
-            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-            toastView.show(on: self.view, statusTip: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"), img: UIImage(named: "Failed"))
+            self.handleUnknownError(error)
         }.disposed(by: disposeBag)
         
         viewModel.getBalance().subscribe {[unowned self] (balance) in
@@ -172,8 +171,7 @@ class SideBarViewController: UIViewController {
             self.viewModel.balance = balance
             self.setBalanceHiddenState(isHidden: self.viewModel.getBalanceHiddenState(gameId: self.player?.gameId ?? ""))
         } onError: { (error) in
-            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-            toastView.show(on: self.view, statusTip: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"), img: UIImage(named: "Failed"))
+            self.handleUnknownError(error)
         }.disposed(by: disposeBag)
         
         slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
@@ -198,7 +196,6 @@ class SideBarViewController: UIViewController {
             cell?.setSelectedIcon(data.type, isSelected: false)
         }.disposed(by: disposeBag)
         
-//        listFeature.rx.modelSelected(FeatureItem.self).subscribe {(data) in
         Observable.zip(listFeature.rx.itemSelected, listFeature.rx.modelSelected(FeatureItem.self)).bind { (indexPath, data) in
             let featureType = data.name
             if featureType != .logout {
@@ -222,7 +219,7 @@ class SideBarViewController: UIViewController {
             case .withdraw:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "WithdrawNavigationController")
             case .diposit:
-                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "DepositNavigationController")
+                NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
             case .callService:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "CallServiceNavigationController")
             }

@@ -16,6 +16,7 @@ def default_pods
   pod 'sharedbu', :path => '../kto-asia-android/sharedbu/'
   pod 'SideMenu'
   pod 'Moya/RxSwift'
+  pod 'SDWebImage'
   use_frameworks!
 end
 

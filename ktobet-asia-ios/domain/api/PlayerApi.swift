@@ -59,4 +59,15 @@ class PlayerApi {
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<Double>.self)
     }
+    
+    func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<ResponseData<[String: Double]>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/cash/transaction-summary",
+                               method: .get,
+                               task: .requestParameters(parameters: ["createdDateRange.begin": begin,
+                                                                     "createdDateRange.end": end,
+                                                                     "balanceLogFilterType": balanceLogFilterType], encoding: URLEncoding.default),
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<[String: Double]>.self)
+    }
 }

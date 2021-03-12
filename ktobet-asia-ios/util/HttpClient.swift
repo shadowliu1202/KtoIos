@@ -88,6 +88,10 @@ class HttpClient {
         return token.joined(separator: ";")
     }
     
+    func getHost() -> String {
+        return host
+    }
+    
     func clearCookie()->Completable{
         return Completable.create { (completable) -> Disposable in
             let storage = self.session.sessionConfiguration.httpCookieStorage

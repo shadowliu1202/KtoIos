@@ -18,7 +18,7 @@ class SignupLanguageViewController: UIViewController{
 
     struct LanguageListData{
         var title : String
-        var type : LocalizeUtils.Language
+        var type : Language
         var selected : Bool
     }
     
@@ -66,7 +66,7 @@ class SignupLanguageViewController: UIViewController{
     private func reloadLanguageList(){
         arrLangs = {
             let texts = [Localize.string("register_language_option_chinese"), Localize.string("register_language_option_vietnam")]
-            let type : [LocalizeUtils.Language] = [.ZH, .VI]
+            let type = [Language.ZH, Language.VI]
             var arr = [LanguageListData]()
             for idx in 0...1{
                 arr.append({

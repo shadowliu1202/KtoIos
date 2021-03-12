@@ -13,4 +13,42 @@ extension Double {
         
         return String(self)
     }
+    
+    func currencyFormatWithoutSymbol(precision: Int32) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.groupingSeparator = ","
+        numberFormatter.groupingSize = 3
+        numberFormatter.usesGroupingSeparator = true
+        numberFormatter.decimalSeparator = "."
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.minimumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = 2
+        
+        return numberFormatter.string(from: self as NSNumber)!
+
+    }
+    
+    func currencyFormatWithoutSymbol() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.groupingSeparator = ","
+        numberFormatter.groupingSize = 3
+        numberFormatter.usesGroupingSeparator = true
+        numberFormatter.decimalSeparator = "."
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 2
+        
+        return numberFormatter.string(from: self as NSNumber)!
+    }
+    
+    func decimalCount() -> Int {
+        if self == Double(Int(self)) {
+            return 0
+        }
+        
+        let integerString = String(Int(self))
+        let doubleString = String(Double(self))
+        let decimalCount = doubleString.count - integerString.count - 1
+        
+        return decimalCount
+    }
 }
