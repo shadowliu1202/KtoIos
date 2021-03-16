@@ -11,6 +11,8 @@ import RxSwift
 import Alamofire
 import SwiftyJSON
 
+let debugCharCount = 500
+
 private func JSONResponseDataFormatter(_ data: Data) -> String {
     do {
         let dataAsJSON = try JSONSerialization.jsonObject(with: data)
@@ -50,6 +52,8 @@ class HttpClient {
         return header
     }
     
+    private(set) var debugDatas: [DebugData] = []
+    
     init() {
         let formatter : NetworkLoggerPlugin.Configuration.Formatter = .init(responseData: JSONResponseDataFormatter)
         let logOptions : NetworkLoggerPlugin.Configuration.LogOptions = .verbose
@@ -62,14 +66,15 @@ class HttpClient {
             .rx
             .request(MultiTarget(target))
             .filterSuccessfulStatusCodes()
-            .flatMap({ (response) -> Single<Response> in
+            .flatMap({ [weak self] (response) -> Single<Response> in
+                self?.printResponseData(target.iMethod.rawValue, response: response)
                 if let json = try? JSON.init(data: response.data),
                    let statusCode = json["statusCode"].string,
                    let errorMsg = json["errorMsg"].string,
                    statusCode.count > 0 && errorMsg.count > 0{
-                    let domain = self.baseUrl.path
+                    let domain = self?.baseUrl.path
                     let code = Int(statusCode) ?? 0
-                    let error = NSError(domain: domain, code: code, userInfo: ["errorMsg" : errorMsg])
+                    let error = NSError(domain: domain!, code: code, userInfo: ["errorMsg" : errorMsg])
                     return Single.error(error)
                 }
                 return Single.just(response)
@@ -101,5 +106,37 @@ class HttpClient {
             completable(.completed)
             return Disposables.create {}
         }
+    }
+    
+    private func printResponseData(_ method: String, response: Response) {
+        let data = self.loadResponseData(method, response: response)
+        
+        if self.debugDatas.count > 20 {
+            self.debugDatas.remove(at: 0)
+        }
+        
+        self.debugDatas.append(data)
+    }
+    
+    private func loadResponseData(_ method: String, response: Response) -> DebugData {
+        var debugData = DebugData()
+        debugData.callbackTime = "\(Date().convertdateToUTC().formatDateToStringToDay())"
+        debugData.url = "\(String(describing: (response.request?.url)!))"
+        if response.request?.allHTTPHeaderFields != nil {
+            debugData.headers = "\((response.request?.allHTTPHeaderFields)!)"
+        }
+        
+        if response.request?.httpBody != nil {
+            var b = String(describing: String(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8)!).replacingOccurrences(of: "\\", with: "")
+            b = b.count < debugCharCount ? b : b.prefix(debugCharCount) + "...more"
+            debugData.body = "\(b)"
+        }
+        
+        let data = response.data
+        let dataStr = String(data: data, encoding: .utf8)!
+        let s = dataStr.count > debugCharCount ? "\(dataStr.prefix(debugCharCount))...more" : dataStr
+        debugData.response = "\(s)"
+        
+        return debugData
     }
 }

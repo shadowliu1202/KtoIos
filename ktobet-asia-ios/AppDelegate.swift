@@ -12,14 +12,43 @@ import IQKeyboardManagerSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    var isDebugModel = false
+    var debugController: MainDebugViewController?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
         application.statusBarStyle = .lightContent
         if #available(iOS 13.0, *) {
             window?.overrideUserInterfaceStyle = .light
         }
+        
+        #if QAT
+        self.addDebugGesture()
+        #endif
+        
         return true
     }
-    // MARK: UISceneSession Lifecycle
+    
+    func addDebugGesture() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(debugGesture(_:)))
+        gesture.numberOfTouchesRequired = 2
+        gesture.numberOfTapsRequired = 2
+        self.window?.addGestureRecognizer(gesture)
+    }
+    
+    @objc func debugGesture(_ gesture: UITapGestureRecognizer) {
+        guard !isDebugModel else { return }
+        
+        let storyboard = UIStoryboard(name: "Launch", bundle: nil)
+        self.debugController = storyboard.instantiateViewController(withIdentifier: "MainDebugViewController") as? MainDebugViewController
+        self.debugController?.cancelHandle = { [weak self] in
+            self?.debugController?.view.removeFromSuperview()
+            self?.debugController = nil
+            self?.isDebugModel = false
+        }
+        
+        self.window?.addSubview(self.debugController!.view)
+        self.isDebugModel = true
+    }
 }

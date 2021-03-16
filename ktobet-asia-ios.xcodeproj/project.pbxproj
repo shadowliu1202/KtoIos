@@ -49,6 +49,9 @@
 		414930E925F3319D008F32C5 /* FilterPresentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414930E625F3319D008F32C5 /* FilterPresentProtocol.swift */; };
 		4149B3BC25B13F93001F21C9 /* SMSVerifyCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */; };
 		418C605B25B92E12009F7101 /* LocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C605A25B92E12009F7101 /* LocalStorageRepository.swift */; };
+		418EB32E25FF0EEA0093F124 /* MainDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418EB32D25FF0EEA0093F124 /* MainDebugViewController.swift */; };
+		418EB32F25FF0EEA0093F124 /* MainDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418EB32D25FF0EEA0093F124 /* MainDebugViewController.swift */; };
+		418EB33025FF0EEA0093F124 /* MainDebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418EB32D25FF0EEA0093F124 /* MainDebugViewController.swift */; };
 		4199A02825AE9918002E2D7E /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
 		4199A02925AE9918002E2D7E /* HubConnectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F6255CEB87002EA837 /* HubConnectionBuilder.swift */; };
 		4199A02A25AE9918002E2D7E /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */; };
@@ -553,6 +556,12 @@
 		6D72760125F5F499000BF51F /* MonthCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D7275FD25F5F499000BF51F /* MonthCollectionViewCell.xib */; };
 		6D72760225F5F499000BF51F /* MonthCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D7275FD25F5F499000BF51F /* MonthCollectionViewCell.xib */; };
 		6D72760325F5F499000BF51F /* MonthCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D7275FD25F5F499000BF51F /* MonthCollectionViewCell.xib */; };
+		6D92AD6825FA04F40093D94C /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD6025FA007E0093D94C /* RxExtension.swift */; };
+		6D92AD6B25FA04F60093D94C /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD6025FA007E0093D94C /* RxExtension.swift */; };
+		6D92AD6C25FA04F60093D94C /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD6025FA007E0093D94C /* RxExtension.swift */; };
+		6D92AD8625FAFFAA0093D94C /* KTOViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD8525FAFFAA0093D94C /* KTOViewModel.swift */; };
+		6D92AD8725FAFFAA0093D94C /* KTOViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD8525FAFFAA0093D94C /* KTOViewModel.swift */; };
+		6D92AD8825FAFFAA0093D94C /* KTOViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD8525FAFFAA0093D94C /* KTOViewModel.swift */; };
 		AF74BB52619E374EEFEB9E30 /* Pods_ktobet_asia_ios_qat_v.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF900CE581B759E08DE6761 /* Pods_ktobet_asia_ios_qat_v.framework */; };
 		CFD1A663F718394B53E92BA0 /* libPods-ktobet-asia-iosUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B903FE319D2499B65CA0352 /* libPods-ktobet-asia-iosUITests.a */; };
 		D0819BC1ED64A60474BB7AF1 /* Pods_ktobet_asia_ios_qat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AB665CC11FF1E599A96DDA /* Pods_ktobet_asia_ios_qat.framework */; };
@@ -610,6 +619,7 @@
 		414930E625F3319D008F32C5 /* FilterPresentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresentProtocol.swift; sourceTree = "<group>"; };
 		4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerifyCodeInputView.swift; sourceTree = "<group>"; };
 		418C605A25B92E12009F7101 /* LocalStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageRepository.swift; sourceTree = "<group>"; };
+		418EB32D25FF0EEA0093F124 /* MainDebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDebugViewController.swift; sourceTree = "<group>"; };
 		4199A09725AE9918002E2D7E /* ktobet-asia-ios-qat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-qat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-qat-Info.plist"; sourceTree = "<group>"; };
 		44E57CDF4367035AF08F1169 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -799,6 +809,8 @@
 		6D7275F425F5D3F9000BF51F /* MonthSelectView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MonthSelectView.xib; sourceTree = "<group>"; };
 		6D7275FC25F5F499000BF51F /* MonthCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCollectionViewCell.swift; sourceTree = "<group>"; };
 		6D7275FD25F5F499000BF51F /* MonthCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MonthCollectionViewCell.xib; sourceTree = "<group>"; };
+		6D92AD6025FA007E0093D94C /* RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
+		6D92AD8525FAFFAA0093D94C /* KTOViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTOViewModel.swift; sourceTree = "<group>"; };
 		768A46A2A6F183CF5C5D611F /* Pods-ktobet-asia-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		7B903FE319D2499B65CA0352 /* libPods-ktobet-asia-iosUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ktobet-asia-iosUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C6D0DDD8C84A8E21FCD6BF9 /* Pods-ktobet-asia-ios-qat-v.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat-v.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat-v/Pods-ktobet-asia-ios-qat-v.release.xcconfig"; sourceTree = "<group>"; };
@@ -1100,6 +1112,7 @@
 				6D72755525F0DB99000BF51F /* UILabelExtension.swift */,
 				6D72756925F0E563000BF51F /* UIViewExtension.swift */,
 				60095E4525F7273300F5DCE6 /* ArrayExtension.swift */,
+				6D92AD6025FA007E0093D94C /* RxExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -1209,6 +1222,8 @@
 				607FC20625B142C200180147 /* SystemViewModel.swift */,
 				60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */,
 				60072D9725E8C2DE001EFDAE /* UploadPhotoViewModel.swift */,
+				6D92AD8525FAFFAA0093D94C /* KTOViewModel.swift */,
+				418EB32D25FF0EEA0093F124 /* MainDebugViewController.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -1777,6 +1792,7 @@
 				60CAED2A25E349DE00FB5283 /* DepositThirdPartWebViewController.swift in Sources */,
 				4199A02D25AE9918002E2D7E /* PlayerRepository.swift in Sources */,
 				41077DF225BA71D00057B340 /* UINavigationControllerExtension.swift in Sources */,
+				6D92AD8725FAFFAA0093D94C /* KTOViewModel.swift in Sources */,
 				607CF2C725BEBECD00A9342D /* NavigationManagement.swift in Sources */,
 				41077DB725BA639C0057B340 /* DateExtension.swift in Sources */,
 				4199A02E25AE9918002E2D7E /* AuthenticationApi.swift in Sources */,
@@ -1791,6 +1807,7 @@
 				602B534E25E4933F00AB62C4 /* DepositRecordDetailViewController.swift in Sources */,
 				4199A03425AE9918002E2D7E /* SignalRError.swift in Sources */,
 				41077DBA25BA639E0057B340 /* DoubleExtension.swift in Sources */,
+				6D92AD6B25FA04F60093D94C /* RxExtension.swift in Sources */,
 				4199A03525AE9918002E2D7E /* CodableHelpers.swift in Sources */,
 				4199A03625AE9918002E2D7E /* HttpConnectionOptions.swift in Sources */,
 				4199A03725AE9918002E2D7E /* KTOTimer.swift in Sources */,
@@ -1862,6 +1879,7 @@
 				4199A05F25AE9918002E2D7E /* ConfigurationUseCase.swift in Sources */,
 				60072DD025EF32DF001EFDAE /* DepositRecordViewController.swift in Sources */,
 				4199A06025AE9918002E2D7E /* SignupPhoneViewController.swift in Sources */,
+				418EB32F25FF0EEA0093F124 /* MainDebugViewController.swift in Sources */,
 				4199A06125AE9918002E2D7E /* DefaultProductCell.swift in Sources */,
 				60095E4725F7273300F5DCE6 /* ArrayExtension.swift in Sources */,
 				602154FA25CD3A9300F40D0F /* UITableViewExtension.swift in Sources */,
@@ -1963,6 +1981,7 @@
 				60CAED2925E349DE00FB5283 /* DepositThirdPartWebViewController.swift in Sources */,
 				41077DF125BA71D00057B340 /* UINavigationControllerExtension.swift in Sources */,
 				607CF2C425BEBECA00A9342D /* NavigationManagement.swift in Sources */,
+				6D92AD8625FAFFAA0093D94C /* KTOViewModel.swift in Sources */,
 				48AAA117256E458800E075CA /* HttpClientBack.swift in Sources */,
 				48AAA118256E458800E075CA /* TestViewModel.swift in Sources */,
 				607CF2D625BECEDE00A9342D /* NumberGameViewController.swift in Sources */,
@@ -1977,6 +1996,7 @@
 				602B534D25E4933F00AB62C4 /* DepositRecordDetailViewController.swift in Sources */,
 				48AAA11E256E458800E075CA /* CustomServiceApi.swift in Sources */,
 				48A005682594851000C7F1FB /* ReactiveExtension.swift in Sources */,
+				6D92AD6825FA04F40093D94C /* RxExtension.swift in Sources */,
 				48AAA11F256E458800E075CA /* EncodableExtension.swift in Sources */,
 				60BCC2D025B6D8AF00C56D6E /* PlayerViewModel.swift in Sources */,
 				48AAA120256E458800E075CA /* TermsOfServiceViewController.swift in Sources */,
@@ -2048,6 +2068,7 @@
 				487288EA2589E94400D8983B /* UIImageExtension.swift in Sources */,
 				60072DCF25EF32DF001EFDAE /* DepositRecordViewController.swift in Sources */,
 				48AAA149256E458800E075CA /* TermsOfServiceCell.swift in Sources */,
+				418EB32E25FF0EEA0093F124 /* MainDebugViewController.swift in Sources */,
 				607FC22A25B19AE300180147 /* SystemSignalRUseCase.swift in Sources */,
 				60095E4625F7273300F5DCE6 /* ArrayExtension.swift in Sources */,
 				602154F925CD3A9300F40D0F /* UITableViewExtension.swift in Sources */,
@@ -2133,6 +2154,7 @@
 				60CAED2B25E349DE00FB5283 /* DepositThirdPartWebViewController.swift in Sources */,
 				605AC73A25C115BF00873D63 /* InputConfirmPassword.swift in Sources */,
 				605AC73B25C115BF00873D63 /* PlayerRepository.swift in Sources */,
+				6D92AD8825FAFFAA0093D94C /* KTOViewModel.swift in Sources */,
 				605AC73C25C115BF00873D63 /* UINavigationControllerExtension.swift in Sources */,
 				605AC73D25C115BF00873D63 /* NavigationManagement.swift in Sources */,
 				605AC73E25C115BF00873D63 /* DateExtension.swift in Sources */,
@@ -2147,6 +2169,7 @@
 				602B534F25E4933F00AB62C4 /* DepositRecordDetailViewController.swift in Sources */,
 				605AC74625C115BF00873D63 /* SignalRError.swift in Sources */,
 				605AC74725C115BF00873D63 /* DoubleExtension.swift in Sources */,
+				6D92AD6C25FA04F60093D94C /* RxExtension.swift in Sources */,
 				605AC74825C115BF00873D63 /* CodableHelpers.swift in Sources */,
 				605AC74925C115BF00873D63 /* HttpConnectionOptions.swift in Sources */,
 				605AC74A25C115BF00873D63 /* KTOTimer.swift in Sources */,
@@ -2218,6 +2241,7 @@
 				605AC77825C115BF00873D63 /* HttpClient.swift in Sources */,
 				60072DD125EF32DF001EFDAE /* DepositRecordViewController.swift in Sources */,
 				605AC77925C115BF00873D63 /* ConfigurationUseCase.swift in Sources */,
+				418EB33025FF0EEA0093F124 /* MainDebugViewController.swift in Sources */,
 				605AC77A25C115BF00873D63 /* SignupPhoneViewController.swift in Sources */,
 				60095E4825F7273300F5DCE6 /* ArrayExtension.swift in Sources */,
 				605AC77B25C115BF00873D63 /* DefaultProductCell.swift in Sources */,
@@ -2315,11 +2339,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 277T679FZ2;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2347,10 +2371,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
-				DEVELOPMENT_TEAM = 277T679FZ2;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
