@@ -48,16 +48,18 @@ class DepositMethodViewController: UIViewController {
             depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), min + "-" + max)
             viewModel.minAmountLimit = offline.min.amount
             viewModel.maxAmountLimit = offline.max.amount
+            titleLabel.text = Localize.string("deposit_offline_step1_title")
             confirmHandler = {
                 self.performSegue(withIdentifier: DepositOfflineConfirmViewController.segueIdentifier, sender: nil)
             }
         }
         
-        if depositType is DepositRequest.DepositTypeThirdParty {
+        if let thirdParty = depositType as? DepositRequest.DepositTypeThirdParty {
             NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, isShowAlert: true, backTitle: Localize.string("common_confirm_cancel_operation"), backMessage: Localize.string("deposit_online_terminate"))
             remitterBankTextField.isHidden = true
             constraintremitterBankTextFieldHeight.constant = 0
             constraintremitterBankTextFieldTop.constant = 0
+            titleLabel.text = thirdParty.name
             thirdPartDataBinding()
             thirdPartEventHandler()
             validateOnlineInputTextField()
@@ -80,13 +82,12 @@ class DepositMethodViewController: UIViewController {
         (self.remitterNameTextField.text <-> self.viewModel.relayName).disposed(by: self.disposeBag)
         (self.remitterAmountTextField.text <-> self.viewModel.relayBankAmount).disposed(by: self.disposeBag)
         remitterAmountTextField.editingChangedHandler = { (str) in
-            guard let amount = Double(str)?.currencyFormatWithoutSymbol() else { return }
+            guard let amount = Double(str.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else { return }
             self.viewModel.relayBankAmount.accept(amount)
         }
         
         scrollView.backgroundColor = UIColor.black_two
         depositTableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
-        titleLabel.text = Localize.string("deposit_offline_step1_title")
         selectDepositBankLabel.text = Localize.string("deposit_selectbank")
         myDepositInfo.text = Localize.string("deposit_my_account_detail")
         remitterBankTextField.setTitle(Localize.string("deposit_bankname_placeholder"))
