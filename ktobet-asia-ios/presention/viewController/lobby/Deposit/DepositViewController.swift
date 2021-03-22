@@ -22,13 +22,13 @@ class DepositViewController: UIViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
         initUI()
-        depositTypeDataBinding()
         depositTypeDataHandler()
         recordDataHandler()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        depositTypeDataBinding()
         recordDataBinding()
     }
     
@@ -46,6 +46,8 @@ class DepositViewController: UIViewController {
     }
     
     fileprivate func depositTypeDataBinding() {
+        depositTypeTableView.delegate = nil
+        depositTypeTableView.dataSource = nil
         let getDepositTypeObservable = viewModel.getDepositType().asObservable().map { (data) -> [DepositRequest.DepositType] in
             return data.filter { (d) -> Bool in
                 return (d as? DepositRequest.DepositTypeUnknown) == nil
