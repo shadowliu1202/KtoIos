@@ -33,6 +33,7 @@ class DepositRecordDetailViewController: UIViewController {
     @IBOutlet private weak var remarkViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var remarkTableViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var imageStackViewHeight: NSLayoutConstraint!
+    @IBOutlet private weak var statusViewHeight: NSLayoutConstraint!
 
     @IBOutlet private weak var imageStackView: UIStackView!
     @IBOutlet private weak var scrollview: UIScrollView!
@@ -225,11 +226,17 @@ class DepositRecordDetailViewController: UIViewController {
         self.applytimeLabel.text = data.createdDate.formatDateToStringToSecond()
         self.amountLabel.text = String(data.requestAmount.amount)
         self.depositIdLabel.text = data.displayId
+        self.statusViewHeight.constant = 77
         self.statusLabel.text = StringMapper.sharedInstance.parse(data.status, isPendingHold: data.isPendingHold)
         if data.status != TransactionStatus.floating {
             self.uploadView.isHidden = true
             self.uploadViewHeight.constant = 0
             self.confrimButton.isHidden = true
+        }
+        
+        if data.status == TransactionStatus.pending {
+            self.statusDateLabel.text = ""
+            self.statusViewHeight.constant = 60
         }
         
         self.remarkTableview.layoutIfNeeded()
@@ -246,7 +253,9 @@ class DepositRecordDetailViewController: UIViewController {
         self.remarkTableview.delegate = nil
         self.remarkTableview.dataSource = nil
         startActivityIndicator()
-        viewModel.getDepositRecordDetail(transactionId: detailRecord.displayId, transactionTransactionType: detailRecord.transactionTransactionType).subscribe { (data) in
+        viewModel.getDepositRecordDetail(transactionId: detailRecord.displayId, transactionTransactionType: detailRecord.transactionTransactionType).subscribe {[weak self] (data) in
+            guard let self = self else { return }
+            self.statusDateLabel.text = data.updatedDate.formatDateToStringToSecond()
             let statusChangeHistoriesObservalbe = Observable.from(optional: data.statusChangeHistories)
             statusChangeHistoriesObservalbe.bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) { index, d, cell in
                 cell.setup(history: d)

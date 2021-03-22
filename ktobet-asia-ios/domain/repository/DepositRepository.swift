@@ -145,11 +145,12 @@ class DepositRepositoryImpl: DepositRepository {
     
     fileprivate func createDepositRecordDetail(detail: DepositRecordDetailData) -> Single<DepositRecordDetail> {
         let createDate = detail.createdDate.convertDateTime() ?? Date()
-        let createLocalDateTime = Kotlinx_datetimeLocalDateTime(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth(), hour: createDate.getHour(), minute: createDate.getMinute(), second: createDate.getSecond(), nanosecond: createDate.getNanosecond())
-        let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: TimeZone.current.identifier)
-        
+        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
+        let updateDate = detail.updatedDate.convertDateTime() ?? Date()
+        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
+
         return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { (tHistories) -> DepositRecordDetail in
-            DepositRecordDetail(createdDate: offsetDateTime, displayId: detail.displayID, isPendingHold: detail.isPendingHold, remark: "", requestAmount: CashAmount(amount: detail.requestAmount), status: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: detail.status), statusChangeHistories: tHistories, updatedDate: offsetDateTime)
+            DepositRecordDetail(createdDate: createOffsetDateTime, displayId: detail.displayID, isPendingHold: detail.isPendingHold, remark: "", requestAmount: CashAmount(amount: detail.requestAmount), status: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: detail.status), statusChangeHistories: tHistories, updatedDate: updateOffsetDateTime)
         }
     }
     
@@ -183,16 +184,17 @@ class DepositRepositoryImpl: DepositRepository {
 
     fileprivate func convertDepositDataToDepositRecord(_ r: DepositRecordData) -> DepositRecord {
         let createDate = r.createdDate.convertDateTime() ?? Date()
-        let createLocalDateTime = Kotlinx_datetimeLocalDateTime(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth(), hour: createDate.getHour(), minute: createDate.getMinute(), second: createDate.getSecond(), nanosecond: createDate.getNanosecond())
-        let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: TimeZone.current.identifier)
+        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
+        let updateDate = r.updatedDate.convertDateTime() ?? Date()
+        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
         return DepositRecord(displayId: r.displayId,
                              transactionTransactionType: EnumMapper.Companion.init().convertTransactionType(transactionType_: r.ticketType),
                              transactionStatus: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: r.status),
                              actualAmount: CashAmount(amount: r.actualAmount),
-                             createdDate: offsetDateTime,
+                             createdDate: createOffsetDateTime,
                              isFee: r.isFee, isPendingHold: r.isPendingHold,
                              requestAmount: CashAmount(amount: r.requestAmount),
-                             updatedDate: offsetDateTime,
+                             updatedDate: updateOffsetDateTime,
                              groupDay: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()))
     }
 }

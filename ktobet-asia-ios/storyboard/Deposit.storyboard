@@ -400,6 +400,7 @@
                         <outlet property="statusDateLabel" destination="NgC-ob-3Zs" id="hOb-vT-2QV"/>
                         <outlet property="statusLabel" destination="iw6-pk-k09" id="aLR-v9-Bac"/>
                         <outlet property="statusTitleLabel" destination="Vbg-xi-9FS" id="Hf8-Tp-gO7"/>
+                        <outlet property="statusViewHeight" destination="wHE-ie-OST" id="8Gh-03-UM4"/>
                         <outlet property="titleNameLabel" destination="20Z-BC-PJx" id="qZh-Yk-bA9"/>
                         <outlet property="uploadClickView" destination="sMI-fe-vwJ" id="KuX-6O-WDp"/>
                         <outlet property="uploadLimitTiplabel" destination="DhM-vc-OQ4" id="EdL-62-yGH"/>

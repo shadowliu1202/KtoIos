@@ -127,6 +127,12 @@ extension Date {
         components.second = -1
         return Calendar(identifier: .gregorian).date(byAdding: components, to: startOfMonth)!
     }
+    
+    func convertDateToOffsetDateTime() -> OffsetDateTime {
+        let createLocalDateTime = Kotlinx_datetimeLocalDateTime(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
+        let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: TimeZone.current.identifier)
+        return offsetDateTime
+    }
 }
 
 
