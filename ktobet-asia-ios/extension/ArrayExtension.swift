@@ -9,3 +9,17 @@ extension Array {
         }
     }
 }
+
+extension Dictionary {
+    func dictionaryToTuple<K, V>() -> [(K, V)] {
+        var tuples: [(K, V)] = []
+        for d in self {
+            guard let key = d.key as? K, let value = d.value as? V else { return [] }
+            tuples.append((key, value))
+        }
+        
+        return tuples
+    }
+}
+
+

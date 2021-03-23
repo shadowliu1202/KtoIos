@@ -67,19 +67,13 @@ class DepositRecordViewController: UIViewController {
         
         viewModel.elements.map { (data) -> [SectionModel<String, DepositRecord>]  in
             var sectionModels: [SectionModel<String, DepositRecord>] = []
-            let groupData = Dictionary(grouping: data, by: { $0.0 })
-            for d in groupData {
-                var records: [DepositRecord] = []
-                for r in d.value.map({ $0.1 }) {
-                    records.append(contentsOf: r)
-                }
-                
+            data.forEach {
                 let today = Date().convertdateToUTC().formatDateToStringToDay()
-                let sectionTitle = d.key == today ? Localize.string("common_today") : d.key
-                sectionModels.append(SectionModel(model: sectionTitle, items: records))
+                let sectionTitle = $0.0 == today ? Localize.string("common_today") : $0.0
+                sectionModels.append(SectionModel(model: sectionTitle, items: $0.1))
             }
             
-            return sectionModels.sorted(by: { $0.model > $1.model })
+            return sectionModels
         }.asObservable().bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
         rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
@@ -103,7 +97,6 @@ class DepositRecordViewController: UIViewController {
     
     fileprivate func recordDataHandler() {
         Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(DepositRecord.self)).bind {(indexPath, data) in
-            print(data.actualAmount)
             self.performSegue(withIdentifier: DepositRecordDetailViewController.segueIdentifier, sender: data)
             self.tableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
