@@ -227,7 +227,7 @@ class DepositRecordDetailViewController: UIViewController {
         self.amountLabel.text = String(data.requestAmount.amount)
         self.depositIdLabel.text = data.displayId
         self.statusViewHeight.constant = 77
-        self.statusLabel.text = StringMapper.sharedInstance.parse(data.status, isPendingHold: data.isPendingHold)
+        self.statusLabel.text = StringMapper.sharedInstance.parse(data.status, isPendingHold: data.isPendingHold, ignorePendingHold: true)
         if data.status != TransactionStatus.floating {
             self.uploadView.isHidden = true
             self.uploadViewHeight.constant = 0

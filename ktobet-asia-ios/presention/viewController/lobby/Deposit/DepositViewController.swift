@@ -22,14 +22,19 @@ class DepositViewController: UIViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
         initUI()
-        depositTypeDataHandler()
-        recordDataHandler()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         depositTypeDataBinding()
         recordDataBinding()
+        depositTypeDataHandler()
+        recordDataHandler()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.disposeBag = DisposeBag()
     }
     
     // MARK: BUTTON ACTION
@@ -43,6 +48,8 @@ class DepositViewController: UIViewController {
         depositDescriptionLabel.text = Localize.string("deposit_title_tips")
         depositRecordTitleLabel.text = Localize.string("deposit_log")
         showAllRecordButton.setTitle(Localize.string("common_show_all"), for: .normal)
+        depositNoDataLabel.text = Localize.string("deposit_no_available_type")
+        depositRecordNoDataLabel.text = Localize.string("deposit_no_records")
     }
     
     fileprivate func depositTypeDataBinding() {

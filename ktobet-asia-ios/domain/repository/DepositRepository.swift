@@ -12,7 +12,7 @@ protocol DepositRepository {
     func depositOnline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<DepositTransaction>
     func getDepositRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<DepositRecordDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
-    func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[(String, [DepositRecord])]>
+    func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]>
 }
 
 class DepositRepositoryImpl: DepositRepository {
@@ -120,26 +120,21 @@ class DepositRepositoryImpl: DepositRepository {
         return bankApi.bindingImageWithDepositRecord(displayId: displayId, uploadImagesData: imageBindingData)
     }
     
-    func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[(String, [DepositRecord])]> {
+    func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]> {
         var statusDic: [String: Int32] = [:]
         status.enumerated().forEach { statusDic["ticketStatuses[\($0.0)]"] = EnumMapper.Companion.init().convertTransactionStatus(transactionStatus: $0.1)}
-        return bankApi.getDepositRecords(page: page, deteBegin: dateBegin, dateEnd: dateEnd, status: statusDic).map { (response) -> [(String, [DepositRecord])] in
+        return bankApi.getDepositRecords(page: page, deteBegin: dateBegin, dateEnd: dateEnd, status: statusDic).map { (response) -> [DepositRecord] in
             let data = response.data ?? []
-            var groupData: [String: [DepositRecord]] = [:]
             let sortedData = data.sorted(by: { $0.date > $1.date })
+            var records: [DepositRecord] = []
             for d in sortedData {
-                var records: [DepositRecord] = []
                 for r in d.logs {
                     let record =  self.convertDepositDataToDepositRecord(r)
                     records.append(record)
                 }
-                
-                let index = d.date.index(d.date.startIndex, offsetBy: 10)
-                let key = String(d.date[..<index]).replacingOccurrences(of: "-", with: "/")
-                groupData[key] = records
             }
             
-            return groupData.sorted(by: { $0.0 > $1.0 })
+            return records
         }
     }
     

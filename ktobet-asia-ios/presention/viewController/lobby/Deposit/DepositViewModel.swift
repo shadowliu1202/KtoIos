@@ -94,7 +94,17 @@ class DepositViewModel {
         
         Observable
             .combineLatest(request, response, elements.asObservable()) { request, response, elements in
-                return self.pageIndex == 1 ? response : elements + response
+                var responseDic = response.reduce(into: [:]) { $0[$1.0] = $1.1 }
+                let elementsDic = elements.reduce(into: [:]) { $0[$1.0] = $1.1 }
+                responseDic.merge(elementsDic, uniquingKeysWith: +)
+                var groupData: [(String, [DepositRecord])] = responseDic.dictionaryToTuple()
+                groupData = groupData.map { (key, value) -> (String, [DepositRecord]) in
+                    var records: [DepositRecord] = []
+                    records = value.sorted(by: { $0.createdDate.formatDateToStringToSecond() > $1.createdDate.formatDateToStringToSecond()})
+                    return (key, records)
+                }
+                
+                return (self.pageIndex == 1 ? response : groupData).sorted(by: { $0.0 > $1.0 })
             }
             .sample(response)
             .bind(to: elements)
@@ -231,7 +241,11 @@ class DepositViewModel {
     func getDepositRecords(page: String = "1") -> Observable<[(String, [DepositRecord])]> {
         let beginDate = (self.dateBegin ?? getPastSevenDate()).formatDateToStringToSecond(with: "-")
         let endDate = (self.dateEnd ?? Date().convertdateToUTC()).formatDateToStringToSecond(with: "-")
-        return depositUseCase.getDepositRecords(page: page, dateBegin: beginDate, dateEnd: endDate, status: self.status).asObservable()
+        return depositUseCase.getDepositRecords(page: page, dateBegin: beginDate, dateEnd: endDate, status: self.status).map { (records) -> [(String, [DepositRecord])] in
+            let groupDic = Dictionary(grouping: records, by: { String(format: "%02d/%02d/%02d", $0.groupDay.year, $0.groupDay.monthNumber, $0.groupDay.dayOfMonth ) } )
+            let groupData: [(String, [DepositRecord])] = groupDic.dictionaryToTuple()
+            return groupData
+        }.asObservable()
     }
     
     func getCashLogSummary(balanceLogFilterType: Int) -> Single<[String: Double]> {
