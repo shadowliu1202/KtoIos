@@ -28,9 +28,8 @@ class DepositViewModel {
     var Allbanks: [SimpleBank] = []
     var uploadImageDetail: [Int: UploadImageDetail] = [:]
     var selectedReceiveBank: FullBankAccount!
-    var selectedMethod: DepositRequest.DepositTypeMethod!
-    var minAmountLimit: Double = 0
-    var maxAmountLimit: Double = 0
+    var selectedMethod: DepositRequest.DepositTypeMethod?
+    var selectedType: DepositRequest.DepositType!
     let imgIcon: [Int32: String] = [0: Localize.string("bank_offline_default"),
                                     1: "UnionPay(32)",
                                     2: "WeChatPay(32)",
@@ -155,7 +154,7 @@ class DepositViewModel {
     func depositOnline(depositTypeId: Int32) -> Single<DepositTransaction> {
         let remitter = DepositRequest.Remitter.init(name: relayName.value, accountNumber: relayBankAmount.value, bankName: relayBank.value)
         let cashAmount = CashAmount(amount: Double(relayBankAmount.value.replacingOccurrences(of: ",", with: ""))!)
-        let request = DepositRequest.Builder.init(paymentToken: selectedMethod.paymentTokenId).remitter(remitter: remitter).build(depositAmount: cashAmount)
+        let request = DepositRequest.Builder.init(paymentToken: selectedMethod!.paymentTokenId).remitter(remitter: remitter).build(depositAmount: cashAmount)
         return depositUseCase.depositOnline(depositRequest: request, depositTypeId: depositTypeId)
     }
     
@@ -187,7 +186,18 @@ class DepositViewModel {
         
         let amountValid = relayBankAmount.map { [unowned self] (amount) -> Bool in
             guard let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return false }
-            if self.minAmountLimit <= amount && amount <= self.maxAmountLimit {
+            var minAmountLimit: Double = 0
+            var maxAmountLimit: Double = 0
+            if selectedType is DepositRequest.DepositTypeOffline {
+                minAmountLimit = selectedType.min.amount
+                maxAmountLimit = selectedType.max.amount
+            } else {
+                let range = selectedType.getDepositRange(method: selectedMethod!)
+                minAmountLimit = range.min.amount
+                maxAmountLimit = range.max.amount
+            }
+
+            if minAmountLimit <= amount && amount <= maxAmountLimit {
                 return true
             } else {
                 return false

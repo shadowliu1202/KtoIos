@@ -151,6 +151,14 @@ class DepositRecordDetailViewController: UIViewController {
                                          select: { (assets) in
                                             self.imagePicker.dismiss(animated: true) {
                                                 assets.forEach {
+                                                    guard let fileName = $0.value(forKey: "filename") as? String,
+                                                          let fileExtension = fileName.split(separator: ".").last?.uppercased() else { return }
+                                                    let allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
+                                                    if !allowImageFormat.contains(String(fileExtension)) {
+                                                        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_file_format_invalid"), confirm: nil, cancel: nil)
+                                                        return
+                                                    }
+                                                    
                                                     let image = self.convertAssetToImage(asset: $0)
                                                     if self.isOverImageLimitSize(image: image) {
                                                         self.showUploadLimitSizeAlert()

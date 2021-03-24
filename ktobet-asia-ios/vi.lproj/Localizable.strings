@@ -376,6 +376,7 @@
 "deposit_execeed_limitation" = "VIVN你的档案大小超过系统限制20MB";
 "deposit_name" = "VIVN汇款人姓名";
 "deposit_thirdparty_transaction_remind" = "VIVN你即将进入交易确认画面，在交易完成之前请勿关闭窗口。";
+"deposit_file_format_invalid" = "VIVN您的档案不符合系统格式";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "VIVN交易前金额";
