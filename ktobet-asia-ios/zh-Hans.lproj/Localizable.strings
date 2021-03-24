@@ -376,6 +376,7 @@
 "deposit_execeed_limitation" = "你的档案大小超过系统限制20MB";
 "deposit_name" = "汇款人姓名";
 "deposit_thirdparty_transaction_remind" = "你即将进入交易确认画面，在交易完成之前请勿关闭窗口。";
+"deposit_file_format_invalid" = "您的档案不符合系统格式";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "交易前金额";

@@ -36,6 +36,7 @@ class DepositMethodViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.selectedType = depositType
         if let offline = depositType as? DepositRequest.DepositTypeOffline {
             NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, isShowAlert: true, backTitle: Localize.string("common_confirm_cancel_operation"), backMessage: Localize.string("deposit_offline_termniate"))
             offlineDataBinding()
@@ -46,9 +47,8 @@ class DepositMethodViewController: UIViewController {
             let max = offline.max.amount.currencyFormatWithoutSymbol(precision: 2)
             let min = offline.min.amount.currencyFormatWithoutSymbol(precision: 2)
             depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), min + "-" + max)
-            viewModel.minAmountLimit = offline.min.amount
-            viewModel.maxAmountLimit = offline.max.amount
             titleLabel.text = Localize.string("deposit_offline_step1_title")
+            selectDepositBankLabel.text = Localize.string("deposit_selectbank")
             confirmHandler = {
                 self.performSegue(withIdentifier: DepositOfflineConfirmViewController.segueIdentifier, sender: nil)
             }
@@ -60,6 +60,7 @@ class DepositMethodViewController: UIViewController {
             constraintremitterBankTextFieldHeight.constant = 0
             constraintremitterBankTextFieldTop.constant = 0
             titleLabel.text = thirdParty.name
+            selectDepositBankLabel.text = Localize.string("deposit_select_method")
             thirdPartDataBinding()
             thirdPartEventHandler()
             validateOnlineInputTextField()
@@ -88,7 +89,6 @@ class DepositMethodViewController: UIViewController {
         
         scrollView.backgroundColor = UIColor.black_two
         depositTableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
-        selectDepositBankLabel.text = Localize.string("deposit_selectbank")
         myDepositInfo.text = Localize.string("deposit_my_account_detail")
         remitterBankTextField.setTitle(Localize.string("deposit_bankname_placeholder"))
         remitterNameTextField.setTitle(Localize.string("deposit_name"))
@@ -113,37 +113,36 @@ class DepositMethodViewController: UIViewController {
 
         getDepositOfflineBankAccountsObservable
             .subscribeOn(MainScheduler.instance)
-            .subscribe { (data) in
+            .subscribe {[weak self] (data) in
+                guard let self = self else { return }
                 self.constraintBankTableHeight.constant = CGFloat(data.count * 56)
                 self.depositTableView.layoutIfNeeded()
                 self.depositTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
                 guard let firstSelectedMethod = data.first else { return }
                 self.viewModel.selectedMethod = firstSelectedMethod
-                let max = firstSelectedMethod.depositLimitMaximum.currencyFormatWithoutSymbol(precision: 2)
-                let min = firstSelectedMethod.depositLimitMinimum.currencyFormatWithoutSymbol(precision: 2)
-                self.depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), min + "-" + max)
-                self.viewModel.minAmountLimit = firstSelectedMethod.depositLimitMinimum
-                self.viewModel.maxAmountLimit = firstSelectedMethod.depositLimitMaximum
+                self.getLimitation(firstSelectedMethod)
         } onError: { (error) in
             self.handleUnknownError(error)
         }.disposed(by: disposeBag)
     }
     
     fileprivate func thirdPartEventHandler() {
-        Observable.zip(depositTableView.rx.itemSelected, depositTableView.rx.modelSelected(DepositRequest.DepositTypeMethod.self)).bind { (indexPath, data) in
+        Observable.zip(depositTableView.rx.itemSelected, depositTableView.rx.modelSelected(DepositRequest.DepositTypeMethod.self)).bind {[weak self] (indexPath, data) in
+            guard let self = self else { return }
             guard let cell = self.depositTableView.cellForRow(at: indexPath) as? DepositMethodTableViewCell else { return }
             guard let lastCell = self.depositTableView.cellForRow(at: IndexPath(item: self.selectedIndex, section: 0)) as? DepositMethodTableViewCell else { return }
             lastCell.unSelectRow()
             cell.selectRow()
             self.selectedIndex = indexPath.row
             self.viewModel.selectedMethod = data
-            
-            let max = data.depositLimitMaximum.currencyFormatWithoutSymbol(precision: 2)
-            let min = data.depositLimitMinimum.currencyFormatWithoutSymbol(precision: 2)
-            self.depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), min + "-" + max)
-            self.viewModel.minAmountLimit = data.depositLimitMinimum
-            self.viewModel.maxAmountLimit = data.depositLimitMaximum
+            self.getLimitation(data)
         }.disposed(by: disposeBag)
+    }
+    
+    fileprivate func getLimitation(_ data: DepositRequest.DepositTypeMethod) {
+        guard let type = depositType else { return }
+        let range = data.getDepositRange(type: type)
+        self.depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), range.min.amount.currencyFormatWithoutSymbol(precision: 2) + "-" + range.max.amount.currencyFormatWithoutSymbol(precision: 2))
     }
 
     fileprivate func offlineDataBinding() {
