@@ -179,5 +179,7 @@ class NavigationManagement {
         viewControllers = [:]
         sideBarViewController = nil
         menu = nil
+        UIApplication.shared.keyWindow?.rootViewController = nil
+        SideMenuManager.default.leftMenuNavigationController = nil
     }
 }
