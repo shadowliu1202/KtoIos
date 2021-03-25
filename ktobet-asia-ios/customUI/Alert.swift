@@ -39,7 +39,7 @@ class Alert{
             alert.view.backgroundColor = UIColor.white
             alert.view.layer.cornerRadius = 14
             alert.view.clipsToBounds = true
-            let confirmAction = UIAlertAction(title: Localize.string("common_determine"), style: .default) { (action) in
+            let confirmAction = UIAlertAction(title: Localize.string("common_confirm"), style: .default) { (action) in
                 confirm?()
             }
             
