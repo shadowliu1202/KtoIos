@@ -66,9 +66,9 @@ class AddBankViewController: UIViewController {
                 self?.viewModel.bankID.accept(Int32(id))
             }
         }).disposed(by: disposeBag)
-        viewModel.getBanks().subscribe(onSuccess: { [weak self] (tuple: ([Int], [String])) in
-            self?.bankDropDown.optionArray = tuple.1
-            self?.bankDropDown.optionIds = tuple.0
+        viewModel.getBanks().subscribe(onSuccess: { [weak self] (tuple: [(Int, Bank)]) in
+            self?.bankDropDown.optionArray = tuple.map{ $0.1.name }
+            self?.bankDropDown.optionIds = tuple.map{ $0.0 }
         }, onError: { [weak self] (error) in
             self?.handleUnknownError(error)
         }).disposed(by: disposeBag)

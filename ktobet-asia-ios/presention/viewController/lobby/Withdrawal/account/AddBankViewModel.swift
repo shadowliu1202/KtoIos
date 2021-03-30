@@ -68,8 +68,8 @@ class AddBankViewModel {
         return playerDataUseCase.isRealNameEditable()
     }
     
-    func getBanks() -> Single<([Int], [String])> {
-        return bankUseCase.getBankMap().map { ($0.values.map({ Int($0.bankId)}) ,$0.values.map({ $0.name })) }
+    func getBanks() -> Single<[(Int, Bank)]> {
+        return bankUseCase.getBankMap()
     }
     
     func getProvinces() -> [String] {

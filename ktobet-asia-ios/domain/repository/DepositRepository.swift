@@ -6,7 +6,6 @@ protocol DepositRepository {
     func getDepositTypes() -> Single<[DepositRequest.DepositType]>
     func getDepositRecords() -> Single<[DepositRecord]>
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]>
-    func getBank() -> Single<[SimpleBank]>
     func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
     func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]>
     func depositOnline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<DepositTransaction>
@@ -51,10 +50,6 @@ class DepositRepositoryImpl: DepositRepository {
         }
         
         return depositRecord
-    }
-    
-    func getBank() -> Single<[SimpleBank]> {
-        return bankApi.getBanks().map { $0.data ?? [] }
     }
     
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]> {

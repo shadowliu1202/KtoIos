@@ -1098,14 +1098,7 @@
                                         <color key="textColor" name="textPrimaryDustyGray"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="X7z-7e-k7q">
-                                        <rect key="frame" x="30" y="201" width="354" height="128"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="128" id="qiF-Ia-7Vh"/>
-                                        </constraints>
-                                    </tableView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="025-kO-8kc" customClass="InputText" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="025-kO-8kc" customClass="DropDownInputText" customModule="ktobet_asia_ios" customModuleProvider="target">
                                         <rect key="frame" x="30" y="329" width="354" height="60"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
@@ -1199,7 +1192,6 @@
                                     <constraint firstAttribute="trailing" secondItem="5fs-X7-E7r" secondAttribute="trailing" constant="30" id="HJ6-Wa-X9u"/>
                                     <constraint firstItem="bRB-c5-2Cy" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" id="Haw-NC-8Zu"/>
                                     <constraint firstAttribute="trailing" secondItem="9bv-rR-6sC" secondAttribute="trailing" constant="30" id="ISm-Of-W7y"/>
-                                    <constraint firstItem="kWY-pI-Hll" firstAttribute="leading" secondItem="X7z-7e-k7q" secondAttribute="leading" id="IYD-qg-uCp"/>
                                     <constraint firstItem="9bv-rR-6sC" firstAttribute="top" secondItem="yeb-SJ-vjG" secondAttribute="bottom" constant="4" id="MzG-aA-WYh"/>
                                     <constraint firstItem="2qu-HF-ZLq" firstAttribute="top" secondItem="9bv-rR-6sC" secondAttribute="bottom" constant="12" id="NYO-JD-vc4"/>
                                     <constraint firstItem="kWY-pI-Hll" firstAttribute="top" secondItem="5fs-X7-E7r" secondAttribute="bottom" constant="12" id="OeM-Et-kLs"/>
@@ -1216,12 +1208,10 @@
                                     <constraint firstItem="nRg-5c-sML" firstAttribute="top" secondItem="uHV-qw-owJ" secondAttribute="bottom" constant="30" id="ceW-zt-CpM"/>
                                     <constraint firstItem="yeb-SJ-vjG" firstAttribute="trailing" secondItem="025-kO-8kc" secondAttribute="trailing" id="dun-Ai-EZf"/>
                                     <constraint firstItem="soO-Zx-zJB" firstAttribute="top" secondItem="J0r-dZ-KnV" secondAttribute="bottom" constant="12" id="ed2-vw-IQ7"/>
-                                    <constraint firstItem="X7z-7e-k7q" firstAttribute="trailing" secondItem="025-kO-8kc" secondAttribute="trailing" id="gR4-jn-Jxr"/>
                                     <constraint firstItem="3yY-eS-yxK" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="giW-eA-PxL"/>
                                     <constraint firstItem="2qu-HF-ZLq" firstAttribute="leading" secondItem="025-kO-8kc" secondAttribute="leading" id="jqH-Ot-cSe"/>
                                     <constraint firstItem="5fs-X7-E7r" firstAttribute="top" secondItem="soO-Zx-zJB" secondAttribute="bottom" constant="4" id="kQY-nW-JKs"/>
                                     <constraint firstItem="uHV-qw-owJ" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="mVB-c0-Hsk"/>
-                                    <constraint firstItem="025-kO-8kc" firstAttribute="top" secondItem="X7z-7e-k7q" secondAttribute="bottom" id="pBP-ZI-sQd"/>
                                     <constraint firstItem="5fs-X7-E7r" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="qtn-hY-u96"/>
                                     <constraint firstItem="J0r-dZ-KnV" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="rrw-pq-6Zk"/>
                                     <constraint firstItem="yeb-SJ-vjG" firstAttribute="top" secondItem="3yY-eS-yxK" secondAttribute="bottom" constant="12" id="sFl-ni-MXE"/>
@@ -1266,8 +1256,6 @@
                     <navigationItem key="navigationItem" id="xks-tk-ivZ"/>
                     <size key="freeformSize" width="414" height="1000"/>
                     <connections>
-                        <outlet property="bankTableView" destination="X7z-7e-k7q" id="5Ms-pJ-Nfd"/>
-                        <outlet property="constraintAllBankTableHeight" destination="qiF-Ia-7Vh" id="93w-qb-HBX"/>
                         <outlet property="constraintBankTableHeight" destination="uMx-2d-jOp" id="eVJ-sO-eIb"/>
                         <outlet property="constraintremitterBankTextFieldHeight" destination="nap-jc-fML" id="DXf-5k-pTT"/>
                         <outlet property="constraintremitterBankTextFieldTop" destination="zGt-On-sB4" id="aQE-ll-tB8"/>

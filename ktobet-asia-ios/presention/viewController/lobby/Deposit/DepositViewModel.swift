@@ -8,12 +8,14 @@ class DepositViewModel {
     private var depositUseCase: DepositUseCase!
     private var usecaseAuth: AuthenticationUseCase!
     private var playerUseCase: PlayerDataUseCase!
+    private var bankUseCase: BankUseCase!
     var filterBanks = BehaviorRelay<[SimpleBank]>(value: [SimpleBank]())
     private let disposeBag = DisposeBag()
     var dateBegin: Date?
     var dateEnd: Date?
     var status: [TransactionStatus] = []
-    var relayBank = BehaviorRelay<String>(value: "")
+    var relayBankName = BehaviorRelay<String>(value: "")
+    var relayBankId = BehaviorRelay<Int32>(value: 0)
     var relayName = BehaviorRelay<String>(value: "")
     var relayBankNumber = BehaviorRelay<String>(value: "")
     var relayBankAmount = BehaviorRelay<String>(value: "")
@@ -32,10 +34,11 @@ class DepositViewModel {
                                     5: "秒存(32)",
                                     6: "閃充(32)",
                                     11: "雲閃付(32)"]
-    init(depositUseCase: DepositUseCase, usecaseAuth: AuthenticationUseCase, playerUseCase: PlayerDataUseCase) {
+    init(depositUseCase: DepositUseCase, usecaseAuth: AuthenticationUseCase, playerUseCase: PlayerDataUseCase, bankUseCase: BankUseCase) {
         self.depositUseCase = depositUseCase
         self.usecaseAuth = usecaseAuth
         self.playerUseCase = playerUseCase
+        self.bankUseCase = bankUseCase
         relayName.accept(usecaseAuth.getUserName())
         
         pagination = Pagination<DepositRecord>(callBack: {(page) -> Observable<[DepositRecord]> in
@@ -60,8 +63,8 @@ class DepositViewModel {
         return imgIcon[depositTypeId]
     }
     
-    func getBanks() -> Single<[SimpleBank]> {
-        return depositUseCase.getBank()
+    func getBanks() -> Single<[(Int, Bank)]> {
+        return bankUseCase.getBankMap()
     }
     
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]> {
@@ -76,7 +79,7 @@ class DepositViewModel {
     }
     
     func depositOnline(depositTypeId: Int32) -> Single<String> {
-        let remitter = DepositRequest.Remitter.init(name: relayName.value, accountNumber: relayBankAmount.value, bankName: relayBank.value)
+        let remitter = DepositRequest.Remitter.init(name: relayName.value, accountNumber: relayBankAmount.value, bankName: relayBankName.value)
         let cashAmount = CashAmount(amount: Double(relayBankAmount.value.replacingOccurrences(of: ",", with: ""))!)
         let request = DepositRequest.Builder.init(paymentToken: selectedMethod.paymentTokenId).remitter(remitter: remitter).build(depositAmount: cashAmount)
         return depositUseCase.depositOnline(depositRequest: request, depositTypeId: depositTypeId)
@@ -100,7 +103,7 @@ class DepositViewModel {
             return name.count != 0
         }
         
-        let bankValid = relayBank.map { (bank) -> Bool in
+        let bankValid = relayBankName.map { (bank) -> Bool in
             return bank.count != 0
         }
         
