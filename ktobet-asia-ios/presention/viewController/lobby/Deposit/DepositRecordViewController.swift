@@ -20,7 +20,7 @@ class DepositRecordViewController: UIViewController {
     fileprivate var isLoading = false
     fileprivate var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     fileprivate var curentFilter: [FilterItem]?
-    fileprivate var depositDateType: DepositDateType = .week
+    fileprivate var depositDateType: DateType = .week
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -65,28 +65,32 @@ class DepositRecordViewController: UIViewController {
             }
         )
         
-        viewModel.elements.map { (data) -> [SectionModel<String, DepositRecord>]  in
+        viewModel.pagination.elements.map { (records) -> [SectionModel<String, DepositRecord>] in
             var sectionModels: [SectionModel<String, DepositRecord>] = []
-            data.forEach {
+            let sortedData = records.sorted(by: { $0.createdDate.formatDateToStringToSecond() > $1.createdDate.formatDateToStringToSecond() })
+            let groupDic = Dictionary(grouping: sortedData, by: { String(format: "%02d/%02d/%02d", $0.groupDay.year, $0.groupDay.monthNumber, $0.groupDay.dayOfMonth) })
+            let tupleData: [(String, [DepositRecord])] = groupDic.dictionaryToTuple()
+            tupleData.forEach{
                 let today = Date().convertdateToUTC().formatDateToStringToDay()
-                let sectionTitle = $0.0 == today ? Localize.string("common_today") : $0.0
-                sectionModels.append(SectionModel(model: sectionTitle, items: $0.1))
+                let sectionTitle = $0 == today ? Localize.string("common_today") : $0
+                sectionModels.append(SectionModel(model: sectionTitle, items: $1))
             }
             
-            return sectionModels
+            return sectionModels.sorted(by: { $0.model > $1.model })
         }.asObservable().bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+
         
         rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
             .map { _ in () }
-            .bind(to: viewModel.refreshTrigger)
+            .bind(to: viewModel.pagination.refreshTrigger)
             .disposed(by: disposeBag)
 
         tableView.rx_reachedBottom
             .map{ _ in ()}
-            .bind(to: self.viewModel.loadNextPageTrigger)
+            .bind(to: self.viewModel.pagination.loadNextPageTrigger)
             .disposed(by: disposeBag)
         
-        viewModel.loading.asObservable()
+        viewModel.pagination.loading.asObservable()
             .bind(to: isLoading(for: self.view))
             .disposed(by: disposeBag)
                 

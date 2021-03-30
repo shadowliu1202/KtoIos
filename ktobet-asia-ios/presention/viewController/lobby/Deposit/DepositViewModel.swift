@@ -8,16 +8,8 @@ class DepositViewModel {
     private var depositUseCase: DepositUseCase!
     private var usecaseAuth: AuthenticationUseCase!
     private var playerUseCase: PlayerDataUseCase!
-    private var httpClient : HttpClient!
-    let refreshTrigger = PublishSubject<Void>()
-    let loadNextPageTrigger = PublishSubject<Void>()
-    let error = PublishSubject<Swift.Error>()
-    let loading = BehaviorRelay<Bool>(value: false)
-    let elements = BehaviorRelay<[(String, [DepositRecord])]>(value: [])
     var filterBanks = BehaviorRelay<[SimpleBank]>(value: [SimpleBank]())
     private let disposeBag = DisposeBag()
-    var pageIndex: Int = 1
-    var isLastData = false
     var dateBegin: Date?
     var dateEnd: Date?
     var status: [TransactionStatus] = []
@@ -28,7 +20,10 @@ class DepositViewModel {
     var Allbanks: [SimpleBank] = []
     var uploadImageDetail: [Int: UploadImageDetail] = [:]
     var selectedReceiveBank: FullBankAccount!
-    var selectedMethod: DepositRequest.DepositTypeMethod?
+    var selectedMethod: DepositRequest.DepositTypeMethod!
+    var minAmountLimit: Double = 0
+    var maxAmountLimit: Double = 0
+    var pagination: Pagination<DepositRecord>!
     var selectedType: DepositRequest.DepositType!
     let imgIcon: [Int32: String] = [0: Localize.string("bank_offline_default"),
                                     1: "UnionPay(32)",
@@ -37,91 +32,20 @@ class DepositViewModel {
                                     5: "秒存(32)",
                                     6: "閃充(32)",
                                     11: "雲閃付(32)"]
-    
-    init(depositUseCase: DepositUseCase, usecaseAuth: AuthenticationUseCase, playerUseCase: PlayerDataUseCase, _ httpClient : HttpClient) {
+    init(depositUseCase: DepositUseCase, usecaseAuth: AuthenticationUseCase, playerUseCase: PlayerDataUseCase) {
         self.depositUseCase = depositUseCase
         self.usecaseAuth = usecaseAuth
         self.playerUseCase = playerUseCase
-        self.httpClient = httpClient
         relayName.accept(usecaseAuth.getUserName())
         
-        let refreshRequest = loading.asObservable()
-            .sample(refreshTrigger)
-            .flatMap { loading -> Observable<Int> in
-                if loading {
-                    return Observable.empty()
-                } else {
-                    self.pageIndex = 1
-                    return Observable<Int>.create { observer in
-                        observer.onNext(self.pageIndex)
-                        observer.onCompleted()
-                        return Disposables.create()
-                    }
-                }
-            }
-        
-        let nextPageRequest = loading.asObservable()
-            .sample(loadNextPageTrigger)
-            .flatMap { loading -> Observable<Int> in
-                if loading {
-                    return Observable.empty()
-                } else if self.isLastData {
-                    return Observable.empty()
-                } else {
-                    return Observable<Int>.create {  observer in
-                        self.pageIndex += 1
-                        observer.onNext(self.pageIndex)
-                        observer.onCompleted()
-                        return Disposables.create()
-                    }
-                }
-            }
-        
-        let request = Observable
-            .of(refreshRequest, nextPageRequest)
-            .merge()
-            .share(replay: 1)
-        
-        let response = request.flatMap { page -> Observable<[(String, [DepositRecord])]> in
+        pagination = Pagination<DepositRecord>(callBack: {(page) -> Observable<[DepositRecord]> in
             self.getDepositRecords(page: String(page))
                 .do(onError: { error in
-                    self.error.onNext(error)
-                }).catchError({ error -> Observable<[(String, [DepositRecord])]> in
+                    self.pagination.error.onNext(error)
+                }).catchError({ error -> Observable<[DepositRecord]> in
                     Observable.empty()
                 })
-        }.share(replay: 1)
-        
-        Observable
-            .combineLatest(request, response, elements.asObservable()) { request, response, elements in
-                var responseDic = response.reduce(into: [:]) { $0[$1.0] = $1.1 }
-                let elementsDic = elements.reduce(into: [:]) { $0[$1.0] = $1.1 }
-                responseDic.merge(elementsDic, uniquingKeysWith: +)
-                var groupData: [(String, [DepositRecord])] = responseDic.dictionaryToTuple()
-                groupData = groupData.map { (key, value) -> (String, [DepositRecord]) in
-                    var records: [DepositRecord] = []
-                    records = value.sorted(by: { $0.createdDate.formatDateToStringToSecond() > $1.createdDate.formatDateToStringToSecond()})
-                    return (key, records)
-                }
-                
-                return (self.pageIndex == 1 ? response : groupData).sorted(by: { $0.0 > $1.0 })
-            }
-            .sample(response)
-            .bind(to: elements)
-            .disposed(by: disposeBag)
-        
-        Observable.of(request.map({ (response) -> Bool in
-            return true
-        }),
-        response.map({ (response) -> Bool in
-            self.isLastData = response.count == 0
-            return false
-        }),
-        error.map({ (error) -> Bool in
-            return false
-        }))
-        .merge()
-        .bind(to: loading)
-        .disposed(by: disposeBag)
+        })
     }
     
     func getDepositType() -> Single<[DepositRequest.DepositType]> {
@@ -151,10 +75,10 @@ class DepositViewModel {
         return depositUseCase.depositOffline(depositRequest: depositRequest, depositTypeId: depositTypeId)
     }
     
-    func depositOnline(depositTypeId: Int32) -> Single<DepositTransaction> {
+    func depositOnline(depositTypeId: Int32) -> Single<String> {
         let remitter = DepositRequest.Remitter.init(name: relayName.value, accountNumber: relayBankAmount.value, bankName: relayBank.value)
         let cashAmount = CashAmount(amount: Double(relayBankAmount.value.replacingOccurrences(of: ",", with: ""))!)
-        let request = DepositRequest.Builder.init(paymentToken: selectedMethod!.paymentTokenId).remitter(remitter: remitter).build(depositAmount: cashAmount)
+        let request = DepositRequest.Builder.init(paymentToken: selectedMethod.paymentTokenId).remitter(remitter: remitter).build(depositAmount: cashAmount)
         return depositUseCase.depositOnline(depositRequest: request, depositTypeId: depositTypeId)
     }
     
@@ -192,7 +116,7 @@ class DepositViewModel {
                 minAmountLimit = selectedType.min.amount
                 maxAmountLimit = selectedType.max.amount
             } else {
-                let range = selectedType.getDepositRange(method: selectedMethod!)
+                let range = selectedType.getDepositRange(method: selectedMethod)
                 minAmountLimit = range.min.amount
                 maxAmountLimit = range.max.amount
             }
@@ -215,14 +139,6 @@ class DepositViewModel {
         return (bankValid, userNameValid, bankNumberValid, amountValid, offlineDataValid, onlinieDataValid)
     }
     
-    func getCookies() -> [HTTPCookie] {
-        return self.httpClient.getCookies()
-    }
-    
-    func getPaymentHost() -> String {
-        return self.httpClient.getHost() + "payment-gateway"
-    }
-    
     func getBankIcon(_ bankId: Int32) -> String {
         let language = Language(rawValue: LocalizeUtils.shared.getLanguage())
         switch language {
@@ -237,29 +153,18 @@ class DepositViewModel {
         }
     }
     
-    func getPastSevenDate() -> Date {
-        var dateComponent = DateComponents()
-        dateComponent.day = -6
-        let pastSevenDate = Calendar.current.date(byAdding: dateComponent, to: Date())!
-        return pastSevenDate.convertdateToUTC()
-    }
-    
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable {
         return depositUseCase.bindingImageWithDepositRecord(displayId: displayId, transactionId: transactionId, portalImages: portalImages)
     }
     
-    func getDepositRecords(page: String = "1") -> Observable<[(String, [DepositRecord])]> {
-        let beginDate = (self.dateBegin ?? getPastSevenDate()).formatDateToStringToSecond(with: "-")
+    func getDepositRecords(page: String = "1") -> Observable<[DepositRecord]> {
+        let beginDate = (self.dateBegin ?? Date().getPastSevenDate()).formatDateToStringToSecond(with: "-")
         let endDate = (self.dateEnd ?? Date().convertdateToUTC()).formatDateToStringToSecond(with: "-")
-        return depositUseCase.getDepositRecords(page: page, dateBegin: beginDate, dateEnd: endDate, status: self.status).map { (records) -> [(String, [DepositRecord])] in
-            let groupDic = Dictionary(grouping: records, by: { String(format: "%02d/%02d/%02d", $0.groupDay.year, $0.groupDay.monthNumber, $0.groupDay.dayOfMonth ) } )
-            let groupData: [(String, [DepositRecord])] = groupDic.dictionaryToTuple()
-            return groupData
-        }.asObservable()
+        return depositUseCase.getDepositRecords(page: page, dateBegin: beginDate, dateEnd: endDate, status: self.status).asObservable()
     }
     
     func getCashLogSummary(balanceLogFilterType: Int) -> Single<[String: Double]> {
-        let beginDate = (self.dateBegin ?? getPastSevenDate()).formatDateToStringToSecond(with: "-")
+        let beginDate = (self.dateBegin ?? Date().getPastSevenDate()).formatDateToStringToSecond(with: "-")
         let endDate = (self.dateEnd ?? Date().convertdateToUTC()).formatDateToStringToSecond(with: "-")
         return playerUseCase.getCashLogSummary(begin: beginDate, end: endDate, balanceLogFilterType: balanceLogFilterType)
     }

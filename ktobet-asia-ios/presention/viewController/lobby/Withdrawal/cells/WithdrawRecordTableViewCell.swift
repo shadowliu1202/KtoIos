@@ -1,0 +1,17 @@
+import UIKit
+import share_bu
+
+class WithdrawRecordTableViewCell: UITableViewCell {
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet private weak var idLabel: UILabel!
+    @IBOutlet private weak var statusLabel: UILabel!
+    @IBOutlet private weak var amountLabel: UILabel!
+    
+    func setUp(data: WithdrawalRecord) {
+        dateLabel.text = data.createDate.formatDateToStringToSecond()
+        idLabel.text = data.displayId
+        statusLabel.text = StringMapper.sharedInstance.parse(data.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: true)
+        statusLabel.textColor = ColorMapper.sharedInstance.parse(data.transactionStatus)
+        amountLabel.text = data.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2)
+    }
+}

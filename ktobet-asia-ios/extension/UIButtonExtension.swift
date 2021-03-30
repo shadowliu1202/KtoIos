@@ -11,6 +11,12 @@ import RxSwift
 import RxCocoa
 
 extension UIButton {
+    @IBInspectable
+    public var localizeTitle: String? {
+        get { return title(for: .normal) }
+        set { setTitle(newValue == nil ? nil : Localize.string(newValue!), for: .normal)}
+    }
+    
     var isValid: Bool {
         get {
             return self.isEnabled

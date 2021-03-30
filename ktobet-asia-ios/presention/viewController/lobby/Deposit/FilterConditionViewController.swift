@@ -1,10 +1,3 @@
-//
-//  FilterConditionViewController.swift
-//  ktobet-asia-ios
-//
-//  Created by Leo Hsu on 2021/3/3.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa

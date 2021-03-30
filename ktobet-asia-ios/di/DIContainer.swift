@@ -97,6 +97,15 @@ class DIContainer {
             let imageApi = ctner.resolve(ImageApi.self)!
             return ImageRepositoryImpl(imageApi)
         }
+        ctner.register(WithdrawalRepository.self) { resolver in
+            let bankApi = ctner.resolve(BankApi.self)!
+            let imageApi = ctner.resolve(ImageApi.self)!
+            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi)
+        }
+        ctner.register(BankRepository.self) { resolver in
+            let bankApi = ctner.resolve(BankApi.self)!
+            return BankRepositoryImpl(bankApi)
+        }
     }
     
     func registUsecase(){
@@ -143,6 +152,14 @@ class DIContainer {
         ctner.register(UploadImageUseCase.self) { (resolver)  in
             let repoImage = ctner.resolve(ImageRepository.self)!
             return UploadImageUseCaseImpl(repoImage)
+        }
+        ctner.register(WithdrawalUseCase.self) { (resolver)  in
+            let repoWithdrawal = ctner.resolve(WithdrawalRepository.self)!
+            return WithdrawalUseCaseImpl(repoWithdrawal)
+        }
+        ctner.register(BankUseCase.self) { (resolver)  in
+            let repoBank = ctner.resolve(BankRepository.self)!
+            return BankUseCaseImpl(repoBank)
         }
     }
     
@@ -203,11 +220,29 @@ class DIContainer {
             let depositUseCase = ctner.resolve(DepositUseCase.self)!
             let authUseCase = ctner.resolve(AuthenticationUseCase.self)!
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
-            return DepositViewModel(depositUseCase: depositUseCase, usecaseAuth: authUseCase, playerUseCase: playerUseCase, httpclient)
+            return DepositViewModel(depositUseCase: depositUseCase, usecaseAuth: authUseCase, playerUseCase: playerUseCase)
         }
         ctner.register(UploadPhotoViewModel.self) { (resolver) in
             let imageUseCase = ctner.resolve(UploadImageUseCase.self)!
             return UploadPhotoViewModel(imageUseCase: imageUseCase)
+        }
+        ctner.register(WithdrawalViewModel.self) { (resolver) in
+            let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
+            return WithdrawalViewModel(withdrawalUseCase: withdrawalUseCase)
+        }
+        ctner.register(AddBankViewModel.self) { (resolver) in
+            return AddBankViewModel(ctner.resolve(AuthenticationUseCase.self)!,
+                                    ctner.resolve(BankUseCase.self)!,
+                                    ctner.resolve(WithdrawalUseCase.self)!,
+                                    ctner.resolve(PlayerDataUseCase.self)!)
+        }
+        ctner.register(WithdrawlLandingViewModel.self) { (resolver) in
+            return WithdrawlLandingViewModel(ctner.resolve(WithdrawalUseCase.self)!)
+        }
+        ctner.register(WithdrawalRequestViewModel.self) { (resolver) in
+            let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
+            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
+            return WithdrawalRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerDataUseCase: playerUseCase)
         }
     }
     

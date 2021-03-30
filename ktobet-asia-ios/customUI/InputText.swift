@@ -17,6 +17,7 @@ class InputText : UIView {
         return isEditing
     }
     var editingChangedHandler: ((String) -> Void)?
+    var shouldChangeCharactersIn: ((UITextField, NSRange, String) -> Bool)?
     var showPickerView: (() -> ())?
     var hidePickerView: (() -> ())?
     var maxLength = Int32.max
@@ -169,6 +170,10 @@ class InputText : UIView {
         }
     }
     
+    func setIsEdited(_ isEdited: Bool) {
+        self.textContent.isEnabled = isEdited
+    }
+    
     // MARK: PRESENT
     func showKeyboard(){
         textContent.becomeFirstResponder()
@@ -202,11 +207,15 @@ extension InputText: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentString: NSString = (textField.text ?? "") as NSString
-        if numberOnly {
-            return isNumber(replacementString: string) && isLessThanLimitLength(currentString: currentString, shouldChangeCharactersIn: range, replacementString: string)
+        if let shouldChangeCharactersIn = self.shouldChangeCharactersIn {
+            return shouldChangeCharactersIn(textField, range, string)
         } else {
-            return isLessThanLimitLength(currentString: currentString, shouldChangeCharactersIn: range, replacementString: string)
+            let currentString: NSString = (textField.text ?? "") as NSString
+            if numberOnly {
+                return isNumber(replacementString: string) && isLessThanLimitLength(currentString: currentString, shouldChangeCharactersIn: range, replacementString: string)
+            } else {
+                return isLessThanLimitLength(currentString: currentString, shouldChangeCharactersIn: range, replacementString: string)
+            }
         }
     }
     

@@ -518,6 +518,7 @@
 "withdrawal_account" = "";
 "withdrawal_bank_card_deleting" = "";
 "withdrawal_id" = "";
+"withdrawal_account_exist" = "";
 
 //MARK: - Product
 "product_slot_recent_play" = "";

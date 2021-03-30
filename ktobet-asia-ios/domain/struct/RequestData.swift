@@ -59,9 +59,28 @@ struct DepositOnlineAccountsRequest: Codable {
     }
 }
 
+struct WithdrawalCancelRequest: Codable {
+    let ticketId: String
+}
+
+struct WithdrawalRequest: Codable {
+    let requestAmount: Double
+    let playerBankCardId: String
+}
+
 struct UploadImagesData: Codable {
     let ticketStatus: Int32
     let images: [Image]
+}
+
+struct WithdrawalAccountAddRequest: Codable {
+    let bankID: Int32
+    let bankName, branch, accountName, accountNumber, address, city, location: String
+
+    enum CodingKeys: String, CodingKey {
+        case bankID = "bankId"
+        case bankName, branch, accountName, accountNumber, address, city, location
+    }
 }
 
 // MARK: - Image

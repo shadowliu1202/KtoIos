@@ -1,10 +1,3 @@
-//
-//  TransactionStatusFactor.swift
-//  ktobet-asia-ios
-//
-//  Created by Leo Hsu on 2021/3/5.
-//
-
 import Foundation
 import share_bu
 
@@ -19,6 +12,8 @@ class TransactionStatusFactor {
             return Localize.string("common_reject")
         case .approved:
             return Localize.string("common_success")
+        case .cancel:
+            return Localize.string("common_cancel")
         default:
             return ""
         }

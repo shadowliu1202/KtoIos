@@ -25,8 +25,7 @@ class RemarkTableViewCell: UITableViewCell {
         imagesViewHeight.constant = history.imageIds.count == 0 ? 0 : 96
         for (index, img) in history.imageIds.enumerated() {
             let imageDownloader = SDWebImageDownloader.shared
-            let headers = HttpClient().headers
-            for header in headers {
+            for header in HttpClient().headers {
                 imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
             }
             

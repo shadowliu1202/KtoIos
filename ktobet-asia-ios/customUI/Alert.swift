@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class Alert{
-    class func show(_ title: String?, _ message : String?, confirm: (()->Void)?, cancel:(()->Void)? ){
+    class func show(_ title: String?, _ message: String?, confirm: (()->Void)?, confirmText: String? = nil, cancel:(()->Void)?, cancelText: String? = nil ){
         if let topVc = UIApplication.shared.keyWindow?.topViewController{
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.view.backgroundColor = UIColor.white
@@ -19,7 +19,7 @@ class Alert{
                 confirm?()
             }
             
-            let cancelction = UIAlertAction(title: Localize.string("common_cancel"), style: .cancel) { (action) in
+            let cancelction = UIAlertAction(title: cancelText ?? Localize.string("common_cancel"), style: .cancel) { (action) in
                 cancel?()
             }
             

@@ -231,7 +231,7 @@ class SideBarViewController: UIViewController {
             case .logout:
                 self?.alertAndLogout(nil, cancel: {})
             case .withdraw:
-                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "WithdrawNavigationController")
+                NavigationManagement.sharedInstance.goTo(storyboard: "Withdrawal", viewControllerId: "WithdrawalNavigation")
             case .diposit:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
             case .callService:

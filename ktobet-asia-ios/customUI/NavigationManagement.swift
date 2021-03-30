@@ -69,6 +69,14 @@ class NavigationManagement {
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
     }
     
+    func addBarButtonItem(vc: UIViewController, icon: BarButtonItem.ItemIcon, customAction: Selector) {
+        self.viewController = vc
+        let negativeSeperator = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        negativeSeperator.width = 8
+        let backButton = UIBarButtonItem(image: icon.icon?.withRenderingMode(.alwaysOriginal), style: .plain, target: vc, action: customAction)
+        vc.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
+    }
+    
     enum BarButtonItem {
         enum ItemIcon {
             case back
@@ -168,9 +176,10 @@ class NavigationManagement {
         }
     }
     
-    func popViewController() {
+    func popViewController(_ completion: (() -> Void)? = nil) {
         viewController.navigationController?.popViewController(animated: true)
         viewController = viewController.navigationController?.topViewController
+        completion?()
     }
     
     private func dispose() {

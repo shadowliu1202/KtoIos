@@ -133,6 +133,13 @@ extension Date {
         let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: TimeZone.current.identifier)
         return offsetDateTime
     }
+    
+    func getPastSevenDate() -> Date {
+        var dateComponent = DateComponents()
+        dateComponent.day = -6
+        let pastSevenDate = Calendar.current.date(byAdding: dateComponent, to: self)!
+        return pastSevenDate.convertdateToUTC()
+    }
 }
 
 

@@ -506,7 +506,7 @@
                                                         <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cd-Rx-bmg">
                                                             <rect key="frame" x="327" y="12" width="32" height="32"/>
                                                             <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                                            <state key="normal" image="Chevron Right Disable(24)"/>
+                                                            <state key="normal" image="Chevron Right(24)"/>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeL-pp-pBV">
                                                             <rect key="frame" x="295" y="13.5" width="32" height="29"/>
@@ -886,7 +886,7 @@
         <!--Date View Controller-->
         <scene sceneID="Cy7-eO-HNG">
             <objects>
-                <viewController id="fNU-XY-4Us" customClass="DateViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DateConditionViewController" id="fNU-XY-4Us" customClass="DateViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="O21-9h-hwm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1737,6 +1737,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Chevron Right Disable(24)" width="24" height="24"/>
+        <image name="Chevron Right(24)" width="24" height="24"/>
         <image name="iconChevronLeft24" width="24" height="24"/>
         <image name="iconChevronRight16" width="16" height="16"/>
         <image name="iconChevronRight24" width="24" height="24"/>

@@ -3,10 +3,10 @@
     {
       "color" : {
         "components" : {
-          "blue" : "0.502",
-          "green" : "0.463",
           "alpha" : "0.120",
-          "red" : "0.463"
+          "blue" : "0.502",
+          "red" : "0.463",
+          "green" : "0.463"
         },
         "color-space" : "srgb"
       },
