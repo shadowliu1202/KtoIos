@@ -14,4 +14,18 @@ extension UIViewController{
         let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
         toastView.show(on: self.view, statusTip: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"), img: UIImage(named: "Failed"))
     }
+    
+    func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {
+        DispatchQueue.main.async {
+            UIApplication.shared.beginIgnoringInteractionEvents()
+            activityIndicator.startAnimating()
+        }
+    }
+    
+    func stopActivityIndicator(activityIndicator: UIActivityIndicatorView) {
+        DispatchQueue.main.async {
+            UIApplication.shared.endIgnoringInteractionEvents()
+            activityIndicator.stopAnimating()
+        }
+    }
 }

@@ -92,6 +92,15 @@ class BankApi {
         return httpClient.request(target).asCompletable()
     }
     
+    func bindingImageWithWithdrawalRecord(displayId: String, uploadImagesData: UploadImagesData) -> Completable {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/withdrawal/images/\(displayId)",
+                               method: .put,
+                               task: .requestJSONEncodable(uploadImagesData),
+                               header: httpClient.headers)
+        return httpClient.request(target).asCompletable()
+    }
+    
     func getDepositRecords(page: String, deteBegin: String, dateEnd: String, status: [String: Int32]) ->     Single<ResponseData<[DepositRecordAllData]>> {
         var parameters =  ["dateRange.begin" : deteBegin, "dateRange.end": dateEnd]
         status.forEach { parameters[$0.key] = String($0.value) }
@@ -101,5 +110,99 @@ class BankApi {
                                task: .requestParameters(parameters: parameters, encoding: URLEncoding.default),
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<[DepositRecordAllData]>.self)
+    }
+    
+    func getWithdrawalLimitation() -> Single<ResponseData<DailyWithdrawalLimits>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/withdrawal/limit-count",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<DailyWithdrawalLimits>.self)
+    }
+    
+    func getWithdrawalRecords() -> Single<ResponseData<[WithdrawalRecordData]>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/withdrawal",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<[WithdrawalRecordData]>.self)
+    }
+    
+    func getWithdrawalRecordDetail(displayId: String, ticketType: Int32) -> Single<ResponseData<WithdrawalRecordDetailData>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/withdrawal/detail/",
+                               method: .get,
+                               task: .requestParameters(parameters: ["displayId": displayId,
+                                                                     "ticketType": ticketType], encoding: URLEncoding.default),
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<WithdrawalRecordDetailData>.self)
+    }
+    
+    func getWithdrawalRecords(page: String, deteBegin: String, dateEnd: String, status: [String: Int32]) ->     Single<ResponseData<[WithdrawalRecordAllData]>> {
+        var parameters =  ["dateRange.begin" : deteBegin, "dateRange.end": dateEnd]
+        status.forEach { parameters[$0.key] = String($0.value) }
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/withdrawal/logs/\(page)",
+                               method: .get,
+                               task: .requestParameters(parameters: parameters, encoding: URLEncoding.default),
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<[WithdrawalRecordAllData]>.self)
+    }
+    
+    func cancelWithdrawal(ticketId: String) -> Completable {
+        let request = WithdrawalCancelRequest(ticketId: ticketId)
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/withdrawal/cancel/",
+                               method: .put,
+                               task: .requestJSONEncodable(request),
+                               header: httpClient.headers)
+        return httpClient.request(target).asCompletable()
+    }
+    
+    func sendWithdrawalRequest(withdrawalRequest: WithdrawalRequest) -> Single<ResponseData<String>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/withdrawal/bank-card",
+                               method: .post,
+                               task: .requestJSONEncodable(withdrawalRequest),
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<String>.self)
+    }
+    
+    func getWithdrawalAccount() -> Single<ResponseData<PayloadPage<WithdrawalAccountBean>>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/bank-card",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<PayloadPage<WithdrawalAccountBean>>.self)
+    }
+    
+    func sendWithdrawalAddAccount(request: WithdrawalAccountAddRequest) -> Single<ResponseData<Nothing>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/bank-card",
+                               method: .post,
+                               task: .requestJSONEncodable(request),
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<Nothing>.self)
+    }
+    
+    func deleteWithdrawalAccount(playerBankCardIdDict: [String: String]) -> Single<ResponseData<Nothing>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/bank-card/",
+                               method: .delete,
+                               task: .requestParameters(parameters: playerBankCardIdDict, encoding: URLEncoding.default),
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<Nothing>.self)
+    }
+    
+    func getEachLimit() -> Single<ResponseData<SingleWithdrawalLimitsData>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/withdrawal/each-limit",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<SingleWithdrawalLimitsData>.self)
     }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Photos
 
 public extension UIImage {
     convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {
@@ -40,4 +41,27 @@ public extension UIImage {
         
         return newImage!
     }
+    
+    func isOverImageLimitSize(imageLimitSize: Int) -> Bool {
+        let imageData = self.jpegData(compressionQuality: 1.0)!
+        return imageData.count >= imageLimitSize
+    }
 }
+
+
+extension PHAsset {
+    func convertAssetToImage() -> UIImage {
+        let manager = PHImageManager.default()
+        let option = PHImageRequestOptions()
+        var thumbnail = UIImage()
+        option.isSynchronous = true
+        manager.requestImage(for: self, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: option, resultHandler: { (result, info) -> Void in
+            thumbnail = result!
+        })
+        
+        return thumbnail
+    }
+}
+
+
+

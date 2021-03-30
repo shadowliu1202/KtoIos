@@ -63,7 +63,7 @@ class DepositRecordDetailViewController: UIViewController {
     // MARK: BUTTON ACTION
     @IBAction func confirm(_ sender: Any) {
         startActivityIndicator()
-        viewModel.bindingImageWithDepositRecord(displayId: detailRecord.displayId, transactionId: EnumMapper.Companion.init().convertTransactionStatus(transactionStatus: detailRecord.transactionStatus), portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
+        viewModel.bindingImageWithDepositRecord(displayId: detailRecord.displayId, transactionId: EnumMapper.Companion.init().convertTransactionStatus(transactionStatus: .pending), portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
             self.dataBinding()
             self.stopActivityIndicator()
         } onError: { (error) in
@@ -327,7 +327,7 @@ extension DepositRecordDetailViewController: UIImagePickerControllerDelegate, UI
         dismiss(animated: true) {
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                if self.isOverImageLimitSize(image: image) {
+                if image.isOverImageLimitSize(imageLimitSize: WithdrawalViewModel.imageLimitSize) {
                     self.showUploadLimitSizeAlert()
                 } else {
                     self.startActivityIndicator()

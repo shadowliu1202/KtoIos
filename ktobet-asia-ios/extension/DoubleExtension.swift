@@ -14,18 +14,17 @@ extension Double {
         return String(self)
     }
     
-    func currencyFormatWithoutSymbol(precision: Int32) -> String {
+    func currencyFormatWithoutSymbol(precision: Int) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.groupingSeparator = ","
         numberFormatter.groupingSize = 3
         numberFormatter.usesGroupingSeparator = true
         numberFormatter.decimalSeparator = "."
         numberFormatter.numberStyle = .decimal
-        numberFormatter.minimumFractionDigits = 2
+        numberFormatter.minimumFractionDigits = precision
         numberFormatter.maximumFractionDigits = 2
         
         return numberFormatter.string(from: self as NSNumber)!
-
     }
     
     func currencyFormatWithoutSymbol() -> String {

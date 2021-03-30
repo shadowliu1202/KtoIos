@@ -8,6 +8,7 @@ protocol PlayerRepository {
     func saveDefaultProduct(_ productType: ProductType)->Completable
     func getBalance() -> Single<CashAmount>
     func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]>
+    func isRealNameEditable() -> Single<Bool>
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
@@ -79,5 +80,9 @@ class PlayerRepositoryImpl : PlayerRepository {
         return playerApi.getCashLogSummary(begin: begin, end: end, balanceLogFilterType: balanceLogFilterType).map { (response) -> [String: Double] in
             return response.data ?? [:]
         }
+    }
+    
+    func isRealNameEditable() -> Single<Bool> {
+        return playerApi.isRealNameEditable().map { $0.data ?? false }
     }
 }

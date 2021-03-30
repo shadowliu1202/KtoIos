@@ -16,6 +16,11 @@ struct ResponseData<T:Codable> : Codable {
     var data : T?
 }
 
+struct PayloadPage<T: Codable> : Codable {
+    var payload: [T]
+    var totalCount: Int
+}
+
 struct ILoginData : Codable {
     var phase : Int
     var isLocked : Bool
@@ -155,6 +160,61 @@ struct StatusChangeHistory: Codable {
 struct DepositRecordAllData: Codable {
     let date: String
     let logs: [DepositRecordData]
+}
+
+struct DailyWithdrawalLimits: Codable {
+    let withdrawalLimit: Double
+    let withdrawalCount: Int32
+    let withdrawalDailyLimit: Double
+    let withdrawalDailyCount: Int32
+}
+
+struct WithdrawalRecordData: Codable {
+    let displayID: String
+    let status, ticketType: Int32
+    let createdDate: String
+    let requestAmount, actualAmount: Double
+    let isPendingHold: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case displayID = "displayId"
+        case status, ticketType, createdDate, requestAmount, actualAmount, isPendingHold
+    }
+}
+
+struct WithdrawalRecordDetailData: Codable {
+    let createdDate: String
+    let displayId: String
+    let isBatched: Bool
+    let isPendingHold: Bool
+    let requestAmount: Double
+    let status: Int32
+    let statusChangeHistories: [StatusChangeHistory]
+    let updatedDate: String
+}
+
+struct WithdrawalRecordAllData: Codable {
+    let date: String
+    let logs: [WithdrawalRecordData]
+}
+
+struct WithdrawalAccountBean: Codable {
+    let playerBankCardID: String
+    let bankID: Int
+    let branch, bankName, accountName, accountNumber: String
+    let location, address, city: String
+    let status, verifyStatus: Int
+
+    enum CodingKeys: String, CodingKey {
+        case playerBankCardID = "playerBankCardId"
+        case bankID = "bankId"
+        case branch, bankName, accountName, accountNumber, location, address, city, status, verifyStatus
+    }
+}
+
+struct SingleWithdrawalLimitsData: Codable {
+    let max: Double
+    let minimum: Double
 }
 
 struct Nothing : Codable{}

@@ -70,4 +70,13 @@ class PlayerApi {
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<[String: Double]>.self)
     }
+    
+    func isRealNameEditable() -> Single<ResponseData<Bool>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/profile/realname-editable",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<Bool>.self)
+    }
 }

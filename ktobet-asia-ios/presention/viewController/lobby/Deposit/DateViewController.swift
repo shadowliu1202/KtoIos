@@ -10,7 +10,7 @@ class DateViewController: UIViewController {
     @IBOutlet var month: MonthSelectView!
     
     var conditionCallbck: ((_ beginDate: Date, _ endDate: Date) -> ())?
-    var depositDateType: DepositDateType = .week
+    var depositDateType: DateType = .week
     fileprivate let invalidPeriodLength = 90
     fileprivate var koyomi: Koyomi!
     fileprivate var seletedDate: Date?
@@ -92,7 +92,7 @@ class DateViewController: UIViewController {
         currentSelectedStyle = .sequence(style: .semicircleEdge)
         koyomi.selectionMode = currentSelectedStyle
         koyomi.unselectAll()
-        koyomi.select(date: viewModel.getPastSevenDate().adding(value: -1, byAdding: .day), to: Date())
+        koyomi.select(date: Date().getPastSevenDate().adding(value: -1, byAdding: .day), to: Date())
         koyomi.reloadData()
     }
     

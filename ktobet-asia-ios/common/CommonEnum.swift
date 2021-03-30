@@ -38,8 +38,12 @@ public enum Language : String {
     case TH = "th"
 }
 
-public enum DepositDateType {
+public enum DateType {
     case week
     case day(String)
     case month(String)
+}
+
+public enum RegularFormat: String {
+    case currencyFormatWithTwoDecimal = "^[0-9]{1,8}([.][0-9]{0,2})?$"
 }

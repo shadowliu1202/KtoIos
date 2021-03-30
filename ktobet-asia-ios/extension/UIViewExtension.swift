@@ -1,10 +1,3 @@
-//
-//  UIViewExtension.swift
-//  ktobet-asia-ios
-//
-//  Created by Leo Hsu on 2021/3/4.
-//
-
 import UIKit
 
 extension UIView {
@@ -67,6 +60,19 @@ extension UIView {
              }
           }
        }
+    @IBInspectable
+    public var cornerRadius: CGFloat {
+        get { return layer.cornerRadius }
+        set {
+            self.clipsToBounds = true
+            layer.cornerRadius = newValue
+        }
+    }
+    @IBInspectable
+    public var masksToBounds: Bool {
+        get { return layer.masksToBounds }
+        set { layer.masksToBounds = newValue }
+    }
 }
 
 extension UIView {

@@ -269,11 +269,11 @@ class DepositMethodViewController: UIViewController {
     }
     
     fileprivate func depositOnline() {
-        self.viewModel.depositOnline(depositTypeId: self.depositType?.depositTypeId ?? 0).subscribe { (transaction) in
+        self.viewModel.depositOnline(depositTypeId: self.depositType?.depositTypeId ?? 0).subscribe { (url) in
             let title = Localize.string("common_kindly_remind")
             let message = Localize.string("deposit_thirdparty_transaction_remind")
             Alert.show(title, message, confirm: {
-                self.performSegue(withIdentifier: DepositThirdPartWebViewController.segueIdentifier, sender: transaction)
+                self.performSegue(withIdentifier: DepositThirdPartWebViewController.segueIdentifier, sender: url)
             }, cancel: nil)
         } onError: { (error) in
             self.handleUnknownError(error)
@@ -297,9 +297,7 @@ class DepositMethodViewController: UIViewController {
         
         if segue.identifier == DepositThirdPartWebViewController.segueIdentifier {
             if let dest = segue.destination as? DepositThirdPartWebViewController {
-                dest.transaction = sender as? DepositTransaction
-                dest.cashAmount = CashAmount(amount: Double(self.viewModel.relayBankAmount.value.replacingOccurrences(of: ",", with: ""))!)
-                dest.remitter = DepositRequest.Remitter.init(name: self.viewModel.relayName.value, accountNumber: self.viewModel.relayBankNumber.value, bankName: self.viewModel.relayBank.value)
+                dest.url = sender as? String
             }
         }
     }

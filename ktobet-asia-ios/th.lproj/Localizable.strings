@@ -507,7 +507,7 @@
 "withdrawal_tickerstatus_void" = "VIVN失败";
 "withdrawal_isbatched_tip" = "VIVN如需取消提现, 请联系线上客服";
 "withdrawal_quota_title" = "提现额度";
-"withdrawal_quota_content" = "您目前每天可提现%@元";
+"withdrawal_quota_content" = "您目前每天可提现%@次，可提现金额为%@元";
 "withdrawal_quota_after_title" = "当提现完成后提現額度";
 "withdrawal_account_deleted" = "已删除提现账户";
 "withdrawal_minutes_seconds" = "%@分%@秒";
@@ -523,6 +523,7 @@
 "withdrawal_account" = "提现账户";
 "withdrawal_bank_card_deleting" = "此银行卡资料将不存在";
 "withdrawal_id" = "THTH提现单号";
+"withdrawal_account_exist" = "THTH您的銀行卡已存在";
 
 //MARK: - Product
 "product_slot_recent_play" = "最近游玩";
