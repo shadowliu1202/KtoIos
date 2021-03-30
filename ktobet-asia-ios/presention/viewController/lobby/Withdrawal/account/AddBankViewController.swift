@@ -43,7 +43,6 @@ class AddBankViewController: UIViewController {
         accountTextField.setTitle(Localize.string("withdrawal_accountnumber"))
         accountTextField.setKeyboardType(.numberPad)
         accountTextField.maxLength = 25
-        submitButton.setTitle(Localize.string("withdrawal_addaccount"), for: .normal)
     }
 
     

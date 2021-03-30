@@ -25,7 +25,8 @@ class DropDownInputText: UIView {
     var dropDownText: DropDown = {
         let mainDropDown = DropDown(frame: .zero)
         mainDropDown.arrowSize = 0
-        mainDropDown.rowBackgroundColor = UIColor.whiteFull
+        mainDropDown.rowBackgroundColor = UIColor.toastBackgroundGray
+        mainDropDown.rowTextColor = UIColor.textPrimaryDustyGray
         mainDropDown.selectedRowColor = UIColor.clear
         mainDropDown.checkMarkEnabled = false
         return mainDropDown
