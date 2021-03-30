@@ -176,6 +176,10 @@ class NavigationManagement {
         }
     }
     
+    func removeViewControllers(vcId: String) {
+        viewControllers[vcId] = nil
+    }
+    
     func popViewController(_ completion: (() -> Void)? = nil) {
         viewController.navigationController?.popViewController(animated: true)
         viewController = viewController.navigationController?.topViewController

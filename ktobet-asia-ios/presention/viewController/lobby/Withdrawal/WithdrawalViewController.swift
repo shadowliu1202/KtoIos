@@ -36,6 +36,7 @@ class WithdrawalViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.disposeBag = DisposeBag()
+        NavigationManagement.sharedInstance.removeViewControllers(vcId: "WithdrawalNavigation")
     }
     
     // MARK: PAGE ACTION
@@ -110,8 +111,6 @@ class WithdrawalViewController: UIViewController {
     }
     
     fileprivate func recordDataBinding() {
-        withdrawalRecordTableView.delegate = nil
-        withdrawalRecordTableView.dataSource = nil
         let getWithdrawalRecordObservable = viewModel.getWithdrawalRecords().asObservable()
         getWithdrawalRecordObservable.bind(to: withdrawalRecordTableView.rx.items(cellIdentifier: String(describing: WithdrawRecordTableViewCell.self), cellType: WithdrawRecordTableViewCell.self)) {(index, data, cell) in
             cell.setUp(data: data)
