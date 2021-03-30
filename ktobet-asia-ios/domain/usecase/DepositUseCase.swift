@@ -5,7 +5,6 @@ import RxSwift
 protocol DepositUseCase {
     func getDepositTypes() -> Single<[DepositRequest.DepositType]>
     func getDepositRecords() -> Single<[DepositRecord]>
-    func getBank() -> Single<[SimpleBank]>
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]>
     func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
     func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]>
@@ -28,10 +27,6 @@ class DepositUseCaseImpl: DepositUseCase {
     
     func getDepositRecords() -> Single<[DepositRecord]> {
         return depositRepository.getDepositRecords()
-    }
-    
-    func getBank() -> Single<[SimpleBank]> {
-        return depositRepository.getBank()
     }
     
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]> {

@@ -3,7 +3,7 @@ import share_bu
 import RxSwift
 
 protocol BankUseCase {
-    func getBankMap() -> Single<[Int: Bank]>
+    func getBankMap() -> Single<[(Int, Bank)]>
 }
 
 class BankUseCaseImpl: BankUseCase {
@@ -14,7 +14,7 @@ class BankUseCaseImpl: BankUseCase {
         self.bankRepository = bankRepository
     }
     
-    func getBankMap() -> Single<[Int: Bank]> {
+    func getBankMap() -> Single<[(Int, Bank)]> {
         return bankRepository.getBankMap()
     }
 }
