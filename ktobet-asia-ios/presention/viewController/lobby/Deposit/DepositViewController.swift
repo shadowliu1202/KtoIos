@@ -35,6 +35,7 @@ class DepositViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.disposeBag = DisposeBag()
+        NavigationManagement.sharedInstance.removeViewControllers(vcId: "DepositNavigation")
     }
     
     // MARK: BUTTON ACTION
@@ -53,8 +54,6 @@ class DepositViewController: UIViewController {
     }
     
     fileprivate func depositTypeDataBinding() {
-        depositTypeTableView.delegate = nil
-        depositTypeTableView.dataSource = nil
         let getDepositTypeObservable = viewModel.getDepositType().asObservable().map { (data) -> [DepositRequest.DepositType] in
             return data.filter { (d) -> Bool in
                 return (d as? DepositRequest.DepositTypeUnknown) == nil
@@ -100,8 +99,6 @@ class DepositViewController: UIViewController {
     }
 
     fileprivate func recordDataBinding() {
-        depositRecordTableView.delegate = nil
-        depositRecordTableView.dataSource = nil
         let getDepositRecordObservable = viewModel.getDepositRecord().asObservable()
         getDepositRecordObservable.bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
             cell.setUp(data: data)

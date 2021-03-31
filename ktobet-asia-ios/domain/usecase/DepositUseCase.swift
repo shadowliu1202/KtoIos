@@ -26,7 +26,7 @@ class DepositUseCaseImpl: DepositUseCase {
     }
     
     func getDepositRecords() -> Single<[DepositRecord]> {
-        return depositRepository.getDepositRecords()
+        return depositRepository.getDepositRecords().map{ $0.filter { !$0.isFee } }
     }
     
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]> {
