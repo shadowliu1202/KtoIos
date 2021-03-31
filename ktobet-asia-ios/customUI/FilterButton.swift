@@ -3,10 +3,13 @@ import RxSwift
 import RxCocoa
 
 class FilterButton: UIView {
-    
+    typealias ConditionCallbck = (([FilterItem]) -> ())
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet fileprivate weak var interactiveBtn: UIButton!
-    var callback: (() -> ())?
+    private weak var parentController: UIViewController?
+    private var presenter: FilterPresentProtocol?
+    private var initalFilterItem: [FilterItem]?
+    private var conditionCallbck: ConditionCallbck?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,6 +21,13 @@ class FilterButton: UIView {
         super.init(coder: coder)
         loadXib()
         setTitle(Localize.string("common_all"))
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if parentController == nil{
+            parentController = self.parentViewController
+        }
     }
     
     private func loadXib(){
@@ -35,7 +45,7 @@ class FilterButton: UIView {
     }
     
     @IBAction private func btnFilterPressed(_ sender : UIButton) {
-        self.callback?()
+        goToFilterVC()
     }
     
     func setTitle(_ title: String?) {
@@ -56,6 +66,38 @@ class FilterButton: UIView {
         self.setTitle(text)
     }
     
+    @discardableResult
+    func set(_ presenter: FilterPresentProtocol) -> Self {
+        self.presenter = presenter
+        return self
+    }
+    
+    @discardableResult
+    func set(_ initalFilterItems: [FilterItem]?) -> Self {
+        self.initalFilterItem = initalFilterItems
+        return self
+    }
+    
+    @discardableResult
+    func set(_ callback: @escaping ConditionCallbck) -> Self {
+        self.conditionCallbck = callback
+        return self
+    }
+    
+    private func goToFilterVC() {
+        let storyboard = UIStoryboard(name: "DepositFilter", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "FilterConditionViewController") as! FilterConditionViewController
+        guard let presenter = presenter else { return }
+        vc.presenter = presenter
+        if let filter = initalFilterItem {
+            presenter.setConditions(filter)
+        }
+        vc.conditionCallbck = { [weak self] (items) in
+            self?.setTitle(items)
+            self?.conditionCallbck?(items)
+        }
+        parentController?.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension Reactive where Base: FilterButton {

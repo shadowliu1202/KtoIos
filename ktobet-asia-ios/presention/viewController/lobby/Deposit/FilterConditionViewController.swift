@@ -33,11 +33,11 @@ class FilterConditionViewController: UIViewController {
             NavigationManagement.sharedInstance.popViewController()
         }).disposed(by: disposeBag)
         
-        totalSource.asObservable().bind(to: tableView.rx.items) { tableView, row, item in
+        totalSource.asObservable().bind(to: tableView.rx.items) { [weak self] tableView, row, item in
             if row == 0 {
-                return tableView.dequeueReusableCell(withIdentifier: "StaticCell", cellType: StaticCell.self).configure(item)
+                return tableView.dequeueReusableCell(withIdentifier: "StaticCell", cellType: StaticCell.self).configure(item, impl: self?.presenter)
             } else {
-                return tableView.dequeueReusableCell(withIdentifier: "InteractiveCell", cellType: InteractiveCell.self).configure(item) { (pressedEvent, disposeBag) in
+                return tableView.dequeueReusableCell(withIdentifier: "InteractiveCell", cellType: InteractiveCell.self).configure(item, impl: self?.presenter) { (pressedEvent, disposeBag) in
                     pressedEvent.subscribe(onNext: { [weak self] _ in
                         guard let `self` = self else { return }
                         self.toggle(row)
@@ -52,12 +52,9 @@ class FilterConditionViewController: UIViewController {
     }
     
     private func toggle(_ row: Int) {
-        let allSelectCount = getConditions().filter({ $0.isSelected == true }).count
-        var copyValue = totalSource.value
-        ///The last one condition cloud not be unSelect.
-        if allSelectCount <= 1, copyValue[row].isSelected == true { return }
-        copyValue[row].isSelected?.toggle()
-        totalSource.accept(copyValue)
+        self.presenter.toggleItem(row)
+        let newValue = self.presenter.getDatasource()
+        totalSource.accept(newValue)
     }
     
     private func lastRowSeparator() -> CALayer {
@@ -73,18 +70,19 @@ class FilterConditionViewController: UIViewController {
         seprator.layer.addSublayer(lastRowSeparator())
         self.tableView.tableFooterView = seprator
     }
-
-    func getConditionStatus() -> [TransactionStatus] {
-        return getConditions().filter({ $0.isSelected == true }).map({$0.status!})
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
+
 }
 
 class StaticCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     
-    func configure(_ item: FilterItem) -> Self {
+    func configure(_ item: FilterItem, impl: FilterPresentProtocol?) -> Self {
         self.selectionStyle = .none
-        self.titleLabel.text = item.title
+        self.titleLabel.text = impl?.itemText(item)
         return self
     }
 }
@@ -99,10 +97,12 @@ class InteractiveCell: UITableViewCell {
         disposeBag = DisposeBag()
     }
     
-    func configure(_ item: FilterItem, callback: (Observable<Void>, DisposeBag) -> Void) -> Self {
+    func configure(_ item: FilterItem, impl: FilterPresentProtocol?, callback: (Observable<Void>, DisposeBag) -> Void) -> Self {
         self.selectionStyle = .none
-        self.titleLabel.text = item.title
-        self.selectBtn.setImage(item.image, for: .normal)
+        self.titleLabel.text = impl?.itemText(item)
+        if let img = impl?.itemAccenery(item) as? UIImage {
+            self.selectBtn.setImage(img, for: .normal)
+        }
         callback(self.selectBtn.rx.touchUpInside.asObservable(), disposeBag)
         return self
     }
