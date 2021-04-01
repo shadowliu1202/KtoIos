@@ -13,11 +13,12 @@ class WithdrawalRecordViewController: UIViewController {
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
     
+    private lazy var filterPersenter = WithdrawalPresenter()
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var isLoading = false
     fileprivate var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-    fileprivate var curentFilter: [FilterItem]?
+    fileprivate var curentFilter: [TransactionItem]?
     fileprivate var withdrawalDateType: DateType = .week
     
     // MARK: LIFE CYCLE
@@ -46,6 +47,15 @@ class WithdrawalRecordViewController: UIViewController {
         tap.rx.event.subscribe {[weak self] (gesture) in
             self?.goToDateVC()
         }.disposed(by: self.disposeBag)
+        filterBtn.set(filterPersenter)
+            .set(curentFilter)
+            .set { [weak self] (items) in
+                guard let `self` = self else { return }
+                self.curentFilter = items as? [TransactionItem]
+                self.filterBtn.set(self.curentFilter)
+                let status: [TransactionStatus] = self.filterPersenter.getConditionStatus(items as! [TransactionItem])
+                self.viewModel.status = status
+        }
     }
     
     fileprivate func getWithdrawalRecord() {
@@ -88,9 +98,6 @@ class WithdrawalRecordViewController: UIViewController {
             .bind(to: isLoading(for: self.view))
             .disposed(by: disposeBag)
                 
-        self.filterBtn.rx.touchUpInside.subscribe(onNext: { [unowned self] in
-            self.goToFilterVC()
-        }).disposed(by: disposeBag)
     }
     
     fileprivate func recordDataHandler() {
@@ -113,24 +120,6 @@ class WithdrawalRecordViewController: UIViewController {
     }
     
     // MARK: PAGE ACTION
-    fileprivate func goToFilterVC() {
-        let storyboard = UIStoryboard(name: "DepositFilter", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "FilterConditionViewController") as! FilterConditionViewController
-        let presenter = WithdrawalPresenter()
-        vc.presenter = presenter
-        if let filter = curentFilter {
-            presenter.setConditions(filter)
-        }
-        vc.conditionCallbck = { [weak self] (items) in
-            self?.filterBtn.setTitle(items)
-            self?.curentFilter = items
-            let status: [TransactionStatus] = presenter.getConditionStatus(items)
-            self?.viewModel.status = status
-        }
-        
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
     fileprivate func goToDateVC() {
         let storyboard = UIStoryboard(name: "Deposit", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DateConditionViewController") as! DateViewController

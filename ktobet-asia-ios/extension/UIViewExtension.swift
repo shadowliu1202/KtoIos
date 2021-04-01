@@ -34,6 +34,42 @@ extension UIView {
         layer.addSublayer(border)
     }
     
+    enum EdgeDirection { case left, right, none }
+    
+    func mask(with style: EdgeDirection) {
+        let center = style.center(of: bounds)
+        let path: UIBezierPath = .init()
+        path.move(to: center)
+        path.addArc(withCenter: center, radius: bounds.height / 2, startAngle: style.angle.start, endAngle: style.angle.end, clockwise: style.isClockwise)
+        
+        let maskLayer: CAShapeLayer = .init()
+        maskLayer.frame = bounds
+        maskLayer.path  = path.cgPath
+        layer.mask = style == .none ? nil : maskLayer
+    }
+    
+    func dropShadow(scale: Bool = true) {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: 1, height: 1)
+        layer.shadowRadius = 2
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    }
+    
+    var parentViewController: UIViewController? {
+        var parentResponder: UIResponder? = self
+        while parentResponder != nil {
+            parentResponder = parentResponder!.next
+            if let viewController = parentResponder as? UIViewController {
+                return viewController
+            }
+        }
+        return nil
+    }
+    
     @IBInspectable
        var borderWidth: CGFloat {
           get {
@@ -72,23 +108,6 @@ extension UIView {
     public var masksToBounds: Bool {
         get { return layer.masksToBounds }
         set { layer.masksToBounds = newValue }
-    }
-}
-
-extension UIView {
-    
-    enum EdgeDirection { case left, right, none }
-    
-    func mask(with style: EdgeDirection) {
-        let center = style.center(of: bounds)
-        let path: UIBezierPath = .init()
-        path.move(to: center)
-        path.addArc(withCenter: center, radius: bounds.height / 2, startAngle: style.angle.start, endAngle: style.angle.end, clockwise: style.isClockwise)
-        
-        let maskLayer: CAShapeLayer = .init()
-        maskLayer.frame = bounds
-        maskLayer.path  = path.cgPath
-        layer.mask = style == .none ? nil : maskLayer
     }
 }
 
