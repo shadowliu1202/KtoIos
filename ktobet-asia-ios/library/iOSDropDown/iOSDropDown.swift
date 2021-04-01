@@ -162,7 +162,7 @@ open class DropDown : UITextField{
             let gesture =  UITapGestureRecognizer(target: self, action:  #selector(tapAction))
             self.addGestureRecognizer(gesture)
         }
-        let gesture2 =  UITapGestureRecognizer(target: self, action:  #selector(touchAction))
+        let gesture2 =  UITapGestureRecognizer(target: self, action:  #selector(touchBackground))
         self.backgroundView.addGestureRecognizer(gesture2)
     }
     
@@ -195,6 +195,7 @@ open class DropDown : UITextField{
         return superView!.convert(pnt, to: baseView)
     }
     public func showList() {
+        guard !isSelected else { return }
         if parentController == nil{
             parentController = self.parentViewController
         }
@@ -258,6 +259,7 @@ open class DropDown : UITextField{
 
 
     public func hideList() {
+        guard isSelected else { return }
         TableWillDisappearCompletion()
         UIView.animate(withDuration: 0.5,
                        delay: 0.1,
@@ -283,6 +285,11 @@ open class DropDown : UITextField{
         })
     }
 
+    @objc private func touchBackground() {
+        superview?.endEditing(true)
+        touchAction()
+    }
+    
     @objc public func touchAction() {
         isSelected ?  hideList() : showList()
     }
@@ -375,16 +382,16 @@ extension DropDown : UITextFieldDelegate {
     }
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string != "" {
-            self.searchText = self.text! + string
-        }else{
-            let subText = self.text?.dropLast()
-            self.searchText = String(subText!)
+        if string.isContainsPhoneticCharacters() {
+            return true
+        }
+        if let subText = self.text as NSString? {
+            self.searchText = subText.replacingCharacters(in: range, with: string)
         }
         if !isSelected {
             showList()
         }
-        return true;
+        return true
     }
 
 }
@@ -443,7 +450,7 @@ extension DropDown: UITableViewDelegate {
         })
         if hideOptionsWhenSelect {
             touchAction()
-//            self.endEditing(true)
+            self.endEditing(true)
         }
         if let selected = optionArray.firstIndex(where: {$0 == selectedText}) {
             if let id = optionIds?[selected] {

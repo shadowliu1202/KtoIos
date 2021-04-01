@@ -137,6 +137,7 @@ class DropDownInputText: UIView {
     }
     
     @objc public func touchAction() {
+        superview?.endEditing(true)
         isEditing = true
         adjustPosition()
         dropDownText.showList()
@@ -328,6 +329,7 @@ extension DropDownInputText {
             dropDownText.becomeFirstResponder()
         }
         if !isSearchEnable {
+            superview?.endEditing(true)
             touchAction()
         }
     }

@@ -283,6 +283,6 @@ struct MonthItem {
     }
     
     private func end(year: Int, month: Int) -> Date {
-        return calendar.date(byAdding: DateComponents(month: 1, day: -1), to: self.from(year: year, month: month))!
+        return calendar.date(byAdding: DateComponents(month: 1, second: -1), to: self.from(year: year, month: month))!
     }
 }
