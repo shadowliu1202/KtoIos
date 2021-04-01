@@ -417,7 +417,7 @@
         <!--Image View Controller-->
         <scene sceneID="cTU-eM-2yC">
             <objects>
-                <viewController id="xfy-AT-i3Q" customClass="ImageViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageViewController" id="xfy-AT-i3Q" customClass="ImageViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sS6-ok-LdB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

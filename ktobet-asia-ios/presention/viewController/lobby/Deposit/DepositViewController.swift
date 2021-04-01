@@ -51,10 +51,14 @@ class DepositViewController: UIViewController {
         showAllRecordButton.setTitle(Localize.string("common_show_all"), for: .normal)
         depositNoDataLabel.text = Localize.string("deposit_no_available_type")
         depositRecordNoDataLabel.text = Localize.string("deposit_no_records")
+        depositRecordTableView.isHidden = true
+        depositTypeTableView.isHidden = true
     }
     
     fileprivate func depositTypeDataBinding() {
-        let getDepositTypeObservable = viewModel.getDepositType().asObservable().map { (data) -> [DepositRequest.DepositType] in
+        depositTypeTableView.delegate = nil
+        depositTypeTableView.dataSource = nil
+        let getDepositTypeObservable = viewModel.getDepositType().catchError { _ in Single<[DepositRequest.DepositType]>.never() }.asObservable().map { (data) -> [DepositRequest.DepositType] in
             return data.filter { (d) -> Bool in
                 return (d as? DepositRequest.DepositTypeUnknown) == nil
             }
@@ -75,6 +79,7 @@ class DepositViewController: UIViewController {
         getDepositTypeObservable
             .subscribeOn(MainScheduler.instance)
             .subscribe { [weak self] (depositTypes) in
+                self?.depositTypeTableView.isHidden = false
                 self?.constraintDepositTypeTableHeight.constant = CGFloat(depositTypes.count * 56)
                 self?.depositTypeTableView.layoutIfNeeded()
                 self?.depositTypeTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
@@ -99,7 +104,9 @@ class DepositViewController: UIViewController {
     }
 
     fileprivate func recordDataBinding() {
-        let getDepositRecordObservable = viewModel.getDepositRecord().asObservable()
+        depositRecordTableView.delegate = nil
+        depositRecordTableView.dataSource = nil
+        let getDepositRecordObservable = viewModel.getDepositRecord().catchError { _ in Single<[DepositRecord]>.never() }.asObservable()
         getDepositRecordObservable.bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
             cell.setUp(data: data)
         }.disposed(by: disposeBag)
@@ -107,6 +114,7 @@ class DepositViewController: UIViewController {
         getDepositRecordObservable
             .subscribeOn(MainScheduler.instance)
             .subscribe { [weak self] (depositRecord) in
+                self?.depositRecordTableView.isHidden = false
                 self?.constraintDepositRecordTableHeight.constant = CGFloat(depositRecord.count * 80)
                 self?.depositRecordTableView.layoutIfNeeded()
                 self?.depositRecordTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)

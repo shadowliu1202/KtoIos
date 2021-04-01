@@ -52,6 +52,10 @@ extension String {
         }
         return false
     }
+    
+    func currencyAmountToDouble() -> Double? {
+        return Double(self.replacingOccurrences(of: ",", with: ""))
+    }
 }
 
 enum RegexFormat: String {

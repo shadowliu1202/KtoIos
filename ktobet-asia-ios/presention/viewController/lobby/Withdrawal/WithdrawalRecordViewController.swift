@@ -18,8 +18,8 @@ class WithdrawalRecordViewController: UIViewController {
     fileprivate var disposeBag = DisposeBag()
     fileprivate var isLoading = false
     fileprivate var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-    fileprivate var curentFilter: [TransactionItem]?
-    fileprivate var withdrawalDateType: DateType = .week
+    fileprivate var curentFilter: [FilterItem]?
+    fileprivate var withdrawalDateType: DateType = .week()
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -123,24 +123,33 @@ class WithdrawalRecordViewController: UIViewController {
     fileprivate func goToDateVC() {
         let storyboard = UIStoryboard(name: "Deposit", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DateConditionViewController") as! DateViewController
-        vc.conditionCallbck = {[weak self] (beginDate, endDate) in
-            self?.viewModel.dateBegin = beginDate
-            self?.viewModel.dateEnd = endDate
+        vc.conditionCallbck = {[weak self] (dateType) in
             DispatchQueue.main.async {
-                let diffDays = beginDate.betweenTwoDay(sencondDate: endDate)
-                if beginDate == endDate {
-                    self?.dateLabel.text = beginDate.formatDateToStringToDay()
-                    self?.withdrawalDateType = .day(beginDate.formatDateToStringToDay())
-                } else if diffDays == 6 {
+                let dateBegin: Date?
+                let dateEnd: Date?
+                switch dateType {
+                case .day(let day):
+                    self?.dateLabel.text = day.formatDateToStringToDay()
+                    dateBegin = day
+                    dateEnd = day
+                case .week(let fromDate, let toDate):
                     self?.dateLabel.text = Localize.string("common_last7day")
-                    self?.withdrawalDateType = .week
-                } else {
-                    self?.dateLabel.text = "\(beginDate.getYear())/\(beginDate.getMonth())"
-                    self?.withdrawalDateType = .month(beginDate.formatDateToStringToDay())
+                    dateBegin = fromDate
+                    dateEnd = toDate
+                case .month(let fromDate, let toDate):
+                    dateBegin = fromDate
+                    dateEnd = toDate
+                    guard let year = dateBegin?.getYear(), let month = dateBegin?.getMonth() else { return }
+                    self?.dateLabel.text = "\(year)/\(month)"
                 }
+                
+                self?.viewModel.dateBegin = dateBegin
+                self?.viewModel.dateEnd = dateEnd
+                self?.withdrawalDateType = dateType
             }
         }
         
+        vc.dateType = self.withdrawalDateType
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -45,8 +45,8 @@ class WithdrawalRequestConfirmViewController: UIViewController {
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        withdrawalTodayCountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalcount"))\(withdrawalLimits.dailyMaxCount)\(Localize.string("common_times_count"))"
-        withdrawalTodayAmountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalamount"))\(withdrawalLimits.dailyMaxCash.amount.currencyFormatWithoutSymbol(precision: 2))"
+        withdrawalTodayCountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalcount"))\(withdrawalLimits.dailyMaxCount - 1)\(Localize.string("common_times_count"))"
+        withdrawalTodayAmountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalamount"))\((withdrawalLimits.dailyMaxCash.amount - amount.currencyAmountToDouble()!).currencyFormatWithoutSymbol(precision: 2))"
         showInfoButton.rx.tap.subscribe(onNext: {[weak self] in
             guard let self = self else { return }
             Alert.show(Localize.string("withdrawal_quota_title"),

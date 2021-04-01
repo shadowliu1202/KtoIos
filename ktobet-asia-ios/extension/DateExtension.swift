@@ -109,10 +109,10 @@ extension Date {
         return components.day ?? 0
     }
     
-    func betweenTwoMonth(from date: Date) -> Int {
-        guard let diffMonth = Calendar.current.dateComponents([.month], from: date, to: self).month else { return 0 }
-        guard let diffDay = Calendar.current.dateComponents([.day], from: date, to: self).day else { return 0 }
-        return diffDay <= -40 ? diffMonth - 1 : diffMonth
+    func betweenTwoMonth(from date: Date) -> Int32 {
+        let m1 = self.getMonth() - date.getMonth()
+        let m2 = (self.getYear() - date.getYear()) * 12
+        return m1 + m2
     }
     
     var startOfMonth: Date {

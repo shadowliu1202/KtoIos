@@ -39,9 +39,9 @@ public enum Language : String {
 }
 
 public enum DateType {
-    case week
-    case day(String)
-    case month(String)
+    case week(fromDate: Date = Date(), toDate: Date = Date())
+    case day(Date)
+    case month(fromDate: Date, toDate: Date)
 }
 
 public enum RegularFormat: String {

@@ -138,7 +138,7 @@
                                                         <constraint firstItem="8Le-06-GKw" firstAttribute="top" secondItem="OMG-hR-BZn" secondAttribute="top" constant="16" id="vFV-y1-mjq"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
-                                                <color key="backgroundColor" name="blackTwo"/>
+                                                <color key="backgroundColor" name="backgroundListCodGray"/>
                                                 <connections>
                                                     <outlet property="amountLabel" destination="moS-8r-a48" id="zs2-UO-Xn0"/>
                                                     <outlet property="dateLabel" destination="8Le-06-GKw" id="3b7-wG-eYR"/>

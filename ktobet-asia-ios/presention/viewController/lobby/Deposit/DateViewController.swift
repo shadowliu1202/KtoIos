@@ -9,15 +9,13 @@ class DateViewController: UIViewController {
     @IBOutlet fileprivate weak var previousButton: UIButton!
     @IBOutlet var month: MonthSelectView!
     
-    var conditionCallbck: ((_ beginDate: Date, _ endDate: Date) -> ())?
-    var depositDateType: DateType = .week
+    var conditionCallbck: ((_ dateType: DateType) -> ())?
+    var dateType: DateType = .week()
     fileprivate let invalidPeriodLength = 90
     fileprivate var koyomi: Koyomi!
     fileprivate var seletedDate: Date?
     fileprivate var currentSelectedStyle: SelectionMode = .sequence(style: .semicircleEdge)
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
-    fileprivate var starDate: Date?
-    fileprivate var endDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,22 +41,19 @@ class DateViewController: UIViewController {
             self.koyomi.setDayFont(size: 12) .setWeekFont(size: 12)
             self.koyomi.setDayFont(fontName: "PingFangSC-Medium", size: 12)
             self.dateView.addSubview(self.koyomi)
-            switch self.depositDateType {
+            switch self.dateType {
             case .day(let date):
                 self.dateSegment.selectedSegmentIndex = 1
-                let selectedDate = date.convertDateTIme(format: "yyyy/MM/dd")?.convertdateToUTC() ?? Date()
-                self.seletedDate = selectedDate
-                let diffMonth = selectedDate.betweenTwoMonth(from: Date())
+                self.seletedDate = date
+                let diffMonth = date.betweenTwoMonth(from: Date())
                 self.changeMonth(month: .someMonth(Int(diffMonth)))
             case .week:
                 self.selectPastSevenDays()
-            case .month(let date):
-                let selectedDate = date.convertDateTIme(format: "yyyy/MM/dd")?.convertdateToUTC() ?? Date()
-                print(selectedDate)
+            case .month(let starDate, _):
                 self.dateSegment.selectedSegmentIndex = 2
                 self.month.isHidden = false
                 self.dateView.isHidden = true
-                self.month.setSelectedDate(selectedDate)
+                self.month.setSelectedDate(starDate.convertdateToUTC())
             }
 
             self.currentDateLabel.text = self.koyomi.currentDateString() + Localize.string("common_month")
@@ -73,8 +68,7 @@ class DateViewController: UIViewController {
             for: .valueChanged)
         month.isHidden = true
         month.callback = { [weak self] (starDate, endDate) in
-            self?.starDate = starDate.convertdateToUTC()
-            self?.endDate = endDate.convertdateToUTC()
+            self?.dateType = .month(fromDate: starDate, toDate: endDate)
         }
     }
     
@@ -84,6 +78,7 @@ class DateViewController: UIViewController {
         koyomi.selectionMode = currentSelectedStyle
         koyomi.unselectAll()
         koyomi.select(date: date)
+        dateType = .day(date)
         koyomi.reloadData()
     }
     
@@ -93,6 +88,7 @@ class DateViewController: UIViewController {
         koyomi.selectionMode = currentSelectedStyle
         koyomi.unselectAll()
         koyomi.select(date: Date().getPastSevenDate().adding(value: -1, byAdding: .day), to: Date())
+        dateType = .week(fromDate: Date().getPastSevenDate().adding(value: -1, byAdding: .day), toDate: Date())
         koyomi.reloadData()
     }
     
@@ -110,12 +106,7 @@ class DateViewController: UIViewController {
             selectDate.append(date.convertdateToUTC())
         }
         
-        if dateSegment.selectedSegmentIndex != 2 {
-            self.starDate = selectDate.last
-            self.endDate = selectDate.first
-        }
-        guard let beginDate = self.starDate, let endDate = self.endDate else { return }
-        conditionCallbck?(beginDate, endDate)
+        conditionCallbck?(dateType)
         NavigationManagement.sharedInstance.popViewController()
     }
     
@@ -157,7 +148,7 @@ class DateViewController: UIViewController {
     @objc func onChange(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            if !isCurrentMonth() { koyomi.display(in: .current) }
+            koyomi.display(in: .current)
             selectPastSevenDays()
             month.isHidden = true
             dateView.isHidden = false
@@ -171,8 +162,7 @@ class DateViewController: UIViewController {
             dateView.isHidden = true
             let currentDate = Date()
             month.setSelectedDate(currentDate)
-            self.starDate = currentDate.startOfMonth
-            self.endDate = currentDate.endOfMonth
+            dateType = .month(fromDate: currentDate.startOfMonth, toDate: currentDate.endOfMonth)
         default:
             break
         }

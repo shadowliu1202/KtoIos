@@ -17,14 +17,14 @@ extension UIViewController{
     
     func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {
         DispatchQueue.main.async {
-            UIApplication.shared.beginIgnoringInteractionEvents()
+            self.view.isUserInteractionEnabled = false
             activityIndicator.startAnimating()
         }
     }
     
     func stopActivityIndicator(activityIndicator: UIActivityIndicatorView) {
         DispatchQueue.main.async {
-            UIApplication.shared.endIgnoringInteractionEvents()
+            self.view.isUserInteractionEnabled = true
             activityIndicator.stopAnimating()
         }
     }

@@ -186,6 +186,11 @@ class NavigationManagement {
         completion?()
     }
     
+    func pushViewController(vc: UIViewController) {
+        viewController.navigationController?.pushViewController(vc, animated: true)
+        viewController = viewController.navigationController?.topViewController
+    }
+    
     private func dispose() {
         guard let sideBar = sideBarViewController else { return }
         NotificationCenter.default.removeObserver(sideBar, name: NSNotification.Name(rawValue: "disposeSystemNotify"), object: nil)
