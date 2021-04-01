@@ -27,6 +27,7 @@ class WithdrawalRequestViewController: UIViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
         initUI()
+        viewModel.getBalance().subscribe().disposed(by: disposeBag)
         withdrawalLimitationDataBinding()
         validateInputTextField()
     }
@@ -55,7 +56,7 @@ class WithdrawalRequestViewController: UIViewController {
         nextButton.isValid = false
         (self.withdrawalAmountTextField.text <-> self.viewModel.relayWithdrawalAmount).disposed(by: self.disposeBag)
         withdrawalAmountTextField.editingChangedHandler = { (str) in
-            guard let amount = Double(str.replacingOccurrences(of: ",", with: "")) else { return }
+            guard let amount = str.currencyAmountToDouble() else { return }
             let strWithSeparator = str.replacingOccurrences(of: ",", with: "")
             let maxmumAmount:Double = 9999999
             amount > maxmumAmount ? self.viewModel.relayWithdrawalAmount.accept(maxmumAmount.currencyFormatWithoutSymbol()) : self.viewModel.relayWithdrawalAmount.accept(strWithSeparator.contains(".") ? str : amount.currencyFormatWithoutSymbol(precision: 0))
@@ -109,11 +110,26 @@ class WithdrawalRequestViewController: UIViewController {
     
     private func validateInputTextField() {
         viewModel.event().amountValid.subscribe { [weak self] (isValid) in
-            guard let isValid = isValid.element, self?.withdrawalAmountTextField.isEdited ?? false else { return }
-            let message = isValid ? "" : self?.viewModel.relayWithdrawalAmount.value.count == 0 ? Localize.string("common_field_must_fill") : Localize.string("deposit_limitation_hint")
+            guard let amountStatus = isValid.element, self?.withdrawalAmountTextField.isEdited ?? false else { return }
+            var message = ""
+            switch amountStatus {
+            case .amountBelowRange:
+                message = Localize.string("withdrawal_input_lowermin")
+            case .amountBeyondRange:
+                message = Localize.string("withdrawal_input_overmax")
+            case .amountExceedDailyLimit:
+                message = Localize.string("withdrawal_amount_exceed_daily_limit")
+            case .empty:
+                message = Localize.string("common_field_must_fill")
+            case .notEnoughBalance:
+                message = Localize.string("withdrawal_balance_not_enough")
+            default:
+                message = ""
+            }
+            
             self?.withdrawalAmountErrorLabel.text = message
         }.disposed(by: disposeBag)
-        
+                
         viewModel.event()
             .dataValid
             .bind(to: nextButton.rx.valid)

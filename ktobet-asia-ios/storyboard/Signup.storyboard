@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -506,7 +507,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="TdJ-s7-WVA"/>
-                        <color key="backgroundColor" red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
                             <constraint firstItem="TdJ-s7-WVA" firstAttribute="trailing" secondItem="AER-6a-mvy" secondAttribute="trailing" id="35g-G0-8gt"/>
                             <constraint firstItem="qzE-5u-7LD" firstAttribute="leading" secondItem="TdJ-s7-WVA" secondAttribute="leading" id="3B7-BB-RlP"/>
@@ -728,7 +729,7 @@ john.doe@higgstar.com
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="DnN-qm-daH"/>
-                        <color key="backgroundColor" red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
                             <constraint firstItem="cWF-VY-9lH" firstAttribute="leading" secondItem="DnN-qm-daH" secondAttribute="leading" id="5NX-GK-oAt"/>
                             <constraint firstItem="r5D-WN-HJ2" firstAttribute="leading" secondItem="DnN-qm-daH" secondAttribute="leading" constant="10" id="6nj-pP-snb"/>
@@ -915,7 +916,7 @@ john.doe@higgstar.com
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7nt-6o-xv3"/>
-                        <color key="backgroundColor" red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
                             <constraint firstItem="SAB-og-fqm" firstAttribute="leading" secondItem="7nt-6o-xv3" secondAttribute="leading" id="7WK-nM-NcF"/>
                             <constraint firstItem="7nt-6o-xv3" firstAttribute="bottom" secondItem="SAB-og-fqm" secondAttribute="bottom" id="BFv-MQ-zNP"/>
@@ -1266,6 +1267,9 @@ john.doe@higgstar.com
         <image name="Single Selection (Selected)" width="24" height="24"/>
         <image name="Success" width="16" height="16"/>
         <image name="Tips" width="24" height="24"/>
+        <namedColor name="blackTwo">
+            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

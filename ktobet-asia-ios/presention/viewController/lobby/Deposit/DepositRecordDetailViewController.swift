@@ -46,11 +46,11 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var imagePicker = OpalImagePickerController()
-    fileprivate var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     fileprivate var removeButtons: [UIButton] = []
     fileprivate var isOverImageLimit = false
     fileprivate var imageIndex = 0
     fileprivate var imageUploadInex = 0
+    var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
 	
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -62,13 +62,13 @@ class DepositRecordDetailViewController: UIViewController {
     
     // MARK: BUTTON ACTION
     @IBAction func confirm(_ sender: Any) {
-        startActivityIndicator()
+        startActivityIndicator(activityIndicator: activityIndicator)
         viewModel.bindingImageWithDepositRecord(displayId: detailRecord.displayId, transactionId: EnumMapper.Companion.init().convertTransactionStatus(transactionStatus: .pending), portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
             self.dataBinding()
-            self.stopActivityIndicator()
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in
             self.handleUnknownError(error)
-            self.stopActivityIndicator()
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
     }
     
@@ -123,14 +123,13 @@ class DepositRecordDetailViewController: UIViewController {
             self.remarkView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2, width: self.view.frame.width - 60)
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.openPhoto(_:)))
             self.uploadClickView.addGestureRecognizer(tap)
-            self.activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+            self.activityIndicator.center = self.view.center
             self.view.addSubview(self.activityIndicator)
-            self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         }
     }
     
     fileprivate func showImagePicker() {
+        self.startActivityIndicator(activityIndicator: self.activityIndicator)
         let currentSelectedImageCount = self.imageStackView.subviews.count
         if currentSelectedImageCount >= 3 {
             Alert.show("", Localize.string("common_photo_upload_count_limit"), confirm: nil, cancel: nil)
@@ -150,27 +149,41 @@ class DepositRecordDetailViewController: UIViewController {
         presentOpalImagePickerController(imagePicker, animated: true,
                                          select: { (assets) in
                                             self.imagePicker.dismiss(animated: true) {
+                                                var isFormatValid = true
+                                                var islimitSizeValid = true
                                                 assets.forEach {
                                                     guard let fileName = $0.value(forKey: "filename") as? String,
-                                                          let fileExtension = fileName.split(separator: ".").last?.uppercased() else { return }
+                                                          let fileExtension = fileName.split(separator: ".").last?.uppercased() else {
+                                                        self.stopActivityIndicator(activityIndicator: self.activityIndicator)
+                                                        return
+                                                    }
+                                                    
                                                     let allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
                                                     if !allowImageFormat.contains(String(fileExtension)) {
-                                                        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_file_format_invalid"), confirm: nil, cancel: nil)
-                                                        return
+                                                        isFormatValid = false
                                                     }
                                                     
                                                     let image = self.convertAssetToImage(asset: $0)
                                                     if self.isOverImageLimitSize(image: image) {
-                                                        self.showUploadLimitSizeAlert()
-                                                    } else {
-                                                        self.startActivityIndicator()
+                                                        islimitSizeValid = false
+                                                    }
+                                                    
+                                                    if !self.isOverImageLimitSize(image: image) && allowImageFormat.contains(String(fileExtension)) {
                                                         self.uploadImage(image: image)
                                                     }
                                                 }
+                                                
+                                                if !isFormatValid {
+                                                    self.showUploadFormatInvalidAlert()
+                                                }
+                                                
+                                                if !islimitSizeValid {
+                                                    self.showUploadLimitSizeAlert()
+                                                }
                                             }
-                                         }, cancel: { })
-        
-
+                                         }, cancel: {
+                                            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
+                                         })
     }
 
     fileprivate func addImageToUI(image: UIImage) {
@@ -223,9 +236,9 @@ class DepositRecordDetailViewController: UIViewController {
             self.confrimButton.isValid = true
             self.imageUploadInex += 1
             self.addImageToUI(image: image)
-            self.stopActivityIndicator()
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in
-            self.stopActivityIndicator()
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
             self.handleUnknownError(error)
         }.disposed(by: disposeBag)
     }
@@ -260,7 +273,7 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate func dataBinding() {
         self.remarkTableview.delegate = nil
         self.remarkTableview.dataSource = nil
-        startActivityIndicator()
+        self.startActivityIndicator(activityIndicator: activityIndicator)
         viewModel.getDepositRecordDetail(transactionId: detailRecord.displayId, transactionTransactionType: detailRecord.transactionTransactionType).subscribe {[weak self] (data) in
             guard let self = self else { return }
             self.statusDateLabel.text = data.updatedDate.formatDateToStringToSecond()
@@ -278,30 +291,24 @@ class DepositRecordDetailViewController: UIViewController {
             } onError: { (error) in
                 self.handleUnknownError(error)
             }.disposed(by: self.disposeBag)
-            self.stopActivityIndicator()
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in
             self.handleUnknownError(error)
-            self.stopActivityIndicator()
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
     }
     
     fileprivate func showUploadLimitSizeAlert() {
         DispatchQueue.main.async {
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
             Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_execeed_limitation"), confirm: nil, cancel: nil, tintColor: UIColor.red)
         }
     }
     
-    fileprivate func startActivityIndicator() {
+    fileprivate func showUploadFormatInvalidAlert() {
         DispatchQueue.main.async {
-            UIApplication.shared.beginIgnoringInteractionEvents()
-            self.activityIndicator.startAnimating()
-        }
-    }
-    
-    fileprivate func stopActivityIndicator() {
-        DispatchQueue.main.async {
-            UIApplication.shared.endIgnoringInteractionEvents()
-            self.activityIndicator.stopAnimating()
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
+            Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_file_format_invalid"), confirm: nil, cancel: nil)
         }
     }
     
@@ -330,7 +337,7 @@ extension DepositRecordDetailViewController: UIImagePickerControllerDelegate, UI
                 if image.isOverImageLimitSize(imageLimitSize: WithdrawalViewModel.imageLimitSize) {
                     self.showUploadLimitSizeAlert()
                 } else {
-                    self.startActivityIndicator()
+                    self.startActivityIndicator(activityIndicator: self.activityIndicator)
                     self.uploadImage(image: image)
                 }
             }

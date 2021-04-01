@@ -20,8 +20,8 @@ class DepositRecordViewController: UIViewController {
     fileprivate var disposeBag = DisposeBag()
     fileprivate var isLoading = false
     fileprivate var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-    fileprivate var curentFilter: [TransactionItem]?
-    fileprivate var depositDateType: DateType = .week
+    fileprivate var curentFilter: [FilterItem]?
+    fileprivate var depositDateType: DateType = .week()
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -137,25 +137,33 @@ class DepositRecordViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == DateViewController.segueIdentifier {
             if let dest = segue.destination as? DateViewController {
-                dest.conditionCallbck = {[weak self] (beginDate, endDate) in
-                    self?.viewModel.dateBegin = beginDate
-                    self?.viewModel.dateEnd = endDate
+                dest.conditionCallbck = {[weak self] (dateType) in
                     DispatchQueue.main.async {
-                        let diffDays = beginDate.betweenTwoDay(sencondDate: endDate)
-                        if beginDate == endDate {
-                            self?.dateLabel.text = beginDate.formatDateToStringToDay()
-                            self?.depositDateType = .day(beginDate.formatDateToStringToDay())
-                        } else if diffDays == 6 {
+                        let dateBegin: Date?
+                        let dateEnd: Date?
+                        switch dateType {
+                        case .day(let day):
+                            self?.dateLabel.text = day.formatDateToStringToDay()
+                            dateBegin = day
+                            dateEnd = day
+                        case .week(let fromDate, let toDate):
                             self?.dateLabel.text = Localize.string("common_last7day")
-                            self?.depositDateType = .week
-                        } else {
-                            self?.dateLabel.text = "\(beginDate.getYear())/\(beginDate.getMonth())"
-                            self?.depositDateType = .month(beginDate.formatDateToStringToDay())
+                            dateBegin = fromDate
+                            dateEnd = toDate
+                        case .month(let fromDate, let toDate):
+                            dateBegin = fromDate
+                            dateEnd = toDate
+                            guard let year = dateBegin?.getYear(), let month = dateBegin?.getMonth() else { return }
+                            self?.dateLabel.text = "\(year)/\(month)"
                         }
+                        
+                        self?.viewModel.dateBegin = dateBegin
+                        self?.viewModel.dateEnd = dateEnd
+                        self?.depositDateType = dateType
                     }
                 }
                 
-                dest.depositDateType = self.depositDateType
+                dest.dateType = self.depositDateType
             }
         }
         

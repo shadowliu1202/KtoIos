@@ -73,6 +73,7 @@ class DefaultProductViewController: UIViewController {
     private func defaultStyle(){
         self.btnNext.layer.cornerRadius = 9
         self.btnNext.layer.masksToBounds = true
+        btnNext.isValid = false
     }
     
     // MARK: BUTTON ACTION
@@ -117,6 +118,7 @@ extension DefaultProductViewController : UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        btnNext.isValid = true
         for idx in 0..<games.count{
             games[idx].selected = idx == indexPath.row
         }

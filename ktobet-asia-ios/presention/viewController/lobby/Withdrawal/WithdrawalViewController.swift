@@ -72,6 +72,9 @@ class WithdrawalViewController: UIViewController {
         showAllWithdrawalButton.setTitle(Localize.string("common_show_all"), for: .normal)
         withdrawalRecordNoDataLabel.text = Localize.string("withdrawal_no_records")
         withdrawViewEnable(false)
+        withdrawalRecordTableView.isHidden = true
+        withdrawView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
+        withdrawView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
     }
     
     fileprivate func withdrawViewEnable(_ enable: Bool) {
@@ -111,7 +114,9 @@ class WithdrawalViewController: UIViewController {
     }
     
     fileprivate func recordDataBinding() {
-        let getWithdrawalRecordObservable = viewModel.getWithdrawalRecords().asObservable()
+        withdrawalRecordTableView.delegate = nil
+        withdrawalRecordTableView.dataSource = nil
+        let getWithdrawalRecordObservable = viewModel.getWithdrawalRecords().catchError { _ in Single<[WithdrawalRecord]>.never() }.asObservable()
         getWithdrawalRecordObservable.bind(to: withdrawalRecordTableView.rx.items(cellIdentifier: String(describing: WithdrawRecordTableViewCell.self), cellType: WithdrawRecordTableViewCell.self)) {(index, data, cell) in
             cell.setUp(data: data)
         }.disposed(by: disposeBag)
@@ -119,6 +124,7 @@ class WithdrawalViewController: UIViewController {
         getWithdrawalRecordObservable
             .subscribeOn(MainScheduler.instance)
             .subscribe { [weak self] (withdrawalRecord) in
+                self?.withdrawalRecordTableView.isHidden = false
                 self?.constraintWithdrawalRecordTableHeight.constant = CGFloat(withdrawalRecord.count * 80)
                 self?.withdrawalRecordTableView.layoutIfNeeded()
                 self?.withdrawalRecordTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
