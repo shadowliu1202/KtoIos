@@ -6,7 +6,9 @@ import RxCocoa
 class AddBankViewModel {
     enum ValidError {
         case none
+        case length
         case empty
+        case regex
     }
     var userName = BehaviorRelay<String>(value: "")
     
@@ -18,26 +20,39 @@ class AddBankViewModel {
     }
     
     lazy var branchName = BehaviorRelay<String>(value: "")
-    private lazy var isBranchValid = branchName.distinctUntilChanged().map({$0.count > 0})
-    lazy var branchValid: Observable<ValidError> = isBranchValid.skip(1).flatMap { [weak self] (isValid) -> Observable<ValidError> in
-        self?.flatValid(isValid) ?? Observable<ValidError>.just(.none)
+    private lazy var isBranchValid = branchValid.flatMap { (validError) -> Observable<Bool> in
+        return Observable.just(validError == .none ? true : false)
+    }
+    lazy var branchValid: Observable<ValidError> = branchName.distinctUntilChanged().skip(1).map { (text) -> ValidError in
+        return text.count > 0 ? (text.isValidRegex(format: .branchName) ? .none : .regex) : .empty
     }
     
     var province = BehaviorRelay<String>(value: "")
     lazy var isProvinceValid = province.map({$0.count > 0})
     
     var country = BehaviorRelay<String>(value: "")
-    private lazy var isCountryValid = country.map({$0.count > 0})
+    private lazy var isCountryValid = countryValid.flatMap { (validError) -> Observable<Bool> in
+        return Observable.just(validError == .none ? true : false)
+    }
+    lazy var countryValid: Observable<ValidError> = country.distinctUntilChanged().skip(1).map({$0.count > 0 ? .none : .empty})
     
     var account = BehaviorRelay<String>(value: "")
-    private lazy var isAccountValid = account.distinctUntilChanged().map({$0.count > 9})
-    lazy var accontValid: Observable<ValidError> = isAccountValid.skip(1).flatMap { [weak self] (isValid) -> Observable<ValidError> in
-        self?.flatValid(isValid) ?? Observable<ValidError>.just(.none)
+    private lazy var isAccountValid = accontValid.flatMap { (validError) -> Observable<Bool> in
+        return Observable.just(validError == .none ? true : false)
+    }
+    lazy var accontValid: Observable<ValidError> = account.distinctUntilChanged().skip(1).map { (text) -> ValidError in
+        if text.count == 0 {
+            return .empty
+        } else if text.count < 10 {
+            return .length
+        } else {
+            return .none
+        }
     }
     
     lazy var btnValid: Observable<Bool> = Observable.combineLatest(isBankValid, isBranchValid, isProvinceValid, isCountryValid, isAccountValid) {
         return $0 && $1 && $2 && $3 && $4
-    }
+    }.startWith(false)
     
     private var usecaseAuth : AuthenticationUseCase!
     private var bankUseCase: BankUseCase!
@@ -81,7 +96,7 @@ class AddBankViewModel {
     }
     
     func addWithdrawalAccount() -> Completable {
-        let newWithdrawalAccount: NewWithdrawalAccount = NewWithdrawalAccount(bankId: self.bankID.value, bankName: self.bankName.value, branch: self.branchName.value, location: self.province.value, city: self.country.value, address: "", accountNumber: self.account.value, accountName: self.userName.value)
+        let newWithdrawalAccount: NewWithdrawalAccount = NewWithdrawalAccount(bankId: self.bankID.value, bankName: self.bankName.value, branch: self.branchName.value, location: self.province.value, city: self.country.value, address: "", accountNumber: self.account.value ?? "", accountName: self.userName.value)
         return withdrawalUseCase.addWithdrawalAccount(newWithdrawalAccount)
     }
 }

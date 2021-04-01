@@ -14,6 +14,7 @@ class AddBankViewController: UIViewController {
     @IBOutlet weak var branchErrorLabel: UILabel!
     @IBOutlet weak var provinceDropDown: DropDownInputText!
     @IBOutlet weak var countryDropDown: DropDownInputText!
+    @IBOutlet weak var countryErrorLabel: UILabel!
     @IBOutlet weak var accountTextField: InputText!
     @IBOutlet weak var accountErrorLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
@@ -44,9 +45,18 @@ class AddBankViewController: UIViewController {
         accountTextField.setKeyboardType(.numberPad)
         accountTextField.maxLength = 25
     }
-
     
     private func dataBinding() {
+        bindUserName()
+        bindBankName()
+        bindBranchName()
+        bindProvince()
+        bindCountry()
+        bindAccount()
+        bindSubmit()
+    }
+
+    private func bindUserName() {
         viewModel.userName.subscribe(onNext: { [weak self] (name) in
             self?.nameLabel.setContent(name)
         }).disposed(by: disposeBag)
@@ -59,6 +69,9 @@ class AddBankViewController: UIViewController {
         }, onError: { [weak self]  (error) in
             self?.handleUnknownError(error)
         }).disposed(by: disposeBag)
+    }
+    
+    private func bindBankName() {
         (bankDropDown.text <-> viewModel.bankName).disposed(by: disposeBag)
         bankDropDown.selectedID.subscribe(onNext: { [weak self] (bankId) in
             if let id = bankId {
@@ -71,30 +84,43 @@ class AddBankViewController: UIViewController {
         }, onError: { [weak self] (error) in
             self?.handleUnknownError(error)
         }).disposed(by: disposeBag)
-        (branchTextField.text <-> viewModel.branchName).disposed(by: disposeBag)
-        (provinceDropDown.text <-> viewModel.province).disposed(by: disposeBag)
-        provinceDropDown.text.subscribe(onNext: { [weak self] (province) in
-            self?.countryDropDown.optionArray = self?.viewModel.getCountries(province: province) ?? []
-        }).disposed(by: disposeBag)
-        viewModel.isProvinceValid.bind(to: countryDropDown.rx.isEnable).disposed(by: disposeBag)
-        (countryDropDown.text <-> viewModel.country).disposed(by: disposeBag)
-        accountTextField.text.debounce(.milliseconds(600), scheduler: MainScheduler.instance).subscribe(onNext: { [weak self] (text) in
-            self?.viewModel.account.accept(text)
-        }).disposed(by: disposeBag)
-        viewModel.btnValid.bind(to: submitButton.rx.valid).disposed(by: disposeBag)
-        
         viewModel.bankValid.subscribe(onNext: { [weak self] (status) in
             self?.handleErrorLabel(error: status, textField: self?.bankDropDown, label: self?.bankErrorLabel)
         }).disposed(by: disposeBag)
-        
+    }
+    
+    private func bindBranchName() {
+        (branchTextField.text <-> viewModel.branchName).disposed(by: disposeBag)
         viewModel.branchValid.subscribe(onNext: { [weak self] (status) in
             self?.handleErrorLabel(error: status, textField: self?.branchTextField, label: self?.branchErrorLabel)
         }).disposed(by: disposeBag)
-        
+    }
+    
+    private func bindProvince() {
+        (provinceDropDown.text <-> viewModel.province).disposed(by: disposeBag)
+        provinceDropDown.text.subscribe(onNext: { [weak self] (province) in
+            self?.countryDropDown.optionArray = self?.viewModel.getCountries(province: province) ?? []
+            self?.viewModel.country.accept("")
+        }).disposed(by: disposeBag)
+    }
+    
+    private func bindCountry() {
+        viewModel.isProvinceValid.bind(to: countryDropDown.rx.isEnable).disposed(by: disposeBag)
+        (countryDropDown.text <-> viewModel.country).disposed(by: disposeBag)
+        viewModel.countryValid.subscribe(onNext: { [weak self] (status) in
+            self?.handleErrorLabel(error: status, textField: self?.countryDropDown, label: self?.countryErrorLabel)
+        }).disposed(by: disposeBag)
+    }
+    
+    private func bindAccount() {
+        (accountTextField.text <-> viewModel.account).disposed(by: disposeBag)
         viewModel.accontValid.subscribe(onNext: { [weak self] (status) in
             self?.handleErrorLabel(error: status, textField: self?.accountTextField, label: self?.accountErrorLabel)
         }).disposed(by: disposeBag)
-        
+    }
+    
+    private func bindSubmit() {
+        viewModel.btnValid.bind(to: submitButton.rx.valid).disposed(by: disposeBag)
         submitButton.rx.touchUpInside.bind { [weak self] _ in
             guard let `self` = self else { return }
             self.viewModel.addWithdrawalAccount().subscribe(onCompleted: {
@@ -116,7 +142,7 @@ class AddBankViewController: UIViewController {
         let message = Localize.string("withdrawal_bankcard_change_confirm_content")
         Alert.show(title, message, confirm: {
             //TODO: go edit profile viewcontroler.
-        }, cancel: nil)
+        }, confirmText: Localize.string("common_moveto"), cancel: {})
     }
     
     func handleErrorLabel(error: AddBankViewModel.ValidError, textField: UIView?, label: UILabel?) {
@@ -133,6 +159,8 @@ class AddBankViewController: UIViewController {
 
     func transferError(_ error: AddBankViewModel.ValidError) -> String {
         switch error {
+        case .length, .regex:
+            return Localize.string("common_invalid")
         case .empty:
             return Localize.string("common_field_must_fill")
         case .none:
