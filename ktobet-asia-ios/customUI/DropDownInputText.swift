@@ -291,7 +291,6 @@ extension DropDownInputText: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         let _ = dropDownText.textFieldShouldReturn(textField)
         isEditing = false
-        adjustPosition()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
