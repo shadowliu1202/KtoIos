@@ -94,6 +94,7 @@ open class DropDown : UITextField{
     
     //MARK: KTO only
     var ktoOffset = CGRect.zero
+    var ktoKeyboardToolbarHeight: CGFloat = 44
     //MARK: Init
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -135,7 +136,7 @@ open class DropDown : UITextField{
                 let userInfo:NSDictionary = notification.userInfo! as NSDictionary
                     let keyboardFrame:NSValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
                 let keyboardRectangle = keyboardFrame.cgRectValue
-                self.keyboardHeight = keyboardRectangle.height
+                    self.keyboardHeight = keyboardRectangle.height + (self.ktoKeyboardToolbarHeight * 0.6)
                     if self.isSelected{
                         self.reSizeTable()
                     } else {
@@ -305,12 +306,15 @@ open class DropDown : UITextField{
             self.tableheightX = listHeight
         }
         let height = (self.parentController?.view.frame.height ?? 0) - (self.pointToParent.y + self.frame.height + 5)
-        var y = self.pointToParent.y+self.frame.height+5
+        var y = self.pointToParent.y+self.frame.height+5+ktoOffset.origin.y
         if height < (keyboardHeight+tableheightX){
             y = self.pointToParent.y - tableheightX
-        } else {
-            y += ktoOffset.origin.y
         }
+        if self.table.frame.origin.y < self.pointToParent.y + self.frame.height && tableheightX == 0 {
+            //table above dropdown.
+            y = self.pointToParent.y
+        }
+        
         UIView.animate(withDuration: 0.2,
                        delay: 0.1,
                        usingSpringWithDamping: 0.9,
