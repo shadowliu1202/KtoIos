@@ -255,33 +255,6 @@
 		60001A2E25E6046E00CEB72F /* ImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60001A2D25E6046E00CEB72F /* ImageApi.swift */; };
 		60001A2F25E6046E00CEB72F /* ImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60001A2D25E6046E00CEB72F /* ImageApi.swift */; };
 		60001A3025E6046E00CEB72F /* ImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60001A2D25E6046E00CEB72F /* ImageApi.swift */; };
-		60072D6925E744A8001EFDAE /* UIView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6025E744A8001EFDAE /* UIView+Helper.swift */; };
-		60072D6A25E744A8001EFDAE /* UIView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6025E744A8001EFDAE /* UIView+Helper.swift */; };
-		60072D6B25E744A8001EFDAE /* UIView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6025E744A8001EFDAE /* UIView+Helper.swift */; };
-		60072D6C25E744A8001EFDAE /* TimeInterval+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6125E744A8001EFDAE /* TimeInterval+String.swift */; };
-		60072D6D25E744A8001EFDAE /* TimeInterval+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6125E744A8001EFDAE /* TimeInterval+String.swift */; };
-		60072D6E25E744A8001EFDAE /* TimeInterval+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6125E744A8001EFDAE /* TimeInterval+String.swift */; };
-		60072D6F25E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6225E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift */; };
-		60072D7025E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6225E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift */; };
-		60072D7125E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6225E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift */; };
-		60072D7225E744A8001EFDAE /* OpalImagePickerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6325E744A8001EFDAE /* OpalImagePickerConfiguration.swift */; };
-		60072D7325E744A8001EFDAE /* OpalImagePickerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6325E744A8001EFDAE /* OpalImagePickerConfiguration.swift */; };
-		60072D7425E744A8001EFDAE /* OpalImagePickerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6325E744A8001EFDAE /* OpalImagePickerConfiguration.swift */; };
-		60072D7525E744A8001EFDAE /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6425E744A8001EFDAE /* ImagePickerCollectionViewCell.swift */; };
-		60072D7625E744A8001EFDAE /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6425E744A8001EFDAE /* ImagePickerCollectionViewCell.swift */; };
-		60072D7725E744A8001EFDAE /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6425E744A8001EFDAE /* ImagePickerCollectionViewCell.swift */; };
-		60072D7825E744A8001EFDAE /* OpalImagePickerRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6525E744A8001EFDAE /* OpalImagePickerRootViewController.swift */; };
-		60072D7925E744A8001EFDAE /* OpalImagePickerRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6525E744A8001EFDAE /* OpalImagePickerRootViewController.swift */; };
-		60072D7A25E744A8001EFDAE /* OpalImagePickerRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6525E744A8001EFDAE /* OpalImagePickerRootViewController.swift */; };
-		60072D7B25E744A8001EFDAE /* Bundle+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6625E744A8001EFDAE /* Bundle+Helper.swift */; };
-		60072D7C25E744A8001EFDAE /* Bundle+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6625E744A8001EFDAE /* Bundle+Helper.swift */; };
-		60072D7D25E744A8001EFDAE /* Bundle+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6625E744A8001EFDAE /* Bundle+Helper.swift */; };
-		60072D7E25E744A8001EFDAE /* UIViewController+OpalImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6725E744A8001EFDAE /* UIViewController+OpalImagePicker.swift */; };
-		60072D7F25E744A8001EFDAE /* UIViewController+OpalImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6725E744A8001EFDAE /* UIViewController+OpalImagePicker.swift */; };
-		60072D8025E744A9001EFDAE /* UIViewController+OpalImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6725E744A8001EFDAE /* UIViewController+OpalImagePicker.swift */; };
-		60072D8125E744A9001EFDAE /* OpalImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6825E744A8001EFDAE /* OpalImagePickerController.swift */; };
-		60072D8225E744A9001EFDAE /* OpalImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6825E744A8001EFDAE /* OpalImagePickerController.swift */; };
-		60072D8325E744A9001EFDAE /* OpalImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D6825E744A8001EFDAE /* OpalImagePickerController.swift */; };
 		60072D8C25E795C3001EFDAE /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D8B25E795C3001EFDAE /* ImageRepository.swift */; };
 		60072D8D25E795C3001EFDAE /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D8B25E795C3001EFDAE /* ImageRepository.swift */; };
 		60072D8E25E795C3001EFDAE /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60072D8B25E795C3001EFDAE /* ImageRepository.swift */; };
@@ -318,6 +291,18 @@
 		60095E4825F7273300F5DCE6 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095E4525F7273300F5DCE6 /* ArrayExtension.swift */; };
 		602154F925CD3A9300F40D0F /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602154F825CD3A9300F40D0F /* UITableViewExtension.swift */; };
 		602154FA25CD3A9300F40D0F /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602154F825CD3A9300F40D0F /* UITableViewExtension.swift */; };
+		60251AFC261C419600E89EE6 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */; };
+		60251AFD261C419600E89EE6 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */; };
+		60251AFE261C419600E89EE6 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */; };
+		60251B05261C41CD00E89EE6 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B03261C41CD00E89EE6 /* TableViewCell.swift */; };
+		60251B06261C41CD00E89EE6 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B03261C41CD00E89EE6 /* TableViewCell.swift */; };
+		60251B07261C41CD00E89EE6 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B03261C41CD00E89EE6 /* TableViewCell.swift */; };
+		60251B08261C41CD00E89EE6 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B04261C41CD00E89EE6 /* CollectionViewCell.swift */; };
+		60251B09261C41CD00E89EE6 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B04261C41CD00E89EE6 /* CollectionViewCell.swift */; };
+		60251B0A261C41CD00E89EE6 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B04261C41CD00E89EE6 /* CollectionViewCell.swift */; };
+		60251B0E261C427F00E89EE6 /* ImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60251B0D261C427F00E89EE6 /* ImagePicker.storyboard */; };
+		60251B0F261C427F00E89EE6 /* ImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60251B0D261C427F00E89EE6 /* ImagePicker.storyboard */; };
+		60251B10261C427F00E89EE6 /* ImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60251B0D261C427F00E89EE6 /* ImagePicker.storyboard */; };
 		602B534D25E4933F00AB62C4 /* DepositRecordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B534C25E4933F00AB62C4 /* DepositRecordDetailViewController.swift */; };
 		602B534E25E4933F00AB62C4 /* DepositRecordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B534C25E4933F00AB62C4 /* DepositRecordDetailViewController.swift */; };
 		602B534F25E4933F00AB62C4 /* DepositRecordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602B534C25E4933F00AB62C4 /* DepositRecordDetailViewController.swift */; };
@@ -819,15 +804,6 @@
 		5C8247C57875D3350D2EA0AD /* Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-ktobet-asia-iosUITests/Pods-ktobet-asia-ios-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E7EEE80F1B070628EE45D7F /* Pods-ktobet-asia-ios_production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios_production.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios_production/Pods-ktobet-asia-ios_production.debug.xcconfig"; sourceTree = "<group>"; };
 		60001A2D25E6046E00CEB72F /* ImageApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageApi.swift; sourceTree = "<group>"; };
-		60072D6025E744A8001EFDAE /* UIView+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Helper.swift"; sourceTree = "<group>"; };
-		60072D6125E744A8001EFDAE /* TimeInterval+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TimeInterval+String.swift"; sourceTree = "<group>"; };
-		60072D6225E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpalImagePickerCollectionViewLayout.swift; sourceTree = "<group>"; };
-		60072D6325E744A8001EFDAE /* OpalImagePickerConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpalImagePickerConfiguration.swift; sourceTree = "<group>"; };
-		60072D6425E744A8001EFDAE /* ImagePickerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCell.swift; sourceTree = "<group>"; };
-		60072D6525E744A8001EFDAE /* OpalImagePickerRootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpalImagePickerRootViewController.swift; sourceTree = "<group>"; };
-		60072D6625E744A8001EFDAE /* Bundle+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Helper.swift"; sourceTree = "<group>"; };
-		60072D6725E744A8001EFDAE /* UIViewController+OpalImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+OpalImagePicker.swift"; sourceTree = "<group>"; };
-		60072D6825E744A8001EFDAE /* OpalImagePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpalImagePickerController.swift; sourceTree = "<group>"; };
 		60072D8B25E795C3001EFDAE /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
 		60072D9125E7A00A001EFDAE /* UploadImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUseCase.swift; sourceTree = "<group>"; };
 		60072D9725E8C2DE001EFDAE /* UploadPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPhotoViewModel.swift; sourceTree = "<group>"; };
@@ -841,6 +817,10 @@
 		60095DF025F5CAC600F5DCE6 /* KoyomiCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KoyomiCell.swift; sourceTree = "<group>"; };
 		60095E4525F7273300F5DCE6 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		602154F825CD3A9300F40D0F /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
+		60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
+		60251B03261C41CD00E89EE6 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		60251B04261C41CD00E89EE6 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		60251B0D261C427F00E89EE6 /* ImagePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ImagePicker.storyboard; sourceTree = "<group>"; };
 		602B534C25E4933F00AB62C4 /* DepositRecordDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositRecordDetailViewController.swift; sourceTree = "<group>"; };
 		602B537225E4DFB700AB62C4 /* RemarkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemarkTableViewCell.swift; sourceTree = "<group>"; };
 		60357F1E25F239410076D909 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
@@ -1236,6 +1216,7 @@
 		486B3E4B258B6D8A0096BA79 /* customUI */ = {
 			isa = PBXGroup;
 			children = (
+				60251AFA261C417C00E89EE6 /* ImagePicker */,
 				6089834A25AFD13800BE28BB /* Toast.xib */,
 				6089834B25AFD13800BE28BB /* ToastView.swift */,
 				486B3E4C258B6DB10096BA79 /* Alert.swift */,
@@ -1263,7 +1244,6 @@
 			children = (
 				6DAEA6352601DD3C00995A6E /* iOSDropDown */,
 				60095DAF25F5C42200F5DCE6 /* Koyomi */,
-				60072D5F25E7449B001EFDAE /* imagePicker */,
 				48702B21255BE8D1000D94F5 /* socket */,
 			);
 			path = library;
@@ -1401,22 +1381,6 @@
 			path = launch;
 			sourceTree = "<group>";
 		};
-		60072D5F25E7449B001EFDAE /* imagePicker */ = {
-			isa = PBXGroup;
-			children = (
-				60072D6625E744A8001EFDAE /* Bundle+Helper.swift */,
-				60072D6425E744A8001EFDAE /* ImagePickerCollectionViewCell.swift */,
-				60072D6225E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift */,
-				60072D6325E744A8001EFDAE /* OpalImagePickerConfiguration.swift */,
-				60072D6825E744A8001EFDAE /* OpalImagePickerController.swift */,
-				60072D6525E744A8001EFDAE /* OpalImagePickerRootViewController.swift */,
-				60072D6125E744A8001EFDAE /* TimeInterval+String.swift */,
-				60072D6025E744A8001EFDAE /* UIView+Helper.swift */,
-				60072D6725E744A8001EFDAE /* UIViewController+OpalImagePicker.swift */,
-			);
-			path = imagePicker;
-			sourceTree = "<group>";
-		};
 		60095DAF25F5C42200F5DCE6 /* Koyomi */ = {
 			isa = PBXGroup;
 			children = (
@@ -1427,6 +1391,17 @@
 				60095DB525F5C43200F5DCE6 /* KoyomiLayout.swift */,
 			);
 			path = Koyomi;
+			sourceTree = "<group>";
+		};
+		60251AFA261C417C00E89EE6 /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				60251B0D261C427F00E89EE6 /* ImagePicker.storyboard */,
+				60251B04261C41CD00E89EE6 /* CollectionViewCell.swift */,
+				60251B03261C41CD00E89EE6 /* TableViewCell.swift */,
+				60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */,
+			);
+			path = ImagePicker;
 			sourceTree = "<group>";
 		};
 		605AC71B25C0248000873D63 /* Deposit */ = {
@@ -1720,6 +1695,7 @@
 				605AC70125C019F800873D63 /* Deposit.storyboard in Resources */,
 				41077DA825BA636B0057B340 /* Toast.xib in Resources */,
 				4199A09025AE9918002E2D7E /* Launch.storyboard in Resources */,
+				60251B0F261C427F00E89EE6 /* ImagePicker.storyboard in Resources */,
 				6085050226005DAD009394CA /* Withdrawal.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1753,6 +1729,7 @@
 				607CF2BD25BEBD4C00A9342D /* Game.storyboard in Resources */,
 				4199A0A225AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist in Resources */,
 				6D72752725EF7A1C000BF51F /* DepositFilter.storyboard in Resources */,
+				60251B0E261C427F00E89EE6 /* ImagePicker.storyboard in Resources */,
 				605AC70025C019F800873D63 /* Deposit.storyboard in Resources */,
 				48406492258742150064AAC9 /* Login.storyboard in Resources */,
 				48406494258742150064AAC9 /* LaunchScreen.storyboard in Resources */,
@@ -1785,6 +1762,7 @@
 				605AC7B325C115BF00873D63 /* Deposit.storyboard in Resources */,
 				605AC7B425C115BF00873D63 /* Toast.xib in Resources */,
 				605AC7B525C115BF00873D63 /* Launch.storyboard in Resources */,
+				60251B10261C427F00E89EE6 /* ImagePicker.storyboard in Resources */,
 				6085050326005DAD009394CA /* Withdrawal.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1973,6 +1951,7 @@
 				60C03851260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
 				60BEE70025C3975300CA73D0 /* BankApi.swift in Sources */,
 				41077D9925BA63140057B340 /* KTOError.swift in Sources */,
+				60251AFD261C419600E89EE6 /* ImagePickerViewController.swift in Sources */,
 				60072D8D25E795C3001EFDAE /* ImageRepository.swift in Sources */,
 				41077DC925BA63D80057B340 /* SlideMenuViewModel.swift in Sources */,
 				41077DAE25BA63780057B340 /* SMSVerifyCodeInputView.swift in Sources */,
@@ -2011,13 +1990,10 @@
 				60BEE70525C3976C00CA73D0 /* DepositViewModel.swift in Sources */,
 				4199A03925AE9918002E2D7E /* CustomServiceApi.swift in Sources */,
 				6085051626008831009394CA /* WithdrawalRepository.swift in Sources */,
-				60072D6A25E744A8001EFDAE /* UIView+Helper.swift in Sources */,
-				60072D8225E744A9001EFDAE /* OpalImagePickerController.swift in Sources */,
 				4199A03A25AE9918002E2D7E /* ReactiveExtension.swift in Sources */,
 				41077DBD25BA63A20057B340 /* CommonEnum.swift in Sources */,
 				60AE474D25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift in Sources */,
 				4199A03B25AE9918002E2D7E /* EncodableExtension.swift in Sources */,
-				60072D6D25E744A8001EFDAE /* TimeInterval+String.swift in Sources */,
 				41077DC325BA63B80057B340 /* ResetPasswordStep3ViewController.swift in Sources */,
 				4199A03C25AE9918002E2D7E /* TermsOfServiceViewController.swift in Sources */,
 				41077DC625BA63BC0057B340 /* ResetPasswordViewModel.swift in Sources */,
@@ -2038,7 +2014,6 @@
 				4199A04525AE9918002E2D7E /* Logger.swift in Sources */,
 				4199A04625AE9918002E2D7E /* WebsocketsTransport.swift in Sources */,
 				6077038A25C8E3B2003FBEE4 /* DepositMethodTableViewCell.swift in Sources */,
-				60072D7325E744A8001EFDAE /* OpalImagePickerConfiguration.swift in Sources */,
 				6D72755725F0DB99000BF51F /* UILabelExtension.swift in Sources */,
 				41077DA525BA63610057B340 /* ResetPasswordViewController.swift in Sources */,
 				41077DAB25BA636F0057B340 /* ToastView.swift in Sources */,
@@ -2071,7 +2046,6 @@
 				4199A05725AE9918002E2D7E /* InputText.swift in Sources */,
 				4107E5E125F333AE00B42965 /* DepositPresenter.swift in Sources */,
 				41077DC025BA63B40057B340 /* ResetPasswordStep2ViewController.swift in Sources */,
-				60072D7625E744A8001EFDAE /* ImagePickerCollectionViewCell.swift in Sources */,
 				4199A05825AE9918002E2D7E /* SideBarViewController.swift in Sources */,
 				6077038F25C8E5AE003FBEE4 /* RadioButton.swift in Sources */,
 				4199A05925AE9918002E2D7E /* StringExtension.swift in Sources */,
@@ -2084,6 +2058,7 @@
 				4199A05F25AE9918002E2D7E /* ConfigurationUseCase.swift in Sources */,
 				60072DD025EF32DF001EFDAE /* DepositRecordViewController.swift in Sources */,
 				4199A06025AE9918002E2D7E /* SignupPhoneViewController.swift in Sources */,
+				60251B09261C41CD00E89EE6 /* CollectionViewCell.swift in Sources */,
 				418EB32F25FF0EEA0093F124 /* MainDebugViewController.swift in Sources */,
 				4199A06125AE9918002E2D7E /* DefaultProductCell.swift in Sources */,
 				60095E4725F7273300F5DCE6 /* ArrayExtension.swift in Sources */,
@@ -2105,7 +2080,6 @@
 				41077D9F25BA63330057B340 /* LocalStorageRepository.swift in Sources */,
 				4199A06A25AE9918002E2D7E /* ServerInvocationHandler.swift in Sources */,
 				4199A06B25AE9918002E2D7E /* SignupLanguageViewController.swift in Sources */,
-				60072D7C25E744A8001EFDAE /* Bundle+Helper.swift in Sources */,
 				4199A06C25AE9918002E2D7E /* GameInfoRepository.swift in Sources */,
 				41077DA225BA634D0057B340 /* PlayerDataUseCase.swift in Sources */,
 				605AC71825C023CC00873D63 /* DepositViewController.swift in Sources */,
@@ -2120,6 +2094,7 @@
 				4199A07125AE9918002E2D7E /* SystemRepository.swift in Sources */,
 				602B537425E4DFB700AB62C4 /* RemarkTableViewCell.swift in Sources */,
 				4199A07225AE9918002E2D7E /* HttpClientProtocol.swift in Sources */,
+				60251B06261C41CD00E89EE6 /* TableViewCell.swift in Sources */,
 				60D7D7382604799700EF4230 /* WithdrawalPresenter.swift in Sources */,
 				6D72751C25EF7A0E000BF51F /* FilterConditionViewController.swift in Sources */,
 				605AC72125C024AB00873D63 /* DepositTypeTableViewCell.swift in Sources */,
@@ -2138,11 +2113,8 @@
 				4199A07C25AE9918002E2D7E /* ReconnectPolicy.swift in Sources */,
 				4199A07D25AE9918002E2D7E /* SignupUserinfoViewController.swift in Sources */,
 				6D0AA998260C8DF300131314 /* WithdrawlLandingViewModel.swift in Sources */,
-				60072D7025E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift in Sources */,
-				60072D7925E744A8001EFDAE /* OpalImagePickerRootViewController.swift in Sources */,
 				4199A07E25AE9918002E2D7E /* SignupEmailViewModel.swift in Sources */,
 				6DADDEAB2609F5CD00247E80 /* BankUseCase.swift in Sources */,
-				60072D7F25E744A8001EFDAE /* UIViewController+OpalImagePicker.swift in Sources */,
 				4199A07F25AE9918002E2D7E /* RegisterUseCase.swift in Sources */,
 				60357F2025F239410076D909 /* DateViewController.swift in Sources */,
 				4199A08025AE9918002E2D7E /* IAuthRepository.swift in Sources */,
@@ -2188,6 +2160,7 @@
 				60C03850260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
 				60BEE6FF25C3975300CA73D0 /* BankApi.swift in Sources */,
 				486CD98425A41C0F003244B1 /* InputConfirmPassword.swift in Sources */,
+				60251AFC261C419600E89EE6 /* ImagePickerViewController.swift in Sources */,
 				60072D8C25E795C3001EFDAE /* ImageRepository.swift in Sources */,
 				48AAA113256E458800E075CA /* PlayerRepository.swift in Sources */,
 				48AAA114256E458800E075CA /* AuthenticationApi.swift in Sources */,
@@ -2226,13 +2199,10 @@
 				60BEE70425C3976C00CA73D0 /* DepositViewModel.swift in Sources */,
 				48AAA121256E458800E075CA /* StreamHandle.swift in Sources */,
 				6085051526008831009394CA /* WithdrawalRepository.swift in Sources */,
-				60072D6925E744A8001EFDAE /* UIView+Helper.swift in Sources */,
-				60072D8125E744A9001EFDAE /* OpalImagePickerController.swift in Sources */,
 				48AAA122256E458800E075CA /* CustomServiceRepository.swift in Sources */,
 				48AAA123256E458800E075CA /* Connection.swift in Sources */,
 				60AE474C25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift in Sources */,
 				48AAA125256E458800E075CA /* DefaultTransportFactory.swift in Sources */,
-				60072D6C25E744A8001EFDAE /* TimeInterval+String.swift in Sources */,
 				48AAA126256E458800E075CA /* LaunchViewController.swift in Sources */,
 				48AAA128256E458800E075CA /* LaunchViewModel.swift in Sources */,
 				4149B3BC25B13F93001F21C9 /* SMSVerifyCodeInputView.swift in Sources */,
@@ -2253,7 +2223,6 @@
 				48AAA12E256E458800E075CA /* LoginViewController.swift in Sources */,
 				48AAA12F256E458800E075CA /* WebSocket.swift in Sources */,
 				6077038925C8E3B2003FBEE4 /* DepositMethodTableViewCell.swift in Sources */,
-				60072D7225E744A8001EFDAE /* OpalImagePickerConfiguration.swift in Sources */,
 				6D72755625F0DB99000BF51F /* UILabelExtension.swift in Sources */,
 				48AAA130256E458800E075CA /* HandshakeProtocol.swift in Sources */,
 				48AAA131256E458800E075CA /* DefaultProductViewModel.swift in Sources */,
@@ -2286,7 +2255,6 @@
 				48AAA141256E458800E075CA /* ProductItemCell.swift in Sources */,
 				4107E5E025F333AE00B42965 /* DepositPresenter.swift in Sources */,
 				607D1C5C25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift in Sources */,
-				60072D7525E744A8001EFDAE /* ImagePickerCollectionViewCell.swift in Sources */,
 				48840C472592065200245706 /* SignupRegistFailViewController.swift in Sources */,
 				6077038E25C8E5AE003FBEE4 /* RadioButton.swift in Sources */,
 				48AAA142256E458800E075CA /* Transport.swift in Sources */,
@@ -2299,6 +2267,7 @@
 				487288EA2589E94400D8983B /* UIImageExtension.swift in Sources */,
 				60072DCF25EF32DF001EFDAE /* DepositRecordViewController.swift in Sources */,
 				48AAA149256E458800E075CA /* TermsOfServiceCell.swift in Sources */,
+				60251B08261C41CD00E89EE6 /* CollectionViewCell.swift in Sources */,
 				418EB32E25FF0EEA0093F124 /* MainDebugViewController.swift in Sources */,
 				607FC22A25B19AE300180147 /* SystemSignalRUseCase.swift in Sources */,
 				60095E4625F7273300F5DCE6 /* ArrayExtension.swift in Sources */,
@@ -2320,7 +2289,6 @@
 				48AAA14F256E458800E075CA /* SignupLanguageViewController.swift in Sources */,
 				48AAA150256E458800E075CA /* GameInfoRepository.swift in Sources */,
 				48AAA151256E458800E075CA /* AppDelegate.swift in Sources */,
-				60072D7B25E744A8001EFDAE /* Bundle+Helper.swift in Sources */,
 				48AAA152256E458800E075CA /* HubConnectionExtensions.swift in Sources */,
 				48AAA153256E458800E075CA /* HubProtocol.swift in Sources */,
 				605AC71725C023CC00873D63 /* DepositViewController.swift in Sources */,
@@ -2335,6 +2303,7 @@
 				607FC20325B1413200180147 /* SystemSignalRepository.swift in Sources */,
 				602B537325E4DFB700AB62C4 /* RemarkTableViewCell.swift in Sources */,
 				48AAA156256E458800E075CA /* DIContainer.swift in Sources */,
+				60251B05261C41CD00E89EE6 /* TableViewCell.swift in Sources */,
 				60D7D7372604799700EF4230 /* WithdrawalPresenter.swift in Sources */,
 				6D72751B25EF7A0E000BF51F /* FilterConditionViewController.swift in Sources */,
 				605AC72025C024AB00873D63 /* DepositTypeTableViewCell.swift in Sources */,
@@ -2353,11 +2322,8 @@
 				48AAA15F256E458800E075CA /* SignupUserinfoViewController.swift in Sources */,
 				48AAA160256E458800E075CA /* SignupEmailViewModel.swift in Sources */,
 				6D0AA997260C8DF300131314 /* WithdrawlLandingViewModel.swift in Sources */,
-				60072D6F25E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift in Sources */,
-				60072D7825E744A8001EFDAE /* OpalImagePickerRootViewController.swift in Sources */,
 				48AAA161256E458800E075CA /* RegisterUseCase.swift in Sources */,
 				6DADDEAA2609F5CD00247E80 /* BankUseCase.swift in Sources */,
-				60072D7E25E744A8001EFDAE /* UIViewController+OpalImagePicker.swift in Sources */,
 				48AAA162256E458800E075CA /* IAuthRepository.swift in Sources */,
 				60357F1F25F239410076D909 /* DateViewController.swift in Sources */,
 				48AAA163256E458800E075CA /* Util.swift in Sources */,
@@ -2387,6 +2353,7 @@
 				60C03852260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
 				605AC73625C115BF00873D63 /* KTOError.swift in Sources */,
 				605AC73725C115BF00873D63 /* SlideMenuViewModel.swift in Sources */,
+				60251AFE261C419600E89EE6 /* ImagePickerViewController.swift in Sources */,
 				60072D8E25E795C3001EFDAE /* ImageRepository.swift in Sources */,
 				60AE470F25DD15FF00AE9B5E /* StringMapper.swift in Sources */,
 				60AE471E25DD164600AE9B5E /* DepositRepository.swift in Sources */,
@@ -2425,13 +2392,10 @@
 				605AC74D25C115BF00873D63 /* CustomServiceApi.swift in Sources */,
 				605AC74E25C115BF00873D63 /* ReactiveExtension.swift in Sources */,
 				6085051726008831009394CA /* WithdrawalRepository.swift in Sources */,
-				60072D6B25E744A8001EFDAE /* UIView+Helper.swift in Sources */,
-				60072D8325E744A9001EFDAE /* OpalImagePickerController.swift in Sources */,
 				605AC74F25C115BF00873D63 /* CommonEnum.swift in Sources */,
 				605AC75025C115BF00873D63 /* EncodableExtension.swift in Sources */,
 				60AE474E25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift in Sources */,
 				605AC75125C115BF00873D63 /* ResetPasswordStep3ViewController.swift in Sources */,
-				60072D6E25E744A8001EFDAE /* TimeInterval+String.swift in Sources */,
 				605AC75225C115BF00873D63 /* TermsOfServiceViewController.swift in Sources */,
 				605AC75325C115BF00873D63 /* ResetPasswordViewModel.swift in Sources */,
 				60AE471825DD162000AE9B5E /* UITableViewExtension.swift in Sources */,
@@ -2452,7 +2416,6 @@
 				60AE470C25DD15E400AE9B5E /* DepositMethodTableViewCell.swift in Sources */,
 				605AC75E25C115BF00873D63 /* ResetPasswordViewController.swift in Sources */,
 				605AC75F25C115BF00873D63 /* ToastView.swift in Sources */,
-				60072D7425E744A8001EFDAE /* OpalImagePickerConfiguration.swift in Sources */,
 				6D72755825F0DB99000BF51F /* UILabelExtension.swift in Sources */,
 				605AC76025C115BF00873D63 /* LocalizeUtils.swift in Sources */,
 				60AE471225DD160100AE9B5E /* ColorMapper.swift in Sources */,
@@ -2485,7 +2448,6 @@
 				605AC76E25C115BF00873D63 /* TransferFormat.swift in Sources */,
 				4107E5E225F333AE00B42965 /* DepositPresenter.swift in Sources */,
 				605AC76F25C115BF00873D63 /* HttpResponse.swift in Sources */,
-				60072D7725E744A8001EFDAE /* ImagePickerCollectionViewCell.swift in Sources */,
 				605AC77025C115BF00873D63 /* InputText.swift in Sources */,
 				605AC77125C115BF00873D63 /* ResetPasswordStep2ViewController.swift in Sources */,
 				605AC77225C115BF00873D63 /* SideBarViewController.swift in Sources */,
@@ -2498,6 +2460,7 @@
 				605AC77825C115BF00873D63 /* HttpClient.swift in Sources */,
 				60072DD125EF32DF001EFDAE /* DepositRecordViewController.swift in Sources */,
 				605AC77925C115BF00873D63 /* ConfigurationUseCase.swift in Sources */,
+				60251B0A261C41CD00E89EE6 /* CollectionViewCell.swift in Sources */,
 				418EB33025FF0EEA0093F124 /* MainDebugViewController.swift in Sources */,
 				605AC77A25C115BF00873D63 /* SignupPhoneViewController.swift in Sources */,
 				60095E4825F7273300F5DCE6 /* ArrayExtension.swift in Sources */,
@@ -2519,7 +2482,6 @@
 				605AC78525C115BF00873D63 /* LocalStorageRepository.swift in Sources */,
 				605AC78625C115BF00873D63 /* ServerInvocationHandler.swift in Sources */,
 				605AC78725C115BF00873D63 /* SignupLanguageViewController.swift in Sources */,
-				60072D7D25E744A8001EFDAE /* Bundle+Helper.swift in Sources */,
 				605AC78825C115BF00873D63 /* GameInfoRepository.swift in Sources */,
 				605AC78925C115BF00873D63 /* PlayerDataUseCase.swift in Sources */,
 				605AC78A25C115BF00873D63 /* DepositViewController.swift in Sources */,
@@ -2534,6 +2496,7 @@
 				605AC79125C115BF00873D63 /* SystemRepository.swift in Sources */,
 				602B537525E4DFB700AB62C4 /* RemarkTableViewCell.swift in Sources */,
 				605AC79225C115BF00873D63 /* HttpClientProtocol.swift in Sources */,
+				60251B07261C41CD00E89EE6 /* TableViewCell.swift in Sources */,
 				60D7D7392604799700EF4230 /* WithdrawalPresenter.swift in Sources */,
 				6D72751D25EF7A0E000BF51F /* FilterConditionViewController.swift in Sources */,
 				605AC79325C115BF00873D63 /* DepositTypeTableViewCell.swift in Sources */,
@@ -2552,11 +2515,8 @@
 				605AC79D25C115BF00873D63 /* ReconnectPolicy.swift in Sources */,
 				605AC79E25C115BF00873D63 /* SignupUserinfoViewController.swift in Sources */,
 				6D0AA999260C8DF300131314 /* WithdrawlLandingViewModel.swift in Sources */,
-				60072D7125E744A8001EFDAE /* OpalImagePickerCollectionViewLayout.swift in Sources */,
-				60072D7A25E744A8001EFDAE /* OpalImagePickerRootViewController.swift in Sources */,
 				605AC79F25C115BF00873D63 /* SignupEmailViewModel.swift in Sources */,
 				6DADDEAC2609F5CD00247E80 /* BankUseCase.swift in Sources */,
-				60072D8025E744A9001EFDAE /* UIViewController+OpalImagePicker.swift in Sources */,
 				605AC7A025C115BF00873D63 /* RegisterUseCase.swift in Sources */,
 				60357F2125F239410076D909 /* DateViewController.swift in Sources */,
 				605AC7A125C115BF00873D63 /* IAuthRepository.swift in Sources */,

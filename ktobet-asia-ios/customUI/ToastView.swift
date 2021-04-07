@@ -47,7 +47,7 @@ class ToastView: UIView {
         xibView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         xibView.widthAnchor.constraint(equalToConstant: view.frame.width - 20).isActive = true
         xibView.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        xibView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        xibView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.xibView.removeFromSuperview()
