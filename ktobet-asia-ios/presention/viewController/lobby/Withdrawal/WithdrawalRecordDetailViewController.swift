@@ -12,16 +12,16 @@ class WithdrawalRecordDetailViewController: UIViewController {
     @IBOutlet private weak var withdrawalIdTitleLabel: UILabel!
     @IBOutlet private weak var uploadTitleLabel: UILabel!
     @IBOutlet private weak var remarkTitleLabel: UILabel!
-
+    
     @IBOutlet private weak var remarkTableview: UITableView!
-
+    
     @IBOutlet private weak var amountLabel: UILabel!
     @IBOutlet private weak var statusView: UIView!
     @IBOutlet private weak var statusDateLabel: UILabel!
     @IBOutlet private weak var statusLabel: UILabel!
     @IBOutlet private weak var applytimeLabel: UILabel!
     @IBOutlet private weak var withdrawalIdLabel: UILabel!
-
+    
     @IBOutlet private weak var uploadView: UIView!
     @IBOutlet private weak var amountView: UIView!
     @IBOutlet private weak var applyTimeView: UIView!
@@ -29,31 +29,32 @@ class WithdrawalRecordDetailViewController: UIViewController {
     @IBOutlet private weak var uploadClickView: UIView!
     @IBOutlet private weak var clickUploadLabel: UILabel!
     @IBOutlet private weak var uploadLimitTiplabel: UILabel!
-
+    
     @IBOutlet private weak var uploadViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var statusViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var remarkViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var remarkTableViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var imageStackViewHeight: NSLayoutConstraint!
-
+    
     @IBOutlet private weak var imageStackView: UIStackView!
     @IBOutlet private weak var scrollview: UIScrollView!
     @IBOutlet private weak var buttonStackView: UIStackView!
-
+    
     @IBOutlet private weak var confirmButton: UIButton!
     @IBOutlet private weak var cancelButton: UIButton!
-
+    
+    var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     var detailRecord: WithdrawalRecord!
+    
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
     fileprivate var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
-    fileprivate var imagePicker = OpalImagePickerController()
     fileprivate var removeButtons: [UIButton] = []
     fileprivate var isOverImageLimit = false
     fileprivate var imageIndex = 0
     fileprivate var imageUploadInex = 0
-    var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-
+    fileprivate var imagePickerView: ImagePickerViewController!
+    
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,10 +112,10 @@ class WithdrawalRecordDetailViewController: UIViewController {
             
             statusChangeHistoriesObservalbe.subscribeOn(MainScheduler.instance)
                 .subscribe {[weak self] _ in
-                self?.updateUI(data: data)
-            } onError: { (error) in
-                self.handleUnknownError(error)
-            }.disposed(by: self.disposeBag)
+                    self?.updateUI(data: data)
+                } onError: { (error) in
+                    self.handleUnknownError(error)
+                }.disposed(by: self.disposeBag)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in
             self.handleUnknownError(error)
@@ -143,7 +144,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
                 self.cancelButton.isHidden = false
                 self.uploadView.isHidden = false
             }
-
+            
             if data.record.transactionStatus == TransactionStatus.pending {
                 self.statusDateLabel.isHidden = true
                 self.statusDateLabel.text = ""
@@ -151,7 +152,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
                 self.cancelButton.isHidden = false
                 self.buttonStackView.removeArrangedSubview(self.confirmButton)
             }
-                        
+            
             self.statusView.layoutIfNeeded()
             self.remarkTableview.layoutIfNeeded()
             self.remarkTableViewHeight.constant = self.remarkTableview.contentSize.height
@@ -205,78 +206,37 @@ class WithdrawalRecordDetailViewController: UIViewController {
     }
     
     fileprivate func showImagePicker() {
-        self.startActivityIndicator(activityIndicator: self.activityIndicator)
         let currentSelectedImageCount = self.imageStackView.subviews.count
-        if currentSelectedImageCount >= 3 {
+        if currentSelectedImageCount >= WithdrawalViewModel.selectedImageCountLimit {
             Alert.show("", Localize.string("common_photo_upload_count_limit"), confirm: nil, cancel: nil)
         }
         
-        self.imagePicker = OpalImagePickerController()
-        self.imagePicker.maximumSelectionsAllowed = 3 - currentSelectedImageCount
-        self.imagePicker.maximumImageSizeLimit = WithdrawalViewModel.imageLimitSize
-        self.imagePicker.showCamera = { [weak self] in
-            self?.imagePicker.dismiss(animated: true, completion: nil)
-            let cameraPicer = UIImagePickerController()
-            cameraPicer.sourceType = .camera
-            cameraPicer.delegate = self
-            self?.present(cameraPicer, animated: true)
+        imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
+        imagePickerView.delegate = self
+        imagePickerView.imageLimitSize = WithdrawalViewModel.imageSizeLimit
+        imagePickerView.selectedImageLimitCount = WithdrawalViewModel.selectedImageCountLimit
+        imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
+        imagePickerView.completion = {[weak self] (images) in
+            NavigationManagement.sharedInstance.popViewController()
+            guard let self = self else { return }
+            images.forEach {
+                self.uploadImage(image: $0)
+            }
+        }
+        imagePickerView.showImageCountLimitAlert = {(view) in
+            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
+            toastView.show(on: view, statusTip: Localize.string("common_photo_upload_count_limit"), img: UIImage(named: "Failed"))
+        }
+        imagePickerView.showImageSizeLimitAlert = {(view) in
+            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
+            toastView.show(on: view, statusTip: Localize.string("deposit_execeed_limitation"), img: UIImage(named: "Failed"))
+        }
+        imagePickerView.showImageFormatInvalidAlert = {(view) in
+            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
+            toastView.show(on: view, statusTip: Localize.string("deposit_file_format_invalid"), img: UIImage(named: "Failed"))
         }
         
-        presentOpalImagePickerController(imagePicker, animated: true,
-                                         select: { (assets) in
-                                            self.imagePicker.dismiss(animated: true) {
-                                                var isFormatValid = true
-                                                var islimitSizeValid = true
-                                                assets.forEach {
-                                                    guard let fileName = $0.value(forKey: "filename") as? String,
-                                                          let fileExtension = fileName.split(separator: ".").last?.uppercased() else {
-                                                        self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-                                                        return
-                                                    }
-                                                    
-                                                    let allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
-                                                    if !allowImageFormat.contains(String(fileExtension)) {
-                                                        isFormatValid = false
-                                                    }
-                                                    
-                                                    let image = self.convertAssetToImage(asset: $0)
-                                                    if self.isOverImageLimitSize(image: image) {
-                                                        islimitSizeValid = false
-                                                    }
-                                                    
-                                                    if !self.isOverImageLimitSize(image: image) && allowImageFormat.contains(String(fileExtension)) {
-                                                        self.uploadImage(image: image)
-                                                    }
-                                                }
-                                                
-                                                if !isFormatValid {
-                                                    self.showUploadFormatInvalidAlert()
-                                                }
-                                                
-                                                if !islimitSizeValid {
-                                                    self.showUploadLimitSizeAlert()
-                                                }
-                                            }
-                                         }, cancel: {
-                                            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-                                         })
-    }
-    
-    fileprivate func convertAssetToImage(asset: PHAsset) -> UIImage {
-        let manager = PHImageManager.default()
-        let option = PHImageRequestOptions()
-        var thumbnail = UIImage()
-        option.isSynchronous = true
-        manager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: option, resultHandler: { (result, info) -> Void in
-            thumbnail = result!
-        })
-        
-        return thumbnail
-    }
-    
-    fileprivate func isOverImageLimitSize(image: UIImage) -> Bool {
-        let imageData = image.jpegData(compressionQuality: 1.0)!
-        return imageData.count >= WithdrawalViewModel.imageLimitSize
+        NavigationManagement.sharedInstance.pushViewController(vc: imagePickerView)
     }
     
     fileprivate func uploadImage(image: UIImage) {
@@ -287,9 +247,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
             self.confirmButton.setTitleColor(UIColor.redForDarkFull, for: .normal)
             self.imageUploadInex += 1
             self.addImageToUI(image: image)
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
             self.handleUnknownError(error)
         }.disposed(by: disposeBag)
     }
@@ -321,8 +279,8 @@ class WithdrawalRecordDetailViewController: UIViewController {
         removeButton.rx.tap.subscribe(onNext: { [weak self] in
             self?.removeImage(sender: removeButton)
         }).disposed(by: disposeBag)
-
-
+        
+        
         uploadView.addSubview(removeButton)
         removeButtons.append(removeButton)
         imageIndex += 1
@@ -360,19 +318,6 @@ class WithdrawalRecordDetailViewController: UIViewController {
         }
     }
     
-    fileprivate func showUploadLimitSizeAlert() {
-        DispatchQueue.main.async {
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-            Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_execeed_limitation"), confirm: nil, cancel: nil, tintColor: UIColor.red)
-        }
-    }
-    
-    fileprivate func showUploadFormatInvalidAlert() {
-        DispatchQueue.main.async {
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-            Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_file_format_invalid"), confirm: nil, cancel: nil)
-        }
-    }
 }
 
 
@@ -382,18 +327,12 @@ extension WithdrawalRecordDetailViewController: UIImagePickerControllerDelegate,
         dismiss(animated: true) {
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                if image.isOverImageLimitSize(imageLimitSize: WithdrawalViewModel.imageLimitSize) {
-                    self.showUploadLimitSizeAlert()
-                } else {
-                    self.startActivityIndicator(activityIndicator: self.activityIndicator)
-                    self.uploadImage(image: image)
-                }
+                self.uploadImage(image: image)
             }
         }
     }
-
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-        showImagePicker()
+        self.dismiss(animated: true, completion: nil)
     }
 }

@@ -4,7 +4,8 @@ import share_bu
 import RxCocoa
 
 class DepositViewModel {
-    static let imageLimitSize = 20000000
+    static let imageSizeLimit = 20000000
+    static let selectedImageCountLimit = 3
     private var depositUseCase: DepositUseCase!
     private var usecaseAuth: AuthenticationUseCase!
     private var playerUseCase: PlayerDataUseCase!

@@ -12,15 +12,15 @@ class DepositRecordDetailViewController: UIViewController {
     @IBOutlet private weak var depositIdTitleLabel: UILabel!
     @IBOutlet private weak var uploadTitleLabel: UILabel!
     @IBOutlet private weak var remarkTitleLabel: UILabel!
-
+    
     @IBOutlet private weak var remarkTableview: UITableView!
-
+    
     @IBOutlet private weak var amountLabel: UILabel!
     @IBOutlet private weak var statusDateLabel: UILabel!
     @IBOutlet private weak var statusLabel: UILabel!
     @IBOutlet private weak var applytimeLabel: UILabel!
     @IBOutlet private weak var depositIdLabel: UILabel!
-
+    
     @IBOutlet private weak var uploadView: UIView!
     @IBOutlet private weak var amountView: UIView!
     @IBOutlet private weak var applyTimeView: UIView!
@@ -28,30 +28,29 @@ class DepositRecordDetailViewController: UIViewController {
     @IBOutlet private weak var uploadClickView: UIView!
     @IBOutlet private weak var clickUploadLabel: UILabel!
     @IBOutlet private weak var uploadLimitTiplabel: UILabel!
-
+    
     @IBOutlet private weak var uploadViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var remarkViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var remarkTableViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var imageStackViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var statusViewHeight: NSLayoutConstraint!
-
+    
     @IBOutlet private weak var imageStackView: UIStackView!
     @IBOutlet private weak var scrollview: UIScrollView!
-
+    
     @IBOutlet private weak var confrimButton: UIButton!
-
+    
+    var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     var detailRecord: DepositRecord!
-
+    
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
     fileprivate var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
-    fileprivate var imagePicker = OpalImagePickerController()
     fileprivate var removeButtons: [UIButton] = []
-    fileprivate var isOverImageLimit = false
     fileprivate var imageIndex = 0
     fileprivate var imageUploadInex = 0
-    var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-	
+    fileprivate var imagePickerView: ImagePickerViewController!
+    
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,10 +100,11 @@ class DepositRecordDetailViewController: UIViewController {
         
         self.confrimButton.isValid = self.removeButtons.count != 0
     }
-
+    
     // MARK: METHOD
     fileprivate func initUI() {
         DispatchQueue.main.async {
+            self.scrollview.isHidden = true
             self.titleNameLabel.text = Localize.string("deposit_detail_title")
             self.amountTitleLabel.text = Localize.string("common_transactionamount")
             self.statusTitleLabel.text = Localize.string("common_status")
@@ -129,63 +129,39 @@ class DepositRecordDetailViewController: UIViewController {
     }
     
     fileprivate func showImagePicker() {
-        self.startActivityIndicator(activityIndicator: self.activityIndicator)
         let currentSelectedImageCount = self.imageStackView.subviews.count
-        if currentSelectedImageCount >= 3 {
+        if currentSelectedImageCount >= DepositViewModel.selectedImageCountLimit {
             Alert.show("", Localize.string("common_photo_upload_count_limit"), confirm: nil, cancel: nil)
         }
         
-        self.imagePicker = OpalImagePickerController()
-        self.imagePicker.maximumSelectionsAllowed = 3 - currentSelectedImageCount
-        self.imagePicker.maximumImageSizeLimit = 20000000
-        self.imagePicker.showCamera = { [weak self] in
-            self?.imagePicker.dismiss(animated: true, completion: nil)
-            let cameraPicer = UIImagePickerController()
-            cameraPicer.sourceType = .camera
-            cameraPicer.delegate = self
-            self?.present(cameraPicer, animated: true)
+        imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
+        imagePickerView.delegate = self
+        imagePickerView.imageLimitSize = DepositViewModel.imageSizeLimit
+        imagePickerView.selectedImageLimitCount = DepositViewModel.selectedImageCountLimit
+        imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
+        imagePickerView.completion = {[weak self] (images) in
+            NavigationManagement.sharedInstance.popViewController()
+            guard let self = self else { return }
+            images.forEach {
+                self.uploadImage(image: $0)
+            }
+        }
+        imagePickerView.showImageCountLimitAlert = {(view) in
+            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
+            toastView.show(on: view, statusTip: Localize.string("common_photo_upload_count_limit"), img: UIImage(named: "Failed"))
+        }
+        imagePickerView.showImageSizeLimitAlert = {(view) in
+            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
+            toastView.show(on: view, statusTip: Localize.string("deposit_execeed_limitation"), img: UIImage(named: "Failed"))
+        }
+        imagePickerView.showImageFormatInvalidAlert = {view in
+            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
+            toastView.show(on: view, statusTip: Localize.string("deposit_file_format_invalid"), img: UIImage(named: "Failed"))
         }
         
-        presentOpalImagePickerController(imagePicker, animated: true,
-                                         select: { (assets) in
-                                            self.imagePicker.dismiss(animated: true) {
-                                                var isFormatValid = true
-                                                var islimitSizeValid = true
-                                                assets.forEach {
-                                                    guard let fileName = $0.value(forKey: "filename") as? String,
-                                                          let fileExtension = fileName.split(separator: ".").last?.uppercased() else {
-                                                        self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-                                                        return
-                                                    }
-                                                    
-                                                    let allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
-                                                    if !allowImageFormat.contains(String(fileExtension)) {
-                                                        isFormatValid = false
-                                                    }
-                                                    
-                                                    let image = self.convertAssetToImage(asset: $0)
-                                                    if self.isOverImageLimitSize(image: image) {
-                                                        islimitSizeValid = false
-                                                    }
-                                                    
-                                                    if !self.isOverImageLimitSize(image: image) && allowImageFormat.contains(String(fileExtension)) {
-                                                        self.uploadImage(image: image)
-                                                    }
-                                                }
-                                                
-                                                if !isFormatValid {
-                                                    self.showUploadFormatInvalidAlert()
-                                                }
-                                                
-                                                if !islimitSizeValid {
-                                                    self.showUploadLimitSizeAlert()
-                                                }
-                                            }
-                                         }, cancel: {
-                                            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-                                         })
+        NavigationManagement.sharedInstance.pushViewController(vc: imagePickerView)
     }
-
+    
     fileprivate func addImageToUI(image: UIImage) {
         let y = self.imageStackView.frame.origin.y + CGFloat(self.imageStackView.subviews.count * 192)
         let imageView = UIImageView()
@@ -217,18 +193,6 @@ class DepositRecordDetailViewController: UIViewController {
         imageIndex += 1
     }
     
-    fileprivate func convertAssetToImage(asset: PHAsset) -> UIImage {
-        let manager = PHImageManager.default()
-        let option = PHImageRequestOptions()
-        var thumbnail = UIImage()
-        option.isSynchronous = true
-        manager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: option, resultHandler: { (result, info) -> Void in
-            thumbnail = result!
-        })
-        
-        return thumbnail
-    }
-    
     fileprivate func uploadImage(image: UIImage) {
         let imageData = image.jpegData(compressionQuality: 1.0)!
         uploadViewModel.uploadImage(imageData: imageData).subscribe { (result) in
@@ -236,14 +200,13 @@ class DepositRecordDetailViewController: UIViewController {
             self.confrimButton.isValid = true
             self.imageUploadInex += 1
             self.addImageToUI(image: image)
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
             self.handleUnknownError(error)
         }.disposed(by: disposeBag)
     }
     
     fileprivate func updateUI(data: DepositRecordDetail) {
+        self.scrollview.isHidden = false
         self.applytimeLabel.text = data.createdDate.formatDateToStringToSecond()
         self.amountLabel.text = String(data.requestAmount.amount)
         self.depositIdLabel.text = data.displayId
@@ -273,7 +236,6 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate func dataBinding() {
         self.remarkTableview.delegate = nil
         self.remarkTableview.dataSource = nil
-        self.startActivityIndicator(activityIndicator: activityIndicator)
         viewModel.getDepositRecordDetail(transactionId: detailRecord.displayId, transactionTransactionType: detailRecord.transactionTransactionType).subscribe {[weak self] (data) in
             guard let self = self else { return }
             self.statusDateLabel.text = data.updatedDate.formatDateToStringToSecond()
@@ -284,37 +246,16 @@ class DepositRecordDetailViewController: UIViewController {
                     self?.performSegue(withIdentifier: ImageViewController.segueIdentifier, sender: image)
                 }
             }.disposed(by: self.disposeBag)
-
+            
             statusChangeHistoriesObservalbe.subscribeOn(MainScheduler.instance)
                 .subscribe { (depositTypes) in
-                self.updateUI(data: data)
-            } onError: { (error) in
-                self.handleUnknownError(error)
-            }.disposed(by: self.disposeBag)
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
+                    self.updateUI(data: data)
+                } onError: { (error) in
+                    self.handleUnknownError(error)
+                }.disposed(by: self.disposeBag)
         } onError: { (error) in
             self.handleUnknownError(error)
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
-    }
-    
-    fileprivate func showUploadLimitSizeAlert() {
-        DispatchQueue.main.async {
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-            Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_execeed_limitation"), confirm: nil, cancel: nil, tintColor: UIColor.red)
-        }
-    }
-    
-    fileprivate func showUploadFormatInvalidAlert() {
-        DispatchQueue.main.async {
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-            Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_file_format_invalid"), confirm: nil, cancel: nil)
-        }
-    }
-    
-    fileprivate func isOverImageLimitSize(image: UIImage) -> Bool {
-        let imageData = image.jpegData(compressionQuality: 1.0)!
-        return imageData.count >= DepositViewModel.imageLimitSize
     }
     
     // MARK: PAGE ACTION
@@ -325,27 +266,22 @@ class DepositRecordDetailViewController: UIViewController {
             }
         }
     }
-
+    
 }
 
 // MARK: CAMERA EVENT
 extension DepositRecordDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         dismiss(animated: true) {
+            NavigationManagement.sharedInstance.popViewController()
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                if image.isOverImageLimitSize(imageLimitSize: WithdrawalViewModel.imageLimitSize) {
-                    self.showUploadLimitSizeAlert()
-                } else {
-                    self.startActivityIndicator(activityIndicator: self.activityIndicator)
-                    self.uploadImage(image: image)
-                }
+                self.uploadImage(image: image)
             }
         }
     }
-
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-        showImagePicker()
+        self.dismiss(animated: true, completion: nil)
     }
 }
