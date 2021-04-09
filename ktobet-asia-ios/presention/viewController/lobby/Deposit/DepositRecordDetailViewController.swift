@@ -136,19 +136,21 @@ class DepositRecordDetailViewController: UIViewController {
         
         imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
         imagePickerView.delegate = self
-        imagePickerView.imageLimitSize = DepositViewModel.imageSizeLimit
-        imagePickerView.selectedImageLimitCount = DepositViewModel.selectedImageCountLimit
+        imagePickerView.imageLimitMBSize = DepositViewModel.imageMBSizeLimit
+        imagePickerView.selectedImageLimitCount = DepositViewModel.selectedImageCountLimit - currentSelectedImageCount
         imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
         imagePickerView.completion = {[weak self] (images) in
-            NavigationManagement.sharedInstance.popViewController()
             guard let self = self else { return }
+            self.startActivityIndicator(activityIndicator: self.activityIndicator)
+            NavigationManagement.sharedInstance.popViewController()
+            self.imageIndex = 0
             images.forEach {
-                self.uploadImage(image: $0)
+                self.uploadImage(image: $0, count: images.count)
             }
         }
         imagePickerView.showImageCountLimitAlert = {(view) in
             let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
-            toastView.show(on: view, statusTip: Localize.string("common_photo_upload_count_limit"), img: UIImage(named: "Failed"))
+            toastView.show(on: view, statusTip: String(format: Localize.string("common_photo_upload_limit_count"), String(DepositViewModel.selectedImageCountLimit - currentSelectedImageCount)), img: UIImage(named: "Failed"))
         }
         imagePickerView.showImageSizeLimitAlert = {(view) in
             let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
@@ -165,7 +167,7 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate func addImageToUI(image: UIImage) {
         let y = self.imageStackView.frame.origin.y + CGFloat(self.imageStackView.subviews.count * 192)
         let imageView = UIImageView()
-        imageView.tag = imageIndex
+        imageView.tag = imageUploadInex
         imageView.image = image
         imageView.layer.cornerRadius = 10
         imageView.layer.masksToBounds = true
@@ -179,7 +181,7 @@ class DepositRecordDetailViewController: UIViewController {
                                                   width: 52, height: 32))
         removeButton.backgroundColor = UIColor.iconBlack2.withAlphaComponent(0.5)
         removeButton.layer.cornerRadius = 10
-        removeButton.tag = imageIndex
+        removeButton.tag = imageUploadInex
         let attributedString = NSMutableAttributedString(string: Localize.string("common_remove"), attributes: [
             .font: UIFont(name: "PingFangSC-Medium", size: 14.0)!,
             .foregroundColor: UIColor.whiteFull,
@@ -190,18 +192,22 @@ class DepositRecordDetailViewController: UIViewController {
         removeButton.addTarget(self, action: #selector(removeImage), for: .touchUpInside)
         uploadView.addSubview(removeButton)
         removeButtons.append(removeButton)
-        imageIndex += 1
     }
     
-    fileprivate func uploadImage(image: UIImage) {
+    fileprivate func uploadImage(image: UIImage, count: Int) {
         let imageData = image.jpegData(compressionQuality: 1.0)!
         uploadViewModel.uploadImage(imageData: imageData).subscribe { (result) in
             self.viewModel.uploadImageDetail[self.imageUploadInex] = result
             self.confrimButton.isValid = true
-            self.imageUploadInex += 1
             self.addImageToUI(image: image)
+            self.imageUploadInex += 1
+            self.imageIndex += 1
+            if count == self.imageIndex {
+                self.stopActivityIndicator(activityIndicator: self.activityIndicator)
+            }
         } onError: { (error) in
             self.handleUnknownError(error)
+            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
     }
     
@@ -276,7 +282,9 @@ extension DepositRecordDetailViewController: UIImagePickerControllerDelegate, UI
             NavigationManagement.sharedInstance.popViewController()
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                self.uploadImage(image: image)
+                self.startActivityIndicator(activityIndicator: self.activityIndicator)
+                self.imageIndex = 0
+                self.uploadImage(image: image, count: 1)
             }
         }
     }
