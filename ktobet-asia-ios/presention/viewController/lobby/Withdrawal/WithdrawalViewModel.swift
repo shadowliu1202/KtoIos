@@ -3,7 +3,7 @@ import RxSwift
 import share_bu
 
 class WithdrawalViewModel {
-    static let imageSizeLimit = 20000000
+    static let imageMBSizeLimit = 20
     static let selectedImageCountLimit = 3
     private var withdrawalUseCase: WithdrawalUseCase!
     var uploadImageDetail: [Int: UploadImageDetail] = [:]

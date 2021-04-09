@@ -241,6 +241,7 @@
 "common_kick_out_token_expired" = "我们发现您闲置时间过长, 建议您重新登录, 取得更好的使用体验。";
 "common_kick_out_token_expired_title" = "闲置过久自动登出说明";
 "common_photo_upload_count_limit" = "最多只能选择３个文件";
+"common_photo_upload_limit_count" = "最多只能选择%@个文件";
 
 //MARK: - Register
 "register_language_option_chinese" = "简体中文 + 人民币";

@@ -11,7 +11,7 @@ class ImagePickerViewController: UIViewController {
     
     var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
     var selectedImageLimitCount = 3
-    var imageLimitSize = 20000000
+    var imageLimitMBSize = 20
     var allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
     var completion: ((_ assets: [UIImage]) -> Void)?
     var cancel: (() -> ())?
@@ -63,10 +63,9 @@ class ImagePickerViewController: UIViewController {
             flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
         }
         
-        tableView.layer.borderWidth = 1
-        tableView.layer.borderColor = UIColor.white.cgColor
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
+        countLabel.text = "\(selectedPhotoAssets.count)/\(selectedImageLimitCount)"
     }
     
     override func viewWillLayoutSubviews() {
@@ -85,12 +84,8 @@ class ImagePickerViewController: UIViewController {
     @IBAction private func upload(_ sender: UIButton) {
         startActivityIndicator(activityIndicator: activityIndicator)
         selectedImages = []
-        for asset in selectedPhotoAssets {
-            guard showFormatInvalidAlert(asset: asset) == true,
-                  showSizeLimitAlert(asset: asset) == true else {
-                stopActivityIndicator(activityIndicator: activityIndicator)
-                return
-            }
+        for asset in selectedPhotoAssets {            
+            selectedImages.append(asset.convertAssetToImage())
         }
         
         stopActivityIndicator(activityIndicator: activityIndicator)
@@ -190,31 +185,18 @@ class ImagePickerViewController: UIViewController {
     }
     
     private func showSizeLimitAlert(asset: PHAsset) -> Bool {
-        let image = convertAssetToImage(asset: asset)
-        if isOverImageLimitSize(image: image) {
-            showImageSizeLimitAlert?(self.view)
-            return false
+        let resources = PHAssetResource.assetResources(for: asset)
+        var sizeOnDisk: Int64? = 0
+        if let resource = resources.first {
+            let unsignedInt64 = resource.value(forKey: "fileSize") as? CLong
+            sizeOnDisk = Int64(bitPattern: UInt64(unsignedInt64!))
+            if Units(bytes: sizeOnDisk!).megabytes > 20 {
+                showImageSizeLimitAlert?(self.view)
+                return false
+            }
         }
         
-        selectedImages.append(image)
         return true
-    }
-    
-    private func convertAssetToImage(asset: PHAsset) -> UIImage {
-        let manager = PHImageManager.default()
-        let option = PHImageRequestOptions()
-        var thumbnail = UIImage()
-        option.isSynchronous = true
-        manager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .default, options: option, resultHandler: { (result, info) -> Void in
-            thumbnail = result!
-        })
-        
-        return thumbnail
-    }
-    
-    private func isOverImageLimitSize(image: UIImage) -> Bool {
-        let imageData = image.jpegData(compressionQuality: 1.0)!
-        return imageData.count >= imageLimitSize
     }
 }
 
@@ -266,7 +248,7 @@ extension ImagePickerViewController: UICollectionViewDelegate, UICollectionViewD
                 }
             }
         } else {
-            guard showCountLimitAlert() == true else { return }
+            guard showCountLimitAlert(), showSizeLimitAlert(asset: asset), showFormatInvalidAlert(asset: asset) else { return }
             selectedPhotoAssets.append(asset)
             let selectedImage = UIImageView(frame: newCell.imgBackground.frame)
             selectedImage.tag = indexPath.item
@@ -298,6 +280,11 @@ extension ImagePickerViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if selectedAlbum! == albums[indexPath.row] {
+            tableView.isHidden = !tableView.isHidden
+            return
+        }
+        
         selectedAlbum = albums[indexPath.row]
         albumButton.setTitle(selectedAlbum?.name, for: .normal)
         albumButton.sizeToFit()
@@ -323,5 +310,9 @@ class AlbumModel {
         self.count = count
         self.collection = collection
         self.image = image
+    }
+    
+    static func == (album1: AlbumModel, album2: AlbumModel) -> Bool {
+        return album1.name == album2.name
     }
 }
