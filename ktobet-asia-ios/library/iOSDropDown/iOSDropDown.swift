@@ -130,7 +130,7 @@ open class DropDown : UITextField{
         self.backgroundView.backgroundColor = .clear
         addGesture()
         if isSearchEnable && handleKeyboard{
-            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { [weak self] (notification) in
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: nil) { [weak self] (notification) in
                 guard let `self` = self else {return}
                 if self.isFirstResponder{
                 let userInfo:NSDictionary = notification.userInfo! as NSDictionary
