@@ -283,9 +283,9 @@ extension DropDownInputText: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isEditing = true
         adjustPosition()
-        if isSearchEnable {
-            dropDownText.textFieldDidBeginEditing(textField)
-        }
+//        if isSearchEnable {
+//            dropDownText.textFieldDidBeginEditing(textField)
+//        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
