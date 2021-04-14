@@ -57,6 +57,8 @@ class DropDownInputText: UIView {
                 dropDownText.didDropDownTap = { [weak self] in
                     self?.touchAction()
                 }
+            } else {
+                arrow.frame.size = .zero
             }
         }
     }
