@@ -27,10 +27,10 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func getWithdrawalLimitation() -> Single<WithdrawalLimits> {
         Single.zip(bankApi.getWithdrawalLimitation(), bankApi.getEachLimit()).map { (daliyLimitsResponse, singleLimitsResponse) -> WithdrawalLimits in
             guard let daliyLimitsdata = daliyLimitsResponse.data, let singleLimitsData = singleLimitsResponse.data else {
-                return WithdrawalLimits(dailyMaxCount: 0, dailyMaxCash: CashAmount(amount: 0), dailyCurrentCount: 0, dailyCurrentCash: CashAmount(amount: 0), singleCashMaximum: CashAmount(amount: 0), singleCashMinimum: CashAmount(amount: 0))
+                return WithdrawalLimits(dailyMaxCount: 0, dailyMaxCash: CashAmount(amount: 0), dailyCurrentCount: 0, dailyCurrentCash: CashAmount(amount: 0), singleCashMaximum: CashAmount(amount: 0), singleCashMinimum: CashAmount(amount: 0), turnoverAmount: CashAmount(amount: 0), achievedAmount: CashAmount(amount: 0), cryptoWithdrawalRequests: [])
             }
             
-            return WithdrawalLimits(dailyMaxCount: daliyLimitsdata.withdrawalCount, dailyMaxCash: CashAmount(amount: daliyLimitsdata.withdrawalLimit), dailyCurrentCount: daliyLimitsdata.withdrawalDailyCount, dailyCurrentCash: CashAmount(amount: daliyLimitsdata.withdrawalDailyLimit), singleCashMaximum: CashAmount(amount: singleLimitsData.max), singleCashMinimum: CashAmount(amount: singleLimitsData.minimum))
+            return WithdrawalLimits(dailyMaxCount: daliyLimitsdata.withdrawalCount, dailyMaxCash: CashAmount(amount: daliyLimitsdata.withdrawalLimit), dailyCurrentCount: daliyLimitsdata.withdrawalDailyCount, dailyCurrentCash: CashAmount(amount: daliyLimitsdata.withdrawalDailyLimit), singleCashMaximum: CashAmount(amount: singleLimitsData.max), singleCashMinimum: CashAmount(amount: singleLimitsData.minimum), turnoverAmount: CashAmount(amount: 0), achievedAmount: CashAmount(amount: 0), cryptoWithdrawalRequests: [])
         }
     }
     
