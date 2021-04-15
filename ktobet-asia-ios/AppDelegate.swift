@@ -7,6 +7,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import RxSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,6 +29,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
         
         return true
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        let viewModel = DI.resolve(LaunchViewModel.self)!
+        let disposeBag = DisposeBag()
+        viewModel
+            .checkIsLogged()
+            .subscribe { (isLogged) in
+                if !isLogged {
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                }
+            } onError: { (error) in
+                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+            }.disposed(by: disposeBag)
     }
     
     func addDebugGesture() {

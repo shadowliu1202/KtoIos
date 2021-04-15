@@ -108,7 +108,7 @@ class DepositMethodViewController: UIViewController {
     }
     
     fileprivate func thirdPartDataBinding() {
-        let getDepositOfflineBankAccountsObservable = viewModel.getDepositMethods(depositType: depositType!.depositTypeId).asObservable()
+        let getDepositOfflineBankAccountsObservable = viewModel.getDepositMethods(depositType: depositType!.depositTypeId).catchError { _ in Single<[DepositRequest.DepositTypeMethod]>.never() }.asObservable()
         getDepositOfflineBankAccountsObservable.bind(to: depositTableView.rx.items(cellIdentifier: String(describing: DepositMethodTableViewCell.self), cellType: DepositMethodTableViewCell.self)) { index, data, cell in
             cell.setUp(icon: "Default(32)", name: data.displayName, index: index, selectedIndex: self.selectedIndex)
         }.disposed(by: disposeBag)
@@ -148,7 +148,7 @@ class DepositMethodViewController: UIViewController {
     }
 
     fileprivate func offlineDataBinding() {
-        let getDepositOfflineBankAccountsObservable = viewModel.getDepositOfflineBankAccounts().asObservable()
+        let getDepositOfflineBankAccountsObservable = viewModel.getDepositOfflineBankAccounts().catchError { _ in Single<[FullBankAccount]>.never() }.asObservable()
         getDepositOfflineBankAccountsObservable.bind(to: depositTableView.rx.items(cellIdentifier: String(describing: DepositMethodTableViewCell.self), cellType: DepositMethodTableViewCell.self)) { index, data, cell in
             guard let bank = data.bank else { return }
             cell.setUp(icon: self.viewModel.getBankIcon(bank.bankId), name: bank.name, index: index, selectedIndex: self.selectedIndex)
