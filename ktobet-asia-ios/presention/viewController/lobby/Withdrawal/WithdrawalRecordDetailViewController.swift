@@ -130,7 +130,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
             self.applytimeLabel.text = data.record.createDate.formatDateToStringToSecond()
             self.amountLabel.text = data.record.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2)
             self.withdrawalIdLabel.text = data.record.displayId
-            self.statusLabel.text = StringMapper.sharedInstance.parse(data.record.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: true)
+            self.statusLabel.text = StringMapper.sharedInstance.parse(data.record.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: false)
             self.statusDateLabel.text = data.updatedDate.formatDateToStringToSecond()
             self.uploadViewHeight.constant = 0
             self.statusViewHeight.constant = 77
@@ -146,10 +146,15 @@ class WithdrawalRecordDetailViewController: UIViewController {
             }
             
             if data.record.transactionStatus == TransactionStatus.pending {
-                self.statusDateLabel.isHidden = true
-                self.statusDateLabel.text = ""
-                self.statusViewHeight.constant = 60
-                self.cancelButton.isHidden = false
+                if !data.isPendingHold {
+                    self.statusDateLabel.isHidden = true
+                    self.statusDateLabel.text = ""
+                    self.statusViewHeight.constant = 60
+                    self.cancelButton.isHidden = false
+                } else {
+                    self.statusDateLabel.isHidden = false
+                }
+                
                 self.buttonStackView.removeArrangedSubview(self.confirmButton)
             }
             

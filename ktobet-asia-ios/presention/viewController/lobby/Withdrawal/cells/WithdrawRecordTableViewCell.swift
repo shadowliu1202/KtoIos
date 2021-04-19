@@ -10,7 +10,7 @@ class WithdrawRecordTableViewCell: UITableViewCell {
     func setUp(data: WithdrawalRecord) {
         dateLabel.text = data.createDate.formatDateToStringToSecond()
         idLabel.text = data.displayId
-        statusLabel.text = StringMapper.sharedInstance.parse(data.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: true)
+        statusLabel.text = StringMapper.sharedInstance.parse(data.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: false)
         statusLabel.textColor = ColorMapper.sharedInstance.parse(data.transactionStatus)
         amountLabel.text = data.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2)
     }
