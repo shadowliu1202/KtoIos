@@ -102,9 +102,10 @@ class WithdrawalRecordDetailViewController: UIViewController {
             let statusChangeHistoriesObservalbe = Observable.from(optional: data.statusChangeHistories)
             statusChangeHistoriesObservalbe.bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) {(index, d, cell) in
                 cell.setup(history: d)
-                cell.toBigImage = {(image) in
+                cell.toBigImage = {(url, image) in
                     if let vc = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "ImageViewController") as? ImageViewController {
-                        vc.image = image
+                        vc.url = url
+                        vc.thumbnailImage = image
                         NavigationManagement.sharedInstance.pushViewController(vc: vc)
                     }
                 }
