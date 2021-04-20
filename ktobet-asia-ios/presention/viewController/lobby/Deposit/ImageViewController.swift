@@ -1,10 +1,14 @@
 import UIKit
+import SDWebImage
+import share_bu
+
 
 class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate {
     static let segueIdentifier = "toShowBigImageSegue"
     @IBOutlet private weak var imageView: UIImageView!
 
-    var image: UIImage!
+    var url: String!
+    var thumbnailImage: UIImage?
     var currentTransform: CGAffineTransform? = nil
     let maxScale: CGFloat = 4.0
     let minScale: CGFloat = 1.0
@@ -14,9 +18,13 @@ class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScro
         NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, isShowAlert: false, closeAction: {
             self.navigationController?.popViewController(animated: true)
         }, closeTitle: "", closeMessage: "")
-        imageView.image = image
-        imageView.enableZoom()
-
+        let imageDownloader = SDWebImageDownloader.shared
+        for header in HttpClient().headers {
+            imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
+        }
+        
+        self.imageView.sd_setImage(with: URL(string: url), placeholderImage: thumbnailImage, options: [], completed: nil)
+        self.imageView.enableZoom()
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapAction))
         doubleTapGesture.numberOfTapsRequired = 2
         self.imageView.addGestureRecognizer(doubleTapGesture)

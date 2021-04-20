@@ -248,8 +248,8 @@ class DepositRecordDetailViewController: UIViewController {
             let statusChangeHistoriesObservalbe = Observable.from(optional: data.statusChangeHistories)
             statusChangeHistoriesObservalbe.bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) { index, d, cell in
                 cell.setup(history: d)
-                cell.toBigImage = {[weak self] (image) in
-                    self?.performSegue(withIdentifier: ImageViewController.segueIdentifier, sender: image)
+                cell.toBigImage = {[weak self] (url, image) in
+                    self?.performSegue(withIdentifier: ImageViewController.segueIdentifier, sender: (url, image))
                 }
             }.disposed(by: self.disposeBag)
             
@@ -267,8 +267,9 @@ class DepositRecordDetailViewController: UIViewController {
     // MARK: PAGE ACTION
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ImageViewController.segueIdentifier {
-            if let dest = segue.destination as? ImageViewController {
-                dest.image = sender as? UIImage
+            if let dest = segue.destination as? ImageViewController, let tuple = sender as? (String, UIImage) {
+                dest.url = tuple.0
+                dest.thumbnailImage = tuple.1
             }
         }
     }
