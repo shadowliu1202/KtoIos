@@ -14,6 +14,7 @@ class AddBankViewModel {
     
     lazy var bankName = BehaviorRelay<String>(value: "")
     lazy var bankID = BehaviorRelay<Int32>(value: 0)
+    private var bankNames: [String] = []
     private lazy var isBankValid = bankName.distinctUntilChanged().map({$0.count > 0})
     lazy var bankValid: Observable<ValidError> = isBankValid.skip(1).flatMap { [weak self] (isValid) -> Observable<ValidError> in
         self?.flatValid(isValid) ?? Observable<ValidError>.just(.none)
@@ -84,7 +85,9 @@ class AddBankViewModel {
     }
     
     func getBanks() -> Single<[(Int, Bank)]> {
-        return bankUseCase.getBankMap()
+        return bankUseCase.getBankMap().do(onSuccess: { [weak self] (tuple) in
+            self?.bankNames = tuple.map{ $0.1.name }
+        })
     }
     
     func getProvinces() -> [String] {
@@ -96,7 +99,11 @@ class AddBankViewModel {
     }
     
     func addWithdrawalAccount() -> Completable {
-        let newWithdrawalAccount: NewWithdrawalAccount = NewWithdrawalAccount(bankId: self.bankID.value, bankName: self.bankName.value, branch: self.branchName.value, location: self.province.value, city: self.country.value, address: "", accountNumber: self.account.value ?? "", accountName: self.userName.value)
+        var bankId = self.bankID.value
+        if !bankNames.contains(self.bankName.value) {
+            bankId = 0
+        }
+        let newWithdrawalAccount: NewWithdrawalAccount = NewWithdrawalAccount(bankId: bankId, bankName: self.bankName.value, branch: self.branchName.value, location: self.province.value, city: self.country.value, address: "", accountNumber: self.account.value , accountName: self.userName.value)
         return withdrawalUseCase.addWithdrawalAccount(newWithdrawalAccount)
     }
 }
