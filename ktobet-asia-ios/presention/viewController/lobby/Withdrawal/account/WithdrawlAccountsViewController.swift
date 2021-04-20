@@ -3,6 +3,10 @@ import share_bu
 import RxSwift
 import RxCocoa
 
+protocol AccountAddComplete: class {
+    func addAccountSuccess()
+}
+
 class WithdrawlAccountsViewController: UIViewController {
     let MAX_ACCOUNT_COUNT = 3
     @IBOutlet weak var titleLabel: UILabel!
@@ -118,6 +122,18 @@ extension WithdrawlAccountsViewController {
                 dest.account = sender as? WithdrawalAccount
             }
         }
+        
+        if segue.identifier == AddBankViewController.segueIdentifier {
+            if let dest = segue.destination as? AddBankViewController {
+                dest.delegate = self
+            }
+        }
+    }
+}
+
+extension WithdrawlAccountsViewController: AccountAddComplete {
+    func addAccountSuccess() {
+        self.isEditMode = false
     }
 }
 

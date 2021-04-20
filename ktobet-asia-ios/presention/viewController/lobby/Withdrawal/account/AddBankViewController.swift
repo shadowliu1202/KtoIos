@@ -18,6 +18,7 @@ class AddBankViewController: UIViewController {
     @IBOutlet weak var accountTextField: InputText!
     @IBOutlet weak var accountErrorLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
+    weak var delegate: AccountAddComplete?
     let viewModel = DI.resolve(AddBankViewModel.self)!
     let disposeBag = DisposeBag()
     
@@ -128,6 +129,7 @@ class AddBankViewController: UIViewController {
                 let message = Localize.string("withdrawal_setbankaccountsuccess_modal_content")
                 Alert.show(title, message, confirm: { [weak self] in
                     self?.popThenToast()
+                    self?.delegate?.addAccountSuccess()
                 }, cancel: nil)
             }, onException: { [weak self] (exception) in
                 self?.handleException(exception)
