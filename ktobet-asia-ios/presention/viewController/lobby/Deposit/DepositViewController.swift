@@ -62,7 +62,7 @@ class DepositViewController: UIViewController {
             return data.filter { (d) -> Bool in
                 return (d as? DepositRequest.DepositTypeUnknown) == nil
             }
-        }
+        }.share(replay: 1)
         
         getDepositTypeObservable.bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
             if let thirdParty = data as? DepositRequest.DepositTypeThirdParty {
@@ -106,7 +106,7 @@ class DepositViewController: UIViewController {
     fileprivate func recordDataBinding() {
         depositRecordTableView.delegate = nil
         depositRecordTableView.dataSource = nil
-        let getDepositRecordObservable = viewModel.getDepositRecord().catchError { _ in Single<[DepositRecord]>.never() }.asObservable()
+        let getDepositRecordObservable = viewModel.getDepositRecord().catchError { _ in Single<[DepositRecord]>.never() }.asObservable().share(replay: 1)
         getDepositRecordObservable.bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
             cell.setUp(data: data)
         }.disposed(by: disposeBag)
@@ -122,9 +122,11 @@ class DepositViewController: UIViewController {
                 if depositRecord.count == 0 {
                     self?.depositRecordNoDataLabel.isHidden = false
                     self?.depositRecordTableView.isHidden = true
+                    self?.showAllRecordButton.isHidden = true
                 } else {
                     self?.depositRecordNoDataLabel.isHidden = true
                     self?.depositRecordTableView.isHidden = false
+                    self?.showAllRecordButton.isHidden = false
                 }
             } onError: { (error) in
                 self.handleUnknownError(error)

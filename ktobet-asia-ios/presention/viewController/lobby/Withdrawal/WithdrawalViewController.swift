@@ -116,7 +116,7 @@ class WithdrawalViewController: UIViewController {
     fileprivate func recordDataBinding() {
         withdrawalRecordTableView.delegate = nil
         withdrawalRecordTableView.dataSource = nil
-        let getWithdrawalRecordObservable = viewModel.getWithdrawalRecords().catchError { _ in Single<[WithdrawalRecord]>.never() }.asObservable()
+        let getWithdrawalRecordObservable = viewModel.getWithdrawalRecords().catchError { _ in Single<[WithdrawalRecord]>.never() }.asObservable().share(replay: 1)
         getWithdrawalRecordObservable.bind(to: withdrawalRecordTableView.rx.items(cellIdentifier: String(describing: WithdrawRecordTableViewCell.self), cellType: WithdrawRecordTableViewCell.self)) {(index, data, cell) in
             cell.setUp(data: data)
         }.disposed(by: disposeBag)
@@ -132,9 +132,11 @@ class WithdrawalViewController: UIViewController {
                 if withdrawalRecord.count == 0 {
                     self?.withdrawalRecordNoDataLabel.isHidden = false
                     self?.withdrawalRecordTableView.isHidden = true
+                    self?.showAllWithdrawalButton.isHidden = true
                 } else {
                     self?.withdrawalRecordNoDataLabel.isHidden = true
                     self?.withdrawalRecordTableView.isHidden = false
+                    self?.showAllWithdrawalButton.isHidden = false
                 }
             } onError: { (error) in
                 self.handleUnknownError(error)
