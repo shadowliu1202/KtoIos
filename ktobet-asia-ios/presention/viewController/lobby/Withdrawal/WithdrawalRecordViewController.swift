@@ -129,7 +129,7 @@ class WithdrawalRecordViewController: UIViewController {
                 let dateEnd: Date?
                 switch dateType {
                 case .day(let day):
-                    self?.dateLabel.text = day.formatDateToStringToDay()
+                    self?.dateLabel.text = day.formatDateToStringToMonth()
                     dateBegin = day
                     dateEnd = day
                 case .week(let fromDate, let toDate):
