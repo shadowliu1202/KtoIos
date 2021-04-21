@@ -108,14 +108,16 @@ class DepositMethodViewController: UIViewController {
     }
     
     fileprivate func thirdPartDataBinding() {
-        let getDepositOfflineBankAccountsObservable = viewModel.getDepositMethods(depositType: depositType!.depositTypeId).catchError { _ in Single<[DepositRequest.DepositTypeMethod]>.never() }.asObservable()
+        let getDepositOfflineBankAccountsObservable = viewModel.getDepositMethods(depositType: depositType!.depositTypeId).catchError { error in
+            self.handleUnknownError(error)
+            return Single<[DepositRequest.DepositTypeMethod]>.never() }.asObservable()
         getDepositOfflineBankAccountsObservable.bind(to: depositTableView.rx.items(cellIdentifier: String(describing: DepositMethodTableViewCell.self), cellType: DepositMethodTableViewCell.self)) { index, data, cell in
             cell.setUp(icon: "Default(32)", name: data.displayName, index: index, selectedIndex: self.selectedIndex)
         }.disposed(by: disposeBag)
 
         getDepositOfflineBankAccountsObservable
             .subscribeOn(MainScheduler.instance)
-            .subscribe {[weak self] (data) in
+            .subscribe(onNext: {[weak self] (data) in
                 guard let self = self else { return }
                 self.constraintBankTableHeight.constant = CGFloat(data.count * 56)
                 self.depositTableView.layoutIfNeeded()
@@ -123,9 +125,7 @@ class DepositMethodViewController: UIViewController {
                 guard let firstSelectedMethod = data.first else { return }
                 self.viewModel.selectedMethod = firstSelectedMethod
                 self.getLimitation(firstSelectedMethod)
-        } onError: { (error) in
-            self.handleUnknownError(error)
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
     }
     
     fileprivate func thirdPartEventHandler() {

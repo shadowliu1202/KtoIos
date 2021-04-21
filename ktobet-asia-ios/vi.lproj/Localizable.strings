@@ -454,8 +454,8 @@
 "withdrawal_realname_modal_content" = "THTH提现姓名已绑定不能变更";
 "withdrawal_realname_modal_title" = "THTH温馨小提醒";
 "withdrawal_selectbank" = "THTH充值银行";
-"withdrawal_setaccount" = "THTH管理提现帐户";
-"withdrawal_setbankaccount_button" = "THTH新增提现帐户";
+"withdrawal_setaccount" = "THTH管理提现账户";
+"withdrawal_setbankaccount_button" = "THTH新增提现账户";
 "withdrawal_setbankaccount_modal_title" = "THTH是否结束新增提现帐户?";
 "withdrawal_setbankaccount_tips" = "THTH您必须先设定银行帐户才能进行提现。";
 "withdrawal_setbankaccount_title" = "THTH设定银行帐户";
@@ -466,7 +466,7 @@
 "withdrawal_start" = "THTH开始提现";
 "withdrawal_status" = "THTH提现状态";
 "withdrawal_step1_title_1" = "THTH提现 1/2";
-"withdrawal_selectbankcard" = "THTH选择提现帐户";
+"withdrawal_selectbankcard" = "THTH选择提现账户";
 "withdrawal_step1_title_2" = "THTH填写金额";
 "withdrawal_step2_button" = "THTH提交申请";
 "withdrawal_step2_tips" = "THTH单笔提现限额 %@";

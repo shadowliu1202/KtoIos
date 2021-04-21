@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var isDebugModel = false
     var debugController: MainDebugViewController?
+    let disposeBag = DisposeBag()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
@@ -33,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         let viewModel = DI.resolve(LaunchViewModel.self)!
-        let disposeBag = DisposeBag()
         viewModel
             .checkIsLogged()
             .subscribe { (isLogged) in

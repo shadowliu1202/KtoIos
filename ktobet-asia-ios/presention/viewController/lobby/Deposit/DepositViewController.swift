@@ -58,7 +58,9 @@ class DepositViewController: UIViewController {
     fileprivate func depositTypeDataBinding() {
         depositTypeTableView.delegate = nil
         depositTypeTableView.dataSource = nil
-        let getDepositTypeObservable = viewModel.getDepositType().catchError { _ in Single<[DepositRequest.DepositType]>.never() }.asObservable().map { (data) -> [DepositRequest.DepositType] in
+        let getDepositTypeObservable = viewModel.getDepositType().catchError { error in
+            self.handleUnknownError(error)
+            return Single<[DepositRequest.DepositType]>.never() }.asObservable().map { (data) -> [DepositRequest.DepositType] in
             return data.filter { (d) -> Bool in
                 return (d as? DepositRequest.DepositTypeUnknown) == nil
             }
@@ -78,7 +80,7 @@ class DepositViewController: UIViewController {
 
         getDepositTypeObservable
             .subscribeOn(MainScheduler.instance)
-            .subscribe { [weak self] (depositTypes) in
+            .subscribe(onNext: { [weak self] (depositTypes) in
                 self?.depositTypeTableView.isHidden = false
                 self?.constraintDepositTypeTableHeight.constant = CGFloat(depositTypes.count * 56)
                 self?.depositTypeTableView.layoutIfNeeded()
@@ -91,9 +93,7 @@ class DepositViewController: UIViewController {
                     self?.depositNoDataLabel.isHidden = true
                     self?.depositTypeTableView.isHidden = false
                 }
-            } onError: { (error) in
-                self.handleUnknownError(error)
-        }.disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
     }
     
     fileprivate func depositTypeDataHandler() {
@@ -106,14 +106,16 @@ class DepositViewController: UIViewController {
     fileprivate func recordDataBinding() {
         depositRecordTableView.delegate = nil
         depositRecordTableView.dataSource = nil
-        let getDepositRecordObservable = viewModel.getDepositRecord().catchError { _ in Single<[DepositRecord]>.never() }.asObservable().share(replay: 1)
+        let getDepositRecordObservable = viewModel.getDepositRecord().catchError { error in
+            self.handleUnknownError(error)
+            return Single<[DepositRecord]>.never() }.asObservable().share(replay: 1)
         getDepositRecordObservable.bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
             cell.setUp(data: data)
         }.disposed(by: disposeBag)
         
         getDepositRecordObservable
             .subscribeOn(MainScheduler.instance)
-            .subscribe { [weak self] (depositRecord) in
+            .subscribe(onNext: { [weak self] (depositRecord) in
                 self?.depositRecordTableView.isHidden = false
                 self?.constraintDepositRecordTableHeight.constant = CGFloat(depositRecord.count * 80)
                 self?.depositRecordTableView.layoutIfNeeded()
@@ -128,9 +130,7 @@ class DepositViewController: UIViewController {
                     self?.depositRecordTableView.isHidden = false
                     self?.showAllRecordButton.isHidden = false
                 }
-            } onError: { (error) in
-                self.handleUnknownError(error)
-            }.disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
     }
     
     fileprivate func recordDataHandler() {

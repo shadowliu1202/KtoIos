@@ -116,14 +116,16 @@ class WithdrawalViewController: UIViewController {
     fileprivate func recordDataBinding() {
         withdrawalRecordTableView.delegate = nil
         withdrawalRecordTableView.dataSource = nil
-        let getWithdrawalRecordObservable = viewModel.getWithdrawalRecords().catchError { _ in Single<[WithdrawalRecord]>.never() }.asObservable().share(replay: 1)
+        let getWithdrawalRecordObservable = viewModel.getWithdrawalRecords().catchError { error in
+            self.handleUnknownError(error)
+            return Single<[WithdrawalRecord]>.never() }.asObservable().share(replay: 1)
         getWithdrawalRecordObservable.bind(to: withdrawalRecordTableView.rx.items(cellIdentifier: String(describing: WithdrawRecordTableViewCell.self), cellType: WithdrawRecordTableViewCell.self)) {(index, data, cell) in
             cell.setUp(data: data)
         }.disposed(by: disposeBag)
         
         getWithdrawalRecordObservable
             .subscribeOn(MainScheduler.instance)
-            .subscribe { [weak self] (withdrawalRecord) in
+            .subscribe( onNext: { [weak self] (withdrawalRecord) in
                 self?.withdrawalRecordTableView.isHidden = false
                 self?.constraintWithdrawalRecordTableHeight.constant = CGFloat(withdrawalRecord.count * 80)
                 self?.withdrawalRecordTableView.layoutIfNeeded()
@@ -138,9 +140,7 @@ class WithdrawalViewController: UIViewController {
                     self?.withdrawalRecordTableView.isHidden = false
                     self?.showAllWithdrawalButton.isHidden = false
                 }
-            } onError: { (error) in
-                self.handleUnknownError(error)
-            }.disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
     }
     
     fileprivate func showAllRecordEvenhandler() {

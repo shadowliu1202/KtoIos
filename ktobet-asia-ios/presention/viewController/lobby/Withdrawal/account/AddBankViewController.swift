@@ -31,7 +31,7 @@ class AddBankViewController: UIViewController {
     
     private func initUI() {
         NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
-        titleLabel.text = Localize.string("withdrawal_addaccount")
+        titleLabel.text = Localize.string("withdrawal_setbankaccount_button")
         nameLabel.setTitle(Localize.string("withdrawal_accountrealname"))
         bankDropDown.setTitle(Localize.string("withdrawal_bank_name"))
         bankDropDown.isSearchEnable = true
