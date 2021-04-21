@@ -8,11 +8,31 @@
 import Foundation
 import UIKit
 import RxSwift
+import Moya
 
 extension UIViewController{
-
-    func handleUnknownError(_ error : Error){
-        if (error as NSError).code == 5 {
+    func handleUnknownError(_ error : Error) {
+        let unknownErrorString = String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
+        guard let error = error as? MoyaError else {
+            showAlertError(unknownErrorString)
+            return
+        }
+        
+        switch error {
+        case .statusCode(let response):
+            handleHttpError(error, response: response)
+        case .underlying:
+            showAlertError("尚未连线网路")
+        case .jsonMapping, .encodableMapping:
+            showAlertError("格式错误")
+        default:
+            showAlertError(unknownErrorString)
+        }
+    }
+    
+    private func handleHttpError(_ error: Error,  response: Response) {
+        switch response.statusCode {
+        case 401:
             let disposeBag = DisposeBag()
             let viewModel = DI.resolve(PlayerViewModel.self)!
             viewModel.logout()
@@ -20,9 +40,16 @@ extension UIViewController{
                 .subscribe(onCompleted: {
                     NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
                 }).disposed(by: disposeBag)
+        case 410:
+            showAlertError("系统维护中")
+        default:
+            showAlertError(String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"))
         }
+    }
+    
+    private func showAlertError(_ content: String) {
         let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-        toastView.show(on: self.view, statusTip: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"), img: UIImage(named: "Failed"))
+        toastView.show(on: self.view, statusTip: content, img: UIImage(named: "Failed"))
     }
     
     func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {

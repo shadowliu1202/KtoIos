@@ -454,8 +454,8 @@
 "withdrawal_realname_modal_content" = "VIVN提现姓名已绑定不能变更";
 "withdrawal_realname_modal_title" = "VIVN温馨小提醒";
 "withdrawal_selectbank" = "VIVN充值银行";
-"withdrawal_setaccount" = "VIVN管理提现帐户";
-"withdrawal_setbankaccount_button" = "VIVN新增提现帐户";
+"withdrawal_setaccount" = "VIVN管理提现账户";
+"withdrawal_setbankaccount_button" = "VIVN新增提现账户";
 "withdrawal_setbankaccount_modal_title" = "VIVN是否结束新增提现帐户?";
 "withdrawal_setbankaccount_tips" = "VIVN您必须先设定银行帐户才能进行提现。";
 "withdrawal_setbankaccount_title" = "VIVN设定银行帐户";
@@ -466,7 +466,7 @@
 "withdrawal_start" = "VIVN开始提现";
 "withdrawal_status" = "VIVN提现状态";
 "withdrawal_step1_title_1" = "VIVN提现 1/2";
-"withdrawal_selectbankcard" = "VIVN选择提现帐户";
+"withdrawal_selectbankcard" = "VIVN选择提现账户";
 "withdrawal_step1_title_2" = "VIVN填写金额";
 "withdrawal_step2_button" = "VIVN提交申请";
 "withdrawal_step2_tips" = "VIVN单笔提现限额 %@";

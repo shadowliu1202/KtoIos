@@ -1077,7 +1077,7 @@
                                                         <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="withdrawal_addaccount"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="withdrawal_setbankaccount_button"/>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zeS-DI-aja">

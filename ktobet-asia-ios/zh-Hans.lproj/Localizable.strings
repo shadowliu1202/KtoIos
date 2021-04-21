@@ -454,8 +454,8 @@
 "withdrawal_realname_modal_content" = "提现姓名已绑定不能变更";
 "withdrawal_realname_modal_title" = "温馨小提醒";
 "withdrawal_selectbank" = "充值银行";
-"withdrawal_setaccount" = "管理提现帐户";
-"withdrawal_setbankaccount_button" = "新增提现帐户";
+"withdrawal_setaccount" = "管理提现账户";
+"withdrawal_setbankaccount_button" = "新增提现账户";
 "withdrawal_setbankaccount_modal_title" = "是否结束新增提现帐户?";
 "withdrawal_setbankaccount_tips" = "您必须先设定银行帐户才能进行提现。";
 "withdrawal_setbankaccount_title" = "设定银行帐户";
@@ -466,7 +466,7 @@
 "withdrawal_start" = "开始提现";
 "withdrawal_status" = "提现状态";
 "withdrawal_step1_title_1" = "提现 1/2";
-"withdrawal_selectbankcard" = "选择提现帐户";
+"withdrawal_selectbankcard" = "选择提现账户";
 "withdrawal_step1_title_2" = "填写金额";
 "withdrawal_step2_button" = "提交申请";
 "withdrawal_step2_tips" = "单笔提现限额 %@";
