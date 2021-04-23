@@ -23,20 +23,25 @@ private func JSONResponseDataFormatter(_ data: Data) -> String {
     }
 }
 
+class KtoURL {
+    static fileprivate var host : String {
+        #if QATv
+        return "https://v-qat1-mobile.affclub.xyz/"
+        #else
+        return "https://qat1-mobile.affclub.xyz/"
+//        return "https://mobile.staging.support/"
+        #endif
+    }
+    static var baseUrl : URL { return URL(string: self.host)!}
+}
 
 class HttpClient {
     
     let provider : MoyaProvider<MultiTarget>!
     var session : Session { return AF}
-    var host : String {
-        #if QATv
-        return "https://v-qat1-mobile.affclub.xyz/"
-        #else
-        return "https://qat1-mobile.affclub.xyz/"
-        #endif
-    }
+    var host : String {return KtoURL.host}
 //    var host : String { return "https://qat1.pivotsite.com/"}
-    var baseUrl : URL { return URL(string: self.host)!}
+    var baseUrl : URL { return KtoURL.baseUrl}
     var headers : [String : String] {
         var header : [String : String] = [:]
         //headers.add(name: "Accept-Charset", value: "UTF-8")
@@ -72,9 +77,9 @@ class HttpClient {
                    let statusCode = json["statusCode"].string,
                    let errorMsg = json["errorMsg"].string,
                    statusCode.count > 0 && errorMsg.count > 0{
-                    let domain = self?.baseUrl.path
+                    let domain = self?.baseUrl.path ?? ""
                     let code = Int(statusCode) ?? 0
-                    let error = NSError(domain: domain!, code: code, userInfo: ["errorMsg" : errorMsg])
+                    let error = NSError(domain: domain, code: code, userInfo: ["statusCode": statusCode , "errorMsg" : errorMsg])
                     return Single.error(error)
                 }
                 return Single.just(response)

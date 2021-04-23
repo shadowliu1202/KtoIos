@@ -168,7 +168,7 @@ class NavigationManagement {
         case .numbergame:
             goTo(storyboard: "Game", viewControllerId: "NumberGameNavigationController")
         case .casino:
-            goTo(storyboard: "Game", viewControllerId: "CasinoNavigationController")
+            goTo(storyboard: "Casino", viewControllerId: "CasinoNavigationController")
         case .slot:
             goTo(storyboard: "Game", viewControllerId: "SlotNavigationController")
         default:

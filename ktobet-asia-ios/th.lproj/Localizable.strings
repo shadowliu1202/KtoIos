@@ -602,6 +602,7 @@
 "product_slot_above_30" = "多于31";
 "product_slot_all" = "所有线";
 "product_slot_others" = "其他";
+"product_game_maintenance" = "游戏维护中";
 
 //MARK: - Landing
 "landing_product" = "";

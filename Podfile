@@ -17,6 +17,7 @@ def default_pods
   pod 'SideMenu'
   pod 'Moya/RxSwift'
   pod 'SDWebImage'
+  pod "AlignedCollectionViewFlowLayout"
   use_frameworks!
 end
 

@@ -89,3 +89,7 @@ class LoginError : NSError{
     var status : LoginStatus.TryStatus?
     var isLock : Bool?
 }
+
+enum KTOError: Error {
+    case EmptyData
+}

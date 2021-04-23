@@ -15,13 +15,21 @@ class DIContainer {
     
     static let share = DIContainer()
     let container = Container()
-    let httpClient = HttpClient()
+    lazy var httpClient = container.resolve(HttpClient.self)!
     
     private init() {
+        registerHttpClient()
         registApi()
         registRepo()
         registUsecase()
         registViewModel()
+    }
+    
+    func registerHttpClient() {
+        let ctner = container
+        ctner.register(HttpClient.self) { (resolver)  in
+            return HttpClient()
+        }
     }
     
     func registApi() {
@@ -49,6 +57,9 @@ class DIContainer {
         }
         ctner.register(ImageApi.self) { (resolver) in
             return ImageApi(httpclient)
+        }
+        ctner.register(CasinoApi.self) { (resolver) in
+            return CasinoApi(httpclient)
         }
     }
     
@@ -106,6 +117,14 @@ class DIContainer {
             let bankApi = ctner.resolve(BankApi.self)!
             return BankRepositoryImpl(bankApi)
         }
+        ctner.register(CasinoRecordRepository.self) { resolver in
+            let casinoApi = ctner.resolve(CasinoApi.self)!
+            return CasinoRecordRepositoryImpl(casinoApi)
+        }
+        ctner.register(CasinoRepository.self) { resolver in
+            let casinoApi = ctner.resolve(CasinoApi.self)!
+            return CasinoRepositoryImpl(casinoApi)
+        }
     }
     
     func registUsecase(){
@@ -160,6 +179,16 @@ class DIContainer {
         ctner.register(BankUseCase.self) { (resolver)  in
             let repoBank = ctner.resolve(BankRepository.self)!
             return BankUseCaseImpl(repoBank)
+        }
+        ctner.register(CasinoRecordUseCase.self) { (resolver)  in
+            let repoCasinoRecord = ctner.resolve(CasinoRecordRepository.self)!
+            let repoPlayer = ctner.resolve(PlayerRepository.self)!
+            return CasinoRecordUseCaseImpl(repoCasinoRecord, playerRepository: repoPlayer)
+        }
+        ctner.register(CasinoUseCase.self) { (resolver) in
+            let repo = ctner.resolve(CasinoRepository.self)!
+            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            return CasinoUseCaseImpl(repo, repoLocal)
         }
     }
     
@@ -244,6 +273,9 @@ class DIContainer {
             let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             return WithdrawalRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerDataUseCase: playerUseCase)
+        }
+        ctner.register(CasinoViewModel.self) { (resolver) in
+            return CasinoViewModel(casinoRecordUseCase: ctner.resolve(CasinoRecordUseCase.self)!, casinoUseCase: ctner.resolve(CasinoUseCase.self)!)
         }
     }
     

@@ -11,6 +11,7 @@ class LocalStorageRepository {
     let kOtpRetryCount = "otpRetryCount"
     let kCountDownEndTime = "countDownEndTime"
     let kUserName = "userName"
+    let KcultureCode = "cultureCode"
 
     func getRememberMe() -> Bool {
         return getUserDefaultValue(key: kRememberMe) ?? false
@@ -51,6 +52,10 @@ class LocalStorageRepository {
     func getUserName() -> String {
         return getUserDefaultValue(key: kUserName) ?? ""
     }
+    
+    func getCultureCode() -> String {
+        return getUserDefaultValue(key: KcultureCode) ?? ""
+    }
 
     func setRememberMe(_ rememberMe: Bool?) {
         setUserDefaultValue(value: rememberMe, key: kRememberMe)
@@ -90,6 +95,10 @@ class LocalStorageRepository {
 
     func setUserName(_ name: String) {
         setUserDefaultValue(value: name, key: kUserName)
+    }
+    
+    func setCultureCode(_ cultureCode: String) {
+        setUserDefaultValue(value: cultureCode, key: KcultureCode)
     }
 
     private func setUserDefaultValue<T>(value: T?, key: String) {
