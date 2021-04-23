@@ -16,6 +16,20 @@ struct ResponseData<T:Codable> : Codable {
     var data : T?
 }
 
+struct ResponseDataList<T:Codable> : Codable {
+    var statusCode : String
+    var errorMsg : String
+    var node : String?
+    var data : [T]
+}
+
+struct ResponseDataMap<T:Codable> : Codable {
+    var statusCode : String
+    var errorMsg : String
+    var node : String?
+    var data : [String: T]
+}
+
 struct PayloadPage<T: Codable> : Codable {
     var payload: [T]
     var totalCount: Int
@@ -215,6 +229,113 @@ struct WithdrawalAccountBean: Codable {
 struct SingleWithdrawalLimitsData: Codable {
     let max: Double
     let minimum: Double
+}
+
+//MARK: - Casino
+struct TopCasinoResponse: Codable {
+    let lobbyID: Int
+    let lobbyName: String
+    let gameCount: Int
+    let casinoData: [CasinoData]?
+    let isLobbyMaintenance: Bool
+    let games: [CasinoData]?
+
+    enum CodingKeys: String, CodingKey {
+        case lobbyID = "lobbyId"
+        case lobbyName, gameCount, casinoData, isLobbyMaintenance, games
+    }
+}
+
+struct CasinoData: Codable {
+    let gameID: Int
+    let name: String
+    let hasForFun, isFavorite: Bool
+    let imageID: String
+    let isGameMaintenance: Bool
+    let status: Int
+    let releaseDate: String?
+
+    enum CodingKeys: String, CodingKey {
+        case gameID = "gameId"
+        case imageID = "imageId"
+        case isGameMaintenance, status, name, hasForFun, isFavorite, releaseDate
+    }
+}
+
+struct TagBean: Codable {
+    let id: Int
+    let name: String
+    let tagType: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name, tagType
+    }
+}
+
+struct BetSummaryData: Codable {
+    let pendingTransactionCount: Int32
+    let summaries: [Summary]
+
+    struct Summary: Codable {
+        let betDate: String
+        let count: Int32
+        let stakes: Double
+        let winLoss: Double
+    }
+}
+    
+struct CasinoGroupData: Codable {
+    let endDate: String
+    let lobbyId: Int32
+    let lobbyName: String
+    let startDate: String
+}
+
+struct CasinoBetData: Codable {
+    let data: [CasinoBetDetailData]
+    let totalCount: Int
+}
+
+struct CasinoBetDetailData: Codable {
+    let betId: String
+    let gameName: String
+    let showWinLoss: Bool
+    let prededuct: Double
+    let stakes: Double
+    let wagerId: String
+    let winLoss: Double
+    let hasDetails: Bool
+}
+
+struct CasinoWagerDetail: Codable {
+    let betId: String
+    let otherId: String
+    let betTime: String
+    let selection: String
+    let roundId: String
+    let gameName: String
+    let gameResult: String?
+    let stakes: Double
+    let prededuct: Double
+    let winLoss: Double
+    let gameType: Int32
+    let status: Int32
+    let gameProviderId: Int32
+}
+
+struct UnsettledSummaryBean: Codable {
+    let betTime: String
+    let stakes: Double
+}
+
+struct UnsettledRecordBean: Codable {
+    let betId: String
+    let otherId: String
+    let gameId: Int32
+    let gameName: String
+    let betTime: String
+    let stakes: Double
+    let prededuct: Double
 }
 
 struct Nothing : Codable{}

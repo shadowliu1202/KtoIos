@@ -65,4 +65,29 @@ extension UIViewController{
             activityIndicator.stopAnimating()
         }
     }
+    
+    func showToast(_ popUp: ToastPopUp) {
+        // Make suer there is no any toast showing on the screen
+        self.hideToast()
+        
+        popUp.tag = 6666
+        self.view.addSubview(popUp, constraints: [
+            .equal(\.centerXAnchor),
+            .equal(\.centerYAnchor)
+        ])
+        
+        UIView.animate(withDuration: 2.0, delay: 2.0, animations: {
+            popUp.alpha = 0.0
+        }, completion: { complete in
+            popUp.removeFromSuperview()
+        })
+    }
+    
+    func hideToast() {
+        for view in self.view.subviews {
+            if view is ToastPopUp, view.tag == 6666 {
+                view.removeFromSuperview()
+            }
+        }
+    }
 }

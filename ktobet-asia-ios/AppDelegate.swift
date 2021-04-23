@@ -66,4 +66,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.addSubview(self.debugController!.view)
         self.isDebugModel = true
     }
+    
+    var restrictRotation:UIInterfaceOrientationMask = .portrait
+
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask
+    {
+        return self.restrictRotation
+    }
 }

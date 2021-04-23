@@ -61,59 +61,6 @@
             </objects>
             <point key="canvasLocation" x="377" y="110"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="bhg-1A-6hq">
-            <objects>
-                <viewController storyboardIdentifier="Casino" id="kJ5-kJ-OIH" customClass="SBKViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HHP-DM-wcx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Casino" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o59-Jh-X13">
-                                <rect key="frame" x="144.5" y="379" width="125" height="50.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="42"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="VTr-A0-Y5q"/>
-                        <color key="backgroundColor" red="0.074509803920000006" green="0.074509803920000006" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="o59-Jh-X13" firstAttribute="centerY" secondItem="HHP-DM-wcx" secondAttribute="centerY" id="62G-ip-SgE"/>
-                            <constraint firstItem="o59-Jh-X13" firstAttribute="centerX" secondItem="HHP-DM-wcx" secondAttribute="centerX" id="JeM-u6-0og"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="XGP-jl-d2S"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FRZ-OC-UTM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1210" y="900"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="PXx-0F-xeq">
-            <objects>
-                <navigationController storyboardIdentifier="CasinoNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="9mQ-cY-sZj" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="eNP-8L-mDd">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.074509803920000006" green="0.074509803920000006" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="kJ5-kJ-OIH" kind="relationship" relationship="rootViewController" id="Izn-5K-MYl"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NC4-mi-nPo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="377" y="900"/>
-        </scene>
         <!--Number Game View Controller-->
         <scene sceneID="KHO-gr-hUx">
             <objects>

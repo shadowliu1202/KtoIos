@@ -26,6 +26,28 @@ extension UIButton {
             self.alpha = newValue ? 1 : 0.3
         }
     }
+    
+    public var allImage: UIImage? {
+        get { return image(for: .normal) }
+        set {
+            setImage(newValue, for: .normal)
+            setImage(newValue, for: .selected)
+            setImage(newValue, for: .highlighted)
+            setImage(newValue, for: .disabled)
+            setImage(newValue, for: .focused)
+            setImage(newValue, for: .reserved)
+        }
+    }
+    
+    func applyGradient(colors: [CGColor]) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = colors
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
+        gradientLayer.frame = self.bounds
+        self.layer.insertSublayer(gradientLayer, at: 0)
+    }
+
 }
 
 extension Reactive where Base: UIButton {

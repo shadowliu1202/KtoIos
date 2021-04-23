@@ -33,7 +33,9 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
     }
 
     func loadPlayer() -> Single<Player> {
-        return playerRepository.loadPlayer()
+        return playerRepository.loadPlayer().do(onSuccess: { [weak self] (player) in
+            self?.localRepository.setCultureCode(player.locale().cultureCode())
+        })
     }
     
     func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]> {

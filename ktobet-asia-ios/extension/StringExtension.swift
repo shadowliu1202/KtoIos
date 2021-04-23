@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import share_bu
 
 extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
@@ -16,20 +17,25 @@ extension String {
         return ceil(boundingBox.width)
     }
     
-    func convertDateTime() -> Date? {
+    func convertDateTime(format: String = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", timeZone: String? = "UTC") -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ"
+        dateFormatter.dateFormat = format
+        if timeZone != nil {
+            dateFormatter.timeZone = TimeZone(identifier: timeZone!)
+        }
         let date = dateFormatter.date(from: self)
         return date
     }
     
-    func convertDateTIme(format: String) -> Date? {
+    func convertOffsetDateTime(format1: String = "", format2: String = "") -> Date?{
+        return convertOffsetDateTime(format: format1) ?? convertOffsetDateTime(format: format2)
+    }
+    
+    func convertOffsetDateTime(format: String = "") -> Date?{
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = format
-        dateFormatter.timeZone = .current
-        let date = dateFormatter.date(from: self)
-        return date
+        return dateFormatter.date(from: self)
     }
     
     func isValidRegex(format: RegexFormat) -> Bool {
@@ -55,6 +61,11 @@ extension String {
     
     func currencyAmountToDouble() -> Double? {
         return Double(self.replacingOccurrences(of: ",", with: ""))
+    }
+    
+    func toLocalDate() -> Kotlinx_datetimeLocalDate {
+        let createDate = self.convertDateTime() ?? Date()
+        return Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth())
     }
 }
 

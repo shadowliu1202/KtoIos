@@ -24,7 +24,7 @@ extension Date {
         case .second:
             return components.second
         case .nanosecond:
-            return components.nanosecond
+            return (components.nanosecond! + 500) / 1000000 * 1000000
         default:
             return nil
         }
@@ -147,6 +147,10 @@ extension Date {
         let pastSevenDate = Calendar.current.date(byAdding: dateComponent, to: self)!
         return pastSevenDate.convertdateToUTC()
     }
+    
+    func convertToKotlinx_datetimeLocalDateTime() -> Kotlinx_datetimeLocalDateTime {
+        return Kotlinx_datetimeLocalDateTime.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
+    }
 }
 
 
@@ -166,5 +170,17 @@ extension OffsetDateTime {
         let month = self.localDateTime.monthNumber
         let dayOfMonth = self.localDateTime.dayOfMonth
         return String(format: "%02d/%02d/%02d", year, month, dayOfMonth)
+    }
+}
+
+extension Kotlinx_datetimeLocalDateTime {
+    func convertToDate(with SeparatorSymbol: String = "-") -> Date {
+        let date = String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d", self.year, self.monthNumber, self.dayOfMonth, self.hour, self.minute, self.second)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+        return dateFormatter.date(from: date) ?? Date()
     }
 }

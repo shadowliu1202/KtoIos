@@ -34,3 +34,42 @@ class APITarget : TargetType{
         self.iHeaders = header
     }
 }
+
+protocol ApiService {
+    var surfixPath: String { get }
+    var headers : [String : String]? { get }
+}
+
+class GetAPITarget: APITarget {
+    init(service: ApiService, task: Task = .requestPlain) {
+        super.init(baseUrl: KtoURL.baseUrl, path: service.surfixPath, method: .get, task: task, header: service.headers)
+    }
+    
+    func parameters(_ parameters: [String: Any]) -> Self {
+        self.iTask = .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+        return self
+    }
+}
+
+class PutAPITarget: APITarget {
+    init(service: ApiService, parameters: Encodable) {
+        super.init(baseUrl: KtoURL.baseUrl, path: service.surfixPath, method: .put, task: .requestJSONEncodable(parameters), header: service.headers)
+    }
+}
+
+class PostAPITarget: APITarget {
+    init(service: ApiService, parameters: Encodable) {
+        super.init(baseUrl: KtoURL.baseUrl, path: service.surfixPath, method: .post, task: .requestJSONEncodable(parameters), header: service.headers)
+    }
+}
+
+class DeleteAPITarget: APITarget {
+    init(service: ApiService, task: Task = .requestPlain) {
+        super.init(baseUrl: KtoURL.baseUrl, path: service.surfixPath, method: .delete, task: task, header: service.headers)
+    }
+    
+    func parameters(_ parameters: [String: Any]) -> Self {
+        self.iTask = .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+        return self
+    }
+}
