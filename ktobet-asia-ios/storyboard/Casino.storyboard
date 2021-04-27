@@ -1007,7 +1007,7 @@
         <!--Casino View Controller-->
         <scene sceneID="LkU-Uo-WNt">
             <objects>
-                <viewController storyboardIdentifier="Casino" id="yZ5-La-WtM" customClass="CasinoViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CasinoViewController" id="yZ5-La-WtM" customClass="CasinoViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Uv5-n3-DZh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

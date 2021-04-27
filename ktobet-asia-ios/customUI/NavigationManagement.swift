@@ -180,6 +180,21 @@ class NavigationManagement {
         viewControllers[vcId] = nil
     }
     
+    func removeViewControllers(productType: ProductType) {
+        switch productType {
+        case .sbk:
+            removeViewControllers(vcId: "SBKNavigationController")
+        case .numbergame:
+            removeViewControllers(vcId: "NumberGameNavigationController")
+        case .casino:
+            removeViewControllers(vcId: "CasinoNavigationController")
+        case .slot:
+            removeViewControllers(vcId: "SlotNavigationController")
+        default:
+            break
+        }
+    }
+    
     func popViewController(_ completion: (() -> Void)? = nil) {
         viewController.navigationController?.popViewController(animated: true)
         viewController = viewController.navigationController?.topViewController
