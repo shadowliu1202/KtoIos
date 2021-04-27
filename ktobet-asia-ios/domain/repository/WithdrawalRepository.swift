@@ -5,7 +5,7 @@ import share_bu
 protocol WithdrawalRepository {
     func getWithdrawalLimitation() -> Single<WithdrawalLimits>
     func getWithdrawalRecords() -> Single<[WithdrawalRecord]>
-    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalRecordDetail>
+    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail>
     func getWithdrawalRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[WithdrawalRecord]>
     func cancelWithdrawal(ticketId: String) -> Completable
     func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
@@ -62,7 +62,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
                                 groupDay: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()))
     }
     
-    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalRecordDetail> {
+    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
         return bankApi.getWithdrawalRecordDetail(displayId: transactionId, ticketType: EnumMapper.Companion.init().convertTransactionType(transactionType: transactionTransactionType)).flatMap { self.createWithdrawalRecordDetail(detail: $0.data!, transactionTransactionType: EnumMapper.Companion.init().convertTransactionType(transactionType: transactionTransactionType))
         }
     }
@@ -99,15 +99,15 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         return bankApi.bindingImageWithWithdrawalRecord(displayId: displayId, uploadImagesData: imageBindingData)
     }
     
-    fileprivate func createWithdrawalRecordDetail(detail: WithdrawalRecordDetailData, transactionTransactionType: Int32) -> Single<WithdrawalRecordDetail> {
+    fileprivate func createWithdrawalRecordDetail(detail: WithdrawalRecordDetailData, transactionTransactionType: Int32) -> Single<WithdrawalDetail> {
         let createDate = detail.createdDate.convertDateTime() ?? Date()
         let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
         let updateDate = detail.updatedDate.convertDateTime() ?? Date()
         let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
         
-        return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { (tHistories) -> WithdrawalRecordDetail in
+        return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { (tHistories) -> WithdrawalDetail in
             let withdrawalRecord = WithdrawalRecord(transactionTransactionType: EnumMapper.Companion.init().convertTransactionType(transactionType_: transactionTransactionType), displayId: detail.displayId, transactionStatus: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: detail.status), createDate: createOffsetDateTime, cashAmount: CashAmount(amount: detail.requestAmount), isPendingHold: detail.isPendingHold, groupDay: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()))
-            return WithdrawalRecordDetail(record: withdrawalRecord, isBatched: detail.isBatched, isPendingHold: detail.isPendingHold, statusChangeHistories: tHistories, updatedDate: updateOffsetDateTime)
+            return WithdrawalDetail.General.init(record: withdrawalRecord, isBatched: detail.isBatched, isPendingHold: detail.isPendingHold, statusChangeHistories: tHistories, updatedDate: updateOffsetDateTime)
         }
     }
     

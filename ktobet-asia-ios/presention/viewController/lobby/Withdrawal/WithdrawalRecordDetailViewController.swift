@@ -99,32 +99,34 @@ class WithdrawalRecordDetailViewController: UIViewController {
         self.startActivityIndicator(activityIndicator: activityIndicator)
         viewModel.getWithdrawalRecordDetail(transactionId: detailRecord.displayId, transactionTransactionType: detailRecord.transactionTransactionType).subscribe {[weak self] (data) in
             guard let self = self else { return }
-            let statusChangeHistoriesObservalbe = Observable.from(optional: data.statusChangeHistories)
-            statusChangeHistoriesObservalbe.bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) {(index, d, cell) in
-                cell.setup(history: d)
-                cell.toBigImage = {(url, image) in
-                    if let vc = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "ImageViewController") as? ImageViewController {
-                        vc.url = url
-                        vc.thumbnailImage = image
-                        NavigationManagement.sharedInstance.pushViewController(vc: vc)
+            if let generalData = data as? WithdrawalDetail.General {
+                let statusChangeHistoriesObservalbe = Observable.from([generalData.statusChangeHistories])
+                statusChangeHistoriesObservalbe.bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) {(index, d, cell) in
+                    cell.setup(history: d)
+                    cell.toBigImage = {(url, image) in
+                        if let vc = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "ImageViewController") as? ImageViewController {
+                            vc.url = url
+                            vc.thumbnailImage = image
+                            NavigationManagement.sharedInstance.pushViewController(vc: vc)
+                        }
                     }
-                }
-            }.disposed(by: self.disposeBag)
-            
-            statusChangeHistoriesObservalbe.subscribeOn(MainScheduler.instance)
-                .subscribe {[weak self] _ in
-                    self?.updateUI(data: data)
-                } onError: { (error) in
-                    self.handleUnknownError(error)
                 }.disposed(by: self.disposeBag)
-            self.stopActivityIndicator(activityIndicator: self.activityIndicator)
+                
+                statusChangeHistoriesObservalbe.subscribeOn(MainScheduler.instance)
+                    .subscribe {[weak self] _ in
+                        self?.updateUI(data: generalData)
+                    } onError: { (error) in
+                        self.handleUnknownError(error)
+                    }.disposed(by: self.disposeBag)
+                self.stopActivityIndicator(activityIndicator: self.activityIndicator)
+            }
         } onError: { (error) in
             self.handleUnknownError(error)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
     }
     
-    fileprivate func updateUI(data: WithdrawalRecordDetail) {
+    fileprivate func updateUI(data: WithdrawalDetail.General) {
         DispatchQueue.main.async {
             self.remarkView.remove(border: .bottom)
             self.scrollview.isHidden = false
@@ -159,6 +161,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
                 self.buttonStackView.removeArrangedSubview(self.confirmButton)
             }
             
+            self.cancelButton.isHidden = !data.isCancellable()
             self.statusView.layoutIfNeeded()
             self.remarkTableview.layoutIfNeeded()
             self.remarkTableViewHeight.constant = self.remarkTableview.contentSize.height
