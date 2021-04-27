@@ -5,7 +5,7 @@ import RxSwift
 protocol WithdrawalUseCase {
     func getWithdrawalLimitation() -> Single<WithdrawalLimits>
     func getWithdrawalRecords() -> Single<[WithdrawalRecord]>
-    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalRecordDetail>
+    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail>
     func getWithdrawalRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[WithdrawalRecord]>
     func cancelWithdrawal(ticketId: String) -> Completable
     func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
@@ -30,7 +30,7 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
         return self.withdrawalRepository.getWithdrawalRecords()
     }
     
-    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalRecordDetail> {
+    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
         return self.withdrawalRepository.getWithdrawalRecordDetail(transactionId: transactionId, transactionTransactionType: transactionTransactionType)
     }
     

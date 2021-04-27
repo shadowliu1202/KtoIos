@@ -36,7 +36,7 @@ class WithdrawalViewModel {
         return self.withdrawalUseCase.getWithdrawalRecords()
     }
     
-    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalRecordDetail> {
+    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
         return self.withdrawalUseCase.getWithdrawalRecordDetail(transactionId: transactionId, transactionTransactionType: transactionTransactionType)
     }
     
