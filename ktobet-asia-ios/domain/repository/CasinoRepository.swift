@@ -113,7 +113,7 @@ class CasinoRepositoryImpl: CasinoRepository {
             var duplicateGames = games
             favorites.forEach { (favoriteItem) in
                 if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}),
-                   let game = self?.duplicateGame(favoriteItem, isFavorite: favoriteItem.isFavorite) {
+                   let game = self?.duplicateGame(duplicateGames[i], isFavorite: favoriteItem.isFavorite) {
                     duplicateGames[i] = game
                 }
             }
@@ -130,7 +130,7 @@ class CasinoRepositoryImpl: CasinoRepository {
             var duplicateGames = games
             favorites.forEach { (favoriteItem) in
                 if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}),
-                   let game = self?.duplicateGame(favoriteItem, isFavorite: favoriteItem.isFavorite) {
+                   let game = self?.duplicateGame(duplicateGames[i], isFavorite: favoriteItem.isFavorite) {
                     duplicateGames[i] = game
                 }
             }
