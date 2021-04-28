@@ -42,8 +42,13 @@ class CasinoFavoriteViewController: UIViewController {
         gamesCollectionView.delegate = gameDataSourceDelegate
         viewModel.favorites
             .catchError({ [weak self] (error) -> Observable<[CasinoGame]> in
-                self?.switchContent()
-                self?.handleUnknownError(error)
+                switch error {
+                case KTOError.EmptyData:
+                    self?.switchContent()
+                    break
+                default:
+                    self?.handleUnknownError(error)
+                }
                 return Observable.just([])
             }).subscribe(onNext: { [weak self] (games) in
                 self?.gameData = games
