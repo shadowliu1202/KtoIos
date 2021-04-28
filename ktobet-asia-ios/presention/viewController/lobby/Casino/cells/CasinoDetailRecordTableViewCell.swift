@@ -29,7 +29,7 @@ class CasinoDetailRecord2TableViewCell: UITableViewCell {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy/MM/dd(E)HH:mm:ss"
             let currentDateString: String = dateFormatter.string(from: date)
-            self.contentLabel.text = "\(currentDateString)".uppercased()
+            self.contentLabel.text = "\(currentDateString)"
         }
         
         if index == 4 {
