@@ -5,7 +5,6 @@ import share_bu
 class NavigationManagement {
     private var sideBarViewController: SideBarViewController!
     private var menu: SideMenuNavigationController!
-    private var viewControllers: [String: UIViewController] = [:]
 
     static let sharedInstance = NavigationManagement()
     var viewController: UIViewController!
@@ -141,18 +140,14 @@ class NavigationManagement {
         if name == "Login" && viewControllerId == "LoginNavigation" {
             dispose()
         }
-        
-        if !viewControllers.keys.contains(viewControllerId) {
-            viewControllers[viewControllerId] =  UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
-        }
 
         if menu != nil {
             menu.dismiss(animated: true, completion: nil)
         }
         
-        viewController = viewControllers[viewControllerId]
+        viewController = UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            UIApplication.shared.keyWindow?.rootViewController = self.viewControllers[viewControllerId]
+            UIApplication.shared.keyWindow?.rootViewController = self.viewController
         }
     }
     
@@ -176,10 +171,6 @@ class NavigationManagement {
         }
     }
     
-    func removeViewControllers(vcId: String) {
-        viewControllers[vcId] = nil
-    }
-    
     func popViewController(_ completion: (() -> Void)? = nil) {
         viewController.navigationController?.popViewController(animated: true)
         viewController = viewController.navigationController?.topViewController
@@ -194,7 +185,6 @@ class NavigationManagement {
     private func dispose() {
         guard let sideBar = sideBarViewController else { return }
         NotificationCenter.default.removeObserver(sideBar, name: NSNotification.Name(rawValue: "disposeSystemNotify"), object: nil)
-        viewControllers = [:]
         sideBarViewController = nil
         menu = nil
         UIApplication.shared.keyWindow?.rootViewController = nil

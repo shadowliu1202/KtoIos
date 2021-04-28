@@ -11,6 +11,7 @@ enum FavoriteAction {
 class CasinoViewModel {
     private var casinoRecordUseCase : CasinoRecordUseCase!
     private var casinoUseCase: CasinoUseCase!
+    private var memoryCache: MemoryCacheImpl!
     // MARK: GameTags
     private var gameFilter = BehaviorRelay<[CasinoTag]>(value: [])
     private var gameTags: [CasinoTag] = []
@@ -46,9 +47,13 @@ class CasinoViewModel {
     
     private var disposeBag = DisposeBag()
     
-    init(casinoRecordUseCase: CasinoRecordUseCase, casinoUseCase: CasinoUseCase) {
+    init(casinoRecordUseCase: CasinoRecordUseCase, casinoUseCase: CasinoUseCase, memoryCache: MemoryCacheImpl) {
         self.casinoRecordUseCase = casinoRecordUseCase
         self.casinoUseCase = casinoUseCase
+        self.memoryCache = memoryCache
+        if let tags = memoryCache.getCasinoGameTag() {
+            gameFilter.accept(tags)
+        }
     }
     
     private func searchedCasinoByTag(tags: [CasinoGameTag]) -> Observable<[CasinoGame]> {
@@ -79,6 +84,7 @@ class CasinoViewModel {
             filter.isSeleced.toggle()
             copyValue.append(filter)
         }
+        memoryCache.setCasinoGameTag(copyValue)
         gameFilter.accept(copyValue)
     }
     

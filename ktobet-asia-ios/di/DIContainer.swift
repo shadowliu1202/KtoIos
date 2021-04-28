@@ -275,7 +275,7 @@ class DIContainer {
             return WithdrawalRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerDataUseCase: playerUseCase)
         }
         ctner.register(CasinoViewModel.self) { (resolver) in
-            return CasinoViewModel(casinoRecordUseCase: ctner.resolve(CasinoRecordUseCase.self)!, casinoUseCase: ctner.resolve(CasinoUseCase.self)!)
+            return CasinoViewModel(casinoRecordUseCase: ctner.resolve(CasinoRecordUseCase.self)!, casinoUseCase: ctner.resolve(CasinoUseCase.self)!, memoryCache: MemoryCacheImpl.shared)
         }
     }
     

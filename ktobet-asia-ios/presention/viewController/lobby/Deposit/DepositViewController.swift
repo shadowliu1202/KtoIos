@@ -35,7 +35,10 @@ class DepositViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.disposeBag = DisposeBag()
-        NavigationManagement.sharedInstance.removeViewControllers(vcId: "DepositNavigation")
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     // MARK: BUTTON ACTION

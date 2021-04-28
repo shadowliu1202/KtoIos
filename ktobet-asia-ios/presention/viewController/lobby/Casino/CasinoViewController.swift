@@ -25,7 +25,7 @@ class CasinoViewController: UIViewController {
     }
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
     lazy private var tagAll: CasinoTag = {
-        CasinoTag(CasinoGameTag.GameType(id: TagAllID, name: Localize.string("common_all")), isSeleced: true)
+        CasinoTag(CasinoGameTag.GameType(id: TagAllID, name: Localize.string("common_all")), isSeleced: false)
     }()
     private var viewModel = DI.resolve(CasinoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
@@ -41,6 +41,15 @@ class CasinoViewController: UIViewController {
         super.viewWillAppear(animated)
         disposeBag = DisposeBag()
         dataBinding()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.disposeBag = DisposeBag()
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     fileprivate func initUI() {
