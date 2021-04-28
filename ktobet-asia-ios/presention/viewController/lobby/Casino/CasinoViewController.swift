@@ -46,7 +46,10 @@ class CasinoViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.disposeBag = DisposeBag()
-        NavigationManagement.sharedInstance.removeViewControllers(productType: .casino)
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     fileprivate func initUI() {

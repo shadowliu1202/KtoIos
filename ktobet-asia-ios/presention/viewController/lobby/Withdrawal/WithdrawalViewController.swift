@@ -36,7 +36,10 @@ class WithdrawalViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.disposeBag = DisposeBag()
-        NavigationManagement.sharedInstance.removeViewControllers(vcId: "WithdrawalNavigation")
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     // MARK: PAGE ACTION
