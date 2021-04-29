@@ -207,7 +207,7 @@ class CasinoDetailViewController: UIViewController {
         numberLabel.translatesAutoresizingMaskIntoConstraints = false
         numberLabel.centerXAnchor.constraint(equalTo: squareView.centerXAnchor).isActive = true
         numberLabel.centerYAnchor.constraint(equalTo: squareView.centerYAnchor).isActive = true
-        numberLabel.text = String(format: "%02d", gameResult.result)
+        numberLabel.text = String(gameResult.result)
         numberLabel.font = UIFont(name: "PingFangTC-Semibold", size: 18)
         numberLabel.textColor = UIColor.whiteFull
         numberLabel.textAlignment = .center
@@ -321,7 +321,7 @@ class CasinoDetailViewController: UIViewController {
     private func setPokerNumber(pokerNumber: PokerNumber) -> String {
         switch pokerNumber {
         case .ace:
-            return "1"
+            return "A"
         case .two:
             return "2"
         case .three:
