@@ -54,7 +54,7 @@ class CasinoSummaryViewController: UIViewController {
             let indexPath = IndexPath(row: row, section: 0)
             if self.unfinishGameCount != 0 && row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "unFinishGameTableViewCell", for: indexPath) as! UnFinishGameTableViewCell
-                cell.recordCountLabel.text = String(format: Localize.string("product_count_bet_record"), "\(self.unfinishGameCount)")
+                cell.recordCountLabel.text = String(format: Localize.string("product_count_bet_record"), "\(self.unfinishGameCount.formattedWithSeparator)")
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoSummaryTableViewCell", for: indexPath) as! CasinoSummaryTableViewCell

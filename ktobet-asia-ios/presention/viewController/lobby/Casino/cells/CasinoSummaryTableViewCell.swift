@@ -10,7 +10,7 @@ class CasinoSummaryTableViewCell: UITableViewCell {
     private let yesterday = Date().adding(value: -1, byAdding: .day).convertdateToUTC().formatDateToStringToDay(with: "-")
 
     func setup(element: DateSummary) {
-        recordCountLabel.text = String(format: Localize.string("product_count_bet_record"), "\(element.count)")
+        recordCountLabel.text = String(format: Localize.string("product_count_bet_record"), "\(element.count.formattedWithSeparator)")
         if "\(element.createdDateTime)" == today {
             dateLabel.text = Localize.string("common_today")
         } else if "\(element.createdDateTime)" == yesterday {
