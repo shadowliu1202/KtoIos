@@ -7,7 +7,7 @@ protocol CasinoRecordRepository {
     func getUnsettledSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[UnsettledBetSummary]>
     func getUnsettledRecords(date: String) -> Single<[UnsettledBetRecord]>
     func getPeriodRecords(localDate: String, zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[PeriodOfRecord]>
-    func getBetRecords(periodOfRecord: PeriodOfRecord) -> Single<[BetRecord]>
+    func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]>
     func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?>
 }
 
@@ -79,10 +79,10 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         }
     }
     
-    func getBetRecords(periodOfRecord: PeriodOfRecord) -> Single<[BetRecord]> {
+    func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]> {
         let starString = "\(periodOfRecord.startDate)"
         let endString = "\(periodOfRecord.endDate)"
-        return casinoApi.getBetRecordsByPage(lobbyId: Int(periodOfRecord.lobbyId), beginDate: starString, endDate: endString, offset: 0, take: 20).map { (response) -> [BetRecord] in
+        return casinoApi.getBetRecordsByPage(lobbyId: Int(periodOfRecord.lobbyId), beginDate: starString, endDate: endString, offset: offset, take: 20).map { (response) -> [BetRecord] in
             guard let data = response.data?.data else { return [] }
             var betRecords: [BetRecord] = []
             for b in data {

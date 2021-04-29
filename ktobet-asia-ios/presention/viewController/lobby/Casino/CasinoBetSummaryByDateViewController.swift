@@ -1,5 +1,6 @@
 import UIKit
 import RxSwift
+import RxCocoa
 import share_bu
 
 
@@ -9,6 +10,7 @@ class CasinoBetSummaryByDateViewController: UIViewController {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
     
+    private var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     private var viewModel = DI.resolve(CasinoViewModel.self)!
     private var disposeBag = DisposeBag()
     private var sections: [Section] = []
@@ -22,7 +24,32 @@ class CasinoBetSummaryByDateViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(activityIndicator)
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
         getBetSummaryByDate()
+        viewModel.pagination.elements.subscribe(onNext: { (betRecords) in
+            if self.sections.isEmpty {
+                self.tableView.reloadData()
+            } else {
+                let lastIndex = (self.sections[self.viewModel.section].name.count - 1) < 0 ? 0 : self.sections[self.viewModel.section].name.count
+                self.sections[self.viewModel.section].name = betRecords.map{ $0.gameName }
+                self.sections[self.viewModel.section].betId = betRecords.map{ $0.betId }
+                self.sections[self.viewModel.section].totalAmount = betRecords.map{ $0.stakes.amount }
+                self.sections[self.viewModel.section].winAmount = betRecords.map{ $0.winLoss.amount }
+                self.sections[self.viewModel.section].betStatus = betRecords.map{ $0.getBetStatus() }
+                self.sections[self.viewModel.section].hasDetail = betRecords.map{ $0.hasDetails }
+                self.sections[self.viewModel.section].wagerId = betRecords.map{ $0.wagerId }
+                self.tableView.beginUpdates()
+                for i in 0 ..< self.sections[self.viewModel.section].name.count - lastIndex {
+                    self.tableView.insertRows(at: [IndexPath(row: i + lastIndex, section: self.viewModel.section)], with: .automatic)
+                }
+
+                self.tableView.endUpdates()
+            }
+        }).disposed(by: disposeBag)
     }
     
     deinit {
@@ -31,17 +58,8 @@ class CasinoBetSummaryByDateViewController: UIViewController {
     
     private func getBetSummaryByDate() {
         viewModel.getBetSummaryByDate(localDate: selectDate!).subscribe {[weak self] (periodOfRecords) in
-            self?.getBetRecords(periodOfRecords: periodOfRecords)
-        } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
-        }.disposed(by: disposeBag)
-    }
-    
-    private func getBetRecords(periodOfRecords: [PeriodOfRecord]) {
-        viewModel.getBetRecords(periodOfRecords: periodOfRecords).subscribe {[weak self] (dic) in
-            for (p, betRecords) in dic {
-                let dateTime = "(" + String(format: "%02d:%02d ~ %02d:%02d", p.startDate.hour, p.startDate.minute, p.endDate.hour, p.endDate.minute) + ")"
-                self?.sections.append(Section(sectionClass: p.lobbyName, name: betRecords.map{ $0.gameName }, betId: betRecords.map{ $0.betId }, totalAmount: betRecords.map{ $0.stakes.amount }, winAmount: betRecords.map{ $0.winLoss.amount }, expanded: false, sectionDate: dateTime, betStatus: betRecords.map{ $0.getBetStatus() }, hasDetail: betRecords.map{ $0.hasDetails }, wagerId: betRecords.map{ $0.wagerId }, gameId: []))
+            for p in periodOfRecords {
+                self?.sections.append(Section(periodOfRecord: p))
             }
             
             self?.sections.sort(by: { (s1, s2) -> Bool in
@@ -53,7 +71,7 @@ class CasinoBetSummaryByDateViewController: UIViewController {
             self?.handleUnknownError(error)
         }.disposed(by: disposeBag)
     }
-    
+        
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == CasinoDetailViewController.segueIdentifier {
             if let dest = segue.destination as? CasinoDetailViewController {
@@ -90,6 +108,10 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         } else {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
+        }
+        
+        if viewModel.section == indexPath.section && sections[indexPath.section].name.count - 2 == indexPath.row {
+            viewModel.pagination.loadNextPageTrigger.onNext(())
         }
         
         return cell
@@ -145,14 +167,22 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
 
 extension CasinoBetSummaryByDateViewController: ExpandableHeaderViewDelegate {
     func toggleSection(header: ExpandableHeaderView, section: Int) {
-        sections[section].expanded = !(sections[section].expanded)
-        header.imageView.image = sections[section].expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
-        tableView.beginUpdates()
-        for i in 0 ..< sections[section].name.count {
-            tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .automatic)
+        if self.sections[section].expanded {
+            self.tableView.beginUpdates()
+            for i in 0 ..< self.sections[section].name.count {
+                self.tableView.deleteRows(at: [IndexPath(row: i, section: section)], with: .automatic)
+            }
+
+            self.sections[section].name = []
+            self.tableView.endUpdates()
+        } else {
+            viewModel.periodOfRecord = sections[section].periodOfRecord
+            viewModel.section = section
+            self.viewModel.pagination.refreshTrigger.onNext(())
         }
         
-        tableView.endUpdates()
+        self.sections[section].expanded = !self.sections[section].expanded
+        header.imageView.image = self.sections[section].expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
     }
     
 }

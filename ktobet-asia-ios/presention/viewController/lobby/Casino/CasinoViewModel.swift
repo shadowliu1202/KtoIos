@@ -44,6 +44,9 @@ class CasinoViewModel {
     
     lazy var betSummary = casinoRecordUseCase.getBetSummary()
     var betTime: [String] = []
+    var pagination: Pagination<BetRecord>!
+    var periodOfRecord: PeriodOfRecord!
+    var section: Int = 0
     
     private var disposeBag = DisposeBag()
     
@@ -54,6 +57,15 @@ class CasinoViewModel {
         if let tags = memoryCache.getCasinoGameTag() {
             gameFilter.accept(tags)
         }
+        
+        pagination = Pagination<BetRecord>(pageIndex: 0, offset: 20, callBack: {(page) -> Observable<[BetRecord]> in
+            self.getBetRecords(offset: page)
+                .do(onError: { error in
+                    self.pagination.error.onNext(error)
+                }).catchError({ error -> Observable<[BetRecord]> in
+                    Observable.empty()
+                })
+        })
     }
     
     private func searchedCasinoByTag(tags: [CasinoGameTag]) -> Observable<[CasinoGame]> {
@@ -102,13 +114,19 @@ class CasinoViewModel {
     }
     
     func getBetSummaryByDate(localDate: String) -> Single<[PeriodOfRecord]> {
-        return casinoRecordUseCase.getBetSummaryByDate(localDate: localDate)
+        return casinoRecordUseCase.getBetSummaryByDate(localDate: localDate).do(onSuccess: { (periodOfRecords) in
+            self.periodOfRecord = periodOfRecords.first
+        })
     }
     
-    func getBetRecords(periodOfRecords: [PeriodOfRecord]) -> Observable<[PeriodOfRecord: [BetRecord]]> {
+    func getBetRecords(offset: Int) -> Observable<[BetRecord]> {
+        return casinoRecordUseCase.getBetRecords(periodOfRecord: self.periodOfRecord, offset: offset).asObservable()
+    }
+    
+    func getBetRecords(periodOfRecords: [PeriodOfRecord], offset: Int) -> Observable<[PeriodOfRecord: [BetRecord]]> {
         var obs: [Observable<[PeriodOfRecord: [BetRecord]]>] = []
         for p in periodOfRecords {
-            let o = casinoRecordUseCase.getBetRecords(periodOfRecord: p).map { (betRecords) -> [PeriodOfRecord: [BetRecord]] in
+            let o = casinoRecordUseCase.getBetRecords(periodOfRecord: p, offset: offset).map { (betRecords) -> [PeriodOfRecord: [BetRecord]] in
                 return [p: betRecords]
             }.asObservable()
             
