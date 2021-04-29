@@ -59,6 +59,25 @@ class CasinoDetailViewController: UIViewController {
             gameResult is CasinoGameResult.BullFight {
             createRowPokerCardsResultView(gameResult: gameResult)
         }
+        
+        if gameResult is CasinoGameResult.Unknown {
+            let cancelTitleLabel = UILabel()
+            cancelTitleLabel.text = Localize.string("common_cancel")
+            cancelTitleLabel.font = UIFont(name: "PingFangSC-Medium", size: 14)
+            cancelTitleLabel.textColor = UIColor.whiteFull
+            scrollView.addSubview(cancelTitleLabel)
+            cancelTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            cancelTitleLabel.leadingAnchor.constraint(equalTo: betResultTitleLabel.leadingAnchor, constant: 0).isActive = true
+            cancelTitleLabel.topAnchor.constraint(equalTo: betResultTitleLabel.bottomAnchor, constant: 4).isActive = true
+            let bottomBorderLine = UIView()
+            bottomBorderLine.backgroundColor = UIColor.dividerCapeCodGray2
+            scrollView.addSubview(bottomBorderLine)
+            bottomBorderLine.translatesAutoresizingMaskIntoConstraints = false
+            bottomBorderLine.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor, multiplier: 1).isActive = true
+            bottomBorderLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
+            bottomBorderLine.topAnchor.constraint(equalTo: cancelTitleLabel.bottomAnchor, constant: 12).isActive = true
+            bottomBorderLine.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
+        }
     }
     
     private func createTwoSideThreeCardsResultView(gameResult: CasinoGameResult) {

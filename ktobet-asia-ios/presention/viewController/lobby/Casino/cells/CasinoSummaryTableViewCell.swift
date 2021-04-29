@@ -19,7 +19,7 @@ class CasinoSummaryTableViewCell: UITableViewCell {
             dateLabel.text = "\(element.createdDateTime)".replacingOccurrences(of: "-", with: "/")
         }
         
-        let status = element.getBetStatus() == BetStatus.win ? Localize.string("common_win") : Localize.string("common_lose")
+        let status = element.getBetStatus() == BetStatus.lose ? Localize.string("common_lose") : Localize.string("common_win")
         betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.totalStakes.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + status + " \(abs(element.totalWinLoss.amount).currencyFormatWithoutSymbol(precision: 2))"
     }
 }

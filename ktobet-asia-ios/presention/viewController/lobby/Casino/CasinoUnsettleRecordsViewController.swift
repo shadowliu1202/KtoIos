@@ -37,7 +37,7 @@ class CasinoUnsettleRecordsViewController: UIViewController {
     private func getUnsettledRecords() {
         viewModel.getUnsettledRecords().subscribe(onNext: {[weak self] (dic) in
             for (date, records) in dic {
-                self?.sections.append(Section(sectionClass: date, name: records.map{ $0.gameName }, betId: records.map{ $0.betId }, totalAmount: records.map{ $0.stakes.amount }, expanded: false, gameId: records.map{ $0.gameId }))
+                self?.sections.append(Section(sectionClass: date.replacingOccurrences(of: "-", with: "/"), name: records.map{ $0.gameName }, betId: records.map{ $0.betId }, totalAmount: records.map{ $0.stakes.amount }, expanded: false, gameId: records.map{ $0.gameId }))
             }
             
             self?.sections.sort(by: { (s1, s2) -> Bool in
