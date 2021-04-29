@@ -27,6 +27,7 @@ class CasinoViewController: UIViewController {
     lazy private var tagAll: CasinoTag = {
         CasinoTag(CasinoGameTag.GameType(id: TagAllID, name: Localize.string("common_all")), isSeleced: false)
     }()
+    private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
     private var viewModel = DI.resolve(CasinoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     
@@ -41,6 +42,13 @@ class CasinoViewController: UIViewController {
         super.viewWillAppear(animated)
         disposeBag = DisposeBag()
         dataBinding()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil, completion: { [weak self] _ in
+            self?.viewDidRotate.accept(true)
+        })
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -85,12 +93,13 @@ class CasinoViewController: UIViewController {
             self?.gameData = games
         }).disposed(by: disposeBag)
         
-        viewModel.casinoGameTagStates
-            .catchError({ [weak self] (error) -> Observable<[CasinoTag]> in
-                guard let `self` = self else { return Observable.just([])}
-                return Observable.just([self.tagAll])
-            })
-            .subscribe(onNext: { [weak self] (tags: [CasinoTag]) in
+        Observable.combineLatest(viewDidRotate, viewModel.casinoGameTagStates)
+            .flatMap { (_, tags) -> Observable<[CasinoTag]> in
+            return Observable.just(tags)
+        }.catchError({ [weak self] (error) -> Observable<[CasinoTag]> in
+            guard let `self` = self else { return Observable.just([])}
+            return Observable.just([self.tagAll])
+        }).subscribe(onNext: { [weak self] (tags: [CasinoTag]) in
             guard let `self` = self else { return }
             var data = [self.tagAll]
             if tags.filter({ $0.isSeleced }).count == 0 {
