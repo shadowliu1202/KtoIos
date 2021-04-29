@@ -9,17 +9,21 @@ class Pagination<T> {
     let loading = BehaviorRelay<Bool>(value: false)
     let elements = BehaviorRelay<[T]>(value: [])
     var pageIndex: Int = 1
+    var startPageIndex: Int = 0
+    var offset: Int = 1
     var isLastData = false
     private let disposeBag = DisposeBag()
     
-    init(callBack: @escaping ((Int) -> Observable<[T]>)) {
+    init(pageIndex: Int = 1, offset: Int = 1, callBack: @escaping ((Int) -> Observable<[T]>)) {
+        self.offset = offset
+        self.startPageIndex = pageIndex
         let refreshRequest = loading.asObservable()
             .sample(refreshTrigger)
             .flatMap { loading -> Observable<Int> in
                 if loading {
                     return Observable.empty()
                 } else {
-                    self.pageIndex = 1
+                    self.pageIndex = pageIndex
                     return Observable<Int>.create { observer in
                         observer.onNext(self.pageIndex)
                         observer.onCompleted()
@@ -37,7 +41,7 @@ class Pagination<T> {
                     return Observable.empty()
                 } else {
                     return Observable<Int>.create {  observer in
-                        self.pageIndex += 1
+                        self.pageIndex += self.offset
                         observer.onNext(self.pageIndex)
                         observer.onCompleted()
                         return Disposables.create()
@@ -55,7 +59,7 @@ class Pagination<T> {
         }.share(replay: 1)
         
         Observable.combineLatest(request, response, elements.asObservable()) { request, response, elements in
-            return self.pageIndex == 1 ? response : elements + response
+            return self.pageIndex == self.startPageIndex ? response : elements + response
         }
         .sample(response)
         .bind(to: elements)

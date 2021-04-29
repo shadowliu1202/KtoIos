@@ -127,19 +127,29 @@ extension CasinoUnsettleRecordsViewController: ExpandableHeaderViewDelegate {
 
 
 struct Section {
-    var gameId: [Int32]!
+    var gameId: [Int32] = []
     var sectionClass: String!
     var sectionDate: String?
-    var name: [String]!
-    var betId: [String]!
-    var totalAmount: [Double]!
-    var winAmount: [Double]!
-    var expanded: Bool!
-    var betStatus: [BetStatus]!
-    var hasDetail: [Bool]!
-    var wagerId: [String]!
+    var name: [String] = []
+    var betId: [String] = []
+    var totalAmount: [Double] = []
+    var winAmount: [Double] = []
+    var expanded: Bool = false
+    var betStatus: [BetStatus] = []
+    var hasDetail: [Bool] = []
+    var wagerId: [String] = []
+    var periodOfRecord: PeriodOfRecord!
     
-    init(sectionClass: String, name: [String], betId: [String], totalAmount: [Double], winAmount: [Double] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32]) {
+    init() { }
+    
+    init(periodOfRecord: PeriodOfRecord) {
+        self.periodOfRecord = periodOfRecord
+        let dateTime = "(" + String(format: "%02d:%02d ~ %02d:%02d", self.periodOfRecord.startDate.hour, self.periodOfRecord.startDate.minute, self.periodOfRecord.endDate.hour, self.periodOfRecord.endDate.minute) + ")"
+        self.sectionDate = dateTime
+        self.sectionClass = self.periodOfRecord.lobbyName
+    }
+    
+    init(sectionClass: String, name: [String] = [], betId: [String] = [], totalAmount: [Double] = [], winAmount: [Double] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32] = []) {
         self.sectionClass = sectionClass
         self.name = name
         self.betId = betId
