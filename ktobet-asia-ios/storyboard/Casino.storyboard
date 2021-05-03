@@ -621,6 +621,7 @@
                                                 <connections>
                                                     <outlet property="betIdLabel" destination="ssS-j5-Ygs" id="pdY-M4-rAU"/>
                                                     <outlet property="otherBetIdLabel" destination="WYI-a4-doo" id="1p8-vu-SU1"/>
+                                                    <outlet property="titleLabel" destination="8ku-1s-O4o" id="iv2-4y-Xdw"/>
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CasinoDetailRecord2Cell" rowHeight="70" id="YY1-SK-Jac" customClass="CasinoDetailRecord2TableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -708,6 +709,7 @@
                         <outlet property="betResultTitleLabel" destination="ziZ-gD-xP7" id="HXz-JA-BpI"/>
                         <outlet property="scrollView" destination="PnF-ex-O7j" id="y0O-NZ-gGb"/>
                         <outlet property="tableView" destination="Ocr-hP-bN4" id="fvw-Va-Cy5"/>
+                        <outlet property="tableViewHeightConstant" destination="VnC-mq-0e5" id="ojz-Uv-grA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Cs-5K-GZL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

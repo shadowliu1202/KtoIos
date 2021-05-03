@@ -30,6 +30,7 @@
 "common_custom" = "VIVN自定义";
 "common_dataerror" = "VIVN数据有误";
 "common_delete" = "VIVN删除";
+"common_delete_count" = "删除(%@)";
 "common_deleted" = "VIVN刪除成功";
 "common_deposit" = "VIVN充值";
 "common_despositid" = "VIVN充值单号";
@@ -39,7 +40,7 @@
 "common_done" = "VIVN完成";
 "common_email" = "VIVN电子邮箱";
 "common_error" = "VIVN错误";
-"common_floating" = "VIVN您需要上传文件";
+"common_floating" = "需上传交易资讯";
 "common_floating_2" = "VIVN需上传文件";
 "common_fold" = "VIVN收起";
 "common_gamelobby" = "VIVN游戏大厅名称";
@@ -69,8 +70,9 @@
 "common_password_4" = "VIVN请输入新密码";
 "common_password_5" = "VIVN请再输入一次新密码";
 "common_password_repeat" = "VIVN与旧密码重复";
-"common_password_tips_1" = "VIVN6–12位字母与数字的组合，仅支持半角；\"#$%\"不可用，区分大小写。";
+"common_password_tips_1" = "Mật Khẩu bao gồm 6 đến 12 chữ cái và số, không thể sử dụng \"# $%\", và phân biệt chữ hoa chữ thường.";
 "common_pending" = "VIVN处理中";
+"common_pending_2" = "待定";
 "common_pending_hold" = "等待银行处理中";
 "common_player_inactive" = "VIVN您的帐户已被永久关闭，如有疑问请联系在线客服";
 "common_player_suspend" = "VIVN您的帐户被冻结，如有疑问请联系在线客服";
@@ -95,6 +97,7 @@
 "common_show_all" = "VIVN显示全部";
 "common_skip" = "VIVN略过";
 "common_slot" = "VIVN老虎机";
+"common_stop" = "停止";
 "common_sportsbook" = "VIVN体育";
 "common_status" = "VIVN状态";
 "common_filter" = "VIVN筛选条件";
@@ -147,7 +150,7 @@
 "common_depositfeerefund" = "VIVN%@ 手续费回馈";
 "common_ticketstatus_void" = "VIVN失败";
 "common_edit" = "VIVN编辑";
-"common_new" = "VIVN新遊戲";
+"common_new" = "新";
 "common_keno" = "VIVN数字彩";
 "common_show" = "VIVN显示";
 "common_hide" = "VIVN隐藏";
@@ -156,9 +159,8 @@
 "common_try_again" = "VIVN再试一次";
 "common_password_not_the_same" = "VIVN密碼不一致";
 "common_wrong_password_format" = "VIVN密碼格式錯誤";
-"common_password_not_filled" = "VIVN密碼不能為空";
-"common_network_error" = "VIVN網路連接有問題，請確認後重新嘗試";
-"common_month" = "VIVN月";
+"common_password_not_filled" = "VIVN密碼不該為空";
+"common_network_error" = "网路异常, 请重新确认连线";
 "common_january" = "1月";
 "common_february" = "2月";
 "common_march" = "3月";
@@ -193,13 +195,16 @@
 "common_about_kto" = "关于KTO";
 "common_legal_supervision" = "法律监管";
 "common_change_setting" = "变更设定";
+"common_setting_done" = "设定成功";
+"common_setting_fail" = "设定失敗";
 "common_change_done" = "变更完成";
 "common_change_fail" = "变更失敗";
-"common_tip_title_warm" = "温馨提示";
+"common_tip_title_warm" = "THTH温馨提示";
 "common_tip_content_bind" = "该设定将与账户绑定，无法更改。";
 "common_tip_title_unfinished" = "当前页面数据未保存，确定要离开？";
 "common_tip_content_unfinished" = "一但删除，此笔帐户数据就不存在";
 "common_field_must_fill" = "VI此栏位必填";
+"common_field_must_fill_2" = "此为必填栏位。";
 "common_field_format_incorrect" = "VI您所填写的格式不正确";
 "common_otp_content_error" = "VI您输入的验证码不正确";
 "common_error_email_format" = "请输入正确的电子邮箱";
@@ -211,8 +216,8 @@
 "common_notify_logout_title" = "VI登出通知";
 "common_notify_logout_content" = "VI很抱歉，您的帐号已在其它位置登录，请尝试重新登录。";
 "common_sms_otp_exeed_send_limit" = "VI该手机已达发送上限，请于隔日00:00再试。";
-"common_email_otp_exeed_send_limit" = "VI该电子邮箱已达发送上限，请于隔日00:00再试。";
-"common_app_version" = "%@";
+"common_email_otp_exeed_send_limit" = "VI该邮箱已达发送上限，请于隔日00:00再试。";
+"common_app_version" = "%@-%@";
 "common_confirm_cancel_operation" = "VIVI确认取消当前操作?";
 "common_today" = "VIVI今天";
 "common_yesterday" = "VIVI昨天";
@@ -240,8 +245,59 @@
 "common_kick_out_maintenance" = "系統維護中";
 "common_kick_out_token_expired" = "我们发现您闲置时间过长, 建议您重新登录, 取得更好的使用体验。";
 "common_kick_out_token_expired_title" = "闲置过久自动登出说明";
-"common_photo_upload_count_limit" = "最多只能选择３个文件";
+"common_recommend" = "推荐";
+"common_win_amount" = "赢%@";
+"common_lose_amount" = "输%@";
+"common_invalid" = "无效";
+"common_self_canceled" = "自主取消";
+"common_strike_canceled" = "追号取消";
+"common_other" = "其他";
+"common_confirm_submit" = "确认提交";
+"common_submit_form" = "提交申请";
+"common_start_setting" = "开始设定";
+"common_please_select" = "请选择";
+"common_finish" = "结束";
+"common_setting" = "VIVI设定";
+"common_get_code" = "VIVN获取验证码";
+"common_get_code_countdown" = "VIVN获取验证码(%@)";
+"common_cs_email" = "客服邮箱 %@";
+"common_maintenance_description" = "等待，为了更好的KTO";
+"common_cs_email_description" = "如有问题，请发送邮件至";
+"common_long_maintenance" = "长期维护";
+"common_maintenance_notify" = "维护通知";
+"common_urgent_maintenance" = "紧急维护";
+"common_maintenance_contact_later" = "系统维护中，请稍后联系我们。";
+"common_maintenance_chat_close" = "非常抱歉，我们需要立即结束你的聊天，请稍候再联系。";
+"common_maintenance_logout" = "非常抱歉，我们需要立即将您登出，请稍后再试。";
+"common_p2p" = "对战";
 "common_photo_upload_limit_count" = "最多只能选择%@个文件";
+"common_default_product_maintain_title" = "维护通知";
+"common_default_product_maintain_content" = "目前%@正在维护中，我们将跳转至其他产品页面供您查看。";
+"common_cps_apply_info" = "最初申请信息";
+"common_cps_apply_crypto" = "申请金额(虚拟币)";
+"common_cps_apply_rate" = "申请汇率";
+"common_cps_apply_amount" = "申请金额(%@)";
+"common_cps_apply_datetime" = "申请时间";
+"common_cps_final_info" = "最终成交信息";
+"common_cps_final_crypto" = "成交金额(虚拟币)";
+"common_cps_final_rate" = "成交汇率";
+"common_cps_final_amount" = "成交金额(%@)";
+"common_cps_final_datetime" = "成交时间";
+"common_cps_remitter" = "汇款方(%@)";
+"common_cps_payee" = "收款方(%@)";
+"common_cps_hash_id" = "交易ID";
+"common_player" = "会员";
+"common_cps_incomplete_field_placeholder_hint" = "以下列表若显示\" - \"状态，表示您尚未完成交易。";
+"common_cps_submit_hash_id_to_complete" = "完成交易请点击提交交易ID";
+"common_ethereum" = "以太币";
+"common_i_know" = "我知道了";
+"common_maintaining" = "维护中";
+
+//MARK: - SportsBook
+"sportsbook_bet_rules" = "投注规则";
+"sportsbook_bet_type_setting" = "赔率类型设定";
+"sportsbook_odds_type_hk" = "香港盘";
+"sportsbook_odds_type_eu" = "欧洲盘";
 
 //MARK: - Register
 "register_language_option_chinese" = "简体中文 + 人民币";
@@ -298,19 +354,20 @@
 "login_resetpassword_step1_title_2" = "VIVN选择重置方式";
 "login_resetpassword_step1_sms_inactive" = "VIVN非常抱歉，该重置方式暂不可用。";
 "login_resetpassword_step1_email_inactive" = "VIVN非常抱歉，该重置方式暂不可用。";
-"login_resetpassword_step1_get_code" = "VIVN获取验证码";
-"login_resetpassword_step1_get_code_countdown" = "VIVN获取验证码(%@)";
 "login_resetpassword_lock_down" = "VIVN您已多次输入错误，请稍后再试。";
 "login_resetpassword_step2_title_1" = "VIVN重置密码 2/3";
 "login_resetpassword_step2_verify_by_email_title" = "VIVN验证电子邮箱";
 "login_resetpassword_step2_verify_by_phone_title" = "VIVN确认手机";
 "login_resetpassword_step3_title" = "VIVN重置密码 3/3";
 "login_resetpassword_step3_title_2" = "VIVN设定新密码";
+"login_resetpassword_step3_pass_cant_empty" = "密码不能为空";
 "login_resetpassword_cancel_title" = "VIVN确认取消当前操作?";
 "login_resetpassword_cancel_content" = "VIVN重置密码将中断并结束。";
 "login_resetpassword_success" = "VIVN密码变更完成";
 "login_resetpassword_fail_title" = "VIVN重置密码失败";
 "login_resetpassword_fail_unknown" = "VIVN非常抱歉，该重置方式暂不可用。";
+"login_resetpassword_step1_get_code" = "";
+"login_resetpassword_step1_get_code_countdown" = "";
 
 //MARK: - Deposit
 "deposit_title" = "VIVN充值";
@@ -328,7 +385,7 @@
 "deposit_bankname" = "VIVN充值者银行帐户姓名";
 "deposit_accountlastfournumber" = "VIVN汇款银行卡尾数四位(选填)";
 "deposit_amount" = "VIVN汇款金额";
-"deposit_offline_step1_tips" = "VIVN充值金额，单笔限额 $ %@";
+"deposit_offline_step1_tips" = "VIVN充值金额，单笔限额 $ %@- %@";
 "deposit_offline_step1_button" = "VIVN申请充值";
 "deposit_offline_step2_title" = "VIVNKTO收款方信息";
 "deposit_offline_step2_title_tips" = "VIVN请汇入以下提供的银行账户。   ";
@@ -448,7 +505,7 @@
 "withdrawal_fail" = "THTH提现失败";
 "withdrawal_log" = "THTH提现纪录";
 "withdrawal_log_title" = "THTH提现纪录";
-"withdrawal_modal_content" = "THTH每天提现最多 %@";
+"withdrawal_modal_content" = "THTH每天提现最多 %@ 次，额度最高可达 %@";
 "withdrawal_modal_title" = "THTH提現限制";
 "withdrawal_name" = "THTH提现姓名";
 "withdrawal_realname_modal_content" = "THTH提现姓名已绑定不能变更";
@@ -469,7 +526,7 @@
 "withdrawal_selectbankcard" = "THTH选择提现账户";
 "withdrawal_step1_title_2" = "THTH填写金额";
 "withdrawal_step2_button" = "THTH提交申请";
-"withdrawal_step2_tips" = "THTH单笔提现限额 %@";
+"withdrawal_step2_tips" = "THTH单笔提现限额 %@ - %@";
 "withdrawal_step2_title_1" = "THTH提现 2/2";
 "withdrawal_step2_title_2" = "THTH提现确认";
 "withdrawal_step3_button" = "THTH查看提现纪录";
@@ -523,8 +580,9 @@
 "withdrawal_balance_not_enough" = "您的钱包余额不足";
 "withdrawal_account" = "提现账户";
 "withdrawal_bank_card_deleting" = "此银行卡资料将不存在";
-"withdrawal_id" = "VIVN提现单号";
-"withdrawal_account_exist" = "Tài Khoản Rút Tiền này đã được thiết lập";
+"withdrawal_id" = "THTH提现单号";
+"withdrawal_account_exist" = "THTH您的銀行卡已存在";
+"withdrawal_crypto_locked" = "APP暂时不支持虚拟币充值和提现，请登录网页端操作。";
 
 //MARK: - Product
 "product_slot_recent_play" = "最近游玩";
@@ -602,6 +660,13 @@
 "product_slot_above_30" = "多于32";
 "product_slot_all" = "所有线";
 "product_slot_others" = "其他";
+"product_new_bets" = "最新投注 (%@)";
+"product_unsettled_bets" = "未结算 (%@)";
+"product_settled_bets" = "已结算 (%@)";
+"product_draw_result" = "开奖结果";
+"product_prededuct" = "预扣";
+"product_empty_unsettled_records" = "没有未完成的游戏";
+"product_bet_has_settled" = "此注单已完成结算，请您到已结算注单查看。";
 "product_game_maintenance" = "游戏维护中";
 
 //MARK: - Landing
@@ -636,209 +701,124 @@
 "landing_jadedetail" = "";
 "landing_sportsbook_support" = "";
 
-//MARK: - AccountInfo
-"accountinfo_birthday_step1_button" = "VIVN建立玩家生日";
-"accountinfo_birthday_step1_title" = "VIVN设定玩家生日";
-"accountinfo_birthday_step1_warning" = "VIVN注意！ 玩家生日一经绑定就不得更改。";
-"accountinfo_birthday_step2_warning" = "VIVN您的生日必須年滿18歲";
-"accountinfo_birthday_step2_button" = "VIVN返回个人资料";
-"accountinfo_birthday_step2_content" = "VIVN您已成功绑定个人生日，如日后有需要更改请联络CS。";
-"accountinfo_birthday_step2_title" = "VIVN绑定完成";
-"accountinfo_changebirthday" = "VIVN变更生日";
-"accountinfo_changefail" = "";
-"accountinfo_changeemail" = "VIVN变更电子邮箱";
-"accountinfo_changepassword" = "VIVN变更密码";
-"accountinfo_changephonenumber" = "VIVN变更手机号码";
-"accountinfo_changerealname" = "VIVN变更提现姓名";
-"accountinfo_changerealname_step1_button" = "VIVN提交申请";
-"accountinfo_changerealname_step1_button_upload" = "VIVN上传身分证明";
-"accountinfo_changerealname_step1_example" = "VIVN范例：陆仁家";
-"accountinfo_changerealname_step1_title" = "VIVN修改提现姓名";
-"accountinfo_changerealname_step1_warning" = "VIVN注意！ 一旦提現成功就不得在做更改。";
-"accountinfo_changerealname_step2_button" = "VIVN返回个人资料";
-"accountinfo_changerealname_step2_content" = "VIVN您已变更姓名成功";
-"accountinfo_changerealname_step2_title" = "VIVN已提交申请";
-"accountinfo_confirmpassword_invalid" = "VIVN密码不正确！";
-"accountinfo_confirmpassword_tips" = "VIVN为了帐户安全，请再次输入密码进行验证。";
-"accountinfo_confirmpassword_title" = "VIVN验证密码";
-"accountinfo_gameloginid_button" = "VIVN返回个人资料";
-"accountinfo_gameloginid_cotent" = "VIVN系統根據您的帳戶自動生成, 為了保護隱私, 將做為您在遊玩各個KTO遊戲中的代號";
-"accountinfo_gameloginid_title" = "VIVN游戏 ID 说明";
-"accountinfo_getplayergameloginid" = "VIVN获得玩家游戏ID";
-"accountinfo_playergameloginid" = "VIVN玩家游戏 ID";
-"accountinfo_playerid" = "VIVN玩家 ID";
-"accountinfo_playerprofilelog" = "VIVN个人资料修改纪录";
-"accountinfo_routercoupon" = "VIVN前往优惠专区";
-"accountinfo_realnamebinded" = "VIVN提现姓名已绑定";
-"accountinfo_resetpassword" = "VIVN重置密码";
-"accountinfo_resetpassword_step1_button" = "VIVN建立新密码";
-"accountinfo_resetpassword_step1_content" = "VIVN基于隐私安全，请不要与旧密码相同。";
-"accountinfo_resetpassword_step1_invalid" = "VIVN密碼不一致！";
-"accountinfo_resetpassword_step1_title" = "VIVN设定新密码";
-"accountinfo_resetpassword_step2_button" = "VIVN返回个人资料";
-"accountinfo_resetpassword_step2_content" = "VIVN您已成功更换密码，日后请以新密码进行登录或验证。";
-"accountinfo_resetpassword_step2_title" = "VIVN修改完成";
-"accountinfo_setbirthday" = "VIVN设置出生日期";
-"accountinfo_setemail" = "VIVN设定电子邮箱";
-"accountinfo_setemail_step1_button" = "VIVN建立新邮箱";
-"accountinfo_setemail_step1_tips" = "VIVN请输入电子邮箱以收取验证码。";
-"accountinfo_setemail_step1_title" = "VIVN设定电子邮箱";
-"accountinfo_setemail_step2_button" = "VIVN返回个人资料";
-"accountinfo_setemail_step2_content" = "VIVN您已成功设定电子邮箱，日后可以使用此电子邮箱进行登录或验证。";
-"accountinfo_setemail_step2_title" = "VIVN设定完成";
-"accountinfo_setgameloginid" = "VIVN设定玩家ID";
-"accountinfo_setmobile_step1_button" = "VIVN建立新号码";
-"accountinfo_setmobile_step1_content" = "VIVN请输入移动电话号码以收取验证码。";
-"accountinfo_setmobile_step1_title" = "VIVN建立新号码";
-"accountinfo_setmobile_step2_button" = "VIVN返回个人资料";
-"accountinfo_setmobile_step2_content" = "VIVN您已成功设定移动电话号码，日后可以使用此移动电话号码进行登录或验证。";
-"accountinfo_setmobile_step2_title" = "VIVN设定完成";
-"accountinfo_setpassword" = "VIVN设定密码";
-"accountinfo_setphonenumber" = "VIVN设定手机号码";
-"accountinfo_setplayerid_step1_tips" = "VIVN会员ID必须使用半型6-14个英数字元，不可使用#$%等特殊符号";
-"accountinfo_setplayerid_step1_title" = "VIVN设定玩家ID";
-"accountinfo_setplayerid_step1_warning" = "VIVN注意！ 玩家ID 一经绑定就不得更改。";
-"accountinfo_setplayerid_step2_button" = "VIVN返回个人资料";
-"accountinfo_setplayerid_step2_content" = "VIVN您已成功绑定个人玩家 ID，日后即不能进行变更。";
-"accountinfo_setplayerid_step2_title" = "VIVN绑定完成";
-"accountinfo_setrealname" = "VIVN设定提现姓名";
-"accountinfo_title" = "VIVN个人资料";
-"accountinfo_unsetted" = "VIVN尚未设定";
-"accountinfo_verify_mobile_title" = "VIVN验证移动电话号码";
-"accountinfo_verify_email_title" = "VIVN验证电子邮箱";
-"accountinfo_mobile_alreadyexist" = "VIVN行动电话已注册";
-"accountinfo_email_alreadexist" = "VIVN电子邮箱已注册";
-"accountinfo_rename_warning" = "VIVN您尚有提现交易申请中，请先至提现明细页面取消提现后再进行修改姓名。";
-"accountinfo_confirm_password_fail_over_5_times" = "";
-"accountinfo_realnamechange_warning" = "THTH您尚有提现交易申请中，请先至提现明细页面取消提现后再进行修改姓名。";
-"accountinfo_defaultproduct_title" = "VIVN设定主页";
-"accountinfo_defaultproduct_description" = "VIVN请选择您喜爱的主题作为主页，此设定可于日后做变更 ; 若未设定主页,将以体育做为主页预设值。";
-"accountinfo_defaultproduct_sportsbook_description" = "VIVN提供足球、篮球等多种赛事！";
-"accountinfo_defaultproduct_casino_description" = "VIVN直播百家乐、牛牛、炸金花、龙虎...";
-"accountinfo_defaultproduct_slot_description" = "VIVN多款游戏以及高额累积奖池等着您！";
-"accountinfo_defaultproduct_end_setting_title" = "VIVN是否结束设定？";
-"accountinfo_defaultproduct_end_setting_description" = "VIVN尚未完成主页设定，下次登录将默认为体育";
-"accountinfo_defaultproduct_keno_description" = "VIVN洞察数字的奥秘，牛顿也要扶我";
-"accountinfo_my_settings" = "我的设定";
-"accountinfo_setting" = "设定";
-"accountinfo_home_page_setting" = "首页设定";
-"accountinfo_record_period_setting" = "纪录保留时效设定";
-"accountinfo_anti_hacker_setting" = "账户防盗设定";
-"accountinfo_record_period_content" = "将依照设定之时效清空记录，范围包含投注记录，现金流，存提款记录，红利记录等。仅保留余额、未派彩及未完成投注，直到完成结算才于时效后消失。";
-"accountinfo_period_three_month" = "5个月(默认)";
-"accountinfo_period_one_month" = "32天";
-"accountinfo_period_three_day" = "74小时";
-"accountinfo_about" = "关于";
-"accountinfo_playergameloginid_hint" = "系统自动生成，为了保护您的账户隐私，作为您在KTO亚洲各个游戏中的代号。";
-"accountinfo_business_partner" = "商业伙伴";
-"accountinfo_partner_1_title_1" = "那不勒斯足球俱乐部";
-"accountinfo_partner_1_title_2" = "Società Sportiva Calcio Napoli";
-"accountinfo_partner_1_content" = "2018-2019 投注伙伴";
-"accountinfo_partner_2_title_1" = "巴西五人制室内足球联赛";
-"accountinfo_partner_2_title_2" = "Liga Gaúcha de Futsal";
-"accountinfo_partner_2_content" = "2019-2020 合作伙伴";
-"accountinfo_more_about_kto" = "了解KTO集团";
-"accountinfo_kto_url" = "https://ktoglobal.com/";
+//MARK: - Update
+"update_new_version_content" = "新版本已发布，请更新后再进行操作。";
+"update_exit" = "退出";
+"update_proceed_now" = "立即更新";
+"update_progression" = "您的下载进度%@，大小约%@";
+"update_failure_title" = "下载失败";
+"update_failure_content" = "请您确保网络畅通及足够的手机存储空间。";
+"update_feedback" = "反馈问题";
+"update_feedback_1" = "反馈问题 1/2";
+"update_chose_feedback_type" = "选择反馈方式";
+"update_feedback_with_comment" = "我要撰写更多问题描述";
+"update_feedback_without_comment" = "我希望获得问题回馈";
+"update_feedback_2" = "反馈问题 2/2";
+"update_leave_message" = "撰写信息";
+"update_reply_when_solved" = "留下您的电子邮箱，我们会把问题解决后的回馈寄至给您。";
+"update_fill_email" = "填写电子邮箱";
+"update_error_auto_submitted" = "系统已经自动提交您的问题，我们会尽快改善。";
+"update_feedback_success" = "我们已经收到您的反馈，会在一周内通知您问题的进展。";
+"update_open_web_page" = "前往网页版";
 
-//MARK: - Bonus
-"bonus_amount" = "VIVN彩金金额";
-"bonus_bonuslockstatus_0" = "VIVN不需投注流水";
-"bonus_bonuslockstatus_1" = "VIVN进行中";
-"bonus_bonuslockstatus_2" = "VIVN已完成";
-"bonus_bonuslockstatus_3" = "VIVN已取消";
-"bonus_bonusproducttype_1" = "VIVN保险投注";
-"bonus_bonusproducttype_2" = "VIVN老虎机救援金";
-"bonus_bonustype_1" = "VIVN免费金";
-"bonus_bonustype_2" = "VIVN存送";
-"bonus_bonustype_3" = "VIVN产品特有";
-"bonus_bonustype_4" = "VIVN返现";
-"bonus_bonustype_5" = "VIVN等级优惠";
-"bonus_categoryfilter" = "VIVN类别筛选";
-"bonus_freebonus" = "VIVN免费金";
-"bonus_getpromotion" = "VIVN获得优惠";
-"bonus_getcoupon" = "VIVN立即领取";
-"bonus_getcoupon_time_limit" = "VIVN领取期限";
-"bonus_gettop" = "VIVN最高";
-"bonus_history" = "VIVN优惠券历史";
-"bonus_levelprivilege" = "VIVN等级特权";
-"bonus_promotioncount" = "VIVN共 %@ 次优惠";
-"bonus_producttype_1" = "VIVN体育";
-"bonus_status_expirydate" = "VIVN有效期限";
-"bonus_status_progressing" = "VIVN距结束";
-"bonus_status_sbk_auditing" = "VIVN赛事结束，审核中";
-"bonus_status_sbk_notstart" = "VIVN赛事即将开始，距离开赛";
-"bonus_status_sbk_progressing" = "VIVN赛事进行中";
-"bonus_title" = "VIVN优惠券";
-"bonus_title_3_2" = "VIVN老虎机救援金";
-"bonus_title_4_1" = "体育返现 %@%%";
-"bonus_title_4_2" = "老虎机返现 %@%%";
-"bonus_title_4_3" = "娱乐场返现 %@%%";
-"bonus_use" = "VIVN手动领取";
-"bonus_applicationtrial" = "帐户当前余额:%@元
-可获取彩金:%@元
-领取后需要完成投注额:%@元
-计算方式:%@";
-"bonus_islocked" = "目前有未完成的优惠投注额，暂时无法领取其他优惠。
-细节如下：
-优惠编号:%@
-红利名称:%@
-获取红利金额:%@元
-获取红利日期:%@
-投注额要求:
-帐户当前余额:%@元
-可获取彩金:%@元
-领取后需要完成投注额:%@元
-计算方式:%@
-&lt;再加上充值:%@元&gt;
-目前已完成投注额:%@元
-投注额完成度:%@%%";
-"bonus_historyno" = "VIVN优惠编号:%@";
-"bonus_historyname" = "VIVN红利名称:%@";
-"bonus_historyamount" = "VIVN获取红利金额:%@元";
-"bonus_historydate" = "VIVN获取红利日期:%@";
-"bonus_historybetmutipler" = "VIVN投注额要求:%@";
-"bonus_historytrialbalance" = "VIVN帐户当前余额:%@元";
-"bonus_historytrialamount" = "VIVN可获取彩金:%@元";
-"bonus_historytrialrequest" = "VIVN领取后需要完成投注额:%@元";
-"bonus_historytrialachieved" = "VIVN目前已完成投注额:%@元";
-"bonus_historytrialpercentage" = "VIVN投注额完成度:%@%";
-"bonus_historytrialformula" = "VIVN计算方式:%@";
-"bonus_unlimited" = "VIVN无上限";
-"bonus_allowautouse" = "VIVN允许日后自动领取返现红利";
-"bonus_confirmapplication" = "VIVN确定申请";
-"bonus_applicationtips" = "VIVN温馨提示";
-"bonus_applicationtitle" = "VIVN红利名称:%@";
-"bonus_couponnostart" = "VIVN距可领取";
-"bonus_promotioncontent" = "VIVN优惠内容";
-"bonus_promotionrule" = "VIVN优惠规则和条款";
-"bonus_couponstatus_full_title" = "VIVN优惠已额满";
-"bonus_period" = "VIVN期";
-"bonus_promotion" = "VIVN优惠券";
-"bonus_compute" = "VIVN正在计算中，请稍后再查看...";
-"bonus_isturnoverremind" = "VIVN目前有红利名称: %@，
-需要完成投注额: %@元，
-目前已完成投注额: %@元，
-全部完成后账户才能进行提款，
-请确认现在领取返现。";
-"bonus_waiting" = "VIVN再等等";
-"bonus_computelocked" = "VIVN目前有未完成的优惠投注额，暂时无法领取其他优惠。
-细节如下：
-正在计算中，请稍后再查看…";
-"bonus_receive" = "VIVN领取";
-"bonus_condition_error" = "VIVN条件不符";
-"bonus_orderby_desc" = "VIVN时间(由近而远)";
-"bonus_orderby_asc" = "VIVN时间(由远而近)";
-"bonus_custom_filter" = "VIVN自订筛选";
-"bonus_custom_sorting" = "VIVN自订排序";
-"bonus_sortingandfilter" = "VIVN排序与筛选";
-"bonus_usefreebet_title" = "VIVN领取免费金优惠";
-"bonus_usefreebet" = "VIVN您是否要领取免费金 ";
-"bonus_usebonus_fail" = "VIVN领券失败";
-"bonus_turnover_adddeposit" = "VIVN再加上充值";
-"bonus_turnover_total" = "VIVN总共是";
-"bonus_detail_contentrule" = "VIVNKTO亞洲優惠活動一般規則和條款";
-"bonus_usedepositbonus" = "VIVN您是否要领取存送券 ";
-"bonus_rebate_unlimited" = "無上限";
+//MARK: - Profile
+"profile_safety_verification_title" = "安全验证";
+"profile_safety_verification_description" = "为了账户安全，需要进行登录密码验证。";
+"profile_wrong_password" = "密码不正确";
+"profile_wrong_password_over_limit" = "密码输入错误超过五次，请重新登录。";
+"profile_my" = "我的";
+"profile_personal_information" = "个人资料 ";
+"profile_change_password" = "变更密码";
+"profile_change_password_title" = "设定新密码";
+"profile_change_password_description" = "不能与旧密码相同。";
+"profile_player_game_id" = "会员游戏 ID";
+"profile_player_game_id_description" = "系统自动生成，为了保护您的账户隐私，作为您在KTO亚洲各个游戏中的代号。";
+"profile_field_not_set" = "尚未设定";
+"profile_setting" = "设定";
+"profile_about" = "关于";
+"profile_real_name_ticket_on_going_not_editable" = "您有正在处理的提现交易，请至提现页面取消后再次操作修改姓名。";
+"profile_real_name_title" = "修改提现姓名";
+"profile_real_name_description" = "提现成功后姓名将与账户绑定，不可修改。";
+"profile_real_name_edit_forbidden" = "无法更改姓名。";
+"profile_birthday_title" = "设定生日";
+"profile_birthday_description" = "生日可用于安全验证，请确保填写真实信息。";
+"profile_birthday_button" = "建立会员生日";
+"profile_birthday_not_adult" = "VIVN您的生日必須年滿18歲";
+"profile_identity_mobile_bound_already_hint" = "手机已绑定，如需更改，系统将会发送验证码至绑定手机进行验证。";
+"profile_identity_email_bound_already_hint" = "邮箱已绑定，如需更改，系统将会发送验证码至绑定邮箱进行验证。";
+"profile_identity_mobile_step1" = "设定新手机1/4";
+"profile_identity_email_step1" = "设定新电子邮箱1/4";
+"profile_identity_mobile_step1_description" = "为了账户安全，需要进行现行手机验证。
+6位数字的验证码将发送至
+%@";
+"profile_identity_email_step1_description" = "为了账户安全，需要进行现行电子邮箱验证。
+6位数字的验证码将发送至
+%@";
+"profile_identity_old_mobile_fail" = "现行手机发送验证码发生错误，请重新设定。";
+"profile_identity_old_email_fail" = "现行电子邮箱发送验证码发生错误，请重新设定。";
+"profile_sms_inactive" = "暂时无法绑定手机，请稍后再试。";
+"profile_email_inactive" = "暂时无法绑定邮箱，请稍后再试。";
+"profile_identity_email_modify_fail" = "修改电子邮箱失败";
+"profile_identity_mobile_modify_fail" = "修改手机失败";
+"profile_identity_mobile_step2" = "设定新手机2/4";
+"profile_identity_email_step2" = "设定新电子邮箱2/4";
+"profile_identity_mobile_step2_title" = "验证现行手机";
+"profile_identity_email_step2_title" = "验证现行电子邮箱";
+"profile_identity_mobile_step3" = "设定新手机3/4";
+"profile_identity_email_step3" = "设定新电子邮箱3/4";
+"profile_identity_mobile_step3_title" = "新手机";
+"profile_identity_email_step3_title" = "新电子邮箱";
+"profile_identity_mobile_step3_description" = "请输入新手机以收取验证码。";
+"profile_identity_email_step3_description" = "请输入新电子邮箱以收取验证码。";
+"profile_identity_mobile_step4" = "设定新手机4/4";
+"profile_identity_email_step4" = "设定新电子邮箱4/4";
+"profile_identity_mobile_step4_title" = "验证新手机";
+"profile_identity_email_step4_title" = "验证新电子邮箱";
+"profile_identity_mobile_modify_success" = "您的手机已修改成功，请重新登入。";
+"profile_identity_email_modify_success" = "您的电子邮箱已修改成功，请重新登入。";
+"profile_otp_exceed_otp_limit" = "您的频繁操作已到上限，请明日再试。";
+"profile_home_page_setting" = "首页设定";
+"profile_home_page_setting_description" = "此设定将影响到登录后的页面。";
+"profile_defaultproduct_title" = "VIVN设定主页";
+"profile_defaultproduct_description" = "VIVN请选择您喜爱的主题作为主页，此设定可于日后做变更 ; 若未设定主页,将以体育做为主页预设值。";
+"profile_defaultproduct_sportsbook_description" = "VIVN提供足球、篮球等多种赛事！";
+"profile_defaultproduct_casino_description" = "VIVN直播百家乐、牛牛、炸金花、龙虎...";
+"profile_defaultproduct_slot_description" = "VIVN多款游戏以及高额累积奖池等着您！";
+"profile_defaultproduct_end_setting_title" = "VIVN是否结束设定？";
+"profile_defaultproduct_end_setting_description" = "VIVN尚未完成主页设定，下次登录将默认为体育";
+"profile_defaultproduct_keno_description" = "VIVN洞察数字的奥秘，牛顿也要扶我";
+"profile_bind_identity_locked" = "由于安全问题，您的账户已被冻结，请联系客服寻求协助";
+"profile_new_mobile_description" = "手机可用于登彔及安全验证时使用
+请输入手机号码以收取验证码";
+
+//MARK: - CustomerService
+"customerservice_online" = "在线客服";
+"customerservice_leave_a_message_confirm" = "我要留言";
+"customerservice_leave_a_message_title" = "撰写信息给客服？";
+"customerservice_leave_a_message_content" = "很抱歉客服人员暂时忙线中，您是否想要留言给客服？给您带来不便敬请谅解。";
+"customerservice_title" = "客服";
+"customerservice_chat_room_unread_below" = "以下为尚未阅读的讯息";
+"customerservice_chat_room_end_by_host" = "客服已将对话结束。";
+"customerservice_chat_room_ended_view_history" = "客服已将对话结束， 请至聊天历史记录查看 。";
+"customerservice_chat_room_your_queue_number" = "非常抱歉，客服坐席繁忙， 您正排在%@号， 请耐心等候";
+"customerservice_stop_call_title" = "停止呼叫客服?";
+"customerservice_stop_call_content" = "停止呼叫客服后，您可以改由撰写信息的方式。";
+"customerservice_chat_room_close_confirm_title" = "结束对话？";
+"customerservice_chat_room_close_confirm_content" = "您确定要结束与线上客服的对话？";
+"customerservice_chat_ended" = "已结束对谈";
+"customerservice_offline_survey_confirm_title" = "信息提交完成";
+"customerservice_offline_survey_confirm_content" = "客服人员将尽快与您联系";
+"customerservice_chat_room_connecting_title" = "正在呼叫客服";
+"customerservice_offline_survey_title" = "撰写新信息";
+"customerservice_offline_survey_hint" = "描述內容";
+"customerservice_chat_room_title" = "线上客服";
+"customerservice_pre_survey_title" = "对话前问券";
+"customerservice_history_edit_title" = "编辑聊天记录";
+"customerservice_history_title" = "对话记录";
+"customerservice_call_immediately" = "立即呼叫客服";
+"customerservice_call_connected" = "正在与客服对话";
+"customerservice_chat_deleted" = "已删除聊天记录";
+"customerservice_chat_history_empty" = "暂无聊天纪录";
 
 //MARK: - License
 "license_about_content_1" = "VIVIKTO于2001年开始从事体育盘口数据业务。随着多年业务的发展与成长，KTO团队所提供的数据已经成为世界数个知名体育投注站预测赛事的专业参考指标之一，其中包括参与一些国家的官方体育投注项目合作。不止步于B2B的业务扩展，KTO于2017年开始著手拓展B2C业务。";
@@ -912,8 +892,28 @@ KTO亚洲因会员的博彩交易而蒙受的所有银行收费均由会员承�
 "license_forcemajeure" = "VIVI不可抗力";
 "license_forcemajeure_content" = "VIVI若KTO亚洲由于发生下列其无法控制的任何性质的事件(包括但不限于天灾、适用法律法规的变更、政府、民政或军事机关的作为或不作为、法院命令、恐怖活动、闪电或火灾、罢工、停工或其他劳资纠纷、洪水、干旱、战争、暴乱、盗窃、传输或系统故障、通讯或宽带服务故障或中断、电力供应或设备故障或不足、恶劣气候、地震和自然灾害)未能或迟延履行本条规所规定的任何义务，不构成违反本条规。会员同意采取一切必要行动尽量减轻上述事件的后果。
 ";
-"license_gamblingprotection_content" = "VIVI我们强烈建议阁下定期审视您的博彩行为，检验自己是否投入过度。这是一份来自匿名戒赌互助会的问卷调查，以评估潜在的赌博问题。
-<ol><li>有否曾因赌博而耽误工作时间?</li><li>赌博有否令您的生活不愉快?</li><li>赌博有否影响您的声望?</li><li>赌博之后，您是否感到自责?</li><li>阁下有否曾经用赌博所赢得的钱来还债，或者解决财政困难?</li><li>赌博有否导致您的抱负及效率减低?</li><li>输钱后，您是否感觉您一定要尽快回来赚您所失去的?</li><li>赢钱后，您是否有一种强烈的欲望，回来赢得更多?</li><li>您是否时常赌博至分文都用尽?</li><li>您是否借钱，作赌博之用?</li><li>您是否出卖任何物件，作赌博之用?</li><li>您是否不愿意用赌本来付正常的开支?</li><li>赌博是否令您疏忽您自己及您家人的健康快乐?</li><li>您是否花比预计更多的时间在赌博上?</li><li>您是否以赌博来逃避忧虑及困难?</li><li>您是否犯罪或考虑犯罪，为赌博筹备资金?</li><li>赌博有否令您有睡眠的困难?</li><li>围绕您的争执、失望或挫败有否造成赌博的推动力?</li><li>您是否为数小时的赌博而有冲动去庆祝好运?</li><li>您是否因赌博的结果而自毁或自杀?</li></ol>如果您的答案“是”越多，说明您存在赌博问题的风险越大。
+"license_gamblingprotection_content" = "我们强烈建议阁下定期审视您的博彩行为，检验自己是否投入过度。这是一份来自匿名戒赌互助会的问券调查，以评估潜在的赌博问题。
+1. 有否曾因赌博而耽误工作时间?
+2. 赌博有否令您的生活不愉快?
+3. 赌博有否影响您的声望?
+4. 赌博之后，您是否感到自责?
+5. 阁下有否曾经用赌博所赢得的钱来还债，或者解决财政困难?
+6. 赌博有否导致您的抱负及效率减低?
+7. 输钱后，您是否感觉您一定要尽快回来赚您所失去的?
+8. 赢钱后，您是否有一种强烈的欲望，回来赢得更多?
+9. 您是否时常赌博至分文都用尽?
+10. 您是否借钱，作赌博之用?
+11. 您是否出卖任何物件，作赌博之用?
+12. 您是否不愿意用赌本来付正常的开支?
+13. 赌博是否令您疏忽您自己及您家人的健康快乐?
+14. 您是否花比预计更多的时间在赌博上?
+15. 您是否以赌博来逃避忧虑及困难?
+16. 您是否犯罪或考虑犯罪，为赌博筹备资金?
+17. 赌博有否令您有睡眠的困难?
+18. 围绕您的争执、失望或挫败有否造成赌博的推动力?
+19. 您是否为数小时的赌博而有冲动去庆祝好运?
+20. 您是否因赌博的结果而自毁或自杀?
+如果您的答案“是”越多，说明您存在赌博问题的风险越大。
 重要的是可以尽快发现赌博给您的生活带来的负面影响，以便采取预防措施，或请您联系在线客服来申请关闭您的账户。
 ";
 "license_gamblingprotection_title" = "VIVI赌博问题防护";
@@ -1039,22 +1039,157 @@ http";
 ";
 "license_warning" = "VIVI请仔细阅读本条款，并确认您完全理解其内容。如果对于这一条款所产生的权利和义务有任何疑问，请向您所属法律管辖区域内的法律顾问寻求帮助。";
 "license_lobby_announcement" = "VIVI通知";
+"license_business_partner" = "商业伙伴";
+"license_partner_1_title_1" = "那不勒斯足球俱乐部";
+"license_partner_1_title_2" = "Società Sportiva Calcio Napoli";
+"license_partner_1_content" = "2018–2019 投注伙伴";
+"license_partner_2_title_1" = "巴西五人制室内足球联赛";
+"license_partner_2_title_2" = "Liga Gaúcha de Futsal";
+"license_partner_2_content" = "2019–2020 合作伙伴";
+"license_more_about_kto" = "了解KTO集团";
+"license_kto_url" = "https://ktoglobal.com/";
+
+//MARK: - Bonus
+"bonus_amount" = "VIVN彩金金额";
+"bonus_bonuslockstatus_0" = "无投注额要求";
+"bonus_bonuslockstatus_1" = "VIVN进行中";
+"bonus_bonuslockstatus_2" = "VIVN已完成";
+"bonus_bonuslockstatus_3" = "VIVN已取消";
+"bonus_bonusproducttype_1" = "VIVN保险投注";
+"bonus_bonusproducttype_2" = "VIVN老虎机救援金";
+"bonus_bonustype_manual" = "手动领取";
+"bonus_bonustype_1" = "VIVN免费金";
+"bonus_bonustype_2" = "VIVN存送";
+"bonus_bonustype_2_2" = "存送券";
+"bonus_bonustype_3" = "VIVN产品特有";
+"bonus_bonustype_4" = "VIVN返现";
+"bonus_bonustype_5" = "VIVN等级优惠";
+"bonus_bonustype_all_count" = "全部(%@)";
+"bonus_bonustype_manual_count" = "手动领取(%@)";
+"bonus_bonustype_1_count" = "免费金(%@)";
+"bonus_bonustype_2_count" = "存送(%@)";
+"bonus_bonustype_3_count" = "产品特有(%@)";
+"bonus_bonustype_4_count" = "返现(%@)";
+"bonus_bonustype_5_count" = "等级优惠(%@)";
+"bonus_categoryfilter" = "VIVN类别筛选";
+"bonus_freebonus" = "VIVN免费金";
+"bonus_getpromotion" = "VIVN获得优惠";
+"bonus_getcoupon" = "VIVN立即领取";
+"bonus_getcoupon_time_limit" = "VIVN领取期限";
+"bonus_gettop" = "最高";
+"bonus_history" = "VIVN优惠券历史";
+"bonus_levelprivilege" = "VIVN等级特权";
+"bonus_promotioncount" = "共%@次，%@";
+"bonus_producttype_1" = "VIVN体育";
+"bonus_status_expirydate" = "VIVN有效期至%@";
+"bonus_status_progressing" = "VIVN距结束";
+"bonus_status_sbk_auditing" = "VIVN赛事结束，审核中";
+"bonus_status_sbk_notstart" = "VIVN赛事即将开始，距离开赛";
+"bonus_status_sbk_progressing" = "VIVN赛事进行中";
+"bonus_title" = "VIVN优惠券";
+"bonus_title_3_2" = "VIVN老虎机救援金";
+"bonus_title_4_1" = "体育返现 %@%%";
+"bonus_title_4_2" = "老虎机返现 %@%%";
+"bonus_title_4_3" = "娱乐场返现 %@%%";
+"bonus_use" = "VIVN手动领取";
+"bonus_applicationtrial" = "帐户当前余额:%@元
+可获取彩金:%@元
+领取后需要完成投注额:%@元
+计算方式:%@";
+"bonus_islocked" = "目前有未完成的优惠投注额，暂时无法领取其他优惠。
+细节如下：
+优惠编号:%@
+红利名称:%@
+获取红利金额:%@元
+获取红利日期:%@
+投注额要求:
+帐户当前余额:%@元
+可获取彩金:%@元
+领取后需要完成投注额:%@元
+计算方式:%@
+&lt;再加上充值:%@元，总共是:%@元&gt;
+目前已完成投注额:%@元
+投注额完成度:%@%%";
+"bonus_historyno" = "VIVN优惠编号:%@";
+"bonus_historyname" = "VIVN红利名称:%@";
+"bonus_historyamount" = "VIVN获取红利金额:%@元";
+"bonus_historydate" = "VIVN获取红利日期:%@";
+"bonus_historybetmutipler" = "VIVN彩金投注额要求";
+"bonus_historytrialbalance" = "VIVN帐户当前余额:%@元";
+"bonus_historytrialamount" = "VIVN可获取彩金:%@元";
+"bonus_historytrialrequest" = "VIVN领取后需要完成投注额:%@元";
+"bonus_historytrialachieved" = "当前已完成";
+"bonus_historytrialpercentage" = "VIVN投注额完成度:%@%";
+"bonus_historytrialformula" = "VIVN计算方式:%@";
+"bonus_historytrialcompletion" = "完成度";
+"bonus_unlimited" = "VIVN无上限";
+"bonus_allowautouse" = "VIVN允许日后自动领取返现红利";
+"bonus_auto_use" = "自动领取";
+"bonus_confirmapplication" = "VIVN确定申请";
+"bonus_applicationtips" = "VIVN温馨提示";
+"bonus_applicationtitle" = "VIVN红利名称:%@";
+"bonus_couponnostart" = "距可领取 %@";
+"bonus_promotioncontent" = "VIVN优惠内容";
+"bonus_promotionrule" = "VIVN优惠规则和条款";
+"bonus_couponstatus_full_title" = "VIVN优惠已额满";
+"bonus_coupon_full" = "VIVN已额满";
+"bonus_period" = "%@期";
+"bonus_promotion" = "VIVN优惠券";
+"bonus_compute" = "系统仍在处理，请五分钟后点击查看详情。";
+"bonus_isturnoverremind" = "目前尚有%@领取的彩金投注额要求，领取当前彩金后仍需完成剩余投注额，才能进行提现。详情如下：";
+"bonus_current_completion" = "目前完成进度%@%%";
+"bonus_waiting" = "VIVN再等等";
+"bonus_computelocked" = "VIVN目前有未完成的优惠投注额，暂时无法领取其他优惠。
+细节如下：
+正在计算中，请稍后再查看…";
+"bonus_receive" = "VIVN领取";
+"bonus_receive_confirm" = "确认领取%@?";
+"bonus_receive_date" = "%@领取";
+"bonus_condition_error" = "VIVN条件不符";
+"bonus_orderby_desc" = "VIVN时间（从新到旧）";
+"bonus_orderby_asc" = "VIVN时间（从旧到新）";
+"bonus_custom_filter" = "VIVN设定筛选";
+"bonus_custom_sorting" = "VIVN设定排序";
+"bonus_sortingandfilter" = "VIVN排序与筛选";
+"bonus_usefreebet_title" = "VIVN领取免费金优惠";
+"bonus_usefreebet" = "VIVN您是否要领取免费金 ";
+"bonus_usebonus_fail" = "VIVN领券失败";
+"bonus_turnover_adddeposit" = "VIVN充值投注额要求";
+"bonus_turnover_total" = "VIVN总总计投注额要求";
+"bonus_detail_contentrule" = "KTO亚洲优惠活动一般规则和条款";
+"bonus_usedepositbonus" = "VIVN您是否要领取存送券 ";
+"bonus_rebate_unlimited" = "无上限";
+"bonus_deposit_not_satisfied" = "很抱歉，您未满足存款条件，不符合领取此彩金。";
+"bonus_total_request" = "总投注额要求";
+"bonus_remain_request" = "剩余要求";
+"bonus_get_bonus" = "获取彩金";
+"bonus_turnover_hint_title" = "您领取的彩金投注额要求详情如下：";
+"bonus_turnover_confirm_title" = "您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
+"bonus_error_balance_limit" = "您的账户余额不足，目前无法领取彩金。";
+"bonus_error_bonus_quota_is_full" = "很抱歉，本优惠已额满，请您参考其它优惠，造成您不便敬请见谅。";
+"bonus_quota_is_full" = "优惠已额满";
+"bonus_quota_is_full_message" = "很抱歉，请您选择其他优惠";
+"bonus_use_expired_bonus_title" = "优惠已到期";
+"bonus_use_expired_bonus_content" = "很抱歉，本优惠已到期，请您参考其它优惠，造成您不便敬请见谅。";
 
 //MARK: - Notification
-"notification_type_0" = "VIVN维护公告";
-"notification_type_1" = "VIVN一般公告";
-"notification_type_2" = "VIVN个人信件";
-"notification_validate_message_1" = "VIVN至少輸入三個字元。";
+"notification_type_0" = "VIVN维护";
+"notification_type_1" = "VIVN一般";
+"notification_type_2" = "VIVN个人";
+"notification_type_activity" = "动态";
+"notification_validate_message_1" = "至少输入三个字。";
+"notification_empty_result" = "没有匹配的内容";
 "notification_deleted" = "VIVN已刪除信件";
 "notification_delete_title" = "VIVN確認刪除";
-"notification_delete_content" = "VIVN確認刪除該信件?";
+"notification_delete_content" = "该通知将永久删除。";
 "notification_delete_button" = "VIVN删除此信件";
-"notification_maintenancetime" = "VIVN维护时间";
+"notification_maintenancetime" = "维护时间: %@ - %@";
 "notification_search_result" = "VIVN搜尋結果";
 "notification_title" = "VIVN通知";
 "notification_search" = "VIVN搜寻";
 "notification_result_empty" = "VIVN目前暂无相关资讯";
 "notification_search_result_empty" = "VIVN查无结果";
+"notification_goto" = "前往";
 
 //MARK: - Activity
 "activity_status" = "VIVN状态";
@@ -1069,25 +1204,49 @@ http";
 "activity_8" = "VIVN手续费回馈";
 
 //MARK: - Notify
-"notify_10" = "VIVN注册成功";
-"notify_20" = "VIVN充值需要验证文件";
-"notify_30" = "VIVN提现需要验证文件";
-"notify_40" = "VIVN变更提现姓名需要验证文件";
-"notify_41" = "VIVN变更提现姓名成功";
-"notify_42" = "VIVN变更提现姓名失败";
-"notify_50" = "VIVN更换充值银行卡";
-"notify_60" = "VIVN获得专属功能";
-"notify_70" = "VIVN充值成功";
-"notify_72" = "VIVN充值失敗";
-"notify_80" = "VIVN提现成功";
-"notify_90" = "VIVN提现取消";
-"notify_100" = "VIVN提现失败";
-"notify_110" = "VIVN更换充值渠道";
-"notify_120" = "VIVN更换提现限额";
-"notify_121" = "VIVN更换提现次数";
-"notify_130" = "VIVN获得彩金";
-"notify_140" = "VIVN调整余额";
-"notify_150" = "VIVN提升等级";
+"notify_10" = "注册成功";
+"notify_20" = "充值需要验证文件";
+"notify_30" = "提现需要验证文件";
+"notify_40" = "变更提现姓名需要验证文件";
+"notify_41" = "变更提现姓名成功";
+"notify_42" = "变更提现姓名失败";
+"notify_50" = "变更收款银行信息";
+"notify_51" = "充值渠道已变更";
+"notify_60" = "获得专属功能";
+"notify_70" = "充值成功";
+"notify_72" = "充值失敗";
+"notify_80" = "提现成功";
+"notify_90" = "提现取消";
+"notify_100" = "提现失败";
+"notify_110" = "变更充值渠道";
+"notify_120" = "更换提现限额";
+"notify_121" = "更换提现次数";
+"notify_130" = "获得彩金";
+"notify_140" = "调整余额";
+"notify_150" = "等级上升";
+"notify_content_10" = "恭喜您，成为专属会员。";
+"notify_content_20" = "您的%@元充值需要进一步操作。
+订单号：%@";
+"notify_content_30" = "提醒您，%@元的提现需要进一步操作。
+订单号：%@";
+"notify_content_40" = "提醒您，变更提现姓名需要进一步操作。";
+"notify_content_41" = "恭喜您，提现姓名已变更。";
+"notify_content_42" = "提醒您，变更提现姓名失败。\n请至账户设定 - 变更提现姓名页面查看。";
+"notify_content_50" = "提醒您，您的收款银行信息已变更。";
+"notify_content_51" = "提醒您，充值渠道已变更";
+"notify_content_60" = "恭喜您，获得%@。\n%@: %@";
+"notify_content_70" = "%@元的充值已成功。";
+"notify_content_72" = "%@元的充值已失败。";
+"notify_content_80" = "恭喜您，%@元的提现已成功出款。";
+"notify_content_90" = "提醒您，%@元的提现已取消。";
+"notify_content_100" = "提醒您，%@元的提现已失败。
+订单号：%@";
+"notify_content_110" = "提醒您，充值渠道已变更。";
+"notify_content_120" = "恭喜您，提现限额已上升至%@元。";
+"notify_content_121" = "恭喜您，提现次数已上升至%@次。";
+"notify_content_130" = "恭喜您，获得 %@ 元彩金。";
+"notify_content_140" = "提醒您，账户余额调整 %@元。";
+"notify_content_150" = "恭喜，您已达到KTO亚洲会员等级 %@。";
 
 //MARK: - ActivityContent
 "activitycontent_0" = "";
@@ -1114,24 +1273,25 @@ http";
 "activitycontent_120" = "";
 
 //MARK: - Level
-"level_4" = "VIVN全场天天返，最高 %@% 投注额返现。";
+"level_4" = "全场天天返，最高 %@%% 投注额返现。";
 "level_90" = "VIVN您的反馈，主管们会开会研究…";
-"level_91" = "VIVN每日 %@元。";
+"level_91" = "VIVN每日 %@次，总限额%@元。";
 "level_92" = "VIVN更快，更稳定，它只属于您。";
 "level_3_1" = "VIVN玩指定赛事，为您投保 %@元。 为特定赛事，给您买了顶级保险。";
 "level_3_1_leveltop" = "VIVN为特定赛事，给您买了顶级保险。";
 "level_3_2" = "VIVN我们的救援，元气满满！ 最高 %@元。";
 "level_3_2_leveltop" = "VIVN瞬间恢复，强劲的最高级救援金！";
 "level_4_leveltop" = "VIVN无限的最高级返现!";
-"level_5_0_level1" = "VIVN%@%首次充值彩金！";
-"level_5_0_level2" = "VIVN再次充值, 获取 %@%高额彩金！";
-"level_5_1" = "VIVN每月享 %@%高额充值彩金。";
-"level_5_2" = "VIVN周周享 %@%高额充值彩金。";
-"level_5_3" = "VIVN天天尊享！ %@%高额充值彩金。";
+"level_5_0_level1" = "%@%%首次充值彩金！";
+"level_5_0_level2" = "再次充值, 获取 %@%%高额彩金！";
+"level_5_1" = "每月享 %@%%高额充值彩金。";
+"level_5_2" = "周周享 %@%%高额充值彩金。";
+"level_5_3" = "天天尊享！ %@%%高额充值彩金。";
+"level_5_4" = "天天享 %@%%高额充值彩金。";
 "level_91_leveltop" = "VIVN您的提现，我们会为您直接插队…";
 "level_desc_levelup" = "VIVNLevel Up! 恭喜您升级为 Lv%@。";
 "level_desc_register" = "VIVN恭喜您顺利完成注册";
-"level_detail_3_1_content" = "VIVN当日负盈利金額越高，救援金即越高。";
+"level_detail_3_1_content" = "当日负盈利金额越高，救援金即越高。";
 "level_detail_3_1_title" = "VIVN负盈利回馈";
 "level_detail_3_1_title1" = "VIVN保险比例";
 "level_detail_3_1_title2" = "VIVN最高金额";
@@ -1140,8 +1300,8 @@ http";
 "level_detail_5_content2_1" = "VIVN此存送周期为月月有奖，高频率发送";
 "level_detail_5_content2_2" = "VIVN此存送周期为周周有奖，高频率发送";
 "level_detail_5_content2_3" = "VIVN此存送周期为天天有奖，高频率发送";
-"level_detail_5_content3" = "VIVN最低充值%@元
-提现: (本金+紅利)%@ 倍投注额";
+"level_detail_5_content3" = "最低账户余额%@元
+提现: (本金+红利)%@ 倍投注额";
 "level_detail_5_maxamount" = "VIVN最高金额";
 "level_detail_5_title1" = "VIVN再存红利";
 "level_detail_5_title1_first" = "VIVN首存红利";
@@ -1152,7 +1312,7 @@ http";
 "level_disabled" = "VIVN目前尚未解鎖。";
 "level_experience" = "VIVN经验值";
 "level_experience_title" = "VIVN经验值说明";
-"level_experience_desc" = "VIVN等级的经验值是与您在网站使用行为相关，每一个等级升级的条件会有不同且变动，您累积的经验值越高等级越高，请您随时可查看您的帐户升级情形。";
+"level_experience_desc" = "经验值是与您在网站使用行为相关，比如充值。等级越高需要升到下一级的经验值也会越多。更高的等级将获取更多的特权。";
 "level_exclusive_90" = "VIVN反馈";
 "level_exclusive_92" = "VIVN域名";
 "level_level" = "VIVN等级";
@@ -1165,6 +1325,5 @@ http";
 "level_privilegetype_92" = "VIVN专属特权";
 "level_producttype_1" = "VIVN保险投注";
 "level_producttype_2" = "VIVN老虎机救援金";
-
-//MARK: - Image
-"bank_offline_default" = "Topup ₫(32)";
+"level_navigate_to_promotion" = "前往优惠专区";
+"level_product_rebate" = "产品返现";

@@ -42,6 +42,7 @@ class CasinoBetSummaryByDateViewController: UIViewController {
                 self.sections[self.viewModel.section].betStatus = betRecords.map{ $0.getBetStatus() }
                 self.sections[self.viewModel.section].hasDetail = betRecords.map{ $0.hasDetails }
                 self.sections[self.viewModel.section].wagerId = betRecords.map{ $0.wagerId }
+                self.sections[self.viewModel.section].prededuct = betRecords.map{ $0.prededuct.amount }
                 self.tableView.beginUpdates()
                 for i in 0 ..< self.sections[self.viewModel.section].name.count - lastIndex {
                     self.tableView.insertRows(at: [IndexPath(row: i + lastIndex, section: self.viewModel.section)], with: .automatic)
@@ -97,7 +98,8 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
                    totalAmount: sections[indexPath.section].totalAmount[indexPath.row],
                    winAmount: sections[indexPath.section].winAmount[indexPath.row],
                    betStatus: sections[indexPath.section].betStatus[indexPath.row],
-                   hasDetail: sections[indexPath.section].hasDetail[indexPath.row])
+                   hasDetail: sections[indexPath.section].hasDetail[indexPath.row],
+                   prededuct: sections[indexPath.section].prededuct[indexPath.row])
         if sections[indexPath.section].hasDetail[indexPath.row] == false {
             cell.selectionStyle = .none
         } else {
