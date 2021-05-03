@@ -9,6 +9,7 @@ class CasinoDetailViewController: UIViewController {
     @IBOutlet private weak var betResultTitleLabel: UILabel!
     @IBOutlet private weak var backgroundView: UIView!
     @IBOutlet private weak var backgroundViewHeightConstant: NSLayoutConstraint!
+    @IBOutlet private weak var tableViewHeightConstant: NSLayoutConstraint!
     
     private var viewModel = DI.resolve(CasinoViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -31,6 +32,10 @@ class CasinoDetailViewController: UIViewController {
         } onError: {[weak self] (error) in
             self?.handleUnknownError(error)
         }.disposed(by: disposeBag)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.tableViewHeightConstant.constant = self.tableView.contentSize.height
     }
     
     deinit {
@@ -412,29 +417,38 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
+        guard let detail = recordDetail else { return 0 }
+        if indexPath.row == 0 || (indexPath.row == 4 && detail.prededuct.amount != 0) {
             return 90
-        }
-        
-        if (1...5).contains(indexPath.row) {
+        } else {
             return 70
         }
-        
-        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoDetailRecord3Cell", for: indexPath) as? CasinoDetailRecord3TableViewCell, let detail = recordDetail {
-                cell.betIdLabel.text = detail.betId
-                cell.otherBetIdLabel.text = detail.otherId
+        guard let detail = recordDetail else { return UITableViewCell() }
+        if indexPath.row == 0 || (detail.prededuct.amount != 0 && indexPath.row == 4) {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoDetailRecord3Cell", for: indexPath) as? CasinoDetailRecord3TableViewCell {
+                if indexPath.row == 0 {
+                    cell.betIdLabel.text = detail.betId
+                    cell.otherBetIdLabel.text = detail.otherId
+                }
+                
+                if indexPath.row == 4 {
+                    cell.titleLabel.text = Localize.string("product_bet_amount")
+                    cell.betIdLabel.text = detail.stakes.amount.currencyFormatWithoutSymbol(precision: 2)
+                    cell.otherBetIdLabel.text = Localize.string("product_prededuct") + " " + detail.prededuct.amount.currencyFormatWithoutSymbol(precision: 2)
+                    cell.otherBetIdLabel.font = UIFont(name: "PingFangSC-Semibold", size: 14)
+                    cell.otherBetIdLabel.textColor = UIColor.whiteFull
+                }
+                
                 return cell
             }
-        }
-        
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoDetailRecord2Cell", for: indexPath) as? CasinoDetailRecord2TableViewCell, let detail = recordDetail {
-            cell.setup(index: indexPath.row, detail: detail)
-            return cell
+        } else {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoDetailRecord2Cell", for: indexPath) as? CasinoDetailRecord2TableViewCell {
+                cell.setup(index: indexPath.row, detail: detail)
+                return cell
+            }
         }
         
         return UITableViewCell()

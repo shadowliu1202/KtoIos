@@ -37,7 +37,13 @@ class CasinoUnsettleRecordsViewController: UIViewController {
     private func getUnsettledRecords() {
         viewModel.getUnsettledRecords().subscribe(onNext: {[weak self] (dic) in
             for (date, records) in dic {
-                self?.sections.append(Section(sectionClass: date.replacingOccurrences(of: "-", with: "/"), name: records.map{ $0.gameName }, betId: records.map{ $0.betId }, totalAmount: records.map{ $0.stakes.amount }, expanded: false, gameId: records.map{ $0.gameId }))
+                self?.sections.append(Section(sectionClass: date.replacingOccurrences(of: "-", with: "/"),
+                                              name: records.map{ $0.gameName },
+                                              betId: records.map{ $0.betId },
+                                              totalAmount: records.map{ $0.stakes.amount },
+                                              expanded: false,
+                                              gameId: records.map{ $0.gameId },
+                                              prededuct: records.map{ $0.prededuct.amount }))
             }
             
             self?.sections.sort(by: { (s1, s2) -> Bool in
@@ -139,6 +145,7 @@ struct Section {
     var hasDetail: [Bool] = []
     var wagerId: [String] = []
     var periodOfRecord: PeriodOfRecord!
+    var prededuct: [Double] = []
     
     init() { }
     
@@ -149,7 +156,7 @@ struct Section {
         self.sectionClass = self.periodOfRecord.lobbyName
     }
     
-    init(sectionClass: String, name: [String] = [], betId: [String] = [], totalAmount: [Double] = [], winAmount: [Double] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32] = []) {
+    init(sectionClass: String, name: [String] = [], betId: [String] = [], totalAmount: [Double] = [], winAmount: [Double] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32] = [], prededuct: [Double] = []) {
         self.sectionClass = sectionClass
         self.name = name
         self.betId = betId
@@ -161,5 +168,6 @@ struct Section {
         self.hasDetail = hasDetail
         self.wagerId = wagerId
         self.gameId = gameId
+        self.prededuct = prededuct
     }
 }

@@ -4,6 +4,7 @@ import RxSwift
 
 
 class CasinoDetailRecord3TableViewCell: UITableViewCell {
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var betIdLabel: UILabel!
     @IBOutlet weak var otherBetIdLabel: UILabel!
 }
