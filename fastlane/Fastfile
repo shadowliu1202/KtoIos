@@ -93,7 +93,7 @@ platform :ios do
 
 	lane :buildIpaStaging  do |options|
 
-		match(type: "app-store", keychain_name: "jenkinsKeyChain", keychain_password: "password")
+		match(type: "appstore", keychain_name: "jenkinsKeyChain", keychain_password: "password")
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
