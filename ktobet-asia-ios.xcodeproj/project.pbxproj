@@ -876,6 +876,7 @@
 		609013612640EE7000419F8E /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648E258742150064AAC9 /* Launch.storyboard */; };
 		609013622640EE7000419F8E /* ImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60251B0D261C427F00E89EE6 /* ImagePicker.storyboard */; };
 		609013632640EE7000419F8E /* Withdrawal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6085050026005DAD009394CA /* Withdrawal.storyboard */; };
+		6090138C2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6090138B2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist */; };
 		60AE470625DD15D700AE9B5E /* DepositViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BEE70325C3976C00CA73D0 /* DepositViewModel.swift */; };
 		60AE470925DD15DC00AE9B5E /* DepositMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6077037B25C80E45003FBEE4 /* DepositMethodViewController.swift */; };
 		60AE470C25DD15E400AE9B5E /* DepositMethodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6077038825C8E3B2003FBEE4 /* DepositMethodTableViewCell.swift */; };
@@ -1284,7 +1285,7 @@
 		6089834A25AFD13800BE28BB /* Toast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Toast.xib; sourceTree = "<group>"; };
 		6089834B25AFD13800BE28BB /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		609013692640EE7000419F8E /* ktobet-asia-ios-staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-staging.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6090136A2640EE7000419F8E /* ktobet-asia-ios-staging-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ktobet-asia-ios-staging-Info.plist"; path = "/Users/weichen.cheng/Desktop/ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist"; sourceTree = "<absolute>"; };
+		6090138B2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-staging-Info.plist"; sourceTree = "<group>"; };
 		60AE474B25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositOfflineConfirmViewController.swift; sourceTree = "<group>"; };
 		60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = slideMenu.storyboard; sourceTree = "<group>"; };
 		60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDataUseCase.swift; sourceTree = "<group>"; };
@@ -1517,7 +1518,7 @@
 				485DF04425415454001F9D4A /* Assets.xcassets */,
 				485DF04925415454001F9D4A /* Info.plist */,
 				4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */,
-				6090136A2640EE7000419F8E /* ktobet-asia-ios-staging-Info.plist */,
+				6090138B2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist */,
 				605AC7D525C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist */,
 				4840646D258721740064AAC9 /* infoPlist.strings */,
 				48D7F9EB2575E38B00540B85 /* Localizable.strings */,
@@ -2265,6 +2266,7 @@
 				60251B0E261C427F00E89EE6 /* ImagePicker.storyboard in Resources */,
 				605AC70025C019F800873D63 /* Deposit.storyboard in Resources */,
 				48406492258742150064AAC9 /* Login.storyboard in Resources */,
+				6090138C2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist in Resources */,
 				48406494258742150064AAC9 /* LaunchScreen.storyboard in Resources */,
 				48AAA173256E458800E075CA /* Assets.xcassets in Resources */,
 				48406493258742150064AAC9 /* Launch.storyboard in Resources */,
