@@ -3944,7 +3944,7 @@
 					"$(PROJECT_DIR)",
 					"$(SRCROOT)",
 				);
-				INFOPLIST_FILE = "ktobet-asia-ios-staging-Info.plist";
+				INFOPLIST_FILE = "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3975,7 +3975,7 @@
 					"$(PROJECT_DIR)",
 					"$(SRCROOT)",
 				);
-				INFOPLIST_FILE = "ktobet-asia-ios-staging-Info.plist";
+				INFOPLIST_FILE = "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
