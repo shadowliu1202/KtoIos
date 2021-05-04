@@ -27,9 +27,10 @@ class KtoURL {
     static fileprivate var host : String {
         #if QATv
         return "https://v-qat1-mobile.affclub.xyz/"
+        #elseif STAGING
+        return "https://mobile.staging.support/"
         #else
         return "https://qat1-mobile.affclub.xyz/"
-//        return "https://mobile.staging.support/"
         #endif
     }
     static var baseUrl : URL { return URL(string: self.host)!}
