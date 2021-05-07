@@ -520,9 +520,9 @@ private extension Koyomi {
         }
         
         var dateComponent = DateComponents()
-        dateComponent.month = -6
-        let pastsixMonthDate = Calendar.current.date(byAdding: dateComponent, to: currentDate.adding(value: -1, byAdding: .day))
-        if model.currentDates[indexPath.row] < pastsixMonthDate! {
+        dateComponent.month = -5
+        let pastFiveMonthDate = Calendar.current.date(byAdding: dateComponent, to: currentDate.adding(value: 0, byAdding: .day))
+        if model.currentDates[indexPath.row] < pastFiveMonthDate! {
             cell.xLabel.text = "x"
         }
         

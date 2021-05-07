@@ -292,6 +292,7 @@
 "common_ethereum" = "";
 "common_i_know" = "";
 "common_maintaining" = "";
+"common_month" = "";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "";
@@ -579,6 +580,8 @@
 "withdrawal_id" = "";
 "withdrawal_account_exist" = "";
 "withdrawal_crypto_locked" = "";
+"withdrawal_cancel_title" = "";
+"withdrawal_cancel_content" = "";
 
 //MARK: - Product
 "product_slot_recent_play" = "";

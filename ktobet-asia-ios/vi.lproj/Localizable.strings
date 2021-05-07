@@ -292,6 +292,7 @@
 "common_ethereum" = "以太币";
 "common_i_know" = "我知道了";
 "common_maintaining" = "维护中";
+"common_month" = "月";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -583,6 +584,8 @@
 "withdrawal_id" = "THTH提现单号";
 "withdrawal_account_exist" = "THTH您的銀行卡已存在";
 "withdrawal_crypto_locked" = "APP暂时不支持虚拟币充值和提现，请登录网页端操作。";
+"withdrawal_cancel_title" = "确认取消？";
+"withdrawal_cancel_content" = "此提现将立即终止";
 
 //MARK: - Product
 "product_slot_recent_play" = "最近游玩";
