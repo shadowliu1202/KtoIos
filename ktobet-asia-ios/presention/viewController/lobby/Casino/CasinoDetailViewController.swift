@@ -120,7 +120,7 @@ class CasinoDetailViewController: UIViewController {
         let stackView = UIStackView()
         backgroundView.addSubview(stackView)
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         stackView.alignment = .fill
         stackView.spacing = leftRightSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
