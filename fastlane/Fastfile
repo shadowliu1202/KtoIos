@@ -91,6 +91,57 @@ platform :ios do
 
 	end
 
+	lane :buildIpaStaging  do |options|
+
+		match(type: "appstore", keychain_name: "jenkinsKeyChain", keychain_password: "password")
+		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
+				  block: proc do |plist|
+					#version = plist["CFBundleVersion"].to_i + 1
+    					#plist["CFBundleVersion"]  = "#{version}.0"
+					plist["CFBundleVersion"]  = options[:buildVersion]
+					plist["CFBundleShortVersionString"] = options[:appVersion]
+  				  end)
+  		build_app(scheme: "ktobet-asia-ios-staging",
+			  workspace: "ktobet-asia-ios.xcworkspace",
+            		  include_bitcode: true,
+			  clean: true,
+		   	  output_directory: "output",
+			  export_method: "app-store",
+	    		  export_options: { 
+					    method: "app-store",
+					  }
+			 )
+
+	end
+
+
+	lane :uploadstagingToTestflight do |options|
+
+		
+		match(type: "appstore", keychain_name: "jenkinsKeyChain", keychain_password: "password")
+		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
+				  block: proc do |plist|
+					#version = plist["CFBundleVersion"].to_i + 1
+    					#plist["CFBundleVersion"]  = "#{version}.0"
+					plist["CFBundleVersion"]  = options[:buildVersion]
+					plist["CFBundleShortVersionString"] = options[:appVersion]
+  				  end)
+
+    		gym(	configuration: "Release",
+      		     	scheme: "ktobet-asia-ios-staging",
+      		     	clean: true,
+      		     	include_bitcode: true,
+      			include_symbols: true,
+      			export_method: 'app-store',
+      			export_xcargs: "-allowProvisioningUpdates")
+      			#export_options: { provisioningProfiles: {"com.higgstar.ktoasiabet.staging" => "kto_asia_appstore"}})
+
+    		upload_to_testflight(   skip_waiting_for_build_processing: true,
+					username: "higgs-mobile@hotmail.com",
+  					app_identifier: "com.higgstar.ktoasiabet.staging")
+	end
+
+
 
 	lane :uploadToTestflight do |options|
 
@@ -141,6 +192,7 @@ platform :ios do
     		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
   					app_identifier: "com.higgstar.ktoasiabet.qatv")
 	end
+
 
 
 
