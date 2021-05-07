@@ -102,6 +102,13 @@ extension Date {
         return String(format: "%02d\(SeparatorSymbol)%02d", month!, dayOfMonth!)
     }
     
+    func formatDateToStringToYear(with SeparatorSymbol: String = "/") -> String {
+        let comp = Calendar.current.dateComponents([.year, .month], from: self)
+        let month = comp.year
+        let dayOfMonth = comp.month
+        return String(format: "%02d\(SeparatorSymbol)%02d", month!, dayOfMonth!)
+    }
+    
     func convertdateToUTC() -> Date {
         var comp = Calendar.current.dateComponents([.year, .month, .day], from: self)
         comp.timeZone = TimeZone(abbreviation: "UTC")!

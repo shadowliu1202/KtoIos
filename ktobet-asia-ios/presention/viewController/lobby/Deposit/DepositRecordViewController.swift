@@ -153,8 +153,7 @@ class DepositRecordViewController: UIViewController {
                         case .month(let fromDate, let toDate):
                             dateBegin = fromDate
                             dateEnd = toDate
-                            guard let year = dateBegin?.getYear(), let month = dateBegin?.getMonth() else { return }
-                            self?.dateLabel.text = "\(year)/\(month)"
+                            self?.dateLabel.text = dateBegin?.formatDateToStringToYear()
                         }
                         
                         self?.viewModel.dateBegin = dateBegin

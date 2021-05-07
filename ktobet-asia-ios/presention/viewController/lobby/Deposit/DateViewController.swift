@@ -121,7 +121,9 @@ class DateViewController: UIViewController {
         default:
             break
         }
+        
         setNextMonthButton()
+        setPreviousMonthButton()
         self.currentDateLabel.text = self.koyomi.currentDateString() + Localize.string("common_month")
     }
     
@@ -135,6 +137,25 @@ class DateViewController: UIViewController {
         return currentSeletedMonth == currentMonth
     }
     
+    fileprivate func setPreviousMonthButton() {
+        let calendar = Calendar.current
+        var dateComponent = DateComponents()
+        dateComponent.month = -5
+        guard let pastFiveMonthDate = Calendar.current.date(byAdding: dateComponent, to: Date().adding(value: 0, byAdding: .day)) else { return }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/M"
+        let date = dateFormatter.date(from: self.koyomi.currentDateString())
+        let currentSeletedMonth = calendar.component(.month, from: date!)
+        if currentSeletedMonth == pastFiveMonthDate.getMonth() {
+            previousButton.setImage(UIImage(named: "Chevron Left Disable(24)"), for: .normal)
+            previousButton.isEnabled = false
+        } else {
+            previousButton.setImage(UIImage(named: "Chevron Left(24)"), for: .normal)
+            previousButton.isEnabled = true
+        }
+    }
+    
     fileprivate func setNextMonthButton() {
         if isCurrentMonth() {
             nextButton.setImage(UIImage(named: "Chevron Right Disable(24)"), for: .normal)
@@ -146,6 +167,10 @@ class DateViewController: UIViewController {
     }
     
     @objc func onChange(sender: UISegmentedControl) {
+        nextButton.setImage(UIImage(named: "Chevron Right Disable(24)"), for: .normal)
+        nextButton.isEnabled = false
+        previousButton.setImage(UIImage(named: "Chevron Left(24)"), for: .normal)
+        previousButton.isEnabled = true
         switch sender.selectedSegmentIndex {
         case 0:
             koyomi.display(in: .current)
