@@ -28,7 +28,7 @@ class DepositViewModel {
     var maxAmountLimit: Double = 0
     var pagination: Pagination<DepositRecord>!
     var selectedType: DepositRequest.DepositType!
-    let imgIcon: [Int32: String] = [0: Localize.string("bank_offline_default"),
+    let imgIcon: [Int32: String] = [0: Localize.string("Topup ¥(32)"),
                                     1: "UnionPay(32)",
                                     2: "WeChatPay(32)",
                                     3: "AliPay(32)",
