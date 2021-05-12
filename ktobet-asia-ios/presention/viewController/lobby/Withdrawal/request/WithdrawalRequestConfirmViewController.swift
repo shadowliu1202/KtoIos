@@ -40,7 +40,7 @@ class WithdrawalRequestConfirmViewController: UIViewController {
         withdrawalBankTextField.setContent(account.bankName)
         withdrawalBankAccountTextField.setIsEdited(false)
         withdrawalBankAccountTextField.setTitle(Localize.string("withdrawal_account"))
-        withdrawalBankAccountTextField.setContent(account.accountNumber)
+        withdrawalBankAccountTextField.setContent(account.accountNumber.value)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
