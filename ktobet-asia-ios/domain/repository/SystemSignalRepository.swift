@@ -22,8 +22,8 @@ class SystemSignalRepositoryImpl : SystemSignalRepository {
     func connectService() {
         socketConnect?.stop()
         socketConnect = nil
-        
-        if let url = URL(string: "wss://qat1.pivotsite.com/notification-ws") {
+        let url = httpClient.getHost().replacingOccurrences(of: "https", with: "wss") + "notification-ws"
+        if let url = URL(string: url) {
             socketConnect = HubConnectionBuilder.init(url: url)
                 .withJSONHubProtocol()
                 .withHttpConnectionOptions(configureHttpOptions: { (option) in

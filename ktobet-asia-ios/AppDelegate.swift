@@ -33,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
+        let storyboardId =  UIApplication.shared.keyWindow?.rootViewController?.restorationIdentifier ?? ""
+        if storyboardId != "LoginNavigation" {
         let viewModel = DI.resolve(LaunchViewModel.self)!
         viewModel
             .checkIsLogged()
@@ -43,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } onError: { (error) in
                 NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
             }.disposed(by: disposeBag)
+        }
     }
     
     func addDebugGesture() {
