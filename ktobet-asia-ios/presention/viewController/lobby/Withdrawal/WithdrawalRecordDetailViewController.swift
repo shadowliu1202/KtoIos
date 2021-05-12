@@ -217,7 +217,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
     fileprivate func showImagePicker() {
         let currentSelectedImageCount = self.imageStackView.subviews.count
         if currentSelectedImageCount >= WithdrawalViewModel.selectedImageCountLimit {
-            Alert.show("", Localize.string("common_photo_upload_count_limit"), confirm: nil, cancel: nil)
+            Alert.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(WithdrawalViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
         }
         
         imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
