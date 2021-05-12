@@ -31,7 +31,7 @@ class WithdrawalAccountDetailViewController: UIViewController {
         branchNameLabel.text = account?.branch
         provinceLabel.text = account?.location
         countryLabel.text = account?.city
-        accountNumberLabel.text = account?.accountNumber
+        accountNumberLabel.text = account?.accountNumber.value
         if account?.verifyStatus == .verifying {
             submitButton.isHidden = true
         }
