@@ -147,7 +147,7 @@ extension TermsOfServiceViewController : UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dataSourceTerms[indexPath.row].selected = !dataSourceTerms[indexPath.row].selected
-        tableView.reloadItemsAtIndexPaths([indexPath], animationStyle: .automatic)
+        tableView.reloadItemsAtIndexPaths([indexPath], animationStyle: .none)
         reloadTableViewHeight()
     }
 }
