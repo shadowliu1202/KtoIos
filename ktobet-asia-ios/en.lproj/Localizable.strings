@@ -293,6 +293,14 @@
 "common_i_know" = "";
 "common_maintaining" = "";
 "common_month" = "";
+"common_unknownhostexception" = "";
+"common_malformedexception" = "";
+"common_timeoutexception" = "";
+"common_ioexception" = "";
+"common_apiexception" = "";
+"common_http_410" = "";
+"common_http_503" = "";
+"common_http_exception" = "";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "";
