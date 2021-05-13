@@ -394,7 +394,7 @@
 "deposit_bankname" = "VIVN充值者银行帐户姓名";
 "deposit_accountlastfournumber" = "VIVN汇款银行卡尾数四位(选填)";
 "deposit_amount" = "VIVN汇款金额";
-"deposit_offline_step1_tips" = "VIVN充值金额，单笔限额 $ %@- %@";
+"deposit_offline_step1_tips" = "VIVN充值金额，单笔限额 $ %@ - %@";
 "deposit_offline_step1_button" = "VIVN申请充值";
 "deposit_offline_step2_title" = "VIVNKTO收款方信息";
 "deposit_offline_step2_title_tips" = "VIVN请汇入以下提供的银行账户。   ";
