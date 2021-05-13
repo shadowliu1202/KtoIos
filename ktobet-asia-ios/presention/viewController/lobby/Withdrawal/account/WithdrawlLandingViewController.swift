@@ -42,6 +42,8 @@ class WithdrawlLandingViewController: UIViewController {
             accountsViewController.withdrawalAccounts = accounts
             add(asChildViewController: accountsViewController)
         } else {
+            // if accounts count = 0, reset WithdrawlAccountsViewController isEditMode to false
+            accountsViewController.withdrawalAccounts = nil
             remove(asChildViewController: accountsViewController)
             add(asChildViewController: emptyViewController)
         }
