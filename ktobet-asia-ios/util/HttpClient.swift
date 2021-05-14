@@ -59,6 +59,13 @@ class HttpClient {
     }
     
     private(set) var debugDatas: [DebugData] = []
+    private var dateFormatter: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.locale = Locale(identifier: "zh_Hant_TW")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return dateFormatter
+    }
     
     init() {
         let formatter : NetworkLoggerPlugin.Configuration.Formatter = .init(responseData: JSONResponseDataFormatter)
@@ -126,7 +133,7 @@ class HttpClient {
     
     private func loadResponseData(_ method: String, response: Response) -> DebugData {
         var debugData = DebugData()
-        debugData.callbackTime = "\(Date().convertdateToUTC().formatDateToStringToDay())"
+        debugData.callbackTime = "\(dateFormatter.string(from: Date()))"
         debugData.url = "\(String(describing: (response.request?.url)!))"
         if response.request?.allHTTPHeaderFields != nil {
             debugData.headers = "\((response.request?.allHTTPHeaderFields)!)"
@@ -139,9 +146,12 @@ class HttpClient {
         }
         
         let data = response.data
-        let dataStr = String(data: data, encoding: .utf8)!
-        let s = dataStr.count > debugCharCount ? "\(dataStr.prefix(debugCharCount))...more" : dataStr
-        debugData.response = "\(s)"
+        if let dataStr = String(data: data, encoding: .utf8) {
+            let s = dataStr.count > debugCharCount ? "\(dataStr.prefix(debugCharCount))...more" : dataStr
+            debugData.response = "\(s)"
+        } else {
+            debugData.response = "response is empty"
+        }
         
         return debugData
     }
