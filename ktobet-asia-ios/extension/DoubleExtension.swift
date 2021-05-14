@@ -5,9 +5,13 @@ extension Double {
         let formatter = NumberFormatter()
         formatter.locale = locale
         formatter.numberStyle = .currency
-        if var formattedTipAmount = formatter.string(from: self as NSNumber) {
+        if var formattedTipAmount = formatter.string(from: abs(self) as NSNumber) {
             let index = formattedTipAmount.index(formattedTipAmount.startIndex, offsetBy: 1)
-            formattedTipAmount.insert(" ", at: index)
+            if self < 0 {
+                formattedTipAmount.insert("-", at: index)
+            } else {
+                formattedTipAmount.insert(" ", at: index)
+            }
             return formattedTipAmount
         }
         
