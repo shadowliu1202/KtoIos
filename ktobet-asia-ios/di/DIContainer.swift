@@ -61,6 +61,9 @@ class DIContainer {
         ctner.register(CasinoApi.self) { (resolver) in
             return CasinoApi(httpclient)
         }
+        ctner.register(SlotApi.self) { (resolver) in
+            return SlotApi(httpclient)
+        }
     }
     
     func registRepo(){
@@ -124,6 +127,14 @@ class DIContainer {
         ctner.register(CasinoRepository.self) { resolver in
             let casinoApi = ctner.resolve(CasinoApi.self)!
             return CasinoRepositoryImpl(casinoApi)
+        }
+        ctner.register(SlotRepository.self) { resolver in
+            let slotApi = ctner.resolve(SlotApi.self)!
+            return SlotRepositoryImpl(slotApi)
+        }
+        ctner.register(SlotRecordRepository.self) { resolver in
+            let slotApi = ctner.resolve(SlotApi.self)!
+            return SlotRecordRepositoryImpl(slotApi)
         }
     }
     
@@ -189,6 +200,16 @@ class DIContainer {
             let repo = ctner.resolve(CasinoRepository.self)!
             let repoLocal = ctner.resolve(LocalStorageRepository.self)!
             return CasinoUseCaseImpl(repo, repoLocal)
+        }
+        ctner.register(SlotUseCase.self) { (resolver) in
+            let repo = ctner.resolve(SlotRepository.self)!
+            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            return SlotUseCaseImpl(repo, repoLocal)
+        }
+        ctner.register(SlotRecordUseCase.self) {  (resolver) in
+            let repo = ctner.resolve(SlotRecordRepository.self)!
+            let repoPlayer = ctner.resolve(PlayerRepository.self)!
+            return SlotRecordUseCaseImpl(repo, playerRepository: repoPlayer)
         }
     }
     
@@ -280,6 +301,12 @@ class DIContainer {
         }
         ctner.register(CasinoViewModel.self) { (resolver) in
             return CasinoViewModel(casinoRecordUseCase: ctner.resolve(CasinoRecordUseCase.self)!, casinoUseCase: ctner.resolve(CasinoUseCase.self)!, memoryCache: MemoryCacheImpl.shared)
+        }
+        ctner.register(SlotViewModel.self) { (resolver) in
+            return SlotViewModel(slotUseCase: ctner.resolve(SlotUseCase.self)!)
+        }
+        ctner.register(SlotBetViewModel.self) { (resolver) in
+            return SlotBetViewModel(slotUseCase: ctner.resolve(SlotUseCase.self)!, slotRecordUseCase: ctner.resolve(SlotRecordUseCase.self)!)
         }
     }
     

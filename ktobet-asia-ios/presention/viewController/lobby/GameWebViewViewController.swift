@@ -5,11 +5,13 @@ import WebKit
 
 class GameWebViewViewController: UIViewController {
     
-    private var viewModel = DI.resolve(CasinoViewModel.self)!
+    var viewModel: ProductWebGameViewModelProtocol?
     private var disposeBag = DisposeBag()
     
     var gameId: Int32!
-    var gameProduct: String!
+    var gameProduct: String! {
+        return viewModel?.getGameProduct() ?? ""
+    }
     
     lazy var backSiteOption1 = KtoURL.baseUrl.absoluteString + gameProduct
     let backSiteHost = "app.ktoasia.com"
@@ -36,7 +38,7 @@ class GameWebViewViewController: UIViewController {
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
         }
         
-        viewModel.createGame(gameId: gameId).subscribeOn(MainScheduler.instance).subscribe {(url) in
+        viewModel?.createGame(gameId: gameId).subscribeOn(MainScheduler.instance).subscribe {(url) in
             guard let url = url else { return }
             let request = URLRequest(url: url)
             webView.load(request)

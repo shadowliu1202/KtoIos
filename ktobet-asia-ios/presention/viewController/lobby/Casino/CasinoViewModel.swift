@@ -3,11 +3,6 @@ import RxSwift
 import RxCocoa
 import share_bu
 
-enum FavoriteAction {
-    case add
-    case remove
-}
-
 class CasinoViewModel {
     private var casinoRecordUseCase : CasinoRecordUseCase!
     private var casinoUseCase: CasinoUseCase!
@@ -36,11 +31,11 @@ class CasinoViewModel {
     // MARK: Favorites
     var favorites = BehaviorSubject<[CasinoGame]>(value: [])
     // MARK: Search
-    lazy var searchSuggestion: Single<[String]> = { return self.casinoUseCase.getSuggestKeywords() }()
+//    lazy var searchSuggestion: Single<[String]> = { return self.casinoUseCase.getSuggestKeywords() }()
     private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
-    lazy var searchResult = searchKey.flatMap { [unowned self] (keyword) -> Observable<[CasinoGame]> in
-        return self.casinoUseCase.searchGamesByKeyword(keyword: keyword)
-    }
+//    lazy var searchResult = searchKey.flatMap { [unowned self] (keyword) -> Observable<[CasinoGame]> in
+//        return self.casinoUseCase.searchGamesByKeyword(keyword: keyword)
+//    }
     
     lazy var betSummary = casinoRecordUseCase.getBetSummary()
     var betTime: [String] = []
@@ -140,31 +135,11 @@ class CasinoViewModel {
         return casinoRecordUseCase.getCasinoWagerDetail(wagerId: wagerId)
     }
     
-    func createGame(gameId: Int32) -> Single<URL?> {
-        return casinoUseCase.createGame(gameId: gameId)
-    }
-    
-    func toggleFavorite(casinoGame: CasinoGame, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
-        if casinoGame.isFavorite {
-            removeFavorite(casinoGame).subscribe(onCompleted: {
-                onCompleted(.remove)
-            }, onError: { (error) in
-                onError(error)
-            }).disposed(by: disposeBag)
-        } else {
-            addFavorite(casinoGame).subscribe(onCompleted: {
-                onCompleted(.add)
-            }, onError: { (error) in
-                onError(error)
-            }).disposed(by: disposeBag)
-        }
-    }
-    
     private func addFavorite(_ casinoGame: CasinoGame) -> Completable {
         return casinoUseCase.addFavorite(casinoGame: casinoGame).do(onCompleted: { [weak self] in
             if var copyValue = try? self?.favorites.value() {
                 if let i = copyValue.firstIndex(of: casinoGame) {
-                    copyValue[i] = CasinoGame(gameId: casinoGame.gameId, gameName: casinoGame.gameName, isFavorite: true, gameStatus: casinoGame.gameStatus, thumbnail: casinoGame.thumbnail, releaseDate: casinoGame.releaseDate)
+                    copyValue[i] = CasinoGame.duplicateGame(casinoGame, isFavorite: true)
                 }
                 self?.favorites.onNext(copyValue)
             }
@@ -175,34 +150,13 @@ class CasinoViewModel {
         return casinoUseCase.removeFavorite(casinoGame: casinoGame).do(onCompleted: { [weak self] in
             if var copyValue = try? self?.favorites.value() {
                 if let i = copyValue.firstIndex(of: casinoGame) {
-                    copyValue[i] = CasinoGame(gameId: casinoGame.gameId, gameName: casinoGame.gameName, isFavorite: false, gameStatus: casinoGame.gameStatus, thumbnail: casinoGame.thumbnail, releaseDate: casinoGame.releaseDate)
+                    copyValue[i] = CasinoGame.duplicateGame(casinoGame, isFavorite: false)
                 }
                 self?.favorites.onNext(copyValue)
             }
         })
     }
     
-    // MARK: Favorites
-    func getFavorites() {
-        favorites = BehaviorSubject<[CasinoGame]>(value: [])
-        casinoUseCase.getFavorites().subscribe(onSuccess: { [weak self] (games) in
-            if games.count > 0 {
-                self?.favorites.onNext(games)
-            } else {
-                self?.favorites.onError(KTOError.EmptyData)
-            }
-        }, onError: { [weak self] (e) in
-            self?.favorites.onError(e)
-        }).disposed(by: disposeBag)
-    }
-    // MARK: Search
-    func clearSearchResult() {
-        triggerSearch("")
-    }
-    func triggerSearch(_ keyword: String?) {
-        guard let keyword = keyword else { return }
-        self.searchKey.accept(SearchKeyword(keyword: keyword))
-    }
     // MARK: Lobby
     func getLobbyGames(lobby: CasinoLobbyType) -> Observable<[CasinoGame]> {
         return casinoUseCase.searchGamesByLobby(lobby: lobby)
@@ -226,4 +180,67 @@ class CasinoTag: NSObject {
     func getCasinoGameTag() -> CasinoGameTag {
         return bean
     }
+}
+
+extension CasinoViewModel: ProductViewModel {
+    func getFavorites() {
+        favorites = BehaviorSubject<[CasinoGame]>(value: [])
+        casinoUseCase.getFavorites().subscribe(onSuccess: { [weak self] (games) in
+            if games.count > 0 {
+                self?.favorites.onNext(games)
+            } else {
+                self?.favorites.onError(KTOError.EmptyData)
+            }
+        }, onError: { [weak self] (e) in
+            self?.favorites.onError(e)
+        }).disposed(by: disposeBag)
+    }
+    
+    func favoriteProducts() -> Observable<[WebGameWithProperties]> {
+        return favorites.map({ $0.map({$0 as WebGameWithProperties})}).asObservable()
+    }
+    
+    func toggleFavorite(game: WebGameWithProperties, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
+        guard game is CasinoGame else { return }
+        let casino = game as! CasinoGame
+        if casino.isFavorite {
+            removeFavorite(casino).subscribe(onCompleted: {
+                onCompleted(.remove)
+            }, onError: { (error) in
+                onError(error)
+            }).disposed(by: disposeBag)
+        } else {
+            addFavorite(casino).subscribe(onCompleted: {
+                onCompleted(.add)
+            }, onError: { (error) in
+                onError(error)
+            }).disposed(by: disposeBag)
+        }
+    }
+    
+    func clearSearchResult() {
+        triggerSearch("")
+    }
+    
+    func searchSuggestion() -> Single<[String]> {
+        return self.casinoUseCase.getSuggestKeywords()
+    }
+    
+    func triggerSearch(_ keyword: String?) {
+        guard let keyword = keyword else { return }
+        self.searchKey.accept(SearchKeyword(keyword: keyword))
+    }
+    
+    func searchResult() -> Observable<[WebGameWithProperties]> {
+        return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<[WebGameWithProperties]> in
+            return self.casinoUseCase.searchGamesByKeyword(keyword: keyword).map({ $0.map({$0 as WebGameWithProperties})})
+        }
+    }
+    
+    func getGameProduct() -> String { "casino" }
+    
+    func createGame(gameId: Int32) -> Single<URL?> {
+        return casinoUseCase.createGame(gameId: gameId)
+    }
+
 }

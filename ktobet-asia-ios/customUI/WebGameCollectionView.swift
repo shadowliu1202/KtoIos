@@ -1,7 +1,7 @@
 import UIKit
 import AlignedCollectionViewFlowLayout
 
-class CasinoGameCollectionView: UICollectionView {
+class WebGameCollectionView: UICollectionView {
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -11,6 +11,19 @@ class CasinoGameCollectionView: UICollectionView {
             flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
             flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
             flowLayout.minimumLineSpacing = CGFloat(14)
+            return flowLayout
+        }()
+    }
+}
+
+class LoadMoreCollectionView: UICollectionView {
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+        self.collectionViewLayout = {
+            let flowLayout = AlignedCollectionViewFlowLayout(horizontalAlignment: .justified, verticalAlignment: .top)
+            flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+            flowLayout.scrollDirection = .horizontal
+            flowLayout.footerReferenceSize = CGSize(width: 80, height: 124)
             return flowLayout
         }()
     }

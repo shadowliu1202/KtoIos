@@ -10,6 +10,10 @@ extension UIBarButtonItem {
             return FavoriteBarButtonItem()
         case .search:
             return SearchButtonItem()
+        case .filter:
+            return FilterBarButtonItem()
+        case .text(let text):
+            return TextBarButtonItem(title: text)
         }
     }
     
@@ -25,12 +29,16 @@ enum KTOBarButtonItemStyle {
     case record
     case favorite
     case search
+    case filter
+    case text(text: String)
     
     var image: UIImage? {
         switch self {
         case .record:           return UIImage(named: "Record")
         case .favorite:         return UIImage(named: "Favorite")
         case .search:           return UIImage(named: "Search")
+        case .filter:           return UIImage(named: "iconFilter24")
+        case .text:             return nil
         }
     }
 }
