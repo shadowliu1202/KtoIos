@@ -240,6 +240,10 @@ class DIContainer {
             let sstemSignalRUseCase = ctner.resolve(SystemSignalRUseCase.self)!
             return SystemViewModel(systemUseCase: sstemSignalRUseCase)
         }
+        ctner.register(ServiceStatusViewModel.self) { resolver  in
+            let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
+            return ServiceStatusViewModel(usecaseSystemStatus: systemUseCase)
+        }
         ctner.register(PlayerViewModel.self) { (resolver) in
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             let authUseCase = ctner.resolve(AuthenticationUseCase.self)!
