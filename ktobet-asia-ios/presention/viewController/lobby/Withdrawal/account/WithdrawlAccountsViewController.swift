@@ -16,6 +16,9 @@ class WithdrawlAccountsViewController: UIViewController {
     @IBOutlet weak var footerBtn: UIButton!
     var withdrawalAccounts: [WithdrawalAccount]? {
         didSet {
+            if withdrawalAccounts == nil {
+                self.isEditMode = false
+            }
             self.source.accept(withdrawalAccounts ?? [])
         }
     }
