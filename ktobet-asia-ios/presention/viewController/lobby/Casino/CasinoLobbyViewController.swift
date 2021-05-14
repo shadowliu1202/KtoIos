@@ -3,18 +3,12 @@ import RxSwift
 import RxCocoa
 import share_bu
 
-class CasinoLobbyViewController: UIViewController {
+class CasinoLobbyViewController: DisplayProduct {
     
     @IBOutlet weak var scrollViewContentHeight: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var gamesCollectionView: CasinoGameCollectionView!
-    lazy var gameDataSourceDelegate = { return CasinoGameDataSourceDelegate(self) }()
-    private var gameData: [CasinoGame] = [] {
-        didSet {
-            self.gameDataSourceDelegate.setGames(gameData)
-            self.gamesCollectionView.reloadData()
-        }
-    }
+    @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
+    lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     var viewModel: CasinoViewModel!
     var lobby: CasinoLobby!
     private var disposeBag = DisposeBag()
@@ -29,7 +23,7 @@ class CasinoLobbyViewController: UIViewController {
     private func initUI() {
         titleLabel.text = lobby.name
         gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-        gamesCollectionView.registerCellFromNib(CasinoGameItemCell.className)
+        gamesCollectionView.registerCellFromNib(WebGameItemCell.className)
     }
     
     private func dataBinding() {
@@ -40,7 +34,7 @@ class CasinoLobbyViewController: UIViewController {
                 self?.handleUnknownError(error)
                 return Observable.just([])
             }).subscribe(onNext: { [weak self] (games) in
-                self?.gameData = games
+                self?.reloadGameData(games)
             }).disposed(by: self.disposeBag)
     }
     
@@ -54,10 +48,17 @@ class CasinoLobbyViewController: UIViewController {
             }
         }
     }
-}
-
-extension CasinoLobbyViewController: CasinoFavoriteProtocol {
-    func toggleFavorite(_ game: CasinoGame, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
-        viewModel.toggleFavorite(casinoGame: game, onCompleted: onCompleted, onError: onError)
+    
+    // MARK: ProductBaseCollection
+    func setCollectionView() -> UICollectionView {
+        return gamesCollectionView
+    }
+    
+    func setProductGameDataSourceDelegate() -> ProductGameDataSourceDelegate {
+        return gameDataSourceDelegate
+    }
+    
+    func setViewModel() -> DisplayProductViewModel? {
+        return viewModel
     }
 }

@@ -13,6 +13,13 @@ let Localize = LocalizeUtils.shared
 class LocalizeUtils: NSObject {
     static let shared = LocalizeUtils()
     
+    func string(_ key: String, _ parameter: String...) -> String {
+        let localizationFileNmae = getLanguage()
+        let path = Bundle.main.path(forResource: localizationFileNmae, ofType: "lproj")
+        let bundle = Bundle(path: path!)
+        return String(format: NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: ""), arguments: parameter)
+    }
+    
     func string(_ key: String, _ parameter: String? = nil) -> String {
         let localizationFileNmae = getLanguage()
         let path = Bundle.main.path(forResource: localizationFileNmae, ofType: "lproj")

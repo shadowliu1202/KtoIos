@@ -3,22 +3,21 @@ import RxSwift
 import RxCocoa
 import share_bu
 
-class CasinoFavoriteViewController: UIViewController {
+class FavoriteViewController: DisplayProduct {
 
     @IBOutlet weak var scrollViewContentHeight: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var emptyViewAddButton: UIButton!
-    @IBOutlet weak var gamesCollectionView: CasinoGameCollectionView!
-    lazy var gameDataSourceDelegate = { return CasinoGameDataSourceDelegate(self) }()
-    private var gameData: [CasinoGame] = [] {
+    @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
+    lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
+    private var gameData: [WebGameWithProperties] = [] {
         didSet {
             self.switchContent(gameData)
-            self.gameDataSourceDelegate.setGames(gameData)
-            self.gamesCollectionView.reloadData()
+            self.reloadGameData(gameData)
         }
     }
     @IBOutlet weak var emptyView: UIView!
-    var viewModel: CasinoViewModel!
+    var viewModel: DisplayProductViewModel?
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -30,18 +29,15 @@ class CasinoFavoriteViewController: UIViewController {
     
     private func initUI() {
         gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-        gamesCollectionView.registerCellFromNib(CasinoGameItemCell.className)
     }
     
     private func dataBinding() {
-        viewModel.getFavorites()
+        viewModel?.getFavorites()
         emptyViewAddButton.rx.touchUpInside.bind { _ in
             NavigationManagement.sharedInstance.popViewController()
         }.disposed(by: disposeBag)
-        gamesCollectionView.dataSource = gameDataSourceDelegate
-        gamesCollectionView.delegate = gameDataSourceDelegate
-        viewModel.favorites
-            .catchError({ [weak self] (error) -> Observable<[CasinoGame]> in
+        viewModel?.favoriteProducts()
+            .catchError({ [weak self] (error) -> Observable<[WebGameWithProperties]> in
                 switch error {
                 case KTOError.EmptyData:
                     self?.switchContent()
@@ -55,7 +51,7 @@ class CasinoFavoriteViewController: UIViewController {
             }).disposed(by: self.disposeBag)
     }
     
-    private func switchContent(_ games: [CasinoGame]? = nil) {
+    private func switchContent(_ games: [WebGameWithProperties]? = nil) {
         if let items = games, items.count > 0 {
             self.gamesCollectionView.isHidden = false
             self.emptyView.isHidden = true
@@ -71,15 +67,22 @@ class CasinoFavoriteViewController: UIViewController {
             if let obj = object as? UICollectionView , obj == gamesCollectionView {
                 let aboveHeight = titleLabel.frame.size.height
                 let space: CGFloat = 20
-                scrollViewContentHeight.constant = (newvalue as! CGSize).height + aboveHeight + space
+                let bottomPadding: CGFloat = 96
+                scrollViewContentHeight.constant = (newvalue as! CGSize).height + aboveHeight + space + bottomPadding
             }
         }
     }
     
-}
-
-extension CasinoFavoriteViewController: CasinoFavoriteProtocol {
-    func toggleFavorite(_ game: CasinoGame, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
-        viewModel.toggleFavorite(casinoGame: game, onCompleted: onCompleted, onError: onError)
+    // MARK: ProductBaseCollection
+    func setCollectionView() -> UICollectionView {
+        return gamesCollectionView
+    }
+    
+    func setProductGameDataSourceDelegate() -> ProductGameDataSourceDelegate {
+        return gameDataSourceDelegate
+    }
+    
+    func setViewModel() -> DisplayProductViewModel? {
+        return viewModel
     }
 }

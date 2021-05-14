@@ -3,23 +3,22 @@ import RxSwift
 import RxCocoa
 import share_bu
 
-class CasinoSearchViewController: UIViewController {
+class SearchViewController: SearchProduct {
     
     @IBOutlet var searchBarView: UISearchBar!
     @IBOutlet weak var suggestionView: UIView!
     @IBOutlet weak var tagsStackView: UIStackView!
-    @IBOutlet weak var gamesCollectionView: CasinoGameCollectionView!
-    lazy var gameDataSourceDelegate = { return CasinoGameDataSourceDelegate(self, isSearchPage: true) }()
-    private var gameData: [CasinoGame] = [] {
+    @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
+    lazy var gameDataSourceDelegate = { return SearchGameDataSourceDelegate(self) }()
+    private var gameData: [WebGameWithProperties] = [] {
         didSet {
             self.switchContent(gameData)
-            self.gameDataSourceDelegate.setGames(gameData)
             self.gameDataSourceDelegate.searchKeyword = self.searchText.value
-            self.gamesCollectionView.reloadData()
+            self.reloadGameData(gameData)
         }
     }
     private let searchText = BehaviorRelay<String?>(value: nil)
-    var viewModel: CasinoViewModel!
+    var viewModel: ProductViewModel?
     private var keepNavigationBar: UIColor?
     private var disposeBag: DisposeBag = DisposeBag()
     
@@ -54,13 +53,14 @@ class CasinoSearchViewController: UIViewController {
         guard let userInfo = notification.userInfo else { return }
         var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-        var contentInset:UIEdgeInsets = self.gamesCollectionView.contentInset
+        var contentInset = UIEdgeInsets.zero
         contentInset.bottom = keyboardFrame.size.height + 44
         gamesCollectionView.contentInset = contentInset
     }
 
     @objc func keyboardWillHide(notification:NSNotification) {
-        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        var contentInset = UIEdgeInsets.zero
+        contentInset.bottom = 96
         gamesCollectionView.contentInset = contentInset
     }
     
@@ -71,8 +71,9 @@ class CasinoSearchViewController: UIViewController {
     private func initSearchTitle() {
         let frame = CGRect(x: 0, y: 0, width: searchBarView.frame.width, height: 44)
         let titleView = UIView(frame: frame)
-        searchBarView.setMagnifyingGlassColorTo(color: .white)
+        searchBarView.removeMagnifyingGlass()
         searchBarView.setClearButtonColorTo(color: .white)
+        searchBarView.setCursorColorTo(color: UIColor.redForDarkFull)
         titleView.addSubview(searchBarView)
         searchBarView.center = titleView.convert(titleView.center, from: titleView.superview)
         navigationItem.titleView = titleView
@@ -82,15 +83,15 @@ class CasinoSearchViewController: UIViewController {
     }
     
     private func dataBinding() {
-        viewModel.clearSearchResult()
-        viewModel.searchSuggestion
+        viewModel?.clearSearchResult()
+        viewModel?.searchSuggestion()
             .catchError({ [weak self] (error) -> Single<[String]> in
                 self?.handleUnknownError(error)
                 return Single.just([])
             })
             .subscribe(onSuccess: { [weak self] (suggestions) in
             guard let `self` = self else { return }
-            self.addBtnTags(stackView: self.tagsStackView, data: suggestions)
+            self.addTagBtns(stackView: self.tagsStackView, data: suggestions)
         }).disposed(by: disposeBag)
         
         searchBarView.rx.text.orEmpty.asDriver().drive(searchText).disposed(by: disposeBag)
@@ -108,7 +109,7 @@ class CasinoSearchViewController: UIViewController {
             .observeOn(MainScheduler.asyncInstance)
             .bind(onNext: { [weak self] (text) in
                 if text?.isEmpty == false {
-                    self?.viewModel.triggerSearch(text)
+                    self?.viewModel?.triggerSearch(text)
                 }
             }).disposed(by: disposeBag)
         
@@ -116,10 +117,8 @@ class CasinoSearchViewController: UIViewController {
             self?.searchBarView.endEditing(true)
         }.disposed(by: disposeBag)
         
-        gamesCollectionView.dataSource = gameDataSourceDelegate
-        gamesCollectionView.delegate = gameDataSourceDelegate
-        viewModel.searchResult
-            .catchError({ [weak self] (error) -> Observable<[CasinoGame]> in
+        viewModel?.searchResult()
+            .catchError({ [weak self] (error) -> Observable<[WebGameWithProperties]> in
                 self?.switchContent()
                 self?.handleUnknownError(error)
                 return Observable.just([])
@@ -128,7 +127,7 @@ class CasinoSearchViewController: UIViewController {
             }).disposed(by: self.disposeBag)
     }
     
-    private func switchContent(_ games: [CasinoGame]? = nil) {
+    private func switchContent(_ games: [WebGameWithProperties]? = nil) {
         if let items = games, items.count > 0 {
             self.gamesCollectionView.isHidden = false
             self.suggestionView.isHidden = true
@@ -138,7 +137,7 @@ class CasinoSearchViewController: UIViewController {
         }
     }
     
-    private func addBtnTags(stackView: UIStackView, data: [String]) {
+    private func addTagBtns(stackView: UIStackView, data: [String]) {
         stackView.removeAllArrangedSubviews()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8
@@ -156,6 +155,7 @@ class CasinoSearchViewController: UIViewController {
             let frame = CGRect(x: dx, y: 0, width: 180, height: 40 )
             let button = UIButton(frame: frame)
             button.setTitle("\(data[i])", for: .normal)
+            button.setTitleColor(UIColor.textPrimaryDustyGray, for: .normal)
             button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 18, bottom: 8, right: 18)
             button.sizeToFit()
             button.layer.cornerRadius = 16
@@ -188,10 +188,17 @@ class CasinoSearchViewController: UIViewController {
             self.searchText.accept(text)
         }
     }
-}
-
-extension CasinoSearchViewController: CasinoFavoriteProtocol {
-    func toggleFavorite(_ game: CasinoGame, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
-        viewModel.toggleFavorite(casinoGame: game, onCompleted: onCompleted, onError: onError)
+    
+    // MARK: SearchBaseCollection
+    func setCollectionView() -> UICollectionView {
+        return gamesCollectionView
+    }
+    
+    func setProductGameDataSourceDelegate() -> SearchGameDataSourceDelegate {
+        return gameDataSourceDelegate
+    }
+    
+    func setViewModel() -> ProductViewModel? {
+        return viewModel
     }
 }

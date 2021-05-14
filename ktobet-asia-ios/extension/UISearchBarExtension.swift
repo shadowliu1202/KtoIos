@@ -10,14 +10,10 @@ extension UISearchBar {
     @IBInspectable
     public var textColor: UIColor? {
         get {
-            let svs = subviews.flatMap { $0.subviews }
-            guard let tf = (svs.filter { $0 is UITextField }).first as? UITextField else { return nil }
-            return tf.textColor
+            return self.textField?.textColor
         }
         set {
-            let svs = subviews.flatMap { $0.subviews }
-            guard let tf = (svs.filter { $0 is UITextField }).first as? UITextField else { return }
-            tf.textColor = newValue
+            self.textField?.textColor = newValue
         }
     }
     
@@ -30,6 +26,25 @@ extension UISearchBar {
         let barButton = UIBarButtonItem(title: title, style: .plain, target: target, action: selector)
         toolbar.setItems([flexible, barButton], animated: false)
         inputAccessoryView = toolbar
+    }
+    
+    var textField : UITextField? {
+        if #available(iOS 13.0, *) {
+            return self.searchTextField
+        } else {
+            let svs = subviews.flatMap { $0.subviews }
+            return (svs.filter { $0 is UITextField }).first as? UITextField
+        }
+    }
+    
+    func removeMagnifyingGlass() {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: self.frame.size.height))
+        self.textField?.leftView = paddingView
+        self.textField?.leftViewMode = .always
+    }
+    
+    func setCursorColorTo(color: UIColor) {
+        self.textField?.tintColor = color
     }
     
     func setMagnifyingGlassColorTo(color: UIColor) {

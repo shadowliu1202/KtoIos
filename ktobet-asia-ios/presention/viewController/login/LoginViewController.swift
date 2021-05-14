@@ -202,6 +202,8 @@ class LoginViewController: UIViewController {
                 if imgCaptcha.image == nil { getCaptcha() }
             default: break
             }
+        } else {
+            self.handleUnknownError(error as! Error)
         }
     }
     
