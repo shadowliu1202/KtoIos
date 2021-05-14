@@ -190,4 +190,12 @@ extension Kotlinx_datetimeLocalDateTime {
         dateFormatter.locale = Locale.current
         return dateFormatter.date(from: date) ?? Date()
     }
+    
+    func toDateTimeFormatString(with SeparatorSymbol: String = "/") -> String {
+        return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d", self.year, self.monthNumber, self.dayOfMonth, self.hour, self.minute, self.second)
+    }
+    
+    func toDateFormatString(with SeparatorSymbol: String = "/") -> String {
+        return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", self.year, self.monthNumber, self.dayOfMonth)
+    }
 }

@@ -3,8 +3,6 @@ import RxSwift
 import RxCocoa
 import share_bu
 
-typealias GameId = Int32
-
 protocol CasinoRepository {
     func getTags(cultureCode: String) -> Single<[CasinoGameTag]>
     func getLobby() -> Single<[CasinoLobby]>
@@ -78,9 +76,9 @@ class CasinoRepositoryImpl: CasinoRepository {
             guard let `self` = self else { return }
             var copyValue = self.favoriteRecord.value
             if let i = copyValue.firstIndex(where: { $0.gameId == casino.gameId}) {
-                copyValue[i] = self.duplicateGame(casino, isFavorite: true)
+                copyValue[i] = CasinoGame.duplicateGame(casino, isFavorite: true)
             } else {
-                let game = self.duplicateGame(casino, isFavorite: true)
+                let game = CasinoGame.duplicateGame(casino, isFavorite: true)
                 copyValue.append(game)
             }
             self.favoriteRecord.accept(copyValue)
@@ -92,9 +90,9 @@ class CasinoRepositoryImpl: CasinoRepository {
             guard let `self` = self else { return }
             var copyValue = self.favoriteRecord.value
             if let i = copyValue.firstIndex(where: { $0.gameId == casino.gameId}) {
-                copyValue[i] = self.duplicateGame(casino, isFavorite: false)
+                copyValue[i] = CasinoGame.duplicateGame(casino, isFavorite: false)
             } else {
-                let game = self.duplicateGame(casino, isFavorite: false)
+                let game = CasinoGame.duplicateGame(casino, isFavorite: false)
                 copyValue.append(game)
             }
             self.favoriteRecord.accept(copyValue)
@@ -109,11 +107,11 @@ class CasinoRepositoryImpl: CasinoRepository {
             guard let `self` = self else { return [] }
             return self.createCasinos(response)
         }
-        return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [weak self] (favorites, games) in
+        return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games
             favorites.forEach { (favoriteItem) in
-                if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}),
-                   let game = self?.duplicateGame(duplicateGames[i], isFavorite: favoriteItem.isFavorite) {
+                if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}) {
+                    let game = CasinoGame.duplicateGame(duplicateGames[i], isFavorite: favoriteItem.isFavorite)
                     duplicateGames[i] = game
                 }
             }
@@ -126,11 +124,11 @@ class CasinoRepositoryImpl: CasinoRepository {
             guard let `self` = self else { return [] }
             return self.createCasinos(response)
         }
-        return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [weak self] (favorites, games) in
+        return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games
             favorites.forEach { (favoriteItem) in
-                if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}),
-                   let game = self?.duplicateGame(duplicateGames[i], isFavorite: favoriteItem.isFavorite) {
+                if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}) {
+                    let game = CasinoGame.duplicateGame(duplicateGames[i], isFavorite: favoriteItem.isFavorite)
                     duplicateGames[i] = game
                 }
             }
@@ -145,10 +143,6 @@ class CasinoRepositoryImpl: CasinoRepository {
             }
             return []
         }
-    }
-    
-    private func duplicateGame(_ origin: CasinoGame, isFavorite: Bool) -> CasinoGame {
-        return CasinoGame(gameId: origin.gameId, gameName: origin.gameName, isFavorite: isFavorite, gameStatus: origin.gameStatus, thumbnail: origin.thumbnail, releaseDate: origin.releaseDate)
     }
     
 }

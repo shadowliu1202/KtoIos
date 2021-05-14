@@ -9,8 +9,24 @@ import Foundation
 import UIKit
 import RxSwift
 import Moya
+import share_bu
 
 extension UIViewController{
+    func handleErrors(_ error : Error) {
+        let err = error as NSError
+        let exception = ExceptionFactory
+            .Companion.init()
+            .create(message: err.userInfo["errorMsg"] as? String ?? "",
+                    statusCode: err.userInfo["statusCode"] as? String ?? "")
+        if exception is ApiUnknownException {
+            handleUnknownError(error)
+        } else if let errorMsg = exception.message {
+            showAlertError(errorMsg)
+        } else {
+            handleUnknownError(error)
+        }
+    }
+    
     func handleUnknownError(_ error : Error) {
         let unknownErrorString = String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
         guard let error = error as? MoyaError else {
@@ -23,7 +39,7 @@ extension UIViewController{
             handleHttpError(error, response: response)
         case .underlying:
             showAlertError("尚未连线网路")
-        case .jsonMapping, .encodableMapping:
+        case .jsonMapping, .encodableMapping, .imageMapping:
             showAlertError("格式错误")
         default:
             showAlertError(unknownErrorString)
