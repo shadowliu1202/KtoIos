@@ -19,7 +19,7 @@ class DepositRecordViewController: UIViewController {
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var isLoading = false
-    fileprivate var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    fileprivate var activityIndicator = UIActivityIndicatorView(style: .large)
     fileprivate var curentFilter: [FilterItem]?
     fileprivate var depositDateType: DateType = .week()
     

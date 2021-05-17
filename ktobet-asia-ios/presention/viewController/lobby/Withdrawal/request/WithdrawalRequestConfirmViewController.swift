@@ -16,7 +16,7 @@ class WithdrawalRequestConfirmViewController: UIViewController {
     @IBOutlet private weak var confirmButton: UIButton!
     
     private var viewModel = DI.resolve(WithdrawalRequestViewModel.self)!
-    private var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    private var activityIndicator = UIActivityIndicatorView(style: .large)
     var account: WithdrawalAccount!
     var amount: String!
     var withdrawalLimits: WithdrawalLimits!

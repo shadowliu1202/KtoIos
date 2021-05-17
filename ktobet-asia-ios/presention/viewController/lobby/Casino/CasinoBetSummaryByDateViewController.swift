@@ -10,7 +10,7 @@ class CasinoBetSummaryByDateViewController: UIViewController {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
     
-    private var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    private var activityIndicator = UIActivityIndicatorView(style: .large)
     private var viewModel = DI.resolve(CasinoViewModel.self)!
     private var disposeBag = DisposeBag()
     private var sections: [Section] = []

@@ -40,7 +40,7 @@ class DepositRecordDetailViewController: UIViewController {
     
     @IBOutlet private weak var confrimButton: UIButton!
     
-    var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    var activityIndicator = UIActivityIndicatorView(style: .large)
     var detailRecord: DepositRecord!
     
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
