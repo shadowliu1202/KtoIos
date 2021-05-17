@@ -19,7 +19,7 @@ class ImagePickerViewController: UIViewController {
     var showImageFormatInvalidAlert: ((_ view: UIView) -> ())?
     var showImageSizeLimitAlert: ((_ view: UIView) -> ())?
     
-    private var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    private var activityIndicator = UIActivityIndicatorView(style: .large)
     private var imageRequestID: PHImageRequestID?
     private let albumButton =  UIButton(type: .custom)
     private var albums: [AlbumModel] = []

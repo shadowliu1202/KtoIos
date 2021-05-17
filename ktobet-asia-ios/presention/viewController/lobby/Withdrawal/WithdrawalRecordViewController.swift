@@ -17,7 +17,7 @@ class WithdrawalRecordViewController: UIViewController {
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var isLoading = false
-    fileprivate var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    fileprivate var activityIndicator = UIActivityIndicatorView(style: .large)
     fileprivate var curentFilter: [FilterItem]?
     fileprivate var withdrawalDateType: DateType = .week()
     

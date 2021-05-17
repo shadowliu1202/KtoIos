@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        let storyboardId =  UIApplication.shared.keyWindow?.rootViewController?.restorationIdentifier ?? ""
+        let storyboardId =  UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController?.restorationIdentifier ?? ""
         if storyboardId != "LoginNavigation" {
         let viewModel = DI.resolve(LaunchViewModel.self)!
         viewModel
