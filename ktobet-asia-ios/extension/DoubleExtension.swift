@@ -68,3 +68,10 @@ extension Formatter {
 extension Numeric {
     var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
 }
+
+extension Double {
+    func floor(toDecimal decimal: Int) -> Double {
+        let numberOfDigits = pow(10.0, Double(decimal))
+        return (self * numberOfDigits).rounded(.towardZero) / numberOfDigits
+    }
+}
