@@ -147,7 +147,7 @@ class NavigationManagement {
         
         viewController = UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            UIApplication.shared.keyWindow?.rootViewController = self.viewController
+            UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = self.viewController
         }
     }
     
@@ -187,7 +187,7 @@ class NavigationManagement {
         NotificationCenter.default.removeObserver(sideBar, name: NSNotification.Name(rawValue: "disposeSystemNotify"), object: nil)
         sideBarViewController = nil
         menu = nil
-        UIApplication.shared.keyWindow?.rootViewController = nil
+        UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = nil
         SideMenuManager.default.leftMenuNavigationController = nil
     }
 }

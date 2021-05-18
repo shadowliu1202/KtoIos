@@ -10,7 +10,7 @@ import UIKit
 
 class Alert{
     class func show(_ title: String?, _ message: String?, confirm: (()->Void)?, confirmText: String? = nil, cancel:(()->Void)?, cancelText: String? = nil ){
-        if let topVc = UIApplication.shared.keyWindow?.topViewController{
+        if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController{
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.view.backgroundColor = UIColor.white
             alert.view.layer.cornerRadius = 14
@@ -34,7 +34,7 @@ class Alert{
     }
     
     class func show(_ title: String?, _ message : String?, confirm: (()->Void)?, cancel:(()->Void)?, tintColor: UIColor) {
-        if let topVc = UIApplication.shared.keyWindow?.topViewController{
+        if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController{
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.view.backgroundColor = UIColor.white
             alert.view.layer.cornerRadius = 14

@@ -43,7 +43,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
     @IBOutlet private weak var confirmButton: UIButton!
     @IBOutlet private weak var cancelButton: UIButton!
     
-    var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    var activityIndicator = UIActivityIndicatorView(style: .large)
     var detailRecord: WithdrawalRecord!
     
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
