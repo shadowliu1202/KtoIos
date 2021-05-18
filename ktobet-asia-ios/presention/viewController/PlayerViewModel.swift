@@ -14,7 +14,7 @@ class PlayerViewModel {
     }
         
     func getBalance() -> Observable<String> {
-        return self.playerUseCase.getBalance().map{ floor($0.amount).currencyFormat() }.asObservable()
+        return self.playerUseCase.getBalance().map{ $0.amount.floor(toDecimal: 2).currencyFormat() }.asObservable()
     }
     
     func loadPlayerInfo() -> Observable<Player> {
