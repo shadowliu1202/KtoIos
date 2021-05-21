@@ -118,12 +118,14 @@ class SearchViewController: SearchProduct {
         }.disposed(by: disposeBag)
         
         viewModel?.searchResult()
-            .catchError({ [weak self] (error) -> Observable<[WebGameWithProperties]> in
-                self?.switchContent()
-                self?.handleUnknownError(error)
-                return Observable.just([])
-            }).subscribe(onNext: { [weak self] (games) in
-                self?.gameData = games
+            .subscribe(onNext: { [weak self] (event) in
+                if let games = event.element {
+                    self?.gameData = games
+                }
+                if let error = event.error {
+                    self?.switchContent()
+                    self?.handleUnknownError(error)
+                }
             }).disposed(by: self.disposeBag)
     }
     
