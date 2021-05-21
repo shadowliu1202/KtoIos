@@ -43,7 +43,7 @@ class PlayerRepositoryImpl : PlayerRepository {
                 }()
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",
                                             displayId: responsePlayerInfo.data?.displayId ?? "" ,
-                                            realName: responsePlayerInfo.data?.realName ?? "" ,
+                                            withdrawalName: responsePlayerInfo.data?.realName ?? "" ,
                                             level: Int32(responsePlayerInfo.data?.level ?? 0 ),
                                             exp: responsePlayerInfo.data?.exp ?? 0 ,
                                             autoUseCoupon: responsePlayerInfo.data?.isAutoUseCoupon ?? false )
