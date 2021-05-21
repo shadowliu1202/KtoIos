@@ -5,9 +5,13 @@ extension Double {
         let formatter = NumberFormatter()
         formatter.locale = locale
         formatter.numberStyle = .currency
-        if var formattedTipAmount = formatter.string(from: self as NSNumber) {
+        if var formattedTipAmount = formatter.string(from: abs(self) as NSNumber) {
             let index = formattedTipAmount.index(formattedTipAmount.startIndex, offsetBy: 1)
-            formattedTipAmount.insert(" ", at: index)
+            if self < 0 {
+                formattedTipAmount.insert("-", at: index)
+            } else {
+                formattedTipAmount.insert(" ", at: index)
+            }
             return formattedTipAmount
         }
         
@@ -63,4 +67,11 @@ extension Formatter {
 
 extension Numeric {
     var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
+}
+
+extension Double {
+    func floor(toDecimal decimal: Int) -> Double {
+        let numberOfDigits = pow(10.0, Double(decimal))
+        return (self * numberOfDigits).rounded(.towardZero) / numberOfDigits
+    }
 }

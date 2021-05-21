@@ -16,6 +16,9 @@ class WithdrawlAccountsViewController: UIViewController {
     @IBOutlet weak var footerBtn: UIButton!
     var withdrawalAccounts: [WithdrawalAccount]? {
         didSet {
+            if withdrawalAccounts == nil {
+                self.isEditMode = false
+            }
             self.source.accept(withdrawalAccounts ?? [])
         }
     }
@@ -152,7 +155,7 @@ class AccountCell: UITableViewCell {
     func configure(_ item: WithdrawalAccount, _ isEditMode: Bool) -> Self {
         self.selectionStyle = .none
         self.bankNameLabel.text = item.bankName
-        self.bankNumLabel.text = item.accountNumber
+        self.bankNumLabel.text = item.accountNumber.value
         self.verifyLabel.textColor = item.verifyStatusColor
         self.verifyLabel.text = item.verifyStatusLocalize
         self.imgView.isHidden = isEditMode

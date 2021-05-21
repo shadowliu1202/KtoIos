@@ -3,7 +3,8 @@ import RxSwift
 import share_bu
 import SDWebImage
 
-class CasinoGameItemCell: UICollectionViewCell {
+class WebGameItemCell: UICollectionViewCell {
+    @IBOutlet weak var labelHeight: NSLayoutConstraint!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var gameImage: UIImageView!
     @IBOutlet weak var backgroundImage: UIImageView!
@@ -30,7 +31,7 @@ class CasinoGameItemCell: UICollectionViewCell {
     }
     
     @discardableResult
-    func configure(game: CasinoGame) -> Self {
+    func configure(game: WebGameWithProperties) -> Self {
         let imageDownloader = SDWebImageDownloader.shared
         for header in HttpClient().headers {
             imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
@@ -40,7 +41,8 @@ class CasinoGameItemCell: UICollectionViewCell {
         let imgName = game.isFavorite == true ? "game-favorite-active" : "game-favorite-activeinactive"
         favoriteBtn.setImage(UIImage(named: imgName), for: .normal)
         labTitle.text = game.gameName
-        switch game.gameState {
+        labelHeight.constant = labTitle.retrieveTextHeight()
+        switch game.gameState() {
         case .active:
             blurView.isHidden = true
         case .inactive(let text, let icon), .maintenance(let text, let icon):
@@ -55,8 +57,7 @@ class CasinoGameItemCell: UICollectionViewCell {
     }
 }
 
-class CasinoGameSearchItemCell: CasinoGameItemCell {
-    @IBOutlet weak var labelHeight: NSLayoutConstraint!
+class WebGameSearchItemCell: WebGameItemCell {
     private var previousKeyword: String?
     
     override func prepareForReuse() {
@@ -65,11 +66,10 @@ class CasinoGameSearchItemCell: CasinoGameItemCell {
         self.labTitle.highlight(text: previousKeyword, color: .clear)
     }
     
-    func configure(game: CasinoGame, searchKeyword: String?) -> Self {
+    func configure(game: WebGameWithProperties, searchKeyword: String?) -> Self {
         super.configure(game: game)
         self.previousKeyword = searchKeyword
         self.labTitle.highlight(text: searchKeyword, color: .redForDark502)
-        labelHeight.constant = labTitle.retrieveTextHeight()
         return self
     }
 }

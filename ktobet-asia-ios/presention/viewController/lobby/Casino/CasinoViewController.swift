@@ -5,7 +5,7 @@ import share_bu
 import AlignedCollectionViewFlowLayout
 
 let TagAllID: Int32 = -1
-class CasinoViewController: UIViewController {
+class CasinoViewController: DisplayProduct {
 
     var barButtonItems: [UIBarButtonItem] = []
     @IBOutlet weak var scrollView: UIScrollView!
@@ -14,15 +14,9 @@ class CasinoViewController: UIViewController {
     @IBOutlet weak var lobbyCollectionUpSpace: NSLayoutConstraint!
     @IBOutlet weak var lobbyCollectionHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsStackView: UIStackView!
-    @IBOutlet weak var gamesCollectionView: CasinoGameCollectionView!
+    @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     private var lobbies: [CasinoLobby] = []
-    lazy var gameDataSourceDelegate = { return CasinoGameDataSourceDelegate(self) }()
-    private var gameData: [CasinoGame] = [] {
-        didSet {
-            self.gameDataSourceDelegate.setGames(gameData)
-            self.gamesCollectionView.reloadData()
-        }
-    }
+    lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
     lazy private var tagAll: CasinoTag = {
         CasinoTag(CasinoGameTag.GameType(id: TagAllID, name: Localize.string("common_all")), isSeleced: false)
@@ -62,7 +56,6 @@ class CasinoViewController: UIViewController {
     
     fileprivate func initUI() {
         gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-        gamesCollectionView.registerCellFromNib(CasinoGameItemCell.className)
         let data = [tagAll]
         addBtnTags(stackView: tagsStackView, data: data)
         lobbyCollectionView.dataSource = self
@@ -70,8 +63,6 @@ class CasinoViewController: UIViewController {
     }
     
     fileprivate func dataBinding() {
-        gamesCollectionView.dataSource = gameDataSourceDelegate
-        gamesCollectionView.delegate = gameDataSourceDelegate
         viewModel.lobby()
             .catchError({ [weak self] (error) -> Single<[CasinoLobby]> in
                 self?.lobbyCollectionUpSpace.constant = 0
@@ -90,7 +81,7 @@ class CasinoViewController: UIViewController {
                 return Observable.just([])
             })
             .subscribe(onNext: { [weak self] (games) in
-            self?.gameData = games
+                self?.reloadGameData(games)
         }).disposed(by: disposeBag)
         
         Observable.combineLatest(viewDidRotate, viewModel.casinoGameTagStates)
@@ -180,11 +171,17 @@ class CasinoViewController: UIViewController {
         }
     }
     
-}
-
-extension CasinoViewController: CasinoFavoriteProtocol {
-    func toggleFavorite(_ game: CasinoGame, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
-        viewModel.toggleFavorite(casinoGame: game, onCompleted: onCompleted, onError: onError)
+    // MARK: ProductBaseCollection
+    func setCollectionView() -> UICollectionView {
+        return gamesCollectionView
+    }
+    
+    func setProductGameDataSourceDelegate() -> ProductGameDataSourceDelegate {
+        return gameDataSourceDelegate
+    }
+    
+    func setViewModel() -> DisplayProductViewModel? {
+        return viewModel
     }
 }
 
@@ -197,14 +194,14 @@ extension CasinoViewController: BarButtonItemable {
             self.navigationController?.pushViewController(casinoSummaryViewController, animated: true)
             break
         case is FavoriteBarButtonItem:
-            guard let casinoFavoriteViewController = UIStoryboard(name: "Casino", bundle: nil).instantiateViewController(withIdentifier: "CasinoFavoriteViewController") as? CasinoFavoriteViewController else { return }
-            casinoFavoriteViewController.viewModel = self.viewModel
-            self.navigationController?.pushViewController(casinoFavoriteViewController, animated: true)
+            guard let favoriteViewController = UIStoryboard(name: "Product", bundle: nil).instantiateViewController(withIdentifier: "FavoriteViewController") as? FavoriteViewController else { return }
+            favoriteViewController.viewModel = self.viewModel
+            self.navigationController?.pushViewController(favoriteViewController, animated: true)
             break
         case is SearchButtonItem:
-            guard let casinoSearchViewController = UIStoryboard(name: "Casino", bundle: nil).instantiateViewController(withIdentifier: "CasinoSearchViewController") as? CasinoSearchViewController else { return }
-            casinoSearchViewController.viewModel = self.viewModel
-            self.navigationController?.pushViewController(casinoSearchViewController, animated: true)
+            guard let searchViewController = UIStoryboard(name: "Product", bundle: nil).instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController else { return }
+            searchViewController.viewModel = self.viewModel
+            self.navigationController?.pushViewController(searchViewController, animated: true)
             break
         default: break
         }

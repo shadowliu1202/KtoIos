@@ -248,7 +248,6 @@
 "common_recommend" = "推荐";
 "common_win_amount" = "赢%@";
 "common_lose_amount" = "输%@";
-"common_invalid" = "无效";
 "common_self_canceled" = "自主取消";
 "common_strike_canceled" = "追号取消";
 "common_other" = "其他";
@@ -293,6 +292,14 @@
 "common_i_know" = "我知道了";
 "common_maintaining" = "维护中";
 "common_month" = "月";
+"common_unknownhostexception" = "尚未连线网路";
+"common_malformedexception" = "格式错误";
+"common_timeoutexception" = "连线逾时";
+"common_ioexception" = "读写错误";
+"common_apiexception" = "错误 : %@";
+"common_http_410" = "系统维护中";
+"common_http_503" = "发生暂时性的错误，请稍后再试";
+"common_http_exception" = "网路异常，错误代码(%@)";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -386,7 +393,7 @@
 "deposit_bankname" = "充值者银行帐户姓名";
 "deposit_accountlastfournumber" = "汇款银行卡尾数四位(选填)";
 "deposit_amount" = "汇款金额";
-"deposit_offline_step1_tips" = "充值单笔限额： %@- %@";
+"deposit_offline_step1_tips" = "充值单笔限额： %@ - %@";
 "deposit_offline_step1_button" = "申请充值";
 "deposit_offline_step2_title" = "KTO收款方信息";
 "deposit_offline_step2_title_tips" = "请汇入以下提供的银行账户。   ";
@@ -663,9 +670,9 @@
 "product_slot_above_30" = "多于30";
 "product_slot_all" = "所有线";
 "product_slot_others" = "其他";
-"product_new_bets" = "最新投注 (%@)";
-"product_unsettled_bets" = "未结算 (%@)";
-"product_settled_bets" = "已结算 (%@)";
+"product_new_bets" = "最新投注";
+"product_unsettled_bets" = "未结算";
+"product_settled_bets" = "已结算";
 "product_draw_result" = "开奖结果";
 "product_prededuct" = "预扣";
 "product_empty_unsettled_records" = "没有未完成的游戏";
@@ -845,7 +852,7 @@
 尽管本条规可能存在其他规定，但KTO亚洲有权基于任何理由酌情拒绝会员的全部或部分下注。
 我们仅接受会员按本条规通过互联网和/或联接设备进行下注。其他下注形式(邮寄、电邮、传真等)一概不予接受。我们即使收到其他形式的下注，不论赌盘最后开出的结果如何，均视为无效。
 1. KTO亚洲有权搁置或拒绝疑用欺骗手段如通过攻击、操纵等破坏操作系统所进行的投注。
-2. 任何不寻常的投注将被取消，而不需另行通知。特此声明，人工智能或软件(机器人&quot;Robots&quot;)于线上投注服务的使用是被严禁的行为，而任何试图或利用该方式的投注将被取消，相关账号立即会被关闭。
+2. 任何不寻常的投注将被取消，而不需另行通知。特此声明，人工智能或软件(机器人\"Robots\")于线上投注服务的使用是被严禁的行为，而任何试图或利用该方式的投注将被取消，相关账号立即会被关闭。
 受限于本条规其他规定，会员输入正确的会员名和密码且账户内存有足够余额，会员即有效投下注码。
 会员均须对使用下列内容（或其各项结合）所进行的所有活动和交易负责（无论下述使用是否得到授权）：
 1. 会员姓名；

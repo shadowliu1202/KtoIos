@@ -11,12 +11,12 @@ class CasinoUnsettleRecordsViewController: UIViewController {
     private var disposeBag = DisposeBag()
     private var sections: [Section] = []
     
-    private var test: [String] = []
+    lazy var unsettleGameDelegate = { return UnsettleGameDelegate(self) }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
-        tableView.delegate = self
+        tableView.delegate = unsettleGameDelegate
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         getUnsettledBetSummary()
@@ -57,6 +57,15 @@ class CasinoUnsettleRecordsViewController: UIViewController {
     }
 }
 
+extension CasinoUnsettleRecordsViewController: ProductGoWebGameVCProtocol, UnsettleTableViewDelegate {
+    func getProductViewModel() -> ProductWebGameViewModelProtocol? {
+        self.viewModel
+    }
+    
+    func gameId(at indexPath: IndexPath) -> Int32 {
+        self.sections[indexPath.section].gameId[indexPath.row]
+    }
+}
 
 extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -78,29 +87,12 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Casino", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "GameWebViewViewController") as! GameWebViewViewController
-        vc.gameId = sections[indexPath.section].gameId[indexPath.row]
-        vc.gameProduct = "casino"
-        present(vc, animated: true, completion: nil)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 58
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (sections[indexPath.section].expanded) {
             return 97
         }else{
             return 0
         }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

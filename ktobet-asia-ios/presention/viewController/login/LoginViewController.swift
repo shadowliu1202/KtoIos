@@ -32,6 +32,7 @@ class LoginViewController: UIViewController {
     private let heightCaptchaView = CGFloat(257)
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(LoginViewModel.self)!
+    private var serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -201,6 +202,8 @@ class LoginViewController: UIViewController {
                 if imgCaptcha.image == nil { getCaptcha() }
             default: break
             }
+        } else {
+            self.handleUnknownError(error as! Error)
         }
     }
     
@@ -246,7 +249,17 @@ class LoginViewController: UIViewController {
     
     // MARK: BUTTON ACTION
     @IBAction func btnSignupPressed(_ sender : UIButton){
-        performSegue(withIdentifier: segueSignup, sender: nil)
+        serviceStatusViewModel.getOtpService().subscribe {[weak self] (otpStatus) in
+            if !otpStatus.isMailActive && !otpStatus.isSmsActive {
+                let title = Localize.string("common_error")
+                let message = Localize.string("register_service_down")
+                Alert.show(title, message, confirm: nil, cancel: nil)
+            } else {
+                self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
+            }
+        } onError: {[weak self] (error) in
+            self?.handleUnknownError(error)
+        }.disposed(by: disposeBag)
     }
     
     @IBAction func btnLoginPressed(_ sender : UIButton){

@@ -18,6 +18,7 @@ def default_pods
   pod 'Moya/RxSwift'
   pod 'SDWebImage'
   pod "AlignedCollectionViewFlowLayout"
+  pod 'TYCyclePagerView'
   use_frameworks!
 end
 

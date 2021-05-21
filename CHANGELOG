@@ -1,3 +1,5 @@
 connect 1.APP-1051 [iOS][Registration]修改前台註冊密碼規則 // 因共用模組，所以未更改
 Connect 2.APP-1285 [Register] 註冊接收驗證連結開通後，仍無法登入KTO // api會將email轉小寫後再做驗證，app無需修改
 Connect 3.APP-1449 補Commit message with task number APP-1449
+Connect 4.APP-1671 [APP][iOS]註冊手機號檢核規則調整 // 因共用模組，所以未更改
+Connect 5.APP-1645 [APP][iOS]郵箱檢核規則調整 // 因共用模組，所以未更改

@@ -29,10 +29,10 @@ class DefaultProductViewController: UIViewController {
                       Localize.string("landing_casino_title"),
                       Localize.string("landing_slot_title"),
                       Localize.string("common_keno")]
-        let descs = [Localize.string("accountinfo_defaultproduct_sportsbook_description"),
-                     Localize.string("accountinfo_defaultproduct_casino_description"),
-                     Localize.string("accountinfo_defaultproduct_slot_description"),
-                     Localize.string("accountinfo_defaultproduct_keno_description")]
+        let descs = [Localize.string("profile_defaultproduct_sportsbook_description"),
+                     Localize.string("profile_defaultproduct_casino_description"),
+                     Localize.string("profile_defaultproduct_slot_description"),
+                     Localize.string("profile_defaultproduct_keno_description")]
         let selected = [false, false, false, false]
         let type : [ProductType] = [.sbk, .casino, .slot, .numbergame]
         let selectImg = [UIImage(named: "(375)SBK-Select"),
@@ -67,7 +67,7 @@ class DefaultProductViewController: UIViewController {
     private func localize(){
         btnIgnore.title = Localize.string("common_skip")
         btnNext.setTitle(Localize.string("common_next"), for: .normal)
-        labTitle.text = Localize.string("accountinfo_defaultproduct_title")
+        labTitle.text = Localize.string("profile_defaultproduct_title")
     }
     
     private func defaultStyle(){
@@ -106,7 +106,7 @@ class DefaultProductViewController: UIViewController {
     
     @IBAction func btnInfoPressed(_ sender: UIButton){
         let title = Localize.string("common_tip_title_warm")
-        let message = Localize.string("accountinfo_defaultproduct_description")
+        let message = Localize.string("profile_defaultproduct_description")
         Alert.show(title, message, confirm: nil, cancel: nil)
     }
 }

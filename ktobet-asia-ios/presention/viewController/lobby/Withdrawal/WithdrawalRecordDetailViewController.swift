@@ -43,7 +43,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
     @IBOutlet private weak var confirmButton: UIButton!
     @IBOutlet private weak var cancelButton: UIButton!
     
-    var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    var activityIndicator = UIActivityIndicatorView(style: .large)
     var detailRecord: WithdrawalRecord!
     
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
@@ -217,7 +217,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
     fileprivate func showImagePicker() {
         let currentSelectedImageCount = self.imageStackView.subviews.count
         if currentSelectedImageCount >= WithdrawalViewModel.selectedImageCountLimit {
-            Alert.show("", Localize.string("common_photo_upload_count_limit"), confirm: nil, cancel: nil)
+            Alert.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(WithdrawalViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
         }
         
         imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController

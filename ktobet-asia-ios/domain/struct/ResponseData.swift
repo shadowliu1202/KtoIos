@@ -30,6 +30,11 @@ struct ResponseDataMap<T:Codable> : Codable {
     var data : [String: T]
 }
 
+struct ResponseDataPage<T: Codable> : Codable {
+    var data: [T]
+    var totalCount: Int
+}
+
 struct PayloadPage<T: Codable> : Codable {
     var payload: [T]
     var totalCount: Int
@@ -340,3 +345,151 @@ struct UnsettledRecordBean: Codable {
 
 struct Nothing : Codable{}
 
+struct SlotHotGamesBean: Codable {
+    let winLoss: [SlotGameBean]
+    let betCount: [SlotGameBean]
+    
+    func toSlotHotGames(portalHost: String) -> SlotHotGames {
+        return SlotHotGames(mostTransactionRanking: self.betCount.map{ $0.toSlotGame(portalHost: portalHost) }, mostWinningAmountRanking: self.winLoss.map{ $0.toSlotGame(portalHost: portalHost) })
+    }
+}
+
+struct SlotGameBean: Codable {
+    let gameId: Int32
+    let jackpotPrize: Double
+    let isFireGame: Bool
+    let status: Int32
+    let hasForFun: Bool
+    let isFavorite: Bool
+    let isGameMaintenance: Bool
+    let imageId: String
+    let name: String
+   
+    
+    func toSlotGame(portalHost: String) -> SlotGame {
+        return SlotGame(gameId: self.gameId,
+                        gameName: self.name,
+                        isFavorite: self.isFavorite,
+                        gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isGameMaintenance, status: self.status),
+                        thumbnail: SlotThumbnail(host: portalHost, thumbnailId: self.imageId),
+                        hasForFun: self.hasForFun,
+                        jackpotPrize: self.jackpotPrize)
+    }
+}
+
+struct RecentGameBean: Codable {
+    let gameId: Int32
+    let hasForFun: Bool
+    let imageId: String
+    let isFavorite: Bool
+    let name: String
+    
+    func toSlotGame(portalHost: String) -> SlotGame {
+        return SlotGame(gameId: self.gameId,
+                        gameName: self.name,
+                        isFavorite: self.isFavorite,
+                        gameStatus: GameStatus.active,
+                        thumbnail: SlotThumbnail(host: portalHost, thumbnailId: self.imageId),
+                        hasForFun: self.hasForFun,
+                        jackpotPrize: 0)
+    }
+}
+
+struct SlotBetSummaryBean: Codable {
+    let pendingTransactionCount: Int32
+    let summaries: [Summary]
+
+    struct Summary: Codable {
+        let betDate: String
+        let count: Int32
+        let stakes: Double
+        let winloss: Double
+        
+        func toDateSummary() -> DateSummary {
+            let createDate = self.betDate.convertDateTime(format:  "yyyy/MM/dd") ?? Date()
+            return DateSummary(totalStakes: CashAmount(amount: self.stakes),
+                               totalWinLoss: CashAmount(amount: self.winloss),
+                               createdDateTime: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()),
+                               count: self.count)
+        }
+    }
+}
+
+struct SlotNewAndJackpotBean: Codable {
+    let newGame: [SlotGameBean]
+    let jackpot: [SlotGameBean]
+    
+    func toSlotNewAndJackpotGames(portalHost: String) -> SlotNewAndJackpotGames {
+        return SlotNewAndJackpotGames(newGame: self.newGame.map{ $0.toSlotGame(portalHost: portalHost) }, jackpotGames: self.jackpot.map{ $0.toSlotGame(portalHost: portalHost) })
+    }
+}
+
+struct SlotDateGameRecordBean: Codable {
+    let count: Int32
+    let endDate: String
+    let gameId: Int32
+    let gameName: String
+    let imageId: String
+    let stakes: Double
+    let startDate: String
+    let winloss: Double
+    
+    init(gameId: Int32, gameList: [SlotDateGameRecordBean]) {
+        self.count = gameList.map({$0.count}).reduce(0, +)
+        self.endDate = gameList.max { (a, b) -> Bool in return a.endDate < b.endDate }?.endDate ?? ""
+        self.gameId = gameId
+        self.gameName = gameList.first?.gameName ?? ""
+        self.imageId = gameList.first?.imageId ?? ""
+        self.stakes = gameList.map({$0.stakes}).reduce(0, +)
+        self.startDate = gameList.min(by: { (a, b) -> Bool in return a.startDate < b.startDate })?.startDate ?? ""
+        self.winloss = gameList.map({$0.winloss}).reduce(0, +)
+    }
+    
+    func toSlotGroupedRecord() -> SlotGroupedRecord {
+        let thumbnail = SlotThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
+        let format1 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let end = (endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let start = (startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        return SlotGroupedRecord(slotThumbnail: thumbnail, endDate: end, gameId: gameId, gameName: gameName, stakes: CashAmount(amount: stakes), startDate: start, winloss: CashAmount(amount: winloss), recordCount: count)
+    }
+}
+
+struct SlotBetRecordBean: Codable {
+    let betId: String
+    let betTime: String
+    let stakes: Double
+    let winLoss: Double
+    let hasDetails: Bool
+    
+    func toSlotBetRecord(_ zoneOffset: Kotlinx_datetimeZoneOffset) -> SlotBetRecord {
+        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        return SlotBetRecord(betId: betId, betTime: betLocalTime, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), hasDetails: false)
+    }
+}
+
+struct SlotUnsettledSummaryBean: Codable {
+    let betTime: String
+    let stakes: Double
+    
+    func toSlotUnsettledSummary() -> SlotUnsettledSummary {
+        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        return SlotUnsettledSummary(betTime: betLocalTime)
+    }
+}
+
+struct SlotUnsettledRecordBean: Codable {
+    let betId: String
+    let betTime: String
+    let gameId: Int32
+    let gameName: String
+    let otherId: String
+    let stakes: Double
+    let imageId: String
+    
+    func toSlotUnsettledRecord() -> SlotUnsettledRecord {
+        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let thumbnail = SlotThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
+        return SlotUnsettledRecord(betId: betId, betTime: betLocalTime, gameId: gameId, gameName: gameName, otherId: otherId, stakes: CashAmount(amount: stakes), slotThumbnail: thumbnail)
+    }
+}

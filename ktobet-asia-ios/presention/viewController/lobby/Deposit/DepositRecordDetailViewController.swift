@@ -40,7 +40,7 @@ class DepositRecordDetailViewController: UIViewController {
     
     @IBOutlet private weak var confrimButton: UIButton!
     
-    var activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    var activityIndicator = UIActivityIndicatorView(style: .large)
     var detailRecord: DepositRecord!
     
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
@@ -131,7 +131,7 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate func showImagePicker() {
         let currentSelectedImageCount = self.imageStackView.subviews.count
         if currentSelectedImageCount >= DepositViewModel.selectedImageCountLimit {
-            Alert.show("", Localize.string("common_photo_upload_count_limit"), confirm: nil, cancel: nil)
+            Alert.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(DepositViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
         }
         
         imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
@@ -214,7 +214,7 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate func updateUI(data: DepositRecordDetail) {
         self.scrollview.isHidden = false
         self.applytimeLabel.text = data.createdDate.formatDateToStringToSecond()
-        self.amountLabel.text = String(data.requestAmount.amount)
+        self.amountLabel.text = data.requestAmount.amount.currencyFormatWithoutSymbol(precision: 2)
         self.depositIdLabel.text = data.displayId
         self.statusViewHeight.constant = 77
         self.statusLabel.text = StringMapper.sharedInstance.parse(data.status, isPendingHold: data.isPendingHold, ignorePendingHold: true)
