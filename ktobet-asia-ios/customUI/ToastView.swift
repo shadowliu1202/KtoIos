@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 
-
 class ToastView: UIView {
     @IBOutlet private weak var labStatusTip: UILabel!
     @IBOutlet private weak var imgStatusTip : UIImageView!
@@ -37,18 +36,20 @@ class ToastView: UIView {
     }
     
     func show(on view: UIView, statusTip: String, img: UIImage?) {
-        xibView.isHidden = false
-        labStatusTip.text = statusTip
-        imgStatusTip.image = img
-        xibView.backgroundColor = UIColor.red
-        view.addSubview(xibView)
-        
-        xibView.translatesAutoresizingMaskIntoConstraints = false
-        xibView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        xibView.widthAnchor.constraint(equalToConstant: view.frame.width - 20).isActive = true
-        xibView.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        xibView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
-
+        let windows = UIApplication.shared.windows
+        if let view = windows.last {
+            xibView.isHidden = false
+            labStatusTip.text = statusTip
+            imgStatusTip.image = img
+            xibView.backgroundColor = UIColor.red
+            view.addSubview(xibView)
+            
+            xibView.translatesAutoresizingMaskIntoConstraints = false
+            xibView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            xibView.widthAnchor.constraint(equalToConstant: view.frame.width - 20).isActive = true
+            xibView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+            xibView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.xibView.removeFromSuperview()
         }

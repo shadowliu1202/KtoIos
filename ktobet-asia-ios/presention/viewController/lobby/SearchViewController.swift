@@ -43,6 +43,10 @@ class SearchViewController: SearchProduct {
         self.navigationController?.navigationBar.barTintColor = keepNavigationBar
     }
     
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
+    
     private func initUI() {
         initSearchTitle()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
