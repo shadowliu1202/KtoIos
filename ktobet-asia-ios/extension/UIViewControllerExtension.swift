@@ -65,7 +65,7 @@ extension UIViewController{
     
     private func showAlertError(_ content: String) {
         let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-        toastView.show(on: self.view, statusTip: content, img: UIImage(named: "Failed"))
+        toastView.show(on: nil, statusTip: content, img: UIImage(named: "Failed"))
     }
     
     func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {

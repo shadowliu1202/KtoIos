@@ -111,9 +111,9 @@ extension SlotViewModel: ProductViewModel {
         self.searchKey.accept(SearchKeyword(keyword: keyword))
     }
     
-    func searchResult() -> Observable<[WebGameWithProperties]> {
-        return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<[WebGameWithProperties]> in
-            return self.slotUseCase.searchSlots(keyword: keyword).map({ $0.map({$0 as WebGameWithProperties})})
+    func searchResult() -> Observable<Event<[WebGameWithProperties]>> {
+        return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithProperties]>> in
+            return self.slotUseCase.searchSlots(keyword: keyword).map({ $0.map({$0 as WebGameWithProperties})}).materialize()
         }
     }
     

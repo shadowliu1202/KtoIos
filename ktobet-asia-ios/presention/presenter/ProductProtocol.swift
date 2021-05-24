@@ -50,7 +50,7 @@ protocol ProductSearchViewModelProtocol {
     func clearSearchResult()
     func searchSuggestion() -> Single<[String]>
     func triggerSearch(_ text: String?)
-    func searchResult() -> Observable<[WebGameWithProperties]>
+    func searchResult() -> Observable<Event<[WebGameWithProperties]>>
 }
 
 protocol ProductWebGameViewModelProtocol {
