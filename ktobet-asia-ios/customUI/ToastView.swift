@@ -36,20 +36,42 @@ class ToastView: UIView {
     }
     
     func show(on view: UIView, statusTip: String, img: UIImage?) {
-        let windows = UIApplication.shared.windows
-        if let view = windows.last {
-            xibView.isHidden = false
-            labStatusTip.text = statusTip
-            imgStatusTip.image = img
-            xibView.backgroundColor = UIColor.red
-            view.addSubview(xibView)
-            
-            xibView.translatesAutoresizingMaskIntoConstraints = false
-            xibView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            xibView.widthAnchor.constraint(equalToConstant: view.frame.width - 20).isActive = true
-            xibView.heightAnchor.constraint(equalToConstant: 48).isActive = true
-            xibView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+        xibView.isHidden = false
+        labStatusTip.text = statusTip
+        imgStatusTip.image = img
+        xibView.backgroundColor = UIColor.red
+        view.addSubview(xibView)
+        
+        xibView.translatesAutoresizingMaskIntoConstraints = false
+        xibView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        xibView.widthAnchor.constraint(equalToConstant: view.frame.width - 20).isActive = true
+        xibView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        xibView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.xibView.removeFromSuperview()
         }
+    }
+    
+    func show(on window: UIWindow? = nil, statusTip: String, img: UIImage?) {
+        var lastWindow: UIWindow?
+        if window != nil {
+            lastWindow = window
+        } else {
+            lastWindow = UIApplication.shared.windows.last
+        }
+        guard let win = lastWindow else { return }
+        xibView.isHidden = false
+        labStatusTip.text = statusTip
+        imgStatusTip.image = img
+        xibView.backgroundColor = UIColor.red
+        win.addSubview(xibView)
+        
+        xibView.translatesAutoresizingMaskIntoConstraints = false
+        xibView.centerXAnchor.constraint(equalTo: win.centerXAnchor).isActive = true
+        xibView.widthAnchor.constraint(equalToConstant: win.frame.width - 20).isActive = true
+        xibView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        xibView.bottomAnchor.constraint(equalTo: win.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.xibView.removeFromSuperview()
         }
