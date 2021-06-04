@@ -13,8 +13,9 @@ class AddBankViewController: UIViewController {
     @IBOutlet weak var branchTextField: InputText!
     @IBOutlet weak var branchErrorLabel: UILabel!
     @IBOutlet weak var provinceDropDown: DropDownInputText!
-    @IBOutlet weak var countryDropDown: DropDownInputText!
-    @IBOutlet weak var countryErrorLabel: UILabel!
+    @IBOutlet weak var provinceErrorLabel: UILabel!
+    @IBOutlet weak var countyDropDown: DropDownInputText!
+    @IBOutlet weak var countyErrorLabel: UILabel!
     @IBOutlet weak var accountTextField: InputText!
     @IBOutlet weak var accountErrorLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
@@ -38,10 +39,10 @@ class AddBankViewController: UIViewController {
         branchTextField.setTitle(Localize.string("withdrawal_branch"))
         provinceDropDown.setTitle(Localize.string("withdrawal_bankstate"))
         provinceDropDown.optionArray = viewModel.getProvinces()
-        provinceDropDown.isSearchEnable = false
-        countryDropDown.setTitle(Localize.string("withdrawal_bankcity"))
-        countryDropDown.isSearchEnable = false
-        countryDropDown.isEnable = false
+        provinceDropDown.isSearchEnable = true
+        countyDropDown.setTitle(Localize.string("withdrawal_bankcity"))
+        countyDropDown.isSearchEnable = true
+        countyDropDown.isEnable = false
         accountTextField.setTitle(Localize.string("withdrawal_accountnumber"))
         accountTextField.setKeyboardType(.numberPad)
         accountTextField.maxLength = 25
@@ -52,7 +53,7 @@ class AddBankViewController: UIViewController {
         bindBankName()
         bindBranchName()
         bindProvince()
-        bindCountry()
+        bindCounty()
         bindAccount()
         bindSubmit()
     }
@@ -99,18 +100,50 @@ class AddBankViewController: UIViewController {
     
     private func bindProvince() {
         (provinceDropDown.text <-> viewModel.province).disposed(by: disposeBag)
-        provinceDropDown.text.subscribe(onNext: { [weak self] (province) in
-            self?.countryDropDown.optionArray = self?.viewModel.getCountries(province: province) ?? []
-            self?.viewModel.country.accept("")
+        let keyboardDidHide = NotificationCenter.default.rx.notification(UIResponder.keyboardDidHideNotification)
+        let editingDidEnd = provinceDropDown.dropDownText.rx.controlEvent(.editingDidEnd)
+        let provinceLoseFocus = Observable.zip(keyboardDidHide, editingDidEnd)
+        provinceLoseFocus.subscribe(onNext: { [weak self] (_, _) in
+            guard let `self` = self else { return }
+            if self.viewModel.isProvinceLegal(self.viewModel.province.value) == false {
+                self.clearProvinceTextField()
+            }
+        }).disposed(by: disposeBag)
+        viewModel.provinceValid.subscribe(onNext: { [weak self] (status) in
+            self?.handleErrorLabel(error: status, textField: self?.provinceDropDown, label: self?.provinceErrorLabel)
+        }).disposed(by: disposeBag)
+        provinceDropDown.text.distinctUntilChanged().subscribe(onNext: { [weak self] (province) in
+            guard let `self` = self else { return }
+            self.countyDropDown.optionArray = self.viewModel.getCountries(province: province)
+            self.viewModel.resetCountyIfNotEmpty()
         }).disposed(by: disposeBag)
     }
     
-    private func bindCountry() {
-        viewModel.isProvinceValid.bind(to: countryDropDown.rx.isEnable).disposed(by: disposeBag)
-        (countryDropDown.text <-> viewModel.country).disposed(by: disposeBag)
-        viewModel.countryValid.subscribe(onNext: { [weak self] (status) in
-            self?.handleErrorLabel(error: status, textField: self?.countryDropDown, label: self?.countryErrorLabel)
+    private func clearProvinceTextField() {
+        provinceDropDown.setContent("")
+        provinceDropDown.optionArray = viewModel.getProvinces()
+    }
+    
+    private func bindCounty() {
+        viewModel.isProvinceValid.bind(to: countyDropDown.rx.isEnable).disposed(by: disposeBag)
+        (countyDropDown.text <-> viewModel.county).disposed(by: disposeBag)
+        let keyboardDidHide = NotificationCenter.default.rx.notification(UIResponder.keyboardDidHideNotification)
+        let editingDidEnd = countyDropDown.dropDownText.rx.controlEvent(.editingDidEnd)
+        let countyLoseFocus = Observable.zip(keyboardDidHide, editingDidEnd)
+        countyLoseFocus.subscribe(onNext: { [weak self] (_, _) in
+            guard let `self` = self else { return }
+            if self.viewModel.isCountyLegal(self.viewModel.county.value) == false {
+                self.clearCountyTextField()
+            }
         }).disposed(by: disposeBag)
+        viewModel.countyValid.subscribe(onNext: { [weak self] (status) in
+            self?.handleErrorLabel(error: status, textField: self?.countyDropDown, label: self?.countyErrorLabel)
+        }).disposed(by: disposeBag)
+    }
+    
+    private func clearCountyTextField() {
+        countyDropDown.setContent("")
+        countyDropDown.optionArray = viewModel.getCountries(province: self.viewModel.province.value)
     }
     
     private func bindAccount() {

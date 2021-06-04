@@ -57,9 +57,12 @@ class DropDownInputText: UIView {
                 dropDownText.didDropDownTap = { [weak self] in
                     self?.touchAction()
                 }
-            } else {
-                arrow.frame.size = .zero
             }
+        }
+    }
+    @IBInspectable public var arrowSize: CGFloat = ArrowSize {
+        didSet {
+            self.arrow.frame.size = CGSize(width: arrowSize, height: arrowSize)
         }
     }
     @IBInspectable public var isEnable: Bool = true {
@@ -69,6 +72,12 @@ class DropDownInputText: UIView {
             self.labTitle.textColor = isEnable ? UIColor.textPrimaryDustyGray : UIColor.textSecondaryScorpionGray
         }
     }
+    @IBInspectable public var isEmptyTip: Bool = false {
+        didSet {
+            self.dropDownText.emptyTip = isEmptyTip
+        }
+    }
+    
     
     // MARK: LIFE CYCLE
     override func awakeFromNib() {
