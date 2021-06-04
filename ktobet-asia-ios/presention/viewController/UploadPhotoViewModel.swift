@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import share_bu
+import SharedBu
 
 class UploadPhotoViewModel {
     private var imageUseCase : UploadImageUseCase!

@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-import share_bu
+import SharedBu
 
 class DepositMethodViewController: UIViewController {
     static let segueIdentifier = "toOfflineSegue"

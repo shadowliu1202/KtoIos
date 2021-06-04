@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import share_bu
+import SharedBu
 
 class WithdrawalPresenter: FilterPresentProtocol {
     private var conditions: [TransactionItem] = [WithdrawalPresenter.create(.static),

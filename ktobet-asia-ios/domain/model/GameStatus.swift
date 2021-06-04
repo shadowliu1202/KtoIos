@@ -1,4 +1,4 @@
-import share_bu
+import SharedBu
 
 
 extension GameStatus {

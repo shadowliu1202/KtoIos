@@ -1,7 +1,7 @@
 import UIKit
 import RxSwift
 import RxDataSources
-import share_bu
+import SharedBu
 
 
 class CasinoSummaryViewController: UIViewController {

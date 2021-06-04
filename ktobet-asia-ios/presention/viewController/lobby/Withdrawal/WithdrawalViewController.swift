@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-import share_bu
+import SharedBu
 
 class WithdrawalViewController: UIViewController {
     @IBOutlet private weak var withdrawalTitleLabel: UILabel!

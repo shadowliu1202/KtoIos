@@ -1,5 +1,5 @@
 import UIKit
-import share_bu
+import SharedBu
 
 class CasinoSummaryTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
@@ -21,5 +21,24 @@ class CasinoSummaryTableViewCell: UITableViewCell {
         
         let status = element.getBetStatus() == BetStatus.lose ? Localize.string("common_lose") : Localize.string("common_win")
         betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.totalStakes.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + status + " \(abs(element.totalWinLoss.amount).currencyFormatWithoutSymbol(precision: 2))"
+    }
+    
+    func setup(element: NumberGameSummary.Date) {
+        recordCountLabel.text = String(format: Localize.string("product_count_bet_record"), "\(element.count.formattedWithSeparator)")
+        let betDate = element.betDate.toDateFormatString(with: "-")
+        if "\(betDate)" == today {
+            dateLabel.text = Localize.string("common_today")
+        } else if "\(betDate)" == yesterday {
+            dateLabel.text = Localize.string("common_yesterday")
+        } else {
+            dateLabel.text = "\(betDate)".replacingOccurrences(of: "-", with: "/")
+        }
+        
+        if let winLoss = element.winLoss, winLoss.amount != 0 {
+            let status = winLoss.amount < 0 ? Localize.string("common_lose") : Localize.string("common_win")
+            betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.stakes.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + status + " \(abs(winLoss.amount).currencyFormatWithoutSymbol(precision: 2))"
+        } else {
+            betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.stakes.amount.currencyFormatWithoutSymbol(precision: 2))
+        }
     }
 }

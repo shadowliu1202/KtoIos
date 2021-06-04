@@ -1,10 +1,12 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import share_bu
+import SharedBu
 import AlignedCollectionViewFlowLayout
 
 let TagAllID: Int32 = -1
+let TagRecommandID: Int32 = -2
+let TagNewID: Int32 = -3
 class CasinoViewController: DisplayProduct {
 
     var barButtonItems: [UIBarButtonItem] = []
@@ -119,14 +121,17 @@ class CasinoViewController: DisplayProduct {
             let frame = CGRect(x: dx, y: 0, width: 180, height: 40 )
             let button = UIButton(frame: frame)
             button.setTitle("\(data[i].name)", for: .normal)
+            button.titleLabel?.font =  UIFont(name: "PingFangSC-Medium", size: 12)
             button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 18, bottom: 8, right: 18)
             button.sizeToFit()
-            button.layer.cornerRadius = 20
+            button.layer.cornerRadius = 14
             button.layer.masksToBounds = true
             if data[i].isSeleced {
                 button.applyGradient(colors: [UIColor(rgb: 0xf74d25).cgColor, UIColor(rgb: 0xf20000).cgColor])
+                button.setTitleColor(UIColor.whiteFull, for: .normal)
             } else {
                 button.applyGradient(colors: [UIColor(rgb: 0x32383e).cgColor, UIColor(rgb: 0x17191c).cgColor])
+                button.setTitleColor(UIColor.textPrimaryDustyGray, for: .normal)
             }
             if dx+button.frame.size.width > tagsStackView.frame.size.width {
                 childRow = createOneChildView(stackView)

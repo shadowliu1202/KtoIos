@@ -1,6 +1,6 @@
 import UIKit
 import SDWebImage
-import share_bu
+import SharedBu
 
 
 class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate {

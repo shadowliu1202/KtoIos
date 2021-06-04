@@ -1,5 +1,5 @@
 import UIKit
-import share_bu
+import SharedBu
 
 class DepositPresenter {
     private var conditions: [TransactionItem] = [DepositPresenter.create(.static),

@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import share_bu
+import SharedBu
 
 protocol UploadImageUseCase {
     func uploadImage(imageData: Data) -> Single<UploadImageDetail>

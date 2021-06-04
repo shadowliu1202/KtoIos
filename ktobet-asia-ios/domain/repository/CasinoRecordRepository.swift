@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import share_bu
+import SharedBu
 
 protocol CasinoRecordRepository {
     func getBetSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<BetSummary>

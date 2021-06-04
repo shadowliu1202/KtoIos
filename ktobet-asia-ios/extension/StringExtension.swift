@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import share_bu
+import SharedBu
 
 extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
@@ -64,7 +64,7 @@ extension String {
     }
     
     func toLocalDate() -> Kotlinx_datetimeLocalDate {
-        let createDate = self.convertDateTime() ?? Date()
+        let createDate = self.convertDateTime(format: "yyyy-MM-dd", timeZone: "UTC") ?? Date()
         return Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth())
     }
 }

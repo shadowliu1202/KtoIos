@@ -1,5 +1,5 @@
 import UIKit
-import share_bu
+import SharedBu
 
 class WithdrawRecordTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!

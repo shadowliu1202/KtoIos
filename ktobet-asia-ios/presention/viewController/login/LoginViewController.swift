@@ -1,7 +1,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
-import share_bu
+import SharedBu
 
 class LoginViewController: UIViewController {
     @IBOutlet private weak var btnSignup : UIBarButtonItem!

@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import share_bu
+import SharedBu
 
 protocol DepositRepository {
     func getDepositTypes() -> Single<[DepositRequest.DepositType]>

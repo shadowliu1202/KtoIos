@@ -1,5 +1,5 @@
 import Foundation
-import share_bu
+import SharedBu
 
 class StringMapper {
     static let sharedInstance = StringMapper()

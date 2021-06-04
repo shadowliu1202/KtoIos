@@ -2,7 +2,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 import RxDataSources
-import share_bu
+import SharedBu
 
 class DepositRecordViewController: UIViewController {
     static let segueIdentifier = "toAllRecordSegue"

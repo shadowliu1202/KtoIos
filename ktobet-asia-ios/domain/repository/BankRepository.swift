@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import share_bu
+import SharedBu
 
 protocol BankRepository {
     func getBankMap() -> Single<[(Int, Bank)]>

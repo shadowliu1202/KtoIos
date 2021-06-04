@@ -1,7 +1,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import share_bu
+import SharedBu
 
 struct DefaultProductItem {
     var name = ""

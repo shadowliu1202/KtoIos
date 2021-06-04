@@ -1,7 +1,7 @@
 import Foundation
 import RxSwift
 import Moya
-import share_bu
+import SharedBu
 
 protocol ImageRepository {
     func uploadImage(imageData: Data) -> Single<UploadImageDetail>

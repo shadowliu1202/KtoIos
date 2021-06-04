@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-import share_bu
+import SharedBu
 import SDWebImage
 
 class WebGameItemCell: UICollectionViewCell {
@@ -38,6 +38,7 @@ class WebGameItemCell: UICollectionViewCell {
         }
         gameImage.sd_setImage(with: URL(string: game.thumbnail.url()), completed: nil)
         backgroundImage.image = UIImage(named: "game-icon-small")
+        var originFavorite = game.isFavorite
         let imgName = game.isFavorite == true ? "game-favorite-active" : "game-favorite-activeinactive"
         favoriteBtn.setImage(UIImage(named: imgName), for: .normal)
         labTitle.text = game.gameName
@@ -50,7 +51,15 @@ class WebGameItemCell: UICollectionViewCell {
             blurLabel.text = text
             blurImageView.image = icon
         }
-        favoriteBtn.rx.touchUpInside.bind(onNext: { [weak self] in
+        
+        favoriteBtn.rx.touchUpInside
+            .do(onNext: { [weak self] _ in
+                originFavorite.toggle()
+                let imgName = originFavorite == true ? "game-favorite-active" : "game-favorite-activeinactive"
+                self?.favoriteBtn.setImage(UIImage(named: imgName), for: .normal)
+            }).debounce(.milliseconds(200), scheduler: MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.asyncInstance)
+            .bind(onNext: { [weak self] in
             self?.favoriteBtnClick?()
         }).disposed(by: disposeBag)
         return self

@@ -1,7 +1,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import share_bu
+import SharedBu
 import SideMenu
 
 class SideBarViewController: UIViewController {

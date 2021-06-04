@@ -2,7 +2,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 import RxDataSources
-import share_bu
+import SharedBu
 
 class WithdrawalRecordViewController: UIViewController {
     static let segueIdentifier = "toAllRecordSegue"

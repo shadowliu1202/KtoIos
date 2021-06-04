@@ -1,7 +1,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import share_bu
+import SharedBu
 
 class SlotViewModel {
     lazy var popularGames = slotUseCase.getPopularSlots()
