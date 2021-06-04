@@ -53,6 +53,7 @@ class SlotBetSummaryByDateCell: UITableViewCell {
     @IBOutlet weak var betCountLabel: UILabel!
     @IBOutlet weak var betAmountLabel: UILabel!
     @IBOutlet weak var gameImgView: UIImageView!
+    @IBOutlet weak var iconImageView: UIImageView!
     
     override func prepareForReuse() {
         super.prepareForReuse()
