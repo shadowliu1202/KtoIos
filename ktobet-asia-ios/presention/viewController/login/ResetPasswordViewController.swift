@@ -115,7 +115,10 @@ class ResetPasswordViewController: UIViewController {
             .disposed(by: disposeBag)
         
         event.typeChange
-            .subscribe(onNext: {type in
+            .subscribe(onNext: {[weak self] type in
+                guard let self = self else { return }
+                self.constraintResetErrorView.constant = 0
+                self.constraintResetErrorViewPadding.constant = 0
                 switch type {
                 case .phone:
                     self.inputEmail.isHidden = true
