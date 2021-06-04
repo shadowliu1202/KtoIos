@@ -59,12 +59,18 @@ class NumberGameMyBetGameGroupedViewController: UIViewController {
                     }
                 }
             }
-            self.tempResult = games
+            
+            if games.count > self.tempResult.count {
+                self.tempResult = games
+            }
+        }).map({[weak self]  (games) -> [NumberGameSummary.Game] in
+            return self?.tempResult ?? []
         }).bind(to: tableView.rx.items){[weak self] (tableView, row, element) in
             guard let self = self else { return  UITableViewCell()}
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "SlotBetSummaryByDateCell", cellType: SlotBetSummaryByDateCell.self)
             cell.configure(element)
             if self.tempIndex.contains(row) {
+                cell.iconImageView.isHidden = true
                 for view in cell.contentView.subviews {
                     view.alpha = 0.4
                 }

@@ -1027,6 +1027,7 @@
                                             <outlet property="betCountLabel" destination="4uv-wo-cCJ" id="Udr-Uc-HJ7"/>
                                             <outlet property="gameImgView" destination="aiQ-84-dP1" id="rrE-OM-Yeu"/>
                                             <outlet property="gameLabel" destination="4FU-AX-438" id="QwG-g2-kON"/>
+                                            <outlet property="iconImageView" destination="JCL-ps-1hx" id="wck-dy-fm7"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -56,19 +56,24 @@ class NumberGameDetailViewController: UIViewController {
             if !self.tempResult.isEmpty {
                 let difference = self.tempResult.difference(from: games)
                 difference.forEach { (game) in
-                
                     if let index = self.tempResult.firstIndex(of: game)  {
                         self.tempIndex.append(index)
                     }
                 }
             }
-            self.tempResult = games
+            
+            if games.count > self.tempResult.count {
+                self.tempResult = games
+            }
+        }).map({[weak self]  (bets) -> [NumberGameSummary.Bet] in
+            return self?.tempResult ?? []
         }).bind(to: tableView.rx.items){[weak self] (tableView, row, element) in
             guard let self = self else { return  UITableViewCell()}
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "SlotBetDetailCell", cellType: SlotBetDetailCell.self)
             cell.iconImageView.isHidden = false
             cell.configure(element)
             if self.tempIndex.contains(row) {
+                cell.iconImageView.isHidden = true
                 for view in cell.contentView.subviews {
                     view.alpha = 0.4
                 }
@@ -95,6 +100,10 @@ class NumberGameDetailViewController: UIViewController {
     private func summaryDataHandler() {
         Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(NumberGameSummary.Bet.self)).bind {[weak self] (indexPath, data) in
             guard let self = self else { return }
+            if self.tempIndex.contains(indexPath.row) {
+                Alert.show(nil, Localize.string("product_bet_has_settled"), confirm: nil, cancel: nil)
+                return
+            }
             guard let status = self.betStatus, let date = self.betDate?.convertToDate(), let id = self.gameId else { return }
             self.viewModel.getGameBetsByDate(gameId: id, date: date, betStatus: status).subscribe {[weak self] (bets) in
                 guard let self = self else { return }
