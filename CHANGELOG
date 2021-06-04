@@ -4,3 +4,4 @@ Connect 3.APP-1449 補Commit message with task number APP-1449
 Connect 4.APP-1671 [APP][iOS]註冊手機號檢核規則調整 // 因共用模組，所以未更改
 Connect 5.APP-1645 [APP][iOS]郵箱檢核規則調整 // 因共用模組，所以未更改
 APP-1684 [APP][iOS][Slot] 熱門排序沒有按照所有玩家交易次數做排序，而是和 A-Z 排序一樣
+APP-1702 [Register] 電子郵件註冊時，OTP 驗證信件內應為 驗證鏈結 而非 驗證碼

@@ -42,6 +42,7 @@ class InputPassword : UIView{
         labTitle.textColor = UIColor.textPrimaryDustyGray
         labTitle.backgroundColor = .clear
         
+        textContent.keyboardType = .alphabet
         textContent.textColor = .white
         textContent.backgroundColor = .clear
         textContent.font = UIFont.systemFont(ofSize: 16)
