@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-import share_bu
+import SharedBu
 
 class LaunchViewController : UIViewController{
     private var viewModel = DI.resolve(LaunchViewModel.self)!

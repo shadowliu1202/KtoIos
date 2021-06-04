@@ -1,6 +1,6 @@
 import Foundation
 import SideMenu
-import share_bu
+import SharedBu
 
 class NavigationManagement {
     private var sideBarViewController: SideBarViewController!
@@ -37,7 +37,7 @@ class NavigationManagement {
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, menuButton]
     }
     
-    func addBackToBarButtonItem(vc: UIViewController, isShowAlert: Bool = false, backTitle: String = Localize.string("common_tip_title_unfinished"), backMessage: String = Localize.string("common_tip_content_unfinished")) {
+    func addBackToBarButtonItem(vc: UIViewController, isShowAlert: Bool = false, backTitle: String = Localize.string("common_tip_title_unfinished"), backMessage: String = Localize.string("common_tip_content_unfinished"), title: String? = nil) {
         self.isShowAlert = isShowAlert
         self.backTitle = backTitle
         self.backMessage = backMessage
@@ -46,6 +46,7 @@ class NavigationManagement {
         negativeSeperator.width = 8
         let backButton = UIBarButtonItem(image: UIImage(named: "Back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(NavigationManagement.back))
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
+        vc.navigationItem.title = title
     }
     
     func addCloseToBarButtonItem(vc: UIViewController, isShowAlert: Bool = true, closeAction: (() -> ())? = nil, closeTitle: String = Localize.string("common_tip_title_unfinished"), closeMessage: String = Localize.string("common_tip_content_unfinished")) {
@@ -161,7 +162,7 @@ class NavigationManagement {
         case .sbk:
             goTo(storyboard: "Game", viewControllerId: "SBKNavigationController")
         case .numbergame:
-            goTo(storyboard: "Game", viewControllerId: "NumberGameNavigationController")
+            goTo(storyboard: "NumberGame", viewControllerId: "NumberGameNavigationController")
         case .casino:
             goTo(storyboard: "Casino", viewControllerId: "CasinoNavigationController")
         case .slot:

@@ -61,59 +61,6 @@
             </objects>
             <point key="canvasLocation" x="377" y="110"/>
         </scene>
-        <!--Number Game View Controller-->
-        <scene sceneID="KHO-gr-hUx">
-            <objects>
-                <viewController storyboardIdentifier="NumberGame" id="MvK-W5-usy" customClass="NumberGameViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="DkO-8j-LA3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XrD-XX-BnX">
-                                <rect key="frame" x="79.5" y="379" width="255" height="50.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="42"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="V0K-tc-r8h"/>
-                        <color key="backgroundColor" red="0.074509803920000006" green="0.074509803920000006" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="XrD-XX-BnX" firstAttribute="centerX" secondItem="DkO-8j-LA3" secondAttribute="centerX" id="dJk-eV-0rX"/>
-                            <constraint firstItem="XrD-XX-BnX" firstAttribute="centerY" secondItem="DkO-8j-LA3" secondAttribute="centerY" id="jrb-M7-tNV"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="AoI-S5-cen"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="k9x-w5-fYu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1209" y="1640"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="uSC-qr-Y2c">
-            <objects>
-                <navigationController storyboardIdentifier="NumberGameNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="t2I-eT-xLM" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="0rV-FB-dPr">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.074509803920000006" green="0.074509803920000006" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="MvK-W5-usy" kind="relationship" relationship="rootViewController" id="MUw-UD-5Sy"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eaP-hy-XP0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="377" y="1640"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="w1Y-se-IEg">
             <objects>

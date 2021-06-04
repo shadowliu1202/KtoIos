@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-import share_bu
+import SharedBu
 
 class SlotBetDetailViewController: UIViewController {
     static let segueIdentifier = "toSlotBetDetail"
@@ -79,6 +79,7 @@ class SlotBetDetailCell: UITableViewCell {
     @IBOutlet weak var betIdLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var iconImageView: UIImageView!
     
     func configure(_ item: SlotBetRecord) -> Self {
         self.selectionStyle = .none
@@ -92,5 +93,23 @@ class SlotBetDetailCell: UITableViewCell {
         self.amountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + status + " \(abs(item.winLoss.amount).currencyFormatWithoutSymbol(precision: 2))"
         
         return self
+    }
+    
+    func configure(_ item: NumberGameSummary.Bet) {
+        self.selectionStyle = .none
+        self.betIdLabel.text = item.displayId
+        let date = item.time.convertToDate()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        let dateString: String = dateFormatter.string(from: date)
+        self.timeLabel.text = "\(dateString)".uppercased()
+        
+        
+        if let winLoss = item.winLoss, winLoss.amount != 0 {
+            let status = winLoss.amount >= 0 ? Localize.string("common_win") : Localize.string("common_lose")
+            amountLabel.text = Localize.string("product_total_bet", item.betAmount.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + status + " \(abs(winLoss.amount).currencyFormatWithoutSymbol(precision: 2))"
+        } else {
+            amountLabel.text = Localize.string("product_total_bet", item.betAmount.amount.currencyFormatWithoutSymbol(precision: 2))
+        }
     }
 }

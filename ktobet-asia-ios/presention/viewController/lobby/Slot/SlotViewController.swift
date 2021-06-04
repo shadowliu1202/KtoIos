@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-import share_bu
+import SharedBu
 import SDWebImage
 import TYCyclePagerView
 import AlignedCollectionViewFlowLayout
@@ -93,13 +93,15 @@ class SlotViewController: UIViewController {
             guard let self = self,
                   let urlStr = slotGames.first?.thumbnail.url(),
                   let url = URL(string: urlStr) else { return }
-            self.datas = slotGames
-            if self.datas.count < 3 {
-                self.pagerView.isHidden = true
-                self.recentlyViewTop.constant = 30
-            } else {
+            if self.datas.count == 0 && slotGames.count >= 3 {
                 self.addBlurBackgoundImageView(url: url)
                 self.pagerView.scrollToItem(at: 0, animate: false)
+            }
+            self.datas = slotGames
+            if self.datas.count < 3 {
+                self.recentlyViewTop.constant = 30
+                self.pagerView.isHidden = true
+            } else {
                 self.pagerView.reloadData()
             }
         } onError: {[weak self] (error) in

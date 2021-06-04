@@ -1,5 +1,5 @@
 import UIKit
-import share_bu
+import SharedBu
 
 typealias SearchProduct = SearchBaseViewController & SearchBaseCollection
 

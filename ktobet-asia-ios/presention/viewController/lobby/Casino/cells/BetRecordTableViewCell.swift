@@ -1,5 +1,5 @@
 import UIKit
-import  share_bu
+import SharedBu
 
 
 class BetRecordTableViewCell: UITableViewCell {

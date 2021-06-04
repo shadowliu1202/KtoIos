@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-import share_bu
+import SharedBu
 import SDWebImage
 
 class SlotBetSummaryByDateViewController: UIViewController {
@@ -68,5 +68,17 @@ class SlotBetSummaryByDateCell: UITableViewCell {
         betAmountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + status + " \(abs(item.winloss.amount).currencyFormatWithoutSymbol(precision: 2))"
         
         return self
+    }
+    
+    func configure(_ item: NumberGameSummary.Game) {
+        gameImgView.sd_setImage(with: URL(string: item.thumbnail.url()), completed: nil)
+        gameLabel.text = item.gameName
+        betCountLabel.text = Localize.string("product_count_bet_record", "\(item.totalRecords)")
+        if let winLoss = item.winLoss, winLoss.amount != 0 {
+            let status = winLoss.amount >= 0 ? Localize.string("common_win") : Localize.string("common_lose")
+            betAmountLabel.text = Localize.string("product_total_bet", item.betAmount.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + status + " \(abs(winLoss.amount).currencyFormatWithoutSymbol(precision: 2))"
+        } else {
+            betAmountLabel.text = Localize.string("product_total_bet", item.betAmount.amount.currencyFormatWithoutSymbol(precision: 2))
+        }
     }
 }

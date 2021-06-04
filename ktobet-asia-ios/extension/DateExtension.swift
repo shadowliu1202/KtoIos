@@ -1,5 +1,5 @@
 import Foundation
-import share_bu
+import SharedBu
 
 
 extension Date {
@@ -198,4 +198,21 @@ extension Kotlinx_datetimeLocalDateTime {
     func toDateFormatString(with SeparatorSymbol: String = "/") -> String {
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", self.year, self.monthNumber, self.dayOfMonth)
     }
+}
+
+extension Kotlinx_datetimeLocalDate {
+    func convertToDate(with SeparatorSymbol: String = "-") -> Date {
+        let date = String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", self.year, self.monthNumber, self.dayOfMonth)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")!
+        dateFormatter.locale = Locale.current
+        return dateFormatter.date(from: date) ?? Date()
+    }
+    
+    func toDateFormatString(with SeparatorSymbol: String = "/") -> String {
+        return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", self.year, self.monthNumber, self.dayOfMonth)
+    }
+    
 }

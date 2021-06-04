@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-import share_bu
+import SharedBu
 import WebKit
 
 class GameWebViewViewController: UIViewController {

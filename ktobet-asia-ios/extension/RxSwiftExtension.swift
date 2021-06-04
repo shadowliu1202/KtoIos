@@ -1,5 +1,5 @@
 import RxSwift
-import share_bu
+import SharedBu
 
 extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait {
     func subscribe(onSuccess: ((Self.Element) -> Void)? = nil,

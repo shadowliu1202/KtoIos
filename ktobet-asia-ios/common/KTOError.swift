@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import share_bu
+import SharedBu
 
 
 enum ErrorType : Int {

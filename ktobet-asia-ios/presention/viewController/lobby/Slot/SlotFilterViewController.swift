@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-import share_bu
+import SharedBu
 
 class SlotFilterViewController: UIViewController {
     static let segueIdentifier = "toSlotFilter"

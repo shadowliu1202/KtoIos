@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import share_bu
+import SharedBu
 import RxCocoa
 
 class AddBankViewModel {

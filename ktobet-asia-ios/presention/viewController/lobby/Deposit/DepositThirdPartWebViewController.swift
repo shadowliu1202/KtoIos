@@ -1,6 +1,6 @@
 import UIKit
 import WebKit
-import share_bu
+import SharedBu
 
 class DepositThirdPartWebViewController: UIViewController {
     static let segueIdentifier = "toThirdPartWebSegue"

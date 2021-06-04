@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import share_bu
+import SharedBu
 
 
 struct ResponseData<T:Codable> : Codable {
@@ -14,6 +14,13 @@ struct ResponseData<T:Codable> : Codable {
     var errorMsg : String
     var node : String?
     var data : T?
+}
+
+struct NonNullResponseData<T:Codable> : Codable {
+    var statusCode: String
+    var errorMsg: String?
+    var node: String
+    var data: T
 }
 
 struct ResponseDataList<T:Codable> : Codable {
@@ -345,6 +352,33 @@ struct UnsettledRecordBean: Codable {
 
 struct Nothing : Codable{}
 
+struct NumberGameHotBean: Codable {
+    let winLoss: [NumberGameBean]
+    let betCount: [NumberGameBean]
+    
+    func toHotNumberGames(portalHost: String) -> HotNumberGames {
+        return HotNumberGames(betCountRanking: self.betCount.map{ $0.toNumberGame(portalHost: portalHost) }, winLossRanking: self.winLoss.map{ $0.toNumberGame(portalHost: portalHost) })
+    }
+}
+
+struct NumberGameBean: Codable {
+    let gameId: Int32
+    let gameName: String?
+    let isFavorite: Bool
+    let status: Int32
+    let imageId: String
+    let cultureCode: String
+    let hasForFun: Bool
+    let isMaintenance: Bool
+    let sortingOrder: Int32?
+    
+    func toNumberGame(portalHost: String) -> NumberGame {
+        return NumberGame(gameId: gameId,
+                          gameName: gameName ?? "",
+                          isFavorite: isFavorite, gameStatus:  GameStatus.Companion.init().convert(gameMaintenance: self.isMaintenance, status: self.status), thumbnail: NumberGameThumbnail(host: portalHost, imageId: self.imageId))
+    }
+}
+
 struct SlotHotGamesBean: Codable {
     let winLoss: [SlotGameBean]
     let betCount: [SlotGameBean]
@@ -493,3 +527,152 @@ struct SlotUnsettledRecordBean: Codable {
         return SlotUnsettledRecord(betId: betId, betTime: betLocalTime, gameId: gameId, gameName: gameName, otherId: otherId, stakes: CashAmount(amount: stakes), slotThumbnail: thumbnail)
     }
 }
+
+struct NumberGameEntity: Codable {
+    let gameId: Int32
+    let gameName: String
+    let isFavorite: Bool
+    let gameStatus: Int32
+    let imageId: String
+    let cultureCode: String
+    let hasForFun: Bool
+    let isMaintenance: Bool
+    let sortingOrder: Int? = 0
+    
+    enum CodingKeys: String, CodingKey {
+        case gameName = "name"
+        case gameStatus = "status"
+        case gameId, isFavorite, imageId, cultureCode, hasForFun, isMaintenance, sortingOrder
+    }
+    
+    func toNumberGame(portalHost: String) -> NumberGame {
+        return NumberGame(gameId: self.gameId, gameName: self.gameName, isFavorite: self.isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isMaintenance, status: self.gameStatus), thumbnail: NumberGameThumbnail(host: portalHost, imageId: self.imageId))
+    }
+}
+
+struct RecordSummaryResponse: Codable {
+    let unsettledSummary: DateSummarynUnSettled
+    let settledSummary: DateSummarySettled
+    let recentlyBets: [RecentlyBet]
+}
+
+struct RecordSummary: Codable {
+    let betDate: String
+    let count: Int32
+    let stakes: Double
+    let winLoss: Double
+    
+    func toNumberGame() -> NumberGameSummary.Date {
+        return NumberGameSummary.Date.init(betDate: self.betDate.toLocalDate(), count: count, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss))
+    }
+}
+
+struct DateSummarynUnSettled: Codable {
+    let details: [RecordSummary]
+    let count: Int
+}
+
+struct DateSummarySettled: Codable {
+    let details: [RecordSummary]
+    let count: Int
+}
+
+
+struct RecentlyBet: Codable {
+    let betAmount: Double
+    let betId: String
+    let betTypeName: String
+    let gameId: Int32
+    let gameName: String
+    let hasDetails: Bool
+    let isStrike: Bool
+    let matchNumber: String
+    let selection: String
+    let status: Int
+    let wagerId: String
+    let winLoss: Double
+    
+    func toNumberGameRecentlyBet() -> NumberGameSummary.RecentlyBet {
+        return NumberGameSummary.RecentlyBet.init(wagerId: wagerId, selection: selection, hasDetail: hasDetails, isStrike: isStrike, gameId: gameId, betTypeName: betTypeName, displayId: betId, gameName: gameName, matchMethod: matchNumber, status: RecentlyBet.convertToBetStatus(status: status, winLoss: winLoss), stakes: CashAmount(amount: betAmount))
+    }
+    
+    static func convertToBetStatus(status: Int, winLoss: Double) -> NumberGameBetDetail.BetStatus {
+        switch status {
+        case 0:     return NumberGameBetDetail.BetStatusUnsettledPending.init()
+        case 1:     return NumberGameBetDetail.BetStatusSettledWinLose(winLoss: CashAmount(amount: winLoss))
+        case 2:     return NumberGameBetDetail.BetStatusSettledCancelled.init()
+        case 3:     return NumberGameBetDetail.BetStatusSettledVoid.init()
+        case 4:     return NumberGameBetDetail.BetStatusUnsettledConfirmed.init()
+        case 5:     return NumberGameBetDetail.BetStatusSettledSelfCancelled.init()
+        case 6:     return NumberGameBetDetail.BetStatusSettledStrikeCancelled.init()
+        default:    return NumberGameBetDetail.BetStatusSettledCancelled.init()
+        }
+    }
+}
+
+struct NumberGameBetDetailBean: Codable {
+    let betId: String?
+    let betTime: String
+    let displayId: String
+    let gameName: String
+    let matchNumber: String
+    let resultNumber: String?
+    let selections: [String]
+    let stakes: Double
+    let status: Int
+    let winLoss: Double
+    
+    func toNumberGameBetDetail() -> NumberGameBetDetail {
+        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        return NumberGameBetDetail(displayId: displayId, traceId: betId, gameName: gameName, matchMethod: matchNumber, betContent: selections, betTime: betLocalTime, stakes: CashAmount(amount: stakes), status: RecentlyBet.convertToBetStatus(status: status, winLoss: winLoss), result: resultNumber)
+    }
+}
+
+struct GameGroupBetSummaryResponse: Codable {
+    var data: [GameBetSummaryData]
+    var totalCount: Int
+}
+
+struct GameBetSummaryData: Codable {
+    var count: Int32
+    var gameId: Int32
+    var gameName: String
+    var imageId: String
+    var maxDate: String
+    var stakes: Double
+    var winLoss: Double
+    
+    func toUnSettleGameSummary(portalHost: String) -> NumberGameSummary.Game {
+        return NumberGameSummary.Game.init(gameId: gameId, gameName: gameName, thumbnail: NumberGameThumbnail(host: portalHost, imageId: imageId), totalRecords: count, betAmount: CashAmount(amount: stakes), winLoss: nil)
+    }
+    
+    func toSettleGameSummary(portalHost: String) -> NumberGameSummary.Game {
+        return NumberGameSummary.Game.init(gameId: gameId, gameName: gameName, thumbnail: NumberGameThumbnail(host: portalHost, imageId: imageId), totalRecords: count, betAmount: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss))
+    }
+}
+
+struct BetsSummaryResponse: Codable {
+    var data: [BetSummaryDataResponse]
+    var totalCount: Int
+}
+
+struct BetSummaryDataResponse: Codable {
+    var betId: String
+    var betTime: String
+    var hasDetails: Bool
+    var settleTime: String
+    var stakes: Double
+    var wagerId: String
+    var winLoss: Double
+    
+    func toUnSettleGameSummary() -> NumberGameSummary.Bet {
+        let time = betTime.convertDateTime()?.convertToKotlinx_datetimeLocalDateTime() ?? Date().convertToKotlinx_datetimeLocalDateTime()
+        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: time, betAmount: CashAmount(amount: stakes), winLoss: nil, hasDetail: hasDetails)
+    }
+    
+    func toSettleGameSummary() -> NumberGameSummary.Bet {
+        let time = betTime.convertDateTime()?.convertToKotlinx_datetimeLocalDateTime() ?? Date().convertToKotlinx_datetimeLocalDateTime()
+        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: time, betAmount: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), hasDetail: hasDetails)
+    }
+}
+

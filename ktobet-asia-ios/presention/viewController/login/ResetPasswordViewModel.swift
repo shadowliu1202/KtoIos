@@ -2,7 +2,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxDataSources
-import share_bu
+import SharedBu
 
 class ResetPasswordViewModel {
     static let accountRetryLimit = 11

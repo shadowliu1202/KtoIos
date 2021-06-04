@@ -7,7 +7,7 @@
 
 import Foundation
 import Swinject
-import share_bu
+import SharedBu
 
 public let DI = DIContainer.share.container
 
@@ -63,6 +63,9 @@ class DIContainer {
         }
         ctner.register(SlotApi.self) { (resolver) in
             return SlotApi(httpclient)
+        }
+        ctner.register(NumberGameApi.self) { (resolver) in
+            return NumberGameApi(httpclient)
         }
     }
     
@@ -136,6 +139,14 @@ class DIContainer {
             let slotApi = ctner.resolve(SlotApi.self)!
             return SlotRecordRepositoryImpl(slotApi)
         }
+        ctner.register(NumberGameRepository.self) { (resolver) in
+            let numberGameApi = ctner.resolve(NumberGameApi.self)!
+            return NumberGameRepositoryImpl(numberGameApi)
+        }
+        ctner.register(NumberGameRecordRepository.self) { (resolver) in
+            let numberGameApi = ctner.resolve(NumberGameApi.self)!
+            return NumberGameRecordRepositoryImpl(numberGameApi)
+        }
     }
     
     func registUsecase(){
@@ -206,10 +217,19 @@ class DIContainer {
             let repoLocal = ctner.resolve(LocalStorageRepository.self)!
             return SlotUseCaseImpl(repo, repoLocal)
         }
-        ctner.register(SlotRecordUseCase.self) {  (resolver) in
+        ctner.register(SlotRecordUseCase.self) { (resolver) in
             let repo = ctner.resolve(SlotRecordRepository.self)!
             let repoPlayer = ctner.resolve(PlayerRepository.self)!
             return SlotRecordUseCaseImpl(repo, playerRepository: repoPlayer)
+        }
+        ctner.register(NumberGameUseCase.self) { (resolver) in
+            let repo = ctner.resolve(NumberGameRepository.self)!
+            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            return NumberGameUseCasaImp(repo, repoLocal)
+        }
+        ctner.register(NumberGameRecordUseCase.self) { (resolver) in
+            let repo = ctner.resolve(NumberGameRecordRepository.self)!
+            return NumberGameRecordUseCaseImpl(numberGameRecordRepository: repo)
         }
     }
     
@@ -307,6 +327,12 @@ class DIContainer {
         }
         ctner.register(SlotBetViewModel.self) { (resolver) in
             return SlotBetViewModel(slotUseCase: ctner.resolve(SlotUseCase.self)!, slotRecordUseCase: ctner.resolve(SlotRecordUseCase.self)!)
+        }
+        ctner.register(NumberGameViewModel.self) { (resolver) in
+            return NumberGameViewModel(numberGameUseCase: ctner.resolve(NumberGameUseCase.self)!, memoryCache: MemoryCacheImpl.shared)
+        }
+        ctner.register(NumberGameRecordViewModel.self) { (resolver) in
+            return NumberGameRecordViewModel(numberGameRecordUseCase: ctner.resolve(NumberGameRecordUseCase.self)!)
         }
     }
     
