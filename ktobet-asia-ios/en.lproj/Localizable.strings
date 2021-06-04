@@ -300,6 +300,7 @@
 "common_http_410" = "";
 "common_http_503" = "";
 "common_http_exception" = "";
+"common_empty_data" = "";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "";

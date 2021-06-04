@@ -95,6 +95,7 @@ open class DropDown : UITextField{
     //MARK: KTO only
     var ktoOffset = CGRect.zero
     var ktoKeyboardToolbarHeight: CGFloat = 44
+    var emptyTip: Bool = false
     //MARK: Init
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -195,6 +196,12 @@ open class DropDown : UITextField{
         }
         return superView!.convert(pnt, to: baseView)
     }
+    
+    private func displayNoReasultFooter() {
+        let noResult = NoResultFooter()
+        self.table.tableFooterView = noResult
+    }
+    
     public func showList() {
         guard !isSelected else { return }
         if parentController == nil{
@@ -279,6 +286,7 @@ open class DropDown : UITextField{
                        completion: { (didFinish) -> Void in
 
                         self.shadow.removeFromSuperview()
+                        self.table.tableFooterView = nil
                         self.table.removeFromSuperview()
                         self.backgroundView.removeFromSuperview()
                         self.isSelected = false
@@ -300,7 +308,11 @@ open class DropDown : UITextField{
     }
     
     func reSizeTable() {
-        if listHeight > rowHeight * CGFloat( dataArray.count) {
+        if emptyTip && dataArray.count == 0 {
+            self.tableheightX = NoResultFooter.footerHeight
+            self.displayNoReasultFooter()
+        }
+        else if listHeight > rowHeight * CGFloat( dataArray.count) {
             self.tableheightX = rowHeight * CGFloat(dataArray.count)
         }else{
             self.tableheightX = listHeight
@@ -542,4 +554,53 @@ class Arrow: UIView {
     }
 }
 
+class NoResultFooter: UIControl {
+    static let footerHeight: CGFloat = 90.0
+    var message: String? {
+        didSet {
+            self.label.text = message
+        }
+    }
 
+    private lazy var label: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = UIColor.toastBackgroundGray
+        label.textColor = UIColor.textSecondaryScorpionGray
+        label.font = UIFont.init(name: "PingFangSC-Regular", size: 16)
+        label.textAlignment = .center
+        return label
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+        setDefault()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupUI()
+        setDefault()
+    }
+
+    convenience init() {
+        self.init(frame: CGRect(x: .zero,
+                                y: .zero,
+                                width: UIScreen.main.bounds.size.width,
+                                height: Self.footerHeight))
+    }
+    
+    private func setupUI() {
+        self.addSubview(label, constraints: .fill())
+    }
+    
+    private func setDefault() {
+        self.backgroundColor = UIColor.white
+        self.message = Localize.string("common_empty_data")
+    }
+
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
+
+}

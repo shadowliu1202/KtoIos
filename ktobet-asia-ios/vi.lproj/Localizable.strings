@@ -300,6 +300,7 @@
 "common_http_410" = "系统维护中";
 "common_http_503" = "发生暂时性的错误，请稍后再试";
 "common_http_exception" = "网路异常，错误代码(%@)";
+"common_empty_data" = "查无资料";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
