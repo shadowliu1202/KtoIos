@@ -9,12 +9,11 @@ class SlotBetSummaryByDateViewController: UIViewController {
     var viewModel = DI.resolve(SlotBetViewModel.self)!
     private var disposeBag = DisposeBag()
     
-    @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: selectDate?.replacingOccurrences(of: "-", with: "/"))
         initUI()
         dataBinding()
     }
@@ -24,7 +23,6 @@ class SlotBetSummaryByDateViewController: UIViewController {
     }
 
     private func initUI() {
-        titleLabel.text = selectDate?.replacingOccurrences(of: "-", with: "/")
         tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
         tableView.tableFooterView?.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
     }

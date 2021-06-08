@@ -7,7 +7,6 @@ import SharedBu
 class CasinoBetSummaryByDateViewController: UIViewController {
     static let segueIdentifier = "toCasinoBetSummaryByDate"
     
-    @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
     
     private var activityIndicator = UIActivityIndicatorView(style: .large)
@@ -19,8 +18,7 @@ class CasinoBetSummaryByDateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleLabel.text = selectDate?.replacingOccurrences(of: "-", with: "/")
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: selectDate?.replacingOccurrences(of: "-", with: "/"))
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()

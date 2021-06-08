@@ -45,7 +45,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nya-Sz-0uG">
-                                <rect key="frame" x="0.0" y="116" width="414" height="746"/>
+                                <rect key="frame" x="0.0" y="74" width="414" height="788"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -142,15 +142,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i49-3l-e6M">
-                                <rect key="frame" x="30" y="52" width="62.5" height="34"/>
-                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                <color key="textColor" name="whiteFull"/>
-                                <nil key="highlightedColor"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_my_bet"/>
-                                </userDefinedRuntimeAttributes>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="OFR-XN-4QQ"/>
                         <color key="backgroundColor" name="blackFull"/>
@@ -159,10 +150,8 @@
                             <constraint firstItem="OFR-XN-4QQ" firstAttribute="trailing" secondItem="nya-Sz-0uG" secondAttribute="trailing" id="9wo-LX-fZb"/>
                             <constraint firstItem="zDS-1h-HQv" firstAttribute="centerX" secondItem="8lb-YG-01J" secondAttribute="centerX" id="HUY-SG-qCY"/>
                             <constraint firstItem="nya-Sz-0uG" firstAttribute="leading" secondItem="OFR-XN-4QQ" secondAttribute="leading" id="Lut-XL-vDx"/>
-                            <constraint firstItem="i49-3l-e6M" firstAttribute="top" secondItem="OFR-XN-4QQ" secondAttribute="top" constant="8" id="UYj-4J-9J2"/>
                             <constraint firstItem="OFR-XN-4QQ" firstAttribute="bottom" secondItem="nya-Sz-0uG" secondAttribute="bottom" id="bKN-E3-6ug"/>
-                            <constraint firstItem="nya-Sz-0uG" firstAttribute="top" secondItem="i49-3l-e6M" secondAttribute="bottom" constant="30" id="pTn-2u-NtG"/>
-                            <constraint firstItem="i49-3l-e6M" firstAttribute="leading" secondItem="OFR-XN-4QQ" secondAttribute="leading" constant="30" id="v2u-14-aUW"/>
+                            <constraint firstItem="nya-Sz-0uG" firstAttribute="top" secondItem="OFR-XN-4QQ" secondAttribute="top" constant="30" id="d9x-dl-wHf"/>
                         </constraints>
                     </view>
                     <connections>
@@ -184,17 +173,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mDF-Cl-AEV">
-                                <rect key="frame" x="30" y="8" width="62.5" height="34"/>
-                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                <color key="textColor" name="whiteFull"/>
-                                <nil key="highlightedColor"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_unsettled_game"/>
-                                </userDefinedRuntimeAttributes>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vJy-Pt-k8w">
-                                <rect key="frame" x="0.0" y="72" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="25" minY="0.0" maxX="25" maxY="0.0"/>
@@ -272,10 +252,8 @@
                         <viewLayoutGuide key="safeArea" id="IRr-Se-dzg"/>
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
-                            <constraint firstItem="mDF-Cl-AEV" firstAttribute="leading" secondItem="IRr-Se-dzg" secondAttribute="leading" constant="30" id="GmF-uf-ztB"/>
-                            <constraint firstItem="vJy-Pt-k8w" firstAttribute="top" secondItem="mDF-Cl-AEV" secondAttribute="bottom" constant="30" id="Vz7-At-PIk"/>
                             <constraint firstItem="IRr-Se-dzg" firstAttribute="bottom" secondItem="vJy-Pt-k8w" secondAttribute="bottom" id="YVz-bG-6s6"/>
-                            <constraint firstItem="mDF-Cl-AEV" firstAttribute="top" secondItem="IRr-Se-dzg" secondAttribute="top" constant="8" id="qTR-Qy-lU7"/>
+                            <constraint firstItem="vJy-Pt-k8w" firstAttribute="top" secondItem="IRr-Se-dzg" secondAttribute="top" constant="30" id="kVY-H4-mHk"/>
                             <constraint firstItem="vJy-Pt-k8w" firstAttribute="leading" secondItem="IRr-Se-dzg" secondAttribute="leading" id="qvv-hb-Ynk"/>
                             <constraint firstItem="IRr-Se-dzg" firstAttribute="trailing" secondItem="vJy-Pt-k8w" secondAttribute="trailing" id="zXH-FR-bT2"/>
                         </constraints>
@@ -297,17 +275,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yRN-h3-sKO">
-                                <rect key="frame" x="30" y="8" width="62.5" height="34"/>
-                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                <color key="textColor" name="whiteFull"/>
-                                <nil key="highlightedColor"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_unsettled_game"/>
-                                </userDefinedRuntimeAttributes>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pJs-Vg-xTV">
-                                <rect key="frame" x="0.0" y="72" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="25" minY="0.0" maxX="25" maxY="0.0"/>
@@ -389,15 +358,12 @@
                             <constraint firstItem="RFo-Yd-npd" firstAttribute="trailing" secondItem="pJs-Vg-xTV" secondAttribute="trailing" id="2NN-8f-hMk"/>
                             <constraint firstItem="RFo-Yd-npd" firstAttribute="bottom" secondItem="pJs-Vg-xTV" secondAttribute="bottom" id="9eT-Ih-OV7"/>
                             <constraint firstItem="pJs-Vg-xTV" firstAttribute="leading" secondItem="RFo-Yd-npd" secondAttribute="leading" id="HDd-cv-7K6"/>
-                            <constraint firstItem="pJs-Vg-xTV" firstAttribute="top" secondItem="yRN-h3-sKO" secondAttribute="bottom" constant="30" id="UMg-cf-qt3"/>
-                            <constraint firstItem="yRN-h3-sKO" firstAttribute="leading" secondItem="RFo-Yd-npd" secondAttribute="leading" constant="30" id="lws-9z-QdY"/>
-                            <constraint firstItem="yRN-h3-sKO" firstAttribute="top" secondItem="RFo-Yd-npd" secondAttribute="top" constant="8" id="oWJ-Bw-2ki"/>
+                            <constraint firstItem="pJs-Vg-xTV" firstAttribute="top" secondItem="RFo-Yd-npd" secondAttribute="top" constant="30" id="h5m-Ye-heV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xgn-2O-OIZ"/>
                     <connections>
                         <outlet property="tableView" destination="pJs-Vg-xTV" id="vnd-2v-k9X"/>
-                        <outlet property="titleLabel" destination="yRN-h3-sKO" id="7LO-eC-3GF"/>
                         <segue destination="cD3-TI-Jx2" kind="show" identifier="toCasinoDetailViewController" id="W7a-Z0-AOT"/>
                     </connections>
                 </viewController>
@@ -587,17 +553,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lAU-vh-yrt" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="600"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="铂金厅" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Anq-Jy-yls">
-                                                <rect key="frame" x="30" y="8" width="354" height="32"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="32" id="rEf-kb-ogD"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                                <color key="textColor" name="whiteFull"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0XW-AM-rqt" customClass="WebGameCollectionView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="24" y="60" width="366" height="540"/>
+                                                <rect key="frame" x="24" y="30" width="366" height="570"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ene-mT-vKY">
                                                     <size key="itemSize" width="128" height="124"/>
@@ -610,14 +567,11 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="Anq-Jy-yls" secondAttribute="trailing" constant="30" id="D6N-kI-jgc"/>
                                             <constraint firstAttribute="trailing" secondItem="0XW-AM-rqt" secondAttribute="trailing" constant="24" id="DHS-xv-aoI"/>
-                                            <constraint firstItem="Anq-Jy-yls" firstAttribute="leading" secondItem="lAU-vh-yrt" secondAttribute="leading" constant="30" id="Ep4-au-yxo"/>
                                             <constraint firstAttribute="height" constant="600" id="Gwh-zO-rvd"/>
-                                            <constraint firstItem="0XW-AM-rqt" firstAttribute="top" secondItem="Anq-Jy-yls" secondAttribute="bottom" constant="20" id="WZ6-6x-uyh"/>
                                             <constraint firstAttribute="bottom" secondItem="0XW-AM-rqt" secondAttribute="bottom" id="a7M-Te-cNs"/>
-                                            <constraint firstItem="Anq-Jy-yls" firstAttribute="top" secondItem="lAU-vh-yrt" secondAttribute="top" constant="8" id="nBc-W3-7NI"/>
                                             <constraint firstItem="0XW-AM-rqt" firstAttribute="leading" secondItem="lAU-vh-yrt" secondAttribute="leading" constant="24" id="pFj-Cu-b0S"/>
+                                            <constraint firstItem="0XW-AM-rqt" firstAttribute="top" secondItem="lAU-vh-yrt" secondAttribute="top" constant="30" id="wzZ-TC-JKK"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -642,7 +596,6 @@
                     <connections>
                         <outlet property="gamesCollectionView" destination="0XW-AM-rqt" id="lGs-5P-uSt"/>
                         <outlet property="scrollViewContentHeight" destination="Gwh-zO-rvd" id="Mc8-3L-SHe"/>
-                        <outlet property="titleLabel" destination="Anq-Jy-yls" id="h0Q-3k-WIk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3G-nU-rJ6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
