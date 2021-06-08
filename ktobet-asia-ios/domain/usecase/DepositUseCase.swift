@@ -12,6 +12,7 @@ protocol DepositUseCase {
     func getDepositRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<DepositRecordDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]>
+    func requestCryptoDeposit() -> Single<String>
 }
 
 class DepositUseCaseImpl: DepositUseCase {
@@ -61,5 +62,9 @@ class DepositUseCaseImpl: DepositUseCase {
     
     func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]> {
         return depositRepository.getDepositRecords(page: page, dateBegin: dateBegin, dateEnd: dateEnd, status: status).map{ $0.filter { !$0.isFee } }
+    }
+    
+    func requestCryptoDeposit() -> Single<String> {
+        depositRepository.requestCryptoDeposit()
     }
 }

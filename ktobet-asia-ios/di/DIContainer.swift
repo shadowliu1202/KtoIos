@@ -67,6 +67,9 @@ class DIContainer {
         ctner.register(NumberGameApi.self) { (resolver) in
             return NumberGameApi(httpclient)
         }
+        ctner.register(CPSApi.self) { (resolver) in
+            return CPSApi(httpclient)
+        }
     }
     
     func registRepo(){
@@ -108,7 +111,8 @@ class DIContainer {
         ctner.register(DepositRepository.self) { resolver in
             let bankApi = ctner.resolve(BankApi.self)!
             let imageApi = ctner.resolve(ImageApi.self)!
-            return DepositRepositoryImpl(bankApi, imageApi: imageApi)
+            let cpsApi = ctner.resolve(CPSApi.self)!
+            return DepositRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi)
         }
         ctner.register(ImageRepository.self) { resolver in
             let imageApi = ctner.resolve(ImageApi.self)!

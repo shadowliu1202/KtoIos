@@ -34,7 +34,8 @@ class DepositViewModel {
                                     3: "AliPay(32)",
                                     5: "秒存(32)",
                                     6: "閃充(32)",
-                                    11: "雲閃付(32)"]
+                                    11: "雲閃付(32)",
+                                    2001: "Ethereum"]
     init(depositUseCase: DepositUseCase, usecaseAuth: AuthenticationUseCase, playerUseCase: PlayerDataUseCase, bankUseCase: BankUseCase) {
         self.depositUseCase = depositUseCase
         self.usecaseAuth = usecaseAuth
@@ -60,8 +61,8 @@ class DepositViewModel {
         return depositUseCase.getDepositRecords()
     }
     
-    func getDepositTypeImage(depositTypeId: Int32) -> String? {
-        return imgIcon[depositTypeId]
+    func getDepositTypeImage(depositTypeId: Int32) -> String {
+        return imgIcon[depositTypeId] ?? "Default(32)"
     }
     
     func getBanks() -> Single<[(Int, Bank)]> {
@@ -171,5 +172,9 @@ class DepositViewModel {
         let beginDate = (self.dateBegin ?? Date().getPastSevenDate()).formatDateToStringToSecond(with: "-")
         let endDate = (self.dateEnd ?? Date().convertdateToUTC()).formatDateToStringToSecond(with: "-")
         return playerUseCase.getCashLogSummary(begin: beginDate, end: endDate, balanceLogFilterType: balanceLogFilterType)
+    }
+    
+    func createCryptoDeposit() -> Single<String> {
+        return depositUseCase.requestCryptoDeposit()
     }
 }

@@ -13,7 +13,7 @@ class DepositViewController: UIViewController {
     @IBOutlet private weak var depositRecordNoDataLabel: UILabel!
     @IBOutlet private weak var showAllRecordButton: UIButton!
     @IBOutlet private weak var depositRecordTableView: UITableView!
-
+    
     private var viewModel = DI.resolve(DepositViewModel.self)!
     private var disposeBag = DisposeBag()
     
@@ -22,19 +22,10 @@ class DepositViewController: UIViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
         initUI()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         depositTypeDataBinding()
         recordDataBinding()
         depositTypeDataHandler()
         recordDataHandler()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.disposeBag = DisposeBag()
     }
     
     deinit {
@@ -45,7 +36,7 @@ class DepositViewController: UIViewController {
     @IBAction func showAllRecord(sender: UIButton) {
         performSegue(withIdentifier: DepositRecordViewController.segueIdentifier, sender: nil)
     }
-
+    
     // MARK: METHOD
     fileprivate func initUI() {
         depositTitleLabel.text = Localize.string("common_deposit")
@@ -59,81 +50,89 @@ class DepositViewController: UIViewController {
     }
     
     fileprivate func depositTypeDataBinding() {
-        depositTypeTableView.delegate = nil
-        depositTypeTableView.dataSource = nil
-        let getDepositTypeObservable = viewModel.getDepositType().catchError { error in
-            self.handleUnknownError(error)
-            return Single<[DepositRequest.DepositType]>.never() }.asObservable().map { (data) -> [DepositRequest.DepositType] in
-            return data.filter { (d) -> Bool in
-                return (d as? DepositRequest.DepositTypeUnknown) == nil
+        let depositType = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
+            return self.viewModel.getDepositType().asObservable()
+        }).share(replay: 1)
+        depositType.catchError({ [weak self] (error) -> Observable<[DepositRequest.DepositType]> in
+            self?.handleErrors(error)
+            return Observable.just([])
+        }).do ( onNext:{[weak self] (depositTypes) in
+            self?.depositTypeTableView.isHidden = false
+            self?.constraintDepositTypeTableHeight.constant = CGFloat(depositTypes.count * 56)
+            self?.depositTypeTableView.layoutIfNeeded()
+            self?.depositTypeTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+            self?.depositTypeTableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
+            if depositTypes.count == 0 {
+                self?.depositNoDataLabel.isHidden = false
+                self?.depositTypeTableView.isHidden = true
+            } else {
+                self?.depositNoDataLabel.isHidden = true
+                self?.depositTypeTableView.isHidden = false
             }
-        }.share(replay: 1)
-        
-        getDepositTypeObservable.bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
+        }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
             if let thirdParty = data as? DepositRequest.DepositTypeThirdParty {
-                cell.setUp(name: thirdParty.name, icon: self.viewModel.getDepositTypeImage(depositTypeId: thirdParty.depositTypeId)!, isRecommend: thirdParty.isFavorite)
+                cell.setUp(name: thirdParty.name, icon: self.viewModel.getDepositTypeImage(depositTypeId: thirdParty.depositTypeId), isRecommend: thirdParty.isFavorite)
                 return
             }
-
+            
+            if let crypto = data as? DepositRequest.DepositTypeCrypto {
+                cell.setUp(name: crypto.name, icon: self.viewModel.getDepositTypeImage(depositTypeId: crypto.id), isRecommend: crypto.isFavorite)
+                return
+            }
+            
             if let offline = data as? DepositRequest.DepositTypeOffline {
-                cell.setUp(name: Localize.string("deposit_offline_step1_title"), icon: self.viewModel.getDepositTypeImage(depositTypeId: offline.depositTypeId)!, isRecommend: offline.isFavorite)
+                cell.setUp(name: Localize.string("deposit_offline_step1_title"), icon: self.viewModel.getDepositTypeImage(depositTypeId: offline.depositTypeId), isRecommend: offline.isFavorite)
                 return
             }
         }.disposed(by: disposeBag)
-
-        getDepositTypeObservable
-            .subscribeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] (depositTypes) in
-                self?.depositTypeTableView.isHidden = false
-                self?.constraintDepositTypeTableHeight.constant = CGFloat(depositTypes.count * 56)
-                self?.depositTypeTableView.layoutIfNeeded()
-                self?.depositTypeTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
-                self?.depositTypeTableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
-                if depositTypes.count == 0 {
-                    self?.depositNoDataLabel.isHidden = false
-                    self?.depositTypeTableView.isHidden = true
-                } else {
-                    self?.depositNoDataLabel.isHidden = true
-                    self?.depositTypeTableView.isHidden = false
-                }
-            }).disposed(by: disposeBag)
     }
     
     fileprivate func depositTypeDataHandler() {
         Observable.zip(depositTypeTableView.rx.itemSelected, depositTypeTableView.rx.modelSelected(DepositRequest.DepositType.self)).bind { [weak self] (indexPath, data) in
-            self?.performSegue(withIdentifier: DepositMethodViewController.segueIdentifier, sender: data)
-            self?.depositTypeTableView.deselectRow(at: indexPath, animated: true)
+            if let crypto = data as? DepositRequest.DepositTypeCrypto {
+                let title = Localize.string("common_tip_title_warm")
+                let message = Localize.string("deposit_crypto_warning")
+                Alert.show(title, message, confirm: {
+                    self?.viewModel.createCryptoDeposit().subscribe {[weak self] (url) in
+                        //TODO: Webview
+                        print(url)
+                    } onError: { (error) in
+                        self?.handleUnknownError(error)
+                    }
+                    
+                }, cancel: nil)
+            } else {
+                self?.performSegue(withIdentifier: DepositMethodViewController.segueIdentifier, sender: data)
+                self?.depositTypeTableView.deselectRow(at: indexPath, animated: true)
+            }
         }.disposed(by: disposeBag)
     }
-
+    
     fileprivate func recordDataBinding() {
-        depositRecordTableView.delegate = nil
-        depositRecordTableView.dataSource = nil
-        let getDepositRecordObservable = viewModel.getDepositRecord().catchError { error in
-            self.handleUnknownError(error)
-            return Single<[DepositRecord]>.never() }.asObservable().share(replay: 1)
-        getDepositRecordObservable.bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
+        let depositRecord = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
+            return self.viewModel.getDepositRecord().asObservable()
+        }).share(replay: 1)
+        depositRecord.catchError({ [weak self] (error) -> Observable<[DepositRecord]> in
+            self?.handleErrors(error)
+            return Observable.just([])
+        }).do ( onNext:{[weak self] (depositRecord) in
+            self?.depositRecordTableView.isHidden = false
+            self?.constraintDepositRecordTableHeight.constant = CGFloat(depositRecord.count * 80)
+            self?.depositRecordTableView.layoutIfNeeded()
+            self?.depositRecordTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+            self?.depositRecordTableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
+            if depositRecord.count == 0 {
+                self?.depositRecordNoDataLabel.isHidden = false
+                self?.depositRecordTableView.isHidden = true
+                self?.showAllRecordButton.isHidden = true
+            } else {
+                self?.depositRecordNoDataLabel.isHidden = true
+                self?.depositRecordTableView.isHidden = false
+                self?.showAllRecordButton.isHidden = false
+            }
+        }).bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
             cell.setUp(data: data)
         }.disposed(by: disposeBag)
-        
-        getDepositRecordObservable
-            .subscribeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] (depositRecord) in
-                self?.depositRecordTableView.isHidden = false
-                self?.constraintDepositRecordTableHeight.constant = CGFloat(depositRecord.count * 80)
-                self?.depositRecordTableView.layoutIfNeeded()
-                self?.depositRecordTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
-                self?.depositRecordTableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
-                if depositRecord.count == 0 {
-                    self?.depositRecordNoDataLabel.isHidden = false
-                    self?.depositRecordTableView.isHidden = true
-                    self?.showAllRecordButton.isHidden = true
-                } else {
-                    self?.depositRecordNoDataLabel.isHidden = true
-                    self?.depositRecordTableView.isHidden = false
-                    self?.showAllRecordButton.isHidden = false
-                }
-            }).disposed(by: disposeBag)
     }
     
     fileprivate func recordDataHandler() {
@@ -157,7 +156,7 @@ class DepositViewController: UIViewController {
             }
         }
     }
-
+    
     @IBAction func backToDeposit(segue: UIStoryboardSegue) {
         NavigationManagement.sharedInstance.viewController = self
         if let vc = segue.source as? DepositOfflineConfirmViewController {
@@ -172,7 +171,7 @@ class DepositViewController: UIViewController {
             toastView.show(on: self.view, statusTip: Localize.string("common_request_submitted"), img: UIImage(named: "Success"))
         }
     }
-
+    
 }
 
 

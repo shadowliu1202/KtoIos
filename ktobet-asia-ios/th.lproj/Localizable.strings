@@ -1,5 +1,41 @@
 
 
+//MARK: - CPS
+"cps_kto" = "KTO";
+"cps_daily_limit_widthrawal_amount" = "每日提现额度：%@";
+"cps_daily_limit_widthrawal_times" = "每日提现次数：%@";
+"cps_turnover_requirement" = "投注额提现要求：";
+"cps_crpyto_withdrawal_requirement" = "虚拟币提现要求：";
+"cps_crpyto_withdrawal_requirement_title" = "虚拟币提现要求说明";
+"cps_crpyto_withdrawal_requirement_desc" = "虚拟币提现要求为0时，表示您既可以使用现金提现，也可以使用虚拟币提现。
+
+当您完成虚拟币充值后，虚拟币提现要求将变为等额的充值金额，需要首先完成虚拟币提现后才能使用现金提现。";
+"cps_cash_withdrawal_lock_title" = "现金提现锁定";
+"cps_cash_withdrawal_lock_desc" = "目前尚有%@虚拟币尚未提现结算。需先将虚拟币未结算金额提取完毕，账户才能进行现金提现。";
+"cps_success_log" = "虚拟币交易成功纪录";
+"cps_remaining_requirement" = "剩余虚拟币提现要求：%@ ETH";
+"cps_total_require_amount" = "总虚拟币提现要求（上次清零后累计充值）：%@ ETH";
+"cps_total_completed_amount" = "已完成虚拟币提现要求（上次清零后累计提现）：%@ ETH";
+"cps_require_completed" = "您目前已无剩余虚拟币提现要求，将会跳转至提现首页。";
+"cps_set_crypto_account" = "设定虚拟币账户";
+"cps_set_crypto_account_hint" = "您必须先设定虚拟币账户才能进行提现。";
+"cps_auto_fill_not_enough_balance" = "账户余额不足";
+"cps_auto_fill_remaining_balance" = "您的账户余额低于虚拟币提现要求，将自动填写账户余额。";
+"cps_auto_fill_maximum_limit" = "您的虛擬幣提現要求大於單筆限額，將自動填寫單筆限額。";
+"cps_auto_fill_daily_limit_maximum" = "您的虛擬幣提現要求大於今日可提現金額，將自動填寫今日可提現金額。";
+"cps_crypto_account_name" = "账户别称";
+"cps_crypto_currency" = "虚拟币币别";
+"cps_crypto_delete_hint" = "该虚拟币钱包为已验证状态，删除后重新添加将需要再次验证。";
+"cps_excahange_rate" = "交易汇率";
+"cps_request_withdrawal_crypto_amount" = "本次申请提现金额";
+"cps_request_withdrawal_fiat_amount" = "账户扣除";
+"cps_remaining_crypto_requirement" = "虚拟币需要完成的提现要求";
+"cps_rate_changed" = "汇率已更动";
+"cps_please_refill_amounts" = "请重新确认并填写金额。";
+"cps_wallet_address" = "账户地址";
+"cps_add_account" = "新增虚拟币账户";
+"cps_security_alert" = "为了账户安全，需要进行身份验证。";
+
 //MARK: - Common
 "common_kto" = "KTO";
 "common_accountinfo" = "THTH个人资料";
@@ -188,7 +224,7 @@
 "common_copy" = "复制";
 "common_copied" = "复制完成";
 "common_submit2" = "提交";
-"common_times_count" = "次";
+"common_times_count" = "%@次";
 "common_privacy_terms" = "隐私政策";
 "common_service_terms" = "服务条款";
 "common_gambling_responsibility_terms" = "博彩责任";
@@ -301,6 +337,12 @@
 "common_http_503" = "发生暂时性的错误，请稍后再试";
 "common_http_exception" = "网路异常，错误代码(%@)";
 "common_empty_data" = "查无资料";
+"common_requirement" = "仍需 %@";
+"common_none" = "无";
+"common_select_verify_type" = "选择验证方式";
+"common_otp_hint" = "6位数字的验证码将发送至";
+"common_not_set_mobile" = "尚未设定手机";
+"common_not_set_email" = "尚未设定电子邮箱";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -444,6 +486,7 @@
 "deposit_name" = "THTH汇款人姓名";
 "deposit_thirdparty_transaction_remind" = "THTH你即将进入交易确认画面，在交易完成之前请勿关闭窗口。";
 "deposit_file_format_invalid" = "THTH您的档案不符合系统格式";
+"deposit_crypto_warning" = "“虚拟币充值” 成功后需要提现等额的虚拟币才能使用 “现金提现”。";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "THTH交易前金额";
@@ -510,6 +553,8 @@
 "withdrawal_cancel" = "VIVN提现取消";
 "withdrawal_dailywithdrawalamount" = "今日可提现金额：";
 "withdrawal_dailywithdrawalcount" = "今日可提现次数：";
+"withdrawal_dailywithdrawalamount_2" = "今日可提现金额";
+"withdrawal_dailywithdrawalcount_2" = "今日可提现次数";
 "withdrawal_detail_title" = "VIVN提现细单";
 "withdrawal_fail" = "VIVN提现失败";
 "withdrawal_log" = "VIVN提现纪录";
@@ -552,7 +597,7 @@
 若需要改变姓名，请先取消提现单申请，再前往个人设定进行变更。";
 "withdrawal_bankcard_new" = "VIVN本账户尚未验证";
 "withdrawal_bankcard_locked" = "VIVN本账户资料审核中不可删除";
-"withdrawal_bankcard_verified" = "VIVN本账户已验证核可";
+"withdrawal_bankcard_verified" = "本账户已出款成功";
 "withdrawal_bankcard_fail" = "VIVN本账户资料不正确";
 "withdrawal_bankcard_delete" = "VIVN删除提现帐户";
 "withdrawal_bankcard_delete_confirm_title" = "VIVN是否删除提现帐户?";

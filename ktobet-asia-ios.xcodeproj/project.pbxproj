@@ -608,6 +608,10 @@
 		605CF88D2642317400FBCF31 /* DropDownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605CF88B2642317400FBCF31 /* DropDownTableViewCell.swift */; };
 		605CF88E2642317400FBCF31 /* DropDownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605CF88B2642317400FBCF31 /* DropDownTableViewCell.swift */; };
 		605D986B25A5CC2E00634197 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D986A25A5CC2E00634197 /* DateExtension.swift */; };
+		6060AF33266F5503001DD3F3 /* CPSApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF32266F5502001DD3F3 /* CPSApi.swift */; };
+		6060AF34266F5503001DD3F3 /* CPSApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF32266F5502001DD3F3 /* CPSApi.swift */; };
+		6060AF35266F5503001DD3F3 /* CPSApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF32266F5502001DD3F3 /* CPSApi.swift */; };
+		6060AF36266F5503001DD3F3 /* CPSApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF32266F5502001DD3F3 /* CPSApi.swift */; };
 		6061E33F2637E8B000A52AF8 /* TYCyclePagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6061E33E2637E8B000A52AF8 /* TYCyclePagerViewCell.swift */; };
 		6061E3402637E8B000A52AF8 /* TYCyclePagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6061E33E2637E8B000A52AF8 /* TYCyclePagerViewCell.swift */; };
 		6061E3412637E8B000A52AF8 /* TYCyclePagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6061E33E2637E8B000A52AF8 /* TYCyclePagerViewCell.swift */; };
@@ -1461,6 +1465,7 @@
 		605AC7D525C1177900873D63 /* ktobet-asia-ios-qat-v-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-qat-v-Info.plist"; sourceTree = "<group>"; };
 		605CF88B2642317400FBCF31 /* DropDownTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownTableViewCell.swift; sourceTree = "<group>"; };
 		605D986A25A5CC2E00634197 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		6060AF32266F5502001DD3F3 /* CPSApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPSApi.swift; sourceTree = "<group>"; };
 		6061E33E2637E8B000A52AF8 /* TYCyclePagerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYCyclePagerViewCell.swift; sourceTree = "<group>"; };
 		6077037B25C80E45003FBEE4 /* DepositMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositMethodViewController.swift; sourceTree = "<group>"; };
 		6077038825C8E3B2003FBEE4 /* DepositMethodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositMethodTableViewCell.swift; sourceTree = "<group>"; };
@@ -2018,6 +2023,7 @@
 				485E9F432564CA2A000447F3 /* GameApi.swift */,
 				485E9F472564D2F6000447F3 /* CustomServiceApi.swift */,
 				60001A2D25E6046E00CEB72F /* ImageApi.swift */,
+				6060AF32266F5502001DD3F3 /* CPSApi.swift */,
 			);
 			path = api;
 			sourceTree = "<group>";
@@ -3069,6 +3075,7 @@
 				41077D9C25BA63250057B340 /* SystemSignalRepository.swift in Sources */,
 				608505702603201F009394CA /* WithdrawalRecordViewController.swift in Sources */,
 				603462AE26327EF500F5D1D9 /* BarButtonItemable.swift in Sources */,
+				6060AF34266F5503001DD3F3 /* CPSApi.swift in Sources */,
 				4199A06825AE9918002E2D7E /* SignupUserInfoViewModel.swift in Sources */,
 				60072D9325E7A00A001EFDAE /* UploadImageUseCase.swift in Sources */,
 				4199A06925AE9918002E2D7E /* NegotiationResponse.swift in Sources */,
@@ -3363,6 +3370,7 @@
 				60D83E6E25B9185C0029205F /* SlideMenuViewModel.swift in Sources */,
 				6085056F2603201F009394CA /* WithdrawalRecordViewController.swift in Sources */,
 				603462AD26327EF500F5D1D9 /* BarButtonItemable.swift in Sources */,
+				6060AF33266F5503001DD3F3 /* CPSApi.swift in Sources */,
 				48AAA14E256E458800E075CA /* ServerInvocationHandler.swift in Sources */,
 				60072D9225E7A00A001EFDAE /* UploadImageUseCase.swift in Sources */,
 				607FC20725B142C200180147 /* SystemViewModel.swift in Sources */,
@@ -3641,6 +3649,7 @@
 				605AC78125C115BF00873D63 /* SystemSignalRepository.swift in Sources */,
 				608505712603201F009394CA /* WithdrawalRecordViewController.swift in Sources */,
 				603462AF26327EF500F5D1D9 /* BarButtonItemable.swift in Sources */,
+				6060AF35266F5503001DD3F3 /* CPSApi.swift in Sources */,
 				605AC78225C115BF00873D63 /* SignupUserInfoViewModel.swift in Sources */,
 				60072D9425E7A00A001EFDAE /* UploadImageUseCase.swift in Sources */,
 				605AC78325C115BF00873D63 /* NegotiationResponse.swift in Sources */,
@@ -3869,6 +3878,7 @@
 				609012E52640EE7000419F8E /* UIColorExtension.swift in Sources */,
 				609012E62640EE7000419F8E /* TransferFormat.swift in Sources */,
 				6D4083DA265212ED00BECD0E /* NumberGameRecordUseCase.swift in Sources */,
+				6060AF36266F5503001DD3F3 /* CPSApi.swift in Sources */,
 				6000DB2D2664C4A9002A7A87 /* NumberGameDetailViewController.swift in Sources */,
 				609012E72640EE7000419F8E /* DepositPresenter.swift in Sources */,
 				609012E82640EE7000419F8E /* HttpResponse.swift in Sources */,
