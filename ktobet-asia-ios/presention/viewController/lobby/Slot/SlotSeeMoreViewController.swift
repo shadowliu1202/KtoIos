@@ -27,7 +27,6 @@ class SlotSeeMoreViewController: DisplayProduct {
     private var disposeBag = DisposeBag()
     
     @IBOutlet weak var scrollViewContentHeight: NSLayoutConstraint!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     
@@ -35,14 +34,13 @@ class SlotSeeMoreViewController: DisplayProduct {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: type.localizeString())
         initUI()
         dataBinding()
     }
     
     private func initUI() {
         self.bind(position: .right, barButtonItems: .kto(.search))
-        titleLabel.text = type.localizeString()
         gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         gamesCollectionView.registerCellFromNib(WebGameItemCell.className)
     }
@@ -73,9 +71,8 @@ class SlotSeeMoreViewController: DisplayProduct {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "contentSize", let newvalue = change?[.newKey] {
             if let obj = object as? UICollectionView , obj == gamesCollectionView {
-                let aboveHeight = titleLabel.frame.size.height
-                let space: CGFloat = 20
-                scrollViewContentHeight.constant = (newvalue as! CGSize).height + aboveHeight + space
+                let space: CGFloat = 30
+                scrollViewContentHeight.constant = (newvalue as! CGSize).height + space
             }
         }
     }

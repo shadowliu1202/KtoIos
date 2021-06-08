@@ -4,7 +4,6 @@ import SharedBu
 
 class SlotBetDetailViewController: UIViewController {
     static let segueIdentifier = "toSlotBetDetail"
-    @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
     var viewModel = DI.resolve(SlotBetViewModel.self)!
@@ -19,7 +18,7 @@ class SlotBetDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: recordData?.gameName)
         initUI()
         dataBinding()
     }
@@ -29,7 +28,6 @@ class SlotBetDetailViewController: UIViewController {
     }
     
     private func initUI() {
-        titleLabel.text = recordData?.gameName
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)

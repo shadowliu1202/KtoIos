@@ -7,7 +7,6 @@ import RxDataSources
 
 class NumberGameDetailViewController: UIViewController {
     static let segueIdentifier = "toNumberGameBetDetail"
-    @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
     var viewModel = DI.resolve(NumberGameRecordViewModel.self)!
@@ -24,14 +23,13 @@ class NumberGameDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: gameName)
         initUI()
         dataBinding()
         summaryDataHandler()
     }
     
     private func initUI() {
-        titleLabel.text = gameName ?? ""
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

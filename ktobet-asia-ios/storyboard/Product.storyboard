@@ -24,20 +24,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIH-8S-ilS" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="600"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关注列表" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l59-6s-DUY">
-                                                <rect key="frame" x="30" y="8" width="354" height="32"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="32" id="4ve-2T-pjJ"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                                <color key="textColor" name="whiteFull"/>
-                                                <nil key="highlightedColor"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_favorite"/>
-                                                </userDefinedRuntimeAttributes>
-                                            </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Nyu-qd-Noy" customClass="WebGameCollectionView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="24" y="60" width="366" height="540"/>
+                                                <rect key="frame" x="24" y="30" width="366" height="570"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="v1N-Mn-GAd">
                                                     <size key="itemSize" width="128" height="124"/>
@@ -50,14 +38,11 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="Nyu-qd-Noy" firstAttribute="top" secondItem="l59-6s-DUY" secondAttribute="bottom" constant="20" id="IDz-Jm-9Ih"/>
+                                            <constraint firstItem="Nyu-qd-Noy" firstAttribute="top" secondItem="ZIH-8S-ilS" secondAttribute="top" constant="30" id="QYJ-85-7CS"/>
                                             <constraint firstAttribute="trailing" secondItem="Nyu-qd-Noy" secondAttribute="trailing" constant="24" id="Szo-ql-H6z"/>
-                                            <constraint firstItem="l59-6s-DUY" firstAttribute="leading" secondItem="ZIH-8S-ilS" secondAttribute="leading" constant="30" id="Z2U-MF-neY"/>
                                             <constraint firstAttribute="bottom" secondItem="Nyu-qd-Noy" secondAttribute="bottom" id="b81-c3-JBz"/>
                                             <constraint firstAttribute="height" constant="600" id="eFm-zu-vOz"/>
                                             <constraint firstItem="Nyu-qd-Noy" firstAttribute="leading" secondItem="ZIH-8S-ilS" secondAttribute="leading" constant="24" id="eqc-ps-Lt1"/>
-                                            <constraint firstAttribute="trailing" secondItem="l59-6s-DUY" secondAttribute="trailing" constant="30" id="lTx-Sa-n1a"/>
-                                            <constraint firstItem="l59-6s-DUY" firstAttribute="top" secondItem="ZIH-8S-ilS" secondAttribute="top" constant="8" id="v0l-wn-nEX"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -70,10 +55,10 @@
                                 </constraints>
                             </scrollView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="scb-m9-AC9" userLabel="EmptyView">
-                                <rect key="frame" x="0.0" y="52" width="414" height="810"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="没有关注的游戏" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Is-aa-tar">
-                                        <rect key="frame" x="0.0" y="393" width="414" height="24"/>
+                                        <rect key="frame" x="0.0" y="397" width="414" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Hen-Zv-g9A"/>
                                         </constraints>
@@ -85,14 +70,14 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="remove-favorite" translatesAutoresizingMaskIntoConstraints="NO" id="eW6-4u-i2o">
-                                        <rect key="frame" x="171.5" y="288" width="71" height="71"/>
+                                        <rect key="frame" x="171.5" y="292" width="71" height="71"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="71" id="7Ka-n5-idF"/>
                                             <constraint firstAttribute="width" constant="71" id="Wxp-ip-LxO"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tfb-ll-7Dj">
-                                        <rect key="frame" x="30" y="448" width="354" height="48"/>
+                                        <rect key="frame" x="30" y="452" width="354" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="9Tt-Dg-81T"/>
                                         </constraints>
@@ -135,8 +120,8 @@
                             <constraint firstItem="ibj-4c-0VK" firstAttribute="bottom" secondItem="odT-zy-8kC" secondAttribute="bottom" id="5vp-EI-3yv"/>
                             <constraint firstItem="scb-m9-AC9" firstAttribute="trailing" secondItem="odT-zy-8kC" secondAttribute="trailing" id="6Zq-V3-w22"/>
                             <constraint firstItem="odT-zy-8kC" firstAttribute="bottom" secondItem="scb-m9-AC9" secondAttribute="bottom" id="938-0N-YC1"/>
+                            <constraint firstItem="scb-m9-AC9" firstAttribute="top" secondItem="odT-zy-8kC" secondAttribute="top" id="ZKN-5b-OoB"/>
                             <constraint firstItem="ibj-4c-0VK" firstAttribute="top" secondItem="odT-zy-8kC" secondAttribute="top" id="ZWH-kX-Tfp"/>
-                            <constraint firstItem="scb-m9-AC9" firstAttribute="top" secondItem="l59-6s-DUY" secondAttribute="top" id="a5y-4M-47t"/>
                             <constraint firstItem="ibj-4c-0VK" firstAttribute="trailing" secondItem="odT-zy-8kC" secondAttribute="trailing" id="g2W-Ui-ONf"/>
                             <constraint firstItem="ibj-4c-0VK" firstAttribute="leading" secondItem="odT-zy-8kC" secondAttribute="leading" id="vxR-GQ-CYC"/>
                         </constraints>
@@ -147,7 +132,6 @@
                         <outlet property="emptyViewAddButton" destination="Tfb-ll-7Dj" id="j3L-a0-WMZ"/>
                         <outlet property="gamesCollectionView" destination="Nyu-qd-Noy" id="miK-Hx-a6x"/>
                         <outlet property="scrollViewContentHeight" destination="eFm-zu-vOz" id="Kxg-ni-L7X"/>
-                        <outlet property="titleLabel" destination="l59-6s-DUY" id="mMH-Bk-Kea"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nLW-fC-MFt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

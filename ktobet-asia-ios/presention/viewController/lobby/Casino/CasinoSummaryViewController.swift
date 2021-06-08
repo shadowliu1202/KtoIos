@@ -14,10 +14,10 @@ class CasinoSummaryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("product_my_bet"))
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         tableView.tableFooterView = UIView()
-        tableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
+        tableView.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
         bindingSummaryData()
         summaryDataHandler()
     }

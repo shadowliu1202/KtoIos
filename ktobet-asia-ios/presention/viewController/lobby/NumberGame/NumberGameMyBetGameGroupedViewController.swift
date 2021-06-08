@@ -11,7 +11,6 @@ class NumberGameMyBetGameGroupedViewController: UIViewController {
     let viewModel = DI.resolve(NumberGameRecordViewModel.self)!
     private var disposeBag = DisposeBag()
     
-    @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
     
     var betDate: Kotlinx_datetimeLocalDate!
@@ -21,7 +20,7 @@ class NumberGameMyBetGameGroupedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: betDate.toBetDisplayDate())
         initUI()
         dataBinding()
         summaryDataHandler()
@@ -32,7 +31,6 @@ class NumberGameMyBetGameGroupedViewController: UIViewController {
     }
 
     private func initUI() {
-        titleLabel.text = "\(betDate!)".replacingOccurrences(of: "-", with: "/")
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
