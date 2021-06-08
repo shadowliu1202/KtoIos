@@ -199,7 +199,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.074509803920000006" green="0.074509803920000006" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="textColor" name="whiteFull"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -818,7 +818,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9OX-89-1E9">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="74" width="414" height="788"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -885,7 +885,7 @@
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
                             <constraint firstItem="9OX-89-1E9" firstAttribute="trailing" secondItem="T39-2T-izf" secondAttribute="trailing" id="8kZ-s7-LfY"/>
-                            <constraint firstItem="9OX-89-1E9" firstAttribute="top" secondItem="T39-2T-izf" secondAttribute="top" id="iJF-mq-Gqb"/>
+                            <constraint firstItem="9OX-89-1E9" firstAttribute="top" secondItem="T39-2T-izf" secondAttribute="top" constant="30" id="iJF-mq-Gqb"/>
                             <constraint firstItem="T39-2T-izf" firstAttribute="bottom" secondItem="9OX-89-1E9" secondAttribute="bottom" id="vqd-aw-qpU"/>
                             <constraint firstItem="9OX-89-1E9" firstAttribute="leading" secondItem="T39-2T-izf" secondAttribute="leading" id="wSq-UB-Xse"/>
                         </constraints>
@@ -907,40 +907,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MsG-ap-JKK">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <rect key="frame" x="0.0" y="30" width="414" height="812"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="qeu-v7-rFF">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTp-L0-Skp">
-                                            <rect key="frame" x="30" y="8" width="62.5" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="BtW-Ix-SGg"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                            <color key="textColor" name="whiteFull"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="fTp-L0-Skp" secondAttribute="bottom" constant="30" id="AkV-gr-vHv"/>
-                                        <constraint firstItem="fTp-L0-Skp" firstAttribute="leading" secondItem="qeu-v7-rFF" secondAttribute="leading" constant="30" id="IOt-oQ-zcc"/>
-                                        <constraint firstItem="fTp-L0-Skp" firstAttribute="top" secondItem="qeu-v7-rFF" secondAttribute="top" constant="8" id="YG6-7c-Yyp"/>
-                                    </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="4O4-E4-J7Q" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="244" width="414" height="96"/>
+                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotBetSummaryByDateCell" id="yKR-OQ-WUm" customClass="SlotBetSummaryByDateCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="98" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yKR-OQ-WUm" id="8O8-tb-l5i">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1034,18 +1018,17 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rRx-b9-xku"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
                             <constraint firstItem="MsG-ap-JKK" firstAttribute="trailing" secondItem="rRx-b9-xku" secondAttribute="trailing" id="Lk3-tX-4M1"/>
                             <constraint firstAttribute="bottom" secondItem="MsG-ap-JKK" secondAttribute="bottom" id="fO0-Uk-ftq"/>
-                            <constraint firstItem="MsG-ap-JKK" firstAttribute="top" secondItem="rRx-b9-xku" secondAttribute="top" id="pIF-tf-m2t"/>
+                            <constraint firstItem="MsG-ap-JKK" firstAttribute="top" secondItem="rRx-b9-xku" secondAttribute="top" constant="30" id="pIF-tf-m2t"/>
                             <constraint firstItem="MsG-ap-JKK" firstAttribute="leading" secondItem="rRx-b9-xku" secondAttribute="leading" id="ywc-hh-5Ad"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="t5B-lA-dNn"/>
                     <connections>
                         <outlet property="tableView" destination="MsG-ap-JKK" id="XYX-fo-4m9"/>
-                        <outlet property="titleLabel" destination="fTp-L0-Skp" id="Pgv-m7-PAu"/>
                         <segue destination="WG6-CN-IPc" kind="show" identifier="toNumberGameBetDetail" id="P1d-Eb-zTa"/>
                     </connections>
                 </viewController>
@@ -1062,40 +1045,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="K5q-n5-xVO">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="KKp-me-QUa">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MM1-ho-hRx">
-                                            <rect key="frame" x="30" y="8" width="62.5" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="MGM-DB-Ofn"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                            <color key="textColor" name="whiteFull"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstItem="MM1-ho-hRx" firstAttribute="leading" secondItem="KKp-me-QUa" secondAttribute="leading" constant="30" id="NB3-Au-JAt"/>
-                                        <constraint firstItem="MM1-ho-hRx" firstAttribute="top" secondItem="KKp-me-QUa" secondAttribute="top" constant="8" id="fWs-cQ-GND"/>
-                                        <constraint firstAttribute="bottom" secondItem="MM1-ho-hRx" secondAttribute="bottom" constant="30" id="tKu-4j-54M"/>
-                                    </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="Hf8-4Q-HMC" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="244" width="414" height="96"/>
+                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotBetDetailCell" id="zkF-Cj-tEg" customClass="SlotBetDetailCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="98" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zkF-Cj-tEg" id="XEz-jc-Szb">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1167,14 +1134,13 @@
                         <constraints>
                             <constraint firstItem="K5q-n5-xVO" firstAttribute="leading" secondItem="NXa-2U-OYd" secondAttribute="leading" id="4Kz-9h-BLI"/>
                             <constraint firstItem="K5q-n5-xVO" firstAttribute="trailing" secondItem="NXa-2U-OYd" secondAttribute="trailing" id="BIL-3C-b1k"/>
-                            <constraint firstItem="K5q-n5-xVO" firstAttribute="top" secondItem="NXa-2U-OYd" secondAttribute="top" id="Zui-9U-eH6"/>
+                            <constraint firstItem="K5q-n5-xVO" firstAttribute="top" secondItem="NXa-2U-OYd" secondAttribute="top" constant="30" id="Zui-9U-eH6"/>
                             <constraint firstItem="NXa-2U-OYd" firstAttribute="bottom" secondItem="K5q-n5-xVO" secondAttribute="bottom" id="oKe-EW-0di"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oyC-4B-RIK"/>
                     <connections>
                         <outlet property="tableView" destination="K5q-n5-xVO" id="HtS-Ic-X9n"/>
-                        <outlet property="titleLabel" destination="MM1-ho-hRx" id="ohA-bL-qcB"/>
                         <segue destination="Ezg-qZ-PM2" kind="show" identifier="toNumberGameMyBetDetail" id="74H-wn-esK"/>
                     </connections>
                 </viewController>
@@ -1184,8 +1150,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="NVx-aL-LXP"/>
-        <segue reference="QFd-PQ-gIt"/>
+        <segue reference="QC6-Oi-CtM"/>
+        <segue reference="74H-wn-esK"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Chevron Left Disable(24)" width="24" height="24"/>

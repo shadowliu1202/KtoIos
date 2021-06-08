@@ -13,7 +13,7 @@ class SlotSummaryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("product_my_bet"))
         initUI()
         bindingSummaryData()
         summaryDataHandler()

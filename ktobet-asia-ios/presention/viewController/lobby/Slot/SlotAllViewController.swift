@@ -24,7 +24,7 @@ class SlotAllViewController: DisplayProduct {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("product_all_slot"))
         self.bind(position: .right, barButtonItems: .kto(.search), .kto(.filter))
         initUI()
         getAllGame(sorting: .popular)

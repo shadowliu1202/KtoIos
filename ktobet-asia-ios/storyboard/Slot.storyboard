@@ -15,7 +15,7 @@
             <objects>
                 <viewController id="6o5-IX-IyF" customClass="SlotViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LAo-oZ-iEc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1112"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCT-uj-Bhp">
@@ -246,7 +246,7 @@
             <objects>
                 <viewController id="aRA-ph-gyd" customClass="SlotSeeMoreViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DhC-J1-yBk">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xm7-ga-cFX">
@@ -255,17 +255,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sEh-fZ-cKZ" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="600"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最近游玩" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R9O-cv-xZo">
-                                                <rect key="frame" x="30" y="8" width="354" height="32"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="32" id="yHc-Wu-j8e"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                                <color key="textColor" name="whiteFull"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sa5-i1-c2m" customClass="WebGameCollectionView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="24" y="60" width="366" height="540"/>
+                                                <rect key="frame" x="24" y="30" width="366" height="570"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WOB-aa-8eb">
                                                     <size key="itemSize" width="128" height="124"/>
@@ -278,14 +269,11 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="sa5-i1-c2m" firstAttribute="top" secondItem="sEh-fZ-cKZ" secondAttribute="top" constant="30" id="7nm-uD-lzT"/>
                                             <constraint firstAttribute="trailing" secondItem="sa5-i1-c2m" secondAttribute="trailing" constant="24" id="9ou-Pd-zoQ"/>
                                             <constraint firstItem="sa5-i1-c2m" firstAttribute="leading" secondItem="sEh-fZ-cKZ" secondAttribute="leading" constant="24" id="KzG-zU-au4"/>
-                                            <constraint firstItem="sa5-i1-c2m" firstAttribute="top" secondItem="R9O-cv-xZo" secondAttribute="bottom" constant="20" id="PQb-Ye-YWi"/>
                                             <constraint firstAttribute="height" constant="600" id="QhR-sR-wgz"/>
-                                            <constraint firstItem="R9O-cv-xZo" firstAttribute="leading" secondItem="sEh-fZ-cKZ" secondAttribute="leading" constant="30" id="YGp-pr-yy7"/>
-                                            <constraint firstAttribute="trailing" secondItem="R9O-cv-xZo" secondAttribute="trailing" constant="30" id="fZn-Xy-7E5"/>
                                             <constraint firstAttribute="bottom" secondItem="sa5-i1-c2m" secondAttribute="bottom" id="i0J-4l-HYm"/>
-                                            <constraint firstItem="R9O-cv-xZo" firstAttribute="top" secondItem="sEh-fZ-cKZ" secondAttribute="top" constant="8" id="zSS-Io-6FK"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -311,7 +299,6 @@
                     <connections>
                         <outlet property="gamesCollectionView" destination="sa5-i1-c2m" id="AUl-cJ-YFA"/>
                         <outlet property="scrollViewContentHeight" destination="QhR-sR-wgz" id="iHg-7h-L9n"/>
-                        <outlet property="titleLabel" destination="R9O-cv-xZo" id="NPT-JE-Igt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pnq-mS-B2m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -323,23 +310,14 @@
             <objects>
                 <viewController id="anz-gd-SsE" customClass="SlotAllViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mN7-Ys-9zq">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yK-Qv-2J7">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gbc-DA-HO7">
-                                        <rect key="frame" x="30" y="8" width="62" height="34"/>
-                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="24"/>
-                                        <color key="textColor" name="whiteFull"/>
-                                        <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_all_slot"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lk1-jy-sfr">
-                                        <rect key="frame" x="0.0" y="66" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="30" width="414" height="44"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NaX-7y-ikJ">
                                                 <rect key="frame" x="24" y="12" width="36.5" height="20"/>
@@ -370,7 +348,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Epe-wx-FPN" customClass="WebGameCollectionView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="24" y="134" width="366" height="588"/>
+                                        <rect key="frame" x="24" y="98" width="366" height="588"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="588" id="pwR-9c-Q2b"/>
@@ -384,7 +362,7 @@
                                         <cells/>
                                     </collectionView>
                                     <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="46" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Lja-ar-05q">
-                                        <rect key="frame" x="0.0" y="110" width="414" height="138"/>
+                                        <rect key="frame" x="0.0" y="74" width="414" height="138"/>
                                         <color key="backgroundColor" red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="138" id="zPW-jL-yRQ"/>
@@ -435,17 +413,15 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Lk1-jy-sfr" firstAttribute="centerX" secondItem="2yK-Qv-2J7" secondAttribute="centerX" id="2lB-N6-mmW"/>
-                                    <constraint firstItem="gbc-DA-HO7" firstAttribute="leading" secondItem="2yK-Qv-2J7" secondAttribute="leading" constant="30" id="8pW-oS-YiJ"/>
                                     <constraint firstItem="Lja-ar-05q" firstAttribute="trailing" secondItem="Lk1-jy-sfr" secondAttribute="trailing" id="G0E-XN-7X7"/>
-                                    <constraint firstItem="gbc-DA-HO7" firstAttribute="top" secondItem="2yK-Qv-2J7" secondAttribute="top" constant="8" id="KYY-Im-vdc"/>
                                     <constraint firstItem="Epe-wx-FPN" firstAttribute="leading" secondItem="2yK-Qv-2J7" secondAttribute="leading" constant="24" id="LZt-iW-CTk"/>
                                     <constraint firstItem="Lja-ar-05q" firstAttribute="leading" secondItem="Lk1-jy-sfr" secondAttribute="leading" id="N4u-kp-e8f"/>
                                     <constraint firstItem="Lja-ar-05q" firstAttribute="top" secondItem="Lk1-jy-sfr" secondAttribute="bottom" id="Oec-zR-7r7"/>
                                     <constraint firstItem="Lk1-jy-sfr" firstAttribute="leading" secondItem="2yK-Qv-2J7" secondAttribute="leading" id="OnN-5i-f32"/>
+                                    <constraint firstItem="Lk1-jy-sfr" firstAttribute="top" secondItem="2yK-Qv-2J7" secondAttribute="top" constant="30" id="Pba-2j-NVw"/>
                                     <constraint firstItem="Epe-wx-FPN" firstAttribute="centerX" secondItem="2yK-Qv-2J7" secondAttribute="centerX" id="UhD-vw-aAH"/>
                                     <constraint firstAttribute="bottom" secondItem="Epe-wx-FPN" secondAttribute="bottom" constant="96" id="b5H-jN-OVI"/>
                                     <constraint firstAttribute="trailing" secondItem="Epe-wx-FPN" secondAttribute="trailing" constant="24" id="d0w-NG-x0p"/>
-                                    <constraint firstItem="Lk1-jy-sfr" firstAttribute="top" secondItem="gbc-DA-HO7" secondAttribute="bottom" constant="24" id="f65-97-Xmk"/>
                                     <constraint firstAttribute="trailing" secondItem="Lk1-jy-sfr" secondAttribute="trailing" id="qBd-17-wCw"/>
                                     <constraint firstItem="Epe-wx-FPN" firstAttribute="top" secondItem="Lk1-jy-sfr" secondAttribute="bottom" constant="24" id="tI9-ca-jFp"/>
                                 </constraints>
@@ -481,7 +457,7 @@
             <objects>
                 <viewController id="J6J-jp-ZgY" customClass="SlotFilterViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="czX-hB-7Cm">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zQb-Om-hzB">
@@ -1011,6 +987,9 @@
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="blackFull"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" name="whiteFull"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -1032,7 +1011,7 @@
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aSk-cP-ZbK">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KXH-mA-wXo">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KXH-mA-wXo">
                                         <rect key="frame" x="30" y="8" width="354" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="32" id="6CA-QF-vle"/>
@@ -1040,9 +1019,6 @@
                                         <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
                                         <color key="textColor" name="whiteFull"/>
                                         <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_my_bet"/>
-                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fill1Copy" translatesAutoresizingMaskIntoConstraints="NO" id="m2L-8M-51m">
                                         <rect key="frame" x="171" y="336.5" width="72" height="72"/>
@@ -1087,43 +1063,24 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HF9-HT-tpe">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="74" width="414" height="788"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="Rzl-t9-wU9">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HUJ-ev-cxo">
-                                            <rect key="frame" x="30" y="8" width="62.5" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="N1v-GB-DaJ"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                            <color key="textColor" name="whiteFull"/>
-                                            <nil key="highlightedColor"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_my_bet"/>
-                                            </userDefinedRuntimeAttributes>
-                                        </label>
-                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstItem="HUJ-ev-cxo" firstAttribute="leading" secondItem="Rzl-t9-wU9" secondAttribute="leading" constant="30" id="8ly-OE-OgV"/>
-                                        <constraint firstItem="HUJ-ev-cxo" firstAttribute="top" secondItem="Rzl-t9-wU9" secondAttribute="top" constant="8" id="QeS-SC-daL"/>
-                                        <constraint firstAttribute="bottom" secondItem="HUJ-ev-cxo" secondAttribute="bottom" constant="30" id="i7R-fv-I9u"/>
-                                    </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="9vm-LP-Qvm" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="264" width="414" height="96"/>
+                                    <rect key="frame" x="0.0" y="195" width="414" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="unFinishGameTableViewCell" rowHeight="57" id="4cW-SE-f6a" customClass="UnFinishGameTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="98" width="414" height="57"/>
+                                        <rect key="frame" x="0.0" y="29" width="414" height="57"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4cW-SE-f6a" id="Uok-c8-JUJ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="57"/>
@@ -1164,7 +1121,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CasinoSummaryTableViewCell" rowHeight="81" id="Mo6-RJ-FC0" customClass="CasinoSummaryTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="155" width="414" height="81"/>
+                                        <rect key="frame" x="0.0" y="86" width="414" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mo6-RJ-FC0" id="uwQ-Lv-bcO">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
@@ -1223,7 +1180,7 @@
                             <constraint firstItem="aSk-cP-ZbK" firstAttribute="leading" secondItem="2J7-Gg-z8d" secondAttribute="leading" id="S6K-f7-uaS"/>
                             <constraint firstItem="2J7-Gg-z8d" firstAttribute="bottom" secondItem="aSk-cP-ZbK" secondAttribute="bottom" id="clg-7g-PUB"/>
                             <constraint firstItem="2J7-Gg-z8d" firstAttribute="bottom" secondItem="HF9-HT-tpe" secondAttribute="bottom" id="nGp-nG-eJb"/>
-                            <constraint firstItem="HF9-HT-tpe" firstAttribute="top" secondItem="2J7-Gg-z8d" secondAttribute="top" id="uKR-Am-Sur"/>
+                            <constraint firstItem="HF9-HT-tpe" firstAttribute="top" secondItem="2J7-Gg-z8d" secondAttribute="top" constant="30" id="uKR-Am-Sur"/>
                             <constraint firstItem="2J7-Gg-z8d" firstAttribute="trailing" secondItem="aSk-cP-ZbK" secondAttribute="trailing" id="vsZ-Ih-B2Q"/>
                         </constraints>
                     </view>
@@ -1248,43 +1205,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JPA-3M-mnH">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="25" minY="0.0" maxX="25" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="7an-nt-8Um">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbw-3Q-0Lu">
-                                            <rect key="frame" x="30" y="8" width="62.5" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="ghw-hj-NnO"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                            <color key="textColor" name="whiteFull"/>
-                                            <nil key="highlightedColor"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_unsettled_game"/>
-                                            </userDefinedRuntimeAttributes>
-                                        </label>
-                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstItem="bbw-3Q-0Lu" firstAttribute="top" secondItem="7an-nt-8Um" secondAttribute="top" constant="8" id="XzT-dr-4Dn"/>
-                                        <constraint firstAttribute="bottom" secondItem="bbw-3Q-0Lu" secondAttribute="bottom" constant="30" id="a9U-8X-lnS"/>
-                                        <constraint firstItem="bbw-3Q-0Lu" firstAttribute="leading" secondItem="7an-nt-8Um" secondAttribute="leading" constant="30" id="feX-NH-UoF"/>
-                                    </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="c4I-cq-yoR" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="244" width="414" height="96"/>
+                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotUnsettleRecordsCell" id="ucI-1r-8kf" customClass="SlotUnsettleRecordsCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="98" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ucI-1r-8kf" id="zWi-rC-5yJ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1376,7 +1314,7 @@
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVr-Bk-pKk" userLabel="EmptyView">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqt-gl-3ht">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqt-gl-3ht">
                                         <rect key="frame" x="30" y="8" width="354" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="32" id="yvV-wv-RVP"/>
@@ -1384,9 +1322,6 @@
                                         <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
                                         <color key="textColor" name="whiteFull"/>
                                         <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_unsettled_game"/>
-                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="没有未完成的游戏" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1GW-wt-wg4">
                                         <rect key="frame" x="0.0" y="443" width="414" height="24"/>
@@ -1438,7 +1373,7 @@
                             <constraint firstItem="rVr-Bk-pKk" firstAttribute="top" secondItem="92u-Mw-BSX" secondAttribute="top" id="DPy-1a-wed"/>
                             <constraint firstItem="92u-Mw-BSX" firstAttribute="bottom" secondItem="JPA-3M-mnH" secondAttribute="bottom" id="Fd0-ga-Tga"/>
                             <constraint firstItem="92u-Mw-BSX" firstAttribute="bottom" secondItem="rVr-Bk-pKk" secondAttribute="bottom" id="NCC-A1-wgp"/>
-                            <constraint firstItem="JPA-3M-mnH" firstAttribute="top" secondItem="92u-Mw-BSX" secondAttribute="top" id="VkA-um-5X4"/>
+                            <constraint firstItem="JPA-3M-mnH" firstAttribute="top" secondItem="92u-Mw-BSX" secondAttribute="top" constant="30" id="VkA-um-5X4"/>
                             <constraint firstItem="rVr-Bk-pKk" firstAttribute="leading" secondItem="92u-Mw-BSX" secondAttribute="leading" id="dGv-ZF-aVf"/>
                             <constraint firstItem="rVr-Bk-pKk" firstAttribute="trailing" secondItem="92u-Mw-BSX" secondAttribute="trailing" id="mxk-1D-SfZ"/>
                             <constraint firstItem="JPA-3M-mnH" firstAttribute="trailing" secondItem="92u-Mw-BSX" secondAttribute="trailing" id="rfd-7w-ahp"/>
@@ -1463,40 +1398,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1By-cc-9O1">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="ZUW-wC-DRb">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5BH-3O-h1Y">
-                                            <rect key="frame" x="30" y="8" width="62.5" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="FPm-IB-WXJ"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                            <color key="textColor" name="whiteFull"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstItem="5BH-3O-h1Y" firstAttribute="top" secondItem="ZUW-wC-DRb" secondAttribute="top" constant="8" id="AnN-ai-30g"/>
-                                        <constraint firstAttribute="bottom" secondItem="5BH-3O-h1Y" secondAttribute="bottom" constant="30" id="Bjx-us-hrB"/>
-                                        <constraint firstItem="5BH-3O-h1Y" firstAttribute="leading" secondItem="ZUW-wC-DRb" secondAttribute="leading" constant="30" id="Uck-79-rwW"/>
-                                    </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="Xa2-dT-beV" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="244" width="414" height="96"/>
+                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotBetSummaryByDateCell" id="x4J-rG-Pxj" customClass="SlotBetSummaryByDateCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="98" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x4J-rG-Pxj" id="9fD-Tr-7Vo">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1593,13 +1512,12 @@
                             <constraint firstItem="JUA-nb-m0Y" firstAttribute="bottom" secondItem="1By-cc-9O1" secondAttribute="bottom" id="JWe-jP-LdH"/>
                             <constraint firstItem="1By-cc-9O1" firstAttribute="leading" secondItem="JUA-nb-m0Y" secondAttribute="leading" id="OW1-b0-5CQ"/>
                             <constraint firstItem="1By-cc-9O1" firstAttribute="trailing" secondItem="JUA-nb-m0Y" secondAttribute="trailing" id="eWL-fu-sj5"/>
-                            <constraint firstItem="1By-cc-9O1" firstAttribute="top" secondItem="JUA-nb-m0Y" secondAttribute="top" id="rYc-ju-noB"/>
+                            <constraint firstItem="1By-cc-9O1" firstAttribute="top" secondItem="JUA-nb-m0Y" secondAttribute="top" constant="30" id="rYc-ju-noB"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="KZT-vq-HPo"/>
                     <connections>
                         <outlet property="tableView" destination="1By-cc-9O1" id="kth-0u-3Ro"/>
-                        <outlet property="titleLabel" destination="5BH-3O-h1Y" id="s6d-B1-szs"/>
                         <segue destination="Dsf-pQ-lJ8" kind="show" identifier="toSlotBetDetail" id="1YR-h2-J4o"/>
                     </connections>
                 </viewController>
@@ -1616,40 +1534,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="O0I-Ku-Ps8">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="Pe4-Wp-6t2">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aHb-oT-G5H">
-                                            <rect key="frame" x="30" y="8" width="62.5" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="gOE-Yq-bVU"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                            <color key="textColor" name="whiteFull"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstItem="aHb-oT-G5H" firstAttribute="top" secondItem="Pe4-Wp-6t2" secondAttribute="top" constant="8" id="Uwp-Zi-5Qh"/>
-                                        <constraint firstItem="aHb-oT-G5H" firstAttribute="leading" secondItem="Pe4-Wp-6t2" secondAttribute="leading" constant="30" id="n1y-9r-Zzl"/>
-                                        <constraint firstAttribute="bottom" secondItem="aHb-oT-G5H" secondAttribute="bottom" constant="30" id="qDc-Za-ed6"/>
-                                    </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="Y98-dh-ttD" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="244" width="414" height="96"/>
+                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotBetDetailCell" id="dds-gv-cFV" customClass="SlotBetDetailCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="98" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dds-gv-cFV" id="X67-2D-gON">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1710,7 +1612,7 @@
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
                             <constraint firstItem="O0I-Ku-Ps8" firstAttribute="leading" secondItem="2ft-1N-E1L" secondAttribute="leading" id="EDM-rD-qBV"/>
-                            <constraint firstItem="O0I-Ku-Ps8" firstAttribute="top" secondItem="2ft-1N-E1L" secondAttribute="top" id="KkK-dl-kMK"/>
+                            <constraint firstItem="O0I-Ku-Ps8" firstAttribute="top" secondItem="2ft-1N-E1L" secondAttribute="top" constant="30" id="KkK-dl-kMK"/>
                             <constraint firstItem="2ft-1N-E1L" firstAttribute="bottom" secondItem="O0I-Ku-Ps8" secondAttribute="bottom" id="TUQ-II-pdR"/>
                             <constraint firstItem="O0I-Ku-Ps8" firstAttribute="trailing" secondItem="2ft-1N-E1L" secondAttribute="trailing" id="mXf-cL-xCe"/>
                         </constraints>
@@ -1718,7 +1620,6 @@
                     <navigationItem key="navigationItem" id="t5F-6w-a3K"/>
                     <connections>
                         <outlet property="tableView" destination="O0I-Ku-Ps8" id="hJb-wc-hmk"/>
-                        <outlet property="titleLabel" destination="aHb-oT-G5H" id="WEU-ic-yHG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Er8-HO-mOF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

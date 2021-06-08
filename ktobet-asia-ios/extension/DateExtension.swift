@@ -215,4 +215,17 @@ extension Kotlinx_datetimeLocalDate {
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", self.year, self.monthNumber, self.dayOfMonth)
     }
     
+    func toBetDisplayDate() -> String {
+        let today = Date().convertdateToUTC().formatDateToStringToDay(with: "-")
+        let yesterday = Date().adding(value: -1, byAdding: .day).convertdateToUTC().formatDateToStringToDay(with: "-")
+        let betDateString = self.toDateFormatString(with: "-")
+        if betDateString == today {
+            return Localize.string("common_today")
+        } else if betDateString == yesterday {
+            return Localize.string("common_yesterday")
+        } else {
+            return betDateString.replacingOccurrences(of: "-", with: "/")
+        }
+    }
+    
 }
