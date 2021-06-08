@@ -12,15 +12,18 @@ protocol DepositRepository {
     func getDepositRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<DepositRecordDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]>
+    func requestCryptoDeposit() -> Single<String>
 }
 
 class DepositRepositoryImpl: DepositRepository {
     private var bankApi: BankApi!
     private var imageApi: ImageApi!
+    private var cpsApi: CPSApi!
     
-    init(_ bankApi: BankApi, imageApi: ImageApi) {
+    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi) {
         self.bankApi = bankApi
         self.imageApi = imageApi
+        self.cpsApi = cpsApi
     }
     
     func getDepositTypes() -> Single<[DepositRequest.DepositType]> {
@@ -131,6 +134,10 @@ class DepositRepositoryImpl: DepositRepository {
             
             return records
         }
+    }
+    
+    func requestCryptoDeposit() -> Single<String> {
+        return cpsApi.createCryptoDeposit().map { $0.data?.url ?? "" }
     }
     
     fileprivate func createDepositRecordDetail(detail: DepositRecordDetailData) -> Single<DepositRecordDetail> {

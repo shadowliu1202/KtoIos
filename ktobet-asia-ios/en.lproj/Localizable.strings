@@ -1,5 +1,39 @@
 
 
+//MARK: - CPS
+"cps_kto" = "";
+"cps_daily_limit_widthrawal_amount" = "";
+"cps_daily_limit_widthrawal_times" = "";
+"cps_turnover_requirement" = "";
+"cps_crpyto_withdrawal_requirement" = "";
+"cps_crpyto_withdrawal_requirement_title" = "";
+"cps_crpyto_withdrawal_requirement_desc" = "";
+"cps_cash_withdrawal_lock_title" = "";
+"cps_cash_withdrawal_lock_desc" = "";
+"cps_success_log" = "";
+"cps_remaining_requirement" = "";
+"cps_total_require_amount" = "";
+"cps_total_completed_amount" = "";
+"cps_require_completed" = "";
+"cps_set_crypto_account" = "";
+"cps_set_crypto_account_hint" = "";
+"cps_auto_fill_not_enough_balance" = "";
+"cps_auto_fill_remaining_balance" = "";
+"cps_auto_fill_maximum_limit" = "";
+"cps_auto_fill_daily_limit_maximum" = "";
+"cps_crypto_account_name" = "";
+"cps_crypto_currency" = "";
+"cps_crypto_delete_hint" = "";
+"cps_excahange_rate" = "";
+"cps_request_withdrawal_crypto_amount" = "";
+"cps_request_withdrawal_fiat_amount" = "";
+"cps_remaining_crypto_requirement" = "";
+"cps_rate_changed" = "";
+"cps_please_refill_amounts" = "";
+"cps_wallet_address" = "";
+"cps_add_account" = "";
+"cps_security_alert" = "";
+
 //MARK: - Common
 "common_kto" = "";
 "common_accountinfo" = "";
@@ -301,6 +335,12 @@
 "common_http_503" = "";
 "common_http_exception" = "";
 "common_empty_data" = "";
+"common_requirement" = "";
+"common_none" = "";
+"common_select_verify_type" = "";
+"common_otp_hint" = "";
+"common_not_set_mobile" = "";
+"common_not_set_email" = "";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "";
@@ -442,6 +482,7 @@
 "deposit_name" = "";
 "deposit_thirdparty_transaction_remind" = "";
 "deposit_file_format_invalid" = "";
+"deposit_crypto_warning" = "";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "";
@@ -508,6 +549,8 @@
 "withdrawal_cancel" = "";
 "withdrawal_dailywithdrawalamount" = "";
 "withdrawal_dailywithdrawalcount" = "";
+"withdrawal_dailywithdrawalamount_2" = "";
+"withdrawal_dailywithdrawalcount_2" = "";
 "withdrawal_detail_title" = "";
 "withdrawal_fail" = "";
 "withdrawal_log" = "";

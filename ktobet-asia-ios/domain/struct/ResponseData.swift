@@ -676,3 +676,7 @@ struct BetSummaryDataResponse: Codable {
     }
 }
 
+struct CryptoDepositReceipt: Codable {
+    var displayId: String
+    var url: String
+}
