@@ -195,6 +195,17 @@ struct DailyWithdrawalLimits: Codable {
     let withdrawalDailyCount: Int32
 }
 
+struct TurnoverData: Codable {
+    let achievedAmount, turnoverAmount: Double
+    let cryptoWithdrawalRequestInfos: [CryptoWithdrawalRequestInfo]?
+}
+
+struct CryptoWithdrawalRequestInfo: Codable {
+    let cryptoCurrency: Int32
+    let withdrawalRequest: Double
+}
+
+
 struct WithdrawalRecordData: Codable {
     let displayID: String
     let status, ticketType: Int32

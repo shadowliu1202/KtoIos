@@ -46,7 +46,8 @@ class PlayerRepositoryImpl : PlayerRepository {
                                             withdrawalName: responsePlayerInfo.data?.realName ?? "" ,
                                             level: Int32(responsePlayerInfo.data?.level ?? 0 ),
                                             exp: responsePlayerInfo.data?.exp ?? 0 ,
-                                            autoUseCoupon: responsePlayerInfo.data?.isAutoUseCoupon ?? false )
+                                            autoUseCoupon: responsePlayerInfo.data?.isAutoUseCoupon ?? false,
+                                            contact: PlayerInfo.Companion.init().DEFAULT )
                 let player = Player(gameId: responsePlayerInfo.data?.gameId ?? "" ,
                                     playerInfo: playerInfo,
                                     bindLocale: bindLocale,
