@@ -93,9 +93,7 @@ class DepositViewController: UIViewController {
                 let title = Localize.string("common_tip_title_warm")
                 let message = Localize.string("deposit_crypto_warning")
                 Alert.show(title, message, confirm: {
-                    self?.viewModel.createCryptoDeposit().subscribe {[weak self] (url) in
-                        //TODO: Webview
-                        print(url)
+                    self?.viewModel.createCryptoDeposit().subscribe {[weak self] (url) in                        self?.performSegue(withIdentifier: DepositCryptoViewController.segueIdentifier, sender: url)
                     } onError: { (error) in
                         self?.handleUnknownError(error)
                     }
@@ -153,6 +151,12 @@ class DepositViewController: UIViewController {
         if segue.identifier == DepositRecordDetailViewController.segueIdentifier {
             if let dest = segue.destination as? DepositRecordDetailViewController {
                 dest.detailRecord = sender as? DepositRecord
+            }
+        }
+        
+        if segue.identifier == DepositCryptoViewController.segueIdentifier {
+            if let dest = segue.destination as? DepositCryptoViewController {
+                dest.url = sender as? String
             }
         }
     }
