@@ -680,11 +680,49 @@
                         <segue destination="wU1-pf-ph2" kind="show" identifier="toOfflineSegue" id="4d0-Mf-VuQ"/>
                         <segue destination="2is-AB-lQC" kind="show" identifier="toDepositRecordSegue" id="keF-G9-Ps9"/>
                         <segue destination="AGT-ah-Yup" kind="show" identifier="toAllRecordSegue" id="F0Y-xT-FZE"/>
+                        <segue destination="H2h-kh-Eib" kind="show" identifier="toCryptoWebView" id="47w-s4-WGG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FYP-XU-rzd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-418" y="385"/>
+        </scene>
+        <!--Deposit Crypto View Controller-->
+        <scene sceneID="nJa-Dn-5DC">
+            <objects>
+                <viewController id="H2h-kh-Eib" customClass="DepositCryptoViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="haG-T2-JSD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JJT-vz-hiM">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="cvO-1g-AGf"/>
+                        <color key="backgroundColor" name="blackTwo"/>
+                        <constraints>
+                            <constraint firstItem="JJT-vz-hiM" firstAttribute="top" secondItem="cvO-1g-AGf" secondAttribute="top" id="6mO-rj-tyk"/>
+                            <constraint firstItem="JJT-vz-hiM" firstAttribute="leading" secondItem="cvO-1g-AGf" secondAttribute="leading" id="UdW-pA-tO6"/>
+                            <constraint firstItem="cvO-1g-AGf" firstAttribute="trailing" secondItem="JJT-vz-hiM" secondAttribute="trailing" id="iOM-nn-NVj"/>
+                            <constraint firstItem="cvO-1g-AGf" firstAttribute="bottom" secondItem="JJT-vz-hiM" secondAttribute="bottom" id="vcq-Nu-6SW"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="kRk-Cb-oWJ"/>
+                    <connections>
+                        <outlet property="webView" destination="JJT-vz-hiM" id="fRg-mh-RuY"/>
+                        <segue destination="F1U-b3-NEZ" kind="unwind" identifier="unwindToDeposit" unwindAction="backToDepositWithSegue:" id="thD-RU-VHz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Ax-mC-RPQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="F1U-b3-NEZ" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-1279" y="1113"/>
         </scene>
         <!--Deposit Record View Controller-->
         <scene sceneID="MCp-k7-EIA">
@@ -1720,7 +1758,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="znw-F2-Lj7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1278.2608695652175" y="385.71428571428572"/>
+            <point key="canvasLocation" x="-1279" y="386"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
