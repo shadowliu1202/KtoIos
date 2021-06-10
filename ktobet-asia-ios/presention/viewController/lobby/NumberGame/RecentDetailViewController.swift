@@ -121,7 +121,7 @@ class RecentDetailCell: UITableViewCell {
             setValue(currentDateString)
         } else if index == 4 {
             setTilte(key: "product_bet_amount")
-            setValue(data.stakes.amount.currencyFormatWithoutSymbol(precision: 2))
+            setValue(data.stakes.amount.currencyFormatWithoutSymbol(precision: 2, roundingMode: .down))
         } else if index == 5 {
             setTilte(key: "common_status")
             let status = data.status

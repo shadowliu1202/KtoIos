@@ -84,9 +84,9 @@ class NumbergameRecentCell: UITableViewCell {
         let status = item.status
         if status is NumberGameBetDetail.BetStatusSettledWinLose {
             let amount: CashAmount = (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss
-            betAmountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + parseWinLose(winLoss: amount) + " \(abs(amount.amount).currencyFormatWithoutSymbol(precision: 2))"
+            betAmountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2, roundingMode: .down)) + "  " + parseWinLose(winLoss: amount) + " \(abs(amount.amount).currencyFormatWithoutSymbol(precision: 2, roundingMode: .down))"
         } else {
-            betAmountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2)) + " \(status.LocalizeString)"
+            betAmountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2, roundingMode: .down)) + " \(status.LocalizeString)"
         }
         arrow.isHidden = !item.hasDetail
         return self
