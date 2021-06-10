@@ -1,0 +1,83 @@
+PODS:
+  - Alamofire (5.4.1)
+  - AlignedCollectionViewFlowLayout (1.1.2)
+  - Differentiator (4.0.1)
+  - IQKeyboardManagerSwift (6.5.6)
+  - Moya/Core (14.0.0):
+    - Alamofire (~> 5.0)
+  - Moya/RxSwift (14.0.0):
+    - Moya/Core
+    - RxSwift (~> 5.0)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxDataSources (4.0.1):
+    - Differentiator (~> 4.0)
+    - RxCocoa (~> 5.0)
+    - RxSwift (~> 5.0)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
+  - SDWebImage (5.10.4):
+    - SDWebImage/Core (= 5.10.4)
+  - SDWebImage/Core (5.10.4)
+  - sharedbu (1.1.2)
+  - SideMenu (6.5.0)
+  - SwiftyJSON (5.0.0)
+  - Swinject (2.7.1)
+  - TYCyclePagerView (1.2.0)
+
+DEPENDENCIES:
+  - Alamofire (= 5.4.1)
+  - AlignedCollectionViewFlowLayout (= 1.1.2)
+  - IQKeyboardManagerSwift (= 6.5.6)
+  - Moya/RxSwift (= 14.0.0)
+  - RxCocoa (= 5.1.1)
+  - RxDataSources (= 4.0.1)
+  - RxSwift (= 5.1.1)
+  - SDWebImage (= 5.10.4)
+  - sharedbu (= 1.1.2)
+  - SideMenu (= 6.5.0)
+  - SwiftyJSON (= 5.0.0)
+  - Swinject (= 2.7.1)
+  - TYCyclePagerView (= 1.2.0)
+
+SPEC REPOS:
+  "git@gitlab.higgstar.org:mobile/ios_pod_repo.git":
+    - sharedbu
+  trunk:
+    - Alamofire
+    - AlignedCollectionViewFlowLayout
+    - Differentiator
+    - IQKeyboardManagerSwift
+    - Moya
+    - RxCocoa
+    - RxDataSources
+    - RxRelay
+    - RxSwift
+    - SDWebImage
+    - SideMenu
+    - SwiftyJSON
+    - Swinject
+    - TYCyclePagerView
+
+SPEC CHECKSUMS:
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  AlignedCollectionViewFlowLayout: ee2ef451e741ec08f8e0967d828001e2f051c20a
+  Differentiator: 886080237d9f87f322641dedbc5be257061b0602
+  IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
+  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
+  SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
+  sharedbu: 24a5b4927437968f605c55a85862debcb9560308
+  SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
+  TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
+
+PODFILE CHECKSUM: dffd14e3a9a1d52972a18785c843b14292e158b9
+
+COCOAPODS: 1.10.1
