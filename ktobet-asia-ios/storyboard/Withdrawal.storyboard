@@ -78,7 +78,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="94C-cz-JFZ">
                                         <rect key="frame" x="0.0" y="140" width="414" height="56"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconPayWithdrawal" translatesAutoresizingMaskIntoConstraints="NO" id="sKb-i7-GyQ">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconPayWithdrawal" translatesAutoresizingMaskIntoConstraints="NO" id="sKb-i7-GyQ">
                                                 <rect key="frame" x="30" y="12" width="32" height="32"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tu2-aW-fjk">
@@ -108,7 +108,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xlN-5m-lUC">
                                         <rect key="frame" x="0.0" y="196" width="414" height="56"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconPayCrypto" translatesAutoresizingMaskIntoConstraints="NO" id="lJe-t2-LOT">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconPayCrypto" translatesAutoresizingMaskIntoConstraints="NO" id="lJe-t2-LOT">
                                                 <rect key="frame" x="30" y="12" width="32" height="32"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BS3-5f-AKh">
@@ -2175,12 +2175,12 @@
     <resources>
         <image name="Chevron Right(24)" width="24" height="24"/>
         <image name="Default(32)" width="32" height="32"/>
+        <image name="IconPayCrypto" width="32" height="32"/>
+        <image name="IconPayWithdrawal" width="32" height="32"/>
         <image name="Tips" width="24" height="24"/>
         <image name="iconChevronRight16" width="16" height="16"/>
         <image name="iconChevronRight24" width="24" height="24"/>
         <image name="iconDatePicker24" width="20" height="20"/>
-        <image name="iconPayCrypto" width="32" height="32"/>
-        <image name="iconPayWithdrawal" width="32" height="32"/>
         <image name="iconPhoto24" width="24" height="24"/>
         <namedColor name="backgroundListCodGray">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
