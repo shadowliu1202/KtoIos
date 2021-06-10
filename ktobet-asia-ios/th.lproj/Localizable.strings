@@ -35,6 +35,8 @@
 "cps_wallet_address" = "账户地址";
 "cps_add_account" = "新增虚拟币账户";
 "cps_security_alert" = "为了账户安全，需要进行身份验证。";
+"cps_cash_withdrawal" = "现金提现";
+"cps_crpyto_withdrawal" = "虚拟币提现";
 
 //MARK: - Common
 "common_kto" = "KTO";
