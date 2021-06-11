@@ -173,7 +173,7 @@ class MonthSelectView: UIView {
     func setSelectedDate(_ startDate: Date) {
         for i in 0..<currentSource.count {
             for j in 0..<currentSource[i].count {
-                sourcePrevious![i][j].isSelected = false
+                sourcePrevious?[i][j].isSelected = false
                 sourceNow![i][j].isSelected = false
                 if sourcePrevious != nil, (sourcePrevious![i][j].startDate...sourcePrevious![i][j].endDate).contains(startDate) {
                     sourcePrevious![i][j].isSelected = true
