@@ -101,11 +101,13 @@ extension RecentDetailViewController: UITableViewDataSource {
 class RecentDetailCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var subDescriptionLabel: UILabel!
     
     func configure(index: Int, data: NumberGameBetDetail) -> Self {
         if index == 0 {
             setTilte(key:"product_bet_id")
             setValue(data.displayId)
+            subDescriptionLabel.text = data.traceId
         } else if index == 1 {
             setTilte(key: "product_game_name_id")
             setValue(data.gameName + "(\(data.matchMethod))")
