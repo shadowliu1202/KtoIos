@@ -37,4 +37,13 @@ extension CashAmount {
         
         return numberFormatter.string(from: abs(self.amount) as NSNumber) ?? ""
     }
+    
+    static func productTotalBet(betAmount: CashAmount, winLoss: CashAmount?) -> String {
+        if let winLoss = winLoss, winLoss.amount != 0 {
+            let status = winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
+            return Localize.string("product_total_bet", betAmount.displayAmount) + "  " + status + " \(winLoss.displayAmount)"
+        } else {
+            return Localize.string("product_total_bet", betAmount.displayAmount)
+        }
+    }
 }
