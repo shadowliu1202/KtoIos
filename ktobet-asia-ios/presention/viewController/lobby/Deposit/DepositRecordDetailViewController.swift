@@ -214,7 +214,7 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate func updateUI(data: DepositRecordDetail) {
         self.scrollview.isHidden = false
         self.applytimeLabel.text = data.createdDate.formatDateToStringToSecond()
-        self.amountLabel.text = data.requestAmount.amount.currencyFormatWithoutSymbol(precision: 2)
+        self.amountLabel.text = data.requestAmount.displayAmount
         self.depositIdLabel.text = data.displayId
         self.statusViewHeight.constant = 77
         self.statusLabel.text = StringMapper.sharedInstance.parse(data.status, isPendingHold: data.isPendingHold, ignorePendingHold: true)

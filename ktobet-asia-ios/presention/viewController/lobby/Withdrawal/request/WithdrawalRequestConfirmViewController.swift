@@ -50,7 +50,7 @@ class WithdrawalRequestConfirmViewController: UIViewController {
         showInfoButton.rx.tap.subscribe(onNext: {[weak self] in
             guard let self = self else { return }
             Alert.show(Localize.string("withdrawal_quota_title"),
-                       String(format: Localize.string("withdrawal_quota_content"), String(self.withdrawalLimits.dailyCurrentCount), self.withdrawalLimits.dailyCurrentCash.amount.currencyFormatWithoutSymbol(precision: 2)), confirm: nil, cancel: nil)
+                       String(format: Localize.string("withdrawal_quota_content"), String(self.withdrawalLimits.dailyCurrentCount), self.withdrawalLimits.dailyCurrentCash.displayAmount), confirm: nil, cancel: nil)
         }).disposed(by: self.disposeBag)
         
         self.startActivityIndicator(activityIndicator: self.activityIndicator)
