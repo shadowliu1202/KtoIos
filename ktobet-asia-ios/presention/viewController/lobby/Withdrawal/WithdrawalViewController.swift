@@ -106,10 +106,10 @@ class WithdrawalViewController: UIViewController {
         viewModel.getWithdrawalLimitation().subscribe { [weak self] (withdrawalLimits) in
             guard let self = self else { return }
             self.withdrawalTodayCountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalcount"))\(withdrawalLimits.dailyMaxCount)\(Localize.string("common_times_count"))"
-            self.withdrawalTodayAmountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalamount"))\(withdrawalLimits.dailyMaxCash.amount.currencyFormatWithoutSymbol(precision: 2))"
+            self.withdrawalTodayAmountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalamount"))\(withdrawalLimits.dailyMaxCash.displayAmount)"
             self.showInfoButton.rx.tap.subscribe(onNext: {
                 Alert.show(Localize.string("withdrawal_quota_title"),
-                           String(format: Localize.string("withdrawal_quota_content"), String(withdrawalLimits.dailyCurrentCount), withdrawalLimits.dailyCurrentCash.amount.currencyFormatWithoutSymbol(precision: 2)), confirm: nil, cancel: nil)
+                           String(format: Localize.string("withdrawal_quota_content"), String(withdrawalLimits.dailyCurrentCount), withdrawalLimits.dailyCurrentCash.displayAmount), confirm: nil, cancel: nil)
             }).disposed(by: self.disposeBag)
         } onError: { (error) in
             self.handleUnknownError(error)
