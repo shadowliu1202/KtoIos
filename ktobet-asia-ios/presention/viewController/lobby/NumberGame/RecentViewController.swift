@@ -78,7 +78,7 @@ class NumbergameRecentCell: UITableViewCell {
     @IBOutlet weak var arrow: UIImageView!
     
     func configure(_ item: NumberGameSummary.RecentlyBet) -> Self {
-        titleLabel.text = item.betTypeName.isEmpty ? item.selection : "\(item.betTypeName) :\(item.selection)"
+        titleLabel.text = item.betTypeName.isEmpty ? item.selection : "\(item.betTypeName) : \(item.selection)"
         productNameLabel.text = item.gameName
         matchMethodLabel.text = item.matchMethod
         let status = item.status
