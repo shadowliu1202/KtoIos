@@ -27,7 +27,7 @@ class NumberGameApi: ApiService {
     }
     
     func getMyBetSummary(offset: Int = 8) -> Single<ResponseData<RecordSummaryResponse>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/wager/mybet/summary"))
+        let target = GetAPITarget(service: self.url("\(prefix)/wager/mybet/summary")).parameters(["offset": offset])
         return httpClient.request(target).map(ResponseData<RecordSummaryResponse>.self)
     }
     
