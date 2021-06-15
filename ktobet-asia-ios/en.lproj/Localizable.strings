@@ -249,6 +249,7 @@
 "common_win_amount" = "";
 "common_lose_amount" = "";
 "common_self_canceled" = "";
+"common_strike" = "";
 "common_strike_canceled" = "";
 "common_other" = "";
 "common_confirm_submit" = "";

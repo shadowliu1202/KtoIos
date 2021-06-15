@@ -80,7 +80,7 @@ class NumbergameRecentCell: UITableViewCell {
     func configure(_ item: NumberGameSummary.RecentlyBet) -> Self {
         titleLabel.text = item.betTypeName.isEmpty ? item.selection : "\(item.betTypeName) : \(item.selection)"
         productNameLabel.text = item.gameName
-        matchMethodLabel.text = item.matchMethod
+        matchMethodLabel.text = item.matchMethod + (item.isStrike == true ? " - \(Localize.string("common_strike"))" : "")
         let status = item.status
         if status is NumberGameBetDetail.BetStatusSettledWinLose {
             let amount: CashAmount = (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss
