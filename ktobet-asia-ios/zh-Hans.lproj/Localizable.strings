@@ -249,6 +249,7 @@
 "common_win_amount" = "赢%@";
 "common_lose_amount" = "输%@";
 "common_self_canceled" = "自主取消";
+"common_strike" = "(追号)";
 "common_strike_canceled" = "追号取消";
 "common_other" = "其他";
 "common_confirm_submit" = "确认提交";
