@@ -63,7 +63,8 @@ class SlotBetSummaryByDateCell: UITableViewCell {
         gameImgView.sd_setImage(with: URL(string: item.slotThumbnail.url()), completed: nil)
         gameLabel.text = item.gameName
         betCountLabel.text = Localize.string("product_count_bet_record", "\(item.recordCount)")
-        betAmountLabel.text = CashAmount.productTotalBet(betAmount: item.stakes, winLoss: item.winloss)
+        let status = item.winloss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
+        betAmountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winloss.displayAmount)"
         
         return self
     }
@@ -72,6 +73,11 @@ class SlotBetSummaryByDateCell: UITableViewCell {
         gameImgView.sd_setImage(with: URL(string: item.thumbnail.url()), completed: nil)
         gameLabel.text = item.gameName
         betCountLabel.text = Localize.string("product_count_bet_record", "\(item.totalRecords)")
-        betAmountLabel.text = CashAmount.productTotalBetZeroIsWin(betAmount: item.betAmount, winLoss: item.winLoss)
+        if let winLoss = item.winLoss {
+            let status = winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
+            betAmountLabel.text = Localize.string("product_total_bet", item.betAmount.displayAmount) + "  " + status + " \(winLoss.displayAmount)"
+        } else {
+            betAmountLabel.text = Localize.string("product_total_bet", item.betAmount.displayAmount)
+        }
     }
 }
