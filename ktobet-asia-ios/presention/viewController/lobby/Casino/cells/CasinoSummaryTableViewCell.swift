@@ -18,6 +18,6 @@ class CasinoSummaryTableViewCell: UITableViewCell {
     func setup(element: NumberGameSummary.Date) {
         recordCountLabel.text = String(format: Localize.string("product_count_bet_record"), "\(element.count.formattedWithSeparator)")
         dateLabel.text = element.betDate.toBetDisplayDate()
-        betAmountLabel.text = CashAmount.productTotalBet(betAmount: element.stakes, winLoss: element.winLoss)
+        betAmountLabel.text = CashAmount.productTotalBetZeroIsWin(betAmount: element.stakes, winLoss: element.winLoss)
     }
 }

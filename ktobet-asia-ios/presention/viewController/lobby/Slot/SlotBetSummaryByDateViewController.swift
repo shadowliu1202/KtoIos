@@ -72,6 +72,6 @@ class SlotBetSummaryByDateCell: UITableViewCell {
         gameImgView.sd_setImage(with: URL(string: item.thumbnail.url()), completed: nil)
         gameLabel.text = item.gameName
         betCountLabel.text = Localize.string("product_count_bet_record", "\(item.totalRecords)")
-        betAmountLabel.text = CashAmount.productTotalBet(betAmount: item.betAmount, winLoss: item.winLoss)
+        betAmountLabel.text = CashAmount.productTotalBetZeroIsWin(betAmount: item.betAmount, winLoss: item.winLoss)
     }
 }
