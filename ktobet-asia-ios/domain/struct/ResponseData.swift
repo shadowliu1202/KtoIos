@@ -565,6 +565,10 @@ struct RecordSummary: Codable {
     func toNumberGame() -> NumberGameSummary.Date {
         return NumberGameSummary.Date.init(betDate: self.betDate.toLocalDate(), count: count, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss))
     }
+    
+    func toUnSettleNumberGame() -> NumberGameSummary.Date {
+        return NumberGameSummary.Date.init(betDate: self.betDate.toLocalDate(), count: count, stakes: CashAmount(amount: stakes), winLoss: nil)
+    }
 }
 
 struct DateSummarynUnSettled: Codable {

@@ -40,7 +40,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
             }
             
             let unSettled = data.unsettledSummary.details.map { (unsettledRecords) -> NumberGameSummary.Date in
-                return unsettledRecords.toNumberGame()
+                return unsettledRecords.toUnSettleNumberGame()
             }
             
             let recently = data.recentlyBets.map { (recentlyBets) -> NumberGameSummary.RecentlyBet in
