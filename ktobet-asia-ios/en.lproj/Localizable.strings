@@ -609,6 +609,7 @@
 "product_losing_amount" = "";
 "product_bet_id" = "";
 "product_game_name_id" = "";
+"product_number_game_name_id" = "";
 "product_bet_content" = "";
 "product_bet_time" = "";
 "product_bet_amount" = "";

@@ -613,6 +613,7 @@
 "product_losing_amount" = "输 %@";
 "product_bet_id" = "注单编号";
 "product_game_name_id" = "投注游戏(局号)";
+"product_number_game_name_id" = "投注游戏 (期号)";
 "product_bet_content" = "投注内容";
 "product_bet_time" = "下注时间";
 "product_bet_amount" = "投注额";

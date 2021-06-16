@@ -109,8 +109,8 @@ class RecentDetailCell: UITableViewCell {
             setValue(data.displayId)
             subDescriptionLabel.text = data.traceId
         } else if index == 1 {
-            setTilte(key: "product_game_name_id")
-            setValue(data.gameName + "(\(data.matchMethod))")
+            setTilte(key: "product_number_game_name_id")
+            setValue(data.gameName + " (\(data.matchMethod))")
         } else if index == 2 {
             setTilte(key: "product_bet_content")
             setValue(data.betContent.joined(separator: "\n"))
@@ -118,7 +118,8 @@ class RecentDetailCell: UITableViewCell {
             setTilte(key: "product_bet_time")
             let date = data.betTime.convertToDate()
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy/MM/dd(E)HH:mm:ss"
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.dateFormat = "yyyy/MM/dd (E) HH:mm:ss"
             let currentDateString: String = dateFormatter.string(from: date)
             setValue(currentDateString)
         } else if index == 4 {
