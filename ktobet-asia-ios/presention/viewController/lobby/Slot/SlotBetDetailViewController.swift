@@ -100,6 +100,6 @@ class SlotBetDetailCell: UITableViewCell {
         dateFormatter.dateFormat = "HH:mm:ss"
         let dateString: String = dateFormatter.string(from: date)
         self.timeLabel.text = "\(dateString)".uppercased()
-        self.amountLabel.text = CashAmount.productTotalBet(betAmount: item.betAmount, winLoss: item.winLoss)
+        self.amountLabel.text = CashAmount.productTotalBetZeroIsWin(betAmount: item.betAmount, winLoss: item.winLoss)
     }
 }

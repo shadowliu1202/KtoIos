@@ -46,4 +46,12 @@ extension CashAmount {
             return Localize.string("product_total_bet", betAmount.displayAmount)
         }
     }
+    
+    static func productTotalBetZeroIsWin(betAmount: CashAmount, winLoss: CashAmount?) -> String {
+        if let winLoss = winLoss, winLoss.amount == 0 {
+            return Localize.string("product_total_bet", betAmount.displayAmount) + "  " + Localize.string("common_win") + " \(winLoss.displayAmount)"
+        } else {
+            return productTotalBet(betAmount: betAmount, winLoss: winLoss)
+        }
+    }
 }

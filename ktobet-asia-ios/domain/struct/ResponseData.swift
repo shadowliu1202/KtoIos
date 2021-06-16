@@ -671,7 +671,7 @@ struct BetSummaryDataResponse: Codable {
     }
     
     func toSettleGameSummary() -> NumberGameSummary.Bet {
-        let time = betTime.convertDateTime()?.convertToKotlinx_datetimeLocalDateTime() ?? Date().convertToKotlinx_datetimeLocalDateTime()
+        let time = settleTime.convertDateTime()?.convertToKotlinx_datetimeLocalDateTime() ?? Date().convertToKotlinx_datetimeLocalDateTime()
         return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: time, betAmount: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), hasDetail: hasDetails)
     }
 }
