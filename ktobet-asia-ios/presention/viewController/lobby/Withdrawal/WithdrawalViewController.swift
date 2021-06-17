@@ -138,7 +138,7 @@ class WithdrawalViewController: UIViewController {
     }
     
     @objc fileprivate func withdrawTap(_ sender: UITapGestureRecognizer) {
-        if let withdrawalLimits = withdrawalLimits, withdrawalLimits.isCashWithdrawalLocked() {
+        if let withdrawalLimits = withdrawalLimits, withdrawalLimits.hasCryptoRequirement() {
             Alert.show(Localize.string("cps_cash_withdrawal_lock_title"),
                        Localize.string("cps_cash_withdrawal_lock_desc", String(format: "%.8f", crpytoWithdrawalRequirementAmount()!)),
                        confirm: {
@@ -177,7 +177,7 @@ class WithdrawalViewController: UIViewController {
             self.withdrawalLimits = withdrawalLimits
             self.dailyLimitAmount = "\(withdrawalLimits.dailyMaxCash.amount.currencyFormatWithoutSymbol(precision: 2))"
             self.dailyMaxCount = "\(withdrawalLimits.dailyMaxCount)"
-            self.turnoverRequirement = withdrawalLimits.calculateTurnoverRequirementAmount().amount
+            self.turnoverRequirement = withdrawalLimits.remainCashTurnover().amount
             self.crpytoWithdrawalRequirement = self.crpytoWithdrawalRequirementAmount()
             self.checkDailyWithdrawalLimit(withdrawalLimits.dailyMaxCash.amount, withdrawalLimits.dailyMaxCount)
         } onError: { (error) in

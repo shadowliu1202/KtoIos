@@ -27,11 +27,23 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func getWithdrawalLimitation() -> Single<WithdrawalLimits> {
         Single.zip(bankApi.getWithdrawalLimitation(), bankApi.getEachLimit(), bankApi.getTurnOver()).map { (daliyLimitsResponse, singleLimitsResponse, turnOverResponse) -> WithdrawalLimits in
             guard let daliyLimitsdata = daliyLimitsResponse.data, let singleLimitsData = singleLimitsResponse.data, let turnOverData = turnOverResponse.data else {
-                return WithdrawalLimits(dailyMaxCount: 0, dailyMaxCash: CashAmount(amount: 0), dailyCurrentCount: 0, dailyCurrentCash: CashAmount(amount: 0), singleCashMaximum: CashAmount(amount: 0), singleCashMinimum: CashAmount(amount: 0), turnoverAmount: CashAmount(amount: 0), achievedAmount: CashAmount(amount: 0), cryptoWithdrawalRequests: [])
+                return WithdrawalLimits(dailyMaxCount: 0, dailyMaxCash: CashAmount(amount: 0), dailyCurrentCount: 0, dailyCurrentCash: CashAmount(amount: 0), singleCashMaximum: CashAmount(amount: 0), singleCashMinimum: CashAmount(amount: 0), turnoverAmount: CashAmount(amount: 0), achievedAmount: CashAmount(amount: 0), cryptoWithdrawalRequests: [], cryptoRequirement: WithdrawalLimits.CryptoRequirement(request: []))
             }
-            let cryptoWithdrawalRequests = turnOverData.cryptoWithdrawalRequestInfos?.map { CryptoAmount.Companion.init().create(cryptoAmount: $0.withdrawalRequest, cryptoCurrency: $0.cryptoCurrency)
-            }
-            return WithdrawalLimits(dailyMaxCount: daliyLimitsdata.withdrawalCount, dailyMaxCash: CashAmount(amount: daliyLimitsdata.withdrawalLimit), dailyCurrentCount: daliyLimitsdata.withdrawalDailyCount, dailyCurrentCash: CashAmount(amount: daliyLimitsdata.withdrawalDailyLimit), singleCashMaximum: CashAmount(amount: singleLimitsData.max), singleCashMinimum: CashAmount(amount: singleLimitsData.minimum), turnoverAmount: CashAmount(amount: turnOverData.turnoverAmount), achievedAmount: CashAmount(amount: turnOverData.achievedAmount), cryptoWithdrawalRequests: cryptoWithdrawalRequests ?? [])
+            let cryptoWithdrawalRequests = turnOverData.cryptoWithdrawalRequestInfos?.map { CryptoAmount.Companion.init().create(cryptoAmount: $0.withdrawalRequest, crypto: Crypto.Companion.init().create(simpleName: Crypto.Ethereum.init().simpleName))
+            } ?? []
+            let request = turnOverData.cryptoWithdrawalRequestInfos?.map({ CryptoAmount.Companion.init().create(cryptoAmount: $0.withdrawalRequest, crypto: Crypto.Companion.init().create(simpleName: Crypto.Ethereum.init().simpleName)) }) ?? []
+            let cryptoRequirement = WithdrawalLimits.CryptoRequirement(request: request)
+            
+            return WithdrawalLimits(dailyMaxCount: daliyLimitsdata.withdrawalCount,
+                                    dailyMaxCash: CashAmount(amount: daliyLimitsdata.withdrawalLimit),
+                                    dailyCurrentCount: daliyLimitsdata.withdrawalDailyCount,
+                                    dailyCurrentCash: CashAmount(amount: daliyLimitsdata.withdrawalDailyLimit),
+                                    singleCashMaximum: CashAmount(amount: singleLimitsData.max),
+                                    singleCashMinimum: CashAmount(amount: singleLimitsData.minimum),
+                                    turnoverAmount: CashAmount(amount: turnOverData.turnoverAmount),
+                                    achievedAmount: CashAmount(amount: turnOverData.achievedAmount),
+                                    cryptoWithdrawalRequests: cryptoWithdrawalRequests,
+                                    cryptoRequirement: cryptoRequirement)
         }
     }
     
