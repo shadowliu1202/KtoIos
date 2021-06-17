@@ -32,7 +32,7 @@ class WithdrawalAccountDetailViewController: UIViewController {
         provinceLabel.text = account?.location
         countryLabel.text = account?.city
         accountNumberLabel.text = account?.accountNumber.value
-        if account?.verifyStatus == .verifying {
+        if account?.verifyStatus == .onhold {
             submitButton.isHidden = true
         }
     }
