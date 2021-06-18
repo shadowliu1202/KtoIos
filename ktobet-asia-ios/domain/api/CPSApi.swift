@@ -4,8 +4,24 @@ import SharedBu
 import Moya
 
 
-class CPSApi {
+class CPSApi: ApiService {
+    let prefixW = "api/withdrawal"
+    let prefixD = "api/deposit"
+    private var urlPath: String!
+    
+    private func url(_ u: String) -> Self {
+        self.urlPath = u
+        return self
+    }
     private var httpClient : HttpClient!
+    
+    var surfixPath: String {
+        return self.urlPath
+    }
+    
+    var headers: [String : String]? {
+        return httpClient.headers
+    }
     
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
@@ -18,6 +34,11 @@ class CPSApi {
                                task: .requestPlain,
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<CryptoDepositReceipt>.self)
+    }
+    
+    func getCryptoWithdrawalLimitTransactions() -> Single<NonNullResponseData<CryptoWithdrawalTransaction>> {
+        let target = GetAPITarget(service: self.url("\(prefixW)/crypto-transaction-success-log"))
+        return httpClient.request(target).map(NonNullResponseData<CryptoWithdrawalTransaction>.self)
     }
 }
 

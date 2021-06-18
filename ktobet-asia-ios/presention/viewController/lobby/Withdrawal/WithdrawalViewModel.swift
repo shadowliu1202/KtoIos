@@ -53,4 +53,8 @@ class WithdrawalViewModel {
     func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable {
         return withdrawalUseCase.bindingImageWithWithdrawalRecord(displayId: displayId, transactionId: transactionId, portalImages: portalImages)
     }
+    
+    func cryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
+        return withdrawalUseCase.getCryptoLimitTransactions()
+    }
 }
