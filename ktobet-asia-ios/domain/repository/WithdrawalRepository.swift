@@ -157,7 +157,6 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     }
     
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
-        let parameters = ["playerBankCardIds[0]": playerBankCardId]
-        return bankApi.deleteWithdrawalAccount(playerBankCardIdDict: parameters).asCompletable()
+        return bankApi.deleteWithdrawalAccount(playerBankCardId: playerBankCardId).asCompletable()
     }
 }
