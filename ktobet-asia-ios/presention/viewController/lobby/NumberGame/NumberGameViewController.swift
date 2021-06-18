@@ -181,6 +181,15 @@ class NumberGameViewController: DisplayProduct {
         return childRow
     }
     
+    fileprivate func setDropDownSort(index : Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        self.dropDownTitleLabel.text = dropDownItem[index].contentText
+        self.dropDownItem = self.dropDownItem.map { (contentText: $0.contentText, isSelected: false, sorting: $0.sorting) }
+        self.dropDownTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        self.dropDownItem[index].isSelected = true
+        self.dropDownTableView.reloadData()
+    }
+    
     @objc private func pressGameTag(_ sender: UIButton) {
         if sender.tag == TagAllID {
             tagAll.isSelected = true
@@ -199,24 +208,20 @@ class NumberGameViewController: DisplayProduct {
             viewModel.setNewFilter(isNew: !sender.isSelected)
         }
         
-        if (self.viewModel.gameTags.filter({ $0.isSelected }).count == 0 && sender.tag == TagNewID) ||
-            (sender.isSelected && self.viewModel.gameTags.filter({ $0.isSelected }).count == 2 && self.viewModel.gameTags.contains(where: { $0.isSelected && $0.id == TagNewID })){
-            let indexPath = IndexPath(row: 2, section: 0)
-            self.dropDownTitleLabel.text = dropDownItem[2].contentText
-            self.dropDownItem = self.dropDownItem.map { (contentText: $0.contentText, isSelected: false, sorting: $0.sorting) }
-            self.dropDownTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-            self.dropDownItem[2].isSelected = true
-            self.dropDownTableView.reloadData()
+        viewModel.toggleFilter(gameTagId: sender.tag)
+
+        if ((sender.tag == TagNewID && !sender.isSelected) ||
+            self.viewModel.gameTags.contains(where: { $0.isSelected && $0.id == TagNewID })) &&
+            self.viewModel.gameTags.contains(where: { !$0.isSelected && $0.id == TagRecommandID })
+        {
+            setDropDownSort(index: 2)
         } else {
-            let indexPath = IndexPath(row: 0, section: 0)
-            self.dropDownTitleLabel.text = dropDownItem[0].contentText
-            self.dropDownItem = self.dropDownItem.map { (contentText: $0.contentText, isSelected: false, sorting: $0.sorting) }
-            self.dropDownTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-            self.dropDownItem[0].isSelected = true
-            self.dropDownTableView.reloadData()
+            setDropDownSort(index: 0)
         }
         
-        viewModel.toggleFilter(gameTagId: sender.tag)
+        if (sender.tag == TagRecommandID && !sender.isSelected) {
+            setDropDownSort(index: 0)
+        }
     }
     
     private func addBlurBackgoundImageView(url: URL) {
