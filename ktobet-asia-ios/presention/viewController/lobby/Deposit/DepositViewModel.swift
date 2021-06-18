@@ -91,8 +91,12 @@ class DepositViewModel {
         return depositUseCase.getDepositMethods(depositType: depositType)
     }
     
-    func getDepositRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<DepositRecordDetail> {
-        return depositUseCase.getDepositRecordDetail(transactionId: transactionId, transactionTransactionType: transactionTransactionType)
+    func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail> {
+        return depositUseCase.getDepositRecordDetail(transactionId: transactionId)
+    }
+    
+    func requestCryptoDepositUpdate(displayId: String) -> Single<String> {
+        return depositUseCase.requestCryptoDetailUpdate(displayId: displayId)
     }
     
     func event() -> (bankValid: Observable<Bool>,
@@ -125,7 +129,7 @@ class DepositViewModel {
                 minAmountLimit = range.min.amount
                 maxAmountLimit = range.max.amount
             }
-
+            
             if minAmountLimit <= amount && amount <= maxAmountLimit {
                 return true
             } else {

@@ -1,5 +1,6 @@
 import UIKit
 import WebKit
+import RxSwift
 
 class DepositCryptoViewController: UIViewController {
     
@@ -7,7 +8,11 @@ class DepositCryptoViewController: UIViewController {
     
     static var segueIdentifier = "toCryptoWebView"
     
-    var url: String!
+    var url: String?
+    var displayId: String?
+    
+    private var viewModel = DI.resolve(DepositViewModel.self)!
+    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +31,19 @@ class DepositCryptoViewController: UIViewController {
         }
         
         HttpClient().getCookies().forEach{ webView.configuration.websiteDataStore.httpCookieStore.setCookie($0, completionHandler: nil) }
-        let request = URLRequest(url: URL(string: url)!)
         webView.configuration.preferences.javaScriptEnabled = true
-        webView.load(request)
+
+        if let url = url {
+            let request = URLRequest(url: URL(string: url)!)
+            webView.load(request)
+        } else {
+            guard let displayId = displayId else { return }
+            viewModel.requestCryptoDepositUpdate(displayId: displayId).subscribe {[weak self] (url) in
+                let request = URLRequest(url: URL(string: url)!)
+                self?.webView.load(request)
+            } onError: {[weak self] (error) in
+                self?.handleUnknownError(error)
+            }.disposed(by: disposeBag)
+        }
     }
 }

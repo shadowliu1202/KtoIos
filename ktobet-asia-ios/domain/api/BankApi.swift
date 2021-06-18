@@ -89,13 +89,8 @@ class BankApi: ApiService {
         return httpClient.request(target).map(ResponseData<[DepositMethodData]>.self)
     }
     
-    func getDepositRecordDetail(displayId: String, ticketType: Int32) -> Single<ResponseData<DepositRecordDetailData>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "api/deposit/detail/",
-                               method: .get,
-                               task: .requestParameters(parameters: ["displayId": displayId,
-                                                                     "ticketType": ticketType], encoding: URLEncoding.default),
-                               header: httpClient.headers)
+    func getDepositRecordDetail(displayId: String) -> Single<ResponseData<DepositRecordDetailData>> {
+        let target = GetAPITarget(service: self.url("\(prefixD)/detail")).parameters(["displayId": displayId])
         return httpClient.request(target).map(ResponseData<DepositRecordDetailData>.self)
     }
     
@@ -221,9 +216,14 @@ class BankApi: ApiService {
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<SingleWithdrawalLimitsData>.self)
     }
-    
+
     func getTurnOver() -> Single<ResponseData<TurnoverData>> {
         let target = GetAPITarget(service: self.url("\(prefixW)/turn-over"))
         return httpClient.request(target).map(ResponseData<TurnoverData>.self)
+    }
+    
+    func requestCryptoDetailUpdate(displayId: String) -> Single<ResponseData<CryptoDepositUrl>> {
+        let target = GetAPITarget(service: self.url("\(prefixW)/update-online-deposit-crypto")).parameters(["displayId": displayId])
+        return httpClient.request(target).map(ResponseData<CryptoDepositUrl>.self)
     }
 }
