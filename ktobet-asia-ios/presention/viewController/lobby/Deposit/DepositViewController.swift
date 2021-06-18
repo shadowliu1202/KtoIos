@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import RxSwift
 import SharedBu
 
@@ -89,20 +90,23 @@ class DepositViewController: UIViewController {
     
     fileprivate func depositTypeDataHandler() {
         Observable.zip(depositTypeTableView.rx.itemSelected, depositTypeTableView.rx.modelSelected(DepositRequest.DepositType.self)).bind { [weak self] (indexPath, data) in
-            if let crypto = data as? DepositRequest.DepositTypeCrypto {
+            guard let self = self else { return }
+            if data is DepositRequest.DepositTypeCrypto {
                 let title = Localize.string("common_tip_title_warm")
                 let message = Localize.string("deposit_crypto_warning")
                 Alert.show(title, message, confirm: {
-                    self?.viewModel.createCryptoDeposit().subscribe {[weak self] (url) in                        self?.performSegue(withIdentifier: DepositCryptoViewController.segueIdentifier, sender: url)
+                    self.viewModel.createCryptoDeposit().subscribe {[weak self] (url) in
+                        guard let self = self else { return }
+                        self.performSegue(withIdentifier: DepositCryptoViewController.segueIdentifier, sender: url)
                     } onError: { (error) in
-                        self?.handleUnknownError(error)
-                    }
-                    
+                        self.handleUnknownError(error)
+                    }.disposed(by: self.disposeBag)
                 }, cancel: nil)
             } else {
-                self?.performSegue(withIdentifier: DepositMethodViewController.segueIdentifier, sender: data)
-                self?.depositTypeTableView.deselectRow(at: indexPath, animated: true)
+                self.performSegue(withIdentifier: DepositMethodViewController.segueIdentifier, sender: data)
             }
+            
+            self.depositTypeTableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }
     
@@ -135,7 +139,19 @@ class DepositViewController: UIViewController {
     
     fileprivate func recordDataHandler() {
         Observable.zip(depositRecordTableView.rx.itemSelected, depositRecordTableView.rx.modelSelected(DepositRecord.self)).bind {(indexPath, data) in
-            self.performSegue(withIdentifier: DepositRecordDetailViewController.segueIdentifier, sender: data)
+            if data.transactionTransactionType == TransactionType.cryptodeposit {
+                self.viewModel.getDepositRecordDetail(transactionId: data.displayId).subscribe {(depositDetail) in
+                    let swiftUIView = DepositCryptoDetailView(data: depositDetail as? DepositDetail.Crypto)
+                    let hostingController = UIHostingController(rootView: swiftUIView)
+                    hostingController.navigationItem.hidesBackButton = true
+                    NavigationManagement.sharedInstance.pushViewController(vc: hostingController)
+                } onError: {[weak self] (error) in
+                    self?.handleUnknownError(error)
+                }.disposed(by: self.disposeBag)
+            } else {
+                self.performSegue(withIdentifier: DepositRecordDetailViewController.segueIdentifier, sender: data)
+            }
+            
             self.depositRecordTableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }
