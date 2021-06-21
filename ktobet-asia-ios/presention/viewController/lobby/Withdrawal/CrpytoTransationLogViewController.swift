@@ -109,7 +109,7 @@ extension CrpytoTransationLogViewController: UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataSource[indexPath.section][indexPath.row]
-        return tableView.dequeueReusableCell(withIdentifier: "TicketDetailCell", cellType: TicketDetailCell.self).configure(item, isPositive: indexPath.section == 0 ? true : false)
+        return tableView.dequeueReusableCell(withIdentifier: "TicketDetailCell", cellType: TicketDetailCell.self).configure(item, isPositive: indexPath.section == 0 ? true : false, localCurrency: viewModel.localCurrency)
     }
     
 }
@@ -129,10 +129,10 @@ class TicketDetailCell: UITableViewCell {
     @IBOutlet weak var fiatAmountLabel: UILabel!
     @IBOutlet weak var cryptoAmountLabel: UILabel!
     
-    func configure(_ item: CryptoWithdrawalLimitTicketDetail, isPositive: Bool) -> Self {
+    func configure(_ item: CryptoWithdrawalLimitTicketDetail, isPositive: Bool, localCurrency: String) -> Self {
         dateLabel.text = item.approvedDate.formatDateToStringToSecond()
         idLabel.text = item.displayId
-        fiatAmountLabel.text = (isPositive ? "+" : "-") + String(format: "%.2f CNY", item.fiatAmount.amount)
+        fiatAmountLabel.text = (isPositive ? "+" : "-") + String(format: "%.2f \(localCurrency)", item.fiatAmount.amount)
         cryptoAmountLabel.text =  displayAmount(item.cryptoAmount.cryptoAmount)+" ETH"
         
         return self
