@@ -56,6 +56,13 @@ class LocalStorageRepository {
     func getCultureCode() -> String {
         return getUserDefaultValue(key: KcultureCode) ?? ""
     }
+    
+    func getLocalCurrency() -> String {
+        switch getCultureCode() {
+        case "zh-cn": return "CNY"
+        default: return ""
+        }
+    }
 
     func setRememberMe(_ rememberMe: Bool?) {
         setUserDefaultValue(value: rememberMe, key: kRememberMe)

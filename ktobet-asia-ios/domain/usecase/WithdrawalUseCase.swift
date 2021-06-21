@@ -13,6 +13,7 @@ protocol WithdrawalUseCase {
     func addWithdrawalAccount(_ newWithdrawalAccount: NewWithdrawalAccount) -> Completable
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String>
+    func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
@@ -60,5 +61,9 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
         return withdrawalRepository.deleteWithdrawalAccount(playerBankCardId)
+    }
+    
+    func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
+        return withdrawalRepository.getCryptoLimitTransactions()
     }
 }

@@ -121,7 +121,8 @@ class DIContainer {
         ctner.register(WithdrawalRepository.self) { resolver in
             let bankApi = ctner.resolve(BankApi.self)!
             let imageApi = ctner.resolve(ImageApi.self)!
-            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi)
+            let cpsApi = ctner.resolve(CPSApi.self)!
+            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi)
         }
         ctner.register(BankRepository.self) { resolver in
             let bankApi = ctner.resolve(BankApi.self)!
@@ -307,7 +308,8 @@ class DIContainer {
         }
         ctner.register(WithdrawalViewModel.self) { (resolver) in
             let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
-            return WithdrawalViewModel(withdrawalUseCase: withdrawalUseCase)
+            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            return WithdrawalViewModel(withdrawalUseCase: withdrawalUseCase, localStorageRepository: repoLocalStorage)
         }
         ctner.register(AddBankViewModel.self) { (resolver) in
             return AddBankViewModel(ctner.resolve(AuthenticationUseCase.self)!,

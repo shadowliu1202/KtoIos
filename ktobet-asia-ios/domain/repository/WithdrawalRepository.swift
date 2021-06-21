@@ -13,15 +13,18 @@ protocol WithdrawalRepository {
     func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String>
+    func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
     private var bankApi: BankApi!
     private var imageApi: ImageApi!
+    private var cpsApi: CPSApi!
     
-    init(_ bankApi: BankApi, imageApi: ImageApi) {
+    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi) {
         self.bankApi = bankApi
         self.imageApi = imageApi
+        self.cpsApi = cpsApi
     }
     
     func getWithdrawalLimitation() -> Single<WithdrawalLimits> {
@@ -172,5 +175,9 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
         let parameters = ["playerBankCardIds[0]": playerBankCardId]
         return bankApi.deleteWithdrawalAccount(playerBankCardIdDict: parameters).asCompletable()
+    }
+    
+    func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
+        return cpsApi.getCryptoWithdrawalLimitTransactions().map({ $0.data.toCryptoWithdrawalLimitLog() })
     }
 }
