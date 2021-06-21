@@ -690,7 +690,7 @@
         <!--Deposit Crypto View Controller-->
         <scene sceneID="nJa-Dn-5DC">
             <objects>
-                <viewController id="H2h-kh-Eib" customClass="DepositCryptoViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DepositCryptoViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="H2h-kh-Eib" customClass="DepositCryptoViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="haG-T2-JSD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1762,7 +1762,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="keF-G9-Ps9"/>
+        <segue reference="hkd-5J-lSd"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Chevron Right Disable(24)" width="24" height="24"/>

@@ -160,16 +160,81 @@ struct DepositRecordDetailData: Codable {
     let displayID: String
     let requestAmount: Double
     let actualAmount: Double?
+    let actualCryptoAmount: Double?
+    let requestCryptoAmount: Double?
     let createdDate, updatedDate: String
     let status: Int32
     let statusChangeHistories: [StatusChangeHistory]
     let isPendingHold: Bool
     let ticketType: Int32
-    let fee: Int32?
-
+    let fee: Double?
+    let actualRate: Double?
+    let actualFiatAmount: Double?
+    let actualRateDate: String?
+    let requestRate: Double?
+    let hashId: String?
+    let requestRateDate: String?
+    let toAddress: String?
+    
     enum CodingKeys: String, CodingKey {
         case displayID = "displayId"
-        case requestAmount, createdDate, updatedDate, status, statusChangeHistories, isPendingHold, ticketType, fee, actualAmount
+        case requestAmount, createdDate, updatedDate, status, statusChangeHistories, isPendingHold, ticketType, fee, actualAmount, actualCryptoAmount, actualRate, actualFiatAmount, actualRateDate, hashId, requestRate, requestRateDate, toAddress, requestCryptoAmount
+    }
+    
+    func toDepositDetail(statusChangeHistories: [Transaction.StatusChangeHistory]) -> DepositDetail {
+        let createDate = self.createdDate.convertDateTime() ?? Date()
+        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
+        let updateDate = self.updatedDate.convertDateTime() ?? Date()
+        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
+        let actualRateDate = self.actualRateDate?.convertDateTime() ?? Date()
+        let actualRateOffsetDateTime = actualRateDate.convertDateToOffsetDateTime()
+        let requestRateDate = self.requestRateDate?.convertDateTime() ?? Date()
+        let requestRateOffsetDateTime = requestRateDate.convertDateToOffsetDateTime()
+        
+        switch TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType) {
+        case TransactionType.deposit,
+             TransactionType.a2ptransferin,
+             TransactionType.p2ptransferin:
+            return DepositDetail.General.init(
+                createdDate: createOffsetDateTime,
+                displayId: self.displayID,
+                fee: CashAmount(amount: self.fee ?? 0),
+                isPendingHold: self.isPendingHold,
+                requestAmount: CashAmount(amount: self.requestAmount),
+                status: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: self.status),
+                statusChangeHistories: statusChangeHistories,
+                ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
+                updatedDate: updateOffsetDateTime)
+        case TransactionType.cryptodeposit:
+            let actualCryptoAmount = CryptoExchangeReceipt.init(
+                cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.actualCryptoAmount ?? 0, crypto: .Ethereum()),
+                exchangeRate: CryptoExchangeRate.init(crypto: .Ethereum(), rate: self.actualRate ?? 0),
+                cashAmount: CashAmount(amount: self.actualFiatAmount ?? 0))
+            
+            let requestCryptoAmount = CryptoExchangeReceipt.init(
+                cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.requestCryptoAmount ?? 0, crypto: .Ethereum()),
+                exchangeRate: CryptoExchangeRate.init(crypto: .Ethereum(), rate: self.requestRate ?? 0),
+                cashAmount: CashAmount(amount: self.requestAmount))
+            
+            return DepositDetail.Crypto.init(
+                actualCryptoAmount: actualCryptoAmount,
+                actualAmount: CashAmount(amount: self.actualAmount ?? 0),
+                actualRateDate: actualRateOffsetDateTime,
+                createdDate: createOffsetDateTime,
+                displayId: self.displayID,
+                fee: CashAmount(amount: self.fee ?? 0),
+                hashId: self.hashId ?? "",
+                isPendingHold: self.isPendingHold,
+                requestCryptoAmount: requestCryptoAmount,
+                requestRateDate: requestRateOffsetDateTime,
+                status: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: self.status),
+                statusChangeHistories: statusChangeHistories,
+                ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
+                toAddress: self.toAddress ?? "",
+                updatedDate: updateOffsetDateTime)
+        default:
+            return DepositDetail.Unknown.init()
+        }
     }
 }
 
@@ -688,6 +753,10 @@ struct BetSummaryDataResponse: Codable {
 
 struct CryptoDepositReceipt: Codable {
     var displayId: String
+    var url: String
+}
+
+struct CryptoDepositUrl: Codable {
     var url: String
 }
 

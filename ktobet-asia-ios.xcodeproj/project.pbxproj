@@ -616,6 +616,10 @@
 		6060AF3B26704CE4001DD3F3 /* DepositCryptoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF3926704CE4001DD3F3 /* DepositCryptoViewController.swift */; };
 		6060AF3C26704CE4001DD3F3 /* DepositCryptoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF3926704CE4001DD3F3 /* DepositCryptoViewController.swift */; };
 		6060AF3D26704CE4001DD3F3 /* DepositCryptoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF3926704CE4001DD3F3 /* DepositCryptoViewController.swift */; };
+		6060AF642671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF632671C0EE001DD3F3 /* DepositCryptoDetailView.swift */; };
+		6060AF652671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF632671C0EE001DD3F3 /* DepositCryptoDetailView.swift */; };
+		6060AF662671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF632671C0EE001DD3F3 /* DepositCryptoDetailView.swift */; };
+		6060AF672671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6060AF632671C0EE001DD3F3 /* DepositCryptoDetailView.swift */; };
 		6061E33F2637E8B000A52AF8 /* TYCyclePagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6061E33E2637E8B000A52AF8 /* TYCyclePagerViewCell.swift */; };
 		6061E3402637E8B000A52AF8 /* TYCyclePagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6061E33E2637E8B000A52AF8 /* TYCyclePagerViewCell.swift */; };
 		6061E3412637E8B000A52AF8 /* TYCyclePagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6061E33E2637E8B000A52AF8 /* TYCyclePagerViewCell.swift */; };
@@ -1487,6 +1491,7 @@
 		605D986A25A5CC2E00634197 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		6060AF32266F5502001DD3F3 /* CPSApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPSApi.swift; sourceTree = "<group>"; };
 		6060AF3926704CE4001DD3F3 /* DepositCryptoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositCryptoViewController.swift; sourceTree = "<group>"; };
+		6060AF632671C0EE001DD3F3 /* DepositCryptoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositCryptoDetailView.swift; sourceTree = "<group>"; };
 		6061E33E2637E8B000A52AF8 /* TYCyclePagerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYCyclePagerViewCell.swift; sourceTree = "<group>"; };
 		6077037B25C80E45003FBEE4 /* DepositMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositMethodViewController.swift; sourceTree = "<group>"; };
 		6077038825C8E3B2003FBEE4 /* DepositMethodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositMethodTableViewCell.swift; sourceTree = "<group>"; };
@@ -2239,6 +2244,7 @@
 				6D72751525EF7A0E000BF51F /* FilterConditionViewController.swift */,
 				60357F1E25F239410076D909 /* DateViewController.swift */,
 				6060AF3926704CE4001DD3F3 /* DepositCryptoViewController.swift */,
+				6060AF632671C0EE001DD3F3 /* DepositCryptoDetailView.swift */,
 			);
 			path = Deposit;
 			sourceTree = "<group>";
@@ -2936,6 +2942,7 @@
 				6D4083D1265212A800BECD0E /* NumberGameUseCase.swift in Sources */,
 				60790C32264128BF0005D62F /* SlotAllViewController.swift in Sources */,
 				4199A02B25AE9918002E2D7E /* InputPassword.swift in Sources */,
+				6060AF652671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */,
 				6D9E581A263A561000E6942A /* SlotRecordUseCase.swift in Sources */,
 				6034627F26327E8800F5D1D9 /* CasinoRecordUseCase.swift in Sources */,
 				6DADDF32260C232A00247E80 /* WithdrawlAccountsViewController.swift in Sources */,
@@ -3236,6 +3243,7 @@
 				6D4083D0265212A800BECD0E /* NumberGameUseCase.swift in Sources */,
 				60790C31264128BF0005D62F /* SlotAllViewController.swift in Sources */,
 				48AAA115256E458800E075CA /* PlayerApi.swift in Sources */,
+				6060AF642671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */,
 				6D9E5819263A561000E6942A /* SlotRecordUseCase.swift in Sources */,
 				6034627E26327E8800F5D1D9 /* CasinoRecordUseCase.swift in Sources */,
 				6DADDF3A260C232B00247E80 /* WithdrawlAccountsViewController.swift in Sources */,
@@ -3520,6 +3528,7 @@
 				6D4083D2265212A800BECD0E /* NumberGameUseCase.swift in Sources */,
 				60790C33264128BF0005D62F /* SlotAllViewController.swift in Sources */,
 				605AC73825C115BF00873D63 /* SMSVerifyCodeInputView.swift in Sources */,
+				6060AF662671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */,
 				6D9E581B263A561000E6942A /* SlotRecordUseCase.swift in Sources */,
 				6034628026327E8800F5D1D9 /* CasinoRecordUseCase.swift in Sources */,
 				6DADDF35260C232A00247E80 /* WithdrawlAccountsViewController.swift in Sources */,
@@ -3945,6 +3954,7 @@
 				609012F22640EE7000419F8E /* KTOBarButtonItem.swift in Sources */,
 				609012F32640EE7000419F8E /* SignupRegistFailViewController.swift in Sources */,
 				609012F42640EE7000419F8E /* Transport.swift in Sources */,
+				6060AF672671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */,
 				609012F52640EE7000419F8E /* WithdrawalViewModel.swift in Sources */,
 				6D5B14EA264A7B71004138E8 /* TYCyclePagerViewCell.swift in Sources */,
 				609012F62640EE7000419F8E /* KTONavigationViewController.swift in Sources */,
