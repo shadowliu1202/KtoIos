@@ -143,7 +143,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         return bankApi.getWithdrawalAccount().map({ (response: ResponseData<PayloadPage<WithdrawalAccountBean>>) -> [WithdrawalAccount] in
             if let databeans = response.data?.payload {
                 let data: [WithdrawalAccount] = databeans.map {
-                    WithdrawalAccount(accountName: $0.accountName, accountNumber: AccountNumber(value: $0.accountNumber), address: $0.address, bankId: Int32($0.bankID), bankName: $0.bankName, branch: $0.branch, city: $0.city, location: $0.location, playerBankCardId: $0.playerBankCardID, status: Int32($0.status), verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: Int32($0.verifyStatus)))
+                    WithdrawalAccount(accountName: $0.accountName, accountNumber: AccountNumber(value: $0.accountNumber), address: $0.address, bankId: Int32($0.bankID), bankName: $0.bankName, branch: $0.branch, city: $0.city, location: $0.location, playerBankCardId: $0.playerBankCardID, status: 0, verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: Int32($0.verifyStatus)))
                 }
                 return data
             }
@@ -157,7 +157,6 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     }
     
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
-        let parameters = ["playerBankCardIds[0]": playerBankCardId]
-        return bankApi.deleteWithdrawalAccount(playerBankCardIdDict: parameters).asCompletable()
+        return bankApi.deleteWithdrawalAccount(playerBankCardId: playerBankCardId).asCompletable()
     }
 }

@@ -3,8 +3,24 @@ import RxSwift
 import SharedBu
 import Moya
 
-class BankApi {
+class BankApi: ApiService {
+    let prefixW = "api/withdrawal"
+    let prefixD = "api/deposit"
+    private var urlPath: String!
+    
+    private func url(_ u: String) -> Self {
+        self.urlPath = u
+        return self
+    }
     private var httpClient : HttpClient!
+    
+    var surfixPath: String {
+        return self.urlPath
+    }
+    
+    var headers: [String : String]? {
+        return httpClient.headers
+    }
     
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
@@ -188,12 +204,8 @@ class BankApi {
         return httpClient.request(target).map(ResponseData<Nothing>.self)
     }
     
-    func deleteWithdrawalAccount(playerBankCardIdDict: [String: String]) -> Single<ResponseData<Nothing>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "api/bank-card/",
-                               method: .delete,
-                               task: .requestParameters(parameters: playerBankCardIdDict, encoding: URLEncoding.default),
-                               header: httpClient.headers)
+    func deleteWithdrawalAccount(playerBankCardId: String) -> Single<ResponseData<Nothing>> {
+        let target = DeleteAPITarget(service: self.url("api/bank-card/\(playerBankCardId)"))
         return httpClient.request(target).map(ResponseData<Nothing>.self)
     }
     
