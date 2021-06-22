@@ -13,6 +13,8 @@ protocol WithdrawalUseCase {
     func addWithdrawalAccount(_ newWithdrawalAccount: NewWithdrawalAccount) -> Completable
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String>
+    func getCryptoBankCards() -> Single<[CryptoBankCard]>
+    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
@@ -60,5 +62,13 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
         return withdrawalRepository.deleteWithdrawalAccount(playerBankCardId)
+    }
+    
+    func getCryptoBankCards() -> Single<[CryptoBankCard]> {
+        return withdrawalRepository.getCryptoBankCards()
+    }
+    
+    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String> {
+        return withdrawalRepository.addCryptoBankCard(currency: currency, alias: alias, walletAddress: walletAddress)
     }
 }

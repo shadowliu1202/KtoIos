@@ -1,0 +1,61 @@
+import UIKit
+import RxSwift
+import SharedBu
+
+class AddCryptoAccountViewController: UIViewController {
+    static let segueIdentifier = "toCryptoAddAccount"
+    @IBOutlet weak var cryptoTypeDropDown: DropDownInputText!
+    @IBOutlet weak var accountNameTextField: InputText!
+    @IBOutlet weak var accountAddressTextField: InputText!
+    @IBOutlet weak var accountNameErrorLabel: UILabel!
+    @IBOutlet weak var accountAddressErrorLabel: UILabel!
+    @IBOutlet weak var accountAddressView: UIView!
+    @IBOutlet weak var submitButton: UIButton!
+
+    let viewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
+    let disposeBag = DisposeBag()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        accountAddressTextField.rx.observe(UIColor.self, "backgroundColor").bind(to: accountAddressView.rx.backgroundColor).disposed(by: disposeBag)
+        let supportCry = Crypto.Companion.init().support()
+        supportCry.forEach{ print($0.simpleName) }
+        cryptoTypeDropDown.optionArray = supportCry.map{ $0.simpleName }
+        cryptoTypeDropDown.setTitle(Localize.string("cps_crypto_currency"))
+        accountNameTextField.setTitle(Localize.string("cps_crypto_account_name"))
+        accountAddressTextField.setTitle(Localize.string("cps_wallet_address"))
+        
+        (accountNameTextField.text <-> viewModel.accountName).disposed(by: disposeBag)
+        (accountAddressTextField.text <-> viewModel.accountAddress).disposed(by: disposeBag)
+        (cryptoTypeDropDown.text <-> viewModel.cryptoType).disposed(by: disposeBag)
+        
+        let event = viewModel.event()
+        event.accountNameValid.subscribe { [weak self] (isValid) in
+            guard let isValid = isValid.element, self?.accountNameTextField.isEdited ?? false else { return }
+            let message = isValid ? "" : Localize.string("common_field_must_fill")
+            self?.accountNameErrorLabel.text = message
+            self?.accountNameTextField.showUnderline(!isValid)
+        }.disposed(by: disposeBag)
+        
+        event.accountAddressValid.subscribe { [weak self] (isValid) in
+            guard let isValid = isValid.element, self?.accountAddressTextField.isEdited ?? false else { return }
+            let message = isValid ? "" : Localize.string("common_field_must_fill")
+            self?.accountAddressErrorLabel.text = message
+            self?.accountAddressTextField.showUnderline(!isValid)
+        }.disposed(by: disposeBag)
+        
+        event.dataValid.bind(to: submitButton.rx.valid).disposed(by: disposeBag)
+        
+        submitButton.rx.tap.subscribe(onNext: {[weak self] in
+            guard let self = self else { return }
+            self.viewModel.addCryptoBankCard().subscribe(onSuccess: { (data) in
+                print(data)
+            }, onError: { (error) in
+                if (error as? KTOError) == KTOError.EmptyData {
+                    Alert.show(Localize.string("common_tip_title_warm"), Localize.string("withdrawal_account_exist"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+                }
+            }).disposed(by: self.disposeBag)
+        }).disposed(by: disposeBag)
+    }
+}

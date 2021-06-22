@@ -13,15 +13,19 @@ protocol WithdrawalRepository {
     func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String>
+    func getCryptoBankCards() -> Single<[CryptoBankCard]>
+    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
     private var bankApi: BankApi!
     private var imageApi: ImageApi!
+    private var cpsApi: CPSApi!
     
-    init(_ bankApi: BankApi, imageApi: ImageApi) {
+    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi) {
         self.bankApi = bankApi
         self.imageApi = imageApi
+        self.cpsApi = cpsApi
     }
     
     func getWithdrawalLimitation() -> Single<WithdrawalLimits> {
@@ -172,5 +176,36 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
         let parameters = ["playerBankCardIds[0]": playerBankCardId]
         return bankApi.deleteWithdrawalAccount(playerBankCardIdDict: parameters).asCompletable()
+    }
+    
+    func getCryptoBankCards() -> Single<[CryptoBankCard]> {
+        return cpsApi.getCryptoBankCard().map { (response) -> [CryptoBankCard] in
+            guard let data = response.data?.payload else { return [] }
+            return data.map{ $0.toCryptoBankCard() }
+        }
+    }
+    
+    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String> {
+        let cryptoBankCardRequest = CryptoBankCardRequest(cryptoCurrency: indexOf(currency: currency), cryptoWalletName: alias, cryptoWalletAddress: walletAddress)
+        return cpsApi.getCryptoBankCard().flatMap { (response) -> Single<String> in
+            guard let data = response.data?.payload else { return Single<String>.error(KTOError.EmptyData) }
+            if data.map({ $0.toCryptoBankCard().walletAddress }).contains(walletAddress) {
+                return Single<String>.error(KTOError.EmptyData)
+            } else {
+                return self.cpsApi.createCryptoBankCard(cryptoBankCardRequest: cryptoBankCardRequest).map { (response) -> String in
+                    guard let data = response.data else { return "" }
+                    return data
+                }
+            }
+        }
+    }
+    
+    private func indexOf(currency: Crypto) -> Int {
+        switch currency {
+        case .Ethereum():
+            return 1001
+        default:
+            return 0
+        }
     }
 }

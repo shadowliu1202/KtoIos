@@ -460,6 +460,10 @@
 		60357F1F25F239410076D909 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60357F1E25F239410076D909 /* DateViewController.swift */; };
 		60357F2025F239410076D909 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60357F1E25F239410076D909 /* DateViewController.swift */; };
 		60357F2125F239410076D909 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60357F1E25F239410076D909 /* DateViewController.swift */; };
+		605559BC267C988800FC1749 /* ManageCryptoBankCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605559BB267C988800FC1749 /* ManageCryptoBankCardViewModel.swift */; };
+		605559BD267C988800FC1749 /* ManageCryptoBankCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605559BB267C988800FC1749 /* ManageCryptoBankCardViewModel.swift */; };
+		605559BE267C988800FC1749 /* ManageCryptoBankCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605559BB267C988800FC1749 /* ManageCryptoBankCardViewModel.swift */; };
+		605559BF267C988800FC1749 /* ManageCryptoBankCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605559BB267C988800FC1749 /* ManageCryptoBankCardViewModel.swift */; };
 		6056E85526451A7800627148 /* SlotFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6056E85426451A7800627148 /* SlotFilterViewController.swift */; };
 		6056E85626451A7800627148 /* SlotFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6056E85426451A7800627148 /* SlotFilterViewController.swift */; };
 		6056E85726451A7800627148 /* SlotFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6056E85426451A7800627148 /* SlotFilterViewController.swift */; };
@@ -919,6 +923,10 @@
 		609013622640EE7000419F8E /* ImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60251B0D261C427F00E89EE6 /* ImagePicker.storyboard */; };
 		609013632640EE7000419F8E /* Withdrawal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6085050026005DAD009394CA /* Withdrawal.storyboard */; };
 		6090138C2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6090138B2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist */; };
+		6090F608267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */; };
+		6090F609267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */; };
+		6090F60A267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */; };
+		6090F60B267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */; };
 		60AE470625DD15D700AE9B5E /* DepositViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BEE70325C3976C00CA73D0 /* DepositViewModel.swift */; };
 		60AE470925DD15DC00AE9B5E /* DepositMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6077037B25C80E45003FBEE4 /* DepositMethodViewController.swift */; };
 		60AE470C25DD15E400AE9B5E /* DepositMethodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6077038825C8E3B2003FBEE4 /* DepositMethodTableViewCell.swift */; };
@@ -1464,6 +1472,7 @@
 		603462AB26327EF500F5D1D9 /* BarButtonItemable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarButtonItemable.swift; sourceTree = "<group>"; };
 		603462E72632A23F00F5D1D9 /* Slot.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Slot.storyboard; sourceTree = "<group>"; };
 		60357F1E25F239410076D909 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
+		605559BB267C988800FC1749 /* ManageCryptoBankCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCryptoBankCardViewModel.swift; sourceTree = "<group>"; };
 		6056E85426451A7800627148 /* SlotFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotFilterViewController.swift; sourceTree = "<group>"; };
 		605AC6FF25C019F800873D63 /* Deposit.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Deposit.storyboard; sourceTree = "<group>"; };
 		605AC71625C023CC00873D63 /* DepositViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositViewController.swift; sourceTree = "<group>"; };
@@ -1502,6 +1511,7 @@
 		6089834B25AFD13800BE28BB /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		609013692640EE7000419F8E /* ktobet-asia-ios-staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-staging.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6090138B2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-staging-Info.plist"; sourceTree = "<group>"; };
+		6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCryptoAccountViewController.swift; sourceTree = "<group>"; };
 		60AE474B25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositOfflineConfirmViewController.swift; sourceTree = "<group>"; };
 		60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = slideMenu.storyboard; sourceTree = "<group>"; };
 		60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDataUseCase.swift; sourceTree = "<group>"; };
@@ -2208,6 +2218,15 @@
 			path = UIBarButtonItem;
 			sourceTree = "<group>";
 		};
+		605559BA267C971500FC1749 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				605559BB267C988800FC1749 /* ManageCryptoBankCardViewModel.swift */,
+				6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */,
+			);
+			path = crypto;
+			sourceTree = "<group>";
+		};
 		605AC71B25C0248000873D63 /* Deposit */ = {
 			isa = PBXGroup;
 			children = (
@@ -2251,6 +2270,7 @@
 		60850506260066CA009394CA /* Withdrawal */ = {
 			isa = PBXGroup;
 			children = (
+				605559BA267C971500FC1749 /* crypto */,
 				6DAEA5D926007F4700995A6E /* account */,
 				60C03846260C5CAA00351003 /* request */,
 				6085050D26007E9A009394CA /* cells */,
@@ -3029,6 +3049,7 @@
 				6034627226327E5A00F5D1D9 /* SearchButtonItem.swift in Sources */,
 				60C03849260C5CCB00351003 /* WithdrawalRequestViewController.swift in Sources */,
 				4199A04E25AE9918002E2D7E /* Operators.swift in Sources */,
+				6090F609267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */,
 				608505402601ADF8009394CA /* WithdrawalRecordDetailViewController.swift in Sources */,
 				4199A04F25AE9918002E2D7E /* JSONHubProtocol.swift in Sources */,
 				4199A05025AE9918002E2D7E /* SignupPhoneViewModel.swift in Sources */,
@@ -3076,6 +3097,7 @@
 				6D9E5858263FCB8A00E6942A /* SlotBetDetailViewController.swift in Sources */,
 				6DF26A62264A31C600DDD3C5 /* FilterBarButtonItem.swift in Sources */,
 				414930E825F3319D008F32C5 /* FilterPresentProtocol.swift in Sources */,
+				605559BD267C988800FC1749 /* ManageCryptoBankCardViewModel.swift in Sources */,
 				4199A06325AE9918002E2D7E /* LoginViewModel.swift in Sources */,
 				4199A06425AE9918002E2D7E /* UIImageExtension.swift in Sources */,
 				4199A06525AE9918002E2D7E /* TermsOfServiceCell.swift in Sources */,
@@ -3326,6 +3348,7 @@
 				6034627126327E5A00F5D1D9 /* SearchButtonItem.swift in Sources */,
 				60C03848260C5CCB00351003 /* WithdrawalRequestViewController.swift in Sources */,
 				48AAA138256E458800E075CA /* ResponseData.swift in Sources */,
+				6090F608267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */,
 				6085053F2601ADF8009394CA /* WithdrawalRecordDetailViewController.swift in Sources */,
 				48AAA139256E458800E075CA /* UIColorExtension.swift in Sources */,
 				60BCC2F625B7FA5700C56D6E /* AccountMask.swift in Sources */,
@@ -3373,6 +3396,7 @@
 				6D9E5857263FCB8A00E6942A /* SlotBetDetailViewController.swift in Sources */,
 				6DF26A61264A31C600DDD3C5 /* FilterBarButtonItem.swift in Sources */,
 				414930E725F3319D008F32C5 /* FilterPresentProtocol.swift in Sources */,
+				605559BC267C988800FC1749 /* ManageCryptoBankCardViewModel.swift in Sources */,
 				48AAA14A256E458800E075CA /* DefaultHttpClient.swift in Sources */,
 				48AAA14B256E458800E075CA /* HttpConnection.swift in Sources */,
 				48AAA14C256E458800E075CA /* SignupUserInfoViewModel.swift in Sources */,
@@ -3607,6 +3631,7 @@
 				6034627326327E5A00F5D1D9 /* SearchButtonItem.swift in Sources */,
 				60C0384A260C5CCB00351003 /* WithdrawalRequestViewController.swift in Sources */,
 				605AC76625C115BF00873D63 /* DefaultProductViewModel.swift in Sources */,
+				6090F60A267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */,
 				608505412601ADF8009394CA /* WithdrawalRecordDetailViewController.swift in Sources */,
 				605AC76725C115BF00873D63 /* Operators.swift in Sources */,
 				605AC76825C115BF00873D63 /* JSONHubProtocol.swift in Sources */,
@@ -3654,6 +3679,7 @@
 				6D9E5859263FCB8A00E6942A /* SlotBetDetailViewController.swift in Sources */,
 				6DF26A63264A31C600DDD3C5 /* FilterBarButtonItem.swift in Sources */,
 				414930E925F3319D008F32C5 /* FilterPresentProtocol.swift in Sources */,
+				605559BE267C988800FC1749 /* ManageCryptoBankCardViewModel.swift in Sources */,
 				605AC77C25C115BF00873D63 /* LoginViewModel.swift in Sources */,
 				605AC77D25C115BF00873D63 /* UIImageExtension.swift in Sources */,
 				605AC77E25C115BF00873D63 /* TermsOfServiceCell.swift in Sources */,
@@ -3801,6 +3827,7 @@
 				6DCEC6C9265E2655005E4F8B /* NumberGameMyBetPageViewController.swift in Sources */,
 				609012952640EE7000419F8E /* SignalRError.swift in Sources */,
 				609012962640EE7000419F8E /* CasinoUseCase.swift in Sources */,
+				605559BF267C988800FC1749 /* ManageCryptoBankCardViewModel.swift in Sources */,
 				609012972640EE7000419F8E /* CasinoSummaryTableViewCell.swift in Sources */,
 				609012982640EE7000419F8E /* DoubleExtension.swift in Sources */,
 				609012992640EE7000419F8E /* RxExtension.swift in Sources */,
@@ -4021,6 +4048,7 @@
 				609013472640EE7000419F8E /* GetSystemStatusUseCase.swift in Sources */,
 				609013482640EE7000419F8E /* CasinoGame.swift in Sources */,
 				609013492640EE7000419F8E /* AccountMask.swift in Sources */,
+				6090F60B267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */,
 				6090134A2640EE7000419F8E /* BankApi.swift in Sources */,
 				6090134B2640EE7000419F8E /* LanguageAndCurrencyCell.swift in Sources */,
 			);

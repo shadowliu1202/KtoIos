@@ -760,3 +760,52 @@ struct CryptoDepositReceipt: Codable {
 struct CryptoDepositUrl: Codable {
     var url: String
 }
+
+
+struct CryptoBankCardBean: Codable {
+    var playerCryptoBankCardId: String
+    var cryptoCurrency: Int
+    var cryptoWalletName: String
+    var cryptoWalletAddress: String
+    var status: Int
+    var verifyStatus: Int32
+    var createdUser: String
+    var updatedUser: String
+    var updatedDate: String
+    
+    func toCryptoBankCard() -> CryptoBankCard {
+        let updateDate = self.updatedDate.convertDateTime() ?? Date()
+        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
+        let bankCard = BankCardObject(id_: playerCryptoBankCardId,
+                                      name: cryptoWalletName,
+                                      status: createBankCardStatus(index: status),
+                                      verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: verifyStatus))
+        
+        return CryptoBankCard.init(bankCard: bankCard, currency: Crypto.Ethereum(), walletAddress: cryptoWalletAddress, createdUser: createdUser, updatedUser: updatedUser, updatedDate: updateOffsetDateTime)
+    }
+    
+    private func createBankCardStatus(index: Int) -> BankCardStatus {
+        switch index {
+        case 0:
+            return .none
+        case 1, 2:
+            return .default_
+        default:
+            return .none
+        }
+    }
+}
+
+class BankCardObject: BankCard {
+    var id_: String
+    var name: String
+    var status: BankCardStatus
+    var verifyStatus: PlayerBankCardVerifyStatus
+    
+    init(id_: String, name: String, status: BankCardStatus, verifyStatus: PlayerBankCardVerifyStatus) {
+        self.id_ = id_
+        self.name = name
+        self.status = status
+        self.verifyStatus = verifyStatus
+    }
+}

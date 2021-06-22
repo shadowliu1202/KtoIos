@@ -107,3 +107,9 @@ struct ChunkImageDetil: Codable {
 }
 
 struct Empty : Encodable {}
+
+struct CryptoBankCardRequest: Codable {
+    var cryptoCurrency: Int
+    var cryptoWalletName: String
+    var cryptoWalletAddress: String
+}
