@@ -34,7 +34,6 @@ class WithdrawlLandingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateView()
         viewModel.withdrawalAccounts().subscribe(onSuccess: { [weak self] (accounts) in
             self?.accounts = accounts
             self?.updateView()

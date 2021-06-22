@@ -270,7 +270,6 @@ struct CryptoWithdrawalRequestInfo: Codable {
     let withdrawalRequest: Double
 }
 
-
 struct WithdrawalRecordData: Codable {
     let displayID: String
     let status, ticketType: Int32
@@ -305,12 +304,12 @@ struct WithdrawalAccountBean: Codable {
     let bankID: Int
     let branch, bankName, accountName, accountNumber: String
     let location, address, city: String
-    let status, verifyStatus: Int
+    let verifyStatus: Int
 
     enum CodingKeys: String, CodingKey {
         case playerBankCardID = "playerBankCardId"
         case bankID = "bankId"
-        case branch, bankName, accountName, accountNumber, location, address, city, status, verifyStatus
+        case branch, bankName, accountName, accountNumber, location, address, city, verifyStatus
     }
 }
 
@@ -761,7 +760,6 @@ struct CryptoDepositUrl: Codable {
     var url: String
 }
 
-
 struct CryptoBankCardBean: Codable {
     var playerCryptoBankCardId: String
     var cryptoCurrency: Int
@@ -807,5 +805,42 @@ class BankCardObject: BankCard {
         self.name = name
         self.status = status
         self.verifyStatus = verifyStatus
+    }
+}
+
+struct CryptoWithdrawalTransaction: Codable {
+    let cryptoWithdrawalRequestInfos: [CryptoWithdrawalRequestInfo]
+    let totalRequestAmount: Double
+    let totalAchievedAmount: Double
+    let requestTicketDetails, achievedTicketDetails: [TicketDetail]
+    
+    func toCryptoWithdrawalLimitLog() -> CryptoWithdrawalLimitLog {
+        return CryptoWithdrawalLimitLog(totalRequestAmount: CryptoAmount.create(cryptoAmount: totalRequestAmount, crypto: Crypto.Ethereum.create()),
+                                        totalAchievedAmount: CryptoAmount.create(cryptoAmount: totalAchievedAmount, crypto: Crypto.Ethereum.init()),
+                                        cryptoWithdrawalRequest: cryptoWithdrawalRequestInfos.map({ CryptoAmount.create(cryptoAmount: $0.withdrawalRequest, crypto: Crypto.Ethereum.init()) }),
+                                        requestTicketDetails: requestTicketDetails.map({$0.toCryptoWithdrawalLimitTicketDetail()}),
+                                        achievedTicketDetails: achievedTicketDetails.map({$0.toCryptoWithdrawalLimitTicketDetail()}))
+    }
+}
+
+struct TicketDetail: Codable {
+    let approvedDate, displayID: String
+    let fiatAmount, cryptoAmount: Double
+    let cryptoCurrency: Int32
+
+    enum CodingKeys: String, CodingKey {
+        case approvedDate
+        case displayID = "displayId"
+        case fiatAmount, cryptoAmount, cryptoCurrency
+    }
+    
+    func toCryptoWithdrawalLimitTicketDetail() -> CryptoWithdrawalLimitTicketDetail {
+        let localApprovedDate = (approvedDate.convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertDateToOffsetDateTime()
+        return CryptoWithdrawalLimitTicketDetail(
+            cryptoAmount: CryptoAmount.create(cryptoAmount: cryptoAmount, crypto: Crypto.Ethereum.create()),
+            approvedDate: localApprovedDate,
+            displayId: displayID,
+            fiatAmount:CashAmount(amount: fiatAmount)
+        )
     }
 }

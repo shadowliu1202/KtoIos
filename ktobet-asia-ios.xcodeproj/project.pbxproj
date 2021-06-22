@@ -991,6 +991,22 @@
 		6D148EA42644DE8D001C40EC /* UnsettleGameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D148EA32644DE8D001C40EC /* UnsettleGameDelegate.swift */; };
 		6D148EA52644DE8D001C40EC /* UnsettleGameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D148EA32644DE8D001C40EC /* UnsettleGameDelegate.swift */; };
 		6D148EA62644DE8D001C40EC /* UnsettleGameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D148EA32644DE8D001C40EC /* UnsettleGameDelegate.swift */; };
+		6D14BDCE267B494300149938 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14BDCD267B494300149938 /* Crypto.swift */; };
+		6D14BDCF267B494300149938 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14BDCD267B494300149938 /* Crypto.swift */; };
+		6D14BDD0267B494300149938 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14BDCD267B494300149938 /* Crypto.swift */; };
+		6D14BDD1267B494300149938 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14BDCD267B494300149938 /* Crypto.swift */; };
+		6D14BDD5267B500600149938 /* CryptoAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14BDD4267B500600149938 /* CryptoAmount.swift */; };
+		6D14BDD6267B500600149938 /* CryptoAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14BDD4267B500600149938 /* CryptoAmount.swift */; };
+		6D14BDD7267B500600149938 /* CryptoAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14BDD4267B500600149938 /* CryptoAmount.swift */; };
+		6D14BDD8267B500600149938 /* CryptoAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14BDD4267B500600149938 /* CryptoAmount.swift */; };
+		6D2B0E35267C6EFD0039A956 /* CrpytoTransationLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0E34267C6EFD0039A956 /* CrpytoTransationLogViewController.swift */; };
+		6D2B0E36267C6EFD0039A956 /* CrpytoTransationLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0E34267C6EFD0039A956 /* CrpytoTransationLogViewController.swift */; };
+		6D2B0E37267C6EFD0039A956 /* CrpytoTransationLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0E34267C6EFD0039A956 /* CrpytoTransationLogViewController.swift */; };
+		6D2B0E38267C6EFD0039A956 /* CrpytoTransationLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0E34267C6EFD0039A956 /* CrpytoTransationLogViewController.swift */; };
+		6D2B0E3C267C81C90039A956 /* AttribTextHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0E3B267C81C90039A956 /* AttribTextHolder.swift */; };
+		6D2B0E3D267C81C90039A956 /* AttribTextHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0E3B267C81C90039A956 /* AttribTextHolder.swift */; };
+		6D2B0E3E267C81C90039A956 /* AttribTextHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0E3B267C81C90039A956 /* AttribTextHolder.swift */; };
+		6D2B0E3F267C81C90039A956 /* AttribTextHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2B0E3B267C81C90039A956 /* AttribTextHolder.swift */; };
 		6D2D43412668C4E900E26A4A /* CustomIntensityVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2D43402668C4E900E26A4A /* CustomIntensityVisualEffectView.swift */; };
 		6D2D43422668C4E900E26A4A /* CustomIntensityVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2D43402668C4E900E26A4A /* CustomIntensityVisualEffectView.swift */; };
 		6D2D43432668C4E900E26A4A /* CustomIntensityVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2D43402668C4E900E26A4A /* CustomIntensityVisualEffectView.swift */; };
@@ -1537,6 +1553,10 @@
 		6D148E8D26427642001C40EC /* SlotBetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotBetViewModel.swift; sourceTree = "<group>"; };
 		6D148E93264299D0001C40EC /* SlotUnsettleRecordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotUnsettleRecordsViewController.swift; sourceTree = "<group>"; };
 		6D148EA32644DE8D001C40EC /* UnsettleGameDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsettleGameDelegate.swift; sourceTree = "<group>"; };
+		6D14BDCD267B494300149938 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
+		6D14BDD4267B500600149938 /* CryptoAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoAmount.swift; sourceTree = "<group>"; };
+		6D2B0E34267C6EFD0039A956 /* CrpytoTransationLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrpytoTransationLogViewController.swift; sourceTree = "<group>"; };
+		6D2B0E3B267C81C90039A956 /* AttribTextHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttribTextHolder.swift; sourceTree = "<group>"; };
 		6D2D43402668C4E900E26A4A /* CustomIntensityVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIntensityVisualEffectView.swift; sourceTree = "<group>"; };
 		6D4083A12652046200BECD0E /* NumberGame.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NumberGame.storyboard; sourceTree = "<group>"; };
 		6D4083AC2652069E00BECD0E /* NumberGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameViewModel.swift; sourceTree = "<group>"; };
@@ -1977,6 +1997,7 @@
 				6DAEA6222600B2E600995A6E /* LockInputText.swift */,
 				6DAEA63C2601EC5300995A6E /* DropDownInputText.swift */,
 				6D2D43402668C4E900E26A4A /* CustomIntensityVisualEffectView.swift */,
+				6D2B0E3B267C81C90039A956 /* AttribTextHolder.swift */,
 			);
 			path = customUI;
 			sourceTree = "<group>";
@@ -2278,6 +2299,7 @@
 				6085056E2603201F009394CA /* WithdrawalRecordViewController.swift */,
 				6085053E2601ADF8009394CA /* WithdrawalRecordDetailViewController.swift */,
 				6085052026008F9E009394CA /* WithdrawalViewModel.swift */,
+				6D2B0E34267C6EFD0039A956 /* CrpytoTransationLogViewController.swift */,
 			);
 			path = Withdrawal;
 			sourceTree = "<group>";
@@ -2362,6 +2384,8 @@
 				6034629A26327ED100F5D1D9 /* GameSorting.swift */,
 				6034629C26327ED100F5D1D9 /* GameStatus.swift */,
 				6DD4BA06260C3989001848EE /* WithdrawalAccount.swift */,
+				6D14BDCD267B494300149938 /* Crypto.swift */,
+				6D14BDD4267B500600149938 /* CryptoAmount.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2921,6 +2945,7 @@
 				6DAEA66F260494FB00995A6E /* AddBankViewModel.swift in Sources */,
 				6D7275FF25F5F499000BF51F /* MonthCollectionViewCell.swift in Sources */,
 				607CF2CE25BEC43300A9342D /* SBKViewController.swift in Sources */,
+				6D2B0E3D267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				60C03851260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
 				60BEE70025C3975300CA73D0 /* BankApi.swift in Sources */,
 				6DCEC6BE265E1902005E4F8B /* RecentDetailViewController.swift in Sources */,
@@ -2971,6 +2996,7 @@
 				6034621B26327DC800F5D1D9 /* CasinoSummaryTableViewCell.swift in Sources */,
 				41077DBA25BA639E0057B340 /* DoubleExtension.swift in Sources */,
 				6060AF3B26704CE4001DD3F3 /* DepositCryptoViewController.swift in Sources */,
+				6D14BDCF267B494300149938 /* Crypto.swift in Sources */,
 				6D92AD6B25FA04F60093D94C /* RxExtension.swift in Sources */,
 				4199A03525AE9918002E2D7E /* CodableHelpers.swift in Sources */,
 				6D4E995C26369E6600860FF7 /* SlotApi.swift in Sources */,
@@ -3003,6 +3029,7 @@
 				6034622426327DC800F5D1D9 /* CasinoLobbyViewController.swift in Sources */,
 				4199A03D25AE9918002E2D7E /* SMSCodeTextField.swift in Sources */,
 				60095DF525F5CAC600F5DCE6 /* Koyomi.swift in Sources */,
+				6D2B0E36267C6EFD0039A956 /* CrpytoTransationLogViewController.swift in Sources */,
 				60850509260067B0009394CA /* WithdrawalViewController.swift in Sources */,
 				603462A726327ED100F5D1D9 /* GameStatus.swift in Sources */,
 				4199A03E25AE9918002E2D7E /* StreamHandle.swift in Sources */,
@@ -3150,6 +3177,7 @@
 				6034624E26327E3200F5D1D9 /* UIStackViewExtension.swift in Sources */,
 				605AC72125C024AB00873D63 /* DepositTypeTableViewCell.swift in Sources */,
 				60072D9925E8C2DE001EFDAE /* UploadPhotoViewModel.swift in Sources */,
+				6D14BDD6267B500600149938 /* CryptoAmount.swift in Sources */,
 				603462A426327ED100F5D1D9 /* CasinoLobbyType.swift in Sources */,
 				4199A07325AE9918002E2D7E /* Alert.swift in Sources */,
 				6DE36B7A26563B9B0058A1BC /* RecentViewController.swift in Sources */,
@@ -3220,6 +3248,7 @@
 				6DAEA66E260494FB00995A6E /* AddBankViewModel.swift in Sources */,
 				6D7275FE25F5F499000BF51F /* MonthCollectionViewCell.swift in Sources */,
 				607CF2CB25BEC43000A9342D /* SBKViewController.swift in Sources */,
+				6D2B0E3C267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				60C03850260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
 				60BEE6FF25C3975300CA73D0 /* BankApi.swift in Sources */,
 				6DCEC6BD265E1902005E4F8B /* RecentDetailViewController.swift in Sources */,
@@ -3270,6 +3299,7 @@
 				6034621A26327DC800F5D1D9 /* CasinoSummaryTableViewCell.swift in Sources */,
 				48A005682594851000C7F1FB /* ReactiveExtension.swift in Sources */,
 				6060AF3A26704CE4001DD3F3 /* DepositCryptoViewController.swift in Sources */,
+				6D14BDCE267B494300149938 /* Crypto.swift in Sources */,
 				6D92AD6825FA04F40093D94C /* RxExtension.swift in Sources */,
 				48AAA11F256E458800E075CA /* EncodableExtension.swift in Sources */,
 				6D4E995B26369E6600860FF7 /* SlotApi.swift in Sources */,
@@ -3302,6 +3332,7 @@
 				6034622326327DC800F5D1D9 /* CasinoLobbyViewController.swift in Sources */,
 				48AAA129256E458800E075CA /* SignupEmailViewController.swift in Sources */,
 				60095DF425F5CAC600F5DCE6 /* Koyomi.swift in Sources */,
+				6D2B0E35267C6EFD0039A956 /* CrpytoTransationLogViewController.swift in Sources */,
 				60850508260067B0009394CA /* WithdrawalViewController.swift in Sources */,
 				603462A626327ED100F5D1D9 /* GameStatus.swift in Sources */,
 				48AAA12A256E458800E075CA /* Logger.swift in Sources */,
@@ -3449,6 +3480,7 @@
 				6034624D26327E3200F5D1D9 /* UIStackViewExtension.swift in Sources */,
 				605AC72025C024AB00873D63 /* DepositTypeTableViewCell.swift in Sources */,
 				60072D9825E8C2DE001EFDAE /* UploadPhotoViewModel.swift in Sources */,
+				6D14BDD5267B500600149938 /* CryptoAmount.swift in Sources */,
 				603462A326327ED100F5D1D9 /* CasinoLobbyType.swift in Sources */,
 				48AAA157256E458800E075CA /* GameApi.swift in Sources */,
 				6DE36B7926563B9B0058A1BC /* RecentViewController.swift in Sources */,
@@ -3503,6 +3535,7 @@
 				6DAEA670260494FB00995A6E /* AddBankViewModel.swift in Sources */,
 				6D72760025F5F499000BF51F /* MonthCollectionViewCell.swift in Sources */,
 				605AC73525C115BF00873D63 /* SBKViewController.swift in Sources */,
+				6D2B0E3E267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				60C03852260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
 				605AC73625C115BF00873D63 /* KTOError.swift in Sources */,
 				6DCEC6BF265E1902005E4F8B /* RecentDetailViewController.swift in Sources */,
@@ -3553,6 +3586,7 @@
 				6034621C26327DC800F5D1D9 /* CasinoSummaryTableViewCell.swift in Sources */,
 				605AC74725C115BF00873D63 /* DoubleExtension.swift in Sources */,
 				6060AF3C26704CE4001DD3F3 /* DepositCryptoViewController.swift in Sources */,
+				6D14BDD0267B494300149938 /* Crypto.swift in Sources */,
 				6D92AD6C25FA04F60093D94C /* RxExtension.swift in Sources */,
 				605AC74825C115BF00873D63 /* CodableHelpers.swift in Sources */,
 				6D4E995D26369E6600860FF7 /* SlotApi.swift in Sources */,
@@ -3585,6 +3619,7 @@
 				6034622526327DC800F5D1D9 /* CasinoLobbyViewController.swift in Sources */,
 				605AC75425C115BF00873D63 /* SMSCodeTextField.swift in Sources */,
 				60095DF625F5CAC600F5DCE6 /* Koyomi.swift in Sources */,
+				6D2B0E37267C6EFD0039A956 /* CrpytoTransationLogViewController.swift in Sources */,
 				6085050A260067B0009394CA /* WithdrawalViewController.swift in Sources */,
 				603462A826327ED100F5D1D9 /* GameStatus.swift in Sources */,
 				605AC75525C115BF00873D63 /* StreamHandle.swift in Sources */,
@@ -3732,6 +3767,7 @@
 				6034624F26327E3200F5D1D9 /* UIStackViewExtension.swift in Sources */,
 				605AC79325C115BF00873D63 /* DepositTypeTableViewCell.swift in Sources */,
 				60072D9A25E8C2DE001EFDAE /* UploadPhotoViewModel.swift in Sources */,
+				6D14BDD7267B500600149938 /* CryptoAmount.swift in Sources */,
 				603462A526327ED100F5D1D9 /* CasinoLobbyType.swift in Sources */,
 				605AC79425C115BF00873D63 /* Alert.swift in Sources */,
 				6DE36B7B26563B9B0058A1BC /* RecentViewController.swift in Sources */,
@@ -3786,6 +3822,7 @@
 				609012702640EE7000419F8E /* DropDownInputText.swift in Sources */,
 				609012722640EE7000419F8E /* UIViewControllerExtension.swift in Sources */,
 				6D40841726525FE400BECD0E /* NumberGame.swift in Sources */,
+				6D2B0E38267C6EFD0039A956 /* CrpytoTransationLogViewController.swift in Sources */,
 				609012732640EE7000419F8E /* AddBankViewModel.swift in Sources */,
 				609012742640EE7000419F8E /* MonthCollectionViewCell.swift in Sources */,
 				609012752640EE7000419F8E /* SBKViewController.swift in Sources */,
@@ -3805,10 +3842,13 @@
 				6D5B14F0264A7B86004138E8 /* DropDownTableViewCell.swift in Sources */,
 				609012832640EE7000419F8E /* DepositThirdPartWebViewController.swift in Sources */,
 				609012842640EE7000419F8E /* WithdrawlLandingViewController.swift in Sources */,
+				6D2B0E3F267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				609012852640EE7000419F8E /* InputConfirmPassword.swift in Sources */,
 				609012862640EE7000419F8E /* PlayerRepository.swift in Sources */,
 				6D5B14DE264A7B48004138E8 /* SlotUseCase.swift in Sources */,
+				6D14BDD8267B500600149938 /* CryptoAmount.swift in Sources */,
 				609012872640EE7000419F8E /* KTOViewModel.swift in Sources */,
+				6D14BDD1267B494300149938 /* Crypto.swift in Sources */,
 				609012882640EE7000419F8E /* UINavigationControllerExtension.swift in Sources */,
 				609012892640EE7000419F8E /* NavigationManagement.swift in Sources */,
 				6090128A2640EE7000419F8E /* DateExtension.swift in Sources */,

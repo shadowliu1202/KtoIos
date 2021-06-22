@@ -15,6 +15,7 @@ protocol WithdrawalUseCase {
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String>
     func getCryptoBankCards() -> Single<[CryptoBankCard]>
     func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
+    func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
@@ -70,5 +71,9 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     
     func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String> {
         return withdrawalRepository.addCryptoBankCard(currency: currency, alias: alias, walletAddress: walletAddress)
+    }
+    
+    func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
+        return withdrawalRepository.getCryptoLimitTransactions()
     }
 }

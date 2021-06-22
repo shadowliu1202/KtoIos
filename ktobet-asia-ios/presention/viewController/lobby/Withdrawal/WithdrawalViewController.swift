@@ -101,6 +101,10 @@ class WithdrawalViewController: UIViewController {
                 dest.cryptoBankCards = cryptoBankCards
                 dest.bankCardType = sender as? BankCardType
             }
+        } else if segue.identifier == CrpytoTransationLogViewController.segueIdentifier {
+            if let dest = segue.destination as? CrpytoTransationLogViewController {
+                dest.crpytoWithdrawalRequirementAmount = crpytoWithdrawalRequirementAmount()
+            }
         }
     }
     
@@ -210,12 +214,11 @@ class WithdrawalViewController: UIViewController {
     }
     
     @objc private func switchToCrpytoTransationLog() {
-        //TODO
-        print("go to crpyto transation log")
+        self.performSegue(withIdentifier: CrpytoTransationLogViewController.segueIdentifier, sender: nil)
     }
     
     private func crpytoWithdrawalRequirementAmount() -> Double? {
-        return self.withdrawalLimits?.cryptoWithdrawalRequests.reduce(0,  {$0 + $1.cryptoAmount})
+        return self.withdrawalLimits?.unresolvedCryptoTurnover().cryptoAmount
     }
     
     private func checkDailyWithdrawalLimit(_ amount: Double, _ count: Int32) {
