@@ -229,12 +229,12 @@ struct WithdrawalAccountBean: Codable {
     let bankID: Int
     let branch, bankName, accountName, accountNumber: String
     let location, address, city: String
-    let status, verifyStatus: Int
+    let verifyStatus: Int
 
     enum CodingKeys: String, CodingKey {
         case playerBankCardID = "playerBankCardId"
         case bankID = "bankId"
-        case branch, bankName, accountName, accountNumber, location, address, city, status, verifyStatus
+        case branch, bankName, accountName, accountNumber, location, address, city, verifyStatus
     }
 }
 

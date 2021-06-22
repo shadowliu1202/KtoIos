@@ -205,7 +205,7 @@ class BankApi: ApiService {
     }
     
     func deleteWithdrawalAccount(playerBankCardId: String) -> Single<ResponseData<Nothing>> {
-        let target = DeleteAPITarget(service: self.url("api/v1/bank-card/\(playerBankCardId)"))
+        let target = DeleteAPITarget(service: self.url("api/bank-card/\(playerBankCardId)"))
         return httpClient.request(target).map(ResponseData<Nothing>.self)
     }
     
