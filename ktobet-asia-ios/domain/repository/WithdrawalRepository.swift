@@ -13,6 +13,8 @@ protocol WithdrawalRepository {
     func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String>
+    func getCryptoBankCards() -> Single<[CryptoBankCard]>
+    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
 }
 
@@ -159,7 +161,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         return bankApi.getWithdrawalAccount().map({ (response: ResponseData<PayloadPage<WithdrawalAccountBean>>) -> [WithdrawalAccount] in
             if let databeans = response.data?.payload {
                 let data: [WithdrawalAccount] = databeans.map {
-                    WithdrawalAccount(accountName: $0.accountName, accountNumber: AccountNumber(value: $0.accountNumber), address: $0.address, bankId: Int32($0.bankID), bankName: $0.bankName, branch: $0.branch, city: $0.city, location: $0.location, playerBankCardId: $0.playerBankCardID, status: Int32($0.status), verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: Int32($0.verifyStatus)))
+                    WithdrawalAccount(accountName: $0.accountName, accountNumber: AccountNumber(value: $0.accountNumber), address: $0.address, bankId: Int32($0.bankID), bankName: $0.bankName, branch: $0.branch, city: $0.city, location: $0.location, playerBankCardId: $0.playerBankCardID, status: 0, verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: Int32($0.verifyStatus)))
                 }
                 return data
             }
@@ -175,6 +177,37 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
         let parameters = ["playerBankCardIds[0]": playerBankCardId]
         return bankApi.deleteWithdrawalAccount(playerBankCardIdDict: parameters).asCompletable()
+    }
+    
+    func getCryptoBankCards() -> Single<[CryptoBankCard]> {
+        return cpsApi.getCryptoBankCard().map { (response) -> [CryptoBankCard] in
+            guard let data = response.data?.payload else { return [] }
+            return data.map{ $0.toCryptoBankCard() }
+        }
+    }
+    
+    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String> {
+        let cryptoBankCardRequest = CryptoBankCardRequest(cryptoCurrency: indexOf(currency: currency), cryptoWalletName: alias, cryptoWalletAddress: walletAddress)
+        return cpsApi.getCryptoBankCard().flatMap { (response) -> Single<String> in
+            guard let data = response.data?.payload else { return Single<String>.error(KTOError.EmptyData) }
+            if data.map({ $0.toCryptoBankCard().walletAddress }).contains(walletAddress) {
+                return Single<String>.error(KTOError.EmptyData)
+            } else {
+                return self.cpsApi.createCryptoBankCard(cryptoBankCardRequest: cryptoBankCardRequest).map { (response) -> String in
+                    guard let data = response.data else { return "" }
+                    return data
+                }
+            }
+        }
+    }
+    
+    private func indexOf(currency: Crypto) -> Int {
+        switch currency {
+        case .Ethereum():
+            return 1001
+        default:
+            return 0
+        }
     }
     
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {

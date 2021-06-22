@@ -311,6 +311,10 @@ class DIContainer {
             let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
             return WithdrawalViewModel(withdrawalUseCase: withdrawalUseCase, localStorageRepository: repoLocalStorage)
         }
+        ctner.register(ManageCryptoBankCardViewModel.self) { (resolver) in
+            let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
+            return ManageCryptoBankCardViewModel(withdrawalUseCase: withdrawalUseCase)
+        }
         ctner.register(AddBankViewModel.self) { (resolver) in
             return AddBankViewModel(ctner.resolve(AuthenticationUseCase.self)!,
                                     ctner.resolve(BankUseCase.self)!,

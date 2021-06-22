@@ -19,7 +19,9 @@ class WithdrawalViewController: UIViewController {
     @IBOutlet private weak var withdrawalRecordTableView: UITableView!
     @IBOutlet private weak var constraintWithdrawalRecordTableHeight: NSLayoutConstraint!
     private var accounts: [WithdrawalAccount]?
+    private var cryptoBankCards: [CryptoBankCard]?
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
+    fileprivate var bandCardviewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     private var withdrawalLimits: WithdrawalLimits?
     
@@ -75,6 +77,7 @@ class WithdrawalViewController: UIViewController {
         recordDataBinding()
         showAllRecordEvenhandler()
         recordDataEvenhandler()
+        cryptoWithdrawlDataBinding()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -95,6 +98,8 @@ class WithdrawalViewController: UIViewController {
         } else if segue.identifier == WithdrawlLandingViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawlLandingViewController {
                 dest.accounts = accounts
+                dest.cryptoBankCards = cryptoBankCards
+                dest.bankCardType = sender as? BankCardType
             }
         } else if segue.identifier == CrpytoTransationLogViewController.segueIdentifier {
             if let dest = segue.destination as? CrpytoTransationLogViewController {
@@ -129,6 +134,14 @@ class WithdrawalViewController: UIViewController {
         crpytoView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
     }
     
+    fileprivate func cryptoWithdrawlDataBinding() {
+        bandCardviewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
+            self?.cryptoBankCards = cryptoBankCards
+        } onError: { (error) in
+            self.handleUnknownError(error)
+        }.disposed(by: disposeBag)
+    }
+    
     fileprivate func withdrawViewEnable(_ enable: Bool) {
         if enable {
             self.withdrawView.alpha = 1
@@ -149,7 +162,7 @@ class WithdrawalViewController: UIViewController {
                             self.dismiss(animated: true, completion: nil)
                        }, cancel: nil)
         } else {
-            self.performSegue(withIdentifier: WithdrawlLandingViewController.segueIdentifier, sender: nil)
+            self.performSegue(withIdentifier: WithdrawlLandingViewController.segueIdentifier, sender: BankCardType.general)
         }
     }
     
@@ -166,8 +179,7 @@ class WithdrawalViewController: UIViewController {
     }
     
     @objc fileprivate func crpytoTap(_ sender: UITapGestureRecognizer) {
-        //TODO
-        print("go to crypto withdrawal")
+        self.performSegue(withIdentifier: WithdrawlLandingViewController.segueIdentifier, sender: BankCardType.crypto)
     }
     
     fileprivate func withdrawalLimitationDataBinding() {
@@ -261,4 +273,10 @@ class WithdrawalViewController: UIViewController {
             self?.withdrawalRecordTableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }
+}
+
+
+enum BankCardType: String {
+    case crypto = "crypto"
+    case general = "general"
 }

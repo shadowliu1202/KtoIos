@@ -36,6 +36,24 @@ class CPSApi: ApiService {
         return httpClient.request(target).map(ResponseData<CryptoDepositReceipt>.self)
     }
     
+    func getCryptoBankCard() -> Single<ResponseData<PayloadPage<CryptoBankCardBean>>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/crypto-bank-card",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<PayloadPage<CryptoBankCardBean>>.self)
+    }
+    
+    func createCryptoBankCard(cryptoBankCardRequest: CryptoBankCardRequest) -> Single<ResponseData<String>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/crypto-bank-card",
+                               method: .post,
+                               task: .requestJSONEncodable(cryptoBankCardRequest),
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<String>.self)
+    }
+    
     func getCryptoWithdrawalLimitTransactions() -> Single<NonNullResponseData<CryptoWithdrawalTransaction>> {
         let target = GetAPITarget(service: self.url("\(prefixW)/crypto-transaction-success-log"))
         return httpClient.request(target).map(NonNullResponseData<CryptoWithdrawalTransaction>.self)
