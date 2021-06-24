@@ -58,5 +58,10 @@ class CPSApi: ApiService {
         let target = GetAPITarget(service: self.url("\(prefixW)/crypto-transaction-success-log"))
         return httpClient.request(target).map(NonNullResponseData<CryptoWithdrawalTransaction>.self)
     }
+    
+    func getCryptoExchangeRate(_ cryptoCurrencyId: Int) -> Single<NonNullResponseData<Double>> {
+        let target = GetAPITarget(service: self.url("api/crypto-currency-rate/\(cryptoCurrencyId)"))
+        return httpClient.request(target).map(NonNullResponseData<Double>.self)
+    }
 }
 

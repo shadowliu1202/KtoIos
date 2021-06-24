@@ -16,6 +16,7 @@ protocol WithdrawalUseCase {
     func getCryptoBankCards() -> Single<[CryptoBankCard]>
     func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
+    func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate>
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
@@ -75,5 +76,9 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
         return withdrawalRepository.getCryptoLimitTransactions()
+    }
+    
+    func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate> {
+        return withdrawalRepository.getCryptoExchangeRate(cryptoCurrency)
     }
 }
