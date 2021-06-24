@@ -16,6 +16,7 @@ protocol WithdrawalRepository {
     func getCryptoBankCards() -> Single<[CryptoBankCard]>
     func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
+    func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate>
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
@@ -212,5 +213,9 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
         return cpsApi.getCryptoWithdrawalLimitTransactions().map({ $0.data.toCryptoWithdrawalLimitLog() })
+    }
+    
+    func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate> {
+        return cpsApi.getCryptoExchangeRate(cryptoCurrency.currencyId).map({ CryptoExchangeRate.init(crypto: cryptoCurrency, rate: $0.data) })
     }
 }

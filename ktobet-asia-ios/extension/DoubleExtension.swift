@@ -27,6 +27,7 @@ extension Double {
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = precision
         numberFormatter.maximumFractionDigits = maximumFractionDigits
+        numberFormatter.roundingMode = .down
         
         return numberFormatter.string(from: self as NSNumber)!
     }

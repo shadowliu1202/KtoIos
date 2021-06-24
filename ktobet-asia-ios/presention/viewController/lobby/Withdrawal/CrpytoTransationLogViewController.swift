@@ -109,7 +109,7 @@ extension CrpytoTransationLogViewController: UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataSource[indexPath.section][indexPath.row]
-        return tableView.dequeueReusableCell(withIdentifier: "TicketDetailCell", cellType: TicketDetailCell.self).configure(item, isPositive: indexPath.section == 0 ? true : false, localCurrency: viewModel.localCurrency)
+        return tableView.dequeueReusableCell(withIdentifier: "TicketDetailCell", cellType: TicketDetailCell.self).configure(item, isPositive: indexPath.section == 0 ? true : false, localCurrency: viewModel.localCurrency.simpleName)
     }
     
 }

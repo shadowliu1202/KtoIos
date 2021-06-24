@@ -329,6 +329,12 @@ class DIContainer {
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             return WithdrawalRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerDataUseCase: playerUseCase)
         }
+        ctner.register(WithdrawalCryptoRequestViewModel.self) { (resolver) in
+            let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
+            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
+            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            return WithdrawalCryptoRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerUseCase: playerUseCase, localStorageRepository: repoLocalStorage)
+        }
         ctner.register(CasinoViewModel.self) { (resolver) in
             return CasinoViewModel(casinoRecordUseCase: ctner.resolve(CasinoRecordUseCase.self)!, casinoUseCase: ctner.resolve(CasinoUseCase.self)!, memoryCache: MemoryCacheImpl.shared)
         }

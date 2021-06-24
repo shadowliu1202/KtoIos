@@ -78,7 +78,7 @@ class WithdrawlAccountsViewController: UIViewController {
             if self.isEditMode {
                 self.switchToCryptoAccountDetail(data)
             } else {
-                self.performSegue(withIdentifier: WithdrawalRequestViewController.segueIdentifier, sender: data)
+                self.performSegue(withIdentifier: WithdrawalCryptoRequestViewController.segueIdentifier, sender: data)
             }
         }.disposed(by: disposeBag)
         footerBtn.rx.touchUpInside

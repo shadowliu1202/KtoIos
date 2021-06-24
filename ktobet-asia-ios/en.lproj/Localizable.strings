@@ -21,6 +21,8 @@
 "cps_auto_fill_remaining_balance" = "";
 "cps_auto_fill_maximum_limit" = "";
 "cps_auto_fill_daily_limit_maximum" = "";
+"cps_auto_fill_crypto_daily_limit_maximum" = "";
+"cps_auto_fill_crypto_maximum_limit" = "";
 "cps_crypto_account_name" = "";
 "cps_crypto_currency" = "";
 "cps_crypto_delete_hint" = "";
@@ -33,8 +35,18 @@
 "cps_wallet_address" = "";
 "cps_add_account" = "";
 "cps_security_alert" = "";
+"cps_verify_hint" = "";
+"cps_add_hint" = "";
+"cps_bank_card_exist" = "";
 "cps_cash_withdrawal" = "";
 "cps_crpyto_withdrawal" = "";
+"cps_qr_code_read_fail" = "";
+"cps_qr_code_read_fail_content" = "";
+"cps_auto_fill_balance" = "";
+"cps_auto_fill_request" = "";
+"cps_account_status_verified" = "";
+"cps_close_otp_verify_hint" = "";
+"cps_eth_default_bank_card_name" = "";
 
 //MARK: - Common
 "common_kto" = "";
