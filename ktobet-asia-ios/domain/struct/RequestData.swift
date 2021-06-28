@@ -113,3 +113,13 @@ struct CryptoBankCardRequest: Codable {
     var cryptoWalletName: String
     var cryptoWalletAddress: String
 }
+
+struct CryptoWithdrawalRequest: Codable {
+    let playerCryptoBankCardId: String
+    let requestCryptoAmount, requestFiatAmount: Double
+    let cryptoCurrency: Int
+
+    enum CodingKeys: String, CodingKey {
+        case playerCryptoBankCardId, requestFiatAmount, cryptoCurrency, requestCryptoAmount
+    }
+}

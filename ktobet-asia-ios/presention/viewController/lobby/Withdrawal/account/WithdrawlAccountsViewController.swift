@@ -190,6 +190,15 @@ extension WithdrawlAccountsViewController {
                 dest.delegate = self
             }
         }
+        
+        if segue.identifier == WithdrawalCryptoRequestViewController.segueIdentifier {
+            if let dest = segue.destination as? WithdrawalCryptoRequestViewController {
+                if let bankCard = sender as? CryptoBankCard {
+                    dest.bankcardId = bankCard.id_
+                    dest.cryptoCurrency = bankCard.currency
+                }
+            }
+        }
     }
 }
 

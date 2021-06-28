@@ -63,6 +63,10 @@ extension String {
         return Double(self.replacingOccurrences(of: ",", with: ""))
     }
     
+    func currencyAmountToDeciemal() -> Decimal? {
+        return Decimal(string: self.replacingOccurrences(of: ",", with: ""))
+    }
+    
     func toLocalDate() -> Kotlinx_datetimeLocalDate {
         let createDate = self.convertDateTime(format: "yyyy-MM-dd", timeZone: "UTC") ?? Date()
         return Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth())
