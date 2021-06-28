@@ -75,4 +75,11 @@ extension Reactive where Base: UIButton {
     public var touchUpInside: ControlEvent<Void> {
         self.controlEvent(.touchUpInside)
     }
+    
+    public var isValid: Binder<Bool> {
+        return Binder<Bool>(base, binding: { button, enable in
+            button.isValid = enable
+        })
+    }
+    
 }

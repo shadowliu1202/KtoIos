@@ -19,6 +19,8 @@ protocol WithdrawalRepository {
     func verifyCryptoBankCard(playerCryptoBankCardId: String, accountType: AccountType) -> Completable
     func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable
     func resendOtp(accountType: AccountType) -> Completable
+    func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate>
+    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
@@ -227,5 +229,19 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
         return cpsApi.getCryptoWithdrawalLimitTransactions().map({ $0.data.toCryptoWithdrawalLimitLog() })
+    }
+    
+    func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate> {
+        return cpsApi.getCryptoExchangeRate(cryptoCurrency.currencyId).map({ CryptoExchangeRate.init(crypto: cryptoCurrency, rate: $0.data) })
+    }
+    
+    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable {
+        let bean = CryptoWithdrawalRequest(playerCryptoBankCardId: playerCryptoBankCardId, requestCryptoAmount: requestCryptoAmount, requestFiatAmount: requestFiatAmount, cryptoCurrency: cryptoCurrency.currencyId)
+        return cpsApi.createCryptoWithdrawal(request: bean).asCompletable().do(onError: { (error) in
+            let exception = ExceptionFactory.create(error)
+            if exception is PlayerWithdrawalRequestCryptoRateChange {
+                throw KtoRequestCryptoRateChange.init()
+            }
+        })
     }
 }

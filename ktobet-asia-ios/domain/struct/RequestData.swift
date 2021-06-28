@@ -123,3 +123,13 @@ struct OTPVerifyRequest: Codable {
     var verifyCode: String
     var accountType: Int
 }
+
+struct CryptoWithdrawalRequest: Codable {
+    let playerCryptoBankCardId: String
+    let requestCryptoAmount, requestFiatAmount: Double
+    let cryptoCurrency: Int
+
+    enum CodingKeys: String, CodingKey {
+        case playerCryptoBankCardId, requestFiatAmount, cryptoCurrency, requestCryptoAmount
+    }
+}
