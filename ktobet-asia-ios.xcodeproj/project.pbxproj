@@ -326,6 +326,10 @@
 		6018F79A2684660C00941BDD /* WithdrawalOTPVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F7982684660C00941BDD /* WithdrawalOTPVerifyViewController.swift */; };
 		6018F79B2684660C00941BDD /* WithdrawalOTPVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F7982684660C00941BDD /* WithdrawalOTPVerifyViewController.swift */; };
 		6018F79C2684660C00941BDD /* WithdrawalOTPVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F7982684660C00941BDD /* WithdrawalOTPVerifyViewController.swift */; };
+		6018F7DC2689774A00941BDD /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
+		6018F7DD2689774A00941BDD /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
+		6018F7DE2689774A00941BDD /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
+		6018F7DF2689774A00941BDD /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
 		602154F925CD3A9300F40D0F /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602154F825CD3A9300F40D0F /* UITableViewExtension.swift */; };
 		602154FA25CD3A9300F40D0F /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602154F825CD3A9300F40D0F /* UITableViewExtension.swift */; };
 		60251AFC261C419600E89EE6 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */; };
@@ -1454,6 +1458,7 @@
 		6018F78A268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoVerifyViewController.swift; sourceTree = "<group>"; };
 		6018F7912683082200941BDD /* CryptoVerifyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoVerifyViewModel.swift; sourceTree = "<group>"; };
 		6018F7982684660C00941BDD /* WithdrawalOTPVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalOTPVerifyViewController.swift; sourceTree = "<group>"; };
+		6018F7DB2689774A00941BDD /* Cps.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Cps.storyboard; sourceTree = "<group>"; };
 		602154F825CD3A9300F40D0F /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
 		60251B03261C41CD00E89EE6 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -1883,6 +1888,7 @@
 				605AC6FF25C019F800873D63 /* Deposit.storyboard */,
 				6D72752625EF7A1C000BF51F /* DepositFilter.storyboard */,
 				6085050026005DAD009394CA /* Withdrawal.storyboard */,
+				6018F7DB2689774A00941BDD /* Cps.storyboard */,
 				603462E72632A23F00F5D1D9 /* Slot.storyboard */,
 				6D5B152E264A8652004138E8 /* Product.storyboard */,
 				6D4083A12652046200BECD0E /* NumberGame.storyboard */,
@@ -2628,6 +2634,7 @@
 				4199A09025AE9918002E2D7E /* Launch.storyboard in Resources */,
 				60251B0F261C427F00E89EE6 /* ImagePicker.storyboard in Resources */,
 				6085050226005DAD009394CA /* Withdrawal.storyboard in Resources */,
+				6018F7DD2689774A00941BDD /* Cps.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2649,6 +2656,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6018F7DC2689774A00941BDD /* Cps.storyboard in Resources */,
 				60BCC2BE25B6821200C56D6E /* slideMenu.storyboard in Resources */,
 				48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */,
 				4840646B258721740064AAC9 /* infoPlist.strings in Resources */,
@@ -2706,6 +2714,7 @@
 				605AC7B525C115BF00873D63 /* Launch.storyboard in Resources */,
 				60251B10261C427F00E89EE6 /* ImagePicker.storyboard in Resources */,
 				6085050326005DAD009394CA /* Withdrawal.storyboard in Resources */,
+				6018F7DE2689774A00941BDD /* Cps.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2737,6 +2746,7 @@
 				609013612640EE7000419F8E /* Launch.storyboard in Resources */,
 				609013622640EE7000419F8E /* ImagePicker.storyboard in Resources */,
 				609013632640EE7000419F8E /* Withdrawal.storyboard in Resources */,
+				6018F7DF2689774A00941BDD /* Cps.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
