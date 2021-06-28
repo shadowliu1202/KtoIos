@@ -56,7 +56,7 @@ class AddCryptoAccountViewController: UIViewController {
             } else {
                 self.viewModel.addCryptoBankCard().subscribe(onSuccess: { (data) in
                     Alert.show(Localize.string("profile_safety_verification_title"), Localize.string("cps_security_alert"), confirm: {
-                        self.performSegue(withIdentifier: WithdrawalCryptoRequestViewController.segueIdentifier, sender: data)
+                        self.performSegue(withIdentifier: WithdrawalCryptoVerifyViewController.segueIdentifier, sender: data)
                     }, cancel: nil)
                 }, onError: { (error) in
                     if (error as? KTOError) == KTOError.EmptyData {
@@ -68,8 +68,8 @@ class AddCryptoAccountViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == WithdrawalCryptoRequestViewController.segueIdentifier {
-            if let dest = segue.destination as? WithdrawalCryptoRequestViewController {
+        if segue.identifier == WithdrawalCryptoVerifyViewController.segueIdentifier {
+            if let dest = segue.destination as? WithdrawalCryptoVerifyViewController {
                 dest.playerCryptoBankCardId = sender as? String
             }
         }

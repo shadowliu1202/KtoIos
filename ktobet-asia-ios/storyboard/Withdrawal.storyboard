@@ -2625,10 +2625,10 @@
             </objects>
             <point key="canvasLocation" x="4422" y="-457"/>
         </scene>
-        <!--Withdrawal Crypto Request View Controller-->
+        <!--Withdrawal Crypto Verify View Controller-->
         <scene sceneID="fhN-DM-eY6">
             <objects>
-                <viewController id="Es0-8w-OVy" customClass="WithdrawalCryptoRequestViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Es0-8w-OVy" customClass="WithdrawalCryptoVerifyViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xiC-4L-vog">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

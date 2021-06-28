@@ -314,10 +314,10 @@
 		600F4A0B264E449300827EB1 /* ServiceStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600F4A09264E449300827EB1 /* ServiceStatusViewModel.swift */; };
 		600F4A0C264E449300827EB1 /* ServiceStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600F4A09264E449300827EB1 /* ServiceStatusViewModel.swift */; };
 		600F4A0D264E449300827EB1 /* ServiceStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600F4A09264E449300827EB1 /* ServiceStatusViewModel.swift */; };
-		6018F78B268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F78A268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift */; };
-		6018F78C268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F78A268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift */; };
-		6018F78D268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F78A268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift */; };
-		6018F78E268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F78A268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift */; };
+		6018F78B268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F78A268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift */; };
+		6018F78C268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F78A268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift */; };
+		6018F78D268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F78A268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift */; };
+		6018F78E268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F78A268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift */; };
 		6018F7922683082200941BDD /* CryptoVerifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F7912683082200941BDD /* CryptoVerifyViewModel.swift */; };
 		6018F7932683082200941BDD /* CryptoVerifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F7912683082200941BDD /* CryptoVerifyViewModel.swift */; };
 		6018F7942683082200941BDD /* CryptoVerifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F7912683082200941BDD /* CryptoVerifyViewModel.swift */; };
@@ -1451,7 +1451,7 @@
 		60095DF025F5CAC600F5DCE6 /* KoyomiCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KoyomiCell.swift; sourceTree = "<group>"; };
 		60095E4525F7273300F5DCE6 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		600F4A09264E449300827EB1 /* ServiceStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceStatusViewModel.swift; sourceTree = "<group>"; };
-		6018F78A268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoRequestViewController.swift; sourceTree = "<group>"; };
+		6018F78A268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoVerifyViewController.swift; sourceTree = "<group>"; };
 		6018F7912683082200941BDD /* CryptoVerifyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoVerifyViewModel.swift; sourceTree = "<group>"; };
 		6018F7982684660C00941BDD /* WithdrawalOTPVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalOTPVerifyViewController.swift; sourceTree = "<group>"; };
 		602154F825CD3A9300F40D0F /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
@@ -2259,7 +2259,7 @@
 			children = (
 				605559BB267C988800FC1749 /* ManageCryptoBankCardViewModel.swift */,
 				6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */,
-				6018F78A268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift */,
+				6018F78A268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift */,
 				6018F7982684660C00941BDD /* WithdrawalOTPVerifyViewController.swift */,
 				6018F7912683082200941BDD /* CryptoVerifyViewModel.swift */,
 			);
@@ -3163,7 +3163,7 @@
 				60072D9325E7A00A001EFDAE /* UploadImageUseCase.swift in Sources */,
 				4199A06925AE9918002E2D7E /* NegotiationResponse.swift in Sources */,
 				41077D9325BA62E30057B340 /* PlayerViewModel.swift in Sources */,
-				6018F78C268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift in Sources */,
+				6018F78C268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift in Sources */,
 				60095DF825F5CAC600F5DCE6 /* KoyomiCell.swift in Sources */,
 				41077D9F25BA63330057B340 /* LocalStorageRepository.swift in Sources */,
 				4199A06A25AE9918002E2D7E /* ServerInvocationHandler.swift in Sources */,
@@ -3469,7 +3469,7 @@
 				60072D9225E7A00A001EFDAE /* UploadImageUseCase.swift in Sources */,
 				607FC20725B142C200180147 /* SystemViewModel.swift in Sources */,
 				418C605B25B92E12009F7101 /* LocalStorageRepository.swift in Sources */,
-				6018F78B268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift in Sources */,
+				6018F78B268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift in Sources */,
 				60095DF725F5CAC600F5DCE6 /* KoyomiCell.swift in Sources */,
 				48AAA14F256E458800E075CA /* SignupLanguageViewController.swift in Sources */,
 				48AAA150256E458800E075CA /* GameInfoRepository.swift in Sources */,
@@ -3759,7 +3759,7 @@
 				60072D9425E7A00A001EFDAE /* UploadImageUseCase.swift in Sources */,
 				605AC78325C115BF00873D63 /* NegotiationResponse.swift in Sources */,
 				605AC78425C115BF00873D63 /* PlayerViewModel.swift in Sources */,
-				6018F78D268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift in Sources */,
+				6018F78D268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift in Sources */,
 				60095DF925F5CAC600F5DCE6 /* KoyomiCell.swift in Sources */,
 				605AC78525C115BF00873D63 /* LocalStorageRepository.swift in Sources */,
 				605AC78625C115BF00873D63 /* ServerInvocationHandler.swift in Sources */,
@@ -4097,7 +4097,7 @@
 				609013352640EE7000419F8E /* PortalApi.swift in Sources */,
 				609013362640EE7000419F8E /* RequestData.swift in Sources */,
 				609013372640EE7000419F8E /* TransportDelegate.swift in Sources */,
-				6018F78E268301CE00941BDD /* WithdrawalCryptoRequestViewController.swift in Sources */,
+				6018F78E268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift in Sources */,
 				609013382640EE7000419F8E /* ReconnectableConnection.swift in Sources */,
 				6DE36B7C26563B9B0058A1BC /* RecentViewController.swift in Sources */,
 				609013392640EE7000419F8E /* CasinoSummaryViewController.swift in Sources */,
