@@ -179,6 +179,12 @@ class NavigationManagement {
         completion?()
     }
     
+    func popToRootViewController(_ completion: (() -> Void)? = nil) {
+        self.viewController.navigationController?.popToRootViewController(animated: true)
+        self.viewController = self.viewController.navigationController?.topViewController
+        completion?()
+    }
+    
     func pushViewController(vc: UIViewController) {
         viewController.navigationController?.pushViewController(vc, animated: true)
         viewController = viewController.navigationController?.topViewController
