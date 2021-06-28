@@ -670,13 +670,13 @@ struct BetSummaryDataResponse: Codable {
     var winLoss: Double
     
     func toUnSettleGameSummary() -> NumberGameSummary.Bet {
-        let time = betTime.convertDateTime()?.convertToKotlinx_datetimeLocalDateTime() ?? Date().convertToKotlinx_datetimeLocalDateTime()
-        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: time, betAmount: CashAmount(amount: stakes), winLoss: nil, hasDetail: hasDetails)
+        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: betLocalTime, betAmount: CashAmount(amount: stakes), winLoss: nil, hasDetail: hasDetails)
     }
     
     func toSettleGameSummary() -> NumberGameSummary.Bet {
-        let time = settleTime.convertDateTime()?.convertToKotlinx_datetimeLocalDateTime() ?? Date().convertToKotlinx_datetimeLocalDateTime()
-        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: time, betAmount: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), hasDetail: hasDetails)
+        let settleLocalTime = (String(self.settleTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: settleLocalTime, betAmount: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), hasDetail: hasDetails)
     }
 }
 
