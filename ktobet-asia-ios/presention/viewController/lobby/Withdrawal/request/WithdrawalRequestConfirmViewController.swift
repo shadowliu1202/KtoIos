@@ -4,15 +4,9 @@ import SharedBu
 
 class WithdrawalRequestConfirmViewController: UIViewController {
     static let segueIdentifier = "toWithdrawalRequestConfirm"
-    @IBOutlet private weak var withdrawalStep1TitleLabel: UILabel!
-    @IBOutlet private weak var withdrawalTitleLabel: UILabel!
-    @IBOutlet private weak var withdrawalBankTextField: InputText!
-    @IBOutlet private weak var withdrawalBankAccountTextField: InputText!
     @IBOutlet private weak var withdrawalAmountLabel: UILabel!
-    @IBOutlet private weak var withdrawalCompleteTitleLabel: UILabel!
     @IBOutlet private weak var withdrawalTodayCountLimitLabel: UILabel!
     @IBOutlet private weak var withdrawalTodayAmountLimitLabel: UILabel!
-    @IBOutlet private weak var showInfoButton: UIButton!
     @IBOutlet private weak var confirmButton: UIButton!
     
     private var viewModel = DI.resolve(WithdrawalRequestViewModel.self)!
@@ -31,28 +25,13 @@ class WithdrawalRequestConfirmViewController: UIViewController {
     }
     
     private func initUI() {
-        withdrawalStep1TitleLabel.text = Localize.string("withdrawal_step2_title_1")
-        withdrawalTitleLabel.text = Localize.string("withdrawal_step2_title_2")
-        withdrawalAmountLabel.text = Localize.string("withdrawal_step2_title_1_tip") + " " + amount
-        withdrawalCompleteTitleLabel.text = Localize.string("withdrawal_step2_afterwithdrawal") + "："
-        withdrawalBankTextField.setIsEdited(false)
-        withdrawalBankTextField.setTitle(Localize.string("withdrawal_bank_name"))
-        withdrawalBankTextField.setContent(account.bankName)
-        withdrawalBankAccountTextField.setIsEdited(false)
-        withdrawalBankAccountTextField.setTitle(Localize.string("withdrawal_account"))
-        withdrawalBankAccountTextField.setContent(account.accountNumber.value)
+        withdrawalAmountLabel.text = amount
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        withdrawalTodayCountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalcount"))\(withdrawalLimits.dailyMaxCount - 1)\(Localize.string("common_times_count"))"
-        withdrawalTodayAmountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalamount"))\((withdrawalLimits.dailyMaxCash.amount - amount.currencyAmountToDouble()!).currencyFormatWithoutSymbol(precision: 2))"
-        showInfoButton.rx.tap.subscribe(onNext: {[weak self] in
-            guard let self = self else { return }
-            Alert.show(Localize.string("withdrawal_quota_title"),
-                       String(format: Localize.string("withdrawal_quota_content"), String(self.withdrawalLimits.dailyCurrentCount), self.withdrawalLimits.dailyCurrentCash.amount.currencyFormatWithoutSymbol(precision: 2)), confirm: nil, cancel: nil)
-        }).disposed(by: self.disposeBag)
-        
+        withdrawalTodayCountLimitLabel.text = Localize.string("common_times_count","\(withdrawalLimits.dailyMaxCount - 1)")
+        withdrawalTodayAmountLimitLabel.text = "\((withdrawalLimits.dailyMaxCash.amount - amount.currencyAmountToDouble()!).currencyFormatWithoutSymbol(precision: 2))"
         self.startActivityIndicator(activityIndicator: self.activityIndicator)
         self.viewModel.isRealNameEditable().subscribe { [weak self] _ in
             guard let self = self else { return }
