@@ -78,7 +78,9 @@ class WithdrawlAccountsViewController: UIViewController {
             if self.isEditMode {
                 self.switchToCryptoAccountDetail(data)
             } else {
-                self.performSegue(withIdentifier: WithdrawalRequestViewController.segueIdentifier, sender: data)
+                Alert.show(Localize.string("profile_safety_verification_title"), Localize.string("cps_security_alert"), confirm: {
+                    self.performSegue(withIdentifier: WithdrawalCryptoRequestViewController.segueIdentifier, sender: data)
+                }, cancel: nil)
             }
         }.disposed(by: disposeBag)
         footerBtn.rx.touchUpInside
@@ -146,7 +148,7 @@ class WithdrawlAccountsViewController: UIViewController {
     }
     
     private func switchToAddCryptoAccount() {
-        self.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: nil)
+        self.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: cryptoBankCards?.count ?? 0)
     }
     
     private func switchToAccountDetail(_ account: WithdrawalAccount) {
@@ -188,6 +190,18 @@ extension WithdrawlAccountsViewController {
         if segue.identifier == AddBankViewController.segueIdentifier {
             if let dest = segue.destination as? AddBankViewController {
                 dest.delegate = self
+            }
+        }
+        
+        if segue.identifier == AddCryptoAccountViewController.segueIdentifier {
+            if let dest = segue.destination as? AddCryptoAccountViewController {
+                dest.bankCardCount = sender as? Int ?? 0
+            }
+        }
+        
+        if segue.identifier == WithdrawalCryptoRequestViewController.segueIdentifier {
+            if let dest = segue.destination as? WithdrawalCryptoRequestViewController {
+                dest.cryptoBankCard = sender as? CryptoBankCard
             }
         }
     }

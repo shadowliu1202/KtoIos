@@ -113,3 +113,13 @@ struct CryptoBankCardRequest: Codable {
     var cryptoWalletName: String
     var cryptoWalletAddress: String
 }
+
+struct AccountVerifyRequest: Codable {
+    var playerCryptoBankCardId: String
+    var accountType: Int
+}
+
+struct OTPVerifyRequest: Codable {
+    var verifyCode: String
+    var accountType: Int
+}

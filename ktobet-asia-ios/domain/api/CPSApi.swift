@@ -58,5 +58,20 @@ class CPSApi: ApiService {
         let target = GetAPITarget(service: self.url("\(prefixW)/crypto-transaction-success-log"))
         return httpClient.request(target).map(NonNullResponseData<CryptoWithdrawalTransaction>.self)
     }
+    
+    func sendAccountVerifyOTP(verifyRequest: AccountVerifyRequest) -> Single<ResponseData<Nothing>> {
+        let target = PostAPITarget(service: self.url("api/crypto-bank-card/send-otp"), parameters: verifyRequest)
+        return httpClient.request(target).map(ResponseData<Nothing>.self)
+    }
+    
+    func verifyOTP(verifyOtp: OTPVerifyRequest) -> Single<ResponseData<Nothing>> {
+        let target = PostAPITarget(service: self.url("api/crypto-bank-card/verify-otp"), parameters: verifyOtp)
+        return httpClient.request(target).map(ResponseData<Nothing>.self)
+    }
+    
+    func resendOTP(type: Int) -> Completable {
+        let target = PostAPITarget(service: self.url("api/crypto-bank-card/resend-otp/\(type)"), parameters: Empty())
+        return httpClient.request(target).asCompletable()
+    }
 }
 

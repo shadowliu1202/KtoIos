@@ -26,10 +26,11 @@ class PlayerRepositoryImpl : PlayerRepository {
         let favorProduct = getDefaultProduct()
         let localization = portalApi.getLocalization()
         let playerInfo = playerApi.getPlayerInfo()
+        let contactInfo = playerApi.getPlayerContact()
         
         return Single
-            .zip(favorProduct, localization, playerInfo)
-            .map { (defaultProduct, responseLocalization, responsePlayerInfo) -> Player in
+            .zip(favorProduct, localization, playerInfo, contactInfo)
+            .map { (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
                 let bindLocale : SupportLocale = {
                     switch responseLocalization.data?.cultureCode{
                     case "zh-cn" :
@@ -41,13 +42,14 @@ class PlayerRepositoryImpl : PlayerRepository {
                     default: return SupportLocale.China()
                     }
                 }()
+                
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",
                                             displayId: responsePlayerInfo.data?.displayId ?? "" ,
                                             withdrawalName: responsePlayerInfo.data?.realName ?? "" ,
                                             level: Int32(responsePlayerInfo.data?.level ?? 0 ),
                                             exp: responsePlayerInfo.data?.exp ?? 0 ,
                                             autoUseCoupon: responsePlayerInfo.data?.isAutoUseCoupon ?? false,
-                                            contact: PlayerInfo.Companion.init().DEFAULT )
+                                            contact: PlayerInfo.Contact.init(email: responseContactInfo.data?.email, mobile: responseContactInfo.data?.mobile) )
                 let player = Player(gameId: responsePlayerInfo.data?.gameId ?? "" ,
                                     playerInfo: playerInfo,
                                     bindLocale: bindLocale,

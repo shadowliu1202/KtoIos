@@ -844,3 +844,8 @@ struct TicketDetail: Codable {
         )
     }
 }
+
+struct ContactInfoBean: Codable {
+    let mobile: String?
+    let email: String?
+}
