@@ -17,6 +17,7 @@ protocol WithdrawalRepository {
     func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
     func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate>
+    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
@@ -217,5 +218,15 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate> {
         return cpsApi.getCryptoExchangeRate(cryptoCurrency.currencyId).map({ CryptoExchangeRate.init(crypto: cryptoCurrency, rate: $0.data) })
+    }
+    
+    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable {
+        let bean = CryptoWithdrawalRequest(playerCryptoBankCardId: playerCryptoBankCardId, requestCryptoAmount: requestCryptoAmount, requestFiatAmount: requestFiatAmount, cryptoCurrency: cryptoCurrency.currencyId)
+        return cpsApi.createCryptoWithdrawal(request: bean).asCompletable().do(onError: { (error) in
+            let exception = ExceptionFactory.create(error)
+            if exception is PlayerWithdrawalRequestCryptoRateChange {
+                throw KtoRequestCryptoRateChange.init()
+            }
+        })
     }
 }

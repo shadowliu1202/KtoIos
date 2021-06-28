@@ -5,6 +5,8 @@ import SharedBu
 
 class WithdrawalCryptoRequestViewController: UIViewController {
     static let segueIdentifier = "toWithdrawalCryptoRequest"
+    var bankcardId: String?
+    var cryptoCurrency: Crypto?
     @IBOutlet private weak var withdrawalStep1TitleLabel: UILabel!
     @IBOutlet private weak var withdrawalTitleLabel: UILabel!
     @IBOutlet weak var exchangeRateView: ExchangeRateView!
@@ -16,7 +18,7 @@ class WithdrawalCryptoRequestViewController: UIViewController {
     @IBOutlet private weak var autoFillButton: UIButton!
     @IBOutlet private weak var nextButton: UIButton!
     
-    private lazy var crypto = Crypto.Ethereum.create()
+    private var crypto: Crypto!
     private lazy var fiat = viewModel.localCurrency
     
     private var viewModel = DI.resolve(WithdrawalCryptoRequestViewModel.self)!
@@ -25,8 +27,14 @@ class WithdrawalCryptoRequestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, icon: .back, customAction: #selector(tapBack))
+        guard let _ = bankcardId else {
+            fatalError("\(type(of: self)) need cardId.")
+        }
+        guard let source = cryptoCurrency else {
+            fatalError("\(type(of: self)) need \(type(of: Crypto.self)) source.")
+        }
+        self.crypto = source
         initUI()
-        dataBinding()
     }
     
     @objc func tapBack() {
@@ -43,6 +51,7 @@ class WithdrawalCryptoRequestViewController: UIViewController {
         setupExchangeUI(stream)
         setupWithdrawalAmountRange(stream)
         setupAutoFillAmount(stream)
+        dataBinding(stream)
     }
     
     private func setupExchangeUI(_ stream: Observable<(WithdrawalLimits, CashAmount, CryptoExchangeRate)>) {
@@ -167,16 +176,16 @@ class WithdrawalCryptoRequestViewController: UIViewController {
     }
     
     private func fillAmounts(cashAmount: CashAmount, cryptoAmount: CryptoAmount) {
-        cryptoView.setAmount(cryptoAmount.cryptoAmount)
-        fiatView.setAmount(cashAmount.amount)
+        cryptoView.setAmount(Decimal(cryptoAmount.cryptoAmount))
+        fiatView.setAmount(Decimal(cashAmount.amount))
     }
     
-    private func dataBinding() {
+    private func dataBinding(_ stream: Observable<(WithdrawalLimits, CashAmount, CryptoExchangeRate)>) {
         exchangeInput.text.subscribe(onNext: { [weak self] (cryptoAmountStr, fiatAmountStr)  in
-            if let cryptoAmountStr = cryptoAmountStr, let cryptoAmount = cryptoAmountStr.currencyAmountToDouble() {
+            if let cryptoAmountStr = cryptoAmountStr, let cryptoAmount = cryptoAmountStr.currencyAmountToDeciemal() {
                 self?.viewModel.inputCryptoAmount = cryptoAmount
             }
-            if let fiatAmountStr = fiatAmountStr, let fiatAmount = fiatAmountStr.currencyAmountToDouble() {
+            if let fiatAmountStr = fiatAmountStr, let fiatAmount = fiatAmountStr.currencyAmountToDeciemal() {
                 self?.viewModel.inputFiatAmount = fiatAmount
             }
         }).disposed(by: disposeBag)
@@ -200,11 +209,20 @@ class WithdrawalCryptoRequestViewController: UIViewController {
         
         viewModel.withdrawalValidation.bind(to: nextButton.rx.isValid).disposed(by: disposeBag)
         
-        nextButton.rx.touchUpInside.bind(onNext: {
-            //TODO: go to crypto request confirm VC
-            print(">>>>>nextButton click")
+        nextButton.rx.touchUpInside.withLatestFrom(stream).bind(onNext: { [weak self] (_, _, cryptoExchangeRate) in
+            guard let `self` = self else {return}
+            let request = RequestConfirm(cardId: self.bankcardId!, crypto: self.crypto, cryptoAmount: self.viewModel.inputCryptoAmount, fiatCurrency: self.fiat, fiatAmount: self.viewModel.inputFiatAmount, exchangeRate: cryptoExchangeRate)
+            self.performSegue(withIdentifier: WithdrawalCryptoRequestConfirmViewController.segueIdentifier, sender: request)
         }).disposed(by: disposeBag)
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == WithdrawalCryptoRequestConfirmViewController.segueIdentifier {
+            if let dest = segue.destination as? WithdrawalCryptoRequestConfirmViewController {
+                dest.source = sender as? RequestConfirm
+            }
+        }
     }
     
     deinit {
@@ -265,8 +283,8 @@ class CurrencyView: UIView {
     
     func setAmount(_ text: String) {
         let str = text.replacingOccurrences(of: ",", with: "")
-        guard var amount = str.currencyAmountToDouble() else {return}
-        let maxmumAmount:Double = 9999999
+        guard var amount = str.currencyAmountToDeciemal() else {return}
+        let maxmumAmount: Decimal = 9999999
         if amount > maxmumAmount {
             amount = maxmumAmount
             textField.text = amount.currencyFormatWithoutSymbol()
@@ -277,24 +295,24 @@ class CurrencyView: UIView {
         }
     }
     
-    func setAmount(_ amount: Double) {
+    func setAmount(_ amount: Decimal) {
         textField.text = currencyFormat(amount)
         textField.sendActions(for: .valueChanged)
     }
     
-    func currencyFormat(_ amount: Double) -> String {
+    func currencyFormat(_ amount: Decimal) -> String {
         fatalError("implements in subclass")
     }
 }
 
 class CryptoView: CurrencyView {
-    override func currencyFormat(_ amount: Double) -> String {
+    override func currencyFormat(_ amount: Decimal) -> String {
         return amount.currencyFormatWithoutSymbol(precision: 0, maximumFractionDigits: 8)
     }
 }
 
 class FiatView: CurrencyView {
-    override func currencyFormat(_ amount: Double) -> String {
+    override func currencyFormat(_ amount: Decimal) -> String {
         return amount.currencyFormatWithoutSymbol(precision: 0, maximumFractionDigits: 2)
     }
 }
@@ -367,7 +385,7 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     }
     
     @objc private func textFieldEditingChanged(_ textField: UITextField) {
-        guard let str = textField.text, let amount = str.currencyAmountToDouble() else {
+        guard let str = textField.text, let amount = str.currencyAmountToDeciemal() else {
             cryptoView.textField.text = "0"
             fiatView.textField.text = "0"
             cryptoView.textField.sendActions(for: .valueChanged)
@@ -377,11 +395,11 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
         
         if textField == cryptoView.textField {
             cryptoView.setAmount(str)
-            let fiatAmount = exchangeRate.exchangeToFiatAmount(cryptoAmount: CryptoAmount.create(cryptoAmount: amount, crypto: crypto)).amount
+            let fiatAmount = Decimal(exchangeRate.exchangeToFiatAmount(cryptoAmount: CryptoAmount.create(cryptoAmount: amount.doubleValue, crypto: crypto)).amount)
             fiatView.setAmount(fiatAmount)
         } else if textField == fiatView.textField {
             fiatView.setAmount(str)
-            let crptoAmount = exchangeRate.exchangeToCryptoAmount(cashAmount: CashAmount(amount: amount)).cryptoAmount
+            let crptoAmount = Decimal(exchangeRate.exchangeToCryptoAmount(cashAmount: CashAmount(amount: amount.doubleValue)).cryptoAmount)
             cryptoView.setAmount(crptoAmount)
         }
     }

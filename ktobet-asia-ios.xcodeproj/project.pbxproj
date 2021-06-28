@@ -1027,6 +1027,14 @@
 		6D385A132684147D00C854CF /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A112684147D00C854CF /* CashAmount.swift */; };
 		6D385A142684147D00C854CF /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A112684147D00C854CF /* CashAmount.swift */; };
 		6D385A152684147D00C854CF /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A112684147D00C854CF /* CashAmount.swift */; };
+		6D385A2126857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A2026857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift */; };
+		6D385A2226857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A2026857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift */; };
+		6D385A2326857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A2026857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift */; };
+		6D385A2426857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A2026857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift */; };
+		6D385A6D2686074F00C854CF /* ExceptionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A6C2686074F00C854CF /* ExceptionFactory.swift */; };
+		6D385A6E2686074F00C854CF /* ExceptionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A6C2686074F00C854CF /* ExceptionFactory.swift */; };
+		6D385A6F2686074F00C854CF /* ExceptionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A6C2686074F00C854CF /* ExceptionFactory.swift */; };
+		6D385A702686074F00C854CF /* ExceptionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D385A6C2686074F00C854CF /* ExceptionFactory.swift */; };
 		6D4083A22652046200BECD0E /* NumberGame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D4083A12652046200BECD0E /* NumberGame.storyboard */; };
 		6D4083A32652046200BECD0E /* NumberGame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D4083A12652046200BECD0E /* NumberGame.storyboard */; };
 		6D4083A42652046200BECD0E /* NumberGame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D4083A12652046200BECD0E /* NumberGame.storyboard */; };
@@ -1586,6 +1594,8 @@
 		6D3859772681ECF400C854CF /* Decimal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decimal.swift; sourceTree = "<group>"; };
 		6D3859972682C6A100C854CF /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		6D385A112684147D00C854CF /* CashAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashAmount.swift; sourceTree = "<group>"; };
+		6D385A2026857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoRequestConfirmViewController.swift; sourceTree = "<group>"; };
+		6D385A6C2686074F00C854CF /* ExceptionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExceptionFactory.swift; sourceTree = "<group>"; };
 		6D4083A12652046200BECD0E /* NumberGame.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NumberGame.storyboard; sourceTree = "<group>"; };
 		6D4083AC2652069E00BECD0E /* NumberGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameViewModel.swift; sourceTree = "<group>"; };
 		6D4083B3265206E300BECD0E /* NumberGameRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameRecordViewModel.swift; sourceTree = "<group>"; };
@@ -2351,6 +2361,7 @@
 				60D476AE260DABF8002EDD4D /* WithdrawalRequestConfirmViewController.swift */,
 				60C0384F260C5CEA00351003 /* WithdrawalRequestViewModel.swift */,
 				6D29221A26806310009404BA /* WithdrawalCryptoRequestViewController.swift */,
+				6D385A2026857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift */,
 				6DC17EC926817356009665B4 /* WithdrawalCryptoRequestViewModel.swift */,
 			);
 			path = request;
@@ -2422,6 +2433,7 @@
 				6D14BDD4267B500600149938 /* CryptoAmount.swift */,
 				6DC17EE726818B04009665B4 /* FiatCurrency.swift */,
 				6D385A112684147D00C854CF /* CashAmount.swift */,
+				6D385A6C2686074F00C854CF /* ExceptionFactory.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2992,6 +3004,7 @@
 				60251AFD261C419600E89EE6 /* ImagePickerViewController.swift in Sources */,
 				60072D8D25E795C3001EFDAE /* ImageRepository.swift in Sources */,
 				6DCEC6C7265E2655005E4F8B /* NumberGameMyBetPageViewController.swift in Sources */,
+				6D385A6E2686074F00C854CF /* ExceptionFactory.swift in Sources */,
 				41077DC925BA63D80057B340 /* SlideMenuViewModel.swift in Sources */,
 				6056E85626451A7800627148 /* SlotFilterViewController.swift in Sources */,
 				41077DAE25BA63780057B340 /* SMSVerifyCodeInputView.swift in Sources */,
@@ -3212,6 +3225,7 @@
 				602B537425E4DFB700AB62C4 /* RemarkTableViewCell.swift in Sources */,
 				6D9E58A2264140C500E6942A /* SlotSeeMoreViewController.swift in Sources */,
 				4199A07225AE9918002E2D7E /* HttpClientProtocol.swift in Sources */,
+				6D385A2226857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */,
 				60251B06261C41CD00E89EE6 /* TableViewCell.swift in Sources */,
 				60D7D7382604799700EF4230 /* WithdrawalPresenter.swift in Sources */,
 				6034628626327E9300F5D1D9 /* CasinoRecordRepository.swift in Sources */,
@@ -3301,6 +3315,7 @@
 				60251AFC261C419600E89EE6 /* ImagePickerViewController.swift in Sources */,
 				60072D8C25E795C3001EFDAE /* ImageRepository.swift in Sources */,
 				6DCEC6C6265E2655005E4F8B /* NumberGameMyBetPageViewController.swift in Sources */,
+				6D385A6D2686074F00C854CF /* ExceptionFactory.swift in Sources */,
 				48AAA113256E458800E075CA /* PlayerRepository.swift in Sources */,
 				6056E85526451A7800627148 /* SlotFilterViewController.swift in Sources */,
 				48AAA114256E458800E075CA /* AuthenticationApi.swift in Sources */,
@@ -3521,6 +3536,7 @@
 				602B537325E4DFB700AB62C4 /* RemarkTableViewCell.swift in Sources */,
 				6D9E58A1264140C500E6942A /* SlotSeeMoreViewController.swift in Sources */,
 				48AAA156256E458800E075CA /* DIContainer.swift in Sources */,
+				6D385A2126857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */,
 				60251B05261C41CD00E89EE6 /* TableViewCell.swift in Sources */,
 				60D7D7372604799700EF4230 /* WithdrawalPresenter.swift in Sources */,
 				6034628526327E9300F5D1D9 /* CasinoRecordRepository.swift in Sources */,
@@ -3594,6 +3610,7 @@
 				60251AFE261C419600E89EE6 /* ImagePickerViewController.swift in Sources */,
 				60072D8E25E795C3001EFDAE /* ImageRepository.swift in Sources */,
 				6DCEC6C8265E2655005E4F8B /* NumberGameMyBetPageViewController.swift in Sources */,
+				6D385A6F2686074F00C854CF /* ExceptionFactory.swift in Sources */,
 				60AE470F25DD15FF00AE9B5E /* StringMapper.swift in Sources */,
 				6056E85726451A7800627148 /* SlotFilterViewController.swift in Sources */,
 				60AE471E25DD164600AE9B5E /* DepositRepository.swift in Sources */,
@@ -3814,6 +3831,7 @@
 				602B537525E4DFB700AB62C4 /* RemarkTableViewCell.swift in Sources */,
 				6D9E58A3264140C500E6942A /* SlotSeeMoreViewController.swift in Sources */,
 				605AC79225C115BF00873D63 /* HttpClientProtocol.swift in Sources */,
+				6D385A2326857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */,
 				60251B07261C41CD00E89EE6 /* TableViewCell.swift in Sources */,
 				60D7D7392604799700EF4230 /* WithdrawalPresenter.swift in Sources */,
 				6034628726327E9300F5D1D9 /* CasinoRecordRepository.swift in Sources */,
@@ -4051,6 +4069,7 @@
 				609012F92640EE7000419F8E /* ConfigurationUseCase.swift in Sources */,
 				609012FA2640EE7000419F8E /* CollectionViewCell.swift in Sources */,
 				609012FB2640EE7000419F8E /* MainDebugViewController.swift in Sources */,
+				6D385A702686074F00C854CF /* ExceptionFactory.swift in Sources */,
 				609012FC2640EE7000419F8E /* SignupPhoneViewController.swift in Sources */,
 				609012FD2640EE7000419F8E /* ArrayExtension.swift in Sources */,
 				609012FE2640EE7000419F8E /* DefaultProductCell.swift in Sources */,
@@ -4103,6 +4122,7 @@
 				609013222640EE7000419F8E /* SystemRepository.swift in Sources */,
 				6D5B14D8264A7B38004138E8 /* SlotSummaryViewController.swift in Sources */,
 				609013232640EE7000419F8E /* CasinoApi.swift in Sources */,
+				6D385A2426857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */,
 				609013242640EE7000419F8E /* CasinoDetailRecordTableViewCell.swift in Sources */,
 				609013252640EE7000419F8E /* RemarkTableViewCell.swift in Sources */,
 				6D38597B2681ECF400C854CF /* Decimal.swift in Sources */,
