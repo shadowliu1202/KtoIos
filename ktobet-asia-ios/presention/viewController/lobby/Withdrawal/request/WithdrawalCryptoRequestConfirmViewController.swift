@@ -51,12 +51,21 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
             .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
             .bind(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
-                self.viewModel.requestCryptoWithdrawal(playerCryptoBankCardId: self.request.cardId, requestCryptoAmount: self.request.cryptoAmount.doubleValue, requestFiatAmount: self.request.fiatAmount.doubleValue, cryptoCurrency: self.request.crypto).subscribe(onCompleted: {
-                    NavigationManagement.sharedInstance.close()
+                self.viewModel.requestCryptoWithdrawal(playerCryptoBankCardId: self.request.cardId, requestCryptoAmount: self.request.cryptoAmount.doubleValue, requestFiatAmount: self.request.fiatAmount.doubleValue, cryptoCurrency: self.request.crypto).subscribe(onCompleted: { [weak self] in
+                    self?.popThenToast()
                 }, onError: { [weak self] (error) in
                     self?.handleKtoError(error)
                 }).disposed(by: self.disposeBag)
             }).disposed(by: disposeBag)
+    }
+    
+    private func popThenToast() {
+        NavigationManagement.sharedInstance.popToRootViewController({
+            if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
+                let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: topVc.view.frame.width, height: 48))
+                toastView.show(on: topVc.view, statusTip: Localize.string("common_request_submitted"), img: UIImage(named: "Success"))
+            }
+        })
     }
     
     private func handleKtoError(_ error: Error) {
