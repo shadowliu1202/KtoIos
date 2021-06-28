@@ -7,9 +7,6 @@ class WithdrawalRequestViewController: UIViewController {
     static let segueIdentifier = "toWithdrawalRequest"
     @IBOutlet private weak var withdrawalStep1TitleLabel: UILabel!
     @IBOutlet private weak var withdrawalTitleLabel: UILabel!
-    @IBOutlet private weak var withdrawalTodayCountLimitLabel: UILabel!
-    @IBOutlet private weak var withdrawalTodayAmountLimitLabel: UILabel!
-    @IBOutlet private weak var showInfoButton: UIButton!
     @IBOutlet private weak var nameLabel: LockInputText!
     @IBOutlet private weak var withdrawalAmountTextField: InputText!
     @IBOutlet private weak var withdrawalAmountErrorLabel: UILabel!
@@ -97,12 +94,6 @@ class WithdrawalRequestViewController: UIViewController {
             guard let self = self else { return }
             self.withdrawalLimits = withdrawalLimits
             self.withdrawalLimitLabel.text = String(format: Localize.string("withdrawal_amount_range"), withdrawalLimits.singleCashMinimum.amount.currencyFormatWithoutSymbol(precision: 2), withdrawalLimits.singleCashMaximum.amount.currencyFormatWithoutSymbol(precision: 2))
-            self.withdrawalTodayCountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalcount"))\(withdrawalLimits.dailyMaxCount)\(Localize.string("common_times_count"))"
-            self.withdrawalTodayAmountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalamount"))\(withdrawalLimits.dailyMaxCash.amount.currencyFormatWithoutSymbol(precision: 2))"
-            self.showInfoButton.rx.tap.subscribe(onNext: {
-                Alert.show(Localize.string("withdrawal_quota_title"),
-                           String(format: Localize.string("withdrawal_quota_content"), String(withdrawalLimits.dailyCurrentCount), withdrawalLimits.dailyCurrentCash.amount.currencyFormatWithoutSymbol(precision: 2)), confirm: nil, cancel: nil)
-            }).disposed(by: self.disposeBag)
         } onError: { (error) in
             self.handleUnknownError(error)
         }.disposed(by: disposeBag)

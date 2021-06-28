@@ -78,10 +78,13 @@ class WithdrawlAccountsViewController: UIViewController {
             if self.isEditMode {
                 self.switchToCryptoAccountDetail(data)
             } else {
-                //TODO: to verify or request
-                Alert.show(Localize.string("profile_safety_verification_title"), Localize.string("cps_security_alert"), confirm: {
-                    self.performSegue(withIdentifier: WithdrawalCryptoVerifyViewController.segueIdentifier, sender: data)
-                }, cancel: nil)
+                if data.bankCard.verifyStatus == PlayerBankCardVerifyStatus.verified {
+                    self.performSegue(withIdentifier: WithdrawalCryptoRequestViewController.segueIdentifier, sender: data)
+                } else {
+                    Alert.show(Localize.string("profile_safety_verification_title"), Localize.string("cps_security_alert"), confirm: {
+                        self.performSegue(withIdentifier: WithdrawalCryptoVerifyViewController.segueIdentifier, sender: data)
+                    }, cancel: nil)
+                }
             }
         }.disposed(by: disposeBag)
         footerBtn.rx.touchUpInside
