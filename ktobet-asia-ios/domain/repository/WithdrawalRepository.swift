@@ -16,6 +16,9 @@ protocol WithdrawalRepository {
     func getCryptoBankCards() -> Single<[CryptoBankCard]>
     func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
+    func verifyCryptoBankCard(playerCryptoBankCardId: String, accountType: AccountType) -> Completable
+    func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable
+    func resendOtp(accountType: AccountType) -> Completable
     func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate>
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable
 }
@@ -201,6 +204,18 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
                 }
             }
         }
+    }
+    
+    func verifyCryptoBankCard(playerCryptoBankCardId: String, accountType: AccountType) -> Completable {
+        cpsApi.sendAccountVerifyOTP(verifyRequest: AccountVerifyRequest(playerCryptoBankCardId: playerCryptoBankCardId, accountType: accountType.rawValue)).asCompletable()
+    }
+    
+    func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable {
+        cpsApi.verifyOTP(verifyOtp: OTPVerifyRequest(verifyCode: verifyCode, accountType: accountType.rawValue)).asCompletable()
+    }
+    
+    func resendOtp(accountType: AccountType) -> Completable {
+        cpsApi.resendOTP(type: accountType.rawValue)
     }
     
     private func indexOf(currency: Crypto) -> Int {

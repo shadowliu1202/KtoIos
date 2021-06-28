@@ -16,6 +16,9 @@ protocol WithdrawalUseCase {
     func getCryptoBankCards() -> Single<[CryptoBankCard]>
     func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
+    func sendCryptoOtpVerify(accountType: AccountType, playerCryptoBankCardId: String) -> Completable
+    func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable
+    func resendOtp(accountType: AccountType) -> Completable
     func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate>
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable
 }
@@ -77,6 +80,18 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
         return withdrawalRepository.getCryptoLimitTransactions()
+    }
+    
+    func sendCryptoOtpVerify(accountType: AccountType, playerCryptoBankCardId: String) -> Completable {
+        return withdrawalRepository.verifyCryptoBankCard(playerCryptoBankCardId: playerCryptoBankCardId, accountType: accountType)
+    }
+    
+    func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable {
+        withdrawalRepository.verifyOtp(verifyCode: verifyCode, accountType: accountType)
+    }
+    
+    func resendOtp(accountType: AccountType) -> Completable {
+        withdrawalRepository.resendOtp(accountType: accountType)
     }
     
     func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate> {

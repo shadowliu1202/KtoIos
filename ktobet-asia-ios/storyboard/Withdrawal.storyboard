@@ -1725,6 +1725,7 @@
                         <segue destination="eni-gm-syK" kind="show" identifier="toAccountDetail" id="9dA-He-1k6"/>
                         <segue destination="9Sl-qK-6iN" kind="show" identifier="toWithdrawalRequest" id="qzm-VM-mtu"/>
                         <segue destination="zKD-DG-8yN" kind="show" identifier="toCryptoAddAccount" id="pWL-dG-JgZ"/>
+                        <segue destination="fFM-m6-UAH" kind="show" identifier="toCryptoRequest" id="eKD-WT-m4x"/>
                         <segue destination="A6u-Dp-sRD" kind="show" identifier="toWithdrawalCryptoRequest" id="GCs-mv-TYw"/>
                     </connections>
                 </viewController>
@@ -2624,6 +2625,24 @@
                 <exit id="fe2-rm-Yr1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4422" y="-457"/>
+        </scene>
+        <!--UIViewController-Es0-8w-OVy-->
+        <scene sceneID="tCH-Mp-E3g">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Cps" referencedIdentifier="UIViewController-Es0-8w-OVy" id="fFM-m6-UAH" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="RYo-iE-WG1"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5my-0V-vjL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="65" y="-1492"/>
+        </scene>
+        <!--SignupPhoneViewController-->
+        <scene sceneID="Snm-Tt-gNj">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="SignupPhoneViewController" storyboardName="Cps" referencedIdentifier="SignupPhoneViewController" id="f17-vk-ov2" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uLF-f9-k0M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-746" y="-1493"/>
         </scene>
         <!--Withdrawal Crypto Request View Controller-->
         <scene sceneID="rt1-Mp-F5k">

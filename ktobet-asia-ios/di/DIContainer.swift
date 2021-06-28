@@ -350,6 +350,9 @@ class DIContainer {
         ctner.register(NumberGameRecordViewModel.self) { (resolver) in
             return NumberGameRecordViewModel(numberGameRecordUseCase: ctner.resolve(NumberGameRecordUseCase.self)!)
         }
+        ctner.register(CryptoVerifyViewModel.self) { (resolver) in
+            return CryptoVerifyViewModel(playerUseCase: ctner.resolve(PlayerDataUseCase.self)!, withdrawalUseCase:  ctner.resolve(WithdrawalUseCase.self)!, systemUseCase: ctner.resolve(GetSystemStatusUseCase.self)!)
+        }
     }
     
     func registLoginView(){

@@ -53,7 +53,7 @@
 //MARK: - Common
 "common_kto" = "KTO";
 "common_accountinfo" = "VIVN个人资料";
-"common_activity" = "VIVN帐户动态";
+"common_activity" = "VIVN账户动态";
 "common_adjustment" = "VIVN调整";
 "common_afterbalance" = "VIVN余额";
 "common_all" = "VIVN全部";
@@ -124,8 +124,8 @@
 "common_pending" = "VIVN处理中";
 "common_pending_2" = "待定";
 "common_pending_hold" = "等待银行处理中";
-"common_player_inactive" = "VIVN您的帐户已被永久关闭，如有疑问请联系在线客服";
-"common_player_suspend" = "VIVN您的帐户被冻结，如有疑问请联系在线客服";
+"common_player_inactive" = "VIVN您的账户已被永久关闭，如有疑问请联系在线客服";
+"common_player_suspend" = "VIVN您的账户被冻结，如有疑问请联系在线客服";
 "common_playerid" = "VIVN玩家ID";
 "common_previous" = "VIVN上一步";
 "common_promotion" = "VIVN优惠";
@@ -158,7 +158,7 @@
 "common_transactionamount" = "VIVN交易金额";
 "common_transactionsummary" = "VIVN费用小计";
 "common_unknowbank" = "VIVN提醒您此银行不在预设列表中，但您仍能使用并待后续人员审核。";
-"common_unregister" = "VIVN您尚未註冊帐戶";
+"common_unregister" = "VIVN您尚未註冊账戶";
 "common_unverified" = "VIVN未验证";
 "common_upload" = "VIVN上传";
 "common_uploadedfile" = "VIVN已上传验证文件";
@@ -252,7 +252,7 @@
 "common_tip_title_warm" = "THTH温馨提示";
 "common_tip_content_bind" = "该设定将与账户绑定，无法更改。";
 "common_tip_title_unfinished" = "当前页面数据未保存，确定要离开？";
-"common_tip_content_unfinished" = "一但删除，此笔帐户数据就不存在";
+"common_tip_content_unfinished" = "一但删除，此笔账户数据就不存在";
 "common_field_must_fill" = "VI此栏位必填";
 "common_field_must_fill_2" = "此为必填栏位。";
 "common_field_format_incorrect" = "VI您所填写的格式不正确";
@@ -264,7 +264,7 @@
 "common_error_try_later" = "VIVN您已多次输入错误，请稍后再试。";
 "common_otp_sent_content" = "VI6位数字的验证码已经发送至";
 "common_notify_logout_title" = "VI登出通知";
-"common_notify_logout_content" = "VI很抱歉，您的帐号已在其它位置登录，请尝试重新登录。";
+"common_notify_logout_content" = "VI很抱歉，您的账号已在其它位置登录，请尝试重新登录。";
 "common_sms_otp_exeed_send_limit" = "VI该手机已达发送上限，请于隔日00:00再试。";
 "common_email_otp_exeed_send_limit" = "VI该邮箱已达发送上限，请于隔日00:00再试。";
 "common_app_version" = "%@-%@";
@@ -299,6 +299,7 @@
 "common_win_amount" = "赢%@";
 "common_lose_amount" = "输%@";
 "common_self_canceled" = "自主取消";
+"common_strike" = "(追号)";
 "common_strike_canceled" = "追号取消";
 "common_other" = "其他";
 "common_confirm_submit" = "确认提交";
@@ -357,6 +358,13 @@
 "common_otp_hint" = "6位数字的验证码将发送至";
 "common_not_set_mobile" = "尚未设定手机";
 "common_not_set_email" = "尚未设定电子邮箱";
+"common_verify_email" = "验证电子邮箱";
+"common_verify_mobile" = "验证手机";
+"common_maintainence_error" = "维护中，请稍后再试";
+"common_verify_finished" = "验证完成";
+"common_add_finished" = "新增完成";
+"common_close_setting_hint" = "是否结束设定？";
+"common_p2p" = "对战";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -371,7 +379,7 @@
 "register_step1_title_1" = "VIVN注册 1/3";
 "register_step1_title_2" = "VIVN选择语言与货币";
 "register_step1_warning" = "VIVN该设定将与账户绑定，无法更改。";
-"register_step1_tips_1" = "VIVN若您已拥有帐户请按这里";
+"register_step1_tips_1" = "VIVN若您已拥有账户请按这里";
 "register_step1_tips_1_highlight" = "VIVN《服务条款》";
 "register_service_down" = "暂时无法注册，请稍后再试。";
 "register_step2_title_1" = "VIVN注册 2/3";
@@ -404,7 +412,7 @@
 
 //MARK: - Login
 "login_account_identity" = "手机/电子邮箱";
-"login_account_remember_me" = "记住我的帐号";
+"login_account_remember_me" = "记住我的账号";
 "login_tips_1" = "VIVN忘记密码，使用";
 "login_tips_1_highlight" = "VIVN重置密码";
 "login_invalid_username_password" = "VIVN用户名或密码不正确";
@@ -445,9 +453,9 @@
 "deposit_setfavorite" = "VIVN将此充值方式设定为常用";
 "deposit_cancelfavorite" = "VIVN取消设定此充值方式为常用";
 "deposit_selectbank" = "VIVN选择充值银行";
-"deposit_offline_step1_title" = "VIVNATM、临柜或银行卡转帐";
+"deposit_offline_step1_title" = "VIVNATM、临柜或银行卡转账";
 "deposit_info_title" = "VIVN填写充值信息";
-"deposit_bankname" = "VIVN充值者银行帐户姓名";
+"deposit_bankname" = "VIVN充值者银行账户姓名";
 "deposit_accountlastfournumber" = "VIVN汇款银行卡尾数四位(选填)";
 "deposit_amount" = "VIVN汇款金额";
 "deposit_offline_step1_tips" = "VIVN充值金额，单笔限额 $ %@ - %@";
@@ -455,14 +463,14 @@
 "deposit_offline_step2_title" = "VIVNKTO收款方信息";
 "deposit_offline_step2_title_tips" = "VIVN请汇入以下提供的银行账户。   ";
 "deposit_receiveinfo" = "VIVN收款讯息";
-"deposit_receivename" = "VIVN收款帐户";
+"deposit_receivename" = "VIVN收款账户";
 "deposit_receivebank" = "VIVN收款银行";
-"deposit_receiveaccount" = "VIVN收款帐号";
+"deposit_receiveaccount" = "VIVN收款账号";
 "deposit_validdeposittime" = "VIVN有效充值时间 ";
 "deposit_remmiterinfo" = "VIVN支付讯息";
 "deposit_remmiterbankaccountname" = "VIVN汇款人姓名";
 "deposit_remmiteramount" = "VIVN支付金额";
-"deposit_offline_step2_warning" = "VIVN请支付此金额，以便资金快速到帐。";
+"deposit_offline_step2_warning" = "VIVN请支付此金额，以便资金快速到账。";
 "deposit_offline_step3_title" = "VIVN已提交申请";
 "deposit_offline_step3_fail" = "提交失敗";
 "deposit_ticketid" = "VIVN充值订单编号  %@";
@@ -554,12 +562,12 @@
 //MARK: - Withdrawal
 "withdrawal_accountnumber" = "THTH账户号码";
 "withdrawal_accountrealname" = "THTH提现姓名";
-"withdrawal_accountsetting_title" = "THTH管理我的提现帐户";
+"withdrawal_accountsetting_title" = "THTH管理我的提现账户";
 "withdrawal_activity" = "THTH提现动态";
-"withdrawal_addaccount" = "THTH新增提现帐户";
+"withdrawal_addaccount" = "THTH新增提现账户";
 "withdrawal_amount" = "THTH提现金额";
-"withdrawal_bankaccountdetail_modal_content" = "THTH一旦删除，此笔提现帐户数据就不存在。";
-"withdrawal_bankaccountdetail_modal_title" = "THTH删除提现帐户?";
+"withdrawal_bankaccountdetail_modal_content" = "THTH一旦删除，此笔提现账户数据就不存在。";
+"withdrawal_bankaccountdetail_modal_title" = "THTH删除提现账户?";
 "withdrawal_bankaccountdetail_title" = "THTH提现账户详情";
 "withdrawal_bankcity" = "THTH银行所在都市";
 "withdrawal_bankstate" = "THTH银行所在省份";
@@ -581,10 +589,10 @@
 "withdrawal_selectbank" = "THTH充值银行";
 "withdrawal_setaccount" = "THTH管理提现账户";
 "withdrawal_setbankaccount_button" = "THTH新增提现账户";
-"withdrawal_setbankaccount_modal_title" = "THTH是否结束新增提现帐户?";
-"withdrawal_setbankaccount_tips" = "THTH您必须先设定银行帐户才能进行提现。";
-"withdrawal_setbankaccount_title" = "THTH设定银行帐户";
-"withdrawal_setbankaccountsuccess_modal_content" = "THTH此帐户资料将不可变更内容只能删除";
+"withdrawal_setbankaccount_modal_title" = "THTH是否结束新增提现账户?";
+"withdrawal_setbankaccount_tips" = "THTH您必须先设定银行账户才能进行提现。";
+"withdrawal_setbankaccount_title" = "THTH设定银行账户";
+"withdrawal_setbankaccountsuccess_modal_content" = "THTH此账户资料将不可变更内容只能删除";
 "withdrawal_setbankaccountsuccess_modal_title" = "THTH新增完成";
 "withdrawal_setnewrealname_modal_content" = "THTH如需要要变更提现姓名，请前往个人设定。";
 "withdrawal_setnewrealname_modal_title" = "THTH是否要变更提现姓名?";
@@ -613,9 +621,9 @@
 "withdrawal_bankcard_locked" = "THTH本账户尚未验证";
 "withdrawal_bankcard_verified" = "本账户已出款成功";
 "withdrawal_bankcard_fail" = "THTH本账户资料不正确";
-"withdrawal_bankcard_delete" = "THTH删除提现帐户";
-"withdrawal_bankcard_delete_confirm_title" = "THTH是否删除提现帐户?";
-"withdrawal_bankcard_delete_confirm_content" = "THTH一但删除，此笔帐户资料就不存在";
+"withdrawal_bankcard_delete" = "THTH删除提现账户";
+"withdrawal_bankcard_delete_confirm_title" = "THTH是否删除提现账户?";
+"withdrawal_bankcard_delete_confirm_content" = "THTH一但删除，此笔账户资料就不存在";
 "withdrawal_bankcard_name_placeholder" = "THTH王大明";
 "withdrawal_bankcard_branch_placeholder" = "THTH上海分行";
 "withdrawal_bankcard_state_placeholder" = "THTH浙江省";
@@ -671,6 +679,7 @@
 "product_losing_amount" = "输 %@";
 "product_bet_id" = "注单编号";
 "product_game_name_id" = "投注游戏(局号)";
+"product_number_game_name_id" = "投注游戏 (期号)";
 "product_bet_content" = "投注内容";
 "product_bet_time" = "下注时间";
 "product_bet_amount" = "投注额";
@@ -1162,7 +1171,7 @@ http";
 "bonus_title_4_2" = "老虎机返现 %@%%";
 "bonus_title_4_3" = "娱乐场返现 %@%%";
 "bonus_use" = "VIVN手动领取";
-"bonus_applicationtrial" = "帐户当前余额:%@元
+"bonus_applicationtrial" = "账户当前余额:%@元
 可获取彩金:%@元
 领取后需要完成投注额:%@元
 计算方式:%@";
@@ -1173,7 +1182,7 @@ http";
 获取红利金额:%@元
 获取红利日期:%@
 投注额要求:
-帐户当前余额:%@元
+账户当前余额:%@元
 可获取彩金:%@元
 领取后需要完成投注额:%@元
 计算方式:%@
@@ -1185,7 +1194,7 @@ http";
 "bonus_historyamount" = "VIVN获取红利金额:%@元";
 "bonus_historydate" = "VIVN获取红利日期:%@";
 "bonus_historybetmutipler" = "VIVN彩金投注额要求";
-"bonus_historytrialbalance" = "VIVN帐户当前余额:%@元";
+"bonus_historytrialbalance" = "VIVN账户当前余额:%@元";
 "bonus_historytrialamount" = "VIVN可获取彩金:%@元";
 "bonus_historytrialrequest" = "VIVN领取后需要完成投注额:%@元";
 "bonus_historytrialachieved" = "当前已完成";

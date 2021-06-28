@@ -15,6 +15,8 @@ class AddCryptoAccountViewController: UIViewController {
     let viewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
     let disposeBag = DisposeBag()
     
+    var bankCardCount: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
@@ -49,13 +51,27 @@ class AddCryptoAccountViewController: UIViewController {
         
         submitButton.rx.tap.subscribe(onNext: {[weak self] in
             guard let self = self else { return }
-            self.viewModel.addCryptoBankCard().subscribe(onSuccess: { (data) in
-                print(data)
-            }, onError: { (error) in
-                if (error as? KTOError) == KTOError.EmptyData {
-                    Alert.show(Localize.string("common_tip_title_warm"), Localize.string("withdrawal_account_exist"), confirm: nil, cancel: nil, tintColor: UIColor.red)
-                }
-            }).disposed(by: self.disposeBag)
+            if self.bankCardCount >= 3 {
+                Alert.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "3"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+            } else {
+                self.viewModel.addCryptoBankCard().subscribe(onSuccess: { (data) in
+                    Alert.show(Localize.string("profile_safety_verification_title"), Localize.string("cps_security_alert"), confirm: {
+                        self.performSegue(withIdentifier: WithdrawalCryptoVerifyViewController.segueIdentifier, sender: data)
+                    }, cancel: nil)
+                }, onError: { (error) in
+                    if (error as? KTOError) == KTOError.EmptyData {
+                        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("withdrawal_account_exist"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+                    }
+                }).disposed(by: self.disposeBag)
+            }
         }).disposed(by: disposeBag)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == WithdrawalCryptoVerifyViewController.segueIdentifier {
+            if let dest = segue.destination as? WithdrawalCryptoVerifyViewController {
+                dest.playerCryptoBankCardId = sender as? String
+            }
+        }
     }
 }

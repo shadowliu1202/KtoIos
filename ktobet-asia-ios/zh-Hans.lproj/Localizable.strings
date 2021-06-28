@@ -53,7 +53,7 @@
 //MARK: - Common
 "common_kto" = "KTO";
 "common_accountinfo" = "个人资料";
-"common_activity" = "帐户活动";
+"common_activity" = "账户活动";
 "common_adjustment" = "调整";
 "common_afterbalance" = "余额";
 "common_all" = "全部";
@@ -124,8 +124,8 @@
 "common_pending" = "处理中";
 "common_pending_2" = "待定";
 "common_pending_hold" = "等待银行处理中";
-"common_player_inactive" = "您的帐户已被永久关闭，如有疑问请联系在线客服";
-"common_player_suspend" = "您的帐户被冻结，如有疑问请联系在线客服";
+"common_player_inactive" = "您的账户已被永久关闭，如有疑问请联系在线客服";
+"common_player_suspend" = "您的账户被冻结，如有疑问请联系在线客服";
 "common_playerid" = "玩家ID";
 "common_previous" = "上一步";
 "common_promotion" = "优惠";
@@ -158,7 +158,7 @@
 "common_transactionamount" = "交易金额";
 "common_transactionsummary" = "费用小计";
 "common_unknowbank" = "提醒您此银行不在预设列表中，但您仍能使用并待后续人员审核。";
-"common_unregister" = "您尚未註冊帐戶";
+"common_unregister" = "您尚未註冊账戶";
 "common_unverified" = "未验证";
 "common_upload" = "上传";
 "common_uploadedfile" = "已上传验证文件";
@@ -252,7 +252,7 @@
 "common_tip_title_warm" = "温馨提示";
 "common_tip_content_bind" = "该设定将与账户绑定，无法更改。";
 "common_tip_title_unfinished" = "当前页面数据未保存，确定要离开？";
-"common_tip_content_unfinished" = "一但删除，此笔帐户数据就不存在";
+"common_tip_content_unfinished" = "一但删除，此笔账户数据就不存在";
 "common_field_must_fill" = "此栏位必填";
 "common_field_must_fill_2" = "此为必填栏位。";
 "common_field_format_incorrect" = "您所填写的格式不正确";
@@ -264,7 +264,7 @@
 "common_error_try_later" = "您已多次输入错误，请稍后再试。";
 "common_otp_sent_content" = "6位数字的验证码已经发送至";
 "common_notify_logout_title" = "登出通知";
-"common_notify_logout_content" = "很抱歉，您的帐号已在其它位置登录，请尝试重新登录。";
+"common_notify_logout_content" = "很抱歉，您的账号已在其它位置登录，请尝试重新登录。";
 "common_sms_otp_exeed_send_limit" = "该手机已达发送上限，请于隔日00:00再试。";
 "common_email_otp_exeed_send_limit" = "该邮箱已达发送上限，请于隔日00:00再试。";
 "common_app_version" = "%@-%@";
@@ -299,6 +299,7 @@
 "common_win_amount" = "赢%@";
 "common_lose_amount" = "输%@";
 "common_self_canceled" = "自主取消";
+"common_strike" = "(追号)";
 "common_strike_canceled" = "追号取消";
 "common_other" = "其他";
 "common_confirm_submit" = "确认提交";
@@ -357,6 +358,13 @@
 "common_otp_hint" = "6位数字的验证码将发送至";
 "common_not_set_mobile" = "尚未设定手机";
 "common_not_set_email" = "尚未设定电子邮箱";
+"common_verify_email" = "验证电子邮箱";
+"common_verify_mobile" = "验证手机";
+"common_maintainence_error" = "维护中，请稍后再试";
+"common_verify_finished" = "验证完成";
+"common_add_finished" = "新增完成";
+"common_close_setting_hint" = "是否结束设定？";
+"common_p2p" = "对战";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -404,7 +412,7 @@
 
 //MARK: - Login
 "login_account_identity" = "手机/电子邮箱";
-"login_account_remember_me" = "记住我的帐号";
+"login_account_remember_me" = "记住我的账号";
 "login_tips_1" = "忘记密码，使用";
 "login_tips_1_highlight" = "重置密码";
 "login_invalid_username_password" = "用户名或密码不正确";
@@ -445,9 +453,9 @@
 "deposit_setfavorite" = "将此充值方式设定为常用";
 "deposit_cancelfavorite" = "取消设定此充值方式为常用";
 "deposit_selectbank" = "选择充值银行";
-"deposit_offline_step1_title" = "ATM、临柜或银行卡转帐";
+"deposit_offline_step1_title" = "ATM、临柜或银行卡转账";
 "deposit_info_title" = "填写充值信息";
-"deposit_bankname" = "充值者银行帐户姓名";
+"deposit_bankname" = "充值者银行账户姓名";
 "deposit_accountlastfournumber" = "汇款银行卡尾数四位(选填)";
 "deposit_amount" = "汇款金额";
 "deposit_offline_step1_tips" = "充值单笔限额： %@ - %@";
@@ -462,7 +470,7 @@
 "deposit_remmiterinfo" = "支付讯息";
 "deposit_remmiterbankaccountname" = "汇款人姓名";
 "deposit_remmiteramount" = "支付金额";
-"deposit_offline_step2_warning" = "请支付此金额，以便资金快速到帐。";
+"deposit_offline_step2_warning" = "请支付此金额，以便资金快速到账。";
 "deposit_offline_step3_title" = "已提交申请";
 "deposit_offline_step3_fail" = "提交失敗";
 "deposit_ticketid" = "充值订单编号 %@";
@@ -554,12 +562,12 @@
 //MARK: - Withdrawal
 "withdrawal_accountnumber" = "账户号码";
 "withdrawal_accountrealname" = "提现姓名";
-"withdrawal_accountsetting_title" = "管理我的提现帐户";
+"withdrawal_accountsetting_title" = "管理我的提现账户";
 "withdrawal_activity" = "提现动态";
-"withdrawal_addaccount" = "新增提现帐户";
+"withdrawal_addaccount" = "新增提现账户";
 "withdrawal_amount" = "提现金额";
-"withdrawal_bankaccountdetail_modal_content" = "一旦删除，此笔提现帐户数据就不存在。";
-"withdrawal_bankaccountdetail_modal_title" = "删除提现帐户?";
+"withdrawal_bankaccountdetail_modal_content" = "一旦删除，此笔提现账户数据就不存在。";
+"withdrawal_bankaccountdetail_modal_title" = "删除提现账户?";
 "withdrawal_bankaccountdetail_title" = "提现账户详情";
 "withdrawal_bankcity" = "银行所在县市";
 "withdrawal_bankstate" = "银行所在省份";
@@ -581,10 +589,10 @@
 "withdrawal_selectbank" = "充值银行";
 "withdrawal_setaccount" = "管理提现账户";
 "withdrawal_setbankaccount_button" = "新增提现账户";
-"withdrawal_setbankaccount_modal_title" = "是否结束新增提现帐户?";
-"withdrawal_setbankaccount_tips" = "您必须先设定银行帐户才能进行提现。";
-"withdrawal_setbankaccount_title" = "设定银行帐户";
-"withdrawal_setbankaccountsuccess_modal_content" = "此帐户资料将不可变更内容只能删除";
+"withdrawal_setbankaccount_modal_title" = "是否结束新增提现账户?";
+"withdrawal_setbankaccount_tips" = "您必须先设定银行账户才能进行提现。";
+"withdrawal_setbankaccount_title" = "设定银行账户";
+"withdrawal_setbankaccountsuccess_modal_content" = "此账户资料将不可变更内容只能删除";
 "withdrawal_setbankaccountsuccess_modal_title" = "新增完成";
 "withdrawal_setnewrealname_modal_content" = "如需要要变更提现姓名，请前往个人设定。";
 "withdrawal_setnewrealname_modal_title" = "是否要变更提现姓名?";
@@ -613,9 +621,9 @@
 "withdrawal_bankcard_locked" = "本账户资料审核中不可删除";
 "withdrawal_bankcard_verified" = "本账户已出款成功";
 "withdrawal_bankcard_fail" = "本账户资料不正确";
-"withdrawal_bankcard_delete" = "删除提现帐户";
-"withdrawal_bankcard_delete_confirm_title" = "是否删除提现帐户?";
-"withdrawal_bankcard_delete_confirm_content" = "一但删除，此笔帐户资料就不存在";
+"withdrawal_bankcard_delete" = "删除提现账户";
+"withdrawal_bankcard_delete_confirm_title" = "是否删除提现账户?";
+"withdrawal_bankcard_delete_confirm_content" = "一但删除，此笔账户资料就不存在";
 "withdrawal_bankcard_name_placeholder" = "王大明";
 "withdrawal_bankcard_branch_placeholder" = "上海分行";
 "withdrawal_bankcard_state_placeholder" = "浙江省";
@@ -671,6 +679,7 @@
 "product_losing_amount" = "输 %@";
 "product_bet_id" = "注单编号";
 "product_game_name_id" = "投注游戏(局号)";
+"product_number_game_name_id" = "投注游戏 (期号)";
 "product_bet_content" = "投注内容";
 "product_bet_time" = "下注时间";
 "product_bet_amount" = "投注额";
@@ -1227,7 +1236,7 @@ http";
 "bonus_title_4_2" = "老虎机返现 %@%%";
 "bonus_title_4_3" = "娱乐场返现 %@%%";
 "bonus_use" = "手动领取";
-"bonus_applicationtrial" = "帐户当前余额:%@元
+"bonus_applicationtrial" = "账户当前余额:%@元
 可获取彩金:%@元
 领取后需要完成投注额:%@元
 计算方式:%@";
@@ -1238,7 +1247,7 @@ http";
 获取红利金额:%@元
 获取红利日期:%@
 投注额要求:
-帐户当前余额:%@元
+账户当前余额:%@元
 可获取彩金:%@元
 领取后需要完成投注额:%@元
 计算方式:%@
@@ -1402,7 +1411,7 @@ http";
 "activitycontent_110" = "充值渠道已變更";
 "activitycontent_121" = "提现次数更改为: %@次";
 "activitycontent_130" = "彩金已发放";
-"activitycontent_140" = "已调整帐户余额";
+"activitycontent_140" = "已调整账户余额";
 "activitycontent_150" = "等级提升, 目前等级%@";
 "activitycontent_72" = "充值失败";
 "activitycontent_120" = "提现限额更改为: %@元";

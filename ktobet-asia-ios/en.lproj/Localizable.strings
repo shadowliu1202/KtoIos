@@ -297,6 +297,7 @@
 "common_win_amount" = "";
 "common_lose_amount" = "";
 "common_self_canceled" = "";
+"common_strike" = "";
 "common_strike_canceled" = "";
 "common_other" = "";
 "common_confirm_submit" = "";
@@ -355,6 +356,13 @@
 "common_otp_hint" = "";
 "common_not_set_mobile" = "";
 "common_not_set_email" = "";
+"common_verify_email" = "";
+"common_verify_mobile" = "";
+"common_maintainence_error" = "";
+"common_verify_finished" = "";
+"common_add_finished" = "";
+"common_close_setting_hint" = "";
+"common_p2p" = "";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "";
@@ -665,6 +673,7 @@
 "product_losing_amount" = "";
 "product_bet_id" = "";
 "product_game_name_id" = "";
+"product_number_game_name_id" = "";
 "product_bet_content" = "";
 "product_bet_time" = "";
 "product_bet_amount" = "";
