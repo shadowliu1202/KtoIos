@@ -47,6 +47,8 @@
 "cps_account_status_verified" = "";
 "cps_close_otp_verify_hint" = "";
 "cps_eth_default_bank_card_name" = "";
+"cps_scan" = "";
+"cps_scan_qrcode" = "";
 
 //MARK: - Common
 "common_kto" = "";

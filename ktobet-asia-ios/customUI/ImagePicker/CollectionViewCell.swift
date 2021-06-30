@@ -5,6 +5,7 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imgBackground : UIImageView!
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var cameraLabel: UILabel!
+    @IBOutlet weak var cameraImageView: UIImageView!
     
     private var imageRequestID: PHImageRequestID?
     var indexPath: IndexPath?
