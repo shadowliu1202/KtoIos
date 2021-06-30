@@ -11,12 +11,14 @@ class AddCryptoAccountViewController: UIViewController {
     @IBOutlet weak var accountAddressErrorLabel: UILabel!
     @IBOutlet weak var accountAddressView: UIView!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var qrCodeButton: UIButton!
 
-    let viewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
-    let disposeBag = DisposeBag()
-    
     var bankCardCount: Int = 0
     
+    fileprivate let viewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
+    fileprivate let disposeBag = DisposeBag()
+    fileprivate var imagePickerView: ImagePickerViewController!
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
@@ -65,6 +67,10 @@ class AddCryptoAccountViewController: UIViewController {
                 }).disposed(by: self.disposeBag)
             }
         }).disposed(by: disposeBag)
+        
+        qrCodeButton.rx.tap.subscribe(onNext: {[weak self] in
+            self?.showImagePicker()
+        }).disposed(by: disposeBag)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -73,5 +79,79 @@ class AddCryptoAccountViewController: UIViewController {
                 dest.playerCryptoBankCardId = sender as? String
             }
         }
+    }
+    
+    fileprivate func showImagePicker() {
+        imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
+        imagePickerView.delegate = self
+        imagePickerView.selectedImageLimitCount = 1
+        imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
+        imagePickerView.isHiddenFooterView = true
+        imagePickerView.cameraImage = UIImage(named: "Scan")
+        imagePickerView.cameraText = "扫描"
+        imagePickerView.cameraType = .qrCode
+        imagePickerView.completion = {[weak self] (images) in
+            NavigationManagement.sharedInstance.popViewController()
+            if let features = self?.detectQRCode(images.first), !features.isEmpty {
+                for case let row as CIQRCodeFeature in features {
+                    self?.accountAddressTextField.setContent(row.messageString ?? "")
+                    self?.accountAddressTextField.adjustPosition()
+                }
+            }  else {
+                Alert.show(Localize.string("cps_qr_code_read_fail"), Localize.string("cps_qr_code_read_fail_content"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+
+            }
+        }
+        
+        imagePickerView.qrCodeCompletion = {[weak self] (string) in
+            if let viewControllers = self?.navigationController?.viewControllers {
+                for controller in viewControllers {
+                    if controller.isKind(of: AddCryptoAccountViewController.self) {
+                        NavigationManagement.sharedInstance.popViewController(nil, vc: controller)
+                        NavigationManagement.sharedInstance.viewController = self
+                    }
+                }
+            }
+
+            self?.accountAddressTextField.setContent(string)
+            self?.accountAddressTextField.adjustPosition()
+        }
+        
+        NavigationManagement.sharedInstance.pushViewController(vc: imagePickerView)
+    }
+    
+    fileprivate func detectQRCode(_ image: UIImage?) -> [CIFeature]? {
+        if let image = image, let ciImage = CIImage.init(image: image){
+            var options: [String: Any]
+            let context = CIContext()
+            options = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
+            let qrDetector = CIDetector(ofType: CIDetectorTypeQRCode, context: context, options: options)
+            if ciImage.properties.keys.contains((kCGImagePropertyOrientation as String)){
+                options = [CIDetectorImageOrientation: ciImage.properties[(kCGImagePropertyOrientation as String)] ?? 1]
+            } else {
+                options = [CIDetectorImageOrientation: 1]
+            }
+            let features = qrDetector?.features(in: ciImage, options: options)
+            return features
+
+        }
+        return nil
+    }
+
+}
+
+// MARK: CAMERA EVENT
+extension AddCryptoAccountViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        dismiss(animated: true) {
+            NavigationManagement.sharedInstance.popViewController()
+            if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            }
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
 }

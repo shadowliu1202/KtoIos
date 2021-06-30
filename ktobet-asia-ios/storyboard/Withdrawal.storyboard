@@ -2330,6 +2330,7 @@
                         <outlet property="accountNameErrorLabel" destination="EtO-X6-dYk" id="vNr-DC-jJ1"/>
                         <outlet property="accountNameTextField" destination="abc-to-dnS" id="WX1-uY-LqV"/>
                         <outlet property="cryptoTypeDropDown" destination="xFm-eA-Wrf" id="93j-Qy-eyU"/>
+                        <outlet property="qrCodeButton" destination="Xzl-kh-Omq" id="buH-6j-9Fs"/>
                         <outlet property="submitButton" destination="F6Y-iK-A0S" id="7dd-9y-x1K"/>
                     </connections>
                 </viewController>

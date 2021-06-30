@@ -78,6 +78,7 @@
                                         </collectionViewCellContentView>
                                         <color key="backgroundColor" name="blackFull"/>
                                         <connections>
+                                            <outlet property="cameraImageView" destination="CUV-fk-xnQ" id="SiC-S2-71O"/>
                                             <outlet property="cameraLabel" destination="dcg-F4-zyL" id="SMa-JC-D5z"/>
                                             <outlet property="cameraView" destination="MdI-Wp-miF" id="DeM-lx-r0P"/>
                                             <outlet property="imgBackground" destination="jLs-Jc-kDC" id="IFB-YY-zfW"/>
@@ -208,6 +209,7 @@
                     <connections>
                         <outlet property="collectionView" destination="O4F-0o-iOi" id="jjH-lc-T2I"/>
                         <outlet property="countLabel" destination="2xc-L3-ewX" id="yxU-4a-Ch9"/>
+                        <outlet property="footerView" destination="MD5-Ue-jxS" id="8hf-mY-g3a"/>
                         <outlet property="tableHeight" destination="Bam-fe-Av0" id="qIt-Bl-pjq"/>
                         <outlet property="tableView" destination="hMl-4W-K9I" id="HJI-jD-xrT"/>
                         <outlet property="uploadButton" destination="aw5-7Y-NNw" id="bp9-Ef-h0n"/>
@@ -217,6 +219,21 @@
             </objects>
             <point key="canvasLocation" x="952.79999999999995" y="88.605697151424295"/>
         </scene>
+        <!--Qr Code View Controller-->
+        <scene sceneID="qS2-h2-GXs">
+            <objects>
+                <viewController storyboardIdentifier="qrCodeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4hH-gL-FYd" customClass="qrCodeViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ojt-jX-brd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="skE-Mq-L7h"/>
+                        <color key="backgroundColor" name="blackTwo"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XoH-26-haM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1919" y="111"/>
+        </scene>
     </scenes>
     <resources>
         <image name="iconActionTakePhoto32" width="32" height="32"/>
@@ -224,8 +241,11 @@
         <namedColor name="blackFull">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="blackTwo">
+            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="red">
-            <color red="0.94900000095367432" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="textPrimaryDustyGray">
             <color red="0.60799998044967651" green="0.60799998044967651" blue="0.60799998044967651" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
