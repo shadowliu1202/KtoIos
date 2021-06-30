@@ -46,7 +46,7 @@ class qrCodeViewController: UIViewController {
             view.layer.addSublayer(videoPreviewLayer!)
             
             let titleLabel = UILabel()
-            titleLabel.text = "扫描QR Code"
+            titleLabel.text = Localize.string("cps_scan_qrcode")
             titleLabel.font = UIFont(name: "PingFangSC-Semibold", size: 24)
             titleLabel.textColor = UIColor.white
             titleLabel.textAlignment = .center

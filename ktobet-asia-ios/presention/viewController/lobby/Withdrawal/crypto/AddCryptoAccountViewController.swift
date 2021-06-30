@@ -88,7 +88,7 @@ class AddCryptoAccountViewController: UIViewController {
         imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
         imagePickerView.isHiddenFooterView = true
         imagePickerView.cameraImage = UIImage(named: "Scan")
-        imagePickerView.cameraText = "扫描"
+        imagePickerView.cameraText = Localize.string("cps_scan")
         imagePickerView.cameraType = .qrCode
         imagePickerView.completion = {[weak self] (images) in
             NavigationManagement.sharedInstance.popViewController()
