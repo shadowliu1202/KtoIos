@@ -289,7 +289,7 @@ class CurrencyView: UIView {
             amount = maxmumAmount
             textField.text = amount.currencyFormatWithoutSymbol()
         } else if str.contains(".") {
-            textField.text = str.hasSuffix(".") ? str : currencyFormat(amount)
+            textField.text = str.hasSuffix(".") ? text : currencyFormat(amount)
         } else {
             textField.text = currencyFormat(amount)
         }
@@ -367,30 +367,17 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
         }
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let candidate = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string).replacingOccurrences(of: ",", with: "")
-        if candidate == "" { return true }
-        var format: RegularFormat
-        if textField == cryptoView.textField {
-            format = RegularFormat.cryptoFormat
-        } else {
-            format = RegularFormat.fiatFormat
-        }
-        let isWellFormatted = candidate.range(of: format.rawValue, options: .regularExpression) != nil
-        if isWellFormatted {
-            return true
-        }
-
-        return false
-    }
-    
     @objc private func textFieldEditingChanged(_ textField: UITextField) {
-        guard let str = textField.text, let amount = str.currencyAmountToDeciemal() else {
+        guard let str = textField.text, var amount = str.currencyAmountToDeciemal() else {
             cryptoView.textField.text = "0"
             fiatView.textField.text = "0"
             cryptoView.textField.sendActions(for: .valueChanged)
             fiatView.textField.sendActions(for: .valueChanged)
             return
+        }
+        let maxmumAmount: Decimal = 9999999
+        if amount > maxmumAmount {
+            amount = maxmumAmount
         }
         
         if textField == cryptoView.textField {
@@ -399,8 +386,10 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
             fiatView.setAmount(fiatAmount)
         } else if textField == fiatView.textField {
             fiatView.setAmount(str)
-            let crptoAmount = Decimal(exchangeRate.exchangeToCryptoAmount(cashAmount: CashAmount(amount: amount.doubleValue)).cryptoAmount)
-            cryptoView.setAmount(crptoAmount)
+            if let doubleAmount = fiatView.currencyFormat(amount).currencyAmountToDeciemal()?.doubleValue {
+                let crptoAmount = Decimal(exchangeRate.exchangeToCryptoAmount(cashAmount: CashAmount(amount: doubleAmount)).cryptoAmount)
+                cryptoView.setAmount(crptoAmount)
+            }
         }
     }
     

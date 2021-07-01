@@ -46,6 +46,4 @@ public enum DateType {
 
 public enum RegularFormat: String {
     case currencyFormatWithTwoDecimal = "^[0-9]{1,8}([.][0-9]{0,2})?$"
-    case fiatFormat = "^[0-9]{1,}([.][0-9]{0,2})?$"
-    case cryptoFormat = "^[0-9]{1,}([.][0-9]{0,8})?$"
 }

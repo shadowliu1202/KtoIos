@@ -277,14 +277,10 @@ class CryptoAccountCell: UITableViewCell {
     
     private func getVerifyStatus(status: PlayerBankCardVerifyStatus) -> (text: String, color: UIColor) {
         switch status {
-        case .onhold:
-            return (Localize.string("withdrawal_bankcard_locked"), UIColor.orangeFull)
         case .pending:
             return (Localize.string("withdrawal_bankcard_new"), UIColor.textPrimaryDustyGray)
         case .verified:
-            return (Localize.string("withdrawal_bankcard_verified"), UIColor.textSuccessedGreen)
-        case .void_:
-            return (Localize.string("withdrawal_bankcard_fail"), UIColor.red)
+            return (Localize.string("cps_account_status_verified"), UIColor.textSuccessedGreen)
         default:
             return ("", UIColor.textPrimaryDustyGray)
         }

@@ -232,7 +232,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     }
     
     func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate> {
-        return cpsApi.getCryptoExchangeRate(cryptoCurrency.currencyId).map({ CryptoExchangeRate.init(crypto: cryptoCurrency, rate: $0.data) })
+        return cpsApi.getCryptoExchangeRate(cryptoCurrency.currencyId).map({ CryptoExchangeRate.create(crypto: cryptoCurrency, rate: $0.data) })
     }
     
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable {
