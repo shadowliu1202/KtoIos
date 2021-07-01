@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 
 class WithdrawalCryptoVerifyViewController: UIViewController {
-    static let segueIdentifier = "toCryptoRequest"
+    static let segueIdentifier = "toCryptoVerify"
     
     @IBOutlet private weak var btnPhone: UIButton!
     @IBOutlet private weak var btnEmail: UIButton!

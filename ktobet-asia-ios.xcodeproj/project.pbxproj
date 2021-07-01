@@ -334,6 +334,10 @@
 		6018F848268B815D00941BDD /* qrCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F846268B815D00941BDD /* qrCodeViewController.swift */; };
 		6018F849268B815D00941BDD /* qrCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F846268B815D00941BDD /* qrCodeViewController.swift */; };
 		6018F84A268B815D00941BDD /* qrCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F846268B815D00941BDD /* qrCodeViewController.swift */; };
+		6018F869268C51F500941BDD /* CryptoAccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F868268C51F500941BDD /* CryptoAccountDetailViewController.swift */; };
+		6018F86A268C51F500941BDD /* CryptoAccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F868268C51F500941BDD /* CryptoAccountDetailViewController.swift */; };
+		6018F86B268C51F500941BDD /* CryptoAccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F868268C51F500941BDD /* CryptoAccountDetailViewController.swift */; };
+		6018F86C268C51F500941BDD /* CryptoAccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F868268C51F500941BDD /* CryptoAccountDetailViewController.swift */; };
 		602154F925CD3A9300F40D0F /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602154F825CD3A9300F40D0F /* UITableViewExtension.swift */; };
 		602154FA25CD3A9300F40D0F /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602154F825CD3A9300F40D0F /* UITableViewExtension.swift */; };
 		60251AFC261C419600E89EE6 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */; };
@@ -1488,6 +1492,7 @@
 		6018F7982684660C00941BDD /* WithdrawalOTPVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalOTPVerifyViewController.swift; sourceTree = "<group>"; };
 		6018F7DB2689774A00941BDD /* Cps.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Cps.storyboard; sourceTree = "<group>"; };
 		6018F846268B815D00941BDD /* qrCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = qrCodeViewController.swift; sourceTree = "<group>"; };
+		6018F868268C51F500941BDD /* CryptoAccountDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoAccountDetailViewController.swift; sourceTree = "<group>"; };
 		602154F825CD3A9300F40D0F /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
 		60251B03261C41CD00E89EE6 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -2306,6 +2311,7 @@
 				6018F78A268301CE00941BDD /* WithdrawalCryptoVerifyViewController.swift */,
 				6018F7982684660C00941BDD /* WithdrawalOTPVerifyViewController.swift */,
 				6018F7912683082200941BDD /* CryptoVerifyViewModel.swift */,
+				6018F868268C51F500941BDD /* CryptoAccountDetailViewController.swift */,
 			);
 			path = crypto;
 			sourceTree = "<group>";
@@ -3152,6 +3158,7 @@
 				6034627226327E5A00F5D1D9 /* SearchButtonItem.swift in Sources */,
 				6D3859992682C6A100C854CF /* UITextFieldExtension.swift in Sources */,
 				60C03849260C5CCB00351003 /* WithdrawalRequestViewController.swift in Sources */,
+				6018F86A268C51F500941BDD /* CryptoAccountDetailViewController.swift in Sources */,
 				4199A04E25AE9918002E2D7E /* Operators.swift in Sources */,
 				6090F609267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */,
 				608505402601ADF8009394CA /* WithdrawalRecordDetailViewController.swift in Sources */,
@@ -3465,6 +3472,7 @@
 				6034627126327E5A00F5D1D9 /* SearchButtonItem.swift in Sources */,
 				6D3859982682C6A100C854CF /* UITextFieldExtension.swift in Sources */,
 				60C03848260C5CCB00351003 /* WithdrawalRequestViewController.swift in Sources */,
+				6018F869268C51F500941BDD /* CryptoAccountDetailViewController.swift in Sources */,
 				48AAA138256E458800E075CA /* ResponseData.swift in Sources */,
 				6090F608267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */,
 				6085053F2601ADF8009394CA /* WithdrawalRecordDetailViewController.swift in Sources */,
@@ -3762,6 +3770,7 @@
 				6034627326327E5A00F5D1D9 /* SearchButtonItem.swift in Sources */,
 				6D38599A2682C6A100C854CF /* UITextFieldExtension.swift in Sources */,
 				60C0384A260C5CCB00351003 /* WithdrawalRequestViewController.swift in Sources */,
+				6018F86B268C51F500941BDD /* CryptoAccountDetailViewController.swift in Sources */,
 				605AC76625C115BF00873D63 /* DefaultProductViewModel.swift in Sources */,
 				6090F60A267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */,
 				608505412601ADF8009394CA /* WithdrawalRecordDetailViewController.swift in Sources */,
@@ -3915,6 +3924,7 @@
 				6DCEC7002660CBE9005E4F8B /* NumberGameBetDetailBetStatus.swift in Sources */,
 				6090126B2640EE7000419F8E /* ToastPopUp.swift in Sources */,
 				6090126C2640EE7000419F8E /* CasinoUnsettleRecordsViewController.swift in Sources */,
+				6018F86C268C51F500941BDD /* CryptoAccountDetailViewController.swift in Sources */,
 				6D4083B7265206E300BECD0E /* NumberGameRecordViewModel.swift in Sources */,
 				6090126D2640EE7000419F8E /* SystemViewModel.swift in Sources */,
 				6090126E2640EE7000419F8E /* DictionaryExtension.swift in Sources */,

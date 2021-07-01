@@ -21,6 +21,7 @@ protocol WithdrawalRepository {
     func resendOtp(accountType: AccountType) -> Completable
     func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate>
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable
+    func deleteCryptoBankCard(id: String) -> Completable
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
@@ -32,6 +33,11 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         self.bankApi = bankApi
         self.imageApi = imageApi
         self.cpsApi = cpsApi
+    }
+    
+    func deleteCryptoBankCard(id: String) -> Completable {
+        let bankCardsMap = ["playerCryptoBankCardIds[0]": id]
+        return cpsApi.deleteBankCards(bankCardId: bankCardsMap)
     }
     
     func getWithdrawalLimitation() -> Single<WithdrawalLimits> {

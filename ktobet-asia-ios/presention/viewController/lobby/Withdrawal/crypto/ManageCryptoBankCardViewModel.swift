@@ -23,6 +23,10 @@ class ManageCryptoBankCardViewModel {
         return withdrawalUseCase.addCryptoBankCard(currency: Crypto.Companion.init().create(simpleName: cryptoType.value), alias: accountName.value, walletAddress: accountAddress.value)
     }
     
+    func deleteCryptoAccount(_ playerBankCardId: String) -> Completable {
+        withdrawalUseCase.deleteCryptoBankCard(id: playerBankCardId)
+    }
+    
     func event() -> (accountNameValid: Observable<Bool>,
                      accountAddressValid: Observable<Bool>,
                      cryptoTypeValid: Observable<Bool>,

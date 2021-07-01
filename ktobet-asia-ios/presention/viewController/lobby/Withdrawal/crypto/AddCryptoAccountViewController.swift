@@ -95,6 +95,7 @@ class AddCryptoAccountViewController: UIViewController {
             if let features = self?.detectQRCode(images.first), !features.isEmpty {
                 for case let row as CIQRCodeFeature in features {
                     self?.accountAddressTextField.setContent(row.messageString ?? "")
+                    self?.viewModel.accountAddress.accept(row.messageString ?? "")
                     self?.accountAddressTextField.adjustPosition()
                 }
             }  else {

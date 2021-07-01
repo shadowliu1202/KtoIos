@@ -83,5 +83,10 @@ class CPSApi: ApiService {
         let target = PostAPITarget(service: self.url("api/withdrawal/crypto"), parameters: request)
         return httpClient.request(target).map(ResponseData<String>.self)
     }
+    
+    func deleteBankCards(bankCardId: [String: String]) -> Completable {
+        let target = DeleteAPITarget(service: self.url("api/crypto-bank-card")).parameters(bankCardId)
+        return httpClient.request(target).asCompletable()
+    }
 }
 

@@ -1,5 +1,6 @@
 import Foundation
 import SharedBu
+import UIKit
 
 class StringMapper {
     static let sharedInstance = StringMapper()
@@ -23,6 +24,17 @@ class StringMapper {
             }
         default:
             return ""
+        }
+    }
+    
+    func getVerifyStatus(status: PlayerBankCardVerifyStatus) -> (text: String, color: UIColor) {
+        switch status {
+        case .pending:
+            return (Localize.string("withdrawal_bankcard_new"), UIColor.textPrimaryDustyGray)
+        case .verified:
+            return (Localize.string("cps_account_status_verified"), UIColor.textSuccessedGreen)
+        default:
+            return ("", UIColor.textPrimaryDustyGray)
         }
     }
 }
