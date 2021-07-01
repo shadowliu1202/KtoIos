@@ -208,12 +208,12 @@ struct DepositRecordDetailData: Codable {
         case TransactionType.cryptodeposit:
             let actualCryptoAmount = CryptoExchangeReceipt.init(
                 cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.actualCryptoAmount ?? 0, crypto: .Ethereum()),
-                exchangeRate: CryptoExchangeRate.init(crypto: .Ethereum(), rate: self.actualRate ?? 0),
+                exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.actualRate ?? 0),
                 cashAmount: CashAmount(amount: self.actualFiatAmount ?? 0))
             
             let requestCryptoAmount = CryptoExchangeReceipt.init(
                 cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.requestCryptoAmount ?? 0, crypto: .Ethereum()),
-                exchangeRate: CryptoExchangeRate.init(crypto: .Ethereum(), rate: self.requestRate ?? 0),
+                exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.requestRate ?? 0),
                 cashAmount: CashAmount(amount: self.requestAmount))
             
             return DepositDetail.Crypto.init(
@@ -815,7 +815,7 @@ struct CryptoWithdrawalTransaction: Codable {
     let requestTicketDetails, achievedTicketDetails: [TicketDetail]
     
     func toCryptoWithdrawalLimitLog() -> CryptoWithdrawalLimitLog {
-        return CryptoWithdrawalLimitLog(totalRequestAmount: CryptoAmount.create(cryptoAmount: totalRequestAmount, crypto: Crypto.Ethereum.create()),
+        return CryptoWithdrawalLimitLog(totalRequestAmount: CryptoAmount.create(cryptoAmount: totalRequestAmount, crypto: Crypto.Ethereum.init()),
                                         totalAchievedAmount: CryptoAmount.create(cryptoAmount: totalAchievedAmount, crypto: Crypto.Ethereum.init()),
                                         cryptoWithdrawalRequest: cryptoWithdrawalRequestInfos.map({ CryptoAmount.create(cryptoAmount: $0.withdrawalRequest, crypto: Crypto.Ethereum.init()) }),
                                         requestTicketDetails: requestTicketDetails.map({$0.toCryptoWithdrawalLimitTicketDetail()}),
@@ -837,7 +837,7 @@ struct TicketDetail: Codable {
     func toCryptoWithdrawalLimitTicketDetail() -> CryptoWithdrawalLimitTicketDetail {
         let localApprovedDate = (approvedDate.convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertDateToOffsetDateTime()
         return CryptoWithdrawalLimitTicketDetail(
-            cryptoAmount: CryptoAmount.create(cryptoAmount: cryptoAmount, crypto: Crypto.Ethereum.create()),
+            cryptoAmount: CryptoAmount.create(cryptoAmount: cryptoAmount, crypto: Crypto.Ethereum.init()),
             approvedDate: localApprovedDate,
             displayId: displayID,
             fiatAmount:CashAmount(amount: fiatAmount)
