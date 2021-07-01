@@ -21,6 +21,7 @@ protocol WithdrawalUseCase {
     func resendOtp(accountType: AccountType) -> Completable
     func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate>
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable
+    func deleteCryptoBankCard(id: String) -> Completable
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
@@ -28,6 +29,10 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     
     init(_ withdrawalRepository : WithdrawalRepository) {
         self.withdrawalRepository = withdrawalRepository
+    }
+    
+    func deleteCryptoBankCard(id: String) -> Completable {
+        return withdrawalRepository.deleteCryptoBankCard(id: id)
     }
     
     func getWithdrawalLimitation() -> Single<WithdrawalLimits> {

@@ -39,18 +39,14 @@ class WithdrawlAccountsViewController: UIViewController {
             self.updateUI()
         }
     }
-    private let disposeBag = DisposeBag()
+    fileprivate var bankCardViewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
+    fileprivate var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
         dataBinding()
         updateUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
     }
     
     private func initUI() {
@@ -71,7 +67,13 @@ class WithdrawlAccountsViewController: UIViewController {
     }
     
     private func cryptoDataBinding() {
-        cryptoSource.asObservable().bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
+        let cryptoDataSource = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
+            return self.bankCardViewModel.getCryptoBankCards().asObservable()
+        }).share(replay: 1)
+        cryptoDataSource.subscribe {[weak self] (cryptoBankCards) in
+            self?.cryptoSource.accept(cryptoBankCards)
+        }.disposed(by: disposeBag)
+        cryptoDataSource.asObservable().bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
             return tableView.dequeueReusableCell(withIdentifier: "CryptoAccountCell", cellType: CryptoAccountCell.self).configure(item, self.isEditMode)
         }.disposed(by: disposeBag)
         tableView.rx.modelSelected(CryptoBankCard.self).bind{ [unowned self] (data) in
@@ -107,7 +109,10 @@ class WithdrawlAccountsViewController: UIViewController {
     }
     
     private func generalDataBinding() {
-        source.asObservable().bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
+        let dataSource = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
+            return source.asObservable()
+        }).share(replay: 1)
+        dataSource.asObservable().bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
             return tableView.dequeueReusableCell(withIdentifier: "AccountCell", cellType: AccountCell.self).configure(item, self.isEditMode)
         }.disposed(by: disposeBag)
         tableView.rx.modelSelected(WithdrawalAccount.self).bind{ [unowned self] (data) in
@@ -152,7 +157,11 @@ class WithdrawlAccountsViewController: UIViewController {
     }
     
     private func switchToAddCryptoAccount() {
-        self.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: cryptoBankCards?.count ?? 0)
+        if cryptoSource.value.count >= MAX_ACCOUNT_COUNT {
+            Alert.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "3"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+        } else {
+            self.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: cryptoBankCards?.count ?? 0)
+        }
     }
     
     private func switchToAccountDetail(_ account: WithdrawalAccount) {
@@ -160,7 +169,7 @@ class WithdrawlAccountsViewController: UIViewController {
     }
     
     private func switchToCryptoAccountDetail(_ account: CryptoBankCard) {
-        //TODO: to crypto detail
+        self.performSegue(withIdentifier: CryptoAccountDetailViewController.segueIdentifier, sender: account)
     }
     
     func tapBack() {
@@ -218,6 +227,12 @@ extension WithdrawlAccountsViewController {
                 }
             }
         }
+        
+        if segue.identifier == CryptoAccountDetailViewController.segueIdentifier {
+            if let dest = segue.destination as? CryptoAccountDetailViewController {
+                dest.account = sender as? CryptoBankCard
+            }
+        }
     }
 }
 
@@ -265,7 +280,7 @@ class CryptoAccountCell: UITableViewCell {
     }
     
     func configure(_ item: CryptoBankCard, _ isEditMode: Bool) -> Self {
-        let verifyStatus = getVerifyStatus(status: item.verifyStatus)
+        let verifyStatus = StringMapper.sharedInstance.getVerifyStatus(status: item.verifyStatus)
         self.selectionStyle = .none
         self.bankNameLabel.text = item.name
         self.bankNumLabel.text = item.walletAddress
@@ -273,16 +288,5 @@ class CryptoAccountCell: UITableViewCell {
         self.verifyLabel.text = verifyStatus.text
         self.imgView.isHidden = isEditMode
         return self
-    }
-    
-    private func getVerifyStatus(status: PlayerBankCardVerifyStatus) -> (text: String, color: UIColor) {
-        switch status {
-        case .pending:
-            return (Localize.string("withdrawal_bankcard_new"), UIColor.textPrimaryDustyGray)
-        case .verified:
-            return (Localize.string("cps_account_status_verified"), UIColor.textSuccessedGreen)
-        default:
-            return ("", UIColor.textPrimaryDustyGray)
-        }
     }
 }
