@@ -136,10 +136,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZWG-xo-lad" userLabel="line">
-                                        <rect key="frame" x="78" y="196.5" width="336" height="0.5"/>
+                                        <rect key="frame" x="78" y="196.5" width="336" height="1"/>
                                         <color key="backgroundColor" name="dividerCapeCodGray2"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="0.5" id="CiW-QE-yPP"/>
+                                            <constraint firstAttribute="height" constant="1" id="CiW-QE-yPP"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YPP-we-q7t">
@@ -161,7 +161,7 @@
                                         <color key="textColor" name="whiteFull"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cl7-a7-I3z">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cl7-a7-I3z">
                                         <rect key="frame" x="0.0" y="327" width="414" height="387"/>
                                         <color key="backgroundColor" name="blackTwo"/>
                                         <constraints>
@@ -202,16 +202,27 @@
                                                             <color key="textColor" name="whiteFull"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6k0-AH-gkn" userLabel="line">
+                                                            <rect key="frame" x="0.0" y="79" width="414" height="1"/>
+                                                            <color key="backgroundColor" name="dividerCapeCodGray2"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="1" id="nHd-mW-hBc"/>
+                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="uT1-3h-u2H"/>
+                                                            </constraints>
+                                                        </view>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="jna-FZ-eYB" firstAttribute="trailing" secondItem="moS-8r-a48" secondAttribute="trailing" id="D4w-tv-r7v"/>
+                                                        <constraint firstItem="6k0-AH-gkn" firstAttribute="leading" secondItem="OMG-hR-BZn" secondAttribute="leading" id="N1H-MR-aPk"/>
                                                         <constraint firstItem="8Le-06-GKw" firstAttribute="leading" secondItem="OMG-hR-BZn" secondAttribute="leading" constant="30" id="VIc-ht-wAj"/>
                                                         <constraint firstAttribute="trailing" secondItem="jna-FZ-eYB" secondAttribute="trailing" constant="30" id="XCX-NN-BAX"/>
                                                         <constraint firstItem="jna-FZ-eYB" firstAttribute="top" secondItem="8Le-06-GKw" secondAttribute="top" id="XZI-lN-q8f"/>
                                                         <constraint firstItem="jXk-mb-mUF" firstAttribute="top" secondItem="8Le-06-GKw" secondAttribute="bottom" constant="10" id="eb1-NO-Fju"/>
+                                                        <constraint firstAttribute="bottom" secondItem="6k0-AH-gkn" secondAttribute="bottom" id="fgd-D5-WE7"/>
                                                         <constraint firstItem="moS-8r-a48" firstAttribute="top" secondItem="jna-FZ-eYB" secondAttribute="bottom" constant="6" id="gJr-8y-GtF"/>
                                                         <constraint firstItem="jXk-mb-mUF" firstAttribute="leading" secondItem="8Le-06-GKw" secondAttribute="leading" id="sFS-ta-Udx"/>
                                                         <constraint firstItem="8Le-06-GKw" firstAttribute="top" secondItem="OMG-hR-BZn" secondAttribute="top" constant="16" id="vFV-y1-mjq"/>
+                                                        <constraint firstAttribute="trailing" secondItem="6k0-AH-gkn" secondAttribute="trailing" id="y3O-P0-Pc7"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" name="backgroundListCodGray"/>

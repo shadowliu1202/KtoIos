@@ -41,7 +41,7 @@ class WithdrawalViewController: UIViewController {
                 self.turnoverRequirementLabel.text = Localize.string("cps_turnover_requirement")
                 return
             }
-            let suffix = turnoverRequirement <= 0 ? Localize.string("common_none") : Localize.string("common_requirement", "\(turnoverRequirement)")
+            let suffix = turnoverRequirement <= 0 ? Localize.string("common_none") : Localize.string("common_requirement", "\(turnoverRequirement.currencyFormatWithoutSymbol(precision: 2))")
             self.turnoverRequirementLabel.text = Localize.string("cps_turnover_requirement") + suffix
         }
     }
@@ -51,7 +51,7 @@ class WithdrawalViewController: UIViewController {
             var textColor = UIColor.textPrimaryDustyGray
             var icon = UIImage(named: "Tips")
             if let crpytoWithdrawalRequirement = crpytoWithdrawalRequirement, crpytoWithdrawalRequirement > 0 {
-                suffix = Localize.string("common_requirement", String(format: "%.8f", crpytoWithdrawalRequirement)+"ETH")
+                suffix = Localize.string("common_requirement", crpytoWithdrawalRequirement.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8)+" \(crpytoWithdrawalRequirementCurrencyName())")
                 textColor = UIColor.redForDarkFull
                 icon = UIImage(named: "iconChevronRightRed7")
                 let tap = UITapGestureRecognizer(target: self, action: #selector(switchToCrpytoTransationLog))
@@ -69,6 +69,12 @@ class WithdrawalViewController: UIViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_withdrawal"))
         initUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        withdrawView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
+        crpytoView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,9 +135,7 @@ class WithdrawalViewController: UIViewController {
         withdrawalRecordNoDataLabel.text = Localize.string("withdrawal_no_records")
         withdrawViewEnable(false)
         withdrawalRecordTableView.isHidden = true
-        withdrawView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
         crpytoViewEnable(false)
-        crpytoView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
     }
     
     fileprivate func cryptoWithdrawlDataBinding() {
@@ -191,8 +195,8 @@ class WithdrawalViewController: UIViewController {
         viewModel.getWithdrawalLimitation().subscribe { [weak self] (withdrawalLimits) in
             guard let self = self else { return }
             self.withdrawalLimits = withdrawalLimits
-            self.dailyLimitAmount = "\(withdrawalLimits.dailyMaxCash.amount.currencyFormatWithoutSymbol(precision: 2))"
-            self.dailyMaxCount = "\(withdrawalLimits.dailyMaxCount)"
+            self.dailyLimitAmount = "\(withdrawalLimits.dailyCurrentCash.amount.currencyFormatWithoutSymbol(precision: 2))"
+            self.dailyMaxCount = "\(withdrawalLimits.dailyCurrentCount)"
             self.turnoverRequirement = withdrawalLimits.remainCashTurnover().amount
             self.crpytoWithdrawalRequirement = self.crpytoWithdrawalRequirementAmount()
             self.checkDailyWithdrawalLimit(withdrawalLimits.dailyMaxCash.amount, withdrawalLimits.dailyMaxCount)
@@ -215,6 +219,10 @@ class WithdrawalViewController: UIViewController {
     
     @objc private func switchToCrpytoTransationLog() {
         self.performSegue(withIdentifier: CrpytoTransationLogViewController.segueIdentifier, sender: nil)
+    }
+    
+    private func crpytoWithdrawalRequirementCurrencyName() -> String {
+        return self.withdrawalLimits?.unresolvedCryptoTurnover().cryptoCurrency.simpleName ?? ""
     }
     
     private func crpytoWithdrawalRequirementAmount() -> Double? {
