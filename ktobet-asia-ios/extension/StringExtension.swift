@@ -76,6 +76,7 @@ extension String {
 enum RegexFormat: String {
     case email          = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
     case branchName     = #"[\u4e00-\u9fa5\uff00-\uffffa-zA-Z]{1,31}"#
+    case cryptoAddress   = "^[a-zA-Z0-9_-]*$"
     
     var predicate: NSPredicate {
         let regex = self.rawValue

@@ -62,7 +62,6 @@ class CryptoAccountDetailViewController: UIViewController {
             } onError: {[weak self] (error) in
                 self?.handleUnknownError(error)
             }.disposed(by: self.disposeBag)
-            
         }, onError: {[weak self] (error) in
             self?.handleUnknownError(error)
         }).disposed(by: self.disposeBag)

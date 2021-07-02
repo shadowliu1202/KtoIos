@@ -60,7 +60,7 @@ struct textRowView: View {
                 }
             }
             
-            Spacer().frame(height: 18)
+            Spacer().frame(height: 63)
         }
     }
     
@@ -83,17 +83,26 @@ struct textRowView: View {
         }
     }
     
+    func getFinalConentColor(group: Int, row: Int) -> Color {
+        if group == 1 && row == 0 && finalContentString()![row] != "0.00000000" {
+            return Color(UIColor.alert)
+        } else {
+            return Color(UIColor.whiteFull)
+        }
+    }
+    
     private func applyContentString() -> [String]? {
         guard let data = data else { return nil }
         return [            data.requestCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
                             data.requestCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
                             data.requestCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
-                            data.requestRateDate.formatDateToStringToSecond()]
+                            data.createdDate.formatDateToStringToSecond()]
     }
     
     private func finalContentString() -> [String]? {
         guard let data = data else { return nil }
-        return [ data.actualCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),data.actualCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8), data.actualCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2), data.updatedDate.formatDateToStringToSecond()]
+        return [ data.actualCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
+                 data.actualCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8), data.actualCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2), data.updatedDate.formatDateToStringToSecond()]
     }
 }
 
@@ -169,7 +178,7 @@ struct DepositCryptoDetailView: View {
                                 .foregroundColor(Color(UIColor.textPrimaryDustyGray))
                                 .font(Font.custom("PingFangSC-Regular", size: 12))
                             Text(textView.getTranctionInfoContent(group: groupIndex, row: i))
-                                .foregroundColor(Color(UIColor.whiteFull))
+                                .foregroundColor(textView.getFinalConentColor(group: groupIndex, row: i))
                                 .font(Font.custom("PingFangSC-Regular", size: 16))
                         }
                         

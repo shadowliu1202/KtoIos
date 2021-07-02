@@ -8,6 +8,7 @@ protocol AccountAddComplete: class {
 }
 
 class WithdrawlAccountsViewController: UIViewController {
+    static let unwindSegue = "unwindsegueAccount"
     let MAX_ACCOUNT_COUNT = 3
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -44,6 +45,7 @@ class WithdrawlAccountsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
         initUI()
         dataBinding()
         updateUI()
@@ -160,7 +162,7 @@ class WithdrawlAccountsViewController: UIViewController {
         if cryptoSource.value.count >= MAX_ACCOUNT_COUNT {
             Alert.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "3"), confirm: nil, cancel: nil, tintColor: UIColor.red)
         } else {
-            self.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: cryptoBankCards?.count ?? 0)
+            self.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: cryptoSource.value.count)
         }
     }
     
@@ -178,6 +180,10 @@ class WithdrawlAccountsViewController: UIViewController {
         } else {
             NavigationManagement.sharedInstance.popViewController()
         }
+    }
+    
+    @IBAction func unwindSegueAccount(segue: UIStoryboardSegue) {
+        NavigationManagement.sharedInstance.viewController = self
     }
     
     deinit {
@@ -215,6 +221,7 @@ extension WithdrawlAccountsViewController {
         if segue.identifier == WithdrawalCryptoVerifyViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalCryptoVerifyViewController {
                 dest.cryptoBankCard = sender as? CryptoBankCard
+                dest.bankCardCount = cryptoSource.value.count
             }
         }
         

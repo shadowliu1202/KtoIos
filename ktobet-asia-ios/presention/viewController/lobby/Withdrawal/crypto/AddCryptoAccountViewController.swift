@@ -29,10 +29,16 @@ class AddCryptoAccountViewController: UIViewController {
         cryptoTypeDropDown.setTitle(Localize.string("cps_crypto_currency"))
         accountNameTextField.setTitle(Localize.string("cps_crypto_account_name"))
         accountAddressTextField.setTitle(Localize.string("cps_wallet_address"))
+        accountNameTextField.maxLength = 20
+        accountNameTextField.setCorner(topCorner: true, bottomCorner: true)
+        accountAddressTextField.setCorner(topCorner: true, bottomCorner: true)
         
         (accountNameTextField.text <-> viewModel.accountName).disposed(by: disposeBag)
         (accountAddressTextField.text <-> viewModel.accountAddress).disposed(by: disposeBag)
         (cryptoTypeDropDown.text <-> viewModel.cryptoType).disposed(by: disposeBag)
+        
+        viewModel.cryptoType.accept(supportCry.map{ $0.simpleName }.first ?? "")
+        viewModel.accountName.accept(Localize.string("cps_eth_default_bank_card_name") + "\(bankCardCount + 1)")
         
         let event = viewModel.event()
         event.accountNameValid.subscribe { [weak self] (isValid) in
@@ -40,13 +46,31 @@ class AddCryptoAccountViewController: UIViewController {
             let message = isValid ? "" : Localize.string("common_field_must_fill")
             self?.accountNameErrorLabel.text = message
             self?.accountNameTextField.showUnderline(!isValid)
+            self?.accountNameTextField.setCorner(topCorner: true, bottomCorner: isValid)
         }.disposed(by: disposeBag)
         
-        event.accountAddressValid.subscribe { [weak self] (isValid) in
-            guard let isValid = isValid.element, self?.accountAddressTextField.isEdited ?? false else { return }
-            let message = isValid ? "" : Localize.string("common_field_must_fill")
+        event.accountAddressValid.subscribe { [weak self] (validError) in
+            guard let validError = validError.element, self?.accountAddressTextField.isEdited ?? false else { return }
+            var message = ""
+            var isValid = false
+            switch validError {
+            case .empty:
+                message = Localize.string("common_field_must_fill")
+            case .regex:
+                message = Localize.string("common_invalid")
+            default:
+                isValid = true
+            }
+            
             self?.accountAddressErrorLabel.text = message
             self?.accountAddressTextField.showUnderline(!isValid)
+            self?.accountAddressTextField.setCorner(topCorner: true, bottomCorner: isValid)
+            self?.accountAddressView.setViewCorner(topCorner: true, bottomCorner: isValid)
+            if !isValid {
+                self?.accountAddressView.add(border: .bottom, color: UIColor.orangeFull, width: 1)
+            } else {
+                self?.accountAddressView.remove(border: .bottom)
+            }
         }.disposed(by: disposeBag)
         
         event.dataValid.bind(to: submitButton.rx.valid).disposed(by: disposeBag)
@@ -77,6 +101,7 @@ class AddCryptoAccountViewController: UIViewController {
         if segue.identifier == WithdrawalCryptoVerifyViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalCryptoVerifyViewController {
                 dest.playerCryptoBankCardId = sender as? String
+                dest.bankCardCount = bankCardCount
             }
         }
     }
