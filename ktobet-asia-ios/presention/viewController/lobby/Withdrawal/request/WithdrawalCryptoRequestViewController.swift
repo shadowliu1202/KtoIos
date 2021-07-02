@@ -47,7 +47,9 @@ class WithdrawalCryptoRequestViewController: UIViewController {
     private func initUI() {
         cryptoView = exchangeInput.cryptoView
         fiatView = exchangeInput.fiatView
-        let stream = Observable.combineLatest(viewModel.getWithdrawalLimitation().asObservable(), viewModel.getBalance().asObservable(), viewModel.cryptoCurrency(cryptoCurrency: crypto).asObservable()).share(replay: 1)
+        let stream = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
+            return Observable.combineLatest(viewModel.getWithdrawalLimitation().asObservable(), viewModel.getBalance().asObservable(), viewModel.cryptoCurrency(cryptoCurrency: crypto).asObservable())
+        }).share()
         setupExchangeUI(stream)
         setupWithdrawalAmountRange(stream)
         setupAutoFillAmount(stream)
@@ -289,7 +291,7 @@ class CurrencyView: UIView {
             amount = maxmumAmount
             textField.text = amount.currencyFormatWithoutSymbol()
         } else if str.contains(".") {
-            textField.text = str.hasSuffix(".") ? text : currencyFormat(amount)
+            textField.text = text
         } else {
             textField.text = currencyFormat(amount)
         }
@@ -394,9 +396,16 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let str = textField.text, str.hasSuffix(".") {
-            textField.text = String(str.dropLast())
-            textField.sendActions(for: .valueChanged)
+        if let str = textField.text, str.contains(".") {
+            if str.hasSuffix(".") {
+                textField.text = String(str.dropLast())
+                textField.sendActions(for: .valueChanged)
+            } else {
+                if textField.superview is CurrencyView, let amount = str.currencyAmountToDeciemal() {
+                    textField.text = (textField.superview as! CurrencyView).currencyFormat(amount)
+                    textField.sendActions(for: .valueChanged)
+                }
+            }
         }
     }
     

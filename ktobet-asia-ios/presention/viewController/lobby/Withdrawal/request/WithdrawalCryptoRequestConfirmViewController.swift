@@ -39,7 +39,10 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
             self.dailyCountLabel.text = Localize.string("common_times_count", "\(limits.dailyCurrentCount - 1)")
             let remainingAmount = limits.dailyCurrentCash.amount - self.request.fiatAmount.doubleValue
             self.dailyAmountLabel.text = remainingAmount.currencyFormatWithoutSymbol(precision: 2, maximumFractionDigits: 2)
-            let remainingCryptoRequest = limits.unresolvedCryptoTurnover().cryptoAmount - self.request.cryptoAmount.doubleValue
+            var remainingCryptoRequest = limits.unresolvedCryptoTurnover().cryptoAmount - self.request.cryptoAmount.doubleValue
+            if remainingCryptoRequest < 0 {
+                remainingCryptoRequest = 0
+            }
             self.remainingRequirementLabel.text =  remainingCryptoRequest.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8) + " \(self.request.crypto.simpleName)"
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)
