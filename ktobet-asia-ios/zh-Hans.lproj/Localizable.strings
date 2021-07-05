@@ -1,4 +1,107 @@
 
+//MARK: - CPS
+"cps_kto" = "KTO";
+"cps_daily_limit_widthrawal_amount" = "每日提现额度：%@";
+"cps_daily_limit_widthrawal_times" = "每日提现次数：%@";
+"cps_turnover_requirement" = "投注额提现要求：";
+"cps_crpyto_withdrawal_requirement" = "虚拟币提现要求：";
+"cps_crpyto_withdrawal_requirement_title" = "虚拟币提现要求说明";
+"cps_crpyto_withdrawal_requirement_desc" = "虚拟币提现要求为0时，表示您既可以使用现金提现，也可以使用虚拟币提现。
+
+当您完成虚拟币充值后，虚拟币提现要求将变为等额的充值金额，需要首先完成虚拟币提现后才能使用现金提现。";
+"cps_cash_withdrawal_lock_title" = "现金提现锁定";
+"cps_cash_withdrawal_lock_desc" = "目前尚有%@虚拟币尚未提现结算。需先将虚拟币未结算金额提取完毕，账户才能进行现金提现。";
+"cps_success_log" = "虚拟币交易成功纪录";
+"cps_remaining_requirement" = "剩余虚拟币提现要求：%@ ETH";
+"cps_total_require_amount" = "总虚拟币提现要求（上次清零后累计充值）：%@ ETH";
+"cps_total_completed_amount" = "已完成虚拟币提现要求（上次清零后累计提现）：%@ ETH";
+"cps_require_completed" = "您目前已无剩余虚拟币提现要求，将会跳转至提现首页。";
+"cps_set_crypto_account" = "设定虚拟币账户";
+"cps_set_crypto_account_hint" = "您必须先设定虚拟币账户才能进行提现。";
+"cps_auto_fill_not_enough_balance" = "账户余额不足";
+"cps_auto_fill_remaining_balance" = "您的账户余额低于虚拟币提现要求，将自动填写账户余额。";
+"cps_auto_fill_maximum_limit" = "您的账户余额大于单笔限额，将自动填写单笔限额。";
+"cps_auto_fill_daily_limit_maximum" = "您的账户余额大于今日可提现金额，将自动填写今日可提现金额。";
+"cps_auto_fill_crypto_daily_limit_maximum" = "您的虛擬幣提現要求大於今日可提現金額，將自動填寫今日可提現金額。";
+"cps_auto_fill_crypto_maximum_limit" = "您的虛擬幣提現要求大於單筆限額，將自動填寫單筆限額";
+"cps_crypto_account_name" = "账户别称";
+"cps_crypto_currency" = "虚拟币币别";
+"cps_crypto_delete_hint" = "该虚拟币钱包为已验证状态，删除后重新添加将需要再次验证。";
+"cps_excahange_rate" = "交易汇率";
+"cps_request_withdrawal_crypto_amount" = "本次申请提现金额";
+"cps_request_withdrawal_fiat_amount" = "账户扣除";
+"cps_remaining_crypto_requirement" = "虚拟币需要完成的提现要求";
+"cps_rate_changed" = "汇率已更动";
+"cps_please_refill_amounts" = "请重新确认并填写金额。";
+"cps_wallet_address" = "账户地址";
+"cps_add_account" = "新增虚拟币账户";
+"cps_security_alert" = "为了账户安全，需要进行身份验证。";
+"cps_verify_hint" = "此账户已验成完成，可进行提现。";
+"cps_add_hint" = "此账户资料将不可变更内容只能删除。";
+"cps_bank_card_exist" = "您的提现账户已存在";
+"cps_cash_withdrawal" = "现金提现";
+"cps_crpyto_withdrawal" = "虚拟币提现";
+"cps_qr_code_read_fail" = "读取失败";
+"cps_qr_code_read_fail_content" = "QR Code 读取失败，请重新读取。";
+"cps_auto_fill_balance" = "自动填写目前账户余额";
+"cps_auto_fill_request" = "自动填写虚拟币提现要求";
+"cps_account_status_verified" = "本賬户已验证核可";
+"cps_close_otp_verify_hint" = "尚未完成提现帳戶设定，將無法进行提现";
+"cps_eth_default_bank_card_name" = "以太坊钱包";
+"cps_scan" = "扫描";
+"cps_scan_qrcode" = "扫描QR Code";
+
+//MARK: - CPS
+"cps_kto" = "KTO";
+"cps_daily_limit_widthrawal_amount" = "每日提现额度：%@";
+"cps_daily_limit_widthrawal_times" = "每日提现次数：%@";
+"cps_turnover_requirement" = "投注额提现要求：";
+"cps_crpyto_withdrawal_requirement" = "虚拟币提现要求：";
+"cps_crpyto_withdrawal_requirement_title" = "虚拟币提现要求说明";
+"cps_crpyto_withdrawal_requirement_desc" = "虚拟币提现要求为0时，表示您既可以使用现金提现，也可以使用虚拟币提现。
+
+当您完成虚拟币充值后，虚拟币提现要求将变为等额的充值金额，需要首先完成虚拟币提现后才能使用现金提现。";
+"cps_cash_withdrawal_lock_title" = "现金提现锁定";
+"cps_cash_withdrawal_lock_desc" = "目前尚有%@虚拟币尚未提现结算。需先将虚拟币未结算金额提取完毕，账户才能进行现金提现。";
+"cps_success_log" = "虚拟币交易成功纪录";
+"cps_remaining_requirement" = "剩余虚拟币提现要求：%@ ETH";
+"cps_total_require_amount" = "总虚拟币提现要求（上次清零后累计充值）：%@ ETH";
+"cps_total_completed_amount" = "已完成虚拟币提现要求（上次清零后累计提现）：%@ ETH";
+"cps_require_completed" = "您目前已无剩余虚拟币提现要求，将会跳转至提现首页。";
+"cps_set_crypto_account" = "设定虚拟币账户";
+"cps_set_crypto_account_hint" = "您必须先设定虚拟币账户才能进行提现。";
+"cps_auto_fill_not_enough_balance" = "账户余额不足";
+"cps_auto_fill_remaining_balance" = "您的账户余额低于虚拟币提现要求，将自动填写账户余额。";
+"cps_auto_fill_maximum_limit" = "您的账户余额大于单笔限额，将自动填写单笔限额。";
+"cps_auto_fill_daily_limit_maximum" = "您的账户余额大于今日可提现金额，将自动填写今日可提现金额。";
+"cps_auto_fill_crypto_daily_limit_maximum" = "您的虛擬幣提現要求大於今日可提現金額，將自動填寫今日可提現金額。";
+"cps_auto_fill_crypto_maximum_limit" = "您的虛擬幣提現要求大於單筆限額，將自動填寫單筆限額";
+"cps_crypto_account_name" = "账户别称";
+"cps_crypto_currency" = "虚拟币币别";
+"cps_crypto_delete_hint" = "该虚拟币钱包为已验证状态，删除后重新添加将需要再次验证。";
+"cps_excahange_rate" = "交易汇率";
+"cps_request_withdrawal_crypto_amount" = "本次申请提现金额";
+"cps_request_withdrawal_fiat_amount" = "账户扣除";
+"cps_remaining_crypto_requirement" = "虚拟币需要完成的提现要求";
+"cps_rate_changed" = "汇率已更动";
+"cps_please_refill_amounts" = "请重新确认并填写金额。";
+"cps_wallet_address" = "账户地址";
+"cps_add_account" = "新增虚拟币账户";
+"cps_security_alert" = "为了账户安全，需要进行身份验证。";
+"cps_verify_hint" = "此账户已验成完成，可进行提现。";
+"cps_add_hint" = "此账户资料将不可变更内容只能删除。";
+"cps_bank_card_exist" = "您的提现账户已存在";
+"cps_cash_withdrawal" = "现金提现";
+"cps_crpyto_withdrawal" = "虚拟币提现";
+"cps_qr_code_read_fail" = "读取失败";
+"cps_qr_code_read_fail_content" = "QR Code 读取失败，请重新读取。";
+"cps_auto_fill_balance" = "自动填写目前账户余额";
+"cps_auto_fill_request" = "自动填写虚拟币提现要求";
+"cps_account_status_verified" = "本賬户已验证核可";
+"cps_close_otp_verify_hint" = "尚未完成提现帳戶设定，將無法进行提现";
+"cps_eth_default_bank_card_name" = "以太坊钱包";
+"cps_scan" = "扫描";
+"cps_scan_qrcode" = "扫描QR Code";
 
 //MARK: - CPS
 "cps_kto" = "KTO";
@@ -630,7 +733,7 @@
 "withdrawal_bankcard_branch_placeholder" = "上海分行";
 "withdrawal_bankcard_state_placeholder" = "浙江省";
 "withdrawal_bankcard_city_placeholder" = "上海市";
-"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
+"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
 "withdrawal_bankcard_change_confirm_title" = "是否要变更姓名?";
 "withdrawal_bankcard_change_confirm_content" = "如需要变更姓名，请前往个人设定";
 "withdrawal_step2_title_1_tip" = "本次申请提现金额为";
@@ -749,6 +852,7 @@
 "product_empty_unsettled_records" = "没有未完成的游戏";
 "product_bet_has_settled" = "此注单已完成结算，请您到已结算注单查看。";
 "product_game_maintenance" = "游戏维护中";
+"product_p2p_bonus_calculating" = "已领取红利目前无法进入对战游戏。";
 
 //MARK: - Landing
 "landing_product" = "KTO 产品";
