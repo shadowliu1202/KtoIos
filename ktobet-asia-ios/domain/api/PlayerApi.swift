@@ -27,6 +27,15 @@ class PlayerApi {
         return httpClient.request(target).map(ResponseData<IPlayer>.self)
     }
     
+    func getPlayerContact() -> Single<ResponseData<ContactInfoBean>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/profile/contact-info",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<ContactInfoBean>.self)
+    }
+    
     func setFavoriteProduct(productId: Int)->Completable{
         let target = APITarget(baseUrl: httpClient.baseUrl,
                                path: "api/profile/favorite-product/\(productId)",

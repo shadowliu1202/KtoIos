@@ -7,18 +7,25 @@ class WithdrawlLandingViewController: UIViewController {
     private lazy var emptyViewController: WithdrawlEmptyViewController = {
         let storyboard = UIStoryboard(name: "Withdrawal", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "WithdrawlEmptyViewController") as! WithdrawlEmptyViewController
+        viewController.bankCardType = bankCardType
         self.add(asChildViewController: viewController)
         return viewController
     }()
     private lazy var accountsViewController: WithdrawlAccountsViewController = {
         let storyboard = UIStoryboard(name: "Withdrawal", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "WithdrawlAccountsViewController") as! WithdrawlAccountsViewController
+        viewController.withdrawalAccounts = accounts
+        viewController.cryptoBankCards = cryptoBankCards
+        viewController.bankCardType = bankCardType
+
         self.add(asChildViewController: viewController)
         return viewController
     }()
     fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     var accounts: [WithdrawalAccount]?
+    var cryptoBankCards: [CryptoBankCard]?
+    var bankCardType: BankCardType!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +34,6 @@ class WithdrawlLandingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateView()
         viewModel.withdrawalAccounts().subscribe(onSuccess: { [weak self] (accounts) in
             self?.accounts = accounts
             self?.updateView()
@@ -37,16 +43,35 @@ class WithdrawlLandingViewController: UIViewController {
     }
     
     private func updateView() {
-        if let accounts = accounts, accounts.count > 0 {
-            remove(asChildViewController: emptyViewController)
-            accountsViewController.withdrawalAccounts = accounts
-            add(asChildViewController: accountsViewController)
-        } else {
-            // if accounts count = 0, reset WithdrawlAccountsViewController isEditMode to false
-            accountsViewController.withdrawalAccounts = nil
-            remove(asChildViewController: accountsViewController)
-            add(asChildViewController: emptyViewController)
+        switch bankCardType {
+        case .general:
+            if let accounts = accounts, accounts.count > 0 {
+                addAccountsView()
+            } else {
+                // if accounts count = 0, reset WithdrawlAccountsViewController isEditMode to false
+                addEmptyView()
+            }
+        case .crypto:
+            if let cryptoBankCards = cryptoBankCards, cryptoBankCards.count > 0 {
+                addAccountsView()
+            } else {
+                addEmptyView()
+            }
+        default:
+            break
         }
+    }
+    
+    private func addAccountsView() {
+        remove(asChildViewController: emptyViewController)
+        add(asChildViewController: accountsViewController)
+    }
+    
+    private func addEmptyView() {
+        accountsViewController.withdrawalAccounts = nil
+        remove(asChildViewController: accountsViewController)
+        emptyViewController.bankCardType = bankCardType
+        add(asChildViewController: emptyViewController)
     }
     
     @objc func tapBack() {

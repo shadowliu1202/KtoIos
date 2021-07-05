@@ -67,6 +67,9 @@ class DIContainer {
         ctner.register(NumberGameApi.self) { (resolver) in
             return NumberGameApi(httpclient)
         }
+        ctner.register(CPSApi.self) { (resolver) in
+            return CPSApi(httpclient)
+        }
     }
     
     func registRepo(){
@@ -108,7 +111,8 @@ class DIContainer {
         ctner.register(DepositRepository.self) { resolver in
             let bankApi = ctner.resolve(BankApi.self)!
             let imageApi = ctner.resolve(ImageApi.self)!
-            return DepositRepositoryImpl(bankApi, imageApi: imageApi)
+            let cpsApi = ctner.resolve(CPSApi.self)!
+            return DepositRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi)
         }
         ctner.register(ImageRepository.self) { resolver in
             let imageApi = ctner.resolve(ImageApi.self)!
@@ -117,7 +121,8 @@ class DIContainer {
         ctner.register(WithdrawalRepository.self) { resolver in
             let bankApi = ctner.resolve(BankApi.self)!
             let imageApi = ctner.resolve(ImageApi.self)!
-            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi)
+            let cpsApi = ctner.resolve(CPSApi.self)!
+            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi)
         }
         ctner.register(BankRepository.self) { resolver in
             let bankApi = ctner.resolve(BankApi.self)!
@@ -303,7 +308,12 @@ class DIContainer {
         }
         ctner.register(WithdrawalViewModel.self) { (resolver) in
             let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
-            return WithdrawalViewModel(withdrawalUseCase: withdrawalUseCase)
+            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            return WithdrawalViewModel(withdrawalUseCase: withdrawalUseCase, localStorageRepository: repoLocalStorage)
+        }
+        ctner.register(ManageCryptoBankCardViewModel.self) { (resolver) in
+            let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
+            return ManageCryptoBankCardViewModel(withdrawalUseCase: withdrawalUseCase)
         }
         ctner.register(AddBankViewModel.self) { (resolver) in
             return AddBankViewModel(ctner.resolve(AuthenticationUseCase.self)!,
@@ -319,6 +329,12 @@ class DIContainer {
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             return WithdrawalRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerDataUseCase: playerUseCase)
         }
+        ctner.register(WithdrawalCryptoRequestViewModel.self) { (resolver) in
+            let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
+            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
+            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            return WithdrawalCryptoRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerUseCase: playerUseCase, localStorageRepository: repoLocalStorage)
+        }
         ctner.register(CasinoViewModel.self) { (resolver) in
             return CasinoViewModel(casinoRecordUseCase: ctner.resolve(CasinoRecordUseCase.self)!, casinoUseCase: ctner.resolve(CasinoUseCase.self)!, memoryCache: MemoryCacheImpl.shared)
         }
@@ -333,6 +349,9 @@ class DIContainer {
         }
         ctner.register(NumberGameRecordViewModel.self) { (resolver) in
             return NumberGameRecordViewModel(numberGameRecordUseCase: ctner.resolve(NumberGameRecordUseCase.self)!)
+        }
+        ctner.register(CryptoVerifyViewModel.self) { (resolver) in
+            return CryptoVerifyViewModel(playerUseCase: ctner.resolve(PlayerDataUseCase.self)!, withdrawalUseCase:  ctner.resolve(WithdrawalUseCase.self)!, systemUseCase: ctner.resolve(GetSystemStatusUseCase.self)!)
         }
     }
     

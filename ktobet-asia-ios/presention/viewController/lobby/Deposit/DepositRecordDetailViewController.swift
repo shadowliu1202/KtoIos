@@ -211,7 +211,7 @@ class DepositRecordDetailViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-    fileprivate func updateUI(data: DepositRecordDetail) {
+    fileprivate func updateUI(data: DepositDetail.General) {
         self.scrollview.isHidden = false
         self.applytimeLabel.text = data.createdDate.formatDateToStringToSecond()
         self.amountLabel.text = data.requestAmount.displayAmount
@@ -242,10 +242,10 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate func dataBinding() {
         self.remarkTableview.delegate = nil
         self.remarkTableview.dataSource = nil
-        viewModel.getDepositRecordDetail(transactionId: detailRecord.displayId, transactionTransactionType: detailRecord.transactionTransactionType).subscribe {[weak self] (data) in
-            guard let self = self else { return }
-            self.statusDateLabel.text = data.updatedDate.formatDateToStringToSecond()
-            let statusChangeHistoriesObservalbe = Observable.from(optional: data.statusChangeHistories)
+        viewModel.getDepositRecordDetail(transactionId: detailRecord.displayId).subscribe {[weak self] (data) in
+            guard let self = self, let generalData = data as? DepositDetail.General else { return }
+            self.statusDateLabel.text = generalData.updatedDate.formatDateToStringToSecond()
+            let statusChangeHistoriesObservalbe = Observable.from(optional: generalData.statusChangeHistories)
             statusChangeHistoriesObservalbe.bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) { index, d, cell in
                 cell.setup(history: d)
                 cell.toBigImage = {[weak self] (url, image) in
@@ -255,7 +255,7 @@ class DepositRecordDetailViewController: UIViewController {
             
             statusChangeHistoriesObservalbe.subscribeOn(MainScheduler.instance)
                 .subscribe { (depositTypes) in
-                    self.updateUI(data: data)
+                    self.updateUI(data: generalData)
                 } onError: { (error) in
                     self.handleUnknownError(error)
                 }.disposed(by: self.disposeBag)

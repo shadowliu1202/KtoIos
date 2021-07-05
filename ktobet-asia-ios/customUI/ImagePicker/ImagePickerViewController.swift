@@ -1,5 +1,6 @@
 import UIKit
 import Photos
+import AVFoundation
 
 
 class ImagePickerViewController: UIViewController {
@@ -8,12 +9,18 @@ class ImagePickerViewController: UIViewController {
     @IBOutlet private weak var uploadButton: UIButton!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private var tableHeight: NSLayoutConstraint!
+    @IBOutlet weak var footerView: UIView!
     
     var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
     var selectedImageLimitCount = 3
     var imageLimitMBSize = 20
     var allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
+    var cameraImage: UIImage?
+    var cameraText: String?
+    var isHiddenFooterView = false
+    var cameraType: CameraType = .general
     var completion: ((_ assets: [UIImage]) -> Void)?
+    var qrCodeCompletion: ((_ qrCodeString: String) -> Void)?
     var cancel: (() -> ())?
     var showImageCountLimitAlert: ((_ view: UIView) -> ())?
     var showImageFormatInvalidAlert: ((_ view: UIView) -> ())?
@@ -66,6 +73,7 @@ class ImagePickerViewController: UIViewController {
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
         countLabel.text = "\(selectedPhotoAssets.count)/\(selectedImageLimitCount)"
+        footerView.isHidden = isHiddenFooterView
     }
     
     override func viewWillLayoutSubviews() {
@@ -218,6 +226,13 @@ extension ImagePickerViewController: UICollectionViewDelegate, UICollectionViewD
         if indexPath.item == 0 {
             cell.cameraView.isHidden = false
             cell.imgBackground.image = nil
+            if let image = cameraImage {
+                cell.cameraImageView.image = image
+            }
+            
+            if let text = cameraText {
+                cell.cameraLabel.text = text
+            }
         } else {
             cell.cameraView.isHidden = true
             cell.indexPath = indexPath
@@ -235,30 +250,45 @@ extension ImagePickerViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let newCell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell else { return }
         guard indexPath.item != 0 else {
-            showCamera()
+            switch cameraType {
+            case .general:
+                showCamera()
+            case .qrCode:
+                let qrCodeView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "qrCodeViewController") as? qrCodeViewController
+                qrCodeView?.qrCodeCompletion = self.qrCodeCompletion
+                NavigationManagement.sharedInstance.pushViewController(vc: qrCodeView!)
+            }
+            
             return
         }
-        let index = indexPath.item - 1
-        let asset = photoAssets.object(at: index)
-        if selectedPhotoAssets.contains(asset) {
-            selectedPhotoAssets = selectedPhotoAssets.filter{ $0 != asset }
-            for view in newCell.subviews {
-                if view.tag == indexPath.item {
-                    view.removeFromSuperview()
-                }
-            }
-        } else {
-            guard showCountLimitAlert(), showSizeLimitAlert(asset: asset), showFormatInvalidAlert(asset: asset) else { return }
-            selectedPhotoAssets.append(asset)
-            let selectedImage = UIImageView(frame: newCell.imgBackground.frame)
-            selectedImage.tag = indexPath.item
-            selectedImage.image = UIImage(named: "iconPhotoSelected32")
-            selectedImage.contentMode = .center
-            selectedImage.backgroundColor = UIColor(red: 19/255, green: 19/255, blue: 19/255, alpha: 0.7)
-            newCell.addSubview(selectedImage)
-        }
         
-        countLabel.text = "\(selectedPhotoAssets.count)/\(selectedImageLimitCount)"
+        let index = indexPath.item - 1
+        switch cameraType {
+        case .general:
+            let asset = photoAssets.object(at: index)
+            if selectedPhotoAssets.contains(asset) {
+                selectedPhotoAssets = selectedPhotoAssets.filter{ $0 != asset }
+                for view in newCell.subviews {
+                    if view.tag == indexPath.item {
+                        view.removeFromSuperview()
+                    }
+                }
+            } else {
+                guard showCountLimitAlert(), showSizeLimitAlert(asset: asset), showFormatInvalidAlert(asset: asset) else { return }
+                selectedPhotoAssets.append(asset)
+                let selectedImage = UIImageView(frame: newCell.imgBackground.frame)
+                selectedImage.tag = indexPath.item
+                selectedImage.image = UIImage(named: "iconPhotoSelected32")
+                selectedImage.contentMode = .center
+                selectedImage.backgroundColor = UIColor(red: 19/255, green: 19/255, blue: 19/255, alpha: 0.7)
+                newCell.addSubview(selectedImage)
+            }
+            
+            countLabel.text = "\(selectedPhotoAssets.count)/\(selectedImageLimitCount)"
+        case .qrCode:
+            let asset = photoAssets.object(at: index)
+            completion?([asset.convertAssetToImage()])
+        }
     }
     
 }
@@ -316,3 +346,65 @@ class AlbumModel {
         return album1.name == album2.name
     }
 }
+
+enum CameraType {
+    case general
+    case qrCode
+}
+
+class CornerRect: UIView {
+    var color = UIColor.black {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    var radius: CGFloat = 0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    var thickness: CGFloat = 2 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    var length: CGFloat = 60 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+
+    override func draw(_ rect: CGRect) {
+        color.set()
+
+        let t2 = thickness / 2
+        let path = UIBezierPath()
+        // Top left
+        path.move(to: CGPoint(x: t2, y: length + radius + t2))
+        path.addLine(to: CGPoint(x: t2, y: radius + t2))
+        path.addArc(withCenter: CGPoint(x: radius + t2, y: radius + t2), radius: radius, startAngle: CGFloat.pi, endAngle: CGFloat.pi * 3 / 2, clockwise: true)
+        path.addLine(to: CGPoint(x: length + radius + t2, y: t2))
+
+        // Top right
+        path.move(to: CGPoint(x: frame.width - t2, y: length + radius + t2))
+        path.addLine(to: CGPoint(x: frame.width - t2, y: radius + t2))
+        path.addArc(withCenter: CGPoint(x: frame.width - radius - t2, y: radius + t2), radius: radius, startAngle: 0, endAngle: CGFloat.pi * 3 / 2, clockwise: false)
+        path.addLine(to: CGPoint(x: frame.width - length - radius - t2, y: t2))
+
+        // Bottom left
+        path.move(to: CGPoint(x: t2, y: frame.height - length - radius - t2))
+        path.addLine(to: CGPoint(x: t2, y: frame.height - radius - t2))
+        path.addArc(withCenter: CGPoint(x: radius + t2, y: frame.height - radius - t2), radius: radius, startAngle: CGFloat.pi, endAngle: CGFloat.pi / 2, clockwise: false)
+        path.addLine(to: CGPoint(x: length + radius + t2, y: frame.height - t2))
+
+        // Bottom right
+        path.move(to: CGPoint(x: frame.width - t2, y: frame.height - length - radius - t2))
+        path.addLine(to: CGPoint(x: frame.width - t2, y: frame.height - radius - t2))
+        path.addArc(withCenter: CGPoint(x: frame.width - radius - t2, y: frame.height - radius - t2), radius: radius, startAngle: 0, endAngle: CGFloat.pi / 2, clockwise: true)
+        path.addLine(to: CGPoint(x: frame.width - length - radius - t2, y: frame.height - t2))
+
+        path.lineWidth = thickness
+        path.stroke()
+    }
+}
+

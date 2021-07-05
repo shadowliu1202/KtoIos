@@ -9,9 +9,11 @@ protocol DepositUseCase {
     func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
     func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]>
     func depositOnline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
-    func getDepositRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<DepositRecordDetail>
+    func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]>
+    func requestCryptoDeposit() -> Single<String>
+    func requestCryptoDetailUpdate(displayId: String) -> Single<String>
 }
 
 class DepositUseCaseImpl: DepositUseCase {
@@ -51,8 +53,8 @@ class DepositUseCaseImpl: DepositUseCase {
         return depositRepository.getDepositMethods(depositType: depositType)
     }
     
-    func getDepositRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<DepositRecordDetail> {
-        return depositRepository.getDepositRecordDetail(transactionId: transactionId, transactionTransactionType: transactionTransactionType)
+    func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail> {
+        return depositRepository.getDepositRecordDetail(transactionId: transactionId)
     }
 
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable {
@@ -61,5 +63,13 @@ class DepositUseCaseImpl: DepositUseCase {
     
     func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]> {
         return depositRepository.getDepositRecords(page: page, dateBegin: dateBegin, dateEnd: dateEnd, status: status).map{ $0.filter { !$0.isFee } }
+    }
+    
+    func requestCryptoDeposit() -> Single<String> {
+        depositRepository.requestCryptoDeposit()
+    }
+    
+    func requestCryptoDetailUpdate(displayId: String) -> Single<String> {
+        return depositRepository.requestCryptoDetailUpdate(displayId: displayId)
     }
 }

@@ -18,7 +18,7 @@ extension Double {
         return String(self)
     }
     
-    func currencyFormatWithoutSymbol(precision: Int, roundingMode: NumberFormatter.RoundingMode = .halfUp) -> String {
+    func currencyFormatWithoutSymbol(precision: Int, maximumFractionDigits: Int = 2, roundingMode: NumberFormatter.RoundingMode = .down) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.groupingSeparator = ","
         numberFormatter.groupingSize = 3
@@ -26,7 +26,7 @@ extension Double {
         numberFormatter.decimalSeparator = "."
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = precision
-        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = maximumFractionDigits
         numberFormatter.roundingMode = roundingMode
         
         return numberFormatter.string(from: self as NSNumber)!
@@ -55,6 +55,11 @@ extension Double {
         
         return decimalCount
     }
+    
+    func floor(toDecimal decimal: Int) -> Double {
+        let numberOfDigits = pow(10.0, Double(decimal))
+        return (self * numberOfDigits).rounded(.towardZero) / numberOfDigits
+    }
 }
 
 extension Formatter {
@@ -68,11 +73,14 @@ extension Formatter {
 
 extension Numeric {
     var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
-}
-
-extension Double {
-    func floor(toDecimal decimal: Int) -> Double {
-        let numberOfDigits = pow(10.0, Double(decimal))
-        return (self * numberOfDigits).rounded(.towardZero) / numberOfDigits
+    func currencyFormatWithoutSymbol(precision: Int = 0, maximumFractionDigits: Int = 2) -> String {
+        let numberFormatter = Formatter.withSeparator
+        numberFormatter.groupingSize = 3
+        numberFormatter.usesGroupingSeparator = true
+        numberFormatter.decimalSeparator = "."
+        numberFormatter.minimumFractionDigits = precision
+        numberFormatter.maximumFractionDigits = maximumFractionDigits
+        numberFormatter.roundingMode = .down
+        return numberFormatter.string(for: self) ?? ""
     }
 }

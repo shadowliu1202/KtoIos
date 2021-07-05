@@ -16,7 +16,7 @@ class NavigationManagement {
     var closeMessage: String?
     private init() { }
     
-    func addMenuToBarButtonItem(vc: UIViewController) {
+    func addMenuToBarButtonItem(vc: UIViewController, title: String? = nil) {
         viewController = vc
         if sideBarViewController == nil {
             sideBarViewController = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "LeftMenuNavigationController") as? SideBarViewController
@@ -35,6 +35,7 @@ class NavigationManagement {
         negativeSeperator.width = 8
         let menuButton = UIBarButtonItem(image: UIImage(named: "Menu")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(NavigationManagement.showMenu))
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, menuButton]
+        vc.navigationItem.title = title
     }
     
     func addBackToBarButtonItem(vc: UIViewController, isShowAlert: Bool = false, backTitle: String = Localize.string("common_tip_title_unfinished"), backMessage: String = Localize.string("common_tip_content_unfinished"), title: String? = nil) {
@@ -175,6 +176,18 @@ class NavigationManagement {
     func popViewController(_ completion: (() -> Void)? = nil) {
         viewController.navigationController?.popViewController(animated: true)
         viewController = viewController.navigationController?.topViewController
+        completion?()
+    }
+    
+    func popViewController(_ completion: (() -> Void)? = nil, vc: UIViewController) {
+        viewController.navigationController?.popToViewController(vc, animated: true)
+        viewController = viewController.navigationController?.topViewController
+        completion?()
+    }
+        
+    func popToRootViewController(_ completion: (() -> Void)? = nil) {
+        self.viewController.navigationController?.popToRootViewController(animated: true)
+        self.viewController = self.viewController.navigationController?.topViewController
         completion?()
     }
     

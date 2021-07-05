@@ -160,16 +160,81 @@ struct DepositRecordDetailData: Codable {
     let displayID: String
     let requestAmount: Double
     let actualAmount: Double?
+    let actualCryptoAmount: Double?
+    let requestCryptoAmount: Double?
     let createdDate, updatedDate: String
     let status: Int32
     let statusChangeHistories: [StatusChangeHistory]
     let isPendingHold: Bool
     let ticketType: Int32
-    let fee: Int32?
-
+    let fee: Double?
+    let actualRate: Double?
+    let actualFiatAmount: Double?
+    let actualRateDate: String?
+    let requestRate: Double?
+    let hashId: String?
+    let requestRateDate: String?
+    let toAddress: String?
+    
     enum CodingKeys: String, CodingKey {
         case displayID = "displayId"
-        case requestAmount, createdDate, updatedDate, status, statusChangeHistories, isPendingHold, ticketType, fee, actualAmount
+        case requestAmount, createdDate, updatedDate, status, statusChangeHistories, isPendingHold, ticketType, fee, actualAmount, actualCryptoAmount, actualRate, actualFiatAmount, actualRateDate, hashId, requestRate, requestRateDate, toAddress, requestCryptoAmount
+    }
+    
+    func toDepositDetail(statusChangeHistories: [Transaction.StatusChangeHistory]) -> DepositDetail {
+        let createDate = self.createdDate.convertDateTime() ?? Date()
+        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
+        let updateDate = self.updatedDate.convertDateTime() ?? Date()
+        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
+        let actualRateDate = self.actualRateDate?.convertDateTime() ?? Date()
+        let actualRateOffsetDateTime = actualRateDate.convertDateToOffsetDateTime()
+        let requestRateDate = self.requestRateDate?.convertDateTime() ?? Date()
+        let requestRateOffsetDateTime = requestRateDate.convertDateToOffsetDateTime()
+        
+        switch TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType) {
+        case TransactionType.deposit,
+             TransactionType.a2ptransferin,
+             TransactionType.p2ptransferin:
+            return DepositDetail.General.init(
+                createdDate: createOffsetDateTime,
+                displayId: self.displayID,
+                fee: CashAmount(amount: self.fee ?? 0),
+                isPendingHold: self.isPendingHold,
+                requestAmount: CashAmount(amount: self.requestAmount),
+                status: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: self.status),
+                statusChangeHistories: statusChangeHistories,
+                ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
+                updatedDate: updateOffsetDateTime)
+        case TransactionType.cryptodeposit:
+            let actualCryptoAmount = CryptoExchangeReceipt.init(
+                cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.actualCryptoAmount ?? 0, crypto: .Ethereum()),
+                exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.actualRate ?? 0),
+                cashAmount: CashAmount(amount: self.actualFiatAmount ?? 0))
+            
+            let requestCryptoAmount = CryptoExchangeReceipt.init(
+                cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.requestCryptoAmount ?? 0, crypto: .Ethereum()),
+                exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.requestRate ?? 0),
+                cashAmount: CashAmount(amount: self.requestAmount))
+            
+            return DepositDetail.Crypto.init(
+                actualCryptoAmount: actualCryptoAmount,
+                actualAmount: CashAmount(amount: self.actualAmount ?? 0),
+                actualRateDate: actualRateOffsetDateTime,
+                createdDate: createOffsetDateTime,
+                displayId: self.displayID,
+                fee: CashAmount(amount: self.fee ?? 0),
+                hashId: self.hashId ?? "",
+                isPendingHold: self.isPendingHold,
+                requestCryptoAmount: requestCryptoAmount,
+                requestRateDate: requestRateOffsetDateTime,
+                status: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: self.status),
+                statusChangeHistories: statusChangeHistories,
+                ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
+                toAddress: self.toAddress ?? "",
+                updatedDate: updateOffsetDateTime)
+        default:
+            return DepositDetail.Unknown.init()
+        }
     }
 }
 
@@ -195,6 +260,16 @@ struct DailyWithdrawalLimits: Codable {
     let withdrawalDailyCount: Int32
 }
 
+struct TurnoverData: Codable {
+    let achievedAmount, turnoverAmount: Double
+    let cryptoWithdrawalRequestInfos: [CryptoWithdrawalRequestInfo]?
+}
+
+struct CryptoWithdrawalRequestInfo: Codable {
+    let cryptoCurrency: Int32
+    let withdrawalRequest: Double
+}
+
 struct WithdrawalRecordData: Codable {
     let displayID: String
     let status, ticketType: Int32
@@ -209,14 +284,72 @@ struct WithdrawalRecordData: Codable {
 }
 
 struct WithdrawalRecordDetailData: Codable {
+    let actualAmount: Double
+    let actualCryptoAmount: Double
+    let actualRate: Double
+    let approvedDate: String
     let createdDate: String
+    let cryptoCurrency: Int
     let displayId: String
+    let hashId: String
     let isBatched: Bool
     let isPendingHold: Bool
+    let playerCryptoAddress: String
+    let providerCryptoAddress: String
     let requestAmount: Double
+    let requestCryptoAmount: Double
+    let requestRate: Double
     let status: Int32
     let statusChangeHistories: [StatusChangeHistory]
+    let ticketType: Int
     let updatedDate: String
+    
+    func toWithdrawalDetail(transactionTransactionType: TransactionType, statusChangeHistories: [Transaction.StatusChangeHistory]) -> WithdrawalDetail {
+        let createDate = self.createdDate.convertDateTime() ?? Date()
+        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
+        let updateDate = self.updatedDate.convertDateTime() ?? Date()
+        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
+        
+        let withdrawalRecord = WithdrawalRecord.init(
+            transactionTransactionType: transactionTransactionType,
+            displayId: displayId,
+            transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: status),
+            createDate: createOffsetDateTime,
+            cashAmount: CashAmount(amount: requestAmount),
+            isPendingHold: isPendingHold,
+            groupDay: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()))
+        
+        switch transactionTransactionType {
+        case .withdrawal,
+             .p2atransferout,
+             .p2ptransferout:
+            return WithdrawalDetail.General.init(record: withdrawalRecord,
+                                                 isBatched: isBatched,
+                                                 isPendingHold: isPendingHold,
+                                                 statusChangeHistories: statusChangeHistories,
+                                                 updatedDate: updateOffsetDateTime)
+        case .cryptowithdrawal:
+            let approvedDate = self.approvedDate.convertDateTime() ?? Date()
+            let approvedOffsetDateTime = approvedDate.convertDateToOffsetDateTime()
+            let actualCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.actualCryptoAmount, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: actualRate), cashAmount: CashAmount(amount: self.actualAmount))
+            
+            let requestCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.requestCryptoAmount, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.requestRate), cashAmount: CashAmount(amount: self.requestAmount))
+            
+            return WithdrawalDetail.Crypto.init(record: withdrawalRecord,
+                                                isBatched: isBatched,
+                                                isPendingHold: isPendingHold,
+                                                statusChangeHistories: statusChangeHistories,
+                                                updatedDate: updateOffsetDateTime,
+                                                requestCryptoAmount: requestCryptoAmount,
+                                                actualCryptoAmount: actualCryptoAmount,
+                                                playerCryptoAddress: playerCryptoAddress,
+                                                providerCryptoAddress: providerCryptoAddress,
+                                                approvedDate: approvedOffsetDateTime,
+                                                hashId: hashId)
+        default:
+            return WithdrawalDetail.Unknown.init()
+        }
+    }
 }
 
 struct WithdrawalRecordAllData: Codable {
@@ -680,3 +813,101 @@ struct BetSummaryDataResponse: Codable {
     }
 }
 
+struct CryptoDepositReceipt: Codable {
+    var displayId: String
+    var url: String
+}
+
+struct CryptoDepositUrl: Codable {
+    var url: String
+}
+
+struct CryptoBankCardBean: Codable {
+    var playerCryptoBankCardId: String
+    var cryptoCurrency: Int
+    var cryptoWalletName: String
+    var cryptoWalletAddress: String
+    var status: Int
+    var verifyStatus: Int32
+    var createdUser: String
+    var updatedUser: String
+    var updatedDate: String
+    
+    func toCryptoBankCard() -> CryptoBankCard {
+        let updateDate = self.updatedDate.convertDateTime() ?? Date()
+        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
+        let bankCard = BankCardObject(id_: playerCryptoBankCardId,
+                                      name: cryptoWalletName,
+                                      status: createBankCardStatus(index: status),
+                                      verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: verifyStatus))
+        
+        return CryptoBankCard.init(bankCard: bankCard, currency: Crypto.Ethereum(), walletAddress: cryptoWalletAddress, createdUser: createdUser, updatedUser: updatedUser, updatedDate: updateOffsetDateTime)
+    }
+    
+    private func createBankCardStatus(index: Int) -> BankCardStatus {
+        switch index {
+        case 0:
+            return .none
+        case 1, 2:
+            return .default_
+        default:
+            return .none
+        }
+    }
+}
+
+class BankCardObject: BankCard {
+    var id_: String
+    var name: String
+    var status: BankCardStatus
+    var verifyStatus: PlayerBankCardVerifyStatus
+    
+    init(id_: String, name: String, status: BankCardStatus, verifyStatus: PlayerBankCardVerifyStatus) {
+        self.id_ = id_
+        self.name = name
+        self.status = status
+        self.verifyStatus = verifyStatus
+    }
+}
+
+struct CryptoWithdrawalTransaction: Codable {
+    let cryptoWithdrawalRequestInfos: [CryptoWithdrawalRequestInfo]
+    let totalRequestAmount: Double
+    let totalAchievedAmount: Double
+    let requestTicketDetails, achievedTicketDetails: [TicketDetail]
+    
+    func toCryptoWithdrawalLimitLog() -> CryptoWithdrawalLimitLog {
+        return CryptoWithdrawalLimitLog(totalRequestAmount: CryptoAmount.create(cryptoAmount: totalRequestAmount, crypto: Crypto.Ethereum.init()),
+                                        totalAchievedAmount: CryptoAmount.create(cryptoAmount: totalAchievedAmount, crypto: Crypto.Ethereum.init()),
+                                        cryptoWithdrawalRequest: cryptoWithdrawalRequestInfos.map({ CryptoAmount.create(cryptoAmount: $0.withdrawalRequest, crypto: Crypto.Ethereum.init()) }),
+                                        requestTicketDetails: requestTicketDetails.map({$0.toCryptoWithdrawalLimitTicketDetail()}),
+                                        achievedTicketDetails: achievedTicketDetails.map({$0.toCryptoWithdrawalLimitTicketDetail()}))
+    }
+}
+
+struct TicketDetail: Codable {
+    let approvedDate, displayID: String
+    let fiatAmount, cryptoAmount: Double
+    let cryptoCurrency: Int32
+
+    enum CodingKeys: String, CodingKey {
+        case approvedDate
+        case displayID = "displayId"
+        case fiatAmount, cryptoAmount, cryptoCurrency
+    }
+    
+    func toCryptoWithdrawalLimitTicketDetail() -> CryptoWithdrawalLimitTicketDetail {
+        let localApprovedDate = (approvedDate.convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertDateToOffsetDateTime()
+        return CryptoWithdrawalLimitTicketDetail(
+            cryptoAmount: CryptoAmount.create(cryptoAmount: cryptoAmount, crypto: Crypto.Ethereum.init()),
+            approvedDate: localApprovedDate,
+            displayId: displayID,
+            fiatAmount:CashAmount(amount: fiatAmount)
+        )
+    }
+}
+
+struct ContactInfoBean: Codable {
+    let mobile: String?
+    let email: String?
+}

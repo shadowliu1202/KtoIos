@@ -25,6 +25,13 @@ public enum UserInfoStatus{
     case errSMSOtpInactive
 }
 
+public enum ValidError {
+    case none
+    case length
+    case empty
+    case regex
+}
+
 public enum FeatureType : String {
     case withdraw = "提現"
     case diposit = "充值"

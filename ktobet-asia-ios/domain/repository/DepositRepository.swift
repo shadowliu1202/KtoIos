@@ -9,18 +9,22 @@ protocol DepositRepository {
     func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
     func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]>
     func depositOnline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<DepositTransaction>
-    func getDepositRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<DepositRecordDetail>
+    func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]>
+    func requestCryptoDeposit() -> Single<String>
+    func requestCryptoDetailUpdate(displayId: String) -> Single<String>
 }
 
 class DepositRepositoryImpl: DepositRepository {
     private var bankApi: BankApi!
     private var imageApi: ImageApi!
+    private var cpsApi: CPSApi!
     
-    init(_ bankApi: BankApi, imageApi: ImageApi) {
+    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi) {
         self.bankApi = bankApi
         self.imageApi = imageApi
+        self.cpsApi = cpsApi
     }
     
     func getDepositTypes() -> Single<[DepositRequest.DepositType]> {
@@ -104,8 +108,9 @@ class DepositRepositoryImpl: DepositRepository {
         return depositMethod
     }
     
-    func getDepositRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<DepositRecordDetail> {
-        return bankApi.getDepositRecordDetail(displayId: transactionId, ticketType: EnumMapper.Companion.init().convertTransactionType(transactionType: transactionTransactionType)).flatMap { self.createDepositRecordDetail(detail: $0.data!)
+    func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail> {
+        return bankApi.getDepositRecordDetail(displayId: transactionId).flatMap {
+            self.createDepositRecordDetail(detail: $0.data!)
         }
     }
     
@@ -133,14 +138,20 @@ class DepositRepositoryImpl: DepositRepository {
         }
     }
     
-    fileprivate func createDepositRecordDetail(detail: DepositRecordDetailData) -> Single<DepositRecordDetail> {
-        let createDate = detail.createdDate.convertDateTime() ?? Date()
-        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
-        let updateDate = detail.updatedDate.convertDateTime() ?? Date()
-        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
-
-        return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { (tHistories) -> DepositRecordDetail in
-            DepositRecordDetail(createdDate: createOffsetDateTime, displayId: detail.displayID, isPendingHold: detail.isPendingHold, remark: "", requestAmount: CashAmount(amount: detail.requestAmount), status: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: detail.status), statusChangeHistories: tHistories, updatedDate: updateOffsetDateTime)
+    func requestCryptoDeposit() -> Single<String> {
+        return cpsApi.createCryptoDeposit().map { $0.data?.url ?? "" }
+    }
+    
+    func requestCryptoDetailUpdate(displayId: String) -> Single<String> {
+        return bankApi.requestCryptoDetailUpdate(displayId: displayId).map { (response) -> String in
+            guard let data = response.data else { return "" }
+            return data.url
+        }
+    }
+    
+    fileprivate func createDepositRecordDetail(detail: DepositRecordDetailData) -> Single<DepositDetail> {
+        return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { (tHistories) -> DepositDetail in
+            return detail.toDepositDetail(statusChangeHistories: tHistories)
         }
     }
     
@@ -171,14 +182,14 @@ class DepositRepositoryImpl: DepositRepository {
             return Transaction.StatusChangeHistory(createdDate: offsetDateTime, imageIds: portalImages, remarkLevel1: changeHistory.remarkLevel1, remarkLevel2: changeHistory.remarkLevel2, remarkLevel3: changeHistory.remarkLevel3)
         }
     }
-
+    
     fileprivate func convertDepositDataToDepositRecord(_ r: DepositRecordData) -> DepositRecord {
         let createDate = r.createdDate.convertDateTime() ?? Date()
         let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
         let updateDate = r.updatedDate.convertDateTime() ?? Date()
         let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
         return DepositRecord(displayId: r.displayId,
-                             transactionTransactionType: EnumMapper.Companion.init().convertTransactionType(transactionType_: r.ticketType),
+                             transactionTransactionType: TransactionType.Companion.init().convertTransactionType(transactionType_: r.ticketType),
                              transactionStatus: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: r.status),
                              actualAmount: CashAmount(amount: r.actualAmount),
                              createdDate: createOffsetDateTime,

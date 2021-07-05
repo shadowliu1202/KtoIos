@@ -14,11 +14,7 @@ import SharedBu
 
 extension UIViewController{
     func handleErrors(_ error : Error) {
-        let err = error as NSError
-        let exception = ExceptionFactory
-            .Companion.init()
-            .create(message: err.userInfo["errorMsg"] as? String ?? "",
-                    statusCode: err.userInfo["statusCode"] as? String ?? "")
+        let exception = ExceptionFactory.create(error)
         if exception is ApiUnknownException {
             handleUnknownError(error)
         } else if let errorMsg = exception.message {

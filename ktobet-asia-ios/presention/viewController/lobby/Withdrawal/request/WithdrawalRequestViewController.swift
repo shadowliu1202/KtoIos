@@ -7,9 +7,6 @@ class WithdrawalRequestViewController: UIViewController {
     static let segueIdentifier = "toWithdrawalRequest"
     @IBOutlet private weak var withdrawalStep1TitleLabel: UILabel!
     @IBOutlet private weak var withdrawalTitleLabel: UILabel!
-    @IBOutlet private weak var withdrawalTodayCountLimitLabel: UILabel!
-    @IBOutlet private weak var withdrawalTodayAmountLimitLabel: UILabel!
-    @IBOutlet private weak var showInfoButton: UIButton!
     @IBOutlet private weak var nameLabel: LockInputText!
     @IBOutlet private weak var withdrawalAmountTextField: InputText!
     @IBOutlet private weak var withdrawalAmountErrorLabel: UILabel!
@@ -96,13 +93,7 @@ class WithdrawalRequestViewController: UIViewController {
         viewModel.getWithdrawalLimitation().subscribe { [weak self] (withdrawalLimits) in
             guard let self = self else { return }
             self.withdrawalLimits = withdrawalLimits
-            self.withdrawalLimitLabel.text = String(format: Localize.string("withdrawal_amount_range"), withdrawalLimits.singleCashMinimum.displayAmount, withdrawalLimits.singleCashMaximum.displayAmount)
-            self.withdrawalTodayCountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalcount"))\(withdrawalLimits.dailyMaxCount)\(Localize.string("common_times_count"))"
-            self.withdrawalTodayAmountLimitLabel.text = "\(Localize.string("withdrawal_dailywithdrawalamount"))\(withdrawalLimits.dailyMaxCash.displayAmount)"
-            self.showInfoButton.rx.tap.subscribe(onNext: {
-                Alert.show(Localize.string("withdrawal_quota_title"),
-                           String(format: Localize.string("withdrawal_quota_content"), String(withdrawalLimits.dailyCurrentCount), withdrawalLimits.dailyCurrentCash.displayAmount), confirm: nil, cancel: nil)
-            }).disposed(by: self.disposeBag)
+            self.withdrawalLimitLabel.text = String(format: Localize.string("withdrawal_amount_range"), withdrawalLimits.singleCashMinimum.amount.currencyFormatWithoutSymbol(precision: 2), withdrawalLimits.singleCashMaximum.amount.currencyFormatWithoutSymbol(precision: 2))
         } onError: { (error) in
             self.handleUnknownError(error)
         }.disposed(by: disposeBag)

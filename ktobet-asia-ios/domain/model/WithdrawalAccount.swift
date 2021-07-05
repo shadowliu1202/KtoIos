@@ -5,13 +5,13 @@ extension WithdrawalAccount {
     var verifyStatusColor: UIColor {
         get {
             switch self.verifyStatus {
-            case .infoincorrect:
+            case .void_:
                 return UIColor.redForDarkFull
-            case .verifying:
+            case .onhold:
                 return UIColor.orangeFull
             case .verified:
                 return UIColor.textSuccessedGreen
-            case .unknown, .unverified:
+            case .unknown, .pending:
                 return UIColor.textPrimaryDustyGray
             default:
                 return UIColor.textPrimaryDustyGray
@@ -21,13 +21,13 @@ extension WithdrawalAccount {
     var verifyStatusLocalize: String {
         get {
             switch self.verifyStatus {
-            case .infoincorrect:
+            case .void_:
                 return Localize.string("withdrawal_bankcard_fail")
-            case .verifying:
+            case .onhold:
                 return Localize.string("withdrawal_bankcard_locked")
             case .verified:
                 return Localize.string("withdrawal_bankcard_verified")
-            case .unverified:
+            case .pending:
                 return Localize.string("withdrawal_bankcard_new")
             default:
                 return ""
