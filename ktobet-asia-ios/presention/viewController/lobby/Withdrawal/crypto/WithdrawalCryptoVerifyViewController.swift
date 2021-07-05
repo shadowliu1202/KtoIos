@@ -19,6 +19,7 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
     
     var cryptoBankCard: CryptoBankCard?
     var playerCryptoBankCardId: String?
+    var bankCardCount: Int = 0
     
     private var userInfoStatus: UserInfoStatus!
     private var isFirstTimeEnter = true
@@ -27,7 +28,16 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, isShowAlert: false, closeAction: nil, closeTitle: "", closeMessage: "")
+        NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, isShowAlert: false, closeAction: {
+            if self.bankCardCount == 0 {
+                if let vc = UIStoryboard(name: "Withdrawal", bundle: nil).instantiateViewController(withIdentifier: "WithdrawlEmptyViewController") as? WithdrawlEmptyViewController {
+                    vc.bankCardType = .crypto
+                    NavigationManagement.sharedInstance.pushViewController(vc: vc)
+                }
+            } else {
+                self.performSegue(withIdentifier: WithdrawlAccountsViewController.unwindSegue, sender: nil)
+            }
+        }, closeTitle: "", closeMessage: "")
         
         btnPhone.setTitle(Localize.string("common_mobile"), for: .normal)
         btnEmail.setTitle(Localize.string("common_email"), for: .normal)
@@ -52,7 +62,7 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
             }
             
             self.contentLabel.text = self.phone
-            self.btnSubmit.isValid = self.phone != Localize.string("common_not_set_mobile")
+            self.btnSubmit.isHidden = self.phone == Localize.string("common_not_set_mobile")
         } onError: {[weak self] (error) in
             self?.handleUnknownError(error)
         }.disposed(by: self.disposeBag)
@@ -73,7 +83,7 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
             self.btnEmail.isSelected = true
             self.viewModel.relayAccountType.accept(.email)
             self.contentLabel.text = self.email
-            self.btnSubmit.isValid = self.email != Localize.string("common_not_set_email")
+            self.btnSubmit.isHidden = self.email == Localize.string("common_not_set_email")
         }.disposed(by: disposeBag)
         
         btnPhone.rx.tap.subscribe {[weak self] _ in
@@ -82,7 +92,7 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
             self.btnPhone.isSelected = true
             self.viewModel.relayAccountType.accept(.phone)
             self.contentLabel.text = self.phone
-            self.btnSubmit.isValid = self.phone != Localize.string("common_not_set_mobile")
+            self.btnSubmit.isHidden = self.phone == Localize.string("common_not_set_mobile")
         }.disposed(by: disposeBag)
         
         btnSubmit.rx.tap.subscribe {[weak self] _ in
@@ -110,6 +120,7 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
         if segue.identifier == WithdrawalOTPVerifyViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalOTPVerifyViewController {
                 dest.viewModel = viewModel
+                dest.bankCardCount = bankCardCount
             }
         }
     }

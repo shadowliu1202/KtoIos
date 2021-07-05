@@ -20,6 +20,7 @@ class WithdrawalOTPVerifyViewController: UIViewController {
     @IBOutlet private weak var constraintStatusTipBottom : NSLayoutConstraint!
     
     var viewModel: CryptoVerifyViewModel!
+    var bankCardCount: Int = 0
     
     private let disposeBag = DisposeBag()
     private let errTipHeight = CGFloat(44)
@@ -149,7 +150,7 @@ class WithdrawalOTPVerifyViewController: UIViewController {
     
     @IBAction func btnResendPressed(_ sender: UIButton){
         viewModel.resendOtp().subscribe {
-            self.viewStatusTip.show(statusTip: Localize.string("common_success"), img: UIImage(named: "Success"))
+            self.viewStatusTip.show(on: self.view, statusTip: Localize.string("common_otp_send_success"), img: UIImage(named: "Success"))
             self.setResendTimer()
         } onError: { (error) in
             self.setResendTimer()
@@ -160,7 +161,7 @@ class WithdrawalOTPVerifyViewController: UIViewController {
     @IBAction func btnVerifyPressed(_ sender: UIButton){
         viewModel.verifyOtp().subscribe {
             Alert.show(Localize.string("common_verify_finished"), Localize.string("cps_verify_hint"), confirm: {
-                self.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
+                self.performSegue(withIdentifier: WithdrawlAccountsViewController.unwindSegue, sender: nil)
             }, cancel: nil)
         } onError: { (error) in
             self.handleError(error)
@@ -168,10 +169,15 @@ class WithdrawalOTPVerifyViewController: UIViewController {
     }
     
     @IBAction func btnBackPressed(_ sender: UIButton){
-        let title = Localize.string("common_confirm_cancel_operation")
-        let message = Localize.string("login_resetpassword_cancel_content")
-        Alert.show(title, message) {
-            self.navigationController?.dismiss(animated: true, completion: nil)
+        Alert.show(Localize.string("common_close_setting_hint"), Localize.string("cps_close_otp_verify_hint")) {
+            if self.bankCardCount == 0 {
+                if let vc = UIStoryboard(name: "Withdrawal", bundle: nil).instantiateViewController(withIdentifier: "WithdrawlEmptyViewController") as? WithdrawlEmptyViewController {
+                    vc.bankCardType = .crypto
+                    NavigationManagement.sharedInstance.pushViewController(vc: vc)
+                }
+            } else {
+                self.performSegue(withIdentifier: WithdrawlAccountsViewController.unwindSegue, sender: nil)
+            }
         } cancel: {}
     }
     
@@ -179,6 +185,12 @@ class WithdrawalOTPVerifyViewController: UIViewController {
         if segue.identifier == SignupRegistFailViewController.segueIdentifier {
             if let dest = segue.destination as? SignupRegistFailViewController {
                 dest.failedType = .resetPassword
+            }
+        }
+        
+        if segue.identifier == WithdrawlAccountsViewController.unwindSegue {
+            if let dest = segue.destination as? WithdrawlAccountsViewController {
+                dest.bankCardType = .crypto
             }
         }
     }

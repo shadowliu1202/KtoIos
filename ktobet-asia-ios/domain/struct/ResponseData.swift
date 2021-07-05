@@ -284,14 +284,72 @@ struct WithdrawalRecordData: Codable {
 }
 
 struct WithdrawalRecordDetailData: Codable {
+    let actualAmount: Double
+    let actualCryptoAmount: Double
+    let actualRate: Double
+    let approvedDate: String
     let createdDate: String
+    let cryptoCurrency: Int
     let displayId: String
+    let hashId: String
     let isBatched: Bool
     let isPendingHold: Bool
+    let playerCryptoAddress: String
+    let providerCryptoAddress: String
     let requestAmount: Double
+    let requestCryptoAmount: Double
+    let requestRate: Double
     let status: Int32
     let statusChangeHistories: [StatusChangeHistory]
+    let ticketType: Int
     let updatedDate: String
+    
+    func toWithdrawalDetail(transactionTransactionType: TransactionType, statusChangeHistories: [Transaction.StatusChangeHistory]) -> WithdrawalDetail {
+        let createDate = self.createdDate.convertDateTime() ?? Date()
+        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
+        let updateDate = self.updatedDate.convertDateTime() ?? Date()
+        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
+        
+        let withdrawalRecord = WithdrawalRecord.init(
+            transactionTransactionType: transactionTransactionType,
+            displayId: displayId,
+            transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: status),
+            createDate: createOffsetDateTime,
+            cashAmount: CashAmount(amount: requestAmount),
+            isPendingHold: isPendingHold,
+            groupDay: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()))
+        
+        switch transactionTransactionType {
+        case .withdrawal,
+             .p2atransferout,
+             .p2ptransferout:
+            return WithdrawalDetail.General.init(record: withdrawalRecord,
+                                                 isBatched: isBatched,
+                                                 isPendingHold: isPendingHold,
+                                                 statusChangeHistories: statusChangeHistories,
+                                                 updatedDate: updateOffsetDateTime)
+        case .cryptowithdrawal:
+            let approvedDate = self.approvedDate.convertDateTime() ?? Date()
+            let approvedOffsetDateTime = approvedDate.convertDateToOffsetDateTime()
+            let actualCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.actualCryptoAmount, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: actualRate), cashAmount: CashAmount(amount: self.actualAmount))
+            
+            let requestCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.requestCryptoAmount, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.requestRate), cashAmount: CashAmount(amount: self.requestAmount))
+            
+            return WithdrawalDetail.Crypto.init(record: withdrawalRecord,
+                                                isBatched: isBatched,
+                                                isPendingHold: isPendingHold,
+                                                statusChangeHistories: statusChangeHistories,
+                                                updatedDate: updateOffsetDateTime,
+                                                requestCryptoAmount: requestCryptoAmount,
+                                                actualCryptoAmount: actualCryptoAmount,
+                                                playerCryptoAddress: playerCryptoAddress,
+                                                providerCryptoAddress: providerCryptoAddress,
+                                                approvedDate: approvedOffsetDateTime,
+                                                hashId: hashId)
+        default:
+            return WithdrawalDetail.Unknown.init()
+        }
+    }
 }
 
 struct WithdrawalRecordAllData: Codable {

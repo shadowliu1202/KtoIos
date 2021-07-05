@@ -28,15 +28,15 @@ class ManageCryptoBankCardViewModel {
     }
     
     func event() -> (accountNameValid: Observable<Bool>,
-                     accountAddressValid: Observable<Bool>,
+                     accountAddressValid: Observable<ValidError>,
                      cryptoTypeValid: Observable<Bool>,
                      dataValid: Observable<Bool>) {
         let accountNameValid = accountName.map { (name) -> Bool in
             return name.count != 0
         }
         
-        let accountAddressValid = accountAddress.map { (address) -> Bool in
-            return address.count != 0
+        let accountAddressValid = accountAddress.map { (address) -> ValidError in
+            return address.count > 0 ? (address.isValidRegex(format: .cryptoAddress) ? .none : .regex)  : .empty
         }
         
         let cryptoTypeValid = cryptoType.map { (type) -> Bool in
@@ -44,7 +44,7 @@ class ManageCryptoBankCardViewModel {
         }
         
         let dataValid = Observable.combineLatest(accountNameValid, accountAddressValid, cryptoTypeValid) {
-            return $0 && $1 && $2
+            return $0 && $1 == .none && $2
         }
         
         return (accountNameValid, accountAddressValid, cryptoTypeValid, dataValid)

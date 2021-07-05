@@ -171,3 +171,17 @@ extension UIView {
     }
 
 }
+
+extension UIView {
+    func setViewCorner(topCorner : Bool, bottomCorner : Bool){
+        layer.masksToBounds = true
+        layer.cornerRadius = 8
+        if topCorner && bottomCorner{
+            layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        } else if topCorner {
+            layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        } else if bottomCorner{
+            layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+    }
+}

@@ -180,7 +180,7 @@ class AddBankViewController: UIViewController {
         }, confirmText: Localize.string("common_moveto"), cancel: {})
     }
     
-    func handleErrorLabel(error: AddBankViewModel.ValidError, textField: UIView?, label: UILabel?) {
+    func handleErrorLabel(error: ValidError, textField: UIView?, label: UILabel?) {
         let message = transferError(error)
         label?.text = message
         if textField is InputText {
@@ -192,7 +192,7 @@ class AddBankViewController: UIViewController {
         }
     }
 
-    func transferError(_ error: AddBankViewModel.ValidError) -> String {
+    func transferError(_ error: ValidError) -> String {
         switch error {
         case .length, .regex:
             return Localize.string("common_invalid")

@@ -1,21 +1,21 @@
 import SwiftUI
 import SharedBu
 
-struct textRowView: View {
+struct WithdrawalTextRowView: View {
     var title: String = ""
     var content: String = ""
     var isRemark: Bool = false
     var isFlooting: Bool = false
-    var data: DepositDetail.Crypto?
+    var data: WithdrawalDetail.Crypto?
     
-    init(title: String, content: String, isFlooting: Bool = false, data: DepositDetail.Crypto? = nil) {
+    init(title: String, content: String, isFlooting: Bool = false, data: WithdrawalDetail.Crypto? = nil) {
         self.title = title
         self.data = data
         self.content = content
         self.isFlooting = isFlooting
     }
     
-    init(data: DepositDetail.Crypto?, title: String = "", isRemark: Bool = false) {
+    init(data: WithdrawalDetail.Crypto?, title: String = "", isRemark: Bool = false) {
         self.data = data
         self.title = title
         self.isRemark = isRemark
@@ -31,11 +31,11 @@ struct textRowView: View {
             Text(content)
                 .foregroundColor(Color(UIColor.whiteFull))
                 .font(Font.custom("PingFangSC-Regular", size: 16))
-            if isFlooting && TransactionStatus.floating == data?.status {
+            if isFlooting && TransactionStatus.floating == data?.record.transactionStatus {
                 Spacer().frame(height: 2)
                 Button(action: {
                     guard let depositCryptoViewController = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "DepositCryptoViewController") as? DepositCryptoViewController else { return }
-                    depositCryptoViewController.displayId = data?.displayId
+                    depositCryptoViewController.displayId = data?.record.displayId
                     NavigationManagement.sharedInstance.pushViewController(vc: depositCryptoViewController)
                 }) {
                     Text(Localize.string("common_cps_submit_hash_id_to_complete"))
@@ -67,14 +67,10 @@ struct textRowView: View {
     func getTranctionInfoContent(group: Int, row: Int) -> String {
         switch group {
         case 0:
-            if data?.isTransactionApplied() == true {
-                return applyContentString()?[row] ?? ""
-            } else {
-                return "-"
-            }
+            return applyContentString()?[row] ?? "-"
         case 1:
-            if data?.status == TransactionStatus.approved {
-               return finalContentString()?[row] ?? ""
+            if data?.record.transactionStatus == TransactionStatus.approved {
+                return finalContentString()?[row] ?? "-"
             } else {
                 return "-"
             }
@@ -84,8 +80,12 @@ struct textRowView: View {
     }
     
     func getFinalConentColor(group: Int, row: Int) -> Color {
-        if group == 1 && row == 0 && finalContentString()?[row] != "0.00000000" {
-            return Color(UIColor.alert)
+        if let finalContentString = finalContentString()?[row] {
+            if group == 1 && row == 0 && finalContentString != "0.00000000" {
+                return Color(UIColor.alert)
+            } else {
+                return Color(UIColor.whiteFull)
+            }
         } else {
             return Color(UIColor.whiteFull)
         }
@@ -93,25 +93,27 @@ struct textRowView: View {
     
     private func applyContentString() -> [String]? {
         guard let data = data else { return nil }
-        return [            data.requestCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
-                            data.requestCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
-                            data.requestCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
-                            data.createdDate.formatDateToStringToSecond()]
+        return [data.requestCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
+                data.requestCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
+                data.requestCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
+                data.record.createDate.formatDateToStringToSecond()]
     }
     
     private func finalContentString() -> [String]? {
         guard let data = data else { return nil }
-        return [ data.actualCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
-                 data.actualCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8), data.actualCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2), data.updatedDate.formatDateToStringToSecond()]
+        return [data.actualCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
+                data.actualCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
+                data.actualCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
+                data.updatedDate.formatDateToStringToSecond()]
     }
 }
 
-struct DepositCryptoDetailView: View {
+struct WithdrawalCryptoDetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State var data: DepositDetail.Crypto?
+    @State var data: WithdrawalDetail.Crypto?
         
-    var textView: textRowView{ textRowView(data: data) }
-    var titleStrings = [Localize.string("balancelog_detail_id"), Localize.string("activity_status"), String(format: Localize.string("common_cps_remitter"), Localize.string("common_player")), String(format: Localize.string("common_cps_payee"), Localize.string("cps_kto")), Localize.string("common_cps_hash_id"), Localize.string("common_remark")]
+    var textView: WithdrawalTextRowView{ WithdrawalTextRowView(data: data) }
+    var titleStrings = [Localize.string("balancelog_detail_id"), Localize.string("activity_status"), String(format: Localize.string("common_cps_remitter"), Localize.string("cps_kto")), String(format: Localize.string("common_cps_payee"), Localize.string("common_player")), Localize.string("common_cps_hash_id"), Localize.string("common_remark")]
     private let applyTitleStrings =
         [Localize.string("common_cps_apply_crypto"),
          Localize.string("common_cps_apply_rate"),
@@ -134,7 +136,7 @@ struct DepositCryptoDetailView: View {
                     .foregroundColor(Color(UIColor.whiteFull))
                     .font(Font.custom("PingFangSC-Semibold", size: 24))
                 Spacer().frame(height: 22)
-                Text("\(Localize.string("deposit_title")) - \(Localize.string("common_ethereum"))")
+                Text("\(Localize.string("withdrawal_title")) - \(Localize.string("common_ethereum"))")
                     .foregroundColor(Color(UIColor.whiteFull))
                     .font(Font.custom("PingFangSC-Medium", size: 16))
                 Text(Localize.string("common_cps_incomplete_field_placeholder_hint"))
@@ -157,7 +159,7 @@ struct DepositCryptoDetailView: View {
                     Spacer()
                 }
                 ForEach(0 ..< 2) { index in
-                    textRowView(title: titleStrings[index], content: contentStrings()?[index] ?? "", isFlooting: index == 1, data: data)
+                    WithdrawalTextRowView(title: titleStrings[index], content: contentStrings()?[index] ?? "", isFlooting: index == 1, data: data)
                     Divider().frame(height: 1).background(Color(UIColor.dividerCapeCodGray2))
                 }
             }
@@ -197,9 +199,9 @@ struct DepositCryptoDetailView: View {
                 ForEach(2 ..< 6) { index in
                     Divider().frame(height: 1).background(Color(UIColor.dividerCapeCodGray2))
                     if index != 5 {
-                        textRowView(title: titleStrings[index], content: contentStrings()?[index] ?? "")
+                        WithdrawalTextRowView(title: titleStrings[index], content: contentStrings()?[index] ?? "")
                     } else {
-                        textRowView(data: data,title: titleStrings[index], isRemark: true)
+                        WithdrawalTextRowView(data: data,title: titleStrings[index], isRemark: true)
                     }
                 }
             }
@@ -208,20 +210,21 @@ struct DepositCryptoDetailView: View {
             Spacer().frame(height: 96)
         }
         .background(Color(UIColor.black_two).edgesIgnoringSafeArea(.all))
+
     }
     
     private func contentStrings() -> [String]? {
         guard let data = self.data else {return nil}
-        return [data.displayId,
-                StringMapper.sharedInstance.parse(data.status, isPendingHold: data.isPendingHold, ignorePendingHold: true),
+        return [data.record.displayId,
+                StringMapper.sharedInstance.parse(data.record.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: true),
                 "-",
-                data.toAddress,
+                data.playerCryptoAddress,
                 data.hashId.isEmpty ? "-" : data.hashId, ""]
     }
 }
 
-struct DepositCryptoDetailView_Previews: PreviewProvider {
+struct WithdrawalCryptoDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DepositCryptoDetailView(data: nil)
+        WithdrawalCryptoDetailView(data: nil)
     }
 }

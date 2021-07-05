@@ -2214,12 +2214,6 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="sxu-hn-1xA"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EtO-X6-dYk" userLabel="provinceErrorLabel">
                                 <rect key="frame" x="30" y="232" width="354" height="0.0"/>
@@ -2266,12 +2260,6 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="wNE-1s-MNE"/>
                                         </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <real key="value" value="8"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="luz-oN-oQW">
                                         <rect key="frame" x="306" y="12" width="0.5" height="36"/>
@@ -3837,8 +3825,8 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="AB8-OG-jSH"/>
-        <segue reference="9A6-Oa-Az1"/>
-        <segue reference="eg9-dW-Rfv"/>
+        <segue reference="pWL-dG-JgZ"/>
+        <segue reference="IGH-yb-Sof"/>
         <segue reference="XFi-hN-hfe"/>
     </inferredMetricsTieBreakers>
     <resources>
