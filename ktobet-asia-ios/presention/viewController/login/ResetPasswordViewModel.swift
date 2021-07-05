@@ -8,7 +8,7 @@ class ResetPasswordViewModel {
     static let accountRetryLimit = 11
     static let otpRetryLimit = 6
     static let retryCountDownTime = 60
-    static let resendOtpCountDownSecond: Double = 180
+    static let resendOtpCountDownSecond: Double = 240
     static let resetPasswordStep2CountDownSecond: Double = 600
     private var resetUseCase : ResetPasswordUseCase!
     private var systemUseCase : GetSystemStatusUseCase!
