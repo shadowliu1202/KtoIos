@@ -1,5 +1,6 @@
 import UIKit
 import RxSwift
+import SwiftUI
 import SharedBu
 
 class WithdrawalViewController: UIViewController {
@@ -277,8 +278,21 @@ class WithdrawalViewController: UIViewController {
     
     fileprivate func recordDataEvenhandler() {
         Observable.zip(withdrawalRecordTableView.rx.itemSelected, withdrawalRecordTableView.rx.modelSelected(WithdrawalRecord.self)).bind {[weak self] (indexPath, data) in
-            self?.performSegue(withIdentifier: WithdrawalRecordDetailViewController.segueIdentifier, sender: data)
-            self?.withdrawalRecordTableView.deselectRow(at: indexPath, animated: true)
+            guard let self = self else { return }
+            if data.transactionTransactionType == TransactionType.cryptowithdrawal {
+                self.viewModel.getWithdrawalRecordDetail(transactionId: data.displayId, transactionTransactionType: data.transactionTransactionType).subscribe {(withdrawalDetail) in
+                    let swiftUIView = WithdrawalCryptoDetailView(data: withdrawalDetail as? WithdrawalDetail.Crypto)
+                    let hostingController = UIHostingController(rootView: swiftUIView)
+                    hostingController.navigationItem.hidesBackButton = true
+                    NavigationManagement.sharedInstance.pushViewController(vc: hostingController)
+                } onError: {[weak self] (error) in
+                    self?.handleUnknownError(error)
+                }.disposed(by: self.disposeBag)
+            } else {
+                self.performSegue(withIdentifier: WithdrawalRecordDetailViewController.segueIdentifier, sender: data)
+            }
+            
+            self.withdrawalRecordTableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }
 }
