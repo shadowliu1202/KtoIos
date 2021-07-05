@@ -166,7 +166,7 @@ class SlotUnsettleRecordsCell: UITableViewCell {
         gameImgView.sd_setImage(with: URL(string: item.slotThumbnail.url()), completed: nil)
         gameLabel.text = item.gameName
         betIdLabel.text = item.betId
-        betAmountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2))
+        betAmountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount)
         return self
     }
 }

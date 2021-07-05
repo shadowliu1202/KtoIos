@@ -1218,6 +1218,10 @@
 		6DADDF32260C232A00247E80 /* WithdrawlAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEE0260B430E00247E80 /* WithdrawlAccountsViewController.swift */; };
 		6DADDF35260C232A00247E80 /* WithdrawlAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEE0260B430E00247E80 /* WithdrawlAccountsViewController.swift */; };
 		6DADDF3A260C232B00247E80 /* WithdrawlAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEE0260B430E00247E80 /* WithdrawlAccountsViewController.swift */; };
+		6DAE2FF6267332C700DE16B6 /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE2FF5267332C700DE16B6 /* CashAmount.swift */; };
+		6DAE2FF7267332C700DE16B6 /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE2FF5267332C700DE16B6 /* CashAmount.swift */; };
+		6DAE2FF8267332C700DE16B6 /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE2FF5267332C700DE16B6 /* CashAmount.swift */; };
+		6DAE2FF9267332C700DE16B6 /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE2FF5267332C700DE16B6 /* CashAmount.swift */; };
 		6DAEA5E526007FF000995A6E /* WithdrawlEmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEA5E426007FF000995A6E /* WithdrawlEmptyViewController.swift */; };
 		6DAEA5E626007FF000995A6E /* WithdrawlEmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEA5E426007FF000995A6E /* WithdrawlEmptyViewController.swift */; };
 		6DAEA5E726007FF000995A6E /* WithdrawlEmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEA5E426007FF000995A6E /* WithdrawlEmptyViewController.swift */; };
@@ -1662,6 +1666,7 @@
 		6DADDEA92609F5CD00247E80 /* BankUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankUseCase.swift; sourceTree = "<group>"; };
 		6DADDED8260B41B600247E80 /* WithdrawlLandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawlLandingViewController.swift; sourceTree = "<group>"; };
 		6DADDEE0260B430E00247E80 /* WithdrawlAccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawlAccountsViewController.swift; sourceTree = "<group>"; };
+		6DAE2FF5267332C700DE16B6 /* CashAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashAmount.swift; sourceTree = "<group>"; };
 		6DAEA5E426007FF000995A6E /* WithdrawlEmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawlEmptyViewController.swift; sourceTree = "<group>"; };
 		6DAEA5EC26008E5A00995A6E /* AddBankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBankViewController.swift; sourceTree = "<group>"; };
 		6DAEA6222600B2E600995A6E /* LockInputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockInputText.swift; sourceTree = "<group>"; };
@@ -3136,6 +3141,7 @@
 				6034627526327E5A00F5D1D9 /* RecordBarButtonItem.swift in Sources */,
 				4199A04425AE9918002E2D7E /* SignupEmailViewController.swift in Sources */,
 				4199A04525AE9918002E2D7E /* Logger.swift in Sources */,
+				6DAE2FF7267332C700DE16B6 /* CashAmount.swift in Sources */,
 				4199A04625AE9918002E2D7E /* WebsocketsTransport.swift in Sources */,
 				6D4E9956263694EE00860FF7 /* SlotViewModel.swift in Sources */,
 				6077038A25C8E3B2003FBEE4 /* DepositMethodTableViewCell.swift in Sources */,
@@ -3451,6 +3457,7 @@
 				6034627426327E5A00F5D1D9 /* RecordBarButtonItem.swift in Sources */,
 				48AAA12D256E458800E075CA /* AuthenticationUseCase.swift in Sources */,
 				48AAA12E256E458800E075CA /* LoginViewController.swift in Sources */,
+				6DAE2FF6267332C700DE16B6 /* CashAmount.swift in Sources */,
 				48AAA12F256E458800E075CA /* WebSocket.swift in Sources */,
 				6D4E9955263694EE00860FF7 /* SlotViewModel.swift in Sources */,
 				6077038925C8E3B2003FBEE4 /* DepositMethodTableViewCell.swift in Sources */,
@@ -3750,6 +3757,7 @@
 				6034627626327E5A00F5D1D9 /* RecordBarButtonItem.swift in Sources */,
 				605AC75D25C115BF00873D63 /* WebsocketsTransport.swift in Sources */,
 				60AE470C25DD15E400AE9B5E /* DepositMethodTableViewCell.swift in Sources */,
+				6DAE2FF8267332C700DE16B6 /* CashAmount.swift in Sources */,
 				605AC75E25C115BF00873D63 /* ResetPasswordViewController.swift in Sources */,
 				6D4E9957263694EE00860FF7 /* SlotViewModel.swift in Sources */,
 				605AC75F25C115BF00873D63 /* ToastView.swift in Sources */,
@@ -4028,6 +4036,7 @@
 				609012B22640EE7000419F8E /* GameStatus.swift in Sources */,
 				609012B32640EE7000419F8E /* StreamHandle.swift in Sources */,
 				609012B42640EE7000419F8E /* CustomServiceRepository.swift in Sources */,
+				6DAE2FF9267332C700DE16B6 /* CashAmount.swift in Sources */,
 				609012B52640EE7000419F8E /* Connection.swift in Sources */,
 				609012B62640EE7000419F8E /* BankRepository.swift in Sources */,
 				609012B72640EE7000419F8E /* KoyomiLayout.swift in Sources */,

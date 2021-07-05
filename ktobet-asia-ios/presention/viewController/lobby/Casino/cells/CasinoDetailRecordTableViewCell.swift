@@ -35,16 +35,16 @@ class CasinoDetailRecord2TableViewCell: UITableViewCell {
         
         if index == 4 {
             self.titleLabel.text = Localize.string("product_bet_amount")
-            self.contentLabel.text = detail.stakes.amount.currencyFormatWithoutSymbol(precision: 2)
+            self.contentLabel.text = detail.stakes.displayAmount
         }
         
         if index == 5 {
             self.titleLabel.text = Localize.string("product_bet_win_lose")
             if detail.winLoss.amount >= 0 {
-                self.contentLabel.text = String(format: Localize.string("product_winning_amount"), abs(detail.winLoss.amount).currencyFormatWithoutSymbol(precision: 2))
+                self.contentLabel.text = String(format: Localize.string("product_winning_amount"), detail.winLoss.displayAmount)
                 self.contentLabel.textColor = UIColor.textSuccessedGreen
             } else {
-                self.contentLabel.text = String(format: Localize.string("product_losing_amount"), abs(detail.winLoss.amount).currencyFormatWithoutSymbol(precision: 2))
+                self.contentLabel.text = String(format: Localize.string("product_losing_amount"), detail.winLoss.displayAmount)
             }
         }
     }

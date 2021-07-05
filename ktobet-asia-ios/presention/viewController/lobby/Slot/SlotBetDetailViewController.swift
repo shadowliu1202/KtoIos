@@ -88,7 +88,7 @@ class SlotBetDetailCell: UITableViewCell {
         let dateString: String = dateFormatter.string(from: date)
         self.timeLabel.text = "\(dateString)".uppercased()
         let status = item.winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + status + " \(abs(item.winLoss.amount).currencyFormatWithoutSymbol(precision: 2))"
+        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winLoss.displayAmount)"
         
         return self
     }
@@ -103,11 +103,11 @@ class SlotBetDetailCell: UITableViewCell {
         self.timeLabel.text = "\(dateString)".uppercased()
         
         
-        if let winLoss = item.winLoss, winLoss.amount != 0 {
+        if let winLoss = item.winLoss {
             let status = winLoss.amount >= 0 ? Localize.string("common_win") : Localize.string("common_lose")
-            amountLabel.text = Localize.string("product_total_bet", item.betAmount.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + status + " \(abs(winLoss.amount).currencyFormatWithoutSymbol(precision: 2))"
+            amountLabel.text = Localize.string("product_total_bet", item.betAmount.displayAmount) + "  " + status + " \(winLoss.displayAmount)"
         } else {
-            amountLabel.text = Localize.string("product_total_bet", item.betAmount.amount.currencyFormatWithoutSymbol(precision: 2))
+            amountLabel.text = Localize.string("product_total_bet", item.betAmount.displayAmount)
         }
     }
 }

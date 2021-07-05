@@ -18,7 +18,7 @@ extension Double {
         return String(self)
     }
     
-    func currencyFormatWithoutSymbol(precision: Int, maximumFractionDigits: Int = 2) -> String {
+    func currencyFormatWithoutSymbol(precision: Int, maximumFractionDigits: Int = 2, roundingMode: NumberFormatter.RoundingMode = .down) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.groupingSeparator = ","
         numberFormatter.groupingSize = 3
@@ -27,7 +27,7 @@ extension Double {
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = precision
         numberFormatter.maximumFractionDigits = maximumFractionDigits
-        numberFormatter.roundingMode = .down
+        numberFormatter.roundingMode = roundingMode
         
         return numberFormatter.string(from: self as NSNumber)!
     }

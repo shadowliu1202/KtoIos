@@ -199,12 +199,8 @@ class BankApi: ApiService {
         return httpClient.request(target).map(ResponseData<Nothing>.self)
     }
     
-    func deleteWithdrawalAccount(playerBankCardIdDict: [String: String]) -> Single<ResponseData<Nothing>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "api/bank-card/",
-                               method: .delete,
-                               task: .requestParameters(parameters: playerBankCardIdDict, encoding: URLEncoding.default),
-                               header: httpClient.headers)
+    func deleteWithdrawalAccount(playerBankCardId: String) -> Single<ResponseData<Nothing>> {
+        let target = DeleteAPITarget(service: self.url("api/bank-card/\(playerBankCardId)"))
         return httpClient.request(target).map(ResponseData<Nothing>.self)
     }
     

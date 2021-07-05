@@ -78,15 +78,15 @@ class NumbergameRecentCell: UITableViewCell {
     @IBOutlet weak var arrow: UIImageView!
     
     func configure(_ item: NumberGameSummary.RecentlyBet) -> Self {
-        titleLabel.text = item.betTypeName.isEmpty ? item.selection : "\(item.betTypeName) :\(item.selection)"
+        titleLabel.text = item.betTypeName.isEmpty ? item.selection : "\(item.betTypeName) : \(item.selection)"
         productNameLabel.text = item.gameName
-        matchMethodLabel.text = item.matchMethod
+        matchMethodLabel.text = item.matchMethod + (item.isStrike == true ? " - \(Localize.string("common_strike"))" : "")
         let status = item.status
         if status is NumberGameBetDetail.BetStatusSettledWinLose {
             let amount: CashAmount = (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss
-            betAmountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2)) + "  " + parseWinLose(winLoss: amount) + " \(abs(amount.amount).currencyFormatWithoutSymbol(precision: 2))"
+            betAmountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + parseWinLose(winLoss: amount) + " \(amount.displayAmount)"
         } else {
-            betAmountLabel.text = Localize.string("product_total_bet", item.stakes.amount.currencyFormatWithoutSymbol(precision: 2)) + " \(status.LocalizeString)"
+            betAmountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + " \(status.LocalizeString)"
         }
         arrow.isHidden = !item.hasDetail
         return self

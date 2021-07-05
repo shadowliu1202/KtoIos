@@ -101,14 +101,16 @@ extension RecentDetailViewController: UITableViewDataSource {
 class RecentDetailCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var subDescriptionLabel: UILabel!
     
     func configure(index: Int, data: NumberGameBetDetail) -> Self {
         if index == 0 {
             setTilte(key:"product_bet_id")
             setValue(data.displayId)
+            subDescriptionLabel.text = data.traceId
         } else if index == 1 {
-            setTilte(key: "product_game_name_id")
-            setValue(data.gameName + "(\(data.matchMethod))")
+            setTilte(key: "product_number_game_name_id")
+            setValue(data.gameName + " (\(data.matchMethod))")
         } else if index == 2 {
             setTilte(key: "product_bet_content")
             setValue(data.betContent.joined(separator: "\n"))
@@ -116,12 +118,13 @@ class RecentDetailCell: UITableViewCell {
             setTilte(key: "product_bet_time")
             let date = data.betTime.convertToDate()
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy/MM/dd(E)HH:mm:ss"
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.dateFormat = "yyyy/MM/dd (E) HH:mm:ss"
             let currentDateString: String = dateFormatter.string(from: date)
             setValue(currentDateString)
         } else if index == 4 {
             setTilte(key: "product_bet_amount")
-            setValue(data.stakes.amount.currencyFormatWithoutSymbol(precision: 2))
+            setValue(data.stakes.displayAmount)
         } else if index == 5 {
             setTilte(key: "common_status")
             let status = data.status
