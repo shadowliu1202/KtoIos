@@ -56,6 +56,10 @@ class LocalStorageRepository {
     func getCultureCode() -> String {
         return getUserDefaultValue(key: KcultureCode) ?? ""
     }
+    
+    func getLocalCurrency() -> FiatCurrency {
+        return FiatCurrency.create(cultureCode: getCultureCode())
+    }
 
     func setRememberMe(_ rememberMe: Bool?) {
         setUserDefaultValue(value: rememberMe, key: kRememberMe)

@@ -107,3 +107,29 @@ struct ChunkImageDetil: Codable {
 }
 
 struct Empty : Encodable {}
+
+struct CryptoBankCardRequest: Codable {
+    var cryptoCurrency: Int
+    var cryptoWalletName: String
+    var cryptoWalletAddress: String
+}
+
+struct AccountVerifyRequest: Codable {
+    var playerCryptoBankCardId: String
+    var accountType: Int
+}
+
+struct OTPVerifyRequest: Codable {
+    var verifyCode: String
+    var accountType: Int
+}
+
+struct CryptoWithdrawalRequest: Codable {
+    let playerCryptoBankCardId: String
+    let requestCryptoAmount, requestFiatAmount: Double
+    let cryptoCurrency: Int
+
+    enum CodingKeys: String, CodingKey {
+        case playerCryptoBankCardId, requestFiatAmount, cryptoCurrency, requestCryptoAmount
+    }
+}

@@ -3,14 +3,11 @@ import RxSwift
 import SharedBu
 import RxCocoa
 
+
 class AddBankViewModel {
+    
     let InitAndKeyboardFirstEvent = 2
-    enum ValidError {
-        case none
-        case length
-        case empty
-        case regex
-    }
+
     var userName = BehaviorRelay<String>(value: "")
     
     lazy var bankID = BehaviorRelay<Int32>(value: 0)

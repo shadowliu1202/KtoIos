@@ -1,9 +1,61 @@
 
 
+//MARK: - CPS
+"cps_kto" = "KTO";
+"cps_daily_limit_widthrawal_amount" = "每日提现额度：%@";
+"cps_daily_limit_widthrawal_times" = "每日提现次数：%@";
+"cps_turnover_requirement" = "投注额提现要求：";
+"cps_crpyto_withdrawal_requirement" = "虚拟币提现要求：";
+"cps_crpyto_withdrawal_requirement_title" = "虚拟币提现要求说明";
+"cps_crpyto_withdrawal_requirement_desc" = "虚拟币提现要求为0时，表示您既可以使用现金提现，也可以使用虚拟币提现。
+
+当您完成虚拟币充值后，虚拟币提现要求将变为等额的充值金额，需要首先完成虚拟币提现后才能使用现金提现。";
+"cps_cash_withdrawal_lock_title" = "现金提现锁定";
+"cps_cash_withdrawal_lock_desc" = "目前尚有%@虚拟币尚未提现结算。需先将虚拟币未结算金额提取完毕，账户才能进行现金提现。";
+"cps_success_log" = "虚拟币交易成功纪录";
+"cps_remaining_requirement" = "剩余虚拟币提现要求：%@ ETH";
+"cps_total_require_amount" = "总虚拟币提现要求（上次清零后累计充值）：%@ ETH";
+"cps_total_completed_amount" = "已完成虚拟币提现要求（上次清零后累计提现）：%@ ETH";
+"cps_require_completed" = "您目前已无剩余虚拟币提现要求，将会跳转至提现首页。";
+"cps_set_crypto_account" = "设定虚拟币账户";
+"cps_set_crypto_account_hint" = "您必须先设定虚拟币账户才能进行提现。";
+"cps_auto_fill_not_enough_balance" = "账户余额不足";
+"cps_auto_fill_remaining_balance" = "您的账户余额低于虚拟币提现要求，将自动填写账户余额。";
+"cps_auto_fill_maximum_limit" = "您的账户余额大于单笔限额，将自动填写单笔限额。";
+"cps_auto_fill_daily_limit_maximum" = "您的账户余额大于今日可提现金额，将自动填写今日可提现金额。";
+"cps_auto_fill_crypto_daily_limit_maximum" = "您的虛擬幣提現要求大於今日可提現金額，將自動填寫今日可提現金額。";
+"cps_auto_fill_crypto_maximum_limit" = "您的虛擬幣提現要求大於單筆限額，將自動填寫單筆限額";
+"cps_crypto_account_name" = "账户别称";
+"cps_crypto_currency" = "虚拟币币别";
+"cps_crypto_delete_hint" = "该虚拟币钱包为已验证状态，删除后重新添加将需要再次验证。";
+"cps_excahange_rate" = "交易汇率";
+"cps_request_withdrawal_crypto_amount" = "本次申请提现金额";
+"cps_request_withdrawal_fiat_amount" = "账户扣除";
+"cps_remaining_crypto_requirement" = "虚拟币需要完成的提现要求";
+"cps_rate_changed" = "汇率已更动";
+"cps_please_refill_amounts" = "请重新确认并填写金额。";
+"cps_wallet_address" = "账户地址";
+"cps_add_account" = "新增虚拟币账户";
+"cps_security_alert" = "为了账户安全，需要进行身份验证。";
+"cps_verify_hint" = "此账户已验成完成，可进行提现。";
+"cps_add_hint" = "此账户资料将不可变更内容只能删除。";
+"cps_bank_card_exist" = "您的提现账户已存在";
+"cps_cash_withdrawal" = "现金提现";
+"cps_crpyto_withdrawal" = "虚拟币提现";
+"cps_qr_code_read_fail" = "读取失败";
+"cps_qr_code_read_fail_content" = "QR Code 读取失败，请重新读取。";
+"cps_auto_fill_balance" = "自动填写目前账户余额";
+"cps_auto_fill_request" = "自动填写虚拟币提现要求";
+"cps_account_status_verified" = "本賬户已验证核可";
+"cps_close_otp_verify_hint" = "尚未完成提现帳戶设定，將無法进行提现";
+"cps_eth_default_bank_card_name" = "以太坊钱包";
+"cps_scan" = "扫描";
+"cps_scan_qrcode" = "扫描QR Code";
+
 //MARK: - Common
 "common_kto" = "KTO";
 "common_accountinfo" = "THTH个人资料";
-"common_activity" = "THTH帐户动态";
+"common_activity" = "THTH账户动态";
 "common_adjustment" = "THTH调整";
 "common_afterbalance" = "THTH余额";
 "common_all" = "THTH全部";
@@ -74,8 +126,8 @@
 "common_pending" = "THTH处理中";
 "common_pending_2" = "待定";
 "common_pending_hold" = "等待银行处理中";
-"common_player_inactive" = "THTH您的帐户已被永久关闭，如有疑问请联系在线客服";
-"common_player_suspend" = "THTH您的帐户被冻结，如有疑问请联系在线客服";
+"common_player_inactive" = "THTH您的账户已被永久关闭，如有疑问请联系在线客服";
+"common_player_suspend" = "THTH您的账户被冻结，如有疑问请联系在线客服";
 "common_playerid" = "THTH玩家ID";
 "common_previous" = "THTH上一步";
 "common_promotion" = "THTH优惠";
@@ -108,7 +160,7 @@
 "common_transactionamount" = "THTH交易金额";
 "common_transactionsummary" = "THTH费用小计";
 "common_unknowbank" = "THTH提醒您此银行不在预设列表中，但您仍能使用并待后续人员审核。";
-"common_unregister" = "THTH您尚未註冊帐戶";
+"common_unregister" = "THTH您尚未註冊账戶";
 "common_unverified" = "THTH未验证";
 "common_upload" = "THTH上传";
 "common_uploadedfile" = "THTH已上传验证文件";
@@ -188,7 +240,7 @@
 "common_copy" = "复制";
 "common_copied" = "复制完成";
 "common_submit2" = "提交";
-"common_times_count" = "次";
+"common_times_count" = "%@次";
 "common_privacy_terms" = "隐私政策";
 "common_service_terms" = "服务条款";
 "common_gambling_responsibility_terms" = "博彩责任";
@@ -202,7 +254,7 @@
 "common_tip_title_warm" = "Lưu Ý";
 "common_tip_content_bind" = "该设定将与账户绑定，无法更改。";
 "common_tip_title_unfinished" = "当前页面数据未保存，确定要离开？";
-"common_tip_content_unfinished" = "一但删除，此笔帐户数据就不存在";
+"common_tip_content_unfinished" = "一但删除，此笔账户数据就不存在";
 "common_field_must_fill" = "TH此栏位必填";
 "common_field_must_fill_2" = "此为必填栏位。";
 "common_field_format_incorrect" = "TH您所填写的格式不正确";
@@ -214,7 +266,7 @@
 "common_error_try_later" = "THTH您已多次输入错误，请稍后再试。";
 "common_otp_sent_content" = "TH6位数字的验证码已经发送至";
 "common_notify_logout_title" = "THTH登出通知";
-"common_notify_logout_content" = "THTH很抱歉，您的帐号已在其它位置登录，请尝试重新登录。";
+"common_notify_logout_content" = "THTH很抱歉，您的账号已在其它位置登录，请尝试重新登录。";
 "common_sms_otp_exeed_send_limit" = "THTH该手机已达发送上限，请于隔日00:00再试。";
 "common_email_otp_exeed_send_limit" = "THTH该邮箱已达发送上限，请于隔日00:00再试。";
 "common_app_version" = "%@-%@";
@@ -302,6 +354,19 @@
 "common_http_503" = "发生暂时性的错误，请稍后再试";
 "common_http_exception" = "网路异常，错误代码(%@)";
 "common_empty_data" = "查无资料";
+"common_requirement" = "仍需 %@";
+"common_none" = "无";
+"common_select_verify_type" = "选择验证方式";
+"common_otp_hint" = "6位数字的验证码将发送至";
+"common_not_set_mobile" = "尚未设定手机";
+"common_not_set_email" = "尚未设定电子邮箱";
+"common_verify_email" = "验证电子邮箱";
+"common_verify_mobile" = "验证手机";
+"common_maintainence_error" = "维护中，请稍后再试";
+"common_verify_finished" = "验证完成";
+"common_add_finished" = "新增完成";
+"common_close_setting_hint" = "是否结束设定？";
+"common_p2p" = "对战";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -316,7 +381,7 @@
 "register_step1_title_1" = "THTH注册 1/3";
 "register_step1_title_2" = "THTH选择语言与货币";
 "register_step1_warning" = "THTH该设定将与账户绑定，无法更改。";
-"register_step1_tips_1" = "THTH若您已拥有帐户请按这里";
+"register_step1_tips_1" = "THTH若您已拥有账户请按这里";
 "register_step1_tips_1_highlight" = "THTH《服务条款》";
 "register_service_down" = "暂时无法注册，请稍后再试。";
 "register_step2_title_1" = "THTH注册 2/3";
@@ -349,7 +414,7 @@
 
 //MARK: - Login
 "login_account_identity" = "手机/电子邮箱";
-"login_account_remember_me" = "记住我的帐号";
+"login_account_remember_me" = "记住我的账号";
 "login_tips_1" = "THTH忘记密码，使用";
 "login_tips_1_highlight" = "THTH重置密码";
 "login_invalid_username_password" = "THTH用户名或密码不正确";
@@ -390,9 +455,9 @@
 "deposit_setfavorite" = "THTH将此充值方式设定为常用";
 "deposit_cancelfavorite" = "THTH取消设定此充值方式为常用";
 "deposit_selectbank" = "THTH选择充值银行";
-"deposit_offline_step1_title" = "THTHATM、临柜或银行卡转帐";
+"deposit_offline_step1_title" = "THTHATM、临柜或银行卡转账";
 "deposit_info_title" = "THTH填写充值信息";
-"deposit_bankname" = "THTH充值者银行帐户姓名";
+"deposit_bankname" = "THTH充值者银行账户姓名";
 "deposit_accountlastfournumber" = "THTH汇款银行卡尾数四位(选填)";
 "deposit_amount" = "THTH汇款金额";
 "deposit_offline_step1_tips" = "THTH充值金额，单笔限额 $ %@ - %@";
@@ -400,14 +465,14 @@
 "deposit_offline_step2_title" = "THTHKTO收款方信息";
 "deposit_offline_step2_title_tips" = "THTH请汇入以下提供的银行账户。   ";
 "deposit_receiveinfo" = "THTH收款讯息";
-"deposit_receivename" = "THTH收款帐户";
+"deposit_receivename" = "THTH收款账户";
 "deposit_receivebank" = "THTH收款银行";
-"deposit_receiveaccount" = "THTH收款帐号";
+"deposit_receiveaccount" = "THTH收款账号";
 "deposit_validdeposittime" = "THTH有效充值时间 ";
 "deposit_remmiterinfo" = "THTH支付讯息";
 "deposit_remmiterbankaccountname" = "THTH汇款人姓名";
 "deposit_remmiteramount" = "THTH支付金额";
-"deposit_offline_step2_warning" = "THTH请支付此金额，以便资金快速到帐。";
+"deposit_offline_step2_warning" = "THTH请支付此金额，以便资金快速到账。";
 "deposit_offline_step3_title" = "THTH已提交申请";
 "deposit_offline_step3_fail" = "提交失敗";
 "deposit_ticketid" = "THTH充值订单编号  %@";
@@ -445,6 +510,7 @@
 "deposit_name" = "THTH汇款人姓名";
 "deposit_thirdparty_transaction_remind" = "THTH你即将进入交易确认画面，在交易完成之前请勿关闭窗口。";
 "deposit_file_format_invalid" = "THTH您的档案不符合系统格式";
+"deposit_crypto_warning" = "“虚拟币充值” 成功后需要提现等额的虚拟币才能使用 “现金提现”。";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "THTH交易前金额";
@@ -498,12 +564,12 @@
 //MARK: - Withdrawal
 "withdrawal_accountnumber" = "VIVN账户号码";
 "withdrawal_accountrealname" = "VIVN提现姓名";
-"withdrawal_accountsetting_title" = "VIVN管理我的提现帐户";
+"withdrawal_accountsetting_title" = "VIVN管理我的提现账户";
 "withdrawal_activity" = "VIVN提现动态";
-"withdrawal_addaccount" = "VIVN新增提现帐户";
+"withdrawal_addaccount" = "VIVN新增提现账户";
 "withdrawal_amount" = "VIVN提现金额";
-"withdrawal_bankaccountdetail_modal_content" = "VIVN一旦删除，此笔提现帐户数据就不存在。";
-"withdrawal_bankaccountdetail_modal_title" = "VIVN删除提现帐户?";
+"withdrawal_bankaccountdetail_modal_content" = "VIVN一旦删除，此笔提现账户数据就不存在。";
+"withdrawal_bankaccountdetail_modal_title" = "VIVN删除提现账户?";
 "withdrawal_bankaccountdetail_title" = "VIVN提现账户详情";
 "withdrawal_bankcity" = "VIVN银行所在都市";
 "withdrawal_bankstate" = "VIVN银行所在省份";
@@ -511,6 +577,8 @@
 "withdrawal_cancel" = "VIVN提现取消";
 "withdrawal_dailywithdrawalamount" = "今日可提现金额：";
 "withdrawal_dailywithdrawalcount" = "今日可提现次数：";
+"withdrawal_dailywithdrawalamount_2" = "今日可提现金额";
+"withdrawal_dailywithdrawalcount_2" = "今日可提现次数";
 "withdrawal_detail_title" = "VIVN提现细单";
 "withdrawal_fail" = "VIVN提现失败";
 "withdrawal_log" = "VIVN提现纪录";
@@ -523,10 +591,10 @@
 "withdrawal_selectbank" = "VIVN充值银行";
 "withdrawal_setaccount" = "VIVN管理提现账户";
 "withdrawal_setbankaccount_button" = "VIVN新增提现账户";
-"withdrawal_setbankaccount_modal_title" = "VIVN是否结束新增提现帐户?";
-"withdrawal_setbankaccount_tips" = "VIVN您必须先设定银行帐户才能进行提现。";
-"withdrawal_setbankaccount_title" = "VIVN设定银行帐户";
-"withdrawal_setbankaccountsuccess_modal_content" = "VIVN此帐户资料将不可变更内容只能删除";
+"withdrawal_setbankaccount_modal_title" = "VIVN是否结束新增提现账户?";
+"withdrawal_setbankaccount_tips" = "VIVN您必须先设定银行账户才能进行提现。";
+"withdrawal_setbankaccount_title" = "VIVN设定银行账户";
+"withdrawal_setbankaccountsuccess_modal_content" = "VIVN此账户资料将不可变更内容只能删除";
 "withdrawal_setbankaccountsuccess_modal_title" = "VIVN新增完成";
 "withdrawal_setnewrealname_modal_content" = "VIVN如需要要变更提现姓名，请前往个人设定。";
 "withdrawal_setnewrealname_modal_title" = "VIVN是否要变更提现姓名?";
@@ -553,11 +621,11 @@
 若需要改变姓名，请先取消提现单申请，再前往个人设定进行变更。";
 "withdrawal_bankcard_new" = "VIVN本账户尚未验证";
 "withdrawal_bankcard_locked" = "VIVN本账户资料审核中不可删除";
-"withdrawal_bankcard_verified" = "VIVN本账户已验证核可";
+"withdrawal_bankcard_verified" = "本账户已出款成功";
 "withdrawal_bankcard_fail" = "VIVN本账户资料不正确";
-"withdrawal_bankcard_delete" = "VIVN删除提现帐户";
-"withdrawal_bankcard_delete_confirm_title" = "VIVN是否删除提现帐户?";
-"withdrawal_bankcard_delete_confirm_content" = "VIVN一但删除，此笔帐户资料就不存在";
+"withdrawal_bankcard_delete" = "VIVN删除提现账户";
+"withdrawal_bankcard_delete_confirm_title" = "VIVN是否删除提现账户?";
+"withdrawal_bankcard_delete_confirm_content" = "VIVN一但删除，此笔账户资料就不存在";
 "withdrawal_bankcard_name_placeholder" = "VIVN王大明";
 "withdrawal_bankcard_branch_placeholder" = "VIVN上海分行";
 "withdrawal_bankcard_state_placeholder" = "VIVN浙江省";
@@ -1105,7 +1173,7 @@ http";
 "bonus_title_4_2" = "老虎机返现 %@%%";
 "bonus_title_4_3" = "娱乐场返现 %@%%";
 "bonus_use" = "THTH手动领取";
-"bonus_applicationtrial" = "帐户当前余额:%@元
+"bonus_applicationtrial" = "账户当前余额:%@元
 可获取彩金:%@元
 领取后需要完成投注额:%@元
 计算方式:%@";
@@ -1116,7 +1184,7 @@ http";
 获取红利金额:%@元
 获取红利日期:%@
 投注额要求:
-帐户当前余额:%@元
+账户当前余额:%@元
 可获取彩金:%@元
 领取后需要完成投注额:%@元
 计算方式:%@
@@ -1128,7 +1196,7 @@ http";
 "bonus_historyamount" = "THTH获取红利金额:%@元";
 "bonus_historydate" = "THTH获取红利日期:%@";
 "bonus_historybetmutipler" = "THTH彩金投注额要求";
-"bonus_historytrialbalance" = "THTH帐户当前余额:%@元";
+"bonus_historytrialbalance" = "THTH账户当前余额:%@元";
 "bonus_historytrialamount" = "THTH可获取彩金:%@元";
 "bonus_historytrialrequest" = "THTH领取后需要完成投注额:%@元";
 "bonus_historytrialachieved" = "当前已完成";

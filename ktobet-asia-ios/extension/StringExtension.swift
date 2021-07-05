@@ -63,6 +63,10 @@ extension String {
         return Double(self.replacingOccurrences(of: ",", with: ""))
     }
     
+    func currencyAmountToDeciemal() -> Decimal? {
+        return Decimal(string: self.replacingOccurrences(of: ",", with: ""))
+    }
+    
     func toLocalDate() -> Kotlinx_datetimeLocalDate {
         let createDate = self.convertDateTime(format: "yyyy-MM-dd", timeZone: "UTC") ?? Date()
         return Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth())
@@ -72,6 +76,7 @@ extension String {
 enum RegexFormat: String {
     case email          = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
     case branchName     = #"[\u4e00-\u9fa5\uff00-\uffffa-zA-Z]{1,31}"#
+    case cryptoAddress   = "^[a-zA-Z0-9_-]*$"
     
     var predicate: NSPredicate {
         let regex = self.rawValue

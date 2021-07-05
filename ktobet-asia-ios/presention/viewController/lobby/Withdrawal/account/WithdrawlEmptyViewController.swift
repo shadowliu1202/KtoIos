@@ -9,24 +9,52 @@ class WithdrawlEmptyViewController: UIViewController {
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     let disposeBag = DisposeBag()
+    var bankCardType: BankCardType!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let negativeSeperator = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        negativeSeperator.width = 8
+        let backButton = UIBarButtonItem(image: UIImage(named: "Back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.backRoot))
+        self.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
+        self.navigationItem.title = title
+
         initUI()
         dataBinding()
     }
     
-    private func initUI() {
-        titleLabel.text = Localize.string("withdrawal_setbankaccount_title")
-        descriptionLabel.text = Localize.string("withdrawal_setbankaccount_tips")
-        continueButton.setTitle(Localize.string("common_continue"), for: .normal)
-        skipButton.setTitle(Localize.string("common_notset"), for: .normal)
+    @objc func backRoot() {
+        NavigationManagement.sharedInstance.popToRootViewController()
     }
-
+    
+    private func initUI() {
+        switch bankCardType {
+        case .crypto:
+            titleLabel.text = Localize.string("cps_set_crypto_account")
+            descriptionLabel.text = Localize.string("cps_set_crypto_account_hint")
+            continueButton.setTitle(Localize.string("common_continue"), for: .normal)
+            skipButton.setTitle(Localize.string("common_notset"), for: .normal)
+        case .general:
+            titleLabel.text = Localize.string("withdrawal_setbankaccount_title")
+            descriptionLabel.text = Localize.string("withdrawal_setbankaccount_tips")
+            continueButton.setTitle(Localize.string("common_continue"), for: .normal)
+            skipButton.setTitle(Localize.string("common_notset"), for: .normal)
+        default:
+            break
+        }
+    }
     
     private func dataBinding() {
         continueButton.rx.touchUpInside.subscribe(onNext: { [weak self] _ in
-            self?.performSegue(withIdentifier: AddBankViewController.segueIdentifier, sender: nil)
+            switch self?.bankCardType {
+            case .general:
+                self?.performSegue(withIdentifier: AddBankViewController.segueIdentifier, sender: nil)
+            case .crypto:
+                self?.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: nil)
+            default:
+                break
+            }
         }).disposed(by: disposeBag)
         skipButton.rx.touchUpInside.subscribe(onNext: { [weak self] _ in
             self?.tapBack()
@@ -34,6 +62,6 @@ class WithdrawlEmptyViewController: UIViewController {
     }
     
     func tapBack() {
-        NavigationManagement.sharedInstance.popViewController()
+        NavigationManagement.sharedInstance.popToRootViewController()
     }
 }

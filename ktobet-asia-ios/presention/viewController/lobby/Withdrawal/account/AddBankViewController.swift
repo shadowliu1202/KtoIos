@@ -180,7 +180,7 @@ class AddBankViewController: UIViewController {
         }, confirmText: Localize.string("common_moveto"), cancel: {})
     }
     
-    func handleErrorLabel(error: AddBankViewModel.ValidError, textField: UIView?, label: UILabel?) {
+    func handleErrorLabel(error: ValidError, textField: UIView?, label: UILabel?) {
         let message = transferError(error)
         label?.text = message
         if textField is InputText {
@@ -192,7 +192,7 @@ class AddBankViewController: UIViewController {
         }
     }
 
-    func transferError(_ error: AddBankViewModel.ValidError) -> String {
+    func transferError(_ error: ValidError) -> String {
         switch error {
         case .length, .regex:
             return Localize.string("common_invalid")
@@ -213,7 +213,7 @@ class AddBankViewController: UIViewController {
     
     private func popThenToast() {
         NavigationManagement.sharedInstance.popViewController({
-            if let topVc = UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.topViewController {
+            if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
                 let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: topVc.view.frame.width, height: 48))
                 toastView.show(on: topVc.view, statusTip: Localize.string("withdrawal_account_added"), img: UIImage(named: "Success"))
             }
