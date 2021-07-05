@@ -17,13 +17,18 @@ default_platform(:ios)
 platform :ios do
 
 	before_all do
-	    create_keychain(name: "jenkinsKeyChain",default_keychain: true,unlock: true,timeout: 3600,lock_when_sleeps: true, password:"password")
+        key_file_path = ENV['API_KEY']
+        app_store_connect_api_key(
+            key_id: "76GX29C4YY",#API kid
+            issuer_id: "7a9803b0-51d8-44c5-ba26-f916da982cbe",#Issuer ID
+            key_filepath: key_file_path,
+            duration: 1200, 
+            in_house: false, 
+        )
 	end
 
 
 	lane :buildIpa  do |options|
-
-		match(type: "adhoc", keychain_name: "jenkinsKeyChain", keychain_password: "password")
 		update_info_plist(plist_path: "ktobet-asia-ios/info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
