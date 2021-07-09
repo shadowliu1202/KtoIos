@@ -1,9 +1,7 @@
 git_url "git@gitlab.higgstar.org:mobile/kto-asia-ios-certification.git"
-type "adhoc"
 app_identifier "com.higgstar.ktoasiabet"
 username "higgs-mobile@hotmail.com"
 shallow_clone true
-force_for_new_devices true
 
 
 
