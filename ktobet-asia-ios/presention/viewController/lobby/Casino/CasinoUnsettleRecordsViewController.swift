@@ -18,7 +18,7 @@ class CasinoUnsettleRecordsViewController: UIViewController {
         NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("product_unsettled_game"))
         tableView.delegate = unsettleGameDelegate
         tableView.dataSource = self
-        tableView.tableFooterView = UIView()
+        tableView.setHeaderFooterDivider(headerColor: UIColor.black_two)
         getUnsettledBetSummary()
     }
     
@@ -83,6 +83,8 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
                    totalAmount: sections[indexPath.section].totalAmount[indexPath.row])
         if (sections.count - 1) == indexPath.section && (sections.last!.betId.count - 1) == indexPath.row {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        } else {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
         }
         return cell
     }

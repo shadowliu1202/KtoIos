@@ -31,8 +31,7 @@ class SlotUnsettleRecordsViewController: UIViewController {
     private func initUI() {
         tableView.delegate = unsettleGameDelegate
         tableView.dataSource = self
-        tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
-        tableView.tableFooterView?.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
+        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25))
     }
     
     private func switchContent(_ games: [SlotUnsettledSection]? = nil) {

@@ -15,7 +15,7 @@ def default_pods
   pod 'IQKeyboardManagerSwift', '6.5.6'
   source 'git@gitlab.higgstar.org:mobile/ios_pod_repo.git'
   source 'https://cdn.cocoapods.org/'
-  pod 'sharedbu', '1.1.7'
+  pod 'sharedbu', :git => 'git@gitlab.higgstar.org:mobile/kto_shared_bu.git', :branch => 'APP-1531'
   pod 'SideMenu', '6.5.0'
   pod 'Moya/RxSwift', '14.0.0'
   pod 'SDWebImage', '5.10.4'

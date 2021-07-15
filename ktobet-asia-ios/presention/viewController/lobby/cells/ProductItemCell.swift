@@ -25,6 +25,8 @@ class ProductItemCell: UICollectionViewCell {
             imgIcon.image = isSelected ? UIImage(named: "Number Game_Selected") : UIImage(named: "Number Game")
         case .slot:
             imgIcon.image = isSelected ? UIImage(named: "Slot_Selected") : UIImage(named: "Slot")
+        case .p2p:
+            imgIcon.image = isSelected ? UIImage(named: "P2P_Selected") : UIImage(named: "P2P")
         default:
             break
         }

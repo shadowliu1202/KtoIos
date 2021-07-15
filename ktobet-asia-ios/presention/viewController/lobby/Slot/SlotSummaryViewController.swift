@@ -30,8 +30,7 @@ class SlotSummaryViewController: UIViewController {
     
     private func initUI() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
-        tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
-        tableView.tableFooterView?.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
+        tableView.setHeaderFooterDivider()
     }
     
     private func bindingSummaryData() {

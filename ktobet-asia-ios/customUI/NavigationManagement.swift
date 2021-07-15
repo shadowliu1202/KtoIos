@@ -2,6 +2,10 @@ import Foundation
 import SideMenu
 import SharedBu
 
+let CUSTOM_NAVI_HEIGHT: CGFloat = 48.0
+let DEFAULT_NAVI_HEIGHT: CGFloat = 44.0
+let DIFF_NAVI_HEIGHT = CUSTOM_NAVI_HEIGHT - DEFAULT_NAVI_HEIGHT
+
 class NavigationManagement {
     private var sideBarViewController: SideBarViewController!
     private var menu: SideMenuNavigationController!
@@ -36,6 +40,7 @@ class NavigationManagement {
         let menuButton = UIBarButtonItem(image: UIImage(named: "Menu")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(NavigationManagement.showMenu))
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, menuButton]
         vc.navigationItem.title = title
+        vc.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
     }
     
     func addBackToBarButtonItem(vc: UIViewController, isShowAlert: Bool = false, backTitle: String = Localize.string("common_tip_title_unfinished"), backMessage: String = Localize.string("common_tip_content_unfinished"), title: String? = nil) {
@@ -48,6 +53,7 @@ class NavigationManagement {
         let backButton = UIBarButtonItem(image: UIImage(named: "Back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(NavigationManagement.back))
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
         vc.navigationItem.title = title
+        vc.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
     }
     
     func addCloseToBarButtonItem(vc: UIViewController, isShowAlert: Bool = true, closeAction: (() -> ())? = nil, closeTitle: String = Localize.string("common_tip_title_unfinished"), closeMessage: String = Localize.string("common_tip_content_unfinished")) {
@@ -60,6 +66,7 @@ class NavigationManagement {
         negativeSeperator.width = 8
         let backButton = UIBarButtonItem(image: UIImage(named: "Close")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(NavigationManagement.close))
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
+        vc.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
     }
     
     func addBarButtonItem(vc: UIViewController, icon: BarButtonItem.ItemIcon, action: BarButtonItem.ItemAction) {
@@ -68,6 +75,7 @@ class NavigationManagement {
         negativeSeperator.width = 8
         let backButton = UIBarButtonItem(image: icon.icon?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: action.action)
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
+        vc.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
     }
     
     func addBarButtonItem(vc: UIViewController, icon: BarButtonItem.ItemIcon, customAction: Selector) {
@@ -76,6 +84,7 @@ class NavigationManagement {
         negativeSeperator.width = 8
         let backButton = UIBarButtonItem(image: icon.icon?.withRenderingMode(.alwaysOriginal), style: .plain, target: vc, action: customAction)
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
+        vc.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
     }
     
     enum BarButtonItem {
@@ -168,6 +177,8 @@ class NavigationManagement {
             goTo(storyboard: "Casino", viewControllerId: "CasinoNavigationController")
         case .slot:
             goTo(storyboard: "Slot", viewControllerId: "SlotNavigationController")
+        case .p2p:
+            goTo(storyboard: "P2P", viewControllerId: "P2PNavigationController")
         default:
             goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
         }

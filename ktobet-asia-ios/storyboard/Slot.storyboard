@@ -1063,24 +1063,14 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HF9-HT-tpe">
-                                <rect key="frame" x="0.0" y="74" width="414" height="788"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="Rzl-t9-wU9">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="9vm-LP-Qvm" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="195" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="unFinishGameTableViewCell" rowHeight="57" id="4cW-SE-f6a" customClass="UnFinishGameTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="29" width="414" height="57"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="57"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4cW-SE-f6a" id="Uok-c8-JUJ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="57"/>
@@ -1121,7 +1111,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CasinoSummaryTableViewCell" rowHeight="81" id="Mo6-RJ-FC0" customClass="CasinoSummaryTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="414" height="81"/>
+                                        <rect key="frame" x="0.0" y="85" width="414" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mo6-RJ-FC0" id="uwQ-Lv-bcO">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
@@ -1180,7 +1170,7 @@
                             <constraint firstItem="aSk-cP-ZbK" firstAttribute="leading" secondItem="2J7-Gg-z8d" secondAttribute="leading" id="S6K-f7-uaS"/>
                             <constraint firstItem="2J7-Gg-z8d" firstAttribute="bottom" secondItem="aSk-cP-ZbK" secondAttribute="bottom" id="clg-7g-PUB"/>
                             <constraint firstItem="2J7-Gg-z8d" firstAttribute="bottom" secondItem="HF9-HT-tpe" secondAttribute="bottom" id="nGp-nG-eJb"/>
-                            <constraint firstItem="HF9-HT-tpe" firstAttribute="top" secondItem="2J7-Gg-z8d" secondAttribute="top" constant="30" id="uKR-Am-Sur"/>
+                            <constraint firstItem="HF9-HT-tpe" firstAttribute="top" secondItem="2J7-Gg-z8d" secondAttribute="top" id="uKR-Am-Sur"/>
                             <constraint firstItem="2J7-Gg-z8d" firstAttribute="trailing" secondItem="aSk-cP-ZbK" secondAttribute="trailing" id="vsZ-Ih-B2Q"/>
                         </constraints>
                     </view>
@@ -1205,24 +1195,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JPA-3M-mnH">
-                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="25" minY="0.0" maxX="25" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="7an-nt-8Um">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="c4I-cq-yoR" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotUnsettleRecordsCell" id="ucI-1r-8kf" customClass="SlotUnsettleRecordsCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ucI-1r-8kf" id="zWi-rC-5yJ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1373,7 +1353,7 @@
                             <constraint firstItem="rVr-Bk-pKk" firstAttribute="top" secondItem="92u-Mw-BSX" secondAttribute="top" id="DPy-1a-wed"/>
                             <constraint firstItem="92u-Mw-BSX" firstAttribute="bottom" secondItem="JPA-3M-mnH" secondAttribute="bottom" id="Fd0-ga-Tga"/>
                             <constraint firstItem="92u-Mw-BSX" firstAttribute="bottom" secondItem="rVr-Bk-pKk" secondAttribute="bottom" id="NCC-A1-wgp"/>
-                            <constraint firstItem="JPA-3M-mnH" firstAttribute="top" secondItem="92u-Mw-BSX" secondAttribute="top" constant="30" id="VkA-um-5X4"/>
+                            <constraint firstItem="JPA-3M-mnH" firstAttribute="top" secondItem="92u-Mw-BSX" secondAttribute="top" id="VkA-um-5X4"/>
                             <constraint firstItem="rVr-Bk-pKk" firstAttribute="leading" secondItem="92u-Mw-BSX" secondAttribute="leading" id="dGv-ZF-aVf"/>
                             <constraint firstItem="rVr-Bk-pKk" firstAttribute="trailing" secondItem="92u-Mw-BSX" secondAttribute="trailing" id="mxk-1D-SfZ"/>
                             <constraint firstItem="JPA-3M-mnH" firstAttribute="trailing" secondItem="92u-Mw-BSX" secondAttribute="trailing" id="rfd-7w-ahp"/>
@@ -1398,24 +1378,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1By-cc-9O1">
-                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="ZUW-wC-DRb">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="Xa2-dT-beV" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotBetSummaryByDateCell" id="x4J-rG-Pxj" customClass="SlotBetSummaryByDateCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x4J-rG-Pxj" id="9fD-Tr-7Vo">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1478,6 +1448,7 @@
                                                 <constraint firstItem="mGE-zn-XqR" firstAttribute="top" secondItem="4dL-x7-NcR" secondAttribute="bottom" constant="5" id="AD2-R0-1RT"/>
                                                 <constraint firstItem="4dI-Fk-02t" firstAttribute="top" secondItem="9fD-Tr-7Vo" secondAttribute="topMargin" constant="18" id="Awa-33-M6W"/>
                                                 <constraint firstItem="xTb-RT-xhA" firstAttribute="top" secondItem="UAh-Yk-RSz" secondAttribute="top" id="JKy-EO-fNA"/>
+                                                <constraint firstAttribute="bottom" secondItem="mGE-zn-XqR" secondAttribute="bottom" constant="24" id="KVF-hr-jht"/>
                                                 <constraint firstItem="4dL-x7-NcR" firstAttribute="leading" secondItem="4dI-Fk-02t" secondAttribute="leading" id="PNi-aR-QWG"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="GnR-9Q-lP8" secondAttribute="trailing" constant="24" id="QTl-Mp-ILn"/>
                                                 <constraint firstItem="mGE-zn-XqR" firstAttribute="leading" secondItem="4dI-Fk-02t" secondAttribute="leading" id="RZq-mt-4Si"/>
@@ -1512,7 +1483,7 @@
                             <constraint firstItem="JUA-nb-m0Y" firstAttribute="bottom" secondItem="1By-cc-9O1" secondAttribute="bottom" id="JWe-jP-LdH"/>
                             <constraint firstItem="1By-cc-9O1" firstAttribute="leading" secondItem="JUA-nb-m0Y" secondAttribute="leading" id="OW1-b0-5CQ"/>
                             <constraint firstItem="1By-cc-9O1" firstAttribute="trailing" secondItem="JUA-nb-m0Y" secondAttribute="trailing" id="eWL-fu-sj5"/>
-                            <constraint firstItem="1By-cc-9O1" firstAttribute="top" secondItem="JUA-nb-m0Y" secondAttribute="top" constant="30" id="rYc-ju-noB"/>
+                            <constraint firstItem="1By-cc-9O1" firstAttribute="top" secondItem="JUA-nb-m0Y" secondAttribute="top" id="rYc-ju-noB"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="KZT-vq-HPo"/>
@@ -1534,24 +1505,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="O0I-Ku-Ps8">
-                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="Pe4-Wp-6t2">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="Y98-dh-ttD" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotBetDetailCell" id="dds-gv-cFV" customClass="SlotBetDetailCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dds-gv-cFV" id="X67-2D-gON">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1612,7 +1573,7 @@
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
                             <constraint firstItem="O0I-Ku-Ps8" firstAttribute="leading" secondItem="2ft-1N-E1L" secondAttribute="leading" id="EDM-rD-qBV"/>
-                            <constraint firstItem="O0I-Ku-Ps8" firstAttribute="top" secondItem="2ft-1N-E1L" secondAttribute="top" constant="30" id="KkK-dl-kMK"/>
+                            <constraint firstItem="O0I-Ku-Ps8" firstAttribute="top" secondItem="2ft-1N-E1L" secondAttribute="top" id="KkK-dl-kMK"/>
                             <constraint firstItem="2ft-1N-E1L" firstAttribute="bottom" secondItem="O0I-Ku-Ps8" secondAttribute="bottom" id="TUQ-II-pdR"/>
                             <constraint firstItem="O0I-Ku-Ps8" firstAttribute="trailing" secondItem="2ft-1N-E1L" secondAttribute="trailing" id="mXf-cL-xCe"/>
                         </constraints>

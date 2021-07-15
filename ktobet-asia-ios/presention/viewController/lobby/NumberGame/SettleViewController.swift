@@ -25,6 +25,7 @@ class SettleViewController: UIViewController {
     
     private func initUI() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
+        tableView.setHeaderFooterDivider(headerHeight: 86, headerColor: UIColor.clear, headerDividerColor: UIColor.clear)
         dataSource.do ( onNext:{[weak self] (records) in
             self?.switchContent(records.count)
         })
@@ -34,9 +35,6 @@ class SettleViewController: UIViewController {
             cell.setup(element: element)
             return cell
         }.disposed(by: disposeBag)
-        DispatchQueue.main.async {
-            self.tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
-        }
     }
     
     private func bindingSummaryData() {

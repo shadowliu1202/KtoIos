@@ -911,3 +911,118 @@ struct ContactInfoBean: Codable {
     let mobile: String?
     let email: String?
 }
+
+
+struct P2PTurnOverBean: Codable {
+    let bonusLocked: Bool
+    let hasBonusTag: Bool
+    let currentBonus: LockedBonusDataBean?
+}
+
+struct LockedBonusDataBean: Codable {
+    let achieved: String
+    let formula: String
+    let informPlayerDate: String
+    let name: String
+    let no: String
+    let remainingAmount: String
+    let parameters: Parameters
+    let type: Int
+    let productType: Int
+}
+
+struct Parameters: Codable {
+    let amount: String
+    let balance: String
+    var betMultiplier: Int {return _betMultiplier ?? 0}
+    let capital: String
+    let depositRequest: String
+    let percentage: String
+    let request: String
+    let requirement: String
+    let turnoverRequest: String
+    
+    private var _betMultiplier: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case _betMultiplier = "betMultiplier"
+        case amount, capital, request, turnoverRequest, requirement, percentage, balance, depositRequest
+    }
+}
+
+struct P2PGameBean: Codable {
+    let gameId: Int32
+    let hasForFun: Bool
+    let imageCulture: String
+    let imageId: String
+    let name: String
+    let providerId: Int
+    let status: Int32
+}
+
+struct P2PBetSummaryBean: Codable {
+    let summaries: [SummaryBean]
+}
+
+struct SummaryBean: Codable {
+    let betDate: String
+    let count: Int32
+    let stakes: Double
+    let winLoss: Double
+    
+    func toDateSummary() -> DateSummary {
+        let createDate = self.betDate.convertDateTime(format:  "yyyy/MM/dd") ?? Date()
+        return DateSummary(totalStakes: CashAmount(amount: self.stakes),
+                           totalWinLoss: CashAmount(amount: self.winLoss),
+                           createdDateTime: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()),
+                           count: self.count)
+    }
+}
+
+struct P2PDateBetRecordBean: Codable {
+    let count: Int32
+    let endDate: String
+    let gameGroupId: Int32
+    let gameName: String
+    let stakes: Double
+    let startDate: String
+    let winLoss: Double
+    let imageId: String
+    
+    init(gameGroupId: Int32, gameList: [P2PDateBetRecordBean]) {
+        self.count = gameList.map({$0.count}).reduce(0, +)
+        self.endDate = gameList.max { (a, b) -> Bool in return a.endDate < b.endDate }?.endDate ?? ""
+        self.gameGroupId = gameGroupId
+        self.gameName = gameList.first?.gameName ?? ""
+        self.stakes = gameList.map({$0.stakes}).reduce(0, +)
+        self.startDate = gameList.min(by: { (a, b) -> Bool in return a.startDate < b.startDate })?.startDate ?? ""
+        self.winLoss = gameList.map({$0.winLoss}).reduce(0, +)
+        self.imageId = gameList.first?.imageId ?? ""
+    }
+    
+    func toGameGroupedRecord() -> GameGroupedRecord {
+        let thumbnail = P2PThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
+        let format1 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let start = (startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let end = (endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        return GameGroupedRecord(gameId: gameGroupId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), startDate: start, endDate: end)
+    }
+}
+
+struct P2PGameBetRecordBean: Codable {
+    let betTime: String
+    let gameGroupId: Int32
+    let gameName: String
+    let groupId: String
+    let hasDetails: Bool
+    let prededuct: Double
+    let stakes: Double
+    let wagerId: String
+    let winLoss: Double
+    
+    func toP2PGameBetRecord() -> P2PGameBetRecord {
+        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        return P2PGameBetRecord(betTime: betLocalTime, gameGroupId: gameGroupId, gameName: gameName, groupId: groupId, hasDetails: hasDetails, prededuct: CashAmount(amount: prededuct), stakes: CashAmount(amount: stakes), wagerId: wagerId, winLoss: CashAmount(amount: winLoss))
+    }
+}
