@@ -18,7 +18,7 @@ platform :ios do
     before_all do |lane, options|
         unlock_keychain( # Unlock an existing keychain and add it to the keychain search list
             path: "login.keychain-db",
-            password: "1qaz#EDC"
+            password: ENV["KEYCHAIN_PASSWORD"]
         )
     end
    
@@ -32,7 +32,7 @@ platform :ios do
         )
 
 	lane :buildIpa  do |options|
-	    match(type:"adhoc", api_key:api_key,keychain_password:"1qaz#EDC")
+	    match(type: "adhoc", readonly: is_ci)
 		update_info_plist(plist_path: "ktobet-asia-ios/info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
@@ -52,7 +52,7 @@ platform :ios do
 
 
 	lane :buildIpaQat  do |options|
-		match(type:"adhoc", api_key:api_key, force_for_new_devices:true,keychain_password:"1qaz#EDC")
+	    match(type: "adhoc", readonly: is_ci)
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
@@ -73,30 +73,7 @@ platform :ios do
 
 	end
 
-	lane :buildIpaQatv  do |options|
-		match(type:"adhoc", api_key:api_key, force_for_new_devices:true)
-		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-v-Info.plist", 
-				  block: proc do |plist|
-					#version = plist["CFBundleVersion"].to_i + 1
-    					#plist["CFBundleVersion"]  = "#{version}.0"
-					plist["CFBundleVersion"]  = options[:buildVersion]
-					plist["CFBundleShortVersionString"] = options[:appVersion]
-  				  end)
-  		build_app(scheme: "ktobet-asia-ios-qatv",
-			  workspace: "ktobet-asia-ios.xcworkspace",
-            		  include_bitcode: true,
-			  clean: true,
-		   	  output_directory: "output",
-			  export_method: "ad-hoc",
-	    		  export_options: { 
-					    method: "ad-hoc",
-					  }
-			 )
-
-	end
-
 	lane :buildIpaStaging  do |options|
-        match(type:"appstore", api_key:api_key, force_for_new_devices:true,keychain_password:"1qaz#EDC")
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
@@ -109,9 +86,9 @@ platform :ios do
             		  include_bitcode: true,
 			  clean: true,
 		   	  output_directory: "output",
-			  export_method: "app-store",
+			  export_method: "ad-hoc",
 	    		  export_options: { 
-					    method: "app-store",
+					    method: "ad-hoc",
 					  }
 			 )
 
@@ -119,7 +96,6 @@ platform :ios do
 
 
 	lane :uploadstagingToTestflight do |options|
-        match(type:"appstore", api_key:api_key, force_for_new_devices:true,keychain_password:"1qaz#EDC")
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
@@ -135,17 +111,14 @@ platform :ios do
       			include_symbols: true,
       			export_method: 'app-store',
       			export_xcargs: "-allowProvisioningUpdates")
-      			#export_options: { provisioningProfiles: {"com.higgstar.ktoasiabet.staging" => "kto_asia_appstore"}})
 
-    		upload_to_testflight(   skip_waiting_for_build_processing: true,
-					username: "higgs-mobile@hotmail.com",
-  					app_identifier: "com.higgstar.ktoasiabet.staging")
+    		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
+  					app_identifier: "com.kto.asia.stg")
 	end
 
 
 
 	lane :uploadToTestflight do |options|
-		match(type:"appstore", api_key:api_key, force_for_new_devices:true,keychain_password:"1qaz#EDC")
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
@@ -161,36 +134,10 @@ platform :ios do
       			include_symbols: true,
       			export_method: 'app-store',
       			export_xcargs: "-allowProvisioningUpdates")
-      			#export_options: { provisioningProfiles: {"com.higgstar.ktoasiabet" => "kto_asia_adhoc"}})
 
     		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
-  					app_identifier: "com.higgstar.ktoasiabet")
+  					app_identifier: "com.kto.asia.qat-1")
 	end
-
-	lane :uploadqatvToTestflight do |options|
-		match(type:"appstore", api_key:api_key, force_for_new_devices:true)
-		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-v-Info.plist", 
-				  block: proc do |plist|
-					#version = plist["CFBundleVersion"].to_i + 1
-    					#plist["CFBundleVersion"]  = "#{version}.0"
-					plist["CFBundleVersion"]  = options[:buildVersion]
-					plist["CFBundleShortVersionString"] = options[:appVersion]
-  				  end)
-
-    		gym(	configuration: "Release",
-      		     	scheme: "ktobet-asia-ios-qatv",
-      		     	clean: true,
-      		     	include_bitcode: true,
-      			include_symbols: true,
-      			export_method: 'app-store',
-      			export_xcargs: "-allowProvisioningUpdates")
-      			#export_options: { provisioningProfiles: {"com.higgstar.ktoasiabet.qatv" => "kto_asia_adhoc"}})
-
-    		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
-  					app_identifier: "com.higgstar.ktoasiabet.qatv")
-	end
-
-
 
 
 end

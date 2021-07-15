@@ -28,10 +28,6 @@ target 'ktobet-asia-ios-qat' do
   default_pods
 end
 
-target 'ktobet-asia-ios-qat-v' do
-  default_pods
-end
-
 target 'ktobet-asia-ios-staging' do
   default_pods
 end

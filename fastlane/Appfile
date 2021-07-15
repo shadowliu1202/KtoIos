@@ -1,5 +1,5 @@
 
-app_identifier("com.higgstar.ktoasiabet") # The bundle identifier of your app
+app_identifier("com.kto.asia") # The bundle identifier of your app
 
 apple_id("higgs-mobile@hotmail.com") # Your Apple email address
 
