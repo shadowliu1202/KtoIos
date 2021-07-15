@@ -21,7 +21,7 @@ class CasinoBetSummaryByDateViewController: UIViewController {
         NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: selectDate?.replacingOccurrences(of: "-", with: "/"))
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.tableFooterView = UIView()
+        tableView.setHeaderFooterDivider(headerColor: UIColor.black_two)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

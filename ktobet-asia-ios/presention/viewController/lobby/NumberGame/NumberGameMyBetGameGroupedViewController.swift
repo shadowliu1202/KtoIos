@@ -35,10 +35,7 @@ class NumberGameMyBetGameGroupedViewController: UIViewController {
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        DispatchQueue.main.async {
-            self.tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
-            self.tableView.tableFooterView?.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
-        }
+        self.tableView.setHeaderFooterDivider()
     }
     
     var tempResult: [NumberGameSummary.Game] = []

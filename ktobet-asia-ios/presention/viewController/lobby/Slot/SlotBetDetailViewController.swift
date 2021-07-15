@@ -30,8 +30,7 @@ class SlotBetDetailViewController: UIViewController {
     private func initUI() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
-        tableView.tableFooterView?.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
+        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24))
     }
     
     private func dataBinding() {

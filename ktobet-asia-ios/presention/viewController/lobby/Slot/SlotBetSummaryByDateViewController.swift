@@ -23,8 +23,9 @@ class SlotBetSummaryByDateViewController: UIViewController {
     }
 
     private func initUI() {
-        tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
-        tableView.tableFooterView?.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
+        tableView.setHeaderFooterDivider()
+        tableView.estimatedRowHeight = 124.0
+        tableView.rowHeight = UITableView.automaticDimension
     }
     
     private func dataBinding() {

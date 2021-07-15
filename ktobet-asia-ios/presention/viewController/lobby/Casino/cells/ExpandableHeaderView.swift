@@ -37,6 +37,5 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         self.textLabel?.textColor = UIColor.whiteFull
         self.contentView.backgroundColor = UIColor.black_two
         self.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
-        self.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
     }
 }

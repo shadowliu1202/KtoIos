@@ -324,19 +324,9 @@
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="zZb-pD-2L8" userLabel="header">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="cEv-Gr-vgQ" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="249" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NumbergameRecentCell" rowHeight="107" id="6H7-v3-mYP" customClass="NumbergameRecentCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="114" width="414" height="107"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="107"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6H7-v3-mYP" id="4pc-gw-ikH">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="107"/>
@@ -487,19 +477,9 @@
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="Ca5-g2-NG9" userLabel="header">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="igQ-Q9-ww4" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="223" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CasinoSummaryTableViewCell" rowHeight="81" id="TY9-12-oFN" customClass="CasinoSummaryTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="114" width="414" height="81"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TY9-12-oFN" id="H2E-Yf-tk7">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
@@ -623,24 +603,14 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xRL-uq-ywh">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="URF-mK-tni" userLabel="header">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="G2z-vi-woj" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="223" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CasinoSummaryTableViewCell" rowHeight="81" id="jwd-td-PQQ" customClass="CasinoSummaryTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="114" width="414" height="81"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jwd-td-PQQ" id="ynt-q0-JB8">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
@@ -694,12 +664,12 @@
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
                             <constraint firstItem="xRL-uq-ywh" firstAttribute="leading" secondItem="ECi-p6-XUf" secondAttribute="leading" id="8D9-9u-yms"/>
+                            <constraint firstItem="xRL-uq-ywh" firstAttribute="top" secondItem="ECi-p6-XUf" secondAttribute="top" id="BnS-ce-uMj"/>
                             <constraint firstItem="fej-rR-iXH" firstAttribute="top" secondItem="sSF-Ux-oAB" secondAttribute="top" id="GZT-52-djZ"/>
                             <constraint firstItem="ECi-p6-XUf" firstAttribute="bottom" secondItem="xRL-uq-ywh" secondAttribute="bottom" id="NH1-CJ-uN8"/>
                             <constraint firstItem="xRL-uq-ywh" firstAttribute="trailing" secondItem="ECi-p6-XUf" secondAttribute="trailing" id="fgF-vg-Reg"/>
                             <constraint firstAttribute="bottom" secondItem="fej-rR-iXH" secondAttribute="bottom" id="pIU-kU-g4T"/>
                             <constraint firstItem="fej-rR-iXH" firstAttribute="leading" secondItem="ECi-p6-XUf" secondAttribute="leading" id="smY-HI-v2J"/>
-                            <constraint firstItem="xRL-uq-ywh" firstAttribute="top" secondItem="sSF-Ux-oAB" secondAttribute="top" id="wpA-3M-0LK"/>
                             <constraint firstItem="fej-rR-iXH" firstAttribute="trailing" secondItem="ECi-p6-XUf" secondAttribute="trailing" id="wvl-JF-0Sw"/>
                         </constraints>
                     </view>
@@ -818,24 +788,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9OX-89-1E9">
-                                <rect key="frame" x="0.0" y="74" width="414" height="788"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="HEU-ds-0NR" userLabel="header">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="1Vn-gM-nju" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="157" width="414" height="96"/>
+                                    <rect key="frame" x="0.0" y="186" width="414" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RecentDetailCell" rowHeight="100" id="Eko-Kb-EO8" customClass="RecentDetailCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="29" width="414" height="100"/>
+                                        <rect key="frame" x="0.0" y="58" width="414" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Eko-Kb-EO8" id="zbL-AN-qEg">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
@@ -887,7 +857,7 @@
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
                             <constraint firstItem="9OX-89-1E9" firstAttribute="trailing" secondItem="T39-2T-izf" secondAttribute="trailing" id="8kZ-s7-LfY"/>
-                            <constraint firstItem="9OX-89-1E9" firstAttribute="top" secondItem="T39-2T-izf" secondAttribute="top" constant="30" id="iJF-mq-Gqb"/>
+                            <constraint firstItem="9OX-89-1E9" firstAttribute="top" secondItem="T39-2T-izf" secondAttribute="top" id="iJF-mq-Gqb"/>
                             <constraint firstItem="T39-2T-izf" firstAttribute="bottom" secondItem="9OX-89-1E9" secondAttribute="bottom" id="vqd-aw-qpU"/>
                             <constraint firstItem="9OX-89-1E9" firstAttribute="leading" secondItem="T39-2T-izf" secondAttribute="leading" id="wSq-UB-Xse"/>
                         </constraints>
@@ -909,24 +879,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MsG-ap-JKK">
-                                <rect key="frame" x="0.0" y="30" width="414" height="812"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="qeu-v7-rFF">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="4O4-E4-J7Q" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotBetSummaryByDateCell" id="yKR-OQ-WUm" customClass="SlotBetSummaryByDateCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yKR-OQ-WUm" id="8O8-tb-l5i">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1007,7 +967,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="blackFull"/>
-                                        <inset key="separatorInset" minX="25" minY="0.0" maxX="25" maxY="0.0"/>
                                         <connections>
                                             <outlet property="betAmountLabel" destination="amA-4F-iKB" id="aMQ-Cg-0QO"/>
                                             <outlet property="betCountLabel" destination="4uv-wo-cCJ" id="Udr-Uc-HJ7"/>
@@ -1024,7 +983,7 @@
                         <constraints>
                             <constraint firstItem="MsG-ap-JKK" firstAttribute="trailing" secondItem="rRx-b9-xku" secondAttribute="trailing" id="Lk3-tX-4M1"/>
                             <constraint firstAttribute="bottom" secondItem="MsG-ap-JKK" secondAttribute="bottom" id="fO0-Uk-ftq"/>
-                            <constraint firstItem="MsG-ap-JKK" firstAttribute="top" secondItem="rRx-b9-xku" secondAttribute="top" constant="30" id="pIF-tf-m2t"/>
+                            <constraint firstItem="MsG-ap-JKK" firstAttribute="top" secondItem="rRx-b9-xku" secondAttribute="top" id="pIF-tf-m2t"/>
                             <constraint firstItem="MsG-ap-JKK" firstAttribute="leading" secondItem="rRx-b9-xku" secondAttribute="leading" id="ywc-hh-5Ad"/>
                         </constraints>
                     </view>
@@ -1047,24 +1006,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="118" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="K5q-n5-xVO">
-                                <rect key="frame" x="0.0" y="30" width="414" height="778"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="KKp-me-QUa">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="Hf8-4Q-HMC" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="175" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SlotBetDetailCell" id="zkF-Cj-tEg" customClass="SlotBetDetailCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="29" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zkF-Cj-tEg" id="XEz-jc-Szb">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -1136,7 +1085,7 @@
                         <constraints>
                             <constraint firstItem="K5q-n5-xVO" firstAttribute="leading" secondItem="NXa-2U-OYd" secondAttribute="leading" id="4Kz-9h-BLI"/>
                             <constraint firstItem="K5q-n5-xVO" firstAttribute="trailing" secondItem="NXa-2U-OYd" secondAttribute="trailing" id="BIL-3C-b1k"/>
-                            <constraint firstItem="K5q-n5-xVO" firstAttribute="top" secondItem="NXa-2U-OYd" secondAttribute="top" constant="30" id="Zui-9U-eH6"/>
+                            <constraint firstItem="K5q-n5-xVO" firstAttribute="top" secondItem="NXa-2U-OYd" secondAttribute="top" id="Zui-9U-eH6"/>
                             <constraint firstItem="NXa-2U-OYd" firstAttribute="bottom" secondItem="K5q-n5-xVO" secondAttribute="bottom" id="oKe-EW-0di"/>
                         </constraints>
                     </view>

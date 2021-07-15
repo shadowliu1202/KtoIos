@@ -20,8 +20,10 @@ class RecentDetailViewController: UIViewController {
         tableView.estimatedRowHeight = 81.0
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
-        tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
-        tableView.tableFooterView?.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
+        DispatchQueue.main.async {
+            self.tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
+            self.tableView.tableFooterView?.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
+        }
         if let results = detailItem?.resultList, results.count > 0 {
             createNumberResultView(results)
         }

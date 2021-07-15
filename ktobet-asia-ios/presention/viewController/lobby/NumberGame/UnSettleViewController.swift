@@ -20,9 +20,7 @@ class UnSettleViewController: UIViewController {
     
     private func initUI() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
-        DispatchQueue.main.async {
-            self.tableView.tableHeaderView?.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
-        }
+        tableView.setHeaderFooterDivider(headerHeight: 86, headerColor: UIColor.clear, headerDividerColor: UIColor.clear)
     }
 
     private func bindingSummaryData() {

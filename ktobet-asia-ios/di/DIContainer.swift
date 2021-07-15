@@ -70,6 +70,9 @@ class DIContainer {
         ctner.register(CPSApi.self) { (resolver) in
             return CPSApi(httpclient)
         }
+        ctner.register(P2PApi.self) { (resolver) in
+            return P2PApi(httpclient)
+        }
     }
     
     func registRepo(){
@@ -151,6 +154,14 @@ class DIContainer {
         ctner.register(NumberGameRecordRepository.self) { (resolver) in
             let numberGameApi = ctner.resolve(NumberGameApi.self)!
             return NumberGameRecordRepositoryImpl(numberGameApi)
+        }
+        ctner.register(P2PRepository.self) { (resolver) in
+            let p2pApi = ctner.resolve(P2PApi.self)!
+            return P2PRepositoryImpl(p2pApi)
+        }
+        ctner.register(P2PRecordRepository.self) { (resolver) in
+            let p2pApi = ctner.resolve(P2PApi.self)!
+            return P2PRecordRepositoryImpl(p2pApi)
         }
     }
     
@@ -235,6 +246,15 @@ class DIContainer {
         ctner.register(NumberGameRecordUseCase.self) { (resolver) in
             let repo = ctner.resolve(NumberGameRecordRepository.self)!
             return NumberGameRecordUseCaseImpl(numberGameRecordRepository: repo)
+        }
+        ctner.register(P2PUseCase.self) { (resolver) in
+            let repo = ctner.resolve(P2PRepository.self)!
+            return P2PUseCaseImpl(repo)
+        }
+        ctner.register(P2PRecordUseCase.self) { (resolver) in
+            let repo = ctner.resolve(P2PRecordRepository.self)!
+            let repoPlayer = ctner.resolve(PlayerRepository.self)!
+            return P2PRecordUseCaseImpl(repo, repoPlayer)
         }
     }
     
@@ -352,6 +372,12 @@ class DIContainer {
         }
         ctner.register(CryptoVerifyViewModel.self) { (resolver) in
             return CryptoVerifyViewModel(playerUseCase: ctner.resolve(PlayerDataUseCase.self)!, withdrawalUseCase:  ctner.resolve(WithdrawalUseCase.self)!, systemUseCase: ctner.resolve(GetSystemStatusUseCase.self)!)
+        }
+        ctner.register(P2PViewModel.self) { (resolver) in
+            return P2PViewModel(p2pUseCase: ctner.resolve(P2PUseCase.self)!)
+        }
+        ctner.register(P2PBetViewModel.self) { (resolver) in
+            return P2PBetViewModel(p2pRecordUseCase: ctner.resolve(P2PRecordUseCase.self)!)
         }
     }
     

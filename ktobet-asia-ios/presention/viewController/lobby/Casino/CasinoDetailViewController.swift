@@ -19,11 +19,10 @@ class CasinoDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("balancelog_wager_detail"))
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        tableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
+        tableView.setHeaderFooterDivider(footerHeight: 0)
         viewModel.getWagerDetail(wagerId: wagerId).subscribe {[weak self] (detail) in
             guard let self = self, let detail = detail else { return }
             self.recordDetail = detail
@@ -116,7 +115,7 @@ class CasinoDetailViewController: UIViewController {
             winThreeCards.phoenixCards.forEach{ rightCardViews.append(addPokerCard(pokerCardNumber: setPokerNumber(pokerNumber: $0.pokerNumber), pokerCardSuit: $0.pokerSuits)) }
         }
         
-        backgroundView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
         let stackView = UIStackView()
         backgroundView.addSubview(stackView)
         stackView.axis = .horizontal
