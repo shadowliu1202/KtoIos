@@ -115,7 +115,7 @@ class CasinoDetailViewController: UIViewController {
             winThreeCards.phoenixCards.forEach{ rightCardViews.append(addPokerCard(pokerCardNumber: setPokerNumber(pokerNumber: $0.pokerNumber), pokerCardSuit: $0.pokerSuits)) }
         }
         
-        backgroundView.addBorderBottom(size: 0.5, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom, size: 0.5, color: UIColor.dividerCapeCodGray2)
         let stackView = UIStackView()
         backgroundView.addSubview(stackView)
         stackView.axis = .horizontal
@@ -190,7 +190,7 @@ class CasinoDetailViewController: UIViewController {
         stackView.layoutIfNeeded()
         backgroundViewHeightConstant.constant = stackView.frame.height + 30
         backgroundView.layoutIfNeeded()
-        backgroundView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
     }
     
     private func createBullBullResultView(gameResult: CasinoGameResult.BullBull, stackView: UIStackView) {
@@ -210,7 +210,7 @@ class CasinoDetailViewController: UIViewController {
         stackView.layoutIfNeeded()
         backgroundViewHeightConstant.constant = stackView.frame.height + 30
         backgroundView.layoutIfNeeded()
-        backgroundView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
     }
     
     private func createRouletteResultView(gameResult: CasinoGameResult.Roulette) {
@@ -236,7 +236,7 @@ class CasinoDetailViewController: UIViewController {
         numberLabel.textAlignment = .center
         backgroundViewHeightConstant.constant = 60
         backgroundView.layoutIfNeeded()
-        backgroundView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
     }
     
     private func createSicboResultView(gameResult: CasinoGameResult.Sicbo) {
@@ -258,7 +258,7 @@ class CasinoDetailViewController: UIViewController {
         
         backgroundViewHeightConstant.constant = 60
         backgroundView.layoutIfNeeded()
-        backgroundView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
     }
     
     private func addPokerCard(pokerCardNumber: String, pokerCardSuit: PokerSuits) -> UIView {

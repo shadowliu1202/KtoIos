@@ -72,12 +72,6 @@ class WithdrawalViewController: UIViewController {
         initUI()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        withdrawView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
-        crpytoView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         withdrawalLimitationDataBinding()
@@ -137,6 +131,8 @@ class WithdrawalViewController: UIViewController {
         withdrawViewEnable(false)
         withdrawalRecordTableView.isHidden = true
         crpytoViewEnable(false)
+        withdrawView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2)
+        crpytoView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
     }
     
     fileprivate func cryptoWithdrawlDataBinding() {
@@ -256,8 +252,8 @@ class WithdrawalViewController: UIViewController {
                 self?.withdrawalRecordTableView.isHidden = false
                 self?.constraintWithdrawalRecordTableHeight.constant = CGFloat(withdrawalRecord.count * 80)
                 self?.withdrawalRecordTableView.layoutIfNeeded()
-                self?.withdrawalRecordTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
-                self?.withdrawalRecordTableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
+                self?.withdrawalRecordTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
+                self?.withdrawalRecordTableView.addTopBorder(size: 1, color: UIColor.dividerCapeCodGray2)
                 if withdrawalRecord.count == 0 {
                     self?.withdrawalRecordNoDataLabel.isHidden = false
                     self?.withdrawalRecordTableView.isHidden = true
