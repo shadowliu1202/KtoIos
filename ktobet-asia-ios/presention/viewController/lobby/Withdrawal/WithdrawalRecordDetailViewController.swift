@@ -83,11 +83,11 @@ class WithdrawalRecordDetailViewController: UIViewController {
             self.confirmButton.layer.borderWidth = 1
             self.confirmButton.layer.borderColor = UIColor.textSecondaryScorpionGray.cgColor
             self.cancelButton.setTitle(Localize.string("withdrawal_cancel"), for: .normal)
-            self.amountView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
-            self.amountView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2, width: self.view.frame.width - 60)
-            self.applyTimeView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2, width: self.view.frame.width - 60)
-            self.applyTimeView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2, width: self.view.frame.width - 60)
-            self.remarkView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2, width: self.view.frame.width - 60)
+            self.amountView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2)
+            self.amountView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
+            self.applyTimeView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
+            self.applyTimeView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
+            self.remarkView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
             self.activityIndicator.center = self.view.center
             self.view.addSubview(self.activityIndicator)
         }

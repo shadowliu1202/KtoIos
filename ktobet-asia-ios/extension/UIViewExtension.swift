@@ -1,37 +1,57 @@
 import UIKit
 
+public enum BorderSide: Int {
+    case top, bottom, left, right, around
+}
+
 extension UIView {
-    func addBorderTop(size: CGFloat, color: UIColor, width: CGFloat? = nil) {
-        if let width = width {
-            let x = (frame.width - width) / 2
-            addBorderUtility(x: x, y: 0, width: width, height: size, color: color)
-        } else {
-            addBorderUtility(x: 0, y: 0, width: frame.width, height: size, color: color)
+    public func addBorder(_ side: BorderSide, size: CGFloat, color: UIColor, rightConstant: CGFloat = 0, leftConstant: CGFloat = 0) {
+        if side == .around {
+            self.borderWidth = size
+            self.bordersColor = color
+            return
+        }
+        let border = UIView()
+        border.translatesAutoresizingMaskIntoConstraints = false
+        border.backgroundColor = color
+        border.tag = side.rawValue
+        self.addSubview(border)
+
+        let topConstraint = topAnchor.constraint(equalTo: border.topAnchor)
+        let rightConstraint = trailingAnchor.constraint(equalTo: border.trailingAnchor, constant: rightConstant)
+        let bottomConstraint = bottomAnchor.constraint(equalTo: border.bottomAnchor)
+        let leftConstraint = border.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leftConstant)
+        let heightConstraint = border.heightAnchor.constraint(equalToConstant: size)
+        let widthConstraint = border.widthAnchor.constraint(equalToConstant: size)
+
+        switch side {
+        case .top:
+            NSLayoutConstraint.activate([leftConstraint, topConstraint, rightConstraint, heightConstraint])
+        case .right:
+            NSLayoutConstraint.activate([topConstraint, rightConstraint, bottomConstraint, widthConstraint])
+        case .bottom:
+            NSLayoutConstraint.activate([rightConstraint, bottomConstraint, leftConstraint, heightConstraint])
+        case .left:
+            NSLayoutConstraint.activate([bottomConstraint, leftConstraint, topConstraint, widthConstraint])
+        default: break
         }
     }
     
-    func addBorderBottom(size: CGFloat, color: UIColor, width: CGFloat? = nil) {
-        if let width = width {
-            let x = (frame.width - width) / 2
-            addBorderUtility(x: x, y: frame.height - size, width: width, height: size, color: color)
-        } else {
-            addBorderUtility(x: 0, y: frame.height - size, width: frame.width, height: size, color: color)
+    public func remove(side: BorderSide) {
+        if side == .around {
+            self.borderWidth = 0
+            self.bordersColor = nil
+            return
         }
-    }
-    
-    func addBorderLeft(size: CGFloat, color: UIColor) {
-        addBorderUtility(x: 0, y: 0, width: size, height: frame.height, color: color)
-    }
-    
-    func addBorderRight(size: CGFloat, color: UIColor) {
-        addBorderUtility(x: frame.width - size, y: 0, width: size, height: frame.height, color: color)
-    }
-    
-    private func addBorderUtility(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, color: UIColor) {
-        let border = CALayer()
-        border.backgroundColor = color.cgColor
-        border.frame = CGRect(x: x, y: y, width: width, height: height)
-        layer.addSublayer(border)
+        var borderForRemove: UIView?
+        for border in self.subviews {
+            if border.tag == side.rawValue {
+                borderForRemove = border
+            }
+        }
+        if let border = borderForRemove {
+            border.removeFromSuperview()
+        }
     }
     
     enum EdgeDirection { case left, right, none }

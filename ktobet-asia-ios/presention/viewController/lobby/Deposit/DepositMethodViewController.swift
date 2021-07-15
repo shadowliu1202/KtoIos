@@ -86,7 +86,7 @@ class DepositMethodViewController: UIViewController {
         }
         
         scrollView.backgroundColor = UIColor.black_two
-        depositTableView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
+        depositTableView.addTopBorder(size: 1, color: UIColor.dividerCapeCodGray2)
         myDepositInfo.text = Localize.string("deposit_my_account_detail")
         remitterBankTextField.setTitle(Localize.string("deposit_bankname_placeholder"))
         remitterBankTextField.isSearchEnable = true
@@ -121,7 +121,7 @@ class DepositMethodViewController: UIViewController {
                 guard let self = self else { return }
                 self.constraintBankTableHeight.constant = CGFloat(data.count * 56)
                 self.depositTableView.layoutIfNeeded()
-                self.depositTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+                self.depositTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
                 guard let firstSelectedMethod = data.first else { return }
                 self.viewModel.selectedMethod = firstSelectedMethod
                 self.getLimitation(firstSelectedMethod)
@@ -159,7 +159,7 @@ class DepositMethodViewController: UIViewController {
             .subscribe { (data) in
                 self.constraintBankTableHeight.constant = CGFloat(data.count * 56)
                 self.depositTableView.layoutIfNeeded()
-                self.depositTableView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+                self.depositTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
                 guard let firstSelectedBank = data.first else { return }
                 self.viewModel.selectedReceiveBank = firstSelectedBank
             } onError: { (error) in

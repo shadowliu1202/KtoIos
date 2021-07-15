@@ -116,11 +116,11 @@ class DepositRecordDetailViewController: UIViewController {
             self.uploadLimitTiplabel.text = Localize.string("common_photo_upload_limit")
             self.confrimButton.setTitle(Localize.string("common_submit"), for: .normal)
             self.confrimButton.isValid = false
-            self.amountView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2)
-            self.amountView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2, width: self.view.frame.width - 60)
-            self.applyTimeView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2, width: self.view.frame.width - 60)
-            self.applyTimeView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2, width: self.view.frame.width - 60)
-            self.remarkView.addBorderTop(size: 1, color: UIColor.dividerCapeCodGray2, width: self.view.frame.width - 60)
+            self.amountView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2)
+            self.amountView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
+            self.applyTimeView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
+            self.applyTimeView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
+            self.remarkView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.openPhoto(_:)))
             self.uploadClickView.addGestureRecognizer(tap)
             self.activityIndicator.center = self.view.center
@@ -235,7 +235,7 @@ class DepositRecordDetailViewController: UIViewController {
         self.remarkViewHeight.constant = self.remarkTableViewHeight.constant + self.uploadViewHeight.constant + 60
         self.remarkView.layoutIfNeeded()
         if data.status != .floating {
-            self.remarkView.addBorderBottom(size: 1, color: UIColor.dividerCapeCodGray2)
+            self.remarkView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
         }
     }
     

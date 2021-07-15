@@ -21,6 +21,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(clickSecionHeader)))
+        self.addBorder(.top, size: 0.5, color: UIColor.dividerCapeCodGray2)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,6 +37,5 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         super.layoutSubviews()
         self.textLabel?.textColor = UIColor.whiteFull
         self.contentView.backgroundColor = UIColor.black_two
-        self.addBorderTop(size: 0.5, color: UIColor.dividerCapeCodGray2)
     }
 }
