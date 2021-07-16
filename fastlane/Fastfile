@@ -74,6 +74,7 @@ platform :ios do
 	end
 
 	lane :buildIpaStaging  do |options|
+	    match(type: "adhoc", readonly: is_ci)
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
@@ -109,6 +110,7 @@ platform :ios do
       		     	clean: true,
       		     	include_bitcode: true,
       			include_symbols: true,
+			output_directory: "output",
       			export_method: 'app-store',
       			export_xcargs: "-allowProvisioningUpdates")
 
@@ -132,6 +134,7 @@ platform :ios do
       		     	clean: true,
       		     	include_bitcode: true,
       			include_symbols: true,
+			output_directory: "output",
       			export_method: 'app-store',
       			export_xcargs: "-allowProvisioningUpdates")
 
