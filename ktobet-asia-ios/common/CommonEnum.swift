@@ -54,3 +54,8 @@ public enum DateType {
 public enum RegularFormat: String {
     case currencyFormatWithTwoDecimal = "^[0-9]{1,8}([.][0-9]{0,2})?$"
 }
+
+
+struct Setting {
+    static let resendOtpCountDownSecond: Double = 240
+}

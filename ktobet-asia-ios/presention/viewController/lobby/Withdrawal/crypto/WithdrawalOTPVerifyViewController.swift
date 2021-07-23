@@ -90,7 +90,7 @@ class WithdrawalOTPVerifyViewController: UIViewController {
     }
     
     private func setResendTimer() {
-        resendTimer.countDown(timeInterval: 1, duration: ResetPasswordViewModel.resendOtpCountDownSecond) {[weak self] (index, countDownSecond, finish) in
+        resendTimer.countDown(timeInterval: 1, duration: Setting.resendOtpCountDownSecond) {[weak self] (index, countDownSecond, finish) in
             if countDownSecond != 0 {
                 let mm = countDownSecond / 60
                 let ss = countDownSecond % 60
