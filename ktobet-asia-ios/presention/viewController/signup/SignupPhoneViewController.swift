@@ -130,7 +130,7 @@ class SignupPhoneViewController: UIViewController {
     private func resendTimer(launch : Bool){
         if launch{
             timerResend
-                .countDown(timeInterval: 1, duration: 180, block: {(index, second, finish) in
+                .countDown(timeInterval: 1, duration: ResetPasswordViewModel.resendOtpCountDownSecond, block: {(index, second, finish) in
                     self.setResendButton(second)
                 })
         } else {
