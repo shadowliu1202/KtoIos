@@ -37,20 +37,16 @@ extension UIView {
         }
     }
     
-    public func remove(side: BorderSide) {
+    public func removeBorder(_ side: BorderSide) {
         if side == .around {
             self.borderWidth = 0
             self.bordersColor = nil
             return
         }
-        var borderForRemove: UIView?
         for border in self.subviews {
             if border.tag == side.rawValue {
-                borderForRemove = border
+                border.removeFromSuperview()
             }
-        }
-        if let border = borderForRemove {
-            border.removeFromSuperview()
         }
     }
     
@@ -88,6 +84,23 @@ extension UIView {
             }
         }
         return nil
+    }
+    
+    func applyGradient(horizontal colors: [CGColor]) {
+        self.applyGradient(startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5), colors: colors)
+    }
+    
+    func applyGradient(vertical colors: [CGColor]) {
+        self.applyGradient(startPoint: CGPoint(x: 0.5, y: 0), endPoint: CGPoint(x: 0.5, y: 1), colors: colors)
+    }
+    
+    func applyGradient(startPoint: CGPoint, endPoint: CGPoint, colors: [CGColor]) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = colors
+        gradientLayer.startPoint = startPoint
+        gradientLayer.endPoint = endPoint
+        gradientLayer.frame = self.bounds
+        self.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     @IBInspectable
@@ -160,42 +173,37 @@ enum ViewBorder: String {
 }
 
 extension UIView {
-    func add(border: ViewBorder, color: UIColor, width: CGFloat) {
-        let borderLayer = CALayer()
-        borderLayer.backgroundColor = color.cgColor
-        borderLayer.name = border.rawValue
-        switch border {
-        case .left:
-            borderLayer.frame = CGRect(x: 0, y: 0, width: width, height: self.frame.size.height)
-        case .right:
-            borderLayer.frame = CGRect(x: self.frame.size.width - width, y: 0, width: width, height: self.frame.size.height)
-        case .top:
-            borderLayer.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: width)
-        case .bottom:
-            borderLayer.frame = CGRect(x: 0, y: self.frame.size.height - width, width: self.frame.size.width, height: width)
-        }
-        self.layer.addSublayer(borderLayer)
-    }
-
-    func remove(border: ViewBorder) {
-        guard let sublayers = self.layer.sublayers else { return }
-        var layerForRemove: CALayer?
-        for layer in sublayers {
-            if layer.name == border.rawValue {
-                layerForRemove = layer
-            }
-        }
-        if let layer = layerForRemove {
-            layer.removeFromSuperlayer()
-        }
-    }
-
-}
-
-extension UIView {
-    func setViewCorner(topCorner : Bool, bottomCorner : Bool){
+    public func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         layer.masksToBounds = true
-        layer.cornerRadius = 8
+        if #available(iOS 11, *) {
+            var cornerMask = CACornerMask()
+            if(corners.contains(.topLeft)){
+                cornerMask.insert(.layerMinXMinYCorner)
+            }
+            if(corners.contains(.topRight)){
+                cornerMask.insert(.layerMaxXMinYCorner)
+            }
+            if(corners.contains(.bottomLeft)){
+                cornerMask.insert(.layerMinXMaxYCorner)
+            }
+            if(corners.contains(.bottomRight)){
+                cornerMask.insert(.layerMaxXMaxYCorner)
+            }
+            self.layer.cornerRadius = radius
+            self.layer.maskedCorners = cornerMask
+        } else {
+            let path = UIBezierPath(roundedRect: self.bounds,
+                                    byRoundingCorners: corners,
+                                    cornerRadii: CGSize(width: radius, height: radius))
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+            self.layer.mask = mask
+        }
+    }
+    
+    func setViewCorner(topCorner : Bool, bottomCorner : Bool, radius: CGFloat = 8){
+        layer.masksToBounds = true
+        layer.cornerRadius = radius
         if topCorner && bottomCorner{
             layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         } else if topCorner {
@@ -203,5 +211,14 @@ extension UIView {
         } else if bottomCorner{
             layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
+    }
+}
+
+extension UIView {
+    func loadNib() -> UIView {
+        let bundle = Bundle(for: type(of: self))
+        let nibName = type(of: self).description().components(separatedBy: ".").last!
+        let nib = UINib(nibName: nibName, bundle: bundle)
+        return nib.instantiate(withOwner: self, options: nil).first as! UIView
     }
 }

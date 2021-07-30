@@ -43,10 +43,9 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func getWithdrawalLimitation() -> Single<WithdrawalLimits> {
         Single.zip(bankApi.getWithdrawalLimitation(), bankApi.getEachLimit(), bankApi.getTurnOver()).map { (daliyLimitsResponse, singleLimitsResponse, turnOverResponse) -> WithdrawalLimits in
             guard let daliyLimitsdata = daliyLimitsResponse.data, let singleLimitsData = singleLimitsResponse.data, let turnOverData = turnOverResponse.data else {
-                return WithdrawalLimits(dailyMaxCount: 0, dailyMaxCash: CashAmount(amount: 0), dailyCurrentCount: 0, dailyCurrentCash: CashAmount(amount: 0), singleCashMaximum: CashAmount(amount: 0), singleCashMinimum: CashAmount(amount: 0), turnoverAmount: CashAmount(amount: 0), achievedAmount: CashAmount(amount: 0), cryptoWithdrawalRequests: [], cryptoRequirement: WithdrawalLimits.CryptoRequirement(request: []))
+                return WithdrawalLimits(dailyMaxCount: 0, dailyMaxCash: CashAmount(amount: 0), dailyCurrentCount: 0, dailyCurrentCash: CashAmount(amount: 0), singleCashMaximum: CashAmount(amount: 0), singleCashMinimum: CashAmount(amount: 0), turnoverAmount: CashAmount(amount: 0), achievedAmount: CashAmount(amount: 0), cryptoRequirement: WithdrawalLimits.CryptoRequirement(request: []))
             }
-            let cryptoWithdrawalRequests = turnOverData.cryptoWithdrawalRequestInfos?.map { CryptoAmount.Companion.init().create(cryptoAmount: $0.withdrawalRequest, crypto: Crypto.Companion.init().create(simpleName: Crypto.Ethereum.init().simpleName))
-            } ?? []
+
             let request = turnOverData.cryptoWithdrawalRequestInfos?.map({ CryptoAmount.Companion.init().create(cryptoAmount: $0.withdrawalRequest, crypto: Crypto.Companion.init().create(simpleName: Crypto.Ethereum.init().simpleName)) }) ?? []
             let cryptoRequirement = WithdrawalLimits.CryptoRequirement(request: request)
             
@@ -58,7 +57,6 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
                                     singleCashMinimum: CashAmount(amount: singleLimitsData.minimum),
                                     turnoverAmount: CashAmount(amount: turnOverData.turnoverAmount),
                                     achievedAmount: CashAmount(amount: turnOverData.achievedAmount),
-                                    cryptoWithdrawalRequests: cryptoWithdrawalRequests,
                                     cryptoRequirement: cryptoRequirement)
         }
     }
@@ -67,8 +65,8 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         let withdrawalRecord = bankApi.getWithdrawalRecords().map { (response) -> [WithdrawalRecordData] in
             guard let data = response.data else { return [] }
             let sortData = Array(data.sorted { $0.createdDate > $1.createdDate }.prefix(5))
-            let noFloatingData = sortData.filter{ EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: $0.status) != TransactionStatus.floating }
-            let floatingData = sortData.filter{ EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: $0.status) ==  TransactionStatus.floating }
+            let noFloatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) != TransactionStatus.floating }
+            let floatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) ==  TransactionStatus.floating }
             
             return floatingData + noFloatingData
         }.map {
@@ -84,7 +82,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         let createDate = r.createdDate.convertDateTime() ?? Date()
         let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
         return WithdrawalRecord(transactionTransactionType: TransactionType.Companion.init().convertTransactionType(transactionType_: r.ticketType), displayId: r.displayID,
-                                transactionStatus: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: r.status),
+                                transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: r.status),
                                 createDate: createOffsetDateTime,
                                 cashAmount: CashAmount(amount: r.requestAmount),
                                 isPendingHold: r.isPendingHold,
@@ -98,7 +96,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     func getWithdrawalRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[WithdrawalRecord]> {
         var statusDic: [String: Int32] = [:]
-        status.enumerated().forEach { statusDic["ticketStatuses[\($0.0)]"] = EnumMapper.Companion.init().convertTransactionStatus(transactionStatus: $0.1)}
+        status.enumerated().forEach { statusDic["ticketStatuses[\($0.0)]"] = TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: $0.1)}
         return bankApi.getWithdrawalRecords(page: page, deteBegin: dateBegin, dateEnd: dateEnd, status: statusDic).map { (response) -> [WithdrawalRecord] in
             let data = response.data ?? []
             let sortedData = data.sorted(by: { $0.date > $1.date })

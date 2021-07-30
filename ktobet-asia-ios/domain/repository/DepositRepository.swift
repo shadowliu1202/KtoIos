@@ -43,8 +43,8 @@ class DepositRepositoryImpl: DepositRepository {
         let depositRecord = bankApi.getDepositRecords().map { (response) -> [DepositRecordData] in
             guard let data = response.data else { return [] }
             let sortData = Array(data.sorted { $0.createdDate > $1.createdDate }.prefix(5))
-            let noFloatingData = sortData.filter{ EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: $0.status) != TransactionStatus.floating }
-            let floatingData = sortData.filter{ EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: $0.status) ==  TransactionStatus.floating }
+            let noFloatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) != TransactionStatus.floating }
+            let floatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) ==  TransactionStatus.floating }
             
             return floatingData + noFloatingData
         }.map {
@@ -122,7 +122,7 @@ class DepositRepositoryImpl: DepositRepository {
     
     func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]> {
         var statusDic: [String: Int32] = [:]
-        status.enumerated().forEach { statusDic["ticketStatuses[\($0.0)]"] = EnumMapper.Companion.init().convertTransactionStatus(transactionStatus: $0.1)}
+        status.enumerated().forEach { statusDic["ticketStatuses[\($0.0)]"] = TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: $0.1)}
         return bankApi.getDepositRecords(page: page, deteBegin: dateBegin, dateEnd: dateEnd, status: statusDic).map { (response) -> [DepositRecord] in
             let data = response.data ?? []
             let sortedData = data.sorted(by: { $0.date > $1.date })
@@ -190,7 +190,7 @@ class DepositRepositoryImpl: DepositRepository {
         let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
         return DepositRecord(displayId: r.displayId,
                              transactionTransactionType: TransactionType.Companion.init().convertTransactionType(transactionType_: r.ticketType),
-                             transactionStatus: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: r.status),
+                             transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: r.status),
                              actualAmount: CashAmount(amount: r.actualAmount),
                              createdDate: createOffsetDateTime,
                              isFee: r.isFee, isPendingHold: r.isPendingHold,

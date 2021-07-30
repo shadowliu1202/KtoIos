@@ -6,12 +6,19 @@
 //
 
 import Foundation
-
+import SharedBu
 
 let Localize = LocalizeUtils.shared
 
 class LocalizeUtils: NSObject {
     static let shared = LocalizeUtils()
+    
+    func string(_ key: String, _ parameters: [String]) -> String {
+        let localizationFileNmae = getLanguage()
+        let path = Bundle.main.path(forResource: localizationFileNmae, ofType: "lproj")
+        let bundle = Bundle(path: path!)
+        return String(format: NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: ""), arguments: parameters)
+    }
     
     func string(_ key: String, _ parameters: String...) -> String {
         let localizationFileNmae = getLanguage()
@@ -45,6 +52,33 @@ class LocalizeUtils: NSObject {
         default:
             UserDefaults.standard.setValue(Language.ZH.rawValue, forKey: "UserLanguage")
             return Language.ZH.rawValue
+        }
+    }
+}
+
+extension LocalizeUtils: StringSupporter {
+    func convert(resourceId: ResourceKey, args: KotlinArray<AnyObject>) -> KotlinLazy {
+        let key = resourceId.asString()
+        if args.size > 0 {
+            var parameters: [String] = []
+            for idx in 0..<args.size {
+                if let num = args.get(index: idx), num is Double || num is Int32 {
+                    parameters.append("\(num)")
+                } else if let str = args.get(index: idx), str is String {
+                    parameters.append(str as! String)
+                } else if let cashAmount = args.get(index: idx), cashAmount is CashAmount {
+                    let amount = cashAmount as! CashAmount
+                    parameters.append(amount.description())
+                } else if let unknown = args.get(index: idx) {
+                    print(">>>>>>>StringSupporter unknown type arg: \(type(of: unknown))")
+                    fatalError("please implements it")
+                } else {
+                    print(">>>>>>>StringSupporter option type arg: \(type(of: args.get(index: idx)))")
+                }
+            }
+            return KNLazyCompanion.init().create(input: self.string(key, parameters))
+        } else {
+            return KNLazyCompanion.init().create(input: self.string(key))
         }
     }
 }

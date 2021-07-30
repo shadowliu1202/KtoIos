@@ -127,10 +127,10 @@ class CasinoViewController: DisplayProduct {
             button.layer.cornerRadius = 14
             button.layer.masksToBounds = true
             if data[i].isSeleced {
-                button.applyGradient(colors: [UIColor(rgb: 0xf74d25).cgColor, UIColor(rgb: 0xf20000).cgColor])
+                button.applyGradient(vertical: [UIColor(rgb: 0xf74d25).cgColor, UIColor(rgb: 0xf20000).cgColor])
                 button.setTitleColor(UIColor.whiteFull, for: .normal)
             } else {
-                button.applyGradient(colors: [UIColor(rgb: 0x32383e).cgColor, UIColor(rgb: 0x17191c).cgColor])
+                button.applyGradient(vertical: [UIColor(rgb: 0x32383e).cgColor, UIColor(rgb: 0x17191c).cgColor])
                 button.setTitleColor(UIColor.textPrimaryDustyGray, for: .normal)
             }
             if dx+button.frame.size.width > tagsStackView.frame.size.width {

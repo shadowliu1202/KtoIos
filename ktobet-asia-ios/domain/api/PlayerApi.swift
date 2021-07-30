@@ -88,4 +88,13 @@ class PlayerApi {
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<Bool>.self)
     }
+    
+    func getPlayerLevel() -> Single<ResponseData<[LevelBean]>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/level",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<[LevelBean]>.self)
+    }
 }

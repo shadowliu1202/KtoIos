@@ -166,7 +166,7 @@ class SearchViewController: SearchProduct {
             button.sizeToFit()
             button.layer.cornerRadius = 16
             button.layer.masksToBounds = true
-            button.applyGradient(colors: [UIColor(rgb: 0x32383e).cgColor, UIColor(rgb: 0x17191c).cgColor])
+            button.applyGradient(vertical: [UIColor(rgb: 0x32383e).cgColor, UIColor(rgb: 0x17191c).cgColor])
             if dx+button.frame.size.width > tagsStackView.frame.size.width {
                 childRow = createOneChildView(stackView)
                 rowInex += 1

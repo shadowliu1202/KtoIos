@@ -67,9 +67,9 @@ class AddCryptoAccountViewController: UIViewController {
             self?.accountAddressTextField.setCorner(topCorner: true, bottomCorner: isValid)
             self?.accountAddressView.setViewCorner(topCorner: true, bottomCorner: isValid)
             if !isValid {
-                self?.accountAddressView.add(border: .bottom, color: UIColor.orangeFull, width: 1)
+                self?.accountAddressView.addBorder(.bottom, size: 1, color: UIColor.orangeFull)
             } else {
-                self?.accountAddressView.remove(border: .bottom)
+                self?.accountAddressView.removeBorder(.bottom)
             }
         }.disposed(by: disposeBag)
         

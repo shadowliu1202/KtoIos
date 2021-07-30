@@ -9,6 +9,7 @@ protocol PlayerDataUseCase {
     func loadPlayer() -> Single<Player>
     func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]>
     func isRealNameEditable() -> Single<Bool>
+    func getPrivilege() -> Single<[LevelOverview]>
 }
 
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
@@ -44,5 +45,9 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
     
     func isRealNameEditable() -> Single<Bool> {
         return playerRepository.isRealNameEditable()
+    }
+    
+    func getPrivilege() -> Single<[LevelOverview]> {
+        return playerRepository.getLevelPrivileges()
     }
 }

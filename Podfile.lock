@@ -36,7 +36,7 @@ DEPENDENCIES:
   - RxDataSources (= 4.0.1)
   - RxSwift (= 5.1.1)
   - SDWebImage (= 5.10.4)
-  - "sharedbu (from `git@gitlab.higgstar.org:mobile/kto_shared_bu.git`, branch `APP-1531`)"
+  - "sharedbu (from `git@gitlab.higgstar.org:mobile/kto_shared_bu.git`, branch `APP-1904`)"
   - SideMenu (= 6.5.0)
   - SwiftyJSON (= 5.0.0)
   - Swinject (= 2.7.1)
@@ -61,12 +61,12 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   sharedbu:
-    :branch: APP-1531
+    :branch: APP-1904
     :git: "git@gitlab.higgstar.org:mobile/kto_shared_bu.git"
 
 CHECKOUT OPTIONS:
   sharedbu:
-    :commit: c9b10d099b6c052fcdf331264101e5638174f5a5
+    :commit: fc6bdc9f6bff334a35ebabc54cff2d3d6df432e4
     :git: "git@gitlab.higgstar.org:mobile/kto_shared_bu.git"
 
 SPEC CHECKSUMS:
@@ -86,6 +86,6 @@ SPEC CHECKSUMS:
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
 
-PODFILE CHECKSUM: 0e4824b80147b4cd29d76055ce76e59af64a4a8b
+PODFILE CHECKSUM: c1f7d914736153068b5d9b89361a128590b55a43
 
 COCOAPODS: 1.10.0

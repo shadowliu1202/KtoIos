@@ -3,6 +3,7 @@ import RxCocoa
 import RxSwift
 import RxDataSources
 import SharedBu
+import SwiftUI
 
 class DepositRecordViewController: UIViewController {
     static let segueIdentifier = "toAllRecordSegue"
@@ -108,7 +109,18 @@ class DepositRecordViewController: UIViewController {
     
     fileprivate func recordDataHandler() {
         Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(DepositRecord.self)).bind {(indexPath, data) in
-            self.performSegue(withIdentifier: DepositRecordDetailViewController.segueIdentifier, sender: data)
+            if data.transactionTransactionType == TransactionType.cryptodeposit {
+                self.viewModel.getDepositRecordDetail(transactionId: data.displayId).subscribe {(depositDetail) in
+                    let swiftUIView = DepositCryptoDetailView(data: depositDetail as? DepositDetail.Crypto)
+                    let hostingController = UIHostingController(rootView: swiftUIView)
+                    hostingController.navigationItem.hidesBackButton = true
+                    NavigationManagement.sharedInstance.pushViewController(vc: hostingController)
+                } onError: {[weak self] (error) in
+                    self?.handleUnknownError(error)
+                }.disposed(by: self.disposeBag)
+            } else {
+                self.performSegue(withIdentifier: DepositRecordDetailViewController.segueIdentifier, sender: data)
+            }
             self.tableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }
