@@ -21,7 +21,12 @@ class P2PViewController: UIViewController {
             return self.viewModel.getAllGames().asObservable()
         }).share(replay: 1)
 
-        dataSource.bind(to: tableView.rx.items) {tableView, row, item in
+        dataSource
+            .catchError({ [weak self] (error) in
+                self?.handleErrors(error)
+                return Observable.just([])
+            })
+            .bind(to: tableView.rx.items) {tableView, row, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: "p2pTableVIewCell", cellType: P2PTableViewCell.self)
             if let url = URL(string: item.thumbnail.url()) {
                 cell.iconImageView.sd_setImage(with: url, completed: nil)

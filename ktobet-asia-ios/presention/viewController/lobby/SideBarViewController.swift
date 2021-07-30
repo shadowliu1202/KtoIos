@@ -157,27 +157,37 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func dataBinding() {
-        viewModel.loadPlayerInfo().subscribe {[weak self] (player) in
+        let shareLoadPlayerInfo = self.viewModel.loadPlayerInfo().share()
+        self.rx.viewWillAppear.flatMap({ (_) in
+            return shareLoadPlayerInfo
+        }).subscribe(onNext: { [weak self] (player) in
             guard let self = self else { return }
             self.player = player
             self.labUserLevel.text = "LV\(player.playerInfo.level)"
             self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
             self.labUserName.text = "\(player.playerInfo.gameId)"
-            self.slideViewModel.arrProducts.bind(to: self.listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) {[weak self] (index, data, cell) in
-                guard let self = self else { return }
-                cell.setup(data)
-                if let defaultProduct = player.defaultProduct {
-                    if defaultProduct == data.type {
-                        cell.setSelectedIcon(data.type, isSelected: true)
-                        self.slideViewModel.currentSelectedCell = cell
-                        self.slideViewModel.currentSelectedProductType = data.type
-                        self.listProduct.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .init())
-                    }
+        }, onError: { [weak self] (error) in
+            self?.handleUnknownError(error)
+        }).disposed(by: self.disposeBag)
+        
+        shareLoadPlayerInfo.flatMapLatest({ [weak self] (player) -> Observable<[ProductItem]> in
+            guard let self = self else { return Observable<[ProductItem]>.just([]) }
+            return self.slideViewModel.arrProducts
+        }).catchError({ [weak self] (error) -> Observable<[ProductItem]> in
+            self?.handleUnknownError(error)
+            return Observable<[ProductItem]>.just([])
+        }).bind(to: self.listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) {[weak self] (index, data, cell) in
+            guard let self = self else { return }
+            cell.setup(data)
+            if let defaultProduct = self.player?.defaultProduct {
+                if defaultProduct == data.type {
+                    cell.setSelectedIcon(data.type, isSelected: true)
+                    self.slideViewModel.currentSelectedCell = cell
+                    self.slideViewModel.currentSelectedProductType = data.type
+                    self.listProduct.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .init())
                 }
-            }.disposed(by: self.disposeBag)
-        } onError: {(error) in
-            self.handleUnknownError(error)
-        }.disposed(by: disposeBag)
+            }
+        }.disposed(by: self.disposeBag)
         
         viewModel.getBalance().subscribe {[unowned self] (balance) in
             let paragraph = NSMutableParagraphStyle()
@@ -263,7 +273,7 @@ class SideBarViewController: UIViewController {
     
     @objc func accountLevelTap(_ sender: UITapGestureRecognizer) {
         setUnSelectProduct()
-        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountLevelNavigationController")
+        NavigationManagement.sharedInstance.goTo(storyboard: "LevelPrivilege", viewControllerId: "LevelPrivilegeNavigationController")
     }
     
     @objc func balanceTap(_ sender: UITapGestureRecognizer) {

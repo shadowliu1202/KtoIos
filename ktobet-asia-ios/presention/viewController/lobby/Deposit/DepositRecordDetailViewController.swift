@@ -62,7 +62,7 @@ class DepositRecordDetailViewController: UIViewController {
     // MARK: BUTTON ACTION
     @IBAction func confirm(_ sender: Any) {
         startActivityIndicator(activityIndicator: activityIndicator)
-        viewModel.bindingImageWithDepositRecord(displayId: detailRecord.displayId, transactionId: EnumMapper.Companion.init().convertTransactionStatus(transactionStatus: .pending), portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
+        viewModel.bindingImageWithDepositRecord(displayId: detailRecord.displayId, transactionId: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: .pending), portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
             self.dataBinding()
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in

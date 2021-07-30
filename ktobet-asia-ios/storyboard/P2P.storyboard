@@ -64,7 +64,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1L-3x-Nag">
                                                     <rect key="frame" x="24" y="192" width="30.5" height="0.0"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="16" id="SJ5-EB-ua7"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="SJ5-EB-ua7"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                                                     <color key="textColor" name="textPrimaryDustyGray"/>

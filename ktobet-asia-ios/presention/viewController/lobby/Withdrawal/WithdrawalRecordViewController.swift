@@ -3,6 +3,7 @@ import RxCocoa
 import RxSwift
 import RxDataSources
 import SharedBu
+import SwiftUI
 
 class WithdrawalRecordViewController: UIViewController {
     static let segueIdentifier = "toAllRecordSegue"
@@ -102,7 +103,18 @@ class WithdrawalRecordViewController: UIViewController {
     
     fileprivate func recordDataHandler() {
         Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(WithdrawalRecord.self)).bind {(indexPath, data) in
-            self.performSegue(withIdentifier: WithdrawalRecordDetailViewController.segueIdentifier, sender: data)
+            if data.transactionTransactionType == TransactionType.cryptowithdrawal {
+                self.viewModel.getWithdrawalRecordDetail(transactionId: data.displayId, transactionTransactionType: data.transactionTransactionType).subscribe {(withdrawalDetail) in
+                    let swiftUIView = WithdrawalCryptoDetailView(data: withdrawalDetail as? WithdrawalDetail.Crypto)
+                    let hostingController = UIHostingController(rootView: swiftUIView)
+                    hostingController.navigationItem.hidesBackButton = true
+                    NavigationManagement.sharedInstance.pushViewController(vc: hostingController)
+                } onError: {[weak self] (error) in
+                    self?.handleUnknownError(error)
+                }.disposed(by: self.disposeBag)
+            } else {
+                self.performSegue(withIdentifier: WithdrawalRecordDetailViewController.segueIdentifier, sender: data)
+            }
             self.tableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }

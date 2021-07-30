@@ -128,7 +128,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
     
     fileprivate func updateUI(data: WithdrawalDetail.General) {
         DispatchQueue.main.async {
-            self.remarkView.remove(border: .bottom)
+            self.remarkView.removeBorder(.bottom)
             self.scrollview.isHidden = false
             self.applytimeLabel.text = data.record.createDate.formatDateToStringToSecond()
             self.amountLabel.text = data.record.cashAmount.displayAmount
@@ -169,7 +169,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
             self.remarkViewHeight.constant = self.remarkTableViewHeight.constant + self.uploadViewHeight.constant + 60
             self.remarkView.layoutIfNeeded()
             if data.record.transactionStatus != .floating {
-                self.remarkView.add(border: .bottom, color: UIColor.dividerCapeCodGray2, width: 1)
+                self.remarkView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
             }
         }
     }
@@ -185,7 +185,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
     
     fileprivate func cofirmUploadImage() {
         startActivityIndicator(activityIndicator: activityIndicator)
-        self.viewModel.bindingImageWithWithdrawalRecord(displayId: self.detailRecord.displayId, transactionId: EnumMapper.Companion.init().convertTransactionStatus(transactionStatus: .pending), portalImages: self.viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
+        self.viewModel.bindingImageWithWithdrawalRecord(displayId: self.detailRecord.displayId, transactionId: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: .pending), portalImages: self.viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
             self.dataBinding()
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in

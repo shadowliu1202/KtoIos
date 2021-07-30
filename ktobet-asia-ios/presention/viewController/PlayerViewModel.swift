@@ -29,6 +29,10 @@ class PlayerViewModel {
         self.playerUseCase.setBalanceHiddenState(gameId: gameId, isHidden: isHidden)
     }
     
+    func getPrivilege() -> Single<[LevelOverview]> {
+        playerUseCase.getPrivilege()
+    }
+    
     func logout() -> Completable {
         return authUsecase.logout()
     }

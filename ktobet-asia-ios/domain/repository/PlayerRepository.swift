@@ -9,6 +9,7 @@ protocol PlayerRepository {
     func getBalance() -> Single<CashAmount>
     func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]>
     func isRealNameEditable() -> Single<Bool>
+    func getLevelPrivileges() -> Single<[LevelOverview]>
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
@@ -87,5 +88,84 @@ class PlayerRepositoryImpl : PlayerRepository {
     
     func isRealNameEditable() -> Single<Bool> {
         return playerApi.isRealNameEditable().map { $0.data ?? false }
+    }
+    
+    func getLevelPrivileges() -> Single<[LevelOverview]> {
+        playerApi.getPlayerLevel().map { (response) -> [LevelOverview] in
+            guard let data = response.data else { return [] }
+            return data.map{ self.convert(levelBean: $0) }
+        }
+    }
+    
+    private func convert(levelBean: LevelBean) -> LevelOverview {
+        let timestamp = levelBean.timestamp.convertDateTime() ?? Date()
+        let timestampLocalDateTime = Kotlinx_datetimeLocalDateTime(year: timestamp.getYear(), monthNumber: timestamp.getMonth(), dayOfMonth: timestamp.getDayOfMonth(), hour: timestamp.getHour(), minute: timestamp.getMinute(), second: timestamp.getSecond(), nanosecond: timestamp.getNanosecond())
+        
+        let privileges = levelBean.data?.map{ self.convert(level: levelBean.level, privilegeBean: $0) } ?? []
+        return LevelOverview(level: levelBean.level, timeStamp: timestampLocalDateTime, privileges: privileges)
+    }
+    
+    private func convert(level: Int32, privilegeBean: PrivilegeBean) -> LevelPrivilege {
+        PrivilegeFactory
+            .init(stringSupporter: Localize, resourceMapper: LevelPrivilegeResourceMapper())
+            .create(level: level,
+                    type: convertToPrivilegeType(type: privilegeBean.type),
+                    productType: convertToProductType(type: privilegeBean.productType),
+                    betMultiple: privilegeBean.betMultiple,
+                    issueFrequency: LevelPrivilege.DepositIssueFrequencyCompanion.init().convert(type: privilegeBean.issueFrequency),
+                    maxBonus: CashAmount(amount: privilegeBean.maxBonus),
+                    minCapital: privilegeBean.minCapital,
+                    percentage: privilegeBean.percentage,
+                    rebatePercentages: rebatePercentages(privilegeBean),
+                    withdrawalLimitAmount: CashAmount(amount: privilegeBean.withdrawalLimitAmount),
+                    withdrawalLimitCount: privilegeBean.withdrawalLimitCount)
+    }
+    
+    private func convertToProductType(type: Int32) -> ProductType {
+        switch type {
+        case 1:
+            return ProductType.sbk
+        case 2:
+            return ProductType.slot
+        case 3:
+            return ProductType.casino
+        case 4:
+            return ProductType.numbergame
+        case 64:
+            return ProductType.arcade
+        default:
+            return ProductType.none
+        }
+    }
+    
+    private func convertToPrivilegeType(type: Int32) -> PrivilegeType {
+        switch type {
+        case 1:
+            return PrivilegeType.freebet
+        case 2:
+            return PrivilegeType.depositbonus
+        case 3:
+            return PrivilegeType.product
+        case 4:
+            return PrivilegeType.rebate
+        case 5:
+            return PrivilegeType.levelbonus
+        case 90:
+            return PrivilegeType.feedback
+        case 91:
+            return PrivilegeType.withdrawal
+        case 92:
+            return PrivilegeType.domain
+        default:
+            return PrivilegeType.none
+        }
+    }
+   
+    private func rebatePercentages(_ bean: PrivilegeBean) -> [ProductType : KotlinDouble] {
+        [ProductType.casino: KotlinDouble.init(value: bean.casinoPercentage),
+         ProductType.numbergame: KotlinDouble.init(value: bean.numberGamePercentage),
+         ProductType.sbk: KotlinDouble.init(value: bean.sbkPercentage),
+         ProductType.slot: KotlinDouble.init(value: bean.slotPercentage),
+         ProductType.arcade: KotlinDouble.init(value: bean.arcadePercentage)]
     }
 }

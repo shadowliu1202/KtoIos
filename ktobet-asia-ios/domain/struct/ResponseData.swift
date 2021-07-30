@@ -201,7 +201,7 @@ struct DepositRecordDetailData: Codable {
                 fee: CashAmount(amount: self.fee ?? 0),
                 isPendingHold: self.isPendingHold,
                 requestAmount: CashAmount(amount: self.requestAmount),
-                status: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: self.status),
+                status: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: self.status),
                 statusChangeHistories: statusChangeHistories,
                 ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
                 updatedDate: updateOffsetDateTime)
@@ -227,7 +227,7 @@ struct DepositRecordDetailData: Codable {
                 isPendingHold: self.isPendingHold,
                 requestCryptoAmount: requestCryptoAmount,
                 requestRateDate: requestRateOffsetDateTime,
-                status: EnumMapper.Companion.init().convertTransactionStatus(ticketStatus: self.status),
+                status: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: self.status),
                 statusChangeHistories: statusChangeHistories,
                 ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
                 toAddress: self.toAddress ?? "",
@@ -284,24 +284,24 @@ struct WithdrawalRecordData: Codable {
 }
 
 struct WithdrawalRecordDetailData: Codable {
-    let actualAmount: Double
-    let actualCryptoAmount: Double
-    let actualRate: Double
+    let actualAmount: Double?
+    let actualCryptoAmount: Double?
+    let actualRate: Double?
     let approvedDate: String
     let createdDate: String
     let cryptoCurrency: Int
     let displayId: String
-    let hashId: String
+    let hashId: String?
     let isBatched: Bool
     let isPendingHold: Bool
-    let playerCryptoAddress: String
-    let providerCryptoAddress: String
+    let playerCryptoAddress: String?
+    let providerCryptoAddress: String?
     let requestAmount: Double
-    let requestCryptoAmount: Double
-    let requestRate: Double
+    let requestCryptoAmount: Double?
+    let requestRate: Double?
     let status: Int32
     let statusChangeHistories: [StatusChangeHistory]
-    let ticketType: Int
+    let ticketType: Int?
     let updatedDate: String
     
     func toWithdrawalDetail(transactionTransactionType: TransactionType, statusChangeHistories: [Transaction.StatusChangeHistory]) -> WithdrawalDetail {
@@ -331,9 +331,9 @@ struct WithdrawalRecordDetailData: Codable {
         case .cryptowithdrawal:
             let approvedDate = self.approvedDate.convertDateTime() ?? Date()
             let approvedOffsetDateTime = approvedDate.convertDateToOffsetDateTime()
-            let actualCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.actualCryptoAmount, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: actualRate), cashAmount: CashAmount(amount: self.actualAmount))
+            let actualCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.actualCryptoAmount ?? 0, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: actualRate ?? 0), cashAmount: CashAmount(amount: self.actualAmount ?? 0))
             
-            let requestCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.requestCryptoAmount, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.requestRate), cashAmount: CashAmount(amount: self.requestAmount))
+            let requestCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.requestCryptoAmount ?? 0, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.requestRate ?? 0), cashAmount: CashAmount(amount: self.requestAmount))
             
             return WithdrawalDetail.Crypto.init(record: withdrawalRecord,
                                                 isBatched: isBatched,
@@ -342,10 +342,10 @@ struct WithdrawalRecordDetailData: Codable {
                                                 updatedDate: updateOffsetDateTime,
                                                 requestCryptoAmount: requestCryptoAmount,
                                                 actualCryptoAmount: actualCryptoAmount,
-                                                playerCryptoAddress: playerCryptoAddress,
-                                                providerCryptoAddress: providerCryptoAddress,
+                                                playerCryptoAddress: playerCryptoAddress ?? "",
+                                                providerCryptoAddress: providerCryptoAddress ?? "",
                                                 approvedDate: approvedOffsetDateTime,
-                                                hashId: hashId)
+                                                hashId: hashId ?? "")
         default:
             return WithdrawalDetail.Unknown.init()
         }
@@ -1025,4 +1025,28 @@ struct P2PGameBetRecordBean: Codable {
         let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
         return P2PGameBetRecord(betTime: betLocalTime, gameGroupId: gameGroupId, gameName: gameName, groupId: groupId, hasDetails: hasDetails, prededuct: CashAmount(amount: prededuct), stakes: CashAmount(amount: stakes), wagerId: wagerId, winLoss: CashAmount(amount: winLoss))
     }
+}
+
+
+struct LevelBean: Codable {
+    let data: [PrivilegeBean]?
+    let level: Int32
+    let timestamp: String
+}
+
+struct PrivilegeBean: Codable {
+    let betMultiple: Int32
+    let casinoPercentage: Double
+    let issueFrequency: Int32
+    let numberGamePercentage: Double
+    let maxBonus: Double
+    let minCapital: Double
+    let percentage: Double
+    let productType: Int32
+    let sbkPercentage: Double
+    let slotPercentage: Double
+    let arcadePercentage: Double
+    let type: Int32
+    let withdrawalLimitAmount: Double
+    let withdrawalLimitCount: Int32
 }

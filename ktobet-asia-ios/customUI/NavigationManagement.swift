@@ -43,14 +43,14 @@ class NavigationManagement {
         vc.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
     }
     
-    func addBackToBarButtonItem(vc: UIViewController, isShowAlert: Bool = false, backTitle: String = Localize.string("common_tip_title_unfinished"), backMessage: String = Localize.string("common_tip_content_unfinished"), title: String? = nil) {
+    func addBackToBarButtonItem(vc: UIViewController, isShowAlert: Bool = false, backTitle: String = Localize.string("common_tip_title_unfinished"), backMessage: String = Localize.string("common_tip_content_unfinished"), title: String? = nil, image: String = "Back") {
         self.isShowAlert = isShowAlert
         self.backTitle = backTitle
         self.backMessage = backMessage
         viewController = vc
         let negativeSeperator = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         negativeSeperator.width = 8
-        let backButton = UIBarButtonItem(image: UIImage(named: "Back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(NavigationManagement.back))
+        let backButton = UIBarButtonItem(image: UIImage(named: image)?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(NavigationManagement.back))
         vc.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
         vc.navigationItem.title = title
         vc.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT

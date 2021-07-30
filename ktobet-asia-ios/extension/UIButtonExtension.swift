@@ -38,15 +38,6 @@ extension UIButton {
             setImage(newValue, for: .reserved)
         }
     }
-    
-    func applyGradient(colors: [CGColor]) {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = colors
-        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-        gradientLayer.frame = self.bounds
-        self.layer.insertSublayer(gradientLayer, at: 0)
-    }
 
 }
 
