@@ -21,7 +21,7 @@ PODS:
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
-  - sharedbu (1.0.10)
+  - sharedbu (1.5.1)
   - SideMenu (6.5.0)
   - SwiftyJSON (5.0.0)
   - Swinject (2.7.1)
@@ -36,13 +36,15 @@ DEPENDENCIES:
   - RxDataSources (= 4.0.1)
   - RxSwift (= 5.1.1)
   - SDWebImage (= 5.10.4)
-  - "sharedbu (from `git@gitlab.higgstar.org:mobile/kto_shared_bu.git`, branch `APP-1904`)"
+  - sharedbu (= 1.5.1)
   - SideMenu (= 6.5.0)
   - SwiftyJSON (= 5.0.0)
   - Swinject (= 2.7.1)
   - TYCyclePagerView (= 1.2.0)
 
 SPEC REPOS:
+  "git@gitlab.higgstar.org:mobile/ios_pod_repo.git":
+    - sharedbu
   trunk:
     - Alamofire
     - AlignedCollectionViewFlowLayout
@@ -59,16 +61,6 @@ SPEC REPOS:
     - Swinject
     - TYCyclePagerView
 
-EXTERNAL SOURCES:
-  sharedbu:
-    :branch: APP-1904
-    :git: "git@gitlab.higgstar.org:mobile/kto_shared_bu.git"
-
-CHECKOUT OPTIONS:
-  sharedbu:
-    :commit: fc6bdc9f6bff334a35ebabc54cff2d3d6df432e4
-    :git: "git@gitlab.higgstar.org:mobile/kto_shared_bu.git"
-
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AlignedCollectionViewFlowLayout: ee2ef451e741ec08f8e0967d828001e2f051c20a
@@ -80,12 +72,12 @@ SPEC CHECKSUMS:
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
-  sharedbu: 6f951ea10d984176079a8576680554cf7bc2bd08
+  sharedbu: a3d69d2110703a635af4a365e43bd4179bec9b16
   SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
 
-PODFILE CHECKSUM: c1f7d914736153068b5d9b89361a128590b55a43
+PODFILE CHECKSUM: 965616392b1e7990335b16dc38a8f4ec05cb31b1
 
 COCOAPODS: 1.10.0
