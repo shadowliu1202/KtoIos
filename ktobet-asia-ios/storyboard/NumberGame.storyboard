@@ -383,6 +383,7 @@
                                                 <constraint firstItem="aN8-AL-R22" firstAttribute="top" secondItem="ogZ-ib-1iR" secondAttribute="bottom" constant="6" id="MOG-QD-vXT"/>
                                                 <constraint firstItem="qCS-Ur-yFa" firstAttribute="leading" secondItem="4pc-gw-ikH" secondAttribute="leading" constant="32" id="QqJ-o8-nBp"/>
                                                 <constraint firstItem="ACc-LV-XHo" firstAttribute="leading" secondItem="qCS-Ur-yFa" secondAttribute="leading" id="Sfy-55-QwQ"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qCS-Ur-yFa" secondAttribute="trailing" constant="59" id="har-1p-9yD"/>
                                                 <constraint firstItem="FqL-TX-lmO" firstAttribute="centerY" secondItem="4pc-gw-ikH" secondAttribute="centerY" id="tjT-Ya-ECk"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1102,7 +1103,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="QC6-Oi-CtM"/>
-        <segue reference="74H-wn-esK"/>
+        <segue reference="QFd-PQ-gIt"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Chevron Left Disable(24)" width="24" height="24"/>
