@@ -10,7 +10,7 @@ class WithdrawlLandingViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Withdrawal", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "WithdrawlEmptyViewController") as! WithdrawlEmptyViewController
         viewController.bankCardType = bankCardType
-        self.add(asChildViewController: viewController)
+        self.addChildViewControllerAndSetChildViewFrame(asChildViewController: viewController)
         return viewController
     }()
     private lazy var accountsViewController: WithdrawlAccountsViewController = {
@@ -20,7 +20,7 @@ class WithdrawlLandingViewController: UIViewController {
         viewController.cryptoBankCards = cryptoBankCards
         viewController.bankCardType = bankCardType
 
-        self.add(asChildViewController: viewController)
+        self.addChildViewControllerAndSetChildViewFrame(asChildViewController: viewController)
         return viewController
     }()
     fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!
@@ -42,7 +42,7 @@ class WithdrawlLandingViewController: UIViewController {
             viewModel.withdrawalAccounts().subscribe(onSuccess: { [weak self] (accounts) in
                 self?.accounts = accounts
                 self?.accountsCount = accounts.count
-                self?.updateView(accountCount: accounts.count)
+                self?.updateWithdrawAccountsView(according: accounts.count)
             }, onError: { [weak self] (error) in
                 self?.handleUnknownError(error)
             }).disposed(by: disposeBag)
@@ -50,7 +50,7 @@ class WithdrawlLandingViewController: UIViewController {
             viewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
                 self?.cryptoBankCards = cryptoBankCards
                 self?.accountsCount = cryptoBankCards.count
-                self?.updateView(accountCount: cryptoBankCards.count)
+                self?.updateWithdrawAccountsView(according: cryptoBankCards.count)
             } onError: { (error) in
                 self.handleUnknownError(error)
             }.disposed(by: disposeBag)
@@ -60,26 +60,26 @@ class WithdrawlLandingViewController: UIViewController {
         }
     }
     
-    private func updateView(accountCount: Int) {
+    private func updateWithdrawAccountsView(according accountCount: Int) {
         if accountCount > 0 {
-            addAccountsView()
+            setAccountsView()
         } else {
-            addEmptyView()
+            setEmptyView()
         }
     }
     
-    private func addAccountsView() {
-        remove(asChildViewController: emptyViewController)
+    private func setAccountsView() {
+        removeChildViewController(asChildViewController: emptyViewController)
         accountsViewController.withdrawalAccounts = accounts
         accountsViewController.cryptoBankCards = cryptoBankCards
-        add(asChildViewController: accountsViewController)
+        addChildViewControllerAndSetChildViewFrame(asChildViewController: accountsViewController)
     }
     
-    private func addEmptyView() {
+    private func setEmptyView() {
         accountsViewController.withdrawalAccounts = nil
-        remove(asChildViewController: accountsViewController)
+        removeChildViewController(asChildViewController: accountsViewController)
         emptyViewController.bankCardType = bankCardType
-        add(asChildViewController: emptyViewController)
+        addChildViewControllerAndSetChildViewFrame(asChildViewController: emptyViewController)
     }
     
     @objc func tapBack() {
@@ -91,7 +91,7 @@ class WithdrawlLandingViewController: UIViewController {
     }
     
     // MARK: - Helper Methods
-    private func add(asChildViewController viewController: UIViewController) {
+    private func addChildViewControllerAndSetChildViewFrame(asChildViewController viewController: UIViewController) {
         addChild(viewController)
         view.addSubview(viewController.view)
         viewController.view.frame = view.bounds
@@ -99,7 +99,7 @@ class WithdrawlLandingViewController: UIViewController {
         viewController.didMove(toParent: self)
     }
     
-    private func remove(asChildViewController viewController: UIViewController) {
+    private func removeChildViewController(asChildViewController viewController: UIViewController) {
         viewController.willMove(toParent: nil)
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
