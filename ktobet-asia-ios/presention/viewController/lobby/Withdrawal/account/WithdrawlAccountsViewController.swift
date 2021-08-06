@@ -34,7 +34,7 @@ class WithdrawlAccountsViewController: UIViewController {
     }
     private lazy var source = BehaviorRelay<[WithdrawalAccount]>(value: [])
     private lazy var cryptoSource = BehaviorRelay<[CryptoBankCard]>(value: [])
-    private lazy var isEditMode = false {
+    lazy var isEditMode = false {
         didSet {
             self.tableView.reloadData()
             self.updateUI()
@@ -42,6 +42,7 @@ class WithdrawlAccountsViewController: UIViewController {
     }
     fileprivate var bankCardViewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
+    fileprivate var switchAddAccount: (() -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,20 +61,30 @@ class WithdrawlAccountsViewController: UIViewController {
         switch bankCardType {
         case .general:
             generalDataBinding()
+            switchAddAccount = switchToAddAccount
         case .crypto:
             cryptoDataBinding()
+            switchAddAccount = switchToAddCryptoAccount
         default:
             break
         }
+        
+        footerBtn.rx.touchUpInside
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                guard let `self` = self else { return }
+                if self.isEditMode {
+                    self.switchAddAccount?()
+                } else {
+                    self.isEditMode.toggle()
+                }
+            }).disposed(by: disposeBag)
     }
     
     private func cryptoDataBinding() {
         let cryptoDataSource = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
-            return self.bankCardViewModel.getCryptoBankCards().asObservable()
+            return cryptoSource.asObservable()
         }).share(replay: 1)
-        cryptoDataSource.subscribe {[weak self] (cryptoBankCards) in
-            self?.cryptoSource.accept(cryptoBankCards)
-        }.disposed(by: disposeBag)
         cryptoDataSource.asObservable().bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
             return tableView.dequeueReusableCell(withIdentifier: "CryptoAccountCell", cellType: CryptoAccountCell.self).configure(item, self.isEditMode)
         }.disposed(by: disposeBag)
@@ -90,23 +101,6 @@ class WithdrawlAccountsViewController: UIViewController {
                 }
             }
         }.disposed(by: disposeBag)
-        footerBtn.rx.touchUpInside
-            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] in
-                guard let `self` = self else { return }
-                if self.isEditMode {
-                    switch self.bankCardType {
-                    case .general:
-                        self.switchToAddAccount()
-                    case .crypto:
-                        self.switchToAddCryptoAccount()
-                    default:
-                        break
-                    }
-                } else {
-                    self.isEditMode.toggle()
-                }
-            }).disposed(by: disposeBag)
     }
     
     private func generalDataBinding() {
@@ -123,16 +117,6 @@ class WithdrawlAccountsViewController: UIViewController {
                 self.performSegue(withIdentifier: WithdrawalRequestViewController.segueIdentifier, sender: data)
             }
         }.disposed(by: disposeBag)
-        footerBtn.rx.touchUpInside
-            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] in
-                guard let `self` = self else { return }
-                if self.isEditMode {
-                    self.switchToAddAccount()
-                } else {
-                    self.isEditMode.toggle()
-                }
-            }).disposed(by: disposeBag)
     }
     
     private func updateUI() {

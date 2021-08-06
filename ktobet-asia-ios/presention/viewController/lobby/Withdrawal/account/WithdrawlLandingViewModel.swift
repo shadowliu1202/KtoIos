@@ -16,4 +16,9 @@ class WithdrawlLandingViewModel {
     func deleteAccount(_ playerBankCardId: String) -> Completable {
         return self.withdrawalUseCase.deleteWithdrawalAccount(playerBankCardId)
     }
+    
+    func getCryptoBankCards() -> Single<[CryptoBankCard]> {
+        return withdrawalUseCase.getCryptoBankCards()
+    }
+
 }

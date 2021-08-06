@@ -14,6 +14,7 @@ class NavigationManagement {
     var viewController: UIViewController!
     var isShowAlert = false
     var closeAction: (() -> ())?
+    var backAction: (() -> ())?
     var backTitle: String?
     var backMessage: String?
     var closeTitle: String?
@@ -43,10 +44,11 @@ class NavigationManagement {
         vc.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
     }
     
-    func addBackToBarButtonItem(vc: UIViewController, isShowAlert: Bool = false, backTitle: String = Localize.string("common_tip_title_unfinished"), backMessage: String = Localize.string("common_tip_content_unfinished"), title: String? = nil, image: String = "Back") {
+    func addBackToBarButtonItem(vc: UIViewController, isShowAlert: Bool = false, backTitle: String = Localize.string("common_tip_title_unfinished"), backMessage: String = Localize.string("common_tip_content_unfinished"), title: String? = nil, image: String = "Back", _ backAction: (() -> Void)? = nil) {
         self.isShowAlert = isShowAlert
         self.backTitle = backTitle
         self.backMessage = backMessage
+        self.backAction = backAction
         viewController = vc
         let negativeSeperator = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         negativeSeperator.width = 8
@@ -115,14 +117,22 @@ class NavigationManagement {
     }
     
     @objc func back() {
-        if self.isShowAlert {
-            Alert.show(self.backTitle, self.backMessage) {
+        var action: (() -> ())?
+        if backAction != nil {
+            action = backAction
+        } else {
+            action = {
                 self.viewController.navigationController?.popViewController(animated: true)
                 self.viewController = self.viewController.navigationController?.topViewController
+            }
+        }
+        
+        if self.isShowAlert {
+            Alert.show(self.backTitle, self.backMessage) {
+                action?()
             } cancel: {}
         } else {
-            viewController.navigationController?.popViewController(animated: true)
-            viewController = viewController.navigationController?.topViewController
+            action?()
         }
     }
     

@@ -161,7 +161,7 @@ class WithdrawalOTPVerifyViewController: UIViewController {
     @IBAction func btnVerifyPressed(_ sender: UIButton){
         viewModel.verifyOtp().subscribe {
             Alert.show(Localize.string("common_verify_finished"), Localize.string("cps_verify_hint"), confirm: {
-                self.performSegue(withIdentifier: WithdrawlAccountsViewController.unwindSegue, sender: nil)
+                self.performSegue(withIdentifier: WithdrawlLandingViewController.unwindSegue, sender: nil)
             }, cancel: nil)
         } onError: { (error) in
             self.handleError(error)
