@@ -19,7 +19,6 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
     
     var cryptoBankCard: CryptoBankCard?
     var playerCryptoBankCardId: String?
-    var bankCardCount: Int = 0
     
     private var userInfoStatus: UserInfoStatus!
     private var isFirstTimeEnter = true
@@ -29,14 +28,7 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, isShowAlert: false, closeAction: {
-            if self.bankCardCount == 0 {
-                if let vc = UIStoryboard(name: "Withdrawal", bundle: nil).instantiateViewController(withIdentifier: "WithdrawlEmptyViewController") as? WithdrawlEmptyViewController {
-                    vc.bankCardType = .crypto
-                    NavigationManagement.sharedInstance.pushViewController(vc: vc)
-                }
-            } else {
-                self.performSegue(withIdentifier: WithdrawlAccountsViewController.unwindSegue, sender: nil)
-            }
+            self.performSegue(withIdentifier: WithdrawlLandingViewController.unwindSegue, sender: nil)
         }, closeTitle: "", closeMessage: "")
         
         btnPhone.setTitle(Localize.string("common_mobile"), for: .normal)
@@ -120,7 +112,6 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
         if segue.identifier == WithdrawalOTPVerifyViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalOTPVerifyViewController {
                 dest.viewModel = viewModel
-                dest.bankCardCount = bankCardCount
             }
         }
     }
