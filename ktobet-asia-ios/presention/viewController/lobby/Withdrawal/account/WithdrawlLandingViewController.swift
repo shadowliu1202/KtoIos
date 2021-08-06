@@ -4,11 +4,13 @@ import SharedBu
 
 class WithdrawlLandingViewController: UIViewController {
     static let segueIdentifier = "toWithdrawalBankLanding"
+    static let unwindSegue = "unwindsegueWithdrawalLanding"
+
     private lazy var emptyViewController: WithdrawlEmptyViewController = {
         let storyboard = UIStoryboard(name: "Withdrawal", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "WithdrawlEmptyViewController") as! WithdrawlEmptyViewController
         viewController.bankCardType = bankCardType
-        self.add(asChildViewController: viewController)
+        self.addViewWithFrames(asChildViewController: viewController)
         return viewController
     }()
     private lazy var accountsViewController: WithdrawlAccountsViewController = {
@@ -18,14 +20,22 @@ class WithdrawlLandingViewController: UIViewController {
         viewController.cryptoBankCards = cryptoBankCards
         viewController.bankCardType = bankCardType
 
-        self.add(asChildViewController: viewController)
+        self.addViewWithFrames(asChildViewController: viewController)
         return viewController
     }()
     fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
-    var accounts: [WithdrawalAccount]?
-    var cryptoBankCards: [CryptoBankCard]?
-    var bankCardType: BankCardType!
+    fileprivate var accountsCount: Int {
+        switch bankCardType {
+        case .general:
+            return accounts.count
+        case .crypto:
+            return cryptoBankCards.count
+        }
+    }
+    lazy var accounts: [WithdrawalAccount] = []
+    lazy var cryptoBankCards: [CryptoBankCard] = []
+    lazy var bankCardType: BankCardType = .general
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,48 +44,48 @@ class WithdrawlLandingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.withdrawalAccounts().subscribe(onSuccess: { [weak self] (accounts) in
-            self?.accounts = accounts
-            self?.updateView()
-        }, onError: { [weak self] (error) in
-            self?.handleUnknownError(error)
-        }).disposed(by: disposeBag)
-    }
-    
-    private func updateView() {
         switch bankCardType {
         case .general:
-            if let accounts = accounts, accounts.count > 0 {
-                addAccountsView()
-            } else {
-                // if accounts count = 0, reset WithdrawlAccountsViewController isEditMode to false
-                addEmptyView()
-            }
+            viewModel.withdrawalAccounts().subscribe(onSuccess: { [weak self] (accounts) in
+                self?.accounts = accounts
+                self?.updateWithdrawAccountsView()
+            }, onError: { [weak self] (error) in
+                self?.handleUnknownError(error)
+            }).disposed(by: disposeBag)
         case .crypto:
-            if let cryptoBankCards = cryptoBankCards, cryptoBankCards.count > 0 {
-                addAccountsView()
-            } else {
-                addEmptyView()
-            }
-        default:
-            break
+            viewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
+                self?.cryptoBankCards = cryptoBankCards
+                self?.updateWithdrawAccountsView()
+            } onError: { (error) in
+                self.handleUnknownError(error)
+            }.disposed(by: disposeBag)
         }
     }
     
-    private func addAccountsView() {
-        remove(asChildViewController: emptyViewController)
-        add(asChildViewController: accountsViewController)
+    private func updateWithdrawAccountsView() {
+        if accountsCount > 0 {
+            setAccountsView()
+        } else {
+            setEmptyView()
+        }
     }
     
-    private func addEmptyView() {
+    private func setAccountsView() {
+        emptyViewController.removeViewReference()
+        accountsViewController.withdrawalAccounts = accounts
+        accountsViewController.cryptoBankCards = cryptoBankCards
+        addViewWithFrames(asChildViewController: accountsViewController)
+    }
+    
+    private func setEmptyView() {
         accountsViewController.withdrawalAccounts = nil
-        remove(asChildViewController: accountsViewController)
+        accountsViewController.removeViewReference()
         emptyViewController.bankCardType = bankCardType
-        add(asChildViewController: emptyViewController)
+        addViewWithFrames(asChildViewController: emptyViewController)
     }
     
     @objc func tapBack() {
-        if let accounts = accounts, accounts.count > 0 {
+        if accountsCount > 0 {
             accountsViewController.tapBack()
         } else {
             emptyViewController.tapBack()
@@ -83,7 +93,7 @@ class WithdrawlLandingViewController: UIViewController {
     }
     
     // MARK: - Helper Methods
-    private func add(asChildViewController viewController: UIViewController) {
+    private func addViewWithFrames(asChildViewController viewController: UIViewController) {
         addChild(viewController)
         view.addSubview(viewController.view)
         viewController.view.frame = view.bounds
@@ -91,13 +101,21 @@ class WithdrawlLandingViewController: UIViewController {
         viewController.didMove(toParent: self)
     }
     
-    private func remove(asChildViewController viewController: UIViewController) {
-        viewController.willMove(toParent: nil)
-        viewController.view.removeFromSuperview()
-        viewController.removeFromParent()
+    @IBAction func unwindsegueWithdrawalLanding(segue: UIStoryboardSegue) {
+        NavigationManagement.sharedInstance.viewController = self
+        accountsViewController.isEditMode = false
     }
     
     deinit {
         print("\(type(of: self)) deinit")
+    }
+}
+
+
+extension UIViewController {
+    func removeViewReference() {
+        self.willMove(toParent: nil)
+        self.view.removeFromSuperview()
+        self.removeFromParent()
     }
 }

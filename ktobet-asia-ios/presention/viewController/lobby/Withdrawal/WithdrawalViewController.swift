@@ -97,10 +97,12 @@ class WithdrawalViewController: UIViewController {
                 dest.detailRecord = sender as? WithdrawalRecord
             }
         } else if segue.identifier == WithdrawlLandingViewController.segueIdentifier {
-            if let dest = segue.destination as? WithdrawlLandingViewController {
+            if let dest = segue.destination as? WithdrawlLandingViewController,
+               let accounts = accounts, let cryptoBankCards = cryptoBankCards,
+               let bankCardType = sender as? BankCardType {
                 dest.accounts = accounts
                 dest.cryptoBankCards = cryptoBankCards
-                dest.bankCardType = sender as? BankCardType
+                dest.bankCardType = bankCardType
             }
         } else if segue.identifier == CrpytoTransationLogViewController.segueIdentifier {
             if let dest = segue.destination as? CrpytoTransationLogViewController {

@@ -13,19 +13,12 @@ class WithdrawlEmptyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self) {
+            NavigationManagement.sharedInstance.popToRootViewController()
+        }
         
-        let negativeSeperator = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        negativeSeperator.width = 8
-        let backButton = UIBarButtonItem(image: UIImage(named: "Back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(self.backRoot))
-        self.navigationItem.leftBarButtonItems = [negativeSeperator, backButton]
-        self.navigationItem.title = title
-
         initUI()
         dataBinding()
-    }
-    
-    @objc func backRoot() {
-        NavigationManagement.sharedInstance.popToRootViewController()
     }
     
     private func initUI() {
