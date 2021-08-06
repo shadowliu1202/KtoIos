@@ -25,10 +25,17 @@ class WithdrawlLandingViewController: UIViewController {
     }()
     fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
-    fileprivate var accountsCount = 0
-    var accounts: [WithdrawalAccount]?
-    var cryptoBankCards: [CryptoBankCard]?
-    var bankCardType: BankCardType!
+    fileprivate var accountsCount: Int {
+        switch bankCardType {
+        case .general:
+            return accounts.count
+        case .crypto:
+            return cryptoBankCards.count
+        }
+    }
+    lazy var accounts: [WithdrawalAccount] = []
+    lazy var cryptoBankCards: [CryptoBankCard] = []
+    lazy var bankCardType: BankCardType = .general
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,27 +48,22 @@ class WithdrawlLandingViewController: UIViewController {
         case .general:
             viewModel.withdrawalAccounts().subscribe(onSuccess: { [weak self] (accounts) in
                 self?.accounts = accounts
-                self?.accountsCount = accounts.count
-                self?.updateWithdrawAccountsView(according: accounts.count)
+                self?.updateWithdrawAccountsView()
             }, onError: { [weak self] (error) in
                 self?.handleUnknownError(error)
             }).disposed(by: disposeBag)
         case .crypto:
             viewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
                 self?.cryptoBankCards = cryptoBankCards
-                self?.accountsCount = cryptoBankCards.count
-                self?.updateWithdrawAccountsView(according: cryptoBankCards.count)
+                self?.updateWithdrawAccountsView()
             } onError: { (error) in
                 self.handleUnknownError(error)
             }.disposed(by: disposeBag)
-
-        default:
-            break
         }
     }
     
-    private func updateWithdrawAccountsView(according accountCount: Int) {
-        if accountCount > 0 {
+    private func updateWithdrawAccountsView() {
+        if accountsCount > 0 {
             setAccountsView()
         } else {
             setEmptyView()
