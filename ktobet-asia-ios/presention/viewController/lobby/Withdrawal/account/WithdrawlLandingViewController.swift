@@ -10,7 +10,7 @@ class WithdrawlLandingViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Withdrawal", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "WithdrawlEmptyViewController") as! WithdrawlEmptyViewController
         viewController.bankCardType = bankCardType
-        self.addChildViewControllerAndSetChildViewFrame(asChildViewController: viewController)
+        self.addViewWithFrames(asChildViewController: viewController)
         return viewController
     }()
     private lazy var accountsViewController: WithdrawlAccountsViewController = {
@@ -20,7 +20,7 @@ class WithdrawlLandingViewController: UIViewController {
         viewController.cryptoBankCards = cryptoBankCards
         viewController.bankCardType = bankCardType
 
-        self.addChildViewControllerAndSetChildViewFrame(asChildViewController: viewController)
+        self.addViewWithFrames(asChildViewController: viewController)
         return viewController
     }()
     fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!
@@ -69,17 +69,17 @@ class WithdrawlLandingViewController: UIViewController {
     }
     
     private func setAccountsView() {
-        removeChildViewController(asChildViewController: emptyViewController)
+        emptyViewController.removeViewReference()
         accountsViewController.withdrawalAccounts = accounts
         accountsViewController.cryptoBankCards = cryptoBankCards
-        addChildViewControllerAndSetChildViewFrame(asChildViewController: accountsViewController)
+        addViewWithFrames(asChildViewController: accountsViewController)
     }
     
     private func setEmptyView() {
         accountsViewController.withdrawalAccounts = nil
-        removeChildViewController(asChildViewController: accountsViewController)
+        accountsViewController.removeViewReference()
         emptyViewController.bankCardType = bankCardType
-        addChildViewControllerAndSetChildViewFrame(asChildViewController: emptyViewController)
+        addViewWithFrames(asChildViewController: emptyViewController)
     }
     
     @objc func tapBack() {
@@ -91,18 +91,12 @@ class WithdrawlLandingViewController: UIViewController {
     }
     
     // MARK: - Helper Methods
-    private func addChildViewControllerAndSetChildViewFrame(asChildViewController viewController: UIViewController) {
+    private func addViewWithFrames(asChildViewController viewController: UIViewController) {
         addChild(viewController)
         view.addSubview(viewController.view)
         viewController.view.frame = view.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         viewController.didMove(toParent: self)
-    }
-    
-    private func removeChildViewController(asChildViewController viewController: UIViewController) {
-        viewController.willMove(toParent: nil)
-        viewController.view.removeFromSuperview()
-        viewController.removeFromParent()
     }
     
     @IBAction func unwindsegueWithdrawalLanding(segue: UIStoryboardSegue) {
@@ -112,5 +106,14 @@ class WithdrawlLandingViewController: UIViewController {
     
     deinit {
         print("\(type(of: self)) deinit")
+    }
+}
+
+
+extension UIViewController {
+    func removeViewReference() {
+        self.willMove(toParent: nil)
+        self.view.removeFromSuperview()
+        self.removeFromParent()
     }
 }
