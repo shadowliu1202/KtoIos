@@ -101,7 +101,6 @@ class AddCryptoAccountViewController: UIViewController {
         if segue.identifier == WithdrawalCryptoVerifyViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalCryptoVerifyViewController {
                 dest.playerCryptoBankCardId = sender as? String
-                dest.bankCardCount = bankCardCount
             }
         }
     }

@@ -204,7 +204,6 @@ extension WithdrawlAccountsViewController {
         if segue.identifier == WithdrawalCryptoVerifyViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalCryptoVerifyViewController {
                 dest.cryptoBankCard = sender as? CryptoBankCard
-                dest.bankCardCount = cryptoSource.value.count
             }
         }
         

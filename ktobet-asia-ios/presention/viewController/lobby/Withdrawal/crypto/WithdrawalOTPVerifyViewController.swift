@@ -20,7 +20,6 @@ class WithdrawalOTPVerifyViewController: UIViewController {
     @IBOutlet private weak var constraintStatusTipBottom : NSLayoutConstraint!
     
     var viewModel: CryptoVerifyViewModel!
-    var bankCardCount: Int = 0
     
     private let disposeBag = DisposeBag()
     private let errTipHeight = CGFloat(44)
@@ -170,14 +169,7 @@ class WithdrawalOTPVerifyViewController: UIViewController {
     
     @IBAction func btnBackPressed(_ sender: UIButton){
         Alert.show(Localize.string("common_close_setting_hint"), Localize.string("cps_close_otp_verify_hint")) {
-            if self.bankCardCount == 0 {
-                if let vc = UIStoryboard(name: "Withdrawal", bundle: nil).instantiateViewController(withIdentifier: "WithdrawlEmptyViewController") as? WithdrawlEmptyViewController {
-                    vc.bankCardType = .crypto
-                    NavigationManagement.sharedInstance.pushViewController(vc: vc)
-                }
-            } else {
-                self.performSegue(withIdentifier: WithdrawlAccountsViewController.unwindSegue, sender: nil)
-            }
+            self.performSegue(withIdentifier: WithdrawlLandingViewController.unwindSegue, sender: nil)
         } cancel: {}
     }
     
