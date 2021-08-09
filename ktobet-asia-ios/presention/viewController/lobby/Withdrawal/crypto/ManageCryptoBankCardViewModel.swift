@@ -5,6 +5,8 @@ import RxCocoa
 
 
 class ManageCryptoBankCardViewModel {
+    static let accountNameMaxLength: Int32 = 20
+    static let accountAddressMaxLength: Int32 = 50
     var accountName = BehaviorRelay<String>(value: "")
     var accountAddress = BehaviorRelay<String>(value: "")
     var cryptoType = BehaviorRelay<String>(value: "")

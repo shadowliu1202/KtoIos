@@ -29,9 +29,10 @@ class AddCryptoAccountViewController: UIViewController {
         cryptoTypeDropDown.setTitle(Localize.string("cps_crypto_currency"))
         accountNameTextField.setTitle(Localize.string("cps_crypto_account_name"))
         accountAddressTextField.setTitle(Localize.string("cps_wallet_address"))
-        accountNameTextField.maxLength = 20
+        accountNameTextField.maxLength = ManageCryptoBankCardViewModel.accountNameMaxLength
         accountNameTextField.setCorner(topCorner: true, bottomCorner: true)
         accountAddressTextField.setCorner(topCorner: true, bottomCorner: true)
+        accountAddressTextField.maxLength = ManageCryptoBankCardViewModel.accountAddressMaxLength
         
         (accountNameTextField.text <-> viewModel.accountName).disposed(by: disposeBag)
         (accountAddressTextField.text <-> viewModel.accountAddress).disposed(by: disposeBag)
