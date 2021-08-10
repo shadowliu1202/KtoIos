@@ -36,8 +36,8 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
         exchangeRateLabel.text = "1 \(request.crypto.simpleName)" + " = \(request.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 2, maximumFractionDigits: 2))" + " \(request.fiatCurrency.simpleName)"
         viewModel.getWithdrawalLimitation().subscribe(onSuccess: { [weak self] (limits) in
             guard let `self` = self else {return}
-            self.dailyCountLabel.text = Localize.string("common_times_count", "\(limits.dailyCurrentCount - 1)")
-            let remainingAmount = limits.dailyCurrentCash.amount - self.request.fiatAmount.doubleValue
+            self.dailyCountLabel.text = Localize.string("common_times_count", "\(limits.dailyMaxCount - 1)")
+            let remainingAmount = limits.dailyMaxCash.amount - self.request.fiatAmount.doubleValue
             self.dailyAmountLabel.text = remainingAmount.currencyFormatWithoutSymbol(precision: 2, maximumFractionDigits: 2)
             var remainingCryptoRequest = limits.unresolvedCryptoTurnover().cryptoAmount - self.request.cryptoAmount.doubleValue
             if remainingCryptoRequest < 0 {
