@@ -217,7 +217,7 @@ struct WithdrawalCryptoDetailView: View {
         guard let data = self.data else {return nil}
         return [data.record.displayId,
                 StringMapper.sharedInstance.parse(data.record.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: true),
-                "-",
+                data.providerCryptoAddress,
                 data.playerCryptoAddress,
                 data.hashId.isEmpty ? "-" : data.hashId, ""]
     }

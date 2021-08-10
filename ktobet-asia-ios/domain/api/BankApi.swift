@@ -219,7 +219,7 @@ class BankApi: ApiService {
     }
     
     func requestCryptoDetailUpdate(displayId: String) -> Single<ResponseData<CryptoDepositUrl>> {
-        let target = GetAPITarget(service: self.url("\(prefixW)/update-online-deposit-crypto")).parameters(["displayId": displayId])
+        let target = GetAPITarget(service: self.url("\(prefixD)/update-online-deposit-crypto")).parameters(["displayId": displayId])
         return httpClient.request(target).map(ResponseData<CryptoDepositUrl>.self)
     }
 }
