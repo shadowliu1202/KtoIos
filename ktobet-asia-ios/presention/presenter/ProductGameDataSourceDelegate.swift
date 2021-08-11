@@ -9,7 +9,7 @@ class ProductGameDataSourceDelegate : NSObject {
         case search
         case loadMore
     }
-    fileprivate var games: [WebGameWithProperties] = []
+    fileprivate var games: [WebGameWithDuplicatable] = []
     fileprivate weak var vc: ProductFavoriteHelper?
     fileprivate var cellType: CellType = .general
     var searchKeyword: String?
@@ -21,11 +21,11 @@ class ProductGameDataSourceDelegate : NSObject {
         self.cellType = cellType
     }
     
-    func setGames(_ games: [WebGameWithProperties]) {
+    func setGames(_ games: [WebGameWithDuplicatable]) {
         self.games = games
     }
     
-    func game(at indexPath: IndexPath) -> WebGameWithProperties {
+    func game(at indexPath: IndexPath) -> WebGameWithDuplicatable {
         return self.games[indexPath.row]
     }
     
@@ -62,10 +62,13 @@ extension ProductGameDataSourceDelegate: UICollectionViewDataSource {
         case .search:
             cell = collectionView.dequeueReusableCell(cellType: WebGameSearchItemCell.self, indexPath: indexPath).configure(game: game, searchKeyword: self.searchKeyword)
         }
-        cell.favoriteBtnClick = {
+        cell.favoriteBtnClick = { (favoriteBtn) in
+            favoriteBtn?.isUserInteractionEnabled = false
             self.vc?.toggleFavorite(game, onCompleted: { [weak self] (action) in
+                favoriteBtn?.isUserInteractionEnabled = true
                 self?.showToast(action)
             }, onError: { [weak self] (error) in
+                favoriteBtn?.isUserInteractionEnabled = true
                 self?.vc?.handleErrors(error)
             })
         }

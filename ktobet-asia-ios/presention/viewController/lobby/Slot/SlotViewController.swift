@@ -207,7 +207,7 @@ extension SlotViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDataSour
     func pagerView(_ pageView: TYCyclePagerView, didScrollFrom fromIndex: Int, to toIndex: Int) {
         guard let cell = pageView.curIndexCell() as? TYCyclePagerViewCell else { return }
         let blur = SDImageBlurTransformer.init(radius: 16)
-        blurImageBackgroundView.image = blur.transformedImage(with: cell.imageView.image!, forKey: "")
+        blurImageBackgroundView.image = cell.imageView.image != nil ? blur.transformedImage(with: cell.imageView.image!, forKey: "") : nil
     }
     
     func layout(for pageView: TYCyclePagerView) -> TYCyclePagerViewLayout {
@@ -252,7 +252,7 @@ extension SlotViewController: BarButtonItemable {
 }
 
 extension SlotViewController: ProductVCProtocol {
-    func toggleFavorite(_ game: WebGameWithProperties, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
+    func toggleFavorite(_ game: WebGameWithDuplicatable, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
         viewModel.toggleFavorite(game: game, onCompleted: onCompleted, onError: onError)
     }
 

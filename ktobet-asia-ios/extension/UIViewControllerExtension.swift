@@ -55,8 +55,10 @@ extension UIViewController{
                 }).disposed(by: disposeBag)
         case 410:
             showAlertError("系统维护中")
+        case 404:
+            showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         default:
-            showAlertError(String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"))
+            showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         }
     }
     

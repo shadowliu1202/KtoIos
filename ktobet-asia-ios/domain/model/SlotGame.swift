@@ -2,10 +2,8 @@ import Foundation
 import SharedBu
 import UIKit
 
-extension SlotGame {
-    
-    class func duplicateGame(_ origin: SlotGame, isFavorite: Bool) -> SlotGame {
-        return SlotGame(gameId: origin.gameId, gameName: origin.gameName, isFavorite: isFavorite, gameStatus: origin.gameStatus, thumbnail: origin.thumbnail, hasForFun: origin.hasForFun, jackpotPrize: origin.jackpotPrize)
+extension SlotGame: WebGameWithDuplicatable {
+    func duplicate(isFavorite: Bool) -> WebGameWithDuplicatable {
+        return SlotGame(gameId: self.gameId, gameName: self.gameName, isFavorite: isFavorite, gameStatus: self.gameStatus, thumbnail: self.thumbnail, hasForFun: self.hasForFun, jackpotPrize: self.jackpotPrize)
     }
-
 }

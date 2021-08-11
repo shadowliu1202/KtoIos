@@ -3,23 +3,17 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-protocol CasinoRepository {
+protocol CasinoRepository: WebGameRepository {
     func getTags(cultureCode: String) -> Single<[CasinoGameTag]>
     func getLobby() -> Single<[CasinoLobby]>
-    func getGameLocation(gameId: Int32) -> Single<URL?>
-    func getFavoriteCasino() -> Single<[CasinoGame]>
-    func addFavoriteCasino(casino: CasinoGame) -> Completable
-    func removeFavoriteCasino(casino: CasinoGame) -> Completable
     func searchCasinoGame(lobbyIds: Set<Int32>, typeId: Set<Int32>) -> Observable<[CasinoGame]>
-    func searchCasinoGame(keyword: SearchKeyword) -> Observable<[CasinoGame]>
-    func getCasinoKeywordSuggestion() -> Single<[String]>
 }
 
-class CasinoRepositoryImpl: CasinoRepository {
-    private let favoriteRecord = BehaviorRelay<[CasinoGame]>(value: [])
+class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
     private var casinoApi: CasinoApi!
     
     init(_ casinoApi: CasinoApi) {
+        super.init(casinoApi)
         self.casinoApi = casinoApi
     }
     
@@ -43,75 +37,35 @@ class CasinoRepositoryImpl: CasinoRepository {
             }
         }
     }
-    func getGameLocation(gameId: Int32) -> Single<URL?> {
-        return casinoApi.getGameUrl(gameId: gameId, siteUrl: KtoURL.baseUrl.absoluteString).map { (response) -> URL? in
-            if let path = response.data, let url = URL(string: path) {
-                return url
-            }
-            return nil
-        }
-    }
-    
-    private func createCasino(data: CasinoData) -> CasinoGame {
-        let thumbnail = CasinoThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: data.imageID)
-        return CasinoGame(gameId: Int32(data.gameID), gameName: data.name, isFavorite: data.isFavorite, gameStatus: GameStatus.convertToGameStatus(data.isGameMaintenance, data.status), thumbnail: thumbnail, releaseDate: data.releaseDate?.toLocalDate())
-    }
-    
-    private func createCasinos(_ response: ResponseData<[CasinoData]>) -> [CasinoGame] {
-        if let data = response.data {
-            return data.map { self.createCasino(data: $0) }
-        }
-        return []
-    }
-    
-    func getFavoriteCasino() -> Single<[CasinoGame]> {
-        return casinoApi.getFavoriteCasinos().map { [weak self] (response) -> [CasinoGame] in
-            guard let `self` = self else { return [] }
-            return self.createCasinos(response)
-        }
-    }
-    
-    func addFavoriteCasino(casino: CasinoGame) -> Completable {
-        return casinoApi.addFavoriteCasino(id: casino.gameId).do(onCompleted: { [weak self] in
-            guard let `self` = self else { return }
-            var copyValue = self.favoriteRecord.value
-            if let i = copyValue.firstIndex(where: { $0.gameId == casino.gameId}) {
-                copyValue[i] = CasinoGame.duplicateGame(casino, isFavorite: true)
-            } else {
-                let game = CasinoGame.duplicateGame(casino, isFavorite: true)
-                copyValue.append(game)
-            }
-            self.favoriteRecord.accept(copyValue)
-        })
-    }
-    
-    func removeFavoriteCasino(casino: CasinoGame) -> Completable {
-        return casinoApi.removeFavoriteCasino(id: casino.gameId).do(onCompleted: { [weak self] in
-            guard let `self` = self else { return }
-            var copyValue = self.favoriteRecord.value
-            if let i = copyValue.firstIndex(where: { $0.gameId == casino.gameId}) {
-                copyValue[i] = CasinoGame.duplicateGame(casino, isFavorite: false)
-            } else {
-                let game = CasinoGame.duplicateGame(casino, isFavorite: false)
-                copyValue.append(game)
-            }
-            self.favoriteRecord.accept(copyValue)
-        })
-    }
-    
     func searchCasinoGame(lobbyIds: Set<Int32>, typeId: Set<Int32>) -> Observable<[CasinoGame]> {
         var map: [String: String] = [:]
         lobbyIds.enumerated().forEach { (index, element) in map["lobbyIds[\(index)]"] = String(element) }
         typeId.enumerated().forEach { (index, element) in map["gameTags[\(index)]"] = String(element) }
-        let fetchApi =  casinoApi.search(sortBy: GameSorting.convertCasinoGameOrder(sortBy: GameSorting.releaseddate), map: map).map { [weak self] (response) -> [CasinoGame] in
-            guard let `self` = self else { return [] }
-            return self.createCasinos(response)
+        let fetchApi =  casinoApi.search(sortBy: GameSorting.convertCasinoGameOrder(sortBy: GameSorting.releaseddate), map: map).map {  (response) -> [CasinoGame] in
+            guard let data = response.data else { return [] }
+            return data.map({ $0.toCasinoGame() })
         }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games
             favorites.forEach { (favoriteItem) in
                 if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}) {
-                    let game = CasinoGame.duplicateGame(duplicateGames[i], isFavorite: favoriteItem.isFavorite)
+                    let game = duplicateGames[i].duplicate(isFavorite: favoriteItem.isFavorite)
+                    duplicateGames[i] = game as! CasinoGame
+                }
+            }
+            return duplicateGames
+        }
+    }
+    override func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
+        let fetchApi = casinoApi.getFavoriteCasinos().map({ (response) -> [WebGameWithDuplicatable] in
+            guard let data = response.data else { return [] }
+            return data.map { $0.toCasinoGame() }
+        })
+        return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
+            var duplicateGames = games
+            favorites.forEach { (favoriteItem) in
+                if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}) {
+                    let game = duplicateGames[i].duplicate(isFavorite: favoriteItem.isFavorite)
                     duplicateGames[i] = game
                 }
             }
@@ -119,31 +73,21 @@ class CasinoRepositoryImpl: CasinoRepository {
         }
     }
     
-    func searchCasinoGame(keyword: SearchKeyword) -> Observable<[CasinoGame]> {
-        let fetchApi =  casinoApi.searchCasino(keyword: keyword.getKeyword()).map { [weak self] (response) -> [CasinoGame] in
-            guard let `self` = self else { return [] }
-            return self.createCasinos(response)
+    override func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]> {
+        let fetchApi =  casinoApi.searchCasino(keyword: keyword.getKeyword()).map { (response) -> [WebGameWithDuplicatable] in
+            guard let data = response.data else { return [] }
+            return data.map { $0.toCasinoGame() }
         }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games
             favorites.forEach { (favoriteItem) in
                 if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}) {
-                    let game = CasinoGame.duplicateGame(duplicateGames[i], isFavorite: favoriteItem.isFavorite)
+                    let game = duplicateGames[i].duplicate(isFavorite: favoriteItem.isFavorite)
                     duplicateGames[i] = game
                 }
             }
             return duplicateGames
         }
     }
-    
-    func getCasinoKeywordSuggestion() -> Single<[String]> {
-        return casinoApi.casinoKeywordSuggestion().map { (response) -> [String] in
-            if let suggestions = response.data {
-                return suggestions
-            }
-            return []
-        }
-    }
-    
 }
 

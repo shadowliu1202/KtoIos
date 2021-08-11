@@ -13,7 +13,7 @@ class CasinoViewModel {
     lazy var casinoGameTagStates: Observable<[CasinoTag]> = Observable.combineLatest(gameFilter.asObservable(), getCasinoBetTypeTags()) { [weak self] (filters, tags) in
         var gameTags: [CasinoTag] = tags.map({ CasinoTag($0)})
         filters.forEach { (filter) in
-            gameTags.filter { $0.id == filter.id }.first?.isSeleced = filter.isSeleced
+            gameTags.filter { $0.tagId == filter.tagId }.first?.isSelected = filter.isSelected
         }
         self?.gameTags = gameTags
         return gameTags
@@ -22,20 +22,16 @@ class CasinoViewModel {
     lazy var searchedCasinoByTag = gameFilter.flatMap { [unowned self] (filters) -> Observable<[CasinoGame]> in
         var tags: [CasinoGameTag] = []
         filters.forEach { (filter) in
-            if filter.isSeleced {
+            if filter.isSelected {
                 tags.append(filter.getCasinoGameTag())
             }
         }
         return self.searchedCasinoByTag(tags: tags)
     }
     // MARK: Favorites
-    var favorites = BehaviorSubject<[CasinoGame]>(value: [])
+    var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
     // MARK: Search
-//    lazy var searchSuggestion: Single<[String]> = { return self.casinoUseCase.getSuggestKeywords() }()
     private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
-//    lazy var searchResult = searchKey.flatMap { [unowned self] (keyword) -> Observable<[CasinoGame]> in
-//        return self.casinoUseCase.searchGamesByKeyword(keyword: keyword)
-//    }
     
     lazy var betSummary = casinoRecordUseCase.getBetSummary()
     var betTime: [String] = []
@@ -49,7 +45,7 @@ class CasinoViewModel {
         self.casinoRecordUseCase = casinoRecordUseCase
         self.casinoUseCase = casinoUseCase
         self.memoryCache = memoryCache
-        if let tags = memoryCache.getCasinoGameTag() {
+        if let tags: [CasinoTag] = memoryCache.getGameTag(.casinoGameTag) {
             gameFilter.accept(tags)
         }
         
@@ -85,13 +81,13 @@ class CasinoViewModel {
         var copyValue = gameFilter.value
         if gameTagId == TagAllID {
             copyValue.removeAll()
-        } else if let oldTag = copyValue.filter({ $0.id == Int32(gameTagId) }).first {
-            oldTag.isSeleced.toggle()
-        } else if let filter = gameTags.filter({ $0.id == Int32(gameTagId)}).first {
-            filter.isSeleced.toggle()
+        } else if let oldTag = copyValue.filter({ $0.tagId == Int32(gameTagId) }).first {
+            oldTag.isSelected.toggle()
+        } else if let filter = gameTags.filter({ $0.tagId == Int32(gameTagId)}).first {
+            filter.isSelected.toggle()
             copyValue.append(filter)
         }
-        memoryCache.setCasinoGameTag(copyValue)
+        memoryCache.setGameTag(.casinoGameTag, copyValue)
         gameFilter.accept(copyValue)
     }
     
@@ -135,26 +131,12 @@ class CasinoViewModel {
         return casinoRecordUseCase.getCasinoWagerDetail(wagerId: wagerId)
     }
     
-    private func addFavorite(_ casinoGame: CasinoGame) -> Completable {
-        return casinoUseCase.addFavorite(casinoGame: casinoGame).do(onCompleted: { [weak self] in
-            if var copyValue = try? self?.favorites.value() {
-                if let i = copyValue.firstIndex(of: casinoGame) {
-                    copyValue[i] = CasinoGame.duplicateGame(casinoGame, isFavorite: true)
-                }
-                self?.favorites.onNext(copyValue)
-            }
-        })
+    private func addFavorite(_ casinoGame: WebGameWithDuplicatable) -> Completable {
+        return casinoUseCase.addFavorite(game: casinoGame)
     }
     
-    private func removeFavorite(_ casinoGame: CasinoGame) -> Completable {
-        return casinoUseCase.removeFavorite(casinoGame: casinoGame).do(onCompleted: { [weak self] in
-            if var copyValue = try? self?.favorites.value() {
-                if let i = copyValue.firstIndex(of: casinoGame) {
-                    copyValue[i] = CasinoGame.duplicateGame(casinoGame, isFavorite: false)
-                }
-                self?.favorites.onNext(copyValue)
-            }
-        })
+    private func removeFavorite(_ casinoGame: WebGameWithDuplicatable) -> Completable {
+        return casinoUseCase.removeFavorite(game: casinoGame)
     }
     
     // MARK: Lobby
@@ -163,10 +145,10 @@ class CasinoViewModel {
     }
 }
 
-class CasinoTag: NSObject {
+class CasinoTag: NSObject, BaseGameTag {
     private let bean: CasinoGameTag
-    var isSeleced: Bool = false
-    var id: Int32 {
+    var isSelected: Bool = false
+    var tagId: Int32 {
         return bean.id
     }
     var name: String {
@@ -174,7 +156,7 @@ class CasinoTag: NSObject {
     }
     init(_ model: CasinoGameTag, isSeleced: Bool = false) {
         self.bean = model
-        self.isSeleced = isSeleced
+        self.isSelected = isSeleced
     }
     
     func getCasinoGameTag() -> CasinoGameTag {
@@ -184,8 +166,8 @@ class CasinoTag: NSObject {
 
 extension CasinoViewModel: ProductViewModel {
     func getFavorites() {
-        favorites = BehaviorSubject<[CasinoGame]>(value: [])
-        casinoUseCase.getFavorites().subscribe(onSuccess: { [weak self] (games) in
+        favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
+        casinoUseCase.getFavorites().subscribe(onNext: { [weak self] (games) in
             if games.count > 0 {
                 self?.favorites.onNext(games)
             } else {
@@ -196,21 +178,19 @@ extension CasinoViewModel: ProductViewModel {
         }).disposed(by: disposeBag)
     }
     
-    func favoriteProducts() -> Observable<[WebGameWithProperties]> {
-        return favorites.map({ $0.map({$0 as WebGameWithProperties})}).asObservable()
+    func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
+        return favorites.asObservable()
     }
     
-    func toggleFavorite(game: WebGameWithProperties, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
-        guard game is CasinoGame else { return }
-        let casino = game as! CasinoGame
-        if casino.isFavorite {
-            removeFavorite(casino).subscribe(onCompleted: {
+    func toggleFavorite(game: WebGameWithDuplicatable, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
+        if game.isFavorite {
+            removeFavorite(game).subscribe(onCompleted: {
                 onCompleted(.remove)
             }, onError: { (error) in
                 onError(error)
             }).disposed(by: disposeBag)
         } else {
-            addFavorite(casino).subscribe(onCompleted: {
+            addFavorite(game).subscribe(onCompleted: {
                 onCompleted(.add)
             }, onError: { (error) in
                 onError(error)
@@ -231,9 +211,9 @@ extension CasinoViewModel: ProductViewModel {
         self.searchKey.accept(SearchKeyword(keyword: keyword))
     }
     
-    func searchResult() -> Observable<Event<[WebGameWithProperties]>> {
-        return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithProperties]>> in
-            return self.casinoUseCase.searchGamesByKeyword(keyword: keyword).map({ $0.map({$0 as WebGameWithProperties})}).materialize()
+    func searchResult() -> Observable<Event<[WebGameWithDuplicatable]>> {
+        return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithDuplicatable]>> in
+            return self.casinoUseCase.searchGames(keyword: keyword).materialize()
         }
     }
     

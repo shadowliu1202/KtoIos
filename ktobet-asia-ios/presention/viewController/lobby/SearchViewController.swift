@@ -10,7 +10,7 @@ class SearchViewController: SearchProduct {
     @IBOutlet weak var tagsStackView: UIStackView!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     lazy var gameDataSourceDelegate = { return SearchGameDataSourceDelegate(self) }()
-    private var gameData: [WebGameWithProperties] = [] {
+    private var gameData: [WebGameWithDuplicatable] = [] {
         didSet {
             self.switchContent(gameData)
             self.gameDataSourceDelegate.searchKeyword = self.searchText.value

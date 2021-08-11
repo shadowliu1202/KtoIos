@@ -29,7 +29,7 @@ class NumberGameRecordViewModel {
         betPagination = Pagination<NumberGameSummary.Bet>(pageIndex: 0, offset: 20, callBack: {(page) -> Observable<[NumberGameSummary.Bet]> in
             self.getGameBetsByDate(skip: page)
                 .do(onError: { error in
-                    self.pagination.error.onNext(error)
+                    self.betPagination.error.onNext(error)
                 }).catchError( { error -> Observable<[NumberGameSummary.Bet]> in
                     Observable.empty()
                 })

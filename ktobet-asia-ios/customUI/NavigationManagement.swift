@@ -189,6 +189,8 @@ class NavigationManagement {
             goTo(storyboard: "Slot", viewControllerId: "SlotNavigationController")
         case .p2p:
             goTo(storyboard: "P2P", viewControllerId: "P2PNavigationController")
+        case .arcade:
+            goTo(storyboard: "Arcade", viewControllerId: "ArcadeNavigationController")
         default:
             goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
         }

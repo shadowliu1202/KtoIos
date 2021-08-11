@@ -3,19 +3,13 @@ import SharedBu
 import RxCocoa
 import RxSwift
 
-protocol NumberGameUseCase {
+protocol NumberGameUseCase: WebGameUseCase {
     func getGameTags() -> Single<[GameTag]>
     func getPopularGames() -> Observable<[NumberGame]>
-    func addFavorite(game: NumberGame) -> Completable
-    func removeFavorite(game: NumberGame) -> Completable
-    func getFavorites() -> Single<[NumberGame]>
-    func getSuggestionKeywords() -> Single<[String]>
-    func searchGames(keyword: SearchKeyword) -> Observable<[NumberGame]>
     func getGames(order: GameSorting, tags: Set<GameFilter>) -> Observable<[NumberGame]>
-    func createGame(gameId: Int32) -> Single<URL?>
 }
 
-class NumberGameUseCasaImp: NumberGameUseCase {
+class NumberGameUseCasaImp: WebGameUseCaseImpl, NumberGameUseCase {
     var numberGameRepository: NumberGameRepository!
     var localRepository: LocalStorageRepository!
     
@@ -24,6 +18,7 @@ class NumberGameUseCasaImp: NumberGameUseCase {
     let REQUEST_GAME_AMOUNT = 10
     
     init(_ numberGameRepository : NumberGameRepository, _ localRepository: LocalStorageRepository) {
+        super.init(numberGameRepository)
         self.numberGameRepository = numberGameRepository
         self.localRepository = localRepository
     }
@@ -69,32 +64,5 @@ class NumberGameUseCasaImp: NumberGameUseCase {
         }
         
         return newGamesState
-    }
-    
-    func addFavorite(game: NumberGame) -> Completable {
-        return numberGameRepository.addFavorite(game: game)
-    }
-    
-    func removeFavorite(game: NumberGame) -> Completable {
-        return numberGameRepository.removeFavorite(game: game)
-    }
-    
-    func getFavorites() -> Single<[NumberGame]> {
-        return numberGameRepository.getFavorites()
-    }
-    
-    func getSuggestionKeywords() -> Single<[String]> {
-        return numberGameRepository.getKeywordSuggestion()
-    }
-    
-    func searchGames(keyword: SearchKeyword) -> Observable<[NumberGame]> {
-        if keyword.isSearchPermitted() {
-            return numberGameRepository.searchGames(keyword: keyword)
-        }
-        return Observable.just([])
-    }
-    
-    func createGame(gameId: Int32) -> Single<URL?> {
-        return numberGameRepository.createGame(gameId: gameId)
     }
 }

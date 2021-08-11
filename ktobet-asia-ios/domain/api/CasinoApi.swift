@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 import Moya
 
-class CasinoApi: ApiService {
+class CasinoApi: ApiService, WebGameApi {
     let prefix = "casino/api"
     private var urlPath: String!
     
@@ -35,16 +35,6 @@ class CasinoApi: ApiService {
         return httpClient.request(target).map(ResponseDataMap<[TagBean]>.self)
     }
     
-    func addFavoriteCasino(id: Int32) -> Completable {
-        let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/add/\(id)"), parameters: Empty())
-        return httpClient.request(target).asCompletable()
-    }
-    
-    func removeFavoriteCasino(id: Int32) -> Completable {
-        let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/remove/\(id)"), parameters: Empty())
-        return httpClient.request(target).asCompletable()
-    }
-    
     func getCasinoBetSummary(offset: Int32) -> Single<ResponseData<BetSummaryData>> {
         let target = GetAPITarget(service: self.url("\(prefix)/wager/mybet/summary")).parameters(["offset": offset])
         return httpClient.request(target).map(ResponseData<BetSummaryData>.self)
@@ -66,23 +56,11 @@ class CasinoApi: ApiService {
     }
     
     func getFavoriteCasinos() -> Single<ResponseData<[CasinoData]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/favorite"))
-        return httpClient.request(target).map(ResponseData<[CasinoData]>.self)
+        return self.getFavoriteGameList()
     }
     
     func searchCasino(keyword: String) -> Single<ResponseData<[CasinoData]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/search-keyword")).parameters(["keyword": keyword])
-        return httpClient.request(target).map(ResponseData<[CasinoData]>.self)
-    }
-    
-    func casinoKeywordSuggestion() -> Single<ResponseData<[String]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/keyword-suggestion"))
-        return httpClient.request(target).map(ResponseData<[String]>.self)
-    }
-    
-    func getGameUrl(gameId: Int32, siteUrl: String) -> Single<ResponseData<String>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/url/\(gameId)")).parameters(["siteUrl": siteUrl])
-        return httpClient.request(target).map(ResponseData<String>.self)
+        return self.searchGameList(keyword: keyword)
     }
     
     func search(sortBy: Int, map: [String: String]) -> Single<ResponseData<[CasinoData]>> {
@@ -105,5 +83,36 @@ class CasinoApi: ApiService {
     func getUnsettledRecords(date: String) -> Single<ResponseData<[UnsettledRecordBean]>> {
         let target = GetAPITarget(service: self.url("\(prefix)/wager/mybet/pending/list")).parameters(["date": date])
         return httpClient.request(target).map(ResponseData<[UnsettledRecordBean]>.self)
+    }
+    
+    // MARK: WebGameApi
+    func addFavoriteGame(id: Int32) -> Completable {
+        let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/add/\(id)"), parameters: Empty())
+        return httpClient.request(target).asCompletable()
+    }
+    
+    func removeFavoriteGame(id: Int32) -> Completable {
+        let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/remove/\(id)"), parameters: Empty())
+        return httpClient.request(target).asCompletable()
+    }
+    
+    func getFavoriteGameList<T>() -> Single<ResponseData<[T]>> {
+        let target = GetAPITarget(service: self.url("\(prefix)/game/favorite"))
+        return httpClient.request(target).map(ResponseData<[T]>.self)
+    }
+    
+    func getSuggestKeywords() -> Single<ResponseData<[String]>> {
+        let target = GetAPITarget(service: self.url("\(prefix)/game/keyword-suggestion"))
+        return httpClient.request(target).map(ResponseData<[String]>.self)
+    }
+    
+    func searchGameList<T>(keyword: String) -> Single<ResponseData<[T]>> {
+        let target = GetAPITarget(service: self.url("\(prefix)/game/search-keyword")).parameters(["keyword": keyword])
+        return httpClient.request(target).map(ResponseData<[T]>.self)
+    }
+    
+    func getGameUrl(gameId: Int32, siteUrl: String) -> Single<ResponseData<String>> {
+        let target = GetAPITarget(service: self.url("\(prefix)/game/url/\(gameId)")).parameters(["siteUrl": siteUrl])
+        return httpClient.request(target).map(ResponseData<String>.self)
     }
 }

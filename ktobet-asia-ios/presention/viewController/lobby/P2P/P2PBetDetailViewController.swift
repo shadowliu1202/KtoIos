@@ -32,12 +32,12 @@ class P2PBetDetailViewController: UIViewController {
                 self?.handleUnknownError(error)
                 return Observable.empty()
             }).bind(to: tableView.rx.items) { tableView, row, item in
-                return tableView.dequeueReusableCell(withIdentifier: "P2PBetDetailCell", cellType: P2PBetDetailCell.self).configure(item)
+                return tableView.dequeueReusableCell(withIdentifier: "P2PBetDetailCell", cellType: BetDetailCell.self).configure(item)
         }.disposed(by: disposeBag)
     }
 }
 
-class P2PBetDetailCell: UITableViewCell {
+class BetDetailCell: UITableViewCell {
     @IBOutlet weak var betIdLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
@@ -55,5 +55,16 @@ class P2PBetDetailCell: UITableViewCell {
         self.amountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winLoss.displayAmount)"
         
         return self
+    }
+    
+    func configure(_ item: ArcadeGameBetRecord) {
+        self.selectionStyle = .none
+        self.betIdLabel.text = item.betId
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        let dateString: String = dateFormatter.string(from: item.betTime.localDateTime.convertToDate())
+        self.timeLabel.text = "\(dateString)".uppercased()
+        let status = item.winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
+        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winLoss.displayAmount)"
     }
 }

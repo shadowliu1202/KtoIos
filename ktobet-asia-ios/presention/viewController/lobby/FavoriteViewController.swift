@@ -9,7 +9,7 @@ class FavoriteViewController: DisplayProduct {
     @IBOutlet weak var emptyViewAddButton: UIButton!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
-    private var gameData: [WebGameWithProperties] = [] {
+    private var gameData: [WebGameWithDuplicatable] = [] {
         didSet {
             self.switchContent(gameData)
             self.reloadGameData(gameData)
@@ -36,7 +36,7 @@ class FavoriteViewController: DisplayProduct {
             NavigationManagement.sharedInstance.popViewController()
         }.disposed(by: disposeBag)
         viewModel?.favoriteProducts()
-            .catchError({ [weak self] (error) -> Observable<[WebGameWithProperties]> in
+            .catchError({ [weak self] (error) -> Observable<[WebGameWithDuplicatable]> in
                 switch error {
                 case KTOError.EmptyData:
                     self?.switchContent()

@@ -31,7 +31,7 @@ class SlotBetSummaryByDateViewController: UIViewController {
     private func dataBinding() {
         guard let selectDate = selectDate else { return }
         viewModel.betSummaryByDate(localDate: selectDate).asObservable().bind(to: tableView.rx.items){ tableView, row, item in
-            return tableView.dequeueReusableCell(withIdentifier: "SlotBetSummaryByDateCell", cellType: SlotBetSummaryByDateCell.self).configure(item)
+            return tableView.dequeueReusableCell(withIdentifier: "SlotBetSummaryByDateCell", cellType: BetSummaryByDateCell.self).configure(item)
         }.disposed(by: disposeBag)
         tableView.rx.modelSelected(SlotGroupedRecord.self).bind{ [unowned self] (data) in
             self.performSegue(withIdentifier: SlotBetDetailViewController.segueIdentifier, sender: data)
@@ -47,7 +47,7 @@ class SlotBetSummaryByDateViewController: UIViewController {
     }
 }
 
-class SlotBetSummaryByDateCell: UITableViewCell {
+class BetSummaryByDateCell: UITableViewCell {
     @IBOutlet weak var gameLabel: UILabel!
     @IBOutlet weak var betCountLabel: UILabel!
     @IBOutlet weak var betAmountLabel: UILabel!
@@ -66,6 +66,16 @@ class SlotBetSummaryByDateCell: UITableViewCell {
         betCountLabel.text = Localize.string("product_count_bet_record", "\(item.recordCount)")
         let status = item.winloss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
         betAmountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winloss.displayAmount)"
+        
+        return self
+    }
+    
+    func configure(_ item: GameGroupedRecord) -> Self {
+        gameImgView.sd_setImage(with: URL(string: item.thumbnail.url()), completed: nil)
+        gameLabel.text = item.gameName
+        betCountLabel.text = Localize.string("product_count_bet_record", "\(item.recordsCount)")
+        let status = item.winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
+        betAmountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winLoss.displayAmount)"
         
         return self
     }
