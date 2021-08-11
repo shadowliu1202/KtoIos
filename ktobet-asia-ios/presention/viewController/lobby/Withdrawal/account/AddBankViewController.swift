@@ -206,7 +206,7 @@ class AddBankViewController: UIViewController {
     private func handleException(_ e: ApiException) {
         if e is WithdrawAccountExist {
             let title = Localize.string("bonus_applicationtips")
-            let message = Localize.string("account_exist")
+            let message = Localize.string("withdrawal_account_exist")
             Alert.show(title, message, confirm: nil, cancel: nil)
         }
     }
