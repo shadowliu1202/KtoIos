@@ -67,8 +67,8 @@ extension String {
         return Decimal(string: self.replacingOccurrences(of: ",", with: ""))
     }
     
-    func toLocalDate() -> Kotlinx_datetimeLocalDate {
-        let createDate = self.convertDateTime(format: "yyyy-MM-dd", timeZone: "UTC") ?? Date()
+    func toLocalDate(format: String = "yyyy-MM-dd") -> Kotlinx_datetimeLocalDate {
+        let createDate = self.convertDateTime(format: format, timeZone: "UTC") ?? Date()
         return Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth())
     }
 }

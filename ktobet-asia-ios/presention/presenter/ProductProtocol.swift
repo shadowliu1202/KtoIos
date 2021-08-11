@@ -31,7 +31,7 @@ enum FavoriteAction {
 typealias ProductVCProtocol = ProductFavoriteVCProtocol & ProductGoWebGameVCProtocol
 
 protocol ProductFavoriteVCProtocol: class {
-    func toggleFavorite(_ game: WebGameWithProperties, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->())
+    func toggleFavorite(_ game: WebGameWithDuplicatable, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->())
 }
 
 protocol ProductGoWebGameVCProtocol: class {
@@ -42,15 +42,15 @@ typealias ProductViewModel = ProductFavoriteViewModelProtocol & ProductSearchVie
 
 protocol ProductFavoriteViewModelProtocol {
     func getFavorites()
-    func favoriteProducts() -> Observable<[WebGameWithProperties]>
-    func toggleFavorite(game: WebGameWithProperties, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->())
+    func favoriteProducts() -> Observable<[WebGameWithDuplicatable]>
+    func toggleFavorite(game: WebGameWithDuplicatable, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->())
 }
 
 protocol ProductSearchViewModelProtocol {
     func clearSearchResult()
     func searchSuggestion() -> Single<[String]>
     func triggerSearch(_ text: String?)
-    func searchResult() -> Observable<Event<[WebGameWithProperties]>>
+    func searchResult() -> Observable<Event<[WebGameWithDuplicatable]>>
 }
 
 protocol ProductWebGameViewModelProtocol {

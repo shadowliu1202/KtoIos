@@ -405,6 +405,11 @@ struct CasinoData: Codable {
         case imageID = "imageId"
         case isGameMaintenance, status, name, hasForFun, isFavorite, releaseDate
     }
+    
+    func toCasinoGame() -> CasinoGame {
+        let thumbnail = CasinoThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: self.imageID)
+        return CasinoGame(gameId: Int32(self.gameID), gameName: self.name, isFavorite: self.isFavorite, gameStatus: GameStatus.convertToGameStatus(self.isGameMaintenance, self.status), thumbnail: thumbnail, releaseDate: self.releaseDate?.toLocalDate())
+    }
 }
 
 struct TagBean: Codable {
@@ -979,6 +984,11 @@ struct SummaryBean: Codable {
     }
 }
 
+
+struct ArcadeSummaryBean: Codable {
+    let summaries: [SummaryBean]
+}
+
 struct P2PDateBetRecordBean: Codable {
     let count: Int32
     let endDate: String
@@ -1010,6 +1020,41 @@ struct P2PDateBetRecordBean: Codable {
     }
 }
 
+struct ArcadeDateDataRecordBean: Codable {
+    let gameName: String
+    let gameId: Int32
+    let stakes: Double
+    let winLoss: Double
+    let startDate: String
+    let endDate: String
+    let imageId: String
+    let count: Int32
+    
+    init(gameId: Int32, gameList: [ArcadeDateDataRecordBean]) {
+        self.count = gameList.map({$0.count}).reduce(0, +)
+        self.endDate = gameList.max { (a, b) -> Bool in return a.endDate < b.endDate }?.endDate ?? ""
+        self.gameId = gameId
+        self.gameName = gameList.first?.gameName ?? ""
+        self.stakes = gameList.map({$0.stakes}).reduce(0, +)
+        self.startDate = gameList.min(by: { (a, b) -> Bool in return a.startDate < b.startDate })?.startDate ?? ""
+        self.winLoss = gameList.map({$0.winLoss}).reduce(0, +)
+        self.imageId = gameList.first?.imageId ?? ""
+    }
+    
+    func toGameGroupedRecord() -> GameGroupedRecord {
+        let thumbnail = P2PThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
+        let format1 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let start = (startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let end = (endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        return GameGroupedRecord(gameId: gameId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), startDate: start, endDate: end)
+    }
+}
+
+struct ArcadeDateBetRecordBean: Codable {
+    let data: [ArcadeDateDataRecordBean]
+}
+
 struct P2PGameBetRecordBean: Codable {
     let betTime: String
     let gameGroupId: Int32
@@ -1024,6 +1069,53 @@ struct P2PGameBetRecordBean: Codable {
     func toP2PGameBetRecord() -> P2PGameBetRecord {
         let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
         return P2PGameBetRecord(betTime: betLocalTime, gameGroupId: gameGroupId, gameName: gameName, groupId: groupId, hasDetails: hasDetails, prededuct: CashAmount(amount: prededuct), stakes: CashAmount(amount: stakes), wagerId: wagerId, winLoss: CashAmount(amount: winLoss))
+    }
+}
+
+struct ArcadeGameBetRecordDataBean: Codable {
+    let data: [ArcadeGameBetRecordBean]
+}
+
+struct ArcadeGameBetRecordBean: Codable {
+    let stakes: Double
+    let winLoss: Double
+    let wagerId: String
+    let betId: String
+    let betTime: String
+    let settleTime: String
+    let hasDetails: Bool
+    
+    func toArcadeGameBetRecord() -> ArcadeGameBetRecord {
+        let betLocalTime = self.betTime.convertDateTime()?.convertDateToOffsetDateTime() ?? Date().convertDateToOffsetDateTime()
+        let settleLocalTime = self.settleTime.convertDateTime()?.convertDateToOffsetDateTime() ?? Date().convertDateToOffsetDateTime()
+        return ArcadeGameBetRecord(wagerId: self.wagerId, betId: self.betId, betTime: betLocalTime, settleTime: settleLocalTime, hasDetails: self.hasDetails, stakes: CashAmount(amount: self.stakes), winLoss: CashAmount(amount: self.winLoss))
+    }
+}
+
+struct ArcadeGameBean: Codable {
+    let recommendGames: [ArcadeGameDataBean]
+    let newGames: [ArcadeGameDataBean]
+    let allGames: [ArcadeGameDataBean]
+}
+
+struct ArcadeGameDataBean: Codable {
+    let gameId: Int32
+    let name: String
+    let hasForFun: Bool
+    let isNew: Bool
+    let isRecommend: Bool
+    let isFavorite: Bool
+    let isHot: Bool
+    let imageId: String
+    let isMaintenance: Bool
+    let status: Int32
+    let transactionCount: Int32
+    let cultureCode: String?
+    let releaseDate: String?
+    let providerId: Int
+    
+    func toArcadeGame() -> ArcadeGame{
+        return ArcadeGame(gameId: gameId, gameName: name, isFavorite: isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isMaintenance, status: self.status), thumbnail: ArcadeThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId))
     }
 }
 

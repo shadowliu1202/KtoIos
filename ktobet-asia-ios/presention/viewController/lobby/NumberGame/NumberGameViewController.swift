@@ -129,58 +129,6 @@ class NumberGameViewController: DisplayProduct {
         iconArrowImageView.image = dropDownTableView.isHidden ? UIImage(named: "iconAccordionArrowDown") : UIImage(named: "iconAccordionArrowUp")
     }
     
-    private func addBtnTags(stackView: UIStackView, data: [NumberGameTag]) {
-        stackView.removeAllArrangedSubviews()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.spacing = 8
-        stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        
-        var btns: [[UIButton]] = [[]]
-        var childRow = createOneChildView(stackView)
-        var rowInex = 0
-        stackView.addArrangedSubview(childRow)
-        for i in 0..<data.count {
-            let dx = btns[rowInex].reduce(0) { (total, btn) -> CGFloat in
-                return total + btn.frame.size.width + 8
-            }
-            let frame = CGRect(x: dx, y: 0, width: 180, height: 40 )
-            let button = UIButton(frame: frame)
-            button.setTitle("\(data[i].name)", for: .normal)
-            button.titleLabel?.font =  UIFont(name: "PingFangSC-Medium", size: 12)
-            button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 18, bottom: 8, right: 18)
-            button.sizeToFit()
-            button.layer.cornerRadius = 14
-            button.layer.masksToBounds = true
-            if data[i].isSelected {
-                button.applyGradient(vertical: [UIColor(rgb: 0xf74d25).cgColor, UIColor(rgb: 0xf20000).cgColor])
-                button.setTitleColor(UIColor.whiteFull, for: .normal)
-            } else {
-                button.applyGradient(vertical: [UIColor(rgb: 0x32383e).cgColor, UIColor(rgb: 0x17191c).cgColor])
-                button.setTitleColor(UIColor.textPrimaryDustyGray, for: .normal)
-            }
-            if dx+button.frame.size.width > tagsStackView.frame.size.width {
-                childRow = createOneChildView(stackView)
-                rowInex += 1
-                btns.append([])
-                stackView.addArrangedSubview(childRow)
-                button.frame.origin.x = 0
-            }
-            button.tag = Int(data[i].id)
-            button.isSelected = data[i].isSelected
-            button.addTarget(self, action: #selector(pressGameTag(_:)), for: .touchUpInside)
-            childRow.addSubview(button)
-            btns[rowInex].append(button)
-        }
-    }
-    
-    private func createOneChildView(_ parentView: UIStackView) -> UIView {
-        let childRow = UIView(frame: .zero)
-        childRow.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        childRow.widthAnchor.constraint(equalToConstant: parentView.frame.size.width).isActive = true
-        return childRow
-    }
-    
     fileprivate func setDropDownSort(index : Int) {
         let indexPath = IndexPath(row: index, section: 0)
         self.dropDownTitleLabel.text = dropDownItem[index].contentText
@@ -190,7 +138,7 @@ class NumberGameViewController: DisplayProduct {
         self.dropDownTableView.reloadData()
     }
     
-    @objc private func pressGameTag(_ sender: UIButton) {
+    @objc override func pressGameTag(_ sender: UIButton) {
         if sender.tag == TagAllID {
             tagAll.isSelected = true
             viewModel.setRecommendFilter(isRecommand: false)
@@ -211,8 +159,8 @@ class NumberGameViewController: DisplayProduct {
         viewModel.toggleFilter(gameTagId: sender.tag)
 
         if ((sender.tag == TagNewID && !sender.isSelected) ||
-            self.viewModel.gameTags.contains(where: { $0.isSelected && $0.id == TagNewID })) &&
-            self.viewModel.gameTags.contains(where: { !$0.isSelected && $0.id == TagRecommandID })
+            self.viewModel.gameTags.contains(where: { $0.isSelected && $0.tagId == TagNewID })) &&
+            self.viewModel.gameTags.contains(where: { !$0.isSelected && $0.tagId == TagRecommandID })
         {
             setDropDownSort(index: 2)
         } else {
@@ -312,7 +260,7 @@ extension NumberGameViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDa
     func pagerView(_ pageView: TYCyclePagerView, didScrollFrom fromIndex: Int, to toIndex: Int) {
         guard let cell = pageView.curIndexCell() as? TYCyclePagerViewCell else { return }
         let blur = SDImageBlurTransformer.init(radius: 16)
-        blurImageBackgroundView.image = blur.transformedImage(with: cell.imageView.image!, forKey: "")
+        blurImageBackgroundView.image = cell.imageView.image != nil ? blur.transformedImage(with: cell.imageView.image!, forKey: "") : nil
     }
     
     func layout(for pageView: TYCyclePagerView) -> TYCyclePagerViewLayout {

@@ -8,7 +8,7 @@ class SlotViewModel {
     lazy var recentGames = slotUseCase.getRecentlyPlaySlots()
     lazy var newGames = slotUseCase.getNewSlots()
     lazy var jackpotGames = slotUseCase.getJackpotSlots()
-    var favorites = BehaviorSubject<[SlotGame]>(value: [])
+    var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
     
     private var slotUseCase: SlotUseCase!
     private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
@@ -38,34 +38,20 @@ class SlotViewModel {
         return self.slotUseCase.searchSlot(sortBy: sorting, isJackpot: false, isNew: false, featureTags: featureTags, themeTags: themeTags, payLineWayTags: payLineWayTags)
     }
     
-    private func addFavorite(_ slotGame: SlotGame) -> Completable {
-        return slotUseCase.addFavorite(slotGame: slotGame).do(onCompleted: { [weak self] in
-            if var copyValue = try? self?.favorites.value() {
-                if let i = copyValue.firstIndex(of: slotGame) {
-                    copyValue[i] = SlotGame.duplicateGame(slotGame, isFavorite: true)
-                }
-                self?.favorites.onNext(copyValue)
-            }
-        })
+    private func addFavorite(_ slotGame: WebGameWithDuplicatable) -> Completable {
+        return slotUseCase.addFavorite(game: slotGame)
     }
     
-    private func removeFavorite(_ slotGame: SlotGame) -> Completable {
-        return slotUseCase.removeFavorite(slotGame: slotGame).do(onCompleted: { [weak self] in
-            if var copyValue = try? self?.favorites.value() {
-                if let i = copyValue.firstIndex(of: slotGame) {
-                    copyValue[i] = SlotGame.duplicateGame(slotGame, isFavorite: false)
-                }
-                self?.favorites.onNext(copyValue)
-            }
-        })
+    private func removeFavorite(_ slotGame: WebGameWithDuplicatable) -> Completable {
+        return slotUseCase.removeFavorite(game: slotGame)
     }
     
 }
 
 extension SlotViewModel: ProductViewModel {
     func getFavorites() {
-        favorites = BehaviorSubject<[SlotGame]>(value: [])
-        slotUseCase.favoriteSlots().subscribe(onSuccess: { [weak self] (games) in
+        favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
+        slotUseCase.getFavorites().subscribe(onNext: { [weak self] (games) in
             if games.count > 0 {
                 self?.favorites.onNext(games)
             } else {
@@ -76,21 +62,19 @@ extension SlotViewModel: ProductViewModel {
         }).disposed(by: disposeBag)
     }
     
-    func favoriteProducts() -> Observable<[WebGameWithProperties]> {
-        return favorites.map({ $0.map({$0 as WebGameWithProperties})}).asObservable()
+    func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
+        return favorites.asObservable()
     }
     
-    func toggleFavorite(game: WebGameWithProperties, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
-        guard game is SlotGame else { return }
-        let slot = game as! SlotGame
-        if slot.isFavorite {
-            removeFavorite(slot).subscribe(onCompleted: {
+    func toggleFavorite(game: WebGameWithDuplicatable, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
+        if game.isFavorite {
+            removeFavorite(game).subscribe(onCompleted: {
                 onCompleted(.remove)
             }, onError: { (error) in
                 onError(error)
             }).disposed(by: disposeBag)
         } else {
-            addFavorite(slot).subscribe(onCompleted: {
+            addFavorite(game).subscribe(onCompleted: {
                 onCompleted(.add)
             }, onError: { (error) in
                 onError(error)
@@ -103,7 +87,7 @@ extension SlotViewModel: ProductViewModel {
     }
     
     func searchSuggestion() -> Single<[String]> {
-        return self.slotUseCase.getSuggestionKeywords()
+        return self.slotUseCase.getSuggestKeywords()
     }
     
     func triggerSearch(_ keyword: String?) {
@@ -111,9 +95,9 @@ extension SlotViewModel: ProductViewModel {
         self.searchKey.accept(SearchKeyword(keyword: keyword))
     }
     
-    func searchResult() -> Observable<Event<[WebGameWithProperties]>> {
-        return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithProperties]>> in
-            return self.slotUseCase.searchSlots(keyword: keyword).map({ $0.map({$0 as WebGameWithProperties})}).materialize()
+    func searchResult() -> Observable<Event<[WebGameWithDuplicatable]>> {
+        return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithDuplicatable]>> in
+            return self.slotUseCase.searchGames(keyword: keyword).materialize()
         }
     }
     

@@ -13,7 +13,7 @@ class WebGameItemCell: UICollectionViewCell {
     @IBOutlet private weak var blurView: UIView!
     @IBOutlet private weak var blurLabel: UILabel!
     @IBOutlet private weak var blurImageView: UIImageView!
-    var favoriteBtnClick: (() -> ())?
+    var favoriteBtnClick: ((UIButton?) -> ())?
     lazy var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
@@ -52,15 +52,11 @@ class WebGameItemCell: UICollectionViewCell {
             blurImageView.image = icon
         }
         
-        favoriteBtn.rx.touchUpInside
-            .do(onNext: { [weak self] _ in
-                originFavorite.toggle()
-                let imgName = originFavorite == true ? "game-favorite-active" : "game-favorite-activeinactive"
-                self?.favoriteBtn.setImage(UIImage(named: imgName), for: .normal)
-            }).debounce(.milliseconds(200), scheduler: MainScheduler.asyncInstance)
-            .observeOn(MainScheduler.asyncInstance)
-            .bind(onNext: { [weak self] in
-            self?.favoriteBtnClick?()
+        favoriteBtn.rx.touchUpInside.bind(onNext: { [weak self] in
+            originFavorite.toggle()
+            let imgName = originFavorite == true ? "game-favorite-active" : "game-favorite-activeinactive"
+            self?.favoriteBtn.setImage(UIImage(named: imgName), for: .normal)
+            self?.favoriteBtnClick?(self?.favoriteBtn)
         }).disposed(by: disposeBag)
         return self
     }

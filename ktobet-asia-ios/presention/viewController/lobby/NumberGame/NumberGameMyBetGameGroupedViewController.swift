@@ -62,7 +62,7 @@ class NumberGameMyBetGameGroupedViewController: UIViewController {
             return self?.tempResult ?? []
         }).bind(to: tableView.rx.items){[weak self] (tableView, row, element) in
             guard let self = self else { return  UITableViewCell()}
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: "SlotBetSummaryByDateCell", cellType: SlotBetSummaryByDateCell.self)
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: "SlotBetSummaryByDateCell", cellType: BetSummaryByDateCell.self)
             cell.configure(element)
             if self.tempIndex.contains(row) {
                 cell.iconImageView.isHidden = true

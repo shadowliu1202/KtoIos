@@ -3,14 +3,9 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-protocol SlotRepository {
-    func getFavoriteSlots() -> Single<[SlotGame]>
-    func addFavoriteSlot(slotGame: SlotGame) -> Completable
-    func removeFavoriteSlot(slotGame: SlotGame) -> Completable
+protocol SlotRepository: WebGameRepository {
     func getPopularGames() -> Observable<SlotHotGames>
     func getRecentlyPlaySlots() -> Observable<[SlotGame]>
-    func searchSlotGame(keyword: SearchKeyword) -> Observable<[SlotGame]>
-    func getSlotKeywordSuggestion() -> Single<[String]>
     func getNewAndJackpotGames() -> Observable<SlotNewAndJackpotGames>
     func searchSlot(sortBy: GameSorting,
                     isJackpot: Bool,
@@ -23,50 +18,14 @@ protocol SlotRepository {
                    featureTags: Set<SlotGameFilter.SlotGameFeature>,
                    themeTags: Set<SlotGameFilter.SlotGameTheme>,
                    payLineWayTags: Set<SlotGameFilter.SlotPayLineWay>) -> Observable<Int>
-    func getGameLocation(gameId: Int32) -> Single<URL?>
 }
 
-class SlotRepositoryImpl: SlotRepository {
-    private let favoriteRecord = BehaviorRelay<[SlotGame]>(value: [])
+class SlotRepositoryImpl: WebGameRepositoryImpl, SlotRepository {
     private var slotApi: SlotApi!
     
     init(_ slotApi: SlotApi) {
+        super.init(slotApi)
         self.slotApi = slotApi
-    }
-    
-    func getFavoriteSlots() -> Single<[SlotGame]> {
-        return slotApi.getFavoriteSlots().map {(response) -> [SlotGame] in
-            guard let data = response.data else { return [] }
-            return data.map { $0.toSlotGame(portalHost: KtoURL.baseUrl.absoluteString) }
-        }
-    }
-    
-    func addFavoriteSlot(slotGame: SlotGame) -> Completable {
-        return slotApi.addFavoriteCasino(id: slotGame.gameId).do(onCompleted: { [weak self] in
-            guard let `self` = self else { return }
-            var copyValue = self.favoriteRecord.value
-            if let i = copyValue.firstIndex(where: { $0.gameId == slotGame.gameId}) {
-                copyValue[i] = SlotGame.duplicateGame(slotGame, isFavorite: true)
-            } else {
-                let game = SlotGame.duplicateGame(slotGame, isFavorite: true)
-                copyValue.append(game)
-            }
-            self.favoriteRecord.accept(copyValue)
-        })
-    }
-    
-    func removeFavoriteSlot(slotGame: SlotGame) -> Completable {
-        return slotApi.removeFavoriteCasino(id: slotGame.gameId).do(onCompleted: { [weak self] in
-            guard let `self` = self else { return }
-            var copyValue = self.favoriteRecord.value
-            if let i = copyValue.firstIndex(where: { $0.gameId == slotGame.gameId}) {
-                copyValue[i] = SlotGame.duplicateGame(slotGame, isFavorite: false)
-            } else {
-                let game = SlotGame.duplicateGame(slotGame, isFavorite: false)
-                copyValue.append(game)
-            }
-            self.favoriteRecord.accept(copyValue)
-        })
     }
     
     func getPopularGames() -> Observable<SlotHotGames> {
@@ -101,17 +60,6 @@ class SlotRepositoryImpl: SlotRepository {
         return Observable.combineLatest(favoriteRecord.asObservable(), fetchApi).map { (favorites, games) -> SlotNewAndJackpotGames in
             return SlotNewAndJackpotGames(newGame: self.updateSourceByFavorite(games.newGame, favorites),
                                           jackpotGames: self.updateSourceByFavorite(games.jackpotGames, favorites))
-        }
-    }
-    
-    func searchSlotGame(keyword: SearchKeyword) -> Observable<[SlotGame]> {
-        let fetchApi =  slotApi.searchSlot(keyword: keyword.getKeyword()).map {(response) -> [SlotGame] in
-            guard let data = response.data else { return [] }
-            return data.map { $0.toSlotGame(portalHost: KtoURL.baseUrl.absoluteString) }
-        }
-        
-        return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
-            return self.updateSourceByFavorite(games, favorites)
         }
     }
     
@@ -153,32 +101,35 @@ class SlotRepositoryImpl: SlotRepository {
             }.asObservable()
     }
     
-    func getSlotKeywordSuggestion() -> Single<[String]> {
-        return slotApi.slotKeywordSuggestion().map { (response) -> [String] in
-            if let suggestions = response.data {
-                return suggestions
-            }
-            return []
+    override func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
+        let fetchApi = slotApi.getFavoriteSlots().map({ (response) -> [SlotGame] in
+            guard let data = response.data else { return [] }
+            return data.map { $0.toSlotGame(portalHost: KtoURL.baseUrl.absoluteString) }
+        })
+        return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [unowned self] (favorites, games) in
+            return self.updateSourceByFavorite(games, favorites)
         }
     }
     
-    private func updateSourceByFavorite(_ games: [SlotGame], _ favorites: [SlotGame]) -> [SlotGame] {
+    override func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]> {
+        let fetchApi = slotApi.searchSlot(keyword: keyword.getKeyword()).map {(response) -> [SlotGame] in
+            guard let data = response.data else { return [] }
+            return data.map { $0.toSlotGame(portalHost: KtoURL.baseUrl.absoluteString) }
+        }
+        return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [unowned self] (favorites, games) in
+            return self.updateSourceByFavorite(games, favorites)
+        }
+    }
+    
+    private func updateSourceByFavorite(_ games: [SlotGame], _ favorites: [WebGameWithDuplicatable]) -> [SlotGame] {
         var duplicateGames = games
         favorites.forEach { (favoriteItem) in
             if let i = duplicateGames.firstIndex(where: { $0.gameId == favoriteItem.gameId}) {
-                duplicateGames[i] = SlotGame.duplicateGame(favoriteItem, isFavorite: favoriteItem.isFavorite)
+                let game = duplicateGames[i].duplicate(isFavorite: favoriteItem.isFavorite)
+                duplicateGames[i] = game as! SlotGame
             }
         }
         
         return duplicateGames
-    }
-    
-    func getGameLocation(gameId: Int32) -> Single<URL?> {
-        return slotApi.getGameUrl(gameId: gameId, siteUrl: KtoURL.baseUrl.absoluteString).map { (response) -> URL? in
-            if let path = response.data, let url = URL(string: path) {
-                return url
-            }
-            return nil
-        }
     }
 }

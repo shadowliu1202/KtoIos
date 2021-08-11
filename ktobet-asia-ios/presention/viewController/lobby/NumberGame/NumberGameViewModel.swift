@@ -9,7 +9,7 @@ class NumberGameViewModel {
         return self.numberGameUseCase.getGames(order: gameSorting, tags: gameFilters)
     }
     
-    var favorites = BehaviorSubject<[NumberGame]>(value: [])
+    var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
     
     private var numberGameUseCase: NumberGameUseCase!
     private var memoryCache: MemoryCacheImpl!
@@ -23,7 +23,7 @@ class NumberGameViewModel {
     private var disposeBag = DisposeBag()
     private lazy var filterSets: Observable<Set<GameFilter>> = Observable.combineLatest(tagFilter, recommendFilter, newFilter) { (tags, recommand, new) -> Set<GameFilter> in
         var gameFilters: Set<GameFilter> = []
-        tags.filter{ $0.isSelected && $0.id >= 0 }.forEach{ gameFilters.insert(GameFilter.Tag.init(tag: $0.getGameTag())) }
+        tags.filter{ $0.isSelected && $0.tagId >= 0 }.forEach{ gameFilters.insert(GameFilter.Tag.init(tag: $0.getGameTag())) }
         if recommand { gameFilters.insert(GameFilter.Promote.init()) }
         if new { gameFilters.insert(GameFilter.New.init()) }
         return gameFilters
@@ -36,7 +36,7 @@ class NumberGameViewModel {
         gameTags.append(NumberGameTag(GameTag.init(type: -3, name: Localize.string("common_new"))))
         gameTags.append(contentsOf: tags.map({ NumberGameTag($0)}))
         filters.forEach { (filter) in
-            gameTags.filter { $0.id == filter.id }.first?.isSelected = filter.isSelected
+            gameTags.filter { $0.tagId == filter.tagId }.first?.isSelected = filter.isSelected
         }
         self?.gameTags = gameTags
         return gameTags
@@ -45,7 +45,7 @@ class NumberGameViewModel {
     init(numberGameUseCase: NumberGameUseCase, memoryCache: MemoryCacheImpl) {
         self.numberGameUseCase = numberGameUseCase
         self.memoryCache = memoryCache
-        if let tags = memoryCache.getNumberGameTag() {
+        if let tags: [NumberGameTag] = memoryCache.getGameTag(.numberGameTag) {
             tagFilter.accept(tags)
         }
     }
@@ -64,14 +64,14 @@ class NumberGameViewModel {
         var copyValue = tagFilter.value
         if gameTagId == TagAllID {
             copyValue.removeAll()
-        } else if let oldTag = copyValue.filter({ $0.id == Int32(gameTagId) }).first {
+        } else if let oldTag = copyValue.filter({ $0.tagId == Int32(gameTagId) }).first {
             oldTag.isSelected.toggle()
-        } else if let filter = gameTags.filter({ $0.id == Int32(gameTagId)}).first {
+        } else if let filter = gameTags.filter({ $0.tagId == Int32(gameTagId)}).first {
             filter.isSelected.toggle()
             copyValue.append(filter)
         }
 
-        memoryCache.setNumberGameTag(copyValue)
+        memoryCache.setGameTag(.numberGameTag, copyValue)
         tagFilter.accept(copyValue)
     }
     
@@ -95,26 +95,12 @@ class NumberGameViewModel {
         gameSorting.accept(sorting)
     }
     
-    private func addFavorite(_ game: NumberGame) -> Completable {
-        return numberGameUseCase.addFavorite(game: game).do(onCompleted: { [weak self] in
-            if var copyValue = try? self?.favorites.value() {
-                if let i = copyValue.firstIndex(of: game) {
-                    copyValue[i] = NumberGame.duplicateGame(game, isFavorite: true)
-                }
-                self?.favorites.onNext(copyValue)
-            }
-        })
+    private func addFavorite(_ game: WebGameWithDuplicatable) -> Completable {
+        return numberGameUseCase.addFavorite(game: game)
     }
     
-    private func removeFavorite(_ game: NumberGame) -> Completable {
-        return numberGameUseCase.removeFavorite(game: game).do(onCompleted: { [weak self] in
-            if var copyValue = try? self?.favorites.value() {
-                if let i = copyValue.firstIndex(of: game) {
-                    copyValue[i] = NumberGame.duplicateGame(game, isFavorite: false)
-                }
-                self?.favorites.onNext(copyValue)
-            }
-        })
+    private func removeFavorite(_ game: WebGameWithDuplicatable) -> Completable {
+        return numberGameUseCase.removeFavorite(game: game)
     }
     
     private func getTags() -> Observable<[GameTag]> {
@@ -125,8 +111,8 @@ class NumberGameViewModel {
 
 extension NumberGameViewModel: ProductViewModel {
     func getFavorites() {
-        favorites = BehaviorSubject<[NumberGame]>(value: [])
-        numberGameUseCase.getFavorites().subscribe(onSuccess: { [weak self] (games) in
+        favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
+        numberGameUseCase.getFavorites().subscribe(onNext: { [weak self] (games) in
             if games.count > 0 {
                 self?.favorites.onNext(games)
             } else {
@@ -137,21 +123,19 @@ extension NumberGameViewModel: ProductViewModel {
         }).disposed(by: disposeBag)
     }
     
-    func favoriteProducts() -> Observable<[WebGameWithProperties]> {
-        return favorites.map({ $0.map({$0 as WebGameWithProperties})}).asObservable()
+    func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
+        return favorites.asObservable()
     }
     
-    func toggleFavorite(game: WebGameWithProperties, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
-        guard game is NumberGame else { return }
-        let numGame = game as! NumberGame
-        if numGame.isFavorite {
-            removeFavorite(numGame).subscribe(onCompleted: {
+    func toggleFavorite(game: WebGameWithDuplicatable, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->()) {
+        if game.isFavorite {
+            removeFavorite(game).subscribe(onCompleted: {
                 onCompleted(.remove)
             }, onError: { (error) in
                 onError(error)
             }).disposed(by: disposeBag)
         } else {
-            addFavorite(numGame).subscribe(onCompleted: {
+            addFavorite(game).subscribe(onCompleted: {
                 onCompleted(.add)
             }, onError: { (error) in
                 onError(error)
@@ -172,7 +156,7 @@ extension NumberGameViewModel: ProductViewModel {
     }
     
     func searchSuggestion() -> Single<[String]> {
-        return self.numberGameUseCase.getSuggestionKeywords()
+        return self.numberGameUseCase.getSuggestKeywords()
     }
     
     func triggerSearch(_ text: String?) {
@@ -180,17 +164,17 @@ extension NumberGameViewModel: ProductViewModel {
         self.searchKey.accept(SearchKeyword(keyword: txt))
     }
     
-    func searchResult() -> Observable<Event<[WebGameWithProperties]>> {
-        return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithProperties]>> in
-            return self.numberGameUseCase.searchGames(keyword: keyword).map({ $0.map({$0 as WebGameWithProperties})}).materialize()
+    func searchResult() -> Observable<Event<[WebGameWithDuplicatable]>> {
+        return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithDuplicatable]>> in
+            return self.numberGameUseCase.searchGames(keyword: keyword).materialize()
         }
     }
 }
 
-class NumberGameTag: NSObject {
+class NumberGameTag: NSObject, BaseGameTag {
     private let bean: GameTag
     var isSelected: Bool = false
-    var id: Int32 {
+    var tagId: Int32 {
         return bean.type
     }
     var name: String {

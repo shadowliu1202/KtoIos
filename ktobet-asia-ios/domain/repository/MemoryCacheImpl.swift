@@ -1,26 +1,28 @@
 import Foundation
 
+enum GameTagKey: String {
+    case casinoGameTag, numberGameTag, arcadeGameTag
+}
+
 class MemoryCacheImpl {
     static let shared = MemoryCacheImpl()
     private init() {}
     private var dicts: [String: Any?] = [:]
-    let kCasinoGameTag = "casinoGameTag"
-    let kNumberGameTag = "numberGameTag"
     
-    func setCasinoGameTag(_ tags: [CasinoTag]) {
-        self.dicts[kCasinoGameTag] = tags
+    func setGameTag<T>(_ key: GameTagKey,_ tags: T) {
+        self.setByKey(key.rawValue, tags)
     }
     
-    func getCasinoGameTag() -> [CasinoTag]? {
-        return self.dicts[kCasinoGameTag] as? [CasinoTag]
+    func getGameTag<T>(_ key: GameTagKey) -> T? {
+        return self.dicts[key.rawValue] as? T
     }
     
-    func setNumberGameTag(_ tags: [NumberGameTag]) {
-        self.dicts[kNumberGameTag] = tags
+    private func setByKey<T>(_ key: String, _ value: T) {
+        self.dicts[key] = value
     }
     
-    func getNumberGameTag() -> [NumberGameTag]? {
-        return self.dicts[kNumberGameTag] as? [NumberGameTag]
+    private func getByKey<T>(_ key: String) -> T? {
+        return self.dicts[key] as? T
     }
     
 }

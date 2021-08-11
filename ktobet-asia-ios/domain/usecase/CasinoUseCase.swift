@@ -2,24 +2,19 @@ import Foundation
 import SharedBu
 import RxSwift
 
-protocol CasinoUseCase {
+protocol CasinoUseCase: WebGameUseCase {
     func getCasinoBetTypeTags() -> Single<[CasinoGameTag]>
     func getLobbies() -> Single<[CasinoLobby]>
-    func createGame(gameId: Int32) -> Single<URL?>
-    func addFavorite(casinoGame: CasinoGame) -> Completable
-    func removeFavorite(casinoGame: CasinoGame) -> Completable
-    func getFavorites() -> Single<[CasinoGame]>
     func searchGamesByTag(tags: [CasinoGameTag]) -> Observable<[CasinoGame]>
     func searchGamesByLobby(lobby: CasinoLobbyType) -> Observable<[CasinoGame]>
-    func searchGamesByKeyword(keyword: SearchKeyword) -> Observable<[CasinoGame]>
-    func getSuggestKeywords() -> Single<[String]>
 }
 
-class CasinoUseCaseImpl: CasinoUseCase {
+class CasinoUseCaseImpl: WebGameUseCaseImpl, CasinoUseCase {
     var casinoRepository: CasinoRepository!
     var localRepository: LocalStorageRepository!
     
     init(_ casinoRepository : CasinoRepository, _ localRepository: LocalStorageRepository) {
+        super.init(casinoRepository)
         self.casinoRepository = casinoRepository
         self.localRepository = localRepository
     }
@@ -58,32 +53,5 @@ class CasinoUseCaseImpl: CasinoUseCase {
     func searchGamesByLobby(lobby: CasinoLobbyType) -> Observable<[CasinoGame]> {
         let lobbyIds = CasinoLobbyType.Companion.init().convert(type: lobby)
         return casinoRepository.searchCasinoGame(lobbyIds: Set([lobbyIds]), typeId: [])
-    }
-    
-    func createGame(gameId: Int32) -> Single<URL?> {
-        return casinoRepository.getGameLocation(gameId: gameId)
-    }
-    
-    func getFavorites() -> Single<[CasinoGame]> {
-        return casinoRepository.getFavoriteCasino()
-    }
-    
-    func addFavorite(casinoGame: CasinoGame) -> Completable {
-        return casinoRepository.addFavoriteCasino(casino: casinoGame)
-    }
-    
-    func removeFavorite(casinoGame: CasinoGame) -> Completable {
-        return casinoRepository.removeFavoriteCasino(casino: casinoGame)
-    }
-    
-    func searchGamesByKeyword(keyword: SearchKeyword) -> Observable<[CasinoGame]> {
-        if keyword.isSearchPermitted() {
-            return casinoRepository.searchCasinoGame(keyword: keyword)
-        }
-        return Observable.just([])
-    }
-    
-    func getSuggestKeywords() -> Single<[String]> {
-        return casinoRepository.getCasinoKeywordSuggestion()
     }
 }

@@ -73,6 +73,9 @@ class DIContainer {
         ctner.register(P2PApi.self) { (resolver) in
             return P2PApi(httpclient)
         }
+        ctner.register(ArcadeApi.self) { (resolver) in
+            return ArcadeApi(httpclient)
+        }
     }
     
     func registRepo(){
@@ -162,6 +165,14 @@ class DIContainer {
         ctner.register(P2PRecordRepository.self) { (resolver) in
             let p2pApi = ctner.resolve(P2PApi.self)!
             return P2PRecordRepositoryImpl(p2pApi)
+        }
+        ctner.register(ArcadeRecordRepository.self) { (resolver) in
+            let arcadeApi = ctner.resolve(ArcadeApi.self)!
+            return ArcadeRecordRepositoryImpl(arcadeApi)
+        }
+        ctner.register(ArcadeRepository.self) { (resolver) in
+            let arcadeApi = ctner.resolve(ArcadeApi.self)!
+            return ArcadeRepositoryImpl(arcadeApi)
         }
     }
     
@@ -255,6 +266,15 @@ class DIContainer {
             let repo = ctner.resolve(P2PRecordRepository.self)!
             let repoPlayer = ctner.resolve(PlayerRepository.self)!
             return P2PRecordUseCaseImpl(repo, repoPlayer)
+        }
+        ctner.register(ArcadeRecordUseCase.self) { (resolver) in
+            let repo = ctner.resolve(ArcadeRecordRepository.self)!
+            let repoPlayer = ctner.resolve(PlayerRepository.self)!
+            return ArcadeRecordUseCaseImpl(repo, repoPlayer)
+        }
+        ctner.register(ArcadeUseCase.self) { (resolver) in
+            let repo = ctner.resolve(ArcadeRepository.self)!
+            return ArcadeUseCaseImpl(repo)
         }
     }
     
@@ -378,6 +398,12 @@ class DIContainer {
         }
         ctner.register(P2PBetViewModel.self) { (resolver) in
             return P2PBetViewModel(p2pRecordUseCase: ctner.resolve(P2PRecordUseCase.self)!)
+        }
+        ctner.register(ArcadeRecordViewModel.self) { (resolver) in
+            return ArcadeRecordViewModel(arcadeRecordUseCase: ctner.resolve(ArcadeRecordUseCase.self)!)
+        }
+        ctner.register(ArcadeViewModel.self) { (resolver) in
+            return ArcadeViewModel(arcadeUseCase: ctner.resolve(ArcadeUseCase.self)!, memoryCache: MemoryCacheImpl.shared)
         }
     }
     

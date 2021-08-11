@@ -2,9 +2,8 @@ import SharedBu
 import UIKit
 import Foundation
 
-extension CasinoGame {
-    
-    class func duplicateGame(_ origin: CasinoGame, isFavorite: Bool) -> CasinoGame {
-        return CasinoGame(gameId: origin.gameId, gameName: origin.gameName, isFavorite: isFavorite, gameStatus: origin.gameStatus, thumbnail: origin.thumbnail, releaseDate: origin.releaseDate)
+extension CasinoGame: WebGameWithDuplicatable {
+    func duplicate(isFavorite: Bool) -> WebGameWithDuplicatable {
+        return CasinoGame(gameId: self.gameId, gameName: self.gameName, isFavorite: isFavorite, gameStatus: self.gameStatus, thumbnail: self.thumbnail, releaseDate: self.releaseDate)
     }
 }

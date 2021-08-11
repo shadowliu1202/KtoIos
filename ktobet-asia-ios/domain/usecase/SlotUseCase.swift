@@ -3,12 +3,7 @@ import SharedBu
 import RxSwift
 import RxCocoa
 
-protocol SlotUseCase {
-    func favoriteSlots() -> Single<[SlotGame]>
-    func addFavorite(slotGame: SlotGame) -> Completable
-    func removeFavorite(slotGame: SlotGame) -> Completable
-    func searchSlots(keyword: SearchKeyword) -> Observable<[SlotGame]>
-    func getSuggestionKeywords() -> Single<[String]>
+protocol SlotUseCase: WebGameUseCase {
     func getPopularSlots() -> Observable<[SlotGame]>
     func getRecentlyPlaySlots() -> Observable<[SlotGame]>
     func getNewSlots() -> Observable<[SlotGame]>
@@ -24,10 +19,9 @@ protocol SlotUseCase {
                    featureTags: Set<SlotGameFilter.SlotGameFeature>,
                    themeTags: Set<SlotGameFilter.SlotGameTheme>,
                    payLineWayTags: Set<SlotGameFilter.SlotPayLineWay>) -> Observable<Int>
-    func createGame(gameId: Int32) -> Single<URL?>
 }
 
-class SlotUseCaseImpl: SlotUseCase {
+class SlotUseCaseImpl: WebGameUseCaseImpl, SlotUseCase {
     var slotRepository: SlotRepository!
     var localRepository: LocalStorageRepository!
     
@@ -41,20 +35,9 @@ class SlotUseCaseImpl: SlotUseCase {
     let MINIMUM_POPULAR_GAME = 3
 
     init(_ slotRepository: SlotRepository, _ localRepository: LocalStorageRepository) {
+        super.init(slotRepository)
         self.slotRepository = slotRepository
         self.localRepository = localRepository
-    }
-    
-    func favoriteSlots() -> Single<[SlotGame]> {
-        return slotRepository.getFavoriteSlots()
-    }
-    
-    func addFavorite(slotGame: SlotGame) -> Completable {
-        return slotRepository.addFavoriteSlot(slotGame: slotGame)
-    }
-    
-    func removeFavorite(slotGame: SlotGame) -> Completable {
-        return slotRepository.removeFavoriteSlot(slotGame: slotGame)
     }
     
     func getPopularSlots() -> Observable<[SlotGame]> {
@@ -88,13 +71,6 @@ class SlotUseCaseImpl: SlotUseCase {
         }
     }
     
-    func searchSlots(keyword: SearchKeyword) -> Observable<[SlotGame]> {
-        if keyword.isSearchPermitted() {
-            return slotRepository.searchSlotGame(keyword: keyword)
-        }
-        return Observable.just([])
-    }
-    
     func searchSlot(sortBy: GameSorting,
                     isJackpot: Bool,
                     isNew: Bool,
@@ -110,10 +86,6 @@ class SlotUseCaseImpl: SlotUseCase {
                    themeTags: Set<SlotGameFilter.SlotGameTheme>,
                    payLineWayTags: Set<SlotGameFilter.SlotPayLineWay>) -> Observable<Int> {
         return slotRepository.gameCount(isJackpot: isJackpot, isNew: isNew, featureTags: featureTags, themeTags: themeTags, payLineWayTags: payLineWayTags)
-    }
-    
-    func getSuggestionKeywords() -> Single<[String]> {
-        return slotRepository.getSlotKeywordSuggestion()
     }
     
     private func shuffleAndFilterGames(slotHotGames: SlotHotGames, recentPlay: [SlotGame]) -> [SlotGame] {
@@ -136,9 +108,4 @@ class SlotUseCaseImpl: SlotUseCase {
     private func filterExistedGames(source: [SlotGame], existing: [SlotGame]) -> [SlotGame] {
         return source.filter{ !existing.contains($0) }
     }
-    
-    func createGame(gameId: Int32) -> Single<URL?> {
-        return slotRepository.getGameLocation(gameId: gameId)
-    }
-
 }
