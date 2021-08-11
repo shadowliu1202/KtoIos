@@ -87,7 +87,7 @@ class AddCryptoAccountViewController: UIViewController {
                     }, cancel: nil)
                 }, onError: { (error) in
                     if (error as? KTOError) == KTOError.EmptyData {
-                        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("withdrawal_account_exist"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+                        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("cps_bank_card_exist"), confirm: nil, cancel: nil, tintColor: UIColor.red)
                     }
                 }).disposed(by: self.disposeBag)
             }
