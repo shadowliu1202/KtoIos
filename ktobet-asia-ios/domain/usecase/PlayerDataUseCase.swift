@@ -10,6 +10,7 @@ protocol PlayerDataUseCase {
     func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]>
     func isRealNameEditable() -> Single<Bool>
     func getPrivilege() -> Single<[LevelOverview]>
+    func getSupportLocalFromCache() -> SupportLocale
 }
 
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
@@ -49,5 +50,9 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
     
     func getPrivilege() -> Single<[LevelOverview]> {
         return playerRepository.getLevelPrivileges()
+    }
+    
+    func getSupportLocalFromCache() -> SupportLocale {
+        return localRepository.getSupportLocal()
     }
 }

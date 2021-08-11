@@ -33,14 +33,10 @@ class PlayerRepositoryImpl : PlayerRepository {
             .zip(favorProduct, localization, playerInfo, contactInfo)
             .map { (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
                 let bindLocale : SupportLocale = {
-                    switch responseLocalization.data?.cultureCode{
-                    case "zh-cn" :
-                        Localize.setLanguage(language: .ZH)
+                    if let cultureCode = responseLocalization.data?.cultureCode {
+                        return SupportLocale.Companion.init().convertToLocale(language: cultureCode)
+                    } else {
                         return SupportLocale.China()
-                    case "vi-vn" :
-                        Localize.setLanguage(language: .VI)
-                        return SupportLocale.Vietnam()
-                    default: return SupportLocale.China()
                     }
                 }()
                 
