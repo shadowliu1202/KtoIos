@@ -1,4 +1,5 @@
 import Foundation
+import SharedBu
 
 class LocalStorageRepository {
 
@@ -55,6 +56,10 @@ class LocalStorageRepository {
     
     func getCultureCode() -> String {
         return getUserDefaultValue(key: KcultureCode) ?? ""
+    }
+    
+    func getSupportLocal() -> SupportLocale {
+        return SupportLocale.Companion.init().convertToLocale(language: getCultureCode())
     }
     
     func getLocalCurrency() -> FiatCurrency {

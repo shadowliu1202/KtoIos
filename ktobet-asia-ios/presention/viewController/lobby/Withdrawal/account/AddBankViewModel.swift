@@ -24,6 +24,7 @@ class AddBankViewModel {
     }
     private lazy var isBranchValid = branchValid.map({$0 == .none ? true : false})
     
+    lazy var areaName = AreaNameFactory.Companion.init().create(supportLocale: playerDataUseCase.getSupportLocalFromCache())
     var province = BehaviorRelay<String>(value: "")
     lazy var provinceValid = province.skip(InitAndKeyboardFirstEvent).map({ [weak self] (txt) -> ValidError in
         if let `self` = self, self.isProvinceLegal(txt) {
@@ -103,11 +104,11 @@ class AddBankViewModel {
     }
     
     func getProvinces() -> [String] {
-        return ChinaProvince().provinces
+        return areaName.getProvinces().map({ $0.name })
     }
     
     func getCountries(province: String) -> [String] {
-        return ChinaProvince().provinceCities[province] ?? []
+        return areaName.getCities(province: Province(name: province)).map({ $0.name })
     }
     
     func addWithdrawalAccount() -> Completable {
