@@ -27,7 +27,7 @@ class DepositPresenter {
     class func title(_ status: TransactionStatus) -> String {
         switch status {
         case .floating:
-            return Localize.string("common_floating_2")
+            return Localize.string("common_floating")
         case .pending:
             return Localize.string("common_pending")
         case .reject:

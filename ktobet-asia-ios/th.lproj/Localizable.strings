@@ -47,7 +47,7 @@
 "cps_auto_fill_balance" = "自动填写目前账户余额";
 "cps_auto_fill_request" = "自动填写虚拟币提现要求";
 "cps_account_status_verified" = "本賬户已验证核可";
-"cps_close_otp_verify_hint" = "尚未完成提现帳戶设定，將無法进行提现";
+"cps_close_otp_verify_hint" = "尚未完成提现賬戶设定，將無法进行提现";
 "cps_eth_default_bank_card_name" = "以太坊钱包";
 "cps_scan" = "扫描";
 "cps_scan_qrcode" = "扫描QR Code";
