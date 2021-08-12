@@ -15,7 +15,7 @@ PODS:
     - Differentiator (~> 4.0)
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
-  - RxRelay (5.1.1):
+  - RxRelay (5.1.3):
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
   - SDWebImage (5.10.4):
@@ -69,7 +69,7 @@ SPEC CHECKSUMS:
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
-  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   sharedbu: 3e137972328167e4de646cf3dc13109686f5329f

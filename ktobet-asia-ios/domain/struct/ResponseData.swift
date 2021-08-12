@@ -902,7 +902,7 @@ struct TicketDetail: Codable {
     }
     
     func toCryptoWithdrawalLimitTicketDetail() -> CryptoWithdrawalLimitTicketDetail {
-        let localApprovedDate = (approvedDate.convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertDateToOffsetDateTime()
+        let localApprovedDate = approvedDate.convertDateTime()?.convertDateToOffsetDateTime() ?? Date().convertDateToOffsetDateTime()
         return CryptoWithdrawalLimitTicketDetail(
             cryptoAmount: CryptoAmount.create(cryptoAmount: cryptoAmount, crypto: Crypto.Ethereum.init()),
             approvedDate: localApprovedDate,

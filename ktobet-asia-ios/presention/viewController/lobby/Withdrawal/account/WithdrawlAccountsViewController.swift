@@ -276,6 +276,7 @@ class CryptoAccountCell: UITableViewCell {
         self.verifyLabel.textColor = verifyStatus.color
         self.verifyLabel.text = verifyStatus.text
         self.imgView.isHidden = isEditMode
+        self.walletType.text = item.currency.simpleName
         return self
     }
 }
