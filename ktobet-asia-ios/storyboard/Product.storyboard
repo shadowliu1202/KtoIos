@@ -323,7 +323,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YfT-OH-Ekt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <searchBar contentMode="redraw" barStyle="black" id="YdC-Kq-9x6">
+                <searchBar contentMode="redraw" barStyle="black" text="" id="YdC-Kq-9x6">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -331,7 +331,6 @@
                         <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                             <color key="value" name="whiteFull"/>
                         </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="string" keyPath="localizePlaceholder" value="product_enter_search_keyword"/>
                     </userDefinedRuntimeAttributes>
                 </searchBar>
             </objects>

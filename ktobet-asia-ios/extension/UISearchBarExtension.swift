@@ -38,7 +38,7 @@ extension UISearchBar {
     }
     
     func removeMagnifyingGlass() {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: self.frame.size.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: self.frame.size.height))
         self.textField?.leftView = paddingView
         self.textField?.leftViewMode = .always
     }
