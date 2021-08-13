@@ -73,7 +73,7 @@ class SearchViewController: SearchProduct {
     }
     
     private func initSearchTitle() {
-        let frame = CGRect(x: 0, y: 0, width: searchBarView.frame.width, height: 44)
+        let frame = CGRect(x: -10, y: 0, width: searchBarView.frame.width, height: 44)
         let titleView = UIView(frame: frame)
         searchBarView.removeMagnifyingGlass()
         searchBarView.setClearButtonColorTo(color: .white)
@@ -84,6 +84,9 @@ class SearchViewController: SearchProduct {
         keepNavigationBar = self.navigationController?.navigationBar.barTintColor
         self.navigationController?.navigationBar.barTintColor = UIColor.backgroundSidebarMineShaftGray
         searchBarView.addDoneButton(title: "Done", target: self, selector: #selector(pressDone(_:)))
+        searchBarView.searchTextField.borderStyle = .none
+        searchBarView.searchTextField.backgroundColor = UIColor.black
+        searchBarView.searchTextField.attributedPlaceholder = NSAttributedString(string: " \(Localize.string("product_enter_search_keyword"))", attributes: [NSAttributedString.Key.foregroundColor : UIColor.textPrimaryDustyGray])
     }
     
     private func dataBinding() {
