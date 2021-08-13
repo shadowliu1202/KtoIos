@@ -20,7 +20,6 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
     var cryptoBankCard: CryptoBankCard?
     var playerCryptoBankCardId: String?
     
-    private var userInfoStatus: UserInfoStatus!
     private var isFirstTimeEnter = true
     private var phone: String = ""
     private var email: String = ""
@@ -43,7 +42,18 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
         }
         
         viewModel.otpValid().subscribe(onNext: {[weak self] status in
-            self?.userInfoStatus = status
+            guard let self = self else { return }
+            if status == .errOtpServiceDown {
+                Alert.show(Localize.string("common_error"), Localize.string("otp_service_down"), confirm: {
+                    NavigationManagement.sharedInstance.popViewController()
+                }, cancel: nil)
+            } else if status == .errSMSOtpInactive || status == .errEmailOtpInactive {
+                self.viewOtpServiceDown.isHidden = false
+                self.viewInputView.isHidden = true
+            } else {
+                self.viewOtpServiceDown.isHidden = true
+                self.viewInputView.isHidden = false
+            }
         }).disposed(by: disposeBag)
         
         viewModel.phone.subscribe { (phone) in
@@ -89,16 +99,6 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
         
         btnSubmit.rx.tap.subscribe {[weak self] _ in
             guard let self = self else { return }
-            if self.userInfoStatus == .errSMSOtpInactive && self.viewModel.relayAccountType.value == .phone {
-                self.showToastAlertFailed()
-                return
-            }
-
-            if self.userInfoStatus == .errEmailOtpInactive && self.viewModel.relayAccountType.value == .email {
-                self.showToastAlertFailed()
-                return
-            }
-
             guard let bankCardId = self.cryptoBankCard?.bankCard.id_ ?? self.playerCryptoBankCardId else { return }
             self.viewModel.verify(playerCryptoBankCardId: bankCardId).subscribe(onCompleted: {[weak self] in
                 self?.performSegue(withIdentifier: WithdrawalOTPVerifyViewController.segueIdentifier, sender: nil)

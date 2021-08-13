@@ -23,6 +23,7 @@ public enum UserInfoStatus{
     case errPasswordNotMatch
     case errEmailOtpInactive
     case errSMSOtpInactive
+    case errOtpServiceDown
 }
 
 public enum ValidError {

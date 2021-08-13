@@ -60,6 +60,10 @@ class CryptoVerifyViewModel {
             .asObservable()
             .concatMap { otpStatus  in
                 return typeChange.map { (type)  -> UserInfoStatus in
+                    if !otpStatus.isMailActive && !otpStatus.isSmsActive {
+                        return .errOtpServiceDown
+                    }
+                    
                     switch type {
                     case .email: return otpStatus.isMailActive ? .valid : .errEmailOtpInactive
                     case .phone: return otpStatus.isSmsActive ? .valid : .errSMSOtpInactive

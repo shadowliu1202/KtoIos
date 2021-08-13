@@ -204,6 +204,8 @@
                         <outlet property="btnSubmit" destination="qBf-9w-Abf" id="3BN-br-sFX"/>
                         <outlet property="constraintResetErrorView" destination="Pe2-8s-rNe" id="dnx-cL-9hK"/>
                         <outlet property="contentLabel" destination="Zyi-c5-eqy" id="ksD-Q1-gav"/>
+                        <outlet property="viewInputView" destination="YET-Yp-wtN" id="1yi-NQ-c7e"/>
+                        <outlet property="viewOtpServiceDown" destination="zNX-lc-iVr" id="Eeh-nv-mcQ"/>
                         <segue destination="kl1-M3-j2l" kind="show" identifier="toStep2Segue" id="nhS-iu-wGK"/>
                         <segue destination="9XK-TL-VQb" kind="unwind" identifier="unwindsegueAccount" unwindAction="unwindSegueAccountWithSegue:" id="LaP-dd-FlZ"/>
                         <segue destination="9XK-TL-VQb" kind="unwind" identifier="unwindsegueWithdrawalLanding" unwindAction="unwindsegueWithdrawalLandingWithSegue:" id="4pN-4J-qj2"/>

@@ -49,6 +49,7 @@
 "cps_eth_default_bank_card_name" = "";
 "cps_scan" = "";
 "cps_scan_qrcode" = "";
+"otp_service_down" = "";
 
 //MARK: - Common
 "common_kto" = "";
