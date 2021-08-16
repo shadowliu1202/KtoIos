@@ -53,7 +53,7 @@ class SideBarViewController: UIViewController {
     
     @IBAction func btnRefreshBalance(_ sender : UIButton) {
         setBalanceHiddenState(isHidden: false)
-        viewModel.getBalance().bind(to: labBalance.rx.text).disposed(by: disposeBag)
+        viewModel.refreshBalance.onNext(())
     }
     
     // MARK: KVO
@@ -70,11 +70,12 @@ class SideBarViewController: UIViewController {
     
     func observeSystemMessage() {
         disposableNotify = systemViewModel.observeSystemMessage().subscribe {[weak self](target: Target) in
+            guard let self = self else { return }
             switch target {
             case .Kickout(let type):
-                self?.alertAndLogout(type)
-            default:
-                break
+                self.alertAndLogout(type)
+            case .Balance:
+                self.viewModel.refreshBalance.onNext(())
             }
         }
     }
@@ -206,6 +207,8 @@ class SideBarViewController: UIViewController {
         } onError: { (error) in
             self.handleUnknownError(error)
         }.disposed(by: disposeBag)
+        
+        viewModel.playerBalance.bind(to: self.labBalance.rx.text).disposed(by: self.disposeBag)
         
         slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
             cell.setup(data.name.rawValue, image: UIImage(named: data.icon))

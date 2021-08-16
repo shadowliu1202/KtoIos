@@ -45,7 +45,7 @@ class SystemSignalRepositoryImpl : SystemSignalRepository {
                 let type = try arg.getArgument(type: Int.self)
                 self.observeMessage.onNext(Target.Kickout(KickOutType(rawValue: type)))
             case .Balance:
-                print("")
+                self.observeMessage.onNext(Target.Balance)
             }
         })
     }
