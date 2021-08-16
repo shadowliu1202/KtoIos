@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class WithdrawalCryptoRequestViewController: UIViewController {
+class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged {
     static let segueIdentifier = "toWithdrawalCryptoRequest"
     var bankcardId: String?
     var cryptoCurrency: Crypto?
@@ -223,12 +223,20 @@ class WithdrawalCryptoRequestViewController: UIViewController {
         if segue.identifier == WithdrawalCryptoRequestConfirmViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalCryptoRequestConfirmViewController {
                 dest.source = sender as? RequestConfirm
+                dest.delegate = self
             }
         }
     }
     
     deinit {
         print("\(type(of: self)) deinit")
+    }
+    
+    // MARK: NotifyRateChanged
+    func rateDidChange() {
+        cryptoView.clearAmount()
+        fiatView.clearAmount()
+        nextButton.isValid = false
     }
 }
 
@@ -299,6 +307,11 @@ class CurrencyView: UIView {
     
     func setAmount(_ amount: Decimal) {
         textField.text = currencyFormat(amount)
+        textField.sendActions(for: .valueChanged)
+    }
+    
+    func clearAmount() {
+        textField.text?.removeAll()
         textField.sendActions(for: .valueChanged)
     }
     
