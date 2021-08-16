@@ -51,6 +51,7 @@
 "cps_eth_default_bank_card_name" = "以太坊钱包";
 "cps_scan" = "扫描";
 "cps_scan_qrcode" = "扫描QR Code";
+"otp_service_down" = "暂时无法进行验证，请稍后再试。";
 
 //MARK: - Common
 "common_kto" = "KTO";
