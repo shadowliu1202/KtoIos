@@ -3,9 +3,14 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
+protocol NotifyRateChanged: class {
+    func rateDidChange()
+}
+
 class WithdrawalCryptoRequestConfirmViewController: UIViewController {
     static let segueIdentifier = "toWithdrawalCryptoRequestConfirm"
     var source: RequestConfirm?
+    weak var delegate: NotifyRateChanged?
 
     @IBOutlet weak var cryptoAmoutLabel: UILabel!
     @IBOutlet weak var fiatAmountLabel: UILabel!
@@ -73,6 +78,7 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
     
     private func handleKtoError(_ error: Error) {
         if error is KtoRequestCryptoRateChange {
+            self.delegate?.rateDidChange()
             self.notifyRateChanged()
         } else {
             handleErrors(error)
