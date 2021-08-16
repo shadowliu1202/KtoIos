@@ -7,6 +7,12 @@ class PlayerViewModel {
     private var authUsecase : AuthenticationUseCase!
     
     var balance: String?
+    var refreshBalance = PublishSubject<(Void)>()
+    lazy var playerBalance = refreshBalance.flatMapLatest{_ in
+        self.playerUseCase.getBalance()
+            .map{ $0.amount.floor(toDecimal: 2).currencyFormat() }
+            .asObservable()
+    }
                 
     init(playerUseCase: PlayerDataUseCase, authUsecase: AuthenticationUseCase) {
         self.playerUseCase = playerUseCase

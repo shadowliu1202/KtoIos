@@ -18,6 +18,7 @@ class SystemSignalRUseCaseImpl: SystemSignalRUseCase {
     func observeSystemMessage() -> PublishSubject<Target> {
         systemRepo.connectService()
         systemRepo.subscribeEvent(target: Target.Kickout(nil))
+        systemRepo.subscribeEvent(target: Target.Balance)
         return systemRepo.observeSystemMessage()
     }
     
