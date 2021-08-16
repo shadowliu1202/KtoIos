@@ -172,6 +172,13 @@ extension OffsetDateTime {
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d", year, month, dayOfMonth, hour, minute, second)
     }
     
+    func formatDateOnlyTime(with SeparatorSymbol: String = ":") -> String {
+        let hour = self.localDateTime.hour
+        let minute = self.localDateTime.minute
+        let second = self.localDateTime.second
+        return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", hour, minute, second)
+    }
+    
     func formatDateToStringToDay() -> String {
         let year = self.localDateTime.year
         let month = self.localDateTime.monthNumber

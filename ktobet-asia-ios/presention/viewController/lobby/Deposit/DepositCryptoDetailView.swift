@@ -118,7 +118,7 @@ struct DepositCryptoDetailView: View {
          String(format: Localize.string("common_cps_apply_amount"), "CNY"),
          Localize.string("common_applytime")]
     
-    private let finalTitleString = [Localize.string("common_cps_final_info"),
+    private let finalTitleString = [Localize.string("common_cps_final_crypto"),
                                     Localize.string("common_cps_final_rate"),
                                     String(format: Localize.string("common_cps_final_amount"), "CNY"),
                                     Localize.string("common_cps_final_datetime")
