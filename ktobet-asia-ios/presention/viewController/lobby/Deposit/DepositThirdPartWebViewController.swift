@@ -21,7 +21,9 @@ class DepositThirdPartWebViewController: UIViewController {
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
         }
         
-        let request = URLRequest(url: URL(string: url)!)
-        webView.load(request)
+        if let urlString = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let urlHost = URL(string: urlString) {
+            let request = URLRequest(url: urlHost)
+            webView.load(request)
+        }
     }
 }

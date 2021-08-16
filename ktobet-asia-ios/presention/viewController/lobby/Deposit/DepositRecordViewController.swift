@@ -68,7 +68,7 @@ class DepositRecordViewController: UIViewController {
         let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, DepositRecord>>(
             configureCell: { (_, tv, indexPath, element) in
                 let cell = tv.dequeueReusableCell(withIdentifier: String(describing: DepositRecordTableViewCell.self)) as! DepositRecordTableViewCell
-                cell.setUp(data: element)
+                cell.setUp(data: element, isOnlyTimeFormat: true)
                 return cell
             },
             titleForHeaderInSection: { dataSource, sectionIndex in
