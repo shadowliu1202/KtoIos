@@ -28,7 +28,7 @@ struct WithdrawalTextRowView: View {
         Spacer().frame(height: 2)
         
         if !isRemark {
-            Text(content)
+            Text(content.isEmpty ? "-" : content)
                 .foregroundColor(Color(UIColor.whiteFull))
                 .font(Font.custom("PingFangSC-Regular", size: 16))
             if isFlooting && TransactionStatus.floating == data?.record.transactionStatus {
