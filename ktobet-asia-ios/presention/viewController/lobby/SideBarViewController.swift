@@ -190,7 +190,7 @@ class SideBarViewController: UIViewController {
             }
         }.disposed(by: self.disposeBag)
         
-        viewModel.getBalance().subscribe {[unowned self] (balance) in
+        viewModel.playerBalance.subscribe {[unowned self] (balance) in
             let paragraph = NSMutableParagraphStyle()
             paragraph.firstLineHeadIndent = 0
             paragraph.headIndent = 16
@@ -209,6 +209,7 @@ class SideBarViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         viewModel.playerBalance.bind(to: self.labBalance.rx.text).disposed(by: self.disposeBag)
+        viewModel.refreshBalance.onNext(())
         
         slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
             cell.setup(data.name.rawValue, image: UIImage(named: data.icon))

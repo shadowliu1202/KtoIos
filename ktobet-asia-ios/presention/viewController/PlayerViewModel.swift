@@ -11,16 +11,13 @@ class PlayerViewModel {
     lazy var playerBalance = refreshBalance.flatMapLatest{_ in
         self.playerUseCase.getBalance()
             .map{ $0.amount.floor(toDecimal: 2).currencyFormat() }
+            .do(onSuccess: { self.balance = $0 })
             .asObservable()
     }
                 
     init(playerUseCase: PlayerDataUseCase, authUsecase: AuthenticationUseCase) {
         self.playerUseCase = playerUseCase
         self.authUsecase = authUsecase
-    }
-        
-    func getBalance() -> Observable<String> {
-        return self.playerUseCase.getBalance().map{ $0.amount.floor(toDecimal: 2).currencyFormat() }.asObservable()
     }
     
     func loadPlayerInfo() -> Observable<Player> {
