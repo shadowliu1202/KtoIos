@@ -104,7 +104,7 @@ struct WithdrawalTextRowView: View {
         return [data.actualCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
                 data.actualCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
                 data.actualCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
-                data.record.createDate.formatDateToStringToSecond()]
+                data.approvedDate.formatDateToStringToSecond()]
     }
 }
 
