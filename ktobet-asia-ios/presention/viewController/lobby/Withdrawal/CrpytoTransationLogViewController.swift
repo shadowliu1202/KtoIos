@@ -130,7 +130,7 @@ class TicketDetailCell: UITableViewCell {
     @IBOutlet weak var cryptoAmountLabel: UILabel!
     
     func configure(_ item: CryptoWithdrawalLimitTicketDetail, isPositive: Bool, localCurrency: String) -> Self {
-        dateLabel.text = item.approvedDate.formatDateToStringToSecond()
+        dateLabel.text = item.approvedDate.toDateTimeString()
         idLabel.text = item.displayId
         fiatAmountLabel.text = (isPositive ? "+" : "-") + String(format: "%.2f \(localCurrency)", item.fiatAmount.amount)
         cryptoAmountLabel.text =  displayAmount(item.cryptoAmount.cryptoAmount)+" ETH"

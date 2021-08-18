@@ -47,7 +47,7 @@ struct textRowView: View {
         } else {
             if let data = data {
                 ForEach(0..<data.statusChangeHistories.count) { index in
-                    Text(data.updatedDate.formatDateToStringToSecond())
+                    Text(data.updatedDate.toDateTimeString())
                         .foregroundColor(Color(UIColor.textPrimaryDustyGray))
                         .font(Font.custom("PingFangSC-Regular", size: 12))
                     Spacer().frame(height: 2)
@@ -96,13 +96,13 @@ struct textRowView: View {
         return [            data.requestCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
                             data.requestCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
                             data.requestCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
-                            data.createdDate.formatDateToStringToSecond()]
+                            data.createdDate.toDateTimeString()]
     }
     
     private func finalContentString() -> [String]? {
         guard let data = data else { return nil }
         return [ data.actualCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
-                 data.actualCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8), data.actualCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2), data.updatedDate.formatDateToStringToSecond()]
+                 data.actualCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8), data.actualCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2), data.updatedDate.toDateTimeString()]
     }
 }
 

@@ -17,7 +17,7 @@ class RemarkTableViewCell: UITableViewCell {
     func setup(history: Transaction.StatusChangeHistory) {
         let imgs = [img1, img2, img3]
         imgs.forEach { $0?.isHidden = true }
-        dateLabel.text = history.createdDate.formatDateToStringToSecond()
+        dateLabel.text = history.createdDate.toDateTimeString()
         let remarkLevel1 = history.remarkLevel1.count != 0 ? history.remarkLevel1 + " > " : ""
         let remarkLevel2 = history.remarkLevel2.count != 0 ? history.remarkLevel2 + " > " : ""
         let remarkLevel3 = history.remarkLevel3.count != 0 ? history.remarkLevel3 + " > " : ""

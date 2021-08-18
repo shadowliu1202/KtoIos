@@ -11,7 +11,7 @@ protocol DepositRepository {
     func depositOnline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<DepositTransaction>
     func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
-    func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]>
+    func getDepositRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[DepositRecord]>
     func requestCryptoDeposit() -> Single<String>
     func requestCryptoDetailUpdate(displayId: String) -> Single<String>
 }
@@ -120,10 +120,10 @@ class DepositRepositoryImpl: DepositRepository {
         return bankApi.bindingImageWithDepositRecord(displayId: displayId, uploadImagesData: imageBindingData)
     }
     
-    func getDepositRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[DepositRecord]> {
+    func getDepositRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[DepositRecord]> {
         var statusDic: [String: Int32] = [:]
         status.enumerated().forEach { statusDic["ticketStatuses[\($0.0)]"] = TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: $0.1)}
-        return bankApi.getDepositRecords(page: page, deteBegin: dateBegin, dateEnd: dateEnd, status: statusDic).map { (response) -> [DepositRecord] in
+        return bankApi.getDepositRecords(page: page, deteBegin: dateBegin.toDateStartTimeString(with: "-"), dateEnd: dateEnd.toDateStartTimeString(with: "-"), status: statusDic).map { (response) -> [DepositRecord] in
             let data = response.data ?? []
             let sortedData = data.sorted(by: { $0.date > $1.date })
             var records: [DepositRecord] = []

@@ -79,7 +79,7 @@ extension Date {
         return calender.date(from: components)
     }
     
-    func formatDateToStringToSecond(with SeparatorSymbol: String = "/") -> String {
+    func toDateStartTimeString(with SeparatorSymbol: String = "/") -> String {
         let comp = Calendar.current.dateComponents([.year, .month, .day], from: self)
         let year = comp.year
         let month = comp.month
@@ -87,7 +87,7 @@ extension Date {
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d", year!, month!, dayOfMonth!, 00, 00, 00)
     }
     
-    func formatDateToStringToDay(with SeparatorSymbol: String = "/") -> String {
+    func toDateString(with SeparatorSymbol: String = "/") -> String {
         let comp = Calendar.current.dateComponents([.year, .month, .day], from: self)
         let year = comp.year
         let month = comp.month
@@ -95,18 +95,18 @@ extension Date {
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", year!, month!, dayOfMonth!)
     }
     
-    func formatDateToStringToMonth(with SeparatorSymbol: String = "/") -> String {
+    func toMonthDayString(with SeparatorSymbol: String = "/") -> String {
         let comp = Calendar.current.dateComponents([.month, .day], from: self)
         let month = comp.month
         let dayOfMonth = comp.day
         return String(format: "%02d\(SeparatorSymbol)%02d", month!, dayOfMonth!)
     }
     
-    func formatDateToStringToYear(with SeparatorSymbol: String = "/") -> String {
+    func toYearMonthString(with SeparatorSymbol: String = "/") -> String {
         let comp = Calendar.current.dateComponents([.year, .month], from: self)
-        let month = comp.year
-        let dayOfMonth = comp.month
-        return String(format: "%02d\(SeparatorSymbol)%02d", month!, dayOfMonth!)
+        let year = comp.year
+        let month = comp.month
+        return String(format: "%02d\(SeparatorSymbol)%02d", year!, month!)
     }
     
     func convertdateToUTC() -> Date {
@@ -162,7 +162,7 @@ extension Date {
 
 
 extension OffsetDateTime {
-    func formatDateToStringToSecond(with SeparatorSymbol: String = "/") -> String {
+    func toDateTimeString(with SeparatorSymbol: String = "/") -> String {
         let year = self.localDateTime.year
         let month = self.localDateTime.monthNumber
         let dayOfMonth = self.localDateTime.dayOfMonth
@@ -172,14 +172,14 @@ extension OffsetDateTime {
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d", year, month, dayOfMonth, hour, minute, second)
     }
     
-    func formatDateOnlyTime(with SeparatorSymbol: String = ":") -> String {
+    func toTimeString(with SeparatorSymbol: String = ":") -> String {
         let hour = self.localDateTime.hour
         let minute = self.localDateTime.minute
         let second = self.localDateTime.second
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", hour, minute, second)
     }
     
-    func formatDateToStringToDay() -> String {
+    func toDateString() -> String {
         let year = self.localDateTime.year
         let month = self.localDateTime.monthNumber
         let dayOfMonth = self.localDateTime.dayOfMonth
@@ -223,8 +223,8 @@ extension Kotlinx_datetimeLocalDate {
     }
     
     func toBetDisplayDate() -> String {
-        let today = Date().convertdateToUTC().formatDateToStringToDay(with: "-")
-        let yesterday = Date().adding(value: -1, byAdding: .day).convertdateToUTC().formatDateToStringToDay(with: "-")
+        let today = Date().convertdateToUTC().toDateString(with: "-")
+        let yesterday = Date().adding(value: -1, byAdding: .day).convertdateToUTC().toDateString(with: "-")
         let betDateString = self.toDateFormatString(with: "-")
         if betDateString == today {
             return Localize.string("common_today")

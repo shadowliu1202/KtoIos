@@ -28,8 +28,8 @@ class MyBetSummaryTableViewCell: UITableViewCell {
     }
     
     private func displayDate(_ createdDateTime: String) -> String {
-        let today = Date().convertdateToUTC().formatDateToStringToDay()
-        let yesterday = Date().adding(value: -1, byAdding: .day).convertdateToUTC().formatDateToStringToDay()
+        let today = Date().convertdateToUTC().toDateString()
+        let yesterday = Date().adding(value: -1, byAdding: .day).convertdateToUTC().toDateString()
         if createdDateTime == today {
             return Localize.string("common_today")
         } else if createdDateTime == yesterday {

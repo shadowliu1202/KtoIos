@@ -73,11 +73,11 @@ class WithdrawalRecordViewController: UIViewController {
                 
         viewModel.pagination.elements.map { (records) -> [SectionModel<String, WithdrawalRecord>] in
             var sectionModels: [SectionModel<String, WithdrawalRecord>] = []
-            let sortedData = records.sorted(by: { $0.createDate.formatDateToStringToSecond() > $1.createDate.formatDateToStringToSecond() })
+            let sortedData = records.sorted(by: { $0.createDate.toDateTimeString() > $1.createDate.toDateTimeString() })
             let groupDic = Dictionary(grouping: sortedData, by: { String(format: "%02d/%02d/%02d", $0.groupDay.year, $0.groupDay.monthNumber, $0.groupDay.dayOfMonth) })
             let tupleData: [(String, [WithdrawalRecord])] = groupDic.dictionaryToTuple()
             tupleData.forEach{
-                let today = Date().convertdateToUTC().formatDateToStringToDay()
+                let today = Date().convertdateToUTC().toDateString()
                 let sectionTitle = $0 == today ? Localize.string("common_today") : $0
                 sectionModels.append(SectionModel(model: sectionTitle, items: $1))
             }
@@ -141,7 +141,7 @@ class WithdrawalRecordViewController: UIViewController {
                 let dateEnd: Date?
                 switch dateType {
                 case .day(let day):
-                    self?.dateLabel.text = day.formatDateToStringToMonth()
+                    self?.dateLabel.text = day.toMonthDayString()
                     dateBegin = day
                     dateEnd = day
                 case .week(let fromDate, let toDate):
@@ -151,7 +151,7 @@ class WithdrawalRecordViewController: UIViewController {
                 case .month(let fromDate, let toDate):
                     dateBegin = fromDate
                     dateEnd = toDate
-                    self?.dateLabel.text = dateBegin?.formatDateToStringToYear()
+                    self?.dateLabel.text = dateBegin?.toYearMonthString()
                 }
                 
                 self?.viewModel.dateBegin = dateBegin

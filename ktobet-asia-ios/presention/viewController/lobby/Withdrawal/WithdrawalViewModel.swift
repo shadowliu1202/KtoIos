@@ -44,8 +44,8 @@ class WithdrawalViewModel {
     }
     
     func getWithdrawalRecords(page: String = "1") -> Observable<[WithdrawalRecord]> {
-        let beginDate = (self.dateBegin ?? Date().getPastSevenDate()).formatDateToStringToSecond(with: "-")
-        let endDate = (self.dateEnd ?? Date().convertdateToUTC()).formatDateToStringToSecond(with: "-")
+        let beginDate = (self.dateBegin ?? Date().getPastSevenDate())
+        let endDate = (self.dateEnd ?? Date().convertdateToUTC())
         return withdrawalUseCase.getWithdrawalRecords(page: page, dateBegin: beginDate, dateEnd: endDate, status: self.status).asObservable()
     }
     

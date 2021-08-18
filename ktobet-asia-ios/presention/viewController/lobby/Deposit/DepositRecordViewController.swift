@@ -78,11 +78,11 @@ class DepositRecordViewController: UIViewController {
         
         viewModel.pagination.elements.map { (records) -> [SectionModel<String, DepositRecord>] in
             var sectionModels: [SectionModel<String, DepositRecord>] = []
-            let sortedData = records.sorted(by: { $0.createdDate.formatDateToStringToSecond() > $1.createdDate.formatDateToStringToSecond() })
+            let sortedData = records.sorted(by: { $0.createdDate.toDateTimeString() > $1.createdDate.toDateTimeString() })
             let groupDic = Dictionary(grouping: sortedData, by: { String(format: "%02d/%02d/%02d", $0.groupDay.year, $0.groupDay.monthNumber, $0.groupDay.dayOfMonth) })
             let tupleData: [(String, [DepositRecord])] = groupDic.dictionaryToTuple()
             tupleData.forEach{
-                let today = Date().convertdateToUTC().formatDateToStringToDay()
+                let today = Date().convertdateToUTC().toDateString()
                 let sectionTitle = $0 == today ? Localize.string("common_today") : $0
                 sectionModels.append(SectionModel(model: sectionTitle, items: $1))
             }
@@ -155,7 +155,7 @@ class DepositRecordViewController: UIViewController {
                         let dateEnd: Date?
                         switch dateType {
                         case .day(let day):
-                            self?.dateLabel.text = day.formatDateToStringToMonth()
+                            self?.dateLabel.text = day.toMonthDayString()
                             dateBegin = day
                             dateEnd = day
                         case .week(let fromDate, let toDate):
@@ -165,7 +165,7 @@ class DepositRecordViewController: UIViewController {
                         case .month(let fromDate, let toDate):
                             dateBegin = fromDate
                             dateEnd = toDate
-                            self?.dateLabel.text = dateBegin?.formatDateToStringToYear()
+                            self?.dateLabel.text = dateBegin?.toYearMonthString()
                         }
                         
                         self?.viewModel.dateBegin = dateBegin

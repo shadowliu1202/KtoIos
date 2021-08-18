@@ -6,7 +6,7 @@ protocol WithdrawalRepository {
     func getWithdrawalLimitation() -> Single<WithdrawalLimits>
     func getWithdrawalRecords() -> Single<[WithdrawalRecord]>
     func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail>
-    func getWithdrawalRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[WithdrawalRecord]>
+    func getWithdrawalRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[WithdrawalRecord]>
     func cancelWithdrawal(ticketId: String) -> Completable
     func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getWithdrawalAccounts() -> Single<[WithdrawalAccount]>
@@ -94,10 +94,10 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         }
     }
     
-    func getWithdrawalRecords(page: String, dateBegin: String, dateEnd: String, status: [TransactionStatus]) -> Single<[WithdrawalRecord]> {
+    func getWithdrawalRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[WithdrawalRecord]> {
         var statusDic: [String: Int32] = [:]
         status.enumerated().forEach { statusDic["ticketStatuses[\($0.0)]"] = TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: $0.1)}
-        return bankApi.getWithdrawalRecords(page: page, deteBegin: dateBegin, dateEnd: dateEnd, status: statusDic).map { (response) -> [WithdrawalRecord] in
+        return bankApi.getWithdrawalRecords(page: page, deteBegin: dateBegin.toDateStartTimeString(with: "-"), dateEnd: dateEnd.toDateStartTimeString(with: "-"), status: statusDic).map { (response) -> [WithdrawalRecord] in
             let data = response.data ?? []
             let sortedData = data.sorted(by: { $0.date > $1.date })
             var records: [WithdrawalRecord] = []

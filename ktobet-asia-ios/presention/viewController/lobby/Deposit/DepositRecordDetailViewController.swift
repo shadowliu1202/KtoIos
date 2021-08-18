@@ -213,7 +213,7 @@ class DepositRecordDetailViewController: UIViewController {
     
     fileprivate func updateUI(data: DepositDetail.General) {
         self.scrollview.isHidden = false
-        self.applytimeLabel.text = data.createdDate.formatDateToStringToSecond()
+        self.applytimeLabel.text = data.createdDate.toDateTimeString()
         self.amountLabel.text = data.requestAmount.displayAmount
         self.depositIdLabel.text = data.displayId
         self.statusViewHeight.constant = 77
@@ -244,7 +244,7 @@ class DepositRecordDetailViewController: UIViewController {
         self.remarkTableview.dataSource = nil
         viewModel.getDepositRecordDetail(transactionId: detailRecord.displayId).subscribe {[weak self] (data) in
             guard let self = self, let generalData = data as? DepositDetail.General else { return }
-            self.statusDateLabel.text = generalData.updatedDate.formatDateToStringToSecond()
+            self.statusDateLabel.text = generalData.updatedDate.toDateTimeString()
             let statusChangeHistoriesObservalbe = Observable.from(optional: generalData.statusChangeHistories)
             statusChangeHistoriesObservalbe.bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) { index, d, cell in
                 cell.setup(history: d)
