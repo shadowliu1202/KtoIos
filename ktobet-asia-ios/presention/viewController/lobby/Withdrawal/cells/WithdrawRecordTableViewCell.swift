@@ -8,7 +8,7 @@ class WithdrawRecordTableViewCell: UITableViewCell {
     @IBOutlet private weak var amountLabel: UILabel!
     
     func setUp(data: WithdrawalRecord) {
-        dateLabel.text = data.createDate.formatDateToStringToSecond()
+        dateLabel.text = data.createDate.toDateTimeString()
         idLabel.text = data.displayId
         statusLabel.text = StringMapper.sharedInstance.parse(data.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: false)
         statusLabel.textColor = ColorMapper.sharedInstance.parse(data.transactionStatus)

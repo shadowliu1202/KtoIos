@@ -19,7 +19,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
     }
     
     func getGamesSummaryByDate(date: Date, betStatus: NumberGameSummary.CompanionStatus, skip: Int, take: Int) -> Single<[NumberGameSummary.Game]> {       
-        return numberGameApi.getMyBetGameGroupByDate(date: date.formatDateToStringToDay(with: "-"), myBetType:  betStatus.ordinal, skip: skip, take: take).map { (response) -> [NumberGameSummary.Game] in
+        return numberGameApi.getMyBetGameGroupByDate(date: date.toDateString(with: "-"), myBetType:  betStatus.ordinal, skip: skip, take: take).map { (response) -> [NumberGameSummary.Game] in
             guard let data = response.data else { return [] }
             if betStatus == NumberGameSummary.CompanionStatus.settled {
                 return data.data.map { $0.toSettleGameSummary(portalHost: KtoURL.baseUrl.absoluteString) }
@@ -52,8 +52,8 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
     }
     
     func getGameBetsByDate(gameId: Int32, date: Date, betStatus: NumberGameSummary.CompanionStatus, skip: Int, take: Int) -> Single<[NumberGameSummary.Bet]> {
-        let begindate = date.formatDateToStringToDay(with: "/")
-        let endDate = date.formatDateToStringToDay(with: "/")
+        let begindate = date.toDateString(with: "/")
+        let endDate = date.toDateString(with: "/")
         return numberGameApi.getMyGameBetInDuration(begindate: begindate, endDate: endDate, gameId: gameId, myBetType: betStatus.ordinal, skip: skip).map { (response) -> [NumberGameSummary.Bet] in
             guard let data = response.data else { return [] }
             if betStatus == NumberGameSummary.CompanionStatus.settled {
@@ -67,8 +67,8 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
     }
     
     func getGameBetsByDate(gameId: Int32, date: Date, betStatus: NumberGameSummary.CompanionStatus) -> Single<[NumberGameSummary.Bet]> {
-        let begindate = date.formatDateToStringToDay(with: "/")
-        let endDate = date.formatDateToStringToDay(with: "/")
+        let begindate = date.toDateString(with: "/")
+        let endDate = date.toDateString(with: "/")
         return numberGameApi.getMyGameBetInDuration(begindate: begindate, endDate: endDate, gameId: gameId, myBetType: betStatus.ordinal).map { (response) -> [NumberGameSummary.Bet] in
             guard let data = response.data else { return [] }
             if betStatus == NumberGameSummary.CompanionStatus.settled {

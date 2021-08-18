@@ -47,7 +47,7 @@ struct WithdrawalTextRowView: View {
         } else {
             if let data = data {
                 ForEach(0..<data.statusChangeHistories.count) { index in
-                    Text(data.updatedDate.formatDateToStringToSecond())
+                    Text(data.updatedDate.toDateTimeString())
                         .foregroundColor(Color(UIColor.textPrimaryDustyGray))
                         .font(Font.custom("PingFangSC-Regular", size: 12))
                     Spacer().frame(height: 2)
@@ -96,7 +96,7 @@ struct WithdrawalTextRowView: View {
         return [data.requestCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
                 data.requestCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
                 data.requestCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
-                data.record.createDate.formatDateToStringToSecond()]
+                data.record.createDate.toDateTimeString()]
     }
     
     private func finalContentString() -> [String]? {
@@ -104,7 +104,7 @@ struct WithdrawalTextRowView: View {
         return [data.actualCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
                 data.actualCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
                 data.actualCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
-                data.approvedDate.formatDateToStringToSecond()]
+                data.approvedDate.toDateTimeString()]
     }
 }
 

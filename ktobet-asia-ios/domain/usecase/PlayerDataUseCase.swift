@@ -7,7 +7,7 @@ protocol PlayerDataUseCase {
     func setBalanceHiddenState(gameId: String, isHidden: Bool)
     func getBalanceHiddenState(gameId: String) -> Bool
     func loadPlayer() -> Single<Player>
-    func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]>
+    func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<[String: Double]>
     func isRealNameEditable() -> Single<Bool>
     func getPrivilege() -> Single<[LevelOverview]>
     func getSupportLocalFromCache() -> SupportLocale
@@ -40,7 +40,7 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
         })
     }
     
-    func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]> {
+    func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<[String: Double]> {
         return playerRepository.getCashLogSummary(begin: begin, end: end, balanceLogFilterType: balanceLogFilterType)
     }
     

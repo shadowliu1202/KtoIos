@@ -7,7 +7,7 @@ protocol PlayerRepository {
     func getDefaultProduct()->Single<ProductType>
     func saveDefaultProduct(_ productType: ProductType)->Completable
     func getBalance() -> Single<CashAmount>
-    func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]>
+    func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<[String: Double]>
     func isRealNameEditable() -> Single<Bool>
     func getLevelPrivileges() -> Single<[LevelOverview]>
 }
@@ -76,8 +76,8 @@ class PlayerRepositoryImpl : PlayerRepository {
         return playerApi.getCashBalance().map { CashAmount(amount: Double($0.data ?? 0) )}
     }
     
-    func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<[String: Double]> {
-        return playerApi.getCashLogSummary(begin: begin, end: end, balanceLogFilterType: balanceLogFilterType).map { (response) -> [String: Double] in
+    func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<[String: Double]> {
+        return playerApi.getCashLogSummary(begin: begin.toDateStartTimeString(with: "-"), end: end.toDateStartTimeString(with: "-"), balanceLogFilterType: balanceLogFilterType).map { (response) -> [String: Double] in
             return response.data ?? [:]
         }
     }

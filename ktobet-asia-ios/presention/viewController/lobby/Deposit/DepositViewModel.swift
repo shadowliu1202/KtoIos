@@ -167,14 +167,14 @@ class DepositViewModel {
     }
     
     func getDepositRecords(page: String = "1") -> Observable<[DepositRecord]> {
-        let beginDate = (self.dateBegin ?? Date().getPastSevenDate()).formatDateToStringToSecond(with: "-")
-        let endDate = (self.dateEnd ?? Date().convertdateToUTC()).formatDateToStringToSecond(with: "-")
+        let beginDate = (self.dateBegin ?? Date().getPastSevenDate())
+        let endDate = (self.dateEnd ?? Date().convertdateToUTC())
         return depositUseCase.getDepositRecords(page: page, dateBegin: beginDate, dateEnd: endDate, status: self.status).asObservable()
     }
     
     func getCashLogSummary(balanceLogFilterType: Int) -> Single<[String: Double]> {
-        let beginDate = (self.dateBegin ?? Date().getPastSevenDate()).formatDateToStringToSecond(with: "-")
-        let endDate = (self.dateEnd ?? Date().convertdateToUTC()).formatDateToStringToSecond(with: "-")
+        let beginDate = self.dateBegin ?? Date().getPastSevenDate()
+        let endDate = self.dateEnd ?? Date().convertdateToUTC()
         return playerUseCase.getCashLogSummary(begin: beginDate, end: endDate, balanceLogFilterType: balanceLogFilterType)
     }
     
