@@ -28,14 +28,7 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return arcadeApi.getGameRecordByDate(date: localDate, offset: secondsToHours, skip: skip, take: take).map({ (response) -> [GameGroupedRecord] in
             guard let data = response.data?.data else { return [] }
-            let groupedDicts = Dictionary(grouping: data, by: { (element) in
-                return element.gameId
-            })
-            let groupedArray = groupedDicts.map { (gameId: Int32, value: [ArcadeDateDataRecordBean]) -> ArcadeDateDataRecordBean in
-                return ArcadeDateDataRecordBean(gameId: gameId, gameList: value)
-            }.sorted(by: {$0.endDate > $1.endDate })
-            let records: [GameGroupedRecord] = groupedArray.map({$0.toGameGroupedRecord()})
-            return records
+            return data.map({$0.toGameGroupedRecord()})
         })
     }
     
