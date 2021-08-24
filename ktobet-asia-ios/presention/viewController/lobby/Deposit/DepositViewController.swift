@@ -132,7 +132,9 @@ class DepositViewController: UIViewController {
                 self?.depositRecordTableView.isHidden = false
                 self?.showAllRecordButton.isHidden = false
             }
-        }).bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
+        })
+        .map({ $0.prefix(5) })
+        .bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
             cell.setUp(data: data)
         }.disposed(by: disposeBag)
     }

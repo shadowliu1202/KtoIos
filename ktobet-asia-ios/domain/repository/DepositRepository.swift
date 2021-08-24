@@ -42,7 +42,7 @@ class DepositRepositoryImpl: DepositRepository {
     func getDepositRecords() -> Single<[DepositRecord]> {
         let depositRecord = bankApi.getDepositRecords().map { (response) -> [DepositRecordData] in
             guard let data = response.data else { return [] }
-            let sortData = Array(data.sorted { $0.createdDate > $1.createdDate }.prefix(5))
+            let sortData = Array(data.sorted { $0.createdDate > $1.createdDate })
             let noFloatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) != TransactionStatus.floating }
             let floatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) ==  TransactionStatus.floating }
             
