@@ -40,17 +40,12 @@ class DepositRepositoryImpl: DepositRepository {
     }
     
     func getDepositRecords() -> Single<[DepositRecord]> {
-        let depositRecord = bankApi.getDepositRecords().map { (response) -> [DepositRecordData] in
+        let depositRecord = bankApi.getDepositRecords().map { (response) -> [DepositRecord] in
             guard let data = response.data else { return [] }
-            let sortData = Array(data.sorted { $0.createdDate > $1.createdDate }.prefix(5))
-            let noFloatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) != TransactionStatus.floating }
-            let floatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) ==  TransactionStatus.floating }
-            
-            return floatingData + noFloatingData
-        }.map {
-            $0.map { (r) -> DepositRecord in
-                return self.convertDepositDataToDepositRecord(r)
-            }
+            let sortingData = data.map{ self.convertDepositDataToDepositRecord($0) }.sorted { $0.createdDate.toDateTimeString() > $1.createdDate.toDateTimeString() }
+            let floatingData = sortingData.filter{ $0.transactionStatus == .floating }
+            let notFloatingData = sortingData.filter{ $0.transactionStatus != .floating }
+            return floatingData + notFloatingData
         }
         
         return depositRecord
