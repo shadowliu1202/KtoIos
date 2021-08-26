@@ -199,6 +199,13 @@ class BankApi: ApiService {
         return httpClient.request(target).map(ResponseData<Nothing>.self)
     }
     
+    func isWithdrawalAccountExist(bankId: Int32, bankName: String, accountNumber: String) -> Single<ResponseData<Bool>> {
+        let target = GetAPITarget(service: self.url("api/bank-card/check")).parameters(["accountNumber": accountNumber,
+                                                                                        "bankName": bankName,
+                                                                                        "bankId": bankId])
+        return httpClient.request(target).map(ResponseData<Bool>.self)
+    }
+    
     func deleteWithdrawalAccount(playerBankCardId: String) -> Single<ResponseData<Nothing>> {
         let target = DeleteAPITarget(service: self.url("api/bank-card/\(playerBankCardId)"))
         return httpClient.request(target).map(ResponseData<Nothing>.self)

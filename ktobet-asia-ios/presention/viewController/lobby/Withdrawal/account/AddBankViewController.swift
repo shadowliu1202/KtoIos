@@ -167,7 +167,11 @@ class AddBankViewController: UIViewController {
             }, onException: { [weak self] (exception) in
                 self?.handleException(exception)
             }, onError: { [weak self] (error) in
-                self?.handleUnknownError(error)
+                if (error as? KTOError) == KTOError.KtoWithdrawalAccountExist {
+                    Alert.show(Localize.string("common_tip_title_warm"), Localize.string("withdrawal_account_exist"), confirm: nil, cancel: nil)
+                } else {
+                    self?.handleUnknownError(error)
+                }
             }).disposed(by: self.disposeBag)
         }.disposed(by: disposeBag)
     }

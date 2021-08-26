@@ -174,7 +174,13 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable {
         let request = WithdrawalAccountAddRequest(bankID: account.bankId, bankName: account.bankName, branch: account.branch, accountName: account.accountName, accountNumber: account.accountNumber, address: account.address, city: account.city, location: account.location)
-        return bankApi.sendWithdrawalAddAccount(request: request).asCompletable()
+        return bankApi.isWithdrawalAccountExist(bankId: account.bankId, bankName: account.bankName, accountNumber: account.accountNumber).flatMapCompletable { (response) -> Completable in
+            if let data = response.data, data {
+                return Completable.error(KTOError.KtoWithdrawalAccountExist)
+            } else {
+                return self.bankApi.sendWithdrawalAddAccount(request: request).asCompletable()
+            }
+        }
     }
     
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
