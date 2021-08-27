@@ -35,6 +35,7 @@ class DepositViewModel {
                                     5: "秒存(32)",
                                     6: "閃充(32)",
                                     11: "雲閃付(32)",
+                                    14: "iconPayMultiple",
                                     2001: "Ethereum"]
     init(depositUseCase: DepositUseCase, usecaseAuth: AuthenticationUseCase, playerUseCase: PlayerDataUseCase, bankUseCase: BankUseCase) {
         self.depositUseCase = depositUseCase

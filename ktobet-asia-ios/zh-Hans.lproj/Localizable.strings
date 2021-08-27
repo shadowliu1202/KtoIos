@@ -513,6 +513,7 @@
 "deposit_thirdparty_transaction_remind" = "你即将进入交易确认画面，在交易完成之前请勿关闭窗口。";
 "deposit_file_format_invalid" = "您的档案不符合系统格式";
 "deposit_crypto_warning" = "“虚拟币充值” 成功后需要提现等额的虚拟币才能使用 “现金提现”。";
+"deposit_pay_multiple_hint" = "温馨提示：支持支付宝、微信、网上银行、云闪付，支付宝微信如果遇到错误提示，尝试使用网银或者云闪付，以便您的款项实时到账。";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "交易前金额";
