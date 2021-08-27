@@ -48,6 +48,18 @@ class DepositViewController: UIViewController {
         depositRecordNoDataLabel.text = Localize.string("deposit_no_records")
         depositRecordTableView.isHidden = true
         depositTypeTableView.isHidden = true
+        depositTypeTableView.estimatedRowHeight = 56.0
+        depositTypeTableView.rowHeight = UITableView.automaticDimension
+        depositTypeTableView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+    }
+    
+    // MARK: KVO
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentSize", let newvalue = change?[.newKey] {
+            if let obj = object as? UITableView , obj == depositTypeTableView {
+                constraintDepositTypeTableHeight.constant = (newvalue as! CGSize).height
+            }
+        }
     }
     
     fileprivate func depositTypeDataBinding() {
@@ -59,7 +71,6 @@ class DepositViewController: UIViewController {
             return Observable.just([])
         }).do ( onNext:{[weak self] (depositTypes) in
             self?.depositTypeTableView.isHidden = false
-            self?.constraintDepositTypeTableHeight.constant = CGFloat(depositTypes.count * 56)
             self?.depositTypeTableView.layoutIfNeeded()
             self?.depositTypeTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
             self?.depositTypeTableView.addTopBorder(size: 1, color: UIColor.dividerCapeCodGray2)
@@ -72,7 +83,7 @@ class DepositViewController: UIViewController {
             }
         }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
             if let thirdParty = data as? DepositRequest.DepositTypeThirdParty {
-                cell.setUp(name: thirdParty.name, icon: self.viewModel.getDepositTypeImage(depositTypeId: thirdParty.depositTypeId), isRecommend: thirdParty.isFavorite)
+                cell.setUp(name: thirdParty.name, icon: self.viewModel.getDepositTypeImage(depositTypeId: thirdParty.depositTypeId), isRecommend: thirdParty.isFavorite, hint: thirdParty.hint)
                 return
             }
             

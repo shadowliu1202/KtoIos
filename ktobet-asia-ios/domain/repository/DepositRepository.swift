@@ -32,7 +32,7 @@ class DepositRepositoryImpl: DepositRepository {
             return response.data?.sorted { $0.depositTypeId < $1.depositTypeId } ?? []
         }.map {
             $0.map { (d) -> DepositRequest.DepositType in
-                DepositRequest.DepositTypeCompanion.init().create(id: d.depositTypeId, name: d.depositTypeName, min: CashAmount(amount: d.depositLimitMinimum), max: CashAmount(amount: d.depositLimitMaximum), isFavorite: d.isFavorite)
+                DepositTypeFactory.create(id: d.depositTypeId, name: d.depositTypeName, min: CashAmount(amount: d.depositLimitMinimum), max: CashAmount(amount: d.depositLimitMaximum), isFavorite: d.isFavorite)
             }
         }
         
