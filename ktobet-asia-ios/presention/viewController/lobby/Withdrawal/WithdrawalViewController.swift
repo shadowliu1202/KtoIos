@@ -229,7 +229,7 @@ class WithdrawalViewController: UIViewController {
     }
     
     private func checkDailyWithdrawalLimit(_ amount: Double, _ count: Int32) {
-        if amount == 0 || count == 0 {
+        if amount <= 0 || count <= 0 {
             self.withdrawViewEnable(false)
             self.crpytoViewEnable(false)
         } else {
