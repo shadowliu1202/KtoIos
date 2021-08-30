@@ -96,7 +96,7 @@ class SummaryAdapter: MyBetSummary {
         self.beans = beans
         self.unfinishGameCount = 0
         self.finishedGame = beans.map({ (element) in
-            return Record(count: Int(element.count), createdDateTime: element.createdDateTime.toDateFormatString(), totalStakes: element.totalStakes.amount, totalWinLoss: element.totalWinLoss.amount)
+            return Record(count: Int(element.count), createdDateTime: element.createdDateTime.toDateFormatString(), totalStakes: element.totalStakes, totalWinLoss: element.totalWinLoss)
         })
     }
 }

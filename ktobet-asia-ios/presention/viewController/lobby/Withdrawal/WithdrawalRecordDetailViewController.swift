@@ -131,7 +131,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
             self.remarkView.removeBorder(.bottom)
             self.scrollview.isHidden = false
             self.applytimeLabel.text = data.record.createDate.toDateTimeString()
-            self.amountLabel.text = data.record.cashAmount.displayAmount
+            self.amountLabel.text = data.record.cashAmount.description()
             self.withdrawalIdLabel.text = data.record.displayId
             self.statusLabel.text = StringMapper.sharedInstance.parse(data.record.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: false)
             self.statusDateLabel.text = data.updatedDate.toDateTimeString()

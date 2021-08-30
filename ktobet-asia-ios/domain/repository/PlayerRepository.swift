@@ -44,7 +44,7 @@ class PlayerRepositoryImpl : PlayerRepository {
                                             displayId: responsePlayerInfo.data?.displayId ?? "" ,
                                             withdrawalName: responsePlayerInfo.data?.realName ?? "" ,
                                             level: Int32(responsePlayerInfo.data?.level ?? 0 ),
-                                            exp: responsePlayerInfo.data?.exp ?? 0 ,
+                                            exp: Percentage(percent: (responsePlayerInfo.data?.exp) ?? 0),
                                             autoUseCoupon: responsePlayerInfo.data?.isAutoUseCoupon ?? false,
                                             contact: PlayerInfo.Contact.init(email: responseContactInfo.data?.email, mobile: responseContactInfo.data?.mobile) )
                 let player = Player(gameId: responsePlayerInfo.data?.gameId ?? "" ,
@@ -102,16 +102,15 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
     
     private func convert(level: Int32, privilegeBean: PrivilegeBean) -> LevelPrivilege {
-        PrivilegeFactory
-            .init(stringSupporter: Localize, resourceMapper: LevelPrivilegeResourceMapper())
+        PrivilegeFactory.init(stringSupporter: Localize, resourceMapper: LevelPrivilegeResourceMapper())
             .create(level: level,
                     type: convertToPrivilegeType(type: privilegeBean.type),
                     productType: convertToProductType(type: privilegeBean.productType),
                     betMultiple: privilegeBean.betMultiple,
                     issueFrequency: LevelPrivilege.DepositIssueFrequencyCompanion.init().convert(type: privilegeBean.issueFrequency),
                     maxBonus: CashAmount(amount: privilegeBean.maxBonus),
-                    minCapital: privilegeBean.minCapital,
-                    percentage: privilegeBean.percentage,
+                    minCapital: CashAmount(amount: privilegeBean.minCapital),
+                    percentage: Percentage(percent: privilegeBean.percentage),
                     rebatePercentages: rebatePercentages(privilegeBean),
                     withdrawalLimitAmount: CashAmount(amount: privilegeBean.withdrawalLimitAmount),
                     withdrawalLimitCount: privilegeBean.withdrawalLimitCount)
@@ -157,11 +156,11 @@ class PlayerRepositoryImpl : PlayerRepository {
         }
     }
    
-    private func rebatePercentages(_ bean: PrivilegeBean) -> [ProductType : KotlinDouble] {
-        [ProductType.casino: KotlinDouble.init(value: bean.casinoPercentage),
-         ProductType.numbergame: KotlinDouble.init(value: bean.numberGamePercentage),
-         ProductType.sbk: KotlinDouble.init(value: bean.sbkPercentage),
-         ProductType.slot: KotlinDouble.init(value: bean.slotPercentage),
-         ProductType.arcade: KotlinDouble.init(value: bean.arcadePercentage)]
+    private func rebatePercentages(_ bean: PrivilegeBean) -> [ProductType : Percentage] {
+        [ProductType.casino: Percentage(percent: bean.casinoPercentage),
+         ProductType.numbergame: Percentage(percent: bean.numberGamePercentage),
+         ProductType.sbk: Percentage(percent: bean.sbkPercentage),
+         ProductType.slot: Percentage(percent: bean.slotPercentage),
+         ProductType.arcade: Percentage(percent: bean.arcadePercentage)]
     }
 }

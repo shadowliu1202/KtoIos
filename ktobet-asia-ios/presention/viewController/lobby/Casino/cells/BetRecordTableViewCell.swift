@@ -9,17 +9,17 @@ class BetRecordTableViewCell: UITableViewCell {
     @IBOutlet private weak var winAmountLabel: UILabel!
     @IBOutlet private weak var goIconImageView: UIImageView!
     
-    func setupUnSettleGame(_ name: String, betId: String, totalAmount: Double) {
+    func setupUnSettleGame(_ name: String, betId: String, totalAmount: CashAmount) {
         nameLabel.text = name
         orderIdLabel.text = betId
-        totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.currencyFormatWithoutSymbol(precision: 2, roundingMode: .down))
+        totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.description())
     }
     
-    func setup(name: String, betId: String, totalAmount: Double, winAmount: Double, betStatus: BetStatus, hasDetail: Bool, prededuct: Double) {
+    func setup(name: String, betId: String, totalAmount: CashAmount, winAmount: CashAmount, betStatus: BetStatus, hasDetail: Bool, prededuct: CashAmount) {
         goIconImageView.isHidden = !hasDetail
         nameLabel.text = name
         orderIdLabel.text = betId
-        totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.currencyFormatWithoutSymbol(precision: 2, roundingMode: .down)) + (prededuct != 0 ? " \(Localize.string("product_prededuct")) " + prededuct.currencyFormatWithoutSymbol(precision: 2, roundingMode: .down) : "")
-        winAmountLabel.text = (betStatus == BetStatus.lose ? Localize.string("common_lose") : Localize.string("common_win")) + " \(abs(winAmount).currencyFormatWithoutSymbol(precision: 2, roundingMode: .down))"
+        totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.description()) + (prededuct.amount != 0 ? " \(Localize.string("product_prededuct")) " + prededuct.description() : "")
+        winAmountLabel.text = (betStatus == BetStatus.lose ? Localize.string("common_lose") : Localize.string("common_win")) + " \(winAmount.absoluteValue().description())"
     }
 }

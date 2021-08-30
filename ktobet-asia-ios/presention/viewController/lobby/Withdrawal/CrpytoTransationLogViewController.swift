@@ -10,8 +10,8 @@ class CrpytoTransationLogViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var scrollViewContentHeight: NSLayoutConstraint!
     private var dataSource = [[CryptoWithdrawalLimitTicketDetail]](repeating: [], count: 2)
-    private var totalRequestAmount: Double = 0
-    private var totalAchievedAmount: Double = 0
+    private var totalRequestAmount: String = ""
+    private var totalAchievedAmount: String = ""
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     
@@ -27,8 +27,10 @@ class CrpytoTransationLogViewController: UIViewController {
     }
     
     private func initUI() {
-        let amount = (crpytoWithdrawalRequirementAmount != nil) ? displayAmount(crpytoWithdrawalRequirementAmount!) : ""
-        setRequirementText(amount)
+        if let amount = crpytoWithdrawalRequirementAmount {
+            setRequirementText(amount.description)
+        }
+        
         requirementTextView.textContainerInset = .zero
         tableView.delegate = self
         tableView.dataSource = self
@@ -48,9 +50,9 @@ class CrpytoTransationLogViewController: UIViewController {
     
     private func dataBinding() {
         viewModel.cryptoLimitTransactions().subscribe(onSuccess: { [weak self] (model: CryptoWithdrawalLimitLog) in
-            self?.totalRequestAmount = model.totalRequestAmount.cryptoAmount
+            self?.totalRequestAmount = model.totalRequestAmount.description()
             self?.dataSource[0] = model.requestTicketDetails
-            self?.totalAchievedAmount = model.totalAchievedAmount.cryptoAmount
+            self?.totalAchievedAmount = model.totalAchievedAmount.description()
             self?.dataSource[1] = model.achievedTicketDetails
             self?.tableView.reloadData()
         }, onError: {
@@ -70,10 +72,6 @@ class CrpytoTransationLogViewController: UIViewController {
     }
 }
 
-fileprivate func displayAmount(_ amount: Double) -> String {
-    return String(format: "%.8f", amount)
-}
-
 extension CrpytoTransationLogViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.count
@@ -91,9 +89,9 @@ extension CrpytoTransationLogViewController: UITableViewDataSource, UITableViewD
         var title = ""
         switch section {
         case 0:
-            title = Localize.string("cps_total_require_amount", displayAmount(totalRequestAmount))
+            title = Localize.string("cps_total_require_amount", totalRequestAmount)
         case 1:
-            title = Localize.string("cps_total_completed_amount", displayAmount(totalAchievedAmount))
+            title = Localize.string("cps_total_completed_amount", totalAchievedAmount)
         default: break
         }
         return tableView.dequeueReusableCell(withIdentifier: "HeaderCell", cellType: HeaderCell.self).configure(title)
@@ -133,7 +131,7 @@ class TicketDetailCell: UITableViewCell {
         dateLabel.text = item.approvedDate.toDateTimeString()
         idLabel.text = item.displayId
         fiatAmountLabel.text = (isPositive ? "+" : "-") + String(format: "%.2f \(localCurrency)", item.fiatAmount.amount)
-        cryptoAmountLabel.text =  displayAmount(item.cryptoAmount.cryptoAmount)+" ETH"
+        cryptoAmountLabel.text =  item.cryptoAmount.description() + " ETH"
         
         return self
     }

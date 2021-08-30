@@ -18,7 +18,7 @@ class CasinoUnsettleRecordsViewController: UIViewController {
         NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("product_unsettled_game"))
         tableView.delegate = unsettleGameDelegate
         tableView.dataSource = self
-        tableView.setHeaderFooterDivider(headerColor: UIColor.black_two)
+        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25), headerColor: UIColor.black_two)
         getUnsettledBetSummary()
     }
     
@@ -40,10 +40,10 @@ class CasinoUnsettleRecordsViewController: UIViewController {
                 self?.sections.append(Section(sectionClass: date.replacingOccurrences(of: "-", with: "/"),
                                               name: records.map{ $0.gameName },
                                               betId: records.map{ $0.betId },
-                                              totalAmount: records.map{ $0.stakes.amount },
+                                              totalAmount: records.map{ $0.stakes },
                                               expanded: false,
                                               gameId: records.map{ $0.gameId },
-                                              prededuct: records.map{ $0.prededuct.amount }))
+                                              prededuct: records.map{ $0.prededuct }))
             }
             
             self?.sections.sort(by: { (s1, s2) -> Bool in
@@ -132,14 +132,14 @@ struct Section {
     var sectionDate: String?
     var name: [String] = []
     var betId: [String] = []
-    var totalAmount: [Double] = []
-    var winAmount: [Double] = []
+    var totalAmount: [CashAmount] = []
+    var winAmount: [CashAmount] = []
     var expanded: Bool = false
     var betStatus: [BetStatus] = []
     var hasDetail: [Bool] = []
     var wagerId: [String] = []
     var periodOfRecord: PeriodOfRecord!
-    var prededuct: [Double] = []
+    var prededuct: [CashAmount] = []
     
     init() { }
     
@@ -150,7 +150,7 @@ struct Section {
         self.sectionClass = self.periodOfRecord.lobbyName
     }
     
-    init(sectionClass: String, name: [String] = [], betId: [String] = [], totalAmount: [Double] = [], winAmount: [Double] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32] = [], prededuct: [Double] = []) {
+    init(sectionClass: String, name: [String] = [], betId: [String] = [], totalAmount: [CashAmount] = [], winAmount: [CashAmount] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32] = [], prededuct: [CashAmount] = []) {
         self.sectionClass = sectionClass
         self.name = name
         self.betId = betId

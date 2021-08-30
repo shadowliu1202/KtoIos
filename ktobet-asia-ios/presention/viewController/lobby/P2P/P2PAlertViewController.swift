@@ -22,12 +22,12 @@ class P2PAlertViewController: UIViewController {
         if let turnOver = p2pTurnOver as? P2PTurnOver.TurnOverReceipt {
             headerLabel.text = String(format: Localize.string("bonus_isturnoverremind"), turnOver.component1().informPlayerDate.toDateFormatString())
             nameLabel.text = turnOver.turnOverDetail.name
-            bonusLabel.text = turnOver.turnOverDetail.parameters.amount.displayAmount
-            totalAmountLabel.text = turnOver.turnOverDetail.parameters.turnoverRequest.displayAmount
-            remainAmountLabel.text = turnOver.turnOverDetail.remainAmount.displayAmount
-            percentageTitleLabel.text = String(format: Localize.string("bonus_current_completion"), turnOver.turnOverDetail.parameters.percentage.currencyFormatWithoutSymbol(precision: 2))
+            bonusLabel.text = turnOver.turnOverDetail.parameters.amount.description()
+            totalAmountLabel.text = turnOver.turnOverDetail.parameters.turnoverRequest.description()
+            remainAmountLabel.text = turnOver.turnOverDetail.remainAmount.description()
+            percentageTitleLabel.text = String(format: Localize.string("bonus_current_completion"), turnOver.turnOverDetail.parameters.percentage.description())
             
-            let spb = SegmentedProgressBar(numberOfSegments: 40, percentage: turnOver.turnOverDetail.parameters.percentage)
+            let spb = SegmentedProgressBar(numberOfSegments: 40, percentage: turnOver.turnOverDetail.parameters.percentage.percent)
             spb.frame = CGRect(x: 0, y: 0, width: progressView.frame.width, height: progressView.frame.height)
             progressView.addSubview(spb)
             spb.startAnimation()

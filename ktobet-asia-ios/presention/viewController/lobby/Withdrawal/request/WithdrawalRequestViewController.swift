@@ -93,7 +93,7 @@ class WithdrawalRequestViewController: UIViewController {
         viewModel.getWithdrawalLimitation().subscribe { [weak self] (withdrawalLimits) in
             guard let self = self else { return }
             self.withdrawalLimits = withdrawalLimits
-            self.withdrawalLimitLabel.text = String(format: Localize.string("withdrawal_amount_range"), withdrawalLimits.singleCashMinimum.amount.currencyFormatWithoutSymbol(precision: 2), withdrawalLimits.singleCashMaximum.amount.currencyFormatWithoutSymbol(precision: 2))
+            self.withdrawalLimitLabel.text = String(format: Localize.string("withdrawal_amount_range"), withdrawalLimits.singleCashMinimum.description(), withdrawalLimits.singleCashMaximum.description())
         } onError: { (error) in
             self.handleUnknownError(error)
         }.disposed(by: disposeBag)

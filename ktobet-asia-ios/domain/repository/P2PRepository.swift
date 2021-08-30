@@ -49,9 +49,7 @@ class P2PRepositoryImpl: P2PRepository {
     }
     
     private func convertToTurnOverReceipt(bean: LockedBonusDataBean) -> P2PTurnOver.TurnOverReceipt {
-        let informPlayerDate = bean.informPlayerDate.convertDateTime() ?? Date()
-        let informPlayerLocalDate =  Kotlinx_datetimeLocalDate.init(year: informPlayerDate.getYear(), monthNumber: informPlayerDate.getMonth(), dayOfMonth: informPlayerDate.getDayOfMonth())
-        return P2PTurnOver.TurnOverReceipt.init(turnOverDetail: TurnOverDetail.init(achieved: bean.achieved, formula: bean.formula, informPlayerDate: informPlayerLocalDate, name: bean.name, bonusId: bean.no, remainAmount: CashAmount(amount: bean.remainingAmount.currencyAmountToDouble() ?? 0), parameters: TurnOverDetail.Parameters.init(amount: CashAmount(amount: bean.parameters.amount.currencyAmountToDouble() ?? 0), balance: bean.parameters.balance, betMultiplier: "\(bean.parameters.betMultiplier)", capital: bean.parameters.capital, depositRequest: bean.parameters.depositRequest, percentage: Double(bean.parameters.percentage) ?? 0, request: bean.parameters.request, requirement: bean.parameters.requirement, turnoverRequest: CashAmount(amount: bean.parameters.turnoverRequest.currencyAmountToDouble() ?? 0))))
+        return bean.toTurnOverReceipt()
     }
 }
 

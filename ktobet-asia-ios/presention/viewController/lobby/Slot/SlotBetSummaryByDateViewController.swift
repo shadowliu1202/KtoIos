@@ -65,7 +65,7 @@ class BetSummaryByDateCell: UITableViewCell {
         gameLabel.text = item.gameName
         betCountLabel.text = Localize.string("product_count_bet_record", "\(item.recordCount)")
         let status = item.winloss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-        betAmountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winloss.displayAmount)"
+        betAmountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + "  " + status + " \(item.winloss.absoluteValue().description())"
         
         return self
     }
@@ -75,7 +75,7 @@ class BetSummaryByDateCell: UITableViewCell {
         gameLabel.text = item.gameName
         betCountLabel.text = Localize.string("product_count_bet_record", "\(item.recordsCount)")
         let status = item.winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-        betAmountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winLoss.displayAmount)"
+        betAmountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + "  " + status + " \(item.winLoss.absoluteValue().description())"
         
         return self
     }
@@ -86,9 +86,9 @@ class BetSummaryByDateCell: UITableViewCell {
         betCountLabel.text = Localize.string("product_count_bet_record", "\(item.totalRecords)")
         if let winLoss = item.winLoss {
             let status = winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-            betAmountLabel.text = Localize.string("product_total_bet", item.betAmount.displayAmount) + "  " + status + " \(winLoss.displayAmount)"
+            betAmountLabel.text = Localize.string("product_total_bet", item.betAmount.description()) + "  " + status + " \(winLoss.absoluteValue().description())"
         } else {
-            betAmountLabel.text = Localize.string("product_total_bet", item.betAmount.displayAmount)
+            betAmountLabel.text = Localize.string("product_total_bet", item.betAmount.absoluteValue().description())
         }
     }
 }

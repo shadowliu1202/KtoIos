@@ -1,4 +1,5 @@
 import RxSwift
+import SharedBu
 
 class MyBetSummary {
     var unfinishGameCount: Int32 = 0
@@ -8,6 +9,6 @@ class MyBetSummary {
 struct Record {
     let count: Int
     let createdDateTime: String
-    let totalStakes: Double
-    let totalWinLoss: Double
+    let totalStakes: CashAmount
+    let totalWinLoss: CashAmount
 }

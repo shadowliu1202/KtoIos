@@ -64,8 +64,8 @@ class LevelPrivilegeViewController: UIViewController {
         viewModel.loadPlayerInfo().subscribe(onNext: {[weak self] (player) in
             self?.accountLabel.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
             self?.idLabel.text = player.playerInfo.gameId
-            self?.progress.progress = CGFloat(player.playerInfo.exp / 100)
-            self?.expLabel.text = player.playerInfo.exp.currencyFormatWithoutSymbol(precision: 0, maximumFractionDigits: 2) + "%"
+            self?.progress.progress = CGFloat(player.playerInfo.exp.percent / 100)
+            self?.expLabel.text = player.playerInfo.exp.description() + "%"
             self?.levelLabel.text = String(format: Localize.string("common_level_2"), String(player.playerInfo.level))
         }).disposed(by: disposeBag)
     }

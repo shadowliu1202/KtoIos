@@ -10,7 +10,7 @@ class PlayerViewModel {
     var refreshBalance = PublishSubject<(Void)>()
     lazy var playerBalance = refreshBalance.flatMapLatest{_ in
         self.playerUseCase.getBalance()
-            .map{ $0.amount.floor(toDecimal: 2).currencyFormat() }
+            .map{ $0.description() }
             .do(onSuccess: { self.balance = $0 })
             .asObservable()
     }
