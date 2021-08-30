@@ -42,8 +42,8 @@ class DepositMethodViewController: UIViewController {
             offlineEventHandle()
             banksDataBinding()
             validateOfflineInputTextField()
-            let max = offline.max.displayAmount
-            let min = offline.min.displayAmount
+            let max = offline.max.description()
+            let min = offline.min.description()
             depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), min, max)
             titleLabel.text = Localize.string("deposit_offline_step1_title")
             selectDepositBankLabel.text = Localize.string("deposit_selectbank")
@@ -144,7 +144,7 @@ class DepositMethodViewController: UIViewController {
     fileprivate func getLimitation(_ data: DepositRequest.DepositTypeMethod) {
         guard let type = depositType else { return }
         let range = data.getDepositRange(type: type)
-        self.depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), range.min.displayAmount, range.max.displayAmount)
+        self.depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), range.min.description(), range.max.description())
     }
 
     fileprivate func offlineDataBinding() {

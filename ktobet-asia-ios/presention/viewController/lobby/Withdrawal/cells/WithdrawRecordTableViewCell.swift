@@ -12,6 +12,6 @@ class WithdrawRecordTableViewCell: UITableViewCell {
         idLabel.text = data.displayId
         statusLabel.text = StringMapper.sharedInstance.parse(data.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: false)
         statusLabel.textColor = ColorMapper.sharedInstance.parse(data.transactionStatus)
-        amountLabel.text = data.cashAmount.displayAmount
+        amountLabel.text = data.cashAmount.description()
     }
 }

@@ -52,7 +52,7 @@ class BetDetailCell: UITableViewCell {
         let dateString: String = dateFormatter.string(from: date)
         self.timeLabel.text = "\(dateString)".uppercased()
         let status = item.winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winLoss.displayAmount)"
+        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + "  " + status + " \(item.winLoss.absoluteValue().description())"
         
         return self
     }
@@ -65,6 +65,6 @@ class BetDetailCell: UITableViewCell {
         let dateString: String = dateFormatter.string(from: item.betTime.localDateTime.convertToDate())
         self.timeLabel.text = "\(dateString)".uppercased()
         let status = item.winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.displayAmount) + "  " + status + " \(item.winLoss.displayAmount)"
+        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + "  " + status + " \(item.winLoss.absoluteValue().description())"
     }
 }

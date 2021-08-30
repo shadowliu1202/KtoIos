@@ -10,7 +10,7 @@ class CasinoSummaryTableViewCell: UITableViewCell {
         recordCountLabel.text = String(format: Localize.string("product_count_bet_record"), "\(element.count.formattedWithSeparator)")
         dateLabel.text = element.createdDateTime.toBetDisplayDate()
         let status = element.totalWinLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-        betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.totalStakes.displayAmount) + "  " + status + " \(element.totalWinLoss.displayAmount)"
+        betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.totalStakes.description()) + "  " + status + " \(element.totalWinLoss.absoluteValue().description())"
     }
     
     func setup(element: NumberGameSummary.Date) {
@@ -19,9 +19,9 @@ class CasinoSummaryTableViewCell: UITableViewCell {
         
         if let winLoss = element.winLoss {
             let status = winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-            betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.stakes.displayAmount) + "  " + status + " \(winLoss.displayAmount)"
+            betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.stakes.description()) + "  " + status + " \(winLoss.absoluteValue().description())"
         } else {
-            betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.stakes.displayAmount)
+            betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.stakes.description())
         }
     }
 }

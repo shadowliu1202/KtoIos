@@ -123,14 +123,14 @@ class RecentDetailCell: UITableViewCell {
             setValue(currentDateString)
         } else if index == 4 {
             setTilte(key: "product_bet_amount")
-            setValue(data.stakes.displayAmount)
+            setValue(data.stakes.description())
         } else if index == 5 {
             setTilte(key: "common_status")
             let status = data.status
             let betStatus = status.LocalizeString
             setValue(betStatus)
             if status is NumberGameBetDetail.BetStatusSettledWinLose,
-               (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss.amount > 0 {
+               (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss.isPositive() {
                 descriptionLabel.textColor = UIColor.textSuccessedGreen
             }
         }

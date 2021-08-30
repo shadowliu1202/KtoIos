@@ -93,17 +93,17 @@ struct WithdrawalTextRowView: View {
     
     private func applyContentString() -> [String]? {
         guard let data = data else { return nil }
-        return [data.requestCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
-                data.requestCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
-                data.requestCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
+        return [data.requestCryptoAmount.cryptoAmount.description(),
+                data.requestCryptoAmount.exchangeRate.description(),
+                data.requestCryptoAmount.cashAmount.description(),
                 data.record.createDate.toDateTimeString()]
     }
     
     private func finalContentString() -> [String]? {
         guard let data = data else { return nil }
-        return [data.actualCryptoAmount.cryptoAmount.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8),
-                data.actualCryptoAmount.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 8),
-                data.actualCryptoAmount.cashAmount.amount.currencyFormatWithoutSymbol(precision: 2),
+        return [data.actualCryptoAmount.cryptoAmount.description(),
+                data.actualCryptoAmount.exchangeRate.description(),
+                data.actualCryptoAmount.cashAmount.description(),
                 data.approvedDate.toDateTimeString()]
     }
 }

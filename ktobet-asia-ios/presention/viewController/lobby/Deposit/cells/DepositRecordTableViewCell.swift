@@ -12,6 +12,6 @@ class DepositRecordTableViewCell: UITableViewCell {
         idLabel.text = data.isFee ? String(format: Localize.string("common_depositfeerefund"), data.displayId) : data.displayId
         statusLabel.text = StringMapper.sharedInstance.parse(data.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: true)
         statusLabel.textColor = ColorMapper.sharedInstance.parse(data.transactionStatus)
-        amountLabel.text = data.requestAmount.displayAmount
+        amountLabel.text = data.requestAmount.description()
     }
 }

@@ -934,6 +934,14 @@ struct LockedBonusDataBean: Codable {
     let parameters: Parameters
     let type: Int
     let productType: Int
+    
+    func toTurnOverReceipt() -> P2PTurnOver.TurnOverReceipt {
+        let informPlayerDate = self.informPlayerDate.convertDateTime() ?? Date()
+        let informPlayerLocalDate =  Kotlinx_datetimeLocalDate.init(year: informPlayerDate.getYear(), monthNumber: informPlayerDate.getMonth(), dayOfMonth: informPlayerDate.getDayOfMonth())
+        let parameter = TurnOverDetail.Parameters.init(amount: CashAmount(amount: parameters.amount.currencyAmountToDouble() ?? 0), balance: CashAmount(amount: parameters.balance.currencyAmountToDouble() ?? 0), betMultiplier: Int32(parameters.betMultiplier), capital: CashAmount(amount: parameters.capital.currencyAmountToDouble() ?? 0), depositRequest: CashAmount(amount: parameters.depositRequest.currencyAmountToDouble() ?? 0), percentage: Percentage(percent: parameters.percentage.currencyAmountToDouble() ?? 0), request: CashAmount(amount: parameters.request.currencyAmountToDouble() ?? 0), requirement: CashAmount(amount: parameters.requirement.currencyAmountToDouble() ?? 0), turnoverRequest: CashAmount(amount: parameters.turnoverRequest.currencyAmountToDouble() ?? 0))
+        
+        return P2PTurnOver.TurnOverReceipt.init(turnOverDetail: TurnOverDetail.init(achieved: CashAmount(amount: achieved.currencyAmountToDouble() ?? 0), formula: formula, informPlayerDate: informPlayerLocalDate, name: name, bonusId: no, remainAmount: CashAmount(amount: remainingAmount.currencyAmountToDouble() ?? 0), parameters: parameter))
+    }
 }
 
 struct Parameters: Codable {

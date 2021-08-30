@@ -69,8 +69,8 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
     private func setupWithdrawalAmountRange(_ stream: Observable<(WithdrawalLimits, CashAmount, CryptoExchangeRate)>) {
         stream.subscribe(onNext: { [weak self] (limits, _, _) in
             guard let `self` = self else {return}
-            let minimum = limits.singleCashMinimum.amount.currencyFormatWithoutSymbol(precision: 2)
-            let maximum = limits.singleCashMaximum.amount.currencyFormatWithoutSymbol(precision: 2)
+            let minimum = limits.singleCashMinimum.description()
+            let maximum = limits.singleCashMaximum.description()
             self.withdrawalLimitLabel.text = Localize.string("withdrawal_amount_range", minimum, maximum)
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)

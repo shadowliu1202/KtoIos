@@ -10,8 +10,8 @@ extension NumberGameBetDetail.BetStatus {
             return Localize.string("common_confirm")
         case is NumberGameBetDetail.BetStatusSettledWinLose:
             let amount: CashAmount = (self as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss
-            let prefix = amount.amount > 0 ? Localize.string("common_win") : Localize.string("common_lose")
-            return prefix + " \(amount.displayAmount)"
+            let prefix = amount.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
+            return prefix + " \(amount.absoluteValue().description())"
         case is NumberGameBetDetail.BetStatusSettledVoid:
             return Localize.string("common_void")
         case is NumberGameBetDetail.BetStatusSettledSelfCancelled:

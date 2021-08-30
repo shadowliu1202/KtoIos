@@ -435,8 +435,8 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
                 
                 if indexPath.row == 4 {
                     cell.titleLabel.text = Localize.string("product_bet_amount")
-                    cell.betIdLabel.text = detail.stakes.displayAmount
-                    cell.otherBetIdLabel.text = Localize.string("product_prededuct") + " " + detail.prededuct.displayAmount
+                    cell.betIdLabel.text = detail.stakes.description()
+                    cell.otherBetIdLabel.text = Localize.string("product_prededuct") + " " + detail.prededuct.description()
                     cell.otherBetIdLabel.font = UIFont(name: "PingFangSC-Semibold", size: 14)
                     cell.otherBetIdLabel.textColor = UIColor.whiteFull
                 }

@@ -21,7 +21,7 @@ class CasinoBetSummaryByDateViewController: UIViewController {
         NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: selectDate?.replacingOccurrences(of: "-", with: "/"))
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.setHeaderFooterDivider(headerColor: UIColor.black_two)
+        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25), headerColor: UIColor.black_two)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -35,12 +35,12 @@ class CasinoBetSummaryByDateViewController: UIViewController {
                 let lastIndex = (self.sections[self.viewModel.section].name.count - 1) < 0 ? 0 : self.sections[self.viewModel.section].name.count
                 self.sections[self.viewModel.section].name = betRecords.map{ $0.gameName }
                 self.sections[self.viewModel.section].betId = betRecords.map{ $0.betId }
-                self.sections[self.viewModel.section].totalAmount = betRecords.map{ $0.stakes.amount }
-                self.sections[self.viewModel.section].winAmount = betRecords.map{ $0.winLoss.amount }
+                self.sections[self.viewModel.section].totalAmount = betRecords.map{ $0.stakes }
+                self.sections[self.viewModel.section].winAmount = betRecords.map{ $0.winLoss }
                 self.sections[self.viewModel.section].betStatus = betRecords.map{ $0.getBetStatus() }
                 self.sections[self.viewModel.section].hasDetail = betRecords.map{ $0.hasDetails }
                 self.sections[self.viewModel.section].wagerId = betRecords.map{ $0.wagerId }
-                self.sections[self.viewModel.section].prededuct = betRecords.map{ $0.prededuct.amount }
+                self.sections[self.viewModel.section].prededuct = betRecords.map{ $0.prededuct }
                 self.tableView.beginUpdates()
                 for i in 0 ..< self.sections[self.viewModel.section].name.count - lastIndex {
                     self.tableView.insertRows(at: [IndexPath(row: i + lastIndex, section: self.viewModel.section)], with: .automatic)

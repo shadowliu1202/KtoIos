@@ -84,12 +84,12 @@ class LevelPrivilegeDetailViewController: UIViewController {
                     cells.append(detailCell)
                 } else if row == 0 {
                     detailCell.leftLabel.text = Localize.string("level_detail_5_title1_first")
-                    detailCell.rightLabel.text = data.percentage.currencyFormatWithoutSymbol(precision: 0) + "%"
+                    detailCell.rightLabel.text = data.percentage.description() + "%"
                     cells.append(detailCell)
                 } else if row == 2 {
                     if level <= 2 {
                         detail2Cell.titleLabel.text = Localize.string("level_detail_5_title3")
-                        detail2Cell.secondLabel.text = String(format: Localize.string("level_detail_5_content3"), String(data.minCapital), String(data.betMultiple))
+                        detail2Cell.secondLabel.text = String(format: Localize.string("level_detail_5_content3"), data.minCapital.description(), String(data.betMultiple))
                     } else {
                         switch data.issueFrequency {
                         case .daily:
@@ -110,7 +110,7 @@ class LevelPrivilegeDetailViewController: UIViewController {
                 } else if row == 3 {
                     if level >= 3 {
                         detail2Cell.titleLabel.text = Localize.string("level_detail_5_title2_1")
-                        detail2Cell.secondLabel.text = String(format: Localize.string("level_detail_5_content3"), String(data.minCapital.currencyFormatWithoutSymbol(precision: 0)), String(data.betMultiple))
+                        detail2Cell.secondLabel.text = String(format: Localize.string("level_detail_5_content3"), data.minCapital.description(), String(data.betMultiple))
                     }
                     
                     cells.append(detail2Cell)
@@ -130,14 +130,12 @@ class LevelPrivilegeDetailViewController: UIViewController {
         if let data = levelPrivilege as? LevelPrivilege.Rebate {
             dailyLimitAmountLabel.text = data.maxBonus.amount.currencyFormatWithoutSymbol(precision: 0)
             let titles = [Localize.string("common_sportsbook"), Localize.string("common_casino"), Localize.string("common_slot"), Localize.string("common_keno")]
-            let sbkPercentage = Double(truncating: data.percentages[ProductType.sbk] ?? 0)
-            let casinoPercentage = Double(truncating: data.percentages[ProductType.casino] ?? 0)
-            let slotPercentage = Double(truncating: data.percentages[ProductType.slot] ?? 0)
-            let numberGamePercentage = Double(truncating: data.percentages[ProductType.numbergame] ?? 0)
-            let content = [sbkPercentage.currencyFormatWithoutSymbol(precision: 0) + "%",
-                           casinoPercentage.currencyFormatWithoutSymbol(precision: 0) + "%",
-                           slotPercentage.currencyFormatWithoutSymbol(precision: 0) + "%",
-                           numberGamePercentage.currencyFormatWithoutSymbol(precision: 0) + "%"]
+            let content: [String] =
+                [data.percentages[ProductType.sbk]?.description() ?? "" + "%",
+                 data.percentages[ProductType.casino]?.description() ?? "" + "%",
+                 data.percentages[ProductType.slot]?.description() ?? "" + "%",
+                 data.percentages[ProductType.numbergame]?.description() ?? "" + "%"]
+                        
             for i in 0...3 {
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: "LevelDetailTableViewCell") as! LevelDetailTableViewCell
                 detailCell.leftLabel.text = titles[i]
@@ -188,8 +186,8 @@ class LevelPrivilegeDetailViewController: UIViewController {
         var cells: [UITableViewCell] = []
         if let data = levelPrivilege as? LevelPrivilege.ProductBetInsurance {
             let titles = [Localize.string("level_detail_3_1_title1"), Localize.string("level_detail_3_1_title2")]
-            let contents = [data.percentage.currencyFormatWithoutSymbol(precision: 0),
-                            data.maxBonus.amount.currencyFormatWithoutSymbol(precision: 0)]
+            let contents = [data.percentage.description(),
+                            data.maxBonus.description()]
             for i in 0..<2 {
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: "LevelDetailTableViewCell") as! LevelDetailTableViewCell
                 detailCell.leftLabel.text = titles[i]
