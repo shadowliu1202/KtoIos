@@ -54,6 +54,17 @@ class LocalizeUtils: NSObject {
             return Language.ZH.rawValue
         }
     }
+    
+    func getSymbol(locale: Locale = Locale(identifier: "zh_Hans_CN")) -> String? {
+        let lang = UserDefaults.standard.string(forKey: "UserLanguage")
+        switch lang {
+        case Language.ZH.rawValue: return Locale(identifier: "zh_Hans_CN").currencySymbol
+        case Language.TH.rawValue: return Locale(identifier: "th_TH").currencySymbol
+        case Language.VI.rawValue: return Locale(identifier: "vi_VN").currencySymbol
+        default:
+            return ""
+        }
+    }
 }
 
 extension LocalizeUtils: StringSupporter {

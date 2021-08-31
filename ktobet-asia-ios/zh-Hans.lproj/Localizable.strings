@@ -1452,10 +1452,10 @@ http";
 "level_detail_5_content2_2" = "您每一周都会享有该彩金";
 "level_detail_5_content2_3" = "您每一天都会享有该彩金";
 "level_detail_5_content3" = "最低账户余额%@元
-提现: (本金+红利)%@ 倍投注额";
+提现: (本金+彩金)%@ 倍投注额";
 "level_detail_5_maxamount" = "最高金额";
-"level_detail_5_title1" = "再存红利";
-"level_detail_5_title1_first" = "首存红利";
+"level_detail_5_title1" = "再存彩金";
+"level_detail_5_title1_first" = "首存彩金";
 "level_detail_5_title2_1" = "每月有奖";
 "level_detail_5_title2_2" = "周周有奖";
 "level_detail_5_title2_3" = "天天有奖";
