@@ -1,10 +1,2 @@
-connect 1.APP-1051 [iOS][Registration]修改前台註冊密碼規則 // 因共用模組，所以未更改
-Connect 2.APP-1285 [Register] 註冊接收驗證連結開通後，仍無法登入KTO // api會將email轉小寫後再做驗證，app無需修改
-Connect 3.APP-1449 補Commit message with task number APP-1449
-Connect 4.APP-1671 [APP][iOS]註冊手機號檢核規則調整 // 因共用模組，所以未更改
-Connect 5.APP-1645 [APP][iOS]郵箱檢核規則調整 // 因共用模組，所以未更改
-APP-1684 [APP][iOS][Slot] 熱門排序沒有按照所有玩家交易次數做排序，而是和 A-Z 排序一樣
-APP-1702 [Register] 電子郵件註冊時，OTP 驗證信件內應為 驗證鏈結 而非 驗證碼
-APP-1766 [NumberGame] 相同 IP 在 5 分鐘內重複搜尋相同關鍵字，不應被重複計算搜尋次數 // 此問題協請IG team 修改，task：IG-2244，App無需修改
-APP-1826 [Portal][iOS] 將前台顯示字"帐"改成正確的"账"
-APP-1862 [Portal][iOS] 從uri上區分image的類型(image|temp-image) //APP-1861 sharebu調整,iOS無需修改
+APP-2108 [iOS][Level Privilege] 存送特權 LV1、LV2 明細頁，最低帳戶餘額不需顯示小數 ".0" => related APP-1977
+APP-2111 [iOS][Level Privilege] LV1 提現特權 提現總限額顯示小數末位為 0 時不需顯示 => related APP-1977
