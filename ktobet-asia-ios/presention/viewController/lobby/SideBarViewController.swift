@@ -4,6 +4,12 @@ import RxCocoa
 import SharedBu
 import SideMenu
 
+extension SideBarViewController: SideMenuNavigationControllerDelegate {
+    func sideMenuWillAppear(menu: SideMenuNavigationController, animated: Bool) {
+        dataBinding()
+    }
+}
+
 class SideBarViewController: UIViewController {
     @IBOutlet private weak var btnGift: UIBarButtonItem!
     @IBOutlet private weak var btnNotification: UIBarButtonItem!
@@ -34,8 +40,13 @@ class SideBarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
-        dataBinding()
         eventHandler()
+        
+        guard let menu = navigationController as? SideMenuNavigationController, menu.blurEffectStyle == nil else {
+            return
+        }
+        
+        menu.sideMenuDelegate = self
     }
     
     deinit {
@@ -158,10 +169,13 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func dataBinding() {
-        let shareLoadPlayerInfo = self.viewModel.loadPlayerInfo().share()
-        self.rx.viewWillAppear.flatMap({ (_) in
-            return shareLoadPlayerInfo
-        }).subscribe(onNext: { [weak self] (player) in
+        listProduct.delegate = nil
+        listFeature.delegate = nil
+        listProduct.dataSource = nil
+        listFeature.dataSource = nil
+
+        let shareLoadPlayerInfo = self.viewModel.loadPlayerInfo().share(replay: 1)
+        shareLoadPlayerInfo.subscribe(onNext: { [weak self] (player) in
             guard let self = self else { return }
             self.player = player
             self.labUserLevel.text = "LV\(player.playerInfo.level)"
@@ -170,7 +184,7 @@ class SideBarViewController: UIViewController {
         }, onError: { [weak self] (error) in
             self?.handleUnknownError(error)
         }).disposed(by: self.disposeBag)
-        
+
         shareLoadPlayerInfo.flatMapLatest({ [weak self] (player) -> Observable<[ProductItem]> in
             guard let self = self else { return Observable<[ProductItem]>.just([]) }
             return self.slideViewModel.arrProducts
