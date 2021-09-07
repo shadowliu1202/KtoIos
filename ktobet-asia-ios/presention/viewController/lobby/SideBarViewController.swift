@@ -204,8 +204,8 @@ class SideBarViewController: UIViewController {
             self.labBalance.text = balance
             self.viewModel.balance = balance
             self.setBalanceHiddenState(isHidden: self.viewModel.getBalanceHiddenState(gameId: self.player?.gameId ?? ""))
-        } onError: { (error) in
-            self.handleUnknownError(error)
+        } onError: {[weak self] (error) in
+            self?.handleUnknownError(error)
         }.disposed(by: disposeBag)
         
         viewModel.playerBalance.bind(to: self.labBalance.rx.text).disposed(by: self.disposeBag)
