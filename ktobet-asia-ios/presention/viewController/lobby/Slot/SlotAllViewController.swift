@@ -52,7 +52,7 @@ class SlotAllViewController: DisplayProduct {
     
     @objc private func didTapDropDown() {
         dropDownTableView.isHidden = !dropDownTableView.isHidden
-        iconArrowImageView.image = dropDownTableView.isHidden ? UIImage(named: "iconAccordionArrowUp") : UIImage(named: "iconAccordionArrowDown")
+        iconArrowImageView.image = dropDownTableView.isHidden ? UIImage(named: "iconAccordionArrowDown") : UIImage(named: "iconAccordionArrowUp")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -109,7 +109,7 @@ extension SlotAllViewController: UITableViewDataSource, UITableViewDelegate {
         dropDownTitleLabel.text = dropDownItem[indexPath.row].contentText
         dropDownItem[indexPath.row].isSelected = true
         dropDownTableView.isHidden = true
-        iconArrowImageView.image = UIImage(named: "iconAccordionArrowUp")
+        iconArrowImageView.image = UIImage(named: "iconAccordionArrowDown")
         getAllGame(sorting: dropDownItem[indexPath.row].sorting, filter: options)
     }
     

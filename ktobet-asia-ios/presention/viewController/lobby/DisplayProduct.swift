@@ -62,7 +62,7 @@ class DisplayBaseViewController: UIViewController, ProductVCProtocol {
             button.titleLabel?.font =  UIFont(name: "PingFangSC-Medium", size: 12)
             button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 18, bottom: 8, right: 18)
             button.sizeToFit()
-            button.layer.cornerRadius = 14
+            button.layer.cornerRadius = 16
             button.layer.masksToBounds = true
             if data[i].isSelected {
                 button.applyGradient(vertical: [UIColor(rgb: 0xf74d25).cgColor, UIColor(rgb: 0xf20000).cgColor])

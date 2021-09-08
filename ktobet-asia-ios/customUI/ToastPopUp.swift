@@ -21,10 +21,11 @@ class ToastPopUp: UIView {
         self.layer.cornerRadius = 8
         msgLabel.text = text
         imageView.image = icon
-        self.addSubview(self.imageView, constraints: .center)
+        self.addSubview(self.imageView)
+        self.imageView.constrain(to: self, constraints: [.equal(\.centerXAnchor), .equal(\.topAnchor, offset: 25)])
         self.imageView.constrain([
-            .equal(\.heightAnchor, length: 50),
-            .equal(\.widthAnchor, length: 50)
+            .equal(\.heightAnchor, length: 64),
+            .equal(\.widthAnchor, length: 64),
         ])
         self.addSubview(self.msgLabel, constraints: [
             .equal(\.trailingAnchor, offset: 0),
