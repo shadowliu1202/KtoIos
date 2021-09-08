@@ -1,2 +1,1 @@
-APP-2108 [iOS][Level Privilege] 存送特權 LV1、LV2 明細頁，最低帳戶餘額不需顯示小數 ".0" => related APP-1977
-APP-2111 [iOS][Level Privilege] LV1 提現特權 提現總限額顯示小數末位為 0 時不需顯示 => related APP-1977
+APP-2103 commit單號錯誤

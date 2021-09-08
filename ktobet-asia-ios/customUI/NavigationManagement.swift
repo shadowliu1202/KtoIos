@@ -167,9 +167,7 @@ class NavigationManagement {
         }
         
         viewController = UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = self.viewController
-        }
+        UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = self.viewController
     }
     
     func goTo(productType: ProductType?) {

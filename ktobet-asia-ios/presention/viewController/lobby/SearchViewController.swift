@@ -166,10 +166,11 @@ class SearchViewController: SearchProduct {
             button.setTitle("\(data[i])", for: .normal)
             button.setTitleColor(UIColor.textPrimaryDustyGray, for: .normal)
             button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 18, bottom: 8, right: 18)
-            button.sizeToFit()
             button.layer.cornerRadius = 16
             button.layer.masksToBounds = true
             button.applyGradient(vertical: [UIColor(rgb: 0x32383e).cgColor, UIColor(rgb: 0x17191c).cgColor])
+            button.titleLabel?.font = UIFont(name: "PingFangSC-Medium", size: 12)
+            button.sizeToFit()
             if dx+button.frame.size.width > tagsStackView.frame.size.width {
                 childRow = createOneChildView(stackView)
                 rowInex += 1

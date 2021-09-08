@@ -266,11 +266,17 @@ class LoginViewController: UIViewController {
         viewModel
             .loginFrom(isRememberMe : btnRememberMe.isSelected)
             .subscribeOn(MainScheduler.instance)
-            .subscribe(onSuccess: {player in
-                NavigationManagement.sharedInstance.goTo(productType: player.defaultProduct)
-            }, onError: {error in
-                self.handleError(error: error )
-            }).disposed(by: disposeBag)
+            .do(onSubscribe: {[weak self] in self?.btnLogin.isValid = false })
+            .subscribe{[weak self] event in
+                switch event {
+                case .success(let player):
+                    NavigationManagement.sharedInstance.goTo(productType: player.defaultProduct)
+                case .error(let error):
+                    self?.handleError(error: error)
+                }
+                
+                self?.btnLogin.isValid = true
+            }.disposed(by: disposeBag)
     }
     
     @IBAction func btnResetPasswordPressed(_ sender : UIButton){
