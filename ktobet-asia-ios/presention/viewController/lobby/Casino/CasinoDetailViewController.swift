@@ -19,7 +19,7 @@ class CasinoDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("balancelog_wager_detail"))
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: Localize.string("balancelog_wager_detail"))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.setHeaderFooterDivider(footerHeight: 0)

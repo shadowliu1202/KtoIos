@@ -158,10 +158,23 @@ extension Date {
     func convertToKotlinx_datetimeLocalDateTime() -> Kotlinx_datetimeLocalDateTime {
         return Kotlinx_datetimeLocalDateTime.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
     }
+    
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
 }
 
 
 extension OffsetDateTime {
+    func convertToDate() -> Date {
+        let dateStr = self.toDateTimeString()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+        return dateFormatter.date(from: dateStr) ?? Date()
+    }
+    
     func toDateTimeString(with SeparatorSymbol: String = "/") -> String {
         let year = self.localDateTime.year
         let month = self.localDateTime.monthNumber

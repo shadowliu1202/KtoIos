@@ -8,7 +8,7 @@ import SwiftUI
 class WithdrawalRecordViewController: UIViewController {
     static let segueIdentifier = "toAllRecordSegue"
     
-    @IBOutlet private weak var dateView: UIView!
+    @IBOutlet private weak var dateView: KTODateView!
     @IBOutlet private weak var filterBtn: FilterButton!
     @IBOutlet private weak var withdrawalRecordTitle: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
@@ -25,7 +25,7 @@ class WithdrawalRecordViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         initUI()
         getWithdrawalRecord()
         recordDataHandler()
@@ -34,22 +34,22 @@ class WithdrawalRecordViewController: UIViewController {
     // MARK: METHOD
     fileprivate func initUI() {
         withdrawalRecordTitle.text = Localize.string("withdrawal_log")
-        dateView.layer.cornerRadius = 8
-        dateView.layer.masksToBounds = true
-        dateView.layer.borderWidth = 1
-        dateView.layer.borderColor = UIColor.textPrimaryDustyGray.cgColor
         tableView.delegate = self
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        let tap = UITapGestureRecognizer.init()
-        self.dateView.addGestureRecognizer(tap)
-        tap.rx.event.subscribe {[weak self] (gesture) in
-            self?.goToDateVC()
-        }.disposed(by: self.disposeBag)
+        dateView.callBackCondition = {[weak self] (dateBegin, dateEnd, dateType) in
+            self?.viewModel.dateBegin = dateBegin
+            self?.viewModel.dateEnd = dateEnd
+            self?.withdrawalDateType = dateType
+        }
+        
+        let storyboard = UIStoryboard(name: "Filter", bundle: nil)
+        let bankFilterVC = storyboard.instantiateViewController(withIdentifier: "BankFilterConditionViewController") as! BankFilterConditionViewController
         filterBtn.set(filterPersenter)
             .set(curentFilter)
+            .setGotoFilterVC(vc: bankFilterVC)
             .set { [weak self] (items) in
                 guard let `self` = self else { return }
                 self.curentFilter = items as? [TransactionItem]
@@ -129,39 +129,6 @@ class WithdrawalRecordViewController: UIViewController {
                 break
             }
         }).asObserver()
-    }
-    
-    // MARK: PAGE ACTION
-    fileprivate func goToDateVC() {
-        let storyboard = UIStoryboard(name: "Deposit", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DateConditionViewController") as! DateViewController
-        vc.conditionCallbck = {[weak self] (dateType) in
-            DispatchQueue.main.async {
-                let dateBegin: Date?
-                let dateEnd: Date?
-                switch dateType {
-                case .day(let day):
-                    self?.dateLabel.text = day.toMonthDayString()
-                    dateBegin = day
-                    dateEnd = day
-                case .week(let fromDate, let toDate):
-                    self?.dateLabel.text = Localize.string("common_last7day")
-                    dateBegin = fromDate
-                    dateEnd = toDate
-                case .month(let fromDate, let toDate):
-                    dateBegin = fromDate
-                    dateEnd = toDate
-                    self?.dateLabel.text = dateBegin?.toYearMonthString()
-                }
-                
-                self?.viewModel.dateBegin = dateBegin
-                self?.viewModel.dateEnd = dateEnd
-                self?.withdrawalDateType = dateType
-            }
-        }
-        
-        vc.dateType = self.withdrawalDateType
-        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

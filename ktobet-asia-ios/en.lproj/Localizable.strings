@@ -1265,3 +1265,6 @@
 "level_producttype_2" = "";
 "level_navigate_to_promotion" = "";
 "level_product_rebate" = "";
+
+//MARK: - Promotion
+"promotion_history_empty" = "";

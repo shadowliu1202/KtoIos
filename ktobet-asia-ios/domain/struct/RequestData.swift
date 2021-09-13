@@ -133,3 +133,20 @@ struct CryptoWithdrawalRequest: Codable {
         case playerCryptoBankCardId, requestFiatAmount, cryptoCurrency, requestCryptoAmount
     }
 }
+
+
+struct PromotionHistoryRequest: Codable {
+    var begin: String
+    var end: String
+    var page: Int
+    var productType: [Int32]
+    var query: String
+    var selected: String
+    var type: [Int32]
+}
+
+struct BonusRequest: Codable {
+    let autoUse: Bool
+    let no: String
+    let type: Int32
+}

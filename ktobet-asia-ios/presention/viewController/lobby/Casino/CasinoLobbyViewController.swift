@@ -14,7 +14,7 @@ class CasinoLobbyViewController: DisplayProduct {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: lobby.name)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: lobby.name)
         initUI()
         dataBinding()
     }

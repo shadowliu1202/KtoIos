@@ -30,11 +30,11 @@ class LevelPrivilegeDetailViewController: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, image: "iconNavBack24")
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, image: "iconNavBack24")
         
         btnPromotion.applyGradient(horizontal: [UIColor.yellowFull.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor])
         btnPromotion.rx.touchUpInside.subscribe(onNext:{
-            NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountGiftNavigationController")
+            NavigationManagement.sharedInstance.goTo(storyboard: "Promotion", viewControllerId: "PromotionNavigationController")
         }).disposed(by: disposeBag)
         backgroundView.setViewCorner(topCorner: true, bottomCorner: false, radius: 32)
         levelLabel.layer.masksToBounds = true

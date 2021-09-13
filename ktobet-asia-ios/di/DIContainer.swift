@@ -76,6 +76,9 @@ class DIContainer {
         ctner.register(ArcadeApi.self) { (resolver) in
             return ArcadeApi(httpclient)
         }
+        ctner.register(PromotionApi.self) { (resolver) in
+            return PromotionApi(httpclient)
+        }
     }
     
     func registRepo(){
@@ -173,6 +176,10 @@ class DIContainer {
         ctner.register(ArcadeRepository.self) { (resolver) in
             let arcadeApi = ctner.resolve(ArcadeApi.self)!
             return ArcadeRepositoryImpl(arcadeApi)
+        }
+        ctner.register(PromotionRepository.self) { (resolver) in
+            let promotionApi = ctner.resolve(PromotionApi.self)!
+            return PromotionRepositoryImpl(promotionApi)
         }
     }
     
@@ -275,6 +282,11 @@ class DIContainer {
         ctner.register(ArcadeUseCase.self) { (resolver) in
             let repo = ctner.resolve(ArcadeRepository.self)!
             return ArcadeUseCaseImpl(repo)
+        }
+        ctner.register(PromotionUseCase.self) { (resolver) in
+            let repo = ctner.resolve(PromotionRepository.self)!
+            let player = ctner.resolve(PlayerRepository.self)!
+            return PromotionUseCaseImpl(repo, playerRepository: player)
         }
     }
     
@@ -404,6 +416,12 @@ class DIContainer {
         }
         ctner.register(ArcadeViewModel.self) { (resolver) in
             return ArcadeViewModel(arcadeUseCase: ctner.resolve(ArcadeUseCase.self)!, memoryCache: MemoryCacheImpl.shared)
+        }
+        ctner.register(PromotionViewModel.self) { (resolver) in
+            return PromotionViewModel(promotionUseCase: ctner.resolve(PromotionUseCase.self)!, playerUseCase: ctner.resolve(PlayerDataUseCase.self)!)
+        }
+        ctner.register(PromotionHistoryViewModel.self) { (resolver) in
+            return PromotionHistoryViewModel(promotionUseCase: ctner.resolve(PromotionUseCase.self)!)
         }
     }
     

@@ -23,7 +23,7 @@ class NumberGameDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: gameName)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: gameName)
         initUI()
         dataBinding()
         summaryDataHandler()

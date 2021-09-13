@@ -19,9 +19,8 @@ class DateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, isShowAlert: false, closeAction: {
-            self.navigationController?.popViewController(animated: true)
-        }, closeTitle: "", closeMessage: "")
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
+        
         DispatchQueue.main.async {
             let frame = CGRect(x: 0, y : 0, width: self.dateView.frame.width, height: self.dateView.frame.height)
             self.koyomi = Koyomi(frame: frame, sectionSpace: 0, cellSpace: 0, inset: .zero, weekCellHeight: 25)
@@ -191,6 +190,10 @@ class DateViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    @objc func close() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

@@ -22,6 +22,10 @@ extension Array {
             Array(self[$0 ..< Swift.min($0 + size, count)])
         }
     }
+    
+    func filterThenCast<T>() -> Array<T> {
+        return self.filter({ $0 is T }).map({ $0 as! T})
+    }
 }
 
 extension Array where Element: Hashable {

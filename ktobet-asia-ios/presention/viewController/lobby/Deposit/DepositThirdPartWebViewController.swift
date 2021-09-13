@@ -13,9 +13,7 @@ class DepositThirdPartWebViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, isShowAlert: false) {
-            self.performSegue(withIdentifier: "unwindToDeposit", sender: nil)
-        }
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
         for cookie in HttpClient().getCookies() {
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
@@ -27,5 +25,9 @@ class DepositThirdPartWebViewController: UIViewController {
             let request = URLRequest(url: urlHost)
             webView.load(request)
         }
+    }
+    
+    @objc func close() {
+        self.performSegue(withIdentifier: "unwindToDeposit", sender: nil)
     }
 }

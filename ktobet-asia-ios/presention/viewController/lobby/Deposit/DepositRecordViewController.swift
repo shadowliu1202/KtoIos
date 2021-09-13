@@ -8,7 +8,7 @@ import SwiftUI
 class DepositRecordViewController: UIViewController {
     static let segueIdentifier = "toAllRecordSegue"
     
-    @IBOutlet private weak var dateView: UIView!
+    @IBOutlet private weak var dateView: KTODateView!
     @IBOutlet private weak var filterBtn: FilterButton!
     @IBOutlet private weak var depositRecordTitle: UILabel!
     @IBOutlet private weak var depositTotalTitle: UILabel!
@@ -27,7 +27,7 @@ class DepositRecordViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         initUI()
         getDepositRecord()
         recordDataHandler()
@@ -42,19 +42,22 @@ class DepositRecordViewController: UIViewController {
     fileprivate func initUI() {
         depositRecordTitle.text = Localize.string("deposit_log")
         depositTotalTitle.text = Localize.string("deposit_summary")
-        dateView.layer.cornerRadius = 8
-        dateView.layer.masksToBounds = true
-        dateView.layer.borderWidth = 1
-        dateView.layer.borderColor = UIColor.textPrimaryDustyGray.cgColor
         tableView.delegate = self
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.toDate))
-        dateView.addGestureRecognizer(gesture)
+        dateView.callBackCondition = {[weak self] (dateBegin, dateEnd, dateType) in
+            self?.viewModel.dateBegin = dateBegin
+            self?.viewModel.dateEnd = dateEnd
+            self?.depositDateType = dateType
+        }
+        
+        let storyboard = UIStoryboard(name: "Filter", bundle: nil)
+        let bankFilterVC = storyboard.instantiateViewController(withIdentifier: "BankFilterConditionViewController") as! BankFilterConditionViewController
         filterBtn.set(filterPersenter)
             .set(curentFilter)
+            .setGotoFilterVC(vc: bankFilterVC)
             .set { [weak self] (items) in
                 guard let `self` = self else { return }
                 self.curentFilter = items as? [TransactionItem]
@@ -147,46 +150,11 @@ class DepositRecordViewController: UIViewController {
     
     // MARK: PAGE ACTION
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == DateViewController.segueIdentifier {
-            if let dest = segue.destination as? DateViewController {
-                dest.conditionCallbck = {[weak self] (dateType) in
-                    DispatchQueue.main.async {
-                        let dateBegin: Date?
-                        let dateEnd: Date?
-                        switch dateType {
-                        case .day(let day):
-                            self?.dateLabel.text = day.toMonthDayString()
-                            dateBegin = day
-                            dateEnd = day
-                        case .week(let fromDate, let toDate):
-                            self?.dateLabel.text = Localize.string("common_last7day")
-                            dateBegin = fromDate
-                            dateEnd = toDate
-                        case .month(let fromDate, let toDate):
-                            dateBegin = fromDate
-                            dateEnd = toDate
-                            self?.dateLabel.text = dateBegin?.toYearMonthString()
-                        }
-                        
-                        self?.viewModel.dateBegin = dateBegin
-                        self?.viewModel.dateEnd = dateEnd
-                        self?.depositDateType = dateType
-                    }
-                }
-                
-                dest.dateType = self.depositDateType
-            }
-        }
-        
         if segue.identifier == DepositRecordDetailViewController.segueIdentifier {
             if let dest = segue.destination as? DepositRecordDetailViewController {
                 dest.detailRecord = sender as? DepositRecord
             }
         }
-    }
-    
-    @objc func toDate(sender : UITapGestureRecognizer) {
-        performSegue(withIdentifier: DateViewController.segueIdentifier, sender: nil)
     }
 }
 

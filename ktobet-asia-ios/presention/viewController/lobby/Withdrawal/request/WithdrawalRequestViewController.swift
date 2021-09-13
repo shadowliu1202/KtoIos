@@ -22,7 +22,7 @@ class WithdrawalRequestViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         initUI()
         viewModel.getBalance().subscribe().disposed(by: disposeBag)
         withdrawalLimitationDataBinding()

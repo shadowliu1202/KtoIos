@@ -10,6 +10,7 @@ class FilterButton: UIView {
     private var presenter: FilterPresentProtocol?
     private var initalFilterItem: [FilterItem]?
     private var conditionCallbck: ConditionCallbck?
+    private var vc: FilterConditionViewController?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,16 +55,47 @@ class FilterButton: UIView {
     
     func setTitle(_ source: [FilterItem]?) {
         var text = ""
-        let allSelectCount = source?.filter({ $0.isSelected == true }).count
-        let interactiveCount = source?.filter({$0.type != .static}).count
-        //If all condition were selected, text should display with Localize.string("common_all")
-        if allSelectCount == interactiveCount {
+        if isSelectedAllFilterItem(source: source) {
             text = Localize.string("common_all")
         } else {
-            source?.filter({ $0.isSelected == true }).forEach { text.append("\($0.title)/") }
-            text = String(text.dropLast())
+            text = filterItemToTitleString(source: source)
         }
+        
         self.setTitle(text)
+    }
+    
+    private func isSelectedAllFilterItem(source: [FilterItem]?) -> Bool {
+        let allSelectCount = source?.filter({ $0.isSelected == true }).count
+        let interactiveCount = source?.filter({$0.type != .static}).count
+        return allSelectCount == interactiveCount
+    }
+    
+    private func filterItemToTitleString(source: [FilterItem]?) -> String {
+        var text = ""
+        source?.filter({ $0.isSelected == true }).forEach { text.append("\($0.title)/") }
+        text = String(text.dropLast())
+        return text
+    }
+    
+    @discardableResult
+    func setPromotionStyleTitle(source: [FilterItem]?) -> Self {
+        var text = ""
+        if isSelectedAllFilterItem(source: source) {
+            text = (source?[PromotionPresenter.sortingRow].title ?? Localize.string("bonus_orderby_desc")) + "、" + Localize.string("common_all")
+        } else {
+            text = filterItemToTitleString(source: source)
+            let firstSymbolIndex = text.firstIndex(of: "/")!
+            text.replaceSubrange(firstSymbolIndex...firstSymbolIndex, with: "、")
+        }
+        
+        self.setTitle(text)
+        return self
+    }
+    
+    @discardableResult
+    func setGotoFilterVC(vc: FilterConditionViewController) -> Self {
+        self.vc = vc
+        return self
     }
     
     @discardableResult
@@ -85,9 +117,7 @@ class FilterButton: UIView {
     }
     
     private func goToFilterVC() {
-        let storyboard = UIStoryboard(name: "DepositFilter", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "FilterConditionViewController") as! FilterConditionViewController
-        guard let presenter = presenter else { return }
+        guard let presenter = presenter, let vc = self.vc else { return }
         vc.presenter = presenter
         if let filter = initalFilterItem {
             presenter.setConditions(filter)

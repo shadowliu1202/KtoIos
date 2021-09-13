@@ -37,9 +37,8 @@ class SlotFilterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, isShowAlert: false, closeAction: {
-            self.navigationController?.popViewController(animated: true)
-        }, closeTitle: "", closeMessage: "")
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
+        
         self.bind(position: .right, barButtonItems: .kto(.text(text: Localize.string("product_clear_filters"))))
         featureButtons = [slotSeparateButton, slotWildButton, slotFeatureButton, freeSpinButton, bidirectionalButton]
         themeButtons = [slotAsiaButton, slotWestButton]
@@ -58,6 +57,10 @@ class SlotFilterViewController: UIViewController {
         
         self.gameFeatureView.addBorder(.bottom, size: 1, color: UIColor(red: 60.0/255.0, green: 62.0/255.0, blue: 64.0/255.0, alpha: 1.0))
         self.gameThemeView.addBorder(.bottom, size: 1, color: UIColor(red: 60.0/255.0, green: 62.0/255.0, blue: 64.0/255.0, alpha: 1.0))
+    }
+    
+    @objc func close() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func featureTouchDownTag(_ sender: UIButton) {

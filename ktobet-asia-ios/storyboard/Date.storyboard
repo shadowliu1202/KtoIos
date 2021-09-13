@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Date View Controller-->
+        <scene sceneID="YHf-4e-z4u">
+            <objects>
+                <viewController storyboardIdentifier="DateConditionViewController" id="3H6-MF-uQT" customClass="DateViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AEw-1M-lgb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时间范围" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vIH-yM-bpM">
+                                <rect key="frame" x="30" y="74" width="96" height="34"/>
+                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
+                                <color key="textColor" name="whiteFull"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QHL-Nu-oFH">
+                                <rect key="frame" x="32" y="140" width="350" height="33"/>
+                                <color key="backgroundColor" name="backgroundTabsGray2"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="G1p-je-BW6"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="最近7天"/>
+                                    <segment title="选定某天"/>
+                                    <segment title="选定某月"/>
+                                </segments>
+                                <color key="selectedSegmentTintColor" name="backgroundTabsGray"/>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Lo-bl-cQk">
+                                <rect key="frame" x="30" y="798" width="354" height="48"/>
+                                <color key="backgroundColor" name="red"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="XS8-Hn-KyJ"/>
+                                </constraints>
+                                <state key="normal" title="完成">
+                                    <color key="titleColor" name="whiteFull"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="confirm:" destination="3H6-MF-uQT" eventType="touchUpInside" id="ZqU-RP-NH7"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ca7-p5-YWR">
+                                <rect key="frame" x="30" y="200" width="354" height="24"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xkS-GT-jFd">
+                                        <rect key="frame" x="159" y="2" width="36.5" height="20"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
+                                        <color key="textColor" name="whiteFull"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Pf-14-pfd">
+                                        <rect key="frame" x="314" y="-8" width="40" height="40"/>
+                                        <inset key="contentEdgeInsets" minX="16" minY="8" maxX="0.0" maxY="8"/>
+                                        <state key="normal" image="Chevron Right Disable(24)"/>
+                                        <connections>
+                                            <action selector="next:" destination="3H6-MF-uQT" eventType="touchUpInside" id="e5V-jJ-miW"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHb-ys-j34">
+                                        <rect key="frame" x="0.0" y="-8" width="40" height="40"/>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="8" maxX="16" maxY="8"/>
+                                        <state key="normal" image="iconChevronLeft24"/>
+                                        <connections>
+                                            <action selector="previous:" destination="3H6-MF-uQT" eventType="touchUpInside" id="XQj-U9-7aC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="2Pf-14-pfd" secondAttribute="trailing" id="2PU-zn-GJD"/>
+                                    <constraint firstItem="rHb-ys-j34" firstAttribute="leading" secondItem="Ca7-p5-YWR" secondAttribute="leading" id="S9E-h5-fEr"/>
+                                    <constraint firstItem="xkS-GT-jFd" firstAttribute="centerX" secondItem="Ca7-p5-YWR" secondAttribute="centerX" id="TvC-Jq-urb"/>
+                                    <constraint firstAttribute="height" constant="24" id="avc-e8-fkO"/>
+                                    <constraint firstItem="2Pf-14-pfd" firstAttribute="centerY" secondItem="Ca7-p5-YWR" secondAttribute="centerY" id="gH4-2g-7ZY"/>
+                                    <constraint firstItem="rHb-ys-j34" firstAttribute="centerY" secondItem="Ca7-p5-YWR" secondAttribute="centerY" id="nVu-eB-GTh"/>
+                                    <constraint firstItem="xkS-GT-jFd" firstAttribute="centerY" secondItem="Ca7-p5-YWR" secondAttribute="centerY" id="zC4-D1-JrB"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="shg-6E-eB9">
+                                <rect key="frame" x="34" y="242" width="346" height="345"/>
+                                <color key="backgroundColor" name="blackTwo"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="shg-6E-eB9" secondAttribute="height" multiplier="307:306" id="KPZ-Tm-J8b"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NT6-nn-a71" customClass="MonthSelectView" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                <rect key="frame" x="30" y="200" width="354" height="269.5"/>
+                                <color key="backgroundColor" name="blackTwo"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="htQ-YF-rWE"/>
+                        <color key="backgroundColor" name="blackTwo"/>
+                        <constraints>
+                            <constraint firstItem="htQ-YF-rWE" firstAttribute="trailing" secondItem="Ca7-p5-YWR" secondAttribute="trailing" constant="30" id="1LQ-Fy-97o"/>
+                            <constraint firstItem="NT6-nn-a71" firstAttribute="leading" secondItem="shg-6E-eB9" secondAttribute="leading" constant="-4" id="Eqj-1T-oKd"/>
+                            <constraint firstItem="vIH-yM-bpM" firstAttribute="leading" secondItem="htQ-YF-rWE" secondAttribute="leading" constant="30" id="F4s-2a-wnE"/>
+                            <constraint firstItem="shg-6E-eB9" firstAttribute="top" secondItem="Ca7-p5-YWR" secondAttribute="bottom" constant="18" id="Hq5-IA-QiO"/>
+                            <constraint firstItem="QHL-Nu-oFH" firstAttribute="top" secondItem="vIH-yM-bpM" secondAttribute="bottom" constant="32" id="Ist-Fv-X5h"/>
+                            <constraint firstItem="4Lo-bl-cQk" firstAttribute="leading" secondItem="AEw-1M-lgb" secondAttribute="leading" constant="30" id="Khy-xQ-71u"/>
+                            <constraint firstItem="Ca7-p5-YWR" firstAttribute="leading" secondItem="htQ-YF-rWE" secondAttribute="leading" constant="30" id="NO1-c3-XOh"/>
+                            <constraint firstItem="shg-6E-eB9" firstAttribute="leading" secondItem="htQ-YF-rWE" secondAttribute="leading" constant="34" id="NYg-lY-CSX"/>
+                            <constraint firstItem="NT6-nn-a71" firstAttribute="bottom" secondItem="shg-6E-eB9" secondAttribute="bottom" multiplier="0.8" id="PJe-ek-vd4"/>
+                            <constraint firstItem="htQ-YF-rWE" firstAttribute="trailing" secondItem="shg-6E-eB9" secondAttribute="trailing" constant="34" id="Tw6-Hq-5qS"/>
+                            <constraint firstItem="htQ-YF-rWE" firstAttribute="trailing" secondItem="4Lo-bl-cQk" secondAttribute="trailing" constant="30" id="a4O-pk-mcx"/>
+                            <constraint firstItem="Ca7-p5-YWR" firstAttribute="top" secondItem="QHL-Nu-oFH" secondAttribute="bottom" constant="28" id="dGM-HZ-ovt"/>
+                            <constraint firstItem="QHL-Nu-oFH" firstAttribute="leading" secondItem="htQ-YF-rWE" secondAttribute="leading" constant="32" id="fTS-6g-3kR"/>
+                            <constraint firstItem="NT6-nn-a71" firstAttribute="trailing" secondItem="shg-6E-eB9" secondAttribute="trailing" constant="4" id="gX0-4e-0Ed"/>
+                            <constraint firstItem="vIH-yM-bpM" firstAttribute="top" secondItem="htQ-YF-rWE" secondAttribute="top" constant="30" id="lAy-iL-cAy"/>
+                            <constraint firstItem="NT6-nn-a71" firstAttribute="top" secondItem="Ca7-p5-YWR" secondAttribute="top" id="nl9-pP-K2h"/>
+                            <constraint firstItem="htQ-YF-rWE" firstAttribute="bottom" secondItem="4Lo-bl-cQk" secondAttribute="bottom" constant="16" id="sQX-U9-U5d"/>
+                            <constraint firstItem="htQ-YF-rWE" firstAttribute="trailing" secondItem="QHL-Nu-oFH" secondAttribute="trailing" constant="32" id="x4g-ma-PzM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="P8O-g2-qtJ"/>
+                    <connections>
+                        <outlet property="currentDateLabel" destination="xkS-GT-jFd" id="4PK-fv-Ba3"/>
+                        <outlet property="dateSegment" destination="QHL-Nu-oFH" id="flG-RO-2W1"/>
+                        <outlet property="dateView" destination="shg-6E-eB9" id="Zwi-OE-XwF"/>
+                        <outlet property="month" destination="NT6-nn-a71" id="EkI-Xr-vMh"/>
+                        <outlet property="nextButton" destination="2Pf-14-pfd" id="egA-NM-Kgo"/>
+                        <outlet property="previousButton" destination="rHb-ys-j34" id="XeQ-ED-rn8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gtb-ga-BfC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="421.60000000000002" y="1272.4137931034484"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Chevron Right Disable(24)" width="24" height="24"/>
+        <image name="iconChevronLeft24" width="24" height="24"/>
+        <namedColor name="backgroundTabsGray">
+            <color red="0.3880000114440918" green="0.3880000114440918" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="backgroundTabsGray2">
+            <color red="0.46299999952316284" green="0.46299999952316284" blue="0.50199997425079346" alpha="0.11999999731779099" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="blackTwo">
+            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="red">
+            <color red="0.94901960784313721" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="whiteFull">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

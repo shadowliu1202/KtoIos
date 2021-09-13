@@ -14,6 +14,8 @@ extension UIBarButtonItem {
             return FilterBarButtonItem()
         case .text(let text):
             return TextBarButtonItem(title: text)
+        case .history:
+            return HistoryBarButtonItem()
         }
     }
     
@@ -31,6 +33,7 @@ enum KTOBarButtonItemStyle {
     case search
     case filter
     case text(text: String)
+    case history
     
     var image: UIImage? {
         switch self {
@@ -39,6 +42,7 @@ enum KTOBarButtonItemStyle {
         case .search:           return UIImage(named: "Search")
         case .filter:           return UIImage(named: "iconFilter24")
         case .text:             return nil
+        case .history:          return UIImage(named: "iconNavPromotionHistory24")
         }
     }
 }

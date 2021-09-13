@@ -37,7 +37,8 @@ class DepositMethodViewController: UIViewController {
         super.viewDidLoad()
         viewModel.selectedType = depositType
         if let offline = depositType as? DepositRequest.DepositTypeOffline {
-            NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, isShowAlert: true, backTitle: Localize.string("common_confirm_cancel_operation"), backMessage: Localize.string("deposit_offline_termniate"))
+            NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(back))
+            
             offlineDataBinding()
             offlineEventHandle()
             banksDataBinding()
@@ -53,7 +54,8 @@ class DepositMethodViewController: UIViewController {
         }
         
         if let thirdParty = depositType as? DepositRequest.DepositTypeThirdParty {
-            NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, isShowAlert: true, backTitle: Localize.string("common_confirm_cancel_operation"), backMessage: Localize.string("deposit_online_terminate"))
+            NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(back))
+            
             remitterBankTextField.isHidden = true
             constraintremitterBankTextFieldHeight.constant = 0
             constraintremitterBankTextFieldTop.constant = 0
@@ -68,6 +70,12 @@ class DepositMethodViewController: UIViewController {
         }
         
         initUI()
+    }
+    
+    @objc func back() {
+        Alert.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_offline_termniate"), confirm: {
+            NavigationManagement.sharedInstance.popViewController()
+        }, cancel: {})
     }
 
     // MARK: BUTTON ACTION

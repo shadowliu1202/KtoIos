@@ -13,7 +13,7 @@ class SlotBetSummaryByDateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: selectDate?.replacingOccurrences(of: "-", with: "/"))
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: selectDate?.replacingOccurrences(of: "-", with: "/"))
         initUI()
         dataBinding()
     }

@@ -12,7 +12,7 @@ class P2PBetSummaryByDateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: selectDate)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: selectDate)
         initUI()
         dataBinding()
     }
