@@ -13,12 +13,14 @@ class WithdrawlEmptyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self) {
-            NavigationManagement.sharedInstance.popToRootViewController()
-        }
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(back))
         
         initUI()
         dataBinding()
+    }
+    
+    @objc func back() {
+        NavigationManagement.sharedInstance.popToRootViewController()
     }
     
     private func initUI() {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZeL-97-8Rz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZeL-97-8Rz">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -66,7 +66,7 @@
                                         </constraints>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="LanguageAndCurrencyCell" rowHeight="102" id="DNb-Rv-cN1" customClass="LanguageAndCurrencyCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="354" height="102"/>
+                                                <rect key="frame" x="0.0" y="24.5" width="354" height="102"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DNb-Rv-cN1" id="G3n-GU-6WF">
                                                     <rect key="frame" x="0.0" y="0.0" width="354" height="102"/>
@@ -225,7 +225,6 @@
                         <outlet property="naviItem" destination="ndH-lZ-4os" id="mLo-15-s5H"/>
                         <outlet property="tableView" destination="Nag-52-peI" id="09q-rs-Gqh"/>
                         <segue destination="Lxz-ti-l0i" kind="show" identifier="GoToInfo" id="Dps-iN-rZv"/>
-                        <segue destination="rAy-YO-cte" kind="show" identifier="GoToTermsOfService" id="JmL-PJ-1MI"/>
                         <segue destination="ph2-Aa-cDX" kind="unwind" identifier="BackToLogin" unwindAction="backToLoginWithSegue:" id="B1S-0Y-N7B"/>
                     </connections>
                 </viewController>
@@ -1064,11 +1063,11 @@ john.doe@higgstar.com
             <objects>
                 <viewController storyboardIdentifier="TermsOfServiceViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rAy-YO-cte" customClass="TermsOfServiceViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QoW-vU-Sqb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IFh-1Z-KIC">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GhF-PQ-a2Y">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
@@ -1097,11 +1096,11 @@ john.doe@higgstar.com
                                             <constraint firstAttribute="height" constant="300" id="BwK-xs-uM1"/>
                                         </constraints>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TermsOfServiceCell" rowHeight="89" id="LyT-Km-c2V" customClass="TermsOfServiceCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="354" height="89"/>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TermsOfServiceCell" rowHeight="120" id="LyT-Km-c2V" customClass="TermsOfServiceCell" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="24.5" width="354" height="120"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LyT-Km-c2V" id="Ybv-1l-PPg">
-                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="89"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="120"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="定义" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6x2-7F-BIV">
@@ -1124,14 +1123,20 @@ john.doe@higgstar.com
                                                                 <constraint firstAttribute="height" constant="1" id="UOO-Dd-PyA"/>
                                                             </constraints>
                                                         </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GM2-Ry-8ye">
+                                                            <rect key="frame" x="0.0" y="58" width="39" height="18"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nh-nT-nPw">
-                                                            <rect key="frame" x="0.0" y="58" width="354" height="18"/>
+                                                            <rect key="frame" x="0.0" y="89" width="354" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hJR-hf-LQH">
-                                                            <rect key="frame" x="0.0" y="88" width="354" height="1"/>
+                                                            <rect key="frame" x="0.0" y="119" width="354" height="1"/>
                                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="I6N-he-Sn6"/>
@@ -1146,25 +1151,29 @@ john.doe@higgstar.com
                                                         <constraint firstAttribute="trailing" secondItem="3nh-nT-nPw" secondAttribute="trailing" id="Mo2-bk-YUf"/>
                                                         <constraint firstAttribute="trailing" secondItem="6x2-7F-BIV" secondAttribute="trailing" constant="16" id="R1P-ws-YIo"/>
                                                         <constraint firstItem="hJR-hf-LQH" firstAttribute="leading" secondItem="Ybv-1l-PPg" secondAttribute="leading" id="RlL-m0-nqC"/>
+                                                        <constraint firstItem="3nh-nT-nPw" firstAttribute="leading" secondItem="GM2-Ry-8ye" secondAttribute="leading" id="SYf-HD-45v"/>
                                                         <constraint firstItem="hJR-hf-LQH" firstAttribute="top" secondItem="3nh-nT-nPw" secondAttribute="bottom" constant="12" id="WAj-2D-wxu"/>
                                                         <constraint firstItem="6x2-7F-BIV" firstAttribute="top" secondItem="Ybv-1l-PPg" secondAttribute="top" constant="12" id="Y4g-Mr-Jpo"/>
                                                         <constraint firstItem="kdN-5g-Piw" firstAttribute="top" secondItem="6x2-7F-BIV" secondAttribute="bottom" constant="12" id="Z0e-Lx-k0u"/>
+                                                        <constraint firstItem="3nh-nT-nPw" firstAttribute="top" secondItem="GM2-Ry-8ye" secondAttribute="bottom" constant="13" id="b3B-ch-nnB"/>
                                                         <constraint firstItem="6x2-7F-BIV" firstAttribute="leading" secondItem="Ybv-1l-PPg" secondAttribute="leading" id="cys-Xc-LXM"/>
                                                         <constraint firstAttribute="bottom" secondItem="hJR-hf-LQH" secondAttribute="bottom" id="hXY-9Z-ZqS"/>
                                                         <constraint firstItem="kdN-5g-Piw" firstAttribute="leading" secondItem="Ybv-1l-PPg" secondAttribute="leading" id="lg9-j6-4Hr"/>
+                                                        <constraint firstItem="GM2-Ry-8ye" firstAttribute="top" secondItem="kdN-5g-Piw" secondAttribute="bottom" constant="12" id="qwy-71-cLF"/>
                                                         <constraint firstItem="t21-ZK-AeI" firstAttribute="centerY" secondItem="6x2-7F-BIV" secondAttribute="centerY" id="sYE-Jr-F9z"/>
                                                         <constraint firstAttribute="trailing" secondItem="hJR-hf-LQH" secondAttribute="trailing" id="slc-O3-BKH"/>
-                                                        <constraint firstItem="3nh-nT-nPw" firstAttribute="top" secondItem="kdN-5g-Piw" secondAttribute="bottom" constant="12" id="zaW-XV-EDl"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
                                                     <outlet property="constraintContentBottom" destination="WAj-2D-wxu" id="B6B-G0-lFM"/>
-                                                    <outlet property="constraintContentTop" destination="zaW-XV-EDl" id="5hm-1I-Wgr"/>
+                                                    <outlet property="constraintContentTop" destination="qwy-71-cLF" id="pMa-Bo-zKx"/>
+                                                    <outlet property="constraintTitleContentTop" destination="b3B-ch-nnB" id="vh1-lf-Lg0"/>
                                                     <outlet property="constraintUnderLineHeight" destination="I6N-he-Sn6" id="sCB-rw-ipT"/>
                                                     <outlet property="iconArrowImage" destination="t21-ZK-AeI" id="HZO-6v-L3z"/>
                                                     <outlet property="labContent" destination="3nh-nT-nPw" id="719-L7-TWq"/>
                                                     <outlet property="labTitle" destination="6x2-7F-BIV" id="ddn-bO-dDX"/>
+                                                    <outlet property="labTitleContent" destination="GM2-Ry-8ye" id="qej-hy-Zdf"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -1188,12 +1197,12 @@ john.doe@higgstar.com
                                     <constraint firstItem="GhF-PQ-a2Y" firstAttribute="leading" secondItem="IFh-1Z-KIC" secondAttribute="leading" id="VoI-Bw-lo0"/>
                                     <constraint firstItem="34u-tr-qAg" firstAttribute="top" secondItem="zx1-jB-86g" secondAttribute="bottom" id="e8Z-Wv-Hr3"/>
                                     <constraint firstItem="zx1-jB-86g" firstAttribute="trailing" secondItem="34u-tr-qAg" secondAttribute="trailing" id="eZi-6V-lBA"/>
-                                    <constraint firstAttribute="bottom" secondItem="34u-tr-qAg" secondAttribute="bottom" id="pH3-cl-Dcr"/>
+                                    <constraint firstAttribute="bottom" secondItem="34u-tr-qAg" secondAttribute="bottom" constant="96" id="pH3-cl-Dcr"/>
                                     <constraint firstItem="zx1-jB-86g" firstAttribute="leading" secondItem="34u-tr-qAg" secondAttribute="leading" id="v52-Ov-cq4"/>
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aqt-d7-xMa">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="0.0"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="GGp-ZU-Iqj"/>
@@ -1201,7 +1210,7 @@ john.doe@higgstar.com
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7b4-uD-8ss"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="blackFull"/>
                         <constraints>
                             <constraint firstItem="Aqt-d7-xMa" firstAttribute="leading" secondItem="7b4-uD-8ss" secondAttribute="leading" id="1FE-Gf-nQ9"/>
                             <constraint firstItem="IFh-1Z-KIC" firstAttribute="leading" secondItem="7b4-uD-8ss" secondAttribute="leading" id="KNv-lq-EX1"/>
@@ -1243,7 +1252,7 @@ john.doe@higgstar.com
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e5X-G7-4n0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="tsG-be-76D" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2398.5507246376815" y="823.66071428571422"/>
+            <point key="canvasLocation" x="3308.6956521739135" y="823.66071428571422"/>
         </scene>
         <!--Navigation View Controller-->
         <scene sceneID="Ocy-2v-3dn">
@@ -1278,6 +1287,9 @@ john.doe@higgstar.com
         <image name="Success" width="16" height="16"/>
         <image name="Tips" width="24" height="24"/>
         <image name="arrow-drop-down" width="20" height="20"/>
+        <namedColor name="blackFull">
+            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="blackTwo">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

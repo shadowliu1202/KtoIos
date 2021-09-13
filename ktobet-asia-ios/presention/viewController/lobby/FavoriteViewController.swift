@@ -21,7 +21,7 @@ class FavoriteViewController: DisplayProduct {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("product_favorite"))
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: Localize.string("product_favorite"))
         initUI()
         dataBinding()
     }

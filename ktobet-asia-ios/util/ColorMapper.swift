@@ -14,4 +14,19 @@ class ColorMapper {
             return UIColor.textPrimaryDustyGray
         }
     }
+    
+    func parse(bonusReceivingStatus: BonusReceivingStatus) -> UIColor {
+        switch bonusReceivingStatus {
+        case .inprogress:
+            return UIColor.orangeFull
+        case .noturnover:
+            return UIColor.textSuccessedGreen
+        case .completed:
+            return UIColor.textSuccessedGreen
+        case .canceled:
+            return UIColor.textPrimaryDustyGray
+        default:
+            return UIColor.clear
+        }
+    }
 }

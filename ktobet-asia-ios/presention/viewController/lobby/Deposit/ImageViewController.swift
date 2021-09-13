@@ -15,9 +15,8 @@ class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScro
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, isShowAlert: false, closeAction: {
-            self.navigationController?.popViewController(animated: true)
-        }, closeTitle: "", closeMessage: "")
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
+        
         let imageDownloader = SDWebImageDownloader.shared
         for header in HttpClient().headers {
             imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
@@ -28,6 +27,10 @@ class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScro
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapAction))
         doubleTapGesture.numberOfTapsRequired = 2
         self.imageView.addGestureRecognizer(doubleTapGesture)
+    }
+    
+    @objc func close() {
+        self.navigationController?.popViewController(animated: true)
     }
 
     @objc func doubleTapAction(gesture: UITapGestureRecognizer) {

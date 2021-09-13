@@ -14,7 +14,7 @@ class SegmentedProgressBar: UIView {
             self.updateColors()
         }
     }
-    var bottomColor = UIColor.textSecondaryScorpionGray {
+    var bottomColor = UIColor.textPrimaryDustyGray {
         didSet {
             self.updateColors()
         }

@@ -58,7 +58,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         dataBinding()
         eventHandler()
         initUI()

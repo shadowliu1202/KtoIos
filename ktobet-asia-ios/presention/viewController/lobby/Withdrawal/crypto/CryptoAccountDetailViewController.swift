@@ -19,7 +19,7 @@ class CryptoAccountDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         
         verifyStatusLabel.text = StringMapper.sharedInstance.getVerifyStatus(status: account.verifyStatus).text
         accountNameLabel.text = account.name

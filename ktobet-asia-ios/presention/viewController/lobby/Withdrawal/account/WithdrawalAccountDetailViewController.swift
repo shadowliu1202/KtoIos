@@ -24,7 +24,7 @@ class WithdrawalAccountDetailViewController: UIViewController {
     }
     
     private func initUI() {
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         verifyStatusLabel.text = account?.verifyStatusLocalize
         userNameLabel.text = account?.accountName
         bankNameLabel.text = account?.bankName

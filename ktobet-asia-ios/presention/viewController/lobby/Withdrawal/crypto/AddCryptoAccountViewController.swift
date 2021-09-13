@@ -21,7 +21,7 @@ class AddCryptoAccountViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         accountAddressTextField.rx.observe(UIColor.self, "backgroundColor").bind(to: accountAddressView.rx.backgroundColor).disposed(by: disposeBag)
         let supportCry = Crypto.Companion.init().support()
         supportCry.forEach{ print($0.simpleName) }
@@ -133,7 +133,7 @@ class AddCryptoAccountViewController: UIViewController {
             if let viewControllers = self?.navigationController?.viewControllers {
                 for controller in viewControllers {
                     if controller.isKind(of: AddCryptoAccountViewController.self) {
-                        NavigationManagement.sharedInstance.popViewController(nil, vc: controller)
+                        NavigationManagement.sharedInstance.popViewController(nil, to: controller)
                         NavigationManagement.sharedInstance.viewController = self
                     }
                 }

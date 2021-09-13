@@ -26,7 +26,7 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, icon: .back, customAction: #selector(tapBack))
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(tapBack))
         guard let _ = bankcardId else {
             fatalError("\(type(of: self)) need cardId.")
         }

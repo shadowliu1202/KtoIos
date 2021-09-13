@@ -17,7 +17,7 @@ class CrpytoTransationLogViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         initUI()
         dataBinding()
     }

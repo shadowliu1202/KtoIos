@@ -1412,3 +1412,6 @@ http";
 "level_producttype_2" = "THTH老虎机救援金";
 "level_navigate_to_promotion" = "前往优惠专区";
 "level_product_rebate" = "产品返现";
+
+//MARK: - Promotion
+"promotion_history_empty" = "THTH暂无纪录";

@@ -14,7 +14,7 @@ class CasinoSummaryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("product_my_bet"))
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: Localize.string("product_my_bet"))
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         tableView.setHeaderFooterDivider()
         bindingSummaryData()

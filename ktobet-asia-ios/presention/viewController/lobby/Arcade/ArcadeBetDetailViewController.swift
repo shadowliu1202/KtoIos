@@ -11,7 +11,7 @@ class ArcadeBetDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: viewModel.selectedRecord?.gameName)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: viewModel.selectedRecord?.gameName)
         initUI()
         dataBinding()
     }

@@ -301,7 +301,7 @@ class SideBarViewController: UIViewController {
     
     @IBAction func toGift(_ sender : UIButton){
         setUnSelectProduct()
-        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountGiftNavigationController")
+        NavigationManagement.sharedInstance.goTo(storyboard: "Promotion", viewControllerId: "PromotionNavigationController")
     }
     
     @IBAction func toNotify(_ sender : UIButton){

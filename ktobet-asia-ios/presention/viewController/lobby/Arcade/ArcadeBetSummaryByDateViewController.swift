@@ -11,7 +11,7 @@ class ArcadeBetSummaryByDateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: viewModel.selectedLocalDate)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: viewModel.selectedLocalDate)
         initUI()
         dataBinding()
     }

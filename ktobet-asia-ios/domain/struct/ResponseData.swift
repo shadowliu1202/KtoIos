@@ -47,6 +47,72 @@ struct PayloadPage<T: Codable> : Codable {
     var totalCount: Int
 }
 
+struct PromotionHistoryBean: Codable {
+    var payload: [PromotionPayload]
+    var summary: Double
+    var totalCount: Int
+    
+    func convertToPromotions() -> CouponHistorySummary {
+        CouponHistorySummary(summary: CashAmount(amount: self.summary), totalCoupon: self.totalCount,
+                             couponHistory: self.payload.map({ (p) -> CouponHistory in
+                                CouponHistory(amount: CashAmount(amount: p.coupon.amount),
+                                              bonusLockReceivingStatus: BonusReceivingStatus.values().get(index: p.coupon.bonusLockStatus)!,
+                                              promotionId: p.coupon.id,
+                                              name: p.coupon.name,
+                                              bonusId: p.coupon.no,
+                                              type: BonusType.convert(p.coupon.type),
+                                              receiveDate: p.coupon.updatedDate.toLocalDateTime(),
+                                              issue: KotlinInt.init(int: p.coupon.issue),
+                                              productType: ProductType.convert(p.coupon.productType),
+                                              percentage: Percentage(percent: p.coupon.percentage),
+                                              turnOverDetail: p.trial?.toTurnOverTrial())
+                             }))
+    }
+}
+
+struct PromotionPayload: Codable {
+    var coupon: Coupon
+    var trial: Trial?
+}
+
+struct Coupon: Codable {
+    var amount: Double
+    var betMultiple: Int
+    var bonusLockStatus: Int32
+    var id: String
+    var issue: Int32
+    var level: Int
+    var name: String
+    var no: String
+    var percentage: Double
+    var productType: Int
+    var type: Int32
+    var updatedDate: String
+}
+
+struct Trial: Codable {
+    var achieved: Double
+    var amount: Double
+    var balance: Double
+    var formula: String
+    var percentage: String
+    var request: Double
+    var turnoverRequest: Double
+    var turnoverRequestForDeposit: Double
+    
+    func toTurnOverTrial() -> CouponHistory.TurnOverTrial? {
+        CouponHistory.TurnOverTrial(
+            achieved: CashAmount(amount: self.achieved),
+            amount: CashAmount(amount: self.amount),
+            balance: CashAmount(amount: self.balance),
+            formula: self.formula,
+            percentage: Percentage(percent: self.percentage.doubleValue()),
+            request: CashAmount(amount: self.request),
+            turnoverRequest: CashAmount(amount: self.turnoverRequest),
+            turnoverRequestForDeposit: CashAmount(amount: self.turnoverRequestForDeposit))
+    }
+}
+
 struct ILoginData : Codable {
     var phase : Int
     var isLocked : Bool
@@ -132,7 +198,7 @@ struct DepositMethodData: Codable {
     var paymentTokenID: String
     var depositLimitMaximum, depositLimitMinimum: Double
     var specialDisplayType: Int
-
+    
     enum CodingKeys: String, CodingKey {
         case depositTypeID = "depositTypeId"
         case depositTypeName
@@ -147,7 +213,7 @@ struct DepositMethodData: Codable {
 struct DepositTransactionData: Codable {
     let displayID, providerAccountID, depositTransactionID: String
     let bankID: Int?
-
+    
     enum CodingKeys: String, CodingKey {
         case displayID = "displayId"
         case providerAccountID = "providerAccountId"
@@ -241,7 +307,7 @@ struct DepositRecordDetailData: Codable {
 struct StatusChangeHistory: Codable {
     let remarkLevel1, remarkLevel2, remarkLevel3, createdDate: String
     let imageIDS: [String]
-
+    
     enum CodingKeys: String, CodingKey {
         case remarkLevel1, remarkLevel2, remarkLevel3, createdDate
         case imageIDS = "imageIds"
@@ -276,7 +342,7 @@ struct WithdrawalRecordData: Codable {
     let createdDate: String
     let requestAmount, actualAmount: Double
     let isPendingHold: Bool
-
+    
     enum CodingKeys: String, CodingKey {
         case displayID = "displayId"
         case status, ticketType, createdDate, requestAmount, actualAmount, isPendingHold
@@ -363,7 +429,7 @@ struct WithdrawalAccountBean: Codable {
     let branch, bankName, accountName, accountNumber: String
     let location, address, city: String
     let verifyStatus: Int
-
+    
     enum CodingKeys: String, CodingKey {
         case playerBankCardID = "playerBankCardId"
         case bankID = "bankId"
@@ -384,7 +450,7 @@ struct TopCasinoResponse: Codable {
     let casinoData: [CasinoData]?
     let isLobbyMaintenance: Bool
     let games: [CasinoData]?
-
+    
     enum CodingKeys: String, CodingKey {
         case lobbyID = "lobbyId"
         case lobbyName, gameCount, casinoData, isLobbyMaintenance, games
@@ -399,7 +465,7 @@ struct CasinoData: Codable {
     let isGameMaintenance: Bool
     let status: Int
     let releaseDate: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case gameID = "gameId"
         case imageID = "imageId"
@@ -425,7 +491,7 @@ struct TagBean: Codable {
 struct BetSummaryData: Codable {
     let pendingTransactionCount: Int32
     let summaries: [Summary]
-
+    
     struct Summary: Codable {
         let betDate: String
         let count: Int32
@@ -433,7 +499,7 @@ struct BetSummaryData: Codable {
         let winLoss: Double
     }
 }
-    
+
 struct CasinoGroupData: Codable {
     let endDate: String
     let lobbyId: Int32
@@ -536,7 +602,7 @@ struct SlotGameBean: Codable {
     let isGameMaintenance: Bool
     let imageId: String
     let name: String
-   
+    
     
     func toSlotGame(portalHost: String) -> SlotGame {
         return SlotGame(gameId: self.gameId,
@@ -570,7 +636,7 @@ struct RecentGameBean: Codable {
 struct SlotBetSummaryBean: Codable {
     let pendingTransactionCount: Int32
     let summaries: [Summary]
-
+    
     struct Summary: Codable {
         let betDate: String
         let count: Int32
@@ -894,7 +960,7 @@ struct TicketDetail: Codable {
     let approvedDate, displayID: String
     let fiatAmount, cryptoAmount: Double
     let cryptoCurrency: Int32
-
+    
     enum CodingKeys: String, CodingKey {
         case approvedDate
         case displayID = "displayId"
@@ -938,9 +1004,15 @@ struct LockedBonusDataBean: Codable {
     func toTurnOverReceipt() -> P2PTurnOver.TurnOverReceipt {
         let informPlayerDate = self.informPlayerDate.convertDateTime() ?? Date()
         let informPlayerLocalDate =  Kotlinx_datetimeLocalDate.init(year: informPlayerDate.getYear(), monthNumber: informPlayerDate.getMonth(), dayOfMonth: informPlayerDate.getDayOfMonth())
-        let parameter = TurnOverDetail.Parameters.init(amount: CashAmount(amount: parameters.amount.currencyAmountToDouble() ?? 0), balance: CashAmount(amount: parameters.balance.currencyAmountToDouble() ?? 0), betMultiplier: Int32(parameters.betMultiplier), capital: CashAmount(amount: parameters.capital.currencyAmountToDouble() ?? 0), depositRequest: CashAmount(amount: parameters.depositRequest.currencyAmountToDouble() ?? 0), percentage: Percentage(percent: parameters.percentage.currencyAmountToDouble() ?? 0), request: CashAmount(amount: parameters.request.currencyAmountToDouble() ?? 0), requirement: CashAmount(amount: parameters.requirement.currencyAmountToDouble() ?? 0), turnoverRequest: CashAmount(amount: parameters.turnoverRequest.currencyAmountToDouble() ?? 0))
+        let parameter = toTurnOverDetailParameters(parameters)
         
         return P2PTurnOver.TurnOverReceipt.init(turnOverDetail: TurnOverDetail.init(achieved: CashAmount(amount: achieved.currencyAmountToDouble() ?? 0), formula: formula, informPlayerDate: informPlayerLocalDate, name: name, bonusId: no, remainAmount: CashAmount(amount: remainingAmount.currencyAmountToDouble() ?? 0), parameters: parameter))
+    }
+    func toTurnOverDetail() -> TurnOverDetail {
+        return TurnOverDetail(achieved: CashAmount(amount: achieved.currencyAmountToDouble() ?? 0), formula: formula, informPlayerDate: self.informPlayerDate.toLocalDate(), name: self.name, bonusId: self.no, remainAmount: CashAmount(amount: self.remainingAmount.currencyAmountToDouble() ?? 0), parameters: self.toTurnOverDetailParameters(self.parameters))
+    }
+    private func toTurnOverDetailParameters(_ params: Parameters) -> TurnOverDetail.Parameters {
+        return TurnOverDetail.Parameters(amount: CashAmount(amount: parameters.amount.currencyAmountToDouble() ?? 0), balance: CashAmount(amount: parameters.balance.currencyAmountToDouble() ?? 0), betMultiplier: Int32(parameters.betMultiplier), capital: CashAmount(amount: parameters.capital.currencyAmountToDouble() ?? 0), depositRequest: CashAmount(amount: parameters.depositRequest.currencyAmountToDouble() ?? 0), percentage: Percentage(percent: parameters.percentage.currencyAmountToDouble() ?? 0), request: CashAmount(amount: parameters.request.currencyAmountToDouble() ?? 0), requirement: CashAmount(amount: parameters.requirement.currencyAmountToDouble() ?? 0), turnoverRequest: CashAmount(amount: parameters.turnoverRequest.currencyAmountToDouble() ?? 0))
     }
 }
 
@@ -1149,4 +1221,270 @@ struct PrivilegeBean: Codable {
     let type: Int32
     let withdrawalLimitAmount: Double
     let withdrawalLimitCount: Int32
+}
+
+struct BonusBean: Codable {
+    let amount: Double
+    let away: String
+    let betMultiple: Int32
+    let bonusCouponStatus: Int
+    let displayId: String
+    let effectiveDate: String
+    let expiryDate: String
+    let home: String
+    let informPlayerDate: String
+    let issue: Int32
+    let league: String
+    let level: Int32
+    let maxAmount: Double
+    let minCapital: Double
+    let name: String
+    let no: String
+    let percentage: Double
+    let productType: Int32
+    let fixTurnoverRequirement: Double
+    let type: Int32
+    let updatedDate: String
+    
+    var couponStatus: CouponStatus {
+        return self.covertBonusPromotionStatus(self.bonusCouponStatus)
+    }
+    var knAmount: CashAmount {
+        return CashAmount(amount: self.amount)
+    }
+    var knMaxAmount: CashAmount {
+        return CashAmount(amount: self.maxAmount)
+    }
+    var knMinCapital: CashAmount {
+        return CashAmount(amount: self.minCapital)
+    }
+    var knPercentage: Percentage {
+        return Percentage(percent: self.percentage)
+    }
+    
+    private func covertBonusPromotionStatus(_ bonusCouponStatus: Int) -> CouponStatus {
+        switch bonusCouponStatus {
+        case 0:     return CouponStatus.usable
+        case 1:     return CouponStatus.used
+        case 2:     return CouponStatus.expired
+        case 3:     return CouponStatus.full
+        default:    return CouponStatus.unknown
+        }
+    }
+    
+    func toBonusCoupon() -> BonusCoupon {
+        switch self.type {
+        case 1:
+            return self.toFreebet()
+        case 2:
+            return self.toDepositReturnCustomize()
+        case 3:
+            return self.toProduct()
+        case 4:
+            return self.toRebate()
+        case 5:
+            return self.toDepositReturnLevel()
+        default:
+            return BonusCoupon.Other.init()
+        }
+    }
+    
+    private func toFreebet() -> BonusCoupon {
+        return BonusCoupon.FreeBet.init(promotionId: self.displayId,
+                                        bonusId: self.no,
+                                        name: self.name,
+                                        couponStatus: self.couponStatus,
+                                        percentage: self.knPercentage,
+                                        amount: self.knAmount,
+                                        maxAmount: self.knMaxAmount,
+                                        betMultiple: self.betMultiple,
+                                        fixTurnoverRequirement: self.fixTurnoverRequirement,
+                                        informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
+                                        updatedDate: self.updatedDate.toLocalDateTime(),
+                                        validPeriod: ValidPeriod.Companion.init().create(start: self.effectiveDate.toOffsetDateTime(),
+                                                                                         end: self.expiryDate.toOffsetDateTime()),
+                                        minCapital: self.knMinCapital)
+    }
+    
+    private func toDepositReturnCustomize() -> BonusCoupon {
+        return BonusCoupon.DepositReturnCustomize(property: self.toDepositReturnProperty())
+    }
+    
+    private func toProduct() -> BonusCoupon {
+        return BonusCoupon.Product(promotionId: self.displayId,
+                                   bonusId: self.no,
+                                   issueNumber: self.issue,
+                                   productType: ProductType.convert(self.productType),
+                                   informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
+                                   maxAmount: self.knMaxAmount,
+                                   endDate: self.effectiveDate.toLocalDateTime(),
+                                   name: self.name,
+                                   betMultiple: self.betMultiple,
+                                   fixTurnoverRequirement: self.fixTurnoverRequirement,
+                                   validPeriod: ValidPeriod.Companion.init().create(start: self.effectiveDate.toOffsetDateTime(),
+                                                                                    end: self.expiryDate.toOffsetDateTime()),
+                                   updatedDate: self.updatedDate.toLocalDateTime(),
+                                   couponStatus: self.couponStatus,
+                                   minCapital: self.knMinCapital)
+    }
+    
+    private func toRebate() -> BonusCoupon {
+        return BonusCoupon.Rebate(promotionId: self.displayId,
+                                  bonusId: self.no,
+                                  rebateFrom: ProductType.convert(self.productType),
+                                  name: self.name,
+                                  issueNumber: self.issue == 0 ? nil : KotlinInt(value: self.issue),
+                                  percentage: self.knPercentage,
+                                  amount: self.knAmount,
+                                  endDate: self.effectiveDate.toLocalDateTime(),
+                                  betMultiple: self.betMultiple,
+                                  fixTurnoverRequirement: self.fixTurnoverRequirement,
+                                  validPeriod: ValidPeriod.Companion.init().create(start: self.effectiveDate.toOffsetDateTime(),
+                                                                                   end: self.expiryDate.toOffsetDateTime()),
+                                  couponStatus: self.couponStatus,
+                                  updatedDate: self.updatedDate.toLocalDateTime(),
+                                  informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
+                                  minCapital: self.knMinCapital)
+    }
+    
+    private func toDepositReturnLevel() -> BonusCoupon {
+        return BonusCoupon.DepositReturnLevel(level: self.level, property: self.toDepositReturnProperty())
+    }
+    
+    private func toDepositReturnProperty() -> BonusCoupon.DepositReturnProperty {
+        return BonusCoupon.DepositReturnProperty(promotionId: self.displayId,
+                                                 bonusId: self.no,
+                                                 couponStatus: self.couponStatus,
+                                                 percentage: self.knPercentage,
+                                                 amount: self.knAmount,
+                                                 maxAmount: self.knMaxAmount,
+                                                 betMultiple: self.betMultiple,
+                                                 fixTurnoverRequirement: self.fixTurnoverRequirement,
+                                                 informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
+                                                 updatedDate: self.updatedDate.toLocalDateTime(),
+                                                 name: self.name,
+                                                 validPeriod:  ValidPeriod.Companion.init().create(start: self.effectiveDate.toOffsetDateTime(),
+                                                                                                   end: self.expiryDate.toOffsetDateTime()),
+                                                 minCapital: self.knMinCapital)
+    }
+}
+
+let NO_LIMIT = 1000000000000000.0
+struct PromotionBean: Codable {
+    let informPlayerDate: String
+    let displayId: String
+    let endDate: String
+    let isAutoUse: Bool
+    let issue: Int32
+    let maxAmount: Double
+    let name: String?
+    let percentage: Double
+    let productType: Int32
+    
+    func toRebatePromotion() -> PromotionEvent.Rebate {
+        return PromotionEvent.Rebate(promotionId: self.displayId,
+                                     issueNumber: self.issue,
+                                     informPlayerDate: self.informPlayerDate.toLocalDateTime(),
+                                     type: ProductType.convert(self.productType),
+                                     percentage: Percentage(percent: self.percentage),
+                                     maxBonus: self.maxAmount >= NO_LIMIT ? MaxAmount.UnLimit() : MaxAmount.Amount(value: CashAmount(amount: self.maxAmount)),
+                                     endDate: self.endDate.toOffsetDateTime(),
+                                     isAutoUse: self.isAutoUse)
+    }
+}
+
+struct ProductPromotionBean: Codable {
+    let displayId: String
+    let endDate: String
+    let informPlayerDate: String
+    let issue: Int32
+    let maxAmount: Double
+    let name: String?
+    let productType: Int32
+    let sort: Int32
+    
+    func toProductPromotion() -> PromotionEvent.Product {
+        return PromotionEvent.Product(promotionId: self.displayId,
+                                      issueNumber: self.issue,
+                                      informPlayerDate: self.informPlayerDate.toLocalDateTime(),
+                                      endDate: self.endDate.toOffsetDateTime(),
+                                      maxBonus: self.maxAmount >= NO_LIMIT ? MaxAmount.UnLimit() : MaxAmount.Amount(value: CashAmount(amount: self.maxAmount)),
+                                      type: ProductType.convert(self.productType))
+    }
+}
+
+struct LockBonusBean: Codable {
+    let amount: Double?
+    let betMultiple: Int32?
+    let capital: Double?
+    let fixTurnoverRequirement: Double?
+    let maxAmount: Double?
+    let name: String?
+    let no: String?
+    let percentage: Double?
+    let playerLevel: Int32?
+    let productType: Int32?
+    var status: BonusCouponStatus? {
+        get {
+            if let value = _status {
+                return BonusCouponStatus(rawValue: value)
+            }
+            return nil
+        }
+    }
+    let type: Int32?
+    private var _status: Int32?
+    
+    enum CodingKeys: String, CodingKey {
+        case amount, betMultiple, capital, fixTurnoverRequirement, maxAmount, name, no, percentage, playerLevel, productType, type
+        case _status = "status"
+    }
+    
+    enum BonusCouponStatus: Int32 {
+        case Usable, Used, Expired, Full
+    }
+}
+
+struct BonusTagBean: Codable {
+    let hasBonusTag: Bool
+}
+
+struct BonusHintBean: Codable {
+    let formula: String
+    let parameters: Parameters
+    
+    struct Parameters: Codable {
+        let amount: String?
+        let balance: String?
+        let betMultiplier: Int?
+        let capital: String?
+        let request: String?
+        let requirement: String?
+        
+        private func toCashAmount(_ text: String?) -> CashAmount{
+            return CashAmount(amount: text?.currencyAmountToDouble() ?? 0)
+        }
+        
+        fileprivate func toTurnOverHintParameters() -> TurnOverHint.Parameters {
+            return TurnOverHint.Parameters(amount: toCashAmount(self.amount), balance: toCashAmount(self.balance), betMultiplier: Int32(betMultiplier ?? 0), capital: toCashAmount(self.capital), request: toCashAmount(self.request), requirement: toCashAmount(self.requirement))
+        }
+    }
+    
+    func toTurnOverHint() -> TurnOverHint {
+        return TurnOverHint(formula: self.formula, parameters: self.parameters.toTurnOverHintParameters())
+    }
+}
+
+struct PromotionContentBean: Codable {
+    let content: String
+    let rules: String
+}
+
+struct PromotionTemplateBean: Codable {
+    let contentTemplate: String
+    let rulesTemplate: String
+    
+    func toPromotionDescriptions() -> PromotionDescriptions {
+        return PromotionDescriptions(content: self.contentTemplate, rules: self.rulesTemplate)
+    }
 }

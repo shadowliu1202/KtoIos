@@ -18,7 +18,7 @@ class CasinoBetSummaryByDateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: selectDate?.replacingOccurrences(of: "-", with: "/"))
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: selectDate?.replacingOccurrences(of: "-", with: "/"))
         tableView.delegate = self
         tableView.dataSource = self
         tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25), headerColor: UIColor.black_two)

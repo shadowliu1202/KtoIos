@@ -26,9 +26,7 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, isShowAlert: false, closeAction: {
-            self.performSegue(withIdentifier: WithdrawlLandingViewController.unwindSegue, sender: nil)
-        }, closeTitle: "", closeMessage: "")
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
         btnPhone.setTitle(Localize.string("common_mobile"), for: .normal)
         btnEmail.setTitle(Localize.string("common_email"), for: .normal)
@@ -106,6 +104,10 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
                 self?.showToastAlertFailed()
             }).disposed(by: self.disposeBag)
         }.disposed(by: disposeBag)
+    }
+    
+    @objc func close() {
+        self.performSegue(withIdentifier: WithdrawlLandingViewController.unwindSegue, sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

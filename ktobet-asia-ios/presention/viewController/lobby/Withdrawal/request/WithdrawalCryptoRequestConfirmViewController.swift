@@ -26,7 +26,7 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         guard let source = source else {
             fatalError("\(type(of: self)) need \(type(of: RequestConfirm.self)) source.")
         }

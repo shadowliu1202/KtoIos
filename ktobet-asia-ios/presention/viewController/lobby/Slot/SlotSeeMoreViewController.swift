@@ -34,7 +34,7 @@ class SlotSeeMoreViewController: DisplayProduct {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: type.localizeString())
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: type.localizeString())
         initUI()
         dataBinding()
     }

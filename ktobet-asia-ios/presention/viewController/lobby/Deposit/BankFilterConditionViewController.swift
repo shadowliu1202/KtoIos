@@ -3,15 +3,32 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class FilterConditionViewController: UIViewController {
+class BankFilterConditionViewController: FilterConditionViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnSubmit: UIButton!
     lazy var totalSource = BehaviorRelay<[FilterItem]>(value: [])
-    var presenter: FilterPresentProtocol!
+    var _presenter: FilterPresentProtocol!
+    override var presenter: FilterPresentProtocol! {
+        get {
+            return _presenter
+        }
+        set {
+            _presenter = newValue
+        }
+    }
+    
     let disposeBag = DisposeBag()
-    var conditionCallbck: (([FilterItem]) -> ())?
+    var _conditionCallbck: (([FilterItem]) -> ())?
+    override var conditionCallbck: (([FilterItem]) -> ())? {
+        get {
+            return _conditionCallbck
+        }
+        set {
+            _conditionCallbck = newValue
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +40,7 @@ class FilterConditionViewController: UIViewController {
         titleLabel.text = presenter.getTitle()
         tableView.separatorColor = UIColor.clear
         displayLastRowSperator()
-        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, icon: .close, action: .back)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, image: "Close")
     }
     
     func dataBinding() {
@@ -88,8 +105,9 @@ class StaticCell: UITableViewCell {
 }
 
 class InteractiveCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var selectBtn: UIButton!
+    @IBOutlet weak var titleLeadingConstraint: NSLayoutConstraint!
     private lazy var disposeBag = DisposeBag()
     
     override func prepareForReuse() {
@@ -99,7 +117,7 @@ class InteractiveCell: UITableViewCell {
     
     func configure(_ item: FilterItem, impl: FilterPresentProtocol?, callback: (Observable<Void>, DisposeBag) -> Void) -> Self {
         self.selectionStyle = .none
-        self.titleLabel.text = impl?.itemText(item)
+        titleLbl.text = impl?.itemText(item)
         if let img = impl?.itemAccenery(item) as? UIImage {
             self.selectBtn.setImage(img, for: .normal)
         }

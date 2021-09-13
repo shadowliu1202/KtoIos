@@ -20,7 +20,7 @@ class NumberGameMyBetGameGroupedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: betDate.toBetDisplayDate())
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: betDate.toBetDisplayDate())
         initUI()
         dataBinding()
         summaryDataHandler()

@@ -14,7 +14,7 @@ class SlotUnsettleRecordsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: Localize.string("product_unsettled_game"))
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: Localize.string("product_unsettled_game"))
         initUI()
         dataBinding()
     }

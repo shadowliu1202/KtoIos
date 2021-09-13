@@ -12,7 +12,7 @@ class P2PBetDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBackToBarButtonItem(vc: self, title: recordData?.gameName)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: recordData?.gameName)
         initUI()
         dataBinding()
     }

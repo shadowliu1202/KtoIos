@@ -47,10 +47,17 @@ class DepositOfflineConfirmViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addCloseToBarButtonItem(vc: self, closeTitle: Localize.string("common_confirm_cancel_operation"), closeMessage: Localize.string("deposit_offline_termniate"))
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
+        
         initUI()
         dataBinding()
         startExpireTimer()
+    }
+    
+    @objc func close () {
+        Alert.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_offline_termniate"), confirm: {
+            NavigationManagement.sharedInstance.popViewController()
+        }, cancel: nil)
     }
     
     // MARK: BUTTON ACTION

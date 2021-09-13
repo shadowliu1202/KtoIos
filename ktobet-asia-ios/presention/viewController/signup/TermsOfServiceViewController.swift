@@ -16,6 +16,11 @@ struct TermsOfService {
     var selected = false
 }
 
+enum TermsType {
+    case termsOfService
+    case promotionSecurityPrivacy
+}
+
 class TermsOfServiceViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet private weak var btnBack: UIBarButtonItem!
@@ -26,17 +31,25 @@ class TermsOfServiceViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet private weak var naviItem: UINavigationItem!
     @IBOutlet private weak var constraintTableViewHeight : NSLayoutConstraint!
     
+    var termsType: TermsType = .termsOfService
+    
     private let segueLanguage = "BackToLanguage"
     private var dataSourceTerms : [TermsOfService] = []
     
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        switch termsType {
+        case .termsOfService:
+            NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, leftItemTitle: Localize.string("common_service_terms"))
+        case .promotionSecurityPrivacy:
+            NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, leftItemTitle: Localize.string("common_privacy_terms"))
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        localize()
         defaultStyle()
         reloadTableView()
     }
@@ -45,18 +58,31 @@ class TermsOfServiceViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidAppear(animated)
     }
     
-    // MARK: METHOD
-    private func localize(){
-        labDesc.text = Localize.string("license_warning")
-        btnTitle.title = Localize.string("common_service_terms")
-    }
-    
     private func defaultStyle(){
-        view.backgroundColor = UIColor.white
         labDesc.textColor = UIColor.black_two
     }
+    
+    private func reloadTableView() {
+        switch termsType {
+        case .termsOfService:
+            labDesc.text = Localize.string("license_warning")
+            createTermsOfService()
+        case .promotionSecurityPrivacy:
+            labDesc.text =
+                Localize.string("license_privacy_warning_1") +
+                Localize.string("license_privacy_warning_2") +
+                Localize.string("license_privacy_warning_3")
+            createPromotionSecurityprivacy()
+        }
         
-    private func reloadTableView(){
+        reloadTableViewHeight()
+    }
+    
+    private func createTerms(localization: ILocalizationData, key: String) -> String {
+        localization.data[key] ?? ""
+    }
+    
+    private func createTermsOfService() {
         dataSourceTerms = {
             var arr = [TermsOfService]()
             let titles = [Localize.string("license_definition"),
@@ -111,7 +137,39 @@ class TermsOfServiceViewController: UIViewController, UIScrollViewDelegate {
             }
             return arr
         }()
-        reloadTableViewHeight()
+    }
+    
+    private func createPromotionSecurityprivacy() {
+        dataSourceTerms = {
+            var arr = [TermsOfService]()
+            let titles = [Localize.string("license_privacy_messagecollect_use"),
+                          Localize.string("license_privacy_transaction"),
+                          Localize.string("license_privacy_promotion_information"),
+                          Localize.string("license_privacy_playerinformation"),
+                          Localize.string("license_privacy_playerinformationsafe"),
+                          Localize.string("license_privacy_phone"),
+                          Localize.string("license_privacy_docfile"),
+                          Localize.string("license_privacy_webmessage"),
+                          Localize.string("license_privacy_advertisement"),
+                          Localize.string("license_privacy_bonus"),
+                          Localize.string("license_privacy_safety")]
+            let contents = [Localize.string("license_privacy_definition_content"),
+                            Localize.string("license_privacy_transaction_content"),
+                            Localize.string("license_privacy_promotion_information_content"),
+                            Localize.string("license_privacy_playerinformation_content"),
+                            Localize.string("license_privacy_playerinformationsafe_content"),
+                            Localize.string("license_privacy_phone_content"),
+                            Localize.string("license_privacy_docfile_content"),
+                            Localize.string("license_privacy_webmessage_content"),
+                            Localize.string("license_privacy_advertisement_content"),
+                            Localize.string("license_privacy_bonus_content"),
+                            Localize.string("license_privacy_safety_content")]
+            for idx in 0..<titles.count{
+                let term = TermsOfService.init(title: titles[idx], content: contents[idx], selected: false)
+                arr.append(term)
+            }
+            return arr
+        }()
     }
     
     private func reloadTableViewHeight(){
@@ -123,7 +181,12 @@ class TermsOfServiceViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: BUTTON ACTION
     @IBAction func btnBackPressed(_ sender : UIButton){
-        performSegue(withIdentifier: segueLanguage, sender: nil)
+        switch termsType {
+        case .termsOfService:
+            performSegue(withIdentifier: segueLanguage, sender: nil)
+        case .promotionSecurityPrivacy:
+            NavigationManagement.sharedInstance.popViewController()
+        }
     }
 }
 
