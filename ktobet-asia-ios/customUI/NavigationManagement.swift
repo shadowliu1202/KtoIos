@@ -104,21 +104,6 @@ class NavigationManagement {
         }
     }
     
-    func goTo(storyboard name: String, viewControllerId: String) {
-        if name == "Login" && viewControllerId == "LoginNavigation" {
-            dispose()
-        }
-        
-        if menu != nil {
-            menu.dismiss(animated: true, completion: nil)
-        }
-        
-        viewController = UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = self.viewController
-        }
-    }
-    
     func popViewController(_ completion: (() -> Void)? = nil) {
         viewController.navigationController?.popViewController(animated: true)
         viewController = viewController.navigationController?.topViewController
