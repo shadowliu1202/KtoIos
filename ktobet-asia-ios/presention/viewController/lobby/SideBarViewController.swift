@@ -6,7 +6,7 @@ import SideMenu
 
 extension SideBarViewController: SideMenuNavigationControllerDelegate {
     func sideMenuWillAppear(menu: SideMenuNavigationController, animated: Bool) {
-        dataBinding()
+        dataRefresh()
     }
 }
 
@@ -35,13 +35,14 @@ class SideBarViewController: UIViewController {
     private var viewModel = DI.resolve(PlayerViewModel.self)!
     private var systemViewModel = DI.resolve(SystemViewModel.self)!
     private var slideViewModel = SlideMenuViewModel()
-    
+    private var refreshTrigger = PublishSubject<()>()
+        
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
         eventHandler()
-        
+        dataBinding()
         guard let menu = navigationController as? SideMenuNavigationController, menu.blurEffectStyle == nil else {
             return
         }
@@ -169,41 +170,6 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func dataBinding() {
-        listProduct.delegate = nil
-        listFeature.delegate = nil
-        listProduct.dataSource = nil
-        listFeature.dataSource = nil
-
-        let shareLoadPlayerInfo = self.viewModel.loadPlayerInfo().share(replay: 1)
-        shareLoadPlayerInfo.subscribe(onNext: { [weak self] (player) in
-            guard let self = self else { return }
-            self.player = player
-            self.labUserLevel.text = "LV\(player.playerInfo.level)"
-            self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
-            self.labUserName.text = "\(player.playerInfo.gameId)"
-        }, onError: { [weak self] (error) in
-            self?.handleUnknownError(error)
-        }).disposed(by: self.disposeBag)
-
-        shareLoadPlayerInfo.flatMapLatest({ [weak self] (player) -> Observable<[ProductItem]> in
-            guard let self = self else { return Observable<[ProductItem]>.just([]) }
-            return self.slideViewModel.arrProducts
-        }).catchError({ [weak self] (error) -> Observable<[ProductItem]> in
-            self?.handleUnknownError(error)
-            return Observable<[ProductItem]>.just([])
-        }).bind(to: self.listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) {[weak self] (index, data, cell) in
-            guard let self = self else { return }
-            cell.setup(data)
-            if let defaultProduct = self.player?.defaultProduct {
-                if defaultProduct == data.type {
-                    cell.setSelectedIcon(data.type, isSelected: true)
-                    self.slideViewModel.currentSelectedCell = cell
-                    self.slideViewModel.currentSelectedProductType = data.type
-                    self.listProduct.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .init())
-                }
-            }
-        }.disposed(by: self.disposeBag)
-        
         viewModel.playerBalance.subscribe {[unowned self] (balance) in
             let paragraph = NSMutableParagraphStyle()
             paragraph.firstLineHeadIndent = 0
@@ -223,14 +189,49 @@ class SideBarViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         viewModel.playerBalance.bind(to: self.labBalance.rx.text).disposed(by: self.disposeBag)
-        viewModel.refreshBalance.onNext(())
+        
+        let shareLoadPlayerInfo = refreshTrigger.flatMapLatest {[weak self] _ -> Observable<Player> in
+            guard let self = self else { return Observable.error(KTOError.EmptyData)}
+            return self.viewModel.loadPlayerInfo().asObservable().share(replay: 1)
+        }
+        
+        shareLoadPlayerInfo.subscribe(onNext: { [weak self] (player) in
+            guard let self = self else { return }
+            self.player = player
+            self.labUserLevel.text = "LV\(player.playerInfo.level)"
+            self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
+            self.labUserName.text = "\(player.playerInfo.gameId)"
+        }, onError: { [weak self] (error) in
+            self?.handleUnknownError(error)
+        }).disposed(by: self.disposeBag)
+        
+        shareLoadPlayerInfo.flatMapLatest({ [weak self] (player) -> Observable<[ProductItem]> in
+            guard let self = self else { return Observable<[ProductItem]>.just([]) }
+            return self.slideViewModel.arrProducts
+        }).catchError({ [weak self] (error) -> Observable<[ProductItem]> in
+            self?.handleUnknownError(error)
+            return Observable<[ProductItem]>.just([])
+        }).bind(to: self.listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) {[weak self] (index, data, cell) in
+            guard let self = self else { return }
+            cell.setup(data)
+            if let defaultProduct = self.player?.defaultProduct {
+                if defaultProduct == data.type {
+                    cell.setSelectedIcon(data.type, isSelected: true)
+                    self.slideViewModel.currentSelectedCell = cell
+                    self.slideViewModel.currentSelectedProductType = data.type
+                    self.listProduct.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .init())
+                }
+            }
+        }.disposed(by: self.disposeBag)
         
         slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
             cell.setup(data.name.rawValue, image: UIImage(named: data.icon))
         }.disposed(by: disposeBag)
-        
-        listProduct.reloadData()
-        listFeature.reloadData()
+    }
+    
+    fileprivate func dataRefresh() {
+        refreshTrigger.onNext(())
+        viewModel.refreshBalance.onNext(())
     }
     
     fileprivate func eventHandler() {
