@@ -71,13 +71,16 @@ class NavigationManagement {
         if name == "Login" && viewControllerId == "LoginNavigation" {
             dispose()
         }
-
+        
         if menu != nil {
-            menu.dismiss(animated: true, completion: nil)
+            menu.dismiss(animated: true, completion: {
+                self.setRootViewController(storyboard: name, viewControllerId: viewControllerId)
+            })
+            
+            return
         }
         
-        viewController = UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
-        UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = self.viewController
+        setRootViewController(storyboard: name, viewControllerId: viewControllerId)
     }
     
     func goTo(productType: ProductType?) {
@@ -125,6 +128,11 @@ class NavigationManagement {
     func pushViewController(vc: UIViewController) {
         viewController.navigationController?.pushViewController(vc, animated: true)
         viewController = viewController.navigationController?.topViewController
+    }
+    
+    private func setRootViewController(storyboard name: String, viewControllerId: String) {
+        self.viewController = UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
+        UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = self.viewController
     }
     
     private func initSideMenu() {

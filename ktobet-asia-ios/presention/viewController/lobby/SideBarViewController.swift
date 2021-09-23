@@ -36,11 +36,14 @@ class SideBarViewController: UIViewController {
     private var systemViewModel = DI.resolve(SystemViewModel.self)!
     private var slideViewModel = SlideMenuViewModel()
     private var refreshTrigger = PublishSubject<()>()
-        
+    private var defaultSelectedProductType: ProductType?
+
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
+        initProducts()
+        initFeatures()
         eventHandler()
         dataBinding()
         guard let menu = navigationController as? SideMenuNavigationController, menu.blurEffectStyle == nil else {
@@ -208,29 +211,30 @@ class SideBarViewController: UIViewController {
             self.labUserLevel.text = "LV\(player.playerInfo.level)"
             self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
             self.labUserName.text = "\(player.playerInfo.gameId)"
+            if self.defaultSelectedProductType == nil {
+                self.defaultSelectedProductType = player.defaultProduct
+                self.slideViewModel.currentSelectedProductType = player.defaultProduct
+                self.listProduct.reloadData()
+            }
         }, onError: { [weak self] (error) in
             self?.handleUnknownError(error)
         }).disposed(by: self.disposeBag)
-        
-        shareLoadPlayerInfo.flatMapLatest({ [weak self] (player) -> Observable<[ProductItem]> in
-            guard let self = self else { return Observable<[ProductItem]>.just([]) }
-            return self.slideViewModel.arrProducts
-        }).catchError({ [weak self] (error) -> Observable<[ProductItem]> in
-            self?.handleUnknownError(error)
-            return Observable<[ProductItem]>.just([])
-        }).bind(to: self.listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) {[weak self] (index, data, cell) in
+    }
+    
+    fileprivate func initProducts() {
+        self.slideViewModel.arrProducts.bind(to: self.listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) {[weak self] (index, data, cell) in
             guard let self = self else { return }
             cell.setup(data)
-            if let defaultProduct = self.player?.defaultProduct {
-                if defaultProduct == data.type {
-                    cell.setSelectedIcon(data.type, isSelected: true)
-                    self.slideViewModel.currentSelectedCell = cell
-                    self.slideViewModel.currentSelectedProductType = data.type
-                    self.listProduct.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .init())
-                }
+            if let selectedProductType = self.slideViewModel.currentSelectedProductType, data.type == selectedProductType {
+                cell.setSelectedIcon(selectedProductType, isSelected: true)
+                self.listProduct.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .init())
+            } else {
+                cell.setSelectedIcon(data.type, isSelected: false)
             }
-        }.disposed(by: self.disposeBag)
-        
+        }.disposed(by: disposeBag)
+    }
+    
+    fileprivate func initFeatures() {
         slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
             cell.setup(data.name.rawValue, image: UIImage(named: data.icon))
         }.disposed(by: disposeBag)
@@ -246,7 +250,6 @@ class SideBarViewController: UIViewController {
             NavigationManagement.sharedInstance.goTo(productType: data.type)
             let cell = self?.listProduct.cellForItem(at: indexPath) as? ProductItemCell
             cell?.setSelectedIcon(data.type, isSelected: true)
-            self?.slideViewModel.currentSelectedCell = cell
             self?.slideViewModel.currentSelectedProductType = data.type
         }.disposed(by: disposeBag)
         
@@ -258,9 +261,7 @@ class SideBarViewController: UIViewController {
         Observable.zip(listFeature.rx.itemSelected, listFeature.rx.modelSelected(FeatureItem.self)).bind {[weak self] (indexPath, data) in
             let featureType = data.name
             if featureType != .logout {
-                if let productType = self?.slideViewModel.currentSelectedProductType {
-                    self?.slideViewModel.currentSelectedCell?.setSelectedIcon(productType, isSelected: false)
-                }
+                self?.cleanProductSelected()
             }
             
             switch featureType {
@@ -291,35 +292,32 @@ class SideBarViewController: UIViewController {
     }
     
     @objc func accountTap(_ sender: UITapGestureRecognizer) {
-        if let productType = self.slideViewModel.currentSelectedProductType {
-            self.slideViewModel.currentSelectedCell?.setSelectedIcon(productType, isSelected: false)
-        }
+        cleanProductSelected()
         NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountInfoNavigationController")
     }
     
     @objc func accountLevelTap(_ sender: UITapGestureRecognizer) {
-        setUnSelectProduct()
+        cleanProductSelected()
         NavigationManagement.sharedInstance.goTo(storyboard: "LevelPrivilege", viewControllerId: "LevelPrivilegeNavigationController")
     }
     
     @objc func balanceTap(_ sender: UITapGestureRecognizer) {
-        setUnSelectProduct()
+        cleanProductSelected()
         NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountBalanceNavigationController")
     }
     
     @IBAction func toGift(_ sender : UIButton){
-        setUnSelectProduct()
+        cleanProductSelected()
         NavigationManagement.sharedInstance.goTo(storyboard: "Promotion", viewControllerId: "PromotionNavigationController")
     }
     
     @IBAction func toNotify(_ sender : UIButton){
-        setUnSelectProduct()
+        cleanProductSelected()
         NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountNotifyNavigationController")
     }
     
-    fileprivate func setUnSelectProduct() {
-        if let productType = self.slideViewModel.currentSelectedProductType {
-            self.slideViewModel.currentSelectedCell?.setSelectedIcon(productType, isSelected: false)
-        }
+    fileprivate func cleanProductSelected() {
+        self.slideViewModel.currentSelectedProductType = nil
+        self.listProduct.reloadData()
     }
 }
