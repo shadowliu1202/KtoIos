@@ -49,8 +49,8 @@ class WithdrawalRequestViewModel {
                      userNameValid: Observable<Bool>,
                      dataValid: Observable<Bool>) {
         let userNameValid = relayName.map { $0.count != 0 }
-        let dailyCountValid = relaydDailyMaxCount.map { $0 != 0 }
-        let dailyCashValid = relayDailyMaxCash.map { $0 != nil && $0?.amount != 0}
+        let dailyCountValid = relaydDailyMaxCount.map { $0 >= 0 }
+        let dailyCashValid = relayDailyMaxCash.map { $0.amount >= 0}
         let amountValid = relayWithdrawalAmount.map { [weak self] (amount) -> AmountStatus in
             if amount.count == 0 { return .empty}
             guard let amount = amount.currencyAmountToDouble(),
