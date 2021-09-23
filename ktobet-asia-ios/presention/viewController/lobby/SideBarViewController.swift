@@ -48,6 +48,13 @@ class SideBarViewController: UIViewController {
         }
         
         menu.sideMenuDelegate = self
+        if #available(iOS 15.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.whiteFull]
+            appearance.backgroundColor = UIColor.backgroundSidebarMineShaftGray
+            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        }
     }
     
     deinit {
