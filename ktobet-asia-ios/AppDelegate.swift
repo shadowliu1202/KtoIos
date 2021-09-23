@@ -25,6 +25,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.overrideUserInterfaceStyle = .light
         }
         
+        if #available(iOS 15.0, *) {
+            let appearance = UINavigationBarAppearance()
+            let navigationBar = UINavigationBar()
+            appearance.configureWithOpaqueBackground()
+            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.whiteFull]
+            appearance.backgroundColor = UIColor.black_two
+            navigationBar.isTranslucent = true
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+            UINavigationBar.appearance().standardAppearance = appearance
+        }
+        
         #if QAT
         self.addDebugGesture()
         #endif
