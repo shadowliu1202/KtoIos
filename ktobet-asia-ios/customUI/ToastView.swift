@@ -4,7 +4,8 @@ import UIKit
 class ToastView: UIView {
     @IBOutlet private weak var labStatusTip: UILabel!
     @IBOutlet private weak var imgStatusTip : UIImageView!
-    
+    private var bgColor = UIColor.toastBackgroundGray
+    private var shadowLayer: CAShapeLayer!
     var xibView: UIView!
     
     override init(frame: CGRect) {
@@ -22,7 +23,13 @@ class ToastView: UIView {
         let nib = UINib(nibName: "Toast", bundle: bundle)
         xibView = nib.instantiate(withOwner: self, options: nil)[0] as? UIView
         xibView.layer.cornerRadius = 8
-        xibView.layer.masksToBounds = true
+        xibView.clipsToBounds = true
+        xibView.layer.masksToBounds = false
+        xibView.layer.shadowRadius = 4
+        xibView.layer.shadowOpacity = 1
+        xibView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        xibView.layer.shadowColor = bgColor.cgColor
+        
         addSubview(xibView)
     }
     
@@ -39,7 +46,7 @@ class ToastView: UIView {
         xibView.isHidden = false
         labStatusTip.text = statusTip
         imgStatusTip.image = img
-        xibView.backgroundColor = UIColor.red
+        xibView.backgroundColor = bgColor
         view.addSubview(xibView)
         
         xibView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +71,7 @@ class ToastView: UIView {
         xibView.isHidden = false
         labStatusTip.text = statusTip
         imgStatusTip.image = img
-        xibView.backgroundColor = UIColor.red
+        xibView.backgroundColor = bgColor
         win.addSubview(xibView)
         
         xibView.translatesAutoresizingMaskIntoConstraints = false

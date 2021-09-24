@@ -186,14 +186,15 @@ class DateViewController: UIViewController {
             dateView.isHidden = true
             let currentDate = Date()
             month.setSelectedDate(currentDate)
-            dateType = .month(fromDate: currentDate.startOfMonth, toDate: currentDate.endOfMonth)
+            dateType = .month(fromDate: MonthItem.from(year: Int(currentDate.getYear()), month: Int(currentDate.getMonth())),
+                              toDate: MonthItem.end(year: Int(currentDate.getYear()), month: Int(currentDate.getMonth())))
         default:
             break
         }
     }
     
     @objc func close() {
-        self.navigationController?.popViewController(animated: true)
+        NavigationManagement.sharedInstance.popViewController()
     }
 }
 

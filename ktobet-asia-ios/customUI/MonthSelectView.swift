@@ -261,9 +261,9 @@ struct MonthItem {
     var title: String {
         return "\(month)\(Localize.string("common_month"))"
     }
-    let calendar = Calendar(identifier: .gregorian)
-    lazy var startDate: Date = self.from(year: self.year,month: self.month)
-    lazy var endDate: Date = self.end(year: self.year, month: self.month)
+    static private let calendar = Calendar(identifier: .gregorian)
+    lazy var startDate: Date = MonthItem.from(year: self.year,month: self.month)
+    lazy var endDate: Date = MonthItem.end(year: self.year, month: self.month)
     private(set) var isEnable = false
     var isSelected = false
     
@@ -274,7 +274,7 @@ struct MonthItem {
         self.isSelected = isSelected
     }
     
-    private func from(year: Int, month: Int) -> Date {
+    static func from(year: Int, month: Int) -> Date {
         var components = DateComponents()
         components.timeZone = TimeZone(abbreviation: "UTC")!
         components.year = year
@@ -282,7 +282,7 @@ struct MonthItem {
         return calendar.date(from: components)!
     }
     
-    private func end(year: Int, month: Int) -> Date {
+    static func end(year: Int, month: Int) -> Date {
         return calendar.date(byAdding: DateComponents(month: 1, second: -1), to: self.from(year: year, month: month))!
     }
 }

@@ -79,6 +79,8 @@ extension String {
         var createDate = Date()
         if let date = self.convertLocalDateTime(format1: "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", format2: "yyyy-MM-dd'T'HH:mm:ssZ") {
             createDate = date
+        } else if let d = self.convertDateTime(format: "yyyy/MM/dd") {
+            createDate = d
         } else {
             fatalError("toLocalDateTime with worrng format, Date = \(self)")
         }
@@ -112,9 +114,19 @@ enum RegexFormat: String {
     case email          = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
     case branchName     = #"[\u4e00-\u9fa5\uff00-\uffffa-zA-Z]{1,31}"#
     case cryptoAddress   = "^[a-zA-Z0-9_-]*$"
+    case numbers        = "^[0-9]+$"
     
     var predicate: NSPredicate {
         let regex = self.rawValue
         return NSPredicate(format: "SELF MATCHES %@", regex)
+    }
+}
+
+extension Optional where Wrapped == String {
+    func isNullOrEmpty() -> Bool {
+        guard let `self` = self else {
+            return true
+        }
+        return self.isEmpty
     }
 }

@@ -4,7 +4,6 @@ import SharedBu
 import Photos
 
 class WithdrawalRecordDetailViewController: UIViewController {
-    static let segueIdentifier = "toWithdrawalRecordSegue"
     @IBOutlet private weak var titleNameLabel: UILabel!
     @IBOutlet private weak var amountTitleLabel: UILabel!
     @IBOutlet private weak var statusTitleLabel: UILabel!
@@ -44,7 +43,8 @@ class WithdrawalRecordDetailViewController: UIViewController {
     @IBOutlet private weak var cancelButton: UIButton!
     
     var activityIndicator = UIActivityIndicatorView(style: .large)
-    var detailRecord: WithdrawalRecord!
+    var displayId: String!
+    var transactionTransactionType: TransactionType!
     
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
     fileprivate var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
@@ -58,7 +58,6 @@ class WithdrawalRecordDetailViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         dataBinding()
         eventHandler()
         initUI()
@@ -97,7 +96,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
         self.remarkTableview.delegate = nil
         self.remarkTableview.dataSource = nil
         self.startActivityIndicator(activityIndicator: activityIndicator)
-        viewModel.getWithdrawalRecordDetail(transactionId: detailRecord.displayId, transactionTransactionType: detailRecord.transactionTransactionType).subscribe {[weak self] (data) in
+        viewModel.getWithdrawalRecordDetail(transactionId: displayId, transactionTransactionType: transactionTransactionType).subscribe {[weak self] (data) in
             guard let self = self else { return }
             if let generalData = data as? WithdrawalDetail.General {
                 let statusChangeHistoriesObservalbe = Observable.from([generalData.statusChangeHistories])
@@ -185,7 +184,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
     
     fileprivate func cofirmUploadImage() {
         startActivityIndicator(activityIndicator: activityIndicator)
-        self.viewModel.bindingImageWithWithdrawalRecord(displayId: self.detailRecord.displayId, transactionId: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: .pending), portalImages: self.viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
+        self.viewModel.bindingImageWithWithdrawalRecord(displayId: displayId, transactionId: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: .pending), portalImages: self.viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
             self.dataBinding()
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in
@@ -196,7 +195,7 @@ class WithdrawalRecordDetailViewController: UIViewController {
     
     fileprivate func cancelWithdrawal() {
         self.startActivityIndicator(activityIndicator: activityIndicator)
-        self.viewModel.cancelWithdrawal(ticketId: detailRecord.displayId).subscribe {[weak self] in
+        self.viewModel.cancelWithdrawal(ticketId: displayId).subscribe {[weak self] in
             guard let self = self else { return }
             self.dataBinding()
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)

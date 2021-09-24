@@ -303,7 +303,7 @@ class SideBarViewController: UIViewController {
     
     @objc func balanceTap(_ sender: UITapGestureRecognizer) {
         cleanProductSelected()
-        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountBalanceNavigationController")
+        NavigationManagement.sharedInstance.goTo(storyboard: "TransactionLog", viewControllerId: "TransactionLogNavigation")
     }
     
     @IBAction func toGift(_ sender : UIButton){

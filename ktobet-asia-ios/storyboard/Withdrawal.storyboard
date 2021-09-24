@@ -342,7 +342,7 @@
         <!--Withdrawal Record Detail View Controller-->
         <scene sceneID="aR8-Vh-Jyo">
             <objects>
-                <viewController id="pD1-Lj-N3W" customClass="WithdrawalRecordDetailViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WithdrawalRecordDetailViewController" id="pD1-Lj-N3W" customClass="WithdrawalRecordDetailViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QI4-Zq-Wr6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3800,12 +3800,42 @@
             </objects>
             <point key="canvasLocation" x="1009" y="-2149"/>
         </scene>
+        <!--Withdrawl Record Container-->
+        <scene sceneID="dJn-Yw-FOo">
+            <objects>
+                <viewController storyboardIdentifier="WithdrawlRecordContainer" id="s3E-ZV-cmz" customClass="WithdrawlRecordContainer" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8pv-O3-71w">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qtn-JH-I6y">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Bk8-dc-cL2"/>
+                        <color key="backgroundColor" name="blackFull"/>
+                        <constraints>
+                            <constraint firstItem="Bk8-dc-cL2" firstAttribute="trailing" secondItem="Qtn-JH-I6y" secondAttribute="trailing" id="JEg-fm-f76"/>
+                            <constraint firstItem="Qtn-JH-I6y" firstAttribute="top" secondItem="Bk8-dc-cL2" secondAttribute="top" id="U90-c6-h1i"/>
+                            <constraint firstAttribute="bottom" secondItem="Qtn-JH-I6y" secondAttribute="bottom" id="l9i-sB-Lz4"/>
+                            <constraint firstItem="Qtn-JH-I6y" firstAttribute="leading" secondItem="Bk8-dc-cL2" secondAttribute="leading" id="zSj-rT-72c"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="containView" destination="Qtn-JH-I6y" id="58V-0t-Wr9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X1Y-u9-CP1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1970" y="1090"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="AB8-OG-jSH"/>
         <segue reference="pWL-dG-JgZ"/>
         <segue reference="IGH-yb-Sof"/>
-        <segue reference="o2C-6f-Lpf"/>
+        <segue reference="XFi-hN-hfe"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Chevron Right(24)" width="24" height="24"/>
@@ -3836,6 +3866,9 @@
         </namedColor>
         <namedColor name="black90">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="0.89999997615814209" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="blackFull">
+            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="blackTwo">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

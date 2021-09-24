@@ -31,11 +31,6 @@ extension UITableView {
         register(UINib(nibName: id, bundle: nil), forCellReuseIdentifier: id)
     }
     
-    func setTransparentFooter() {
-        tableFooterView = UIView()
-        tableFooterView?.backgroundColor = .clear
-    }
-    
     func setHeaderFooterDivider(dividerInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
                                 dividerColor: UIColor = UIColor.dividerCapeCodGray2,
                                 headerHeight: CGFloat = 30,
@@ -84,6 +79,32 @@ extension UITableView {
             self.tableFooterView = UIView(frame: CGRect.init(x: 0, y: 0, width: self.bounds.width, height: 0))
         }
         self.tableFooterView?.addBorder(.bottom, size: size, color: color)
+    }
+    
+    func layoutTableHeaderView() {
+
+        guard let headerView = self.tableHeaderView else { return }
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+
+        let headerWidth = headerView.bounds.size.width
+        let temporaryWidthConstraint = headerView.widthAnchor.constraint(equalToConstant: headerWidth)
+
+        headerView.addConstraint(temporaryWidthConstraint)
+
+        headerView.setNeedsLayout()
+        headerView.layoutIfNeeded()
+
+        let headerSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        let height = headerSize.height
+        var frame = headerView.frame
+
+        frame.size.height = height
+        headerView.frame = frame
+
+        self.tableHeaderView = headerView
+
+        headerView.removeConstraint(temporaryWidthConstraint)
+        headerView.translatesAutoresizingMaskIntoConstraints = true
     }
     
 }

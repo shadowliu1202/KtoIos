@@ -102,20 +102,13 @@ class WithdrawalRecordViewController: UIViewController {
     }
     
     fileprivate func recordDataHandler() {
-        Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(WithdrawalRecord.self)).bind {(indexPath, data) in
-            if data.transactionTransactionType == TransactionType.cryptowithdrawal {
-                self.viewModel.getWithdrawalRecordDetail(transactionId: data.displayId, transactionTransactionType: data.transactionTransactionType).subscribe {(withdrawalDetail) in
-                    let swiftUIView = WithdrawalCryptoDetailView(data: withdrawalDetail as? WithdrawalDetail.Crypto)
-                    let hostingController = UIHostingController(rootView: swiftUIView)
-                    hostingController.navigationItem.hidesBackButton = true
-                    NavigationManagement.sharedInstance.pushViewController(vc: hostingController)
-                } onError: {[weak self] (error) in
-                    self?.handleUnknownError(error)
-                }.disposed(by: self.disposeBag)
-            } else {
-                self.performSegue(withIdentifier: WithdrawalRecordDetailViewController.segueIdentifier, sender: data)
-            }
-            self.tableView.deselectRow(at: indexPath, animated: true)
+        Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(WithdrawalRecord.self)).bind { [weak self] (indexPath, data) in
+            let storyboard = UIStoryboard(name: "Withdrawal", bundle: Bundle.main)
+            let vc = storyboard.instantiateViewController(withIdentifier: "WithdrawlRecordContainer") as! WithdrawlRecordContainer
+            vc.displayId = data.displayId
+            vc.transactionTransactionType = data.transactionTransactionType
+            self?.navigationController?.pushViewController(vc, animated: true)
+            self?.tableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }
     
@@ -129,14 +122,6 @@ class WithdrawalRecordViewController: UIViewController {
                 break
             }
         }).asObserver()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == WithdrawalRecordDetailViewController.segueIdentifier {
-            if let dest = segue.destination as? WithdrawalRecordDetailViewController {
-                dest.detailRecord = sender as? WithdrawalRecord
-            }
-        }
     }
 }
 

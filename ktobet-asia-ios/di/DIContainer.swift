@@ -79,6 +79,9 @@ class DIContainer {
         ctner.register(PromotionApi.self) { (resolver) in
             return PromotionApi(httpclient)
         }
+        ctner.register(TransactionLogApi.self) { (resolver) in
+            return TransactionLogApi(httpclient)
+        }
     }
     
     func registRepo(){
@@ -180,6 +183,10 @@ class DIContainer {
         ctner.register(PromotionRepository.self) { (resolver) in
             let promotionApi = ctner.resolve(PromotionApi.self)!
             return PromotionRepositoryImpl(promotionApi)
+        }
+        ctner.register(TransactionLogRepository.self) { (resolver) in
+            let promotionApi = ctner.resolve(TransactionLogApi.self)!
+            return TransactionLogRepositoryImpl(promotionApi)
         }
     }
     
@@ -287,6 +294,11 @@ class DIContainer {
             let repo = ctner.resolve(PromotionRepository.self)!
             let player = ctner.resolve(PlayerRepository.self)!
             return PromotionUseCaseImpl(repo, playerRepository: player)
+        }
+        ctner.register(TransactionLogUseCase.self) { (resolver) in
+            let repo = ctner.resolve(TransactionLogRepository.self)!
+            let player = ctner.resolve(PlayerRepository.self)!
+            return TransactionLogUseCaseImpl(repo, player)
         }
     }
     
@@ -422,6 +434,9 @@ class DIContainer {
         }
         ctner.register(PromotionHistoryViewModel.self) { (resolver) in
             return PromotionHistoryViewModel(promotionUseCase: ctner.resolve(PromotionUseCase.self)!)
+        }
+        ctner.register(TransactionLogViewModel.self) { (resolver) in
+            return TransactionLogViewModel(transactionLogUseCase: ctner.resolve(TransactionLogUseCase.self)!)
         }
     }
     

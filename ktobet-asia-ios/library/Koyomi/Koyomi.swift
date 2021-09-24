@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - KoyomiDelegate -
-@objc public protocol KoyomiDelegate: class {
+@objc public protocol KoyomiDelegate: AnyObject {
     /**
      Tells the delegate that the date at the specified index path was selected.
      
@@ -537,7 +537,12 @@ private extension Koyomi {
                     if indexPath.section == 0 {
                         return UIColor.yellowFull
                     } else {
-                        return UIColor.white
+                        if let begin = model.indexAtBeginning(in: .current),
+                           let end = model.indexAtEnd(in: .current), (begin...end).contains(indexPath.row) {
+                            return UIColor.white
+                        } else {
+                            return UIColor.textSecondaryScorpionGray
+                        }
                     }
                 }
             }

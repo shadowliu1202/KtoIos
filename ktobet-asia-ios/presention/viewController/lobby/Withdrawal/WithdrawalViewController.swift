@@ -70,20 +70,11 @@ class WithdrawalViewController: UIViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_withdrawal"))
         initUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         withdrawalLimitationDataBinding()
         recordDataBinding()
         showAllRecordEvenhandler()
         recordDataEvenhandler()
         cryptoWithdrawlDataBinding()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.disposeBag = DisposeBag()
     }
     
     deinit {
@@ -92,11 +83,7 @@ class WithdrawalViewController: UIViewController {
     
     // MARK: PAGE ACTION
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == WithdrawalRecordDetailViewController.segueIdentifier {
-            if let dest = segue.destination as? WithdrawalRecordDetailViewController {
-                dest.detailRecord = sender as? WithdrawalRecord
-            }
-        } else if segue.identifier == WithdrawlLandingViewController.segueIdentifier {
+        if segue.identifier == WithdrawlLandingViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawlLandingViewController,
                let accounts = accounts, let cryptoBankCards = cryptoBankCards,
                let bankCardType = sender as? BankCardType {
@@ -186,12 +173,16 @@ class WithdrawalViewController: UIViewController {
     }
     
     fileprivate func withdrawalLimitationDataBinding() {
-        viewModel.withdrawalAccounts().subscribe(onSuccess: { [weak self] (accounts) in
+        self.rx.viewWillAppear.flatMap({ [unowned self] (_) in
+            return self.viewModel.withdrawalAccounts().asObservable()
+        }).subscribe(onNext: { [weak self] (accounts) in
             self?.accounts = accounts
         }, onError: {[weak self] (error) in
             self?.handleUnknownError(error)
         }).disposed(by: disposeBag)
-        viewModel.getWithdrawalLimitation().subscribe { [weak self] (withdrawalLimits) in
+        self.rx.viewWillAppear.flatMap({ [unowned self] (_) in
+            return self.viewModel.getWithdrawalLimitation().asObservable()
+        }).subscribe(onNext: { [weak self] (withdrawalLimits) in
             guard let self = self else { return }
             self.withdrawalLimits = withdrawalLimits
             self.dailyLimitAmount = "\(withdrawalLimits.dailyCurrentCash.amount.currencyFormatWithoutSymbol(precision: 2))"
@@ -199,9 +190,9 @@ class WithdrawalViewController: UIViewController {
             self.turnoverRequirement = withdrawalLimits.remainCashTurnover().amount
             self.crpytoWithdrawalRequirement = self.crpytoWithdrawalRequirementAmount()
             self.checkDailyWithdrawalLimit(withdrawalLimits.dailyMaxCash.amount, withdrawalLimits.dailyMaxCount)
-        } onError: { (error) in
+        }, onError: { (error) in
             self.handleUnknownError(error)
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
         self.showInfoButton.rx.tap.subscribe(onNext: { [weak self] _ in
             if let amount = self?.crpytoWithdrawalRequirementAmount(), amount > 0 {
@@ -239,33 +230,30 @@ class WithdrawalViewController: UIViewController {
     }
     
     fileprivate func recordDataBinding() {
-        withdrawalRecordTableView.delegate = nil
-        withdrawalRecordTableView.dataSource = nil
-        let getWithdrawalRecordObservable = viewModel.getWithdrawalRecords().catchError { error in
-            self.handleUnknownError(error)
-            return Single<[WithdrawalRecord]>.never() }.asObservable().share(replay: 1)
-        getWithdrawalRecordObservable.bind(to: withdrawalRecordTableView.rx.items(cellIdentifier: String(describing: WithdrawRecordTableViewCell.self), cellType: WithdrawRecordTableViewCell.self)) {(index, data, cell) in
+        let withdrawalRecord = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
+            return self.viewModel.getWithdrawalRecords().asObservable()
+        }).share(replay: 1)
+        withdrawalRecord.catchError({ [weak self] (error) in
+            self?.handleUnknownError(error)
+            return Observable.just([])
+        }).do(onNext: { [weak self] (withdrawalRecord) in
+            self?.withdrawalRecordTableView.isHidden = false
+            self?.constraintWithdrawalRecordTableHeight.constant = CGFloat(withdrawalRecord.count * 80)
+            self?.withdrawalRecordTableView.layoutIfNeeded()
+            self?.withdrawalRecordTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
+            self?.withdrawalRecordTableView.addTopBorder(size: 1, color: UIColor.dividerCapeCodGray2)
+            if withdrawalRecord.count == 0 {
+                self?.withdrawalRecordNoDataLabel.isHidden = false
+                self?.withdrawalRecordTableView.isHidden = true
+                self?.showAllWithdrawalButton.isHidden = true
+            } else {
+                self?.withdrawalRecordNoDataLabel.isHidden = true
+                self?.withdrawalRecordTableView.isHidden = false
+                self?.showAllWithdrawalButton.isHidden = false
+            }
+        }).bind(to: withdrawalRecordTableView.rx.items(cellIdentifier: String(describing: WithdrawRecordTableViewCell.self), cellType: WithdrawRecordTableViewCell.self)) {(index, data, cell) in
             cell.setUp(data: data)
         }.disposed(by: disposeBag)
-        
-        getWithdrawalRecordObservable
-            .subscribeOn(MainScheduler.instance)
-            .subscribe( onNext: { [weak self] (withdrawalRecord) in
-                self?.withdrawalRecordTableView.isHidden = false
-                self?.constraintWithdrawalRecordTableHeight.constant = CGFloat(withdrawalRecord.count * 80)
-                self?.withdrawalRecordTableView.layoutIfNeeded()
-                self?.withdrawalRecordTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
-                self?.withdrawalRecordTableView.addTopBorder(size: 1, color: UIColor.dividerCapeCodGray2)
-                if withdrawalRecord.count == 0 {
-                    self?.withdrawalRecordNoDataLabel.isHidden = false
-                    self?.withdrawalRecordTableView.isHidden = true
-                    self?.showAllWithdrawalButton.isHidden = true
-                } else {
-                    self?.withdrawalRecordNoDataLabel.isHidden = true
-                    self?.withdrawalRecordTableView.isHidden = false
-                    self?.showAllWithdrawalButton.isHidden = false
-                }
-            }).disposed(by: disposeBag)
     }
     
     fileprivate func showAllRecordEvenhandler() {
@@ -277,19 +265,11 @@ class WithdrawalViewController: UIViewController {
     fileprivate func recordDataEvenhandler() {
         Observable.zip(withdrawalRecordTableView.rx.itemSelected, withdrawalRecordTableView.rx.modelSelected(WithdrawalRecord.self)).bind {[weak self] (indexPath, data) in
             guard let self = self else { return }
-            if data.transactionTransactionType == TransactionType.cryptowithdrawal {
-                self.viewModel.getWithdrawalRecordDetail(transactionId: data.displayId, transactionTransactionType: data.transactionTransactionType).subscribe {(withdrawalDetail) in
-                    let swiftUIView = WithdrawalCryptoDetailView(data: withdrawalDetail as? WithdrawalDetail.Crypto)
-                    let hostingController = UIHostingController(rootView: swiftUIView)
-                    hostingController.navigationItem.hidesBackButton = true
-                    NavigationManagement.sharedInstance.pushViewController(vc: hostingController)
-                } onError: {[weak self] (error) in
-                    self?.handleUnknownError(error)
-                }.disposed(by: self.disposeBag)
-            } else {
-                self.performSegue(withIdentifier: WithdrawalRecordDetailViewController.segueIdentifier, sender: data)
-            }
-            
+            let storyboard = UIStoryboard(name: "Withdrawal", bundle: Bundle.main)
+            let vc = storyboard.instantiateViewController(withIdentifier: "WithdrawlRecordContainer") as! WithdrawlRecordContainer
+            vc.displayId = data.displayId
+            vc.transactionTransactionType = data.transactionTransactionType
+            self.navigationController?.pushViewController(vc, animated: true)
             self.withdrawalRecordTableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }

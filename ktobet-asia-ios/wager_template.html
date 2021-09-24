@@ -1,0 +1,344 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="x-rim-auto-match" content="none">
+    <link rel="stylesheet" type="text/css" href="%@wager-detail-style/casino.css">
+    <link rel="stylesheet" type="text/css" href="%@wager-detail-style/sbk.css">
+    <style>
+      .pop-detail__wrapper .pop-detail__body {
+        overflow-y: auto;
+        border-radius: 10px;
+        background-color: #FFF;
+        z-index: 3000;
+        margin: 0 auto;
+        max-width: 448px;
+        top: 16px;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        position: fixed;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .pop-detail__wrapper .pop-detail__body i, .pop-detail__wrapper .pop-detail__body i.pp-icon-cross {
+        cursor: pointer;
+        font-size: 14px;
+        position: absolute;
+        top: 19px;
+        right: 18px;
+      }
+    </style>
+    <style>
+      body,
+      div,
+      span,
+      applet,
+      object,
+      iframe,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      blockquote,
+      pre,
+      a,
+      abbr,
+      acronym,
+      address,
+      big,
+      cite,
+      code,
+      del,
+      dfn,
+      em,
+      img,
+      ins,
+      kbd,
+      q,
+      s,
+      samp,
+      small,
+      strike,
+      strong,
+      sub,
+      sup,
+      tt,
+      var,
+      b,
+      u,
+      i,
+      center,
+      dl,
+      dt,
+      dd,
+      ol,
+      ul,
+      li,
+      fieldset,
+      form,
+      label,
+      legend,
+      table,
+      textarea,
+      caption,
+      tbody,
+      tfoot,
+      thead,
+      tr,
+      th,
+      td,
+      article,
+      aside,
+      canvas,
+      details,
+      embed,
+      figure,
+      figcaption,
+      footer,
+      header,
+      hgroup,
+      menu,
+      nav,
+      output,
+      ruby,
+      section,
+      summary,
+      time,
+      mark,
+      audio,
+      video,
+      button {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font: inherit;
+        vertical-align: baseline;
+        box-sizing: border-box;
+        outline: none;
+      }
+
+      ol,
+      ul {
+        list-style: none;
+      }
+
+      article,
+      aside,
+      details,
+      figcaption,
+      figure,
+      footer,
+      header,
+      hgroup,
+      main,
+      nav,
+      section,
+      summary {
+        display: block;
+      }
+
+      audio,
+      canvas,
+      video {
+        display: inline-block;
+      }
+
+      audio:not([controls]) {
+        display: none;
+        height: 0;
+      }
+
+      [hidden] {
+        display: none;
+      }
+
+      a:focus {
+        outline: thin dotted;
+      }
+      a:active, a:hover {
+        outline: 0;
+      }
+
+      abbr[title] {
+        border-bottom: 1px dotted;
+      }
+
+      b,
+      strong {
+        font-weight: bold;
+      }
+
+      dfn {
+        font-style: italic;
+      }
+
+      hr {
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        height: 0;
+      }
+
+      mark {
+        background: #ff0;
+        color: #000;
+      }
+
+      code,
+      kbd,
+      pre,
+      samp {
+        font-family: monospace, serif, "微軟正黑體";
+        font-size: 1em;
+      }
+
+      pre {
+        white-space: pre-wrap;
+      }
+
+      q {
+        quotes: "“" "”" "‘" "’";
+      }
+
+      small {
+        font-size: 80%%;
+      }
+
+      sub {
+        font-size: 75%%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+      }
+
+      sup {
+        font-size: 75%%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+        top: -0.5em;
+      }
+
+      sub {
+        bottom: -0.25em;
+      }
+
+      img {
+        max-width: 100%%;
+        height: auto;
+        outline: none;
+      }
+
+      svg:not(:root) {
+        overflow: hidden;
+      }
+
+      figure {
+        margin: 0;
+      }
+
+      fieldset {
+        border: 1px solid #c0c0c0;
+        margin: 0 2px;
+        padding: 0.35em 0.625em 0.75em;
+      }
+
+      legend {
+        border: 0;
+        padding: 0;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font-family: inherit;
+        font-size: 100%%;
+        margin: 0;
+      }
+
+      button,
+      input {
+        line-height: normal;
+        outline: none;
+      }
+
+      button,
+      select {
+        text-transform: none;
+      }
+
+      button,
+      html input[type=button] {
+        -webkit-appearance: button;
+        cursor: pointer;
+      }
+
+      input[type=reset], input[type=submit] {
+        -webkit-appearance: button;
+        cursor: pointer;
+      }
+
+      button[disabled],
+      html input[disabled] {
+        cursor: default;
+      }
+
+      input[type=checkbox], input[type=radio] {
+        box-sizing: border-box;
+        padding: 0;
+      }
+      input[type=search] {
+        -webkit-appearance: textfield;
+        -moz-box-sizing: content-box;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+      }
+      input[type=search]::-webkit-search-cancel-button, input[type=search]::-webkit-search-decoration {
+        -webkit-appearance: none;
+      }
+
+      button::-moz-focus-inner,
+      input::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+      }
+
+      textarea {
+        overflow: auto;
+        vertical-align: top;
+      }
+
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      html {
+        font-family: sans-serif, "微軟正黑體";
+        line-height: 1;
+        font-size: 16px;
+        color: #14161b;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pop-detail__wrapper">
+      <div class="pop-detail__body">
+        <div class="wager-detail">
+%@
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -71,4 +71,8 @@ class NumberGameRecordViewModel {
             return self.numberGameRecordUseCase.getBetsDetails(wagerId: id)
         }))
     }
+    
+    func getGameDetail(wagerId: String) -> Single<NumberGameBetDetail> {
+        return self.numberGameRecordUseCase.getBetsDetails(wagerId: wagerId)
+    }
 }
