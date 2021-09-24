@@ -92,4 +92,9 @@ extension LocalizeUtils: StringSupporter {
             return KNLazyCompanion.init().create(input: self.string(key))
         }
     }
+    
+    func convert(resourceId: ResourceKey) -> KotlinLazy {
+        let key = resourceId.asString()
+        return KNLazyCompanion.init().create(input: self.string(key))
+    }
 }

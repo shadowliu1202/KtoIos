@@ -96,10 +96,19 @@ class BankFilterConditionViewController: FilterConditionViewController {
 
 class StaticCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var selectAllButton: UIButton!
     
-    func configure(_ item: FilterItem, impl: FilterPresentProtocol?) -> Self {
+    private lazy var disposeBag = DisposeBag()
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
+    func configure(_ item: FilterItem, impl: FilterPresentProtocol?, selectAllCallback: ((Observable<Void>, DisposeBag) -> Void)? = nil) -> Self {
         self.selectionStyle = .none
         self.titleLabel.text = impl?.itemText(item)
+        selectAllCallback?(selectAllButton.rx.tap.asObservable(), disposeBag)
         return self
     }
 }

@@ -48,4 +48,14 @@ extension Dictionary {
     }
 }
 
+extension Optional where Wrapped: Collection {
+    func isNullOrEmpty() -> Bool {
+        guard let `self` = self else {
+            return true
+        }
+        return self.isEmpty
+    }
+}
+
+
 

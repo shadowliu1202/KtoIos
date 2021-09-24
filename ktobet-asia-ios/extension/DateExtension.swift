@@ -3,6 +3,13 @@ import SharedBu
 
 
 extension Date {
+    var calendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        let timezone = TimeZone(secondsFromGMT: 0)!
+        calendar.timeZone = timezone
+        return calendar
+    }
+    
     func adding(value: Int, byAdding: Calendar.Component) -> Date {
         return Calendar.current.date(byAdding: byAdding, value: value, to: self)!
     }
@@ -88,7 +95,7 @@ extension Date {
     }
     
     func toDateString(with SeparatorSymbol: String = "/") -> String {
-        let comp = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        let comp = calendar.dateComponents([.year, .month, .day], from: self)
         let year = comp.year
         let month = comp.month
         let dayOfMonth = comp.day
@@ -217,6 +224,13 @@ extension Kotlinx_datetimeLocalDateTime {
     
     func toDateFormatString(with SeparatorSymbol: String = "/") -> String {
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", self.year, self.monthNumber, self.dayOfMonth)
+    }
+    
+    func toTimeString(with SeparatorSymbol: String = ":") -> String {
+        let hour = self.hour
+        let minute = self.minute
+        let second = self.second
+        return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", hour, minute, second)
     }
 }
 

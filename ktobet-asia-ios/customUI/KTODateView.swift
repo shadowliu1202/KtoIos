@@ -28,6 +28,11 @@ class KTODateView: UIView {
         let nib = UINib(nibName: "KTODateView", bundle: bundle)
         let xibView = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         addSubview(xibView)
+        xibView.translatesAutoresizingMaskIntoConstraints = false
+        let attributes: [NSLayoutConstraint.Attribute] = [.top, .bottom, .right, .left]
+        NSLayoutConstraint.activate(attributes.map {
+            NSLayoutConstraint(item: xibView, attribute: $0, relatedBy: .equal, toItem: xibView.superview, attribute: $0, multiplier: 1, constant: 0)
+        })
     }
     
     override func layoutSubviews() {
@@ -77,6 +82,6 @@ class KTODateView: UIView {
         }
         
         vc.dateType = self.currentSelectedDateType
-        self.parentController?.navigationController?.pushViewController(vc, animated: true)
+        NavigationManagement.sharedInstance.pushViewController(vc: vc)
     }
 }

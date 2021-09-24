@@ -105,6 +105,20 @@ extension UIViewController{
             }
         }
     }
+    
+    func addChildViewController(_ viewController: UIViewController, inner containView: UIView) {
+        addChild(viewController)
+        containView.addSubview(viewController.view)
+        viewController.view.frame = containView.bounds
+        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        viewController.didMove(toParent: self)
+    }
+    
+    func removeChildViewController(_ viewController: UIViewController) {
+        viewController.willMove(toParent: nil)
+        viewController.view.removeFromSuperview()
+        viewController.removeFromParent()
+    }
 }
 
 /// Reference: https://www.cnblogs.com/strengthen/p/13675147.html

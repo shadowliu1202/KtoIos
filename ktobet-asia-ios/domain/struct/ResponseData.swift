@@ -1488,3 +1488,168 @@ struct PromotionTemplateBean: Codable {
         return PromotionDescriptions(content: self.contentTemplate, rules: self.rulesTemplate)
     }
 }
+
+struct BalanceDateLogBean: Codable {
+    let date: String
+    let logs: [Log]
+}
+
+struct Log: Codable {
+    let transactionID: String
+    let transactionType, productProvider: Int32
+    let externalID: String
+    let amount: Double
+    let previousBalance, afterBalance: Double
+    let createdDate: String
+    let transactionMode: Int32?
+    let subTitle: String?
+    let wagerType: Int32
+    let ticketType: Int32?
+    let wagerID: String?
+    let isDetail: Bool
+    let bonusType, productType, issueNumber: Int32
+    let transactionSubType: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case transactionID = "transactionId"
+        case transactionType, productProvider
+        case externalID = "externalId"
+        case amount, previousBalance, afterBalance, createdDate, transactionMode, subTitle, wagerType, ticketType
+        case wagerID = "wagerId"
+        case isDetail, bonusType, productType, issueNumber, transactionSubType
+    }
+    
+    
+    
+    func toBalanceLog(transactionFactory: TransactionFactory) -> TransactionLog {
+        let transactionTypes = TransactionTypes.Companion.init().create(type: transactionType)
+        let productTypes = ProductType.convert(productType)
+        let bonusTypes = BonusType.convert(bonusType)
+        let productProviders = ProductProviders.Companion.init().createProductGroup(provider: productProvider)
+        let transferType = ticketType != nil ? TransactionType.Companion.init().convertTransactionType(transactionType_: ticketType!) : TransactionType.none
+        let transactionAmount = CashAmount(amount: amount)
+        let transaction = Transaction(amount: transactionAmount, date: createdDate.toLocalDateTime(), id_: transactionID)
+        let wagerType = WagerType.convert(self.wagerType)
+        let transactionMode = self.transactionMode != nil ? try! TransactionModes.convert(self.transactionMode!) : TransactionModes.normal
+        return transactionFactory.create(transaction: transaction,
+                                         transactionTypes: transactionTypes,
+                                         productTypes: productTypes,
+                                         bonusTypes: bonusTypes,
+                                         productProviders: productProviders,
+                                         transferType: transferType,
+                                         wagerType: wagerType,
+                                         issueNumber: issueNumber,
+                                         wagerId: wagerID,
+                                         externalId: externalID,
+                                         subTitle: subTitle,
+                                         transactionMode: transactionMode)
+    }
+    
+    class Transaction: ITransaction {
+        var amount: CashAmount
+        var date: Kotlinx_datetimeLocalDateTime
+        var id_: String
+        
+        init(amount: CashAmount, date: Kotlinx_datetimeLocalDateTime, id_: String) {
+            self.amount = amount
+            self.date = date
+            self.id_ = id_
+        }
+    }
+}
+
+struct IncomeOutcomeBean: Codable {
+    var incomeAmount: Double
+    var outcomeAmount: Double
+}
+
+
+struct CashLogSummaryBean: Codable {
+    var adjustmentAmount: Double
+    var afterBalance: Double
+    var bonusAmount: Double
+    var casinoAmount: Double
+    var depositAmount: Double
+    var numberGameAmount: Double
+    var previousBalance: Double
+    var slotAmount: Double
+    var sportsbookAmount: Double
+    var p2pAmount: Double
+    var arcadeAmount: Double
+    var totalAmount: Double
+    var withdrawalAmount: Double
+}
+
+struct BalanceLogDetailBean: Codable {
+    let afterBalance: Double
+    let amount: Double
+    let createdDate: String
+    let createdUser: String
+    let description: String?
+    let displayId: String?
+    let externalId: String
+    let previousBalance: Double
+    let productProvider: Int32
+    let productType: Int32
+    let transactionType: Int32
+    let wagerMappingId: String?
+    
+    func toBalanceLogDetail(remark: BalanceLogDetailRemark? = nil) -> BalanceLogDetail {
+        return BalanceLogDetail(afterBalance: CashAmount(amount: afterBalance), amount: CashAmount(amount: amount), date: createdDate.toLocalDateTime(), wagerMappingId: wagerMappingId ?? externalId, productGroup: ProductProviders.Companion.init().createProductGroup(provider: productProvider), productType: ProductType.convert(productType), transactionType: TransactionTypes.Companion.init().create(type: transactionType), remark: remark ?? BalanceLogDetailRemark.None(), externalId: externalId)
+    }
+}
+
+struct BalanceLogBonusRemarkBean: Codable {
+    let amount: Double
+    let away: String
+    let betMultiple: Int32
+    let bonusCouponStatus: Int32
+    let displayId: String
+    let effectiveDate: String
+    let expiryDate: String
+    let fixTurnoverRequirement: Double
+    let home: String
+    let informPlayerDate: String
+    let issue: Int32
+    let issueNumber: Int32
+    let league: String
+    let level: Int32
+    let maxAmount: Double
+    let minCapital: Double
+    let name: String
+    let no: String
+    let percentage: Double
+    let productType: Int32
+    let type: Int32
+    let updatedDate: String
+    
+    func toBalanceLogDetailRemark() -> BalanceLogDetailRemark {
+        return BalanceLogDetailRemark.Bonus(bonusId: no, bonusName: name, bonusType: BonusType.convert(type), issueNumber: issueNumber, productType: ProductType.convert(productType))
+    }
+}
+
+struct BalanceLogDetailRemarkBean: Codable {
+    let betStatus: Int32
+    let description: String?
+    let displayIds: [String]?
+    let gameName: String?
+    let isDetail: Bool
+    let lobbyName: String?
+    let productProvider: Int32
+    let productType: Int32
+    let wagerId: [String]?
+    
+    func toBalanceLogDetailRemark() -> BalanceLogDetailRemark {
+        if lobbyName.isNullOrEmpty() && displayIds.isNullOrEmpty() && wagerId.isNullOrEmpty() {
+            return BalanceLogDetailRemark.None()
+        } else {
+            var pair: [KotlinPair<NSString, NSString>] = []
+            if let displayIds = displayIds, let wagerId = wagerId, displayIds.count == wagerId.count {
+                for i in 0..<displayIds.count {
+                    pair.append(KotlinPair(first: displayIds[i] as NSString, second: wagerId[i] as NSString))
+                }
+            }
+            return BalanceLogDetailRemark.General(betStatus: BetStatus_.convert(betStatus), lobbyName: lobbyName ?? "", ids: pair)
+        }
+    }
+}

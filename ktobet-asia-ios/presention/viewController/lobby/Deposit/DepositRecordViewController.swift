@@ -111,20 +111,12 @@ class DepositRecordViewController: UIViewController {
     }
     
     fileprivate func recordDataHandler() {
-        Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(DepositRecord.self)).bind {(indexPath, data) in
-            if data.transactionTransactionType == TransactionType.cryptodeposit {
-                self.viewModel.getDepositRecordDetail(transactionId: data.displayId).subscribe {(depositDetail) in
-                    let swiftUIView = DepositCryptoDetailView(data: depositDetail as? DepositDetail.Crypto)
-                    let hostingController = UIHostingController(rootView: swiftUIView)
-                    hostingController.navigationItem.hidesBackButton = true
-                    NavigationManagement.sharedInstance.pushViewController(vc: hostingController)
-                } onError: {[weak self] (error) in
-                    self?.handleUnknownError(error)
-                }.disposed(by: self.disposeBag)
-            } else {
-                self.performSegue(withIdentifier: DepositRecordDetailViewController.segueIdentifier, sender: data)
-            }
-            self.tableView.deselectRow(at: indexPath, animated: true)
+        Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(DepositRecord.self)).bind { [weak self] (indexPath, data) in
+            let storyboard = UIStoryboard(name: "Deposit", bundle: Bundle.main)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DepositRecordContainer") as! DepositRecordContainer
+            vc.displayId = data.displayId
+            self?.navigationController?.pushViewController(vc, animated: true)
+            self?.tableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }
     
@@ -146,15 +138,6 @@ class DepositRecordViewController: UIViewController {
                 break
             }
         }).asObserver()
-    }
-    
-    // MARK: PAGE ACTION
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == DepositRecordDetailViewController.segueIdentifier {
-            if let dest = segue.destination as? DepositRecordDetailViewController {
-                dest.detailRecord = sender as? DepositRecord
-            }
-        }
     }
 }
 

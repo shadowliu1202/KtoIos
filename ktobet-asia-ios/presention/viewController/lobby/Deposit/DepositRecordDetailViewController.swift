@@ -4,7 +4,6 @@ import RxSwift
 import Photos
 
 class DepositRecordDetailViewController: UIViewController {
-    static let segueIdentifier = "toDepositRecordSegue"
     @IBOutlet private weak var titleNameLabel: UILabel!
     @IBOutlet private weak var amountTitleLabel: UILabel!
     @IBOutlet private weak var statusTitleLabel: UILabel!
@@ -41,7 +40,7 @@ class DepositRecordDetailViewController: UIViewController {
     @IBOutlet private weak var confrimButton: UIButton!
     
     var activityIndicator = UIActivityIndicatorView(style: .large)
-    var detailRecord: DepositRecord!
+    var displayId: String!
     
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
     fileprivate var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
@@ -54,18 +53,23 @@ class DepositRecordDetailViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         dataBinding()
         initUI()
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     // MARK: BUTTON ACTION
     @IBAction func confirm(_ sender: Any) {
         startActivityIndicator(activityIndicator: activityIndicator)
-        viewModel.bindingImageWithDepositRecord(displayId: detailRecord.displayId, transactionId: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: .pending), portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe {
+        viewModel.bindingImageWithDepositRecord(displayId: displayId, transactionId: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: .pending), portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe { [weak self] in
+            guard let `self` = self else { return }
             self.dataBinding()
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-        } onError: { (error) in
+        } onError: { [weak self] (error) in
+            guard let `self` = self else { return }
             self.handleUnknownError(error)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
@@ -196,7 +200,8 @@ class DepositRecordDetailViewController: UIViewController {
     
     fileprivate func uploadImage(image: UIImage, count: Int) {
         let imageData = image.jpegData(compressionQuality: 1.0)!
-        uploadViewModel.uploadImage(imageData: imageData).subscribe { (result) in
+        uploadViewModel.uploadImage(imageData: imageData).subscribe { [weak self] (result) in
+            guard let `self` = self else { return }
             self.viewModel.uploadImageDetail[self.imageUploadInex] = result
             self.confrimButton.isValid = true
             self.addImageToUI(image: image)
@@ -205,7 +210,8 @@ class DepositRecordDetailViewController: UIViewController {
             if count == self.imageIndex {
                 self.stopActivityIndicator(activityIndicator: self.activityIndicator)
             }
-        } onError: { (error) in
+        } onError: { [weak self] (error) in
+            guard let `self` = self else { return }
             self.handleUnknownError(error)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
@@ -242,7 +248,7 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate func dataBinding() {
         self.remarkTableview.delegate = nil
         self.remarkTableview.dataSource = nil
-        viewModel.getDepositRecordDetail(transactionId: detailRecord.displayId).subscribe {[weak self] (data) in
+        viewModel.getDepositRecordDetail(transactionId: displayId).subscribe {[weak self] (data) in
             guard let self = self, let generalData = data as? DepositDetail.General else { return }
             self.statusDateLabel.text = generalData.updatedDate.toDateTimeString()
             let statusChangeHistoriesObservalbe = Observable.from(optional: generalData.statusChangeHistories)
@@ -254,12 +260,15 @@ class DepositRecordDetailViewController: UIViewController {
             }.disposed(by: self.disposeBag)
             
             statusChangeHistoriesObservalbe.subscribeOn(MainScheduler.instance)
-                .subscribe { (depositTypes) in
+                .subscribe { [weak self] (depositTypes) in
+                    guard let `self` = self else { return }
                     self.updateUI(data: generalData)
-                } onError: { (error) in
+                } onError: { [weak self] (error) in
+                    guard let `self` = self else { return }
                     self.handleUnknownError(error)
                 }.disposed(by: self.disposeBag)
-        } onError: { (error) in
+        } onError: { [weak self] (error) in
+            guard let `self` = self else { return }
             self.handleUnknownError(error)
         }.disposed(by: disposeBag)
     }

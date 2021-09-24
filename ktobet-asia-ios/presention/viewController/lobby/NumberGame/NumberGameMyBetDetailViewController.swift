@@ -14,6 +14,7 @@ class NumberGameMyBetDetailViewController: UIViewController {
             totalCount = details?.count ?? 0
         }
     }
+    var isViewPager = true
     var selectedIndex: Int = 0
     private var displayPage = 1
     private var totalCount : Int = 1 {
@@ -35,6 +36,7 @@ class NumberGameMyBetDetailViewController: UIViewController {
     
     private func initUI() {
         pagecontol.pageLabel.text = "\(displayPage)/\(totalCount)"
+        pagecontol.isHidden = !isViewPager
     }
     
     private func dataBinding() {
@@ -87,4 +89,3 @@ class KTOPageControl: UIView {
     @IBOutlet weak var rightBtn: UIButton!
 }
 
-struct Dummy {}

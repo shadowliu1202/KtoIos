@@ -15,21 +15,18 @@ class NumberGameSummaryViewController: UIViewController {
         let storyboard = UIStoryboard(name: "NumberGame", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "RecentViewController") as! RecentViewController
         viewController.viewModel = self.viewModel
-        self.add(asChildViewController: viewController)
         return viewController
     }()
     private lazy var unSettleVC: UnSettleViewController = {
         let storyboard = UIStoryboard(name: "NumberGame", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "UnSettleViewController") as! UnSettleViewController
         viewController.viewModel = self.viewModel
-        self.add(asChildViewController: viewController)
         return viewController
     }()
     private lazy var settleVC: SettleViewController = {
         let storyboard = UIStoryboard(name: "NumberGame", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "SettleViewController") as! SettleViewController
         viewController.viewModel = self.viewModel
-        self.add(asChildViewController: viewController)
         return viewController
     }()
     
@@ -62,7 +59,7 @@ class NumberGameSummaryViewController: UIViewController {
     
     private func switchContain(_ index: Int) {
         if let vc = presentingVC {
-            self.remove(asChildViewController: vc)
+            self.removeChildViewController(vc)
         }
         switch index {
         case 0:
@@ -75,23 +72,8 @@ class NumberGameSummaryViewController: UIViewController {
             presentingVC = nil
         }
         if let vc = presentingVC {
-            self.add(asChildViewController: vc)
+            self.addChildViewController(vc, inner: containView)
         }
-    }
-    
-    // MARK: - Helper Methods
-    private func add(asChildViewController viewController: UIViewController) {
-        addChild(viewController)
-        self.containView.addSubview(viewController.view)
-        viewController.view.frame = containView.bounds
-        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        viewController.didMove(toParent: self)
-    }
-    
-    private func remove(asChildViewController viewController: UIViewController) {
-        viewController.willMove(toParent: nil)
-        viewController.view.removeFromSuperview()
-        viewController.removeFromParent()
     }
     
     deinit {
