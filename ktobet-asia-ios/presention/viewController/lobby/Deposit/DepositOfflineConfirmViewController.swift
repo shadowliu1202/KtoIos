@@ -124,7 +124,8 @@ class DepositOfflineConfirmViewController: UIViewController {
         branchNameLabel.text = selectedReceiveBank.bankAccount.branch
         bankCardNumberLabel.text = selectedReceiveBank.bankAccount.accountNumber
         remitterLabel.text = depositRequest.remitter.name
-        let amountStr = depositRequest.cashAmount.description()
+        var amountStr = depositRequest.cashAmount.toStringWithSign()
+        amountStr.removeFirst()
         let attributedString = NSMutableAttributedString(string: amountStr, attributes: [
                 .font: UIFont(name: "PingFangSC-Semibold", size: 24.0)!,
                 .foregroundColor: UIColor.whiteFull
