@@ -86,8 +86,8 @@ class DateViewController: UIViewController {
         currentSelectedStyle = .sequence(style: .semicircleEdge)
         koyomi.selectionMode = currentSelectedStyle
         koyomi.unselectAll()
-        koyomi.select(date: Date().getPastSevenDate().adding(value: -1, byAdding: .day), to: Date())
-        dateType = .week(fromDate: Date().getPastSevenDate().adding(value: -1, byAdding: .day), toDate: Date())
+        koyomi.select(date: Date().getPastSevenDate(), to: Date())
+        dateType = .week(fromDate: Date().getPastSevenDate(), toDate: Date())
         koyomi.reloadData()
     }
     
