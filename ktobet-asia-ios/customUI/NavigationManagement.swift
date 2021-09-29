@@ -91,7 +91,7 @@ class NavigationManagement {
         
         switch productType {
         case .sbk:
-            goTo(storyboard: "Game", viewControllerId: "SBKNavigationController")
+            goTo(storyboard: "SBK", viewControllerId: "SBKNavigationController")
         case .numbergame:
             goTo(storyboard: "NumberGame", viewControllerId: "NumberGameNavigationController")
         case .casino:
