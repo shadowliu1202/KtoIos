@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -15,7 +15,7 @@
             <objects>
                 <viewController storyboardIdentifier="DepositRecordDetailViewController" id="2is-AB-lQC" customClass="DepositRecordDetailViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FXA-cP-KYI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1512"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4U-LI-Ej3">
@@ -147,7 +147,7 @@
                                                 <color key="sectionIndexBackgroundColor" name="blackTwo"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RemarkTableViewCell" id="ucj-Ui-NwM" customClass="RemarkTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="28" width="375" height="177"/>
+                                                        <rect key="frame" x="0.0" y="44.666666030883789" width="375" height="177"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ucj-Ui-NwM" id="c7K-8d-LRz">
                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="177"/>
@@ -419,7 +419,7 @@
             <objects>
                 <viewController storyboardIdentifier="ImageViewController" id="xfy-AT-i3Q" customClass="ImageViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sS6-ok-LdB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dap-pF-RNY">
@@ -449,7 +449,7 @@
             <objects>
                 <viewController id="FOt-LV-2vS" customClass="DepositViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sMW-G7-LDl">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KTq-zC-52a">
@@ -484,7 +484,7 @@
                                         <color key="sectionIndexBackgroundColor" name="blackTwo"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DepositTypeTableViewCell" id="8kB-xI-fAs" customClass="DepositTypeTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="375" height="56"/>
+                                                <rect key="frame" x="0.0" y="44.666666030883789" width="375" height="56"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8kB-xI-fAs" id="w9x-wv-VWz">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
@@ -582,7 +582,7 @@
                                         <color key="sectionIndexBackgroundColor" name="blackTwo"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DepositRecordTableViewCell" id="n0o-CE-ogR" customClass="DepositRecordTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="375" height="80"/>
+                                                <rect key="frame" x="0.0" y="44.666666030883789" width="375" height="80"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="n0o-CE-ogR" id="YRQ-5B-bbY">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
@@ -657,7 +657,7 @@
                                     <constraint firstItem="dGO-ad-eAs" firstAttribute="top" secondItem="KTq-zC-52a" secondAttribute="top" constant="30" id="but-6g-JuQ"/>
                                     <constraint firstItem="E7t-jO-HMs" firstAttribute="leading" secondItem="KTq-zC-52a" secondAttribute="leading" id="dDZ-T9-l9X"/>
                                     <constraint firstItem="lJX-4J-3DG" firstAttribute="top" secondItem="E7t-jO-HMs" secondAttribute="bottom" constant="29" id="dHi-Fn-1DX"/>
-                                    <constraint firstAttribute="bottom" secondItem="He9-H8-n4y" secondAttribute="bottom" id="fqn-rK-BIv"/>
+                                    <constraint firstAttribute="bottom" secondItem="He9-H8-n4y" secondAttribute="bottom" constant="96" id="fqn-rK-BIv"/>
                                     <constraint firstAttribute="trailing" secondItem="E7t-jO-HMs" secondAttribute="trailing" id="hgU-Le-AGW"/>
                                     <constraint firstItem="kyq-YZ-45p" firstAttribute="leading" secondItem="4uK-gL-NJr" secondAttribute="leading" id="klc-NM-ECk"/>
                                     <constraint firstItem="98S-r1-bla" firstAttribute="trailing" secondItem="He9-H8-n4y" secondAttribute="trailing" constant="-30" id="oZ1-c0-eFO"/>
@@ -707,7 +707,7 @@
             <objects>
                 <viewController storyboardIdentifier="DepositCryptoViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="H2h-kh-Eib" customClass="DepositCryptoViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="haG-T2-JSD">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JJT-vz-hiM">
@@ -744,7 +744,7 @@
             <objects>
                 <viewController id="AGT-ah-Yup" customClass="DepositRecordViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mRH-sB-Cax">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YlQ-NO-adF">
@@ -789,7 +789,7 @@
                                         <color key="sectionIndexBackgroundColor" name="blackTwo"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DepositRecordTableViewCell" id="0gv-h3-wnx" customClass="DepositRecordTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="55.333332061767578" width="323.66666666666669" height="71"/>
+                                                <rect key="frame" x="0.0" y="49" width="323.66666666666669" height="71"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0gv-h3-wnx" id="q79-KA-vdv">
                                                     <rect key="frame" x="0.0" y="0.0" width="323.66666666666669" height="71"/>
@@ -919,7 +919,7 @@
             <objects>
                 <viewController id="wU1-pf-ph2" customClass="DepositMethodViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RSb-m4-kBI">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="912"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="puo-Ni-fBt">
@@ -941,7 +941,7 @@
                                         <inset key="separatorInset" minX="78" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DepositMethodTableViewCell" id="93s-c4-ciz" customClass="DepositMethodTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="414" height="56"/>
+                                                <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="56"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="93s-c4-ciz" id="T3A-Yw-5kO">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
@@ -1190,7 +1190,7 @@
             <objects>
                 <viewController id="znd-rS-fvo" customClass="DepositOfflineConfirmViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DHs-JT-lu2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="970"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="882"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y8A-LX-HI1">
@@ -1568,7 +1568,7 @@
             <objects>
                 <viewController id="8tx-d2-eAY" customClass="DepositThirdPartWebViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1hf-vZ-8uu">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRY-qE-d3O">
@@ -1654,7 +1654,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hkd-5J-lSd"/>
+        <segue reference="keF-G9-Ps9"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Chevron Right(24)" width="24" height="24"/>

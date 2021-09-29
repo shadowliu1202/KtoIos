@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -15,10 +15,10 @@
             <objects>
                 <viewController storyboardIdentifier="ArcadeViewController" id="Puz-Pk-WZ2" customClass="ArcadeViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZXj-Eb-ZHv">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmY-8W-ckz">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmY-8W-ckz">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KoZ-Lk-170" userLabel="ContentView">
@@ -74,7 +74,7 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="KoZ-Lk-170" secondAttribute="trailing" id="FYf-7e-ik3"/>
                                     <constraint firstItem="KoZ-Lk-170" firstAttribute="top" secondItem="rmY-8W-ckz" secondAttribute="top" id="JMM-4m-mXY"/>
-                                    <constraint firstAttribute="bottom" secondItem="KoZ-Lk-170" secondAttribute="bottom" id="L0L-65-Ahm"/>
+                                    <constraint firstAttribute="bottom" secondItem="KoZ-Lk-170" secondAttribute="bottom" constant="76" id="L0L-65-Ahm"/>
                                     <constraint firstItem="KoZ-Lk-170" firstAttribute="leading" secondItem="rmY-8W-ckz" secondAttribute="leading" id="aDN-6Z-VCb"/>
                                     <constraint firstItem="KoZ-Lk-170" firstAttribute="width" secondItem="rmY-8W-ckz" secondAttribute="width" id="nuw-aX-3OG"/>
                                 </constraints>
@@ -193,7 +193,7 @@
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="81" id="jI0-lf-f9R" customClass="MyBetSummaryTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="81"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jI0-lf-f9R" id="x4i-sv-4Qi">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
@@ -245,7 +245,7 @@
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ArcadeBetSummaryByDateCell" id="sf4-NR-MLv" customClass="BetSummaryByDateCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sf4-NR-MLv" id="cRc-qq-jAZ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
@@ -372,7 +372,7 @@
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ArcadeBetDetailCell" id="Mvq-W8-BRx" customClass="BetDetailCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mvq-W8-BRx" id="0VU-yu-jjY">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>

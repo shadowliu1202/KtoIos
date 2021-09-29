@@ -45,7 +45,9 @@ platform :ios do
             		  include_bitcode: true,
 			  clean: true,
 		   	  output_directory: "output",
-			  export_method: "ad-hoc"
+			  export_method: "ad-hoc",
+			  skip_package_ipa: true,
+			  skip_archive: true
 			 )
 
 	end

@@ -41,6 +41,7 @@ class P2PViewController: UIViewController {
         
         tableView.estimatedRowHeight = 208.0
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 96, right: 0)
     }
     
     private func checkTurnOver(p2pGame: P2PGame) {

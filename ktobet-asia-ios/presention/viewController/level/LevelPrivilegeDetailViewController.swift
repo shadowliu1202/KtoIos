@@ -55,6 +55,14 @@ class LevelPrivilegeDetailViewController: UIViewController {
         default:
             break
         }
+        
+        if #available(iOS 15.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor.clear
+            appearance.shadowImage = UIImage(color: UIColor.clear)
+            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
