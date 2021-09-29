@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Qm2-o2-MCH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Qm2-o2-MCH">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -18,8 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="208" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vcm-3C-nzd">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="208" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vcm-3C-nzd">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" name="blackTwo"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="BTi-BL-cdW">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
@@ -43,7 +43,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="p2pTableVIewCell" id="CHe-gK-5sV" customClass="P2PTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="98" width="414" height="208"/>
+                                        <rect key="frame" x="0.0" y="114.5" width="414" height="208"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CHe-gK-5sV" id="JFi-EJ-YPm">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="208"/>
@@ -93,10 +93,10 @@
                         <viewLayoutGuide key="safeArea" id="oik-bR-Tub"/>
                         <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
-                            <constraint firstItem="oik-bR-Tub" firstAttribute="trailing" secondItem="Vcm-3C-nzd" secondAttribute="trailing" id="NpS-aA-brT"/>
-                            <constraint firstItem="oik-bR-Tub" firstAttribute="bottom" secondItem="Vcm-3C-nzd" secondAttribute="bottom" id="RuO-bE-H2A"/>
-                            <constraint firstItem="Vcm-3C-nzd" firstAttribute="top" secondItem="oik-bR-Tub" secondAttribute="top" id="tNv-yx-If1"/>
-                            <constraint firstItem="Vcm-3C-nzd" firstAttribute="leading" secondItem="oik-bR-Tub" secondAttribute="leading" id="x7M-j8-2i8"/>
+                            <constraint firstAttribute="trailing" secondItem="Vcm-3C-nzd" secondAttribute="trailing" id="NpS-aA-brT"/>
+                            <constraint firstAttribute="bottom" secondItem="Vcm-3C-nzd" secondAttribute="bottom" id="RuO-bE-H2A"/>
+                            <constraint firstItem="Vcm-3C-nzd" firstAttribute="top" secondItem="1ed-Qf-rNc" secondAttribute="top" id="tNv-yx-If1"/>
+                            <constraint firstItem="Vcm-3C-nzd" firstAttribute="leading" secondItem="1ed-Qf-rNc" secondAttribute="leading" id="x7M-j8-2i8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5n8-cm-jtM"/>
@@ -473,7 +473,7 @@
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="81" id="jem-v7-GYp" customClass="MyBetSummaryTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="81"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jem-v7-GYp" id="WbD-VX-Wj6">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
@@ -525,7 +525,7 @@
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="P2PBetSummaryByDateCell" id="kaH-Zs-PBH" customClass="P2PBetSummaryByDateCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="124"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="124"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kaH-Zs-PBH" id="zTQ-kD-4ay">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="124"/>
@@ -661,7 +661,7 @@
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="P2PBetDetailCell" id="ulg-QS-gxH" customClass="BetDetailCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="118"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="118"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ulg-QS-gxH" id="Tdt-zV-qt8">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="118"/>
