@@ -159,7 +159,7 @@ extension Date {
         var dateComponent = DateComponents()
         dateComponent.day = -6
         let pastSevenDate = Calendar.current.date(byAdding: dateComponent, to: self)!
-        return pastSevenDate.convertdateToUTC()
+        return pastSevenDate
     }
     
     func convertToKotlinx_datetimeLocalDateTime() -> Kotlinx_datetimeLocalDateTime {

@@ -131,10 +131,10 @@ final class DateModel: NSObject {
     
     // Select date in programmatically
     func select(from fromDate: Date, to toDate: Date?) {
-        if let toDate = toDate?.formated() {
-            set(true, withFrom: fromDate, to: toDate)
-        } else if let fromDate = fromDate.formated() {
-            selectedDates[fromDate] = true
+        if let toDate = toDate?.convertdateToUTC() {
+            set(true, withFrom: fromDate.convertdateToUTC(), to: toDate)
+        } else {
+            selectedDates[fromDate.convertdateToUTC()] = true
         }
     }
     
@@ -321,8 +321,13 @@ final class DateModel: NSObject {
 // MARK: - Private Methods -
 
 private extension DateModel {
-    var calendar: Calendar { return Calendar.current }
-    
+    var calendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        let timezone = TimeZone(secondsFromGMT: 0)!
+        calendar.timeZone = timezone
+        return calendar
+    }
+
     func setup() {
         selectedDates = [:]
         
