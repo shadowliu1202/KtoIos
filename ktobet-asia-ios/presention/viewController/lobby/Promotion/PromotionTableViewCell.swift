@@ -21,6 +21,7 @@ class PromotionTableViewCell: UITableViewCell {
     @IBOutlet weak var backupLabel: UILabel!
     @IBOutlet weak var backupLabelHeight: NSLayoutConstraint!
     @IBOutlet weak var msgLabel: UILabel!
+    @IBOutlet weak var msgLabelHeight: NSLayoutConstraint!
     @IBOutlet weak var btnGetCoupon: UIButton!
     @IBOutlet weak var btnGetCouponHeight: NSLayoutConstraint!
     @IBOutlet weak var timerLabel: UILabel!
@@ -109,6 +110,7 @@ class PromotionTableViewCell: UITableViewCell {
         tagLabel.text = item.title
         configureSubTagLabel(item.subTitle)
         msgLabel.text = item.message
+        msgLabelHeight.constant = msgLabel.retrieveTextHeight()
         configureTimerLabel(item)
     }
     

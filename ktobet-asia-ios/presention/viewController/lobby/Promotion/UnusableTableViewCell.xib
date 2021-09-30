@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -124,6 +124,9 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="老虎机救援金老虎机救援金老虎机救援金老虎机救援金" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YaY-0g-PGk">
                                 <rect key="frame" x="90" y="62" width="365" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="4lU-7I-1Fh"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="14"/>
                                 <color key="textColor" name="textPrimaryDustyGray"/>
                                 <nil key="highlightedColor"/>
@@ -270,6 +273,7 @@
                 <outlet property="issueLabel" destination="uoe-Ey-cJc" id="crf-WA-auE"/>
                 <outlet property="issueLabelHeight" destination="GPi-uH-hB1" id="NI1-eP-84Z"/>
                 <outlet property="msgLabel" destination="YaY-0g-PGk" id="xIg-6s-4fm"/>
+                <outlet property="msgLabelHeight" destination="4lU-7I-1Fh" id="8k4-O6-Gg8"/>
                 <outlet property="stamp" destination="9II-VB-lb8" id="SvS-a8-QZ2"/>
                 <outlet property="subTagLabel" destination="tvI-T2-PFv" id="b4h-Dz-ySy"/>
                 <outlet property="subTagLabelHeight" destination="mqF-X6-dEx" id="1Tw-Sv-8RW"/>
