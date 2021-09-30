@@ -48,6 +48,16 @@ class GameWebViewViewController: UIViewController {
                 self?.dismiss(animated: true, completion: nil)
             }, cancel: nil)
         }.disposed(by: disposeBag)
+#if DEV
+        let backBtn = UIButton(frame: .zero)
+        backBtn.setImage(UIImage(named: "Back"), for: .normal)
+        self.view.addSubview(backBtn, constraints: [.equal(\.leadingAnchor, offset: 0),
+                                                    .equal(\.safeAreaLayoutGuide.topAnchor, offset: 0)])
+        backBtn.constrain([.equal(\.widthAnchor, length: 40), .equal(\.heightAnchor, length: 40)])
+        backBtn.rx.touchUpInside.bind(onNext: { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }).disposed(by: disposeBag)
+#endif
     }
     
     override func viewWillDisappear(_ animated: Bool) {
