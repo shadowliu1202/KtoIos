@@ -167,6 +167,16 @@ extension BonusCoupon.Product: BonusCouponItem {
 }
 
 extension PromotionEvent.Product: PromotionEventItem {
+    var displayMaxAmount: String {
+        switch maxBonus {
+        case is MaxAmount.Amount:
+            let suffix = (maxBonus as! MaxAmount.Amount).value.description()
+            return "\(suffix)"
+        default:
+            return Localize.string("bonus_rebate_unlimited")
+        }
+    }
+    
     var displayPercentage: String {
         "0"
     }
@@ -309,6 +319,16 @@ extension BonusCoupon.Rebate: BonusCouponItem {
 }
 
 extension PromotionEvent.Rebate: PromotionEventItem {
+    var displayMaxAmount: String {
+        switch maxBonus {
+        case is MaxAmount.Amount:
+            let suffix = (maxBonus as! MaxAmount.Amount).value.description()
+            return "\(suffix)"
+        default:
+            return Localize.string("bonus_rebate_unlimited")
+        }
+    }
+    
     var displayPercentage: String {
         self.percentage.description()
     }

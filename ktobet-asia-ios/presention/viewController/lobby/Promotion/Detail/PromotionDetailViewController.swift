@@ -56,7 +56,7 @@ class PromotionDetailViewController: UIViewController {
                 guard let self = self else { return (promotionDescriptions, level) }
                 var content = promotionDescriptions.content.replacingOccurrences(of: "rgb(255, 255, 255)", with: "rgb(0, 0, 0)")
                 content = content.replacingOccurrences(of: "{date}", with: self.item.displayInformPlayerDate)
-                content = content.replacingOccurrences(of: "{maxbonus}", with: self.item.displayAmount)
+                content = content.replacingOccurrences(of: "{maxbonus}", with: self.item.displayMaxAmount)
                 content = content.replacingOccurrences(of: "{multiple}", with: (self.item as? BonusCouponItem)?.displayBetMultiple ?? "")
                 content = content.replacingOccurrences(of: "{level}", with: self.item.displayLevel ?? level)
                 content = content.replacingOccurrences(of: "{percentage}", with: self.item.displayPercentage)

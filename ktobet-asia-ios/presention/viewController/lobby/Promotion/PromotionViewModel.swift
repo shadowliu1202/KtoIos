@@ -159,6 +159,7 @@ protocol PromotionVmItem {
     var displayInformPlayerDate: String { get }
     var displayPercentage: String { get }
     var displayLevel: String? { get }
+    var displayMaxAmount: String { get }
 }
 
 protocol BonusCouponItem: PromotionVmItem {
