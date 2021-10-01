@@ -1058,6 +1058,10 @@
                                         <color key="textColor" red="1" green="0.50196078430000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aHj-0Y-lJL" customClass="DropDownInputText" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                        <rect key="frame" x="30" y="557" width="354" height="60"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="soO-Zx-zJB" customClass="InputText" customModule="ktobet_asia_ios" customModuleProvider="target">
                                         <rect key="frame" x="30" y="557" width="354" height="60"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1087,11 +1091,14 @@
                                 <constraints>
                                     <constraint firstItem="kWY-pI-Hll" firstAttribute="leading" secondItem="xcr-f8-tYV" secondAttribute="leading" id="3Fd-kN-6Fs"/>
                                     <constraint firstItem="xcr-f8-tYV" firstAttribute="top" secondItem="bRB-c5-2Cy" secondAttribute="bottom" constant="30" id="3Kz-1Q-QNi"/>
+                                    <constraint firstItem="aHj-0Y-lJL" firstAttribute="top" secondItem="J0r-dZ-KnV" secondAttribute="bottom" constant="12" id="5RV-7z-4lP"/>
+                                    <constraint firstItem="aHj-0Y-lJL" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="73H-eY-5aQ"/>
                                     <constraint firstAttribute="trailing" secondItem="bRB-c5-2Cy" secondAttribute="trailing" id="7vV-LG-eWh"/>
                                     <constraint firstAttribute="trailing" secondItem="025-kO-8kc" secondAttribute="trailing" constant="30" id="9rR-cP-t5F"/>
                                     <constraint firstItem="soO-Zx-zJB" firstAttribute="trailing" secondItem="025-kO-8kc" secondAttribute="trailing" id="ABK-P8-1sh"/>
                                     <constraint firstItem="3yY-eS-yxK" firstAttribute="top" secondItem="025-kO-8kc" secondAttribute="bottom" constant="4" id="DnY-f8-StU"/>
                                     <constraint firstItem="soO-Zx-zJB" firstAttribute="leading" secondItem="025-kO-8kc" secondAttribute="leading" id="EUH-MQ-8bh"/>
+                                    <constraint firstAttribute="trailing" secondItem="aHj-0Y-lJL" secondAttribute="trailing" constant="30" id="GA0-tN-2MJ"/>
                                     <constraint firstAttribute="trailing" secondItem="5fs-X7-E7r" secondAttribute="trailing" constant="30" id="HJ6-Wa-X9u"/>
                                     <constraint firstItem="bRB-c5-2Cy" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" id="Haw-NC-8Zu"/>
                                     <constraint firstAttribute="trailing" secondItem="9bv-rR-6sC" secondAttribute="trailing" constant="30" id="ISm-Of-W7y"/>
@@ -1107,6 +1114,7 @@
                                     <constraint firstItem="9bv-rR-6sC" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="UgS-uU-OJ0"/>
                                     <constraint firstAttribute="trailing" secondItem="3yY-eS-yxK" secondAttribute="trailing" constant="30" id="Vyh-4a-IWX"/>
                                     <constraint firstItem="nRg-5c-sML" firstAttribute="leading" secondItem="uHV-qw-owJ" secondAttribute="leading" id="XmS-5w-mIf"/>
+                                    <constraint firstItem="5fs-X7-E7r" firstAttribute="top" secondItem="aHj-0Y-lJL" secondAttribute="bottom" constant="4" id="YWg-Ag-ndS"/>
                                     <constraint firstAttribute="bottom" secondItem="kWY-pI-Hll" secondAttribute="bottom" constant="10" id="bjk-2X-7XC"/>
                                     <constraint firstItem="nRg-5c-sML" firstAttribute="top" secondItem="uHV-qw-owJ" secondAttribute="bottom" constant="30" id="ceW-zt-CpM"/>
                                     <constraint firstItem="yeb-SJ-vjG" firstAttribute="trailing" secondItem="025-kO-8kc" secondAttribute="trailing" id="dun-Ai-EZf"/>
@@ -1166,6 +1174,7 @@
                         <outlet property="depositLimitLabel" destination="kWY-pI-Hll" id="anX-iE-LbP"/>
                         <outlet property="depositTableView" destination="bRB-c5-2Cy" id="eW9-8X-OG1"/>
                         <outlet property="myDepositInfo" destination="xcr-f8-tYV" id="nLN-20-HHp"/>
+                        <outlet property="remitterAmountDropDown" destination="aHj-0Y-lJL" id="LxU-Aw-d3c"/>
                         <outlet property="remitterAmountErrorLabel" destination="5fs-X7-E7r" id="CcQ-iY-LrE"/>
                         <outlet property="remitterAmountTextField" destination="soO-Zx-zJB" id="0Em-Pt-Xjs"/>
                         <outlet property="remitterBankCardNumberErrorLabel" destination="J0r-dZ-KnV" id="2sT-ks-ljR"/>

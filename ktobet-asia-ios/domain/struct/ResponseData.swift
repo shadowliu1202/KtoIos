@@ -198,6 +198,7 @@ struct DepositMethodData: Codable {
     var paymentTokenID: String
     var depositLimitMaximum, depositLimitMinimum: Double
     var specialDisplayType: Int
+    var providerId: Int
     
     enum CodingKeys: String, CodingKey {
         case depositTypeID = "depositTypeId"
@@ -206,7 +207,7 @@ struct DepositMethodData: Codable {
         case displayName, isFavorite
         case paymentTokenID = "paymentTokenId"
         case depositLimitMaximum, depositLimitMinimum
-        case specialDisplayType
+        case specialDisplayType, providerId
     }
 }
 

@@ -8,7 +8,7 @@ protocol DepositUseCase {
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]>
     func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
     func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]>
-    func depositOnline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
+    func depositOnline(depositRequest: DepositRequest, provider: PaymentProvider_, depositTypeId: Int32) -> Single<String>
     func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getDepositRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[DepositRecord]>
@@ -39,8 +39,8 @@ class DepositUseCaseImpl: DepositUseCase {
         return depositRepository.depositOffline(depositRequest: depositRequest, depositTypeId: depositTypeId)
     }
     
-    func depositOnline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String> {
-        return depositRepository.depositOnline(depositRequest: depositRequest, depositTypeId: depositTypeId).map { (transaction) -> String in
+    func depositOnline(depositRequest: DepositRequest, provider: PaymentProvider_, depositTypeId: Int32) -> Single<String> {
+        return depositRepository.depositOnline(remitter: depositRequest.remitter, paymentTokenId: depositRequest.paymentToken, depositAmount: depositRequest.cashAmount, providerId: provider.id, depositTypeId: depositTypeId).map { (transaction) -> String in
             let cashAmount = CashAmount(amount: depositRequest.cashAmount.amount)
             let remitter: DepositRequest.Remitter = depositRequest.remitter
             let url = HttpClient().getHost() + "payment-gateway" + "?" + transaction.queryParameter(payAmount: cashAmount, remiiter: remitter)

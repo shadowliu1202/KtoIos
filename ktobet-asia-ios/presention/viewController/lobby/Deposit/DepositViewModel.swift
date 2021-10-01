@@ -3,6 +3,11 @@ import RxSwift
 import SharedBu
 import RxCocoa
 
+enum WeiLaiProvidAmount: String {
+    case fifty          = "50"
+    case oneHundred     = "100"
+    case twoHundred     = "200"
+}
 class DepositViewModel {
     static let imageMBSizeLimit = 20
     static let selectedImageCountLimit = 3
@@ -20,10 +25,16 @@ class DepositViewModel {
     var relayName = BehaviorRelay<String>(value: "")
     var relayBankNumber = BehaviorRelay<String>(value: "")
     var relayBankAmount = BehaviorRelay<String>(value: "")
+    var dropdownAmount = BehaviorRelay<String>(value: WeiLaiProvidAmount.fifty.rawValue)
     var Allbanks: [SimpleBank] = []
     var uploadImageDetail: [Int: UploadImageDetail] = [:]
     var selectedReceiveBank: FullBankAccount!
-    var selectedMethod: DepositRequest.DepositTypeMethod!
+    var selectedMethod: DepositRequest.DepositTypeMethod! {
+        didSet {
+            self.subjectMethod.onNext(selectedMethod)
+        }
+    }
+    private var subjectMethod = PublishSubject<DepositRequest.DepositTypeMethod>()
     var minAmountLimit: Double = 0
     var maxAmountLimit: Double = 0
     var pagination: Pagination<DepositRecord>!
@@ -82,10 +93,11 @@ class DepositViewModel {
     }
     
     func depositOnline(depositTypeId: Int32) -> Single<String> {
-        let remitter = DepositRequest.Remitter.init(name: relayName.value, accountNumber: relayBankAmount.value, bankName: relayBankName.value)
-        let cashAmount = CashAmount(amount: Double(relayBankAmount.value.replacingOccurrences(of: ",", with: ""))!)
+        let accountNum = needCashOption(method: selectedMethod) ? dropdownAmount.value : relayBankAmount.value
+        let remitter = DepositRequest.Remitter.init(name: relayName.value, accountNumber: accountNum, bankName: relayBankName.value)
+        let cashAmount = CashAmount(amount: Double(accountNum.replacingOccurrences(of: ",", with: ""))!)
         let request = DepositRequest.Builder.init(paymentToken: selectedMethod.paymentTokenId).remitter(remitter: remitter).build(depositAmount: cashAmount)
-        return depositUseCase.depositOnline(depositRequest: request, depositTypeId: depositTypeId)
+        return depositUseCase.depositOnline(depositRequest: request, provider: selectedMethod.provider, depositTypeId: depositTypeId)
     }
     
     func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]> {
@@ -118,7 +130,13 @@ class DepositViewModel {
             return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: bankNumber))
         }
         
-        let amountValid = relayBankAmount.map { [unowned self] (amount) -> Bool in
+        let amountValid = subjectMethod.flatMap({ [unowned self] (method) -> BehaviorRelay<String> in
+            if self.needCashOption(method: method) {
+                return self.dropdownAmount
+            } else {
+                return self.relayBankAmount
+            }
+        }).map { [unowned self] (amount) -> Bool in
             guard let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return false }
             var minAmountLimit: Double = 0
             var maxAmountLimit: Double = 0
@@ -181,5 +199,12 @@ class DepositViewModel {
     
     func createCryptoDeposit() -> Single<String> {
         return depositUseCase.requestCryptoDeposit()
+    }
+    
+    func needCashOption(method: DepositRequest.DepositTypeMethod) -> Bool {
+        if method.depositTypeId == SupportDepositType.WechatScan.rawValue, method.provider == PaymentProvider_.weilai {
+            return true
+        }
+        return false
     }
 }
