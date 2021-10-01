@@ -45,7 +45,8 @@ class PromotionDetailViewController: UIViewController {
                 issueNumber: item.issueNo,
                 productTypeDrawable: item.icon,
                 promotionAmount: item.displayAmount,
-                validPeriod: (item as? BonusCouponItem)?.validPeriod)
+                validPeriod: (item as? BonusCouponItem)?.validPeriod,
+                isFull: (item as? PromotionEventItem)?.isAutoUse() ?? false)
         
         contentTemplateWebView.scrollView.isScrollEnabled = false
         ruleTemplateWebView.scrollView.isScrollEnabled = false
