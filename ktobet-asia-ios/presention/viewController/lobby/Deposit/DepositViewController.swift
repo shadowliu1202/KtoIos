@@ -4,7 +4,6 @@ import RxSwift
 import SharedBu
 
 class DepositViewController: UIViewController {
-    @IBOutlet private weak var depositTitleLabel: UILabel!
     @IBOutlet private weak var depositDescriptionLabel: UILabel!
     @IBOutlet private weak var depositNoDataLabel: UILabel!
     @IBOutlet private weak var depositTypeTableView: UITableView!
@@ -21,7 +20,7 @@ class DepositViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
+        NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_deposit"))
         initUI()
         depositTypeDataBinding()
         recordDataBinding()
@@ -40,7 +39,6 @@ class DepositViewController: UIViewController {
     
     // MARK: METHOD
     fileprivate func initUI() {
-        depositTitleLabel.text = Localize.string("common_deposit")
         depositDescriptionLabel.text = Localize.string("deposit_title_tips")
         depositRecordTitleLabel.text = Localize.string("deposit_log")
         showAllRecordButton.setTitle(Localize.string("common_show_all"), for: .normal)
