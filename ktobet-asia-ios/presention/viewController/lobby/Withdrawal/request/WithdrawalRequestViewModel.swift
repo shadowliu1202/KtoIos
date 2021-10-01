@@ -9,13 +9,15 @@ class WithdrawalRequestViewModel {
     private var playerDataUseCase: PlayerDataUseCase!
     
     var relayWithdrawalAmount = BehaviorRelay<String>(value: "")
-    var relayName = BehaviorRelay<String>(value: "")
     var relaydDailyMaxCount = BehaviorRelay<Int32>(value: 0)
     var relayDailyMaxCash = BehaviorRelay<CashAmount>(value: CashAmount(amount: 0))
     var singleCashMinimum: CashAmount?
     var singleCashMaximum: CashAmount?
     var relayNameEditable: Bool = false
     var balance: CashAmount?
+    lazy var userName = playerDataUseCase.loadPlayer()
+        .map{ $0.playerInfo.withdrawalName }
+        .asObservable()
         
     init(withdrawalUseCase: WithdrawalUseCase, playerDataUseCase: PlayerDataUseCase) {
         self.withdrawalUseCase = withdrawalUseCase
@@ -48,7 +50,7 @@ class WithdrawalRequestViewModel {
                      amountValid: Observable<AmountStatus>,
                      userNameValid: Observable<Bool>,
                      dataValid: Observable<Bool>) {
-        let userNameValid = relayName.map { $0.count != 0 }
+        let userNameValid = userName.map { $0.count != 0 }
         let dailyCountValid = relaydDailyMaxCount.map { $0 >= 0 }
         let dailyCashValid = relayDailyMaxCash.map { $0.amount >= 0}
         let amountValid = relayWithdrawalAmount.map { [weak self] (amount) -> AmountStatus in
