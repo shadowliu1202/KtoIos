@@ -1,2 +1,3 @@
-APP-1596 [APP][iOS] Number Game 注單筆數取消顯示 => already resolve
-APP-1040 [iOS] SBK串接 => 和APP-2178[iOS]SBK module相同
+APP-1083 [iOS]需顯示 GPI 注單相關明細
+APP-1682 [iOS][GPI] 提供 Arcade 交易紀錄並可領取優惠券
+APP-1624 [iOS][GPI] Bet/Wager Detail (Casino, Number Game, P2P)
