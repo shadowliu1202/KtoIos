@@ -13,6 +13,7 @@ class DepositMethodViewController: UIViewController {
     @IBOutlet private weak var remitterNameTextField: InputText!
     @IBOutlet private weak var remitterBankCardNumberTextField: InputText!
     @IBOutlet private weak var remitterAmountTextField: InputText!
+    @IBOutlet private weak var remitterAmountDropDown: DropDownInputText!
     @IBOutlet private weak var depositLimitLabel: UILabel!
     @IBOutlet private weak var depositConfirmButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
@@ -113,17 +114,22 @@ class DepositMethodViewController: UIViewController {
         remitterBankCardNumberTextField.maxLength = 4
         remitterBankCardNumberTextField.numberOnly = true
         remitterAmountTextField.numberOnly = true
+        remitterAmountDropDown.optionArray = [WeiLaiProvidAmount.fifty, WeiLaiProvidAmount.oneHundred, WeiLaiProvidAmount.twoHundred].map({$0.rawValue})
+        remitterAmountDropDown.setTitle(Localize.string("deposit_amount"))
+        remitterAmountDropDown.isSearchEnable = false
+        (remitterAmountDropDown.text <-> viewModel.dropdownAmount).disposed(by: disposeBag)
     }
     
     fileprivate func thirdPartDataBinding() {
-        let getDepositOfflineBankAccountsObservable = viewModel.getDepositMethods(depositType: depositType!.depositTypeId).catchError { error in
+        let getDepositOnlineBankAccountsObservable = viewModel.getDepositMethods(depositType: depositType!.depositTypeId).catchError { error in
             self.handleUnknownError(error)
             return Single<[DepositRequest.DepositTypeMethod]>.never() }.asObservable()
-        getDepositOfflineBankAccountsObservable.bind(to: depositTableView.rx.items(cellIdentifier: String(describing: DepositMethodTableViewCell.self), cellType: DepositMethodTableViewCell.self)) { index, data, cell in
+        
+        getDepositOnlineBankAccountsObservable.bind(to: depositTableView.rx.items(cellIdentifier: String(describing: DepositMethodTableViewCell.self), cellType: DepositMethodTableViewCell.self)) { index, data, cell in
             cell.setUp(icon: "Default(32)", name: data.displayName, index: index, selectedIndex: self.selectedIndex)
         }.disposed(by: disposeBag)
 
-        getDepositOfflineBankAccountsObservable
+        getDepositOnlineBankAccountsObservable
             .subscribeOn(MainScheduler.instance)
             .subscribe(onNext: {[weak self] (data) in
                 guard let self = self else { return }
@@ -131,8 +137,7 @@ class DepositMethodViewController: UIViewController {
                 self.depositTableView.layoutIfNeeded()
                 self.depositTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
                 guard let firstSelectedMethod = data.first else { return }
-                self.viewModel.selectedMethod = firstSelectedMethod
-                self.getLimitation(firstSelectedMethod)
+                self.setDepositProvider(firstSelectedMethod)
         }).disposed(by: disposeBag)
     }
     
@@ -144,9 +149,32 @@ class DepositMethodViewController: UIViewController {
             lastCell.unSelectRow()
             cell.selectRow()
             self.selectedIndex = indexPath.row
-            self.viewModel.selectedMethod = data
-            self.getLimitation(data)
+            self.setDepositProvider(data)
         }.disposed(by: disposeBag)
+        
+        Observable.combineLatest(depositTableView.rx.modelSelected(DepositRequest.DepositTypeMethod.self), self.remitterAmountTextField.text).bind(onNext: { [weak self] (_, str) in
+            guard let `self` = self, let amount = Double(str.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else { return }
+            self.viewModel.relayBankAmount.accept(amount)
+        }).disposed(by: disposeBag)
+    }
+    
+    private func setDepositProvider(_ method: DepositRequest.DepositTypeMethod) {
+        self.viewModel.selectedMethod = method
+        self.updateDepositAmountInput(method)
+    }
+    
+    private func updateDepositAmountInput(_ method: DepositRequest.DepositTypeMethod) {
+        if viewModel.needCashOption(method: method) {
+            remitterAmountDropDown.isHidden = false
+            remitterAmountTextField.isHidden = true
+            remitterAmountErrorLabel.isHidden = true
+            self.depositLimitLabel.text = nil
+        } else {
+            remitterAmountDropDown.isHidden = true
+            remitterAmountTextField.isHidden = false
+            remitterAmountErrorLabel.isHidden = false
+            self.getLimitation(method)
+        }
     }
     
     fileprivate func getLimitation(_ data: DepositRequest.DepositTypeMethod) {

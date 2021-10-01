@@ -8,7 +8,7 @@ protocol DepositRepository {
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]>
     func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
     func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]>
-    func depositOnline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<DepositTransaction>
+    func depositOnline(remitter: DepositRequest.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32) -> Single<DepositTransaction>
     func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getDepositRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[DepositRecord]>
@@ -20,6 +20,7 @@ class DepositRepositoryImpl: DepositRepository {
     private var bankApi: BankApi!
     private var imageApi: ImageApi!
     private var cpsApi: CPSApi!
+    let MOBILE_CHANNEL = 0
     
     init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi) {
         self.bankApi = bankApi
@@ -79,8 +80,8 @@ class DepositRepositoryImpl: DepositRepository {
         }
     }
     
-    func depositOnline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<DepositTransaction> {
-        let request = DepositOnlineAccountsRequest(paymentTokenID: depositRequest.paymentToken, requestAmount: String(depositRequest.cashAmount.amount), remitter: depositRequest.remitter.name, channel: 0, remitterAccountNumber: depositRequest.remitter.accountNumber, remitterBankName: depositRequest.remitter.bankName, depositType: depositTypeId)
+    func depositOnline(remitter: DepositRequest.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32) -> Single<DepositTransaction> {
+        let request = DepositOnlineAccountsRequest(paymentTokenID: paymentTokenId, requestAmount: String(depositAmount.amount), remitter: remitter.name, channel: MOBILE_CHANNEL, remitterAccountNumber: remitter.accountNumber, remitterBankName: remitter.bankName, depositType: depositTypeId, providerId: providerId)
         return bankApi.depositOnline(depositRequest: request).map { (response) -> DepositTransaction in
             guard let data = response.data else {
                 return DepositTransaction(id: "", provider: "", transactionId: "", bankId: "")
@@ -96,7 +97,7 @@ class DepositRepositoryImpl: DepositRepository {
             return response.data ?? []
         }.map {
             $0.map { (m) -> DepositRequest.DepositTypeMethod in
-                DepositRequest.DepositTypeMethod(depositLimitMaximum: m.depositLimitMaximum, depositLimitMinimum: m.depositLimitMinimum, depositMethodId: m.depositMethodID, depositTypeId: m.depositTypeID, depositTypeName: m.depositTypeName, displayName: m.displayName, isFavorite: m.isFavorite, paymentTokenId: m.paymentTokenID)
+                DepositRequest.DepositTypeMethod(depositLimitMaximum: m.depositLimitMaximum, depositLimitMinimum: m.depositLimitMinimum, depositMethodId: m.depositMethodID, depositTypeId: m.depositTypeID, depositTypeName: m.depositTypeName, displayName: m.displayName, isFavorite: m.isFavorite, paymentTokenId: m.paymentTokenID, provider: PaymentProvider_.convert(m.providerId))
             }
         }
         

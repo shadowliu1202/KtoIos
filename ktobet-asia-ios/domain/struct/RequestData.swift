@@ -52,10 +52,11 @@ struct DepositOnlineAccountsRequest: Codable {
     let channel: Int
     let remitterAccountNumber, remitterBankName: String
     let depositType: Int32
+    let providerId: Int32
 
     enum CodingKeys: String, CodingKey {
         case paymentTokenID = "paymentTokenId"
-        case requestAmount, remitter, channel, remitterAccountNumber, remitterBankName, depositType
+        case requestAmount, remitter, channel, remitterAccountNumber, remitterBankName, depositType, providerId
     }
 }
 

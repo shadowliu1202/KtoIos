@@ -1146,6 +1146,9 @@
 		6D8762EC26F4299700EFD6CE /* TranscationFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */; };
 		6D8762ED26F4299700EFD6CE /* TranscationFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */; };
 		6D8762EE26F4299700EFD6CE /* TranscationFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */; };
+		6D899BF32705461400AC164E /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D899BF22705461400AC164E /* PaymentProvider.swift */; };
+		6D899BF42705461400AC164E /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D899BF22705461400AC164E /* PaymentProvider.swift */; };
+		6D899BF52705461400AC164E /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D899BF22705461400AC164E /* PaymentProvider.swift */; };
 		6D92AD6825FA04F40093D94C /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD6025FA007E0093D94C /* RxExtension.swift */; };
 		6D92AD6B25FA04F60093D94C /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD6025FA007E0093D94C /* RxExtension.swift */; };
 		6D92AD8625FAFFAA0093D94C /* KTOViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD8525FAFFAA0093D94C /* KTOViewModel.swift */; };
@@ -1736,6 +1739,7 @@
 		6D7275FD25F5F499000BF51F /* MonthCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MonthCollectionViewCell.xib; sourceTree = "<group>"; };
 		6D87629A26F1E4CA00EFD6CE /* TransactionLogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionLogDetailViewController.swift; sourceTree = "<group>"; };
 		6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscationFlowViewController.swift; sourceTree = "<group>"; };
+		6D899BF22705461400AC164E /* PaymentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentProvider.swift; sourceTree = "<group>"; };
 		6D92AD6025FA007E0093D94C /* RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
 		6D92AD8525FAFFAA0093D94C /* KTOViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTOViewModel.swift; sourceTree = "<group>"; };
 		6D9408DF26CF4FCD00C70FDA /* PromotionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionModel.swift; sourceTree = "<group>"; };
@@ -2759,6 +2763,7 @@
 				6D940A0126DCACD300C70FDA /* WaitingConfirm.swift */,
 				60BECC0D26F04CAE00BE3F99 /* WagerType.swift */,
 				6DBC86CE26F092E100A35B66 /* BetStatus.swift */,
+				6D899BF22705461400AC164E /* PaymentProvider.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -3302,6 +3307,7 @@
 				6D5B1567264A8B9A004138E8 /* SearchProduct.swift in Sources */,
 				41077D9925BA63140057B340 /* KTOError.swift in Sources */,
 				6034620626327DC800F5D1D9 /* SearchViewController.swift in Sources */,
+				6D899BF42705461400AC164E /* PaymentProvider.swift in Sources */,
 				60251AFD261C419600E89EE6 /* ImagePickerViewController.swift in Sources */,
 				60072D8D25E795C3001EFDAE /* ImageRepository.swift in Sources */,
 				6DCEC6C7265E2655005E4F8B /* NumberGameMyBetPageViewController.swift in Sources */,
@@ -3708,6 +3714,7 @@
 				6D5B1566264A8B9A004138E8 /* SearchProduct.swift in Sources */,
 				486CD98425A41C0F003244B1 /* InputConfirmPassword.swift in Sources */,
 				6034620526327DC800F5D1D9 /* SearchViewController.swift in Sources */,
+				6D899BF32705461400AC164E /* PaymentProvider.swift in Sources */,
 				60251AFC261C419600E89EE6 /* ImagePickerViewController.swift in Sources */,
 				60072D8C25E795C3001EFDAE /* ImageRepository.swift in Sources */,
 				6DCEC6C6265E2655005E4F8B /* NumberGameMyBetPageViewController.swift in Sources */,
@@ -4162,6 +4169,7 @@
 				6D5B14BF264A7AF5004138E8 /* ProductGameDataSourceDelegate.swift in Sources */,
 				6090129A2640EE7000419F8E /* CodableHelpers.swift in Sources */,
 				600E241926CB52ED00D8B073 /* PromotionHistoryViewModel.swift in Sources */,
+				6D899BF52705461400AC164E /* PaymentProvider.swift in Sources */,
 				6090129B2640EE7000419F8E /* HttpConnectionOptions.swift in Sources */,
 				6090129C2640EE7000419F8E /* WithdrawalRequestConfirmViewController.swift in Sources */,
 				6090129D2640EE7000419F8E /* KTOTimer.swift in Sources */,
