@@ -43,8 +43,8 @@ class WithdrawalRequestViewController: UIViewController {
     // MARK: METHOD
     private func initUI() {
         nameLabel.setTitle(Localize.string("withdrawal_accountrealname"))
-        nameLabel.setContent(account.accountName)
-        viewModel.relayName.accept(account.accountName)
+        nameLabel.setContent(" ")
+        viewModel.userName.bind(to: nameLabel.text).disposed(by: disposeBag)
         withdrawalStep1TitleLabel.text = Localize.string("withdrawal_step1_title_1")
         withdrawalTitleLabel.text = Localize.string("withdrawal_step1_title_2")
         withdrawalAmountTextField.setTitle(Localize.string("withdrawal_amount"))

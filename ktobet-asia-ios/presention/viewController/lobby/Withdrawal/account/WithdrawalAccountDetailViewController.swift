@@ -6,6 +6,7 @@ class WithdrawalAccountDetailViewController: UIViewController {
     static let segueIdentifier = "toAccountDetail"
     
     fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!
+    fileprivate var playerViewModel = DI.resolve(PlayerViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     var account: WithdrawalAccount?
     @IBOutlet weak var verifyStatusLabel: UILabel!
@@ -26,6 +27,10 @@ class WithdrawalAccountDetailViewController: UIViewController {
     private func initUI() {
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         verifyStatusLabel.text = account?.verifyStatusLocalize
+        playerViewModel.loadPlayerInfo()
+            .map { $0.playerInfo.withdrawalName }
+            .bind(to: userNameLabel.rx.text)
+            .disposed(by: disposeBag)
         userNameLabel.text = account?.accountName
         bankNameLabel.text = account?.bankName
         branchNameLabel.text = account?.branch
