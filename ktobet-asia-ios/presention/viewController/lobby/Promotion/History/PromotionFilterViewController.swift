@@ -63,17 +63,12 @@ class PromotionFilterViewController: FilterConditionViewController, UITableViewD
                     }).disposed(by: disposeBag)
                 }
                 
-                if row == PromotionPresenter.sortingRow {
-                    if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-                        cell.separatorInset = UIEdgeInsets.zero
-                    }
-                }
-                
                 if PromotionPresenter.productRows.contains(row) {
-                    cell.titleLeadingConstraint.constant = 54
-                    if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-                        cell.separatorInset = UIEdgeInsets(top: 0, left: 54, bottom: 0, right: 0)
-                    }
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: 52, bottom: 0, right: 0)
+                    cell.titleLeadingConstraint.constant = 47
+                } else {
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+                    cell.titleLeadingConstraint.constant = 24
                 }
                 
                 return cell
