@@ -26,15 +26,14 @@ class PromotionHistoryViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Filter", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "PromotionFilterViewController") as! FilterConditionViewController
         filterBtn.set(filterPersenter)
-            .set(currentFilter)
-            .setPromotionStyleTitle(source: currentFilter)
             .setGotoFilterVC(vc: vc)
             .set { [weak self] (items) in
                 guard let self = self else { return }
-                self.currentFilter = items as? [PromotionItem]
-                self.filterBtn.set(self.currentFilter)
-                self.filterBtn.setPromotionStyleTitle(source: items)
-                let status = self.filterPersenter.getConditionStatus(items as! [PromotionItem])
+                let condition = (items as? [PromotionItem])?.filter{ $0.productType != ProductType.none }
+                self.currentFilter = condition
+                self.filterBtn.set(items)
+                self.filterBtn.setPromotionStyleTitle(source: condition)
+                let status = self.filterPersenter.getConditionStatus(condition!)
                 self.viewModel.productTypes = status.prodcutType
                 self.viewModel.bonusTypes = status.bonusType
                 self.viewModel.sortingBy = status.sorting
