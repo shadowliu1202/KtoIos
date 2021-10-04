@@ -97,4 +97,13 @@ class PlayerApi {
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<[LevelBean]>.self)
     }
+    
+    func getPlayerRealName() -> Single<ResponseData<String>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/profile/real-name",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<String>.self)
+    }
 }

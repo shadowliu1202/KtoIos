@@ -12,7 +12,6 @@ class DepositViewModel {
     static let imageMBSizeLimit = 20
     static let selectedImageCountLimit = 3
     private var depositUseCase: DepositUseCase!
-    private var usecaseAuth: AuthenticationUseCase!
     private var playerUseCase: PlayerDataUseCase!
     private var bankUseCase: BankUseCase!
     var filterBanks = BehaviorRelay<[SimpleBank]>(value: [SimpleBank]())
@@ -48,12 +47,13 @@ class DepositViewModel {
                                     11: "雲閃付(32)",
                                     14: "iconPayMultiple",
                                     2001: "Ethereum"]
-    init(depositUseCase: DepositUseCase, usecaseAuth: AuthenticationUseCase, playerUseCase: PlayerDataUseCase, bankUseCase: BankUseCase) {
+    init(depositUseCase: DepositUseCase, playerUseCase: PlayerDataUseCase, bankUseCase: BankUseCase) {
         self.depositUseCase = depositUseCase
-        self.usecaseAuth = usecaseAuth
         self.playerUseCase = playerUseCase
         self.bankUseCase = bankUseCase
-        relayName.accept(usecaseAuth.getUserName())
+        
+        self.relayName.accept(" ")
+        getPlayerRealName().asObservable().bind(to: self.relayName).disposed(by: disposeBag)
         
         pagination = Pagination<DepositRecord>(callBack: {(page) -> Observable<[DepositRecord]> in
             self.getDepositRecords(page: String(page))
@@ -63,6 +63,10 @@ class DepositViewModel {
                     Observable.empty()
                 })
         })
+    }
+    
+    func getPlayerRealName() -> Single<String> {
+        playerUseCase.getPlayerRealName()
     }
     
     func getDepositType() -> Single<[DepositRequest.DepositType]> {

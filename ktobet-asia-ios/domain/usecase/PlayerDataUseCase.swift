@@ -11,6 +11,7 @@ protocol PlayerDataUseCase {
     func isRealNameEditable() -> Single<Bool>
     func getPrivilege() -> Single<[LevelOverview]>
     func getSupportLocalFromCache() -> SupportLocale
+    func getPlayerRealName() -> Single<String>
 }
 
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
@@ -38,6 +39,10 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
         return playerRepository.loadPlayer().do(onSuccess: { [weak self] (player) in
             self?.localRepository.setCultureCode(player.locale().cultureCode())
         })
+    }
+    
+    func getPlayerRealName() -> Single<String> {
+        playerRepository.getPlayerRealName()
     }
     
     func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<[String: Double]> {
