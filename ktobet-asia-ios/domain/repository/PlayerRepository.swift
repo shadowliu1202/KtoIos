@@ -10,6 +10,7 @@ protocol PlayerRepository {
     func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<[String: Double]>
     func isRealNameEditable() -> Single<Bool>
     func getLevelPrivileges() -> Single<[LevelOverview]>
+    func getPlayerRealName() -> Single<String>
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
@@ -80,6 +81,10 @@ class PlayerRepositoryImpl : PlayerRepository {
         return playerApi.getCashLogSummary(begin: begin.toDateStartTimeString(with: "-"), end: end.toDateStartTimeString(with: "-"), balanceLogFilterType: balanceLogFilterType).map { (response) -> [String: Double] in
             return response.data ?? [:]
         }
+    }
+    
+    func getPlayerRealName() -> Single<String> {
+        playerApi.getPlayerRealName().map{ $0.data ?? "" }
     }
     
     func isRealNameEditable() -> Single<Bool> {

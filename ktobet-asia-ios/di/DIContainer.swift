@@ -364,7 +364,7 @@ class DIContainer {
             let authUseCase = ctner.resolve(AuthenticationUseCase.self)!
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             let bankUseCase = ctner.resolve(BankUseCase.self)!
-            return DepositViewModel(depositUseCase: depositUseCase, usecaseAuth: authUseCase, playerUseCase: playerUseCase, bankUseCase: bankUseCase)
+            return DepositViewModel(depositUseCase: depositUseCase, playerUseCase: playerUseCase, bankUseCase: bankUseCase)
         }
         ctner.register(UploadPhotoViewModel.self) { (resolver) in
             let imageUseCase = ctner.resolve(UploadImageUseCase.self)!
