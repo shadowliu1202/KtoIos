@@ -33,6 +33,7 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
         return promotionRepository.getBonusCoupons().map { [weak self] (coupons: [BonusCoupon]) -> [BonusCoupon] in
             guard let `self` = self else { return coupons }
             return self.filterLevelBonusCoupon(list: coupons)
+                .sorted(by: { (a, _) in a.couponStatus == CouponStatus.usable })
         }
     }
     
