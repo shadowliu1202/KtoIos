@@ -23,7 +23,7 @@ class LoginViewModel{
     private var usecaseConfig : ConfigurationUseCase!
     private var accountEdited = false
     private var passwordEdited = false
-    private var timerOverLoginLimit : KTOTimer = KTOTimer()
+    private var timerOverLoginLimit : CountDownTimer = CountDownTimer()
     
     var relayAccount = BehaviorRelay(value: "")
     var relayPassword = BehaviorRelay(value: "")
@@ -58,7 +58,7 @@ class LoginViewModel{
         relayOverLoginLimit.accept(true)
         relayCountDown.accept(count)
         timerOverLoginLimit
-            .countDown(timeInterval: 1, endTime: lastLoginLimitDate, block: {(idx, countDown, finish) in
+            .start(timeInterval: 1, endTime: lastLoginLimitDate, block: {(idx, countDown, finish) in
                 self.relayCountDown.accept(countDown)
                 if finish {
                     self.relayOverLoginLimit.accept(false)
@@ -72,7 +72,7 @@ class LoginViewModel{
         relayOverLoginLimit.accept(true)
         relayCountDown.accept(60)
         timerOverLoginLimit
-            .countDown(timeInterval: 1, endTime: lastLoginLimitDate, block: {(idx, countDown, finish) in
+            .start(timeInterval: 1, endTime: lastLoginLimitDate, block: {(idx, countDown, finish) in
                 self.relayCountDown.accept(countDown)
                 if finish {
                     self.relayOverLoginLimit.accept(false)

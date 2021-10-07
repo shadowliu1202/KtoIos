@@ -41,7 +41,7 @@ class DepositOfflineConfirmViewController: UIViewController {
     var depositSuccess = false
     
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
-    fileprivate let timer = KTOTimer()
+    fileprivate let timer = CountDownTimer()
     fileprivate var disposeBag = DisposeBag()
 
     // MARK: LIFE CYCLE
@@ -136,7 +136,7 @@ class DepositOfflineConfirmViewController: UIViewController {
     }
 
     fileprivate func startExpireTimer() {
-        timer.countDown(timeInterval: 1, duration: 7200) { [weak self] (index, countDownSecond, finish) in
+        timer.start(timeInterval: 1, duration: 7200) { [weak self] (index, countDownSecond, finish) in
             let hh = countDownSecond / 3600
             let mm = countDownSecond % 3600 / 60
             let ss = countDownSecond % 60

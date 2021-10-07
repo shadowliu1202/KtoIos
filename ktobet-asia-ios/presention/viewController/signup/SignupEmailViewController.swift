@@ -29,8 +29,8 @@ class SignupEmailViewController: UIViewController {
     private let segueDefault = "GoToDefault"
     private var viewModel = DI.resolve(SignupEmailViewModel.self)!
     private var disposebag = DisposeBag()
-    private var timerResend = KTOTimer()
-    private var timerVerify = KTOTimer()
+    private var timerResend = CountDownTimer()
+    private var timerVerify = CountDownTimer()
     private var checking = false
     private var btnQatCancelAutoVerify : UIButton?
 
@@ -180,7 +180,7 @@ class SignupEmailViewController: UIViewController {
     func resendTimer(launch : Bool){
         if launch{
             timerResend
-                .countDown(timeInterval: 1, duration: Setting.resendOtpCountDownSecond, block: {(index, second, finish) in
+                .start(timeInterval: 1, duration: Setting.resendOtpCountDownSecond, block: {(index, second, finish) in
                     self.setResendButton(second)
                 })
         } else {

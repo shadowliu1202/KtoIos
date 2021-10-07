@@ -29,11 +29,7 @@ class PromotionTableViewCell: UITableViewCell {
     @IBOutlet weak var halfCircleBorderStack: UIStackView!
     @IBOutlet weak var watermarkIcon: UIImageView!
     
-    var timer: Timer? {
-        didSet {
-            self.timer?.setTimerMode()
-        }
-    }
+    var timer: CountDownTimer?
     var refreshCallback: (() -> ())?
     private var once = false
     
@@ -46,8 +42,7 @@ class PromotionTableViewCell: UITableViewCell {
         super.prepareForReuse()
         once = false
         resetUI()
-        self.timer?.invalidate()
-        self.timer = nil
+        self.timer?.stop()
     }
     
     private func resetUI() {
@@ -138,18 +133,18 @@ class PromotionTableViewCell: UITableViewCell {
     private func configureBonusCouponItem(_ bonusCoupon: BonusCouponItem) {
         let now = Date()
         if let duration = bonusCoupon.validPeriod as? ValidPeriod.Duration {
+            duration.verify(time: duration.end)
             configureValidPeriodLayout(now, duration)
             setTextPerSecond(now, duration)
-            let remainTime = duration.countLeftSeconds() * 1000
-            if self.timer == nil, remainTime > 0 {
-                self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
-                    let remainTime = duration.countLeftSeconds() * 1000
-                    if remainTime <= 0 {
-                        self?.refreshCallback?()
-                    } else {
-                        let now = Date()
-                        self?.setTextPerSecond(now, duration)
-                    }
+            let remainTime = Double(duration.countLeftSeconds())
+            if self.timer == nil {
+                self.timer = CountDownTimer()
+            }
+            self.timer?.start(timeInterval: 1, duration: remainTime) {[weak self] (index, countdownseconds, finish) in
+                if finish {
+                    self?.refreshCallback?()
+                } else {
+                    self?.setTextPerSecond(Date(), duration)
                 }
             }
         } else if let always = bonusCoupon.validPeriod as? ValidPeriod.Always {
@@ -163,15 +158,14 @@ class PromotionTableViewCell: UITableViewCell {
         configurePromotionEventLayout()
         configureEndDate(now: now, endDate: endDate)
         let remainTime = endDate - now
-        if self.timer == nil, remainTime > 0 {
-            self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
-                let now = Date()
-                let remainTime = endDate - now
-                if remainTime <= 0 {
-                    self?.refreshCallback?()
-                } else {
-                    self?.configureEndDate(now: now, endDate: endDate)
-                }
+        if self.timer == nil {
+            self.timer = CountDownTimer()
+        }
+        self.timer?.start(timeInterval: 1, duration: remainTime) {[weak self] (index, countdownseconds, finish) in
+            if finish {
+                self?.refreshCallback?()
+            } else {
+                self?.configureEndDate(now: Date(), endDate: endDate)
             }
         }
     }
