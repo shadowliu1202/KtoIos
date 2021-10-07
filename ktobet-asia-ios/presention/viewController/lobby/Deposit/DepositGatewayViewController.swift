@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class DepositMethodViewController: UIViewController {
+class DepositGatewayViewController: UIViewController {
     static let segueIdentifier = "toOfflineSegue"
     
     @IBOutlet private weak var titleLabel: UILabel!
@@ -26,7 +26,7 @@ class DepositMethodViewController: UIViewController {
     @IBOutlet private weak var remitterBankCardNumberErrorLabel: UILabel!
     @IBOutlet private weak var remitterAmountErrorLabel: UILabel!
 
-    var depositType: DepositRequest.DepositType?
+    var depositType: DepositType?
     
     fileprivate var selectedIndex = 0
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
@@ -37,30 +37,26 @@ class DepositMethodViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.selectedType = depositType
-        if let offline = depositType as? DepositRequest.DepositTypeOffline {
+        if let depositType = depositType, depositType.supportType == .OfflinePayment {
             NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(back))
             
             offlineDataBinding()
             offlineEventHandle()
             banksDataBinding()
             validateOfflineInputTextField()
-            let max = offline.max.description()
-            let min = offline.min.description()
-            depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), min, max)
+            setLimitation(depositType.method.limitation)
             titleLabel.text = Localize.string("deposit_offline_step1_title")
             selectDepositBankLabel.text = Localize.string("deposit_selectbank")
             confirmHandler = {
                 self.performSegue(withIdentifier: DepositOfflineConfirmViewController.segueIdentifier, sender: nil)
             }
-        }
-        
-        if let thirdParty = depositType as? DepositRequest.DepositTypeThirdParty {
+        } else if let depositType = depositType {
             NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(back))
             
             remitterBankTextField.isHidden = true
             constraintremitterBankTextFieldHeight.constant = 0
             constraintremitterBankTextFieldTop.constant = 0
-            titleLabel.text = thirdParty.name
+            titleLabel.text = depositType.method.name
             selectDepositBankLabel.text = Localize.string("deposit_select_method")
             thirdPartDataBinding()
             thirdPartEventHandler()
@@ -121,9 +117,9 @@ class DepositMethodViewController: UIViewController {
     }
     
     fileprivate func thirdPartDataBinding() {
-        let getDepositOnlineBankAccountsObservable = viewModel.getDepositMethods(depositType: depositType!.depositTypeId).catchError { error in
+        let getDepositOnlineBankAccountsObservable = viewModel.getDepositPaymentGateways(depositType: depositType!).catchError { error in
             self.handleUnknownError(error)
-            return Single<[DepositRequest.DepositTypeMethod]>.never() }.asObservable()
+            return Single<[PaymentGateway]>.never() }.asObservable()
         
         getDepositOnlineBankAccountsObservable.bind(to: depositTableView.rx.items(cellIdentifier: String(describing: DepositMethodTableViewCell.self), cellType: DepositMethodTableViewCell.self)) { index, data, cell in
             cell.setUp(icon: "Default(32)", name: data.displayName, index: index, selectedIndex: self.selectedIndex)
@@ -139,10 +135,15 @@ class DepositMethodViewController: UIViewController {
                 guard let firstSelectedMethod = data.first else { return }
                 self.setDepositProvider(firstSelectedMethod)
         }).disposed(by: disposeBag)
+        
+        viewModel.paymentSlip.subscribe(onNext: { [weak self] (paymentSlip) in
+            guard let limitation = paymentSlip?.depositLimitation else { return }
+            self?.setLimitation(limitation)
+        }).disposed(by: disposeBag)
     }
     
     fileprivate func thirdPartEventHandler() {
-        Observable.zip(depositTableView.rx.itemSelected, depositTableView.rx.modelSelected(DepositRequest.DepositTypeMethod.self)).bind {[weak self] (indexPath, data) in
+        Observable.zip(depositTableView.rx.itemSelected, depositTableView.rx.modelSelected(PaymentGateway.self)).bind {[weak self] (indexPath, data) in
             guard let self = self else { return }
             guard let cell = self.depositTableView.cellForRow(at: indexPath) as? DepositMethodTableViewCell else { return }
             guard let lastCell = self.depositTableView.cellForRow(at: IndexPath(item: self.selectedIndex, section: 0)) as? DepositMethodTableViewCell else { return }
@@ -152,19 +153,19 @@ class DepositMethodViewController: UIViewController {
             self.setDepositProvider(data)
         }.disposed(by: disposeBag)
         
-        Observable.combineLatest(depositTableView.rx.modelSelected(DepositRequest.DepositTypeMethod.self), self.remitterAmountTextField.text).bind(onNext: { [weak self] (_, str) in
+        Observable.combineLatest(depositTableView.rx.modelSelected(PaymentGateway.self), self.remitterAmountTextField.text).bind(onNext: { [weak self] (_, str) in
             guard let `self` = self, let amount = Double(str.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else { return }
             self.viewModel.relayBankAmount.accept(amount)
         }).disposed(by: disposeBag)
     }
     
-    private func setDepositProvider(_ method: DepositRequest.DepositTypeMethod) {
-        self.viewModel.selectedMethod = method
-        self.updateDepositAmountInput(method)
+    private func setDepositProvider(_ gateway: PaymentGateway) {
+        self.viewModel.selectedGateway = gateway
+        self.updateDepositAmountInput(gateway)
     }
     
-    private func updateDepositAmountInput(_ method: DepositRequest.DepositTypeMethod) {
-        if viewModel.needCashOption(method: method) {
+    private func updateDepositAmountInput(_ gateway: PaymentGateway) {
+        if viewModel.needCashOption(gateway: gateway) {
             remitterAmountDropDown.isHidden = false
             remitterAmountTextField.isHidden = true
             remitterAmountErrorLabel.isHidden = true
@@ -173,13 +174,10 @@ class DepositMethodViewController: UIViewController {
             remitterAmountDropDown.isHidden = true
             remitterAmountTextField.isHidden = false
             remitterAmountErrorLabel.isHidden = false
-            self.getLimitation(method)
         }
     }
     
-    fileprivate func getLimitation(_ data: DepositRequest.DepositTypeMethod) {
-        guard let type = depositType else { return }
-        let range = data.getDepositRange(type: type)
+    fileprivate func setLimitation(_ range: AmountRange) {
         self.depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"), range.min.description(), range.max.description())
     }
 
@@ -263,7 +261,7 @@ class DepositMethodViewController: UIViewController {
     }
     
     fileprivate func depositOnline() {
-        self.viewModel.depositOnline(depositTypeId: self.depositType?.depositTypeId ?? 0).subscribe { (url) in
+        self.viewModel.depositOnline(depositTypeId: self.depositType?.paymentType.id ?? 0).subscribe { (url) in
             let title = Localize.string("common_kindly_remind")
             let message = Localize.string("deposit_thirdparty_transaction_remind")
             Alert.show(title, message, confirm: {

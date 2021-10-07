@@ -3,12 +3,13 @@ import SharedBu
 import RxSwift
 
 protocol DepositUseCase {
-    func getDepositTypes() -> Single<[DepositRequest.DepositType]>
+    func getDepositTypes() -> Single<[DepositType]>
+    func getPaymentGayway(depositType: DepositType) -> Single<[PaymentGateway]>
     func getDepositRecords() -> Single<[DepositRecord]>
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]>
     func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
-    func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]>
-    func depositOnline(depositRequest: DepositRequest, provider: PaymentProvider_, depositTypeId: Int32) -> Single<String>
+    
+    func depositOnline(paymentGateway: PaymentGateway, depositRequest: DepositRequest_, provider: PaymentProvider, depositTypeId: Int32) -> Single<String>
     func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getDepositRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[DepositRecord]>
@@ -23,7 +24,7 @@ class DepositUseCaseImpl: DepositUseCase {
         self.depositRepository = depositRepository
     }
     
-    func getDepositTypes() -> Single<[DepositRequest.DepositType]> {
+    func getDepositTypes() -> Single<[DepositType]> {
         return depositRepository.getDepositTypes()
     }
     
@@ -39,18 +40,15 @@ class DepositUseCaseImpl: DepositUseCase {
         return depositRepository.depositOffline(depositRequest: depositRequest, depositTypeId: depositTypeId)
     }
     
-    func depositOnline(depositRequest: DepositRequest, provider: PaymentProvider_, depositTypeId: Int32) -> Single<String> {
-        return depositRepository.depositOnline(remitter: depositRequest.remitter, paymentTokenId: depositRequest.paymentToken, depositAmount: depositRequest.cashAmount, providerId: provider.id, depositTypeId: depositTypeId).map { (transaction) -> String in
-            let cashAmount = CashAmount(amount: depositRequest.cashAmount.amount)
-            let remitter: DepositRequest.Remitter = depositRequest.remitter
-            let url = HttpClient().getHost() + "payment-gateway" + "?" + transaction.queryParameter(payAmount: cashAmount, remiiter: remitter)
-            
-            return url
+    func depositOnline(paymentGateway: PaymentGateway, depositRequest: DepositRequest_, provider: PaymentProvider, depositTypeId: Int32) -> Single<String> {
+        return depositRepository.depositOnline(remitter: depositRequest.remitter, paymentTokenId: depositRequest.paymentToken, depositAmount: depositRequest.currency, providerId: provider.id, depositTypeId: depositTypeId).map { (transaction) -> String in
+            let webParams = paymentGateway.createWebParameters(depositRequest: depositRequest, transaction: transaction, bankCode: "")
+            return webParams.description()
         }
     }
     
-    func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]> {
-        return depositRepository.getDepositMethods(depositType: depositType)
+    func getPaymentGayway(depositType: DepositType) -> Single<[PaymentGateway]> {
+        return depositRepository.getDepositMethods(depositType: depositType.paymentType.id)
     }
     
     func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail> {

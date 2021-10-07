@@ -35,7 +35,7 @@ class PlayerRepositoryImpl : PlayerRepository {
             .map { (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
                 let bindLocale : SupportLocale = {
                     if let cultureCode = responseLocalization.data?.cultureCode {
-                        return SupportLocale.Companion.init().convertToLocale(language: cultureCode)
+                        return SupportLocale.Companion.init().create(language: cultureCode)
                     } else {
                         return SupportLocale.China()
                     }

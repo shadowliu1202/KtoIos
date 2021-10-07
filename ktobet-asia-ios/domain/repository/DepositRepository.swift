@@ -3,12 +3,12 @@ import RxSwift
 import SharedBu
 
 protocol DepositRepository {
-    func getDepositTypes() -> Single<[DepositRequest.DepositType]>
+    func getDepositTypes() -> Single<[DepositType]>
     func getDepositRecords() -> Single<[DepositRecord]>
     func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]>
     func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
-    func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]>
-    func depositOnline(remitter: DepositRequest.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32) -> Single<DepositTransaction>
+    func getDepositMethods(depositType: Int32) -> Single<[PaymentGateway]>
+    func depositOnline(remitter: DepositRequest_.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32) -> Single<DepositTransaction>
     func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getDepositRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[DepositRecord]>
@@ -28,12 +28,12 @@ class DepositRepositoryImpl: DepositRepository {
         self.cpsApi = cpsApi
     }
     
-    func getDepositTypes() -> Single<[DepositRequest.DepositType]> {
+    func getDepositTypes() -> Single<[DepositType]> {
         let depositType = bankApi.getDepositTypes().map { (response) -> [DepositTypeData] in
             return response.data?.sorted { $0.depositTypeId < $1.depositTypeId } ?? []
         }.map {
-            $0.map { (d) -> DepositRequest.DepositType in
-                DepositTypeFactory.create(id: d.depositTypeId, name: d.depositTypeName, min: CashAmount(amount: d.depositLimitMinimum), max: CashAmount(amount: d.depositLimitMaximum), isFavorite: d.isFavorite)
+            $0.map { (d) -> DepositType in
+                DepositType(id: d.depositTypeId, name: d.depositTypeName, min: CashAmount(amount: d.depositLimitMinimum), max: CashAmount(amount: d.depositLimitMaximum), isFavorite: d.isFavorite)
             }
         }
         
@@ -80,8 +80,8 @@ class DepositRepositoryImpl: DepositRepository {
         }
     }
     
-    func depositOnline(remitter: DepositRequest.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32) -> Single<DepositTransaction> {
-        let request = DepositOnlineAccountsRequest(paymentTokenID: paymentTokenId, requestAmount: String(depositAmount.amount), remitter: remitter.name, channel: MOBILE_CHANNEL, remitterAccountNumber: remitter.accountNumber, remitterBankName: remitter.bankName, depositType: depositTypeId, providerId: providerId)
+    func depositOnline(remitter: DepositRequest_.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32) -> Single<DepositTransaction> {
+        let request = DepositOnlineAccountsRequest(paymentTokenID: paymentTokenId, requestAmount: String(depositAmount.amount), remitter: remitter.name, channel: MOBILE_CHANNEL, remitterAccountNumber: remitter.accountNumber, remitterBankName: "", depositType: depositTypeId, providerId: providerId)
         return bankApi.depositOnline(depositRequest: request).map { (response) -> DepositTransaction in
             guard let data = response.data else {
                 return DepositTransaction(id: "", provider: "", transactionId: "", bankId: "")
@@ -92,12 +92,12 @@ class DepositRepositoryImpl: DepositRepository {
         }
     }
     
-    func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]> {
+    func getDepositMethods(depositType: Int32) -> Single<[PaymentGateway]> {
         let depositMethod = bankApi.getDepositMethods(depositType: depositType).map { (response) -> [DepositMethodData] in
             return response.data ?? []
         }.map {
-            $0.map { (m) -> DepositRequest.DepositTypeMethod in
-                DepositRequest.DepositTypeMethod(depositLimitMaximum: m.depositLimitMaximum, depositLimitMinimum: m.depositLimitMinimum, depositMethodId: m.depositMethodID, depositTypeId: m.depositTypeID, depositTypeName: m.depositTypeName, displayName: m.displayName, isFavorite: m.isFavorite, paymentTokenId: m.paymentTokenID, provider: PaymentProvider_.convert(m.providerId))
+            $0.map { (m) -> PaymentGateway in
+                PaymentGateway(id: m.depositMethodID, limitation: AmountRange(min: CashAmount(amount: m.depositLimitMinimum), max: CashAmount(amount: m.depositLimitMaximum)), paymentToken: m.paymentTokenID, isFavorite: m.isFavorite, provider: PaymentProvider.convert(m.providerId), supportBank: [], displayName: m.displayName, displayType: PaymentGateway.DisplayType.direct)
             }
         }
         

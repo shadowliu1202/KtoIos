@@ -64,7 +64,7 @@ class DepositViewController: UIViewController {
         let depositType = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return self.viewModel.getDepositType().asObservable()
         }).share(replay: 1)
-        depositType.catchError({ [weak self] (error) -> Observable<[DepositRequest.DepositType]> in
+        depositType.catchError({ [weak self] (error) -> Observable<[DepositType]> in
             self?.handleErrors(error)
             return Observable.just([])
         }).do ( onNext:{[weak self] (depositTypes) in
@@ -80,27 +80,14 @@ class DepositViewController: UIViewController {
                 self?.depositTypeTableView.isHidden = false
             }
         }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
-            if let thirdParty = data as? DepositRequest.DepositTypeThirdParty {
-                cell.setUp(name: thirdParty.name, icon: self.viewModel.getDepositTypeImage(depositTypeId: thirdParty.depositTypeId), isRecommend: thirdParty.isFavorite, hint: thirdParty.hint)
-                return
-            }
-            
-            if let crypto = data as? DepositRequest.DepositTypeCrypto {
-                cell.setUp(name: crypto.name, icon: self.viewModel.getDepositTypeImage(depositTypeId: crypto.id), isRecommend: crypto.isFavorite)
-                return
-            }
-            
-            if let offline = data as? DepositRequest.DepositTypeOffline {
-                cell.setUp(name: Localize.string("deposit_offline_step1_title"), icon: self.viewModel.getDepositTypeImage(depositTypeId: offline.depositTypeId), isRecommend: offline.isFavorite)
-                return
-            }
+            cell.setUp(name: data.method.name, icon: self.viewModel.getDepositTypeImage(depositTypeId: data.paymentType.id), isRecommend: data.method.isFavorite, hint: data.hint)
         }.disposed(by: disposeBag)
     }
     
     fileprivate func depositTypeDataHandler() {
-        Observable.zip(depositTypeTableView.rx.itemSelected, depositTypeTableView.rx.modelSelected(DepositRequest.DepositType.self)).bind { [weak self] (indexPath, data) in
+        Observable.zip(depositTypeTableView.rx.itemSelected, depositTypeTableView.rx.modelSelected(DepositType.self)).bind { [weak self] (indexPath, data) in
             guard let self = self else { return }
-            if data is DepositRequest.DepositTypeCrypto {
+            if data.supportType == .Ethereum {
                 let title = Localize.string("common_tip_title_warm")
                 let message = Localize.string("deposit_crypto_warning")
                 Alert.show(title, message, confirm: {
@@ -112,7 +99,7 @@ class DepositViewController: UIViewController {
                     }.disposed(by: self.disposeBag)
                 }, cancel: nil)
             } else {
-                self.performSegue(withIdentifier: DepositMethodViewController.segueIdentifier, sender: data)
+                self.performSegue(withIdentifier: DepositGatewayViewController.segueIdentifier, sender: data)
             }
             
             self.depositTypeTableView.deselectRow(at: indexPath, animated: true)
@@ -160,9 +147,9 @@ class DepositViewController: UIViewController {
     
     // MARK: PAGE ACTION
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == DepositMethodViewController.segueIdentifier {
-            if let dest = segue.destination as? DepositMethodViewController {
-                dest.depositType = sender as? DepositRequest.DepositType
+        if segue.identifier == DepositGatewayViewController.segueIdentifier {
+            if let dest = segue.destination as? DepositGatewayViewController {
+                dest.depositType = sender as? DepositType
             }
         }
         

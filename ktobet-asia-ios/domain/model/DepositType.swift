@@ -1,35 +1,79 @@
 import SharedBu
 
-enum SupportDepositType: Int32 {
+enum SupportPaymentType: Int32 {
+    case OfflinePayment = 0
     case UnionScan      = 1
     case WechatScan     = 2
     case AlipayScan     = 3
     case QQScan         = 4
-    case WanHui         = 5
-    case FengYun        = 6
+    case Expresspay     = 5
+    case OnlineBank     = 6
+    case FY             = 7
+    case Weipay         = 8
     case PrepaidCard    = 9
+    case YF             = 10
     case UnionH5        = 11
+    case JPay           = 12
+    case AsiaPay        = 13
     case Multiple       = 14
+    case JeePay         = 15
+    case Wlxx           = 16
     case Ethereum       = 2001
 }
-
-class DepositTypeFactory {
-    class func create(id: Int32, name: String, min: CashAmount, max: CashAmount, isFavorite: Bool) -> DepositRequest.DepositType {
-        if id == 0 {
-            return DepositRequest.DepositTypeOffline(id: id, name: name, min: min, max: max, isFavorite: isFavorite)
-        } else if let support = SupportDepositType(rawValue: id) {
-            switch support {
-                //1...3, 5, 6, 11:
-            case .UnionScan, .WechatScan, .AlipayScan, .WanHui, .FengYun, .UnionH5:
-                return DepositRequest.DepositTypeThirdParty(id: id, name: name, min: min, max: max, isFavorite: isFavorite, hasRedirection: false, hint: "")
-            case .Multiple:
-                return DepositRequest.DepositTypeThirdParty(id: id, name: name, min: min, max: max, isFavorite: isFavorite, hasRedirection: false, hint: Localize.string("deposit_pay_multiple_hint"))
-            case .Ethereum:
-                return DepositRequest.DepositTypeCrypto(id: id, name: name, min: min, max: max, isFavorite: isFavorite)
-            default:
-                return DepositRequest.DepositTypeUnknown()
-            }
+class DepositType {
+    var supportType: SupportPaymentType?
+    var paymentType: PaymentType
+    var method: DepositMethod
+    var hint: String?
+    
+    init(id: Int32, name: String, min: CashAmount, max: CashAmount, isFavorite: Bool) {
+        supportType = SupportPaymentType(rawValue: id)
+        switch supportType {
+        case .some(.OfflinePayment):
+            self.paymentType = PaymentType.OfflinePayment()
+        case .some(.UnionScan):
+            self.paymentType = PaymentType.UnionScan()
+        case .some(.WechatScan):
+            self.paymentType = PaymentType.WechatScan()
+        case .some(.AlipayScan):
+            self.paymentType = PaymentType.AlipayScan()
+        case .some(.QQScan):
+            self.paymentType = PaymentType.QQScan()
+        case .some(.Expresspay):
+            self.paymentType = PaymentType.Expresspay()
+        case .some(.OnlineBank):
+            self.paymentType = PaymentType.OnlineBank()
+        case .some(.FY):
+            self.paymentType = PaymentType.FY()
+        case .some(.Weipay):
+            self.paymentType = PaymentType.Weipay()
+        case .some(.YF):
+            self.paymentType = PaymentType.YF()
+        case .some(.JPay):
+            self.paymentType = PaymentType.JPay()
+        case .some(.AsiaPay):
+            self.paymentType = PaymentType.AsiaPay()
+        case .some(.JeePay):
+            self.paymentType = PaymentType.JeePay()
+        case .some(.Wlxx):
+            self.paymentType = PaymentType.Wlxx()
+        case .some(.PrepaidCard):
+            self.paymentType = PaymentType.PrepaidCard()
+        case .some(.UnionH5):
+            self.paymentType = PaymentType.UnionH5()
+        case .some(.Multiple):
+            self.paymentType = PaymentType.Multiple()
+            self.hint = Localize.string("deposit_pay_multiple_hint")
+        case .some(.Ethereum):
+            self.paymentType = PaymentType.Ethereum()
+        case .none:
+            self.paymentType = PaymentType.OfflinePayment()
         }
-        return DepositRequest.DepositTypeUnknown()
+        switch supportType {
+        case .some(.OfflinePayment):
+            self.method = self.paymentType.createMethod(name: Localize.string("deposit_offline_step1_title"), limitation: AmountRange(min: min, max: max), isFavorite: isFavorite)
+        default:
+            self.method = self.paymentType.createMethod(name: name, limitation: AmountRange(min: min, max: max), isFavorite: isFavorite)
+        }
     }
 }

@@ -28,16 +28,18 @@ class DepositViewModel {
     var Allbanks: [SimpleBank] = []
     var uploadImageDetail: [Int: UploadImageDetail] = [:]
     var selectedReceiveBank: FullBankAccount!
-    var selectedMethod: DepositRequest.DepositTypeMethod! {
+    var selectedGateway: PaymentGateway! {
         didSet {
-            self.subjectMethod.onNext(selectedMethod)
+            self.subjectGateway.onNext(selectedGateway)
+            self.paymentSlip.accept(selectedGateway.createSlip(method: self.selectedType.method))
         }
     }
-    private var subjectMethod = PublishSubject<DepositRequest.DepositTypeMethod>()
+    private var subjectGateway = PublishSubject<PaymentGateway>()
+    private(set) lazy var paymentSlip = BehaviorRelay<PaymentSlip?>(value: nil)
     var minAmountLimit: Double = 0
     var maxAmountLimit: Double = 0
     var pagination: Pagination<DepositRecord>!
-    var selectedType: DepositRequest.DepositType!
+    var selectedType: DepositType!
     let imgIcon: [Int32: String] = [0: Localize.string("Topup ¥(32)"),
                                     1: "UnionPay(32)",
                                     2: "WeChatPay(32)",
@@ -69,7 +71,7 @@ class DepositViewModel {
         playerUseCase.getPlayerRealName()
     }
     
-    func getDepositType() -> Single<[DepositRequest.DepositType]> {
+    func getDepositType() -> Single<[DepositType]> {
         return depositUseCase.getDepositTypes()
     }
     
@@ -97,15 +99,24 @@ class DepositViewModel {
     }
     
     func depositOnline(depositTypeId: Int32) -> Single<String> {
-        let accountNum = needCashOption(method: selectedMethod) ? dropdownAmount.value : relayBankAmount.value
-        let remitter = DepositRequest.Remitter.init(name: relayName.value, accountNumber: accountNum, bankName: relayBankName.value)
-        let cashAmount = CashAmount(amount: Double(accountNum.replacingOccurrences(of: ",", with: ""))!)
-        let request = DepositRequest.Builder.init(paymentToken: selectedMethod.paymentTokenId).remitter(remitter: remitter).build(depositAmount: cashAmount)
-        return depositUseCase.depositOnline(depositRequest: request, provider: selectedMethod.provider, depositTypeId: depositTypeId)
+        let accountNum = needCashOption(gateway: selectedGateway) ? dropdownAmount.value : relayBankAmount.value
+        if let paymentSlip = paymentSlip.value {
+            let remitter = DepositRequest_.Remitter(name: relayName.value, accountNumber: accountNum)
+            paymentSlip.remitter(remitter: remitter)
+            let cashAmount = CashAmount(amount: Double(accountNum.replacingOccurrences(of: ",", with: ""))!)
+            do {
+                try paymentSlip.depositAmount(cashAmount: cashAmount)
+            } catch {
+                return Single.error(PaymentException.InvalidDepositAmount())
+            }
+            let request = paymentSlip.build()
+            return depositUseCase.depositOnline(paymentGateway: selectedGateway, depositRequest: request, provider: selectedGateway.provider, depositTypeId: depositTypeId)
+        }
+        return Single.never()
     }
     
-    func getDepositMethods(depositType: Int32) -> Single<[DepositRequest.DepositTypeMethod]> {
-        return depositUseCase.getDepositMethods(depositType: depositType)
+    func getDepositPaymentGateways(depositType: DepositType) -> Single<[PaymentGateway]> {
+        return depositUseCase.getPaymentGayway(depositType: depositType)
     }
     
     func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail> {
@@ -134,32 +145,34 @@ class DepositViewModel {
             return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: bankNumber))
         }
         
-        let amountValid = subjectMethod.flatMap({ [unowned self] (method) -> BehaviorRelay<String> in
-            if self.needCashOption(method: method) {
-                return self.dropdownAmount
-            } else {
-                return self.relayBankAmount
-            }
-        }).map { [unowned self] (amount) -> Bool in
-            guard let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return false }
-            var minAmountLimit: Double = 0
-            var maxAmountLimit: Double = 0
-            if selectedType is DepositRequest.DepositTypeOffline {
-                minAmountLimit = selectedType.min.amount
-                maxAmountLimit = selectedType.max.amount
-            } else {
-                let range = selectedType.getDepositRange(method: selectedMethod)
-                minAmountLimit = range.min.amount
-                maxAmountLimit = range.max.amount
-            }
-            
-            if minAmountLimit <= amount && amount <= maxAmountLimit {
+        var amountValid: Observable<Bool>
+        
+        let offlineAmountValid = relayBankAmount.map({ [weak self](amount) -> Bool in
+            guard let `self` = self,  let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return false }
+            let limitation = self.selectedType.method.limitation
+            if limitation.min.amount <= amount && amount <= limitation.max.amount {
                 return true
             } else {
                 return false
             }
-        }
+        })
         
+        let onlineAmountValid = Observable.combineLatest(subjectGateway.flatMap({ [unowned self] (gateway) -> BehaviorRelay<String> in
+            if self.needCashOption(gateway: gateway) {
+                return self.dropdownAmount
+            } else {
+                return self.relayBankAmount
+            }
+        }), paymentSlip).map({ (amount, paymentSlip) -> Bool in
+            guard let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return false }
+            return paymentSlip?.verifyDepositLimitation(cashAmount: CashAmount(amount: amount)) ?? false
+        })
+        
+        if selectedType.supportType == .OfflinePayment {
+            amountValid = offlineAmountValid
+        } else {
+            amountValid = onlineAmountValid
+        }
         let offlineDataValid = Observable.combineLatest(userNameValid, bankValid, bankNumberValid, amountValid) {
             return $0 && $1 && $2 && $3
         }
@@ -205,8 +218,8 @@ class DepositViewModel {
         return depositUseCase.requestCryptoDeposit()
     }
     
-    func needCashOption(method: DepositRequest.DepositTypeMethod) -> Bool {
-        if method.depositTypeId == SupportDepositType.WechatScan.rawValue, method.provider == PaymentProvider_.weilai {
+    func needCashOption(gateway: PaymentGateway) -> Bool {
+        if selectedType.supportType == .WechatScan, gateway.provider == PaymentProvider.weilai {
             return true
         }
         return false
