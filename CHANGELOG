@@ -1,4 +1,1 @@
-APP-1436 [All] 調整頁面標題至NavBar 中間 => 補commit message
-APP-1083 [iOS]需顯示 GPI 注單相關明細
-APP-1682 [iOS][GPI] 提供 Arcade 交易紀錄並可領取優惠券
-APP-1624 [iOS][GPI] Bet/Wager Detail (Casino, Number Game, P2P)
+APP-1872 [iOS] [Casino] [Game Integration] Handling the different API data of N2's New Game Bull Bull (牛牛)
