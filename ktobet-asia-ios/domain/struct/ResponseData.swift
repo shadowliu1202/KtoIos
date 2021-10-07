@@ -1370,7 +1370,6 @@ struct BonusBean: Codable {
     }
 }
 
-let NO_LIMIT = 1000000000000000.0
 struct PromotionBean: Codable {
     let informPlayerDate: String
     let displayId: String
@@ -1383,14 +1382,15 @@ struct PromotionBean: Codable {
     let productType: Int32
     
     func toRebatePromotion() -> PromotionEvent.Rebate {
-        return PromotionEvent.Rebate(promotionId: self.displayId,
-                                     issueNumber: self.issue,
-                                     informPlayerDate: self.informPlayerDate.toLocalDateTime(),
-                                     type: ProductType.convert(self.productType),
-                                     percentage: Percentage(percent: self.percentage),
-                                     maxBonus: self.maxAmount >= NO_LIMIT ? MaxAmount.UnLimit() : MaxAmount.Amount(value: CashAmount(amount: self.maxAmount)),
-                                     endDate: self.endDate.toOffsetDateTime(),
-                                     isAutoUse: self.isAutoUse)
+        return PromotionEvent.RebateCompanion.init()
+            .create(promotionId: self.displayId,
+                    issueNumber: self.issue,
+                    informPlayerDate: self.informPlayerDate.toLocalDateTime(),
+                    type: ProductType.convert(self.productType),
+                    percentage: Percentage(percent: self.percentage),
+                    maxBonusAmount: CashAmount(amount: self.maxAmount),
+                    endDate: self.endDate.toOffsetDateTime(),
+                    isAutoUse: self.isAutoUse)
     }
 }
 
@@ -1405,12 +1405,13 @@ struct ProductPromotionBean: Codable {
     let sort: Int32
     
     func toProductPromotion() -> PromotionEvent.Product {
-        return PromotionEvent.Product(promotionId: self.displayId,
-                                      issueNumber: self.issue,
-                                      informPlayerDate: self.informPlayerDate.toLocalDateTime(),
-                                      endDate: self.endDate.toOffsetDateTime(),
-                                      maxBonus: self.maxAmount >= NO_LIMIT ? MaxAmount.UnLimit() : MaxAmount.Amount(value: CashAmount(amount: self.maxAmount)),
-                                      type: ProductType.convert(self.productType))
+        return PromotionEvent.ProductCompanion.init()
+            .create(promotionId: self.displayId,
+                    issueNumber: self.issue,
+                    informPlayerDate: self.informPlayerDate.toLocalDateTime(),
+                    endDate: self.endDate.toOffsetDateTime(),
+                    maxBonusAmount: CashAmount(amount: self.maxAmount),
+                    type: ProductType.convert(self.productType))
     }
 }
 

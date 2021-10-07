@@ -250,6 +250,7 @@ class PasswordTextField: UITextField {
         }
     }
 
+    @discardableResult
     override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
         if isSecureTextEntry, let text = self.text {

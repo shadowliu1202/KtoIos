@@ -59,7 +59,7 @@ class LocalStorageRepository {
     }
     
     func getSupportLocal() -> SupportLocale {
-        return SupportLocale.Companion.init().convertToLocale(language: getCultureCode())
+        return SupportLocale.Companion.init().create(language: getCultureCode())
     }
     
     func getLocalCurrency() -> FiatCurrency {

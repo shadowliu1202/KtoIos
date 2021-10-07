@@ -1,1 +1,3 @@
 APP-1872 [iOS] [Casino] [Game Integration] Handling the different API data of N2's New Game Bull Bull (牛牛)
+APP-2221 [IOS][CPS][Deposit] 充值資料設定完成後 申請充值 Button disable
+APP-2223 [iOS][DP] 選擇 Offline 充值，填完充值信息，申請充值 按鈕卻仍為 disable
