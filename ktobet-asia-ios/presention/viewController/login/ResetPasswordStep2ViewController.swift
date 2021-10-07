@@ -23,8 +23,8 @@ class ResetPasswordStep2ViewController: UIViewController {
     private let errTipHeight = CGFloat(44)
     private let errTipBottom = CGFloat(12)
     private var disposeBag = DisposeBag()
-    private let resendTimer = KTOTimer()
-    private let step2CountDownTimer = KTOTimer()
+    private let resendTimer = CountDownTimer()
+    private let step2CountDownTimer = CountDownTimer()
     private var overStep2TimeLimit = false
     
     override func viewDidLoad() {
@@ -90,7 +90,7 @@ class ResetPasswordStep2ViewController: UIViewController {
     }
     
     private func setResendTimer() {
-        resendTimer.countDown(timeInterval: 1, duration: Setting.resendOtpCountDownSecond) {[weak self] (index, countDownSecond, finish) in
+        resendTimer.start(timeInterval: 1, duration: Setting.resendOtpCountDownSecond) {[weak self] (index, countDownSecond, finish) in
             if countDownSecond != 0 {
                 let mm = countDownSecond / 60
                 let ss = countDownSecond % 60
@@ -119,7 +119,7 @@ class ResetPasswordStep2ViewController: UIViewController {
     }
     
     private func setStep2Timer() {
-        step2CountDownTimer.countDown(timeInterval: 1, duration: ResetPasswordViewModel.resetPasswordStep2CountDownSecond) {[weak self] (index, countDownSecond, finish) in
+        step2CountDownTimer.start(timeInterval: 1, duration: ResetPasswordViewModel.resetPasswordStep2CountDownSecond) {[weak self] (index, countDownSecond, finish) in
             if countDownSecond == 0 {
                 self?.overStep2TimeLimit = true
             }

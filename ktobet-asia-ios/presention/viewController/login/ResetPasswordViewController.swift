@@ -22,7 +22,7 @@ class ResetPasswordViewController: UIViewController {
     private var viewModel = DI.resolve(ResetPasswordViewModel.self)!
     private var disposeBag = DisposeBag()
     private var isFirstTimeEnter = true
-    private var timerResend = KTOTimer()
+    private var timerResend = CountDownTimer()
     private var locale : SupportLocale = SupportLocale.China()
     private var inputAccount : InputText {
         get{
@@ -166,7 +166,7 @@ class ResetPasswordViewController: UIViewController {
     private func setCountDownTimer() {
         self.btnSubmit.isValid = false
         self.viewModel.countDownEndTime = self.viewModel.countDownEndTime == nil ? Date().adding(value: ResetPasswordViewModel.retryCountDownTime, byAdding: .second) : self.viewModel.countDownEndTime
-        timerResend.countDown(timeInterval: 1, endTime: self.viewModel.countDownEndTime!) { (index, countDownSecond, finish) in
+        timerResend.start(timeInterval: 1, endTime: self.viewModel.countDownEndTime!) { (index, countDownSecond, finish) in
             if countDownSecond != 0 {
                 self.btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code") + "(\(countDownSecond))", for: .normal)
             } else {

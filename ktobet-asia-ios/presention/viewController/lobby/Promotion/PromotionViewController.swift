@@ -11,11 +11,7 @@ class PromotionViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(PromotionViewModel.self)!
-    private var dataSource: [[PromotionVmItem]] = [[]] {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
+    private var dataSource: [[PromotionVmItem]] = [[]]
     private var lastTag: PromotionTag?
     private var lastProductTags: [PromotionProductTag]?
     
@@ -42,7 +38,9 @@ class PromotionViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
         tableView.delegate = self
-        filterDropDwon.clickHandler = self.filterClickHandler(tag:productTags:)
+        filterDropDwon.clickHandler = { [weak self] (promotionTag, promotionProductTags) in
+            self?.filterClickHandler(tag: promotionTag, productTags: promotionProductTags)
+        }
     }
     
     private func dataBinding() {
@@ -52,6 +50,7 @@ class PromotionViewController: UIViewController {
         }).subscribe(onNext:{[weak self] (bonusCoupons) in
             self?.switchContent(bonusCoupons)
             self?.dataSource = bonusCoupons
+            self?.tableView.reloadData()
         }).disposed(by: disposeBag)
         
         tableView.rx.itemSelected.subscribe(onNext: { [weak self] indexPath in
@@ -146,9 +145,9 @@ extension PromotionViewController: UITableViewDataSource, UITableViewDelegate {
         if let bonusCoupon = item as? BonusCouponItem, bonusCoupon.couponState == .usable {
             return tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self)
                 .configure(item)
-                .setClickGetCouponHandler({ [unowned self] (pressEvent, disposeBag) in
-                    pressEvent.bind(onNext: { [unowned self] in
-                        self.useBonusCoupon(bonusCoupon.rawValue)
+                .setClickGetCouponHandler({ [weak self] (pressEvent, disposeBag) in
+                    pressEvent.bind(onNext: { [weak self] in
+                        self?.useBonusCoupon(bonusCoupon.rawValue)
                     }).disposed(by: disposeBag)
                 })
                 .refreshHandler({ [weak self] in

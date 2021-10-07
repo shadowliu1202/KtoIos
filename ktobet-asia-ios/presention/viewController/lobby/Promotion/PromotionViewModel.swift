@@ -48,7 +48,7 @@ class PromotionViewModel {
             return self.rebates.map({[$0]})
         }
     }
-    lazy var filterSource = trigerRefresh.flatMap({
+    lazy var filterSource = trigerRefresh.flatMap({ [unowned self] in
         return Observable.combineLatest(self.manualCoupon, self.freeBets, self.depositReturns, self.products, self.rebates).map({ [unowned self] (manualCoupons, freebets, depositReturns, products, rebates) -> [(PromotionFilter, Int)] in
             let allCount = manualCoupons.count + freebets.count + depositReturns.count + products.count + rebates.count
             return [(.all, allCount), (.manual, manualCoupons.count), (.freeBet, freebets.count), (.depositReturn, depositReturns.count), (.product, products.count), (.rebate, rebates.count)]
@@ -58,11 +58,11 @@ class PromotionViewModel {
     lazy var depositReturns: Observable<[PromotionVmItem]> = self.depositReturnCoupon.map({ $0.mapToItem() })
     private var filterOfProduct = BehaviorRelay<[PromotionFilter.Product]>(value: [.Sport, .Slot, .Casino, .Numbergame])
     
-    lazy var productsWithFilter = Observable.combineLatest(filterOfProduct, self.productPromotionSummary).flatMapLatest({ (filters, summary) -> Observable<[PromotionVmItem]> in
+    lazy var productsWithFilter = Observable.combineLatest(filterOfProduct, self.productPromotionSummary).flatMapLatest({ [unowned self] (filters, summary) -> Observable<[PromotionVmItem]> in
         let (bonusProducts, promotionProducts) = summary
         var bonus: [BonusCoupon.Product] = []
         var promotions: [PromotionEvent.Product] = []
-        var filterTypes = filters.map({ self.transfer($0) })
+        var filterTypes = filters.map({ [unowned self] in self.transfer($0) })
         bonusProducts.forEach({ (product) in
             if filterTypes.contains(product.productType) {
                 bonus.append(product)

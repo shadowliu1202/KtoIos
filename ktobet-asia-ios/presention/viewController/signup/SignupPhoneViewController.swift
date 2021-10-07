@@ -34,8 +34,8 @@ class SignupPhoneViewController: UIViewController {
     private let errTipBottom = CGFloat(12)
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(SignupPhoneViewModel.self)!
-    private var timerResend = KTOTimer()
-    private var timerOtpExpire = KTOTimer()
+    private var timerResend = CountDownTimer()
+    private var timerOtpExpire = CountDownTimer()
     private var countVerifyFail = 0
     private var countResend = 0
     private var otpExpire = false
@@ -130,7 +130,7 @@ class SignupPhoneViewController: UIViewController {
     private func resendTimer(launch : Bool){
         if launch{
             timerResend
-                .countDown(timeInterval: 1, duration: Setting.resendOtpCountDownSecond, block: {(index, second, finish) in
+                .start(timeInterval: 1, duration: Setting.resendOtpCountDownSecond, block: {(index, second, finish) in
                     self.setResendButton(second)
                 })
         } else {
@@ -141,7 +141,7 @@ class SignupPhoneViewController: UIViewController {
     
     private func otpExpireTimer(){
         timerOtpExpire
-            .countDown(timeInterval: 1, duration: 600, block: {(index, second, finish) in
+            .start(timeInterval: 1, duration: 600, block: {(index, second, finish) in
                 if finish { self.otpExpire = true }
             })
     }

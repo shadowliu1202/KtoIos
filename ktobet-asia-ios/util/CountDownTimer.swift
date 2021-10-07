@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 
-class KTOTimer{
+class CountDownTimer {
     
     var finishTime : TimeInterval = 0
     var timer : Timer?
@@ -20,9 +20,9 @@ class KTOTimer{
         stop()
     }
     
-    func countDown(timeInterval : TimeInterval,
-                   duration : TimeInterval,
-                   block: ((_ index: Int, _ countDownSeconds: Int, _ finish: Bool)->())?){
+    func start(timeInterval : TimeInterval,
+               duration : TimeInterval,
+               block: ((_ index: Int, _ countDownSeconds: Int, _ finish: Bool)->())?){
         stop()
         if timeInterval <= 0 || duration <= 0 { return }
         if timeInterval > duration { return }
@@ -40,9 +40,9 @@ class KTOTimer{
         timer?.fire()
     }
     
-    func countDown(timeInterval : TimeInterval,
-                   endTime : Date,
-                   block: ((_ index: Int, _ countDownSeconds: Int, _ finish: Bool)->())?){
+    func start(timeInterval : TimeInterval,
+               endTime : Date,
+               block: ((_ index: Int, _ countDownSeconds: Int, _ finish: Bool)->())?){
         stop()
         if timeInterval <= 0 {
             return

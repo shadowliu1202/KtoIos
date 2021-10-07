@@ -23,7 +23,6 @@ class PromotionDetailViewController: UIViewController {
     
     var viewModel: PromotionViewModel!
     var item: PromotionVmItem!
-    var timer: Timer?
     fileprivate var disposeBag = DisposeBag()
     fileprivate let bonusTnc = "bonustnc"
     
@@ -141,21 +140,10 @@ class PromotionDetailViewController: UIViewController {
     }
     
     private func configureBonusCouponItem(_ bonusCoupon: BonusCouponItem) {
-        let now = Date()
         switch bonusCoupon.validPeriod {
         case let duration as ValidPeriod.Duration:
-            setTextPerSecond(now, duration)
-            let remainTime = duration.countLeftSeconds() * 1000
-            if self.timer == nil, remainTime > 0 {
-                self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
-                    let remainTime = duration.countLeftSeconds() * 1000
-                    if remainTime > 0 {
-                        let now = Date()
-                        self?.setTextPerSecond(now, duration)
-                    }
-                }
-                
-                self.timer?.setTimerMode()
+            CountDownTimer().start(timeInterval: 1, duration: Double(duration.countLeftSeconds())) {[weak self] index, countDownSeconds, finish in
+                self?.setTextPerSecond(Date(), duration)
             }
         case is ValidPeriod.Always:
             expireDateLabel.isHidden = true
@@ -165,20 +153,29 @@ class PromotionDetailViewController: UIViewController {
     }
     
     private func configurePromotionEventItem(_ promotion: PromotionEventItem) {
-        let now = Date()
         let endDate = promotion.expireDate
-        configureEndDate(now: now, endDate: endDate)
-        let remainTime = endDate - now
-        if self.timer == nil, remainTime > 0 {
-            self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
-                let now = Date()
-                let remainTime = endDate - now
-                if remainTime > 0 {
-                    self?.configureEndDate(now: now, endDate: endDate)
-                }
-            }
-            
-            self.timer?.setTimerMode()
+        CountDownTimer().start(timeInterval: 1, endTime: endDate) {[weak self] index, countDownSeconds, finish in
+            self?.setExpireDateText(now: Date(), endDate: endDate)
+        }
+    }
+    
+    private func setExpireDateText(now: Date, endDate: Date) {
+        let calendar = Calendar.current
+        var dayComponent = DateComponents()
+        dayComponent.hour = -48
+        
+        guard let periodEndMinus48 = calendar.date(byAdding: dayComponent, to: endDate) else {
+            expireDateLabel.text = ""
+            return
+        }
+        
+        let isCurrentDateTimeIn48HoursOfExpireDate = now > periodEndMinus48
+        
+        if isCurrentDateTimeIn48HoursOfExpireDate {
+            let diff = (endDate - now).timeRemainingFormatted()
+            expireDateLabel.text = Localize.string("bonus_status_expirydate", diff)
+        } else {
+            expireDateLabel.text = Localize.string("bonus_status_expirydate", endDate.toDateString())
         }
     }
     
@@ -187,36 +184,15 @@ class PromotionDetailViewController: UIViewController {
         expireDateLabel.text = localizedStr
     }
     
-    private func configureEndDate(now: Date, endDate: Date) {
-        let localizedString = getPromotionPeriod(now: now, endDate: endDate)
-        expireDateLabel.text = localizedString
-    }
-    
-    private func getPromotionPeriod(now: Date, endDate: Date) -> String {
-        var dayComponent = DateComponents()
-        dayComponent.hour = -48
-        let theCalendar = Calendar.current
-        guard let periodEndMinus48 = theCalendar.date(byAdding: dayComponent, to: endDate) else {
-            return ""
-        }
-        if now < periodEndMinus48 {
-            return Localize.string("bonus_status_expirydate", endDate.toDateString())
-        } else if now > periodEndMinus48 {
-            let diff = (endDate - now).timeRemainingFormatted()
-            return Localize.string("bonus_status_expirydate", diff)
-        }
-        return ""
-    }
-    
     private func generalPeriodString(now: Date, period: ValidPeriod.Duration) -> String {
         var dayComponent = DateComponents()
         dayComponent.hour = -48
-        let theCalendar = Calendar.current
+        let calendar = Calendar.current
         let periodStartDate = period.start.convertToDate()
         let periodEndDate = period.end.convertToDate()
         
-        guard let periodStartMinus48 = theCalendar.date(byAdding: dayComponent, to: periodStartDate),
-              let periodEndMinus48 = theCalendar.date(byAdding: dayComponent, to: periodEndDate) else {
+        guard let periodStartMinus48 = calendar.date(byAdding: dayComponent, to: periodStartDate),
+              let periodEndMinus48 = calendar.date(byAdding: dayComponent, to: periodEndDate) else {
             return Localize.string("bonus_status_expirydate", "00:00:00")
         }
         
