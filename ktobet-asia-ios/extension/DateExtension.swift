@@ -209,10 +209,10 @@ extension OffsetDateTime {
 
 extension Kotlinx_datetimeLocalDateTime {
     func convertToDate(with SeparatorSymbol: String = "-") -> Date {
-        let date = String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d", self.year, self.monthNumber, self.dayOfMonth, self.hour, self.minute, self.second)
+        let date = String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d.%03d", self.year, self.monthNumber, self.dayOfMonth, self.hour, self.minute, self.second, self.nanosecond)
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.locale = Locale.current
         return dateFormatter.date(from: date) ?? Date()
