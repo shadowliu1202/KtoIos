@@ -68,7 +68,13 @@ class HttpClient {
     }
     
     init() {
-        let formatter : NetworkLoggerPlugin.Configuration.Formatter = .init(responseData: JSONResponseDataFormatter)
+        let entry = { (identifier: String, message: String, target: TargetType) -> String in
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy/MM/dd HH:mm:ss.SSSXXXXX"
+            let date = formatter.string(from: Date())
+            return "Moya_Logger: [\(date)] \(identifier): \(message)"
+        }
+        let formatter : NetworkLoggerPlugin.Configuration.Formatter = .init(entry: entry, responseData: JSONResponseDataFormatter)
         let logOptions : NetworkLoggerPlugin.Configuration.LogOptions = .verbose
         let configuration : NetworkLoggerPlugin.Configuration = .init(formatter: formatter, logOptions: logOptions)
         provider = MoyaProvider<MultiTarget>(plugins: [NetworkLoggerPlugin(configuration: configuration)]) // debug

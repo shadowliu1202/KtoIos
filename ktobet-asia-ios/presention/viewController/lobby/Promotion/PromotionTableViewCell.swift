@@ -133,10 +133,9 @@ class PromotionTableViewCell: UITableViewCell {
     private func configureBonusCouponItem(_ bonusCoupon: BonusCouponItem) {
         let now = Date()
         if let duration = bonusCoupon.validPeriod as? ValidPeriod.Duration {
-            duration.verify(time: duration.end)
             configureValidPeriodLayout(now, duration)
             setTextPerSecond(now, duration)
-            let remainTime = Double(duration.countLeftSeconds())
+            let remainTime = duration.end.localDateTime.convertToDate() - now
             if self.timer == nil {
                 self.timer = CountDownTimer()
             }

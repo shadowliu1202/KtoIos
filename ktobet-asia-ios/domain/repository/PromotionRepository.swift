@@ -40,12 +40,7 @@ class PromotionRepositoryImpl: PromotionRepository {
     func getBonusCoupons() -> Single<[BonusCoupon]> {
         return self.promotionApi.getBonusCoupons().map({ (response) in
             guard let data = response.data else { return [] }
-            return data.map({ $0.toBonusCoupon() }).filter({ (element) in
-                if let duration = element.validPeriod as? ValidPeriod.Duration {
-                    return duration.end.convertToDate() > Date()
-                }
-                return true
-            })
+            return data.map({ $0.toBonusCoupon() })
         })
     }
     
