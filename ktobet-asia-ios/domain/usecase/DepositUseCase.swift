@@ -41,7 +41,7 @@ class DepositUseCaseImpl: DepositUseCase {
     }
     
     func depositOnline(paymentGateway: PaymentGateway, depositRequest: DepositRequest_, provider: PaymentProvider, depositTypeId: Int32) -> Single<String> {
-        return depositRepository.depositOnline(remitter: depositRequest.remitter, paymentTokenId: depositRequest.paymentToken, depositAmount: depositRequest.currency, providerId: provider.id, depositTypeId: depositTypeId).map { (transaction) -> String in
+        return depositRepository.depositOnline(remitter: depositRequest.remitter, paymentTokenId: depositRequest.paymentToken, depositAmount: depositRequest.amount, providerId: provider.id, depositTypeId: depositTypeId).map { (transaction) -> String in
             let webParams = paymentGateway.createWebParameters(depositRequest: depositRequest, transaction: transaction, bankCode: "")
             return webParams.description()
         }

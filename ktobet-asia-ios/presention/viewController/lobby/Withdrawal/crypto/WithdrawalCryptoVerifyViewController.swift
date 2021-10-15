@@ -42,7 +42,7 @@ class WithdrawalCryptoVerifyViewController: UIViewController {
         viewModel.otpValid().subscribe(onNext: {[weak self] status in
             guard let self = self else { return }
             if status == .errOtpServiceDown {
-                Alert.show(Localize.string("common_error"), Localize.string("otp_service_down"), confirm: {
+                Alert.show(Localize.string("common_error"), Localize.string("cps_otp_service_down"), confirm: {
                     NavigationManagement.sharedInstance.popViewController()
                 }, cancel: nil)
             } else if status == .errSMSOtpInactive || status == .errEmailOtpInactive {

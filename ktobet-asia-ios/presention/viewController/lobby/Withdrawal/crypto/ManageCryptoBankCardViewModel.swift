@@ -10,6 +10,7 @@ class ManageCryptoBankCardViewModel {
     var accountName = BehaviorRelay<String>(value: "")
     var accountAddress = BehaviorRelay<String>(value: "")
     var cryptoType = BehaviorRelay<String>(value: "")
+    var cryptoNetwork = BehaviorRelay<String>(value: "")
     
     private var withdrawalUseCase: WithdrawalUseCase!
     
@@ -22,7 +23,30 @@ class ManageCryptoBankCardViewModel {
     }
     
     func addCryptoBankCard() -> Single<String> {
-        return withdrawalUseCase.addCryptoBankCard(currency: Crypto.Companion.init().create(simpleName: cryptoType.value), alias: accountName.value, walletAddress: accountAddress.value)
+        return withdrawalUseCase.addCryptoBankCard(currency: Crypto.Companion.init().create(simpleName: cryptoType.value), alias: accountName.value, walletAddress: accountAddress.value, cryptoNetwork: stringToCryptoNetwork())
+    }
+    
+    func stringToCryptoNetwork() -> CryptoNetwork {
+        let cryptoNetworkIterator = CryptoNetwork.values().iterator()
+        var cryptoNetwork: CryptoNetwork!
+        while cryptoNetworkIterator.hasNext() {
+            let next = (cryptoNetworkIterator.next() as! CryptoNetwork)
+            if next.name == self.cryptoNetwork.value {
+                cryptoNetwork = next
+            }
+        }
+        
+        return cryptoNetwork
+    }
+    
+    func getCryptoNetworkArray() -> [CryptoNetwork] {
+        var cryptoNetworkArray: [CryptoNetwork] = []
+        let cryptoNetworkIterator = CryptoNetwork.values().iterator()
+        while cryptoNetworkIterator.hasNext() {
+            cryptoNetworkArray.append(cryptoNetworkIterator.next() as! CryptoNetwork)
+        }
+        
+        return cryptoNetworkArray
     }
     
     func deleteCryptoAccount(_ playerBankCardId: String) -> Completable {
@@ -37,8 +61,9 @@ class ManageCryptoBankCardViewModel {
             return name.count != 0
         }
         
-        let accountAddressValid = accountAddress.map { (address) -> ValidError in
-            return address.count > 0 ? (address.isValidRegex(format: .cryptoAddress) ? .none : .regex)  : .empty
+        let accountAddressValid = Observable.combineLatest(accountAddress, cryptoNetwork).map {[weak self] (address, _) -> ValidError in
+            guard let cryptoNetwork = self?.stringToCryptoNetwork() else { return .empty }
+            return address.count > 0 ? (cryptoNetwork.isValid(cryptoNetworkAddress: address) ? .none : .regex)  : .empty
         }
         
         let cryptoTypeValid = cryptoType.map { (type) -> Bool in

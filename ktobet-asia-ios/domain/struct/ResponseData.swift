@@ -904,16 +904,27 @@ struct CryptoBankCardBean: Codable {
     var createdUser: String
     var updatedUser: String
     var updatedDate: String
+    var cryptoNetwork: Int
     
     func toCryptoBankCard() -> CryptoBankCard {
-        let updateDate = self.updatedDate.convertDateTime() ?? Date()
-        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
+        let updateDate = (self.updatedDate.convertDateTime() ?? Date()).convertDateToOffsetDateTime()
         let bankCard = BankCardObject(id_: playerCryptoBankCardId,
                                       name: cryptoWalletName,
                                       status: createBankCardStatus(index: status),
                                       verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: verifyStatus))
         
-        return CryptoBankCard.init(bankCard: bankCard, currency: Crypto.Ethereum(), walletAddress: cryptoWalletAddress, createdUser: createdUser, updatedUser: updatedUser, updatedDate: updateOffsetDateTime)
+        return CryptoBankCard(bankCard: bankCard, currency: Crypto.Ethereum(), walletAddress: cryptoWalletAddress, createdUser: createdUser, updatedUser: updatedUser, updatedDate: updateDate, cryptoNetwork: convertTo(cryptoNetwork: cryptoNetwork))
+    }
+    
+    private func convertTo(cryptoNetwork index: Int) -> CryptoNetwork {
+        switch index {
+        case 1:
+            return CryptoNetwork.erc20
+        case 2:
+            return CryptoNetwork.trc20
+        default:
+            return CryptoNetwork.erc20
+        }
     }
     
     private func createBankCardStatus(index: Int) -> BankCardStatus {

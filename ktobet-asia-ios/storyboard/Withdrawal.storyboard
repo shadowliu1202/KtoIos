@@ -1661,6 +1661,15 @@
                                                     <color key="textColor" name="whiteFull"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6V-dl-wJb">
+                                                    <rect key="frame" x="128" y="42" width="70" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="Oq1-jp-95U"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                    <color key="textColor" name="whiteFull"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="KE3-cP-wr0" secondAttribute="trailing" constant="16" id="BYK-XP-gFU"/>
@@ -1668,9 +1677,11 @@
                                                 <constraint firstItem="dSD-ci-rGT" firstAttribute="leading" secondItem="AFe-OY-qRE" secondAttribute="leading" constant="30" id="Mde-Sg-A2O"/>
                                                 <constraint firstItem="gKU-lQ-buY" firstAttribute="leading" secondItem="2D3-c8-Woc" secondAttribute="leading" id="U1D-GS-Kk5"/>
                                                 <constraint firstItem="1vL-hd-mNF" firstAttribute="leading" secondItem="2D3-c8-Woc" secondAttribute="leading" id="UQ2-iU-Ea9"/>
+                                                <constraint firstItem="D6V-dl-wJb" firstAttribute="leading" secondItem="Sw2-l7-cjd" secondAttribute="trailing" constant="8" id="X5p-6P-IVA"/>
                                                 <constraint firstAttribute="trailing" secondItem="dSD-ci-rGT" secondAttribute="trailing" id="ZG3-ug-4Av"/>
                                                 <constraint firstItem="Sw2-l7-cjd" firstAttribute="leading" secondItem="2D3-c8-Woc" secondAttribute="leading" id="Zp4-WQ-WhW"/>
                                                 <constraint firstItem="1vL-hd-mNF" firstAttribute="top" secondItem="gKU-lQ-buY" secondAttribute="bottom" constant="16" id="bz8-pa-sjL"/>
+                                                <constraint firstItem="D6V-dl-wJb" firstAttribute="bottom" secondItem="Sw2-l7-cjd" secondAttribute="bottom" id="cWi-xG-lP4"/>
                                                 <constraint firstItem="KE3-cP-wr0" firstAttribute="centerY" secondItem="AFe-OY-qRE" secondAttribute="centerY" id="fJq-Ig-lPl"/>
                                                 <constraint firstItem="2D3-c8-Woc" firstAttribute="top" secondItem="AFe-OY-qRE" secondAttribute="top" constant="16" id="nRc-ch-Lxc"/>
                                                 <constraint firstAttribute="bottom" secondItem="dSD-ci-rGT" secondAttribute="bottom" id="qZ6-J0-dgg"/>
@@ -1685,6 +1696,7 @@
                                             <outlet property="bankNameLabel" destination="2D3-c8-Woc" id="TZw-W6-XhW"/>
                                             <outlet property="bankNumLabel" destination="gKU-lQ-buY" id="vn2-lv-M7A"/>
                                             <outlet property="imgView" destination="KE3-cP-wr0" id="c92-zb-cjQ"/>
+                                            <outlet property="networkLabel" destination="D6V-dl-wJb" id="zbo-ff-Sya"/>
                                             <outlet property="verifyLabel" destination="1vL-hd-mNF" id="l1i-F8-VeZ"/>
                                             <outlet property="walletType" destination="Sw2-l7-cjd" id="Mvt-NM-4Fm"/>
                                         </connections>
@@ -2174,7 +2186,6 @@
                                 <rect key="frame" x="30" y="94" width="354" height="60"/>
                                 <color key="backgroundColor" name="inputSelectedTundoraGray"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="Pvv-dc-dy1"/>
                                     <constraint firstAttribute="height" constant="60" id="ucl-NQ-dg6"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -2187,14 +2198,14 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abc-to-dnS" userLabel="branchTextField" customClass="InputText" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                <rect key="frame" x="30" y="166" width="354" height="60"/>
+                                <rect key="frame" x="30" y="238" width="354" height="60"/>
                                 <color key="backgroundColor" name="inputSelectedTundoraGray"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="sxu-hn-1xA"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EtO-X6-dYk" userLabel="provinceErrorLabel">
-                                <rect key="frame" x="30" y="232" width="354" height="0.0"/>
+                                <rect key="frame" x="30" y="304" width="354" height="0.0"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="30" id="3T5-h5-HcB"/>
                                 </constraints>
@@ -2202,17 +2213,14 @@
                                 <color key="textColor" red="1" green="0.50196078430000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BuJ-vs-31R" userLabel="provinceErrorLabel">
-                                <rect key="frame" x="30" y="310" width="354" height="0.0"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="30" id="int-Yq-6Ai"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BuJ-vs-31R" userLabel="provinceErrorLabel">
+                                <rect key="frame" x="30" y="382" width="354" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="0.50196078430000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F6Y-iK-A0S">
-                                <rect key="frame" x="30" y="350" width="354" height="48"/>
+                                <rect key="frame" x="30" y="422" width="354" height="48"/>
                                 <color key="backgroundColor" name="red"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="sD0-Aq-04m"/>
@@ -2230,7 +2238,7 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NT3-Sx-VSF">
-                                <rect key="frame" x="30" y="244" width="354" height="60"/>
+                                <rect key="frame" x="30" y="316" width="354" height="60"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ju8-nJ-TUm" userLabel="branchTextField" customClass="InputText" customModule="ktobet_asia_ios" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="306" height="60"/>
@@ -2274,13 +2282,29 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UJI-5o-sXf" userLabel="province" customClass="DropDownInputText" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                <rect key="frame" x="30" y="166" width="354" height="60"/>
+                                <color key="backgroundColor" name="inputSelectedTundoraGray"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="vJQ-MN-zDh"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isEmptyTip" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSearchEnable" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fCm-w5-QoN"/>
                         <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
+                            <constraint firstItem="abc-to-dnS" firstAttribute="top" secondItem="UJI-5o-sXf" secondAttribute="bottom" constant="12" id="207-vl-wnY"/>
                             <constraint firstItem="fCm-w5-QoN" firstAttribute="trailing" secondItem="xFm-eA-Wrf" secondAttribute="trailing" constant="30" id="33F-qb-9ZD"/>
                             <constraint firstItem="xFm-eA-Wrf" firstAttribute="top" secondItem="GI9-ny-4Mb" secondAttribute="bottom" constant="30" id="3kd-Sg-J51"/>
-                            <constraint firstItem="abc-to-dnS" firstAttribute="top" secondItem="xFm-eA-Wrf" secondAttribute="bottom" constant="12" id="55f-Uy-ZeM"/>
+                            <constraint firstItem="UJI-5o-sXf" firstAttribute="trailing" secondItem="xFm-eA-Wrf" secondAttribute="trailing" id="3qP-Gh-jrv"/>
                             <constraint firstItem="NT3-Sx-VSF" firstAttribute="leading" secondItem="abc-to-dnS" secondAttribute="leading" id="DRd-02-9Hb"/>
                             <constraint firstItem="xFm-eA-Wrf" firstAttribute="leading" secondItem="fCm-w5-QoN" secondAttribute="leading" constant="30" id="Hsl-dJ-uoz"/>
                             <constraint firstItem="F6Y-iK-A0S" firstAttribute="top" secondItem="BuJ-vs-31R" secondAttribute="bottom" constant="40" id="I8v-zR-vRe"/>
@@ -2292,11 +2316,13 @@
                             <constraint firstItem="EtO-X6-dYk" firstAttribute="top" secondItem="abc-to-dnS" secondAttribute="bottom" constant="6" id="aMO-pX-R5E"/>
                             <constraint firstItem="GI9-ny-4Mb" firstAttribute="leading" secondItem="fCm-w5-QoN" secondAttribute="leading" constant="30" id="agV-xY-0HI"/>
                             <constraint firstItem="EtO-X6-dYk" firstAttribute="trailing" secondItem="abc-to-dnS" secondAttribute="trailing" id="ems-NH-daJ"/>
+                            <constraint firstItem="UJI-5o-sXf" firstAttribute="top" secondItem="xFm-eA-Wrf" secondAttribute="bottom" constant="12" id="hLX-BA-r5H"/>
                             <constraint firstItem="F6Y-iK-A0S" firstAttribute="leading" secondItem="fCm-w5-QoN" secondAttribute="leading" constant="30" id="kdj-dS-Rjg"/>
                             <constraint firstItem="EtO-X6-dYk" firstAttribute="leading" secondItem="abc-to-dnS" secondAttribute="leading" id="lWi-rf-rYa"/>
                             <constraint firstItem="BuJ-vs-31R" firstAttribute="top" secondItem="NT3-Sx-VSF" secondAttribute="bottom" constant="6" id="odH-1d-905"/>
                             <constraint firstItem="abc-to-dnS" firstAttribute="trailing" secondItem="xFm-eA-Wrf" secondAttribute="trailing" id="p93-qS-pkn"/>
                             <constraint firstItem="BuJ-vs-31R" firstAttribute="leading" secondItem="NT3-Sx-VSF" secondAttribute="leading" id="r9i-aZ-vUJ"/>
+                            <constraint firstItem="UJI-5o-sXf" firstAttribute="leading" secondItem="xFm-eA-Wrf" secondAttribute="leading" id="vd5-nf-kYc"/>
                             <constraint firstItem="abc-to-dnS" firstAttribute="leading" secondItem="xFm-eA-Wrf" secondAttribute="leading" id="yNC-Ob-hdT"/>
                         </constraints>
                     </view>
@@ -2307,6 +2333,7 @@
                         <outlet property="accountAddressView" destination="NT3-Sx-VSF" id="iRh-wa-Fj5"/>
                         <outlet property="accountNameErrorLabel" destination="EtO-X6-dYk" id="vNr-DC-jJ1"/>
                         <outlet property="accountNameTextField" destination="abc-to-dnS" id="WX1-uY-LqV"/>
+                        <outlet property="cryptoNetworkDropDown" destination="UJI-5o-sXf" id="dRY-uH-89N"/>
                         <outlet property="cryptoTypeDropDown" destination="xFm-eA-Wrf" id="93j-Qy-eyU"/>
                         <outlet property="qrCodeButton" destination="Xzl-kh-Omq" id="buH-6j-9Fs"/>
                         <outlet property="submitButton" destination="F6Y-iK-A0S" id="7dd-9y-x1K"/>
@@ -3576,7 +3603,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gvD-O5-QtA">
-                                                <rect key="frame" x="30" y="355" width="354" height="48"/>
+                                                <rect key="frame" x="30" y="415" width="354" height="48"/>
                                                 <color key="backgroundColor" name="red"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="fQS-Ed-Gpu"/>
@@ -3680,7 +3707,6 @@
                                                     <constraint firstItem="t0R-CN-LFg" firstAttribute="top" secondItem="ADl-sK-UUD" secondAttribute="bottom" constant="2" id="7c3-Qu-21D"/>
                                                     <constraint firstAttribute="trailing" secondItem="2GL-BT-oIV" secondAttribute="trailing" constant="30" id="9Kq-HM-KLZ"/>
                                                     <constraint firstItem="ADl-sK-UUD" firstAttribute="top" secondItem="KN0-Sw-cQY" secondAttribute="top" constant="9" id="9zK-VL-Zcs"/>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="Z3V-ND-js3"/>
                                                     <constraint firstAttribute="trailing" secondItem="ADl-sK-UUD" secondAttribute="trailing" constant="30" id="ZQH-Mc-Poz"/>
                                                     <constraint firstAttribute="height" constant="60" id="bxx-QP-bQn"/>
                                                     <constraint firstItem="ADl-sK-UUD" firstAttribute="leading" secondItem="KN0-Sw-cQY" secondAttribute="leading" constant="30" id="hwG-El-8Ug"/>
@@ -3690,8 +3716,56 @@
                                                     <constraint firstItem="t0R-CN-LFg" firstAttribute="leading" secondItem="KN0-Sw-cQY" secondAttribute="leading" constant="30" id="znC-zW-9jQ"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7NE-Sn-ceo" userLabel="rowView">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjJ-ei-9Qu" userLabel="rowView">
                                                 <rect key="frame" x="0.0" y="255" width="414" height="60"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ss-X9-2RJ" userLabel="Title">
+                                                        <rect key="frame" x="30" y="9" width="354" height="16"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="16" id="eWG-7f-8wZ"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                                        <color key="textColor" name="textPrimaryDustyGray"/>
+                                                        <nil key="highlightedColor"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="localizedtext" value="common_bank"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="cps_crypto_network"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fuV-sN-CF1" userLabel="value">
+                                                        <rect key="frame" x="30" y="27" width="354" height="24"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="24" id="tGG-ym-czN"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
+                                                        <color key="textColor" name="whiteFull"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LVc-zL-ufs" userLabel="Line">
+                                                        <rect key="frame" x="30" y="59" width="354" height="1"/>
+                                                        <color key="backgroundColor" name="dividerCapeCodGray2"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="Hgd-C3-jL8"/>
+                                                            <constraint firstAttribute="height" constant="1" id="Sdv-gD-OpG"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="fuV-sN-CF1" firstAttribute="top" secondItem="3ss-X9-2RJ" secondAttribute="bottom" constant="2" id="0oE-7l-Du4"/>
+                                                    <constraint firstItem="LVc-zL-ufs" firstAttribute="leading" secondItem="xjJ-ei-9Qu" secondAttribute="leading" constant="30" id="4Bv-fS-paN"/>
+                                                    <constraint firstItem="3ss-X9-2RJ" firstAttribute="leading" secondItem="xjJ-ei-9Qu" secondAttribute="leading" constant="30" id="BqY-S5-ejX"/>
+                                                    <constraint firstItem="3ss-X9-2RJ" firstAttribute="top" secondItem="xjJ-ei-9Qu" secondAttribute="top" constant="9" id="FEv-EJ-xHI"/>
+                                                    <constraint firstAttribute="bottom" secondItem="LVc-zL-ufs" secondAttribute="bottom" id="NTH-u9-MdV"/>
+                                                    <constraint firstAttribute="height" constant="60" id="VTC-k2-Vvc"/>
+                                                    <constraint firstAttribute="trailing" secondItem="fuV-sN-CF1" secondAttribute="trailing" constant="30" id="WTn-ps-wWG"/>
+                                                    <constraint firstAttribute="trailing" secondItem="3ss-X9-2RJ" secondAttribute="trailing" constant="30" id="aoq-V6-Ua8"/>
+                                                    <constraint firstItem="fuV-sN-CF1" firstAttribute="leading" secondItem="xjJ-ei-9Qu" secondAttribute="leading" constant="30" id="nN4-t8-Ga0"/>
+                                                    <constraint firstAttribute="trailing" secondItem="LVc-zL-ufs" secondAttribute="trailing" constant="30" id="zNo-fd-Q63"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7NE-Sn-ceo" userLabel="rowView">
+                                                <rect key="frame" x="0.0" y="315" width="414" height="60"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGj-5k-DUr" userLabel="Title">
                                                         <rect key="frame" x="30" y="9" width="354" height="16"/>
@@ -3744,22 +3818,25 @@
                                         <constraints>
                                             <constraint firstItem="QJp-Ce-1EL" firstAttribute="top" secondItem="9Cy-9C-OHg" secondAttribute="top" constant="30" id="7u2-Gg-e1l"/>
                                             <constraint firstAttribute="trailing" secondItem="QJp-Ce-1EL" secondAttribute="trailing" constant="30" id="9hM-DP-UsO"/>
-                                            <constraint firstItem="7NE-Sn-ceo" firstAttribute="top" secondItem="KN0-Sw-cQY" secondAttribute="bottom" id="AZ7-9l-25C"/>
                                             <constraint firstItem="OgE-rB-tCk" firstAttribute="top" secondItem="rdR-2f-FmB" secondAttribute="bottom" id="BDo-dY-6Iu"/>
                                             <constraint firstAttribute="trailing" secondItem="OgE-rB-tCk" secondAttribute="trailing" id="BP3-iP-bFd"/>
                                             <constraint firstAttribute="trailing" secondItem="rdR-2f-FmB" secondAttribute="trailing" id="En9-hi-Crx"/>
                                             <constraint firstItem="rdR-2f-FmB" firstAttribute="top" secondItem="WXo-Qo-TyT" secondAttribute="bottom" constant="16" id="FVf-XB-kbn"/>
                                             <constraint firstItem="KN0-Sw-cQY" firstAttribute="top" secondItem="OgE-rB-tCk" secondAttribute="bottom" id="Ff6-24-fXn"/>
                                             <constraint firstItem="rdR-2f-FmB" firstAttribute="leading" secondItem="9Cy-9C-OHg" secondAttribute="leading" id="Jjd-pq-nYJ"/>
+                                            <constraint firstItem="7NE-Sn-ceo" firstAttribute="top" secondItem="xjJ-ei-9Qu" secondAttribute="bottom" id="LYo-xw-M42"/>
                                             <constraint firstItem="gvD-O5-QtA" firstAttribute="leading" secondItem="QJp-Ce-1EL" secondAttribute="leading" id="M4d-vq-9n0"/>
                                             <constraint firstItem="OgE-rB-tCk" firstAttribute="leading" secondItem="9Cy-9C-OHg" secondAttribute="leading" id="Oj5-Kj-LRc"/>
+                                            <constraint firstAttribute="trailing" secondItem="xjJ-ei-9Qu" secondAttribute="trailing" id="RXK-ow-5aB"/>
                                             <constraint firstAttribute="trailing" secondItem="7NE-Sn-ceo" secondAttribute="trailing" id="VfO-bh-1Gf"/>
                                             <constraint firstItem="WXo-Qo-TyT" firstAttribute="leading" secondItem="9Cy-9C-OHg" secondAttribute="leading" constant="30" id="WNf-B1-hvA"/>
                                             <constraint firstItem="gvD-O5-QtA" firstAttribute="trailing" secondItem="QJp-Ce-1EL" secondAttribute="trailing" id="Xt6-Iw-mzE"/>
+                                            <constraint firstItem="xjJ-ei-9Qu" firstAttribute="top" secondItem="KN0-Sw-cQY" secondAttribute="bottom" id="YaN-pW-ABS"/>
                                             <constraint firstItem="KN0-Sw-cQY" firstAttribute="leading" secondItem="9Cy-9C-OHg" secondAttribute="leading" id="f7A-qn-IhA"/>
                                             <constraint firstAttribute="trailing" secondItem="WXo-Qo-TyT" secondAttribute="trailing" constant="30" id="iWN-vg-bbm"/>
                                             <constraint firstItem="QJp-Ce-1EL" firstAttribute="leading" secondItem="9Cy-9C-OHg" secondAttribute="leading" constant="30" id="jii-r4-laF"/>
                                             <constraint firstAttribute="trailing" secondItem="KN0-Sw-cQY" secondAttribute="trailing" id="pBK-NY-3iW"/>
+                                            <constraint firstItem="xjJ-ei-9Qu" firstAttribute="leading" secondItem="9Cy-9C-OHg" secondAttribute="leading" id="qUE-ud-sfn"/>
                                             <constraint firstItem="gvD-O5-QtA" firstAttribute="top" secondItem="7NE-Sn-ceo" secondAttribute="bottom" constant="40" id="wrL-sW-nWj"/>
                                             <constraint firstItem="WXo-Qo-TyT" firstAttribute="top" secondItem="QJp-Ce-1EL" secondAttribute="bottom" constant="34" id="xRM-U4-WvP"/>
                                             <constraint firstItem="7NE-Sn-ceo" firstAttribute="leading" secondItem="9Cy-9C-OHg" secondAttribute="leading" id="xcc-s3-D0u"/>
@@ -3791,6 +3868,7 @@
                     <connections>
                         <outlet property="accountNameLabel" destination="9LJ-qy-Zzl" id="8Gf-dk-zTS"/>
                         <outlet property="accountNumberLabel" destination="m7E-gr-zto" id="aLU-2D-RyE"/>
+                        <outlet property="cryptoNetworkLabel" destination="fuV-sN-CF1" id="VQH-6Q-3G8"/>
                         <outlet property="cryptoTypeLabel" destination="t0R-CN-LFg" id="Vyj-4y-5ze"/>
                         <outlet property="deleteButton" destination="gvD-O5-QtA" id="tLV-Ga-Z66"/>
                         <outlet property="verifyStatusLabel" destination="WXo-Qo-TyT" id="5RY-5f-sbL"/>
@@ -3833,8 +3911,8 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="AB8-OG-jSH"/>
-        <segue reference="pWL-dG-JgZ"/>
-        <segue reference="IGH-yb-Sof"/>
+        <segue reference="9A6-Oa-Az1"/>
+        <segue reference="eg9-dW-Rfv"/>
         <segue reference="o2C-6f-Lpf"/>
     </inferredMetricsTieBreakers>
     <resources>

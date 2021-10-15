@@ -9,7 +9,6 @@ protocol AccountAddComplete: class {
 
 class WithdrawlAccountsViewController: UIViewController {
     static let unwindSegue = "unwindsegueAccount"
-    let MAX_ACCOUNT_COUNT = 3
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var footerImg: UIImageView!
@@ -132,18 +131,18 @@ class WithdrawlAccountsViewController: UIViewController {
     }
     
     private func switchToAddAccount() {
-        if self.withdrawalAccounts?.count ?? 0 < MAX_ACCOUNT_COUNT {
+        if self.withdrawalAccounts?.count ?? 0 < Settings.init().WITHDRAWAL_CASH_BANK_CARD_LIMIT {
             self.performSegue(withIdentifier: AddBankViewController.segueIdentifier, sender: nil)
         } else {
             let title = Localize.string("common_kindly_remind")
-            let msg = Localize.string("withdrawal_bankcard_add_overlimit", "\(MAX_ACCOUNT_COUNT)")
+            let msg = Localize.string("withdrawal_bankcard_add_overlimit", "\(Settings.init().WITHDRAWAL_CASH_BANK_CARD_LIMIT)")
             Alert.show(title, msg, confirm: nil, cancel: nil)
         }
     }
     
     private func switchToAddCryptoAccount() {
-        if cryptoSource.value.count >= MAX_ACCOUNT_COUNT {
-            Alert.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "3"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+        if cryptoSource.value.count >= Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT {
+            Alert.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "\(Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT)"), confirm: nil, cancel: nil, tintColor: UIColor.red)
         } else {
             self.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: cryptoSource.value.count)
         }
@@ -258,6 +257,7 @@ class AccountCell: UITableViewCell {
 class CryptoAccountCell: UITableViewCell {
     @IBOutlet weak var bankNameLabel: UILabel!
     @IBOutlet weak var walletType: UILabel!
+    @IBOutlet weak var networkLabel: UILabel!
     @IBOutlet weak var bankNumLabel: UILabel!
     @IBOutlet weak var verifyLabel: UILabel!
     @IBOutlet weak var imgView: UIImageView!
@@ -277,6 +277,7 @@ class CryptoAccountCell: UITableViewCell {
         self.verifyLabel.text = verifyStatus.text
         self.imgView.isHidden = isEditMode
         self.walletType.text = item.currency.simpleName
+        self.networkLabel.text = item.cryptoNetwork.name
         return self
     }
 }

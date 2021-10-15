@@ -25,6 +25,7 @@
 "cps_auto_fill_crypto_maximum_limit" = "";
 "cps_crypto_account_name" = "";
 "cps_crypto_currency" = "";
+"cps_crypto_network" = "";
 "cps_crypto_delete_hint" = "";
 "cps_excahange_rate" = "";
 "cps_request_withdrawal_crypto_amount" = "";
@@ -49,7 +50,9 @@
 "cps_eth_default_bank_card_name" = "";
 "cps_scan" = "";
 "cps_scan_qrcode" = "";
-"otp_service_down" = "";
+"cps_otp_service_down" = "";
+"cps_trc20_address_error" = "";
+"cps_erc20_address_error" = "";
 
 //MARK: - Common
 "common_kto" = "";
