@@ -1,10 +1,12 @@
 import UIKit
 import RxSwift
 import SharedBu
+import SwiftUI
 
 class AddCryptoAccountViewController: UIViewController {
     static let segueIdentifier = "toCryptoAddAccount"
     @IBOutlet weak var cryptoTypeDropDown: DropDownInputText!
+    @IBOutlet weak var cryptoNetworkDropDown: DropDownInputText!
     @IBOutlet weak var accountNameTextField: InputText!
     @IBOutlet weak var accountAddressTextField: InputText!
     @IBOutlet weak var accountNameErrorLabel: UILabel!
@@ -27,6 +29,11 @@ class AddCryptoAccountViewController: UIViewController {
         supportCry.forEach{ print($0.simpleName) }
         cryptoTypeDropDown.optionArray = supportCry.map{ $0.simpleName }
         cryptoTypeDropDown.setTitle(Localize.string("cps_crypto_currency"))
+        
+        let cryptoNetworkArray = viewModel.getCryptoNetworkArray()
+        cryptoNetworkDropDown.optionArray = cryptoNetworkArray.map { $0.name }
+        cryptoNetworkDropDown.setTitle(Localize.string("cps_crypto_network"))
+        
         accountNameTextField.setTitle(Localize.string("cps_crypto_account_name"))
         accountAddressTextField.setTitle(Localize.string("cps_wallet_address"))
         accountNameTextField.maxLength = ManageCryptoBankCardViewModel.accountNameMaxLength
@@ -37,8 +44,10 @@ class AddCryptoAccountViewController: UIViewController {
         (accountNameTextField.text <-> viewModel.accountName).disposed(by: disposeBag)
         (accountAddressTextField.text <-> viewModel.accountAddress).disposed(by: disposeBag)
         (cryptoTypeDropDown.text <-> viewModel.cryptoType).disposed(by: disposeBag)
-        
+        (cryptoNetworkDropDown.text <-> viewModel.cryptoNetwork).disposed(by: disposeBag)
+                
         viewModel.cryptoType.accept(supportCry.map{ $0.simpleName }.first ?? "")
+        viewModel.cryptoNetwork.accept(cryptoNetworkArray.filter{ $0 == CryptoNetwork.trc20 }.first?.name ?? "")
         viewModel.accountName.accept(Localize.string("cps_eth_default_bank_card_name") + "\(bankCardCount + 1)")
         
         let event = viewModel.event()
@@ -49,28 +58,37 @@ class AddCryptoAccountViewController: UIViewController {
             self?.accountNameTextField.showUnderline(!isValid)
             self?.accountNameTextField.setCorner(topCorner: true, bottomCorner: isValid)
         }.disposed(by: disposeBag)
-        
+
+
         event.accountAddressValid.subscribe { [weak self] (validError) in
-            guard let validError = validError.element, self?.accountAddressTextField.isEdited ?? false else { return }
+            guard let self = self else { return }
+            guard let validError = validError.element, (self.accountAddressTextField.isEdited || self.cryptoNetworkDropDown.isShowed) else { return }
             var message = ""
             var isValid = false
             switch validError {
             case .empty:
                 message = Localize.string("common_field_must_fill")
             case .regex:
-                message = Localize.string("common_invalid")
+                switch self.viewModel.stringToCryptoNetwork() {
+                case .erc20:
+                    message = Localize.string("cps_erc20_address_error")
+                case .trc20:
+                    message = Localize.string("cps_trc20_address_error")
+                default:
+                    message = Localize.string("common_invalid")
+                }
             default:
                 isValid = true
             }
             
-            self?.accountAddressErrorLabel.text = message
-            self?.accountAddressTextField.showUnderline(!isValid)
-            self?.accountAddressTextField.setCorner(topCorner: true, bottomCorner: isValid)
-            self?.accountAddressView.setViewCorner(topCorner: true, bottomCorner: isValid)
+            self.accountAddressErrorLabel.text = message
+            self.accountAddressTextField.showUnderline(!isValid)
+            self.accountAddressTextField.setCorner(topCorner: true, bottomCorner: isValid)
+            self.accountAddressView.setViewCorner(topCorner: true, bottomCorner: isValid)
             if !isValid {
-                self?.accountAddressView.addBorder(.bottom, size: 1, color: UIColor.orangeFull)
+                self.accountAddressView.addBorder(.bottom, size: 1, color: UIColor.orangeFull)
             } else {
-                self?.accountAddressView.removeBorder(.bottom)
+                self.accountAddressView.removeBorder(.bottom)
             }
         }.disposed(by: disposeBag)
         
@@ -78,8 +96,8 @@ class AddCryptoAccountViewController: UIViewController {
         
         submitButton.rx.tap.subscribe(onNext: {[weak self] in
             guard let self = self else { return }
-            if self.bankCardCount >= 3 {
-                Alert.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "3"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+            if self.bankCardCount >= Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT {
+                Alert.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT), confirm: nil, cancel: nil, tintColor: UIColor.red)
             } else {
                 self.viewModel.addCryptoBankCard().subscribe(onSuccess: { (data) in
                     Alert.show(Localize.string("profile_safety_verification_title"), Localize.string("cps_security_alert"), confirm: {

@@ -27,6 +27,7 @@
 "cps_auto_fill_crypto_maximum_limit" = "您的虛擬幣提現要求大於單筆限額，將自動填寫單筆限額";
 "cps_crypto_account_name" = "账户别称";
 "cps_crypto_currency" = "虚拟币币别";
+"cps_crypto_network" = "虚拟币网络";
 "cps_crypto_delete_hint" = "该虚拟币钱包为已验证状态，删除后重新添加将需要再次验证。";
 "cps_excahange_rate" = "交易汇率";
 "cps_request_withdrawal_crypto_amount" = "本次申请提现金额";
@@ -51,7 +52,9 @@
 "cps_eth_default_bank_card_name" = "以太坊钱包";
 "cps_scan" = "扫描";
 "cps_scan_qrcode" = "扫描QR Code";
-"otp_service_down" = "";
+"cps_otp_service_down" = "";
+"cps_trc20_address_error" = "地址以\"T\"开头。在此之后，需包含33 个字符";
+"cps_erc20_address_error" = "地址以\"0x\"开头。在此之后，需包含 40 个字符 (0-9,a-f,A-F)";
 
 //MARK: - Common
 "common_kto" = "KTO";

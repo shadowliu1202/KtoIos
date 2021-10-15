@@ -113,6 +113,7 @@ struct CryptoBankCardRequest: Codable {
     var cryptoCurrency: Int
     var cryptoWalletName: String
     var cryptoWalletAddress: String
+    var cryptoNetwork: Int32
 }
 
 struct AccountVerifyRequest: Codable {

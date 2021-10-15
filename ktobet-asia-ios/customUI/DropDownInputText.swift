@@ -6,10 +6,14 @@ let ArrowSize: CGFloat = 12
 class DropDownInputText: UIView {
     private var firstPosition = true
     private var isEditing = false
+    private var isShowing = false
     private var dropDownOffsetOnece = true
     private var didSelectCompletion: (String, Int ,Int) -> () = {selectedText, index , id  in }
     var isEdited: Bool {
         return isEditing
+    }
+    var isShowed: Bool {
+        return isShowing
     }
     var editingChangedHandler: ((String) -> Void)?
     var maxLength = Int32.max
@@ -119,6 +123,12 @@ class DropDownInputText: UIView {
 
             })
         }
+        dropDownText.listDidDisappear { [weak self] in
+            if let `self` = self, !self.isSearchEnable {
+                self.isShowing = false
+            }
+        }
+        
         dropDownText.listWillDisappear { [weak self] in
             if let `self` = self, !self.isSearchEnable {
                 self.isEditing = false
@@ -150,6 +160,7 @@ class DropDownInputText: UIView {
     @objc public func touchAction() {
         superview?.endEditing(true)
         isEditing = true
+        isShowing = true
         adjustPosition()
         dropDownText.showList()
     }

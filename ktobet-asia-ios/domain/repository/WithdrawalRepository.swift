@@ -14,7 +14,7 @@ protocol WithdrawalRepository {
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String>
     func getCryptoBankCards() -> Single<[CryptoBankCard]>
-    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String>
+    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String>
     func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
     func verifyCryptoBankCard(playerCryptoBankCardId: String, accountType: AccountType) -> Completable
     func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable
@@ -194,8 +194,9 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         }
     }
     
-    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String) -> Single<String> {
-        let cryptoBankCardRequest = CryptoBankCardRequest(cryptoCurrency: indexOf(currency: currency), cryptoWalletName: alias, cryptoWalletAddress: walletAddress)
+    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String> {
+        let cryptoBankCardRequest = CryptoBankCardRequest(cryptoCurrency: indexOf(currency: currency), cryptoWalletName: alias, cryptoWalletAddress: walletAddress, cryptoNetwork: cryptoNetwork.index)
+        
         return cpsApi.getCryptoBankCard().flatMap { (response) -> Single<String> in
             guard let data = response.data?.payload else { return Single<String>.error(KTOError.EmptyData) }
             if data.map({ $0.toCryptoBankCard().walletAddress }).contains(walletAddress) {

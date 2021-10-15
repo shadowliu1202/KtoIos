@@ -10,6 +10,7 @@ class CryptoAccountDetailViewController: UIViewController {
     @IBOutlet weak var verifyStatusLabel: UILabel!
     @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var cryptoTypeLabel: UILabel!
+    @IBOutlet weak var cryptoNetworkLabel: UILabel!
     @IBOutlet weak var accountNumberLabel: UILabel!
     
     var account: CryptoBankCard!
@@ -24,6 +25,7 @@ class CryptoAccountDetailViewController: UIViewController {
         verifyStatusLabel.text = StringMapper.sharedInstance.getVerifyStatus(status: account.verifyStatus).text
         accountNameLabel.text = account.name
         cryptoTypeLabel.text = account.currency.simpleName
+        cryptoNetworkLabel.text = account.cryptoNetwork.name
         accountNumberLabel.text = account.walletAddress
         
         deleteButton.rx.tap.subscribe(onNext: {[weak self] in

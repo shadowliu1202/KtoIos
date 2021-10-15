@@ -105,7 +105,7 @@ class DepositViewModel {
             paymentSlip.remitter(remitter: remitter)
             let cashAmount = CashAmount(amount: Double(accountNum.replacingOccurrences(of: ",", with: ""))!)
             do {
-                try paymentSlip.depositAmount(cashAmount: cashAmount)
+                try paymentSlip.depositAmount(amount: cashAmount)
             } catch {
                 return Single.error(PaymentException.InvalidDepositAmount())
             }
@@ -165,7 +165,7 @@ class DepositViewModel {
             }
         }), paymentSlip).map({ (amount, paymentSlip) -> Bool in
             guard let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return false }
-            return paymentSlip?.verifyDepositLimitation(cashAmount: CashAmount(amount: amount)) ?? false
+            return paymentSlip?.verifyDepositLimitation(amount: CashAmount(amount: amount)) ?? false
         })
         
         if selectedType.supportType == .OfflinePayment {
