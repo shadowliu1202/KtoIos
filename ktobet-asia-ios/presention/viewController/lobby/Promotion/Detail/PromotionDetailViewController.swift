@@ -142,7 +142,7 @@ class PromotionDetailViewController: UIViewController {
     private func configureBonusCouponItem(_ bonusCoupon: BonusCouponItem) {
         switch bonusCoupon.validPeriod {
         case let duration as ValidPeriod.Duration:
-            startExpireDateDisplayCounter(Date(), duration)
+            startExpireDateDisplayCounter(duration)
         case is ValidPeriod.Always:
             expireDateLabel.isHidden = true
         default:
@@ -177,8 +177,8 @@ class PromotionDetailViewController: UIViewController {
         }
     }
     
-    private func startExpireDateDisplayCounter(_ now: Date, _ period: ValidPeriod.Duration) {
-        let remainTime = period.end.localDateTime.convertToDate() - now
+    private func startExpireDateDisplayCounter(_ period: ValidPeriod.Duration) {
+        let remainTime = TimeInterval(period.countLeftMilliSeconds()) / 1000
         CountDownTimer().start(timeInterval: 1, duration: remainTime) {[weak self] index, countDownSeconds, finish in
             if !finish {
                 let localizedStr = self?.generalPeriodString(now: Date(), period: period)
