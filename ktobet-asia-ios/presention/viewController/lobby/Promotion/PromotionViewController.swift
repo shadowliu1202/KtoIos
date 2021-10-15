@@ -142,24 +142,23 @@ extension PromotionViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataSource[indexPath.section][indexPath.row]
+        var cell: PromotionTableViewCell
         if let bonusCoupon = item as? BonusCouponItem, bonusCoupon.couponState == .usable {
-            return tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self)
+            cell = tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self)
                 .configure(item)
                 .setClickGetCouponHandler({ [weak self] (pressEvent, disposeBag) in
                     pressEvent.bind(onNext: { [weak self] in
                         self?.useBonusCoupon(bonusCoupon.rawValue)
                     }).disposed(by: disposeBag)
                 })
-                .refreshHandler({ [weak self] in
-                    self?.viewModel.fetchData()
-                })
         } else if let promotion = item as? PromotionEventItem {
-            return tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self).configure(item, promotion.isAutoUse()).refreshHandler({ [weak self] in
-                self?.viewModel.fetchData()
-            })
+            cell = tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self).configure(item, promotion.isAutoUse())
         } else {
-            return tableView.dequeueReusableCell(withIdentifier: "UnusableTableViewCell", cellType: UnusableTableViewCell.self).configure(item, false)
+            cell = tableView.dequeueReusableCell(withIdentifier: "UnusableTableViewCell", cellType: UnusableTableViewCell.self).configure(item, false)
         }
+        return cell.refreshHandler({ [weak self] in
+            self?.viewModel.fetchData()
+        })
     }
     
     func useBonusCoupon(_ bonusCoupon: BonusCoupon) {
