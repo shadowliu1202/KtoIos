@@ -6,7 +6,7 @@ import SharedBu
 class SubUseBonusCoupon: UseBonusCoupon {
     override class func confirm(waiting: WaitingConfirm, bonusCoupon: BonusCoupon) -> Completable {
         switch waiting {
-        case let waiting as ConfirmUseCouponFail:
+        case let waiting as ConfirmUseCouponFail where waiting.throwable is BonusCouponIsNotExist:
             return waiting.execute(confirm: showUseCouponFailDialog(throwable: waiting.throwable))
         case is UseCouponSucceeded:
             return Completable.create { (completable) -> Disposable in
@@ -15,6 +15,18 @@ class SubUseBonusCoupon: UseBonusCoupon {
             }
         default:
             return super.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
+        }
+    }
+    
+    class func showUseCouponFailDialog(throwable: ApiException) -> Completable {
+        let title = Localize.string("bonus_use_expired_bonus_title")
+        let message = Localize.string("bonus_use_expired_bonus_content")
+        return Completable.create { (completable) -> Disposable in
+            Alert.show(title, message, confirm: {
+                NavigationManagement.sharedInstance.popViewController()
+                completable(.completed)
+            }, confirmText: Localize.string("common_confirm"), cancel: nil)
+            return Disposables.create {}
         }
     }
 }
@@ -167,7 +179,7 @@ class UseBonusCoupon {
         })
     }
 
-    fileprivate class func showUseCouponFailDialog(throwable: ApiException) -> Completable {
+    private class func showUseCouponFailDialog(throwable: ApiException) -> Completable {
         var title = ""
         var message = ""
         switch throwable {
