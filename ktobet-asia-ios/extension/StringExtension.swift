@@ -17,16 +17,13 @@ extension String {
         return ceil(boundingBox.width)
     }
     
-    private func convertLocalDateTime(format1: String = "", format2: String = "", timeZone: String? = "UTC") -> Date?{
-        return convertDateTime(format: format1, timeZone: timeZone) ?? convertDateTime(format: format2, timeZone: timeZone)
+    private func convertLocalDateTime(format1: String = "", format2: String = "") -> Date?{
+        return convertDateTime(format: format1) ?? convertDateTime(format: format2)
     }
     
     func convertDateTime(format: String = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", timeZone: String? = "UTC") -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
-        if timeZone != nil {
-            dateFormatter.timeZone = TimeZone(identifier: timeZone!)
-        }
         let date = dateFormatter.date(from: self)
         return date
     }

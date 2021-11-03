@@ -702,7 +702,7 @@ struct SlotBetRecordBean: Codable {
     let hasDetails: Bool
     
     func toSlotBetRecord(_ zoneOffset: Kotlinx_datetimeZoneOffset) -> SlotBetRecord {
-        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let betLocalTime = betTime.toLocalDateTime()
         return SlotBetRecord(betId: betId, betTime: betLocalTime, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), hasDetails: false)
     }
 }
@@ -712,7 +712,7 @@ struct SlotUnsettledSummaryBean: Codable {
     let stakes: Double
     
     func toSlotUnsettledSummary() -> SlotUnsettledSummary {
-        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let betLocalTime = betTime.toLocalDateTime()
         return SlotUnsettledSummary(betTime: betLocalTime)
     }
 }
@@ -727,7 +727,7 @@ struct SlotUnsettledRecordBean: Codable {
     let imageId: String
     
     func toSlotUnsettledRecord() -> SlotUnsettledRecord {
-        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let betLocalTime = betTime.toLocalDateTime()
         let thumbnail = SlotThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
         return SlotUnsettledRecord(betId: betId, betTime: betLocalTime, gameId: gameId, gameName: gameName, otherId: otherId, stakes: CashAmount(amount: stakes), slotThumbnail: thumbnail)
     }
@@ -832,7 +832,7 @@ struct NumberGameBetDetailBean: Codable {
     let winLoss: Double
     
     func toNumberGameBetDetail() -> NumberGameBetDetail {
-        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let betLocalTime = betTime.toLocalDateTime()
         return NumberGameBetDetail(displayId: displayId, traceId: betId, gameName: gameName, matchMethod: matchNumber, betContent: selections, betTime: betLocalTime, stakes: CashAmount(amount: stakes), status: RecentlyBet.convertToBetStatus(status: status, winLoss: winLoss), result: resultNumber)
     }
 }
@@ -875,12 +875,12 @@ struct BetSummaryDataResponse: Codable {
     var winLoss: Double
     
     func toUnSettleGameSummary() -> NumberGameSummary.Bet {
-        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let betLocalTime = betTime.toLocalDateTime()
         return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: betLocalTime, betAmount: CashAmount(amount: stakes), winLoss: nil, hasDetail: hasDetails)
     }
     
     func toSettleGameSummary() -> NumberGameSummary.Bet {
-        let settleLocalTime = (String(self.settleTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let settleLocalTime = (String(self.settleTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
         return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: settleLocalTime, betAmount: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), hasDetail: hasDetails)
     }
 }
@@ -1159,7 +1159,7 @@ struct P2PGameBetRecordBean: Codable {
     let winLoss: Double
     
     func toP2PGameBetRecord() -> P2PGameBetRecord {
-        let betLocalTime = (String(self.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
+        let betLocalTime = betTime.toLocalDateTime()
         return P2PGameBetRecord(betTime: betLocalTime, gameGroupId: gameGroupId, gameName: gameName, groupId: groupId, hasDetails: hasDetails, prededuct: CashAmount(amount: prededuct), stakes: CashAmount(amount: stakes), wagerId: wagerId, winLoss: CashAmount(amount: winLoss))
     }
 }
