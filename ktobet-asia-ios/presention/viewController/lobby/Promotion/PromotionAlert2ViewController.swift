@@ -21,7 +21,7 @@ class PromotionAlert2ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        headerLabel.text = String(format: Localize.string("bonus_isturnoverremind"), turnOver.informPlayerDate.toDateFormatString())
+        headerLabel.text = String(format: Localize.string("bonus_isturnoverremind"), turnOver.informPlayerDate.toDateString())
         titleLbl.text = titleString
         nameLabel.text = turnOver.name
         totalAmountLabel.text = turnOver.parameters.turnoverRequest.description()

@@ -19,7 +19,7 @@ class PromotionAlert1ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        headerLabel.text = String(format: Localize.string("bonus_turnover_confirm_title"), turnOver.informPlayerDate.toDateFormatString())
+        headerLabel.text = String(format: Localize.string("bonus_turnover_confirm_title"), turnOver.informPlayerDate.toDateString())
         nameLabel.text = turnOver.name
         bonusLabel.text = turnOver.parameters.amount.description()
         totalAmountLabel.text = turnOver.parameters.turnoverRequest.description()

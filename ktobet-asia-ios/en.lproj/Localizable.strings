@@ -750,6 +750,9 @@
 "product_bet_has_settled" = "";
 "product_game_maintenance" = "";
 "product_p2p_bonus_calculating" = "";
+"product_mid_break" = "";
+"product_will_be_back" = "";
+"product_p2p_turnover_description" = "";
 
 //MARK: - Landing
 "landing_product" = "";

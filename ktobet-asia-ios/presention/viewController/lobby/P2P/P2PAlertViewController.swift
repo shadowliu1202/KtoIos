@@ -20,7 +20,7 @@ class P2PAlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let turnOver = p2pTurnOver as? P2PTurnOver.TurnOverReceipt {
-            headerLabel.text = String(format: Localize.string("bonus_isturnoverremind"), turnOver.component1().informPlayerDate.toDateFormatString())
+            headerLabel.text = String(format: Localize.string("product_p2p_turnover_description"), turnOver.turnOverDetail.informPlayerDate.toDateTimeString())
             nameLabel.text = turnOver.turnOverDetail.name
             bonusLabel.text = turnOver.turnOverDetail.parameters.amount.description()
             totalAmountLabel.text = turnOver.turnOverDetail.parameters.turnoverRequest.description()
