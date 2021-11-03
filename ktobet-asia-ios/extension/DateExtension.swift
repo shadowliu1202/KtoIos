@@ -87,7 +87,7 @@ extension Date {
     }
     
     func toDateStartTimeString(with SeparatorSymbol: String = "/") -> String {
-        let comp = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        let comp = calendar.dateComponents([.year, .month, .day], from: self)
         let year = comp.year
         let month = comp.month
         let dayOfMonth = comp.day

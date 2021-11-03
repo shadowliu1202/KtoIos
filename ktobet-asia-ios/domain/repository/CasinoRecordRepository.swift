@@ -40,8 +40,8 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             guard let data = response.data else { return [] }
             var unsettledBetSummaries: [UnsettledBetSummary] = []
             for s in data {
-                let betTime = String(s.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: nil) ?? Date()
-                let unsettledBetSummary = UnsettledBetSummary(betTime: Kotlinx_datetimeLocalDateTime.init(year: betTime.getYear(), monthNumber: betTime.getMonth(), dayOfMonth: betTime.getDayOfMonth(), hour: betTime.getHour(), minute: betTime.getMinute(), second: betTime.getSecond(), nanosecond: betTime.getNanosecond()))
+                let betTime = s.betTime.toLocalDateTime()
+                let unsettledBetSummary = UnsettledBetSummary(betTime: betTime)
                 unsettledBetSummaries.append(unsettledBetSummary)
             }
             
@@ -54,8 +54,8 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             guard let data = response.data else { return [] }
             var unsettledBetRecords: [UnsettledBetRecord] = []
             for d in data {
-                let betTime = String(d.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: nil) ?? Date()
-                unsettledBetRecords.append(UnsettledBetRecord(betId: d.betId, otherId: d.otherId, gameId: d.gameId, gameName: d.gameName, betTime: Kotlinx_datetimeLocalDateTime.init(year: betTime.getYear(), monthNumber: betTime.getMonth(), dayOfMonth: betTime.getDayOfMonth(), hour: betTime.getHour(), minute: betTime.getMinute(), second: betTime.getSecond(), nanosecond: betTime.getNanosecond()), stakes: CashAmount(amount: d.stakes), prededuct: CashAmount(amount: d.prededuct)))
+                let betTime = d.betTime.toLocalDateTime()
+                unsettledBetRecords.append(UnsettledBetRecord(betId: d.betId, otherId: d.otherId, gameId: d.gameId, gameName: d.gameName, betTime: betTime, stakes: CashAmount(amount: d.stakes), prededuct: CashAmount(amount: d.prededuct)))
             }
             
             return unsettledBetRecords
@@ -96,11 +96,11 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?> {
         return casinoApi.getWagerDetail(wagerId: wagerId).map { (response) -> CasinoDetail? in
             guard let data = response.data else { return nil }
-            let betTime = String(data.betTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss", timeZone: "UTC") ?? Date()
+            let betTime = data.betTime.toLocalDateTime()
             let casinoBetType = CasinoBetType.Companion.init().convert(type: data.gameType)
             let provider = GameProvider.Companion.init().convert(type: data.gameProviderId)
             let gameResult = CasinoGameResult.Companion.init().create(casinoBetType: casinoBetType, provider: provider, gameResult: data.gameResult)
-            return CasinoDetail(betId: data.betId, otherId: data.otherId, betTime: betTime.convertToKotlinx_datetimeLocalDateTime(), selection: data.selection, roundId: data.roundId, gameName: data.gameName, gameResult: gameResult, stakes: CashAmount(amount: data.stakes), prededuct: CashAmount(amount: data.prededuct), winLoss: CashAmount(amount: data.winLoss), status: CasinoWagerStatus.Companion.init().convert(type: data.status))
+            return CasinoDetail(betId: data.betId, otherId: data.otherId, betTime: betTime, selection: data.selection, roundId: data.roundId, gameName: data.gameName, gameResult: gameResult, stakes: CashAmount(amount: data.stakes), prededuct: CashAmount(amount: data.prededuct), winLoss: CashAmount(amount: data.winLoss), status: CasinoWagerStatus.Companion.init().convert(type: data.status))
         }
     }
 }
