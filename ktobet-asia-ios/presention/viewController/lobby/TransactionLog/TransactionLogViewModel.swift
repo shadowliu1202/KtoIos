@@ -38,8 +38,9 @@ class TransactionLogViewModel {
     }
     
     func getCashLogSummary() -> Single<CashLogSummary> {
-        guard let fromDate = from, let toDate = to, let filterType = balanceLogFilterType else { return Single.error(KTOError.EmptyData)}
-        return transactionLogUseCase.getCashLogSummary(begin: fromDate, end: toDate, balanceLogFilterType: filterType)
+        guard let fromDate = from, let toDate = to else { return Single.error(KTOError.EmptyData) }
+        let filterAll = CashLogFilter.all.rawValue
+        return transactionLogUseCase.getCashLogSummary(begin: fromDate, end: toDate, balanceLogFilterType: filterAll)
     }
     
     func getTransactionLogDetail(transactionId: String) -> Single<BalanceLogDetail> {
