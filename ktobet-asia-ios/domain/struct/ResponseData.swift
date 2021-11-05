@@ -333,7 +333,6 @@ struct TurnoverData: Codable {
 }
 
 struct CryptoWithdrawalRequestInfo: Codable {
-    let cryptoCurrency: Int32
     let withdrawalRequest: Double
 }
 
