@@ -295,7 +295,7 @@ class LoginViewController: UIViewController {
     @IBAction func backToLogin(segue: UIStoryboardSegue){
         if let vc = segue.source as? ResetPasswordStep3ViewController {
             if vc.changePasswordSuccess {
-                toastView.show(statusTip: Localize.string("login_resetpassword_success"), img: UIImage(named: "Success"))
+                toastView.show(on: self.view, statusTip: Localize.string("login_resetpassword_success"), img: UIImage(named: "Success"))
             }
         }
     }

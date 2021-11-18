@@ -33,7 +33,7 @@ class ResetPasswordStep2ViewController: UIViewController {
         setResendTimer()
         setStep2Timer()
         setViewModel()
-        viewStatusTip.show(statusTip: Localize.string("common_otp_send_success"), img: UIImage(named: "Success"))
+        viewStatusTip.show(on: self.view, statusTip: Localize.string("common_otp_send_success"), img: UIImage(named: "Success"))
         showPasscodeUncorrectTip(false)
         NotificationCenter.default.addObserver(
             self,
