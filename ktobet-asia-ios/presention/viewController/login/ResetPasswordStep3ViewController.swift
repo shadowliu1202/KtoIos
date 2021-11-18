@@ -68,7 +68,7 @@ class ResetPasswordStep3ViewController: UIViewController {
         case .PlayerChangePasswordFail:
             performSegue(withIdentifier: SignupRegistFailViewController.segueIdentifier, sender: nil)
         default:
-            viewStatusTip.show(statusTip: Localize.string("common_unknownerror"), img: UIImage(named: "Failed"))
+            viewStatusTip.show(on: self.view, statusTip: Localize.string("common_unknownerror"), img: UIImage(named: "Failed"))
         }
     }
 
