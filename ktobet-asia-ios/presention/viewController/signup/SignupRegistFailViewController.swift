@@ -7,20 +7,27 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 class SignupRegistFailViewController : UIViewController{
     static let segueIdentifier = "GoToFail"
+    var barButtonItems: [UIBarButtonItem] = []
+    
     @IBOutlet private weak var naviItem : UINavigationItem!
     @IBOutlet private weak var imgFailIcon : UIImageView!
     @IBOutlet private weak var labTitle : UILabel!
     @IBOutlet private weak var labDesc : UILabel!
     @IBOutlet private weak var btnRestart : UIButton!
     @IBOutlet private weak var scollView : UIScrollView!
+    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
     var failedType: FailedType = .register
+    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .right, barButtonItems: padding, customService)
         localize()
         defaultStyle()
     }
@@ -60,4 +67,12 @@ class SignupRegistFailViewController : UIViewController{
 enum FailedType {
     case register
     case resetPassword
+}
+
+extension SignupRegistFailViewController: BarButtonItemable { }
+
+extension SignupRegistFailViewController: CustomServiceDelegate {
+    func customServiceBarButtons() -> [UIBarButtonItem]? {
+        [padding, customService]
+    }
 }

@@ -19,7 +19,11 @@ class LaunchViewController : UIViewController{
         }
     }
     
-    func nextPage(isLogged : Bool){
+    func nextPage(isLogged: Bool) {
+        CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
+            print("Completed")
+        }).disposed(by: disposeBag)
+        
         if isLogged {
             viewModel.loadPlayerInfo().subscribe { (player) in
                 NavigationManagement.sharedInstance.goTo(productType: player.defaultProduct)
@@ -31,5 +35,7 @@ class LaunchViewController : UIViewController{
         }
     }
     
-    deinit {}
+    deinit {
+        print("deinit")
+    }
 }

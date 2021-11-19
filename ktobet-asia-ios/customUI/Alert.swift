@@ -34,7 +34,7 @@ class Alert{
     }
     
     class func show(_ title: String?, _ message : String?, confirm: (()->Void)?, cancel:(()->Void)?, tintColor: UIColor) {
-        if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController{
+        if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.view.backgroundColor = UIColor.white
             alert.view.layer.cornerRadius = 14
@@ -55,5 +55,15 @@ class Alert{
             }
             topVc.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    class func dismiss(completion: (() -> ())?) {
+        guard let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController,
+              topVc is UIAlertController else {
+                  completion?()
+                  return
+              }
+        
+        topVc.dismiss(animated: true, completion: completion)
     }
 }

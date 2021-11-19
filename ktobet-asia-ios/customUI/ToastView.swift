@@ -65,7 +65,7 @@ class ToastView: UIView {
         if window != nil {
             lastWindow = window
         } else {
-            lastWindow = UIApplication.shared.windows.last
+            lastWindow = UIApplication.shared.windows.first
         }
         guard let win = lastWindow else { return }
         xibView.isHidden = false

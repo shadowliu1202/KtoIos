@@ -1,0 +1,100 @@
+import Foundation
+import RxSwift
+import SharedBu
+
+protocol CustomerServiceUseCase {
+    func currentChatRoom() -> Observable<PortalChatRoom>
+    func searchChatRoom() -> Single<PortalChatRoom>
+    func createChatRoom(csSkillId: SkillId) -> Single<PortalChatRoom>
+    func bindChatRoomWithSurvey(roomId: RoomId, connectId: ConnectId) -> Completable
+    func checkServiceAvailable() -> Single<Bool>
+    func uploadImage(imageData: Data) -> Single<UploadImageDetail>
+    
+    func getBelongedSkillId(platform: Int) -> Single<String>
+}
+
+protocol ChatRoomHistoryUseCase {
+    func deleteChatHistories(chatHistories: [ChatHistory], isExclude: Bool) -> Completable
+    func getChatHistories(roomId: RoomId) -> Single<[ChatMessage]>
+    func getChatHistorySummaries(page: Int) -> Single<(TotalCount, [ChatHistory])>
+    func getChatHistorySummaries(page: Int, pageSize: Int) -> Single<(TotalCount, [ChatHistory])>
+}
+
+class CustomerServiceUseCaseImpl: CustomerServiceUseCase, ChatRoomHistoryUseCase {
+    private var customServiceRepository: CustomServiceRepository
+    private var customerInfraService: CustomerInfraService
+    private var surveyInfraService: SurveyInfraService
+    private var chatRoomSubject = BehaviorSubject<PortalChatRoom>(value: PortalChatRoom.companion.notExist())
+
+    init(_ customServiceRepository: CustomServiceRepository, customerInfraService: CustomerInfraService, surveyInfraService: SurveyInfraService) {
+        self.customServiceRepository = customServiceRepository
+        self.customerInfraService = customerInfraService
+        self.surveyInfraService = surveyInfraService
+    }
+    
+    func currentChatRoom() -> Observable<PortalChatRoom> {
+        chatRoomSubject.asObservable()
+    }
+    
+    func searchChatRoom() -> Single<PortalChatRoom> {
+        customerInfraService.checkInServiceChatRoom()
+            .flatMap { token in
+                if token.isEmpty {
+                    return Single.just(PortalChatRoom.companion.notExist())
+                } else {
+                    return self.customerInfraService.verifyCurrentChatRoomToken().flatMap { isValid in
+                        if isValid {
+                            return self.customerInfraService.isInChat()
+                                .flatMap { inChat in
+                                    if inChat {
+                                        return self.customServiceRepository.connectChatRoom(token)
+                                    } else {
+                                        return Single.just(PortalChatRoom.companion.closed())
+                                    }
+                                }
+                        } else {
+                            return self.customServiceRepository.removeToken().andThen(Single.error(ChatRoomNotExist.init()))
+                        }
+                    }
+                }
+            }
+            .do(onSuccess: { self.chatRoomSubject.onNext($0) })
+    }
+    
+    func createChatRoom(csSkillId: SkillId) -> Single<PortalChatRoom> {
+        customServiceRepository.createCustomerChatRoomToken(skillId: csSkillId)
+            .flatMap(customServiceRepository.connectChatRoom)
+            .do(onSuccess: { self.chatRoomSubject.onNext($0) })
+    }
+    
+    func bindChatRoomWithSurvey(roomId: RoomId, connectId: ConnectId) -> Completable {
+        surveyInfraService.connectSurveyWithChatRoom(surveyConnectionId: connectId, chatRoomId: roomId)
+    }
+    
+    func checkServiceAvailable() -> Single<Bool> {
+        customerInfraService.checkCustomerServiceStatus()
+    }
+    
+    func uploadImage(imageData: Data) -> Single<UploadImageDetail> {
+        customerInfraService.uploadImage(imageData: imageData)
+    }
+    
+    func getBelongedSkillId(platform: Int) -> Single<String> {
+        customServiceRepository.getBelongedSkillId(platform: 2)
+    }
+
+    func deleteChatHistories(chatHistories: [ChatHistory], isExclude: Bool) -> Completable {
+        return customServiceRepository.deleteSelectedHistories(chatHistory: chatHistories, isExclude: isExclude)
+    }
+    
+    func getChatHistories(roomId: RoomId) -> Single<[ChatMessage]> {
+        return customServiceRepository.getChatHistory(roomId: roomId)
+    }
+    
+    func getChatHistorySummaries(page: Int) -> Single<(TotalCount, [ChatHistory])> {
+        return getChatHistorySummaries(page: page, pageSize: 20)
+    }
+    func getChatHistorySummaries(page: Int, pageSize: Int) -> Single<(TotalCount, [ChatHistory])> {
+        return customerInfraService.queryChatHistory(page: page, pageSize: pageSize)
+    }
+}

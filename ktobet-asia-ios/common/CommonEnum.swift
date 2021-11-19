@@ -60,3 +60,7 @@ public enum RegularFormat: String {
 struct Setting {
     static let resendOtpCountDownSecond: Double = 240
 }
+
+enum ChatTarget: String {
+    case Message, Dispatched, Queued, Join, Close, DuplicateConnect
+}

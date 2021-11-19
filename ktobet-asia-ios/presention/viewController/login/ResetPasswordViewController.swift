@@ -4,6 +4,7 @@ import SharedBu
 
 class ResetPasswordViewController: UIViewController {
     static let segueIdentifier = "goResetPasswordSegue"
+    var barButtonItems: [UIBarButtonItem] = []
     @IBOutlet private weak var naviItem : UINavigationItem!
     @IBOutlet private weak var btnBack: UIBarButtonItem!
     @IBOutlet private weak var inputMobile : InputText!
@@ -18,6 +19,8 @@ class ResetPasswordViewController: UIViewController {
     @IBOutlet private weak var viewInputView : UIView!
     @IBOutlet private weak var constraintResetErrorView: NSLayoutConstraint!
     @IBOutlet private weak var constraintResetErrorViewPadding: NSLayoutConstraint!
+    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
     private var viewModel = DI.resolve(ResetPasswordViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -35,9 +38,14 @@ class ResetPasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .right, barButtonItems: padding, customService)
         initialize()
         setViewModel()
         checkLimitAndLock()
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     private func initialize() {
@@ -69,7 +77,8 @@ class ResetPasswordViewController: UIViewController {
         (self.inputEmail.text <-> self.viewModel.relayEmail).disposed(by: self.disposeBag)
         
         let event = viewModel.event()
-        event.otpValid.subscribe(onNext: { status in
+        event.otpValid.subscribe(onNext: { [weak self] status in
+            guard let `self` = self else { return }
             if status == .errSMSOtpInactive || status == .errEmailOtpInactive {
                 self.viewOtpServiceDown.isHidden = false
                 self.viewInputView.isHidden = true
@@ -85,29 +94,29 @@ class ResetPasswordViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         event.emailValid
-            .subscribe(onNext: {status in
+            .subscribe(onNext: { [weak self] status in
                 var message = ""
                 if status == .errEmailFormat {
                     message = Localize.string("common_error_email_format")
                 } else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
-                self.labResetTypeTip.text = message
-                self.inputAccount.showUnderline(message.count > 0)
-                self.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
+                self?.labResetTypeTip.text = message
+                self?.inputAccount.showUnderline(message.count > 0)
+                self?.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
             }).disposed(by: disposeBag)
         
         event.mobileValid
-            .subscribe(onNext: { status in
+            .subscribe(onNext: { [weak self] status in
                 var message = ""
                 if status == .errPhoneFormat {
                     message = Localize.string("common_error_mobile_format")
                 } else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
-                self.labResetTypeTip.text = message
-                self.inputAccount.showUnderline(message.count > 0)
-                self.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
+                self?.labResetTypeTip.text = message
+                self?.inputAccount.showUnderline(message.count > 0)
+                self?.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
             }).disposed(by: disposeBag)
         
         event.accountValid
@@ -116,7 +125,7 @@ class ResetPasswordViewController: UIViewController {
         
         event.typeChange
             .subscribe(onNext: {[weak self] type in
-                guard let self = self else { return }
+                guard let `self` = self else { return }
                 self.constraintResetErrorView.constant = 0
                 self.constraintResetErrorViewPadding.constant = 0
                 switch type {
@@ -166,16 +175,16 @@ class ResetPasswordViewController: UIViewController {
     private func setCountDownTimer() {
         self.btnSubmit.isValid = false
         self.viewModel.countDownEndTime = self.viewModel.countDownEndTime == nil ? Date().adding(value: ResetPasswordViewModel.retryCountDownTime, byAdding: .second) : self.viewModel.countDownEndTime
-        timerResend.start(timeInterval: 1, endTime: self.viewModel.countDownEndTime!) { (index, countDownSecond, finish) in
+        timerResend.start(timeInterval: 1, endTime: self.viewModel.countDownEndTime!) { [weak self] (index, countDownSecond, finish) in
             if countDownSecond != 0 {
-                self.btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code") + "(\(countDownSecond))", for: .normal)
+                self?.btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code") + "(\(countDownSecond))", for: .normal)
             } else {
-                self.btnSubmit.isValid = true
-                self.viewModel.countDownEndTime = nil
-                self.btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code"), for: .normal)
+                self?.btnSubmit.isValid = true
+                self?.viewModel.countDownEndTime = nil
+                self?.btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code"), for: .normal)
             }
             
-            self.viewModel.remainTime = countDownSecond
+            self?.viewModel.remainTime = countDownSecond
         }
     }
     
@@ -204,12 +213,20 @@ extension ResetPasswordViewController {
     }
     
     @IBAction func btnResetPasswordPressed(_ sender : Any) {
-        viewModel.requestPasswordReset().subscribe {
-            self.viewModel.retryCount = 0
-            self.performSegue(withIdentifier: "toStep2Segue", sender: nil)
-        } onError: { (error) in
-            self.viewModel.retryCount += 1
-            self.handleError(error)
+        viewModel.requestPasswordReset().subscribe { [weak self] in
+            self?.viewModel.retryCount = 0
+            self?.performSegue(withIdentifier: "toStep2Segue", sender: nil)
+        } onError: { [weak self] (error) in
+            self?.viewModel.retryCount += 1
+            self?.handleError(error)
         }.disposed(by: disposeBag)
+    }
+}
+
+extension ResetPasswordViewController: BarButtonItemable {}
+
+extension ResetPasswordViewController: CustomServiceDelegate {
+    func customServiceBarButtons() -> [UIBarButtonItem]? {
+        [padding, customService]
     }
 }

@@ -1,0 +1,91 @@
+import UIKit
+import RxSwift
+import RxCocoa
+import SharedBu
+
+class ExitSurveyViewController: UIViewController {
+    var barButtonItems: [UIBarButtonItem] = []
+    var viewModel: SurveyViewModel!
+    var roomId: RoomId?
+    var surveyInfo: SurveyInformation? {
+        didSet {
+            self.survey = surveyInfo?.survey
+        }
+    }
+    
+    @IBOutlet weak var containView: UIView!
+    @IBOutlet weak var completeBtn: UIButton!
+    
+    private lazy var surveyVC: SurveyViewController = {
+        var viewController = self.storyboard?.instantiateViewController(withIdentifier: "SurveyViewController") as! SurveyViewController
+        viewController.viewModel = self.viewModel
+        return viewController
+    }()
+    private var survey: Survey?
+    private var disposeBag = DisposeBag()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initUI()
+        dataBinding()
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
+    
+    private func initUI() {
+        self.addChildViewController(self.surveyVC, inner: self.containView)
+    }
+    
+    private func dataBinding() {
+        viewModel.getExitSurvey().subscribe(onError: { [weak self] in
+            self?.handleErrors($0)
+        }).disposed(by: disposeBag)
+        
+        viewModel.cachedSurvey.compactMap({$0}).subscribe(onNext: { [weak self] in
+            guard let `self` = self else { return }
+            self.surveyInfo = $0
+            self.surveyVC.surveyInfo = $0
+            self.surveyVC.dataSource = $0.survey?.surveyQuestions ?? []
+        }).disposed(by: disposeBag)
+        
+        viewModel.isAnswersValid.bind(to: completeBtn.rx.isValid).disposed(by: disposeBag)
+        
+        completeBtn.rx.touchUpInside
+            .do(onNext: { [weak self] in
+                self?.completeBtn.isEnabled = false
+            }).flatMap({ [unowned self] _ -> Single<ConnectId> in
+                guard let roomId = self.roomId, let survey = self.survey else {
+                    return Single<ConnectId>.error(KTOError.EmptyData)
+                }
+                return self.viewModel.answerExitSurvey(roomId: roomId, survey: survey)
+            }).catchError({[weak self] in
+                self?.handleErrors($0)
+                self?.completeBtn.isEnabled = true
+                return Observable.error($0)
+            }).retry()
+            .subscribe(onNext: { [unowned self] (connectId) in
+                self.popThenToast()
+            }).disposed(by: disposeBag)
+    }
+    
+    private func popThenToast() {
+        CustomService.close() {
+            if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
+                let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: topVc.view.frame.width, height: 48))
+                toastView.show(on: topVc.view, statusTip: Localize.string("customerservice_offline_survey_confirm_title"), img: UIImage(named: "Success"))
+            }
+        }
+    }
+}
+
+extension ExitSurveyViewController: BarButtonItemable {
+    func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
+        CustomService.close()
+    }
+    
+    func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
+        CustomService.close()
+    }
+}

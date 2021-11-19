@@ -17,10 +17,12 @@ protocol PlayerDataUseCase {
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
     var playerRepository : PlayerRepository!
     var localRepository: LocalStorageRepository!
+    var settingStore: SettingStore!
     
-    init(_ playerRepository : PlayerRepository, localRepository: LocalStorageRepository) {
+    init(_ playerRepository : PlayerRepository, localRepository: LocalStorageRepository, settingStore: SettingStore) {
         self.playerRepository = playerRepository
         self.localRepository = localRepository
+        self.settingStore = settingStore
     }
     
     func getBalance() -> Single<CashAmount> {

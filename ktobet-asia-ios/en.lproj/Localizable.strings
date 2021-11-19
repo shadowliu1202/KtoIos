@@ -370,6 +370,11 @@
 "common_close_setting_hint" = "";
 "common_p2p" = "";
 "common_arcade" = "";
+"common_affiliate" = "";
+"common_email_spam_check" = "";
+"common_day" = "";
+"common_crypto" = "";
+"common_delete_all" = "";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "";

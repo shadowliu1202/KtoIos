@@ -1,5 +1,5 @@
 import UIKit
-
+import RxSwift
 
 extension UIBarButtonItem {
     static func kto(_ ktoStyle: KTOBarButtonItemStyle, style: UIBarButtonItem.Style = .plain, target: Any? = nil, action: Selector? = nil) -> UIBarButtonItem {
@@ -16,6 +16,16 @@ extension UIBarButtonItem {
             return TextBarButtonItem(title: text)
         case .history:
             return HistoryBarButtonItem()
+        case .close:
+            return CloseBarButtonItem()
+        case .customIamge(let name):
+            return CustomImageBarButtonItem(imgName: name)
+        case .cs(let delegate, let disposeBag):
+            return CustomerServiceButtonItem(delegate, disposeBag)
+        case .register:
+            return RegisterButtonItem()
+        case .login:
+            return LoginButtonItem()
         }
     }
     
@@ -24,6 +34,16 @@ extension UIBarButtonItem {
         self.target = sleeve
         self.action = #selector(ClosureSleeve.invoke)
         objc_setAssociatedObject(self, String(format: "[%d]", arc4random()), sleeve, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+    }
+    
+    func isEnable(_ isEnable: Bool) -> UIBarButtonItem {
+        self.isEnabled = isEnable
+        return self
+    }
+    @discardableResult
+    func senderId(_ id: Int) -> UIBarButtonItem {
+        self.tag = id
+        return self
     }
 }
 
@@ -34,6 +54,11 @@ enum KTOBarButtonItemStyle {
     case filter
     case text(text: String)
     case history
+    case close
+    case customIamge(named: String)
+    case cs(delegate: CustomServiceDelegate, disposeBag: DisposeBag)
+    case register
+    case login
     
     var image: UIImage? {
         switch self {
@@ -41,8 +66,10 @@ enum KTOBarButtonItemStyle {
         case .favorite:         return UIImage(named: "Favorite")
         case .search:           return UIImage(named: "Search")
         case .filter:           return UIImage(named: "iconFilter24")
-        case .text:             return nil
+        case .text, .cs, .register, .login: return nil
         case .history:          return UIImage(named: "iconNavPromotionHistory24")
+        case .close:            return UIImage(named: "Close")
+        case .customIamge( let name):   return UIImage(named: name)
         }
     }
 }

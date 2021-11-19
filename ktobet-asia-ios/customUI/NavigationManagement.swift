@@ -25,34 +25,30 @@ class NavigationManagement {
         SideMenuManager.default.addPanGestureToPresent(toView: vc.navigationController!.navigationBar)
         SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: vc.view, forMenu: .left)
         let menuButton = UIBarButtonItem(image: UIImage(named: "Menu")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(NavigationManagement.showMenu))
-        addLeftBarButtonItems(leftBarButtonItems: [menuButton])
+        add(leftBarButtonItems: [menuButton])
         vc.navigationItem.title = title
     }
     
-    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType) {
+    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, title: String? = nil) {
         viewController = vc
-        addLeftBarButtonItems(leftBarButtonItems: [getBarButtonItem(barItemType: barItemType)])
-    }
-    
-    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, title: String?) {
-        addBarButtonItem(vc: vc, barItemType: barItemType)
+        add(leftBarButtonItems: [getBarButtonItem(barItemType: barItemType)])
         viewController.navigationItem.title = title
     }
     
     func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, leftItemTitle: String) {
         self.viewController = vc
         let titleItem = createTitleItem(title: leftItemTitle)
-        addLeftBarButtonItems(leftBarButtonItems: [getBarButtonItem(barItemType: barItemType), titleItem])
+        add(leftBarButtonItems: [getBarButtonItem(barItemType: barItemType), titleItem])
     }
     
-    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String) {
+    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) {
         self.viewController = vc
-        addLeftBarButtonItems(leftBarButtonItems: [getBarButtonItem(barItemType: barItemType, image: image)])
+        add(leftBarButtonItems: [getBarButtonItem(barItemType: barItemType, action: action, image: image)])
     }
-
-    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, action: Selector?) {
+    
+    func addRightBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) {
         self.viewController = vc
-        addLeftBarButtonItems(leftBarButtonItems: [getBarButtonItem(barItemType: barItemType, action: action)])
+        add(rightBarButtonItems: [getBarButtonItem(barItemType: barItemType, action: action, image: image)])
     }
     
     @objc func back() {
@@ -159,6 +155,8 @@ class NavigationManagement {
             button.image = (UIImage(named: image ?? "") ?? UIImage(named: "Close"))?.withRenderingMode(.alwaysOriginal)
             button.action = action ?? #selector(close)
             return button
+        case .none:
+            return button
         }
     }
     
@@ -169,11 +167,19 @@ class NavigationManagement {
         return titleItem
     }
     
-    private func addLeftBarButtonItems(leftBarButtonItems: [UIBarButtonItem]) {
+    private func add(leftBarButtonItems: [UIBarButtonItem]) {
         let negativeSeperator = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         negativeSeperator.width = 8
         let items = [negativeSeperator] + leftBarButtonItems
         viewController.navigationItem.leftBarButtonItems = items
+        viewController.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
+    }
+    
+    private func add(rightBarButtonItems: [UIBarButtonItem]) {
+        let negativeSeperator = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        negativeSeperator.width = 8
+        let items = (viewController.navigationItem.rightBarButtonItems ?? []) + [negativeSeperator] + rightBarButtonItems
+        viewController.navigationItem.rightBarButtonItems = items
         viewController.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
     }
     
@@ -190,4 +196,5 @@ class NavigationManagement {
 enum BarItemType {
     case back
     case close
+    case none
 }

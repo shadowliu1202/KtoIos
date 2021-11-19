@@ -4,7 +4,8 @@ import RxSwift
 import SharedBu
 
 class LoginViewController: UIViewController {
-    @IBOutlet private weak var btnSignup : UIBarButtonItem!
+    var barButtonItems: [UIBarButtonItem] = []
+    
     @IBOutlet private weak var labTitle : UILabel!
     @IBOutlet private weak var viewLoginErr : UIView!
     @IBOutlet private weak var viewLoginErrBg : UIView!
@@ -25,6 +26,11 @@ class LoginViewController: UIViewController {
     @IBOutlet private weak var constraintLoginErrorHeight : NSLayoutConstraint!
     @IBOutlet private weak var constraintCaptchaHeight : NSLayoutConstraint!
     @IBOutlet private weak var toastView: ToastView!
+    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private lazy var register = UIBarButtonItem.kto(.register)
+    private var spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
+    private var _customService: CustomerServiceButtonItem?
+    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
     private var captcha : UIImage?
     private let segueSignup = "GoToSignup"
@@ -37,6 +43,7 @@ class LoginViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .right, barButtonItems: padding, register, spacing, customService)
         localize()
         defaulStyle()
         setViewModel()
@@ -54,7 +61,9 @@ class LoginViewController: UIViewController {
         removeNotificationCenter()
     }
     
-    deinit {}
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
     
     // MARK: NOTIFICATION
     private func addNotificationCenter(){
@@ -75,7 +84,6 @@ class LoginViewController: UIViewController {
     // MARK: METHOD
     func localize(){
         labLoginErr.text = Localize.string("login_invalid_username_password_captcha")
-        btnSignup.title = Localize.string("common_register")
         labTitle.text = Localize.string("common_login")
         textAccount.setTitle(Localize.string("login_account_identity"))
         textPassword.setTitle(Localize.string("common_password"))
@@ -248,7 +256,7 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: BUTTON ACTION
-    @IBAction func btnSignupPressed(_ sender : UIButton){
+    func btnSignupPressed(){
         serviceStatusViewModel.getOtpService().subscribe {[weak self] (otpStatus) in
             if !otpStatus.isMailActive && !otpStatus.isSmsActive {
                 let title = Localize.string("common_error")
@@ -299,6 +307,7 @@ class LoginViewController: UIViewController {
             }
         }
     }
+    
 }
 
 extension LoginViewController{
@@ -313,4 +322,21 @@ extension LoginViewController{
         }
     }
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {}
+}
+
+extension LoginViewController: BarButtonItemable {
+    func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
+        switch sender.tag {
+        case registerBarBtnId:
+            btnSignupPressed()
+        default:
+            break
+        }
+    }
+}
+
+extension LoginViewController: CustomServiceDelegate {
+    func customServiceBarButtons() -> [UIBarButtonItem]? {
+        [spacing, customService]
+    }
 }

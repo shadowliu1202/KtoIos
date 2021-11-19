@@ -25,6 +25,10 @@ class SignupEmailViewController: UIViewController {
     @IBOutlet private weak var imgSendOtpIcon : UIImageView!
     @IBOutlet private weak var viewSendOtpTip : UIView!
     
+    var barButtonItems: [UIBarButtonItem] = []
+    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
+    private var disposeBag = DisposeBag()
     private let segueUserInfo = "BackToUserInfo"
     private let segueDefault = "GoToDefault"
     private var viewModel = DI.resolve(SignupEmailViewModel.self)!
@@ -40,6 +44,7 @@ class SignupEmailViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .right, barButtonItems: padding, customService)
         addNotificationCenter()
         localize()
         defaultStyle()
@@ -180,8 +185,8 @@ class SignupEmailViewController: UIViewController {
     func resendTimer(launch : Bool){
         if launch{
             timerResend
-                .start(timeInterval: 1, duration: Setting.resendOtpCountDownSecond, block: {(index, second, finish) in
-                    self.setResendButton(second)
+                .start(timeInterval: 1, duration: Setting.resendOtpCountDownSecond, block: { [weak self] (index, second, finish) in
+                    self?.setResendButton(second)
                 })
         } else {
             timerResend.stop()
@@ -191,8 +196,8 @@ class SignupEmailViewController: UIViewController {
     func verifyTimer(launch : Bool){
         if launch{
             timerVerify
-                .repeate(timeInterval: 5, block: { index  in
-                    self.checkRegistration(manual: false)
+                .repeate(timeInterval: 5, block: { [weak self] index in
+                    self?.checkRegistration(manual: false)
                 })
         } else {
             timerVerify.stop()
@@ -205,21 +210,21 @@ class SignupEmailViewController: UIViewController {
             checking = true
             viewModel
                 .checkRegistration(account, password)
-                .subscribe(onSuccess: { valid in
+                .subscribe(onSuccess: { [weak self] valid in
                     switch valid{
                     case .valid:
                         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
                     default:
-                        self.checking = false
+                        self?.checking = false
                         if manual {
                             let title = Localize.string("common_tip_title_warm")
                             let message = Localize.string("register_step3_verification_pending")
                             Alert.show(title, message, confirm: nil, cancel: nil)
                         }
                     }
-                }, onError: { error in
-                    self.checking = false
-                    if manual { self.handleError(error) }
+                }, onError: { [weak self] error in
+                    self?.checking = false
+                    if manual { self?.handleError(error) }
                 }).disposed(by: self.disposebag)
         }
     }
@@ -231,14 +236,14 @@ class SignupEmailViewController: UIViewController {
             .addObserver(forName: UIApplication.willEnterForegroundNotification,
                          object: nil,
                          queue: nil,
-                         using: {notification in
+                         using: { [weak self] notification in
                             #if QAT
-                            if let btn = self.btnQatCancelAutoVerify,
+                            if let btn = self?.btnQatCancelAutoVerify,
                                btn.isSelected == false  {
-                                self.checkRegistration(manual: false)
+                                self?.checkRegistration(manual: false)
                             }
                             #else
-                                self.checkRegistration(manual: false)
+                                self?.checkRegistration(manual: false)
                             #endif
                             
                          })
@@ -257,12 +262,12 @@ class SignupEmailViewController: UIViewController {
     @IBAction func btnResendPressed(_ sender: UIButton){
         btnResend.isEnabled = false
         self.viewModel.resendOtp()
-            .subscribe(onCompleted: {
-                self.resendTimer(launch: true)
-                self.showTipOtpSend()
-            }, onError: { error in
-                self.btnResend.isEnabled = true
-                self.handleError(error)
+            .subscribe(onCompleted: { [weak self] in
+                self?.resendTimer(launch: true)
+                self?.showTipOtpSend()
+            }, onError: { [weak self] error in
+                self?.btnResend.isEnabled = true
+                self?.handleError(error)
             }).disposed(by: self.disposebag)
     }
     
@@ -290,4 +295,12 @@ class SignupEmailViewController: UIViewController {
 extension SignupEmailViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {}
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {}
+}
+
+extension SignupEmailViewController: BarButtonItemable { }
+
+extension SignupEmailViewController: CustomServiceDelegate {
+    func customServiceBarButtons() -> [UIBarButtonItem]? {
+        [padding, customService]
+    }
 }

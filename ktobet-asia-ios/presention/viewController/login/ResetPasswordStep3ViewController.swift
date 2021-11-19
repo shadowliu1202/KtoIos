@@ -4,6 +4,8 @@ import RxSwift
 
 class ResetPasswordStep3ViewController: UIViewController {
     static let segueIdentifier = "toStep3Segue"
+    var barButtonItems: [UIBarButtonItem] = []
+    
     @IBOutlet private weak var naviItem : UINavigationItem!
     @IBOutlet private weak var inputPassword : InputPassword!
     @IBOutlet private weak var inputCsPassword : InputConfirmPassword!
@@ -14,6 +16,8 @@ class ResetPasswordStep3ViewController: UIViewController {
     @IBOutlet private weak var labPasswordTip : UILabel!
     @IBOutlet private weak var labPasswordDesc : UILabel!
     @IBOutlet private weak var viewStatusTip : ToastView!
+    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
     private var viewModel = DI.resolve(ResetPasswordViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -22,6 +26,7 @@ class ResetPasswordStep3ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .right, barButtonItems: padding, customService)
         initialize()
         setViewModel()
     }
@@ -44,11 +49,11 @@ class ResetPasswordStep3ViewController: UIViewController {
         (self.inputCsPassword.text <-> self.viewModel.relayConfirmPassword).disposed(by: self.disposeBag)
         let event = viewModel.event()
         event.passwordValid
-            .subscribe(onNext: { status in
-                self.btnSubmit.isValid = false
+            .subscribe(onNext: { [weak self] status in
+                self?.btnSubmit.isValid = false
                 var message = ""
                 if status == .valid {
-                    self.btnSubmit.isValid = true
+                    self?.btnSubmit.isValid = true
                 } else if status == .errPasswordFormat {
                     message = Localize.string("common_field_format_incorrect")
                 } else if status == .errPasswordNotMatch{
@@ -56,9 +61,9 @@ class ResetPasswordStep3ViewController: UIViewController {
                 } else if status == .empty {
                     message = Localize.string("common_password_not_filled")
                 }
-                self.labPasswordTip.text = message
-                self.inputCsPassword.showUnderline(message.count > 0)
-                self.inputCsPassword.setCorner(topCorner: false, bottomCorner: message.count == 0)
+                self?.labPasswordTip.text = message
+                self?.inputCsPassword.showUnderline(message.count > 0)
+                self?.inputCsPassword.setCorner(topCorner: false, bottomCorner: message.count == 0)
             }).disposed(by: disposeBag)
     }
     
@@ -81,12 +86,12 @@ class ResetPasswordStep3ViewController: UIViewController {
     }
     
     @IBAction func btnSubmitPressed(_ sender : Any){
-        viewModel.doResetPassword().subscribe {
-            self.changePasswordSuccess = true
-            self.performSegue(withIdentifier: "unwindToLogin", sender: nil)
-        } onError: { (error) in
-            self.changePasswordSuccess = false
-            self.handleError(error)
+        viewModel.doResetPassword().subscribe { [weak self] in
+            self?.changePasswordSuccess = true
+            self?.performSegue(withIdentifier: "unwindToLogin", sender: nil)
+        } onError: { [weak self] (error) in
+            self?.changePasswordSuccess = false
+            self?.handleError(error)
         }.disposed(by: disposeBag)
     }
     
@@ -96,5 +101,13 @@ class ResetPasswordStep3ViewController: UIViewController {
                 dest.failedType = .resetPassword
             }
         }
+    }
+}
+
+extension ResetPasswordStep3ViewController: BarButtonItemable { }
+
+extension ResetPasswordStep3ViewController: CustomServiceDelegate {
+    func customServiceBarButtons() -> [UIBarButtonItem]? {
+        [padding, customService]
     }
 }

@@ -303,9 +303,6 @@
                             <barButtonItem width="10" id="JFA-3z-lOr"/>
                             <barButtonItem title="注册" id="EDb-fa-zbK">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="btnSignupPressed:" destination="PxA-hP-tdG" id="O24-G1-old"/>
-                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -314,7 +311,6 @@
                         <outlet property="btnRememberMe" destination="fNa-ww-DHg" id="eGH-lL-1hx"/>
                         <outlet property="btnResendCaptcha" destination="d5y-Zu-isQ" id="aWX-n7-7QE"/>
                         <outlet property="btnResetPassword" destination="zue-5t-fa7" id="dhs-F6-Qt0"/>
-                        <outlet property="btnSignup" destination="EDb-fa-zbK" id="zOf-PM-0fp"/>
                         <outlet property="constraintCaptchaHeight" destination="DQl-4c-k4p" id="quq-ku-qDz"/>
                         <outlet property="constraintLoginErrorHeight" destination="hPp-Os-XOK" id="vBz-f7-yIZ"/>
                         <outlet property="imgCaptcha" destination="IE6-ki-vPe" id="4yJ-TQ-28a"/>

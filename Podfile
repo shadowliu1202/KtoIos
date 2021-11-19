@@ -9,6 +9,7 @@ def default_pods
   pod 'Alamofire', '5.4.1'
   pod 'RxSwift', '5.1.1'
   pod 'RxCocoa', '5.1.1'
+  pod 'RxSwiftExt', '~> 5'
   pod 'RxDataSources', '4.0.1'
   pod 'Swinject', '2.7.1'
   pod 'SwiftyJSON', '5.0.0'
@@ -21,6 +22,7 @@ def default_pods
   pod 'SDWebImage', '5.10.4'
   pod "AlignedCollectionViewFlowLayout", '1.1.2'
   pod 'TYCyclePagerView', '1.2.0'
+  pod 'lottie-ios', '3.2.3'
   use_frameworks!
 end
 

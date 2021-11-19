@@ -85,14 +85,14 @@ class DIContainer {
     }
     
     func registRepo(){
-        
         let ctner = container
         let httpclient = httpClient
         
         ctner.register(PlayerRepository.self) { (resolver) in
             let player = ctner.resolve(PlayerApi.self)!
             let portal = ctner.resolve(PortalApi.self)!
-            return PlayerRepositoryImpl(player, portal)
+            let settingStore = ctner.resolve(SettingStore.self)!
+            return PlayerRepositoryImpl(player, portal, settingStore)
         }
         ctner.register(GameInfoRepository.self) { (resolver) in
             let gameApi = ctner.resolve(GameApi.self)!
@@ -100,7 +100,7 @@ class DIContainer {
         }
         ctner.register(CustomServiceRepository.self) { (resolver) in
             let csApi = ctner.resolve(CustomServiceApi.self)!
-            return CustomServiceRepositoryImpl(csApi, httpclient)
+            return CustomServiceRepositoryImpl(csApi)
         }
         ctner.register(IAuthRepository.self) { resolver in
             let api = ctner.resolve(AuthenticationApi.self)!
@@ -119,6 +119,9 @@ class DIContainer {
         }
         ctner.register(LocalStorageRepository.self) { resolver in
             return LocalStorageRepository()
+        }
+        ctner.register(SettingStore.self) { resolver in
+            return SettingStore()
         }
         ctner.register(DepositRepository.self) { resolver in
             let bankApi = ctner.resolve(BankApi.self)!
@@ -188,10 +191,17 @@ class DIContainer {
             let promotionApi = ctner.resolve(TransactionLogApi.self)!
             return TransactionLogRepositoryImpl(promotionApi)
         }
+        ctner.register(SurveyInfraService.self) { (resolver) in
+            let csApi = ctner.resolve(CustomServiceApi.self)!
+            return CustomServiceRepositoryImpl(csApi)
+        }
+        ctner.register(CustomerInfraService.self) { (resolver) in
+            let csApi = ctner.resolve(CustomServiceApi.self)!
+            return CustomServiceRepositoryImpl(csApi)
+        }
     }
     
     func registUsecase(){
-        
         let ctner = container
         
         ctner.register(RegisterUseCase.self) { (resolver)  in
@@ -207,7 +217,8 @@ class DIContainer {
             let repoAuth = ctner.resolve(IAuthRepository.self)!
             let repoPlayer = ctner.resolve(PlayerRepository.self)!
             let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
-            return AuthenticationUseCaseImpl(repoAuth, repoPlayer, repoLocalStorage)
+            let settingStore = ctner.resolve(SettingStore.self)!
+            return AuthenticationUseCaseImpl(repoAuth, repoPlayer, repoLocalStorage, settingStore)
         }
         ctner.register(GetSystemStatusUseCase.self) { (resolver)  in
             let repoSystem = ctner.resolve(SystemRepository.self)!
@@ -225,7 +236,8 @@ class DIContainer {
         ctner.register(PlayerDataUseCase.self) { (resolver)  in
             let repoPlayer = ctner.resolve(PlayerRepository.self)!
             let repoLocal = ctner.resolve(LocalStorageRepository.self)!
-            return PlayerDataUseCaseImpl(repoPlayer, localRepository: repoLocal)
+            let settingStore = ctner.resolve(SettingStore.self)!
+            return PlayerDataUseCaseImpl(repoPlayer, localRepository: repoLocal, settingStore: settingStore)
         }
         ctner.register(DepositUseCase.self) { (resolver)  in
             let repoDeposit = ctner.resolve(DepositRepository.self)!
@@ -300,22 +312,32 @@ class DIContainer {
             let player = ctner.resolve(PlayerRepository.self)!
             return TransactionLogUseCaseImpl(repo, player)
         }
+        ctner.register(CustomerServiceUseCase.self) { (resolver) in
+            let repo = ctner.resolve(CustomServiceRepository.self)!
+            let infra = ctner.resolve(CustomerInfraService.self)!
+            let surver = ctner.resolve(SurveyInfraService.self)!
+            return CustomerServiceUseCaseImpl(repo, customerInfraService: infra, surveyInfraService: surver)
+        }
+        ctner.register(CustomerServiceSurveyUseCase.self) { (resolver) in
+            let repo = ctner.resolve(CustomServiceRepository.self)!
+            let surver = ctner.resolve(SurveyInfraService.self)!
+            return CustomerServiceSurveyUseCaseImpl(repo, surveyInfraService: surver)
+        }
+        ctner.register(ChatRoomHistoryUseCase.self) { (resolver) in
+            let repo = ctner.resolve(CustomServiceRepository.self)!
+            let infra = ctner.resolve(CustomerInfraService.self)!
+            let surver = ctner.resolve(SurveyInfraService.self)!
+            return CustomerServiceUseCaseImpl(repo, customerInfraService: infra, surveyInfraService: surver)
+        }
     }
     
     func registViewModel(){
-        
         let ctner = container
-        let httpclient = httpClient
         
         ctner.register(LaunchViewModel.self) { (resolver)  in
             let usecaseAuth = ctner.resolve(AuthenticationUseCase.self)!
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             return LaunchViewModel(usecaseAuth, playerUseCase: playerUseCase)
-        }
-        ctner.register(TestViewModel.self) { (resolver) in
-            let gameRepo = ctner.resolve(GameInfoRepository.self)!
-            let csRepo = ctner.resolve(CustomServiceRepository.self)!
-            return TestViewModel(gameRepo, csRepo, httpclient)
         }
         ctner.register(LoginViewModel.self) { resolver  in
             let usecaseAuthentication = ctner.resolve(AuthenticationUseCase.self)!
@@ -361,7 +383,6 @@ class DIContainer {
         }
         ctner.register(DepositViewModel.self) { (resolver) in
             let depositUseCase = ctner.resolve(DepositUseCase.self)!
-            let authUseCase = ctner.resolve(AuthenticationUseCase.self)!
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             let bankUseCase = ctner.resolve(BankUseCase.self)!
             return DepositViewModel(depositUseCase: depositUseCase, playerUseCase: playerUseCase, bankUseCase: bankUseCase)
@@ -437,6 +458,15 @@ class DIContainer {
         }
         ctner.register(TransactionLogViewModel.self) { (resolver) in
             return TransactionLogViewModel(transactionLogUseCase: ctner.resolve(TransactionLogUseCase.self)!)
+        }
+        ctner.register(CustomerServiceViewModel.self) { (resolver) in
+            return CustomerServiceViewModel(customerServiceUseCase: ctner.resolve(CustomerServiceUseCase.self)!)
+        }
+        ctner.register(SurveyViewModel.self) { (resolver) in
+            return SurveyViewModel(ctner.resolve(CustomerServiceSurveyUseCase.self)!, ctner.resolve(AuthenticationUseCase.self)!)
+        }
+        ctner.register(CustomerServiceHistoryViewModel.self) { (resolver) in
+            return CustomerServiceHistoryViewModel(historyUseCase: ctner.resolve(ChatRoomHistoryUseCase.self)!)
         }
     }
     

@@ -127,3 +127,9 @@ extension Optional where Wrapped == String {
         return self.isEmpty
     }
 }
+
+extension String {
+    func removeHtmlTag() -> String {
+        self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+    }
+}

@@ -50,6 +50,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewModel
             .checkIsLogged()
             .subscribe { (isLogged) in
+                CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
+                    print("Completed")
+                }).disposed(by: self.disposeBag)
+                
                 if !isLogged {
                     NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
                 }
@@ -87,4 +91,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     {
         return self.restrictRotation
     }
+    
+    //----For recive message at phone lock state----//
+    var backgroundUpdateTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier(rawValue: 0)
+    func endBackgroundUpdateTask() {
+        UIApplication.shared.endBackgroundTask(self.backgroundUpdateTask)
+        self.backgroundUpdateTask = UIBackgroundTaskIdentifier.invalid
+    }
+    func applicationWillResignActive(_ application: UIApplication) {
+        self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+            self.endBackgroundUpdateTask()
+        })
+    }
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        self.endBackgroundUpdateTask()
+
+    }
+    //----For recive message at phone lock state----//
 }
