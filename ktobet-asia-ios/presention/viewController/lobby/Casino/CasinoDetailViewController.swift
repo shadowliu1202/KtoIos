@@ -60,7 +60,8 @@ class CasinoDetailViewController: UIViewController {
         }
         
         if gameResult is CasinoGameResult.BullBull ||
-            gameResult is CasinoGameResult.BullFight {
+            gameResult is CasinoGameResult.BullFight ||
+            gameResult is CasinoGameResult.BlackjackN2 {
             createRowPokerCardsResultView(gameResult: gameResult)
         }
         
@@ -180,6 +181,10 @@ class CasinoDetailViewController: UIViewController {
             createBullFightResultView(gameResult: bullFight, stackView: stackView)
             return
         }
+        
+        if let blackjackN2 = gameResult as? CasinoGameResult.BlackjackN2 {
+            createN2BlackJackResultView(gameResult: blackjackN2, stackView: stackView)
+        }
     }
     
     private func createBullFightResultView(gameResult: CasinoGameResult.BullFight, stackView: UIStackView) {
@@ -191,6 +196,22 @@ class CasinoDetailViewController: UIViewController {
         backgroundViewHeightConstant.constant = stackView.frame.height + 30
         backgroundView.layoutIfNeeded()
         backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
+    }
+    
+    private func createN2BlackJackResultView(gameResult: CasinoGameResult.BlackjackN2, stackView: UIStackView) {
+        createOneRowOfN2BlackJackResultView(pokerCards: gameResult.dealerCards, title: Localize.string("product_dealer"), stackView: stackView)
+        createOneRowOfN2BlackJackResultView(pokerCards: gameResult.playerCards, title: Localize.string("product_player"), stackView: stackView)
+        createOneRowOfN2BlackJackResultView(pokerCards: gameResult.splitCards, title: Localize.string("product_split"), stackView: stackView)
+        stackView.layoutIfNeeded()
+        backgroundViewHeightConstant.constant = stackView.frame.height + 30
+        backgroundView.layoutIfNeeded()
+        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
+    }
+    
+    private func createOneRowOfN2BlackJackResultView(pokerCards: [PokerCard], title: String, stackView: UIStackView) {
+        guard pokerCards.count > 0 else { return }
+        let row = createOneRowOfPokerCards(pokerCards: pokerCards, title: title)
+        stackView.addArrangedSubview(row)
     }
     
     private func createBullBullResultView(gameResult: CasinoGameResult.BullBull, stackView: UIStackView) {

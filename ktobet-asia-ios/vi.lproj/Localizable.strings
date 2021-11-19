@@ -765,6 +765,9 @@
 "product_will_be_back" = "我们很快重新开赛。
 谢谢。";
 "product_p2p_turnover_description" = "进入对战前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
+"product_dealer" = "荷官";
+"product_player" = "玩家";
+"product_split" = "分牌";
 
 //MARK: - Landing
 "landing_product" = "";
