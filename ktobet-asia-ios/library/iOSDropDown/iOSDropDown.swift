@@ -488,6 +488,11 @@ enum Position {
     case up
 }
 
+enum Solid {
+    case filled
+    case linear
+}
+
 class Arrow: UIView {
     let shapeLayer = CAShapeLayer()
     var arrowColor:UIColor = .black {
@@ -517,8 +522,15 @@ class Arrow: UIView {
             }
         }
     }
+    
+    var solid: Solid {
+        didSet {
+            self.setNeedsLayout()
+        }
+    }
 
-    init(origin: CGPoint, size: CGFloat ) {
+    init(origin: CGPoint, size: CGFloat, solid: Solid = .linear) {
+        self.solid = solid
         super.init(frame: CGRect(x: origin.x, y: origin.y, width: size, height: size))
     }
 
@@ -527,30 +539,49 @@ class Arrow: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-
-        // Get size
-        let size = self.layer.frame.width
-
-        // Create path
-        let bezierPath = UIBezierPath()
-
-        // Draw points
-        let qSize = size/4
-
-        bezierPath.move(to: CGPoint(x: size, y: qSize))
-        bezierPath.addLine(to: CGPoint(x: size/2, y: qSize*3))
-        bezierPath.move(to: CGPoint(x: size/2, y: qSize*3))
-        bezierPath.addLine(to: CGPoint(x: 0, y: qSize))
-        bezierPath.close()
-
-        // Mask to path
-        shapeLayer.path = bezierPath.cgPath
+        switch solid {
+        case .linear:
+            shapeLayer.path = drawLinearPath()
+        case .filled:
+            shapeLayer.path = drawnFilledTriangle()
+        }
+        
+        shapeLayer.fillColor = arrowColor.cgColor
        
         if #available(iOS 12.0, *) {
             self.layer.addSublayer (shapeLayer)
         } else {
             self.layer.mask = shapeLayer
         }
+    }
+    
+    private func drawLinearPath() -> CGPath {
+        let bezierPath = UIBezierPath()
+        let size = self.layer.frame.width
+        let qSize = size/4
+        bezierPath.move(to: CGPoint(x: size, y: qSize))
+        bezierPath.addLine(to: CGPoint(x: size/2, y: qSize*3))
+        bezierPath.move(to: CGPoint(x: size/2, y: qSize*3))
+        bezierPath.addLine(to: CGPoint(x: 0, y: qSize))
+        bezierPath.close()
+        return bezierPath.cgPath
+    }
+    
+    private func drawnFilledTriangle() -> CGPath {
+        let size = self.layer.frame.width
+        let qSize = size/4
+        let radius = qSize/4
+        
+        let point1 = CGPoint(x: size, y: qSize)
+        let point2 = CGPoint(x: size/2, y: qSize*3)
+        let point3 = CGPoint(x: 0, y: qSize)
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: size/2, y: qSize))
+        path.addArc(tangent1End: point1, tangent2End: point2, radius: radius)
+        path.addArc(tangent1End: point2, tangent2End: point3, radius: radius)
+        path.addArc(tangent1End: point3, tangent2End: point1, radius: radius)
+        path.closeSubpath()
+        return path
     }
 }
 

@@ -102,6 +102,14 @@ extension Date {
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", year!, month!, dayOfMonth!)
     }
     
+    func toTimeString(with SeparatorSymbol: String = "/") -> String {
+        let comp = calendar.dateComponents([.hour, .minute, .second], from: self)
+        let hour = comp.hour
+        let minute = comp.minute
+        let second = comp.second
+        return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", hour!, minute!, second!)
+    }
+    
     func toMonthDayString(with SeparatorSymbol: String = "/") -> String {
         let comp = Calendar.current.dateComponents([.month, .day], from: self)
         let month = comp.month

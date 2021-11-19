@@ -15,6 +15,7 @@ protocol AuthenticationUseCase {
     func setLastOverLoginLimitDate(_ lastOverLoginLimitDate : Date?)
     func setNeedCaptcha(_ needCaptcha : Bool?)
     func setUserName(_ name: String)
+    func accountValidation() -> Single<Bool>
 }
 
 class AuthenticationUseCaseImpl : AuthenticationUseCase {
@@ -22,13 +23,16 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
     private var repoAuth : IAuthRepository!
     private var repoPlayer : PlayerRepository!
     private var repoLocalStorage : LocalStorageRepository!
+    private var settingStore: SettingStore!
     
     init(_ authRepository : IAuthRepository,
          _ playerRepository : PlayerRepository,
-         _ localStroageRepo : LocalStorageRepository) {
+         _ localStroageRepo : LocalStorageRepository,
+         _ settingStore: SettingStore) {
         self.repoAuth = authRepository
         self.repoPlayer = playerRepository
         self.repoLocalStorage = localStroageRepo
+        self.settingStore = settingStore
     }
     
     func loginFrom(account: String, pwd: String, captcha: Captcha)->Single<Player>{
@@ -46,7 +50,9 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
     }
     
     func logout()->Completable  {
-        return repoAuth.deAuthorize()
+        return repoAuth.deAuthorize().do(onCompleted: { [weak self] in
+            self?.settingStore.clearCache()
+        })
     }
     
     func isLogged()->Single<Bool>{
@@ -87,5 +93,11 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
     
     func setUserName(_ name: String) {
         repoLocalStorage.setUserName(name)
+    }
+    
+    func accountValidation() -> Single<Bool> {
+        return Single.zip(repoAuth.checkAuthorization(), repoPlayer.hasPlayerData()).map({ (isAuth, hasPlayerData) in
+            return isAuth && hasPlayerData
+        })
     }
 }

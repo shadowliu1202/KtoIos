@@ -27,6 +27,9 @@ class SignupPhoneViewController: UIViewController {
     @IBOutlet private weak var btnResend : UIButton!
     @IBOutlet private weak var constraintErrTipHeight : NSLayoutConstraint!
     @IBOutlet private weak var constraintErrTipBottom : NSLayoutConstraint!
+    var barButtonItems: [UIBarButtonItem] = []
+    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
     private let segueUserInfo = "BackToUserInfo"
     private let segueFail = "GoToFail"
@@ -46,6 +49,7 @@ class SignupPhoneViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .right, barButtonItems: padding, customService)
         defaultStyle()
         localize()
         setViewModel()
@@ -130,8 +134,8 @@ class SignupPhoneViewController: UIViewController {
     private func resendTimer(launch : Bool){
         if launch{
             timerResend
-                .start(timeInterval: 1, duration: Setting.resendOtpCountDownSecond, block: {(index, second, finish) in
-                    self.setResendButton(second)
+                .start(timeInterval: 1, duration: Setting.resendOtpCountDownSecond, block: { [weak self] (index, second, finish) in
+                    self?.setResendButton(second)
                 })
         } else {
             timerResend
@@ -141,8 +145,8 @@ class SignupPhoneViewController: UIViewController {
     
     private func otpExpireTimer(){
         timerOtpExpire
-            .start(timeInterval: 1, duration: 600, block: {(index, second, finish) in
-                if finish { self.otpExpire = true }
+            .start(timeInterval: 1, duration: 600, block: { [weak self] (index, second, finish) in
+                if finish { self?.otpExpire = true }
             })
     }
     
@@ -208,12 +212,12 @@ class SignupPhoneViewController: UIViewController {
         }
         viewModel
             .resendRegisterOtp()
-            .subscribe(onCompleted: {
-                self.resendTimer(launch: true)
-                self.countResend += 1
-                self.showStatusTip()
-            }, onError: {error in
-                self.handleError(error)
+            .subscribe(onCompleted: { [weak self] in
+                self?.resendTimer(launch: true)
+                self?.countResend += 1
+                self?.showStatusTip()
+            }, onError: { [weak self] error in
+                self?.handleError(error)
             }).disposed(by: disposeBag)
     }
     
@@ -226,8 +230,8 @@ class SignupPhoneViewController: UIViewController {
             .otpVerify()
             .subscribe(onSuccess: {player in
                 NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
-            }, onError: {error in
-                self.handleError(error)
+            }, onError: { [weak self] error in
+                self?.handleError(error)
             }).disposed(by: disposeBag)
     }
 }
@@ -238,3 +242,10 @@ extension SignupPhoneViewController{
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {}
 }
 
+extension SignupPhoneViewController: BarButtonItemable { }
+
+extension SignupPhoneViewController: CustomServiceDelegate {
+    func customServiceBarButtons() -> [UIBarButtonItem]? {
+        [padding, customService]
+    }
+}

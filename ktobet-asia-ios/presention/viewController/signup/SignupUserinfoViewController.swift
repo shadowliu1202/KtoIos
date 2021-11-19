@@ -41,6 +41,9 @@ class SignupUserinfoViewController: UIViewController {
     @IBOutlet private weak var viewRegistErrMessage : UIView!
     
     @IBOutlet private weak var constraintRegistErrMessageHeight : NSLayoutConstraint!
+    var barButtonItems: [UIBarButtonItem] = []
+    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
     private let errMsgHeight = CGFloat(56)
     private let segueLanguage = "BackToLanguageList"
@@ -70,6 +73,7 @@ class SignupUserinfoViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .right, barButtonItems: padding, customService)
         localize()
         defaultStyle()
         setViewModel()
@@ -138,7 +142,8 @@ class SignupUserinfoViewController: UIViewController {
 
         let event = viewModel.event()
         event.otpValid
-            .subscribe(onNext: { status  in
+            .subscribe(onNext: { [weak self] status  in
+                guard let `self` = self else { return }
                 if status == .errEmailOtpInactive || status == .errSMSOtpInactive{
                     self.view.layoutIfNeeded()
                     let width = self.scrollView.bounds.size.width
@@ -158,7 +163,7 @@ class SignupUserinfoViewController: UIViewController {
             }).disposed(by: disposeBag)
         
         event.emailValid
-            .subscribe(onNext: {status in
+            .subscribe(onNext: { [weak self] status in
                 guard status != .doNothing else { return }
                 var message = ""
                 if status == .errEmailFormat {
@@ -166,13 +171,13 @@ class SignupUserinfoViewController: UIViewController {
                 } else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
-                self.labAccountTip.text = message
-                self.inputAccount.showUnderline(message.count > 0)
-                self.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
+                self?.labAccountTip.text = message
+                self?.inputAccount.showUnderline(message.count > 0)
+                self?.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
             }).disposed(by: disposeBag)
         
         event.mobileValid
-            .subscribe(onNext: { status in
+            .subscribe(onNext: { [weak self] status in
                 guard status != .doNothing else { return }
                 var message = ""
                 if status == .errPhoneFormat {
@@ -180,26 +185,26 @@ class SignupUserinfoViewController: UIViewController {
                 } else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
-                self.labAccountTip.text = message
-                self.inputAccount.showUnderline(message.count > 0)
-                self.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
+                self?.labAccountTip.text = message
+                self?.inputAccount.showUnderline(message.count > 0)
+                self?.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
             }).disposed(by: disposeBag)
         
         event.nameValid
-            .subscribe(onNext: { status in
+            .subscribe(onNext: { [weak self] status in
                 var message = ""
                 if status == .errNameFormat {
                     message = Localize.string("register_step2_name_format_error")
                 } else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
-                self.labNameTip.text = message
-                self.inputName.showUnderline(message.count > 0)
-                self.inputName.setCorner(topCorner: true, bottomCorner: message.count == 0)
+                self?.labNameTip.text = message
+                self?.inputName.showUnderline(message.count > 0)
+                self?.inputName.setCorner(topCorner: true, bottomCorner: message.count == 0)
             }).disposed(by: disposeBag)
 
         event.passwordValid
-            .subscribe(onNext: { status in
+            .subscribe(onNext: { [weak self] status in
                 var message = ""
                 if status == .errPasswordFormat {
                     message = Localize.string("common_field_format_incorrect")
@@ -208,9 +213,9 @@ class SignupUserinfoViewController: UIViewController {
                 } else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
-                self.labPasswordTip.text = message
-                self.inputCsPassword.showUnderline(message.count > 0)
-                self.inputCsPassword.setCorner(topCorner: false, bottomCorner: message.count == 0)
+                self?.labPasswordTip.text = message
+                self?.inputCsPassword.showUnderline(message.count > 0)
+                self?.inputCsPassword.setCorner(topCorner: false, bottomCorner: message.count == 0)
             }).disposed(by: disposeBag)
         
         event.dataValid
@@ -218,24 +223,24 @@ class SignupUserinfoViewController: UIViewController {
             .disposed(by: disposeBag)
         
         event.typeChange
-            .subscribe(onNext: {type in
+            .subscribe(onNext: { [weak self] type in
                 switch type {
                 case .phone:
-                    self.inputEmail.isHidden = true
-                    self.inputMobile.isHidden = false
-                    self.btnPhone.isSelected = true
-                    self.btnEmail.isSelected = false
-                    self.btnSubmit.setTitle(Localize.string("register_step2_verify_mobile"), for: .normal)
+                    self?.inputEmail.isHidden = true
+                    self?.inputMobile.isHidden = false
+                    self?.btnPhone.isSelected = true
+                    self?.btnEmail.isSelected = false
+                    self?.btnSubmit.setTitle(Localize.string("register_step2_verify_mobile"), for: .normal)
                 case .email:
-                    self.inputEmail.isHidden = false
-                    self.inputMobile.isHidden = true
-                    self.btnPhone.isSelected = false
-                    self.btnEmail.isSelected = true
-                    self.btnSubmit.setTitle(Localize.string("register_step2_verify_mail"), for: .normal)
+                    self?.inputEmail.isHidden = false
+                    self?.inputMobile.isHidden = true
+                    self?.btnPhone.isSelected = false
+                    self?.btnEmail.isSelected = true
+                    self?.btnSubmit.setTitle(Localize.string("register_step2_verify_mail"), for: .normal)
                 }
-                self.view.endEditing(true)
-                self.inputAccount.setContent("")
-                self.hideError()
+                self?.view.endEditing(true)
+                self?.inputAccount.setContent("")
+                self?.hideError()
             }).disposed(by: disposeBag)
     }
     
@@ -295,7 +300,8 @@ extension SignupUserinfoViewController{
     @IBAction func btnSubmitPressed(_ sender : Any){
         
         viewModel.register()
-            .subscribe(onSuccess: { info in
+            .subscribe(onSuccess: { [weak self] info in
+                guard let `self` = self else { return }
                 let segue : String = {
                     switch info.type {
                     case .email: return self.segueEmail
@@ -305,21 +311,30 @@ extension SignupUserinfoViewController{
                 let para = ["account" : info.account,
                             "password" : info.password]
                 self.performSegue(withIdentifier: segue, sender: para)
-            }, onError: {error in
+            }, onError: { [weak self] error in
                 let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
                 let message : String = {
                     switch type{
                     case .PlayerIpOverOtpDailyLimit: return Localize.string("common_email_otp_exeed_send_limit")
                     case .DBPlayerAlreadyExist:
-                        switch self.viewModel.currentAccountType(){
+                        switch self?.viewModel.currentAccountType(){
                         case .email: return Localize.string("common_error_email_verify")
                         case .phone: return Localize.string("common_error_phone_verify")
+                        default: return ""
                         }
                     default: return String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
                     }
                 }()
                 
-                self.displayError(error: message)
+                self?.displayError(error: message)
             }).disposed(by: disposeBag)
+    }
+}
+
+extension SignupUserinfoViewController: BarButtonItemable { }
+
+extension SignupUserinfoViewController: CustomServiceDelegate {
+    func customServiceBarButtons() -> [UIBarButtonItem]? {
+        [padding, customService]
     }
 }

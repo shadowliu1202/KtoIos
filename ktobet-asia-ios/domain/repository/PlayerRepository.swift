@@ -11,23 +11,29 @@ protocol PlayerRepository {
     func isRealNameEditable() -> Single<Bool>
     func getLevelPrivileges() -> Single<[LevelOverview]>
     func getPlayerRealName() -> Single<String>
+    func hasPlayerData() -> Single<Bool>
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
     
     private var playerApi : PlayerApi!
     private var portalApi : PortalApi!
+    private var settingStore: SettingStore!
     
-    init(_ playerApi : PlayerApi, _ portalApi : PortalApi) {
+    init(_ playerApi : PlayerApi, _ portalApi : PortalApi, _ settingStore: SettingStore) {
         self.playerApi = playerApi
         self.portalApi = portalApi
+        self.settingStore = settingStore
     }
     
-    func loadPlayer()-> Single<Player>{
-        
+    func loadPlayer() -> Single<Player> {
         let favorProduct = getDefaultProduct()
         let localization = portalApi.getLocalization()
-        let playerInfo = playerApi.getPlayerInfo()
+        let playerInfo = playerApi.getPlayerInfo().do(onSuccess: { [weak self] in
+            if let data = $0.data {
+                self?.settingStore.playerInfo = data
+            }
+        })
         let contactInfo = playerApi.getPlayerContact()
         
         return Single
@@ -57,7 +63,8 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
     
     func getDefaultProduct()->Single<ProductType>{
-        return playerApi.getFavoriteProduct().map { (type) -> ProductType in
+        return playerApi.getFavoriteProduct().map { [weak self] (type) -> ProductType in
+            self?.settingStore?.defaultProduct = Int32(type)
             switch type{
             case 0: return ProductType.none
             case 1: return ProductType.slot
@@ -70,7 +77,9 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
     
     func saveDefaultProduct(_ productType: ProductType)->Completable{
-        return playerApi.setFavoriteProduct(productId: Int(productType.ordinal))
+        return playerApi.setFavoriteProduct(productId: Int(productType.ordinal)).do(onCompleted: { [weak self] in
+            self?.settingStore?.defaultProduct = productType.ordinal
+        })
     }
     
     func getBalance() -> Single<CashAmount> {
@@ -95,6 +104,20 @@ class PlayerRepositoryImpl : PlayerRepository {
         playerApi.getPlayerLevel().map { (response) -> [LevelOverview] in
             guard let data = response.data else { return [] }
             return data.map{ self.convert(levelBean: $0) }
+        }
+    }
+    
+    func hasPlayerData() -> Single<Bool> {
+        return Single<Bool>.create { [weak self] single in
+            guard let `self` = self else { single(.success(false))
+                return Disposables.create()
+            }
+            if self.settingStore.defaultProduct != nil, let playerInfo = self.settingStore.playerInfo, !playerInfo.gameId.isEmpty {
+                single(.success(true))
+            } else {
+                single(.success(false))
+            }
+            return Disposables.create()
         }
     }
     

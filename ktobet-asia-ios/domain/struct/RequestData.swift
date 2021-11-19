@@ -152,3 +152,57 @@ struct BonusRequest: Codable {
     let no: String
     let type: Int32
 }
+
+struct SendMessageRequest: Codable {
+    let html: String
+    let roomId: String
+    let text: String
+    var fileId: String? = nil
+    var fileName: String? = nil
+    let messageType: Int32
+}
+
+struct CreateSurveyRequest: Codable {
+    let csSkillID: String
+    let surveyType, version: Int32
+    let surveyAnswers: [SurveyAnswerBean]
+    let roomID: String?
+
+    enum CodingKeys: String, CodingKey {
+        case csSkillID = "csSkillId"
+        case surveyType, version, surveyAnswers
+        case roomID = "roomId"
+    }
+}
+
+struct SurveyAnswerBean: Codable {
+    let questionID, questionText: String
+    let answer: [AnswerBean?]
+
+    enum CodingKeys: String, CodingKey {
+        case questionID = "questionId"
+        case questionText, answer
+    }
+}
+
+struct AnswerBean: Codable {
+    let answerID: String?
+    let answerText: String
+    let isOther: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case answerID = "answerId"
+        case answerText, isOther
+    }
+}
+
+struct CustomerMessageData: Codable {
+    let content: String
+    let email: String
+    var title: String = "Offline Survey"
+}
+
+struct DeleteCsRecords: Codable {
+    let roomIds: [RoomId]
+    let isExclude: Bool
+}

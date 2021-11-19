@@ -10,11 +10,8 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-
-
-
 class SignupLanguageViewController: UIViewController{
-    
+    var barButtonItems: [UIBarButtonItem] = []
 
     struct LanguageListData{
         var title : String
@@ -24,7 +21,6 @@ class SignupLanguageViewController: UIViewController{
     
     @IBOutlet private weak var naviItem: UINavigationItem!
     @IBOutlet private weak var btnBack: UIBarButtonItem!
-    @IBOutlet private weak var btnRegist : UIBarButtonItem!
     @IBOutlet private weak var btnNext : UIButton!
     @IBOutlet private weak var btnTerms : UIButton!
     @IBOutlet private weak var labTitle : UILabel!
@@ -43,14 +39,24 @@ class SignupLanguageViewController: UIViewController{
     private var disposeBag = DisposeBag()
     private var arrLangs : [LanguageListData] = []
     
+    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private lazy var login = UIBarButtonItem.kto(.login)
+    private var spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
+    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
+    
     var languageChangeHandler : (()->())?
 
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .right, barButtonItems: padding, login, spacing, customService)
         localize()
         reloadLanguageList()
         setupStyle()
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     // MARK: METHOD
@@ -60,7 +66,6 @@ class SignupLanguageViewController: UIViewController{
         labTermsTip.text = Localize.string("register_step1_tips_1")
         btnNext.setTitle(Localize.string("common_next"), for: .normal)
         btnTerms.setTitle(Localize.string("register_step1_tips_1_highlight"), for: .normal)
-        btnRegist.title = Localize.string("common_login")
     }
     
     private func reloadLanguageList(){
@@ -108,7 +113,7 @@ class SignupLanguageViewController: UIViewController{
         performSegue(withIdentifier: segueLogin, sender: nil)
     }
     
-    @IBAction func btnLoginPressed(_ sender : UIButton){
+    func btnLoginPressed() {
         performSegue(withIdentifier: segueLogin, sender: nil)
     }
     
@@ -117,6 +122,7 @@ class SignupLanguageViewController: UIViewController{
         let message = Localize.string("common_tip_content_bind")
         Alert.show(title, message, confirm: nil, cancel: nil)
     }
+    
 }
 
 
@@ -169,5 +175,22 @@ extension SignupLanguageViewController{
             case .TH: break
             }
         }
+    }
+}
+
+extension SignupLanguageViewController: BarButtonItemable {
+    func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
+        switch sender.tag {
+        case loginBarBtnId:
+            btnLoginPressed()
+        default:
+            break
+        }
+    }
+}
+
+extension SignupLanguageViewController: CustomServiceDelegate {
+    func customServiceBarButtons() -> [UIBarButtonItem]? {
+        [spacing, customService]
     }
 }

@@ -7,6 +7,13 @@ import SideMenu
 extension SideBarViewController: SideMenuNavigationControllerDelegate {
     func sideMenuWillAppear(menu: SideMenuNavigationController, animated: Bool) {
         dataRefresh()
+        CustomServicePresenter.shared.isInSideMenu = true
+        CustomServicePresenter.shared.hiddenServiceIcon()
+    }
+    
+    func sideMenuWillDisappear(menu: SideMenuNavigationController, animated: Bool) {
+        CustomServicePresenter.shared.isInSideMenu = false
+        CustomServicePresenter.shared.showServiceIcon()
     }
 }
 
@@ -129,6 +136,7 @@ class SideBarViewController: UIViewController {
         
         Alert.show(title, meesage, confirm: {[weak self] in
             guard let self = self else { return }
+            CustomServicePresenter.shared.closeChatRoom()
             self.viewModel.logout()
                 .subscribeOn(MainScheduler.instance)
                 .subscribe(onCompleted: {
@@ -272,7 +280,7 @@ class SideBarViewController: UIViewController {
             case .diposit:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
             case .callService:
-                NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "CallServiceNavigationController")
+                NavigationManagement.sharedInstance.goTo(storyboard: "CustomService", viewControllerId: "CustomerServiceMainNavigationController")
             }
             
             self?.listFeature.deselectRow(at: indexPath, animated: true)

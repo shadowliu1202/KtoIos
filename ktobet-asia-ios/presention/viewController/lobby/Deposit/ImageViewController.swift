@@ -30,7 +30,7 @@ class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScro
     }
     
     @objc func close() {
-        self.navigationController?.popViewController(animated: true)
+        NavigationManagement.sharedInstance.popViewController(nil)
     }
 
     @objc func doubleTapAction(gesture: UITapGestureRecognizer) {

@@ -11,7 +11,7 @@ class ImagePickerViewController: UIViewController {
     @IBOutlet private var tableHeight: NSLayoutConstraint!
     @IBOutlet weak var footerView: UIView!
     
-    var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
+    weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
     var selectedImageLimitCount = 3
     var imageLimitMBSize = 20
     var allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]

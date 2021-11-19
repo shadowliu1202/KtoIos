@@ -82,11 +82,20 @@ class DropDownInputText: UIView {
         }
     }
     
+    var arrowSolid: Solid = .linear {
+        didSet {
+            self.arrow.solid = arrowSolid
+        }
+    }
+    var customizeBackgroundColor: (UIColor, UIColor)?
     
     // MARK: LIFE CYCLE
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = UIColor.inputSelectedTundoraGray
+        if let color = customizeBackgroundColor {
+            backgroundColor = color.0
+        }
         labTitle.font = UIFont.systemFont(ofSize: 12)
         labTitle.textColor = UIColor.textPrimaryDustyGray
         labTitle.backgroundColor = .clear
@@ -189,11 +198,15 @@ class DropDownInputText: UIView {
             self.labTitle.frame = position.title
             self.dropDownText.frame = position.content
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-            self.backgroundColor = self.isEditing ? UIColor.inputSelectedTundoraGray : UIColor.inputBaseMineShaftGray
+            if let color = self.customizeBackgroundColor {
+                self.backgroundColor = self.isEditing ? color.0 : color.1
+            } else {
+                self.backgroundColor = self.isEditing ? UIColor.inputSelectedTundoraGray : UIColor.inputBaseMineShaftGray
+            }
         }
         if firstPosition{
             changePosition()
-            self.arrow.frame.origin = CGPoint(x: self.frame.width - 39, y: self.bounds.maxY/2 - ArrowSize/2)
+            self.arrow.frame.origin = CGPoint(x: self.frame.width - (15+ArrowSize+4.5), y: self.bounds.maxY/2 - ArrowSize/2)
             firstPosition = false
         } else {
             UIView.animate(withDuration: 0.2, animations: changePosition, completion: nil)

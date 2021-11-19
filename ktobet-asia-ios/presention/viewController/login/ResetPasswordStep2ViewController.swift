@@ -3,6 +3,7 @@ import RxSwift
 
 class ResetPasswordStep2ViewController: UIViewController {
     static let segueIdentifier = "toStep2Segue"
+    var barButtonItems: [UIBarButtonItem] = []
     
     @IBOutlet private weak var naviItem : UINavigationItem!
     @IBOutlet private weak var labTitle : UILabel!
@@ -18,6 +19,8 @@ class ResetPasswordStep2ViewController: UIViewController {
     @IBOutlet private weak var constraintErrTipHeight : NSLayoutConstraint!
     @IBOutlet private weak var constraintErrTipBottom : NSLayoutConstraint!
     @IBOutlet private weak var constraintStatusTipBottom : NSLayoutConstraint!
+    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
     var viewModel: ResetPasswordViewModel!
     private let errTipHeight = CGFloat(44)
@@ -29,6 +32,7 @@ class ResetPasswordStep2ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .right, barButtonItems: padding, customService)
         initialize()
         setResendTimer()
         setStep2Timer()
@@ -198,3 +202,10 @@ class ResetPasswordStep2ViewController: UIViewController {
     }
 }
 
+extension ResetPasswordStep2ViewController: BarButtonItemable { }
+
+extension ResetPasswordStep2ViewController: CustomServiceDelegate {
+    func customServiceBarButtons() -> [UIBarButtonItem]? {
+        [padding, customService]
+    }
+}
