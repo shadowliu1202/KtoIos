@@ -46,7 +46,7 @@ struct textRowView: View {
             }
         } else {
             if let data = data {
-                ForEach(0..<data.statusChangeHistories.count) { index in
+                ForEach(0..<data.statusChangeHistories.count, id: \.self) { index in
                     Text(data.updatedDate.toDateTimeString())
                         .foregroundColor(Color(UIColor.textPrimaryDustyGray))
                         .font(Font.custom("PingFangSC-Regular", size: 12))
@@ -67,7 +67,7 @@ struct textRowView: View {
     func getTranctionInfoContent(group: Int, row: Int) -> String {
         switch group {
         case 0:
-            if data?.isTransactionApplied() == true {
+            if applyContentString()?[row] != "0" {
                 return applyContentString()?[row] ?? ""
             } else {
                 return "-"
@@ -84,7 +84,7 @@ struct textRowView: View {
     }
     
     func getFinalConentColor(group: Int, row: Int) -> Color {
-        if group == 1 && row == 0 && finalContentString()?[row] != "0.00000000" {
+        if group == 1 && row == 0 && finalContentString()?[row] != "0" {
             return Color(UIColor.alert)
         } else {
             return Color(UIColor.whiteFull)
@@ -93,16 +93,18 @@ struct textRowView: View {
     
     private func applyContentString() -> [String]? {
         guard let data = data else { return nil }
-        return [            data.requestCryptoAmount.cryptoAmount.description(),
-                            data.requestCryptoAmount.exchangeRate.description(),
-                            data.requestCryptoAmount.cashAmount.description(),
-                            data.createdDate.toDateTimeString()]
+        return [data.requestTransaction.cryptoAmount.description(),
+                data.requestTransaction.exchangeRate.formatString(),
+                data.requestTransaction.cashAmount.description(),
+                data.createdDate.toDateTimeString()]
     }
     
     private func finalContentString() -> [String]? {
-        guard let data = data else { return nil }
-        return [ data.actualCryptoAmount.cryptoAmount.description(),
-                 data.actualCryptoAmount.exchangeRate.description(), data.actualCryptoAmount.cashAmount.description(), data.updatedDate.toDateTimeString()]
+        guard let data = data, let actualTransaction = data.actualTransaction else { return nil }
+        return [actualTransaction.cryptoAmount.description(),
+                actualTransaction.exchangeRate.formatString(),
+                actualTransaction.cashAmount.description(),
+                data.updatedDate.toDateTimeString()]
     }
 }
 
@@ -134,7 +136,7 @@ struct DepositCryptoDetailView: View {
                     .foregroundColor(Color(UIColor.whiteFull))
                     .font(Font.custom("PingFangSC-Semibold", size: 24))
                 Spacer().frame(height: 22)
-                Text("\(Localize.string("deposit_title")) - \(Localize.string("common_ethereum"))")
+                Text("\(Localize.string("deposit_title")) - \(data!.requestTransaction.cryptoAmount.simpleName)")
                     .foregroundColor(Color(UIColor.whiteFull))
                     .font(Font.custom("PingFangSC-Medium", size: 16))
                 Text(Localize.string("common_cps_incomplete_field_placeholder_hint"))

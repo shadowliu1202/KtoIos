@@ -6,15 +6,15 @@ struct WithdrawalCryptoDetailView: View {
     var data: WithdrawalDetail.Crypto
     
     private var finalInfoData: [(title: String, content: String)] {
-        [(Localize.string("common_cps_final_crypto"), data.actualCryptoAmount.cryptoAmount.description()),
-         (Localize.string("common_cps_final_rate"), data.actualCryptoAmount.exchangeRate.description()),
+        [(Localize.string("common_cps_final_crypto"), data.actualCryptoAmount.cryptoAmount.amount()),
+         (Localize.string("common_cps_final_rate"), data.actualCryptoAmount.exchangeRate.amount()),
          (String(format: Localize.string("common_cps_final_amount"), "CNY"), data.actualCryptoAmount.cashAmount.description()),
          (Localize.string("common_cps_final_datetime"), data.approvedDate.toDateTimeString())]
     }
     
     private var applyInfoData: [(title: String, content: String)] {
-        [(Localize.string("common_cps_apply_crypto"), data.requestCryptoAmount.cryptoAmount.description()),
-         (Localize.string("common_cps_apply_rate"), data.requestCryptoAmount.exchangeRate.description()),
+        [(Localize.string("common_cps_apply_crypto"), data.requestCryptoAmount.cryptoAmount.amount()),
+         (Localize.string("common_cps_apply_rate"), data.requestCryptoAmount.exchangeRate.amount()),
          (String(format: Localize.string("common_cps_apply_amount"), "CNY"), data.requestCryptoAmount.cashAmount.description()),
          (Localize.string("common_applytime"), data.record.createDate.toDateTimeString())]
     }
@@ -36,12 +36,12 @@ struct WithdrawalCryptoDetailView: View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(Localize.string("deposit_detail_title"))
+                    Text(Localize.string("withdrawal_detail_title"))
                         .foregroundColor(Color(UIColor.whiteFull))
                         .font(Font.custom("PingFangSC-Semibold", size: 24))
                         .padding(EdgeInsets(top: 78, leading: 0, bottom: 30, trailing: 0))
                     
-                    Text("\(Localize.string("withdrawal_title")) - \(Localize.string("common_ethereum"))")
+                    Text("\(Localize.string("withdrawal_title")) - \(data.requestCryptoAmount.cryptoAmount.simpleName)")
                         .foregroundColor(Color(UIColor.whiteFull))
                         .font(Font.custom("PingFangSC-Medium", size: 16))
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
@@ -209,12 +209,20 @@ class WithdrawalCryptoPreviewData {
         WithdrawalRecord(transactionTransactionType: TransactionType.cryptowithdrawal, displayId: "displayId", transactionStatus: TransactionStatus.approved, createDate: Date().convertDateToOffsetDateTime(), cashAmount: AccountCurrency(tempAmount: BignumBigDecimal.companion.fromInt(int: 200), simpleName: "", symbol: ""), isPendingHold: true, groupDay: Kotlinx_datetimeLocalDate.init(year: 1999, month: Kotlinx_datetimeMonth.october, dayOfMonth: 1))
     }
     
-    var requestCryptoAmount: CryptoExchangeReceipt {
-        CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: 0, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: 0), cashAmount: AccountCurrency(tempAmount: BignumBigDecimal.companion.fromInt(int: 300), simpleName: "", symbol: ""))
+    var requestCryptoAmount: CryptoExchangeRecord {
+        let cryptoType = SupportCryptoType.valueOf("ETH")
+        let locale = SupportLocale.companion.create(language: "zh-cn")
+        let exchangeRate = CryptoExchangeFactory.init().create(from: cryptoType, to: locale, exRate: "0")
+        return CryptoExchangeRecord (cryptoAmount: 0.toCryptoCurrency(SupportCryptoType.valueOf("ETH")), exchangeRate: exchangeRate, cashAmount: 300.toAccountCurrency(), date: Date().convertDateToOffsetDateTime())
+        /*CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: 0, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: 0), cashAmount: AccountCurrency(tempAmount: BignumBigDecimal.companion.fromInt(int: 300), simpleName: "", symbol: ""))*/
     }
     
-    var actualCryptoAmount: CryptoExchangeReceipt {
-        CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: 10, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: 0), cashAmount: AccountCurrency(tempAmount: BignumBigDecimal.companion.fromInt(int: 200), simpleName: "", symbol: ""))
+    var actualCryptoAmount: CryptoExchangeRecord {
+        let cryptoType = SupportCryptoType.valueOf("ETH")
+        let locale = SupportLocale.companion.create(language: "zh-cn")
+        let exchangeRate = CryptoExchangeFactory.init().create(from: cryptoType, to: locale, exRate: "0")
+        return CryptoExchangeRecord (cryptoAmount: 10.toCryptoCurrency(SupportCryptoType.valueOf("ETH")), exchangeRate: exchangeRate, cashAmount: 200.toAccountCurrency(), date: Date().convertDateToOffsetDateTime())
+        /*CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: 10, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: 0), cashAmount: AccountCurrency(tempAmount: BignumBigDecimal.companion.fromInt(int: 200), simpleName: "", symbol: ""))*/
     }
     
     var statusChangeHistory: SharedBu.Transaction.StatusChangeHistory {
@@ -222,6 +230,16 @@ class WithdrawalCryptoPreviewData {
     }
     
     var withdrawalDetail: WithdrawalDetail.Crypto {
-        WithdrawalDetail.Crypto(record: withdrawalRecord, isBatched: true, isPendingHold: true, statusChangeHistories: [statusChangeHistory], updatedDate: Date().convertDateToOffsetDateTime(), requestCryptoAmount: requestCryptoAmount, actualCryptoAmount: actualCryptoAmount, playerCryptoAddress: "playerCryptoAddress", providerCryptoAddress: "providerCryptoAddress", approvedDate: Date().convertDateToOffsetDateTime(), hashId: "hashId")
+        WithdrawalDetail.Crypto(record: withdrawalRecord,
+                                isBatched: true,
+                                isPendingHold: true,
+                                statusChangeHistories: [statusChangeHistory],
+                                updatedDate: Date().convertDateToOffsetDateTime(),
+                                requestCryptoAmount: requestCryptoAmount,
+                                actualCryptoAmount: actualCryptoAmount,
+                                playerCryptoAddress: "playerCryptoAddress",
+                                providerCryptoAddress: "providerCryptoAddress",
+                                approvedDate: Date().convertDateToOffsetDateTime(),
+                                hashId: "hashId")
     }
 }

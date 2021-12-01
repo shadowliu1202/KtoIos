@@ -11,7 +11,7 @@ extension BonusCoupon.FreeBet: BonusCouponItem {
     }
     
     var displayMaxAmount: String {
-        self.maxAmount.description()
+        self.maxAmount.amount()
     }
     
     var displayMinCapital: String {
@@ -32,7 +32,7 @@ extension BonusCoupon.FreeBet: BonusCouponItem {
         self.promotionId
     }
     var displayAmount: String {
-        maxAmount.description()
+        maxAmount.amount()
     }
     var issueNo: String {
         ""
@@ -64,7 +64,7 @@ extension BonusCoupon.DepositReturn: BonusCouponItem {
     }
     
     var displayMaxAmount: String {
-        self.maxAmount.description()
+        self.maxAmount.amount()
     }
     
     var displayMinCapital: String {
@@ -86,10 +86,10 @@ extension BonusCoupon.DepositReturn: BonusCouponItem {
     }
     var displayAmount: String {
         var suffix: String
-        if maxAmount >= CashAmount(amount: 1000000000000000.0) {
+        if maxAmount.isUnlimited() {
             suffix = Localize.string("bonus_rebate_unlimited")
         } else {
-            suffix = maxAmount.description()
+            suffix = maxAmount.amount()
         }
         return Localize.string("bonus_gettop") + "\n\(suffix)"
     }
@@ -123,7 +123,7 @@ extension BonusCoupon.Product: BonusCouponItem {
     }
     
     var displayMaxAmount: String {
-        self.maxAmount.description()
+        self.maxAmount.amount()
     }
     
     var displayMinCapital: String {
@@ -144,7 +144,7 @@ extension BonusCoupon.Product: BonusCouponItem {
         self.promotionId
     }
     var displayAmount: String {
-        maxAmount.description()
+        maxAmount.amount()
     }
     var issueNo: String {
         Localize.string("bonus_period", "\(issueNumber)")
@@ -168,12 +168,10 @@ extension BonusCoupon.Product: BonusCouponItem {
 
 extension PromotionEvent.Product: PromotionEventItem {
     var displayMaxAmount: String {
-        switch maxBonus {
-        case is MaxAmount.Amount:
-            let suffix = (maxBonus as! MaxAmount.Amount).value.description()
-            return "\(suffix)"
-        default:
+        if maxBonus.isUnlimited() {
             return Localize.string("bonus_rebate_unlimited")
+        } else {
+            return maxBonus.amount()
         }
     }
     
@@ -206,12 +204,11 @@ extension PromotionEvent.Product: PromotionEventItem {
         endDate.convertToDate()
     }
     var displayAmount: String {
-        switch maxBonus {
-        case is MaxAmount.Amount:
-            let suffix = (maxBonus as! MaxAmount.Amount).value.description()
-            return Localize.string("bonus_gettop") + "\n\(suffix)"
-        default:
+        if maxBonus.isUnlimited() {
             return Localize.string("bonus_rebate_unlimited")
+        } else {
+            let suffix = maxBonus.amount()
+            return Localize.string("bonus_gettop") + "\n\(suffix)"
         }
     }
     var issueNo: String {
@@ -320,12 +317,10 @@ extension BonusCoupon.Rebate: BonusCouponItem {
 
 extension PromotionEvent.Rebate: PromotionEventItem {
     var displayMaxAmount: String {
-        switch maxBonus {
-        case is MaxAmount.Amount:
-            let suffix = (maxBonus as! MaxAmount.Amount).value.description()
-            return "\(suffix)"
-        default:
+        if maxBonus.isUnlimited() {
             return Localize.string("bonus_rebate_unlimited")
+        } else {
+            return maxBonus.amount()
         }
     }
     
@@ -353,12 +348,11 @@ extension PromotionEvent.Rebate: PromotionEventItem {
         endDate.convertToDate()
     }
     var displayAmount: String {
-        switch maxBonus {
-        case is MaxAmount.Amount:
-            let suffix = (maxBonus as! MaxAmount.Amount).value.description()
-            return Localize.string("bonus_gettop") + "\n\(suffix)"
-        default:
+        if maxBonus.isUnlimited() {
             return Localize.string("bonus_rebate_unlimited")
+        } else {
+            let suffix = maxBonus.amount()
+            return Localize.string("bonus_gettop") + "\n\(suffix)"
         }
     }
     var issueNo: String {

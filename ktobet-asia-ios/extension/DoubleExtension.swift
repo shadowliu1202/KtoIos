@@ -1,4 +1,5 @@
 import Foundation
+import SharedBu
 
 extension Double {
     func decimalCount() -> Int {
@@ -34,5 +35,22 @@ extension Numeric {
         numberFormatter.maximumFractionDigits = maximumFractionDigits
         numberFormatter.roundingMode = .down
         return numberFormatter.string(for: self) ?? ""
+    }
+    
+    func toAccountCurrency() -> AccountCurrency {
+        return FiatFactory.shared.create(supportLocale: LocalStorageRepository().getSupportLocal(), amount_: "\(self)")
+    }
+    
+    func toCryptoCurrency(_ cryptoCurrencyCode: Int) -> CryptoCurrency {
+        for idx in 0..<SupportCryptoType.values().size {
+            if let supportCryptoType = SupportCryptoType.values().get(index: idx), supportCryptoType.id__ == cryptoCurrencyCode {
+                return toCryptoCurrency(supportCryptoType)
+            }
+        }
+        return CryptoFactory.init().unknown(amount: "")
+    }
+    
+    func toCryptoCurrency(_ supportCryptoType: SupportCryptoType) -> CryptoCurrency {
+        CryptoFactory.shared.create(supportCryptoType: supportCryptoType, amount_: "\(self)")
     }
 }

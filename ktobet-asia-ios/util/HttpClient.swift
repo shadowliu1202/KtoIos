@@ -90,7 +90,7 @@ class HttpClient {
                 if let json = try? JSON.init(data: response.data),
                    let statusCode = json["statusCode"].string,
                    let errorMsg = json["errorMsg"].string,
-                   statusCode.count > 0 && errorMsg.count > 0{
+                   statusCode.count > 0 && errorMsg.count > 0 {
                     let domain = self?.baseUrl.path ?? ""
                     let code = Int(statusCode) ?? 0
                     let error = NSError(domain: domain, code: code, userInfo: ["statusCode": statusCode , "errorMsg" : errorMsg])

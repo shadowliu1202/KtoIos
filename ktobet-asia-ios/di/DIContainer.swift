@@ -199,6 +199,10 @@ class DIContainer {
             let csApi = ctner.resolve(CustomServiceApi.self)!
             return CustomServiceRepositoryImpl(csApi)
         }
+        ctner.register(AccountPatternGenerator.self) { resolver in
+            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            return AccountPatternGeneratorFactory.create(repoLocalStorage.getSupportLocal())
+        }
     }
     
     func registUsecase(){
@@ -249,7 +253,8 @@ class DIContainer {
         }
         ctner.register(WithdrawalUseCase.self) { (resolver)  in
             let repoWithdrawal = ctner.resolve(WithdrawalRepository.self)!
-            return WithdrawalUseCaseImpl(repoWithdrawal)
+            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            return WithdrawalUseCaseImpl(repoWithdrawal, repoLocal)
         }
         ctner.register(BankUseCase.self) { (resolver)  in
             let repoBank = ctner.resolve(BankRepository.self)!
@@ -400,11 +405,17 @@ class DIContainer {
             let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
             return ManageCryptoBankCardViewModel(withdrawalUseCase: withdrawalUseCase)
         }
+        ctner.register(CryptoViewModel.self) { (resolver) in
+            let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
+            let depositRepository = ctner.resolve(DepositRepository.self)!
+            return CryptoViewModel(withdrawalUseCase: withdrawalUseCase, depositRepository: depositRepository)
+        }
         ctner.register(AddBankViewModel.self) { (resolver) in
             return AddBankViewModel(ctner.resolve(AuthenticationUseCase.self)!,
                                     ctner.resolve(BankUseCase.self)!,
                                     ctner.resolve(WithdrawalUseCase.self)!,
-                                    ctner.resolve(PlayerDataUseCase.self)!)
+                                    ctner.resolve(PlayerDataUseCase.self)!,
+                                    ctner.resolve(AccountPatternGenerator.self)!)
         }
         ctner.register(WithdrawlLandingViewModel.self) { (resolver) in
             return WithdrawlLandingViewModel(ctner.resolve(WithdrawalUseCase.self)!)

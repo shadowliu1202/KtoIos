@@ -92,7 +92,7 @@ class LoginError : NSError{
 
 enum KTOError: Error {
     case EmptyData
-    case KtoWithdrawalAccountExist
 }
 
 extension KtoException: Error {}
+class NoSuchElementException: KtoException {}

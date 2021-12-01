@@ -12,23 +12,25 @@ protocol WithdrawalUseCase {
     func getWithdrawalAccounts() -> Single<[WithdrawalAccount]>
     func addWithdrawalAccount(_ newWithdrawalAccount: NewWithdrawalAccount) -> Completable
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
-    func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String>
+    func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String>
     func getCryptoBankCards() -> Single<[CryptoBankCard]>
-    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String>
-    func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog>
+    func addCryptoBankCard(currency: SupportCryptoType, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String>
+    func getCryptoLimitTransactions() -> Single<CpsWithdrawalSummary>
     func sendCryptoOtpVerify(accountType: AccountType, playerCryptoBankCardId: String) -> Completable
     func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable
     func resendOtp(accountType: AccountType) -> Completable
-    func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate>
-    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable
+    func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType) -> Single<IExchangeRate>
+    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable
     func deleteCryptoBankCard(id: String) -> Completable
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
-    var withdrawalRepository : WithdrawalRepository!
+    private var withdrawalRepository : WithdrawalRepository!
+    private var localStorageRepository: LocalStorageRepository!
     
-    init(_ withdrawalRepository : WithdrawalRepository) {
+    init(_ withdrawalRepository : WithdrawalRepository, _ localStorageRepository: LocalStorageRepository) {
         self.withdrawalRepository = withdrawalRepository
+        self.localStorageRepository = localStorageRepository
     }
     
     func deleteCryptoBankCard(id: String) -> Completable {
@@ -55,7 +57,7 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
         return self.withdrawalRepository.cancelWithdrawal(ticketId: ticketId)
     }
     
-    func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String> {
+    func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String> {
         return self.withdrawalRepository.sendWithdrawalRequest(playerBankCardId: playerBankCardId, cashAmount: cashAmount)
     }
     
@@ -79,11 +81,11 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
         return withdrawalRepository.getCryptoBankCards()
     }
     
-    func addCryptoBankCard(currency: Crypto, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String> {
+    func addCryptoBankCard(currency: SupportCryptoType, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String> {
         return withdrawalRepository.addCryptoBankCard(currency: currency, alias: alias, walletAddress: walletAddress, cryptoNetwork: cryptoNetwork)
     }
     
-    func getCryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
+    func getCryptoLimitTransactions() -> Single<CpsWithdrawalSummary> {
         return withdrawalRepository.getCryptoLimitTransactions()
     }
     
@@ -99,11 +101,11 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
         withdrawalRepository.resendOtp(accountType: accountType)
     }
     
-    func getCryptoExchangeRate(_ cryptoCurrency: Crypto) -> Single<CryptoExchangeRate> {
-        return withdrawalRepository.getCryptoExchangeRate(cryptoCurrency)
+    func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType) -> Single<IExchangeRate> {
+        return withdrawalRepository.getCryptoExchangeRate(cryptoCurrency, self.localStorageRepository.getSupportLocal())
     }
     
-    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable {
+    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable {
         return withdrawalRepository.requestCryptoWithdrawal(playerCryptoBankCardId: playerCryptoBankCardId, requestCryptoAmount: requestCryptoAmount, requestFiatAmount: requestFiatAmount, cryptoCurrency: cryptoCurrency)
     }
 }

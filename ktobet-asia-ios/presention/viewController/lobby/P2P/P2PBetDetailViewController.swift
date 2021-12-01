@@ -51,8 +51,8 @@ class BetDetailCell: UITableViewCell {
         dateFormatter.dateFormat = "HH:mm:ss"
         let dateString: String = dateFormatter.string(from: date)
         self.timeLabel.text = "\(dateString)".uppercased()
-        let status = item.winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + "  " + status + " \(item.winLoss.absoluteValue().description())"
+        let status = item.winLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
+        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + "  " + status + " \(item.winLoss.formatString())"
         
         return self
     }
@@ -60,11 +60,9 @@ class BetDetailCell: UITableViewCell {
     func configure(_ item: ArcadeGameBetRecord) {
         self.selectionStyle = .none
         self.betIdLabel.text = item.betId
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm:ss"
-        let dateString: String = dateFormatter.string(from: item.betTime.localDateTime.convertToDate())
+        let dateString: String = item.betTime.toTimeString()
         self.timeLabel.text = "\(dateString)".uppercased()
-        let status = item.winLoss.isPositive() ? Localize.string("common_win") : Localize.string("common_lose")
-        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + "  " + status + " \(item.winLoss.absoluteValue().description())"
+        let status = item.winLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
+        self.amountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + "  " + status + " \(item.winLoss.formatString())"
     }
 }

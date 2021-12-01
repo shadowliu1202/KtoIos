@@ -13,14 +13,16 @@ class AddBankViewModel {
     lazy var bankID = BehaviorRelay<Int32>(value: 0)
     private var bankNames: [String] = []
     lazy var bankName = BehaviorRelay<String>(value: "")
-    lazy var bankValid: Observable<ValidError> = bankName.skip(InitAndKeyboardFirstEvent).map { (bankName) -> ValidError in
-        return bankName.count > 0 ? .none : .empty
+    lazy var bankValid: Observable<ValidError> = bankName.skip(InitAndKeyboardFirstEvent).map { [unowned self] (bankName) -> ValidError in
+        let result: BankNamePatternValidateResult = self.accountPatternGenerator.bankName(banks: self.bankNames).validate(name: bankName)
+        return result.toValidError()
     }
     private lazy var isBankValid = bankValid.map({$0 == .none ? true : false})
     
     lazy var branchName = BehaviorRelay<String>(value: "")
-    lazy var branchValid: Observable<ValidError> = branchName.skip(InitAndKeyboardFirstEvent).map { (text) -> ValidError in
-        return text.count > 0 ? (text.isValidRegex(format: .branchName) ? .none : .regex) : .empty
+    lazy var branchValid: Observable<ValidError> = branchName.skip(InitAndKeyboardFirstEvent).map { [unowned self] (text) -> ValidError in
+        let result: BankBranchPatternValidateResult = self.accountPatternGenerator.bankBranch().validate(name: text)
+        return result.toValidError()
     }
     private lazy var isBranchValid = branchValid.map({$0 == .none ? true : false})
     
@@ -62,10 +64,10 @@ class AddBankViewModel {
     }
     
     var account = BehaviorRelay<String>(value: "")
-    lazy var accontValid: Observable<ValidError> = account.skip(InitAndKeyboardFirstEvent).map { (text) -> ValidError in
+    lazy var accontValid: Observable<ValidError> = account.skip(InitAndKeyboardFirstEvent).map { [unowned self] (text) -> ValidError in
         if text.count == 0 {
             return .empty
-        } else if text.count < 10 {
+        } else if !self.accountPatternGenerator.bankAccountNumber().verify(name: text) {
             return .length
         } else {
             return .none
@@ -81,16 +83,19 @@ class AddBankViewModel {
     private var bankUseCase: BankUseCase!
     private var withdrawalUseCase: WithdrawalUseCase!
     private var playerDataUseCase: PlayerDataUseCase!
+    private var accountPatternGenerator: AccountPatternGenerator!
     
     init(_ authenticationUseCase : AuthenticationUseCase,
          _ bankUseCase: BankUseCase,
          _ withdrawalUseCase: WithdrawalUseCase,
-         _ playerDataUseCase: PlayerDataUseCase) {
+         _ playerDataUseCase: PlayerDataUseCase,
+         _ accountPatternGenerator: AccountPatternGenerator) {
         self.usecaseAuth = authenticationUseCase
         self.bankUseCase = bankUseCase
         self.withdrawalUseCase = withdrawalUseCase
         self.playerDataUseCase = playerDataUseCase
         self.userName.accept(usecaseAuth.getUserName())
+        self.accountPatternGenerator = accountPatternGenerator
     }
     
     func isRealNameEditable() -> Single<Bool> {

@@ -30,11 +30,11 @@ enum FavoriteAction {
 
 typealias ProductVCProtocol = ProductFavoriteVCProtocol & ProductGoWebGameVCProtocol
 
-protocol ProductFavoriteVCProtocol: class {
+protocol ProductFavoriteVCProtocol: AnyObject {
     func toggleFavorite(_ game: WebGameWithDuplicatable, onCompleted: @escaping (FavoriteAction)->(), onError: @escaping (Error)->())
 }
 
-protocol ProductGoWebGameVCProtocol: class {
+protocol ProductGoWebGameVCProtocol: AnyObject {
     func getProductViewModel() -> ProductWebGameViewModelProtocol?
 }
 

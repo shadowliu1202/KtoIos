@@ -4,7 +4,7 @@ import SharedBu
 typealias DisplayProductViewModel = ProductFavoriteViewModelProtocol & ProductWebGameViewModelProtocol
 typealias DisplayProduct = DisplayBaseViewController & ProductBaseCollection
 
-protocol ProductBaseCollection: class {
+protocol ProductBaseCollection: AnyObject {
     func setCollectionView() -> UICollectionView
     func setProductGameDataSourceDelegate() -> ProductGameDataSourceDelegate
     func setViewModel() -> DisplayProductViewModel?
@@ -99,7 +99,7 @@ class DisplayBaseViewController: UIViewController, ProductVCProtocol {
 
 }
 
-protocol BaseGameTag: class {
+protocol BaseGameTag: AnyObject {
     var tagId: Int32 { get }
     var isSelected: Bool { get set }
     var name: String { get }

@@ -6,7 +6,7 @@ import SharedBu
 class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged {
     static let segueIdentifier = "toWithdrawalCryptoRequest"
     var bankcardId: String?
-    var cryptoCurrency: Crypto?
+    var supportCryptoType: SupportCryptoType?
     @IBOutlet private weak var withdrawalStep1TitleLabel: UILabel!
     @IBOutlet private weak var withdrawalTitleLabel: UILabel!
     @IBOutlet weak var exchangeRateView: ExchangeRateView!
@@ -18,22 +18,21 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
     @IBOutlet private weak var autoFillButton: UIButton!
     @IBOutlet private weak var nextButton: UIButton!
     
-    private var crypto: Crypto!
+    private var cryptoType: SupportCryptoType!
     private lazy var fiat = viewModel.localCurrency
     
-    private var viewModel = DI.resolve(WithdrawalCryptoRequestViewModel.self)!
+    fileprivate var viewModel = DI.resolve(WithdrawalCryptoRequestViewModel.self)!
     private var disposeBag = DisposeBag()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(tapBack))
         guard let _ = bankcardId else {
             fatalError("\(type(of: self)) need cardId.")
         }
-        guard let source = cryptoCurrency else {
-            fatalError("\(type(of: self)) need \(type(of: Crypto.self)) source.")
+        guard let source = supportCryptoType else {
+            fatalError("\(type(of: self)) need supportCryptoType.")
         }
-        self.crypto = source
+        self.cryptoType = source
         initUI()
     }
     
@@ -48,7 +47,7 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
         cryptoView = exchangeInput.cryptoView
         fiatView = exchangeInput.fiatView
         let stream = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
-            return Observable.combineLatest(viewModel.getWithdrawalLimitation().asObservable(), viewModel.getBalance().asObservable(), viewModel.cryptoCurrency(cryptoCurrency: crypto).asObservable())
+            return Observable.combineLatest(viewModel.getWithdrawalLimitation().asObservable(), viewModel.getBalance().asObservable(), viewModel.cryptoCurrency(cryptoCurrency: cryptoType).asObservable())
         }).share()
         setupExchangeUI(stream)
         setupWithdrawalAmountRange(stream)
@@ -56,17 +55,17 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
         dataBinding(stream)
     }
     
-    private func setupExchangeUI(_ stream: Observable<(WithdrawalLimits, CashAmount, CryptoExchangeRate)>) {
+    private func setupExchangeUI(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
         stream.subscribe(onNext: { [weak self] (_, _, cryptoExchangeRate) in
             guard let `self` = self else {return}
-            self.exchangeRateView.setup(cryptoExchangeRate, self.fiat)
-            self.exchangeInput.setup(self.crypto, self.fiat, exchangeRate: cryptoExchangeRate)
+            self.exchangeRateView.setup(self.cryptoType, cryptoExchangeRate, self.fiat)
+            self.exchangeInput.setup(self.cryptoType, 0.toCryptoCurrency(self.cryptoType), self.fiat, exchangeRate: cryptoExchangeRate)
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }
     
-    private func setupWithdrawalAmountRange(_ stream: Observable<(WithdrawalLimits, CashAmount, CryptoExchangeRate)>) {
+    private func setupWithdrawalAmountRange(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
         stream.subscribe(onNext: { [weak self] (limits, _, _) in
             guard let `self` = self else {return}
             let minimum = limits.singleCashMinimum.description()
@@ -77,7 +76,7 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
         }).disposed(by: disposeBag)
     }
     
-    private func setupAutoFillAmount(_ stream: Observable<(WithdrawalLimits, CashAmount, CryptoExchangeRate)>) {
+    private func setupAutoFillAmount(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
         stream.subscribe(onNext: { [weak self] (limits, balance, currency) in
             let title = limits.hasCryptoRequirement() ? Localize.string("cps_auto_fill_request") : Localize.string("cps_auto_fill_balance")
             self?.autoFillButton.setTitle(title, for: .normal)
@@ -90,21 +89,21 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
         }).disposed(by: disposeBag)
     }
     
-    private func autoFillAmount(limits: WithdrawalLimits, balance: CashAmount, rate: CryptoExchangeRate) {
+    private func autoFillAmount(limits: WithdrawalLimits, balance: AccountCurrency, rate: IExchangeRate) {
         if (limits.hasCryptoRequirement()) {
-            let cryptoTurnover = rate.exchangeToFiatAmount(cryptoAmount: limits.unresolvedCryptoTurnover())
+            let cryptoTurnover = limits.unresolvedCryptoTurnover
             switch verifyWithdrawalAmount(limits, cryptoTurnover) {
             case .Valid:
                 filledCryptoRequestByBalance(cryptoTurnover: cryptoTurnover, limits: limits, balance: balance, rate: rate)
             case .NotAllowed:
-                fillAmounts(cashAmount: CashAmount(amount: 0.0), cryptoAmount: CryptoAmount.Zero.init())
+                fillAmounts(accountCurrency: "0.0".toAccountCurrency(), cryptoAmount: "0.0".toCryptoCurrency(supportCryptoType: cryptoType))
             case .AboveLimitation:
                 filledCryptoRequesByLimit(limits: limits, balance: balance, rate: rate)
             }
         } else {
             switch verifyWithdrawalAmount(limits, balance) {
             case .Valid, .NotAllowed:
-                fillAmounts(cashAmount: balance, rate: rate)
+                fillAmounts(accountCurrency: balance, rate: rate)
             case .AboveLimitation:
                 filledAmountByLimit(limits: limits, balance: balance, rate: rate)
             }
@@ -117,7 +116,7 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
         case AboveLimitation
     }
 
-    private func verifyWithdrawalAmount(_ limits: WithdrawalLimits, _ cryptoTurnover: CashAmount) -> AmountVerifyStatus {
+    private func verifyWithdrawalAmount(_ limits: WithdrawalLimits, _ cryptoTurnover: AccountCurrency) -> AmountVerifyStatus {
         if cryptoTurnover < limits.singleCashMinimum {
             return .NotAllowed
         } else if limits.maxSingleWithdrawAmount() < cryptoTurnover {
@@ -127,45 +126,45 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
         }
     }
     
-    private func filledCryptoRequestByBalance(cryptoTurnover: CashAmount, limits: WithdrawalLimits, balance: CashAmount, rate: CryptoExchangeRate) {
+    private func filledCryptoRequestByBalance(cryptoTurnover: AccountCurrency, limits: WithdrawalLimits, balance: AccountCurrency, rate: IExchangeRate) {
         if balance > cryptoTurnover {
-            fillAmounts(cashAmount: cryptoTurnover, cryptoAmount: limits.unresolvedCryptoTurnover())
+            fillAmounts(accountCurrency: cryptoTurnover, cryptoAmount: limits.unresolvedCryptoTurnover * rate)
         } else {
             alertBalanceNotEnoughAndFillRemaining(balance: balance, rate: rate)
         }
     }
     
-    private func filledCryptoRequesByLimit(limits: WithdrawalLimits, balance: CashAmount, rate: CryptoExchangeRate) {
+    private func filledCryptoRequesByLimit(limits: WithdrawalLimits, balance: AccountCurrency, rate: IExchangeRate) {
         if limits.maxSingleWithdrawAmount() > balance {
             alertBalanceNotEnoughAndFillRemaining(balance: balance, rate: rate)
         } else if limits.dailyMaxCash > limits.singleCashMaximum {
             alertAutoFillMessage(title: Localize.string("common_tip_title_warm"), message: Localize.string("cps_auto_fill_crypto_maximum_limit")) {
-                self.fillAmounts(cashAmount: limits.singleCashMaximum, cryptoAmount: rate.exchangeToCryptoAmount(cashAmount: limits.singleCashMaximum))
+                self.fillAmounts(accountCurrency: limits.singleCashMaximum, cryptoAmount: limits.singleCashMaximum * rate)
             }
         } else if limits.dailyMaxCash < limits.singleCashMaximum {
             alertAutoFillMessage(title: Localize.string("common_tip_title_warm"), message: Localize.string("cps_auto_fill_crypto_daily_limit_maximum")) {
-                self.fillAmounts(cashAmount: limits.dailyMaxCash, cryptoAmount: rate.exchangeToCryptoAmount(cashAmount: limits.dailyMaxCash))
+                self.fillAmounts(accountCurrency: limits.dailyMaxCash, cryptoAmount: limits.dailyMaxCash * rate)
             }
         }
     }
     
-    private func filledAmountByLimit(limits: WithdrawalLimits, balance: CashAmount, rate: CryptoExchangeRate) {
+    private func filledAmountByLimit(limits: WithdrawalLimits, balance: AccountCurrency, rate: IExchangeRate) {
         if limits.maxSingleWithdrawAmount() > balance {
             alertBalanceNotEnoughAndFillRemaining(balance: balance, rate: rate)
         } else if limits.dailyMaxCash > limits.singleCashMaximum {
             alertAutoFillMessage(title: Localize.string("common_tip_title_warm"), message: Localize.string("cps_auto_fill_maximum_limit")) {
-                self.fillAmounts(cashAmount: limits.singleCashMaximum, cryptoAmount: rate.exchangeToCryptoAmount(cashAmount: limits.singleCashMaximum))
+                self.fillAmounts(accountCurrency: limits.singleCashMaximum, cryptoAmount: limits.singleCashMaximum * rate)
             }
         } else if limits.dailyMaxCash < limits.singleCashMaximum {
             alertAutoFillMessage(title: Localize.string("common_tip_title_warm"), message: Localize.string("cps_auto_fill_daily_limit_maximum")) {
-                self.fillAmounts(cashAmount: limits.dailyMaxCash, cryptoAmount: rate.exchangeToCryptoAmount(cashAmount: limits.dailyMaxCash))
+                self.fillAmounts(accountCurrency: limits.dailyMaxCash, cryptoAmount: limits.dailyMaxCash * rate)
             }
         }
     }
     
-    private func alertBalanceNotEnoughAndFillRemaining(balance: CashAmount, rate: CryptoExchangeRate) {
+    private func alertBalanceNotEnoughAndFillRemaining(balance: AccountCurrency, rate: IExchangeRate) {
         alertAutoFillMessage(title: Localize.string("cps_auto_fill_not_enough_balance"), message: Localize.string("cps_auto_fill_remaining_balance")) {
-            self.fillAmounts(cashAmount: balance, cryptoAmount: rate.exchangeToCryptoAmount(cashAmount: balance))
+            self.fillAmounts(accountCurrency: balance, cryptoAmount: balance * rate)
         }
     }
     
@@ -173,16 +172,16 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
         Alert.show(title, message, confirm: confirm, confirmText: Localize.string("common_determine"), cancel: nil)
     }
     
-    private func fillAmounts(cashAmount: CashAmount, rate: CryptoExchangeRate) {
-        fillAmounts(cashAmount: cashAmount, cryptoAmount: rate.exchangeToCryptoAmount(cashAmount: cashAmount))
+    private func fillAmounts(accountCurrency: AccountCurrency, rate: IExchangeRate) {
+        fillAmounts(accountCurrency: accountCurrency, cryptoAmount: accountCurrency * rate)
     }
     
-    private func fillAmounts(cashAmount: CashAmount, cryptoAmount: CryptoAmount) {
-        cryptoView.setAmount(Decimal(cryptoAmount.cryptoAmount))
-        fiatView.setAmount(Decimal(cashAmount.amount))
+    private func fillAmounts(accountCurrency: AccountCurrency, cryptoAmount: CryptoCurrency) {
+        cryptoView.setAmount(cryptoAmount.description())
+        fiatView.setAmount(accountCurrency.description())
     }
     
-    private func dataBinding(_ stream: Observable<(WithdrawalLimits, CashAmount, CryptoExchangeRate)>) {
+    private func dataBinding(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
         exchangeInput.text.subscribe(onNext: { [weak self] (cryptoAmountStr, fiatAmountStr)  in
             if let cryptoAmountStr = cryptoAmountStr, let cryptoAmount = cryptoAmountStr.currencyAmountToDeciemal() {
                 self?.viewModel.inputCryptoAmount = cryptoAmount
@@ -213,7 +212,7 @@ class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged
         
         nextButton.rx.touchUpInside.withLatestFrom(stream).bind(onNext: { [weak self] (_, _, cryptoExchangeRate) in
             guard let `self` = self else {return}
-            let request = RequestConfirm(cardId: self.bankcardId!, crypto: self.crypto, cryptoAmount: self.viewModel.inputCryptoAmount, fiatCurrency: self.fiat, fiatAmount: self.viewModel.inputFiatAmount, exchangeRate: cryptoExchangeRate)
+            let request = RequestConfirm(cardId: self.bankcardId!, supportCryptoType: self.cryptoType, cryptoAmount: self.viewModel.inputCryptoAmount, fiatCurrency: self.fiat, fiatAmount: self.viewModel.inputFiatAmount, exchangeRate: cryptoExchangeRate)
             self.performSegue(withIdentifier: WithdrawalCryptoRequestConfirmViewController.segueIdentifier, sender: request)
         }).disposed(by: disposeBag)
         
@@ -245,17 +244,17 @@ class ExchangeRateView: UIView {
     @IBOutlet private weak var cryptoLabel: UILabel!
     @IBOutlet private weak var exchangeRateLabel: UILabel!
     @IBOutlet private weak var exchangeLabel: UILabel!
+    private var cryptoType: SupportCryptoType!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func setup(_ cryptoExchangeRate: CryptoExchangeRate, _ fiatCurrency: FiatCurrency) {
-        let crypto = cryptoExchangeRate.crypto
-        cryptoLabel.text = crypto.simpleName
-        cryptoIcon.image = crypto.icon
-        exchangeRateLabel.text = cryptoExchangeRate.rate.currencyFormatWithoutSymbol(precision: 6, maximumFractionDigits: 6)
-        exchangeLabel.text = "1 \(crypto.simpleName)" + " = \(cryptoExchangeRate.rate.currencyFormatWithoutSymbol(precision: 2, maximumFractionDigits: 2))" + " \(fiatCurrency.simpleName)"
+    func setup(_ cryptoType: SupportCryptoType, _ cryptoExchangeRate: IExchangeRate, _ fiatCurrency: AccountCurrency) {
+        cryptoLabel.text = cryptoType.name
+        cryptoIcon.image = cryptoType.icon
+        exchangeRateLabel.text = cryptoExchangeRate.formatString()
+        exchangeLabel.text = "1 \(cryptoType.name)" + " = \(cryptoExchangeRate.formatString())" + " \(fiatCurrency.simpleName)"
     }
     
 }
@@ -274,13 +273,9 @@ class CurrencyView: UIView {
         textField.setRightPaddingPoints(16)
     }
     
-    func setup(_ currency: Currency) {
+    func setup(_ currency: CryptoUIResource) {
         imageView.image = currency.flagIcon
-        if currency is Crypto {
-            currencyLabel.text = (currency as! Crypto).simpleName
-        } else if currency is FiatCurrency {
-            currencyLabel.text = (currency as! FiatCurrency).simpleName
-        }
+        currencyLabel.text = currency.name
     }
     
     func setFocus(_ isFocus: Bool) {
@@ -303,10 +298,6 @@ class CurrencyView: UIView {
         } else {
             textField.text = currencyFormat(amount)
         }
-    }
-    
-    func setAmount(_ amount: Decimal) {
-        textField.text = currencyFormat(amount)
         textField.sendActions(for: .valueChanged)
     }
     
@@ -337,8 +328,8 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     @IBOutlet weak var cryptoView: CryptoView!
     @IBOutlet weak var fiatView: FiatView!
     @IBOutlet private weak var errorLabel: UILabel!
-    var exchangeRate: CryptoExchangeRate!
-    private var crypto: Crypto!
+    var exchangeRate: IExchangeRate!
+    private var cryptoType: SupportCryptoType!
     
     var text : Observable<(ControlProperty<String?>.Element, ControlProperty<String?>.Element)>{
         get {
@@ -358,10 +349,8 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
         fiatView.textField.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
     }
 
-    func setup(_ currency: Currency..., exchangeRate: CryptoExchangeRate) {
-        if currency[0] is Crypto {
-            self.crypto = (currency[0] as! Crypto)
-        }
+    func setup(_ cryptoType: SupportCryptoType, _ currency: CryptoUIResource..., exchangeRate: IExchangeRate) {
+        self.cryptoType = cryptoType
         cryptoView.setup(currency[0])
         fiatView.setup(currency[1])
         self.exchangeRate = exchangeRate
@@ -397,12 +386,13 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
         
         if textField == cryptoView.textField {
             cryptoView.setAmount(str)
-            let fiatAmount = Decimal(exchangeRate.exchangeToFiatAmount(cryptoAmount: CryptoAmount.create(cryptoAmount: amount.doubleValue, crypto: crypto)).amount)
-            fiatView.setAmount(fiatAmount)
+            let cryptoAmount = amount.toCryptoCurrency(cryptoType)
+            let fiatAmount = cryptoAmount * exchangeRate
+            fiatView.setAmount(fiatAmount.description())
         } else if textField == fiatView.textField {
             fiatView.setAmount(str)
             if let doubleAmount = fiatView.currencyFormat(amount).currencyAmountToDeciemal()?.doubleValue {
-                let crptoAmount = Decimal(exchangeRate.exchangeToCryptoAmount(cashAmount: CashAmount(amount: doubleAmount)).cryptoAmount)
+                let crptoAmount = (doubleAmount.toAccountCurrency() * exchangeRate).description()
                 cryptoView.setAmount(crptoAmount)
             }
         }

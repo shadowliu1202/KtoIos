@@ -10,11 +10,11 @@ class WithdrawalRequestViewModel {
     
     var relayWithdrawalAmount = BehaviorRelay<String>(value: "")
     var relaydDailyMaxCount = BehaviorRelay<Int32>(value: 0)
-    var relayDailyMaxCash = BehaviorRelay<CashAmount>(value: CashAmount(amount: 0))
-    var singleCashMinimum: CashAmount?
-    var singleCashMaximum: CashAmount?
+    var relayDailyMaxCash = BehaviorRelay<AccountCurrency>(value: 0.toAccountCurrency())
+    var singleCashMinimum: AccountCurrency?
+    var singleCashMaximum: AccountCurrency?
     var relayNameEditable: Bool = false
-    var balance: CashAmount?
+    var balance: AccountCurrency?
     lazy var userName = playerDataUseCase.loadPlayer()
         .map{ $0.playerInfo.withdrawalName }
         .asObservable()
@@ -39,7 +39,7 @@ class WithdrawalRequestViewModel {
         })
     }
     
-    func getBalance() -> Single<CashAmount> {
+    func getBalance() -> Single<AccountCurrency> {
         self.playerDataUseCase.getBalance().do(onSuccess: {[weak self] (cashAmount) in
             self?.balance = cashAmount
         })
@@ -52,19 +52,19 @@ class WithdrawalRequestViewModel {
                      dataValid: Observable<Bool>) {
         let userNameValid = userName.map { $0.count != 0 }
         let dailyCountValid = relaydDailyMaxCount.map { $0 > 0 }
-        let dailyCashValid = relayDailyMaxCash.map { $0.amount >= 0}
+        let dailyCashValid = relayDailyMaxCash.map { $0.isPositive }
         let amountValid = relayWithdrawalAmount.map { [weak self] (amount) -> AmountStatus in
             if amount.count == 0 { return .empty}
-            guard let amount = amount.currencyAmountToDouble(),
-                  let singleCashMinimum = self?.singleCashMinimum,
+            guard let singleCashMinimum = self?.singleCashMinimum,
                   let singleCashMaximum = self?.singleCashMaximum,
                   let dailyCurrentCash = self?.relayDailyMaxCash.value,
                   let balance = self?.balance
             else { return .invalid }
-            if amount > singleCashMaximum.amount { return .amountBeyondRange }
-            if amount < singleCashMinimum.amount { return .amountBelowRange }
-            if amount > dailyCurrentCash.amount { return .amountExceedDailyLimit}
-            if amount > balance.amount { return .notEnoughBalance}
+            let amount = amount.toAccountCurrency()
+            if amount > singleCashMaximum { return .amountBeyondRange }
+            if amount < singleCashMinimum { return .amountBelowRange }
+            if amount > dailyCurrentCash { return .amountExceedDailyLimit}
+            if amount > balance { return .notEnoughBalance}
             
             return .valid
         }
@@ -74,7 +74,7 @@ class WithdrawalRequestViewModel {
         return (dailyCountValid, dailyCashValid, amountValid, userNameValid, dataValid)
     }
     
-    func sendWithdrawalRequest(playerBankCardId: String, cashAmount: CashAmount) -> Single<String> {
+    func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String> {
         return withdrawalUseCase.sendWithdrawalRequest(playerBankCardId: playerBankCardId, cashAmount: cashAmount)
     }
     

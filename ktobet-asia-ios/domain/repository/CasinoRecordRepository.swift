@@ -24,8 +24,8 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             guard let d = response.data else { return BetSummary.init(unFinishedGames: 0, finishedGame: []) }
             let finishedGame = d.summaries.map { (s) -> DateSummary in
                 let createDate = s.betDate.convertDateTime(format:  "yyyy/MM/dd") ?? Date()
-                return DateSummary(totalStakes: CashAmount(amount: s.stakes),
-                                   totalWinLoss: CashAmount(amount: s.winLoss),
+                return DateSummary(totalStakes: s.stakes.toAccountCurrency(),
+                                   totalWinLoss: s.winLoss.toAccountCurrency(),
                                    createdDateTime: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()),
                                    count: s.count)
             }
@@ -55,7 +55,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             var unsettledBetRecords: [UnsettledBetRecord] = []
             for d in data {
                 let betTime = d.betTime.toLocalDateTime()
-                unsettledBetRecords.append(UnsettledBetRecord(betId: d.betId, otherId: d.otherId, gameId: d.gameId, gameName: d.gameName, betTime: betTime, stakes: CashAmount(amount: d.stakes), prededuct: CashAmount(amount: d.prededuct)))
+                unsettledBetRecords.append(UnsettledBetRecord(betId: d.betId, otherId: d.otherId, gameId: d.gameId, gameName: d.gameName, betTime: betTime, stakes: d.stakes.toAccountCurrency(), prededuct: d.prededuct.toAccountCurrency()))
             }
             
             return unsettledBetRecords
@@ -86,7 +86,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             guard let data = response.data?.data else { return [] }
             var betRecords: [BetRecord] = []
             for b in data {
-                betRecords.append(BetRecord(betId: b.betId, gameName: b.gameName, isEvent: b.showWinLoss, prededuct: CashAmount(amount: b.prededuct), stakes: CashAmount(amount: b.stakes), wagerId: b.wagerId, winLoss: CashAmount(amount: b.winLoss), hasDetails: b.hasDetails))
+                betRecords.append(BetRecord(betId: b.betId, gameName: b.gameName, isEvent: b.showWinLoss, prededuct: b.prededuct.toAccountCurrency(), stakes: b.stakes.toAccountCurrency(), wagerId: b.wagerId, winLoss: b.winLoss.toAccountCurrency(), hasDetails: b.hasDetails))
             }
             
             return betRecords
@@ -100,7 +100,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             let casinoBetType = CasinoBetType.Companion.init().convert(type: data.gameType)
             let provider = GameProvider.Companion.init().convert(type: data.gameProviderId)
             let gameResult = CasinoGameResult.Companion.init().create(casinoBetType: casinoBetType, provider: provider, gameResult: data.gameResult)
-            return CasinoDetail(betId: data.betId, otherId: data.otherId, betTime: betTime, selection: data.selection, roundId: data.roundId, gameName: data.gameName, gameResult: gameResult, stakes: CashAmount(amount: data.stakes), prededuct: CashAmount(amount: data.prededuct), winLoss: CashAmount(amount: data.winLoss), status: CasinoWagerStatus.Companion.init().convert(type: data.status))
+            return CasinoDetail(betId: data.betId, otherId: data.otherId, betTime: betTime, selection: data.selection, roundId: data.roundId, gameName: data.gameName, gameResult: gameResult, stakes: data.stakes.toAccountCurrency(), prededuct: data.prededuct.toAccountCurrency(), winLoss: data.winLoss.toAccountCurrency(), status: CasinoWagerStatus.Companion.init().convert(type: data.status))
         }
     }
 }

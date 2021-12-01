@@ -36,23 +36,23 @@ class WithdrawalViewController: UIViewController {
             self.withdrawalTodayCountLimitLabel.text = Localize.string("cps_daily_limit_widthrawal_times", dailyMaxCount)
         }
     }
-    private lazy var turnoverRequirement: Double? = 0 {
+    private lazy var turnoverRequirement: AccountCurrency? = AccountCurrency.zero() {
         didSet {
             guard let turnoverRequirement = turnoverRequirement else {
                 self.turnoverRequirementLabel.text = Localize.string("cps_turnover_requirement")
                 return
             }
-            let suffix = turnoverRequirement <= 0 ? Localize.string("common_none") : Localize.string("common_requirement", "\(turnoverRequirement.currencyFormatWithoutSymbol(precision: 2))")
+            let suffix = !turnoverRequirement.isPositive ? Localize.string("common_none") : Localize.string("common_requirement", "\(turnoverRequirement.formatString())")
             self.turnoverRequirementLabel.text = Localize.string("cps_turnover_requirement") + suffix
         }
     }
-    private lazy var crpytoWithdrawalRequirement: Double? = 0 {
+    private lazy var crpytoWithdrawalRequirement: AccountCurrency? = AccountCurrency.zero() {
         didSet {
             var suffix = Localize.string("common_none")
             var textColor = UIColor.textPrimaryDustyGray
             var icon = UIImage(named: "Tips")
-            if let crpytoWithdrawalRequirement = crpytoWithdrawalRequirement, crpytoWithdrawalRequirement > 0 {
-                suffix = Localize.string("common_requirement", crpytoWithdrawalRequirement.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8)+" \(crpytoWithdrawalRequirementCurrencyName())")
+            if let crpytoWithdrawalRequirement = crpytoWithdrawalRequirement, crpytoWithdrawalRequirement.isPositive {
+                suffix = Localize.string("common_requirement", crpytoWithdrawalRequirement.formatString())
                 textColor = UIColor.redForDarkFull
                 icon = UIImage(named: "iconChevronRightRed7")
                 let tap = UITapGestureRecognizer(target: self, action: #selector(switchToCrpytoTransationLog))
@@ -147,7 +147,7 @@ class WithdrawalViewController: UIViewController {
     @objc fileprivate func withdrawTap(_ sender: UITapGestureRecognizer) {
         if let withdrawalLimits = withdrawalLimits, withdrawalLimits.hasCryptoRequirement() {
             Alert.show(Localize.string("cps_cash_withdrawal_lock_title"),
-                       Localize.string("cps_cash_withdrawal_lock_desc", String(format: "%.8f", crpytoWithdrawalRequirementAmount()!)),
+                       Localize.string("cps_cash_withdrawal_lock_desc", crpytoWithdrawalRequirementAmount()?.denomination()),
                        confirm: {
                             self.dismiss(animated: true, completion: nil)
                        }, cancel: nil)
@@ -185,17 +185,17 @@ class WithdrawalViewController: UIViewController {
         }).subscribe(onNext: { [weak self] (withdrawalLimits) in
             guard let self = self else { return }
             self.withdrawalLimits = withdrawalLimits
-            self.dailyLimitAmount = "\(withdrawalLimits.dailyCurrentCash.amount.currencyFormatWithoutSymbol(precision: 2))"
-            self.dailyMaxCount = "\(withdrawalLimits.dailyCurrentCount)"
-            self.turnoverRequirement = withdrawalLimits.remainCashTurnover().amount
+            self.dailyLimitAmount = withdrawalLimits.dailyMaxCash.amount()
+            self.dailyMaxCount = "\(withdrawalLimits.dailyMaxCount)"
+            self.turnoverRequirement = withdrawalLimits.remainCashTurnover()
             self.crpytoWithdrawalRequirement = self.crpytoWithdrawalRequirementAmount()
-            self.checkDailyWithdrawalLimit(withdrawalLimits.dailyMaxCash.amount, withdrawalLimits.dailyMaxCount)
+            self.checkDailyWithdrawalLimit(withdrawalLimits.dailyMaxCash.bigAmount.doubleValue(exactRequired: true), withdrawalLimits.dailyMaxCount)
         }, onError: { (error) in
             self.handleUnknownError(error)
         }).disposed(by: disposeBag)
         
         self.showInfoButton.rx.tap.subscribe(onNext: { [weak self] _ in
-            if let amount = self?.crpytoWithdrawalRequirementAmount(), amount > 0 {
+            if let amount = self?.crpytoWithdrawalRequirementAmount(), amount.isPositive {
                 self?.switchToCrpytoTransationLog()
             } else {
                 Alert.show(Localize.string("cps_crpyto_withdrawal_requirement_title"),
@@ -212,11 +212,11 @@ class WithdrawalViewController: UIViewController {
     }
     
     private func crpytoWithdrawalRequirementCurrencyName() -> String {
-        return self.withdrawalLimits?.unresolvedCryptoTurnover().cryptoCurrency.simpleName ?? ""
+        return self.withdrawalLimits?.unresolvedCryptoTurnover.denomination() ?? ""
     }
     
-    private func crpytoWithdrawalRequirementAmount() -> Double? {
-        return self.withdrawalLimits?.unresolvedCryptoTurnover().cryptoAmount
+    private func crpytoWithdrawalRequirementAmount() -> AccountCurrency? {
+        return self.withdrawalLimits?.unresolvedCryptoTurnover
     }
     
     private func checkDailyWithdrawalLimit(_ amount: Double, _ count: Int32) {

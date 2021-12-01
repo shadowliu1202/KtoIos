@@ -6,7 +6,7 @@ protocol PlayerRepository {
     func loadPlayer()-> Single<Player>
     func getDefaultProduct()->Single<ProductType>
     func saveDefaultProduct(_ productType: ProductType)->Completable
-    func getBalance() -> Single<CashAmount>
+    func getBalance(_ supportLocale: SupportLocale) -> Single<AccountCurrency>
     func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<[String: Double]>
     func isRealNameEditable() -> Single<Bool>
     func getLevelPrivileges() -> Single<[LevelOverview]>
@@ -82,8 +82,10 @@ class PlayerRepositoryImpl : PlayerRepository {
         })
     }
     
-    func getBalance() -> Single<CashAmount> {
-        return playerApi.getCashBalance().map { CashAmount(amount: Double($0.data ?? 0) )}
+    func getBalance(_ supportLocale: SupportLocale) -> Single<AccountCurrency> {
+        return playerApi.getCashBalance().map {
+            FiatFactory.init().create(supportLocale: supportLocale, amount_: "\(Double($0.data ?? 0))")
+        }
     }
     
     func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<[String: Double]> {
@@ -136,11 +138,11 @@ class PlayerRepositoryImpl : PlayerRepository {
                     productType: ProductType.convert(privilegeBean.productType),
                     betMultiple: privilegeBean.betMultiple,
                     issueFrequency: LevelPrivilege.DepositIssueFrequencyCompanion.init().convert(type: privilegeBean.issueFrequency),
-                    maxBonus: CashAmount(amount: privilegeBean.maxBonus),
-                    minCapital: CashAmount(amount: privilegeBean.minCapital),
+                    maxBonus: privilegeBean.maxBonus.toAccountCurrency(),
+                    minCapital: privilegeBean.minCapital.toAccountCurrency(),
                     percentage: Percentage(percent: privilegeBean.percentage),
                     rebatePercentages: rebatePercentages(privilegeBean),
-                    withdrawalLimitAmount: CashAmount(amount: privilegeBean.withdrawalLimitAmount),
+                    withdrawalLimitAmount: privilegeBean.withdrawalLimitAmount.toAccountCurrency(),
                     withdrawalLimitCount: privilegeBean.withdrawalLimitCount)
     }
     

@@ -3,7 +3,7 @@ import SharedBu
 import RxSwift
 import RxCocoa
 
-protocol AccountAddComplete: class {
+protocol AccountAddComplete: AnyObject {
     func addAccountSuccess()
 }
 
@@ -120,7 +120,7 @@ class WithdrawlAccountsViewController: UIViewController {
     
     private func updateUI() {
         if isEditMode {
-            titleLabel.text = Localize.string("withdrawal_setaccount")
+            titleLabel.text = Localize.string("withdrawal_accountsetting_title")
             footerImg.image = UIImage(named: "Add")
             footerLabel.text = Localize.string("withdrawal_setbankaccount_button")
         } else {
@@ -210,7 +210,7 @@ extension WithdrawlAccountsViewController {
             if let dest = segue.destination as? WithdrawalCryptoRequestViewController {
                 if let bankCard = sender as? CryptoBankCard {
                     dest.bankcardId = bankCard.id_
-                    dest.cryptoCurrency = bankCard.currency
+                    dest.supportCryptoType = bankCard.currency
                     
                 }
             }
@@ -276,7 +276,7 @@ class CryptoAccountCell: UITableViewCell {
         self.verifyLabel.textColor = verifyStatus.color
         self.verifyLabel.text = verifyStatus.text
         self.imgView.isHidden = isEditMode
-        self.walletType.text = item.currency.simpleName
+        self.walletType.text = item.currency.name
         self.networkLabel.text = item.cryptoNetwork.name
         return self
     }

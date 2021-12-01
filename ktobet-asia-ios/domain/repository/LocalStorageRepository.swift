@@ -62,8 +62,8 @@ class LocalStorageRepository {
         return SupportLocale.Companion.init().create(language: getCultureCode())
     }
     
-    func getLocalCurrency() -> FiatCurrency {
-        return FiatCurrency.create(cultureCode: getCultureCode())
+    func getLocalCurrency() -> AccountCurrency {
+        return FiatFactory.init().create(supportLocale: getSupportLocal(), amount_: "0")
     }
 
     func setRememberMe(_ rememberMe: Bool?) {

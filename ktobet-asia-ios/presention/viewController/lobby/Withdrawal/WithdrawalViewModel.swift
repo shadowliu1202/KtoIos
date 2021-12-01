@@ -57,7 +57,7 @@ class WithdrawalViewModel {
         return withdrawalUseCase.bindingImageWithWithdrawalRecord(displayId: displayId, transactionId: transactionId, portalImages: portalImages)
     }
     
-    func cryptoLimitTransactions() -> Single<CryptoWithdrawalLimitLog> {
+    func cryptoLimitTransactions() -> Single<CpsWithdrawalSummary> {
         return withdrawalUseCase.getCryptoLimitTransactions()
     }
 }

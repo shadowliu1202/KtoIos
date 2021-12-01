@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 
 protocol PlayerDataUseCase {
-    func getBalance() -> Single<CashAmount>
+    func getBalance() -> Single<AccountCurrency>
     func setBalanceHiddenState(gameId: String, isHidden: Bool)
     func getBalanceHiddenState(gameId: String) -> Bool
     func loadPlayer() -> Single<Player>
@@ -25,8 +25,8 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
         self.settingStore = settingStore
     }
     
-    func getBalance() -> Single<CashAmount> {
-        return self.playerRepository.getBalance()
+    func getBalance() -> Single<AccountCurrency> {
+        return self.playerRepository.getBalance(localRepository.getSupportLocal())
     }
     
     func setBalanceHiddenState(gameId: String, isHidden: Bool) {

@@ -27,11 +27,11 @@ class CPSApi: ApiService {
         self.httpClient = httpClient
     }
     
-    func createCryptoDeposit() -> Single<ResponseData<CryptoDepositReceipt>> {
+    func createCryptoDeposit(cryptoDepositRequest: CryptoDepositRequest) -> Single<ResponseData<CryptoDepositReceipt>> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
                                path: "api/deposit/online-deposit-crypto",
                                method: .post,
-                               task: .requestPlain,
+                               task: .requestJSONEncodable(cryptoDepositRequest),
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<CryptoDepositReceipt>.self)
     }
@@ -74,7 +74,7 @@ class CPSApi: ApiService {
         return httpClient.request(target).asCompletable()
     }
     
-    func getCryptoExchangeRate(_ cryptoCurrencyId: Int) -> Single<NonNullResponseData<Double>> {
+    func getCryptoExchangeRate(_ cryptoCurrencyId: Int32) -> Single<NonNullResponseData<Double>> {
         let target = GetAPITarget(service: self.url("api/crypto-currency-rate/\(cryptoCurrencyId)"))
         return httpClient.request(target).map(NonNullResponseData<Double>.self)
     }
@@ -87,6 +87,11 @@ class CPSApi: ApiService {
     func deleteBankCards(bankCardId: [String: String]) -> Completable {
         let target = DeleteAPITarget(service: self.url("api/crypto-bank-card")).parameters(bankCardId)
         return httpClient.request(target).asCompletable()
+    }
+    
+    func getCryptoCurrency() -> Single<ResponseData<CryptoCurrencyBean>> {
+        let target = GetAPITarget(service: self.url("api/deposit/crypto-currency"))
+        return httpClient.request(target).map(ResponseData<CryptoCurrencyBean>.self)
     }
 }
 

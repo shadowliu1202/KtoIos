@@ -33,9 +33,16 @@ class LocalizeUtils: NSObject {
         let bundle = Bundle(path: path!)
         if let parameter = parameter {
             return String(format: NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: ""), parameter)
-        }else {
+        } else {
             return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")
         }
+    }
+    
+    func string(_ key: String) -> String {
+        let localizationFileNmae = getLanguage()
+        let path = Bundle.main.path(forResource: localizationFileNmae, ofType: "lproj")
+        let bundle = Bundle(path: path!)
+        return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")
     }
     
     func setLanguage(language : Language){
@@ -52,17 +59,6 @@ class LocalizeUtils: NSObject {
         default:
             UserDefaults.standard.setValue(Language.ZH.rawValue, forKey: "UserLanguage")
             return Language.ZH.rawValue
-        }
-    }
-    
-    func getSymbol(locale: Locale = Locale(identifier: "zh_Hans_CN")) -> String? {
-        let lang = UserDefaults.standard.string(forKey: "UserLanguage")
-        switch lang {
-        case Language.ZH.rawValue: return Locale(identifier: "zh_Hans_CN").currencySymbol
-        case Language.TH.rawValue: return Locale(identifier: "th_TH").currencySymbol
-        case Language.VI.rawValue: return Locale(identifier: "vi_VN").currencySymbol
-        default:
-            return ""
         }
     }
 }

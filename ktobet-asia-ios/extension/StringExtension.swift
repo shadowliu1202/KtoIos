@@ -126,10 +126,37 @@ extension Optional where Wrapped == String {
         }
         return self.isEmpty
     }
+    
+    func toShareOffsetDateTime() -> OffsetDateTime {
+        guard let `self` = self else {
+            return OffsetDateTime.companion.NotDefine
+        }
+        return self.toOffsetDateTime()
+    }
 }
 
 extension String {
     func removeHtmlTag() -> String {
         self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+    }
+}
+
+extension String {
+    func toAccountCurrency() -> AccountCurrency {
+        return FiatFactory.shared.create(supportLocale: LocalStorageRepository().getSupportLocal(), amount_: self.replacingOccurrences(of: ",", with: ""))
+    }
+    
+    func toCryptoCurrency(cryptoCurrencyCode: Int?) -> CryptoCurrency {
+        guard let cryptoCurrencyCode = cryptoCurrencyCode else { return CryptoFactory.shared.unknown(amount: "0.0") }
+        for index in 0..<SupportCryptoType.values().size {
+            if (SupportCryptoType.values().get(index: index))!.id__ == cryptoCurrencyCode {
+                return toCryptoCurrency(supportCryptoType: SupportCryptoType.values().get(index: index)!)
+            }
+        }
+        return CryptoFactory.shared.unknown(amount: self)
+    }
+    
+    func toCryptoCurrency(supportCryptoType: SupportCryptoType) -> CryptoCurrency {
+        return CryptoFactory.shared.create(supportCryptoType: supportCryptoType, amount_: self)
     }
 }

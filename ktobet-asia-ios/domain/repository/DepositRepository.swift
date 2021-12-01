@@ -5,15 +5,17 @@ import SharedBu
 protocol DepositRepository {
     func getDepositTypes() -> Single<[DepositType]>
     func getDepositRecords() -> Single<[DepositRecord]>
-    func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]>
-    func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String>
+    func getDepositOfflineBankAccounts() -> Single<[OfflineBank]>
+    func depositOffline(depositRequest: DepositRequest_, depositTypeId: Int32) -> Single<String>
     func getDepositMethods(depositType: Int32) -> Single<[PaymentGateway]>
-    func depositOnline(remitter: DepositRequest_.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32) -> Single<DepositTransaction>
+    func depositOnline(remitter: DepositRequest_.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32, toBank: String) -> Single<DepositTransaction>
     func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail>
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
     func getDepositRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[DepositRecord]>
-    func requestCryptoDeposit() -> Single<String>
+    func requestCryptoDeposit(cryptoDepositRequest: CryptoDepositRequest) -> Single<String>
     func requestCryptoDetailUpdate(displayId: String) -> Single<String>
+    func getPlayerDepositSystem() -> Single<DepositSystem>
+    func getDepositTakingCryptos() -> Single<[CryptoCurrencyInfo]>
 }
 
 class DepositRepositoryImpl: DepositRepository {
@@ -21,6 +23,7 @@ class DepositRepositoryImpl: DepositRepository {
     private var imageApi: ImageApi!
     private var cpsApi: CPSApi!
     let MOBILE_CHANNEL = 0
+    private let depositSystem = DepositSystem.create()
     
     init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi) {
         self.bankApi = bankApi
@@ -33,7 +36,7 @@ class DepositRepositoryImpl: DepositRepository {
             return response.data?.sorted { $0.depositTypeId < $1.depositTypeId } ?? []
         }.map {
             $0.map { (d) -> DepositType in
-                DepositType(id: d.depositTypeId, name: d.depositTypeName, min: CashAmount(amount: d.depositLimitMinimum), max: CashAmount(amount: d.depositLimitMaximum), isFavorite: d.isFavorite)
+                DepositType(id: d.depositTypeId, name: d.depositTypeName, min: d.depositLimitMinimum.toAccountCurrency(), max: d.depositLimitMaximum.toAccountCurrency(), isFavorite: d.isFavorite)
             }
         }
         
@@ -52,42 +55,44 @@ class DepositRepositoryImpl: DepositRepository {
         return depositRecord
     }
     
-    func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]> {
-        Single.zip(bankApi.getBanks(), bankApi.getDepositOfflineBankAccounts()).map { (simpleBankResponse, depositOfflineBankAccountsResponse) -> [FullBankAccount] in
+    func getDepositOfflineBankAccounts() -> Single<[OfflineBank]> {
+        Single.zip(bankApi.getBanks(), bankApi.getDepositOfflineBankAccounts()).map { (simpleBankResponse, depositOfflineBankAccountsResponse) -> [OfflineBank] in
             guard let offline = depositOfflineBankAccountsResponse.data?.paymentGroupPaymentCards.values, let banks = simpleBankResponse.data else {
                 return []
             }
             
-            var fullBankAccounts: [FullBankAccount] = []
+            var offlineBanks: [OfflineBank] = []
             for o in offline {
                 for b in banks {
                     if o.bankID == b.bankId {
-                        let fullAccount = FullBankAccount(bank: Bank(bankId: o.bankID, name: b.name, shortName: b.shortName), bankAccount: BankAccount(accountName: o.accountName, accountNumber: o.accountNumber, bankId: o.bankID, branch: o.branch, paymentTokenId: o.paymentTokenID))
-                        fullBankAccounts.append(fullAccount)
+                        let offlineBank = OfflineBank(bank: Bank(bankId: o.bankID, name: b.name, shortName: b.shortName),
+                                    branch: o.branch, paymentTokenId: o.paymentTokenID,
+                                    owner: OfflineBank.Owner.init(name: o.accountName, accountNumber: o.accountNumber))
+                        offlineBanks.append(offlineBank)
                         break
                     }
                 }
             }
             
-            return fullBankAccounts
+            return offlineBanks
         }
     }
     
-    func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String> {
-        let request = DepositOfflineBankAccountsRequest(paymentTokenID: depositRequest.paymentToken, requestAmount: String(depositRequest.cashAmount.amount), remitterAccountNumber: depositRequest.remitter.accountNumber, remitter: depositRequest.remitter.name, remitterBankName: depositRequest.remitter.bankName, channel: 0, depositType: depositTypeId)
+    func depositOffline(depositRequest: DepositRequest_, depositTypeId: Int32) -> Single<String> {
+        let request = DepositOfflineBankAccountsRequest(paymentTokenID: depositRequest.paymentToken, requestAmount: depositRequest.amount.amount(), remitterAccountNumber: depositRequest.remitter.accountNumber, remitter: depositRequest.remitter.name, remitterBankName: depositRequest.remitter.name, channel: 0, depositType: depositTypeId)
         return bankApi.depositOffline(depositRequest: request).map { (response) -> String in
             return response.data ?? ""
         }
     }
     
-    func depositOnline(remitter: DepositRequest_.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32) -> Single<DepositTransaction> {
-        let request = DepositOnlineAccountsRequest(paymentTokenID: paymentTokenId, requestAmount: String(depositAmount.amount), remitter: remitter.name, channel: MOBILE_CHANNEL, remitterAccountNumber: remitter.accountNumber, remitterBankName: "", depositType: depositTypeId, providerId: providerId)
+    func depositOnline(remitter: DepositRequest_.Remitter, paymentTokenId: String, depositAmount: CashAmount, providerId: Int32, depositTypeId: Int32, toBank: String) -> Single<DepositTransaction> {
+        let request = DepositOnlineAccountsRequest(paymentTokenID: paymentTokenId, requestAmount: depositAmount.amount(), remitter: remitter.name, channel: MOBILE_CHANNEL, remitterAccountNumber: remitter.accountNumber, remitterBankName: "", depositType: depositTypeId, providerId: providerId, bankCode: toBank)
         return bankApi.depositOnline(depositRequest: request).map { (response) -> DepositTransaction in
             guard let data = response.data else {
                 return DepositTransaction(id: "", provider: "", transactionId: "", bankId: "")
             }
             
-            let transactionData = DepositTransaction(id: data.displayID, provider: data.providerAccountID, transactionId: data.depositTransactionID, bankId: String(data.bankID ?? 0))
+            let transactionData = DepositTransaction(id: data.displayId, provider: "", transactionId: data.transactionId, bankId: nil)
             return transactionData
         }
     }
@@ -97,7 +102,7 @@ class DepositRepositoryImpl: DepositRepository {
             return response.data ?? []
         }.map {
             $0.map { (m) -> PaymentGateway in
-                PaymentGateway(id: m.depositMethodID, limitation: AmountRange(min: CashAmount(amount: m.depositLimitMinimum), max: CashAmount(amount: m.depositLimitMaximum)), paymentToken: m.paymentTokenID, isFavorite: m.isFavorite, provider: PaymentProvider.convert(m.providerId), supportBank: [], displayName: m.displayName, displayType: PaymentGateway.DisplayType.direct)
+                PaymentGateway(id: m.depositMethodID, limitation: AmountRange(min: m.depositLimitMinimum.toAccountCurrency(), max: m.depositLimitMaximum.toAccountCurrency()), paymentToken: m.paymentTokenID, isFavorite: m.isFavorite, provider: PaymentProvider.convert(m.providerId), supportBank: [], displayName: m.displayName, displayType: PaymentGateway.DisplayType.direct)
             }
         }
         
@@ -134,8 +139,8 @@ class DepositRepositoryImpl: DepositRepository {
         }
     }
     
-    func requestCryptoDeposit() -> Single<String> {
-        return cpsApi.createCryptoDeposit().map { $0.data?.url ?? "" }
+    func requestCryptoDeposit(cryptoDepositRequest: CryptoDepositRequest) -> Single<String> {
+        cpsApi.createCryptoDeposit(cryptoDepositRequest: cryptoDepositRequest).map { $0.data?.url ?? "" }
     }
     
     func requestCryptoDetailUpdate(displayId: String) -> Single<String> {
@@ -145,10 +150,21 @@ class DepositRepositoryImpl: DepositRepository {
         }
     }
     
-    fileprivate func createDepositRecordDetail(detail: DepositRecordDetailData) -> Single<DepositDetail> {
-        return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { (tHistories) -> DepositDetail in
-            return detail.toDepositDetail(statusChangeHistories: tHistories)
+    func getDepositTakingCryptos() -> Single<[CryptoCurrencyInfo]> {
+        cpsApi.getCryptoCurrency().flatMap { response in
+            guard let data = response.data else { return Single.error(NoSuchElementException()) }
+            return Single.just(data.cryptoCurrencyInfo)
         }
+    }
+    
+    fileprivate func createDepositRecordDetail(detail: DepositRecordDetailData) -> Single<DepositDetail> {
+        return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).flatMap({ (tHistories) in
+            if let details = detail.toDepositDetail(statusChangeHistories: tHistories) {
+                return Single<DepositDetail>.just(details)
+            } else {
+                return Single.error(NoSuchElementException())
+            }
+        })
     }
     
     fileprivate func getStatusChangeHistories(statusChangeHistories: [StatusChangeHistory]) -> Single<[Transaction.StatusChangeHistory]> {
@@ -187,11 +203,15 @@ class DepositRepositoryImpl: DepositRepository {
         return DepositRecord(displayId: r.displayId,
                              transactionTransactionType: TransactionType.Companion.init().convertTransactionType(transactionType_: r.ticketType),
                              transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: r.status),
-                             actualAmount: CashAmount(amount: r.actualAmount),
+                             actualAmount: r.actualAmount.toAccountCurrency(),
                              createdDate: createOffsetDateTime,
                              isFee: r.isFee, isPendingHold: r.isPendingHold,
-                             requestAmount: CashAmount(amount: r.requestAmount),
+                             requestAmount: r.requestAmount.toAccountCurrency(),
                              updatedDate: updateOffsetDateTime,
                              groupDay: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()))
+    }
+    
+    func getPlayerDepositSystem() -> Single<DepositSystem> {
+        return Single.just(depositSystem)
     }
 }

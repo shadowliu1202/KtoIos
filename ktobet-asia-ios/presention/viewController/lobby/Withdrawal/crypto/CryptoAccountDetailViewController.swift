@@ -24,7 +24,7 @@ class CryptoAccountDetailViewController: UIViewController {
         
         verifyStatusLabel.text = StringMapper.sharedInstance.getVerifyStatus(status: account.verifyStatus).text
         accountNameLabel.text = account.name
-        cryptoTypeLabel.text = account.currency.simpleName
+        cryptoTypeLabel.text = account.currency.name
         cryptoNetworkLabel.text = account.cryptoNetwork.name
         accountNumberLabel.text = account.walletAddress
         

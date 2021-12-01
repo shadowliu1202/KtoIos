@@ -1,7 +1,7 @@
 import UIKit
 import SharedBu
 
-protocol NumberGameMyBetPageViewDelegate: class {
+protocol NumberGameMyBetPageViewDelegate: AnyObject {
     func updatePage(_ pageIndex: Int)
     func getData() -> [NumberGameBetDetail]?
 }

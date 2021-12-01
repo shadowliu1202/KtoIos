@@ -50,12 +50,13 @@ class DepositRecordContainer: UIViewController {
         case is DepositDetail.General:
             self.addChildViewController(depositRecordVC, inner: containView)
             self.presentingVC = depositRecordVC
-            break
         case let data as DepositDetail.Crypto:
             let vc = cryptoDetailVC(data: data)
             self.addChildViewController(vc, inner: containView)
             self.presentingVC = vc
-            break
+        case is DepositDetail.Flat:
+            self.addChildViewController(depositRecordVC, inner: containView)
+            self.presentingVC = depositRecordVC
         default:
             break
         }
