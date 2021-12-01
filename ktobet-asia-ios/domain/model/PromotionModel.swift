@@ -11,7 +11,7 @@ extension BonusCoupon.FreeBet: BonusCouponItem {
     }
     
     var displayMaxAmount: String {
-        self.maxAmount.amount()
+        self.maxAmount.formatString()
     }
     
     var displayMinCapital: String {
@@ -32,7 +32,7 @@ extension BonusCoupon.FreeBet: BonusCouponItem {
         self.promotionId
     }
     var displayAmount: String {
-        maxAmount.amount()
+        maxAmount.formatString()
     }
     var issueNo: String {
         ""
@@ -64,7 +64,7 @@ extension BonusCoupon.DepositReturn: BonusCouponItem {
     }
     
     var displayMaxAmount: String {
-        self.maxAmount.amount()
+        self.maxAmount.formatString()
     }
     
     var displayMinCapital: String {
@@ -89,7 +89,7 @@ extension BonusCoupon.DepositReturn: BonusCouponItem {
         if maxAmount.isUnlimited() {
             suffix = Localize.string("bonus_rebate_unlimited")
         } else {
-            suffix = maxAmount.amount()
+            suffix = maxAmount.formatString()
         }
         return Localize.string("bonus_gettop") + "\n\(suffix)"
     }
@@ -123,7 +123,7 @@ extension BonusCoupon.Product: BonusCouponItem {
     }
     
     var displayMaxAmount: String {
-        self.maxAmount.amount()
+        self.maxAmount.formatString()
     }
     
     var displayMinCapital: String {
@@ -144,7 +144,7 @@ extension BonusCoupon.Product: BonusCouponItem {
         self.promotionId
     }
     var displayAmount: String {
-        maxAmount.amount()
+        maxAmount.formatString()
     }
     var issueNo: String {
         Localize.string("bonus_period", "\(issueNumber)")
@@ -171,7 +171,7 @@ extension PromotionEvent.Product: PromotionEventItem {
         if maxBonus.isUnlimited() {
             return Localize.string("bonus_rebate_unlimited")
         } else {
-            return maxBonus.amount()
+            return maxBonus.formatString()
         }
     }
     
@@ -207,7 +207,7 @@ extension PromotionEvent.Product: PromotionEventItem {
         if maxBonus.isUnlimited() {
             return Localize.string("bonus_rebate_unlimited")
         } else {
-            let suffix = maxBonus.amount()
+            let suffix = maxBonus.formatString()
             return Localize.string("bonus_gettop") + "\n\(suffix)"
         }
     }
@@ -320,7 +320,7 @@ extension PromotionEvent.Rebate: PromotionEventItem {
         if maxBonus.isUnlimited() {
             return Localize.string("bonus_rebate_unlimited")
         } else {
-            return maxBonus.amount()
+            return maxBonus.formatString()
         }
     }
     
@@ -351,7 +351,7 @@ extension PromotionEvent.Rebate: PromotionEventItem {
         if maxBonus.isUnlimited() {
             return Localize.string("bonus_rebate_unlimited")
         } else {
-            let suffix = maxBonus.amount()
+            let suffix = maxBonus.formatString()
             return Localize.string("bonus_gettop") + "\n\(suffix)"
         }
     }

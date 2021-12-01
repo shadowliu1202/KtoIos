@@ -12,14 +12,14 @@ class BetRecordTableViewCell: UITableViewCell {
     func setupUnSettleGame(_ name: String, betId: String, totalAmount: CashAmount) {
         nameLabel.text = name
         orderIdLabel.text = betId
-        totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.description())
+        totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.formatString())
     }
     
     func setup(name: String, betId: String, totalAmount: CashAmount, winAmount: CashAmount, betStatus: BetStatus, hasDetail: Bool, prededuct: CashAmount) {
         goIconImageView.isHidden = !hasDetail
         nameLabel.text = name
         orderIdLabel.text = betId
-        totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.description()) + (prededuct.amount != 0 ? " \(Localize.string("product_prededuct")) " + prededuct.description() : "")
+        totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.formatString()) + (prededuct != AccountCurrency.zero() ? " \(Localize.string("product_prededuct")) " + prededuct.formatString() : "")
         winAmountLabel.text = (betStatus == BetStatus.lose ? Localize.string("common_lose") : Localize.string("common_win")) + " \(winAmount.formatString())"
     }
 }

@@ -185,7 +185,7 @@ class WithdrawalViewController: UIViewController {
         }).subscribe(onNext: { [weak self] (withdrawalLimits) in
             guard let self = self else { return }
             self.withdrawalLimits = withdrawalLimits
-            self.dailyLimitAmount = withdrawalLimits.dailyMaxCash.amount()
+            self.dailyLimitAmount = withdrawalLimits.dailyMaxCash.formatString()
             self.dailyMaxCount = "\(withdrawalLimits.dailyMaxCount)"
             self.turnoverRequirement = withdrawalLimits.remainCashTurnover()
             self.crpytoWithdrawalRequirement = self.crpytoWithdrawalRequirementAmount()

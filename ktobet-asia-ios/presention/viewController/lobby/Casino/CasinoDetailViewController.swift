@@ -438,7 +438,7 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let detail = recordDetail else { return 0 }
-        if indexPath.row == 0 || (indexPath.row == 4 && detail.prededuct.amount != 0) {
+        if indexPath.row == 0 || (indexPath.row == 4 && detail.prededuct != AccountCurrency.zero()) {
             return 90
         } else {
             return 70
@@ -447,7 +447,7 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let detail = recordDetail else { return UITableViewCell() }
-        if indexPath.row == 0 || (detail.prededuct.amount != 0 && indexPath.row == 4) {
+        if indexPath.row == 0 || (detail.prededuct != AccountCurrency.zero() && indexPath.row == 4) {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoDetailRecord3Cell", for: indexPath) as? CasinoDetailRecord3TableViewCell {
                 if indexPath.row == 0 {
                     cell.betIdLabel.text = detail.betId
