@@ -74,8 +74,8 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
         case let period1 as ValidPeriod.Duration:
             switch period2 {
             case let period2 as ValidPeriod.Duration:
-                let date1 = period1.start.localDateTime.convertToDate()
-                let date2 = period2.end.localDateTime.convertToDate()
+                let date1 = period1.start.convertToDate()
+                let date2 = period2.end.convertToDate()
                 return date1 > date2
             case is ValidPeriod.Always:
                 return false

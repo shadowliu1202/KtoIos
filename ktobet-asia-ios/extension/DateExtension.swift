@@ -191,26 +191,26 @@ extension OffsetDateTime {
     }
     
     func toDateTimeString(with SeparatorSymbol: String = "/") -> String {
-        let year = self.localDateTime.year
-        let month = self.localDateTime.monthNumber
-        let dayOfMonth = self.localDateTime.dayOfMonth
-        let hour = self.localDateTime.hour
-        let minute = self.localDateTime.minute
-        let second = self.localDateTime.second
+        let year = self.year
+        let month = self.monthNumber
+        let dayOfMonth = self.dayOfMonth
+        let hour = self.hour
+        let minute = self.minute
+        let second = self.second
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d", year, month, dayOfMonth, hour, minute, second)
     }
     
     func toTimeString(with SeparatorSymbol: String = ":") -> String {
-        let hour = self.localDateTime.hour
-        let minute = self.localDateTime.minute
-        let second = self.localDateTime.second
+        let hour = self.hour
+        let minute = self.minute
+        let second = self.second
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", hour, minute, second)
     }
     
     func toDateString() -> String {
-        let year = self.localDateTime.year
-        let month = self.localDateTime.monthNumber
-        let dayOfMonth = self.localDateTime.dayOfMonth
+        let year = self.year
+        let month = self.monthNumber
+        let dayOfMonth = self.dayOfMonth
         return String(format: "%02d/%02d/%02d", year, month, dayOfMonth)
     }
 }

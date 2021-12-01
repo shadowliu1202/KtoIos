@@ -686,7 +686,7 @@
                         <segue destination="wU1-pf-ph2" kind="show" identifier="toOfflineSegue" id="4d0-Mf-VuQ"/>
                         <segue destination="2is-AB-lQC" kind="show" identifier="toDepositRecordSegue" id="keF-G9-Ps9"/>
                         <segue destination="AGT-ah-Yup" kind="show" identifier="toAllRecordSegue" id="F0Y-xT-FZE"/>
-                        <segue destination="H2h-kh-Eib" kind="show" identifier="toCryptoWebView" id="47w-s4-WGG"/>
+                        <segue destination="Avu-Ft-lF9" kind="show" identifier="toCryptoSelector" id="nHC-IL-8gK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FYP-XU-rzd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -904,6 +904,169 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O9R-kW-j1d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-418" y="1272"/>
+        </scene>
+        <!--Crypto Selector View Controller-->
+        <scene sceneID="MNJ-p0-9it">
+            <objects>
+                <viewController id="Avu-Ft-lF9" customClass="CryptoSelectorViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FZb-UK-SrM">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HR1-lV-Ptf">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BBr-HS-Y7V">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="虚拟币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3j1-su-L28">
+                                                <rect key="frame" x="30" y="30" width="72" height="34"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
+                                                <color key="textColor" name="whiteFull"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_crypto"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXXXXX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tck-vB-QwM">
+                                                <rect key="frame" x="30" y="94" width="63.5" height="22.5"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="16"/>
+                                                <color key="textColor" name="textPrimaryDustyGray"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="cps_select_crypto_type"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="3Qd-Ck-WQd">
+                                                <rect key="frame" x="0.0" y="132.5" width="414" height="222"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="222" id="vq5-iM-l8d"/>
+                                                </constraints>
+                                                <color key="separatorColor" name="dividerCapeCodGray"/>
+                                                <inset key="separatorInset" minX="78" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <prototypes>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CryptoSelectorTableViewCell" rowHeight="75" id="Wt3-Yx-Wqa" customClass="CryptoSelectorTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="44.5" width="414" height="75"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wt3-Yx-Wqa" id="NRF-OP-0e6">
+                                                            <rect key="frame" x="0.0" y="0.0" width="414" height="75"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dol-uA-YGv">
+                                                                    <rect key="frame" x="30" y="21.5" width="32" height="32"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="32" id="0WR-Nn-hbr"/>
+                                                                        <constraint firstAttribute="height" constant="32" id="ATb-Us-rbq"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBa-Ki-wC9">
+                                                                    <rect key="frame" x="78" y="17.5" width="37" height="20"/>
+                                                                    <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
+                                                                    <color key="textColor" name="whiteFull"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kl-M1-gCe">
+                                                                    <rect key="frame" x="78" y="41.5" width="30.5" height="17"/>
+                                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                                                    <color key="textColor" name="textPrimaryDustyGray"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Fo-qw-PWL" customClass="RadioButton" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                                                    <rect key="frame" x="360" y="25.5" width="24" height="24"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="24" id="Q8h-XS-ra2"/>
+                                                                        <constraint firstAttribute="height" constant="24" id="jmd-SR-RCG"/>
+                                                                    </constraints>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <constraints>
+                                                                <constraint firstItem="6kl-M1-gCe" firstAttribute="top" secondItem="hBa-Ki-wC9" secondAttribute="bottom" constant="4" id="DdU-RB-JSu"/>
+                                                                <constraint firstItem="6kl-M1-gCe" firstAttribute="leading" secondItem="hBa-Ki-wC9" secondAttribute="leading" id="HNp-SO-PX9"/>
+                                                                <constraint firstItem="hBa-Ki-wC9" firstAttribute="leading" secondItem="dol-uA-YGv" secondAttribute="trailing" constant="16" id="N9L-zO-hs4"/>
+                                                                <constraint firstItem="dol-uA-YGv" firstAttribute="centerY" secondItem="NRF-OP-0e6" secondAttribute="centerY" id="O5h-12-hnN"/>
+                                                                <constraint firstItem="hBa-Ki-wC9" firstAttribute="bottom" secondItem="dol-uA-YGv" secondAttribute="centerY" id="OWF-lK-1vS"/>
+                                                                <constraint firstItem="dol-uA-YGv" firstAttribute="leading" secondItem="NRF-OP-0e6" secondAttribute="leading" constant="30" id="UXL-vh-Hws"/>
+                                                                <constraint firstItem="6Fo-qw-PWL" firstAttribute="centerY" secondItem="NRF-OP-0e6" secondAttribute="centerY" id="a19-2H-ZLQ"/>
+                                                                <constraint firstItem="6Fo-qw-PWL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6kl-M1-gCe" secondAttribute="trailing" constant="8" id="aNk-V4-3W4"/>
+                                                                <constraint firstAttribute="trailing" secondItem="6Fo-qw-PWL" secondAttribute="trailing" constant="30" id="pgY-Cc-P0e"/>
+                                                                <constraint firstAttribute="bottom" secondItem="6kl-M1-gCe" secondAttribute="bottom" constant="16.5" id="xiB-E3-MXk"/>
+                                                            </constraints>
+                                                        </tableViewCellContentView>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <connections>
+                                                            <outlet property="hint" destination="6kl-M1-gCe" id="cMC-il-Nbg"/>
+                                                            <outlet property="img" destination="dol-uA-YGv" id="f4O-PW-4R7"/>
+                                                            <outlet property="name" destination="hBa-Ki-wC9" id="mJh-7U-FYq"/>
+                                                            <outlet property="selectRadioButton" destination="6Fo-qw-PWL" id="Vde-rC-qrH"/>
+                                                        </connections>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                            </tableView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u5c-gd-J3z">
+                                                <rect key="frame" x="30" y="404.5" width="354" height="48"/>
+                                                <color key="backgroundColor" name="red"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="48" id="MZo-g7-qra"/>
+                                                </constraints>
+                                                <state key="normal" title="申请充值">
+                                                    <color key="titleColor" name="whiteFull"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="deposit_offline_step1_button"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="3Qd-Ck-WQd" firstAttribute="top" secondItem="Tck-vB-QwM" secondAttribute="bottom" constant="16" id="AhY-kB-Lco"/>
+                                            <constraint firstItem="3Qd-Ck-WQd" firstAttribute="leading" secondItem="BBr-HS-Y7V" secondAttribute="leading" id="KlM-ei-XPE"/>
+                                            <constraint firstItem="3j1-su-L28" firstAttribute="top" secondItem="BBr-HS-Y7V" secondAttribute="top" constant="30" id="OsI-bn-dbL"/>
+                                            <constraint firstAttribute="trailing" secondItem="u5c-gd-J3z" secondAttribute="trailing" constant="30" id="VhJ-rM-zof"/>
+                                            <constraint firstAttribute="trailing" secondItem="3Qd-Ck-WQd" secondAttribute="trailing" id="dDf-hd-vlT"/>
+                                            <constraint firstItem="Tck-vB-QwM" firstAttribute="leading" secondItem="BBr-HS-Y7V" secondAttribute="leading" constant="30" id="gCU-Ca-72u"/>
+                                            <constraint firstItem="u5c-gd-J3z" firstAttribute="leading" secondItem="BBr-HS-Y7V" secondAttribute="leading" constant="30" id="lWW-Ux-Jeg"/>
+                                            <constraint firstItem="Tck-vB-QwM" firstAttribute="top" secondItem="3j1-su-L28" secondAttribute="bottom" constant="30" id="od2-6m-yQx"/>
+                                            <constraint firstItem="u5c-gd-J3z" firstAttribute="top" secondItem="3Qd-Ck-WQd" secondAttribute="bottom" constant="50" id="sc0-bg-VBH"/>
+                                            <constraint firstItem="3j1-su-L28" firstAttribute="leading" secondItem="BBr-HS-Y7V" secondAttribute="leading" constant="30" id="y07-k7-KHI"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="BBr-HS-Y7V" firstAttribute="top" secondItem="HR1-lV-Ptf" secondAttribute="top" id="Eqe-l8-Vuc"/>
+                                    <constraint firstAttribute="trailing" secondItem="BBr-HS-Y7V" secondAttribute="trailing" id="ryb-ES-jAR"/>
+                                    <constraint firstAttribute="bottom" secondItem="BBr-HS-Y7V" secondAttribute="bottom" id="zIs-th-abv"/>
+                                    <constraint firstItem="BBr-HS-Y7V" firstAttribute="leading" secondItem="HR1-lV-Ptf" secondAttribute="leading" id="zf6-Nv-rsl"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="DmU-Bz-8Wb"/>
+                        <color key="backgroundColor" name="blackTwo"/>
+                        <constraints>
+                            <constraint firstItem="DmU-Bz-8Wb" firstAttribute="trailing" secondItem="HR1-lV-Ptf" secondAttribute="trailing" id="1DO-An-GlQ"/>
+                            <constraint firstItem="BBr-HS-Y7V" firstAttribute="height" secondItem="FZb-UK-SrM" secondAttribute="height" id="DAT-Vu-DPQ"/>
+                            <constraint firstItem="BBr-HS-Y7V" firstAttribute="width" secondItem="FZb-UK-SrM" secondAttribute="width" id="EeT-0F-zfq"/>
+                            <constraint firstItem="HR1-lV-Ptf" firstAttribute="leading" secondItem="DmU-Bz-8Wb" secondAttribute="leading" id="KyL-G6-YvL"/>
+                            <constraint firstItem="HR1-lV-Ptf" firstAttribute="top" secondItem="DmU-Bz-8Wb" secondAttribute="top" id="Qv9-gH-Cme"/>
+                            <constraint firstItem="DmU-Bz-8Wb" firstAttribute="bottom" secondItem="HR1-lV-Ptf" secondAttribute="bottom" id="Xtf-tJ-u5N"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="bW3-cx-hS6"/>
+                    <connections>
+                        <outlet property="confrimButton" destination="u5c-gd-J3z" id="rQ6-gT-6nu"/>
+                        <outlet property="tableView" destination="3Qd-Ck-WQd" id="6pd-s6-cOI"/>
+                        <outlet property="tableViewHeightConstraint" destination="vq5-iM-l8d" id="Dsc-Vx-etM"/>
+                        <segue destination="H2h-kh-Eib" kind="show" identifier="toCryptoWebView" id="WNq-NT-CEs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xfZ-x6-C6h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1346" y="1664"/>
         </scene>
         <!--Deposit Gateway View Controller-->
         <scene sceneID="m6P-ZS-vUL">
@@ -1671,6 +1834,9 @@
         </namedColor>
         <namedColor name="blackTwo">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dividerCapeCodGray">
+            <color red="0.23499999940395355" green="0.24300000071525574" blue="0.25099998712539673" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="dividerCapeCodGray2">
             <color red="0.23499999940395355" green="0.24300000071525574" blue="0.25099998712539673" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

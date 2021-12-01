@@ -26,7 +26,9 @@ class GameWebViewViewController: UIViewController {
         self.view.addSubview(webView)
         webView.navigationDelegate = self
         webView.uiDelegate = self
-        webView.configuration.preferences.javaScriptEnabled = true
+        let webPagePreferences = WKWebpagePreferences()
+        webPagePreferences.allowsContentJavaScript = true
+        webView.configuration.defaultWebpagePreferences = webPagePreferences
         webView.configuration.allowsInlineMediaPlayback = true
         webView.configuration.dataDetectorTypes = .all
         webView.translatesAutoresizingMaskIntoConstraints = false

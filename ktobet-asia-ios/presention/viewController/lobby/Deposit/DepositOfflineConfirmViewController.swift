@@ -36,8 +36,8 @@ class DepositOfflineConfirmViewController: UIViewController {
     @IBOutlet private weak var userNameCopyButton: UIButton!
     @IBOutlet private weak var bankCardNumberCopyButton: UIButton!
 
-    var depositRequest: DepositRequest!
-    var selectedReceiveBank: FullBankAccount!
+    var depositRequest: DepositRequest_!
+    var selectedReceiveBank: OfflineBank!
     var depositSuccess = false
     
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
@@ -109,7 +109,7 @@ class DepositOfflineConfirmViewController: UIViewController {
         amountTitleLabel.text = Localize.string("deposit_custom_cash")
         tipLabel.text = Localize.string("deposit_offline_summary_tip")
         confirmButton.setTitle(Localize.string("common_submit2"), for: .normal)
-        bankImageView.image = UIImage(named: self.viewModel.getBankIcon(selectedReceiveBank.bank!.bankId))
+        bankImageView.image = UIImage(named: self.viewModel.getBankIcon(selectedReceiveBank!.bankId))
         let buttons = [bankNameCopyButton, branchNameCopyButton, userNameCopyButton, bankCardNumberCopyButton]
         buttons.forEach{
             $0?.layer.borderColor = UIColor.textPrimaryDustyGray.cgColor
@@ -119,12 +119,12 @@ class DepositOfflineConfirmViewController: UIViewController {
     }
 
     fileprivate func dataBinding() {
-        bankNameLabel.text = selectedReceiveBank.bank?.name ?? ""
-        userNameLabel.text = selectedReceiveBank.bankAccount.accountName
-        branchNameLabel.text = selectedReceiveBank.bankAccount.branch
-        bankCardNumberLabel.text = selectedReceiveBank.bankAccount.accountNumber
+        bankNameLabel.text = selectedReceiveBank?.name ?? ""
+        userNameLabel.text = selectedReceiveBank.owner.name
+        branchNameLabel.text = selectedReceiveBank.branch
+        bankCardNumberLabel.text = selectedReceiveBank.owner.accountNumber
         remitterLabel.text = depositRequest.remitter.name
-        var amountStr = depositRequest.cashAmount.toStringWithSign()
+        var amountStr = depositRequest.amount.formatString(sign: .signed_)
         amountStr.removeFirst()
         let attributedString = NSMutableAttributedString(string: amountStr, attributes: [
                 .font: UIFont(name: "PingFangSC-Semibold", size: 24.0)!,

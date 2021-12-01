@@ -130,7 +130,7 @@ class RecentDetailCell: UITableViewCell {
             let betStatus = status.LocalizeString
             setValue(betStatus)
             if status is NumberGameBetDetail.BetStatusSettledWinLose,
-               (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss.isPositive() {
+               (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss.isPositive {
                 descriptionLabel.textColor = UIColor.textSuccessedGreen
             }
         }

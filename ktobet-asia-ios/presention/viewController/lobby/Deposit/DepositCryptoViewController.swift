@@ -19,10 +19,15 @@ class DepositCryptoViewController: UIViewController {
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
         HttpClient().getCookies().forEach{ webView.configuration.websiteDataStore.httpCookieStore.setCookie($0, completionHandler: nil) }
-        webView.configuration.preferences.javaScriptEnabled = true
+        let webPagePreferences = WKWebpagePreferences()
+        webPagePreferences.allowsContentJavaScript = true
+        webView.configuration.defaultWebpagePreferences = webPagePreferences
+        
+        let MockWebViewUserAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
+        webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1 \(MockWebViewUserAgent)"
 
-        if let url = url {
-            let request = URLRequest(url: URL(string: url)!)
+        if let urlString = url, let urlHost = URL(string: urlString) {
+            let request = URLRequest(url: urlHost)
             webView.load(request)
         } else {
             guard let displayId = displayId else { return }

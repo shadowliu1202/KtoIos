@@ -80,7 +80,7 @@ class DepositViewController: UIViewController {
                 self?.depositTypeTableView.isHidden = false
             }
         }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
-            cell.setUp(name: data.method.name, icon: self.viewModel.getDepositTypeImage(depositTypeId: data.paymentType.id), isRecommend: data.method.isFavorite, hint: data.hint)
+            cell.setUp(data: data, icon: self.viewModel.getDepositTypeImage(depositTypeId: data.paymentType.id))
         }.disposed(by: disposeBag)
     }
     
@@ -88,22 +88,19 @@ class DepositViewController: UIViewController {
         Observable.zip(depositTypeTableView.rx.itemSelected, depositTypeTableView.rx.modelSelected(DepositType.self)).bind { [weak self] (indexPath, data) in
             guard let self = self else { return }
             if data.supportType == .Ethereum {
-                let title = Localize.string("common_tip_title_warm")
-                let message = Localize.string("deposit_crypto_warning")
-                Alert.show(title, message, confirm: {
-                    self.viewModel.createCryptoDeposit().subscribe {[weak self] (url) in
-                        guard let self = self else { return }
-                        self.performSegue(withIdentifier: DepositCryptoViewController.segueIdentifier, sender: url)
-                    } onError: { (error) in
-                        self.handleUnknownError(error)
-                    }.disposed(by: self.disposeBag)
-                }, cancel: nil)
+                self.alertCryptoDepositWarnings()
             } else {
                 self.performSegue(withIdentifier: DepositGatewayViewController.segueIdentifier, sender: data)
             }
             
             self.depositTypeTableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
+    }
+    
+    fileprivate func alertCryptoDepositWarnings() {
+        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_crypto_warning"), confirm: {
+            self.performSegue(withIdentifier: CryptoSelectorViewController.segueIdentifier, sender: nil)
+        }, cancel: nil)
     }
     
     fileprivate func recordDataBinding() {

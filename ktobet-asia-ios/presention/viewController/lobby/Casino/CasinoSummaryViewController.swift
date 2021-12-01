@@ -31,7 +31,7 @@ class CasinoSummaryViewController: UIViewController {
             guard let self = self else { return [] }
             var addUnFinishGame = betSummary.finishedGame
             if self.hasUnsettleGameRecords(summary: betSummary) {
-                addUnFinishGame.insert(DateSummary(totalStakes: CashAmount(amount: 0), totalWinLoss: CashAmount(amount: 0), createdDateTime: Kotlinx_datetimeLocalDate.init(year: 0, monthNumber: 1, dayOfMonth: 1), count: 0), at: 0)
+                addUnFinishGame.insert(DateSummary(totalStakes: 0.toAccountCurrency(), totalWinLoss: 0.toAccountCurrency(), createdDateTime: Kotlinx_datetimeLocalDate.init(year: 0, monthNumber: 1, dayOfMonth: 1), count: 0), at: 0)
             }
             
             return addUnFinishGame

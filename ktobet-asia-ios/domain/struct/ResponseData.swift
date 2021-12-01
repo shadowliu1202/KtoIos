@@ -53,20 +53,20 @@ struct PromotionHistoryBean: Codable {
     var totalCount: Int
     
     func convertToPromotions() -> CouponHistorySummary {
-        CouponHistorySummary(summary: CashAmount(amount: self.summary), totalCoupon: self.totalCount,
+        CouponHistorySummary(summary: self.summary.toAccountCurrency(), totalCoupon: self.totalCount,
                              couponHistory: self.payload.map({ (p) -> CouponHistory in
-                                CouponHistory(amount: CashAmount(amount: p.coupon.amount),
-                                              bonusLockReceivingStatus: BonusReceivingStatus.values().get(index: p.coupon.bonusLockStatus)!,
-                                              promotionId: p.coupon.id,
-                                              name: p.coupon.name,
-                                              bonusId: p.coupon.no,
-                                              type: BonusType.convert(p.coupon.type),
-                                              receiveDate: p.coupon.updatedDate.toLocalDateTime(),
-                                              issue: KotlinInt.init(int: p.coupon.issue),
-                                              productType: ProductType.convert(p.coupon.productType),
-                                              percentage: Percentage(percent: p.coupon.percentage),
-                                              turnOverDetail: p.trial?.toTurnOverTrial())
-                             }))
+            CouponHistory(amount: p.coupon.amount.toAccountCurrency(),
+                          bonusLockReceivingStatus: BonusReceivingStatus.values().get(index: p.coupon.bonusLockStatus)!,
+                          promotionId: p.coupon.id,
+                          name: p.coupon.name,
+                          bonusId: p.coupon.no,
+                          type: BonusType.convert(p.coupon.type),
+                          receiveDate: p.coupon.updatedDate.toLocalDateTime(),
+                          issue: KotlinInt.init(int: p.coupon.issue),
+                          productType: ProductType.convert(p.coupon.productType),
+                          percentage: Percentage(percent: p.coupon.percentage),
+                          turnOverDetail: p.trial?.toTurnOverTrial())
+        }))
     }
 }
 
@@ -102,14 +102,14 @@ struct Trial: Codable {
     
     func toTurnOverTrial() -> CouponHistory.TurnOverTrial? {
         CouponHistory.TurnOverTrial(
-            achieved: CashAmount(amount: self.achieved),
-            amount: CashAmount(amount: self.amount),
-            balance: CashAmount(amount: self.balance),
+            achieved: self.achieved.toAccountCurrency(),
+            amount: self.amount.toAccountCurrency(),
+            balance: self.balance.toAccountCurrency(),
             formula: self.formula,
             percentage: Percentage(percent: self.percentage.doubleValue()),
-            request: CashAmount(amount: self.request),
-            turnoverRequest: CashAmount(amount: self.turnoverRequest),
-            turnoverRequestForDeposit: CashAmount(amount: self.turnoverRequestForDeposit))
+            request: self.request.toAccountCurrency(),
+            turnoverRequest: self.turnoverRequest.toAccountCurrency(),
+            turnoverRequestForDeposit: self.turnoverRequestForDeposit.toAccountCurrency())
     }
 }
 
@@ -223,9 +223,14 @@ struct DepositTransactionData: Codable {
     }
 }
 
+struct OnlineDepositResponse: Codable {
+    let transactionId: String
+    let displayId: String
+}
+
 struct DepositRecordDetailData: Codable {
     let displayID: String
-    let requestAmount: Double
+    let requestAmount: Double?
     let actualAmount: Double?
     let actualCryptoAmount: Double?
     let requestCryptoAmount: Double?
@@ -242,66 +247,68 @@ struct DepositRecordDetailData: Codable {
     let hashId: String?
     let requestRateDate: String?
     let toAddress: String?
+    let approvedDate: String?
+    let cryptoCurrency: Int?
     
     enum CodingKeys: String, CodingKey {
         case displayID = "displayId"
-        case requestAmount, createdDate, updatedDate, status, statusChangeHistories, isPendingHold, ticketType, fee, actualAmount, actualCryptoAmount, actualRate, actualFiatAmount, actualRateDate, hashId, requestRate, requestRateDate, toAddress, requestCryptoAmount
+        case requestAmount, createdDate, updatedDate, status, statusChangeHistories, isPendingHold, ticketType, fee, actualAmount, actualCryptoAmount, actualRate, actualFiatAmount, actualRateDate, hashId, requestRate, requestRateDate, toAddress, requestCryptoAmount, approvedDate, cryptoCurrency
     }
     
-    func toDepositDetail(statusChangeHistories: [Transaction.StatusChangeHistory]) -> DepositDetail {
+    func toDepositDetail(statusChangeHistories: [Transaction.StatusChangeHistory]) -> DepositDetail? {
         let createDate = self.createdDate.convertDateTime() ?? Date()
         let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
         let updateDate = self.updatedDate.convertDateTime() ?? Date()
         let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
-        let actualRateDate = self.actualRateDate?.convertDateTime() ?? Date()
-        let actualRateOffsetDateTime = actualRateDate.convertDateToOffsetDateTime()
-        let requestRateDate = self.requestRateDate?.convertDateTime() ?? Date()
-        let requestRateOffsetDateTime = requestRateDate.convertDateToOffsetDateTime()
+        let requestApprovedDate = self.approvedDate?.convertDateTime() ?? Date()
+        let requestApprovedOffsetDateTime = requestApprovedDate.convertDateToOffsetDateTime()
+        
+        let detail = DepositDetail.Flat.init(displayId: self.displayID,
+                                             fee: self.fee?.toAccountCurrency() ?? "0".toAccountCurrency(),
+                                             isPendingHold: self.isPendingHold,
+                                             requestAmount: self.requestAmount?.toAccountCurrency() ?? "0".toAccountCurrency(),
+                                             actualAmount: self.actualAmount?.toAccountCurrency() ?? "0".toAccountCurrency(),
+                                             status: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: self.status),
+                                             statusChangeHistories: statusChangeHistories,
+                                             ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
+                                             createdDate: createOffsetDateTime,
+                                             updatedDate: updateOffsetDateTime,
+                                             approvedDate: requestApprovedOffsetDateTime)
         
         switch TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType) {
-        case TransactionType.deposit,
-             TransactionType.a2ptransferin,
-             TransactionType.p2ptransferin:
-            return DepositDetail.General.init(
-                createdDate: createOffsetDateTime,
-                displayId: self.displayID,
-                fee: CashAmount(amount: self.fee ?? 0),
-                isPendingHold: self.isPendingHold,
-                requestAmount: CashAmount(amount: self.requestAmount),
-                status: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: self.status),
-                statusChangeHistories: statusChangeHistories,
-                ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
-                updatedDate: updateOffsetDateTime)
-        case TransactionType.cryptodeposit:
-            let actualCryptoAmount = CryptoExchangeReceipt.init(
-                cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.actualCryptoAmount ?? 0, crypto: .Ethereum()),
-                exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.actualRate ?? 0),
-                cashAmount: CashAmount(amount: self.actualFiatAmount ?? 0))
-            
-            let requestCryptoAmount = CryptoExchangeReceipt.init(
-                cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.requestCryptoAmount ?? 0, crypto: .Ethereum()),
-                exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.requestRate ?? 0),
-                cashAmount: CashAmount(amount: self.requestAmount))
-            
-            return DepositDetail.Crypto.init(
-                actualCryptoAmount: actualCryptoAmount,
-                actualAmount: CashAmount(amount: self.actualAmount ?? 0),
-                actualRateDate: actualRateOffsetDateTime,
-                createdDate: createOffsetDateTime,
-                displayId: self.displayID,
-                fee: CashAmount(amount: self.fee ?? 0),
-                hashId: self.hashId ?? "",
-                isPendingHold: self.isPendingHold,
-                requestCryptoAmount: requestCryptoAmount,
-                requestRateDate: requestRateOffsetDateTime,
-                status: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: self.status),
-                statusChangeHistories: statusChangeHistories,
-                ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
-                toAddress: self.toAddress ?? "",
-                updatedDate: updateOffsetDateTime)
+        case .deposit, .a2ptransferin, .p2ptransferin:
+            return detail
+        case .cryptodeposit:
+            return DepositDetail.Crypto(requestTransaction:
+                                            createExchangeRecord(flatAmount: self.requestAmount?.toAccountCurrency().amount(),
+                                                                 cryptoAmount: String(self.requestCryptoAmount ?? 0),
+                                                                 cryptoCurrency: self.cryptoCurrency,
+                                                                 rate: String(self.requestRate ?? 0),
+                                                                 rateDate: self.requestRateDate)!,
+                                             actualTransaction: createExchangeRecord(flatAmount: self.actualAmount?.toAccountCurrency().amount(),
+                                                                                     cryptoAmount: String(self.actualCryptoAmount ?? 0),
+                                                                                     cryptoCurrency: self.cryptoCurrency,
+                                                                                     rate: String(self.actualRate ?? 0),
+                                                                                     rateDate: self.actualRateDate),
+                                             hashId: self.hashId ?? "",
+                                             toAddress: self.toAddress ?? "",
+                                             generalDetail: detail)
         default:
-            return DepositDetail.Unknown.init()
+            return nil
         }
+    }
+    
+    private func createExchangeRecord(flatAmount: String?, cryptoAmount: String?, cryptoCurrency: Int?, rate: String?, rateDate: String?) -> CryptoExchangeRecord? {
+        guard let flatAmount = flatAmount,
+              let cryptoAmount = cryptoAmount,
+              let supportCryptoType = cryptoCurrency?.toSupportCryptoType(),
+              let rate = rate,
+              let rateDate = rateDate else { return nil }
+        let exchangeRate = CryptoExchangeFactory.init().create(from: supportCryptoType, to: LocalStorageRepository().getSupportLocal(), exRate: rate)
+        return CryptoExchangeRecord.init(cryptoAmount: cryptoAmount.toCryptoCurrency(cryptoCurrencyCode: cryptoCurrency),
+                                         exchangeRate: exchangeRate,
+                                         cashAmount: flatAmount.toAccountCurrency(),
+                                         date: rateDate.toOffsetDateTime())
     }
 }
 
@@ -371,19 +378,14 @@ struct WithdrawalRecordDetailData: Codable {
     let updatedDate: String
     
     func toWithdrawalDetail(transactionTransactionType: TransactionType, statusChangeHistories: [Transaction.StatusChangeHistory]) -> WithdrawalDetail {
-        let createDate = self.createdDate.convertDateTime() ?? Date()
-        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
-        let updateDate = self.updatedDate.convertDateTime() ?? Date()
-        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
-        
         let withdrawalRecord = WithdrawalRecord.init(
             transactionTransactionType: transactionTransactionType,
             displayId: displayId,
             transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: status),
-            createDate: createOffsetDateTime,
-            cashAmount: CashAmount(amount: requestAmount),
+            createDate: self.createdDate.toOffsetDateTime(),
+            cashAmount: self.requestAmount.toAccountCurrency(),
             isPendingHold: isPendingHold,
-            groupDay: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()))
+            groupDay: self.createdDate.toLocalDate())
         
         switch transactionTransactionType {
         case .withdrawal,
@@ -393,28 +395,27 @@ struct WithdrawalRecordDetailData: Codable {
                                                  isBatched: isBatched,
                                                  isPendingHold: isPendingHold,
                                                  statusChangeHistories: statusChangeHistories,
-                                                 updatedDate: updateOffsetDateTime)
+                                                 updatedDate: self.updatedDate.toOffsetDateTime())
         case .cryptowithdrawal:
-            let approvedDate = self.approvedDate.convertDateTime() ?? Date()
-            let approvedOffsetDateTime = approvedDate.convertDateToOffsetDateTime()
-            let actualCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.actualCryptoAmount ?? 0, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: actualRate ?? 0), cashAmount: CashAmount(amount: self.actualAmount ?? 0))
-            
-            let requestCryptoAmount = CryptoExchangeReceipt.init(cryptoAmount: CryptoAmount.Companion.init().create(cryptoAmount: self.requestCryptoAmount ?? 0, crypto: .Ethereum()), exchangeRate: CryptoExchangeRate.create(crypto: .Ethereum(), rate: self.requestRate ?? 0), cashAmount: CashAmount(amount: self.requestAmount))
-            
-            return WithdrawalDetail.Crypto.init(record: withdrawalRecord,
-                                                isBatched: isBatched,
-                                                isPendingHold: isPendingHold,
-                                                statusChangeHistories: statusChangeHistories,
-                                                updatedDate: updateOffsetDateTime,
-                                                requestCryptoAmount: requestCryptoAmount,
-                                                actualCryptoAmount: actualCryptoAmount,
-                                                playerCryptoAddress: playerCryptoAddress ?? "",
-                                                providerCryptoAddress: providerCryptoAddress ?? "",
-                                                approvedDate: approvedOffsetDateTime,
-                                                hashId: hashId ?? "")
+            return WithdrawalDetail.Crypto(record: withdrawalRecord, isBatched: isBatched, isPendingHold: isPendingHold, statusChangeHistories: statusChangeHistories, updatedDate: updatedDate.toOffsetDateTime(), requestCryptoAmount: toCryptoExchangeRecord("\(requestCryptoAmount ?? 0)", cryptoCurrency, "\(requestAmount)", "\(requestRate ?? 0)", createdDate), actualCryptoAmount: toCryptoExchangeRecord("\(actualCryptoAmount ?? 0)", cryptoCurrency, "\(actualAmount ?? 0)", "\(actualRate ?? 0)", createdDate), playerCryptoAddress: playerCryptoAddress ?? "", providerCryptoAddress: providerCryptoAddress ?? "", approvedDate: approvedDate.toOffsetDateTime(), hashId: hashId ?? "")
         default:
             return WithdrawalDetail.Unknown.init()
         }
+    }
+    
+    private func toCryptoExchangeRecord(_ cryptoCurrency: String, _ cryptoCurrencyCode: Int, _ accountCurrency: String, _ exchangeRate: String, _ createdDate: String) -> CryptoExchangeRecord {
+         do {
+            let crypto = cryptoCurrency.toCryptoCurrency(cryptoCurrencyCode: cryptoCurrencyCode)
+            let cryptoType = try SupportCryptoType.companion.typeOf(cryptoCurrency: crypto)
+            let exchangeRate = CryptoExchangeFactory.init().create(from: cryptoType, to: LocalStorageRepository().getSupportLocal(), exRate: exchangeRate)
+            return CryptoExchangeRecord.init(cryptoAmount: crypto,
+                                             exchangeRate: exchangeRate,
+                                             cashAmount: accountCurrency.toAccountCurrency(),
+                                             date: createdDate.toOffsetDateTime())
+         } catch {
+             print(error)
+             fatalError("SupportCryptoType.companion.typeOf got error = \(error.localizedDescription)")
+         }
     }
 }
 
@@ -645,8 +646,8 @@ struct SlotBetSummaryBean: Codable {
         
         func toDateSummary() -> DateSummary {
             let createDate = self.betDate.convertDateTime(format:  "yyyy/MM/dd") ?? Date()
-            return DateSummary(totalStakes: CashAmount(amount: self.stakes),
-                               totalWinLoss: CashAmount(amount: self.winloss),
+            return DateSummary(totalStakes: self.stakes.toAccountCurrency(),
+                               totalWinLoss: self.winloss.toAccountCurrency(),
                                createdDateTime: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()),
                                count: self.count)
         }
@@ -689,7 +690,7 @@ struct SlotDateGameRecordBean: Codable {
         let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
         let end = (endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
         let start = (startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        return SlotGroupedRecord(slotThumbnail: thumbnail, endDate: end, gameId: gameId, gameName: gameName, stakes: CashAmount(amount: stakes), startDate: start, winloss: CashAmount(amount: winloss), recordCount: count)
+        return SlotGroupedRecord(slotThumbnail: thumbnail, endDate: end, gameId: gameId, gameName: gameName, stakes: stakes.toAccountCurrency(), startDate: start, winloss: winloss.toAccountCurrency(), recordCount: count)
     }
 }
 
@@ -702,7 +703,7 @@ struct SlotBetRecordBean: Codable {
     
     func toSlotBetRecord(_ zoneOffset: Kotlinx_datetimeZoneOffset) -> SlotBetRecord {
         let betLocalTime = betTime.toLocalDateTime()
-        return SlotBetRecord(betId: betId, betTime: betLocalTime, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), hasDetails: false)
+        return SlotBetRecord(betId: betId, betTime: betLocalTime, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), hasDetails: false)
     }
 }
 
@@ -728,7 +729,7 @@ struct SlotUnsettledRecordBean: Codable {
     func toSlotUnsettledRecord() -> SlotUnsettledRecord {
         let betLocalTime = betTime.toLocalDateTime()
         let thumbnail = SlotThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
-        return SlotUnsettledRecord(betId: betId, betTime: betLocalTime, gameId: gameId, gameName: gameName, otherId: otherId, stakes: CashAmount(amount: stakes), slotThumbnail: thumbnail)
+        return SlotUnsettledRecord(betId: betId, betTime: betLocalTime, gameId: gameId, gameName: gameName, otherId: otherId, stakes: stakes.toAccountCurrency(), slotThumbnail: thumbnail)
     }
 }
 
@@ -767,11 +768,11 @@ struct RecordSummary: Codable {
     let winLoss: Double
     
     func toNumberGame() -> NumberGameSummary.Date {
-        return NumberGameSummary.Date.init(betDate: self.betDate.toLocalDate(), count: count, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss))
+        return NumberGameSummary.Date.init(betDate: self.betDate.toLocalDate(), count: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency())
     }
     
     func toUnSettleNumberGame() -> NumberGameSummary.Date {
-        return NumberGameSummary.Date.init(betDate: self.betDate.toLocalDate(), count: count, stakes: CashAmount(amount: stakes), winLoss: nil)
+        return NumberGameSummary.Date.init(betDate: self.betDate.toLocalDate(), count: count, stakes: stakes.toAccountCurrency(), winLoss: nil)
     }
 }
 
@@ -801,13 +802,13 @@ struct RecentlyBet: Codable {
     let winLoss: Double
     
     func toNumberGameRecentlyBet() -> NumberGameSummary.RecentlyBet {
-        return NumberGameSummary.RecentlyBet.init(wagerId: wagerId, selection: selection, hasDetail: hasDetails, isStrike: isStrike, gameId: gameId, betTypeName: betTypeName, displayId: betId, gameName: gameName, matchMethod: matchNumber, status: RecentlyBet.convertToBetStatus(status: status, winLoss: winLoss), stakes: CashAmount(amount: betAmount))
+        return NumberGameSummary.RecentlyBet.init(wagerId: wagerId, selection: selection, hasDetail: hasDetails, isStrike: isStrike, gameId: gameId, betTypeName: betTypeName, displayId: betId, gameName: gameName, matchMethod: matchNumber, status: RecentlyBet.convertToBetStatus(status: status, winLoss: winLoss), stakes: betAmount.toAccountCurrency())
     }
     
     static func convertToBetStatus(status: Int, winLoss: Double) -> NumberGameBetDetail.BetStatus {
         switch status {
         case 0:     return NumberGameBetDetail.BetStatusUnsettledPending.init()
-        case 1:     return NumberGameBetDetail.BetStatusSettledWinLose(winLoss: CashAmount(amount: winLoss))
+        case 1:     return NumberGameBetDetail.BetStatusSettledWinLose(winLoss: winLoss.toAccountCurrency())
         case 2:     return NumberGameBetDetail.BetStatusSettledCancelled.init()
         case 3:     return NumberGameBetDetail.BetStatusSettledVoid.init()
         case 4:     return NumberGameBetDetail.BetStatusUnsettledConfirmed.init()
@@ -832,7 +833,7 @@ struct NumberGameBetDetailBean: Codable {
     
     func toNumberGameBetDetail() -> NumberGameBetDetail {
         let betLocalTime = betTime.toLocalDateTime()
-        return NumberGameBetDetail(displayId: displayId, traceId: betId, gameName: gameName, matchMethod: matchNumber, betContent: selections, betTime: betLocalTime, stakes: CashAmount(amount: stakes), status: RecentlyBet.convertToBetStatus(status: status, winLoss: winLoss), result: resultNumber)
+        return NumberGameBetDetail(displayId: displayId, traceId: betId, gameName: gameName, matchMethod: matchNumber, betContent: selections, betTime: betLocalTime, stakes: stakes.toAccountCurrency(), status: RecentlyBet.convertToBetStatus(status: status, winLoss: winLoss), result: resultNumber)
     }
 }
 
@@ -851,11 +852,11 @@ struct GameBetSummaryData: Codable {
     var winLoss: Double
     
     func toUnSettleGameSummary(portalHost: String) -> NumberGameSummary.Game {
-        return NumberGameSummary.Game.init(gameId: gameId, gameName: gameName, thumbnail: NumberGameThumbnail(host: portalHost, imageId: imageId), totalRecords: count, betAmount: CashAmount(amount: stakes), winLoss: nil)
+        return NumberGameSummary.Game.init(gameId: gameId, gameName: gameName, thumbnail: NumberGameThumbnail(host: portalHost, imageId: imageId), totalRecords: count, betAmount: stakes.toAccountCurrency(), winLoss: nil)
     }
     
     func toSettleGameSummary(portalHost: String) -> NumberGameSummary.Game {
-        return NumberGameSummary.Game.init(gameId: gameId, gameName: gameName, thumbnail: NumberGameThumbnail(host: portalHost, imageId: imageId), totalRecords: count, betAmount: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss))
+        return NumberGameSummary.Game.init(gameId: gameId, gameName: gameName, thumbnail: NumberGameThumbnail(host: portalHost, imageId: imageId), totalRecords: count, betAmount: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency())
     }
 }
 
@@ -875,12 +876,12 @@ struct BetSummaryDataResponse: Codable {
     
     func toUnSettleGameSummary() -> NumberGameSummary.Bet {
         let betLocalTime = betTime.toLocalDateTime()
-        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: betLocalTime, betAmount: CashAmount(amount: stakes), winLoss: nil, hasDetail: hasDetails)
+        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: betLocalTime, betAmount: stakes.toAccountCurrency(), winLoss: nil, hasDetail: hasDetails)
     }
     
     func toSettleGameSummary() -> NumberGameSummary.Bet {
         let settleLocalTime = (String(self.settleTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: settleLocalTime, betAmount: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), hasDetail: hasDetails)
+        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: settleLocalTime, betAmount: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), hasDetail: hasDetails)
     }
 }
 
@@ -906,13 +907,17 @@ struct CryptoBankCardBean: Codable {
     var cryptoNetwork: Int
     
     func toCryptoBankCard() -> CryptoBankCard {
+        guard let cryptoType = cryptoCurrency.toSupportCryptoType() else {
+            fatalError("cryptoCurrency is not SupportCryptoType")
+        }
+
         let updateDate = (self.updatedDate.convertDateTime() ?? Date()).convertDateToOffsetDateTime()
         let bankCard = BankCardObject(id_: playerCryptoBankCardId,
                                       name: cryptoWalletName,
                                       status: createBankCardStatus(index: status),
                                       verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: verifyStatus))
         
-        return CryptoBankCard(bankCard: bankCard, currency: Crypto.Ethereum(), walletAddress: cryptoWalletAddress, createdUser: createdUser, updatedUser: updatedUser, updatedDate: updateDate, cryptoNetwork: convertTo(cryptoNetwork: cryptoNetwork))
+        return CryptoBankCard(bankCard: bankCard, currency: cryptoType, walletAddress: cryptoWalletAddress, createdUser: createdUser, updatedUser: updatedUser, updatedDate: updateDate, cryptoNetwork: convertTo(cryptoNetwork: cryptoNetwork))
     }
     
     private func convertTo(cryptoNetwork index: Int) -> CryptoNetwork {
@@ -958,19 +963,26 @@ struct CryptoWithdrawalTransaction: Codable {
     let totalAchievedAmount: Double
     let requestTicketDetails, achievedTicketDetails: [TicketDetail]
     
-    func toCryptoWithdrawalLimitLog() -> CryptoWithdrawalLimitLog {
-        return CryptoWithdrawalLimitLog(totalRequestAmount: CryptoAmount.create(cryptoAmount: totalRequestAmount, crypto: Crypto.Ethereum.init()),
-                                        totalAchievedAmount: CryptoAmount.create(cryptoAmount: totalAchievedAmount, crypto: Crypto.Ethereum.init()),
-                                        cryptoWithdrawalRequest: cryptoWithdrawalRequestInfos.map({ CryptoAmount.create(cryptoAmount: $0.withdrawalRequest, crypto: Crypto.Ethereum.init()) }),
-                                        requestTicketDetails: requestTicketDetails.map({$0.toCryptoWithdrawalLimitTicketDetail()}),
-                                        achievedTicketDetails: achievedTicketDetails.map({$0.toCryptoWithdrawalLimitTicketDetail()}))
+    func toSummary() -> CpsWithdrawalSummary {
+        return CpsWithdrawalSummary(remainTurnOver: sumOfTurnOver(infos: cryptoWithdrawalRequestInfos),
+                                    requestTurnOver: toTurnOver(list: requestTicketDetails, amount: totalRequestAmount),
+                                    achievedTurnOver: toTurnOver(list: achievedTicketDetails, amount: totalAchievedAmount))
     }
+
+    private func sumOfTurnOver(infos: [CryptoWithdrawalRequestInfo]) -> AccountCurrency {
+        return infos.map({$0.withdrawalRequest.toAccountCurrency()}).reduce(AccountCurrency.zero()) { $0+$1 }
+    }
+    
+    private func toTurnOver(list: [TicketDetail], amount: Double) -> CpsWithdrawalSummary.TurnOverTransaction {
+        return CpsWithdrawalSummary.TurnOverTransaction(total: amount.toAccountCurrency(), record: list.map({$0.toDetail()}))
+    }
+    
 }
 
 struct TicketDetail: Codable {
     let approvedDate, displayID: String
     let fiatAmount, cryptoAmount: Double
-    let cryptoCurrency: Int32
+    let cryptoCurrency: Int
     
     enum CodingKeys: String, CodingKey {
         case approvedDate
@@ -978,14 +990,8 @@ struct TicketDetail: Codable {
         case fiatAmount, cryptoAmount, cryptoCurrency
     }
     
-    func toCryptoWithdrawalLimitTicketDetail() -> CryptoWithdrawalLimitTicketDetail {
-        let localApprovedDate = approvedDate.convertDateTime()?.convertDateToOffsetDateTime() ?? Date().convertDateToOffsetDateTime()
-        return CryptoWithdrawalLimitTicketDetail(
-            cryptoAmount: CryptoAmount.create(cryptoAmount: cryptoAmount, crypto: Crypto.Ethereum.init()),
-            approvedDate: localApprovedDate,
-            displayId: displayID,
-            fiatAmount:CashAmount(amount: fiatAmount)
-        )
+    func toDetail() -> CpsWithdrawalSummary.TurnOverDetail {
+        CpsWithdrawalSummary.TurnOverDetail(displayId: "\(displayID)", cryptoAmount: cryptoAmount.toCryptoCurrency(cryptoCurrency), approvedDate: approvedDate.toOffsetDateTime(), flatAmount: fiatAmount.toAccountCurrency())
     }
 }
 
@@ -1016,13 +1022,36 @@ struct LockedBonusDataBean: Codable {
         let informPlayerDate = self.informPlayerDate.toOffsetDateTime()
         let parameter = toTurnOverDetailParameters(parameters)
         
-        return P2PTurnOver.TurnOverReceipt.init(turnOverDetail: TurnOverDetail.init(achieved: CashAmount(amount: achieved.currencyAmountToDouble() ?? 0), formula: formula, informPlayerDate: informPlayerDate, name: name, bonusId: no, remainAmount: CashAmount(amount: remainingAmount.currencyAmountToDouble() ?? 0), parameters: parameter))
+        return P2PTurnOver.TurnOverReceipt.init(
+            turnOverDetail: TurnOverDetail.init(
+                achieved: achieved.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+                formula: formula,
+                informPlayerDate: informPlayerDate,
+                name: name,
+                bonusId: no,
+                remainAmount: remainingAmount.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+                parameters: parameter))
     }
     func toTurnOverDetail() -> TurnOverDetail {
-        return TurnOverDetail(achieved: CashAmount(amount: achieved.currencyAmountToDouble() ?? 0), formula: formula, informPlayerDate: self.informPlayerDate.toOffsetDateTime(), name: self.name, bonusId: self.no, remainAmount: CashAmount(amount: self.remainingAmount.currencyAmountToDouble() ?? 0), parameters: self.toTurnOverDetailParameters(self.parameters))
+        return TurnOverDetail(
+            achieved: achieved.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+            formula: formula, informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
+            name: self.name,
+            bonusId: self.no,
+            remainAmount: self.remainingAmount.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+            parameters: self.toTurnOverDetailParameters(self.parameters))
     }
     private func toTurnOverDetailParameters(_ params: Parameters) -> TurnOverDetail.Parameters {
-        return TurnOverDetail.Parameters(amount: CashAmount(amount: parameters.amount.currencyAmountToDouble() ?? 0), balance: CashAmount(amount: parameters.balance.currencyAmountToDouble() ?? 0), betMultiplier: Int32(parameters.betMultiplier), capital: CashAmount(amount: parameters.capital.currencyAmountToDouble() ?? 0), depositRequest: CashAmount(amount: parameters.depositRequest.currencyAmountToDouble() ?? 0), percentage: Percentage(percent: parameters.percentage.currencyAmountToDouble() ?? 0), request: CashAmount(amount: parameters.request.currencyAmountToDouble() ?? 0), requirement: CashAmount(amount: parameters.requirement.currencyAmountToDouble() ?? 0), turnoverRequest: CashAmount(amount: parameters.turnoverRequest.currencyAmountToDouble() ?? 0))
+        return TurnOverDetail.Parameters(
+            amount: parameters.amount.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+            balance: parameters.balance.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+            betMultiplier: Int32(parameters.betMultiplier),
+            capital: parameters.capital.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+            depositRequest: parameters.depositRequest.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+            percentage: Percentage(percent: parameters.percentage.currencyAmountToDouble() ?? 0),
+            request: parameters.request.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+            requirement: parameters.requirement.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
+            turnoverRequest: parameters.turnoverRequest.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency())
     }
 }
 
@@ -1067,8 +1096,8 @@ struct SummaryBean: Codable {
     
     func toDateSummary() -> DateSummary {
         let createDate = self.betDate.convertDateTime(format:  "yyyy/MM/dd") ?? Date()
-        return DateSummary(totalStakes: CashAmount(amount: self.stakes),
-                           totalWinLoss: CashAmount(amount: self.winLoss),
+        return DateSummary(totalStakes: self.stakes.toAccountCurrency(),
+                           totalWinLoss: self.winLoss.toAccountCurrency(),
                            createdDateTime: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()),
                            count: self.count)
     }
@@ -1106,7 +1135,7 @@ struct P2PDateBetRecordBean: Codable {
         let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
         let start = (startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
         let end = (endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        return GameGroupedRecord(gameId: gameGroupId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), startDate: start, endDate: end)
+        return GameGroupedRecord(gameId: gameGroupId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), startDate: start, endDate: end)
     }
 }
 
@@ -1137,7 +1166,7 @@ struct ArcadeDateDataRecordBean: Codable {
         let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
         let start = (startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
         let end = (endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        return GameGroupedRecord(gameId: gameId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: CashAmount(amount: stakes), winLoss: CashAmount(amount: winLoss), startDate: start, endDate: end)
+        return GameGroupedRecord(gameId: gameId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), startDate: start, endDate: end)
     }
 }
 
@@ -1158,7 +1187,7 @@ struct P2PGameBetRecordBean: Codable {
     
     func toP2PGameBetRecord() -> P2PGameBetRecord {
         let betLocalTime = betTime.toLocalDateTime()
-        return P2PGameBetRecord(betTime: betLocalTime, gameGroupId: gameGroupId, gameName: gameName, groupId: groupId, hasDetails: hasDetails, prededuct: CashAmount(amount: prededuct), stakes: CashAmount(amount: stakes), wagerId: wagerId, winLoss: CashAmount(amount: winLoss))
+        return P2PGameBetRecord(betTime: betLocalTime, gameGroupId: gameGroupId, gameName: gameName, groupId: groupId, hasDetails: hasDetails, prededuct: prededuct.toAccountCurrency(), stakes: stakes.toAccountCurrency(), wagerId: wagerId, winLoss: winLoss.toAccountCurrency())
     }
 }
 
@@ -1178,7 +1207,7 @@ struct ArcadeGameBetRecordBean: Codable {
     func toArcadeGameBetRecord() -> ArcadeGameBetRecord {
         let betLocalTime = self.betTime.convertDateTime()?.convertDateToOffsetDateTime() ?? Date().convertDateToOffsetDateTime()
         let settleLocalTime = self.settleTime.convertDateTime()?.convertDateToOffsetDateTime() ?? Date().convertDateToOffsetDateTime()
-        return ArcadeGameBetRecord(wagerId: self.wagerId, betId: self.betId, betTime: betLocalTime, settleTime: settleLocalTime, hasDetails: self.hasDetails, stakes: CashAmount(amount: self.stakes), winLoss: CashAmount(amount: self.winLoss))
+        return ArcadeGameBetRecord(wagerId: self.wagerId, betId: self.betId, betTime: betLocalTime, settleTime: settleLocalTime, hasDetails: self.hasDetails, stakes: self.stakes.toAccountCurrency(), winLoss: self.winLoss.toAccountCurrency())
     }
 }
 
@@ -1259,14 +1288,14 @@ struct BonusBean: Codable {
     var couponStatus: CouponStatus {
         return self.covertBonusPromotionStatus(self.bonusCouponStatus)
     }
-    var knAmount: CashAmount {
-        return CashAmount(amount: self.amount)
+    var knAmount: AccountCurrency {
+        return self.amount.toAccountCurrency()
     }
-    var knMaxAmount: CashAmount {
-        return CashAmount(amount: self.maxAmount)
+    var knMaxAmount: Promotion.IMaxAmount {
+        return Promotion.companion.create(amount: self.maxAmount.toAccountCurrency())
     }
-    var knMinCapital: CashAmount {
-        return CashAmount(amount: self.minCapital)
+    var knMinCapital: AccountCurrency {
+        return  self.minCapital.toAccountCurrency()
     }
     var knPercentage: Percentage {
         return Percentage(percent: self.percentage)
@@ -1397,7 +1426,7 @@ struct PromotionBean: Codable {
                     informPlayerDate: self.informPlayerDate.toLocalDateTime(),
                     type: ProductType.convert(self.productType),
                     percentage: Percentage(percent: self.percentage),
-                    maxBonusAmount: CashAmount(amount: self.maxAmount),
+                    maxBonusAmount: self.maxAmount.toAccountCurrency(),
                     endDate: self.endDate.toOffsetDateTime(),
                     isAutoUse: self.isAutoUse)
     }
@@ -1419,7 +1448,7 @@ struct ProductPromotionBean: Codable {
                     issueNumber: self.issue,
                     informPlayerDate: self.informPlayerDate.toLocalDateTime(),
                     endDate: self.endDate.toOffsetDateTime(),
-                    maxBonusAmount: CashAmount(amount: self.maxAmount),
+                    maxBonusAmount: self.maxAmount.toAccountCurrency(),
                     type: ProductType.convert(self.productType))
     }
 }
@@ -1472,8 +1501,8 @@ struct BonusHintBean: Codable {
         let request: String?
         let requirement: String?
         
-        private func toCashAmount(_ text: String?) -> CashAmount{
-            return CashAmount(amount: text?.currencyAmountToDouble() ?? 0)
+        private func toCashAmount(_ text: String?) -> AccountCurrency {
+            return text?.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency()
         }
         
         fileprivate func toTurnOverHintParameters() -> TurnOverHint.Parameters {
@@ -1519,7 +1548,7 @@ struct Log: Codable {
     let wagerID: String?
     let isDetail: Bool
     let bonusType, productType, issueNumber: Int32
-    let transactionSubType: Int
+    let transactionSubType: Int32
     
     enum CodingKeys: String, CodingKey {
         case transactionID = "transactionId"
@@ -1538,7 +1567,7 @@ struct Log: Codable {
         let bonusTypes = BonusType.convert(bonusType)
         let productProviders = ProductProviders.Companion.init().createProductGroup(provider: productProvider)
         let transferType = ticketType != nil ? TransactionType.Companion.init().convertTransactionType(transactionType_: ticketType!) : TransactionType.none
-        let transactionAmount = CashAmount(amount: amount)
+        let transactionAmount = amount.toAccountCurrency()
         let transaction = Transaction(amount: transactionAmount, date: createdDate.toLocalDateTime(), id_: transactionID)
         let wagerType = WagerType.convert(self.wagerType)
         let transactionMode = self.transactionMode != nil ? try! TransactionModes.convert(self.transactionMode!) : TransactionModes.normal
@@ -1553,7 +1582,8 @@ struct Log: Codable {
                                          wagerId: wagerID,
                                          externalId: externalID,
                                          subTitle: subTitle,
-                                         transactionMode: transactionMode)
+                                         transactionMode: transactionMode,
+                                         transactionSubType: toTransactionSubType(transactionSubType))
     }
     
     class Transaction: ITransaction {
@@ -1567,13 +1597,22 @@ struct Log: Codable {
             self.id_ = id_
         }
     }
+    
+    func toTransactionSubType(_ i: Int32) -> TransactionSubType {
+        for index in 0..<TransactionSubType.values().size {
+            if (TransactionSubType.values().get(index: index))!.ordinal == i {
+                return TransactionSubType.values().get(index: index) ?? TransactionSubType.none
+            }
+        }
+        return TransactionSubType.none
+    }
+
 }
 
 struct IncomeOutcomeBean: Codable {
     var incomeAmount: Double
     var outcomeAmount: Double
 }
-
 
 struct CashLogSummaryBean: Codable {
     var adjustmentAmount: Double
@@ -1606,7 +1645,7 @@ struct BalanceLogDetailBean: Codable {
     let wagerMappingId: String?
     
     func toBalanceLogDetail(remark: BalanceLogDetailRemark? = nil) -> BalanceLogDetail {
-        return BalanceLogDetail(afterBalance: CashAmount(amount: afterBalance), amount: CashAmount(amount: amount), date: createdDate.toLocalDateTime(), wagerMappingId: wagerMappingId ?? externalId, productGroup: ProductProviders.Companion.init().createProductGroup(provider: productProvider), productType: ProductType.convert(productType), transactionType: TransactionTypes.Companion.init().create(type: transactionType), remark: remark ?? BalanceLogDetailRemark.None(), externalId: externalId)
+        return BalanceLogDetail(afterBalance: afterBalance.toAccountCurrency(), amount: amount.toAccountCurrency(), date: createdDate.toLocalDateTime(), wagerMappingId: wagerMappingId ?? externalId, productGroup: ProductProviders.Companion.init().createProductGroup(provider: productProvider), productType: ProductType.convert(productType), transactionType: TransactionTypes.Companion.init().create(type: transactionType), remark: remark ?? BalanceLogDetailRemark.None(), externalId: externalId)
     }
 }
 
@@ -1802,6 +1841,17 @@ struct ChatHistories: Codable {
             return ChatHistory(createDate: createdDate.toLocalDateTime(), title: title ?? "", roomId: roomId)
         }
     }
+}
+
+struct CryptoCurrencyBean: Codable {
+    let cryptoCurrencyInfo: [CryptoCurrencyInfo]
+}
+
+struct CryptoCurrencyInfo: Codable {
+    let cryptoCurrency: Int
+    let isEnableDepositFee: Bool
+    let feePercentage: Double
+    let maximumFee: Int
 }
 
 // MARK: - Encode/decode helpers

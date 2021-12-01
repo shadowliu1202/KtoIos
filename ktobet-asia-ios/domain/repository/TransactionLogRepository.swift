@@ -33,7 +33,7 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
     func getCashFlowSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<CashFlowSummary> {
         transactionLogApi.getIncomeOutcomeAmount(begin: begin.toDateString(), end: end.toDateString(), balanceLogFilterType: balanceLogFilterType).flatMap{ response in
             if let data = response.data {
-                return Single.just(CashFlowSummary(income: CashAmount(amount: data.incomeAmount), outcome: CashAmount(amount: data.outcomeAmount)))
+                return Single.just(CashFlowSummary(income: data.incomeAmount.toAccountCurrency(), outcome: data.outcomeAmount.toAccountCurrency()))
             } else {
                 return Single.error(KTOError.EmptyData)
             }
@@ -43,19 +43,19 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
     func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<CashLogSummary> {
         transactionLogApi.getCashLogSummary(begin: begin.toDateString(), end: end.toDateString(), balanceLogFilterType: balanceLogFilterType).flatMap { response in
             if let data = response.data {
-                return Single.just(CashLogSummary(deposit: CashAmount(amount: data.depositAmount),
-                                                  withdrawal: CashAmount(amount: data.withdrawalAmount),
-                                                  sportsBook: CashAmount(amount: data.sportsbookAmount),
-                                                  slot: CashAmount(amount: data.slotAmount),
-                                                  casino: CashAmount(amount: data.casinoAmount),
-                                                  numberGame: CashAmount(amount: data.numberGameAmount),
-                                                  p2pAmount: CashAmount(amount: data.p2pAmount),
-                                                  arcadeAmount: CashAmount(amount: data.arcadeAmount),
-                                                  adjustmentAmount: CashAmount(amount: data.adjustmentAmount),
-                                                  bonusAmount: CashAmount(amount: data.bonusAmount),
-                                                  previousBalance: CashAmount(amount: data.previousBalance),
-                                                  afterBalance: CashAmount(amount: data.afterBalance),
-                                                  totalSummary: CashAmount(amount: data.totalAmount)))
+                return Single.just(CashLogSummary(deposit: data.depositAmount.toAccountCurrency(),
+                                                  withdrawal: data.withdrawalAmount.toAccountCurrency(),
+                                                  sportsBook: data.sportsbookAmount.toAccountCurrency(),
+                                                  slot: data.slotAmount.toAccountCurrency(),
+                                                  casino: data.casinoAmount.toAccountCurrency(),
+                                                  numberGame: data.numberGameAmount.toAccountCurrency(),
+                                                  p2pAmount: data.p2pAmount.toAccountCurrency(),
+                                                  arcadeAmount: data.arcadeAmount.toAccountCurrency(),
+                                                  adjustmentAmount: data.adjustmentAmount.toAccountCurrency(),
+                                                  bonusAmount: data.bonusAmount.toAccountCurrency(),
+                                                  previousBalance: data.previousBalance.toAccountCurrency(),
+                                                  afterBalance: data.afterBalance.toAccountCurrency(),
+                                                  totalSummary: data.totalAmount.toAccountCurrency()))
             } else {
                 return Single.error(KTOError.EmptyData)
             }

@@ -1,4 +1,5 @@
 import UIKit
+import SharedBu
 
 class DepositTypeTableViewCell: UITableViewCell {
     @IBOutlet private weak var iconImg: UIImageView!
@@ -12,5 +13,17 @@ class DepositTypeTableViewCell: UITableViewCell {
         recommendButton.isHidden = !isRecommend
         recommendButton.setTitle(Localize.string("deposit_recommend"), for: .normal)
         hintLabel.text = hint
+    }
+    
+    func setUp(data: DepositType, icon: String) {
+        nameLabel.text = data.method.name
+        iconImg.image = UIImage(named: icon)
+        recommendButton.isHidden = !data.method.isFavorite
+        recommendButton.setTitle(Localize.string("deposit_recommend"), for: .normal)
+        if data.paymentType is PaymentType.Ethereum {
+            hintLabel.text = Localize.string("deposit_cps_hint")
+        } else {
+            hintLabel.text = data.hint
+        }
     }
 }

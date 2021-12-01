@@ -27,7 +27,7 @@ class DepositViewModel {
     var dropdownAmount = BehaviorRelay<String>(value: WeiLaiProvidAmount.fifty.rawValue)
     var Allbanks: [SimpleBank] = []
     var uploadImageDetail: [Int: UploadImageDetail] = [:]
-    var selectedReceiveBank: FullBankAccount!
+    var selectedReceiveBank: OfflineBank!
     var selectedGateway: PaymentGateway! {
         didSet {
             self.subjectGateway.onNext(selectedGateway)
@@ -48,7 +48,7 @@ class DepositViewModel {
                                     6: "閃充(32)",
                                     11: "雲閃付(32)",
                                     14: "iconPayMultiple",
-                                    2001: "Ethereum"]
+                                    2001: "Crypto"]
     init(depositUseCase: DepositUseCase, playerUseCase: PlayerDataUseCase, bankUseCase: BankUseCase) {
         self.depositUseCase = depositUseCase
         self.playerUseCase = playerUseCase
@@ -87,14 +87,17 @@ class DepositViewModel {
         return bankUseCase.getBankMap()
     }
     
-    func getDepositOfflineBankAccounts() -> Single<[FullBankAccount]> {
-        return depositUseCase.getDepositOfflineBankAccounts().map { $0.sorted { (f1, f2) -> Bool in
-            guard let b1 = f1.bank, let b2 = f2.bank else { return false }
-            return b1.shortName < b2.shortName
+    func getDepositTakingCryptos() -> Single<[TakingCrypto]> {
+        depositUseCase.getDepositTakingCryptos()
+    }
+    
+    func getDepositOfflineBankAccounts() -> Single<[OfflineBank]> {
+        return depositUseCase.getDepositOfflineBankAccounts().map { $0.sorted { (b1, b2) -> Bool in
+            b1.shortName < b2.shortName
         } }
     }
     
-    func depositOffline(depositRequest: DepositRequest, depositTypeId: Int32) -> Single<String> {
+    func depositOffline(depositRequest: DepositRequest_, depositTypeId: Int32) -> Single<String> {
         return depositUseCase.depositOffline(depositRequest: depositRequest, depositTypeId: depositTypeId)
     }
     
@@ -103,14 +106,14 @@ class DepositViewModel {
         if let paymentSlip = paymentSlip.value {
             let remitter = DepositRequest_.Remitter(name: relayName.value, accountNumber: accountNum)
             paymentSlip.remitter(remitter: remitter)
-            let cashAmount = CashAmount(amount: Double(accountNum.replacingOccurrences(of: ",", with: ""))!)
+            let cashAmount = accountNum.toAccountCurrency()
             do {
                 try paymentSlip.depositAmount(amount: cashAmount)
             } catch {
                 return Single.error(PaymentException.InvalidDepositAmount())
             }
             let request = paymentSlip.build()
-            return depositUseCase.depositOnline(paymentGateway: selectedGateway, depositRequest: request, provider: selectedGateway.provider, depositTypeId: depositTypeId)
+            return depositUseCase.depositOnline(paymentGateway: selectedGateway, depositRequest: request, provider: selectedGateway.provider, depositTypeId: depositTypeId, toBank: "")
         }
         return Single.never()
     }
@@ -150,7 +153,8 @@ class DepositViewModel {
         let offlineAmountValid = relayBankAmount.map({ [weak self](amount) -> Bool in
             guard let `self` = self,  let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return false }
             let limitation = self.selectedType.method.limitation
-            if limitation.min.amount <= amount && amount <= limitation.max.amount {
+            if limitation.min.bigAmount.doubleValue(exactRequired: true) <= amount &&
+                amount <= limitation.max.bigAmount.doubleValue(exactRequired: true) {
                 return true
             } else {
                 return false
@@ -165,7 +169,7 @@ class DepositViewModel {
             }
         }), paymentSlip).map({ (amount, paymentSlip) -> Bool in
             guard let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return false }
-            return paymentSlip?.verifyDepositLimitation(amount: CashAmount(amount: amount)) ?? false
+            return paymentSlip?.verifyDepositLimitation(amount: amount.toAccountCurrency()) ?? false
         })
         
         if selectedType.supportType == .OfflinePayment {
@@ -214,8 +218,8 @@ class DepositViewModel {
         return playerUseCase.getCashLogSummary(begin: beginDate, end: endDate, balanceLogFilterType: balanceLogFilterType)
     }
     
-    func createCryptoDeposit() -> Single<String> {
-        return depositUseCase.requestCryptoDeposit()
+    func createCryptoDeposit(cryptoDepositRequest: CryptoDepositRequest) -> Single<String> {
+        return depositUseCase.requestCryptoDeposit(cryptoDepositRequest: cryptoDepositRequest)
     }
     
     func needCashOption(gateway: PaymentGateway) -> Bool {

@@ -10,7 +10,7 @@ class PlayerViewModel {
     var refreshBalance = PublishSubject<(Void)>()
     lazy var playerBalance = refreshBalance.flatMapLatest{_ in
         self.playerUseCase.getBalance()
-            .map{(Localize.getSymbol() ?? "") + " " + $0.description()}
+            .map{ $0.toAccountCurrency().symbol + " " + $0.toAccountCurrency().formatString() }
             .do(onSuccess: { self.balance = $0 })
             .asObservable()
     }

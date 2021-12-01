@@ -51,8 +51,8 @@ class TransactionLogSummaryViewController: UIViewController {
             }).bind(to: tableView.rx.items) {tableView, row, element in
                 let cell = tableView.dequeueReusableCell(withIdentifier: TransactionLogSummaryTableViewCell.identifier) as! TransactionLogSummaryTableViewCell
                 cell.typeLabel.text = element.typeName
-                cell.amountLabel.text = element.amount.toStringWithSign()
-                cell.amountLabel.textColor = element.amount.isPositive() ? .textSuccessedGreen : .textPrimaryDustyGray
+                cell.amountLabel.text = element.amount.formatString(sign: .signed_)
+                cell.amountLabel.textColor = element.amount.isPositive ? .textSuccessedGreen : .textPrimaryDustyGray
                 return cell
             }.disposed(by: disposeBag)
     }

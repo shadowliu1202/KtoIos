@@ -35,11 +35,11 @@ class WithdrawalCryptoRequestViewModel {
         return self.withdrawalUseCase.getWithdrawalLimitation()
     }
     
-    func getBalance() -> Single<CashAmount> {
+    func getBalance() -> Single<AccountCurrency> {
         return self.playerUseCase.getBalance()
     }
     
-    func cryptoCurrency(cryptoCurrency: Crypto) -> Single<CryptoExchangeRate> {
+    func cryptoCurrency(cryptoCurrency: SupportCryptoType) -> Single<IExchangeRate> {
         return self.withdrawalUseCase.getCryptoExchangeRate(cryptoCurrency)
     }
     
@@ -55,7 +55,7 @@ class WithdrawalCryptoRequestViewModel {
         return Observable.combineLatest(exchangeAmounts, getWithdrawalLimitation().asObservable(), getBalance().asObservable()).map { [weak self] (amounts, limitation, balance) -> ValidError in
             guard let `self` = self else {return .none }
             let cryptoAmount = amounts.0
-            let fiatAmount = CashAmount(amount: amounts.1.doubleValue)
+            let fiatAmount = self.fiatDecimalToAccountCurrency(amounts.1)
             if self.isAmountBeyond(fiatAmount, limitation) {
                 return .amountBeyondRange
             } else if self.isAmountBelow(fiatAmount, limitation) || cryptoAmount == 0.0 {
@@ -69,19 +69,19 @@ class WithdrawalCryptoRequestViewModel {
         }
     }
     
-    private func isAmountBeyond(_ amount: CashAmount, _ limitation: WithdrawalLimits) -> Bool {
+    private func isAmountBeyond(_ amount: AccountCurrency, _ limitation: WithdrawalLimits) -> Bool {
         return amount > limitation.singleCashMaximum
     }
     
-    private func isAmountBelow(_ amount: CashAmount, _ limitation: WithdrawalLimits) -> Bool {
+    private func isAmountBelow(_ amount: AccountCurrency, _ limitation: WithdrawalLimits) -> Bool {
         return amount < limitation.singleCashMinimum
     }
     
-    private func isAmountExceedDailyLimit(_ amount: CashAmount, _ limitation: WithdrawalLimits) -> Bool {
+    private func isAmountExceedDailyLimit(_ amount: AccountCurrency, _ limitation: WithdrawalLimits) -> Bool {
         return amount > limitation.dailyMaxCash
     }
     
-    private func isBalanceNotEnough(_ amount: CashAmount, _ balance: CashAmount) -> Bool {
+    private func isBalanceNotEnough(_ amount: AccountCurrency, _ balance: AccountCurrency) -> Bool {
         return amount > balance
     }
     
@@ -89,7 +89,15 @@ class WithdrawalCryptoRequestViewModel {
         return validError == .none && limitation.dailyCurrentCount > 0
     }).startWith(false)
     
-    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: Crypto) -> Completable {
+    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable {
         return withdrawalUseCase.requestCryptoWithdrawal(playerCryptoBankCardId: playerCryptoBankCardId, requestCryptoAmount: requestCryptoAmount, requestFiatAmount: requestFiatAmount, cryptoCurrency: cryptoCurrency)
+    }
+    
+    func fiatDecimalToAccountCurrency(_ de: Decimal) -> AccountCurrency {
+        FiatFactory.init().create(supportLocale: self.localStorageRepository.getSupportLocal(), amount_: "\(de)")
+    }
+    
+    func cryptoDecimalToCryptoCurrency(_ type: SupportCryptoType, _ de: Decimal) -> CryptoCurrency {
+        CryptoFactory.init().create(supportCryptoType: type, amount_: "\(de)")
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SharedBu
 
 public enum AccountType: Int {
     case phone = 2
@@ -31,6 +32,40 @@ public enum ValidError {
     case length
     case empty
     case regex
+}
+
+extension BankNamePatternValidateResult {
+    func toValidError() -> ValidError {
+        switch self {
+        case .exceededlength:
+            return .length
+        case .mustfill:
+            return .empty
+        case .malformed:
+            return .regex
+        case .none:
+            return .none
+        default:
+            return .none
+        }
+    }
+}
+
+extension BankBranchPatternValidateResult {
+    func toValidError() -> ValidError {
+        switch self {
+        case .exceededlength:
+            return .length
+        case .mustfill:
+            return .empty
+        case .malformed:
+            return .regex
+        case .none:
+            return .none
+        default:
+            return .none
+        }
+    }
 }
 
 public enum FeatureType : String {

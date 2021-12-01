@@ -301,7 +301,7 @@ class SideBarViewController: UIViewController {
     
     @objc func accountTap(_ sender: UITapGestureRecognizer) {
         cleanProductSelected()
-        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountInfoNavigationController")
+        NavigationManagement.sharedInstance.goTo(storyboard: "AccountInfo", viewControllerId: "AccountInfoNavigationController")
     }
     
     @objc func accountLevelTap(_ sender: UITapGestureRecognizer) {
@@ -321,7 +321,7 @@ class SideBarViewController: UIViewController {
     
     @IBAction func toNotify(_ sender : UIButton){
         cleanProductSelected()
-        NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "AccountNotifyNavigationController")
+        NavigationManagement.sharedInstance.goTo(storyboard: "Notify", viewControllerId: "AccountNotifyNavigationController")
     }
     
     fileprivate func cleanProductSelected() {

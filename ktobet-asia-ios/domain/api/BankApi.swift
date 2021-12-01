@@ -71,13 +71,13 @@ class BankApi: ApiService {
         return httpClient.request(target).map(ResponseData<String>.self)
     }
     
-    func depositOnline(depositRequest: DepositOnlineAccountsRequest) -> Single<ResponseData<DepositTransactionData>> {
+    func depositOnline(depositRequest: DepositOnlineAccountsRequest) -> Single<ResponseData<OnlineDepositResponse>> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "api/deposit/online-player",
+                               path: "api/deposit/online-deposit",
                                method: .post,
                                task: .requestJSONEncodable(depositRequest),
                                header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<DepositTransactionData>.self)
+        return httpClient.request(target).map(ResponseData<OnlineDepositResponse>.self)
     }
     
     func getDepositMethods(depositType: Int32) -> Single<ResponseData<[DepositMethodData]>> {

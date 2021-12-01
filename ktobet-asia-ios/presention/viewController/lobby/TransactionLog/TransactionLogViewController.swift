@@ -49,8 +49,8 @@ class TransactionLogViewController: UIViewController {
         
         transactionSummary
             .subscribe {[weak self] cashFlowSummary in
-                self?.inComeLabel.text = cashFlowSummary.income.toStringWithSign()
-                self?.outComeLabel.text = cashFlowSummary.outcome.amount == 0 ? "-\(cashFlowSummary.outcome.description())" : cashFlowSummary.outcome.toStringWithSign()
+                self?.inComeLabel.text = cashFlowSummary.income.formatString(sign: .signed_)
+                self?.outComeLabel.text = cashFlowSummary.outcome.formatString(sign: .signed_)
             } onError: {[weak self] error in
                 self?.handleErrors(error)
             }.disposed(by: disposeBag)

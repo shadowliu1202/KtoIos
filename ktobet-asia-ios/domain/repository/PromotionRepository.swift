@@ -32,7 +32,7 @@ class PromotionRepositoryImpl: PromotionRepository {
                                               selected: sortingBy.rawValue,
                                               type: bonusTypes.map{ BonusType.convert($0) })
         return promotionApi.searchPromotionHistory(request: request).map{ (response) -> CouponHistorySummary in
-            guard let data = response.data else { return CouponHistorySummary(summary: CashAmount(amount: 0), totalCoupon: 0, couponHistory: [])}
+            guard let data = response.data else { return CouponHistorySummary(summary: 0.toAccountCurrency(), totalCoupon: 0, couponHistory: [])}
             return data.convertToPromotions()
         }
     }

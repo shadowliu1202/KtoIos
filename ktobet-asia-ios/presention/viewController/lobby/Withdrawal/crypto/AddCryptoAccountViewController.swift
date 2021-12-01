@@ -18,6 +18,8 @@ class AddCryptoAccountViewController: UIViewController {
     var bankCardCount: Int = 0
     
     fileprivate let viewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
+    private let cryptoViewModel = DI.resolve(CryptoViewModel.self)!
+    
     fileprivate let disposeBag = DisposeBag()
     fileprivate var imagePickerView: ImagePickerViewController!
    
@@ -25,10 +27,13 @@ class AddCryptoAccountViewController: UIViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         accountAddressTextField.rx.observe(UIColor.self, "backgroundColor").bind(to: accountAddressView.rx.backgroundColor).disposed(by: disposeBag)
-        let supportCry = Crypto.Companion.init().support()
-        supportCry.forEach{ print($0.simpleName) }
-        cryptoTypeDropDown.optionArray = supportCry.map{ $0.simpleName }
-        cryptoTypeDropDown.setTitle(Localize.string("cps_crypto_currency"))
+        
+        cryptoViewModel.supportCryptoType.subscribe(onSuccess: { [unowned self] in
+            let supportCrypto = $0.map({$0.name})
+            self.cryptoTypeDropDown.optionArray = supportCrypto
+            self.cryptoTypeDropDown.setTitle(Localize.string("cps_crypto_currency"))
+            self.viewModel.cryptoType.accept(supportCrypto.first ?? "")
+        }).disposed(by: disposeBag)
         
         let cryptoNetworkArray = viewModel.getCryptoNetworkArray()
         cryptoNetworkDropDown.optionArray = cryptoNetworkArray.map { $0.name }
@@ -46,7 +51,6 @@ class AddCryptoAccountViewController: UIViewController {
         (cryptoTypeDropDown.text <-> viewModel.cryptoType).disposed(by: disposeBag)
         (cryptoNetworkDropDown.text <-> viewModel.cryptoNetwork).disposed(by: disposeBag)
                 
-        viewModel.cryptoType.accept(supportCry.map{ $0.simpleName }.first ?? "")
         viewModel.cryptoNetwork.accept(cryptoNetworkArray.filter{ $0 == CryptoNetwork.trc20 }.first?.name ?? "")
         viewModel.accountName.accept(Localize.string("cps_eth_default_bank_card_name") + "\(bankCardCount + 1)")
         
@@ -104,7 +108,7 @@ class AddCryptoAccountViewController: UIViewController {
                         self.performSegue(withIdentifier: WithdrawalCryptoVerifyViewController.segueIdentifier, sender: data)
                     }, cancel: nil)
                 }, onError: { (error) in
-                    if (error as? KTOError) == KTOError.EmptyData {
+                    if error is KtoWithdrawalAccountExist {
                         Alert.show(Localize.string("common_tip_title_warm"), Localize.string("cps_bank_card_exist"), confirm: nil, cancel: nil, tintColor: UIColor.red)
                     }
                 }).disposed(by: self.disposeBag)

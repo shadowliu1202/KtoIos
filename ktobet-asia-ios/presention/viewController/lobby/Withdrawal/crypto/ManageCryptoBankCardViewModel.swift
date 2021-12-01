@@ -23,7 +23,8 @@ class ManageCryptoBankCardViewModel {
     }
     
     func addCryptoBankCard() -> Single<String> {
-        return withdrawalUseCase.addCryptoBankCard(currency: Crypto.Companion.init().create(simpleName: cryptoType.value), alias: accountName.value, walletAddress: accountAddress.value, cryptoNetwork: stringToCryptoNetwork())
+        let currency = SupportCryptoType.valueOf(cryptoType.value)
+        return withdrawalUseCase.addCryptoBankCard(currency: currency, alias: accountName.value, walletAddress: accountAddress.value, cryptoNetwork: stringToCryptoNetwork())
     }
     
     func stringToCryptoNetwork() -> CryptoNetwork {

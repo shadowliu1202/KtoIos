@@ -182,9 +182,8 @@ class DepositGatewayViewController: UIViewController {
     }
 
     fileprivate func offlineDataBinding() {
-        let getDepositOfflineBankAccountsObservable = viewModel.getDepositOfflineBankAccounts().catchError { _ in Single<[FullBankAccount]>.never() }.asObservable()
-        getDepositOfflineBankAccountsObservable.bind(to: depositTableView.rx.items(cellIdentifier: String(describing: DepositMethodTableViewCell.self), cellType: DepositMethodTableViewCell.self)) { index, data, cell in
-            guard let bank = data.bank else { return }
+        let getDepositOfflineBankAccountsObservable = viewModel.getDepositOfflineBankAccounts().catchError { _ in Single<[OfflineBank]>.never() }.asObservable()
+        getDepositOfflineBankAccountsObservable.bind(to: depositTableView.rx.items(cellIdentifier: String(describing: DepositMethodTableViewCell.self), cellType: DepositMethodTableViewCell.self)) { index, bank, cell in
             cell.setUp(icon: self.viewModel.getBankIcon(bank.bankId), name: bank.name, index: index, selectedIndex: self.selectedIndex)
         }.disposed(by: disposeBag)
         
@@ -202,7 +201,7 @@ class DepositGatewayViewController: UIViewController {
     }
 
     fileprivate func offlineEventHandle() {
-        Observable.zip(depositTableView.rx.itemSelected, depositTableView.rx.modelSelected(FullBankAccount.self)).bind { (indexPath, data) in
+        Observable.zip(depositTableView.rx.itemSelected, depositTableView.rx.modelSelected(OfflineBank.self)).bind { (indexPath, data) in
             self.depositTableView.deselectRow(at: indexPath, animated: true)
             guard let cell = self.depositTableView.cellForRow(at: indexPath) as? DepositMethodTableViewCell else { return }
             guard let lastCell = self.depositTableView.cellForRow(at: IndexPath(item: self.selectedIndex, section: 0)) as? DepositMethodTableViewCell else { return }
@@ -280,8 +279,10 @@ class DepositGatewayViewController: UIViewController {
                 repeat {
                     customDecimal = OfflineDepositCash.Companion.init().customDecimal()
                 } while customDecimal.decimalCount() != 2
-                let requestAmount = OfflineDepositCash(cashAmount: CashAmount(amount: Double(self.viewModel.relayBankAmount.value.replacingOccurrences(of: ",", with: ""))!), customDecimal: customDecimal)
-                let depositRequest = DepositRequest.Builder.init(paymentToken: String(self.viewModel.selectedReceiveBank.bankAccount.paymentTokenId)).remitter(remitter: DepositRequest.Remitter.init(name: self.viewModel.relayName.value, accountNumber: self.viewModel.relayBankNumber.value, bankName: self.viewModel.relayBankName.value)).build(depositAmount: requestAmount)
+                let requestAmount = OfflineDepositCash(cashAmount: self.viewModel.relayBankAmount.value.toAccountCurrency(), customDecimal: customDecimal)
+                let remitter = DepositRequest_.Remitter.init(name: self.viewModel.relayName.value,
+                                                             accountNumber: self.viewModel.relayBankNumber.value)
+                let depositRequest = DepositRequest_.init(remitter: remitter, amount: requestAmount, depositMethod: DepositMethod.init(type: PaymentType.OfflinePayment.init(), name: self.viewModel.relayBankName.value, limitation: AmountRange.init(min: viewModel.minAmountLimit.toAccountCurrency(), max: viewModel.maxAmountLimit.toAccountCurrency()), isFavorite: false), paymentToken: self.viewModel.selectedReceiveBank.paymentTokenId)
                 dest.depositRequest = depositRequest
                 dest.selectedReceiveBank = viewModel.selectedReceiveBank
             }

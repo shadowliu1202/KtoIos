@@ -4,12 +4,12 @@ import SharedBu
 
 class CrpytoTransationLogViewController: UIViewController {
     static let segueIdentifier = "toCrpytoTransationLog"
-    var crpytoWithdrawalRequirementAmount: Double?
+    var crpytoWithdrawalRequirementAmount: AccountCurrency?
     
     @IBOutlet weak var requirementTextView: UITextView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var scrollViewContentHeight: NSLayoutConstraint!
-    private var dataSource = [[CryptoWithdrawalLimitTicketDetail]](repeating: [], count: 2)
+    private var dataSource = [[CpsWithdrawalSummary.TurnOverDetail]](repeating: [], count: 2)
     private var totalRequestAmount: String = ""
     private var totalAchievedAmount: String = ""
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
@@ -28,7 +28,7 @@ class CrpytoTransationLogViewController: UIViewController {
     
     private func initUI() {
         if let amount = crpytoWithdrawalRequirementAmount {
-            setRequirementText(amount.description)
+            setRequirementText(amount.denomination())
         }
         
         requirementTextView.textContainerInset = .zero
@@ -40,20 +40,19 @@ class CrpytoTransationLogViewController: UIViewController {
     
     private func setRequirementText(_ txt: String) {
         let requirementTxt = Localize.string("cps_remaining_requirement", txt)
-        let surfixTxt = "\(txt) ETH"
         let txt = AttribTextHolder(text: requirementTxt)
             .addAttr((text: requirementTxt, type: .color, UIColor.textPrimaryDustyGray))
-            .addAttr((text: surfixTxt, type: .color, UIColor.alert))
+            .addAttr((text: txt, type: .color, UIColor.alert))
         
         txt.setTo(textView: requirementTextView)
     }
     
     private func dataBinding() {
-        viewModel.cryptoLimitTransactions().subscribe(onSuccess: { [weak self] (model: CryptoWithdrawalLimitLog) in
-            self?.totalRequestAmount = model.totalRequestAmount.description()
-            self?.dataSource[0] = model.requestTicketDetails
-            self?.totalAchievedAmount = model.totalAchievedAmount.description()
-            self?.dataSource[1] = model.achievedTicketDetails
+        viewModel.cryptoLimitTransactions().subscribe(onSuccess: { [weak self] (model: CpsWithdrawalSummary) in
+            self?.totalRequestAmount = model.totalRequestAmount().denomination()
+            self?.dataSource[0] = model.requestRecords()
+            self?.totalAchievedAmount = model.totalAchievedAmount().denomination()
+            self?.dataSource[1] = model.achievedRecords()
             self?.tableView.reloadData()
         }, onError: {
             print($0)
@@ -127,10 +126,10 @@ class TicketDetailCell: UITableViewCell {
     @IBOutlet weak var fiatAmountLabel: UILabel!
     @IBOutlet weak var cryptoAmountLabel: UILabel!
     
-    func configure(_ item: CryptoWithdrawalLimitTicketDetail, isPositive: Bool, localCurrency: String) -> Self {
+    func configure(_ item: CpsWithdrawalSummary.TurnOverDetail, isPositive: Bool, localCurrency: String) -> Self {
         dateLabel.text = item.approvedDate.toDateTimeString()
         idLabel.text = item.displayId
-        fiatAmountLabel.text = (isPositive ? "+" : "-") + String(format: "%.2f \(localCurrency)", item.fiatAmount.amount)
+        fiatAmountLabel.text = (isPositive ? "+" : "-") + item.flatAmount.denomination()
         cryptoAmountLabel.text =  item.cryptoAmount.description() + " ETH"
         
         return self

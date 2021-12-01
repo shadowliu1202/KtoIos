@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-protocol TranscationFlowDelegate: class {
+protocol TranscationFlowDelegate: AnyObject {
     func displaySportsBookDetail(wagerId: String)
 }
 

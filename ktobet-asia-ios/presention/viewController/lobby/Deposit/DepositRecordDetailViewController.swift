@@ -217,7 +217,7 @@ class DepositRecordDetailViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-    fileprivate func updateUI(data: DepositDetail.General) {
+    fileprivate func updateUI(data: DepositDetail.Flat) {
         self.scrollview.isHidden = false
         self.applytimeLabel.text = data.createdDate.toDateTimeString()
         self.amountLabel.text = data.requestAmount.description()
@@ -249,7 +249,7 @@ class DepositRecordDetailViewController: UIViewController {
         self.remarkTableview.delegate = nil
         self.remarkTableview.dataSource = nil
         viewModel.getDepositRecordDetail(transactionId: displayId).subscribe {[weak self] (data) in
-            guard let self = self, let generalData = data as? DepositDetail.General else { return }
+            guard let self = self, let generalData = data as? DepositDetail.Flat else { return }
             self.statusDateLabel.text = generalData.updatedDate.toDateTimeString()
             let statusChangeHistoriesObservalbe = Observable.from(optional: generalData.statusChangeHistories)
             statusChangeHistoriesObservalbe.bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) { index, d, cell in

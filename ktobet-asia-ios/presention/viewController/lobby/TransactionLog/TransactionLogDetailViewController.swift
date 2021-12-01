@@ -182,9 +182,9 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
 class LogDetailRowItem {
     private(set) var bean: BalanceLogDetail!
     private(set) var isSmartBet: Bool!
-    var balancelogAmount: String { bean.amount.toStringWithSign() }
+    var balancelogAmount: String { bean.amount.formatString(sign: .signed_) }
     var amountColor: UIColor {
-        return bean.amount.isPositive() ? .textSuccessedGreen : .whiteFull
+        return bean.amount.isPositive ? .textSuccessedGreen : .whiteFull
     }
     var balancelogAfterAmount: String { bean.afterBalance.description() }
     var dateTime: String { bean.date.toDateTimeFormatString() }
@@ -262,7 +262,7 @@ class LogDetailRowItem {
     }
     
     private func getBetStatus(_ transactionType: TransactionTypes.Product) -> String {
-        if bean.amount.amount > 0 {
+        if bean.amount.bigAmount.doubleValue(exactRequired: true) > 0 {
             return Localize.string("balancelog_settle")
         }
         switch transactionType {

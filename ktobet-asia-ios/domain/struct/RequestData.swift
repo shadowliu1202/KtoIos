@@ -53,10 +53,11 @@ struct DepositOnlineAccountsRequest: Codable {
     let remitterAccountNumber, remitterBankName: String
     let depositType: Int32
     let providerId: Int32
+    let bankCode: String
 
     enum CodingKeys: String, CodingKey {
         case paymentTokenID = "paymentTokenId"
-        case requestAmount, remitter, channel, remitterAccountNumber, remitterBankName, depositType, providerId
+        case requestAmount, remitter, channel, remitterAccountNumber, remitterBankName, depositType, providerId, bankCode
     }
 }
 
@@ -110,7 +111,7 @@ struct ChunkImageDetil: Codable {
 struct Empty : Encodable {}
 
 struct CryptoBankCardRequest: Codable {
-    var cryptoCurrency: Int
+    var cryptoCurrency: Int32
     var cryptoWalletName: String
     var cryptoWalletAddress: String
     var cryptoNetwork: Int32
@@ -129,7 +130,7 @@ struct OTPVerifyRequest: Codable {
 struct CryptoWithdrawalRequest: Codable {
     let playerCryptoBankCardId: String
     let requestCryptoAmount, requestFiatAmount: Double
-    let cryptoCurrency: Int
+    let cryptoCurrency: Int32
 
     enum CodingKeys: String, CodingKey {
         case playerCryptoBankCardId, requestFiatAmount, cryptoCurrency, requestCryptoAmount
@@ -205,4 +206,8 @@ struct CustomerMessageData: Codable {
 struct DeleteCsRecords: Codable {
     let roomIds: [RoomId]
     let isExclude: Bool
+}
+
+struct CryptoDepositRequest: Codable {
+    let cryptoCurrency: Int
 }

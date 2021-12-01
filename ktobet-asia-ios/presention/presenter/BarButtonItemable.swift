@@ -5,7 +5,7 @@ public enum BarButtonPosition {
     case right
 }
 
-@objc public protocol BarButtonItemable: class {
+@objc public protocol BarButtonItemable: AnyObject {
     var barButtonItems: [UIBarButtonItem] { get set }
     
     @objc optional func pressedRightBarButtonItems(_ sender: UIBarButtonItem)

@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-protocol NotifyRateChanged: class {
+protocol NotifyRateChanged: AnyObject {
     func rateDidChange()
 }
 
@@ -13,6 +13,7 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
     weak var delegate: NotifyRateChanged?
 
     @IBOutlet weak var cryptoAmoutLabel: UILabel!
+    @IBOutlet weak var cryptoAddressLabel: UILabel!
     @IBOutlet weak var fiatAmountLabel: UILabel!
     @IBOutlet weak var exchangeRateLabel: UILabel!
     @IBOutlet weak var dailyCountLabel: UILabel!
@@ -21,7 +22,14 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     
     private var request: RequestConfirm!
+    private var requestCryptoAmount: CryptoCurrency {
+        viewModel.cryptoDecimalToCryptoCurrency(request.supportCryptoType, request.cryptoAmount)
+    }
+    private var requestFlatAmount: AccountCurrency {
+        viewModel.fiatDecimalToAccountCurrency(request.fiatAmount)
+    }
     private var viewModel = DI.resolve(WithdrawalCryptoRequestViewModel.self)!
+    private var cpsViewModel = DI.resolve(CryptoViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -36,19 +44,25 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
     }
     
     private func initUI() {
-        cryptoAmoutLabel.text = request.cryptoAmount.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8) + " \(request.crypto.simpleName)"
-        fiatAmountLabel.text = request.fiatAmount.currencyFormatWithoutSymbol(precision: 2, maximumFractionDigits: 2) + " \(request.fiatCurrency.simpleName)"
-        exchangeRateLabel.text = "1 \(request.crypto.simpleName)" + " = \(request.exchangeRate.rate.currencyFormatWithoutSymbol(precision: 2, maximumFractionDigits: 2))" + " \(request.fiatCurrency.simpleName)"
+        cryptoAmoutLabel.text = requestCryptoAmount.description() + " \(requestCryptoAmount.simpleName)"
+        fiatAmountLabel.text = requestFlatAmount.description() + " \(requestFlatAmount.simpleName)"
+        let accountCurrency = 1.toCryptoCurrency(request.supportCryptoType) * request.exchangeRate
+        exchangeRateLabel.text = "1 \(request.supportCryptoType.name)" + " = \(accountCurrency.denomination())"
         viewModel.getWithdrawalLimitation().subscribe(onSuccess: { [weak self] (limits) in
             guard let `self` = self else {return}
             self.dailyCountLabel.text = Localize.string("common_times_count", "\(limits.dailyMaxCount - 1)")
-            let remainingAmount = limits.dailyMaxCash.amount - self.request.fiatAmount.doubleValue
-            self.dailyAmountLabel.text = remainingAmount.currencyFormatWithoutSymbol(precision: 2, maximumFractionDigits: 2)
-            var remainingCryptoRequest = limits.unresolvedCryptoTurnover().cryptoAmount - self.request.cryptoAmount.doubleValue
-            if remainingCryptoRequest < 0 {
-                remainingCryptoRequest = 0
+            let fiatAccountCurrency = self.viewModel.fiatDecimalToAccountCurrency(self.request.fiatAmount)
+            let remainingAmount = limits.dailyMaxCash - fiatAccountCurrency
+            self.dailyAmountLabel.text = remainingAmount.description()
+            let remainingCryptoRequest = limits.calculateRemainTurnOver(depositAmount: fiatAccountCurrency)
+            self.remainingRequirementLabel.text =  remainingCryptoRequest.description() + " \(remainingCryptoRequest.simpleName)"
+        }, onError: { [weak self] (error) in
+            self?.handleErrors(error)
+        }).disposed(by: disposeBag)
+        cpsViewModel.getCryptoBankCards().subscribe(onSuccess: { [weak self] (banks) in
+            if let bank = banks.first {
+                self?.cryptoAddressLabel.text = "\(bank.cryptoNetwork.name) - \(bank.walletAddress)"
             }
-            self.remainingRequirementLabel.text =  remainingCryptoRequest.currencyFormatWithoutSymbol(precision: 8, maximumFractionDigits: 8) + " \(self.request.crypto.simpleName)"
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
@@ -59,7 +73,7 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
             .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
             .bind(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
-                self.viewModel.requestCryptoWithdrawal(playerCryptoBankCardId: self.request.cardId, requestCryptoAmount: self.request.cryptoAmount.doubleValue, requestFiatAmount: self.request.fiatAmount.doubleValue, cryptoCurrency: self.request.crypto).subscribe(onCompleted: { [weak self] in
+                self.viewModel.requestCryptoWithdrawal(playerCryptoBankCardId: self.request.cardId, requestCryptoAmount: self.request.cryptoAmount.doubleValue, requestFiatAmount: self.request.fiatAmount.doubleValue, cryptoCurrency: self.requestCryptoAmount).subscribe(onCompleted: { [weak self] in
                     self?.popThenToast()
                 }, onError: { [weak self] (error) in
                     self?.handleKtoError(error)
@@ -98,9 +112,9 @@ class WithdrawalCryptoRequestConfirmViewController: UIViewController {
 
 struct RequestConfirm {
     let cardId: String
-    let crypto: Crypto
+    let supportCryptoType: SupportCryptoType
     let cryptoAmount: Decimal
-    let fiatCurrency: FiatCurrency
+    let fiatCurrency: AccountCurrency
     let fiatAmount: Decimal
-    let exchangeRate: CryptoExchangeRate
+    let exchangeRate: IExchangeRate
 }

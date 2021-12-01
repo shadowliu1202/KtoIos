@@ -20,6 +20,6 @@ class BetRecordTableViewCell: UITableViewCell {
         nameLabel.text = name
         orderIdLabel.text = betId
         totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.description()) + (prededuct.amount != 0 ? " \(Localize.string("product_prededuct")) " + prededuct.description() : "")
-        winAmountLabel.text = (betStatus == BetStatus.lose ? Localize.string("common_lose") : Localize.string("common_win")) + " \(winAmount.absoluteValue().description())"
+        winAmountLabel.text = (betStatus == BetStatus.lose ? Localize.string("common_lose") : Localize.string("common_win")) + " \(winAmount.formatString())"
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Nxb-sO-a93">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Nxb-sO-a93">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -272,7 +272,7 @@
                                         </constraints>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeatureItemCell" rowHeight="60" id="iSm-Gr-BEG" customClass="FeatureItemCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="414" height="60"/>
+                                                <rect key="frame" x="0.0" y="44.5" width="414" height="60"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iSm-Gr-BEG" id="dhB-an-ewC">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
@@ -357,7 +357,7 @@
                                     <action selector="btnClosePressed:" destination="OF6-mV-Bpi" id="B0E-JF-OV7"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" image="Notification-None" style="plain" id="CEX-Dn-r0w">
+                            <barButtonItem title="Item" image="Notification-None" id="CEX-Dn-r0w">
                                 <connections>
                                     <action selector="toNotify:" destination="OF6-mV-Bpi" id="Fql-5R-jRr"/>
                                 </connections>
