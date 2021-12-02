@@ -111,7 +111,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     }
     
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String> {
-        return bankApi.sendWithdrawalRequest(withdrawalRequest: WithdrawalRequest(requestAmount: cashAmount.amount, playerBankCardId: playerBankCardId)).map{ $0.data ?? ""}
+        return bankApi.sendWithdrawalRequest(withdrawalRequest: WithdrawalRequest(requestAmount: cashAmount.bigAmount.doubleValue(exactRequired: false), playerBankCardId: playerBankCardId)).map{ $0.data ?? ""}
     }
     
     func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable {

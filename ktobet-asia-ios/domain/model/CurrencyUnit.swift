@@ -1,6 +1,6 @@
 import SharedBu
 
-extension CurrencyUnit {
+extension ICurrencyUnit {
     /**
      format string with comma 100,000.11
      */

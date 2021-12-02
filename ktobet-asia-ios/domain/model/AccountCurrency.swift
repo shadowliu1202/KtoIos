@@ -28,6 +28,10 @@ extension AccountCurrency {
     static func <(lhs: AccountCurrency, rhs: AccountCurrency) -> Bool {
         return lhs.compareTo(other: rhs) < 0
     }
+    
+    static func !=(lhs: AccountCurrency, rhs: AccountCurrency) -> Bool {
+        return lhs.compareTo(other: rhs) != 0
+    }
 }
 
 

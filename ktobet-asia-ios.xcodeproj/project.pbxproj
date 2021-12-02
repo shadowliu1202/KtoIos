@@ -1180,9 +1180,6 @@
 		6D6E6F77274E2BE0005D88A6 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */; };
 		6D6E6F78274E2BE0005D88A6 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */; };
 		6D6E6F79274E2BE0005D88A6 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */; };
-		6D6E6FBB274F58F2005D88A6 /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6FBA274F58F2005D88A6 /* CashAmount.swift */; };
-		6D6E6FBC274F58F2005D88A6 /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6FBA274F58F2005D88A6 /* CashAmount.swift */; };
-		6D6E6FBD274F58F2005D88A6 /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6FBA274F58F2005D88A6 /* CashAmount.swift */; };
 		6D6E6FFD27507A28005D88A6 /* CurrencyUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6FFC27507A28005D88A6 /* CurrencyUnit.swift */; };
 		6D6E6FFE27507A28005D88A6 /* CurrencyUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6FFC27507A28005D88A6 /* CurrencyUnit.swift */; };
 		6D6E6FFF27507A28005D88A6 /* CurrencyUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6FFC27507A28005D88A6 /* CurrencyUnit.swift */; };
@@ -1890,7 +1887,6 @@
 		6D5BE309273CCAA70072F994 /* CustomerServiceHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceHistoryViewModel.swift; sourceTree = "<group>"; };
 		6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceHistoryEditViewController.swift; sourceTree = "<group>"; };
 		6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCurrency.swift; sourceTree = "<group>"; };
-		6D6E6FBA274F58F2005D88A6 /* CashAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashAmount.swift; sourceTree = "<group>"; };
 		6D6E6FFC27507A28005D88A6 /* CurrencyUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUnit.swift; sourceTree = "<group>"; };
 		6D6E705D27546C1C005D88A6 /* CryptoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoViewModel.swift; sourceTree = "<group>"; };
 		6D6E706327547755005D88A6 /* DepositSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositSystem.swift; sourceTree = "<group>"; };
@@ -3030,7 +3026,6 @@
 				6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */,
 				6DA5F296274C96CB005479A3 /* AccountCurrency.swift */,
 				6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */,
-				6D6E6FBA274F58F2005D88A6 /* CashAmount.swift */,
 				6D6E6FFC27507A28005D88A6 /* CurrencyUnit.swift */,
 				6D6E706327547755005D88A6 /* DepositSystem.swift */,
 				6D6E708527560307005D88A6 /* AccountPatternGeneratorFactory.swift */,
@@ -3624,7 +3619,6 @@
 				6DDD339E26CDF3610081A846 /* HistoryBarButtonItem.swift in Sources */,
 				4199A02B25AE9918002E2D7E /* InputPassword.swift in Sources */,
 				6060AF652671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */,
-				6D6E6FBC274F58F2005D88A6 /* CashAmount.swift in Sources */,
 				6D9E581A263A561000E6942A /* SlotRecordUseCase.swift in Sources */,
 				6034627F26327E8800F5D1D9 /* CasinoRecordUseCase.swift in Sources */,
 				6DADDF32260C232A00247E80 /* WithdrawlAccountsViewController.swift in Sources */,
@@ -4070,7 +4064,6 @@
 				6DDD339D26CDF3610081A846 /* HistoryBarButtonItem.swift in Sources */,
 				48AAA115256E458800E075CA /* PlayerApi.swift in Sources */,
 				6060AF642671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */,
-				6D6E6FBB274F58F2005D88A6 /* CashAmount.swift in Sources */,
 				6D9E5819263A561000E6942A /* SlotRecordUseCase.swift in Sources */,
 				6034627E26327E8800F5D1D9 /* CasinoRecordUseCase.swift in Sources */,
 				6DADDF3A260C232B00247E80 /* WithdrawlAccountsViewController.swift in Sources */,
@@ -4548,7 +4541,6 @@
 				609012982640EE7000419F8E /* DoubleExtension.swift in Sources */,
 				609012992640EE7000419F8E /* RxExtension.swift in Sources */,
 				6018F84A268B815D00941BDD /* qrCodeViewController.swift in Sources */,
-				6D6E6FBD274F58F2005D88A6 /* CashAmount.swift in Sources */,
 				6D5B14E1264A7B4B004138E8 /* SlotRecordUseCase.swift in Sources */,
 				6D9938F3271FC7FC0068A616 /* SurveyAnswers.swift in Sources */,
 				6D5B14BF264A7AF5004138E8 /* ProductGameDataSourceDelegate.swift in Sources */,
