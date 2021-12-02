@@ -158,6 +158,7 @@ struct DepositRecordData: Codable {
     var updatedDate: String
     var requestAmount: Double
     var actualAmount: Double
+    var actualAmountWithoutFee: Double
     var isFee: Bool
     var isPendingHold: Bool
 }
@@ -264,10 +265,10 @@ struct DepositRecordDetailData: Codable {
         let requestApprovedOffsetDateTime = requestApprovedDate.convertDateToOffsetDateTime()
         
         let detail = DepositDetail.Flat.init(displayId: self.displayID,
-                                             fee: self.fee?.toAccountCurrency() ?? "0".toAccountCurrency(),
+                                             fee: self.fee?.toAccountCurrency() ?? AccountCurrency.zero(),
                                              isPendingHold: self.isPendingHold,
-                                             requestAmount: self.requestAmount?.toAccountCurrency() ?? "0".toAccountCurrency(),
-                                             actualAmount: self.actualAmount?.toAccountCurrency() ?? "0".toAccountCurrency(),
+                                             requestAmount: self.requestAmount?.toAccountCurrency() ?? AccountCurrency.zero(),
+                                             actualAmount: self.actualAmount?.toAccountCurrency() ?? AccountCurrency.zero(),
                                              status: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: self.status),
                                              statusChangeHistories: statusChangeHistories,
                                              ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),

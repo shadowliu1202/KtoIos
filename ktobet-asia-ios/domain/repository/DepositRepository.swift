@@ -204,6 +204,7 @@ class DepositRepositoryImpl: DepositRepository {
                              transactionTransactionType: TransactionType.Companion.init().convertTransactionType(transactionType_: r.ticketType),
                              transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: r.status),
                              actualAmount: r.actualAmount.toAccountCurrency(),
+                             fee: r.actualAmount.toAccountCurrency() - r.actualAmountWithoutFee.toAccountCurrency(),
                              createdDate: createOffsetDateTime,
                              isFee: r.isFee, isPendingHold: r.isPendingHold,
                              requestAmount: r.requestAmount.toAccountCurrency(),
