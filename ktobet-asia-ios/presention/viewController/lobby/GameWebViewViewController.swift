@@ -21,8 +21,10 @@ class GameWebViewViewController: UIViewController {
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .all
         let wkWebConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: self.view.bounds, configuration: wkWebConfig)
-        let MockWebViewUserAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
-        webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1 \(MockWebViewUserAgent)"
+        if let defaultAgent = WKWebView().value(forKey: "userAgent") {
+            let MockWebViewUserAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
+            webView.customUserAgent = "\(defaultAgent) Safari/604.1 \(MockWebViewUserAgent)"
+        }
         self.view.addSubview(webView)
         webView.navigationDelegate = self
         webView.uiDelegate = self
