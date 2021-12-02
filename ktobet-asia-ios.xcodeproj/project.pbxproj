@@ -585,8 +585,6 @@
 		60790C32264128BF0005D62F /* SlotAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60790C30264128BF0005D62F /* SlotAllViewController.swift */; };
 		607CF2C425BEBECA00A9342D /* NavigationManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2C325BEBECA00A9342D /* NavigationManagement.swift */; };
 		607CF2C725BEBECD00A9342D /* NavigationManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2C325BEBECA00A9342D /* NavigationManagement.swift */; };
-		607CF2CB25BEC43000A9342D /* SBKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2CA25BEC43000A9342D /* SBKViewController.swift */; };
-		607CF2CE25BEC43300A9342D /* SBKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2CA25BEC43000A9342D /* SBKViewController.swift */; };
 		607CF2D625BECEDE00A9342D /* NumberGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2D525BECEDE00A9342D /* NumberGameViewController.swift */; };
 		607CF2D925BECEE400A9342D /* NumberGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2D525BECEDE00A9342D /* NumberGameViewController.swift */; };
 		607D1C5C25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607D1C5B25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift */; };
@@ -672,7 +670,6 @@
 		609012722640EE7000419F8E /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */; };
 		609012732640EE7000419F8E /* AddBankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEA66D260494FB00995A6E /* AddBankViewModel.swift */; };
 		609012742640EE7000419F8E /* MonthCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7275FC25F5F499000BF51F /* MonthCollectionViewCell.swift */; };
-		609012752640EE7000419F8E /* SBKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607CF2CA25BEC43000A9342D /* SBKViewController.swift */; };
 		609012762640EE7000419F8E /* WithdrawalRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0384F260C5CEA00351003 /* WithdrawalRequestViewModel.swift */; };
 		609012772640EE7000419F8E /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
 		609012782640EE7000419F8E /* SlideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */; };
@@ -1385,6 +1382,12 @@
 		6DC17ECA26817356009665B4 /* WithdrawalCryptoRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC17EC926817356009665B4 /* WithdrawalCryptoRequestViewModel.swift */; };
 		6DC17ECB26817356009665B4 /* WithdrawalCryptoRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC17EC926817356009665B4 /* WithdrawalCryptoRequestViewModel.swift */; };
 		6DC17ECD26817356009665B4 /* WithdrawalCryptoRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC17EC926817356009665B4 /* WithdrawalCryptoRequestViewModel.swift */; };
+		6DCC26192758771F007C973B /* AccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC26182758771F007C973B /* AccountInfoViewController.swift */; };
+		6DCC261A2758771F007C973B /* AccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC26182758771F007C973B /* AccountInfoViewController.swift */; };
+		6DCC261B2758771F007C973B /* AccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC26182758771F007C973B /* AccountInfoViewController.swift */; };
+		6DCC261E27587825007C973B /* AccountNotifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC261D27587825007C973B /* AccountNotifyViewController.swift */; };
+		6DCC261F27587825007C973B /* AccountNotifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC261D27587825007C973B /* AccountNotifyViewController.swift */; };
+		6DCC262027587825007C973B /* AccountNotifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC261D27587825007C973B /* AccountNotifyViewController.swift */; };
 		6DCEC6B6265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6B5265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift */; };
 		6DCEC6B7265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6B5265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift */; };
 		6DCEC6B9265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6B5265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift */; };
@@ -1756,7 +1759,6 @@
 		6077038D25C8E5AE003FBEE4 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		60790C30264128BF0005D62F /* SlotAllViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotAllViewController.swift; sourceTree = "<group>"; };
 		607CF2C325BEBECA00A9342D /* NavigationManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManagement.swift; sourceTree = "<group>"; };
-		607CF2CA25BEC43000A9342D /* SBKViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBKViewController.swift; sourceTree = "<group>"; };
 		607CF2D525BECEDE00A9342D /* NumberGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameViewController.swift; sourceTree = "<group>"; };
 		607D1C5B25AC42EF00F3771C /* ResetPasswordStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordStep3ViewController.swift; sourceTree = "<group>"; };
 		607FC20225B1413200180147 /* SystemSignalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSignalRepository.swift; sourceTree = "<group>"; };
@@ -1965,6 +1967,8 @@
 		6DB4AC472726512F0084CF4D /* CustomServiceNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomServiceNavigationController.swift; sourceTree = "<group>"; };
 		6DBC86CE26F092E100A35B66 /* BetStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetStatus.swift; sourceTree = "<group>"; };
 		6DC17EC926817356009665B4 /* WithdrawalCryptoRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoRequestViewModel.swift; sourceTree = "<group>"; };
+		6DCC26182758771F007C973B /* AccountInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoViewController.swift; sourceTree = "<group>"; };
+		6DCC261D27587825007C973B /* AccountNotifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountNotifyViewController.swift; sourceTree = "<group>"; };
 		6DCEC6B5265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameMyBetDetailViewController.swift; sourceTree = "<group>"; };
 		6DCEC6BC265E1902005E4F8B /* RecentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDetailViewController.swift; sourceTree = "<group>"; };
 		6DCEC6C5265E2655005E4F8B /* NumberGameMyBetPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameMyBetPageViewController.swift; sourceTree = "<group>"; };
@@ -2521,6 +2525,8 @@
 		48CC320425513ADA00C9D1BF /* lobby */ = {
 			isa = PBXGroup;
 			children = (
+				6DCC261C27587808007C973B /* AccountNotify */,
+				6DCC261727587701007C973B /* AccountInfo */,
 				608112AD26EF4CC600920B06 /* TransactionLog */,
 				600E241526CB52D400D8B073 /* Promotion */,
 				6010412A26B2A7AB00B28FC8 /* Arcade */,
@@ -2540,7 +2546,6 @@
 				48CC320825513B1D00C9D1BF /* DefaultProductViewController.swift */,
 				48CC321E2551432C00C9D1BF /* DefaultProductViewModel.swift */,
 				60D83E6D25B9185C0029205F /* SlideMenuViewModel.swift */,
-				607CF2CA25BEC43000A9342D /* SBKViewController.swift */,
 				60850506260066CA009394CA /* Withdrawal */,
 				605AC71B25C0248000873D63 /* Deposit */,
 			);
@@ -2999,6 +3004,22 @@
 				6DB195802701A9DB003C6730 /* SportBookViewController.swift */,
 			);
 			path = sbk;
+			sourceTree = "<group>";
+		};
+		6DCC261727587701007C973B /* AccountInfo */ = {
+			isa = PBXGroup;
+			children = (
+				6DCC26182758771F007C973B /* AccountInfoViewController.swift */,
+			);
+			path = AccountInfo;
+			sourceTree = "<group>";
+		};
+		6DCC261C27587808007C973B /* AccountNotify */ = {
+			isa = PBXGroup;
+			children = (
+				6DCC261D27587825007C973B /* AccountNotifyViewController.swift */,
+			);
+			path = AccountNotify;
 			sourceTree = "<group>";
 		};
 		6DD4BA05260C3973001848EE /* model */ = {
@@ -3592,7 +3613,6 @@
 				6DAEA66F260494FB00995A6E /* AddBankViewModel.swift in Sources */,
 				6D7275FF25F5F499000BF51F /* MonthCollectionViewCell.swift in Sources */,
 				600A8FD226CFA7C100F56412 /* PromotionSearchViewController.swift in Sources */,
-				607CF2CE25BEC43300A9342D /* SBKViewController.swift in Sources */,
 				6D2B0E3D267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				60C03851260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
 				600E247C26CCB37200D8B073 /* KTODateView.swift in Sources */,
@@ -3703,6 +3723,7 @@
 				6010412626B2A72100B28FC8 /* ArcadeRecordUseCase.swift in Sources */,
 				4199A03A25AE9918002E2D7E /* ReactiveExtension.swift in Sources */,
 				600E245E26CB9FDF00D8B073 /* PromotionHistoryViewController.swift in Sources */,
+				6DCC261A2758771F007C973B /* AccountInfoViewController.swift in Sources */,
 				41077DBD25BA63A20057B340 /* CommonEnum.swift in Sources */,
 				60AE474D25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift in Sources */,
 				6D4083B5265206E300BECD0E /* NumberGameRecordViewModel.swift in Sources */,
@@ -3842,6 +3863,7 @@
 				60C45D5626FAC77A0099CE16 /* TransactionLogSummaryTableViewCell.swift in Sources */,
 				4199A05A25AE9918002E2D7E /* HubConnection.swift in Sources */,
 				4199A05B25AE9918002E2D7E /* ProductItemCell.swift in Sources */,
+				6DCC261F27587825007C973B /* AccountNotifyViewController.swift in Sources */,
 				4199A05C25AE9918002E2D7E /* SignupRegistFailViewController.swift in Sources */,
 				6034626C26327E5A00F5D1D9 /* KTOBarButtonItem.swift in Sources */,
 				4199A05D25AE9918002E2D7E /* Transport.swift in Sources */,
@@ -4037,7 +4059,6 @@
 				6DAEA66E260494FB00995A6E /* AddBankViewModel.swift in Sources */,
 				6D7275FE25F5F499000BF51F /* MonthCollectionViewCell.swift in Sources */,
 				600A8FD126CFA7C100F56412 /* PromotionSearchViewController.swift in Sources */,
-				607CF2CB25BEC43000A9342D /* SBKViewController.swift in Sources */,
 				6D2B0E3C267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				60C03850260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
 				600E247B26CCB37200D8B073 /* KTODateView.swift in Sources */,
@@ -4148,6 +4169,7 @@
 				6010412526B2A72100B28FC8 /* ArcadeRecordUseCase.swift in Sources */,
 				48AAA122256E458800E075CA /* CustomServiceRepository.swift in Sources */,
 				600E245D26CB9FDF00D8B073 /* PromotionHistoryViewController.swift in Sources */,
+				6DCC26192758771F007C973B /* AccountInfoViewController.swift in Sources */,
 				48AAA123256E458800E075CA /* Connection.swift in Sources */,
 				60AE474C25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift in Sources */,
 				6D4083B4265206E300BECD0E /* NumberGameRecordViewModel.swift in Sources */,
@@ -4287,6 +4309,7 @@
 				60C45D5526FAC77A0099CE16 /* TransactionLogSummaryTableViewCell.swift in Sources */,
 				48AAA143256E458800E075CA /* HttpClient.swift in Sources */,
 				48AAA144256E458800E075CA /* ConfigurationUseCase.swift in Sources */,
+				6DCC261E27587825007C973B /* AccountNotifyViewController.swift in Sources */,
 				48AAA145256E458800E075CA /* SignupPhoneViewController.swift in Sources */,
 				6034626B26327E5A00F5D1D9 /* KTOBarButtonItem.swift in Sources */,
 				48AAA146256E458800E075CA /* DefaultProductCell.swift in Sources */,
@@ -4456,6 +4479,7 @@
 				6DA88BF82696F203008D77B9 /* P2PRecordUseCase.swift in Sources */,
 				6DCEC7002660CBE9005E4F8B /* NumberGameBetDetailBetStatus.swift in Sources */,
 				600E240C26CB51AB00D8B073 /* PromotionRepository.swift in Sources */,
+				6DCC261B2758771F007C973B /* AccountInfoViewController.swift in Sources */,
 				6090126B2640EE7000419F8E /* ToastPopUp.swift in Sources */,
 				6090126C2640EE7000419F8E /* CasinoUnsettleRecordsViewController.swift in Sources */,
 				6D43E2442719915B001F78DA /* CloseBarButtonItem.swift in Sources */,
@@ -4478,7 +4502,6 @@
 				6D2B0E38267C6EFD0039A956 /* CrpytoTransationLogViewController.swift in Sources */,
 				609012732640EE7000419F8E /* AddBankViewModel.swift in Sources */,
 				609012742640EE7000419F8E /* MonthCollectionViewCell.swift in Sources */,
-				609012752640EE7000419F8E /* SBKViewController.swift in Sources */,
 				609012762640EE7000419F8E /* WithdrawalRequestViewModel.swift in Sources */,
 				609012772640EE7000419F8E /* KTOError.swift in Sources */,
 				609012782640EE7000419F8E /* SlideMenuViewModel.swift in Sources */,
@@ -4688,6 +4711,7 @@
 				609012E92640EE7000419F8E /* UIBarButtonItemExtension.swift in Sources */,
 				609012EA2640EE7000419F8E /* InputText.swift in Sources */,
 				601041AC26B7CB1C00B28FC8 /* ArcadeSummaryViewController.swift in Sources */,
+				6DCC262027587825007C973B /* AccountNotifyViewController.swift in Sources */,
 				609012EB2640EE7000419F8E /* ResetPasswordStep2ViewController.swift in Sources */,
 				6010407626A6C1C700B28FC8 /* LevelDetail2TableViewCell.swift in Sources */,
 				609012EC2640EE7000419F8E /* FavoriteBarButtonItem.swift in Sources */,
