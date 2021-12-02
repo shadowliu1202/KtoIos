@@ -83,7 +83,7 @@ class DefaultProductViewController: UIViewController {
             .subscribeOn(MainScheduler.instance)
             .subscribe(onSuccess: { player in
                 DispatchQueue.main.async {
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Game", viewControllerId: "SBKNavigationController")
+                    NavigationManagement.sharedInstance.goTo(productType: .sbk)
                 }
             }, onError: { error in
                 self.handleUnknownError(error)
