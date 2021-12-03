@@ -527,6 +527,7 @@
 "deposit_file_format_invalid" = "VIVN您的档案不符合系统格式";
 "deposit_crypto_warning" = "“虚拟币充值” 成功后需要提现等额的虚拟币才能使用 “现金提现”。";
 "deposit_cps_hint" = "推广：存款优惠";
+"deposit_notify_request_later" = "Quý Khách có 3 giao dịch Gửi Tiền đang chờ xử lý, vui lòng thử lại sau 3 phút.";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "VIVN交易前金额";

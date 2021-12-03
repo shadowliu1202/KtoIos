@@ -518,6 +518,7 @@
 "deposit_file_format_invalid" = "";
 "deposit_crypto_warning" = "";
 "deposit_cps_hint" = "";
+"deposit_notify_request_later" = "您有三个待处理的充值请求，请您过三分钟后再试";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "";

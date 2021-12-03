@@ -266,9 +266,24 @@ class DepositGatewayViewController: UIViewController {
             Alert.show(title, message, confirm: {
                 self.performSegue(withIdentifier: DepositThirdPartWebViewController.segueIdentifier, sender: url)
             }, cancel: nil)
-        } onError: { (error) in
-            self.handleUnknownError(error)
+        } onError: { [weak self] (error) in
+            self?.handleError(error)
         }.disposed(by: disposeBag)
+    }
+    
+    func handleError(_ error: Error) {
+        let exception = ExceptionFactory.create(error)
+        if exception is PlayerDepositCountOverLimit {
+            self.notifyTryLaterAndPopBack()
+        } else {
+            self.handleErrors(error)
+        }
+    }
+    
+    private func notifyTryLaterAndPopBack() {
+        Alert.show(nil, Localize.string("deposit_notify_request_later"), confirm: {
+            NavigationManagement.sharedInstance.popViewController()
+        }, cancel: nil)
     }
     
     // MARK: PAGE ACTION
