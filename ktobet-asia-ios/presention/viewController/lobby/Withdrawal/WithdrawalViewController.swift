@@ -189,7 +189,7 @@ class WithdrawalViewController: UIViewController {
             self.dailyMaxCount = "\(withdrawalLimits.dailyMaxCount)"
             self.turnoverRequirement = withdrawalLimits.remainCashTurnover()
             self.crpytoWithdrawalRequirement = self.crpytoWithdrawalRequirementAmount()
-            self.checkDailyWithdrawalLimit(withdrawalLimits.dailyMaxCash.bigAmount.doubleValue(exactRequired: true), withdrawalLimits.dailyMaxCount)
+            self.checkDailyWithdrawalLimit(withdrawalLimits.dailyMaxCash, withdrawalLimits.dailyMaxCount)
         }, onError: { (error) in
             self.handleUnknownError(error)
         }).disposed(by: disposeBag)
@@ -219,8 +219,8 @@ class WithdrawalViewController: UIViewController {
         return self.withdrawalLimits?.unresolvedCryptoTurnover
     }
     
-    private func checkDailyWithdrawalLimit(_ amount: Double, _ count: Int32) {
-        if amount <= 0 || count <= 0 {
+    private func checkDailyWithdrawalLimit(_ amount: AccountCurrency, _ count: Int32) {
+        if !amount.isPositive || count <= 0 {
             self.withdrawViewEnable(false)
             self.crpytoViewEnable(false)
         } else {
