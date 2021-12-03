@@ -153,8 +153,7 @@ class DepositViewModel {
         let offlineAmountValid = relayBankAmount.map({ [weak self](amount) -> Bool in
             guard let `self` = self,  let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return false }
             let limitation = self.selectedType.method.limitation
-            if limitation.min.bigAmount.doubleValue(exactRequired: true) <= amount &&
-                amount <= limitation.max.bigAmount.doubleValue(exactRequired: true) {
+            if limitation.min <= amount.toAccountCurrency() && amount.toAccountCurrency() <= limitation.max {
                 return true
             } else {
                 return false

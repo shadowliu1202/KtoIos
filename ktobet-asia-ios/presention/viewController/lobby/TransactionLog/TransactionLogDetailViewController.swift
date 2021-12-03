@@ -262,7 +262,7 @@ class LogDetailRowItem {
     }
     
     private func getBetStatus(_ transactionType: TransactionTypes.Product) -> String {
-        if bean.amount.bigAmount.doubleValue(exactRequired: true) > 0 {
+        if bean.amount.isPositive {
             return Localize.string("balancelog_settle")
         }
         switch transactionType {

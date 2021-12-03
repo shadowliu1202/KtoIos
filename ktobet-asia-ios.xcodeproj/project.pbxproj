@@ -1400,6 +1400,9 @@
 		6DCEC6FD2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6FC2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift */; };
 		6DCEC6FE2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6FC2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift */; };
 		6DCEC7002660CBE9005E4F8B /* NumberGameBetDetailBetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6FC2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift */; };
+		6DD242352759C73100EE5B1A /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD242342759C73100EE5B1A /* CashAmount.swift */; };
+		6DD242362759C73100EE5B1A /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD242342759C73100EE5B1A /* CashAmount.swift */; };
+		6DD242372759C73100EE5B1A /* CashAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD242342759C73100EE5B1A /* CashAmount.swift */; };
 		6DD4BA07260C3989001848EE /* WithdrawalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD4BA06260C3989001848EE /* WithdrawalAccount.swift */; };
 		6DD4BA08260C3989001848EE /* WithdrawalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD4BA06260C3989001848EE /* WithdrawalAccount.swift */; };
 		6DD4BA23260C40CD001848EE /* RxSwiftExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD4BA22260C40CD001848EE /* RxSwiftExtension.swift */; };
@@ -1973,6 +1976,7 @@
 		6DCEC6BC265E1902005E4F8B /* RecentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDetailViewController.swift; sourceTree = "<group>"; };
 		6DCEC6C5265E2655005E4F8B /* NumberGameMyBetPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameMyBetPageViewController.swift; sourceTree = "<group>"; };
 		6DCEC6FC2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameBetDetailBetStatus.swift; sourceTree = "<group>"; };
+		6DD242342759C73100EE5B1A /* CashAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashAmount.swift; sourceTree = "<group>"; };
 		6DD4BA06260C3989001848EE /* WithdrawalAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalAccount.swift; sourceTree = "<group>"; };
 		6DD4BA22260C40CD001848EE /* RxSwiftExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwiftExtension.swift; sourceTree = "<group>"; };
 		6DDD333626CBC2DA0081A846 /* ProductType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
@@ -3050,6 +3054,7 @@
 				6D6E6FFC27507A28005D88A6 /* CurrencyUnit.swift */,
 				6D6E706327547755005D88A6 /* DepositSystem.swift */,
 				6D6E708527560307005D88A6 /* AccountPatternGeneratorFactory.swift */,
+				6DD242342759C73100EE5B1A /* CashAmount.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -3801,6 +3806,7 @@
 				6DDD333826CBC2DA0081A846 /* ProductType.swift in Sources */,
 				600A8F7A26CD019700F56412 /* PromotionPresenter.swift in Sources */,
 				6D940A0326DCACD300C70FDA /* WaitingConfirm.swift in Sources */,
+				6DD242362759C73100EE5B1A /* CashAmount.swift in Sources */,
 				6D4E994A2636907A00860FF7 /* ProductProtocol.swift in Sources */,
 				4199A04A25AE9918002E2D7E /* LoginViewController.swift in Sources */,
 				4199A04B25AE9918002E2D7E /* WebSocket.swift in Sources */,
@@ -4247,6 +4253,7 @@
 				6DDD333726CBC2DA0081A846 /* ProductType.swift in Sources */,
 				600A8F7926CD019700F56412 /* PromotionPresenter.swift in Sources */,
 				6D940A0226DCACD300C70FDA /* WaitingConfirm.swift in Sources */,
+				6DD242352759C73100EE5B1A /* CashAmount.swift in Sources */,
 				6D4E99492636907A00860FF7 /* ProductProtocol.swift in Sources */,
 				48AAA134256E458800E075CA /* SignupPhoneViewModel.swift in Sources */,
 				48AAA135256E458800E075CA /* DefaultProductViewController.swift in Sources */,
@@ -4741,6 +4748,7 @@
 				6D5BE30C273CCAA70072F994 /* CustomerServiceHistoryViewModel.swift in Sources */,
 				6D5B14F6264A7BAF004138E8 /* UnsettleGameDelegate.swift in Sources */,
 				6D986A63271833DE00194E0D /* PrechatServeyViewController.swift in Sources */,
+				6DD242372759C73100EE5B1A /* CashAmount.swift in Sources */,
 				6D5B14D0264A7B38004138E8 /* SlotFilterViewController.swift in Sources */,
 				609012F92640EE7000419F8E /* ConfigurationUseCase.swift in Sources */,
 				6D94096826D7458300C70FDA /* DepositType.swift in Sources */,
