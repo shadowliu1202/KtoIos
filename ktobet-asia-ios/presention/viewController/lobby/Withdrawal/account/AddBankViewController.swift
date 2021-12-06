@@ -164,8 +164,6 @@ class AddBankViewController: UIViewController {
                     self?.popThenToast()
                     self?.delegate?.addAccountSuccess()
                 }, cancel: nil)
-            }, onException: { [weak self] (exception) in
-                self?.handleException(exception)
             }, onError: { [weak self] (error) in
                 if error is KtoWithdrawalAccountExist {
                     Alert.show(Localize.string("common_tip_title_warm"), Localize.string("withdrawal_account_exist"), confirm: nil, cancel: nil)
@@ -204,14 +202,6 @@ class AddBankViewController: UIViewController {
             return Localize.string("common_field_must_fill")
         case .none:
             return ""
-        }
-    }
-    
-    private func handleException(_ e: ApiException) {
-        if e is WithdrawAccountExist {
-            let title = Localize.string("bonus_applicationtips")
-            let message = Localize.string("withdrawal_account_exist")
-            Alert.show(title, message, confirm: nil, cancel: nil)
         }
     }
     
