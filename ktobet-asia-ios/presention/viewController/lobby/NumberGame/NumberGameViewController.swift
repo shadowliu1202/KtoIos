@@ -275,10 +275,14 @@ extension NumberGameViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDa
     func pagerView(_ pageView: TYCyclePagerView, didSelectedItemCell cell: UICollectionViewCell, at index: Int) {
         let game = datas[index]
         let storyboard = UIStoryboard(name: "Product", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "GameWebViewViewController") as! GameWebViewViewController
-        vc.gameId = game.gameId
-        vc.viewModel = self.viewModel
-        self.present(vc, animated: true, completion: nil)
+        let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
+        if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
+            gameVc.gameId = game.gameId
+            gameVc.gameName = game.gameName
+            gameVc.viewModel = self.viewModel
+            navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+            self.present(navi, animated: true, completion: nil)
+        }
     }
 }
 

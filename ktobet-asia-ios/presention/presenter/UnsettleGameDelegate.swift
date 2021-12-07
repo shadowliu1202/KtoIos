@@ -4,6 +4,7 @@ typealias UnsettleHelper = UIViewController & ProductGoWebGameVCProtocol & Unset
 
 protocol UnsettleTableViewDelegate {
     func gameId(at indexPath: IndexPath) -> Int32
+    func gameName(at indexPath: IndexPath) -> String
 }
 
 class UnsettleGameDelegate : NSObject {
@@ -17,10 +18,14 @@ extension UnsettleGameDelegate: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let helper = helper else { return }
         let storyboard = UIStoryboard(name: "Product", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "GameWebViewViewController") as! GameWebViewViewController
-        vc.gameId = helper.gameId(at: indexPath)
-        vc.viewModel = helper.getProductViewModel()
-        helper.present(vc, animated: true, completion: nil)
+        let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
+        if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
+            gameVc.gameId = helper.gameId(at: indexPath)
+            gameVc.gameName = helper.gameName(at: indexPath)
+            gameVc.viewModel = helper.getProductViewModel()
+            navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+            helper.present(navi, animated: true, completion: nil)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

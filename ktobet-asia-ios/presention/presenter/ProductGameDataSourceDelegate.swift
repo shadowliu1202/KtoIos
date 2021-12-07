@@ -117,10 +117,14 @@ extension ProductGameDataSourceDelegate: UICollectionViewDelegate {
         switch data.gameState() {
         case .active:
             let storyboard = UIStoryboard(name: "Product", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "GameWebViewViewController") as! GameWebViewViewController
-            vc.gameId = data.gameId
-            vc.viewModel = self.vc?.getProductViewModel()
-            self.vc?.present(vc, animated: true, completion: nil)
+            let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
+            if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
+                gameVc.gameId = data.gameId
+                gameVc.gameName = data.gameName
+                gameVc.viewModel = self.vc?.getProductViewModel()
+                navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+                self.vc?.present(navi, animated: true, completion: nil)
+            }
         default:
             break
         }

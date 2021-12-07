@@ -65,6 +65,10 @@ extension CasinoUnsettleRecordsViewController: ProductGoWebGameVCProtocol, Unset
     func gameId(at indexPath: IndexPath) -> Int32 {
         self.sections[indexPath.section].gameId[indexPath.row]
     }
+    
+    func gameName(at indexPath: IndexPath) -> String {
+        self.sections[indexPath.section].name[indexPath.row]
+    }
 }
 
 extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewDataSource {
