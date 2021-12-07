@@ -28,7 +28,7 @@ class PlayerRepositoryImpl : PlayerRepository {
     
     func loadPlayer() -> Single<Player> {
         let favorProduct = getDefaultProduct()
-        let localization = portalApi.getLocalization()
+        let localization = playerApi.getCultureCode()
         let playerInfo = playerApi.getPlayerInfo().do(onSuccess: { [weak self] in
             if let data = $0.data {
                 self?.settingStore.playerInfo = data
@@ -40,13 +40,15 @@ class PlayerRepositoryImpl : PlayerRepository {
             .zip(favorProduct, localization, playerInfo, contactInfo)
             .map { (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
                 let bindLocale : SupportLocale = {
-                    if let cultureCode = responseLocalization.data?.cultureCode {
+                    if let cultureCode = responseLocalization.data {
                         return SupportLocale.Companion.init().create(language: cultureCode)
                     } else {
                         return SupportLocale.China()
                     }
                 }()
                 
+                LocalizeUtils.shared.setLanguage(language: bindLocale)
+
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",
                                             displayId: responsePlayerInfo.data?.displayId ?? "" ,
                                             withdrawalName: responsePlayerInfo.data?.realName ?? "" ,

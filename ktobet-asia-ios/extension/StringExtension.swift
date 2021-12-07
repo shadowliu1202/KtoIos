@@ -160,3 +160,18 @@ extension String {
         return CryptoFactory.shared.create(supportCryptoType: supportCryptoType, amount_: self)
     }
 }
+
+extension String {
+    var htmlToAttributedString: NSAttributedString? {
+        do {
+            let style = "<style>body { font-size:\(15)px; }</style>"
+            guard let data = (self + style).data(using: .utf8) else { return nil }
+            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            return nil
+        }
+    }
+    var htmlToString: String {
+        return htmlToAttributedString?.string ?? ""
+    }
+}

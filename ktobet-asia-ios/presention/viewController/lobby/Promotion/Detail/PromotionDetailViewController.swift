@@ -61,8 +61,8 @@ class PromotionDetailViewController: UIViewController {
                 content = content.replacingOccurrences(of: "{level}", with: self.item.displayLevel ?? level)
                 content = content.replacingOccurrences(of: "{percentage}", with: self.item.displayPercentage)
                 content = content.replacingOccurrences(of: "{mincapital}", with: (self.item as? BonusCouponItem)?.displayMinCapital ?? "" )
-                content = content.replacingOccurrences(of: "{\(self.bonusTnc)}", with: "<a href=\"bonustnc\" style=\"color:red;\">\(Localize.string("license_promotion_terms"))</a>" )
-                let ruleContent = promotionDescriptions.rules.replacingOccurrences(of: "{\(self.bonusTnc)}", with: "<a href=\"bonustnc\" style=\"color:red;\">\(Localize.string("license_promotion_terms"))</a>" )
+                content = content.replacingOccurrences(of: "{\(self.bonusTnc)}", with: "<a href=\"bonustnc\" style=\"color:red;\">\(Localize.string("bonus_detail_contentrule"))</a>" )
+                let ruleContent = promotionDescriptions.rules.replacingOccurrences(of: "{\(self.bonusTnc)}", with: "<a href=\"bonustnc\" style=\"color:red;\">\(Localize.string("bonus_detail_contentrule"))</a>" )
                 return (PromotionDescriptions.init(content: content, rules: ruleContent), level)
             })
             .subscribe {[weak self] (promotionDescriptions, level) in

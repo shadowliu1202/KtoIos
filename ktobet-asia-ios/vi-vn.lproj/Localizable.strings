@@ -1,0 +1,1249 @@
+
+//MARK: - CPS
+"cps_kto" = "KTO";
+"cps_daily_limit_widthrawal_amount" = "每日提现额度：%@";
+"cps_daily_limit_widthrawal_times" = "每日提现次数：%@";
+"cps_turnover_requirement" = "投注额提现要求：";
+"cps_crpyto_withdrawal_requirement" = "虚拟币提现要求：";
+"cps_crpyto_withdrawal_requirement_title" = "虚拟币提现要求说明";
+"cps_crpyto_withdrawal_requirement_desc" = "虚拟币提现要求为0时，表示您既可以使用现金提现，也可以使用虚拟币提现。
+
+当您完成虚拟币充值后，虚拟币提现要求将变为等额的充值金额，需要首先完成虚拟币提现后才能使用现金提现。";
+"cps_cash_withdrawal_lock_title" = "现金提现锁定";
+"cps_cash_withdrawal_lock_desc" = "目前尚有%@尚未提现结算。需先将虚拟币未结算金额提取完毕，账户才能进行现金提现。";
+"cps_success_log" = "虚拟币交易成功纪录";
+"cps_remaining_requirement" = "剩余虚拟币提现要求：%@";
+"cps_total_require_amount" = "总虚拟币提现要求（上次清零后累计充值）：%@";
+"cps_total_completed_amount" = "已完成虚拟币提现要求（上次清零后累计提现）：%@";
+"cps_require_completed" = "您目前已无剩余虚拟币提现要求，将会跳转至提现首页。";
+"cps_set_crypto_account" = "设定虚拟币账户";
+"cps_set_crypto_account_hint" = "您必须先设定虚拟币账户才能进行提现。";
+"cps_auto_fill_not_enough_balance" = "账户余额不足";
+"cps_auto_fill_remaining_balance" = "您的账户余额低于虚拟币提现要求，将自动填写账户余额。";
+"cps_auto_fill_maximum_limit" = "您的账户余额大于单笔限额，将自动填写单笔限额。";
+"cps_auto_fill_daily_limit_maximum" = "您的账户余额大于今日可提现金额，将自动填写今日可提现金额。";
+"cps_auto_fill_crypto_daily_limit_maximum" = "您的虛擬幣提現要求大於今日可提現金額，將自動填寫今日可提現金額。";
+"cps_auto_fill_crypto_maximum_limit" = "您的虛擬幣提現要求大於單筆限額，將自動填寫單筆限額";
+"cps_crypto_account_name" = "账户别称";
+"cps_crypto_currency" = "虚拟币币别";
+"cps_crypto_delete_hint" = "该虚拟币钱包为已验证状态，删除后重新添加将需要再次验证。";
+"cps_excahange_rate" = "交易汇率";
+"cps_request_withdrawal_crypto_amount" = "本次申请提现金额";
+"cps_request_withdrawal_fiat_amount" = "账户扣除";
+"cps_remaining_crypto_requirement" = "虚拟币需要完成的提现要求";
+"cps_rate_changed" = "汇率已更动";
+"cps_please_refill_amounts" = "请重新确认并填写金额。";
+"cps_wallet_address" = "账户地址";
+"cps_add_account" = "新增虚拟币账户";
+"cps_security_alert" = "为了账户安全，需要进行身份验证。";
+"cps_verify_hint" = "此账户已验成完成，可进行提现。";
+"cps_add_hint" = "此账户资料将不可变更内容只能删除。";
+"cps_bank_card_exist" = "您的提现账户已存在";
+"cps_cash_withdrawal" = "现金提现";
+"cps_crpyto_withdrawal" = "虚拟币提现";
+"cps_qr_code_read_fail" = "读取失败";
+"cps_qr_code_read_fail_content" = "QR Code 读取失败，请重新读取。";
+"cps_auto_fill_balance" = "自动填写目前账户余额";
+"cps_auto_fill_request" = "自动填写虚拟币提现要求";
+"cps_account_status_verified" = "本賬户已验证核可";
+"cps_close_otp_verify_hint" = "尚未完成提现帳戶设定，將無法进行提现";
+"cps_eth_default_bank_card_name" = "以太坊钱包";
+"cps_default_bank_card_name" = "虚拟币钱包";
+"cps_scan" = "扫描";
+"cps_scan_qrcode" = "扫描QR Code";
+"cps_otp_service_down" = "暂时无法进行验证，请稍后再试。";
+"cps_secruity_verification_failure" = "安全验证失败";
+"cps_crypto_network" = "虚拟币网络";
+"cps_trc20_address_error" = "地址以\"T\"开头。在此之后，需包含33 个字符";
+"cps_erc20_address_error" = "地址以“0x”开头。在此之后，需包含 40 个字符 (0-9,a-f,A-F)";
+"cps_applied_network_address_title" = "本次申请网络和钱包地址为";
+"cps_select_crypto_type" = "选择充值币别";
+"cps_crypto_currency_deposit_hint" = "每笔 %@ %%红利,每日上限 %@ 元，1倍流水";
+
+//MARK: - Common
+"common_kto" = "KTO";
+"common_accountinfo" = "Thông Tin Cá Nhân";
+"common_activity" = "Hoạt Động Tài Khoản";
+"common_adjustment" = "Điều Chỉnh";
+"common_afterbalance" = "Số Dư";
+"common_all" = "Tất Cả";
+"common_allow" = "Đồng Ý";
+"common_apply" = "Yêu Cầu";
+"common_applydate" = "Ngày Yêu Cầu";
+"common_applytime" = "Thời Gian Yêu Cầu";
+"common_approved" = "Thành Công";
+"common_back" = "Quay Về";
+"common_bank" = "Tên Ngân Hàng";
+"common_beencancelcommonly" = "Đã Hủy Ưa Thích";
+"common_beensetcommonly" = "Đã Đặt Ưa Thích";
+"common_bet" = "Cược";
+"common_birthday" = "Ngày Sinh";
+"common_bonus" = "Tiền Thưởng";
+"common_cancel" = "Hủy";
+"common_cashlog" = "Dòng Tiền";
+"common_casino" = "Casino";
+"common_chatsystem" = "Live Chat";
+"common_close" = "Đóng";
+"common_confirm" = "Xác Nhận";
+"common_continue" = "Hủy";
+"common_continue2" = "Tiến Hành";
+"common_currency" = "Việt Nam Đồng";
+"common_custom" = "Tùy Chỉnh";
+"common_dataerror" = "Lỗi Dữ Liệu";
+"common_delete" = "Xóa";
+"common_delete_count" = "Xóa (%@)";
+"common_deleted" = "Đã Xóa thành công";
+"common_deposit" = "Gửi Tiền";
+"common_despositid" = "Mã Số Gửi Tiền";
+"common_detailcontent" = "Chi Tiết";
+"common_determine" = "Xác Nhận";
+"common_dollarsign" = "₫";
+"common_done" = "Hoàn Tất";
+"common_email" = "Email";
+"common_error" = "Lỗi";
+"common_floating" = "Cần tải lên Thông Tin Giao Dịch";
+"common_floating_2" = "Cần tải lên Chứng Từ";
+"common_fold" = "Thu Gọn";
+"common_gamelobby" = "Tên Sảnh Trò Chơi";
+"common_gametype" = "Loại Trò Chơi";
+"common_hour" = "Giờ";
+"common_invalid" = "Định dạng thông tin không phù hợp.";
+"common_language" = "Tiếng Việt";
+"common_lastday" = "%@ Ngày Gần Nhất";
+"common_level" = "Cấp Độ";
+"common_level_2" = "LV%@";
+"common_login" = "Đăng Nhập";
+"common_minute" = "Phút";
+"common_mobile" = "Di Động";
+"common_mobile_2" = "Di Động";
+"common_mobileprefix" = "84";
+"common_moblie_number" = "Số Di Động";
+"common_next" = "Bước Tiếp Theo";
+"common_norecord" = "Không Có Hồ Sơ";
+"common_norelevantnotice" = "Hiện tại không có thông báo liên quan.";
+"common_notification" = "Thông Báo";
+"common_notset" = "Không Cài Đặt Bây Giờ";
+"common_open" = "Mở Rộng";
+"common_password" = "Mật Khẩu";
+"common_password_1" = "Vui lòng nhập Mật Khẩu";
+"common_password_2" = "Xác Nhận Mật Khẩu";
+"common_password_3" = "Vui lòng nhập lại Mật Khẩu";
+"common_password_4" = "Vui lòng nhập Mật Khẩu Mới";
+"common_password_5" = "Vui lòng nhập lại Mật Khẩu Mới";
+"common_password_repeat" = "Trùng Mật Khẩu Cũ";
+"common_password_tips_1" = "Mật Khẩu bao gồm 6 đến 12 chữ cái và số, không thể sử dụng \"# $%\", và phân biệt chữ hoa chữ thường.";
+"common_pending" = "Đang Xử Lý";
+"common_pending_2" = "Chờ Xác Nhận";
+"common_pending_hold" = "Đang Chờ Ngân Hàng Xử Lý";
+"common_player_inactive" = "Tài khoản của Quý Khách đã bị đóng vĩnh viễn. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
+"common_player_suspend" = "Tài khoản của Quý Khách đã bị đóng băng. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
+"common_playerid" = "Mã Số Thành Viên";
+"common_previous" = "Bước Trước";
+"common_promotion" = "Khuyến Mãi";
+"common_realname" = "Họ Tên Rút Tiền";
+"common_rebet" = "Hoàn Trả";
+"common_redirect" = "Quý Khách sẽ được chuyển đến trang chủ KTO Châu Á sau %@ giây.";
+"common_register" = "Đăng Ký";
+"common_registerdate" = "Ngày Đăng Ký";
+"common_reject" = "Không Thành Công";
+"common_remark" = "Lưu Ý";
+"common_remove" = "Xóa";
+"common_resendotp" = "Gửi Lại";
+"common_resettle" = "Thanh Toán Lại";
+"common_second" = "Giây";
+"common_selectall" = "Chọn Tất Cả";
+"common_selectphoto" = "Chọn một Ảnh";
+"common_settingvalue" = "Cài Đặt Giá Trị";
+"common_settle" = "Đã Thanh Toán";
+"common_show_all" = "Hiển Thị Tất Cả";
+"common_skip" = "Bỏ Qua";
+"common_slot" = "Quay Số";
+"common_stop" = "Ngưng";
+"common_sportsbook" = "Thể Thao";
+"common_status" = "Trạng Thái";
+"common_filter" = "Lọc";
+"common_statusfilter" = "Lọc Trạng Thái";
+"common_ticketnumber" = "Mã Số Giao Dịch";
+"common_timerange" = "Phạm Vi Thời Gian";
+"common_transaction" = "Chi Tiết Giao Dịch";
+"common_transactionamount" = "Số Tiền Giao Dịch";
+"common_transactionsummary" = "Tổng Thu Chi";
+"common_unknowbank" = "Vui lòng lưu ý, mặc dù không bao gồm trong danh sách mặc định, Quý Khách vẫn có thể sử dụng ngân hàng này để đăng ký và chờ phê duyệt.";
+"common_unregister" = "Quý Khách chưa đăng ký tài khoản.";
+"common_unverified" = "Chưa được xác minh.";
+"common_upload" = "Tải Lên";
+"common_uploadedfile" = "Chứng Từ đã tải lên";
+"common_uploadfail" = "Chứng Từ tải lên không thành công";
+"common_uploadfile" = "Tải lên Chứng Từ";
+"common_uploadphoto" = "Tải lên Hình Ảnh";
+"common_verified" = "Đã Xác Minh";
+"common_verifing" = "Đang Xác Minh";
+"common_verify" = "Xác Minh";
+"common_version" = "1";
+"common_withdrawal" = "Rút Tiền";
+"common_withdrawalname" = "Họ Tên Rút Tiền";
+"common_submit" = "Gửi";
+"common_depositbonus" = "Thưởng Gửi Tiền";
+"common_freebet" = "Cược Miễn Phí";
+"common_rebate" = "Hoàn Trả";
+"common_win" = "Thắng";
+"common_lose" = "Thua";
+"common_push" = "Hòa";
+"common_void" = "Hủy";
+"common_playercancel" = "Người Chơi Hủy";
+"common_unsettle" = "Chưa Trả Cược";
+"common_otp_send_fail" = "Gửi Mã Xác Minh không thành công";
+"common_otp_send_success" = "Đã gửi Mã Xác Minh";
+"common_otp_mail_send_success" = "Đã gửi Email Xác Minh";
+"common_otp_invalid" = "Mã Xác Minh của Quý Khác không chính xác.";
+"common_otp_resend_tips" = "Nếu không nhận được Mã Xác Minh, sau %@ Quý Khách có thể yêu cầu";
+"common_verify_mail_resend_tips" = "Nếu không nhận được Email Xác Minh, sau %@ Quý Khách có thể yêu cầu";
+"common_yes" = "Có";
+"common_no" = "Không";
+"common_moveto" = "Chuyển Đến";
+"common_customerservice" = "Liên Hệ Chăm Sóc Khách Hàng";
+"common_platinum" = "Bạch Kim";
+"common_jade" = "Ngọc Bích";
+"common_virtual" = "Ảo";
+"common_search" = "Tìm Kiếm";
+"common_required" = "Mục này là bắt buộc.";
+"common_transaction_daterange" = "Thời Gian Yêu Cầu";
+"common_depositfeerefund" = "Thưởng Hoàn Trả Gửi Tiền %@";
+"common_ticketstatus_void" = "Không Thành Công";
+"common_edit" = "Chỉnh Sửa";
+"common_new" = "Mới";
+"common_keno" = "Trò Chơi Số";
+"common_show" = "Hiện";
+"common_hide" = "Ẩn";
+"common_unknownerror" = "Đã xảy ra lỗi không xác định. Mã Lỗi: %@.";
+"common_connectionerror" = "Kết nối không ổn định. Vui lòng xác nhận lại kết nối.";
+"common_try_again" = "Thử Lại";
+"common_password_not_the_same" = "Mật Khẩu không đồng nhất.";
+"common_wrong_password_format" = "Mật Khẩu không hợp lệ.";
+"common_password_not_filled" = "Mục này là bắt buộc.";
+"common_network_error" = "Kết nối không ổn định. Vui lòng xác nhận lại kết nối.";
+"common_january" = "Tháng 1";
+"common_february" = "Tháng 2";
+"common_march" = "Tháng 3";
+"common_april" = "Tháng 4";
+"common_may" = "Tháng 5";
+"common_june" = "Tháng 6";
+"common_july" = "Tháng 7";
+"common_august" = "Tháng 8";
+"common_september" = "Tháng 9";
+"common_october" = "Tháng 10";
+"common_november" = "Tháng 11";
+"common_december" = "Tháng 12";
+"common_monday" = "T2";
+"common_tuesday" = "T3";
+"common_wednesday" = "T4";
+"common_thursday" = "T5";
+"common_friday" = "T6";
+"common_saturday" = "T7";
+"common_sunday" = "CN";
+"common_upload_file" = "Tải lên Chứng Từ";
+"common_click_to_upload" = "Nhấp để tải lên hình ảnh";
+"common_camera" = "Chụp Ảnh";
+"common_gallery" = "Thư Viện Ảnh";
+"common_upload_limit" = "Tải lên tối đa 3 ảnh.";
+"common_copy" = "Sao Chép";
+"common_copied" = "Đã Sao Chép";
+"common_submit2" = "Gửi";
+"common_times_count" = "%@ Lần";
+"common_privacy_terms" = "Chính Sách Bảo Mật";
+"common_service_terms" = "Điều Khoản Dịch Vụ";
+"common_gambling_responsibility_terms" = "Cược Có Trách Nhiệm";
+"common_about_kto" = "Về KTO";
+"common_legal_supervision" = "Giấy Phép";
+"common_change_setting" = "Thay Đổi Cài Đặt";
+"common_setting_done" = "Cài Đặt thành công";
+"common_setting_fail" = "Cài Đặt không thành công";
+"common_change_done" = "Thay Đổi thành công";
+"common_change_fail" = "Thay Đổi không thành công";
+"common_tip_title_warm" = "Thông Báo";
+"common_tip_content_bind" = "Cài Đặt này sẽ được ràng buộc với tài khoản và không thể thay đổi.";
+"common_tip_title_unfinished" = "Dữ liệu chưa được lưu. Quý Khác có chắc chắn rời đi?";
+"common_tip_content_unfinished" = "Sau khi rời đi, dữ liệu sẽ không còn tồn tại.";
+"common_field_must_fill" = "Mục này là bắt buộc.";
+"common_field_must_fill_2" = "Mục này là bắt buộc.";
+"common_field_format_incorrect" = "Định dạng thông tin không phù hợp.";
+"common_otp_content_error" = "Mã Xác Minh của Quý Khác không chính xác.";
+"common_error_email_format" = "Vui lòng nhập Email chính xác.";
+"common_error_mobile_format" = "Bao gồm 10 số, và bắt đầu với số 0.";
+"common_error_email_verify" = "Không thể xác minh Email này.";
+"common_error_phone_verify" = "Không thể xác minh Số Di Động này.";
+"common_error_try_later" = "Quý Khách đã nhập không chính xác nhiều lần. Vui lòng thử lại sau.";
+"common_otp_sent_content" = "KTOVN Email OTP:
+Mã Xác Minh gồm 6 số</br>
+đã được gửi đến
+
+KTOVN Mobile Number OTP:
+Mã Xác Minh gồm 4 số</br>
+đã được gửi Qua Cuộc Gọi đến";
+"common_otp_sent_content_email" = "Mã Xác Minh gồm 6 số
+đã được gửi đến";
+"common_otp_sent_content_mobile" = "Mã Xác Minh gồm 4 số
+đã được gửi Qua Cuộc Gọi đến";
+"common_otp_sent_content_highlight" = "Qua Cuộc Gọi";
+"common_notify_logout_title" = "Thông Báo Đăng Xuất";
+"common_notify_logout_content" = "Xin lỗi, tài khoản của Quý Khách đã được đăng nhập ở nơi khác, vui lòng thử đăng nhập lại.";
+"common_sms_otp_exeed_send_limit" = "Số Di Động này đã yêu cầu quá Số Lần Gửi khả dụng. Vui lòng thử lại vào 00:00 ngày mai.";
+"common_email_otp_exeed_send_limit" = "Email này đã yêu cầu quá Số Lần Gửi khả dụng. Vui lòng thử lại vào 00:00 ngày mai.";
+"common_app_version" = "%@-%@";
+"common_confirm_cancel_operation" = "Quý Khách có chắc chắn hủy thao tác hiện tại?";
+"common_today" = "Hôm Nay";
+"common_yesterday" = "Hôm Qua";
+"common_kindly_remind" = "Lưu Ý";
+"common_success" = "Thành Công";
+"common_fail" = "Không Thành Công";
+"common_processing" = "Đang Xử Lý";
+"common_pending_or_pending_hold" = "Đang Xử Lý / Đang Chờ Ngân Hàng Xử Lý";
+"common_confirm_logout" = "Quý Khách có chắc chắn đăng xuất?";
+"common_logout" = "Đăng Xuất";
+"common_last7day" = "7 Ngày Gần Nhất";
+"common_select_day" = "Chọn một Ngày";
+"common_select_month" = "Chọn một Tháng";
+"common_last30day" = "30 Ngày Gần Nhất";
+"common_experience" = "Điểm Kinh Nghiệm %@";
+"common_total_amount" = "Tổng";
+"common_select_all" = "Chọn Tất Cả";
+"common_unselect_all" = "Hủy Chọn Tất Cả";
+"common_request_submitted" = "Yêu Cầu đã gửi";
+"common_confirm_delete" = "Xác nhận Xóa?";
+"common_photo_upload_limit" = "Giới hạn Tải Lên: Tối đa 3 File cùng lúc, và mỗi File không vượt quá 20MB.";
+"common_photo_upload_limit_reached" = "Tải Lên tối đa %@ File cùng lúc.";
+"common_kick_out_suspend" = "Vì lý do bảo mật, tài khoản của Quý Khách đã bị đóng băng. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
+"common_kick_out_inactive" = "Vì lý do bảo mật, tài khoản của Quý Khách đã bị đóng. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
+"common_kick_out_maintenance" = "Hệ Thống đang Bảo Trì";
+"common_kick_out_token_expired" = "Chúng Tôi nhận thấy Quý Khách đã không có hoạt động trong một thời gian dài, và đề xuất Quý Khách đăng nhập lại để có trải nghiệm tốt hơn.";
+"common_kick_out_token_expired_title" = "Thông Báo Đăng Xuất";
+"common_recommend" = "Đề Cử";
+"common_win_amount" = "Thắng %@";
+"common_lose_amount" = "Thua %@";
+"common_self_canceled" = "Tự Hủy";
+"common_strike" = "Định Kỳ";
+"common_strike_canceled" = "Hủy Định Kỳ";
+"common_other" = "Khác";
+"common_confirm_submit" = "Xác Nhận";
+"common_submit_form" = "Xác Nhận";
+"common_start_setting" = "Bắt đầu Cài Đặt";
+"common_please_select" = "Vui lòng chọn";
+"common_finish" = "Đóng";
+"common_setting" = "Cài Đặt";
+"common_get_code" = "Lấy Mã Xác Minh";
+"common_get_code_countdown" = "Lấy Mã Xác Minh (%@)";
+"common_cs_email" = "Email CSKH %@";
+"common_maintenance_description" = "Hãy chờ đón một KTO tốt hơn.";
+"common_cs_email_description" = "Nếu Quý Khách có bất kỳ thắc mắc nào, vui lòng gửi email đến";
+"common_long_maintenance" = "Bảo Trì Dài Hạn";
+"common_maintenance_notify" = "Thông Báo Bảo Trì";
+"common_urgent_maintenance" = "Bảo Trì Đột Xuất";
+"common_maintenance_contact_later" = "Hệ Thống đang bảo trì. Vui lòng liên hệ với Chúng Tôi sau.";
+"common_maintenance_chat_close" = "Xin lỗi, Chúng Tôi cần đóng Cửa Sổ Trò Chuyện của Quý Khách bây giờ. Vui lòng liên hệ với Chúng Tôi sau.";
+"common_maintenance_logout" = "Xin lỗi, Chúng Tôi cần đăng xuất Quý Khách bây giờ. Vui lòng thử lại sau.";
+"common_p2p" = "Đánh Bài Đối Kháng";
+"common_photo_upload_limit_count" = "Chỉ có thể chọn tối đa %@ File.";
+"common_default_product_maintain_title" = "Thông Báo Bảo Trì";
+"common_default_product_maintain_content" = "Hiện %@ đang Bảo Trì. Chúng Tôi sẽ chuyển Quý Khách đến các trang Sản Phẩm khác để tham khảo.";
+"common_cps_apply_info" = "Thông Tin Yêu Cầu Ban Đầu";
+"common_cps_apply_crypto" = "Số Tiền Yêu Cầu (Crypto)";
+"common_cps_apply_rate" = "Tỷ Giá Yêu Cầu";
+"common_cps_apply_amount" = "Số Tiền Yêu Cầu (%@)";
+"common_cps_apply_datetime" = "Thời Gian Yêu Cầu";
+"common_cps_final_info" = "Thông Tin Giao Dịch Cuối Cùng";
+"common_cps_final_crypto" = "Số Tiền Giao Dịch (Crypto)";
+"common_cps_final_rate" = "Tỷ Giá Giao Dịch";
+"common_cps_final_amount" = "Số Tiền Giao Dịch (%@)";
+"common_cps_final_datetime" = "Thời Gian Giao Dịch";
+"common_cps_remitter" = "Người Gửi Tiền (%@)";
+"common_cps_payee" = "Người Nhận Tiền (%@)";
+"common_cps_hash_id" = "Mã Giao Dịch TxHash";
+"common_player" = "Thành Viên";
+"common_cps_incomplete_field_placeholder_hint" = "Nếu bảng bên dưới hiển thị Trạng Thái \" - \", đồng nghĩa Quý Khách chưa hoàn tất giao dịch.";
+"common_cps_submit_hash_id_to_complete" = "Để hoàn tất giao dịch, vui lòng nhấp để gửi Mã Giao Dịch TxHash.";
+"common_ethereum" = "Ethereum";
+"common_i_know" = "Tôi đã hiểu.";
+"common_maintaining" = "Đang Bảo Trì";
+"common_month" = "Tháng";
+"common_unknownhostexception" = "Chưa kết nối Internet";
+"common_malformedexception" = "Định Dạng không chính xác";
+"common_timeoutexception" = "Kết nối hết hạn";
+"common_ioexception" = "读写错误";
+"common_apiexception" = "Lỗi: %@";
+"common_http_410" = "Hệ Thống đang Bảo Trì";
+"common_http_503" = "Đã xảy ra lỗi tạm thời. Vui lòng thử lại sau.";
+"common_http_exception" = "Kết nối không ổn định. Mã Lỗi (%@).";
+"common_empty_data" = "Không có Kết Quả";
+"common_requirement" = "Yêu cầu thêm %@";
+"common_none" = "Không";
+"common_select_verify_type" = "Chọn Phương Thức Xác Minh";
+"common_otp_hint" = "KTOVN Email OTP:
+Mã Xác Minh gồm 6 số</br>
+đã được gửi đến
+
+KTOVN Mobile Number OTP:
+Mã Xác Minh gồm 4 số</br>
+đã được gửi Qua Cuộc Gọi đến";
+"common_otp_hint_email" = "Mã Xác Minh gồm 6 số
+đã được gửi đến";
+"common_otp_hint_mobile" = "Mã Xác Minh gồm 4 số
+đã được gửi Qua Cuộc Gọi đến";
+"common_otp_hint_highlight" = "Qua Cuộc Gọi";
+"common_not_set_mobile" = "Số Di Động chưa được cài đặt.";
+"common_not_set_email" = "Email chưa được cài đặt.";
+"common_verify_email" = "Xác Minh Email";
+"common_verify_mobile" = "Xác Minh Số Di Động";
+"common_maintainence_error" = "Đang Bảo Trì. Vui lòng thử lại sau.";
+"common_verify_finished" = "Xác Minh hoàn tất";
+"common_add_finished" = "Thêm hoàn tất";
+"common_close_setting_hint" = "Xác nhận kết thúc Cài Đặt này?";
+"common_p2p" = "Đánh Bài Đối Kháng";
+"common_arcade" = "Trò Chơi Arcade";
+"common_affiliate" = "Đại Lý";
+"common_email_spam_check" = "Vui lòng đồng thời kiểm tra
+Hộp Thư Rác/Quảng Cáo.";
+"common_day" = "Ngày";
+"common_crypto" = "虚拟币";
+"common_delete_all" = "Xóa Tất Cả";
+"common_no_record_temporarily" = "Không có Lịch Sử";
+"common_no_search_result" = "Không có Kết Quả";
+"common_no_related_promotions" = "Không có Khuyến Mãi";
+"common_no_notification" = "Không có Thông Báo";
+"common_no_games_found" = "Không có Kết Quả";
+"common_copyright" = "%@ Bản Quyền © KTO Châu Á";
+
+//MARK: - SportsBook
+"sportsbook_bet_rules" = "Luật Thể Thao";
+"sportsbook_bet_type_setting" = "Cài Đặt Loại Tỷ Lệ Cược";
+"sportsbook_odds_type_hk" = "Hong Kong (HK)";
+"sportsbook_odds_type_eu" = "Châu Âu (DEC)";
+
+//MARK: - Register
+"register_language_option_chinese" = "简体中文 + 人民币";
+"register_language_option_thai" = "ภาษาไทย + บาทไทย";
+"register_language_option_vietnam" = "Tiếng Việt, Việt Nam Đồng";
+"register_step1_title_1" = "Đăng Ký 1/3";
+"register_step1_title_2" = "Chọn Ngôn Ngữ và Tiền Tệ";
+"register_step1_warning" = "Cài Đặt này sẽ được ràng buộc với tài khoản và không thể thay đổi.";
+"register_step1_tips_1" = "Bằng cách nhấp  \"Bước Tiếp Theo\", Quý Khách được xem là đã đọc và đồng ý với KTO Châu Á";
+"register_step1_tips_1_highlight" = "《Điều Khoản Dịch Vụ》";
+"register_service_down" = "Tạm thời không thể Đăng Ký. Vui lòng thử lại sau.";
+"register_step2_title_1" = "Đăng Ký 2/3";
+"register_step2_title_2" = "Điền Thông Tin Cơ Bản";
+"register_step2_withdrawal_name" = "Họ Tên Rút Tiền";
+"register_step2_verify_mobile" = "Bắt đầu Xác Minh Số Di Động";
+"register_step2_verify_mail" = "Bắt đầu Xác Minh Email";
+"register_step2_name_format_error" = "";
+"register_name_format_error_no_number_symbol" = "Không thể sử dụng số và ký tự đặc biệt.";
+"register_name_format_error_only_vn_eng" = "Định dạng thông tin không phù hợp.";
+"register_name_format_error_length_limitation" = "Không thể vượt quá %@ ký tự.";
+"register_name_format_error_conjunctive_blank" = "Chỉ cho phép một khoảng trắng giữa các từ.";
+"register_name_format_error_blank_before_and_after" = "Định dạng thông tin không phù hợp.";
+"register_step2_password_not_match" = "Mật Khẩu không đồng nhất.";
+"register_step2_sms_inactive" = "Xin lỗi, Phương Thức Đăng Ký này tạm thời không khả dụng.";
+"register_step2_email_inactive" = "Xin lỗi, Phương Thức Đăng Ký này tạm thời không khả dụng.";
+"register_step3_title_1" = "Đăng Ký 3/3";
+"register_step3_verify_by_email_title" = "Xác Minh Email";
+"register_step3_verify_by_phone_title" = "Xác Minh Số Di Động";
+"register_step3_content_email" = "Đường Link đã được gửi đến Email Quý Khách
+%@
+Vui lòng Xác Minh.";
+"register_step3_mobile_limit_exceeded" = "Đăng Ký bằng Số Di Động tạm thời không khả dụng.";
+"register_step3_mail_limit_exceeded" = "Đăng Ký bằng Email tạm thời không khả dụng.";
+"register_step3_incorrect_otp" = "Mã Xác Minh của Quý Khác không chính xác.";
+"register_step3_verification_pending" = "Quý Khách chưa hoàn tất Xác Minh.";
+"register_step3_open_mail" = "Mở Email";
+"register_step3_mail_varify_hint" = "Nếu Quý Khách đã hoàn tất Xác Minh, thử";
+"register_step3_mail_varify_hint_highlight" = "tại đây";
+"register_step4_title_fail" = "Đăng Ký không thành công";
+"register_step4_content_fail" = "Quý Khách đã thử nhiều lần. Vui lòng đăng ký lại và đảm bảo thông tin liên lạc của Quý Khách là chính xác và có hiệu lực.";
+"register_step4_retry_signup" = "Đăng Ký Lại";
+"register_step4_title_success" = "Đăng Ký thành công";
+"register_step4_content_unknown_fail" = "Xin lỗi, Phương Thức Đăng Ký này tạm thời không khả dụng.";
+
+//MARK: - Login
+"login_account_identity" = "Số Di Động/Email";
+"login_account_remember_me" = "Lưu Đăng Nhập của tôi";
+"login_tips_1" = "Quên Mật Khẩu, sử dụng";
+"login_tips_1_highlight" = "Đặt Lại Mật Khẩu";
+"login_invalid_username_password" = "Thông Tin Đăng Nhập hoặc Mật Khẩu không chính xác.";
+"login_invalid_username_password_captcha" = "Thông Tin Đăng Nhập, Mật Khẩu hoặc Mã Xác Minh không chính xác.";
+"login_invalid_lockdown" = "Quý Khách đã nhập sai Mật Khẩu nhiều lần. Vui lòng Đặt Lại Mật Khẩu, hoặc Đăng Nhập lại sau.";
+"login_enter_captcha_to_prceed" = "Quý Khách đã nhập sai Mật Khẩu nhiều lần. Hiện Quý Khách cần nhập Mã Xác Minh trong ảnh để đăng nhập.";
+"login_button_countdown" = "Đăng Nhập (%@)";
+"login_captcha_new" = "Nhìn không rõ? Đổi Mã Xác Minh.";
+"login_captcha" = "Mã Xác Minh.";
+"login_resetpassword_service_down" = "Không thể Đặt Lại Mật Khẩu vào lúc này. Vui lòng thử lại sau.";
+"login_resetpassword_step1_title_1" = "Đặt Lại Mật Khẩu 1/3";
+"login_resetpassword_step1_title_2" = "Chọn Phương Thức Đặt Lại";
+"login_resetpassword_step1_sms_inactive" = "Xin lỗi, Phương Thức Đặt Lại này tạm thời không khả dụng.";
+"login_resetpassword_step1_email_inactive" = "Xin lỗi, Phương Thức Đặt Lại này tạm thời không khả dụng.";
+"login_resetpassword_lock_down" = "Quý Khách đã nhập không chính xác nhiều lần. Vui lòng thử lại sau.";
+"login_resetpassword_step2_title_1" = "Đặt Lại Mật Khẩu 2/3";
+"login_resetpassword_step2_verify_by_email_title" = "Xác Minh Email";
+"login_resetpassword_step2_verify_by_phone_title" = "Xác Minh Số Di Động";
+"login_resetpassword_step3_title" = "Đặt Lại Mật Khẩu 3/3";
+"login_resetpassword_step3_title_2" = "Thiết Lập Mật Khẩu Mới";
+"login_resetpassword_step3_pass_cant_empty" = "Mục này là bắt buộc.";
+"login_resetpassword_cancel_title" = "Quý Khách có chắc chắn hủy thao tác hiện tại?";
+"login_resetpassword_cancel_content" = "Đặt Lại Mật Khẩu sẽ bị gián đoạn và kết thúc.";
+"login_resetpassword_success" = "Đặt Lại Mật Khẩu thành công";
+"login_resetpassword_fail_title" = "Đặt Lại Mật Khẩu không thành công";
+"login_resetpassword_fail_unknown" = "Xin lỗi, Phương Thức Đặt Lại này tạm thời không khả dụng.";
+
+//MARK: - Deposit
+"deposit_title" = "Gửi Tiền";
+"deposit_title_tips" = "Danh sách dưới đây là phương thức Gửi Tiền của Quý Khách.";
+"deposit_alipay" = "VIVN支付宝在线";
+"deposit_recommend" = "Đề Cử";
+"deposit_activiy" = "Hoạt Động Gửi Tiền";
+"deposit_activiy_tips" = "Hiện tại không có thông báo liên quan đến tiền gửi của Quý Khách.";
+"deposit_log" = "Lịch Sử Gửi Tiền";
+"deposit_setfavorite" = "Đặt làm phương thức Gửi Tiền ưa thích.";
+"deposit_cancelfavorite" = "Hủy làm phương thức Gửi Tiền ưa thích.";
+"deposit_selectbank" = "Ngân Hàng Nhận Tiền KTO";
+"deposit_offline_step1_title" = "Ngân Hàng Địa Phương";
+"deposit_info_title" = "Điền Thông Tin Gửi Tiền";
+"deposit_bankname" = "Ngân Hàng Gửi Tiền";
+"deposit_accountlastfournumber" = "4 Số Cuối Của Số Tài Khoản Gửi Tiền (Không bắt buộc)";
+"deposit_amount" = "Số Tiền Gửi";
+"deposit_offline_step1_tips" = "Giới Hạn Mỗi Giao Dịch Gửi Tiền: %@ - %@";
+"deposit_notify_currency_ratio" = "Tiền tệ VND được hiển thị theo Tỷ lệ 1:1,000";
+"deposit_offline_step1_button" = "Thực Hiện Gửi Tiền";
+"deposit_offline_step2_title" = "Thông Tin Thụ Hưởng KTO";
+"deposit_offline_step2_title_tips" = "Vui lòng gửi tiền vào tài khoản ngân hàng được cung cấp dưới đây.";
+"deposit_receiveinfo" = "Tài Khoản Ngân Hàng Nhận Tiền";
+"deposit_receivename" = "Tên Người Nhận Tiền";
+"deposit_receivebank" = "Ngân Hàng Nhận Tiền";
+"deposit_receiveaccount" = "Số Tài Khoản Nhận Tiền";
+"deposit_validdeposittime" = "Thời Gian Gửi Tiền Hiệu Lực";
+"deposit_remmiterinfo" = "Tài Khoản Ngân Hàng Gửi Tiền";
+"deposit_remmiterbankaccountname" = "Tên Người Gửi Tiền";
+"deposit_remmiteramount" = "Số Tiền Gửi";
+"deposit_offline_step2_warning" = "";
+"deposit_offline_step3_title" = "Giao Dịch ghi nhận thành công";
+"deposit_offline_step3_fail" = "Giao Dịch ghi nhận không thành công";
+"deposit_ticketid" = "Mã Số Gửi Tiền %@";
+"deposit_offline_step3_content" = "Thời gian xử lý Gửi Tiền ước tính <span style=\"padding-left: 16px;\">%@</span>";
+"deposit_checklog" = "Xem Lịch Sử Gửi Tiền";
+"deposit_offline_step3_tips" = "Quý Khách sẽ được chuyển đến trang chủ KTO Châu Á sau %@ giây.";
+"deposit_depositlog_title" = "Lịch Sử Gửi Tiền";
+"deposit_summary" = "Số Tiền Gửi Thành Công";
+"deposit_success" = "Gửi Tiền thành công";
+"deposit_detail_title" = "Chi Tiết Gửi Tiền";
+"deposit_detail_button" = "Tải lên Chứng Từ Xác Minh";
+"deposit_selectpaymentgateway" = "Chọn Phương Thức Gửi Tiền";
+"deposit_input_invalid" = "Định dạng thông tin không phù hợp.";
+"deposit_input_lowermin" = "Vui lòng gửi tiền theo Giới Hạn Mỗi Giao Dịch.";
+"deposit_input_overmax" = "Vui lòng gửi tiền theo Giới Hạn Mỗi Giao Dịch.";
+"deposit_ticketnumber" = "Mã Số Gửi Tiền";
+"deposit_bankname_placeholder" = "Ngân Hàng Gửi Tiền";
+"deposit_remittername_placeholder" = "Nguyễn Phúc Vĩnh Thụy";
+"deposit_inputamount_placeholder" = "1000";
+"deposit_input_banknameempty" = "Mục này là bắt buộc.";
+"deposit_branch" = "Tên Chi Nhánh";
+"deposit_selecttype" = "Chọn Phương Thức Gửi Tiền";
+"deposit_my_account_detail" = "Thông Tin Gửi Tiền Của Tôi";
+"deposit_payee_detail" = "Số Tài Khoản Nhận Tiền";
+"deposit_custom_cash" = "";
+"deposit_offline_remitter_title" = "";
+"deposit_offline_summary_tip" = "";
+"deposit_limitation_hint" = "Vui lòng gửi tiền theo Giới Hạn Mỗi Giao Dịch.";
+"deposit_offline_termniate" = "Gửi Tiền \"Ngân Hàng Địa Phương\" sẽ bị gián đoạn và kết thúc.";
+"deposit_online_terminate" = "Gửi Tiền \"Chuyển Khoản Trực Tuyến\" sẽ bị gián đoạn và kết thúc.";
+"deposit_select_method" = "Chọn Phương Thức Gửi Tiền";
+"deposit_no_available_type" = "Hiện tại không có phương thức Gửi Tiền khả dụng.";
+"deposit_no_records" = "Hiện tại không có lịch sử liên quan đến tiền gửi của Quý Khách.";
+"deposit_execeed_limitation" = "Kích thước file của Quý Khách vượt quá giới hạn hệ thống là 20MB.";
+"deposit_name" = "Tên Người Gửi Tiền";
+"deposit_thirdparty_transaction_remind" = "Quý Khách đang đến trang xác nhận giao dịch. Vui lòng không đóng cửa sổ cho đến khi giao dịch hoàn tất.";
+"deposit_file_format_invalid" = "File của Quý Khách không phù hợp với định dạng hệ thống.";
+"deposit_crypto_warning" = "Khi Quý Khách gửi vào Crypto thành công, Quý Khách cần rút về bằng với Số Crypto đã gửi vào, trước khi có thể rút Tiền Mặt.";
+"deposit_pay_multiple_hint" = "";
+"deposit_notify_request_later" = "Quý Khách có 3 giao dịch Gửi Tiền đang chờ xử lý, vui lòng thử lại sau 3 phút.";
+"deposit_cps_hint" = "推广：存款优惠";
+
+//MARK: - BalanceLog
+"balancelog_previousbalance" = "Số Dư Trước Giao Dịch";
+"balancelog_afterbalance" = "Số Dư Sau Giao Dịch";
+"balancelog_ticketid" = "Mã Số Giao Dịch";
+"balancelog_gamefilter" = "Lọc Trò Chơi";
+"balancelog_bet" = "Đặt Cược";
+"balancelog_settle" = "Trả Cược";
+"balancelog_cashflow" = "Dòng Tiền";
+"balancelog_timezone _1" = "Múi Giờ (GMT+8)";
+"balancelog_timezone _2" = "Múi Giờ (GMT+7)";
+"balancelog_bonustype_2" = "VIVN%@存送金";
+"balancelog_bonustype_5" = "VIVN%@存送金";
+"balancelog_bonustype_1" = "VIVN%@免费金";
+"balancelog_producttype_1_bonustype_3" = "Bảo Hiểm Cược Thể Thao
+Ngày %@";
+"balancelog_producttype_2_bonustype_3" = "Thưởng Giải Cứu Quay Số
+Ngày %@";
+"balancelog_producttype_1_bonustype_4" = "Hoàn Trả Thể Thao %@";
+"balancelog_producttype_2_bonustype_4" = "Hoàn Trả Quay Số %@";
+"balancelog_producttype_3_bonustype_4" = "Hoàn Trả Casino %@";
+"balancelog_producttype_4_bonustype_4" = "Hoàn Trả Trò Chơi Số %@";
+"balancelog_producttype_6_bonustype_4" = "Hoàn Trả Trò Chơi Arcade %@";
+"balancelog_win" = "Thắng";
+"balancelog_push" = "Hòa";
+"balancelog_lose" = "Thua";
+"balancelog_timezone" = "Múi Giờ (GMT%@)";
+"balancelog_depositfeerefund" = "Thưởng Hoàn Trả Gửi Tiền";
+"balancelog_summary" = "Tổng Thu Chi";
+"balancelog_categoryfilter" = "Lọc";
+"balancelog_summary_start_date" = "Ngày Bắt Đầu %@";
+"balancelog_summary_start_amount" = "Số Dư Đầu Kỳ %@";
+"balancelog_summary_end_date" = "Ngày Kết Thúc %@";
+"balancelog_summary_end_amount" = "Số Dư Cuối Kỳ %@";
+"balancelog_summary_end_date_is_today" = "Số Dư Đến Ngày Hiện Tại";
+"balancelog_detail_amount" = "Số Tiền Giao Dịch";
+"balancelog_detail_after_amount" = "Số Dư Sau Giao Dịch";
+"balancelog_detail_datetime" = "Thời Gian Yêu Cầu";
+"balancelog_detail_id" = "Mã Số Giao Dịch";
+"balancelog_detail_remark" = "Lưu Ý:";
+"balancelog_deposit_a2p_in" = "Chuyển Đến A2P";
+"balancelog_deposit_p2p_in" = "Chuyển Đến P2P";
+"balancelog_withdrawal_p2a_out" = "Chuyển Đi P2A";
+"balancelog_withdrawal_p2p_out" = "Chuyển Đi P2P";
+"balancelog_deposit_refund" = "Thưởng Hoàn Trả Gửi Tiền";
+"balancelog_cash" = "Tiền Mặt";
+"balancelog_title" = "Lịch Sử Giao Dịch";
+"balancelog_player_cancel" = "Tự Hủy";
+"balancelog_unsettled" = "Chưa Trả Cược";
+"balancelog_eventbonus" = "Tiền Thưởng Sự Kiện";
+"balancelog_other" = "Khác";
+"balancelog_wager_detail" = "Chi Tiết Cược";
+
+//MARK: - Withdrawal
+"withdrawal_accountnumber" = "Số Tài Khoản";
+"withdrawal_accountrealname" = "Họ Tên Rút Tiền";
+"withdrawal_accountsetting_title" = "Quản Lý Tài Khoản Rút Tiền Của Tôi";
+"withdrawal_activity" = "Hoạt Động Rút Tiền";
+"withdrawal_addaccount" = "Thêm Tài Khoản Rút Tiền Mới";
+"withdrawal_amount" = "Số Tiền Rút";
+"withdrawal_bankaccountdetail_modal_content" = "Sau khi Xóa, dữ liệu tài khoản này sẽ không còn tồn tại.";
+"withdrawal_bankaccountdetail_modal_title" = "Xóa Tài Khoản Rút Tiền?";
+"withdrawal_bankaccountdetail_title" = "Chi Tiết Tài Khoản Rút Tiền";
+"withdrawal_bankcity" = "Thành Phố/Quận/Huyện Ngân Hàng";
+"withdrawal_bankstate" = "Tỉnh/Thành Phố Ngân Hàng";
+"withdrawal_branch" = "Tên Chi Nhánh";
+"withdrawal_cancel" = "Hủy Giao Dịch Rút Tiền Này";
+"withdrawal_dailywithdrawalamount" = "Số Tiền Rút khả dụng hôm nay:";
+"withdrawal_dailywithdrawalcount" = "Số Lần Rút Tiền khả dụng hôm nay:";
+"withdrawal_dailywithdrawalamount_2" = "Số Tiền Rút khả dụng hôm nay";
+"withdrawal_dailywithdrawalcount_2" = "Số Lần Rút Tiền khả dụng hôm nay";
+"withdrawal_detail_title" = "Chi Tiết Rút Tiền ";
+"withdrawal_fail" = "Rút Tiền không thành công";
+"withdrawal_log" = "Lịch Sử Rút Tiền";
+"withdrawal_log_title" = "Lịch Sử Rút Tiền";
+"withdrawal_modal_content" = "Hiện tại Quý Khách có thể rút tiền %@ lần một ngày, tổng số tiền rút khả dụng là %@ VND.";
+"withdrawal_modal_title" = "Hạn Mức Rút Tiền";
+"withdrawal_name" = "Họ Tên Rút Tiền";
+"withdrawal_realname_modal_content" = "Họ Tên Rút Tiền đã được ràng buộc với tài khoản và không thể thay đổi.";
+"withdrawal_realname_modal_title" = "Lưu Ý";
+"withdrawal_selectbank" = "Ngân Hàng Rút Tiền";
+"withdrawal_setaccount" = "Quản Lý Tài Khoản Rút Tiền";
+"withdrawal_setbankaccount_button" = "Thêm Tài Khoản Rút Tiền Mới";
+"withdrawal_setbankaccount_modal_title" = "Xác nhận kết thúc Thêm Tài Khoản Rút Tiền Mới?";
+"withdrawal_setbankaccount_tips" = "Quý Khách phải cài đặt một Tài Khoản Ngân Hàng để thực hiện Rút Tiền Mặt.";
+"withdrawal_setbankaccount_title" = "Cài Đặt Tài Khoản Ngân Hàng";
+"withdrawal_setbankaccountsuccess_modal_content" = "Thông tin tài khoản này không thể thay đổi, chỉ có thể xóa.";
+"withdrawal_setbankaccountsuccess_modal_title" = "Thêm Mới hoàn tất";
+"withdrawal_setnewrealname_modal_content" = "Nếu Quý Khách cần thay đổi Họ Tên, vui lòng vào mục cài đặt Thông Tin Cá Nhân.";
+"withdrawal_setnewrealname_modal_title" = "Quý Khách cần thay đổi Họ Tên?";
+"withdrawal_start" = "Bắt Đầu Rút Tiền";
+"withdrawal_status" = "Trạng Thái Giao Dịch Rút Tiền";
+"withdrawal_step1_title_1" = "Rút Tiền 1/2";
+"withdrawal_selectbankcard" = "Chọn Tài Khoản Rút Tiền";
+"withdrawal_step1_title_2" = "Điền Số Tiền Rút";
+"withdrawal_step2_button" = "Rút";
+"withdrawal_step2_tips" = "Giới Hạn Mỗi Giao Dịch Rút Tiền: %@ – %@";
+"withdrawal_step2_title_1" = "Rút Tiền 2/2";
+"withdrawal_step2_title_2" = "Xác Nhận Rút Tiền";
+"withdrawal_step3_button" = "Xem Lịch Sử Rút Tiền";
+"withdrawal_step3_title" = "Giao Dịch Đã Ghi Nhận";
+"withdrawal_step3_ticketid" = "Mã Số Rút Tiền %@";
+"withdrawal_step3_title_tips" = "Thời gian xử lý Rút Tiền ước tính <span style=\"padding-left: 16px;\">%@</span>";
+"withdrawal_step3_content" = "Quý Khách đã hoàn tất quá trình Rút Tiền. Sẽ mất khoảng 15 phút để xử lý Giao Dịch. Quý Khách có thể vào <span class = \"highlight\">Lịch Sử Rút Tiền </span> tại mục Rút Tiền để kiểm tra Trạng Thái Giao Dịch.";
+"withdrawal_success" = "Rút Tiền thành công";
+"withdrawal_summary" = "Số Tiền Rút thành công %@";
+"withdrawal_title" = "Rút Tiền";
+"withdrawal_success_confirm_title" = "Ràng Buộc Họ Tên: %@";
+"withdrawal_success_confirm_content" = "Vui lòng lưu ý! Sau khi giao dịch Rút Tiền đầu tiên thành công, Họ Tên của Quý Khách sẽ luôn được ràng buộc với hệ thống và không thể thay đổi !
+
+Nếu Quý Khách cần thay đổi Họ Tên, vui lòng hủy giao dịch Rút Tiền trước, sau đó vào mục cài đặt Thông Tin Cá Nhân để thực hiện thay đổi.";
+"withdrawal_bankcard_new" = "Tài khoản này chưa được xác minh.";
+"withdrawal_bankcard_locked" = "Tài khoản này đang được Xem Xét và không thể xóa.";
+"withdrawal_bankcard_verified" = "Tài khoản này đã rút tiền thành công.";
+"withdrawal_bankcard_fail" = "Thông tin tài khoản không chính xác.";
+"withdrawal_bankcard_delete" = "Xóa Tài Khoản Rút Tiền Này";
+"withdrawal_bankcard_delete_confirm_title" = "Xác nhận xóa Tài Khoản Rút Tiền này?";
+"withdrawal_bankcard_delete_confirm_content" = "Sau khi Xóa, dữ liệu tài khoản này sẽ không còn tồn tại.";
+"withdrawal_bankcard_name_placeholder" = "Nguyễn Phúc Vĩnh Thụy";
+"withdrawal_bankcard_branch_placeholder" = "Phòng Giao Dịch Hòa Hưng";
+"withdrawal_bankcard_state_placeholder" = "Thành phố Hồ Chí Minh";
+"withdrawal_bankcard_city_placeholder" = "Thành phố Thủ Đức";
+"withdrawal_bankcard_accountnumber_placeholder" = "1111111111111111111111111";
+"withdrawal_bankcard_change_confirm_title" = "Quý Khách cần thay đổi Họ Tên?";
+"withdrawal_bankcard_change_confirm_content" = "Nếu Quý Khách cần thay đổi Họ Tên, vui lòng vào mục cài đặt Thông Tin Cá Nhân.";
+"withdrawal_step2_title_1_tip" = "Số Tiền Rút của giao dịch này là";
+"withdrawal_step2_afterwithdrawal" = "Sau khi Giao Dịch Rút Tiền hoàn tất";
+"withdrawal_bankcard_add_overlimit" = "Xin lỗi, Quý Khách chỉ có thể thiết lập tối đa %@ Tài Khoản Rút Tiền.";
+"withdrawal_setbankaccountfail" = "Thêm Tài Khoản không thành công";
+"withdrawal_bankcard_delete_fail" = "Xóa Tài Khoản không thành công";
+"withdrawal_input_overmax" = "Vui lòng rút tiền theo Giới Hạn Mỗi Giao Dịch.";
+"withdrawal_input_lowermin" = "Vui lòng rút tiền theo Giới Hạn Mỗi Giao Dịch.";
+"withdrawal_tickerstatus_void" = "Không Thành Công";
+"withdrawal_isbatched_tip" = "Để hủy giao dịch rút tiền này, vui lòng liên hệ Chăm Sóc Khách Hàng.";
+"withdrawal_quota_title" = "Hạn Mức Rút Tiền";
+"withdrawal_quota_content" = "Hiện tại Quý Khách có thể rút tiền %@ lần một ngày, tổng số tiền rút khả dụng là %@ VND.";
+"withdrawal_quota_after_title" = "Hạn Mức Rút Tiền sau khi Giao Dịch Rút Tiền này hoàn tất";
+"withdrawal_account_deleted" = "Đã xóa Tài Khoản Rút Tiền này.";
+"withdrawal_minutes_seconds" = "%@ Phút %@ Giây";
+"withdrawal_no_records" = "Hiện tại không có lịch sử liên quan đến tiền rút của Quý Khách.";
+"withdrawal_bank_name" = "Ngân Hàng Rút Tiền";
+"withdrawal_choose_account" = "Chọn Tài Khoản Rút Tiền";
+"withdrawal_account_added" = "Đã thêm Tài Khoản Rút Tiền này.";
+"withdrawal_amount_range" = "Giới Hạn Mỗi Giao Dịch Rút Tiền: %@ – %@";
+"withdrawal_amount_beyond_range" = "Vui lòng rút tiền theo Giới Hạn Mỗi Giao Dịch.";
+"withdrawal_amount_below_range" = "Vui lòng rút tiền theo Giới Hạn Mỗi Giao Dịch.";
+"withdrawal_amount_exceed_daily_limit" = "Quý Khách đã vượt quá Số Tiền Rút khả dụng hôm nay, vui lòng thực hiện Rút Tiền vào ngày mai.";
+"withdrawal_balance_not_enough" = "Tài khoản của Quý Khách không đủ số dư.";
+"withdrawal_account" = "Tài Khoản Rút Tiền";
+"withdrawal_bank_card_deleting" = "Dữ liệu Tài Khoản Ngân Hàng này sẽ không còn tồn tại.";
+"withdrawal_id" = "Mã Số Rút Tiền";
+"withdrawal_account_exist" = "Tài Khoản Rút Tiền này đã được cài đặt.";
+"withdrawal_crypto_locked" = "APP hiện chưa hỗ trợ Gửi và Rút Crypto. Vui lòng đăng nhập phiên bản WEB để thực hiện.";
+"withdrawal_cancel_title" = "Xác nhận Hủy?";
+"withdrawal_cancel_content" = "Giao Dịch Rút Tiền này sẽ được Hủy ngay lập tức.";
+"withdrawal_cash_withdrawal" = "Rút Tiền Mặt";
+"withdrawal_daily_limit_widthrawal_amount" = "Số Tiền Rút khả dụng hôm nay: %@";
+"withdrawal_daily_limit_widthrawal_times" = "Số Lần Rút Tiền khả dụng hôm nay: %@";
+"withdrawal_turnover_requirement" = "Yêu Cầu Đặt Cược: ";
+
+//MARK: - Product
+"product_slot_recent_play" = "Đã Chơi Gần Đây";
+"product_slot_new" = "Mới";
+"product_slot_jackpot" = "Độc Đắc";
+"product_slot_summary" = "Cược %@ %@ %@";
+"product_sbk_over" = "Trên";
+"product_sbk_under" = "Dưới";
+"product_sbk_wager_stakes" = "Cược %@";
+"product_sbk_win_amount" = "Thắng %@";
+"product_sbk_parlay" = "Cược Xâu";
+"product_casino_ag" = "Bạch Kim";
+"product_casino_n2live" = "Ngọc Bích";
+"product_casino_pgsoft" = "Ảo";
+"product_winning_amount" = "Thắng %@";
+"product_losing_amount" = "Thua %@";
+"product_bet_id" = "Mã Số Cược";
+"product_game_name_id" = "Trò Chơi (Mã Ván Bài)";
+"product_number_game_name_id" = "Trò Chơi (Mã Lượt Rút)";
+"product_bet_content" = "Chi Tiết Cược";
+"product_bet_time" = "Thời Gian Cược";
+"product_bet_amount" = "Số Tiền Cược";
+"product_bet_win_lose" = "Thắng/Thua";
+"product_bet_result" = "Kết Quả";
+"product_player_title" = "Không Có Hoạt Động";
+"product_player_1_title" = "Không Có Hoạt Động 1";
+"product_player_2_title" = "Không Có Hoạt Động 2";
+"product_player_3_title" = "Không Có Hoạt Động 3";
+"product_banker_title" = "Nhà Cái";
+"product_tiger_title" = "Hổ";
+"product_dragon_title" = "Rồng";
+"product_phonix_title" = "Phượng";
+"product_first_card" = "Chia Bài";
+"product_black_bull" = "Bull Đen";
+"product_red_bull" = "Bull Đỏ";
+"product_top_search" = "Tìm Kiếm Phổ Biến";
+"product_enter_search_keyword" = "Nhập Tên Trò Chơi";
+"product_popular" = "Phổ Biến";
+"product_under_maintenance" = "Đang Bảo Trì";
+"product_game_removed" = "Trò Chơi Đã Bị Xóa";
+"product_add_favorite" = "Thêm vào mục Yêu Thích";
+"product_remove_favorite" = "Xóa khỏi mục Yêu Thích";
+"product_favorite" = "Yêu Thích";
+"product_my_bet" = "Cược Của Tôi";
+"product_count_bet_record" = "Lịch Sử Cược %@";
+"product_unsettled_game" = "Chưa Hoàn Tất";
+"product_total_bet_with_win_lose" = "Tiền Cược %@    %@ %@";
+"product_total_bet" = "Tiền Cược %@";
+"product_maintenance_title" = "Hãy chờ đón một %@ tốt hơn.";
+"product_maintenance" = "Bảo Trì Sản Phẩm...";
+"product_none_favorite" = "Không có Trò Chơi Yêu Thích";
+"product_add_now" = "Thêm NGAY";
+"product_none_my_bet_record" = "Không có Lịch Sử Cược";
+"product_game_not_found" = "Không tìm thấy Trò Chơi Quý Khách muốn chơi?";
+"product_see_more" = "Xem Thêm";
+"product_slot_game_feature" = "Tính Năng";
+"product_slot_game_theme" = "Chủ Đề";
+"product_slot_game_payline" = "Đường Thanh Toán";
+"product_hot_sorting" = "Sắp Xếp Phổ Biến";
+"product_name_sorting" = "A-Z";
+"product_release_sorting" = "Ngày Ra Mắt";
+"product_all_slot" = "Tất Cả Trò Chơi";
+"product_all_games_selected" = "Tất Cả Trò Chơi";
+"product_count_selected_games" = "%@ Trò Chơi được chọn";
+"product_slot_filter" = "Lọc";
+"product_clear_filters" = "Bỏ Chọn";
+"product_slot_separate" = "Biểu Tượng Scatter";
+"product_slot_wild" = "Biểu Tượng Wild";
+"product_slot_feature" = "Vòng Thưởng";
+"product_slot_freespin" = "Vòng Quay Miễn Phí";
+"product_slot_bidirectional_win" = "2-Cách Để Thắng";
+"product_slot_asia" = "Châu Á";
+"product_slot_west" = "Châu Âu";
+"product_slot_below_15" = "<15";
+"product_slot_from_15to30" = "15-30";
+"product_slot_above_30" = ">30";
+"product_slot_all" = "Tất Cả";
+"product_slot_others" = "Khác";
+"product_new_bets" = "Cược Gần Nhất";
+"product_unsettled_bets" = "Chưa Trả Cược";
+"product_settled_bets" = "Đã Thanh Toán";
+"product_draw_result" = "Kết Quả Lượt Rút";
+"product_prededuct" = "Trừ Trước";
+"product_empty_unsettled_records" = "Không có Trò Chơi Chưa Hoàn Tất";
+"product_bet_has_settled" = "Cược này đã thanh toán. Vui lòng kiểm tra tại mục Đã Thanh Toán.";
+"product_game_maintenance" = "Đang Bảo Trì Trò Chơi.";
+"product_p2p_bonus_calculating" = "Sau khi tiền thưởng được cập nhật,
+Quý Khách sẽ không thể
+đặt cược \"Đánh Bài Đối Kháng\".";
+"product_mid_break" = "Nghỉ Giữa Hiệp";
+"product_will_be_back" = "Chúng Tôi sẽ quay lại sớm.
+Cám ơn.";
+"product_p2p_turnover_description" = "Trước khi tham gia “Đánh Bài Đối Kháng”, Quý Khách cần hoàn thành Yêu Cầu Đặt Cược cho tiền thưởng đã nhận vào %@. Chi tiết như sau:";
+"product_dealer" = "Nhà Cái";
+"product_player" = "Người Chơi";
+"product_split" = "Tách Bài";
+
+//MARK: - Update
+"update_new_version_content" = "Phiên Bản Mới đã được phát hành, vui lòng cập nhật trước khi tiếp tục.";
+"update_exit" = "Thoát";
+"update_proceed_now" = "Cập Nhật Ngay";
+"update_title" = "Cập Nhật";
+"update_progression" = "Tải Về %@. Kích Thước khoảng %@.";
+"update_failure_title" = "Tải Về không thành công";
+"update_failure_content" = "Vui lòng đảm bảo Mạng đã bỏ chặn, và Di Động có đủ dung lượng lưu trữ.";
+"update_feedback" = "Phản Hồi";
+"update_feedback_1" = "Phản Hồi 1/2";
+"update_chose_feedback_type" = "Chọn Phương Thức Phản Hồi";
+"update_feedback_with_comment" = "Tôi muốn viết thêm Mô Tả về vấn đề.";
+"update_feedback_without_comment" = "Tôi muốn nhận Phản Hồi về vấn đề.";
+"update_feedback_2" = "Phản Hồi 2/2";
+"update_leave_message" = "Viết Tin Nhắn";
+"update_reply_when_solved" = "Vui lòng để lại Email, và Chúng Tôi sẽ gửi Phản Hồi đến Quý Khách ngay sau khi vấn đề được giải quyết.";
+"update_fill_email" = "Điền Email";
+"update_error_auto_submitted" = "Hệ thống đã tự động gửi đi vấn đề của Quý Khách, và Chúng Tôi sẽ cải thiện vấn đề sớm nhất có thể.";
+"update_feedback_success" = "Chúng Tôi đã nhận được Phản Hồi của Quý Khách, và sẽ thông báo về tiến trình của vấn đề trong vòng một tuần.";
+"update_open_web_page" = "Chuyển đến Phiên Bản WEB";
+
+//MARK: - CustomerService
+"customerservice_online" = "Chăm Sóc Khách Hàng";
+"customerservice_leave_a_message_confirm" = "Có";
+"customerservice_leave_a_message_title" = "Để lại tin nhắn cho
+Chăm Sóc Khách Hàng?";
+"customerservice_leave_a_message_content" = "Rất tiếc, nhân viên Chăm Sóc Khách Hàng hiện đang bận, Quý Khách có muốn để lại tin nhắn cho Chăm Sóc Khách Hàng? Xin lỗi vì sự bất tiện.";
+"customerservice_title" = "Chăm Sóc Khách Hàng";
+"customerservice_action_bar_title" = "Chat";
+"customerservice_chat_room_unread_below" = "Tin Nhắn Chưa Đọc";
+"customerservice_chat_room_end_by_host" = "Nhân viên Chăm Sóc Khách Hàng đã đóng Cửa Sổ Trò Chuyện.";
+"customerservice_chat_room_ended_view_history" = "Nhân viên Chăm Sóc Khách Hàng đã đóng Cửa Sổ Trò Chuyện. Vui lòng kiểm tra Lịch Sử Trò Chuyện.";
+"customerservice_chat_room_your_queue_number" = "Xin lỗi, nhân viên Chăm Sóc Khách Hàng hiện đang bận. Số Thứ Tự của Quý Khách là %@. Cám ơn Quý Khách đã kiên nhẫn chờ đợi.";
+"customerservice_stop_call_title" = "Ngưng liên hệ
+Chăm Sóc Khách Hàng?";
+"customerservice_stop_call_content" = "Sau khi ngưng liên hệ Chăm Sóc Khách Hàng, Quý Khách có thể chọn để lại tin nhắn.";
+"customerservice_chat_room_close_confirm_title" = "Đóng Cửa Sổ Trò Chuyện?";
+"customerservice_chat_room_close_confirm_content" = "Xác nhận Đóng Cửa Sổ Trò Chuyện?";
+"customerservice_chat_ended" = "Trò Chuyện kết thúc";
+"customerservice_offline_survey_confirm_title" = "Thông Tin đã gửi";
+"customerservice_offline_survey_confirm_content" = "Nhân viên Chăm Sóc Khách Hàng sẽ liên hệ Quý Khách trong thời gian sớm nhất.";
+"customerservice_chat_room_connecting_title" = "Liên Hệ Chăm Sóc Khách Hàng";
+"customerservice_offline_survey_title" = "Tin Nhắn Mới";
+"customerservice_offline_survey_hint" = "Vui lòng nhập Nội Dung";
+"customerservice_chat_room_title" = "Chăm Sóc Khách Hàng";
+"customerservice_pre_survey_title" = "Khảo Sát Trước Trò Chuyện";
+"customerservice_history_edit_title" = "Chỉnh Sửa";
+"customerservice_history_title" = "Bản Ghi Cuộc Trò Chuyện";
+"customerservice_call_immediately" = "Liên Hệ Chăm Sóc Khách Hàng";
+"customerservice_call_connected" = "Trò Chuyện với Chăm Sóc Khách Hàng";
+"customerservice_chat_deleted" = "Lịch Sử Trò Chuyện đã xóa";
+"customerservice_chat_history_empty" = "Không có Lịch Sử Trò Chuyện";
+
+//MARK: - Bonus
+"bonus_amount" = "Tiền Thưởng";
+"bonus_bonuslockstatus_0" = "Không Có Yêu Cầu Đặt Cược";
+"bonus_bonuslockstatus_1" = "Đang Xử Lý";
+"bonus_bonuslockstatus_2" = "Đã Hoàn Thành";
+"bonus_bonuslockstatus_3" = "Đã Hủy";
+"bonus_bonusproducttype_1" = "Bảo Hiểm Cược Thể Thao";
+"bonus_bonusproducttype_2" = "Thưởng Giải Cứu Quay Số";
+"bonus_bonustype_manual" = "Nhận Thủ Công";
+"bonus_bonustype_1" = "Cược Miễn Phí";
+"bonus_bonustype_2" = "Thưởng Gửi Tiền";
+"bonus_bonustype_2_2" = "Thưởng Gửi Tiền";
+"bonus_bonustype_3" = "Sản Phẩm";
+"bonus_bonustype_4" = "Hoàn Trả";
+"bonus_bonustype_5" = "Thưởng Cấp Độ";
+"bonus_bonustype_all_count" = "Tất Cả (%@)";
+"bonus_bonustype_manual_count" = "Nhận Thủ Công (%@)";
+"bonus_bonustype_1_count" = "Cược Miễn Phí (%@)";
+"bonus_bonustype_2_count" = "Thưởng Gửi Tiền (%@)";
+"bonus_bonustype_3_count" = "Sản Phẩm (%@)";
+"bonus_bonustype_4_count" = "Hoàn Trả (%@)";
+"bonus_bonustype_5_count" = "Thưởng Cấp Độ (%@)";
+"bonus_categoryfilter" = "Lọc";
+"bonus_freebonus" = "Cược Miễn Phí";
+"bonus_getpromotion" = "Khuyến Mãi Đã Nhận";
+"bonus_getcoupon" = "Nhận Ngay";
+"bonus_getcoupon_time_limit" = "Thời Gian Nhận Thưởng";
+"bonus_gettop" = "Lên Đến";
+"bonus_history" = "Lịch Sử Khuyến Mãi ";
+"bonus_levelprivilege" = "Đặc Quyền Cấp Độ";
+"bonus_promotioncount" = "Tổng %@ Lần, %@";
+"bonus_producttype_1" = "Thể Thao";
+"bonus_status_expirydate" = "Hiệu Lực Đến Hết %@";
+"bonus_status_progressing" = "Hiệu Lực Đến Hết";
+"bonus_status_sbk_auditing" = "Đang Xem Xét";
+"bonus_status_sbk_notstart" = "Cho đến khi Trận Đấu bắt đầu";
+"bonus_status_sbk_progressing" = "Đang Trong Trận";
+"bonus_title" = "Khuyến Mãi";
+"bonus_rebate_title" = "Hoàn Trả %@ %@%%";
+"bonus_title_3_2" = "Thưởng Giải Cứu Quay Số";
+"bonus_title_4_1" = "Hoàn Trả Thể Thao %@%";
+"bonus_title_4_2" = "Hoàn Trả Quay Số %@%";
+"bonus_title_4_3" = "Hoàn Trả Casino %@%";
+"bonus_use" = "Nhận Thủ Công";
+"bonus_applicationtrial" = "Số Dư Hiện Tại: %@ VND.
+Tiền Thưởng Sẽ Nhận: %@ VND.
+Tổng Doanh Thu Cược yêu cầu sau khi nhận Tiền Thưởng: %@ VND.
+Công Thức Tính: %@ VND.";
+"bonus_islocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại.
+
+Chi tiết như sau:
+
+Mã Khuyến Mãi: %@
+
+Tên Khuyến Mãi: %@
+
+Tiền Thưởng Đã Nhận: %@ VND
+
+Ngày Nhận: %@
+
+Yêu Cầu Đặt Cược:
+
+Số Dư Hiện Tại: %@ VND
+
+Tiền Thưởng Sẽ Nhận: %@ VND
+
+Tổng Doanh Thu Cược yêu cầu sau khi nhận Tiền Thưởng: %@ VND
+
+Doanh Thu Cược Khuyến Mãi yêu cầu: %@
+
+Doanh Thu Cược Tiền Gửi yêu cầu: %@ VND
+
+Tổng Doanh Thu Cược yêu cầu: %@ VND
+
+Hiện Tại Đã Hoàn Thành: %@ VND
+
+Mức Độ Hoàn Thành: %@%";
+"bonus_historyno" = "Mã Khuyến Mãi";
+"bonus_historyname" = "Tên Khuyến Mãi";
+"bonus_historyamount" = "Tiền Thưởng Đã Nhận";
+"bonus_historydate" = "Ngày Nhận";
+"bonus_historybetmutipler" = "Doanh Thu Cược Khuyến Mãi yêu cầu";
+"bonus_historytrialbalance" = "Số Dư Hiện Tại";
+"bonus_historytrialamount" = "Tiền Thưởng Sẽ Nhận";
+"bonus_historytrialrequest" = "Tổng Doanh Thu Cược yêu cầu sau khi nhận Tiền Thưởng";
+"bonus_historytrialachieved" = "Hiện Tại Đã Hoàn Thành";
+"bonus_historytrialpercentage" = "Mức Độ Hoàn Thành";
+"bonus_historytrialformula" = "Công Thức Tính";
+"bonus_historytrialcompletion" = "Mức Độ Hoàn Thành";
+"bonus_unlimited" = "Không Giới Hạn";
+"bonus_allowautouse" = "Đồng ý cập nhật tự động Hoàn Trả trong tương lai?";
+"bonus_auto_use" = "Cập Nhật Tự Động";
+"bonus_confirmapplication" = "Xác Nhận";
+"bonus_applicationtips" = "Lưu Ý";
+"bonus_applicationtitle" = "Tên Khuyến Mãi: %@";
+"bonus_couponnostart" = "Bắt Đầu Vào Lúc %@";
+"bonus_promotioncontent" = "Nội Dung Khuyến Mãi";
+"bonus_promotionrule" = "Điều Khoản và Điều Kiện";
+"bonus_couponstatus_full_title" = "Hạn Ngạch Khuyến Mãi đã hết";
+"bonus_coupon_full" = "Hết Hạn Ngạch";
+"bonus_period" = "Ngày %@";
+"bonus_promotion" = "Khuyến Mãi";
+"bonus_compute" = "Hệ thống đang xử lý, vui lòng kiểm tra chi tiết sau 5 phút.";
+"bonus_isturnoverremind" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành của %@. Sau khi đã nhận Tiền Thưởng này, Quý Khách vẫn cần hoàn thành Doanh Thu Cược còn lại, trước khi có thể thực hiện Rút Tiền. Chi tiết như sau:";
+"bonus_current_completion" = "Hiện Tại Đã Hoàn Thành %@%%";
+"bonus_waiting" = "Hủy";
+"bonus_computelocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại.
+
+Chi tiết như sau:
+
+Hệ thống đang xử lý, vui lòng kiểm tra lại sau…";
+"bonus_receive" = "Đã Nhận";
+"bonus_receive_confirm" = "Xác nhận Nhận %@?";
+"bonus_receive_date" = "%@ Đã Nhận";
+"bonus_condition_error" = "Không Hợp Lệ";
+"bonus_orderby_desc" = "Thời Gian (Gần Đây đến Quá Khứ)";
+"bonus_orderby_asc" = "Thời Gian (Quá Khứ đến Gần Đây)";
+"bonus_custom_filter" = "Cài Đặt Lọc";
+"bonus_custom_sorting" = "Cài Đặt Sắp Xếp";
+"bonus_sortingandfilter" = "Sắp Xếp và Lọc";
+"bonus_usefreebet_title" = "Nhận Cược Miễn Phí";
+"bonus_usefreebet" = "Xác nhận Nhận Cược Miễn Phí?";
+"bonus_usebonus_fail" = "Nhận Thưởng không thành công";
+"bonus_turnover_adddeposit" = "Doanh Thu Cược Tiền Gửi yêu cầu";
+"bonus_turnover_total" = "Tổng Doanh Thu Cược yêu cầu";
+"bonus_detail_contentrule" = "Điều Khoản và Điều Kiện Khuyến Mãi Chung của KTO Châu Á";
+"bonus_usedepositbonus" = "Xác nhận Nhận Thưởng Gửi Tiền?";
+"bonus_rebate_unlimited" = "Không Giới Hạn";
+"bonus_deposit_not_satisfied" = "Rất tiếc, Quý Khách chưa đạt yêu cầu gửi tiền, do vậy không đủ điều kiện nhận tiền thưởng này.";
+"bonus_total_request" = "Tổng Doanh Thu Cược yêu cầu";
+"bonus_remain_request" = "Doanh Thu Cược còn lại";
+"bonus_get_bonus" = "Tiền Thưởng Đã Nhận";
+"bonus_turnover_hint_title" = "Chi tiết Doanh Thu Cược Tiền Thưởng của Quý Khách như sau:";
+"bonus_turnover_confirm_title" = "Quý Khách cần hoàn thành Doanh Thu Cược của %@ trước. Chi tiết như sau:";
+"bonus_error_balance_limit" = "Số dư tài khoản của Quý Khách không đủ, hiện tại không thể nhận tiền thưởng.";
+"bonus_error_bonus_quota_is_full" = "Rất tiếc, Hạn Ngạch Khuyến Mãi này đã hết. Vui lòng tham khảo các Khuyến Mãi khác. Xin lỗi vì sự bất tiện.";
+"bonus_quota_is_full" = "Hạn Ngạch Khuyến Mãi đã hết";
+"bonus_quota_is_full_message" = "Xin lỗi, vui lòng chọn Khuyến Mãi khác.";
+"bonus_use_expired_bonus_title" = "Khuyến Mãi đã hết hạn";
+"bonus_use_expired_bonus_content" = "Rất tiếc, Khuyến Mãi này đã hết hạn. Vui lòng tham khảo các Khuyến Mãi khác. Xin lỗi vì sự bất tiện.";
+
+//MARK: - Level
+"level_4" = "Hoàn Trả hàng ngày cho tất cả sản phẩm. Lên đến %@%% số tiền cược hợp lệ.";
+"level_90" = "Góp ý của Quý Khách, Ban Quản Trị sẽ họp để nghiên cứu...";
+"level_91" = "%@ lần một ngày, tổng hạn mức là %@ VND.";
+"level_92" = "Nhanh hơn và ổn định hơn, đặc quyền dành riêng cho Quý Khách.";
+"level_3_1" = "Đặt cược cho các trận đấu được chỉ định của Chúng Tôi, và Quý Khách sẽ được bảo hiểm với %@ VND mỗi trận.";
+"level_3_1_leveltop" = "\"Bảo vệ\" Quý Khách với Bảo Hiểm Cược hàng đầu cho những sự kiện Thể Thao cụ thể.";
+"level_3_2" = "\"Biệt Đội Giải Cứu\" của Chúng Tôi luôn tràn đầy năng lượng! Thưởng tối đa %@‬ VND.";
+"level_3_2_leveltop" = "Khôi phục lợi nhuận âm ngay lập tức với quỹ Giải Cứu siêu hạng nhất!";
+"level_4_leveltop" = "Hoàn Trả Cược Không Giới Hạn Hàng Đầu!";
+"level_5_0_level1" = "%@%% Thưởng Gửi Tiền Đầu Tiên!";
+"level_5_0_level2" = "Gửi Tiền Trở Lại và tận hưởng %@%% Thưởng!";
+"level_5_1" = "Tận hưởng %@%% Thưởng Gửi Tiền Hàng Tháng.";
+"level_5_2" = "Tận hưởng %@%% Thưởng Gửi Tiền Hàng Tuần.";
+"level_5_3" = "Tận hưởng %@%% Thưởng Gửi Tiền Hàng Ngày.";
+"level_5_4" = "Tận hưởng %@%% Thưởng Gửi Tiền Hàng Ngày.";
+"level_91_leveltop" = "Rút tiền của Quý Khách, Chúng Tôi sẽ cắt khỏi danh sách đợi và xử lý trực tiếp…";
+"level_desc_levelup" = "Tăng cấp! Chúc mừng Quý Khách đã tăng cấp lên Cấp Độ %@.";
+"level_desc_register" = "Chúc mừng, Quý Khách đã đăng ký thành công.";
+"level_detail_3_1_content" = "Số tiền thua cược Quay Số hợp lệ trong ngày càng cao, thưởng Giải Cứu càng lớn.";
+"level_detail_3_1_title" = "Hoàn Trả Lợi Nhuận Âm";
+"level_detail_3_1_title1" = "Tỷ Lệ Bảo Hiểm";
+"level_detail_3_1_title2" = "Tiền Thưởng Tối Đa";
+"level_detail_4_dailylimited" = "Giới Hạn Hàng Ngày";
+"level_detail_4_unlimited" = "Không Giới Hạn";
+"level_detail_5_content2_1" = "Quý Khách sẽ nhận được Thưởng Gửi Tiền này mỗi tháng.";
+"level_detail_5_content2_2" = "Quý Khách sẽ nhận được Thưởng Gửi Tiền này mỗi tuần.";
+"level_detail_5_content2_3" = "Quý Khách sẽ nhận được Thưởng Gửi Tiền này mỗi ngày.";
+"level_detail_5_content3" = "Số dư tối thiểu: %@ VND
+Rút tiền: Đặt cược tối thiểu %@ lần (Số Dư + Tiền Thưởng).";
+"level_detail_5_maxamount" = "Tiền Thưởng Tối Đa";
+"level_detail_5_title1" = "Thưởng Gửi Tiền Trở Lại";
+"level_detail_5_title1_first" = "Thưởng Gửi Tiền Đầu Tiên";
+"level_detail_5_title2_1" = "Thưởng Hàng Tháng";
+"level_detail_5_title2_2" = "Thưởng Hàng Tuần";
+"level_detail_5_title2_3" = "Thưởng Hàng Ngày";
+"level_detail_5_title3" = "Điều Khoản và Điều Kiện Thưởng Gửi Tiền";
+"level_disabled" = "Chưa mở khóa.";
+"level_experience" = "Điểm Kinh Nghiệm";
+"level_experience_title" = "Mô Tả
+Điểm Kinh Nghiệm";
+"level_experience_desc" = "Điểm Kinh Nghiệm liên quan đến hành vi giao dịch của thành viên trên website, ví dụ như gửi tiền. Cấp Độ tiếp theo càng cao, thành viên cần càng nhiều Điểm Kinh Nghiệm để tăng cấp. Cấp Độ cao hơn sẽ nhận được nhiều đặc quyền hơn.";
+"level_exclusive_90" = "Góp Ý";
+"level_exclusive_92" = "Đường Link Website";
+"level_level" = "Cấp Độ ";
+"level_levelprivilege" = "Đặc Quyền Cấp Độ ";
+"level_privilegetype_3" = "Đặc Quyền Sản Phẩm";
+"level_privilegetype_4" = "Đặc Quyền Hoàn Trả";
+"level_privilegetype_5" = "Đặc Quyền Gửi Tiền";
+"level_privilegetype_90" = "Đặc Quyền Độc Quyền";
+"level_privilegetype_91" = "Đặc Quyền Rút Tiền";
+"level_privilegetype_92" = "Đặc Quyền Độc Quyền";
+"level_producttype_1" = "Bảo Hiểm Cược Thể Thao";
+"level_producttype_2" = "Thưởng Giải Cứu Quay Số";
+"level_navigate_to_promotion" = "Đến Trang Khuyến Mãi";
+"level_product_rebate" = "Hoàn Trả Sản Phẩm";
+
+//MARK: - Notification
+"notification_type_0" = "Bảo Trì";
+"notification_type_1" = "Chung";
+"notification_type_2" = "Cá Nhân";
+"notification_type_activity" = "Hoạt Động";
+"notification_validate_message_1" = "Nhập ít nhất 3 ký tự.";
+"notification_empty_result" = "Không có nội dung phù hợp.";
+"notification_deleted" = "Đã Xóa";
+"notification_delete_title" = "Xác nhận Xóa?";
+"notification_delete_content" = "Thông Báo sẽ được xóa vĩnh viễn.";
+"notification_delete_button" = "Xóa Tin Nhắn Này";
+"notification_maintenancetime" = "Thời Gian Bảo Trì: %@ - %@";
+"notification_search_result" = "Kết Quả Tìm Kiếm";
+"notification_title" = "Thông Báo";
+"notification_search" = "Tìm Kiếm";
+"notification_result_empty" = "Hiện tại không có thông tin liên quan.";
+"notification_search_result_empty" = "Không có Kết Quả.";
+"notification_goto" = "Đi Đến";
+
+//MARK: - Activity
+"activity_status" = "Trạng Thái";
+"activity_0" = "Tài Khoản Cá Nhân";
+"activity_1" = "Gửi Tiền";
+"activity_2" = "Rút Tiền";
+"activity_3" = "Đường Link Website Riêng";
+"activity_4" = "Hoạt Động Đăng Nhập/Đăng Xuất";
+"activity_5" = "Tiền Thưởng";
+"activity_6" = "Điều Chỉnh";
+"activity_7" = "Cấp Độ";
+"activity_8" = "Thưởng Hoàn Trả Gửi Tiền";
+
+//MARK: - Notify
+"notify_10" = "Đăng Ký thành công";
+"notify_20" = "Gửi Tiền yêu cầu Xác Minh";
+"notify_30" = "Rút Tiền yêu cầu Xác Minh";
+"notify_40" = "Thay Đổi Họ Tên Rút Tiền yêu cầu Xác Minh";
+"notify_41" = "Thay đổi Họ Tên Rút Tiền thành công";
+"notify_42" = "Thay Đổi Họ Tên Rút Tiền không thành công";
+"notify_50" = "Thay đổi thông tin Ngân Hàng Nhận Tiền";
+"notify_51" = "Thay đổi thông tin Phương Thức Gửi Tiền";
+"notify_60" = "Nhận Tính Năng Độc Quyền";
+"notify_70" = "Gửi Tiền thành công";
+"notify_72" = "Gửi Tiền không thành công";
+"notify_80" = "Rút Tiền thành công";
+"notify_90" = "Rút Tiền đã hủy";
+"notify_100" = "Rút Tiền không thành công";
+"notify_110" = "Thay đổi thông tin Phương Thức Gửi Tiền";
+"notify_120" = "Thay đổi Số Tiền Rút khả dụng mỗi ngày";
+"notify_121" = "Thay đổi Số Lần Rút Tiền khả dụng mỗi ngày";
+"notify_130" = "Tiền Thưởng đã nhận";
+"notify_140" = "Số Dư đã điều chỉnh";
+"notify_150" = "Tăng Cấp";
+"notify_content_10" = "Chúc mừng, Quý Khách đã trở thành thành viên độc quyền.";
+"notify_content_20" = "Giao dịch %@ VND yêu cầu xác minh chứng từ.
+Mã Số Giao Dịch: %@";
+"notify_content_30" = "Giao dịch %@ VND yêu cầu xác minh chứng từ.
+Mã Số Giao Dịch: %@";
+"notify_content_40" = "Thay Đổi Họ Tên Rút Tiền yêu cầu xác minh chứng từ.";
+"notify_content_41" = "Chúc mừng, Họ Tên Rút Tiền của Quý Khách đã được thay đổi.";
+"notify_content_42" = "Thay Đổi Họ Tên Rút Tiền không thành công.
+Vui lòng kiểm tra tại mục cài đặt Thông Tin Cá Nhân – Họ Tên Rút Tiền.";
+"notify_content_50" = "Vui lòng lưu ý, thông tin Ngân Hàng Nhận Tiền của Quý Khách đã được thay đổi.";
+"notify_content_51" = "Vui lòng lưu ý, thông tin Phương Thức Gửi Tiền đã được thay đổi.";
+"notify_content_60" = "Chúc mừng, Quý Khách đã nhận được %@.
+\n %@:%@";
+"notify_content_70" = "Giao dịch %@ VND đã thành công, vui lòng kiểm tra số dư tài khoản.";
+"notify_content_72" = "Giao dịch %@ VND đã không thành công.";
+"notify_content_80" = "Chúc mừng, giao dịch %@ VND đã thanh toán thành công.";
+"notify_content_90" = "Giao dịch rút tiền %@ VND đã hủy.";
+"notify_content_100" = "Giao dịch %@ VND đã không thành công.
+Mã Số Giao Dịch: %@";
+"notify_content_110" = "Vui lòng lưu ý, thông tin Phương Thức Gửi Tiền đã được thay đổi.";
+"notify_content_120" = "Chúc mừng, Số Tiền Rút khả dụng mỗi ngày của Quý Khách đã tăng lên %@ VND.";
+"notify_content_121" = "Chúc mừng, Số Lần Rút Tiền khả dụng mỗi ngày của Quý Khách đã tăng lên %@ Lần.";
+"notify_content_130" = "Chúc mừng, Quý Khách đã nhận được %@ VND tiền thưởng.";
+"notify_content_140" = "%@ VND đã được điều chỉnh vào số dư tài khoản của Quý Khách.";
+"notify_content_150" = "Chúc mừng, Quý Khách đã đạt Cấp Độ %@ thành viên KTO Châu Á.";
+
+//MARK: - Profile
+"profile_safety_verification_title" = "Xác Minh Bảo Mật";
+"profile_safety_verification_description" = "Để bảo mật tài khoản, Quý Khách vui lòng xác minh Mật Khẩu Đăng Nhập.";
+"profile_wrong_password" = "Mật Khẩu không chính xác!";
+"profile_wrong_password_over_limit" = "Mật Khẩu đã được nhập không chính xác hơn 5 lần, vui lòng đăng nhập lại.";
+"profile_my" = "Hồ Sơ";
+"profile_personal_information" = "Thông Tin Cá Nhân";
+"profile_change_password" = "Thay Đổi Mật Khẩu";
+"profile_change_password_title" = "Cài Đặt Mật Khẩu Mới";
+"profile_change_password_description" = "Không thể trùng Mật Khẩu cũ.";
+"profile_player_game_id" = "Mã Số Trò Chơi Thành Viên";
+"profile_player_game_id_description" = "Do hệ thống tự động tạo ra. Nhằm bảo vệ quyền riêng tư của tài khoản Quý Khách, Mã Số này đóng vai trò như mã tên của Quý Khách trong mỗi trò chơi của KTO Châu Á.";
+"profile_field_not_set" = "Chưa được cài đặt";
+"profile_setting" = "Cài Đặt";
+"profile_about" = "Chính Sách";
+"profile_real_name_ticket_on_going_not_editable" = "Quý Khách đang thực hiện giao dịch rút tiền. Vui lòng vào mục Rút Tiền để hủy, sau đó thực hiện lại việc thay đổi Họ Tên Rút Tiền.";
+"profile_real_name_title" = "Thay Đổi Họ Tên Rút Tiền";
+"profile_real_name_description" = "Sau khi rút tiền thành công, Họ Tên Rút Tiền sẽ được ràng buộc với tài khoản và không thể thay đổi.";
+"profile_real_name_edit_forbidden" = "Không thể thay đổi Họ Tên Rút Tiền.";
+"profile_birthday_title" = "Cài Đặt Ngày Sinh";
+"profile_birthday_description" = "Ngày Sinh có thể sử dụng để Xác Minh Bảo Mật, Quý Khách vui lòng đảm bảo điền thông tin xác thực.";
+"profile_birthday_button" = "Xác Nhận";
+"profile_birthday_not_adult" = "Quý Khách đã xác nhận rằng Quý Khách ít nhất 18 tuổi tại thời điểm đăng ký.";
+"profile_identity_mobile_bound_already_hint" = "Số Di Động hiện tại đã được ràng buộc. Nếu cần thay đổi, hệ thống sẽ gửi Mã Xác Minh đến Số Di Động này để xác minh.";
+"profile_identity_email_bound_already_hint" = "Email hiện tại đã được ràng buộc. Nếu cần thay đổi, hệ thống sẽ gửi Mã Xác Minh đến Email này để xác minh.";
+"profile_identity_mobile_step1" = "Cài Đặt Số Di Động Mới 1/4";
+"profile_identity_email_step1" = "Cài Đặt Email Mới 1/4";
+"profile_identity_mobile_step1_description" = "Để bảo mật tài khoản, Quý Khách vui lòng
+xác minh Số Di Động Hiện Tại.
+
+Mã Xác Minh gồm 4 số
+sẽ được gửi Qua Cuộc Gọi đến
+%@";
+"profile_identity_email_step1_description" = "Để bảo mật tài khoản, Quý Khách vui lòng
+xác minh Email Hiện Tại.
+
+Mã Xác Minh gồm 6 số
+sẽ được gửi đến
+%@";
+"profile_identity_mobile_step1_description_hightlight" = "Qua Cuộc Gọi";
+"profile_identity_old_mobile_fail" = "Đã xảy ra lỗi trong Mã Xác Minh được gửi bởi Số Di Động Hiện Tại. Vui lòng cài đặt lại.";
+"profile_identity_old_email_fail" = "Đã xảy ra lỗi trong Mã Xác Minh được gửi bởi Email Hiện Tại. Vui lòng cài đặt lại.";
+"profile_sms_inactive" = "Tạm thời không thể thiết lập Số Di Động. Vui lòng thử lại sau.";
+"profile_email_inactive" = "Tạm thời không thể thiết lập Email. Vui lòng thử lại sau.";
+"profile_identity_email_modify_fail" = "Thay đổi Email không thành công";
+"profile_identity_mobile_modify_fail" = "Thay đổi Số Di Động không thành công";
+"profile_identity_mobile_step2" = "Cài Đặt Số Di Động Mới 2/4";
+"profile_identity_email_step2" = "Cài Đặt Email Mới 2/4";
+"profile_identity_mobile_step2_title" = "Xác Minh
+Số Di Động Hiện Tại";
+"profile_identity_email_step2_title" = "Xác Minh
+Email Hiện Tại";
+"profile_identity_mobile_step3" = "Cài Đặt Số Di Động Mới 3/4";
+"profile_identity_email_step3" = "Cài Đặt Email Mới 3/4";
+"profile_identity_mobile_step3_title" = "Số Di Động Mới";
+"profile_identity_email_step3_title" = "Email Mới";
+"profile_identity_mobile_step3_description" = "Vui lòng nhập Số Di Động Mới
+để nhận mã xác minh.";
+"profile_identity_email_step3_description" = "Vui lòng nhập Email Mới
+để nhận mã xác minh.";
+"profile_identity_mobile_step4" = "Cài Đặt Số Di Động Mới 4/4";
+"profile_identity_email_step4" = "Cài Đặt Email Mới 4/4";
+"profile_identity_mobile_step4_title" = "Xác Minh Số Di Động Mới";
+"profile_identity_email_step4_title" = "Xác Minh Email Mới";
+"profile_identity_mobile_modify_success" = "Số Di Động của Quý Khách đã được thay đổi thành công, vui lòng đăng nhập lại.";
+"profile_identity_email_modify_success" = "Email của Quý Khách đã được thay đổi thành công, vui lòng đăng nhập lại.";
+"profile_otp_exceed_otp_limit" = "Quý Khách đã yêu cầu quá Số Lần Gửi khả dụng. Vui lòng thử lại vào 00:00 ngày mai.";
+"profile_home_page_setting" = "Cài Đặt Trang Chủ";
+"profile_home_page_setting_description" = "Cài Đặt này sẽ ảnh hưởng đến Trang Chủ sau khi đăng nhập.";
+"profile_defaultproduct_title" = "Cài Đặt Trang Chủ";
+"profile_defaultproduct_description" = "Mặc định hiện tại là Thể Thao. Bây giờ Quý Khách có thể tùy chọn một Sản Phẩm để đặt làm Trang Chủ mới, hoặc thay đổi sau.";
+"profile_defaultproduct_sportsbook_description" = "Những sự kiện Thể Thao toàn diện
+nhất. Một khi đã sở hữu Nền Tảng
+Cược Thể Thao KTO, Quý Khách
+sẽ không còn cần gì khác!";
+"profile_defaultproduct_casino_description" = "KTO mang màu rực đỏ như chính
+vận đỏ của Quý Khách tại 'Sòng' KTO.
+Có vận đỏ là có long mạch.
+Có long mạch là có cả thế giới!";
+"profile_defaultproduct_slot_description" = "Chỉ một lần trúng Tính Năng
+Thưởng, Quý Khách sẽ thấy mình
+đang đứng trên Đỉnh Everest.
+Quay Slot, không gì là không thể!";
+"profile_defaultproduct_end_setting_title" = "Xác nhận kết thúc Cài Đặt này?";
+"profile_defaultproduct_end_setting_description" = "Cài Đặt Trang Chủ chưa hoàn tất. Cho lần đăng nhập tiếp theo, mặc định của Trang Chủ sẽ là Thể Thao.";
+"profile_defaultproduct_keno_description" = "Hiểu rõ bí ẩn của những con số
+Đã mang Isaac Newton đến với
+thành công. Và với Trò Chơi Số,
+Quý Khách cũng sẽ vậy!";
+"profile_bind_identity_locked" = "Vì lý do bảo mật, tài khoản của Quý Khách đã bị đóng băng. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
+"profile_new_mobile_description" = "Số Di Động có thể sử dụng để Đăng Nhập và Xác Minh Bảo Mật.
+Vui lòng nhập Số Di Động để nhận Mã Xác Minh.";
+
+//MARK: - (Deprecated)License
+
+//MARK: - (Deprecated)Landing
+
+//MARK: - (Ignore)Localization
+
+//MARK: - (Ignore)Bug

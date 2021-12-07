@@ -131,7 +131,7 @@
                                                 <color key="textColor" name="textPrimaryDustyGray"/>
                                                 <nil key="highlightedColor"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="promotion_history_empty"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_no_record_temporarily"/>
                                                 </userDefinedRuntimeAttributes>
                                             </label>
                                         </subviews>
