@@ -12,7 +12,7 @@ import Moya
 class PortalApi{
     
     private var httpClient : HttpClient!
-
+    
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
     }
@@ -26,12 +26,21 @@ class PortalApi{
         return httpClient.request(target).map(ResponseData<OtpStatus>.self)
     }
     
-    func getLocalization()->Single<ResponseData<ILocalizationData>>{
+    func getLocalization() -> Single<ResponseData<ILocalizationData>> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
                                path: "api/init/localization",
                                method: .get,
                                task: .requestPlain,
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<ILocalizationData>.self)
+    }
+    
+    func initLocale(cultureCode: String) -> Completable {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/init/culture/\(cultureCode)",
+                               method: .post,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).asCompletable()
     }
 }

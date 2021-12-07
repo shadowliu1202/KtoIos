@@ -903,6 +903,18 @@
 		6090F608267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */; };
 		6090F609267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */; };
 		6090F60B267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */; };
+		609A0D272758773E003242AE /* LocalizationPolicyUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D262758773E003242AE /* LocalizationPolicyUseCase.swift */; };
+		609A0D282758773E003242AE /* LocalizationPolicyUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D262758773E003242AE /* LocalizationPolicyUseCase.swift */; };
+		609A0D292758773E003242AE /* LocalizationPolicyUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D262758773E003242AE /* LocalizationPolicyUseCase.swift */; };
+		609A0D2B27587822003242AE /* TermsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D2A27587822003242AE /* TermsDetail.swift */; };
+		609A0D2C27587822003242AE /* TermsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D2A27587822003242AE /* TermsDetail.swift */; };
+		609A0D2D27587822003242AE /* TermsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D2A27587822003242AE /* TermsDetail.swift */; };
+		609A0D2F27589EC6003242AE /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D2E27589EC6003242AE /* TermsViewModel.swift */; };
+		609A0D3027589EC6003242AE /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D2E27589EC6003242AE /* TermsViewModel.swift */; };
+		609A0D3127589EC6003242AE /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D2E27589EC6003242AE /* TermsViewModel.swift */; };
+		609A0D332758B34C003242AE /* LocalizationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D322758B34C003242AE /* LocalizationRepository.swift */; };
+		609A0D342758B34C003242AE /* LocalizationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D322758B34C003242AE /* LocalizationRepository.swift */; };
+		609A0D352758B34C003242AE /* LocalizationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609A0D322758B34C003242AE /* LocalizationRepository.swift */; };
 		60A27EA2270EC1BB00B9ACCA /* WithdrawalCryptoDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A27EA1270EC1BB00B9ACCA /* WithdrawalCryptoDetailRowView.swift */; };
 		60A27EA3270EC1BB00B9ACCA /* WithdrawalCryptoDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A27EA1270EC1BB00B9ACCA /* WithdrawalCryptoDetailRowView.swift */; };
 		60A27EA4270EC1BB00B9ACCA /* WithdrawalCryptoDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A27EA1270EC1BB00B9ACCA /* WithdrawalCryptoDetailRowView.swift */; };
@@ -1549,11 +1561,11 @@
 		48339D3C255A48B400AE6715 /* GameInfoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameInfoRepository.swift; sourceTree = "<group>"; };
 		4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageAndCurrencyCell.swift; sourceTree = "<group>"; };
 		483F42BA258C41A90091960B /* UIWindowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindowExtension.swift; sourceTree = "<group>"; };
-		4840645A25871BC70064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4840645A25871BC70064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi-vn.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		4840645B25871D760064AAC9 /* LocalizeUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizeUtils.swift; sourceTree = "<group>"; };
 		4840646C258721740064AAC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/infoPlist.strings; sourceTree = "<group>"; };
-		4840646E258721780064AAC9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/infoPlist.strings"; sourceTree = "<group>"; };
-		4840646F2587217B0064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/infoPlist.strings; sourceTree = "<group>"; };
+		4840646E258721780064AAC9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-cn.lproj/infoPlist.strings"; sourceTree = "<group>"; };
+		4840646F2587217B0064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi-vn.lproj/infoPlist.strings"; sourceTree = "<group>"; };
 		48406475258736170064AAC9 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/infoPlist.strings; sourceTree = "<group>"; };
 		48406476258736180064AAC9 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4840648C258742150064AAC9 /* Signup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Signup.storyboard; sourceTree = "<group>"; };
@@ -1616,7 +1628,7 @@
 		48CC321E2551432C00C9D1BF /* DefaultProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProductViewModel.swift; sourceTree = "<group>"; };
 		48CC32312551488F00C9D1BF /* ConfigurationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationUseCase.swift; sourceTree = "<group>"; };
 		48D7F9EA2575E38B00540B85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		48D7F9EE2575E38E00540B85 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		48D7F9EE2575E38E00540B85 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-cn.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		48EDC9682564EE6D0046C337 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		48EDC96C2564EE8D0046C337 /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
 		48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSCodeTextField.swift; sourceTree = "<group>"; };
@@ -1797,6 +1809,10 @@
 		609013692640EE7000419F8E /* ktobet-asia-ios-staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-staging.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6090138B2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-staging-Info.plist"; sourceTree = "<group>"; };
 		6090F607267DE1D60057E9E9 /* AddCryptoAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCryptoAccountViewController.swift; sourceTree = "<group>"; };
+		609A0D262758773E003242AE /* LocalizationPolicyUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationPolicyUseCase.swift; sourceTree = "<group>"; };
+		609A0D2A27587822003242AE /* TermsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsDetail.swift; sourceTree = "<group>"; };
+		609A0D2E27589EC6003242AE /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
+		609A0D322758B34C003242AE /* LocalizationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationRepository.swift; sourceTree = "<group>"; };
 		60A27EA1270EC1BB00B9ACCA /* WithdrawalCryptoDetailRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoDetailRowView.swift; sourceTree = "<group>"; };
 		60AE474B25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositOfflineConfirmViewController.swift; sourceTree = "<group>"; };
 		60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = slideMenu.storyboard; sourceTree = "<group>"; };
@@ -2305,6 +2321,7 @@
 				608112BA26EF4F4300920B06 /* TransactionLogUseCase.swift */,
 				6085F3DA271E968600483188 /* CustomerServiceUseCase.swift */,
 				6D9938EA271FB1D30068A616 /* CustomerServiceSurveyUseCase.swift */,
+				609A0D262758773E003242AE /* LocalizationPolicyUseCase.swift */,
 			);
 			path = usecase;
 			sourceTree = "<group>";
@@ -2338,6 +2355,7 @@
 				600E240926CB51AB00D8B073 /* PromotionRepository.swift */,
 				608112BE26EF4F9800920B06 /* TransactionLogRepository.swift */,
 				60340CD727291C0E008680BC /* ChatRoomSignalRClient.swift */,
+				609A0D322758B34C003242AE /* LocalizationRepository.swift */,
 				6D0701E1272AAB05002A5715 /* SettingStore.swift */,
 				6D0701E9272B8A62002A5715 /* Persistent.swift */,
 			);
@@ -2502,7 +2520,6 @@
 			isa = PBXGroup;
 			children = (
 				6D986A5F271833C500194E0D /* customService */,
-				6DB1957F2701A9BF003C6730 /* sbk */,
 				6D17950926A5626D001C8BF8 /* level */,
 				48EDC9672564EE5E0046C337 /* launch */,
 				4808020C25428EA50002AD41 /* login */,
@@ -2514,6 +2531,7 @@
 				6D92AD8525FAFFAA0093D94C /* KTOViewModel.swift */,
 				418EB32D25FF0EEA0093F124 /* MainDebugViewController.swift */,
 				600F4A09264E449300827EB1 /* ServiceStatusViewModel.swift */,
+				609A0D2E27589EC6003242AE /* TermsViewModel.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -2529,6 +2547,7 @@
 		48CC320425513ADA00C9D1BF /* lobby */ = {
 			isa = PBXGroup;
 			children = (
+				6DB1957F2701A9BF003C6730 /* sbk */,
 				6DCC261C27587808007C973B /* AccountNotify */,
 				6DCC261727587701007C973B /* AccountInfo */,
 				608112AD26EF4CC600920B06 /* TransactionLog */,
@@ -3054,6 +3073,7 @@
 				6D6E6FFC27507A28005D88A6 /* CurrencyUnit.swift */,
 				6D6E706327547755005D88A6 /* DepositSystem.swift */,
 				6D6E708527560307005D88A6 /* AccountPatternGeneratorFactory.swift */,
+				609A0D2A27587822003242AE /* TermsDetail.swift */,
 				6DD242342759C73100EE5B1A /* CashAmount.swift */,
 			);
 			path = model;
@@ -3214,6 +3234,8 @@
 				"zh-Hans",
 				vi,
 				th,
+				"zh-CN",
+				"vi-VN",
 			);
 			mainGroup = 485DF02F25415453001F9D4A;
 			productRefGroup = 485DF03925415453001F9D4A /* Products */;
@@ -3705,6 +3727,7 @@
 				600E241E26CB530400D8B073 /* PromotionViewModel.swift in Sources */,
 				6018FA2D26959BF700941BDD /* P2PTableViewCell.swift in Sources */,
 				6D4E995C26369E6600860FF7 /* SlotApi.swift in Sources */,
+				609A0D2C27587822003242AE /* TermsDetail.swift in Sources */,
 				4199A03625AE9918002E2D7E /* HttpConnectionOptions.swift in Sources */,
 				60D476B0260DABF8002EDD4D /* WithdrawalRequestConfirmViewController.swift in Sources */,
 				4199A03725AE9918002E2D7E /* CountDownTimer.swift in Sources */,
@@ -3824,6 +3847,7 @@
 				60C642252741F36B00868D6A /* ChatHistoryViewController.swift in Sources */,
 				6D0701EB272B8A62002A5715 /* Persistent.swift in Sources */,
 				6DDD335626CCE72B0081A846 /* BonusType.swift in Sources */,
+				609A0D342758B34C003242AE /* LocalizationRepository.swift in Sources */,
 				4199A04E25AE9918002E2D7E /* Operators.swift in Sources */,
 				6090F609267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */,
 				60E19518272BC4000095404A /* CustomerServiceIconViewWindow.swift in Sources */,
@@ -3900,6 +3924,7 @@
 				4199A06525AE9918002E2D7E /* TermsOfServiceCell.swift in Sources */,
 				60228C6A26DF52C7008EC641 /* PromotionRuleTermViewController.swift in Sources */,
 				6DF907912697DC9D0086AF54 /* P2PBetSummaryByDateViewController.swift in Sources */,
+				609A0D282758773E003242AE /* LocalizationPolicyUseCase.swift in Sources */,
 				6D3E28D726BBC9910002F350 /* WebGameUseCase.swift in Sources */,
 				6034624526327E3200F5D1D9 /* UICollectionViewExtension.swift in Sources */,
 				4199A06625AE9918002E2D7E /* DefaultHttpClient.swift in Sources */,
@@ -4020,6 +4045,7 @@
 				6077037D25C80E45003FBEE4 /* DepositGatewayViewController.swift in Sources */,
 				6034629E26327ED100F5D1D9 /* CasinoGame.swift in Sources */,
 				4199A08325AE9918002E2D7E /* GetSystemStatusUseCase.swift in Sources */,
+				609A0D3027589EC6003242AE /* TermsViewModel.swift in Sources */,
 				41077DB125BA637F0057B340 /* AccountMask.swift in Sources */,
 				4199A08425AE9918002E2D7E /* LanguageAndCurrencyCell.swift in Sources */,
 				6DA88BF62696F203008D77B9 /* P2PRecordUseCase.swift in Sources */,
@@ -4152,6 +4178,7 @@
 				600E241D26CB530400D8B073 /* PromotionViewModel.swift in Sources */,
 				6018FA2C26959BF700941BDD /* P2PTableViewCell.swift in Sources */,
 				6D4E995B26369E6600860FF7 /* SlotApi.swift in Sources */,
+				609A0D2B27587822003242AE /* TermsDetail.swift in Sources */,
 				60BCC2D025B6D8AF00C56D6E /* PlayerViewModel.swift in Sources */,
 				60D476AF260DABF8002EDD4D /* WithdrawalRequestConfirmViewController.swift in Sources */,
 				48AAA120256E458800E075CA /* TermsOfServiceViewController.swift in Sources */,
@@ -4271,6 +4298,7 @@
 				60C642242741F36B00868D6A /* ChatHistoryViewController.swift in Sources */,
 				6D0701EA272B8A62002A5715 /* Persistent.swift in Sources */,
 				6DDD335526CCE72B0081A846 /* BonusType.swift in Sources */,
+				609A0D332758B34C003242AE /* LocalizationRepository.swift in Sources */,
 				48AAA138256E458800E075CA /* ResponseData.swift in Sources */,
 				6090F608267DE1D60057E9E9 /* AddCryptoAccountViewController.swift in Sources */,
 				60E19517272BC4000095404A /* CustomerServiceIconViewWindow.swift in Sources */,
@@ -4347,6 +4375,7 @@
 				48AAA14C256E458800E075CA /* SignupUserInfoViewModel.swift in Sources */,
 				60228C6926DF52C7008EC641 /* PromotionRuleTermViewController.swift in Sources */,
 				6DF907902697DC9D0086AF54 /* P2PBetSummaryByDateViewController.swift in Sources */,
+				609A0D272758773E003242AE /* LocalizationPolicyUseCase.swift in Sources */,
 				6D3E28D626BBC9910002F350 /* WebGameUseCase.swift in Sources */,
 				6034624426327E3200F5D1D9 /* UICollectionViewExtension.swift in Sources */,
 				48AAA14D256E458800E075CA /* NegotiationResponse.swift in Sources */,
@@ -4467,6 +4496,7 @@
 				6077037C25C80E45003FBEE4 /* DepositGatewayViewController.swift in Sources */,
 				6034629D26327ED100F5D1D9 /* CasinoGame.swift in Sources */,
 				35B9B397259B028800050914 /* ResetPasswordViewModel.swift in Sources */,
+				609A0D2F27589EC6003242AE /* TermsViewModel.swift in Sources */,
 				485E35F12588AA8500EEF23F /* GetSystemStatusUseCase.swift in Sources */,
 				48AAA165256E458800E075CA /* LanguageAndCurrencyCell.swift in Sources */,
 				6DA88BF52696F203008D77B9 /* P2PRecordUseCase.swift in Sources */,
@@ -4495,6 +4525,7 @@
 				6D4083B7265206E300BECD0E /* NumberGameRecordViewModel.swift in Sources */,
 				60C642262741F36B00868D6A /* ChatHistoryViewController.swift in Sources */,
 				6090126D2640EE7000419F8E /* SystemViewModel.swift in Sources */,
+				609A0D352758B34C003242AE /* LocalizationRepository.swift in Sources */,
 				60340CDA27291C0E008680BC /* ChatRoomSignalRClient.swift in Sources */,
 				6D6E706627547755005D88A6 /* DepositSystem.swift in Sources */,
 				6090126E2640EE7000419F8E /* DictionaryExtension.swift in Sources */,
@@ -4503,6 +4534,7 @@
 				6090126F2640EE7000419F8E /* HubConnectionBuilder.swift in Sources */,
 				600E240626CB514300D8B073 /* PromotionApi.swift in Sources */,
 				609012702640EE7000419F8E /* DropDownInputText.swift in Sources */,
+				609A0D2D27587822003242AE /* TermsDetail.swift in Sources */,
 				609012722640EE7000419F8E /* UIViewControllerExtension.swift in Sources */,
 				6D40841726525FE400BECD0E /* NumberGame.swift in Sources */,
 				6D87629D26F1E4CA00EFD6CE /* TransactionLogDetailViewController.swift in Sources */,
@@ -4582,6 +4614,7 @@
 				6090129B2640EE7000419F8E /* HttpConnectionOptions.swift in Sources */,
 				6090129C2640EE7000419F8E /* WithdrawalRequestConfirmViewController.swift in Sources */,
 				6090129D2640EE7000419F8E /* CountDownTimer.swift in Sources */,
+				609A0D292758773E003242AE /* LocalizationPolicyUseCase.swift in Sources */,
 				6D17954826A65A86001C8BF8 /* NextLevelTableViewCell.swift in Sources */,
 				6090129E2640EE7000419F8E /* TransportType.swift in Sources */,
 				6090129F2640EE7000419F8E /* iOSDropDown.swift in Sources */,
@@ -4840,6 +4873,7 @@
 				60E19519272BC4000095404A /* CustomerServiceIconViewWindow.swift in Sources */,
 				6D5B14DB264A7B45004138E8 /* SlotGame.swift in Sources */,
 				609013262640EE7000419F8E /* HttpClientProtocol.swift in Sources */,
+				609A0D3127589EC6003242AE /* TermsViewModel.swift in Sources */,
 				609013272640EE7000419F8E /* TableViewCell.swift in Sources */,
 				609013282640EE7000419F8E /* WithdrawalPresenter.swift in Sources */,
 				6D6E706027546C1C005D88A6 /* CryptoViewModel.swift in Sources */,

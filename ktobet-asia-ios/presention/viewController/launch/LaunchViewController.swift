@@ -8,15 +8,12 @@ class LaunchViewController : UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DispatchQueue.main.asyncAfter(deadline: .now() ) { [self] in
-            self.viewModel
-                .checkIsLogged()
-                .subscribe { (isLogged) in
-                    self.nextPage(isLogged: isLogged)
-                } onError: { (error) in
-                    self.nextPage(isLogged: false)
-                }.disposed(by: disposeBag)
-        }
+        self.viewModel.initLocale().andThen(self.viewModel.checkIsLogged())
+            .subscribe { (isLogged) in
+                self.nextPage(isLogged: isLogged)
+            } onError: { (error) in
+                self.nextPage(isLogged: false)
+            }.disposed(by: disposeBag)
     }
     
     func nextPage(isLogged: Bool) {
@@ -25,7 +22,7 @@ class LaunchViewController : UIViewController{
         }).disposed(by: disposeBag)
         
         if isLogged {
-            viewModel.loadPlayerInfo().subscribe { (player) in
+            self.viewModel.initLocale().andThen(self.viewModel.loadPlayerInfo()).subscribe { (player) in
                 NavigationManagement.sharedInstance.goTo(productType: player.defaultProduct)
             } onError: { (error) in
                 NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")

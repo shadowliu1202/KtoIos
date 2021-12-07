@@ -1,4 +1,6 @@
 import UIKit
+import RxSwift
+
 
 class PromotionRuleTermViewController: UIViewController {
     static let segueIdentifier = "toPromotionRuleTerm"
@@ -6,33 +8,25 @@ class PromotionRuleTermViewController: UIViewController {
     
     var privacyTitle = ""
     
+    private var viewModel = DI.resolve(TermsViewModel.self)!
+    private var disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close)
         textView.delegate = self
         
-        privacyTitle = Localize.string("license_promotion_terms")
-        //TODO: get from API
-        let RuleTermTxt =
-            privacyTitle + "\n\n" +
-            Localize.string("license_promotion_warning_1") + "\n\n" +
-            Localize.string("license_promotion_warning_2") + "\n\n" +
-            Localize.string("license_promotion_warning_3") + "\n\n" +
-            Localize.string("license_promotion_warning_4") + "\n\n" +
-            Localize.string("license_promotion_warning_5") + "\n\n" +
-            Localize.string("license_promotion_warning_6") + "\n\n" +
-            Localize.string("license_promotion_warning_7") + "\n\n" +
-            Localize.string("license_promotion_warning_8") + "\n\n" +
-            Localize.string("license_promotion_warning_9") + "\n\n" +
-            Localize.string("license_promotion_warning_10") + "\n\n" +
-            Localize.string("license_promotion_warning_11") + "\n\n" +
-            String(Localize.string("license_promotion_warning_12").dropLast()) + Localize.string("license_promotion_privacyppolicy") + "。 \n\n" +
-            Localize.string("license_promotion_warning_13") + "\n\n" +
-            Localize.string("license_promotion_warning_14")
+        var ruleTermTxt = ""
+        viewModel.getPromotionPolicy().subscribe {[weak self] p in
+            self?.privacyTitle = p.title
+            ruleTermTxt = p.title  + "\n\n"
+            p.content.forEach{ ruleTermTxt += ($0 + "\n\n").replacingOccurrences(of: "{policy}", with: p.linkTitle) }
+            self?.addHyperLinksToText(originalText: ruleTermTxt, hyperLinks: [p.linkTitle: "someUrl1"])
+        } onError: {[weak self] error in
+            self?.handleErrors(error)
+        }.disposed(by: disposeBag)
         
         textView.textContainerInset = UIEdgeInsets(top: 30, left: 30, bottom: 96, right: 30)
-        addHyperLinksToText(originalText: RuleTermTxt, hyperLinks: [Localize.string("license_promotion_privacyppolicy"): "someUrl1"])
-        textView.sizeToFit()
     }
     
     private func addHyperLinksToText(originalText: String, hyperLinks: [String: String]) {
@@ -51,6 +45,7 @@ class PromotionRuleTermViewController: UIViewController {
             NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
         ]
         textView.attributedText = attributedOriginalText
+        textView.sizeToFit()
     }
     
     private func setTextFont(attributedOriginalText: inout NSMutableAttributedString) {

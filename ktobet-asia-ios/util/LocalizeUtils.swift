@@ -45,20 +45,26 @@ class LocalizeUtils: NSObject {
         return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")
     }
     
-    func setLanguage(language : Language){
-        let lang = language.rawValue
+    func setLanguage(language : SupportLocale) {
+        let lang = language.cultureCode()
         UserDefaults.standard.setValue(lang, forKey: "UserLanguage")
     }
     
-    func getLanguage()-> String{
-        let lang = UserDefaults.standard.string(forKey: "UserLanguage")
-        switch lang {
-        case Language.ZH.rawValue: return lang!
-        case Language.TH.rawValue: return lang!
-        case Language.VI.rawValue: return lang!
-        default:
-            UserDefaults.standard.setValue(Language.ZH.rawValue, forKey: "UserLanguage")
-            return Language.ZH.rawValue
+    func getLanguage() -> String {
+        if let lang = UserDefaults.standard.string(forKey: "UserLanguage") {
+            return lang
+        } else {
+            switch Locale.current.languageCode {
+            case "zh":
+                setLanguage(language: SupportLocale.China.init())
+                return SupportLocale.China.shared.cultureCode()
+            case "vi":
+                setLanguage(language: SupportLocale.Vietnam.init())
+                return SupportLocale.Vietnam.shared.cultureCode()
+            default:
+                setLanguage(language: SupportLocale.China.init())
+                return SupportLocale.China.shared.cultureCode()
+            }
         }
     }
 }

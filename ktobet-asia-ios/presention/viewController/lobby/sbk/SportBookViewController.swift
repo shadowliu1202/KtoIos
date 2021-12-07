@@ -11,7 +11,7 @@ class SportBookViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("landing_sportsbook_title"))
+        NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_sportsbook"))
         DispatchQueue.main.async {
             self.view.addSubview(self.activityIndicator, constraints: [
                 .equal(\.centerXAnchor),

@@ -106,4 +106,13 @@ class PlayerApi {
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<String>.self)
     }
+    
+    func getCultureCode() -> Single<ResponseData<String>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/init/culture",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<String>.self)
+    }
 }

@@ -203,6 +203,10 @@ class DIContainer {
             let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
             return AccountPatternGeneratorFactory.create(repoLocalStorage.getSupportLocal())
         }
+        ctner.register(LocalizationRepository.self) { (resolver) in
+            let portalApi = ctner.resolve(PortalApi.self)!
+            return LocalizationRepositoryImpl(portalApi)
+        }
     }
     
     func registUsecase(){
@@ -334,6 +338,10 @@ class DIContainer {
             let surver = ctner.resolve(SurveyInfraService.self)!
             return CustomerServiceUseCaseImpl(repo, customerInfraService: infra, surveyInfraService: surver)
         }
+        ctner.register(LocalizationPolicyUseCase.self) { (resolver)  in
+            let repoLocalization = ctner.resolve(LocalizationRepository.self)!
+            return LocalizationPolicyUseCaseImpl(repoLocalization)
+        }
     }
     
     func registViewModel(){
@@ -342,7 +350,8 @@ class DIContainer {
         ctner.register(LaunchViewModel.self) { (resolver)  in
             let usecaseAuth = ctner.resolve(AuthenticationUseCase.self)!
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
-            return LaunchViewModel(usecaseAuth, playerUseCase: playerUseCase)
+            let localizationUseCase = ctner.resolve(LocalizationPolicyUseCase.self)!
+            return LaunchViewModel(usecaseAuth, playerUseCase: playerUseCase, localizationPolicyUseCase: localizationUseCase)
         }
         ctner.register(LoginViewModel.self) { resolver  in
             let usecaseAuthentication = ctner.resolve(AuthenticationUseCase.self)!
@@ -478,6 +487,9 @@ class DIContainer {
         }
         ctner.register(CustomerServiceHistoryViewModel.self) { (resolver) in
             return CustomerServiceHistoryViewModel(historyUseCase: ctner.resolve(ChatRoomHistoryUseCase.self)!)
+        }
+        ctner.register(TermsViewModel.self) { (resolver) in
+            return TermsViewModel(localizationPolicyUseCase: ctner.resolve(LocalizationPolicyUseCase.self)!)
         }
     }
     

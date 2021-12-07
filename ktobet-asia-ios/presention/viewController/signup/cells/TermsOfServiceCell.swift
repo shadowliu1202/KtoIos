@@ -34,7 +34,7 @@ class TermsOfServiceCell: UITableViewCell {
     func setup(_ data: TermsOfService)  {
         labTitle.text = data.title
         labTitleContent.text = data.selected ? data.title : ""
-        labContent.text = data.selected ? data.content : ""
+        labContent.attributedText = data.selected ? data.content.htmlToAttributedString : NSAttributedString.init(string: "")
         iconArrowImage.image = data.selected ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
         constraintTitleContentTop.constant = data.selected ? 12 : 0
         constraintContentTop.constant = data.selected ? 12 : 0

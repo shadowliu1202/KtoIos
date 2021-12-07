@@ -83,6 +83,8 @@ class LoginViewController: UIViewController {
     
     // MARK: METHOD
     func localize(){
+        register.title = Localize.string("common_register")
+        customService.title = Localize.string("customerservice_title")
         labLoginErr.text = Localize.string("login_invalid_username_password_captcha")
         labTitle.text = Localize.string("common_login")
         textAccount.setTitle(Localize.string("login_account_identity"))
