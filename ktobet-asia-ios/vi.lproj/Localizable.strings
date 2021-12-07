@@ -405,6 +405,11 @@
 "register_step2_verify_mobile" = "开始验证手机";
 "register_step2_verify_mail" = "开始验证邮箱";
 "register_step2_name_format_error" = "不能包含空白及数字，符号仅允许( “·”、“.”)且不连续";
+"register_name_format_error_no_number_symbol" = "";
+"register_name_format_error_only_vn_eng" = "";
+"register_name_format_error_length_limitation" = "不能超过 %@ 个字符。";
+"register_name_format_error_conjunctive_blank" = "";
+"register_name_format_error_blank_before_and_after" = "";
 "register_step2_password_not_match" = "VI密码不一致";
 "register_step2_sms_inactive" = "非常抱歉，该注册方式暂不可用。";
 "register_step2_email_inactive" = "非常抱歉，该注册方式暂不可用。";

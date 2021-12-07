@@ -399,7 +399,8 @@ class DIContainer {
             let depositUseCase = ctner.resolve(DepositUseCase.self)!
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             let bankUseCase = ctner.resolve(BankUseCase.self)!
-            return DepositViewModel(depositUseCase: depositUseCase, playerUseCase: playerUseCase, bankUseCase: bankUseCase)
+            let pattern = ctner.resolve(AccountPatternGenerator.self)!
+            return DepositViewModel(depositUseCase: depositUseCase, playerUseCase: playerUseCase, bankUseCase: bankUseCase, accountPatternGenerator: pattern)
         }
         ctner.register(UploadPhotoViewModel.self) { (resolver) in
             let imageUseCase = ctner.resolve(UploadImageUseCase.self)!
