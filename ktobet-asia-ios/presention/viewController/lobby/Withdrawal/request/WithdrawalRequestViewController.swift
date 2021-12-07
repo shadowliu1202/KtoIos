@@ -22,11 +22,18 @@ class WithdrawalRequestViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(tapBack))
         initUI()
         viewModel.getBalance().subscribe().disposed(by: disposeBag)
         withdrawalLimitationDataBinding()
         validateInputTextField()
+    }
+    
+    @objc func tapBack() {
+        view.endEditing(true)
+        Alert.show(Localize.string("withdrawal_cancel_title"), Localize.string("withdrawal_cancel_content"), confirm: {
+            NavigationManagement.sharedInstance.back()
+        }, confirmText: Localize.string("common_yes"), cancel: {}, cancelText: Localize.string("common_no"))
     }
     
     // MARK: PAGE ACTION
@@ -52,7 +59,7 @@ class WithdrawalRequestViewController: UIViewController {
         nextButton.setTitle(Localize.string("common_next"), for: .normal)
         nextButton.isValid = false
         (self.withdrawalAmountTextField.text <-> self.viewModel.relayWithdrawalAmount).disposed(by: self.disposeBag)
-        withdrawalAmountTextField.editingChangedHandler = { (str) in
+        withdrawalAmountTextField.editingChangedHandler = { [unowned self] (str) in
             guard let amount = str.currencyAmountToDouble() else { return }
             let strWithSeparator = str.replacingOccurrences(of: ",", with: "")
             let maxmumAmount:Double = 9999999
