@@ -14,6 +14,7 @@ class DepositViewModel {
     private var depositUseCase: DepositUseCase!
     private var playerUseCase: PlayerDataUseCase!
     private var bankUseCase: BankUseCase!
+    var accountPatternGenerator: AccountPatternGenerator!
     var filterBanks = BehaviorRelay<[SimpleBank]>(value: [SimpleBank]())
     private let disposeBag = DisposeBag()
     var dateBegin: Date?
@@ -49,10 +50,11 @@ class DepositViewModel {
                                     11: "雲閃付(32)",
                                     14: "iconPayMultiple",
                                     2001: "Crypto"]
-    init(depositUseCase: DepositUseCase, playerUseCase: PlayerDataUseCase, bankUseCase: BankUseCase) {
+    init(depositUseCase: DepositUseCase, playerUseCase: PlayerDataUseCase, bankUseCase: BankUseCase, accountPatternGenerator: AccountPatternGenerator) {
         self.depositUseCase = depositUseCase
         self.playerUseCase = playerUseCase
         self.bankUseCase = bankUseCase
+        self.accountPatternGenerator = accountPatternGenerator
         
         self.relayName.accept(" ")
         getPlayerRealName().asObservable().bind(to: self.relayName).disposed(by: disposeBag)
@@ -131,14 +133,16 @@ class DepositViewModel {
     }
     
     func event() -> (bankValid: Observable<Bool>,
-                     userNameValid: Observable<Bool>,
+                     userNameValid: Observable<AccountNameException?>,
                      bankNumberValid: Observable<Bool>,
                      amountValid: Observable<Bool>,
                      offlineDataValid: Observable<Bool>,
                      onlinieDataValid: Observable<Bool>) {
-        let userNameValid = relayName.map { (name) -> Bool in
-            return name.count != 0
+        let userNameValid = relayName.map {[unowned self] (name) -> AccountNameException? in
+            return self.accountPatternGenerator.withdrawalName().validate(name: name)
         }
+        
+        let isUserNameValid = relayName.map({self.accountPatternGenerator.withdrawalName().verify(name: $0)})
         
         let bankValid = relayBankName.map { (bank) -> Bool in
             return bank.count != 0
@@ -176,11 +180,11 @@ class DepositViewModel {
         } else {
             amountValid = onlineAmountValid
         }
-        let offlineDataValid = Observable.combineLatest(userNameValid, bankValid, bankNumberValid, amountValid) {
+        let offlineDataValid = Observable.combineLatest(isUserNameValid, bankValid, bankNumberValid, amountValid) {
             return $0 && $1 && $2 && $3
         }
         
-        let onlinieDataValid = Observable.combineLatest(userNameValid, bankNumberValid, amountValid) {
+        let onlinieDataValid = Observable.combineLatest(isUserNameValid, bankNumberValid, amountValid) {
             return $0 && $1 && $2
         }
         

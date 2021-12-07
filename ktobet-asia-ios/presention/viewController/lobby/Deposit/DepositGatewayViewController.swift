@@ -247,9 +247,9 @@ class DepositGatewayViewController: UIViewController {
 
     fileprivate func validateInputTextField() {
         viewModel.event().userNameValid.subscribe { [weak self] (isValid) in
-            guard let isValid = isValid.element, self?.remitterNameTextField.isEdited ?? false else { return }
-            let message = isValid ? "" : Localize.string("common_field_must_fill")
-            self?.remitterNameErrorLabel.text = message
+            guard let `self` = self,  let accountNameException = isValid.element, self.remitterNameTextField.isEdited else { return }
+            let message = AccountPatternGeneratorFactory.transfer(self.viewModel.accountPatternGenerator, accountNameException)
+            self.remitterNameErrorLabel.text = message
         }.disposed(by: disposeBag)
 
         viewModel.event().amountValid.subscribe { [weak self] (isValid) in
