@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -296,6 +296,15 @@
                                     <constraint firstAttribute="height" constant="48" id="kd3-6J-YBv"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yYL-ca-cd7">
+                                <rect key="frame" x="189" y="428.5" width="36" height="20"/>
+                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_email_spam_check"/>
+                                </userDefinedRuntimeAttributes>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="W1g-Nk-auL"/>
                         <color key="backgroundColor" red="0.071393884719999995" green="0.071408219640000006" blue="0.07138904184" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -317,10 +326,12 @@
                             <constraint firstItem="W1g-Nk-auL" firstAttribute="trailing" secondItem="RHH-99-aVU" secondAttribute="trailing" constant="10" id="gAy-Id-6X9"/>
                             <constraint firstItem="PLQ-E6-cbK" firstAttribute="leading" secondItem="kB2-mH-NXP" secondAttribute="leading" id="ghZ-eD-bqb"/>
                             <constraint firstItem="M9C-pZ-m61" firstAttribute="top" secondItem="cqu-td-DCM" secondAttribute="bottom" constant="12" id="oPW-kI-ERk"/>
+                            <constraint firstItem="yYL-ca-cd7" firstAttribute="top" secondItem="8JR-V0-2Aa" secondAttribute="bottom" constant="0.5" id="pPx-vO-eka"/>
                             <constraint firstItem="8JR-V0-2Aa" firstAttribute="top" secondItem="etL-g8-Adh" secondAttribute="bottom" constant="24" id="sou-PZ-35X"/>
                             <constraint firstItem="W1g-Nk-auL" firstAttribute="bottom" secondItem="RHH-99-aVU" secondAttribute="bottom" constant="10" id="uG6-Wt-06G"/>
                             <constraint firstItem="PLQ-E6-cbK" firstAttribute="trailing" secondItem="etL-g8-Adh" secondAttribute="trailing" id="yOB-fM-Nhm"/>
                             <constraint firstItem="PLQ-E6-cbK" firstAttribute="trailing" secondItem="cqu-td-DCM" secondAttribute="trailing" id="zNa-pT-RVs"/>
+                            <constraint firstItem="yYL-ca-cd7" firstAttribute="centerX" secondItem="8JR-V0-2Aa" secondAttribute="centerX" id="zre-bg-9rk"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="024-5F-dFb">
@@ -341,6 +352,7 @@
                         <outlet property="constraintStatusTipBottom" destination="uG6-Wt-06G" id="EZU-Aw-DeG"/>
                         <outlet property="labDesc" destination="cqu-td-DCM" id="Q9O-o5-dfr"/>
                         <outlet property="labErrTip" destination="ce0-JI-AMh" id="ld5-c9-aZs"/>
+                        <outlet property="labJunkTip" destination="yYL-ca-cd7" id="osh-Xj-HWc"/>
                         <outlet property="labTip" destination="M9C-pZ-m61" id="fpy-tJ-XUC"/>
                         <outlet property="naviItem" destination="024-5F-dFb" id="ULc-iE-khY"/>
                         <outlet property="smsVerifyView" destination="PLQ-E6-cbK" id="osX-wm-2pc"/>

@@ -9,6 +9,7 @@ class ResetPasswordStep2ViewController: UIViewController {
     @IBOutlet private weak var labTitle : UILabel!
     @IBOutlet private weak var labDesc : UILabel!
     @IBOutlet private weak var labTip : UILabel!
+    @IBOutlet private weak var labJunkTip : UILabel!
     @IBOutlet private weak var labErrTip : UILabel!
     @IBOutlet private weak var viewErrTip : UIView!
     @IBOutlet private weak var viewStatusTip : ToastView!
@@ -61,7 +62,9 @@ class ResetPasswordStep2ViewController: UIViewController {
         case .email:
             labDesc.text = Localize.string("login_resetpassword_step2_verify_by_email_title")
             labTip.text = Localize.string("common_otp_sent_content") + "\n" + viewModel.getAccount()
+            labJunkTip.isHidden = false
         case .phone:
+            labJunkTip.isHidden = true
             labDesc.text = Localize.string("login_resetpassword_step2_verify_by_phone_title")
             labTip.text = Localize.string("common_otp_sent_content") + "\n" + "+\(viewModel.locale.cellPhoneNumberFormat().areaCode()) " + viewModel.getAccount()
         }
