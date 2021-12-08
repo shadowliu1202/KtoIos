@@ -52,10 +52,14 @@ class P2PViewController: UIViewController {
                 Alert.show(Localize.string("common_tip_title_warm"), Localize.string("product_p2p_bonus_calculating"), confirm: {}, cancel: nil)
             case is P2PTurnOver.None:
                 let storyboard = UIStoryboard(name: "Product", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "GameWebViewViewController") as! GameWebViewViewController
-                vc.gameId = p2pGame.gameId
-                vc.viewModel = self.viewModel
-                self.present(vc, animated: true, completion: nil)
+                let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
+                if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
+                    gameVc.gameId = p2pGame.gameId
+                    gameVc.gameName = p2pGame.gameName
+                    gameVc.viewModel = self.viewModel
+                    navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+                    self.present(navi, animated: true, completion: nil)
+                }
             case is P2PTurnOver.TurnOverReceipt:
                 guard let p2pAlertView = UIStoryboard(name: "P2P", bundle: nil).instantiateViewController(withIdentifier: "P2PAlertViewController") as? P2PAlertViewController else { return }
                 p2pAlertView.p2pTurnOver = turnOver

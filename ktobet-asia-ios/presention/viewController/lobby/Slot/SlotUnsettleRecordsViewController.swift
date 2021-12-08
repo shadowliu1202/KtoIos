@@ -89,6 +89,10 @@ extension SlotUnsettleRecordsViewController: ProductGoWebGameVCProtocol, Unsettl
     func getProductViewModel() -> ProductWebGameViewModelProtocol? {
         return self.viewModel
     }
+    
+    func gameName(at indexPath: IndexPath) -> String {
+        self.unsettleds[indexPath.section].records[indexPath.row].gameName
+    }
 }
 
 extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDataSource {

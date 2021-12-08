@@ -4,11 +4,12 @@ import SharedBu
 import WebKit
 
 class GameWebViewViewController: UIViewController {
-    
+    var barButtonItems: [UIBarButtonItem] = []
     var viewModel: ProductWebGameViewModelProtocol?
     private var disposeBag = DisposeBag()
     
     var gameId: Int32!
+    var gameName: String = ""
     var gameProduct: String! {
         return viewModel?.getGameProduct() ?? ""
     }
@@ -18,6 +19,8 @@ class GameWebViewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bind(position: .left, barButtonItems: .kto(.close))
+        self.title = gameName
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .all
         let wkWebConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: self.view.bounds, configuration: wkWebConfig)
@@ -25,7 +28,7 @@ class GameWebViewViewController: UIViewController {
             let MockWebViewUserAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
             webView.customUserAgent = "\(defaultAgent) Safari/604.1 \(MockWebViewUserAgent)"
         }
-        self.view.addSubview(webView)
+        self.view.addSubview(webView, constraints: .fill())
         webView.navigationDelegate = self
         webView.uiDelegate = self
         let webPagePreferences = WKWebpagePreferences()
@@ -34,10 +37,6 @@ class GameWebViewViewController: UIViewController {
         webView.configuration.allowsInlineMediaPlayback = true
         webView.configuration.dataDetectorTypes = .all
         webView.translatesAutoresizingMaskIntoConstraints = false
-        webView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        webView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
-        webView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
-        webView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
 
         for cookie in HttpClient().getCookies() {
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
@@ -52,16 +51,6 @@ class GameWebViewViewController: UIViewController {
                 self?.dismiss(animated: true, completion: nil)
             }, cancel: nil)
         }.disposed(by: disposeBag)
-#if DEV
-        let backBtn = UIButton(frame: .zero)
-        backBtn.setImage(UIImage(named: "Back"), for: .normal)
-        self.view.addSubview(backBtn, constraints: [.equal(\.leadingAnchor, offset: 0),
-                                                    .equal(\.safeAreaLayoutGuide.topAnchor, offset: 0)])
-        backBtn.constrain([.equal(\.widthAnchor, length: 40), .equal(\.heightAnchor, length: 40)])
-        backBtn.rx.touchUpInside.bind(onNext: { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }).disposed(by: disposeBag)
-#endif
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,5 +69,11 @@ extension GameWebViewViewController: WKNavigationDelegate, WKUIDelegate {
                 self.dismiss(animated: false, completion: nil)
             }
         }
+    }
+}
+
+extension GameWebViewViewController: BarButtonItemable {
+    func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 }
