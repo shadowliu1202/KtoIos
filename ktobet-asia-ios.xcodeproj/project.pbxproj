@@ -139,7 +139,7 @@
 		4199A08325AE9918002E2D7E /* GetSystemStatusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E35F02588AA8500EEF23F /* GetSystemStatusUseCase.swift */; };
 		4199A08425AE9918002E2D7E /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
 		4199A08A25AE9918002E2D7E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
-		4199A08B25AE9918002E2D7E /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* infoPlist.strings */; };
+		4199A08B25AE9918002E2D7E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* InfoPlist.strings */; };
 		4199A08C25AE9918002E2D7E /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648C258742150064AAC9 /* Signup.storyboard */; };
 		4199A08D25AE9918002E2D7E /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648D258742150064AAC9 /* Login.storyboard */; };
 		4199A08E25AE9918002E2D7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648F258742150064AAC9 /* LaunchScreen.storyboard */; };
@@ -148,7 +148,7 @@
 		4199A0A225AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */; };
 		483F42BB258C41A90091960B /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483F42BA258C41A90091960B /* UIWindowExtension.swift */; };
 		4840645C25871D760064AAC9 /* LocalizeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4840645B25871D760064AAC9 /* LocalizeUtils.swift */; };
-		4840646B258721740064AAC9 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* infoPlist.strings */; };
+		4840646B258721740064AAC9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* InfoPlist.strings */; };
 		48406491258742150064AAC9 /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648C258742150064AAC9 /* Signup.storyboard */; };
 		48406492258742150064AAC9 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648D258742150064AAC9 /* Login.storyboard */; };
 		48406493258742150064AAC9 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648E258742150064AAC9 /* Launch.storyboard */; };
@@ -883,7 +883,7 @@
 		609013512640EE7000419F8E /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */; };
 		609013522640EE7000419F8E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
 		609013532640EE7000419F8E /* Casino.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6034629326327EAC00F5D1D9 /* Casino.storyboard */; };
-		609013542640EE7000419F8E /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* infoPlist.strings */; };
+		609013542640EE7000419F8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* InfoPlist.strings */; };
 		609013552640EE7000419F8E /* WebGameItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 603461FC26327DC800F5D1D9 /* WebGameItemCell.xib */; };
 		609013562640EE7000419F8E /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648C258742150064AAC9 /* Signup.storyboard */; };
 		609013572640EE7000419F8E /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
@@ -1563,10 +1563,10 @@
 		483F42BA258C41A90091960B /* UIWindowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindowExtension.swift; sourceTree = "<group>"; };
 		4840645A25871BC70064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi-vn.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		4840645B25871D760064AAC9 /* LocalizeUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizeUtils.swift; sourceTree = "<group>"; };
-		4840646C258721740064AAC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/infoPlist.strings; sourceTree = "<group>"; };
-		4840646E258721780064AAC9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-cn.lproj/infoPlist.strings"; sourceTree = "<group>"; };
-		4840646F2587217B0064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi-vn.lproj/infoPlist.strings"; sourceTree = "<group>"; };
-		48406475258736170064AAC9 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/infoPlist.strings; sourceTree = "<group>"; };
+		4840646C258721740064AAC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4840646E258721780064AAC9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-cn.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		4840646F2587217B0064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi-vn.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		48406475258736170064AAC9 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		48406476258736180064AAC9 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4840648C258742150064AAC9 /* Signup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Signup.storyboard; sourceTree = "<group>"; };
 		4840648D258742150064AAC9 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
@@ -2197,7 +2197,7 @@
 				485DF04925415454001F9D4A /* Info.plist */,
 				4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */,
 				6090138B2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist */,
-				4840646D258721740064AAC9 /* infoPlist.strings */,
+				4840646D258721740064AAC9 /* InfoPlist.strings */,
 				48D7F9EB2575E38B00540B85 /* Localizable.strings */,
 			);
 			path = "ktobet-asia-ios";
@@ -3119,6 +3119,7 @@
 				4199A08925AE9918002E2D7E /* Resources */,
 				4199A09325AE9918002E2D7E /* Copy Files */,
 				2C8A8109D059A26B8D6B9F66 /* [CP] Embed Pods Frameworks */,
+				60EEA9E527605C9200BCFF81 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3175,6 +3176,7 @@
 				48AAA169256E458800E075CA /* Resources */,
 				48AAA174256E458800E075CA /* [CP] Embed Pods Frameworks */,
 				48AAA175256E458800E075CA /* Copy Files */,
+				60EEA9E727605FA700BCFF81 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3195,6 +3197,7 @@
 				6090134E2640EE7000419F8E /* Resources */,
 				609013642640EE7000419F8E /* Copy Files */,
 				609013652640EE7000419F8E /* [CP] Embed Pods Frameworks */,
+				60EEA9E627605E4D00BCFF81 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3261,7 +3264,7 @@
 				41077DD225BA63FC0057B340 /* slideMenu.storyboard in Resources */,
 				4199A08A25AE9918002E2D7E /* Localizable.strings in Resources */,
 				6034629526327EAC00F5D1D9 /* Casino.storyboard in Resources */,
-				4199A08B25AE9918002E2D7E /* infoPlist.strings in Resources */,
+				4199A08B25AE9918002E2D7E /* InfoPlist.strings in Resources */,
 				6D986A5B2718316500194E0D /* CustomService.storyboard in Resources */,
 				6DB1957B2701A952003C6730 /* SBK.storyboard in Resources */,
 				6D14DA6B26FC17B40001ACFA /* wager_template.html in Resources */,
@@ -3342,7 +3345,7 @@
 				48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */,
 				6018F9EA2695501200941BDD /* P2P.storyboard in Resources */,
 				600E242326CB5A7500D8B073 /* Promotion.storyboard in Resources */,
-				4840646B258721740064AAC9 /* infoPlist.strings in Resources */,
+				4840646B258721740064AAC9 /* InfoPlist.strings in Resources */,
 				6D986A5A2718316500194E0D /* CustomService.storyboard in Resources */,
 				600E242926CB5A8500D8B073 /* PromotionHistory.storyboard in Resources */,
 				603462E82632A23F00F5D1D9 /* Slot.storyboard in Resources */,
@@ -3399,7 +3402,7 @@
 				609013512640EE7000419F8E /* slideMenu.storyboard in Resources */,
 				609013522640EE7000419F8E /* Localizable.strings in Resources */,
 				609013532640EE7000419F8E /* Casino.storyboard in Resources */,
-				609013542640EE7000419F8E /* infoPlist.strings in Resources */,
+				609013542640EE7000419F8E /* InfoPlist.strings in Resources */,
 				6D986A5C2718316500194E0D /* CustomService.storyboard in Resources */,
 				6DB1957C2701A952003C6730 /* SBK.storyboard in Resources */,
 				6D14DA6C26FC17B40001ACFA /* wager_template.html in Resources */,
@@ -3570,6 +3573,57 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		60EEA9E527605C9200BCFF81 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PREFIX_IDENTIFIER=\"=com.kto.asia=\"\nSUFFIX=\"(qat)\"\n\nfor i in `dirname \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"`/*.lproj/InfoPlist.strings\ndo\n    plutil -convert json \"$i\"\n    sed -i -e \"s/${PREFIX_IDENTIFIER}/${SUFFIX}/g\" \"$i\"\n    plutil -convert binary1 \"$i\"\ndone\n";
+		};
+		60EEA9E627605E4D00BCFF81 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PREFIX_IDENTIFIER=\"=com.kto.asia=\"\nSUFFIX=\"(stg)\"\n\nfor i in `dirname \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"`/*.lproj/InfoPlist.strings\ndo\n    plutil -convert json \"$i\"\n    sed -i -e \"s/${PREFIX_IDENTIFIER}/${SUFFIX}/g\" \"$i\"\n    plutil -convert binary1 \"$i\"\ndone\n";
+		};
+		60EEA9E727605FA700BCFF81 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PREFIX_IDENTIFIER=\"=com.kto.asia=\"\nSUFFIX=\"(dev)\"\n\nfor i in `dirname \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"`/*.lproj/InfoPlist.strings\ndo\n    plutil -convert json \"$i\"\n    sed -i -e \"s/${PREFIX_IDENTIFIER}/${SUFFIX}/g\" \"$i\"\n    plutil -convert binary1 \"$i\"\ndone\n";
 		};
 		857F5CFBDCECE17FFDD1C762 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4944,7 +4998,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		4840646D258721740064AAC9 /* infoPlist.strings */ = {
+		4840646D258721740064AAC9 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				4840646C258721740064AAC9 /* en */,
@@ -4952,7 +5006,7 @@
 				4840646F2587217B0064AAC9 /* vi */,
 				48406475258736170064AAC9 /* th */,
 			);
-			name = infoPlist.strings;
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		48D7F9EB2575E38B00540B85 /* Localizable.strings */ = {
