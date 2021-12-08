@@ -51,7 +51,7 @@ class OfflineMessageViewController: UIViewController {
     func transferError(_ error: ValidError) -> String {
         switch error {
         case .length, .regex:
-            return Localize.string("common_invalid")
+            return Localize.string("common_error_email_format")
         case .empty:
             return Localize.string("common_field_must_fill")
         case .none:
