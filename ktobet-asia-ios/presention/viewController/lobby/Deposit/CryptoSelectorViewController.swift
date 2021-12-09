@@ -3,6 +3,8 @@ import SharedBu
 import RxSwift
 
 class CryptoSelectorViewController: UIViewController {
+    @IBOutlet weak var guideLabel: UILabel!
+    @IBOutlet weak var guideBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var confrimButton: UIButton!
@@ -17,6 +19,13 @@ class CryptoSelectorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(switchToUserGuide))
+        self.guideLabel.addGestureRecognizer(tap)
+        self.guideLabel.isUserInteractionEnabled = true
+        guideBtn.rx.touchUpInside.bind(onNext: { [weak self] in
+            self?.switchToUserGuide()
+        }).disposed(by: disposeBag)
         
         tableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
         tableView.addTopBorder(size: 1, color: UIColor.dividerCapeCodGray2)
@@ -59,6 +68,10 @@ class CryptoSelectorViewController: UIViewController {
                 self?.handleUnknownError(error)
             }.disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
+    }
+    
+    @objc private func switchToUserGuide() {
+        self.performSegue(withIdentifier: CryptoGuideViewController.segueIdentifier, sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

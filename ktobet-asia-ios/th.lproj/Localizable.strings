@@ -59,6 +59,8 @@
 "cps_applied_network_address_title" = "本次申请网络和钱包地址为";
 "cps_select_crypto_type" = "选择充值币别";
 "cps_crypto_currency_deposit_hint" = "每笔 %@ %%红利,每日上限 %@ 元，1倍流水";
+"cps_crypto_currency_guide_hint" = "";
+"cps_crypto_currency_guide_title" = "";
 
 //MARK: - Common
 "common_kto" = "KTO";
