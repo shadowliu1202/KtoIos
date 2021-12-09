@@ -53,6 +53,8 @@ extension UIViewController{
                 .subscribe(onCompleted: {
                     NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
                 }).disposed(by: disposeBag)
+        case 403:
+            showRestrictView()
         case 410:
             showAlertError("系统维护中")
         case 404:
@@ -65,6 +67,11 @@ extension UIViewController{
     private func showAlertError(_ content: String) {
         let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
         toastView.show(on: nil, statusTip: content, img: UIImage(named: "Failed"))
+    }
+    
+    func showRestrictView() {
+        let restrictedVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "restrictedVC")
+        self.present(restrictedVC, animated: true, completion: nil)
     }
     
     func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {

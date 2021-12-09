@@ -175,3 +175,15 @@ extension String {
         return htmlToAttributedString?.string ?? ""
     }
 }
+
+extension String {
+    var halfWidth: String {
+        transformFullWidthToHalfWidth()
+    }
+    
+    private func transformFullWidthToHalfWidth() -> String {
+        let string = NSMutableString(string: self) as CFMutableString
+        CFStringTransform(string, nil, kCFStringTransformFullwidthHalfwidth, false)
+        return string as String
+    }
+}
