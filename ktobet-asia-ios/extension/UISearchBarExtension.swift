@@ -1,4 +1,6 @@
 import UIKit
+import RxSwift
+import RxCocoa
 
 extension UISearchBar {
     @IBInspectable
@@ -61,5 +63,35 @@ extension UISearchBar {
         let crossIconView = textFieldInsideSearchBar?.value(forKey: "clearButton") as? UIButton
         crossIconView?.setImage(UIImage(named: "Close"), for: .normal)
         crossIconView?.tintColor = color
+    }
+}
+
+/// For overwrite UISearchBar return text value to 半形
+extension Reactive where Base: UISearchBar {
+    /// Reactive wrapper for `text` property.
+    public var text: ControlProperty<String?> {
+        return value
+    }
+    
+    /// Reactive wrapper for `text` property.
+    public var value: ControlProperty<String?> {
+        let source: Observable<String?> = Observable.deferred { [weak searchBar = self.base as UISearchBar] () -> Observable<String?> in
+            let text = searchBar?.text
+
+            let textDidChange = (searchBar?.rx.delegate.methodInvoked(#selector(UISearchBarDelegate.searchBar(_:textDidChange:))) ?? Observable.empty())
+            let didEndEditing = (searchBar?.rx.delegate.methodInvoked(#selector(UISearchBarDelegate.searchBarTextDidEndEditing(_:))) ?? Observable.empty())
+            
+            return Observable.merge(textDidChange, didEndEditing)
+                    .map { _ in
+                        searchBar?.text?.halfWidth ?? ""
+                    }
+                    .startWith(text)
+        }
+
+        let bindingObserver = Binder(self.base) { (searchBar, text: String?) in
+            searchBar.text = text
+        }
+        
+        return ControlProperty(values: source, valueSink: bindingObserver)
     }
 }

@@ -12,4 +12,6 @@ class ServiceStatusViewModel {
     func getOtpService() -> Single<OtpStatus> {
         return self.usecaseSystemStatus.getOtpStatus()
     }
+    
+    lazy var portalMaintenanceStatus = usecaseSystemStatus.observePortalMaintenanceState()
 }

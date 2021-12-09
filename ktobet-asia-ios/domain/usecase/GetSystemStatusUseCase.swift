@@ -7,9 +7,11 @@
 
 import Foundation
 import RxSwift
+import SharedBu
 
 protocol GetSystemStatusUseCase {
     func getOtpStatus()-> Single<OtpStatus>
+    func observePortalMaintenanceState() -> Single<MaintenanceStatus>
 }
 
 
@@ -24,4 +26,9 @@ class GetSystemStatusUseCaseImpl : GetSystemStatusUseCase {
     func getOtpStatus() -> Single<OtpStatus> {
         repoSystem.getPortalMaintenance()
     }
+    
+    func observePortalMaintenanceState() -> Single<MaintenanceStatus> {
+        repoSystem.observePortalMaintenanceState()
+    }
+    
 }

@@ -1855,6 +1855,26 @@ struct CryptoCurrencyInfo: Codable {
     let maximumFee: Int
 }
 
+struct ProductStatusBean: Codable {
+    let numberGameMaintenanceEndTime: String?
+    let sbkMaintenanceEndTime: String?
+    let slotMaintenanceEndTime: String?
+    let casinoMaintenanceEndTime: String?
+    let p2pMaintenanceEndTime: String?
+    let arcadeMaintenanceEndTime: String?
+    let productsAvailable: [Int]
+    
+    func toMaintenanceStatus() -> MaintenanceStatus {
+        MaintenanceStatus.Product(productsAvailable: productsAvailable.map{ ProductType.convert($0) },
+                                  status: [ProductType.numbergame: numberGameMaintenanceEndTime?.toOffsetDateTime(),
+                                           ProductType.sbk: sbkMaintenanceEndTime?.toOffsetDateTime(),
+                                           ProductType.slot: slotMaintenanceEndTime?.toOffsetDateTime(),
+                                           ProductType.casino: casinoMaintenanceEndTime?.toOffsetDateTime(),
+                                           ProductType.p2p: p2pMaintenanceEndTime?.toOffsetDateTime(),
+                                           ProductType.arcade: arcadeMaintenanceEndTime?.toOffsetDateTime()])
+    }
+}
+
 // MARK: - Encode/decode helpers
 class JSONNull: Codable, Hashable {
 

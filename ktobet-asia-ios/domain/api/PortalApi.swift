@@ -43,4 +43,13 @@ class PortalApi{
                                header: httpClient.headers)
         return httpClient.request(target).asCompletable()
     }
+    
+    func getProductStatus() -> Single<ResponseData<ProductStatusBean>>{
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/init/product-status",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<ProductStatusBean>.self)
+    }
 }
