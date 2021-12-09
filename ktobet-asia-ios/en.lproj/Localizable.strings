@@ -57,6 +57,8 @@
 "cps_applied_network_address_title" = "";
 "cps_select_crypto_type" = "";
 "cps_crypto_currency_deposit_hint" = "";
+"cps_crypto_currency_guide_hint" = "";
+"cps_crypto_currency_guide_title" = "";
 
 //MARK: - Common
 "common_kto" = "KTO";

@@ -31,6 +31,21 @@ extension UITableView {
         register(UINib(nibName: id, bundle: nil), forCellReuseIdentifier: id)
     }
     
+    func dequeueReusableHeaderFooter<T>(withIdentifier identifier: String = String(describing: T.self),
+                                cellType: T.Type) -> T  {
+        if let cell = self.dequeueReusableHeaderFooterView(withIdentifier: identifier) as? T {
+            return cell
+        } else {
+            registerHeaderFooterFromNib(identifier)
+            return self.dequeueReusableHeaderFooterView(withIdentifier: identifier) as! T
+        }
+    }
+    
+    func registerHeaderFooterFromNib(_ id: String?) {
+        guard let id = id else { return }
+        register(UINib(nibName: id, bundle: nil), forHeaderFooterViewReuseIdentifier: id)
+    }
+    
     func setHeaderFooterDivider(dividerInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
                                 dividerColor: UIColor = UIColor.dividerCapeCodGray2,
                                 headerHeight: CGFloat = 30,
