@@ -8,17 +8,10 @@ enum SupportPaymentType: Int32 {
     case QQScan         = 4
     case Expresspay     = 5
     case OnlineBank     = 6
-    case FY             = 7
-    case Weipay         = 8
     case PrepaidCard    = 9
-    case YF             = 10
     case UnionH5        = 11
-    case JPay           = 12
-    case AsiaPay        = 13
     case Multiple       = 14
-    case JeePay         = 15
-    case Wlxx           = 16
-    case Ethereum       = 2001
+    case Crypto         = 2001
 }
 class DepositType {
     var supportType: SupportPaymentType?
@@ -43,20 +36,6 @@ class DepositType {
             self.paymentType = PaymentType.Expresspay()
         case .some(.OnlineBank):
             self.paymentType = PaymentType.OnlineBank()
-        case .some(.FY):
-            self.paymentType = PaymentType.FY()
-        case .some(.Weipay):
-            self.paymentType = PaymentType.Weipay()
-        case .some(.YF):
-            self.paymentType = PaymentType.YF()
-        case .some(.JPay):
-            self.paymentType = PaymentType.JPay()
-        case .some(.AsiaPay):
-            self.paymentType = PaymentType.AsiaPay()
-        case .some(.JeePay):
-            self.paymentType = PaymentType.JeePay()
-        case .some(.Wlxx):
-            self.paymentType = PaymentType.Wlxx()
         case .some(.PrepaidCard):
             self.paymentType = PaymentType.PrepaidCard()
         case .some(.UnionH5):
@@ -64,8 +43,9 @@ class DepositType {
         case .some(.Multiple):
             self.paymentType = PaymentType.Multiple()
             self.hint = Localize.string("deposit_pay_multiple_hint")
-        case .some(.Ethereum):
-            self.paymentType = PaymentType.Ethereum()
+        case .some(.Crypto):
+            self.paymentType = PaymentType.Crypto()
+            self.hint = Localize.string("deposit_cps_hint")
         case .none:
             self.paymentType = PaymentType.OfflinePayment()
         }

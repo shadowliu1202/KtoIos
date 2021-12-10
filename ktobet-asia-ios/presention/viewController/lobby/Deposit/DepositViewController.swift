@@ -87,7 +87,7 @@ class DepositViewController: UIViewController {
     fileprivate func depositTypeDataHandler() {
         Observable.zip(depositTypeTableView.rx.itemSelected, depositTypeTableView.rx.modelSelected(DepositType.self)).bind { [weak self] (indexPath, data) in
             guard let self = self else { return }
-            if data.supportType == .Ethereum {
+            if data.supportType == .Crypto {
                 self.alertCryptoDepositWarnings()
             } else {
                 self.performSegue(withIdentifier: DepositGatewayViewController.segueIdentifier, sender: data)
