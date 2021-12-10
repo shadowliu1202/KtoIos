@@ -20,10 +20,6 @@ class DepositTypeTableViewCell: UITableViewCell {
         iconImg.image = UIImage(named: icon)
         recommendButton.isHidden = !data.method.isFavorite
         recommendButton.setTitle(Localize.string("deposit_recommend"), for: .normal)
-        if data.paymentType is PaymentType.Ethereum {
-            hintLabel.text = Localize.string("deposit_cps_hint")
-        } else {
-            hintLabel.text = data.hint
-        }
+        hintLabel.text = data.hint
     }
 }
