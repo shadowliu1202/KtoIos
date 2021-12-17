@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SignupLanguageViewController: UIViewController{
+class SignupLanguageViewController: LandingViewController {
     var barButtonItems: [UIBarButtonItem] = []
 
     struct LanguageListData {
@@ -125,6 +125,9 @@ class SignupLanguageViewController: UIViewController{
         Alert.show(title, message, confirm: nil, cancel: nil)
     }
     
+    override func abstracObserverUpdate() {
+        self.observerCompulsoryUpdate()
+    }
 }
 
 

@@ -1,6 +1,6 @@
 import UIKit
 
-typealias UnsettleHelper = UIViewController & ProductGoWebGameVCProtocol & UnsettleTableViewDelegate & UITableViewDelegate
+typealias UnsettleHelper = UIViewController & ProductGoWebGameVCProtocol & UnsettleTableViewDelegate & UITableViewDelegate & WebGameViewCallback
 
 protocol UnsettleTableViewDelegate {
     func gameId(at indexPath: IndexPath) -> Int32
@@ -23,6 +23,7 @@ extension UnsettleGameDelegate: UITableViewDelegate {
             gameVc.gameId = helper.gameId(at: indexPath)
             gameVc.gameName = helper.gameName(at: indexPath)
             gameVc.viewModel = helper.getProductViewModel()
+            gameVc.delegate = helper
             navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
             helper.present(navi, animated: true, completion: nil)
         }

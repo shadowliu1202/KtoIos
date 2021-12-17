@@ -10,6 +10,7 @@ import Moya
 import RxSwift
 import Alamofire
 import SwiftyJSON
+import UIKit
 
 let debugCharCount = 500
 
@@ -24,15 +25,7 @@ private func JSONResponseDataFormatter(_ data: Data) -> String {
 }
 
 class KtoURL {
-    static fileprivate var host : String {
-        #if QATv
-        return "https://v-qat1-mobile.affclub.xyz/"
-        #elseif STAGING
-        return "https://mobile.staging.support/"
-        #else
-        return "https://qat1-mobile.affclub.xyz/"
-        #endif
-    }
+    static fileprivate var host : String = Configuration.host
     static var baseUrl : URL { return URL(string: self.host)!}
 }
 

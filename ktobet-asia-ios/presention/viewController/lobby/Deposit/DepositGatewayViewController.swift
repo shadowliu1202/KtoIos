@@ -290,11 +290,13 @@ class DepositGatewayViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == DepositOfflineConfirmViewController.segueIdentifier {
             if let dest = segue.destination as? DepositOfflineConfirmViewController {
-                var customDecimal = 0.0
-                repeat {
-                    customDecimal = OfflineDepositCash.Companion.init().customDecimal()
-                } while customDecimal.decimalCount() != 2
-                let requestAmount = OfflineDepositCash(cashAmount: self.viewModel.relayBankAmount.value.toAccountCurrency(), customDecimal: customDecimal)
+                var requestAmount: OfflineDepositCash
+                do {
+                    requestAmount = try OfflineDepositCashFactory.companion.create(originAmount: self.viewModel.relayBankAmount.value.toAccountCurrency())
+                } catch {
+                    print(error)
+                    fatalError("OfflineDepositCashFactory got error = \(error.localizedDescription)")
+                }
                 let remitter = DepositRequest_.Remitter.init(name: self.viewModel.relayName.value,
                                                              accountNumber: self.viewModel.relayBankNumber.value)
                 let depositRequest = DepositRequest_.init(remitter: remitter, amount: requestAmount, depositMethod: DepositMethod.init(type: PaymentType.OfflinePayment.init(), name: self.viewModel.relayBankName.value, limitation: AmountRange.init(min: viewModel.minAmountLimit.toAccountCurrency(), max: viewModel.maxAmountLimit.toAccountCurrency()), isFavorite: false), paymentToken: self.viewModel.selectedReceiveBank.paymentTokenId)

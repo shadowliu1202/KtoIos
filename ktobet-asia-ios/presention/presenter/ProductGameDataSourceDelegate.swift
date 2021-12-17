@@ -1,7 +1,7 @@
 import UIKit
 import SharedBu
 
-typealias ProductFavoriteHelper = UIViewController & ProductVCProtocol
+typealias ProductFavoriteHelper = UIViewController & ProductVCProtocol & WebGameViewCallback
 
 class ProductGameDataSourceDelegate : NSObject {
     enum CellType {
@@ -122,6 +122,7 @@ extension ProductGameDataSourceDelegate: UICollectionViewDelegate {
                 gameVc.gameId = data.gameId
                 gameVc.gameName = data.gameName
                 gameVc.viewModel = self.vc?.getProductViewModel()
+                gameVc.delegate = self.vc
                 navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
                 self.vc?.present(navi, animated: true, completion: nil)
             }

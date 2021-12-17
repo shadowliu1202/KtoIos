@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SignupEmailViewController: UIViewController {
+class SignupEmailViewController: LandingViewController {
     
     @IBOutlet private weak var naviItem : UINavigationItem!
     @IBOutlet private weak var scrollView : UIScrollView!
@@ -289,6 +289,10 @@ class SignupEmailViewController: UIViewController {
     @objc private func btnQatCancelAutoVerifyPressed(_ sender : UIButton){
         sender.isSelected = !sender.isSelected
         verifyTimer(launch: !sender.isSelected)
+    }
+    
+    override func abstracObserverUpdate() {
+        self.observerCompulsoryUpdate()
     }
 }
 

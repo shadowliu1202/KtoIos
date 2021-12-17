@@ -26,6 +26,8 @@ extension UIBarButtonItem {
             return RegisterButtonItem()
         case .login:
             return LoginButtonItem()
+        case .manulUpdate:
+            return ManualUpdateButtonItem()
         }
     }
     
@@ -59,6 +61,7 @@ enum KTOBarButtonItemStyle {
     case cs(delegate: CustomServiceDelegate, disposeBag: DisposeBag)
     case register
     case login
+    case manulUpdate
     
     var image: UIImage? {
         switch self {
@@ -66,7 +69,7 @@ enum KTOBarButtonItemStyle {
         case .favorite:         return UIImage(named: "Favorite")
         case .search:           return UIImage(named: "Search")
         case .filter:           return UIImage(named: "iconFilter24")
-        case .text, .cs, .register, .login: return nil
+        case .text, .cs, .register, .login, .manulUpdate: return nil
         case .history:          return UIImage(named: "iconNavPromotionHistory24")
         case .close:            return UIImage(named: "Close")
         case .customIamge( let name):   return UIImage(named: name)

@@ -1875,6 +1875,20 @@ struct ProductStatusBean: Codable {
     }
 }
 
+struct VersionData: Codable {
+    let ipaCapacity: String
+    let ipaVersion: String
+    let ipaVersionHash: String
+    
+    func toVersion() -> Version {
+        Version.companion.create(version: ipaVersion, link: createUri(ipaVersionHash), size: ipaCapacity.doubleValue())
+    }
+    
+    private func createUri(_ hash: String) -> String {
+        return Configuration.downloadUrl.absoluteString
+    }
+}
+
 // MARK: - Encode/decode helpers
 class JSONNull: Codable, Hashable {
 

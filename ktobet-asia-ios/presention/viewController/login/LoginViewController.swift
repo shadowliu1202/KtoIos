@@ -3,7 +3,7 @@ import RxCocoa
 import RxSwift
 import SharedBu
 
-class LoginViewController: UIViewController {
+class LoginViewController: LandingViewController {
     var barButtonItems: [UIBarButtonItem] = []
     
     @IBOutlet private weak var labTitle : UILabel!
@@ -43,7 +43,13 @@ class LoginViewController: UIViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.bind(position: .right, barButtonItems: padding, register, spacing, customService)
+        var barButtoms = [padding, register, spacing, customService]
+        if Configuration.manualUpdate {
+            let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
+            let spacing2 = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
+            barButtoms.append(contentsOf: [spacing2, update])
+        }
+        self.bind(position: .right, barButtonItems: barButtoms)
         localize()
         defaulStyle()
         setViewModel()
@@ -63,6 +69,10 @@ class LoginViewController: UIViewController {
     
     deinit {
         print("\(type(of: self)) deinit")
+    }
+    
+    override func abstracObserverUpdate() {
+        self.observerUpdates()
     }
     
     // MARK: NOTIFICATION
@@ -310,6 +320,18 @@ class LoginViewController: UIViewController {
         }
     }
     
+    private func versionAlert(_ newVer: Version) {
+        let currVersion = AppSynchronizeViewModel.shared.getCurrentVersion()
+        let title = Localize.string("update_proceed_now")
+        let msg = "目前版本 : \(currVersion) \n最新版本 : \(newVer)"
+        if currVersion.compareTo(other: newVer) < 0 {
+            Alert.show(title, msg, confirm: { [weak self] in
+                self?.confirmUpdate()
+            }, confirmText: Localize.string("update_proceed_now"), cancel: {})
+        } else {
+            Alert.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
+        }
+    }
 }
 
 extension LoginViewController{
@@ -331,6 +353,13 @@ extension LoginViewController: BarButtonItemable {
         switch sender.tag {
         case registerBarBtnId:
             btnSignupPressed()
+        case manualUpdateBtnId:
+            AppSynchronizeViewModel.shared.synchronize.subscribe(onSuccess: { [weak self] (inComingAppVersion) in
+                self?.versionAlert(inComingAppVersion)
+            }, onError: { [weak self] in
+                self?.handleErrors($0)
+            }).disposed(by: disposeBag)
+            break
         default:
             break
         }

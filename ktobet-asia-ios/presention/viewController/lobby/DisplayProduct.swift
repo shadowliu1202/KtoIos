@@ -10,7 +10,7 @@ protocol ProductBaseCollection: AnyObject {
     func setViewModel() -> DisplayProductViewModel?
 }
 
-class DisplayBaseViewController: UIViewController, ProductVCProtocol {
+class DisplayBaseViewController: AppVersionCheckViewController, ProductVCProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -21,19 +21,12 @@ extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewContr
     }
     
     private func reAddCustomServiceBarButtons() {
-        var copyItems = barButtonItems.map({$0})
-        let csItems = customServiceBarButtons()
-        csItems?.forEach({
-            copyItems.appendIfNotContains($0)
-        })
-        barButtonItems.removeAll()
-        self.bind(position: .right, barButtonItems: copyItems)
+        self.bind(position: .right, barButtonItems: barButtonItems)
     }
     
     func removeCustomServiceBarButtons() {
         if let csItems = customServiceBarButtons() {
             let items = barButtonItems.filter({ !csItems.contains($0)})
-            barButtonItems.removeAll()
             self.bind(position: .right, barButtonItems: items)
         }
     }

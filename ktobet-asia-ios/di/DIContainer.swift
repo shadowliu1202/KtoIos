@@ -207,6 +207,10 @@ class DIContainer {
             let portalApi = ctner.resolve(PortalApi.self)!
             return LocalizationRepositoryImpl(portalApi)
         }
+        ctner.register(AppUpdateRepository.self) { resolver in
+            let portalApi = ctner.resolve(PortalApi.self)!
+            return AppUpdateRepositoryImpl(portalApi)
+        }
     }
     
     func registUsecase(){
@@ -342,6 +346,10 @@ class DIContainer {
             let repoLocalization = ctner.resolve(LocalizationRepository.self)!
             return LocalizationPolicyUseCaseImpl(repoLocalization)
         }
+        ctner.register(AppVersionUpdateUseCase.self) { (resolver) in
+            let repo = ctner.resolve(AppUpdateRepository.self)!
+            return AppVersionUpdateUseCaseImpl(repo)
+        }
     }
     
     func registViewModel(){
@@ -383,8 +391,8 @@ class DIContainer {
             return ResetPasswordViewModel(usecaseAuthentication, systemUseCase)
         }
         ctner.register(SystemViewModel.self) { (resolver) in
-            let sstemSignalRUseCase = ctner.resolve(SystemSignalRUseCase.self)!
-            return SystemViewModel(systemUseCase: sstemSignalRUseCase)
+            let systemSignalRUseCase = ctner.resolve(SystemSignalRUseCase.self)!
+            return SystemViewModel(systemUseCase: systemSignalRUseCase)
         }
         ctner.register(ServiceStatusViewModel.self) { resolver  in
             let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
