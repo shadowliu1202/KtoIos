@@ -18,6 +18,7 @@ class TextBarButtonItem: UIBarButtonItem {
 let registerBarBtnId = 1001
 let customerServiceBarBtnId = 1002
 let loginBarBtnId = 1003
+let manualUpdateBtnId = 1004
 
 class CustomerServiceButtonItem: TextBarButtonItem {
     weak var delegate: CustomServiceDelegate? = nil
@@ -63,5 +64,16 @@ class LoginButtonItem: TextBarButtonItem {
     init() {
         super.init(title: Localize.string("common_login"))
         self.senderId(loginBarBtnId)
+    }
+}
+
+class ManualUpdateButtonItem: TextBarButtonItem {
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    init() {
+        super.init(title: Localize.string("update_title"))
+        self.senderId(manualUpdateBtnId)
     }
 }

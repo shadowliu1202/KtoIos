@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class ResetPasswordViewController: UIViewController {
+class ResetPasswordViewController: LandingViewController {
     static let segueIdentifier = "goResetPasswordSegue"
     var barButtonItems: [UIBarButtonItem] = []
     @IBOutlet private weak var naviItem : UINavigationItem!
@@ -199,6 +199,10 @@ class ResetPasswordViewController: UIViewController {
                 dest.viewModel = viewModel
             }
         }
+    }
+    
+    override func abstracObserverUpdate() {
+        self.observerCompulsoryUpdate()
     }
 }
 

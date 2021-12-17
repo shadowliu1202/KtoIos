@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class SlotUnsettleRecordsViewController: UIViewController {
+class SlotUnsettleRecordsViewController: AppVersionCheckViewController {
     static let segueIdentifier = "toSlotUnsettleRecords"
     var viewModel = DI.resolve(SlotBetViewModel.self)!
     private var disposeBag = DisposeBag()

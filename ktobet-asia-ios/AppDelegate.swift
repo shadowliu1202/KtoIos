@@ -37,9 +37,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().standardAppearance = appearance
         }
         
-        #if QAT
-        self.addDebugGesture()
-        #endif
+        fetchLatestVersion()
+        
+        if Configuration.debugGesture {
+            self.addDebugGesture()
+        }
         
         return true
     }
@@ -62,6 +64,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
             }.disposed(by: disposeBag)
         }
+        
+        fetchLatestVersion()
+    }
+    
+    private func fetchLatestVersion() {
+        AppSynchronizeViewModel.shared.syncAppVersion()
     }
     
     func addDebugGesture() {

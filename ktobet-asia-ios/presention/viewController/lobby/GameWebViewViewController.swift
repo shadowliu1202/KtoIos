@@ -6,6 +6,7 @@ import WebKit
 class GameWebViewViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: ProductWebGameViewModelProtocol?
+    weak var delegate: WebGameViewCallback?
     private var disposeBag = DisposeBag()
     
     var gameId: Int32!
@@ -59,6 +60,10 @@ class GameWebViewViewController: UIViewController {
         UIDevice.current.setValue(value, forKey: "orientation")
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
     }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
 }
 
 
@@ -74,6 +79,8 @@ extension GameWebViewViewController: WKNavigationDelegate, WKUIDelegate {
 
 extension GameWebViewViewController: BarButtonItemable {
     func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        self.navigationController?.dismiss(animated: true, completion: { [weak self] in
+            self?.delegate?.gameDidDisappear()
+        })
     }
 }

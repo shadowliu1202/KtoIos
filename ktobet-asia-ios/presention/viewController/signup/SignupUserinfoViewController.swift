@@ -11,7 +11,7 @@ import RxCocoa
 import SharedBu
 import Swinject
 
-class SignupUserinfoViewController: UIViewController {
+class SignupUserinfoViewController: LandingViewController {
     
     @IBOutlet private weak var naviItem : UINavigationItem!
     
@@ -254,6 +254,10 @@ class SignupUserinfoViewController: UIViewController {
         self.viewRegistErrMessage.isHidden = true
         self.labRegistErrMessage.text = ""
         self.constraintRegistErrMessageHeight.constant = 0
+    }
+    
+    override func abstracObserverUpdate() {
+        self.observerCompulsoryUpdate()
     }
 }
 

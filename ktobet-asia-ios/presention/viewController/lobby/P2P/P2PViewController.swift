@@ -4,7 +4,7 @@ import RxCocoa
 import SharedBu
 import AlignedCollectionViewFlowLayout
 
-class P2PViewController: UIViewController {
+class P2PViewController: AppVersionCheckViewController {
     
     @IBOutlet private weak var tableView: UITableView!
         
@@ -57,6 +57,7 @@ class P2PViewController: UIViewController {
                     gameVc.gameId = p2pGame.gameId
                     gameVc.gameName = p2pGame.gameName
                     gameVc.viewModel = self.viewModel
+                    gameVc.delegate = self
                     navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
                     self.present(navi, animated: true, completion: nil)
                 }

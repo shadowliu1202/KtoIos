@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SignupPhoneViewController: UIViewController {
+class SignupPhoneViewController: LandingViewController {
     
     @IBOutlet private weak var naviItem : UINavigationItem!
     @IBOutlet private weak var labTitle : UILabel!
@@ -233,6 +233,10 @@ class SignupPhoneViewController: UIViewController {
             }, onError: { [weak self] error in
                 self?.handleError(error)
             }).disposed(by: disposeBag)
+    }
+    
+    override func abstracObserverUpdate() {
+        self.observerCompulsoryUpdate()
     }
 }
 

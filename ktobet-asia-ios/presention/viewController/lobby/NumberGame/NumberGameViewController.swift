@@ -280,6 +280,7 @@ extension NumberGameViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDa
             gameVc.gameId = game.gameId
             gameVc.gameName = game.gameName
             gameVc.viewModel = self.viewModel
+            gameVc.delegate = self
             navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
             self.present(navi, animated: true, completion: nil)
         }

@@ -5,7 +5,7 @@ import SDWebImage
 import TYCyclePagerView
 import AlignedCollectionViewFlowLayout
 
-class SlotViewController: UIViewController {
+class SlotViewController: AppVersionCheckViewController {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var recentlyCollectionView: LoadMoreCollectionView!
     @IBOutlet var newCollectionView: LoadMoreCollectionView!
@@ -227,6 +227,7 @@ extension SlotViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDataSour
             gameVc.gameId = slotGame.gameId
             gameVc.gameName = slotGame.gameName
             gameVc.viewModel = self.viewModel
+            gameVc.delegate = self
             navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
             self.present(navi, animated: true, completion: nil)
         }

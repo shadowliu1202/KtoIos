@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 
 
-class ResetPasswordStep3ViewController: UIViewController {
+class ResetPasswordStep3ViewController: LandingViewController {
     static let segueIdentifier = "toStep3Segue"
     var barButtonItems: [UIBarButtonItem] = []
     
@@ -101,6 +101,10 @@ class ResetPasswordStep3ViewController: UIViewController {
                 dest.failedType = .resetPassword
             }
         }
+    }
+    
+    override func abstracObserverUpdate() {
+        self.observerCompulsoryUpdate()
     }
 }
 
