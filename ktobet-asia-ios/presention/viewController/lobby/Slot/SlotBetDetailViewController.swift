@@ -100,7 +100,8 @@ class SlotBetDetailCell: UITableViewCell {
         dateFormatter.dateFormat = "HH:mm:ss"
         let dateString: String = dateFormatter.string(from: date)
         self.timeLabel.text = "\(dateString)".uppercased()
-        
+        self.iconImageView.isHidden = !item.hasDetail
+        self.isUserInteractionEnabled = item.hasDetail
         
         if let winLoss = item.winLoss {
             let status = winLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
