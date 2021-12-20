@@ -25,6 +25,7 @@ class RecentViewController: UIViewController {
         let shareRecent = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return self.viewModel.recent
         }).share()
+        
         shareRecent.catchError({ [weak self] (error) -> Observable<[NumberGameSummary.RecentlyBet]> in
             self?.handleErrors(error)
             return Observable.just([])
@@ -33,11 +34,13 @@ class RecentViewController: UIViewController {
         }).bind(to: tableView.rx.items) { tableView, row, item in
             return tableView.dequeueReusableCell(withIdentifier: "NumbergameRecentCell", cellType: NumbergameRecentCell.self).configure(item)
         }.disposed(by: disposeBag)
+        
         Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(NumberGameSummary.RecentlyBet.self)).bind{ [unowned self] (indexPath, data) in
             self.performSegue(withIdentifier: NumberGameMyBetDetailViewController.segueIdentifier, sender: indexPath.row)
         }.disposed(by: disposeBag)
+        
         shareRecent.flatMap({ [unowned self] (array : [NumberGameSummary.RecentlyBet]) -> Observable<[NumberGameBetDetail]> in
-            let wagerIds: [String] = array.map{ $0.wagerId }
+            let wagerIds: [String] = array.filter{ $0.hasDetail }.map{ $0.wagerId }
             return self.viewModel.getRecentGamesDetail(wagerIds: wagerIds).asObservable()
         }).subscribe(onNext: { [weak self] (details: [NumberGameBetDetail]) in
             self?.details = details
@@ -89,6 +92,7 @@ class NumbergameRecentCell: UITableViewCell {
             betAmountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + " \(status.LocalizeString)"
         }
         arrow.isHidden = !item.hasDetail
+        self.isUserInteractionEnabled = item.hasDetail
         return self
     }
     
