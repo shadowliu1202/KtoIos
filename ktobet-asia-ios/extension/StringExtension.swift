@@ -187,3 +187,9 @@ extension String {
         return string as String
     }
 }
+
+extension StringProtocol {
+    func index<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> Index? {
+        range(of: string, options: options)?.lowerBound
+    }
+}

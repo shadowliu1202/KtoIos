@@ -2,6 +2,7 @@ import UIKit
 import WebKit
 import RxSwift
 import SharedBu
+import RxCocoa
 
 
 class PromotionDetailViewController: UIViewController {
@@ -15,16 +16,14 @@ class PromotionDetailViewController: UIViewController {
     @IBOutlet weak var statusImageView: UIImageView!
     @IBOutlet weak var getPromotionButton: UIButton!
     @IBOutlet weak var topBackgroundView: UIView!
-    @IBOutlet weak var contentTemplateWebView: WKWebView!
-    @IBOutlet weak var ruleTemplateWebView: WKWebView!
-    @IBOutlet weak var contentWebViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var ruleWebViewHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var textViewContent: UITextView!
+    @IBOutlet weak var textViewRule: UITextView!
     
     var viewModel: PromotionViewModel!
     var item: PromotionVmItem!
+    
     fileprivate var disposeBag = DisposeBag()
-    fileprivate let bonusTnc = "bonustnc"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +31,15 @@ class PromotionDetailViewController: UIViewController {
         
         getPromotionButton.applyGradient(horizontal: [UIColor.yellowFull.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor])
         topBackgroundView.applyGradient(horizontal: [UIColor.yellowFull.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor])
+        textViewContent.linkTextAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: UIColor.red, .foregroundColor: UIColor.red]
+        textViewRule.linkTextAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: UIColor.red, .foregroundColor: UIColor.red]
         
-        let scaleContentHeaderString = "<head><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'></head>"
-        let fontName = "PingFangSC-Regular"
-        let fontSize = 14
-        let fontSetting = "<span style=\"font-family: \(fontName);font-size: \(fontSize)\"</span>"
+        textViewContent.delegate = self
+        textViewRule.delegate = self
+        
+        let promotionDetail = Driver.combineLatest(viewModel.getPromotionDetail(id: item.id), viewModel.playerLevel.asDriver(onErrorJustReturn: ""))
+        promotionDetail.map{ self.replaceContent(text: $0.content, level: $1) }.drive(textViewContent.rx.attributedText).disposed(by: disposeBag)
+        promotionDetail.map{ self.replaceContent(text: $0.rules, level: $1) }.drive(textViewRule.rx.attributedText).disposed(by: disposeBag)
         
         setView(productTypeTitle: item.title,
                 productSubType: item.subTitle,
@@ -46,31 +49,6 @@ class PromotionDetailViewController: UIViewController {
                 promotionAmount: item.displayAmount,
                 validPeriod: (item as? BonusCouponItem)?.validPeriod,
                 isFull: (item as? PromotionEventItem)?.isAutoUse() ?? false)
-        
-        contentTemplateWebView.scrollView.isScrollEnabled = false
-        ruleTemplateWebView.scrollView.isScrollEnabled = false
-        contentTemplateWebView.navigationDelegate = self
-        ruleTemplateWebView.navigationDelegate = self
-        Observable.combineLatest(viewModel.getPromotionDetail(promotionId: item.id).asObservable(), viewModel.playerLevel.asObservable())
-            .map({[weak self] (promotionDescriptions, level) -> (PromotionDescriptions, String) in
-                guard let self = self else { return (promotionDescriptions, level) }
-                var content = promotionDescriptions.content.replacingOccurrences(of: "rgb(255, 255, 255)", with: "rgb(0, 0, 0)")
-                content = content.replacingOccurrences(of: "{date}", with: self.item.displayInformPlayerDate)
-                content = content.replacingOccurrences(of: "{maxbonus}", with: self.item.displayMaxAmount)
-                content = content.replacingOccurrences(of: "{multiple}", with: (self.item as? BonusCouponItem)?.displayBetMultiple ?? "")
-                content = content.replacingOccurrences(of: "{level}", with: self.item.displayLevel ?? level)
-                content = content.replacingOccurrences(of: "{percentage}", with: self.item.displayPercentage)
-                content = content.replacingOccurrences(of: "{mincapital}", with: (self.item as? BonusCouponItem)?.displayMinCapital ?? "" )
-                content = content.replacingOccurrences(of: "{\(self.bonusTnc)}", with: "<a href=\"bonustnc\" style=\"color:red;\">\(Localize.string("bonus_detail_contentrule"))</a>" )
-                let ruleContent = promotionDescriptions.rules.replacingOccurrences(of: "{\(self.bonusTnc)}", with: "<a href=\"bonustnc\" style=\"color:red;\">\(Localize.string("bonus_detail_contentrule"))</a>" )
-                return (PromotionDescriptions.init(content: content, rules: ruleContent), level)
-            })
-            .subscribe {[weak self] (promotionDescriptions, level) in
-                self?.contentTemplateWebView.loadHTMLString(fontSetting + scaleContentHeaderString + promotionDescriptions.content, baseURL: nil)
-                self?.ruleTemplateWebView.loadHTMLString(fontSetting + scaleContentHeaderString + promotionDescriptions.rules, baseURL: nil)
-            } onError: { error in
-                self.handleUnknownError(error)
-            }.disposed(by: disposeBag)
         
         getPromotionButton.rx.tap.subscribe(onNext: {[weak self] in
             guard let self = self else { return }
@@ -85,6 +63,42 @@ class PromotionDetailViewController: UIViewController {
                     }).disposed(by: self.disposeBag)
             }
         }).disposed(by: disposeBag)
+        
+    }
+    
+    private func replaceContent(text: String, level: String) -> NSMutableAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.2
+        let fontAttribute = [NSAttributedString.Key.font: UIFont(name: "PingFangSC-Regular", size: 14)!,
+                             NSAttributedString.Key.foregroundColor: UIColor.textSecondaryScorpionGray,
+                             NSAttributedString.Key.paragraphStyle: paragraphStyle]
+        
+        var attributedString = NSMutableAttributedString(string: text, attributes: fontAttribute)
+        replaceParameter(text: &attributedString, parameter: "{date}", value: self.item.displayInformPlayerDate)
+        replaceParameter(text: &attributedString, parameter: "{maxbonus}", value: self.item.displayMaxAmount)
+        replaceParameter(text: &attributedString, parameter: "{multiple}", value: (self.item as? BonusCouponItem)?.displayBetMultiple ?? "")
+        replaceParameter(text: &attributedString, parameter: "{level}", value: self.item.displayLevel ?? level)
+        replaceParameter(text: &attributedString, parameter: "{percentage}", value: self.item.displayPercentage)
+        replaceParameter(text: &attributedString, parameter: "{mincapital}", value: (self.item as? BonusCouponItem)?.displayMinCapital ?? "")
+        replaceBonusTnc(text: &attributedString, parameter: "{bonustnc}", value: Localize.string("bonus_detail_contentrule"))
+        return attributedString
+    }
+    
+    private func replaceBonusTnc(text: inout NSMutableAttributedString, parameter: String, value: String) {
+        guard let index = text.string.index(of: parameter)?.utf16Offset(in: text.string) else { return }
+        replaceParameter(text: &text, parameter: parameter, value: value)
+        text.addAttribute(.link, value: "", range: NSRange(location: index, length: value.count))
+    }
+    
+    private func replaceParameter(text: inout NSMutableAttributedString, parameter: String, value: String) {
+        guard let index = text.string.index(of: parameter)?.utf16Offset(in: text.string) else { return }
+        text.replaceCharacters(in: NSRange(location: index, length: parameter.count), with: NSAttributedString(string: value))
+        text.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: index, length: value.count))
+        text.addAttribute(.font, value: UIFont(name: "PingFangSC-Regular", size: 14)!, range: NSRange(location: index, length: value.count))
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     private func setView(
@@ -212,57 +226,11 @@ class PromotionDetailViewController: UIViewController {
         }
         return Localize.string("bonus_status_expirydate", "00:00:00")
     }
-    
-    private func getBonusLevel(bonusCoupon: BonusCoupon) -> String {
-        if let depositReturnLevel = bonusCoupon as? BonusCoupon.DepositReturnLevel {
-            return depositReturnLevel.level.description
-        } else {
-            return "0"
-        }
-    }
-    
-    private func getPercentage(bonusCoupon: BonusCoupon) -> String {
-        switch bonusCoupon {
-        case let freeBet as BonusCoupon.FreeBet:
-            return freeBet.percentage.description
-        case let depositReturnLevel as BonusCoupon.DepositReturnLevel:
-            return depositReturnLevel.percentage.description
-        case let depositReturnCustomize as BonusCoupon.DepositReturnCustomize:
-            return depositReturnCustomize.percentage.description
-        case let rebate as BonusCoupon.Rebate:
-            return rebate.percentage.description
-        default:
-            return ""
-        }
-    }
 }
 
-extension PromotionDetailViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if webView.isLoading == false {
-            webView.evaluateJavaScript("document.body.scrollHeight", completionHandler: { [weak self] (result, error) in
-                if let height = result as? CGFloat {
-                    if webView == self?.contentTemplateWebView {
-                        self?.contentWebViewHeight.constant = height
-                    } else {
-                        self?.ruleWebViewHeight.constant = height
-                    }
-                }
-            })
-        }
-    }
-    
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if navigationAction.navigationType == WKNavigationType.linkActivated {
-            if let url = navigationAction.request.url?.absoluteString, url == bonusTnc {
-                print(url)
-                performSegue(withIdentifier: PromotionRuleTermViewController.segueIdentifier, sender: nil)
-            }
-            
-            decisionHandler(WKNavigationActionPolicy.cancel)
-            return
-        }
-        
-        decisionHandler(WKNavigationActionPolicy.allow)
+extension PromotionDetailViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        performSegue(withIdentifier: PromotionRuleTermViewController.segueIdentifier, sender: nil)
+        return false
     }
 }

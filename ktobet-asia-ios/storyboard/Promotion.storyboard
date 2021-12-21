@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -141,35 +141,22 @@
                                             <constraint firstItem="sNM-7A-4Pw" firstAttribute="top" secondItem="mjP-Bl-Xuh" secondAttribute="bottom" constant="8" id="z9b-by-4nf"/>
                                         </constraints>
                                     </view>
-                                    <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GDC-AD-icf">
-                                        <rect key="frame" x="22" y="237.5" width="370" height="10"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="10" id="Bdk-0V-sCz"/>
-                                        </constraints>
-                                        <wkWebViewConfiguration key="configuration">
-                                            <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                            <wkPreferences key="preferences"/>
-                                        </wkWebViewConfiguration>
-                                    </wkWebView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUt-9B-4n7">
+                                        <rect key="frame" x="22" y="237.5" width="370" height="36"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hwA-Sb-qyp">
-                                        <rect key="frame" x="30" y="247.5" width="354" height="1"/>
+                                        <rect key="frame" x="30" y="273.5" width="354" height="1"/>
                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="QGX-uo-DZp"/>
                                         </constraints>
                                     </view>
-                                    <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s0n-aY-o8I">
-                                        <rect key="frame" x="22" y="295" width="370" height="10"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="10" id="pvH-wj-1Un"/>
-                                        </constraints>
-                                        <wkWebViewConfiguration key="configuration">
-                                            <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                            <wkPreferences key="preferences"/>
-                                        </wkWebViewConfiguration>
-                                    </wkWebView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUd-7I-8th">
-                                        <rect key="frame" x="30" y="215" width="41.5" height="22.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUd-7I-8th">
+                                        <rect key="frame" x="26" y="215" width="41.5" height="22.5"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="16"/>
                                         <color key="textColor" name="blackFull"/>
                                         <nil key="highlightedColor"/>
@@ -178,7 +165,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbn-xI-WdC">
-                                        <rect key="frame" x="30" y="272.5" width="41.5" height="22.5"/>
+                                        <rect key="frame" x="26" y="298.5" width="41.5" height="22.5"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="16"/>
                                         <color key="textColor" name="blackFull"/>
                                         <nil key="highlightedColor"/>
@@ -189,29 +176,37 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="promotionAutoUseBig" translatesAutoresizingMaskIntoConstraints="NO" id="bjb-fN-MSt">
                                         <rect key="frame" x="303" y="135.5" width="111" height="111"/>
                                     </imageView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bxm-hL-dOV">
+                                        <rect key="frame" x="22" y="321" width="370" height="36"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <inset key="scrollIndicatorInsets" minX="0.0" minY="22" maxX="0.0" maxY="318"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                 </subviews>
                                 <color key="backgroundColor" name="whiteFull"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="s0n-aY-o8I" secondAttribute="trailing" constant="22" id="9zv-KH-eYI"/>
-                                    <constraint firstItem="s0n-aY-o8I" firstAttribute="leading" secondItem="tbn-xI-WdC" secondAttribute="leading" constant="-8" id="Hf4-8z-A20"/>
-                                    <constraint firstItem="GDC-AD-icf" firstAttribute="leading" secondItem="QUd-7I-8th" secondAttribute="leading" constant="-8" id="I1m-70-nkc"/>
+                                    <constraint firstAttribute="trailing" secondItem="cUt-9B-4n7" secondAttribute="trailing" constant="22" id="6Zp-Eh-veN"/>
+                                    <constraint firstItem="Bxm-hL-dOV" firstAttribute="top" secondItem="tbn-xI-WdC" secondAttribute="bottom" id="7pR-hB-hCa"/>
+                                    <constraint firstItem="hwA-Sb-qyp" firstAttribute="top" secondItem="cUt-9B-4n7" secondAttribute="bottom" id="AaV-1c-ceQ"/>
                                     <constraint firstAttribute="trailing" secondItem="lrF-T3-3jy" secondAttribute="trailing" id="Lay-wB-1j1"/>
+                                    <constraint firstItem="Bxm-hL-dOV" firstAttribute="leading" secondItem="tbn-xI-WdC" secondAttribute="leading" constant="-4" id="MrO-92-vqp"/>
                                     <constraint firstAttribute="trailing" secondItem="bjb-fN-MSt" secondAttribute="trailing" id="OXE-rh-jSv"/>
+                                    <constraint firstItem="cUt-9B-4n7" firstAttribute="top" secondItem="QUd-7I-8th" secondAttribute="bottom" id="Omd-N7-8Hj"/>
+                                    <constraint firstAttribute="bottom" secondItem="Bxm-hL-dOV" secondAttribute="bottom" constant="96" id="Rhb-e1-QpM"/>
                                     <constraint firstItem="hwA-Sb-qyp" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" constant="30" id="Sha-D6-ctT"/>
-                                    <constraint firstItem="s0n-aY-o8I" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" constant="22" id="atC-0E-m7L"/>
-                                    <constraint firstItem="s0n-aY-o8I" firstAttribute="top" secondItem="tbn-xI-WdC" secondAttribute="bottom" id="cxW-10-Npr"/>
-                                    <constraint firstItem="GDC-AD-icf" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" constant="22" id="d97-gD-Mlx"/>
+                                    <constraint firstItem="cUt-9B-4n7" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" constant="22" id="akI-eB-x1J"/>
+                                    <constraint firstItem="cUt-9B-4n7" firstAttribute="leading" secondItem="QUd-7I-8th" secondAttribute="leading" constant="-4" id="bjm-fE-8kF"/>
                                     <constraint firstItem="lrF-T3-3jy" firstAttribute="width" secondItem="0yc-a2-JWf" secondAttribute="width" id="gmM-gu-61p"/>
                                     <constraint firstItem="tbn-xI-WdC" firstAttribute="top" secondItem="hwA-Sb-qyp" secondAttribute="bottom" constant="24" id="jLP-1J-zKA"/>
                                     <constraint firstItem="lrF-T3-3jy" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" id="lrA-dC-Z20"/>
                                     <constraint firstItem="bjb-fN-MSt" firstAttribute="centerY" secondItem="lrF-T3-3jy" secondAttribute="bottom" id="mGU-w8-qNd"/>
                                     <constraint firstAttribute="trailing" secondItem="hwA-Sb-qyp" secondAttribute="trailing" constant="30" id="nai-1L-GLH"/>
                                     <constraint firstItem="QUd-7I-8th" firstAttribute="top" secondItem="lrF-T3-3jy" secondAttribute="bottom" constant="24" id="nnm-RF-NmH"/>
-                                    <constraint firstAttribute="bottom" secondItem="s0n-aY-o8I" secondAttribute="bottom" constant="96" id="oo6-FT-RSP"/>
-                                    <constraint firstAttribute="trailing" secondItem="GDC-AD-icf" secondAttribute="trailing" constant="22" id="viM-pb-rg7"/>
+                                    <constraint firstItem="Bxm-hL-dOV" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" constant="22" id="r3D-o7-2mg"/>
+                                    <constraint firstAttribute="trailing" secondItem="Bxm-hL-dOV" secondAttribute="trailing" constant="22" id="xia-4H-R5H"/>
                                     <constraint firstItem="lrF-T3-3jy" firstAttribute="top" secondItem="0yc-a2-JWf" secondAttribute="top" id="xxg-VO-Jon"/>
-                                    <constraint firstItem="hwA-Sb-qyp" firstAttribute="top" secondItem="GDC-AD-icf" secondAttribute="bottom" id="y0F-Z1-RAh"/>
-                                    <constraint firstItem="GDC-AD-icf" firstAttribute="top" secondItem="QUd-7I-8th" secondAttribute="bottom" id="zZ2-ph-mf8"/>
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1fi-lp-Ukf">
@@ -264,17 +259,15 @@
                     <connections>
                         <outlet property="amountLabel" destination="5V7-fg-zBV" id="yeJ-s8-LFq"/>
                         <outlet property="buttonViewHeight" destination="CkJ-dD-h5b" id="WNW-P9-OrY"/>
-                        <outlet property="contentTemplateWebView" destination="GDC-AD-icf" id="I3o-xG-XgC"/>
-                        <outlet property="contentWebViewHeight" destination="Bdk-0V-sCz" id="Zd8-Kv-lN0"/>
                         <outlet property="expireDateLabel" destination="wFp-pE-jSP" id="ALw-Na-yB6"/>
                         <outlet property="getPromotionButton" destination="THR-CQ-G9s" id="mCm-YY-l1d"/>
                         <outlet property="issueNumberLabel" destination="bXY-TZ-TKV" id="Kb7-sl-17C"/>
                         <outlet property="nameLabel" destination="zou-s1-xlL" id="gKH-SL-nO0"/>
                         <outlet property="promotionImageView" destination="ns8-KE-PVG" id="ZqR-Kc-KT6"/>
-                        <outlet property="ruleTemplateWebView" destination="s0n-aY-o8I" id="b1R-QS-l5S"/>
-                        <outlet property="ruleWebViewHeight" destination="pvH-wj-1Un" id="VNE-9k-3Er"/>
                         <outlet property="statusImageView" destination="bjb-fN-MSt" id="of5-IN-qZW"/>
                         <outlet property="subTypeLabel" destination="C16-Kz-8gn" id="o87-Aj-FPs"/>
+                        <outlet property="textViewContent" destination="cUt-9B-4n7" id="Ykx-X0-TUQ"/>
+                        <outlet property="textViewRule" destination="Bxm-hL-dOV" id="ll5-0t-KcE"/>
                         <outlet property="topBackgroundView" destination="lrF-T3-3jy" id="7fN-Vg-Dsx"/>
                         <outlet property="typeButton" destination="fAN-hh-5Nk" id="gT4-SQ-ArT"/>
                         <segue destination="hHL-Ko-hPe" kind="show" identifier="toPromotionRuleTerm" id="XsS-VZ-LIf"/>
@@ -295,7 +288,6 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bCH-oj-ei0">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" name="blackFull"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="21"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1131,20 +1123,20 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="IoM-gM-ToQ" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="158.5" width="354" height="96"/>
+                                    <rect key="frame" x="0.0" y="159" width="354" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromotionHeaderViewCell" id="pYD-1Q-vQS" customClass="PromotionHeaderViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="84.5" width="354" height="56"/>
+                                        <rect key="frame" x="0.0" y="84.5" width="354" height="56.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pYD-1Q-vQS" id="t81-s2-X1e">
-                                            <rect key="frame" x="0.0" y="0.0" width="354" height="56"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="354" height="56.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONp-OA-9gE">
-                                                    <rect key="frame" x="0.0" y="24" width="354" height="26"/>
+                                                    <rect key="frame" x="0.0" y="24" width="354" height="26.5"/>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="18"/>
                                                     <color key="textColor" name="whiteFull"/>
                                                     <nil key="highlightedColor"/>
@@ -1227,6 +1219,9 @@
         <namedColor name="whiteFull">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
