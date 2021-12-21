@@ -112,6 +112,7 @@ platform :ios do
       		     	clean: true,
       		     	include_bitcode: true,
       			include_symbols: true,
+			output_name: "staging-testflight.ipa",
 			output_directory: "output",
       			export_method: 'app-store',
       			export_xcargs: "-allowProvisioningUpdates")
