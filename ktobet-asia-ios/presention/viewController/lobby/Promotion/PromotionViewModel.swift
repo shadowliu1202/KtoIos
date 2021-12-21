@@ -126,8 +126,13 @@ class PromotionViewModel {
         self.filterOfProduct.accept(selectedProductTags)
     }
     
-    func getPromotionDetail(promotionId: String) -> Single<PromotionDescriptions> {
+    func getPromotionDetail(id promotionId: String) -> Driver<PromotionDescriptions> {
         promotionUseCase.getPromotionDetail(promotionId: promotionId)
+            .map { promotionDescriptions in
+                let content = promotionDescriptions.content.htmlToString
+                let rule = promotionDescriptions.rules.htmlToString
+                return PromotionDescriptions.init(content: content, rules: rule)
+            }.asDriver(onErrorJustReturn: PromotionDescriptions.init(content: "", rules: ""))
     }
     
     func requestCouponApplication(bonusCoupon: BonusCoupon) -> Single<WaitingConfirm> {
