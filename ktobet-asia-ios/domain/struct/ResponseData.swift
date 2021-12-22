@@ -1267,12 +1267,13 @@ struct BonusBean: Codable {
     let amount: Double
     let away: String
     let betMultiple: Int32
-    let bonusCouponStatus: Int
+    let bonusCouponStatus: Int32
     let displayId: String
     let effectiveDate: String
     let expiryDate: String
     let home: String
     let informPlayerDate: String
+    let isLimitedByDailyFull: Bool
     let issue: Int32
     let league: String
     let level: Int32
@@ -1287,7 +1288,7 @@ struct BonusBean: Codable {
     let updatedDate: String
     
     var couponStatus: CouponStatus {
-        return self.covertBonusPromotionStatus(self.bonusCouponStatus)
+        return self.covertBonusPromotionStatus(self.bonusCouponStatus, isLimitedByDailyFull)
     }
     var knAmount: AccountCurrency {
         return self.amount.toAccountCurrency()
@@ -1302,14 +1303,8 @@ struct BonusBean: Codable {
         return Percentage(percent: self.percentage)
     }
     
-    private func covertBonusPromotionStatus(_ bonusCouponStatus: Int) -> CouponStatus {
-        switch bonusCouponStatus {
-        case 0:     return CouponStatus.usable
-        case 1:     return CouponStatus.used
-        case 2:     return CouponStatus.expired
-        case 3:     return CouponStatus.full
-        default:    return CouponStatus.unknown
-        }
+    private func covertBonusPromotionStatus(_ bonusCouponStatus: Int32, _ isLimitedByDailyFull: Bool) -> CouponStatus {
+        return CouponStatus.companion.convert(status: bonusCouponStatus, reachedDailyLimit: isLimitedByDailyFull)
     }
     
     func toBonusCoupon() -> BonusCoupon {

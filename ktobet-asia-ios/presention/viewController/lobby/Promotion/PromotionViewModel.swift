@@ -175,6 +175,25 @@ protocol BonusCouponItem: PromotionVmItem {
     var displayMinCapital: String { get }
 }
 
+protocol HasAmountLimitationItem: BonusCouponItem where Self: HasAmountLimitation {
+    var watermarkIcon: UIImage? { get }
+}
+
+extension HasAmountLimitationItem {
+    var watermarkIcon: UIImage? {
+        switch self.getFullType() {
+        case .none:
+            return nil
+        case .daily:
+            return UIImage(named: "promotionDailyFull")
+        case .complete:
+            return UIImage(named: "promotionIsFull")
+        default:
+            return nil
+        }
+    }
+}
+
 protocol PromotionEventItem: PromotionVmItem {
     var expireDate: Date { get }
     func isAutoUse() -> Bool

@@ -189,7 +189,7 @@ class UseBonusCoupon {
         case is BonusCouponDepositAmountOrTimesNotEnough:
             title = Localize.string("bonus_condition_error")
             message = Localize.string("bonus_deposit_not_satisfied")
-        case is BonusReachTheApplicantLimitation:
+        case is BonusReachTheApplicantLimitation, is BonusReachTheDailyLimitation:
             title = Localize.string("bonus_quota_is_full")
             message = Localize.string("bonus_error_bonus_quota_is_full")
         case is BonusCouponIsNotExist:

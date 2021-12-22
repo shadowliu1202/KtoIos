@@ -55,7 +55,7 @@ class PromotionViewController: UIViewController {
         
         tableView.rx.itemSelected.subscribe(onNext: { [weak self] indexPath in
             let item = self?.dataSource[indexPath.section][indexPath.row]
-            if let bonusCoupon = item as? BonusCouponItem, bonusCoupon.couponState == .full {
+            if let bonusCoupon = item as? HasAmountLimitationItem, bonusCoupon.isFull() {
                 Alert.show(Localize.string("bonus_couponstatus_full_title"), Localize.string("bonus_error_bonus_quota_is_full"), confirm: nil, confirmText: Localize.string("common_confirm"), cancel: nil)
                 return
             }

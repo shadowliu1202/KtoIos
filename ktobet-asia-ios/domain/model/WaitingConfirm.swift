@@ -10,6 +10,7 @@ class WaitingConfirm {
              is BonusCouponDepositAmountOrTimesNotEnough,
              is BonusCouponIsUsed,
              is BonusReachTheApplicantLimitation,
+             is BonusReachTheDailyLimitation,
              is BonusCouponIsNotExist:
             return Single.just(ConfirmUseCouponFail(throwable: exception))
         default:

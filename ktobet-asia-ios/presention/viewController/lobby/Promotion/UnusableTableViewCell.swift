@@ -10,6 +10,9 @@ class UnusableTableViewCell: PromotionTableViewCell {
     
     func configure(_ item: PromotionVmItem, _ isFull: Bool = false) -> Self {
         super.setData(item)
+        if let limitationItem = item as? HasAmountLimitationItem {
+            watermarkIcon.image = limitationItem.watermarkIcon
+        }
         return self
     }
     
@@ -17,6 +20,5 @@ class UnusableTableViewCell: PromotionTableViewCell {
         btnGetCouponHeight.constant = 0
         btnGetCoupon.setTitle(nil, for: .normal)
         timerLabel.textAlignment = .left
-        watermarkIcon.image = UIImage(named: "promotionIsFull")
     }
 }
