@@ -1,7 +1,8 @@
+import UIKit
 import Foundation
 import SharedBu
 
-extension BonusCoupon.FreeBet: BonusCouponItem {
+extension BonusCoupon.FreeBet: HasAmountLimitationItem {
     var displayBetMultiple: String {
         self.betMultiple.description
     }
@@ -54,7 +55,7 @@ extension BonusCoupon.FreeBet: BonusCouponItem {
     }
 }
 
-extension BonusCoupon.DepositReturn: BonusCouponItem {
+extension BonusCoupon.DepositReturn: HasAmountLimitationItem {
     var displayBetMultiple: String {
         self.betMultiple.description
     }
