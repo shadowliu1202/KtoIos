@@ -1,2 +1,3 @@
 APP-1528 [iOS][Portal][Withdrawal] Replace type of input field with dropdown list for fields Bank Province and Bank City
 APP-2052 [APP][iOS]Free bet/DP bonus要可以設定每日限額
+APP-2425 [iOS] 點擊 Player Account or 通知鈴鐺會 Crash. Fixed in 0.16.0 qat.
