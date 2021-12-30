@@ -7,6 +7,7 @@ protocol LocalizationPolicyUseCase {
     func getPromotionPolicy() -> Single<PromotionPolicy>
     func getPrivacyTerms() -> Single<TermsDetail>
     func initLocale() -> Completable
+    func getCryptoGuidance() -> Single<[CryptoDepositGuidance]>
 }
 
 class LocalizationPolicyUseCaseImpl: LocalizationPolicyUseCase {
@@ -94,4 +95,63 @@ class LocalizationPolicyUseCaseImpl: LocalizationPolicyUseCase {
     private func createTerms(_ map: [String: String], titleKey: String, contentKey: String) -> Term {
         Term(title: map[titleKey] ?? "", contents: map[contentKey] ?? "")
     }
+    
+    func getCryptoGuidance() -> Single<[CryptoDepositGuidance]> {
+        repo.getCryptoTutorials()
+    }
+
+    
+    /*
+    func getCryptoGuidance() -> Single<CryptoGuidance> {
+        let str =
+"""
+{
+  "title": "新虚拟币用户指南",
+  "description": "以下是新用户可以购买虚拟币的交易所列表。我们尽量保持信息更新，但我们不对客户在各交易所探索过程中出现的不准确信息或任何损失负责。如果对交易所使用有任何疑问或问题，建议您直接联交易所客服。",
+  "cryptoType": [
+    {
+      "name": "币安",
+      "content": [
+        {
+          "item": "新手必读",
+          "link": "https://www.okex.com/support/hc/zh-cn/sections/360000033031-%E6%96%B0%E6%89%8B%E5%BF%85%E8%AF%BB"
+        },
+        {
+          "item": "下载",
+          "link": "https://www.okex.com/support/hc/zh-cn/articles/115003835372-%E4%B8%8B%E8%BD%BD%E6%AC%A7%E6%98%93OKEx%E6%8A%A2%E9%B2%9C%E7%89%88%E6%89%8B%E6%9C%BAApp"
+        },
+        {
+          "item": "注册",
+          "link": "https://www.okex.com/support/hc/zh-cn/articles/360055591692-6-%E6%B3%A8%E5%86%8C%E8%B4%A6%E6%88%B7%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97-APP%E7%AB%AF-"
+        }
+      ]
+    },
+    {
+      "name": "芝麻开门",
+      "content": [
+        {
+          "item": "买卖币",
+          "link": "https://www.gate.tv/help/c2c/trade/17252/%E4%B8%80%E9%94%AE%E4%B9%B0%E5%B8%81%E6%93%8D%E4%BD%9C%E8%AF%B4%E6%98%8E-app%E7%89%88"
+        },
+        {
+          "item": "提币",
+          "link": "https://www.gate.io/help/guide/deposit_withdrawa/16447/how-to-withdraw-funds"
+        },
+        {
+          "item": "手续费",
+          "link": "https://www.gate.io/help/c2c/instructions/22244/how-much-does-gate.io-charge-for-p2p-tradings"
+        }
+      ]
+    }
+  ]
+}
+"""
+        if let decoded = try? JSONDecoder().decode(CryptoGuidance.self, from: Data(str.utf8)) {
+            return Single.just(decoded)
+        } else {
+            print("Not working")
+            return Single.never()
+        }
+    }
+     */
 }

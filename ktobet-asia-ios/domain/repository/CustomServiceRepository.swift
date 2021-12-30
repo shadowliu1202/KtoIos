@@ -23,7 +23,7 @@ protocol CustomerInfraService {
     func verifyCurrentChatRoomToken() -> Single<Bool>
     func queryChatHistory(page: Int, pageSize: Int) -> Single<(TotalCount, [ChatHistory])>
     func uploadImage(imageData: Data) -> Single<UploadImageDetail>
-    func isInChat() -> Single<Bool>
+    func isPlayerInChat() -> Single<PlayerInChatBean>
 }
 
 extension CustomServiceRepositoryImpl: CustomerInfraService {
@@ -39,8 +39,8 @@ extension CustomServiceRepositoryImpl: CustomerInfraService {
         apiCustomService.verifyChatRoomToken().map{ $0.data }.catchErrorJustReturn(false)
     }
     
-    func isInChat() -> Single<Bool> {
-        apiCustomService.getInChat()
+    func isPlayerInChat() -> Single<PlayerInChatBean> {
+        apiCustomService.getPlayerInChat()
     }
     
     func uploadImage(imageData: Data) -> Single<UploadImageDetail> {
@@ -120,7 +120,7 @@ extension CustomServiceRepositoryImpl: CustomerInfraService {
     }
     
     func queryChatHistory(page: Int, pageSize: Int = 20) -> Single<(TotalCount, [ChatHistory])> {
-        return apiCustomService.getPlayerChatHistory(pageIndex: page, pageSize: pageSize).map({
+        apiCustomService.getPlayerChatHistory(pageIndex: page, pageSize: pageSize).map({
             guard let data = $0.data else { return (0, []) }
             let histories = data.payload.map({ $0.toChatHistory() })
             return (data.totalCount, histories)
@@ -136,18 +136,29 @@ protocol CustomServiceRepository {
     func send(_ message: String, roomId: String) -> Completable
     func send(_ imageId: String, imageName: String, roomId: String) -> Completable
     func checkCustomerServiceStatus() -> Single<Bool>
-    func connectChatRoom(_ token: String) -> Single<PortalChatRoom>
+    func connectChatRoom(_ bean: PlayerInChatBean) -> Single<PortalChatRoom>
     func convertSpeaker(speaker: String, speakerType: Int32) -> PortalChatRoom.Speaker
-    func covertContentFromInProcess(messageType: Int32, html: String, text: String, speakerType: SpeakerType, fileId: String?) -> ChatMessage.Content
-    func createCustomerChatRoomToken(skillId: SkillId) -> Single<Token>
+//    func createCustomerChatRoomToken(skillId: SkillId) -> Single<Token>
+    func createRoom(survey: Survey, surveyAnswers: SurveyAnswers?) -> Single<PortalChatRoom>
     func deleteSelectedHistories(chatHistory: [ChatHistory], isExclude: Bool) -> Completable
     func getChatHistory(roomId: RoomId) -> Single<[ChatMessage]>
+    func covertContentFromInProcess(message: Message, speakerType: SpeakerType) -> [ChatMessage.Content]
+    func currentChatRoom() -> Observable<PortalChatRoom>
 }
 
 class CustomServiceRepositoryImpl : CustomServiceRepository {
     private var apiCustomService : CustomServiceApi!
-    private var portalChatRoom: PortalChatRoom? = nil
+    private var portalChatRoom: PortalChatRoom? = nil {
+        didSet {
+            if let room = portalChatRoom {
+                chatRoomSubject.onNext(room)
+            } else {
+                chatRoomSubject.onNext(CustomServiceRepositoryImpl.PortalChatRoomNoExist)
+            }
+        }
+    }
     private var chatRoomClient: ChatRoomSignalRClient? = nil
+    private var chatRoomSubject = BehaviorSubject<PortalChatRoom>(value: CustomServiceRepositoryImpl.PortalChatRoomNoExist)
     
     init(_ apiCustomService : CustomServiceApi) {
         self.apiCustomService = apiCustomService
@@ -164,14 +175,10 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
         apiCustomService.getInProcessInformation(roomId: roomId).map { response in
             guard let data = response.data else { return [] }
             return data.map {
-                ChatMessage.Message.init(id: $0.messageID,
-                                         speaker: self.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
-                                         message: self.covertContentFromInProcess(messageType: $0.messageType,
-                                                                                  html: $0.html,
-                                                                                  text: $0.text,
-                                                                                  speakerType: EnumMapper.convert(speakerType: $0.speakerType),
-                                                                                  fileId: $0.fileID),
-                                         createTimeTick: $0.createDate.toLocalDateTime())
+                ChatMessage.Message(id: $0.messageId,
+                                    speaker: self.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
+                                    message: self.covertContentFromInProcess(message: $0.message, speakerType: EnumMapper.convert(speakerType: $0.speakerType)),
+                                    createTimeTick: $0.createdDate.toLocalDateTime())
             }
         }
     }
@@ -180,43 +187,100 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
         apiCustomService.removeToken()
     }
     
-    func createCustomerChatRoomToken(skillId: SkillId) -> Single<Token> {
-        return apiCustomService.createTokenForUserConversation(skillId: skillId)
-            .catchError({ (error) in
-                let exception = ExceptionFactory.create(error)
-                switch exception {
-                case is ChatCheckGuestFail:
-                    return Single.error(ChatCheckGuestIPFail())
-                default:
-                    return Single.error(error)
-                }
-            })
-            .map({$0.data})
+    func createRoom(survey: Survey, surveyAnswers: SurveyAnswers?) -> Single<PortalChatRoom> {
+        var createRoom: Single<NonNullResponseData<String>>
+        if surveyAnswers == nil {
+            createRoom = apiCustomService.createRoom(Empty())
+        } else {
+            createRoom = apiCustomService.createRoom(convert(survey: survey, surveyAnswers: surveyAnswers!, roomId: ""))
+        }
+        
+        return createRoom.map{ $0.data }
+        .flatMap(self.connectChatRoom)
     }
     
-    func connectChatRoom(_ token: String) -> Single<PortalChatRoom> {
+    func currentChatRoom() -> Observable<PortalChatRoom> {
+        chatRoomSubject.asObservable()
+    }
+    
+    private func convert(survey: Survey, surveyAnswers: SurveyAnswers, roomId: RoomId) -> AnswerSurveyBean {
+        AnswerSurveyBean(questions: surveyAnswers.answers.map { convertToQuestion(answer: $0) },
+                         roomId: roomId,
+                         skillId: survey.csSkillId,
+                         surveyId: survey.surveyId,
+                         surveyType: survey.surveyType.ordinal,
+                         updatedUser: survey.updatedUser,
+                         version: survey.version)
+    }
+    
+    private func convertToQuestion(answer: (key: SurveyQuestion_, value: [SurveyQuestion_.SurveyQuestionOption])) -> Question {
+        let (question, options) = answer
+        return Question(questionId: question.questionId,
+                        questionText: question.description_,
+                        surveyAnswerOptions: options.map { self.convertToSurveyAnswerOption(bean: $0) })
+    }
+    
+    private func convertToSurveyAnswerOption(bean: SurveyQuestion_.SurveyQuestionOption) -> SurveyAnswerOption {
+        SurveyAnswerOption(optionId: bean.optionId, optionText: bean.values)
+    }
+    
+    static let PortalChatRoomNoExist = PortalChatRoom.companion.notExist()
+
+    private func connectChatRoom(token: Token) -> Single<PortalChatRoom> {
+        Single.create { emitter in
+            if (self.chatRoomClient?.token != token) {
+                self.chatRoomClient?.disconnect()
+                self.chatRoomClient = ChatRoomSignalRClient(token: token, repository: self)
+                self.portalChatRoom = PortalChatRoom.init(service: self.chatRoomClient!)
+            } else if (self.portalChatRoom == nil) {
+                self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
+            }
+            
+            emitter(.success(self.portalChatRoom ?? CustomServiceRepositoryImpl.PortalChatRoomNoExist))
+            
+            return Disposables.create()
+        }
+    }
+    
+//    func createCustomerChatRoomToken(skillId: SkillId) -> Single<Token> {
+//        return apiCustomService.createTokenForUserConversation(skillId: skillId)
+//            .catchError({ (error) in
+//                let exception = ExceptionFactory.create(error)
+//                switch exception {
+//                case is ChatCheckGuestFail:
+//                    return Single.error(ChatCheckGuestIPFail())
+//                default:
+//                    return Single.error(error)
+//                }
+//            })
+//            .map({$0.data})
+//    }
+    
+    func connectChatRoom(_ bean: PlayerInChatBean) -> Single<PortalChatRoom> {
         Single.create { [weak self] single in
             guard let self = self else {
                 single(.error(NSError.init(domain: "connect socket failed", code: 401, userInfo: nil)))
                 return Disposables.create()
             }
             
-            if self.chatRoomClient?.token != token {
-                self.chatRoomClient?.disconnect()
-                self.chatRoomClient = ChatRoomSignalRClient(token: token, repository: self)
-                self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
-            } else if self.portalChatRoom == nil {
-                self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
+            if let token = bean.token {
+                if self.chatRoomClient?.token != bean.token {
+                    self.chatRoomClient?.disconnect()
+                    self.chatRoomClient = ChatRoomSignalRClient(token: token, skillId: bean.skillId ?? "", roomId: bean.roomId ?? "", repository: self)
+                    self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
+                } else if self.portalChatRoom == nil {
+                    self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
+                }
+                
             }
-            
-            single(.success(self.portalChatRoom ?? PortalChatRoom.companion.notExist()))
+            single(.success(self.portalChatRoom ?? CustomServiceRepositoryImpl.PortalChatRoomNoExist))
             
             return Disposables.create()
         }
     }
     
     func closeChatRoom(roomId: String) -> Completable {
-        apiCustomService.closeChatRoom(roomId: roomId)
+        apiCustomService.closeChatRoom(roomId: roomId).do(onCompleted: {[weak self] in self?.portalChatRoom = nil })
     }
     
     func send(_ message: String, roomId: String) -> Completable {
@@ -236,18 +300,11 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
     }
     
     func getChatHistory(roomId: RoomId) -> Single<[ChatMessage]> {
-        return apiCustomService.getChatHistory(roomId: roomId).map({
-            guard let data = $0.data else {return []}
-            return data.map({ ChatMessage.Message.init(id: $0.messageId,
-                                                       speaker: self.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
-                                                       message: self.covertContent(messageType: $0.messageType,
-                                                                                                html: $0.html,
-                                                                                                text: $0.text,
-                                                                                                speakerType: EnumMapper.convert(speakerType: $0.speakerType),
-                                                                                                fileId: $0.fileId),
-                                                       createTimeTick: $0.createTimeTick.toLocalDateTime()) })
-            
-        })
+        apiCustomService.getChatHistory(roomId: roomId)
+            .map { response in
+                let roomHistories = response.data.payload?.flatMap{ $0.roomHistories }
+                return roomHistories?.map{ self.toChatMessage(history: $0) } ?? []
+            }
     }
     
     func convertSpeaker(speaker: String, speakerType: Int32) -> PortalChatRoom.Speaker {
@@ -263,45 +320,79 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
         }
     }
     
-    func covertContentFromInProcess(messageType: Int32, html: String, text: String, speakerType: SpeakerType, fileId: String?) -> ChatMessage.Content {
-        switch EnumMapper.convert(messageType: messageType) {
-        case .text:
-            return ChatMessage.ContentText.init(content: text, html: html)
-        case .image:
-            switch speakerType {
-            case .player:
-                return ChatMessage.ContentImage.init(image: PortalImage.ChatUser.init(imageId: fileId ?? "", fileName: text, host: HttpClient().host))
-            case .handler, .system:
-                return ChatMessage.ContentImage.init(image: PortalImage.Public.init(imageId: fileId ?? "", fileName: text, host: HttpClient().host))
-            default:
-                return ChatMessage.Content.init()
-            }
-        case .link:
-            return ChatMessage.ContentLink.init(content: html)
-        default:
-            return ChatMessage.Content.init()
-        }
+//    func covertContentFromInProcess(messageType: Int32, html: String, text: String, speakerType: SpeakerType, fileId: String?) -> ChatMessage.Content {
+//        switch EnumMapper.convert(messageType: messageType) {
+//        case .text:
+//            return ChatMessage.ContentText.init(content: text, attributes: html)
+//        case .image:
+//            switch speakerType {
+//            case .player:
+//                return ChatMessage.ContentImage.init(image: PortalImage.ChatUser.init(imageId: fileId ?? "", fileName: text, host: HttpClient().host))
+//            case .handler, .system:
+//                return ChatMessage.ContentImage.init(image: PortalImage.Public.init(imageId: fileId ?? "", fileName: text, host: HttpClient().host))
+//            default:
+//                return ChatMessage.Content.init()
+//            }
+//        case .link:
+//            return ChatMessage.ContentLink.init(content: html)
+//        default:
+//            return ChatMessage.Content.init()
+//        }
+//    }
+    
+    private func toChatMessage(history: RoomHistory) -> ChatMessage {
+        ChatMessage.Message(id: history.messageId,
+                            speaker: convertSpeaker(speaker: history.speaker, speakerType: history.speakerType),
+                            message: covertContentFromInProcess(message: history.message, speakerType: EnumMapper.convert(speakerType: history.speakerType)),
+                            createTimeTick: history.createdDate.toLocalDateTime())
     }
     
-    func covertContent(messageType: Int32, html: String, text: String, speakerType: SpeakerType, fileId: String?) -> ChatMessage.Content {
-        switch EnumMapper.convert(messageType: messageType) {
-        case .text:
-            return ChatMessage.ContentText.init(content: text, html: html)
-        case .image:
-            switch speakerType {
-            case .player:
-                return ChatMessage.ContentImage.init(image: PortalImage.Private.init(imageId: fileId ?? "", fileName: text, host: HttpClient().host))
-            case .handler, .system:
-                return ChatMessage.ContentImage.init(image: PortalImage.Public.init(imageId: fileId ?? "", fileName: text, host: HttpClient().host))
-            default:
-                return ChatMessage.Content.init()
+    func covertContentFromInProcess(message: Message, speakerType: SpeakerType) -> [ChatMessage.Content] {
+        message.quillDeltas.map { it in
+            if let image = it.attributes?.image {
+                return ChatMessage.ContentImage(image: PortalImage.ChatImage(host: HttpClient().host, path: image))
             }
-        case .link:
-            return ChatMessage.ContentLink.init(content: html)
-        default:
-            return ChatMessage.Content.init()
+            
+            if let link = it.attributes?.link {
+                return ChatMessage.ContentLink(content: link)
+            }
+            
+            return ChatMessage.ContentText(content: it.insert, attributes: it.attributes?.convert())
         }
+//        message.quillDeltas.map {
+//               val attributes = it.attributes
+//               when {
+//                   attributes?.image != null -> when (speakerType) {
+//                       SpeakerType.PLAYER -> ChatMessage.Content.Image(PortalImage.ChatImage(path = attributes.image!!, host = portalClient.host()))
+//                       SpeakerType.HANDLER, SpeakerType.SYSTEM -> ChatMessage.Content.Image(
+//                           PortalImage.ChatImage(path = attributes.image!!, host = portalClient.host())
+//                       )
+//                   }
+//                   attributes?.link != null -> ChatMessage.Content.Link(attributes.link!!)
+//                   else -> ChatMessage.Content.Text(it.insert, it.attributes)
+//               }
+//           }
     }
+    
+//    func covertContent(messageType: Int32, html: String, text: String, speakerType: SpeakerType, fileId: String?) -> ChatMessage.Content {
+//        switch EnumMapper.convert(messageType: messageType) {
+//        case .text:
+//            return ChatMessage.ContentText.init(content: text, html: html)
+//        case .image:
+//            switch speakerType {
+//            case .player:
+//                return ChatMessage.ContentImage.init(image: PortalImage.Private.init(imageId: fileId ?? "", fileName: text, host: HttpClient().host))
+//            case .handler, .system:
+//                return ChatMessage.ContentImage.init(image: PortalImage.Public.init(imageId: fileId ?? "", fileName: text, host: HttpClient().host))
+//            default:
+//                return ChatMessage.Content.init()
+//            }
+//        case .link:
+//            return ChatMessage.ContentLink.init(content: html)
+//        default:
+//            return ChatMessage.Content.init()
+//        }
+//    }
 }
 
 struct Argument: Codable {
@@ -315,16 +406,17 @@ struct Argument: Codable {
 
 
 protocol SurveyInfraService {
-    func getSurveyQuestion(surveyType: Survey.SurveyType, skillId: String?) -> Single<SurveyInformation>
+//    func getSurveyQuestion(surveyType: Survey.SurveyType, skillId: String?) -> Single<SurveyInformation>
+    func getSurveygetChatHistoryQuestion(surveyType: Survey.SurveyType, skillId: SkillId?) -> Single<Survey>
     func setSurveyAnswers(roomId: RoomId?, survey: Survey, surveyAnswers: SurveyAnswers) -> Single<SurveyConnectionId>
     func connectSurveyWithChatRoom(surveyConnectionId: SurveyConnectionId, chatRoomId: RoomId) -> Completable
     func createOfflineSurvey(message: String, email: String) -> Completable
 }
 
 extension SurveyInfraService {
-    func getSurveyQuestion(surveyType: Survey.SurveyType) -> Single<SurveyInformation> {
-        return getSurveyQuestion(surveyType: surveyType, skillId: nil)
-    }
+//    func getSurveyQuestion(surveyType: Survey.SurveyType) -> Single<SurveyInformation> {
+//        getSurveygetChatHistoryQuestion(surveyType: surveyType, skillId: nil)
+//    }
     
     func setSurveyAnswers(survey: Survey, surveyAnswers: SurveyAnswers) -> Single<SurveyConnectionId> {
         return setSurveyAnswers(roomId: nil, survey: survey, surveyAnswers: surveyAnswers)
@@ -332,10 +424,8 @@ extension SurveyInfraService {
 }
 
 extension CustomServiceRepositoryImpl: SurveyInfraService {
-    func getSurveyQuestion(surveyType: Survey.SurveyType, skillId: String?) -> Single<SurveyInformation> {
-        return apiCustomService.getSkillSurvey(surveyType: surveyType.ordinal, platForm: convertPlatform(Survey.Platform.web)).map({
-            SurveyInformation(skillId: $0.data.skillID, survey: $0.data.survey?.toSurvey())
-        })
+    func getSurveygetChatHistoryQuestion(surveyType: Survey.SurveyType, skillId: SkillId?) -> Single<Survey> {
+        apiCustomService.getSkillSurvey(type: surveyType.ordinal, skillId: skillId).map{ $0.data.toSurvey() }
     }
     
     private func convertPlatform(_ platform: Survey.Platform) -> Int {
@@ -360,4 +450,26 @@ extension CustomServiceRepositoryImpl: SurveyInfraService {
     func createOfflineSurvey(message: String, email: String) -> Completable {
         return apiCustomService.createOfflineSurvey(CustomerMessageData(content: message, email: email))
     }
+}
+
+
+struct AnswerSurveyBean: Codable {
+    let questions: [Question]
+    let roomId: String
+    let skillId: String
+    let surveyId: String
+    let surveyType: Int32
+    let updatedUser: String
+    let version: Int32
+}
+
+struct Question: Codable {
+    let questionId: String
+    let questionText: String
+    let surveyAnswerOptions: [SurveyAnswerOption]
+}
+
+struct SurveyAnswerOption: Codable {
+    let optionId: String
+    let optionText: String
 }

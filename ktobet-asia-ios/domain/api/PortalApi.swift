@@ -55,4 +55,9 @@ class PortalApi: ApiService {
         let target = GetAPITarget(service: self.url("ios/api/get-ios-ipa-version"))
         return httpClient.request(target).map(ResponseData<VersionData>.self)
     }
+    
+    func getCryptoTutorials() -> Single<ResponseData<[CryptoTutorialBean]>> {
+        let target = GetAPITarget(service: self.url("api/crypto/exchange-tutorials"))
+        return httpClient.request(target).map(ResponseData<[CryptoTutorialBean]>.self)
+    }
 }

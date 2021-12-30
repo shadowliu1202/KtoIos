@@ -5,10 +5,10 @@ import SharedBu
 
 class SurveyViewController: UIViewController {
     var viewModel: SurveyViewModel!
-    var surveyInfo: SurveyInformation! {
+    var surveyInfo: Survey! {
         didSet {
-            titleLabel.text = surveyInfo.survey?.heading
-            subTitleLabel.text = surveyInfo.survey?.description_
+            titleLabel.text = surveyInfo.heading
+            subTitleLabel.text = surveyInfo.description_
             tableView.layoutTableHeaderView()
         }
     }
@@ -18,7 +18,7 @@ class SurveyViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
      
     private var disposeBag = DisposeBag()
-    var dataSource: [SurveyQuestion] = [] {
+    var dataSource: [SurveyQuestion_] = [] {
         didSet {
             tableView.reloadData()
         }
@@ -53,13 +53,13 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let questionSection: SurveyQuestion = dataSource[section]
+        let questionSection: SurveyQuestion_ = dataSource[section]
         return tableView.dequeueReusableCell(withIdentifier: "ServeyHeaderViewCell", cellType: ServeyHeaderViewCell.self).configure(questionSection).contentView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let questionSection: SurveyQuestion = dataSource[section]
-        let surveyQuestionType: SurveyQuestion.SurveyQuestionType = questionSection.surveyQuestionType
+        let questionSection: SurveyQuestion_ = dataSource[section]
+        let surveyQuestionType: SurveyQuestion_.SurveyQuestionType = questionSection.surveyQuestionType
         switch surveyQuestionType {
         case .simpleoption:
             return 1
@@ -75,8 +75,8 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = indexPath.section
         let row = indexPath.row
-        let option: SurveyQuestion.SurveyQuestionOption = dataSource[section].surveyQuestionOptions[row]
-        let surveyQuestionType: SurveyQuestion.SurveyQuestionType = dataSource[section].surveyQuestionType
+        let option: SurveyQuestion_.SurveyQuestionOption = dataSource[section].surveyQuestionOptions[row]
+        let surveyQuestionType: SurveyQuestion_.SurveyQuestionType = dataSource[section].surveyQuestionType
         var cell: UITableViewCell
         switch surveyQuestionType {
         case .simpleoption:
@@ -100,8 +100,8 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = indexPath.section
         let row = indexPath.row
-        let option: SurveyQuestion.SurveyQuestionOption = dataSource[section].surveyQuestionOptions[row]
-        let surveyQuestionType: SurveyQuestion.SurveyQuestionType = dataSource[section].surveyQuestionType
+        let option: SurveyQuestion_.SurveyQuestionOption = dataSource[section].surveyQuestionOptions[row]
+        let surveyQuestionType: SurveyQuestion_.SurveyQuestionType = dataSource[section].surveyQuestionType
         switch surveyQuestionType {
         case .simpleoption:
             answer(simple: option, indexPath: indexPath)
@@ -117,12 +117,12 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    private func rowIsSelected(option: SurveyQuestion.SurveyQuestionOption, indexPath: IndexPath) -> Bool {
+    private func rowIsSelected(option: SurveyQuestion_.SurveyQuestionOption, indexPath: IndexPath) -> Bool {
         let section = indexPath.section
         return viewModel.cachedSurveyAnswers?[section].isOptionSelected(option) ?? false
     }
     
-    private func answer(sigle option: SurveyQuestion.SurveyQuestionOption, indexPath: IndexPath) {
+    private func answer(sigle option: SurveyQuestion_.SurveyQuestionOption, indexPath: IndexPath) {
         let section = indexPath.section
         let answerItem = viewModel.cachedSurveyAnswers?[section]
         if rowIsSelected(option: option, indexPath: indexPath) {
@@ -134,7 +134,7 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
         viewModel.answerUpdate()
     }
     
-    private func answer(simple option: SurveyQuestion.SurveyQuestionOption, indexPath: IndexPath) {
+    private func answer(simple option: SurveyQuestion_.SurveyQuestionOption, indexPath: IndexPath) {
         let section = indexPath.section
         let answerItem = viewModel.cachedSurveyAnswers?[section]
         answerItem?.options.removeAll()
@@ -142,7 +142,7 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
         viewModel.answerUpdate()
     }
     
-    private func answer(multiple option: SurveyQuestion.SurveyQuestionOption, indexPath: IndexPath) {
+    private func answer(multiple option: SurveyQuestion_.SurveyQuestionOption, indexPath: IndexPath) {
         let section = indexPath.section
         let answerItem = viewModel.cachedSurveyAnswers?[section]
         if rowIsSelected(option: option, indexPath: indexPath) {
@@ -160,7 +160,7 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
             if text.isEmpty {
                 answerItem?.options.removeAll()
             } else {
-                let option = SurveyQuestion.SurveyQuestionOption(optionId: "", questionId: question.questionId, enable: false, isOther: false, values: text)
+                let option = SurveyQuestion_.SurveyQuestionOption(optionId: "", questionId: question.questionId, enable: false, isOther: false, values: text)
                 answerItem?.addAnswer(option)
             }
         }
@@ -178,7 +178,7 @@ class ServeyHeaderViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     
-    func configure(_ item: SurveyQuestion) -> Self {
+    func configure(_ item: SurveyQuestion_) -> Self {
         titleLabel.text = item.description_
         messageLabel.text = item.isRequired ? Localize.string("common_field_must_fill_2") : nil
         return self
@@ -188,9 +188,9 @@ class ServeyHeaderViewCell: UITableViewCell {
 class DropdownOptionCell: UITableViewCell {
     @IBOutlet weak var optionDropDown: DropDownInputText!
     
-    func configure(_ item: [SurveyQuestion.SurveyQuestionOption],
-                   _ theSelected: SurveyQuestion.SurveyQuestionOption?,
-                   _ callback: ((SurveyQuestion.SurveyQuestionOption) -> ())? = nil) -> Self {
+    func configure(_ item: [SurveyQuestion_.SurveyQuestionOption],
+                   _ theSelected: SurveyQuestion_.SurveyQuestionOption?,
+                   _ callback: ((SurveyQuestion_.SurveyQuestionOption) -> ())? = nil) -> Self {
         self.selectionStyle = .none
         optionDropDown.customizeBackgroundColor = (.backgroundListCodGray2, .backgroundListCodGray2)
         optionDropDown.optionArray = item.map({$0.values})
@@ -214,7 +214,7 @@ class SimpleOptionCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var icon: UIImageView!
     
-    func configure(_ item: SurveyQuestion.SurveyQuestionOption, _ isSelected: Bool) -> Self {
+    func configure(_ item: SurveyQuestion_.SurveyQuestionOption, _ isSelected: Bool) -> Self {
         self.selectionStyle = .none
         titleLabel.text = item.values
         icon.image = isSelected ? UIImage(named: "iconSingleSelectionSelected24") : UIImage(named: "iconSingleSelectionEmpty24")
@@ -226,7 +226,7 @@ class MultipleOptionCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var icon: UIImageView!
     
-    func configure(_ item: SurveyQuestion.SurveyQuestionOption, _ isSelected: Bool) -> Self {
+    func configure(_ item: SurveyQuestion_.SurveyQuestionOption, _ isSelected: Bool) -> Self {
         self.selectionStyle = .none
         titleLabel.text = item.values
         icon.image = isSelected ? UIImage(named: "iconDoubleSelectionSelected24") : UIImage(named: "iconDoubleSelectionEmpty24")

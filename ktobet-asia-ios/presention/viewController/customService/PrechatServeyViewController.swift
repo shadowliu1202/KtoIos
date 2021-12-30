@@ -6,10 +6,10 @@ import SharedBu
 class PrechatServeyViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: SurveyViewModel!
-    var surveyInfo: SurveyInformation! {
+    var surveyInfo: Survey! {
         didSet {
-            self.survey = surveyInfo.survey
-            self.skillId = surveyInfo.skillId
+            self.survey = surveyInfo
+            self.skillId = surveyInfo.csSkillId
         }
     }
     
@@ -44,7 +44,7 @@ class PrechatServeyViewController: UIViewController {
             guard let `self` = self else { return }
             self.surveyInfo = $0
             self.surveyVC.surveyInfo = $0
-            self.surveyVC.dataSource = $0?.survey?.surveyQuestions ?? []
+            self.surveyVC.dataSource = $0?.surveyQuestions ?? []
         }).disposed(by: disposeBag)
         
         viewModel.isAnswersValid.bind(to: completeBtn.rx.isValid).disposed(by: disposeBag)
@@ -60,7 +60,7 @@ class PrechatServeyViewController: UIViewController {
                 return Observable.error($0)
             }).retry()
             .subscribe(onNext: { [unowned self] (connectId) in
-                CustomService.switchToCalling(skillID: self.skillId, connectId: connectId)
+                CustomService.switchToCalling(svViewModel: viewModel)
             }).disposed(by: disposeBag)
     }
     
@@ -71,7 +71,7 @@ extension PrechatServeyViewController: BarButtonItemable {
         CustomService.close()
     }
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
-        CustomService.switchToCalling(skillID: self.skillId, connectId: nil)
+        CustomService.switchToCalling(svViewModel: viewModel)
     }
 }
 

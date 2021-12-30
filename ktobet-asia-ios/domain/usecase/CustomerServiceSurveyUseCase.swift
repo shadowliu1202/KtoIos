@@ -3,9 +3,10 @@ import SharedBu
 import RxSwift
 
 protocol CustomerServiceSurveyUseCase {
-    func getPreChatSurvey(csSkillId: String?) -> Single<SurveyInformation>
+//    func getPreChatSurvey(csSkillId: String?) -> Single<SurveyInformation>
+    func getPreChatSurvey() -> Single<Survey>
     func answerPreChatSurvey(survey: Survey, surveyAnswers: SurveyAnswers) -> Single<SkillId>
-    func getExitSurvey() -> Single<SurveyInformation>
+    func getExitSurvey(skillId: SkillId) -> Single<Survey>
     func answerExitSurvey(roomId: RoomId, survey: Survey, surveyAnswers: SurveyAnswers) -> Single<SkillId>
     func bindChatRoomWithSurvey(roomId: RoomId, connectId: ConnectId) -> Completable
     func createOfflineSurvey(message: String, email: String) -> Completable
@@ -20,16 +21,16 @@ class CustomerServiceSurveyUseCaseImpl: CustomerServiceSurveyUseCase {
         self.surveyInfraService = surveyInfraService
     }
     
-    func getPreChatSurvey(csSkillId: String? = nil) -> Single<SurveyInformation> {
-        return surveyInfraService.getSurveyQuestion(surveyType: Survey.SurveyType.prechat, skillId: csSkillId)
+    func getPreChatSurvey() -> Single<Survey> {
+        surveyInfraService.getSurveygetChatHistoryQuestion(surveyType: Survey.SurveyType.prechat, skillId: nil)
     }
     
     func answerPreChatSurvey(survey: Survey, surveyAnswers: SurveyAnswers) -> Single<SkillId> {
         return surveyInfraService.setSurveyAnswers(survey: survey, surveyAnswers: surveyAnswers)
     }
     
-    func getExitSurvey() -> Single<SurveyInformation> {
-        return surveyInfraService.getSurveyQuestion(surveyType: Survey.SurveyType.exit)
+    func getExitSurvey(skillId: SkillId) -> Single<Survey> {
+        surveyInfraService.getSurveygetChatHistoryQuestion(surveyType: Survey.SurveyType.exit, skillId: skillId)
     }
     
     func answerExitSurvey(roomId: RoomId, survey: Survey, surveyAnswers: SurveyAnswers) -> Single<SkillId> {

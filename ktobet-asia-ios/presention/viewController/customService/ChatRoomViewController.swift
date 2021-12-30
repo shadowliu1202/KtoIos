@@ -130,17 +130,19 @@ class ChatRoomViewController: UIViewController {
                     case is PortalChatRoom.SpeakerSystem:
                         if self.dataCount - 1 == row && self.dataCount > 1 {
                             cell = tableView.dequeueReusableCell(withIdentifier: "\(CloseSystemDialogTableViewCell.self)") as! CloseSystemDialogTableViewCell
-                            let text = message.message as! ChatMessage.ContentText
-                            var str = text.content
+                            let message = message.message.map{ ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
+//                            let text = message.message.first as! ChatMessage.ContentText
+                            var str = message
                             str.insert(contentsOf: "\n", at: str.index(str.firstIndex(where: { $0 == "。" })!, offsetBy: 1))
-                            (cell as! CloseSystemDialogTableViewCell).messageLabel.text = str.removeHtmlTag()
+                            (cell as! CloseSystemDialogTableViewCell).messageLabel.text = str
                         } else {
                             cell = tableView.dequeueReusableCell(withIdentifier: "\(SystemDialogTableViewCell.self)") as! SystemDialogTableViewCell
                             (cell as! SystemDialogTableViewCell).dateLabel.text = message.createTimeTick.toDateFormatString()
-                            let text = message.message as! ChatMessage.ContentText
-                            var str = text.content
+                            let message = message.message.map{ ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
+//                            let text = message.message.first as! ChatMessage.ContentText
+                            var str = message //text.content
                             str.insert(contentsOf: "\n", at: str.index(str.firstIndex(where: { $0 == "。" })!, offsetBy: 1))
-                            (cell as! SystemDialogTableViewCell).messageLabel.text = str.removeHtmlTag()
+                            (cell as! SystemDialogTableViewCell).messageLabel.text = str
                         }
                     default:
                         break
@@ -161,7 +163,9 @@ class ChatRoomViewController: UIViewController {
         
         messagesOb.subscribe(onNext: {[weak self] (read, unread) in
             DispatchQueue.main.async {
-                self?.tableView.scrollToRow(at: IndexPath(row: dividerIndex, section: 0), at: .none, animated: false)
+                if dividerIndex > 0 {
+                    self?.tableView.scrollToRow(at: IndexPath(row: dividerIndex, section: 0), at: .none, animated: false)
+                }
             }
         }).disposed(by: disposeBag)
     }
@@ -184,38 +188,39 @@ class ChatRoomViewController: UIViewController {
     private func setDisplayCell(dialogIdentifier: String, imageIdentifier: String, linkIndentifer: String, element: ChatMessage) -> UITableViewCell {
         var cell: UITableViewCell!
         let message = element as! SharedBu.ChatMessage.Message
+        print(message.message)
+        print(message.message)
+//        switch message.message {
+//        case let text as ChatMessage.ContentText:
+//            cell = tableView.dequeueReusableCell(withIdentifier: dialogIdentifier) as! ChatDialogTableViewCell
+//            (cell as! ChatDialogTableViewCell).dateLabel.text = message.createTimeTick.toTimeString()
+//            (cell as! ChatDialogTableViewCell).messageLabel.text = text.content
+//        case let image as ChatMessage.ContentImage:
+//            cell = tableView.dequeueReusableCell(withIdentifier: imageIdentifier) as! ChatImageTableViewCell
+//            let imageDownloader = SDWebImageDownloader.shared
+//            for header in HttpClient().headers {
+//                imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
+//            }
+//
+//            (cell as! ChatImageTableViewCell).dateLabel.text = message.createTimeTick.toTimeString()
+//            (cell as! ChatImageTableViewCell).img.sd_setImage(with: URL(string: image.image.thumbnailLink()))
+//            let tapGesture = UITapGestureRecognizer()
+//            (cell as! ChatImageTableViewCell).img.addGestureRecognizer(tapGesture)
+//            tapGesture.rx.event.bind(onNext: {[weak self] recognizer in
+//                if let vc = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "ImageViewController") as? ImageViewController {
+//                    vc.url = image.image.link()
+//                    vc.thumbnailImage = (cell as! ChatImageTableViewCell).img.image
+//                    self?.navigationController?.pushViewController(vc, animated: true)
+//                }
+//            }).disposed(by: disposeBag)
+//        case let link as ChatMessage.ContentLink:
+//            cell = tableView.dequeueReusableCell(withIdentifier: linkIndentifer) as! ChatLinkTableViewCell
+//            (cell as! ChatLinkTableViewCell).setHyperLinker(text: link.content)
+//        default:
+//            break
+//        }
         
-        switch message.message {
-        case let text as ChatMessage.ContentText:
-            cell = tableView.dequeueReusableCell(withIdentifier: dialogIdentifier) as! ChatDialogTableViewCell
-            (cell as! ChatDialogTableViewCell).dateLabel.text = message.createTimeTick.toTimeString()
-            (cell as! ChatDialogTableViewCell).messageLabel.text = text.content
-        case let image as ChatMessage.ContentImage:
-            cell = tableView.dequeueReusableCell(withIdentifier: imageIdentifier) as! ChatImageTableViewCell
-            let imageDownloader = SDWebImageDownloader.shared
-            for header in HttpClient().headers {
-                imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
-            }
-            
-            (cell as! ChatImageTableViewCell).dateLabel.text = message.createTimeTick.toTimeString()
-            (cell as! ChatImageTableViewCell).img.sd_setImage(with: URL(string: image.image.thumbnailLink()))
-            let tapGesture = UITapGestureRecognizer()
-            (cell as! ChatImageTableViewCell).img.addGestureRecognizer(tapGesture)
-            tapGesture.rx.event.bind(onNext: {[weak self] recognizer in
-                if let vc = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "ImageViewController") as? ImageViewController {
-                    vc.url = image.image.link()
-                    vc.thumbnailImage = (cell as! ChatImageTableViewCell).img.image
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }
-            }).disposed(by: disposeBag)
-        case let link as ChatMessage.ContentLink:
-            cell = tableView.dequeueReusableCell(withIdentifier: linkIndentifer) as! ChatLinkTableViewCell
-            (cell as! ChatLinkTableViewCell).setHyperLinker(text: link.content)
-        default:
-            break
-        }
-        
-        return cell
+        return UITableViewCell()//cell
     }
     
     // MARK: Upload Image

@@ -8,7 +8,7 @@ extension SurveyAnswers {
     }
 }
 
-extension SurveyQuestion.SurveyQuestionOption {
+extension SurveyQuestion_.SurveyQuestionOption {
     func toAnswerBean() -> AnswerBean? {
         let answerID = optionId.isEmpty ? nil: optionId
         return AnswerBean(answerID: answerID, answerText: values, isOther: isOther)

@@ -3,6 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 import RxRelay
+import RxSwiftExt
 
 let CustomService = CustomServicePresenter.shared
 let endChatBarBtnId = 1003
@@ -51,6 +52,8 @@ class CustomServicePresenter: NSObject {
     let storyboard = UIStoryboard(name: "CustomService", bundle: nil)
     
     fileprivate let csViewModel = DI.resolve(CustomerServiceViewModel.self)!
+    fileprivate let surveyViewModel = DI.resolve(SurveyViewModel.self)!
+
     private(set)var ballWindow: CustomerServiceIconViewWindow?
     
     private let disposeBag = DisposeBag()
@@ -85,7 +88,7 @@ class CustomServicePresenter: NSObject {
                             self.setServiceIconTap() { self.switchToChatRoom(isRoot: true) }
                             self.showServiceIcon()
                         case .connecting:
-                            self.setServiceIconTap() { self.switchToCalling(isRoot: true) }
+                            self.setServiceIconTap() { self.switchToCalling(isRoot: true, svViewModel: self.surveyViewModel) }
                             self.showServiceIcon()
                         case .closed:
                             self.setServiceIconTap() { self.switchToChatRoom(isRoot: true) }
@@ -146,24 +149,25 @@ class CustomServicePresenter: NSObject {
         self.delegate = delegate
         delegate?.removeCustomServiceBarButtons()
         let csViewModel = self.csViewModel
-        let surveyViewModel = DI.resolve(SurveyViewModel.self)!
+        let surveyViewModel = self.surveyViewModel
         return csViewModel.checkServiceAvailable().flatMap({ (isAvailable) in
             if isAvailable {
                 return surveyViewModel.getPreChatSurvey()
             } else {
                 return Single.error(ServiceUnavailableException())
             }
-        }).do(onSuccess: { (info: SurveyInformation) in
-            if let _ = info.survey {
-                CustomService.switchToPrechat(from: vc, vm: surveyViewModel)
-            } else {
-                CustomService.switchToCalling(isRoot: true, skillID: info.skillId, connectId: nil)
-            }
+        }).do(onSuccess: { (info: Survey) in
+            CustomService.switchToPrechat(from: vc, vm: surveyViewModel)
+//            if let _ = info {
+//                CustomService.switchToPrechat(from: vc, vm: surveyViewModel)
+//            } else {
+//                CustomService.switchToCalling(isRoot: true, skillID: info.skillId, connectId: nil)
+//            }
         }).asCompletable()
             .catchError({ (error) in
                 switch error {
                 case is ServiceUnavailableException:
-                    CustomService.switchToCalling(isRoot: true, skillID: nil, connectId: nil)
+                    CustomService.switchToCalling(isRoot: true, svViewModel: nil)
                     return Completable.empty()
                 default:
                     delegate?.sessionClosed()
@@ -186,13 +190,14 @@ class CustomServicePresenter: NSObject {
         vc?.present(navi, animated: true, completion: nil)
     }
     
-    func switchToCalling(isRoot: Bool = false, skillID: SkillId? = nil, connectId: ConnectId? = nil) {
+    func switchToCalling(isRoot: Bool = false, svViewModel: SurveyViewModel? = nil) {
         let callingVC = storyboard.instantiateViewController(identifier: "CallingViewController") as CallingViewController
         callingVC.bind(position: .left, barButtonItems: .kto(.close))
         callingVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
-        callingVC.skillID = skillID
-        callingVC.connectId = connectId
+//        callingVC.skillID = skillID
+//        callingVC.connectId = connectId
         callingVC.csViewModel = csViewModel
+        callingVC.svViewModel = svViewModel
         if isRoot {
             let navi = storyboard.instantiateViewController(withIdentifier: "CustomServiceNavigationController") as! UINavigationController
             navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
@@ -240,7 +245,7 @@ class CustomServicePresenter: NSObject {
         let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
         offlineMessageVC.bind(position: .right, barButtonItems: padding, skip)
         offlineMessageVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
-        offlineMessageVC.viewModel = DI.resolve(SurveyViewModel.self)!
+        offlineMessageVC.viewModel = surveyViewModel
         if isRoot {
             let navi = storyboard.instantiateViewController(withIdentifier: "CustomServiceNavigationController") as! UINavigationController
             navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
@@ -261,15 +266,16 @@ class CustomServicePresenter: NSObject {
         let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
         exitSurveyVC.bind(position: .right, barButtonItems: padding, skip)
         exitSurveyVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
-        exitSurveyVC.viewModel = DI.resolve(SurveyViewModel.self)!
+        exitSurveyVC.viewModel = surveyViewModel
         exitSurveyVC.roomId = roomId
         self.topViewController?.navigationController?.setViewControllers([exitSurveyVC], animated: false)
     }
     
     func closeChatRoom() {
-        csViewModel.closeChatRoom().subscribe(onCompleted: {
-            print("close room")
-        }).disposed(by: disposeBag)
+        csViewModel.closeChatRoom()
+            .subscribe(onCompleted: {
+                print("close room")
+            }).disposed(by: disposeBag)
     }
     
     func close(completion: (() -> Void)? = nil) {
