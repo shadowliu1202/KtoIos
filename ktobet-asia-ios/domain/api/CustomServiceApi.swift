@@ -43,13 +43,13 @@ class CustomServiceApi: ApiService{
         return httpClient.request(target).map(ResponseData<String>.self)
     }
     
-    func getInProcessInformation(roomId: String) -> Single<ResponseData<[InProcessResponse]>> {
+    func getInProcessInformation(roomId: String) -> Single<ResponseData<[InProcessBean]>> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "onlinechat/api/chat-system/in-process/\(roomId)",
+                               path: "onlinechat/api/room/in-process",
                                method: .get,
                                task: .requestPlain,
                                header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<[InProcessResponse]>.self)
+        return httpClient.request(target).map(ResponseData<[InProcessBean]>.self)
     }
     
     func removeToken() -> Completable {
@@ -63,7 +63,7 @@ class CustomServiceApi: ApiService{
     
     func closeChatRoom(roomId: String) -> Completable {
         let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "onlinechat/api/chat-system/player/\(roomId)/close",
+                               path: "onlinechat/api/room/player/close",
                                method: .post,
                                task: .requestPlain,
                                header: httpClient.headers)
@@ -80,9 +80,9 @@ class CustomServiceApi: ApiService{
         return httpClient.request(target).map(NonNullResponseData<Bool>.self)
     }
     
-    func getInChat() -> Single<Bool> {
-        let target = GetAPITarget(service: self.url("\(prefix)/chat-system/player/in-chat"))
-        return httpClient.request(target).map(NonNullResponseData<Bool>.self).map({$0.data})
+    func getPlayerInChat() -> Single<PlayerInChatBean> {
+        let target = GetAPITarget(service: self.url("\(prefix)/room/player/in-chat"))
+        return httpClient.request(target).map(NonNullResponseData<PlayerInChatBean>.self).map({$0.data})
     }
     
     func send(request: SendMessageRequest) -> Completable {
@@ -107,16 +107,16 @@ class CustomServiceApi: ApiService{
      * Step 1: Check CS Status
      */
     func getCustomerServiceStatus() -> Single<NonNullResponseData<Bool>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/survey/cs-status"))
+        let target = GetAPITarget(service: self.url("\(prefix)/room/cs-status"))
         return httpClient.request(target).map(NonNullResponseData<Bool>.self)
     }
     
     
-    func getSkillSurvey(surveyType: Int32, platForm: Int) -> Single<NonNullResponseData<SkillSurveyData>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/survey/skill-survey"))
-            .parameters(["surveyType" : surveyType, "platForm": platForm])
-        return httpClient.request(target).map(NonNullResponseData<SkillSurveyData>.self)
-    }
+//    func getSkillSurvey(surveyType: Int32, platForm: Int) -> Single<NonNullResponseData<SkillSurveyData>> {
+//        let target = GetAPITarget(service: self.url("\(prefix)/survey/skill-survey"))
+//            .parameters(["surveyType" : surveyType, "platForm": platForm])
+//        return httpClient.request(target).map(NonNullResponseData<SkillSurveyData>.self)
+//    }
     
     /**
      * Step 3: createCustomeService survey or Ignore(will Skip Step 5)
@@ -150,9 +150,13 @@ class CustomServiceApi: ApiService{
         return httpClient.request(target).asCompletable()
     }
     
-    func getChatHistory(roomId: RoomId) -> Single<ResponseData<[ChatMessageBean]>> {
-        let target = GetAPITarget(service: self.url("api/player-chat-history/record/\(roomId)"))
-        return httpClient.request(target).map(ResponseData<[ChatMessageBean]>.self)
+    func getChatHistory(roomId: RoomId) -> Single<NonNullResponseData<ChatHistoriesBean>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "/api/room/record/\(roomId)",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(NonNullResponseData<ChatHistoriesBean>.self)
     }
     
     func getPlayerChatHistory(pageIndex: Int = 1, pageSize: Int = 20) -> Single<ResponseData<ChatHistories>> {
@@ -160,4 +164,20 @@ class CustomServiceApi: ApiService{
         return httpClient.request(target).map(ResponseData<ChatHistories>.self)
     }
     
+    func createRoom(_ bean: Encodable) -> Single<NonNullResponseData<String>> {
+        let target = PostAPITarget(service: self.url("\(prefix)/room"), parameters: bean)
+        return httpClient.request(target).map(NonNullResponseData<String>.self)
+    }
+    
+    func getSkillSurvey(type: Int32, skillId: String?) -> Single<NonNullResponseData<SurveyBean>> {
+        var parameters: [String: Any] = [:]
+        parameters["type"] = type
+        if let skillId = skillId {
+            parameters["skillId"] = skillId
+        }
+        
+        let target = GetAPITarget(service: self.url("\(prefix)/survey/skill-survey"))
+            .parameters(parameters)
+        return httpClient.request(target).map(NonNullResponseData<SurveyBean>.self)
+    }
 }

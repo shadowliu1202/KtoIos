@@ -5,6 +5,8 @@ import SharedBu
 
 class TermsViewModel {
     private var localizationPolicyUseCase : LocalizationPolicyUseCase!
+//    lazy var cryptoGuidance: Single<CryptoGuidance> = localizationPolicyUseCase.getCryptoGuidance()
+    lazy var cryptoGuidance = localizationPolicyUseCase.getCryptoGuidance()
     
     init(localizationPolicyUseCase: LocalizationPolicyUseCase) {
         self.localizationPolicyUseCase = localizationPolicyUseCase

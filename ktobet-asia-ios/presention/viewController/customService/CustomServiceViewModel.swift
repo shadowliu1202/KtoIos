@@ -16,6 +16,10 @@ class CustomerServiceViewModel {
     lazy var chatRoomMessage = customerServiceUseCase.currentChatRoom()
         .flatMapLatest { room in
             Observable<[ChatMessage]>.create { observer -> Disposable in
+                if room == CustomServiceRepositoryImpl.PortalChatRoomNoExist {
+                    print("123")
+                }
+                
                 room.setMessageListener(callback: observer.onNext)
                 return Disposables.create()
             }
@@ -25,6 +29,10 @@ class CustomerServiceViewModel {
     lazy var chatRoomUnreadMessage = customerServiceUseCase.currentChatRoom()
         .flatMapLatest { room in
             Observable<[ChatMessage]>.create { observer -> Disposable in
+                if room == CustomServiceRepositoryImpl.PortalChatRoomNoExist {
+                    print("123")
+                }
+                
                 room.setUnreadMessageListener(callback: observer.onNext)
                 return Disposables.create()
             }
@@ -50,11 +58,27 @@ class CustomerServiceViewModel {
         }
         .catchErrorJustReturn(0)
     
-    func connectChatRoom(skillId: String?, connectId: String?) -> Observable<PortalChatRoom.ConnectStatus> {
-        let room = skillId == nil ? findChatRoom() : joinChatRoom(skillId: skillId!, connectId: connectId)
-        return room.asObservable().flatMap { r in
+//    func connectChatRoom(skillId: String?, connectId: String?) -> Observable<PortalChatRoom.ConnectStatus> {
+//        let room = skillId == nil ? findChatRoom() : joinChatRoom(skillId: skillId!, connectId: connectId)
+//        return room.asObservable().flatMap { r in
+//            Observable<PortalChatRoom.ConnectStatus>.create { observer -> Disposable in
+//                r.setStatusListener(callback: observer.onNext)
+//                return Disposables.create()
+//            }
+//        }.distinctUntilChanged()
+//    }
+    
+    private var surveyAnswers: SurveyAnswers? = nil
+    func connectChatRoom(survey: Survey) -> Observable<PortalChatRoom.ConnectStatus> {
+        findChatRoom().asObservable().flatMap { room -> Single<PortalChatRoom> in
+            if room == CustomServiceRepositoryImpl.PortalChatRoomNoExist {
+                return self.customerServiceUseCase.createChatRoom(survey: survey, surveyAnswers: self.surveyAnswers)
+            } else {
+                return Single.just(room)
+            }
+        }.flatMap { room in
             Observable<PortalChatRoom.ConnectStatus>.create { observer -> Disposable in
-                r.setStatusListener(callback: observer.onNext)
+                room.setStatusListener(callback: observer.onNext)
                 return Disposables.create()
             }
         }.distinctUntilChanged()
@@ -67,6 +91,9 @@ class CustomerServiceViewModel {
     func closeChatRoom() -> Completable {
         findChatRoom().flatMapCompletable { chatRoom in
             Completable.create { completable in
+                if chatRoom == CustomServiceRepositoryImpl.PortalChatRoomNoExist {
+                    print("123123")
+                }
                 chatRoom.leaveChatRoom()
                 completable(.completed)
                 return Disposables.create()
@@ -150,19 +177,19 @@ class CustomerServiceViewModel {
         customerServiceUseCase.currentChatRoom().first().map { $0! }
     }
     
-    private func joinChatRoom(skillId: String, connectId: String?) -> Single<PortalChatRoom> {
-        if connectId == nil {
-            return customerServiceUseCase.createChatRoom(csSkillId: skillId)
-        } else {
-            return customerServiceUseCase.createChatRoom(csSkillId: skillId)
-                .flatMap { room in
-                    self.waitRoomId(portalChatRoom: room).flatMapCompletable { roomId in
-                        self.customerServiceUseCase.bindChatRoomWithSurvey(roomId: roomId, connectId: connectId!)
-                    }
-                    .andThen(Single.just(room))
-                }
-        }
-    }
+//    private func joinChatRoom(skillId: String, connectId: String?) -> Single<PortalChatRoom> {
+//        if connectId == nil {
+//            return customerServiceUseCase.createChatRoom(csSkillId: skillId)
+//        } else {
+//            return customerServiceUseCase.createChatRoom(csSkillId: skillId)
+//                .flatMap { room in
+//                    self.waitRoomId(portalChatRoom: room).flatMapCompletable { roomId in
+//                        self.customerServiceUseCase.bindChatRoomWithSurvey(roomId: roomId, connectId: connectId!)
+//                    }
+//                    .andThen(Single.just(room))
+//                }
+//        }
+//    }
     
     func findCurrentRoomId() -> Single<RoomId> {
         findChatRoom().flatMap(waitRoomId)
@@ -170,6 +197,9 @@ class CustomerServiceViewModel {
     
     private func waitRoomId(portalChatRoom: PortalChatRoom) -> Single<RoomId> {
         Single.create { single in
+            if portalChatRoom == CustomServiceRepositoryImpl.PortalChatRoomNoExist {
+                print("123")
+            }
             portalChatRoom.setRoomIdListener { roomId in
                 single(.success(roomId))
             }

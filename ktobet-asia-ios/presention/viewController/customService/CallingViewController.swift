@@ -5,9 +5,10 @@ import SharedBu
 
 class CallingViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
-    var skillID: SkillId?
-    var connectId: ConnectId?
+//    var skillID: SkillId?
+//    var connectId: ConnectId?
     var csViewModel: CustomerServiceViewModel!
+    var svViewModel: SurveyViewModel!
     
     private let disposeBag = DisposeBag()
     
@@ -46,7 +47,8 @@ class CallingViewController: UIViewController {
         csViewModel.fullscreen().subscribe(onCompleted: {}).disposed(by: disposeBag)
         csViewModel.currentQueueNumber.map{ Localize.string("customerservice_chat_room_your_queue_number", "\($0)") }.bind(to: self.waitingCountLabel.rx.text).disposed(by: self.disposeBag)
 
-        csViewModel.connectChatRoom(skillId: skillID, connectId: connectId)
+        
+        svViewModel.cachedSurvey.compactMap{ $0 }.flatMap(csViewModel.connectChatRoom)
             .subscribe { status in
                 switch status {
                 case .connected:

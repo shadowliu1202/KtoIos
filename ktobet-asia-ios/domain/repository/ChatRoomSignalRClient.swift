@@ -11,16 +11,25 @@ extension ChatRoomSignalRClient: HubConnectionDelegate {
 
 class ChatRoomSignalRClient: PortalChatRoomChatService {
     var token: String
+    var roomId: String
+    var skillId: String
     var repository: CustomServiceRepository
     
     private let disposeBag = DisposeBag()
     private var socketConnect: HubConnection?
     private var onMessage: ((PortalChatRoom.ChatAction) -> ())?
     
-    init(token: String, repository: CustomServiceRepository) {
+    init(token: String, skillId: String, roomId: String, repository: CustomServiceRepository) {
         self.token = token
+        self.skillId = skillId
+        self.roomId = roomId
         self.repository = repository
     }
+    
+    convenience init(token: String, repository: CustomServiceRepository) {
+        self.init(token: token, skillId: "", roomId: "", repository: repository)
+    }
+
     
     func close(roomId: String) {
         repository.closeChatRoom(roomId: roomId)
@@ -38,11 +47,11 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         var messages: NSArray!
         let group = DispatchGroup()
         group.enter()
-        var decodedObject: [InProcessResponse]!
-        let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/chat-system/in-process/\(roomId)")!
+        var decodedObject: [InProcessBean]!
+        let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/in-process")!
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
-            decodedObject = try? JSONDecoder().decode(ResponseData<[InProcessResponse]>.self, from: data).data
+            decodedObject = try? JSONDecoder().decode(ResponseData<[InProcessBean]>.self, from: data).data
             group.leave()
         }
         
@@ -51,14 +60,10 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.wait()
         if let object = decodedObject {
             messages = object.map {
-                ChatMessage.Message.init(id: $0.messageID,
-                                         speaker: self.repository.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
-                                         message: self.repository.covertContentFromInProcess(messageType: $0.messageType,
-                                                                                             html: $0.html,
-                                                                                             text: $0.text,
-                                                                                             speakerType: EnumMapper.convert(speakerType: $0.speakerType),
-                                                                                             fileId: $0.fileID),
-                                         createTimeTick: $0.createDate.toLocalDateTime())
+                ChatMessage.Message(id: $0.messageId,
+                                    speaker: self.repository.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
+                                    message: self.repository.covertContentFromInProcess(message: $0.message, speakerType: EnumMapper.convert(speakerType: $0.speakerType)),
+                                    createTimeTick: $0.createdDate.toLocalDateTime())
             } as NSArray
             return LoadingStatus.init(status: .success, data: messages, message: "")
         } else {
@@ -102,48 +107,70 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
             if isReconnect {
                 onMessage?(PortalChatRoom.ChatActionRefresh.init())
             }
+            
+            if !self.roomId.isEmpty {
+                if let object = getQueueNumber() {
+                    onMessage?(PortalChatRoom.ChatActionInitChatRoom.init(roomId: self.roomId, skillId: self.skillId, queue: object))
+                }
+            } else {
+                if let number = getQueueNumber(), let bean = getPlayerInChat() {
+                    onMessage?(PortalChatRoom.ChatActionInitChatRoom.init(roomId: bean.roomId!, skillId: bean.skillId!, queue: number))
+                }
+            }
         }
     }
     
+    private func getQueueNumber() -> Int32? {
+        let group = DispatchGroup()
+        group.enter()
+        var decodedObject: Int32?
+        let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/queue-number")!
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+            guard let data = data else { return }
+            decodedObject = try? JSONDecoder().decode(ResponseData<Int32>.self, from: data).data
+            group.leave()
+        }
+        
+        task.resume()
+        
+        group.wait()
+        
+        return decodedObject
+    }
+    
+    private func getPlayerInChat() -> PlayerInChatBean? {
+        let group = DispatchGroup()
+        group.enter()
+        var decodedObject: PlayerInChatBean?
+        let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/player/in-chat")!
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+            guard let data = data else { return }
+            decodedObject = try? JSONDecoder().decode(ResponseData<PlayerInChatBean>.self, from: data).data
+            group.leave()
+        }
+        
+        task.resume()
+        
+        group.wait()
+        
+        return decodedObject
+    }
+    
     private func subscribeHub() {
-        self.socketConnect?.on(method: ChatTarget.Queued.rawValue, callback: {[weak self] (arg: [Argument]) in
-            self?.onMessage?(PortalChatRoom.ChatActionWaiting.init(rooms: arg.map{ $0.roomID }))
-            print("chat room count: \(arg.count)")
+        self.socketConnect?.on(method: Target.QueueNumberAsync.rawValue, callback: {
+            self.onMessage?(PortalChatRoom.ChatActionWaiting.init())
         })
-        
-        self.socketConnect?.on(method: ChatTarget.Join.rawValue, callback: {[weak self] arg in
-            let roomId = try arg.getArgument(type: String.self)
-            self?.onMessage?(PortalChatRoom.ChatActionJoin.init(roomId: roomId))
-            print("Join : \(roomId)")
+
+        self.socketConnect?.on(method: Target.UserJoinAsync.rawValue, callback: {
+            self.onMessage?(PortalChatRoom.ChatActionCSAnswer.init())
         })
-        
-        self.socketConnect?.on(method: ChatTarget.DuplicateConnect.rawValue, callback: {})
-        
-        self.socketConnect?.on(method: ChatTarget.Message.rawValue, callback: { [weak self] (para1: String, speakerType: Int32, speaker: String, messageHtml: String, message: String, messageId: Int32, localDateTime: String, messageType: Int32, fieldId: String?, para10: Bool) in
-            guard let self = self else { return }
-            let message = ChatMessage.Message(
-                id: messageId,
-                speaker: self.repository.convertSpeaker(speaker: speaker, speakerType: speakerType),
-                message: self.repository.covertContentFromInProcess(messageType: messageType,
-                                                                    html: messageHtml,
-                                                                    text: message,
-                                                                    speakerType: EnumMapper.convert(speakerType: speakerType),
-                                                                    fileId: fieldId),
-                createTimeTick: localDateTime.toLocalDateTime())
-            self.onMessage?(PortalChatRoom.ChatActionMessage.init(message: message))
-            print("Message : \(message)")
+
+        self.socketConnect?.on(method: Target.SpeakingAsync.rawValue, callback: {[weak self] (bean: SpeakingAsyncBean) in
+            self?.onMessage?(PortalChatRoom.ChatActionMessage.init(message: ChatMapper.mapTo(speakingAsyncBean: bean)))
         })
-        
-        self.socketConnect?.on(method: ChatTarget.Close.rawValue, callback: {[weak self] (roomId: String, message: String, date: String) in
-            self?.onMessage?(PortalChatRoom.ChatActionClose.init(message: message, speakerName: roomId, localDateTime: date.toLocalDateTime()))
-            print("RoomId : \(roomId)")
-            print("Date : \(date)")
-            print("Message : \(message)")
-        })
-        
-        self.socketConnect?.on(method: ChatTarget.Dispatched.rawValue, callback: {[weak self] (roomId: String, para2: String, para3: String) in
-            self?.onMessage?(PortalChatRoom.ChatActionDispatched.init(roomId: roomId))
-            print("Dispatched \(roomId), \(para2), \(para3)")
+
+        self.socketConnect?.on(method: Target.StopRoomAsync.rawValue, callback: {[weak self] (id: String, message: String, date: String) in
+            self?.onMessage?(PortalChatRoom.ChatActionClose.init(message: message, speakerName: id, localDateTime: date.toLocalDateTime()))
         })
     }
     
@@ -159,4 +186,25 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         self.socketConnect?.stop()
         self.socketConnect = nil
     }
+    
+    private enum Target: String {
+        case UserJoinAsync
+        case SpeakingAsync
+        case QueueNumberAsync
+        case StopRoomAsync
+    }
+
+}
+
+struct SpeakingAsyncBean: Codable {
+    let createdDate: String
+    let message: Message
+    let messageId: Int32
+    let messageType: Int
+    let playerRead: Bool
+    let roomId: String
+    let speaker: String
+    let speakerId: String
+    let speakerType: Int32
+    let text: String
 }

@@ -1700,22 +1700,41 @@ struct BalanceLogDetailRemarkBean: Codable {
     }
 }
 
-struct InProcessResponse: Codable {
-    let messageID: Int32
-    let speaker: String
-    let speakerID: Int?
-    let speakerType: Int32
-    let html, text, createDate: String
-    let messageType: Int32
-    let fileID: String?
+//struct InProcessResponse: Codable {
+//    let messageID: Int32
+//    let speaker: String
+//    let speakerID: Int?
+//    let speakerType: Int32
+//    let html, text, createDate: String
+//    let messageType: Int32
+//    let fileID: String?
+//
+//    enum CodingKeys: String, CodingKey {
+//        case messageID = "messageId"
+//        case speaker
+//        case speakerID = "speakerId"
+//        case speakerType, html, text, createDate, messageType
+//        case fileID = "fileId"
+//    }
+//}
 
-    enum CodingKeys: String, CodingKey {
-        case messageID = "messageId"
-        case speaker
-        case speakerID = "speakerId"
-        case speakerType, html, text, createDate, messageType
-        case fileID = "fileId"
-    }
+struct PlayerInChatBean: Codable {
+    let roomId: String?
+    let skillId: String?
+    let token: String?
+}
+
+struct InProcessBean: Codable {
+    let chatEventType: Int
+    let createdDate: String
+    let message: Message
+    let messageId: Int32
+    let playerRead: Bool
+    let remark: String
+    let speaker: String
+    let speakerId: String
+    let speakerType: Int32
+    let text: String
 }
 
 struct SkillSurveyData: Codable {
@@ -1728,6 +1747,7 @@ struct SkillSurveyData: Codable {
     }
 }
 
+/*
 struct SurveyBean: Codable {
     let surveyID, csSkillID: String
     let surveyType: Int32
@@ -1738,7 +1758,7 @@ struct SurveyBean: Codable {
     let createdUser: String
     let isOnline, isEverOnline, enable: Bool
     let createdDate: String
-    let updatedUser: JSONNull?
+    let updatedUser: String?
     let updatedDate: String
     let surveyQuestions: [SurveyQuestionBean]
 
@@ -1751,7 +1771,7 @@ struct SurveyBean: Codable {
     }
     
     func toSurvey() -> Survey {
-        return Survey(csSkillId: csSkillID, surveyId: surveyID, description: surveyDescription, surveyType: convertSurveyType(surveyType), surveyQuestions: surveyQuestions.map({$0.toSurveyQuestion()}), enable: enable, heading: heading, isAskLogin: isAskLogin, isEverOnline: isEverOnline, isOnline: isOnline, mailFooter: mailFooter, subject: subject, version: version)
+        return Survey(csSkillId: csSkillID, surveyId: surveyID, description: surveyDescription, surveyType: convertSurveyType(surveyType), surveyQuestions: surveyQuestions.map({$0.toSurveyQuestion()}), enable: enable, heading: heading, isAskLogin: isAskLogin, isEverOnline: isEverOnline, isOnline: isOnline, mailFooter: mailFooter, subject: subject, version: version, updatedUser: updatedUser ?? "")
     }
     
     private func convertSurveyType(_ surveyType: Int32) -> Survey.SurveyType {
@@ -1782,11 +1802,11 @@ struct SurveyQuestionBean: Codable {
         case surveyQuestionType, isVisible, isRequired, isNotLogin, isLogin, enable, createdUser, createdDate, surveyQuestionOptions
     }
     
-    func toSurveyQuestion() -> SurveyQuestion {
-        return SurveyQuestion(questionId: questionID, aim: aim, createdDate: createdDate, description: surveyQuestionDescription, enable: enable, isLogin: isLogin, isNotLogin: isNotLogin, isRequired: isRequired, isVisible: isVisible, sort: sort, surveyId: surveyID, surveyQuestionOptions: surveyQuestionOptions.map({$0.toSurveyQuestionOption()}), surveyQuestionType: convert(surveyQuestionType))
+    func toSurveyQuestion() -> SurveyQuestion_ {
+        SurveyQuestion_(questionId: questionID, aim: aim, createdDate: createdDate, description: surveyQuestionDescription, enable: enable, isLogin: isLogin, isNotLogin: isNotLogin, isRequired: isRequired, isVisible: isVisible, sort: sort, surveyId: surveyID, surveyQuestionOptions: surveyQuestionOptions.map({$0.toSurveyQuestionOption()}), surveyQuestionType: convert(surveyQuestionType))
     }
     
-    func convert(_ surveyQuestionType: Int32) -> SurveyQuestion.SurveyQuestionType {
+    func convert(_ surveyQuestionType: Int32) -> SurveyQuestion_.SurveyQuestionType {
         switch surveyQuestionType {
         case 1:         return .simpleoption
         case 2:         return .multipleoption
@@ -1808,8 +1828,110 @@ struct SurveyQuestionOptionBean: Codable {
         case values, isOther, enable, createdUser, createdDate
     }
     
-    func toSurveyQuestionOption() -> SurveyQuestion.SurveyQuestionOption {
-        return SurveyQuestion.SurveyQuestionOption(optionId: optionID, questionId: questionID, enable: enable, isOther: isOther, values: values)
+    func toSurveyQuestionOption() -> SurveyQuestion_.SurveyQuestionOption {
+        return SurveyQuestion_.SurveyQuestionOption(optionId: optionID, questionId: questionID, enable: enable, isOther: isOther, values: values)
+    }
+}
+*/
+
+struct SurveyBean: Codable {
+    let copyFrom: String
+    let createdDate: String
+    let createdUser: String?
+    let description: String?
+    let enable: Bool
+    let heading: String?
+    let isAskLogin: Bool
+    let isEverOnline: Bool
+    let isOnline: Bool
+    let skillId: String
+    let subject: String?
+    let surveyId: String
+    let surveyQuestions: [SurveyQuestionBean]
+    let surveyType: Int32
+    let updatedDate: String
+    let updatedUser: String?
+    let version: Int32
+    
+    func toSurvey() -> Survey {
+        Survey(csSkillId: skillId,
+               surveyId: surveyId,
+               description: description ?? "",
+               surveyType: convertSurveyType(surveyType),
+               surveyQuestions: surveyQuestions.map{ $0.toSurveyQuestion() },
+               enable: enable,
+               heading: heading ?? "",
+               isAskLogin: isAskLogin,
+               isEverOnline: isEverOnline,
+               isOnline: isOnline,
+               mailFooter: "",
+               subject: subject ?? "",
+               version: version,
+               updatedUser: updatedUser ?? "")
+    }
+    
+    private func convertSurveyType(_ surveyType: Int32) -> Survey.SurveyType {
+         switch (surveyType) {
+         case 0:    return .prechat
+         case 1:    return .exit
+         default:   return .unknown
+         }
+     }
+}
+
+struct SurveyQuestionBean: Codable {
+    let aim: String
+    let createdDate: String
+    let createdUser: String
+    let description: String
+    let enable: Bool
+    let isLogin: Bool
+    let isNotLogin: Bool
+    let isRequired: Bool
+    let isVisible: Bool
+    let questionId: String
+    let sort: Int32
+    let surveyId: String
+    let surveyQuestionOptions: [SurveyQuestionOption]
+    let surveyQuestionType: Int32
+    
+    func toSurveyQuestion() -> SurveyQuestion_ {
+        SurveyQuestion_(questionId: questionId,
+                        aim: aim,
+                        createdDate: createdDate,
+                        description: description,
+                        enable: enable,
+                        isLogin: isLogin,
+                        isNotLogin: isNotLogin,
+                        isRequired: isRequired,
+                        isVisible: isVisible,
+                        sort: sort,
+                        surveyId: surveyId,
+                        surveyQuestionOptions: surveyQuestionOptions.map{ $0.toSurveyQuestionOption() },
+                        surveyQuestionType: convert(surveyQuestionType))
+    }
+    
+    func convert(_ surveyQuestionType: Int32) -> SurveyQuestion_.SurveyQuestionType {
+        switch surveyQuestionType {
+        case 1:         return .simpleoption
+        case 2:         return .multipleoption
+        case 6:         return .textfield
+        default:        fatalError("unknown surveyQuestionType : \(surveyQuestionType)")
+        }
+    }
+}
+
+struct SurveyQuestionOption: Codable {
+    let createdDate: String
+    let createdUser: String
+    let enable: Bool
+    let isOther: Bool
+    let optionId: String
+    let questionId: String
+    let values: String
+    
+    func toSurveyQuestionOption() -> SurveyQuestion_.SurveyQuestionOption {
+        SurveyQuestion_.SurveyQuestionOption(optionId: optionId, questionId: questionId, enable: enable, isOther: isOther, values: values)
     }
 }
 
@@ -1827,7 +1949,7 @@ struct ChatMessageBean: Codable {
 struct ChatHistories: Codable {
     let payload: [Payload]
     let totalCount: Int
-
+    
     struct Payload: Codable {
         let createdDate: String
         let roomId: String
@@ -1838,6 +1960,67 @@ struct ChatHistories: Codable {
         }
     }
 }
+
+struct ChatHistoriesBean: Codable {
+    let payload: [Payload]?
+    let totalCount: Int
+
+    struct Payload: Codable {
+        let roomHistories: [RoomHistory]
+        let roomId: String
+        let roomNo: String
+    }
+}
+
+struct RoomHistory: Codable {
+    let chatEventType: Int
+    let createdDate: String
+    let message: Message
+    let messageId: Int32
+    let messageType: Int
+    let playerRead: Bool
+    let remark: String
+    let speaker: String
+    let speakerId: String
+    let speakerType: Int32
+    let text: String
+}
+
+struct Message: Codable {
+    let quillDeltas: [QuillDelta]
+}
+
+struct QuillDelta: Codable {
+    let attributes: Attributes?
+    let insert: String
+}
+
+struct Attributes: Codable {
+    var align: Int? = nil
+    var background: String? = nil
+    var bold: Bool? = nil
+    var color: String? = nil
+    var font: String? = nil
+    var image: String? = nil
+    var italic: Bool? = nil
+    var link: String? = nil
+    var size: String? = nil
+    var underline: Bool? = nil
+    
+    func convert() -> SharedBu.Attributes {
+        SharedBu.Attributes.init(align: KotlinInt.init(value: Int32(align ?? 0)),
+                                 background: background,
+                                 bold: KotlinBoolean.init(value: bold ?? false),
+                                 color: color,
+                                 font: font,
+                                 image: image,
+                                 italic: KotlinBoolean.init(value: italic ?? false),
+                                 link: link,
+                                 size: size,
+                                 underline: KotlinBoolean.init(value: underline ?? false))
+    }
+}
+
 
 struct CryptoCurrencyBean: Codable {
     let cryptoCurrencyInfo: [CryptoCurrencyInfo]
@@ -1883,6 +2066,38 @@ struct VersionData: Codable {
         return Configuration.downloadUrl.absoluteString
     }
 }
+
+struct CryptoTutorialBean: Codable {
+    let name: String
+    let tutorials: [Tutorial]
+}
+
+struct Tutorial: Codable {
+    let name: String
+    let link: String
+}
+
+/*
+struct CryptoGuidance: Codable {
+    let title, guidanceDescription: String
+    let cryptoType: [GuidanceContent]
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case guidanceDescription = "description"
+        case cryptoType
+    }
+}
+
+struct GuidanceContent: Codable {
+    let name: String
+    let content: [GuidanceLink]
+}
+
+struct GuidanceLink: Codable {
+    let item, link: String
+}
+*/
 
 // MARK: - Encode/decode helpers
 class JSONNull: Codable, Hashable {

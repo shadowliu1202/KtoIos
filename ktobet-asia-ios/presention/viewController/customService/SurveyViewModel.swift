@@ -9,21 +9,21 @@ class SurveyViewModel {
     private var surveyUseCase: CustomerServiceSurveyUseCase
     private var authenticationUseCase: AuthenticationUseCase
     private var disposeBag = DisposeBag()
-    private var chatSurveyInfo: SurveyInformation? {
+    private var chatSurveyInfo: Survey? {
         didSet {
-            cachedSurveyAnswers = chatSurveyInfo?.survey?.surveyQuestions.map({
+            cachedSurveyAnswers = chatSurveyInfo?.surveyQuestions.map({
                 SurveyAnswerItem($0)
             })
             self.cachedSurvey.accept(chatSurveyInfo)
         }
     }
     
-    var cachedSurvey = BehaviorRelay<SurveyInformation?>(value: nil)
+    var cachedSurvey = BehaviorRelay<Survey?>(value: nil)
     private var cachedSurveyAnswersRelay = BehaviorRelay<[SurveyAnswerItem]?>(value: nil)
     var cachedSurveyAnswers: [SurveyAnswerItem]?
     lazy var isAnswersValid: Observable<Bool> = Observable.combineLatest(cachedSurvey, cachedSurveyAnswersRelay).map({
         (info, answers) in
-        if let survey = info?.survey {
+        if let survey = info {
             let result = survey.surveyQuestions.reduce(true, { (isAnswerRequiredQuestion, question) in
                 if question.isRequired {
                     let item: SurveyAnswerItem? = answers?.first(where: { $0.question == question})
@@ -64,8 +64,8 @@ class SurveyViewModel {
         self.authenticationUseCase = authenticationUseCase
     }
     
-    func getPreChatSurvey() -> Single<SurveyInformation> {
-        return surveyUseCase.getPreChatSurvey(csSkillId: nil).do(afterSuccess: { [weak self] in
+    func getPreChatSurvey() -> Single<Survey> {
+        return surveyUseCase.getPreChatSurvey().do(afterSuccess: { [weak self] in
             self?.chatSurveyInfo = $0
         })
     }
@@ -79,8 +79,8 @@ class SurveyViewModel {
         cachedSurveyAnswersRelay.accept(cachedSurveyAnswers)
     }
     
-    func getExitSurvey() -> Single<SurveyInformation> {
-        return surveyUseCase.getExitSurvey().do(afterSuccess: { [weak self] in
+    func getExitSurvey(skillId: SkillId) -> Single<Survey> {
+        return surveyUseCase.getExitSurvey(skillId: skillId).do(afterSuccess: { [weak self] in
             self?.chatSurveyInfo = $0
         })
     }
@@ -91,7 +91,7 @@ class SurveyViewModel {
     }
     
     private func converSurveyAnswerItems(with survey: Survey) -> SurveyAnswers {
-        var answers: [SurveyQuestion : [SurveyQuestion.SurveyQuestionOption]] = [:]
+        var answers: [SurveyQuestion_ : [SurveyQuestion_.SurveyQuestionOption]] = [:]
         cachedSurveyAnswers?.forEach({
             answers[$0.question] = Array($0.options)
         })
@@ -107,23 +107,23 @@ class SurveyViewModel {
 }
 
 class SurveyAnswerItem {
-    var question: SurveyQuestion
-    var options: Set<SurveyQuestion.SurveyQuestionOption>
+    var question: SurveyQuestion_
+    var options: Set<SurveyQuestion_.SurveyQuestionOption>
     
-    init(_ question: SurveyQuestion, _ options: Set<SurveyQuestion.SurveyQuestionOption> = []) {
+    init(_ question: SurveyQuestion_, _ options: Set<SurveyQuestion_.SurveyQuestionOption> = []) {
         self.question = question
         self.options = options
     }
     
-    func addAnswer(_ option: SurveyQuestion.SurveyQuestionOption) {
+    func addAnswer(_ option: SurveyQuestion_.SurveyQuestionOption) {
         options.insert(option)
     }
     
-    func removeAnswer(_ option: SurveyQuestion.SurveyQuestionOption) {
+    func removeAnswer(_ option: SurveyQuestion_.SurveyQuestionOption) {
         options.remove(option)
     }
     
-    func isOptionSelected(_ option: SurveyQuestion.SurveyQuestionOption) -> Bool {
+    func isOptionSelected(_ option: SurveyQuestion_.SurveyQuestionOption) -> Bool {
         return options.contains(option)
     }
 }

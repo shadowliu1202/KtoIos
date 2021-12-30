@@ -1,26 +1,26 @@
 import UIKit
+import RxSwift
 
 class CryptoGuideViewController: UIViewController {
     static let segueIdentifier = "toCryptoGuide"
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    private var unsettleds: [Market] = [Market("币安"), Market("欧易")]
-    
+    private var viewModel = DI.resolve(TermsViewModel.self)!
+    private var resources: [Market] = [] {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    let disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         initUI()
+        bindData()
     }
     
     private func initUI() {
-        descriptionLabel.text = """
-        以下是新用户可以购买虚拟币的交易所列表。
-
-        我们尽量保持信息更新，但我们不对客户在各交易所探索过程中出现的不准确信息或任何损失负责。
-
-        如果对交易所使用有任何疑问或问题，建议您直接联交易所客服。
-        """
-        tableView.layoutTableHeaderView()
         tableView.setDivider(dividerColor: .clear)
         tableView.estimatedRowHeight = 36.0
         tableView.rowHeight = UITableView.automaticDimension
@@ -28,6 +28,17 @@ class CryptoGuideViewController: UIViewController {
         tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    private func bindData() {
+        viewModel.cryptoGuidance.subscribe(onSuccess: { [weak self] g in
+            self?.titleLabel.text = Localize.string("cps_crypto_currency_guide_title")
+            self?.descriptionLabel.text = Localize.string("cps_crypto_guidance_description")
+            self?.tableView.layoutTableHeaderView()
+            self?.resources = g.map({ Market($0.title, $0.links.map({Guide(name: $0.title, link: $0.link)}))})
+        }, onError: { [weak self] in
+            self?.handleErrors($0)
+        }).disposed(by: disposeBag)
     }
     
     private func reloadRows(at sectionIndex: Int, rowCount: Int, with animation: UITableView.RowAnimation) {
@@ -45,19 +56,19 @@ class CryptoGuideViewController: UIViewController {
 
 extension CryptoGuideViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return unsettleds.count
+        return resources.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return unsettleds[section].guides.count
+        return resources[section].guides.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "GuideViewCell", cellType: GuideViewCell.self).configure(unsettleds[indexPath.section].guides[indexPath.row])
+        return tableView.dequeueReusableCell(withIdentifier: "GuideViewCell", cellType: GuideViewCell.self).configure(resources[indexPath.section].guides[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (unsettleds[indexPath.section].expanded) {
+        if (resources[indexPath.section].expanded) {
             return 36
         }else{
             return 0
@@ -65,15 +76,15 @@ extension CryptoGuideViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return tableView.dequeueReusableHeaderFooter(withIdentifier: "MarketHeaderView", cellType: MarketHeaderView.self).configure(unsettleds[section], callback: { [unowned self] (header) in
-            self.unsettleds[section].expanded.toggle()
-            header.icon?.image = self.unsettleds[section].expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
-            self.reloadRows(at: section, rowCount: unsettleds[section].guides.count, with: .automatic)
+        return tableView.dequeueReusableHeaderFooter(withIdentifier: "MarketHeaderView", cellType: MarketHeaderView.self).configure(resources[section], callback: { [unowned self] (header) in
+            self.resources[section].expanded.toggle()
+            header.icon?.image = self.resources[section].expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
+            self.reloadRows(at: section, rowCount: resources[section].guides.count, with: .automatic)
         })
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = unsettleds[indexPath.section].guides[indexPath.row]
+        let item = resources[indexPath.section].guides[indexPath.row]
         guard let url = URL(string: item.link) else { return }
         UIApplication.shared.open(url)
     }
@@ -93,29 +104,15 @@ class GuideViewCell: UITableViewCell {
 
 class Market {
     var name: String
-    private(set) var guides: [Guide] = [Guide](repeating: Guide(), count: 6)
+    var guides: [Guide]
     var expanded: Bool = false
-    
-    init(_ name: String) {
+    init(_ name: String, _ guides: [Guide] = []) {
         self.name = name
+        self.guides = guides
     }
 }
 
 struct Guide {
-    @DummyValue(wrappedValue: "币安新用户指引")
     var name: String
-    @DummyValue(wrappedValue: "https://www.google.com")
     var link: String
-}
-
-@propertyWrapper
-struct DummyValue<Value> {
-    private var value: Value
-    var wrappedValue: Value {
-        get { value }
-        set { value = newValue }
-    }
-    init(wrappedValue: Value) {
-        self.value = wrappedValue
-    }
 }

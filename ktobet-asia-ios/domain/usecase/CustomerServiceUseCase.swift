@@ -5,7 +5,8 @@ import SharedBu
 protocol CustomerServiceUseCase {
     func currentChatRoom() -> Observable<PortalChatRoom>
     func searchChatRoom() -> Single<PortalChatRoom>
-    func createChatRoom(csSkillId: SkillId) -> Single<PortalChatRoom>
+//    func createChatRoom(csSkillId: SkillId) -> Single<PortalChatRoom>
+    func createChatRoom(survey: Survey, surveyAnswers: SurveyAnswers?) -> Single<PortalChatRoom>
     func bindChatRoomWithSurvey(roomId: RoomId, connectId: ConnectId) -> Completable
     func checkServiceAvailable() -> Single<Bool>
     func uploadImage(imageData: Data) -> Single<UploadImageDetail>
@@ -24,7 +25,6 @@ class CustomerServiceUseCaseImpl: CustomerServiceUseCase, ChatRoomHistoryUseCase
     private var customServiceRepository: CustomServiceRepository
     private var customerInfraService: CustomerInfraService
     private var surveyInfraService: SurveyInfraService
-    private var chatRoomSubject = BehaviorSubject<PortalChatRoom>(value: PortalChatRoom.companion.notExist())
 
     init(_ customServiceRepository: CustomServiceRepository, customerInfraService: CustomerInfraService, surveyInfraService: SurveyInfraService) {
         self.customServiceRepository = customServiceRepository
@@ -33,38 +33,21 @@ class CustomerServiceUseCaseImpl: CustomerServiceUseCase, ChatRoomHistoryUseCase
     }
     
     func currentChatRoom() -> Observable<PortalChatRoom> {
-        chatRoomSubject.asObservable()
+        customServiceRepository.currentChatRoom()
     }
     
     func searchChatRoom() -> Single<PortalChatRoom> {
-        customerInfraService.checkInServiceChatRoom()
-            .flatMap { token in
-                if token.isEmpty {
-                    return Single.just(PortalChatRoom.companion.notExist())
-                } else {
-                    return self.customerInfraService.verifyCurrentChatRoomToken().flatMap { isValid in
-                        if isValid {
-                            return self.customerInfraService.isInChat()
-                                .flatMap { inChat in
-                                    if inChat {
-                                        return self.customServiceRepository.connectChatRoom(token)
-                                    } else {
-                                        return Single.just(PortalChatRoom.companion.closed())
-                                    }
-                                }
-                        } else {
-                            return self.customServiceRepository.removeToken().andThen(Single.error(ChatRoomNotExist.init()))
-                        }
-                    }
-                }
+        customerInfraService.isPlayerInChat().flatMap {[unowned self] chat in
+            if chat.token.isNullOrEmpty() {
+                return Single.just(CustomServiceRepositoryImpl.PortalChatRoomNoExist)
+            } else {
+                return self.customServiceRepository.connectChatRoom(chat)
             }
-            .do(onSuccess: { self.chatRoomSubject.onNext($0) })
+        }
     }
     
-    func createChatRoom(csSkillId: SkillId) -> Single<PortalChatRoom> {
-        customServiceRepository.createCustomerChatRoomToken(skillId: csSkillId)
-            .flatMap(customServiceRepository.connectChatRoom)
-            .do(onSuccess: { self.chatRoomSubject.onNext($0) })
+    func createChatRoom(survey: Survey, surveyAnswers: SurveyAnswers?) -> Single<PortalChatRoom> {
+        customServiceRepository.createRoom(survey: survey, surveyAnswers: surveyAnswers)
     }
     
     func bindChatRoomWithSurvey(roomId: RoomId, connectId: ConnectId) -> Completable {

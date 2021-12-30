@@ -7,9 +7,9 @@ class ExitSurveyViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: SurveyViewModel!
     var roomId: RoomId?
-    var surveyInfo: SurveyInformation? {
+    var surveyInfo: Survey? {
         didSet {
-            self.survey = surveyInfo?.survey
+            self.survey = surveyInfo
         }
     }
     
@@ -39,7 +39,7 @@ class ExitSurveyViewController: UIViewController {
     }
     
     private func dataBinding() {
-        viewModel.getExitSurvey().subscribe(onError: { [weak self] in
+        viewModel.getExitSurvey(skillId: survey!.csSkillId).subscribe(onError: { [weak self] in
             self?.handleErrors($0)
         }).disposed(by: disposeBag)
         
@@ -47,7 +47,7 @@ class ExitSurveyViewController: UIViewController {
             guard let `self` = self else { return }
             self.surveyInfo = $0
             self.surveyVC.surveyInfo = $0
-            self.surveyVC.dataSource = $0.survey?.surveyQuestions ?? []
+            self.surveyVC.dataSource = $0.surveyQuestions
         }).disposed(by: disposeBag)
         
         viewModel.isAnswersValid.bind(to: completeBtn.rx.isValid).disposed(by: disposeBag)
