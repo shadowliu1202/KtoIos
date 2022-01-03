@@ -148,14 +148,12 @@ class SideBarViewController: UIViewController {
     fileprivate func setBalanceHiddenState(isHidden: Bool) {
         if isHidden {
             btnBalanceHide.setTitle(Localize.string("common_show"), for: .normal)
-            viewModel.saveBalanceHiddenState(gameId: player?.gameId ?? "", isHidden: isHidden)
-            viewModel.balance = labBalance.text
-            labBalance.text = "\(viewModel.balance?.first ?? " ") *******"
+            labBalance.text = "\(viewModel.balance?.first ?? " ") •••••••"
         } else {
             btnBalanceHide.setTitle(Localize.string("common_hide"), for: .normal)
-            viewModel.saveBalanceHiddenState(gameId: player?.gameId ?? "", isHidden: isHidden)
             labBalance.text = viewModel.balance
         }
+        viewModel.saveBalanceHiddenState(gameId: player?.gameId ?? "", isHidden: isHidden)
     }
     
     fileprivate func initUI() {
@@ -188,25 +186,11 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func dataBinding() {
-        viewModel.playerBalance.subscribe {[unowned self] (balance) in
-            let paragraph = NSMutableParagraphStyle()
-            paragraph.firstLineHeadIndent = 0
-            paragraph.headIndent = 16
-            paragraph.lineBreakMode = .byCharWrapping
-            let mutString = NSAttributedString(
-                string: balance,
-                attributes: [NSAttributedString.Key.paragraphStyle: paragraph]
-            )
-
-            self.labBalance.attributedText = mutString
-            self.labBalance.text = balance
-            self.viewModel.balance = balance
+        viewModel.playerBalance.subscribe {[unowned self] _ in
             self.setBalanceHiddenState(isHidden: self.viewModel.getBalanceHiddenState(gameId: self.player?.gameId ?? ""))
         } onError: {[weak self] (error) in
             self?.handleUnknownError(error)
         }.disposed(by: disposeBag)
-        
-        viewModel.playerBalance.bind(to: self.labBalance.rx.text).disposed(by: self.disposeBag)
         
         let shareLoadPlayerInfo = refreshTrigger.flatMapLatest {[weak self] _ -> Observable<Player> in
             guard let self = self else { return Observable.error(KTOError.EmptyData)}
