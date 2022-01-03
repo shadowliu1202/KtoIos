@@ -57,6 +57,7 @@ class WithdrawlAccountsViewController: UIViewController {
     }
     
     private func dataBinding() {
+        tableView.rx.setDelegate(self).disposed(by: disposeBag)
         switch bankCardType {
         case .general:
             generalDataBinding()
@@ -227,6 +228,16 @@ extension WithdrawlAccountsViewController {
 extension WithdrawlAccountsViewController: AccountAddComplete {
     func addAccountSuccess() {
         self.isEditMode = false
+    }
+}
+
+extension WithdrawlAccountsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 110.5
     }
 }
 
