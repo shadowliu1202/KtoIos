@@ -25,9 +25,9 @@ class DefaultProductViewController: UIViewController {
     private var disposeBag = DisposeBag()
     private var games : [DefaultProductItem] = {
         
-        let titles = [Localize.string("landing_sportsbook_title"),
-                      Localize.string("landing_casino_title"),
-                      Localize.string("landing_slot_title"),
+        let titles = [Localize.string("common_sportsbook"),
+                      Localize.string("common_casino"),
+                      Localize.string("common_slot"),
                       Localize.string("common_keno")]
         let descs = [Localize.string("profile_defaultproduct_sportsbook_description"),
                      Localize.string("profile_defaultproduct_casino_description"),
