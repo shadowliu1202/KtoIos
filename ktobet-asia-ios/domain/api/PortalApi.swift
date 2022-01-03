@@ -42,7 +42,7 @@ class PortalApi: ApiService {
     }
     
     func initLocale(cultureCode: String) -> Completable {
-        let target = GetAPITarget(service: self.url("api/init/culture/\(cultureCode)"))
+        let target = PostAPITarget(service: self.url("api/init/culture/\(cultureCode)"), parameters: Empty())
         return httpClient.request(target).asCompletable()
     }
     
