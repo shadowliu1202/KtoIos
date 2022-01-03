@@ -6,7 +6,7 @@ class PlayerViewModel {
     private var playerUseCase : PlayerDataUseCase!
     private var authUsecase : AuthenticationUseCase!
     
-    var balance: String?
+    private(set) var balance: String?
     var refreshBalance = PublishSubject<(Void)>()
     lazy var playerBalance = refreshBalance.flatMapLatest{_ in
         self.playerUseCase.getBalance()
