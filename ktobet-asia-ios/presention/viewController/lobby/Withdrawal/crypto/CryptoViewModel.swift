@@ -6,13 +6,13 @@ import RxCocoa
 class CryptoViewModel {
     
     private var withdrawalUseCase: WithdrawalUseCase!
-    private var depositRepository: DepositRepository!
-    private lazy var depositSystem = depositRepository.getPlayerDepositSystem()
+    private var depositUseCase: DepositUseCase!
+    private lazy var depositSystem = depositUseCase.getDepositSystem()
     lazy var supportCryptoType = depositSystem.map({$0.supportCryptos()})
     
-    init(withdrawalUseCase: WithdrawalUseCase, depositRepository: DepositRepository) {
+    init(withdrawalUseCase: WithdrawalUseCase, depositUseCase: DepositUseCase) {
         self.withdrawalUseCase = withdrawalUseCase
-        self.depositRepository = depositRepository
+        self.depositUseCase = depositUseCase
     }
     
     func getCryptoBankCards() -> Single<[CryptoBankCard]> {

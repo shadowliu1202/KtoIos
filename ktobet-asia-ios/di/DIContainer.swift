@@ -425,8 +425,8 @@ class DIContainer {
         }
         ctner.register(CryptoViewModel.self) { (resolver) in
             let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
-            let depositRepository = ctner.resolve(DepositRepository.self)!
-            return CryptoViewModel(withdrawalUseCase: withdrawalUseCase, depositRepository: depositRepository)
+            let depositUseCase = ctner.resolve(DepositUseCase.self)!
+            return CryptoViewModel(withdrawalUseCase: withdrawalUseCase, depositUseCase: depositUseCase)
         }
         ctner.register(AddBankViewModel.self) { (resolver) in
             return AddBankViewModel(ctner.resolve(AuthenticationUseCase.self)!,

@@ -70,3 +70,16 @@ extension CryptoAmount {
         return CryptoAmount.Companion.init().create(cryptoAmount: cryptoAmount, crypto_: crypto)
     }
 }
+
+extension CryptoNetwork {
+    class func valueOf(_ rawData: String) -> CryptoNetwork {
+        switch rawData.uppercased() {
+        case "ERC20":
+            return .erc20
+        case "TRC20":
+            return .trc20
+        default:
+            fatalError("\(rawData) is not support")
+        }
+    }
+}
