@@ -32,12 +32,15 @@ class AddCryptoAccountViewController: UIViewController {
             let supportCrypto = $0.map({$0.name})
             self.cryptoTypeDropDown.optionArray = supportCrypto
             self.cryptoTypeDropDown.setTitle(Localize.string("cps_crypto_currency"))
-            self.viewModel.cryptoType.accept(supportCrypto.first ?? "")
+            self.viewModel.selectedCryptoType.accept(supportCrypto.first ?? "")
         }).disposed(by: disposeBag)
+        (cryptoTypeDropDown.text <-> viewModel.selectedCryptoType).disposed(by: disposeBag)
         
-        let cryptoNetworkArray = viewModel.getCryptoNetworkArray()
-        cryptoNetworkDropDown.optionArray = cryptoNetworkArray.map { $0.name }
+        viewModel.supportCryptoNetwork.subscribe(onNext: { [unowned self] (cryptoNetworkArrays) in
+            self.cryptoNetworkDropDown.optionArray = cryptoNetworkArrays.map { $0.name }
+        }).disposed(by: disposeBag)
         cryptoNetworkDropDown.setTitle(Localize.string("cps_crypto_network"))
+        (cryptoNetworkDropDown.text <-> viewModel.selectedCryptoNetwork).disposed(by: disposeBag)
         
         accountNameTextField.setTitle(Localize.string("cps_crypto_account_name"))
         accountAddressTextField.setTitle(Localize.string("cps_wallet_address"))
@@ -48,10 +51,7 @@ class AddCryptoAccountViewController: UIViewController {
         
         (accountNameTextField.text <-> viewModel.accountName).disposed(by: disposeBag)
         (accountAddressTextField.text <-> viewModel.accountAddress).disposed(by: disposeBag)
-        (cryptoTypeDropDown.text <-> viewModel.cryptoType).disposed(by: disposeBag)
-        (cryptoNetworkDropDown.text <-> viewModel.cryptoNetwork).disposed(by: disposeBag)
                 
-        viewModel.cryptoNetwork.accept(cryptoNetworkArray.filter{ $0 == CryptoNetwork.trc20 }.first?.name ?? "")
         viewModel.accountName.accept(Localize.string("cps_eth_default_bank_card_name") + "\(bankCardCount + 1)")
         
         let event = viewModel.event()

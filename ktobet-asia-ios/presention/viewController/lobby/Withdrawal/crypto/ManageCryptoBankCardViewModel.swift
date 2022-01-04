@@ -9,13 +9,34 @@ class ManageCryptoBankCardViewModel {
     static let accountAddressMaxLength: Int32 = 50
     var accountName = BehaviorRelay<String>(value: "")
     var accountAddress = BehaviorRelay<String>(value: "")
-    var cryptoType = BehaviorRelay<String>(value: "")
-    var cryptoNetwork = BehaviorRelay<String>(value: "")
+    var selectedCryptoType = BehaviorRelay<String>(value: "")
+    lazy var selectedCryptoNetwork = BehaviorRelay<String>(value: "")
+    lazy var supportCryptoNetwork = BehaviorRelay<[CryptoNetwork]>(value: [])
     
     private var withdrawalUseCase: WithdrawalUseCase!
+    private let disposeBag = DisposeBag()
     
     init(withdrawalUseCase: WithdrawalUseCase) {
         self.withdrawalUseCase = withdrawalUseCase
+        selectedCryptoType.filter({!$0.isEmpty}).subscribe(onNext: { [unowned self] in
+            self.refreshSupportNetworks($0)
+            self.refreshSelectedNetworks($0)
+        }).disposed(by: disposeBag)
+    }
+    
+    private func refreshSupportNetworks(_ cryptoType: String) {
+        let crypto = SupportCryptoType.valueOf(cryptoType)
+        let supportNetworks = crypto.supportNetwork()
+        self.supportCryptoNetwork.accept(supportNetworks)
+    }
+    
+    private func refreshSelectedNetworks(_ cryptoType: String) {
+        let crypto = SupportCryptoType.valueOf(cryptoType)
+        let supportNetworks = crypto.supportNetwork()
+        let originNetwork = self.selectedCryptoNetwork.value
+        if !supportNetworks.map({$0.name}).contains(originNetwork), let first = supportNetworks.first {
+            selectedCryptoNetwork.accept(first.name)
+        }
     }
     
     func getCryptoBankCards() -> Single<[CryptoBankCard]> {
@@ -23,31 +44,12 @@ class ManageCryptoBankCardViewModel {
     }
     
     func addCryptoBankCard() -> Single<String> {
-        let currency = SupportCryptoType.valueOf(cryptoType.value)
+        let currency = SupportCryptoType.valueOf(selectedCryptoType.value)
         return withdrawalUseCase.addCryptoBankCard(currency: currency, alias: accountName.value, walletAddress: accountAddress.value, cryptoNetwork: stringToCryptoNetwork())
     }
     
     func stringToCryptoNetwork() -> CryptoNetwork {
-        let cryptoNetworkIterator = CryptoNetwork.values().iterator()
-        var cryptoNetwork: CryptoNetwork!
-        while cryptoNetworkIterator.hasNext() {
-            let next = (cryptoNetworkIterator.next() as! CryptoNetwork)
-            if next.name == self.cryptoNetwork.value {
-                cryptoNetwork = next
-            }
-        }
-        
-        return cryptoNetwork
-    }
-    
-    func getCryptoNetworkArray() -> [CryptoNetwork] {
-        var cryptoNetworkArray: [CryptoNetwork] = []
-        let cryptoNetworkIterator = CryptoNetwork.values().iterator()
-        while cryptoNetworkIterator.hasNext() {
-            cryptoNetworkArray.append(cryptoNetworkIterator.next() as! CryptoNetwork)
-        }
-        
-        return cryptoNetworkArray
+        return CryptoNetwork.valueOf(self.selectedCryptoNetwork.value)
     }
     
     func deleteCryptoAccount(_ playerBankCardId: String) -> Completable {
@@ -62,12 +64,12 @@ class ManageCryptoBankCardViewModel {
             return name.count != 0
         }
         
-        let accountAddressValid = Observable.combineLatest(accountAddress, cryptoNetwork).map {[weak self] (address, _) -> ValidError in
+        let accountAddressValid = Observable.combineLatest(accountAddress, selectedCryptoNetwork).map {[weak self] (address, _) -> ValidError in
             guard let cryptoNetwork = self?.stringToCryptoNetwork() else { return .empty }
             return address.count > 0 ? (cryptoNetwork.isValid(cryptoNetworkAddress: address) ? .none : .regex)  : .empty
         }
         
-        let cryptoTypeValid = cryptoType.map { (type) -> Bool in
+        let cryptoTypeValid = selectedCryptoType.map { (type) -> Bool in
             return type.count != 0
         }
         

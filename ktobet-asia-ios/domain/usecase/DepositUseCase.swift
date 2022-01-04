@@ -15,6 +15,7 @@ protocol DepositUseCase {
     func requestCryptoDeposit(cryptoDepositRequest: CryptoDepositRequest) -> Single<String>
     func requestCryptoDetailUpdate(displayId: String) -> Single<String>
     func getDepositTakingCryptos() -> Single<[TakingCrypto]>
+    func getDepositSystem() -> Single<DepositSystem>
 }
 
 class DepositUseCaseImpl: DepositUseCase {
@@ -98,6 +99,10 @@ class DepositUseCaseImpl: DepositUseCase {
         default:
             return nil
         }
+    }
+    
+    func getDepositSystem() -> Single<DepositSystem> {
+        depositRepository.getPlayerDepositSystem()
     }
 }
 
