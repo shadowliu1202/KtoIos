@@ -1273,7 +1273,7 @@ struct BonusBean: Codable {
     let expiryDate: String
     let home: String
     let informPlayerDate: String
-    let isLimitedByDailyFull: Bool
+    let isLimitedByDailyFull: Bool?
     let issue: Int32
     let league: String
     let level: Int32
@@ -1303,8 +1303,8 @@ struct BonusBean: Codable {
         return Percentage(percent: self.percentage)
     }
     
-    private func covertBonusPromotionStatus(_ bonusCouponStatus: Int32, _ isLimitedByDailyFull: Bool) -> CouponStatus {
-        return CouponStatus.companion.convert(status: bonusCouponStatus, reachedDailyLimit: isLimitedByDailyFull)
+    private func covertBonusPromotionStatus(_ bonusCouponStatus: Int32, _ isLimitedByDailyFull: Bool?) -> CouponStatus {
+        return CouponStatus.companion.convert(status: bonusCouponStatus, reachedDailyLimit: isLimitedByDailyFull ?? false)
     }
     
     func toBonusCoupon() -> BonusCoupon {
