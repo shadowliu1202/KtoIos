@@ -58,8 +58,12 @@ class PutAPITarget: APITarget {
 }
 
 class PostAPITarget: APITarget {
-    init(service: ApiService, parameters: Encodable) {
-        super.init(baseUrl: KtoURL.baseUrl, path: service.surfixPath, method: .post, task: .requestJSONEncodable(parameters), header: service.headers)
+    init(service: ApiService, parameters: Encodable? = nil) {
+        if let parameters = parameters {
+            super.init(baseUrl: KtoURL.baseUrl, path: service.surfixPath, method: .post, task: .requestJSONEncodable(parameters), header: service.headers)
+        } else {
+            super.init(baseUrl: KtoURL.baseUrl, path: service.surfixPath, method: .post, task: .requestPlain, header: service.headers)
+        }
     }
 }
 

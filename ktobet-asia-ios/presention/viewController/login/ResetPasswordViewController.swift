@@ -56,7 +56,7 @@ class ResetPasswordViewController: LandingViewController {
         inputMobile.setKeyboardType(.numberPad)
         inputEmail.setTitle(Localize.string("common_email"))
         inputMobile.setTitle(Localize.string("common_mobile"))
-        btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code"), for: .normal)
+        btnSubmit.setTitle(Localize.string("common_get_code"), for: .normal)
         for button in [btnEmail, btnPhone]{
             let selectedColor = UIColor.backgroundTabsGray
             let unSelectedColor = UIColor.clear
@@ -177,11 +177,11 @@ class ResetPasswordViewController: LandingViewController {
         self.viewModel.countDownEndTime = self.viewModel.countDownEndTime == nil ? Date().adding(value: ResetPasswordViewModel.retryCountDownTime, byAdding: .second) : self.viewModel.countDownEndTime
         timerResend.start(timeInterval: 1, endTime: self.viewModel.countDownEndTime!) { [weak self] (index, countDownSecond, finish) in
             if countDownSecond != 0 {
-                self?.btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code") + "(\(countDownSecond))", for: .normal)
+                self?.btnSubmit.setTitle(Localize.string("common_get_code_countdown", "\(countDownSecond)"), for: .normal)
             } else {
                 self?.btnSubmit.isValid = true
                 self?.viewModel.countDownEndTime = nil
-                self?.btnSubmit.setTitle(Localize.string("login_resetpassword_step1_get_code"), for: .normal)
+                self?.btnSubmit.setTitle(Localize.string("common_get_code"), for: .normal)
             }
             
             self?.viewModel.remainTime = countDownSecond
