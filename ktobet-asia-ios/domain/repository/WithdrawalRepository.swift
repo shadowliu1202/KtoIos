@@ -190,18 +190,19 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     func addCryptoBankCard(currency: SupportCryptoType, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String> {
         let cryptoBankCardRequest = CryptoBankCardRequest(cryptoCurrency: currency.id__, cryptoWalletName: alias, cryptoWalletAddress: walletAddress, cryptoNetwork: cryptoNetwork.index)
-        
-        return cpsApi.getCryptoBankCard().flatMap { (response) -> Single<String> in
-            guard let data = response.data?.payload else { return Single<String>.error(KTOError.EmptyData) }
-            if data.map({ $0.toCryptoBankCard().walletAddress }).contains(walletAddress) {
-                return Single<String>.error(KtoWithdrawalAccountExist())
-            } else {
-                return self.cpsApi.createCryptoBankCard(cryptoBankCardRequest: cryptoBankCardRequest).map { (response) -> String in
-                    guard let data = response.data else { return "" }
-                    return data
+        return self.cpsApi.createCryptoBankCard(cryptoBankCardRequest: cryptoBankCardRequest)
+            .catchError({ (error) in
+                let exception = ExceptionFactory.create(error)
+                switch exception {
+                case is PlayerCryptoBankCardIsExist:
+                    return Single.error(KtoWithdrawalAccountExist())
+                default:
+                    return Single.error(error)
                 }
+            }).map { (response) -> String in
+                guard let data = response.data else { return "" }
+                return data
             }
-        }
     }
     
     func verifyCryptoBankCard(playerCryptoBankCardId: String, accountType: AccountType) -> Completable {
