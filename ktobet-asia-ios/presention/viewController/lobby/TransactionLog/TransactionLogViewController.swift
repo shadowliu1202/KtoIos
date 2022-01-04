@@ -50,7 +50,7 @@ class TransactionLogViewController: UIViewController {
         transactionSummary
             .subscribe {[weak self] cashFlowSummary in
                 self?.inComeLabel.text = cashFlowSummary.income.formatString(sign: .signed_)
-                self?.outComeLabel.text = cashFlowSummary.outcome.formatString(sign: .signed_)
+                self?.outComeLabel.text = cashFlowSummary.outcome.negativeAmount()
             } onError: {[weak self] error in
                 self?.handleErrors(error)
             }.disposed(by: disposeBag)
