@@ -60,7 +60,7 @@ class WithdrawalRequestConfirmViewController: UIViewController {
             self.withdrawalSuccess = transactionId != ""
             self.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
         } onError: { (error) in
-            if ExceptionFactory.create(error) is PlayerWithdrawalDefective {
+            if error is KtoPlayerWithdrawalDefective {
                 Alert.show("" ,Localize.string("withdrawal_fail"), confirm: {[weak self] in
                     self?.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
                 }, cancel: nil)

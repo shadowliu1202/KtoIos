@@ -9,4 +9,20 @@ extension ExceptionFactory {
                     statusCode: err.userInfo["statusCode"] as? String ?? "")
         return exception
     }
+    
+    static func toKtoException(_ error: Error) -> Error {
+        let exception = ExceptionFactory.create(error)
+        switch exception {
+        case is PlayerCryptoBankCardIsExist:
+            return KtoWithdrawalAccountExist()
+        case is ChatCheckGuestFail:
+            return ChatCheckGuestIPFail()
+        case is PlayerWithdrawalRequestCryptoRateChange:
+            return KtoRequestCryptoRateChange()
+        case is PlayerWithdrawalDefective:
+            return KtoPlayerWithdrawalDefective()
+        default:
+            return error
+        }
+    }
 }
