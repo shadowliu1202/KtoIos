@@ -10,10 +10,9 @@ class PlayerViewModel {
     var refreshBalance = PublishSubject<(Void)>()
     lazy var playerBalance = refreshBalance.flatMapLatest{_ in
         self.playerUseCase.getBalance()
-            .map{ $0.toAccountCurrency().symbol + " " + $0.toAccountCurrency().formatString() }
+            .map { $0.toAccountCurrency().symbol + " " + $0.toAccountCurrency().formatString() }
             .do(onSuccess: { self.balance = $0 })
-            .asObservable()
-    }
+    }.asDriver(onErrorJustReturn: "")
                 
     init(playerUseCase: PlayerDataUseCase, authUsecase: AuthenticationUseCase) {
         self.playerUseCase = playerUseCase
@@ -21,15 +20,15 @@ class PlayerViewModel {
     }
     
     func loadPlayerInfo() -> Observable<Player> {
-        return self.playerUseCase.loadPlayer().asObservable()
+        playerUseCase.loadPlayer().asObservable()
     }
     
     func getBalanceHiddenState(gameId: String) -> Bool {
-        return self.playerUseCase.getBalanceHiddenState(gameId: gameId)
+        playerUseCase.getBalanceHiddenState(gameId: gameId)
     }
     
     func saveBalanceHiddenState(gameId: String, isHidden: Bool) {
-        self.playerUseCase.setBalanceHiddenState(gameId: gameId, isHidden: isHidden)
+        playerUseCase.setBalanceHiddenState(gameId: gameId, isHidden: isHidden)
     }
     
     func getPrivilege() -> Single<[LevelOverview]> {
@@ -37,6 +36,10 @@ class PlayerViewModel {
     }
     
     func logout() -> Completable {
-        return authUsecase.logout()
+        authUsecase.logout()
+    }
+    
+    func checkIsLogged() -> Single<Bool>{
+        authUsecase.isLogged()
     }
 }

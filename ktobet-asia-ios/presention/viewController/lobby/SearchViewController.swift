@@ -127,7 +127,7 @@ class SearchViewController: SearchProduct {
         viewModel?.searchResult()
             .subscribe(onNext: { [weak self] (event) in
                 if let games = event.element {
-                    self?.gameData = games
+                    self?.gameData = games.filter{ $0.gameStatus != .maintenance }
                 }
                 if let error = event.error {
                     self?.switchContent()

@@ -46,6 +46,8 @@ class SystemSignalRepositoryImpl : SystemSignalRepository {
                 self.observeMessage.onNext(Target.Kickout(KickOutType(rawValue: type)))
             case .Balance:
                 self.observeMessage.onNext(Target.Balance)
+            case .Maintenance:
+                self.observeMessage.onNext(Target.Maintenance)
             }
         })
     }
@@ -63,6 +65,7 @@ class SystemSignalRepositoryImpl : SystemSignalRepository {
 public enum Target {
     case Balance
     case Kickout(_ kickOutType: KickOutType?)
+    case Maintenance
     
     var name: String {
         switch self {
@@ -70,6 +73,8 @@ public enum Target {
             return "Balance"
         case .Kickout:
             return "Kickout"
+        case .Maintenance:
+            return "Maintenance"
         }
     }
 }

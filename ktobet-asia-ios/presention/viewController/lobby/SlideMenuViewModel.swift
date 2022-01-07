@@ -25,6 +25,7 @@ struct ProductItem {
     var title = ""
     var image = ""
     var type = ProductType.none
+    var maintainTime: OffsetDateTime?
 }
 
 struct FeatureItem {

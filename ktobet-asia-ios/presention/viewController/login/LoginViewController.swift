@@ -6,25 +6,25 @@ import SharedBu
 class LoginViewController: LandingViewController {
     var barButtonItems: [UIBarButtonItem] = []
     
-    @IBOutlet private weak var labTitle : UILabel!
-    @IBOutlet private weak var viewLoginErr : UIView!
-    @IBOutlet private weak var viewLoginErrBg : UIView!
-    @IBOutlet private weak var labLoginErr : UILabel!
-    @IBOutlet private weak var textAccount : InputText!
-    @IBOutlet private weak var labAccountErr : UILabel!
-    @IBOutlet private weak var textPassword : InputPassword!
-    @IBOutlet private weak var labPasswordErr : UILabel!
-    @IBOutlet private weak var btnRememberMe : UIButton!
-    @IBOutlet private weak var viewCaptcha : UIView!
-    @IBOutlet private weak var viewCaptchaTipBg : UIView!
-    @IBOutlet private weak var labCaptchaTip : UILabel!
-    @IBOutlet private weak var textCaptcha : InputText!
-    @IBOutlet private weak var imgCaptcha : UIImageView!
-    @IBOutlet private weak var btnResendCaptcha : UIButton!
-    @IBOutlet private weak var btnLogin : UIButton!
-    @IBOutlet private weak var btnResetPassword : UIButton!
-    @IBOutlet private weak var constraintLoginErrorHeight : NSLayoutConstraint!
-    @IBOutlet private weak var constraintCaptchaHeight : NSLayoutConstraint!
+    @IBOutlet private weak var labTitle: UILabel!
+    @IBOutlet private weak var viewLoginErr: UIView!
+    @IBOutlet private weak var viewLoginErrBg: UIView!
+    @IBOutlet private weak var labLoginErr: UILabel!
+    @IBOutlet private weak var textAccount: InputText!
+    @IBOutlet private weak var labAccountErr: UILabel!
+    @IBOutlet private weak var textPassword: InputPassword!
+    @IBOutlet private weak var labPasswordErr: UILabel!
+    @IBOutlet private weak var btnRememberMe: UIButton!
+    @IBOutlet private weak var viewCaptcha: UIView!
+    @IBOutlet private weak var viewCaptchaTipBg: UIView!
+    @IBOutlet private weak var labCaptchaTip: UILabel!
+    @IBOutlet private weak var textCaptcha: InputText!
+    @IBOutlet private weak var imgCaptcha: UIImageView!
+    @IBOutlet private weak var btnResendCaptcha: UIButton!
+    @IBOutlet private weak var btnLogin: UIButton!
+    @IBOutlet private weak var btnResetPassword: UIButton!
+    @IBOutlet private weak var constraintLoginErrorHeight: NSLayoutConstraint!
+    @IBOutlet private weak var constraintCaptchaHeight: NSLayoutConstraint!
     @IBOutlet private weak var toastView: ToastView!
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var register = UIBarButtonItem.kto(.register)
@@ -32,7 +32,7 @@ class LoginViewController: LandingViewController {
     private var _customService: CustomerServiceButtonItem?
     private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
-    private var captcha : UIImage?
+    private var captcha: UIImage?
     private let segueSignup = "GoToSignup"
     private let heightSpace = CGFloat(12)
     private let heightCaptchaView = CGFloat(257)
@@ -76,23 +76,23 @@ class LoginViewController: LandingViewController {
     }
     
     // MARK: NOTIFICATION
-    private func addNotificationCenter(){
+    private func addNotificationCenter() {
         NotificationCenter
             .default
             .addObserver(forName: UIApplication.willEnterForegroundNotification,
                          object: nil,
                          queue: nil,
-                         using: {notification in
-                            self.viewModel.continueLoginLimitTimer()
-                         })
+                         using: { notification in
+                self.viewModel.continueLoginLimitTimer()
+            })
     }
     
-    private func removeNotificationCenter(){
+    private func removeNotificationCenter() {
         NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: METHOD
-    func localize(){
+    func localize() {
         register.title = Localize.string("common_register")
         customService.title = Localize.string("customerservice_title")
         labLoginErr.text = Localize.string("login_invalid_username_password_captcha")
@@ -105,15 +105,15 @@ class LoginViewController: LandingViewController {
         btnLogin.setTitle(Localize.string("common_login"), for: .normal)
         btnResetPassword.setAttributedTitle({
             let text = NSMutableAttributedString()
-            let attr1 : NSAttributedString = {
+            let attr1: NSAttributedString = {
                 let text = Localize.string("login_tips_1") + " "
                 let color = UIColor.textPrimaryDustyGray
-                return NSAttributedString.init(string: text, attributes: [.foregroundColor : color])
+                return NSAttributedString.init(string: text, attributes: [.foregroundColor: color])
             }()
-            let attr2 : NSAttributedString = {
+            let attr2: NSAttributedString = {
                 let text = Localize.string("login_tips_1_highlight")
                 let color = UIColor.red
-                return NSAttributedString.init(string: text, attributes: [.foregroundColor : color])
+                return NSAttributedString.init(string: text, attributes: [.foregroundColor: color])
             }()
             text.append(attr1)
             text.append(attr2)
@@ -121,7 +121,7 @@ class LoginViewController: LandingViewController {
         }(), for: .normal)
     }
     
-    func defaulStyle(){
+    func defaulStyle() {
         btnRememberMe.isSelected = viewModel.isRememberMe()
         viewLoginErr.isHidden = true
         viewLoginErrBg.layer.cornerRadius = 8
@@ -139,7 +139,7 @@ class LoginViewController: LandingViewController {
         textAccount.setKeyboardType(.emailAddress)
     }
     
-    func setViewModel(){
+    func setViewModel() {
         (textAccount.text <-> viewModel.relayAccount).disposed(by: disposeBag)
         (textPassword.text <-> viewModel.relayPassword).disposed(by: disposeBag)
         (textCaptcha.text <-> viewModel.relayCaptcha).disposed(by: disposeBag)
@@ -147,9 +147,9 @@ class LoginViewController: LandingViewController {
         let event = viewModel.event()
         event
             .accountValid
-            .subscribe(onNext: {status in
-                let message : String = {
-                    switch status{
+            .subscribe(onNext: { status in
+                let message: String = {
+                    switch status {
                     case .firstEmpty, .valid, .invalid: return ""
                     case .empty: return Localize.string("common_field_must_fill")
                     }
@@ -160,9 +160,9 @@ class LoginViewController: LandingViewController {
         
         event
             .passwordValid
-            .subscribe(onNext: {status in
-                let message : String = {
-                    switch status{
+            .subscribe(onNext: { status in
+                let message: String = {
+                    switch status {
                     case .firstEmpty, .valid, .invalid: return ""
                     case .empty: return Localize.string("common_field_must_fill")
                     }
@@ -195,7 +195,7 @@ class LoginViewController: LandingViewController {
                 }
                 self.btnLogin.setTitle({
                     var title = Localize.string("common_login")
-                    if countDown > 0{ title += "(\(countDown))" }
+                    if countDown > 0 { title += "(\(countDown))" }
                     return title
                 }(), for: .normal)
             })
@@ -204,8 +204,8 @@ class LoginViewController: LandingViewController {
     }
     
     // MARK: ERROR
-    private func handleError(error : Any){
-        if let loginFail = error as? LoginError, let status = loginFail.status{
+    private func handleError(error: Any) {
+        if let loginFail = error as? LoginError, let status = loginFail.status {
             switch status {
             case .failed1to5:
                 showLoginError(message: Localize.string("login_invalid_username_password"))
@@ -228,39 +228,39 @@ class LoginViewController: LandingViewController {
     }
     
     // MARK: PRESENT TIP
-    func showLoginError( message : String){
+    func showLoginError(message: String) {
         labLoginErr.text = message
         labLoginErr.layoutIfNeeded()
         viewLoginErr.isHidden = false
         constraintLoginErrorHeight.constant = labLoginErr.frame.height + heightSpace * 3
     }
     
-    func hideCaptcha(){
+    func hideCaptcha() {
         self.viewCaptcha.isHidden = true
         self.constraintCaptchaHeight.constant = 0
     }
     
-    func showCaptcha( cpatchaTip: String, captcha: UIImage){
+    func showCaptcha(cpatchaTip: String, captcha: UIImage) {
         viewCaptcha.isHidden = false
         constraintCaptchaHeight.constant = btnResendCaptcha.frame.maxY
         labCaptchaTip.text = cpatchaTip
         imgCaptcha.image = captcha
     }
     
-    func showPasswordValidTip(message : String){
+    func showPasswordValidTip(message: String) {
         labPasswordErr.text = message
         textPassword.showUnderline(message.count > 0)
         textPassword.setCorner(topCorner: true, bottomCorner: message.count == 0)
     }
     
-    func showAccountValidtip(message : String){
+    func showAccountValidtip(message: String) {
         labAccountErr.text = message
         textAccount.showUnderline(message.count > 0)
         textAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
     }
     
     // MARK: API
-    private func getCaptcha(){
+    private func getCaptcha() {
         viewModel
             .getCaptchaImage()
             .subscribe(onSuccess: { image in })
@@ -268,8 +268,8 @@ class LoginViewController: LandingViewController {
     }
     
     // MARK: BUTTON ACTION
-    func btnSignupPressed(){
-        serviceStatusViewModel.getOtpService().subscribe {[weak self] (otpStatus) in
+    func btnSignupPressed() {
+        serviceStatusViewModel.output.otpService.subscribe { [weak self] (otpStatus) in
             if !otpStatus.isMailActive && !otpStatus.isSmsActive {
                 let title = Localize.string("common_error")
                 let message = Localize.string("register_service_down")
@@ -277,47 +277,52 @@ class LoginViewController: LandingViewController {
             } else {
                 self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
             }
-        } onError: {[weak self] (error) in
+        } onError: { [weak self] (error) in
             self?.handleUnknownError(error)
         }.disposed(by: disposeBag)
     }
     
-    @IBAction func btnLoginPressed(_ sender : UIButton){
-        viewModel
-            .loginFrom(isRememberMe : btnRememberMe.isSelected)
+    @IBAction func btnLoginPressed(_ sender: UIButton) {
+        let playerDefaultProduct = viewModel.loginFrom(isRememberMe: btnRememberMe.isSelected)
+            .do(onSubscribe: { [weak self] in self?.btnLogin.isValid = false })
+            .map { $0.defaultProduct ?? ProductType.none }
+            .asObservable()
+        
+        playerDefaultProduct.bind(to: serviceStatusViewModel.input.playerDefaultProduct).disposed(by: disposeBag)
+        serviceStatusViewModel.output.toNextPage
             .subscribeOn(MainScheduler.instance)
-            .do(onSubscribe: {[weak self] in self?.btnLogin.isValid = false })
-            .subscribe{[weak self] event in
-                switch event {
-                case .success(let player):
-                    NavigationManagement.sharedInstance.goTo(productType: player.defaultProduct)
-                case .error(let error):
-                    self?.handleError(error: error)
-                }
-                
+            .subscribe {[weak self] in
                 self?.btnLogin.isValid = true
+            } onError: {[weak self] error in
+                self?.handleErrors(error)
             }.disposed(by: disposeBag)
     }
     
-    @IBAction func btnResetPasswordPressed(_ sender : UIButton){
+    @IBAction func btnResetPasswordPressed(_ sender: UIButton) {
         performSegue(withIdentifier: ResetPasswordViewController.segueIdentifier, sender: nil)
     }
     
-    @IBAction func btnRememberMePressed(_ sender : UIButton){
+    @IBAction func btnRememberMePressed(_ sender: UIButton) {
         btnRememberMe.isSelected = !btnRememberMe.isSelected
     }
     
-    @IBAction func btnResendCaptchaPressed(_ sender : UIButton){
+    @IBAction func btnResendCaptchaPressed(_ sender: UIButton) {
         getCaptcha()
     }
     
     // MARK: PAGE ACTION
-    @IBAction func backToLogin(segue: UIStoryboardSegue){
+    @IBAction func backToLogin(segue: UIStoryboardSegue) {
         if let vc = segue.source as? ResetPasswordStep3ViewController {
             if vc.changePasswordSuccess {
                 toastView.show(on: self.view, statusTip: Localize.string("login_resetpassword_success"), img: UIImage(named: "Success"))
             }
         }
+    }
+    
+    private func showDefaultProductMaintenAlert(playerDefaultProductType: ProductType, gotoProductType: ProductType) {
+        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_default_product_maintain_content", StringMapper.sharedInstance.parseProductTypeString(productType: playerDefaultProductType)), confirm: {
+            NavigationManagement.sharedInstance.goTo(productType: gotoProductType)
+        }, cancel: nil)
     }
     
     private func versionAlert(_ newVer: Version) {
@@ -334,18 +339,18 @@ class LoginViewController: LandingViewController {
     }
 }
 
-extension LoginViewController{
+extension LoginViewController {
     // MARK: PAGE PREPARE
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navi = segue.destination as? UINavigationController,
-           let signupVc = navi.viewControllers.first as? SignupLanguageViewController{
+           let signupVc = navi.viewControllers.first as? SignupLanguageViewController {
             signupVc.languageChangeHandler = {
                 self.localize()
                 self.viewModel.refresh()
             }
         }
     }
-    override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {}
+    override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) { }
 }
 
 extension LoginViewController: BarButtonItemable {

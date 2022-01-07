@@ -50,6 +50,7 @@ class WebGameItemCell: UICollectionViewCell {
             blurView.isHidden = false
             blurLabel.text = text
             blurImageView.image = icon
+            self.isUserInteractionEnabled = false
         }
         
         favoriteBtn.rx.touchUpInside.bind(onNext: { [weak self] in

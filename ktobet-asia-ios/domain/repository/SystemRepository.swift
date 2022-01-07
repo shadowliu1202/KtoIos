@@ -12,16 +12,25 @@ import SharedBu
 
 protocol SystemRepository {
     func getPortalMaintenance() -> Single<OtpStatus>
-    func observePortalMaintenanceState() -> Single<MaintenanceStatus>
+    func observePortalMaintenanceState() -> Observable<MaintenanceStatus>
+    func getCustomerService() -> Single<String>
+    func refreshPortalMaintenanceState()
 }
 
 class SystemRepositoryImpl : SystemRepository{
-    
+    let csMailCookieName = "csm"
+    let maintenanceTimeCookieName = "dist"
     private var portalApi : PortalApi
     private var productStatusChange = BehaviorSubject<MaintenanceStatus>(value: MaintenanceStatus.init())
-    
+    private var maintenanceStatus: Observable<MaintenanceStatus>!
+    private let portalMaintenanceStateRefresh = PublishSubject<()>()
+
     init(_ portalApi : PortalApi) {
         self.portalApi = portalApi
+        
+        maintenanceStatus = portalMaintenanceStateRefresh.startWith(()).flatMap{[unowned self] in
+            self.updateMaintenanceStatus().asObservable()
+        }
     }
     
     func getPortalMaintenance()->Single<OtpStatus>{
@@ -32,8 +41,53 @@ class SystemRepositoryImpl : SystemRepository{
             }
     }
     
-    func observePortalMaintenanceState() -> Single<MaintenanceStatus> {
-        portalApi.getProductStatus().map { $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.init()}
-        .do(onSuccess: { self.productStatusChange.onNext($0) })
+    func observePortalMaintenanceState() -> Observable<MaintenanceStatus> {
+        maintenanceStatus.concat(productStatusChange.asObservable())
+    }
+    
+    func refreshPortalMaintenanceState() {
+        portalMaintenanceStateRefresh.onNext(())
+    }
+    
+    func getCustomerService() -> Single<String> {
+        portalApi.getCustomerServiceEmail().map{ $0.data ?? "" }
+        .catchError {[weak self] error in
+            guard let self = self else { return Single.error(error)}
+            if error.isMaintenance() {
+                return Single.just(self.maintainCsEmail())
+            } else {
+                return Single.error(error)
+            }
+        }
+    }
+    
+    private func updateMaintenanceStatus() -> Single<MaintenanceStatus> {
+        portalApi.getProductStatus().map { $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.init() }
+            .do(onSuccess: { self.productStatusChange.onNext($0) })
+            .catchError({ [weak self] error in
+            guard let self = self else { return Single.error(error) }
+            if error.isMaintenance() {
+                return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: Int32(self.getMaintenanceTimeFromCookies())))
+            } else {
+                return Single.error(error)
+            }
+        })
+    }
+    
+    private func getMaintenanceTimeFromCookies() -> Int {
+        let str = (HttpClient().getCookies().first(where: { $0.name == maintenanceTimeCookieName })?.value) ?? "0"
+        return Int(str)!
+    }
+    
+    private func maintainCsEmail() -> String {
+        HttpClient().getCookies().first(where: { $0.name == csMailCookieName })?.value ?? ""
+    }
+}
+
+
+extension Error {
+    func isMaintenance() -> Bool {
+        guard let code = (self as NSError).userInfo["statusCode"] as? String else { return false }
+        return code == "401"
     }
 }

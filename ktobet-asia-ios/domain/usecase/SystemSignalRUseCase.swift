@@ -19,6 +19,7 @@ class SystemSignalRUseCaseImpl: SystemSignalRUseCase {
         systemRepo.connectService()
         systemRepo.subscribeEvent(target: Target.Kickout(nil))
         systemRepo.subscribeEvent(target: Target.Balance)
+        systemRepo.subscribeEvent(target: Target.Maintenance)
         return systemRepo.observeSystemMessage()
     }
     

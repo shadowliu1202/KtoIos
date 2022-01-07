@@ -1,0 +1,40 @@
+{
+  "images" : [
+    {
+      "filename" : "maintainSBK.pdf",
+      "idiom" : "universal"
+    },
+    {
+      "filename" : "maintainSBK-1.pdf",
+      "idiom" : "universal",
+      "locale" : "zh-CN"
+    },
+    {
+      "filename" : "maintainSBK-2.pdf",
+      "idiom" : "universal",
+      "locale" : "zh-Hans"
+    },
+    {
+      "filename" : "maintainSBK-3.pdf",
+      "idiom" : "universal",
+      "locale" : "en"
+    },
+    {
+      "filename" : "maintainSBK-4.pdf",
+      "idiom" : "universal",
+      "locale" : "vi"
+    },
+    {
+      "filename" : "maintainSBK-5.pdf",
+      "idiom" : "universal",
+      "locale" : "vi-VN"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
+  }
+}

@@ -14,7 +14,7 @@ class RestrictedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        viewModel.portalMaintenanceStatus.subscribe {[weak self] status in
+        viewModel.output.portalMaintenanceStatus.drive {[weak self] status in
             switch status {
             case is MaintenanceStatus.AllPortal:
                 self?.showPortalMaintenance()
@@ -23,13 +23,11 @@ class RestrictedViewController: UIViewController {
             default:
                 break
             }
-        } onError: { [weak self] error in
-            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     
     private func showPortalMaintenance() {
-        //TODO: Maintenance
+        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
     }
     
     private func showLanding() {
