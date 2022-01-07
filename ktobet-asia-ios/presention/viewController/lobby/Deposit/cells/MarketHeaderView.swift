@@ -1,6 +1,7 @@
 import UIKit
 
 class MarketHeaderView: UITableViewHeaderFooterView {
+    @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var icon: UIImageView!
     var callback: ((MarketHeaderView) -> ())?

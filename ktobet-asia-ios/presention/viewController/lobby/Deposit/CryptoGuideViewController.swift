@@ -44,7 +44,7 @@ class CryptoGuideViewController: UIViewController {
     private func reloadRows(at sectionIndex: Int, rowCount: Int, with animation: UITableView.RowAnimation) {
         self.tableView.beginUpdates()
         for i in 0 ..< rowCount {
-            self.tableView.reloadRows(at: [IndexPath(row: i, section: sectionIndex)], with: .automatic)
+            self.tableView.reloadRows(at: [IndexPath(row: i, section: sectionIndex)], with: animation)
         }
         self.tableView.endUpdates()
     }
@@ -59,16 +59,29 @@ extension CryptoGuideViewController: UITableViewDelegate, UITableViewDataSource 
         return resources.count
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return resources[section].guides.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "GuideViewCell", cellType: GuideViewCell.self).configure(resources[indexPath.section].guides[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GuideViewCell", cellType: GuideViewCell.self).configure(resources[indexPath.section].guides[indexPath.row])
+        if indexPath.row == 0 {
+            cell.topMargin.constant = 16
+        }else if indexPath.row == resources[indexPath.section].guides.count - 1 {
+            cell.bottomMargin.constant = 16
+        }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (resources[indexPath.section].expanded) {
+            if indexPath.row == 0 || indexPath.row == resources[indexPath.section].guides.count - 1 {
+                return 44
+            }
             return 36
         }else{
             return 0
@@ -76,11 +89,24 @@ extension CryptoGuideViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return tableView.dequeueReusableHeaderFooter(withIdentifier: "MarketHeaderView", cellType: MarketHeaderView.self).configure(resources[section], callback: { [unowned self] (header) in
+        let header = tableView.dequeueReusableHeaderFooter(withIdentifier: "MarketHeaderView", cellType: MarketHeaderView.self).configure(resources[section], callback: { [unowned self] (header) in
             self.resources[section].expanded.toggle()
             header.icon?.image = self.resources[section].expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
             self.reloadRows(at: section, rowCount: resources[section].guides.count, with: .automatic)
+            if section == 0 {
+                if self.resources[section].expanded {
+                    header.bottomLine.isHidden = false
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                        header.bottomLine.isHidden = true
+                    }
+                }
+            }
         })
+        if section == 0 {
+            header.bottomLine.isHidden = !self.resources[section].expanded
+        }
+        return header
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -93,6 +119,14 @@ extension CryptoGuideViewController: UITableViewDelegate, UITableViewDataSource 
 
 class GuideViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet var topMargin: NSLayoutConstraint!
+    @IBOutlet var bottomMargin: NSLayoutConstraint!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.topMargin.constant = 8
+        self.bottomMargin.constant = 8
+    }
     
     func configure(_ item: Guide) -> Self {
         self.selectionStyle = .none

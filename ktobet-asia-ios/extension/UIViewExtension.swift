@@ -1,7 +1,7 @@
 import UIKit
 
 public enum BorderSide: Int {
-    case top, bottom, left, right, around
+    case top = 1100, bottom, left, right, around
 }
 
 extension UIView {
