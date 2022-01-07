@@ -14,11 +14,11 @@ class LaunchViewModel {
     }
     
     func checkIsLogged() -> Single<Bool>{
-        return authUseCase.isLogged()
+        authUseCase.isLogged()
     }
     
     func loadPlayerInfo() -> Single<Player> {
-        return self.playerUseCase.loadPlayer()
+        playerUseCase.loadPlayer()
     }
     
     func initLocale() -> Completable {

@@ -64,7 +64,7 @@ class NavigationManagement {
     }
     
     func goTo(storyboard name: String, viewControllerId: String) {
-        if name == "Login" && viewControllerId == "LoginNavigation" {
+        if viewControllerId == "LoginNavigation" || viewControllerId == "LaunchViewController" {
             dispose()
         }
         
@@ -79,28 +79,15 @@ class NavigationManagement {
         setRootViewController(storyboard: name, viewControllerId: viewControllerId)
     }
     
-    func goTo(productType: ProductType?) {
-        guard let productType = productType else {
+    func goTo(productType: ProductType?, isMaintenance: Bool = false) {
+        guard let productType = productType, productType != .none else {
             goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
             return
         }
-        
-        switch productType {
-        case .sbk:
-            goTo(storyboard: "SBK", viewControllerId: "SBKNavigationController")
-        case .numbergame:
-            goTo(storyboard: "NumberGame", viewControllerId: "NumberGameNavigationController")
-        case .casino:
-            goTo(storyboard: "Casino", viewControllerId: "CasinoNavigationController")
-        case .slot:
-            goTo(storyboard: "Slot", viewControllerId: "SlotNavigationController")
-        case .p2p:
-            goTo(storyboard: "P2P", viewControllerId: "P2PNavigationController")
-        case .arcade:
-            goTo(storyboard: "Arcade", viewControllerId: "ArcadeNavigationController")
-        default:
-            goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
-        }
+
+        let storyboard = isMaintenance ? "Maintenance" : productType.name
+        let viewControllerId = isMaintenance ? productType.name + "Maintenance" : productType.name + "NavigationController"
+        goTo(storyboard: storyboard, viewControllerId: viewControllerId)
     }
     
     func popViewController(_ completion: (() -> Void)? = nil) {

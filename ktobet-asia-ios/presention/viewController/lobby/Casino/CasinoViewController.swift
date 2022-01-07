@@ -213,6 +213,7 @@ class CasinoLobbyItemCell: UICollectionViewCell {
         imgIcon.image = data.lobby.img
         maintainIcon.image = UIImage(named: "game-maintainance")
         blurView.isHidden = !data.isMaintenance
+        self.isUserInteractionEnabled = !data.isMaintenance
         blurView.layer.cornerRadius = self.bounds.width / 2
         blurView.layer.masksToBounds = true
         return self

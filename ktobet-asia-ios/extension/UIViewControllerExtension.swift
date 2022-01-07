@@ -43,11 +43,12 @@ extension UIViewController{
         }
     }
     
+
     private func handleHttpError(_ error: Error,  response: Response) {
+        let viewModel = DI.resolve(PlayerViewModel.self)!
+        let disposeBag = DisposeBag()
         switch response.statusCode {
         case 401:
-            let disposeBag = DisposeBag()
-            let viewModel = DI.resolve(PlayerViewModel.self)!
             viewModel.logout()
                 .subscribeOn(MainScheduler.instance)
                 .subscribe(onCompleted: {
@@ -56,12 +57,36 @@ extension UIViewController{
         case 403:
             showRestrictView()
         case 410:
-            showAlertError("系统维护中")
+            _ = viewModel.checkIsLogged()
+                .subscribeOn(MainScheduler.instance)
+                .subscribe(onSuccess: {[weak self] isLogged in
+                    if isLogged {
+                        viewModel.logout()
+                            .subscribeOn(MainScheduler.instance)
+                            .subscribe(onCompleted: {
+                                self?.showLoginMaintenanAlert()
+                            }).disposed(by: disposeBag)
+                    } else {
+                        self?.showUnLoginMaintenanAlert()
+                    }
+                })
         case 404:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         default:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         }
+    }
+    
+    private func showLoginMaintenanAlert() {
+        Alert.show(Localize.string("common_urgent_maintenance"), Localize.string("common_maintenance_logout"), confirm: {
+            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+        }, cancel: nil)
+    }
+    
+    private func showUnLoginMaintenanAlert() {
+        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
+            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+        }, cancel: nil)
     }
     
     private func showAlertError(_ content: String) {

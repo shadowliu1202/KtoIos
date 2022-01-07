@@ -2,33 +2,51 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class LaunchViewController : UIViewController{
+class LaunchViewController: UIViewController {
     private var viewModel = DI.resolve(LaunchViewModel.self)!
+    private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewModel.initLocale().andThen(self.viewModel.checkIsLogged())
-            .subscribe { (isLogged) in
-                self.nextPage(isLogged: isLogged)
-            } onError: { (error) in
-                self.nextPage(isLogged: false)
+        
+        viewModel.initLocale().subscribe(onCompleted: { }).disposed(by: disposeBag)
+        Observable.combineLatest(serviceViewModel.output.portalMaintenanceStatus.asObservable(), viewModel.checkIsLogged().asObservable())
+            .subscribe(onNext: { [weak self] (status, isLogged) in
+                switch status {
+                case is MaintenanceStatus.AllPortal:
+                    self?.setPortalMaintenance()
+                case is MaintenanceStatus.Product:
+                    if isLogged {
+                        self?.nextPage()
+                    } else {
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                    }
+                default:
+                    break
+                }
+            }) { [weak self] error in
+                self?.handleErrors(error)
             }.disposed(by: disposeBag)
     }
     
-    func nextPage(isLogged: Bool) {
+    private func nextPage() {
+        observeCustomerService()
+        let playerDefaultProduct = viewModel.loadPlayerInfo().compactMap{ $0.defaultProduct }.asObservable()
+        playerDefaultProduct.bind(to: serviceViewModel.input.playerDefaultProduct).disposed(by: disposeBag)
+        serviceViewModel.output.toNextPage.subscribe(onError: {[weak self] error in self?.handleErrors(error) }).disposed(by: disposeBag)
+    }
+    
+    private func observeCustomerService() {
         CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
             print("Completed")
         }).disposed(by: disposeBag)
-        
-        if isLogged {
-            self.viewModel.initLocale().andThen(self.viewModel.loadPlayerInfo()).subscribe { (player) in
-                NavigationManagement.sharedInstance.goTo(productType: player.defaultProduct)
-            } onError: { (error) in
-                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
-            }.disposed(by: disposeBag)
-        } else {
-            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+    }
+    
+    private func setPortalMaintenance() {
+        DispatchQueue.main.async {
+            let vc = UIStoryboard(name: "Maintenance", bundle: nil).instantiateViewController(withIdentifier: "PortalMaintenanceViewController")
+            self.present(vc, animated: true, completion: nil)
         }
     }
     

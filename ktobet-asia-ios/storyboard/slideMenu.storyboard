@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Nxb-sO-a93">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Nxb-sO-a93">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -275,6 +275,24 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
+                                                        <view hidden="YES" alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vvw-nG-EPU">
+                                                            <rect key="frame" x="36" y="0.0" width="56" height="56"/>
+                                                            <color key="backgroundColor" red="0.074509803920000006" green="0.074509803920000006" blue="0.074509803920000006" alpha="0.70203550169999995" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="56" id="KqN-eN-Mzj"/>
+                                                                <constraint firstAttribute="height" constant="56" id="ylo-XU-jda"/>
+                                                            </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                    <integer key="value" value="28"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                                <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <real key="value" value="28"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="老虎機" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJp-UY-jhH">
                                                             <rect key="frame" x="43" y="64" width="42" height="20"/>
                                                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
@@ -283,8 +301,11 @@
                                                         </label>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstItem="kJp-UY-jhH" firstAttribute="top" secondItem="Vvw-nG-EPU" secondAttribute="bottom" constant="8" id="5X8-tH-Qvh"/>
                                                         <constraint firstItem="BtA-uM-cGG" firstAttribute="centerX" secondItem="Z1Y-1B-OrB" secondAttribute="centerX" id="QdX-gq-XtZ"/>
                                                         <constraint firstItem="kJp-UY-jhH" firstAttribute="centerX" secondItem="Z1Y-1B-OrB" secondAttribute="centerX" id="V4p-yk-frb"/>
+                                                        <constraint firstItem="Vvw-nG-EPU" firstAttribute="centerX" secondItem="Z1Y-1B-OrB" secondAttribute="centerX" id="VMj-RE-0P0"/>
+                                                        <constraint firstItem="Vvw-nG-EPU" firstAttribute="top" secondItem="Z1Y-1B-OrB" secondAttribute="top" id="Ytf-Lt-Xeb"/>
                                                         <constraint firstItem="kJp-UY-jhH" firstAttribute="top" secondItem="BtA-uM-cGG" secondAttribute="bottom" constant="8" id="e9J-aG-7HQ"/>
                                                         <constraint firstItem="BtA-uM-cGG" firstAttribute="top" secondItem="Z1Y-1B-OrB" secondAttribute="top" id="hEj-TG-55d"/>
                                                     </constraints>
@@ -292,6 +313,7 @@
                                                 <connections>
                                                     <outlet property="imgIcon" destination="BtA-uM-cGG" id="bir-Yx-Luc"/>
                                                     <outlet property="labTitle" destination="kJp-UY-jhH" id="D8c-xq-gEH"/>
+                                                    <outlet property="mainatainView" destination="Vvw-nG-EPU" id="uVM-RV-6pf"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>

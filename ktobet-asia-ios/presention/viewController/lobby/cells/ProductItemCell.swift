@@ -2,17 +2,30 @@ import UIKit
 import SharedBu
 
 class ProductItemCell: UICollectionViewCell {
-    
+    @IBOutlet weak var mainatainView: UIView!
     @IBOutlet weak var imgIcon: UIImageView!
     @IBOutlet private weak var labTitle : UILabel!
     
+    var finishCountDown: (() -> ())?
+    
+    private var tickCircle: TickCircle?
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    func setup(_ data : ProductItem){
+    func setup(_ data : ProductItem) {
         labTitle.text = data.title
         imgIcon.image = UIImage(named: data.image)
+        
+        self.tickCircle?.remove()
+        if let time = data.maintainTime {
+            self.mainatainView.isHidden = false
+            let remainTime = TimeInterval(time.epochSeconds - Date().convertDateToOffsetDateTime().epochSeconds)
+            self.tickCircle = TickCircle(view: self.mainatainView)
+            self.tickCircle?.drawTickCircle(diameter: 56, countDownSecond: Int(remainTime))
+            self.tickCircle?.finishCountDown = self.finishCountDown
+        }
     }
     
     func setSelectedIcon(_ type : ProductType, isSelected: Bool) {

@@ -79,7 +79,8 @@ class DepositViewController: UIViewController {
                 self?.depositNoDataLabel.isHidden = true
                 self?.depositTypeTableView.isHidden = false
             }
-        }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
+        }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) {[weak self] index, data, cell in
+            guard let self = self else { return }
             cell.setUp(data: data, icon: self.viewModel.getDepositTypeImage(depositTypeId: data.paymentType.id))
         }.disposed(by: disposeBag)
     }
@@ -98,8 +99,8 @@ class DepositViewController: UIViewController {
     }
     
     fileprivate func alertCryptoDepositWarnings() {
-        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_crypto_warning"), confirm: {
-            self.performSegue(withIdentifier: CryptoSelectorViewController.segueIdentifier, sender: nil)
+        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_crypto_warning"), confirm: {[weak self] in
+            self?.performSegue(withIdentifier: CryptoSelectorViewController.segueIdentifier, sender: nil)
         }, cancel: nil)
     }
     

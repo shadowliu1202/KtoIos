@@ -51,6 +51,15 @@ class PortalApi: ApiService {
         return httpClient.request(target).map(ResponseData<ProductStatusBean>.self)
     }
     
+    func getCustomerServiceEmail() -> Single<ResponseData<String>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/profile/cs-mail",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<String>.self)
+    }
+    
     func getIOSVersion() -> Single<ResponseData<VersionData>> {
         let target = GetAPITarget(service: self.url("ios/api/get-ios-ipa-version"))
         return httpClient.request(target).map(ResponseData<VersionData>.self)
