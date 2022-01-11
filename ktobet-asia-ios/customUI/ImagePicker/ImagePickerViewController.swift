@@ -206,6 +206,15 @@ class ImagePickerViewController: UIViewController {
         
         return true
     }
+    
+    private func addSelectedImage(cell: CollectionViewCell, index: Int) {
+        let selectedImage = UIImageView(frame: cell.imgBackground.frame)
+        selectedImage.tag = index
+        selectedImage.image = UIImage(named: "iconPhotoSelected32")
+        selectedImage.contentMode = .center
+        selectedImage.backgroundColor = UIColor(red: 19/255, green: 19/255, blue: 19/255, alpha: 0.7)
+        cell.addSubview(selectedImage)
+    }
 }
 
 extension PHAssetCollection {
@@ -234,13 +243,19 @@ extension ImagePickerViewController: UICollectionViewDelegate, UICollectionViewD
                 cell.cameraLabel.text = text
             }
         } else {
+            let currentPhoto = photoAssets.object(at: indexPath.item - 1)
             cell.cameraView.isHidden = true
             cell.indexPath = indexPath
-            cell.photoAsset = photoAssets.object(at: indexPath.item - 1)
+            cell.photoAsset = currentPhoto
+            
             for view in cell.subviews {
                 if view.tag != 0 {
                     view.removeFromSuperview()
                 }
+            }
+            
+            if selectedPhotoAssets.contains(currentPhoto) {
+                addSelectedImage(cell: cell, index: indexPath.item)
             }
         }
         
@@ -276,12 +291,7 @@ extension ImagePickerViewController: UICollectionViewDelegate, UICollectionViewD
             } else {
                 guard showCountLimitAlert(), showSizeLimitAlert(asset: asset), showFormatInvalidAlert(asset: asset) else { return }
                 selectedPhotoAssets.append(asset)
-                let selectedImage = UIImageView(frame: newCell.imgBackground.frame)
-                selectedImage.tag = indexPath.item
-                selectedImage.image = UIImage(named: "iconPhotoSelected32")
-                selectedImage.contentMode = .center
-                selectedImage.backgroundColor = UIColor(red: 19/255, green: 19/255, blue: 19/255, alpha: 0.7)
-                newCell.addSubview(selectedImage)
+                addSelectedImage(cell: newCell, index: indexPath.item)
             }
             
             countLabel.text = "\(selectedPhotoAssets.count)/\(selectedImageLimitCount)"
