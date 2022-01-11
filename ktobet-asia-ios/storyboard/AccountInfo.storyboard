@@ -23,15 +23,30 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3wh-gc-1sz">
+                                <rect key="frame" x="159" y="407.5" width="96" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_affiliate"/>
+                                </userDefinedRuntimeAttributes>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="F8y-zc-w32" firstAttribute="trailing" secondItem="3wh-gc-1sz" secondAttribute="trailing" id="2JS-Bx-GX5"/>
+                            <constraint firstItem="F8y-zc-w32" firstAttribute="leading" secondItem="3wh-gc-1sz" secondAttribute="leading" id="GRy-UF-PiH"/>
                             <constraint firstItem="F8y-zc-w32" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="Hdy-XJ-DYP"/>
+                            <constraint firstItem="F8y-zc-w32" firstAttribute="top" secondItem="3wh-gc-1sz" secondAttribute="bottom" constant="30" id="XeW-Jf-XPp"/>
                             <constraint firstItem="F8y-zc-w32" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="dmf-29-7vo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="T5F-g4-48z"/>
+                    <connections>
+                        <outlet property="affiliateLabel" destination="3wh-gc-1sz" id="UwZ-zM-7GH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

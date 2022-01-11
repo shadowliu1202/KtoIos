@@ -12,6 +12,7 @@ protocol PlayerRepository {
     func getLevelPrivileges() -> Single<[LevelOverview]>
     func getPlayerRealName() -> Single<String>
     func hasPlayerData() -> Single<Bool>
+    func getAffiliateStatus() -> Single<AffiliateApplyStatus>
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
@@ -177,5 +178,9 @@ class PlayerRepositoryImpl : PlayerRepository {
          ProductType.sbk: Percentage(percent: bean.sbkPercentage),
          ProductType.slot: Percentage(percent: bean.slotPercentage),
          ProductType.arcade: Percentage(percent: bean.arcadePercentage)]
+    }
+    
+    func getAffiliateStatus() -> Single<AffiliateApplyStatus> {
+        return playerApi.getPlayerAffiliateStatus().map({AffiliateApplyStatus.companion.create(type: $0.data)})
     }
 }

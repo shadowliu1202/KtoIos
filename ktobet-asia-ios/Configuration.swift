@@ -31,6 +31,7 @@ enum Configuration: String {
     static var manualUpdate: Bool   = env.manualUpdate
     static var debugGesture: Bool   = env.debugGesture
     static var downloadUrl: URL     = env.downloadUrl
+    static var affiliateUrl: URL    = URL(string: "\(env.host)affiliate")!
 }
 
 protocol Env {

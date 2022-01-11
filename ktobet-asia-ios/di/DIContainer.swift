@@ -500,6 +500,10 @@ class DIContainer {
         ctner.register(TermsViewModel.self) { (resolver) in
             return TermsViewModel(localizationPolicyUseCase: ctner.resolve(LocalizationPolicyUseCase.self)!)
         }
+        ctner.register(ModifyProfileViewModel.self) { (resolver) in
+            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
+            return ModifyProfileViewModel(playerUseCase)
+        }
     }
     
     func registLoginView(){
