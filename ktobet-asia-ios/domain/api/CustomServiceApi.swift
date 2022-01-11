@@ -85,18 +85,18 @@ class CustomServiceApi: ApiService{
         return httpClient.request(target).map(NonNullResponseData<PlayerInChatBean>.self).map({$0.data})
     }
     
-    func send(request: SendMessageRequest) -> Completable {
+    func send(request: SendBean) -> Single<ResponseData<String>> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "onlinechat/api/chat-system/send",
+                               path: "onlinechat/api/room/send",
                                method: .post,
                                task: .requestJSONEncodable(request),
                                header: httpClient.headers)
-        return httpClient.request(target).asCompletable()
+        return httpClient.request(target).map(ResponseData<String>.self)
     }
     
     func uploadImage(query: [String: Any], imageData: [MultipartFormData]) -> Single<ResponseData<String>> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "onlinechat/api/common/image/upload",
+                               path: "onlinechat/api/image/upload",
                                method: .post,
                                task: .uploadCompositeMultipart(imageData, urlParameters: query),
                                header: httpClient.headers)
@@ -110,13 +110,6 @@ class CustomServiceApi: ApiService{
         let target = GetAPITarget(service: self.url("\(prefix)/room/cs-status"))
         return httpClient.request(target).map(NonNullResponseData<Bool>.self)
     }
-    
-    
-//    func getSkillSurvey(surveyType: Int32, platForm: Int) -> Single<NonNullResponseData<SkillSurveyData>> {
-//        let target = GetAPITarget(service: self.url("\(prefix)/survey/skill-survey"))
-//            .parameters(["surveyType" : surveyType, "platForm": platForm])
-//        return httpClient.request(target).map(NonNullResponseData<SkillSurveyData>.self)
-//    }
     
     /**
      * Step 3: createCustomeService survey or Ignore(will Skip Step 5)
@@ -150,17 +143,17 @@ class CustomServiceApi: ApiService{
         return httpClient.request(target).asCompletable()
     }
     
-    func getChatHistory(roomId: RoomId) -> Single<NonNullResponseData<ChatHistoriesBean>> {
+    func getChatHistory(roomId: RoomId) -> Single<NonNullResponseData<ChatHistoryBean>> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "/api/room/record/\(roomId)",
+                               path: "api/room/record/\(roomId)",
                                method: .get,
                                task: .requestPlain,
                                header: httpClient.headers)
-        return httpClient.request(target).map(NonNullResponseData<ChatHistoriesBean>.self)
+        return httpClient.request(target).map(NonNullResponseData<ChatHistoryBean>.self)
     }
     
     func getPlayerChatHistory(pageIndex: Int = 1, pageSize: Int = 20) -> Single<ResponseData<ChatHistories>> {
-        let target = GetAPITarget(service: self.url("api/player-chat-history")).parameters(["page" : pageIndex, "pageSize" : pageSize])
+        let target = GetAPITarget(service: self.url("api/room")).parameters(["page" : pageIndex, "pageSize" : pageSize])
         return httpClient.request(target).map(ResponseData<ChatHistories>.self)
     }
     
@@ -179,5 +172,10 @@ class CustomServiceApi: ApiService{
         let target = GetAPITarget(service: self.url("\(prefix)/survey/skill-survey"))
             .parameters(parameters)
         return httpClient.request(target).map(NonNullResponseData<SurveyBean>.self)
+    }
+    
+    func answerSurvey(body: ExitAnswerSurveyBean) -> Completable {
+        let target = PostAPITarget(service: self.url("\(prefix)/survey/answer"), parameters: body)
+        return httpClient.request(target).asCompletable()
     }
 }

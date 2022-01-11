@@ -102,7 +102,7 @@ class DepositRepositoryImpl: DepositRepository {
             return response.data ?? []
         }.map {
             $0.map { (m) -> PaymentGateway in
-                PaymentGateway(id: m.depositMethodID, limitation: AmountRange(min: m.depositLimitMinimum.toAccountCurrency(), max: m.depositLimitMaximum.toAccountCurrency()), paymentToken: m.paymentTokenID, isFavorite: m.isFavorite, provider: PaymentProvider.convert(m.providerId), supportBank: [], displayName: m.displayName, displayType: PaymentGateway.DisplayType.direct)
+                PaymentGateway(id: m.depositMethodID, limitation: AmountRange(min: m.depositLimitMinimum.toAccountCurrency(), max: m.depositLimitMaximum.toAccountCurrency()), paymentToken: m.paymentTokenID, isFavorite: m.isFavorite, provider: PaymentProvider.convert(m.providerId), supportBank: [], displayName: m.displayName, displayType: PaymentGateway.DisplayType.direct, amountLimitOptions: [])
             }
         }
         

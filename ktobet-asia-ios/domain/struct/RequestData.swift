@@ -154,13 +154,9 @@ struct BonusRequest: Codable {
     let type: Int32
 }
 
-struct SendMessageRequest: Codable {
-    let html: String
+struct SendBean: Codable {
+    let message: Message
     let roomId: String
-    let text: String
-    var fileId: String? = nil
-    var fileName: String? = nil
-    let messageType: Int32
 }
 
 struct CreateSurveyRequest: Codable {

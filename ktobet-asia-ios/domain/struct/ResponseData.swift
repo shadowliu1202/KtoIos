@@ -1747,92 +1747,16 @@ struct SkillSurveyData: Codable {
     }
 }
 
-/*
-struct SurveyBean: Codable {
-    let surveyID, csSkillID: String
+struct PreChatAnswerSurveyBean: Codable {
+    let answerSurvey: AnswerSurveyBean
+}
+
+struct ExitAnswerSurveyBean: Codable {
+    let questions: [Question]
+    let roomId: String
+    let skillId: String
     let surveyType: Int32
-    let surveyDescription: String
-    let version: Int32
-    let isAskLogin: Bool
-    let heading, subject, mailFooter, copyFrom: String
-    let createdUser: String
-    let isOnline, isEverOnline, enable: Bool
-    let createdDate: String
-    let updatedUser: String?
-    let updatedDate: String
-    let surveyQuestions: [SurveyQuestionBean]
-
-    enum CodingKeys: String, CodingKey {
-        case surveyID = "surveyId"
-        case csSkillID = "csSkillId"
-        case surveyType
-        case surveyDescription = "description"
-        case version, isAskLogin, heading, subject, mailFooter, copyFrom, createdUser, isOnline, isEverOnline, enable, createdDate, updatedUser, updatedDate, surveyQuestions
-    }
-    
-    func toSurvey() -> Survey {
-        return Survey(csSkillId: csSkillID, surveyId: surveyID, description: surveyDescription, surveyType: convertSurveyType(surveyType), surveyQuestions: surveyQuestions.map({$0.toSurveyQuestion()}), enable: enable, heading: heading, isAskLogin: isAskLogin, isEverOnline: isEverOnline, isOnline: isOnline, mailFooter: mailFooter, subject: subject, version: version, updatedUser: updatedUser ?? "")
-    }
-    
-    private func convertSurveyType(_ surveyType: Int32) -> Survey.SurveyType {
-         switch (surveyType) {
-         case 0:    return .prechat
-         case 1:    return .exit
-         default:   return .unknown
-         }
-     }
 }
-
-struct SurveyQuestionBean: Codable {
-    let surveyID, questionID: String
-    let sort: Int32
-    let aim, surveyQuestionDescription: String
-    let surveyQuestionType: Int32
-    let isVisible, isRequired, isNotLogin, isLogin: Bool
-    let enable: Bool
-    let createdUser: String
-    let createdDate: String
-    let surveyQuestionOptions: [SurveyQuestionOptionBean]
-
-    enum CodingKeys: String, CodingKey {
-        case surveyID = "surveyId"
-        case questionID = "questionId"
-        case sort, aim
-        case surveyQuestionDescription = "description"
-        case surveyQuestionType, isVisible, isRequired, isNotLogin, isLogin, enable, createdUser, createdDate, surveyQuestionOptions
-    }
-    
-    func toSurveyQuestion() -> SurveyQuestion_ {
-        SurveyQuestion_(questionId: questionID, aim: aim, createdDate: createdDate, description: surveyQuestionDescription, enable: enable, isLogin: isLogin, isNotLogin: isNotLogin, isRequired: isRequired, isVisible: isVisible, sort: sort, surveyId: surveyID, surveyQuestionOptions: surveyQuestionOptions.map({$0.toSurveyQuestionOption()}), surveyQuestionType: convert(surveyQuestionType))
-    }
-    
-    func convert(_ surveyQuestionType: Int32) -> SurveyQuestion_.SurveyQuestionType {
-        switch surveyQuestionType {
-        case 1:         return .simpleoption
-        case 2:         return .multipleoption
-        case 6:         return .textfield
-        default:        fatalError("unknown surveyQuestionType : \(surveyQuestionType)")
-        }
-    }
-}
-
-struct SurveyQuestionOptionBean: Codable {
-    let questionID, optionID, values: String
-    let isOther, enable: Bool
-    let createdUser: String
-    let createdDate: String
-
-    enum CodingKeys: String, CodingKey {
-        case questionID = "questionId"
-        case optionID = "optionId"
-        case values, isOther, enable, createdUser, createdDate
-    }
-    
-    func toSurveyQuestionOption() -> SurveyQuestion_.SurveyQuestionOption {
-        return SurveyQuestion_.SurveyQuestionOption(optionId: optionID, questionId: questionID, enable: enable, isOther: isOther, values: values)
-    }
-}
-*/
 
 struct SurveyBean: Codable {
     let copyFrom: String
@@ -1961,15 +1885,22 @@ struct ChatHistories: Codable {
     }
 }
 
-struct ChatHistoriesBean: Codable {
-    let payload: [Payload]?
-    let totalCount: Int
+//struct ChatHistoriesBean: Codable {
+//    let payload: [Payload]?
+//    let totalCount: Int
+//
+//    struct Payload: Codable {
+//        let roomHistories: [RoomHistory]
+//        let roomId: String
+//        let roomNo: String
+//    }
+//}
 
-    struct Payload: Codable {
-        let roomHistories: [RoomHistory]
-        let roomId: String
-        let roomNo: String
-    }
+struct ChatHistoryBean: Codable {
+    let currencyCode: Int
+    let roomHistories: [RoomHistory]
+    let roomId: String
+    let roomNo: String?
 }
 
 struct RoomHistory: Codable {
@@ -2076,28 +2007,6 @@ struct Tutorial: Codable {
     let name: String
     let link: String
 }
-
-/*
-struct CryptoGuidance: Codable {
-    let title, guidanceDescription: String
-    let cryptoType: [GuidanceContent]
-
-    enum CodingKeys: String, CodingKey {
-        case title
-        case guidanceDescription = "description"
-        case cryptoType
-    }
-}
-
-struct GuidanceContent: Codable {
-    let name: String
-    let content: [GuidanceLink]
-}
-
-struct GuidanceLink: Codable {
-    let item, link: String
-}
-*/
 
 // MARK: - Encode/decode helpers
 class JSONNull: Codable, Hashable {

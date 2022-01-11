@@ -70,11 +70,6 @@ class SurveyViewModel {
         })
     }
     
-    func answerPreChatSurvey(survey: Survey) -> Single<ConnectId> {
-        let surveyAnswers = converSurveyAnswerItems(with: survey)
-        return surveyUseCase.answerPreChatSurvey(survey: survey, surveyAnswers: surveyAnswers)
-    }
-    
     func answerUpdate() {
         cachedSurveyAnswersRelay.accept(cachedSurveyAnswers)
     }
@@ -85,7 +80,7 @@ class SurveyViewModel {
         })
     }
     
-    func answerExitSurvey(roomId: RoomId, survey: Survey) -> Single<ConnectId> {
+    func answerExitSurvey(roomId: RoomId, survey: Survey) -> Completable {
         let surveyAnswers = converSurveyAnswerItems(with: survey)
         return surveyUseCase.answerExitSurvey(roomId: roomId, survey: survey, surveyAnswers: surveyAnswers)
     }

@@ -5,7 +5,6 @@ import SharedBu
 protocol CustomerServiceUseCase {
     func currentChatRoom() -> Observable<PortalChatRoom>
     func searchChatRoom() -> Single<PortalChatRoom>
-//    func createChatRoom(csSkillId: SkillId) -> Single<PortalChatRoom>
     func createChatRoom(survey: Survey, surveyAnswers: SurveyAnswers?) -> Single<PortalChatRoom>
     func bindChatRoomWithSurvey(roomId: RoomId, connectId: ConnectId) -> Completable
     func checkServiceAvailable() -> Single<Bool>

@@ -170,7 +170,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         })
 
         self.socketConnect?.on(method: Target.StopRoomAsync.rawValue, callback: {[weak self] (id: String, message: String, date: String) in
-            self?.onMessage?(PortalChatRoom.ChatActionClose.init(message: message, speakerName: id, localDateTime: date.toLocalDateTime()))
+            self?.onMessage?(PortalChatRoom.ChatActionClose.init())
         })
     }
     
