@@ -101,12 +101,34 @@ class DepositRepositoryImpl: DepositRepository {
         let depositMethod = bankApi.getDepositMethods(depositType: depositType).map { (response) -> [DepositMethodData] in
             return response.data ?? []
         }.map {
-            $0.map { (m) -> PaymentGateway in
-                PaymentGateway(id: m.depositMethodID, limitation: AmountRange(min: m.depositLimitMinimum.toAccountCurrency(), max: m.depositLimitMaximum.toAccountCurrency()), paymentToken: m.paymentTokenID, isFavorite: m.isFavorite, provider: PaymentProvider.convert(m.providerId), supportBank: [], displayName: m.displayName, displayType: PaymentGateway.DisplayType.direct, amountLimitOptions: [])
+            $0.map {[unowned self] (m) -> PaymentGateway in
+                PaymentGateway(id: m.depositMethodID,
+                               limitation: AmountRange(min: m.depositLimitMinimum.toAccountCurrency(),
+                                                       max: m.depositLimitMaximum.toAccountCurrency()),
+                               paymentToken: m.paymentTokenID,
+                               isFavorite: m.isFavorite,
+                               provider: PaymentProvider.convert(m.providerId),
+                               supportBank: [],
+                               displayName: m.displayName,
+                               displayType: self.convertSpecialType(specialDisplayType: m.specialDisplayType),
+                               amountLimitOptions: m.amountLimitOptions?.map({ amount in
+                    return KotlinInt(value: amount)
+                }) ?? [KotlinInt(value: 50), KotlinInt(value: 100), KotlinInt(value: 200)])
             }
         }
         
         return depositMethod
+    }
+    
+    private func convertSpecialType(specialDisplayType: Int) -> PaymentGateway.DisplayType {
+        switch specialDisplayType {
+        case 1:
+            return PaymentGateway.DisplayType.bank
+        case 2:
+            return PaymentGateway.DisplayType.direct
+        default:
+            return PaymentGateway.DisplayType.normal
+        }
     }
     
     func getDepositRecordDetail(transactionId: String) -> Single<DepositDetail> {
