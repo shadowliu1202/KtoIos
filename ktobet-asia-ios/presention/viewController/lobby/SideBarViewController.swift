@@ -11,7 +11,7 @@ extension SideBarViewController: SideMenuNavigationControllerDelegate {
         CustomServicePresenter.shared.hiddenServiceIcon()
     }
     
-    func sideMenuWillDisappear(menu: SideMenuNavigationController, animated: Bool) {
+    func sideMenuDidDisappear(menu: SideMenuNavigationController, animated: Bool) {
         CustomServicePresenter.shared.isInSideMenu = false
         CustomServicePresenter.shared.showServiceIcon()
     }

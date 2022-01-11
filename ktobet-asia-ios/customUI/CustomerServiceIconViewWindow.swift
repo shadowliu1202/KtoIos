@@ -46,7 +46,23 @@ class CustomerServiceIconViewWindow: UIWindow {
     @objc func dragga(pan: UIPanGestureRecognizer) {
         let translation = pan.translation(in: UIWindow.key)
         let originalCenter = center
-        center = CGPoint(x: originalCenter.x + translation.x, y: originalCenter.y + translation.y)
+        
+        let width = self.frame.size.width / 2
+        let height = self.frame.size.height / 2
+        
+        let parentWidth = UIScreen.main.bounds.size.width
+        let parentHeight = UIScreen.main.bounds.size.height
+        
+        var x: CGFloat = originalCenter.x + translation.x
+        var y: CGFloat = originalCenter.y + translation.y
+        
+        x = max(width, x)
+        x = min(x, parentWidth - width)
+        
+        y = max(height, y)
+        y = min(y, parentHeight - height)
+        
+        center = CGPoint(x: x, y: y)
         pan.setTranslation(CGPoint.zero, in: UIWindow.key)
     }
     
