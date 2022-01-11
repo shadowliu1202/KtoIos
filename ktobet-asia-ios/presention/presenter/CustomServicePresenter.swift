@@ -157,17 +157,12 @@ class CustomServicePresenter: NSObject {
                 return Single.error(ServiceUnavailableException())
             }
         }).do(onSuccess: { (info: Survey) in
-            CustomService.switchToPrechat(from: vc, vm: surveyViewModel)
-//            if let _ = info {
-//                CustomService.switchToPrechat(from: vc, vm: surveyViewModel)
-//            } else {
-//                CustomService.switchToCalling(isRoot: true, skillID: info.skillId, connectId: nil)
-//            }
+            CustomService.switchToPrechat(from: vc, vm: surveyViewModel, csViewModel: csViewModel)
         }).asCompletable()
             .catchError({ (error) in
                 switch error {
                 case is ServiceUnavailableException:
-                    CustomService.switchToCalling(isRoot: true, svViewModel: nil)
+                    CustomService.switchToCalling(isRoot: true, svViewModel: surveyViewModel)
                     return Completable.empty()
                 default:
                     delegate?.sessionClosed()
@@ -176,7 +171,7 @@ class CustomServicePresenter: NSObject {
             })
     }
     
-    private func switchToPrechat(from vc: UIViewController?, vm: SurveyViewModel) {
+    private func switchToPrechat(from vc: UIViewController?, vm: SurveyViewModel, csViewModel: CustomerServiceViewModel) {
         let prechatVC = storyboard.instantiateViewController(identifier: "PrechatServeyViewController") as PrechatServeyViewController
         prechatVC.bind(position: .left, barButtonItems: .kto(.close))
         let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
@@ -184,6 +179,7 @@ class CustomServicePresenter: NSObject {
         prechatVC.bind(position: .right, barButtonItems: padding, skip)
         prechatVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
         prechatVC.viewModel = vm
+        prechatVC.csViewModel = csViewModel
         let navi = storyboard.instantiateViewController(withIdentifier: "CustomServiceNavigationController") as! UINavigationController
         navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         navi.setViewControllers([prechatVC], animated: false)
@@ -194,8 +190,6 @@ class CustomServicePresenter: NSObject {
         let callingVC = storyboard.instantiateViewController(identifier: "CallingViewController") as CallingViewController
         callingVC.bind(position: .left, barButtonItems: .kto(.close))
         callingVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
-//        callingVC.skillID = skillID
-//        callingVC.connectId = connectId
         callingVC.csViewModel = csViewModel
         callingVC.svViewModel = svViewModel
         if isRoot {
@@ -259,7 +253,7 @@ class CustomServicePresenter: NSObject {
         }
     }
     
-    func switchToExitSurvey(roomId: RoomId) {
+    func switchToExitSurvey(roomId: RoomId, skillId: SkillId) {
         let exitSurveyVC = storyboard.instantiateViewController(identifier: "ExitSurveyViewController") as ExitSurveyViewController
         exitSurveyVC.bind(position: .left, barButtonItems: .kto(.close))
         let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
@@ -268,6 +262,7 @@ class CustomServicePresenter: NSObject {
         exitSurveyVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
         exitSurveyVC.viewModel = surveyViewModel
         exitSurveyVC.roomId = roomId
+        exitSurveyVC.skillId = skillId
         self.topViewController?.navigationController?.setViewControllers([exitSurveyVC], animated: false)
     }
     

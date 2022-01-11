@@ -4,6 +4,7 @@ import SharedBu
 import SDWebImage
 import IQKeyboardManagerSwift
 
+
 class ChatRoomViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: CustomerServiceViewModel!
@@ -24,24 +25,38 @@ class ChatRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        IQKeyboardManager.shared.enable = false
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
-        textFieldBottomPaddingConstraint.constant = UIDevice.current.hasNotch ? 22 : 0
-        activityIndicator.center = self.view.center
-        self.view.addSubview(activityIndicator)
         viewModel.fullscreen().subscribe(onCompleted: { }).disposed(by: disposeBag)
-        setTextFieldPadding()
+        setupUI()
         textFieldBinding()
         sendMessageBinding()
         uploadImageBinding()
         messageBinding()
-        viewModel.preLoadChatRoomStatus.subscribe(onNext: {[weak self] status in
-            if status == PortalChatRoom.ConnectStatus.closed {
-                self?.disableInputView()
-            }
-        }).disposed(by: disposeBag)
+        getChatRoomStatus()
+    }
+    
+    // MARK: UI
+    private func setupUI() {
+        setKeyboardEvent()
+        addIndicator()
+        setTextFieldPadding()
+        textFieldBottomPaddingConstraint.constant = UIDevice.current.hasNotch ? 22 : 0
+    }
+    
+    private func setKeyboardEvent() {
+        IQKeyboardManager.shared.enable = false
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func addIndicator() {
+        activityIndicator.center = self.view.center
+        self.view.addSubview(activityIndicator)
+    }
+    
+    private func setTextFieldPadding() {
+        let paddingView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
+        inputTextField.leftView = paddingView
+        inputTextField.leftViewMode = .always
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -54,12 +69,7 @@ class ChatRoomViewController: UIViewController {
         textFieldBottomPaddingConstraint.constant = UIDevice.current.hasNotch ? 22 : 0
     }
     
-    private func setTextFieldPadding() {
-        let paddingView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
-        inputTextField.leftView = paddingView
-        inputTextField.leftViewMode = .always
-    }
-    
+    // MARK: Binding
     private func textFieldBinding() {
         let inputTextObservable = inputTextField.rx.text.share(replay: 1)
         inputTextObservable.map { !$0.isNullOrEmpty() }.bind(to: sendImageView.rx.isUserInteractionEnabled).disposed(by: disposeBag)
@@ -87,85 +97,105 @@ class ChatRoomViewController: UIViewController {
             .share(replay: 1)
         
         viewModel.chatRoomUnreadMessage
-            .flatMapLatest {[unowned self] unreadMessages in
-            return self.tableView.rx_reachedBottom.map{ unreadMessages }
-        }
-        .observeOn(MainScheduler.asyncInstance)
-        .subscribe(onNext: {[weak self] unreadMessages in
-            if unreadMessages.count != 0 {
-                guard let self = self else { return }
-                self.viewModel.markAllRead().subscribe(onCompleted: {}).disposed(by: self.disposeBag)
+            .flatMapLatest { [unowned self] unreadMessages in
+                return self.tableView.rx_reachedBottom.map { unreadMessages }
             }
-        }).disposed(by: disposeBag)
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] unreadMessages in
+                if unreadMessages.count != 0 {
+                    guard let self = self else { return }
+                    self.viewModel.markAllRead().subscribe(onCompleted: { }).disposed(by: self.disposeBag)
+                }
+            }).disposed(by: disposeBag)
         
         var dividerIndex = 0
         messagesOb
-            .map({(read, unread) -> [ChatMessage] in
+            .map({ (read, unread) -> [ChatMessage] in
                 if unread.count == 0 {
-                    dividerIndex = read.unique{ $0.id }.count - 1
-                    return read.unique{ $0.id }
+                    dividerIndex = read.unique { $0.id }.count - 1
+                    return read.unique { $0.id }
                 } else {
-                    dividerIndex = read.unique{ $0.id }.count + 1
+                    dividerIndex = read.unique { $0.id }.count + 1
                     let unreadDivider = ChatMessage.init()
-                    return Array(read.unique{ $0.id } + [unreadDivider] + unread)
+                    return Array(read.unique { $0.id } + [unreadDivider] + unread)
                 }
             })
-            .do(onNext: {[weak self] data in self?.dataCount = data.count })
-            .bind(to: tableView.rx.items) {[weak self] tableView, row, element in
-                guard let self = self else { return UITableViewCell() }
+            .do(onNext: { [weak self] data in self?.dataCount = data.count })
+            .bind(to: tableView.rx.items) { [weak self] tableView, row, element in
+                guard let self = self, let message = element as? ChatMessage.Message else { return UITableViewCell() }
                 var cell: UITableViewCell!
-                switch element {
-                case let message as ChatMessage.Message:
-                    switch message.speaker {
-                    case is PortalChatRoom.SpeakerPlayer:
-                        cell = self.setDisplayCell(dialogIdentifier: ChatDialogTableViewCell.playerDialogIdentifier,
-                                                   imageIdentifier: ChatImageTableViewCell.playerDialogIdentifier,
-                                                   linkIndentifer: ChatLinkTableViewCell.playerLinkIdentifier,
-                                                   element: element)
-                    case is PortalChatRoom.SpeakerHandler:
-                        cell = self.setDisplayCell(dialogIdentifier: ChatDialogTableViewCell.handlerDialogIdentifier,
-                                                   imageIdentifier: ChatImageTableViewCell.handlerDialogIdentifier,
-                                                   linkIndentifer: ChatLinkTableViewCell.handlerLinkIdentifier,
-                                                   element: element)
-                    case is PortalChatRoom.SpeakerSystem:
-                        if self.dataCount - 1 == row && self.dataCount > 1 {
-                            cell = tableView.dequeueReusableCell(withIdentifier: "\(CloseSystemDialogTableViewCell.self)") as! CloseSystemDialogTableViewCell
-                            let message = message.message.map{ ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
-//                            let text = message.message.first as! ChatMessage.ContentText
-                            var str = message
-                            str.insert(contentsOf: "\n", at: str.index(str.firstIndex(where: { $0 == "。" })!, offsetBy: 1))
-                            (cell as! CloseSystemDialogTableViewCell).messageLabel.text = str
-                        } else {
-                            cell = tableView.dequeueReusableCell(withIdentifier: "\(SystemDialogTableViewCell.self)") as! SystemDialogTableViewCell
-                            (cell as! SystemDialogTableViewCell).dateLabel.text = message.createTimeTick.toDateFormatString()
-                            let message = message.message.map{ ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
-//                            let text = message.message.first as! ChatMessage.ContentText
-                            var str = message //text.content
-                            str.insert(contentsOf: "\n", at: str.index(str.firstIndex(where: { $0 == "。" })!, offsetBy: 1))
-                            (cell as! SystemDialogTableViewCell).messageLabel.text = str
-                        }
-                    default:
-                        break
+                
+                switch message.speaker {
+                case is PortalChatRoom.SpeakerPlayer:
+                    cell = self.setHandlerCell(message: message, identifier: "MixPlayerTableViewCell")
+                case is PortalChatRoom.SpeakerHandler:
+                    cell = self.setHandlerCell(message: message, identifier: "MixHandlerTableViewCell")
+                case is PortalChatRoom.SpeakerSystem:
+                    if self.dataCount - 1 == row && self.dataCount > 1 {
+                        cell = tableView.dequeueReusableCell(withIdentifier: "\(CloseSystemDialogTableViewCell.self)") as! CloseSystemDialogTableViewCell
+                        let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
+                        var str = message
+                        str.insert(contentsOf: "\n", at: str.index(str.firstIndex(where: { $0 == "。" })!, offsetBy: 1))
+                        (cell as! CloseSystemDialogTableViewCell).messageLabel.text = str
+                    } else {
+                        cell = tableView.dequeueReusableCell(withIdentifier: "\(SystemDialogTableViewCell.self)") as! SystemDialogTableViewCell
+                        (cell as! SystemDialogTableViewCell).dateLabel.text = message.createTimeTick.toDateFormatString()
+                        let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
+                        var str = message
+                        str = str.replacingLastOccurrenceOfString("\n", with: "")
+                        (cell as! SystemDialogTableViewCell).messageLabel.text = str
                     }
-                case is ChatMessage.Close:
-                    cell = tableView.dequeueReusableCell(withIdentifier: CloseSystemDialogTableViewCell.closeIdentifier) as! CloseSystemDialogTableViewCell
-                    (cell as! CloseSystemDialogTableViewCell).messageLabel.text = Localize.string("customerservice_chat_room_end_by_host")
-                case is ChatMessage.SystemClosed:
-                    cell = tableView.dequeueReusableCell(withIdentifier: CloseSystemDialogTableViewCell.closeIdentifier) as! CloseSystemDialogTableViewCell
-                    (cell as! CloseSystemDialogTableViewCell).messageLabel.text = Localize.string("customerservice_chat_room_ended_view_history")
                 default:
-                    cell = tableView.dequeueReusableCell(withIdentifier: unreadTableViewCell.identifer) as! unreadTableViewCell
                     break
                 }
                 
                 return cell
             }.disposed(by: disposeBag)
         
-        messagesOb.subscribe(onNext: {[weak self] (read, unread) in
+        messagesOb.subscribe(onNext: { [weak self] (read, unread) in
             DispatchQueue.main.async {
                 if dividerIndex > 0 {
                     self?.tableView.scrollToRow(at: IndexPath(row: dividerIndex, section: 0), at: .none, animated: false)
                 }
+            }
+        }).disposed(by: disposeBag)
+    }
+    
+    private func setHandlerCell(message: ChatMessage.Message, identifier: String) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! MixTableViewCell
+        cell.stackView.layoutMargins = UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 20)
+        cell.stackView.isLayoutMarginsRelativeArrangement = true
+        cell.dateLabel.text = message.createTimeTick.toTimeString()
+        let messages = message.message.filter { it in
+            if let text = it as? ChatMessage.ContentText {
+                return text.content != "\n"
+            }
+
+            return true
+        }
+        
+        cell.maxChatDialogWidth = 0
+
+        for m in messages {
+            switch m {
+            case let text as ChatMessage.ContentText:
+                cell.setContentText(text: text)
+            case let image as ChatMessage.ContentImage:
+                cell.setImage(image: image, root: self)
+            case let link as ChatMessage.ContentLink:
+                cell.setHyperLinker(text: link.content)
+            default:
+                break
+            }
+        }
+        
+        return cell
+    }
+    
+    private func getChatRoomStatus() {
+        viewModel.preLoadChatRoomStatus.subscribe(onNext: { [weak self] status in
+            if status == PortalChatRoom.ConnectStatus.closed {
+                self?.disableInputView()
             }
         }).disposed(by: disposeBag)
     }
@@ -184,50 +214,12 @@ class ChatRoomViewController: UIViewController {
         UIApplication.shared.open(URL)
         return false
     }
-    
-    private func setDisplayCell(dialogIdentifier: String, imageIdentifier: String, linkIndentifer: String, element: ChatMessage) -> UITableViewCell {
-        var cell: UITableViewCell!
-        let message = element as! SharedBu.ChatMessage.Message
-        print(message.message)
-        print(message.message)
-//        switch message.message {
-//        case let text as ChatMessage.ContentText:
-//            cell = tableView.dequeueReusableCell(withIdentifier: dialogIdentifier) as! ChatDialogTableViewCell
-//            (cell as! ChatDialogTableViewCell).dateLabel.text = message.createTimeTick.toTimeString()
-//            (cell as! ChatDialogTableViewCell).messageLabel.text = text.content
-//        case let image as ChatMessage.ContentImage:
-//            cell = tableView.dequeueReusableCell(withIdentifier: imageIdentifier) as! ChatImageTableViewCell
-//            let imageDownloader = SDWebImageDownloader.shared
-//            for header in HttpClient().headers {
-//                imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
-//            }
-//
-//            (cell as! ChatImageTableViewCell).dateLabel.text = message.createTimeTick.toTimeString()
-//            (cell as! ChatImageTableViewCell).img.sd_setImage(with: URL(string: image.image.thumbnailLink()))
-//            let tapGesture = UITapGestureRecognizer()
-//            (cell as! ChatImageTableViewCell).img.addGestureRecognizer(tapGesture)
-//            tapGesture.rx.event.bind(onNext: {[weak self] recognizer in
-//                if let vc = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "ImageViewController") as? ImageViewController {
-//                    vc.url = image.image.link()
-//                    vc.thumbnailImage = (cell as! ChatImageTableViewCell).img.image
-//                    self?.navigationController?.pushViewController(vc, animated: true)
-//                }
-//            }).disposed(by: disposeBag)
-//        case let link as ChatMessage.ContentLink:
-//            cell = tableView.dequeueReusableCell(withIdentifier: linkIndentifer) as! ChatLinkTableViewCell
-//            (cell as! ChatLinkTableViewCell).setHyperLinker(text: link.content)
-//        default:
-//            break
-//        }
         
-        return UITableViewCell()//cell
-    }
-    
     // MARK: Upload Image
     private func uploadImageBinding() {
         let uploadTapGesture = UITapGestureRecognizer()
         uploadImageView.addGestureRecognizer(uploadTapGesture)
-        uploadTapGesture.rx.event.bind(onNext: {[weak self] recognizer in
+        uploadTapGesture.rx.event.bind(onNext: { [weak self] recognizer in
             guard let self = self else { return }
             self.startActivityIndicator(activityIndicator: self.activityIndicator)
             self.showImagePicker()
@@ -240,7 +232,7 @@ class ChatRoomViewController: UIViewController {
         imagePickerView.imageLimitMBSize = DepositViewModel.imageMBSizeLimit
         imagePickerView.selectedImageLimitCount = 3
         imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
-        imagePickerView.completion = {[weak self] (images) in
+        imagePickerView.completion = { [weak self] (images) in
             guard let self = self else { return }
             self.startActivityIndicator(activityIndicator: self.activityIndicator)
             self.navigationController?.popViewController(animated: true)
@@ -249,11 +241,11 @@ class ChatRoomViewController: UIViewController {
                 self.uploadImage(image: $0, count: images.count)
             }
         }
-        imagePickerView.showImageSizeLimitAlert = {(view) in
+        imagePickerView.showImageSizeLimitAlert = { (view) in
             let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
             toastView.show(on: view, statusTip: Localize.string("deposit_execeed_limitation"), img: UIImage(named: "Failed"))
         }
-        imagePickerView.showImageFormatInvalidAlert = {view in
+        imagePickerView.showImageFormatInvalidAlert = { view in
             let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
             toastView.show(on: view, statusTip: Localize.string("deposit_file_format_invalid"), img: UIImage(named: "Failed"))
         }
@@ -264,9 +256,9 @@ class ChatRoomViewController: UIViewController {
     private func uploadImage(image: UIImage, count: Int) {
         let imageData = image.jpegData(compressionQuality: 1.0)!
         viewModel.uploadImage(imageData: imageData)
-            .do(onSuccess: {[weak self] img in
+            .do(onSuccess: { [weak self] img in
                 guard let self = self else { return }
-                self.viewModel.send(image: img).subscribe(onError: {[weak self] error in
+                self.viewModel.send(image: img).subscribe(onError: { [weak self] error in
                     self?.handleErrors(error)
                 }).disposed(by: self.disposeBag)
             })
@@ -285,9 +277,9 @@ class ChatRoomViewController: UIViewController {
             }.disposed(by: disposeBag)
     }
     
-    func goExitSurvey() {
-        viewModel.findCurrentRoomId().subscribe(onSuccess: { roomId in
-            CustomService.switchToExitSurvey(roomId: roomId)
+    private func goExitSurvey() {
+        viewModel.findCurrentRoomId().subscribe(onSuccess: { (skillId, roomId) in
+            CustomService.switchToExitSurvey(roomId: roomId, skillId: skillId)
         }, onError: { [weak self] in
             self?.handleErrors($0)
         }).disposed(by: disposeBag)
@@ -334,5 +326,113 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+
+class MixTableViewCell: UITableViewCell {
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var stackViewWidth: NSLayoutConstraint!
+    
+    private var disposeBag = DisposeBag()
+    
+    var maxChatDialogWidth: CGFloat = 0
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+        stackView.removeAllArrangedSubviews()
+    }
+    
+    func setContentText(text: ChatMessage.ContentText) {
+        let message = text.content.replacingLastOccurrenceOfString("\n", with: "")
+        if message.isEmpty {
+            return
+        }
+
+        let label = UILabel()
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.text = message
+        label.font = UIFont(name: "PingFangSC-Regular", size: 14)
+        if let attributes = text.attributes {
+            updateText(label: label, attributes: attributes)
+        }
+        
+        stackView.addArrangedSubview(label)
+        label.sizeToFit()
+        maxChatDialogWidth = maxChatDialogWidth > label.frame.width + 40 ? maxChatDialogWidth : label.frame.width + 40
+        stackViewWidth.constant = maxChatDialogWidth
+    }
+    
+    func setImage(image: ChatMessage.ContentImage, root: UIViewController?) {
+        let imageDownloader = SDWebImageDownloader.shared
+        for header in HttpClient().headers {
+            imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
+        }
+        
+        let img = UIImageView()
+        img.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        img.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        img.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer()
+        img.sd_setImage(with: URL(string: image.image.path()))
+        img.contentMode = .scaleAspectFit
+        img.addGestureRecognizer(tapGesture)
+        tapGesture.rx.event.bind(onNext: { recognizer in
+            if let vc = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "ImageViewController") as? ImageViewController {
+                vc.url = image.image.link()
+                vc.thumbnailImage = img.image
+                root?.navigationController?.pushViewController(vc, animated: true)
+            }
+        }).disposed(by: disposeBag)
+        
+        stackView.addArrangedSubview(img)
+    }
+    
+    func setHyperLinker(text: String) {
+        let linkTextView = UITextView()
+        linkTextView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        let urlStr = text.replacingOccurrences(of: "https://", with: "")
+        let attributedString = NSMutableAttributedString(string: urlStr)
+        let url = URL(string: urlStr)!
+        let urlRange = urlStr.startIndex..<urlStr.endIndex
+        let convertedRange = NSRange(urlRange, in: urlStr)
+        
+        attributedString.setAttributes([.link: url], range: convertedRange)
+        linkTextView.attributedText = attributedString
+        linkTextView.font = UIFont(name: "PingFangSC-Regular", size: 14.0)!
+        linkTextView.backgroundColor = .clear
+        linkTextView.linkTextAttributes = [
+            .foregroundColor: UIColor.red,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        
+        stackView.addArrangedSubview(linkTextView)
+        linkTextView.sizeToFit()
+        stackViewWidth.constant = linkTextView.frame.width + 40
+    }
+    
+    private func updateText(label: UILabel, attributes: SharedBu.Attributes) {
+        let bold = attributes.bold?.boolValue ?? false
+        let italic = attributes.italic?.boolValue ?? false
+        let underline = attributes.underline?.boolValue ?? false
+        
+        var underlineAttribute: [NSAttributedString.Key: Any] = [:]
+        
+        if italic {
+            label.font = UIFont.italicSystemFont(ofSize: 14)
+        }
+        
+        if bold {
+            label.font = label.font.with(.traitBold)
+        }
+        
+        if underline {
+            underlineAttribute[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.thick.rawValue
+            let underlineAttributedString = NSAttributedString(string: label.text ?? "", attributes: underlineAttribute)
+            label.attributedText = underlineAttributedString
+        }
     }
 }

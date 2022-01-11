@@ -7,6 +7,7 @@ class ExitSurveyViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: SurveyViewModel!
     var roomId: RoomId?
+    var skillId: SkillId?
     var surveyInfo: Survey? {
         didSet {
             self.survey = surveyInfo
@@ -39,7 +40,7 @@ class ExitSurveyViewController: UIViewController {
     }
     
     private func dataBinding() {
-        viewModel.getExitSurvey(skillId: survey!.csSkillId).subscribe(onError: { [weak self] in
+        viewModel.getExitSurvey(skillId: skillId!).subscribe(onError: { [weak self] in
             self?.handleErrors($0)
         }).disposed(by: disposeBag)
         
@@ -54,20 +55,20 @@ class ExitSurveyViewController: UIViewController {
         
         completeBtn.rx.touchUpInside
             .do(onNext: { [weak self] in
-                self?.completeBtn.isEnabled = false
-            }).flatMap({ [unowned self] _ -> Single<ConnectId> in
-                guard let roomId = self.roomId, let survey = self.survey else {
-                    return Single<ConnectId>.error(KTOError.EmptyData)
-                }
-                return self.viewModel.answerExitSurvey(roomId: roomId, survey: survey)
-            }).catchError({[weak self] in
-                self?.handleErrors($0)
-                self?.completeBtn.isEnabled = true
-                return Observable.error($0)
-            }).retry()
-            .subscribe(onNext: { [unowned self] (connectId) in
-                self.popThenToast()
-            }).disposed(by: disposeBag)
+            self?.completeBtn.isEnabled = false
+        }).flatMap({ [unowned self] _ -> Observable<Void> in
+            guard let roomId = self.roomId, let survey = self.survey else {
+                return Observable.error(KTOError.EmptyData)
+            }
+            return self.viewModel.answerExitSurvey(roomId: roomId, survey: survey).andThen(.just(()))
+        }).catchError({ [weak self] in
+            self?.handleErrors($0)
+            self?.completeBtn.isEnabled = true
+            return Observable.error($0)
+        }).retry()
+            .subscribe(onNext: { [unowned self] in
+            self.popThenToast()
+        }).disposed(by: disposeBag)
     }
     
     private func popThenToast() {

@@ -5,8 +5,6 @@ import SharedBu
 
 class CallingViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
-//    var skillID: SkillId?
-//    var connectId: ConnectId?
     var csViewModel: CustomerServiceViewModel!
     var svViewModel: SurveyViewModel!
     
@@ -46,9 +44,21 @@ class CallingViewController: UIViewController {
     private func dataBinding() {
         csViewModel.fullscreen().subscribe(onCompleted: {}).disposed(by: disposeBag)
         csViewModel.currentQueueNumber.map{ Localize.string("customerservice_chat_room_your_queue_number", "\($0)") }.bind(to: self.waitingCountLabel.rx.text).disposed(by: self.disposeBag)
-
         
-        svViewModel.cachedSurvey.compactMap{ $0 }.flatMap(csViewModel.connectChatRoom)
+        csViewModel.checkServiceAvailable()
+            .subscribe(onSuccess: { [weak self] (isAvailable) in
+            if !isAvailable {
+                self?.stopServiceAndShowServiceOccupied()
+            } else {
+                self?.connectChatRoom()
+            }
+        }, onError: { [weak self] _ in
+            self?.stopServiceAndShowServiceOccupied()
+        }).disposed(by: disposeBag)
+    }
+    
+    private func connectChatRoom() {
+        svViewModel.cachedSurvey.flatMapLatest(csViewModel.connectChatRoom)
             .subscribe { status in
                 switch status {
                 case .connected:
@@ -67,14 +77,6 @@ class CallingViewController: UIViewController {
             } onError: {[weak self] error in
                 self?.handleError(error)
             }.disposed(by: disposeBag)
-        
-        csViewModel.checkServiceAvailable().subscribe(onSuccess: { [weak self] (isAvailable) in
-            if !isAvailable {
-                self?.stopServiceAndShowServiceOccupied()
-            }
-        }, onError: { [weak self] _ in
-            self?.stopServiceAndShowServiceOccupied()
-        }).disposed(by: disposeBag)
     }
     
     private func handleError(_ e: Error) {

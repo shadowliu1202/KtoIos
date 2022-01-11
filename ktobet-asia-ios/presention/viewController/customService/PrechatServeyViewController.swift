@@ -6,6 +6,7 @@ import SharedBu
 class PrechatServeyViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: SurveyViewModel!
+    var csViewModel: CustomerServiceViewModel!
     var surveyInfo: Survey! {
         didSet {
             self.survey = surveyInfo
@@ -52,16 +53,29 @@ class PrechatServeyViewController: UIViewController {
         completeBtn.rx.touchUpInside
             .do(onNext: { [weak self] in
                 self?.completeBtn.isEnabled = false
-            }).flatMap({ [unowned self] _ in
-                self.viewModel.answerPreChatSurvey(survey: self.survey)
+            }).flatMap({ [unowned self] _ -> Observable<Void> in
+                guard let question = viewModel.cachedSurveyAnswers?.map({ $0.question }),
+                      let options = viewModel.cachedSurveyAnswers?.map({ Array($0.options) }) else { return Observable.error(KTOError.EmptyData) }
+                return self.setupAnswer(survey: self.survey, surveyAnswers: Dictionary(uniqueKeysWithValues: zip(question, options))).andThen(.just(()))
             }).catchError({[weak self] in
                 self?.handleErrors($0)
                 self?.completeBtn.isEnabled = true
                 return Observable.error($0)
             }).retry()
-            .subscribe(onNext: { [unowned self] (connectId) in
+            .subscribe(onNext: { [unowned self] in
                 CustomService.switchToCalling(svViewModel: viewModel)
             }).disposed(by: disposeBag)
+    }
+    
+    private func setupAnswer(survey: Survey, surveyAnswers: [SurveyQuestion_: [SurveyQuestion_.SurveyQuestionOption]]) -> Completable {
+        Completable.create {[unowned self] completable in
+            self.csViewModel.setupSurveyAnswer(answers: SurveyAnswers(csSkillId: survey.csSkillId,
+                                                                      surveyId: survey.surveyId,
+                                                                      answers: surveyAnswers,
+                                                                      surveyType: survey.surveyType))
+            completable(.completed)
+            return Disposables.create()
+        }
     }
     
 }
