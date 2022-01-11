@@ -25,7 +25,7 @@ class DepositViewModel {
     var relayName = BehaviorRelay<String>(value: "")
     var relayBankNumber = BehaviorRelay<String>(value: "")
     var relayBankAmount = BehaviorRelay<String>(value: "")
-    var dropdownAmount = BehaviorRelay<String>(value: WeiLaiProvidAmount.fifty.rawValue)
+    var dropdownAmount = BehaviorRelay<String>(value: " ")
     var Allbanks: [SimpleBank] = []
     var uploadImageDetail: [Int: UploadImageDetail] = [:]
     var selectedReceiveBank: OfflineBank!
@@ -33,6 +33,7 @@ class DepositViewModel {
         didSet {
             self.subjectGateway.onNext(selectedGateway)
             self.paymentSlip.accept(selectedGateway.createSlip(method: self.selectedType.method))
+            self.dropdownAmount.accept(selectedGateway.amountLimitOptions.first?.stringValue ?? "")
         }
     }
     private var subjectGateway = PublishSubject<PaymentGateway>()
@@ -240,9 +241,6 @@ class DepositViewModel {
     }
     
     func needCashOption(gateway: PaymentGateway) -> Bool {
-        if selectedType.supportType == .WechatScan, gateway.provider == PaymentProvider.weilai {
-            return true
-        }
-        return false
+        !gateway.amountLimitOptions.isEmpty
     }
 }

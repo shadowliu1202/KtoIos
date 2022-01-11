@@ -110,7 +110,6 @@ class DepositGatewayViewController: UIViewController {
         remitterBankCardNumberTextField.maxLength = 4
         remitterBankCardNumberTextField.numberOnly = true
         remitterAmountTextField.numberOnly = true
-        remitterAmountDropDown.optionArray = [WeiLaiProvidAmount.fifty, WeiLaiProvidAmount.oneHundred, WeiLaiProvidAmount.twoHundred].map({$0.rawValue})
         remitterAmountDropDown.setTitle(Localize.string("deposit_amount"))
         remitterAmountDropDown.isSearchEnable = false
         (remitterAmountDropDown.text <-> viewModel.dropdownAmount).disposed(by: disposeBag)
@@ -170,6 +169,7 @@ class DepositGatewayViewController: UIViewController {
             remitterAmountTextField.isHidden = true
             remitterAmountErrorLabel.isHidden = true
             self.depositLimitLabel.text = nil
+            remitterAmountDropDown.optionArray = gateway.amountLimitOptions.map{ String($0.intValue) }
         } else {
             remitterAmountDropDown.isHidden = true
             remitterAmountTextField.isHidden = false
