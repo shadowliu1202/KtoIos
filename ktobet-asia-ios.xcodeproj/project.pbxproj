@@ -1503,6 +1503,9 @@
 		6DF42F0927732136008DDB3E /* SBKMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */; };
 		6DF42F0A27732136008DDB3E /* SBKMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */; };
 		6DF42F0B27732136008DDB3E /* SBKMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */; };
+		6DF65387278D6B55009F73FF /* ModifyProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF65386278D6B55009F73FF /* ModifyProfileViewModel.swift */; };
+		6DF65388278D6B55009F73FF /* ModifyProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF65386278D6B55009F73FF /* ModifyProfileViewModel.swift */; };
+		6DF65389278D6B55009F73FF /* ModifyProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF65386278D6B55009F73FF /* ModifyProfileViewModel.swift */; };
 		6DF907892697DC690086AF54 /* P2PSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF907882697DC690086AF54 /* P2PSummaryViewController.swift */; };
 		6DF9078A2697DC690086AF54 /* P2PSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF907882697DC690086AF54 /* P2PSummaryViewController.swift */; };
 		6DF9078C2697DC690086AF54 /* P2PSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF907882697DC690086AF54 /* P2PSummaryViewController.swift */; };
@@ -2084,6 +2087,7 @@
 		6DF26A60264A31C600DDD3C5 /* FilterBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBarButtonItem.swift; sourceTree = "<group>"; };
 		6DF26A68264A358900DDD3C5 /* TextBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBarButtonItem.swift; sourceTree = "<group>"; };
 		6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBKMaintenanceViewController.swift; sourceTree = "<group>"; };
+		6DF65386278D6B55009F73FF /* ModifyProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyProfileViewModel.swift; sourceTree = "<group>"; };
 		6DF907882697DC690086AF54 /* P2PSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PSummaryViewController.swift; sourceTree = "<group>"; };
 		6DF9078F2697DC9D0086AF54 /* P2PBetSummaryByDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PBetSummaryByDateViewController.swift; sourceTree = "<group>"; };
 		6DF907962697DCB70086AF54 /* P2PBetDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PBetDetailViewController.swift; sourceTree = "<group>"; };
@@ -3135,6 +3139,7 @@
 			isa = PBXGroup;
 			children = (
 				6DCC26182758771F007C973B /* AccountInfoViewController.swift */,
+				6DF65386278D6B55009F73FF /* ModifyProfileViewModel.swift */,
 			);
 			path = AccountInfo;
 			sourceTree = "<group>";
@@ -4000,6 +4005,7 @@
 				4199A04925AE9918002E2D7E /* AuthenticationUseCase.swift in Sources */,
 				6DAEA5EE26008E5A00995A6E /* AddBankViewController.swift in Sources */,
 				6DA88BED2696DF4C008D77B9 /* P2PRecordRepository.swift in Sources */,
+				6DF65388278D6B55009F73FF /* ModifyProfileViewModel.swift in Sources */,
 				6034621826327DC800F5D1D9 /* WebGameItemCell.swift in Sources */,
 				6DDD333826CBC2DA0081A846 /* ProductType.swift in Sources */,
 				600A8F7A26CD019700F56412 /* PromotionPresenter.swift in Sources */,
@@ -4469,6 +4475,7 @@
 				48AAA133256E458800E075CA /* JSONHubProtocol.swift in Sources */,
 				6DAEA5ED26008E5A00995A6E /* AddBankViewController.swift in Sources */,
 				6DA88BEC2696DF4C008D77B9 /* P2PRecordRepository.swift in Sources */,
+				6DF65387278D6B55009F73FF /* ModifyProfileViewModel.swift in Sources */,
 				6034621726327DC800F5D1D9 /* WebGameItemCell.swift in Sources */,
 				6DDD333726CBC2DA0081A846 /* ProductType.swift in Sources */,
 				600A8F7926CD019700F56412 /* PromotionPresenter.swift in Sources */,
@@ -4958,6 +4965,7 @@
 				6D14D9EC26FB18D70001ACFA /* WithdrawlRecordContainer.swift in Sources */,
 				6010412126B2A68A00B28FC8 /* ArcadeUseCase.swift in Sources */,
 				608112BD26EF4F4300920B06 /* TransactionLogUseCase.swift in Sources */,
+				6DF65389278D6B55009F73FF /* ModifyProfileViewModel.swift in Sources */,
 				6018F9FC2695563500941BDD /* P2PViewModel.swift in Sources */,
 				6D0D8FD826DF668500733C4D /* UseBonusCoupon.swift in Sources */,
 				609012E92640EE7000419F8E /* UIBarButtonItemExtension.swift in Sources */,

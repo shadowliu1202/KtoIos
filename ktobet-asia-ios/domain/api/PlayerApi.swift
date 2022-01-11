@@ -10,9 +10,23 @@ import RxSwift
 import Moya
 import SwiftyJSON
 
-class PlayerApi {
+class PlayerApi: ApiService {
     
+    private var urlPath: String!
+    
+    private func url(_ u: String) -> Self {
+        self.urlPath = u
+        return self
+    }
     private var httpClient : HttpClient!
+    
+    var surfixPath: String {
+        return self.urlPath
+    }
+    
+    var headers: [String : String]? {
+        return httpClient.headers
+    }
     
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
@@ -114,5 +128,10 @@ class PlayerApi {
                                task: .requestPlain,
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<String>.self)
+    }
+    
+    func getPlayerAffiliateStatus() -> Single<NonNullResponseData<Int32>>{
+        let target = GetAPITarget(service: self.url("api/init/player-affiliate-status"))
+        return httpClient.request(target).map(NonNullResponseData<Int32>.self)
     }
 }

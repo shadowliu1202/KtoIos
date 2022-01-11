@@ -12,6 +12,7 @@ protocol PlayerDataUseCase {
     func getPrivilege() -> Single<[LevelOverview]>
     func getSupportLocalFromCache() -> SupportLocale
     func getPlayerRealName() -> Single<String>
+    func isAffiliateMember() -> Single<Bool>
 }
 
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
@@ -61,5 +62,9 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
     
     func getSupportLocalFromCache() -> SupportLocale {
         return localRepository.getSupportLocal()
+    }
+    
+    func isAffiliateMember() -> Single<Bool> {
+        return playerRepository.getAffiliateStatus().map({ $0 == AffiliateApplyStatus.applied })
     }
 }
