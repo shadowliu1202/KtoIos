@@ -132,21 +132,35 @@ class DepositViewModel {
         return depositUseCase.requestCryptoDetailUpdate(displayId: displayId)
     }
     
-    func event() -> (bankValid: Observable<Bool>,
+    func event() -> (bankValid: Observable<AccountNameException?>,
                      userNameValid: Observable<AccountNameException?>,
                      bankNumberValid: Observable<Bool>,
                      amountValid: Observable<Bool>,
                      offlineDataValid: Observable<Bool>,
                      onlinieDataValid: Observable<Bool>) {
-        let userNameValid = relayName.map {[unowned self] (name) -> AccountNameException? in
-            return self.accountPatternGenerator.withdrawalName().validate(name: name)
+        let userNameValid = relayName.map {(name) -> AccountNameException? in
+            if name.isEmpty {
+                return AccountNameException.EmptyAccountName()
+            } else if name.count > 30 {
+                return AccountNameException.ExceededLength()
+            } else {
+                return nil
+            }
         }
         
-        let isUserNameValid = relayName.map({self.accountPatternGenerator.withdrawalName().verify(name: $0)})
+        let isUserNameValid = userNameValid.map{ $0 == nil }
         
-        let bankValid = relayBankName.map { (bank) -> Bool in
-            return bank.count != 0
+        let bankValid = relayBankName.map { name -> AccountNameException? in
+            if name.isEmpty {
+                return AccountNameException.EmptyAccountName()
+            } else if name.count > 30 {
+                return AccountNameException.ExceededLength()
+            } else {
+                return nil
+            }
         }
+        
+        let isbankValid = bankValid.map{ $0 == nil }
         
         let bankNumberValid = relayBankNumber.map { (bankNumber) -> Bool in
             return CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: bankNumber))
@@ -180,7 +194,7 @@ class DepositViewModel {
         } else {
             amountValid = onlineAmountValid
         }
-        let offlineDataValid = Observable.combineLatest(isUserNameValid, bankValid, bankNumberValid, amountValid) {
+        let offlineDataValid = Observable.combineLatest(isUserNameValid, isbankValid, bankNumberValid, amountValid) {
             return $0 && $1 && $2 && $3
         }
         

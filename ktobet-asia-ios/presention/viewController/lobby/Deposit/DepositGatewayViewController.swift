@@ -224,12 +224,12 @@ class DepositGatewayViewController: UIViewController {
     fileprivate func validateOfflineInputTextField() {
         validateInputTextField()
         viewModel.event().bankValid.subscribe { [weak self] (isValid) in
-            guard let isValid = isValid.element, self?.remitterBankTextField.isEdited ?? false else {
+            guard let `self` = self, let accountNameException = isValid.element, self.remitterBankTextField.isEdited else {
                 self?.remitterBankErrorLabel.text = ""
                 return
             }
-            let message = isValid ? "" : Localize.string("common_field_must_fill")
-            self?.remitterBankErrorLabel.text = message
+            let message = AccountPatternGeneratorFactory.transfer(self.viewModel.accountPatternGenerator, accountNameException)
+            self.remitterBankErrorLabel.text = message
         }.disposed(by: disposeBag)
         viewModel.event()
             .offlineDataValid

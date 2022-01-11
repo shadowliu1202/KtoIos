@@ -57,7 +57,7 @@ class DepositOfflineConfirmViewController: UIViewController {
     @objc func close () {
         Alert.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_offline_termniate"), confirm: {
             NavigationManagement.sharedInstance.popViewController()
-        }, cancel: nil)
+        }, cancel: {})
     }
     
     // MARK: BUTTON ACTION
