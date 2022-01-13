@@ -2,7 +2,7 @@ import UIKit
 import SharedBu
 import RxSwift
 
-class CryptoSelectorViewController: UIViewController {
+class CryptoSelectorViewController: APPViewController {
     @IBOutlet weak var guideLabel: UILabel!
     @IBOutlet weak var guideBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
@@ -37,7 +37,11 @@ class CryptoSelectorViewController: UIViewController {
                 }
             }.disposed(by: disposeBag)
         
-        viewModel.getDepositTakingCryptos().asObservable().bind(to: tableView.rx.items(cellIdentifier: String(describing: CryptoSelectorTableViewCell.self), cellType: CryptoSelectorTableViewCell.self)) {[weak self] (index, item, cell) in
+        viewModel.getDepositTakingCryptos().asObservable()
+            .catchError({ [weak self] (error) -> Observable<[TakingCrypto]> in
+                self?.handleErrors(error)
+                return Observable<[TakingCrypto]>.just([])
+            }).bind(to: tableView.rx.items(cellIdentifier: String(describing: CryptoSelectorTableViewCell.self), cellType: CryptoSelectorTableViewCell.self)) {[weak self] (index, item, cell) in
             guard let self = self else { return }
             cell.img.image = self.getIcon(supportCryptoType: item.type)
             cell.name.text = item.type?.name

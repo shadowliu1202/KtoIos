@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class CrpytoTransationLogViewController: UIViewController {
+class CrpytoTransationLogViewController: APPViewController {
     static let segueIdentifier = "toCrpytoTransationLog"
     var crpytoWithdrawalRequirementAmount: AccountCurrency?
     

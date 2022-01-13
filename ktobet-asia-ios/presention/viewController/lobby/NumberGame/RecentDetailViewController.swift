@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class RecentDetailViewController: UIViewController {
+class RecentDetailViewController: APPViewController {
 
     var page: Int?
     var detailItem: NumberGameBetDetail?

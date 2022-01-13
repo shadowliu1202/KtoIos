@@ -68,6 +68,10 @@ extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
         self.activityIndicator.stopAnimating()
     }
     
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print(error.localizedDescription)
+    }
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         self.activityIndicator.stopAnimating()
     }

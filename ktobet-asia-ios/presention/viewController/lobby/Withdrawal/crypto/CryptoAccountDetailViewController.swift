@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 
 
-class CryptoAccountDetailViewController: UIViewController {
+class CryptoAccountDetailViewController: APPViewController {
     static let segueIdentifier = "toCryptoAccountDetail"
     
     @IBOutlet weak var deleteButton: UIButton!

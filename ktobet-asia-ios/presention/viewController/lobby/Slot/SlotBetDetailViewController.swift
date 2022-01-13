@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class SlotBetDetailViewController: UIViewController {
+class SlotBetDetailViewController: APPViewController {
     static let segueIdentifier = "toSlotBetDetail"
     @IBOutlet weak var tableView: UITableView!
     

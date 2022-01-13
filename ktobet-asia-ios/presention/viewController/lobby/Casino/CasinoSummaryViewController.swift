@@ -4,7 +4,7 @@ import RxDataSources
 import SharedBu
 
 
-class CasinoSummaryViewController: UIViewController {
+class CasinoSummaryViewController: APPViewController {
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet private weak var tableView: UITableView!
     
@@ -48,7 +48,10 @@ class CasinoSummaryViewController: UIViewController {
             self?.handleUnknownError(error)
         }.disposed(by: disposeBag)
         
-        dateSummaryObservable.bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in
+        dateSummaryObservable.catchError({ [weak self] (error) -> Observable<[DateSummary]> in
+            self?.handleErrors(error)
+            return Observable.just([])
+        }).bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in
             guard let self = self else { return  UITableViewCell()}
             let indexPath = IndexPath(row: row, section: 0)
             if self.unfinishGameCount != 0 && row == 0 {

@@ -22,7 +22,7 @@ enum TermsType {
     case promotionSecurityPrivacy
 }
 
-class TermsOfServiceViewController: UIViewController, UIScrollViewDelegate {
+class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate {
     
     @IBOutlet private weak var btnBack: UIBarButtonItem!
     @IBOutlet private weak var btnTitle : UIBarButtonItem!
@@ -109,6 +109,8 @@ class TermsOfServiceViewController: UIViewController, UIScrollViewDelegate {
             NavigationManagement.sharedInstance.popViewController()
         }
     }
+    
+    override func abstracObserverUpdate() { }
 }
 
 extension TermsOfServiceViewController : UITableViewDataSource{

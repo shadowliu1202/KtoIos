@@ -7,7 +7,7 @@ protocol NotifyRateChanged: AnyObject {
     func rateDidChange()
 }
 
-class WithdrawalCryptoRequestConfirmViewController: UIViewController {
+class WithdrawalCryptoRequestConfirmViewController: APPViewController {
     static let segueIdentifier = "toWithdrawalCryptoRequestConfirm"
     var source: RequestConfirm?
     weak var delegate: NotifyRateChanged?

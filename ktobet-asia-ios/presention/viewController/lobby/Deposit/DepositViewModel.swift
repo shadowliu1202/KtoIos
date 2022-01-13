@@ -58,7 +58,7 @@ class DepositViewModel {
         self.accountPatternGenerator = accountPatternGenerator
         
         self.relayName.accept(" ")
-        getPlayerRealName().asObservable().bind(to: self.relayName).disposed(by: disposeBag)
+        getPlayerRealName().asDriver(onErrorJustReturn: "").asObservable().bind(to: self.relayName).disposed(by: disposeBag)
         
         pagination = Pagination<DepositRecord>(callBack: {(page) -> Observable<[DepositRecord]> in
             self.getDepositRecords(page: String(page))

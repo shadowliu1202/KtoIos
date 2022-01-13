@@ -1,6 +1,6 @@
 import UIKit
 
-class AccountNotifyViewController: UIViewController {
+class AccountNotifyViewController: APPViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

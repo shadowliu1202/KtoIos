@@ -2,7 +2,7 @@ import UIKit
 import SharedBu
 
 typealias DisplayProductViewModel = ProductFavoriteViewModelProtocol & ProductWebGameViewModelProtocol
-typealias DisplayProduct = DisplayBaseViewController & ProductBaseCollection
+typealias DisplayProduct = DisplayGameCollectionBaseViewController & ProductBaseCollection
 
 protocol ProductBaseCollection: AnyObject {
     func setCollectionView() -> UICollectionView
@@ -10,7 +10,7 @@ protocol ProductBaseCollection: AnyObject {
     func setViewModel() -> DisplayProductViewModel?
 }
 
-class DisplayBaseViewController: AppVersionCheckViewController, ProductVCProtocol {
+class DisplayGameCollectionBaseViewController: AppVersionCheckViewController, ProductVCProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()

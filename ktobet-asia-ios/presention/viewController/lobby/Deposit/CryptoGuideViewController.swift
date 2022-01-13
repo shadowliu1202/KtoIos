@@ -1,7 +1,7 @@
 import UIKit
 import RxSwift
 
-class CryptoGuideViewController: UIViewController {
+class CryptoGuideViewController: APPViewController {
     static let segueIdentifier = "toCryptoGuide"
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!

@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class NumberGameMyBetDetailViewController: UIViewController {
+class NumberGameMyBetDetailViewController: APPViewController {
     static let segueIdentifier = "toNumberGameMyBetDetail"
     
     @IBOutlet weak var pagecontol: KTOPageControl!

@@ -5,7 +5,7 @@ import RxCocoa
 import RxDataSources
 
 
-class NumberGameDetailViewController: UIViewController {
+class NumberGameDetailViewController: APPViewController {
     static let segueIdentifier = "toNumberGameBetDetail"
     @IBOutlet weak var tableView: UITableView!
     
@@ -61,6 +61,9 @@ class NumberGameDetailViewController: UIViewController {
             }
         }).map({[weak self]  (bets) -> [NumberGameSummary.Bet] in
             return self?.tempResult ?? []
+        }).catchError({ [weak self] (error) -> Observable<[NumberGameSummary.Bet]> in
+            self?.handleErrors(error)
+            return Observable.just([])
         }).bind(to: tableView.rx.items){[weak self] (tableView, row, element) in
             guard let self = self else { return  UITableViewCell()}
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "SlotBetDetailCell", cellType: SlotBetDetailCell.self)

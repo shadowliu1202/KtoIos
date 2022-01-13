@@ -3,7 +3,7 @@ import SwiftUI
 import RxSwift
 import SharedBu
 
-class DepositViewController: UIViewController {
+class DepositViewController: APPViewController {
     @IBOutlet private weak var depositDescriptionLabel: UILabel!
     @IBOutlet private weak var depositNoDataLabel: UILabel!
     @IBOutlet private weak var depositTypeTableView: UITableView!

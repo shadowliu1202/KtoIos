@@ -1,7 +1,7 @@
 import UIKit
 import RxSwift
 
-class LandingViewController: UIViewController {
+class LandingViewController: APPViewController {
     private var isAlertShown = false
     private var appSyncDispose: Disposable?
     

@@ -23,6 +23,8 @@ def default_pods
   pod "AlignedCollectionViewFlowLayout", '1.1.2'
   pod 'TYCyclePagerView', '1.2.0'
   pod 'lottie-ios', '3.2.3'
+  pod 'Connectivity', '5.0.0'
+  pod 'NotificationBannerSwift', '3.0.0'
   use_frameworks!
 end
 

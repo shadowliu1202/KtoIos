@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class AccountInfoViewController: UIViewController {
+class AccountInfoViewController: APPViewController {
 
     @IBOutlet weak var affiliateLabel: UILabel!
     

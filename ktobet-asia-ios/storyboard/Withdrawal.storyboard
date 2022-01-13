@@ -15,11 +15,11 @@
             <objects>
                 <viewController id="Vda-NJ-C7G" customClass="WithdrawalViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dzq-wq-Kwd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="muY-Il-UA5">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="otn-Ov-oYS">
                                         <rect key="frame" x="30" y="30" width="36.5" height="20"/>
@@ -317,38 +317,16 @@
             </objects>
             <point key="canvasLocation" x="1126.0869565217392" y="101.78571428571428"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="3eS-CT-BEe">
-            <objects>
-                <navigationController storyboardIdentifier="WithdrawalNavigation" automaticallyAdjustsScrollViewInsets="NO" id="8Mf-Fo-aVs" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qnZ-iN-x28">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" name="blackTwo"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" name="whiteFull"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Vda-NJ-C7G" kind="relationship" relationship="rootViewController" id="hNh-90-mUq"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wTi-AY-M8d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="215.94202898550725" y="101.78571428571428"/>
-        </scene>
         <!--Withdrawal Record Detail View Controller-->
         <scene sceneID="aR8-Vh-Jyo">
             <objects>
                 <viewController storyboardIdentifier="WithdrawalRecordDetailViewController" id="pD1-Lj-N3W" customClass="WithdrawalRecordDetailViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QI4-Zq-Wr6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1512"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bx7-Jy-2Zi">
-                                <rect key="frame" x="0.0" y="88" width="375" height="1478"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="1478"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXXX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMo-zL-seA">
                                         <rect key="frame" x="30" y="30" width="61.5" height="34"/>
@@ -771,11 +749,11 @@
             <objects>
                 <viewController id="rnh-M8-TlN" customClass="CrpytoTransationLogViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m7s-xn-KFt">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qud-zH-Rq5">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h34-Cp-fxv" userLabel="Content">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
@@ -966,11 +944,11 @@
             <objects>
                 <viewController id="kGp-o4-AvN" customClass="WithdrawalRecordViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Bca-bX-HSN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oPV-GU-w04">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提现纪录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5lu-jh-NxO">
                                         <rect key="frame" x="30" y="30" width="96" height="34"/>
@@ -993,7 +971,7 @@
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="eou-rY-rXy">
-                                        <rect key="frame" x="24" y="232" width="360" height="513.5"/>
+                                        <rect key="frame" x="24" y="232" width="360" height="463"/>
                                         <color key="backgroundColor" name="blackTwo"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <color key="sectionIndexBackgroundColor" name="blackTwo"/>
@@ -1123,7 +1101,7 @@
             <objects>
                 <viewController id="azW-HJ-3gO" customClass="WithdrawlLandingViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m5z-bW-QaS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="4La-yx-6pp"/>
                         <color key="backgroundColor" name="blackTwo"/>
@@ -4025,12 +4003,34 @@
             </objects>
             <point key="canvasLocation" x="1970" y="1090"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="L23-xe-xif">
+            <objects>
+                <navigationController storyboardIdentifier="WithdrawalNavigation" automaticallyAdjustsScrollViewInsets="NO" id="Oao-Yj-Cas" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Xzc-Cq-O7i">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" name="blackTwo"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Vda-NJ-C7G" kind="relationship" relationship="rootViewController" id="njD-Bl-URo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QxC-QG-X2U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="252" y="102"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="eKD-WT-m4x"/>
         <segue reference="pWL-dG-JgZ"/>
         <segue reference="IGH-yb-Sof"/>
-        <segue reference="o2C-6f-Lpf"/>
+        <segue reference="XFi-hN-hfe"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Chevron Right(24)" width="24" height="24"/>

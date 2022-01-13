@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 
 
-class WithdrawalRequestViewController: UIViewController {
+class WithdrawalRequestViewController: APPViewController {
     static let segueIdentifier = "toWithdrawalRequest"
     @IBOutlet private weak var withdrawalStep1TitleLabel: UILabel!
     @IBOutlet private weak var withdrawalTitleLabel: UILabel!

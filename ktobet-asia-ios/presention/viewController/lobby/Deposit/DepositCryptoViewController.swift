@@ -2,7 +2,7 @@ import UIKit
 import WebKit
 import RxSwift
 
-class DepositCryptoViewController: UIViewController {
+class DepositCryptoViewController: APPViewController {
     
     @IBOutlet private weak var webView: WKWebView!
     

@@ -7,7 +7,7 @@ protocol AccountAddComplete: AnyObject {
     func addAccountSuccess()
 }
 
-class WithdrawlAccountsViewController: UIViewController {
+class WithdrawlAccountsViewController: APPViewController {
     static let unwindSegue = "unwindsegueAccount"
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -85,7 +85,11 @@ class WithdrawlAccountsViewController: UIViewController {
         let cryptoDataSource = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return cryptoSource.asObservable()
         }).share(replay: 1)
-        cryptoDataSource.asObservable().bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
+        cryptoDataSource.asObservable()
+            .catchError({ [weak self] (error) -> Observable<[CryptoBankCard]> in
+                self?.handleErrors(error)
+                return Observable.just([])
+            }).bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
             return tableView.dequeueReusableCell(withIdentifier: "CryptoAccountCell", cellType: CryptoAccountCell.self).configure(item, self.isEditMode)
         }.disposed(by: disposeBag)
         tableView.rx.modelSelected(CryptoBankCard.self).bind{ [unowned self] (data) in
@@ -107,7 +111,11 @@ class WithdrawlAccountsViewController: UIViewController {
         let dataSource = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return source.asObservable()
         }).share(replay: 1)
-        dataSource.asObservable().bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
+        dataSource.asObservable()
+            .catchError({ [weak self] (error) -> Observable<[WithdrawalAccount]> in
+                self?.handleErrors(error)
+                return Observable.just([])
+            }).bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
             return tableView.dequeueReusableCell(withIdentifier: "AccountCell", cellType: AccountCell.self).configure(item, self.isEditMode)
         }.disposed(by: disposeBag)
         tableView.rx.modelSelected(WithdrawalAccount.self).bind{ [unowned self] (data) in

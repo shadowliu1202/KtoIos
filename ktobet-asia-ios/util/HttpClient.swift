@@ -11,6 +11,7 @@ import RxSwift
 import Alamofire
 import SwiftyJSON
 import UIKit
+import Connectivity
 
 let debugCharCount = 500
 
@@ -32,6 +33,7 @@ class KtoURL {
 class HttpClient {
     
     let provider : MoyaProvider<MultiTarget>!
+    let retryProvider : MoyaProvider<MultiTarget>!
     var session : Session { return AF}
     var host : String {return KtoURL.host}
 //    var host : String { return "https://qat1.pivotsite.com/"}
@@ -50,7 +52,7 @@ class HttpClient {
         }()
         return header
     }
-    
+    private var retrier = APIRequestRetrier()
     private(set) var debugDatas: [DebugData] = []
     private var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
@@ -61,19 +63,20 @@ class HttpClient {
     }
     
     init() {
-        let entry = { (identifier: String, message: String, target: TargetType) -> String in
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy/MM/dd HH:mm:ss.SSSXXXXX"
-            let date = formatter.string(from: Date())
-            return "Moya_Logger: [\(date)] \(identifier): \(message)"
-        }
-        let formatter : NetworkLoggerPlugin.Configuration.Formatter = .init(entry: entry, responseData: JSONResponseDataFormatter)
-        let logOptions : NetworkLoggerPlugin.Configuration.LogOptions = .verbose
-        let configuration : NetworkLoggerPlugin.Configuration = .init(formatter: formatter, logOptions: logOptions)
-        provider = MoyaProvider<MultiTarget>(plugins: [NetworkLoggerPlugin(configuration: configuration)]) // debug
+        let configuration = logConfig()
+        let session = AlamofireSessionWithRetier()
+        provider = MoyaProvider<MultiTarget>(session: session, plugins: [NetworkLoggerPlugin(configuration: configuration)])
+        let retrySession = AlamofireSessionWithRetier(retrier)
+        retryProvider = MoyaProvider<MultiTarget>(session: retrySession, plugins: [NetworkLoggerPlugin(configuration: configuration)])
     }
 
     func request(_ target: APITarget) -> Single<Response> {
+        var provider: MoyaProvider<MultiTarget>!
+        if target.method == .get {
+            provider = self.retryProvider
+        } else {
+            provider = self.provider
+        }
         return provider
             .rx
             .request(MultiTarget(target))
@@ -153,5 +156,91 @@ class HttpClient {
         }
         
         return debugData
+    }
+}
+
+fileprivate func logConfig() -> NetworkLoggerPlugin.Configuration {
+    let entry = { (identifier: String, message: String, target: TargetType) -> String in
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss.SSSXXXXX"
+        let date = formatter.string(from: Date())
+        return "Moya_Logger: [\(date)] \(identifier): \(message)"
+    }
+    let formatter : NetworkLoggerPlugin.Configuration.Formatter = .init(entry: entry, responseData: JSONResponseDataFormatter)
+    let logOptions : NetworkLoggerPlugin.Configuration.LogOptions = .verbose
+    let configuration : NetworkLoggerPlugin.Configuration = .init(formatter: formatter, logOptions: logOptions)
+    return configuration
+}
+
+fileprivate func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = nil) -> Session {
+    let configuration = URLSessionConfiguration.default
+    configuration.headers = .default
+    return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor)
+}
+
+class APIRequestRetrier: Retrier {
+    let retryLimit = 3
+    let interval = 0.5
+    private var retriedRequests: [String: Int] = [:]
+    let disposeBag = DisposeBag()
+    
+    init() {
+        super.init { _, _, _, _ in }
+    }
+    
+    override func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+        guard request.task?.response == nil, let url = request.request?.url?.absoluteString else {
+            removeCachedUrlRequest(url: request.request?.url?.absoluteString)
+            completion(.doNotRetry)
+            return
+        }
+        guard Reachability?.isNetworkConnected == true else {
+            Reachability?.didBecomeConnected.asObservable().subscribe(onNext: {
+                guard !request.isCancelled else {
+                    completion(.doNotRetry)
+                    return
+                }
+                completion(.retry)
+            }).disposed(by: disposeBag)
+            return
+        }
+        if case .sessionTaskFailed(let err) = error as? AFError,
+            let errorGenerated = err as NSError? {
+            switch errorGenerated.code {
+            case NSURLErrorNetworkConnectionLost,
+                NSURLErrorNotConnectedToInternet,
+                NSURLErrorCannotConnectToHost,
+                NSURLErrorCannotFindHost,
+                NSURLErrorTimedOut,
+                400 ... 599:
+                DispatchQueue.main.async {
+                    UIApplication.forceCheckNetworkStatus()
+                }
+                guard let retryCount = retriedRequests[url] else {
+                    retriedRequests[url] = 1
+                    completion(.retryWithDelay(interval))
+                    return
+                }
+                if retryCount < retryLimit {
+                    retriedRequests[url] = retryCount + 1
+                    completion(.retryWithDelay(interval))
+                } else {
+                    removeCachedUrlRequest(url: url)
+                    completion(.doNotRetry)
+                }
+            default:
+                removeCachedUrlRequest(url: url)
+                completion(.doNotRetry)
+            }
+        } else {
+            completion(.doNotRetry)
+        }
+    }
+    
+    private func removeCachedUrlRequest(url: String?) {
+        guard let url = url else {
+            return
+        }
+        retriedRequests.removeValue(forKey: url)
     }
 }

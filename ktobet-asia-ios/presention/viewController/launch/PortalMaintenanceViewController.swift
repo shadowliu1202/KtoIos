@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 
 
-class PortalMaintenanceViewController: UIViewController {
+class PortalMaintenanceViewController: APPViewController {
     @IBOutlet weak var csEmailButton: UIButton!
     @IBOutlet weak var hourLabel: UILabel!
     @IBOutlet weak var minuteLabel: UILabel!

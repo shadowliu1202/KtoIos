@@ -3,7 +3,7 @@ import RxSwift
 import SwiftUI
 import SharedBu
 
-class WithdrawalViewController: UIViewController {
+class WithdrawalViewController: APPViewController {
     @IBOutlet private weak var withdrawalTodayAmountLimitLabel: UILabel!
     @IBOutlet private weak var withdrawalTodayCountLimitLabel: UILabel!
     @IBOutlet private weak var turnoverRequirementLabel: UILabel!
