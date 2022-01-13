@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class WithdrawalCryptoRequestViewController: UIViewController, NotifyRateChanged {
+class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChanged {
     static let segueIdentifier = "toWithdrawalCryptoRequest"
     var bankcardId: String?
     var supportCryptoType: SupportCryptoType?

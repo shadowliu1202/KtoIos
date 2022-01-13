@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class WithdrawalAccountDetailViewController: UIViewController {
+class WithdrawalAccountDetailViewController: APPViewController {
     static let segueIdentifier = "toAccountDetail"
     
     fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!

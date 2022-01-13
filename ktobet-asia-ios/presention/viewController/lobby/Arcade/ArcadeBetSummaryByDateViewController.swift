@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class ArcadeBetSummaryByDateViewController: UIViewController {
+class ArcadeBetSummaryByDateViewController: APPViewController {
     static let segueIdentifier = "toArcadeBetSummaryByDate"
     var viewModel: ArcadeRecordViewModel!
     private var disposeBag = DisposeBag()
@@ -28,7 +28,11 @@ class ArcadeBetSummaryByDateViewController: UIViewController {
     }
     
     private func dataBinding() {
-        viewModel.recordByDatePagination.elements.bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in
+        viewModel.recordByDatePagination.elements
+            .catchError({ [weak self] (error) -> Observable<[GameGroupedRecord]> in
+                self?.handleErrors(error)
+                return Observable<[GameGroupedRecord]>.just([])
+            }).bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in
             guard let self = self else { return  UITableViewCell()}
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "ArcadeBetSummaryByDateCell", cellType: BetSummaryByDateCell.self)
             return cell.configure(element)

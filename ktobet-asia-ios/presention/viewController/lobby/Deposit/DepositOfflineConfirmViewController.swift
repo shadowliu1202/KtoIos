@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class DepositOfflineConfirmViewController: UIViewController {
+class DepositOfflineConfirmViewController: APPViewController {
     static let segueIdentifier = "toOfflineConfirmSegue"
     
     @IBOutlet private weak var titleLabel: UILabel!

@@ -3,7 +3,7 @@ import SwiftUI
 import RxSwift
 import SharedBu
 
-class WithdrawlRecordContainer: UIViewController {
+class WithdrawlRecordContainer: APPViewController {
 
     @IBOutlet weak var containView: UIView!
     

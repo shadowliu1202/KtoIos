@@ -5,7 +5,7 @@ import RxDataSources
 import SharedBu
 import SwiftUI
 
-class WithdrawalRecordViewController: UIViewController {
+class WithdrawalRecordViewController: APPViewController {
     static let segueIdentifier = "toAllRecordSegue"
     
     @IBOutlet private weak var dateView: KTODateView!
@@ -83,7 +83,10 @@ class WithdrawalRecordViewController: UIViewController {
             }
             
             return sectionModels.sorted(by: { $0.model > $1.model })
-        }.asObservable().bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        }.asObservable().catchError({ [weak self] (error) -> Observable<[SectionModel<String, WithdrawalRecord>]> in
+            self?.handleErrors(error)
+            return Observable.just([])
+        }).bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
         rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
             .map { _ in () }

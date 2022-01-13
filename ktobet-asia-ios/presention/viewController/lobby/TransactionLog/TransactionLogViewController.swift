@@ -3,7 +3,7 @@ import RxSwift
 import RxDataSources
 import SharedBu
 
-class TransactionLogViewController: UIViewController {
+class TransactionLogViewController: APPViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var dateView: KTODateView!

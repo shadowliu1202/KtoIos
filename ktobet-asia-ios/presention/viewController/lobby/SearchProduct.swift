@@ -18,7 +18,7 @@ extension SearchBaseCollection {
     }
 }
 
-class SearchBaseViewController: DisplayBaseViewController {
+class SearchBaseViewController: DisplayGameCollectionBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

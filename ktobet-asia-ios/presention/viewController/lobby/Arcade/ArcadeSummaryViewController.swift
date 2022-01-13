@@ -3,7 +3,7 @@ import RxSwift
 import RxDataSources
 import SharedBu
 
-class ArcadeSummaryViewController: UIViewController {
+class ArcadeSummaryViewController: APPViewController {
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet private weak var tableView: UITableView!
     

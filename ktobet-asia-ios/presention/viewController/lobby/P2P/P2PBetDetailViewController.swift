@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class P2PBetDetailViewController: UIViewController {
+class P2PBetDetailViewController: APPViewController {
     static let segueIdentifier = "toP2PBetDetail"
     var recordData: GameGroupedRecord?
     @IBOutlet weak var tableView: UITableView!

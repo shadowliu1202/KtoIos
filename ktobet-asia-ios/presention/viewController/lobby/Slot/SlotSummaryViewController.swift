@@ -3,7 +3,7 @@ import RxSwift
 import RxDataSources
 import SharedBu
 
-class SlotSummaryViewController: UIViewController {
+class SlotSummaryViewController: APPViewController {
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet private weak var tableView: UITableView!
     

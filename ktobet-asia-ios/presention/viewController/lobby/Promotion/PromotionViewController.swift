@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class PromotionViewController: UIViewController {
+class PromotionViewController: APPViewController {
     @IBOutlet private weak var filterDropDwon: PromotionFilterDropDwon!
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet private weak var tableView: UITableView!

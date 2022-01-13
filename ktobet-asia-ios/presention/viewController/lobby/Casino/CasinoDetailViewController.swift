@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class CasinoDetailViewController: UIViewController {
+class CasinoDetailViewController: APPViewController {
     static let segueIdentifier = "toCasinoDetailViewController"
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var scrollView: UIScrollView!

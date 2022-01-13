@@ -1,7 +1,7 @@
 import UIKit
 import RxSwift
 
-class AppVersionCheckViewController: UIViewController {
+class AppVersionCheckViewController: APPViewController {
     private var appSyncDispose: Disposable?
     
     override func viewDidAppear(_ animated: Bool) {
@@ -28,6 +28,9 @@ class AppVersionCheckViewController: UIViewController {
 
 extension AppVersionCheckViewController: WebGameViewCallback {
     func gameDidDisappear() {
+        if Reachability?.isNetworkConnected == false {
+            self.networkDisConnected()
+        }
         AppSynchronizeViewModel.shared.syncAppVersion()
     }
 }

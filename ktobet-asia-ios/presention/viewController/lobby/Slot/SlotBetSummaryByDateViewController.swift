@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 import SDWebImage
 
-class SlotBetSummaryByDateViewController: UIViewController {
+class SlotBetSummaryByDateViewController: APPViewController {
     static let segueIdentifier = "toSlotBetSummaryByDate"
     var selectDate: String? = ""
     var viewModel = DI.resolve(SlotBetViewModel.self)!
@@ -30,7 +30,11 @@ class SlotBetSummaryByDateViewController: UIViewController {
     
     private func dataBinding() {
         guard let selectDate = selectDate else { return }
-        viewModel.betSummaryByDate(localDate: selectDate).asObservable().bind(to: tableView.rx.items){ tableView, row, item in
+        viewModel.betSummaryByDate(localDate: selectDate).asObservable()
+            .catchError({ [weak self] (error) -> Observable<[SlotGroupedRecord]> in
+                self?.handleErrors(error)
+                return Observable.just([])
+            }).bind(to: tableView.rx.items){ tableView, row, item in
             return tableView.dequeueReusableCell(withIdentifier: "SlotBetSummaryByDateCell", cellType: BetSummaryByDateCell.self).configure(item)
         }.disposed(by: disposeBag)
         tableView.rx.modelSelected(SlotGroupedRecord.self).bind{ [unowned self] (data) in

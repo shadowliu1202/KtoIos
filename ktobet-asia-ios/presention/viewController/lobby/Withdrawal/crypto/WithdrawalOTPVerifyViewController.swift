@@ -1,7 +1,7 @@
 import UIKit
 import RxSwift
 
-class WithdrawalOTPVerifyViewController: UIViewController {
+class WithdrawalOTPVerifyViewController: APPViewController {
     static let segueIdentifier = "toStep2Segue"
     
     @IBOutlet private weak var naviItem : UINavigationItem!

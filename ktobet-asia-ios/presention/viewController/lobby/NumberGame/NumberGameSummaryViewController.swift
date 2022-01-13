@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class NumberGameSummaryViewController: UIViewController {
+class NumberGameSummaryViewController: APPViewController {
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var segment: UISegmentedControl!
     @IBOutlet weak var containView: UIView!

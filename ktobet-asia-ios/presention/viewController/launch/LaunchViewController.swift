@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class LaunchViewController: UIViewController {
+class LaunchViewController: LandingViewController {
     private var viewModel = DI.resolve(LaunchViewModel.self)!
     private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -30,6 +30,25 @@ class LaunchViewController: UIViewController {
             }.disposed(by: disposeBag)
     }
     
+    override func registerNetworkDisConnnectedHandler() -> (() -> ())? {
+        return { [weak self] in
+            self?.displayAlert(Localize.string("common_error"), Localize.string("common_network_error"))
+        }
+    }
+    
+    func displayAlert(_ title: String?, _ message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.view.backgroundColor = UIColor.white
+        alert.view.layer.cornerRadius = 14
+        alert.view.clipsToBounds = true
+        let confirmAction = UIAlertAction(title: Localize.string("common_confirm"), style: .default) { (action) in
+            exit(0)
+        }
+        confirmAction.setValue(UIColor.redForLightFull, forKey: "titleTextColor")
+        alert.addAction(confirmAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     private func nextPage() {
         observeCustomerService()
         let playerDefaultProduct = viewModel.loadPlayerInfo().compactMap{ $0.defaultProduct }.asObservable()
@@ -53,4 +72,6 @@ class LaunchViewController: UIViewController {
     deinit {
         print("deinit")
     }
+    
+    override func abstracObserverUpdate() { }
 }

@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class CustomerServiceMainViewController: UIViewController {
+class CustomerServiceMainViewController: APPViewController {
     var barButtonItems: [UIBarButtonItem] = []
     let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     let edit = UIBarButtonItem.kto(.text(text: Localize.string("common_edit")))

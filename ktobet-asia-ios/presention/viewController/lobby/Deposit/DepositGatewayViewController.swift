@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class DepositGatewayViewController: UIViewController {
+class DepositGatewayViewController: APPViewController {
     static let segueIdentifier = "toOfflineSegue"
     
     @IBOutlet private weak var titleLabel: UILabel!

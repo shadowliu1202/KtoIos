@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class AddBankViewController: UIViewController {
+class AddBankViewController: APPViewController {
     static let segueIdentifier = "toAddBank"
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!

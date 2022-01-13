@@ -72,7 +72,7 @@ struct WithdrawalRequest: Codable {
 
 struct UploadImagesData: Codable {
     let ticketStatus: Int32
-    let images: [Image]
+    let images: [ImageBean]
 }
 
 struct WithdrawalAccountAddRequest: Codable {
@@ -86,7 +86,7 @@ struct WithdrawalAccountAddRequest: Codable {
 }
 
 // MARK: - Image
-struct Image: Codable {
+struct ImageBean: Codable {
     let imageID, fileName: String
 
     enum CodingKeys: String, CodingKey {

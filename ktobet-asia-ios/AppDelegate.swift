@@ -8,16 +8,19 @@
 import UIKit
 import IQKeyboardManagerSwift
 import RxSwift
+import Connectivity
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    private(set) var rechabilityObserver: ReachabilityHandler?
+    private weak var timer: Timer?
     
+    var window: UIWindow?
     var isDebugModel = false
     var debugController: MainDebugViewController?
     let disposeBag = DisposeBag()
-    
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
         if #available(iOS 13.0, *) {
@@ -43,7 +46,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.addDebugGesture()
         }
         
+        rechabilityObserver = ReachabilityHandler.shared(connected: didConnect, disconnected: disConnect)
         return true
+    }
+    
+    private func didConnect(c: Connectivity) {
+        print(">>>>>>TODO implemets...networkDidConnected")
+        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
+            topVc.networkDidConnected()
+        }
+    }
+    
+    private func disConnect(c: Connectivity) {
+        print(">>>>>>TODO implemets...networkDidDisConnected")
+        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
+            topVc.networkDisConnected()
+        }
+    }
+    
+    func forceCheckNetworkStatus() {
+        self.timer?.invalidate()
+        let nextTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.debounceCheckNetworkStatus), userInfo: nil, repeats: false)
+        self.timer = nextTimer
+    }
+    
+    @objc private func debounceCheckNetworkStatus() {
+        self.rechabilityObserver?.setForceCheck()
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {

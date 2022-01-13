@@ -138,7 +138,7 @@ class DepositRepositoryImpl: DepositRepository {
     }
     
     func bindingImageWithDepositRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable {
-        let imageBindingData = UploadImagesData(ticketStatus: transactionId, images: portalImages.map { Image(imageID: $0.imageId, fileName: $0.fileName) })
+        let imageBindingData = UploadImagesData(ticketStatus: transactionId, images: portalImages.map { ImageBean(imageID: $0.imageId, fileName: $0.fileName) })
         
         return bankApi.bindingImageWithDepositRecord(displayId: displayId, uploadImagesData: imageBindingData)
     }

@@ -3,7 +3,7 @@ import RxSwift
 import RxDataSources
 import SharedBu
 
-class P2PSummaryViewController: UIViewController {
+class P2PSummaryViewController: APPViewController {
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet private weak var tableView: UITableView!
     

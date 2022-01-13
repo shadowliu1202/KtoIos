@@ -28,8 +28,10 @@ class SettleViewController: UIViewController {
         tableView.setHeaderFooterDivider(headerHeight: 86, headerColor: UIColor.clear, headerDividerColor: UIColor.clear)
         dataSource.do ( onNext:{[weak self] (records) in
             self?.switchContent(records.count)
-        })
-        .bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in
+        }).catchError({ [weak self] (error) -> Observable<[NumberGameSummary.Date]> in
+            self?.handleErrors(error)
+            return Observable.just([])
+        }).bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in
             guard let self = self else { return  UITableViewCell()}
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "CasinoSummaryTableViewCell", cellType: CasinoSummaryTableViewCell.self)
             cell.setup(element: element)

@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 import SwiftUI
 
-class AddCryptoAccountViewController: UIViewController {
+class AddCryptoAccountViewController: APPViewController {
     static let segueIdentifier = "toCryptoAddAccount"
     @IBOutlet weak var cryptoTypeDropDown: DropDownInputText!
     @IBOutlet weak var cryptoNetworkDropDown: DropDownInputText!

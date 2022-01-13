@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class ArcadeBetDetailViewController: UIViewController {
+class ArcadeBetDetailViewController: APPViewController {
     static let segueIdentifier = "toArcadeBetDetail"
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,7 +26,11 @@ class ArcadeBetDetailViewController: UIViewController {
     }
     
     private func dataBinding() {
-        viewModel.recordDetailPagination.elements.bind(to: tableView.rx.items) {(tableView, row, element) in
+        viewModel.recordDetailPagination.elements
+            .catchError({ [weak self] (error) -> Observable<[ArcadeGameBetRecord]> in
+                self?.handleErrors(error)
+                return Observable<[ArcadeGameBetRecord]>.just([])
+            }).bind(to: tableView.rx.items) {(tableView, row, element) in
             let cell = tableView.dequeueReusableCell(withIdentifier: "ArcadeBetDetailCell", cellType: BetDetailCell.self)
             cell.configure(element)
             return cell
