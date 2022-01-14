@@ -99,6 +99,7 @@ platform :ios do
 
 
 	lane :uploadstagingToTestflight do |options|
+	match(type: "appstore", readonly: is_ci)
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
@@ -124,6 +125,7 @@ platform :ios do
 
 
 	lane :uploadToTestflight do |options|
+	match(type: "appstore", readonly: is_ci)
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist", 
 				  block: proc do |plist|
 					#version = plist["CFBundleVersion"].to_i + 1
