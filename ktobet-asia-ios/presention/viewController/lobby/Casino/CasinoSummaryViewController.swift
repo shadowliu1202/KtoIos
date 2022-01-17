@@ -45,7 +45,7 @@ class CasinoSummaryViewController: APPViewController {
                 self.tableView.isHidden = true
             }
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
         
         dateSummaryObservable.catchError({ [weak self] (error) -> Observable<[DateSummary]> in

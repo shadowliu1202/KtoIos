@@ -50,14 +50,14 @@ class WithdrawlLandingViewController: APPViewController {
                 self?.accounts = accounts
                 self?.updateWithdrawAccountsView()
             }, onError: { [weak self] (error) in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
             }).disposed(by: disposeBag)
         case .crypto:
             viewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
                 self?.cryptoBankCards = cryptoBankCards
                 self?.updateWithdrawAccountsView()
             } onError: { (error) in
-                self.handleUnknownError(error)
+                self.handleErrors(error)
             }.disposed(by: disposeBag)
         }
     }

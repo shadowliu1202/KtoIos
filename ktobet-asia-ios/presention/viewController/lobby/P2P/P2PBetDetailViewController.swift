@@ -29,7 +29,7 @@ class P2PBetDetailViewController: APPViewController {
         guard let recordData = recordData else { return }
         viewModel.getBetDetail(startDate: recordData.startDate.description(), endDate: recordData.endDate.description(), gameId: recordData.gameId).asObservable()
             .catchError({ [weak self] (error) -> Observable<[P2PGameBetRecord]> in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
                 return Observable.empty()
             }).bind(to: tableView.rx.items) { tableView, row, item in
                 return tableView.dequeueReusableCell(withIdentifier: "P2PBetDetailCell", cellType: BetDetailCell.self).configure(item)

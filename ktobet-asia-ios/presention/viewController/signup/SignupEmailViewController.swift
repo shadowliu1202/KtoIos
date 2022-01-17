@@ -177,7 +177,7 @@ class SignupEmailViewController: LandingViewController {
                 }, cancel: nil)
             break
         default:
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }
     }
     

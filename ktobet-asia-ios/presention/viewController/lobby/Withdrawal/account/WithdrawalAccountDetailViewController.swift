@@ -59,7 +59,7 @@ class WithdrawalAccountDetailViewController: APPViewController {
         viewModel.deleteAccount(playerBankCardId).subscribe(onCompleted: { [weak self] in
             self?.popThenToast()
         }, onError: { [weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }
     

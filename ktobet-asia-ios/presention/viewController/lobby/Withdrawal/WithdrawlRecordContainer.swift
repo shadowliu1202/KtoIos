@@ -36,7 +36,7 @@ class WithdrawlRecordContainer: APPViewController {
         self.viewModel.getWithdrawalRecordDetail(transactionId: displayId, transactionTransactionType: transactionTransactionType).subscribe(onSuccess: { [weak self] (withdrawalDetail) in
             self?.switchContain(withdrawalDetail)
         }, onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: self.disposeBag)
     }
     

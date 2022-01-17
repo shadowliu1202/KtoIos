@@ -111,10 +111,10 @@ class NumberGameDetailViewController: APPViewController {
                     self.details = details
                     self.performSegue(withIdentifier: NumberGameMyBetDetailViewController.segueIdentifier, sender: indexPath.row)
                 }onError: {[weak self] (error) in
-                    self?.handleUnknownError(error)
+                    self?.handleErrors(error)
                 }.disposed(by: self.disposeBag)
             } onError: {[weak self] (error) in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
             }.disposed(by: self.disposeBag)
         }.disposed(by: disposeBag)
     }

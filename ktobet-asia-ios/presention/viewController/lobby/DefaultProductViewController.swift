@@ -86,7 +86,7 @@ class DefaultProductViewController: APPViewController {
                     NavigationManagement.sharedInstance.goTo(productType: .sbk)
                 }
             }, onError: { error in
-                self.handleUnknownError(error)
+                self.handleErrors(error)
             }).disposed(by: disposeBag)
     }
     
@@ -100,7 +100,7 @@ class DefaultProductViewController: APPViewController {
             .subscribe(onSuccess: { _ in
                 NavigationManagement.sharedInstance.goTo(productType: item.type)
             }, onError: { error in
-                self.handleUnknownError(error)
+                self.handleErrors(error)
             }).disposed(by: disposeBag)
     }
     

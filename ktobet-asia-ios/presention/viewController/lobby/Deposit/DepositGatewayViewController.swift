@@ -117,7 +117,7 @@ class DepositGatewayViewController: APPViewController {
     
     fileprivate func thirdPartDataBinding() {
         let getDepositOnlineBankAccountsObservable = viewModel.getDepositPaymentGateways(depositType: depositType!).catchError { error in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
             return Single<[PaymentGateway]>.never() }.asObservable()
         
         getDepositOnlineBankAccountsObservable.bind(to: depositTableView.rx.items(cellIdentifier: String(describing: DepositMethodTableViewCell.self), cellType: DepositMethodTableViewCell.self)) { index, data, cell in
@@ -196,7 +196,7 @@ class DepositGatewayViewController: APPViewController {
                 guard let firstSelectedBank = data.first else { return }
                 self.viewModel.selectedReceiveBank = firstSelectedBank
             } onError: { (error) in
-                self.handleUnknownError(error)
+                self.handleErrors(error)
             }.disposed(by: disposeBag)
     }
 
@@ -217,7 +217,7 @@ class DepositGatewayViewController: APPViewController {
             self?.remitterBankTextField.optionArray = tuple.map{ $0.1.name }
             self?.remitterBankTextField.optionIds = tuple.map{ $0.0 }
         } onError: { (error) in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }.disposed(by: disposeBag)
     }
 

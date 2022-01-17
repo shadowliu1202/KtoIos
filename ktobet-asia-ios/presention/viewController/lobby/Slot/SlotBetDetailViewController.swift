@@ -36,7 +36,7 @@ class SlotBetDetailViewController: APPViewController {
     private func dataBinding() {
         self.fetchNextBetRecords(0)
         viewModel.betRecordDetails.catchError({ [weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
             return Observable.just(self?.records ?? [])
         }).subscribe(onNext: { [weak self] (data) in
             self?.records = data

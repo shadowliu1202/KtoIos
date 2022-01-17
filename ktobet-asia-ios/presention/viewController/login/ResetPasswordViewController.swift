@@ -162,7 +162,7 @@ class ResetPasswordViewController: LandingViewController {
         case .PlayerIpOverOtpDailyLimit, .PlayerIdOverOtpLimit, .PlayerOverOtpRetryLimit:
             alertExceedResendLimit()
         default:
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }
     }
     

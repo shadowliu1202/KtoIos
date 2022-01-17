@@ -115,12 +115,12 @@ class WithdrawalRecordDetailViewController: APPViewController {
                     .subscribe {[weak self] _ in
                         self?.updateUI(data: generalData)
                     } onError: { (error) in
-                        self.handleUnknownError(error)
+                        self.handleErrors(error)
                     }.disposed(by: self.disposeBag)
                 self.stopActivityIndicator(activityIndicator: self.activityIndicator)
             }
         } onError: { (error) in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
     }
@@ -188,7 +188,7 @@ class WithdrawalRecordDetailViewController: APPViewController {
             self.dataBinding()
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: self.disposeBag)
     }
@@ -200,7 +200,7 @@ class WithdrawalRecordDetailViewController: APPViewController {
             self.dataBinding()
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { (error) in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
     }
@@ -263,7 +263,7 @@ class WithdrawalRecordDetailViewController: APPViewController {
                 self.stopActivityIndicator(activityIndicator: self.activityIndicator)
             }
         } onError: { (error) in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
     }

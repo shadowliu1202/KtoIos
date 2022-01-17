@@ -35,7 +35,7 @@ class DepositCryptoViewController: APPViewController {
                 let request = URLRequest(url: URL(string: url)!)
                 self?.webView.load(request)
             } onError: {[weak self] (error) in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
             }.disposed(by: disposeBag)
         }
     }

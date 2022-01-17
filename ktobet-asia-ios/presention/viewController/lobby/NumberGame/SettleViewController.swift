@@ -43,7 +43,7 @@ class SettleViewController: UIViewController {
         viewModel.settled.subscribe {[weak self] (data) in
             self?.dataSource.accept(data)
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     

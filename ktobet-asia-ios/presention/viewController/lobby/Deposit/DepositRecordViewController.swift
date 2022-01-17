@@ -127,7 +127,7 @@ class DepositRecordViewController: APPViewController {
         viewModel.getCashLogSummary(balanceLogFilterType: 1).subscribe { (data) in
             self.depositTotalAmount.text = data["depositAmount"]?.currencyFormatWithoutSymbol(precision: 2) ?? "0.00"
         } onError: { (error) in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     

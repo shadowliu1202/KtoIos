@@ -79,7 +79,7 @@ class CasinoViewController: DisplayProduct {
         
         viewModel.searchedCasinoByTag
             .catchError({ [weak self] (error) -> Observable<[CasinoGame]> in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
                 return Observable.just([])
             })
             .subscribe(onNext: { [weak self] (games) in

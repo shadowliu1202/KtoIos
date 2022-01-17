@@ -46,7 +46,7 @@ class SlotAllViewController: DisplayProduct {
         viewModel.gatAllGame(sorting: sorting, filters: filter).subscribe {[weak self] (slotGames) in
             self?.reloadGameData(slotGames)
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     

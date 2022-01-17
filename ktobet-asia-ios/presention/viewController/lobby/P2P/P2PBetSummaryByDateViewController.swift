@@ -31,7 +31,7 @@ class P2PBetSummaryByDateViewController: APPViewController {
         guard let selectDate = selectDate else { return }
         viewModel.betSummaryByDate(localDate: selectDate).asObservable()
             .catchError({ [weak self] (error) -> Observable<[GameGroupedRecord]> in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
                 return Observable.empty()
             }).bind(to: tableView.rx.items){ tableView, row, item in
                 return tableView.dequeueReusableCell(withIdentifier: "P2PBetSummaryByDateCell", cellType: P2PBetSummaryByDateCell.self).configure(item)

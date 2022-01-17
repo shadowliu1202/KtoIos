@@ -41,7 +41,7 @@ class SlotSummaryViewController: APPViewController {
                     self?.switchContent()
                     break
                 default:
-                    self?.handleUnknownError(error)
+                    self?.handleErrors(error)
                 }
                 return Observable.empty()
             })

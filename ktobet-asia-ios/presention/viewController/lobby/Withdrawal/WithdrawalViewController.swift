@@ -128,7 +128,7 @@ class WithdrawalViewController: APPViewController {
         bandCardviewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
             self?.cryptoBankCards = cryptoBankCards
         } onError: { (error) in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     
@@ -178,7 +178,7 @@ class WithdrawalViewController: APPViewController {
         }).subscribe(onNext: { [weak self] (accounts) in
             self?.accounts = accounts
         }, onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: disposeBag)
         self.rx.viewWillAppear.flatMap({ [unowned self] (_) in
             return self.viewModel.getWithdrawalLimitation().asObservable()
@@ -191,7 +191,7 @@ class WithdrawalViewController: APPViewController {
             self.crpytoWithdrawalRequirement = self.crpytoWithdrawalRequirementAmount()
             self.checkDailyWithdrawalLimit(withdrawalLimits.dailyMaxCash, withdrawalLimits.dailyMaxCount)
         }, onError: { (error) in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }).disposed(by: disposeBag)
         
         self.showInfoButton.rx.tap.subscribe(onNext: { [weak self] _ in
@@ -234,7 +234,7 @@ class WithdrawalViewController: APPViewController {
             return self.viewModel.getWithdrawalRecords().asObservable()
         }).share(replay: 1)
         withdrawalRecord.catchError({ [weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
             return Observable.just([])
         }).do(onNext: { [weak self] (withdrawalRecord) in
             self?.withdrawalRecordTableView.isHidden = false

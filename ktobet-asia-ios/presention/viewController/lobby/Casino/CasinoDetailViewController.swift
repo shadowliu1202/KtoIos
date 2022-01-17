@@ -29,7 +29,7 @@ class CasinoDetailViewController: APPViewController {
             self.tableView.reloadData()
             self.createResultView(gameResult: detail.gameResult)
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     

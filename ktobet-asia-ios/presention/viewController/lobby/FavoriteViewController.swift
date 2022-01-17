@@ -42,7 +42,7 @@ class FavoriteViewController: DisplayProduct {
                     self?.switchContent()
                     break
                 default:
-                    self?.handleUnknownError(error)
+                    self?.handleErrors(error)
                 }
                 return Observable.just([])
             }).subscribe(onNext: { [weak self] (games) in

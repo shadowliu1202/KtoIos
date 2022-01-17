@@ -179,8 +179,8 @@ fileprivate func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = 
 }
 
 class APIRequestRetrier: Retrier {
-    let retryLimit = 3
-    let interval = 0.5
+    let retryLimit = 1
+    let interval = 0.0
     private var retriedRequests: [String: Int] = [:]
     let disposeBag = DisposeBag()
     
@@ -194,6 +194,7 @@ class APIRequestRetrier: Retrier {
             completion(.doNotRetry)
             return
         }
+        
         guard Reachability?.isNetworkConnected == true else {
             Reachability?.didBecomeConnected.asObservable().subscribe(onNext: {
                 guard !request.isCancelled else {
@@ -202,6 +203,12 @@ class APIRequestRetrier: Retrier {
                 }
                 completion(.retry)
             }).disposed(by: disposeBag)
+            
+            if case .sessionTaskFailed(let err) = error as? AFError {
+                Reachability?.requestErrorCallback(err)
+            } else {
+                Reachability?.requestErrorCallback(error)
+            }
             return
         }
         if case .sessionTaskFailed(let err) = error as? AFError,

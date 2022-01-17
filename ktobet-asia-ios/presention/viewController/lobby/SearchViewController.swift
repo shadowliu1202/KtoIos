@@ -93,7 +93,7 @@ class SearchViewController: SearchProduct {
         viewModel?.clearSearchResult()
         viewModel?.searchSuggestion()
             .catchError({ [weak self] (error) -> Single<[String]> in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
                 return Single.just([])
             })
             .subscribe(onSuccess: { [weak self] (suggestions) in
@@ -131,7 +131,7 @@ class SearchViewController: SearchProduct {
                 }
                 if let error = event.error {
                     self?.switchContent()
-                    self?.handleUnknownError(error)
+                    self?.handleErrors(error)
                 }
             }).disposed(by: self.disposeBag)
     }
