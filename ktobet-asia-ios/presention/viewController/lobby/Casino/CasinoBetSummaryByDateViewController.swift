@@ -67,7 +67,7 @@ class CasinoBetSummaryByDateViewController: APPViewController {
             
             self?.tableView.reloadData()
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
         

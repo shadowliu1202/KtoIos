@@ -69,7 +69,7 @@ class CryptoSelectorViewController: APPViewController {
                 .subscribe { url in
                 self.performSegue(withIdentifier: DepositCryptoViewController.segueIdentifier, sender: url)
             } onError: {[weak self] error in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
             }.disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
     }

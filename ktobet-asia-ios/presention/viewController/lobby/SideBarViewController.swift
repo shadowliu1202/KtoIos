@@ -220,7 +220,7 @@ class SideBarViewController: UIViewController {
             self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
             self.labUserName.text = "\(player.playerInfo.gameId)"
         }, onError: { [weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: self.disposeBag)
     }
     

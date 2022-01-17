@@ -70,7 +70,7 @@ class DepositRecordDetailViewController: UIViewController {
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { [weak self] (error) in
             guard let `self` = self else { return }
-            self.handleUnknownError(error)
+            self.handleErrors(error)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
     }
@@ -212,7 +212,7 @@ class DepositRecordDetailViewController: UIViewController {
             }
         } onError: { [weak self] (error) in
             guard let `self` = self else { return }
-            self.handleUnknownError(error)
+            self.handleErrors(error)
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         }.disposed(by: disposeBag)
     }
@@ -265,11 +265,11 @@ class DepositRecordDetailViewController: UIViewController {
                     self.updateUI(data: generalData)
                 } onError: { [weak self] (error) in
                     guard let `self` = self else { return }
-                    self.handleUnknownError(error)
+                    self.handleErrors(error)
                 }.disposed(by: self.disposeBag)
         } onError: { [weak self] (error) in
             guard let `self` = self else { return }
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     

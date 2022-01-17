@@ -64,7 +64,7 @@ class WithdrawalCryptoVerifyViewController: APPViewController {
             self.contentLabel.text = self.phone
             self.btnSubmit.isHidden = self.phone == Localize.string("common_not_set_mobile")
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: self.disposeBag)
         
         viewModel.email.subscribe { (email) in
@@ -74,7 +74,7 @@ class WithdrawalCryptoVerifyViewController: APPViewController {
                 self.email = Localize.string("common_not_set_email")
             }
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: self.disposeBag)
         
         btnEmail.rx.tap.subscribe {[weak self] _ in

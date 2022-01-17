@@ -12,10 +12,14 @@ class APPViewController: UIViewController {
     private var networkReConnectedHandler: (() -> ())?
     private var banner: NotificationBanner?
     
+    private let _errors = PublishSubject<Error>.init()
+    private var errorsDispose: Disposable?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         checkNetworkDisConnectHandler()
         checkNetworkReConnectHandler()
+        observerRequestError()
     }
     
     private func checkNetworkDisConnectHandler() {
@@ -45,6 +49,16 @@ class APPViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        errorsDispose?.dispose()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.dismissBanner()
+    }
+    
     func registerViewDidLoadNetworkHandler() -> (() -> ())? {
         return nil
     }
@@ -70,6 +84,15 @@ class APPViewController: UIViewController {
     private func dismissBanner() {
         banner?.dismiss()
     }
+    
+    private func observerRequestError() {
+        errorsDispose = _errors.throttle(.milliseconds(1500), latest: false, scheduler: MainScheduler.instance)
+            .observeOn(MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                self?.handleErrors($0)
+            })
+    }
 
 }
 
@@ -80,6 +103,10 @@ extension APPViewController: NetworkStatusDisplay {
     
     func networkDisConnected() {
         self.networkDisconnectHandler?()
+    }
+    
+    func networkRequestHandle(error: Error) {
+        _errors.onNext(error)
     }
 }
 

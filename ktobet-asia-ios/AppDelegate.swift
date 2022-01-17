@@ -46,21 +46,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.addDebugGesture()
         }
         
-        rechabilityObserver = ReachabilityHandler.shared(connected: didConnect, disconnected: disConnect)
+        rechabilityObserver = ReachabilityHandler.shared(connected: didConnect, disconnected: disConnect, requestError: requestErrorWhenRetry)
         return true
     }
     
     private func didConnect(c: Connectivity) {
-        print(">>>>>>TODO implemets...networkDidConnected")
         if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
             topVc.networkDidConnected()
         }
     }
     
     private func disConnect(c: Connectivity) {
-        print(">>>>>>TODO implemets...networkDidDisConnected")
         if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
             topVc.networkDisConnected()
+        }
+    }
+    
+    private func requestErrorWhenRetry(error: Error) {
+        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
+            topVc.networkRequestHandle(error: error)
         }
     }
     

@@ -64,7 +64,7 @@ class NumberGameViewController: DisplayProduct {
                 self.pagerView.reloadData()
             }
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     
@@ -73,7 +73,7 @@ class NumberGameViewController: DisplayProduct {
             guard let self = self else { return }
             self.reloadGameData(numberGames)
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     
@@ -249,7 +249,7 @@ extension NumberGameViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDa
                 self.viewModel.toggleFavorite(game: self.datas[index]) {[weak self] (action) in
                     self?.showToast(action)
                 } onError: {[weak self] (error) in
-                    self?.handleUnknownError(error)
+                    self?.handleErrors(error)
                 }
             }
         }

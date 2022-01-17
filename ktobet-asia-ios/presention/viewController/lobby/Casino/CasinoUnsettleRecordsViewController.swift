@@ -30,7 +30,7 @@ class CasinoUnsettleRecordsViewController: AppVersionCheckViewController {
         viewModel.getUnsettledBetSummary().subscribe {[weak self] (UnsettledBetSummaries) in
                 self?.getUnsettledRecords()
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     
@@ -52,7 +52,7 @@ class CasinoUnsettleRecordsViewController: AppVersionCheckViewController {
             
             self?.tableView.reloadData()
         }, onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }
 }

@@ -62,10 +62,10 @@ class CryptoAccountDetailViewController: APPViewController {
                     NavigationManagement.sharedInstance.popViewController()
                 }
             } onError: {[weak self] (error) in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
             }.disposed(by: self.disposeBag)
         }, onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: self.disposeBag)
     }
 }

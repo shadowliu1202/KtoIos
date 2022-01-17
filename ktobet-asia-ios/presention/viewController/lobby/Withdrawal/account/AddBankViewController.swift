@@ -69,7 +69,7 @@ class AddBankViewController: APPViewController {
                 self.nameLabel.addGestureRecognizer(gesture)
             }
         }, onError: { [weak self]  (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }
     
@@ -84,7 +84,7 @@ class AddBankViewController: APPViewController {
             self?.bankDropDown.optionArray = tuple.map{ $0.1.name }
             self?.bankDropDown.optionIds = tuple.map{ $0.0 }
         }, onError: { [weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: disposeBag)
         viewModel.bankValid.subscribe(onNext: { [weak self] (status) in
             self?.handleErrorLabel(error: status, textField: self?.bankDropDown, label: self?.bankErrorLabel)
@@ -168,7 +168,7 @@ class AddBankViewController: APPViewController {
                 if error is KtoWithdrawalAccountExist {
                     Alert.show(Localize.string("common_tip_title_warm"), Localize.string("withdrawal_account_exist"), confirm: nil, cancel: nil)
                 } else {
-                    self?.handleUnknownError(error)
+                    self?.handleErrors(error)
                 }
             }).disposed(by: self.disposeBag)
         }.disposed(by: disposeBag)

@@ -105,7 +105,7 @@ class SlotViewController: AppVersionCheckViewController {
                 self.pagerView.reloadData()
             }
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
 
         loadMoreCollectionView(delegate: gameDataSourceDelegate, collectionView: recentlyCollectionView, getGame: viewModel.recentGames, containerView: recentlyView, containerViewHeight: recentlyViewHeight)
@@ -137,7 +137,7 @@ class SlotViewController: AppVersionCheckViewController {
                 collectionView.setContentOffset(contentOffset, animated: false)
             }
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     
@@ -196,7 +196,7 @@ extension SlotViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDataSour
                 self.viewModel.toggleFavorite(game: self.datas[index]) {[weak self] (action) in
                     self?.showToast(action)
                 } onError: {[weak self] (error) in
-                    self?.handleUnknownError(error)
+                    self?.handleErrors(error)
                 }
             }
         }

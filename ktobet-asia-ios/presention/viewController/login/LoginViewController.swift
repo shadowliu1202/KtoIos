@@ -223,7 +223,7 @@ class LoginViewController: LandingViewController {
             default: break
             }
         } else {
-            self.handleUnknownError(error as! Error)
+            self.handleErrors(error as! Error)
         }
     }
     
@@ -278,7 +278,7 @@ class LoginViewController: LandingViewController {
                 self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
             }
         } onError: { [weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     

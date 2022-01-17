@@ -92,7 +92,7 @@ class WithdrawalRequestViewController: APPViewController {
                 self.nameLabel.addGestureRecognizer(gesture)
             }
         }, onError: { [weak self]  (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }
     
@@ -102,7 +102,7 @@ class WithdrawalRequestViewController: APPViewController {
             self.withdrawalLimits = withdrawalLimits
             self.withdrawalLimitLabel.text = String(format: Localize.string("withdrawal_amount_range"), withdrawalLimits.singleCashMinimum.description(), withdrawalLimits.singleCashMaximum.description())
         } onError: { (error) in
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }.disposed(by: disposeBag)
     }
     

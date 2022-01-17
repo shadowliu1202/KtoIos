@@ -52,7 +52,7 @@ class SlotUnsettleRecordsViewController: AppVersionCheckViewController {
                     self?.switchContent()
                     break
                 default:
-                    self?.handleUnknownError(error)
+                    self?.handleErrors(error)
                 }
                 return Observable.just([])
             })
@@ -68,7 +68,7 @@ class SlotUnsettleRecordsViewController: AppVersionCheckViewController {
         viewModel.fetchNextUnsettledRecords(betTime: unsettleds[sectionIndex].betTime, rowIndex).subscribe(onSuccess: { [weak self] (page) in
             self?.reloadRows(at: sectionIndex, rowCount: page.data.count, with: .automatic)
         }, onError: { [weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }
     

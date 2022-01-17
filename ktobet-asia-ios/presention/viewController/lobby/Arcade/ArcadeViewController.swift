@@ -29,7 +29,7 @@ class ArcadeViewController: DisplayProduct {
     private func dataBinding() {
         viewModel.gameSource
             .catchError({ [weak self] (error) in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
                 return Observable.just([])
             })
             .subscribe(onNext: { [weak self] (games) in

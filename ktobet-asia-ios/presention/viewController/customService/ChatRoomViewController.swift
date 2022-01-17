@@ -272,7 +272,7 @@ class ChatRoomViewController: UIViewController {
                 }
             } onError: { [weak self] (error) in
                 guard let self = self else { return }
-                self.handleUnknownError(error)
+                self.handleErrors(error)
                 self.stopActivityIndicator(activityIndicator: self.activityIndicator)
             }.disposed(by: disposeBag)
     }

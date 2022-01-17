@@ -67,7 +67,7 @@ class DepositOfflineConfirmViewController: APPViewController {
             self.performSegue(withIdentifier: "unwindToDeposit", sender: nil)
         } onError: { (error) in
             self.depositSuccess = false
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }.disposed(by: disposeBag)
     }
 

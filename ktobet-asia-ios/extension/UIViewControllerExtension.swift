@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import RxSwift
 import RxCocoa
+import Alamofire
 import Moya
 import SharedBu
 
@@ -16,33 +17,64 @@ extension UIViewController{
     func handleErrors(_ error : Error) {
         let exception = ExceptionFactory.create(error)
         if exception is ApiUnknownException {
+            switch error {
+            case let moyaError as MoyaError:
+                handleMoyaError(moyaError)
+            case let afError as AFError:
+                handleAFError(afError)
+            case let nsError as NSError:
+                HandleNSError(nsError)
+            default:
+                handleUnknownError(error)
+            }
+        } else {
+            fatalError("This exception should be handle at \(type(of: self))")
+        }
+    }
+    
+    private func handleMoyaError(_ error: MoyaError) {
+        switch error {
+        case .statusCode(let response):
+            handleHttpError(error, response: response)
+        case .underlying(let afError, _):
+            handleAFError(afError as! AFError)
+        case .jsonMapping, .encodableMapping, .imageMapping, .objectMapping:
+            showAlertError(Localize.string("common_malformedexception"))
+        default:
             handleUnknownError(error)
-        } else if let errorMsg = exception.message {
-            showAlertError(errorMsg)
+        }
+    }
+    
+    private func handleAFError(_ error: AFError) {
+        if case .sessionTaskFailed(let err) = error,
+           let nsError = err as NSError? {
+            HandleNSError(nsError)
+        } else if case .explicitlyCancelled = error {
+            // do nothing
         } else {
             handleUnknownError(error)
         }
     }
     
-    func handleUnknownError(_ error : Error) {
-        let unknownErrorString = String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
-        guard let error = error as? MoyaError else {
-            showAlertError(unknownErrorString)
-            return
-        }
-        
-        switch error {
-        case .statusCode(let response):
-            handleHttpError(error, response: response)
-        case .underlying:
-            showAlertError("尚未连线网路")
-        case .jsonMapping, .encodableMapping, .imageMapping, .objectMapping:
-            showAlertError("格式错误")
+    private func HandleNSError(_ error: NSError) {
+        switch error.code {
+        case NSURLErrorNetworkConnectionLost,
+            NSURLErrorNotConnectedToInternet,
+            NSURLErrorCannotConnectToHost,
+            NSURLErrorCannotFindHost,
+            NSURLErrorTimedOut,
+            400 ... 599:
+            showAlertError(Localize.string("common_unknownhostexception"))
         default:
-            showAlertError(unknownErrorString)
+            handleUnknownError(error)
+            break
         }
     }
     
+    private func handleUnknownError(_ error : Error) {
+        let unknownErrorString = String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
+        showAlertError(unknownErrorString)
+    }
 
     private func handleHttpError(_ error: Error,  response: Response) {
         let viewModel = DI.resolve(PlayerViewModel.self)!

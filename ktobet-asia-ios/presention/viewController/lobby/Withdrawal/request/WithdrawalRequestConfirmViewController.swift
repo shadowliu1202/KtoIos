@@ -39,7 +39,7 @@ class WithdrawalRequestConfirmViewController: APPViewController {
         } onError: {[weak self] (error) in
             guard let self = self else { return }
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-            self.handleUnknownError(error)
+            self.handleErrors(error)
         }.disposed(by: self.disposeBag)
         
         confirmButton.rx.tap.subscribe(onNext: {[weak self] in

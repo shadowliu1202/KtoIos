@@ -21,7 +21,7 @@ class P2PViewController: AppVersionCheckViewController {
             return self.viewModel.getAllGames().asObservable()
         }).share(replay: 1)
         dataSource.catchError({ [weak self] (error) -> Observable<[P2PGame]> in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
             return Observable.just([])
         }).bind(to: tableView.rx.items) {tableView, row, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: "p2pTableVIewCell", cellType: P2PTableViewCell.self)
@@ -72,7 +72,7 @@ class P2PViewController: AppVersionCheckViewController {
                 break
             }
         } onError: {[weak self] (error) in
-            self?.handleUnknownError(error)
+            self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
 }

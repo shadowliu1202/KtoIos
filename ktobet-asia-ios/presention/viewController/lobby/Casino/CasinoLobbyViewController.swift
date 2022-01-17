@@ -29,7 +29,7 @@ class CasinoLobbyViewController: DisplayProduct {
         gamesCollectionView.delegate = gameDataSourceDelegate
         viewModel.getLobbyGames(lobby: lobby.lobby)
             .catchError({ [weak self] (error) -> Observable<[CasinoGame]> in
-                self?.handleUnknownError(error)
+                self?.handleErrors(error)
                 return Observable.just([])
             }).subscribe(onNext: { [weak self] (games) in
                 self?.reloadGameData(games)
