@@ -32,7 +32,7 @@ class OfflineMessageViewController: UIViewController {
     }
     
     private func dataBinding() {
-        viewModel.isGuest.subscribe(onSuccess: { [weak self] in
+        viewModel.isGuest().subscribe(onSuccess: { [weak self] in
             if $0 == false {
                 self?.emailInputTextHetght.constant = 0
                 self?.emailInputTextTopMargin.constant = 18
