@@ -1,7 +1,17 @@
 import UIKit
 import SharedBu
 
-extension WithdrawalAccount {
+extension BankCard {
+    func createBankCardStatus(_ index: Int) -> BankCardStatus {
+        switch index {
+        case 0:
+            return .none
+        case 1, 2:
+            return .default_
+        default:
+            return .none
+        }
+    }
     var verifyStatusColor: UIColor {
         get {
             switch self.verifyStatus {

@@ -11,7 +11,7 @@ class WithdrawalRequestConfirmViewController: APPViewController {
     
     private var viewModel = DI.resolve(WithdrawalRequestViewModel.self)!
     private var activityIndicator = UIActivityIndicatorView(style: .large)
-    var account: WithdrawalAccount!
+    var account: FiatBankCard!
     var amount: String!
     var withdrawalLimits: WithdrawalLimits!
     var withdrawalSuccess: Bool = false
@@ -56,7 +56,7 @@ class WithdrawalRequestConfirmViewController: APPViewController {
     
     private func sendWithdrawalRequest() {
         guard let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return }
-        self.viewModel.sendWithdrawalRequest(playerBankCardId: self.account.playerBankCardId, cashAmount: amount.toAccountCurrency()).subscribe { (transactionId) in
+        self.viewModel.sendWithdrawalRequest(playerBankCardId: self.account.bankCard.id_, cashAmount: amount.toAccountCurrency()).subscribe { (transactionId) in
             self.withdrawalSuccess = transactionId != ""
             self.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
         } onError: { (error) in

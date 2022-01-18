@@ -16,7 +16,7 @@ class WithdrawalRequestViewController: APPViewController {
     private var viewModel = DI.resolve(WithdrawalRequestViewModel.self)!
     private var disposeBag = DisposeBag()
     
-    var account: WithdrawalAccount!
+    var account: FiatBankCard!
     var withdrawalLimits: WithdrawalLimits!
     
     // MARK: LIFE CYCLE
@@ -40,7 +40,7 @@ class WithdrawalRequestViewController: APPViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == WithdrawalRequestConfirmViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalRequestConfirmViewController {
-                dest.account = sender as? WithdrawalAccount
+                dest.account = sender as? FiatBankCard
                 dest.amount = self.viewModel.relayWithdrawalAmount.value
                 dest.withdrawalLimits = self.withdrawalLimits
             }

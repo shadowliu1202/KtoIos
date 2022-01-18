@@ -19,7 +19,7 @@ class WithdrawalViewController: APPViewController {
     @IBOutlet private weak var showAllWithdrawalButton: UIButton!
     @IBOutlet private weak var withdrawalRecordTableView: UITableView!
     @IBOutlet private weak var constraintWithdrawalRecordTableHeight: NSLayoutConstraint!
-    private var accounts: [WithdrawalAccount]?
+    private var accounts: [FiatBankCard]?
     private var cryptoBankCards: [CryptoBankCard]?
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
     fileprivate var bandCardviewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!

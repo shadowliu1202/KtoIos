@@ -439,6 +439,38 @@ struct WithdrawalAccountBean: Codable {
         case bankID = "bankId"
         case branch, bankName, accountName, accountNumber, location, address, city, verifyStatus
     }
+    
+    class BankCardModle: BankCard {
+        private var bean: WithdrawalAccountBean!
+        private var banks: [Int : Bank]!
+        private var locale: SupportLocale!
+        var id_: String {
+            bean.playerBankCardID
+        }
+        var name: String {
+            bean.bankID == 0 ? bean.bankName : createBankName(bankName: bean.bankName, bank: banks[bean.bankID], locale: locale)
+        }
+        var status: BankCardStatus {
+            self.createBankCardStatus(bean.verifyStatus)
+        }
+        var verifyStatus: PlayerBankCardVerifyStatus {
+            PlayerBankCardVerifyStatus.Companion.init().create(status: Int32(bean.verifyStatus))
+        }
+        
+        init(_ bean: WithdrawalAccountBean, _ banks: [Int : Bank], _ locale: SupportLocale) {
+            self.bean = bean
+            self.banks = banks
+            self.locale = locale
+        }
+        
+        func createBankName(bankName: String, bank: Bank?, locale: SupportLocale) -> String {
+            bank == nil ? bankName : "(\(bank!.shortName)) \(bankName)"
+        }
+    }
+    
+    func toFiatBankCard(banks: [Int : Bank], locale: SupportLocale) -> FiatBankCard {
+        return FiatBankCard(bankCard: BankCardModle(self, banks, locale), accountName: accountName, accountNumber: accountNumber, bankId: Int32(bankID), branch: branch, city: city, location: location)
+    }
 }
 
 struct SingleWithdrawalLimitsData: Codable {
@@ -917,7 +949,7 @@ struct CryptoBankCardBean: Codable {
         let updateDate = (self.updatedDate.convertDateTime() ?? Date()).convertDateToOffsetDateTime()
         let bankCard = BankCardObject(id_: playerCryptoBankCardId,
                                       name: cryptoWalletName,
-                                      status: createBankCardStatus(index: status),
+                                      status: status,
                                       verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: verifyStatus))
         
         return CryptoBankCard(bankCard: bankCard, currency: cryptoType, walletAddress: cryptoWalletAddress, createdUser: createdUser, updatedUser: updatedUser, updatedDate: updateDate, cryptoNetwork: convertTo(cryptoNetwork: cryptoNetwork))
@@ -933,29 +965,21 @@ struct CryptoBankCardBean: Codable {
             return CryptoNetwork.erc20
         }
     }
-    
-    private func createBankCardStatus(index: Int) -> BankCardStatus {
-        switch index {
-        case 0:
-            return .none
-        case 1, 2:
-            return .default_
-        default:
-            return .none
-        }
-    }
 }
 
 class BankCardObject: BankCard {
     var id_: String
     var name: String
-    var status: BankCardStatus
+    private var _status: Int
+    var status: BankCardStatus {
+        createBankCardStatus(_status)
+    }
     var verifyStatus: PlayerBankCardVerifyStatus
     
-    init(id_: String, name: String, status: BankCardStatus, verifyStatus: PlayerBankCardVerifyStatus) {
+    init(id_: String, name: String, status: Int, verifyStatus: PlayerBankCardVerifyStatus) {
         self.id_ = id_
         self.name = name
-        self.status = status
+        self._status = status
         self.verifyStatus = verifyStatus
     }
 }

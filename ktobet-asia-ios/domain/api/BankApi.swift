@@ -182,11 +182,7 @@ class BankApi: ApiService {
     }
     
     func getWithdrawalAccount() -> Single<ResponseData<PayloadPage<WithdrawalAccountBean>>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
-                               path: "api/bank-card",
-                               method: .get,
-                               task: .requestPlain,
-                               header: httpClient.headers)
+        let target = GetAPITarget(service: self.url("api/bank-card"))
         return httpClient.request(target).map(ResponseData<PayloadPage<WithdrawalAccountBean>>.self)
     }
     

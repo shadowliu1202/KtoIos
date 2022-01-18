@@ -8,7 +8,7 @@ class WithdrawalAccountDetailViewController: APPViewController {
     fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!
     fileprivate var playerViewModel = DI.resolve(PlayerViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
-    var account: WithdrawalAccount?
+    var account: FiatBankCard?
     @IBOutlet weak var verifyStatusLabel: UILabel!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var bankNameLabel: UILabel!
@@ -32,11 +32,11 @@ class WithdrawalAccountDetailViewController: APPViewController {
             .bind(to: userNameLabel.rx.text)
             .disposed(by: disposeBag)
         userNameLabel.text = account?.accountName
-        bankNameLabel.text = account?.bankName
+        bankNameLabel.text = account?.bankCard.name
         branchNameLabel.text = account?.branch
         provinceLabel.text = account?.location
         countryLabel.text = account?.city
-        accountNumberLabel.text = account?.accountNumber.value
+        accountNumberLabel.text = account?.accountNumber
         if account?.verifyStatus == .onhold {
             submitButton.isHidden = true
         }
@@ -44,7 +44,7 @@ class WithdrawalAccountDetailViewController: APPViewController {
     
     private func dataBinding() {
         submitButton.rx.touchUpInside.bind { [weak self] (_) in
-            if let `self` = self, let id = self.account?.playerBankCardId {
+            if let `self` = self, let id = self.account?.bankCard.id_ {
                 Alert.show(Localize.string("common_confirm_delete"),
                            Localize.string("withdrawal_bank_card_deleting"),
                            confirm: { self.deleteAccount(id) },

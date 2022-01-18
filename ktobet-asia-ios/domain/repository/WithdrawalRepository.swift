@@ -9,7 +9,7 @@ protocol WithdrawalRepository {
     func getWithdrawalRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[WithdrawalRecord]>
     func cancelWithdrawal(ticketId: String) -> Completable
     func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
-    func getWithdrawalAccounts() -> Single<[WithdrawalAccount]>
+    func getWithdrawalAccounts() -> Single<[FiatBankCard]>
     func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String>
@@ -28,11 +28,15 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     private var bankApi: BankApi!
     private var imageApi: ImageApi!
     private var cpsApi: CPSApi!
+    private var bankRepository: BankRepository!
+    private var localStorageRepository: LocalStorageRepository!
     
-    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi) {
+    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi, bankRepository: BankRepository!, localStorageRepository: LocalStorageRepository) {
         self.bankApi = bankApi
         self.imageApi = imageApi
         self.cpsApi = cpsApi
+        self.bankRepository = bankRepository
+        self.localStorageRepository = localStorageRepository
     }
     
     func deleteCryptoBankCard(id: String) -> Completable {
@@ -154,16 +158,16 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         }
     }
     
-    func getWithdrawalAccounts() -> Single<[WithdrawalAccount]> {
-        return bankApi.getWithdrawalAccount().map({ (response: ResponseData<PayloadPage<WithdrawalAccountBean>>) -> [WithdrawalAccount] in
+    func getWithdrawalAccounts() -> Single<[FiatBankCard]> {
+        return Single<[FiatBankCard]>.zip(bankApi.getWithdrawalAccount(), bankRepository.getBankDictionary()) { [unowned self] (response, banks) in
             if let databeans = response.data?.payload {
-                let data: [WithdrawalAccount] = databeans.map {
-                    WithdrawalAccount(accountName: $0.accountName, accountNumber: AccountNumber(value: $0.accountNumber), address: $0.address, bankId: Int32($0.bankID), bankName: $0.bankName, branch: $0.branch, city: $0.city, location: $0.location, playerBankCardId: $0.playerBankCardID, status: 0, verifyStatus: PlayerBankCardVerifyStatus.Companion.init().create(status: Int32($0.verifyStatus)))
-                }
+                let data: [FiatBankCard] = databeans.map({ $0.toFiatBankCard(banks: banks, locale: self.localStorageRepository.getSupportLocal())
+
+                })
                 return data
             }
             return []
-        })
+        }
     }
     
     func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable {
