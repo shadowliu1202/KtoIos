@@ -23,7 +23,7 @@ class WithdrawlAccountsViewController: APPViewController {
             self.cryptoSource.accept(cryptoBankCards ?? [])
         }
     }
-    var withdrawalAccounts: [WithdrawalAccount]? {
+    var withdrawalAccounts: [FiatBankCard]? {
         didSet {
             if withdrawalAccounts == nil {
                 self.isEditMode = false
@@ -31,7 +31,7 @@ class WithdrawlAccountsViewController: APPViewController {
             self.source.accept(withdrawalAccounts ?? [])
         }
     }
-    private lazy var source = BehaviorRelay<[WithdrawalAccount]>(value: [])
+    private lazy var source = BehaviorRelay<[FiatBankCard]>(value: [])
     private lazy var cryptoSource = BehaviorRelay<[CryptoBankCard]>(value: [])
     lazy var isEditMode = false {
         didSet {
@@ -112,13 +112,13 @@ class WithdrawlAccountsViewController: APPViewController {
             return source.asObservable()
         }).share(replay: 1)
         dataSource.asObservable()
-            .catchError({ [weak self] (error) -> Observable<[WithdrawalAccount]> in
+            .catchError({ [weak self] (error) -> Observable<[FiatBankCard]> in
                 self?.handleErrors(error)
                 return Observable.just([])
             }).bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
             return tableView.dequeueReusableCell(withIdentifier: "AccountCell", cellType: AccountCell.self).configure(item, self.isEditMode)
         }.disposed(by: disposeBag)
-        tableView.rx.modelSelected(WithdrawalAccount.self).bind{ [unowned self] (data) in
+        tableView.rx.modelSelected(FiatBankCard.self).bind{ [unowned self] (data) in
             if self.isEditMode {
                 self.switchToAccountDetail(data)
             } else {
@@ -157,7 +157,7 @@ class WithdrawlAccountsViewController: APPViewController {
         }
     }
     
-    private func switchToAccountDetail(_ account: WithdrawalAccount) {
+    private func switchToAccountDetail(_ account: FiatBankCard) {
         self.performSegue(withIdentifier: WithdrawalAccountDetailViewController.segueIdentifier, sender: account)
     }
     
@@ -187,13 +187,13 @@ extension WithdrawlAccountsViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == WithdrawalAccountDetailViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalAccountDetailViewController {
-                dest.account = sender as? WithdrawalAccount
+                dest.account = sender as? FiatBankCard
             }
         }
         
         if segue.identifier == WithdrawalRequestViewController.segueIdentifier {
             if let dest = segue.destination as? WithdrawalRequestViewController {
-                dest.account = sender as? WithdrawalAccount
+                dest.account = sender as? FiatBankCard
             }
         }
         
@@ -261,10 +261,10 @@ class AccountCell: UITableViewCell {
         disposeBag = DisposeBag()
     }
     
-    func configure(_ item: WithdrawalAccount, _ isEditMode: Bool) -> Self {
+    func configure(_ item: FiatBankCard, _ isEditMode: Bool) -> Self {
         self.selectionStyle = .none
-        self.bankNameLabel.text = item.bankName
-        self.bankNumLabel.text = item.accountNumber.value
+        self.bankNameLabel.text = item.bankCard.name
+        self.bankNumLabel.text = item.accountNumber
         self.verifyLabel.textColor = item.verifyStatusColor
         self.verifyLabel.text = item.verifyStatusLocalize
         self.imgView.isHidden = isEditMode

@@ -27,7 +27,7 @@ class WithdrawalViewModel {
         })
     }
     
-    func withdrawalAccounts() -> Single<[WithdrawalAccount]> {
+    func withdrawalAccounts() -> Single<[FiatBankCard]> {
         return self.withdrawalUseCase.getWithdrawalAccounts()
     }
     

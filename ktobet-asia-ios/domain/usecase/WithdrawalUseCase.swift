@@ -9,7 +9,7 @@ protocol WithdrawalUseCase {
     func getWithdrawalRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[WithdrawalRecord]>
     func cancelWithdrawal(ticketId: String) -> Completable
     func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
-    func getWithdrawalAccounts() -> Single<[WithdrawalAccount]>
+    func getWithdrawalAccounts() -> Single<[FiatBankCard]>
     func addWithdrawalAccount(_ newWithdrawalAccount: NewWithdrawalAccount) -> Completable
     func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String>
@@ -65,7 +65,7 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
         return withdrawalRepository.bindingImageWithWithdrawalRecord(displayId: displayId, transactionId: transactionId, portalImages: portalImages)
     }
     
-    func getWithdrawalAccounts() -> Single<[WithdrawalAccount]> {
+    func getWithdrawalAccounts() -> Single<[FiatBankCard]> {
         return withdrawalRepository.getWithdrawalAccounts()
     }
     

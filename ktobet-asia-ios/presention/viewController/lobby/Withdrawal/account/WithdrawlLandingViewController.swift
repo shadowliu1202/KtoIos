@@ -33,7 +33,7 @@ class WithdrawlLandingViewController: APPViewController {
             return cryptoBankCards.count
         }
     }
-    lazy var accounts: [WithdrawalAccount] = []
+    lazy var accounts: [FiatBankCard] = []
     lazy var cryptoBankCards: [CryptoBankCard] = []
     lazy var bankCardType: BankCardType = .general
     

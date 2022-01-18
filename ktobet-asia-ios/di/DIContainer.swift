@@ -133,15 +133,17 @@ class DIContainer {
             let imageApi = ctner.resolve(ImageApi.self)!
             return ImageRepositoryImpl(imageApi)
         }
+        ctner.register(BankRepository.self) { resolver in
+            let bankApi = ctner.resolve(BankApi.self)!
+            return BankRepositoryImpl(bankApi)
+        }
         ctner.register(WithdrawalRepository.self) { resolver in
             let bankApi = ctner.resolve(BankApi.self)!
             let imageApi = ctner.resolve(ImageApi.self)!
             let cpsApi = ctner.resolve(CPSApi.self)!
-            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi)
-        }
-        ctner.register(BankRepository.self) { resolver in
-            let bankApi = ctner.resolve(BankApi.self)!
-            return BankRepositoryImpl(bankApi)
+            let repoBank = ctner.resolve(BankRepository.self)!
+            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi, bankRepository: repoBank, localStorageRepository: repoLocalStorage)
         }
         ctner.register(CasinoRecordRepository.self) { resolver in
             let casinoApi = ctner.resolve(CasinoApi.self)!
