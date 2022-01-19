@@ -89,19 +89,15 @@ extension UIViewController{
         case 403:
             showRestrictView()
         case 410:
-            _ = viewModel.checkIsLogged()
-                .subscribeOn(MainScheduler.instance)
-                .subscribe(onSuccess: {[weak self] isLogged in
-                    if isLogged {
-                        viewModel.logout()
-                            .subscribeOn(MainScheduler.instance)
-                            .subscribe(onCompleted: {
-                                self?.showLoginMaintenanAlert()
-                            }).disposed(by: disposeBag)
-                    } else {
-                        self?.showUnLoginMaintenanAlert()
-                    }
-                })
+            if UIApplication.topViewController() is LandingViewController {
+                showUnLoginMaintenanAlert()
+            } else {
+                viewModel.logout()
+                    .subscribeOn(MainScheduler.instance)
+                    .subscribe(onCompleted: {[weak self] in
+                        self?.showLoginMaintenanAlert()
+                    }).disposed(by: disposeBag)
+            }
         case 404:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         default:
