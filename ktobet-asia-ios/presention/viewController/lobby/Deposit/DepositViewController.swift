@@ -2,6 +2,7 @@ import UIKit
 import SwiftUI
 import RxSwift
 import SharedBu
+import Moya
 
 class DepositViewController: APPViewController {
     @IBOutlet private weak var depositDescriptionLabel: UILabel!
@@ -20,6 +21,12 @@ class DepositViewController: APPViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        let response = HTTPURLResponse.init(url: URL(string: "www.ggg.gg")!, statusCode: 410, httpVersion: nil, headerFields: nil)
+//        let error = MoyaError.statusCode(Response.init(statusCode: 410, data: "nil".data(using: .utf8)!, request: nil, response: response))
+//        let oo = error.isMaintenance()
+//        self.handleErrors(error)
+        
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_deposit"))
         initUI()
         depositTypeDataBinding()

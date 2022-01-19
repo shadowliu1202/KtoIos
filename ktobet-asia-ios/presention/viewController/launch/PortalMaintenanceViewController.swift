@@ -18,8 +18,6 @@ class PortalMaintenanceViewController: APPViewController {
         super.viewDidLoad()
         viewModel.output.customerServiceEmail.subscribe {[weak self] email in
             self?.csEmailButton.setTitle(Localize.string("common_cs_email", email), for: .normal)
-        } onError: {[weak self] error in
-            self?.handleErrors(error)
         }.disposed(by: disposeBag)
 
         viewModel.output.portalMaintenanceStatus.drive {[weak self] status in

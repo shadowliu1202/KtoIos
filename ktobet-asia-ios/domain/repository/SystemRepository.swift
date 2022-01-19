@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 import SharedBu
-
+import Moya
 
 protocol SystemRepository {
     func getPortalMaintenance() -> Single<OtpStatus>
@@ -76,7 +76,7 @@ class SystemRepositoryImpl : SystemRepository{
     
     private func getMaintenanceTimeFromCookies() -> Int {
         let str = (HttpClient().getCookies().first(where: { $0.name == maintenanceTimeCookieName })?.value) ?? "0"
-        return Int(str)!
+        return Int(Double(str) ?? 0)
     }
     
     private func maintainCsEmail() -> String {
@@ -87,7 +87,15 @@ class SystemRepositoryImpl : SystemRepository{
 
 extension Error {
     func isMaintenance() -> Bool {
-        guard let code = (self as NSError).userInfo["statusCode"] as? String else { return false }
-        return code == "401"
+        if let error = (self as? MoyaError) {
+            switch error {
+            case .statusCode(let response):
+                return response.statusCode == 410
+            default:
+                return false
+            }
+        }
+
+        return false
     }
 }
