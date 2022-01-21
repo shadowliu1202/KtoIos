@@ -259,12 +259,22 @@ class LoginViewController: LandingViewController {
         textAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
     }
     
-    // MARK: API
     private func getCaptcha() {
         viewModel
             .getCaptchaImage()
             .subscribe(onSuccess: { image in })
             .disposed(by: disposeBag)
+    }
+    
+    private func toNextPage(_ defaultProduct: ProductType?) {
+        serviceStatusViewModel.input.playerDefaultProduct.onNext(defaultProduct ?? .none)
+        serviceStatusViewModel.output.toNextPage
+            .subscribeOn(MainScheduler.instance)
+            .subscribe { [weak self] in
+                self?.btnLogin.isValid = true
+            } onError: { [weak self] error in
+                self?.handleErrors(error)
+            }.disposed(by: disposeBag)
     }
     
     // MARK: BUTTON ACTION
@@ -283,19 +293,14 @@ class LoginViewController: LandingViewController {
     }
     
     @IBAction func btnLoginPressed(_ sender: UIButton) {
-        let playerDefaultProduct = viewModel.loginFrom(isRememberMe: btnRememberMe.isSelected)
+        viewModel.loginFrom(isRememberMe: btnRememberMe.isSelected)
             .do(onSubscribe: { [weak self] in self?.btnLogin.isValid = false })
-            .map { $0.defaultProduct ?? ProductType.none }
-            .asObservable()
-        
-        playerDefaultProduct.bind(to: serviceStatusViewModel.input.playerDefaultProduct).disposed(by: disposeBag)
-        serviceStatusViewModel.output.toNextPage
-            .subscribeOn(MainScheduler.instance)
-            .subscribe {[weak self] in
+            .subscribe(onSuccess: { [weak self] player in
+                self?.toNextPage(player.defaultProduct)
+            }, onError: { [weak self] error in
                 self?.btnLogin.isValid = true
-            } onError: {[weak self] error in
-                self?.handleErrors(error)
-            }.disposed(by: disposeBag)
+                self?.handleError(error: error)
+            }).disposed(by: disposeBag)
     }
     
     @IBAction func btnResetPasswordPressed(_ sender: UIButton) {
