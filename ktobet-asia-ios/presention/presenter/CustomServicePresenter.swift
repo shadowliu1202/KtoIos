@@ -51,8 +51,8 @@ class CustomServicePresenter: NSObject {
     weak var delegate: CustomServiceDelegate?
     let storyboard = UIStoryboard(name: "CustomService", bundle: nil)
     
-    fileprivate let csViewModel = DI.resolve(CustomerServiceViewModel.self)!
-    fileprivate let surveyViewModel = DI.resolve(SurveyViewModel.self)!
+    fileprivate var csViewModel = DI.resolve(CustomerServiceViewModel.self)!
+    fileprivate var surveyViewModel = DI.resolve(SurveyViewModel.self)!
 
     private(set)var ballWindow: CustomerServiceIconViewWindow?
     
@@ -270,9 +270,15 @@ class CustomServicePresenter: NSObject {
         self.topViewController?.navigationController?.setViewControllers([exitSurveyVC], animated: false)
     }
     
+    private func cleanViewModel() {
+        csViewModel = DI.resolve(CustomerServiceViewModel.self)!
+        surveyViewModel = DI.resolve(SurveyViewModel.self)!
+    }
+    
     func closeChatRoom() {
         csViewModel.closeChatRoom()
-            .subscribe(onCompleted: {
+            .subscribe(onCompleted: {[weak self] in
+                self?.cleanViewModel()
                 print("close room")
             }).disposed(by: disposeBag)
     }
