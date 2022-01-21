@@ -139,7 +139,7 @@ class CustomServiceApi: ApiService{
     }
     
     func deleteChatHistory(deleteCsRecords: DeleteCsRecords) -> Completable {
-        let target = PutAPITarget(service: self.url("api/player-chat-history/records"), parameters: deleteCsRecords)
+        let target = PutAPITarget(service: self.url("api/room/records"), parameters: deleteCsRecords)
         return httpClient.request(target).asCompletable()
     }
     
