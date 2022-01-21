@@ -157,7 +157,11 @@ class CustomServicePresenter: NSObject {
                 return Single.error(ServiceUnavailableException())
             }
         }).do(onSuccess: { (info: Survey) in
-            CustomService.switchToPrechat(from: vc, vm: surveyViewModel, csViewModel: csViewModel)
+            if info.surveyQuestions.isEmpty {
+                CustomService.switchToCalling(isRoot: true, svViewModel: surveyViewModel)
+            } else {
+                CustomService.switchToPrechat(from: vc, vm: surveyViewModel, csViewModel: csViewModel)
+            }
         }).asCompletable()
             .catchError({ (error) in
                 switch error {
