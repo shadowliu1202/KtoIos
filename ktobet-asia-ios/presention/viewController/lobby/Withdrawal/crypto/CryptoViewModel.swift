@@ -15,8 +15,4 @@ class CryptoViewModel {
         self.depositUseCase = depositUseCase
     }
     
-    func getCryptoBankCards() -> Single<[CryptoBankCard]> {
-        return withdrawalUseCase.getCryptoBankCards()
-    }
-    
 }

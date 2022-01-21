@@ -28,8 +28,7 @@ class WithdrawalCryptoRequestConfirmViewController: APPViewController {
     private var requestFlatAmount: AccountCurrency {
         viewModel.fiatDecimalToAccountCurrency(request.fiatAmount)
     }
-    private var viewModel = DI.resolve(WithdrawalCryptoRequestViewModel.self)!
-    private var cpsViewModel = DI.resolve(CryptoViewModel.self)!
+    var viewModel: WithdrawalCryptoRequestViewModel!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -59,9 +58,11 @@ class WithdrawalCryptoRequestConfirmViewController: APPViewController {
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
-        cpsViewModel.getCryptoBankCards().subscribe(onSuccess: { [weak self] (banks) in
-            if let bank = banks.first {
+        viewModel.getCryptoRequestBankCard(bankCardId: self.request.cardId).subscribe(onSuccess: { [weak self] (bank) in
+            if let bank = bank {
                 self?.cryptoAddressLabel.text = "\(bank.cryptoNetwork.name) - \(bank.walletAddress)"
+            } else {
+                self?.cryptoAddressLabel.text = ""
             }
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)
