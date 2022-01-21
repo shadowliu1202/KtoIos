@@ -75,7 +75,6 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = indexPath.section
         let row = indexPath.row
-        let option: SurveyQuestion_.SurveyQuestionOption = dataSource[section].surveyQuestionOptions[row]
         let surveyQuestionType: SurveyQuestion_.SurveyQuestionType = dataSource[section].surveyQuestionType
         var cell: UITableViewCell
         switch surveyQuestionType {
@@ -85,6 +84,7 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
             }
             drawDivider(cell)
         case .multipleoption:
+            let option: SurveyQuestion_.SurveyQuestionOption = dataSource[section].surveyQuestionOptions[row]
             cell = tableView.dequeueReusableCell(withIdentifier: "MultipleOptionCell", cellType: MultipleOptionCell.self).configure(option, rowIsSelected(option: option, indexPath: indexPath))
             drawDivider(cell)
         case .textfield:
