@@ -223,6 +223,7 @@ class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChange
             if let dest = segue.destination as? WithdrawalCryptoRequestConfirmViewController {
                 dest.source = sender as? RequestConfirm
                 dest.delegate = self
+                dest.viewModel = self.viewModel
             }
         }
     }

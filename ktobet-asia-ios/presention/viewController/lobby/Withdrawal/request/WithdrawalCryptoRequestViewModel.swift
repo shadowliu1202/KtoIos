@@ -100,4 +100,8 @@ class WithdrawalCryptoRequestViewModel {
     func cryptoDecimalToCryptoCurrency(_ type: SupportCryptoType, _ de: Decimal) -> CryptoCurrency {
         CryptoFactory.init().create(supportCryptoType: type, amount_: "\(de)")
     }
+    
+    func getCryptoRequestBankCard(bankCardId: String) -> Single<CryptoBankCard?> {
+        return withdrawalUseCase.getCryptoBankCards().map({$0.first(where: {$0.id_ == bankCardId})})
+    }
 }
