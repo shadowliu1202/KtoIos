@@ -21,7 +21,7 @@ class CustomerServiceHistoryEditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close)
         initUI()
         dataBinding()
     }
