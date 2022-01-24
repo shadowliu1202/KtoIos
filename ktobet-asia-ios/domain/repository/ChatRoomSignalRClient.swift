@@ -169,7 +169,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
             self?.onMessage?(PortalChatRoom.ChatActionMessage.init(message: ChatMapper.mapTo(speakingAsyncBean: bean)))
         })
 
-        self.socketConnect?.on(method: Target.StopRoomAsync.rawValue, callback: {[weak self] (id: String, message: String, date: String) in
+        self.socketConnect?.on(method: Target.StopRoomAsync.rawValue, callback: {[weak self] (id: String) in
             self?.onMessage?(PortalChatRoom.ChatActionClose.init())
         })
     }

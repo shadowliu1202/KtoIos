@@ -405,13 +405,19 @@ class MixTableViewCell: UITableViewCell {
     func setHyperLinker(text: String) {
         let linkTextView = UITextView()
         linkTextView.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        let urlStr = text.replacingOccurrences(of: "https://", with: "")
+        
+        var urlComponents = URLComponents(string: text)!
+        if urlComponents.scheme == nil { urlComponents.scheme = "https" }
+        let urlStr = urlComponents.url!.absoluteString
+
         let attributedString = NSMutableAttributedString(string: urlStr)
         let url = URL(string: urlStr)!
         let urlRange = urlStr.startIndex..<urlStr.endIndex
         let convertedRange = NSRange(urlRange, in: urlStr)
         
         attributedString.setAttributes([.link: url], range: convertedRange)
+        linkTextView.isEditable = false
+        linkTextView.dataDetectorTypes = .all
         linkTextView.attributedText = attributedString
         linkTextView.font = UIFont(name: "PingFangSC-Regular", size: 14.0)!
         linkTextView.backgroundColor = .clear
