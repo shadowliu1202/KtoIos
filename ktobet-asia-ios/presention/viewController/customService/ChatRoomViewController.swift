@@ -371,6 +371,20 @@ class MixTableViewCell: UITableViewCell {
             updateText(label: label, attributes: attributes)
         }
         
+        let text = label.text ?? ""
+        if text.starts(with: "www") || text.starts(with: "http") {
+            var linkAttribute: [NSAttributedString.Key: Any] = [:]
+            linkAttribute[NSAttributedString.Key.foregroundColor] = UIColor.red
+            linkAttribute[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.single.rawValue
+
+            let underlineAttributedString = NSAttributedString(string: label.text ?? "", attributes: linkAttribute)
+            label.attributedText = underlineAttributedString
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapFunction))
+            label.isUserInteractionEnabled = true
+            label.addGestureRecognizer(tap)
+        }
+        
         stackView.addArrangedSubview(label)
         label.sizeToFit()
         maxChatDialogWidth = maxChatDialogWidth > label.frame.width + 40 ? maxChatDialogWidth : label.frame.width + 40
@@ -436,7 +450,6 @@ class MixTableViewCell: UITableViewCell {
         let italic = attributes.italic?.boolValue ?? false
         let underline = attributes.underline?.boolValue ?? false
         
-        var underlineAttribute: [NSAttributedString.Key: Any] = [:]
         
         if italic {
             label.font = UIFont.italicSystemFont(ofSize: 14)
@@ -447,9 +460,21 @@ class MixTableViewCell: UITableViewCell {
         }
         
         if underline {
+            var underlineAttribute: [NSAttributedString.Key: Any] = [:]
             underlineAttribute[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.thick.rawValue
             let underlineAttributedString = NSAttributedString(string: label.text ?? "", attributes: underlineAttribute)
             label.attributedText = underlineAttributedString
         }
+    }
+    
+    @objc func tapFunction(sender: UITapGestureRecognizer) {
+        guard let label = sender.view as? UILabel,
+              let text = label.text else { return }
+        
+        var urlComponents = URLComponents(string: text)!
+        if urlComponents.scheme == nil { urlComponents.scheme = "https" }
+        let urlStr = urlComponents.url!.absoluteString
+        
+        UIApplication.shared.open(URL(string: urlStr)!)
     }
 }
