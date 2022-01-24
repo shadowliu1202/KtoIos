@@ -24,17 +24,29 @@ extension CurrencyUnit: CryptoUIResource {
 }
 
 extension CryptoCurrency {
+    var cryptoType: SupportCryptoType {
+        return SupportCryptoType.valueOf(self.simpleName)
+    }
     @objc override var flagIcon: UIImage? {
-        return UIImage(named: "IconCryptoTypeETH")
+        switch cryptoType {
+        case .eth:
+            return UIImage(named: "IconCryptoType_ETH")
+        case .usdt:
+            return UIImage(named: "IconCryptoType_USDT")
+        case .usdc:
+            return UIImage(named: "IconCryptoType_USDC")
+        default:
+            return UIImage(named: "IconCryptoType_ETH")
+        }
     }
     @objc override var currencyId: Int {
-        return 1001
+        return cryptoType.currencyId
     }
 }
 
 extension AccountCurrency {
     @objc override var flagIcon: UIImage? {
-        return UIImage(named: "IconCryptoTypeCNY")
+        return UIImage(named: "IconCryptoType_CNY")
     }
 }
 
@@ -52,7 +64,16 @@ extension SupportCryptoType: CryptoUIResource {
         }
     }
     var icon: UIImage? {
-        return UIImage(named: "IconCrypto")
+        switch self {
+        case .eth:
+            return UIImage(named: "IconCryptoMain_ETH")
+        case .usdt:
+            return UIImage(named: "IconCryptoMain_USDT")
+        case .usdc:
+            return UIImage(named: "IconCryptoMain_USDC")
+        default:
+            return UIImage(named: "IconCryptoMain_ETH")
+        }
     }
     var flagIcon: UIImage? {
         return nil
