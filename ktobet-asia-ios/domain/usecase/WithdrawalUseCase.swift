@@ -22,6 +22,7 @@ protocol WithdrawalUseCase {
     func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType) -> Single<IExchangeRate>
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable
     func deleteCryptoBankCard(id: String) -> Completable
+    func getWithdrawalSystem() -> Single<WithdrawalSystem>
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
@@ -107,5 +108,9 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable {
         return withdrawalRepository.requestCryptoWithdrawal(playerCryptoBankCardId: playerCryptoBankCardId, requestCryptoAmount: requestCryptoAmount, requestFiatAmount: requestFiatAmount, cryptoCurrency: cryptoCurrency)
+    }
+    
+    func getWithdrawalSystem() -> Single<WithdrawalSystem> {
+        return withdrawalRepository.getPlayerWithdrawalSystem()
     }
 }

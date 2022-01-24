@@ -28,7 +28,7 @@ class AddCryptoAccountViewController: APPViewController {
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         accountAddressTextField.rx.observe(UIColor.self, "backgroundColor").bind(to: accountAddressView.rx.backgroundColor).disposed(by: disposeBag)
         
-        cryptoViewModel.supportCryptoType.subscribe(onSuccess: { [unowned self] in
+        cryptoViewModel.supportCryptoTypes.subscribe(onSuccess: { [unowned self] in
             let supportCrypto = $0.map({$0.name})
             self.cryptoTypeDropDown.optionArray = supportCrypto
             self.cryptoTypeDropDown.setTitle(Localize.string("cps_crypto_currency"))

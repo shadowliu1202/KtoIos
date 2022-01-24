@@ -22,6 +22,7 @@ protocol WithdrawalRepository {
     func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType, _ supportLocale: SupportLocale) -> Single<IExchangeRate>
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable
     func deleteCryptoBankCard(id: String) -> Completable
+    func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem>
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
@@ -30,6 +31,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     private var cpsApi: CPSApi!
     private var bankRepository: BankRepository!
     private var localStorageRepository: LocalStorageRepository!
+    private let withdrawalSystem = WithdrawalSystem.create()
     
     init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi, bankRepository: BankRepository!, localStorageRepository: LocalStorageRepository) {
         self.bankApi = bankApi
@@ -231,5 +233,9 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
                 throw KtoRequestCryptoRateChange.init()
             }
         })
+    }
+    
+    func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem> {
+        return Single.just(withdrawalSystem)
     }
 }
