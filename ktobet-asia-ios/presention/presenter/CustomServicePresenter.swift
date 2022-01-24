@@ -270,15 +270,14 @@ class CustomServicePresenter: NSObject {
         self.topViewController?.navigationController?.setViewControllers([exitSurveyVC], animated: false)
     }
     
-    private func cleanViewModel() {
-        csViewModel = DI.resolve(CustomerServiceViewModel.self)!
-        surveyViewModel = DI.resolve(SurveyViewModel.self)!
+    private func cleanSurveyAnswers() {
+        csViewModel.setupSurveyAnswer(answers: nil)
     }
     
     func closeChatRoom() {
         csViewModel.closeChatRoom()
             .subscribe(onCompleted: {[weak self] in
-                self?.cleanViewModel()
+                self?.cleanSurveyAnswers()
                 print("close room")
             }).disposed(by: disposeBag)
     }

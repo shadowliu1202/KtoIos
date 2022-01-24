@@ -267,7 +267,8 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
     }
     
     func closeChatRoom(roomId: String) -> Completable {
-        apiCustomService.closeChatRoom(roomId: roomId).do(onCompleted: {[weak self] in self?.portalChatRoom = nil })
+        chatRoomSubject.onNext(CustomServiceRepositoryImpl.PortalChatRoomNoExist)
+        return apiCustomService.closeChatRoom(roomId: roomId).do(onCompleted: {[weak self] in self?.portalChatRoom = nil })
     }
     
     func send(_ message: String, roomId: String) -> Completable {

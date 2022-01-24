@@ -17,6 +17,7 @@ class LaunchViewController: LandingViewController {
                 case is MaintenanceStatus.AllPortal:
                     self?.setPortalMaintenance()
                 case is MaintenanceStatus.Product:
+                    self?.observeCustomerService()
                     if isLogged {
                         self?.nextPage()
                     } else {
@@ -50,7 +51,6 @@ class LaunchViewController: LandingViewController {
     }
     
     private func nextPage() {
-        observeCustomerService()
         let playerDefaultProduct = viewModel.loadPlayerInfo().compactMap{ $0.defaultProduct }.asObservable()
         playerDefaultProduct.bind(to: serviceViewModel.input.playerDefaultProduct).disposed(by: disposeBag)
         serviceViewModel.output.toNextPage.subscribe(onError: {[weak self] error in self?.handleErrors(error) }).disposed(by: disposeBag)

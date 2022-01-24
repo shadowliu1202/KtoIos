@@ -44,26 +44,31 @@ class CustomerServiceIconViewWindow: UIWindow {
     }
     
     @objc func dragga(pan: UIPanGestureRecognizer) {
-        let translation = pan.translation(in: UIWindow.key)
-        let originalCenter = center
-        
         let width = self.frame.size.width / 2
         let height = self.frame.size.height / 2
+        let window = UIApplication.shared.windows[0]
+        let safeFrame = window.safeAreaLayoutGuide.layoutFrame
+        let location = pan.location(in: window)
+        let draggedView = pan.view
+        draggedView?.center = location
         
-        let parentWidth = UIScreen.main.bounds.size.width
-        let parentHeight = UIScreen.main.bounds.size.height
-        
-        var x: CGFloat = originalCenter.x + translation.x
-        var y: CGFloat = originalCenter.y + translation.y
-        
-        x = max(width, x)
-        x = min(x, parentWidth - width)
-        
-        y = max(height, y)
-        y = min(y, parentHeight - height)
-        
-        center = CGPoint(x: x, y: y)
-        pan.setTranslation(CGPoint.zero, in: UIWindow.key)
+        if pan.state == .ended {
+            if self.frame.midX >= safeFrame.maxX - width {
+                self.center.x = safeFrame.maxX - width
+            }
+            
+            if self.frame.midX <= safeFrame.minX + width {
+                self.center.x = safeFrame.minX + width
+            }
+            
+            if self.frame.midY >= safeFrame.maxY - height {
+                self.center.y = safeFrame.maxY - height
+            }
+            
+            if self.frame.midY <= safeFrame.minY + height {
+                self.center.y = safeFrame.minY + height
+            }
+        }
     }
     
     @objc func tap(gesture: UITapGestureRecognizer) {
