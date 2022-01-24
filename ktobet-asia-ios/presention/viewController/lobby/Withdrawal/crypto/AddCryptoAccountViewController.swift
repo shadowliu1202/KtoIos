@@ -52,7 +52,7 @@ class AddCryptoAccountViewController: APPViewController {
         (accountNameTextField.text <-> viewModel.accountName).disposed(by: disposeBag)
         (accountAddressTextField.text <-> viewModel.accountAddress).disposed(by: disposeBag)
                 
-        viewModel.accountName.accept(Localize.string("cps_eth_default_bank_card_name") + "\(bankCardCount + 1)")
+        viewModel.accountName.accept(Localize.string("cps_default_bank_card_name") + "\(bankCardCount + 1)")
         
         let event = viewModel.event()
         event.accountNameValid.subscribe { [weak self] (isValid) in
