@@ -2934,7 +2934,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1EP-vJ-YR7" userLabel="CryptoView" customClass="CryptoView" customModule="ktobet_asia_ios" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="0.0" width="354" height="56"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconCryptoTypeETH" translatesAutoresizingMaskIntoConstraints="NO" id="pms-Vs-goj">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconCryptoType_ETH" translatesAutoresizingMaskIntoConstraints="NO" id="pms-Vs-goj">
                                                                         <rect key="frame" x="16" y="16" width="24" height="24"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="24" id="8Ow-SO-s8m"/>
@@ -2984,7 +2984,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KbK-ry-W4K" userLabel="FiatView" customClass="FiatView" customModule="ktobet_asia_ios" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="56.5" width="354" height="55.5"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconCryptoTypeCNY" translatesAutoresizingMaskIntoConstraints="NO" id="KFb-aR-7Nj">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconCryptoType_CNY" translatesAutoresizingMaskIntoConstraints="NO" id="KFb-aR-7Nj">
                                                                         <rect key="frame" x="16" y="15.5" width="24" height="24"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="24" id="Ggh-Op-1AB"/>
@@ -4036,8 +4036,8 @@
         <image name="Chevron Right(24)" width="24" height="24"/>
         <image name="Default(32)" width="32" height="32"/>
         <image name="IconCrypto" width="24" height="24"/>
-        <image name="IconCryptoTypeCNY" width="24" height="24"/>
-        <image name="IconCryptoTypeETH" width="24" height="24"/>
+        <image name="IconCryptoType_CNY" width="24" height="24"/>
+        <image name="IconCryptoType_ETH" width="24" height="24"/>
         <image name="IconPayCrypto" width="32" height="32"/>
         <image name="IconPayWithdrawal" width="32" height="32"/>
         <image name="QRcode" width="24" height="24"/>

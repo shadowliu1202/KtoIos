@@ -130,7 +130,7 @@ class TicketDetailCell: UITableViewCell {
         dateLabel.text = item.approvedDate.toDateTimeString()
         idLabel.text = item.displayId
         fiatAmountLabel.text = (isPositive ? "+" : "-") + item.flatAmount.denomination()
-        cryptoAmountLabel.text =  item.cryptoAmount.description() + " ETH"
+        cryptoAmountLabel.text =  item.cryptoAmount.description() + " \(item.cryptoAmount.simpleName)"
         
         return self
     }
