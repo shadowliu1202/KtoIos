@@ -8,7 +8,8 @@ class CryptoViewModel {
     private var withdrawalUseCase: WithdrawalUseCase!
     private var depositUseCase: DepositUseCase!
     private lazy var depositSystem = depositUseCase.getDepositSystem()
-    lazy var supportCryptoType = depositSystem.map({$0.supportCryptos()})
+    private lazy var withdrawalSystem = withdrawalUseCase.getWithdrawalSystem()
+    lazy var supportCryptoTypes = withdrawalSystem.map({$0.supportCryptos()})
     
     init(withdrawalUseCase: WithdrawalUseCase, depositUseCase: DepositUseCase) {
         self.withdrawalUseCase = withdrawalUseCase
