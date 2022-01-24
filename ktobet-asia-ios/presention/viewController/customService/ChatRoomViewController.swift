@@ -96,16 +96,19 @@ class ChatRoomViewController: UIViewController {
             .observeOn(MainScheduler.asyncInstance)
             .share(replay: 1)
         
+        var firstLoad = true
         viewModel.chatRoomUnreadMessage
             .flatMapLatest { [unowned self] unreadMessages in
                 return self.tableView.rx_reachedBottom.map { unreadMessages }
             }
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] unreadMessages in
-                if unreadMessages.count != 0 {
+                if unreadMessages.count != 0 && !firstLoad {
                     guard let self = self else { return }
                     self.viewModel.markAllRead().subscribe(onCompleted: { }).disposed(by: self.disposeBag)
                 }
+                
+                firstLoad = false
             }).disposed(by: disposeBag)
         
         var dividerIndex = 0
@@ -121,41 +124,49 @@ class ChatRoomViewController: UIViewController {
                 }
             })
             .do(onNext: { [weak self] data in self?.dataCount = data.count })
-            .bind(to: tableView.rx.items) { [weak self] tableView, row, element in
-                guard let self = self, let message = element as? ChatMessage.Message else { return UITableViewCell() }
-                var cell: UITableViewCell!
-                
-                switch message.speaker {
-                case is PortalChatRoom.SpeakerPlayer:
-                    cell = self.setHandlerCell(message: message, identifier: "MixPlayerTableViewCell")
-                case is PortalChatRoom.SpeakerHandler:
-                    cell = self.setHandlerCell(message: message, identifier: "MixHandlerTableViewCell")
-                case is PortalChatRoom.SpeakerSystem:
-                    if self.dataCount - 1 == row && self.dataCount > 1 {
-                        cell = tableView.dequeueReusableCell(withIdentifier: "\(CloseSystemDialogTableViewCell.self)") as! CloseSystemDialogTableViewCell
-                        let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
-                        var str = message
-                        str.insert(contentsOf: "\n", at: str.index(str.firstIndex(where: { $0 == "。" })!, offsetBy: 1))
-                        (cell as! CloseSystemDialogTableViewCell).messageLabel.text = str
-                    } else {
-                        cell = tableView.dequeueReusableCell(withIdentifier: "\(SystemDialogTableViewCell.self)") as! SystemDialogTableViewCell
-                        (cell as! SystemDialogTableViewCell).dateLabel.text = message.createTimeTick.toDateFormatString()
-                        let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
-                        var str = message
-                        str = str.replacingLastOccurrenceOfString("\n", with: "")
-                        (cell as! SystemDialogTableViewCell).messageLabel.text = str
+                .bind(to: tableView.rx.items) { [weak self] tableView, row, element in
+                    guard let self = self else { return UITableViewCell() }
+                    var cell: UITableViewCell!
+                    
+                    switch element {
+                    case let message as ChatMessage.Message:
+                        
+                        switch message.speaker {
+                        case is PortalChatRoom.SpeakerPlayer:
+                            cell = self.setHandlerCell(message: message, identifier: "MixPlayerTableViewCell")
+                        case is PortalChatRoom.SpeakerHandler:
+                            cell = self.setHandlerCell(message: message, identifier: "MixHandlerTableViewCell")
+                        case is PortalChatRoom.SpeakerSystem:
+                            if self.dataCount - 1 == row && self.dataCount > 1 {
+                                cell = tableView.dequeueReusableCell(withIdentifier: "\(CloseSystemDialogTableViewCell.self)") as! CloseSystemDialogTableViewCell
+                                let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
+                                var str = message
+                                str.insert(contentsOf: "\n", at: str.index(str.firstIndex(where: { $0 == "。" })!, offsetBy: 1))
+                                (cell as! CloseSystemDialogTableViewCell).messageLabel.text = str
+                            } else {
+                                cell = tableView.dequeueReusableCell(withIdentifier: "\(SystemDialogTableViewCell.self)") as! SystemDialogTableViewCell
+                                (cell as! SystemDialogTableViewCell).dateLabel.text = message.createTimeTick.toDateFormatString()
+                                let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
+                                var str = message
+                                str = str.replacingLastOccurrenceOfString("\n", with: "")
+                                (cell as! SystemDialogTableViewCell).messageLabel.text = str
+                            }
+                        default:
+                            break
+                        }
+                        
+                    default:
+                        cell = tableView.dequeueReusableCell(withIdentifier: unreadTableViewCell.identifer) as! unreadTableViewCell
+                        break
                     }
-                default:
-                    break
-                }
-                
-                return cell
-            }.disposed(by: disposeBag)
+                    
+                    return cell
+                }.disposed(by: disposeBag)
         
         messagesOb.subscribe(onNext: { [weak self] (read, unread) in
             DispatchQueue.main.async {
                 if dividerIndex > 0 {
-                    self?.tableView.scrollToRow(at: IndexPath(row: dividerIndex, section: 0), at: .none, animated: false)
+                    self?.tableView.scrollToRow(at: IndexPath(row: dividerIndex - 1, section: 0), at: .top, animated: false)
                 }
             }
         }).disposed(by: disposeBag)
