@@ -52,6 +52,9 @@ class ResetPasswordViewModel {
     var code5 = BehaviorRelay(value: "")
     var code6 = BehaviorRelay(value: "")
     
+    private var otpStatusRefreshSubject = PublishSubject<()>()
+    private lazy var otpStatus = otpStatusRefreshSubject.flatMapLatest{[unowned self] in self.systemUseCase.getOtpStatus().asObservable() }
+    
     init(_ resetUseCase : ResetPasswordUseCase, _ systemUseCase : GetSystemStatusUseCase) {
         self.resetUseCase = resetUseCase
         self.systemUseCase = systemUseCase
@@ -61,7 +64,8 @@ class ResetPasswordViewModel {
         return relayAccountType.value
     }
     
-    func inputAccountType(_ type: AccountType){
+    func inputAccountType(_ type: AccountType) {
+        refreshOtpStatus()
         relayAccountType.accept(type)
     }
     
@@ -96,15 +100,11 @@ class ResetPasswordViewModel {
             }
         
         let typeChange = relayAccountType.asObservable()
-        let otpValid = systemUseCase
-            .getOtpStatus()
-            .asObservable()
-            .concatMap { otpStatus  in
-                return typeChange.map { (type)  -> UserInfoStatus in
-                    switch type {
-                    case .email: return otpStatus.isMailActive ? .valid : .errEmailOtpInactive
-                    case .phone: return otpStatus.isSmsActive ? .valid : .errSMSOtpInactive
-                    }
+        let otpValid = Observable.combineLatest(otpStatus, typeChange)
+            .map { (otpStatus, type) -> UserInfoStatus in
+                switch type {
+                case .email: return otpStatus.isMailActive ? .valid : .errEmailOtpInactive
+                case .phone: return otpStatus.isSmsActive ? .valid : .errSMSOtpInactive
                 }
             }
         
@@ -139,6 +139,10 @@ class ResetPasswordViewModel {
                 mobileValid : mobileValid,
                 typeChange : typeChange,
                 passwordValid: passwordValid)
+    }
+    
+    func refreshOtpStatus() {
+        otpStatusRefreshSubject.onNext(())
     }
     
     func requestPasswordReset() -> Completable {
