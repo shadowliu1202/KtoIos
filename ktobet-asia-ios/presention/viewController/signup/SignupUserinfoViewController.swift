@@ -129,6 +129,33 @@ class SignupUserinfoViewController: LandingViewController {
         }
     }
     
+    private func showServiceInactiveView(status: OtpStatus) {
+        self.view.layoutIfNeeded()
+        let width = self.scrollView.bounds.size.width
+        let height = self.scrollView.contentSize.height - self.viewButtons.frame.maxY
+        self.viewOtpInvalid.frame = CGRect.init(x: 0, y: self.viewButtons.frame.maxY, width: width, height: height)
+        self.scrollView.addSubview(self.viewOtpInvalid)
+        self.labOtpInvalid.text = {
+            if !status.isSmsActive {
+                return Localize.string("register_step2_sms_inactive")
+            }
+            
+            if !status.isMailActive {
+                return Localize.string("register_step2_sms_inactive")
+            }
+            
+            return ""
+        }()
+    }
+    
+    private func selectedAccountTypeIsMaintain(isActive: Bool, otpStatus: OtpStatus) {
+        if !isActive {
+            showServiceInactiveView(status: otpStatus)
+        } else {
+            viewOtpInvalid.removeFromSuperview()
+        }
+    }
+    
     func setViewModel(){
 
         viewModel.inputAccountType(.phone)
@@ -144,21 +171,19 @@ class SignupUserinfoViewController: LandingViewController {
         event.otpValid
             .subscribe(onNext: { [weak self] status  in
                 guard let `self` = self else { return }
-                if status == .errEmailOtpInactive || status == .errSMSOtpInactive{
-                    self.view.layoutIfNeeded()
-                    let width = self.scrollView.bounds.size.width
-                    let height = self.scrollView.contentSize.height - self.viewButtons.frame.maxY
-                    self.viewOtpInvalid.frame = CGRect.init(x: 0, y: self.viewButtons.frame.maxY, width: width, height: height)
-                    self.scrollView.addSubview(self.viewOtpInvalid)
-                    self.labOtpInvalid.text = {
-                        switch status {
-                        case .errEmailOtpInactive: return Localize.string("register_step2_email_inactive")
-                        case .errSMSOtpInactive: return Localize.string("register_step2_sms_inactive")
-                        default: return ""
-                        }
-                    }()
-                } else {
-                    self.viewOtpInvalid.removeFromSuperview()
+                if !status.isMailActive && !status.isSmsActive {
+                    let title = Localize.string("common_error")
+                    let message = Localize.string("register_service_down")
+                    Alert.show(title, message, confirm: {
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                    }, cancel: nil)
+                }
+                
+                switch self.viewModel.currentAccountType() {
+                case .email:
+                    self.selectedAccountTypeIsMaintain(isActive: status.isMailActive, otpStatus: status)
+                case .phone:
+                    self.selectedAccountTypeIsMaintain(isActive: status.isSmsActive, otpStatus: status)
                 }
             }).disposed(by: disposeBag)
         
@@ -318,7 +343,7 @@ extension SignupUserinfoViewController{
             }, onError: { [weak self] error in
                 let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
                 let message : String = {
-                    switch type{
+                    switch type {
                     case .PlayerIpOverOtpDailyLimit: return Localize.string("common_email_otp_exeed_send_limit")
                     case .DBPlayerAlreadyExist:
                         switch self?.viewModel.currentAccountType(){
@@ -326,11 +351,16 @@ extension SignupUserinfoViewController{
                         case .phone: return Localize.string("common_error_phone_verify")
                         default: return ""
                         }
+                    case .PlayerOtpMailInactive, .PlayerOtpSmsInactive:
+                        self?.viewModel.refreshOtpStatus()
+                        return ""
                     default: return String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
                     }
                 }()
                 
-                self?.displayError(error: message)
+                if !message.isEmpty {
+                    self?.displayError(error: message)
+                }
             }).disposed(by: disposeBag)
     }
 }

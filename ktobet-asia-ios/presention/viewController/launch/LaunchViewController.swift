@@ -27,7 +27,11 @@ class LaunchViewController: LandingViewController {
                     break
                 }
             }) { [weak self] error in
-                self?.handleErrors(error)
+                if error.isMaintenance() {
+                    self?.setPortalMaintenance()
+                } else {
+                    self?.handleErrors(error)
+                }
             }.disposed(by: disposeBag)
     }
     

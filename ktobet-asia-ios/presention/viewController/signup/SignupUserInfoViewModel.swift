@@ -39,6 +39,8 @@ class SignupUserInfoViewModel {
     private var mailEdited = false
     private var passwordEdited = false
     private var nameEdited = false
+    private var otpStatusRefreshSubject = PublishSubject<()>()
+    private lazy var otpStatus = otpStatusRefreshSubject.flatMapLatest{[unowned self] in self.usecaseSystemStatus.getOtpStatus().asObservable() }
     
     var relayName = BehaviorRelay(value: "")
     var relayEmail = BehaviorRelay(value: "")
@@ -54,6 +56,7 @@ class SignupUserInfoViewModel {
     }
     
     func inputAccountType(_ type: AccountType){
+        refreshOtpStatus()
         relayAccountType.accept(type)
     }
     
@@ -69,7 +72,7 @@ class SignupUserInfoViewModel {
         return relayPassword.value
     }
     
-    func event()->(otpValid : Observable<UserInfoStatus>,
+    func event()->(otpValid : Observable<OtpStatus>,
                    emailValid : Observable<UserInfoStatus>,
                    mobileValid : Observable<UserInfoStatus>,
                    nameValid : Observable<UserInfoStatus>,
@@ -156,17 +159,7 @@ class SignupUserInfoViewModel {
                 (($0 == UserInfoStatus.valid) && $1 && ($2 == UserInfoStatus.valid))
             }
         
-        let otpValid = usecaseSystemStatus
-            .getOtpStatus()
-            .asObservable()
-            .concatMap { otpStatus  in
-                return typeChange.map { (type)  -> UserInfoStatus in
-                    switch type{
-                    case .email: return otpStatus.isMailActive ? .valid : .errEmailOtpInactive
-                    case .phone: return otpStatus.isSmsActive ? .valid : .errSMSOtpInactive
-                    }
-                }
-            }
+        let otpValid = otpStatus
         
         return (otpValid : otpValid,
                 emailValid : emailValid,
@@ -177,6 +170,9 @@ class SignupUserInfoViewModel {
                 typeChange : typeChange)
     }
     
+    func refreshOtpStatus() {
+        otpStatusRefreshSubject.onNext(())
+    }
 
     func register()->Single<(type: AccountType, account: String, password: String)>  {
         let userAccount : UserAccount = {
