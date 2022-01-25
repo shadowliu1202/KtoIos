@@ -1797,7 +1797,7 @@ struct SurveyBean: Codable {
     let skillId: String
     let subject: String?
     let surveyId: String
-    let surveyQuestions: [SurveyQuestionBean]
+    let surveyQuestions: [SurveyQuestionBean]?
     let surveyType: Int32
     let updatedDate: String
     let updatedUser: String?
@@ -1808,7 +1808,7 @@ struct SurveyBean: Codable {
                surveyId: surveyId,
                description: description ?? "",
                surveyType: convertSurveyType(surveyType),
-               surveyQuestions: surveyQuestions.map{ $0.toSurveyQuestion() },
+               surveyQuestions: surveyQuestions?.map{ $0.toSurveyQuestion() } ?? [],
                enable: enable,
                heading: heading ?? "",
                isAskLogin: isAskLogin,

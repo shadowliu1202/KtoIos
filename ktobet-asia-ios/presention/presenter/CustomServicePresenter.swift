@@ -212,6 +212,7 @@ class CustomServicePresenter: NSObject {
     func switchToChatRoom(isRoot: Bool = false) {
         let chatRoomVC = storyboard.instantiateViewController(identifier: "ChatRoomViewController") as ChatRoomViewController
         chatRoomVC.viewModel = csViewModel
+        chatRoomVC.surveyViewModel = surveyViewModel
         let chatTitle = UIBarButtonItem.kto(.text(text: Localize.string("customerservice_chat_room_title"))).isEnable(false)
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: "PingFangSC-Semibold", size: 16.0)!,

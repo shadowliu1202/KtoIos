@@ -8,6 +8,7 @@ import IQKeyboardManagerSwift
 class ChatRoomViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: CustomerServiceViewModel!
+    var surveyViewModel: SurveyViewModel!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var inputTextField: UITextField!
@@ -289,8 +290,20 @@ class ChatRoomViewController: UIViewController {
     }
     
     private func goExitSurvey() {
-        viewModel.findCurrentRoomId().subscribe(onSuccess: { (skillId, roomId) in
-            CustomService.switchToExitSurvey(roomId: roomId, skillId: skillId)
+        viewModel.findCurrentRoomId().subscribe(onSuccess: { [weak self] (skillId, roomId) in
+            guard let self = self else { return }
+            self.surveyViewModel
+                .getExitSurvey(skillId: skillId)
+                .observeOn(MainScheduler.instance)
+                .subscribe { exitSurvey in
+                    if !exitSurvey.surveyQuestions.isEmpty {
+                        CustomService.switchToExitSurvey(roomId: roomId, skillId: skillId)
+                    } else {
+                        CustomService.close(completion: nil)
+                    }
+                } onError: { [weak self] error in
+                    self?.handleErrors(error)
+                }.disposed(by: self.disposeBag)
         }, onError: { [weak self] in
             self?.handleErrors($0)
         }).disposed(by: disposeBag)
