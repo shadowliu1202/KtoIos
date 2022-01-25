@@ -3,7 +3,6 @@ import RxSwift
 
 class OfflineMessageViewController: UIViewController {
     var barButtonItems: [UIBarButtonItem] = []
-    var viewModel: SurveyViewModel!
     
     @IBOutlet weak var emailInputText: InputText!
     @IBOutlet weak var emailErrorLabel: UILabel!
@@ -12,6 +11,7 @@ class OfflineMessageViewController: UIViewController {
     @IBOutlet weak var emailInputTextHetght: NSLayoutConstraint!
     @IBOutlet weak var emailInputTextTopMargin: NSLayoutConstraint!
     
+    private var viewModel = DI.resolve(SurveyViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -32,11 +32,13 @@ class OfflineMessageViewController: UIViewController {
     }
     
     private func dataBinding() {
-        viewModel.isGuest().subscribe(onSuccess: { [weak self] in
+        viewModel.isGuest.subscribe(onSuccess: { [weak self] in
             if $0 == false {
                 self?.emailInputTextHetght.constant = 0
                 self?.emailInputTextTopMargin.constant = 18
             }
+        }, onError: { [weak self] in
+            self?.handleErrors($0)
         }).disposed(by: disposeBag)
         (emailInputText.textContent.rx.text <-> viewModel.offlineSurveyAccount).disposed(by: disposeBag)
         viewModel.accontValid.subscribe(onNext: { [weak self] in

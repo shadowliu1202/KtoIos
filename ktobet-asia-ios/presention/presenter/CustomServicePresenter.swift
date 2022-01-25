@@ -244,7 +244,6 @@ class CustomServicePresenter: NSObject {
         let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
         offlineMessageVC.bind(position: .right, barButtonItems: padding, skip)
         offlineMessageVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
-        offlineMessageVC.viewModel = surveyViewModel
         if isRoot {
             let navi = storyboard.instantiateViewController(withIdentifier: "CustomServiceNavigationController") as! UINavigationController
             navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
