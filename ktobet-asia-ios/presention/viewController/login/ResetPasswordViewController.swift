@@ -161,6 +161,8 @@ class ResetPasswordViewController: LandingViewController {
             }
         case .PlayerIpOverOtpDailyLimit, .PlayerIdOverOtpLimit, .PlayerOverOtpRetryLimit:
             alertExceedResendLimit()
+        case .PlayerOtpSmsInactive, .PlayerOtpMailInactive:
+            viewModel.refreshOtpStatus()
         default:
             self.handleErrors(error)
         }
