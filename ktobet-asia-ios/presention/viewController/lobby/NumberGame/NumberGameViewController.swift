@@ -93,6 +93,13 @@ class NumberGameViewController: DisplayProduct {
         
         let data = [tagAll]
         addBtnTags(stackView: tagsStackView, data: data)
+        viewModel.errors().subscribe(onNext: {[weak self] in
+            if $0.isMaintenance() {
+                NavigationManagement.sharedInstance.goTo(productType: .numbergame, isMaintenance: true)
+            } else {
+                self?.handleErrors($0)
+            }
+        }).disposed(by: disposeBag)
         Observable.combineLatest(viewDidRotate, viewModel.gameTagStates)
             .flatMap { (_, tags) -> Observable<[NumberGameTag]> in
             return Observable.just(tags)

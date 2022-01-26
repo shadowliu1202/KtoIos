@@ -100,6 +100,8 @@ extension UIViewController{
             }
         case 404:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
+        case 503:
+            showAlertError(String(format: Localize.string("common_http_503"), "\(response.statusCode)"))
         default:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         }

@@ -65,6 +65,13 @@ class CasinoViewController: DisplayProduct {
     }
     
     fileprivate func dataBinding() {
+        viewModel.errors().subscribe(onNext: {[weak self] in
+            if $0.isMaintenance() {
+                NavigationManagement.sharedInstance.goTo(productType: .casino, isMaintenance: true)
+            } else {
+                self?.handleErrors($0)
+            }
+        }).disposed(by: disposeBag)
         viewModel.lobby()
             .catchError({ [weak self] (error) -> Single<[CasinoLobby]> in
                 self?.lobbyCollectionUpSpace.constant = 0
@@ -78,10 +85,6 @@ class CasinoViewController: DisplayProduct {
             }).disposed(by: self.disposeBag)
         
         viewModel.searchedCasinoByTag
-            .catchError({ [weak self] (error) -> Observable<[CasinoGame]> in
-                self?.handleErrors(error)
-                return Observable.just([])
-            })
             .subscribe(onNext: { [weak self] (games) in
                 self?.reloadGameData(games)
         }).disposed(by: disposeBag)
