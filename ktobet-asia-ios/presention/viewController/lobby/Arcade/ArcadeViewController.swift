@@ -27,11 +27,14 @@ class ArcadeViewController: DisplayProduct {
     }
     
     private func dataBinding() {
+        viewModel.errors().subscribe(onNext: {[weak self] in
+            if $0.isMaintenance() {
+                NavigationManagement.sharedInstance.goTo(productType: .arcade, isMaintenance: true)
+            } else {
+                self?.handleErrors($0)
+            }
+        }).disposed(by: disposeBag)
         viewModel.gameSource
-            .catchError({ [weak self] (error) in
-                self?.handleErrors(error)
-                return Observable.just([])
-            })
             .subscribe(onNext: { [weak self] (games) in
                 self?.reloadGameData(games)
         }).disposed(by: disposeBag)

@@ -3,10 +3,12 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class NumberGameViewModel {
+class NumberGameViewModel: KTOViewModel {
     lazy var popularGames = numberGameUseCase.getPopularGames()
     lazy var allGames = Observable.combineLatest(gameSorting, filterSets).flatMapLatest { (gameSorting, gameFilters) ->  Observable<[NumberGame]> in
-        return self.numberGameUseCase.getGames(order: gameSorting, tags: gameFilters)
+        return self.numberGameUseCase.getGames(order: gameSorting, tags: gameFilters).compose(self.applyObservableErrorHandle()).catchError { error in
+            return Observable.error(error)
+        }.retry()
     }
     
     var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
@@ -43,6 +45,7 @@ class NumberGameViewModel {
     }
     
     init(numberGameUseCase: NumberGameUseCase, memoryCache: MemoryCacheImpl) {
+        super.init()
         self.numberGameUseCase = numberGameUseCase
         self.memoryCache = memoryCache
         if let tags: [NumberGameTag] = memoryCache.getGameTag(.numberGameTag) {

@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class CasinoViewModel {
+class CasinoViewModel: KTOViewModel {
     private var casinoRecordUseCase : CasinoRecordUseCase!
     private var casinoUseCase: CasinoUseCase!
     private var memoryCache: MemoryCacheImpl!
@@ -42,6 +42,7 @@ class CasinoViewModel {
     private var disposeBag = DisposeBag()
     
     init(casinoRecordUseCase: CasinoRecordUseCase, casinoUseCase: CasinoUseCase, memoryCache: MemoryCacheImpl) {
+        super.init()
         self.casinoRecordUseCase = casinoRecordUseCase
         self.casinoUseCase = casinoUseCase
         self.memoryCache = memoryCache
@@ -60,7 +61,9 @@ class CasinoViewModel {
     }
     
     private func searchedCasinoByTag(tags: [CasinoGameTag]) -> Observable<[CasinoGame]> {
-        return casinoUseCase.searchGamesByTag(tags: tags)
+        return casinoUseCase.searchGamesByTag(tags: tags).compose(applyObservableErrorHandle()).catchError { error in
+            return Observable.error(error)
+        }.retry()
     }
     
     private func getCasinoBetTypeTags() -> Observable<[CasinoGameTag]> {
