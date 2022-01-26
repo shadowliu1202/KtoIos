@@ -26,6 +26,10 @@ extension P2PViewModel: ProductWebGameViewModelProtocol {
         return productName
     }
     
+    func getGameProductType() -> ProductType {
+        ProductType.p2p
+    }
+    
     func createGame(gameId: Int32) -> Single<URL?> {
         p2pUseCase.createGame(gameId: gameId)
     }

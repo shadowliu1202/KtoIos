@@ -126,6 +126,10 @@ extension NumberGameViewModel: ProductViewModel {
         }).disposed(by: disposeBag)
     }
     
+    func getGameProductType() -> ProductType {
+        ProductType.numbergame
+    }
+    
     func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
         return favorites.asObservable()
     }

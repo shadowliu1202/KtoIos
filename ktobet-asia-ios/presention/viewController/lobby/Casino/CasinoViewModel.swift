@@ -181,6 +181,10 @@ extension CasinoViewModel: ProductViewModel {
         }).disposed(by: disposeBag)
     }
     
+    func getGameProductType() -> ProductType {
+        ProductType.casino
+    }
+    
     func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
         return favorites.asObservable()
     }
