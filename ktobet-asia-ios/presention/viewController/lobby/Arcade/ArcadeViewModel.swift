@@ -84,6 +84,10 @@ extension ArcadeViewModel: ProductViewModel {
         }).disposed(by: disposeBag)
     }
     
+    func getGameProductType() -> ProductType {
+        ProductType.arcade
+    }
+    
     func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
         return favorites.asObservable()
     }

@@ -59,5 +59,6 @@ protocol ProductSearchViewModelProtocol {
 
 protocol ProductWebGameViewModelProtocol {
     func getGameProduct() -> String
+    func getGameProductType() -> ProductType
     func createGame(gameId: Int32) -> Single<URL?>
 }

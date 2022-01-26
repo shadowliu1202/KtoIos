@@ -43,14 +43,14 @@ class GameWebViewViewController: UIViewController {
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
         }
         
-        viewModel?.createGame(gameId: gameId).subscribeOn(MainScheduler.instance).subscribe {(url) in
+        viewModel?.createGame(gameId: gameId).subscribeOn(MainScheduler.instance).subscribe { (url) in
             guard let url = url else { return }
             let request = URLRequest(url: url)
             webView.load(request)
         } onError: {[weak self] (error) in
-            Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {
-                self?.dismiss(animated: true, completion: nil)
-            }, cancel: nil)
+            if let viewModel = self?.viewModel {
+                NavigationManagement.sharedInstance.goTo(productType: viewModel.getGameProductType(), isMaintenance: true)
+            }
         }.disposed(by: disposeBag)
     }
     

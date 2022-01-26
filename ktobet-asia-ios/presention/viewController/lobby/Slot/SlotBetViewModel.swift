@@ -95,6 +95,10 @@ class SlotBetViewModel {
 extension SlotBetViewModel: ProductWebGameViewModelProtocol {
     func getGameProduct() -> String { "slot" }
     
+    func getGameProductType() -> ProductType {
+        ProductType.slot
+    }
+    
     func createGame(gameId: Int32) -> Single<URL?> {
         return slotUseCase.createGame(gameId: gameId)
     }
