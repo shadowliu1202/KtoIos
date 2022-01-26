@@ -23,6 +23,10 @@ class CryptoVerifyViewModel {
     private var withdrawalUseCase: WithdrawalUseCase!
     private var systemUseCase : GetSystemStatusUseCase!
     
+    private var otpStatusRefreshSubject = PublishSubject<()>()
+    private lazy var otpStatus = otpStatusRefreshSubject.flatMapLatest{[unowned self] in self.systemUseCase.getOtpStatus().asObservable() }
+
+    
     init(playerUseCase: PlayerDataUseCase, withdrawalUseCase: WithdrawalUseCase, systemUseCase : GetSystemStatusUseCase) {
         self.playerUseCase = playerUseCase
         self.withdrawalUseCase = withdrawalUseCase
@@ -53,21 +57,26 @@ class CryptoVerifyViewModel {
             }
     }
     
+    func inputAccountType(_ type: AccountType){
+        refreshOtpStatus()
+        relayAccountType.accept(type)
+    }
+    
+    func refreshOtpStatus() {
+        otpStatusRefreshSubject.onNext(())
+    }
+    
     func otpValid() -> Observable<UserInfoStatus> {
         let typeChange = relayAccountType.asObservable()
-        return systemUseCase
-            .getOtpStatus()
-            .asObservable()
-            .concatMap { otpStatus  in
-                return typeChange.map { (type)  -> UserInfoStatus in
-                    if !otpStatus.isMailActive && !otpStatus.isSmsActive {
-                        return .errOtpServiceDown
-                    }
-                    
-                    switch type {
-                    case .email: return otpStatus.isMailActive ? .valid : .errEmailOtpInactive
-                    case .phone: return otpStatus.isSmsActive ? .valid : .errSMSOtpInactive
-                    }
+        return Observable.combineLatest(otpStatus, typeChange)
+            .map { (otpStatus, type) -> UserInfoStatus in
+                if !otpStatus.isMailActive && !otpStatus.isSmsActive {
+                    return .errOtpServiceDown
+                }
+                
+                switch type {
+                case .email: return otpStatus.isMailActive ? .valid : .errEmailOtpInactive
+                case .phone: return otpStatus.isSmsActive ? .valid : .errSMSOtpInactive
                 }
             }
     }

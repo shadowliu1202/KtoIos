@@ -81,7 +81,7 @@ class WithdrawalCryptoVerifyViewController: APPViewController {
             guard let self = self else { return }
             self.btnPhone.isSelected = false
             self.btnEmail.isSelected = true
-            self.viewModel.relayAccountType.accept(.email)
+            self.viewModel.inputAccountType(.email)
             self.contentLabel.text = self.email
             self.btnSubmit.isHidden = self.email == Localize.string("common_not_set_email")
         }.disposed(by: disposeBag)
@@ -90,7 +90,7 @@ class WithdrawalCryptoVerifyViewController: APPViewController {
             guard let self = self else { return }
             self.btnEmail.isSelected = false
             self.btnPhone.isSelected = true
-            self.viewModel.relayAccountType.accept(.phone)
+            self.viewModel.inputAccountType(.phone)
             self.contentLabel.text = self.phone
             self.btnSubmit.isHidden = self.phone == Localize.string("common_not_set_mobile")
         }.disposed(by: disposeBag)
@@ -101,7 +101,13 @@ class WithdrawalCryptoVerifyViewController: APPViewController {
             self.viewModel.verify(playerCryptoBankCardId: bankCardId).subscribe(onCompleted: {[weak self] in
                 self?.performSegue(withIdentifier: WithdrawalOTPVerifyViewController.segueIdentifier, sender: nil)
             }, onError: {[weak self] (error) in
-                self?.showToastAlertFailed()
+                let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
+                switch type {
+                case .PlayerOtpMailInactive, .PlayerOtpSmsInactive:
+                    self?.viewModel.refreshOtpStatus()
+                default:
+                    self?.showToastAlertFailed()
+                }
             }).disposed(by: self.disposeBag)
         }.disposed(by: disposeBag)
     }

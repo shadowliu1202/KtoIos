@@ -122,7 +122,7 @@ class TickCircle {
             timeLabel.text = Localize.string("common_long_maintenance")
         } else {
             let hour = String(format: "%02d", (countDownSecond / 3600))
-            let minute = String(format: "%02d", (countDownSecond % 3600) / 60 + 1)
+            let minute = String(format: "%02d", (countDownSecond % 3600) / 60)
             timeLabel.text = hour + ":" + minute
         }
     }
