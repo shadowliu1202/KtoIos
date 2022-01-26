@@ -14,6 +14,7 @@ class ServiceStatusNavigatorImpl: ServiceStatusNavigator {
     }
     
     func toDefaultProductMaintainPage(playerType: ProductType, maintainType: ProductType) {
+        NavigationManagement.sharedInstance.goTo(productType: playerType, isMaintenance: true)
         showDefaultProductMaintenAlert(playerDefaultProductType: playerType, gotoProductType: maintainType)
     }
     
