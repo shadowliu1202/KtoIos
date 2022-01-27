@@ -53,6 +53,19 @@ class LoginViewController: LandingViewController {
         localize()
         defaulStyle()
         setViewModel()
+        
+        btnResetPassword.rx.tap.subscribe(onNext: {[weak self] in
+            guard let self = self else { return }
+            self.serviceStatusViewModel.output.otpService.subscribe(onSuccess: { [weak self] otpStatus in
+                if otpStatus.isSmsActive || otpStatus.isMailActive {
+                    self?.performSegue(withIdentifier: ResetPasswordViewController.segueIdentifier, sender: nil)
+                } else {
+                    Alert.show(Localize.string("common_error"), Localize.string("login_resetpassword_service_down"), confirm: { }, cancel: nil)
+                }
+            }, onError: { [weak self] error in
+                self?.handleErrors(error)
+            }).disposed(by: self.disposeBag)
+        }).disposed(by: disposeBag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -301,10 +314,6 @@ class LoginViewController: LandingViewController {
                 self?.btnLogin.isValid = true
                 self?.handleError(error: error)
             }).disposed(by: disposeBag)
-    }
-    
-    @IBAction func btnResetPasswordPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: ResetPasswordViewController.segueIdentifier, sender: nil)
     }
     
     @IBAction func btnRememberMePressed(_ sender: UIButton) {

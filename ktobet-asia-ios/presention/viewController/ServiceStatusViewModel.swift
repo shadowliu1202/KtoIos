@@ -21,7 +21,7 @@ final class ServiceStatusViewModel: ViewModelType {
         let playerDefaultType = playerDefaultProductSubject.asDriver(onErrorJustReturn: .none)
         let maintainDefaultType = ServiceStatusViewModel.maintainDefaultProductType(playerDefaultProductSubject: playerDefaultProductSubject, maintainStatus: maintainStatus)
         let isAllProductMaintain = maintainDefaultType.map { $0 == nil }.asDriver(onErrorJustReturn: false)
-        let toNextPage = ServiceStatusViewModel.toNextPage(playerDefaultType, maintainDefaultType, isAllProductMaintain)
+        let toNextPage = ServiceStatusViewModel.toNextPage(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus)
         let productMaintainTime = playerDefaultProductSubject.flatMapLatest { playerDefaultProduct in
             maintainStatus.map { status -> OffsetDateTime? in
                 if let status = status as? MaintenanceStatus.Product {
@@ -53,17 +53,24 @@ final class ServiceStatusViewModel: ViewModelType {
         usecaseSystemStatus.refreshMaintenanceState()
     }
 
-    private static func toNextPage(_ playerDefaultType: Driver<ProductType>, _ maintainDefaultType: Driver<ProductType?>, _ isAllProductMaintain: Driver<Bool>) -> Completable {
+    private static func toNextPage(_ playerDefaultType: Driver<ProductType>, _ maintainDefaultType: Driver<ProductType?>, _ isAllProductMaintain: Driver<Bool>, _ maintainStatus: Driver<MaintenanceStatus>) -> Completable {
         let navigator: ServiceStatusNavigator = ServiceStatusNavigatorImpl()
 
-        return Driver.combineLatest(playerDefaultType, maintainDefaultType, isAllProductMaintain)
-            .do(onNext: { (playerType, maintainType, isAllProductMaintain) in
-            if isAllProductMaintain {
-                navigator.toSBKMaintainPage()
-            } else if maintainType != playerType {
-                navigator.toDefaultProductMaintainPage(playerType: playerType, maintainType: maintainType!)
-            } else {
-                navigator.toPlayerType(playerType: playerType)
+        return Driver.combineLatest(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus)
+            .do(onNext: { (playerType, maintainType, isAllProductMaintain, maintainStatus) in
+            switch maintainStatus {
+            case is MaintenanceStatus.AllPortal:
+                navigator.toPortalMaintainPage()
+            case is MaintenanceStatus.Product:
+                if isAllProductMaintain {
+                    navigator.toSBKMaintainPage()
+                } else if maintainType != playerType {
+                    navigator.toDefaultProductMaintainPage(playerType: playerType, maintainType: maintainType!)
+                } else {
+                    navigator.toPlayerType(playerType: playerType)
+                }
+            default:
+                break
             }
         }).asObservable().ignoreElements()
     }

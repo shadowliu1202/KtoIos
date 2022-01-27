@@ -50,7 +50,7 @@ class PortalMaintenanceViewController: APPViewController {
                 self?.hourLabel.text = String(format: "%02d", (countDownSecond / 3600))
                 self?.minuteLabel.text = String(format: "%02d", (countDownSecond / 60))
                 self?.secondLabel.text = String(format: "%02d", (countDownSecond % 60))
-                if countDownSecond == 0 {
+                if finish {
                     self?.showNavigation()
                 } else {
                     self?.viewModel.refreshProductStatus()
