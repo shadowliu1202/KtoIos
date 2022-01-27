@@ -1,5 +1,7 @@
 import UIKit
 import RxSwift
+import SharedBu
+import SwiftUI
 
 class TextBarButtonItem: UIBarButtonItem {
     
@@ -22,6 +24,7 @@ let manualUpdateBtnId = 1004
 
 class CustomerServiceButtonItem: TextBarButtonItem {
     weak var delegate: CustomServiceDelegate? = nil
+    let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -34,13 +37,26 @@ class CustomerServiceButtonItem: TextBarButtonItem {
         self.actionHandler({ [weak self] _ in
             guard let `self` = self, let vc = self.delegate as? UIViewController else { return }
             self.isEnabled = false
-            CustomService.startCustomerService(from: vc, delegate: self.delegate)
-                .subscribe(onCompleted: { [weak self] in
-                    self?.isEnabled = true
-                }, onError: { [weak self] in
-                    self?.isEnabled = true
-                    vc.handleErrors($0)
-                }).disposed(by: disposeBag)
+            
+            self.serviceStatusViewModel.output.portalMaintenanceStatus.drive(onNext: { maintenanceStatus in
+                switch maintenanceStatus {
+                case is MaintenanceStatus.AllPortal:
+                    Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
+                        self.isEnabled = true
+                    }, cancel: nil)
+                case is MaintenanceStatus.Product:
+                    CustomService.startCustomerService(from: vc, delegate: self.delegate)
+                        .subscribe(onCompleted: { [weak self] in
+                            self?.isEnabled = true
+                        }, onError: { [weak self] in
+                            self?.isEnabled = true
+                            vc.handleErrors($0)
+                        }).disposed(by: disposeBag)
+                default:
+                    self.isEnabled = true
+                    break
+                }
+            }).disposed(by: disposeBag)
         })
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hyQ-QW-T94">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hyQ-QW-T94">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -231,9 +231,6 @@
                                                 </fragment>
                                             </attributedString>
                                         </state>
-                                        <connections>
-                                            <segue destination="k1X-SW-WfT" kind="show" id="Qpg-tP-aDf"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -328,6 +325,7 @@
                         <outlet property="viewLoginErr" destination="mXm-3w-mWf" id="ZGJ-J9-FUn"/>
                         <outlet property="viewLoginErrBg" destination="fbA-a4-RWY" id="O7U-Cp-cdl"/>
                         <segue destination="Hwk-qb-uGL" kind="presentation" identifier="GoToSignup" id="1UM-Ga-wUH"/>
+                        <segue destination="k1X-SW-WfT" kind="show" identifier="goResetPasswordSegue" id="TIP-Mf-LmZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cjq-Zt-ujh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
