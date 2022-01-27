@@ -39,7 +39,7 @@ protocol ProductGoWebGameVCProtocol: AnyObject {
 }
 
 protocol WebGameViewCallback: AnyObject {
-    func gameDidDisappear()
+    func gameDidDisappear(productType: ProductType?)
 }
 
 typealias ProductViewModel = ProductFavoriteViewModelProtocol & ProductSearchViewModelProtocol & ProductWebGameViewModelProtocol

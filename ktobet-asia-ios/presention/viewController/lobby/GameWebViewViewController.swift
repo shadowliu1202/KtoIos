@@ -59,6 +59,7 @@ class GameWebViewViewController: UIViewController {
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
+        self.delegate?.gameDidDisappear(productType: viewModel?.getGameProductType())
     }
     
     deinit {
@@ -79,8 +80,6 @@ extension GameWebViewViewController: WKNavigationDelegate, WKUIDelegate {
 
 extension GameWebViewViewController: BarButtonItemable {
     func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
-        self.navigationController?.dismiss(animated: true, completion: { [weak self] in
-            self?.delegate?.gameDidDisappear()
-        })
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 }

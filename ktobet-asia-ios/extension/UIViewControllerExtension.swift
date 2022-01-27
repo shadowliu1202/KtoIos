@@ -107,7 +107,7 @@ extension UIViewController{
         }
     }
     
-    private func showLoginMaintenanAlert() {
+    func showLoginMaintenanAlert() {
         Alert.show(Localize.string("common_urgent_maintenance"), Localize.string("common_maintenance_logout"), confirm: {
             NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
         }, cancel: nil)
