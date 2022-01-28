@@ -119,33 +119,57 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func alertAndLogout(_ type: KickOutType?, cancel: (() -> ())? = nil) {
-        var title = Localize.string("common_tip_title_warm")
-        var meesage = ""
+        let commonWarmtitle = Localize.string("common_tip_title_warm")
         switch type {
         case .duplicatedLogin:
-            meesage = Localize.string("common_notify_logout_content")
+            showAlert(title: commonWarmtitle,
+                      message: Localize.string("common_notify_logout_content"),
+                      cancel: cancel)
         case .Suspend:
-            meesage = Localize.string("common_kick_out_suspend")
+            showAlert(title: commonWarmtitle,
+                      message: Localize.string("common_kick_out_suspend"),
+                      cancel: cancel)
         case .Inactive:
-            meesage = Localize.string("common_kick_out_inactive")
+            showAlert(title: commonWarmtitle,
+                      message: Localize.string("common_kick_out_inactive"),
+                      cancel: cancel)
         case .Maintenance:
-            title = Localize.string("common_urgent_maintenance")
-            meesage = Localize.string("common_maintenance_logout")
+            if CustomServicePresenter.shared.topViewController is PortalMaintenanceViewController {
+                return
+            }
+            
+            if CustomServicePresenter.shared.topViewController is ChatRoomViewController {
+                showAlert(title: Localize.string("common_maintenance_notify"),
+                          message: Localize.string("common_maintenance_contact_later"),
+                          cancel: cancel, isMaintain: true)
+            } else {
+                showAlert(title: Localize.string("common_urgent_maintenance"),
+                          message: Localize.string("common_maintenance_logout"),
+                          cancel: cancel, isMaintain: true)
+            }
         case .TokenExpired:
-            title = Localize.string("common_kick_out_token_expired_title")
-            meesage = Localize.string("common_kick_out_token_expired")
+            showAlert(title: Localize.string("common_kick_out_token_expired_title"),
+                      message: Localize.string("common_kick_out_token_expired"),
+                      cancel: cancel)
         default:
-            title = Localize.string("common_tip_title_warm")
-            meesage = Localize.string("common_confirm_logout")
+            showAlert(title: Localize.string("common_tip_title_warm"),
+                      message: Localize.string("common_confirm_logout"),
+                      cancel: cancel)
         }
-        
-        Alert.show(title, meesage, confirm: {[weak self] in
+    }
+    
+    fileprivate func showAlert(title: String, message: String, cancel: (() -> ())? = nil, isMaintain: Bool = false) {
+        Alert.show(title, message, confirm: {[weak self] in
             guard let self = self else { return }
             CustomServicePresenter.shared.close(completion: {
                 self.viewModel.logout()
                     .subscribeOn(MainScheduler.instance)
                     .subscribe(onCompleted: {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                        if isMaintain {
+                            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+                        } else {
+                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                        }
                     }).disposed(by: self.disposeBag)
             })
         }, cancel: cancel)
@@ -201,7 +225,7 @@ class SideBarViewController: UIViewController {
             return self.viewModel.loadPlayerInfo().asObservable()
         }.share(replay: 1)
         
-        shareLoadPlayerInfo.compactMap{ $0.defaultProduct }.bind(to: serviceViewModel.input.playerDefaultProduct).disposed(by: disposeBag)
+        shareLoadPlayerInfo.compactMap{ $0.defaultProduct }.bind(to: serviceViewModel.input.playerDefaultProductType).disposed(by: disposeBag)
         serviceViewModel.output.maintainDefaultType.drive(onNext: {[weak self] maintainType in
             if self?.slideViewModel.currentSelectedProductType == nil {
                 self?.slideViewModel.currentSelectedProductType = maintainType
@@ -237,7 +261,7 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func initProducts() {
-        Observable.combineLatest(slideViewModel.arrProducts, serviceViewModel.output.maintainTimes)
+        Observable.combineLatest(slideViewModel.arrProducts, serviceViewModel.output.productsMaintainTime)
             .map { (productItems, maintainTimes) in
                 productItems.map { item in
                     ProductItem(title: item.title,
@@ -344,7 +368,7 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate func cleanProductSelected() {
-        self.slideViewModel.currentSelectedProductType = nil
+        self.slideViewModel.currentSelectedProductType = ProductType.none
         self.listProduct.reloadData()
     }
 }

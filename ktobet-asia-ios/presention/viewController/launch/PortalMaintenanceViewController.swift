@@ -16,9 +16,9 @@ class PortalMaintenanceViewController: APPViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.output.customerServiceEmail.subscribe {[weak self] email in
+        viewModel.output.customerServiceEmail.drive(onNext: {[weak self] email in
             self?.csEmailButton.setTitle(Localize.string("common_cs_email", email), for: .normal)
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
 
         viewModel.output.portalMaintenanceStatus.drive {[weak self] status in
             switch status {

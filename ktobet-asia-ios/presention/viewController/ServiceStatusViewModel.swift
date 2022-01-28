@@ -4,58 +4,40 @@ import SharedBu
 import RxSwiftExt
 import RxCocoa
 
-
 final class ServiceStatusViewModel: ViewModelType {
     private var usecaseSystemStatus: GetSystemStatusUseCase!
-    private let playerDefaultProductSubject = ReplaySubject<ProductType>.create(bufferSize: 1)
-
-    var input: Input
-    var output: Output
-
+    private let playerDefaultProductType = ReplaySubject<ProductType>.create(bufferSize: 1)
+    
+    private(set) var input: Input!
+    private(set) var output: Output!
+    
     init(usecaseSystemStatus: GetSystemStatusUseCase) {
         self.usecaseSystemStatus = usecaseSystemStatus
-
-        let otpService = usecaseSystemStatus.getOtpStatus()
-        let customerServiceEmail = usecaseSystemStatus.getCustomerServiceEmail()
-        let maintainStatus = usecaseSystemStatus.observePortalMaintenanceState().asDriver(onErrorJustReturn: .init())
-        let playerDefaultType = playerDefaultProductSubject.asDriver(onErrorJustReturn: .none)
-        let maintainDefaultType = ServiceStatusViewModel.maintainDefaultProductType(playerDefaultProductSubject: playerDefaultProductSubject, maintainStatus: maintainStatus)
-        let isAllProductMaintain = maintainDefaultType.map { $0 == nil }.asDriver(onErrorJustReturn: false)
-        let toNextPage = ServiceStatusViewModel.toNextPage(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus)
-        let productMaintainTime = playerDefaultProductSubject.flatMapLatest { playerDefaultProduct in
-            maintainStatus.map { status -> OffsetDateTime? in
-                if let status = status as? MaintenanceStatus.Product {
-                    return status.getMaintenanceTime(productType: playerDefaultProduct)
-                }
-                
-                return nil
-            }
-        }.asDriver(onErrorJustReturn: nil)
         
-        let productTypes: [ProductType] = [.sbk, .casino, .slot, .numbergame, .p2p, .arcade]
-        let productsMaintainTime = maintainStatus.map { status -> [(productType: ProductType, maintainTime: OffsetDateTime?)] in
-            if let status = status as? MaintenanceStatus.Product {
-                return productTypes.map{ ($0, status.getMaintenanceTime(productType: $0)) }
-            }
-            
-            return []
-        }.asObservable()
+        let otpService = usecaseSystemStatus.getOtpStatus()
+        let customerServiceEmail = usecaseSystemStatus.getCustomerServiceEmail().asDriver(onErrorJustReturn: "")
+        let maintainStatus = usecaseSystemStatus.observePortalMaintenanceState().asDriver(onErrorJustReturn: .init())
+        let playerDefaultType = playerDefaultProductType.asDriver(onErrorJustReturn: .none)
+        let maintainDefaultType = self.maintainDefaultProductType(playerDefaultProductType: playerDefaultProductType, maintainStatus: maintainStatus)
+        let isAllProductMaintain = maintainDefaultType.map { $0 == nil }.asDriver(onErrorJustReturn: false)
+        let toNextPage = self.toNextPage(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus)
+        let productMaintainTime = self.productMaintainTime(maintainStatus)
+        let productsMaintainTime = self.productsMaintainTime(maintainStatus)
         
         self.output = Output(playerDefaultType: playerDefaultType, maintainDefaultType: maintainDefaultType,
                              isAllProductMaintain: isAllProductMaintain, toNextPage: toNextPage,
                              portalMaintenanceStatus: maintainStatus, otpService: otpService,
-                             customerServiceEmail: customerServiceEmail, maintainTime: productMaintainTime,
-                             maintainTimes: productsMaintainTime)
-        self.input = Input(playerDefaultProduct: playerDefaultProductSubject.asObserver())
+                             customerServiceEmail: customerServiceEmail, productMaintainTime: productMaintainTime,
+                             productsMaintainTime: productsMaintainTime)
+        self.input = Input(playerDefaultProductType: playerDefaultProductType.asObserver())
     }
-
+    
     func refreshProductStatus() {
         usecaseSystemStatus.refreshMaintenanceState()
     }
-
-    private static func toNextPage(_ playerDefaultType: Driver<ProductType>, _ maintainDefaultType: Driver<ProductType?>, _ isAllProductMaintain: Driver<Bool>, _ maintainStatus: Driver<MaintenanceStatus>) -> Completable {
+    
+    private func toNextPage(_ playerDefaultType: Driver<ProductType>, _ maintainDefaultType: Driver<ProductType?>, _ isAllProductMaintain: Driver<Bool>, _ maintainStatus: Driver<MaintenanceStatus>) -> Completable {
         let navigator: ServiceStatusNavigator = ServiceStatusNavigatorImpl()
-
         return Driver.combineLatest(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus)
             .do(onNext: { (playerType, maintainType, isAllProductMaintain, maintainStatus) in
             switch maintainStatus {
@@ -67,7 +49,7 @@ final class ServiceStatusViewModel: ViewModelType {
                 } else if maintainType != playerType {
                     navigator.toDefaultProductMaintainPage(playerType: playerType, maintainType: maintainType!)
                 } else {
-                    navigator.toPlayerType(playerType: playerType)
+                    navigator.toPlayerProductPage(productType: playerType)
                 }
             default:
                 break
@@ -75,9 +57,9 @@ final class ServiceStatusViewModel: ViewModelType {
         }).asObservable().ignoreElements()
     }
 
-    private static func maintainDefaultProductType(playerDefaultProductSubject: ReplaySubject<ProductType>, maintainStatus: Driver<MaintenanceStatus>) -> Driver<ProductType?> {
+    private func maintainDefaultProductType(playerDefaultProductType: ReplaySubject<ProductType>, maintainStatus: Driver<MaintenanceStatus>) -> Driver<ProductType?> {
         let productMaintenPriorityOrder: [ProductType] = [.sbk, .casino, .slot, .numbergame, .arcade, .p2p]
-        return playerDefaultProductSubject.flatMapLatest { playerDefaultProduct in
+        return playerDefaultProductType.flatMapLatest { playerDefaultProduct in
             maintainStatus.map { status -> ProductType? in
                 guard let productStatus = status as? MaintenanceStatus.Product else { return nil }
                 if productStatus.isProductMaintain(productType: playerDefaultProduct) {
@@ -88,14 +70,37 @@ final class ServiceStatusViewModel: ViewModelType {
             }
         }.asDriver(onErrorJustReturn: nil)
     }
+    
+    private func productMaintainTime(_ maintainStatus: SharedSequence<DriverSharingStrategy, MaintenanceStatus>) -> SharedSequence<DriverSharingStrategy, OffsetDateTime?> {
+        return playerDefaultProductType.flatMapLatest { playerDefaultProduct in
+            maintainStatus.map { status -> OffsetDateTime? in
+                if let status = status as? MaintenanceStatus.Product {
+                    return status.getMaintenanceTime(productType: playerDefaultProduct)
+                }
+                
+                return nil
+            }
+        }.asDriver(onErrorJustReturn: nil)
+    }
+    
+    private func productsMaintainTime(_ maintainStatus: SharedSequence<DriverSharingStrategy, MaintenanceStatus>) -> Observable<[(productType: ProductType, maintainTime: OffsetDateTime?)]> {
+        let productTypes: [ProductType] = [.sbk, .casino, .slot, .numbergame, .p2p, .arcade]
+        return maintainStatus.map { status -> [(productType: ProductType, maintainTime: OffsetDateTime?)] in
+            if let status = status as? MaintenanceStatus.Product {
+                return productTypes.map { ($0, status.getMaintenanceTime(productType: $0)) }
+            }
+            
+            return []
+        }.asObservable()
+    }
 }
 
 
 extension ServiceStatusViewModel {
     struct Input {
-        var playerDefaultProduct: AnyObserver<ProductType>
+        var playerDefaultProductType: AnyObserver<ProductType>
     }
-
+    
     struct Output {
         let playerDefaultType: Driver<ProductType>
         let maintainDefaultType: Driver<ProductType?>
@@ -103,8 +108,8 @@ extension ServiceStatusViewModel {
         let toNextPage: Completable
         let portalMaintenanceStatus: Driver<MaintenanceStatus>
         let otpService: Single<OtpStatus>
-        let customerServiceEmail: Single<String>
-        let maintainTime: Driver<OffsetDateTime?>
-        let maintainTimes: Observable<[(productType: ProductType, maintainTime: OffsetDateTime?)]>
+        let customerServiceEmail: Driver<String>
+        let productMaintainTime: Driver<OffsetDateTime?>
+        let productsMaintainTime: Observable<[(productType: ProductType, maintainTime: OffsetDateTime?)]>
     }
 }

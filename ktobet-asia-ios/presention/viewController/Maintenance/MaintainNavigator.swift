@@ -5,7 +5,7 @@ import SharedBu
 protocol ServiceStatusNavigator {
     func toSBKMaintainPage()
     func toDefaultProductMaintainPage(playerType: ProductType, maintainType: ProductType)
-    func toPlayerType(playerType: ProductType)
+    func toPlayerProductPage(productType: ProductType)
     func toPortalMaintainPage()
 }
 
@@ -19,8 +19,8 @@ class ServiceStatusNavigatorImpl: ServiceStatusNavigator {
         showDefaultProductMaintenAlert(playerDefaultProductType: playerType, gotoProductType: maintainType)
     }
     
-    func toPlayerType(playerType: ProductType) {
-        NavigationManagement.sharedInstance.goTo(productType: playerType)
+    func toPlayerProductPage(productType: ProductType) {
+        NavigationManagement.sharedInstance.goTo(productType: productType)
     }
     
     func toPortalMaintainPage() {
