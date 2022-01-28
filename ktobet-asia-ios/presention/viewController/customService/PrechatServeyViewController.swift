@@ -82,7 +82,9 @@ class PrechatServeyViewController: UIViewController {
 
 extension PrechatServeyViewController: BarButtonItemable {
     func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
-        CustomService.close()
+        CustomService.close(completion: {
+            CustomService.delegate?.sessionClosed()
+        })
     }
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
         CustomService.switchToCalling(svViewModel: viewModel)

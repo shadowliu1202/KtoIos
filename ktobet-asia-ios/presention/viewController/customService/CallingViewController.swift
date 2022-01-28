@@ -93,10 +93,12 @@ class CallingViewController: UIViewController {
                    Localize.string("customerservice_stop_call_content"),
                    confirm: { },
                    confirmText: Localize.string("common_continue"),
-                   cancel: { [weak self] in
-                       CustomService.closeChatRoom()
-                       self?.stopServiceAndShowServiceOccupied()
-                   },
+                   cancel: { [unowned self] in
+            self.csViewModel.closeChatRoom().subscribe(onCompleted: { [unowned self] in
+                self.csViewModel.setupSurveyAnswer(answers: nil)
+            }).disposed(by: self.disposeBag)
+            self.stopServiceAndShowServiceOccupied()
+        },
                    cancelText: Localize.string("common_stop"))
     }
     
