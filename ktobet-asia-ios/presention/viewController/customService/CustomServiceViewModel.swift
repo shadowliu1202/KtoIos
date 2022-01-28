@@ -71,11 +71,14 @@ class CustomerServiceViewModel {
     }
     
     func closeChatRoom() -> Completable {
-        findChatRoom().flatMapCompletable { chatRoom in
-            Completable.create { completable in
-                chatRoom.leaveChatRoom()
-                completable(.completed)
-                return Disposables.create()
+        return findChatRoom().flatMapCompletable { chatRoom -> Completable in
+            return Completable.create { (completable) -> Disposable in
+                DispatchQueue.main.async {
+                    chatRoom.leaveChatRoom(onFinished: {
+                        completable(.completed)
+                    })
+                }
+                return Disposables.create {}
             }
         }
     }

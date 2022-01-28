@@ -141,12 +141,13 @@ class SideBarViewController: UIViewController {
         
         Alert.show(title, meesage, confirm: {[weak self] in
             guard let self = self else { return }
-            CustomServicePresenter.shared.closeChatRoom()
-            self.viewModel.logout()
-                .subscribeOn(MainScheduler.instance)
-                .subscribe(onCompleted: {
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
-                }).disposed(by: self.disposeBag)
+            CustomServicePresenter.shared.close(completion: {
+                self.viewModel.logout()
+                    .subscribeOn(MainScheduler.instance)
+                    .subscribe(onCompleted: {
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                    }).disposed(by: self.disposeBag)
+            })
         }, cancel: cancel)
     }
     

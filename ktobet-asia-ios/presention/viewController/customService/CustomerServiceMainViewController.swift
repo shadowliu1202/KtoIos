@@ -73,7 +73,6 @@ class CustomerServiceMainViewController: APPViewController {
         self.tableView.isHidden = element?.isEmpty ?? true
         self.emptyView.isHidden = !(element?.isEmpty ?? true)
         if let items = element?.isEmpty ?? true ? nil : [padding, edit] {
-            guard barButtonItems != items else { return }
             self.bind(position: .right, barButtonItems: items)
         } else {
             self.navigationItem.rightBarButtonItems?.removeAll()

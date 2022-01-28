@@ -31,11 +31,16 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     }
 
     
-    func close(roomId: String) {
+    func close(roomId: String, onFinished: @escaping () -> Void) {
         repository.closeChatRoom(roomId: roomId)
             .andThen(repository.removeToken())
             .andThen(serviceDisconnect())
-            .subscribe(onError: { print($0.localizedDescription) })
+            .subscribe(onCompleted: {
+                onFinished()
+            }, onError: {
+                print($0.localizedDescription)
+                onFinished()
+            })
             .disposed(by: disposeBag)
     }
     

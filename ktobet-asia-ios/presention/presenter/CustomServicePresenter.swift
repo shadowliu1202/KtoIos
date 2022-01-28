@@ -274,17 +274,14 @@ class CustomServicePresenter: NSObject {
         csViewModel.setupSurveyAnswer(answers: nil)
     }
     
-    func closeChatRoom() {
+    func close(completion: (() -> Void)? = nil) {
         csViewModel.closeChatRoom()
             .subscribe(onCompleted: {[weak self] in
                 self?.cleanSurveyAnswers()
+                self?.delegate?.sessionClosed()
                 print("close room")
             }).disposed(by: disposeBag)
-    }
-    
-    func close(completion: (() -> Void)? = nil) {
-        delegate?.sessionClosed()
-        closeChatRoom()
+        
         topViewController?.navigationController?.dismiss(animated: true, completion: {[weak self] in
             NavigationManagement.sharedInstance.viewController = self?.topViewController
             completion?()
