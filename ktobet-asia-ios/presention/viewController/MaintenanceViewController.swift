@@ -21,8 +21,8 @@ class MaintenanceViewController: UIViewController {
     }
     
     private func getMaintainRemainTime() {
-        Observable.just(productType).bind(to: serviceViewModel.input.playerDefaultProduct).disposed(by: disposeBag)
-        serviceViewModel.output.maintainTime.drive(onNext: { [weak self] time in
+        Observable.just(productType).bind(to: serviceViewModel.input.playerDefaultProductType).disposed(by: disposeBag)
+        serviceViewModel.output.productMaintainTime.drive(onNext: { [weak self] time in
             guard let `self` = self else { return }
             if time != nil {
                 self.updateTimelabels(time!, Date())

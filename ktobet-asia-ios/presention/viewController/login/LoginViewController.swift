@@ -280,7 +280,7 @@ class LoginViewController: LandingViewController {
     }
     
     private func toNextPage(_ defaultProduct: ProductType?) {
-        serviceStatusViewModel.input.playerDefaultProduct.onNext(defaultProduct ?? .none)
+        serviceStatusViewModel.input.playerDefaultProductType.onNext(defaultProduct ?? .none)
         serviceStatusViewModel.output.toNextPage
             .subscribeOn(MainScheduler.instance)
             .subscribe { [weak self] in

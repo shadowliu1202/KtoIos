@@ -56,7 +56,7 @@ class LaunchViewController: LandingViewController {
     
     private func nextPage() {
         let playerDefaultProduct = viewModel.loadPlayerInfo().compactMap{ $0.defaultProduct }.asObservable()
-        playerDefaultProduct.bind(to: serviceViewModel.input.playerDefaultProduct).disposed(by: disposeBag)
+        playerDefaultProduct.bind(to: serviceViewModel.input.playerDefaultProductType).disposed(by: disposeBag)
         serviceViewModel.output.toNextPage.subscribe(onError: {[weak self] error in self?.handleErrors(error) }).disposed(by: disposeBag)
     }
     

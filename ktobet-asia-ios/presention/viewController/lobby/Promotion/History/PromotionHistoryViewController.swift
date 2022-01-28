@@ -57,6 +57,10 @@ class PromotionHistoryViewController: APPViewController {
             return cell
         }.disposed(by: disposeBag)
         
+        viewModel.recordPagination.error.subscribe(onNext: {[weak self] error in
+            self?.handleErrors(error)
+        }).disposed(by: disposeBag)
+        
         rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
             .map { _ in () }
             .bind(to: viewModel.recordPagination.refreshTrigger)
