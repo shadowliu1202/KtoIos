@@ -53,11 +53,17 @@ class ResetPasswordViewModel {
     var code6 = BehaviorRelay(value: "")
     
     private var otpStatusRefreshSubject = PublishSubject<()>()
-    private lazy var otpStatus = otpStatusRefreshSubject.flatMapLatest{[unowned self] in self.systemUseCase.getOtpStatus().asObservable() }
+    private let otpStatus: ReplaySubject<OtpStatus> = .create(bufferSize: 1)
+    private let disposeBag = DisposeBag()
     
     init(_ resetUseCase : ResetPasswordUseCase, _ systemUseCase : GetSystemStatusUseCase) {
         self.resetUseCase = resetUseCase
         self.systemUseCase = systemUseCase
+        
+        otpStatusRefreshSubject.asObservable()
+            .flatMapLatest{[unowned self] in self.systemUseCase.getOtpStatus().asObservable() }
+            .bind(to: otpStatus)
+            .disposed(by: disposeBag)
     }
     
     func currentAccountType()->AccountType{

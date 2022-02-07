@@ -49,6 +49,7 @@ class SignupUserinfoViewController: LandingViewController {
     private let segueLanguage = "BackToLanguageList"
     private let seguePhone = "GoToPhone"
     private let segueEmail = "GoToEmail"
+    private var isFirstTimeEnter = true
     
     private var viewModel = DI.resolve(SignupUserInfoViewModel.self)!
     private var inputAccount : InputText {
@@ -177,6 +178,11 @@ class SignupUserinfoViewController: LandingViewController {
                     Alert.show(title, message, confirm: {
                         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
                     }, cancel: nil)
+                }
+                
+                if !status.isSmsActive && self.isFirstTimeEnter {
+                    self.btnEmailPressed(self.btnEmail!)
+                    self.isFirstTimeEnter = false
                 }
                 
                 switch self.viewModel.currentAccountType() {

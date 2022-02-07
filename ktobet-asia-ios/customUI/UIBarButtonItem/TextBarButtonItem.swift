@@ -43,6 +43,7 @@ class CustomerServiceButtonItem: TextBarButtonItem {
                 case is MaintenanceStatus.AllPortal:
                     Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
                         self.isEnabled = true
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
                     }, cancel: nil)
                 case is MaintenanceStatus.Product:
                     CustomService.startCustomerService(from: vc, delegate: self.delegate)

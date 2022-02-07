@@ -35,6 +35,7 @@ class TickCircle {
     
     func remove() {
         circle.removeFromSuperview()
+        ticks.forEach{ $0.isHidden = true }
         ticks.forEach{ $0.removeFromSuperview() }
         backgroundTicks.forEach{ $0.removeFromSuperview() }
         view.isHidden = true
@@ -49,7 +50,12 @@ class TickCircle {
             if self.firstShow {
                 self.caculateTickPosition()
             } else {
-                self.ticks[(self.currentIndex) % 60].isHidden.toggle()
+                if (self.currentIndex) % 60 == 0 {
+                    self.ticks.forEach{ $0.isHidden = false }
+                } else {
+                    self.ticks[(self.currentIndex) % 60].isHidden = true
+                }
+                
                 self.currentIndex += 1
             }
 

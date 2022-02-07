@@ -40,7 +40,9 @@ class SignupUserInfoViewModel {
     private var passwordEdited = false
     private var nameEdited = false
     private var otpStatusRefreshSubject = PublishSubject<()>()
-    private lazy var otpStatus = otpStatusRefreshSubject.flatMapLatest{[unowned self] in self.usecaseSystemStatus.getOtpStatus().asObservable() }
+    private let otpStatus: ReplaySubject<OtpStatus> = .create(bufferSize: 1)
+    private let disposeBag = DisposeBag()
+
     
     var relayName = BehaviorRelay(value: "")
     var relayEmail = BehaviorRelay(value: "")
@@ -53,6 +55,11 @@ class SignupUserInfoViewModel {
     init(_ usecaseRegister : RegisterUseCase, _ usecaseSystem : GetSystemStatusUseCase) {
         self.usecaseRegister = usecaseRegister
         self.usecaseSystemStatus = usecaseSystem
+        
+        otpStatusRefreshSubject.asObservable()
+            .flatMapLatest{[unowned self] in self.usecaseSystemStatus.getOtpStatus().asObservable() }
+            .bind(to: otpStatus)
+            .disposed(by: disposeBag)
     }
     
     func inputAccountType(_ type: AccountType){
