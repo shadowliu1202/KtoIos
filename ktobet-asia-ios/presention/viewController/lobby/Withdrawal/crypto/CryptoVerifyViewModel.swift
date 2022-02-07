@@ -24,13 +24,18 @@ class CryptoVerifyViewModel {
     private var systemUseCase : GetSystemStatusUseCase!
     
     private var otpStatusRefreshSubject = PublishSubject<()>()
-    private lazy var otpStatus = otpStatusRefreshSubject.flatMapLatest{[unowned self] in self.systemUseCase.getOtpStatus().asObservable() }
-
+    private let otpStatus: ReplaySubject<OtpStatus> = .create(bufferSize: 1)
+    private let disposeBag = DisposeBag()
     
     init(playerUseCase: PlayerDataUseCase, withdrawalUseCase: WithdrawalUseCase, systemUseCase : GetSystemStatusUseCase) {
         self.playerUseCase = playerUseCase
         self.withdrawalUseCase = withdrawalUseCase
         self.systemUseCase = systemUseCase
+        
+        otpStatusRefreshSubject.asObservable()
+            .flatMapLatest{[unowned self] in self.systemUseCase.getOtpStatus().asObservable() }
+            .bind(to: otpStatus)
+            .disposed(by: disposeBag)
     }
     
     func verify(playerCryptoBankCardId: String) -> Completable {

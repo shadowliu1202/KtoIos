@@ -28,6 +28,7 @@ class WithdrawalCryptoVerifyViewController: APPViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
+        viewModel.refreshOtpStatus()
         btnPhone.setTitle(Localize.string("common_mobile"), for: .normal)
         btnEmail.setTitle(Localize.string("common_email"), for: .normal)
         for button in [btnEmail, btnPhone]{

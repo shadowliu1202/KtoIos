@@ -134,10 +134,6 @@ class SideBarViewController: UIViewController {
                       message: Localize.string("common_kick_out_inactive"),
                       cancel: cancel)
         case .Maintenance:
-            if CustomServicePresenter.shared.topViewController is PortalMaintenanceViewController {
-                return
-            }
-            
             if CustomServicePresenter.shared.topViewController is ChatRoomViewController {
                 showAlert(title: Localize.string("common_maintenance_notify"),
                           message: Localize.string("common_maintenance_contact_later"),

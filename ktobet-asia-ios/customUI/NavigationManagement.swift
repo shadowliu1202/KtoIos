@@ -9,7 +9,7 @@ let DIFF_NAVI_HEIGHT = CUSTOM_NAVI_HEIGHT - DEFAULT_NAVI_HEIGHT
 class NavigationManagement {
     static let sharedInstance = NavigationManagement()
     
-    private var sideBarViewController: SideBarViewController!
+    var sideBarViewController: SideBarViewController!
     private var menu: SideMenuNavigationController!
     
     var viewController: UIViewController!
@@ -64,7 +64,7 @@ class NavigationManagement {
     }
     
     func goTo(storyboard name: String, viewControllerId: String) {
-        if viewControllerId == "LoginNavigation" || viewControllerId == "LaunchViewController" {
+        if viewControllerId == "LoginNavigation" || viewControllerId == "LaunchViewController" || viewControllerId == "PortalMaintenanceViewController" {
             dispose()
         }
         
