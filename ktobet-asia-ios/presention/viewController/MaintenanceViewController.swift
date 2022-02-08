@@ -3,9 +3,9 @@ import RxSwift
 import SharedBu
 
 class MaintenanceViewController: UIViewController {
-    private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var productType: ProductType!
-    private var disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     private var timer: CountDownTimer?
     
     override func viewDidLoad() {

@@ -83,8 +83,9 @@ class ChatRoomViewController: UIViewController {
         sendImageViewTapGesture.rx.event.bind(onNext: { [weak self] recognizer in
             guard let self = self, let text = self.inputTextField.text else { return }
             
-            self.viewModel.send(message: text).subscribe(onError: { _ in
+            self.viewModel.send(message: text).subscribe(onError: { error in
                 print("send message error")
+                self.handleErrors(error)
             }).disposed(by: self.disposeBag)
             
             self.inputTextField.text = ""
@@ -374,7 +375,7 @@ class MixTableViewCell: UITableViewCell {
         if message.isEmpty {
             return
         }
-
+        
         let label = UILabel()
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -384,19 +385,21 @@ class MixTableViewCell: UITableViewCell {
             updateText(label: label, attributes: attributes)
         }
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapFunction))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
+        
+        
         let text = label.text ?? ""
-        if text.starts(with: "www") || text.starts(with: "http") {
-            var linkAttribute: [NSAttributedString.Key: Any] = [:]
-            linkAttribute[NSAttributedString.Key.foregroundColor] = UIColor.red
-            linkAttribute[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.single.rawValue
-
-            let underlineAttributedString = NSAttributedString(string: label.text ?? "", attributes: linkAttribute)
-            label.attributedText = underlineAttributedString
-            
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapFunction))
-            label.isUserInteractionEnabled = true
-            label.addGestureRecognizer(tap)
+        let parseText = getLinkTextRange(str: text)
+        let underlineAttriString = NSMutableAttributedString(string: text)
+        
+        parseText.forEach { (url, range) in
+            underlineAttriString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
+            underlineAttriString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: range)
         }
+        
+        label.attributedText = underlineAttriString
         
         stackView.addArrangedSubview(label)
         label.sizeToFit()
@@ -458,6 +461,16 @@ class MixTableViewCell: UITableViewCell {
         stackViewWidth.constant = linkTextView.frame.width + 40
     }
     
+    private func getLinkTextRange(str: String) -> [(URL?, NSRange)] {
+        let types: NSTextCheckingResult.CheckingType = [.link]
+        if let detector = try? NSDataDetector(types: types.rawValue) {
+            let links = detector.matches(in: str, range: NSRange(str.startIndex..., in: str))
+            return links.map{ ($0.url ,$0.range) }
+        }
+        
+        return []
+    }
+    
     private func updateText(label: UILabel, attributes: SharedBu.Attributes) {
         let bold = attributes.bold?.boolValue ?? false
         let italic = attributes.italic?.boolValue ?? false
@@ -484,10 +497,11 @@ class MixTableViewCell: UITableViewCell {
         guard let label = sender.view as? UILabel,
               let text = label.text else { return }
         
-        var urlComponents = URLComponents(string: text)!
-        if urlComponents.scheme == nil { urlComponents.scheme = "https" }
-        let urlStr = urlComponents.url!.absoluteString
-        
-        UIApplication.shared.open(URL(string: urlStr)!)
+        let parseText = getLinkTextRange(str: text)
+        parseText.forEach { (url, range) in
+            if sender.didTapAttributedTextInLabel(label: label, inRange: range) {
+                UIApplication.shared.open(url!)
+            }
+        }
     }
 }
