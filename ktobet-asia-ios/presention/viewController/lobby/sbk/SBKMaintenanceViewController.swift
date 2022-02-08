@@ -8,10 +8,14 @@ class SBKMaintenanceViewController: MaintenanceViewController {
     @IBOutlet var hourLabel: UILabel!
     @IBOutlet var minuteLabel: UILabel!
     @IBOutlet var secondLabel: UILabel!
+    @IBOutlet var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        serviceViewModel.output.maintainImage.drive(onNext: { [weak self] imgStr in
+            self?.imageView.image = UIImage(named: imgStr)
+        }).disposed(by: disposeBag)
     }
     
     override func setTextPerSecond(_ countdownseconds: Int) {

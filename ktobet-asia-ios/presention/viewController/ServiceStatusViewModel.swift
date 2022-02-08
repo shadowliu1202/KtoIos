@@ -23,12 +23,13 @@ final class ServiceStatusViewModel: ViewModelType {
         let toNextPage = self.toNextPage(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus)
         let productMaintainTime = self.productMaintainTime(maintainStatus)
         let productsMaintainTime = self.productsMaintainTime(maintainStatus)
+        let maintainImage = self.getMaintainImage(productType: playerDefaultType)
         
         self.output = Output(playerDefaultType: playerDefaultType, maintainDefaultType: maintainDefaultType,
                              isAllProductMaintain: isAllProductMaintain, toNextPage: toNextPage,
                              portalMaintenanceStatus: maintainStatus, otpService: otpService,
                              customerServiceEmail: customerServiceEmail, productMaintainTime: productMaintainTime,
-                             productsMaintainTime: productsMaintainTime)
+                             productsMaintainTime: productsMaintainTime, maintainImage: maintainImage)
         self.input = Input(playerDefaultProductType: playerDefaultProductType.asObserver())
     }
     
@@ -93,6 +94,22 @@ final class ServiceStatusViewModel: ViewModelType {
             return []
         }.asObservable()
     }
+    
+    private func getMaintainImage(productType: Driver<ProductType>) -> Driver<String> {
+        return productType.map { productType -> String in
+            let language = Language(rawValue: LocalizeUtils.shared.getLanguage())
+            switch language {
+            case .ZH:
+                return "CNY-maintain\(productType.name)"
+            case .TH:
+                return "THB-\(productType.name)"
+            case .VI:
+                return "VND-maintain\(productType.name)"
+            default:
+                return ""
+            }
+        }
+    }
 }
 
 
@@ -111,5 +128,6 @@ extension ServiceStatusViewModel {
         let customerServiceEmail: Driver<String>
         let productMaintainTime: Driver<OffsetDateTime?>
         let productsMaintainTime: Observable<[(productType: ProductType, maintainTime: OffsetDateTime?)]>
+        let maintainImage: Driver<String>
     }
 }

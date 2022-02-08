@@ -4,6 +4,8 @@ import SharedBu
 import WebKit
 
 class SportBookViewController: UIViewController {
+    private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private var disposeBag = DisposeBag()
     private var sbkWebUrlString: String { KtoURL.baseUrl.absoluteString + "sbk" }
     private lazy var activityIndicator: UIActivityIndicatorView = {
         return UIActivityIndicatorView(style: .large)
@@ -19,9 +21,21 @@ class SportBookViewController: UIViewController {
             ])
             self.activityIndicator.startAnimating()
         }
+        
         DispatchQueue.main.async {
             self.setupWebView()
         }
+        
+        serviceViewModel.output.portalMaintenanceStatus.drive(onNext: { status in
+            switch status {
+            case let product as MaintenanceStatus.Product:
+                if product.isProductMaintain(productType: .sbk) {
+                    NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
+                }
+            default:
+                break
+            }
+        }).disposed(by: disposeBag)
     }
     
     deinit {
@@ -73,6 +87,7 @@ extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        serviceViewModel.refreshProductStatus()
         self.activityIndicator.stopAnimating()
     }
 }

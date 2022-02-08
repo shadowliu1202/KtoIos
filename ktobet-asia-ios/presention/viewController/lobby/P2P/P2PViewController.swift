@@ -72,7 +72,9 @@ class P2PViewController: AppVersionCheckViewController {
                 break
             }
         } onError: {[weak self] (error) in
-            self?.handleErrors(error)
+            if error.isMaintenance() {
+                NavigationManagement.sharedInstance.goTo(productType: .p2p, isMaintenance: true)
+            }
         }.disposed(by: disposeBag)
     }
 }
