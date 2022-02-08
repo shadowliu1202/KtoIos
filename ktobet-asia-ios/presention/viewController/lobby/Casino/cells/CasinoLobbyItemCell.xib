@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CasinoLobbyItemCell" id="usL-FN-cib" customClass="CasinoLobbyItemCell" customModule="ktobet_asia_ios" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="96" height="118"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="GXx-Na-Uov">
+                <rect key="frame" x="0.0" y="0.0" width="96" height="118"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lobby-platinum" translatesAutoresizingMaskIntoConstraints="NO" id="fhd-1I-NKp">
+                        <rect key="frame" x="4" y="4" width="88" height="88"/>
+                        <color key="backgroundColor" red="0.076803736390000002" green="0.076818682250000006" blue="0.076798669989999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="fhd-1I-NKp" secondAttribute="height" multiplier="1:1" id="Lqh-61-QYB"/>
+                            <constraint firstAttribute="height" constant="88" id="buH-Xj-alY"/>
+                            <constraint firstAttribute="width" constant="88" id="jZZ-fC-ACr"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="28"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uql-c2-SvB" userLabel="blur">
+                        <rect key="frame" x="4" y="4" width="88" height="88"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jam-RM-vQl">
+                                <rect key="frame" x="26" y="26" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="QH0-A7-EpY"/>
+                                    <constraint firstAttribute="width" constant="36" id="bOo-PA-omR"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="88" id="3R0-hP-4CB"/>
+                            <constraint firstAttribute="width" secondItem="uql-c2-SvB" secondAttribute="height" multiplier="1:1" id="5oV-Hc-Uml"/>
+                            <constraint firstAttribute="height" priority="750" constant="88" id="69N-WL-YyQ"/>
+                            <constraint firstItem="jam-RM-vQl" firstAttribute="centerY" secondItem="uql-c2-SvB" secondAttribute="centerY" id="dLU-zw-JAf"/>
+                            <constraint firstItem="jam-RM-vQl" firstAttribute="centerX" secondItem="uql-c2-SvB" secondAttribute="centerX" id="ei0-iV-fuM"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="老虎機" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjq-5F-YmA">
+                        <rect key="frame" x="0.0" y="96" width="96" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" priority="750" constant="16" id="KXj-1w-kl1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="12"/>
+                        <color key="textColor" name="whiteFull"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="uql-c2-SvB" secondAttribute="trailing" constant="4" id="8n9-bv-2ET"/>
+                    <constraint firstItem="hjq-5F-YmA" firstAttribute="top" secondItem="fhd-1I-NKp" secondAttribute="bottom" constant="4" id="DWm-ha-7ua"/>
+                    <constraint firstItem="uql-c2-SvB" firstAttribute="leading" secondItem="GXx-Na-Uov" secondAttribute="leading" constant="4" id="FxI-9Z-IWP"/>
+                    <constraint firstItem="hjq-5F-YmA" firstAttribute="top" secondItem="uql-c2-SvB" secondAttribute="bottom" constant="4" id="HKH-vO-qJ9"/>
+                    <constraint firstAttribute="trailing" secondItem="hjq-5F-YmA" secondAttribute="trailing" id="KdA-Iv-ax1"/>
+                    <constraint firstItem="uql-c2-SvB" firstAttribute="top" secondItem="GXx-Na-Uov" secondAttribute="top" constant="4" id="Ph9-ry-Ue7"/>
+                    <constraint firstItem="fhd-1I-NKp" firstAttribute="top" secondItem="GXx-Na-Uov" secondAttribute="top" constant="4" id="R3i-M7-7o5"/>
+                    <constraint firstItem="hjq-5F-YmA" firstAttribute="leading" secondItem="GXx-Na-Uov" secondAttribute="leading" id="bbG-UK-e0P"/>
+                    <constraint firstAttribute="trailing" secondItem="fhd-1I-NKp" secondAttribute="trailing" constant="4" id="kUl-cZ-MDP"/>
+                    <constraint firstAttribute="bottom" secondItem="hjq-5F-YmA" secondAttribute="bottom" constant="6" id="wtr-VV-yIn"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="105" height="132"/>
+            <connections>
+                <outlet property="blurView" destination="uql-c2-SvB" id="Ngr-02-udP"/>
+                <outlet property="imgIcon" destination="fhd-1I-NKp" id="kwS-Dl-Xjf"/>
+                <outlet property="imgWidth" destination="jZZ-fC-ACr" id="oua-Ej-059"/>
+                <outlet property="labTitle" destination="hjq-5F-YmA" id="OnA-si-tic"/>
+                <outlet property="mainView" destination="GXx-Na-Uov" id="WZD-RB-Ofs"/>
+                <outlet property="maintainIcon" destination="jam-RM-vQl" id="4MK-7e-Hkc"/>
+            </connections>
+            <point key="canvasLocation" x="-357.24637681159425" y="-83.035714285714278"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="lobby-platinum" width="95" height="95"/>
+        <namedColor name="whiteFull">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

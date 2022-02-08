@@ -57,6 +57,8 @@ class CasinoViewController: DisplayProduct {
     }
     
     fileprivate func initUI() {
+        lobbyCollectionView.registerCellFromNib(CasinoLobbyItemCell.className)
+        lobbyCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         let data = [tagAll]
         addBtnTags(stackView: tagsStackView, data: data)
@@ -118,12 +120,18 @@ class CasinoViewController: DisplayProduct {
     // MARK: KVO
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "contentSize", let newvalue = change?[.newKey] {
+            var heightOfScrollViewContent: CGFloat = 0
             if let obj = object as? UICollectionView , obj == gamesCollectionView {
                 let aboveHeight = titleLabel.frame.size.height + tagsStackView.frame.size.height + lobbyCollectionView.frame.size.height
-                let space: CGFloat = 8 + 30 + 20 * 3
-                scrollViewContentHeight.constant = (newvalue as! CGSize).height + aboveHeight + space
+                let space: CGFloat = 8 + 34 + 24 * 2
+                heightOfScrollViewContent = (newvalue as! CGSize).height + aboveHeight + space
+            } else if let obj = object as? UICollectionView , obj == lobbyCollectionView {
+                let aboveHeight = titleLabel.frame.size.height + tagsStackView.frame.size.height
+                let space: CGFloat = 8 + 34 + 24 * 2
+                heightOfScrollViewContent = (newvalue as! CGSize).height + aboveHeight + space
             }
-            
+            let constraint = max(scrollViewContentHeight.constant, heightOfScrollViewContent)
+            scrollViewContentHeight.constant = constraint
         }
     }
     
@@ -185,6 +193,22 @@ extension CasinoViewController: UICollectionViewDelegate {
     }
 }
 
+extension CasinoViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return size(for: indexPath)
+    }
+    
+    private func size(for indexPath: IndexPath) -> CGSize {
+        let cell = Bundle.main.loadNibNamed("CasinoLobbyItemCell", owner: self, options: nil)?.first as! CasinoLobbyItemCell
+        let data = self.lobbies[indexPath.item]
+        cell.configure(data)
+        cell.setNeedsLayout()
+        cell.layoutIfNeeded()
+        let size = cell.contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        return size
+    }
+}
+
 class CasinoLobbyCollectionView: UICollectionView {
     override func reloadData() {
         super.reloadData()
@@ -192,33 +216,5 @@ class CasinoLobbyCollectionView: UICollectionView {
     }
     override var intrinsicContentSize: CGSize {
         return self.collectionViewLayout.collectionViewContentSize
-    }
-}
-
-class CasinoLobbyItemCell: UICollectionViewCell {
-    @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var imgIcon: UIImageView!
-    @IBOutlet weak var maintainIcon: UIImageView!
-    @IBOutlet private weak var labTitle : UILabel!
-    @IBOutlet private weak var blurView: UIView!
-    @IBOutlet weak var imgWidth: NSLayoutConstraint!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        mainView.translatesAutoresizingMaskIntoConstraints = false
-        let width = floor( (UIScreen.main.bounds.size.width - 24 * 2 - 14 * 2) / 3 )
-        self.mainView.constrain([.equal(\.widthAnchor, length: width)])
-        imgWidth.constant = width - 4 * 2
-    }
-    
-    func configure(_ data : CasinoLobby) -> Self {
-        labTitle.text = data.name
-        imgIcon.image = data.lobby.img
-        maintainIcon.image = UIImage(named: "game-maintainance")
-        blurView.isHidden = !data.isMaintenance
-        self.isUserInteractionEnabled = !data.isMaintenance
-        blurView.layer.cornerRadius = self.bounds.width / 2
-        blurView.layer.masksToBounds = true
-        return self
     }
 }
