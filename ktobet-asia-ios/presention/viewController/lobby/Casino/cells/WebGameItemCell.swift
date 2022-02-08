@@ -42,7 +42,6 @@ class WebGameItemCell: UICollectionViewCell {
         let imgName = game.isFavorite == true ? "game-favorite-active" : "game-favorite-activeinactive"
         favoriteBtn.setImage(UIImage(named: imgName), for: .normal)
         labTitle.text = game.gameName
-        labelHeight.constant = labTitle.retrieveTextHeight()
         switch game.gameState() {
         case .active:
             blurView.isHidden = true
