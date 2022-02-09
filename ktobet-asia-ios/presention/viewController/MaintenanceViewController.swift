@@ -33,7 +33,7 @@ class MaintenanceViewController: UIViewController {
     }
     
     private func updateTimelabels(_ endTime: OffsetDateTime, _ now: Date) {
-        let remainTime = TimeInterval(endTime.epochSeconds - now.convertDateToOffsetDateTime().epochSeconds)
+        let remainTime = TimeInterval(endTime.toEpochMilliseconds() - now.convertDateToOffsetDateTime().toEpochMilliseconds()) / 1000
         if self.timer == nil {
             self.timer = CountDownTimer()
         }
