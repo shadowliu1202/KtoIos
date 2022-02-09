@@ -85,12 +85,13 @@ class ResetPasswordViewController: LandingViewController {
                 if status == .errSMSOtpInactive && self.isFirstTimeEnter {
                     // 3.4.8.1 first time enter switch to email if sms inactive
                     self.btnEmailPressed(self.btnEmail!)
-                    self.isFirstTimeEnter = false
                 }
             } else {
                 self.viewOtpServiceDown.isHidden = true
                 self.viewInputView.isHidden = false
             }
+            
+            self.isFirstTimeEnter = false
         }).disposed(by: disposeBag)
         
         event.emailValid
