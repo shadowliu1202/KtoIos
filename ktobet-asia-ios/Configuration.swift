@@ -63,5 +63,5 @@ fileprivate class StagingConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
-    var downloadUrl: URL = URL(string: "https://stgtest.bxfz2fn.cn")!
+    var downloadUrl: URL = URL(string: "https://stgtest.qdcmdq.com/")!
 }
