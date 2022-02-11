@@ -683,10 +683,10 @@
             </objects>
             <point key="canvasLocation" x="-1362" y="-560"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Casino Navigation-->
         <scene sceneID="TWB-a3-ehN">
             <objects>
-                <navigationController storyboardIdentifier="CasinoNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Raw-tg-plE" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="CasinoNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Raw-tg-plE" customClass="CasinoNavigation" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="aRb-gH-aCf">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
