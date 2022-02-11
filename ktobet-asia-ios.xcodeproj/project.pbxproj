@@ -1277,6 +1277,9 @@
 		6D7275FF25F5F499000BF51F /* MonthCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7275FC25F5F499000BF51F /* MonthCollectionViewCell.swift */; };
 		6D72760125F5F499000BF51F /* MonthCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D7275FD25F5F499000BF51F /* MonthCollectionViewCell.xib */; };
 		6D72760225F5F499000BF51F /* MonthCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D7275FD25F5F499000BF51F /* MonthCollectionViewCell.xib */; };
+		6D73095127B63FA5006131E4 /* ProductNavigations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D73095027B63FA5006131E4 /* ProductNavigations.swift */; };
+		6D73095227B63FA5006131E4 /* ProductNavigations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D73095027B63FA5006131E4 /* ProductNavigations.swift */; };
+		6D73095327B63FA5006131E4 /* ProductNavigations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D73095027B63FA5006131E4 /* ProductNavigations.swift */; };
 		6D738AB6279551E70018CE1D /* BankCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D738AB5279551E70018CE1D /* BankCard.swift */; };
 		6D738AB7279551E70018CE1D /* BankCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D738AB5279551E70018CE1D /* BankCard.swift */; };
 		6D738AB8279551E70018CE1D /* BankCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D738AB5279551E70018CE1D /* BankCard.swift */; };
@@ -2019,6 +2022,7 @@
 		6D7275F425F5D3F9000BF51F /* MonthSelectView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MonthSelectView.xib; sourceTree = "<group>"; };
 		6D7275FC25F5F499000BF51F /* MonthCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCollectionViewCell.swift; sourceTree = "<group>"; };
 		6D7275FD25F5F499000BF51F /* MonthCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MonthCollectionViewCell.xib; sourceTree = "<group>"; };
+		6D73095027B63FA5006131E4 /* ProductNavigations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductNavigations.swift; sourceTree = "<group>"; };
 		6D738AB5279551E70018CE1D /* BankCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankCard.swift; sourceTree = "<group>"; };
 		6D7C1D7F2779C38800D45654 /* MaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceViewController.swift; sourceTree = "<group>"; };
 		6D87629A26F1E4CA00EFD6CE /* TransactionLogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionLogDetailViewController.swift; sourceTree = "<group>"; };
@@ -2825,6 +2829,7 @@
 				6034620026327DC800F5D1D9 /* CasinoViewController.swift */,
 				6034620326327DC800F5D1D9 /* CasinoViewModel.swift */,
 				6034620426327DC800F5D1D9 /* CasinoSummaryViewController.swift */,
+				6D73095027B63FA5006131E4 /* ProductNavigations.swift */,
 			);
 			path = Casino;
 			sourceTree = "<group>";
@@ -3866,6 +3871,7 @@
 				607CF2D925BECEE400A9342D /* NumberGameViewController.swift in Sources */,
 				6DC17ECB26817356009665B4 /* WithdrawalCryptoRequestViewModel.swift in Sources */,
 				6010405326A69C0B00B28FC8 /* LevelPrivilegeDetailViewController.swift in Sources */,
+				6D73095227B63FA5006131E4 /* ProductNavigations.swift in Sources */,
 				605CF88D2642317400FBCF31 /* DropDownTableViewCell.swift in Sources */,
 				4199A02F25AE9918002E2D7E /* PlayerApi.swift in Sources */,
 				41077DB425BA63980057B340 /* UIButtonExtension.swift in Sources */,
@@ -4341,6 +4347,7 @@
 				6010405226A69C0B00B28FC8 /* LevelPrivilegeDetailViewController.swift in Sources */,
 				605CF88C2642317400FBCF31 /* DropDownTableViewCell.swift in Sources */,
 				48AAA11A256E458800E075CA /* CodableHelpers.swift in Sources */,
+				6D73095127B63FA5006131E4 /* ProductNavigations.swift in Sources */,
 				4139BA4825B01B0C00872D39 /* KTOError.swift in Sources */,
 				48AAA11B256E458800E075CA /* HttpConnectionOptions.swift in Sources */,
 				6034623B26327E1400F5D1D9 /* Constraint.swift in Sources */,
@@ -5005,6 +5012,7 @@
 				609012F12640EE7000419F8E /* ProductItemCell.swift in Sources */,
 				609012F22640EE7000419F8E /* KTOBarButtonItem.swift in Sources */,
 				609012F32640EE7000419F8E /* SignupRegistFailViewController.swift in Sources */,
+				6D73095327B63FA5006131E4 /* ProductNavigations.swift in Sources */,
 				609012F42640EE7000419F8E /* Transport.swift in Sources */,
 				6D986A122718157E00194E0D /* RangeReplaceableCollection.swift in Sources */,
 				6060AF672671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */,

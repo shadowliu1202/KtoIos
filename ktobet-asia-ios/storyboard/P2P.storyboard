@@ -381,10 +381,10 @@
             </objects>
             <point key="canvasLocation" x="2461" y="92"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Navigation-->
         <scene sceneID="LHy-O0-qs3">
             <objects>
-                <navigationController storyboardIdentifier="P2PNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Qm2-o2-MCH" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="P2PNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Qm2-o2-MCH" customClass="P2PNavigation" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="sne-rZ-enE">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

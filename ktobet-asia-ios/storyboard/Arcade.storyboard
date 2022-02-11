@@ -101,10 +101,10 @@
             </objects>
             <point key="canvasLocation" x="346" y="25"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Arcade Navigation-->
         <scene sceneID="VQQ-aK-98e">
             <objects>
-                <navigationController storyboardIdentifier="ArcadeNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="EPB-yc-gye" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ArcadeNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="EPB-yc-gye" customClass="ArcadeNavigation" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="HOA-8p-VEe">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

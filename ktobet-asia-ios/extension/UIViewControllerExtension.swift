@@ -89,15 +89,7 @@ extension UIViewController{
         case 403:
             showRestrictView()
         case 410:
-            if UIApplication.topViewController() is LandingViewController {
-                showUnLoginMaintenanAlert()
-            } else {
-                viewModel.logout()
-                    .subscribeOn(MainScheduler.instance)
-                    .subscribe(onCompleted: {[weak self] in
-                        self?.showLoginMaintenanAlert()
-                    }).disposed(by: disposeBag)
-            }
+            handleMaintenance(viewModel, disposeBag)
         case 404:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         case 503:
@@ -105,6 +97,32 @@ extension UIViewController{
         default:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         }
+    }
+    
+    private func handleMaintenance(_ viewModel: PlayerViewModel, _ disposeBag : DisposeBag) {
+        let serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
+        serviceViewModel.output.portalMaintenanceStatus.drive(onNext: {[weak self] status in
+            switch status {
+            case is MaintenanceStatus.AllPortal:
+                if UIApplication.topViewController() is LandingViewController {
+                    self?.showUnLoginMaintenanAlert()
+                } else {
+                    viewModel.logout()
+                        .subscribeOn(MainScheduler.instance)
+                        .subscribe(onCompleted: {[weak self] in
+                            self?.showLoginMaintenanAlert()
+                        }).disposed(by: disposeBag)
+                }
+            case let productStatus as MaintenanceStatus.Product:
+                if let navi = NavigationManagement.sharedInstance.viewController.navigationController as? ProductNavigations {
+                    let isMaintenance = productStatus.isProductMaintain(productType: navi.productType)
+                    NavigationManagement.sharedInstance.goTo(productType: navi.productType, isMaintenance: isMaintenance)
+                }
+                break
+            default:
+                break
+            }
+        }).disposed(by: disposeBag)
     }
     
     func showLoginMaintenanAlert() {
