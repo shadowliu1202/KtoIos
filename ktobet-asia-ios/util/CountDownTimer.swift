@@ -24,8 +24,6 @@ class CountDownTimer {
                duration : TimeInterval,
                block: ((_ index: Int, _ countDownSeconds: Int, _ finish: Bool)->())?){
         stop()
-        if timeInterval <= 0 || duration <= 0 { return }
-        if timeInterval > duration { return }
         finishTime = Date().timeIntervalSince1970 + duration
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true, block: { (t) in
             self.index += 1

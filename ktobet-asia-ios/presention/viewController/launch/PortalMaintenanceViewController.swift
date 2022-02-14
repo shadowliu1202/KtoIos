@@ -62,4 +62,8 @@ class PortalMaintenanceViewController: APPViewController {
     private func showNavigation() {
         NavigationManagement.sharedInstance.goTo(storyboard: "Launch", viewControllerId: "LaunchViewController")
     }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
 }
