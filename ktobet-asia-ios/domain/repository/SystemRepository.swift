@@ -76,7 +76,7 @@ class SystemRepositoryImpl : SystemRepository{
     
     private func getMaintenanceTimeFromCookies() -> Int {
         let str = (HttpClient().getCookies().first(where: { $0.name == maintenanceTimeCookieName })?.value) ?? "0"
-        return Int(Double(str) ?? 0)
+        return Int(ceil(Double(str) ?? 0))
     }
     
     private func maintainCsEmail() -> String {
