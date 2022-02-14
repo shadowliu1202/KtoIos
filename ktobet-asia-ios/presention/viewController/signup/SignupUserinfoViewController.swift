@@ -182,9 +182,8 @@ class SignupUserinfoViewController: LandingViewController {
                 
                 if !status.isSmsActive && self.isFirstTimeEnter {
                     self.btnEmailPressed(self.btnEmail!)
-                    self.isFirstTimeEnter = false
                 }
-                
+                self.isFirstTimeEnter = false
                 switch self.viewModel.currentAccountType() {
                 case .email:
                     self.selectedAccountTypeIsMaintain(isActive: status.isMailActive, otpStatus: status)
