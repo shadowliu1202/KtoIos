@@ -9,8 +9,8 @@ class AppSynchronizeViewModel {
         self.appUpdateUseCase = DI.resolve(AppVersionUpdateUseCase.self)!
     }
     private var appUpdateUseCase: AppVersionUpdateUseCase!
-    var compulsoryupdate = BehaviorRelay<Version.VersionState?>(value: nil)
-    var optionalupdate = BehaviorRelay<Version.VersionState?>(value: nil)
+    var compulsoryupdate = BehaviorRelay<Version?>(value: nil)
+    var optionalupdate = BehaviorRelay<Version?>(value: nil)
     var uptodate = BehaviorRelay<Version.VersionState?>(value: nil)
     lazy var synchronize = self.appUpdateUseCase.synchronize()
     func getCurrentVersion() -> Version {
@@ -24,9 +24,9 @@ class AppSynchronizeViewModel {
             let state = $0.getVersionState(currentVersion: current)
             switch state {
             case .compulsoryupdate:
-                self.compulsoryupdate.accept(state)
+                self.compulsoryupdate.accept($0)
             case .optionalupdate:
-                self.optionalupdate.accept(state)
+                self.optionalupdate.accept($0)
             case .uptodate:
                 self.uptodate.accept(state)
             default:

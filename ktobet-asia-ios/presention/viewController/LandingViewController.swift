@@ -16,26 +16,26 @@ class LandingViewController: APPViewController {
     }
     
     func observerCompulsoryUpdate() {
-        appSyncDispose = AppSynchronizeViewModel.shared.compulsoryupdate.compactMap({$0}).subscribe(onNext: { [weak self] _ in
-            self?.confirmUpdate()
+        appSyncDispose = AppSynchronizeViewModel.shared.compulsoryupdate.compactMap({$0}).subscribe(onNext: { [weak self] in
+            self?.confirmUpdate($0.apkLink)
         })
     }
     
     func observerUpdates() {
-        appSyncDispose = Observable.merge(AppSynchronizeViewModel.shared.optionalupdate.compactMap({$0}), AppSynchronizeViewModel.shared.compulsoryupdate.compactMap({$0})).subscribe(onNext: { [weak self] _ in
-            self?.confirmUpdate()
+        appSyncDispose = Observable.merge(AppSynchronizeViewModel.shared.optionalupdate.compactMap({$0}), AppSynchronizeViewModel.shared.compulsoryupdate.compactMap({$0})).subscribe(onNext: { [weak self] in
+            self?.confirmUpdate($0.apkLink)
         })
     }
     
-    func confirmUpdate() {
+    func confirmUpdate(_ urlString: String) {
         guard !isAlertShown else { return }
         isAlertShown = true
         Alert.show(nil,
                    Localize.string("update_new_version_content"),
                    confirm: { [weak self] in
             self?.isAlertShown = false
-            if UIApplication.shared.canOpenURL(Configuration.downloadUrl) {
-                UIApplication.shared.open(Configuration.downloadUrl)
+            if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
             }
         },
                    confirmText: Localize.string("update_proceed_now"),

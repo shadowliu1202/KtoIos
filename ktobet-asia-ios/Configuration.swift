@@ -30,7 +30,6 @@ enum Configuration: String {
     static var isAutoUpdate: Bool   = env.isAutoUpdate
     static var manualUpdate: Bool   = env.manualUpdate
     static var debugGesture: Bool   = env.debugGesture
-    static var downloadUrl: URL     = env.downloadUrl
     static var affiliateUrl: URL    = URL(string: "\(env.host)affiliate")!
 }
 
@@ -39,7 +38,6 @@ protocol Env {
     var isAutoUpdate: Bool { get }
     var manualUpdate: Bool { get }
     var debugGesture: Bool { get }
-    var downloadUrl: URL { get }
 }
 
 fileprivate class DevConfig: Env {
@@ -47,7 +45,6 @@ fileprivate class DevConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
-    var downloadUrl: URL = URL(string: "https://www.google.com")!
 }
 
 fileprivate class QatConfig: Env {
@@ -55,7 +52,6 @@ fileprivate class QatConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
-    var downloadUrl: URL = URL(string: "https://beta.itunes.apple.com/v1/app/1576526542")!
 }
 
 fileprivate class StagingConfig: Env {
@@ -63,5 +59,4 @@ fileprivate class StagingConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
-    var downloadUrl: URL = URL(string: "https://stgtest.qdcmdq.com/")!
 }
