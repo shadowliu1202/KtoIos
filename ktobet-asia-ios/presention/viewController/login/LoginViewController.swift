@@ -345,7 +345,7 @@ class LoginViewController: LandingViewController {
         let msg = "目前版本 : \(currVersion) \n最新版本 : \(newVer)"
         if currVersion.compareTo(other: newVer) < 0 {
             Alert.show(title, msg, confirm: { [weak self] in
-                self?.confirmUpdate()
+                self?.confirmUpdate(newVer.apkLink)
             }, confirmText: Localize.string("update_proceed_now"), cancel: {})
         } else {
             Alert.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
