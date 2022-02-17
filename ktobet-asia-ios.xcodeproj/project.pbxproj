@@ -1506,6 +1506,12 @@
 		6DDD339D26CDF3610081A846 /* HistoryBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD339C26CDF3610081A846 /* HistoryBarButtonItem.swift */; };
 		6DDD339E26CDF3610081A846 /* HistoryBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD339C26CDF3610081A846 /* HistoryBarButtonItem.swift */; };
 		6DDD339F26CDF3610081A846 /* HistoryBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD339C26CDF3610081A846 /* HistoryBarButtonItem.swift */; };
+		6DE0C9D227BDF524002C3D72 /* KTO.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0C9D127BDF524002C3D72 /* KTO.mp4 */; };
+		6DE0C9D327BDF524002C3D72 /* KTO.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0C9D127BDF524002C3D72 /* KTO.mp4 */; };
+		6DE0C9D427BDF524002C3D72 /* KTO.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0C9D127BDF524002C3D72 /* KTO.mp4 */; };
+		6DE0C9D627BDF67F002C3D72 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0C9D527BDF67F002C3D72 /* VideoView.swift */; };
+		6DE0C9D727BDF67F002C3D72 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0C9D527BDF67F002C3D72 /* VideoView.swift */; };
+		6DE0C9D827BDF67F002C3D72 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0C9D527BDF67F002C3D72 /* VideoView.swift */; };
 		6DE36B72265605C40058A1BC /* NumberGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B71265605C40058A1BC /* NumberGameSummaryViewController.swift */; };
 		6DE36B73265605C40058A1BC /* NumberGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B71265605C40058A1BC /* NumberGameSummaryViewController.swift */; };
 		6DE36B75265605C40058A1BC /* NumberGameSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B71265605C40058A1BC /* NumberGameSummaryViewController.swift */; };
@@ -2105,6 +2111,8 @@
 		6DDD335426CCE72B0081A846 /* BonusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusType.swift; sourceTree = "<group>"; };
 		6DDD338026CDECC90081A846 /* PromotionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionViewController.swift; sourceTree = "<group>"; };
 		6DDD339C26CDF3610081A846 /* HistoryBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryBarButtonItem.swift; sourceTree = "<group>"; };
+		6DE0C9D127BDF524002C3D72 /* KTO.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = KTO.mp4; sourceTree = "<group>"; };
+		6DE0C9D527BDF67F002C3D72 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		6DE36B71265605C40058A1BC /* NumberGameSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameSummaryViewController.swift; sourceTree = "<group>"; };
 		6DE36B7826563B9B0058A1BC /* RecentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentViewController.swift; sourceTree = "<group>"; };
 		6DE36B7F26563BB80058A1BC /* SettleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettleViewController.swift; sourceTree = "<group>"; };
@@ -2520,6 +2528,7 @@
 				60E19516272BC4000095404A /* CustomerServiceIconViewWindow.swift */,
 				601AAFF52774684D00BF4B21 /* TickCircle.swift */,
 				6D31CF97278BE26000DF920D /* BannerView.swift */,
+				6DE0C9D527BDF67F002C3D72 /* VideoView.swift */,
 			);
 			path = customUI;
 			sourceTree = "<group>";
@@ -3084,6 +3093,7 @@
 		6D9937D6271D43980068A616 /* resurce */ = {
 			isa = PBXGroup;
 			children = (
+				6DE0C9D127BDF524002C3D72 /* KTO.mp4 */,
 				6D993892271E6AFD0068A616 /* cs_connection.json */,
 				6D99389A271E72440068A616 /* images */,
 			);
@@ -3391,6 +3401,7 @@
 				6034621E26327DC800F5D1D9 /* WebGameItemCell.xib in Resources */,
 				6D1795DC26A90280001C8BF8 /* LockPrivilegeView.xib in Resources */,
 				4199A08C25AE9918002E2D7E /* Signup.storyboard in Resources */,
+				6DE0C9D327BDF524002C3D72 /* KTO.mp4 in Resources */,
 				41077DD525BA64020057B340 /* ResetPassword.storyboard in Resources */,
 				6D72752825EF7A1C000BF51F /* Filter.storyboard in Resources */,
 				6D9938AC271E72440068A616 /* Black_cs_animation.ai in Resources */,
@@ -3460,6 +3471,7 @@
 				6D9938A8271E72440068A616 /* ring2_cs_animation.ai in Resources */,
 				6D17955126A65CF7001C8BF8 /* ZeroLevelTableViewCell.xib in Resources */,
 				6D17950426A5623E001C8BF8 /* LevelPrivilege.storyboard in Resources */,
+				6DE0C9D227BDF524002C3D72 /* KTO.mp4 in Resources */,
 				6D9938AB271E72440068A616 /* Black_cs_animation.ai in Resources */,
 				60E4A7AC275716B00088245F /* AccountInfo.storyboard in Resources */,
 				48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */,
@@ -3533,6 +3545,7 @@
 				6D4083A52652046200BECD0E /* NumberGame.storyboard in Resources */,
 				609013552640EE7000419F8E /* WebGameItemCell.xib in Resources */,
 				6D1795DD26A90280001C8BF8 /* LockPrivilegeView.xib in Resources */,
+				6DE0C9D427BDF524002C3D72 /* KTO.mp4 in Resources */,
 				609013562640EE7000419F8E /* Signup.storyboard in Resources */,
 				609013572640EE7000419F8E /* ResetPassword.storyboard in Resources */,
 				609013582640EE7000419F8E /* Filter.storyboard in Resources */,
@@ -3821,6 +3834,7 @@
 				600A8FD226CFA7C100F56412 /* PromotionSearchViewController.swift in Sources */,
 				6D2B0E3D267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				60C03851260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
+				6DE0C9D727BDF67F002C3D72 /* VideoView.swift in Sources */,
 				600E247C26CCB37200D8B073 /* KTODateView.swift in Sources */,
 				60BEE70025C3975300CA73D0 /* BankApi.swift in Sources */,
 				608BAC4726F32B4A0013D930 /* TransactionLogSummaryViewController.swift in Sources */,
@@ -4297,6 +4311,7 @@
 				600A8FD126CFA7C100F56412 /* PromotionSearchViewController.swift in Sources */,
 				6D2B0E3C267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				60C03850260C5CEA00351003 /* WithdrawalRequestViewModel.swift in Sources */,
+				6DE0C9D627BDF67F002C3D72 /* VideoView.swift in Sources */,
 				600E247B26CCB37200D8B073 /* KTODateView.swift in Sources */,
 				60BEE6FF25C3975300CA73D0 /* BankApi.swift in Sources */,
 				608BAC4626F32B4A0013D930 /* TransactionLogSummaryViewController.swift in Sources */,
@@ -5107,6 +5122,7 @@
 				6D5B14ED264A7B7A004138E8 /* FilterBarButtonItem.swift in Sources */,
 				609013202640EE7000419F8E /* CasinoViewController.swift in Sources */,
 				600E245F26CB9FDF00D8B073 /* PromotionHistoryViewController.swift in Sources */,
+				6DE0C9D827BDF67F002C3D72 /* VideoView.swift in Sources */,
 				6D0701EC272B8A62002A5715 /* Persistent.swift in Sources */,
 				609013212640EE7000419F8E /* SystemSignalRUseCase.swift in Sources */,
 				6D6E6FFF27507A28005D88A6 /* CurrencyUnit.swift in Sources */,

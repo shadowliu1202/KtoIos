@@ -21,7 +21,9 @@ class LaunchViewController: LandingViewController {
                     if isLogged {
                         self?.nextPage()
                     } else {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                        self?.displayVideo {
+                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                        }
                     }
                 default:
                     break
@@ -66,6 +68,16 @@ class LaunchViewController: LandingViewController {
         }).disposed(by: disposeBag)
     }
     
+    private func displayVideo(_ complete: @escaping () -> Void) {
+        let videoView = VideoView()
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using: { _ in
+            complete()
+        })
+        let videoURL = Bundle.main.url(forResource: "KTO", withExtension: "mp4")!
+        self.view.addSubview(videoView, constraints: .fill())
+        videoView.play(with: videoURL, fail: { complete() })
+    }
+    
     private func setPortalMaintenance() {
         DispatchQueue.main.async {
             let vc = UIStoryboard(name: "Maintenance", bundle: nil).instantiateViewController(withIdentifier: "PortalMaintenanceViewController")
@@ -74,7 +86,7 @@ class LaunchViewController: LandingViewController {
     }
     
     deinit {
-        print("deinit")
+        print("\(type(of: self)) deinit")
     }
     
     override func abstracObserverUpdate() { }
