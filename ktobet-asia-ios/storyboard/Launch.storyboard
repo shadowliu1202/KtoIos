@@ -18,18 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="KTO (D)" translatesAutoresizingMaskIntoConstraints="NO" id="vni-qJ-EZp">
-                                <rect key="frame" x="141" y="431.5" width="132" height="33"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="KTO-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="vni-qJ-EZp">
+                                <rect key="frame" x="36" y="281" width="342" height="342"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="132" id="qag-S2-SCf"/>
-                                    <constraint firstAttribute="height" constant="33" id="r6q-1G-roP"/>
+                                    <constraint firstAttribute="width" secondItem="vni-qJ-EZp" secondAttribute="height" multiplier="1:1" id="p1q-60-fdt"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Qk5-Bm-PFq"/>
                         <color key="backgroundColor" red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="vni-qJ-EZp" firstAttribute="centerY" secondItem="Cyp-cR-0sx" secondAttribute="centerY" id="GMq-hj-i0a"/>
+                            <constraint firstItem="vni-qJ-EZp" firstAttribute="width" secondItem="Cyp-cR-0sx" secondAttribute="width" multiplier="0.825" id="5xs-uZ-xlJ"/>
+                            <constraint firstItem="vni-qJ-EZp" firstAttribute="centerY" secondItem="Cyp-cR-0sx" secondAttribute="centerY" constant="4" id="GMq-hj-i0a"/>
                             <constraint firstItem="vni-qJ-EZp" firstAttribute="centerX" secondItem="Cyp-cR-0sx" secondAttribute="centerX" id="a0P-U2-d46"/>
                         </constraints>
                     </view>
@@ -246,7 +246,7 @@
     </scenes>
     <resources>
         <image name="Close" width="24" height="24"/>
-        <image name="KTO (D)" width="64" height="16"/>
+        <image name="KTO-Logo" width="360" height="360"/>
         <image name="info.circle.fill" catalog="system" width="128" height="121"/>
         <namedColor name="000000cc">
             <color red="0.32899999618530273" green="0.32400000095367432" blue="0.4779999852180481" alpha="0.33000001311302185" colorSpace="custom" customColorSpace="sRGB"/>
