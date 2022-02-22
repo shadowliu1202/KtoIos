@@ -27,6 +27,10 @@ class TransactionLogViewController: APPViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("balancelog_title"))
+        //Deposit refactor feature兼容舊的流程
+        let depositLogViewModel = DI.resolve(DepositLogViewModel.self)!
+        depositLogViewModel.recentPaymentLogs.subscribe(onNext: { _ in }).disposed(by: disposeBag)
+        //end
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, TransactionLog>>(
             configureCell: { (_, tv, indexPath, element) in

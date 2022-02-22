@@ -13,7 +13,7 @@ class DepositRecordContainer: APPViewController {
         viewController.displayId = self.displayId
         return viewController
     }()
-    private func cryptoDetailVC(data: DepositDetail.Crypto) -> UIHostingController<DepositCryptoDetailView> {
+    private func cryptoDetailVC(data: PaymentLogDTO.CryptoLog) -> UIHostingController<DepositCryptoDetailView> {
         let viewController = DepositCryptoDetailView(data: data)
         let hostingController = UIHostingController(rootView: viewController)
         hostingController.navigationItem.hidesBackButton = true
@@ -22,7 +22,9 @@ class DepositRecordContainer: APPViewController {
     private var presentingVC: UIViewController?
     
     var displayId: String!
-    
+    var paymentCurrencyType: PaymentLogDTO.PaymentCurrencyType?
+    var transactionType: TransactionType?
+    private var depositLogViewModel = DI.resolve(DepositLogViewModel.self)!
     private var viewModel = DI.resolve(DepositViewModel.self)!
     private var disposeBag = DisposeBag()
     
@@ -31,11 +33,22 @@ class DepositRecordContainer: APPViewController {
 
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         
-        self.viewModel.getDepositRecordDetail(transactionId: displayId).subscribe(onSuccess: { [weak self] (detail) in
-            self?.switchContain(detail)
-        }, onError: { [weak self] (error) in
-            self?.handleErrors(error)
-        }).disposed(by: self.disposeBag)
+        //Deposit refactor feature兼容舊的流程
+        if let paymentType = paymentCurrencyType {
+            // new flow
+            fetchData(paymentType)
+        } else {
+            // old flow
+            switch transactionType {
+            case .cryptodeposit?:
+                fetchData(.crypto)
+            case .deposit?:
+                fetchData(.fiat)
+            default:
+                break
+            }
+        }
+        
     }
     
     deinit {
@@ -45,18 +58,24 @@ class DepositRecordContainer: APPViewController {
         print("\(type(of: self)) deinit")
     }
     
-    private func switchContain(_ detail: DepositDetail) {
-        switch detail {
-        case is DepositDetail.General:
+    func fetchData(_ paymentType: PaymentLogDTO.PaymentCurrencyType) {
+        switch paymentType {
+        case .crypto:
+            depositLogViewModel.getDepositCryptoLog(transactionId: displayId)
+                .take(1)
+                .subscribe(onNext: { [weak self] in
+                    guard let `self` = self else { return }
+                    let vc = self.cryptoDetailVC(data: $0)
+                    self.addChildViewController(vc, inner: self.containView)
+                    self.presentingVC = vc
+                }, onError: { [weak self] in
+                    self?.handleErrors($0)
+                }).disposed(by: self.disposeBag)
+            break
+        case .fiat:
             self.addChildViewController(depositRecordVC, inner: containView)
             self.presentingVC = depositRecordVC
-        case let data as DepositDetail.Crypto:
-            let vc = cryptoDetailVC(data: data)
-            self.addChildViewController(vc, inner: containView)
-            self.presentingVC = vc
-        case is DepositDetail.Flat:
-            self.addChildViewController(depositRecordVC, inner: containView)
-            self.presentingVC = depositRecordVC
+            break
         default:
             break
         }

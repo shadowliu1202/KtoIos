@@ -103,7 +103,7 @@ class PromotionRepositoryImpl: PromotionRepository {
 }
 
 struct CouponHistorySummary {
-    var summary: CashAmount
+    var summary: AccountCurrency
     var totalCoupon: Int
     var couponHistory: [CouponHistory]
 }

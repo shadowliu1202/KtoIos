@@ -736,7 +736,7 @@ struct SlotBetRecordBean: Codable {
     let winLoss: Double
     let hasDetails: Bool
     
-    func toSlotBetRecord(_ zoneOffset: Kotlinx_datetimeZoneOffset) -> SlotBetRecord {
+    func toSlotBetRecord() -> SlotBetRecord {
         let betLocalTime = betTime.toLocalDateTime()
         return SlotBetRecord(betId: betId, betTime: betLocalTime, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), hasDetails: false)
     }
@@ -1609,11 +1609,11 @@ struct Log: Codable {
     }
     
     class Transaction: ITransaction {
-        var amount: CashAmount
+        var amount: AccountCurrency
         var date: Kotlinx_datetimeLocalDateTime
         var id_: String
         
-        init(amount: CashAmount, date: Kotlinx_datetimeLocalDateTime, id_: String) {
+        init(amount: AccountCurrency, date: Kotlinx_datetimeLocalDateTime, id_: String) {
             self.amount = amount
             self.date = date
             self.id_ = id_

@@ -18,9 +18,11 @@ class DIContainer {
     
     private init() {
         registerHttpClient()
+        registFactory()
         registApi()
         registRepo()
         registUsecase()
+        registNavigator()
         registViewModel()
     }
     
@@ -29,6 +31,39 @@ class DIContainer {
         ctner.register(HttpClient.self) { (resolver)  in
             return HttpClient()
         }.inObjectScope(.weak)
+    }
+    
+    func registFactory() {
+        let ctner = container
+        let httpclient = container.resolve(HttpClient.self)!
+        
+        ctner.register(PlayerConfiguration.self) { (resolver)  in
+            return LocalStorageRepository()
+        }.inObjectScope(.lobby)
+        
+        ctner.register(ExternalProtocolService.self) { (resolver)  in
+            return NetworkFactory(httpclient)
+        }.inObjectScope(.lobby)
+        
+        ctner.register(ExternalStringService.self) { (resolver)  in
+            return DepositStringServiceFactory()
+        }.inObjectScope(.application)
+        
+        ctner.register(StringSupporter.self) { (resolver)  in
+            return LocalizeUtils()
+        }.inObjectScope(.application)
+        
+        
+        ctner.register(ApplicationFactory.self) { (resolver)  in
+            let local = ctner.resolve(PlayerConfiguration.self)!
+            let network = ctner.resolve(ExternalProtocolService.self)!
+            let stringService = ctner.resolve(ExternalStringService.self)!
+            let localize = ctner.resolve(StringSupporter.self)!
+            return ApplicationFactory(playerConfiguration: local,
+                                      externalProtocolService: network,
+                                      stringServiceFactory: stringService,
+                                      stringSupporter: localize)
+        }.inObjectScope(.lobby)
     }
     
     func registApi() {
@@ -124,9 +159,7 @@ class DIContainer {
         }
         ctner.register(DepositRepository.self) { resolver in
             let bankApi = ctner.resolve(BankApi.self)!
-            let imageApi = ctner.resolve(ImageApi.self)!
-            let cpsApi = ctner.resolve(CPSApi.self)!
-            return DepositRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi)
+            return DepositRepositoryImpl(bankApi)
         }
         ctner.register(ImageRepository.self) { resolver in
             let imageApi = ctner.resolve(ImageApi.self)!
@@ -353,9 +386,50 @@ class DIContainer {
         }
     }
     
+    func registNavigator() {
+        let ctner = container
+        
+        ctner.register(DepositNavigator.self) { (resolver) in
+            return DepositNavigatorImpl()
+        }
+    }
+    
     func registViewModel(){
         let ctner = container
         
+        ctner.register(CryptoDepositViewModel.self) { resolver in
+            let applicationFactory = ctner.resolve(ApplicationFactory.self)!
+            let deposit = applicationFactory.deposit()
+            let navigator = ctner.resolve(DepositNavigator.self)!
+            return CryptoDepositViewModel(depositService: deposit, navigator: navigator)
+        }
+        ctner.register(ThirdPartyDepositViewModel.self) { resolver in
+            let applicationFactory = ctner.resolve(ApplicationFactory.self)!
+            let deposit = applicationFactory.deposit()
+            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
+            let navigator = ctner.resolve(DepositNavigator.self)!
+            return ThirdPartyDepositViewModel(playerUseCase: playerUseCase, depositService: deposit, navigator: navigator)
+        }
+        ctner.register(OfflineViewModel.self) { resolver in
+            let applicationFactory = ctner.resolve(ApplicationFactory.self)!
+            let deposit = applicationFactory.deposit()
+            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
+            let pattern = ctner.resolve(AccountPatternGenerator.self)!
+            let bankUseCase = ctner.resolve(BankUseCase.self)!
+            let navigator = ctner.resolve(DepositNavigator.self)!
+            return OfflineViewModel(deposit, playerUseCase: playerUseCase, accountPatternGenerator: pattern, bankUseCase: bankUseCase, navigator: navigator)
+        }.inObjectScope(.depositFlow)
+        ctner.register(DepositViewModel.self) { resolver in
+            let applicationFactory = ctner.resolve(ApplicationFactory.self)!
+            let deposit = applicationFactory.deposit()
+            let depositUseCase = ctner.resolve(DepositUseCase.self)!
+            return DepositViewModel(deposit, depositUseCase: depositUseCase)
+        }
+        ctner.register(DepositLogViewModel.self) { resolver in
+            let applicationFactory = ctner.resolve(ApplicationFactory.self)!
+            let deposit = applicationFactory.deposit()
+            return DepositLogViewModel(deposit)
+        }
         ctner.register(LaunchViewModel.self) { (resolver)  in
             let usecaseAuth = ctner.resolve(AuthenticationUseCase.self)!
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
@@ -403,13 +477,6 @@ class DIContainer {
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             let authUseCase = ctner.resolve(AuthenticationUseCase.self)!
             return PlayerViewModel(playerUseCase: playerUseCase, authUsecase: authUseCase)
-        }
-        ctner.register(DepositViewModel.self) { (resolver) in
-            let depositUseCase = ctner.resolve(DepositUseCase.self)!
-            let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
-            let bankUseCase = ctner.resolve(BankUseCase.self)!
-            let pattern = ctner.resolve(AccountPatternGenerator.self)!
-            return DepositViewModel(depositUseCase: depositUseCase, playerUseCase: playerUseCase, bankUseCase: bankUseCase, accountPatternGenerator: pattern)
         }
         ctner.register(UploadPhotoViewModel.self) { (resolver) in
             let imageUseCase = ctner.resolve(UploadImageUseCase.self)!
@@ -528,4 +595,11 @@ class DIContainer {
 //        let httpclient = httpClient
 //        let story = UIStoryboard(name: "Login", bundle: nil)
     }
+}
+
+extension ObjectScope {
+    static let application = ObjectScope(storageFactory: PermanentStorage.init)
+    static let lobby = ObjectScope(storageFactory: PermanentStorage.init)
+    static let landing = ObjectScope(storageFactory: PermanentStorage.init)
+    static let depositFlow = ObjectScope(storageFactory: PermanentStorage.init)
 }

@@ -1,6 +1,7 @@
 import UIKit
 import WebKit
 import RxSwift
+import SharedBu
 
 class DepositCryptoViewController: APPViewController {
     
@@ -9,6 +10,7 @@ class DepositCryptoViewController: APPViewController {
     static var segueIdentifier = "toCryptoWebView"
     
     var url: String?
+    var updateUrl: SingleWrapper<HttpUrl>?
     var displayId: String?
     
     private var viewModel = DI.resolve(DepositViewModel.self)!
@@ -25,17 +27,25 @@ class DepositCryptoViewController: APPViewController {
         
         let MockWebViewUserAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
         webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1 \(MockWebViewUserAgent)"
+        
 
         if let urlString = url, let urlHost = URL(string: urlString) {
             let request = URLRequest(url: urlHost)
             webView.load(request)
-        } else {
-            guard let displayId = displayId else { return }
+        } else if let displayId = displayId {
+            //MARK: 等 withdrawl refactor 後移除
             viewModel.requestCryptoDepositUpdate(displayId: displayId).subscribe {[weak self] (url) in
                 let request = URLRequest(url: URL(string: url)!)
                 self?.webView.load(request)
             } onError: {[weak self] (error) in
                 self?.handleErrors(error)
+            }.disposed(by: disposeBag)
+        } else if let updateUrl = updateUrl {
+            Single.from(updateUrl).subscribe {[weak self] url in
+                let request = URLRequest(url: URL(string: url.url)!)
+                self?.webView.load(request)
+            } onError: { error in
+                self.handleErrors(error)
             }.disposed(by: disposeBag)
         }
     }

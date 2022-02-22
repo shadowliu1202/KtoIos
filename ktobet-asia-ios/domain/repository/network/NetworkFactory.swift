@@ -1,0 +1,26 @@
+import Foundation
+import SharedBu
+
+class NetworkFactory: ExternalProtocolService {
+    private var httpClient : HttpClient!
+
+    init(_ httpClient : HttpClient) {
+        self.httpClient = httpClient
+    }
+    
+    func getCash() -> CashProtocol {
+        CashAdapter(PlayerApi(httpClient))
+    }
+    
+    func getCommon() -> CommonProtocol {
+        CommonAdapter(BankApi(httpClient))
+    }
+    
+    func getDeposit() -> DepositProtocol {
+        DepositAdapter(BankApi(httpClient), CPSApi(httpClient))
+    }
+    
+    func getImage() -> ImageProtocol {
+        ImageAdapter(ImageApi(httpClient))
+    }
+}

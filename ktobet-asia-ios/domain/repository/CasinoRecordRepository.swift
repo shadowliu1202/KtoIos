@@ -3,10 +3,10 @@ import RxSwift
 import SharedBu
 
 protocol CasinoRecordRepository {
-    func getBetSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<BetSummary>
-    func getUnsettledSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[UnsettledBetSummary]>
+    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<BetSummary>
+    func getUnsettledSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[UnsettledBetSummary]>
     func getUnsettledRecords(date: String) -> Single<[UnsettledBetRecord]>
-    func getPeriodRecords(localDate: String, zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[PeriodOfRecord]>
+    func getPeriodRecords(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[PeriodOfRecord]>
     func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]>
     func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?>
 }
@@ -18,7 +18,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         self.casinoApi = casinoApi
     }
     
-    func getBetSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<BetSummary> {
+    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<BetSummary> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getCasinoBetSummary(offset: secondsToHours).map { (response) -> BetSummary in
             guard let d = response.data else { return BetSummary.init(unFinishedGames: 0, finishedGame: []) }
@@ -34,7 +34,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         }
     }
     
-    func getUnsettledSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[UnsettledBetSummary]> {
+    func getUnsettledSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[UnsettledBetSummary]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getUnsettledSummary(offset: secondsToHours).map { (response) -> [UnsettledBetSummary] in
             guard let data = response.data else { return [] }
@@ -62,7 +62,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         }
     }
     
-    func getPeriodRecords(localDate: String, zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[PeriodOfRecord]> {
+    func getPeriodRecords(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[PeriodOfRecord]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getGameGroup(date: localDate, offset: secondsToHours).map { (response) -> [PeriodOfRecord] in
             guard let data = response.data else { return [] }

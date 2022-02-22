@@ -36,7 +36,7 @@ class SlotRecordUseCaseImpl: SlotRecordUseCase {
     func getBetRecordByPage(startDate: String, endDate: String, gameId: Int32, offset: Int, take: Int) -> Single<CommonPage<SlotBetRecord>> {
         let zoneOffset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
         return zoneOffset.flatMap { [unowned self] (zoneOffset) -> Single<CommonPage<SlotBetRecord>> in
-            return self.slotRecordRepository.getBetRecords(startDate: startDate, endDate: endDate, gameId: gameId, offset: offset, take: take, zoneOffset: zoneOffset)
+            return self.slotRecordRepository.getBetRecords(startDate: startDate, endDate: endDate, gameId: gameId, offset: offset, take: take)
         }
     }
     

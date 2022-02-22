@@ -44,6 +44,37 @@ class RemarkTableViewCell: UITableViewCell {
             }
         }
     }
+    
+    func setup(history: UpdateHistory) {
+        let imgs = [img1, img2, img3]
+        imgs.forEach { $0?.isHidden = true }
+        dateLabel.text = history.createdDate.toDateTimeString()
+        let remarkLevel1 = history.remarkLevel1.count != 0 ? history.remarkLevel1 + " > " : ""
+        let remarkLevel2 = history.remarkLevel2.count != 0 ? history.remarkLevel2 + " > " : ""
+        let remarkLevel3 = history.remarkLevel3.count != 0 ? history.remarkLevel3 + " > " : ""
+        let remark = remarkLevel1 + remarkLevel2 + remarkLevel3
+        remarkLabel.text = String(remark.dropLast(2))
+        imageView?.isHidden = history.imageIds.count == 0
+        imagesViewHeight.constant = history.imageIds.count == 0 ? 0 : 96
+        let imageDownloader = SDWebImageDownloader.shared
+        for header in HttpClient().headers {
+            imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
+        }
+        
+        for (index, img) in history.imageIds.enumerated() {
+            if let imgs = imgs[safe: index] {
+                imgs?.isHidden = false
+                imgs?.tag = index
+                imgs?.sd_setImage(with: URL(string: img.thumbnailFullPath + ".jpg"), completed: nil)
+                imgs?.isUserInteractionEnabled = true
+                let tapGesture = UITapGestureRecognizer()
+                imgs?.addGestureRecognizer(tapGesture)
+                tapGesture.rx.event.bind(onNext: {[weak self]  _ in
+                    self?.toBigImage?(img.fullpath, imgs?.image)
+                }).disposed(by: disposeBag)
+            }
+        }
+    }
 }
 
 extension UIImageView {

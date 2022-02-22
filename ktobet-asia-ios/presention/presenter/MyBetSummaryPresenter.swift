@@ -9,6 +9,6 @@ class MyBetSummary {
 struct Record {
     let count: Int
     let createdDateTime: String
-    let totalStakes: CashAmount
-    let totalWinLoss: CashAmount
+    let totalStakes: AccountCurrency
+    let totalWinLoss: AccountCurrency
 }

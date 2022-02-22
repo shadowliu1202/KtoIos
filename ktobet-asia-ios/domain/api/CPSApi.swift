@@ -93,5 +93,21 @@ class CPSApi: ApiService {
         let target = GetAPITarget(service: self.url("api/deposit/crypto-currency"))
         return httpClient.request(target).map(ResponseData<CryptoCurrencyBean>.self)
     }
+    
+    
+    // MARK: New
+    func getCryptoCurrency() -> Single<String> {
+        let target = GetAPITarget(service: self.url("api/deposit/crypto-currency"))
+        return httpClient.requestJsonString(target)
+    }
+    
+    func onlineDepositCrypto(cryptoDepositRequest: CryptoDepositRequest) -> Single<String> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/deposit/online-deposit-crypto",
+                               method: .post,
+                               task: .requestJSONEncodable(cryptoDepositRequest),
+                               header: httpClient.headers)
+        return httpClient.requestJsonString(target)
+    }
 }
 

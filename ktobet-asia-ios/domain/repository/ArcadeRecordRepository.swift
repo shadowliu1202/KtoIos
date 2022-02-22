@@ -3,8 +3,8 @@ import RxSwift
 import SharedBu
 
 protocol ArcadeRecordRepository {
-    func getBetSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[DateSummary]>
-    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeZoneOffset, skip: Int, take: Int) -> Single<[GameGroupedRecord]>
+    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[DateSummary]>
+    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset, skip: Int, take: Int) -> Single<[GameGroupedRecord]>
     func getBetSummaryByGame(beginDate: String, endDate: String, gameId: Int32, skip: Int, take: Int) -> Single<[ArcadeGameBetRecord]>
 }
 
@@ -16,7 +16,7 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
         self.arcadeApi = arcadeApi
     }
     
-    func getBetSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[DateSummary]> {
+    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[DateSummary]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return arcadeApi.getBetSummary(offset: secondsToHours).map({ (response) -> [DateSummary] in
             guard let data = response.data else { return [] }
@@ -24,7 +24,7 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
         })
     }
     
-    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeZoneOffset, skip: Int, take: Int) -> Single<[GameGroupedRecord]> {
+    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset, skip: Int, take: Int) -> Single<[GameGroupedRecord]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return arcadeApi.getGameRecordByDate(date: localDate, offset: secondsToHours, skip: skip, take: take).map({ (response) -> [GameGroupedRecord] in
             guard let data = response.data?.data else { return [] }

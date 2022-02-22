@@ -1,4 +1,5 @@
 import UIKit
+import RxSwift
 
 class CryptoSelectorTableViewCell: UITableViewCell {
     @IBOutlet weak var img: UIImageView!
@@ -11,6 +12,11 @@ class CryptoSelectorTableViewCell: UITableViewCell {
     }
     
     func unSelectRow(){
+        selectRadioButton.isSelected = false
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
         selectRadioButton.isSelected = false
     }
 }

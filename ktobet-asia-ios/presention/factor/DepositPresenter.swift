@@ -2,40 +2,38 @@ import UIKit
 import SharedBu
 
 class DepositPresenter {
-    private var conditions: [TransactionItem] = [DepositPresenter.create(.static),
-                                                 DepositPresenter.create(.interactive, .approved),
-                                                 DepositPresenter.create(.interactive, .reject),
-                                                 DepositPresenter.create(.interactive, .pending),
-                                                 DepositPresenter.create(.interactive, .floating)]
+    private var conditions: [DepositTransactionItem] = [DepositPresenter.create(.static),
+                                                        DepositPresenter.create(.interactive, .approved),
+                                                        DepositPresenter.create(.interactive, .reject),
+                                                        DepositPresenter.create(.interactive, .pending),
+                                                        DepositPresenter.create(.interactive, .floating)]
     
-    func getConditionStatus(_ items: [TransactionItem]) -> [TransactionStatus] {
+    func getConditionStatus(_ items: [DepositTransactionItem]) -> [PaymentLogDTO.LogStatus] {
         return items.filter({ $0.isSelected == true }).map({$0.status!})
     }
     
-    class func create(_ category: Display, _ status: TransactionStatus? = nil) -> TransactionItem {
+    class func create(_ category: Display, _ status: PaymentLogDTO.LogStatus? = nil) -> DepositTransactionItem {
         switch category {
         case .static:
-            return TransactionItem(type: .static, title: Localize.string("common_statusfilter"), select: false)
+            return DepositTransactionItem(type: .static, title: Localize.string("common_statusfilter"), select: false)
         case .interactive:
-            return TransactionItem(type: .interactive,
-                                   title: status == nil ? "" : DepositPresenter.title(status!),
-                                   select: true,
-                                   status: status)
+            return DepositTransactionItem(type: .interactive,
+                                          title: status == nil ? "" : DepositPresenter.title(status!),
+                                          select: true,
+                                          status: status)
         }
     }
     
-    class func title(_ status: TransactionStatus) -> String {
+    class func title(_ status: PaymentLogDTO.LogStatus) -> String {
         switch status {
         case .floating:
             return Localize.string("common_floating")
         case .pending:
-            return Localize.string("common_pending")
+            return Localize.string("common_processing")
         case .reject:
-            return Localize.string("common_reject")
+            return Localize.string("common_fail")
         case .approved:
             return Localize.string("common_success")
-        case .cancel:
-            return Localize.string("common_cancel")
         default:
             return ""
         }
@@ -47,16 +45,16 @@ extension DepositPresenter: FilterPresentProtocol {
         return Localize.string("common_filter")
     }
     func setConditions(_ items: [FilterItem]) {
-        conditions = items as! [TransactionItem]
+        conditions = items as! [DepositTransactionItem]
     }
     func getDatasource() -> [FilterItem] {
         return conditions
     }
     func itemText(_ item: FilterItem) -> String {
-        return (item as! TransactionItem).title
+        return (item as! DepositTransactionItem).title
     }
     func itemAccenery(_ item: FilterItem) -> Any? {
-        return (item as! TransactionItem).image
+        return (item as! DepositTransactionItem).image
     }
     func toggleItem(_ row: Int) {
         let allSelectCount = conditions.filter({ $0.isSelected == true }).count
@@ -65,6 +63,45 @@ extension DepositPresenter: FilterPresentProtocol {
         conditions[row].isSelected?.toggle()
     }
 }
+
+struct DepositTransactionItem: FilterItem {
+    var type: Display
+    var title: String
+    private var select: Bool? = false
+    var isSelected: Bool? {
+        set{
+            select = newValue
+        }
+        get {
+            switch type {
+            case .static:
+                return nil
+            case .interactive:
+                return select
+            }
+        }
+    }
+    var image: UIImage? {
+        return select ?? false ? UIImage(named: "Double Selection (Selected)") : UIImage(named: "Double Selection (Empty)")
+    }
+    
+    init(type: Display, title: String, select: Bool, status: PaymentLogDTO.LogStatus? = nil ) {
+        self.type = type
+        self.title = title
+        self.select = select
+        self._status = status
+    }
+    private var _status: PaymentLogDTO.LogStatus?
+    var status: PaymentLogDTO.LogStatus? {
+        switch type {
+        case .static:
+            return nil
+        case .interactive:
+            return _status
+        }
+    }
+}
+
 
 struct TransactionItem: FilterItem {
     var type: Display

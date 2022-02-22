@@ -42,7 +42,7 @@ class DepositRecordDetailViewController: UIViewController {
     var activityIndicator = UIActivityIndicatorView(style: .large)
     var displayId: String!
     
-    fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
+    private var viewModel: DepositLogViewModel = DI.resolve(DepositLogViewModel.self)!
     fileprivate var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var removeButtons: [UIButton] = []
@@ -64,7 +64,7 @@ class DepositRecordDetailViewController: UIViewController {
     // MARK: BUTTON ACTION
     @IBAction func confirm(_ sender: Any) {
         startActivityIndicator(activityIndicator: activityIndicator)
-        viewModel.bindingImageWithDepositRecord(displayId: displayId, transactionId: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: .pending), portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe { [weak self] in
+        viewModel.bindingImageWithDepositRecord(displayId: displayId, portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe { [weak self] in
             guard let `self` = self else { return }
             self.dataBinding()
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
@@ -80,7 +80,7 @@ class DepositRecordDetailViewController: UIViewController {
     }
     
     @objc private func removeImage(sender: UIButton) {
-        self.imageStackView.subviews.forEach { (view) in
+        self.imageStackView.subviews.forEach { [unowned self] (view) in
             guard let imageView = view as? UIImageView else { return }
             if imageView.tag == sender.tag {
                 imageView.removeFromSuperview()
@@ -134,14 +134,14 @@ class DepositRecordDetailViewController: UIViewController {
     
     fileprivate func showImagePicker() {
         let currentSelectedImageCount = self.imageStackView.subviews.count
-        if currentSelectedImageCount >= DepositViewModel.selectedImageCountLimit {
-            Alert.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(DepositViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
+        if currentSelectedImageCount >= DepositLogViewModel.selectedImageCountLimit {
+            Alert.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(DepositLogViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
         }
         
         imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
         imagePickerView.delegate = self
-        imagePickerView.imageLimitMBSize = DepositViewModel.imageMBSizeLimit
-        imagePickerView.selectedImageLimitCount = DepositViewModel.selectedImageCountLimit - currentSelectedImageCount
+        imagePickerView.imageLimitMBSize = DepositLogViewModel.imageMBSizeLimit
+        imagePickerView.selectedImageLimitCount = DepositLogViewModel.selectedImageCountLimit - currentSelectedImageCount
         imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
         imagePickerView.completion = {[weak self] (images) in
             guard let self = self else { return }
@@ -154,7 +154,7 @@ class DepositRecordDetailViewController: UIViewController {
         }
         imagePickerView.showImageCountLimitAlert = {(view) in
             let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
-            toastView.show(on: view, statusTip: String(format: Localize.string("common_photo_upload_limit_count"), String(DepositViewModel.selectedImageCountLimit - currentSelectedImageCount)), img: UIImage(named: "Failed"))
+            toastView.show(on: view, statusTip: String(format: Localize.string("common_photo_upload_limit_count"), String(DepositLogViewModel.selectedImageCountLimit - currentSelectedImageCount)), img: UIImage(named: "Failed"))
         }
         imagePickerView.showImageSizeLimitAlert = {(view) in
             let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
@@ -217,20 +217,21 @@ class DepositRecordDetailViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-    fileprivate func updateUI(data: DepositDetail.Flat) {
+    fileprivate func updateUI(data: PaymentLogDTO.FiatLog) {
+        let log = data.log
         self.scrollview.isHidden = false
-        self.applytimeLabel.text = data.createdDate.toDateTimeString()
-        self.amountLabel.text = data.calculateDepositAmount().formatString()
-        self.depositIdLabel.text = data.displayId
+        self.applytimeLabel.text = log.createdDate.toDateTimeString()
+        self.amountLabel.text = log.amount.formatString()
+        self.depositIdLabel.text = log.displayId
         self.statusViewHeight.constant = 77
-        self.statusLabel.text = StringMapper.sharedInstance.parse(data.status, isPendingHold: data.isPendingHold, ignorePendingHold: true)
-        if data.status != TransactionStatus.floating {
+        self.statusLabel.text = log.status.toLogString()
+        if log.status != PaymentStatus.floating {
             self.uploadView.isHidden = true
             self.uploadViewHeight.constant = 0
             self.confrimButton.isHidden = true
         }
         
-        if data.status == TransactionStatus.pending {
+        if log.status == PaymentStatus.pending {
             self.statusDateLabel.text = ""
             self.statusViewHeight.constant = 60
         }
@@ -240,37 +241,39 @@ class DepositRecordDetailViewController: UIViewController {
         self.remarkTableview.layoutIfNeeded()
         self.remarkViewHeight.constant = self.remarkTableViewHeight.constant + self.uploadViewHeight.constant + 60
         self.remarkView.layoutIfNeeded()
-        if data.status != .floating {
+        if log.status != PaymentStatus.floating {
             self.remarkView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
         }
     }
     
     fileprivate func dataBinding() {
-        self.remarkTableview.delegate = nil
-        self.remarkTableview.dataSource = nil
-        viewModel.getDepositRecordDetail(transactionId: displayId).subscribe {[weak self] (data) in
-            guard let self = self, let generalData = data as? DepositDetail.Flat else { return }
-            self.statusDateLabel.text = generalData.updatedDate.toDateTimeString()
-            let statusChangeHistoriesObservalbe = Observable.from(optional: generalData.statusChangeHistories)
-            statusChangeHistoriesObservalbe.bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) { index, d, cell in
+        let shareDepositRecordDetail = viewModel.getDepositFiatLog(transactionId: displayId).share()
+        shareDepositRecordDetail.subscribeOn(MainScheduler.instance)
+            .subscribe {[unowned self] (item: PaymentLogDTO.FiatLog) in
+                let log = item.log
+                self.statusDateLabel.text = log.updateDate.toDateTimeString()
+            } onError: { [weak self] (error) in
+                guard let `self` = self else { return }
+                self.handleErrors(error)
+            }.disposed(by: disposeBag)
+        let shareStatusChangeHistories = shareDepositRecordDetail.map{$0.updateHistories}.share()
+        shareStatusChangeHistories
+            .catchError({ _ -> Observable<[UpdateHistory]> in
+                return Observable<[UpdateHistory]>.just([])
+            }).bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) { [weak self] (index, d, cell) in
                 cell.setup(history: d)
                 cell.toBigImage = {[weak self] (url, image) in
                     self?.performSegue(withIdentifier: ImageViewController.segueIdentifier, sender: (url, image))
                 }
-            }.disposed(by: self.disposeBag)
-            
-            statusChangeHistoriesObservalbe.subscribeOn(MainScheduler.instance)
-                .subscribe { [weak self] (depositTypes) in
-                    guard let `self` = self else { return }
-                    self.updateUI(data: generalData)
-                } onError: { [weak self] (error) in
-                    guard let `self` = self else { return }
-                    self.handleErrors(error)
-                }.disposed(by: self.disposeBag)
-        } onError: { [weak self] (error) in
-            guard let `self` = self else { return }
-            self.handleErrors(error)
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
+        shareDepositRecordDetail.subscribeOn(MainScheduler.instance)
+            .subscribe { [weak self] (item) in
+                guard let `self` = self else { return }
+                self.updateUI(data: item)
+            } onError: { [weak self] (error) in
+                guard let `self` = self else { return }
+                self.handleErrors(error)
+            }.disposed(by: disposeBag)
     }
     
     // MARK: PAGE ACTION
@@ -288,7 +291,7 @@ class DepositRecordDetailViewController: UIViewController {
 // MARK: CAMERA EVENT
 extension DepositRecordDetailViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        dismiss(animated: true) {
+        dismiss(animated: true) { [unowned self] in
             NavigationManagement.sharedInstance.popViewController()
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)

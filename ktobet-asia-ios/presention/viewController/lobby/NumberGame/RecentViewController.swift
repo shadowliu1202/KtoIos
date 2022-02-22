@@ -86,7 +86,7 @@ class NumbergameRecentCell: UITableViewCell {
         matchMethodLabel.text = item.matchMethod + (item.isStrike == true ? " - \(Localize.string("common_strike"))" : "")
         let status = item.status
         if status is NumberGameBetDetail.BetStatusSettledWinLose {
-            let amount: CashAmount = (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss
+            let amount: AccountCurrency = (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss
             betAmountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + "  " + parseWinLose(winLoss: amount) + " \(amount.formatString())"
         } else {
             betAmountLabel.text = Localize.string("product_total_bet", item.stakes.description()) + " \(status.LocalizeString)"
@@ -96,7 +96,7 @@ class NumbergameRecentCell: UITableViewCell {
         return self
     }
     
-    private func parseWinLose(winLoss: CashAmount) -> String {
+    private func parseWinLose(winLoss: AccountCurrency) -> String {
         return winLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
     }
     

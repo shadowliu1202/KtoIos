@@ -49,8 +49,9 @@ struct DepositOfflineBankAccountsRequest: Codable {
 
 struct DepositOnlineAccountsRequest: Codable {
     let paymentTokenID, requestAmount, remitter: String
-    let channel: Int
-    let remitterAccountNumber, remitterBankName: String
+    let channel: Int32
+    let remitterAccountNumber: String?
+    let remitterBankName: String
     let depositType: Int32
     let providerId: Int32
     let bankCode: String
@@ -205,5 +206,5 @@ struct DeleteCsRecords: Codable {
 }
 
 struct CryptoDepositRequest: Codable {
-    let cryptoCurrency: Int
+    let cryptoCurrency: Int32
 }

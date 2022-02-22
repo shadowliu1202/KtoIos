@@ -83,15 +83,6 @@ extension SupportCryptoType: CryptoUIResource {
     }
 }
 
-extension CryptoAmount {
-    static func create(cryptoAmount: Double, crypto: Crypto) -> CryptoAmount {
-        return CryptoAmount.Companion.init().create(cryptoAmount: cryptoAmount, crypto: crypto)
-    }
-    static func create(cryptoAmount: String, crypto: Crypto) -> CryptoAmount {
-        return CryptoAmount.Companion.init().create(cryptoAmount: cryptoAmount, crypto_: crypto)
-    }
-}
-
 extension CryptoNetwork {
     class func valueOf(_ rawData: String) -> CryptoNetwork {
         switch rawData.uppercased() {

@@ -9,13 +9,13 @@ class BetRecordTableViewCell: UITableViewCell {
     @IBOutlet private weak var winAmountLabel: UILabel!
     @IBOutlet private weak var goIconImageView: UIImageView!
     
-    func setupUnSettleGame(_ name: String, betId: String, totalAmount: CashAmount) {
+    func setupUnSettleGame(_ name: String, betId: String, totalAmount: AccountCurrency) {
         nameLabel.text = name
         orderIdLabel.text = betId
         totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.formatString())
     }
     
-    func setup(name: String, betId: String, totalAmount: CashAmount, winAmount: CashAmount, betStatus: BetStatus, hasDetail: Bool, prededuct: CashAmount) {
+    func setup(name: String, betId: String, totalAmount: AccountCurrency, winAmount: AccountCurrency, betStatus: BetStatus, hasDetail: Bool, prededuct: AccountCurrency) {
         goIconImageView.isHidden = !hasDetail
         nameLabel.text = name
         orderIdLabel.text = betId

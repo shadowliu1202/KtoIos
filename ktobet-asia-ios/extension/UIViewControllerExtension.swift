@@ -14,7 +14,7 @@ import Moya
 import SharedBu
 
 extension UIViewController{
-    func handleErrors(_ error : Error) {
+    func handleErrors(_ error: Error, ktoExceptions: ApiException.Type..., ktoExceptionsHandle: ((_ exception: ApiException) -> ())? = nil) {
         let exception = ExceptionFactory.create(error)
         if exception is ApiUnknownException {
             switch error {
@@ -28,7 +28,11 @@ extension UIViewController{
                 handleUnknownError(error)
             }
         } else {
-            fatalError("This exception should be handle at \(type(of: self))")
+            if ktoExceptions.contains(where: { type(of: exception) == $0} ) {
+                ktoExceptionsHandle?(exception)
+            } else {
+                fatalError("This exception should be handle at \(type(of: self))")
+            }
         }
     }
     
@@ -252,7 +256,7 @@ public extension Reactive where Base: UIViewController {
             .map { _ in }
         return ControlEvent(events: source)
     }
-    var isVisible: Observable<Bool> {
+    var isVisible: RxSwift.Observable<Bool> {
         let viewDidAppearObservable = self.base.rx.viewDidAppear.map { _ in true }
         let viewWillDisappearObservable = self.base.rx.viewWillDisappear
             .map { _ in false }

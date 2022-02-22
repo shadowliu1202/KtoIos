@@ -60,5 +60,5 @@ class TransactionLogSummaryViewController: APPViewController {
 
 struct LogSummaryModel {
     var typeName: String = ""
-    var amount: CashAmount
+    var amount: AccountCurrency
 }
