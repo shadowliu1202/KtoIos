@@ -3398,7 +3398,6 @@
 			buildConfigurationList = 4199A09425AE9918002E2D7E /* Build configuration list for PBXNativeTarget "ktobet-asia-ios-qat" */;
 			buildPhases = (
 				32C269E63089BAFE3EDF165C /* [CP] Check Pods Manifest.lock */,
-				601E6A9027C478570079C5ED /* ShellScript */,
 				4199A02725AE9918002E2D7E /* Sources */,
 				4199A08625AE9918002E2D7E /* Frameworks */,
 				4199A08925AE9918002E2D7E /* Resources */,
@@ -3794,23 +3793,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		601E6A9027C478570079C5ED /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/../kto_shared_bu\"\n./gradlew :sharedbu:assembleXCFramework\n";
 		};
 		60EEA9E527605C9200BCFF81 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
