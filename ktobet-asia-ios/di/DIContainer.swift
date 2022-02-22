@@ -15,7 +15,6 @@ class DIContainer {
     
     static let share = DIContainer()
     let container = Container()
-    lazy var httpClient = container.resolve(HttpClient.self)!
     
     private init() {
         registerHttpClient()
@@ -29,13 +28,13 @@ class DIContainer {
         let ctner = container
         ctner.register(HttpClient.self) { (resolver)  in
             return HttpClient()
-        }
+        }.inObjectScope(.weak)
     }
     
     func registApi() {
         
         let ctner = container
-        let httpclient = httpClient
+        let httpclient = container.resolve(HttpClient.self)!
         
         ctner.register(AuthenticationApi.self) { (resolver)  in
             return AuthenticationApi(httpclient)
@@ -86,7 +85,7 @@ class DIContainer {
     
     func registRepo(){
         let ctner = container
-        let httpclient = httpClient
+        let httpclient = container.resolve(HttpClient.self)!
         
         ctner.register(PlayerRepository.self) { (resolver) in
             let player = ctner.resolve(PlayerApi.self)!

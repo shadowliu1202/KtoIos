@@ -35,7 +35,7 @@ class MainDebugViewController: UIViewController {
         super.viewDidLoad()
 
         self.setupBinding()
-        loadData(DIContainer.share.httpClient.debugDatas.reversed())
+        loadData(DI.resolve(HttpClient.self)!.debugDatas.reversed())
     }
     
     private func setCell(cell:MainDebugDataCell, callbackTime: String?, url: String?, headers: String?, body: String?, error: String?, response: String?) {

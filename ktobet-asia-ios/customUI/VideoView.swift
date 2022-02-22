@@ -3,7 +3,6 @@ import AVFoundation
 
 class VideoView: UIView {
 
-    private var playerItemContext = 0
     private var player: AVPlayer? {
         get {
             return playerLayer.player
@@ -12,7 +11,7 @@ class VideoView: UIView {
             playerLayer.player = newValue
         }
     }
-    
+    private var observer: NSKeyValueObservation?
     private var didFail: (() -> Void)?
     
     var playerLayer: AVPlayerLayer {
@@ -27,9 +26,17 @@ class VideoView: UIView {
         self.didFail = fail
         initPlayerAsset(with: url) { (asset: AVAsset) in
             let item = AVPlayerItem(asset: asset)
-            item.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.old, .new], context: &self.playerItemContext)
+            self.observer = item.observe(\AVPlayerItem.status, options: [.old, .new]) { [weak self] (item, _) in
+                switch item.status {
+                case .readyToPlay:
+                    self?.player?.play()
+                case .failed, .unknown:
+                    self?.didFail?()
+                @unknown default:
+                    self?.didFail?()
+                }
+            }
             DispatchQueue.main.async {
-
                 self.player = AVPlayer(playerItem: item)
             }
         }
@@ -41,36 +48,10 @@ class VideoView: UIView {
             completion?(asset)
         }
     }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
-        // Only handle observations for the playerItemContext
-        guard context == &playerItemContext else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-            return
-        }
-        
-        if keyPath == #keyPath(AVPlayerItem.status) {
-            let status: AVPlayerItem.Status
-            if let statusNumber = change?[.newKey] as? NSNumber {
-                status = AVPlayerItem.Status(rawValue: statusNumber.intValue)!
-            } else {
-                status = .unknown
-            }
-            
-            // Switch over status value
-            switch status {
-            case .readyToPlay:
-                self.player?.play()
-            case .failed, .unknown:
-                self.didFail?()
-            @unknown default:
-                self.didFail?()
-            }
-        }
-    }
 
     deinit {
+        self.observer?.invalidate()
+        self.observer = nil
         print("\(type(of: self)) deinit")
     }
 }
