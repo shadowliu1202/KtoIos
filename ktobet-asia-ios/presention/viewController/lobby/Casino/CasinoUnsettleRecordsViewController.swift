@@ -136,14 +136,14 @@ struct Section {
     var sectionDate: String?
     var name: [String] = []
     var betId: [String] = []
-    var totalAmount: [CashAmount] = []
-    var winAmount: [CashAmount] = []
+    var totalAmount: [AccountCurrency] = []
+    var winAmount: [AccountCurrency] = []
     var expanded: Bool = false
     var betStatus: [BetStatus] = []
     var hasDetail: [Bool] = []
     var wagerId: [String] = []
     var periodOfRecord: PeriodOfRecord!
-    var prededuct: [CashAmount] = []
+    var prededuct: [AccountCurrency] = []
     
     init() { }
     
@@ -154,7 +154,7 @@ struct Section {
         self.sectionClass = self.periodOfRecord.lobbyName
     }
     
-    init(sectionClass: String, name: [String] = [], betId: [String] = [], totalAmount: [CashAmount] = [], winAmount: [CashAmount] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32] = [], prededuct: [CashAmount] = []) {
+    init(sectionClass: String, name: [String] = [], betId: [String] = [], totalAmount: [AccountCurrency] = [], winAmount: [AccountCurrency] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32] = [], prededuct: [AccountCurrency] = []) {
         self.sectionClass = sectionClass
         self.name = name
         self.betId = betId

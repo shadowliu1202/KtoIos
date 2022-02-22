@@ -21,7 +21,7 @@ class DepositOfflineConfirmViewController: APPViewController {
     @IBOutlet private weak var bankCardNumberLabel: UILabel!
     @IBOutlet private weak var validDepositTimeTitleLabel: UILabel!
     @IBOutlet private weak var validDepositTimeLabel: UILabel!
-
+    
     @IBOutlet private weak var tipTitleLabel: UILabel!
     @IBOutlet private weak var remitterView: UIView!
     @IBOutlet private weak var remitterTitleLabel: UILabel!
@@ -35,42 +35,29 @@ class DepositOfflineConfirmViewController: APPViewController {
     @IBOutlet private weak var branchNameCopyButton: UIButton!
     @IBOutlet private weak var userNameCopyButton: UIButton!
     @IBOutlet private weak var bankCardNumberCopyButton: UIButton!
-
-    var depositRequest: DepositRequest_!
-    var selectedReceiveBank: OfflineBank!
+    
     var depositSuccess = false
     
-    fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
+    fileprivate var offlineViewModel = DI.resolve(OfflineViewModel.self)!
     fileprivate let timer = CountDownTimer()
     fileprivate var disposeBag = DisposeBag()
-
+    
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
         initUI()
-        dataBinding()
-        startExpireTimer()
+        bindOfflineViewModel()
     }
     
     @objc func close () {
         Alert.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_offline_termniate"), confirm: {
-            NavigationManagement.sharedInstance.popViewController()
-        }, cancel: {})
+            DI.resetObjectScope(.depositFlow)
+            NavigationManagement.sharedInstance.popToRootViewController()
+        }, cancel: { })
     }
     
-    // MARK: BUTTON ACTION
-    @IBAction func confirm(_ sender: Any) {
-        self.viewModel.depositOffline(depositRequest: depositRequest, depositTypeId: 0).subscribe { (orderNumber) in
-            self.depositSuccess = true
-            self.performSegue(withIdentifier: "unwindToDeposit", sender: nil)
-        } onError: { (error) in
-            self.depositSuccess = false
-            self.handleErrors(error)
-        }.disposed(by: disposeBag)
-    }
-
     @IBAction func copyText(_ sender: Any) {
         let button = sender as! UIButton
         switch button.tag {
@@ -85,11 +72,11 @@ class DepositOfflineConfirmViewController: APPViewController {
         default:
             break
         }
-
+        
         let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
         toastView.show(on: self.view, statusTip: Localize.string("common_copied"), img: UIImage(named: "Success"))
     }
-
+    
     // MARK: METHOD
     fileprivate func initUI() {
         titleLabel.text = Localize.string("deposit_offline_step2_title")
@@ -109,34 +96,54 @@ class DepositOfflineConfirmViewController: APPViewController {
         amountTitleLabel.text = Localize.string("deposit_custom_cash")
         tipLabel.text = Localize.string("deposit_offline_summary_tip")
         confirmButton.setTitle(Localize.string("common_submit2"), for: .normal)
-        bankImageView.image = UIImage(named: self.viewModel.getBankIcon(selectedReceiveBank!.bankId))
         let buttons = [bankNameCopyButton, branchNameCopyButton, userNameCopyButton, bankCardNumberCopyButton]
-        buttons.forEach{
+        buttons.forEach {
             $0?.layer.borderColor = UIColor.textPrimaryDustyGray.cgColor
             $0?.layer.borderWidth = 1
             $0?.setTitle(Localize.string("common_copy"), for: .normal)
         }
     }
-
-    fileprivate func dataBinding() {
-        bankNameLabel.text = selectedReceiveBank?.name ?? ""
-        userNameLabel.text = selectedReceiveBank.owner.name
-        branchNameLabel.text = selectedReceiveBank.branch
-        bankCardNumberLabel.text = selectedReceiveBank.owner.accountNumber
-        remitterLabel.text = depositRequest.remitter.name
-        var amountStr = depositRequest.amount.formatString(sign: .signed_)
-        amountStr.removeFirst()
-        let attributedString = NSMutableAttributedString(string: amountStr, attributes: [
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        disposeBag = DisposeBag()
+    }
+    
+    fileprivate func bindOfflineViewModel() {
+        confirmButton.rx.tap.bind(to: offlineViewModel.input.depositTrigger).disposed(by: disposeBag)
+        offlineViewModel.output.deposit.drive(onNext: { [weak self] isSuccess in
+            self?.depositSuccess = isSuccess
+            DI.resetObjectScope(.depositFlow)
+        }).disposed(by: disposeBag)
+        offlineViewModel.output.selectPaymentGatewayIcon.drive(bankImageView.rx.image).disposed(by: disposeBag)
+        offlineViewModel.output.memo.drive(onNext: { [weak self] memo in
+            self?.branchNameLabel.text = memo.beneficiary.branch
+            self?.userNameLabel.text = memo.beneficiary.account.accountName
+            self?.bankCardNumberLabel.text = memo.beneficiary.account.accountNumber
+            self?.remitterLabel.text = memo.remitter.name
+            var amountStr = memo.remittance.formatString(sign: .signed_)
+            amountStr.removeFirst()
+            let attributedString = NSMutableAttributedString(string: amountStr, attributes: [
                 .font: UIFont(name: "PingFangSC-Semibold", size: 24.0)!,
                 .foregroundColor: UIColor.whiteFull
-        ])
-
-        attributedString.addAttribute(.foregroundColor, value: UIColor.orangeFull, range: NSRange(location: amountStr.count - 2, length: 2))
-        amountLabel.attributedText = attributedString
+            ])
+            
+            attributedString.addAttribute(.foregroundColor, value: UIColor.orangeFull, range: NSRange(location: amountStr.count - 2, length: 2))
+            self?.amountLabel.attributedText = attributedString
+            self?.startExpireTimer(expiredHour: memo.expiredHour)
+        }).disposed(by: disposeBag)
+        
+        offlineViewModel.output.selectPaymentGateway.drive(onNext: { [weak self] paymentGateway in
+            self?.bankNameLabel.text = paymentGateway.name
+        }).disposed(by: disposeBag)
+        
+        offlineViewModel.errors().subscribe(onNext: {[weak self] error in
+            self?.handleErrors(error)
+        }).disposed(by: disposeBag)
     }
-
-    fileprivate func startExpireTimer() {
-        timer.start(timeInterval: 1, duration: 7200) { [weak self] (index, countDownSecond, finish) in
+    
+    fileprivate func startExpireTimer(expiredHour: Int64) {
+        timer.start(timeInterval: 1, duration: TimeInterval(expiredHour * 60 * 60)) { [weak self] (index, countDownSecond, finish) in
             let hh = countDownSecond / 3600
             let mm = countDownSecond % 3600 / 60
             let ss = countDownSecond % 60
@@ -146,5 +153,9 @@ class DepositOfflineConfirmViewController: APPViewController {
                 self?.validDepositTimeLabel.text = String(format: "%02d:%02d:%02d", hh, mm, ss)
             }
         }
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
 }

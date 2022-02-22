@@ -134,4 +134,16 @@ class PlayerApi: ApiService {
         let target = GetAPITarget(service: self.url("api/init/player-affiliate-status"))
         return httpClient.request(target).map(NonNullResponseData<Int32>.self)
     }
+    
+    // MARK: New
+    func getCashLogSummary1(begin: String, end: String, balanceLogFilterType: Int) -> Single<String> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/cash/transaction-summary",
+                               method: .get,
+                               task: .requestParameters(parameters: ["createdDateRange.begin": begin,
+                                                                     "createdDateRange.end": end,
+                                                                     "balanceLogFilterType": balanceLogFilterType], encoding: URLEncoding.default),
+                               header: httpClient.headers)
+        return httpClient.requestJsonString(target)
+    }
 }

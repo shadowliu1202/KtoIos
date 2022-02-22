@@ -6,16 +6,16 @@ struct textRowView: View {
     var content: String = ""
     var isRemark: Bool = false
     var isFlooting: Bool = false
-    var data: DepositDetail.Crypto?
+    var data: PaymentLogDTO.CryptoLog?
     
-    init(title: String, content: String, isFlooting: Bool = false, data: DepositDetail.Crypto? = nil) {
+    init(title: String, content: String, isFlooting: Bool = false, data: PaymentLogDTO.CryptoLog? = nil) {
         self.title = title
         self.data = data
         self.content = content
         self.isFlooting = isFlooting
     }
     
-    init(data: DepositDetail.Crypto?, title: String = "", isRemark: Bool = false) {
+    init(data: PaymentLogDTO.CryptoLog?, title: String = "", isRemark: Bool = false) {
         self.data = data
         self.title = title
         self.isRemark = isRemark
@@ -31,11 +31,11 @@ struct textRowView: View {
             Text(content)
                 .foregroundColor(Color(UIColor.whiteFull))
                 .font(Font.custom("PingFangSC-Regular", size: 16))
-            if isFlooting && TransactionStatus.floating == data?.status {
+            if isFlooting && PaymentStatus.floating == data?.log.status {
                 Spacer().frame(height: 2)
                 Button(action: {
                     guard let depositCryptoViewController = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "DepositCryptoViewController") as? DepositCryptoViewController else { return }
-                    depositCryptoViewController.displayId = data?.displayId
+                    depositCryptoViewController.updateUrl = data?.updateUrl
                     NavigationManagement.sharedInstance.pushViewController(vc: depositCryptoViewController)
                 }) {
                     Text(Localize.string("common_cps_submit_hash_id_to_complete"))
@@ -46,14 +46,15 @@ struct textRowView: View {
             }
         } else {
             if let data = data {
-                ForEach(0..<data.statusChangeHistories.count, id: \.self) { index in
-                    Text(data.updatedDate.toDateTimeString())
+                let histories: [UpdateHistory] = data.updateHistories
+                ForEach(0..<histories.count, id: \.self) { index in
+                    Text(data.log.updateDate.toDateTimeString())
                         .foregroundColor(Color(UIColor.textPrimaryDustyGray))
                         .font(Font.custom("PingFangSC-Regular", size: 12))
                     Spacer().frame(height: 2)
-                    Text(data.statusChangeHistories[index].remarkLevel1 + " > " +
-                            data.statusChangeHistories[index].remarkLevel2 + " > " +
-                            data.statusChangeHistories[index].remarkLevel3)
+                    Text(histories[index].remarkLevel1 + " > " +
+                         histories[index].remarkLevel2 + " > " +
+                         histories[index].remarkLevel3)
                         .foregroundColor(Color(UIColor.whiteFull))
                         .font(Font.custom("PingFangSC-Regular", size: 16))
                     Spacer().frame(height: 18)
@@ -73,7 +74,7 @@ struct textRowView: View {
                 return "-"
             }
         case 1:
-            if data?.status == TransactionStatus.approved {
+            if let data = data, data.isTransactionComplete == true {
                return finalContentString()?[row] ?? ""
             } else {
                 return "-"
@@ -92,25 +93,25 @@ struct textRowView: View {
     }
     
     private func applyContentString() -> [String]? {
-        guard let data = data else { return nil }
-        return [data.requestTransaction.cryptoAmount.description(),
-                data.requestTransaction.exchangeRate.formatString(),
-                data.requestTransaction.cashAmount.description(),
-                data.createdDate.toDateTimeString()]
+        guard let data = data, let memo = data.processingMemo.request else { return nil }
+        return [memo.fromCrypto.formatString(),
+                memo.rate.formatString(),
+                memo.toFiat.formatString(),
+                data.log.createdDate.toDateTimeString()]
     }
     
     private func finalContentString() -> [String]? {
-        guard let data = data, let actualTransaction = data.actualTransaction else { return nil }
-        return [actualTransaction.cryptoAmount.description(),
-                actualTransaction.exchangeRate.formatString(),
-                actualTransaction.cashAmount.description(),
-                data.updatedDate.toDateTimeString()]
+        guard let data = data, let memo = data.processingMemo.actual else { return nil }
+        return [memo.fromCrypto.formatString(),
+                memo.rate.formatString(),
+                memo.toFiat.formatString(),
+                data.log.updateDate.toDateTimeString()]
     }
 }
 
 struct DepositCryptoDetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State var data: DepositDetail.Crypto?
+    @State var data: PaymentLogDTO.CryptoLog?
         
     var textView: textRowView{ textRowView(data: data) }
     var titleStrings = [Localize.string("balancelog_detail_id"), Localize.string("activity_status"), String(format: Localize.string("common_cps_remitter"), Localize.string("common_player")), String(format: Localize.string("common_cps_payee"), Localize.string("cps_kto")), Localize.string("common_cps_hash_id"), Localize.string("common_remark")]
@@ -136,7 +137,7 @@ struct DepositCryptoDetailView: View {
                     .foregroundColor(Color(UIColor.whiteFull))
                     .font(Font.custom("PingFangSC-Semibold", size: 24))
                 Spacer().frame(height: 22)
-                Text("\(Localize.string("deposit_title")) - \(data!.requestTransaction.cryptoAmount.simpleName)")
+                Text("\(Localize.string("deposit_title")) - \(data?.processingMemo.request?.fromCrypto.simpleName ?? "")")
                     .foregroundColor(Color(UIColor.whiteFull))
                     .font(Font.custom("PingFangSC-Medium", size: 16))
                 Text(Localize.string("common_cps_incomplete_field_placeholder_hint"))
@@ -214,11 +215,11 @@ struct DepositCryptoDetailView: View {
     
     private func contentStrings() -> [String]? {
         guard let data = self.data else {return nil}
-        return [data.displayId,
-                StringMapper.sharedInstance.parse(data.status, isPendingHold: data.isPendingHold, ignorePendingHold: true),
+        return [data.log.displayId,
+                data.log.status.toLogString(),
                 "-",
-                data.toAddress,
-                data.hashId.isEmpty ? "-" : data.hashId, ""]
+                data.processingMemo.toAddress,
+                data.processingMemo.hashId.isEmpty ? "-" : data.processingMemo.hashId, ""]
     }
 }
 

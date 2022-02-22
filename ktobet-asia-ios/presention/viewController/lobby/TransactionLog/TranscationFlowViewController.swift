@@ -57,7 +57,7 @@ class TranscationFlowController {
     private func consider(moneyTransfer: TransactionLog.MoneyTransfer) {
         switch moneyTransfer {
         case let depositLog as TransactionLog.MoneyTransferDeposit:
-            goDepositDetail(depositLog.detailId())
+            goDepositDetail(depositLog)
         case let withdrawalLog as TransactionLog.MoneyTransferWithdrawal:
             goWithdrawalDetail(withdrawalLog)
             break
@@ -119,10 +119,11 @@ class TranscationFlowController {
         }).disposed(by: self.disposeBag)
     }
     
-    private func goDepositDetail(_ wagerId: String) {
+    private func goDepositDetail(_ depositLog: TransactionLog.MoneyTransferDeposit) {
         let storyboard = UIStoryboard(name: "Deposit", bundle: Bundle.main)
         let vc = storyboard.instantiateViewController(withIdentifier: "DepositRecordContainer") as! DepositRecordContainer
-        vc.displayId = wagerId
+        vc.displayId = depositLog.detailId()
+        vc.transactionType = depositLog.transferType
         self.navi?.pushViewController(vc, animated: true)
         
     }

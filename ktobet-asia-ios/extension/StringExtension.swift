@@ -213,3 +213,7 @@ extension String {
         return self
     }
 }
+
+extension String {
+    var isNotEmpty: Bool { !self.isEmpty }
+}

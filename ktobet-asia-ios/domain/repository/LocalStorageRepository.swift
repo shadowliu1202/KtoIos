@@ -1,8 +1,10 @@
 import Foundation
 import SharedBu
 
-class LocalStorageRepository {
-
+class LocalStorageRepository: PlayerConfiguration {
+    
+    override var supportLocale: SupportLocale { getSupportLocal() }
+    
     let kRememberAccount = "rememberAccount"
     let kRememberPassword = "rememberPassword"
     let kLastOverLoginLimitDate = "overLoginLimit"

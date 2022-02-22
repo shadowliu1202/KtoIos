@@ -7,8 +7,8 @@ protocol TransactionLogRepository {
     func getCashFlowSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<CashFlowSummary>
     func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<CashLogSummary>
     func getBalanceLogDetail(transactionId: String) -> Single<BalanceLogDetail>
-    func getCasinoWagerDetail(wagerId: String, zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<String>
-    func getSportsBookWagerDetail(wagerId: String, zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<String>
+    func getCasinoWagerDetail(wagerId: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<String>
+    func getSportsBookWagerDetail(wagerId: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<String>
 }
 
 class TransactionLogRepositoryImpl: TransactionLogRepository {
@@ -77,14 +77,14 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
         })
     }
     
-    func getCasinoWagerDetail(wagerId: String, zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<String> {
+    func getCasinoWagerDetail(wagerId: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<String> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return transactionLogApi.getBalanceLogCasinoWagerDetail(wagerId: wagerId, offset: secondsToHours).map{
             return $0.data ?? ""
         }
     }
     
-    func getSportsBookWagerDetail(wagerId: String, zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<String> {
+    func getSportsBookWagerDetail(wagerId: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<String> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return transactionLogApi.getBalanceLogSportsBookWagerDetail(wagerId: wagerId, offset: secondsToHours).map({
             return $0.data ?? ""

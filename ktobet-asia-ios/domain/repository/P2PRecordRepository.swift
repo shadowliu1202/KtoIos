@@ -3,8 +3,8 @@ import RxSwift
 import SharedBu
 
 protocol P2PRecordRepository {
-    func getBetSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[DateSummary]>
-    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[GameGroupedRecord]>
+    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[DateSummary]>
+    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[GameGroupedRecord]>
     func getBetSummaryByGame(beginDate: String, endDate: String, gameId: Int32) -> Single<[P2PGameBetRecord]>
 }
 
@@ -15,7 +15,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
         self.p2pApi = p2pApi
     }
     
-    func getBetSummary(zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[DateSummary]> {
+    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[DateSummary]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return p2pApi.getBetSummary(offset: secondsToHours).map({ (response) -> [DateSummary] in
             guard let data = response.data else { return [] }
@@ -23,7 +23,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
         })
     }
     
-    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeZoneOffset) -> Single<[GameGroupedRecord]> {
+    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[GameGroupedRecord]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return p2pApi.getGameRecordByDate(date: localDate, offset: secondsToHours).map({ (response) -> [GameGroupedRecord] in
             guard let data = response.data else { return [] }

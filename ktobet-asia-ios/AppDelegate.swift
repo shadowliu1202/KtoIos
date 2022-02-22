@@ -9,6 +9,7 @@ import UIKit
 import IQKeyboardManagerSwift
 import RxSwift
 import Connectivity
+import SharedBu
 
 @main
 
@@ -47,6 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         rechabilityObserver = ReachabilityHandler.shared(connected: didConnect, disconnected: disConnect, requestError: requestErrorWhenRetry)
+        
+        SharedBu.Platform.init().debugBuild()
         return true
     }
     

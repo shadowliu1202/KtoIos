@@ -1,0 +1,200 @@
+import Foundation
+import SharedBu
+import RxSwiftExt
+import RxSwift
+import RxCocoa
+
+final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
+    private(set) var input: Input!
+    private(set) var output: Output!
+
+    private var playerUseCase: PlayerDataUseCase!
+    private var depositService: IDepositAppService!
+    private var navigator: DepositNavigator!
+    private let paymentIdentity = ReplaySubject<String>.create(bufferSize: 1)
+    private let selectPaymentGateway = ReplaySubject<PaymentsDTO.Gateway>.create(bufferSize: 1)
+    private let remitterName = ReplaySubject<String>.create(bufferSize: 1)
+    private let remittance = ReplaySubject<String>.create(bufferSize: 1)
+    private let remitterBankCardNumber = ReplaySubject<String>.create(bufferSize: 1)
+    private let confirmTrigger = PublishSubject<Void>()
+    private let errors = PublishSubject<Error>()
+    private var inProgress = ActivityIndicator()
+
+    init(playerUseCase: PlayerDataUseCase, depositService: IDepositAppService, navigator: DepositNavigator) {
+        super.init()
+        self.playerUseCase = playerUseCase
+        self.depositService = depositService
+        self.navigator = navigator
+
+        let paymentGateways = getPaymentGateways()
+        let remittance = self.remittance.asDriverLogError()
+        let remitterName = getPlayerRealName()
+        let depositLimit = getDepositLimit()
+        let cashOption = getCashOption()
+
+        let remitterNameValid = isRemitterNameValid()
+        let remitterBankCardNumbeValid = isRemitterBankCardNumbeValid()
+        let remittanceValid = isRemittanceValid(depositLimit)
+        let onlineDataValid = isOnlineDataValid(remitterNameValid: remitterNameValid, bankNumberValid: remitterBankCardNumbeValid, remittanceValid: remittanceValid)
+
+        let inProgress = self.inProgress.asDriver()
+        let webPath = confirm()
+
+        self.input = Input(paymentIdentity: paymentIdentity.asObserver(),
+                           selectPaymentGateway: selectPaymentGateway.asObserver(),
+                           remittance: self.remittance.asObserver(),
+                           remitterName: self.remitterName.asObserver(),
+                           remitterBankCardNumber: remitterBankCardNumber.asObserver(),
+                           confirmTrigger: confirmTrigger.asObserver())
+
+        self.output = Output(paymentGateways: paymentGateways,
+                             depositLimit: depositLimit,
+                             remitterName: remitterName,
+                             remittance: remittance,
+                             cashOption: cashOption,
+                             remitterNameValid: remitterNameValid,
+                             remitterBankCardNumbeValid: remitterBankCardNumbeValid,
+                             remittanceValid: remittanceValid,
+                             onlineDataValid: onlineDataValid,
+                             webPath: webPath,
+                             inProgress: inProgress)
+    }
+
+    private func getPaymentGateways() -> Driver<[OnlinePaymentGatewayItemViewModel]> {
+        let payments = RxSwift.Observable.from(depositService.getPayments())
+        let onlinePaymentGateway = paymentIdentity.flatMapLatest { identity in
+            payments.compactMap { $0.fiat.first(where: { $0.identity == identity }) }
+        }
+
+        let _paymentGateways = onlinePaymentGateway.flatMapLatest { RxSwift.Single.from($0.beneficiaries) }
+            .map { $0 as! [PaymentsDTO.Gateway] }
+            .compose(self.applyObservableErrorHandle())
+            .do(onNext: { [weak self] gateway in self?.selectPaymentGateway.onNext(gateway.first!) })
+
+        let paymentGateways = Observable.combineLatest(_paymentGateways, selectPaymentGateway).map { (paymentGateways, selectPaymentGateway) in
+            paymentGateways.map { OnlinePaymentGatewayItemViewModel(with: $0, icon: "Default(32)", isSelected: $0 == selectPaymentGateway) }
+        }.asDriverLogError()
+
+        return paymentGateways
+    }
+
+    private func getPlayerRealName() -> Driver<String> {
+        playerUseCase.getPlayerRealName()
+            .compose(self.applySingleErrorHandler())
+            .do(onSuccess: { [weak self] name in self?.remitterName.onNext(name) })
+            .asDriver(onErrorJustReturn: "")
+    }
+
+    private func getDepositLimit() -> Driver<AmountRange?> {
+        selectPaymentGateway.map { gateway -> AmountRange? in
+            switch gateway.cash {
+            case let input as CashType.Input:
+                return input.limitation
+            default:
+                return nil
+            }
+        }.compose(self.applyObservableErrorHandle()).asDriverLogError()
+    }
+
+    private func getCashOption() -> SharedSequence<DriverSharingStrategy, [KotlinInt]?> {
+        selectPaymentGateway.map { ($0.cash as? CashType.Option)?.list }
+            .do(onNext: { [weak self] list in
+            guard let self = self, let first = list?.first else { return }
+            self.remittance.onNext(first.stringValue)
+        }).compose(self.applyObservableErrorHandle()).asDriverLogError()
+    }
+
+    private func isRemittanceValid(_ depositLimit: Driver<AmountRange?>) -> Driver<AmountExpection?> {
+        Driver.combineLatest(depositLimit, remittance.asDriverLogError()).map({ (limitation, amount) -> AmountExpection? in
+            guard let limitation = limitation else { return nil }
+            guard let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return AmountExpection.empty }
+            if (limitation.min as! AccountCurrency) <= amount.toAccountCurrency() && amount.toAccountCurrency() <= (limitation.max as! AccountCurrency) {
+                return nil
+            } else {
+                return AmountExpection.overLimitation
+            }
+        })
+    }
+
+    private func isRemitterNameValid() -> Driver<AccountNameException?> {
+        self.remitterName.map { (name) -> AccountNameException? in
+            if name.isEmpty {
+                return AccountNameException.EmptyAccountName()
+            } else if name.count > 30 {
+                return AccountNameException.ExceededLength()
+            } else {
+                return nil
+            }
+        }.asDriver(onErrorJustReturn: nil)
+    }
+
+    private func isRemitterBankCardNumbeValid() -> SharedSequence<DriverSharingStrategy, Bool> {
+        return remitterBankCardNumber.map { (bankNumber) -> Bool in
+            CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: bankNumber))
+        }.asDriver(onErrorJustReturn: false)
+    }
+
+    private func isOnlineDataValid(remitterNameValid: Driver<AccountNameException?>,
+                                   bankNumberValid: Driver<Bool>,
+                                   remittanceValid: Driver<AmountExpection?>) -> Driver<Bool> {
+        let isRemitterNameValid = remitterNameValid.map { $0 == nil }
+        let isRemittanceValid = remittanceValid.map { $0 == nil }
+        return Driver.combineLatest(isRemitterNameValid, bankNumberValid, isRemittanceValid) {
+            $0 && $1 && $2
+        }
+    }
+
+    private func createRequest() -> Driver<OnlineDepositDTO.Request> {
+        Driver.combineLatest(paymentIdentity.asDriverLogError(),
+                             selectPaymentGateway.asDriverLogError(),
+                             remitterName.asDriverLogError(),
+                             remitterBankCardNumber.asDriverLogError(),
+                             remittance.asDriverLogError())
+        { (paymentIdentity, selectPaymentGateway, remitterName, remitterBankCardNumber, remittance) in
+            let amount = Int64(remittance.replacingOccurrences(of: ",", with: "")) ?? 0
+            let onlineRemitter = OnlineRemitter(name: remitterName, account: remitterBankCardNumber)
+            let application = OnlineRemitApplication(remitter: onlineRemitter, remittance: amount, gatewayIdentity: selectPaymentGateway.identity, supportBankCode: nil)
+            let request = OnlineDepositDTO.Request(paymentIdentity: paymentIdentity, application: application)
+            return request
+        }
+    }
+
+    private func confirm() -> Driver<CommonDTO.WebPath> {
+        confirmTrigger.withLatestFrom(createRequest())
+            .flatMapLatest { [unowned self] request -> Observable<CommonDTO.WebPath> in
+                Single.from(self.depositService.requestOnlineDeposit(request: request))
+                    .observeOn(MainScheduler.instance)
+                    .compose(self.applySingleErrorHandler())
+                    .trackActivity(self.inProgress)
+        }.do(onNext: { [weak self] url in
+            let host = HttpClient().host
+            let url = host + url.path
+            self?.navigator.toOnlineWebPage(url: url)
+        }).asDriverLogError()
+    }
+}
+
+extension ThirdPartyDepositViewModel {
+    struct Input {
+        let paymentIdentity: AnyObserver<String>
+        let selectPaymentGateway: AnyObserver<PaymentsDTO.Gateway>
+        let remittance: AnyObserver<String>
+        let remitterName: AnyObserver<String>
+        let remitterBankCardNumber: AnyObserver<String>
+        let confirmTrigger: AnyObserver<Void>
+    }
+
+    struct Output {
+        let paymentGateways: Driver<[OnlinePaymentGatewayItemViewModel]>
+        let depositLimit: Driver<AmountRange?>
+        let remitterName: Driver<String>
+        let remittance: Driver<String>
+        let cashOption: Driver<[KotlinInt]?>
+        let remitterNameValid: Driver<AccountNameException?>
+        let remitterBankCardNumbeValid: Driver<Bool>
+        let remittanceValid: Driver<AmountExpection?>
+        let onlineDataValid: Driver<Bool>
+        let webPath: Driver<CommonDTO.WebPath>
+        let inProgress: Driver<Bool>
+    }
+}

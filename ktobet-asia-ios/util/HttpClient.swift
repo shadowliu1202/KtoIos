@@ -157,6 +157,19 @@ class HttpClient {
         
         return debugData
     }
+    
+    func requestJsonString(_ target: APITarget) -> Single<String> {
+        return provider
+            .rx
+            .request(MultiTarget(target))
+            .filterSuccessfulStatusCodes()
+            .flatMap({(response) -> Single<String> in
+                if let json = try? JSON.init(data: response.data) {
+                    return Single.just(json.rawString() ?? "")
+                }
+                return Single.just("")
+            })
+    }
 }
 
 fileprivate func logConfig() -> NetworkLoggerPlugin.Configuration {

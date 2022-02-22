@@ -79,8 +79,8 @@ extension LocalizeUtils: StringSupporter {
                     parameters.append("\(num)")
                 } else if let str = args.get(index: idx), str is String {
                     parameters.append(str as! String)
-                } else if let cashAmount = args.get(index: idx), cashAmount is CashAmount {
-                    let amount = cashAmount as! CashAmount
+                } else if let cashAmount = args.get(index: idx), cashAmount is AccountCurrency {
+                    let amount = cashAmount as! AccountCurrency
                     parameters.append(amount.description())
                 } else if let unknown = args.get(index: idx) {
                     print(">>>>>>>StringSupporter unknown type arg: \(type(of: unknown))")

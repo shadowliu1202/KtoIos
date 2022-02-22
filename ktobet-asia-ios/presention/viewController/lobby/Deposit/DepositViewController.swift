@@ -16,16 +16,12 @@ class DepositViewController: APPViewController {
     @IBOutlet private weak var depositRecordTableView: UITableView!
     
     private var viewModel = DI.resolve(DepositViewModel.self)!
+    private var depositLogViewModel = DI.resolve(DepositLogViewModel.self)!
     private var disposeBag = DisposeBag()
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let response = HTTPURLResponse.init(url: URL(string: "www.ggg.gg")!, statusCode: 410, httpVersion: nil, headerFields: nil)
-//        let error = MoyaError.statusCode(Response.init(statusCode: 410, data: "nil".data(using: .utf8)!, request: nil, response: response))
-//        let oo = error.isMaintenance()
-//        self.handleErrors(error)
         
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_deposit"))
         initUI()
@@ -69,12 +65,12 @@ class DepositViewController: APPViewController {
     
     fileprivate func depositTypeDataBinding() {
         let depositType = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
-            return self.viewModel.getDepositType().asObservable()
+            return self.viewModel.submitList
         }).share(replay: 1)
-        depositType.catchError({ [weak self] (error) -> Observable<[DepositType]> in
+        depositType.catchError({ [weak self] (error) -> Observable<[DepositSelection]> in
             self?.handleErrors(error)
             return Observable.just([])
-        }).do ( onNext:{[weak self] (depositTypes) in
+        }).do(onNext: { [weak self] (depositTypes) in
             self?.depositTypeTableView.isHidden = false
             self?.depositTypeTableView.layoutIfNeeded()
             self?.depositTypeTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
@@ -86,18 +82,18 @@ class DepositViewController: APPViewController {
                 self?.depositNoDataLabel.isHidden = true
                 self?.depositTypeTableView.isHidden = false
             }
-        }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) {[weak self] index, data, cell in
-            guard let self = self else { return }
-            cell.setUp(data: data, icon: self.viewModel.getDepositTypeImage(depositTypeId: data.paymentType.id))
+        }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
+            cell.setUp(depositSelection: data)
         }.disposed(by: disposeBag)
     }
     
     fileprivate func depositTypeDataHandler() {
-        Observable.zip(depositTypeTableView.rx.itemSelected, depositTypeTableView.rx.modelSelected(DepositType.self)).bind { [weak self] (indexPath, data) in
+        Observable.zip(depositTypeTableView.rx.itemSelected, depositTypeTableView.rx.modelSelected(DepositSelection.self)).bind { [weak self] (indexPath, data) in
             guard let self = self else { return }
-            if data.supportType == .Crypto {
+            switch data {
+            case is CryptoPayment:
                 self.alertCryptoDepositWarnings()
-            } else {
+            default:
                 self.performSegue(withIdentifier: DepositGatewayViewController.segueIdentifier, sender: data)
             }
             
@@ -113,12 +109,12 @@ class DepositViewController: APPViewController {
     
     fileprivate func recordDataBinding() {
         let depositRecord = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
-            return self.viewModel.getDepositRecord().asObservable()
+            return self.depositLogViewModel.recentPaymentLogs
         }).share(replay: 1)
-        depositRecord.catchError({ [weak self] (error) -> Observable<[DepositRecord]> in
+        depositRecord.catchError({ [weak self] (error) -> Observable<[PaymentLogDTO.Log]> in
             self?.handleErrors(error)
             return Observable.just([])
-        }).do ( onNext:{[weak self] (depositRecord) in
+        }).do(onNext: { [weak self] (depositRecord) in
             self?.depositRecordTableView.isHidden = false
             self?.constraintDepositRecordTableHeight.constant = CGFloat(depositRecord.count * 80)
             self?.depositRecordTableView.layoutIfNeeded()
@@ -133,20 +129,19 @@ class DepositViewController: APPViewController {
                 self?.depositRecordTableView.isHidden = false
                 self?.showAllRecordButton.isHidden = false
             }
-        })
-        .map({ $0.prefix(5) })
-        .bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
-            cell.setUp(data: data)
+        }).bind(to: depositRecordTableView.rx.items(cellIdentifier: String(describing: DepositRecordTableViewCell.self), cellType: DepositRecordTableViewCell.self)) { index, data, cell in
+            cell.setup(data, displayFormat: .dateTime)
         }.disposed(by: disposeBag)
     }
     
     fileprivate func recordDataHandler() {
-        Observable.zip(depositRecordTableView.rx.itemSelected, depositRecordTableView.rx.modelSelected(DepositRecord.self)).bind { [weak self] (indexPath, data) in
+        Observable.zip(depositRecordTableView.rx.itemSelected, depositRecordTableView.rx.modelSelected(PaymentLogDTO.Log.self)).bind { [unowned self] (indexPath, data) in
             let storyboard = UIStoryboard(name: "Deposit", bundle: Bundle.main)
             let vc = storyboard.instantiateViewController(withIdentifier: "DepositRecordContainer") as! DepositRecordContainer
             vc.displayId = data.displayId
-            self?.navigationController?.pushViewController(vc, animated: true)
-            self?.depositRecordTableView.deselectRow(at: indexPath, animated: true)
+            vc.paymentCurrencyType = data.currencyType
+            self.navigationController?.pushViewController(vc, animated: true)
+            self.depositRecordTableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
     }
     
@@ -154,7 +149,9 @@ class DepositViewController: APPViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == DepositGatewayViewController.segueIdentifier {
             if let dest = segue.destination as? DepositGatewayViewController {
-                dest.depositType = sender as? DepositType
+                let depositType = sender as? DepositSelection
+                dest.depositType = depositType
+                dest.paymentIdentity = depositType?.id
             }
         }
         

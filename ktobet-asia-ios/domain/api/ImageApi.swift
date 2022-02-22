@@ -28,4 +28,14 @@ class ImageApi {
                                header: httpClient.headers)
         return httpClient.request(target).map(ResponseData<String>.self)
     }
+    
+    // MARK: New
+    func getPrivateImageToken(imageId: String) -> Single<String> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/image/hash/\(imageId)",
+                               method: .get,
+                               task: .requestPlain,
+                               header: httpClient.headers)
+        return httpClient.requestJsonString(target)
+    }
 }

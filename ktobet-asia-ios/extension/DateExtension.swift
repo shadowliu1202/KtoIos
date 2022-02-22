@@ -15,7 +15,6 @@ extension Date {
     }
     
     private func convertToDateComponent(dateType: Calendar.Component) -> Int? {
-        let calendar = Calendar.current
         let components = calendar.dateComponents([dateType], from: self)
         switch dateType {
         case .year:
@@ -174,6 +173,10 @@ extension Date {
         return Kotlinx_datetimeLocalDateTime.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
     }
     
+    func convertToKotlinx_datetimeLocalDate() -> Kotlinx_datetimeLocalDate {
+        return Kotlinx_datetimeLocalDate.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth())
+    }
+    
     static func - (lhs: Date, rhs: Date) -> TimeInterval {
         return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
     }
@@ -268,6 +271,38 @@ extension Kotlinx_datetimeLocalDate {
         } else {
             return betDateString.replacingOccurrences(of: "-", with: "/")
         }
+    }
+    
+}
+
+extension Kotlinx_datetimeInstant {
+    private func convertToDate() -> Date {
+        return Date(timeIntervalSince1970: TimeInterval(self.epochSeconds))
+    }
+    
+    private func convertToDateString(_ dateFormat: String) -> String {
+        let playerConfig = DI.resolve(PlayerConfiguration.self)!
+        let date = self.convertToDate()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        dateFormatter.timeZone = playerConfig.localeTimeZone()
+        let localDate = dateFormatter.string(from: date)
+        return localDate
+    }
+    
+    func toDateTimeString(with SeparatorSymbol: String = "/") -> String {
+        let dateFormat = "yyyy\(SeparatorSymbol)MM\(SeparatorSymbol)dd HH:mm:ss"
+        return convertToDateString(dateFormat)
+    }
+    
+    func toDateString(with SeparatorSymbol: String = "/") -> String {
+        let dateFormat = "yyyy\(SeparatorSymbol)MM\(SeparatorSymbol)dd"
+        return convertToDateString(dateFormat)
+    }
+    
+    func toTimeString() -> String {
+        let dateFormat = "HH:mm:ss"
+        return convertToDateString(dateFormat)
     }
     
 }

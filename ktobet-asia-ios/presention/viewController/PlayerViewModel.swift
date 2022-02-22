@@ -10,7 +10,7 @@ class PlayerViewModel {
     var refreshBalance = PublishSubject<(Void)>()
     lazy var playerBalance = refreshBalance.flatMapLatest{_ in
         self.playerUseCase.getBalance()
-            .map { $0.toAccountCurrency().symbol + " " + $0.toAccountCurrency().formatString() }
+            .map { "\($0.symbol) \($0.formatString())" }
             .do(onSuccess: { self.balance = $0 })
     }.asDriver(onErrorJustReturn: "")
                 
@@ -36,7 +36,9 @@ class PlayerViewModel {
     }
     
     func logout() -> Completable {
-        authUsecase.logout()
+        authUsecase.logout().do(afterCompleted: {
+            DI.resetObjectScope(.lobby)
+        })
     }
     
     func checkIsLogged() -> Single<Bool>{

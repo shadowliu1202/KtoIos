@@ -9,8 +9,6 @@ class DepositThirdPartWebViewController: APPViewController {
     
     var url: String!
     
-    fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
-
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
