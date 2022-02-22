@@ -17,12 +17,13 @@ class LaunchViewController: LandingViewController {
                 case is MaintenanceStatus.AllPortal:
                     self?.setPortalMaintenance()
                 case is MaintenanceStatus.Product:
-                    self?.observeCustomerService()
                     if isLogged {
+                        self?.observeCustomerService()
                         self?.nextPage()
                     } else {
                         self?.displayVideo {
                             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                            self?.observeCustomerService()
                         }
                     }
                 default:
@@ -68,14 +69,14 @@ class LaunchViewController: LandingViewController {
         }).disposed(by: disposeBag)
     }
     
-    private func displayVideo(_ complete: @escaping () -> Void) {
+    private func displayVideo(_ complete: (() -> Void)?) {
         let videoView = VideoView()
         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using: { _ in
-            complete()
+            complete?()
         })
         let videoURL = Bundle.main.url(forResource: "KTO", withExtension: "mp4")!
         self.view.addSubview(videoView, constraints: .fill())
-        videoView.play(with: videoURL, fail: { complete() })
+        videoView.play(with: videoURL, fail: { complete?() })
     }
     
     private func setPortalMaintenance() {
