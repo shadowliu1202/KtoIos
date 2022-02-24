@@ -13,6 +13,16 @@ class CustomerServiceViewModel {
         self.customerServiceUseCase = customerServiceUseCase
     }
     
+    lazy var chatMaintenanceStatus = customerServiceUseCase.currentChatRoom()
+        .flatMapLatest { room in
+            Observable<KotlinBoolean>.create { observer -> Disposable in
+                room.setMaintenanceListener(callback: observer.onNext)
+                return Disposables.create()
+            }
+        }
+        .catchErrorJustReturn(false)
+    
+    
     lazy var chatRoomMessage = customerServiceUseCase.currentChatRoom()
         .flatMapLatest { room in
             Observable<[ChatMessage]>.create { observer -> Disposable in
@@ -91,11 +101,14 @@ class CustomerServiceViewModel {
     
     private func send(message: String, chatRoom: PortalChatRoom) -> Completable {
         Completable.create { completeble in
-            chatRoom.send(message: message, onError: { throwable in
-                completeble(.error(throwable.asError()))
+            chatRoom.send(message: message, onError: { apiException in
+                let exception = apiException as! ApiException
+                let statusCode = exception.errorCode ?? "0"
+                let message = exception.message ?? ""
+                let nsError = NSError(domain: "", code: Int(statusCode) ?? 0, userInfo: ["statusCode": statusCode , "errorMsg" : message])
+                completeble(.error(nsError))
             })
             
-            completeble(.completed)
             return Disposables.create {}
         }
     }

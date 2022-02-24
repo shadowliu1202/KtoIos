@@ -2,6 +2,7 @@ import Foundation
 import SharedBu
 import RxSwift
 import Alamofire
+import Moya
 
 extension ChatRoomSignalRClient: HubConnectionDelegate {
     func connectionDidOpen(hubConnection: HubConnection) { }
@@ -87,9 +88,16 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     }
     
     func send(roomId: String, message: String, onError: @escaping (KotlinThrowable) -> Void) {
-        repository.send(message, roomId: roomId)
-            .subscribe(onError: { error in onError(KotlinThrowable.init(message: error.localizedDescription)) })
-            .disposed(by: disposeBag)
+        repository.send(message, roomId: roomId).subscribe {
+            print("Completable")
+        } onError: { error in
+            print(error)
+            let moyaError = error as? MoyaError
+            let response = moyaError?.response
+            let statusCode = response?.statusCode ?? 0
+            let e = ExceptionFactory.companion.create(message: "", statusCode: "\(statusCode)")            
+            onError(e)
+        }.disposed(by: disposeBag)
     }
     
     func start(isReconnect: Bool) {
@@ -177,6 +185,10 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         self.socketConnect?.on(method: Target.StopRoomAsync.rawValue, callback: {[weak self] (id: String) in
             self?.onMessage?(PortalChatRoom.ChatActionClose.init())
         })
+        
+        self.socketConnect?.on(method: Target.MaintenanceAsync.rawValue, callback: {[weak self] _ in
+            self?.onMessage?(PortalChatRoom.ChatActionMaintenance.init())
+        })
     }
     
     private func serviceDisconnect() -> Completable {
@@ -197,6 +209,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         case SpeakingAsync
         case QueueNumberAsync
         case StopRoomAsync
+        case MaintenanceAsync
     }
 
 }

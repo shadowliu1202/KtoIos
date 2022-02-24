@@ -26,7 +26,7 @@ class ChatRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.fullscreen().subscribe(onCompleted: { }).disposed(by: disposeBag)
+        viewModel.fullscreen().subscribe().disposed(by: disposeBag)
         setupUI()
         textFieldBinding()
         sendMessageBinding()
@@ -83,8 +83,10 @@ class ChatRoomViewController: UIViewController {
         sendImageViewTapGesture.rx.event.bind(onNext: { [weak self] recognizer in
             guard let self = self, let text = self.inputTextField.text else { return }
             
-            self.viewModel.send(message: text).subscribe(onError: { error in
+            self.viewModel.send(message: text).subscribe(onError: {[weak self] error in
+                guard let self = self else { return }
                 print("send message error")
+                self.viewModel.closeChatRoom().subscribe().disposed(by: self.disposeBag)
                 self.handleErrors(error)
             }).disposed(by: self.disposeBag)
             
@@ -211,6 +213,18 @@ class ChatRoomViewController: UIViewController {
                 self?.disableInputView()
             }
         }).disposed(by: disposeBag)
+        
+        viewModel.chatMaintenanceStatus.subscribe {[weak self] isMaintain in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if isMaintain.boolValue {
+                    self.viewModel.closeChatRoom().subscribe().disposed(by: self.disposeBag)
+                    self.handleMaintenance()
+                }
+            }
+        } onError: {[weak self] error in
+            self?.handleErrors(error)
+        }.disposed(by: self.disposeBag)
     }
     
     private func disableInputView() {

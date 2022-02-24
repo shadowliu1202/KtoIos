@@ -9,13 +9,13 @@ class LaunchViewController: LandingViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         viewModel.initLocale().subscribe(onCompleted: { }).disposed(by: disposeBag)
         Observable.combineLatest(serviceViewModel.output.portalMaintenanceStatus.asObservable(), viewModel.checkIsLogged().asObservable())
             .subscribe(onNext: { [weak self] (status, isLogged) in
                 switch status {
                 case is MaintenanceStatus.AllPortal:
-                    self?.setPortalMaintenance()
+                    self?.showPortalMaintenance()
                 case is MaintenanceStatus.Product:
                     if isLogged {
                         self?.observeCustomerService()
@@ -31,7 +31,7 @@ class LaunchViewController: LandingViewController {
                 }
             }) { [weak self] error in
                 if error.isMaintenance() {
-                    self?.setPortalMaintenance()
+                    self?.showPortalMaintenance()
                 } else {
                     self?.handleErrors(error)
                 }
@@ -64,9 +64,7 @@ class LaunchViewController: LandingViewController {
     }
     
     private func observeCustomerService() {
-        CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
-            print("Completed")
-        }).disposed(by: disposeBag)
+        CustomServicePresenter.shared.observeCustomerService().subscribe().disposed(by: disposeBag)
     }
     
     private func displayVideo(_ complete: (() -> Void)?) {
@@ -79,7 +77,7 @@ class LaunchViewController: LandingViewController {
         videoView.play(with: videoURL, fail: { complete?() })
     }
     
-    private func setPortalMaintenance() {
+    private func showPortalMaintenance() {
         DispatchQueue.main.async {
             let vc = UIStoryboard(name: "Maintenance", bundle: nil).instantiateViewController(withIdentifier: "PortalMaintenanceViewController")
             self.present(vc, animated: true, completion: nil)

@@ -13,7 +13,7 @@ import Alamofire
 import Moya
 import SharedBu
 
-extension UIViewController{
+extension UIViewController {
     func handleErrors(_ error: Error, ktoExceptions: ApiException.Type..., ktoExceptionsHandle: ((_ exception: ApiException) -> ())? = nil) {
         let exception = ExceptionFactory.create(error)
         if exception is ApiUnknownException {
@@ -48,10 +48,10 @@ extension UIViewController{
             handleUnknownError(error)
         }
     }
-    
+
     private func handleAFError(_ error: AFError) {
         if case .sessionTaskFailed(let err) = error,
-           let nsError = err as NSError? {
+            let nsError = err as NSError? {
             HandleNSError(nsError)
         } else if case .explicitlyCancelled = error {
             // do nothing
@@ -59,28 +59,29 @@ extension UIViewController{
             handleUnknownError(error)
         }
     }
-    
+
     private func HandleNSError(_ error: NSError) {
         switch error.code {
+        case 410:
+            self.handleMaintenance()
         case NSURLErrorNetworkConnectionLost,
-            NSURLErrorNotConnectedToInternet,
-            NSURLErrorCannotConnectToHost,
-            NSURLErrorCannotFindHost,
-            NSURLErrorTimedOut,
-            400 ... 599:
+             NSURLErrorNotConnectedToInternet,
+             NSURLErrorCannotConnectToHost,
+             NSURLErrorCannotFindHost,
+             NSURLErrorTimedOut:
             showAlertError(Localize.string("common_unknownhostexception"))
         default:
             handleUnknownError(error)
             break
         }
     }
-    
-    private func handleUnknownError(_ error : Error) {
+
+    private func handleUnknownError(_ error: Error) {
         let unknownErrorString = String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
         showAlertError(unknownErrorString)
     }
 
-    private func handleHttpError(_ error: Error,  response: Response) {
+    private func handleHttpError(_ error: Error, response: Response) {
         let viewModel = DI.resolve(PlayerViewModel.self)!
         let disposeBag = DisposeBag()
         switch response.statusCode {
@@ -88,12 +89,12 @@ extension UIViewController{
             viewModel.logout()
                 .subscribeOn(MainScheduler.instance)
                 .subscribe(onCompleted: {
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
-                }).disposed(by: disposeBag)
+                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+            }).disposed(by: disposeBag)
         case 403:
             showRestrictView()
         case 410:
-            handleMaintenance(viewModel, disposeBag)
+            handleMaintenance()
         case 404:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         case 503:
@@ -102,10 +103,12 @@ extension UIViewController{
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
         }
     }
-    
-    private func handleMaintenance(_ viewModel: PlayerViewModel, _ disposeBag : DisposeBag) {
+
+    func handleMaintenance() {
+        let viewModel = DI.resolve(PlayerViewModel.self)!
+        let disposeBag = DisposeBag()
         let serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
-        serviceViewModel.output.portalMaintenanceStatus.drive(onNext: {[weak self] status in
+        serviceViewModel.output.portalMaintenanceStatus.drive(onNext: { [weak self] status in
             switch status {
             case is MaintenanceStatus.AllPortal:
                 if UIApplication.topViewController() is LandingViewController {
@@ -113,9 +116,9 @@ extension UIViewController{
                 } else {
                     viewModel.logout()
                         .subscribeOn(MainScheduler.instance)
-                        .subscribe(onCompleted: {[weak self] in
-                            self?.showLoginMaintenanAlert()
-                        }).disposed(by: disposeBag)
+                        .subscribe(onCompleted: { [weak self] in
+                        self?.showLoginMaintenanAlert()
+                    }).disposed(by: disposeBag)
                 }
             case let productStatus as MaintenanceStatus.Product:
                 if let navi = NavigationManagement.sharedInstance.viewController.navigationController as? ProductNavigations {
@@ -128,60 +131,60 @@ extension UIViewController{
             }
         }).disposed(by: disposeBag)
     }
-    
+
     func showLoginMaintenanAlert() {
         Alert.show(Localize.string("common_urgent_maintenance"), Localize.string("common_maintenance_logout"), confirm: {
             NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
         }, cancel: nil)
     }
-    
+
     private func showUnLoginMaintenanAlert() {
         Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
             NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
         }, cancel: nil)
     }
-    
+
     private func showAlertError(_ content: String) {
         let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
         toastView.show(on: nil, statusTip: content, img: UIImage(named: "Failed"))
     }
-    
+
     func showRestrictView() {
         let restrictedVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "restrictedVC")
         self.present(restrictedVC, animated: true, completion: nil)
     }
-    
+
     func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {
         DispatchQueue.main.async {
             self.view.isUserInteractionEnabled = false
             activityIndicator.startAnimating()
         }
     }
-    
+
     func stopActivityIndicator(activityIndicator: UIActivityIndicatorView) {
         DispatchQueue.main.async {
             self.view.isUserInteractionEnabled = true
             activityIndicator.stopAnimating()
         }
     }
-    
+
     func showToast(_ popUp: ToastPopUp) {
         // Make suer there is no any toast showing on the screen
         self.hideToast()
-        
+
         popUp.tag = 6666
         self.view.addSubview(popUp, constraints: [
-            .equal(\.centerXAnchor),
-            .equal(\.centerYAnchor)
+                .equal(\.centerXAnchor),
+                .equal(\.centerYAnchor)
         ])
-        
+
         UIView.animate(withDuration: 2.0, delay: 2.0, animations: {
             popUp.alpha = 0.0
         }, completion: { complete in
             popUp.removeFromSuperview()
         })
     }
-    
+
     func hideToast() {
         for view in self.view.subviews {
             if view is ToastPopUp, view.tag == 6666 {
@@ -189,7 +192,7 @@ extension UIViewController{
             }
         }
     }
-    
+
     func addChildViewController(_ viewController: UIViewController, inner containView: UIView) {
         addChild(viewController)
         containView.addSubview(viewController.view)
@@ -197,7 +200,7 @@ extension UIViewController{
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         viewController.didMove(toParent: self)
     }
-    
+
     func removeChildViewController(_ viewController: UIViewController) {
         viewController.willMove(toParent: nil)
         viewController.view.removeFromSuperview()
