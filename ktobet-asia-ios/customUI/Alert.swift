@@ -23,14 +23,17 @@ class Alert{
                 alert.view.backgroundColor = UIColor.white
                 alert.view.layer.cornerRadius = 14
                 alert.view.clipsToBounds = true
+                var alertOutsideBackground: UIView!
+
                 let confirmAction = UIAlertAction(title: confirmText ?? Localize.string("common_confirm"), style: .default) { (action) in
+                    alertOutsideBackground.removeFromSuperview()
                     confirm?()
                 }
                 
                 let cancelction = UIAlertAction(title: cancelText ?? Localize.string("common_cancel"), style: .cancel) { (action) in
+                    alertOutsideBackground.removeFromSuperview()
                     cancel?()
                 }
-                
                 cancelction.setValue(UIColor.redForLightFull, forKey: "titleTextColor")
                 confirmAction.setValue(UIColor.redForLightFull, forKey: "titleTextColor")
                 alert.addAction(confirmAction)
@@ -42,6 +45,10 @@ class Alert{
                 } else {
                     topVc.present(alert, animated: true, completion: nil)
                 }
+                
+                alertOutsideBackground = UIView(frame: UIWindow.key!.frame)
+                alertOutsideBackground.backgroundColor = .black80
+                UIWindow.key?.addSubview(alertOutsideBackground)
             }
         }
     }
@@ -52,11 +59,14 @@ class Alert{
             alert.view.backgroundColor = UIColor.white
             alert.view.layer.cornerRadius = 14
             alert.view.clipsToBounds = true
+            var alertOutsideBackground: UIView!
             let confirmAction = UIAlertAction(title: Localize.string("common_confirm"), style: .default) { (action) in
+                alertOutsideBackground.removeFromSuperview()
                 confirm?()
             }
             
             let cancelction = UIAlertAction(title: Localize.string("common_cancel"), style: .cancel) { (action) in
+                alertOutsideBackground.removeFromSuperview()
                 cancel?()
             }
             
@@ -67,6 +77,10 @@ class Alert{
                 alert.addAction(cancelction)
             }
             topVc.present(alert, animated: true, completion: nil)
+            
+            alertOutsideBackground = UIView(frame: UIWindow.key!.frame)
+            alertOutsideBackground.backgroundColor = .black80
+            UIWindow.key?.addSubview(alertOutsideBackground)
         }
     }
     
@@ -76,7 +90,6 @@ class Alert{
                   completion?()
                   return
               }
-        
         topVc.dismiss(animated: true, completion: completion)
     }
 }
