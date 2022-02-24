@@ -1734,6 +1734,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ZFf-e3-DfT" secondAttribute="trailing" constant="8" id="6ad-oo-PIT"/>
                                             <constraint firstItem="Gtf-hN-M4W" firstAttribute="top" secondItem="IyE-GZ-rpM" secondAttribute="top" constant="30" id="7UO-tX-GRy"/>
                                             <constraint firstItem="26S-pN-td8" firstAttribute="leading" secondItem="Gtf-hN-M4W" secondAttribute="leading" id="APo-4i-Wce"/>
                                             <constraint firstItem="6Sa-cD-qhh" firstAttribute="top" secondItem="26S-pN-td8" secondAttribute="bottom" id="EAw-bf-bjK"/>
@@ -1741,8 +1742,8 @@
                                             <constraint firstItem="Gtf-hN-M4W" firstAttribute="leading" secondItem="IyE-GZ-rpM" secondAttribute="leading" constant="20" id="M1v-Lt-tJK"/>
                                             <constraint firstItem="ZFf-e3-DfT" firstAttribute="top" secondItem="Gtf-hN-M4W" secondAttribute="bottom" id="QJb-HA-De2"/>
                                             <constraint firstItem="ZFf-e3-DfT" firstAttribute="leading" secondItem="Gtf-hN-M4W" secondAttribute="leading" id="Z4b-fR-cCu"/>
-                                            <constraint firstAttribute="height" constant="168" id="eqf-XC-UP9"/>
                                             <constraint firstItem="6Sa-cD-qhh" firstAttribute="leading" secondItem="26S-pN-td8" secondAttribute="leading" id="ozL-cb-smR"/>
+                                            <constraint firstAttribute="bottom" secondItem="6Sa-cD-qhh" secondAttribute="bottom" constant="29.5" id="w9o-d4-7Gu"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
