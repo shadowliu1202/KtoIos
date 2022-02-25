@@ -432,7 +432,7 @@ class MixTableViewCell: UITableViewCell {
         img.heightAnchor.constraint(equalToConstant: 200).isActive = true
         img.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer()
-        img.sd_setImage(with: URL(string: image.image.path()))
+        img.sd_setImage(url: URL(string: image.image.path()), placeholderImage: nil)
         img.contentMode = .scaleAspectFit
         img.addGestureRecognizer(tapGesture)
         tapGesture.rx.event.bind(onNext: { recognizer in

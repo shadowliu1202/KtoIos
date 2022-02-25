@@ -22,7 +22,7 @@ class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScro
             imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
         }
         
-        self.imageView.sd_setImage(with: URL(string: url), placeholderImage: thumbnailImage, options: [], completed: nil)
+        self.imageView.sd_setImage(url: URL(string: url), placeholderImage: thumbnailImage)
         self.imageView.enableZoom()
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapAction))
         doubleTapGesture.numberOfTapsRequired = 2

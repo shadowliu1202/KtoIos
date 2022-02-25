@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Photos
+import SDWebImage
 
 public extension UIImage {
     convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {

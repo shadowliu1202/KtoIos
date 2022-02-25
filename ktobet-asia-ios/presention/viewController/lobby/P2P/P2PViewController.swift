@@ -26,7 +26,7 @@ class P2PViewController: AppVersionCheckViewController {
         }).bind(to: tableView.rx.items) {tableView, row, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: "p2pTableVIewCell", cellType: P2PTableViewCell.self)
             if let url = URL(string: item.thumbnail.url()) {
-                cell.iconImageView.sd_setImage(with: url, completed: nil)
+                cell.iconImageView.sd_setImage(url: url)
                 cell.iconImageView.borderWidth = 1
                 cell.iconImageView.bordersColor = UIColor(red: 200.0/255.0, green: 212.0/255.0, blue: 222.0/255.0, alpha: 1)
             }

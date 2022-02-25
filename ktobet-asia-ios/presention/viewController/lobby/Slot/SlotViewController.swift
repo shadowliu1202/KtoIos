@@ -143,7 +143,7 @@ class SlotViewController: AppVersionCheckViewController {
     
     private func addBlurBackgoundImageView(url: URL) {
         let blur = SDImageBlurTransformer.init(radius: 16)
-        blurImageBackgroundView.sd_setImage(with: url, placeholderImage: nil, options: SDWebImageOptions.init(), context: [.imageTransformer : blur])
+        blurImageBackgroundView.sd_setImage(url: url, context: [.imageTransformer : blur])
         
         let bottomGradient = CAGradientLayer()
         bottomGradient.startPoint = CGPoint(x: 0.5, y: 0.7)
@@ -188,7 +188,7 @@ extension SlotViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDataSour
     func pagerView(_ pagerView: TYCyclePagerView, cellForItemAt index: Int) -> UICollectionViewCell {
         let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cellId", for: index) as! TYCyclePagerViewCell
         if let url = URL(string: datas[index].thumbnail.url()) {
-            cell.imageView.sd_setImage(with: url, completed: nil)
+            cell.imageView.sd_setImage(url: url)
             cell.label.text = datas[index].gameName
             cell.button.setImage(datas[index].isFavorite ? UIImage(named: "game-favorite-active") : UIImage(named: "game-favorite-activeinactive"), for: .normal)
             cell.toggleFavorite = {[weak self] in
