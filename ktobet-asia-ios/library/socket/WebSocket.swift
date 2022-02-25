@@ -1695,6 +1695,7 @@ open class WebSocket: NSObject {
         let hasURL = request.url != nil
         opened = hasURL
         ws = InnerWebSocket(request: request, subProtocols: subProtocols, stub: !hasURL)
+        ws.allowSelfSignedSSL = true
         super.init()
         // weak/strong pattern from:
         // http://stackoverflow.com/a/17105368/424124

@@ -55,12 +55,13 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: [InProcessBean]!
         let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/in-process")!
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+        let urlSession = URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(), delegateQueue: nil)
+        let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<[InProcessBean]>.self, from: data).data
             group.leave()
         }
-        
+
         task.resume()
         
         group.wait()
@@ -138,7 +139,8 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: Int32?
         let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/queue-number")!
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+        let urlSession = URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(), delegateQueue: nil)
+        let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<Int32>.self, from: data).data
             group.leave()
@@ -156,7 +158,8 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: PlayerInChatBean?
         let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/player/in-chat")!
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+        let urlSession = URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(), delegateQueue: nil)
+        let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<PlayerInChatBean>.self, from: data).data
             group.leave()
@@ -225,4 +228,14 @@ struct SpeakingAsyncBean: Codable {
     let speakerId: String
     let speakerType: Int32
     let text: String
+}
+
+class NSURLSessionPinningDelegate: NSObject, URLSessionDelegate {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        if challenge.protectionSpace.host == Configuration.hostName {
+            completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
+        } else {
+            completionHandler(.performDefaultHandling, nil)
+        }
+    }
 }
