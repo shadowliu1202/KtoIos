@@ -90,6 +90,14 @@ extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
         serviceViewModel.refreshProductStatus()
         self.activityIndicator.stopAnimating()
     }
+    
+    func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        if challenge.protectionSpace.host == Configuration.hostName {
+            completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
+        } else {
+            completionHandler(.performDefaultHandling, nil)
+        }
+    }
 }
 
 extension SportBookViewController: UIScrollViewDelegate {

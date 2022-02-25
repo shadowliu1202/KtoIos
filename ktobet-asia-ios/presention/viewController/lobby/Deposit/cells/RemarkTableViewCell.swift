@@ -34,7 +34,7 @@ class RemarkTableViewCell: UITableViewCell {
             if let imgs = imgs[safe: index] {
                 imgs?.isHidden = false
                 imgs?.tag = index
-                imgs?.sd_setImage(with: URL(string: img.thumbnailLink() + ".jpg"), completed: nil)
+                imgs?.sd_setImage(url: URL(string: img.thumbnailLink() + ".jpg"), placeholderImage: nil)
                 imgs?.isUserInteractionEnabled = true
                 let tapGesture = UITapGestureRecognizer()
                 imgs?.addGestureRecognizer(tapGesture)
@@ -65,7 +65,7 @@ class RemarkTableViewCell: UITableViewCell {
             if let imgs = imgs[safe: index] {
                 imgs?.isHidden = false
                 imgs?.tag = index
-                imgs?.sd_setImage(with: URL(string: img.thumbnailFullPath + ".jpg"), completed: nil)
+                imgs?.sd_setImage(url: URL(string: img.thumbnailFullPath + ".jpg"), placeholderImage: nil)
                 imgs?.isUserInteractionEnabled = true
                 let tapGesture = UITapGestureRecognizer()
                 imgs?.addGestureRecognizer(tapGesture)

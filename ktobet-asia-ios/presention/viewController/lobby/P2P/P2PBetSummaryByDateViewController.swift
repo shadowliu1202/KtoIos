@@ -64,7 +64,7 @@ class P2PBetSummaryByDateCell: UITableViewCell {
     }
     
     func configure(_ item: GameGroupedRecord) -> Self {
-        gameImgView.sd_setImage(with: URL(string: item.thumbnail.url()), completed: nil)
+        gameImgView.sd_setImage(url: URL(string: item.thumbnail.url()))
         gameLabel.text = item.gameName
         betCountLabel.text = Localize.string("product_count_bet_record", "\(item.recordsCount)")
         let status = item.winLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")

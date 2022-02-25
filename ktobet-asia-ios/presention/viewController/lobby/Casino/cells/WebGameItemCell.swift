@@ -36,7 +36,7 @@ class WebGameItemCell: UICollectionViewCell {
         for header in HttpClient().headers {
             imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
         }
-        gameImage.sd_setImage(with: URL(string: game.thumbnail.url()), completed: nil)
+        gameImage.sd_setImage(url: URL(string: game.thumbnail.url()), placeholderImage: nil)
         backgroundImage.image = UIImage(named: "game-icon-small")
         var originFavorite = game.isFavorite
         let imgName = game.isFavorite == true ? "game-favorite-active" : "game-favorite-activeinactive"

@@ -28,6 +28,7 @@ enum Configuration: String {
     
     static var host: String         = "https://\(env.hostName)/"
     static var hostName: String     = env.hostName
+    static var disableSSL: Bool     = env.disableSSL
     static var isAutoUpdate: Bool   = env.isAutoUpdate
     static var manualUpdate: Bool   = env.manualUpdate
     static var debugGesture: Bool   = env.debugGesture
@@ -36,6 +37,7 @@ enum Configuration: String {
 
 protocol Env {
     var hostName: String { get }
+    var disableSSL: Bool { get }
     var isAutoUpdate: Bool { get }
     var manualUpdate: Bool { get }
     var debugGesture: Bool { get }
@@ -43,6 +45,7 @@ protocol Env {
 
 fileprivate class DevConfig: Env {
     var hostName: String = "qat1-mobile.affclub.xyz"
+    var disableSSL: Bool = true
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
@@ -50,6 +53,7 @@ fileprivate class DevConfig: Env {
 
 fileprivate class QatConfig: Env {
     var hostName: String = "qat1-mobile.affclub.xyz"
+    var disableSSL: Bool = true
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
@@ -57,6 +61,7 @@ fileprivate class QatConfig: Env {
 
 fileprivate class StagingConfig: Env {
     var hostName: String = "mobile.staging.support"
+    var disableSSL: Bool = false
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
