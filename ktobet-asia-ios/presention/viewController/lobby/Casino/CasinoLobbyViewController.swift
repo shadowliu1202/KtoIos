@@ -19,6 +19,11 @@ class CasinoLobbyViewController: DisplayProduct {
         dataBinding()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.refreshLobbyGames()
+    }
+    
     private func initUI() {
         gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         gamesCollectionView.registerCellFromNib(WebGameItemCell.className)
