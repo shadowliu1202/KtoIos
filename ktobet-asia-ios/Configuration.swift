@@ -26,36 +26,37 @@ enum Configuration: String {
         }
     }()
     
-    static var host: String         = env.host
+    static var host: String         = "https://\(env.hostName)/"
+    static var hostName: String     = env.hostName
     static var isAutoUpdate: Bool   = env.isAutoUpdate
     static var manualUpdate: Bool   = env.manualUpdate
     static var debugGesture: Bool   = env.debugGesture
-    static var affiliateUrl: URL    = URL(string: "\(env.host)affiliate")!
+    static var affiliateUrl: URL    = URL(string: "\(host)affiliate")!
 }
 
 protocol Env {
-    var host: String { get }
+    var hostName: String { get }
     var isAutoUpdate: Bool { get }
     var manualUpdate: Bool { get }
     var debugGesture: Bool { get }
 }
 
 fileprivate class DevConfig: Env {
-    var host: String = "https://qat1-mobile.affclub.xyz/"
+    var hostName: String = "qat1-mobile.affclub.xyz"
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
 }
 
 fileprivate class QatConfig: Env {
-    var host: String = "https://qat1-mobile.affclub.xyz/"
+    var hostName: String = "qat1-mobile.affclub.xyz"
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
 }
 
 fileprivate class StagingConfig: Env {
-    var host: String = "https://mobile.staging.support/"
+    var hostName: String = "mobile.staging.support"
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false

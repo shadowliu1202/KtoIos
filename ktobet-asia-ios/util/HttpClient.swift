@@ -188,7 +188,8 @@ fileprivate func logConfig() -> NetworkLoggerPlugin.Configuration {
 fileprivate func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = nil) -> Session {
     let configuration = URLSessionConfiguration.default
     configuration.headers = .default
-    return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor)
+    let manager = ServerTrustManager(evaluators: [Configuration.hostName: DisabledTrustEvaluator()])
+    return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor, serverTrustManager: manager)
 }
 
 class APIRequestRetrier: Retrier {
