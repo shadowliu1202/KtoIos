@@ -123,7 +123,7 @@ extension ProductGameDataSourceDelegate: UICollectionViewDelegate {
                 gameVc.gameName = data.gameName
                 gameVc.viewModel = self.vc?.getProductViewModel()
                 gameVc.delegate = self.vc
-                navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+                navi.modalPresentationStyle = .fullScreen
                 self.vc?.present(navi, animated: true, completion: nil)
             }
         default:

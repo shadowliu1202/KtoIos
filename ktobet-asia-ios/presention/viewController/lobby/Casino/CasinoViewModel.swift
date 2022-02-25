@@ -38,6 +38,7 @@ class CasinoViewModel: KTOViewModel {
     var pagination: Pagination<BetRecord>!
     var periodOfRecord: PeriodOfRecord!
     var section: Int = 0
+    private let refreshTrigger = PublishSubject<Void>()
     
     private var disposeBag = DisposeBag()
     
@@ -144,7 +145,11 @@ class CasinoViewModel: KTOViewModel {
     
     // MARK: Lobby
     func getLobbyGames(lobby: CasinoLobbyType) -> Observable<[CasinoGame]> {
-        return casinoUseCase.searchGamesByLobby(lobby: lobby)
+        refreshTrigger.flatMapLatest { [unowned self] in self.casinoUseCase.searchGamesByLobby(lobby: lobby) }
+    }
+    
+    func refreshLobbyGames() {
+        refreshTrigger.onNext(())
     }
 }
 

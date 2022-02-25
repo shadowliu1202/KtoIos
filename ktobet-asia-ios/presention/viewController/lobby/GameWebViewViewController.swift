@@ -49,10 +49,14 @@ class GameWebViewViewController: UIViewController {
             let request = URLRequest(url: url)
             webView.load(request)
         } onError: {[weak self] (error) in
-            guard let viewModel = self?.viewModel else { return }
-            Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {
-                NavigationManagement.sharedInstance.goTo(productType: viewModel.getGameProductType(), isMaintenance: true)
-            }, cancel: nil)
+            guard let viewModel = self?.viewModel, let self = self else { return }
+            self.handleErrors(error, ktoExceptions: GameUnderMaintenance.self) { exception in
+                if exception is GameUnderMaintenance {
+                    Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {
+                        NavigationManagement.sharedInstance.goTo(productType: viewModel.getGameProductType())
+                    }, cancel: nil)
+                }
+            }
         }.disposed(by: disposeBag)
     }
     
