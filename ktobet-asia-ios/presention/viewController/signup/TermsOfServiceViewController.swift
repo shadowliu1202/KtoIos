@@ -44,7 +44,6 @@ class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate 
         super.viewDidLoad()
         defaultStyle()
         reloadTableView()
-
     }
     
     private func defaultStyle(){
@@ -52,19 +51,22 @@ class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate 
     }
     
     private func reloadTableView() {
-        viewModel.initLocale().subscribe {[weak self] in
-            guard let self = self else { return }
-            switch self.termsType {
-            case .termsOfService:
-                NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, leftItemTitle: Localize.string("common_service_terms"))
-                self.createTermsOfService()
-            case .promotionSecurityPrivacy:
-                NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, leftItemTitle: Localize.string("common_privacy_terms"))
-                self.createPromotionSecurityprivacy()
-            }
-        } onError: {[weak self] error in
-            self?.handleErrors(error)
-        }.disposed(by: disposeBag)
+        viewModel.initLocale()
+            .do(onCompleted: {[weak self] in
+                self?.tableView.addTopBorder(size: 1, color: UIColor.black)
+            }).subscribe {[weak self] in
+                guard let self = self else { return }
+                switch self.termsType {
+                case .termsOfService:
+                    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, leftItemTitle: Localize.string("common_service_terms"))
+                    self.createTermsOfService()
+                case .promotionSecurityPrivacy:
+                    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, leftItemTitle: Localize.string("common_privacy_terms"))
+                    self.createPromotionSecurityprivacy()
+                }
+            } onError: {[weak self] error in
+                self?.handleErrors(error)
+            }.disposed(by: disposeBag)
     }
     
     private func createTerms(localization: ILocalizationData, key: String) -> String {

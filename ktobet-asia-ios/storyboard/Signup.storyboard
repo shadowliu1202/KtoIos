@@ -1078,21 +1078,14 @@ john.doe@higgstar.com
                                             <constraint firstAttribute="height" id="90z-ir-L5e"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请仔细阅读本条款，并确认你完全理解其内容。如果对于这一条款所产生的权利和义务有任何疑问，请向你所属法律管辖区域内的法律顾问寻求帮助。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVL-Tg-szM">
-                                        <rect key="frame" x="30" y="32" width="354" height="50.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVL-Tg-szM">
+                                        <rect key="frame" x="30" y="32" width="354" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zx1-jB-86g">
-                                        <rect key="frame" x="30" y="113.5" width="354" height="1"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="4dT-YZ-waE"/>
-                                        </constraints>
-                                    </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="34u-tr-qAg">
-                                        <rect key="frame" x="30" y="114.5" width="354" height="300"/>
+                                        <rect key="frame" x="30" y="64" width="354" height="300"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="300" id="BwK-xs-uM1"/>
@@ -1197,10 +1190,7 @@ john.doe@higgstar.com
                                     <constraint firstItem="GhF-PQ-a2Y" firstAttribute="top" secondItem="IFh-1Z-KIC" secondAttribute="top" id="M1C-fh-cz8"/>
                                     <constraint firstAttribute="trailing" secondItem="VVL-Tg-szM" secondAttribute="trailing" constant="30" id="MEX-Hs-ZUN"/>
                                     <constraint firstItem="GhF-PQ-a2Y" firstAttribute="leading" secondItem="IFh-1Z-KIC" secondAttribute="leading" id="VoI-Bw-lo0"/>
-                                    <constraint firstItem="34u-tr-qAg" firstAttribute="top" secondItem="zx1-jB-86g" secondAttribute="bottom" id="e8Z-Wv-Hr3"/>
-                                    <constraint firstItem="zx1-jB-86g" firstAttribute="trailing" secondItem="34u-tr-qAg" secondAttribute="trailing" id="eZi-6V-lBA"/>
                                     <constraint firstAttribute="bottom" secondItem="34u-tr-qAg" secondAttribute="bottom" constant="96" id="pH3-cl-Dcr"/>
-                                    <constraint firstItem="zx1-jB-86g" firstAttribute="leading" secondItem="34u-tr-qAg" secondAttribute="leading" id="v52-Ov-cq4"/>
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aqt-d7-xMa">
@@ -1227,14 +1217,14 @@ john.doe@higgstar.com
                     <navigationItem key="navigationItem" id="Xze-8B-yOn">
                         <leftBarButtonItems>
                             <barButtonItem id="AeF-iz-rLV"/>
-                            <barButtonItem image="Close" id="0W2-tk-T7i">
+                            <barButtonItem id="0W2-tk-T7i">
                                 <inset key="imageInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="btnBackPressed:" destination="rAy-YO-cte" id="hMe-63-Fsh"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="服务条款" id="XXi-IA-H1Z">
+                            <barButtonItem id="XXi-IA-H1Z">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </barButtonItem>
                         </leftBarButtonItems>
