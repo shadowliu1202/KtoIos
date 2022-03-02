@@ -20,6 +20,7 @@ protocol SystemRepository {
 class SystemRepositoryImpl : SystemRepository{
     let csMailCookieName = "csm"
     let maintenanceTimeCookieName = "dist"
+    let workaroundDefaultTime: Int32 = 359999
     private var portalApi : PortalApi
     private var productStatusChange = BehaviorSubject<MaintenanceStatus>(value: MaintenanceStatus.init())
     private var maintenanceStatus: Observable<MaintenanceStatus>!
@@ -67,16 +68,18 @@ class SystemRepositoryImpl : SystemRepository{
             .catchError({ [weak self] error in
             guard let self = self else { return Single.error(error) }
             if error.isMaintenance() {
-                return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: Int32(self.getMaintenanceTimeFromCookies())))
+                return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
             } else {
                 return Single.error(error)
             }
         })
     }
     
-    private func getMaintenanceTimeFromCookies() -> Int {
-        let str = (HttpClient().getCookies().first(where: { $0.name == maintenanceTimeCookieName })?.value) ?? "0"
-        return Int(ceil(Double(str) ?? 0))
+    private func getMaintenanceTimeFromCookies() -> Int32 {
+        if let str = HttpClient().getCookies().first(where: { $0.name == maintenanceTimeCookieName })?.value, let doubleValue = Double(str) {
+            return Int32(ceil(doubleValue))
+        }
+        return workaroundDefaultTime
     }
     
     private func maintainCsEmail() -> String {

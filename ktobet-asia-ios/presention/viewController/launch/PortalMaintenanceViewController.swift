@@ -48,7 +48,7 @@ class PortalMaintenanceViewController: APPViewController {
             countDownTimer = CountDownTimer()
             countDownTimer?.start(timeInterval: 1, duration: TimeInterval(secondsToPortalActive)) {[weak self] (index, countDownSecond, finish) in
                 self?.hourLabel.text = String(format: "%02d", (countDownSecond / 3600))
-                self?.minuteLabel.text = String(format: "%02d", (countDownSecond / 60))
+                self?.minuteLabel.text = String(format: "%02d", ((countDownSecond / 60) % 60))
                 self?.secondLabel.text = String(format: "%02d", (countDownSecond % 60))
                 if finish {
                     self?.showNavigation()
