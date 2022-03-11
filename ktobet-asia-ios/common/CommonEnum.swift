@@ -94,8 +94,16 @@ public enum RegularFormat: String {
 
 struct Setting {
     static let resendOtpCountDownSecond: Double = 240
+    static let resetPasswordStep2CountDownSecond: Double = 600
+    static let otpRetryLimit = 6
 }
 
 enum ChatTarget: String {
     case Message, Dispatched, Queued, Join, Close, DuplicateConnect
+}
+
+enum BithdayValidError {
+    case none
+    case empty
+    case notAdult
 }

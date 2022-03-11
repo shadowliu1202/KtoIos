@@ -1,4 +1,5 @@
 
+
 //MARK: - CPS
 "cps_kto" = "KTO";
 "cps_daily_limit_widthrawal_amount" = "每日提现额度：%@";
@@ -334,7 +335,7 @@
 "common_maintenance_notify" = "维护通知";
 "common_urgent_maintenance" = "紧急维护";
 "common_maintenance_contact_later" = "系统维护中，请稍后联系我们。";
-"common_maintenance_chat_close" = "非常抱歉，我们需要立即结束你的聊天，请稍候再联系。";
+"common_maintenance_chat_close" = "非常抱歉，我们需要立即结束你的聊天，请稍后再联系。";
 "common_maintenance_logout" = "非常抱歉，我们需要立即将您登出，请稍后再试。";
 "common_p2p" = "对战";
 "common_photo_upload_limit_count" = "最多只能选择%@个文件";
@@ -397,6 +398,9 @@
 "common_no_notification" = "暂无通知";
 "common_no_games_found" = "没有匹配的游戏";
 "common_copyright" = "%@ 版权所有 ©KTO亚洲";
+"common_image_max_selection" = "最多只能选择 %1$d 个文件";
+"common_image_format_not_support" = "您的档案不符合系统格式";
+"common_capture_image" = "拍一张";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -548,6 +552,7 @@
 "deposit_pay_multiple_hint" = "";
 "deposit_notify_request_later" = "您有三个待处理的充值请求，请您过三分钟后再试";
 "deposit_cps_hint" = "推广：存款优惠";
+"deposit_multiple_hint" = "温馨提示：支持支付宝、微信、网上银行、云闪付，支付宝微信如果遇到错误提示，尝试使用网银或者云闪付，以便您的款项实时到账。";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "THTH交易前金额";
@@ -598,6 +603,8 @@
 "balancelog_eventbonus" = "活动红利";
 "balancelog_other" = "其它";
 "balancelog_wager_detail" = "注单明细";
+"balancelog_wager_sync_unfinished" = "Dữ liệu đang được tạo, vui lòng đợi trong giây lát ...";
+"balancelog_wager_detail_is_maintain" = "Đang bảo trì dữ liệu, vui lòng đợi ...";
 
 //MARK: - Withdrawal
 "withdrawal_accountnumber" = "THTH账户号码";
@@ -793,7 +800,7 @@
 "product_game_maintenance" = "游戏维护中";
 "product_p2p_bonus_calculating" = "已领取红利目前无法进入对战游戏。";
 "product_mid_break" = "中场休息";
-"product_will_be_back" = "我们很快重新开赛。
+"product_will_be_back" = "我们很快重新开赛。 
 谢谢。";
 "product_p2p_turnover_description" = "进入对战前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
 "product_dealer" = "荷官";
@@ -1177,240 +1184,422 @@
 "profile_bind_identity_locked" = "由于安全问题，您的账户已被冻结，请联系客服寻求协助";
 "profile_new_mobile_description" = "手机可用于登彔及安全验证时使用
 请输入手机号码以收取验证码";
+"profile_sms_unavailable_title" = "";
+"profile_sms_unavailable_description" = "";
+"profile_mail_unavailable_title" = "";
+"profile_mail_unavailable_description" = "";
 
-//MARK: - (Ignore)License
-"(ignore)license_definition_content" = "Các Điều Khoản và Điều Kiện sau đây áp dụng cho việc sử dụng, kết nối và tham gia của thành viên vào các dịch vụ đặt cược trực tuyến được cung cấp thông qua một website được điều hành bởi KTO Châu Á (gọi chung là KTO Châu Á, \"Chúng Tôi\" và \"của Chúng Tôi\", tùy theo từng trường hợp). Quy định này phải được đọc cùng với các quy định đặt cược của từng trò chơi cụ thể, áp dụng cho việc sử dụng phần mềm đặt cược và kết nối với website đặt cược và các quy định có trong đó. Chúng Tôi có quyền cung cấp thông tin cá nhân cần thiết cho các nhà cung cấp dịch vụ nền tảng thanh toán bên thứ ba có liên quan và các tổ chức bảo hiểm tài chính thông qua website để hoàn thành các yêu cầu thanh toán.
+//MARK: - License
+"license_definition_content" = "Các Điều Khoản và Điều Kiện sau đây áp dụng cho việc sử dụng, kết nối và tham gia của thành viên vào các dịch vụ đặt cược trực tuyến được cung cấp thông qua một website được điều hành bởi KTO Châu Á (gọi chung là KTO Châu Á, \"Chúng Tôi\" và \"của Chúng Tôi\", tùy theo từng trường hợp). Quy định này phải được đọc cùng với các quy định đặt cược của từng trò chơi cụ thể, áp dụng cho việc sử dụng phần mềm đặt cược và kết nối với website đặt cược và các quy định có trong đó. Chúng Tôi có quyền cung cấp thông tin cá nhân cần thiết cho các nhà cung cấp dịch vụ nền tảng thanh toán bên thứ ba có liên quan và các tổ chức bảo hiểm tài chính thông qua website để hoàn thành các yêu cầu thanh toán.
 
- “Đặt cược” cho mục đích của quy định này, bao gồm nhưng không giới hạn ở đặt cược, trò chơi và các hoạt động đặt cược khác nhau thông qua bất kỳ và/hoặc tất cả các dịch vụ đặt cược được cung cấp thông qua website đặt cược. “Thiết bị kết nối” có nghĩa là bất kỳ thiết bị nào được kết nối, bao gồm nhưng không giới hạn ở máy tính cá nhân, máy tính xách tay, điện thoại di động, trợ lý kỹ thuật số cá nhân, điện thoại PDA và thiết bị di động được sử dụng để truy cập và kết nối với website đặt cược và tham gia các dịch vụ đặt cược.
-";
-"(ignore)license_agree_content" = "Trong quá trình đăng ký, bằng cách đánh dấu vào ô trước dòng chữ \"Tôi xác nhận rằng tôi ít nhất 18 tuổi\" và \"Tôi đồng ý với các Điều Khoản và Điều Kiện cũng như các quy tắc và quy định của KTO Châu Á.\" và nhấp vào nút \"Lưu và Tiếp Tục\" tương ứng, thành viên xác nhận và đồng ý:
- 
-<ol><li> Thành viên đã đọc, hoàn toàn hiểu và đồng ý với các Điều Khoản và Điều Kiện này; và
- </li><li> Các Điều Khoản và Điều Kiện này cấu thành một thỏa thuận ràng buộc về mặt pháp lý giữa thành viên và KTO Châu Á về việc sử dụng các dịch vụ đặt cược (“Thỏa Thuận Sử Dụng”).
- </li></ol>Nếu thành viên không đồng ý với bất kỳ điều khoản nào trong các Điều Khoản và Điều Kiện này, vui lòng đánh dấu vào nút \"Tôi không đồng ý\" và vui lòng không nhấp vào nút \"Lưu và Tiếp Tục\", và không cố gắng sử dụng hoặc tiếp tục sử dụng bất kỳ dịch vụ đặt cược nào hoặc tải về và/hoặc cài đặt phần mềm đặt cược.
-";
-"(ignore)license_modify_content" = "KTO Châu Á có quyền tuyệt đối để thay thế, cập nhật và điều chỉnh các Điều Khoản và Điều Kiện này (hoặc bất kỳ phần nào trong đó) theo thời gian. Bất kỳ thay thế, cập nhật hoặc điều chỉnh như vậy sẽ được đăng trên website đặt cược. Các Điều Khoản và Điều Kiện được thay thế, cập nhật hoặc điều chỉnh sẽ có hiệu lực khi chúng được đăng trên website đặt cược. Thành viên tiếp tục sử dụng, kết nối và tham gia các dịch vụ đặt cược thông qua website đặt cược và thiết bị đặt cược là sẽ được xem là đồng ý và chấp nhận các Điều Khoản và Điều Kiện được công bố hoặc điều chỉnh.
- 
-Thành viên xác nhận và đồng ý và hoàn toàn chịu trách nhiệm xem xét các thay thế, cập nhật và/hoặc điều chỉnh ở trên. KTO Châu Á có thể, theo quyết định riêng của mình, thông báo cho thành viên về các thay thế, cập nhật và điều chỉnh ở trên. Các thay thế, cập nhật và điều chỉnh ở trên có thể được KTO Châu Á thông báo đến thành viên theo thời gian, nhưng KTO Châu Á không có nghĩa vụ phải thông báo cho thành viên về bất kỳ thay thế, cập nhật và điều chỉnh nào.
-";
-"(ignore)license_gaminginfo_intellectualproperty_content" = "Thông tin, tài liệu và dữ liệu – có được từ việc được cung cấp, sở hữu, tạo ra và/hoặc thu thập – được cung cấp cho thành viên thông qua website đặt cược, dịch vụ đặt cược, thiết bị đặt cược và/hoặc bất kỳ phương tiện nào khác, bao gồm nhưng không giới hạn ở các kế hoạch tiếp thị và tài liệu, kết quả, số liệu thống kê, dữ liệu trận đấu, lịch thi đấu, xác suất và dữ liệu đặt cược, văn bản, biểu tượng, thông tin nghe nhìn (\"Thông Tin Đặt Cược\"), sẽ thuộc sở hữu của KTO Châu Á và nhà cấp phép, và sẽ chỉ được sử dụng bởi thành viên cho mục đích cá nhân, phi thương mại.
- 
+“Đặt cược” cho mục đích của quy định này, bao gồm nhưng không giới hạn ở đặt cược, trò chơi và các hoạt động đặt cược khác nhau thông qua bất kỳ và/hoặc tất cả các dịch vụ đặt cược được cung cấp thông qua website đặt cược. “Thiết bị kết nối” có nghĩa là bất kỳ thiết bị nào được kết nối, bao gồm nhưng không giới hạn ở máy tính cá nhân, máy tính xách tay, điện thoại di động, trợ lý kỹ thuật số cá nhân, điện thoại PDA và thiết bị di động được sử dụng để truy cập và kết nối với website đặt cược và tham gia các dịch vụ đặt cược.";
+"license_agree_content" = "Trong quá trình đăng ký, bằng cách đánh dấu vào ô trước dòng chữ \"Tôi xác nhận rằng tôi ít nhất 18 tuổi\" và \"Tôi đồng ý với các Điều Khoản và Điều Kiện cũng như các quy tắc và quy định của KTO Châu Á.\" và nhấp vào nút \"Lưu và Tiếp Tục\" tương ứng, thành viên xác nhận và đồng ý:
+
+1. Thành viên đã đọc, hoàn toàn hiểu và đồng ý với các Điều Khoản và Điều Kiện này; và
+
+2. Các Điều Khoản và Điều Kiện này cấu thành một thỏa thuận ràng buộc về mặt pháp lý giữa thành viên và KTO Châu Á về việc sử dụng các dịch vụ đặt cược (“Thỏa Thuận Sử Dụng”).
+
+Nếu thành viên không đồng ý với bất kỳ điều khoản nào trong các Điều Khoản và Điều Kiện này, vui lòng đánh dấu vào nút \"Tôi không đồng ý\" và vui lòng không nhấp vào nút \"Lưu và Tiếp Tục\", và không cố gắng sử dụng hoặc tiếp tục sử dụng bất kỳ dịch vụ đặt cược nào hoặc tải về và/hoặc cài đặt phần mềm đặt cược.";
+"license_modify_content" = "KTO Châu Á có quyền tuyệt đối để thay thế, cập nhật và điều chỉnh các Điều Khoản và Điều Kiện này (hoặc bất kỳ phần nào trong đó) theo thời gian. Bất kỳ thay thế, cập nhật hoặc điều chỉnh như vậy sẽ được đăng trên website đặt cược. Các Điều Khoản và Điều Kiện được thay thế, cập nhật hoặc điều chỉnh sẽ có hiệu lực khi chúng được đăng trên website đặt cược. Thành viên tiếp tục sử dụng, kết nối và tham gia các dịch vụ đặt cược thông qua website đặt cược và thiết bị đặt cược là sẽ được xem là đồng ý và chấp nhận các Điều Khoản và Điều Kiện được công bố hoặc điều chỉnh.
+
+Thành viên xác nhận và đồng ý và hoàn toàn chịu trách nhiệm xem xét các thay thế, cập nhật và/hoặc điều chỉnh ở trên. KTO Châu Á có thể, theo quyết định riêng của mình, thông báo cho thành viên về các thay thế, cập nhật và điều chỉnh ở trên. Các thay thế, cập nhật và điều chỉnh ở trên có thể được KTO Châu Á thông báo đến thành viên theo thời gian, nhưng KTO Châu Á không có nghĩa vụ phải thông báo cho thành viên về bất kỳ thay thế, cập nhật và điều chỉnh nào.";
+"license_gaminginfo_intellectualproperty_content" = "Thông tin, tài liệu và dữ liệu – có được từ việc được cung cấp, sở hữu, tạo ra và/hoặc thu thập – được cung cấp cho thành viên thông qua website đặt cược, dịch vụ đặt cược, thiết bị đặt cược và/hoặc bất kỳ phương tiện nào khác, bao gồm nhưng không giới hạn ở các kế hoạch tiếp thị và tài liệu, kết quả, số liệu thống kê, dữ liệu trận đấu, lịch thi đấu, xác suất và dữ liệu đặt cược, văn bản, biểu tượng, thông tin nghe nhìn (\"Thông Tin Đặt Cược\"), sẽ thuộc sở hữu của KTO Châu Á và nhà cấp phép, và sẽ chỉ được sử dụng bởi thành viên cho mục đích cá nhân, phi thương mại.
+
 Trừ khi được quy định trong phần này, không có sự đồng ý trước bằng văn bản của Chúng Tôi hoặc chủ sở hữu dữ liệu bên thứ ba, thành viên không được – bằng bất kỳ hình thức nào hoặc bằng bất kỳ phương tiện nào – phỏng theo, sao chép, điều chỉnh, nhân bản, lưu trữ, phân phối, hiển thị, phát sóng công khai, tạo các chương trình cáp, hoặc xuất bản, truyền, bán, cho mượn, cho thuê và cho phép sử dụng thông tin đặt cược. Thành viên không được, mặt khác, sử dụng bất kỳ website nào của người khác, dịch vụ trực tuyến, bảng thông báo, bất kỳ phương tiện truyền thông và/hoặc thiết bị kết nối nào để sở hữu, sử dụng hoặc kết nối với thông tin đặt cược ở trên.
- 
-Phần mềm đặt cược, dịch vụ đặt cược và thông tin đặt cược được cung cấp trên website đặt cược và/hoặc thông qua các thiết bị kết nối được hưởng bản quyền, thương hiệu và các hình thức sở hữu trí tuệ và bảo vệ bằng sáng chế khác. Tất cả các quyền, quyền sở hữu và lợi ích của phần mềm đặt cược, dịch vụ đặt cược và thông tin đặt cược trên website đặt cược đều được sở hữu, sử dụng hoặc kiểm soát bởi KTO Châu Á và/hoặc nhà cấp phép. Thành viên xác nhận rằng họ không sở hữu bất kỳ quyền, lợi ích hoặc giấy phép nào đối với phần mềm đặt cược, dịch vụ đặt cược và thông tin đặt cược của KTO Châu Á thông qua việc sử dụng hoặc kết nối phần mềm đặt cược, dịch vụ đặt cược và thông tin đặt cược được cung cấp trên website đặt cược và/hoặc thiết bị kết nối.
-";
-"(ignore)license_condition_content" = "Với Điều Kiện Sử Dụng dịch vụ đặt cược này, thành viên đảm bảo và cam kết không sử dụng hoặc kết nối website đặt cược, phần mềm đặt cược, dịch vụ đặt cược và/hoặc thông tin đặt cược cho bất kỳ mục đích nào vi phạm pháp luật hiện hành áp dụng cho thành viên, vi phạm Điều Kiện Sử Dụng này và/hoặc bị cấm bởi Điều Kiện Sử Dụng này. Ngoài tất cả các tuyên bố và đảm bảo khác được liệt kê trong Điều Khoản Dịch Vụ, thành viên qua đây đồng thời đảm bảo và cam kết rằng, với Điều Kiện Sử Dụng dịch vụ đặt cược này:
- 
-<ol><li>Thành viên thực hiện các hoạt động trên tư cách pháp nhân của chính mình và không thay mặt người khác;
- </li><li>Năng lực pháp lý của thành viên không bị hạn chế;
- </li><li>Thành viên không bị chẩn đoán hoặc xác định là rối loạn ám ảnh cưỡng chế/nghiện cờ bạc;
- </li><li>Thành viên đã (a) ít nhất 18 tuổi; hoặc (b) đủ tuổi hợp pháp hoặc tuổi trưởng thành theo quy định pháp luật hiện hành áp dụng cho thành viên, tùy theo độ tuổi nào lớn hơn (\"tuổi hợp pháp\");
- </li><li>Thành viên hoàn toàn hiểu rủi ro thua cược trong quá trình sử dụng dịch vụ đặt cược;
- </li><li>Tiền được gửi bởi thành viên không có nguồn gốc từ phạm tội hoặc các hoạt động phi pháp, không được ủy quyền hoặc trái phép;
- </li><li> Thành viên không tham gia phạm tội hoặc các hoạt động phi pháp, không được ủy quyền hoặc trái phép khác, và/hoặc cố gắng sử dụng tài khoản thành viên với KTO Châu Á để thực hiện các hoạt động trên. Thành viên không được sử dụng hoặc cho phép người khác sử dụng các dịch vụ đặt cược hoặc tài khoản đặt cược của mình để tham gia vào bất kỳ hoạt động phạm tội hoặc hoạt động phi pháp nào áp dụng cho thành viên hoặc áp dụng cho bất kỳ luật nào của Chúng Tôi, bao gồm nhưng không giới hạn ở hoạt động rửa tiền;
- </li><li>Giữ bảo mật tên tài khoản, số tài khoản và mật khẩu của mình để ngăn chặn kết nối hoặc sử dụng phi pháp, và ngay lập tức thay đổi mật khẩu hoặc thông báo cho Chúng Tôi nếu tên tài khoản, số tài khoản hoặc mật khẩu bị xâm phạm theo bất kỳ cách nào;
- </li><li>Chịu trách nhiệm cho bất kỳ và tất cả các hoạt động kết nối và sử dụng dịch vụ đặt cược thông qua website đặt cược và/hoặc thiết bị kết nối với tên tài khoản, số tài khoản và mật khẩu của mình, bất kể việc kết nối và/hoặc sử dụng trên được thành viên cho phép hoặc biết hay không;
- </li><li>Không sử dụng các dịch vụ đặt cược, website đặt cược, thiết bị kết nối, phần mềm đặt cược và thông tin đặt cược dưới bất kỳ hình thức nào can thiệp hoặc có thể can thiệp vào việc sử dụng dịch vụ đặt cược và website đặt cược của các thành viên khác. Không thực hiện bất kỳ hành vi nào làm giảm hoặc có thể làm giảm hiệu quả hoạt động của các dịch vụ đặt cược và website đặt cược;
- </li><li>Không gạ gẫm hoặc cố gắng bằng mọi cách để có được bất kỳ thông tin nào về các thành viên khác;
- </li><li>Không tải lên hoặc phân phối bất kỳ chương trình, tập tin hoặc dữ liệu nào chứa virus có thể phá hủy hoặc ảnh hưởng đến hiệu suất hoạt động của các thiết bị kết nối, phần mềm đặt cược, dịch vụ đặt cược và/hoặc website đặt cược;
- </li><li>Việc kết nối hoặc sử dụng các dịch vụ đặt cược và thông tin đặt cược của thành viên thông qua website đặt cược và/hoặc thiết bị kết nối không vi phạm pháp luật hiện hành áp dụng cho thành viên, đồng thời không vi phạm các nghĩa vụ hợp đồng ràng buộc đối với cá nhân thành viên hoặc chủ quản của quốc gia nơi thành viên hiện đang kết nối với website đặt cược hoặc thiết bị kết nối, đồng thời không bị cấm bởi các nghĩa vụ pháp lý hoặc hợp đồng nói trên;
- </li><li>Không sử dụng bất kỳ dụng cụ, máy móc, thiết bị, phần mềm, chương trình hoặc phương pháp nào khác (hoặc bất kỳ thứ gì có tính chất mô tả ở trên) để can thiệp hay cố gắng can thiệp vào các dịch vụ đặt cược, thiết bị kết nối, phần mềm đặt cược, website đặt cược, thông tin đặt cược hoặc hoạt động bình thường của bất kỳ giao dịch nào được cung cấp bởi website đặt cược và/hoặc thiết bị kết nối;
- </li><li>Không đăng hoặc truyền tải, đến website đặc cược và/hoặc thiết bị kết nối hoặc đến bất kỳ thành viên nào khác, bất kỳ nội dung nào phạm pháp, quấy rối, lăng mạ, đe dọa, vu khống, phỉ báng, tục tĩu, không đứng đắn, trêu chọc, phân biệt chủng tộc, khiêu dâm hoặc thô tục, hoặc nội dung có thể cấu thành hoặc kích động phạm tội, ảnh hưởng đến trách nhiệm dân sự hoặc phạm pháp;
- </li><li>Thành viên không phải là quản lý, giám đốc, nhân viên, tư vấn, đại lý hoặc đại diện của KTO Châu Á hoặc bất kỳ đơn vị trực thuộc hoặc liên quan nào, hoặc có mối quan hệ họ hàng hoặc mối quan hệ theo luật thông thường với bất kỳ người nào ở trên; và
- </li><li>Không can thiệp vào việc sử dụng các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược, thiết bị kết nối và/hoặc thông tin đặt cược của các thành viên khác, hoặc khởi xướng và/hoặc tham gia vào các cuộc khảo sát, cuộc thi, thư liên hoàn hoặc đăng/truyền \"thư rác\" hoặc bất kỳ hình thức bom thư nào.</li></ol>";
-"(ignore)license_register_membership_content" = "Để tham gia đặt cược và sử dụng các dịch vụ đặt cược thông qua KTO Châu Á, thành viên phải hoàn thành đăng ký mở tài khoản thành viên theo quy trình được mô tả trên website đặt cược (\"Đăng Ký Thành Viên\").
- 
+
+Phần mềm đặt cược, dịch vụ đặt cược và thông tin đặt cược được cung cấp trên website đặt cược và/hoặc thông qua các thiết bị kết nối được hưởng bản quyền, thương hiệu và các hình thức sở hữu trí tuệ và bảo vệ bằng sáng chế khác. Tất cả các quyền, quyền sở hữu và lợi ích của phần mềm đặt cược, dịch vụ đặt cược và thông tin đặt cược trên website đặt cược đều được sở hữu, sử dụng hoặc kiểm soát bởi KTO Châu Á và/hoặc nhà cấp phép. Thành viên xác nhận rằng họ không sở hữu bất kỳ quyền, lợi ích hoặc giấy phép nào đối với phần mềm đặt cược, dịch vụ đặt cược và thông tin đặt cược của KTO Châu Á thông qua việc sử dụng hoặc kết nối phần mềm đặt cược, dịch vụ đặt cược và thông tin đặt cược được cung cấp trên website đặt cược và/hoặc thiết bị kết nối.";
+"license_condition_content" = "Với Điều Kiện Sử Dụng dịch vụ đặt cược này, thành viên đảm bảo và cam kết không sử dụng hoặc kết nối website đặt cược, phần mềm đặt cược, dịch vụ đặt cược và/hoặc thông tin đặt cược cho bất kỳ mục đích nào vi phạm pháp luật hiện hành áp dụng cho thành viên, vi phạm Điều Kiện Sử Dụng này và/hoặc bị cấm bởi Điều Kiện Sử Dụng này. Ngoài tất cả các tuyên bố và đảm bảo khác được liệt kê trong Điều Khoản Dịch Vụ, thành viên qua đây đồng thời đảm bảo và cam kết rằng, với Điều Kiện Sử Dụng dịch vụ đặt cược này:
+
+1. Thành viên thực hiện các hoạt động trên tư cách pháp nhân của chính mình và không thay mặt người khác;
+
+2. Năng lực pháp lý của thành viên không bị hạn chế;
+
+3. Thành viên không bị chẩn đoán hoặc xác định là rối loạn ám ảnh cưỡng chế/nghiện cờ bạc;
+
+4. Thành viên đã (a) ít nhất 18 tuổi; hoặc (b) đủ tuổi hợp pháp hoặc tuổi trưởng thành theo quy định pháp luật hiện hành áp dụng cho thành viên, tùy theo độ tuổi nào lớn hơn (\"tuổi hợp pháp\");
+
+5. Thành viên hoàn toàn hiểu rủi ro thua cược trong quá trình sử dụng dịch vụ đặt cược;
+
+6. Tiền được gửi bởi thành viên không có nguồn gốc từ phạm tội hoặc các hoạt động phi pháp, không được ủy quyền hoặc trái phép;
+
+7. Thành viên không tham gia phạm tội hoặc các hoạt động phi pháp, không được ủy quyền hoặc trái phép khác, và/hoặc cố gắng sử dụng tài khoản thành viên với KTO Châu Á để thực hiện các hoạt động trên. Thành viên không được sử dụng hoặc cho phép người khác sử dụng các dịch vụ đặt cược hoặc tài khoản đặt cược của mình để tham gia vào bất kỳ hoạt động phạm tội hoặc hoạt động phi pháp nào áp dụng cho thành viên hoặc áp dụng cho bất kỳ luật nào của Chúng Tôi, bao gồm nhưng không giới hạn ở hoạt động rửa tiền;
+
+8. Giữ bảo mật tên tài khoản, số tài khoản và mật khẩu của mình để ngăn chặn kết nối hoặc sử dụng phi pháp, và ngay lập tức thay đổi mật khẩu hoặc thông báo cho Chúng Tôi nếu tên tài khoản, số tài khoản hoặc mật khẩu bị xâm phạm theo bất kỳ cách nào;
+
+9. Chịu trách nhiệm cho bất kỳ và tất cả các hoạt động kết nối và sử dụng dịch vụ đặt cược thông qua website đặt cược và/hoặc thiết bị kết nối với tên tài khoản, số tài khoản và mật khẩu của mình, bất kể việc kết nối và/hoặc sử dụng trên được thành viên cho phép hoặc biết hay không;
+
+10. Không sử dụng các dịch vụ đặt cược, website đặt cược, thiết bị kết nối, phần mềm đặt cược và thông tin đặt cược dưới bất kỳ hình thức nào can thiệp hoặc có thể can thiệp vào việc sử dụng dịch vụ đặt cược và website đặt cược của các thành viên khác. Không thực hiện bất kỳ hành vi nào làm giảm hoặc có thể làm giảm hiệu quả hoạt động của các dịch vụ đặt cược và website đặt cược;
+
+11. Không gạ gẫm hoặc cố gắng bằng mọi cách để có được bất kỳ thông tin nào về các thành viên khác;
+
+12. Không tải lên hoặc phân phối bất kỳ chương trình, tập tin hoặc dữ liệu nào chứa virus có thể phá hủy hoặc ảnh hưởng đến hiệu suất hoạt động của các thiết bị kết nối, phần mềm đặt cược, dịch vụ đặt cược và/hoặc website đặt cược;
+
+13. Việc kết nối hoặc sử dụng các dịch vụ đặt cược và thông tin đặt cược của thành viên thông qua website đặt cược và/hoặc thiết bị kết nối không vi phạm pháp luật hiện hành áp dụng cho thành viên, đồng thời không vi phạm các nghĩa vụ hợp đồng ràng buộc đối với cá nhân thành viên hoặc chủ quản của quốc gia nơi thành viên hiện đang kết nối với website đặt cược hoặc thiết bị kết nối, đồng thời không bị cấm bởi các nghĩa vụ pháp lý hoặc hợp đồng nói trên;
+
+14. Không sử dụng bất kỳ dụng cụ, máy móc, thiết bị, phần mềm, chương trình hoặc phương pháp nào khác (hoặc bất kỳ thứ gì có tính chất mô tả ở trên) để can thiệp hay cố gắng can thiệp vào các dịch vụ đặt cược, thiết bị kết nối, phần mềm đặt cược, website đặt cược, thông tin đặt cược hoặc hoạt động bình thường của bất kỳ giao dịch nào được cung cấp bởi website đặt cược và/hoặc thiết bị kết nối;
+
+15. Không đăng hoặc truyền tải, đến website đặc cược và/hoặc thiết bị kết nối hoặc đến bất kỳ thành viên nào khác, bất kỳ nội dung nào phạm pháp, quấy rối, lăng mạ, đe dọa, vu khống, phỉ báng, tục tĩu, không đứng đắn, trêu chọc, phân biệt chủng tộc, khiêu dâm hoặc thô tục, hoặc nội dung có thể cấu thành hoặc kích động phạm tội, ảnh hưởng đến trách nhiệm dân sự hoặc phạm pháp;
+
+16. Thành viên không phải là quản lý, giám đốc, nhân viên, tư vấn, đại lý hoặc đại diện của KTO Châu Á hoặc bất kỳ đơn vị trực thuộc hoặc liên quan nào, hoặc có mối quan hệ họ hàng hoặc mối quan hệ theo luật thông thường với bất kỳ người nào ở trên; và
+
+17. Không can thiệp vào việc sử dụng các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược, thiết bị kết nối và/hoặc thông tin đặt cược của các thành viên khác, hoặc khởi xướng và/hoặc tham gia vào các cuộc khảo sát, cuộc thi, thư liên hoàn hoặc đăng/truyền \"thư rác\" hoặc bất kỳ hình thức bom thư nào.";
+"license_register_membership_content" = "Để tham gia đặt cược và sử dụng các dịch vụ đặt cược thông qua KTO Châu Á, thành viên phải hoàn thành đăng ký mở tài khoản thành viên theo quy trình được mô tả trên website đặt cược (\"Đăng Ký Thành Viên\").
+
 Thành viên tuyên bố và cam kết rằng tất cả thông tin được cung cấp bởi thành viên trong Đăng Ký Thành Viên, bao gồm tên của thành viên (\"tên\"), nguồn tiền (bao gồm số tài khoản ngân hàng và số thẻ có liên quan) và địa chỉ cư trú là đúng, xác thực và đầy đủ về mọi khía cạnh.
- 
+
 KTO Châu Á sẽ thực hiện các biện pháp cần thiết và phù hợp để giữ bảo mật thông tin cá nhân được cung cấp bởi thành viên cho Chúng Tôi. Chúng Tôi sẽ giữ dữ liệu cá nhân và thông tin đặt cược của thành viên bảo mật nghiêm ngặt, trừ khi được yêu cầu cung cấp bởi pháp luật, quy định, quy tắc, tòa án, cơ quan quản lý, bất kỳ cơ quan quản lý đặt cược có liên quan nào, lệnh và quyết định của các cơ quan thực thi pháp luật, hoặc quy tắc này. Thành viên hoàn toàn chịu trách nhiệm về tính bảo mật của dữ liệu cá nhân của mình. Chúng Tôi có quyền cung cấp dữ liệu cá nhân của thành viên cho các nhà cung cấp dịch vụ thanh toán và tổ chức tài chính của Chúng Tôi trong phạm vi yêu cầu để hoàn tất các quy trình thanh toán của các dịch vụ đặt cược được cung cấp bởi website đặt cược.
- 
+
 Thành viên đồng thời chịu trách nhiệm đảm bảo rằng thành viên sử dụng và kết nối với website đặt cược và thông tin đặt cược có trong đó, tải về và cài đặt phần mềm đặt cược và/hoặc sử dụng và tham gia các dịch vụ đặt cược không bị cấm bởi pháp luật hiện hành áp dụng cho thành viên.
- 
+
 Để xác minh Đăng Ký Thành Viên, Chúng Tôi đồng thời cần cần thành viên cung cấp bằng chứng về danh tính và độ tuổi (chẳng hạn như Chứng Minh Nhân Dân dán ảnh có hiệu lực và thẻ ghi nợ hoặc thẻ tín dụng). Nếu có bất kỳ thay đổi nào đối với các thông tin gốc cụ thể do thành viên cung cấp, thành viên cần thông báo cho Chúng Tôi kịp thời. Để xác nhận họ tên và địa chỉ của thành viên, KTO Châu Á có quyền xác nhận họ tên và địa chỉ của thành viên bằng thư hoặc phương tiện khác. KTO Châu Á cũng có thể quyết định sử dụng các biện pháp bảo mật khác để xác minh bất kỳ thông tin nào được cung cấp bởi thành viên. Thành viên đồng ý với quy định này, có nghĩa là thành viên đồng ý với KTO Châu Á để kết nối, sử dụng, xử lý và lưu trữ bất kỳ xác minh danh tính hoặc kết quả xác minh nào cho thành viên.
- 
+
 Chúng Tôi bảo lưu quyền tuyệt đối từ chối Đăng Ký Thành Viên vì bất kỳ lý do gì.
- 
+
 Chúng Tôi chỉ chịu trách nhiệm cho website phụ chính thức của KTO Châu Á được công bố bởi hỗ trợ trực tuyến. Chúng Tôi sẽ không chịu trách nhiệm cho bất kỳ tổn thất nào do thành viên đăng nhập vào bất kỳ liên kết nào khác mà có vẻ như trên website KTO Châu Á. Nếu thành viên có bất kỳ câu hỏi nào khác, vui lòng liên hệ trực tiếp với bộ phận Chăm Sóc Khách Hàng của Chúng Tôi.
- 
-Thành viên chỉ có thể mở một tài khoản tại KTO Châu Á. Nếu Chúng Tôi nhận thấy một thành viên đã mở nhiều hơn một tài khoản tại KTO Châu Á, theo quyết định riêng của mình, Chúng Tôi có quyền xem tất cả các tài khoản này của thành viên tại KTO Châu Á là một tài khoản kết hợp, hủy các tài khoản trùng lặp hoặc chấm dứt Thỏa Thuận này với thành viên.
-";
-"(ignore)license_bet_acceptbet_content" = "Các trò chơi, sự kiện thể thao và hoạt động đặt cược khác mà Chúng Tôi cung cấp theo thời gian trên website đặt cược và/hoặc thông qua thiết bị kết nối được mở để thành viên đặt cược. Việc đặt cược của thành viên phải tuân thủ các quy định đặt cược của các trò chơi hoặc hoạt động đặt cược cụ thể, và các quy định của Điều Khoản Dịch Vụ này. Nếu bất kỳ thành viên đặt cược nào có lỗi rõ ràng hoặc hiển thị lỗi, tất cả các cược cho trò chơi này đều bị hủy. Chúng Tôi cũng có quyền tuyên bố bất kỳ hoặc tất cả các cược vô hiệu khi Hệ Thống Đặt Cược KTO Châu Á bị lỗi.
+
+Thành viên chỉ có thể mở một tài khoản tại KTO Châu Á. Nếu Chúng Tôi nhận thấy một thành viên đã mở nhiều hơn một tài khoản tại KTO Châu Á, theo quyết định riêng của mình, Chúng Tôi có quyền xem tất cả các tài khoản này của thành viên tại KTO Châu Á là một tài khoản kết hợp, hủy các tài khoản trùng lặp hoặc chấm dứt Thỏa Thuận này với thành viên.";
+"license_bet_acceptbet_content" = "Các trò chơi, sự kiện thể thao và hoạt động đặt cược khác mà Chúng Tôi cung cấp theo thời gian trên website đặt cược và/hoặc thông qua thiết bị kết nối được mở để thành viên đặt cược. Việc đặt cược của thành viên phải tuân thủ các quy định đặt cược của các trò chơi hoặc hoạt động đặt cược cụ thể, và các quy định của Điều Khoản Dịch Vụ này. Nếu bất kỳ thành viên đặt cược nào có lỗi rõ ràng hoặc hiển thị lỗi, tất cả các cược cho trò chơi này đều bị hủy. Chúng Tôi cũng có quyền tuyên bố bất kỳ hoặc tất cả các cược vô hiệu khi Hệ Thống Đặt Cược KTO Châu Á bị lỗi.
+
 Mặc dù có thể có các quy định khác trong Điều Khoản Dịch Vụ này, tuy nhiên, KTO Châu Á có quyền từ chối tất cả hoặc một phần đặt cược của thành viên vì bất kỳ lý do gì.
+
 Chúng Tôi chỉ chấp nhận thành viên đặt cược qua Internet và/hoặc các thiết bị kết nối theo quy định này. Các hình thức đặt cược khác (thư, email, fax, v.v.) sẽ không được chấp nhận. Ngay cả khi Chúng Tôi nhận được các hình thức đặt cược khác, bất kể kết quả cuối cùng của thị trường, cược được xem là vô hiệu.
-<ol><li>KTO Châu Á có quyền đình chỉ hoặc từ chối các cược bị nghi ngờ được sử dụng để gian lận hệ thống hoạt động bằng cách tấn công, thao túng, v.v.</li><li>Bất kỳ cược bất thường nào sẽ bị hủy mà không cần thông báo trước. Theo đó, việc sử dụng trí tuệ nhân tạo hoặc phần mềm (robot \"Rbots\") trong các dịch vụ đặt cược trực tuyến đều bị nghiêm cấm, và bất kỳ cược nào cố gắng hoặc sử dụng phương pháp này sẽ bị hủy và tài khoản có liên quan sẽ bị đóng ngay lập tức.</li></ol>Theo các quy định khác của Điều Khoản Dịch Vụ này, nếu thành viên nhập chính xác thông tin đăng nhập và mật khẩu và có đủ số dư trong tài khoản, thành viên sẽ hợp lệ để đặt cược.
+
+1. KTO Châu Á có quyền đình chỉ hoặc từ chối các cược bị nghi ngờ được sử dụng để gian lận hệ thống hoạt động bằng cách tấn công, thao túng, v.v.
+
+2. Bất kỳ cược bất thường nào sẽ bị hủy mà không cần thông báo trước. Theo đó, việc sử dụng trí tuệ nhân tạo hoặc phần mềm (robot \"Rbots\") trong các dịch vụ đặt cược trực tuyến đều bị nghiêm cấm, và bất kỳ cược nào cố gắng hoặc sử dụng phương pháp này sẽ bị hủy và tài khoản có liên quan sẽ bị đóng ngay lập tức.
+
+Theo các quy định khác của Điều Khoản Dịch Vụ này, nếu thành viên nhập chính xác thông tin đăng nhập và mật khẩu và có đủ số dư trong tài khoản, thành viên sẽ hợp lệ để đặt cược.
+
 Thành viên phải chịu trách nhiệm cho tất cả các hoạt động và giao dịch được thực hiện bằng cách sử dụng các thông tin sau (hoặc kết hợp) (bất kể việc sử dụng sau có được phép hay không):
-<ol><li>Họ Tên của thành viên; và/hoặc</li><li>Mã Số Trò Chơi của thành viên; và/hoặc</li><li>Họ Tên và Mật Khẩu của thành viên.</li></ol>Thành viên hoàn toàn chịu trách nhiệm đảm bảo tính chính xác của các chi tiết đặt cược của mình. Theo các quy định khác của Điều Khoản Dịch Vụ này, một khi thành viên đặt cược và Chúng Tôi xác nhận chấp nhận cược của thành viên, đó là xác nhận cuối cùng về cược của thành viên; thành viên không được hủy, thu hồi cược hoặc thay đổi chi tiết đặt cược.
+
+1. Họ Tên của thành viên; và/hoặc
+
+2. Mã Số Trò Chơi của thành viên; và/hoặc
+
+3. Họ Tên và Mật Khẩu của thành viên.
+
+Thành viên hoàn toàn chịu trách nhiệm đảm bảo tính chính xác của các chi tiết đặt cược của mình. Theo các quy định khác của Điều Khoản Dịch Vụ này, một khi thành viên đặt cược và Chúng Tôi xác nhận chấp nhận cược của thành viên, đó là xác nhận cuối cùng về cược của thành viên; thành viên không được hủy, thu hồi cược hoặc thay đổi chi tiết đặt cược.
+
 Tất cả cược được bao gồm trong cơ sở dữ liệu lịch sử giao dịch. Lịch sử giao dịch của KTO Châu Á là xác nhận cuối cùng của tất cả các giao dịch và thông tin cược liên quan.
+
 Theo các quy định khác của Điều Khoản Dịch Vụ này, khi mã số giao dịch xuất hiện trên màn hình của thành viên và được hiển thị thành công trong lịch sử giao dịch của thành viên, việc đặt cược được xem là có hiệu lực và được chấp nhận bởi KTO Châu Á.
+
 Kết quả trận đấu được biết sau khi trận đấu bắt đầu và/hoặc khi đang đặt cược, trong những trường hợp này, sẽ không có cược nào được phép đặt. Nếu trận đấu đã bắt đầu và/hoặc thành viên đã biết kết quả trận đấu khi đang đặt cược, và cược vẫn mở cho thành viên đặt do lỗi, trong những trường hợp này, KTO Châu Á có quyền từ chối cược của thành viên hoặc tuyên bố cược bị hủy mà không cần thông báo cho thành viên. KTO Châu Á có toàn quyền chấp nhận tất cả hoặc một phần của các cược này. Để tránh nhầm lẫn, quy định này không loại trừ cược \"hiệp hai\" (cược \"trong trận\"/\"inplay\") hoặc cược \"nửa thời gian\" (cược \"nghỉ giải lao\"/\"halftime\").
+
 Thời gian bắt đầu được công bố trên website đặt cược chỉ dành cho mục đích thông tin tham khảo. Nếu vì bất kỳ lý do nào, KTO Châu Á chấp nhận cược một cách không có chủ ý sau khi bắt đầu trận đấu, Chúng Tôi có quyền hủy và tuyên bố các cược đó vô hiệu.
+
 Trừ khi các quy định cụ thể liên quan đến trận đấu và trò chơi quy định khác, cho mục đích đặt cược, kết quả của trận đấu hoặc trò chơi được mở cược sẽ được xác định vào ngày trận đấu hoặc trò chơi thực sự kết thúc. KTO Châu Á không công nhận bất kỳ yêu cầu nào sau đó có thể dẫn đến việc đảo ngược các kết quả trên. Việc thanh toán cược ban đầu vẫn hiệu lực.
+
 Nếu địa điểm thi đấu của một sự kiện thể thao thay đổi, tất cả các cược dựa trên địa điểm ban đầu sẽ bị hủy.
+
 Người/Đội chiến thắng trong trận đấu hoặc trò chơi sẽ được xác định vào ngày trận đấu hoặc trò chơi thực sự kết thúc theo quy định đặt cược.
+
 Cho mục đích đặt cược, KTO Châu Á không công nhận kết quả của bất kỳ sự trì hoãn, phản đối hoặc lật đổ nào.
+
 Nếu cược xâu của thành viên bao gồm các tùy chọn không tham gia hoặc tùy chọn vô hiệu, cược sẽ được thanh toán dựa trên các tùy chọn có hiệu lực còn lại.
+
 Thành viên thừa nhận rằng tất cả các tỷ lệ cược, chỉ số và điểm chấp có thể thay đổi lên hoặc xuống mà không cần thông báo. Các tỷ lệ cược, chỉ số và điểm chấp ở trên chỉ được xác định khi cược của thành viên được Chúng Tôi chấp nhận.
+
 Nếu do một lỗi rõ ràng hoặc lỗi hệ thống khiến tỷ lệ cược, chỉ số hoặc điểm chấp của thành viên không chính xác, vậy cược hoặc một phần của cược xâu của thành viên là vô hiệu. Nếu lỗi hoặc sự cố được khắc phục kịp thời, KTO Châu Á có quyền (nhưng không có nghĩa vụ) quyết định thực hiện các nỗ lực hợp lý để liên hệ với thành viên để cho phép thành viên đặt cược lại với tỷ lệ cược, chỉ số và điểm chấp chính xác.
+
 Chúng Tôi không chấp nhận thành viên đặt cược lặp lại vào cùng một sự kiện cùng một lúc.
-Đối với bất kỳ cược và giao dịch liên quan nào, KTO Châu Á có quyền đưa ra quyết định cuối cùng, và quyết định được đưa ra là cuối cùng và dứt khoát.
-";
-"(ignore)license_gamingsoftware_usagerights_content" = "Thành viên xác nhận và đồng ý rằng phần mềm đặt cược mà thành viên có được bằng cách tải về hoặc các phương tiện khác thông qua thiết bị kết nối để thành viên sử dụng website đặt cược từ xa là một phần của dịch vụ đặt cược và là tài sản của KTO Châu Á và/hoặc nhà cấp phép; và thành viên không có bất kỳ quyền nào đối với phần mềm đặt cược đó. Thành viên không được, bằng bất kỳ hình thức nào hoặc bằng bất kỳ phương tiện nào, phỏng theo, sao chép, điều chỉnh, nhân bản, lưu trữ, phân phối, hiển thị, phát sóng công khai, phổ biến, phát sóng, tạo chương trình cáp, xuất bản, truyền, bán, cho mượn, cho thuê hoặc cấp phép phần mềm đặt cược. Thành viên không được phép giao tiếp theo những cách khác hoặc cung cấp phần mềm đặt cược cho bất kỳ website, dịch vụ trực tuyến hoặc bảng thông báo, hoặc bất kỳ phương tiện truyền thông và/hoặc thiết bị kết nối nào khác.
+
+Đối với bất kỳ cược và giao dịch liên quan nào, KTO Châu Á có quyền đưa ra quyết định cuối cùng, và quyết định được đưa ra là cuối cùng và dứt khoát.";
+"license_gamingsoftware_usagerights_content" = "Thành viên xác nhận và đồng ý rằng phần mềm đặt cược mà thành viên có được bằng cách tải về hoặc các phương tiện khác thông qua thiết bị kết nối để thành viên sử dụng website đặt cược từ xa là một phần của dịch vụ đặt cược và là tài sản của KTO Châu Á và/hoặc nhà cấp phép; và thành viên không có bất kỳ quyền nào đối với phần mềm đặt cược đó. Thành viên không được, bằng bất kỳ hình thức nào hoặc bằng bất kỳ phương tiện nào, phỏng theo, sao chép, điều chỉnh, nhân bản, lưu trữ, phân phối, hiển thị, phát sóng công khai, phổ biến, phát sóng, tạo chương trình cáp, xuất bản, truyền, bán, cho mượn, cho thuê hoặc cấp phép phần mềm đặt cược. Thành viên không được phép giao tiếp theo những cách khác hoặc cung cấp phần mềm đặt cược cho bất kỳ website, dịch vụ trực tuyến hoặc bảng thông báo, hoặc bất kỳ phương tiện truyền thông và/hoặc thiết bị kết nối nào khác.
+
 KTO Châu Á qua đây cấp cho thành viên quyền sử dụng cá nhân không độc quyền, không thể chuyển nhượng (\"Quyền Sử Dụng\") để cài đặt và sử dụng phần mềm đặt cược trên các thiết bị kết nối. Tuy nhiên, các thiết bị kết nối được sử dụng để cài đặt và sử dụng phần mềm đặt cược phải chủ yếu được sử dụng bởi thành viên là người dùng chính.
+
 Mục đích ủy quyền và phân phối phần mềm đặt cược của KTO Châu Á chỉ dành cho thành viên cuối cùng của phần mềm đặt cược kết nối và sử dụng đầy đủ các dịch vụ đặt cược.
+
 Thành viên không được:
-<ol><li>Cài đặt hoặc chuyển phần mềm đặt cược đến máy chủ của các thiết bị kết nối mạng khác, hoặc thực hiện các bước khác để cung cấp phần mềm đặt cược cho người khác thông qua bất kỳ biểu mẫu hoặc bảng thông báo, dịch vụ trực tuyến hoặc quay số từ xa hoặc mạng;</li><li>Phân phối, cho mượn, cho thuê, cấp phép lại, sao chép, chuyển nhượng, chuyển hướng hoặc bằng các cách khác, cho phép bất kỳ ai khác có được phần mềm đặt cược và/hoặc quyền sử dụng phần mềm đặt cược;</li><li>Cho phép người khác sử dụng phần mềm đặt cược;</li><li>Thiết lập hoặc cung cấp bất kỳ phương tiện nào (bao gồm nhưng không giới hạn ở các chương trình mô phỏng) để cho phép người khác sử dụng phần mềm đặt cược;</li><li>Dịch thuật, kỹ thuật đảo ngược, biên dịch ngược, tháo rời, sửa đổi, bẻ khóa, tất cả hoặc một phần của việc phát triển các sản phẩm phái sinh dựa trên phần mềm đặt cược và/hoặc mã nguồn của nó; hoặc</li><li>Sao chép, sửa đổi, dịch thuật hoặc phát triển các sản phẩm phái sinh dựa trên toàn bộ hoặc một phần các tệp thành viên có liên quan của phần mềm đặt cược.</li></ol>Thành viên thừa nhận và đồng ý rằng phần mềm đặt cược hoặc phần mềm đặt cược thành viên được cung cấp trên website đặt cược và/hoặc thông qua thiết bị kết nối hoặc các phương tiện khác là thuộc sở hữu của KTO Châu Á và/hoặc nhà cấp phép; và được bảo vệ bởi bản quyền, quyền thương hiệu, quyền sở hữu trí tuệ và quyền sáng chế khác. Thành viên qua đây thừa nhận rằng cấu trúc, tổ chức và mã nguồn của phần mềm đặt cược là bí mật thương mại vô cùng giá trị của KTO Châu Á và nhà cấp phép. Thành viên thừa nhận rằng ngoại trừ các quyền được cấp cho thành viên dựa trên Quyền Sử Dụng, thành viên không có bất kỳ quyền và lợi ích nào đối với phần mềm đặt cược và/hoặc tệp thành viên phần mềm đặt cược.
-Thỏa Thuận này có thể chấm dứt vì bất kỳ lý do nào, và Quyền Sử Dụng được cấp theo đầu Thỏa Thuận này sẽ tự động vô hiệu. Thành viên nên ngừng sử dụng phần mềm đặt cược và gỡ cài đặt phần mềm đặt cược khỏi các thiết bị kết nối.
-";
-"(ignore)license_transaction_settlement_content" = "Nếu một thành viên sử dụng thẻ tín dụng hoặc thẻ ghi nợ, họ tên của chủ thẻ phải giống với họ tên được sử dụng trong quá trình Đăng Ký Thành Viên. Trường hợp có sự khác biệt giữa họ tên của chủ thẻ và họ tên được sử dụng cho Đăng Ký Thành Viên, KTO Châu Á có quyền từ chối thanh toán các giao dịch liên quan.
+
+1. Cài đặt hoặc chuyển phần mềm đặt cược đến máy chủ của các thiết bị kết nối mạng khác, hoặc thực hiện các bước khác để cung cấp phần mềm đặt cược cho người khác thông qua bất kỳ biểu mẫu hoặc bảng thông báo, dịch vụ trực tuyến hoặc quay số từ xa hoặc mạng;
+
+2. Phân phối, cho mượn, cho thuê, cấp phép lại, sao chép, chuyển nhượng, chuyển hướng hoặc bằng các cách khác, cho phép bất kỳ ai khác có được phần mềm đặt cược và/hoặc quyền sử dụng phần mềm đặt cược;
+
+3. Cho phép người khác sử dụng phần mềm đặt cược;
+
+4. Thiết lập hoặc cung cấp bất kỳ phương tiện nào (bao gồm nhưng không giới hạn ở các chương trình mô phỏng) để cho phép người khác sử dụng phần mềm đặt cược;
+
+5. Dịch thuật, kỹ thuật đảo ngược, biên dịch ngược, tháo rời, sửa đổi, bẻ khóa, tất cả hoặc một phần của việc phát triển các sản phẩm phái sinh dựa trên phần mềm đặt cược và/hoặc mã nguồn của nó; hoặc
+
+6. Sao chép, sửa đổi, dịch thuật hoặc phát triển các sản phẩm phái sinh dựa trên toàn bộ hoặc một phần các tệp thành viên có liên quan của phần mềm đặt cược.
+
+Thành viên thừa nhận và đồng ý rằng phần mềm đặt cược hoặc phần mềm đặt cược thành viên được cung cấp trên website đặt cược và/hoặc thông qua thiết bị kết nối hoặc các phương tiện khác là thuộc sở hữu của KTO Châu Á và/hoặc nhà cấp phép; và được bảo vệ bởi bản quyền, quyền thương hiệu, quyền sở hữu trí tuệ và quyền sáng chế khác. Thành viên qua đây thừa nhận rằng cấu trúc, tổ chức và mã nguồn của phần mềm đặt cược là bí mật thương mại vô cùng giá trị của KTO Châu Á và nhà cấp phép. Thành viên thừa nhận rằng ngoại trừ các quyền được cấp cho thành viên dựa trên Quyền Sử Dụng, thành viên không có bất kỳ quyền và lợi ích nào đối với phần mềm đặt cược và/hoặc tệp thành viên phần mềm đặt cược.
+
+Thỏa Thuận này có thể chấm dứt vì bất kỳ lý do nào, và Quyền Sử Dụng được cấp theo đầu Thỏa Thuận này sẽ tự động vô hiệu. Thành viên nên ngừng sử dụng phần mềm đặt cược và gỡ cài đặt phần mềm đặt cược khỏi các thiết bị kết nối.";
+"license_transaction_settlement_content" = "Nếu một thành viên sử dụng thẻ tín dụng hoặc thẻ ghi nợ, họ tên của chủ thẻ phải giống với họ tên được sử dụng trong quá trình Đăng Ký Thành Viên. Trường hợp có sự khác biệt giữa họ tên của chủ thẻ và họ tên được sử dụng cho Đăng Ký Thành Viên, KTO Châu Á có quyền từ chối thanh toán các giao dịch liên quan.
+
 Thành viên chịu mọi trách nhiệm thanh toán tất cả các khoản phải trả cho KTO Châu Á và/hoặc các thành viên khác (tùy theo từng trường hợp). Thành viên đồng ý không thực hiện hoặc xúi giục thành viên khác thực hiện hồi tố cho bất kỳ thanh toán nào, không từ chối hoặc rút lại thanh toán, và hoàn trả cho KTO Asia tất cả các khoản thanh toán bị hồi tố, từ chối hoặc rút lại và tất cả các tổn thất và chi phí phát sinh từ đó. KTO Châu Á, theo quyết định riêng của mình, có quyền chấm dứt việc cung cấp dịch vụ hoặc thanh toán cho từng thành viên cá nhân hoặc các thành viên thanh toán bằng một số loại thẻ tín dụng hoặc thẻ ghi nợ nhất định.
+
 Tiền thắng cược hợp lệ được KTO Châu Á công nhận không bao gồm tiền đặt cược.
+
 Bất kỳ khoản tiền hoặc tiền thắng cược nào có lỗi trong quá trình cập nhật vào tài khoản, KTO Châu Á không chịu bất kỳ trách nhiệm nào dưới mọi hình thức, và Chúng Tôi có quyền tuyên bố bất kỳ giao dịch nào liên quan đến khoản tiền đó vô hiệu vào bất kỳ lúc nào hoặc sau đó. Khi thành viên nhận thấy tiền trong tài khoản được cập nhật không chính xác, thành viên có trách nhiệm thông báo cho KTO Châu Á ngay lập tức.
-Theo bất kỳ luật hiện hành nào, thuế và phí phải trả cho tiền thắng cược là trách nhiệm của thành viên.
-";
-"(ignore)license_bouns_content" = "Sau khi tiền thưởng của thành viên được thanh toán, tiền thưởng cược sẽ được cập nhật vào tài khoản của thành viên. Đối với phương thức rút tiền thưởng cụ thể, vui lòng tham khảo các quy định rút tiền thưởng của Chúng Tôi và thành viên phải đồng thời xuất trình Chứng Minh Nhân Dân có hiệu lực và/hoặc thẻ tín dụng/thẻ ghi nợ mà Chúng Tôi công nhận.
+
+Theo bất kỳ luật hiện hành nào, thuế và phí phải trả cho tiền thắng cược là trách nhiệm của thành viên.";
+"license_bouns_content" = "Sau khi tiền thưởng của thành viên được thanh toán, tiền thưởng cược sẽ được cập nhật vào tài khoản của thành viên. Đối với phương thức rút tiền thưởng cụ thể, vui lòng tham khảo các quy định rút tiền thưởng của Chúng Tôi và thành viên phải đồng thời xuất trình Chứng Minh Nhân Dân có hiệu lực và/hoặc thẻ tín dụng/thẻ ghi nợ mà Chúng Tôi công nhận.
+
 Tiền thưởng có thể được cập nhật trực tiếp vào tài khoản thẻ tín dụng/thẻ ghi nợ mà thành viên sử dụng để thanh toán tiền gửi, trường hợp ngân hàng phát hành thẻ tín dụng/thẻ ghi nợ của thành viên cho phép. Họ tên người nhận tiền thông qua séc hoặc chuyển khoản sẽ dựa trên họ tên được sử dụng cho Đăng Ký Thành Viên. Nếu tiền gửi được thanh toán bằng thẻ tín dụng hoặc thẻ ghi nợ, người nhận tiền phải đồng thời là chủ thẻ đã đăng ký của thẻ tín dụng hoặc thẻ ghi nợ.
+
 Toàn bộ tiền gửi phải được sử dụng để đặt cược ít nhất một lần, trước khi thành viên có thể rút về. KTO Châu Á có quyền tính phí gửi tiền và phí rút tiền cần thiết.
-Tất cả các khoản phí ngân hàng, mà KTO Châu Á phải chịu do phát sinh từ các giao dịch đặt cược của thành viên, sẽ được thành viên chịu và hoàn trả. Chúng Tôi có quyền khấu trừ các khoản phí trên từ tiền thắng cược hoặc từ tài khoản của thành viên.
-";
-"(ignore)license_promotion_reward_content" = "Tất cả khuyến mãi, giải thưởng và ưu đãi đặc biệt phải tuân thủ quy định này, và các quy định do KTO Châu Á xây dựng cho các khuyến mãi cụ thể theo thời gian. KTO Châu Á có quyền đình chỉ, hủy bỏ hoặc điều chỉnh các giải thưởng hoặc khuyến mãi này và/hoặc các Điều Khoản và Điều Kiện liên quan bất kỳ lúc nào.
+
+Tất cả các khoản phí ngân hàng, mà KTO Châu Á phải chịu do phát sinh từ các giao dịch đặt cược của thành viên, sẽ được thành viên chịu và hoàn trả. Chúng Tôi có quyền khấu trừ các khoản phí trên từ tiền thắng cược hoặc từ tài khoản của thành viên.";
+"license_promotion_reward_content" = "Tất cả khuyến mãi, giải thưởng và ưu đãi đặc biệt phải tuân thủ quy định này, và các quy định do KTO Châu Á xây dựng cho các khuyến mãi cụ thể theo thời gian. KTO Châu Á có quyền đình chỉ, hủy bỏ hoặc điều chỉnh các giải thưởng hoặc khuyến mãi này và/hoặc các Điều Khoản và Điều Kiện liên quan bất kỳ lúc nào.
+
 Nếu KTO Châu Á xác định thành viên lạm dụng hoặc cố gắng lạm dụng giải thưởng hoặc khuyến mãi, hoặc có thể trục lợi từ việc lạm dụng đó, Chúng Tôi có quyền quyết định độc lập để dừng, từ chối, đình chỉ, hoặc thu hồi quyền tham gia các giải thưởng hoặc khuyến mãi liên quan của bất kỳ thành viên nào.
-Nếu bất kỳ cá nhân hoặc nhóm thành viên nào bị nghi ngờ thông đồng hoặc cố gắng gian lận, Chúng Tôi có quyền hủy một phần hoặc tất cả các cược của họ. Số tiền liên quan trong tài khoản của các cá nhân hoặc nhóm thành viên này, và/hoặc người thân, tổ chức, đại lý và thành viên đại lý của họ sẽ bị niêm phong và tịch thu ngay lập tức.
-";
-"(ignore)license_compensation_content" = "Thành viên đồng ý rằng khi thành viên kết nối với website đặt cược, tải về hoặc cài đặt phần mềm đặt cược, đặt cược và/hoặc sử dụng các dịch vụ đặt cược, phần mềm đặt cược và/hoặc thông tin đặt cược, và/hoặc vi phạm quy định này và/hoặc các quy định đặt cược, thành viên phải bồi thường hoàn toàn cho bất kỳ tổn thất, thiệt hại hoặc khiếu nại nào (bao gồm phí luật sư hợp lý) gây ra cho KTO Châu Á và các cổ đông, nhân viên, quản lý, giám đốc, nhà cấp phép, nhà phân phối, các bên liên quan, công ty con và/hoặc đại lý.
-";
-"(ignore)license_disclaimer_specialconsideration_content" = "Đặt cược là một lựa chọn cá nhân, dựa trên đánh giá và phân tích cá nhân, và chấp nhận rủi ro của riêng thành viên. Đồng thời khi đặt cược, thành viên thừa nhận rằng các dịch vụ đặt cược, website đặt cược và thông tin đặt cược không có tính chất xúc phạm, đáng chê trách, không công bằng, hoặc trái với đạo đức chung. Một số khu vực pháp lý không kết luận về tính hợp pháp của đặt cược trực tuyến và/hoặc đặt cược trực tuyến nước ngoài; trong khi một số khu vực pháp lý khác quy định rõ đặt cược trực tuyến (trong phạm vi quyền hạn và/hoặc nước ngoài) là phi pháp. Chúng Tôi không khuyến khích bất kỳ thành viên nào sử dụng và kết nối với website đặt cược, thông tin đặt cược và/hoặc dịch vụ đặt cược trong các trường hợp phi pháp. Việc thiết lập và cung cấp dịch vụ đặt cược, thông tin đặt cược và website đặt cược không cấu thành đề nghị, gạ gẫm hoặc chào mời bất kỳ thành viên nào sử dụng hoặc liên kết các nội dung trên từ các quốc gia nơi sử dụng hoặc liên kết các nội dung trên là phi pháp. Thành viên hoàn toàn chịu trách nhiệm tuân thủ pháp luật và quy định hiện hành áp dụng cho thành viên, và KTO Châu Á không đưa ra bất kỳ tuyên bố nào rằng các dịch vụ đặt cược, phần mềm đặt cược, website đặt cược hoặc thông tin đặt cược có trong đó phù hợp với pháp luật và quy định hiện hành áp dụng cho thành viên.
+
+Nếu bất kỳ cá nhân hoặc nhóm thành viên nào bị nghi ngờ thông đồng hoặc cố gắng gian lận, Chúng Tôi có quyền hủy một phần hoặc tất cả các cược của họ. Số tiền liên quan trong tài khoản của các cá nhân hoặc nhóm thành viên này, và/hoặc người thân, tổ chức, đại lý và thành viên đại lý của họ sẽ bị niêm phong và tịch thu ngay lập tức.";
+"license_compensation_content" = "Thành viên đồng ý rằng khi thành viên kết nối với website đặt cược, tải về hoặc cài đặt phần mềm đặt cược, đặt cược và/hoặc sử dụng các dịch vụ đặt cược, phần mềm đặt cược và/hoặc thông tin đặt cược, và/hoặc vi phạm quy định này và/hoặc các quy định đặt cược, thành viên phải bồi thường hoàn toàn cho bất kỳ tổn thất, thiệt hại hoặc khiếu nại nào (bao gồm phí luật sư hợp lý) gây ra cho KTO Châu Á và các cổ đông, nhân viên, quản lý, giám đốc, nhà cấp phép, nhà phân phối, các bên liên quan, công ty con và/hoặc đại lý.";
+"license_disclaimer_specialconsideration_content" = "Đặt cược là một lựa chọn cá nhân, dựa trên đánh giá và phân tích cá nhân, và chấp nhận rủi ro của riêng thành viên. Đồng thời khi đặt cược, thành viên thừa nhận rằng các dịch vụ đặt cược, website đặt cược và thông tin đặt cược không có tính chất xúc phạm, đáng chê trách, không công bằng, hoặc trái với đạo đức chung. Một số khu vực pháp lý không kết luận về tính hợp pháp của đặt cược trực tuyến và/hoặc đặt cược trực tuyến nước ngoài; trong khi một số khu vực pháp lý khác quy định rõ đặt cược trực tuyến (trong phạm vi quyền hạn và/hoặc nước ngoài) là phi pháp. Chúng Tôi không khuyến khích bất kỳ thành viên nào sử dụng và kết nối với website đặt cược, thông tin đặt cược và/hoặc dịch vụ đặt cược trong các trường hợp phi pháp. Việc thiết lập và cung cấp dịch vụ đặt cược, thông tin đặt cược và website đặt cược không cấu thành đề nghị, gạ gẫm hoặc chào mời bất kỳ thành viên nào sử dụng hoặc liên kết các nội dung trên từ các quốc gia nơi sử dụng hoặc liên kết các nội dung trên là phi pháp. Thành viên hoàn toàn chịu trách nhiệm tuân thủ pháp luật và quy định hiện hành áp dụng cho thành viên, và KTO Châu Á không đưa ra bất kỳ tuyên bố nào rằng các dịch vụ đặt cược, phần mềm đặt cược, website đặt cược hoặc thông tin đặt cược có trong đó phù hợp với pháp luật và quy định hiện hành áp dụng cho thành viên.
+
 Dịch vụ đặt cược, phần mềm đặt cược, website đặt cược và thông tin đặt cược được cung cấp theo nguyên tắc \"nguyên trạng\". Trừ khi được quy định rõ trong quy định này, KTO Châu Á không đưa ra tuyên bố hay đảm bảo nào về các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược và thông tin đặt cược. Do đó, tất cả các tuyên bố hoặc đảm bảo về dịch vụ đặt cược, phần mềm đặt cược, website đặt cược và thông tin đặt cược, dù rõ ràng hay ngụ ý, hợp pháp hay không, đều được loại trừ trong phạm vi tối đa được pháp luật cho phép. KTO Châu Á không đảm bảo tính chính xác, kịp thời, bảo mật, liên tục, chính xác hoặc chống lại sự can thiệp từ bên ngoài (của bất kỳ tính chất nào) của dịch vụ đặt cược, phần mềm đặt cược, website đặt cược hoặc thông tin đặt cược, và bất kỳ thiếu sót nào được tìm thấy trong hiệu chỉnh. KTO Châu Á đồng thời không đảm bảo rằng các dịch vụ đặt cược, phần mềm đặt cược, website đặt cược và thông tin đặt cược, hoặc máy chủ cung cấp nội dung trên không chứa bất kỳ virus, phần mềm gián điệp, phần mềm quảng cáo nào; hoặc các mã độc hại, phá hoại hoặc xâm nhập máy tính khác; các chương trình, dữ liệu, lệnh macro, hoặc các phần mềm hoặc tính năng khác có thể ảnh hưởng bất kỳ thiết bị kết nối và/hoặc dữ liệu nào được lưu trữ trong đó. Thành viên cam kết thực hiện các biện pháp phòng ngừa bằng chi phí của mình để đảm bảo rằng các quá trình, phương thức và/hoặc thiết bị kết nối được sử dụng trong việc sử dụng hoặc kết nối các dịch vụ đặt cược, cũng như cài đặt phần mềm đặt cược và sử dụng website đặt cược, không mang bất kỳ virus, phần mềm gián điệp, phần mềm quảng cáo nào; hoặc các mã độc hại, phá hoại hoặc xâm nhập máy tính khác; hoặc các rủi ro khác gây cản trở và phá hủy các thiết bị kết nối hoặc dữ liệu được lưu trữ trong đó.
+
 KTO Châu Á không chịu bất kỳ trách nhiệm cho bất kỳ lỗi hệ thống hoặc lỗi giao tiếp nào liên quan đến thanh toán tài khoản hoặc các khía cạnh khác của dịch vụ đặt cược. Trong trường hợp này, KTO Châu Á có quyền hủy tất cả các cược bị ảnh hưởng bởi các lỗi trên và thực hiện bất kỳ hành động khắc phục nào.
+
 Trong mọi trường hợp, KTO Châu Á không chịu trách nhiệm cho bất kỳ tổn thất, thiệt hại hoặc chi phí nào phát sinh do thành viên kết nối, sử dụng hoặc tham gia dịch vụ đặt cược, website đặt cược, phần mềm đặt cược và thông tin đặt cược, bao gồm bất kỳ sự cản trở hoặc phá hủy nào đối với thiết bị kết nối hoặc dữ liệu được lưu trữ tronh đó của thành viên. Ngoài ra, KTO Châu Á không đưa ra bất kỳ tuyên bố và đảm bảo nào, và không chịu trách nhiệm về nội dung do bên thứ ba cung cấp (bao gồm nhưng không giới hạn ở các nhà cung cấp dịch vụ băng thông rộng và viễn thông) trong các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược và thông tin đặt cược. Trong mọi trường hợp, KTO Châu Á không chịu trách nhiệm cho bất kỳ vi phạm hợp đồng, lỗi hoặc thiếu sót của các đối tác bên thứ ba được đề cập ở trên.
+
 Trong mọi trường hợp, KTO Châu Á, đại lý, các bên liên quan, đối tác, quản lý, nhân viên và đại diện của mình không chịu trách nhiệm cho bất kỳ tổn thất, thiệt hại hoặc chi phí nào. Những điều trên bao gồm, nhưng không giới hạn ở việc kết nối hoặc sử dụng các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược và thông tin đặt cược của thành viên; Hoặc bất kỳ thiệt hại trực tiếp, gián tiếp, tương quan hoặc đặc biệt nào; Hoặc tổn thất kinh tế liên quan đến việc kết nối hoặc sử dụng các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược và thông tin đặt cược của thành viên; Hoặc gây ra bởi việc tải về, cài đặt hoặc sử dụng phần mềm đặt cược của thành viên; Bất kể KTO Châu Á được thông báo về tổn thất, thiệt hại hoặc chi phí nói trên hay không. Trong mọi trường hợp, bất kỳ tổn thất hoặc thiệt hại nào (cho dù dựa trên hợp đồng, vi phạm, trách nhiệm nghiêm ngặt hoặc lý do khác) gây ra bởi hoặc liên quan đến bất kỳ vấn đề, sự kiện hoặc tình huống nào liên quan trực tiếp đến việc đặt cược của thành viên, trong phạm vi tối đa được pháp luật cho phép, toàn bộ trách nhiệm (nếu có) của KTO Châu Á đối với thành viên không được vượt quá số tiền đặt cược tương ứng của thành viên.
+
 Thành viên thừa nhận rằng thông tin đặt cược – toàn bộ hoặc một phần – có thể là tạm thời về bản chất, và có thể được sửa đổi, điều chỉnh, thay thế theo quy định này. Do đó, thành viên thừa nhận rằng thông tin đặt cược chỉ mang tính tham khảo; không cấu thành bất kỳ đề xuất, ý kiến hoặc gạ gẫm nào; không cấu thành bất kỳ tuyên bố ràng buộc, đảm bảo, nghĩa vụ hợp đồng hoặc nền tảng nội dung dựa trên thành viên nào.
+
 Thành viên thừa nhận và đồng ý rằng sau khi xem xét tất cả các yếu tố liên quan, bao gồm nhưng không giới hạn giá trị xem xét mà thành viên cung cấp cho KTO Châu Á, tất cả các miễn trừ và giới hạn trách nhiệm được đề cập trong quy định này loại trừ tính công bằng, chia sẻ rủi ro hợp lý và phân chia lợi ích thay mặt cho thành viên và Thỏa Thuận KTO Châu Á. Thành viên đồng thời đồng ý rằng các miễn trừ và giới hạn trách nhiệm nêu trên có thể được thi hành trong phạm vi tối đa được luật pháp hiện hành cho phép.
-Nếu thành viên có bất kỳ phản đối nào đối với kết quả của bất kỳ cược hoặc trận đấu nào, thành viên phải gửi khiếu nại bằng văn bản đến Chúng Tôi trong vòng mười bốn (14) ngày kể từ ngày thông báo kết quả. Trường hợp kết quả giao dịch được hiển thị bởi thiết bị kết nối của thành viên không khớp với kết quả giao dịch được lưu trong hồ sơ giao dịch của hệ thống KTO Châu Á (mặc dù khả năng xảy ra trường hợp này là rất thấp), thành viên đồng ý rằng kết quả giao dịch được lưu trữ trong hồ sơ giao dịch của hệ thống KTO Châu Á, được chứng nhận bởi giám đốc kỹ thuật của Chúng Tôi, là bằng chứng chắc chắn rằng những kết quả này là cuối cùng.
-";
-"(ignore)license_termination_content" = "Nếu có đủ lý do để tin hoặc chứng minh các trường hợp sau đây, ngoài các quyền khác được hưởng theo các điều khoản này, KTO Châu Á có quyền, theo quyết định riêng của mình, tuyên bố bất kỳ khoản tiền thắng cược nào vô hiệu và tịch thu số dư được cập nhật trong tài khoản đặt cược của thành viên, chấm dứt Thỏa Thuận này và/hoặc đình chỉ việc cung cấp dịch vụ đặt cược/đóng băng tài khoản thành viên:
-<ol><li>Thành viên có nhiều hơn một tài khoản hoạt động tại KTO Châu Á;</li><li>Họ tên của thành viên không khớp với họ tên của chủ sở hữu thẻ tín dụng hoặc thẻ ghi nợ, hoặc tài khoản thanh toán khác được sử dụng để thực hiện giao dịch hoặc thanh toán tiền gửi đến KTO Châu Á;</li><li>Thành viên tham gia khuyến mãi KTO Châu Á và yêu cầu hủy khuyến mãi trước khi đạt các yêu cầu khuyến mãi;</li><li>Thành viên cung cấp thông tin đăng ký không chính xác hoặc sai lệch;</li><li>Thành viên không cung cấp hoặc bỏ qua các thông tin nhận dạng cần thiết;</li><li>Thành viên dưới độ tuổi hợp pháp;</li><li>Khu vực nơi thành viên kết nối và sử dụng dịch vụ đặt cược bị pháp luật cấm sử dụng dịch vụ đặt cược;</li><li>Thành viên thực hiện hoặc xúi giục thành viên khác thực hiện \"hồi tố\" đến Chúng Tôi, hoặc từ chối bất kỳ giao dịch hoặc tiền gửi nào dưới tên tài khoản của mình;</li><li>Tiền gửi của thành viên có nguồn gốc từ phạm tội hình sự hoặc các hoạt động phạm pháp hoặc trái phép khác;</li><li>Thành viên bị phát hiện là gian lận hoặc cố gắng gian lận hoặc có hành vi gian lận với bất kỳ thành viên nào; Hoặc KTO Châu Á nhận ra thành viên sử dụng trí tuệ nhân tạo hoặc các hệ thống khác (bao gồm máy móc, máy tính, phần mềm hoặc các hệ thống tự động khác) được thiết kế đặc biệt để can thiệp/phá hủy hệ thống; Hoặc bị phát hiện thông đồng với các thành viên đặt cược khác, hoặc cố gắng thông đồng với các thành viên đặt cược khác để gian lận KTO Châu Á hoặc các thành viên đặt cược khác;</li><li>Thành viên cho phép (cố ý hoặc vô ý) người khác sử dụng tài khoản của mình;</li><li>Thành viên không tuân thủ bất kỳ quy định sử dụng nào theo Thỏa Thuận này;</li><li> Thành viên không tiết lộ sự thật về việc đang cư trú tại Philippines, Đài Loan, Hoa Kỳ, Singapore và Hồng Kông;</li><li>Nếu Chúng Tôi đình chỉ việc cung cấp các dịch vụ đặt cược và/hoặc đóng băng tài khoản, sau khi thành viên thực hiện các biện pháp khắc phục cần thiết (nếu có thể khắc phục), và Chúng Tôi xác nhận rằng Chúng Tôi hoàn toàn chấp thuận các biện pháp khắc phục của thành viên, các dịch vụ đặt cược và tài khoản của thành viên sẽ được khôi phục và mở khóa.</li></ol>";
-"(ignore)license_linktoexternal_content" = "Website đặt cược có thể chứa các liên kết đến các website bên ngoài không được KTO Châu Á duy trì. Liên kết đến các website bên ngoài chỉ được cung cấp để thuận tiện cho thành viên. Chúng Tôi không cam kết đảm bảo tính chính xác, kịp thời hoặc việc duy trì nội dung có trong các liên kết trên, và Chúng Tôi không chịu bất kỳ trách nhiệm nào cho việc này.
+
+Nếu thành viên có bất kỳ phản đối nào đối với kết quả của bất kỳ cược hoặc trận đấu nào, thành viên phải gửi khiếu nại bằng văn bản đến Chúng Tôi trong vòng mười bốn (14) ngày kể từ ngày thông báo kết quả. Trường hợp kết quả giao dịch được hiển thị bởi thiết bị kết nối của thành viên không khớp với kết quả giao dịch được lưu trong hồ sơ giao dịch của hệ thống KTO Châu Á (mặc dù khả năng xảy ra trường hợp này là rất thấp), thành viên đồng ý rằng kết quả giao dịch được lưu trữ trong hồ sơ giao dịch của hệ thống KTO Châu Á, được chứng nhận bởi giám đốc kỹ thuật của Chúng Tôi, là bằng chứng chắc chắn rằng những kết quả này là cuối cùng.";
+"license_termination_content" = "Nếu có đủ lý do để tin hoặc chứng minh các trường hợp sau đây, ngoài các quyền khác được hưởng theo các điều khoản này, KTO Châu Á có quyền, theo quyết định riêng của mình, tuyên bố bất kỳ khoản tiền thắng cược nào vô hiệu và tịch thu số dư được cập nhật trong tài khoản đặt cược của thành viên, chấm dứt Thỏa Thuận này và/hoặc đình chỉ việc cung cấp dịch vụ đặt cược/đóng băng tài khoản thành viên:
+
+1. Thành viên có nhiều hơn một tài khoản hoạt động tại KTO Châu Á;
+
+2. Họ tên của thành viên không khớp với họ tên của chủ sở hữu thẻ tín dụng hoặc thẻ ghi nợ, hoặc tài khoản thanh toán khác được sử dụng để thực hiện giao dịch hoặc thanh toán tiền gửi đến KTO Châu Á;
+
+3. Thành viên tham gia khuyến mãi KTO Châu Á và yêu cầu hủy khuyến mãi trước khi đạt các yêu cầu khuyến mãi;
+
+4. Thành viên cung cấp thông tin đăng ký không chính xác hoặc sai lệch;
+
+5. Thành viên không cung cấp hoặc bỏ qua các thông tin nhận dạng cần thiết;
+
+6. Thành viên dưới độ tuổi hợp pháp;
+
+7. Khu vực nơi thành viên kết nối và sử dụng dịch vụ đặt cược bị pháp luật cấm sử dụng dịch vụ đặt cược;
+
+8. Thành viên thực hiện hoặc xúi giục thành viên khác thực hiện \"hồi tố\" đến Chúng Tôi, hoặc từ chối bất kỳ giao dịch hoặc tiền gửi nào dưới tên tài khoản của mình;
+
+9. Tiền gửi của thành viên có nguồn gốc từ phạm tội hình sự hoặc các hoạt động phạm pháp hoặc trái phép khác;
+
+10. Thành viên bị phát hiện là gian lận hoặc cố gắng gian lận hoặc có hành vi gian lận với bất kỳ thành viên nào; Hoặc KTO Châu Á nhận ra thành viên sử dụng trí tuệ nhân tạo hoặc các hệ thống khác (bao gồm máy móc, máy tính, phần mềm hoặc các hệ thống tự động khác) được thiết kế đặc biệt để can thiệp/phá hủy hệ thống; Hoặc bị phát hiện thông đồng với các thành viên đặt cược khác, hoặc cố gắng thông đồng với các thành viên đặt cược khác để gian lận KTO Châu Á hoặc các thành viên đặt cược khác;
+
+11. Thành viên cho phép (cố ý hoặc vô ý) người khác sử dụng tài khoản của mình;
+
+12. Thành viên không tuân thủ bất kỳ quy định sử dụng nào theo Thỏa Thuận này;
+
+13. Thành viên không tiết lộ sự thật về việc đang cư trú tại Philippines, Đài Loan, Hoa Kỳ, Singapore và Hồng Kông;
+
+14. Nếu Chúng Tôi đình chỉ việc cung cấp các dịch vụ đặt cược và/hoặc đóng băng tài khoản, sau khi thành viên thực hiện các biện pháp khắc phục cần thiết (nếu có thể khắc phục), và Chúng Tôi xác nhận rằng Chúng Tôi hoàn toàn chấp thuận các biện pháp khắc phục của thành viên, các dịch vụ đặt cược và tài khoản của thành viên sẽ được khôi phục và mở khóa.";
+"license_linktoexternal_content" = "Website đặt cược có thể chứa các liên kết đến các website bên ngoài không được KTO Châu Á duy trì. Liên kết đến các website bên ngoài chỉ được cung cấp để thuận tiện cho thành viên. Chúng Tôi không cam kết đảm bảo tính chính xác, kịp thời hoặc việc duy trì nội dung có trong các liên kết trên, và Chúng Tôi không chịu bất kỳ trách nhiệm nào cho việc này.
+
 KTO Châu Á không chịu trách nhiệm, cung cấp hoặc đánh giá, ủy quyền hoặc phê duyệt, hoặc đưa ra bất kỳ tuyên bố hoặc đảm bảo nào về thông tin nội dung hoặc chính sách bảo vệ quyền riêng tư của các website bên ngoài hoặc bất kỳ sản phẩm hoặc dịch vụ nào được quảng bá, bán hoặc mở trên các website bên ngoài.
+
 KTO Châu Á không chịu bất kỳ trách nhiệm nào về hợp đồng, vi phạm, sơ suất hoặc trách nhiệm pháp lý khác đối với bất kỳ tổn thất hoặc thiệt hại nào phát sinh bởi hoặc liên quan đến việc sử dụng bất kỳ liên kết website bên ngoài nào được cung cấp bởi website đặt cược.
-Trừ khi có quy định rõ, nếu không, KTO Châu Á trong mọi trường hợp không được xem là Bất kỳ tuyên bố, ý kiến, thương hiệu sản phẩm hoặc dịch vụ, biểu tượng, logo hoặc thiết kế khác trên một website bên ngoài; Bất kỳ sản phẩm hoặc dịch vụ nào được quảng bá, bán hoặc mở trên một website bên ngoài; Nhà điều hành hoặc chủ sở hữu của một website bên ngoài; hoặc Bất kỳ người nào có bất kỳ mối quan hệ hoặc kết nối liên quan đến một website bên ngoài bằng bất kỳ cách nào.
-";
-"(ignore)license_linktobettingsite_content" = "Thành viên không được phép thiết lập liên kết, liên kết sâu hoặc liên kết trong văn bản (liên kết sâu/deep link, hoặc liên kết nội tuyến/in-line link), hoặc đóng khung (frame) thông tin đặt cược trên bất kỳ phần nào của website đặt cược hoặc dịch vụ đặt cược.
-";
-"(ignore)license_addorbreak_gamblingcategories_content" = "Chúng Tôi có quyền quyết định, bất kỳ lúc nào mà không cần thông báo cho thành viên, thêm các loại hoặc tính năng cược mới vào website đặt cược; hoặc bắt đầu, ngừng, gián đoạn, giới hạn kết nối hoặc sửa đổi bất kỳ loại hoặc tính năng đặt cược nào; và không chịu bất kỳ trách nhiệm nào đối với bất kỳ thành viên nào trong vấn đề này.
-";
-"(ignore)license_violation_content" = "KTO Châu Á có quyền tìm kiếm các biện pháp khắc phục (pháp luật và luật công bằng) cho các vi phạm của quy định này, bao gồm theo quyết định riêng của mình, bất kỳ lúc nào và vì bất kỳ lý do gì, từ chối hoặc hạn chế bất kỳ thành viên cụ thể nào kết nối với dịch vụ đặt cược, website đặt cược và thông tin đặt cược, và ngăn chặn truy cập vào các dịch vụ đặt cược, website đặt cược và thông tin đặt cược thông qua các địa chỉ Internet hoặc các thiết bị kết nối cụ thể.
-";
-"(ignore)license_priority_order_content" = "Các quy định đặt cược (nếu áp dụng) và bất kỳ quy định nào khác áp dụng cho việc sử dụng và kết nối các dịch vụ đặt cược, phần mềm đặt cược, thông tin đặt cược và website đặt cược là một phần không thể tách rời của quy định này.
-Nếu các quy định đặt cược và bất kỳ quy định nào khác áp dụng cho việc sử dụng và kết nối các dịch vụ đặt cược, phần mềm đặt cược, thông tin đặt cược và website đặt cược mâu thuẫn với quy định này, vậy trừ khi có quy định rõ, nếu không, quy định này sẽ được áp dụng.
-";
-"(ignore)license_forcemajeure_content" = "Nếu KTO Châu Á có bất kỳ sự cố nào ngoài tầm kiểm soát (bao gồm nhưng không giới hạn ở thảm hỏa; thay đổi pháp luật và quy định hiện hành, hành vi hoặc thiếu sót của chính phủ, các vấn đề dân sự hoặc các tổ chức quân sự; lệnh của tòa án; hoạt động khủng bố; sấm sét hoặc hỏa hoạn; đình công, đình chỉ hoặc tranh chấp lao động khác; lũ lụt; hạn hán; chiến tranh; bạo loạn; trộm cắp; lỗi truyền tải hoặc hệ thống; lỗi hoặc gián đoạn dịch vụ truyền thông hoặc băng thông rộng; lỗi hoặc thiếu hụt cung cấp điện hoặc thiết bị điện; thời tiết khắc nghiệt; động đất và thiên tai), Thất bại hoặc chậm trễ trong việc thực hiện bất kỳ nghĩa vụ nào theo quy định này không cấu thành vi phạm quy định này. Thành viên đồng ý thực hiện tất cả các hành động cần thiết để giảm thiểu hậu quả của các sự cố nêu trên.
-";
-"(ignore)license_abstain_content" = "KTO Châu Á không thực hiện bất kỳ quy định nào trong Điều Khoản Dịch Vụ này, tại bất kỳ thời điểm nào, không được xem là từ bỏ các quyền được cung cấp trong quy định này, hoặc bằng bất kỳ cách nào ảnh hưởng đến hiệu lực của tất cả hoặc một phần của quy định này, và không ảnh hưởng đến quyền của KTO Châu Á để thực hiện các bước tiếp theo.
-";
-"(ignore)license_severability_content" = "Nếu bất kỳ điều khoản hoặc bất kỳ phần nào trong đó được xem là không hợp lệ, phi pháp hoặc không thể thực thi trong bất kỳ phạm vi nào đối với các cơ quan thẩm quyền có liên quan, vậy điều khoản đó hoặc phần đó sẽ được tách ra khỏi các điều khoản khác trong phạm vi trên, và các điều khoản khác vẫn hoàn toàn có hiệu lực trong phạm vi được pháp luật cho phép.
-";
-"(ignore)license_law_jurisdiction_content" = "<ol><li>Thành viên đồng ý rằng việc kết nối và sử dụng các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược, thông tin đặt cược của thành viên, và việc giải thích quy định này được quản lý bởi pháp luật Philippines và được giải thích theo pháp luật Philippines.</br></br>Bất kỳ tranh chấp nào phát sinh từ hoặc liên quan đến quy định này:</li> <li> Nếu được đệ trình bởi thành viên, tranh chấp sẽ được nộp lên nhà cấp phép trò chơi tương tác – Công ty First Cagayan Philippines (tên tiếng Anh đầy đủ: Cagayan Economic Zone Authority, First Cagayan Leisure and Resort Corporation (tạm dịch: Cơ Quan Quản Lý Khu Kinh Tế Cagaya, Tập Đoàn Giải Trí và Nghỉ Dưỡng First Cagayan)) cho quyết định cuối cùng.</li> <li> Nếu được đệ trình bởi KTO Châu Á, tùy thuộc vào chọn lựa của KTO Châu Á:<ol class=\"lower-roman-counter\"><li>Tranh chấp sẽ được nộp lên trọng tài cho quyết định cuối cùng theo quy định trên.</li> <li>Một vụ kiện hoặc đơn kiện được đệ trình lên tòa án Philippines do thành viên đồng ý, tuy nhiên, quyền của KTO Châu Á nộp đơn kiện hoặc quy trình pháp lý tại các khu vực tài phán khác không bị ảnh hưởng.</li></ol></li></ol>
-";
-"(ignore)license_terms_service" = "Điều Khoản Dịch Vụ";
-"(ignore)license_warning" = "Quý Khách vui lòng đọc các Điều Khoản này một cách cẩn thận và xác nhận rằng Quý Khách hoàn toàn hiểu nội dung của chúng. Nếu Quý Khách có bất kỳ câu hỏi nào về các quyền và nghĩa vụ phát sinh từ Điều Khoản này, vui lòng tìm kiếm sự trợ giúp pháp lý từ một cố vấn pháp lý trong phạm vi nước sở tại.";
-"(ignore)license_definition" = "Định Nghĩa";
-"(ignore)license_agree" = "Thỏa Thuận";
-"(ignore)license_modify" = "Sửa Đổi";
-"(ignore)license_gaminginfo_intellectualproperty" = "Thông Tin Đặt Cược và Sở Hữu Trí Tuệ";
-"(ignore)license_condition" = "Điều Kiện Sử Dụng";
-"(ignore)license_register_membership" = "Đăng Ký Mở Tài Khoản Đặt Cược Thành Viên";
-"(ignore)license_bet_acceptbet" = "Đặt Cược và Chấp Nhận Cược";
-"(ignore)license_gamingsoftware_usagerights" = "Quyền Sử Dụng Phần Mềm Đặt Cược";
-"(ignore)license_transaction_settlement" = "Thanh Toán Giao Dịch";
-"(ignore)license_bouns" = "Nhận Tiền Thưởng";
-"(ignore)license_promotion_reward" = "Khuyến Mãi và Giải Thưởng";
-"(ignore)license_compensation" = "Bồi Thường";
-"(ignore)license_disclaimer_specialconsideration" = "Tuyên Bố Từ Chối Trách Nhiệm và Cân Nhắc Đặc Biệt";
-"(ignore)license_termination" = "Chấm Dứt, Đóng Tài Khoản và Đình Chỉ Dịch Vụ Đặt Cược";
-"(ignore)license_linktoexternal" = "Liên Kết Đến Các Trang Bên Ngoài";
-"(ignore)license_linktobettingsite" = "Liên Kết/Đóng Khung Website Đặt Cược";
-"(ignore)license_addorbreak_gamblingcategories" = "Thêm hoặc Ngưng Các Loại Cược";
-"(ignore)license_violation" = "Vi Phạm Điều Khoản";
-"(ignore)license_priority_order" = "Thứ Tự Ưu Tiên";
-"(ignore)license_forcemajeure" = "Bất Khả Kháng";
-"(ignore)license_abstain" = "Từ Bỏ";
-"(ignore)license_severability" = "Tách Rời";
-"(ignore)license_law_jurisdiction" = "Luật Hiện Hành và Quyền Tài Phán";
-"(ignore)license_privacy_responsibility" = "Chính Sách Bảo Mật";
-"(ignore)license_privacy_warning_1" = "Liên quan đến việc giữ gìn thông tin thành viên, KTO Châu Á luôn áp dụng cách tiếp cận và quy trình làm việc thận trọng nhất. Đây là trách nhiệm và cam kết của Chúng Tôi với các thành viên của Chúng Tôi. Ngoài ra, nó đồng thời giải thích rõ cách Chúng Tôi xử lý thông tin thành viên.";
-"(ignore)license_privacy_warning_2" = "Khi Quý Khách sử dụng website chính thức của KTO Châu Á, Quý Khách thừa nhận và chấp nhận Điều Khoản và Điều Kiện của Chính Sách Bảo Mật của KTO Châu Á, và hiểu mục đích cũng như phương pháp xử lý để thu thập các dữ liệu khác nhau. Nếu Quý Khách không đồng ý với các Điều Khoản của Chính Sách Bảo Mật này, vui lòng không sử dụng website hoặc cung cấp cho Chúng Tôi thông tin cá nhân của Quý Khách.";
-"(ignore)license_privacy_warning_3" = "Tất cả thông tin cá nhân do các thành viên cung cấp sẽ được truyền qua một cổng an toàn (Tiêu chuẩn mã hóa SSL 128 bit) và được lưu trữ trong một môi trường bảo mật không thể truy cập công khai. Truy cập nội bộ vào tất cả các dữ liệu bị hạn chế và theo dõi chặt chẽ.";
-"(ignore)license_privacy_messagecollect_use" = "Thu Thập và Sử Dụng Thông Tin";
-"(ignore)license_privacy_definition_content" = "Khi thành viên mở và sử dụng một tài khoản tại KTO Châu Á, thông tin và dữ liệu Chúng Tôi thu thập bao gồm họ tên, địa chỉ, tuổi, email, số điện thoại, địa chỉ IP, v.v., Mục đích của việc thu thập thông tin này là :
-<ol><li>Lưu giữ hồ sơ giao dịch tài khoản;</li><li> Hỗ trợ cải thiện quản lý tài khoản;</li><li>Lý do bảo mật (bao gồm nhận dạng của thành viên);</li><li>Tạo hồ sơ thành viên;</li><li> Quản lý thành viên;</li><li>Cung cấp đến Quý Khách các khuyến mãi, sản phẩm và thông tin dịch vụ của Chúng Tôi với sự đồng ý của Quý Khách;</li><li>Giám sát các giao dịch để ngăn chặn gian lận, đặt cược bất thường, rửa tiền và hành vi gian lận.</li></ol>";
-"(ignore)license_privacy_transaction" = "Trạng Thái Giao Dịch Tài Khoản";
-"(ignore)license_privacy_transaction_content" = "<ul><li>Để xác định sở thích của thành viên và cung cấp thông tin và khuyến mãi liên quan, hoặc vì lý do bảo mật như giao dịch và hoạt động kinh doanh, Chúng Tôi sẽ lưu giữ hồ sơ giao dịch của thành viên cho mục đích phân tích.</li></ul>";
-"(ignore)license_privacy_promotion_information" = "Gửi Thông Tin Khuyến Mãi";
-"(ignore)license_privacy_promotion_information_content" = "<ul><li>Khi đăng ký tài khoản, thành viên có thể chọn muốn nhận thông tin khuyến mãi hoặc không. Sau khi đăng ký, thành viên cũng có thể thực hiện các thay đổi liên quan bất kỳ lúc nào qua email: (email). Lưu ý: Khi thành viên chọn không nhận thông tin khuyến mãi, Chúng Tôi sẽ cố gắng hết sức để ngừng việc gửi và cam kết sẽ hoàn thành bước này trong vòng 28 ngày.</li></ul>";
-"(ignore)license_privacy_playerinformation" = "Thay Đổi Thông Tin Cá Nhân";
-"(ignore)license_privacy_playerinformation_content" = "<ul><li>Thành viên có thể thay đổi thông tin cá nhân bất kỳ lúc nào. Nếu cần thiết, vui lòng liên hệ bộ phận Chăm Sóc Khách Hàng của Chúng Tôi.</li></ul>";
-"(ignore)license_privacy_playerinformationsafe" = "Bảo Mật và Tính Chính Xác của Dữ Liệu Cá Nhân";
-"(ignore)license_privacy_playerinformationsafe_content" = "<ol><li>Chúng Tôi cam kết lưu giữ tất cả thông tin của thành viên chính xác và duy trì tính chính xác của thông tin liên quan. Theo luật, thành viên có quyền duy trì thông tin cá nhân và yêu cầu sửa chữa bất kỳ lỗi nào.
- </li><li>Đồng thời, Chúng Tôi sẽ thực hiện tất cả các bước để đảm bảo rằng thông tin của thành viên có thể đạt được các tiêu chuẩn bảo mật nghiêm ngặt nhất trong quá trình xử lý. Ngoài ra, thông tin của thành viên chỉ có thể được tiết lộ theo pháp luật hiện hành, và thông tin chủ yếu được tiết lộ cho KTO Châu Á và các bộ phận, đối tác kinh doanh, tư vấn và nhà cung cấp liên quan khác (như cơ quan xử lý thẻ tín dụng). Chúng Tôi cam kết không bán thông tin khách hàng cho bên thứ ba.</li></ol>";
-"(ignore)license_privacy_phone" = "Số Di Động";
-"(ignore)license_privacy_phone_content" = "<ul><li>Nhằm mục đích đào tạo nhân viên và lý do bảo mật, tất cả các cuộc gọi của nhân viên Chúng Tôi đều được ghi lại, và đồng thời có thể cung cấp hỗ trợ xa hơn cho các dịch vụ Quý Khách đã nhận trước đó.</li></ul>";
-"(ignore)license_privacy_docfile" = "Tệp Văn Bản Nhỏ (Cookies)";
-"(ignore)license_privacy_docfile_content" = "<ol><li> Sau khi thành viên sử dụng website này, Chúng Tôi có thể sử dụng công nghệ cookies để thu thập thông tin thành viên từ máy chủ cho các mục đích trên. Nếu Quý Khách đăng ký tại KTO Châu Á hoặc tiếp tục sử dụng website, Quý Khách được xem là đồng ý với việc sử dụng cookie của Chúng Tôi.</li><li>Cookies chứa thông tin được chuyển vào ổ cứng máy tính của Quý Khách. Điều này giúp Chúng Tôi cải thiện website và cung cấp các dịch vụ tốt hơn và thân thiện hơn với người dùng. Một số cookies Chúng Tôi sử dụng là thiết yếu đối với hoạt động của website.</li><li> Nếu Quý Khách muốn xóa bất kỳ cookies nào đã được lưu trữ trên máy tính của mình, hoặc Quý Khách muốn ngừng việc cookies ghi lại cách mình lướt website, Quý Khách có thể xóa cookies hiện tại và/hoặc thay đổi cài đặt quyền riêng tư trên trình duyệt của mình để chặn cookies (Quá trình này là khác nhau tùy theo từng trình duyệt). Nếu Quý Khách muốn biết thêm thông tin về cách thực hiện, vui lòng truy cập http://www.allaboutcookies.org/. Vui lòng lưu ý rằng nếu Quý Khách xóa hoặc chặn cookies của Chúng Tôi, Quý Khách sẽ không thể sử dụng các khu vực hoặc tính năng nhất định của website.</li></ol>";
-"(ignore)license_privacy_webmessage" = "Thông Tin Website";
-"(ignore)license_privacy_webmessage_content" = "Hệ thống của Chúng Tôi sẽ tự động ghi lại địa chỉ IP Internet của khách truy cập KTO Châu Á, nhưng Chúng Tôi sẽ không bao giờ ghi lại địa chỉ email của khách truy cập website, và mục này chủ yếu được sử dụng để thống kê lưu lượng truy cập website.
-";
-"(ignore)license_privacy_advertisement" = "Hệ Thống Quảng Cáo";
-"(ignore)license_privacy_advertisement_content" = "Hệ thống quảng cáo của Chúng Tôi sẽ tự động ghi lại địa chỉ IP Internet của người nhấp (click), và mục này chủ yếu làm cho chức năng công khai website có hiệu quả.
-";
-"(ignore)license_privacy_bonus" = "Tiền Thưởng";
-"(ignore)license_privacy_bonus_content" = "Chúng Tôi sẽ giữ số tiền thưởng thắng được bởi thành viên bảo mật nghiêm ngặt. Nếu theo pháp luật và quy định của địa phương, thành viên được yêu cầu khai báo số tiền thưởng thắng được với cơ quan chính quyền địa phương, vậy quyết định sẽ thuộc về thành viên.
-";
-"(ignore)license_privacy_safety" = "Bảo Mật";
-"(ignore)license_privacy_safety_content" = "KTO Châu Á đảm bảo rằng thông tin cá nhân và thông tin do thành viên cung cấp cho Chúng Tôi là tuyệt đối an toàn và bảo mật. Tất cả nội dung liên quan được gửi cho Chúng Tôi phải đi qua các cơ sở vật chất bảo mật công nghệ cao, và sau đó được lưu trữ trong máy chủ của Chúng Tôi. Cơ sở vật chất bảo mật này được duy trì bằng cách sử dụng công nghệ tường lửa tiên tiến nhất hiện có. Các website và phần mềm giải trí của Chúng Tôi đồng thời sử dụng các chương trình bảo mật tốt nhất, mục đích là để đảm bảo rằng dữ liệu cá nhân của thành viên không bị các bên thứ ba sử dụng một cách bừa bãi.
-";
-"(ignore)license_promotion_privacypolicy" = "Chính Sách Bảo Mật của KTO Châu Á";
-"(ignore)license_promotion_terms" = "Điều Khoản và Điều Kiện Khuyến Mãi Chung KTO Châu Á";
-"(ignore)license_promotion_warning_1" = "1. Khuyến Mãi chỉ áp dụng cho thành viên có tài khoản độc lập. Địa chỉ cư trú, địa chỉ email, số điện thoại, phương thức thanh toán (cùng thẻ ghi nợ/thẻ tín dụng/số tài khoản ngân hàng), địa chỉ IP, môi trường mạng sử dụng chung, v.v. sẽ được sử dụng làm điều kiện để xác định nếu thành viên là độc lập.";
-"(ignore)license_promotion_warning_2" = "2. Thành viên không được nhận bất kỳ hai Khuyến Mãi nào cùng một lúc. Các điều kiện yêu cầu liên quan để thành viên tham gia hoặc nhận Khuyến Mãi, như số tiền gửi, số tiền cược hợp lệ, v.v. hoặc số tiền cược hợp lệ để hoàn thành yêu cầu Khuyến Mãi sau khi nhận, sẽ được xem là thông số về trạng thái của Khuyến Mãi hiện tại.
- Những thông số của Khuyến Mãi hiện tại sẽ không được tính cho việc tham gia, hoặc việc hoàn thành yêu cầu của bất kỳ Khuyến Mãi nào khác.";
-"(ignore)license_promotion_warning_3" = "3. Trừ khi có quy định khác, tất cả dữ liệu liên quan đến số tiền cược sẽ dựa trên số tiền cược hợp lệ của KTO Châu Á. Số tiền cược hợp lệ được định nghĩa là là số tiền cược liên quan đến việc tham gia vào một mức độ rủi ro nhất định. KTO Châu Á xem xét số tiền thắng và thua trả về cuối cùng: nếu có giá trị lớn hơn hoặc bằng 50% số tiền cược bị trừ, sẽ được ghi nhận là số tiền cược hợp lệ. Nếu không, số tiền cược này sẽ không nằm trong phạm vi số tiền cược hợp lệ.";
-"(ignore)license_promotion_warning_4" = "Ví dụ:";
-"(ignore)license_promotion_warning_5" = "Trường hợp 1: Số tiền cược bị trừ là 100 VND, kết quả cược là thắng, số tiền thắng bằng hoặc lớn hơn 50 VND. Vậy, 100 VND được xem là số tiền cược hợp lệ (≥50/100 = ≥0.5 = ≥50%)";
-"(ignore)license_promotion_warning_6" = "Trường hợp 2: Số tiền cược bị trừ là 100 VND, kết quả cược là thua, số tiền thua thấp hơn 50 VND. Vậy, số tiền cược hợp lệ là 0 (≤50/100 = ≤0.5 = ≤50%).";
-"(ignore)license_promotion_warning_7" = "Trường hợp 3: Số tiền cược bị trừ là 100 VND, kết quả cược là thua, số tiền thua lớn hơn hoặc bằng 50 VND. Vậy, 100 VND được xem là số tiền cược hợp lệ (≥50/100 = ≥0.5 = ≥50%).";
-"(ignore)license_promotion_warning_8" = "Trường hợp 4: Số tiền cược bị trừ là 100 VND, kết quả cược là hủy, số tiền cược được trả về. Vậy, số tiền thắng/thua, và số cược hợp lệ đều là 0 (0/100 = ≤0.5 = ≤50%).";
-"(ignore)license_promotion_warning_9" = "4. Số tiền đặt cược từ phương pháp \"Đặt Cược Thông Minh\" sẽ không được tính khi tham gia bất kỳ Khuyến Mãi nào.";
-"(ignore)license_promotion_warning_10" = "5. KTO Châu Á có quyền chấm dứt, hủy bỏ hoặc thu hồi tất cả Khuyến Mãi đã và đang được thanh toán bất kỳ lúc nào, đối với bất kỳ thành viên nào bị phát hiện vi phạm, gian lận hoặc lợi dụng Điều Khoản và Điều Kiện Khuyến Mãi để trục lợi.";
-"(ignore)license_promotion_warning_11" = "6. Khuyến Mãi của Chúng Tôi chào đón thành viên thực sự tham gia. Thành viên thực sự được định nghĩa là một thành viên tham gia đặt cược và chấp nhận rủi ro. Chúng Tôi có quyền, theo quyết định riêng của mình, thực hiện bất kỳ hành động nào, như đóng tài khoản, đình chỉ sử dụng website và/hoặc thu hồi tiền thưởng và tiền thắng cược liên quan, nếu Chúng Tôi tìm thấy bất kỳ vi phạm, gian lận hoặc lợi dụng Điều Khoản và Điều Kiện Khuyến Mãi để trục lợi.";
-"(ignore)license_promotion_warning_12" = "7. Một số Khuyến Mãi đặc biệt nhất định có thể yêu cầu thành viên cung cấp chứng từ hoặc địa chỉ nhằm mục đích xác minh thông tin tài khoản và cập nhật tiền thưởng hoặc trao giải thưởng. Việc thành viên tham gia Khuyến Mãi sẽ được xem là đồng ý tuân thủ với Điều Khoản và Điều Kiện Khuyến Mãi. Trường hợp không cung cấp đầy đủ thông tin yêu cầu trong thời gian quy định, thành viên sẽ được xem là tự nguyện từ bỏ tiền thưởng hoặc giải thưởng. Thông tin được cung cấp bởi thành viên sẽ tuân theo %@.";
-"(ignore)license_promotion_warning_13" = "8. Thành viên phải tuân thủ Điều Khoản và Điều Kiện chi tiết của Khuyến Mãi, Điều Khoản và Điều Kiện Khuyến Mãi Chung này, và Điều Khoản và Điều Kiện của website.";
-"(ignore)license_promotion_warning_14" = "9. Trường hợp xảy ra một số yếu tố không xác định nằm ngoài phạm vi kiểm soát, KTO Châu Á có quyền đưa ra quyết định đơn phương, bất kỳ lúc nào mà không cần thông báo trước, để thay đổi, điều chỉnh, dừng, hủy và/hoặc vô hiệu hóa Khuyến Mãi. KTO Châu Á cam kết giải thích lý do cho những vấn đề khẩn cấp này, lắng nghe phản hồi và liên lạc với thành viên nhằm đàm phán và giải quyết.";
-"(ignore)license_responsibilitygambling_title" = "Cược Có Trách Nhiệm";
-"(ignore)license_responsibilitygambling_content" = "Chúng Tôi tự hào cung cấp dịch vụ đặt cược Thể Thao và Casino Trực Tuyến tốt nhất. Tuy nhiên, đặt cược chỉ là một hình thức giải trí và sự tiêu khiển. Chúng Tôi luôn nổ lực để tạo ra một môi trường giải trí trực tuyến tốt cho thành viên và chân thành hy vọng rằng thành viên có thể có được trải nghiệm giải trí tốt nhất tại đây. Là một công ty đặt cược có uy tín và tinh thần trách nhiệm cao, Chúng Tôi hy vọng thành viên có thể điều chỉnh tư duy trong khi tận hưởng các dịch vụ của website. Tất cả đội ngũ Chăm Sóc Khách Hàng của Chúng Tôi được đào tạo về các vấn đề liên quan đến đặt cược. Một số ít thành viên có thể nghiện đặt cược đến mức tác động tiêu cực đến tài chính, sự nghiệp, gia đình và xã hội. Về vấn đề này, công ty Chúng Tôi khuyến nghị mạnh mẽ việc thành viên thường xuyên xem xét hành vi đặt cược, làm rõ và điều chỉnh tư duy đặt cược của mình.";
-"(ignore)license_responsibilitygambling_age_limit_title" = "Giới Hạn Tuổi";
-"(ignore)license_responsibilitygambling_age_limit_content" = "Quý Khách phải trên 18 tuổi (hoặc không được xem là dưới tuổi vị thành niên theo pháp luật tại quốc gia cư trú) để truy cập website của Chúng Tôi. Bất cứ ai dưới 18 tuổi không được phép mở tài khoản và đặt cược trên website của Chúng Tôi. Công ty Chúng Tôi nhìn nhận và xử lý vấn đề này với một thái độ nghiêm ngặt.
-</br></br>Nếu Quý Khách dưới 18 tuổi, vui lòng không mở tài khoản đặt cược trên website của Chúng Tôi, và vui lòng thoát khỏi website ngay lập tức. Dưới tuổi vị thành niên chơi trên website của Chúng Tôi, công ty Chúng Tôi có quyền tịch thu lợi nhuận của họ.
-</br></br>Dưới đây là một số website tham khảo để ngăn chặn trẻ vị thành niên truy cập các website đặt cược trực tuyến:
-</br></br>http://www.gamblersanonymous.org
-";
-"(ignore)license_gamblingprotection_title" = "Chống Ảnh Hưởng Tiêu Cực Từ Đặt Cược";
-"(ignore)license_gamblingprotection_content" = "Chúng Tôi khuyến nghị mạnh mẽ việc Quý Khách thường xuyên xem xét hành vi đánh cược của mình và kiểm tra xem Quý Khách có đang chơi quá mức hay không. Dưới đây là bảng câu hỏi từ Gamblers Anonymous Organization (tạm dịch: Tổ Chức Người Đặt Cược Ẩn Danh) để đánh giá các vấn đề đặt cược tiềm ẩn.
-<ol><li> Có bao giờ Quý Khách dành thời gian làm việc hoặc học tập để đặt cược?</li><li>Có bao giờ việc đặt cược làm cho cuộc sống gia đình Quý Khách không hạnh phúc?</li><li>Việc đặt cược có ảnh hưởng đến danh tiếng của Quý Khách?</li><li>Có bao giờ Quý Khách cảm thấy hối hận sau những lần đặt cược?</li><li>Có bao giờ Quý Khách đặt cược để có tiền thanh toán các khoản nợ hoặc các khó khăn tài chính khác?</li><li>Có bao giờ đặt cược làm giảm ý chí hoặc hiệu quả công việc của Quý Khách?</li><li>Sau khi thua Quý Khách có muốn tiếp tục đặt cược ngay lập tức để thắng lại số tiền đã mất?</li><li>Sau khi thắng Quý Khách có thấy sự thôi thúc muốn trở lại và thắng nhiều hơn nữa?</li><li>Quý Khách có thường đặt cược cho tới đồng tiền cuối cùng?</li><li>Có bao giờ Quý Khách mượn tiền cho việc đặt cược của mình?</li><li>Có bao giờ Quý Khách bán thứ gì để có tiền đặt cược?</li><li>Có bao giờ Quý Khách ngần ngại sử dụng \"tiền đặt cược\" cho các chi tiêu thông thường?</li><li>Đặt cược có làm Quý Khách lơ là với sức khoẻ, hạnh phúc của bạn và gia đình?</li><li>Có bao giờ Quý Khách đặt cược lâu hơn so với dự định?</li><li>Có bao giờ Quý Khách đặt cược để giải toả lo lắng, rắc rối, buồn chán, cô đơn, đau buồn hoặc mất mát?</li><li>Có bao giờ Quý Khách phạm tội, hoặc tính tới việc phạm tội, để có tiền đặt cược?</li><li>Có bao giờ đặt cược khiến Quý Khách khó ngủ?</li><li>Có bao giờ cãi vã, thất vọng hay bực bội khiến Quý Khách đi đặt cược?</li><li>Có bao giờ Quý Khách cảm thấy muốn ăn mừng một dịp may mắn nào đó bằng vài giờ đặt cược?</li><li>Có bao giờ Quý Khách nghĩ tới việc tự huỷ hoại bản thân hay tự sát vì đặt cược?</li></ol>Nếu câu trả lời của Quý Khách là “CÓ” nhiều hơn, điều đó có nghĩa là Quý Khách có nguy cơ cao hơn về các vấn đề đặt cược.
-Điều quan trọng là Quý Khách có thể phát hiện ra tác động tiêu cực của đặt cược đối với cuộc sống của mình càng sớm càng tốt, để Quý Khách có thể thực hiện các biện pháp phòng ngừa. Hoặc vui lòng liên hệ Chăm Sóc Khách Hàng để yêu cầu đóng tài khoản.
-";
-"(ignore)license_about_title" = "Về KTO";
-"(ignore)license_about_content" = "KTO bắt đầu hoạt động trong lĩnh vực kinh doanh dữ liệu thị trường thể thao vào năm 2001. Với sự phát triển và tăng trưởng của việc kinh doanh trong nhiều năm, dữ liệu thể thao do Tập Đoàn KTO cung cấp đã trở thành một trong những chỉ số tham khảo chuyên nghiệp để dự báo các sự kiện của một số công ty đặt cược thể thao nổi tiếng thế giới, bao gồm cả việc tham gia hợp tác đặt cược thể thao chính thức ở một số quốc gia. Không ngừng lại trong việc mở rộng kinh doanh B2B, KTO bắt đầu mở rộng kinh doanh B2C vào năm 2017.
+
+Trừ khi có quy định rõ, nếu không, KTO Châu Á trong mọi trường hợp không được xem là Bất kỳ tuyên bố, ý kiến, thương hiệu sản phẩm hoặc dịch vụ, biểu tượng, logo hoặc thiết kế khác trên một website bên ngoài; Bất kỳ sản phẩm hoặc dịch vụ nào được quảng bá, bán hoặc mở trên một website bên ngoài; Nhà điều hành hoặc chủ sở hữu của một website bên ngoài; hoặc Bất kỳ người nào có bất kỳ mối quan hệ hoặc kết nối liên quan đến một website bên ngoài bằng bất kỳ cách nào.";
+"license_linktobettingsite_content" = "Thành viên không được phép thiết lập liên kết, liên kết sâu hoặc liên kết trong văn bản (liên kết sâu/deep link, hoặc liên kết nội tuyến/in-line link), hoặc đóng khung (frame) thông tin đặt cược trên bất kỳ phần nào của website đặt cược hoặc dịch vụ đặt cược.";
+"license_addorbreak_gamblingcategories_content" = "Chúng Tôi có quyền quyết định, bất kỳ lúc nào mà không cần thông báo cho thành viên, thêm các loại hoặc tính năng cược mới vào website đặt cược; hoặc bắt đầu, ngừng, gián đoạn, giới hạn kết nối hoặc sửa đổi bất kỳ loại hoặc tính năng đặt cược nào; và không chịu bất kỳ trách nhiệm nào đối với bất kỳ thành viên nào trong vấn đề này.";
+"license_violation_content" = "KTO Châu Á có quyền tìm kiếm các biện pháp khắc phục (pháp luật và luật công bằng) cho các vi phạm của quy định này, bao gồm theo quyết định riêng của mình, bất kỳ lúc nào và vì bất kỳ lý do gì, từ chối hoặc hạn chế bất kỳ thành viên cụ thể nào kết nối với dịch vụ đặt cược, website đặt cược và thông tin đặt cược, và ngăn chặn truy cập vào các dịch vụ đặt cược, website đặt cược và thông tin đặt cược thông qua các địa chỉ Internet hoặc các thiết bị kết nối cụ thể.";
+"license_priority_order_content" = "Các quy định đặt cược (nếu áp dụng) và bất kỳ quy định nào khác áp dụng cho việc sử dụng và kết nối các dịch vụ đặt cược, phần mềm đặt cược, thông tin đặt cược và website đặt cược là một phần không thể tách rời của quy định này.
+
+Nếu các quy định đặt cược và bất kỳ quy định nào khác áp dụng cho việc sử dụng và kết nối các dịch vụ đặt cược, phần mềm đặt cược, thông tin đặt cược và website đặt cược mâu thuẫn với quy định này, vậy trừ khi có quy định rõ, nếu không, quy định này sẽ được áp dụng.";
+"license_forcemajeure_content" = "Nếu KTO Châu Á có bất kỳ sự cố nào ngoài tầm kiểm soát (bao gồm nhưng không giới hạn ở thảm hỏa; thay đổi pháp luật và quy định hiện hành, hành vi hoặc thiếu sót của chính phủ, các vấn đề dân sự hoặc các tổ chức quân sự; lệnh của tòa án; hoạt động khủng bố; sấm sét hoặc hỏa hoạn; đình công, đình chỉ hoặc tranh chấp lao động khác; lũ lụt; hạn hán; chiến tranh; bạo loạn; trộm cắp; lỗi truyền tải hoặc hệ thống; lỗi hoặc gián đoạn dịch vụ truyền thông hoặc băng thông rộng; lỗi hoặc thiếu hụt cung cấp điện hoặc thiết bị điện; thời tiết khắc nghiệt; động đất và thiên tai), Thất bại hoặc chậm trễ trong việc thực hiện bất kỳ nghĩa vụ nào theo quy định này không cấu thành vi phạm quy định này. Thành viên đồng ý thực hiện tất cả các hành động cần thiết để giảm thiểu hậu quả của các sự cố nêu trên.";
+"license_abstain_content" = "KTO Châu Á không thực hiện bất kỳ quy định nào trong Điều Khoản Dịch Vụ này, tại bất kỳ thời điểm nào, không được xem là từ bỏ các quyền được cung cấp trong quy định này, hoặc bằng bất kỳ cách nào ảnh hưởng đến hiệu lực của tất cả hoặc một phần của quy định này, và không ảnh hưởng đến quyền của KTO Châu Á để thực hiện các bước tiếp theo.";
+"license_severability_content" = "Nếu bất kỳ điều khoản hoặc bất kỳ phần nào trong đó được xem là không hợp lệ, phi pháp hoặc không thể thực thi trong bất kỳ phạm vi nào đối với các cơ quan thẩm quyền có liên quan, vậy điều khoản đó hoặc phần đó sẽ được tách ra khỏi các điều khoản khác trong phạm vi trên, và các điều khoản khác vẫn hoàn toàn có hiệu lực trong phạm vi được pháp luật cho phép.";
+"license_law_jurisdiction_content" = "Luật Hiện Hành và Quyền Tài Phán
+
+1. Thành viên đồng ý rằng việc kết nối và sử dụng các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược, thông tin đặt cược của thành viên, và việc giải thích quy định này được quản lý bởi pháp luật Philippines và được giải thích theo pháp luật Philippines.
+
+Bất kỳ tranh chấp nào phát sinh từ hoặc liên quan đến quy định này:
+
+2. Nếu được đệ trình bởi thành viên, tranh chấp sẽ được nộp lên nhà cấp phép trò chơi tương tác – Công ty First Cagayan Philippines (tên tiếng Anh đầy đủ: Cagayan Economic Zone Authority, First Cagayan Leisure and Resort Corporation (tạm dịch: Cơ Quan Quản Lý Khu Kinh Tế Cagaya, Tập Đoàn Giải Trí và Nghỉ Dưỡng First Cagayan)) cho quyết định cuối cùng.
+
+3. Nếu được đệ trình bởi KTO Châu Á, tùy thuộc vào chọn lựa của KTO Châu Á:
+
+  i. Tranh chấp sẽ được nộp lên trọng tài cho quyết định cuối cùng theo quy định trên.
+  
+  ii. Một vụ kiện hoặc đơn kiện được đệ trình lên tòa án Philippines do thành viên đồng ý, tuy nhiên, quyền của KTO Châu Á nộp đơn kiện hoặc quy trình pháp lý tại các khu vực tài phán khác không bị ảnh hưởng.";
+"license_terms_service" = "Điều Khoản Dịch Vụ";
+"license_warning" = "Quý Khách vui lòng đọc các Điều Khoản này một cách cẩn thận và xác nhận rằng Quý Khách hoàn toàn hiểu nội dung của chúng. Nếu Quý Khách có bất kỳ câu hỏi nào về các quyền và nghĩa vụ phát sinh từ Điều Khoản này, vui lòng tìm kiếm sự trợ giúp pháp lý từ một cố vấn pháp lý trong phạm vi nước sở tại.";
+"license_definition" = "Định Nghĩa";
+"license_agree" = "Thỏa Thuận";
+"license_modify" = "Sửa Đổi";
+"license_gaminginfo_intellectualproperty" = "Thông Tin Đặt Cược và Sở Hữu Trí Tuệ";
+"license_condition" = "Điều Kiện Sử Dụng";
+"license_register_membership" = "Đăng Ký Mở Tài Khoản Đặt Cược Thành Viên";
+"license_bet_acceptbet" = "Đặt Cược và Chấp Nhận Cược";
+"license_gamingsoftware_usagerights" = "Quyền Sử Dụng Phần Mềm Đặt Cược";
+"license_transaction_settlement" = "Thanh Toán Giao Dịch";
+"license_bouns" = "Nhận Tiền Thưởng";
+"license_promotion_reward" = "Khuyến Mãi và Giải Thưởng";
+"license_compensation" = "Bồi Thường";
+"license_disclaimer_specialconsideration" = "Tuyên Bố Từ Chối Trách Nhiệm và Cân Nhắc Đặc Biệt";
+"license_termination" = "Chấm Dứt, Đóng Tài Khoản và Đình Chỉ Dịch Vụ Đặt Cược";
+"license_linktoexternal" = "Liên Kết Đến Các Trang Bên Ngoài";
+"license_linktobettingsite" = "Liên Kết/Đóng Khung Website Đặt Cược";
+"license_addorbreak_gamblingcategories" = "Thêm hoặc Ngưng Các Loại Cược";
+"license_violation" = "Vi Phạm Điều Khoản";
+"license_priority_order" = "Thứ Tự Ưu Tiên";
+"license_forcemajeure" = "Bất Khả Kháng";
+"license_abstain" = "Từ Bỏ";
+"license_severability" = "Tách Rời";
+"license_law_jurisdiction" = "Luật Hiện Hành và Quyền Tài Phán";
+"license_privacy_responsibility" = "Chính Sách Bảo Mật";
+"license_privacy_warning" = "Liên quan đến việc giữ gìn thông tin thành viên, KTO Châu Á luôn áp dụng cách tiếp cận và quy trình làm việc thận trọng nhất. Đây là trách nhiệm và cam kết của Chúng Tôi với các thành viên của Chúng Tôi. Ngoài ra, nó đồng thời giải thích rõ cách Chúng Tôi xử lý thông tin thành viên.
+
+Khi Quý Khách sử dụng website chính thức của KTO Châu Á, Quý Khách thừa nhận và chấp nhận Điều Khoản và Điều Kiện của Chính Sách Bảo Mật của KTO Châu Á, và hiểu mục đích cũng như phương pháp xử lý để thu thập các dữ liệu khác nhau. Nếu Quý Khách không đồng ý với các Điều Khoản của Chính Sách Bảo Mật này, vui lòng không sử dụng website hoặc cung cấp cho Chúng Tôi thông tin cá nhân của Quý Khách.
+
+Tất cả thông tin cá nhân do các thành viên cung cấp sẽ được truyền qua một cổng an toàn (Tiêu chuẩn mã hóa SSL 128 bit) và được lưu trữ trong một môi trường bảo mật không thể truy cập công khai. Truy cập nội bộ vào tất cả các dữ liệu bị hạn chế và theo dõi chặt chẽ.";
+"license_privacy_messagecollect_use" = "Thu Thập và Sử Dụng Thông Tin";
+"license_privacy_definition_content" = "Khi thành viên mở và sử dụng một tài khoản tại KTO Châu Á, thông tin và dữ liệu Chúng Tôi thu thập bao gồm họ tên, địa chỉ, tuổi, email, số điện thoại, địa chỉ IP, v.v., Mục đích của việc thu thập thông tin này là :
+
+1. Lưu giữ hồ sơ giao dịch tài khoản;
+
+2. Hỗ trợ cải thiện quản lý tài khoản;
+
+3. Lý do bảo mật (bao gồm nhận dạng của thành viên);
+
+4. Tạo hồ sơ thành viên;
+
+5. Quản lý thành viên;
+
+6. Cung cấp đến Quý Khách các khuyến mãi, sản phẩm và thông tin dịch vụ của Chúng Tôi với sự đồng ý của Quý Khách;
+
+7. Giám sát các giao dịch để ngăn chặn gian lận, đặt cược bất thường, rửa tiền và hành vi gian lận.";
+"license_privacy_transaction" = "Trạng Thái Giao Dịch Tài Khoản";
+"license_privacy_transaction_content" = "Để xác định sở thích của thành viên và cung cấp thông tin và khuyến mãi liên quan, hoặc vì lý do bảo mật như giao dịch và hoạt động kinh doanh, Chúng Tôi sẽ lưu giữ hồ sơ giao dịch của thành viên cho mục đích phân tích.";
+"license_privacy_promotion_information" = "Gửi Thông Tin Khuyến Mãi";
+"license_privacy_promotion_information_content" = "Khi đăng ký tài khoản, thành viên có thể chọn muốn nhận thông tin khuyến mãi hoặc không. Sau khi đăng ký, thành viên cũng có thể thực hiện các thay đổi liên quan bất kỳ lúc nào qua email: (email). Lưu ý: Khi thành viên chọn không nhận thông tin khuyến mãi, Chúng Tôi sẽ cố gắng hết sức để ngừng việc gửi và cam kết sẽ hoàn thành bước này trong vòng 28 ngày.";
+"license_privacy_playerinformation" = "Thay Đổi Thông Tin Cá Nhân";
+"license_privacy_playerinformation_content" = "Thành viên có thể thay đổi thông tin cá nhân bất kỳ lúc nào. Nếu cần thiết, vui lòng liên hệ bộ phận Chăm Sóc Khách Hàng của Chúng Tôi.";
+"license_privacy_playerinformationsafe" = "Bảo Mật và Tính Chính Xác của Dữ Liệu Cá Nhân";
+"license_privacy_playerinformationsafe_content" = "1. Chúng Tôi cam kết lưu giữ tất cả thông tin của thành viên chính xác và duy trì tính chính xác của thông tin liên quan. Theo luật, thành viên có quyền duy trì thông tin cá nhân và yêu cầu sửa chữa bất kỳ lỗi nào.
+
+2. Đồng thời, Chúng Tôi sẽ thực hiện tất cả các bước để đảm bảo rằng thông tin của thành viên có thể đạt được các tiêu chuẩn bảo mật nghiêm ngặt nhất trong quá trình xử lý. Ngoài ra, thông tin của thành viên chỉ có thể được tiết lộ theo pháp luật hiện hành, và thông tin chủ yếu được tiết lộ cho KTO Châu Á và các bộ phận, đối tác kinh doanh, tư vấn và nhà cung cấp liên quan khác (như cơ quan xử lý thẻ tín dụng). Chúng Tôi cam kết không bán thông tin khách hàng cho bên thứ ba.";
+"license_privacy_phone" = "Số Di Động";
+"license_privacy_phone_content" = "Nhằm mục đích đào tạo nhân viên và lý do bảo mật, tất cả các cuộc gọi của nhân viên Chúng Tôi đều được ghi lại, và đồng thời có thể cung cấp hỗ trợ xa hơn cho các dịch vụ Quý Khách đã nhận trước đó.";
+"license_privacy_docfile" = "Tệp Văn Bản Nhỏ (Cookies)";
+"license_privacy_docfile_content" = "1. Sau khi thành viên sử dụng website này, Chúng Tôi có thể sử dụng công nghệ cookies để thu thập thông tin thành viên từ máy chủ cho các mục đích trên. Nếu Quý Khách đăng ký tại KTO Châu Á hoặc tiếp tục sử dụng website, Quý Khách được xem là đồng ý với việc sử dụng cookie của Chúng Tôi.
+
+2. Cookies chứa thông tin được chuyển vào ổ cứng máy tính của Quý Khách. Điều này giúp Chúng Tôi cải thiện website và cung cấp các dịch vụ tốt hơn và thân thiện hơn với người dùng. Một số cookies Chúng Tôi sử dụng là thiết yếu đối với hoạt động của website.
+
+3. Nếu Quý Khách muốn xóa bất kỳ cookies nào đã được lưu trữ trên máy tính của mình, hoặc Quý Khách muốn ngừng việc cookies ghi lại cách mình lướt website, Quý Khách có thể xóa cookies hiện tại và/hoặc thay đổi cài đặt quyền riêng tư trên trình duyệt của mình để chặn cookies (Quá trình này là khác nhau tùy theo từng trình duyệt). Nếu Quý Khách muốn biết thêm thông tin về cách thực hiện, vui lòng truy cập http://www.allaboutcookies.org/. Vui lòng lưu ý rằng nếu Quý Khách xóa hoặc chặn cookies của Chúng Tôi, Quý Khách sẽ không thể sử dụng các khu vực hoặc tính năng nhất định của website.";
+"license_privacy_webmessage" = "Thông Tin Website";
+"license_privacy_webmessage_content" = "Hệ thống của Chúng Tôi sẽ tự động ghi lại địa chỉ IP Internet của khách truy cập KTO Châu Á, nhưng Chúng Tôi sẽ không bao giờ ghi lại địa chỉ email của khách truy cập website, và mục này chủ yếu được sử dụng để thống kê lưu lượng truy cập website.";
+"license_privacy_advertisement" = "Hệ Thống Quảng Cáo";
+"license_privacy_advertisement_content" = "Hệ thống quảng cáo của Chúng Tôi sẽ tự động ghi lại địa chỉ IP Internet của người nhấp (click), và mục này chủ yếu làm cho chức năng công khai website có hiệu quả.";
+"license_privacy_bonus" = "Tiền Thưởng";
+"license_privacy_bonus_content" = "Chúng Tôi sẽ giữ số tiền thưởng thắng được bởi thành viên bảo mật nghiêm ngặt. Nếu theo pháp luật và quy định của địa phương, thành viên được yêu cầu khai báo số tiền thưởng thắng được với cơ quan chính quyền địa phương, vậy quyết định sẽ thuộc về thành viên.";
+"license_privacy_safety" = "Bảo Mật";
+"license_privacy_safety_content" = "KTO Châu Á đảm bảo rằng thông tin cá nhân và thông tin do thành viên cung cấp cho Chúng Tôi là tuyệt đối an toàn và bảo mật. Tất cả nội dung liên quan được gửi cho Chúng Tôi phải đi qua các cơ sở vật chất bảo mật công nghệ cao, và sau đó được lưu trữ trong máy chủ của Chúng Tôi. Cơ sở vật chất bảo mật này được duy trì bằng cách sử dụng công nghệ tường lửa tiên tiến nhất hiện có. Các website và phần mềm giải trí của Chúng Tôi đồng thời sử dụng các chương trình bảo mật tốt nhất, mục đích là để đảm bảo rằng dữ liệu cá nhân của thành viên không bị các bên thứ ba sử dụng một cách bừa bãi.";
+"license_promotion_privacypolicy" = "Chính Sách Bảo Mật của KTO Châu Á";
+"license_promotion_terms" = "Điều Khoản và Điều Kiện Khuyến Mãi Chung KTO Châu Á";
+"license_promotion_warning" = "1. Khuyến Mãi chỉ áp dụng cho thành viên có tài khoản độc lập. Địa chỉ cư trú, địa chỉ email, số điện thoại, phương thức thanh toán (cùng thẻ ghi nợ/thẻ tín dụng/số tài khoản ngân hàng), địa chỉ IP, môi trường mạng sử dụng chung, v.v. sẽ được sử dụng làm điều kiện để xác định nếu thành viên là độc lập.
+
+2. Thành viên không được nhận bất kỳ hai Khuyến Mãi nào cùng một lúc. Các điều kiện yêu cầu liên quan để thành viên tham gia hoặc nhận Khuyến Mãi, như số tiền gửi, số tiền cược hợp lệ, v.v. hoặc số tiền cược hợp lệ để hoàn thành yêu cầu Khuyến Mãi sau khi nhận, sẽ được xem là thông số về trạng thái của Khuyến Mãi hiện tại.
+
+ Những thông số của Khuyến Mãi hiện tại sẽ không được tính cho việc tham gia, hoặc việc hoàn thành yêu cầu của bất kỳ Khuyến Mãi nào khác.
+
+3. Trừ khi có quy định khác, tất cả dữ liệu liên quan đến số tiền cược sẽ dựa trên số tiền cược hợp lệ của KTO Châu Á. Số tiền cược hợp lệ được định nghĩa là là số tiền cược liên quan đến việc tham gia vào một mức độ rủi ro nhất định. KTO Châu Á xem xét số tiền thắng và thua trả về cuối cùng: nếu có giá trị lớn hơn hoặc bằng 50%% số tiền cược bị trừ, sẽ được ghi nhận là số tiền cược hợp lệ. Nếu không, số tiền cược này sẽ không nằm trong phạm vi số tiền cược hợp lệ.
+
+Ví dụ:
+
+Trường hợp 1: Số tiền cược bị trừ là 100 VND, kết quả cược là thắng, số tiền thắng bằng hoặc lớn hơn 50 VND. Vậy, 100 VND được xem là số tiền cược hợp lệ (≥50/100 = ≥0.5 = ≥50%%)
+
+Trường hợp 2: Số tiền cược bị trừ là 100 VND, kết quả cược là thua, số tiền thua thấp hơn 50 VND. Vậy, số tiền cược hợp lệ là 0 (≤50/100 = ≤0.5 = ≤50%%).
+
+Trường hợp 3: Số tiền cược bị trừ là 100 VND, kết quả cược là thua, số tiền thua lớn hơn hoặc bằng 50 VND. Vậy, 100 VND được xem là số tiền cược hợp lệ (≥50/100 = ≥0.5 = ≥50%%).
+
+Trường hợp 4: Số tiền cược bị trừ là 100 VND, kết quả cược là hủy, số tiền cược được trả về. Vậy, số tiền thắng/thua, và số cược hợp lệ đều là 0 (0/100 = ≤0.5 = ≤50%%).
+
+4. Số tiền đặt cược từ phương pháp \"Đặt Cược Thông Minh\" sẽ không được tính khi tham gia bất kỳ Khuyến Mãi nào.
+
+5. KTO Châu Á có quyền chấm dứt, hủy bỏ hoặc thu hồi tất cả Khuyến Mãi đã và đang được thanh toán bất kỳ lúc nào, đối với bất kỳ thành viên nào bị phát hiện vi phạm, gian lận hoặc lợi dụng Điều Khoản và Điều Kiện Khuyến Mãi để trục lợi.
+
+6. Khuyến Mãi của Chúng Tôi chào đón thành viên thực sự tham gia. Thành viên thực sự được định nghĩa là một thành viên tham gia đặt cược và chấp nhận rủi ro. Chúng Tôi có quyền, theo quyết định riêng của mình, thực hiện bất kỳ hành động nào, như đóng tài khoản, đình chỉ sử dụng website và/hoặc thu hồi tiền thưởng và tiền thắng cược liên quan, nếu Chúng Tôi tìm thấy bất kỳ vi phạm, gian lận hoặc lợi dụng Điều Khoản và Điều Kiện Khuyến Mãi để trục lợi.
+
+7. Một số Khuyến Mãi đặc biệt nhất định có thể yêu cầu thành viên cung cấp chứng từ hoặc địa chỉ nhằm mục đích xác minh thông tin tài khoản và cập nhật tiền thưởng hoặc trao giải thưởng. Việc thành viên tham gia Khuyến Mãi sẽ được xem là đồng ý tuân thủ với Điều Khoản và Điều Kiện Khuyến Mãi. Trường hợp không cung cấp đầy đủ thông tin yêu cầu trong thời gian quy định, thành viên sẽ được xem là tự nguyện từ bỏ tiền thưởng hoặc giải thưởng. Thông tin được cung cấp bởi thành viên sẽ tuân theo %@.
+
+8. Thành viên phải tuân thủ Điều Khoản và Điều Kiện chi tiết của Khuyến Mãi, Điều Khoản và Điều Kiện Khuyến Mãi Chung này, và Điều Khoản và Điều Kiện của website.
+
+9. Trường hợp xảy ra một số yếu tố không xác định nằm ngoài phạm vi kiểm soát, KTO Châu Á có quyền đưa ra quyết định đơn phương, bất kỳ lúc nào mà không cần thông báo trước, để thay đổi, điều chỉnh, dừng, hủy và/hoặc vô hiệu hóa Khuyến Mãi. KTO Châu Á cam kết giải thích lý do cho những vấn đề khẩn cấp này, lắng nghe phản hồi và liên lạc với thành viên nhằm đàm phán và giải quyết.";
+"license_responsibilitygambling_title" = "Cược Có Trách Nhiệm";
+"license_responsibilitygambling_content" = "Chúng Tôi tự hào cung cấp dịch vụ đặt cược Thể Thao và Casino Trực Tuyến tốt nhất. Tuy nhiên, đặt cược chỉ là một hình thức giải trí và sự tiêu khiển. Chúng Tôi luôn nổ lực để tạo ra một môi trường giải trí trực tuyến tốt cho thành viên và chân thành hy vọng rằng thành viên có thể có được trải nghiệm giải trí tốt nhất tại đây. Là một công ty đặt cược có uy tín và tinh thần trách nhiệm cao, Chúng Tôi hy vọng thành viên có thể điều chỉnh tư duy trong khi tận hưởng các dịch vụ của website. Tất cả đội ngũ Chăm Sóc Khách Hàng của Chúng Tôi được đào tạo về các vấn đề liên quan đến đặt cược. Một số ít thành viên có thể nghiện đặt cược đến mức tác động tiêu cực đến tài chính, sự nghiệp, gia đình và xã hội. Về vấn đề này, công ty Chúng Tôi khuyến nghị mạnh mẽ việc thành viên thường xuyên xem xét hành vi đặt cược, làm rõ và điều chỉnh tư duy đặt cược của mình.";
+"license_responsibilitygambling_age_limit_title" = "Giới Hạn Tuổi";
+"license_responsibilitygambling_age_limit_content" = "Quý Khách phải trên 18 tuổi (hoặc không được xem là dưới tuổi vị thành niên theo pháp luật tại quốc gia cư trú) để truy cập website của Chúng Tôi. Bất cứ ai dưới 18 tuổi không được phép mở tài khoản và đặt cược trên website của Chúng Tôi. Công ty Chúng Tôi nhìn nhận và xử lý vấn đề này với một thái độ nghiêm ngặt.
+
+
+
+Nếu Quý Khách dưới 18 tuổi, vui lòng không mở tài khoản đặt cược trên website của Chúng Tôi, và vui lòng thoát khỏi website ngay lập tức. Dưới tuổi vị thành niên chơi trên website của Chúng Tôi, công ty Chúng Tôi có quyền tịch thu lợi nhuận của họ.
+
+
+
+Dưới đây là một số website tham khảo để ngăn chặn trẻ vị thành niên truy cập các website đặt cược trực tuyến:
+
+
+
+http://www.gamblersanonymous.org";
+"license_gamblingprotection_title" = "Chống Ảnh Hưởng Tiêu Cực Từ Đặt Cược";
+"license_gamblingprotection_content" = "Chúng Tôi khuyến nghị mạnh mẽ việc Quý Khách thường xuyên xem xét hành vi đánh cược của mình và kiểm tra xem Quý Khách có đang chơi quá mức hay không. Dưới đây là bảng câu hỏi từ Gamblers Anonymous Organization (tạm dịch: Tổ Chức Người Đặt Cược Ẩn Danh) để đánh giá các vấn đề đặt cược tiềm ẩn.
+
+1. Có bao giờ Quý Khách dành thời gian làm việc hoặc học tập để đặt cược?
+
+2. Có bao giờ việc đặt cược làm cho cuộc sống gia đình Quý Khách không hạnh phúc?
+
+3. Việc đặt cược có ảnh hưởng đến danh tiếng của Quý Khách?
+
+4. Có bao giờ Quý Khách cảm thấy hối hận sau những lần đặt cược?
+
+5. Có bao giờ Quý Khách đặt cược để có tiền thanh toán các khoản nợ hoặc các khó khăn tài chính khác?
+
+6. Có bao giờ đặt cược làm giảm ý chí hoặc hiệu quả công việc của Quý Khách?
+
+7. Sau khi thua Quý Khách có muốn tiếp tục đặt cược ngay lập tức để thắng lại số tiền đã mất?
+
+8. Sau khi thắng Quý Khách có thấy sự thôi thúc muốn trở lại và thắng nhiều hơn nữa?
+
+9. Quý Khách có thường đặt cược cho tới đồng tiền cuối cùng?
+
+10. Có bao giờ Quý Khách mượn tiền cho việc đặt cược của mình?
+
+11. Có bao giờ Quý Khách bán thứ gì để có tiền đặt cược?
+
+12. Có bao giờ Quý Khách ngần ngại sử dụng \"tiền đặt cược\" cho các chi tiêu thông thường?
+
+13. Đặt cược có làm Quý Khách lơ là với sức khoẻ, hạnh phúc của bạn và gia đình?
+
+14. Có bao giờ Quý Khách đặt cược lâu hơn so với dự định?
+
+15. Có bao giờ Quý Khách đặt cược để giải toả lo lắng, rắc rối, buồn chán, cô đơn, đau buồn hoặc mất mát?
+
+16. Có bao giờ Quý Khách phạm tội, hoặc tính tới việc phạm tội, để có tiền đặt cược?
+
+17. Có bao giờ đặt cược khiến Quý Khách khó ngủ?
+
+18. Có bao giờ cãi vã, thất vọng hay bực bội khiến Quý Khách đi đặt cược?
+
+19. Có bao giờ Quý Khách cảm thấy muốn ăn mừng một dịp may mắn nào đó bằng vài giờ đặt cược?
+
+20. Có bao giờ Quý Khách nghĩ tới việc tự huỷ hoại bản thân hay tự sát vì đặt cược?
+
+Nếu câu trả lời của Quý Khách là “CÓ” nhiều hơn, điều đó có nghĩa là Quý Khách có nguy cơ cao hơn về các vấn đề đặt cược.
+
+Điều quan trọng là Quý Khách có thể phát hiện ra tác động tiêu cực của đặt cược đối với cuộc sống của mình càng sớm càng tốt, để Quý Khách có thể thực hiện các biện pháp phòng ngừa. Hoặc vui lòng liên hệ Chăm Sóc Khách Hàng để yêu cầu đóng tài khoản.";
+"license_about_title" = "Về KTO";
+"license_about_content" = "KTO bắt đầu hoạt động trong lĩnh vực kinh doanh dữ liệu thị trường thể thao vào năm 2001. Với sự phát triển và tăng trưởng của việc kinh doanh trong nhiều năm, dữ liệu thể thao do Tập Đoàn KTO cung cấp đã trở thành một trong những chỉ số tham khảo chuyên nghiệp để dự báo các sự kiện của một số công ty đặt cược thể thao nổi tiếng thế giới, bao gồm cả việc tham gia hợp tác đặt cược thể thao chính thức ở một số quốc gia. Không ngừng lại trong việc mở rộng kinh doanh B2B, KTO bắt đầu mở rộng kinh doanh B2C vào năm 2017.
 KTO là tên viết tắt của \"KNOW THE ODDS\" (\"AM HIỂU TỶ LỆ CƯỢC\") trong tiếng Anh, đại diện cho sự hiểu biết chuyên nghiệp của KTO về dữ liệu tỷ lệ cược, đó là: Chúng Tôi hiểu xác suất, Chúng Tôi tạo ra tỷ lệ cược. Cam kết cung cấp các sản phẩm cạnh tranh nhất, đồng thời truyền đạt sự hiểu biết của KTO về trải nghiệm người dùng, đây là khái niệm giá trị cốt lõi của Chúng Tôi.
 Chúng Tôi là KTO, Chúng Tôi độc lập.";
-"(ignore)license_businesspartner_title" = "Đối Tác Kinh Doanh";
-"(ignore)license_ktoglobal" = "Tìm hiểu về Tập đoàn KTO";
-"(ignore)license_ktoglobal_link" = "https://ktoglobal.com/";
-"(ignore)license_partner_betting" = "Đối Tác Đặt Cược 2018-2019";
-"(ignore)license_partner_cooperation" = "Đối Tác Doanh Nghiệp 2018-2019";
-"(ignore)license_partner_soccerclub_suptitle" = "Società Sportiva Calcio Napoli";
-"(ignore)license_partner_soccerclub_title" = "Câu Lạc Bộ Bóng Đá Napoli";
-"(ignore)license_partner_soccerleague_suptitle" = "Liga Gaúcha de Futsal";
-"(ignore)license_partner_soccerleague_title" = "Giải Bóng Đá Trong Nhà Brazil";
+"license_businesspartner_title" = "Đối Tác Kinh Doanh";
+"license_ktoglobal" = "Tìm hiểu về Tập đoàn KTO";
+"license_ktoglobal_link" = "https://ktoglobal.com/";
+"license_partner_title_1" = "Câu Lạc Bộ Bóng Đá Inter Milan";
+"license_partner_description_1" = "Đối Tác Khu Vực Chính Thức 2022, 2023";
+"license_partner_title_2" = "Câu Lạc Bộ Bóng Đá RCD Espanyol";
+"license_partner_description_2" = "Đối Tác Châu Á Chính Thức 2021";
 
 //MARK: - (Deprecated)Landing
 

@@ -11,15 +11,10 @@ import RxCocoa
 import RxDataSources
 import SharedBu
 
-struct TermsOfService {
-    var title = ""
-    var content = ""
-    var selected = false
-}
-
 enum TermsType {
-    case termsOfService
+    case termsOfService(BarItemType)
     case promotionSecurityPrivacy
+    case gamblingResponsibility
 }
 
 class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate {
@@ -32,67 +27,26 @@ class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate 
     @IBOutlet private weak var naviItem: UINavigationItem!
     @IBOutlet private weak var constraintTableViewHeight : NSLayoutConstraint!
     
-    var termsType: TermsType = .termsOfService
+    var termsPresenter: TermsPresenter!
     
-    private let segueLanguage = "BackToLanguage"
     private var dataSourceTerms : [TermsOfService] = []
-    private var viewModel = DI.resolve(TermsViewModel.self)!
-    private var disposeBag = DisposeBag()
     
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        defaultStyle()
-        reloadTableView()
+        initUI()
     }
     
-    private func defaultStyle(){
+    private func initUI(){
         labDesc.textColor = UIColor.black_two
-    }
-    
-    private func reloadTableView() {
-        viewModel.initLocale()
-            .do(onCompleted: {[weak self] in
-                self?.tableView.addTopBorder(size: 1, color: UIColor.black)
-            }).subscribe {[weak self] in
-                guard let self = self else { return }
-                switch self.termsType {
-                case .termsOfService:
-                    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, leftItemTitle: Localize.string("common_service_terms"))
-                    self.createTermsOfService()
-                case .promotionSecurityPrivacy:
-                    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, leftItemTitle: Localize.string("common_privacy_terms"))
-                    self.createPromotionSecurityprivacy()
-                }
-            } onError: {[weak self] error in
-                self?.handleErrors(error)
-            }.disposed(by: disposeBag)
-    }
-    
-    private func createTerms(localization: ILocalizationData, key: String) -> String {
-        localization.data[key] ?? ""
-    }
-    
-    private func createTermsOfService() {
-        viewModel.createPromotionSecurityprivacy().subscribe {[weak self] data in
-            self?.dataSourceTerms = data
-            self?.dataSourceTerms.remove(at: 0)
-            self?.labDesc.text = data.first?.content
-            self?.reloadTableViewHeight()
-        } onError: {[weak self] error in
-            self?.handleErrors(error)
-        }.disposed(by: disposeBag)
-    }
-    
-    private func createPromotionSecurityprivacy() {
-        viewModel.getPrivacyTerms().subscribe {[weak self] data in
-            self?.dataSourceTerms = data
-            self?.dataSourceTerms.remove(at: 0)
-            self?.labDesc.text = data.first?.content
-            self?.reloadTableViewHeight()
-        } onError: {[weak self] error in
-            self?.handleErrors(error)
-        }.disposed(by: disposeBag)
+        tableView.addTopBorder(size: 0.5, color: UIColor.black)
+        let navigationTitle: String = termsPresenter.navigationTitle
+        let naviBarBtn: BarItemType = termsPresenter.barItemType
+        let description: String = termsPresenter.description
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: naviBarBtn, leftItemTitle: navigationTitle)
+        labDesc.text = description
+        dataSourceTerms = termsPresenter.dataSourceTerms
+        reloadTableViewHeight()
     }
     
     private func reloadTableViewHeight(){
@@ -100,16 +54,6 @@ class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate 
         tableView.reloadData()
         tableView.layoutIfNeeded()
         constraintTableViewHeight.constant = tableView.contentSize.height
-    }
-    
-    // MARK: BUTTON ACTION
-    @IBAction func btnBackPressed(_ sender : UIButton){
-        switch termsType {
-        case .termsOfService:
-            performSegue(withIdentifier: segueLanguage, sender: nil)
-        case .promotionSecurityPrivacy:
-            NavigationManagement.sharedInstance.popViewController()
-        }
     }
     
     override func abstracObserverUpdate() { }
@@ -123,7 +67,7 @@ extension TermsOfServiceViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = String(describing: TermsOfServiceCell.self)
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! TermsOfServiceCell
-        cell.setup(dataSourceTerms[indexPath.row])
+        cell.setup(dataSourceTerms[indexPath.row], isLatestRow: dataSourceTerms.count - 1 == indexPath.row)
         return cell
     }
 }

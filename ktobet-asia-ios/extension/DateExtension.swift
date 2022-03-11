@@ -169,6 +169,10 @@ extension Date {
         return pastSevenDate
     }
     
+    static func getMinimumAdultBirthday() -> Date {
+        Date().adding(value: -adultAge, byAdding: .year)
+    }
+    
     func convertToKotlinx_datetimeLocalDateTime() -> Kotlinx_datetimeLocalDateTime {
         return Kotlinx_datetimeLocalDateTime.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
     }
@@ -179,6 +183,21 @@ extension Date {
     
     static func - (lhs: Date, rhs: Date) -> TimeInterval {
         return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+    
+    func calculateAge(birthday: String) -> Int? {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "yyyy/MM/dd"
+        if let birthdayDate = dateFormater.date(from: birthday) {
+            let components = calendar.dateComponents([.year], from: birthdayDate, to: self)
+            return components.year
+        }
+        return nil
+    }
+    
+    func calculateAge(birthday: Date) -> Int? {
+        let components = calendar.dateComponents([.year], from: birthday, to: self)
+        return components.year
     }
 }
 

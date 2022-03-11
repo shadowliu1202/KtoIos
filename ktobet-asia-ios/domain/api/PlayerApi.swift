@@ -50,6 +50,15 @@ class PlayerApi: ApiService {
         return httpClient.request(target).map(ResponseData<ContactInfoBean>.self)
     }
     
+    func sendOldAccountOtp(accountType: Int) -> Single<NonNullResponseData<Nothing>> {
+        let target = APITarget(baseUrl: httpClient.baseUrl,
+                               path: "api/profile/verify-oldAccount",
+                               method: .post,
+                               task: .requestCompositeParameters(bodyParameters: [:], bodyEncoding: JSONEncoding.default, urlParameters: ["profileType": accountType]),
+                               header: httpClient.headers)
+        return httpClient.request(target).map(NonNullResponseData<Nothing>.self)
+    }
+    
     func setFavoriteProduct(productId: Int)->Completable{
         let target = APITarget(baseUrl: httpClient.baseUrl,
                                path: "api/profile/favorite-product/\(productId)",
@@ -134,7 +143,52 @@ class PlayerApi: ApiService {
         let target = GetAPITarget(service: self.url("api/init/player-affiliate-status"))
         return httpClient.request(target).map(NonNullResponseData<Int32>.self)
     }
+
+    func checkProfileToken() -> Single<NonNullResponseData<Bool>> {
+        let target = GetAPITarget(service: self.url("api/profile/check-token"))
+        return httpClient.request(target).map(NonNullResponseData<Bool>.self)
+    }
     
+    func getPlayerProfile() -> Single<ResponseData<ProfileBean>> {
+        let target = GetAPITarget(service: self.url("api/profile"))
+        return httpClient.request(target).map(ResponseData<ProfileBean>.self)
+    }
+    
+    func verifyPassword(_ request: RequestVerifyPassword) -> Single<ResponseData<Bool>> {
+        let target = PostAPITarget(service: self.url("api/auth/verify-password"), parameters: request)
+        return httpClient.request(target).map(ResponseData<Bool>.self)
+    }
+    
+    func resetPassword(_ request: RequestResetPassword) -> Single<NonNullResponseData<Bool>> {
+        let target = PostAPITarget(service: self.url("api/profile/reset-password"), parameters: request)
+        return httpClient.request(target).map(NonNullResponseData<Bool>.self)
+    }
+    
+    func setRealName(_ request: RequestSetRealName) -> Single<ResponseData<Nothing>> {
+        let target = PostAPITarget(service: self.url("api/profile/realname"), parameters: request)
+        return httpClient.request(target).map(ResponseData<Nothing>.self)
+    }
+    
+    func verifyChangeIdentityOtp(_ request: RequestVerifyOtp) -> Single<NonNullResponseData<Nothing>> {
+        let target = PostAPITarget(service: self.url("api/profile/verify-otp"), parameters: request)
+        return httpClient.request(target).map(NonNullResponseData<Nothing>.self)
+    }
+    
+    func resendOtp(_ type: Int) -> Single<ResponseData<Nothing>> {
+        let target = PostAPITarget(service: self.url("api/profile/resend-otp/\(type)"))
+        return httpClient.request(target).map(ResponseData<Nothing>.self)
+    }
+    
+    func setBirthDay(_ request: RequestChangeBirthDay) -> Completable {
+        let target = PostAPITarget(service: self.url("api/profile/birthday"), parameters: request)
+        return httpClient.request(target).asCompletable()
+    }
+
+    func bindIdentity(request: RequestChangeIdentity) -> Single<NonNullResponseData<Nothing>> {
+        let target = PostAPITarget(service: self.url("api/profile/bind"), parameters: request)
+        return httpClient.request(target).map(NonNullResponseData<Nothing>.self)
+    }
+
     // MARK: New
     func getCashLogSummary1(begin: String, end: String, balanceLogFilterType: Int) -> Single<String> {
         let target = APITarget(baseUrl: httpClient.baseUrl,

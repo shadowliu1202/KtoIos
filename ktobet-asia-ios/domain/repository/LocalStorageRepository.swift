@@ -67,6 +67,10 @@ class LocalStorageRepository: PlayerConfiguration {
     func getLocalCurrency() -> AccountCurrency {
         return FiatFactory.init().create(supportLocale: getSupportLocal(), amount_: "0")
     }
+    
+    func getLocale() -> Locale {
+        return Locale(identifier: getCultureCode())
+    }
 
     func setRememberMe(_ rememberMe: Bool?) {
         setUserDefaultValue(value: rememberMe, key: kRememberMe)

@@ -14,6 +14,7 @@ protocol GetSystemStatusUseCase {
     func observePortalMaintenanceState() -> Observable<MaintenanceStatus>
     func getCustomerServiceEmail() -> Single<String>
     func refreshMaintenanceState()
+    func getYearOfCopyRight() -> Single<String>
 }
 
 
@@ -40,4 +41,7 @@ class GetSystemStatusUseCaseImpl: GetSystemStatusUseCase {
         repoSystem.refreshPortalMaintenanceState()
     }
     
+    func getYearOfCopyRight() -> Single<String> {
+        repoSystem.getYearOfCopyRight()
+    }
 }

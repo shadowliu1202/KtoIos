@@ -23,6 +23,7 @@ protocol WithdrawalUseCase {
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable
     func deleteCryptoBankCard(id: String) -> Completable
     func getWithdrawalSystem() -> Single<WithdrawalSystem>
+    func isAnyTicketApplying() -> Single<Bool>
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
@@ -112,5 +113,9 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     
     func getWithdrawalSystem() -> Single<WithdrawalSystem> {
         return withdrawalRepository.getPlayerWithdrawalSystem()
+    }
+    
+    func isAnyTicketApplying() -> Single<Bool> {
+        return withdrawalRepository.getIsAnyTicketApplying()
     }
 }

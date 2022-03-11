@@ -257,7 +257,8 @@ class DIContainer {
         }
         ctner.register(ConfigurationUseCase.self) { (resolver) in
             let repo = ctner.resolve(PlayerRepository.self)!
-            return ConfigurationUseCaseImpl.init(repo)
+            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            return ConfigurationUseCaseImpl.init(repo, repoLocalStorage)
         }
         ctner.register(AuthenticationUseCase.self) { (resolver)  in
             let repoAuth = ctner.resolve(IAuthRepository.self)!
@@ -566,11 +567,23 @@ class DIContainer {
             return CustomerServiceHistoryViewModel(historyUseCase: ctner.resolve(ChatRoomHistoryUseCase.self)!)
         }
         ctner.register(TermsViewModel.self) { (resolver) in
-            return TermsViewModel(localizationPolicyUseCase: ctner.resolve(LocalizationPolicyUseCase.self)!)
+            let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
+            return TermsViewModel(localizationPolicyUseCase: ctner.resolve(LocalizationPolicyUseCase.self)!, systemStatusUseCase: systemUseCase)
         }
         ctner.register(ModifyProfileViewModel.self) { (resolver) in
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
-            return ModifyProfileViewModel(playerUseCase)
+            let usecaseConfiguration = ctner.resolve(ConfigurationUseCase.self)!
+            let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
+            let pattern = ctner.resolve(AccountPatternGenerator.self)!
+            return ModifyProfileViewModel(playerUseCase, usecaseConfiguration, withdrawalUseCase, pattern)
+        }
+        ctner.register(CommonOtpViewModel.self) { (resolver) in
+            let usecaseConfiguration = ctner.resolve(ConfigurationUseCase.self)!
+            return CommonOtpViewModel(usecaseConfiguration)
+        }
+        ctner.register(ConfigurationViewModel.self) { (resolver) in
+            let usecaseConfiguration = ctner.resolve(ConfigurationUseCase.self)!
+            return ConfigurationViewModel(usecaseConfiguration)
         }
     }
     

@@ -147,6 +147,11 @@ class BankApi: ApiService {
         return httpClient.request(target).map(ResponseData<CryptoDepositUrl>.self)
     }
     
+    func getIsAnyTicketApplying() -> Single<NonNullResponseData<Bool>> {
+        let target = GetAPITarget(service: self.url("\(prefixW)/is-apply"))
+        return httpClient.request(target).map(NonNullResponseData<Bool>.self)
+    }
+    
     // MARK: New
     func getDepositTypesString() -> Single<String> {
         let target = APITarget(baseUrl: httpClient.baseUrl,

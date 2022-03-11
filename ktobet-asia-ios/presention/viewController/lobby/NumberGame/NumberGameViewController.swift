@@ -51,7 +51,10 @@ class NumberGameViewController: DisplayProduct {
         viewModel.popularGames.subscribe {[weak self] (numberGames) in
             guard let self = self,
                   let urlStr = numberGames.first?.thumbnail.url(),
-                  let url = URL(string: urlStr) else { return }
+                  let url = URL(string: urlStr) else {
+                      self?.blurBackgroundViewHeight.constant = 20
+                      return
+                  }
             if self.datas.count == 0 && numberGames.count >= 3 {
                 self.addBlurBackgoundImageView(url: url)
                 self.pagerView.scrollToItem(at: 0, animate: false)
@@ -214,7 +217,7 @@ class NumberGameViewController: DisplayProduct {
             icon = UIImage(named: "remove-favorite")
         }
         
-        self.showToast(ToastPopUp(icon: icon!, text: text))
+        self.showToastOnCenter(ToastPopUp(icon: icon!, text: text))
     }
     
     // MARK: KVO

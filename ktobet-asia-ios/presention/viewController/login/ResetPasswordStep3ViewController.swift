@@ -71,7 +71,7 @@ class ResetPasswordStep3ViewController: LandingViewController {
         let type = ErrorType(rawValue: (error as NSError).code)
         switch type {
         case .PlayerChangePasswordFail:
-            performSegue(withIdentifier: SignupRegistFailViewController.segueIdentifier, sender: nil)
+            performSegue(withIdentifier: CommonFailViewController.segueIdentifier, sender: nil)
         default:
             viewStatusTip.show(on: self.view, statusTip: Localize.string("common_unknownerror"), img: UIImage(named: "Failed"))
         }
@@ -96,9 +96,9 @@ class ResetPasswordStep3ViewController: LandingViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == SignupRegistFailViewController.segueIdentifier {
-            if let dest = segue.destination as? SignupRegistFailViewController {
-                dest.failedType = .resetPassword
+        if segue.identifier == CommonFailViewController.segueIdentifier {
+            if let dest = segue.destination as? CommonFailViewController {
+                dest.commonFailedType = ResetPasswrodFailedType(barItems: [padding, customService])
             }
         }
     }

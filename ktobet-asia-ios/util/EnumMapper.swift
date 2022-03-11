@@ -75,4 +75,37 @@ class EnumMapper {
             throw KtoException.init(errorMsg: "Unknown type", errorCode: "")
         }
     }
+    
+    static func convert(accountType: Int) -> SharedBu.AccountType {
+        try! EnumMapper.convert(accountType: accountType).1
+    }
+    
+    static func convert(accountType: SharedBu.AccountType) -> Int {
+        try! EnumMapper.convert(accountType: accountType).0
+    }
+    
+    private static func convert(accountType: Any) throws -> (Int, SharedBu.AccountType) {
+        switch accountType {
+        case let type as SharedBu.AccountType:
+            switch type {
+            case .email:
+                return (1, .email)
+            case .phone:
+                return (2, .phone)
+            default:
+                throw KtoException.init(errorMsg: "Unknown type", errorCode: "")
+            }
+        case let i as Int:
+            switch i {
+            case 1:
+                return (1, .email)
+            case 2:
+                return (2, .phone)
+            default:
+                throw KtoException.init(errorMsg: "Unknown type", errorCode: "")
+            }
+        default:
+            throw KtoException.init(errorMsg: "Unknown type", errorCode: "")
+        }
+    }
 }

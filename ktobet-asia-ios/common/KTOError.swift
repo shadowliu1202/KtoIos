@@ -93,6 +93,6 @@ class LoginError : NSError{
 enum KTOError: Error {
     case EmptyData
 }
-
+extension ApiException: Error {}
 extension KtoException: Error {}
 class NoSuchElementException: KtoException {}

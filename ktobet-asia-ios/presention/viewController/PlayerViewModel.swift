@@ -45,3 +45,8 @@ class PlayerViewModel {
         authUsecase.isLogged()
     }
 }
+
+enum AuthenticationState {
+    case unauthenticated        // Initial state, the user needs to authenticate
+    case authenticated          // The user has authenticated successfully
+}

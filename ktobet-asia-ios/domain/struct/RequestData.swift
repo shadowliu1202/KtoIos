@@ -36,6 +36,22 @@ struct INewPasswordRequest : Encodable {
     var newPassword : String?
 }
 
+struct RequestVerifyPassword: Encodable {
+    var password: String
+}
+
+struct RequestResetPassword: Encodable {
+    var password: String
+}
+
+struct RequestSetRealName: Encodable {
+    var realName: String
+}
+
+struct RequestChangeBirthDay: Encodable {
+    var birthday: String
+}
+
 struct DepositOfflineBankAccountsRequest: Codable {
     let paymentTokenID, requestAmount, remitterAccountNumber, remitter: String
     let remitterBankName: String
@@ -207,4 +223,15 @@ struct DeleteCsRecords: Codable {
 
 struct CryptoDepositRequest: Codable {
     let cryptoCurrency: Int32
+}
+
+struct RequestVerifyOtp: Codable {
+    let verifyCode: String
+    let bindProfileType: Int
+    let isOldProfile: Bool
+}
+
+struct RequestChangeIdentity: Codable {
+    let account: String
+    let bindProfileType: Int
 }

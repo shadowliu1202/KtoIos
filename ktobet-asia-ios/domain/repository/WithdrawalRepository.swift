@@ -23,6 +23,7 @@ protocol WithdrawalRepository {
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable
     func deleteCryptoBankCard(id: String) -> Completable
     func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem>
+    func getIsAnyTicketApplying() -> Single<Bool>
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
@@ -237,5 +238,9 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem> {
         return Single.just(withdrawalSystem)
+    }
+    
+    func getIsAnyTicketApplying() -> Single<Bool> {
+        return bankApi.getIsAnyTicketApplying().map { $0.data }
     }
 }

@@ -142,6 +142,12 @@ class InputText : UIView {
     }
         
     // MARK: SETUP UI
+    @IBInspectable
+    public var titleLocalizeText: String? {
+        get { return labTitle.text }
+        set { labTitle.text = newValue == nil ? nil : Localize.string(newValue!) }
+    }
+
     func setTitle(_ title: String){
         labTitle.text = title
     }

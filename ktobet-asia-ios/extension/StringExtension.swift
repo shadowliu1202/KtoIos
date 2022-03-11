@@ -72,6 +72,13 @@ extension String {
         return (self as NSString).doubleValue
     }
     
+    func toDate(format: String, timeZone: TimeZone) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.timeZone = timeZone
+        return dateFormatter.date(from: self)
+    }
+    
     func toLocalDate(format: String = "yyyy-MM-dd") -> Kotlinx_datetimeLocalDate {
         var createDate = Date()
         if let date = self.convertLocalDateTime(format1: "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", format2: "yyyy-MM-dd'T'HH:mm:ssZ") {

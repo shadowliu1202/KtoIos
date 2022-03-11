@@ -13,6 +13,16 @@ protocol PlayerRepository {
     func getPlayerRealName() -> Single<String>
     func hasPlayerData() -> Single<Bool>
     func getAffiliateStatus() -> Single<AffiliateApplyStatus>
+    func checkProfileAuthorization() -> Single<Bool>
+    func getPlayerProfile() -> Single<PlayerProfile>
+    func verifyProfileAuthorization(password: String) -> Completable
+    func changePassword(password: String) -> Completable
+    func verifyOldAccount(_ verifyType: AccountType) -> Completable
+    func setWithdrawalName(name: String) -> Completable
+    func setBirthDay(birthDay: Date) -> Completable
+    func verifyChangeIdentityOtp(_ otp: String, _ accountType: AccountType, _ isOldProfile: Bool) -> Completable
+    func resendOtp(_ verifyType: AccountType) -> Completable
+    func setIdentity(_ identity: String, _ accountType: AccountType) -> Completable
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
@@ -126,6 +136,10 @@ class PlayerRepositoryImpl : PlayerRepository {
         }
     }
     
+    func verifyOldAccount(_ verifyType: AccountType) -> Completable {
+        playerApi.sendOldAccountOtp(accountType: verifyType.rawValue).asCompletable()
+    }
+    
     private func convert(levelBean: LevelBean) -> LevelOverview {
         let timestamp = levelBean.timestamp.convertDateTime() ?? Date()
         let timestampLocalDateTime = Kotlinx_datetimeLocalDateTime(year: timestamp.getYear(), monthNumber: timestamp.getMonth(), dayOfMonth: timestamp.getDayOfMonth(), hour: timestamp.getHour(), minute: timestamp.getMinute(), second: timestamp.getSecond(), nanosecond: timestamp.getNanosecond())
@@ -182,5 +196,108 @@ class PlayerRepositoryImpl : PlayerRepository {
     
     func getAffiliateStatus() -> Single<AffiliateApplyStatus> {
         return playerApi.getPlayerAffiliateStatus().map({AffiliateApplyStatus.companion.create(type: $0.data)})
+    }
+    
+    func checkProfileAuthorization() -> Single<Bool> {
+        return playerApi.checkProfileToken().map { $0.data }
+    }
+    
+    func getPlayerProfile() -> Single<PlayerProfile> {
+        return playerApi.getPlayerProfile().map { result in
+            if let data = result.data {
+                return PlayerProfile(data)
+            }
+            return PlayerProfile()
+        }
+    }
+    
+    func verifyProfileAuthorization(password: String) -> Completable {
+        return playerApi.verifyPassword(RequestVerifyPassword(password: password)).catchException(transferLogic: {
+            if case is PlayerPasswordFail = ExceptionFactory.create($0) {
+                return KtoPasswordVerifyFail()
+            }
+            return $0
+        }).asCompletable()
+    }
+    
+    func changePassword(password: String) -> Completable {
+        return playerApi.resetPassword(RequestResetPassword(password: password)).catchException(transferLogic: {
+            if case is PlayerPasswordRepeat = ExceptionFactory.create($0) {
+                return KtoPasswordRepeat()
+            }
+            return $0
+        }).asCompletable()
+    }
+    
+    func setWithdrawalName(name: String) -> Completable {
+        return playerApi.setRealName(RequestSetRealName(realName: name)).catchException(transferLogic: {
+            if case is PlayerProfileRealNameChangeForbidden = ExceptionFactory.create($0) {
+                return KtoRealNameEditForbidden()
+            }
+            return $0
+        }).asCompletable()
+    }
+    
+    func setBirthDay(birthDay: Date) -> Completable {
+        return playerApi.setBirthDay(RequestChangeBirthDay(birthday: birthDay.toDateString()))
+    }
+    
+    func verifyChangeIdentityOtp(_ otp: String, _ accountType: AccountType, _ isOldProfile: Bool) -> Completable {
+        playerApi.verifyChangeIdentityOtp(RequestVerifyOtp(verifyCode: otp, bindProfileType: accountType.rawValue, isOldProfile: isOldProfile)).asCompletable()
+    }
+    
+    func resendOtp(_ verifyType: AccountType) -> Completable {
+        playerApi.resendOtp(verifyType.rawValue).asCompletable()
+    }
+    
+    func setIdentity(_ identity: String, _ accountType: AccountType) -> Completable {
+        playerApi.bindIdentity(request: RequestChangeIdentity(account: identity, bindProfileType: accountType.rawValue)).asCompletable()
+    }
+}
+
+
+class EditableContent<T> {
+    var editable: Bool = true
+    var content: T
+    init(_ editable: Bool, _ content: T) {
+        self.editable = editable
+        self.content = content
+    }
+}
+
+enum Gender: Int {
+    case female, male, none
+}
+
+class PlayerProfile {
+    var gameId: String = ""
+    var loginId: EditableContent<String?> = EditableContent(false, nil)
+    var gender: Gender = .none
+    var birthDay: EditableContent<String?> = EditableContent(false, nil)
+    var mobile: EditableContent<String?> = EditableContent(false, nil)
+    var email: EditableContent<String?> = EditableContent(false, nil)
+    var realName: EditableContent<String?> = EditableContent(false, nil)
+    init() {}
+    init(_ data: ProfileBean) {
+        self.gameId = data.gameLoginId
+        self.loginId = EditableContent(data.editable.loginId, data.loginId)
+        if let gender = Gender.init(rawValue: data.gender) {
+            self.gender = gender
+        }
+        let birthDayString = convertDate(data.birthday)?.toDateString()
+        self.birthDay = EditableContent(data.editable.birthday, data.birthday != nil ?  birthDayString : nil)
+        self.mobile = EditableContent(data.editable.mobile, data.mobile)
+        self.email = EditableContent(data.editable.email, data.email)
+        self.realName = EditableContent(data.editable.realName, data.realName)
+    }
+    
+    private func convertDate(_ dateStr: String?) -> Date? {
+        guard let dateStr = dateStr else {
+            return nil
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        return dateFormatter.date(from: dateStr)
     }
 }

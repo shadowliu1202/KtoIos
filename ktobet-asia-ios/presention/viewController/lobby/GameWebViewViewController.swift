@@ -50,11 +50,13 @@ class GameWebViewViewController: UIViewController {
             webView.load(request)
         } onError: {[weak self] (error) in
             guard let viewModel = self?.viewModel, let self = self else { return }
-            self.handleErrors(error, ktoExceptions: GameUnderMaintenance.self) { exception in
+            self.handleErrors(error) { exception in
                 if exception is GameUnderMaintenance {
                     Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {
                         NavigationManagement.sharedInstance.goTo(productType: viewModel.getGameProductType())
                     }, cancel: nil)
+                } else {
+                    self.handleUnknownError(error)
                 }
             }
         }.disposed(by: disposeBag)

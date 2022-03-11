@@ -13,8 +13,8 @@ import Alamofire
 import Moya
 import SharedBu
 
-extension UIViewController {
-    func handleErrors(_ error: Error, ktoExceptions: ApiException.Type..., ktoExceptionsHandle: ((_ exception: ApiException) -> ())? = nil) {
+extension UIViewController{
+    @objc func handleErrors(_ error: Error, ktoExceptionsHandle: ((_ exception: ApiException) -> ())? = nil) {
         let exception = ExceptionFactory.create(error)
         if exception is ApiUnknownException {
             switch error {
@@ -28,11 +28,7 @@ extension UIViewController {
                 handleUnknownError(error)
             }
         } else {
-            if ktoExceptions.contains(where: { type(of: exception) == $0} ) {
-                ktoExceptionsHandle?(exception)
-            } else {
-                fatalError("This exception should be handle at \(type(of: self))")
-            }
+            ktoExceptionsHandle?(exception)
         }
     }
     
@@ -75,22 +71,17 @@ extension UIViewController {
             break
         }
     }
-
-    private func handleUnknownError(_ error: Error) {
+    
+    func handleUnknownError(_ error: Error) {
         let unknownErrorString = String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
         showAlertError(unknownErrorString)
     }
 
     private func handleHttpError(_ error: Error, response: Response) {
-        let viewModel = DI.resolve(PlayerViewModel.self)!
-        let disposeBag = DisposeBag()
         switch response.statusCode {
         case 401:
-            viewModel.logout()
-                .subscribeOn(MainScheduler.instance)
-                .subscribe(onCompleted: {
-                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
-            }).disposed(by: disposeBag)
+            print(error)
+            break
         case 403:
             showRestrictView()
         case 410:
@@ -167,8 +158,15 @@ extension UIViewController {
             activityIndicator.stopAnimating()
         }
     }
-
-    func showToast(_ popUp: ToastPopUp) {
+    
+    func showToastOnBottom(_ msg: String, img: UIImage?) {
+        if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
+            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: topVc.view.frame.width, height: 48))
+            toastView.show(on: topVc.view, statusTip: msg, img: img)
+        }
+    }
+    
+    func showToastOnCenter(_ popUp: ToastPopUp) {
         // Make suer there is no any toast showing on the screen
         self.hideToast()
 

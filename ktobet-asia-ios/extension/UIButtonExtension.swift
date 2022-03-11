@@ -24,6 +24,7 @@ extension UIButton {
         set {
             self.isEnabled = newValue
             self.alpha = newValue ? 1 : 0.3
+            self.titleLabel?.alpha = newValue ? 1 : 0.9
         }
     }
     

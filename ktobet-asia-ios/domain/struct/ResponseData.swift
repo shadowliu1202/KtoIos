@@ -132,6 +132,25 @@ struct IPlayer : Codable{
     var realName: String
 }
 
+struct ProfileBean: Codable {
+    var birthday: String?
+    var editable: Editable
+    var email: String?
+    var gameLoginId: String
+    var gender: Int
+    var loginId: String?
+    var mobile: String?
+    var realName: String
+}
+
+struct Editable: Codable {
+    var birthday: Bool
+    var email: Bool
+    var loginId: Bool
+    var mobile: Bool
+    var realName: Bool
+}
+
 struct ILocalizationData : Codable {
     var cultureCode: String
     var data: [String: String]
@@ -1911,17 +1930,6 @@ struct ChatHistories: Codable {
     }
 }
 
-//struct ChatHistoriesBean: Codable {
-//    let payload: [Payload]?
-//    let totalCount: Int
-//
-//    struct Payload: Codable {
-//        let roomHistories: [RoomHistory]
-//        let roomId: String
-//        let roomNo: String
-//    }
-//}
-
 struct ChatHistoryBean: Codable {
     let currencyCode: Int
     let roomHistories: [RoomHistory]
@@ -2001,12 +2009,12 @@ struct ProductStatusBean: Codable {
     
     func toMaintenanceStatus() -> MaintenanceStatus {
         MaintenanceStatus.Product(productsAvailable: productsAvailable.map{ ProductType.convert($0) },
-                                  status: [ProductType.numbergame: numberGameMaintenanceEndTime?.toOffsetDateTime(),
-                                           ProductType.sbk: sbkMaintenanceEndTime?.toOffsetDateTime(),
-                                           ProductType.slot: slotMaintenanceEndTime?.toOffsetDateTime(),
-                                           ProductType.casino: casinoMaintenanceEndTime?.toOffsetDateTime(),
-                                           ProductType.p2p: p2pMaintenanceEndTime?.toOffsetDateTime(),
-                                           ProductType.arcade: arcadeMaintenanceEndTime?.toOffsetDateTime()])
+                                  status: [ProductType.numbergame: numberGameMaintenanceEndTime?.toOffsetDateTime() as Any,
+                                           ProductType.sbk: sbkMaintenanceEndTime?.toOffsetDateTime() as Any,
+                                           ProductType.slot: slotMaintenanceEndTime?.toOffsetDateTime() as Any,
+                                           ProductType.casino: casinoMaintenanceEndTime?.toOffsetDateTime() as Any,
+                                           ProductType.p2p: p2pMaintenanceEndTime?.toOffsetDateTime() as Any,
+                                           ProductType.arcade: arcadeMaintenanceEndTime?.toOffsetDateTime() as Any])
     }
 }
 
