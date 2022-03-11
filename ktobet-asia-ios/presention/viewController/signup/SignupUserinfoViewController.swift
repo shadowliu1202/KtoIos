@@ -301,13 +301,6 @@ extension SignupUserinfoViewController{
             vcMail.account = account
             vcMail.password = password
         }
-        if let vcPhone = segue.destination as? SignupPhoneViewController,
-           let userInfo = sender as? [String : String],
-           let account = userInfo["account"]{
-            vcPhone.countryCode = countryCode
-            vcPhone.phoneNumber = account
-            vcPhone.locale = locale
-        }
     }
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {}
     @IBAction func backToUserInfo(segue : UIStoryboardSegue){}
@@ -331,42 +324,45 @@ extension SignupUserinfoViewController{
         } cancel: {}
     }
     
-    @IBAction func btnSubmitPressed(_ sender : Any){
-        
+    @IBAction func btnSubmitPressed(_ sender: Any) {
         viewModel.register()
             .subscribe(onSuccess: { [weak self] info in
-                guard let `self` = self else { return }
-                let segue : String = {
-                    switch info.type {
-                    case .email: return self.segueEmail
-                    case .phone: return self.seguePhone
+            guard let `self` = self else { return }
+            let para = ["account": info.account,
+                        "password": info.password]
+            switch info.type {
+            case .email: self.performSegue(withIdentifier: self.segueEmail, sender: para)
+            case .phone: self.navigateToPhoneVerifyPage(para["account"] ?? "")
+            }
+        }, onError: { [weak self] error in
+            let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
+            let message: String = {
+                switch type {
+                case .PlayerIpOverOtpDailyLimit: return Localize.string("common_email_otp_exeed_send_limit")
+                case .DBPlayerAlreadyExist:
+                    switch self?.viewModel.currentAccountType() {
+                    case .email: return Localize.string("common_error_email_verify")
+                    case .phone: return Localize.string("common_error_phone_verify")
+                    default: return ""
                     }
-                }()
-                let para = ["account" : info.account,
-                            "password" : info.password]
-                self.performSegue(withIdentifier: segue, sender: para)
-            }, onError: { [weak self] error in
-                let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
-                let message : String = {
-                    switch type {
-                    case .PlayerIpOverOtpDailyLimit: return Localize.string("common_email_otp_exeed_send_limit")
-                    case .DBPlayerAlreadyExist:
-                        switch self?.viewModel.currentAccountType(){
-                        case .email: return Localize.string("common_error_email_verify")
-                        case .phone: return Localize.string("common_error_phone_verify")
-                        default: return ""
-                        }
-                    case .PlayerOtpMailInactive, .PlayerOtpSmsInactive:
-                        self?.viewModel.refreshOtpStatus()
-                        return ""
-                    default: return String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
-                    }
-                }()
-                
-                if !message.isEmpty {
-                    self?.displayError(error: message)
+                case .PlayerOtpMailInactive, .PlayerOtpSmsInactive:
+                    self?.viewModel.refreshOtpStatus()
+                    return ""
+                default: return String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
                 }
-            }).disposed(by: disposeBag)
+            }()
+
+            if !message.isEmpty {
+                self?.displayError(error: message)
+            }
+        }).disposed(by: disposeBag)
+    }
+    
+    func navigateToPhoneVerifyPage(_ account: String) {
+        let commonVerifyOtpViewController = UIStoryboard(name: "Common", bundle: nil).instantiateViewController(withIdentifier: "CommonVerifyOtpViewController") as! CommonVerifyOtpViewController
+        let signupPhoneViewController = SignupPhoneViewController(phoneNumber: account, countryCode: countryCode)
+        commonVerifyOtpViewController.delegate = signupPhoneViewController
+        self.navigationController?.pushViewController(commonVerifyOtpViewController, animated: true)
     }
 }
 

@@ -76,7 +76,7 @@ class DepositGatewayViewController: APPViewController {
     }
     
     private func handleError(_ error: Error) {
-        self.handleErrors(error, ktoExceptions: PlayerDepositCountOverLimit.self) {[weak self] exception in
+        self.handleErrors(error) {[weak self] exception in
             if exception is PlayerDepositCountOverLimit {
                 self?.notifyTryLaterAndPopBack()
             }

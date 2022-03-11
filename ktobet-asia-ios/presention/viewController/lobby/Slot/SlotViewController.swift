@@ -176,7 +176,7 @@ class SlotViewController: AppVersionCheckViewController {
             icon = UIImage(named: "remove-favorite")
         }
         
-        self.showToast(ToastPopUp(icon: icon!, text: text))
+        self.showToastOnCenter(ToastPopUp(icon: icon!, text: text))
     }
 }
 

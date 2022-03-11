@@ -69,4 +69,9 @@ class PortalApi: ApiService {
         let target = GetAPITarget(service: self.url("api/crypto/exchange-tutorials"))
         return httpClient.request(target).map(ResponseData<[CryptoTutorialBean]>.self)
     }
+    
+    func getYearOfCopyRight() -> Single<NonNullResponseData<String>> {
+        let target = GetAPITarget(service: self.url("api/init/license"))
+        return httpClient.request(target).map(NonNullResponseData<String>.self)
+    }
 }

@@ -1,6 +1,7 @@
 import Foundation
 import SideMenu
 import SharedBu
+import UIKit
 
 let CUSTOM_NAVI_HEIGHT: CGFloat = 48.0
 let DEFAULT_NAVI_HEIGHT: CGFloat = 44.0
@@ -13,6 +14,7 @@ class NavigationManagement {
     private var menu: SideMenuNavigationController!
     
     var viewController: UIViewController!
+    var previousRootViewController: UIViewController?
     
     private init() { }
     
@@ -77,6 +79,13 @@ class NavigationManagement {
         }
         
         setRootViewController(storyboard: name, viewControllerId: viewControllerId)
+    }
+
+    func goToPreviousRootViewController() {
+        if let previous = previousRootViewController {
+            self.viewController = previous
+            UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = previousRootViewController
+        }
     }
     
     func goTo(productType: ProductType?, isMaintenance: Bool = false) {

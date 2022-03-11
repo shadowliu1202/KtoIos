@@ -40,7 +40,7 @@ class ProductGameDataSourceDelegate : NSObject {
             text = Localize.string("product_remove_favorite")
             icon = UIImage(named: "remove-favorite")
         }
-        self.vc?.showToast(ToastPopUp(icon: icon!, text: text))
+        self.vc?.showToastOnCenter(ToastPopUp(icon: icon!, text: text))
     }
     
     @objc func lookMore() {

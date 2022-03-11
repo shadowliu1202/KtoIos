@@ -4,12 +4,16 @@ import SharedBu
 
 
 class TermsViewModel {
-    private var localizationPolicyUseCase : LocalizationPolicyUseCase!
+    private var localizationPolicyUseCase: LocalizationPolicyUseCase!
+    private var systemStatusUseCase: GetSystemStatusUseCase
 //    lazy var cryptoGuidance: Single<CryptoGuidance> = localizationPolicyUseCase.getCryptoGuidance()
     lazy var cryptoGuidance = localizationPolicyUseCase.getCryptoGuidance()
+    lazy var yearOfCopyRight = systemStatusUseCase.getYearOfCopyRight()
+    lazy var getCustomerServiceEmail = systemStatusUseCase.getCustomerServiceEmail()
     
-    init(localizationPolicyUseCase: LocalizationPolicyUseCase) {
+    init(localizationPolicyUseCase: LocalizationPolicyUseCase, systemStatusUseCase: GetSystemStatusUseCase) {
         self.localizationPolicyUseCase = localizationPolicyUseCase
+        self.systemStatusUseCase = systemStatusUseCase
     }
     
     func createPromotionSecurityprivacy() -> Single<[TermsOfService]> {

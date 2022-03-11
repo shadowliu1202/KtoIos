@@ -15,6 +15,7 @@ protocol SystemRepository {
     func observePortalMaintenanceState() -> Observable<MaintenanceStatus>
     func getCustomerService() -> Single<String>
     func refreshPortalMaintenanceState()
+    func getYearOfCopyRight() -> Single<String>
 }
 
 class SystemRepositoryImpl : SystemRepository{
@@ -85,6 +86,10 @@ class SystemRepositoryImpl : SystemRepository{
     private func maintainCsEmail() -> String {
         HttpClient().getCookies().first(where: { $0.name == csMailCookieName })?.value ?? ""
     }
+    
+    func getYearOfCopyRight() -> Single<String> {
+        portalApi.getYearOfCopyRight().map({$0.data})
+    }
 }
 
 
@@ -99,6 +104,13 @@ extension Error {
             }
         }
 
+        return false
+    }
+    
+    func isUnauthorized() -> Bool {
+        if let error = (self as? MoyaError), case let .statusCode(response) = error {
+            return response.statusCode == 401
+        }
         return false
     }
 }

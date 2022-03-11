@@ -17,6 +17,7 @@ class TermsOfServiceCell: UITableViewCell {
     @IBOutlet weak var constraintContentTop : NSLayoutConstraint!
     @IBOutlet weak var constraintContentBottom : NSLayoutConstraint!
     @IBOutlet weak var constraintUnderLineHeight: NSLayoutConstraint!
+    @IBOutlet weak var bottomLineView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,15 +32,16 @@ class TermsOfServiceCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setup(_ data: TermsOfService)  {
+    func setup(_ data: TermsOfService, isLatestRow: Bool)  {
         labTitle.text = data.title
         labTitleContent.text = data.selected ? data.title : ""
-        labContent.attributedText = data.selected ? data.content.htmlToAttributedString : NSAttributedString.init(string: "")
-        iconArrowImage.image = data.selected ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
-        constraintTitleContentTop.constant = data.selected ? 12 : 0
-        constraintContentTop.constant = data.selected ? 12 : 0
-        constraintContentBottom.constant = data.selected ? 12 : 0
-        constraintUnderLineHeight.constant = data.selected ? 1 : 0
+        labContent.text = data.selected ? data.content : ""
+        iconArrowImage.image = data.selected ? UIImage(named: "termsArrowUp") : UIImage(named: "termsArrowDown")
+        constraintTitleContentTop.constant = data.selected ? 8 : 0
+        constraintContentTop.constant = data.selected ? 16 : 0
+        constraintContentBottom.constant = data.selected ? 32 : 0
+        constraintUnderLineHeight.constant = data.selected ? 0.5 : 0
+        bottomLineView.isHidden = data.selected && isLatestRow
     }
 
 }

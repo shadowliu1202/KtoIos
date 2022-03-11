@@ -37,6 +37,9 @@ extension UIColor {
     @nonobjc class var yellowFull: UIColor {
         return UIColor(red: 1.0, green: 213.0 / 255.0, blue: 0.0, alpha: 1.0)
     }
+    @nonobjc class var complementary: UIColor {
+        return UIColor(red: 254/255, green: 213/255, blue: 0/255, alpha: 1)
+    }
     @nonobjc class var orangeFull: UIColor {
         return UIColor(red: 1.0, green: 128.0 / 255.0, blue: 0.0, alpha: 1.0)
     }

@@ -99,8 +99,13 @@ class WithdrawalCryptoVerifyViewController: APPViewController {
         btnSubmit.rx.tap.subscribe {[weak self] _ in
             guard let self = self else { return }
             guard let bankCardId = self.cryptoBankCard?.bankCard.id_ ?? self.playerCryptoBankCardId else { return }
-            self.viewModel.verify(playerCryptoBankCardId: bankCardId).subscribe(onCompleted: {[weak self] in
-                self?.performSegue(withIdentifier: WithdrawalOTPVerifyViewController.segueIdentifier, sender: nil)
+            self.viewModel.verify(playerCryptoBankCardId: bankCardId).subscribe(onCompleted: {
+                switch self.viewModel.relayAccountType.value {
+                case .phone:
+                    self.navigateToPhoneOtpPage()
+                case .email:
+                    self.navigateToEmailOtpPage()
+                }
             }, onError: {[weak self] (error) in
                 let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
                 switch type {
@@ -113,16 +118,22 @@ class WithdrawalCryptoVerifyViewController: APPViewController {
         }.disposed(by: disposeBag)
     }
     
-    @objc func close() {
-        self.performSegue(withIdentifier: WithdrawlLandingViewController.unwindSegue, sender: nil)
+    private func navigateToPhoneOtpPage() {
+        let commonVerifyOtpViewController = UIStoryboard(name: "Common", bundle: nil).instantiateViewController(withIdentifier: "CommonVerifyOtpViewController") as! CommonVerifyOtpViewController
+        let cryptoVerifyMobileViewController = CryptoVerifyMobileViewController(identity: viewModel.relayMobile.value)
+        commonVerifyOtpViewController.delegate = cryptoVerifyMobileViewController
+        NavigationManagement.sharedInstance.pushViewController(vc: commonVerifyOtpViewController)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == WithdrawalOTPVerifyViewController.segueIdentifier {
-            if let dest = segue.destination as? WithdrawalOTPVerifyViewController {
-                dest.viewModel = viewModel
-            }
-        }
+    private func navigateToEmailOtpPage() {
+        let commonVerifyOtpViewController = UIStoryboard(name: "Common", bundle: nil).instantiateViewController(withIdentifier: "CommonVerifyOtpViewController") as! CommonVerifyOtpViewController
+        let cryptoVerifyEmailViewController = CryptoVerifyEmailViewController(identity: viewModel.relayEmail.value)
+        commonVerifyOtpViewController.delegate = cryptoVerifyEmailViewController
+        NavigationManagement.sharedInstance.pushViewController(vc: commonVerifyOtpViewController)
+    }
+    
+    @objc func close() {
+        self.performSegue(withIdentifier: WithdrawlLandingViewController.unwindSegue, sender: nil)
     }
     
     private func showToastAlertFailed() {

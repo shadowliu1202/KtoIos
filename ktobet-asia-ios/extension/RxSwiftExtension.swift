@@ -4,6 +4,13 @@ import RxCocoa
 import SwiftyJSON
 
 extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait {
+    public func catchException(transferLogic: @escaping (Error) -> Error) -> PrimitiveSequence<Trait, Element> {
+        let handler: (Swift.Error) throws -> PrimitiveSequence<Trait, Element> = { (error) in
+            let e = transferLogic(error)
+            return Single.error(e)
+        }
+        return catchError(handler)
+    }
     public func catchException() -> PrimitiveSequence<Trait, Element> {
         let handler: (Swift.Error) throws -> PrimitiveSequence<Trait, Element> = { (error) in
             return Single.error(ExceptionFactory.toKtoException(error))

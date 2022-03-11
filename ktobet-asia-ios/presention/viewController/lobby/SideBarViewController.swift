@@ -339,8 +339,29 @@ class SideBarViewController: UIViewController {
     }
     
     @objc func accountTap(_ sender: UITapGestureRecognizer) {
-        cleanProductSelected()
-        NavigationManagement.sharedInstance.goTo(storyboard: "AccountInfo", viewControllerId: "AccountInfoNavigationController")
+        let rootVC = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController
+        NavigationManagement.sharedInstance.previousRootViewController = rootVC
+        navigateToAuthorization()
+    }
+    
+    private func navigateToProfile() {
+        NavigationManagement.sharedInstance.goTo(storyboard: "Profile", viewControllerId: "ProfileNavigationController")
+    }
+
+    static func showAuthorizationPage() {
+        SideBarViewController().navigateToAuthorization()
+    }
+    
+    private func navigateToAuthorization() {
+        navigationController?.dismiss(animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
+        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation") as! UINavigationController
+        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        let vc = navi.viewControllers.first as? AuthProfileModificationViewController
+        vc?.didAuthenticated = { [weak self] in
+            self?.cleanProductSelected()
+        }
+        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
     }
     
     @objc func accountLevelTap(_ sender: UITapGestureRecognizer) {

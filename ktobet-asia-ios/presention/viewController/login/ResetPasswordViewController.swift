@@ -196,12 +196,11 @@ class ResetPasswordViewController: LandingViewController {
         Alert.show(Localize.string("common_tip_title_warm"), message, confirm: nil, cancel: nil, tintColor: UIColor.red)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ResetPasswordStep2ViewController.segueIdentifier {
-            if let dest = segue.destination as? ResetPasswordStep2ViewController {
-                dest.viewModel = viewModel
-            }
-        }
+    private func navigateToStep2() {
+        let commonVerifyOtpViewController = UIStoryboard(name: "Common", bundle: nil).instantiateViewController(withIdentifier: "CommonVerifyOtpViewController") as! CommonVerifyOtpViewController
+        let resetPasswordStep2ViewController = ResetPasswordStep2ViewController(identity: viewModel.getAccount(), accountType: viewModel.currentAccountType())
+        commonVerifyOtpViewController.delegate = resetPasswordStep2ViewController
+        self.navigationController?.pushViewController(commonVerifyOtpViewController, animated: true)
     }
     
     override func abstracObserverUpdate() {
@@ -222,7 +221,7 @@ extension ResetPasswordViewController {
     @IBAction func btnResetPasswordPressed(_ sender : Any) {
         viewModel.requestPasswordReset().subscribe { [weak self] in
             self?.viewModel.retryCount = 0
-            self?.performSegue(withIdentifier: "toStep2Segue", sender: nil)
+            self?.navigateToStep2()
         } onError: { [weak self] (error) in
             self?.viewModel.retryCount += 1
             self?.handleError(error)

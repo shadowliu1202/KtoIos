@@ -64,6 +64,9 @@ end
 
 post_install do |installer|
       installer.pods_project.build_configurations.each do |config|
+        config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
         config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+        config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
+        config.build_settings['SWIFT_SUPPRESS_WARNINGS'] = "YES"
       end
 end

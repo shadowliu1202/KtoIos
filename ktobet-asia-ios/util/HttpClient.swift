@@ -52,6 +52,7 @@ class HttpClient {
         }()
         return header
     }
+    
     private var retrier = APIRequestRetrier()
     private(set) var debugDatas: [DebugData] = []
     private var dateFormatter: DateFormatter {

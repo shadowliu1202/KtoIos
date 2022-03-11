@@ -6,9 +6,7 @@ import SharedBu
 
 class ResetPasswordViewModel {
     static let accountRetryLimit = 11
-    static let otpRetryLimit = 6
     static let retryCountDownTime = 60
-    static let resetPasswordStep2CountDownSecond: Double = 600
     private var resetUseCase : ResetPasswordUseCase!
     private var systemUseCase : GetSystemStatusUseCase!
     private var phoneEdited = false
@@ -45,12 +43,6 @@ class ResetPasswordViewModel {
             resetUseCase.setCountDownEndTime(date: newValue)
         }
     }
-    var code1 = BehaviorRelay(value: "")
-    var code2 = BehaviorRelay(value: "")
-    var code3 = BehaviorRelay(value: "")
-    var code4 = BehaviorRelay(value: "")
-    var code5 = BehaviorRelay(value: "")
-    var code6 = BehaviorRelay(value: "")
     
     private var otpStatusRefreshSubject = PublishSubject<()>()
     private let otpStatus: ReplaySubject<OtpStatus> = .create(bufferSize: 1)
@@ -165,21 +157,8 @@ class ResetPasswordViewModel {
         return relayAccountType.value == .phone ? relayMobile.value : relayEmail.value
     }
     
-    func checkCodeValid()-> Observable<Bool>{
-        return Observable
-            .combineLatest(code1, code2, code3, code4, code5, code6)
-            .map { (code1, code2, code3, code4, code5, code6) -> Bool in
-                return code1.count == 1 && code2.count == 1 && code3.count == 1 && code4.count == 1 && code5.count == 1 && code6.count == 1
-            }
-    }
-    
-    func verifyResetOtp() -> Completable {
-        var code = ""
-        for c in [code1, code2, code3, code4, code5, code6]{
-            code += c.value
-        }
-        
-        return resetUseCase.verifyResetOtp(otp: code)
+    func verifyResetOtp(otpCode: String) -> Completable {
+        return resetUseCase.verifyResetOtp(otp: otpCode)
     }
     
     func resendOtp() -> Completable {
