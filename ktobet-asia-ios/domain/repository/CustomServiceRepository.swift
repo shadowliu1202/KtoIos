@@ -121,9 +121,9 @@ extension CustomServiceRepositoryImpl: CustomerInfraService {
     }
     
     func queryChatHistory(page: Int, pageSize: Int = 20) -> Single<(TotalCount, [ChatHistory])> {
-        apiCustomService.getPlayerChatHistory(pageIndex: page, pageSize: pageSize).map({
+        apiCustomService.getPlayerChatHistory(pageIndex: page, pageSize: pageSize).map({ [unowned self] in
             guard let data = $0.data else { return (0, []) }
-            let histories = data.payload.map({ $0.toChatHistory() })
+            let histories = data.payload.map({ $0.toChatHistory(timeZone: self.playerConfig.localeTimeZone()) })
             return (data.totalCount, histories)
         })
     }
@@ -148,6 +148,7 @@ protocol CustomServiceRepository {
 
 class CustomServiceRepositoryImpl : CustomServiceRepository {
     private var apiCustomService : CustomServiceApi!
+    private var playerConfig: PlayerConfiguration
     private var portalChatRoom: PortalChatRoom? = nil {
         didSet {
             if let room = portalChatRoom {
@@ -160,8 +161,9 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
     private var chatRoomClient: ChatRoomSignalRClient? = nil
     private var chatRoomSubject = BehaviorSubject<PortalChatRoom>(value: CustomServiceRepositoryImpl.PortalChatRoomNoExist)
     
-    init(_ apiCustomService : CustomServiceApi) {
+    init(_ apiCustomService : CustomServiceApi, _ playerConfig: PlayerConfiguration) {
         self.apiCustomService = apiCustomService
+        self.playerConfig = playerConfig
     }
     
     func getBelongedSkillId(platform: Int) -> Single<String> {

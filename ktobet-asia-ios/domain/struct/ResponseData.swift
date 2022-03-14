@@ -1924,8 +1924,11 @@ struct ChatHistories: Codable {
         let roomId: String
         let title: String?
         
-        func toChatHistory() -> ChatHistory {
-            return ChatHistory(createDate: createdDate.toLocalDateTime(), title: title ?? "", roomId: roomId)
+        func toChatHistory(timeZone: TimeZone) -> ChatHistory {
+            let offsetSeconds = timeZone.secondsFromGMT()
+            let date = createdDate.convertDateTime() ?? Date()
+            let dateAfterOffset = date.addingTimeInterval(TimeInterval(offsetSeconds))
+            return ChatHistory(createDate: dateAfterOffset.convertToKotlinx_datetimeLocalDateTime(), title: title ?? "", roomId: roomId)
         }
     }
 }

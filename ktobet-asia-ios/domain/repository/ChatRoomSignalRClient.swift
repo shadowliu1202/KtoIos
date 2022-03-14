@@ -55,7 +55,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: [InProcessBean]!
         let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/in-process")!
-        let urlSession = URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(), delegateQueue: nil)
+        let urlSession = generateUrlSession()
         let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<[InProcessBean]>.self, from: data).data
@@ -139,7 +139,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: Int32?
         let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/queue-number")!
-        let urlSession = URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(), delegateQueue: nil)
+        let urlSession = generateUrlSession()
         let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<Int32>.self, from: data).data
@@ -158,7 +158,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: PlayerInChatBean?
         let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/player/in-chat")!
-        let urlSession = URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(), delegateQueue: nil)
+        let urlSession = generateUrlSession()
         let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<PlayerInChatBean>.self, from: data).data
@@ -170,6 +170,14 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.wait()
         
         return decodedObject
+    }
+    
+    private func generateUrlSession() -> URLSession {
+        if Configuration.disableSSL {
+            return URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(), delegateQueue: nil)
+        } else {
+            return URLSession.shared
+        }
     }
     
     private func subscribeHub() {
