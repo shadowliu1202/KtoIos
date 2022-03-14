@@ -16,7 +16,7 @@ class DepositThirdPartWebViewController: APPViewController {
         for cookie in HttpClient().getCookies() {
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
         }
-        let MockWebViewUserAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
+        let MockWebViewUserAgent = Configuration.getKtoAgent()
         webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1 \(MockWebViewUserAgent)"
         
         if let urlString = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let urlHost = URL(string: urlString) {

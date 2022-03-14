@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 ///reference: https://cocoacasts.com/tips-and-tricks-managing-build-configurations-in-xocde
 enum Configuration: String {
@@ -33,6 +34,12 @@ enum Configuration: String {
     static var manualUpdate: Bool   = env.manualUpdate
     static var debugGesture: Bool   = env.debugGesture
     static var affiliateUrl: URL    = URL(string: "\(host)affiliate")!
+    
+    
+    static func getKtoAgent() -> String {
+        let userAgent = "kto-app-ios/app-iphone/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
+        return userAgent
+    }
 }
 
 protocol Env {

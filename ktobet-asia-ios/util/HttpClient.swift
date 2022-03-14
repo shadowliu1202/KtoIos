@@ -42,7 +42,7 @@ class HttpClient {
         var header : [String : String] = [:]
         //headers.add(name: "Accept-Charset", value: "UTF-8")
         header["Accept"] = "application/json"
-        header["User-Agent"] = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
+        header["User-Agent"] = "AppleWebKit/" + Configuration.getKtoAgent()
         header["Cookie"] = {
             var token : [String] = []
             for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: baseUrl) ?? []  {

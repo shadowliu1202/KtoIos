@@ -27,7 +27,7 @@ class GameWebViewViewController: UIViewController {
         let wkWebConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: self.view.bounds, configuration: wkWebConfig)
         if let defaultAgent = WKWebView().value(forKey: "userAgent") {
-            let MockWebViewUserAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
+            let MockWebViewUserAgent = Configuration.getKtoAgent()
             webView.customUserAgent = "\(defaultAgent) Safari/604.1 \(MockWebViewUserAgent)"
         }
         self.view.addSubview(webView, constraints: .fill())
