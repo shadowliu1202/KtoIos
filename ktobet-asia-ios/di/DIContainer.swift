@@ -134,7 +134,8 @@ class DIContainer {
         }
         ctner.register(CustomServiceRepository.self) { (resolver) in
             let csApi = ctner.resolve(CustomServiceApi.self)!
-            return CustomServiceRepositoryImpl(csApi)
+            let local = ctner.resolve(PlayerConfiguration.self)!
+            return CustomServiceRepositoryImpl(csApi, local)
         }
         ctner.register(IAuthRepository.self) { resolver in
             let api = ctner.resolve(AuthenticationApi.self)!
@@ -227,11 +228,13 @@ class DIContainer {
         }
         ctner.register(SurveyInfraService.self) { (resolver) in
             let csApi = ctner.resolve(CustomServiceApi.self)!
-            return CustomServiceRepositoryImpl(csApi)
+            let local = ctner.resolve(PlayerConfiguration.self)!
+            return CustomServiceRepositoryImpl(csApi, local)
         }
         ctner.register(CustomerInfraService.self) { (resolver) in
             let csApi = ctner.resolve(CustomServiceApi.self)!
-            return CustomServiceRepositoryImpl(csApi)
+            let local = ctner.resolve(PlayerConfiguration.self)!
+            return CustomServiceRepositoryImpl(csApi, local)
         }
         ctner.register(AccountPatternGenerator.self) { resolver in
             let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
