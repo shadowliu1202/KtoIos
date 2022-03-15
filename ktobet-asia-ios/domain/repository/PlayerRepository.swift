@@ -213,7 +213,7 @@ class PlayerRepositoryImpl : PlayerRepository {
     
     func verifyProfileAuthorization(password: String) -> Completable {
         return playerApi.verifyPassword(RequestVerifyPassword(password: password)).catchException(transferLogic: {
-            if case is PlayerPasswordFail = ExceptionFactory.create($0) {
+            if $0 is PlayerPasswordFail {
                 return KtoPasswordVerifyFail()
             }
             return $0
@@ -222,7 +222,7 @@ class PlayerRepositoryImpl : PlayerRepository {
     
     func changePassword(password: String) -> Completable {
         return playerApi.resetPassword(RequestResetPassword(password: password)).catchException(transferLogic: {
-            if case is PlayerPasswordRepeat = ExceptionFactory.create($0) {
+            if $0 is PlayerPasswordRepeat {
                 return KtoPasswordRepeat()
             }
             return $0
@@ -231,7 +231,7 @@ class PlayerRepositoryImpl : PlayerRepository {
     
     func setWithdrawalName(name: String) -> Completable {
         return playerApi.setRealName(RequestSetRealName(realName: name)).catchException(transferLogic: {
-            if case is PlayerProfileRealNameChangeForbidden = ExceptionFactory.create($0) {
+            if $0 is PlayerProfileRealNameChangeForbidden {
                 return KtoRealNameEditForbidden()
             }
             return $0
@@ -251,7 +251,21 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
     
     func setIdentity(_ identity: String, _ accountType: AccountType) -> Completable {
-        playerApi.bindIdentity(request: RequestChangeIdentity(account: identity, bindProfileType: accountType.rawValue)).asCompletable()
+        playerApi.bindIdentity(request: RequestChangeIdentity(account: identity, bindProfileType: accountType.rawValue)).catchException(transferLogic: {
+            switch $0 {
+            case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:
+                return KtoOtpMaintenance()
+            case is PlayerProfileInvalidInput, is PlayerProfileValidateFail, is PlayerProfileAlreadyExist:
+                let exception = $0 as! ApiException
+                return UnhandledException(message: exception.message, errorCode: exception.errorCode)
+            case is PlayerProfileOldAccountVerifyFail:
+                return KtoOldProfileValidateFail()
+            case is PlayerIdOverOtpLimit, is PlayerIpOverOtpDailyLimit, is PlayerResentOtpOverTenTimes, is PlayerResentOtpLessResendTime:
+                return KtoPlayerOverOtpDailySendLimit()
+            default:
+                return $0
+            }
+        }).asCompletable()
     }
 }
 

@@ -48,17 +48,8 @@ class GameWebViewViewController: UIViewController {
             guard let url = url else { return }
             let request = URLRequest(url: url)
             webView.load(request)
-        } onError: {[weak self] (error) in
-            guard let viewModel = self?.viewModel, let self = self else { return }
-            self.handleErrors(error) { exception in
-                if exception is GameUnderMaintenance {
-                    Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {
-                        NavigationManagement.sharedInstance.goTo(productType: viewModel.getGameProductType())
-                    }, cancel: nil)
-                } else {
-                    self.handleUnknownError(error)
-                }
-            }
+        } onError: { [weak self] in
+            self?.handleErrors($0)
         }.disposed(by: disposeBag)
     }
     
@@ -73,6 +64,17 @@ class GameWebViewViewController: UIViewController {
     
     deinit {
         print("\(type(of: self)) deinit")
+    }
+    
+    override func handleErrors(_ error: Error) {
+        if error is KtoGameUnderMaintenance {
+            let productType = viewModel?.getGameProductType()
+            Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {
+                NavigationManagement.sharedInstance.goTo(productType: productType)
+            }, cancel: nil)
+        } else {
+            super.handleErrors(error)
+        }
     }
 }
 

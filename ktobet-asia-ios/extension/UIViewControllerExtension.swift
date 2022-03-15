@@ -14,9 +14,8 @@ import Moya
 import SharedBu
 
 extension UIViewController{
-    @objc func handleErrors(_ error: Error, ktoExceptionsHandle: ((_ exception: ApiException) -> ())? = nil) {
-        let exception = ExceptionFactory.create(error)
-        if exception is ApiUnknownException {
+    @objc func handleErrors(_ error: Error) {
+        if error is ApiUnknownException {
             switch error {
             case let moyaError as MoyaError:
                 handleMoyaError(moyaError)
@@ -28,7 +27,7 @@ extension UIViewController{
                 handleUnknownError(error)
             }
         } else {
-            ktoExceptionsHandle?(exception)
+            handleUnknownError(error)
         }
     }
     
@@ -72,7 +71,7 @@ extension UIViewController{
         }
     }
     
-    func handleUnknownError(_ error: Error) {
+    private func handleUnknownError(_ error: Error) {
         let unknownErrorString = String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
         showAlertError(unknownErrorString)
     }
