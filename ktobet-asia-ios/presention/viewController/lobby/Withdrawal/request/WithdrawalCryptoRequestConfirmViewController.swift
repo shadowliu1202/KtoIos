@@ -95,13 +95,23 @@ class WithdrawalCryptoRequestConfirmViewController: APPViewController {
         if error is KtoRequestCryptoRateChange {
             self.delegate?.rateDidChange()
             self.notifyRateChanged()
+        } else if error is KtoPlayerWithdrawalDefective {
+            notifyRequestFailureThenExit()
         } else {
             handleErrors(error)
         }
     }
     
     private func notifyRateChanged() {
-        Alert.show(Localize.string("cps_rate_changed"), Localize.string("cps_please_refill_amounts"), confirm: {
+        displayAlert(Localize.string("cps_rate_changed"), Localize.string("cps_please_refill_amounts"))
+    }
+    
+    private func notifyRequestFailureThenExit() {
+        displayAlert(nil, Localize.string("withdrawal_fail"))
+    }
+    
+    private func displayAlert(_ title: String?, _ message: String) {
+        Alert.show(title, message, confirm: {
             NavigationManagement.sharedInstance.back()
         }, cancel: nil)
     }
