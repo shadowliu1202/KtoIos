@@ -60,7 +60,7 @@ class TransactionLogApi: ApiService {
     }
     
     func getBalanceLogDetailRemark(externalId: String) -> Single<ResponseData<BalanceLogDetailRemarkBean>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/product/remark-detail/\(externalId)"))
+        let target = GetAPITarget(service: self.url("\(prefix)/product/remark-detail/")).parameters(["externalId": externalId])
         return httpClient.request(target).map(ResponseData<BalanceLogDetailRemarkBean>.self)
     }
     
