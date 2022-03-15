@@ -6,7 +6,8 @@ import SharedBu
 class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChanged {
     static let segueIdentifier = "toWithdrawalCryptoRequest"
     var bankcardId: String?
-    var supportCryptoType: SupportCryptoType?
+    var supportCryptoType: SupportCryptoType!
+    var cryptoNewrok: CryptoNetwork!
     @IBOutlet private weak var withdrawalStep1TitleLabel: UILabel!
     @IBOutlet private weak var withdrawalTitleLabel: UILabel!
     @IBOutlet weak var exchangeRateView: ExchangeRateView!
@@ -47,7 +48,8 @@ class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChange
         cryptoView = exchangeInput.cryptoView
         fiatView = exchangeInput.fiatView
         let stream = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
-            return Observable.combineLatest(viewModel.getWithdrawalLimitation().asObservable(), viewModel.getBalance().asObservable(), viewModel.cryptoCurrency(cryptoCurrency: cryptoType).asObservable())
+            return Observable.combineLatest(viewModel.getCryptoWithdrawalLimits(cryptoType, cryptoNewrok).asObservable(),
+                                            viewModel.getBalance().asObservable(), viewModel.cryptoCurrency(cryptoCurrency: cryptoType).asObservable())
         }).share()
         setupExchangeUI(stream)
         setupWithdrawalAmountRange(stream)
@@ -58,7 +60,7 @@ class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChange
     private func setupExchangeUI(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
         stream.subscribe(onNext: { [weak self] (_, _, cryptoExchangeRate) in
             guard let `self` = self else {return}
-            self.exchangeRateView.setup(self.cryptoType, cryptoExchangeRate, self.fiat)
+            self.exchangeRateView.setup(self.cryptoType, cryptoExchangeRate, self.fiat, self.cryptoNewrok.name)
             self.exchangeInput.setup(self.cryptoType, 0.toCryptoCurrency(self.cryptoType), self.fiat, exchangeRate: cryptoExchangeRate)
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)
@@ -243,6 +245,7 @@ class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChange
 class ExchangeRateView: UIView {
     @IBOutlet private weak var cryptoIcon: UIImageView!
     @IBOutlet private weak var cryptoLabel: UILabel!
+    @IBOutlet private weak var networkNameLabel: UILabel!
     @IBOutlet private weak var exchangeRateLabel: UILabel!
     @IBOutlet private weak var exchangeLabel: UILabel!
     private var cryptoType: SupportCryptoType!
@@ -251,11 +254,12 @@ class ExchangeRateView: UIView {
         super.init(coder: aDecoder)
     }
     
-    func setup(_ cryptoType: SupportCryptoType, _ cryptoExchangeRate: IExchangeRate, _ fiatCurrency: AccountCurrency) {
+    func setup(_ cryptoType: SupportCryptoType, _ cryptoExchangeRate: IExchangeRate, _ fiatCurrency: AccountCurrency, _ cryptoNetworkName: String) {
         cryptoLabel.text = cryptoType.name
         cryptoIcon.image = cryptoType.icon
         exchangeRateLabel.text = cryptoExchangeRate.formatString()
         exchangeLabel.text = "1 \(cryptoType.name)" + " = \(cryptoExchangeRate.formatString())" + " \(fiatCurrency.simpleName)"
+        networkNameLabel.text = cryptoNetworkName
     }
     
 }

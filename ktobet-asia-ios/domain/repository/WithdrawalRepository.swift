@@ -24,6 +24,7 @@ protocol WithdrawalRepository {
     func deleteCryptoBankCard(id: String) -> Completable
     func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem>
     func getIsAnyTicketApplying() -> Single<Bool>
+    func getCryptoWithdrawalLimits(cryptoType: SupportCryptoType, cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits>
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
@@ -55,6 +56,26 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
             let limits = WithdrawalLimits(dailyMaxCount: daily.withdrawalDailyCount, dailyMaxCash: daily.withdrawalDailyLimit.toAccountCurrency(), dailyCurrentCount: daily.withdrawalCount, dailyCurrentCash: daily.withdrawalLimit.toAccountCurrency(), singleCashMaximum: single.max.toAccountCurrency(), singleCashMinimum: single.minimum.toAccountCurrency(), turnoverAmount: turnOver.turnoverAmount.toAccountCurrency(), achievedAmount: turnOver.achievedAmount.toAccountCurrency(), unresolvedCryptoTurnover: self.sumOf(list: turnOver.cryptoWithdrawalRequestInfos))
             return Single<WithdrawalLimits>.just(limits)
         })
+    }
+
+    func getCryptoWithdrawalLimits(cryptoType: SupportCryptoType, cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits> {
+        return Single.zip(bankApi.getWithdrawalLimitation(), cpsApi.getCryptoLimitations(), bankApi.getTurnOver())
+            .flatMap { (daliyLimitsResponse, eachLimitResponse, turnOverResponse) in
+                guard let dailyLimit = daliyLimitsResponse.data,
+                      let eachLimit = eachLimitResponse.data.map({ $0.first(where: { $0.cryptoCurrency == cryptoType.currencyId && $0.cryptoNetwork == cryptoNetwork.index }) }),
+                      let cryptoLimit = eachLimit,
+                      let turnOver = turnOverResponse.data else { return Single<WithdrawalLimits>.never() }
+                let limits = WithdrawalLimits(dailyMaxCount: dailyLimit.withdrawalDailyCount,
+                                              dailyMaxCash: dailyLimit.withdrawalDailyLimit.toAccountCurrency(),
+                                              dailyCurrentCount: dailyLimit.withdrawalCount,
+                                              dailyCurrentCash: dailyLimit.withdrawalLimit.toAccountCurrency(),
+                                              singleCashMaximum: cryptoLimit.max.toAccountCurrency(),
+                                              singleCashMinimum: cryptoLimit.min.toAccountCurrency(),
+                                              turnoverAmount: turnOver.turnoverAmount.toAccountCurrency(),
+                                              achievedAmount: turnOver.achievedAmount.toAccountCurrency(),
+                                              unresolvedCryptoTurnover: self.sumOf(list: turnOver.cryptoWithdrawalRequestInfos))
+                return Single<WithdrawalLimits>.just(limits)
+            }
     }
     
     private func sumOf(list: [CryptoWithdrawalRequestInfo]?) -> AccountCurrency {

@@ -28,7 +28,10 @@ class WithdrawalCryptoRequestViewModel {
         self.withdrawalUseCase = withdrawalUseCase
         self.playerUseCase = playerUseCase
         self.localStorageRepository = localStorageRepository
-        
+    }
+
+    func getCryptoWithdrawalLimits(_ cryptoType: SupportCryptoType, _ cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits> {
+        withdrawalUseCase.getCryptoWithdrawalLimits(cryptoType, cryptoNetwork)
     }
 
     func getWithdrawalLimitation() -> Single<WithdrawalLimits> {

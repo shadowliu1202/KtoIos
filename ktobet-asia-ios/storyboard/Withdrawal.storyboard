@@ -2858,6 +2858,15 @@
                                                                 <color key="textColor" name="textPrimaryDustyGray"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ETH" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qIP-Fo-jtt">
+                                                                <rect key="frame" x="80" y="20" width="24" height="16"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="16" id="V0g-Vb-1Ag"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                                                <color key="textColor" name="textPrimaryDustyGray"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gs0-36-Qmv">
                                                                 <rect key="frame" x="16" y="48" width="319" height="24"/>
                                                                 <constraints>
@@ -2882,6 +2891,7 @@
                                                             <constraint firstItem="Gs0-36-Qmv" firstAttribute="leading" secondItem="ltG-bW-0Az" secondAttribute="leading" constant="16" id="3Os-oj-O6h"/>
                                                             <constraint firstItem="run-K5-dCO" firstAttribute="centerY" secondItem="BNr-fQ-kcj" secondAttribute="centerY" id="8cR-Uq-Vtv"/>
                                                             <constraint firstAttribute="bottom" secondItem="VpV-n3-bQF" secondAttribute="bottom" constant="16" id="9Sc-SS-nz6"/>
+                                                            <constraint firstItem="qIP-Fo-jtt" firstAttribute="bottom" secondItem="run-K5-dCO" secondAttribute="bottom" id="Jl7-mo-Zol"/>
                                                             <constraint firstItem="run-K5-dCO" firstAttribute="leading" secondItem="BNr-fQ-kcj" secondAttribute="trailing" constant="8" id="Lzv-uM-22U"/>
                                                             <constraint firstAttribute="trailing" secondItem="Gs0-36-Qmv" secondAttribute="trailing" constant="19" id="NcW-5x-99S"/>
                                                             <constraint firstItem="VpV-n3-bQF" firstAttribute="top" secondItem="Gs0-36-Qmv" secondAttribute="bottom" constant="8" id="XLU-zb-pQm"/>
@@ -2889,6 +2899,7 @@
                                                             <constraint firstItem="VpV-n3-bQF" firstAttribute="leading" secondItem="ltG-bW-0Az" secondAttribute="leading" constant="16" id="hzY-qo-ked"/>
                                                             <constraint firstAttribute="trailing" secondItem="VpV-n3-bQF" secondAttribute="trailing" constant="19" id="k9I-wA-sx0"/>
                                                             <constraint firstItem="BNr-fQ-kcj" firstAttribute="top" secondItem="ltG-bW-0Az" secondAttribute="top" constant="16" id="vlE-S0-aeN"/>
+                                                            <constraint firstItem="qIP-Fo-jtt" firstAttribute="leading" secondItem="run-K5-dCO" secondAttribute="trailing" constant="8" id="y9p-Qs-WHY"/>
                                                             <constraint firstItem="Gs0-36-Qmv" firstAttribute="top" secondItem="BNr-fQ-kcj" secondAttribute="bottom" constant="8" id="zIM-vi-cn7"/>
                                                         </constraints>
                                                         <userDefinedRuntimeAttributes>
@@ -2902,6 +2913,7 @@
                                                             <outlet property="cryptoLabel" destination="run-K5-dCO" id="JOp-2F-gPf"/>
                                                             <outlet property="exchangeLabel" destination="VpV-n3-bQF" id="IY3-wS-AoS"/>
                                                             <outlet property="exchangeRateLabel" destination="Gs0-36-Qmv" id="D7A-p3-w62"/>
+                                                            <outlet property="networkNameLabel" destination="qIP-Fo-jtt" id="Q2C-7a-brI"/>
                                                         </connections>
                                                     </view>
                                                 </subviews>

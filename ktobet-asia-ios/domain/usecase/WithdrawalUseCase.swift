@@ -24,6 +24,7 @@ protocol WithdrawalUseCase {
     func deleteCryptoBankCard(id: String) -> Completable
     func getWithdrawalSystem() -> Single<WithdrawalSystem>
     func isAnyTicketApplying() -> Single<Bool>
+    func getCryptoWithdrawalLimits(_ cryptoType: SupportCryptoType, _ cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits>
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
@@ -33,6 +34,10 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     init(_ withdrawalRepository : WithdrawalRepository, _ localStorageRepository: LocalStorageRepository) {
         self.withdrawalRepository = withdrawalRepository
         self.localStorageRepository = localStorageRepository
+    }
+
+    func getCryptoWithdrawalLimits(_ cryptoType: SupportCryptoType, _ cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits> {
+        withdrawalRepository.getCryptoWithdrawalLimits(cryptoType: cryptoType, cryptoNetwork: cryptoNetwork)
     }
     
     func deleteCryptoBankCard(id: String) -> Completable {

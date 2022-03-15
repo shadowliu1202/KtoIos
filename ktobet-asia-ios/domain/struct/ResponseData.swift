@@ -1989,6 +1989,12 @@ struct Attributes: Codable {
     }
 }
 
+struct CryptoLimitBean: Codable {
+    let cryptoCurrency: Int
+    let cryptoNetwork: Int
+    let max: Int
+    let min: Int
+}
 
 struct CryptoCurrencyBean: Codable {
     let cryptoCurrencyInfo: [CryptoCurrencyInfo]
