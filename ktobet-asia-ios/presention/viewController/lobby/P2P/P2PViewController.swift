@@ -3,6 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 import AlignedCollectionViewFlowLayout
+import SDWebImage
 
 class P2PViewController: AppVersionCheckViewController {
     
