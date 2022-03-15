@@ -267,6 +267,8 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
             switch $0 {
             case is PlayerWithdrawalRequestCryptoRateChange:
                 return KtoRequestCryptoRateChange()
+            case is PlayerWithdrawalDefective:
+                return KtoPlayerWithdrawalDefective()
             default:
                 return $0
             }
