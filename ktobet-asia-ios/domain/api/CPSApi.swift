@@ -93,6 +93,11 @@ class CPSApi: ApiService {
         let target = GetAPITarget(service: self.url("api/deposit/crypto-currency"))
         return httpClient.request(target).map(ResponseData<CryptoCurrencyBean>.self)
     }
+
+    func getCryptoLimitations() -> Single<ResponseData<[CryptoLimitBean]>> {
+        let target = GetAPITarget(service: self.url("api/withdrawal/each-crypto-limit"))
+        return httpClient.request(target).map(ResponseData<[CryptoLimitBean]>.self)
+    }
     
     
     // MARK: New

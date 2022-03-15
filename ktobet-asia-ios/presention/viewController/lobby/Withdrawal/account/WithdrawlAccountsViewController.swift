@@ -220,7 +220,7 @@ extension WithdrawlAccountsViewController {
                 if let bankCard = sender as? CryptoBankCard {
                     dest.bankcardId = bankCard.id_
                     dest.supportCryptoType = bankCard.currency
-                    
+                    dest.cryptoNewrok = bankCard.cryptoNetwork
                 }
             }
         }
