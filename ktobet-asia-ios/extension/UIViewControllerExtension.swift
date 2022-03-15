@@ -15,18 +15,14 @@ import SharedBu
 
 extension UIViewController{
     @objc func handleErrors(_ error: Error) {
-        if error is ApiUnknownException {
-            switch error {
-            case let moyaError as MoyaError:
-                handleMoyaError(moyaError)
-            case let afError as AFError:
-                handleAFError(afError)
-            case let nsError as NSError:
-                HandleNSError(nsError)
-            default:
-                handleUnknownError(error)
-            }
-        } else {
+        switch error {
+        case let moyaError as MoyaError:
+            handleMoyaError(moyaError)
+        case let afError as AFError:
+            handleAFError(afError)
+        case let nsError as NSError:
+            HandleNSError(nsError)
+        default:
             handleUnknownError(error)
         }
     }
