@@ -136,6 +136,21 @@ class TransactionLogViewController: APPViewController {
             }
         }
     }
+    
+    override func handleErrors(_ error: Error) {
+        switch error {
+        case is PlayerWagerDetailUnderMaintain:
+            displayAlert(Localize.string("common_notification"), Localize.string("balancelog_wager_detail_is_maintain"))
+        case is PlayerWagerDetailNotFound:
+            displayAlert(Localize.string("common_notification"), Localize.string("balancelog_wager_sync_unfinished"))
+        default:
+            super.handleErrors(error)
+        }
+    }
+    
+    private func displayAlert(_ tilte: String, _ msg: String) {
+        Alert.show(tilte, msg, confirm: {}, cancel: nil)
+    }
 }
 
 extension TransactionLogViewController: UITableViewDelegate {
