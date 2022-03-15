@@ -70,16 +70,16 @@ class DepositGatewayViewController: APPViewController {
         validateOnineInputBinding()
         onlineConfirmButtonBinding()
         
-        onlineViewModel.errors().subscribe(onNext: {[weak self] error in
-            self?.handleError(error)
+        onlineViewModel.errors().subscribe(onNext: {[weak self] in
+            self?.handleErrors($0)
         }).disposed(by: disposeBag)
     }
     
-    private func handleError(_ error: Error) {
-        self.handleErrors(error) {[weak self] exception in
-            if exception is PlayerDepositCountOverLimit {
-                self?.notifyTryLaterAndPopBack()
-            }
+    override func handleErrors(_ error: Error) {
+        if error is PlayerDepositCountOverLimit {
+            self.notifyTryLaterAndPopBack()
+        } else {
+            super.handleErrors(error)
         }
     }
     

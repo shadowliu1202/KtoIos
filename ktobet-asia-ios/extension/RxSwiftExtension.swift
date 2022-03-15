@@ -11,22 +11,9 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait {
         }
         return catchError(handler)
     }
-    public func catchException() -> PrimitiveSequence<Trait, Element> {
-        let handler: (Swift.Error) throws -> PrimitiveSequence<Trait, Element> = { (error) in
-            return Single.error(ExceptionFactory.toKtoException(error))
-        }
-        return catchError(handler)
-    }
 }
 
 extension ObservableType {
-    public func catchException() -> RxSwift.Observable<Element> {
-        let handler: (Swift.Error) throws -> Observable<Element> = { (error) in
-            return Observable.error(ExceptionFactory.toKtoException(error))
-        }
-        return catchError(handler)
-    }
-    
     public func asDriverOnErrorJustComplete() -> Driver<Element> {
         return asDriver { error in
             return Driver.empty()
@@ -39,12 +26,6 @@ extension ObservableType {
 }
 
 extension Completable {
-    func catchException() -> PrimitiveSequence<Trait, Element> {
-        let handler: (Swift.Error) throws -> PrimitiveSequence<Trait, Element> = { (error) in
-            return Completable.error(ExceptionFactory.toKtoException(error))
-        }
-        return catchError(handler)
-    }
     func asReaktiveCompletable() -> SharedBu.Completable {
         CompletableWrapper(inner: CompletableByEmitterKt.completable(onSubscribe: { emitter in
             let swiftDisposable = self.subscribe {

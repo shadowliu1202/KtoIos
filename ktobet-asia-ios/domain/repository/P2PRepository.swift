@@ -45,7 +45,12 @@ class P2PRepositoryImpl: P2PRepository {
         return p2pApi.getGameUrl(gameId: gameId, siteUrl: KtoURL.baseUrl.absoluteString).map { (response) -> URL? in
             guard let data = response.data else { return nil }
             return URL(string: data)
-        }
+        }.catchException(transferLogic: {
+            if $0 is GameUnderMaintenance {
+                return KtoGameUnderMaintenance()
+            }
+            return $0
+        })
     }
     
     private func convertToTurnOverReceipt(bean: LockedBonusDataBean) -> P2PTurnOver.TurnOverReceipt {

@@ -118,7 +118,14 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     }
     
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String> {
-        return bankApi.sendWithdrawalRequest(withdrawalRequest: WithdrawalRequest(requestAmount: cashAmount.bigAmount.doubleValue(exactRequired: false), playerBankCardId: playerBankCardId)).catchException().map{ $0.data ?? ""}
+        return bankApi.sendWithdrawalRequest(withdrawalRequest: WithdrawalRequest(requestAmount: cashAmount.bigAmount.doubleValue(exactRequired: false), playerBankCardId: playerBankCardId)).catchException(transferLogic: {
+            switch $0 {
+            case is PlayerWithdrawalDefective:
+                return KtoPlayerWithdrawalDefective()
+            default:
+                return $0
+            }
+        }).map{ $0.data ?? ""}
     }
     
     func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable {
@@ -198,7 +205,14 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func addCryptoBankCard(currency: SupportCryptoType, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String> {
         let cryptoBankCardRequest = CryptoBankCardRequest(cryptoCurrency: currency.id__, cryptoWalletName: alias, cryptoWalletAddress: walletAddress, cryptoNetwork: cryptoNetwork.index)
         return self.cpsApi.createCryptoBankCard(cryptoBankCardRequest: cryptoBankCardRequest)
-            .catchException()
+            .catchException(transferLogic: {
+                switch $0 {
+                case is PlayerCryptoBankCardIsExist:
+                    return KtoWithdrawalAccountExist()
+                default:
+                    return $0
+                }
+            })
             .map { (response) -> String in
                 guard let data = response.data else { return "" }
                 return data
@@ -228,12 +242,14 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable {
         let currencyId = try! SupportCryptoType.companion.typeOf(cryptoCurrency: cryptoCurrency).id__
         let bean = CryptoWithdrawalRequest(playerCryptoBankCardId: playerCryptoBankCardId, requestCryptoAmount: requestCryptoAmount, requestFiatAmount: requestFiatAmount, cryptoCurrency: currencyId)
-        return cpsApi.createCryptoWithdrawal(request: bean).asCompletable().do(onError: { (error) in
-            let exception = ExceptionFactory.create(error)
-            if exception is PlayerWithdrawalRequestCryptoRateChange {
-                throw KtoRequestCryptoRateChange.init()
+        return cpsApi.createCryptoWithdrawal(request: bean).catchException(transferLogic: {
+            switch $0 {
+            case is PlayerWithdrawalRequestCryptoRateChange:
+                return KtoRequestCryptoRateChange()
+            default:
+                return $0
             }
-        })
+        }).asCompletable()
     }
     
     func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem> {

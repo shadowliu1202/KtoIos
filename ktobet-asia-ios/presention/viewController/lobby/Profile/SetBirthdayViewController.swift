@@ -70,7 +70,7 @@ class SetBirthdayViewController: APPViewController {
         ])
     }
 
-    override func handleErrors(_ error: Error, ktoExceptionsHandle: ((_ exception: ApiException) -> ())? = nil) {
+    override func handleErrors(_ error: Error) {
         if error.isUnauthorized() {
             self.navigateToAuthorization()
         } else {

@@ -66,7 +66,7 @@ class SetWithdrawalNameViewController: APPViewController {
         NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
     }
     
-    override func handleErrors(_ error: Error, ktoExceptionsHandle: ((_ exception: ApiException) -> ())? = nil) {
+    override func handleErrors(_ error: Error) {
         if error is KtoRealNameEditForbidden {
             self.errorLabel.text = Localize.string("profile_real_name_edit_forbidden")
         } else if error.isUnauthorized() {

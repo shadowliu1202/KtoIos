@@ -30,14 +30,12 @@ class OldAccountModifyConfirmationViewController: APPViewController {
             if error.isUnauthorized() {
                 SideBarViewController.showAuthorizationPage()
             } else {
-                self?.handleErrors(error) { ktoException in
-                    switch ktoException {
-                    case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:
-                        self?.toErrorPage()
-                    default:
-                        self?.handleUnknownError(error)
-                        break
-                    }
+                switch error {
+                case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:
+                    self?.toErrorPage()
+                default:
+                    self?.handleErrors(error)
+                    break
                 }
             }
         }).disposed(by: disposeBag)

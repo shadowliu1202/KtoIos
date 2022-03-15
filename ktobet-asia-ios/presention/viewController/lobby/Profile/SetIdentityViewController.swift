@@ -62,21 +62,18 @@ class SetIdentityViewController: APPViewController {
                 SideBarViewController.showAuthorizationPage()
             } else {
                 viewModel.otpRetryCount += 1
-                self.handleErrors(error) { exception in
-                    switch exception {
-                    case is PlayerProfileOldAccountVerifyFail:
-                        self.navigateToErrorPage()
-                    case is PlayerIdOverOtpLimit,
-                        is PlayerIpOverOtpDailyLimit,
-                        is PlayerResentOtpOverTenTimes,
-                        is PlayerResentOtpLessResendTime:
-                        self.alertExceedResendLimit()
-                    default:
-                        self.displayError(self.delegate.setIdentityArgs.invalidIdentityError)
-                        break
-                    }
+                switch error {
+                case is KtoOtpMaintenance:
+                    self.navToServiceUnavailablePage()
+                case is UnhandledException:
+                    self.displayError(self.delegate.setIdentityArgs.invalidIdentityError)
+                case is KtoOldProfileValidateFail:
+                    self.navigateToErrorPage()
+                case is KtoPlayerOverOtpDailySendLimit:
+                    self.alertExceedResendLimit()
+                default:
+                    self.handleErrors(error)
                 }
-
                 self.checkLimitAndLock(count: viewModel.otpRetryCount)
             }
         }).disposed(by: disposeBag)
@@ -154,6 +151,12 @@ class SetIdentityViewController: APPViewController {
         }, cancel: nil)
     }
     
+    private func navToServiceUnavailablePage() {
+        let commonFailViewController = UIStoryboard(name: "Common", bundle: nil).instantiateViewController(withIdentifier: "CommonFailViewController") as! CommonFailViewController
+        commonFailViewController.commonFailedType = delegate.setIdentityArgs.maintenanceErrorType
+        NavigationManagement.sharedInstance.pushViewController(vc: commonFailViewController)
+    }
+    
     private func navigateToErrorPage() {
         let commonFailViewController = UIStoryboard(name: "Common", bundle: nil).instantiateViewController(withIdentifier: "CommonFailViewController") as! CommonFailViewController
         commonFailViewController.commonFailedType = delegate.setIdentityArgs.failedType
@@ -183,6 +186,7 @@ struct SetIdentityArgs {
     fileprivate(set) var stepTitle: String
     fileprivate(set) var title: String
     fileprivate(set) var description: String
+    fileprivate(set) var maintenanceErrorType: CommonFailedTypeProtocol
     fileprivate(set) var inputTitle: String
     fileprivate(set) var inputFormatError: String
     fileprivate(set) var invalidIdentityError: String
@@ -198,6 +202,7 @@ class SetIdentityBuilder: ISetIdentityBuilder {
     fileprivate(set) var stepTitle: String
     fileprivate(set) var title: String
     fileprivate(set) var description: String
+    fileprivate(set) var maintenanceErrorType: CommonFailedTypeProtocol
     fileprivate(set) var inputTitle: String
     fileprivate(set) var inputFormatError: String
     fileprivate(set) var invalidIdentityError: String
@@ -207,6 +212,7 @@ class SetIdentityBuilder: ISetIdentityBuilder {
                      stepTitle: String = "",
                      title: String = "",
                      description: String = "",
+                     maintenanceErrorType: CommonFailedTypeProtocol,
                      inputTitle: String = "",
                      inputFormatError: String = "",
                      invalidIdentityError: String = "") {
@@ -215,6 +221,7 @@ class SetIdentityBuilder: ISetIdentityBuilder {
         self.stepTitle = stepTitle
         self.title = title
         self.description = description
+        self.maintenanceErrorType = maintenanceErrorType
         self.inputTitle = inputTitle
         self.inputFormatError = inputFormatError
         self.invalidIdentityError = invalidIdentityError
@@ -226,6 +233,7 @@ class SetIdentityBuilder: ISetIdentityBuilder {
                         stepTitle: stepTitle,
                         title: title,
                         description: description,
+                        maintenanceErrorType: maintenanceErrorType,
                         inputTitle: inputTitle,
                         inputFormatError: inputFormatError,
                         invalidIdentityError: invalidIdentityError)
@@ -261,6 +269,7 @@ class SetIdentityFactory {
                            stepTitle: Localize.string("profile_identity_email_step3"),
                            title: Localize.string("profile_identity_email_step3_title"),
                            description: Localize.string("profile_identity_email_step3_description"),
+                           maintenanceErrorType: ProfileEmailFailedType(title: Localize.string("profile_email_inactive")),
                            inputTitle: Localize.string("common_email"),
                            inputFormatError: Localize.string("common_error_email_format"),
                            invalidIdentityError: Localize.string("common_error_email_verify")).build()
@@ -272,6 +281,7 @@ class SetIdentityFactory {
                            stepTitle: Localize.string("profile_identity_mobile_step3"),
                            title: Localize.string("profile_identity_mobile_step3_title"),
                            description: Localize.string("profile_identity_mobile_step3_description"),
+                           maintenanceErrorType: ProfileMobileFailedType(title: Localize.string("profile_sms_inactive")),
                            inputTitle: Localize.string("common_mobile"),
                            inputFormatError: Localize.string("common_error_mobile_format"),
                            invalidIdentityError: Localize.string("common_error_phone_verify")).build()
@@ -282,6 +292,7 @@ class SetIdentityFactory {
                            stepTitle: Localize.string("profile_identity_email_step3_title"),
                            title: Localize.string("profile_identity_email_step3_title"),
                            description: Localize.string("profile_identity_email_step3_description"),
+                           maintenanceErrorType: ProfileEmailFailedType(title: Localize.string("profile_email_inactive")),
                            inputTitle: Localize.string("common_email"),
                            inputFormatError: Localize.string("common_error_email_format"),
                            invalidIdentityError: Localize.string("common_error_email_verify")).build()
@@ -292,6 +303,7 @@ class SetIdentityFactory {
                            failedType: ProfileEmailFailedType(title: Localize.string("profile_identity_mobile_modify_fail")),
                            title: Localize.string("profile_identity_mobile_step3_title"),
                            description: Localize.string("profile_new_mobile_description"),
+                           maintenanceErrorType: ProfileMobileFailedType(title: Localize.string("profile_sms_inactive")),
                            inputTitle: Localize.string("common_mobile"),
                            inputFormatError: Localize.string("common_error_mobile_format"),
                            invalidIdentityError: Localize.string("common_error_phone_verify")).build()

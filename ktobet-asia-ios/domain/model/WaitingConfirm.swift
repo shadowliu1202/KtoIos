@@ -4,7 +4,9 @@ import SharedBu
 
 class WaitingConfirm {
     fileprivate func addUseCouponHandler(_ error : Error) -> Single<WaitingConfirm> {
-        let exception = ExceptionFactory.create(error)
+        guard let exception = error as? ApiException else {
+            return Single.error(error)
+        }
         switch exception {
         case is BonusBalanceLowerMinimumLimit,
              is BonusCouponDepositAmountOrTimesNotEnough,

@@ -83,6 +83,11 @@ class WebGameRepositoryImpl: WebGameRepository {
                 return url
             }
             return nil
-        }
+        }.catchException(transferLogic: {
+            if $0 is GameUnderMaintenance {
+                return KtoGameUnderMaintenance()
+            }
+            return $0
+        })
     }
 }

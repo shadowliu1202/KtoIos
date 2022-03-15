@@ -12,6 +12,7 @@ import Alamofire
 import SwiftyJSON
 import UIKit
 import Connectivity
+import SharedBu
 
 let debugCharCount = 500
 
@@ -90,8 +91,9 @@ class HttpClient {
                    statusCode.count > 0 && errorMsg.count > 0 {
                     let domain = self?.baseUrl.path ?? ""
                     let code = Int(statusCode) ?? 0
-                    let error = NSError(domain: domain, code: code, userInfo: ["statusCode": statusCode , "errorMsg" : errorMsg])
-                    return Single.error(error)
+                    let error = NSError(domain: domain, code: code, userInfo: ["statusCode": statusCode , "errorMsg" : errorMsg]) as Error
+                    let err = ExceptionFactory.create(error)
+                    return Single.error(err)
                 }
                 return Single.just(response)
             })
