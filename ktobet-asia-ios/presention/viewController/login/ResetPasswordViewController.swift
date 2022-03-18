@@ -148,9 +148,8 @@ class ResetPasswordViewController: LandingViewController {
     }
     
     private func handleError(_ error : Error) {
-        let type = ErrorType(rawValue: (error as NSError).code)
-        switch type {
-        case .PlayerIsNotExist, .PlayerIsSuspend, .PlayerIsInactive, .PlayerIsLocked:
+        switch error {
+        case is PlayerIsNotExist, is PlayerIsSuspend, is PlayerIsInactive, is PlayerIsLocked:
             constraintResetErrorView.constant = 56
             constraintResetErrorViewPadding.constant = 12
             if viewModel.retryCount >= ResetPasswordViewModel.accountRetryLimit {
@@ -160,9 +159,9 @@ class ResetPasswordViewController: LandingViewController {
             } else {
                 labResetErrMessage.text = self.btnPhone.isSelected ? Localize.string("common_error_phone_verify") : Localize.string("common_error_email_verify")
             }
-        case .PlayerIpOverOtpDailyLimit, .PlayerIdOverOtpLimit, .PlayerOverOtpRetryLimit:
+        case is PlayerIpOverOtpDailyLimit, is PlayerIdOverOtpLimit, is PlayerOverOtpRetryLimit:
             alertExceedResendLimit()
-        case .PlayerOtpSmsInactive, .PlayerOtpMailInactive:
+        case is PlayerOtpSmsInactive, is PlayerOtpMailInactive:
             viewModel.refreshOtpStatus()
         default:
             self.handleErrors(error)

@@ -107,9 +107,8 @@ class WithdrawalCryptoVerifyViewController: APPViewController {
                     self.navigateToEmailOtpPage()
                 }
             }, onError: {[weak self] (error) in
-                let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
-                switch type {
-                case .PlayerOtpMailInactive, .PlayerOtpSmsInactive:
+                switch error {
+                case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:
                     self?.viewModel.refreshOtpStatus()
                 default:
                     self?.showToastAlertFailed()
