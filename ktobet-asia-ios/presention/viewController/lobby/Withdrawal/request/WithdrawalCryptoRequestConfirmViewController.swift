@@ -49,10 +49,10 @@ class WithdrawalCryptoRequestConfirmViewController: APPViewController {
         exchangeRateLabel.text = "1 \(request.supportCryptoType.name)" + " = \(accountCurrency.denomination())"
         viewModel.getWithdrawalLimitation().subscribe(onSuccess: { [weak self] (limits) in
             guard let `self` = self else {return}
-            self.dailyCountLabel.text = Localize.string("common_times_count", "\(limits.dailyMaxCount - 1)")
+            self.dailyCountLabel.text = Localize.string("common_times_count", "\(limits.dailyCurrentCount - 1)")
             let fiatAccountCurrency = self.viewModel.fiatDecimalToAccountCurrency(self.request.fiatAmount)
-            let remainingAmount = limits.dailyMaxCash - fiatAccountCurrency
-            self.dailyAmountLabel.text = remainingAmount.description()
+            let remainingAmount = limits.dailyCurrentCash - fiatAccountCurrency
+            self.dailyAmountLabel.text = remainingAmount.formatString(sign: .none)
             let remainingCryptoRequest = limits.calculateRemainTurnOver(depositAmount: fiatAccountCurrency)
             self.remainingRequirementLabel.text =  remainingCryptoRequest.description() + " \(remainingCryptoRequest.simpleName)"
         }, onError: { [weak self] (error) in
