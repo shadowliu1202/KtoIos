@@ -189,7 +189,7 @@ class WithdrawalViewController: APPViewController {
             self.dailyMaxCount = "\(withdrawalLimits.dailyMaxCount)"
             self.turnoverRequirement = withdrawalLimits.remainCashTurnover()
             self.crpytoWithdrawalRequirement = self.crpytoWithdrawalRequirementAmount()
-            self.checkDailyWithdrawalLimit(withdrawalLimits.dailyMaxCash, withdrawalLimits.dailyMaxCount)
+            self.checkDailyWithdrawalLimit(withdrawalLimits.dailyCurrentCash, withdrawalLimits.dailyCurrentCount)
         }, onError: { (error) in
             self.handleErrors(error)
         }).disposed(by: disposeBag)
