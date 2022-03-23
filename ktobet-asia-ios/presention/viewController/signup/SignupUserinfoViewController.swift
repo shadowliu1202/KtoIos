@@ -335,17 +335,16 @@ extension SignupUserinfoViewController{
             case .phone: self.navigateToPhoneVerifyPage(para["account"] ?? "")
             }
         }, onError: { [weak self] error in
-            let type = ErrorType(rawValue: (error as NSError).code) ?? .ApiUnknownException
             let message: String = {
-                switch type {
-                case .PlayerIpOverOtpDailyLimit: return Localize.string("common_email_otp_exeed_send_limit")
-                case .DBPlayerAlreadyExist:
+                switch error {
+                case is PlayerIpOverOtpDailyLimit: return Localize.string("common_email_otp_exeed_send_limit")
+                case is DBPlayerAlreadyExist:
                     switch self?.viewModel.currentAccountType() {
                     case .email: return Localize.string("common_error_email_verify")
                     case .phone: return Localize.string("common_error_phone_verify")
                     default: return ""
                     }
-                case .PlayerOtpMailInactive, .PlayerOtpSmsInactive:
+                case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:
                     self?.viewModel.refreshOtpStatus()
                     return ""
                 default: return String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")

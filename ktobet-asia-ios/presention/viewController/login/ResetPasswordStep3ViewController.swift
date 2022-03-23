@@ -1,6 +1,6 @@
 import UIKit
 import RxSwift
-
+import SharedBu
 
 class ResetPasswordStep3ViewController: LandingViewController {
     static let segueIdentifier = "toStep3Segue"
@@ -68,9 +68,8 @@ class ResetPasswordStep3ViewController: LandingViewController {
     }
     
     private func handleError(_ error: Error) {
-        let type = ErrorType(rawValue: (error as NSError).code)
-        switch type {
-        case .PlayerChangePasswordFail:
+        switch error {
+        case is PlayerChangePasswordFail:
             performSegue(withIdentifier: CommonFailViewController.segueIdentifier, sender: nil)
         default:
             viewStatusTip.show(on: self.view, statusTip: Localize.string("common_unknownerror"), img: UIImage(named: "Failed"))

@@ -158,9 +158,8 @@ class SignupEmailViewController: LandingViewController {
     }
     
     private func handleError(_ error : Error){
-        let type = ErrorType(rawValue: (error as NSError).code)
-        switch type {
-        case .PlayerIdOverOtpLimit, .PlayerIpOverOtpDailyLimit:
+        switch error {
+        case is PlayerIdOverOtpLimit, is PlayerIpOverOtpDailyLimit:
             let title = Localize.string("common_tip_title_warm")
             let message = Localize.string("common_email_otp_exeed_send_limit")
             Alert
@@ -168,7 +167,7 @@ class SignupEmailViewController: LandingViewController {
                     self.navigationController?.popToRootViewController(animated: true)
                 }, cancel: nil)
             break
-        case .PlayerOverOtpRetryLimit, .PlayerResentOtpOverTenTimes:
+        case is PlayerOverOtpRetryLimit, is PlayerResentOtpOverTenTimes:
             let title = Localize.string("common_tip_title_warm")
             let message = Localize.string("common_email_otp_exeed_send_limit")
             Alert

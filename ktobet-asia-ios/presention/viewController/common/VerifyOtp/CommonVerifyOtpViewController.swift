@@ -135,15 +135,14 @@ class CommonVerifyOtpViewController: APPViewController {
         if delegate.isProfileVerify && error.isUnauthorized() {
             SideBarViewController.showAuthorizationPage()
         } else {
-            let type = ErrorType(rawValue: (error as NSError).code)
-            switch type {
-            case .PlayerOtpCheckError:
+            switch error {
+            case is PlayerOtpCheckError:
                 otpRetryCount += 1
                 showPasscodeUncorrectTip(true)
                 if otpRetryCount >= Setting.otpRetryLimit { navigateToErrorPage() }
-            case .PlayerOverOtpRetryLimit:
+            case is PlayerOverOtpRetryLimit:
                 navigateToErrorPage()
-            case .PlayerIpOverOtpDailyLimit:
+            case is PlayerIpOverOtpDailyLimit:
                 onExccedResendLimit()
             default:
                 viewStatusTip.show(statusTip: Localize.string("common_unknownerror"), img: UIImage(named: "Failed"))
