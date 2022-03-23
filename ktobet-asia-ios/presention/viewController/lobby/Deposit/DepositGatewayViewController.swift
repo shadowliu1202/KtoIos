@@ -103,10 +103,12 @@ class DepositGatewayViewController: APPViewController {
         remitterBankCardNumberTextField.setKeyboardType(.numberPad)
         remitterBankCardNumberTextField.maxLength = 4
         remitterBankCardNumberTextField.numberOnly = true
-        
+        remitterBankCardNumberTextField.isPasteble = false
+
         remitterAmountTextField.setTitle(Localize.string("deposit_amount"))
         remitterAmountTextField.setKeyboardType(.numberPad)
         remitterAmountTextField.numberOnly = true
+        remitterAmountTextField.isPasteble = false
         remitterAmountTextField.editingChangedHandler = { [weak self] (str) in
             guard let amount = Double(str.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else { return }
             self?.remitterAmountTextField.textContent.text = amount

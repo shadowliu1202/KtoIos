@@ -1,16 +1,16 @@
 import SharedBu
+import Moya
 
 extension ExceptionFactory {
     static func create(_ error: Error) -> ApiException {
-        if let ktoError = error as? KotlinError, let exception = ktoError.throwable as? ApiException {
-            return exception
-        } else {
-            let err = error as NSError
-            let exception = ExceptionFactory
-                .Companion.init()
-                .create(message: err.userInfo["errorMsg"] as? String ?? "",
-                        statusCode: err.userInfo["statusCode"] as? String ?? "")
-            return exception
+        switch error {
+        case let moyaError as MoyaError:
+            return ExceptionFactory.companion.create(message: moyaError.response?.description ?? "", statusCode: "\(moyaError.response?.statusCode ?? 0)")
+        case let nsError as NSError:
+            return ExceptionFactory.companion.create(message: nsError.userInfo["errorMsg"] as? String ?? "",
+                                                     statusCode: nsError.userInfo["statusCode"] as? String ?? "")
+        default:
+            return ApiException(message: nil, errorCode: nil)
         }
     }
 }
