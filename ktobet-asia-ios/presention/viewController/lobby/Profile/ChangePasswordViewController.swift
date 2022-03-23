@@ -45,7 +45,7 @@ class ChangePasswordViewController: APPViewController {
             } else if status == .errPasswordNotMatch {
                 message = Localize.string("register_step2_password_not_match")
             } else if status == .empty {
-                message = Localize.string("common_password_not_filled")
+                message = Localize.string("common_field_must_fill")
             }
             self?.labPasswordError.text = message
             self?.inputConfirm.showUnderline(message.count > 0)
