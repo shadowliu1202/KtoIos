@@ -343,10 +343,6 @@ class SideBarViewController: UIViewController {
         NavigationManagement.sharedInstance.previousRootViewController = rootVC
         navigateToAuthorization()
     }
-    
-    private func navigateToProfile() {
-        NavigationManagement.sharedInstance.goTo(storyboard: "Profile", viewControllerId: "ProfileNavigationController")
-    }
 
     static func showAuthorizationPage() {
         SideBarViewController().navigateToAuthorization()

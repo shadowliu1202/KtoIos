@@ -138,8 +138,16 @@ class WithdrawalRequestViewController: APPViewController {
         let title = Localize.string("withdrawal_bankcard_change_confirm_title")
         let message = Localize.string("withdrawal_bankcard_change_confirm_content")
         Alert.show(title, message, confirm: {
-            //TODO: go edit profile viewcontroler.
-        }, cancel: nil)
+            self.navigateToAuthorization()
+        }, confirmText: Localize.string("common_moveto"), cancel: {})
+    }
+    
+    private func navigateToAuthorization() {
+        navigationController?.dismiss(animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
+        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation") as! UINavigationController
+        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
     }
     
 }
