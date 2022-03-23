@@ -1,5 +1,6 @@
 import UIKit
 import RxSwift
+import RxCocoa
 import SharedBu
 import SDWebImage
 import TYCyclePagerView
@@ -36,7 +37,7 @@ class SlotViewController: AppVersionCheckViewController {
         pagerView.backgroundView = UIImageView()
         return pagerView
     }()
-    
+    private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
     private var viewModel = DI.resolve(SlotViewModel.self)!
     private var disposeBag = DisposeBag()
     
@@ -65,6 +66,13 @@ class SlotViewController: AppVersionCheckViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         bindingData()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil, completion: { [weak self] _ in
+            self?.viewDidRotate.accept(true)
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -116,7 +124,8 @@ class SlotViewController: AppVersionCheckViewController {
     private func loadMoreCollectionView(delegate: ProductGameDataSourceDelegate, collectionView: UICollectionView, getGame: Observable<[SlotGame]>, containerView: UIView, containerViewHeight: NSLayoutConstraint) {
         collectionView.dataSource = delegate
         collectionView.delegate = delegate
-        getGame.subscribe {[weak self] (slotGames) in
+        Observable.combineLatest(viewDidRotate, getGame).map{$1}
+            .subscribe {[weak self] (slotGames) in
             guard let self = self else { return }
             if slotGames.count == 0 {
                 containerView.isHidden = true
