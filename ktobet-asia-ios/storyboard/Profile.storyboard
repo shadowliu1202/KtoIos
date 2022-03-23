@@ -846,7 +846,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="onPressVerify:" destination="fW3-jO-rTj" eventType="touchUpInside" id="nVv-mM-APO"/>
+                                                    <action selector="onPressVerify:" destination="fW3-jO-rTj" eventType="touchUpInside" id="YX2-QS-VS4"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1506,9 +1506,6 @@
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="onPressVerify:" destination="fW3-jO-rTj" eventType="touchUpInside" id="VaU-yO-ImU"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1669,9 +1666,6 @@
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="onPressVerify:" destination="fW3-jO-rTj" eventType="touchUpInside" id="Lo7-ua-gmc"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
