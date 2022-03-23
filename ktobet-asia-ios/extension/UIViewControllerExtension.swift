@@ -20,17 +20,30 @@ extension UIViewController{
             handleMoyaError(moyaError)
         case let afError as AFError:
             handleAFError(afError)
+        case let kotlinError as KotlinError:
+            handleKotlinError(kotlinError)
         case let nsError as NSError:
             HandleNSError(nsError)
         default:
             handleUnknownError(error)
         }
     }
+
+    private func handleKotlinError(_ error: KotlinError) {
+        switch error.throwable {
+        case is UnknownException:
+            handleUnknownError(error)
+        case let apiException as ApiException:
+            handleStatusCode(Int(apiException.errorCode ?? "0") ?? 0)
+        default:
+            break
+        }
+    }
     
     private func handleMoyaError(_ error: MoyaError) {
         switch error {
         case .statusCode(let response):
-            handleHttpError(error, response: response)
+            handleHttpError(response: response)
         case .underlying(let afError, _):
             handleAFError(afError as! AFError)
         case .jsonMapping, .encodableMapping, .imageMapping, .objectMapping:
@@ -72,21 +85,22 @@ extension UIViewController{
         showAlertError(unknownErrorString)
     }
 
-    private func handleHttpError(_ error: Error, response: Response) {
-        switch response.statusCode {
-        case 401:
-            print(error)
-            break
+    private func handleHttpError(response: Response) {
+        handleStatusCode(response.statusCode)
+    }
+
+    private func handleStatusCode(_ statusCode: Int) {
+        switch statusCode {
         case 403:
             showRestrictView()
         case 410:
             handleMaintenance()
         case 404:
-            showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
+            showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
         case 503:
-            showAlertError(String(format: Localize.string("common_http_503"), "\(response.statusCode)"))
+            showAlertError(String(format: Localize.string("common_http_503"), "\(statusCode)"))
         default:
-            showAlertError(String(format: Localize.string("common_unknownerror"), "\(response.statusCode)"))
+            showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
         }
     }
 

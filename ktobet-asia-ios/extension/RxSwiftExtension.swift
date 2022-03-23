@@ -31,7 +31,7 @@ extension Completable {
             let swiftDisposable = self.subscribe {
                 emitter.onComplete()
             } onError: { error in
-                emitter.onError(error: KotlinThrowable.init(message: error.localizedDescription))
+                emitter.onError(error: ExceptionFactory.create(error))
             }
             emitter.setDisposable(disposable: DisposableWrapper.init(dispoable: swiftDisposable))
         }))
@@ -66,7 +66,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
                     emitter.onError(error: exception)
                 }
             } onError: { error in
-                emitter.onError(error: KotlinThrowable.init(message: error.localizedDescription))
+                emitter.onError(error: ExceptionFactory.create(error))
             }
 
             emitter.setDisposable(disposable: DisposableWrapper.init(dispoable: swiftDisposable))
@@ -85,7 +85,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
                     emitter.onError(error: exception)
                 }
             } onError: { error in
-                emitter.onError(error: KotlinThrowable.init(message: error.localizedDescription))
+                emitter.onError(error: ExceptionFactory.create(error))
             }
 
             emitter.setDisposable(disposable: DisposableWrapper.init(dispoable: swiftDisposable))
@@ -99,7 +99,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
                 let item : ResponseItem<T> = ResponseItem.init(data: json["data"].rawValue as! T, errorMsg: "", node: "", statusCode: "")
                 emitter.onSuccess(value: item)
             } onError: { error in
-                emitter.onError(error: KotlinThrowable.init(message: error.localizedDescription))
+                emitter.onError(error: ExceptionFactory.create(error))
             }
             
             emitter.setDisposable(disposable: DisposableWrapper.init(dispoable: swiftDisposable))
@@ -121,7 +121,7 @@ extension RxSwift.Observable where Element == String {
                     emitter.onError(error: exception)
                 }
             } onError: { error in
-                emitter.onError(error: KotlinThrowable.init(message: error.localizedDescription))
+                emitter.onError(error: ExceptionFactory.create(error))
             }
 
             emitter.setDisposable(disposable: DisposableWrapper.init(dispoable: swiftDisposable))
@@ -140,7 +140,7 @@ extension RxSwift.Observable where Element == String {
                     emitter.onError(error: exception)
                 }
             } onError: { error in
-                emitter.onError(error: KotlinThrowable.init(message: error.localizedDescription))
+                emitter.onError(error: ExceptionFactory.create(error))
             }
 
             emitter.setDisposable(disposable: DisposableWrapper.init(dispoable: swiftDisposable))

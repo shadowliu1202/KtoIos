@@ -91,12 +91,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
                     print("Completed")
                 }).disposed(by: self.disposeBag)
-                
+
                 if !isLogged {
                     NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
                 }
             } onError: { (error) in
-                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                if error.isUnauthorized() {
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                } else {
+                    UIApplication.topViewController()?.handleErrors(error)
+                }
             }.disposed(by: disposeBag)
         }
         

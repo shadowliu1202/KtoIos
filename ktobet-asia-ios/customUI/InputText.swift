@@ -22,6 +22,7 @@ class InputText : UIView {
     var hidePickerView: (() -> ())?
     var maxLength = Int32.max
     var numberOnly = false
+    var isPasteble = true
     
     private var labTitle = UILabel()
     private var labSubTitle = UILabel()
@@ -52,7 +53,7 @@ class InputText : UIView {
         textContent.borderStyle = .none
         textContent.delegate = self
         textContent.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
-        
+
         underline.backgroundColor = UIColor.orangeFull
         underline.isHidden = true
         
@@ -224,7 +225,21 @@ extension InputText: UITextFieldDelegate {
             }
         }
     }
-    
+
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if textContent.isFirstResponder {
+            DispatchQueue.main.async {
+                if !self.isPasteble {
+                    (sender as? UIMenuController)?.showMenu(from: UIView(), rect: CGRect.zero)
+                }
+            }
+
+            return false
+        }
+
+        return super.canPerformAction(action, withSender: sender)
+    }
+
     private func isNumber(replacementString string: String) -> Bool {
         let allowedCharacters = CharacterSet.decimalDigits
         let characterSet = CharacterSet(charactersIn: string)
