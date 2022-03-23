@@ -119,7 +119,7 @@ class ProfileViewController: APPViewController {
     private func alertOtpServiceInactive(_ accountType: AccountTypeProtocol) {
         Alert.show(accountType.otpUnavailableTitle, accountType.otpUnavailableDescription, confirm: { [weak self] in
             self?.dismiss(animated: true, completion: nil)
-        }, cancel: nil)
+        }, confirmText: Localize.string("common_determine"), cancel: nil)
     }
     
     private func setMobile(_ mobile: EditableContent<String?>) {
