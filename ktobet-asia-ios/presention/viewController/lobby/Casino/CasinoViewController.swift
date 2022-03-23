@@ -74,13 +74,17 @@ class CasinoViewController: DisplayProduct {
                 self?.handleErrors($0)
             }
         }).disposed(by: disposeBag)
-        viewModel.lobby()
-            .catchError({ [weak self] (error) -> Single<[CasinoLobby]> in
+        Observable.combineLatest(viewDidRotate, viewModel.lobby().asObservable())
+            .do(onNext: { [weak self] (didRoTate , _) in
+                if didRoTate { self?.scrollViewContentHeight.constant = 0 }
+            }, onError: { [weak self] _ in
                 self?.lobbyCollectionUpSpace.constant = 0
                 self?.lobbyCollectionHeight.constant = 0
-                return Single.just([])
-            }).subscribeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] (lobbies) in
+            })
+            .map({$1})
+            .catchErrorJustReturn([])
+            .subscribeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] (lobbies) in
                 guard let `self` = self else { return }
                 self.lobbies = lobbies
                 self.lobbyCollectionView.reloadData()
