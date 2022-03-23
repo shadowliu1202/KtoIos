@@ -128,6 +128,19 @@ class SignupLanguageViewController: LandingViewController {
     override func abstracObserverUpdate() {
         self.observerCompulsoryUpdate()
     }
+    
+    private func didSelectRowAt(indexPath: IndexPath) {
+        guard indexPath.row < arrLangs.count else { return }
+        for idx in 0..<arrLangs.count{
+            arrLangs[idx].selected = indexPath.row == idx
+        }
+        if let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type {
+            Localize.setLanguage(language: locale)
+        }
+        localize()
+        languageChangeHandler?()
+        tableView.reloadData()
+    }
 }
 
 
@@ -141,20 +154,14 @@ extension SignupLanguageViewController : UITableViewDelegate, UITableViewDataSou
         let identifier = String(describing: LanguageAndCurrencyCell.self)
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! LanguageAndCurrencyCell
         cell.setup(arrLangs[indexPath.row])
+        cell.didSelectOn = { [weak self] _ in
+            self?.didSelectRowAt(indexPath: indexPath)
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.row < arrLangs.count else { return }
-        for idx in 0..<arrLangs.count{
-            arrLangs[idx].selected = indexPath.row == idx
-        }
-        if let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type {
-            Localize.setLanguage(language: locale)
-        }
-        localize()
-        languageChangeHandler?()
-        tableView.reloadData()
+        self.didSelectRowAt(indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

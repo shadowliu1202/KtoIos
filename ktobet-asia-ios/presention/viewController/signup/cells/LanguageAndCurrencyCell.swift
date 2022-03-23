@@ -12,6 +12,7 @@ class LanguageAndCurrencyCell: UITableViewCell {
     @IBOutlet weak var background : UIView!
     @IBOutlet weak var labTitle: UILabel!
     @IBOutlet weak var btnSelected: UIButton!
+    var didSelectOn: ((UIButton) -> ())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,6 +30,10 @@ class LanguageAndCurrencyCell: UITableViewCell {
         labTitle.text = data.title
         btnSelected.isSelected = data.selected
         background.backgroundColor = data.selected ? tundoraGray : shaftGray
+    }
+    
+    @IBAction func radioBtnPressed(_ sender: UIButton) {
+        self.didSelectOn?(sender)
     }
     
 }
