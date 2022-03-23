@@ -81,7 +81,7 @@ class WithdrawalCryptoRequestViewModel {
     }
     
     private func isAmountExceedDailyLimit(_ amount: AccountCurrency, _ limitation: WithdrawalLimits) -> Bool {
-        return amount > limitation.dailyMaxCash
+        return amount > limitation.dailyCurrentCash
     }
     
     private func isBalanceNotEnough(_ amount: AccountCurrency, _ balance: AccountCurrency) -> Bool {
