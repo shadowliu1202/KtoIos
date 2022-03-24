@@ -43,7 +43,7 @@ extension RxSwift.Observable where Element: AnyObject {
         return RxSwift.Observable<Element>.create { observer in
             let disposable = observable.subscribe(
                 isThreadLocal: false,
-                onError: { observer.onError(KotlinError($0)) },
+                onError: { observer.onError($0) },
                 onComplete: observer.onCompleted,
                 onNext: observer.onNext
             )
@@ -153,7 +153,7 @@ extension RxSwift.Single where Element: AnyObject {
         return RxSwift.Single<Element>.create { observer in
             let disposable = single.subscribe(
                 isThreadLocal: false,
-                onError: { observer(.error(KotlinError($0))) },
+                onError: { observer(.error($0)) },
                 onSuccess: { observer(.success($0)) }
             )
             
@@ -167,7 +167,7 @@ extension RxSwift.Maybe where Element: AnyObject {
         return RxSwift.Maybe<Element>.create { observer in
             let disposable = maybe.subscribe(
                 isThreadLocal: false,
-                onError: { observer(.error(KotlinError($0))) },
+                onError: { observer(.error($0)) },
                 onComplete: { observer(.completed) },
                 onSuccess: { observer(.success($0)) }
             )
@@ -182,20 +182,12 @@ extension RxSwift.Completable {
         return RxSwift.Completable.create { observer in
             let disposable = completable.subscribe(
                 isThreadLocal: false,
-                onError: { observer(.error(KotlinError($0))) },
+                onError: { observer(.error($0)) },
                 onComplete: { observer(.completed) }
             )
-            
+
             return Disposables.create(with: disposable.dispose)
         }
-    }
-}
-
-struct KotlinError: Error {
-    let throwable: KotlinThrowable
-    
-    init (_ throwable: KotlinThrowable) {
-        self.throwable = throwable
     }
 }
 
