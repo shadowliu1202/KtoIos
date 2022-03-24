@@ -13,30 +13,20 @@ import Alamofire
 import Moya
 import SharedBu
 
+//MARK: Handle error
 extension UIViewController{
     @objc func handleErrors(_ error: Error) {
         switch error {
+        case let apiException as ApiException:
+            handleStatusCode(Int(apiException.errorCode ?? "0") ?? 0)
         case let moyaError as MoyaError:
             handleMoyaError(moyaError)
         case let afError as AFError:
             handleAFError(afError)
-        case let kotlinError as KotlinError:
-            handleKotlinError(kotlinError)
         case let nsError as NSError:
             HandleNSError(nsError)
         default:
             handleUnknownError(error)
-        }
-    }
-
-    private func handleKotlinError(_ error: KotlinError) {
-        switch error.throwable {
-        case is UnknownException:
-            handleUnknownError(error)
-        case let apiException as ApiException:
-            handleStatusCode(Int(apiException.errorCode ?? "0") ?? 0)
-        default:
-            break
         }
     }
     
@@ -103,7 +93,9 @@ extension UIViewController{
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
         }
     }
+}
 
+extension UIViewController{
     func handleMaintenance() {
         let viewModel = DI.resolve(PlayerViewModel.self)!
         let disposeBag = DisposeBag()
