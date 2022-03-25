@@ -31,6 +31,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
         let remitterName = getPlayerRealName()
         let depositLimit = getDepositLimit()
         let cashOption = getCashOption()
+        let floatAllow = getCashTypeInput()
 
         let remitterNameValid = isRemitterNameValid()
         let remitterBankCardNumbeValid = isRemitterBankCardNumbeValid()
@@ -52,6 +53,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
                              remitterName: remitterName,
                              remittance: remittance,
                              cashOption: cashOption,
+                             floatAllow: floatAllow,
                              remitterNameValid: remitterNameValid,
                              remitterBankCardNumbeValid: remitterBankCardNumbeValid,
                              remittanceValid: remittanceValid,
@@ -94,6 +96,18 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
                 return nil
             }
         }.compose(self.applyObservableErrorHandle()).asDriverLogError()
+    }
+    
+    private func getCashTypeInput() -> Driver<FloatAllow?> {
+        selectPaymentGateway.map { gateway -> FloatAllow? in
+            let hint = gateway.hint
+            switch gateway.cash {
+            case let input as CashType.Input:
+                return FloatAllow(isAllowed: input.isFloatAllowed, hint: hint)
+            default:
+                return nil
+            }
+        }.distinctUntilChanged().compose(self.applyObservableErrorHandle()).asDriverLogError()
     }
 
     private func getCashOption() -> SharedSequence<DriverSharingStrategy, [KotlinInt]?> {
@@ -190,6 +204,7 @@ extension ThirdPartyDepositViewModel {
         let remitterName: Driver<String>
         let remittance: Driver<String>
         let cashOption: Driver<[KotlinInt]?>
+        let floatAllow: Driver<FloatAllow?>
         let remitterNameValid: Driver<AccountNameException?>
         let remitterBankCardNumbeValid: Driver<Bool>
         let remittanceValid: Driver<AmountExpection?>
@@ -197,4 +212,9 @@ extension ThirdPartyDepositViewModel {
         let webPath: Driver<CommonDTO.WebPath>
         let inProgress: Driver<Bool>
     }
+}
+
+struct FloatAllow: Equatable {
+    let isAllowed: Bool
+    let hint: String
 }
