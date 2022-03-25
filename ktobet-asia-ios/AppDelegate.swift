@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
+        UIView.appearance().isExclusiveTouch = true
+        UICollectionView.appearance().isExclusiveTouch = true
         if #available(iOS 13.0, *) {
             window?.overrideUserInterfaceStyle = .light
         } else {
