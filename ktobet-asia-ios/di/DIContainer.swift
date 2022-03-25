@@ -70,7 +70,10 @@ class DIContainer {
         
         let ctner = container
         let httpclient = container.resolve(HttpClient.self)!
-        
+
+        ctner.register(NotificationApi.self) { (resolver)  in
+            return NotificationApi(httpclient)
+        }
         ctner.register(AuthenticationApi.self) { (resolver)  in
             return AuthenticationApi(httpclient)
         }
@@ -127,6 +130,10 @@ class DIContainer {
             let portal = ctner.resolve(PortalApi.self)!
             let settingStore = ctner.resolve(SettingStore.self)!
             return PlayerRepositoryImpl(player, portal, settingStore)
+        }
+        ctner.register(NotificationRepository.self) { (resolver) in
+            let notificationApi = ctner.resolve(NotificationApi.self)!
+            return NotificationRepositoryImpl(notificationApi)
         }
         ctner.register(GameInfoRepository.self) { (resolver) in
             let gameApi = ctner.resolve(GameApi.self)!
@@ -293,6 +300,10 @@ class DIContainer {
             let repoDeposit = ctner.resolve(DepositRepository.self)!
             return DepositUseCaseImpl(repoDeposit)
         }
+        ctner.register(NotificationUseCase.self) { (resolver)  in
+            let repo = ctner.resolve(NotificationRepository.self)!
+            return NotificationUseCaseImpl(repo)
+        }
         ctner.register(UploadImageUseCase.self) { (resolver)  in
             let repoImage = ctner.resolve(ImageRepository.self)!
             return UploadImageUseCaseImpl(repoImage)
@@ -433,6 +444,12 @@ class DIContainer {
             let applicationFactory = ctner.resolve(ApplicationFactory.self)!
             let deposit = applicationFactory.deposit()
             return DepositLogViewModel(deposit)
+        }
+        ctner.register(NotificationViewModel.self) { resolver in
+            let useCase = ctner.resolve(NotificationUseCase.self)!
+            let usecaseConfiguration = ctner.resolve(ConfigurationUseCase.self)!
+            let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
+            return NotificationViewModel(useCase: useCase, configurationUseCase: usecaseConfiguration, systemStatusUseCase: systemUseCase)
         }
         ctner.register(LaunchViewModel.self) { (resolver)  in
             let usecaseAuth = ctner.resolve(AuthenticationUseCase.self)!

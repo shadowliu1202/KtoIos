@@ -40,11 +40,14 @@ class DepositGatewayViewController: APPViewController {
         
         switch depositType {
         case is OfflinePayment:
+            offlineViewModel.unwindSegueId = "unwindToDeposit"
             bindOfflineViewModel()
         case is OnlinePayment:
             initOnlineUI()
             bindThirdPartyViewModel()
         default:
+            offlineViewModel.unwindSegueId = "unwindToNotificationDetail"
+            bindOfflineViewModel()
             break
         }
     }

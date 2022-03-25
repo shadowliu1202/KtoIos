@@ -7,6 +7,7 @@
 
 import Foundation
 import SharedBu
+import Lottie
 
 public enum AccountType: Int {
     case phone = 2
@@ -96,6 +97,10 @@ struct Setting {
     static let resendOtpCountDownSecond: Double = 240
     static let resetPasswordStep2CountDownSecond: Double = 600
     static let otpRetryLimit = 6
+}
+
+struct CoomonUISetting {
+    static let bottomSpace: CGFloat = 96
 }
 
 enum ChatTarget: String {

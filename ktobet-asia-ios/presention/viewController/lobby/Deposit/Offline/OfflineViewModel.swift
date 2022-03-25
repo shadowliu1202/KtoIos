@@ -21,6 +21,7 @@ class OfflineViewModel: KTOViewModel, ViewModelType {
     private let confirmTrigger = PublishSubject<Void>()
     private let depositTrigger = PublishSubject<Void>()
     private var inProgress = ActivityIndicator()
+    var unwindSegueId: String = ""
 
     init(_ depositService: IDepositAppService, playerUseCase: PlayerDataUseCase, accountPatternGenerator: AccountPatternGenerator, bankUseCase: BankUseCase, navigator: DepositNavigator) {
         super.init()
@@ -218,8 +219,8 @@ class OfflineViewModel: KTOViewModel, ViewModelType {
         depositTrigger.withLatestFrom(memo).flatMapLatest { [unowned self] memo in
             Completable.from(CompletableWrapperKt.wrap(self.depositService.confirmOfflineDeposit(beneficiaryIdentity: memo.identity))).andThen(Single.just(true)).compose(self.applySingleErrorHandler()).asDriver(onErrorJustReturn: false).trackActivity(self.inProgress)
         }
-        .do(onNext: { [weak self] _ in
-            self?.navigator.toDepositHomePage()
+        .do(onNext: { [unowned self] _ in
+            self.navigator.toDepositHomePage(unwindSegueId: self.unwindSegueId)
         }).asDriverLogError()
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -722,6 +722,7 @@
                     <connections>
                         <outlet property="webView" destination="JJT-vz-hiM" id="fRg-mh-RuY"/>
                         <segue destination="F1U-b3-NEZ" kind="unwind" identifier="unwindToDeposit" unwindAction="backToDepositWithSegue:" id="thD-RU-VHz"/>
+                        <segue destination="F1U-b3-NEZ" kind="unwind" identifier="unwindToNotificationDetail" unwindAction="backToNotificationDetailWithSegue:" id="R4E-W4-fb3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ax-mC-RPQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1197,7 +1198,7 @@
         <!--Deposit Gateway View Controller-->
         <scene sceneID="m6P-ZS-vUL">
             <objects>
-                <viewController id="wU1-pf-ph2" customClass="DepositGatewayViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DepositGatewayViewController" id="wU1-pf-ph2" customClass="DepositGatewayViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RSb-m4-kBI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="912"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1845,12 +1846,22 @@
                         <outlet property="validDepositTimeLabel" destination="jjh-cr-ieZ" id="v7c-x1-eB9"/>
                         <outlet property="validDepositTimeTitleLabel" destination="5m0-4f-Kxu" id="Qyq-pN-vBX"/>
                         <segue destination="YAP-CQ-NRH" kind="unwind" identifier="unwindToDeposit" unwindAction="backToDepositWithSegue:" id="X0N-fj-Tj2"/>
+                        <segue destination="pcq-vO-nq3" kind="unwind" identifier="unwindToNotificationDetail" unwindAction="backToNotificationDetailWithSegue:" id="9kp-PM-KtZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kly-Zj-U6b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="YAP-CQ-NRH" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1369.5652173913045" y="385.71428571428572"/>
+        </scene>
+        <!--NotificationDetailViewController-->
+        <scene sceneID="7iO-Nz-RLG">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Notification" referencedIdentifier="NotificationDetailViewController" id="WGI-Tw-uP9" sceneMemberID="viewController"/>
+                <exit id="pcq-vO-nq3" userLabel="Exit" sceneMemberID="exit"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A6g-rt-uwG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2236" y="739"/>
         </scene>
         <!--Deposit Third Part Web View Controller-->
         <scene sceneID="Wx6-La-Obn">
@@ -1943,7 +1954,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hkd-5J-lSd"/>
+        <segue reference="keF-G9-Ps9"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Chevron Right(24)" width="24" height="24"/>

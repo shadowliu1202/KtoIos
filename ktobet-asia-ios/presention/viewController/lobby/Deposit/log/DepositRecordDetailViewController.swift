@@ -2,6 +2,7 @@ import UIKit
 import SharedBu
 import RxSwift
 import Photos
+import RxCocoa
 
 class DepositRecordDetailViewController: UIViewController {
     @IBOutlet private weak var titleNameLabel: UILabel!
@@ -49,12 +50,13 @@ class DepositRecordDetailViewController: UIViewController {
     fileprivate var imageIndex = 0
     fileprivate var imageUploadInex = 0
     fileprivate var imagePickerView: ImagePickerViewController!
-    
+
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataBinding()
         initUI()
+        dataBinding()
+        self.rx.viewDidAppear.map{_ in ()}.bind(to: viewModel.recordDetailRefreshTrigger).disposed(by: disposeBag)
     }
     
     deinit {
@@ -66,7 +68,7 @@ class DepositRecordDetailViewController: UIViewController {
         startActivityIndicator(activityIndicator: activityIndicator)
         viewModel.bindingImageWithDepositRecord(displayId: displayId, portalImages: viewModel.uploadImageDetail.map { $0.value.portalImage }).subscribe { [weak self] in
             guard let `self` = self else { return }
-            self.dataBinding()
+            self.viewModel.recordDetailRefreshTrigger.onNext(())
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
         } onError: { [weak self] (error) in
             guard let `self` = self else { return }
