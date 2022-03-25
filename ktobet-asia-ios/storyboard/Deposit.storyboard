@@ -1374,6 +1374,12 @@
                                         <color key="textColor" name="textPrimaryDustyGray"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dUC-8Q-VVg">
+                                        <rect key="frame" x="30" y="645" width="354" height="0.0"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
+                                        <color key="textColor" name="redForLightFull"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="kWY-pI-Hll" firstAttribute="leading" secondItem="xcr-f8-tYV" secondAttribute="leading" id="3Fd-kN-6Fs"/>
@@ -1400,13 +1406,16 @@
                                     <constraint firstItem="025-kO-8kc" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="SVa-35-ktd"/>
                                     <constraint firstItem="9bv-rR-6sC" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="UgS-uU-OJ0"/>
                                     <constraint firstAttribute="trailing" secondItem="3yY-eS-yxK" secondAttribute="trailing" constant="30" id="Vyh-4a-IWX"/>
+                                    <constraint firstAttribute="bottom" secondItem="dUC-8Q-VVg" secondAttribute="bottom" constant="40" id="XVt-mA-i6t"/>
                                     <constraint firstItem="nRg-5c-sML" firstAttribute="leading" secondItem="uHV-qw-owJ" secondAttribute="leading" id="XmS-5w-mIf"/>
                                     <constraint firstItem="5fs-X7-E7r" firstAttribute="top" secondItem="aHj-0Y-lJL" secondAttribute="bottom" constant="4" id="YWg-Ag-ndS"/>
-                                    <constraint firstAttribute="bottom" secondItem="kWY-pI-Hll" secondAttribute="bottom" constant="10" id="bjk-2X-7XC"/>
                                     <constraint firstItem="nRg-5c-sML" firstAttribute="top" secondItem="uHV-qw-owJ" secondAttribute="bottom" constant="30" id="ceW-zt-CpM"/>
+                                    <constraint firstItem="dUC-8Q-VVg" firstAttribute="top" secondItem="kWY-pI-Hll" secondAttribute="bottom" constant="12" id="dgA-WF-8eG"/>
                                     <constraint firstItem="yeb-SJ-vjG" firstAttribute="trailing" secondItem="025-kO-8kc" secondAttribute="trailing" id="dun-Ai-EZf"/>
                                     <constraint firstItem="soO-Zx-zJB" firstAttribute="top" secondItem="J0r-dZ-KnV" secondAttribute="bottom" constant="12" id="ed2-vw-IQ7"/>
+                                    <constraint firstItem="dUC-8Q-VVg" firstAttribute="leading" secondItem="xcr-f8-tYV" secondAttribute="leading" id="fRI-dP-pcu"/>
                                     <constraint firstItem="3yY-eS-yxK" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="giW-eA-PxL"/>
+                                    <constraint firstItem="dUC-8Q-VVg" firstAttribute="trailing" secondItem="025-kO-8kc" secondAttribute="trailing" id="izC-HS-SAC"/>
                                     <constraint firstItem="2qu-HF-ZLq" firstAttribute="leading" secondItem="025-kO-8kc" secondAttribute="leading" id="jqH-Ot-cSe"/>
                                     <constraint firstItem="5fs-X7-E7r" firstAttribute="top" secondItem="soO-Zx-zJB" secondAttribute="bottom" constant="4" id="kQY-nW-JKs"/>
                                     <constraint firstItem="uHV-qw-owJ" firstAttribute="leading" secondItem="puo-Ni-fBt" secondAttribute="leading" constant="30" id="mVB-c0-Hsk"/>
@@ -1465,6 +1474,7 @@
                         <outlet property="remitterBankCardNumberTextField" destination="2qu-HF-ZLq" id="TPn-ti-p5f"/>
                         <outlet property="remitterBankErrorLabel" destination="3yY-eS-yxK" id="FHx-v0-JXS"/>
                         <outlet property="remitterBankTextField" destination="025-kO-8kc" id="XYQ-9l-jMu"/>
+                        <outlet property="remitterHintLabel" destination="dUC-8Q-VVg" id="fCq-ut-yHU"/>
                         <outlet property="remitterNameErrorLabel" destination="9bv-rR-6sC" id="Tr3-n3-Ecm"/>
                         <outlet property="remitterNameTextField" destination="yeb-SJ-vjG" id="QrY-kz-uU7"/>
                         <outlet property="scrollView" destination="puo-Ni-fBt" id="tio-hL-fQe"/>
@@ -1476,7 +1486,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="grj-44-Cbg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="455" y="386"/>
+            <point key="canvasLocation" x="453.62318840579712" y="385.71428571428572"/>
         </scene>
         <!--Deposit Offline Confirm View Controller-->
         <scene sceneID="slI-9a-EUz">

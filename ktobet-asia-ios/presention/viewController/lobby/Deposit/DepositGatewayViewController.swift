@@ -15,6 +15,7 @@ class DepositGatewayViewController: APPViewController {
     @IBOutlet private weak var remitterAmountTextField: InputText!
     @IBOutlet private weak var remitterAmountDropDown: DropDownInputText!
     @IBOutlet private weak var depositLimitLabel: UILabel!
+    @IBOutlet private weak var remitterHintLabel: UILabel!
     @IBOutlet private weak var depositConfirmButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var constraintBankTableHeight: NSLayoutConstraint!
@@ -27,6 +28,7 @@ class DepositGatewayViewController: APPViewController {
     
     var depositType: DepositSelection?
     var paymentIdentity: String!
+    var isStarInputAmount: Bool = false
     
     fileprivate var offlineViewModel = DI.resolve(OfflineViewModel.self)!
     fileprivate var onlineViewModel = DI.resolve(ThirdPartyDepositViewModel.self)!
@@ -110,12 +112,6 @@ class DepositGatewayViewController: APPViewController {
 
         remitterAmountTextField.setTitle(Localize.string("deposit_amount"))
         remitterAmountTextField.setKeyboardType(.numberPad)
-        remitterAmountTextField.numberOnly = true
-        remitterAmountTextField.isPasteble = false
-        remitterAmountTextField.editingChangedHandler = { [weak self] (str) in
-            guard let amount = Double(str.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else { return }
-            self?.remitterAmountTextField.textContent.text = amount
-        }
         
         depositConfirmButton.setTitle(Localize.string("deposit_offline_step1_button"), for: .normal)
         depositConfirmButton.isValid = false
@@ -184,6 +180,52 @@ class DepositGatewayViewController: APPViewController {
                 self?.remitterAmountErrorLabel.isHidden = false
             }
         }).disposed(by: disposeBag)
+        
+        onlineViewModel.output.floatAllow.drive(onNext: { [weak self] floatAllow in
+            self?.gatewayAndFloatAllowDidChange(floatAllow)
+        }).disposed(by: disposeBag)
+    }
+    
+    private func gatewayAndFloatAllowDidChange(_ floatAllow: FloatAllow?) {
+        remitterHintLabel.text = floatAllow?.hint
+        cleanAmountTextFieldValue()
+        remitterAmountTextField.textContent.endEditing(true)
+        if floatAllow?.isAllowed == true {
+            remitterAmountTextField.setKeyboardType(.decimalPad)
+            amountTextCanInputDecimalPoint()
+        } else {
+            remitterAmountTextField.setKeyboardType(.numberPad)
+            amountTextOnlyInputNumber()
+        }
+    }
+    
+    private func cleanAmountTextFieldValue() {
+        remitterAmountTextField.setContent("")
+        onlineViewModel.input.remittance.onNext("")
+        remitterAmountTextField.adjustPosition()
+    }
+    
+    private func amountTextCanInputDecimalPoint() {
+        remitterAmountTextField.editingChangedHandler = { [weak self] (str) in
+            guard let amount = str.currencyAmountToDouble() else {
+                return
+            }
+            let strWithSeparator = str.replacingOccurrences(of: ",", with: "")
+            self?.remitterAmountTextField.textContent.text = strWithSeparator.contains(".") ? str : amount.currencyFormatWithoutSymbol()
+        }
+        remitterAmountTextField.shouldChangeCharactersIn = {(textField, range, string) -> Bool in
+            let candidate = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string).replacingOccurrences(of: ",", with: "")
+            if candidate == "" { return true }
+            let isWellFormatted = candidate.range(of: RegularFormat.currencyFormatWithTwoDecimal.rawValue, options: .regularExpression) != nil
+            return isWellFormatted
+        }
+    }
+    
+    private func amountTextOnlyInputNumber() {
+        remitterAmountTextField.editingChangedHandler = { [weak self] (str) in
+            guard let amount = Double(str.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else { return }
+            self?.remitterAmountTextField.textContent.text = amount
+        }
     }
     
     private func onlineTextFieldBinding() {
@@ -202,6 +244,11 @@ class DepositGatewayViewController: APPViewController {
         
         remitterAmountDropDown.text.bind(to: onlineViewModel.input.remittance).disposed(by: disposeBag)
         remitterAmountTextField.text.bind(to: onlineViewModel.input.remittance).disposed(by: disposeBag)
+        remitterAmountTextField.text.subscribe(onNext: { [weak self] in
+            if self?.isStarInputAmount == false, $0.count > 0 {
+                self?.isStarInputAmount = true
+            }
+        }).disposed(by: disposeBag)
         remitterNameTextField.text.bind(to: onlineViewModel.input.remitterName).disposed(by: disposeBag)
         remitterBankCardNumberTextField.text.bind(to: onlineViewModel.input.remitterBankCardNumber).disposed(by: disposeBag)
     }
@@ -217,7 +264,7 @@ class DepositGatewayViewController: APPViewController {
         }.disposed(by: disposeBag)
         
         onlineViewModel.output.remittanceValid.drive { [weak self] (isValid) in
-            guard let `self` = self, self.remitterAmountTextField.isEdited else { return }
+            guard let `self` = self, self.isStarInputAmount else { return }
             switch isValid {
             case .overLimitation:
                 self.remitterAmountErrorLabel.text = Localize.string("deposit_limitation_hint")
