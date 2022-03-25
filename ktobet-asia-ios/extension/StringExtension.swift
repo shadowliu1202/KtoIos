@@ -90,27 +90,33 @@ extension String {
         }
         return Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth())
     }
-    
-    func toLocalDateTime() -> Kotlinx_datetimeLocalDateTime {
-        var createDate = Date()
-        if let date = self.convertLocalDateTime(format1: "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", format2: "yyyy-MM-dd'T'HH:mm:ssZ") {
-            createDate = date
-        } else {
-            fatalError("toLocalDateTime with worrng format, Date = \(self)")
-        }
-        return Kotlinx_datetimeLocalDateTime.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth(), hour: createDate.getHour(), minute: createDate.getMinute(), second: createDate.getSecond(), nanosecond: createDate.getNanosecond())
+}
+
+//MARK: String to DateTime
+extension String {
+    var playerTimeZone: TimeZone {
+        DI.resolve(PlayerConfiguration.self)!.localeTimeZone()
     }
 
     func toOffsetDateTime() -> OffsetDateTime {
-        var createDate = Date()
-        if let date = self.convertOffsetDateTime(format1: "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", format2: "yyyy-MM-dd'T'HH:mm:ssZ") {
-            createDate = date
-        } else {
-            fatalError("toOffsetDateTime with worrng format, Date = \(self)")
-        }
-        let createLocalDateTime = Kotlinx_datetimeLocalDateTime(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth(), hour: createDate.getHour(), minute: createDate.getMinute(), second: createDate.getSecond(), nanosecond: createDate.getNanosecond())
-        let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: TimeZone.current.identifier)
-        return offsetDateTime
+        let offsetDate = getOffsetDate()
+        let createLocalDateTime = Kotlinx_datetimeLocalDateTime(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
+        return OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: TimeZone.current.identifier)
+    }
+
+    func toLocalDateTime() -> Kotlinx_datetimeLocalDateTime {
+        let offsetDate = getOffsetDate()
+        return Kotlinx_datetimeLocalDateTime.init(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
+    }
+
+    private func getOffsetDate() -> Date {
+        let dateFormatterWithFractionalSeconds = ISO8601DateFormatter()
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatterWithFractionalSeconds.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        var createDate = (dateFormatter.date(from: self) ?? dateFormatterWithFractionalSeconds.date(from: self))!
+        let offsetTime = TimeInterval(playerTimeZone.secondsFromGMT())
+        createDate.addTimeInterval(offsetTime)
+        return createDate
     }
 }
 

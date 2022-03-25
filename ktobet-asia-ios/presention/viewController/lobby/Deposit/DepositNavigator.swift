@@ -3,7 +3,7 @@ import SharedBu
 
 protocol DepositNavigator {
     func toDepositOfflineConfirmPage()
-    func toDepositHomePage()
+    func toDepositHomePage(unwindSegueId: String)
     func toOnlineWebPage(url: String)
     func toCryptoWebPage(url: String)
     func toGuidePage()
@@ -14,9 +14,9 @@ class DepositNavigatorImpl: DepositNavigator {
         NavigationManagement.sharedInstance.viewController.performSegue(withIdentifier: DepositOfflineConfirmViewController.segueIdentifier, sender: nil)
     }
     
-    func toDepositHomePage() {
+    func toDepositHomePage(unwindSegueId: String) {
         DispatchQueue.main.async {
-            NavigationManagement.sharedInstance.viewController.performSegue(withIdentifier: "unwindToDeposit", sender: nil)
+            NavigationManagement.sharedInstance.viewController.performSegue(withIdentifier: unwindSegueId, sender: nil)
         }
     }
     

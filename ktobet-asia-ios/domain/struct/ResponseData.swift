@@ -1925,10 +1925,7 @@ struct ChatHistories: Codable {
         let title: String?
         
         func toChatHistory(timeZone: TimeZone) -> ChatHistory {
-            let offsetSeconds = timeZone.secondsFromGMT()
-            let date = createdDate.convertDateTime() ?? Date()
-            let dateAfterOffset = date.addingTimeInterval(TimeInterval(offsetSeconds))
-            return ChatHistory(createDate: dateAfterOffset.convertToKotlinx_datetimeLocalDateTime(), title: title ?? "", roomId: roomId)
+            ChatHistory(createDate: createdDate.toLocalDateTime(), title: title ?? "", roomId: roomId)
         }
     }
 }
@@ -1987,6 +1984,40 @@ struct Attributes: Codable {
                                  size: size,
                                  underline: KotlinBoolean.init(value: underline ?? false))
     }
+}
+
+struct ActivityMessagePageBean: Codable {
+    let documents: [ActivityMessageBean]
+    let totalCount: Int32
+}
+
+struct ActivityMessageBean: Codable {
+    let myActivityType: Int32
+    let categoryId: Int
+    let itemId: String
+    let displayId: String
+    let value: String?
+    let notifyTitle: String
+    let notifyContent: String
+    let afterBalance: String?
+    let dateInfo: String
+}
+
+struct InternalMessagePageBean: Codable {
+    let documents: [InternalMessageBean]
+    let totalCount: Int32
+}
+
+struct InternalMessageBean: Codable {
+    let messageId: String
+    let messageType: Int
+    let title: String
+    let message: String
+    let showTime: String?
+    let closeTime: String?
+    let maintenanceStartTime: String?
+    let maintenanceEndTime: String?
+    let currencyCode: Int
 }
 
 struct CryptoLimitBean: Codable {

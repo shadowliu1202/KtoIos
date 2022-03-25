@@ -15,6 +15,7 @@ class NavigationManagement {
     
     var viewController: UIViewController!
     var previousRootViewController: UIViewController?
+    weak var unwindNavigate: NotificationNavigate?
     
     private init() { }
     
@@ -120,6 +121,23 @@ class NavigationManagement {
     func pushViewController(vc: UIViewController) {
         viewController.navigationController?.pushViewController(vc, animated: true)
         viewController = viewController.navigationController?.topViewController
+    }
+    
+    func pushViewController(vc: UIViewController, unwindNavigate: NotificationNavigate?) {
+        viewController.navigationController?.pushViewController(vc, animated: true)
+        viewController = viewController.navigationController?.topViewController
+        self.unwindNavigate = unwindNavigate
+    }
+    
+    func popToNotificationOrBack(unwind: () -> Void) {
+        if let navi = self.unwindNavigate {
+            let callback = {
+                self.unwindNavigate = nil
+            }
+            self.popViewController(callback, to: navi)
+        } else {
+            unwind()
+        }
     }
     
     private func setRootViewController(storyboard name: String, viewControllerId: String) {

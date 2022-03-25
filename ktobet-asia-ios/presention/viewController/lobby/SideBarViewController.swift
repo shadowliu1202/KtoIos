@@ -377,7 +377,7 @@ class SideBarViewController: UIViewController {
     
     @IBAction func toNotify(_ sender : UIButton){
         cleanProductSelected()
-        NavigationManagement.sharedInstance.goTo(storyboard: "Notify", viewControllerId: "AccountNotifyNavigationController")
+        NavigationManagement.sharedInstance.goTo(storyboard: "Notification", viewControllerId: "AccountNotificationNavigationController")
     }
     
     fileprivate func cleanProductSelected() {

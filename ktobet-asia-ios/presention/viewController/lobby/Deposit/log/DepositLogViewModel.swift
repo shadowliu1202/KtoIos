@@ -13,6 +13,7 @@ class DepositLogViewModel {
     var dateBegin: Date?
     var dateEnd: Date?
     var status: [PaymentLogDTO.LogStatus] = []
+    let recordDetailRefreshTrigger = PublishSubject<Void>()
     
     init(_ depositService: IDepositAppService) {
         self.depositService = depositService
@@ -31,7 +32,9 @@ class DepositLogViewModel {
     }
     
     func getDepositFiatLog(transactionId: String) -> Observable<PaymentLogDTO.FiatLog> {
-        return Observable.from(depositService.getFiatLog(displayId: transactionId))
+        recordDetailRefreshTrigger.flatMapLatest{
+            Observable.from(self.depositService.getFiatLog(displayId: transactionId))
+        }
     }
     
     func getDepositCryptoLog(transactionId: String) -> Observable<PaymentLogDTO.CryptoLog> {
@@ -45,9 +48,13 @@ class DepositLogViewModel {
         return RxSwift.Single.from(depositService.getPaymentLogs(filters: PaymentLogDTO.LogFilter(page: page, from: beginDate, to: endDate, filter: statusSet))).map({$0.compactMap({$0 as? PaymentLogDTO.GroupLog})}).asObservable()
     }
     
-     func getCashLogSummary() -> Single<CurrencyUnit> {
-         let beginDate = (self.dateBegin ?? Date().getPastSevenDate()).convertToKotlinx_datetimeLocalDate()
-         let endDate = (self.dateEnd ?? Date().convertdateToUTC()).convertToKotlinx_datetimeLocalDate()
-         return RxSwift.Single.from(depositService.getPaymentSummary(from: beginDate, to: endDate))
-     }
+    func getCashLogSummary() -> Single<CurrencyUnit> {
+        let beginDate = (self.dateBegin ?? Date().getPastSevenDate()).convertToKotlinx_datetimeLocalDate()
+        let endDate = (self.dateEnd ?? Date().convertdateToUTC()).convertToKotlinx_datetimeLocalDate()
+        return RxSwift.Single.from(depositService.getPaymentSummary(from: beginDate, to: endDate))
+    }
+    
+    func getDepositLog(_ displayId: String) -> Single<PaymentLogDTO.Log> {
+        return RxSwift.Single.from(depositService.getPaymentLog(displayId: displayId))
+    }
 }

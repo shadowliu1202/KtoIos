@@ -45,10 +45,10 @@ class DepositRecordContainer: APPViewController {
             case .deposit?:
                 fetchData(.fiat)
             default:
+                updateTransactionType()
                 break
             }
         }
-        
     }
     
     deinit {
@@ -56,6 +56,14 @@ class DepositRecordContainer: APPViewController {
             self.removeChildViewController(vc)
         }
         print("\(type(of: self)) deinit")
+    }
+    
+    private func updateTransactionType() {
+        let _ = depositLogViewModel.getDepositLog(displayId).subscribe(onSuccess: { [weak self] in
+            self?.fetchData($0.currencyType)
+        }, onError: { [weak self] in
+            self?.handleErrors($0)
+        })
     }
     
     func fetchData(_ paymentType: PaymentLogDTO.PaymentCurrencyType) {
