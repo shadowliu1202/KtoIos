@@ -10,7 +10,7 @@ class WithdrawalRequestViewModel {
     
     var relayWithdrawalAmount = BehaviorRelay<String>(value: "")
     var relaydDailyMaxCount = BehaviorRelay<Int32>(value: 0)
-    var relayDailyMaxCash = BehaviorRelay<AccountCurrency>(value: 0.toAccountCurrency())
+    var relayDailyCurrentCash = BehaviorRelay<AccountCurrency>(value: 0.toAccountCurrency())
     var singleCashMinimum: AccountCurrency?
     var singleCashMaximum: AccountCurrency?
     var relayNameEditable: Bool = false
@@ -29,7 +29,7 @@ class WithdrawalRequestViewModel {
             self?.singleCashMinimum = limits.singleCashMinimum
             self?.singleCashMaximum = limits.singleCashMaximum
             self?.relaydDailyMaxCount.accept(limits.dailyMaxCount)
-            self?.relayDailyMaxCash.accept(limits.dailyMaxCash)
+            self?.relayDailyCurrentCash.accept(limits.dailyCurrentCash)
         })
     }
     
@@ -52,12 +52,12 @@ class WithdrawalRequestViewModel {
                      dataValid: Observable<Bool>) {
         let userNameValid = userName.map { $0.count != 0 }
         let dailyCountValid = relaydDailyMaxCount.map { $0 > 0 }
-        let dailyCashValid = relayDailyMaxCash.map { $0.isPositive }
+        let dailyCashValid = relayDailyCurrentCash.map { $0.isPositive }
         let amountValid = relayWithdrawalAmount.map { [weak self] (amount) -> AmountStatus in
             if amount.count == 0 { return .empty}
             guard let singleCashMinimum = self?.singleCashMinimum,
                   let singleCashMaximum = self?.singleCashMaximum,
-                  let dailyCurrentCash = self?.relayDailyMaxCash.value,
+                  let dailyCurrentCash = self?.relayDailyCurrentCash.value,
                   let balance = self?.balance
             else { return .invalid }
             let amount = amount.toAccountCurrency()
