@@ -165,7 +165,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
                              remitterBankCardNumber.asDriverLogError(),
                              remittance.asDriverLogError())
         { (paymentIdentity, selectPaymentGateway, remitterName, remitterBankCardNumber, remittance) in
-            let amount = Int64(remittance.replacingOccurrences(of: ",", with: "")) ?? 0
+            let amount = remittance.replacingOccurrences(of: ",", with: "")
             let onlineRemitter = OnlineRemitter(name: remitterName, account: remitterBankCardNumber)
             let application = OnlineRemitApplication(remitter: onlineRemitter, remittance: amount, gatewayIdentity: selectPaymentGateway.identity, supportBankCode: nil)
             let request = OnlineDepositDTO.Request(paymentIdentity: paymentIdentity, application: application)

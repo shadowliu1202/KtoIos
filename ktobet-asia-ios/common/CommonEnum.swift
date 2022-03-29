@@ -90,6 +90,7 @@ public enum DateType {
 
 public enum RegularFormat: String {
     case currencyFormatWithTwoDecimal = "^[0-9]{1,8}([.][0-9]{0,2})?$"
+    case currencyFormat = "^[0-9]{1,8}?$"
 }
 
 

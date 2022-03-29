@@ -22,7 +22,6 @@ class InputText : UIView {
     var hidePickerView: (() -> ())?
     var maxLength = Int32.max
     var numberOnly = false
-    var isPasteble = true
     
     private var labTitle = UILabel()
     private var labSubTitle = UILabel()
@@ -192,7 +191,9 @@ class InputText : UIView {
     
     // MARK: TEXT HANDLER
     @objc private func textFieldEditingChanged(_ textField: UITextField){
-        editingChangedHandler?(textField.text ?? "")
+        let halfWidthText = textField.text?.halfWidth
+        textField.text = halfWidthText
+        editingChangedHandler?(halfWidthText ?? "")
     }
     
     func setEditingChangedHandler(_ editingChangedHandler:((String)->())?){
@@ -224,20 +225,6 @@ extension InputText: UITextFieldDelegate {
                 return isLessThanLimitLength(currentString: currentString, shouldChangeCharactersIn: range, replacementString: string)
             }
         }
-    }
-
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if textContent.isFirstResponder {
-            DispatchQueue.main.async {
-                if !self.isPasteble {
-                    (sender as? UIMenuController)?.showMenu(from: UIView(), rect: CGRect.zero)
-                }
-            }
-
-            return false
-        }
-
-        return super.canPerformAction(action, withSender: sender)
     }
 
     private func isNumber(replacementString string: String) -> Bool {
