@@ -37,11 +37,9 @@ class HttpClient {
     let retryProvider : MoyaProvider<MultiTarget>!
     var session : Session { return AF}
     var host : String {return KtoURL.host}
-//    var host : String { return "https://qat1.pivotsite.com/"}
     var baseUrl : URL { return KtoURL.baseUrl}
     var headers : [String : String] {
         var header : [String : String] = [:]
-        //headers.add(name: "Accept-Charset", value: "UTF-8")
         header["Accept"] = "application/json"
         header["User-Agent"] = "AppleWebKit/" + Configuration.getKtoAgent()
         header["Cookie"] = {
