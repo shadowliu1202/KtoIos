@@ -23,10 +23,9 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         return casinoApi.getCasinoBetSummary(offset: secondsToHours).map { (response) -> BetSummary in
             guard let d = response.data else { return BetSummary.init(unFinishedGames: 0, finishedGame: []) }
             let finishedGame = d.summaries.map { (s) -> DateSummary in
-                let createDate = s.betDate.convertDateTime(format:  "yyyy/MM/dd") ?? Date()
                 return DateSummary(totalStakes: s.stakes.toAccountCurrency(),
                                    totalWinLoss: s.winLoss.toAccountCurrency(),
-                                   createdDateTime: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()),
+                                   createdDateTime: s.betDate.toLocalDate(),
                                    count: s.count)
             }
             
@@ -67,12 +66,8 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         return casinoApi.getGameGroup(date: localDate, offset: secondsToHours).map { (response) -> [PeriodOfRecord] in
             guard let data = response.data else { return [] }
             var periodOfRecords: [PeriodOfRecord] = []
-            let format1 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
             for p in data {
-                let startDate = p.startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()
-                let endDate = p.endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()
-                periodOfRecords.append(PeriodOfRecord(endDate: endDate.convertToKotlinx_datetimeLocalDateTime(), startDate: startDate.convertToKotlinx_datetimeLocalDateTime(), lobbyId: p.lobbyId, lobbyName: p.lobbyName, records: []))
+                periodOfRecords.append(PeriodOfRecord(endDate: p.endDate.toLocalDateTime(), startDate: p.startDate.toLocalDateTime(), lobbyId: p.lobbyId, lobbyName: p.lobbyName, records: []))
             }
             
             return periodOfRecords

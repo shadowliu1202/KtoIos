@@ -17,28 +17,6 @@ extension String {
         return ceil(boundingBox.width)
     }
     
-    private func convertLocalDateTime(format1: String = "", format2: String = "") -> Date?{
-        return convertDateTime(format: format1) ?? convertDateTime(format: format2)
-    }
-    
-    func convertDateTime(format: String = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", timeZone: String? = "UTC") -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        let date = dateFormatter.date(from: self)
-        return date
-    }
-    
-    func convertOffsetDateTime(format1: String = "", format2: String = "") -> Date?{
-        return convertOffsetDateTime(format: format1) ?? convertOffsetDateTime(format: format2)
-    }
-    
-    func convertOffsetDateTime(format: String = "") -> Date?{
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.dateFormat = format
-        return dateFormatter.date(from: self)
-    }
-    
     func isValidRegex(format: RegexFormat) -> Bool {
         let test = format.predicate
 
@@ -71,25 +49,6 @@ extension String {
     func doubleValue() -> Double {
         return (self as NSString).doubleValue
     }
-    
-    func toDate(format: String, timeZone: TimeZone) -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        dateFormatter.timeZone = timeZone
-        return dateFormatter.date(from: self)
-    }
-    
-    func toLocalDate(format: String = "yyyy-MM-dd") -> Kotlinx_datetimeLocalDate {
-        var createDate = Date()
-        if let date = self.convertLocalDateTime(format1: "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", format2: "yyyy-MM-dd'T'HH:mm:ssZ") {
-            createDate = date
-        } else if let d = self.convertDateTime(format: "yyyy/MM/dd") {
-            createDate = d
-        } else {
-            fatalError("toLocalDateTime with worrng format, Date = \(self)")
-        }
-        return Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth())
-    }
 }
 
 //MARK: String to DateTime
@@ -109,14 +68,36 @@ extension String {
         return Kotlinx_datetimeLocalDateTime.init(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
     }
 
+    func toLocalDate() -> Kotlinx_datetimeLocalDate {
+        let offsetDate = getOffsetDate()
+        return Kotlinx_datetimeLocalDate(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth())
+    }
+
+    func toDate(format: String, timeZone: TimeZone) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.timeZone = timeZone
+        return dateFormatter.date(from: self)
+    }
+
     private func getOffsetDate() -> Date {
         let dateFormatterWithFractionalSeconds = ISO8601DateFormatter()
+        let dateFormatterwithFullDate = ISO8601DateFormatter()
         let dateFormatter = ISO8601DateFormatter()
-        dateFormatterWithFractionalSeconds.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        var createDate = (dateFormatter.date(from: self) ?? dateFormatterWithFractionalSeconds.date(from: self))!
+        dateFormatterwithFullDate.formatOptions = [.withFullDate]
+        dateFormatterWithFractionalSeconds.formatOptions = [.withDashSeparatorInDate, .withInternetDateTime, .withFractionalSeconds]
+        var date = Date()
+        if let createDate = dateFormatterWithFractionalSeconds.date(from: self) {
+            date = createDate
+        } else if let createDate = dateFormatter.date(from: self) {
+            date = createDate
+        } else if let createDate = dateFormatterwithFullDate.date(from: self) {
+            date = createDate
+        }
+
         let offsetTime = TimeInterval(playerTimeZone.secondsFromGMT())
-        createDate.addTimeInterval(offsetTime)
-        return createDate
+        date.addTimeInterval(offsetTime)
+        return date
     }
 }
 

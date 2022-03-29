@@ -141,11 +141,8 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
     
     private func convert(levelBean: LevelBean) -> LevelOverview {
-        let timestamp = levelBean.timestamp.convertDateTime() ?? Date()
-        let timestampLocalDateTime = Kotlinx_datetimeLocalDateTime(year: timestamp.getYear(), monthNumber: timestamp.getMonth(), dayOfMonth: timestamp.getDayOfMonth(), hour: timestamp.getHour(), minute: timestamp.getMinute(), second: timestamp.getSecond(), nanosecond: timestamp.getNanosecond())
-        
         let privileges = levelBean.data?.map{ self.convert(level: levelBean.level, privilegeBean: $0) } ?? []
-        return LevelOverview(level: levelBean.level, timeStamp: timestampLocalDateTime, privileges: privileges)
+        return LevelOverview(level: levelBean.level, timeStamp: levelBean.timestamp.toLocalDateTime(), privileges: privileges)
     }
     
     private func convert(level: Int32, privilegeBean: PrivilegeBean) -> LevelPrivilege {

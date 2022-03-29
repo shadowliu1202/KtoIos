@@ -101,14 +101,12 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     }
     
     fileprivate func convertWithdrawalDataToWithdrawalRecord(_ r: WithdrawalRecordData) -> WithdrawalRecord {
-        let createDate = r.createdDate.convertDateTime() ?? Date()
-        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
-        return WithdrawalRecord(transactionTransactionType: TransactionType.Companion.init().convertTransactionType(transactionType_: r.ticketType), displayId: r.displayID,
-                                transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: r.status),
-                                createDate: createOffsetDateTime,
-                                cashAmount: r.requestAmount.toAccountCurrency(),
-                                isPendingHold: r.isPendingHold,
-                                groupDay: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()))
+        WithdrawalRecord(transactionTransactionType: TransactionType.Companion.init().convertTransactionType(transactionType_: r.ticketType), displayId: r.displayID,
+                         transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: r.status),
+                         createDate: r.createdDate.toOffsetDateTime(),
+                         cashAmount: r.requestAmount.toAccountCurrency(),
+                         isPendingHold: r.isPendingHold,
+                         groupDay: r.createdDate.toLocalDate())
     }
     
     func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
@@ -173,9 +171,6 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     fileprivate func createStatusChangeHistory(changeHistory: StatusChangeHistory) -> Single<Transaction.StatusChangeHistory> {
         var imgIDs: [Single<ResponseData<String>>] = []
         var portalImages: [PortalImage] = []
-        let createDate = changeHistory.createdDate.convertDateTime() ?? Date()
-        let createLocalDateTime = Kotlinx_datetimeLocalDateTime(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth(), hour: createDate.getHour(), minute: createDate.getMinute(), second: createDate.getSecond(), nanosecond: createDate.getNanosecond())
-        let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: TimeZone.current.identifier)
         for id in changeHistory.imageIDS {
             imgIDs.append(imageApi.getPrivateImageToken(imageId: id))
         }
@@ -185,7 +180,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
                 portalImages.append(PortalImage.Private(imageId: r.data ?? "", fileName: "", host: HttpClient().getHost()))
             }
             
-            return Transaction.StatusChangeHistory(createdDate: offsetDateTime, imageIds: portalImages, remarkLevel1: changeHistory.remarkLevel1, remarkLevel2: changeHistory.remarkLevel2, remarkLevel3: changeHistory.remarkLevel3)
+            return Transaction.StatusChangeHistory(createdDate: changeHistory.createdDate.toOffsetDateTime(), imageIds: portalImages, remarkLevel1: changeHistory.remarkLevel1, remarkLevel2: changeHistory.remarkLevel2, remarkLevel3: changeHistory.remarkLevel3)
         }
     }
     
