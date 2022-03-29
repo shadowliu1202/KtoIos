@@ -278,13 +278,6 @@ struct DepositRecordDetailData: Codable {
     }
     
     func toDepositDetail(statusChangeHistories: [Transaction.StatusChangeHistory]) -> DepositDetail? {
-        let createDate = self.createdDate.convertDateTime() ?? Date()
-        let createOffsetDateTime = createDate.convertDateToOffsetDateTime()
-        let updateDate = self.updatedDate.convertDateTime() ?? Date()
-        let updateOffsetDateTime = updateDate.convertDateToOffsetDateTime()
-        let requestApprovedDate = self.approvedDate?.convertDateTime() ?? Date()
-        let requestApprovedOffsetDateTime = requestApprovedDate.convertDateToOffsetDateTime()
-        
         let detail = DepositDetail.Flat.init(displayId: self.displayID,
                                              fee: self.fee?.toAccountCurrency() ?? AccountCurrency.zero(),
                                              isPendingHold: self.isPendingHold,
@@ -293,9 +286,9 @@ struct DepositRecordDetailData: Codable {
                                              status: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: self.status),
                                              statusChangeHistories: statusChangeHistories,
                                              ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
-                                             createdDate: createOffsetDateTime,
-                                             updatedDate: updateOffsetDateTime,
-                                             approvedDate: requestApprovedOffsetDateTime)
+                                             createdDate: self.createdDate.toOffsetDateTime(),
+                                             updatedDate: self.updatedDate.toOffsetDateTime(),
+                                             approvedDate: self.approvedDate?.toOffsetDateTime() ?? "".toOffsetDateTime())
         
         switch TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType) {
         case .deposit, .a2ptransferin, .p2ptransferin:
@@ -699,10 +692,9 @@ struct SlotBetSummaryBean: Codable {
         let winloss: Double
         
         func toDateSummary() -> DateSummary {
-            let createDate = self.betDate.convertDateTime(format:  "yyyy/MM/dd") ?? Date()
             return DateSummary(totalStakes: self.stakes.toAccountCurrency(),
                                totalWinLoss: self.winloss.toAccountCurrency(),
-                               createdDateTime: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()),
+                               createdDateTime: betDate.toLocalDate(),
                                count: self.count)
         }
     }
@@ -740,11 +732,7 @@ struct SlotDateGameRecordBean: Codable {
     
     func toSlotGroupedRecord() -> SlotGroupedRecord {
         let thumbnail = SlotThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
-        let format1 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
-        let end = (endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        let start = (startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        return SlotGroupedRecord(slotThumbnail: thumbnail, endDate: end, gameId: gameId, gameName: gameName, stakes: stakes.toAccountCurrency(), startDate: start, winloss: winloss.toAccountCurrency(), recordCount: count)
+        return SlotGroupedRecord(slotThumbnail: thumbnail, endDate: endDate.toLocalDateTime(), gameId: gameId, gameName: gameName, stakes: stakes.toAccountCurrency(), startDate: startDate.toLocalDateTime(), winloss: winloss.toAccountCurrency(), recordCount: count)
     }
 }
 
@@ -822,11 +810,11 @@ struct RecordSummary: Codable {
     let winLoss: Double
     
     func toNumberGame() -> NumberGameSummary.Date {
-        return NumberGameSummary.Date.init(betDate: self.betDate.toLocalDate(), count: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency())
+        NumberGameSummary.Date(betDate: self.betDate.toLocalDate(), count: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency())
     }
     
     func toUnSettleNumberGame() -> NumberGameSummary.Date {
-        return NumberGameSummary.Date.init(betDate: self.betDate.toLocalDate(), count: count, stakes: stakes.toAccountCurrency(), winLoss: nil)
+        NumberGameSummary.Date(betDate: self.betDate.toLocalDate(), count: count, stakes: stakes.toAccountCurrency(), winLoss: nil)
     }
 }
 
@@ -929,13 +917,11 @@ struct BetSummaryDataResponse: Codable {
     var winLoss: Double
     
     func toUnSettleGameSummary() -> NumberGameSummary.Bet {
-        let betLocalTime = betTime.toLocalDateTime()
-        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: betLocalTime, betAmount: stakes.toAccountCurrency(), winLoss: nil, hasDetail: hasDetails)
+        NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: betTime.toLocalDateTime(), betAmount: stakes.toAccountCurrency(), winLoss: nil, hasDetail: hasDetails)
     }
     
     func toSettleGameSummary() -> NumberGameSummary.Bet {
-        let settleLocalTime = (String(self.settleTime.prefix(19)).convertDateTime(format: "yyyy-MM-dd'T'HH:mm:ss") ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        return NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: settleLocalTime, betAmount: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), hasDetail: hasDetails)
+        NumberGameSummary.Bet.init(displayId: betId, wagerId: wagerId, time: settleTime.toLocalDateTime(), betAmount: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), hasDetail: hasDetails)
     }
 }
 
@@ -965,7 +951,7 @@ struct CryptoBankCardBean: Codable {
             fatalError("cryptoCurrency is not SupportCryptoType")
         }
 
-        let updateDate = (self.updatedDate.convertDateTime() ?? Date()).convertDateToOffsetDateTime()
+        let updateDate = self.updatedDate.toOffsetDateTime()
         let bankCard = BankCardObject(id_: playerCryptoBankCardId,
                                       name: cryptoWalletName,
                                       status: status,
@@ -1141,10 +1127,9 @@ struct SummaryBean: Codable {
     let winLoss: Double
     
     func toDateSummary() -> DateSummary {
-        let createDate = self.betDate.convertDateTime(format:  "yyyy/MM/dd") ?? Date()
         return DateSummary(totalStakes: self.stakes.toAccountCurrency(),
                            totalWinLoss: self.winLoss.toAccountCurrency(),
-                           createdDateTime: Kotlinx_datetimeLocalDate.init(year: createDate.getYear(), monthNumber: createDate.getMonth(), dayOfMonth: createDate.getDayOfMonth()),
+                           createdDateTime: betDate.toLocalDate(),
                            count: self.count)
     }
 }
@@ -1177,11 +1162,7 @@ struct P2PDateBetRecordBean: Codable {
     
     func toGameGroupedRecord() -> GameGroupedRecord {
         let thumbnail = P2PThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
-        let format1 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
-        let start = (startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        let end = (endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        return GameGroupedRecord(gameId: gameGroupId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), startDate: start, endDate: end)
+        return GameGroupedRecord(gameId: gameGroupId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), startDate: startDate.toLocalDateTime(), endDate: endDate.toLocalDateTime())
     }
 }
 
@@ -1208,11 +1189,7 @@ struct ArcadeDateDataRecordBean: Codable {
     
     func toGameGroupedRecord() -> GameGroupedRecord {
         let thumbnail = P2PThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
-        let format1 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let format2 = "yyyy-MM-dd'T'HH:mm:ssZ"
-        let start = (startDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        let end = (endDate.convertOffsetDateTime(format1: format1, format2: format2) ?? Date()).convertToKotlinx_datetimeLocalDateTime()
-        return GameGroupedRecord(gameId: gameId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), startDate: start, endDate: end)
+        return GameGroupedRecord(gameId: gameId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), startDate: startDate.toLocalDateTime(), endDate: endDate.toLocalDateTime())
     }
 }
 
@@ -1251,9 +1228,7 @@ struct ArcadeGameBetRecordBean: Codable {
     let hasDetails: Bool
     
     func toArcadeGameBetRecord() -> ArcadeGameBetRecord {
-        let betLocalTime = self.betTime.convertDateTime()?.convertDateToOffsetDateTime() ?? Date().convertDateToOffsetDateTime()
-        let settleLocalTime = self.settleTime.convertDateTime()?.convertDateToOffsetDateTime() ?? Date().convertDateToOffsetDateTime()
-        return ArcadeGameBetRecord(wagerId: self.wagerId, betId: self.betId, betTime: betLocalTime, settleTime: settleLocalTime, hasDetails: self.hasDetails, stakes: self.stakes.toAccountCurrency(), winLoss: self.winLoss.toAccountCurrency())
+        ArcadeGameBetRecord(wagerId: self.wagerId, betId: self.betId, betTime: self.betTime.toOffsetDateTime(), settleTime: self.settleTime.toOffsetDateTime(), hasDetails: self.hasDetails, stakes: self.stakes.toAccountCurrency(), winLoss: self.winLoss.toAccountCurrency())
     }
 }
 
@@ -1381,8 +1356,9 @@ struct BonusBean: Codable {
                                         fixTurnoverRequirement: self.fixTurnoverRequirement,
                                         informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
                                         updatedDate: self.updatedDate.toLocalDateTime(),
-                                        validPeriod: ValidPeriod.Companion.init().create(start: self.effectiveDate.toOffsetDateTime(),
-                                                                                         end: self.expiryDate.toOffsetDateTime()),
+                                        validPeriod: ValidPeriod.Companion.init().create(
+                                            start: self.effectiveDate.toOffsetDateTime(),
+                                            end: self.expiryDate.toOffsetDateTime()),
                                         minCapital: self.knMinCapital)
     }
     
@@ -1443,8 +1419,9 @@ struct BonusBean: Codable {
                                                  informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
                                                  updatedDate: self.updatedDate.toLocalDateTime(),
                                                  name: self.name,
-                                                 validPeriod:  ValidPeriod.Companion.init().create(start: self.effectiveDate.toOffsetDateTime(),
-                                                                                                   end: self.expiryDate.toOffsetDateTime()),
+                                                 validPeriod: ValidPeriod.Companion.init().create(
+                                                    start: self.effectiveDate.toOffsetDateTime(),
+                                                    end: self.expiryDate.toOffsetDateTime()),
                                                  minCapital: self.knMinCapital)
     }
 }
