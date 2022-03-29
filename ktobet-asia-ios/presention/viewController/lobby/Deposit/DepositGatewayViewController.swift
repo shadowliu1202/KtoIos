@@ -108,11 +108,11 @@ class DepositGatewayViewController: APPViewController {
         remitterBankCardNumberTextField.setKeyboardType(.numberPad)
         remitterBankCardNumberTextField.maxLength = 4
         remitterBankCardNumberTextField.numberOnly = true
-        remitterBankCardNumberTextField.isPasteble = false
 
         remitterAmountTextField.setTitle(Localize.string("deposit_amount"))
         remitterAmountTextField.setKeyboardType(.numberPad)
-        
+        amountTextOnlyInputNumber()
+
         depositConfirmButton.setTitle(Localize.string("deposit_offline_step1_button"), for: .normal)
         depositConfirmButton.isValid = false
         
@@ -225,6 +225,13 @@ class DepositGatewayViewController: APPViewController {
         remitterAmountTextField.editingChangedHandler = { [weak self] (str) in
             guard let amount = Double(str.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else { return }
             self?.remitterAmountTextField.textContent.text = amount
+        }
+
+        remitterAmountTextField.shouldChangeCharactersIn = {(textField, range, string) -> Bool in
+            let candidate = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string).replacingOccurrences(of: ",", with: "")
+            if candidate == "" { return true }
+            let isWellFormatted = candidate.range(of: RegularFormat.currencyFormat.rawValue, options: .regularExpression) != nil
+            return isWellFormatted
         }
     }
     
