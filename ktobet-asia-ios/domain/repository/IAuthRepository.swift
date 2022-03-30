@@ -67,6 +67,11 @@ class IAuthRepositoryImpl : IAuthRepository {
     
     func authorize(_ account: String, _ password: String, _ captcha: Captcha) -> Single<LoginStatus>{
         return api.login(account, password, captcha).map { (response) -> LoginStatus in
+            //MARK: 暫屏蔽VN註冊，待VN上線時打開
+            if HttpClient().getCulture() == SupportLocale.Vietnam.shared.cultureCode() {
+                return LoginStatus.init(status: LoginStatus.TryStatus.failed1to5, isLocked: false)
+            }
+
             let tryStatus : LoginStatus.TryStatus = {
                 switch (response.data?.phase ){
                 case 0: return LoginStatus.TryStatus.success

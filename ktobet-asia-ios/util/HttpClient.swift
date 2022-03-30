@@ -112,6 +112,11 @@ class HttpClient {
     func getHost() -> String {
         return host
     }
+
+    func getCulture() -> String {
+        let culture = session.sessionConfiguration.httpCookieStorage?.cookies?.first(where: { $0.name == "culture" })?.value ?? ""
+        return culture
+    }
     
     func clearCookie()->Completable{
         return Completable.create { (completable) -> Disposable in

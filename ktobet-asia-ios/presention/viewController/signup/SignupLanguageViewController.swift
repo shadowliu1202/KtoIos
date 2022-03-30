@@ -72,14 +72,16 @@ class SignupLanguageViewController: LandingViewController {
     
     private func reloadLanguageList(){
         arrLangs = {
-            let texts = [Localize.string("register_language_option_chinese"), Localize.string("register_language_option_vietnam")]
-            let type = [SupportLocale.China.init(), SupportLocale.Vietnam.init()]
+            //MARK: 暫屏蔽VN註冊，待VN上線時打開
+            //let texts = [Localize.string("register_language_option_chinese"), Localize.string("register_language_option_vietnam")]
+            //let type = [SupportLocale.China.init(), SupportLocale.Vietnam.init()]
+            let types = [SupportLocale.China.init(): Localize.string("register_language_option_chinese")]
             var arr = [LanguageListData]()
-            for idx in 0...1{
+            for (type, text) in types {
                 arr.append({
-                    let selected : Bool = type[idx].cultureCode() == Localize.getLanguage()
-                    let item = LanguageListData(title: texts[idx],
-                                                type: type[idx],
+                    let selected : Bool = type.cultureCode() == Localize.getLanguage()
+                    let item = LanguageListData(title: text,
+                                                type: type,
                                                 selected: selected)
                     return item
                 }())
