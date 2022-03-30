@@ -86,24 +86,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         let storyboardId =  UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController?.restorationIdentifier ?? ""
         if storyboardId != "LoginNavigation" {
-        let viewModel = DI.resolve(LaunchViewModel.self)!
-        viewModel
-            .checkIsLogged()
-            .subscribe { (isLogged) in
-                CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
-                    print("Completed")
-                }).disposed(by: self.disposeBag)
+            let viewModel = DI.resolve(LaunchViewModel.self)!
+            viewModel
+                .checkIsLogged()
+                .subscribe { (isLogged) in
+                    CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
+                        print("Completed")
+                    }).disposed(by: self.disposeBag)
 
-                if !isLogged {
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                    if !isLogged {
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                    }
+                } onError: { (error) in
+                    if error.isUnauthorized() {
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                    } else {
+                        UIApplication.topViewController()?.handleErrors(error)
+                    }
+                }.disposed(by: disposeBag)
+        } else {
+            let viewModel = DI.resolve(ServiceStatusViewModel.self)!
+            viewModel.output.portalMaintenanceStatus.drive(onNext: { status in
+                switch status {
+                case is MaintenanceStatus.AllPortal:
+                    UIApplication.topViewController()?.showUnLoginMaintenanAlert()
+                default:
+                    break
                 }
-            } onError: { (error) in
-                if error.isUnauthorized() {
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
-                } else {
-                    UIApplication.topViewController()?.handleErrors(error)
-                }
-            }.disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
         }
         
         fetchLatestVersion()

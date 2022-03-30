@@ -85,13 +85,13 @@ class LoginViewModel{
     }
     
     func loginFrom(isRememberMe : Bool)->Single<(Player)>{
-        let account = self.relayAccount.value
+        let account = self.relayAccount.value.trimmingCharacters(in: .whitespaces)
         let password = self.relayPassword.value
         let captcha = Captcha(passCode: self.relayCaptcha.value)
         return usecaseAuth
             .loginFrom(account: account, pwd: password, captcha: captcha)
             .map { (player) -> Player in
-                self.usecaseAuth.setRemeberAccount(isRememberMe ? self.relayAccount.value : nil)
+                self.usecaseAuth.setRemeberAccount(isRememberMe ? account : nil)
                 self.usecaseAuth.setNeedCaptcha(nil)
                 self.usecaseAuth.setLastOverLoginLimitDate(nil)
                 self.usecaseAuth.setUserName(player.playerInfo.withdrawalName)
