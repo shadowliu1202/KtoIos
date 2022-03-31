@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		16DFE0C9C2D40DC82C8CB57A /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3439EB7929E175EF3BC7A116 /* Pods_ktobet_asia_ios.framework */; };
+		1CF06C02A6512DB1ADB9C616 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */; };
 		359994EF259D7A600020EF5A /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359994EE259D7A600020EF5A /* UIButtonExtension.swift */; };
 		35B9B37E259AE7CD00050914 /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
 		35B9B382259AFB4A00050914 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */; };
@@ -1597,7 +1598,6 @@
 		60E581AD27F190E4008CE5A9 /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
 		60E581AE27F190E4008CE5A9 /* PromotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD338026CDECC90081A846 /* PromotionViewController.swift */; };
 		60E581AF27F190E4008CE5A9 /* P2PUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9FF2695573300941BDD /* P2PUseCase.swift */; };
-		60E581B127F190E4008CE5A9 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */; };
 		60E581B227F190E4008CE5A9 /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
 		60E581B427F190E4008CE5A9 /* Maintenance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60AC5C0E27683190008F0281 /* Maintenance.storyboard */; };
 		60E581B527F190E4008CE5A9 /* NextLevelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D17954526A65A86001C8BF8 /* NextLevelTableViewCell.xib */; };
@@ -1677,6 +1677,7 @@
 		60F894A927E2C9C400FC92D9 /* NotificationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F894A827E2C9C400FC92D9 /* NotificationSearchViewController.swift */; };
 		60F894AA27E2C9C400FC92D9 /* NotificationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F894A827E2C9C400FC92D9 /* NotificationSearchViewController.swift */; };
 		60F894AB27E2C9C400FC92D9 /* NotificationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F894A827E2C9C400FC92D9 /* NotificationSearchViewController.swift */; };
+		60FB338C27F5707E0014B866 /* ktobet-asia-ios-production-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60FB338B27F5707D0014B866 /* ktobet-asia-ios-production-Info.plist */; };
 		60FE05B327CDED5200B7914A /* OldEmailModifyConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FE05B127CDED5200B7914A /* OldEmailModifyConfirmViewController.swift */; };
 		60FE05B427CDED5200B7914A /* OldEmailModifyConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FE05B127CDED5200B7914A /* OldEmailModifyConfirmViewController.swift */; };
 		60FE05B727CDF63200B7914A /* SetEmailIdentityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FE05B527CDF63200B7914A /* SetEmailIdentityViewController.swift */; };
@@ -2358,9 +2359,8 @@
 		0E1C1F1191261D56552B424C /* Pods-ktobet-asia-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		0FCB36392413308A6894210B /* Pods-ktobet-asia-ios-qat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.debug.xcconfig"; sourceTree = "<group>"; };
 		19630262B3438BDC7A8408C7 /* libPods-ktobet-asia-iosUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ktobet-asia-iosUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2813526429E82977C1BE1CB2 /* Pods-ktobet-asia-ios-staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging.release.xcconfig"; sourceTree = "<group>"; };
+		2148A1C593328896EB214C23 /* Pods-ktobet-asia-ios-staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging.release.xcconfig"; sourceTree = "<group>"; };
 		30DFCC5EC3774654AD6E39A8 /* libPods-ktobet-asia-iosTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ktobet-asia-iosTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		341F932064098BEDECF93288 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging.debug.xcconfig"; sourceTree = "<group>"; };
 		3439EB7929E175EF3BC7A116 /* Pods_ktobet_asia_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		359994EE259D7A600020EF5A /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ResetPassword.storyboard; sourceTree = "<group>"; };
@@ -2735,12 +2735,12 @@
 		60E4A7A72755B4FD0088245F /* CryptoSelectorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoSelectorTableViewCell.swift; sourceTree = "<group>"; };
 		60E4A7AF275716CA0088245F /* Notification.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Notification.storyboard; sourceTree = "<group>"; };
 		60E581F627F190E4008CE5A9 /* ktobet-asia-ios-production.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-production.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		60E581F727F190E5008CE5A9 /* ktobet-asia-ios-production-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ktobet-asia-ios-production-Info.plist"; path = "/Users/weichen.cheng/ktobet-asia-ios/ktobet-asia-ios-production-Info.plist"; sourceTree = "<absolute>"; };
 		60E7B80427B63A7900A15D42 /* ThirdPartyDepositViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartyDepositViewModel.swift; sourceTree = "<group>"; };
 		60EDDF36274793940096890D /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		60F405F627C4D0C3003028C9 /* sharedbu.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sharedbu.xcframework; path = Pods/sharedbu/sharedbu/build/XCFrameworks/release/sharedbu.xcframework; sourceTree = "<group>"; };
 		60F537EA26F0A4430043B4C0 /* TransactionLogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionLogTableViewCell.swift; sourceTree = "<group>"; };
 		60F894A827E2C9C400FC92D9 /* NotificationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSearchViewController.swift; sourceTree = "<group>"; };
+		60FB338B27F5707D0014B866 /* ktobet-asia-ios-production-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-production-Info.plist"; sourceTree = "<group>"; };
 		60FE05B127CDED5200B7914A /* OldEmailModifyConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldEmailModifyConfirmViewController.swift; sourceTree = "<group>"; };
 		60FE05B527CDF63200B7914A /* SetEmailIdentityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetEmailIdentityViewController.swift; sourceTree = "<group>"; };
 		60FE05BC27CEFF0600B7914A /* Common.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Common.storyboard; sourceTree = "<group>"; };
@@ -2959,6 +2959,7 @@
 		6F3086406301207E65E0DD9E /* Pods-ktobet-asia-ios-qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.release.xcconfig"; sourceTree = "<group>"; };
 		7665D58EE5D27AC8286804AD /* Pods-ktobet-asia-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosTests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosTests/Pods-ktobet-asia-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		A50E664DDB961966EEBC73AC /* Pods_ktobet_asia_ios_qat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_qat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEC56EA9D7768873A7967D96 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging.debug.xcconfig"; sourceTree = "<group>"; };
 		C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_staging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE6A3CDF15DC19BF28D35B6 /* Pods-ktobet-asia-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3004,6 +3005,7 @@
 			files = (
 				8D7526F526D8CD3108747E0B /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
 				60F405FA27C4D0F9003028C9 /* sharedbu.xcframework in Frameworks */,
+				1CF06C02A6512DB1ADB9C616 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3011,7 +3013,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60E581B127F190E4008CE5A9 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
 				60E581B227F190E4008CE5A9 /* sharedbu.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3137,7 +3138,7 @@
 				485DF04925415454001F9D4A /* Info.plist */,
 				4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */,
 				6090138B2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist */,
-				60E581F727F190E5008CE5A9 /* ktobet-asia-ios-production-Info.plist */,
+				60FB338B27F5707D0014B866 /* ktobet-asia-ios-production-Info.plist */,
 				4840646D258721740064AAC9 /* InfoPlist.strings */,
 				48D7F9EB2575E38B00540B85 /* Localizable.strings */,
 			);
@@ -4215,12 +4216,12 @@
 				4CB30E3FC0AE0163A78500AB /* Pods-ktobet-asia-ios.release.xcconfig */,
 				0FCB36392413308A6894210B /* Pods-ktobet-asia-ios-qat.debug.xcconfig */,
 				6F3086406301207E65E0DD9E /* Pods-ktobet-asia-ios-qat.release.xcconfig */,
-				341F932064098BEDECF93288 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */,
-				2813526429E82977C1BE1CB2 /* Pods-ktobet-asia-ios-staging.release.xcconfig */,
 				507A261B77E847BA8A4A03FF /* Pods-ktobet-asia-iosTests.debug.xcconfig */,
 				7665D58EE5D27AC8286804AD /* Pods-ktobet-asia-iosTests.release.xcconfig */,
 				3D51ABCE22D9D883083050B3 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */,
 				CBE6A3CDF15DC19BF28D35B6 /* Pods-ktobet-asia-iosUITests.release.xcconfig */,
+				BEC56EA9D7768873A7967D96 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */,
+				2148A1C593328896EB214C23 /* Pods-ktobet-asia-ios-staging.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -4331,13 +4332,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60E581F327F190E4008CE5A9 /* Build configuration list for PBXNativeTarget "ktobet-asia-ios-production" */;
 			buildPhases = (
-				60E57FAE27F190E4008CE5A9 /* [CP] Check Pods Manifest.lock */,
 				60E57FAF27F190E4008CE5A9 /* Sources */,
 				60E581B027F190E4008CE5A9 /* Frameworks */,
 				60E581B327F190E4008CE5A9 /* Resources */,
 				60E581EF27F190E4008CE5A9 /* Copy Files */,
 				60E581F127F190E4008CE5A9 /* ShellScript */,
-				60E581F227F190E4008CE5A9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4496,6 +4495,7 @@
 				6D986A5A2718316500194E0D /* CustomService.storyboard in Resources */,
 				600E242926CB5A8500D8B073 /* PromotionHistory.storyboard in Resources */,
 				603462E82632A23F00F5D1D9 /* Slot.storyboard in Resources */,
+				60FB338C27F5707E0014B866 /* ktobet-asia-ios-production-Info.plist in Resources */,
 				6D17954926A65A86001C8BF8 /* NextLevelTableViewCell.xib in Resources */,
 				6085050126005DAD009394CA /* Withdrawal.storyboard in Resources */,
 				6D72756425F0E323000BF51F /* FilterButton.xib in Resources */,
@@ -4723,28 +4723,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		60E57FAE27F190E4008CE5A9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ktobet-asia-ios-staging-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		60E581F127F190E4008CE5A9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4761,23 +4739,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "PREFIX_IDENTIFIER=\"=com.kto.asia=\"\nSUFFIX=\"\"\n\nfor i in `dirname \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"`/*.lproj/InfoPlist.strings\ndo\n    plutil -convert json \"$i\"\n    sed -i -e \"s/${PREFIX_IDENTIFIER}/${SUFFIX}/g\" \"$i\"\n    plutil -convert binary1 \"$i\"\ndone\n";
-		};
-		60E581F227F190E4008CE5A9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		60EEA9E527605C9200BCFF81 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -7068,7 +7029,6 @@
 /* Begin XCBuildConfiguration section */
 		60E581F427F190E4008CE5A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 341F932064098BEDECF93288 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -7100,7 +7060,6 @@
 		};
 		60E581F527F190E4008CE5A9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2813526429E82977C1BE1CB2 /* Pods-ktobet-asia-ios-staging.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -7364,7 +7323,7 @@
 		};
 		6D2C8BE12766E7A600655D0F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2813526429E82977C1BE1CB2 /* Pods-ktobet-asia-ios-staging.release.xcconfig */;
+			baseConfigurationReference = 2148A1C593328896EB214C23 /* Pods-ktobet-asia-ios-staging.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -7635,7 +7594,7 @@
 		};
 		6DB5CF3327673D840018B0E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 341F932064098BEDECF93288 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */;
+			baseConfigurationReference = BEC56EA9D7768873A7967D96 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

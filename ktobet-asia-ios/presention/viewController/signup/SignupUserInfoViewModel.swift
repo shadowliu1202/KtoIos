@@ -34,7 +34,7 @@ class SignupUserInfoViewModel {
     
     private var usecaseRegister : RegisterUseCase!
     private var usecaseSystemStatus : GetSystemStatusUseCase!
-    
+
     private var phoneEdited = false
     private var mailEdited = false
     private var passwordEdited = false
@@ -43,7 +43,7 @@ class SignupUserInfoViewModel {
     private let otpStatus: ReplaySubject<OtpStatus> = .create(bufferSize: 1)
     private let disposeBag = DisposeBag()
 
-    
+    var accountPatternGenerator: AccountPatternGenerator!
     var relayName = BehaviorRelay(value: "")
     var relayEmail = BehaviorRelay(value: "")
     var relayMobile = BehaviorRelay(value: "")
@@ -52,9 +52,10 @@ class SignupUserInfoViewModel {
     var relayAccountType = BehaviorRelay(value: AccountType.phone)
     var locale : SupportLocale = SupportLocale.China()
     
-    init(_ usecaseRegister : RegisterUseCase, _ usecaseSystem : GetSystemStatusUseCase) {
+    init(_ usecaseRegister : RegisterUseCase, _ usecaseSystem : GetSystemStatusUseCase, _ accountPatternGenerator: AccountPatternGenerator) {
         self.usecaseRegister = usecaseRegister
         self.usecaseSystemStatus = usecaseSystem
+        self.accountPatternGenerator = accountPatternGenerator
         
         otpStatusRefreshSubject.asObservable()
             .flatMapLatest{[unowned self] in self.usecaseSystemStatus.getOtpStatus().asObservable() }
@@ -78,27 +79,20 @@ class SignupUserInfoViewModel {
     func currentPassword()->String{
         return relayPassword.value
     }
-    
+
+    private lazy var nameValidator: RealNameValidator = {
+        return RealNameValidator(editAccountName: relayName, accountPatternGenerator: self.accountPatternGenerator)
+    }()
     func event()->(otpValid : Observable<OtpStatus>,
                    emailValid : Observable<UserInfoStatus>,
                    mobileValid : Observable<UserInfoStatus>,
-                   nameValid : Observable<UserInfoStatus>,
+                   nameValid : Observable<AccountNameException?>,
                    passwordValid : Observable<UserInfoStatus>,
                    dataValid : Observable<Bool>,
                    typeChange : Observable<AccountType>){
-        
-        let nameValid = relayName
-            .map { (text) -> UserInfoStatus in
-                let valid = self.locale.verifyWithdrawalNameFormat(name: text)
-                if text.count > 0 { self.nameEdited = true }
-                if valid { return .valid }
-                else if text.count == 0{
-                    if self.nameEdited { return .empty}
-                    else { return .firstEmpty }
-                } else {
-                    return .errNameFormat
-                }
-            }
+
+        let nameValid = nameValidator.isAccountNameValid.map{ $0 ? UserInfoStatus.valid : .errNameFormat }
+        let nameValidException = nameValidator.verifyAccountNameError
         
         let emailValid = relayAccountType
             .flatMapLatest { (type) -> Observable<UserInfoStatus> in
@@ -171,7 +165,7 @@ class SignupUserInfoViewModel {
         return (otpValid : otpValid,
                 emailValid : emailValid,
                 mobileValid : mobileValid,
-                nameValid : nameValid,
+                nameValid : nameValidException,
                 passwordValid : passwordValid,
                 dataValid : dataValid,
                 typeChange : typeChange)

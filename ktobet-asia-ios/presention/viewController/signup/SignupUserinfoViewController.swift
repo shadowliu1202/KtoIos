@@ -219,18 +219,24 @@ class SignupUserinfoViewController: LandingViewController {
                 self?.inputAccount.showUnderline(message.count > 0)
                 self?.inputAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
             }).disposed(by: disposeBag)
-        
+
         event.nameValid
-            .subscribe(onNext: { [weak self] status in
+            .subscribe(onNext: { [unowned self] status in
                 var message = ""
-                if status == .errNameFormat {
-                    message = Localize.string("register_step2_name_format_error")
-                } else if status == .empty {
+                switch status {
+                case is AccountNameException.EmptyAccountName:
                     message = Localize.string("common_field_must_fill")
+                case is AccountNameException.InvalidNameFormat:
+                    message = Localize.string("register_step2_name_format_error")
+                case is AccountNameException.ExceededLength:
+                    message = Localize.string("register_name_format_error_length_limitation", "\(self.viewModel.accountPatternGenerator.withdrawalName().maxLength)")
+                default:
+                    break
                 }
-                self?.labNameTip.text = message
-                self?.inputName.showUnderline(message.count > 0)
-                self?.inputName.setCorner(topCorner: true, bottomCorner: message.count == 0)
+
+                self.labNameTip.text = message
+                self.inputName.showUnderline(message.count > 0)
+                self.inputName.setCorner(topCorner: true, bottomCorner: message.count == 0)
             }).disposed(by: disposeBag)
 
         event.passwordValid

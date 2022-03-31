@@ -465,7 +465,8 @@ class DIContainer {
         ctner.register(SignupUserInfoViewModel.self){ resolver in
             let registerUseCase = ctner.resolve(RegisterUseCase.self)!
             let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
-            return SignupUserInfoViewModel(registerUseCase, systemUseCase)
+            let pattern = ctner.resolve(AccountPatternGenerator.self)!
+            return SignupUserInfoViewModel(registerUseCase, systemUseCase, pattern)
         }
         ctner.register(SignupPhoneViewModel.self) { resolver in
             let usecase = ctner.resolve(RegisterUseCase.self)!
