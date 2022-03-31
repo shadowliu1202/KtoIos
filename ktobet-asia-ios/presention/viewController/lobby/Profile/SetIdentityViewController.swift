@@ -28,6 +28,11 @@ class SetIdentityViewController: APPViewController {
         initNavigateItem()
         initialize()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        inputIdentity.showKeyboard()
+    }
     
     private func initNavigateItem() {
         if delegate.setIdentityArgs.barItemType == .back {
@@ -44,7 +49,6 @@ class SetIdentityViewController: APPViewController {
         settingButton.isValid = false
         inputIdentity.setKeyboardType(delegate.setIdentityArgs.keyboardType)
         inputIdentity.setTitle(delegate.setIdentityArgs.inputTitle)
-        inputIdentity.showKeyboard()
         if delegate.setIdentityArgs.keyboardType == .phonePad {
             inputIdentity.setSubTitle("+\(viewModel.locale.cellPhoneNumberFormat().areaCode())")
         }
