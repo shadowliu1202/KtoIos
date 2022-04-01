@@ -281,7 +281,7 @@ class SideBarViewController: UIViewController {
     
     fileprivate func initFeatures() {
         slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
-            cell.setup(data.name.rawValue, image: UIImage(named: data.icon))
+            cell.setup(data.name, image: UIImage(named: data.icon))
         }.disposed(by: disposeBag)
     }
     
@@ -306,7 +306,7 @@ class SideBarViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         Observable.zip(listFeature.rx.itemSelected, listFeature.rx.modelSelected(FeatureItem.self)).bind {[weak self] (indexPath, data) in
-            let featureType = data.name
+            let featureType = data.type
             if featureType != .logout {
                 self?.cleanProductSelected()
             }
@@ -316,7 +316,7 @@ class SideBarViewController: UIViewController {
                 self?.alertAndLogout(nil, cancel: {})
             case .withdraw:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Withdrawal", viewControllerId: "WithdrawalNavigation")
-            case .diposit:
+            case .deposit:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
             case .callService:
                 NavigationManagement.sharedInstance.goTo(storyboard: "CustomService", viewControllerId: "CustomerServiceMainNavigationController")

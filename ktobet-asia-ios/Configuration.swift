@@ -39,6 +39,7 @@ enum Configuration: String {
     static var manualUpdate: Bool   = env.manualUpdate
     static var debugGesture: Bool   = env.debugGesture
     static var affiliateUrl: URL    = URL(string: "\(host)affiliate")!
+    static var isAllowedVN: Bool = current == .production ? false : env.isAllowedVN
 
     static private func checkNetwork(url: String) -> Bool {
         let group = DispatchGroup()
@@ -87,6 +88,7 @@ protocol Env {
     var isAutoUpdate: Bool { get }
     var manualUpdate: Bool { get }
     var debugGesture: Bool { get }
+    var isAllowedVN: Bool { get }
 }
 
 fileprivate class DevConfig: Env {
@@ -95,6 +97,7 @@ fileprivate class DevConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
+    var isAllowedVN: Bool = false
 }
 
 fileprivate class QatConfig: Env {
@@ -103,6 +106,7 @@ fileprivate class QatConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
+    var isAllowedVN: Bool = false
 }
 
 fileprivate class StagingConfig: Env {
@@ -111,6 +115,7 @@ fileprivate class StagingConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
+    var isAllowedVN: Bool = false
 }
 
 fileprivate class ProductionConfig: Env {
@@ -119,4 +124,5 @@ fileprivate class ProductionConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
+    var isAllowedVN: Bool = false
 }

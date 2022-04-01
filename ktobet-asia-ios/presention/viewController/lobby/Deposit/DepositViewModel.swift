@@ -10,12 +10,14 @@ class DepositViewModel {
     lazy var payments = RxSwift.Observable.from(depositService.getPayments())
     lazy var submitList = payments.map { paymentsDTO -> [DepositSelection] in
         var list: [DepositSelection] = []
-        if let offline = paymentsDTO.offline,
-           let crypto = paymentsDTO.crypto {
+        if let offline = paymentsDTO.offline {
             list.append(OfflinePayment(offline))
-            list.append(CryptoPayment(crypto))
             let online = paymentsDTO.fiat.compactMap { OnlinePayment($0) }
             list.append(contentsOf: online)
+        }
+
+        if let crypto = paymentsDTO.crypto {
+            list.append(CryptoPayment(crypto))
         }
         
         return list
