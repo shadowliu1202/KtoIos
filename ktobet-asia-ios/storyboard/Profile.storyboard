@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -752,11 +752,11 @@
             <objects>
                 <viewController storyboardIdentifier="AuthProfileModificationViewController" modalPresentationStyle="fullScreen" id="fW3-jO-rTj" customClass="AuthProfileModificationViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZgO-mi-gaB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vdh-SJ-fyv">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2K4-zd-psV" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="270.5"/>
@@ -922,24 +922,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KcL-VJ-hL8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="63.616071428571423"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="pHs-jV-QPZ">
-            <objects>
-                <navigationController storyboardIdentifier="AuthProfileModificationNavigation" automaticallyAdjustsScrollViewInsets="NO" id="mNS-US-P0o" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="reN-MS-Q6a">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="fW3-jO-rTj" kind="relationship" relationship="rootViewController" id="4re-xH-BkW"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DRa-yB-YL3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="132" y="-621"/>
         </scene>
         <!--Terms View Controller-->
         <scene sceneID="E2g-Jd-q2R">
@@ -1778,8 +1760,7 @@
                                                             <constraint firstAttribute="height" constant="24" id="X2H-ox-NqR"/>
                                                             <constraint firstAttribute="width" constant="24" id="l41-uv-Ll5"/>
                                                         </constraints>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="pressRadioBtn:" destination="V2O-Bo-fet" eventType="touchUpInside" id="9jG-lw-Vb2"/>
                                                         </connections>
@@ -1821,8 +1802,7 @@
                                                             <constraint firstAttribute="height" constant="24" id="9aZ-mx-9OM"/>
                                                             <constraint firstAttribute="width" constant="24" id="IAZ-2K-pdm"/>
                                                         </constraints>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="pressRadioBtn:" destination="gCH-Bh-xOG" eventType="touchUpInside" id="WQy-i9-vbL"/>
                                                         </connections>
@@ -1864,8 +1844,7 @@
                                                             <constraint firstAttribute="width" constant="24" id="CfV-zj-IgJ"/>
                                                             <constraint firstAttribute="height" constant="24" id="dHH-XE-agd"/>
                                                         </constraints>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="pressRadioBtn:" destination="eW2-JJ-hgg" eventType="touchUpInside" id="yo6-Nq-Kgb"/>
                                                         </connections>
@@ -1907,8 +1886,7 @@
                                                             <constraint firstAttribute="height" constant="24" id="68T-NQ-WRi"/>
                                                             <constraint firstAttribute="width" constant="24" id="zCw-mn-qLi"/>
                                                         </constraints>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <connections>
                                                             <action selector="pressRadioBtn:" destination="qxW-Q0-rjg" eventType="touchUpInside" id="i20-us-Q2K"/>
                                                         </connections>
@@ -2482,6 +2460,28 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dNJ-6H-UYX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3661" y="777"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="zAM-a5-9sg">
+            <objects>
+                <navigationController storyboardIdentifier="AuthProfileModificationNavigation" automaticallyAdjustsScrollViewInsets="NO" id="Ebb-zO-0xw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="5fI-lY-5MJ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" name="blackTwo"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" name="iconWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fW3-jO-rTj" kind="relationship" relationship="rootViewController" id="lEk-x9-7Yd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ADc-uG-oZ6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="132" y="-621"/>
         </scene>
     </scenes>
     <resources>

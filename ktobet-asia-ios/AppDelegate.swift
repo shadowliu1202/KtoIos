@@ -10,6 +10,7 @@ import IQKeyboardManagerSwift
 import RxSwift
 import Connectivity
 import SharedBu
+import WebKit
 
 @main
 
@@ -178,4 +179,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     }
     //----For recive message at phone lock state----//
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
+    }
 }

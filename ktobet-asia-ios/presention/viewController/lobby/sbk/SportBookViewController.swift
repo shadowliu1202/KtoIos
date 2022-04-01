@@ -2,29 +2,31 @@ import UIKit
 import RxSwift
 import SharedBu
 import WebKit
+import SwiftUI
+import NotificationBannerSwift
+import RxRelay
 
-class SportBookViewController: UIViewController {
+class SportBookViewController: APPViewController {
     private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
+    private var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
     private var sbkWebUrlString: String { KtoURL.baseUrl.absoluteString + "sbk" }
     private lazy var activityIndicator: UIActivityIndicatorView = {
         return UIActivityIndicatorView(style: .large)
     }()
-
+    private let isNetworkConnected = PublishSubject<Bool>()
+    private let isWebLoadSuccess = BehaviorRelay<Bool>(value: false)
+    private var banner: NotificationBanner?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_sportsbook"))
-        DispatchQueue.main.async {
-            self.view.addSubview(self.activityIndicator, constraints: [
-                .equal(\.centerXAnchor),
-                .equal(\.centerYAnchor)
-            ])
-            self.activityIndicator.startAnimating()
-        }
-        
-        DispatchQueue.main.async {
-            self.setupWebView()
-        }
+        self.view.addSubview(self.activityIndicator, constraints: [
+            .equal(\.centerXAnchor),
+            .equal(\.centerYAnchor)
+        ])
+        self.activityIndicator.startAnimating()
+        self.setupWebView()
         
         serviceViewModel.output.portalMaintenanceStatus.drive(onNext: { status in
             switch status {
@@ -36,6 +38,42 @@ class SportBookViewController: UIViewController {
                 break
             }
         }).disposed(by: disposeBag)
+        Observable.combineLatest(isNetworkConnected, isWebLoadSuccess).subscribe(onNext: { [unowned self] isNetworkConnected, isWebLoadSuccess in
+            guard isWebLoadSuccess == false else { return }
+            if isNetworkConnected {
+                self.dismissBanner()
+                self.loadURL(webView: self.webView, urlString: self.sbkWebUrlString)
+            } else {
+                self.displayBanner()
+            }
+        }).disposed(by: disposeBag)
+        
+    }
+    
+    override func registerNetworkDisConnnectedHandler() -> (() -> ())? {
+        return { [weak self] in
+            self?.isNetworkConnected.onNext(false)
+        }
+    }
+    
+    override func registerNetworkReConnectedHandler() -> (() -> ())? {
+        return { [weak self] in
+            self?.isNetworkConnected.onNext(true)
+        }
+    }
+    
+    private func displayBanner() {
+        guard !(banner?.isDisplaying ?? false) else { return }
+        let view = UIHostingController(rootView: BannerView()).view
+        view?.backgroundColor = .clear
+        let bannerQueue5AllowedMixed = NotificationBannerQueue(maxBannersOnScreenSimultaneously: Int.max)
+        banner = NotificationBanner(customView: view!)
+        banner?.autoDismiss = false
+        banner?.show(queue: bannerQueue5AllowedMixed, on: self)
+    }
+    
+    private func dismissBanner() {
+        banner?.dismiss()
     }
     
     deinit {
@@ -43,8 +81,6 @@ class SportBookViewController: UIViewController {
     }
     
     private func setupWebView() {
-        let webConfiguration = WKWebViewConfiguration()
-        let webView = WKWebView(frame: .zero, configuration: webConfiguration)
         let MockWebViewUserAgent = Configuration.getKtoAgent()
         webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1 \(MockWebViewUserAgent)"
         let webPagePreferences = WKWebpagePreferences()
@@ -57,6 +93,7 @@ class SportBookViewController: UIViewController {
         webView.allowsBackForwardNavigationGestures = true
         webView.isOpaque = false
         for cookie in HttpClient().getCookies() {
+            print("test: cookie:\(cookie)")
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
         }
         webView.navigationDelegate = self
@@ -64,7 +101,6 @@ class SportBookViewController: UIViewController {
         webView.scrollView.delegate = self
         webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -self.view.safeAreaInsets.bottom, right: 0)
         self.view.addSubview(webView, constraints: .fill())
-        self.loadURL(webView: webView, urlString: self.sbkWebUrlString)
     }
     
     private func loadURL(webView: WKWebView, urlString: String) {
@@ -77,17 +113,36 @@ class SportBookViewController: UIViewController {
 }
 
 extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        print("test:Strat to load")
+    }
+    
+    func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+        print("test:didReceiveServerRedirectForProvisionalNavigation")
+    }
+    
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        print(error.localizedDescription)
+        print("test:\(error.localizedDescription)")
+        isWebLoadSuccess.accept(false)
         self.activityIndicator.stopAnimating()
     }
     
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        print("test:>>>>>>didCommit")
+    }
+    
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        print(error.localizedDescription)
+        print("test:\(error.localizedDescription)")
+    }
+    
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        print("test:webViewWebContentProcessDidTerminate")
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         serviceViewModel.refreshProductStatus()
+        print("test:didFinish")
+        isWebLoadSuccess.accept(true)
         self.activityIndicator.stopAnimating()
     }
     

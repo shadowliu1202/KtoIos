@@ -28,7 +28,7 @@ class Item {
 
 let TopLevel = 10
 
-class LevelPrivilegeViewController: UIViewController {
+class LevelPrivilegeViewController: APPViewController {
     
     var currentLevel: Int32 = 0
     let resource = BehaviorRelay<[Item]>(value: [])
@@ -47,6 +47,7 @@ class LevelPrivilegeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.edgesForExtendedLayout = UIRectEdge()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("level_levelprivilege"))
         dataBinding()
         

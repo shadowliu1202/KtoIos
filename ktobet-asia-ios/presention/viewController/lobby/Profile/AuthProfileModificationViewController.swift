@@ -30,6 +30,11 @@ class AuthProfileModificationViewController: APPViewController {
         (passwordTextField.text <-> viewModel.relayPassword).disposed(by: disposeBag)
         viewModel.relayPassword.map({$0.isNotEmpty}).bind(to: verifyBtn.rx.isValid).disposed(by: disposeBag)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        passwordTextField.showKeyboard()
+    }
 
     @IBAction func onPressVerify(_ sender: Any) {
         viewModel.authorizeProfileSetting(password: viewModel.relayPassword.value).subscribe { [weak self] in
