@@ -66,9 +66,14 @@ class IAuthRepositoryImpl : IAuthRepository {
     }
     
     func authorize(_ account: String, _ password: String, _ captcha: Captcha) -> Single<LoginStatus>{
-        return api.login(account, password, captcha).map { (response) -> LoginStatus in
+        return api.login(account, password, captcha).map {[unowned self] (response) -> LoginStatus in
             //MARK: 暫屏蔽VN註冊，待VN上線時打開
-            if HttpClient().getCulture() == SupportLocale.Vietnam.shared.cultureCode() {
+            if HttpClient().getCulture() == SupportLocale.Vietnam.shared.cultureCode() && !Configuration.isAllowedVN {
+                let storage = HttpClient().session.sessionConfiguration.httpCookieStorage
+                for cookie in HttpClient().getCookies(){
+                    storage?.deleteCookie(cookie)
+                }
+
                 return LoginStatus.init(status: LoginStatus.TryStatus.failed1to5, isLocked: false)
             }
 

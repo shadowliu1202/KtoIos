@@ -69,11 +69,11 @@ extension BankBranchPatternValidateResult {
     }
 }
 
-public enum FeatureType : String {
-    case withdraw = "提現"
-    case diposit = "充值"
-    case callService = "呼叫客服"
-    case logout = "登出"
+public enum FeatureType {
+    case withdraw
+    case deposit
+    case callService
+    case logout
 }
 
 public enum Language : String {

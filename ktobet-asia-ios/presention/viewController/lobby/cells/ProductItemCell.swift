@@ -4,7 +4,7 @@ import SharedBu
 class ProductItemCell: UICollectionViewCell {
     @IBOutlet weak var mainatainView: UIView!
     @IBOutlet weak var imgIcon: UIImageView!
-    @IBOutlet private weak var labTitle : UILabel!
+    @IBOutlet weak var labTitle : UILabel!
     
     var finishCountDown: (() -> ())?
     
