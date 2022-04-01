@@ -14,10 +14,17 @@ extension SideBarViewController: SideMenuNavigationControllerDelegate {
     func sideMenuDidDisappear(menu: SideMenuNavigationController, animated: Bool) {
         CustomServicePresenter.shared.isInSideMenu = false
         CustomServicePresenter.shared.showServiceIcon()
+        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
+            if isNetworkConnected {
+                topVc.networkDidConnected()
+            } else {
+                topVc.networkDisConnected()
+            }
+        }
     }
 }
 
-class SideBarViewController: UIViewController {
+class SideBarViewController: APPViewController {
     @IBOutlet private weak var btnGift: UIBarButtonItem!
     @IBOutlet private weak var btnNotification: UIBarButtonItem!
     @IBOutlet private weak var btnClose: UIBarButtonItem!
@@ -45,6 +52,7 @@ class SideBarViewController: UIViewController {
     private var slideViewModel = SlideMenuViewModel()
     private var refreshTrigger = PublishSubject<()>()
     private var productMaintenanceStatus: MaintenanceStatus.Product?
+    private var isNetworkConnected = true
 
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -383,5 +391,17 @@ class SideBarViewController: UIViewController {
     fileprivate func cleanProductSelected() {
         self.slideViewModel.currentSelectedProductType = ProductType.none
         self.listProduct.reloadData()
+    }
+    
+    override func registerNetworkReConnectedHandler() -> (() -> ())? {
+        return { [weak self] in
+            self?.isNetworkConnected = true
+        }
+    }
+    
+    override func registerNetworkDisConnnectedHandler() -> (() -> ())? {
+        return { [weak self] in
+            self?.isNetworkConnected = false
+        }
     }
 }

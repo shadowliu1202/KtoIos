@@ -3,6 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 import AlignedCollectionViewFlowLayout
+import SideMenu
 
 let TagAllID: Int32 = -1
 let TagRecommandID: Int32 = -2

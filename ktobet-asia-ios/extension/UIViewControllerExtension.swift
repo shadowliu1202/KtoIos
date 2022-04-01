@@ -18,13 +18,13 @@ extension UIViewController{
     @objc func handleErrors(_ error: Error) {
         switch error {
         case let apiException as ApiException:
-            handleStatusCode(Int(apiException.errorCode ?? "0") ?? 0)
+            handleHttpError(Int(apiException.errorCode ?? "0") ?? 0)
         case let moyaError as MoyaError:
             handleMoyaError(moyaError)
         case let afError as AFError:
             handleAFError(afError)
         case let nsError as NSError:
-            HandleNSError(nsError)
+            handleHttpError(nsError.code)
         default:
             handleUnknownError(error)
         }
@@ -33,9 +33,9 @@ extension UIViewController{
     private func handleMoyaError(_ error: MoyaError) {
         switch error {
         case .statusCode(let response):
-            handleHttpError(response: response)
-        case .underlying(let afError, _):
-            handleAFError(afError as! AFError)
+            handleHttpError(response.statusCode)
+        case .underlying(let nsError, _):
+            handleHttpError((nsError as NSError).code)
         case .jsonMapping, .encodableMapping, .imageMapping, .objectMapping:
             showAlertError(Localize.string("common_malformedexception"))
         default:
@@ -46,27 +46,11 @@ extension UIViewController{
     private func handleAFError(_ error: AFError) {
         if case .sessionTaskFailed(let err) = error,
             let nsError = err as NSError? {
-            HandleNSError(nsError)
+            handleHttpError(nsError.code)
         } else if case .explicitlyCancelled = error {
             // do nothing
         } else {
             handleUnknownError(error)
-        }
-    }
-
-    private func HandleNSError(_ error: NSError) {
-        switch error.code {
-        case 410:
-            self.handleMaintenance()
-        case NSURLErrorNetworkConnectionLost,
-             NSURLErrorNotConnectedToInternet,
-             NSURLErrorCannotConnectToHost,
-             NSURLErrorCannotFindHost,
-             NSURLErrorTimedOut:
-            showAlertError(Localize.string("common_unknownhostexception"))
-        default:
-            handleUnknownError(error)
-            break
         }
     }
     
@@ -75,11 +59,7 @@ extension UIViewController{
         showAlertError(unknownErrorString)
     }
 
-    private func handleHttpError(response: Response) {
-        handleStatusCode(response.statusCode)
-    }
-
-    private func handleStatusCode(_ statusCode: Int) {
+    private func handleHttpError(_ statusCode: Int) {
         switch statusCode {
         case 403:
             showRestrictView()
@@ -89,6 +69,14 @@ extension UIViewController{
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
         case 503:
             showAlertError(String(format: Localize.string("common_http_503"), "\(statusCode)"))
+        case NSURLErrorNetworkConnectionLost,//-1005
+             NSURLErrorNotConnectedToInternet,//-1009
+             NSURLErrorCannotConnectToHost,//-1004
+             NSURLErrorCannotFindHost,//-1003
+             NSURLErrorTimedOut,//-1001
+             NSURLErrorInternationalRoamingOff,//-1018
+             NSURLErrorDataNotAllowed://-1020
+            showAlertError(Localize.string("common_unknownhostexception"))
         default:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
         }
