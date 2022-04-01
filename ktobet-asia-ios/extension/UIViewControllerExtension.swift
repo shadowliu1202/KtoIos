@@ -34,8 +34,12 @@ extension UIViewController{
         switch error {
         case .statusCode(let response):
             handleHttpError(response.statusCode)
-        case .underlying(let nsError, _):
-            handleHttpError((nsError as NSError).code)
+        case .underlying(let err, _):
+            if err is AFError {
+                handleAFError(err as! AFError)
+            } else {
+                handleHttpError((err as NSError).code)
+            }
         case .jsonMapping, .encodableMapping, .imageMapping, .objectMapping:
             showAlertError(Localize.string("common_malformedexception"))
         default:
