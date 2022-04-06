@@ -11,6 +11,7 @@ import RxSwift
 import Connectivity
 import SharedBu
 import WebKit
+import Firebase
 
 @main
 
@@ -24,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let disposeBag = DisposeBag()
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        FirebaseApp.configure()
+
         IQKeyboardManager.shared.enable = true
         UIView.appearance().isExclusiveTouch = true
         UICollectionView.appearance().isExclusiveTouch = true
