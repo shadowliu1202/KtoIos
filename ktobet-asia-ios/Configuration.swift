@@ -119,7 +119,7 @@ fileprivate class StagingConfig: Env {
 }
 
 fileprivate class ProductionConfig: Env {
-    var hostName: [String] = ["appkto.com", "hekto.app"]
+    var hostName: [String] = ["appkto.com", "thekto.app"]
     var disableSSL: Bool = false
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
