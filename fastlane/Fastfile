@@ -146,6 +146,25 @@ platform :ios do
     		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
   					app_identifier: "com.kto.asia.qat-1")
 	end
+	
+	lane :buildIpaProduction  do |options|
+	    match(type: "adhoc", readonly: is_ci)
+		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-production-Info.plist", 
+				  block: proc do |plist|
+					plist["CFBundleVersion"]  = options[:buildVersion]
+					plist["CFBundleShortVersionString"] = options[:appVersion]
+  				  end)
+  		build_app(scheme: "ktobet-asia-ios-production",
+			  workspace: "ktobet-asia-ios.xcworkspace",
+            		  include_bitcode: true,
+			  clean: true,
+		   	  output_directory: "output",
+			  export_method: "ad-hoc",
+	    		  export_options: { 
+					    method: "ad-hoc",
+					  }
+			 )
 
+	end
 
 end
