@@ -5,8 +5,6 @@ platform :ios, '14.0'
 
 def default_pods
   pod 'Firebase/Analytics'
-  pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
   pod 'Firebase/Crashlytics'
   pod 'Alamofire', '5.4.1'
   pod 'RxSwift', '5.1.1'
