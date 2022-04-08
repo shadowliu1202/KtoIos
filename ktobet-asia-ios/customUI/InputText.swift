@@ -52,6 +52,7 @@ class InputText : UIView {
         textContent.borderStyle = .none
         textContent.delegate = self
         textContent.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
+        textContent.addTarget(self, action: #selector(textFieldEditingDidEnd(_:)), for: .editingDidEnd)
 
         underline.backgroundColor = UIColor.orangeFull
         underline.isHidden = true
@@ -191,9 +192,11 @@ class InputText : UIView {
     
     // MARK: TEXT HANDLER
     @objc private func textFieldEditingChanged(_ textField: UITextField){
-        let halfWidthText = textField.text?.halfWidth
-        textField.text = halfWidthText
-        editingChangedHandler?(halfWidthText ?? "")
+        editingChangedHandler?(textField.text?.halfWidth ?? "")
+    }
+
+    @objc private func textFieldEditingDidEnd(_ textField: UITextField) {
+        textField.text = textField.text?.halfWidth
     }
     
     func setEditingChangedHandler(_ editingChangedHandler:((String)->())?){

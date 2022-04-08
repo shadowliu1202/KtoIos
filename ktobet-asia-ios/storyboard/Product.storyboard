@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -146,6 +146,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HF8-n3-zOD">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="searchEmptyState" translatesAutoresizingMaskIntoConstraints="NO" id="srl-9v-Cr4">
+                                        <rect key="frame" x="175" y="126" width="64" height="64"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nek-Hj-QdV">
+                                        <rect key="frame" x="207" y="228" width="0.0" height="0.0"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
+                                        <color key="textColor" name="textPrimaryDustyGray"/>
+                                        <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_no_games_found"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Nek-Hj-QdV" firstAttribute="top" secondItem="srl-9v-Cr4" secondAttribute="bottom" constant="38" id="JCg-XX-5Hm"/>
+                                    <constraint firstItem="srl-9v-Cr4" firstAttribute="centerX" secondItem="HF8-n3-zOD" secondAttribute="centerX" id="dDg-1z-VNS"/>
+                                    <constraint firstItem="srl-9v-Cr4" firstAttribute="top" secondItem="HF8-n3-zOD" secondAttribute="top" constant="126" id="h0e-yZ-slC"/>
+                                    <constraint firstItem="Nek-Hj-QdV" firstAttribute="centerX" secondItem="HF8-n3-zOD" secondAttribute="centerX" id="rd0-cZ-3dy"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NXQ-sa-B1r" userLabel="SugView">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
@@ -307,8 +331,12 @@
                         <constraints>
                             <constraint firstItem="NXQ-sa-B1r" firstAttribute="top" secondItem="PDN-8K-a5f" secondAttribute="top" id="2pU-59-CPz"/>
                             <constraint firstItem="PDN-8K-a5f" firstAttribute="trailing" secondItem="DGS-FL-ry6" secondAttribute="trailing" constant="24" id="6pB-a7-7HS"/>
+                            <constraint firstItem="HF8-n3-zOD" firstAttribute="leading" secondItem="PDN-8K-a5f" secondAttribute="leading" id="CNb-lh-KPl"/>
                             <constraint firstItem="NXQ-sa-B1r" firstAttribute="bottom" secondItem="PDN-8K-a5f" secondAttribute="bottom" id="Tfr-xm-UEm"/>
                             <constraint firstItem="DGS-FL-ry6" firstAttribute="leading" secondItem="PDN-8K-a5f" secondAttribute="leading" constant="24" id="WH6-n0-kbN"/>
+                            <constraint firstItem="PDN-8K-a5f" firstAttribute="bottom" secondItem="HF8-n3-zOD" secondAttribute="bottom" id="Wf2-Sv-kqi"/>
+                            <constraint firstItem="HF8-n3-zOD" firstAttribute="top" secondItem="PDN-8K-a5f" secondAttribute="top" id="Ydm-Ip-Pu5"/>
+                            <constraint firstItem="PDN-8K-a5f" firstAttribute="trailing" secondItem="HF8-n3-zOD" secondAttribute="trailing" id="aop-e8-msQ"/>
                             <constraint firstItem="NXQ-sa-B1r" firstAttribute="trailing" secondItem="PDN-8K-a5f" secondAttribute="trailing" id="eDs-KD-Iya"/>
                             <constraint firstItem="NXQ-sa-B1r" firstAttribute="leading" secondItem="PDN-8K-a5f" secondAttribute="leading" id="mez-3M-va2"/>
                             <constraint firstItem="DGS-FL-ry6" firstAttribute="top" secondItem="PDN-8K-a5f" secondAttribute="top" constant="24" id="nfm-91-vds"/>
@@ -316,6 +344,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="emptyView" destination="HF8-n3-zOD" id="O9r-1S-6VK"/>
                         <outlet property="gamesCollectionView" destination="DGS-FL-ry6" id="NVG-PU-lLe"/>
                         <outlet property="searchBarView" destination="YdC-Kq-9x6" id="Lub-Fq-fUh"/>
                         <outlet property="suggestionView" destination="NXQ-sa-B1r" id="lcb-Pw-Udc"/>
@@ -11108,6 +11137,7 @@ AACHQA
 </mutableData>
         </image>
         <image name="remove-favorite" width="52" height="52"/>
+        <image name="searchEmptyState" width="64" height="64"/>
         <namedColor name="blackFull">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

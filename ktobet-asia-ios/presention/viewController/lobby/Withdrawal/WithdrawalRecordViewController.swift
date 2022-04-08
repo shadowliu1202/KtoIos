@@ -13,6 +13,7 @@ class WithdrawalRecordViewController: APPViewController {
     @IBOutlet private weak var withdrawalRecordTitle: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var emptyView: UIView!
     
     private lazy var filterPersenter = WithdrawalPresenter()
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
@@ -87,6 +88,8 @@ class WithdrawalRecordViewController: APPViewController {
             self?.handleErrors(error)
             return Observable.just([])
         }).bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+
+        viewModel.pagination.elements.map{ $0.count != 0 }.debug().bind(to: emptyView.rx.isHidden).disposed(by: disposeBag)
         
         rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
             .map { _ in () }

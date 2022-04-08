@@ -6,6 +6,7 @@ import RxCocoa
 class PromotionSearchViewController: APPViewController {
     @IBOutlet var searchBarView: UISearchBar!
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var emptyView: UIView!
     
     var viewModel: PromotionHistoryViewModel!
     
@@ -93,6 +94,11 @@ class PromotionSearchViewController: APPViewController {
             cell.config(element, tableView: self.tableView)
             return cell
         }.disposed(by: disposeBag)
+
+        viewModel.recordPagination.elements.bind(onNext: {[weak self] couponHistories in
+            self?.tableView.isHidden = couponHistories.count == 0
+            self?.emptyView.isHidden = couponHistories.count != 0
+        }).disposed(by: disposeBag)
         
         rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
             .map { _ in () }
