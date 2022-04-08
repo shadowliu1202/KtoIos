@@ -9,6 +9,7 @@ class SearchViewController: SearchProduct {
     @IBOutlet weak var suggestionView: UIView!
     @IBOutlet weak var tagsStackView: UIStackView!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
+    @IBOutlet weak var emptyView: UIView!
     lazy var gameDataSourceDelegate = { return SearchGameDataSourceDelegate(self) }()
     private var gameData: [WebGameWithDuplicatable] = [] {
         didSet {
@@ -140,9 +141,17 @@ class SearchViewController: SearchProduct {
         if let items = games, items.count > 0 {
             self.gamesCollectionView.isHidden = false
             self.suggestionView.isHidden = true
+            emptyView.isHidden = true
         } else {
+            if let count = searchText.value?.count, count >= 3 {
+                emptyView.isHidden = false
+                self.suggestionView.isHidden = true
+            } else {
+                self.suggestionView.isHidden = false
+                emptyView.isHidden = true
+            }
+
             self.gamesCollectionView.isHidden = true
-            self.suggestionView.isHidden = false
         }
     }
     

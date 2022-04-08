@@ -15,6 +15,7 @@ class DepositRecordViewController: APPViewController {
     @IBOutlet private weak var depositTotalAmount: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var emptyView: UIView!
     
     private lazy var filterPersenter = DepositPresenter()
     private var depositLogViewModel = DI.resolve(DepositLogViewModel.self)!
@@ -91,7 +92,9 @@ class DepositRecordViewController: APPViewController {
             self?.handleErrors(error)
             return Observable.just([])
         }).bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
-        
+
+        depositLogViewModel.pagination.elements.map{ $0.count != 0 }.debug().bind(to: emptyView.rx.isHidden).disposed(by: disposeBag)
+
         rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
             .map { _ in () }
             .bind(to: depositLogViewModel.pagination.refreshTrigger)

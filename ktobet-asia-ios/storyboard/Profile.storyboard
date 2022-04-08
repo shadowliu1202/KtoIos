@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nZU-PX-hVX">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="641"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="621"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YA3-3c-8ly">
                                                 <rect key="frame" x="30" y="30" width="354" height="25.5"/>
@@ -327,7 +327,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vg1-Ky-mfy" userLabel="ItemView" customClass="OneItemView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="401" width="414" height="48"/>
+                                                <rect key="frame" x="0.0" y="401" width="414" height="28"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nq8-DU-tde" userLabel="line">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
@@ -336,8 +336,8 @@
                                                             <constraint firstAttribute="height" constant="0.5" id="KB3-M2-otO"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fNg-Oc-V3j">
-                                                        <rect key="frame" x="30" y="14" width="36.5" height="20"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fNg-Oc-V3j">
+                                                        <rect key="frame" x="30" y="14" width="0.0" height="0.0"/>
                                                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
                                                         <color key="textColor" name="whiteFull"/>
                                                         <nil key="highlightedColor"/>
@@ -346,14 +346,14 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzK-WJ-DsQ" userLabel="line">
-                                                        <rect key="frame" x="30" y="47.5" width="384" height="0.5"/>
+                                                        <rect key="frame" x="30" y="27.5" width="384" height="0.5"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="0.5" id="xjk-k2-mU7"/>
                                                         </constraints>
                                                     </view>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="Q0Q-ov-nkH">
-                                                        <rect key="frame" x="360" y="12" width="24" height="24"/>
+                                                        <rect key="frame" x="360" y="2" width="24" height="24"/>
                                                     </imageView>
                                                 </subviews>
                                                 <color key="backgroundColor" name="backgroundListCodGray"/>
@@ -372,7 +372,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lhf-Mb-2aW" userLabel="ItemView" customClass="OneItemView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="449" width="414" height="48"/>
+                                                <rect key="frame" x="0.0" y="429" width="414" height="48"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vZ-e3-zqZ">
                                                         <rect key="frame" x="30" y="14" width="36.5" height="20"/>
@@ -397,7 +397,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wxg-zW-E1E" userLabel="ItemView" customClass="OneItemView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="497" width="414" height="48"/>
+                                                <rect key="frame" x="0.0" y="477" width="414" height="48"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8rE-M0-YGh" userLabel="line">
                                                         <rect key="frame" x="30" y="0.0" width="384" height="0.5"/>
@@ -433,7 +433,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Xn-ZT-868">
-                                                <rect key="frame" x="0.0" y="545" width="414" height="96"/>
+                                                <rect key="frame" x="0.0" y="525" width="414" height="96"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YXo-Ay-qNM" userLabel="line">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
@@ -1745,8 +1745,8 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V2O-Bo-fet" userLabel="produtItem" customClass="ProductItemView" customModule="ktobet_asia_ios" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="122.5" width="354" height="60"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aj7-gg-7Bc">
-                                                        <rect key="frame" x="15" y="20" width="37" height="20"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aj7-gg-7Bc">
+                                                        <rect key="frame" x="15" y="30" width="0.0" height="0.0"/>
                                                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
                                                         <color key="textColor" name="textPrimaryDustyGray"/>
                                                         <nil key="highlightedColor"/>
