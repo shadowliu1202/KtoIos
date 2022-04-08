@@ -40,6 +40,18 @@ target 'ktobet-asia-ios-production' do
   default_pods
 end
 
+target 'ktobet-asia-ios-prod-selftest' do
+  default_pods
+end
+
+target 'ktobet-asia-ios-prod-backup' do
+  default_pods
+end
+
+target 'ktobet-asia-ios-qat3' do
+  default_pods
+end
+
 target 'ktobet-asia-ios' do
   default_pods
 end

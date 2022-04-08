@@ -7,6 +7,9 @@ enum Configuration: String {
     case qat
     case staging
     case production
+    case prod_selftest
+    case prod_backup
+    case qat3
     
     static private let current: Configuration = {
 #if DEV
@@ -17,6 +20,12 @@ enum Configuration: String {
         return .staging
 #elseif PRODUCTION
         return .production
+#elseif PRODUCTION_SELFTEST
+        return .prod_selftest
+#elseif PRODUCTION_BACKUP
+        return .prod_backup
+#elseif QAT3
+        return .qat3
 #endif
     }()
     static private let env: Env = {
@@ -29,17 +38,24 @@ enum Configuration: String {
             return StagingConfig()
         case .production:
             return ProductionConfig()
+        case .prod_selftest:
+            return ProductionSelftestConfig()
+        case .prod_backup:
+            return ProductionBackupConfig()
+        case .qat3:
+            return Qat3Config()
         }
     }()
     
-    static var host: String         = "https://\(hostName)/"
-    static var hostName: String     = env.hostName.first(where: checkNetwork) ?? env.hostName.first!
-    static var disableSSL: Bool     = env.disableSSL
-    static var isAutoUpdate: Bool   = env.isAutoUpdate
-    static var manualUpdate: Bool   = env.manualUpdate
-    static var debugGesture: Bool   = env.debugGesture
-    static var affiliateUrl: URL    = URL(string: "\(host)affiliate")!
-    static var isAllowedVN: Bool = current == .production ? false : env.isAllowedVN
+    static var host: String             = "https://\(hostName)/"
+    static var hostName: String         = env.hostName.first(where: checkNetwork) ?? env.hostName.first!
+    static var disableSSL: Bool         = env.disableSSL
+    static var isAutoUpdate: Bool       = env.isAutoUpdate
+    static var manualUpdate: Bool       = env.manualUpdate
+    static var debugGesture: Bool       = env.debugGesture
+    static var affiliateUrl: URL        = URL(string: "\(host)affiliate")!
+    static var isAllowedVN: Bool        = current == .production ? false : env.isAllowedVN
+    static var enableCrashlytics: Bool  = env.enableCrashlytics
 
     static private func checkNetwork(url: String) -> Bool {
         let group = DispatchGroup()
@@ -89,6 +105,7 @@ protocol Env {
     var manualUpdate: Bool { get }
     var debugGesture: Bool { get }
     var isAllowedVN: Bool { get }
+    var enableCrashlytics: Bool { get }
 }
 
 fileprivate class DevConfig: Env {
@@ -98,6 +115,7 @@ fileprivate class DevConfig: Env {
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
     var isAllowedVN: Bool = false
+    var enableCrashlytics: Bool = false
 }
 
 fileprivate class QatConfig: Env {
@@ -107,6 +125,7 @@ fileprivate class QatConfig: Env {
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
     var isAllowedVN: Bool = false
+    var enableCrashlytics: Bool = false
 }
 
 fileprivate class StagingConfig: Env {
@@ -116,6 +135,7 @@ fileprivate class StagingConfig: Env {
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
     var isAllowedVN: Bool = false
+    var enableCrashlytics: Bool = true
 }
 
 fileprivate class ProductionConfig: Env {
@@ -125,4 +145,35 @@ fileprivate class ProductionConfig: Env {
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
     var isAllowedVN: Bool = false
+    var enableCrashlytics: Bool = true
+}
+
+fileprivate class ProductionSelftestConfig: Env {
+    var hostName: [String] = ["mobile-selftest.ktokto.net"]
+    var disableSSL: Bool = true
+    var isAutoUpdate: Bool = false
+    var manualUpdate: Bool = false
+    var debugGesture: Bool = true
+    var isAllowedVN: Bool = false
+    var enableCrashlytics: Bool = false
+}
+
+fileprivate class ProductionBackupConfig: Env {
+    var hostName: [String] = ["thekto.app"]
+    var disableSSL: Bool = false
+    var isAutoUpdate: Bool = true
+    var manualUpdate: Bool = false
+    var debugGesture: Bool = false
+    var isAllowedVN: Bool = false
+    var enableCrashlytics: Bool = false
+}
+
+fileprivate class Qat3Config: Env {
+    var hostName: [String] = ["qat3-mobile.affclub.xyz", "qat3-mobile2.affclub.xyz"]
+    var disableSSL: Bool = true
+    var isAutoUpdate: Bool = true
+    var manualUpdate: Bool = false
+    var debugGesture: Bool = false
+    var isAllowedVN: Bool = false
+    var enableCrashlytics: Bool = false
 }
