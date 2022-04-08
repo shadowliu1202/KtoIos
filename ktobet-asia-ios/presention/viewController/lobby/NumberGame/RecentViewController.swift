@@ -30,6 +30,7 @@ class RecentViewController: UIViewController {
             self?.handleErrors(error)
             return Observable.just([])
         }).do ( onNext:{[weak self] (records) in
+            self?.allRecentData = records
             self?.switchContent(records.count)
         }).bind(to: tableView.rx.items) { tableView, row, item in
             return tableView.dequeueReusableCell(withIdentifier: "NumbergameRecentCell", cellType: NumbergameRecentCell.self).configure(item)
@@ -56,13 +57,16 @@ class RecentViewController: UIViewController {
             self.noDataView.isHidden = false
         }
     }
-    
+
+    var allRecentData: [NumberGameSummary.RecentlyBet] = []
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == NumberGameMyBetDetailViewController.segueIdentifier {
             if let dest = segue.destination as? NumberGameMyBetDetailViewController {
                 dest.details = self.details
                 if let row = sender as? Int {
-                    dest.selectedIndex = row
+                    if let index = self.details?.firstIndex(where: { $0.displayId == allRecentData[row].displayId }) {
+                        dest.selectedIndex = index
+                    }
                 }
             }
         }
