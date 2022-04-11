@@ -36,21 +36,10 @@ class NotificationDetailViewController: UIViewController, NotificationNavigate {
         viewModel.getCustomerServiceEmail.subscribe(onSuccess: { [weak self] in
             if self?.data.displayCsContact == true {
                 self?.csLabel.text = $0
-                let gesture =  UITapGestureRecognizer(target: self, action: #selector(self?.pressCs))
-                self?.csLabel.isUserInteractionEnabled = true
-                self?.csLabel.addGestureRecognizer(gesture)
             }
         }, onError: { [weak self] in
             self?.handleErrors($0)
         }).disposed(by: disposeBag)
-    }
-    
-    @objc private func pressCs(_ sender: UITapGestureRecognizer) {
-        if let csMail = csLabel.text,
-           let mailUrl = URL(string:"mailto:\(csMail)"),
-           UIApplication.shared.canOpenURL(mailUrl) {
-            UIApplication.shared.open(mailUrl, options: [:], completionHandler: nil)
-        }
     }
     
     private func initUI(_ item: NotifyContentItem) {
