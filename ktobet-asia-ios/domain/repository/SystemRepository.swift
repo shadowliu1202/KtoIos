@@ -8,7 +8,6 @@
 import Foundation
 import RxSwift
 import SharedBu
-import Moya
 
 protocol SystemRepository {
     func getPortalMaintenance() -> Single<OtpStatus>
@@ -89,28 +88,5 @@ class SystemRepositoryImpl : SystemRepository{
     
     func getYearOfCopyRight() -> Single<String> {
         portalApi.getYearOfCopyRight().map({$0.data})
-    }
-}
-
-
-extension Error {
-    func isMaintenance() -> Bool {
-        if let error = (self as? MoyaError) {
-            switch error {
-            case .statusCode(let response):
-                return response.statusCode == 410
-            default:
-                return false
-            }
-        }
-
-        return false
-    }
-    
-    func isUnauthorized() -> Bool {
-        if let error = (self as? MoyaError), case let .statusCode(response) = error {
-            return response.statusCode == 401
-        }
-        return false
     }
 }

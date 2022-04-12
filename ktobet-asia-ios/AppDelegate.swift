@@ -84,9 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func requestErrorWhenRetry(error: Error) {
-        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-            topVc.networkRequestHandle(error: error)
-        }
+        print("\(error)")
     }
     
     func forceCheckNetworkStatus() {
