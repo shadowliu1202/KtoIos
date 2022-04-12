@@ -165,6 +165,12 @@ class HttpClient {
     }
     
     func requestJsonString(_ target: APITarget) -> Single<String> {
+        var provider: MoyaProvider<MultiTarget>!
+        if target.method == .get {
+            provider = self.retryProvider
+        } else {
+            provider = self.provider
+        }
         return provider
             .rx
             .request(MultiTarget(target))
@@ -199,9 +205,6 @@ fileprivate func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = 
 }
 
 class APIRequestRetrier: Retrier {
-    let retryLimit = 1
-    let interval = 0.0
-    private var retriedRequests: [String: Int] = [:]
     let disposeBag = DisposeBag()
     
     init() {
@@ -209,12 +212,6 @@ class APIRequestRetrier: Retrier {
     }
     
     override func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        guard request.task?.response == nil, let url = request.request?.url?.absoluteString else {
-            removeCachedUrlRequest(url: request.request?.url?.absoluteString)
-            completion(.doNotRetry)
-            return
-        }
-        
         guard Reachability?.isNetworkConnected == true else {
             Reachability?.didBecomeConnected.asObservable().subscribe(onNext: {
                 guard !request.isCancelled else {
@@ -231,43 +228,6 @@ class APIRequestRetrier: Retrier {
             }
             return
         }
-        if case .sessionTaskFailed(let err) = error as? AFError,
-            let errorGenerated = err as NSError? {
-            switch errorGenerated.code {
-            case NSURLErrorNetworkConnectionLost,
-                NSURLErrorNotConnectedToInternet,
-                NSURLErrorCannotConnectToHost,
-                NSURLErrorCannotFindHost,
-                NSURLErrorTimedOut,
-                400 ... 599:
-                DispatchQueue.main.async {
-                    UIApplication.forceCheckNetworkStatus()
-                }
-                guard let retryCount = retriedRequests[url] else {
-                    retriedRequests[url] = 1
-                    completion(.retryWithDelay(interval))
-                    return
-                }
-                if retryCount < retryLimit {
-                    retriedRequests[url] = retryCount + 1
-                    completion(.retryWithDelay(interval))
-                } else {
-                    removeCachedUrlRequest(url: url)
-                    completion(.doNotRetry)
-                }
-            default:
-                removeCachedUrlRequest(url: url)
-                completion(.doNotRetry)
-            }
-        } else {
-            completion(.doNotRetry)
-        }
-    }
-    
-    private func removeCachedUrlRequest(url: String?) {
-        guard let url = url else {
-            return
-        }
-        retriedRequests.removeValue(forKey: url)
+        completion(.doNotRetry)
     }
 }

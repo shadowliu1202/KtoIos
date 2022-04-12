@@ -73,16 +73,12 @@ extension UIViewController{
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
         case 503:
             showAlertError(String(format: Localize.string("common_http_503"), "\(statusCode)"))
-        case NSURLErrorNetworkConnectionLost,//-1005
-             NSURLErrorNotConnectedToInternet,//-1009
-             NSURLErrorCannotConnectToHost,//-1004
-             NSURLErrorCannotFindHost,//-1003
-             NSURLErrorTimedOut,//-1001
-             NSURLErrorInternationalRoamingOff,//-1018
-             NSURLErrorDataNotAllowed://-1020
-            showAlertError(Localize.string("common_unknownhostexception"))
         default:
-            showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
+            if statusCode.isNetworkConnectionLost() {
+                showAlertError(Localize.string("common_unknownhostexception"))
+            } else {
+                showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
+            }
         }
     }
 }
