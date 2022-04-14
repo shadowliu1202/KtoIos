@@ -364,6 +364,9 @@ class SideBarViewController: APPViewController {
         vc?.didAuthenticated = { [weak self] in
             self?.cleanProductSelected()
         }
+        if let currentVC = NavigationManagement.sharedInstance.viewController as? UIAdaptivePresentationControllerDelegate {
+            vc?.presentationController?.delegate = currentVC
+        }
         NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
     }
     
@@ -390,6 +393,12 @@ class SideBarViewController: APPViewController {
     fileprivate func cleanProductSelected() {
         self.slideViewModel.currentSelectedProductType = ProductType.none
         self.listProduct.reloadData()
+    }
+    
+    override func handleErrors(_ error: Error) {
+        if !error.isNetworkLost() {
+            super.handleErrors(error)
+        } 
     }
     
     override func networkDisconnectHandler() { }
