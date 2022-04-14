@@ -32,9 +32,13 @@ class CustomerServiceMainViewController: APPViewController {
 
     private func initUI() {
         callinBtn.bind(CustomService.chatRoomConnectStatus.asObservable(), disposeBag) { [unowned self] (pressCallin) in
-            pressCallin.flatMap({ [unowned self] () -> Completable in
-                self.callinBtn.isEnable = false
-                return CustomService.startCustomerService(from: self, delegate: self)
+            pressCallin.throttle(.seconds(3), latest: false, scheduler: MainScheduler.instance).flatMap({ [unowned self] () -> Completable in
+                if Reachability?.isNetworkConnected == true {
+                    self.callinBtn.isEnable = false
+                    return CustomService.startCustomerService(from: self, delegate: self)
+                } else {
+                    return networkLostToast()
+                }
             }).catchError({[weak self] in
                 self?.handleErrors($0)
                 self?.callinBtn.isEnable = true
@@ -76,6 +80,14 @@ class CustomerServiceMainViewController: APPViewController {
             self.bind(position: .right, barButtonItems: items)
         } else {
             self.navigationItem.rightBarButtonItems?.removeAll()
+        }
+    }
+    
+    private func networkLostToast() -> Completable {
+        return Completable.create { [weak self] (completable) -> Disposable in
+            self?.showToastOnBottom(Localize.string("common_unknownhostexception"), img: UIImage(named: "Failed"))
+            completable(.completed)
+            return Disposables.create {}
         }
     }
 }
@@ -122,6 +134,11 @@ extension CustomerServiceMainViewController: CustomServiceDelegate {
     func sessionClosed() {
         self.callinBtn.isEnable = true
         self.viewModel.refreshData()
+        if Reachability?.isNetworkConnected == true {
+            self.networkDidConnected()
+        } else {
+            self.networkDisConnected()
+        }
     }
     
 }

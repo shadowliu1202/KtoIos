@@ -179,7 +179,7 @@ class CustomServicePresenter: NSObject {
         let prechatVC = storyboard.instantiateViewController(identifier: "PrechatServeyViewController") as PrechatServeyViewController
         prechatVC.bind(position: .left, barButtonItems: .kto(.close))
         let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-        let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
+        let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip"))).senderId(skipBarBtnId)
         prechatVC.bind(position: .right, barButtonItems: padding, skip)
         prechatVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
         prechatVC.viewModel = vm
@@ -261,7 +261,7 @@ class CustomServicePresenter: NSObject {
         let exitSurveyVC = storyboard.instantiateViewController(identifier: "ExitSurveyViewController") as ExitSurveyViewController
         exitSurveyVC.bind(position: .left, barButtonItems: .kto(.close))
         let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-        let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
+        let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip"))).senderId(skipBarBtnId)
         exitSurveyVC.bind(position: .right, barButtonItems: padding, skip)
         exitSurveyVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
         exitSurveyVC.viewModel = surveyViewModel

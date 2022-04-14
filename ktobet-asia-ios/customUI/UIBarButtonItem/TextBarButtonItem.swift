@@ -21,6 +21,7 @@ let registerBarBtnId = 1001
 let customerServiceBarBtnId = 1002
 let loginBarBtnId = 1003
 let manualUpdateBtnId = 1004
+let skipBarBtnId = 1005
 
 class CustomerServiceButtonItem: TextBarButtonItem {
     weak var delegate: CustomServiceDelegate? = nil

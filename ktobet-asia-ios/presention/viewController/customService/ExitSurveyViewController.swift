@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class ExitSurveyViewController: UIViewController {
+class ExitSurveyViewController: APPViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: SurveyViewModel!
     var roomId: RoomId?
@@ -51,7 +51,7 @@ class ExitSurveyViewController: UIViewController {
             self.surveyVC.dataSource = $0.surveyQuestions
         }).disposed(by: disposeBag)
         
-        viewModel.isAnswersValid.bind(to: completeBtn.rx.isValid).disposed(by: disposeBag)
+        Observable.combineLatest(viewModel.isAnswersValid, networkConnectRelay.asObservable()).map({$0 && $1}).bind(to: completeBtn.rx.isValid).disposed(by: disposeBag)
         
         completeBtn.rx.touchUpInside
             .do(onNext: { [weak self] in
