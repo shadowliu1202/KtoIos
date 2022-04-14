@@ -37,8 +37,7 @@ class SlotFilterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
-        
+        self.bind(position: .left, barButtonItems: .kto(.close))
         self.bind(position: .right, barButtonItems: .kto(.text(text: Localize.string("product_clear_filters"))))
         featureButtons = [slotSeparateButton, slotWildButton, slotFeatureButton, freeSpinButton, bidirectionalButton]
         themeButtons = [slotAsiaButton, slotWestButton]
@@ -59,10 +58,6 @@ class SlotFilterViewController: UIViewController {
         self.gameThemeView.addBorder(.bottom, size: 1, color: UIColor(red: 60.0/255.0, green: 62.0/255.0, blue: 64.0/255.0, alpha: 1.0))
     }
     
-    @objc func close() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
     @IBAction func featureTouchDownTag(_ sender: UIButton) {
         selectTag(sender, filterType: 0)
     }
@@ -77,7 +72,7 @@ class SlotFilterViewController: UIViewController {
     
     @IBAction func done(_ sender: UIButton) {
         conditionCallbck?(options)
-        NavigationManagement.sharedInstance.popViewController()
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func setTagButtonStyle(button: UIButton) {
@@ -141,5 +136,9 @@ extension SlotFilterViewController: BarButtonItemable {
         allButtons.forEach{ $0.isSelected = false }
         options = []
         viewModel.gameCountFilters.onNext(options)
+    }
+
+    func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
