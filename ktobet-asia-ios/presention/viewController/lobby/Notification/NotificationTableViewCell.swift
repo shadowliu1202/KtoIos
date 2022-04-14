@@ -16,42 +16,25 @@ class NotificationTableViewCell: UITableViewCell {
         self.content.highlight(text: previousKeyword, color: .clear)
     }
 
-    func setUp(_ element: SharedBu.Notification, supportLocale: SupportLocale, keyword: String = "") {
+    func setUp(_ element: NotificationItem, keyword: String = "") {
         self.previousKeyword = keyword
-        typeTitle.text = createTypeTitle(element)
-        date.text = element.displayTime.toDateTimeString()
+        typeTitle.text = element.typeTitle
+        date.text = element.dateTime
+        title.text = element.title
+        content.text = element.content
 
-        title.text = NotificationViewModel.createActivityTitle(notification: element)
-        content.text = NotificationViewModel.createActivityContent(notification: element, supportLocale: supportLocale)
-       
-
-        if let maintainNotification = element as? SharedBu.Notification.Maintenance {
-            let maintenanceStart = maintainNotification.maintenanceStart.toDateString()
-            let maintenanceEnd = maintainNotification.maintenanceEnd.toDateString()
+        if let maintainStartTime = element.maintenanceTime, let maintainEndTime = element.maintenanceEndTime {
+            let maintenanceStart = maintainStartTime.toDateString()
+            let maintenanceEnd = maintainStartTime.toDateString()
             maintainTime.text = Localize.string("notification_maintenancetime",
-                                                maintainNotification.maintenanceStart.toDateTimeString(),
-                                                maintenanceStart == maintenanceEnd ? maintainNotification.maintenanceEnd.toTimeString() : maintainNotification.maintenanceEnd.toDateTimeString())
-
+                                                maintenanceStart,
+                                                maintenanceStart == maintenanceEnd ?
+                                                maintainEndTime.toTimeString(): maintainEndTime.toDateTimeString())
         } else {
             maintainTime.text = ""
         }
 
         self.title.highlight(text: keyword.trimmingCharacters(in: .whitespacesAndNewlines), color: .redForDark502)
         self.content.highlight(text: keyword.trimmingCharacters(in: .whitespacesAndNewlines), color: .redForDark502)
-    }
-
-    private func createTypeTitle(_ element: SharedBu.Notification) -> String {
-        switch element {
-        case is SharedBu.Notification.Maintenance:
-            return Localize.string("notification_type_0")
-        case is SharedBu.Notification.Activity:
-            return Localize.string("notification_type_activity")
-        case is SharedBu.Notification.General:
-            return Localize.string("notification_type_1")
-        case is SharedBu.Notification.Personal:
-            return Localize.string("notification_type_2")
-        default:
-            return ""
-        }
     }
 }

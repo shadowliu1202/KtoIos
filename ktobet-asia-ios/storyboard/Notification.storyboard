@@ -333,11 +333,11 @@
             <objects>
                 <viewController storyboardIdentifier="NotificationDetailViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="14G-MS-Qih" customClass="NotificationDetailViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xaP-aV-gw4">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LQN-cB-A5F">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dXo-be-MLM" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="346"/>
@@ -409,9 +409,6 @@
                                                         <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="pressDeleteBtn:" destination="14G-MS-Qih" eventType="touchUpInside" id="Ziw-Qx-EMy"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -467,6 +464,7 @@
                         <outlet property="csLabel" destination="GEN-Fk-uQw" id="05c-sX-PDw"/>
                         <outlet property="dateTimeLabel" destination="ZJ1-WG-iTV" id="U5V-x9-eZ4"/>
                         <outlet property="deleteBtnHight" destination="no0-Bs-5Tg" id="qdx-vv-EfT"/>
+                        <outlet property="deleteButton" destination="2aB-HU-lBE" id="HnK-H5-dz6"/>
                         <outlet property="goToArrowHight" destination="9Y3-P0-Woi" id="OfA-fX-R9y"/>
                         <outlet property="goToBtn" destination="xZL-E2-He0" id="eml-dz-8aH"/>
                         <outlet property="goTobtnHight" destination="Xnk-YY-JDx" id="USX-su-857"/>
@@ -488,7 +486,7 @@
         <designable name="yKr-6u-QBe"/>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="Yqb-ej-He0"/>
+        <segue reference="1Se-FY-pb6"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NotificationEmpty" width="63" height="70"/>
