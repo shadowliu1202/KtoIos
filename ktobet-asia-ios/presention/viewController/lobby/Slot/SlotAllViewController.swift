@@ -55,19 +55,6 @@ class SlotAllViewController: DisplayProduct {
         iconArrowImageView.image = dropDownTableView.isHidden ? UIImage(named: "iconAccordionArrowDown") : UIImage(named: "iconAccordionArrowUp")
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == SlotFilterViewController.segueIdentifier {
-            if let dest = segue.destination as? SlotFilterViewController {
-                dest.options = options
-                dest.conditionCallbck = {[weak self] (options) in
-                    let sorting = self?.dropDownItem.first(where: { $0.isSelected }).map{ $0.sorting } ?? .popular
-                    self?.getAllGame(sorting: sorting, filter: options)
-                    self?.options = options
-                }
-            }
-        }
-    }
-    
     // MARK: KVO
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "contentSize" {
@@ -125,7 +112,18 @@ extension SlotAllViewController: BarButtonItemable {
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
         switch sender {
         case is FilterBarButtonItem:
-            performSegue(withIdentifier: SlotFilterViewController.segueIdentifier, sender: nil)
+            if let nav = UIStoryboard(name: "Slot", bundle: nil).instantiateViewController(withIdentifier: "SlotFilterNavViewController") as? UINavigationController, let vc = nav.viewControllers.first as? SlotFilterViewController {
+                nav.modalPresentationStyle = .fullScreen
+                vc.options = options
+                vc.conditionCallbck = { [weak self] (options) in
+                    let sorting = self?.dropDownItem.first(where: { $0.isSelected }).map { $0.sorting } ?? .popular
+                    self?.getAllGame(sorting: sorting, filter: options)
+                    self?.options = options
+                }
+
+                self.present(nav, animated: true, completion: nil)
+            }
+
             break
         case is SearchButtonItem:
             guard let searchViewController = UIStoryboard(name: "Product", bundle: nil).instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController else { return }
