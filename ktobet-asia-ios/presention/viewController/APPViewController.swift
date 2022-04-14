@@ -8,44 +8,23 @@ func methodPointer<T: AnyObject>(obj: T, method: @escaping (T) -> () -> Void) ->
 }
 
 class APPViewController: UIViewController {
-    private var networkDisconnectHandler: (() -> ())?
-    private var networkReConnectedHandler: (() -> ())?
     private var banner: NotificationBanner?
     
     private let _errors = PublishSubject<Error>.init()
     private var errorsDispose: Disposable?
+    let networkConnectRelay = BehaviorRelay<Bool>(value: true)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkNetworkDisConnectHandler()
-        checkNetworkReConnectHandler()
         observerRequestError()
-    }
-    
-    private func checkNetworkDisConnectHandler() {
-        if let custom = registerNetworkDisConnnectedHandler() {
-            self.networkDisconnectHandler = custom
-        } else {
-            let displayBanner = methodPointer(obj: self, method: APPViewController.displayBanner)
-            self.networkDisconnectHandler = displayBanner
-        }
-    }
-    
-    private func checkNetworkReConnectHandler() {
-        if let custom = registerNetworkReConnectedHandler() {
-            self.networkReConnectedHandler = custom
-        } else {
-            let dismissBanner = methodPointer(obj: self, method: APPViewController.dismissBanner)
-            self.networkReConnectedHandler = dismissBanner
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if Reachability?.isNetworkConnected == true {
-            self.networkReConnectedHandler?()
+            self.networkReConnectedHandler()
         } else {
-            self.networkDisconnectHandler?()
+            self.networkDisconnectHandler()
         }
     }
     
@@ -59,16 +38,12 @@ class APPViewController: UIViewController {
         self.dismissBanner()
     }
     
-    func registerViewDidLoadNetworkHandler() -> (() -> ())? {
-        return nil
+    func networkReConnectedHandler() {
+        dismissBanner()
     }
     
-    func registerNetworkDisConnnectedHandler() -> (() -> ())? {
-        return nil
-    }
-    
-    func registerNetworkReConnectedHandler() -> (() -> ())? {
-        return nil
+    func networkDisconnectHandler() {
+        displayBanner()
     }
     
     private func displayBanner() {
@@ -98,11 +73,13 @@ class APPViewController: UIViewController {
 
 extension APPViewController: NetworkStatusDisplay {
     func networkDidConnected() {
-        self.networkReConnectedHandler?()
+        self.networkReConnectedHandler()
+        self.networkConnectRelay.accept(true)
     }
     
     func networkDisConnected() {
-        self.networkDisconnectHandler?()
+        self.networkDisconnectHandler()
+        self.networkConnectRelay.accept(false)
     }
     
     func networkRequestHandle(error: Error) {

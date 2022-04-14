@@ -15,7 +15,7 @@ extension SideBarViewController: SideMenuNavigationControllerDelegate {
         CustomServicePresenter.shared.isInSideMenu = false
         CustomServicePresenter.shared.showServiceIcon()
         if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-            if isNetworkConnected {
+            if Reachability?.isNetworkConnected == true {
                 topVc.networkDidConnected()
             } else {
                 topVc.networkDisConnected()
@@ -52,7 +52,6 @@ class SideBarViewController: APPViewController {
     private var slideViewModel = SlideMenuViewModel()
     private var refreshTrigger = PublishSubject<()>()
     private var productMaintenanceStatus: MaintenanceStatus.Product?
-    private var isNetworkConnected = true
 
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -393,15 +392,5 @@ class SideBarViewController: APPViewController {
         self.listProduct.reloadData()
     }
     
-    override func registerNetworkReConnectedHandler() -> (() -> ())? {
-        return { [weak self] in
-            self?.isNetworkConnected = true
-        }
-    }
-    
-    override func registerNetworkDisConnnectedHandler() -> (() -> ())? {
-        return { [weak self] in
-            self?.isNetworkConnected = false
-        }
-    }
+    override func networkDisconnectHandler() { }
 }

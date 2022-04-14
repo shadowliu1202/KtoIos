@@ -14,7 +14,6 @@ class SportBookViewController: APPViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         return UIActivityIndicatorView(style: .large)
     }()
-    private let isNetworkConnected = PublishSubject<Bool>()
     private let isWebLoadSuccess = BehaviorRelay<Bool>(value: false)
     private var banner: NotificationBanner?
     
@@ -38,42 +37,13 @@ class SportBookViewController: APPViewController {
                 break
             }
         }).disposed(by: disposeBag)
-        Observable.combineLatest(isNetworkConnected, isWebLoadSuccess).subscribe(onNext: { [unowned self] isNetworkConnected, isWebLoadSuccess in
+        Observable.combineLatest(networkConnectRelay, isWebLoadSuccess).subscribe(onNext: { [unowned self] isNetworkConnected, isWebLoadSuccess in
             guard isWebLoadSuccess == false else { return }
             if isNetworkConnected {
-                self.dismissBanner()
                 self.loadURL(webView: self.webView, urlString: self.sbkWebUrlString)
-            } else {
-                self.displayBanner()
             }
         }).disposed(by: disposeBag)
         
-    }
-    
-    override func registerNetworkDisConnnectedHandler() -> (() -> ())? {
-        return { [weak self] in
-            self?.isNetworkConnected.onNext(false)
-        }
-    }
-    
-    override func registerNetworkReConnectedHandler() -> (() -> ())? {
-        return { [weak self] in
-            self?.isNetworkConnected.onNext(true)
-        }
-    }
-    
-    private func displayBanner() {
-        guard !(banner?.isDisplaying ?? false) else { return }
-        let view = UIHostingController(rootView: BannerView()).view
-        view?.backgroundColor = .clear
-        let bannerQueue5AllowedMixed = NotificationBannerQueue(maxBannersOnScreenSimultaneously: Int.max)
-        banner = NotificationBanner(customView: view!)
-        banner?.autoDismiss = false
-        banner?.show(queue: bannerQueue5AllowedMixed, on: self)
-    }
-    
-    private func dismissBanner() {
-        banner?.dismiss()
     }
     
     deinit {

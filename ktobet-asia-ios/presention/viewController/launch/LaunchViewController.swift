@@ -38,10 +38,8 @@ class LaunchViewController: LandingViewController {
             }.disposed(by: disposeBag)
     }
     
-    override func registerNetworkDisConnnectedHandler() -> (() -> ())? {
-        return { [weak self] in
-            self?.displayAlert(Localize.string("common_error"), Localize.string("common_network_error"))
-        }
+    override func networkDisconnectHandler() {
+        self.displayAlert(Localize.string("common_error"), Localize.string("common_network_error"))
     }
     
     func displayAlert(_ title: String?, _ message: String?) {
