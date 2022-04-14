@@ -47,12 +47,13 @@ class APPViewController: UIViewController {
     }
     
     private func displayBanner() {
-        guard !(banner?.isDisplaying ?? false) else { return }
+        guard banner == nil || banner?.isDisplaying == false else { return }
         let view = UIHostingController(rootView: BannerView()).view
         view?.backgroundColor = .clear
         let bannerQueue5AllowedMixed = NotificationBannerQueue(maxBannersOnScreenSimultaneously: Int.max)
         banner = NotificationBanner(customView: view!)
         banner?.autoDismiss = false
+        banner?.animationDuration = 0.0
         banner?.show(queue: bannerQueue5AllowedMixed, on: self)
     }
     
@@ -84,6 +85,16 @@ extension APPViewController: NetworkStatusDisplay {
     
     func networkRequestHandle(error: Error) {
         _errors.onNext(error)
+    }
+}
+
+extension APPViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        if Reachability?.isNetworkConnected == true {
+            self.networkReConnectedHandler()
+        } else {
+            self.networkDisconnectHandler()
+        }
     }
 }
 

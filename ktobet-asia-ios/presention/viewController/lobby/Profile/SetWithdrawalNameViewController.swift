@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SetWithdrawalNameViewController: APPViewController {
+class SetWithdrawalNameViewController: APPViewController, AuthProfileVerification {
     static let segueIdentifier = "toSetWithdrawalName"
     
     @IBOutlet weak var realNameInput: InputText!
@@ -56,14 +56,6 @@ class SetWithdrawalNameViewController: APPViewController {
             .subscribe(onNext: { [weak self] in
                 self?.popThenToastSuccess()
             }).disposed(by: disposeBag)
-    }
-    
-    private func navigateToAuthorization() {
-        navigationController?.dismiss(animated: true, completion: nil)
-        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
-        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation")
-        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
     }
     
     override func handleErrors(_ error: Error) {

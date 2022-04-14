@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class AddBankViewController: APPViewController {
+class AddBankViewController: APPViewController, AuthProfileVerification {
     static let segueIdentifier = "toAddBank"
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -180,14 +180,6 @@ class AddBankViewController: APPViewController {
         Alert.show(title, message, confirm: {
             self.navigateToAuthorization()
         }, confirmText: Localize.string("common_moveto"), cancel: {})
-    }
-    
-    private func navigateToAuthorization() {
-        navigationController?.dismiss(animated: true, completion: nil)
-        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
-        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation") as! UINavigationController
-        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
     }
     
     func handleErrorLabel(error: ValidError, textField: UIView?, label: UILabel?) {

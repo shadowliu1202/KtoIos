@@ -326,6 +326,7 @@ class LoginViewController: LandingViewController {
     
     // MARK: PAGE ACTION
     @IBAction func backToLogin(segue: UIStoryboardSegue) {
+        segue.source.presentationController?.delegate?.presentationControllerDidDismiss?(segue.source.presentationController!)
         if let vc = segue.source as? ResetPasswordStep3ViewController {
             if vc.changePasswordSuccess {
                 toastView.show(on: self.view, statusTip: Localize.string("login_resetpassword_success"), img: UIImage(named: "Success"))
@@ -362,6 +363,11 @@ extension LoginViewController {
                 self.localize()
                 self.viewModel.refresh()
             }
+            signupVc.presentationController?.delegate = self
+        }
+        if let navi = segue.destination as? UINavigationController,
+           let vc = navi.viewControllers.first as? ResetPasswordViewController {
+            vc.presentationController?.delegate = self
         }
     }
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) { }

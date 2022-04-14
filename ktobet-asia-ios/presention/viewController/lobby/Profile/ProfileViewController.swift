@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class ProfileViewController: APPViewController {
+class ProfileViewController: APPViewController, AuthProfileVerification {
     
     @IBOutlet weak var passwordView: OneItemView!
     @IBOutlet weak var gameIdLabel: UILabel!
@@ -193,14 +193,6 @@ class ProfileViewController: APPViewController {
     
     private func alertWithdrawalOnGoing() {
         Alert.show(Localize.string("common_tip_title_warm"), Localize.string("profile_real_name_ticket_on_going_not_editable"), confirm: {}, cancel: nil)
-    }
-    
-    private func navigateToAuthorization() {
-        navigationController?.dismiss(animated: true, completion: nil)
-        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
-        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation")
-        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
     }
     
     deinit {

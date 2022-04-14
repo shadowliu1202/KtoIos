@@ -120,7 +120,7 @@ extension SlotAllViewController: BarButtonItemable {
                     self?.getAllGame(sorting: sorting, filter: options)
                     self?.options = options
                 }
-
+                vc.presentationController?.delegate = self
                 self.present(nav, animated: true, completion: nil)
             }
 

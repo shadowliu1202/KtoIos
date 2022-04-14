@@ -4,6 +4,23 @@ import RxCocoa
 import SharedBu
 import Swinject
 
+protocol AuthProfileVerification {
+    func navigateToAuthorization()
+}
+extension AuthProfileVerification where Self: UIViewController {
+    func navigateToAuthorization() {
+        navigationController?.dismiss(animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
+        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation") as! UINavigationController
+        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        let vc = navi.viewControllers.first as? AuthProfileModificationViewController
+        if let currentVC = NavigationManagement.sharedInstance.viewController as? UIAdaptivePresentationControllerDelegate {
+            vc?.presentationController?.delegate = currentVC
+        }
+        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
+    }
+}
+
 class AuthProfileModificationViewController: APPViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var didAuthenticated: (() -> ())?
@@ -81,7 +98,7 @@ class AuthProfileModificationViewController: APPViewController {
 
 extension AuthProfileModificationViewController: BarButtonItemable {
     func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
-        NavigationManagement.sharedInstance.goToPreviousRootViewController()
+        self.navigationController?.dismiss(animated: true, completion: nil)
+        self.presentationController?.delegate?.presentationControllerDidDismiss?(self.presentationController!)
     }
 }

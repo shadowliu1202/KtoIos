@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class ChangePasswordViewController: APPViewController {
+class ChangePasswordViewController: APPViewController, AuthProfileVerification {
     static let segueIdentifier = "goChangePassword"
     @IBOutlet weak var errorViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var inputPassword: InputPassword!
@@ -81,14 +81,6 @@ class ChangePasswordViewController: APPViewController {
         } else {
             handleErrors(error)
         }
-    }
-    
-    private func navigateToAuthorization() {
-        navigationController?.dismiss(animated: true, completion: nil)
-        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
-        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation")
-        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
     }
     
     private func popThenToast() {

@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SetBirthdayViewController: APPViewController {
+class SetBirthdayViewController: APPViewController, AuthProfileVerification {
     static let segueIdentifier = "toSetBirthday"
     private var isPickedDate = false
     @IBOutlet weak var birthdayInput: InputText!
@@ -76,14 +76,6 @@ class SetBirthdayViewController: APPViewController {
         } else {
             super.handleErrors(error)
         }
-    }
-    
-    private func navigateToAuthorization() {
-        navigationController?.dismiss(animated: true, completion: nil)
-        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
-        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation")
-        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
     }
     
     private func popThenToastSuccess() {

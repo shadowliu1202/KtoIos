@@ -140,5 +140,6 @@ extension SlotFilterViewController: BarButtonItemable {
 
     func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
+        self.presentationController?.delegate?.presentationControllerDidDismiss?(self.presentationController!)
     }
 }
