@@ -10,12 +10,11 @@ class NotificationViewModel: KTOViewModel, ViewModelType {
     private var configurationUseCase: ConfigurationUseCase!
     private var systemStatusUseCase: GetSystemStatusUseCase!
 
-    var notificationsPagination: Pagination<SharedBu.Notification>!
-    lazy var supportLocale: SupportLocale = configurationUseCase.locale()
-    lazy var getCustomerServiceEmail = systemStatusUseCase.getCustomerServiceEmail()
-    private let refreshTrigger = PublishSubject<Void>()
-    private var pagination: Pagination<SharedBu.Notification>!
     private let keyword = BehaviorSubject<String>(value: "")
+    private let selectedMessageId = BehaviorSubject<String>(value: "")
+    private let refreshTrigger = PublishSubject<Void>()
+    private let deleteTrigger = PublishSubject<Void>()
+    private var pagination: Pagination<SharedBu.Notification>!
 
     init(useCase: NotificationUseCase, configurationUseCase: ConfigurationUseCase, systemStatusUseCase: GetSystemStatusUseCase) {
         super.init()
@@ -27,13 +26,18 @@ class NotificationViewModel: KTOViewModel, ViewModelType {
 
         let notifications = getNotifications()
         let isHiddenEmptyView = isHiddenEmptyView(notifications)
+        let customerServiceEmail = getCustomerServiceEmail()
+        let deletedMessage = deleteNotification()
 
         self.input = Input(refreshTrigger: refreshTrigger.asObserver(),
                            loadNextPageTrigger: pagination.loadNextPageTrigger.asObserver(),
-                           keywod: keyword.asObserver())
+                           keywod: keyword.asObserver(),
+                           deleteTrigger: deleteTrigger.asObserver(),
+                           selectedMessageId: selectedMessageId.asObserver())
         self.output = Output(notifications: notifications,
                              isHiddenEmptyView: isHiddenEmptyView,
-                             supportLocale: configurationUseCase.locale())
+                             customerServiceEmail: customerServiceEmail,
+                             deletedMessage: deletedMessage)
     }
 
     private func initPagination() {
@@ -42,32 +46,59 @@ class NotificationViewModel: KTOViewModel, ViewModelType {
         })
     }
 
-    private func getNotifications() -> Driver<[SharedBu.Notification]> {
-        refreshTrigger.flatMapLatest { [unowned self] _ -> Driver<[SharedBu.Notification]> in
+    private func deleteNotification() -> Driver<Void> {
+        deleteTrigger.withLatestFrom(selectedMessageId)
+            .flatMapLatest { [unowned self] id in
+                self.useCase.deleteNotification(messageId: id)
+                    .andThen(Single.just(()))
+                    .compose(self.applySingleErrorHandler())
+            }.asDriverLogError()
+    }
+
+    private func getCustomerServiceEmail() -> Driver<String> {
+        systemStatusUseCase.getCustomerServiceEmail()
+            .compose(self.applySingleErrorHandler())
+            .asDriver(onErrorJustReturn: "")
+    }
+
+    private func getNotifications() -> Driver<[NotificationItem]> {
+        refreshTrigger.flatMapLatest { [unowned self] _ -> Driver<[NotificationItem]> in
             self.pagination.refreshTrigger.onNext(())
             return Driver.combineLatest(getActivityNotification(), self.pagination.elements.asDriver(onErrorJustReturn: []))
-                .map { (activityNnotificationSummary, playerNotifications) -> [SharedBu.Notification] in
-                    self.sortedNotifications(activityNotifications: activityNnotificationSummary.notifications,
-                                             playerNotifications: playerNotifications)
+                .map { (activityNnotificationSummary, playerNotifications) -> [NotificationItem] in
+                    let sortedNotifications = self.sortedNotifications(activityNotifications: activityNnotificationSummary.notifications, playerNotifications: playerNotifications)
+                    return filterKeyword(notificationItem: sortedNotifications)
                 }
         }.asDriver(onErrorJustReturn: [])
     }
 
-    private func sortedNotifications(activityNotifications: [SharedBu.Notification], playerNotifications: [SharedBu.Notification]) -> [SharedBu.Notification] {
+    private func sortedNotifications(activityNotifications: [SharedBu.Notification], playerNotifications: [SharedBu.Notification]) -> [NotificationItem] {
+        let supportLocale = configurationUseCase.locale()
         let allNotification = activityNotifications + playerNotifications
         let sortedNotification = allNotification.sorted(by: { $0.displayTime.compareTo(other: $1.displayTime) > 0 })
-        return sortedNotification
+        return sortedNotification.map { NotificationItem($0, supportLocale: supportLocale) }
     }
 
-    private func isHiddenEmptyView(_ notifications: Driver<[SharedBu.Notification]>) -> Driver<Bool> {
+    private func filterKeyword(notificationItem: [NotificationItem]) -> [NotificationItem] {
+        let keyword = try! keyword.value()
+        return notificationItem.filter { notificationItem in
+            if keyword.isEmpty {
+                return true
+            } else {
+                return notificationItem.title.localizedCaseInsensitiveContains(keyword) || notificationItem.content.localizedCaseInsensitiveContains(keyword)
+            }
+        }
+    }
+
+    private func isHiddenEmptyView(_ notifications: Driver<[NotificationItem]>) -> Driver<Bool> {
         Driver.combineLatest(notifications, keyword.map { $0.count >= 3 }.asDriver(onErrorJustReturn: false))
             .map({ (notifications, isValidKeyword) in
-                if notifications.count == 0 && isValidKeyword {
-                    return false
-                } else {
-                    return true
-                }
-            })
+            if notifications.count == 0 && isValidKeyword {
+                return false
+            } else {
+                return true
+            }
+        })
     }
 
     private func searchNotification(page: Int) -> Observable<[SharedBu.Notification]> {
@@ -77,7 +108,7 @@ class NotificationViewModel: KTOViewModel, ViewModelType {
     }
 
     private func getActivityNotification() -> Driver<NotificationSummary> {
-        useCase.getActivityNotification(keyword: try! keyword.value())
+        useCase.getActivityNotification()
             .compose(self.applySingleErrorHandler())
             .asDriver(onErrorJustReturn: NotificationSummary(totalCount: 0, notifications: []))
     }
@@ -88,19 +119,66 @@ extension NotificationViewModel {
         let refreshTrigger: AnyObserver<Void>
         let loadNextPageTrigger: AnyObserver<Void>
         let keywod: AnyObserver<String>
+        let deleteTrigger: AnyObserver<Void>
+        var selectedMessageId: AnyObserver<String>
     }
 
     struct Output {
-        let notifications: Driver<[SharedBu.Notification]>
+        let notifications: Driver<[NotificationItem]>
         let isHiddenEmptyView: Driver<Bool>
-        let supportLocale: SupportLocale
+        let customerServiceEmail: Driver<String>
+        let deletedMessage: Driver<Void>
     }
-    
-    func deleteMessage(messageId: String) -> Completable {
-        return useCase.deleteNotification(messageId: messageId)
+}
+
+
+
+class NotificationItem {
+    var messageId: String
+    var typeTitle: String?
+    var title: String!
+    var dateTime: String?
+    var content: String!
+    var deletable: Bool?
+    var maintenanceTime: OffsetDateTime?
+    var maintenanceEndTime: OffsetDateTime?
+    var activityType: MyActivityType?
+    var transactionId: String?
+    var displayCsContact: Bool?
+
+    init(_ bean: SharedBu.Notification, supportLocale: SupportLocale) {
+        self.messageId = bean.messageId
+        self.title = createActivityTitle(notification: bean)
+        self.dateTime = bean.displayTime.toDateTimeString()
+        self.content = createActivityContent(notification: bean, supportLocale: supportLocale)
+        self.deletable = bean.deletable
+        if let maintenanceNotification = bean as? SharedBu.Notification.Maintenance {
+            self.maintenanceTime = maintenanceNotification.maintenanceStart
+            self.maintenanceEndTime = maintenanceNotification.maintenanceEnd
+        } else if let activityNotification = bean as? SharedBu.Notification.Activity {
+            self.activityType = activityNotification.myActivityType
+            self.transactionId = activityNotification.transactionId
+        }
+        self.displayCsContact = bean is SharedBu.Notification.Activity ? false : true
+        self.typeTitle = createTypeTitle(bean)
     }
-    
-    static func createActivityTitle(notification: SharedBu.Notification) -> String {
+
+    private func createTypeTitle(_ element: SharedBu.Notification) -> String {
+        switch element {
+        case is SharedBu.Notification.Maintenance:
+            return Localize.string("notification_type_0")
+        case is SharedBu.Notification.Activity:
+            return Localize.string("notification_type_activity")
+        case is SharedBu.Notification.General:
+            return Localize.string("notification_type_1")
+        case is SharedBu.Notification.Personal:
+            return Localize.string("notification_type_2")
+        default:
+            return ""
+        }
+    }
+
+    private func createActivityTitle(notification: SharedBu.Notification) -> String {
         guard let notify = notification as? SharedBu.Notification.Activity else {
             return notification.title
         }
@@ -126,8 +204,8 @@ extension NotificationViewModel {
             return ""
         }
     }
-    
-    static func createActivityContent(notification: SharedBu.Notification, supportLocale: SupportLocale) -> String {
+
+    private func createActivityContent(notification: SharedBu.Notification, supportLocale: SupportLocale) -> String {
         guard let item = notification as? SharedBu.Notification.Activity else {
             return notification.message
         }

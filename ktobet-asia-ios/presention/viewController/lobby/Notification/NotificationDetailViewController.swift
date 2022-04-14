@@ -7,13 +7,14 @@ protocol NotificationNavigate: UIViewController {}
 
 class NotificationDetailViewController: UIViewController, NotificationNavigate {
     static let segueIdentifier = "toNotificationDetail"
-    var data: NotifyContentItem!
+    var data: NotificationItem!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateTimeLabel: UILabel!
     @IBOutlet weak var contentLable: UILabel!
     @IBOutlet weak var maintenTimeLabel: UILabel!
     @IBOutlet weak var goToArrowHight: NSLayoutConstraint!
     @IBOutlet weak var goToBtn: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var goTobtnHight: NSLayoutConstraint!
     @IBOutlet weak var csLabel: UILabel!
     @IBOutlet weak var deleteBtnHight: NSLayoutConstraint!
@@ -33,21 +34,38 @@ class NotificationDetailViewController: UIViewController, NotificationNavigate {
     }
     
     private func dateBinding() {
-        viewModel.getCustomerServiceEmail.subscribe(onSuccess: { [weak self] in
-            if self?.data.displayCsContact == true {
-                self?.csLabel.text = $0
-            }
-        }, onError: { [weak self] in
-            self?.handleErrors($0)
-        }).disposed(by: disposeBag)
+        viewModel.input.selectedMessageId.onNext(data.messageId)
+
+        disposeBag.insert(
+            viewModel.output.customerServiceEmail.drive(onNext: { [weak self] csEmail in
+                if self?.data.displayCsContact == true {
+                    self?.csLabel.text = csEmail
+                }
+            }),
+
+            deleteButton.rx.touchUpInside.subscribe(onNext: {
+                Alert.show(Localize.string("notification_delete_title"), Localize.string("notification_delete_content"), confirm: { [weak self] in
+                    self?.viewModel.input.deleteTrigger.onNext(())
+                }, confirmText: Localize.string("common_yes"), cancel: { }, cancelText: Localize.string("common_no"))
+
+            }),
+
+            viewModel.output.deletedMessage.drive(onNext: { [weak self] in
+                self?.popThenToastSuccess()
+            }),
+
+            viewModel.errors().subscribe(onNext: { [weak self] in
+                self?.handleErrors($0)
+            })
+        )
     }
     
-    private func initUI(_ item: NotifyContentItem) {
+    private func initUI(_ item: NotificationItem) {
         titleLabel.text = item.title
         dateTimeLabel.text = item.dateTime
         contentLable.text = item.content
         if let starTime = item.maintenanceTime, let endTime = item.maintenanceEndTime {
-            maintenTimeLabel.text = Localize.string("notification_maintenancetime", starTime, endTime)
+            maintenTimeLabel.text = Localize.string("notification_maintenancetime", starTime.toDateTimeString(), endTime.toDateTimeString())
         }
         setGoToUI(item.activityType)
         setNavigationFactory(item.activityType)
@@ -102,25 +120,15 @@ class NotificationDetailViewController: UIViewController, NotificationNavigate {
             break
         }
     }
-    
-    @IBAction func pressGoToBtn(_ sender: Any) {
-        self.navigateToDestination?()
-    }
-    
-    @IBAction func pressDeleteBtn(_ sender: Any) {
-        Alert.show(Localize.string("notification_delete_title"), Localize.string("notification_delete_content"), confirm: {
-            let _ = self.viewModel.deleteMessage(messageId: self.data.messageId).subscribe(onCompleted: { [weak self] in
-                self?.popThenToastSuccess()
-            }, onError: { [weak self] in
-                self?.handleErrors($0)
-            })
-        }, confirmText: Localize.string("common_yes"), cancel: {}, cancelText: Localize.string("common_no"))
-    }
-    
+
     private func popThenToastSuccess() {
         NavigationManagement.sharedInstance.popViewController({ [weak self] in
             self?.showToastOnBottom(Localize.string("notification_deleted"), img: UIImage(named: "Success"))
         })
+    }
+    
+    @IBAction func pressGoToBtn(_ sender: Any) {
+        self.navigateToDestination?()
     }
     
     @IBAction func backToNotificationDetail(segue: UIStoryboardSegue) {
@@ -131,34 +139,5 @@ class NotificationDetailViewController: UIViewController, NotificationNavigate {
                 toastView.show(on: self.view, statusTip: Localize.string("common_request_submitted"), img: UIImage(named: "Success"))
             }
         }
-    }
-}
-
-class NotifyContentItem {
-    var messageId: String
-    var title: String?
-    var dateTime: String?
-    var content: String?
-    var deletable: Bool?
-    var maintenanceTime: String?
-    var maintenanceEndTime: String?
-    var activityType: MyActivityType?
-    var transactionId: String?
-    var displayCsContact: Bool?
-    
-    init(_ bean: SharedBu.Notification, supportLocale: SupportLocale) {
-        self.messageId = bean.messageId
-        self.title = NotificationViewModel.createActivityTitle(notification: bean)
-        self.dateTime = bean.displayTime.toDateTimeString()
-        self.content = NotificationViewModel.createActivityContent(notification: bean, supportLocale: supportLocale)
-        self.deletable = bean.deletable
-        if let maintenanceNotification = bean as? SharedBu.Notification.Maintenance {
-            self.maintenanceTime = maintenanceNotification.maintenanceStart.toDateTimeString()
-            self.maintenanceEndTime = maintenanceNotification.maintenanceEnd.toDateTimeString()
-        } else if let activityNotification = bean as? SharedBu.Notification.Activity {
-            self.activityType = activityNotification.myActivityType
-            self.transactionId = activityNotification.transactionId
-        }
-        self.displayCsContact = bean is SharedBu.Notification.Activity ? false : true
     }
 }

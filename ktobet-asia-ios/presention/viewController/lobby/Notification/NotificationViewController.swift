@@ -21,12 +21,12 @@ class NotificationViewController: APPViewController {
     }
 
     private func dateBinding() {
-        viewModel.output.notifications.drive(tableView.rx.items(cellIdentifier: String(describing: NotificationTableViewCell.self), cellType: NotificationTableViewCell.self)) {[unowned self] (row, element, cell) in
-            cell.setUp(element, supportLocale: viewModel.output.supportLocale)
+        viewModel.output.notifications.drive(tableView.rx.items(cellIdentifier: String(describing: NotificationTableViewCell.self), cellType: NotificationTableViewCell.self)) {(row, element, cell) in
+            cell.setUp(element)
             cell.selectionStyle = .none
         }.disposed(by: disposeBag)
 
-        tableView.rx.modelSelected(SharedBu.Notification.self).bind { [weak self] (data) in
+        tableView.rx.modelSelected(NotificationItem.self).bind { [weak self] (data) in
             self?.performSegue(withIdentifier: NotificationDetailViewController.segueIdentifier, sender: data)
         }.disposed(by: disposeBag)
 
@@ -43,9 +43,8 @@ class NotificationViewController: APPViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == NotificationDetailViewController.segueIdentifier,
            let dest = segue.destination as? NotificationDetailViewController,
-           let notification = sender as? SharedBu.Notification {
-            let item: NotifyContentItem = NotifyContentItem(notification, supportLocale: viewModel.output.supportLocale)
-            dest.data = item
+           let notificationItem = sender as? NotificationItem {
+            dest.data = notificationItem
         }
     }
 }
