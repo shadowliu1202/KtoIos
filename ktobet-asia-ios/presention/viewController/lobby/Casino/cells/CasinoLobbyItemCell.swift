@@ -2,7 +2,6 @@ import UIKit
 import SharedBu
 
 class CasinoLobbyItemCell: UICollectionViewCell {
-    @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var imgIcon: UIImageView!
     @IBOutlet weak var maintainIcon: UIImageView!
     @IBOutlet private weak var labTitle : UILabel!
@@ -11,9 +10,7 @@ class CasinoLobbyItemCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        mainView.translatesAutoresizingMaskIntoConstraints = false
         let width = floor( (UIScreen.main.bounds.size.width - 24 * 2 - 14 * 2) / 3 )
-        self.mainView.constrain([.equal(\.widthAnchor, length: width)])
         imgWidth.constant = width - 4 * 2
     }
     

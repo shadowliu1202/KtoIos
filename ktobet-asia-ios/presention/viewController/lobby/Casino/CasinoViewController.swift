@@ -27,6 +27,8 @@ class CasinoViewController: DisplayProduct {
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
     private var viewModel = DI.resolve(CasinoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
+    private var lobbyHeight: CGFloat = 0
+    private var gamesHeight: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,19 +126,15 @@ class CasinoViewController: DisplayProduct {
     
     // MARK: KVO
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "contentSize", let newvalue = change?[.newKey] {
-            var heightOfScrollViewContent: CGFloat = 0
+        if keyPath == "contentSize", let newValue = change?[.newKey] {
+            let aboveHeight = titleLabel.frame.size.height + tagsStackView.frame.size.height
+            let space: CGFloat = 8 + 34 + 24 * 2
             if let obj = object as? UICollectionView , obj == gamesCollectionView {
-                let aboveHeight = titleLabel.frame.size.height + tagsStackView.frame.size.height + lobbyCollectionView.frame.size.height
-                let space: CGFloat = 8 + 34 + 24 * 2
-                heightOfScrollViewContent = (newvalue as! CGSize).height + aboveHeight + space
+                gamesHeight = (newValue as! CGSize).height
             } else if let obj = object as? UICollectionView , obj == lobbyCollectionView {
-                let aboveHeight = titleLabel.frame.size.height + tagsStackView.frame.size.height
-                let space: CGFloat = 8 + 34 + 24 * 2
-                heightOfScrollViewContent = (newvalue as! CGSize).height + aboveHeight + space
+                lobbyHeight = (newValue as! CGSize).height
             }
-            let constraint = max(scrollViewContentHeight.constant, heightOfScrollViewContent)
-            scrollViewContentHeight.constant = constraint
+            scrollViewContentHeight.constant = lobbyHeight + gamesHeight + aboveHeight + space
         }
     }
     
