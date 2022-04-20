@@ -248,7 +248,6 @@ class ChatRoomViewController: APPViewController {
         uploadImageView.addGestureRecognizer(uploadTapGesture)
         uploadTapGesture.rx.event.bind(onNext: { [weak self] recognizer in
             guard let self = self else { return }
-            self.startActivityIndicator(activityIndicator: self.activityIndicator)
             self.showImagePicker()
         }).disposed(by: disposeBag)
     }
@@ -261,9 +260,9 @@ class ChatRoomViewController: APPViewController {
         imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
         imagePickerView.completion = { [weak self] (images) in
             guard let self = self else { return }
-            self.startActivityIndicator(activityIndicator: self.activityIndicator)
             self.navigationController?.popViewController(animated: true)
             self.imageIndex = 0
+            self.startActivityIndicator(activityIndicator: self.activityIndicator)
             images.forEach {
                 self.uploadImage(image: $0, count: images.count)
             }
