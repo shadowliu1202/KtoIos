@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,7 +23,8 @@
                         <color key="backgroundColor" red="0.076803736390000002" green="0.076818682250000006" blue="0.076798669989999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="fhd-1I-NKp" secondAttribute="height" multiplier="1:1" id="Lqh-61-QYB"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="88" id="jZZ-fC-ACr"/>
+                            <constraint firstAttribute="height" constant="88" id="buH-Xj-alY"/>
+                            <constraint firstAttribute="width" constant="88" id="jZZ-fC-ACr"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -33,10 +34,10 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uql-c2-SvB" userLabel="blur">
-                        <rect key="frame" x="3" y="3" width="90" height="90"/>
+                        <rect key="frame" x="4" y="4" width="88" height="88"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jam-RM-vQl">
-                                <rect key="frame" x="27" y="27" width="36" height="36"/>
+                                <rect key="frame" x="26" y="26" width="36" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="QH0-A7-EpY"/>
                                     <constraint firstAttribute="width" constant="36" id="bOo-PA-omR"/>
@@ -45,7 +46,9 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="width" constant="88" id="3R0-hP-4CB"/>
                             <constraint firstAttribute="width" secondItem="uql-c2-SvB" secondAttribute="height" multiplier="1:1" id="5oV-Hc-Uml"/>
+                            <constraint firstAttribute="height" priority="750" constant="88" id="69N-WL-YyQ"/>
                             <constraint firstItem="jam-RM-vQl" firstAttribute="centerY" secondItem="uql-c2-SvB" secondAttribute="centerY" id="dLU-zw-JAf"/>
                             <constraint firstItem="jam-RM-vQl" firstAttribute="centerX" secondItem="uql-c2-SvB" secondAttribute="centerX" id="ei0-iV-fuM"/>
                         </constraints>
@@ -61,12 +64,12 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="uql-c2-SvB" secondAttribute="trailing" constant="3" id="8n9-bv-2ET"/>
+                    <constraint firstAttribute="trailing" secondItem="uql-c2-SvB" secondAttribute="trailing" constant="4" id="8n9-bv-2ET"/>
                     <constraint firstItem="hjq-5F-YmA" firstAttribute="top" secondItem="fhd-1I-NKp" secondAttribute="bottom" constant="4" id="DWm-ha-7ua"/>
-                    <constraint firstItem="uql-c2-SvB" firstAttribute="leading" secondItem="GXx-Na-Uov" secondAttribute="leading" constant="3" id="FxI-9Z-IWP"/>
-                    <constraint firstItem="hjq-5F-YmA" firstAttribute="top" secondItem="uql-c2-SvB" secondAttribute="bottom" constant="3" id="HKH-vO-qJ9"/>
+                    <constraint firstItem="uql-c2-SvB" firstAttribute="leading" secondItem="GXx-Na-Uov" secondAttribute="leading" constant="4" id="FxI-9Z-IWP"/>
+                    <constraint firstItem="hjq-5F-YmA" firstAttribute="top" secondItem="uql-c2-SvB" secondAttribute="bottom" constant="4" id="HKH-vO-qJ9"/>
                     <constraint firstAttribute="trailing" secondItem="hjq-5F-YmA" secondAttribute="trailing" id="KdA-Iv-ax1"/>
-                    <constraint firstItem="uql-c2-SvB" firstAttribute="top" secondItem="GXx-Na-Uov" secondAttribute="top" constant="3" id="Ph9-ry-Ue7"/>
+                    <constraint firstItem="uql-c2-SvB" firstAttribute="top" secondItem="GXx-Na-Uov" secondAttribute="top" constant="4" id="Ph9-ry-Ue7"/>
                     <constraint firstItem="fhd-1I-NKp" firstAttribute="top" secondItem="GXx-Na-Uov" secondAttribute="top" constant="4" id="R3i-M7-7o5"/>
                     <constraint firstItem="hjq-5F-YmA" firstAttribute="leading" secondItem="GXx-Na-Uov" secondAttribute="leading" id="bbG-UK-e0P"/>
                     <constraint firstAttribute="trailing" secondItem="fhd-1I-NKp" secondAttribute="trailing" constant="4" id="kUl-cZ-MDP"/>
@@ -79,6 +82,7 @@
                 <outlet property="imgIcon" destination="fhd-1I-NKp" id="kwS-Dl-Xjf"/>
                 <outlet property="imgWidth" destination="jZZ-fC-ACr" id="oua-Ej-059"/>
                 <outlet property="labTitle" destination="hjq-5F-YmA" id="OnA-si-tic"/>
+                <outlet property="mainView" destination="GXx-Na-Uov" id="WZD-RB-Ofs"/>
                 <outlet property="maintainIcon" destination="jam-RM-vQl" id="4MK-7e-Hkc"/>
             </connections>
             <point key="canvasLocation" x="-357.24637681159425" y="-83.035714285714278"/>
