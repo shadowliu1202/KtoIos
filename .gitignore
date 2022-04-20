@@ -91,3 +91,10 @@ fastlane/test_output
 # After new code Injection tools there's a generated folder /iOSInjectionProject
 # https://github.com/johnno1962/injectionforxcode
 iOSInjectionProject/
+commitlint.*
+package-lock.json
+package.json
+node_modules/
+.husky/
+gitmessage.template
+gitmessage.sh
