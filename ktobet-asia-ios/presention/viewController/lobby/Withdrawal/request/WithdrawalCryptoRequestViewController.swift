@@ -34,6 +34,7 @@ class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChange
             fatalError("\(type(of: self)) need supportCryptoType.")
         }
         self.cryptoType = source
+        viewModel.setCryptoType(cryptoType: cryptoType, cryptoNetwork: cryptoNewrok)
         initUI()
     }
     
@@ -48,7 +49,7 @@ class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChange
         cryptoView = exchangeInput.cryptoView
         fiatView = exchangeInput.fiatView
         let stream = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
-            return Observable.combineLatest(viewModel.getCryptoWithdrawalLimits(cryptoType, cryptoNewrok).asObservable(),
+            return Observable.combineLatest(viewModel.getWithdrawalLimitation().asObservable(),
                                             viewModel.getBalance().asObservable(), viewModel.cryptoCurrency(cryptoCurrency: cryptoType).asObservable())
         }).share()
         setupExchangeUI(stream)
