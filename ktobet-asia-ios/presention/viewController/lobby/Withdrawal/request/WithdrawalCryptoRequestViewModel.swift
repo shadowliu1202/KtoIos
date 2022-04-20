@@ -23,6 +23,8 @@ class WithdrawalCryptoRequestViewModel {
     }
     private var rxFiatAmount = PublishSubject<Decimal>()
     private lazy var exchangeAmounts = Observable.combineLatest(rxCryptoAmount, rxFiatAmount)
+    private var cryptoType: SupportCryptoType!
+    private var cryptoNetwork: CryptoNetwork!
     
     init(withdrawalUseCase: WithdrawalUseCase, playerUseCase: PlayerDataUseCase, localStorageRepository: LocalStorageRepository) {
         self.withdrawalUseCase = withdrawalUseCase
@@ -30,12 +32,17 @@ class WithdrawalCryptoRequestViewModel {
         self.localStorageRepository = localStorageRepository
     }
 
-    func getCryptoWithdrawalLimits(_ cryptoType: SupportCryptoType, _ cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits> {
+    func setCryptoType(cryptoType: SupportCryptoType, cryptoNetwork: CryptoNetwork) {
+        self.cryptoType = cryptoType
+        self.cryptoNetwork = cryptoNetwork
+    }
+    
+    private func getCryptoWithdrawalLimits(_ cryptoType: SupportCryptoType, _ cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits> {
         withdrawalUseCase.getCryptoWithdrawalLimits(cryptoType, cryptoNetwork)
     }
 
     func getWithdrawalLimitation() -> Single<WithdrawalLimits> {
-        return self.withdrawalUseCase.getWithdrawalLimitation()
+        return self.getCryptoWithdrawalLimits(self.cryptoType, self.cryptoNetwork)
     }
     
     func getBalance() -> Single<AccountCurrency> {
