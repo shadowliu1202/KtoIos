@@ -125,7 +125,7 @@ fileprivate class QatConfig: Env {
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
     var isAllowedVN: Bool = false
-    var enableCrashlytics: Bool = false
+    var enableCrashlytics: Bool = true
 }
 
 fileprivate class StagingConfig: Env {
