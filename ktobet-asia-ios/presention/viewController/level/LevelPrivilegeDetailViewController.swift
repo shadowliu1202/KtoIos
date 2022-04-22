@@ -1,9 +1,9 @@
 import UIKit
 import SharedBu
 import RxSwift
+import SwiftUI
 
-
-class LevelPrivilegeDetailViewController: UIViewController {
+class LevelPrivilegeDetailViewController: APPViewController {
     static let segueIdentifier = "toPrivilegeDetail"
     
     @IBOutlet private weak var btnPromotion: UIButton!
@@ -19,6 +19,8 @@ class LevelPrivilegeDetailViewController: UIViewController {
     @IBOutlet private weak var buttonBackgroundView: UIView!
     @IBOutlet private weak var productUnlimitedView: UIView!
     @IBOutlet private weak var productUnlimitedTopBarView: UIView!
+    @IBOutlet weak var bannerContainer: UIView!
+    var banner: UIView?
     
     var levelPrivilege: LevelPrivilege!
     var level: Int32!
@@ -80,6 +82,34 @@ class LevelPrivilegeDetailViewController: UIViewController {
             self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
             self.navigationController?.navigationBar.standardAppearance = appearance
         }
+    }
+    
+    override func networkReConnectedHandler() {
+        removeBanner()
+    }
+    
+    override func networkDisconnectHandler() {
+        addBanner()
+    }
+    
+    private func addBanner() {
+        guard banner == nil else { return }
+        banner = UIHostingController(rootView: BannerView()).view
+        banner?.backgroundColor = .clear
+        UIView.animate(withDuration: 0.0,
+                       delay: 0.0,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 1,
+                       options: [.curveLinear, .allowUserInteraction],
+                       animations: { [unowned self] in
+                          self.bannerContainer.addSubview(self.banner!, constraints: .fill())
+                       },
+                       completion: nil)
+    }
+    
+    private func removeBanner() {
+        banner?.removeFromSuperview()
+        banner = nil
     }
     
     private func generateDepositView(data: LevelPrivilege.Deposit) {
