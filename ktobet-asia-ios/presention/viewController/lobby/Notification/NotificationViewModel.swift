@@ -95,6 +95,8 @@ class NotificationViewModel: KTOViewModel, ViewModelType {
             .map({ (notifications, isValidKeyword) in
             if notifications.count == 0 && isValidKeyword {
                 return false
+            } else if notifications.count == 0 {
+                return false
             } else {
                 return true
             }

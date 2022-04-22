@@ -2,9 +2,11 @@ import UIKit
 import SharedBu
 import RxSwift
 import RxCocoa
+import SwiftUI
 
 class NotificationViewController: APPViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var emptyViewContainer: UIView!
 
     var barButtonItems: [UIBarButtonItem] = []
 
@@ -17,27 +19,31 @@ class NotificationViewController: APPViewController {
         self.bind(position: .right, barButtonItems: .kto(.search))
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CoomonUISetting.bottomSpace, right: 0)
         tableView.tableFooterView = UIView()
+        addEmptyView()
         dateBinding()
     }
 
     private func dateBinding() {
-        viewModel.output.notifications.drive(tableView.rx.items(cellIdentifier: String(describing: NotificationTableViewCell.self), cellType: NotificationTableViewCell.self)) {(row, element, cell) in
-            cell.setUp(element)
-            cell.selectionStyle = .none
-        }.disposed(by: disposeBag)
-
-        tableView.rx.modelSelected(NotificationItem.self).bind { [weak self] (data) in
-            self?.performSegue(withIdentifier: NotificationDetailViewController.segueIdentifier, sender: data)
-        }.disposed(by: disposeBag)
-
-        rx.sentMessage(#selector(UIViewController.viewWillAppear(_:)))
-            .map { _ in () }
-            .bind(to: viewModel.input.refreshTrigger)
-            .disposed(by: disposeBag)
-
-        tableView.rx_reachedBottom
-            .bind(to: viewModel.input.loadNextPageTrigger)
-            .disposed(by: disposeBag)
+        disposeBag.insert(
+            rx.sentMessage(#selector(UIViewController.viewWillAppear(_:))).map { _ in () }.bind(to: viewModel.input.refreshTrigger),
+            tableView.rx.modelSelected(NotificationItem.self).bind(onNext: navigateToDetail),
+            tableView.rx_reachedBottom.bind(to: viewModel.input.loadNextPageTrigger),
+            viewModel.output.isHiddenEmptyView.drive(emptyViewContainer.rx.isHidden),
+            viewModel.output.notifications.drive(tableView.rx.items(cellIdentifier: String(describing: NotificationTableViewCell.self), cellType: NotificationTableViewCell.self)) {(row, element, cell) in
+                cell.setUp(element)
+                cell.selectionStyle = .none
+            }
+        )
+    }
+    
+    private func navigateToDetail(data: ControlEvent<NotificationItem>.Element) {
+        performSegue(withIdentifier: NotificationDetailViewController.segueIdentifier, sender: data)
+    }
+    
+    private func addEmptyView() {
+        let emptyView = UIHostingController(rootView: EmptyNotificationView()).view
+        emptyView?.addBorder(.top, size: 0.5, color: UIColor.dividerCapeCodGray2)
+        self.emptyViewContainer.addSubview(emptyView!, constraints: .fill())
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
