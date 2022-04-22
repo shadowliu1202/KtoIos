@@ -1,0 +1,40 @@
+- hosts: brand-ansible
+  gather_facts: false
+  tasks:
+    - name: Create temp directory
+      tempfile:
+        path: /tmp
+        state: directory
+        prefix: 'mobile_build.'
+      register: temp_ipa_dir
+    - name: Download release ipa upack to temp directory
+      get_url:
+        url: "https://proget.higgstar.com/upack/app-apk/download/iOS/kto-asia/{{version}}?contentOnly=zip"
+        dest: "{{ temp_ipa_dir.path }}/kto-asia-{{version}}.zip"
+        remote_src: 'yes'
+        validate_certs: 'no'
+    - name: unarchive ipa
+      unarchive:
+        remote_src: 'yes'
+        src: "{{ temp_ipa_dir.path }}/kto-asia-{{version}}.zip"
+        dest: "{{ temp_ipa_dir.path }}"
+    - name: Get stats of ktobet-asia-ios-{{env}}.ipa
+      ansible.builtin.stat:
+        path: "{{ temp_ipa_dir.path }}/output/ktobet-asia-ios-{{env}}.ipa"
+      register: st
+    - name: Print st file size
+      debug:
+        msg: "st file size = {{st.stat.size}}"
+    - name: Calculate mb size
+      set_fact:
+         mb_size: "{{ ( st.stat.size|int / 1000000)|round(2,'floor') }}"
+    - name: Print mb size
+      debug:
+        msg: "mb_size = {{ mb_size }}"
+    - name:  deploy ipa by brand playbook
+      become_user: root
+      shell:  ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook /data-disk/brand-team/deploy-kto-ios-ipa.yml --extra-vars "tag={{version}} ipa_size={{mb_size}} download_url={{download_url}}" -i /data-disk/brand-team/{{qat_host}}.ini
+    - name: Delete {{ temp_ipa_dir.path }} directory
+      file:
+        path: "{{ temp_ipa_dir.path }}"
+        state: absent

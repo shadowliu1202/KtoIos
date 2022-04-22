@@ -1,0 +1,60 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Create temp directory
+      tempfile:
+        path: /tmp
+        state: directory
+        prefix: 'mobile_build.'
+      register: temp_apk_dir
+
+    - name: Download release apk upack to temp directory
+      get_url:
+        url: "http://proget.higgstar.org/upack/mobile-apk/download/android/{{apkFeed}}/{{version}}?contentOnly=zip"
+        dest: "{{ temp_apk_dir.path }}/{{apkFeed}}.{{version}}.zip"
+        remote_src: yes
+        validate_certs: no
+
+    - name: unarchive apk
+      unarchive:
+        src: "{{ temp_apk_dir.path }}/{{apkFeed}}.{{version}}.zip"
+        dest: "{{ temp_apk_dir.path }}"
+
+    - name: Set up version
+      lineinfile:
+        path: "{{ temp_apk_dir.path }}/version.md"
+        line: "{{ version }}"
+        insertbefore: EOF
+        create: yes
+    - name: Get KtoAisaBet_{{env}}_v{{version}}-signed.apk size
+      command: du "{{ temp_apk_dir.path }}/KtoAisaBet_{{env}}_v{{version}}-signed.apk"
+      register: apk_size
+
+    - name: Set up size
+      vars:
+        apk_size_kb: "{{apk_size.stdout.split()[0]|int}}"
+        apk_size_mb: "{{(apk_size_kb|int/1000)|round(2,'floor')}}"
+      lineinfile:
+        path: "{{ temp_apk_dir.path }}/version.md"
+        line: "{{ apk_size_mb }}"
+        insertbefore: EOF
+
+    - name: upload static file to rsync server
+      shell: |
+        cd {{ temp_apk_dir.path }} &&
+        ftp -v -n 172.16.92.100<<EOF
+        user hsops Ops@5678
+        binary
+        cd DEV-Build/release/mobile
+        put KtoAisaBet_{{env}}_v{{version}}-signed.apk
+        put version.md
+        bye
+        EOF
+      register: upload_result
+
+    - name: Delete {{ temp_apk_dir.path }} directory
+      when: upload_result.stdout | length > 0
+      file:
+        path: "{{ temp_apk_dir.path }}"
+        state: absent
+

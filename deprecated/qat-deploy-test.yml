@@ -1,0 +1,58 @@
+- hosts: qat1
+  remote_user: root
+  gather_facts: false
+  tasks:
+    - name: Create temp directory
+      file:
+        path: /tmp/mobile-apk/
+        state: directory
+    - name: Create apk folder
+      file:
+        path: /usr/local/openresty/nginx/android/
+        state: directory
+    - name: Download release apk to temp folder
+      unarchive:
+        src: "http://proget.higgstar.org/upack/mobile-apk/download/android/{{apkFeed}}/{{apkversion}}?contentOnly=zip"
+        dest: "/tmp/mobile-apk/"
+        remote_src: yes
+    - name: Copy apk to release folder
+      copy:
+        src: /tmp/mobile-apk/KtoAisaBet_qat_v{{apkversion}}-signed.apk
+        dest: /usr/local/openresty/nginx/android/android.apk
+        follow: yes
+        remote_src: yes
+    - name: Delete temp directory
+      file:
+        path: /tmp/mobile-apk/
+        state: absent
+    - name: Delete version file
+      file:
+        path: /usr/local/openresty/nginx/android/version.md
+        state: absent
+    - name: Set up version
+      lineinfile:
+        path: /usr/local/openresty/nginx/android/version.md
+        line: "{{version}}"
+        insertbefore: EOF
+        create: yes
+    - name: Get apk size
+      command: du /usr/local/openresty/nginx/android/android.apk
+      register: apk_size
+    - name: Set up size
+      vars:
+        apk_size_kb: "{{apk_size.stdout.split()[0]|int}}"
+        apk_size_mb: "{{(apk_size_kb|int/1000)|round(2,'floor')}}"
+      lineinfile:
+        path: /usr/local/openresty/nginx/android/version.md
+        line: "{{apk_size_mb}}"
+        insertbefore: EOF
+    - name: Display content of version.md
+      command: cat version.md chdir=/usr/local/openresty/nginx/android
+      register: command_output
+    - name: Print version content
+      debug:
+        msg: "{{command_output.stdout}}"
+    - name: Restart consul-template
+      shell: sudo systemctl restart consul-template
+    - name: Reload Openresty
+      shell: openresty -s reload

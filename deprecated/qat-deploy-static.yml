@@ -1,0 +1,35 @@
+- hosts: qat1-static
+  remote_user: root
+  gather_facts: true
+  tasks:
+    - name: Create temp directory
+      tempfile:
+        path: /tmp
+        state: directory
+        prefix: 'mobile_build.'
+      register: temp_apk_dir
+    - name: Download {{apkFeed}}/KtoAisaBet_{{env}}_v{{version}}-signed.apk size upack to {{ temp_apk_dir.path }} directory
+      get_url:
+        url: "http://proget.higgstar.org/upack/mobile-apk/download/android/{{apkFeed}}//{{version}}?contentOnly=zip"
+        dest: "{{ temp_apk_dir.path }}/{{apkFeed}}.{{version}}.zip"
+        remote_src: yes
+        validate_certs: no
+    - name: unarchive apk
+      unarchive:
+        remote_src: yes
+        src: "{{ temp_apk_dir.path }}/{{apkFeed}}.{{version}}.zip"
+        dest: "{{ temp_apk_dir.path }}"
+    - name: Copy apk to release folder
+      copy:
+        remote_src: yes
+        src: "{{ temp_apk_dir.path }}/KtoAisaBet_{{env}}_v{{version}}-signed.apk"
+        dest: /data-disk/static-files/android/android.apk
+        follow: yes
+    # - name: Delete {{ temp_apk_dir.path }} directory
+    #   file:
+    #     path: "{{ temp_apk_dir.path }}"
+    #     state: absent
+    - name: Restart qat1 consul-template
+      shell: sudo systemctl restart consul-template
+    - name: Reload qat1 Openresty
+      shell: sudo openresty -s reload

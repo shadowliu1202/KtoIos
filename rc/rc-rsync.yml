@@ -1,0 +1,45 @@
+- hosts: localhost
+  gather_facts: true
+  vars:
+    file: "{{tag.split('+').0}}"
+    semiversion: "{{ tag | regex_replace('-rc','') }}"
+  tasks:
+    - name: Create temp directory
+      tempfile:
+        path: /tmp
+        state: directory
+        prefix: 'mobile_build.'
+      register: temp_apk_dir
+
+    - name: Download release apk upack to temp directory
+      get_url:
+        url: "https://proget.higgstar.com/upack/app/download/android/{{apkFeed}}/{{file}}?contentOnly=zip"
+        dest: "{{ temp_apk_dir.path }}/{{apkFeed}}.{{file}}.zip"
+        remote_src: yes
+        validate_certs: no
+
+    - name: unarchive apk
+      unarchive:
+        src: "{{ temp_apk_dir.path }}/{{apkFeed}}.{{file}}.zip"
+        dest: "{{ temp_apk_dir.path }}"
+        mode: 0755
+
+    - name: upload static file to rsync server    
+      shell: |
+        cd {{ temp_apk_dir.path }}
+        ftp -v -n mis-lsync-app-01p<<EOF
+        user hsops Ops@5678
+        binary
+        cd DEV-Build/release/app
+        put KtoAisaBet_v{{ tag }}-signed.apk
+        put version.md
+        bye
+        EOF
+      register: upload_result
+
+    - name: Delete {{ temp_apk_dir.path }} directory
+      when: upload_result.stdout | length > 0
+      file:
+        path: "{{ temp_apk_dir.path }}"
+        state: absent
+

@@ -1,0 +1,42 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Create temp directory
+      tempfile:
+        path: /tmp
+        state: directory
+        prefix: 'mobile_build.'
+      register: temp_ipa_dir
+    - name: Download release ipa upack to temp directory
+      get_url:
+        url: "https://proget.higgstar.com/upack/app-apk/download/iOS/kto-asia-stg/{{version}}?contentOnly=zip"
+        dest: "{{ temp_ipa_dir.path }}/kto-asia-stg-{{version}}.zip"
+        remote_src: 'yes'
+        validate_certs: 'no'
+    - name: unarchive ipa
+      unarchive:
+        src: "{{ temp_ipa_dir.path }}/kto-asia-stg-{{version}}.zip"
+        dest: "{{ temp_ipa_dir.path }}"
+        mode: 0755
+        list_files: yes
+      register: unarchived_list
+    - name: print unarchived folder list of files
+      debug: msg="{{unarchived_list.files}}"
+    - name: append version at file name suffix
+      command: cp {{ temp_ipa_dir.path }}/output/ktobet-asia-ios-{{env}}.ipa {{ temp_ipa_dir.path }}/output/ktobet-asia-ios-{{env}}-{{version}}.ipa
+    - name: upload static file to rsync server
+      shell: |
+        cd {{ temp_ipa_dir.path }}/output &&
+        ftp -v -n mis-lsync-app-01p<<EOF
+        user hsops Ops@5678
+        binary
+        cd DEV-Build/release/app
+        put ktobet-asia-ios-{{env}}-{{version}}.ipa
+        bye
+        EOF
+      register: upload_result
+    - name: Delete {{ temp_ipa_dir.path }} directory
+      when: upload_result.stdout | length > 0
+      file:
+        path: "{{ temp_ipa_dir.path }}"
+        state: absent

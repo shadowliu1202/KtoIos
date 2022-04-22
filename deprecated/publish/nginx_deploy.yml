@@ -1,0 +1,64 @@
+- hosts: "{{host}}"
+  remote_user: nginxadmin
+  gather_facts: false
+  tasks:
+    - name: Create temp directory
+      tempfile:
+        path: /tmp
+        state: directory
+        prefix: 'mobile_build.'
+      delegate_to: localhost
+      register: temp_apk_dir
+    - name: Create apk folder
+      file:
+        path: /usr/local/openresty/nginx/android/
+        state: directory
+    - name: Copy apk to ansible server
+      get_url:
+        url: "{{ftp}}KtoAisaBet_{{env}}_v{{version}}-signed.apk"
+        dest: "{{ temp_apk_dir.path }}/KtoAisaBet_{{env}}_v{{version}}-signed.apk"
+        force: yes
+      delegate_to: localhost
+    - name: Copy apk to release folder
+      copy:
+        src: "{{ temp_apk_dir.path }}/KtoAisaBet_{{env}}_v{{version}}-signed.apk"
+        dest: /usr/local/openresty/nginx/android/android.apk
+        force: yes
+    - name: Delete version file
+      file:
+        path: /usr/local/openresty/nginx/android/version.md
+        state: absent
+    - name: Set up version
+      lineinfile:
+        path: /usr/local/openresty/nginx/android/version.md
+        line: "{{version}}"
+        insertbefore: EOF
+        create: yes
+    - name: Get apk size
+      command: du /usr/local/openresty/nginx/android/android.apk
+      register: apk_size
+    - name: Set up size
+      vars:
+        apk_size_kb: "{{apk_size.stdout.split()[0]|int}}"
+        apk_size_mb: "{{(apk_size_kb|int/1000)|round(2,'floor')}}"
+      lineinfile:
+        path: /usr/local/openresty/nginx/android/version.md
+        line: "{{apk_size_mb}}"
+        insertbefore: EOF
+    - name: Display content of version.md
+      command: cat version.md chdir=/usr/local/openresty/nginx/android
+      register: command_output
+    - name: Print version content
+      debug:
+        msg: "{{command_output.stdout}}"
+    - name: Restart consul-template
+      shell: sudo systemctl restart consul-template
+    - name: Reload Openresty
+      shell: sudo openresty -s reload
+      notify:
+        - Teams notification
+  handlers:
+    - name: Teams notification
+      run_once: yes
+      shell: sudo /data-disk/mobile-deployment-document/post-to-teams.sh {{webhook}} {{title}} {{version}} {{env}} {{webpage}} {{message}}
+      delegate_to: 127.0.0.1

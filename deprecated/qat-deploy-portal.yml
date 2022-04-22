@@ -1,0 +1,50 @@
+- hosts: qat1-portal
+  remote_user: root
+  gather_facts: false
+  tasks:
+    - name: Create temp directory
+      tempfile:
+        path: /tmp
+        state: directory
+        prefix: 'mobile_build.'
+      register: temp_apk_dir
+    - name: Download release apk upack to temp directory
+      get_url:
+        url: "http://proget.higgstar.org/upack/mobile-apk/download/android/{{apkFeed}}/{{version}}?contentOnly=zip"
+        dest: "{{ temp_apk_dir.path }}/{{apkFeed}}.{{version}}.zip"
+        remote_src: yes
+        validate_certs: no
+    - name: unarchive apk
+      unarchive:
+        remote_src: yes
+        src: "{{ temp_apk_dir.path }}/{{apkFeed}}.{{version}}.zip"
+        dest: "{{ temp_apk_dir.path }}"
+    - name: Get KtoAisaBet_{{env}}_v{{version}}-signed.apk size
+      command: du "{{ temp_apk_dir.path }}/KtoAisaBet_{{env}}_v{{version}}-signed.apk"
+      register: apk_size
+    - name: Delete version file
+      file:
+        path: /usr/local/openresty/nginx/android/version.md
+        state: absent
+    - name: Set up version
+      lineinfile:
+        path: /usr/local/openresty/nginx/android/version.md
+        line: "{{version}}"
+        insertbefore: EOF
+        create: yes
+    - name: Set up size
+      vars:
+        apk_size_kb: "{{apk_size.stdout.split()[0]|int}}"
+        apk_size_mb: "{{(apk_size_kb|int/1000)|round(2,'floor')}}"
+      lineinfile:
+        path: /usr/local/openresty/nginx/android/version.md
+        line: "{{ apk_size_mb }}"
+        insertbefore: EOF
+    - name: Delete {{ temp_apk_dir.path }} directory
+      file:
+        path: "{{ temp_apk_dir.path }}"
+        state: absent
+    - name: Restart qat1 consul-template
+      shell: sudo systemctl restart consul-template
+    - name: Reload qat1 Openresty
+      shell: sudo openresty -s reload
