@@ -3,6 +3,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 import SharedBu
+import SwiftUI
 
 class Item {
     enum Collapse: Int {
@@ -41,9 +42,10 @@ class LevelPrivilegeViewController: APPViewController {
     @IBOutlet weak var expButton: UIButton!
     @IBOutlet weak var expLabel: UILabel!
     @IBOutlet weak var progress: PlainHorizontalProgressBar!
+    @IBOutlet weak var bannerContainer: UIView!
+    var banner: UIView?
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(PlayerViewModel.self)!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +79,34 @@ class LevelPrivilegeViewController: APPViewController {
     
     deinit {
         print("\(type(of: self)) deinit")
+    }
+    
+    override func networkReConnectedHandler() {
+        removeBanner()
+    }
+    
+    override func networkDisconnectHandler() {
+        addBanner()
+    }
+    
+    private func addBanner() {
+        guard banner == nil else { return }
+        banner = UIHostingController(rootView: BannerView()).view
+        banner?.backgroundColor = .clear
+        UIView.animate(withDuration: 0.0,
+                       delay: 0.0,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 1,
+                       options: [.curveLinear, .allowUserInteraction],
+                       animations: { [unowned self] in
+                          self.bannerContainer.addSubview(self.banner!, constraints: .fill())
+                       },
+                       completion: nil)
+    }
+    
+    private func removeBanner() {
+        banner?.removeFromSuperview()
+        banner = nil
     }
     
     private func dataBinding() {

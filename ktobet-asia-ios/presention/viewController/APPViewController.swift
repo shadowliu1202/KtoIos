@@ -54,6 +54,7 @@ class APPViewController: UIViewController {
         banner = NotificationBanner(customView: view!)
         banner?.autoDismiss = false
         banner?.animationDuration = 0.0
+        banner?.haptic = .none
         banner?.show(queue: bannerQueue5AllowedMixed, on: self)
     }
     

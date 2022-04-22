@@ -155,19 +155,30 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="66h-0s-5IN">
+                                <rect key="frame" x="0.0" y="88" width="414" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="6gG-TG-KON"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="HAH-MN-4GG"/>
                         <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
                             <constraint firstItem="HAH-MN-4GG" firstAttribute="trailing" secondItem="ooX-5l-hhC" secondAttribute="trailing" id="1Gb-xM-PYT"/>
                             <constraint firstItem="HAH-MN-4GG" firstAttribute="bottom" secondItem="ooX-5l-hhC" secondAttribute="bottom" id="2hh-2e-r7D"/>
+                            <constraint firstItem="66h-0s-5IN" firstAttribute="leading" secondItem="HAH-MN-4GG" secondAttribute="leading" id="cNg-t1-Ues"/>
+                            <constraint firstItem="66h-0s-5IN" firstAttribute="top" secondItem="HAH-MN-4GG" secondAttribute="top" id="hoV-5B-nin"/>
                             <constraint firstItem="ooX-5l-hhC" firstAttribute="leading" secondItem="HAH-MN-4GG" secondAttribute="leading" id="m0R-Xi-rfZ"/>
                             <constraint firstItem="ooX-5l-hhC" firstAttribute="top" secondItem="HAH-MN-4GG" secondAttribute="top" id="o2J-Z5-BAA"/>
+                            <constraint firstItem="HAH-MN-4GG" firstAttribute="trailing" secondItem="66h-0s-5IN" secondAttribute="trailing" id="pvq-RY-oBJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XgI-kN-RiS"/>
                     <connections>
                         <outlet property="accountLabel" destination="mGy-Kf-oW3" id="MaA-EC-SFY"/>
+                        <outlet property="bannerContainer" destination="66h-0s-5IN" id="dTk-9m-SBC"/>
                         <outlet property="expButton" destination="Fus-yN-NMM" id="XOe-5h-rZA"/>
                         <outlet property="expLabel" destination="bBD-cW-F3g" id="CHl-vJ-hZa"/>
                         <outlet property="headerView" destination="NBM-zc-JSr" id="VKS-EH-NBv"/>
@@ -442,19 +453,29 @@
                                     <constraint firstItem="JDW-Pc-oY8" firstAttribute="centerX" secondItem="pqL-KG-b6h" secondAttribute="centerX" id="f0Z-mU-D1m"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vS6-GO-ETA">
+                                <rect key="frame" x="0.0" y="88" width="414" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="ib7-Hu-Gc0"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3rk-LA-Yq1"/>
                         <color key="backgroundColor" name="yellowFull"/>
                         <constraints>
+                            <constraint firstItem="vS6-GO-ETA" firstAttribute="top" secondItem="3rk-LA-Yq1" secondAttribute="top" id="1pc-Nx-cvh"/>
                             <constraint firstItem="pqL-KG-b6h" firstAttribute="top" secondItem="cFA-Wb-ERX" secondAttribute="bottom" id="2wr-ag-MF0"/>
                             <constraint firstItem="3rk-LA-Yq1" firstAttribute="trailing" secondItem="sER-RT-q14" secondAttribute="trailing" id="5fQ-OK-L10"/>
                             <constraint firstItem="sER-RT-q14" firstAttribute="leading" secondItem="3rk-LA-Yq1" secondAttribute="leading" id="DEU-OC-UN2"/>
                             <constraint firstItem="cFA-Wb-ERX" firstAttribute="leading" secondItem="v4O-rR-L3Z" secondAttribute="leading" id="DXz-AD-HxN"/>
                             <constraint firstAttribute="bottom" secondItem="sER-RT-q14" secondAttribute="bottom" id="JPz-PH-aB3"/>
+                            <constraint firstItem="vS6-GO-ETA" firstAttribute="leading" secondItem="3rk-LA-Yq1" secondAttribute="leading" id="K8s-q1-v8Q"/>
                             <constraint firstItem="cFA-Wb-ERX" firstAttribute="top" secondItem="v4O-rR-L3Z" secondAttribute="top" id="Ris-De-PGX"/>
                             <constraint firstItem="cFA-Wb-ERX" firstAttribute="trailing" secondItem="pqL-KG-b6h" secondAttribute="trailing" id="UWJ-1f-NnY"/>
                             <constraint firstItem="3Mh-ug-nAI" firstAttribute="height" secondItem="v4O-rR-L3Z" secondAttribute="height" multiplier="0.9" id="VQH-ab-7Zy"/>
                             <constraint firstAttribute="trailing" secondItem="cFA-Wb-ERX" secondAttribute="trailing" id="e27-vS-3pE"/>
+                            <constraint firstItem="3rk-LA-Yq1" firstAttribute="trailing" secondItem="vS6-GO-ETA" secondAttribute="trailing" id="fhT-yI-UPO"/>
                             <constraint firstItem="cFA-Wb-ERX" firstAttribute="leading" secondItem="pqL-KG-b6h" secondAttribute="leading" id="o5h-wg-tVF"/>
                             <constraint firstItem="3rk-LA-Yq1" firstAttribute="bottom" secondItem="pqL-KG-b6h" secondAttribute="bottom" id="ujY-g0-fww"/>
                         </constraints>
@@ -462,6 +483,7 @@
                     <navigationItem key="navigationItem" id="UU8-1X-45W"/>
                     <connections>
                         <outlet property="backgroundView" destination="3Mh-ug-nAI" id="pjn-4j-Evr"/>
+                        <outlet property="bannerContainer" destination="vS6-GO-ETA" id="Rj3-NG-ZWw"/>
                         <outlet property="btnPromotion" destination="JDW-Pc-oY8" id="IKS-ah-2Ex"/>
                         <outlet property="buttonBackgroundView" destination="pqL-KG-b6h" id="6f0-2U-ptz"/>
                         <outlet property="dailyLimitAmountLabel" destination="07x-27-6GO" id="uT7-V9-0yq"/>
