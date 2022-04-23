@@ -100,10 +100,10 @@ pipeline {
                         wrap([$class: 'BuildUser']) {
                             sshagent(["$CREDENTIALS_ID"]) {
                                 sh """
-					            git config user.name "devops"
-					            git tag -f -a -m "release ${PROP_BUILD_ENVIRONMENT.toLowerCase()} version from ${env.BUIlD_USER}" $ReleaseTag
-					            git push -f $REPO $ReleaseTag
-				            """
+                                git config user.name "devops"
+                                git tag -f -a -m "release ${PROP_BUILD_ENVIRONMENT.toLowerCase()} version from ${env.BUIlD_USER}" $ReleaseTag
+                                git push -f $REPO $ReleaseTag
+                            """
                             }
                         }
                     }

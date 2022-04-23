@@ -76,10 +76,10 @@ pipeline {
                     wrap([$class: 'BuildUser']) {
                         sshagent(["${GIT_CREDENTIALS_ID}"]) {
                             sh """                                
-					            git config user.name "devops"
-					            git tag -f -a -m "release development version from ${env.BUIlD_USER}" $RELEASE_RC_TAG
-					            git push -f $GIT_REPO_URL $RELEASE_RC_TAG
-				            """
+                                git config user.name "devops"
+                                git tag -f -a -m "release development version from ${env.BUIlD_USER}" $RELEASE_RC_TAG
+                                git push -f $GIT_REPO_URL $RELEASE_RC_TAG
+                            """
                         }
                     }
                 }
@@ -111,10 +111,10 @@ pipeline {
                     sshagent(["${GIT_CREDENTIALS_ID}"]) {
                         sh """
                                 cd project 
-					            git config user.name "devops"
-					            git tag -f -a -m "release development version from ${env.BUIlD_USER}" $RELEASE_RC_TAG
-					            git push $GIT_REPO_URL $RELEASE_RC_TAG
-				            """
+                                git config user.name "devops"
+                                git tag -f -a -m "release development version from ${env.BUIlD_USER}" $RELEASE_RC_TAG
+                                git push $GIT_REPO_URL $RELEASE_RC_TAG
+                            """
                     }
                 }
             }
