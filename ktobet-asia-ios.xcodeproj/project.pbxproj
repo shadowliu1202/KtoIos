@@ -18,6 +18,13 @@
 		35B9B3CE259C796F00050914 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
 		36B25B99C4C51F7B4DBE7022 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		395AE2B35D841A4458361AEE /* libPods-ktobet-asia-iosUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19630262B3438BDC7A8408C7 /* libPods-ktobet-asia-iosUITests.a */; };
+		3C52CC052816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */; };
+		3C52CC062816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */; };
+		3C52CC072816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */; };
+		3C52CC082816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */; };
+		3C52CC092816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */; };
+		3C52CC0A2816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */; };
+		3C52CC0B2816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */; };
 		3C9DA423281252EA0038C9D8 /* EmptyNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */; };
 		3C9DA424281252EA0038C9D8 /* EmptyNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */; };
 		3C9DA425281252EA0038C9D8 /* EmptyNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */; };
@@ -4145,6 +4152,7 @@
 		35B9B3CD259C796F00050914 /* CommonEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonEnum.swift; sourceTree = "<group>"; };
 		3812377EC718BC810E6CB165 /* Pods-ktobet-asia-ios-prod-backup.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-prod-backup.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-prod-backup/Pods-ktobet-asia-ios-prod-backup.release.xcconfig"; sourceTree = "<group>"; };
 		3B05A32E625529B438C5F71A /* Pods-ktobet-asia-ios-production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-production.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-production/Pods-ktobet-asia-ios-production.debug.xcconfig"; sourceTree = "<group>"; };
+		3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNotificationView.swift; sourceTree = "<group>"; };
 		3D51ABCE22D9D883083050B3 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
@@ -5174,6 +5182,7 @@
 				6D47070D2786F37B00FDCBAD /* UIApplicationExtension.swift */,
 				6D0C89E927C8EB0300DA95C7 /* UIImageViewExtension.swift */,
 				6D08726227D766A600457215 /* UITextViewExtension.swift */,
+				3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -7364,6 +7373,7 @@
 				6DE0C9D727BDF67F002C3D72 /* VideoView.swift in Sources */,
 				600E247C26CCB37200D8B073 /* KTODateView.swift in Sources */,
 				60BEE70025C3975300CA73D0 /* BankApi.swift in Sources */,
+				3C52CC062816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */,
 				608BAC4726F32B4A0013D930 /* TransactionLogSummaryViewController.swift in Sources */,
 				6D31642627CE140D00DBD9A7 /* SetWithdrawalNameViewController.swift in Sources */,
 				6DCEC6BE265E1902005E4F8B /* RecentDetailViewController.swift in Sources */,
@@ -7898,6 +7908,7 @@
 				6DE0C9D627BDF67F002C3D72 /* VideoView.swift in Sources */,
 				600E247B26CCB37200D8B073 /* KTODateView.swift in Sources */,
 				60BEE6FF25C3975300CA73D0 /* BankApi.swift in Sources */,
+				3C52CC052816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */,
 				608BAC4626F32B4A0013D930 /* TransactionLogSummaryViewController.swift in Sources */,
 				6D31642527CE140D00DBD9A7 /* SetWithdrawalNameViewController.swift in Sources */,
 				6DCEC6BD265E1902005E4F8B /* RecentDetailViewController.swift in Sources */,
@@ -8514,6 +8525,7 @@
 				6090129C2640EE7000419F8E /* WithdrawalRequestConfirmViewController.swift in Sources */,
 				601AAFF02771D66000BF4B21 /* MaintainNavigator.swift in Sources */,
 				6090129D2640EE7000419F8E /* CountDownTimer.swift in Sources */,
+				3C52CC072816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */,
 				609A0D292758773E003242AE /* LocalizationPolicyUseCase.swift in Sources */,
 				6D17954826A65A86001C8BF8 /* NextLevelTableViewCell.swift in Sources */,
 				6DB5CF3727682ADD0018B0E8 /* AppVersionCheckViewController.swift in Sources */,
@@ -9034,6 +9046,7 @@
 				60E5802C27F190E4008CE5A9 /* WithdrawalRequestConfirmViewController.swift in Sources */,
 				60E5802D27F190E4008CE5A9 /* MaintainNavigator.swift in Sources */,
 				60E5802E27F190E4008CE5A9 /* CountDownTimer.swift in Sources */,
+				3C52CC082816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */,
 				60E5802F27F190E4008CE5A9 /* LocalizationPolicyUseCase.swift in Sources */,
 				60E5803027F190E4008CE5A9 /* NextLevelTableViewCell.swift in Sources */,
 				60E5803127F190E4008CE5A9 /* AppVersionCheckViewController.swift in Sources */,
@@ -9554,6 +9567,7 @@
 				6D966BBA27FEE3FA006086B7 /* WithdrawalRequestConfirmViewController.swift in Sources */,
 				6D966BBB27FEE3FA006086B7 /* MaintainNavigator.swift in Sources */,
 				6D966BBC27FEE3FA006086B7 /* CountDownTimer.swift in Sources */,
+				3C52CC092816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */,
 				6D966BBD27FEE3FA006086B7 /* LocalizationPolicyUseCase.swift in Sources */,
 				6D966BBE27FEE3FA006086B7 /* NextLevelTableViewCell.swift in Sources */,
 				6D966BBF27FEE3FA006086B7 /* AppVersionCheckViewController.swift in Sources */,
@@ -10074,6 +10088,7 @@
 				6D966E0727FEE416006086B7 /* WithdrawalRequestConfirmViewController.swift in Sources */,
 				6D966E0827FEE416006086B7 /* MaintainNavigator.swift in Sources */,
 				6D966E0927FEE416006086B7 /* CountDownTimer.swift in Sources */,
+				3C52CC0A2816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */,
 				6D966E0A27FEE416006086B7 /* LocalizationPolicyUseCase.swift in Sources */,
 				6D966E0B27FEE416006086B7 /* NextLevelTableViewCell.swift in Sources */,
 				6D966E0C27FEE416006086B7 /* AppVersionCheckViewController.swift in Sources */,
@@ -10496,6 +10511,7 @@
 				6D966FF227FEE42B006086B7 /* VideoView.swift in Sources */,
 				6D966FF327FEE42B006086B7 /* KTODateView.swift in Sources */,
 				6D966FF427FEE42B006086B7 /* BankApi.swift in Sources */,
+				3C52CC0B2816449F00B0AEC6 /* UIDeviceExtension.swift in Sources */,
 				6D966FF527FEE42B006086B7 /* TransactionLogSummaryViewController.swift in Sources */,
 				6D966FF627FEE42B006086B7 /* SetWithdrawalNameViewController.swift in Sources */,
 				6D966FF727FEE42B006086B7 /* RecentDetailViewController.swift in Sources */,
