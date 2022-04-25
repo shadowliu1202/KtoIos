@@ -53,8 +53,10 @@ class NumberGameViewController: DisplayProduct {
                   let urlStr = numberGames.first?.thumbnail.url(),
                   let url = URL(string: urlStr) else {
                       self?.blurBackgroundViewHeight.constant = 20
+                      self?.pagerView.isHidden = true
                       return
                   }
+
             if self.datas.count == 0 && numberGames.count >= 3 {
                 self.addBlurBackgoundImageView(url: url)
                 self.pagerView.scrollToItem(at: 0, animate: false)
@@ -91,9 +93,9 @@ class NumberGameViewController: DisplayProduct {
         dropDownTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
         gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         gamesCollectionView.registerCellFromNib(WebGameItemCell.className)
-        
+
         getPopularGames()
-        
+
         let data = [tagAll]
         addBtnTags(stackView: tagsStackView, data: data)
         viewModel.errors().subscribe(onNext: {[weak self] in
