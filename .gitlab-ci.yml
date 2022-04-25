@@ -5,6 +5,7 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:    
     rules:
         - if: '$CI_COMMIT_BRANCH =~ /APP-[0-9]+/'
+        - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
     stage: inProgress 
     script:              
         - >
@@ -19,6 +20,7 @@ merge-job:
         - curl https://gitlab.higgstar.com/api/v4/projects/695/repository/files/commitlint-gitlab.sh/raw | bash
     rules:
         - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     stage: mergeRequest
     variables:
         # CI_DEBUG_TRACE: "true"
