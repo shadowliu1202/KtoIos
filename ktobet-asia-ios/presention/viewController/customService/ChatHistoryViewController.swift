@@ -18,6 +18,10 @@ class ChatHistoryViewController: UIViewController {
         
         viewModel.getChatHistory(roomId: roomId)
             .do(onNext: {[weak self] data in self?.dataCount = data.count })
+            .catchError({ [weak self] (error) -> Observable<[ChatMessage]> in
+                self?.handleErrors(error)
+                return Observable<[ChatMessage]>.just([])
+            })
             .bind(to: tableView.rx.items) {[weak self] tableView, row, element in
                 guard let self = self, let message = element as? ChatMessage.Message else { return UITableViewCell() }
                 var cell: UITableViewCell!
