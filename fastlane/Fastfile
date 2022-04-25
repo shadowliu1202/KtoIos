@@ -21,7 +21,35 @@ platform :ios do
             password: ENV["KEYCHAIN_PASSWORD"]
         )
     end
-   
+	lane :getIdentifier do |options|
+		preRelease = options[:preRelease]
+		puts "Get #{preRelease}"
+		case options[:preRelease]
+		when 'test'
+			"com.kto.asia.dev"
+		when 'dev'
+			"com.kto.asia.qat-1"
+		when 'rc'
+			"com.kto.asia.stg"
+		when  'pro'
+			"com.kto.asia"
+		when 'hotfix'
+			"com.kto.asia.qat3"
+		when 'selftest'
+			"com.kto.asia.selftest"
+		when 'backup'
+			"com.kto.asia.backup"
+		else
+			UI.user_error!("No selectable options(option:test,dev,rc,pro,hotfix,selftest,backup)")
+		end
+	end
+
+	lane :getNextTestflightBuildNumber do |options|
+		id  = getIdentifier(preRelease: options[:releaseTarget])
+		buildNumber = latest_testflight_build_number(app_identifier: id)
+		sh("echo #{buildNumber} > buildNumber")
+	end
+
     key_file_path = ENV['API_KEY']
     api_key = app_store_connect_api_key(
             key_id: "76GX29C4YY",#API kid
