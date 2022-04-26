@@ -24,6 +24,11 @@ class SlotUnsettleRecordsViewController: AppVersionCheckViewController {
         viewModel.fetchUnsettledBetSummary()
     }
     
+    override func gameDidDisappear() {
+        super.gameDidDisappear()
+        viewModel.fetchUnsettledBetSummary()
+    }
+    
     deinit {
         print("\(type(of: self)) deinit")
     }
@@ -31,7 +36,7 @@ class SlotUnsettleRecordsViewController: AppVersionCheckViewController {
     private func initUI() {
         tableView.delegate = unsettleGameDelegate
         tableView.dataSource = self
-        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25))
+        tableView.setHeaderFooterDivider(dividerColor: .clear)
     }
     
     private func switchContent(_ games: [SlotUnsettledSection]? = nil) {
@@ -66,18 +71,10 @@ class SlotUnsettleRecordsViewController: AppVersionCheckViewController {
     
     private func fetchNextUnsettleRecords(sectionIndex: Int, rowIndex: Int = 0) {
         viewModel.fetchNextUnsettledRecords(betTime: unsettleds[sectionIndex].betTime, rowIndex).subscribe(onSuccess: { [weak self] (page) in
-            self?.reloadRows(at: sectionIndex, rowCount: page.data.count, with: .automatic)
+            self?.tableView.reloadData()
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
-    }
-    
-    private func reloadRows(at sectionIndex: Int, rowCount: Int, with animation: UITableView.RowAnimation) {
-        self.tableView.beginUpdates()
-        for i in 0 ..< rowCount {
-            self.tableView.reloadRows(at: [IndexPath(row: i, section: sectionIndex)], with: .automatic)
-        }
-        self.tableView.endUpdates()
     }
 }
 
@@ -100,12 +97,24 @@ extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDat
         return unsettleds.count
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return unsettleds[section].records.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "SlotUnsettleRecordsCell", cellType: SlotUnsettleRecordsCell.self).configure(self.unsettleds[indexPath.section].records[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SlotUnsettleRecordsCell", cellType: SlotUnsettleRecordsCell.self).configure(self.unsettleds[indexPath.section].records[indexPath.row])
+        cell.removeBorder(.bottom)
+        let row = indexPath.row
+        if row == unsettleds[indexPath.section].records.count - 1 {
+            cell.addBorder(.bottom, size: 0.5, color: .dividerCapeCodGray2)
+        } else {
+            cell.addBorder(.bottom, size: 0.5, color: .dividerCapeCodGray2, rightConstant: 25, leftConstant: 25)
+        }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -117,16 +126,27 @@ extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = ExpandableHeaderView()
-        header.customInit(title: unsettleds[section].betTime.toDateFormatString(), section: section, delegate: self)
-        return header
+        let unsettled: SlotUnsettledSection = unsettleds[section]
+        let header = tableView.dequeueReusableCell(withIdentifier: "SlotUnsettleRecordHeader", cellType: SlotUnsettleRecordHeader.self).configure(unsettled)
+        let view = header.contentView
+        view.tag = section
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(clickHeader(_:))))
+        header.bottomLine.isHidden = unsettled.expanded
+        if section == unsettleds.count - 1 {
+            header.bottomLine.isHidden = true
+        }
+        return view
     }
     
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        let header = view as! ExpandableHeaderView
-        header.imageView.frame = CGRect(x: view.frame.width - 44, y: view.frame.height / 2 - 10, width: 20, height: 20)
-        header.imageView.image = unsettleds[section].expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
-        view.addSubview(header.imageView)
+    @objc func clickHeader(_ sender: UITapGestureRecognizer) {
+        guard let section = sender.view?.tag else { return }
+        let unsettled: SlotUnsettledSection = self.unsettleds[section]
+        unsettled.expanded.toggle()
+        if unsettled.expanded == true {
+            self.fetchNextUnsettleRecords(sectionIndex: section)
+        } else {
+            self.tableView.reloadData()
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -138,18 +158,6 @@ extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDat
     private func isLoadingIndexPath(_ tableView: UITableView, _ indexPath: IndexPath) -> Bool {
         let lastRowIndex = tableView.numberOfRows(inSection: indexPath.section) - 1
         return indexPath.row == lastRowIndex
-    }
-}
-
-extension SlotUnsettleRecordsViewController: ExpandableHeaderViewDelegate {
-    func toggleSection(header: ExpandableHeaderView, section: Int) {
-        unsettleds[section].expanded.toggle()
-        if unsettleds[section].expanded == true {
-            self.fetchNextUnsettleRecords(sectionIndex: section)
-        } else {
-            self.reloadRows(at: section, rowCount: unsettleds[section].records.count, with: .automatic)
-            header.imageView.image = UIImage(named: "arrow-drop-down")
-        }
     }
 }
 
@@ -173,3 +181,17 @@ class SlotUnsettleRecordsCell: UITableViewCell {
         return self
     }
 }
+
+
+ class SlotUnsettleRecordHeader: UITableViewCell {
+     @IBOutlet weak var dateLabel: UILabel!
+     @IBOutlet weak var arrow: UIImageView!
+     @IBOutlet weak var bottomLine: UIView!
+     
+     func configure(_ item: SlotUnsettledSection) -> Self {
+         dateLabel.text = item.betTime.toDateFormatString()
+         arrow.image = item.expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
+         return self
+     }
+ }
+ 

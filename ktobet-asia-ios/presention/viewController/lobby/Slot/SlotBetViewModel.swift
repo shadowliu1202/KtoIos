@@ -59,10 +59,18 @@ class SlotBetViewModel {
     }
     
     func fetchUnsettledBetSummary() {
-        slotRecordUseCase.getUnsettledSummary().asObservable().share(replay: 1)
-            .subscribe(onNext: { [weak self] (summaries) in
+        slotRecordUseCase.getUnsettledSummary()
+            .subscribe(onSuccess: { [weak self] (summaries) in
                 if summaries.count > 0 {
                     let section = summaries.map({ SlotUnsettledSection($0) })
+                    if let originValue = try? self?.unsettledBetSummary.value() {
+                        section.forEach({ element in
+                            element.expanded = originValue.first(where: {$0.betTime == element.betTime})?.expanded ?? false
+                            if element.expanded {
+                                let _ = self?.getRecordOfExpandedSection(element)
+                            }
+                        })
+                    }
                     self?.unsettledBetSummary.onNext(section)
                 } else {
                     self?.unsettledBetSummary.onError(KTOError.EmptyData)
@@ -70,6 +78,10 @@ class SlotBetViewModel {
         }, onError: { [weak self] (error) in
             self?.unsettledBetSummary.onError(error)
         }).disposed(by: disposeBag)
+    }
+    
+    private func getRecordOfExpandedSection(_ section: SlotUnsettledSection) {
+        fetchNextUnsettledRecords(betTime: section.betTime, 0).subscribe().disposed(by: disposeBag)
     }
     
     func fetchNextUnsettledRecords(betTime: Kotlinx_datetimeLocalDateTime, _ lastIndex: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
@@ -81,6 +93,7 @@ class SlotBetViewModel {
             currentSection.totalCount = response.totalCount
             if response.data is [SlotUnsettledRecord] {
                 let records = response.data.map({$0 as! SlotUnsettledRecord})
+                if offset == 0 { currentSection.records.removeAll() }
                 currentSection.uniqueAppend(records)
                 self.unsettledBetSummary.onNext(sections)
             }
@@ -106,7 +119,7 @@ extension SlotBetViewModel: ProductWebGameViewModelProtocol {
 
 class SlotUnsettledSection {
     private let summary: SlotUnsettledSummary
-    private(set) var records: [SlotUnsettledRecord] = []
+    var records: [SlotUnsettledRecord] = []
     
     var betTime: Kotlinx_datetimeLocalDateTime {
         return summary.betTime

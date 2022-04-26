@@ -50,6 +50,14 @@ class AppVersionCheckViewController: APPViewController {
         appSyncDispose?.dispose()
     }
     
+    func gameDidDisappear() {
+        if Reachability?.isNetworkConnected == false {
+            self.networkDisConnected()
+        }
+        AppSynchronizeViewModel.shared.syncAppVersion()
+        serviceViewModel.refreshProductStatus()
+    }
+    
     deinit {
         print("\(type(of: self)) deinit")
     }
@@ -57,12 +65,7 @@ class AppVersionCheckViewController: APPViewController {
 
 extension AppVersionCheckViewController: WebGameViewCallback {
     func gameDidDisappear(productType: ProductType?) {
-        if Reachability?.isNetworkConnected == false {
-            self.networkDisConnected()
-        }
-        AppSynchronizeViewModel.shared.syncAppVersion()
-        
         self.productType = productType
-        serviceViewModel.refreshProductStatus()
+        self.gameDidDisappear()
     }
 }
