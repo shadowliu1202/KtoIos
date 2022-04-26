@@ -303,24 +303,25 @@ class ChatRoomViewController: APPViewController {
             }.disposed(by: disposeBag)
     }
     
-    private func goExitSurvey() {
-        viewModel.findCurrentRoomId().subscribe(onSuccess: { [weak self] (skillId, roomId) in
-            guard let self = self else { return }
-            self.surveyViewModel
-                .getExitSurvey(skillId: skillId)
-                .observeOn(MainScheduler.instance)
-                .subscribe { exitSurvey in
-                    if !exitSurvey.surveyQuestions.isEmpty {
-                        CustomService.switchToExitSurvey(roomId: roomId, skillId: skillId)
-                    } else {
-                        CustomService.close(completion: nil)
-                    }
-                } onError: { [weak self] error in
-                    self?.handleErrors(error)
-                }.disposed(by: self.disposeBag)
-        }, onError: { [weak self] in
-            self?.handleErrors($0)
-        }).disposed(by: disposeBag)
+    private func closeChatRoom() {
+        viewModel.findCurrentRoomId()
+            .flatMap { [unowned self] (skillId, roomId) in
+                self.viewModel.closeChatRoom().andThen(prepareExitSurvey(skillId, roomId))
+            }
+            .subscribe(onSuccess: goToExitSurvey, onError: handleErrors)
+            .disposed(by: self.disposeBag)
+    }
+
+    private func prepareExitSurvey(_ skillId: SkillId, _ roomId: RoomId) -> Single<(SkillId, RoomId, Survey)>{
+        surveyViewModel.getExitSurvey(skillId: skillId).map { survey in (skillId, roomId, survey) }
+    }
+
+    private func goToExitSurvey(skillId: SkillId, roomId: RoomId, exitSurvey: Survey) {
+        if exitSurvey.surveyQuestions.isEmpty {
+            CustomService.close(completion: nil)
+        } else {
+            CustomService.switchToExitSurvey(roomId: roomId, skillId: skillId)
+        }
     }
     
     deinit {
@@ -338,7 +339,7 @@ extension ChatRoomViewController: BarButtonItemable {
             Alert.show(Localize.string("customerservice_chat_room_close_confirm_title"),
                        Localize.string("customerservice_chat_room_close_confirm_content"),
                        confirm: { }, confirmText: Localize.string("common_continue"),
-                       cancel: { self.goExitSurvey() },
+                       cancel: { self.closeChatRoom() },
                        cancelText: Localize.string("common_finish"))
         case collapseBarBtnId:
             CustomService.collapse()
