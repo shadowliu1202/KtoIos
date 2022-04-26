@@ -46,7 +46,7 @@ platform :ios do
 
 	lane :getNextTestflightBuildNumber do |options|
 		id  = getIdentifier(preRelease: options[:releaseTarget])
-		buildNumber = latest_testflight_build_number(app_identifier: id)
+		buildNumber = latest_testflight_build_number(app_identifier: id, version:options[:targetVersion])
 		sh("echo #{buildNumber} > buildNumber")
 	end
 
