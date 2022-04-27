@@ -112,16 +112,16 @@ class SearchViewController: SearchProduct {
                 self?.switchContent()
             }
         }).disposed(by: disposeBag)
+        
         searchText.asObservable()
             .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
             .observeOn(MainScheduler.asyncInstance)
             .bind(onNext: { [weak self] (text) in
-                if text?.isEmpty == false {
-                    self?.viewModel?.triggerSearch(text)
-                }
+                self?.viewModel?.triggerSearch(text)
             }).disposed(by: disposeBag)
-        
+
         searchBarView.rx.searchButtonClicked.bind { [weak self] (_) in
+            self?.viewModel?.triggerSearch(self?.searchText.value)
             self?.searchBarView.endEditing(true)
         }.disposed(by: disposeBag)
         
