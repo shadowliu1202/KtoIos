@@ -175,12 +175,15 @@ class HttpClient {
             .rx
             .request(MultiTarget(target))
             .filterSuccessfulStatusCodes()
-            .flatMap({(response) -> Single<String> in
-                if let json = try? JSON.init(data: response.data) {
-                    return Single.just(json.rawString() ?? "")
+            .flatMap { [weak self] response in
+                if let str = String(data: response.data, encoding: .utf8) {
+                   return Single.just(str)
+                } else {
+                    let domain = self?.baseUrl.path ?? ""
+                    let error = NSError(domain: domain, code: response.statusCode, userInfo: ["statusCode": response.statusCode , "errorMsg" : ""]) as Error
+                    return Single.error(error)
                 }
-                return Single.just("")
-            })
+            }
     }
 }
 
