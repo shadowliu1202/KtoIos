@@ -66,7 +66,7 @@ class AddCryptoAccountViewController: APPViewController {
 
         event.accountAddressValid.subscribe { [weak self] (validError) in
             guard let self = self else { return }
-            guard let validError = validError.element, (self.accountAddressTextField.isEdited || self.cryptoNetworkDropDown.isShowed) else { return }
+            guard let validError = validError.element, self.accountAddressTextField.isEdited else { return }
             var message = ""
             var isValid = false
             switch validError {
