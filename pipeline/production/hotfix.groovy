@@ -59,7 +59,7 @@ pipeline {
                 dir('project') {
                     withEnv(["ReleaseTag=$PROP_RELEASE_TAG",
                              "OnlineTag=$PROP_PRODUCTION_TAG",
-                             "BuildNumber=${params.BUILD_NUMBER}",
+                             "BuildNumber=${env.BUILD_NUMBER}",
                              "TargetBranch=${params.PARAMS_HOTFIX_BRANCH}",
                              "Repo=$GIT_REPO_URL",
                              "CredentialId=$GIT_CREDENTIALS_ID",
@@ -132,7 +132,7 @@ pipeline {
                             sh """
                             cd project
                             git config user.name "devops"
-                            git tag -f -a -m "release $BuildEnviroment version from ${params.BUIlD_USER}" $ReleaseTag
+                            git tag -f -a -m "release $BuildEnviroment version from ${env.BUIlD_USER}" $ReleaseTag
                             git push $GitRepo $ReleaseTag
                             """
                         }
