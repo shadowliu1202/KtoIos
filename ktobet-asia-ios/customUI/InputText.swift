@@ -13,9 +13,7 @@ import RxCocoa
 class InputText : UIView {
     private var firstPosition = true
     private var isEditing = false
-    var isEdited: Bool {
-        return isEditing
-    }
+    private(set) var isEdited = false
     var editingChangedHandler: ((String) -> Void)?
     var shouldChangeCharactersIn: ((UITextField, NSRange, String) -> Bool)?
     var showPickerView: (() -> ())?
@@ -207,6 +205,7 @@ class InputText : UIView {
 extension InputText: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isEditing = true
+        isEdited = true
         adjustPosition()
         showPickerView?()
     }
