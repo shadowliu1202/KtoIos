@@ -53,6 +53,7 @@ class ImagePickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
+        PHPhotoLibrary.shared().register(self)
         fetchAllPhotoAlbum()
         fetchAlbums()
         uploadButton.isValid = false
@@ -214,6 +215,15 @@ class ImagePickerViewController: UIViewController {
         selectedImage.contentMode = .center
         selectedImage.backgroundColor = UIColor(red: 19/255, green: 19/255, blue: 19/255, alpha: 0.7)
         cell.addSubview(selectedImage)
+    }
+}
+
+extension ImagePickerViewController: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        DispatchQueue.main.async {
+            self.photoAssets = PHAsset.fetchAssets(with: self.fetchOptions)
+            self.collectionView.reloadData()
+        }
     }
 }
 
