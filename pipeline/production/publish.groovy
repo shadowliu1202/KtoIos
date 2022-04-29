@@ -15,6 +15,7 @@ pipeline {
         PROP_BUILD_ENVIRONMENT = "${env.BUILD_ENVIRONMENT}"
         PROP_REMOTE_ANS_HOST = "${env.REMOTE_ANS_HOST}"
         PROP_DOWNSTREAM_JIRA_JOB = "${env.JIRA_JOB}"
+        PROP_APP_DOWNLOAD_LINK = "${env.APP_DOWNLOAD_LINK }"
     }
     stages {
         stage('Publish APK') {
@@ -64,11 +65,13 @@ pipeline {
                     withEnv(["PUBLISH_TAG=${params.RELEASE_TAG}",
                              "ENVIRONMENT=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
                              "VERSION=$VERSION_CORE",
-                             "TEAMS_TOKEN=${env.TEAMS_NOTIFICATION}"
+                             "TEAMS_TOKEN=${env.TEAMS_NOTIFICATION}",
+                             "DownloadLink=$PROP_APP_DOWNLOAD_LINK"
                     ]) {
+                        String path = PUBLISH_TAG.split('+')[0]
                         office365ConnectorSend webhookUrl: "$TEAMS_NOTIFICATION",
-                                message: ">**[Android] [KTO Asia]** has been deployed to $ENVIRONMENT</br>version : **[$PUBLISH_TAG]($PROGET_HOME/feeds/app/android/kto-asia/$VERSION/files)**",
-                                factDefinitions: [[name: "Download Page", template: '<a href="https://appkto.com/">Download Page</a>'],
+                                message: ">**[Android] [KTO Asia]** has been deployed to $ENVIRONMENT</br>version : **[$PUBLISH_TAG]($PROGET_HOME/feeds/app/android/kto-asia/${path}/files)**",
+                                factDefinitions: [[name: "Download Page", template: "<a href=\"$DownloadLink\">Download Page</a>"],
                                                   [name: "Related Issues", template: "<a href=\"https://jira.higgstar.com/issues/?jql=project = APP AND labels = android-$VERSION-$ENVIRONMENT\">Jira Issues</a>"]]
                     }
                 }
