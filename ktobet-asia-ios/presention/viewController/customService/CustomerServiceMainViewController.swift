@@ -141,6 +141,14 @@ extension CustomerServiceMainViewController: CustomServiceDelegate {
         }
     }
     
+    func sessionCollapse() {
+        if Reachability?.isNetworkConnected == true {
+            self.networkDidConnected()
+        } else {
+            self.networkDisConnected()
+        }
+    }
+    
 }
 
 class CallinButton: UIView {

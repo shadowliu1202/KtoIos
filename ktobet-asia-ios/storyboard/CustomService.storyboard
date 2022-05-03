@@ -542,10 +542,18 @@
                                     <constraint firstAttribute="trailing" secondItem="inF-NY-1Tc" secondAttribute="trailing" id="nfK-gd-Qha"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ha-UL-sab">
+                                <rect key="frame" x="0.0" y="44" width="414" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="YWU-oW-PD5"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Vux-lc-ePU"/>
                         <color key="backgroundColor" name="backgroundChatWindowMineShaftG2"/>
                         <constraints>
+                            <constraint firstItem="0Ha-UL-sab" firstAttribute="leading" secondItem="Vux-lc-ePU" secondAttribute="leading" id="5N9-JH-cDb"/>
                             <constraint firstAttribute="trailing" secondItem="CNH-Ro-WU1" secondAttribute="trailing" id="A6Q-Kt-Iqu"/>
                             <constraint firstItem="Oqa-9c-Sfc" firstAttribute="top" secondItem="Vux-lc-ePU" secondAttribute="top" id="ILH-uz-B4X"/>
                             <constraint firstItem="Oqa-9c-Sfc" firstAttribute="leading" secondItem="Vux-lc-ePU" secondAttribute="leading" id="MPn-DC-lRZ"/>
@@ -555,12 +563,15 @@
                             <constraint firstAttribute="bottom" secondItem="gVz-0g-VJg" secondAttribute="bottom" id="cwu-WO-pWl"/>
                             <constraint firstItem="Vux-lc-ePU" firstAttribute="trailing" secondItem="gVz-0g-VJg" secondAttribute="trailing" id="dEK-b7-Rq4"/>
                             <constraint firstAttribute="bottom" secondItem="CNH-Ro-WU1" secondAttribute="bottom" id="ied-Ce-zNq"/>
+                            <constraint firstItem="Vux-lc-ePU" firstAttribute="trailing" secondItem="0Ha-UL-sab" secondAttribute="trailing" id="oHZ-XX-vJZ"/>
+                            <constraint firstItem="0Ha-UL-sab" firstAttribute="top" secondItem="Vux-lc-ePU" secondAttribute="top" id="rZN-lN-9oa"/>
                             <constraint firstItem="Vux-lc-ePU" firstAttribute="trailing" secondItem="Oqa-9c-Sfc" secondAttribute="trailing" id="zF8-N0-V7w"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eCb-O6-DFu"/>
                     <size key="freeformSize" width="414" height="1500"/>
                     <connections>
+                        <outlet property="bannerContainer" destination="0Ha-UL-sab" id="AqN-2Q-KOp"/>
                         <outlet property="inputTextField" destination="CG8-sx-WIY" id="FJw-ov-SnD"/>
                         <outlet property="sendImageView" destination="tgf-zq-T5P" id="DAj-iM-qa4"/>
                         <outlet property="tableView" destination="Oqa-9c-Sfc" id="7Hz-kG-REt"/>

@@ -14,6 +14,7 @@ protocol CustomServiceDelegate: AnyObject {
     func monitorChatRoomStatus(_ disposeBag: DisposeBag)
     func sessionClosed()
     func removeCustomServiceBarButtons()
+    func sessionCollapse()
 }
 
 extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewController  {
@@ -44,6 +45,7 @@ extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewContr
                 }
             }).disposed(by: disposeBag)
     }
+    func sessionCollapse() { }
 }
 
 class CustomServicePresenter: NSObject {
@@ -228,6 +230,9 @@ class CustomServicePresenter: NSObject {
         if isRoot {
             let navi = storyboard.instantiateViewController(withIdentifier: "CustomServiceNavigationController") as! UINavigationController
             navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+            if let currentVC = topViewController as? UIAdaptivePresentationControllerDelegate {
+                chatRoomVC.presentationController?.delegate = currentVC
+            }
             navi.setViewControllers([chatRoomVC], animated: false)
             topViewController?.present(navi, animated: true, completion: nil)
         } else {
@@ -292,6 +297,7 @@ class CustomServicePresenter: NSObject {
         csViewModel.minimize().subscribe(onCompleted: {}).disposed(by: disposeBag)
         CustomServicePresenter.shared.csViewModel.minimize().subscribe(onCompleted: { }).disposed(by: disposeBag)
         topViewController?.navigationController?.dismiss(animated: true, completion: {[weak self] in
+            self?.delegate?.sessionCollapse()
             NavigationManagement.sharedInstance.viewController = self?.topViewController
         })
     }

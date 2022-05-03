@@ -7,6 +7,12 @@ import Moya
 extension ChatRoomSignalRClient: HubConnectionDelegate {
     func connectionDidOpen(hubConnection: HubConnection) { }
     func connectionDidFailToOpen(error: Error) { }
+    func connectionWillReconnect(error: Error) {
+        customerInfraService.isPlayerInChat().asObservable().retry()
+        .subscribe(onNext: { [weak self]  in
+            self?.refreshChatRoomState($0)
+        }).disposed(by: disposeBag)
+    }
     func connectionDidClose(error: Error?) { }
 }
 
@@ -15,20 +21,21 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     var roomId: String
     var skillId: String
     var repository: CustomServiceRepository
-    
+    var customerInfraService: CustomerInfraService
     private let disposeBag = DisposeBag()
     private var socketConnect: HubConnection?
     private var onMessage: ((PortalChatRoom.ChatAction) -> ())?
     
-    init(token: String, skillId: String, roomId: String, repository: CustomServiceRepository) {
+    init(token: String, skillId: String, roomId: String, repository: CustomServiceRepository, customerInfraService: CustomerInfraService) {
         self.token = token
         self.skillId = skillId
         self.roomId = roomId
         self.repository = repository
+        self.customerInfraService = customerInfraService
     }
     
-    convenience init(token: String, repository: CustomServiceRepository) {
-        self.init(token: token, skillId: "", roomId: "", repository: repository)
+    convenience init(token: String, repository: CustomServiceRepository, customerInfraService: CustomerInfraService) {
+        self.init(token: token, skillId: "", roomId: "", repository: repository, customerInfraService: customerInfraService)
     }
 
     
@@ -50,7 +57,24 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     }
     
     func getHistory(roomId: String) -> LoadingStatus<NSArray> {
-        var messages: NSArray!
+        var messages: NSArray?
+        if isPlayerInChat() {
+            messages = getInProcessChatMessageHistory()
+        } else {
+            messages = getChatHistory(roomId)
+        }
+        let status: Status = messages != nil ? .success : .failed
+        return  LoadingStatus.init(status: status, data: messages, message: "")
+    }
+    
+    private func isPlayerInChat() -> Bool {
+        if let roomId = getPlayerInChat()?.roomId, roomId.isNotEmpty {
+            return true
+        }
+        return false
+    }
+    
+    private func getInProcessChatMessageHistory() -> NSArray? {
         let group = DispatchGroup()
         group.enter()
         var decodedObject: [InProcessBean]!
@@ -66,15 +90,43 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         
         group.wait()
         if let object = decodedObject {
-            messages = object.map {
+            let messages = object.map {
                 ChatMessage.Message(id: $0.messageId,
                                     speaker: self.repository.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
                                     message: self.repository.covertContentFromInProcess(message: $0.message, speakerType: EnumMapper.convert(speakerType: $0.speakerType)),
                                     createTimeTick: $0.createdDate.toLocalDateTime())
             } as NSArray
-            return LoadingStatus.init(status: .success, data: messages, message: "")
+            return messages
         } else {
-            return LoadingStatus.init(status: .failed, data: messages, message: "")
+            return nil
+        }
+    }
+    
+    private func getChatHistory(_ roomId: String) -> NSArray? {
+        let group = DispatchGroup()
+        group.enter()
+        var decodedObject: [RoomHistory]!
+        let url = URL(string: HttpClient().baseUrl.absoluteString + "api/room/record/\(roomId)")!
+        let urlSession = generateUrlSession()
+        let task = urlSession.dataTask(with: url) {(data, response, error) in
+            guard let data = data else { return }
+            decodedObject = try? JSONDecoder().decode(ResponseData<ChatHistoryBean>.self, from: data).data?.roomHistories
+            group.leave()
+        }
+
+        task.resume()
+        
+        group.wait()
+        if let object = decodedObject {
+            let messages = object.map {
+                ChatMessage.Message(id: $0.messageId,
+                                    speaker: self.repository.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
+                                    message: self.repository.covertContentFromInProcess(message: $0.message, speakerType: EnumMapper.convert(speakerType: $0.speakerType)),
+                                    createTimeTick: $0.createdDate.toLocalDateTime())
+            } as NSArray
+            return messages
+        } else {
+            return nil
         }
     }
     
@@ -93,10 +145,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
             print("Completable")
         } onError: { error in
             print(error)
-            let moyaError = error as? MoyaError
-            let response = moyaError?.response
-            let statusCode = response?.statusCode ?? 0
-            let e = ExceptionFactory.companion.create(message: "", statusCode: "\(statusCode)")            
+            let e = ExceptionFactory.create(error)
             onError(e)
         }.disposed(by: disposeBag)
     }
@@ -151,6 +200,21 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.wait()
         
         return decodedObject
+    }
+    
+    private func refreshChatRoomState(_ bean: PlayerInChatBean) {
+        if let token = bean.token, token.isNotEmpty  {
+            skillId = bean.skillId!
+            roomId = bean.roomId!
+            start(isReconnect: true)
+        } else {
+            refreshAndDisconnect()
+        }
+    }
+    
+    private func refreshAndDisconnect() {
+        onMessage?(PortalChatRoom.ChatActionRefresh.init())
+        onMessage?(PortalChatRoom.ChatActionClose.init())
     }
     
     private func getPlayerInChat() -> PlayerInChatBean? {

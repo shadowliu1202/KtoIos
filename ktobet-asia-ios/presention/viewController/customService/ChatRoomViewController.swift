@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 import SDWebImage
 import IQKeyboardManagerSwift
-
+import SwiftUI
 
 class ChatRoomViewController: APPViewController {
     var barButtonItems: [UIBarButtonItem] = []
@@ -16,6 +16,8 @@ class ChatRoomViewController: APPViewController {
     @IBOutlet weak var uploadImageView: UIImageView!
     @IBOutlet weak var textFieldView: UIView!
     @IBOutlet weak var textFieldBottomPaddingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bannerContainer: UIView!
+    var banner: UIView?
     
     private var activityIndicator = UIActivityIndicatorView(style: .large)
     private let disposeBag = DisposeBag()
@@ -84,10 +86,7 @@ class ChatRoomViewController: APPViewController {
             guard let self = self, let text = self.inputTextField.text else { return }
             
             self.viewModel.send(message: text).subscribe(onError: {[weak self] error in
-                guard let self = self else { return }
-                print("send message error")
-                self.viewModel.closeChatRoom().subscribe().disposed(by: self.disposeBag)
-                self.handleErrors(error)
+                self?.handleErrors(error)
             }).disposed(by: self.disposeBag)
             
             self.inputTextField.text = ""
@@ -303,13 +302,17 @@ class ChatRoomViewController: APPViewController {
             }.disposed(by: disposeBag)
     }
     
-    private func closeChatRoom() {
-        viewModel.findCurrentRoomId()
-            .flatMap { [unowned self] (skillId, roomId) in
-                self.viewModel.closeChatRoom().andThen(prepareExitSurvey(skillId, roomId))
-            }
-            .subscribe(onSuccess: goToExitSurvey, onError: handleErrors)
-            .disposed(by: self.disposeBag)
+    private func confirmNetworkThenCloseChatRoom() {
+        if Reachability?.isNetworkConnected == true {
+            viewModel.findCurrentRoomId()
+                .flatMap { [unowned self] (skillId, roomId) in
+                    self.viewModel.closeChatRoom().andThen(prepareExitSurvey(skillId, roomId))
+                }
+                .subscribe(onSuccess: goToExitSurvey, onError: handleErrors)
+                .disposed(by: self.disposeBag)
+        } else {
+            showToastOnBottom(Localize.string("common_unknownhostexception"), img: UIImage(named: "Failed"))
+        }
     }
 
     private func prepareExitSurvey(_ skillId: SkillId, _ roomId: RoomId) -> Single<(SkillId, RoomId, Survey)>{
@@ -322,6 +325,34 @@ class ChatRoomViewController: APPViewController {
         } else {
             CustomService.switchToExitSurvey(roomId: roomId, skillId: skillId)
         }
+    }
+    
+    override func networkReConnectedHandler() {
+        removeBanner()
+    }
+    
+    override func networkDisconnectHandler() {
+        addBanner()
+    }
+    
+    private func addBanner() {
+        guard banner == nil else { return }
+        banner = UIHostingController(rootView: BannerView()).view
+        banner?.backgroundColor = .clear
+        UIView.animate(withDuration: 0.0,
+                       delay: 0.0,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 1,
+                       options: [.curveLinear, .allowUserInteraction],
+                       animations: { [unowned self] in
+                          self.bannerContainer.addSubview(self.banner!, constraints: .fill())
+                       },
+                       completion: nil)
+    }
+    
+    private func removeBanner() {
+        banner?.removeFromSuperview()
+        banner = nil
     }
     
     deinit {
@@ -339,9 +370,10 @@ extension ChatRoomViewController: BarButtonItemable {
             Alert.show(Localize.string("customerservice_chat_room_close_confirm_title"),
                        Localize.string("customerservice_chat_room_close_confirm_content"),
                        confirm: { }, confirmText: Localize.string("common_continue"),
-                       cancel: { self.closeChatRoom() },
+                       cancel: { self.confirmNetworkThenCloseChatRoom() },
                        cancelText: Localize.string("common_finish"))
         case collapseBarBtnId:
+            self.presentationController?.delegate?.presentationControllerDidDismiss?(self.presentationController!)
             CustomService.collapse()
         default:
             break

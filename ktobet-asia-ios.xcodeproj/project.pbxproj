@@ -1869,6 +1869,15 @@
 		6D31CF98278BE26000DF920D /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D31CF97278BE26000DF920D /* BannerView.swift */; };
 		6D31CF99278BE26000DF920D /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D31CF97278BE26000DF920D /* BannerView.swift */; };
 		6D31CF9A278BE26000DF920D /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D31CF97278BE26000DF920D /* BannerView.swift */; };
+		6D35F38A2819264B0094FA2B /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
+		6D35F38B2819264B0094FA2B /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
+		6D35F38D281946E50094FA2B /* ManulNetworkControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F38C281946E50094FA2B /* ManulNetworkControl.swift */; };
+		6D35F38E281946E50094FA2B /* ManulNetworkControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F38C281946E50094FA2B /* ManulNetworkControl.swift */; };
+		6D35F38F2819470C0094FA2B /* ManulNetworkControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F38C281946E50094FA2B /* ManulNetworkControl.swift */; };
+		6D35F3902819470D0094FA2B /* ManulNetworkControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F38C281946E50094FA2B /* ManulNetworkControl.swift */; };
+		6D35F3912819470E0094FA2B /* ManulNetworkControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F38C281946E50094FA2B /* ManulNetworkControl.swift */; };
+		6D35F3922819470F0094FA2B /* ManulNetworkControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F38C281946E50094FA2B /* ManulNetworkControl.swift */; };
+		6D35F3932819470F0094FA2B /* ManulNetworkControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F38C281946E50094FA2B /* ManulNetworkControl.swift */; };
 		6D3859782681ECF400C854CF /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3859772681ECF400C854CF /* Decimal.swift */; };
 		6D3859792681ECF400C854CF /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3859772681ECF400C854CF /* Decimal.swift */; };
 		6D38597B2681ECF400C854CF /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3859772681ECF400C854CF /* Decimal.swift */; };
@@ -4593,6 +4602,8 @@
 		6D31642427CE140D00DBD9A7 /* SetWithdrawalNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWithdrawalNameViewController.swift; sourceTree = "<group>"; };
 		6D31CF93278837CD00DF920D /* APPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APPViewController.swift; sourceTree = "<group>"; };
 		6D31CF97278BE26000DF920D /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
+		6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkControlWindow.swift; sourceTree = "<group>"; };
+		6D35F38C281946E50094FA2B /* ManulNetworkControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManulNetworkControl.swift; sourceTree = "<group>"; };
 		6D3859772681ECF400C854CF /* Decimal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decimal.swift; sourceTree = "<group>"; };
 		6D3859972682C6A100C854CF /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		6D385A2026857C6E00C854CF /* WithdrawalCryptoRequestConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoRequestConfirmViewController.swift; sourceTree = "<group>"; };
@@ -4912,6 +4923,7 @@
 				6048E223277B174600345E36 /* ChatMapper.swift */,
 				6D4707092786CD1400FDCBAD /* ReachabilityHandler.swift */,
 				60A551A527BF6A9900E5B1C0 /* ActivityIndicator.swift */,
+				6D35F38C281946E50094FA2B /* ManulNetworkControl.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -5222,6 +5234,7 @@
 				6D94090F26D4BF6700C70FDA /* DashedLineView.swift */,
 				6D0D901426E0C15B00733C4D /* PromotionFilterDropDwon.swift */,
 				60E19516272BC4000095404A /* CustomerServiceIconViewWindow.swift */,
+				6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */,
 				601AAFF52774684D00BF4B21 /* TickCircle.swift */,
 				6D31CF97278BE26000DF920D /* BannerView.swift */,
 				6DE0C9D527BDF67F002C3D72 /* VideoView.swift */,
@@ -7750,6 +7763,7 @@
 				60F537EC26F0A4430043B4C0 /* TransactionLogTableViewCell.swift in Sources */,
 				6010407526A6C1C700B28FC8 /* LevelDetail2TableViewCell.swift in Sources */,
 				4199A06D25AE9918002E2D7E /* AppDelegate.swift in Sources */,
+				6D35F38E281946E50094FA2B /* ManulNetworkControl.swift in Sources */,
 				4199A06E25AE9918002E2D7E /* HubConnectionExtensions.swift in Sources */,
 				60072DB425EE37D8001EFDAE /* ImageViewController.swift in Sources */,
 				6D986A7E271923C200194E0D /* ChatRoomViewController.swift in Sources */,
@@ -7856,6 +7870,7 @@
 				4199A08425AE9918002E2D7E /* LanguageAndCurrencyCell.swift in Sources */,
 				6DA88BF62696F203008D77B9 /* P2PRecordUseCase.swift in Sources */,
 				60BECC0F26F04CAE00BE3F99 /* WagerType.swift in Sources */,
+				6D35F38B2819264B0094FA2B /* NetworkControlWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8285,6 +8300,7 @@
 				60F537EB26F0A4430043B4C0 /* TransactionLogTableViewCell.swift in Sources */,
 				6010407426A6C1C700B28FC8 /* LevelDetail2TableViewCell.swift in Sources */,
 				60BCC2D425B7D2F200C56D6E /* DoubleExtension.swift in Sources */,
+				6D35F38D281946E50094FA2B /* ManulNetworkControl.swift in Sources */,
 				48AAA154256E458800E075CA /* FeatureItemCell.swift in Sources */,
 				60072DB325EE37D8001EFDAE /* ImageViewController.swift in Sources */,
 				6D986A7D271923C200194E0D /* ChatRoomViewController.swift in Sources */,
@@ -8391,6 +8407,7 @@
 				48AAA165256E458800E075CA /* LanguageAndCurrencyCell.swift in Sources */,
 				6DA88BF52696F203008D77B9 /* P2PRecordUseCase.swift in Sources */,
 				60BECC0E26F04CAE00BE3F99 /* WagerType.swift in Sources */,
+				6D35F38A2819264B0094FA2B /* NetworkControlWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8467,6 +8484,7 @@
 				609012842640EE7000419F8E /* WithdrawlLandingViewController.swift in Sources */,
 				6D2B0E3F267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				6DC17ECD26817356009665B4 /* WithdrawalCryptoRequestViewModel.swift in Sources */,
+				6D35F38F2819470C0094FA2B /* ManulNetworkControl.swift in Sources */,
 				609012852640EE7000419F8E /* InputConfirmPassword.swift in Sources */,
 				603B306927B373C3006D2AE5 /* PaymentGatewayItemViewModel.swift in Sources */,
 				609012862640EE7000419F8E /* PlayerRepository.swift in Sources */,
@@ -8988,6 +9006,7 @@
 				60E57FF227F190E4008CE5A9 /* WithdrawlLandingViewController.swift in Sources */,
 				60E57FF327F190E4008CE5A9 /* AttribTextHolder.swift in Sources */,
 				60E57FF427F190E4008CE5A9 /* WithdrawalCryptoRequestViewModel.swift in Sources */,
+				6D35F3902819470D0094FA2B /* ManulNetworkControl.swift in Sources */,
 				60E57FF527F190E4008CE5A9 /* InputConfirmPassword.swift in Sources */,
 				60E57FF627F190E4008CE5A9 /* PaymentGatewayItemViewModel.swift in Sources */,
 				60E57FF727F190E4008CE5A9 /* PlayerRepository.swift in Sources */,
@@ -9509,6 +9528,7 @@
 				6D966B8027FEE3FA006086B7 /* WithdrawlLandingViewController.swift in Sources */,
 				6D966B8127FEE3FA006086B7 /* AttribTextHolder.swift in Sources */,
 				6D966B8227FEE3FA006086B7 /* WithdrawalCryptoRequestViewModel.swift in Sources */,
+				6D35F3912819470E0094FA2B /* ManulNetworkControl.swift in Sources */,
 				6D966B8327FEE3FA006086B7 /* InputConfirmPassword.swift in Sources */,
 				6D966B8427FEE3FA006086B7 /* PaymentGatewayItemViewModel.swift in Sources */,
 				6D966B8527FEE3FA006086B7 /* PlayerRepository.swift in Sources */,
@@ -10030,6 +10050,7 @@
 				6D966DCD27FEE416006086B7 /* WithdrawlLandingViewController.swift in Sources */,
 				6D966DCE27FEE416006086B7 /* AttribTextHolder.swift in Sources */,
 				6D966DCF27FEE416006086B7 /* WithdrawalCryptoRequestViewModel.swift in Sources */,
+				6D35F3922819470F0094FA2B /* ManulNetworkControl.swift in Sources */,
 				6D966DD027FEE416006086B7 /* InputConfirmPassword.swift in Sources */,
 				6D966DD127FEE416006086B7 /* PaymentGatewayItemViewModel.swift in Sources */,
 				6D966DD227FEE416006086B7 /* PlayerRepository.swift in Sources */,
@@ -10700,6 +10721,7 @@
 				6D9670AD27FEE42B006086B7 /* NotificationUseCase.swift in Sources */,
 				6D9670AE27FEE42B006086B7 /* CustomImageBarButtonItem.swift in Sources */,
 				6D9670AF27FEE42B006086B7 /* PromotionHistoryViewModel.swift in Sources */,
+				6D35F3932819470F0094FA2B /* ManulNetworkControl.swift in Sources */,
 				6D9670B027FEE42B006086B7 /* P2PViewController.swift in Sources */,
 				6D9670B127FEE42B006086B7 /* DepositMethodTableViewCell.swift in Sources */,
 				6D9670B227FEE42B006086B7 /* SlotUseCase.swift in Sources */,

@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var isDebugModel = false
     var debugController: MainDebugViewController?
     let disposeBag = DisposeBag()
+    private var networkControlWindow: NetworkControlWindow?
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         if Configuration.enableCrashlytics {
@@ -53,6 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Configuration.debugGesture {
             self.addDebugGesture()
+        }
+        if Configuration.manualControlNetwork {
+            self.addNetworkControllGesture()
         }
 
         //MARK: 待VN上線時移除
@@ -157,6 +161,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window?.addSubview(self.debugController!.view)
         self.isDebugModel = true
+    }
+    
+    func addNetworkControllGesture() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(addNetworkFloatButton(_:)))
+        gesture.numberOfTouchesRequired = 2
+        gesture.numberOfTapsRequired = 2
+        self.window?.addGestureRecognizer(gesture)
+    }
+    
+    @objc func addNetworkFloatButton(_ gesture: UITapGestureRecognizer) {
+        if networkControlWindow == nil {
+            var rightPadding: CGFloat = 80
+            var bottomPadding: CGFloat = 80
+            if let window = UIApplication.shared.windows.first {
+                rightPadding += window.safeAreaInsets.right
+                bottomPadding += window.safeAreaInsets.bottom
+            }
+            networkControlWindow = NetworkControlWindow(frame: CGRect(x: UIScreen.main.bounds.width - rightPadding, y: UIScreen.main.bounds.height - bottomPadding, width: 56, height: 56))
+            networkControlWindow?.isHidden = false
+            networkControlWindow?.touchUpInside = { isConnected in
+                if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
+                    if isConnected {
+                        topVc.networkDidConnected()
+                    } else {
+                        topVc.networkDisConnected()
+                    }
+                }
+            }
+        }
     }
     
     var restrictRotation:UIInterfaceOrientationMask = .portrait

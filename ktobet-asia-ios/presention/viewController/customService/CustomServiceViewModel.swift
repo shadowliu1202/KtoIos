@@ -102,11 +102,7 @@ class CustomerServiceViewModel {
     private func send(message: String, chatRoom: PortalChatRoom) -> Completable {
         Completable.create { completeble in
             chatRoom.send(message: message, onError: { apiException in
-                let exception = apiException as! ApiException
-                let statusCode = exception.errorCode ?? "0"
-                let message = exception.message ?? ""
-                let nsError = NSError(domain: "", code: Int(statusCode) ?? 0, userInfo: ["statusCode": statusCode , "errorMsg" : message])
-                completeble(.error(nsError))
+                completeble(.error(apiException))
             })
             
             return Disposables.create {}

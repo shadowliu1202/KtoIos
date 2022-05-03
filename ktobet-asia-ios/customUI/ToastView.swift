@@ -65,7 +65,12 @@ class ToastView: UIView {
         if window != nil {
             lastWindow = window
         } else {
-            lastWindow = UIApplication.shared.windows.first
+            let windows = UIApplication.shared.windows
+            if let keyboardWindow = windows.first(where: { NSStringFromClass($0.classForCoder) == "UIRemoteKeyboardWindow" }) {
+                lastWindow = keyboardWindow
+            } else {
+                lastWindow = UIApplication.shared.windows.first
+            }
         }
         guard let win = lastWindow else { return }
         xibView.isHidden = false
