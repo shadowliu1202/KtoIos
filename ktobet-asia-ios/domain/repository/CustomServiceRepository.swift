@@ -233,7 +233,7 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
         Single.create { emitter in
             if (self.chatRoomClient?.token != token) {
                 self.chatRoomClient?.disconnect()
-                self.chatRoomClient = ChatRoomSignalRClient(token: token, repository: self)
+                self.chatRoomClient = ChatRoomSignalRClient(token: token, repository: self, customerInfraService: self)
                 self.portalChatRoom = PortalChatRoom.init(service: self.chatRoomClient!)
             } else if (self.portalChatRoom == nil) {
                 self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
@@ -255,7 +255,7 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
             if let token = bean.token {
                 if self.chatRoomClient?.token != bean.token {
                     self.chatRoomClient?.disconnect()
-                    self.chatRoomClient = ChatRoomSignalRClient(token: token, skillId: bean.skillId ?? "", roomId: bean.roomId ?? "", repository: self)
+                    self.chatRoomClient = ChatRoomSignalRClient(token: token, skillId: bean.skillId ?? "", roomId: bean.roomId ?? "", repository: self, customerInfraService: self)
                     self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
                 } else if self.portalChatRoom == nil {
                     self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)

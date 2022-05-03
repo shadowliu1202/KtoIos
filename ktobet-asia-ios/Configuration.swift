@@ -56,6 +56,7 @@ enum Configuration: String {
     static var affiliateUrl: URL        = URL(string: "\(host)affiliate")!
     static var isAllowedVN: Bool        = current == .production ? false : env.isAllowedVN
     static var enableCrashlytics: Bool  = env.enableCrashlytics
+    static var manualControlNetwork: Bool   = env.manualControlNetwork
 
     static private func checkNetwork(url: String) -> Bool {
         let group = DispatchGroup()
@@ -106,6 +107,7 @@ protocol Env {
     var debugGesture: Bool { get }
     var isAllowedVN: Bool { get }
     var enableCrashlytics: Bool { get }
+    var manualControlNetwork: Bool { get }
 }
 
 fileprivate class DevConfig: Env {
@@ -116,6 +118,7 @@ fileprivate class DevConfig: Env {
     var debugGesture: Bool = true
     var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = false
+    var manualControlNetwork: Bool = false
 }
 
 fileprivate class QatConfig: Env {
@@ -126,6 +129,7 @@ fileprivate class QatConfig: Env {
     var debugGesture: Bool = true
     var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = true
+    var manualControlNetwork: Bool = false
 }
 
 fileprivate class StagingConfig: Env {
@@ -136,6 +140,7 @@ fileprivate class StagingConfig: Env {
     var debugGesture: Bool = false
     var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = true
+    var manualControlNetwork: Bool = false
 }
 
 fileprivate class ProductionConfig: Env {
@@ -146,6 +151,7 @@ fileprivate class ProductionConfig: Env {
     var debugGesture: Bool = false
     var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = true
+    var manualControlNetwork: Bool = false
 }
 
 fileprivate class ProductionSelftestConfig: Env {
@@ -156,6 +162,7 @@ fileprivate class ProductionSelftestConfig: Env {
     var debugGesture: Bool = true
     var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = false
+    var manualControlNetwork: Bool = false
 }
 
 fileprivate class ProductionBackupConfig: Env {
@@ -166,6 +173,7 @@ fileprivate class ProductionBackupConfig: Env {
     var debugGesture: Bool = false
     var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = false
+    var manualControlNetwork: Bool = false
 }
 
 fileprivate class Qat3Config: Env {
@@ -176,4 +184,5 @@ fileprivate class Qat3Config: Env {
     var debugGesture: Bool = false
     var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = false
+    var manualControlNetwork: Bool = false
 }

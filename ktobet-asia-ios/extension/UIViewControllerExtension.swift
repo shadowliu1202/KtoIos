@@ -149,10 +149,8 @@ extension UIViewController{
     }
     
     func showToastOnBottom(_ msg: String, img: UIImage?) {
-        if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
-            let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: topVc.view.frame.width, height: 48))
-            toastView.show(on: topVc.view, statusTip: msg, img: img)
-        }
+        let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
+        toastView.show(on: nil, statusTip: msg, img: img)
     }
     
     func showToastOnCenter(_ popUp: ToastPopUp) {

@@ -28,7 +28,12 @@ private func JSONResponseDataFormatter(_ data: Data) -> String {
 
 class KtoURL {
     static fileprivate var host : String = Configuration.host
-    static var baseUrl : URL { return URL(string: self.host)!}
+    static var baseUrl : URL {
+        if Configuration.manualControlNetwork {
+            return ManualNetworkControl.shared.baseUrl
+        }
+        return URL(string: self.host)!
+    }
 }
 
 class HttpClient {

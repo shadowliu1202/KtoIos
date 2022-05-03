@@ -16,7 +16,7 @@ final class ReachabilityHandler {
     private(set) var requestErrorCallback: (Error) -> Void
     private let _didBecomeReachable = PublishRelay<Void>()
     var didBecomeConnected: Signal<Void> { return _didBecomeReachable.asSignal() }
-    private(set) var isNetworkConnected = true
+    var isNetworkConnected = true
     
     private(set) static var sharedInstance: ReachabilityHandler?
     
