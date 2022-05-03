@@ -2,13 +2,10 @@ import UIKit
 import Photos
 import AVFoundation
 
-
 class ImagePickerViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var countLabel: UILabel!
     @IBOutlet private weak var uploadButton: UIButton!
-    @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private var tableHeight: NSLayoutConstraint!
     @IBOutlet weak var footerView: UIView!
     
     weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
@@ -28,7 +25,6 @@ class ImagePickerViewController: UIViewController {
     
     private var activityIndicator = UIActivityIndicatorView(style: .large)
     private var imageRequestID: PHImageRequestID?
-    private let albumButton =  UIButton(type: .custom)
     private var albums: [AlbumModel] = []
     private var photoAssets: PHFetchResult<PHAsset> = PHFetchResult()
     private var selectedAlbum: AlbumModel?
@@ -53,18 +49,23 @@ class ImagePickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
-        PHPhotoLibrary.shared().register(self)
-        fetchAllPhotoAlbum()
-        fetchAlbums()
+        getPhotoLibraryPermission() { [unowned self] status in
+            switch status {
+            case .authorized, .limited:
+                getPhotoAssets()
+            case .restricted:
+                print("status = restricted")
+            case .denied:
+                print("status = denied")
+            case .notDetermined:
+                print("status = notDetermined")
+            default:
+                break
+            }
+        }
         uploadButton.isValid = false
         uploadButton.alpha = 0.5
-        albumButton.setTitle(Localize.string("common_all"), for: .normal)
-        albumButton.setImage(UIImage(named: "iconChevronDown16"), for: .normal)
-        albumButton.semanticContentAttribute = .forceRightToLeft
-        albumButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        albumButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-        albumButton.addTarget(self, action: #selector(showAlbum), for: .touchUpInside)
-        self.navigationItem.titleView = albumButton
+        
         if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             let horizontalSpacing = flowLayout.scrollDirection == .vertical ? flowLayout.minimumInteritemSpacing : flowLayout.minimumLineSpacing
             let cellWidth = (view.frame.width - max(0, 3 - 1)*horizontalSpacing) / 3
@@ -75,19 +76,6 @@ class ImagePickerViewController: UIViewController {
         self.view.addSubview(activityIndicator)
         countLabel.text = "\(selectedPhotoAssets.count)/\(selectedImageLimitCount)"
         footerView.isHidden = isHiddenFooterView
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        if tableView.contentSize.height > view.frame.height * 0.6 {
-            tableHeight.constant = view.frame.height * 0.6
-        } else {
-            tableHeight.constant = tableView.contentSize.height
-        }
-    }
-    
-    @objc private func showAlbum(_ sender: UIButton) {
-        tableView.isHidden = !tableView.isHidden
     }
     
     @IBAction private func upload(_ sender: UIButton) {
@@ -101,60 +89,16 @@ class ImagePickerViewController: UIViewController {
         completion?(selectedImages)
     }
     
-    private func fetchAlbum(type: PHAssetCollectionType, subtype: PHAssetCollectionSubtype) {
-        let options = PHFetchOptions()
-        let name: String? = subtype == .smartAlbumUserLibrary ? "全部" : nil
-        let allPhotoAlbum = PHAssetCollection.fetchAssetCollections(with: type, subtype: subtype, options: options)
-        allPhotoAlbum.enumerateObjects{[weak self] (object: AnyObject!, count: Int, stop: UnsafeMutablePointer) in
-            guard let self = self else { return }
-            if object is PHAssetCollection {
-                let obj: PHAssetCollection = object as! PHAssetCollection
-                guard let asset = self.getAssets(fromCollection: obj).firstObject else { return }
-                let options = PHImageRequestOptions()
-                options.deliveryMode = .highQualityFormat
-                options.resizeMode = .fast
-                options.isSynchronous = false
-                options.isNetworkAccessAllowed = true
-                
-                let manager = PHImageManager.default()
-                let newSize = CGSize(width: 125, height: 125)
-                _ = manager.requestImage(for: asset, targetSize: newSize, contentMode: .aspectFill, options: options, resultHandler: { [weak self] (result, _) in
-                    guard let self = self else { return }
-                    self.imageRequestID = nil
-                    let newAlbum = AlbumModel(name: name ?? obj.localizedTitle!, count: obj.getPhotosCount(fetchOptions: self.fetchOptions), collection: obj, image: result ?? UIImage())
-                    self.albums.append(newAlbum)
-                    self.albums = self.albums.sorted(by: { (a1, a2) -> Bool in
-                        return a1.name == "全部"
-                    })
-                    
-                    self.selectedAlbum = self.albums.first
-                    self.tableView.reloadData()
-                })
-            }
-        }
+    private func getPhotoAssets() {
+        PHPhotoLibrary.shared().register(self)
+        photoAssets = PHAsset.fetchAssets(with: fetchOptions)
+        collectionView.reloadData()
     }
     
-    private func fetchAllPhotoAlbum() {
-        requestPhotoAccessIfNeeded(PHPhotoLibrary.authorizationStatus())
-        fetchAlbum(type: .smartAlbum, subtype: .smartAlbumUserLibrary)
-    }
-    
-    private func fetchAlbums() {
-        fetchAlbum(type: .album, subtype: .any)
-    }
-    
-    private func requestPhotoAccessIfNeeded(_ status: PHAuthorizationStatus) {
-        guard status == .notDetermined else {
-            photoAssets = PHAsset.fetchAssets(with: fetchOptions)
-            collectionView.reloadData()
-            return
-        }
-        
-        PHPhotoLibrary.requestAuthorization {_ in
+    private func getPhotoLibraryPermission(_ callback: @escaping (_ status: PHAuthorizationStatus) -> ()) {
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { authorizationStatus in
             DispatchQueue.main.async {
-                self.photoAssets = PHAsset.fetchAssets(with: self.fetchOptions)
-                self.fetchAllPhotoAlbum()
-                self.collectionView.reloadData()
+                callback(authorizationStatus)
             }
         }
     }
@@ -311,43 +255,6 @@ extension ImagePickerViewController: UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-}
-
-extension ImagePickerViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return albums.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as? TableViewCell else { fatalError() }
-        let album = albums[indexPath.row]
-        cell.textLabel?.textColor = UIColor.white
-        cell.nameLabel.text = album.name
-        cell.countLabel.text = "\(album.count)"
-        cell.imageImageView.image = album.image
-        cell.selectionStyle = .none
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if selectedAlbum! == albums[indexPath.row] {
-            tableView.isHidden = !tableView.isHidden
-            return
-        }
-        
-        selectedAlbum = albums[indexPath.row]
-        albumButton.setTitle(selectedAlbum?.name, for: .normal)
-        albumButton.sizeToFit()
-        photoAssets = getAssets(fromCollection: selectedAlbum!.collection)
-        selectedPhotoAssets = []
-        selectedImages = []
-        collectionView?.reloadData()
-        tableView.isHidden = !tableView.isHidden
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        viewWillLayoutSubviews()
-    }
 }
 
 class AlbumModel {
