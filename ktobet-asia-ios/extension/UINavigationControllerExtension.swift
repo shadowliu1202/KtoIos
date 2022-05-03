@@ -16,9 +16,6 @@ extension UINavigationController {
         navigationBar.shadowImage = UIImage()
     }
     
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
 }
 
 
