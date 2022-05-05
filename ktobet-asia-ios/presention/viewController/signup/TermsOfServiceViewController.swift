@@ -21,6 +21,7 @@ class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate 
     
     @IBOutlet private weak var btnBack: UIBarButtonItem!
     @IBOutlet private weak var btnTitle : UIBarButtonItem!
+    @IBOutlet private weak var labTitle : UILabel!
     @IBOutlet private weak var labDesc : UILabel!
     @IBOutlet private weak var scrollView : UIScrollView!
     @IBOutlet private weak var tableView : UITableView!
@@ -43,7 +44,8 @@ class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate 
         let navigationTitle: String = termsPresenter.navigationTitle
         let naviBarBtn: BarItemType = termsPresenter.barItemType
         let description: String = termsPresenter.description
-        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: naviBarBtn, leftItemTitle: navigationTitle)
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: naviBarBtn)
+        labTitle.text = navigationTitle
         labDesc.text = description
         dataSourceTerms = termsPresenter.dataSourceTerms
         reloadTableViewHeight()
