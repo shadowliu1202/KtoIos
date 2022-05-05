@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -284,7 +284,7 @@
                                     <constraint firstItem="fUT-oD-SRo" firstAttribute="top" secondItem="MJi-LR-s7M" secondAttribute="top" constant="30" id="MFv-1S-Ea2"/>
                                     <constraint firstAttribute="trailing" secondItem="3vJ-ro-CRq" secondAttribute="trailing" id="SI3-Zp-esH"/>
                                     <constraint firstItem="3vJ-ro-CRq" firstAttribute="leading" secondItem="MJi-LR-s7M" secondAttribute="leading" id="VcF-49-AQp"/>
-                                    <constraint firstAttribute="bottom" secondItem="3vJ-ro-CRq" secondAttribute="bottom" id="Z5F-Oy-hiD"/>
+                                    <constraint firstAttribute="bottom" secondItem="3vJ-ro-CRq" secondAttribute="bottom" constant="96" id="Z5F-Oy-hiD"/>
                                     <constraint firstAttribute="trailing" secondItem="fUT-oD-SRo" secondAttribute="trailing" constant="30" id="st9-Xt-HPV"/>
                                 </constraints>
                             </scrollView>

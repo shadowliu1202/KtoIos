@@ -70,7 +70,7 @@ class PromotionPresenter: FilterPresentProtocol {
             if !conditions[row].isSelected! && allProductCount == 4 {
                 conditions[productAllRow].isSelected = true
             } else {
-                conditions[productAllRow].isSelected = false
+                (conditions[safe: productAllRow] as! ProductPromotionItem).selected = .some
             }
         }
         
@@ -96,7 +96,7 @@ class PromotionPresenter: FilterPresentProtocol {
         [PromotionPresenter.createStaticDisplay(Localize.string("bonus_custom_sorting")),
          PromotionPresenter.createInteractive(.desc),
          PromotionPresenter.createStaticDisplay(Localize.string("bonus_custom_filter")),
-         PromotionPresenter.createInteractive(.none),
+         PromotionPresenter.createProductPromotionItem(),
          PromotionPresenter.createInteractive(.sbk),
          PromotionPresenter.createInteractive(.slot),
          PromotionPresenter.createInteractive(.casino),
@@ -109,6 +109,13 @@ class PromotionPresenter: FilterPresentProtocol {
     
     class func createStaticDisplay(_ title: String) -> PromotionItem {
         return PromotionItem(type: .static, title: title, select: false)
+    }
+    
+    class func createProductPromotionItem() -> ProductPromotionItem {
+        return ProductPromotionItem(type: .interactive,
+                                    title: StringMapper.sharedInstance.parseProductTypeString(productType: .none),
+                                    select: true,
+                                    productType: ProductType.none)
     }
     
     class func createInteractive(_ productType: ProductType) -> PromotionItem {
@@ -133,7 +140,40 @@ class PromotionPresenter: FilterPresentProtocol {
     }
 }
 
-struct PromotionItem: FilterItem {
+class ProductPromotionItem: PromotionItem {
+    enum SelectState {
+        case all
+        case some
+        case none
+    }
+    override var isSelected: Bool? {
+        set {
+            guard newValue != nil else { return }
+            selected = newValue! ? .all : .none
+        }
+        get {
+            switch selected {
+            case .all:
+                return true
+            case .none, .some:
+                return false
+            }
+        }
+    }
+    var selected: SelectState = .all
+    override var image: UIImage? {
+        switch selected {
+        case .all:
+            return UIImage(named: "iconDoubleSelectionSelected24")
+        case .some:
+            return UIImage(named: "iconDoubleSelectionSelected5024")
+        case .none:
+            return UIImage(named: "iconDoubleSelectionEmpty24")
+        }
+    }
+}
+
+class PromotionItem: FilterItem {
     var type: Display
     var title: String
     var sortingType: SortingType?
@@ -176,11 +216,6 @@ struct PromotionItem: FilterItem {
         if let _ = sortingType {
             return UIImage(named: "iconArrowDropDown16")
         }
-        
-        if title == Localize.string("bonus_bonustype_3") {
-            return select ?? false ? UIImage(named: "iconDoubleSelectionSelected24") : UIImage(named: "iconDoubleSelectionSelected5024")
-        }
-        
         return select ?? false ? UIImage(named: "iconDoubleSelectionSelected24") : UIImage(named: "iconDoubleSelectionEmpty24")
     }
     
