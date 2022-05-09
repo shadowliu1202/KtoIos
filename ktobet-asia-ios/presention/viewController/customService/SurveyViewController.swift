@@ -88,7 +88,7 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
             cell = tableView.dequeueReusableCell(withIdentifier: "MultipleOptionCell", cellType: MultipleOptionCell.self).configure(option, rowIsSelected(option: option, indexPath: indexPath))
             drawDivider(cell)
         case .textfield:
-            cell = tableView.dequeueReusableCell(withIdentifier: "TextFieldCell", cellType: TextFieldCell.self).configure() { [weak self] (text) in
+            cell = tableView.dequeueReusableCell(withIdentifier: "TextFieldCell", cellType: TextFieldCell.self).configure(viewModel.maxLength) { [weak self] (text) in
                 self?.answer(textField: text, indexPath: indexPath)
             }
         default:
@@ -237,8 +237,9 @@ class MultipleOptionCell: UITableViewCell {
 class TextFieldCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var textView: UITextView!
     var callback: ((String) -> ())?
+    var maxLength: Int!
     
-    func configure(_ callback: ((String) -> ())? = nil) -> Self {
+    func configure(_ maxLength: Int, _ callback: ((String) -> ())? = nil) -> Self {
         self.selectionStyle = .none
         self.textView.delegate = self
         self.textView.text = Localize.string("customerservice_offline_survey_hint")
@@ -246,6 +247,7 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
         self.textView.textContainer.lineFragmentPadding = 0
         self.textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         self.callback = callback
+        self.maxLength = maxLength
         return self
     }
     
@@ -264,4 +266,11 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
         }
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        limitMessageContentLength(textView, maxLength: maxLength)
+    }
+    
+    private func limitMessageContentLength(_ textView: UITextView, maxLength: Int) -> Bool {
+        return textView.text.count < maxLength
+    }
 }
