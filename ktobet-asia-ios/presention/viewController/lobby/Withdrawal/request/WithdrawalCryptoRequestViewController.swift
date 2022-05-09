@@ -12,7 +12,7 @@ class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChange
     @IBOutlet private weak var withdrawalTitleLabel: UILabel!
     @IBOutlet weak var exchangeRateView: ExchangeRateView!
     @IBOutlet weak var exchangeInput: ExchangeInputStack!
-    private weak var cryptoView: CryptoView!
+    private weak var cryptoView: CurrencyView!
     private weak var fiatView: FiatView!
     @IBOutlet private weak var withdrawalAmountErrorLabel: UILabel!
     @IBOutlet private weak var withdrawalLimitLabel: UILabel!
@@ -186,10 +186,10 @@ class WithdrawalCryptoRequestViewController: APPViewController, NotifyRateChange
     
     private func dataBinding(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
         exchangeInput.text.subscribe(onNext: { [weak self] (cryptoAmountStr, fiatAmountStr)  in
-            if let cryptoAmountStr = cryptoAmountStr, let cryptoAmount = cryptoAmountStr.currencyAmountToDeciemal() {
+            if let cryptoAmountStr = cryptoAmountStr, let cryptoAmount = cryptoAmountStr.currencyAmountToDecimal() {
                 self?.viewModel.inputCryptoAmount = cryptoAmount
             }
-            if let fiatAmountStr = fiatAmountStr, let fiatAmount = fiatAmountStr.currencyAmountToDeciemal() {
+            if let fiatAmountStr = fiatAmountStr, let fiatAmount = fiatAmountStr.currencyAmountToDecimal() {
                 self?.viewModel.inputFiatAmount = fiatAmount
             }
         }).disposed(by: disposeBag)
@@ -268,7 +268,7 @@ class ExchangeRateView: UIView {
 class CurrencyView: UIView {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var textField: UITextField!
-    @IBOutlet private weak var currencyLabel: UILabel!
+    @IBOutlet fileprivate weak var currencyLabel: UILabel!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -294,13 +294,11 @@ class CurrencyView: UIView {
     
     func setAmount(_ text: String) {
         let str = text.replacingOccurrences(of: ",", with: "")
-        guard var amount = str.currencyAmountToDeciemal() else {return}
-        let maxmumAmount: Decimal = 9999999
-        if amount > maxmumAmount {
-            amount = maxmumAmount
+        guard var amount = str.currencyAmountToDecimal() else {return}
+        let maximumAmount: Decimal = 9999999
+        if amount > maximumAmount {
+            amount = maximumAmount
             textField.text = amount.currencyFormatWithoutSymbol()
-        } else if str.contains(".") {
-            textField.text = text
         } else {
             textField.text = currencyFormat(amount)
         }
@@ -318,8 +316,21 @@ class CurrencyView: UIView {
 }
 
 class CryptoView: CurrencyView {
+    private var cryptoType: SupportCryptoType!
+    
+    func setup(cryptoType: SupportCryptoType, _ currency: CryptoUIResource) {
+        self.cryptoType = cryptoType
+        imageView.image = currency.flagIcon
+        currencyLabel.text = currency.name
+    }
+    
     override func currencyFormat(_ amount: Decimal) -> String {
-        return amount.currencyFormatWithoutSymbol(precision: 0, maximumFractionDigits: 8)
+        switch self.cryptoType! {
+        case .usdt:
+            return amount.currencyFormatWithoutSymbol(precision: 0, maximumFractionDigits: 2)
+        default:
+            return amount.currencyFormatWithoutSymbol(precision: 0, maximumFractionDigits: 8)
+        }
     }
 }
 
@@ -330,7 +341,7 @@ class FiatView: CurrencyView {
 }
 
 class ExchangeInputStack: UIStackView, UITextFieldDelegate {
-    @IBOutlet private weak var contenView: UIView!
+    @IBOutlet private weak var contentView: UIView!
     @IBOutlet weak var cryptoView: CryptoView!
     @IBOutlet weak var fiatView: FiatView!
     @IBOutlet private weak var errorLabel: UILabel!
@@ -342,6 +353,7 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
             return Observable.combineLatest(cryptoView.textField.rx.text, fiatView.textField.rx.text)
         }
     }
+     
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -357,13 +369,13 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
 
     func setup(_ cryptoType: SupportCryptoType, _ currency: CryptoUIResource..., exchangeRate: IExchangeRate) {
         self.cryptoType = cryptoType
-        cryptoView.setup(currency[0])
+        cryptoView.setup(cryptoType: cryptoType, currency[0])
         fiatView.setup(currency[1])
         self.exchangeRate = exchangeRate
     }
     
     func setError(_ errMsg: String?) {
-        contenView.bordersColor = errMsg == nil ? UIColor.textPrimaryDustyGray : UIColor.alert
+        contentView.bordersColor = errMsg == nil ? UIColor.textPrimaryDustyGray : UIColor.alert
         errorLabel.text = errMsg
     }
     
@@ -378,30 +390,59 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     }
     
     @objc private func textFieldEditingChanged(_ textField: UITextField) {
-        guard let str = textField.text, var amount = str.currencyAmountToDeciemal() else {
+        guard var str = textField.text else { return }
+        if textField == cryptoView.textField {
+            str = checkCurrencyType(textFieldText: str)
+        }
+        
+        guard var amount = str.currencyAmountToDecimal() else {
             cryptoView.textField.text = "0"
             fiatView.textField.text = "0"
             cryptoView.textField.sendActions(for: .valueChanged)
             fiatView.textField.sendActions(for: .valueChanged)
             return
         }
-        let maxmumAmount: Decimal = 9999999
-        if amount > maxmumAmount {
-            amount = maxmumAmount
+        
+        let maximumAmount: Decimal = 9999999
+        if amount > maximumAmount {
+            amount = maximumAmount
         }
         
         if textField == cryptoView.textField {
-            cryptoView.setAmount(str)
+            cryptoView.textField.text = str
             let cryptoAmount = amount.toCryptoCurrency(cryptoType)
             let fiatAmount = cryptoAmount * exchangeRate
             fiatView.setAmount(fiatAmount.description())
         } else if textField == fiatView.textField {
-            fiatView.setAmount(str)
-            if let doubleAmount = fiatView.currencyFormat(amount).currencyAmountToDeciemal()?.doubleValue {
-                let crptoAmount = (doubleAmount.toAccountCurrency() * exchangeRate).description()
-                cryptoView.setAmount(crptoAmount)
-            }
+            fiatView.textField.text = str
+            let fiatAmount = amount.toAccountCurrency()
+            let cryptoAmount = fiatAmount * exchangeRate
+            cryptoView.setAmount(cryptoAmount.description())
         }
+    }
+    
+    private func checkCurrencyType(textFieldText: String) -> String {
+        switch self.cryptoType! {
+        case .usdt:
+            return roundNumberToXDecimalPlaces(number: textFieldText, x: 2)
+        default:
+            return roundNumberToXDecimalPlaces(number: textFieldText, x: 8)
+        }
+    }
+    
+    func roundNumberToXDecimalPlaces(number textFieldText: String, x: Int) -> String {
+        guard textFieldText.contains(".") else {
+            return textFieldText
+        }
+        
+        var roundedTextFieldText = textFieldText
+        let decimalPointIndex = roundedTextFieldText.firstIndex(of: ".")!
+        let lengthAfterDecimalPoint = roundedTextFieldText[decimalPointIndex..<roundedTextFieldText.endIndex].count - 1
+        if lengthAfterDecimalPoint > x {
+            roundedTextFieldText.removeLast()
+        }
+        
+        return roundedTextFieldText
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -410,7 +451,7 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
                 textField.text = String(str.dropLast())
                 textField.sendActions(for: .valueChanged)
             } else {
-                if textField.superview is CurrencyView, let amount = str.currencyAmountToDeciemal() {
+                if textField.superview is CurrencyView, let amount = str.currencyAmountToDecimal() {
                     textField.text = (textField.superview as! CurrencyView).currencyFormat(amount)
                     textField.sendActions(for: .valueChanged)
                 }
