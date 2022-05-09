@@ -58,10 +58,36 @@ class SurveyViewModel {
         }
         return self.isSurveyContentValid
     }).startWith(false)
+    
+    private(set) var maxLength: Int = 100
 
-    init(_ surveyUseCase: CustomerServiceSurveyUseCase, _ authenticationUseCase: AuthenticationUseCase) {
+
+    init(_ surveyUseCase: CustomerServiceSurveyUseCase, _ authenticationUseCase: AuthenticationUseCase, _ repoLocalStorage: LocalStorageRepository) {
         self.surveyUseCase = surveyUseCase
         self.authenticationUseCase = authenticationUseCase
+        self.authenticationUseCase.isLogged().map({ isLogged -> SupportLocale in
+            if isLogged {
+                return repoLocalStorage.getSupportLocal()
+            } else {
+                switch Locale.current.languageCode {
+                case "zh":
+                    return SupportLocale.China.init()
+                case "vi":
+                    return SupportLocale.Vietnam.init()
+                default:
+                    return SupportLocale.China.init()
+                }
+            }
+        }).subscribe(onSuccess: { [weak self] supportLocal in
+            switch supportLocal {
+            case .China.init():
+                self?.maxLength = 100
+            case .Vietnam.init():
+                self?.maxLength = 300
+            default:
+                self?.maxLength = 100
+            }
+        }).disposed(by: disposeBag)
     }
     
     func getPreChatSurvey() -> Single<Survey> {
