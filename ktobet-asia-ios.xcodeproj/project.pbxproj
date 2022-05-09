@@ -3981,6 +3981,11 @@
 		6DCC261E27587825007C973B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC261D27587825007C973B /* NotificationViewController.swift */; };
 		6DCC261F27587825007C973B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC261D27587825007C973B /* NotificationViewController.swift */; };
 		6DCC262027587825007C973B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC261D27587825007C973B /* NotificationViewController.swift */; };
+		6DCE99922828C647002CA7A5 /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
+		6DCE99932828C647002CA7A5 /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
+		6DCE99942828C648002CA7A5 /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
+		6DCE99952828C648002CA7A5 /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
+		6DCE99962828C648002CA7A5 /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
 		6DCEC6B6265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6B5265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift */; };
 		6DCEC6B7265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6B5265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift */; };
 		6DCEC6B9265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6B5265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift */; };
@@ -8507,6 +8512,7 @@
 				6090128F2640EE7000419F8E /* Constraint.swift in Sources */,
 				609012902640EE7000419F8E /* UIWindowExtension.swift in Sources */,
 				6D5B14C5264A7B0C004138E8 /* SlotRepository.swift in Sources */,
+				6DCE99922828C647002CA7A5 /* NetworkControlWindow.swift in Sources */,
 				609012922640EE7000419F8E /* DateModel.swift in Sources */,
 				6D5B14F3264A7BA7004138E8 /* TextBarButtonItem.swift in Sources */,
 				6DF9079A2697DCB70086AF54 /* P2PBetDetailViewController.swift in Sources */,
@@ -9029,6 +9035,7 @@
 				60E5800827F190E4008CE5A9 /* Constraint.swift in Sources */,
 				60E5800927F190E4008CE5A9 /* UIWindowExtension.swift in Sources */,
 				60E5800A27F190E4008CE5A9 /* SlotRepository.swift in Sources */,
+				6DCE99932828C647002CA7A5 /* NetworkControlWindow.swift in Sources */,
 				60E5800B27F190E4008CE5A9 /* DateModel.swift in Sources */,
 				60E5800C27F190E4008CE5A9 /* TextBarButtonItem.swift in Sources */,
 				60E5800D27F190E4008CE5A9 /* P2PBetDetailViewController.swift in Sources */,
@@ -9551,6 +9558,7 @@
 				6D966B9627FEE3FA006086B7 /* Constraint.swift in Sources */,
 				6D966B9727FEE3FA006086B7 /* UIWindowExtension.swift in Sources */,
 				6D966B9827FEE3FA006086B7 /* SlotRepository.swift in Sources */,
+				6DCE99942828C648002CA7A5 /* NetworkControlWindow.swift in Sources */,
 				6D966B9927FEE3FA006086B7 /* DateModel.swift in Sources */,
 				6D966B9A27FEE3FA006086B7 /* TextBarButtonItem.swift in Sources */,
 				6D966B9B27FEE3FA006086B7 /* P2PBetDetailViewController.swift in Sources */,
@@ -10073,6 +10081,7 @@
 				6D966DE327FEE416006086B7 /* Constraint.swift in Sources */,
 				6D966DE427FEE416006086B7 /* UIWindowExtension.swift in Sources */,
 				6D966DE527FEE416006086B7 /* SlotRepository.swift in Sources */,
+				6DCE99952828C648002CA7A5 /* NetworkControlWindow.swift in Sources */,
 				6D966DE627FEE416006086B7 /* DateModel.swift in Sources */,
 				6D966DE727FEE416006086B7 /* TextBarButtonItem.swift in Sources */,
 				6D966DE827FEE416006086B7 /* P2PBetDetailViewController.swift in Sources */,
@@ -10695,6 +10704,7 @@
 				6D96709427FEE42B006086B7 /* APIWrapper.swift in Sources */,
 				6D96709527FEE42B006086B7 /* KoyomiLayout.swift in Sources */,
 				6D96709627FEE42B006086B7 /* DefaultTransportFactory.swift in Sources */,
+				6DCE99962828C648002CA7A5 /* NetworkControlWindow.swift in Sources */,
 				6D96709727FEE42B006086B7 /* LaunchViewController.swift in Sources */,
 				6D96709827FEE42B006086B7 /* ColorMapper.swift in Sources */,
 				6D96709927FEE42B006086B7 /* DepositRepository.swift in Sources */,
