@@ -17,6 +17,12 @@ class APPViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         observerRequestError()
+        initNetworkConnectRelay()
+    }
+    
+    private func initNetworkConnectRelay() {
+        guard let reachability = Reachability else { return }
+        networkConnectRelay.accept(reachability.isNetworkConnected)
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 import SDWebImage
 
-class ChatHistoryViewController: UIViewController {
+class ChatHistoryViewController: APPViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var roomId: String!

@@ -37,12 +37,14 @@ class PromotionHistoryViewController: APPViewController {
                 self.viewModel.productTypes = status.prodcutType
                 self.viewModel.bonusTypes = status.bonusType
                 self.viewModel.sortingBy = status.sorting
+                self.fetchData()
             }
         
         dateView.callBackCondition = {[weak self] (beginDate, endDate, dateType) in
             if let fromDate = beginDate, let toDate = endDate {
                 self?.viewModel.beginDate = fromDate
                 self?.viewModel.endDate = toDate
+                self?.fetchData()
             }
         }
         
@@ -61,15 +63,23 @@ class PromotionHistoryViewController: APPViewController {
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
         
-        rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
-            .map { _ in () }
-            .bind(to: viewModel.recordPagination.refreshTrigger)
-            .disposed(by: disposeBag)
-        
         scrollView.rx_reachedBottom
             .map{ _ in ()}
             .bind(to: self.viewModel.recordPagination.loadNextPageTrigger)
             .disposed(by: disposeBag)
+        
+        checkNetworkThenFetchData()
+        
+    }
+    
+    private func checkNetworkThenFetchData() {
+        self.networkConnectRelay.filter{$0}.subscribe(onNext: { [weak self] _ in
+            self?.fetchData()
+        }).disposed(by: disposeBag)
+    }
+    
+    private func fetchData() {
+        self.viewModel.recordPagination.refreshTrigger.onNext(())
     }
     
     deinit {
@@ -95,7 +105,6 @@ extension PromotionHistoryViewController: BarButtonItemable {
         switch sender {
         case is SearchButtonItem:
             guard let searchViewController = UIStoryboard(name: "PromotionHistory", bundle: nil).instantiateViewController(withIdentifier: "PromotionSearchViewController") as? PromotionSearchViewController else { return }
-            searchViewController.viewModel = self.viewModel
             self.navigationController?.pushViewController(searchViewController, animated: true)
             break
         default: break

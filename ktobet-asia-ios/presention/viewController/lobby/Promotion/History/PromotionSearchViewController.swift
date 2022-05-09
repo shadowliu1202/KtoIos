@@ -7,8 +7,8 @@ class PromotionSearchViewController: APPViewController {
     @IBOutlet var searchBarView: UISearchBar!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var emptyView: UIView!
-    
-    var viewModel: PromotionHistoryViewModel!
+    private let FirstEmptyTime = 1
+    private var viewModel = DI.resolve(PromotionHistoryViewModel.self)!
     
     private let searchText = BehaviorRelay<String?>(value: nil)
     private var keepNavigationBar: UIColor?
@@ -66,7 +66,7 @@ class PromotionSearchViewController: APPViewController {
     }
     
     private func dataBinding() {
-        searchBarView.rx.text.orEmpty.asDriver().drive(searchText).disposed(by: disposeBag)
+        searchBarView.rx.text.orEmpty.asDriver().skip(FirstEmptyTime).drive(searchText).disposed(by: disposeBag)
         searchText.asObservable().subscribe(onNext: { [weak self] (text) in
             if let self = self, self.searchBarView.text != text {
                 self.searchBarView.text = text
@@ -75,14 +75,19 @@ class PromotionSearchViewController: APPViewController {
                 self?.searchBarView.endEditing(true)
             }
         }).disposed(by: disposeBag)
-        
+                
         searchText.asObservable()
             .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
             .observeOn(MainScheduler.asyncInstance)
-            .do(onNext: {[weak self] in self?.viewModel?.keyword = $0 ?? ""})
-            .map { _ in () }
-            .bind(to: viewModel.recordPagination.refreshTrigger)
-            .disposed(by: disposeBag)
+            .subscribe(onNext: { [weak self] (text) in
+                guard let keyword = text else { return }
+                self?.fetchData(keyword)
+            }).disposed(by: disposeBag)
+        
+        self.networkConnectRelay.filter{$0}.subscribe(onNext: { [weak self] _ in
+            guard let keyword = self?.searchBarView.text else { return }
+            self?.fetchData(keyword)
+        }).disposed(by: disposeBag)
         
         searchBarView.rx.searchButtonClicked.bind { [weak self] (_) in
             self?.searchBarView.endEditing(true)
@@ -100,15 +105,17 @@ class PromotionSearchViewController: APPViewController {
             self?.emptyView.isHidden = couponHistories.count != 0
         }).disposed(by: disposeBag)
         
-        rx.sentMessage(#selector(UIViewController.viewDidAppear(_:)))
-            .map { _ in () }
-            .bind(to: viewModel.recordPagination.refreshTrigger)
-            .disposed(by: disposeBag)
+        viewModel.recordPagination.error.subscribe(onNext: handleErrors).disposed(by: disposeBag)
         
         tableView.rx_reachedBottom
             .map{ _ in ()}
             .bind(to: viewModel.recordPagination.loadNextPageTrigger)
             .disposed(by: disposeBag)
+    }
+    
+    private func fetchData(_ keyword: String) {
+        self.viewModel.keyword = keyword
+        self.viewModel.recordPagination.refreshTrigger.onNext(())
     }
     
     @objc private func pressDone(_ sender: UIButton) {
