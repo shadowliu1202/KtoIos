@@ -42,7 +42,7 @@ extension String {
         return Double(self.replacingOccurrences(of: ",", with: ""))
     }
     
-    func currencyAmountToDeciemal() -> Decimal? {
+    func currencyAmountToDecimal() -> Decimal? {
         return Decimal(string: self.replacingOccurrences(of: ",", with: ""))
     }
     
