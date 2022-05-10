@@ -167,22 +167,24 @@ class DepositGatewayViewController: APPViewController {
                                                   amountRange.max.description())
         }).disposed(by: disposeBag)
         
+        onlineViewModel.output.floatAllow.drive(onNext: { [weak self] floatAllow in
+            self?.gatewayAndFloatAllowDidChange(floatAllow)
+        }).disposed(by: disposeBag)
+        
         onlineViewModel.output.cashOption.drive(onNext: { [weak self] list in
             if let list = list {
                 self?.remitterAmountDropDown.isHidden = false
                 self?.remitterAmountTextField.isHidden = true
                 self?.remitterAmountErrorLabel.isHidden = true
                 self?.depositLimitLabel.text = nil
-                self?.remitterAmountDropDown.optionArray = list.map { String($0.intValue) }
+                self?.remitterAmountDropDown.optionArray = list.map {
+                    $0.decimalValue.currencyFormatWithoutSymbol(maximumFractionDigits: 0)
+                }
             } else {
                 self?.remitterAmountDropDown.isHidden = true
                 self?.remitterAmountTextField.isHidden = false
                 self?.remitterAmountErrorLabel.isHidden = false
             }
-        }).disposed(by: disposeBag)
-        
-        onlineViewModel.output.floatAllow.drive(onNext: { [weak self] floatAllow in
-            self?.gatewayAndFloatAllowDidChange(floatAllow)
         }).disposed(by: disposeBag)
     }
     
