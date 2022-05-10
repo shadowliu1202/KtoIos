@@ -274,10 +274,10 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
     
     private func limitMessageContentLengthByLocale(_ countOfWords: Int) -> Bool {
         switch viewModel.playerLocale {
-        case .China.init():
-            return limitMessageContentLength(countOfWords, maxLength: 100)
-        case .Vietnam.init():
+        case is SupportLocale.Vietnam:
             return limitMessageContentLength(countOfWords, maxLength: 300)
+        case is SupportLocale.China:
+            fallthrough
         default:
             return limitMessageContentLength(countOfWords, maxLength: 100)
         }
