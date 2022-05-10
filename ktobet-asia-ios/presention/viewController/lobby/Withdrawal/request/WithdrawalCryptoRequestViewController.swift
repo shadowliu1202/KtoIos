@@ -391,10 +391,7 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     
     @objc private func textFieldEditingChanged(_ textField: UITextField) {
         guard var str = textField.text else { return }
-        if textField == cryptoView.textField {
-            str = checkCurrencyType(textFieldText: str)
-        }
-        
+        str = checkPlayerInputFormat(textField, inputText: str)
         guard var amount = str.currencyAmountToDecimal() else {
             cryptoView.textField.text = "0"
             fiatView.textField.text = "0"
@@ -421,12 +418,24 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
         }
     }
     
-    private func checkCurrencyType(textFieldText: String) -> String {
-        switch self.cryptoType! {
-        case .usdt:
-            return roundNumberToXDecimalPlaces(number: textFieldText, x: 2)
-        default:
-            return roundNumberToXDecimalPlaces(number: textFieldText, x: 8)
+    private func checkPlayerInputFormat(_ textField: UITextField, inputText: String) -> String {
+        var userInputText: String {
+            if inputText.hasPrefix("0") && inputText.count > 1 {
+                return String(inputText.dropFirst())
+            } else {
+                return inputText
+            }
+        }
+        
+        if textField == cryptoView.textField {
+            switch self.cryptoType! {
+            case .usdt:
+                return roundNumberToXDecimalPlaces(number: userInputText, x: 2)
+            default:
+                return roundNumberToXDecimalPlaces(number: userInputText, x: 8)
+            }
+        } else {
+            return userInputText
         }
     }
     
@@ -446,9 +455,12 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let str = textField.text, str.contains(".") {
+        if var str = textField.text, str.contains(".") {
             if str.hasSuffix(".") {
-                textField.text = String(str.dropLast())
+                repeat {
+                    str = String(str.dropLast())
+                } while str.hasSuffix(".")
+                textField.text = str
                 textField.sendActions(for: .valueChanged)
             } else {
                 if textField.superview is CurrencyView, let amount = str.currencyAmountToDecimal() {
