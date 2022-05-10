@@ -88,7 +88,7 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
             cell = tableView.dequeueReusableCell(withIdentifier: "MultipleOptionCell", cellType: MultipleOptionCell.self).configure(option, rowIsSelected(option: option, indexPath: indexPath))
             drawDivider(cell)
         case .textfield:
-            cell = tableView.dequeueReusableCell(withIdentifier: "TextFieldCell", cellType: TextFieldCell.self).configure(viewModel.maxLength) { [weak self] (text) in
+            cell = tableView.dequeueReusableCell(withIdentifier: "TextFieldCell", cellType: TextFieldCell.self).configure(viewModel: viewModel) { [weak self] (text) in
                 self?.answer(textField: text, indexPath: indexPath)
             }
         default:
@@ -236,18 +236,18 @@ class MultipleOptionCell: UITableViewCell {
 
 class TextFieldCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var textView: UITextView!
+    private var viewModel: SurveyViewModel!
     var callback: ((String) -> ())?
-    var maxLength: Int!
     
-    func configure(_ maxLength: Int, _ callback: ((String) -> ())? = nil) -> Self {
+    func configure(viewModel: SurveyViewModel, _ callback: ((String) -> ())? = nil) -> Self {
         self.selectionStyle = .none
         self.textView.delegate = self
         self.textView.text = Localize.string("customerservice_offline_survey_hint")
         self.textView.textColor = UIColor.textPrimaryDustyGray
         self.textView.textContainer.lineFragmentPadding = 0
         self.textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        self.viewModel = viewModel
         self.callback = callback
-        self.maxLength = maxLength
         return self
     }
     
@@ -267,10 +267,23 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        limitMessageContentLength(textView, maxLength: maxLength)
+        let countOfWords = textView.text.count - range.length + text.count
+        
+        return limitMessageContentLengthByLocale(countOfWords)
     }
     
-    private func limitMessageContentLength(_ textView: UITextView, maxLength: Int) -> Bool {
-        return textView.text.count < maxLength
+    private func limitMessageContentLengthByLocale(_ countOfWords: Int) -> Bool {
+        switch viewModel.playerLocale {
+        case .China.init():
+            return limitMessageContentLength(countOfWords, maxLength: 100)
+        case .Vietnam.init():
+            return limitMessageContentLength(countOfWords, maxLength: 300)
+        default:
+            return limitMessageContentLength(countOfWords, maxLength: 100)
+        }
+    }
+    
+    private func limitMessageContentLength(_ countOfWords: Int, maxLength: Int) -> Bool {
+        return countOfWords <= maxLength
     }
 }
