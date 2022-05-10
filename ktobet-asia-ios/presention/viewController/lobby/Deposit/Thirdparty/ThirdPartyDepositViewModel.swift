@@ -110,12 +110,14 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
         }.distinctUntilChanged().compose(self.applyObservableErrorHandle()).asDriverLogError()
     }
 
-    private func getCashOption() -> SharedSequence<DriverSharingStrategy, [KotlinInt]?> {
-        selectPaymentGateway.map { ($0.cash as? CashType.Option)?.list }
+    private func getCashOption() -> SharedSequence<DriverSharingStrategy, [KotlinDouble]?> {
+        selectPaymentGateway
+            .map { ($0.cash as? CashType.Option)?.list }
             .do(onNext: { [weak self] list in
-            guard let self = self, let first = list?.first else { return }
-            self.remittance.onNext(first.stringValue)
-        }).compose(self.applyObservableErrorHandle()).asDriverLogError()
+                guard let self = self, let first = list?.first as? NSNumber else { return }
+                let firstOptionString = first.decimalValue.currencyFormatWithoutSymbol(maximumFractionDigits: 0)
+                self.remittance.onNext(firstOptionString)
+            }).compose(self.applyObservableErrorHandle()).asDriverLogError()
     }
 
     private func isRemittanceValid(_ depositLimit: Driver<AmountRange?>) -> Driver<AmountExpection?> {
@@ -203,7 +205,7 @@ extension ThirdPartyDepositViewModel {
         let depositLimit: Driver<AmountRange?>
         let remitterName: Driver<String>
         let remittance: Driver<String>
-        let cashOption: Driver<[KotlinInt]?>
+        let cashOption: Driver<[KotlinDouble]?>
         let floatAllow: Driver<FloatAllow?>
         let remitterNameValid: Driver<AccountNameException?>
         let remitterBankCardNumbeValid: Driver<Bool>
