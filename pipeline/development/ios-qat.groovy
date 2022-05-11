@@ -83,7 +83,7 @@ pipeline {
                                   branches: [[name: "refs/heads/$BuildBranch"]],
                                   extensions: [[$class: 'BuildSingleRevisionOnly']],
                                   userRemoteConfigs: [[credentialsId: "$GitCredentialId",
-                                                      refspec: "+refs/heads/$PROP_BUILD_BRANCH:refs/remotes/origin/$BuildBranch +refs/heads/tags/*:refs/remotes/origin/tags/*",
+                                                      refspec: "+refs/heads/$BuildBranch:refs/remotes/origin/$BuildBranch +refs/heads/tags/*:refs/remotes/origin/tags/*",
                                                       url: "$BuildRepo"]]])
                         withCredentials([file(credentialsId: "$AppleApiKey", variable: 'API_KEY'),
                                         string(credentialsId: 'ios_agent_keychain_password', variable: 'KEYCHAIN_PASSWORD')]) {
@@ -175,9 +175,9 @@ pipeline {
                              "TeamsToken=$PROP_TEAMS_NOTIFICATION"
                     ]) {
                         office365ConnectorSend webhookUrl: "$TeamsToken",
-                                message: ">**[Android] [KTO Asia]** has been deployed to $BuildEnvrioment</br>version : **[$ReleaseTag]($JENKINS_PROGET_HOME/feeds/app/android/kto-asia/$ReleaseVersion/files)**",
+                                message: ">**[Android] [KTO Asia]** has been deployed to $BuildEnvrioment</br>version : **[$ReleaseTag]($JENKINS_PROGET_HOME/feeds/app/ios/kto-asia/$ReleaseVersion/files)**",
                                 factDefinitions: [[name: 'Download Page', template: '<a href="https://qat1-mobile.affclub.xyz/">Download Page</a>'],
-                                                  [name: 'Related Issues', template: "<a href=\"https://jira.higgstar.com/issues/?jql=project = APP AND labels = android-$ReleaseVersionCore-$BuildEnvrioment\">Jira Issues</a>"]]
+                                                  [name: 'Related Issues', template: "<a href=\"https://jira.higgstar.com/issues/?jql=project = APP AND labels = ios-$ReleaseVersionCore-$BuildEnvrioment\">Jira Issues</a>"]]
                     }
                 }
             }

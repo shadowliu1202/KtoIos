@@ -109,15 +109,15 @@ pipeline {
                         }
                     }
                 }
+                echo "is Staging inclued = $params.INCLUDE_STAGING"
             }
-
         }
         stage('Trigger staging publish') {
             when {
-                expression { INCLUDE_STAGING == true }
+                expression { return params.INCLUDE_STAGING }
             }
             steps {
-                build wait: false, job: "$PROP_STAGING_JOB", parameters: [text(name: 'ReleaseTag', value: "$RELEASE_TAG")]
+                build wait: false, job: "$PROP_STAGING_JOB", parameters: [text(name: 'PARAMS_SELECT_TAG', value: "$RELEASE_TAG")]
             }
         }
         stage('Update jira issues') {

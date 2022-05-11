@@ -35,10 +35,10 @@ pipeline {
                             def commandResult = sshCommand remote: remote, command: "curl -s https://appkto.com/android/api/get-android-apk-version | jq -r '.data.apkVersion'"
                             echo "$commandResult"
                             String[] result = commandResult.trim().split('\\+')
-                            if(result.length == 1) {
+                            if (result.length == 1) {
                                 env.PRODUCTION_ONLINE_TAG = "${result[0]}-release"
-                            }else{
-                             env.PRODUCTION_ONLINE_TAG = "${result[0]}-release+${result[1]}"
+                            } else {
+                                env.PRODUCTION_ONLINE_TAG = "${result[0]}-release+${result[1]}"
                             }
                             echo "production version = $PRODUCTION_ONLINE_TAG"
                             // Get Online version
@@ -46,10 +46,10 @@ pipeline {
                             sshGet remote: remote, from: '/data-disk/mobile-deployment-document/android.version', into: 'version', override: true
                             env.CURRENT_ONLINE_TAG = readFile('version').trim()
                             echo "$PROP_BUILD_ENVIRONMENT version = $CURRENT_ONLINE_TAG"
-                            // sshCommand remote: remote, command: """
-                            //     ansible-playbook -v /data-disk/brand-deployment-document/playbooks/deploy-kto-android-apk.yml --extra-vars "tag=$PublishTag"
-                            //     echo $PublishTag > /data-disk/mobile-deployment-document/android.version
-                            // """
+                            sshCommand remote: remote, command: """
+                                ansible-playbook -v /data-disk/brand-deployment-document/playbooks/deploy-kto-android-apk.yml --extra-vars "tag=$PublishTag"
+                                echo $PublishTag > /data-disk/mobile-deployment-document/android.version
+                            """
                         }
                     }
                     echo sh(script: 'env|sort', returnStdout: true)
