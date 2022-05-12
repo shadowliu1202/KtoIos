@@ -30,7 +30,7 @@ class SlotBetDetailViewController: APPViewController {
     private func initUI() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24))
+        tableView.setHeaderFooterDivider()
     }
     
     private func dataBinding() {
@@ -56,7 +56,13 @@ extension SlotBetDetailViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "SlotBetDetailCell", cellType: SlotBetDetailCell.self).configure(self.records[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SlotBetDetailCell", cellType: SlotBetDetailCell.self).configure(self.records[indexPath.row])
+        cell.removeBorder()
+        if indexPath.row != 0 {
+            cell.addBorder(rightConstant: 24, leftConstant: 24)
+        }
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

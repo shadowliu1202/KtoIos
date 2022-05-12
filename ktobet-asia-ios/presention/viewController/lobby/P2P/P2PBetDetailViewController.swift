@@ -22,7 +22,7 @@ class P2PBetDetailViewController: APPViewController {
     }
     
     private func initUI() {
-        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24))
+        tableView.setHeaderFooterDivider()
     }
     
     private func dataBinding() {
@@ -32,7 +32,12 @@ class P2PBetDetailViewController: APPViewController {
                 self?.handleErrors(error)
                 return Observable.empty()
             }).bind(to: tableView.rx.items) { tableView, row, item in
-                return tableView.dequeueReusableCell(withIdentifier: "P2PBetDetailCell", cellType: BetDetailCell.self).configure(item)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "P2PBetDetailCell", cellType: BetDetailCell.self).configure(item)
+                cell.removeBorder()
+                if row != 0 {
+                    cell.addBorder(rightConstant: 24, leftConstant: 24)
+                }
+                return cell
         }.disposed(by: disposeBag)
     }
 }

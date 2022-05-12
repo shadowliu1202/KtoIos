@@ -53,7 +53,7 @@ class WithdrawlAccountsViewController: UIViewController {
     
     private func initUI() {
         tableView.separatorColor = UIColor.clear
-        tableView.addTopBorder(size: 0.5, color: UIColor.dividerCapeCodGray2)
+        tableView.addTopBorder()
     }
     
     private func dataBinding() {

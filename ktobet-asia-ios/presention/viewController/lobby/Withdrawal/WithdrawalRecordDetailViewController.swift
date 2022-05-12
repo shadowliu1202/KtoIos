@@ -82,11 +82,11 @@ class WithdrawalRecordDetailViewController: APPViewController {
             self.confirmButton.layer.borderWidth = 1
             self.confirmButton.layer.borderColor = UIColor.textSecondaryScorpionGray.cgColor
             self.cancelButton.setTitle(Localize.string("withdrawal_cancel"), for: .normal)
-            self.amountView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2)
-            self.amountView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
-            self.applyTimeView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
-            self.applyTimeView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
-            self.remarkView.addBorder(.top, size: 1, color: UIColor.dividerCapeCodGray2, rightConstant: 30, leftConstant: 30)
+            self.amountView.addBorder(.top)
+            self.amountView.addBorder(.bottom, rightConstant: 30, leftConstant: 30)
+            self.applyTimeView.addBorder(.top, rightConstant: 30, leftConstant: 30)
+            self.applyTimeView.addBorder(.bottom, rightConstant: 30, leftConstant: 30)
+            self.remarkView.addBorder(.top, rightConstant: 30, leftConstant: 30)
             self.activityIndicator.center = self.view.center
             self.view.addSubview(self.activityIndicator)
         }
@@ -168,7 +168,7 @@ class WithdrawalRecordDetailViewController: APPViewController {
             self.remarkViewHeight.constant = self.remarkTableViewHeight.constant + self.uploadViewHeight.constant + 60
             self.remarkView.layoutIfNeeded()
             if data.record.transactionStatus != .floating {
-                self.remarkView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
+                self.remarkView.addBorder(.bottom)
             }
         }
     }

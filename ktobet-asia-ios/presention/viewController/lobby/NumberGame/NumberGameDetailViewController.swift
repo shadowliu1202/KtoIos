@@ -34,7 +34,7 @@ class NumberGameDetailViewController: APPViewController {
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        self.tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24))
+        self.tableView.setHeaderFooterDivider()
     }
     
     var tempResult: [NumberGameSummary.Bet] = []
@@ -74,6 +74,11 @@ class NumberGameDetailViewController: APPViewController {
                 for view in cell.contentView.subviews {
                     view.alpha = 0.4
                 }
+            }
+            
+            cell.removeBorder()
+            if row != 0 {
+                cell.addBorder(rightConstant: 24, leftConstant: 24)
             }
             
             return cell

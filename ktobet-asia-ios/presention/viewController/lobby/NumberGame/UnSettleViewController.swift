@@ -38,6 +38,11 @@ class UnSettleViewController: UIViewController {
             guard let self = self else { return  UITableViewCell()}
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "CasinoSummaryTableViewCell", cellType: CasinoSummaryTableViewCell.self)
             cell.setup(element: element)
+            cell.removeBorder()
+            if row != 0 {
+                cell.addBorder()
+            }
+            
             return cell
         }.disposed(by: disposeBag)
     }

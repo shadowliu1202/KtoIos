@@ -54,8 +54,8 @@ class SlotFilterViewController: UIViewController {
             }
         }).disposed(by: disposeBag)
         
-        self.gameFeatureView.addBorder(.bottom, size: 1, color: UIColor(red: 60.0/255.0, green: 62.0/255.0, blue: 64.0/255.0, alpha: 1.0))
-        self.gameThemeView.addBorder(.bottom, size: 1, color: UIColor(red: 60.0/255.0, green: 62.0/255.0, blue: 64.0/255.0, alpha: 1.0))
+        self.gameFeatureView.addBorder(.bottom, color: UIColor(red: 60.0/255.0, green: 62.0/255.0, blue: 64.0/255.0, alpha: 1.0))
+        self.gameThemeView.addBorder(.bottom, color: UIColor(red: 60.0/255.0, green: 62.0/255.0, blue: 64.0/255.0, alpha: 1.0))
     }
     
     @IBAction func featureTouchDownTag(_ sender: UIButton) {

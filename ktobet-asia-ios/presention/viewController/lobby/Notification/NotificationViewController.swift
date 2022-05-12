@@ -42,7 +42,7 @@ class NotificationViewController: APPViewController {
     
     private func addEmptyView() {
         let emptyView = UIHostingController(rootView: EmptyNotificationView()).view
-        emptyView?.addBorder(.top, size: 0.5, color: UIColor.dividerCapeCodGray2)
+        emptyView?.addBorder(.top)
         self.emptyViewContainer.addSubview(emptyView!, constraints: .fill())
     }
     

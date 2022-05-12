@@ -43,7 +43,13 @@ class ArcadeSummaryViewController: APPViewController {
         }).map({ (dateSummary) -> [Record] in
             SummaryAdapter(dateSummary).finishedGame
         }).bind(to: tableView.rx.items) {(tableView, row, element) in
-            tableView.dequeueReusableCell(withIdentifier: "MyBetSummaryTableViewCell", cellType: MyBetSummaryTableViewCell.self).config(element: element)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MyBetSummaryTableViewCell", cellType: MyBetSummaryTableViewCell.self).config(element: element)
+            cell.removeBorder()
+            if row != 0 {
+                cell.addBorder()
+            }
+            
+            return cell
         }.disposed(by: disposeBag)
     }
     

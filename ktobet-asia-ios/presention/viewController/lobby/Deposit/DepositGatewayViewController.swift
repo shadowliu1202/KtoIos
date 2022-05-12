@@ -145,7 +145,8 @@ class DepositGatewayViewController: APPViewController {
             guard let self = self else { return }
             self.constraintBankTableHeight.constant = CGFloat(data.count * 56)
             self.depositTableView.layoutIfNeeded()
-            self.depositTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
+            self.depositTableView.addTopBorder()
+            self.depositTableView.addBottomBorder()
         }).disposed(by: disposeBag)
         
         Observable.zip(depositTableView.rx.itemSelected, depositTableView.rx.modelSelected(OnlinePaymentGatewayItemViewModel.self)).bind { [weak self] (indexPath, data) in
@@ -306,7 +307,8 @@ class DepositGatewayViewController: APPViewController {
             guard let self = self else { return }
             self.constraintBankTableHeight.constant = CGFloat(data.count * 56)
             self.depositTableView.layoutIfNeeded()
-            self.depositTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
+            self.depositTableView.addTopBorder()
+            self.depositTableView.addBottomBorder()
         }).disposed(by: disposeBag)
         
         Observable.zip(depositTableView.rx.itemSelected, depositTableView.rx.modelSelected(OfflinePaymentGatewayItemViewModel.self)).bind { [weak self] (indexPath, data) in

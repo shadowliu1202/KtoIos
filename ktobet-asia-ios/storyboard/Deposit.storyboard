@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -995,8 +995,8 @@
                                                                     <color key="textColor" name="whiteFull"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kl-M1-gCe">
-                                                                    <rect key="frame" x="78" y="41.5" width="30.5" height="17"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kl-M1-gCe">
+                                                                    <rect key="frame" x="78" y="41.5" width="26.5" height="17"/>
                                                                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                                                                     <color key="textColor" name="textPrimaryDustyGray"/>
                                                                     <nil key="highlightedColor"/>
@@ -1015,10 +1015,10 @@
                                                                 <constraint firstItem="6kl-M1-gCe" firstAttribute="leading" secondItem="hBa-Ki-wC9" secondAttribute="leading" id="HNp-SO-PX9"/>
                                                                 <constraint firstItem="hBa-Ki-wC9" firstAttribute="leading" secondItem="dol-uA-YGv" secondAttribute="trailing" constant="16" id="N9L-zO-hs4"/>
                                                                 <constraint firstItem="dol-uA-YGv" firstAttribute="centerY" secondItem="NRF-OP-0e6" secondAttribute="centerY" id="O5h-12-hnN"/>
-                                                                <constraint firstItem="hBa-Ki-wC9" firstAttribute="bottom" secondItem="dol-uA-YGv" secondAttribute="centerY" id="OWF-lK-1vS"/>
                                                                 <constraint firstItem="dol-uA-YGv" firstAttribute="leading" secondItem="NRF-OP-0e6" secondAttribute="leading" constant="30" id="UXL-vh-Hws"/>
                                                                 <constraint firstItem="6Fo-qw-PWL" firstAttribute="centerY" secondItem="NRF-OP-0e6" secondAttribute="centerY" id="a19-2H-ZLQ"/>
                                                                 <constraint firstItem="6Fo-qw-PWL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6kl-M1-gCe" secondAttribute="trailing" constant="8" id="aNk-V4-3W4"/>
+                                                                <constraint firstItem="hBa-Ki-wC9" firstAttribute="centerY" secondItem="NRF-OP-0e6" secondAttribute="centerY" priority="750" id="lT6-XD-FgU"/>
                                                                 <constraint firstAttribute="trailing" secondItem="6Fo-qw-PWL" secondAttribute="trailing" constant="30" id="pgY-Cc-P0e"/>
                                                                 <constraint firstAttribute="bottom" secondItem="6kl-M1-gCe" secondAttribute="bottom" constant="16.5" id="xiB-E3-MXk"/>
                                                             </constraints>

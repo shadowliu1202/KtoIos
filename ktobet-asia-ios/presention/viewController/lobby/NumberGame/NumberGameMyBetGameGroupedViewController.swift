@@ -71,6 +71,11 @@ class NumberGameMyBetGameGroupedViewController: APPViewController {
                 }
             }
             
+            cell.removeBorder()
+            if row != 0 {
+                cell.addBorder()
+            }
+            
             return cell
         }.disposed(by: disposeBag)
         

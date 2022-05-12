@@ -42,7 +42,7 @@ class LevelPrivilegeDetailViewController: APPViewController {
         levelLabel.layer.masksToBounds = true
         levelLabel.layer.cornerRadius = 16
         levelLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-        buttonBackgroundView.addBorder(.top, size: 1, color: UIColor(red: 155/255, green: 155/255, blue: 155/255, alpha: 0.3))
+        buttonBackgroundView.addBorder(.top, color: UIColor(red: 155/255, green: 155/255, blue: 155/255, alpha: 0.3))
         
         levelLabel.text = String(format: Localize.string("common_level_2"), String(level))
         switch levelPrivilege {
@@ -121,7 +121,7 @@ class LevelPrivilegeDetailViewController: APPViewController {
             cells = generateDepositGreaterThanLevelTwo(data: data)
         }
         
-        cells.last?.addBorder(.bottom, size: 0.5, color: .dividerCapeCodGray2, rightConstant: 40, leftConstant: 40)
+        cells.last?.addBorder(.bottom, size: 0.5, rightConstant: 40, leftConstant: 40)
         arg = PrivilegeArg(cells: cells, rowCount: cells.count)
     }
     
@@ -148,7 +148,7 @@ class LevelPrivilegeDetailViewController: APPViewController {
             dailyLimitAmountLabel.text = Localize.string("bonus_unlimited")
         }
         
-        cells.last?.addBorder(.bottom, size: 0.5, color: .dividerCapeCodGray2, rightConstant: 40, leftConstant: 40)
+        cells.last?.addBorder(.bottom, size: 0.5, rightConstant: 40, leftConstant: 40)
         arg = PrivilegeArg(cells: cells, rowCount: cells.count)
     }
     

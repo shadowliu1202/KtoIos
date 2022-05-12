@@ -18,7 +18,7 @@ class CasinoUnsettleRecordsViewController: AppVersionCheckViewController {
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: Localize.string("product_unsettled_game"))
         tableView.delegate = unsettleGameDelegate
         tableView.dataSource = self
-        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25), headerColor: UIColor.black_two)
+        tableView.setHeaderFooterDivider(headerColor: UIColor.black_two)
         getUnsettledBetSummary()
     }
     
@@ -76,6 +76,10 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
         return sections.count
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].name.count
     }
@@ -85,11 +89,11 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
         cell.setupUnSettleGame(sections[indexPath.section].name[indexPath.row],
                    betId: sections[indexPath.section].betId[indexPath.row],
                    totalAmount: sections[indexPath.section].totalAmount[indexPath.row])
-        if (sections.count - 1) == indexPath.section && (sections.last!.betId.count - 1) == indexPath.row {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        } else {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
+        cell.removeBorder()
+        if indexPath.row != 0 {
+            cell.addBorder(rightConstant: 25, leftConstant: 25)
         }
+        
         return cell
     }
     
@@ -104,6 +108,11 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = ExpandableHeaderView()
         header.customInit(title: sections[section].sectionClass, section: section, delegate: self)
+        header.removeBorder()
+        if section != 0 {
+            header.addBorder()
+        }
+        
         return header
     }
     
@@ -112,6 +121,13 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
         header.imageView.frame = CGRect(x: view.frame.width - 44, y: view.frame.height / 2 - 10, width: 20, height: 20)
         header.imageView.image = UIImage(named: "arrow-drop-down")
         view.addSubview(header.imageView)
+        
+        header.titleLabel.textColor = UIColor.whiteFull
+        header.titleLabel.font = UIFont(name: "PingFangSC-Regular", size: 16)
+        view.addSubview(header.titleLabel, constraints: [
+            .constraint(.equal, \.leadingAnchor, offset: 24),
+            .equal(\.centerYAnchor)
+        ])
     }
 }
 

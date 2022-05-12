@@ -22,7 +22,7 @@ class ArcadeBetDetailViewController: APPViewController {
     }
     
     private func initUI() {
-        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24))
+        tableView.setHeaderFooterDivider()
     }
     
     private func dataBinding() {
@@ -31,16 +31,21 @@ class ArcadeBetDetailViewController: APPViewController {
                 self?.handleErrors(error)
                 return Observable<[ArcadeGameBetRecord]>.just([])
             }).bind(to: tableView.rx.items) {(tableView, row, element) in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ArcadeBetDetailCell", cellType: BetDetailCell.self)
-            cell.configure(element)
-            return cell
-        }.disposed(by: disposeBag)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ArcadeBetDetailCell", cellType: BetDetailCell.self)
+                cell.configure(element)
+                cell.removeBorder()
+                if row != 0 {
+                    cell.addBorder(rightConstant: 24, leftConstant: 24)
+                }
+                
+                return cell
+            }.disposed(by: disposeBag)
         
         rx.sentMessage(#selector(UIViewController.viewWillAppear(_:)))
             .map { _ in () }
             .bind(to: viewModel.recordDetailPagination.refreshTrigger)
             .disposed(by: disposeBag)
-
+        
         tableView.rx_reachedBottom
             .map{ _ in ()}
             .bind(to: self.viewModel.recordDetailPagination.loadNextPageTrigger)

@@ -36,7 +36,7 @@ class SlotUnsettleRecordsViewController: AppVersionCheckViewController {
     private func initUI() {
         tableView.delegate = unsettleGameDelegate
         tableView.dataSource = self
-        tableView.setHeaderFooterDivider(dividerColor: .clear)
+        tableView.setHeaderFooterDivider()
     }
     
     private func switchContent(_ games: [SlotUnsettledSection]? = nil) {
@@ -107,13 +107,11 @@ extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SlotUnsettleRecordsCell", cellType: SlotUnsettleRecordsCell.self).configure(self.unsettleds[indexPath.section].records[indexPath.row])
-        cell.removeBorder(.bottom)
-        let row = indexPath.row
-        if row == unsettleds[indexPath.section].records.count - 1 {
-            cell.addBorder(.bottom, size: 0.5, color: .dividerCapeCodGray2)
-        } else {
-            cell.addBorder(.bottom, size: 0.5, color: .dividerCapeCodGray2, rightConstant: 25, leftConstant: 25)
+        cell.removeBorder()
+        if indexPath.row != 0 {
+            cell.addBorder(rightConstant: 25, leftConstant: 25)
         }
+        
         return cell
     }
     

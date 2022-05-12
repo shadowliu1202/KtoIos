@@ -3,7 +3,6 @@ import SwiftUI
 struct BannerView: View {
     var body: some View {
         VStack{
-            Spacer()
             HStack {
                 Spacer().frame(width: 16.0)
                 Image("Disconnected")
@@ -15,8 +14,7 @@ struct BannerView: View {
                 GradientIndicatorView(colors: [Color(.whiteFull), Color(.clear)], lineCap: .butt)
                     .frame(width: 18.0, height: 18.0, alignment: .center)
                 Spacer().frame(width: 17.0)
-            }
-            Spacer()
+            }.frame(height: 52.0)
         }
         .background(Color(red:255/255, green: 128/255, blue: 0, opacity: 0.8))
     }
@@ -63,6 +61,6 @@ struct BannerView_Previews : PreviewProvider {
         Group {
             BannerView()
         }
-        .previewLayout(.fixed(width: 375, height: 52))
+        .previewLayout(.fixed(width: 375, height: 152))
     }
 }

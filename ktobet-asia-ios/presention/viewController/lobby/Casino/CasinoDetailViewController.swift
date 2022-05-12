@@ -116,7 +116,7 @@ class CasinoDetailViewController: APPViewController {
             winThreeCards.phoenixCards.forEach{ rightCardViews.append(addPokerCard(pokerCardNumber: setPokerNumber(pokerNumber: $0.pokerNumber), pokerCardSuit: $0.pokerSuits)) }
         }
         
-        backgroundView.addBorder(.bottom, size: 0.5, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom)
         let stackView = UIStackView()
         backgroundView.addSubview(stackView)
         stackView.axis = .horizontal
@@ -195,7 +195,7 @@ class CasinoDetailViewController: APPViewController {
         stackView.layoutIfNeeded()
         backgroundViewHeightConstant.constant = stackView.frame.height + 30
         backgroundView.layoutIfNeeded()
-        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom)
     }
     
     private func createN2BlackJackResultView(gameResult: CasinoGameResult.BlackjackN2, stackView: UIStackView) {
@@ -205,7 +205,7 @@ class CasinoDetailViewController: APPViewController {
         stackView.layoutIfNeeded()
         backgroundViewHeightConstant.constant = stackView.frame.height + 30
         backgroundView.layoutIfNeeded()
-        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom)
     }
     
     private func createOneRowOfN2BlackJackResultView(pokerCards: [PokerCard], title: String, stackView: UIStackView) {
@@ -257,7 +257,7 @@ class CasinoDetailViewController: APPViewController {
         numberLabel.textAlignment = .center
         backgroundViewHeightConstant.constant = 60
         backgroundView.layoutIfNeeded()
-        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom)
     }
     
     private func createSicboResultView(gameResult: CasinoGameResult.Sicbo) {
@@ -279,7 +279,7 @@ class CasinoDetailViewController: APPViewController {
         
         backgroundViewHeightConstant.constant = 60
         backgroundView.layoutIfNeeded()
-        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom)
     }
     
     private func addPokerCard(pokerCardNumber: String, pokerCardSuit: PokerSuits) -> UIView {
@@ -449,6 +449,7 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
         guard let detail = recordDetail else { return UITableViewCell() }
         if indexPath.row == 0 || (detail.prededuct != AccountCurrency.zero() && indexPath.row == 4) {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoDetailRecord3Cell", for: indexPath) as? CasinoDetailRecord3TableViewCell {
+                cell.removeBorder()
                 if indexPath.row == 0 {
                     cell.betIdLabel.text = detail.betId
                     cell.otherBetIdLabel.text = detail.otherId
@@ -462,11 +463,19 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
                     cell.otherBetIdLabel.textColor = UIColor.whiteFull
                 }
                 
+                if indexPath.row != 0 {
+                    cell.addBorder()
+                }
+                
                 return cell
             }
         } else {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoDetailRecord2Cell", for: indexPath) as? CasinoDetailRecord2TableViewCell {
                 cell.setup(index: indexPath.row, detail: detail)
+                if indexPath.row != 0 {
+                    cell.addBorder()
+                }
+                
                 return cell
             }
         }

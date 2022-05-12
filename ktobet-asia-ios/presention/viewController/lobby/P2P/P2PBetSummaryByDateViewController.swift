@@ -34,7 +34,13 @@ class P2PBetSummaryByDateViewController: APPViewController {
                 self?.handleErrors(error)
                 return Observable.empty()
             }).bind(to: tableView.rx.items){ tableView, row, item in
-                return tableView.dequeueReusableCell(withIdentifier: "P2PBetSummaryByDateCell", cellType: P2PBetSummaryByDateCell.self).configure(item)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "P2PBetSummaryByDateCell", cellType: P2PBetSummaryByDateCell.self).configure(item)
+                cell.removeBorder()
+                if row != 0 {
+                    cell.addBorder()
+                }
+                
+                return cell
         }.disposed(by: disposeBag)
         tableView.rx.modelSelected(GameGroupedRecord.self).bind{ [unowned self] (data) in
             self.performSegue(withIdentifier: P2PBetDetailViewController.segueIdentifier, sender: data)
