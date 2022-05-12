@@ -33,16 +33,21 @@ class ArcadeBetSummaryByDateViewController: APPViewController {
                 self?.handleErrors(error)
                 return Observable<[GameGroupedRecord]>.just([])
             }).bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in
-            guard let self = self else { return  UITableViewCell()}
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: "ArcadeBetSummaryByDateCell", cellType: BetSummaryByDateCell.self)
-            return cell.configure(element)
-        }.disposed(by: disposeBag)
+                guard let self = self else { return  UITableViewCell()}
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: "ArcadeBetSummaryByDateCell", cellType: BetSummaryByDateCell.self).configure(element)
+                cell.removeBorder()
+                if row != 0 {
+                    cell.addBorder()
+                }
+                
+                return cell
+            }.disposed(by: disposeBag)
         
         rx.sentMessage(#selector(UIViewController.viewWillAppear(_:)))
             .map { _ in () }
             .bind(to: viewModel.recordByDatePagination.refreshTrigger)
             .disposed(by: disposeBag)
-
+        
         tableView.rx_reachedBottom
             .map{ _ in ()}
             .bind(to: self.viewModel.recordByDatePagination.loadNextPageTrigger)

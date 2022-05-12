@@ -36,7 +36,7 @@ class TransactionLogDetailViewController: APPViewController {
         tableView.estimatedRowHeight = 81.0
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
-        tableView.setHeaderFooterDivider(dividerInset: UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30))
+        tableView.setHeaderFooterDivider()
         setHeaderView()
         tableView.tableFooterView?.frame.size.height += resultViewHeight
     }
@@ -96,10 +96,21 @@ extension TransactionLogDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = detailItem else { return UITableViewCell() }
-        return self.tableView.dequeueReusableCell(withIdentifier: "LogDetailCell", cellType: LogDetailCell.self).configure(index: indexPath.row, data: item, callback: { [weak self] (externalId) in
-            self?.goToCasinoDetail(externalId)
-        })
+        guard let item = detailItem else {
+            return UITableViewCell()
+        }
+        
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "LogDetailCell", cellType: LogDetailCell.self)
+            .configure(index: indexPath.row, data: item) { [weak self] (externalId) in
+                self?.goToCasinoDetail(externalId)
+            }
+        
+        cell.removeBorder()
+        if indexPath.row != 0 {
+            cell.addBorder(rightConstant: 30, leftConstant: 30)
+        }
+        
+        return cell
     }
 }
 

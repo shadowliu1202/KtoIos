@@ -33,7 +33,13 @@ class RecentViewController: UIViewController {
             self?.allRecentData = records
             self?.switchContent(records.count)
         }).bind(to: tableView.rx.items) { tableView, row, item in
-            return tableView.dequeueReusableCell(withIdentifier: "NumbergameRecentCell", cellType: NumbergameRecentCell.self).configure(item)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NumbergameRecentCell", cellType: NumbergameRecentCell.self).configure(item)
+            cell.removeBorder()
+            if row != 0 {
+                cell.addBorder()
+            }
+            
+            return cell
         }.disposed(by: disposeBag)
         
         Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(NumberGameSummary.RecentlyBet.self)).bind{ [unowned self] (indexPath, data) in

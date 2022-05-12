@@ -17,7 +17,7 @@ class TransactionLogSummaryViewController: APPViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
-        tableView.addTopBorder(size: 0.5, color: .dividerCapeCodGray2)
+        tableView.addTopBorder()
         
         viewModel.getCashLogSummary()
             .do(onSuccess: {[weak self] summary in

@@ -98,7 +98,13 @@ extension CustomerServiceMainViewController: UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "MainChatHistoryCell", cellType: MainChatHistoryCell.self).configure(self.records[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MainChatHistoryCell", cellType: MainChatHistoryCell.self).configure(self.records[indexPath.row])
+        cell.removeBorder()
+        if indexPath.row != 0 {
+            cell.addBorder()
+        }
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

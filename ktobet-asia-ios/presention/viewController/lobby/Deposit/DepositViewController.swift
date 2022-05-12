@@ -73,8 +73,8 @@ class DepositViewController: APPViewController {
         }).do(onNext: { [weak self] (depositTypes) in
             self?.depositTypeTableView.isHidden = false
             self?.depositTypeTableView.layoutIfNeeded()
-            self?.depositTypeTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
-            self?.depositTypeTableView.addTopBorder(size: 1, color: UIColor.dividerCapeCodGray2)
+            self?.depositTypeTableView.addBottomBorder()
+            self?.depositTypeTableView.addTopBorder()
             if depositTypes.count == 0 {
                 self?.depositNoDataLabel.isHidden = false
                 self?.depositTypeTableView.isHidden = true
@@ -118,8 +118,8 @@ class DepositViewController: APPViewController {
             self?.depositRecordTableView.isHidden = false
             self?.constraintDepositRecordTableHeight.constant = CGFloat(depositRecord.count * 80)
             self?.depositRecordTableView.layoutIfNeeded()
-            self?.depositRecordTableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
-            self?.depositRecordTableView.addTopBorder(size: 1, color: UIColor.dividerCapeCodGray2)
+            self?.depositRecordTableView.addBottomBorder()
+            self?.depositRecordTableView.addTopBorder()
             if depositRecord.count == 0 {
                 self?.depositRecordNoDataLabel.isHidden = false
                 self?.depositRecordTableView.isHidden = true

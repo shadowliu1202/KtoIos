@@ -148,7 +148,13 @@ extension CustomerServiceHistoryEditViewController: UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "EditChatHistoryCell", cellType: EditChatHistoryCell.self).configure(item: self.records[indexPath.row], deleteMode: self.deleteMode, selectedHistory: self.selecteds)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EditChatHistoryCell", cellType: EditChatHistoryCell.self).configure(item: self.records[indexPath.row], deleteMode: self.deleteMode, selectedHistory: self.selecteds)
+        cell.removeBorder()
+        if indexPath.row != 0 {
+            cell.addBorder()
+        }
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

@@ -50,7 +50,13 @@ class P2PSummaryViewController: APPViewController {
                 self.switchContent(betSummary)
                 return betSummary.finishedGame
             }.bind(to: tableView.rx.items) { (tableView, row, element) in
-                return tableView.dequeueReusableCell(withIdentifier: "MyBetSummaryTableViewCell", cellType: MyBetSummaryTableViewCell.self).config(element: element)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MyBetSummaryTableViewCell", cellType: MyBetSummaryTableViewCell.self).config(element: element)
+                cell.removeBorder()
+                if row != 0 {
+                    cell.addBorder()
+                }
+                
+                return cell
         }.disposed(by: disposeBag)
     }
     

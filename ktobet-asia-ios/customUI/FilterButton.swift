@@ -14,12 +14,15 @@ class FilterButton: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        loadXib()
-        setTitle(Localize.string("common_all"))
+        initUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        initUI()
+    }
+    
+    private func initUI() {
         loadXib()
         setTitle(Localize.string("common_all"))
     }

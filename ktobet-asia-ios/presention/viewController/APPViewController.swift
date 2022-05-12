@@ -1,14 +1,13 @@
 import UIKit
 import SwiftUI
 import RxSwift
-import NotificationBannerSwift
 
 func methodPointer<T: AnyObject>(obj: T, method: @escaping (T) -> () -> Void) -> (() -> Void) {
     return { [unowned obj] in method(obj)() }
 }
 
 class APPViewController: UIViewController {
-    private var banner: NotificationBanner?
+    private var banner: UIView?
     
     private let _errors = PublishSubject<Error>.init()
     private var errorsDispose: Disposable?
@@ -53,19 +52,19 @@ class APPViewController: UIViewController {
     }
     
     private func displayBanner() {
-        guard banner == nil || banner?.isDisplaying == false else { return }
-        let view = UIHostingController(rootView: BannerView()).view
-        view?.backgroundColor = .clear
-        let bannerQueue5AllowedMixed = NotificationBannerQueue(maxBannersOnScreenSimultaneously: Int.max)
-        banner = NotificationBanner(customView: view!)
-        banner?.autoDismiss = false
-        banner?.animationDuration = 0.0
-        banner?.haptic = .none
-        banner?.show(queue: bannerQueue5AllowedMixed, on: self)
+        guard banner == nil else { return }
+        banner = UIHostingController(rootView: BannerView()).view
+        self.view.addSubview(banner!, constraints: [
+            .constraint(.equal, \.topAnchor, offset: 0),
+            .constraint(.equal, \.heightAnchor, length: 52),
+            .equal(\.leadingAnchor, offset: 0),
+            .equal(\.trailingAnchor, offset: -0)
+        ])
     }
     
     private func dismissBanner() {
-        banner?.dismiss()
+        banner?.removeFromSuperview()
+        banner = nil
     }
     
     private func observerRequestError() {

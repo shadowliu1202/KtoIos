@@ -9,5 +9,15 @@ extension UIImageView {
         }
         self.sd_setImage(with: url, placeholderImage: placeholderImage, options: sdWebImageOptions, context: context)
     }
+    
+    @IBInspectable
+    public var setTintColor: UIColor {
+        get { return self.tintColor }
+        set {
+            let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
+            self.image = templateImage
+            self.tintColor = newValue
+        }
+    }
 }
 

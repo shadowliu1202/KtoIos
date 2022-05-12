@@ -58,10 +58,20 @@ class SlotSummaryViewController: APPViewController {
                 if self.unfinishGameCount != 0 && row == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "unFinishGameTableViewCell", cellType: UnFinishGameTableViewCell.self)
                     cell.recordCountLabel.text = Localize.string("product_count_bet_record", "\(self.unfinishGameCount)")
+                    cell.removeBorder()
+                    if row != 0 {
+                        cell.addBorder()
+                    }
+                    
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoSummaryTableViewCell", cellType: CasinoSummaryTableViewCell.self)
                     cell.setup(element: element)
+                    cell.removeBorder()
+                    if row != 0 {
+                        cell.addBorder()
+                    }
+                    
                     return cell
                 }
         }.disposed(by: disposeBag)

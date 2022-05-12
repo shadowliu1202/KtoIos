@@ -156,8 +156,8 @@ class PromotionFilterDropDwon: UIView {
     private func setupUI() {
         self.backgroundColor = UIColor.backgroundListCodGray2
         button.addTarget(self, action: #selector(touchAction), for: .touchUpInside)
-        self.addBorder(.top, size: 0.5, color: .textSecondaryScorpionGray)
-        self.addBorder(.bottom, size: 0.5, color: .textSecondaryScorpionGray)
+        self.addBorder(.top, color: .textSecondaryScorpionGray)
+        self.addBorder(.bottom, color: .textSecondaryScorpionGray)
     }
     
     private func addGesture() {

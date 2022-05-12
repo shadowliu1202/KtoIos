@@ -168,8 +168,8 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     private func drawDivider(_ cell: UITableViewCell) {
-        cell.addBorder(.top, size: 0.5, color: UIColor.dividerCapeCodGray2)
-        cell.addBorder(.bottom, size: 0.5, color: UIColor.dividerCapeCodGray2)
+        cell.addBorder(.top)
+        cell.addBorder(.bottom)
     }
     
 }

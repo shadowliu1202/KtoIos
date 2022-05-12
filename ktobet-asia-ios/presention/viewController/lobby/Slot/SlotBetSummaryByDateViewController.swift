@@ -35,8 +35,14 @@ class SlotBetSummaryByDateViewController: APPViewController {
                 self?.handleErrors(error)
                 return Observable.just([])
             }).bind(to: tableView.rx.items){ tableView, row, item in
-            return tableView.dequeueReusableCell(withIdentifier: "SlotBetSummaryByDateCell", cellType: BetSummaryByDateCell.self).configure(item)
-        }.disposed(by: disposeBag)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SlotBetSummaryByDateCell", cellType: BetSummaryByDateCell.self).configure(item)
+                cell.removeBorder()
+                if row != 0 {
+                    cell.addBorder()
+                }
+                
+                return cell
+            }.disposed(by: disposeBag)
         tableView.rx.modelSelected(SlotGroupedRecord.self).bind{ [unowned self] (data) in
             self.performSegue(withIdentifier: SlotBetDetailViewController.segueIdentifier, sender: data)
         }.disposed(by: disposeBag)

@@ -23,8 +23,9 @@ class CryptoSelectorViewController: APPViewController {
     
     private func initUI() {
         self.guideLabel.isUserInteractionEnabled = true
-        tableView.addBottomBorder(size: 1, color: UIColor.dividerCapeCodGray2)
-        tableView.addTopBorder(size: 1, color: UIColor.dividerCapeCodGray2)
+        tableView.addBottomBorder()
+        tableView.addTopBorder()
+        tableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
     
     private func bindViewModel() {
@@ -66,5 +67,11 @@ class CryptoSelectorViewController: APPViewController {
                 dest.url = sender as? String
             }
         }
+    }
+}
+
+extension CryptoSelectorViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75.5
     }
 }

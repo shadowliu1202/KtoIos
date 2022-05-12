@@ -93,7 +93,13 @@ extension RecentDetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let item = detailItem else { return UITableViewCell() }
-        return self.tableView.dequeueReusableCell(withIdentifier: "RecentDetailCell", cellType: RecentDetailCell.self).configure(index: indexPath.row, data: item)
+        let cell =  self.tableView.dequeueReusableCell(withIdentifier: "RecentDetailCell", cellType: RecentDetailCell.self).configure(index: indexPath.row, data: item)
+        cell.removeBorder()
+        if indexPath.row != 0 {
+            cell.addBorder()
+        }
+        
+        return cell
     }
 }
 
