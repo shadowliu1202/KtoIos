@@ -420,22 +420,26 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     
     private func checkPlayerInputFormat(_ textField: UITextField, inputText: String) -> String {
         var userInputText: String {
-            if inputText.hasPrefix("0") && inputText.count > 1 {
+            if inputText.hasPrefix("0") && inputText.count > 1 && !inputText.hasPrefix("0.") {
                 return String(inputText.dropFirst())
             } else {
                 return inputText
             }
         }
         
-        if textField == cryptoView.textField {
+        switch textField {
+        case cryptoView.textField:
             switch self.cryptoType! {
             case .usdt:
                 return roundNumberToXDecimalPlaces(number: userInputText, x: 2)
             default:
                 return roundNumberToXDecimalPlaces(number: userInputText, x: 8)
             }
-        } else {
-            return userInputText
+            
+        case fiatView.textField:
+            fallthrough
+        default:
+            return roundNumberToXDecimalPlaces(number: userInputText, x: 2)
         }
     }
     
@@ -455,7 +459,8 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if var str = textField.text, str.contains(".") {
+        guard var str = textField.text else { return }
+        if str.contains(".") {
             if str.hasSuffix(".") {
                 repeat {
                     str = String(str.dropLast())
@@ -468,6 +473,11 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
                     textField.sendActions(for: .valueChanged)
                 }
             }
+        }
+        
+        if str.isEmpty {
+            textField.text = "0"
+            textField.sendActions(for: .valueChanged)
         }
     }
     
