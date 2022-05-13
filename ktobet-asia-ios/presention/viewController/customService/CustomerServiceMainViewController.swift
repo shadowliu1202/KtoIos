@@ -50,7 +50,7 @@ class CustomerServiceMainViewController: APPViewController {
         }
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.setHeaderFooterDivider(headerHeight: 0.5)
+        tableView.setHeaderFooterDivider()
         tableView.rowHeight = UITableView.automaticDimension
     }
     

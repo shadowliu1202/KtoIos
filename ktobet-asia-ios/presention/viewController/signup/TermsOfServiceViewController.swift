@@ -40,7 +40,7 @@ class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate 
     
     private func initUI(){
         labDesc.textColor = UIColor.black_two
-        tableView.addTopBorder(color: UIColor.black)
+        tableView.addTopBorder(size: 1, color: UIColor.black)
         let navigationTitle: String = termsPresenter.navigationTitle
         let naviBarBtn: BarItemType = termsPresenter.barItemType
         let description: String = termsPresenter.description

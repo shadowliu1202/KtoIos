@@ -40,7 +40,7 @@ class TermsOfServiceCell: UITableViewCell {
         constraintTitleContentTop.constant = data.selected ? 8 : 0
         constraintContentTop.constant = data.selected ? 16 : 0
         constraintContentBottom.constant = data.selected ? 32 : 0
-        constraintUnderLineHeight.constant = data.selected ? 0.5 : 0
+        constraintUnderLineHeight.constant = data.selected ? 1 : 0
         bottomLineView.isHidden = data.selected && isLatestRow
     }
 

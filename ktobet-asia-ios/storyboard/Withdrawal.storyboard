@@ -1648,10 +1648,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dSD-ci-rGT" userLabel="Line">
-                                                    <rect key="frame" x="30" y="149.5" width="384" height="0.5"/>
+                                                    <rect key="frame" x="30" y="149" width="384" height="1"/>
                                                     <color key="backgroundColor" name="dividerCapeCodGray2"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="0.5" id="Mmo-Vg-0jm"/>
+                                                        <constraint firstAttribute="height" constant="1" id="Mmo-Vg-0jm"/>
                                                     </constraints>
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconChevronRight24" translatesAutoresizingMaskIntoConstraints="NO" id="KE3-cP-wr0">

@@ -40,6 +40,7 @@ class PromotionFilterViewController: FilterConditionViewController, UITableViewD
   
     private func initUI() {
         titleLabel.text = presenter.getTitle()
+        tableView.separatorColor = .clear
         displayLastRowSperator()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, image: "Close")
     }
@@ -62,15 +63,21 @@ class PromotionFilterViewController: FilterConditionViewController, UITableViewD
                         self.toggle(row)
                     }).disposed(by: disposeBag)
                 }
-                
+                cell.removeBorder()
                 if PromotionPresenter.productRows.contains(row) {
-                    cell.separatorInset = UIEdgeInsets(top: 0, left: 52, bottom: 0, right: 0)
+                    cell.addBorder(leftConstant: 52)
                     cell.titleLeadingConstraint.constant = 47
+                } else if row == 1 {
+                    cell.addBorder()
+                    cell.addBorder(.bottom)
+                    cell.titleLeadingConstraint.constant = 24
+                } else if row == 3 {
+                    cell.addBorder()
+                    cell.titleLeadingConstraint.constant = 24
                 } else {
-                    cell.separatorInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+                    cell.addBorder(leftConstant: 24)
                     cell.titleLeadingConstraint.constant = 24
                 }
-                
                 return cell
             }
         }.disposed(by: disposeBag)

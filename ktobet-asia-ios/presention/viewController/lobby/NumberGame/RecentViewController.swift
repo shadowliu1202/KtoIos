@@ -18,7 +18,7 @@ class RecentViewController: UIViewController {
     }
     
     private func initUI() {
-        tableView.setHeaderFooterDivider(headerHeight: 86, headerColor: UIColor.clear, headerDividerColor: UIColor.clear)
+        tableView.setHeaderFooterDivider(headerHeight: 87)
     }
     
     private func dataBinding() {

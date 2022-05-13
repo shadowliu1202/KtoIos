@@ -73,7 +73,7 @@ class NumberGameMyBetGameGroupedViewController: APPViewController {
             
             cell.removeBorder()
             if row != 0 {
-                cell.addBorder()
+                cell.addBorder(leftConstant: 30)
             }
             
             return cell

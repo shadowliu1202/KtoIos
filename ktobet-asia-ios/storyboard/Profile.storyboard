@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -37,10 +37,10 @@
                                                 <rect key="frame" x="0.0" y="71.5" width="414" height="48"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lEI-PS-tLM" userLabel="line">
-                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="F70-jp-EoG"/>
+                                                            <constraint firstAttribute="height" constant="1" id="F70-jp-EoG"/>
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVF-dz-CXB">
@@ -53,10 +53,10 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NRF-VV-aos" userLabel="line">
-                                                        <rect key="frame" x="30" y="47.5" width="384" height="0.5"/>
+                                                        <rect key="frame" x="30" y="47" width="384" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="u7T-xv-Ohs"/>
+                                                            <constraint firstAttribute="height" constant="1" id="u7T-xv-Ohs"/>
                                                         </constraints>
                                                     </view>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="3Q5-0I-uuI">
@@ -97,10 +97,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ci-x6-wP5" userLabel="line">
-                                                        <rect key="frame" x="30" y="41.5" width="384" height="0.5"/>
+                                                        <rect key="frame" x="30" y="41" width="384" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="eWd-lQ-rc3"/>
+                                                            <constraint firstAttribute="height" constant="1" id="eWd-lQ-rc3"/>
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZ8-ih-A6r" userLabel="tip">
@@ -148,10 +148,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ytb-nk-gg1" userLabel="line">
-                                                        <rect key="frame" x="30" y="41.5" width="384" height="0.5"/>
+                                                        <rect key="frame" x="30" y="41" width="384" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="UEW-HG-Z0k"/>
+                                                            <constraint firstAttribute="height" constant="1" id="UEW-HG-Z0k"/>
                                                         </constraints>
                                                     </view>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="KD8-k1-6Qg">
@@ -195,10 +195,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5aq-9J-XCK" userLabel="line">
-                                                        <rect key="frame" x="30" y="41.5" width="384" height="0.5"/>
+                                                        <rect key="frame" x="30" y="41" width="384" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="3RX-zh-OcT"/>
+                                                            <constraint firstAttribute="height" constant="1" id="3RX-zh-OcT"/>
                                                         </constraints>
                                                     </view>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="wkF-7f-fQ3">
@@ -242,10 +242,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pb7-bL-ww0" userLabel="line">
-                                                        <rect key="frame" x="30" y="41.5" width="384" height="0.5"/>
+                                                        <rect key="frame" x="30" y="41" width="384" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="3wL-9X-KNn"/>
+                                                            <constraint firstAttribute="height" constant="1" id="3wL-9X-KNn"/>
                                                         </constraints>
                                                     </view>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="2D1-gB-E2a">
@@ -289,10 +289,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qmf-KO-HXQ" userLabel="line">
-                                                        <rect key="frame" x="0.0" y="41.5" width="414" height="0.5"/>
+                                                        <rect key="frame" x="0.0" y="41" width="414" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="YXU-On-OuP"/>
+                                                            <constraint firstAttribute="height" constant="1" id="YXU-On-OuP"/>
                                                         </constraints>
                                                     </view>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="Vk8-Uw-UOU">
@@ -330,10 +330,10 @@
                                                 <rect key="frame" x="0.0" y="401" width="414" height="28"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nq8-DU-tde" userLabel="line">
-                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="KB3-M2-otO"/>
+                                                            <constraint firstAttribute="height" constant="1" id="KB3-M2-otO"/>
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fNg-Oc-V3j">
@@ -346,10 +346,10 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzK-WJ-DsQ" userLabel="line">
-                                                        <rect key="frame" x="30" y="27.5" width="384" height="0.5"/>
+                                                        <rect key="frame" x="30" y="27" width="384" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="xjk-k2-mU7"/>
+                                                            <constraint firstAttribute="height" constant="1" id="xjk-k2-mU7"/>
                                                         </constraints>
                                                     </view>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="Q0Q-ov-nkH">
@@ -400,10 +400,10 @@
                                                 <rect key="frame" x="0.0" y="477" width="414" height="48"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8rE-M0-YGh" userLabel="line">
-                                                        <rect key="frame" x="30" y="0.0" width="384" height="0.5"/>
+                                                        <rect key="frame" x="30" y="0.0" width="384" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="Nwh-ap-e5m"/>
+                                                            <constraint firstAttribute="height" constant="1" id="Nwh-ap-e5m"/>
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PvQ-F3-SBp">
@@ -436,10 +436,10 @@
                                                 <rect key="frame" x="0.0" y="525" width="414" height="96"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YXo-Ay-qNM" userLabel="line">
-                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                                         <color key="backgroundColor" name="dividerCapeCodGray"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="0.5" id="LCf-Dq-Vwq"/>
+                                                            <constraint firstAttribute="height" constant="1" id="LCf-Dq-Vwq"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
@@ -979,10 +979,10 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YGg-Hm-fNc" userLabel="line">
-                                    <rect key="frame" x="0.0" y="85.5" width="414" height="0.5"/>
+                                    <rect key="frame" x="0.0" y="85" width="414" height="1"/>
                                     <color key="backgroundColor" name="dividerCapeCodGray2"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="0.5" id="Ndi-cx-2NP"/>
+                                        <constraint firstAttribute="height" constant="1" id="Ndi-cx-2NP"/>
                                     </constraints>
                                 </view>
                             </subviews>
@@ -1008,10 +1008,10 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oYJ-db-g9D" userLabel="line">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                     <color key="backgroundColor" name="dividerCapeCodGray2"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="0.5" id="8zk-Lz-QqO"/>
+                                        <constraint firstAttribute="height" constant="1" id="8zk-Lz-QqO"/>
                                     </constraints>
                                 </view>
                             </subviews>
@@ -1047,13 +1047,24 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="vET-aw-npX">
                                                     <rect key="frame" x="360" y="12.5" width="24" height="24"/>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dA3-iC-ptd" userLabel="line">
+                                                    <rect key="frame" x="30" y="47.5" width="384" height="1"/>
+                                                    <color key="backgroundColor" name="dividerCapeCodGray"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="azQ-9e-nwb"/>
+                                                        <constraint firstAttribute="height" constant="1" id="e31-xX-NtV"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="dA3-iC-ptd" secondAttribute="trailing" id="0gC-Yk-586"/>
                                                 <constraint firstItem="vET-aw-npX" firstAttribute="centerY" secondItem="Lol-K1-259" secondAttribute="centerY" id="4le-83-qUO"/>
+                                                <constraint firstAttribute="bottom" secondItem="dA3-iC-ptd" secondAttribute="bottom" id="7Ag-WC-iA8"/>
                                                 <constraint firstItem="pZY-dc-Jfa" firstAttribute="top" secondItem="Lol-K1-259" secondAttribute="top" constant="14" id="Gfh-yB-jGz"/>
                                                 <constraint firstItem="pZY-dc-Jfa" firstAttribute="leading" secondItem="Lol-K1-259" secondAttribute="leading" constant="30" id="NUM-YP-5Rw"/>
                                                 <constraint firstAttribute="bottom" secondItem="pZY-dc-Jfa" secondAttribute="bottom" constant="14" id="cWo-yd-vjK"/>
                                                 <constraint firstAttribute="trailing" secondItem="vET-aw-npX" secondAttribute="trailing" constant="30" id="fOw-CQ-syK"/>
+                                                <constraint firstItem="dA3-iC-ptd" firstAttribute="leading" secondItem="Lol-K1-259" secondAttribute="leading" constant="30" id="kwI-Yb-NcU"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="backgroundListCodGray"/>
@@ -1077,11 +1088,21 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="2ft-iz-cwG">
                                                     <rect key="frame" x="360" y="12.5" width="24" height="24"/>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MNv-GH-MYb" userLabel="line">
+                                                    <rect key="frame" x="30" y="47.5" width="384" height="1"/>
+                                                    <color key="backgroundColor" name="dividerCapeCodGray"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="ydw-FN-X4g"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="2ft-iz-cwG" firstAttribute="centerY" secondItem="Odo-yg-dNy" secondAttribute="centerY" id="4Yp-lm-HkD"/>
                                                 <constraint firstAttribute="bottom" secondItem="cqE-sh-S9R" secondAttribute="bottom" constant="14" id="N7Q-n1-dPh"/>
+                                                <constraint firstAttribute="bottom" secondItem="MNv-GH-MYb" secondAttribute="bottom" id="Qdh-PG-nX0"/>
                                                 <constraint firstItem="cqE-sh-S9R" firstAttribute="leading" secondItem="Odo-yg-dNy" secondAttribute="leading" constant="30" id="Rdv-SU-kkC"/>
+                                                <constraint firstAttribute="trailing" secondItem="MNv-GH-MYb" secondAttribute="trailing" id="fwj-9Y-i1h"/>
+                                                <constraint firstItem="MNv-GH-MYb" firstAttribute="leading" secondItem="Odo-yg-dNy" secondAttribute="leading" constant="30" id="rTu-pH-Ufj"/>
                                                 <constraint firstItem="cqE-sh-S9R" firstAttribute="top" secondItem="Odo-yg-dNy" secondAttribute="top" constant="14" id="uSP-3E-aBF"/>
                                                 <constraint firstAttribute="trailing" secondItem="2ft-iz-cwG" secondAttribute="trailing" constant="30" id="xbX-0G-TAg"/>
                                             </constraints>
@@ -1107,10 +1128,20 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="M3C-PO-1ry">
                                                     <rect key="frame" x="360" y="12.5" width="24" height="24"/>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NC9-EF-g6C" userLabel="line">
+                                                    <rect key="frame" x="30" y="47.5" width="384" height="1"/>
+                                                    <color key="backgroundColor" name="dividerCapeCodGray"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="iJ0-Rl-y8T"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="xCF-C8-Qmj" firstAttribute="leading" secondItem="raN-KH-QBy" secondAttribute="leading" constant="30" id="7oI-pK-ySt"/>
+                                                <constraint firstItem="NC9-EF-g6C" firstAttribute="leading" secondItem="raN-KH-QBy" secondAttribute="leading" constant="30" id="8nd-Nz-mes"/>
+                                                <constraint firstAttribute="bottom" secondItem="NC9-EF-g6C" secondAttribute="bottom" id="Ciu-nJ-sDk"/>
                                                 <constraint firstItem="xCF-C8-Qmj" firstAttribute="top" secondItem="raN-KH-QBy" secondAttribute="top" constant="14" id="MAd-kw-fnB"/>
+                                                <constraint firstAttribute="trailing" secondItem="NC9-EF-g6C" secondAttribute="trailing" id="Tiq-3m-PLH"/>
                                                 <constraint firstItem="M3C-PO-1ry" firstAttribute="centerY" secondItem="raN-KH-QBy" secondAttribute="centerY" id="YsJ-4z-xKy"/>
                                                 <constraint firstAttribute="trailing" secondItem="M3C-PO-1ry" secondAttribute="trailing" constant="30" id="nAs-xJ-lGQ"/>
                                                 <constraint firstAttribute="bottom" secondItem="xCF-C8-Qmj" secondAttribute="bottom" constant="14" id="x0N-jX-dbK"/>
@@ -1137,11 +1168,21 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile Chevron Right" translatesAutoresizingMaskIntoConstraints="NO" id="Qdj-Zd-B9A">
                                                     <rect key="frame" x="360" y="12.5" width="24" height="24"/>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TqR-Qp-sZs" userLabel="line">
+                                                    <rect key="frame" x="30" y="47.5" width="384" height="1"/>
+                                                    <color key="backgroundColor" name="dividerCapeCodGray"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="jfU-Ly-qjo"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="3o3-yw-J3C" firstAttribute="leading" secondItem="b2n-k5-MXl" secondAttribute="leading" constant="30" id="1KH-08-ZrF"/>
+                                                <constraint firstAttribute="bottom" secondItem="TqR-Qp-sZs" secondAttribute="bottom" id="6o4-hc-Pzm"/>
                                                 <constraint firstItem="3o3-yw-J3C" firstAttribute="top" secondItem="b2n-k5-MXl" secondAttribute="top" constant="14" id="O8f-Me-yp1"/>
+                                                <constraint firstAttribute="trailing" secondItem="TqR-Qp-sZs" secondAttribute="trailing" id="Owv-ix-OXI"/>
                                                 <constraint firstItem="Qdj-Zd-B9A" firstAttribute="centerY" secondItem="b2n-k5-MXl" secondAttribute="centerY" id="Xd7-O5-ied"/>
+                                                <constraint firstItem="TqR-Qp-sZs" firstAttribute="leading" secondItem="b2n-k5-MXl" secondAttribute="leading" constant="30" id="YcW-9M-2oz"/>
                                                 <constraint firstAttribute="trailing" secondItem="Qdj-Zd-B9A" secondAttribute="trailing" constant="30" id="abL-ou-ShW"/>
                                                 <constraint firstAttribute="bottom" secondItem="3o3-yw-J3C" secondAttribute="bottom" constant="14" id="c5A-JK-GOV"/>
                                             </constraints>
@@ -2377,10 +2418,10 @@
                                     </userDefinedRuntimeAttributes>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5wF-DK-HRk" userLabel="line">
-                                    <rect key="frame" x="0.0" y="85.5" width="414" height="0.5"/>
+                                    <rect key="frame" x="0.0" y="85" width="414" height="1"/>
                                     <color key="backgroundColor" name="dividerCapeCodGray2"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="0.5" id="Dxq-4v-UlF"/>
+                                        <constraint firstAttribute="height" constant="1" id="Dxq-4v-UlF"/>
                                     </constraints>
                                 </view>
                             </subviews>
@@ -2400,10 +2441,10 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RLC-GY-Lde" userLabel="line">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
                                     <color key="backgroundColor" name="dividerCapeCodGray2"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="0.5" id="Vjt-ab-SVc"/>
+                                        <constraint firstAttribute="height" constant="1" id="Vjt-ab-SVc"/>
                                     </constraints>
                                 </view>
                             </subviews>

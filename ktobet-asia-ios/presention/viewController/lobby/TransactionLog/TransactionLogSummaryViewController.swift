@@ -18,7 +18,7 @@ class TransactionLogSummaryViewController: APPViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         tableView.addTopBorder()
-        
+        tableView.addBottomBorder()
         viewModel.getCashLogSummary()
             .do(onSuccess: {[weak self] summary in
                 guard let self = self else { return }
@@ -50,9 +50,11 @@ class TransactionLogSummaryViewController: APPViewController {
                 return Observable.just([])
             }).bind(to: tableView.rx.items) {tableView, row, element in
                 let cell = tableView.dequeueReusableCell(withIdentifier: TransactionLogSummaryTableViewCell.identifier) as! TransactionLogSummaryTableViewCell
+                cell.removeBorder()
                 cell.typeLabel.text = element.typeName
                 cell.amountLabel.text = element.amount.formatString(sign: .signed_)
                 cell.amountLabel.textColor = element.amount.isPositive ? .textSuccessedGreen : .textPrimaryDustyGray
+                cell.addBorder()
                 return cell
             }.disposed(by: disposeBag)
     }
