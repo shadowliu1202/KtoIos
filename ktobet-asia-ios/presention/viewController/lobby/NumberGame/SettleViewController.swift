@@ -25,7 +25,7 @@ class SettleViewController: UIViewController {
     
     private func initUI() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
-        tableView.setHeaderFooterDivider(headerHeight: 86, headerColor: UIColor.clear, headerDividerColor: UIColor.clear)
+        tableView.setHeaderFooterDivider(headerHeight: 87)
         dataSource.do ( onNext:{[weak self] (records) in
             self?.switchContent(records.count)
         }).catchError({ [weak self] (error) -> Observable<[NumberGameSummary.Date]> in
@@ -37,7 +37,7 @@ class SettleViewController: UIViewController {
             cell.setup(element: element)
             cell.removeBorder()
             if row != 0 {
-                cell.addBorder()
+                cell.addBorder(leftConstant: 30)
             }
             
             return cell

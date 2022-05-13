@@ -19,6 +19,7 @@ class NotificationViewController: APPViewController {
         self.bind(position: .right, barButtonItems: .kto(.search))
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CoomonUISetting.bottomSpace, right: 0)
         tableView.tableFooterView = UIView()
+        tableView.setHeaderFooterDivider(headerHeight: 1, footerHeight: 1)
         addEmptyView()
         dateBinding()
     }
@@ -32,6 +33,10 @@ class NotificationViewController: APPViewController {
             viewModel.output.notifications.drive(tableView.rx.items(cellIdentifier: String(describing: NotificationTableViewCell.self), cellType: NotificationTableViewCell.self)) {(row, element, cell) in
                 cell.setUp(element)
                 cell.selectionStyle = .none
+                cell.removeBorder()
+                if row != 0 {
+                    cell.addBorder()
+                }
             }
         )
     }
@@ -42,7 +47,7 @@ class NotificationViewController: APPViewController {
     
     private func addEmptyView() {
         let emptyView = UIHostingController(rootView: EmptyNotificationView()).view
-        emptyView?.addBorder(.top)
+        emptyView?.addBorder()
         self.emptyViewContainer.addSubview(emptyView!, constraints: .fill())
     }
     

@@ -73,8 +73,7 @@ class DepositViewController: APPViewController {
         }).do(onNext: { [weak self] (depositTypes) in
             self?.depositTypeTableView.isHidden = false
             self?.depositTypeTableView.layoutIfNeeded()
-            self?.depositTypeTableView.addBottomBorder()
-            self?.depositTypeTableView.addTopBorder()
+            self?.depositTypeTableView.setHeaderFooterDivider(headerHeight: 1, footerHeight: 1)
             if depositTypes.count == 0 {
                 self?.depositNoDataLabel.isHidden = false
                 self?.depositTypeTableView.isHidden = true
@@ -84,6 +83,10 @@ class DepositViewController: APPViewController {
             }
         }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
             cell.setUp(depositSelection: data)
+            cell.removeBorder()
+            if index != 0 {
+                cell.addBorder(leftConstant: 78)
+            }
         }.disposed(by: disposeBag)
     }
     

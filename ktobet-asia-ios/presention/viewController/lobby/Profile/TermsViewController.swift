@@ -91,7 +91,7 @@ class TermsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.setDivider(dividerInset: UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0))
+        self.tableView.separatorColor = .clear
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

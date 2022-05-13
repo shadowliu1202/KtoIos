@@ -93,10 +93,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eek-WQ-bfd">
-                                                    <rect key="frame" x="30" y="14" width="70" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="bbf-EW-boa"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="30" y="13" width="70" height="21"/>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                                     <color key="textColor" name="whiteFull"/>
                                                     <nil key="highlightedColor"/>
@@ -121,11 +118,12 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstItem="JBc-9Q-NeD" firstAttribute="top" secondItem="eek-WQ-bfd" secondAttribute="bottom" constant="13" id="EJo-rt-dhM"/>
                                                 <constraint firstAttribute="bottom" secondItem="JBc-9Q-NeD" secondAttribute="bottom" id="FcQ-bd-a9T"/>
                                                 <constraint firstItem="Cp7-Cd-juV" firstAttribute="leading" secondItem="afm-aT-7O9" secondAttribute="leading" constant="30" id="HRP-fb-Wpd"/>
                                                 <constraint firstItem="JBc-9Q-NeD" firstAttribute="leading" secondItem="afm-aT-7O9" secondAttribute="leading" constant="30" id="Xve-5E-Yrx"/>
                                                 <constraint firstItem="Cp7-Cd-juV" firstAttribute="centerY" secondItem="afm-aT-7O9" secondAttribute="centerY" id="cCt-i3-pni"/>
-                                                <constraint firstItem="eek-WQ-bfd" firstAttribute="centerY" secondItem="afm-aT-7O9" secondAttribute="centerY" id="eld-2X-a4c"/>
+                                                <constraint firstItem="eek-WQ-bfd" firstAttribute="top" secondItem="afm-aT-7O9" secondAttribute="top" constant="13" id="gdV-Bv-J78"/>
                                                 <constraint firstAttribute="trailing" secondItem="Cp7-Cd-juV" secondAttribute="trailing" constant="30" id="gwp-Dx-JQj"/>
                                                 <constraint firstAttribute="trailing" secondItem="JBc-9Q-NeD" secondAttribute="trailing" id="nBV-89-Vhx"/>
                                                 <constraint firstItem="eek-WQ-bfd" firstAttribute="leading" secondItem="afm-aT-7O9" secondAttribute="leading" constant="30" id="yEc-Yn-HX3"/>
@@ -210,19 +208,9 @@
                                                             <color key="textColor" name="textPrimaryDustyGray"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n7x-hv-z7N">
-                                                            <rect key="frame" x="0.0" y="68" width="414" height="1"/>
-                                                            <color key="backgroundColor" name="dividerCapeCodGray2"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="1" id="dr4-zB-81Y"/>
-                                                            </constraints>
-                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstItem="n7x-hv-z7N" firstAttribute="leading" secondItem="hDP-Fe-Zzz" secondAttribute="leading" id="0ob-Xq-KdT"/>
-                                                        <constraint firstAttribute="trailing" secondItem="n7x-hv-z7N" secondAttribute="trailing" id="EMe-Am-piR"/>
-                                                        <constraint firstAttribute="bottom" secondItem="n7x-hv-z7N" secondAttribute="bottom" id="aeZ-rb-Cnf"/>
                                                         <constraint firstItem="Sx0-31-1Ba" firstAttribute="centerY" secondItem="hDP-Fe-Zzz" secondAttribute="centerY" id="n2B-2n-wB1"/>
                                                         <constraint firstItem="Sx0-31-1Ba" firstAttribute="leading" secondItem="hDP-Fe-Zzz" secondAttribute="leading" constant="30" id="pMZ-0e-NrX"/>
                                                     </constraints>

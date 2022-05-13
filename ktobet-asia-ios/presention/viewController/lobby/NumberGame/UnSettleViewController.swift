@@ -20,7 +20,7 @@ class UnSettleViewController: UIViewController {
     
     private func initUI() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
-        tableView.setHeaderFooterDivider(headerHeight: 86, headerColor: UIColor.clear, headerDividerColor: UIColor.clear)
+        tableView.setHeaderFooterDivider(headerHeight: 87)
     }
 
     private func bindingSummaryData() {
@@ -40,7 +40,7 @@ class UnSettleViewController: UIViewController {
             cell.setup(element: element)
             cell.removeBorder()
             if row != 0 {
-                cell.addBorder()
+                cell.addBorder(leftConstant: 30)
             }
             
             return cell
