@@ -12,7 +12,7 @@ pipeline {
         DEVOPS_REPO_URL = 'git@gitlab.higgstar.com:mobile/devops.git'
         ANDROID_KEYSTORE = 'ab4e5234-c045-442c-a8e2-6a31a63aeb6c'
         REMOTE_ANS_NAME = 'ansible-server'
-        PROP_VERSION_CORE = "${params.PARAMS_SELECT_TAG.split('\\+')[0].split('-')[0]}"
+        PROP_VERSION_CORE = "${params.SELECT_TAG.split('\\+')[0].split('-')[0]}"
         PROP_BUILD_ENVIRONMENT = "$env.BUILD_ENVIRONMENT"
         PROP_REMOTE_ANS_HOST = "$env.REMOTE_ANS_HOST"
         PROP_DOWNSTREAM_JIRA_JOB = "$env.JIRA_JOB"
@@ -58,7 +58,7 @@ pipeline {
                     withEnv(["ReleaseTag=$env.RELEASE_TAG",
                              "OnlineTag=$env.CURRENT_ONLINE_TAG",
                              "BuildNumber=$env.BUILD_NUMBER",
-                             "SelectTag=$params.PARAMS_SELECT_TAG",
+                             "SelectTag=$params.SELECT_TAG",
                              "Repo=$GIT_REPO_URL",
                              "CredentialId=$GIT_CREDENTIALS_ID",
                              "Keystore=$ANDROID_KEYSTORE",
