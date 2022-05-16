@@ -31,7 +31,7 @@ platform :ios do
 			"com.kto.asia.qat-1"
 		when 'rc'
 			"com.kto.asia.stg"
-		when  'pro'
+		when 'release'
 			"com.kto.asia"
 		when 'hotfix'
 			"com.kto.asia.qat3"
