@@ -4,8 +4,8 @@ platform :ios, '14.0'
 
 
 def default_pods
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics', '8.15.0'
+  pod 'Firebase/Crashlytics', '8.15.0'
   pod 'Alamofire', '5.4.1'
   pod 'RxSwift', '5.1.1'
   pod 'RxCocoa', '5.1.1'
@@ -58,7 +58,6 @@ end
 
 target 'ktobet-asia-iosTests' do
   inherit! :search_paths
-  # Pods for testing
 end
 
 target 'ktobet-asia-iosUITests' do
