@@ -1902,6 +1902,7 @@
 		6D3D7ED627A0E0C400AE343D /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D7ED527A0E0C400AE343D /* PaymentStatus.swift */; };
 		6D3D7ED727A0E0C400AE343D /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D7ED527A0E0C400AE343D /* PaymentStatus.swift */; };
 		6D3D7ED827A0E0C400AE343D /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D7ED527A0E0C400AE343D /* PaymentStatus.swift */; };
+		6D3DD77D283231560065D6B3 /* AppVersionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DD77C283231560065D6B3 /* AppVersionTest.swift */; };
 		6D3E28D626BBC9910002F350 /* WebGameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3E28D526BBC9910002F350 /* WebGameUseCase.swift */; };
 		6D3E28D726BBC9910002F350 /* WebGameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3E28D526BBC9910002F350 /* WebGameUseCase.swift */; };
 		6D3E28D826BBC9910002F350 /* WebGameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3E28D526BBC9910002F350 /* WebGameUseCase.swift */; };
@@ -4068,6 +4069,16 @@
 		F2F8110681BE27C716069CB2 /* Pods_ktobet_asia_ios_qat3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3228163C35543564E15C4DD5 /* Pods_ktobet_asia_ios_qat3.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6D3DD77A283203D60065D6B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 485DF03025415453001F9D4A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4199A02525AE9918002E2D7E;
+			remoteInfo = "ktobet-asia-ios-qat";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		48AAA175256E458800E075CA /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -4617,6 +4628,7 @@
 		6D3D7ECD279A4E5000AE343D /* HttpImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpImage.swift; sourceTree = "<group>"; };
 		6D3D7ED1279E390900AE343D /* WithdrawalSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalSystem.swift; sourceTree = "<group>"; };
 		6D3D7ED527A0E0C400AE343D /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
+		6D3DD77C283231560065D6B3 /* AppVersionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionTest.swift; sourceTree = "<group>"; };
 		6D3E28D526BBC9910002F350 /* WebGameUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebGameUseCase.swift; sourceTree = "<group>"; };
 		6D4083A12652046200BECD0E /* NumberGame.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NumberGame.storyboard; sourceTree = "<group>"; };
 		6D4083AC2652069E00BECD0E /* NumberGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameViewModel.swift; sourceTree = "<group>"; };
@@ -5005,6 +5017,7 @@
 			isa = PBXGroup;
 			children = (
 				485DF05225415454001F9D4A /* ktobet_asia_iosTests.swift */,
+				6D3DD77C283231560065D6B3 /* AppVersionTest.swift */,
 				485DF05425415454001F9D4A /* Info.plist */,
 			);
 			path = "ktobet-asia-iosTests";
@@ -6168,6 +6181,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6D3DD77B283203D60065D6B3 /* PBXTargetDependency */,
 			);
 			name = "ktobet-asia-iosTests";
 			productName = "ktobet-asia-iosTests";
@@ -6331,7 +6345,7 @@
 				TargetAttributes = {
 					485DF04D25415454001F9D4A = {
 						CreatedOnToolsVersion = 12.1;
-						TestTargetID = 485DF03725415453001F9D4A;
+						TestTargetID = 4199A02525AE9918002E2D7E;
 					};
 					485DF05825415454001F9D4A = {
 						CreatedOnToolsVersion = 12.1;
@@ -7884,6 +7898,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				485DF05325415454001F9D4A /* ktobet_asia_iosTests.swift in Sources */,
+				6D3DD77D283231560065D6B3 /* AppVersionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11031,6 +11046,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6D3DD77B283203D60065D6B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */;
+			targetProxy = 6D3DD77A283203D60065D6B3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		4840646D258721740064AAC9 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -11222,6 +11245,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
+				);
 				INFOPLIST_FILE = "ktobet-asia-iosTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -11233,7 +11260,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ktobet-asia-ios.app/ktobet-asia-ios";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ktobet-asia-ios-qat.app/ktobet-asia-ios-qat";
 			};
 			name = Release;
 		};
@@ -11809,6 +11836,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
+				);
 				INFOPLIST_FILE = "ktobet-asia-iosTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -11820,7 +11851,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ktobet-asia-ios.app/ktobet-asia-ios";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ktobet-asia-ios-qat.app/ktobet-asia-ios-qat";
 			};
 			name = Debug;
 		};

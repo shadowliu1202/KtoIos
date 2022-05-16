@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import ktobet_asia_ios
+@testable import ktobet_asia_ios_qat
 
 class ktobet_asia_iosTests: XCTestCase {
 

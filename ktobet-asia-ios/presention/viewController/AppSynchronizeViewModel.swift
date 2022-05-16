@@ -14,7 +14,12 @@ class AppSynchronizeViewModel {
     var uptodate = BehaviorRelay<Version.UpdateAction?>(value: nil)
     lazy var synchronize = self.appUpdateUseCase.synchronize()
     func getCurrentVersion() -> Version {
-        Version.companion.create(version: Bundle.main.releaseVersionNumber)
+         if let buildNumber = Bundle.main.buildVersionNumber,
+            let number = Double(buildNumber){
+             return Version.companion.create(version: Bundle.main.releaseVersionNumber, code: Int32(number))
+         } else {
+             return Version.companion.create(version: Bundle.main.releaseVersionNumber)
+         }
     }
     
     func syncAppVersion() {
