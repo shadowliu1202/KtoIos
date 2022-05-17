@@ -8,7 +8,7 @@ pipeline {
     environment {
         PROP_ROOT_RSA = '2cb1ac3a-2e81-474e-9846-25fad87697ef'
         PROP_GIT_CREDENTIALS_ID = '28ef89bf-70a2-475d-b5e0-a1ea12a8fcdb'
-        PROP_GIT_REPO_URL = 'git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git'        
+        PROP_GIT_REPO_URL = 'git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git'
         PROP_APPLE_STORE_API_KEY = '8110d047-b477-4759-a390-f858c2908a24'
         PROP_BUILD_ENVIRONMENT = "${env.ENV_BUILD_ENVIRONMENT}"
         PROP_DOWNSTREAM_JIRA_JOB = "${env.ENV_JIRA_JOB}"
@@ -100,10 +100,10 @@ pipeline {
                                 fastlane uploadToTestflight buildVersion:${env.PROP_NEXT_BUILD_NUMBER} appVersion:$ReleaseVersionCore
                             """
                             script {
-                                env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'",returnStdout: true).trim()
+                                env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
                                 echo "Get Ipa Size = $IPA_SIZE"
                             }
-                        }
+                                        }
                        uploadProgetPackage artifacts: 'output/*.ipa', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "${env.PROP_RELEASE_TAG}", description: "compile version:${env.PROP_NEXT_BUILD_NUMBER}"
                     }
                 }
@@ -141,9 +141,8 @@ pipeline {
                         """
                         }
                     }
-                }
+                    }
             }
-
         }
 
         stage('Trigger staging publish') {
