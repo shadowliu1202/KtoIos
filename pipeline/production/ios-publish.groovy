@@ -30,23 +30,11 @@ pipeline {
                 echo sh(script: 'env|sort', returnStdout: true)
                 cleanWs()
                 script {
-                    withEnv(["PublishTag=$PROP_PUBLISH_TAG",
-                             "OnlineTag=$PROP_CURRENT_ONLINE_TAG",
-                             "CredentialsId=$PROP_GIT_CREDENTIALS_ID",
-                             "Repo=$PROP_GIT_REPO_URL",
+                    withEnv(["PublishTag=$PROP_PUBLISH_TAG",                    
                              "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
-                            "SysAdmin=$PROP_SYSADMIN_RSA",
-                            "AnsibleServer=$PROP_REMOTE_ANS_HOST",
+                             "SysAdmin=$PROP_SYSADMIN_RSA",
+                             "AnsibleServer=$PROP_REMOTE_ANS_HOST",
                     ]) {
-                        checkout([$class: 'GitSCM',
-                                    branches: [[name: "refs/tags/$PublishTag"]],
-                                    extensions: [[$class: 'ChangelogToBranch',
-                                                options: [compareRemote: 'refs',
-                                                compareTarget: "tags/$OnlineTag"]],
-                                                [$class: 'BuildSingleRevisionOnly']],
-                                    userRemoteConfigs: [[credentialsId: "$CredentialsId",
-                                                        refspec: '+refs/heads/master:refs/remotes/origin/master +refs/heads/tags/*:refs/remotes/origin/tags/*',
-                                                        url: "$Repo"]]])
                         script {
                                 // Get Production version
                                 withCredentials([sshUserPrivateKey(credentialsId: "$SysAdmin", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
