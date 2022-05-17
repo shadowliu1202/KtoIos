@@ -5,9 +5,7 @@ pipeline {
     options {
         ansiColor('gnome-terminal')
     }
-    parameters {
-        booleanParam defaultValue: false, description: 'auto publish to staging', name: 'AUTO_PUBLISH'
-    }
+
     environment {
         //iOS-release
         SYSADMIN_RSA = '0dd067b6-8bd0-4c0a-9cb7-fb374ed7084e'
@@ -28,53 +26,65 @@ pipeline {
         PROP_APP_DOWNLOAD_LINK = "$env.IOS_DOWNLOAD_URL"
         PROP_FASTLANE_JOB = "$env.FASTLANE_JOB"
         PROP_FASTLANE_TESTFLIGHT_JOB = "$env.FASTLANE_TESTFLIGHT_JOB"
-        PROP_BUILD_NUMBER_INCRESER = "$env.BUILD_NUMBER_INCRESER"
+        PROP_PUBLISH_JOB = "$env.PUBLISH_JOB"
+        PROP_AUTO_PUBLISH = "$params.AUTO_PUBLISH"
+        PROP_API_HOST = "$env.API_HOST" //https://appkto.com
     }
 
     stages {
         stage('Checkout Online Version') {
-            //取得同個環境的線上版本，
             steps {
+                echo sh(script: 'env|sort', returnStdout: true)
                 cleanWs()
-                withEnv(["PreRelease=$PROP_PRE_REALEASE",
-                          "VersionCore=$PROP_VERSION_CORE",
-                          "AnsName=$PROP_REMOTE_ANS_NAME",
-                          "AnsHost=$PROP_REMOTE_ANS_HOST",
-                          "BuildEnv=$PROP_BUILD_ENVIRONMENT"
-                ]) {
-                    script {
-                        def remote = [
-                                'name'         : "$AnsName",
-                                'host'         : "$AnsHost",
-                                'allowAnyHosts': true
-                        ]
-                        withCredentials([sshUserPrivateKey(credentialsId: "$SYSADMIN_RSA", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
-                            remote.identityFile = identity
-                            remote.user = user
-                            writeFile file: 'version', text: ''
-                            sshGet remote: remote, from: '/data-disk/mobile-deployment-document/ios.version', into: 'version', override: true
-                            env.CURRENT_ONLINE_TAG = readFile('version').trim()
-                            echo "$BuildEnv version = $CURRENT_ONLINE_TAG"
+                script {
+                    withEnv(["BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
+                             "SysAdmin=$PROP_SYSADMIN_RSA",
+                             "AnsibleServer=$PROP_REMOTE_ANS_HOST",
+                             "ApiHost=$PROP_API_HOST",
+                             "PreRelease=$PROP_PRE_REALEASE"
+                    ]) {
+                        script {
+                                // Get Production version
+                                withCredentials([sshUserPrivateKey(credentialsId: "$SysAdmin", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
+                                    def remote = [:]
+                                    remote.name = 'mis ansible'
+                                    remote.host = "$AnsibleServer"
+                                    remote.user = user
+                                    remote.identityFile = identity
+                                    remote.allowAnyHosts = true
+                                    def commandResult = sshCommand remote: remote, command: "curl -s ${ApiHost}/ios/api/get-ios-ipa-version | jq -r '.data.ipaVersion'", failOnError : false
+                                    echo "$commandResult"
+                                    if (commandResult.empty) {
+                                        env.CURRENT_ONLINE_TAG = '0.0.1'
+                                    } else {
+                                        String[] result = commandResult.trim().split('\\+')
+                                        if (result.length == 1) {
+                                            env.CURRENT_ONLINE_TAG = "${result[0]}-$PreRelease"
+                                        } else {
+                                            env.CURRENT_ONLINE_TAG = "${result[0]}-$PreRelease+${result[1]}"
+                                        }
+                                    }
+                                    echo "$BuildEnviroment online version = $CURRENT_ONLINE_TAG"
+                                }
                         }
                     }
                 }
             }
         }
         stage('Define release version') {
-            //使用TestFlight的版本號加一作為建置號，跟建置要發布的TAG
+            //使用選擇的版本的建置號作為建置號，跟建置要發布的TAG
             agent {
                 label 'ios-agent'
             }
             steps {
                 script {
-                    withEnv(["SelectTag=${params.PARAMS_SELECT_TAG}",
-                             "OnlineTag=$CURRENT_ONLINE_TAG",
+                    withEnv(["SelectTag=$params.PARAMS_SELECT_TAG",
+                             "OnlineTag=$env.CURRENT_ONLINE_TAG",                             
                              "CredentialsId=$PROP_GIT_CREDENTIALS_ID",
                              "Repo=$PROP_GIT_REPO_URL",
                              "AppleApiKey=$PROP_APPLE_STORE_API_KEY",
                              "PreRelease=$PROP_PRE_REALEASE",
-                             "ReleaseVersionCore=$PROP_VERSION_CORE",
-                             "Incresor=$PROP_BUILD_NUMBER_INCRESER"
+                             "ReleaseVersionCore=$PROP_VERSION_CORE"
                     ]) {
                         checkout([$class: 'GitSCM',
                                     branches: [[name: "refs/tags/$SelectTag"]],
@@ -90,20 +100,12 @@ pipeline {
                         ]) {
                             script {
                                 // 1 is init version so tag no need to add build number
-                                int lastBuildNumber = 0
-                                withEnv(["KEY_ID=$PROP_APPLE_STORE_KEY_ID"]) {
-                                    def statusCode  = sh script:"fastlane getNextTestflightBuildNumber releaseTarget:$PreRelease targetVersion:$ReleaseVersionCore", returnStatus:true
-                                    if (statusCode == 0) {
-                                        lastBuildNumber = readFile('fastlane/buildNumber').trim() as int
-                                    }
-                                }
-                                if(Incresor != null){
-                                    lastBuildNumber = lastBuildNumber + (Incresor.trim() as int)
-                                }
-                                env.PROP_NEXT_BUILD_NUMBER = lastBuildNumber + 1
-                                if (env.PROP_NEXT_BUILD_NUMBER == 1) {
+                                int buildNumber = SelectTag.split('\\+')[1]
+                                if (buildNumber == null) {
+                                    env.PROP_NEXT_BUILD_NUMBER = 1
                                     env.PROP_RELEASE_TAG = "$ReleaseVersionCore-$PreRelease"
                                 }else {
+                                    env.PROP_NEXT_BUILD_NUMBER = buildNumber
                                     env.PROP_RELEASE_TAG = "$ReleaseVersionCore-$PreRelease+$env.PROP_NEXT_BUILD_NUMBER"
                                 }
                                 currentBuild.displayName = "[$PROP_BUILD_ENVIRONMENT] $env.PROP_RELEASE_TAG"
@@ -222,13 +224,12 @@ pipeline {
             }
         }
 
-
-        stage('Trigger staging publish') {
+        stage('Auto Trigger publish') {
             when {
-                expression { AUTO_PUBLISH == true }
+                expression { PROP_AUTO_PUBLISH !=null && PROP_AUTO_PUBLISH == true }
             }
             steps {
-                build wait: false, job: 'stg_publish', parameters: [text(name: 'PROP_RELEASE_TAG', value: "${env.PROP_RELEASE_TAG}")]
+                build wait: false, job: "$PROP_PUBLISH_JOB", parameters: [text(name: 'PROP_RELEASE_TAG', value: "$env.PROP_RELEASE_TAG")]
             }
         }
     }

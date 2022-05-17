@@ -22,6 +22,9 @@
         "NoDef": {
             "enabled": false
         },
+        "SpaceAfterClosingBrace": {
+            "enabled": false
+        },
         "VariableTypeRequired": {
             "enabled": false
         }
