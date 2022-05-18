@@ -154,12 +154,20 @@ pipeline {
             }
         }
 
-        stage('Update jira issues') {
+         stage('Update jira issues') {
+            //Update jira issue have been deploted to qat3
             steps {
-                script {
-                    build job: "$PROP_DOWNSTREAM_JIRA_JOB",
-                            parameters: [text(name: 'CURRENT_TAG', value: "${env.PROP_CURRENT_TAG}"),
-                                         text(name: 'RELEASE_TAG', value: "${env.PROP_RELEASE_TAG}")]
+                withEnv(["Enviroment=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
+                         "NewVersion=ios-$PROP_RELEASE_VERSIONCORE"
+                ]) {
+                    script {
+                        def issueKeys = jiraIssueSelector(issueSelector: [$class: 'DefaultIssueSelector'])
+                        for (issue in issueKeys) {
+                            def updateIssue = [fields: [labels: ["$NewVersion-$Enviroment"]]]
+                            response = jiraEditIssue failOnError: false, site: 'Higgs-Jira', idOrKey: "$issue", issue: updateIssue
+                            echo response
+                        }
+                    }
                 }
             }
         }
