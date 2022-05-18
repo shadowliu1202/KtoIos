@@ -91,7 +91,11 @@ pipeline {
                             script {
                                 int lastBuildNumber = readFile('fastlane/buildNumber').trim() as int
                                 env.PROP_NEXT_BUILD_NUMBER = lastBuildNumber + 1
-                                env.PROP_RELEASE_TAG = "$ReleaseVersion+${env.PROP_NEXT_BUILD_NUMBER}"
+                                if (lastBuildNumber == 1) {
+                                    env.PROP_RELEASE_TAG = "$ReleaseVersion"
+                                } else {
+                                    env.PROP_RELEASE_TAG = "$ReleaseVersion+${env.PROP_NEXT_BUILD_NUMBER}"
+                                }
                                 currentBuild.displayName = "[$PROP_BUILD_ENVIRONMENT] ${env.PROP_RELEASE_TAG}"
                             }
 
