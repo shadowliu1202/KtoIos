@@ -248,5 +248,9 @@ platform :ios do
             app_identifier: "com.kto.asia.qat3")
 
     end
+    
+    lane :tests do
+        run_tests(scheme: "ktobet-asia-iosTests")
+    end
 
 end
