@@ -1903,6 +1903,7 @@
 		6D3D7ED727A0E0C400AE343D /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D7ED527A0E0C400AE343D /* PaymentStatus.swift */; };
 		6D3D7ED827A0E0C400AE343D /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D7ED527A0E0C400AE343D /* PaymentStatus.swift */; };
 		6D3DD77D283231560065D6B3 /* AppVersionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DD77C283231560065D6B3 /* AppVersionTest.swift */; };
+		6D3DD77F2833A5160065D6B3 /* XCTestCaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3DD77E2833A5160065D6B3 /* XCTestCaseExtension.swift */; };
 		6D3E28D626BBC9910002F350 /* WebGameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3E28D526BBC9910002F350 /* WebGameUseCase.swift */; };
 		6D3E28D726BBC9910002F350 /* WebGameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3E28D526BBC9910002F350 /* WebGameUseCase.swift */; };
 		6D3E28D826BBC9910002F350 /* WebGameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3E28D526BBC9910002F350 /* WebGameUseCase.swift */; };
@@ -4629,6 +4630,7 @@
 		6D3D7ED1279E390900AE343D /* WithdrawalSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalSystem.swift; sourceTree = "<group>"; };
 		6D3D7ED527A0E0C400AE343D /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
 		6D3DD77C283231560065D6B3 /* AppVersionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionTest.swift; sourceTree = "<group>"; };
+		6D3DD77E2833A5160065D6B3 /* XCTestCaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCaseExtension.swift; sourceTree = "<group>"; };
 		6D3E28D526BBC9910002F350 /* WebGameUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebGameUseCase.swift; sourceTree = "<group>"; };
 		6D4083A12652046200BECD0E /* NumberGame.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NumberGame.storyboard; sourceTree = "<group>"; };
 		6D4083AC2652069E00BECD0E /* NumberGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameViewModel.swift; sourceTree = "<group>"; };
@@ -5019,6 +5021,7 @@
 				485DF05225415454001F9D4A /* ktobet_asia_iosTests.swift */,
 				6D3DD77C283231560065D6B3 /* AppVersionTest.swift */,
 				485DF05425415454001F9D4A /* Info.plist */,
+				6D3DD77E2833A5160065D6B3 /* XCTestCaseExtension.swift */,
 			);
 			path = "ktobet-asia-iosTests";
 			sourceTree = "<group>";
@@ -7898,6 +7901,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				485DF05325415454001F9D4A /* ktobet_asia_iosTests.swift in Sources */,
+				6D3DD77F2833A5160065D6B3 /* XCTestCaseExtension.swift in Sources */,
 				6D3DD77D283231560065D6B3 /* AppVersionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
