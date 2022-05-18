@@ -13,3 +13,4 @@ APP-2805 [iOS] Email 驗證頁面調整說明
 APP-3066 [ios][Portal][Deposit] 進行 Offline 充值時，在點擊提交送出後，APP 會 Crash (充值單有生效)
 APP-3065 [ios][Portal][Deposit] 進行 Offline 充值時，在提交頁點擊 X 預取消充值行為，最後點擊確認 APP 會 Crash
 APP-3064 [ios][Portal][Withdrawal] 點擊 Side Menu > Withdrawal 時，APP 會立即 Crash
+test
