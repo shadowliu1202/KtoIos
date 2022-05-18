@@ -13,6 +13,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
     private var navigator: DepositNavigator!
     private let paymentIdentity = ReplaySubject<String>.create(bufferSize: 1)
     private let selectPaymentGateway = ReplaySubject<PaymentsDTO.Gateway>.create(bufferSize: 1)
+    private let selectBankCode = ReplaySubject<String?>.create(bufferSize: 1)
     private let remitterName = ReplaySubject<String>.create(bufferSize: 1)
     private let remittance = ReplaySubject<String>.create(bufferSize: 1)
     private let remitterBankCardNumber = ReplaySubject<String>.create(bufferSize: 1)
@@ -43,12 +44,14 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
 
         self.input = Input(paymentIdentity: paymentIdentity.asObserver(),
                            selectPaymentGateway: selectPaymentGateway.asObserver(),
+                           selectBankCode: selectBankCode.asObserver(),
                            remittance: self.remittance.asObserver(),
                            remitterName: self.remitterName.asObserver(),
                            remitterBankCardNumber: remitterBankCardNumber.asObserver(),
                            confirmTrigger: confirmTrigger.asObserver())
 
         self.output = Output(paymentGateways: paymentGateways,
+                             selectPaymentGateway: selectPaymentGateway.asDriverLogError(),
                              depositLimit: depositLimit,
                              remitterName: remitterName,
                              remittance: remittance,
@@ -114,7 +117,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
         selectPaymentGateway
             .map { ($0.cash as? CashType.Option)?.list }
             .do(onNext: { [weak self] list in
-                guard let self = self, let first = list?.first as? NSNumber else { return }
+                guard let self = self, let first = list?.first else { return }
                 let firstOptionString = first.decimalValue.currencyFormatWithoutSymbol(maximumFractionDigits: 0)
                 self.remittance.onNext(firstOptionString)
             }).compose(self.applyObservableErrorHandle()).asDriverLogError()
@@ -163,13 +166,14 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
     private func createRequest() -> Driver<OnlineDepositDTO.Request> {
         Driver.combineLatest(paymentIdentity.asDriverLogError(),
                              selectPaymentGateway.asDriverLogError(),
+                             selectBankCode.asDriverLogError(),
                              remitterName.asDriverLogError(),
                              remitterBankCardNumber.asDriverLogError(),
                              remittance.asDriverLogError())
-        { (paymentIdentity, selectPaymentGateway, remitterName, remitterBankCardNumber, remittance) in
+        { (paymentIdentity, selectPaymentGateway, selectBankCode, remitterName, remitterBankCardNumber, remittance) in
             let amount = remittance.replacingOccurrences(of: ",", with: "")
             let onlineRemitter = OnlineRemitter(name: remitterName, account: remitterBankCardNumber)
-            let application = OnlineRemitApplication(remitter: onlineRemitter, remittance: amount, gatewayIdentity: selectPaymentGateway.identity, supportBankCode: nil)
+            let application = OnlineRemitApplication(remitter: onlineRemitter, remittance: amount, gatewayIdentity: selectPaymentGateway.identity, supportBankCode: selectBankCode)
             let request = OnlineDepositDTO.Request(paymentIdentity: paymentIdentity, application: application)
             return request
         }
@@ -194,6 +198,7 @@ extension ThirdPartyDepositViewModel {
     struct Input {
         let paymentIdentity: AnyObserver<String>
         let selectPaymentGateway: AnyObserver<PaymentsDTO.Gateway>
+        let selectBankCode: AnyObserver<String?>
         let remittance: AnyObserver<String>
         let remitterName: AnyObserver<String>
         let remitterBankCardNumber: AnyObserver<String>
@@ -202,6 +207,7 @@ extension ThirdPartyDepositViewModel {
 
     struct Output {
         let paymentGateways: Driver<[OnlinePaymentGatewayItemViewModel]>
+        let selectPaymentGateway: Driver<PaymentsDTO.Gateway>
         let depositLimit: Driver<AmountRange?>
         let remitterName: Driver<String>
         let remittance: Driver<String>

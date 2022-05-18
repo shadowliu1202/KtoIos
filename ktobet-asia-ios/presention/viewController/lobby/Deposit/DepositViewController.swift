@@ -32,6 +32,7 @@ class DepositViewController: APPViewController {
     }
     
     deinit {
+        DI.resetObjectScope(.depositFlow)
         print("\(type(of: self)) deinit")
     }
     

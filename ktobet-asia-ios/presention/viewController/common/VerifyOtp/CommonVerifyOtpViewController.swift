@@ -33,12 +33,6 @@ class CommonVerifyOtpViewController: APPViewController {
     private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     private lazy var validator = OtpValidator(accountPatternGenerator: accountPatternGenerator)
     private var accountPatternGenerator = DI.resolve(AccountPatternGenerator.self)!
-    private var code1 = BehaviorRelay(value: "")
-    private var code2 = BehaviorRelay(value: "")
-    private var code3 = BehaviorRelay(value: "")
-    private var code4 = BehaviorRelay(value: "")
-    private var code5 = BehaviorRelay(value: "")
-    private var code6 = BehaviorRelay(value: "")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,48 +72,31 @@ class CommonVerifyOtpViewController: APPViewController {
     }
 
     func bindingViews() {
-        (smsVerifyView.code1.rx.text.orEmpty <-> code1).disposed(by: disposeBag)
-        (smsVerifyView.code2.rx.text.orEmpty <-> code2).disposed(by: disposeBag)
-        (smsVerifyView.code3.rx.text.orEmpty <-> code3).disposed(by: disposeBag)
-        (smsVerifyView.code4.rx.text.orEmpty <-> code4).disposed(by: disposeBag)
-        (smsVerifyView.code5.rx.text.orEmpty <-> code5).disposed(by: disposeBag)
-        (smsVerifyView.code6.rx.text.orEmpty <-> code6).disposed(by: disposeBag)
-
         delegate.validateAccountType(validator: validator)
-        let otpCode3 = Observable.combineLatest(code1, code2, code3).map { $0 + $1 + $2 }
-        let otpCode6 = Observable.combineLatest(code4, code5, code6).map { $0 + $1 + $2 }
-        let otpCode = Observable.combineLatest(otpCode3, otpCode6).map { $0 + $1 }
-        otpCode.distinctUntilChanged().bind(onNext: {[weak self] text in self?.showPasscodeUncorrectTip(false) }).disposed(by: disposeBag)
-        validator.isOtpValid.bind(to: btnVerify.rx.valid).disposed(by: disposeBag)
-        otpCode.bind(to: validator.otp).disposed(by: disposeBag)
+        disposeBag.insert(
+            validator.otpPattern.map { $0.validLength() }.bind(onNext: smsVerifyView.setOtpMaxLength),
+            validator.isOtpValid.bind(to: btnVerify.rx.valid),
+            smsVerifyView.getOtpCode().bind(to: validator.otp),
+            smsVerifyView.getOtpCode().map { _ in false }.bind(onNext: showPasscodeUncorrectTip)
+        )
     }
 
     func setResendTimer() {
         resendTimer.start(timeInterval: 1, duration: Setting.resendOtpCountDownSecond) { [weak self] (index, countDownSecond, finish) in
-            if countDownSecond != 0 {
-                let mm = countDownSecond / 60
-                let ss = countDownSecond % 60
-                let text = String(format: Localize.string("common_otp_resend_tips"), String(format: "%02d:%02d", mm, ss)) + Localize.string("common_resendotp")
-                let attributedString = NSMutableAttributedString(string: text, attributes: [
-                        .font: UIFont(name: "PingFangSC-Regular", size: 14.0)!,
-                        .foregroundColor: UIColor.textPrimaryDustyGray,
-                        .kern: 0.0
-                ])
+            let isTimeUp = countDownSecond == 0
+            let mm = isTimeUp ? 00 : countDownSecond / 60
+            let ss = isTimeUp ? 00 : countDownSecond % 60
+            let text = String(format: Localize.string("common_otp_resend_tips"), String(format: "%02d:%02d", mm, ss)) + " " + Localize.string("common_resendotp")
+            let range = (text as NSString).range(of: Localize.string("common_resendotp"))
+            let mutableAttributedString = NSMutableAttributedString(string: text, attributes: [
+                .font: UIFont(name: "PingFangSC-Regular", size: 14.0)!,
+                .foregroundColor: UIColor.textPrimaryDustyGray,
+                .kern: 0.0
+            ])
 
-                attributedString.addAttribute(.foregroundColor, value: UIColor.redForDark502, range: NSRange(location: text.count - 4, length: 4))
-                self?.btnResend.setAttributedTitle(attributedString, for: .normal)
-                self?.btnResend.isEnabled = false
-            } else {
-                let text = String(format: Localize.string("common_otp_resend_tips"), String(format: "%02d:%02d", 00, 00)) + Localize.string("common_resendotp")
-                let attributedString = NSMutableAttributedString(string: text, attributes: [
-                        .font: UIFont(name: "PingFangSC-Regular", size: 14.0)!,
-                        .foregroundColor: UIColor.textPrimaryDustyGray,
-                        .kern: 0.0
-                ])
-                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: text.count - 4, length: 4))
-                self?.btnResend.setAttributedTitle(attributedString, for: .normal)
-                self?.btnResend.isEnabled = true
-            }
+            mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.redForDark502, range: range)
+            self?.btnResend.setAttributedTitle(mutableAttributedString, for: .normal)
+            self?.btnResend.isEnabled = isTimeUp
         }
     }
 
@@ -190,24 +167,15 @@ class CommonVerifyOtpViewController: APPViewController {
             return
         }
 
-        delegate.verify(otp: getOtpCode()).subscribe {[weak self] in
-            self?.otpRetryCount = 0
-        } onError: { (error) in
-            self.handleError(error)
-        }.disposed(by: disposeBag)
+        smsVerifyView.getOtpCode()
+            .flatMapLatest(delegate.verify)
+            .subscribe(onError: handleError, onCompleted: { [weak self] in
+                self?.otpRetryCount = 0
+            }).disposed(by: disposeBag)
     }
 
     @IBAction func btnBackPressed(_ sender: UIButton) {
         delegate.onCloseVerifyProcess()
-    }
-
-    private func getOtpCode() -> String {
-        var code = ""
-        for c in [code1, code2, code3, code4, code5, code6] {
-            code += c.value
-        }
-
-        return code
     }
 
     private func navigateToErrorPage() {

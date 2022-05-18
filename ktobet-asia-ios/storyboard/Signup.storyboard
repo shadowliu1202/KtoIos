@@ -649,7 +649,7 @@ john.doe@higgstar.com
                                             <action selector="btnEmailPressed:" destination="hn4-gC-jv3" eventType="touchUpInside" id="hlY-Y0-TJR"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pS0-M7-Rf8">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="pS0-M7-Rf8">
                                         <rect key="frame" x="30" y="258.5" width="354" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="若没收到验证信，可于 00:59 后 重新发送"/>
@@ -657,16 +657,16 @@ john.doe@higgstar.com
                                             <action selector="btnResendPressed:" destination="hn4-gC-jv3" eventType="touchUpInside" id="CXN-Ju-Zqe"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cR2-YX-tbi">
-                                        <rect key="frame" x="30" y="311.5" width="354" height="29"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cR2-YX-tbi">
+                                        <rect key="frame" x="30" y="312" width="354" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="若已通过验证，试试 这里"/>
                                         <connections>
                                             <action selector="btnVerifyPressed:" destination="hn4-gC-jv3" eventType="touchUpInside" id="RjL-1u-xX9"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wtV-pt-BsZ">
-                                        <rect key="frame" x="207" y="288" width="0.0" height="0.0"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wtV-pt-BsZ">
+                                        <rect key="frame" x="30" y="288" width="354" height="0.0"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                         <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -677,6 +677,7 @@ john.doe@higgstar.com
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Mow-Bw-Uf2" firstAttribute="trailing" secondItem="EvN-0b-Xh9" secondAttribute="trailing" id="2b9-9I-IQH"/>
+                                    <constraint firstItem="wtV-pt-BsZ" firstAttribute="trailing" secondItem="pS0-M7-Rf8" secondAttribute="trailing" id="9bq-i8-F8d"/>
                                     <constraint firstItem="Mow-Bw-Uf2" firstAttribute="top" secondItem="EvN-0b-Xh9" secondAttribute="bottom" constant="40" id="Btg-yd-luB"/>
                                     <constraint firstItem="Mow-Bw-Uf2" firstAttribute="leading" secondItem="EvN-0b-Xh9" secondAttribute="leading" id="GEX-nh-Xbf"/>
                                     <constraint firstAttribute="bottom" secondItem="cR2-YX-tbi" secondAttribute="bottom" constant="30" id="HP4-sl-kib"/>
@@ -686,6 +687,7 @@ john.doe@higgstar.com
                                     <constraint firstItem="wtV-pt-BsZ" firstAttribute="top" secondItem="pS0-M7-Rf8" secondAttribute="bottom" constant="0.5" id="MTz-Ut-1dJ"/>
                                     <constraint firstItem="vVj-Jc-rpc" firstAttribute="top" secondItem="0S0-no-t0m" secondAttribute="bottom" constant="8" id="OCB-MV-Ykw"/>
                                     <constraint firstItem="0S0-no-t0m" firstAttribute="top" secondItem="uEy-i7-JWg" secondAttribute="bottom" constant="30" id="OP4-mX-uwI"/>
+                                    <constraint firstItem="wtV-pt-BsZ" firstAttribute="leading" secondItem="pS0-M7-Rf8" secondAttribute="leading" id="Ol8-m1-siJ"/>
                                     <constraint firstAttribute="trailing" secondItem="cR2-YX-tbi" secondAttribute="trailing" constant="30" id="RnU-ZA-EYN"/>
                                     <constraint firstItem="wtV-pt-BsZ" firstAttribute="centerX" secondItem="pS0-M7-Rf8" secondAttribute="centerX" id="Xjc-tA-sUs"/>
                                     <constraint firstItem="vVj-Jc-rpc" firstAttribute="trailing" secondItem="0S0-no-t0m" secondAttribute="trailing" id="Z4e-wT-B3h"/>
@@ -700,7 +702,7 @@ john.doe@higgstar.com
                                     <constraint firstAttribute="trailing" secondItem="pS0-M7-Rf8" secondAttribute="trailing" constant="30" id="l1X-I4-d2L"/>
                                     <constraint firstItem="0S0-no-t0m" firstAttribute="leading" secondItem="cWF-VY-9lH" secondAttribute="leading" constant="30" id="nF7-1o-Icj"/>
                                     <constraint firstAttribute="trailing" secondItem="uEy-i7-JWg" secondAttribute="trailing" id="o54-hJ-6Bw"/>
-                                    <constraint firstItem="cR2-YX-tbi" firstAttribute="top" secondItem="pS0-M7-Rf8" secondAttribute="bottom" constant="24" id="q23-8l-Rcw"/>
+                                    <constraint firstItem="cR2-YX-tbi" firstAttribute="top" secondItem="wtV-pt-BsZ" secondAttribute="bottom" constant="24" id="pvq-FQ-KVA"/>
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5D-WN-HJ2">

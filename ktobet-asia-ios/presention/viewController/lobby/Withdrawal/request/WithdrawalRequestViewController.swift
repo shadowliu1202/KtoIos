@@ -11,6 +11,7 @@ class WithdrawalRequestViewController: APPViewController, AuthProfileVerificatio
     @IBOutlet private weak var withdrawalAmountTextField: InputText!
     @IBOutlet private weak var withdrawalAmountErrorLabel: UILabel!
     @IBOutlet private weak var withdrawalLimitLabel: UILabel!
+    @IBOutlet private weak var withdrawalVNDTopLabel: UILabel!
     @IBOutlet private weak var nextButton: UIButton!
     
     private var viewModel = DI.resolve(WithdrawalRequestViewModel.self)!
@@ -27,6 +28,12 @@ class WithdrawalRequestViewController: APPViewController, AuthProfileVerificatio
         viewModel.getBalance().subscribe().disposed(by: disposeBag)
         withdrawalLimitationDataBinding()
         validateInputTextField()
+    }
+
+    private func localize() {
+        if LocalizeUtils.shared.getLanguage() == SupportLocale.China.init().cultureCode() {
+            withdrawalVNDTopLabel.isHidden = true
+        }
     }
     
     @objc func tapBack() {

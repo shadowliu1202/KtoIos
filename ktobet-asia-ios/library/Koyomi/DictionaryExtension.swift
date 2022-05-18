@@ -13,3 +13,10 @@ extension Dictionary where Value: Equatable {
         return filter { $0.1 == element }.map { $0.0 }
     }
 }
+
+
+extension Dictionary {
+    func mapValues<T>(transform: (Value)->T) -> Dictionary<Key,T> {
+        return Dictionary<Key,T>(uniqueKeysWithValues: zip(self.keys, self.values.map(transform)))
+    }
+}

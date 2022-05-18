@@ -77,12 +77,12 @@ class AddBankViewController: APPViewController, AuthProfileVerification {
         (bankDropDown.text <-> viewModel.bankName).disposed(by: disposeBag)
         bankDropDown.selectedID.subscribe(onNext: { [weak self] (bankId) in
             if let id = bankId {
-                self?.viewModel.bankID.accept(Int32(id))
+                self?.viewModel.bankID.accept(Int32(id)!)
             }
         }).disposed(by: disposeBag)
         viewModel.getBanks().subscribe(onSuccess: { [weak self] (tuple: [(Int, Bank)]) in
-            self?.bankDropDown.optionArray = tuple.map{ $0.1.name }
-            self?.bankDropDown.optionIds = tuple.map{ $0.0 }
+            self?.bankDropDown.optionArray = StringMapper.sharedInstance.localizeBankName(banks: tuple)
+            self?.bankDropDown.optionIds = tuple.map{ String($0.0) }
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)

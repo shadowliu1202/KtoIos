@@ -8,7 +8,7 @@ class DropDownInputText: UIView {
     private var isEditing = false
     private var isShowing = false
     private var dropDownOffsetOnece = true
-    private var didSelectCompletion: (String, Int ,Int) -> () = {selectedText, index , id  in }
+    private var didSelectCompletion: (String, Int, String) -> () = {selectedText, index , id  in }
     var isEdited: Bool {
         return isEditing
     }
@@ -42,14 +42,14 @@ class DropDownInputText: UIView {
         }
     }
     var selectedIndex = BehaviorRelay<Int?>(value: nil)
-    var selectedID = BehaviorRelay<Int?>(value: nil)
+    var selectedID = BehaviorRelay<String?>(value: nil)
     
     public var optionArray = [String]() {
         didSet{
             self.dropDownText.optionArray = self.optionArray
         }
     }
-    public var optionIds : [Int]? {
+    public var optionIds : [String]? {
         didSet {
             self.dropDownText.optionIds = self.optionIds
         }
@@ -309,7 +309,7 @@ class DropDownInputText: UIView {
         self.editingChangedHandler = editingChangedHandler
     }
     
-    func didSelect(completion: @escaping (_ selectedText: String, _ index: Int , _ id:Int ) -> ()) {
+    func didSelect(completion: @escaping (_ selectedText: String, _ index: Int , _ id: String) -> ()) {
         didSelectCompletion = completion
     }
 }

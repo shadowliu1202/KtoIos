@@ -31,7 +31,7 @@ class CustomerServiceButtonItem: TextBarButtonItem {
     }
     
     init(_ delegate: CustomServiceDelegate? = nil, _ disposeBag: DisposeBag) {
-        super.init(title: Localize.string("customerservice_title"))
+        super.init(title: Localize.string("customerservice_action_bar_title"))
         self.senderId(customerServiceBarBtnId)
         self.delegate = delegate
         self.delegate?.monitorChatRoomStatus(disposeBag)

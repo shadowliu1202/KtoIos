@@ -10,111 +10,86 @@ import UIKit
 import RxCocoa
 
 
-class SMSVerifyCodeInputView : UIView{
-    
-    var btn1 = UIButton()
-    var btn2 = UIButton()
-    var btn3 = UIButton()
-    var btn4 = UIButton()
-    var btn5 = UIButton()
-    var btn6 = UIButton()
-    var code1 = SMSCodeTextField()
-    var code2 = SMSCodeTextField()
-    var code3 = SMSCodeTextField()
-    var code4 = SMSCodeTextField()
-    var code5 = SMSCodeTextField()
-    var code6 = SMSCodeTextField()
+class SMSVerifyCodeInputView: UIView {
+    @IBOutlet private var btnStackView: UIStackView!
+    @IBOutlet private var codeStackView: UIStackView!
+
+    private var otpLength = 0
+    private var codes: [SMSCodeTextField] = []
+    private var btns: [UIButton] = []
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        initialize()
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let codes = [code1, code2, code3, code4, code5, code6]
-        let btns = [btn1, btn2, btn3, btn4, btn5, btn6]
-        let height = bounds.size.height
-        let width = height
-        let space : CGFloat = {
-            let count = CGFloat(codes.count)
-            guard bounds.size.width > width * count else { return 0 }
-            return (bounds.size.width - width * count) / (count - 1)
-        }()
-        var startX = CGFloat(0)
-        let y = CGFloat(0)
-        for idx in 0...5{
-            codes[idx].frame = CGRect(x: startX, y: y, width: width, height: height)
-            btns[idx].frame = CGRect(x: startX, y: y, width: width, height: height)
-            startX += space
-            startX += width
+
+    func setOtpMaxLength(otpLength: Int32) {
+        self.otpLength = Int(otpLength)
+        initialize(otpLength)
+    }
+
+    func getOtpCode() -> Observable<String> {
+        let codesOb = codes.map { $0.rx.text.orEmpty }
+        return Observable.combineLatest(codesOb).map { stringElement -> String in
+            stringElement.reduce("") { $0 + $1 }
         }
     }
-    
-    private func initialize(){
-        let codes = [code1, code2, code3, code4, code5, code6]
-        let btns = [btn1, btn2, btn3, btn4, btn5, btn6]
-        for idx in 0...5{
-            codes[idx].myDelegate = self
-            codes[idx].textContentType = .oneTimeCode
-            codes[idx].keyboardType = .numberPad
-            codes[idx].textAlignment = .center
-            codes[idx].textColor = .white
-            codes[idx].backgroundColor = .white15
-            codes[idx].layer.cornerRadius = 6
-            codes[idx].layer.masksToBounds = true
-            codes[idx].font = UIFont.init(name: "PingFangSC-Semibold", size: 18)
-            codes[idx].addTarget(self, action: #selector(textEditingChaged(_:)), for: .editingChanged)
-            btns[idx].addTarget(self, action: #selector(btnCodePressed(_:)), for: .touchUpInside)
-            addSubview(codes[idx])
-            addSubview(btns[idx])
+
+    private func initialize(_ otpLength: Int32) {
+        for index in 0..<Int(otpLength) {
+            let code = SMSCodeTextField()
+            let btn = UIButton()
+            code.myDelegate = self
+            code.textContentType = .oneTimeCode
+            code.keyboardType = .numberPad
+            code.textAlignment = .center
+            code.textColor = .white
+            code.backgroundColor = .white15
+            code.layer.cornerRadius = 6
+            code.layer.masksToBounds = true
+            code.tag = index
+            code.font = UIFont.init(name: "PingFangSC-Semibold", size: 18)
+            code.addTarget(self, action: #selector(textEditingChaged(_:)), for: .editingChanged)
+            code.translatesAutoresizingMaskIntoConstraints = false
+            code.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            code.heightAnchor.constraint(equalToConstant: 40).isActive = true
+
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            btn.addTarget(self, action: #selector(btnCodePressed(_:)), for: .touchUpInside)
+            btn.tag = index
+            codes.append(code)
+            btns.append(btn)
+            codeStackView.insertArrangedSubview(code, at: index)
+            btnStackView.insertArrangedSubview(btn, at: index)
         }
+
         backgroundColor = .clear
     }
-    
-    @objc private func btnCodePressed(_ sender : UIButton){
-        switch sender {
-        case btn1: code1.becomeFirstResponder()
-        case btn2: code2.becomeFirstResponder()
-        case btn3: code3.becomeFirstResponder()
-        case btn4: code4.becomeFirstResponder()
-        case btn5: code5.becomeFirstResponder()
-        case btn6: code6.becomeFirstResponder()
-        default: break
-        }
+
+    @objc private func btnCodePressed(_ sender: UIButton) {
+        codes[sender.tag].becomeFirstResponder()
     }
-    
-    @objc private func textEditingChaged(_ sender : UITextField){
-        if let text = sender.text, text.count >= 1, text.count < 6 {
+
+    @objc private func textEditingChaged(_ sender: UITextField) {
+        if let text = sender.text, text.count >= 1, text.count < otpLength {
             sender.text = {
                 let index = text.index(text.endIndex, offsetBy: -1)
                 return String(text[index])
             }()
-            switch sender {
-            case code1: code2.becomeFirstResponder()
-            case code2: code3.becomeFirstResponder()
-            case code3: code4.becomeFirstResponder()
-            case code4: code5.becomeFirstResponder()
-            case code5: code6.becomeFirstResponder()
-            case code6: code6.resignFirstResponder()
-            default: break
-            }
+
+            let index = sender.tag + 1 > otpLength - 1 ? otpLength - 1: sender.tag + 1
+            codes[index].becomeFirstResponder()
         }
     }
 }
 
 
-extension SMSVerifyCodeInputView : SMSCodeTextFieldDelegate, UITextFieldDelegate{
+extension SMSVerifyCodeInputView: SMSCodeTextFieldDelegate, UITextFieldDelegate {
     func textFieldDidDelete(_ sender: SMSCodeTextField) {
-        if (sender.text?.count ?? 0) == 0{
-            switch sender {
-            case code6: code5.becomeFirstResponder()
-            case code5: code4.becomeFirstResponder()
-            case code4: code3.becomeFirstResponder()
-            case code3: code2.becomeFirstResponder()
-            case code2: code1.becomeFirstResponder()
-            default: break
-            }
+        if (sender.text?.count ?? 0) == 0 {
+            let index = sender.tag - 1 < 0 ? 0 : sender.tag - 1
+            codes[index].becomeFirstResponder()
         }
     }
 }

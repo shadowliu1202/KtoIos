@@ -289,7 +289,7 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="老虎機" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJp-UY-jhH">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="老虎機" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJp-UY-jhH">
                                                             <rect key="frame" x="36" y="64" width="56" height="20"/>
                                                             <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="14"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -298,7 +298,8 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="Vvw-nG-EPU" firstAttribute="leading" secondItem="BtA-uM-cGG" secondAttribute="leading" id="0V1-dc-Vkk"/>
-                                                        <constraint firstItem="kJp-UY-jhH" firstAttribute="leading" secondItem="BtA-uM-cGG" secondAttribute="leading" id="Hln-fA-NGQ"/>
+                                                        <constraint firstItem="kJp-UY-jhH" firstAttribute="leading" secondItem="Vvw-nG-EPU" secondAttribute="leading" id="4s1-lA-VPg"/>
+                                                        <constraint firstItem="kJp-UY-jhH" firstAttribute="trailing" secondItem="Vvw-nG-EPU" secondAttribute="trailing" id="DBQ-Q6-t5M"/>
                                                         <constraint firstItem="Vvw-nG-EPU" firstAttribute="trailing" secondItem="BtA-uM-cGG" secondAttribute="trailing" id="J04-OO-zYj"/>
                                                         <constraint firstItem="Vvw-nG-EPU" firstAttribute="bottom" secondItem="BtA-uM-cGG" secondAttribute="bottom" id="KvZ-gH-Vdx"/>
                                                         <constraint firstItem="BtA-uM-cGG" firstAttribute="centerX" secondItem="Z1Y-1B-OrB" secondAttribute="centerX" id="QdX-gq-XtZ"/>
@@ -306,7 +307,6 @@
                                                         <constraint firstItem="kJp-UY-jhH" firstAttribute="top" secondItem="BtA-uM-cGG" secondAttribute="bottom" constant="8" id="e9J-aG-7HQ"/>
                                                         <constraint firstItem="BtA-uM-cGG" firstAttribute="top" secondItem="Z1Y-1B-OrB" secondAttribute="top" id="hEj-TG-55d"/>
                                                         <constraint firstItem="Vvw-nG-EPU" firstAttribute="top" secondItem="BtA-uM-cGG" secondAttribute="top" id="oea-k8-97Z"/>
-                                                        <constraint firstItem="kJp-UY-jhH" firstAttribute="trailing" secondItem="BtA-uM-cGG" secondAttribute="trailing" id="p5h-yI-3Xd"/>
                                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="kJp-UY-jhH" secondAttribute="bottom" id="yaf-0J-xd5"/>
                                                     </constraints>
                                                 </collectionViewCellContentView>

@@ -17,9 +17,23 @@ class DateViewController: UIViewController {
     fileprivate var currentSelectedStyle: SelectionMode = .sequence(style: .semicircleEdge)
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
     
+    private var dateSegmentTitle = [Localize.string("common_last7day"), Localize.string("common_select_day"), Localize.string("common_select_month")]
+    private var dateSegmentTitleFontSize: CGFloat {
+        switch Localize.getLanguage() {
+        case "vi-vn":
+            return 12
+        case "zh-cn":
+            fallthrough
+        default:
+            return 14
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
+        UILabel.appearance(whenContainedInInstancesOf:[UISegmentedControl.self]).numberOfLines = 2
+        self.setupDateSegmentLabel()
         
         DispatchQueue.main.async {
             let frame = CGRect(x: 0, y : 0, width: self.dateView.frame.width, height: self.dateView.frame.height)
@@ -37,7 +51,7 @@ class DateViewController: UIViewController {
             self.koyomi.dayPosition = .center
             self.koyomi.selectedStyleColor = UIColor(red: 1.0, green: 213/255, blue: 0, alpha: 1)
             self.koyomi.weekColor = UIColor.yellowFull
-            self.koyomi.setDayFont(size: 12) .setWeekFont(size: 12)
+            self.koyomi.setWeekFont(fontName: "PingFangSC-Medium", size: 12)
             self.koyomi.setDayFont(fontName: "PingFangSC-Medium", size: 12)
             self.dateView.addSubview(self.koyomi)
             switch self.dateType {
@@ -55,10 +69,10 @@ class DateViewController: UIViewController {
                 self.month.setSelectedDate(starDate.convertdateToUTC())
             }
 
-            self.currentDateLabel.text = self.koyomi.currentDateString() + Localize.string("common_month")
+            self.currentDateLabel.text = self.dateLabelAccordingToDifferentLanguages()
         }
         
-        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.whiteFull]
+        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: dateSegmentTitleFontSize)!]
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .normal)
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .selected)
         dateSegment.addTarget(
@@ -68,6 +82,35 @@ class DateViewController: UIViewController {
         month.isHidden = true
         month.callback = { [weak self] (starDate, endDate) in
             self?.dateType = .month(fromDate: starDate, toDate: endDate)
+        }
+    }
+    
+    private func setupDateSegmentLabel() {
+        var segmentIndex = 0
+        for titleName in dateSegmentTitle {
+            let newTitleName = insertNewLineBeforeLastWord(titleName)
+            dateSegment.setTitle(newTitleName, forSegmentAt: segmentIndex)
+            segmentIndex += 1
+        }
+    }
+    
+    private func insertNewLineBeforeLastWord(_ text: String) -> String {
+        guard let spaceIndex = text.lastIndex(of: " ") else {
+            return text
+        }
+        
+        let spaceIndexRange = text.rangeOfComposedCharacterSequence(at: spaceIndex)
+        return text.replacingCharacters(in: spaceIndexRange, with: "\n")
+    }
+    
+    private func dateLabelAccordingToDifferentLanguages() -> String {
+        switch Localize.getLanguage() {
+        case "vi-vn":
+            return Localize.string("common_month") + " " + self.koyomi.currentDateString(withFormat: "M") + "/" + self.koyomi.currentDateString(withFormat: "yyyy")
+        case "zh-cn":
+            fallthrough
+        default:
+            return self.koyomi.currentDateString() + Localize.string("common_month")
         }
     }
     

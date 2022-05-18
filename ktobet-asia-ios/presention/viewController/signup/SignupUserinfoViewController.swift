@@ -50,7 +50,7 @@ class SignupUserinfoViewController: LandingViewController {
     private let seguePhone = "GoToPhone"
     private let segueEmail = "GoToEmail"
     private var isFirstTimeEnter = true
-    
+    private var accountPatternGenerator = DI.resolve(AccountPatternGenerator.self)!
     private var viewModel = DI.resolve(SignupUserInfoViewModel.self)!
     private var inputAccount : InputText {
         get{
@@ -62,14 +62,11 @@ class SignupUserinfoViewController: LandingViewController {
     }
     private var countryCode : String {
         get {
-            switch locale.cultureCode(){
-            case "zh-cn": return "+86"
-            default: return ""
-            }
+            "+\(accountPatternGenerator.mobileNumber().areaCode())"
         }
     }
     private var disposeBag = DisposeBag()
-    var locale : SupportLocale = SupportLocale.China()
+    var locale: SupportLocale = LocalizeUtils.shared.getSupportLocale()
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -119,6 +116,7 @@ class SignupUserinfoViewController: LandingViewController {
         btnSubmit.layer.cornerRadius = 8
         btnSubmit.layer.masksToBounds = true
         btnSubmit.backgroundColor = UIColor.red
+        btnSubmit.isValid = false
 
         for button in [btnEmail, btnPhone]{
             let selectedColor = UIColor.backgroundTabsGray
