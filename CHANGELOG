@@ -1,1 +1,15 @@
-APP-2938 [IOS][Portal][Message] 信箱註冊成功，沒有收到註冊成功的通知
+feat: APP-2016 (iOS) 實作vn版本
+
+APP-2307 [iOS]增加提現姓名、充值-匯款人姓名輸入長度檢核
+APP-2860 [iOS][DP/WD] 目前充值/提現未顯示為 VND 語系的版本
+APP-2048 [iOS][VN]修改新增提現帳戶時帳戶已存在的錯誤提示字
+APP-1871 [iOS][Withdrawal] Add examining rules to check if the account is existed
+APP-1907 [iOS][Withdrawal][VND] 新增提現銀行帳戶所在位置調整為可篩選式下拉選單
+APP-2365 [iOS]APP name依不同系統語系顯示相應文字
+APP-2738 [iOS]增加提現限額設定(法幣)
+APP-2802 (配合IG整合SBK)[iOS]SBK賽果處理
+APP-2804 (iOS配合調整) [BO][Portal][Affiliate]Bank Name、Short Name分開欄位儲存
+APP-2805 [iOS] Email 驗證頁面調整說明
+APP-3066 [ios][Portal][Deposit] 進行 Offline 充值時，在點擊提交送出後，APP 會 Crash (充值單有生效)
+APP-3065 [ios][Portal][Deposit] 進行 Offline 充值時，在提交頁點擊 X 預取消充值行為，最後點擊確認 APP 會 Crash
+APP-3064 [ios][Portal][Withdrawal] 點擊 Side Menu > Withdrawal 時，APP 會立即 Crash
