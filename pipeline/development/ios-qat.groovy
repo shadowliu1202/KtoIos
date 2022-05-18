@@ -6,14 +6,16 @@ pipeline {
         ansiColor('gnome-terminal')
     }
     environment {
-        PROP_ROOT_RSA = '2cb1ac3a-2e81-474e-9846-25fad87697ef'
         PROP_GIT_CREDENTIALS_ID = '28ef89bf-70a2-475d-b5e0-a1ea12a8fcdb'
         PROP_GIT_REPO_URL = 'git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git'
-        PROP_APPLE_STORE_API_KEY = '8110d047-b477-4759-a390-f858c2908a24'
-        PROP_BUILD_ENVIRONMENT = "${env.ENV_BUILD_ENVIRONMENT}"
-        PROP_DOWNSTREAM_JIRA_JOB = "${env.ENV_JIRA_JOB}"
-        PROP_PRE_REALEASE = "${env.ENV_PRE_RELEASE}"
-        PROP_STAGING_JOB = "${env.ENV_STAGING_JOB}"
+        PROP_APPLE_STORE_API_KEY = '63f71ab5-5473-43ca-9191-b34cd19f1fa1'
+        PROP_APPLE_STORE_KEY_ID = '2XHCS3W99M'
+        PROP_ANSIABLE_SERVER = 'mis-ansible-app-01p'
+        PROP_NGINX_STATIC_SERVER = '172.16.100.122'
+        PROP_ROOT_RSA = '2cb1ac3a-2e81-474e-9846-25fad87697ef'
+        PROP_BUILD_ENVIRONMENT = 'Qat'
+        PROP_PRE_REALEASE = 'dev'
+        PROP_STAGING_JOB = 'stg_release'
         PROP_AGENT_KEYCHAIN_PASSWORD = 'ios_agent_keychain_password'
         PROP_BUILD_BRANCH = "${env.ENV_BUILD_BRANCH}"
         PROP_DOWNLOAD_LINK = "${params.ENV_IOS_DOWNLOAD_URL}"
@@ -28,15 +30,16 @@ pipeline {
             steps {
                 cleanWs()
                 script {
-                    env.PROP_CURRENT_TAG = sh(
+                     env.PROP_CURRENT_TAG = sh(
                             script: """
-                                git ls-remote --tags --sort="v:refname" $PROP_GIT_REPO_URL | tail -n1 | sed 's/.*\\///; s/\\^{}//'
+                                git ls-remote --tags --sort="v:refname" git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git | tail -n1 | sed 's/.*\\///; s/\\^{}//' 
                             """,
                             returnStdout: true
                     ).trim()
-                    echo "Compare latest version: $PROP_CURRENT_TAG"
+                    echo "Compare latest version: $env.PROP_CURRENT_TAG"
                     echo sh(script: 'env|sort', returnStdout: true)
                 }
+
             }
         }
         stage('Define release version') {
@@ -76,7 +79,8 @@ pipeline {
                              'MATCH_PASSWORD=password',
                              "PreRelease=$PROP_PRE_REALEASE",
                              "BuildBranch=$PROP_BUILD_BRANCH",
-                             "BuildEnviroment=$PROP_BUILD_ENVIRONMENT"
+                             "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
+                             "KEY_ID=$PROP_APPLE_STORE_KEY_ID"
 
                     ]) {
                         checkout([$class: 'GitSCM',
@@ -86,12 +90,13 @@ pipeline {
                                                       refspec: "+refs/heads/$BuildBranch:refs/remotes/origin/$BuildBranch +refs/heads/tags/*:refs/remotes/origin/tags/*",
                                                       url: "$BuildRepo"]]])
                         withCredentials([file(credentialsId: "$AppleApiKey", variable: 'API_KEY'),
-                                        string(credentialsId: 'ios_agent_keychain_password', variable: 'KEYCHAIN_PASSWORD')]) {
+                                        string(credentialsId: 'ios_agent_keychain_password', variable: 'KEYCHAIN_PASSWORD')
+                        ]) {
                             sh "fastlane getNextTestflightBuildNumber releaseTarget:$PreRelease targetVersion:$ReleaseVersionCore"
                             script {
                                 int lastBuildNumber = readFile('fastlane/buildNumber').trim() as int
                                 env.PROP_NEXT_BUILD_NUMBER = lastBuildNumber + 1
-                                if (lastBuildNumber == 1) {
+                                if (env.PROP_NEXT_BUILD_NUMBER == 1) {
                                     env.PROP_RELEASE_TAG = "$ReleaseVersion"
                                 } else {
                                     env.PROP_RELEASE_TAG = "$ReleaseVersion+${env.PROP_NEXT_BUILD_NUMBER}"
@@ -107,8 +112,8 @@ pipeline {
                                 env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
                                 echo "Get Ipa Size = $IPA_SIZE"
                             }
-                                        }
-                       uploadProgetPackage artifacts: 'output/*.ipa', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "${env.PROP_RELEASE_TAG}", description: "compile version:${env.PROP_NEXT_BUILD_NUMBER}"
+                        }
+                        uploadProgetPackage artifacts: 'output/*.ipa', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "${env.PROP_RELEASE_TAG}", description: "compile version:${env.PROP_NEXT_BUILD_NUMBER}"
                     }
                 }
             }
@@ -127,8 +132,8 @@ pipeline {
                         script {
                             def remote = [:]
                             remote.name = 'mis ansible'
-                            remote.host = 'mis-ansible-app-01p'
-                            remote.user = 'root'
+                            remote.host = "$PROP_ANSIABLE_SERVER"
+                            remote.user = username
                             remote.identityFile = keyFile
                             remote.allowAnyHosts = true
                             sshCommand remote: remote, command: """
@@ -158,18 +163,30 @@ pipeline {
             }
         }
 
-         stage('Update jira issues') {
+        stage('Update jira issues') {
             //Update jira issue have been deploted to qat3
             steps {
                 withEnv(["Enviroment=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
-                         "NewVersion=ios-$PROP_RELEASE_VERSIONCORE"
+                         "NewVersion=ios-$PROP_RELEASE_VERSIONCORE",
+                         'Transition=ReleaseToReporter'
                 ]) {
                     script {
                         def issueKeys = jiraIssueSelector(issueSelector: [$class: 'DefaultIssueSelector'])
                         for (issue in issueKeys) {
                             def updateIssue = [fields: [labels: ["$NewVersion-$Enviroment"]]]
-                            response = jiraEditIssue failOnError: false, site: 'Higgs-Jira', idOrKey: "$issue", issue: updateIssue
-                            echo response
+                            jiraEditIssue failOnError: false, site: 'Higgs-Jira', idOrKey: "$issue", issue: updateIssue
+                            def jiraTransitions = jiraGetIssueTransitions failOnError: false, idOrKey: "$issue", site: 'Higgs-Jira'
+                            def data = jiraTransitions.data
+                            if (data != null && data.transitions != null) {
+                                for (transition in data.transitions) {
+                                    if (transition.name == "$Transition") {
+                                        echo "transfer $issue with $transition"
+                                        def transitionInput = [transition: [id: "$transition.id"]]
+                                        jiraTransitionIssue failOnError: false, site: 'Higgs-Jira', input:transitionInput, idOrKey: "$issue"
+                                        break
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -179,16 +196,21 @@ pipeline {
         stage('Notification') {
             steps {
                 script {
-                    withEnv(["ReleaseTag=${env.PROP_RELEASE_TAG}",
+                    withEnv(["ReleaseTag=$env.PROP_RELEASE_TAG",
+                             "OnlineTag=$env.PROP_CURRENT_TAG",
                              "BuildEnvrioment=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
                              "ReleaseVersion=$PROP_RELEASE_VERSION",
                              "ReleaseVersionCore=$PROP_RELEASE_VERSIONCORE",
-                             "TeamsToken=$PROP_TEAMS_NOTIFICATION"
+                             "TeamsToken=$PROP_TEAMS_NOTIFICATION",
+                             "UpdateIssues=https://jira.higgstar.com/issues/?jql=project = APP AND labels = ios-$PROP_RELEASE_VERSIONCORE-${PROP_BUILD_ENVIRONMENT.toLowerCase()}"
                     ]) {
+                        String publish = ReleaseTag.split('-')[0]
+                        String online = OnlineTag.split('-')[0]
                         office365ConnectorSend webhookUrl: "$TeamsToken",
                                 message: ">**[Android] [KTO Asia]** has been deployed to $BuildEnvrioment</br>version : **[$ReleaseTag]($JENKINS_PROGET_HOME/feeds/app/ios/kto-asia/$ReleaseVersion/files)**",
                                 factDefinitions: [[name: 'Download Page', template: '<a href="https://qat1-mobile.affclub.xyz/">Download Page</a>'],
-                                                  [name: 'Related Issues', template: "<a href=\"https://jira.higgstar.com/issues/?jql=project = APP AND labels = ios-$ReleaseVersionCore-$BuildEnvrioment\">Jira Issues</a>"]]
+                                                  [name: 'Update Issues', template: "<a href=\"https://jira.higgstar.com/issues/?jql=project = APP AND labels = ios-$ReleaseVersionCore-$BuildEnvrioment\">Jira Issues</a>"],
+                                                  [name: 'Update Issues', template: "$online->$publish (<a href=\"$UpdateIssues\">issues</a>)"]]
                     }
                 }
             }
