@@ -8,6 +8,6 @@ class ManualNetworkControl {
         if !isNetworkConnect {
             return URL(string: "https://")!
         }
-        return URL(string: Configuration.host)!
+        return URL(string: Configuration.host[Localize.getSupportLocale().cultureCode()]!)!
     }
 }

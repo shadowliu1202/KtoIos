@@ -26,7 +26,7 @@ class ResetPasswordViewController: LandingViewController {
     private var disposeBag = DisposeBag()
     private var isFirstTimeEnter = true
     private var timerResend = CountDownTimer()
-    private var locale : SupportLocale = SupportLocale.China()
+    private var locale : SupportLocale = LocalizeUtils.shared.getSupportLocale()
     private var inputAccount : InputText {
         get{
             switch viewModel.currentAccountType() {

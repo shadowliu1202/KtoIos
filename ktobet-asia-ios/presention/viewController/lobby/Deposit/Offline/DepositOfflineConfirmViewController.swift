@@ -35,6 +35,7 @@ class DepositOfflineConfirmViewController: APPViewController {
     @IBOutlet private weak var branchNameCopyButton: UIButton!
     @IBOutlet private weak var userNameCopyButton: UIButton!
     @IBOutlet private weak var bankCardNumberCopyButton: UIButton!
+    @IBOutlet private weak var stackView: UIStackView!
     
     var depositSuccess = false
     
@@ -48,6 +49,7 @@ class DepositOfflineConfirmViewController: APPViewController {
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
         initUI()
+        localize()
         bindOfflineViewModel()
     }
     
@@ -78,6 +80,12 @@ class DepositOfflineConfirmViewController: APPViewController {
     }
     
     // MARK: METHOD
+    fileprivate func localize() {
+        if LocalizeUtils.shared.getLanguage() == SupportLocale.Vietnam.init().cultureCode() {
+            remitterView.isHidden = true
+        }
+    }
+
     fileprivate func initUI() {
         titleLabel.text = Localize.string("deposit_offline_step2_title")
         subTitleLabel.text = Localize.string("deposit_offline_step2_title_tips")
@@ -102,6 +110,9 @@ class DepositOfflineConfirmViewController: APPViewController {
             $0?.layer.borderWidth = 1
             $0?.setTitle(Localize.string("common_copy"), for: .normal)
         }
+        
+        stackView.setCustomSpacing(16, after: tipTitleLabel)
+        stackView.setCustomSpacing(12, after: remitterView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

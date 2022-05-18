@@ -19,6 +19,9 @@ class WithdrawalViewController: APPViewController {
     @IBOutlet private weak var showAllWithdrawalButton: UIButton!
     @IBOutlet private weak var withdrawalRecordTableView: UITableView!
     @IBOutlet private weak var constraintWithdrawalRecordTableHeight: NSLayoutConstraint!
+    @IBOutlet private weak var tipLabelStackView: UIStackView!
+    @IBOutlet private weak var chanelStackView: UIStackView!
+
     private var accounts: [FiatBankCard]?
     private var cryptoBankCards: [CryptoBankCard]?
     fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
@@ -28,22 +31,22 @@ class WithdrawalViewController: APPViewController {
     
     private lazy var dailyLimitAmount: String = "" {
         didSet {
-            self.withdrawalTodayAmountLimitLabel.text = Localize.string("cps_daily_limit_widthrawal_amount", dailyLimitAmount)
+            self.withdrawalTodayAmountLimitLabel.text = Localize.string("withdrawal_daily_limit_widthrawal_amount", dailyLimitAmount)
         }
     }
     private lazy var dailyMaxCount: String = "" {
         didSet {
-            self.withdrawalTodayCountLimitLabel.text = Localize.string("cps_daily_limit_widthrawal_times", dailyMaxCount)
+            self.withdrawalTodayCountLimitLabel.text = Localize.string("withdrawal_daily_limit_widthrawal_times", dailyMaxCount)
         }
     }
     private lazy var turnoverRequirement: AccountCurrency? = AccountCurrency.zero() {
         didSet {
             guard let turnoverRequirement = turnoverRequirement else {
-                self.turnoverRequirementLabel.text = Localize.string("cps_turnover_requirement")
+                self.turnoverRequirementLabel.text = Localize.string("withdrawal_turnover_requirement")
                 return
             }
             let suffix = !turnoverRequirement.isPositive ? Localize.string("common_none") : Localize.string("common_requirement", "\(turnoverRequirement.formatString())")
-            self.turnoverRequirementLabel.text = Localize.string("cps_turnover_requirement") + suffix
+            self.turnoverRequirementLabel.text = Localize.string("withdrawal_turnover_requirement") + suffix
         }
     }
     private lazy var crpytoWithdrawalRequirement: AccountCurrency? = AccountCurrency.zero() {
@@ -70,11 +73,19 @@ class WithdrawalViewController: APPViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_withdrawal"))
         initUI()
+        localize()
         withdrawalLimitationDataBinding()
         recordDataBinding()
         showAllRecordEvenhandler()
         recordDataEvenhandler()
         cryptoWithdrawlDataBinding()
+    }
+
+    private func localize() {
+        if Localize.getLanguage() == SupportLocale.Vietnam.init().cultureCode() {
+            tipLabelStackView.isHidden = true
+            crpytoView.isHidden = true
+        }
     }
     
     deinit {

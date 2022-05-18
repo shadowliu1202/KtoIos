@@ -27,12 +27,12 @@ private func JSONResponseDataFormatter(_ data: Data) -> String {
 }
 
 class KtoURL {
-    static fileprivate var host : String = Configuration.host
+    static fileprivate var host = Configuration.host
     static var baseUrl : URL {
         if Configuration.manualControlNetwork {
             return ManualNetworkControl.shared.baseUrl
         }
-        return URL(string: self.host)!
+        return URL(string: self.host[Localize.getSupportLocale().cultureCode()]!)!
     }
 }
 
@@ -41,7 +41,7 @@ class HttpClient {
     let provider : MoyaProvider<MultiTarget>!
     let retryProvider : MoyaProvider<MultiTarget>!
     var session : Session { return AF}
-    var host : String {return KtoURL.host}
+    var host : String {return KtoURL.host[Localize.getSupportLocale().cultureCode()]!}
     var baseUrl : URL { return KtoURL.baseUrl}
     var headers : [String : String] {
         var header : [String : String] = [:]
@@ -54,9 +54,10 @@ class HttpClient {
             }
             return token.joined(separator: ";")
         }()
+
         return header
     }
-    
+
     private var retrier = APIRequestRetrier()
     private(set) var debugDatas: [DebugData] = []
     private var dateFormatter: DateFormatter {
@@ -119,7 +120,7 @@ class HttpClient {
     }
 
     func getCulture() -> String {
-        let culture = session.sessionConfiguration.httpCookieStorage?.cookies?.first(where: { $0.name == "culture" })?.value ?? ""
+        let culture = session.sessionConfiguration.httpCookieStorage?.cookies(for: baseUrl)?.first(where: { $0.name == "culture" })?.value ?? ""
         return culture
     }
     
@@ -208,7 +209,9 @@ fileprivate func logConfig() -> NetworkLoggerPlugin.Configuration {
 fileprivate func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = nil) -> Session {
     let configuration = URLSessionConfiguration.default
     configuration.headers = .default
-    let manager = ServerTrustManager(evaluators: [Configuration.hostName: DisabledTrustEvaluator()])
+    var evaluators: [String: ServerTrustEvaluating] = [:]
+    Configuration.hostName.forEach{ evaluators[$1] = DisabledTrustEvaluator() }
+    let manager = ServerTrustManager(evaluators: evaluators)
     return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor, serverTrustManager: manager)
 }
 

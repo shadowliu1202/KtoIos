@@ -25,6 +25,11 @@ class DepositGatewayViewController: APPViewController {
     @IBOutlet private weak var remitterNameErrorLabel: UILabel!
     @IBOutlet private weak var remitterBankCardNumberErrorLabel: UILabel!
     @IBOutlet private weak var remitterAmountErrorLabel: UILabel!
+    @IBOutlet private weak var withdrawalVNDTipLabel: UILabel!
+    @IBOutlet private weak var remitterDirectTextField: DropDownInputText!
+    @IBOutlet private weak var remitterDirectErrorLabel: UILabel!
+    @IBOutlet private weak var directViewHeight: NSLayoutConstraint!
+    @IBOutlet private weak var directView: UIView!
     
     var depositType: DepositSelection?
     var paymentIdentity: String!
@@ -39,7 +44,8 @@ class DepositGatewayViewController: APPViewController {
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(back))
         
         initUI()
-        
+        localize()
+
         switch depositType {
         case is OfflinePayment:
             offlineViewModel.unwindSegueId = "unwindToDeposit"
@@ -53,6 +59,12 @@ class DepositGatewayViewController: APPViewController {
             break
         }
     }
+
+    private func localize() {
+        if LocalizeUtils.shared.getLanguage() == SupportLocale.China.init().cultureCode() {
+            withdrawalVNDTipLabel.isHidden = true
+        }
+    }
     
     private func bindOfflineViewModel() {
         offlinePaymentGatewayBinding()
@@ -62,7 +74,7 @@ class DepositGatewayViewController: APPViewController {
         validateOfflineInputBinding()
         offlineConfirmButtonBinding()
         
-        offlineViewModel.errors().subscribe(onNext: {[weak self] error in
+        offlineViewModel.errors().subscribe(onNext: { [weak self] error in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }
@@ -74,10 +86,43 @@ class DepositGatewayViewController: APPViewController {
         onlineTextFieldBinding()
         validateOnineInputBinding()
         onlineConfirmButtonBinding()
-        
-        onlineViewModel.errors().subscribe(onNext: {[weak self] in
-            self?.handleErrors($0)
+
+        onlineViewModel.output.selectPaymentGateway.drive(onNext: displayRemitType).disposed(by: disposeBag)
+        onlineViewModel.errors().subscribe(onNext: { [weak self] error in
+            self?.handleErrors(error)
         }).disposed(by: disposeBag)
+        remitterBankTextField.selectedID.bind(to: onlineViewModel.input.selectBankCode).disposed(by: disposeBag)
+    }
+
+    private func displayRemitType(gateway: PaymentsDTO.Gateway) {
+        setFromBankView(isHidden: true)
+        setDirectToView(isHidden: true)
+
+        switch gateway.remitType {
+        case let remitType where remitType == PaymentsDTO.RemitType.frombank:
+            setFromBankView(isHidden: false, remitBank: gateway.remitBank)
+        case let remitType where remitType == PaymentsDTO.RemitType.directto:
+            setDirectToView(isHidden: false, remitBank: gateway.remitBank)
+        default:
+            break
+        }
+    }
+
+    private func setFromBankView(isHidden: Bool, remitBank: [PaymentsDTO.RemitBankCode] = []) {
+        remitterBankTextField.isHidden = isHidden
+        remitterBankTextField.isSearchEnable = false
+        remitterBankTextField.optionIds = remitBank.map{ $0.bankCode }
+        remitterBankTextField.optionArray = remitBank.map{ $0.name }
+        constraintremitterBankTextFieldHeight.constant = isHidden ? 0 : 60
+        constraintremitterBankTextFieldTop.constant = isHidden ? 0 : 16
+    }
+
+    private func setDirectToView(isHidden: Bool, remitBank: [PaymentsDTO.RemitBankCode] = []) {
+        remitterDirectTextField.isSearchEnable = false
+        remitterDirectTextField.optionIds = remitBank.map{ $0.bankCode }
+        remitterDirectTextField.optionArray = remitBank.map{ $0.name }
+        directViewHeight.constant = isHidden ? 0 : 110
+        directView.isHidden = isHidden
     }
     
     override func handleErrors(_ error: Error) {
@@ -101,9 +146,11 @@ class DepositGatewayViewController: APPViewController {
         
         remitterBankTextField.setTitle(Localize.string("deposit_bankname_placeholder"))
         remitterBankTextField.isSearchEnable = true
-        
+
         remitterNameTextField.setTitle(Localize.string("deposit_name"))
-        
+
+        remitterDirectTextField.setTitle(Localize.string("deposit_bankname_placeholder"))
+
         remitterBankCardNumberTextField.setTitle(Localize.string("deposit_accountlastfournumber"))
         remitterBankCardNumberTextField.setKeyboardType(.numberPad)
         remitterBankCardNumberTextField.maxLength = 4
@@ -129,9 +176,6 @@ class DepositGatewayViewController: APPViewController {
     
     //MARK: Online
     private func initOnlineUI() {
-        remitterBankTextField.isHidden = true
-        constraintremitterBankTextFieldHeight.constant = 0
-        constraintremitterBankTextFieldTop.constant = 0
         titleLabel.text = depositType?.name
         selectDepositBankLabel.text = Localize.string("deposit_select_method")
     }

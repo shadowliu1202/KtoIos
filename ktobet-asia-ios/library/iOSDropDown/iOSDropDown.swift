@@ -76,7 +76,7 @@ open class DropDown : UITextField{
             self.imageArray = self.optionImageArray
         }
     }
-    public var optionIds : [Int]?
+    public var optionIds : [String]?
     var searchText = String() {
         didSet{
             if searchText == "" {
@@ -110,7 +110,7 @@ open class DropDown : UITextField{
     }
 
     //MARK: Closures
-    fileprivate var didSelectCompletion: (String, Int ,Int) -> () = {selectedText, index , id  in }
+    fileprivate var didSelectCompletion: (String, Int ,String) -> () = {selectedText, index , id  in }
     fileprivate var TableWillAppearCompletion: () -> () = { }
     fileprivate var TableDidAppearCompletion: () -> () = { }
     fileprivate var TableWillDisappearCompletion: () -> () = { }
@@ -351,7 +351,7 @@ open class DropDown : UITextField{
     //MARK: Actions Methods
     public var didDropDownTap: (() -> ())?
     
-    public func didSelect(completion: @escaping (_ selectedText: String, _ index: Int , _ id:Int ) -> ()) {
+    public func didSelect(completion: @escaping (_ selectedText: String, _ index: Int , _ id: String) -> ()) {
         didSelectCompletion = completion
     }
 
@@ -472,7 +472,7 @@ extension DropDown: UITableViewDelegate {
             if let id = optionIds?[selected] {
                 didSelectCompletion(selectedText, selected , id )
             }else{
-                didSelectCompletion(selectedText, selected , 0)
+                didSelectCompletion(selectedText, selected , "")
             }
 
         }

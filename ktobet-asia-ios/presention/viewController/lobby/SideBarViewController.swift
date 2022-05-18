@@ -206,7 +206,11 @@ class SideBarViewController: APPViewController {
             let width = (UIScreen.main.bounds.size.width - space * 5) / 4
             let flowLayout = UICollectionViewFlowLayout()
             flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
-            flowLayout.itemSize = CGSize(width: width, height: 84)
+            if LocalizeUtils.shared.getLanguage() == SupportLocale.China.init().cultureCode() {
+                flowLayout.itemSize = CGSize(width: width, height: 84)
+            } else {
+                flowLayout.itemSize = CGSize(width: width, height: 124)
+            }
             flowLayout.minimumLineSpacing = 12
             flowLayout.minimumInteritemSpacing = space
             return flowLayout

@@ -29,6 +29,8 @@ class LoginViewController: LandingViewController {
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var register = UIBarButtonItem.kto(.register)
     private var spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
+    private let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
+
     private var _customService: CustomerServiceButtonItem?
     private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
@@ -45,7 +47,6 @@ class LoginViewController: LandingViewController {
         super.viewDidLoad()
         var barButtoms = [padding, register, spacing, customService]
         if Configuration.manualUpdate {
-            let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
             let spacing2 = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
             barButtoms.append(contentsOf: [spacing2, update])
         }
@@ -107,7 +108,8 @@ class LoginViewController: LandingViewController {
     // MARK: METHOD
     func localize() {
         register.title = Localize.string("common_register")
-        customService.title = Localize.string("customerservice_title")
+        customService.title = Localize.string("customerservice_action_bar_title")
+        update.title = Localize.string("update_title")
         labLoginErr.text = Localize.string("login_invalid_username_password_captcha")
         labTitle.text = Localize.string("common_login")
         textAccount.setTitle(Localize.string("login_account_identity"))

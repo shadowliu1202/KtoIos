@@ -47,11 +47,11 @@ class LocalizeUtils: NSObject {
     
     func setLanguage(language : SupportLocale) {
         let lang = language.cultureCode()
-        UserDefaults.standard.setValue(lang, forKey: "UserLanguage")
+        UserDefaults.standard.setValue(lang, forKey: "cultureCode")
     }
     
     func getLanguage() -> String {
-        if let lang = UserDefaults.standard.string(forKey: "UserLanguage") {
+        if let lang = UserDefaults.standard.string(forKey: "cultureCode") {
             return lang
         } else {
             switch Locale.current.languageCode {
@@ -65,6 +65,21 @@ class LocalizeUtils: NSObject {
                 setLanguage(language: SupportLocale.China.init())
                 return SupportLocale.China.shared.cultureCode()
             }
+        }
+    }
+
+    func getSupportLocale() -> SupportLocale {
+        if let lang = UserDefaults.standard.string(forKey: "cultureCode") {
+            switch lang {
+            case SupportLocale.China.shared.cultureCode():
+                return SupportLocale.China.init()
+            case SupportLocale.Vietnam.shared.cultureCode():
+                return SupportLocale.Vietnam.init()
+            default:
+                return SupportLocale.China.init()
+            }
+        } else {
+            return SupportLocale.China.init()
         }
     }
 }

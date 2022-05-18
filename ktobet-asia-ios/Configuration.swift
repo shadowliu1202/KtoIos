@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SharedBu
 
 ///reference: https://cocoacasts.com/tips-and-tricks-managing-build-configurations-in-xocde
 enum Configuration: String {
@@ -46,9 +47,9 @@ enum Configuration: String {
             return Qat3Config()
         }
     }()
-    
-    static var host: String             = "https://\(hostName)/"
-    static var hostName: String         = env.hostName.first(where: checkNetwork) ?? env.hostName.first!
+
+    static var host: [String: String] = hostName.mapValues{ "https://\($0)/"  }
+    static var hostName: [String: String] = env.hostName.mapValues{ $0.first(where: checkNetwork) ?? $0.first! }
     static var disableSSL: Bool         = env.disableSSL
     static var isAutoUpdate: Bool       = env.isAutoUpdate
     static var manualUpdate: Bool       = env.manualUpdate
@@ -100,7 +101,7 @@ enum Configuration: String {
 }
 
 protocol Env {
-    var hostName: [String] { get }
+    var hostName: [String: [String]] { get }
     var disableSSL: Bool { get }
     var isAutoUpdate: Bool { get }
     var manualUpdate: Bool { get }
@@ -111,7 +112,7 @@ protocol Env {
 }
 
 fileprivate class DevConfig: Env {
-    var hostName: [String] = ["qat1-mobile.affclub.xyz"]
+    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["qat1-mobile.affclub.xyz"]]
     var disableSSL: Bool = true
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
@@ -122,7 +123,10 @@ fileprivate class DevConfig: Env {
 }
 
 fileprivate class QatConfig: Env {
-    var hostName: [String] = ["qat1-mobile.affclub.xyz", "qat1-mobile2.affclub.xyz"]
+    var hostName: [String: [String]] =
+    [SupportLocale.China.shared.cultureCode(): ["qat1-mobile.affclub.xyz", "qat1-mobile2.affclub.xyz"],
+     SupportLocale.Vietnam.shared.cultureCode(): ["qat1-mobile2.affclub.xyz", "qat1-mobile.affclub.xyz"]]
+
     var disableSSL: Bool = true
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
@@ -133,7 +137,9 @@ fileprivate class QatConfig: Env {
 }
 
 fileprivate class StagingConfig: Env {
-    var hostName: [String] = ["mobile.staging.support", "mobile2.staging.support"]
+    var hostName: [String: [String]] =
+    [SupportLocale.China.shared.cultureCode(): ["mobile.staging.support", "mobile2.staging.support"],
+     SupportLocale.Vietnam.shared.cultureCode(): ["mobile2.staging.support", "mobile.staging.support"]]
     var disableSSL: Bool = false
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
@@ -144,7 +150,9 @@ fileprivate class StagingConfig: Env {
 }
 
 fileprivate class ProductionConfig: Env {
-    var hostName: [String] = ["appkto.com", "thekto.app"]
+    var hostName: [String: [String]] =
+    [SupportLocale.China.shared.cultureCode(): ["appkto.com", "thekto.app"],
+     SupportLocale.Vietnam.shared.cultureCode(): ["ktovn.app", "lobby.ktoviet.app:9000"]]
     var disableSSL: Bool = false
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
@@ -155,7 +163,9 @@ fileprivate class ProductionConfig: Env {
 }
 
 fileprivate class ProductionSelftestConfig: Env {
-    var hostName: [String] = ["mobile-selftest.ktokto.net"]
+    var hostName: [String: [String]] =
+    [SupportLocale.China.shared.cultureCode(): ["mobile-selftest.ktokto.net"],
+     SupportLocale.Vietnam.shared.cultureCode(): ["mobile-selftest.ktokto.net"]]
     var disableSSL: Bool = true
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = false
@@ -166,7 +176,9 @@ fileprivate class ProductionSelftestConfig: Env {
 }
 
 fileprivate class ProductionBackupConfig: Env {
-    var hostName: [String] = ["thekto.app"]
+    var hostName: [String: [String]] =
+    [SupportLocale.China.shared.cultureCode(): ["thekto.app"],
+     SupportLocale.Vietnam.shared.cultureCode(): ["thekto.app"]]
     var disableSSL: Bool = false
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
@@ -177,7 +189,9 @@ fileprivate class ProductionBackupConfig: Env {
 }
 
 fileprivate class Qat3Config: Env {
-    var hostName: [String] = ["qat3-mobile.affclub.xyz", "qat3-mobile2.affclub.xyz"]
+    var hostName: [String: [String]] =
+    [SupportLocale.China.shared.cultureCode(): ["qat3-mobile.affclub.xyz", "qat3-mobile2.affclub.xyz"],
+     SupportLocale.Vietnam.shared.cultureCode(): ["qat3-mobile2.affclub.xyz", "qat3-mobile.affclub.xyz"]]
     var disableSSL: Bool = true
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false

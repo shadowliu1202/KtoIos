@@ -70,7 +70,7 @@ class IAuthRepositoryImpl : IAuthRepository {
             //MARK: 暫屏蔽VN註冊，待VN上線時打開
             if HttpClient().getCulture() == SupportLocale.Vietnam.shared.cultureCode() && !Configuration.isAllowedVN {
                 let storage = HttpClient().session.sessionConfiguration.httpCookieStorage
-                for cookie in HttpClient().getCookies(){
+                for cookie in HttpClient().getCookies() {
                     storage?.deleteCookie(cookie)
                 }
 

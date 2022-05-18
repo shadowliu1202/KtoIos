@@ -167,7 +167,7 @@ class CommonVerifyOtpFactory {
         CommonVerifyOtpBuilder(commonFailedType: RegisterFailedType(),
                                title: Localize.string("register_step3_title_1"),
                                description: Localize.string("register_step3_verify_by_phone_title"),
-                               identityTip: Localize.string("common_otp_sent_content") + "\n" + identity,
+                               identityTip: Localize.string("common_otp_sent_content_mobile") + "\n" + identity,
                                otpExeedSendLimitError: Localize.string("common_sms_otp_exeed_send_limit"),
                                isHiddenCSBarItem: false,
                                isHiddenBarTitle: false).build()
@@ -177,7 +177,7 @@ class CommonVerifyOtpFactory {
         CommonVerifyOtpBuilder(commonFailedType: ResetPasswrodFailedType(),
                                title: Localize.string("login_resetpassword_step2_title_1"),
                                description: Localize.string("login_resetpassword_step2_verify_by_email_title"),
-                               identityTip: Localize.string("common_otp_sent_content") + "\n" + identity,
+                               identityTip: Localize.string("common_otp_sent_content_email") + "\n" + identity,
                                junkTip: Localize.string("common_email_spam_check"),
                                otpExeedSendLimitError: Localize.string("common_email_otp_exeed_send_limit"),
                                isHiddenCSBarItem: false,
@@ -188,7 +188,7 @@ class CommonVerifyOtpFactory {
         CommonVerifyOtpBuilder(commonFailedType: ResetPasswrodFailedType(),
                                title: Localize.string("login_resetpassword_step2_title_1"),
                                description: Localize.string("login_resetpassword_step2_verify_by_phone_title"),
-                               identityTip: Localize.string("common_otp_sent_content") + "\n" + identity,
+                               identityTip: Localize.string("common_otp_sent_content_mobile") + "\n" + identity,
                                otpExeedSendLimitError: Localize.string("common_sms_otp_exeed_send_limit"),
                                isHiddenCSBarItem: false,
                                isHiddenBarTitle: false).build()

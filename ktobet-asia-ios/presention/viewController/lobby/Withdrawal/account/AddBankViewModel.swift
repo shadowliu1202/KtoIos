@@ -17,15 +17,15 @@ class AddBankViewModel {
         let result: BankNamePatternValidateResult = self.accountPatternGenerator.bankName(banks: self.bankNames).validate(name: bankName)
         return result.toValidError()
     }
+
     private lazy var isBankValid = bankValid.map({$0 == .none ? true : false})
-    
     lazy var branchName = BehaviorRelay<String>(value: "")
     lazy var branchValid: Observable<ValidError> = branchName.skip(InitAndKeyboardFirstEvent).map { [unowned self] (text) -> ValidError in
         let result: BankBranchPatternValidateResult = self.accountPatternGenerator.bankBranch().validate(name: text)
         return result.toValidError()
     }
+
     private lazy var isBranchValid = branchValid.map({$0 == .none ? true : false})
-    
     lazy var areaName = AreaNameFactory.Companion.init().create(supportLocale: playerDataUseCase.getSupportLocalFromCache())
     var province = BehaviorRelay<String>(value: "")
     lazy var provinceValid = province.skip(InitAndKeyboardFirstEvent).map({ [weak self] (txt) -> ValidError in
@@ -103,8 +103,8 @@ class AddBankViewModel {
     }
     
     func getBanks() -> Single<[(Int, Bank)]> {
-        return bankUseCase.getBankMap().do(onSuccess: { [weak self] (tuple) in
-            self?.bankNames = tuple.map{ $0.1.name }
+        return bankUseCase.getBankMap().do(onSuccess: { [unowned self] (tuple) in
+            self.bankNames = tuple.map{ self.displayBank($0.1) }
         })
     }
     
@@ -123,5 +123,16 @@ class AddBankViewModel {
         }
         let newWithdrawalAccount: NewWithdrawalAccount = NewWithdrawalAccount(bankId: bankId, bankName: self.bankName.value, branch: self.branchName.value, location: self.province.value, city: self.county.value, address: "", accountNumber: self.account.value , accountName: self.userName.value)
         return withdrawalUseCase.addWithdrawalAccount(newWithdrawalAccount)
+    }
+
+    private func displayBank(_ bank: Bank) -> String {
+        switch Localize.getSupportLocale() {
+        case is SupportLocale.China:
+            return bank.name
+        case is SupportLocale.Vietnam:
+            return "(\(bank.shortName)) \(bank.name)"
+        default:
+            return ""
+        }
     }
 }

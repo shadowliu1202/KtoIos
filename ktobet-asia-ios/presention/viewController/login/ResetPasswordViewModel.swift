@@ -17,7 +17,7 @@ class ResetPasswordViewModel {
     var relayPassword = BehaviorRelay(value: "")
     var relayConfirmPassword = BehaviorRelay(value: "")
     var relayAccountType = BehaviorRelay(value: AccountType.phone)
-    var locale : SupportLocale = SupportLocale.China()
+    var locale : SupportLocale = LocalizeUtils.shared.getSupportLocale()
     var remainTime = 0
     var retryCount: Int {
         get {

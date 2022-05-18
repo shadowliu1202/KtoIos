@@ -28,7 +28,7 @@ class WithdrawlEmptyViewController: UIViewController {
         case .crypto:
             titleLabel.text = Localize.string("cps_set_crypto_account")
             descriptionLabel.text = Localize.string("cps_set_crypto_account_hint")
-            continueButton.setTitle(Localize.string("common_continue"), for: .normal)
+            continueButton.setTitle(Localize.string("common_continue2"), for: .normal)
             skipButton.setTitle(Localize.string("common_notset"), for: .normal)
         case .general:
             titleLabel.text = Localize.string("withdrawal_setbankaccount_title")

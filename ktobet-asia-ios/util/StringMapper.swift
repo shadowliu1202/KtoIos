@@ -95,4 +95,15 @@ class StringMapper {
             return ""
         }
     }
+
+    func localizeBankName(banks tuple: [(Int, Bank)]) -> [String] {
+        switch LocalizeUtils.shared.getLanguage() {
+        case SupportLocale.Vietnam.init().cultureCode():
+            return tuple.map{ "(\($0.1.shortName)) \($0.1.name)" }
+        case SupportLocale.China.init().cultureCode():
+            return tuple.map{ $0.1.name }
+        default:
+            return []
+        }
+    }
 }

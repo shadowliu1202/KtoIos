@@ -62,7 +62,7 @@ class SignupLanguageViewController: LandingViewController {
     // MARK: METHOD
     private func localize(){
         login.title = Localize.string("common_login")
-        customService.title = Localize.string("customerservice_title")
+        customService.title = Localize.string("customerservice_action_bar_title")
         labTitle.text = Localize.string("register_step1_title_1")
         labDesc.text = Localize.string("register_step1_title_2")
         labTermsTip.text = Localize.string("register_step1_tips_1")
@@ -73,9 +73,9 @@ class SignupLanguageViewController: LandingViewController {
     private func reloadLanguageList(){
         arrLangs = {
             //MARK: 暫屏蔽VN註冊，待VN上線時打開
-            //let texts = [Localize.string("register_language_option_chinese"), Localize.string("register_language_option_vietnam")]
-            //let type = [SupportLocale.China.init(), SupportLocale.Vietnam.init()]
-            let types = [SupportLocale.China.init(): Localize.string("register_language_option_chinese")]
+//            let types = [SupportLocale.China.init(): Localize.string("register_language_option_chinese")]
+            let types = [SupportLocale.China.init(): Localize.string("register_language_option_chinese"),
+                         SupportLocale.Vietnam.init(): Localize.string("register_language_option_vietnam")]
             var arr = [LanguageListData]()
             for (type, text) in types {
                 arr.append({
