@@ -135,13 +135,11 @@ class ResetPasswordViewController: LandingViewController {
                     self.inputMobile.isHidden = false
                     self.btnPhone.isSelected = true
                     self.btnEmail.isSelected = false
-                    self.btnSubmit.setTitle(Localize.string("register_step2_verify_mobile"), for: .normal)
                 case .email:
                     self.inputEmail.isHidden = false
                     self.inputMobile.isHidden = true
                     self.btnPhone.isSelected = false
                     self.btnEmail.isSelected = true
-                    self.btnSubmit.setTitle(Localize.string("register_step2_verify_mail"), for: .normal)
                 }
                 self.inputAccount.showKeyboard()
             }).disposed(by: disposeBag)
