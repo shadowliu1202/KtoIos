@@ -190,8 +190,8 @@ fileprivate class ProductionBackupConfig: Env {
 
 fileprivate class Qat3Config: Env {
     var hostName: [String: [String]] =
-    [SupportLocale.China.shared.cultureCode(): ["qat3-mobile.affclub.xyz", "qat3-mobile2.affclub.xyz"],
-     SupportLocale.Vietnam.shared.cultureCode(): ["qat3-mobile2.affclub.xyz", "qat3-mobile.affclub.xyz"]]
+    [SupportLocale.China.shared.cultureCode(): ["qat3-mobile.affclub.xyz"],
+     SupportLocale.Vietnam.shared.cultureCode(): ["qat3-mobile2.affclub.xyz"]]
     var disableSSL: Bool = true
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
