@@ -17,9 +17,9 @@ pipeline {
         PROP_PRE_REALEASE = 'dev'
         PROP_STAGING_JOB = 'stg_release'
         PROP_AGENT_KEYCHAIN_PASSWORD = 'ios_agent_keychain_password'
-        PROP_BUILD_BRANCH = "${env.ENV_BUILD_BRANCH}"
-        PROP_DOWNLOAD_LINK = "${params.ENV_IOS_DOWNLOAD_URL}"
-        PROP_TEAMS_NOTIFICATION = "${env.ENV_TEAMS_NOTIFICATION_TOKEN}"
+        PROP_BUILD_BRANCH = "${env.BUILD_BRANCH}"
+        PROP_DOWNLOAD_LINK = "${env.IOS_DOWNLOAD_URL}"
+        PROP_TEAMS_NOTIFICATION = "${env.TEAMS_NOTIFICATION_TOKEN}"
     }
     parameters {
         booleanParam defaultValue: false, description: '連Staging一起release', name: 'INCLUDE_STAGING'
@@ -32,14 +32,13 @@ pipeline {
                 script {
                      env.PROP_CURRENT_TAG = sh(
                             script: """
-                                git ls-remote --tags --sort="v:refname" git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git | tail -n1 | sed 's/.*\\///; s/\\^{}//' 
+                                git ls-remote --tags --sort="v:refname" git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git | tail -n1 | sed 's/.*\\///; s/\\^{}//'
                             """,
                             returnStdout: true
                     ).trim()
                     echo "Compare latest version: $env.PROP_CURRENT_TAG"
                     echo sh(script: 'env|sort', returnStdout: true)
                 }
-
             }
         }
         stage('Define release version') {
@@ -126,8 +125,9 @@ pipeline {
                          "IpaSize=${env.IPA_SIZE}",
                          "BuildUser=${env.BUIlD_USER}",
                          "JenkinsCredentialsId=$PROP_GIT_CREDENTIALS_ID",
-                         "BuildEnviroment=$PROP_BUILD_ENVIRONMENT"
-                    ]) {
+                         "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
+                         "DownloadLink=$PROP_DOWNLOAD_LINK"
+                ]) {
                     withCredentials([sshUserPrivateKey(credentialsId: "$RootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
                         script {
                             def remote = [:]
@@ -136,9 +136,9 @@ pipeline {
                             remote.user = username
                             remote.identityFile = keyFile
                             remote.allowAnyHosts = true
-                            sshCommand remote: remote, command: """
-                                ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$ReleaseTag ipa_size=$IpaSize download_url=$PROP_DOWNLOAD_LINK" -i /data-disk/brand-team/qat1.ini
-                            """
+                        sshCommand remote: remote, command: """
+                            ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$ReleaseTag ipa_size=$IpaSize download_url=$PROP_DOWNLOAD_LINK" -i /data-disk/brand-team/qat1.ini
+                        """
                         }
                     }
                     wrap([$class: 'BuildUser']) {
@@ -150,7 +150,7 @@ pipeline {
                         """
                         }
                     }
-                    }
+                }
             }
         }
 
@@ -171,23 +171,11 @@ pipeline {
                          'Transition=ReleaseToReporter'
                 ]) {
                     script {
-                        def issueKeys = jiraIssueSelector(issueSelector: [$class: 'DefaultIssueSelector'])
-                        for (issue in issueKeys) {
-                            def updateIssue = [fields: [labels: ["$NewVersion-$Enviroment"]]]
-                            jiraEditIssue failOnError: false, site: 'Higgs-Jira', idOrKey: "$issue", issue: updateIssue
-                            def jiraTransitions = jiraGetIssueTransitions failOnError: false, idOrKey: "$issue", site: 'Higgs-Jira'
-                            def data = jiraTransitions.data
-                            if (data != null && data.transitions != null) {
-                                for (transition in data.transitions) {
-                                    if (transition.name == "$Transition") {
-                                        echo "transfer $issue with $transition"
-                                        def transitionInput = [transition: [id: "$transition.id"]]
-                                        jiraTransitionIssue failOnError: false, site: 'Higgs-Jira', input:transitionInput, idOrKey: "$issue"
-                                        break
-                                    }
-                                }
-                            }
-                        }
+                        def issueList = []
+                        issueList.addAll(getChangeLogIssues())
+                        issueList.addAll(getChangeIssues())
+                        echo "Get Jira Issues: $issueList"
+                        updateIssues(issueList)
                     }
                 }
             }
@@ -212,6 +200,47 @@ pipeline {
                                                   [name: 'Update Issues', template: "<a href=\"https://jira.higgstar.com/issues/?jql=project = APP AND labels = ios-$ReleaseVersionCore-$BuildEnvrioment\">Jira Issues</a>"],
                                                   [name: 'Update Issues', template: "$online->$publish (<a href=\"$UpdateIssues\">issues</a>)"]]
                     }
+                }
+            }
+        }
+    }
+}
+
+def getChangeLogIssues() {
+    def issueList = []
+    def issueKeys = jiraIssueSelector(issueSelector: [$class: 'DefaultIssueSelector'])
+    for (issue in issueKeys) {
+        issueList.add(issue)
+    }
+    return issueList.toSorted()
+}
+
+@NonCPS
+def getChangeIssues() {
+    def issueList = []
+    def changeLogSets = currentBuild.changeSets
+    for (int i = 0; i < changeLogSets.size(); i++) {
+        def entries = changeLogSets[i].items
+        for (int j = 0; j < entries.length; j++) {
+            issueList.addAll(entries[j].comment.findAll('APP-\\d+'))
+        }
+    }
+    return issueList.toSorted()
+}
+
+def updateIssues(jiraIssues = []) {
+    def updateIssue = [fields: [labels: ["$NewVersion-$Enviroment"]]]
+    for (issue in jiraIssues) {
+        jiraEditIssue failOnError: false, site: 'Higgs-Jira', idOrKey: "$issue", issue: updateIssue
+        def jiraTransitions = jiraGetIssueTransitions failOnError: false, idOrKey: "$issue", site: 'Higgs-Jira'
+        def data = jiraTransitions.data
+        if (data != null && data.transitions != null) {
+            for (transition in data.transitions) {
+                if (transition.name == "$Transition") {
+                    echo "transfer $issue with $transition"
+                    def transitionInput = [transition: [id: "$transition.id"]]
+                    jiraTransitionIssue failOnError: false, site: 'Higgs-Jira', input:transitionInput, idOrKey: "$issue"
+                    break
                 }
             }
         }

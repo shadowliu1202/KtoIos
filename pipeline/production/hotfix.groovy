@@ -142,13 +142,26 @@ pipeline {
         }
 
         stage('Update jira issues') {
+            //Update jira issue have been deploted to qat3
             steps {
-                withEnv(["ReleaseTag=$PROP_RELEASE_TAG",
-                         "ProductionTag=$PROP_PRODUCTION_TAG"
+                withEnv(["Enviroment=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
+                         "NewVersion=android-$env.PROP_VERSION_CORE"
                 ]) {
-                    build job: '(Hot-Fix) Qat3 Publish Step - Update Jira',
-                            parameters: [text(name: 'CURRENT_TAG', value: "$ProductionTag"),
-                                         text(name: 'RELEASE_TAG', value: "$ReleaseTag")]
+                    script {
+                        def issueKeys = jiraIssueSelector(issueSelector: [$class: 'DefaultIssueSelector'])
+                        //relase new fix-verion for release candiate
+                        jiraNewVersion site: 'Higgs-Jira', failOnError: false, version: [name: "$NewVersion", project: 'APP']
+                        def newVersion = [ name:"$NewVersion" ]
+                        for (issue in issueKeys) {
+                            def result = jiraGetIssue idOrKey:issue, site: 'Higgs-Jira', failOnError: false
+                            if (result != null && result.data != null ) {
+                                def fixVersions = result.data.fields.fixVersions << newVersion
+                                def updateIssue = [fields: [labels: ["$NewVersion-$Enviroment"],
+                                                            fixVersions:fixVersions]]
+                                response = jiraEditIssue failOnError: false, site: 'Higgs-Jira', idOrKey: "$issue", issue: updateIssue
+                            }
+                        }
+                    }
                 }
             }
         }
