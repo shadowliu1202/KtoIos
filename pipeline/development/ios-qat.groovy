@@ -176,7 +176,7 @@ pipeline {
                         issueList.addAll(jira.getChangeLogIssues())
                         issueList.addAll(jira.getChangeIssues())
                         echo "Get Jira Issues: $issueList"
-                        jira.updateIssues(issueList,Transition,"$NewVersion-$Enviroment")
+                        jira.transferIssues(issueList, Transition,"$NewVersion-$Enviroment")
                     }
                 }
             }
