@@ -103,16 +103,16 @@ pipeline {
                                 currentBuild.displayName = "[$PROP_BUILD_ENVIRONMENT] ${env.PROP_RELEASE_TAG}"
                             }
 
-                            sh """
-                                pod install --repo-update
-                                fastlane uploadToTestflight buildVersion:${env.PROP_NEXT_BUILD_NUMBER} appVersion:$ReleaseVersionCore
-                            """
-                            script {
-                                env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
-                                echo "Get Ipa Size = $IPA_SIZE"
-                            }
+                            // sh """
+                            //     pod install --repo-update
+                            //     fastlane uploadToTestflight buildVersion:${env.PROP_NEXT_BUILD_NUMBER} appVersion:$ReleaseVersionCore
+                            // """
+                            // script {
+                            //     env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
+                            //     echo "Get Ipa Size = $IPA_SIZE"
+                            // }
                         }
-                        uploadProgetPackage artifacts: 'output/*.ipa', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "${env.PROP_RELEASE_TAG}", description: "compile version:${env.PROP_NEXT_BUILD_NUMBER}"
+                        //uploadProgetPackage artifacts: 'output/*.ipa', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "${env.PROP_RELEASE_TAG}", description: "compile version:${env.PROP_NEXT_BUILD_NUMBER}"
                     }
                 }
             }
@@ -136,20 +136,20 @@ pipeline {
                             remote.user = username
                             remote.identityFile = keyFile
                             remote.allowAnyHosts = true
-                        sshCommand remote: remote, command: """
-                            ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$ReleaseTag ipa_size=$IpaSize download_url=$PROP_DOWNLOAD_LINK" -i /data-disk/brand-team/qat1.ini
-                        """
+                        // sshCommand remote: remote, command: """
+                        //     ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$ReleaseTag ipa_size=$IpaSize download_url=$PROP_DOWNLOAD_LINK" -i /data-disk/brand-team/qat1.ini
+                        // """
                         }
                     }
-                    wrap([$class: 'BuildUser']) {
-                        sshagent(["$JenkinsCredentialsId"]) {
-                            sh """
-                            git config user.name "devops"
-                            git tag -f -a -m "release $BuildEnviroment version from ${env.BUIlD_USER}" $ReleaseTag
-                            git push $PROP_GIT_REPO_URL $ReleaseTag
-                        """
-                        }
-                    }
+                    // wrap([$class: 'BuildUser']) {
+                    //     sshagent(["$JenkinsCredentialsId"]) {
+                    //         sh """
+                    //         git config user.name "devops"
+                    //         git tag -f -a -m "release $BuildEnviroment version from ${env.BUIlD_USER}" $ReleaseTag
+                    //         git push $PROP_GIT_REPO_URL $ReleaseTag
+                    //     """
+                    //     }
+                    // }
                 }
             }
         }
@@ -172,10 +172,11 @@ pipeline {
                 ]) {
                     script {
                         def issueList = []
-                        issueList.addAll(getChangeLogIssues())
-                        issueList.addAll(getChangeIssues())
+                        def utils = new pipeline.jira.utils()
+                        issueList.addAll(utils.getChangeLogIssues())
+                        issueList.addAll(utils.getChangeIssues())
                         echo "Get Jira Issues: $issueList"
-                        updateIssues(issueList)
+                        utils.updateIssues(issueList,Transition,"$NewVersion-$Enviroment")
                     }
                 }
             }
