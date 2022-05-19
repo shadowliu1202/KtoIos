@@ -1,4 +1,4 @@
-@Library('utils') _
+library 'utils' _
 pipeline {
     agent {
         label 'master'
