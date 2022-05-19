@@ -1,3 +1,4 @@
+@Library('utils') _
 pipeline {
     agent {
         label 'master'
@@ -172,11 +173,10 @@ pipeline {
                 ]) {
                     script {
                         def issueList = []
-                        def utils = new pipeline.jira.utils()
-                        issueList.addAll(utils.getChangeLogIssues())
-                        issueList.addAll(utils.getChangeIssues())
+                        issueList.addAll(jira.getChangeLogIssues())
+                        issueList.addAll(jira.getChangeIssues())
                         echo "Get Jira Issues: $issueList"
-                        utils.updateIssues(issueList,Transition,"$NewVersion-$Enviroment")
+                        jira.updateIssues(issueList,Transition,"$NewVersion-$Enviroment")
                     }
                 }
             }

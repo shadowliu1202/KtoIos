@@ -1,5 +1,3 @@
-package pipeline.jira
-
 def getChangeLogIssues() {
     def issueList = []
     def issueKeys = jiraIssueSelector(issueSelector: [$class: 'DefaultIssueSelector'])
@@ -40,5 +38,3 @@ def transferIssues(jiraIssues = [], transferAction, envLabel) {
         }
     }
 }
-
-return this
