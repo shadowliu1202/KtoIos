@@ -1,4 +1,4 @@
-library 'utils' _
+library 'utils'
 pipeline {
     agent {
         label 'master'
