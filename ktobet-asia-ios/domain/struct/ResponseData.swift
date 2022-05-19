@@ -2000,8 +2000,8 @@ struct InternalMessageBean: Codable {
 struct CryptoLimitBean: Codable {
     let cryptoCurrency: Int
     let cryptoNetwork: Int
-    let max: Int
-    let min: Int
+    let max: Double
+    let min: Double
 }
 
 struct CryptoCurrencyBean: Codable {
