@@ -73,6 +73,7 @@ pipeline {
                              "OnlineTag=$env.PRODUCTION_ONLINE_TAG",
                              "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
                              "KEY_ID=$PROP_APPLE_STORE_KEY_ID",
+                             "VersionCode=$env.RELEASE_VERSIONCORE"
                              'PreRelease=hotfix'
 
                     ]) {
@@ -91,7 +92,7 @@ pipeline {
                         ]){
                             script {
                                 env.RELEASE_VERSIONCORE = "${BuildBranch.split('-')[0]}"
-                                env.RELEASE_VERSION = "$env.RELEASE_VERSIONCORE-hotfix"
+                                env.RELEASE_VERSION = "$VersionCode-hotfix.${date.format('MMddHHmm')}"
 
                                 string onlineBuildVersion = OnlineTag.trim().split('\\+')
                                 int lastBuildNumber = 1
@@ -102,7 +103,7 @@ pipeline {
                                 }
                                 int testFlightBuildNumber = 0
                                 withEnv(["KEY_ID=$PROP_APPLE_STORE_KEY_ID"]) {
-                                    def statusCode  = sh script:"fastlane getNextTestflightBuildNumber releaseTarget:$PreRelease targetVersion:$env.RELEASE_VERSIONCORE", returnStatus:true
+                                    def statusCode  = sh script:"fastlane getNextTestflightBuildNumber releaseTarget:$PreRelease targetVersion:$VersionCode", returnStatus:true
                                     if (statusCode == 0) {
                                         testFlightBuildNumber = readFile('fastlane/buildNumber').trim() as int
                                     }
@@ -110,14 +111,14 @@ pipeline {
 
                                 env.NEXT_BUILD_NUMBER = Math.max(lastBuildNumber,testFlightBuildNumber) + 1
                                 env.RELEASE_TAG = "$env.RELEASE_VERSION+$env.NEXT_BUILD_NUMBER"
-                                currentBuild.displayName = "[$PROP_BUILD_ENVIRONMENT] $env.RELEASE_TAG"
+                                currentBuild.displayName = "[$BuildEnviroment] $env.RELEASE_TAG"
                             }
                             sh """
                                 pod install --repo-update
-                                fastlane buildQat3 buildVersion:${env.NEXT_BUILD_NUMBER} appVersion:$env.RELEASE_VERSIONCORE
+                                fastlane buildQat3 buildVersion:$env.NEXT_BUILD_NUMBER appVersion:$env.RELEASE_VERSIONCORE
                             """
                             script {
-                                env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
+                                env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment.toLowerCase()}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
                                 echo "Get Ipa Size = $IPA_SIZE"
                             }
                         }
@@ -132,7 +133,7 @@ pipeline {
                 label 'ios-agent'
             }
             steps {
-                withEnv(["ReleaseTag=$env.PROP_RELEASE_TAG",
+                withEnv(["HotfixVersion=$env.RELEASE_VERSIONCORE+$env.NEXT_BUILD_NUMBER",
                          "RootCredentialsId=$PROP_ROOT_RSA",
                          "IpaSize=$env.IPA_SIZE",
                          "BuildUser=$env.BUIlD_USER",
@@ -142,14 +143,16 @@ pipeline {
                 ]) {
                     withCredentials([sshUserPrivateKey(credentialsId: "$RootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
                         script {
+                            def 
                             def remote = [:]
                             remote.name = 'mis ansible'
                             remote.host = 'mis-ansible-app-01p'
                             remote.user = 'root'
                             remote.identityFile = keyFile
                             remote.allowAnyHosts = true
+
                             sshCommand remote: remote, command: """
-                                ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$ReleaseTag ipa_size=$IpaSize download_url=$DownloadLink" -i /data-disk/brand-team/qat3.ini
+                                ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$HotfixVersion ipa_size=$IpaSize download_url=$DownloadLink" -i /data-disk/brand-team/qat3.ini
                             """
                         }
                     }
