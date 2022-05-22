@@ -55,7 +55,7 @@ pipeline {
                         iosutils.checkoutIosKtoAsia(PROP_BUILD_BRANCH,env.PRODUCTION_ONLINE_TAG)
                         def nextBuildNumber = iosutils.getNextBuildNumber(env.PRODUCTION_ONLINE_TAG, env.RELEASE_VERSIONCORE, 'hotfix')
                         env.NEXT_BUILD_NUMBER = nextBuildNumber
-                        currentBuild.displayName = "[$BuildEnviroment] $env.RELEASE_VERSIONCORE+$env.PRERELEASE+$env.NEXT_BUILD_NUMBER"
+                        currentBuild.displayName = "[Qat3] $env.RELEASE_VERSIONCORE+$env.PRERELEASE+$env.NEXT_BUILD_NUMBER"
                         releaiosutils.buildQat3Project(PROP_BUILD_BRANCH,env.PRODUCTION_ONLINE_TAG,env.RELEASE_VERSIONCORE,env.PRERELEASE)
                     }
                     // withEnv(["AppleApiKey=$PROP_APPLE_STORE_API_KEY",
