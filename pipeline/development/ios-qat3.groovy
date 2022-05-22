@@ -47,7 +47,7 @@ pipeline {
                 dir('project') {
                     script {
                         env.RELEASE_VERSIONCORE = "${PROP_BUILD_BRANCH.split('-')[0]}"
-                        if (env.RELEASE_VERSIONCORE != env.PRODUCT_VERSION_CORE) error "hotfix version(${env.RELEASE_VERSIONCORE}) should the same as prouction version($VersionCode)"
+                        if (env.RELEASE_VERSIONCORE != env.PRODUCT_VERSION_CORE) error "hotfix version(${env.RELEASE_VERSIONCORE}) should the same as prouction version(${env.PRODUCT_VERSION_CORE})"
                         Date date = new Date()
                         env.PRERELEASE = "hotfix.${date.format('MMddHHmm')}"
                         env.RELEASE_VERSION = "$env.RELEASE_VERSIONCORE-$env.PRERELEASE"
