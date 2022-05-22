@@ -47,8 +47,10 @@ pipeline {
                                     String[] result = commandResult.trim().split('\\+')
                                     if (result.length == 1) {
                                         env.PRODUCTION_ONLINE_TAG = "${result[0]}-release"
+                                        env.PRODUCTION_ONLINE_BUILDNUMBER = 1
                                     } else {
                                         env.PRODUCTION_ONLINE_TAG = "${result[0]}-release+${result[1]}"
+                                        env.PRODUCTION_ONLINE_BUILDNUMBER = result[1]
                                     }
                                     env.PRODUCT_VERSION_CORE = result[0]
                                     echo "production version = $env.PRODUCTION_ONLINE_TAG"
@@ -150,27 +152,6 @@ pipeline {
                         script{
                             ansible.publishIosVersionToQat(env.PRERELEASE,env.RELEASE_VERSIONCORE,env.NEXT_BUILD_NUMBER,PROP_DOWNLOAD_LINK,env.IPA_SIZE,PROP_BUILD_ENVIRONMENT)
                         }
-                        // withCredentials([sshUserPrivateKey(credentialsId: "$RootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
-                        //     script {
-                        //         def remote = [:]
-                        //         remote.name = 'mis ansible'
-                        //         remote.host = 'mis-ansible-app-01p'
-                        //         remote.user = 'root'
-                        //         remote.identityFile = keyFile
-                        //         remote.allowAnyHosts = true
-
-                        //         sshCommand remote: remote, command: """
-                        //             ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$HotfixVersion ipa_size=$IpaSize download_url=$DownloadLink" -i /data-disk/brand-team/qat3.ini
-                        //         """
-                        //     }
-                        // }
-                        // sshagent(["$JenkinsCredentialsId"]) {
-                        //         sh script:"""
-                        //             git config user.name "devops"
-                        //             git tag -f -a -m "release $BuildEnviroment version from ${env.BUIlD_USER}" $ReleaseTag
-                        //             git push $PROP_GIT_REPO_URL $ReleaseTag
-                        //         """ , returnStatus:true
-                        //     }
                     }
                 }
             }
@@ -204,18 +185,7 @@ pipeline {
         stage('QAT3 Notification') {
             steps {
                 script {
-                    withEnv(["ReleaseTag=$env.RELEASE_TAG",
-                             "BuildEnvrioment=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
-                             "ReleaseVersion=$env.RELEASE_VERSION",
-                             "ReleaseVersionCore=$env.RELEASE_VERSIONCORE",
-                             "TeamsToken=$PROP_TEAMS_NOTIFICATION",
-                             "DownLoadLink=$PROP_DOWNLOAD_LINK"
-                    ]) {
-                        office365ConnectorSend webhookUrl: "$TeamsToken",
-                                message: ">**[IOS][Hotfix] [KTO Asia]** has been deployed to $BuildEnvrioment</br>version : **[$ReleaseTag]($JENKINS_PROGET_HOME/feeds/app/ios/kto-asia/$ReleaseVersion/files)**",
-                                factDefinitions: [[name: 'TestFlight Link', template: "<a href=\"$DownLoadLink\">Download Page</a>"],
-                                                  [name: 'Related Issues', template: "<a href=\"https://jira.higgstar.com/issues/?jql=project = APP AND labels = ios-$ReleaseVersionCore-$BuildEnvrioment\">Jira Issues</a>"]]
-                    }
+                    teams.notifyQat3(PROP_TEAMS_NOTIFICATION,env.RELEASE_VERSIONCORE,env.PRERELEASE,env.NEXT_BUILD_NUMBER,env.PRODUCTION_ONLINE_BUILDNUMBER,PROP_DOWNLOAD_LINK)
                 }
             }
         }

@@ -16,15 +16,17 @@ def publishIosVersionToQat(def preRelease, def versionCore, def buildNumber, def
             remote.allowAnyHosts = true
 
             sshCommand remote: remote, command: """
-                ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$publishVersion ipa_size=$size download_url=$download_url" -i /data-disk/brand-team/${buildEnviroment}.ini
+                ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$publishVersion ipa_size=$size download_url=$download_url" -i /data-disk/brand-team/${buildEnviroment.toLowerCase()}.ini
             """
         }
     }
-    sshagent(["$JenkinsCredentialsId"]) {
-        sh script:"""
-            git config user.name "devops"
-            git tag -f -a -m "release $buildEnviroment version from ${env.BUIlD_USER}" $releaseTag
-            git push $ktoAsiaGitRepo $releaseTag
-        """ , returnStatus:true
+    wrap([$class: 'BuildUser']) {
+        sshagent(["$JenkinsCredentialsId"]) {
+            sh script:"""
+                git config user.name "devops"
+                git tag -f -a -m "release $buildEnviroment version from ${env.BUIlD_USER}" $releaseTag
+                git push $ktoAsiaGitRepo $releaseTag
+            """ , returnStatus:true
+        }
     }
 }
