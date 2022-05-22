@@ -3,8 +3,8 @@ def publishIosVersionToQat(def preRelease, def versionCore, def buildNumber, def
     if (buildNumber == 1) {
         publishVersion = "$versionCore"
     }
-    string rootCredentialsId = "$PROP_ROOT_RSA"
-    string ktoAsiaGitRepo = "$PROP_GIT_REPO_URL"
+    string rootCredentialsId = '2cb1ac3a-2e81-474e-9846-25fad87697ef'
+    string gitRepo = 'git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git'
     string releaseTag = "$versionCore-$preRelease+$buildNumber"
     withCredentials([sshUserPrivateKey(credentialsId: "$rootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
         script {
@@ -25,7 +25,7 @@ def publishIosVersionToQat(def preRelease, def versionCore, def buildNumber, def
             sh script:"""
                 git config user.name "devops"
                 git tag -f -a -m "release $buildEnviroment version from ${env.BUIlD_USER}" $releaseTag
-                git push $ktoAsiaGitRepo $releaseTag
+                git push $gitRepo $releaseTag
             """ , returnStatus:true
         }
     }
