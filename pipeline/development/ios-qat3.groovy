@@ -27,11 +27,12 @@ pipeline {
                 script {
                     env.PRODUCTION_ONLINE_TAG = ansible.getProductionTag()
                     String[] result =  env.PRODUCTION_ONLINE_TAG.trim().split('\\+')
+                    String[] core =  env.PRODUCTION_ONLINE_TAG.trim().split('-')
                     if (result.length == 1) {
-                        env.PRODUCT_VERSION_CORE = result[0]
+                        env.PRODUCT_VERSION_CORE = core[0]
                         env.PRODUCTION_ONLINE_BUILDNUMBER = 1
                     } else {
-                        env.PRODUCT_VERSION_CORE = result[0]
+                        env.PRODUCT_VERSION_CORE = core[0]
                         env.PRODUCTION_ONLINE_BUILDNUMBER = result[1]
                     }
                 }
@@ -47,7 +48,7 @@ pipeline {
                 dir('project') {
                     script {
                         env.RELEASE_VERSIONCORE = "${PROP_BUILD_BRANCH.split('-')[0]}"
-                        if (env.RELEASE_VERSIONCORE != env.PRODUCT_VERSION_CORE) error "hotfix version(${env.RELEASE_VERSIONCORE}) should the same as prouction version(${env.PRODUCT_VERSION_CORE})"
+                        if (env.RELEASE_VERSIONCORE != env.PRODUCT_VERSION_CORE) error "release hotfix version core(${env.RELEASE_VERSIONCORE}) should the same as prouction version(${env.PRODUCT_VERSION_CORE})"
                         Date date = new Date()
                         env.PRERELEASE = "hotfix.${date.format('MMddHHmm')}"
                         env.RELEASE_VERSION = "$env.RELEASE_VERSIONCORE-$env.PRERELEASE"
