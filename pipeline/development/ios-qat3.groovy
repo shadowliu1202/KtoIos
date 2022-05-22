@@ -185,7 +185,7 @@ pipeline {
         stage('QAT3 Notification') {
             steps {
                 script {
-                    teams.notifyQat3(PROP_TEAMS_NOTIFICATION,env.RELEASE_VERSIONCORE,env.PRERELEASE,env.NEXT_BUILD_NUMBER,env.PRODUCTION_ONLINE_BUILDNUMBER,PROP_DOWNLOAD_LINK)
+                    teams.notifyQat3(PROP_TEAMS_NOTIFICATION,env.RELEASE_VERSIONCORE,env.PRERELEASE,env.NEXT_BUILD_NUMBER,env.PRODUCTION_ONLINE_BUILDNUMBER)
                 }
             }
         }
