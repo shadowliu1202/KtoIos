@@ -23,7 +23,7 @@ def getChangeIssues() {
 def transferIssues(jiraIssues = [], transferAction, envLabel, newVersion = null) {
     def updateIssue = [fields: [labels: ["$envLabel"]]]
     if (newVersion != null) {
-        jiraNewVersion site: 'Higgs-Jira', failOnError: false, version: [name: "$NewVersion", project: 'APP']
+        jiraNewVersion site: 'Higgs-Jira', failOnError: false, version: [name: "$newVersion", project: 'APP']
     }
     for (issue in jiraIssues) {
         if (newVersion != null) {
