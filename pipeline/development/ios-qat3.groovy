@@ -17,7 +17,7 @@ pipeline {
         PROP_PRODUCTION_ANS_HOST = '10.10.16.16'
         PROP_BUILD_BRANCH = "$env.HOTFIX_BRNACH".replace('refs/heads/', '')
         PROP_DOWNLOAD_LINK = "$env.DOWNLOAD_URL"
-        PROP_TEAMS_NOTIFICATION = "$env.TEAMS_NOTIFICATION_TOKEN"
+        PROP_TEAMS_NOTIFICATION = "$env.TEAMS_NOTIFICATION"
     }
 
     stages {
