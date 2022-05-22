@@ -118,18 +118,16 @@ pipeline {
                                 env.RELEASE_TAG = "$env.RELEASE_VERSION+$env.NEXT_BUILD_NUMBER"
                                 currentBuild.displayName = "[$BuildEnviroment] $env.RELEASE_TAG"
                             }
-                            // sh """
-                            //     pod install --repo-update
-                            //     fastlane buildQat3 buildVersion:$env.NEXT_BUILD_NUMBER appVersion:$env.RELEASE_VERSIONCORE
-                            // """
+                            sh """
+                                pod install --repo-update
+                                fastlane buildQat3 buildVersion:$env.NEXT_BUILD_NUMBER appVersion:$env.RELEASE_VERSIONCORE
+                            """
                             script {
-                                  env.IPA_SIZE = 50
-                                //env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment.toLowerCase()}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
+                                env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment.toLowerCase()}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
                                 echo "Get Ipa Size = $IPA_SIZE"
                             }
-                          
                         }
-                        //uploadProgetPackage artifacts: 'output/*.ipa', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "$env.RELEASE_VERSION", description: "compile version:$env.PROP_NEXT_BUILD_NUMBER"
+                        uploadProgetPackage artifacts: 'output/*.ipa', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "$env.RELEASE_VERSION", description: "compile version:$env.PROP_NEXT_BUILD_NUMBER"
                     }
                 }
             }
@@ -140,19 +138,10 @@ pipeline {
                 label 'ios-agent'
             }
             steps {
-                withEnv(["HotfixVersion=$env.RELEASE_VERSIONCORE+$env.NEXT_BUILD_NUMBER",
-                         "RootCredentialsId=$PROP_ROOT_RSA",
-                         "IpaSize=$env.IPA_SIZE",
-                         "BuildUser=$env.BUIlD_USER",
-                         "JenkinsCredentialsId=$PROP_GIT_CREDENTIALS_ID",
-                         "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
-                         "DownloadLink=$PROP_DOWNLOAD_LINK"
-                ]) {
-                    dir('project') {
+                dir('project') {
                         script{
                             ansible.publishIosVersionToQat(env.PRERELEASE,env.RELEASE_VERSIONCORE,env.NEXT_BUILD_NUMBER,PROP_DOWNLOAD_LINK,env.IPA_SIZE,PROP_BUILD_ENVIRONMENT)
                         }
-                    }
                 }
             }
         }
