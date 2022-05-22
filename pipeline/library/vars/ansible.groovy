@@ -20,8 +20,9 @@ def publishIosVersionToQat(def preRelease, def versionCore, def buildNumber, def
             """
         }
     }
+    def gitCredentialsId = '28ef89bf-70a2-475d-b5e0-a1ea12a8fcdb'
     wrap([$class: 'BuildUser']) {
-        sshagent(["$JenkinsCredentialsId"]) {
+        sshagent(["$gitCredentialsId"]) {
             sh script:"""
                 git config user.name "devops"
                 git tag -f -a -m "release $buildEnviroment version from ${env.BUIlD_USER}" $releaseTag
