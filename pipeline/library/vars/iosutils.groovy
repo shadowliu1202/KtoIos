@@ -49,7 +49,7 @@ def getNextBuildNumber(productionTag, versionCore, enviroment) {
      }
 }
 
-def buildQat3Project(branch, compareTag, versionCore, preRelease) {
+def buildQat3Project(branch, compareTag, versionCore, preRelease,nextBuildNumber) {
     withEnv(['MATCH_PASSWORD=password']) {
         withCredentials([file(credentialsId: '63f71ab5-5473-43ca-9191-b34cd19f1fa1', variable: 'API_KEY'),
                     string(credentialsId: 'ios_agent_keychain_password', variable: 'KEYCHAIN_PASSWORD')
