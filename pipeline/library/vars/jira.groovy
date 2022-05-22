@@ -20,7 +20,7 @@ def getChangeIssues() {
     return issueList.toSorted()
 }
 
-def transferIssues(jiraIssues = [], transferAction, envLabel, string newVersion = null) {
+def transferIssues(jiraIssues = [], transferAction, envLabel, newVersion = null) {
     def updateIssue = [fields: [labels: ["$envLabel"]]]
     for (issue in jiraIssues) {
         if (newVersion != null) {
