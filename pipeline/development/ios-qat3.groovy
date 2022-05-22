@@ -92,6 +92,7 @@ pipeline {
                         ]){
                             script {
                                 env.RELEASE_VERSIONCORE = "${BuildBranch.split('-')[0]}"
+                                 Date date = new Date()
                                 env.RELEASE_VERSION = "$VersionCode-hotfix.${date.format('MMddHHmm')}"
 
                                 string onlineBuildVersion = OnlineTag.trim().split('\\+')
