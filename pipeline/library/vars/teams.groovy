@@ -1,13 +1,5 @@
 def notifyQat3(def teamsToken, def versionCore, def preRelease, def newBuildNumber,def oldBuildNumber, def testFlightLink) {
-    withEnv(["ReleaseTag=$env.RELEASE_TAG",
-                             "BuildEnvrioment=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
-                             "ReleaseVersion=$env.RELEASE_VERSION",
-                             "ReleaseVersionCore=$env.RELEASE_VERSIONCORE",
-                             "TeamsToken=$PROP_TEAMS_NOTIFICATION",
-                             "DownLoadLink=$PROP_DOWNLOAD_LINK"
-                    ]) {
-                    }
-    def tag = "$versionCore-$preRelease+$buildNumber"
+    def tag = "$versionCore-$preRelease+$newBuildNumber"
     def updateIssues = "https://jira.higgstar.com/issues/?jql=project = APP AND labels = ios-$versionCore-$preRelease"
     def releasePath = "$versionCore-$preRelease"
     wrap([$class: 'BuildUser']) {
