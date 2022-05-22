@@ -46,7 +46,7 @@ pipeline {
                 cleanWs()
                 dir('project') {
                     script {
-                        env.RELEASE_VERSIONCORE = "${BuildBranch.split('-')[0]}"
+                        env.RELEASE_VERSIONCORE = "${PROP_BUILD_BRANCH.split('-')[0]}"
                         if (env.RELEASE_VERSIONCORE != env.PRODUCT_VERSION_CORE) error "hotfix version(${env.RELEASE_VERSIONCORE}) should the same as prouction version($VersionCode)"
                         Date date = new Date()
                         env.PRERELEASE = "hotfix.${date.format('MMddHHmm')}"
