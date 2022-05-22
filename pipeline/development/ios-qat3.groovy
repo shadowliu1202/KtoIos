@@ -165,7 +165,7 @@ pipeline {
                         issueList.addAll(jira.getChangeLogIssues())
                         issueList.addAll(jira.getChangeIssues())
                         echo "Get Jira Issues: $issueList"
-                        jira.transferIssues(issueList, 'SEEKING APPROVAL',"ios-$env.RELEASE_VERSIONCORE-qat3")
+                        jira.transferIssues(issueList, 'SEEKING APPROVAL',"ios-$env.RELEASE_VERSIONCORE-qat3","ios-$env.RELEASE_VERSIONCORE-$env.PRERELEASE")
                 }
             }
         }
