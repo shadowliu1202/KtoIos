@@ -120,11 +120,12 @@ pipeline {
                             //     pod install --repo-update
                             //     fastlane buildQat3 buildVersion:$env.NEXT_BUILD_NUMBER appVersion:$env.RELEASE_VERSIONCORE
                             // """
-                            // script {
-                            //     env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment.toLowerCase()}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
-                            //     echo "Get Ipa Size = $IPA_SIZE"
-                            // }
-                            env.IPA_SIZE = 50
+                            script {
+                                  env.IPA_SIZE = 50
+                                //env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviroment.toLowerCase()}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
+                                echo "Get Ipa Size = $IPA_SIZE"
+                            }
+                          
                         }
                         //uploadProgetPackage artifacts: 'output/*.ipa', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "$env.RELEASE_VERSION", description: "compile version:$env.PROP_NEXT_BUILD_NUMBER"
                     }
