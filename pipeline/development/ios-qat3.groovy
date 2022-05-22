@@ -73,7 +73,7 @@ pipeline {
                              "OnlineTag=$env.PRODUCTION_ONLINE_TAG",
                              "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
                              "KEY_ID=$PROP_APPLE_STORE_KEY_ID",
-                             "VersionCode=$env.RELEASE_VERSIONCORE"
+                             "VersionCode=$env.RELEASE_VERSIONCORE",
                              'PreRelease=hotfix'
 
                     ]) {
