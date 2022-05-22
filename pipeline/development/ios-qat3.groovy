@@ -34,7 +34,6 @@ pipeline {
                         env.PRODUCT_VERSION_CORE = result[0]
                         env.PRODUCTION_ONLINE_BUILDNUMBER = result[1]
                     }
-                   
                 }
             }
         }

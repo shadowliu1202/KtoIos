@@ -33,7 +33,8 @@ def publishIosVersionToQat(def preRelease, def versionCore, def buildNumber, def
 
 def getProductionTag(){
      // Get Production version
-    withCredentials([sshUserPrivateKey(credentialsId: "$PROP_SYSADMIN_RSA", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
+    def sysadmin_rsa = '0dd067b6-8bd0-4c0a-9cb7-fb374ed7084e'
+    withCredentials([sshUserPrivateKey(credentialsId: "$sysadmin_rsa", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
         def remote = [:]
         remote.name = 'mis ansible'
         remote.host = "10.10.16.16"
