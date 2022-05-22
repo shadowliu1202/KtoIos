@@ -1,3 +1,4 @@
+library 'utils'
 pipeline {
     agent {
         label 'master'
@@ -49,7 +50,7 @@ pipeline {
                                     } else {
                                         env.PRODUCTION_ONLINE_TAG = "${result[0]}-release+${result[1]}"
                                     }
-                                    env.VERSION_CORE = result[0]
+                                    env.PRODUCT_VERSION_CORE = result[0]
                                     echo "production version = $env.PRODUCTION_ONLINE_TAG"
                                 }
                         }
@@ -73,8 +74,7 @@ pipeline {
                              "OnlineTag=$env.PRODUCTION_ONLINE_TAG",
                              "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
                              "KEY_ID=$PROP_APPLE_STORE_KEY_ID",
-                             "VersionCode=$env.VERSION_CORE",
-                             'PreRelease=hotfix'
+                             "VersionCode=$env.PRODUCT_VERSION_CORE"
 
                     ]) {
                         checkout([$class           : 'GitSCM',
@@ -92,8 +92,10 @@ pipeline {
                         ]){
                             script {
                                 env.RELEASE_VERSIONCORE = "${BuildBranch.split('-')[0]}"
+                                if(env.RELEASE_VERSIONCORE != VersionCode) error "hotfix version(${env.RELEASE_VERSIONCORE}) should the same as prouction version($VersionCode)"
                                 Date date = new Date()
-                                env.RELEASE_VERSION = "$VersionCode-hotfix.${date.format('MMddHHmm')}"
+                                env.PRERELEASE = "hotfix.${date.format('MMddHHmm')}"
+                                env.RELEASE_VERSION = "$VersionCode-$env.PRERELEASE"
 
                                 string onlineBuildVersion = OnlineTag.trim().split('\\+')
                                 int lastBuildNumber = 1
@@ -104,7 +106,7 @@ pipeline {
                                 }
                                 int testFlightBuildNumber = 0
                                 withEnv(["KEY_ID=$PROP_APPLE_STORE_KEY_ID"]) {
-                                    def statusCode  = sh script:"fastlane getNextTestflightBuildNumber releaseTarget:$PreRelease targetVersion:$VersionCode", returnStatus:true
+                                    def statusCode  = sh script:"fastlane getNextTestflightBuildNumber releaseTarget:hotfix targetVersion:$VersionCode", returnStatus:true
                                     if (statusCode == 0) {
                                         testFlightBuildNumber = readFile('fastlane/buildNumber').trim() as int
                                     }
@@ -143,27 +145,28 @@ pipeline {
                          "DownloadLink=$PROP_DOWNLOAD_LINK"
                 ]) {
                     dir('project') {
-                        withCredentials([sshUserPrivateKey(credentialsId: "$RootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
-                            script {
-                                def remote = [:]
-                                remote.name = 'mis ansible'
-                                remote.host = 'mis-ansible-app-01p'
-                                remote.user = 'root'
-                                remote.identityFile = keyFile
-                                remote.allowAnyHosts = true
+                        ansible.publishIosVersionToQat(env.PRERELEASE,env.RELEASE_VERSIONCORE,env.NEXT_BUILD_NUMBER,PROP_DOWNLOAD_LINK,env.IPA_SIZE,PROP_BUILD_ENVIRONMENT)
+                        // withCredentials([sshUserPrivateKey(credentialsId: "$RootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
+                        //     script {
+                        //         def remote = [:]
+                        //         remote.name = 'mis ansible'
+                        //         remote.host = 'mis-ansible-app-01p'
+                        //         remote.user = 'root'
+                        //         remote.identityFile = keyFile
+                        //         remote.allowAnyHosts = true
 
-                                sshCommand remote: remote, command: """
-                                    ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$HotfixVersion ipa_size=$IpaSize download_url=$DownloadLink" -i /data-disk/brand-team/qat3.ini
-                                """
-                            }
-                        }
-                        sshagent(["$JenkinsCredentialsId"]) {
-                                sh script:"""
-                                    git config user.name "devops"
-                                    git tag -f -a -m "release $BuildEnviroment version from ${env.BUIlD_USER}" $ReleaseTag
-                                    git push $PROP_GIT_REPO_URL $ReleaseTag
-                                """ , returnStatus:true
-                            }
+                        //         sshCommand remote: remote, command: """
+                        //             ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$HotfixVersion ipa_size=$IpaSize download_url=$DownloadLink" -i /data-disk/brand-team/qat3.ini
+                        //         """
+                        //     }
+                        // }
+                        // sshagent(["$JenkinsCredentialsId"]) {
+                        //         sh script:"""
+                        //             git config user.name "devops"
+                        //             git tag -f -a -m "release $BuildEnviroment version from ${env.BUIlD_USER}" $ReleaseTag
+                        //             git push $PROP_GIT_REPO_URL $ReleaseTag
+                        //         """ , returnStatus:true
+                        //     }
                     }
                 }
             }
@@ -173,7 +176,7 @@ pipeline {
             //Update jira issue have been deploted to qat3
             steps {
                 withEnv(["Enviroment=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
-                         "NewVersion=ios-$env.VERSION_CORE"
+                         "NewVersion=ios-$env.PRODUCT_VERSION_CORE"
                 ]) {
                     script {
                         def issueKeys = jiraIssueSelector(issueSelector: [$class: 'DefaultIssueSelector'])
