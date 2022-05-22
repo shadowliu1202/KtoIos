@@ -145,7 +145,9 @@ pipeline {
                          "DownloadLink=$PROP_DOWNLOAD_LINK"
                 ]) {
                     dir('project') {
-                        ansible.publishIosVersionToQat(env.PRERELEASE,env.RELEASE_VERSIONCORE,env.NEXT_BUILD_NUMBER,PROP_DOWNLOAD_LINK,env.IPA_SIZE,PROP_BUILD_ENVIRONMENT)
+                        script{
+                            ansible.publishIosVersionToQat(env.PRERELEASE,env.RELEASE_VERSIONCORE,env.NEXT_BUILD_NUMBER,PROP_DOWNLOAD_LINK,env.IPA_SIZE,PROP_BUILD_ENVIRONMENT)
+                        }                        
                         // withCredentials([sshUserPrivateKey(credentialsId: "$RootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
                         //     script {
                         //         def remote = [:]
