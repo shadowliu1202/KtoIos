@@ -30,3 +30,26 @@ def publishIosVersionToQat(def preRelease, def versionCore, def buildNumber, def
         }
     }
 }
+
+def getProductionTag(){
+     // Get Production version
+    withCredentials([sshUserPrivateKey(credentialsId: "$PROP_SYSADMIN_RSA", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
+        def remote = [:]
+        remote.name = 'mis ansible'
+        remote.host = "10.10.16.16"
+        remote.user = user
+        remote.identityFile = identity
+        remote.allowAnyHosts = true
+        def commandResult = sshCommand remote: remote, command: "curl -s https://appkto.com/ios/api/get-ios-ipa-version | jq -r '.data.ipaVersion'", failOnError : false
+        echo "$commandResult"
+        String[] result = commandResult.trim().split('\\+')
+        def productionTag = ""
+        if (result.length == 1) {
+            productionTag = "${result[0]}-release"
+        } else {
+            productionTag = "${result[0]}-release+${result[1]}"
+        }
+        echo "production tag = $productionTag"
+        return productionTag
+    }
+}
