@@ -73,7 +73,7 @@ pipeline {
                              "OnlineTag=$env.PRODUCTION_ONLINE_TAG",
                              "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
                              "KEY_ID=$PROP_APPLE_STORE_KEY_ID",
-                             "VersionCode=$env.RELEASE_VERSIONCORE",
+                             "VersionCode=$env.VERSION_CORE",
                              'PreRelease=hotfix'
 
                     ]) {
@@ -92,7 +92,7 @@ pipeline {
                         ]){
                             script {
                                 env.RELEASE_VERSIONCORE = "${BuildBranch.split('-')[0]}"
-                                 Date date = new Date()
+                                Date date = new Date()
                                 env.RELEASE_VERSION = "$VersionCode-hotfix.${date.format('MMddHHmm')}"
 
                                 string onlineBuildVersion = OnlineTag.trim().split('\\+')
