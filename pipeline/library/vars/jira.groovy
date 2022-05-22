@@ -20,9 +20,16 @@ def getChangeIssues() {
     return issueList.toSorted()
 }
 
-def transferIssues(jiraIssues = [], transferAction, envLabel) {
+def transferIssues(jiraIssues = [], transferAction, envLabel, string newVersion = null) {
     def updateIssue = [fields: [labels: ["$envLabel"]]]
     for (issue in jiraIssues) {
+        if (newVersion != null) {
+            def result = jiraGetIssue idOrKey:issueKey, site: 'Higgs-Jira', failOnError: false
+            if (result != null && result.data != null ) {
+                def fixVersions = result.data.fields.fixVersions << [ name:"$newVersion" ]
+                updateIssue = [fields: [labels: ["$envLabel"], fixVersions:fixVersions]]
+            }
+        }
         jiraEditIssue failOnError: false, site: 'Higgs-Jira', idOrKey: "$issue", issue: updateIssue
         def jiraTransitions = jiraGetIssueTransitions failOnError: false, idOrKey: "$issue", site: 'Higgs-Jira'
         def data = jiraTransitions.data
