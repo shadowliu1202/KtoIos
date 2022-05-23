@@ -43,7 +43,7 @@ pipeline {
                         def nextBuildNumber = iosutils.getTestFlightBuildNumber(env.PROP_RELEASE_VERSIONCORE, env.PRE_RELEASE) + 1
                         env.NEXT_BUILD_NUMBER = nextBuildNumber
                         def tag = version.getReleaseTag(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, nextBuildNumber)
-                        currentBuild.displayName = "[Qat1] $env.PROP_RELEASE_VERSIONCORE-$env.PRE_RELEASE+$env.NEXT_BUILD_NUMBER"
+                        currentBuild.displayName = "[Qat1] $tag"
                         iosutils.buildProject(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, nextBuildNumber, 'uploadToTestflight')
                     }
                 }

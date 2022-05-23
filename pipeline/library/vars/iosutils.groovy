@@ -30,12 +30,18 @@ def getProductBuildNumber(productionTag) {
 }
 
 def getTestFlightBuildNumber(versionCore, enviroment) {
-    int testFlightBuildNumber = 0
-    def statusCode  = sh script:"fastlane getNextTestflightBuildNumber releaseTarget:$enviroment targetVersion:$versionCore", returnStatus:true
-    if (statusCode == 0) {
-        testFlightBuildNumber = readFile('fastlane/buildNumber').trim() as int
+    withEnv(['MATCH_PASSWORD=password', 'KEY_ID=2XHCS3W99M']) {
+        withCredentials([file(credentialsId: '63f71ab5-5473-43ca-9191-b34cd19f1fa1', variable: 'API_KEY'),
+                    string(credentialsId: 'ios_agent_keychain_password', variable: 'KEYCHAIN_PASSWORD')
+        ]) {
+            int testFlightBuildNumber = 0
+            def statusCode  = sh script:"fastlane getNextTestflightBuildNumber releaseTarget:$enviroment targetVersion:$versionCore", returnStatus:true
+            if (statusCode == 0) {
+                testFlightBuildNumber = readFile('fastlane/buildNumber').trim() as int
+            }
+            return  testFlightBuildNumber
+        }
     }
-    return  testFlightBuildNumber
 }
 
 def getNextBuildNumber(productionTag, versionCore, enviroment) {
