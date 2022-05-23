@@ -50,8 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().standardAppearance = appearance
         }
         
-        fetchLatestVersion()
-        
         if Configuration.debugGesture {
             self.addDebugGesture()
         }
@@ -133,12 +131,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }).disposed(by: disposeBag)
         }
-        
-        fetchLatestVersion()
-    }
-    
-    private func fetchLatestVersion() {
-        AppSynchronizeViewModel.shared.syncAppVersion()
     }
     
     func addDebugGesture() {

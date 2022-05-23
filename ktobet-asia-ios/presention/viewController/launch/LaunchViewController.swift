@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class LaunchViewController: LandingViewController {
+class LaunchViewController: APPViewController {
     private var viewModel = DI.resolve(LaunchViewModel.self)!
     private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -85,6 +85,4 @@ class LaunchViewController: LandingViewController {
     deinit {
         print("\(type(of: self)) deinit")
     }
-    
-    override func abstracObserverUpdate() { }
 }

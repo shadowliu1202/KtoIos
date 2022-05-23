@@ -289,10 +289,6 @@ class SignupUserinfoViewController: LandingViewController {
         self.labRegistErrMessage.text = ""
         self.constraintRegistErrMessageHeight.constant = 0
     }
-    
-    override func abstracObserverUpdate() {
-        self.observerCompulsoryUpdate()
-    }
 }
 
 extension SignupUserinfoViewController{

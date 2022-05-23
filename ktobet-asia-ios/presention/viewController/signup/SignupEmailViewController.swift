@@ -289,10 +289,6 @@ class SignupEmailViewController: LandingViewController {
         sender.isSelected = !sender.isSelected
         verifyTimer(launch: !sender.isSelected)
     }
-    
-    override func abstracObserverUpdate() {
-        self.observerCompulsoryUpdate()
-    }
 }
 
 extension SignupEmailViewController{

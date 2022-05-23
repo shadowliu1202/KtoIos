@@ -1934,6 +1934,13 @@
 		6D40841426525FE400BECD0E /* NumberGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D40841326525FE400BECD0E /* NumberGame.swift */; };
 		6D40841526525FE400BECD0E /* NumberGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D40841326525FE400BECD0E /* NumberGame.swift */; };
 		6D40841726525FE400BECD0E /* NumberGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D40841326525FE400BECD0E /* NumberGame.swift */; };
+		6D41FEE22834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
+		6D41FEE32834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
+		6D41FEE42834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
+		6D41FEE52834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
+		6D41FEE62834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
+		6D41FEE72834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
+		6D41FEE82834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
 		6D438B9427A1284400201AB4 /* PlayerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */; };
 		6D438B9527A1284400201AB4 /* PlayerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */; };
 		6D438B9627A1284400201AB4 /* PlayerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */; };
@@ -4641,6 +4648,7 @@
 		6D4083CF265212A800BECD0E /* NumberGameUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameUseCase.swift; sourceTree = "<group>"; };
 		6D4083D6265212ED00BECD0E /* NumberGameRecordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameRecordUseCase.swift; sourceTree = "<group>"; };
 		6D40841326525FE400BECD0E /* NumberGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGame.swift; sourceTree = "<group>"; };
+		6D41FEE12834C29900065874 /* SuperSignStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperSignStatus.swift; sourceTree = "<group>"; };
 		6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerConfiguration.swift; sourceTree = "<group>"; };
 		6D43E2412719915B001F78DA /* CloseBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBarButtonItem.swift; sourceTree = "<group>"; };
 		6D4707092786CD1400FDCBAD /* ReachabilityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityHandler.swift; sourceTree = "<group>"; };
@@ -6118,6 +6126,7 @@
 				6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */,
 				6D738AB5279551E70018CE1D /* BankCard.swift */,
 				6D3D7ED1279E390900AE343D /* WithdrawalSystem.swift */,
+				6D41FEE12834C29900065874 /* SuperSignStatus.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -7837,6 +7846,7 @@
 				6D0AA99E260D7A1800131314 /* WithdrawalAccountDetailViewController.swift in Sources */,
 				601F0FD027D74DC40036D9C7 /* OldAccountModifyConfirmationViewController.swift in Sources */,
 				6D0D8FD726DF668500733C4D /* UseBonusCoupon.swift in Sources */,
+				6D41FEE32834C29900065874 /* SuperSignStatus.swift in Sources */,
 				4199A07525AE9918002E2D7E /* GameApi.swift in Sources */,
 				60AC5C0C2766E7F7008F0281 /* PortalMaintenanceViewController.swift in Sources */,
 				6D986A84271924C900194E0D /* ExitSurveyViewController.swift in Sources */,
@@ -8376,6 +8386,7 @@
 				6D0AA99D260D7A1800131314 /* WithdrawalAccountDetailViewController.swift in Sources */,
 				601F0FCF27D74DC30036D9C7 /* OldAccountModifyConfirmationViewController.swift in Sources */,
 				6D0D8FD626DF668500733C4D /* UseBonusCoupon.swift in Sources */,
+				6D41FEE22834C29900065874 /* SuperSignStatus.swift in Sources */,
 				48AAA159256E458800E075CA /* RequestData.swift in Sources */,
 				60AC5C0B2766E7F7008F0281 /* PortalMaintenanceViewController.swift in Sources */,
 				6D986A83271924C900194E0D /* ExitSurveyViewController.swift in Sources */,
@@ -8505,6 +8516,7 @@
 				6010411B26B2A41E00B28FC8 /* ArcadeApi.swift in Sources */,
 				609012832640EE7000419F8E /* DepositThirdPartWebViewController.swift in Sources */,
 				6D9408E226CF4FCD00C70FDA /* PromotionModel.swift in Sources */,
+				6D41FEE42834C29900065874 /* SuperSignStatus.swift in Sources */,
 				609012842640EE7000419F8E /* WithdrawlLandingViewController.swift in Sources */,
 				6D2B0E3F267C81C90039A956 /* AttribTextHolder.swift in Sources */,
 				6DC17ECD26817356009665B4 /* WithdrawalCryptoRequestViewModel.swift in Sources */,
@@ -9028,6 +9040,7 @@
 				60E57FEF27F190E4008CE5A9 /* ArcadeApi.swift in Sources */,
 				60E57FF027F190E4008CE5A9 /* DepositThirdPartWebViewController.swift in Sources */,
 				60E57FF127F190E4008CE5A9 /* PromotionModel.swift in Sources */,
+				6D41FEE52834C29900065874 /* SuperSignStatus.swift in Sources */,
 				60E57FF227F190E4008CE5A9 /* WithdrawlLandingViewController.swift in Sources */,
 				60E57FF327F190E4008CE5A9 /* AttribTextHolder.swift in Sources */,
 				60E57FF427F190E4008CE5A9 /* WithdrawalCryptoRequestViewModel.swift in Sources */,
@@ -9551,6 +9564,7 @@
 				6D966B7D27FEE3FA006086B7 /* ArcadeApi.swift in Sources */,
 				6D966B7E27FEE3FA006086B7 /* DepositThirdPartWebViewController.swift in Sources */,
 				6D966B7F27FEE3FA006086B7 /* PromotionModel.swift in Sources */,
+				6D41FEE62834C29900065874 /* SuperSignStatus.swift in Sources */,
 				6D966B8027FEE3FA006086B7 /* WithdrawlLandingViewController.swift in Sources */,
 				6D966B8127FEE3FA006086B7 /* AttribTextHolder.swift in Sources */,
 				6D966B8227FEE3FA006086B7 /* WithdrawalCryptoRequestViewModel.swift in Sources */,
@@ -10074,6 +10088,7 @@
 				6D966DCA27FEE416006086B7 /* ArcadeApi.swift in Sources */,
 				6D966DCB27FEE416006086B7 /* DepositThirdPartWebViewController.swift in Sources */,
 				6D966DCC27FEE416006086B7 /* PromotionModel.swift in Sources */,
+				6D41FEE72834C29900065874 /* SuperSignStatus.swift in Sources */,
 				6D966DCD27FEE416006086B7 /* WithdrawlLandingViewController.swift in Sources */,
 				6D966DCE27FEE416006086B7 /* AttribTextHolder.swift in Sources */,
 				6D966DCF27FEE416006086B7 /* WithdrawalCryptoRequestViewModel.swift in Sources */,
@@ -10989,6 +11004,7 @@
 				6D96719B27FEE42B006086B7 /* GameWebViewViewController.swift in Sources */,
 				6D96719C27FEE42B006086B7 /* WithdrawalAccountDetailViewController.swift in Sources */,
 				6D96719D27FEE42B006086B7 /* OldAccountModifyConfirmationViewController.swift in Sources */,
+				6D41FEE82834C29900065874 /* SuperSignStatus.swift in Sources */,
 				6D96719E27FEE42B006086B7 /* UseBonusCoupon.swift in Sources */,
 				6D96719F27FEE42B006086B7 /* GameApi.swift in Sources */,
 				6D9671A027FEE42B006086B7 /* PortalMaintenanceViewController.swift in Sources */,

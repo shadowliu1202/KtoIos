@@ -1,30 +1,63 @@
 import UIKit
 import RxSwift
+import SharedBu
 
 class LandingViewController: APPViewController {
     private var isAlertShown = false
-    private var appSyncDispose: Disposable?
+    private let appSyncViewModel = DI.resolve(AppSynchronizeViewModel.self)!
+    private var disposeBag: DisposeBag!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        abstracObserverUpdate()
-        AppSynchronizeViewModel.shared.syncAppVersion()
+        disposeBag = DisposeBag()
+        syncAppVersionUpdate()
+        registerAppEnterForeground()
     }
     
-    func abstracObserverUpdate() {
-        fatalError("Subclasses must override.")
+    func registerAppEnterForeground() {
+        NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification).takeUntil(self.rx.deallocated).subscribe(onNext: { [weak self] _ in
+            self?.syncAppVersionUpdate()
+        }).disposed(by: disposeBag)
     }
     
-    func observerCompulsoryUpdate() {
-        appSyncDispose = AppSynchronizeViewModel.shared.compulsoryupdate.compactMap({$0}).subscribe(onNext: { [weak self] in
-            self?.confirmUpdate($0.apkLink)
-        })
+    func syncAppVersionUpdate() {
+        guard Configuration.isAutoUpdate else { return }
+        Observable.combineLatest(appSyncViewModel.getLatestAppVersion().asObservable(), appSyncViewModel.getSuperSignStatus().asObservable())
+            .subscribe(onNext: { [weak self] (incoming, superSignStatus) in
+                self?.updateStrategy(incoming, superSignStatus)
+            }).disposed(by: disposeBag)
     }
     
-    func observerUpdates() {
-        appSyncDispose = Observable.merge(AppSynchronizeViewModel.shared.optionalupdate.compactMap({$0}), AppSynchronizeViewModel.shared.compulsoryupdate.compactMap({$0})).subscribe(onNext: { [weak self] in
-            self?.confirmUpdate($0.apkLink)
-        })
+    func updateStrategy(_ incoming: Version, _ superSignStatus: SuperSignStatus?) {
+        let action = Bundle.main.currentVersion.getUpdateAction(latestVersion: incoming)
+        if action == .compulsoryupdate {
+            doCompulsoryUpdateConfirm(incoming, superSignStatus)
+        }
+    }
+    
+    private func doCompulsoryUpdateConfirm(_ incoming: Version,_ superSignStatus: SuperSignStatus?) {
+        if  let isMaintenance = superSignStatus?.isMaintenance, isMaintenance == true,
+            let endTime = superSignStatus?.endTime {
+            alertSuperSignMaintain(convertDateString(endTime))
+        } else {
+            confirmUpdate(incoming.apkLink)
+        }
+    }
+    
+    private func convertDateString(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = Date().playerTimeZone
+        dateFormatter.dateFormat = "MM/dd HH:mm"
+        return dateFormatter.string(from: date)
+    }
+    
+    private func alertSuperSignMaintain(_ endTime: String) {
+        guard !isAlertShown else { return }
+        isAlertShown = true
+        Alert.show(Localize.string("common_tip_title_warm") , Localize.string("common_super_signature_maintenance", endTime), confirm: { [weak self] in
+            self?.isAlertShown = false
+            exit(0)
+        }, cancel: nil)
     }
     
     func confirmUpdate(_ urlString: String) {
@@ -48,6 +81,6 @@ class LandingViewController: APPViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        appSyncDispose?.dispose()
+        disposeBag = DisposeBag()
     }
 }

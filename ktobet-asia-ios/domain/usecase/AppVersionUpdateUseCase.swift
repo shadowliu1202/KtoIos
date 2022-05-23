@@ -3,17 +3,26 @@ import SharedBu
 import RxSwift
 
 protocol AppVersionUpdateUseCase {
-    func synchronize() -> Maybe<Version>
+    func getLatestAppVersion() -> Single<Version>
+    func getSuperSignatureMaintenance() -> Single<SuperSignStatus>
 }
 
 class AppVersionUpdateUseCaseImpl: AppVersionUpdateUseCase {
     var repo : AppUpdateRepository!
+    var playerConf: PlayerConfiguration!
+    private var timezone: TimeZone!
     
-    init(_ repo : AppUpdateRepository) {
+    init(_ repo : AppUpdateRepository, _ playerConfiguration: PlayerConfiguration) {
         self.repo = repo
+        self.playerConf = playerConfiguration
+        self.timezone = self.playerConf.localeTimeZone()
     }
     
-    func synchronize() -> Maybe<Version> {
-        return repo.getLatestAppVersion()
+    func getLatestAppVersion() -> Single<Version> {
+        repo.getLatestAppVersion()
+    }
+    
+    func getSuperSignatureMaintenance() -> Single<SuperSignStatus> {
+        repo.getSuperSignatureMaintenance().map({ SuperSignStatus(bean: $0, timezone: self.timezone) })
     }
 }

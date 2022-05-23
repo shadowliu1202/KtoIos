@@ -397,7 +397,8 @@ class DIContainer {
         }
         ctner.register(AppVersionUpdateUseCase.self) { (resolver) in
             let repo = ctner.resolve(AppUpdateRepository.self)!
-            return AppVersionUpdateUseCaseImpl(repo)
+            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            return AppVersionUpdateUseCaseImpl(repo, repoLocalStorage)
         }
     }
     
@@ -606,6 +607,10 @@ class DIContainer {
             let usecaseConfiguration = ctner.resolve(ConfigurationUseCase.self)!
             return ConfigurationViewModel(usecaseConfiguration)
         }
+        ctner.register(AppSynchronizeViewModel.self) { (resolver) in
+            let appUpdateUseCase = ctner.resolve(AppVersionUpdateUseCase.self)!
+            return AppSynchronizeViewModel(appUpdateUseCase: appUpdateUseCase)
+        }.inObjectScope(.application)
     }
     
     func registLoginView(){

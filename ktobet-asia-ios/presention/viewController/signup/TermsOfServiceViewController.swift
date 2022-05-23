@@ -57,8 +57,6 @@ class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate 
         tableView.layoutIfNeeded()
         constraintTableViewHeight.constant = tableView.contentSize.height
     }
-    
-    override func abstracObserverUpdate() { }
 }
 
 extension TermsOfServiceViewController : UITableViewDataSource{
