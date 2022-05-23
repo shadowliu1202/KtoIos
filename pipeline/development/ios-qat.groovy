@@ -6,7 +6,9 @@ pipeline {
     options {
         ansiColor('gnome-terminal')
     }
-
+    environment {
+        PRE_RELEASE = 'dev'
+    }
     parameters {
         booleanParam defaultValue: false, description: '連Staging一起release', name: 'INCLUDE_STAGING'
     }
@@ -21,7 +23,7 @@ pipeline {
                     echo "Get Last Tag $lastTag"
                     iosutils.checkoutIosKtoAsia('master', lastTag)
                     env.PROP_CURRENT_TAG = lastTag
-                    env.PROP_RELEASE_VERSION = nextVersion(preRelease: 'dev')
+                    env.PROP_RELEASE_VERSION = nextVersion(preRelease: env.PRE_RELEASE)
                     env.PROP_RELEASE_VERSIONCORE = PROP_RELEASE_VERSION.split('-')[0]
                     echo "Update from $env.PROP_CURRENT_TAG to $env.PROP_RELEASE_VERSION"
                 }
@@ -38,10 +40,11 @@ pipeline {
                 dir('project') {
                     script {
                         iosutils.checkoutIosKtoAsia('master')
-                        def nextBuildNumber = iosutils.getTestFlightBuildNumber(env.PROP_RELEASE_VERSIONCORE, 'dev') + 1
+                        def nextBuildNumber = iosutils.getTestFlightBuildNumber(env.PROP_RELEASE_VERSIONCORE, env.PRE_RELEASE) + 1
                         env.NEXT_BUILD_NUMBER = nextBuildNumber
-                        currentBuild.displayName = "[Qat1] $env.PROP_RELEASE_VERSIONCORE-dev+$env.NEXT_BUILD_NUMBER"
-                        iosutils.buildProject(env.RELEASE_VERSIONCORE, env.PRERELEASE, nextBuildNumber, 'uploadToTestflight')
+                        def tag = version.getReleaseTag(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, nextBuildNumber)
+                        currentBuild.displayName = "[Qat1] $env.PROP_RELEASE_VERSIONCORE-$env.PRE_RELEASE+$env.NEXT_BUILD_NUMBER"
+                        iosutils.buildProject(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, nextBuildNumber, 'uploadToTestflight')
                     }
                 }
             }
@@ -55,7 +58,7 @@ pipeline {
                 script {
                     def size = sh(script:"du -s -k output/ktobet-asia-ios-qat3.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
                     echo "Get Ipa Size = $size"
-                    ansible.publishIosVersionToQat(env.PRERELEASE, env.RELEASE_VERSIONCORE, env.NEXT_BUILD_NUMBER, env.IOS_DOWNLOAD_URL, size, 'qat1')
+                    ansible.publishIosVersionToQat(env.PRE_RELEASE, env.RELEASE_VERSIONCORE, env.NEXT_BUILD_NUMBER, env.IOS_DOWNLOAD_URL, size, 'qat1')
                 }
             }
         }
@@ -65,8 +68,8 @@ pipeline {
                 expression { INCLUDE_STAGING == true }
             }
             steps {
-                script{
-                    def tag = getReleaseTag( env.RELEASE_VERSIONCORE, env.PRERELEASE, env.NEXT_BUILD_NUMBER)
+                script {
+                    def tag = getReleaseTag( env.RELEASE_VERSIONCORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER)
                     build wait: false, job: 'stg_release', parameters: [text(name: 'ReleaseTag', value: tag)]
                 }
             }
@@ -88,7 +91,7 @@ pipeline {
         stage('Notification') {
             steps {
                 script {
-                    teams.notifyQat1(env.TEAMS_NOTIFICATION_TOKEN, env.RELEASE_VERSIONCORE, env.PRERELEASE, env.NEXT_BUILD_NUMBER, env.PROP_CURRENT_TAG)                }
+                    teams.notifyQat1(env.TEAMS_NOTIFICATION_TOKEN, env.RELEASE_VERSIONCORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.PROP_CURRENT_TAG)                }
             }
         }
     }
