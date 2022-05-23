@@ -76,9 +76,9 @@ def getQatTag() {
 
         def qatTag = ''
         if (buildNumber.length == 1) {
-            productionTag = "${version[0]}-dev"
+            qatTag = "${version[0]}-dev"
         } else {
-            productionTag = "${version[0]}-dev+${buildNumber[1]}"
+            qatTag = "${version[0]}-dev+${buildNumber[1]}"
         }
         return qatTag
      }
