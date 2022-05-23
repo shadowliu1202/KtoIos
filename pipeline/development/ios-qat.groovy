@@ -37,7 +37,7 @@ pipeline {
                 cleanWs()
                 dir('project') {
                     script {
-                        iosutils.checkoutIosKtoAsia(env.BUILD_BRANCH)
+                        iosutils.checkoutIosKtoAsia('master')
                         def nextBuildNumber = iosutils.getTestFlightBuildNumber(env.PROP_RELEASE_VERSIONCORE, 'dev') + 1
                         env.NEXT_BUILD_NUMBER = nextBuildNumber
                         currentBuild.displayName = "[Qat1] $env.PROP_RELEASE_VERSIONCORE-dev+$env.NEXT_BUILD_NUMBER"
