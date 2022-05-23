@@ -46,20 +46,20 @@ def getNextBuildNumber(productionTag, versionCore, enviroment) {
      }
 }
 
-def buildQat3Project(branch, compareTag, versionCore, preRelease, nextBuildNumber) {
+def buildQat1Project(branch, compareTag, versionCore, preRelease, nextBuildNumber){
+     buildProject(versionCore, preRelease, nextBuildNumber, 'uploadToTestflight')
+}
+
+def buildProject(versionCore, preRelease, nextBuildNumber, targetLane) {
     withEnv(['MATCH_PASSWORD=password', 'KEY_ID=2XHCS3W99M']) {
         withCredentials([file(credentialsId: '63f71ab5-5473-43ca-9191-b34cd19f1fa1', variable: 'API_KEY'),
                     string(credentialsId: 'ios_agent_keychain_password', variable: 'KEYCHAIN_PASSWORD')
         ]) {
-            buildProject(versionCore, preRelease, nextBuildNumber, 'buildQat3')
+            sh """
+                pod install --repo-update
+                fastlane $targetLane buildVersion:$nextBuildNumber appVersion:$versionCore
+            """
         }
     }
-}
-
-def buildProject(versionCore, preRelease, nextBuildNumber, targetLane) {
-    sh """
-        pod install --repo-update
-        fastlane $targetLane buildVersion:$nextBuildNumber appVersion:$versionCore
-    """
     uploadProgetPackage artifacts: 'output/*.ipa', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "$versionCore-$preRelease", description: "compile version:$nextBuildNumber"
 }
