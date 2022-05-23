@@ -1,16 +1,17 @@
 def checkoutIosKtoAsia(branch, compareTag = null) {
     def gitCredential = '28ef89bf-70a2-475d-b5e0-a1ea12a8fcdb'
     def gitRepo = 'git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git'
+    def gitExtensions = [[$class: 'AuthorInChangelog'], [$class: 'BuildSingleRevisionOnly']]
     def gitOptions = []
     if (compareTag != null) {
-        gitOptions = [compareRemote: 'refs', compareTarget: "tags/$compareTag"]
+        gitExtensions = [[$class: 'ChangelogToBranch', options:  [compareRemote: 'refs', compareTarget: "tags/$compareTag"]],
+                                [$class: 'AuthorInChangelog'],
+                                [$class: 'BuildSingleRevisionOnly']]
     }
     checkout([$class: 'GitSCM',
             branches         : [[name: "refs/heads/$branch"]],
             browser          : [$class: 'GitLab', repoUrl: "$gitRepo", version: '14.4'],
-            extensions       : [[$class: 'ChangelogToBranch', options: gitOptions],
-                                [$class: 'AuthorInChangelog'],
-                                [$class: 'BuildSingleRevisionOnly']],
+            extensions       : gitExtensions,
             userRemoteConfigs: [[credentialsId: "$gitCredential",
                                 refspec      : "+refs/heads/$branch:refs/remotes/origin/$branch +refs/heads/tags/*:refs/remotes/origin/tags/*",
                                 url          : "$gitRepo"]]
