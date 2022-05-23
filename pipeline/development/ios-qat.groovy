@@ -32,7 +32,7 @@ pipeline {
             steps {
                 cleanWs()
                 script {
-                    withCredentials([sshUserPrivateKey(credentialsId: "$RootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
+                    withCredentials([sshUserPrivateKey(credentialsId: "$PROP_ROOT_RSA", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
                         def remote = [:]
                             remote.name = 'mis ansible'
                             remote.host = "mis-ansible-app-01p"
