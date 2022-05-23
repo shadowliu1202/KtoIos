@@ -22,10 +22,10 @@ pipeline {
                     def lastTag = ansible.qatTag
                     echo "Get Last Tag $lastTag"
                     iosutils.checkoutIosKtoAsia('master', lastTag)
-                    env.PROP_CURRENT_TAG = lastTag
-                    env.PROP_RELEASE_VERSION = nextVersion(preRelease: env.PRE_RELEASE)
-                    env.PROP_RELEASE_VERSIONCORE = PROP_RELEASE_VERSION.split('-')[0]
-                    echo "Update from $env.PROP_CURRENT_TAG to $env.PROP_RELEASE_VERSION"
+                    env.CURRENT_TAG = lastTag
+                    env.RELEASE_VERSION = nextVersion(preRelease: env.PRE_RELEASE)
+                    env.RELEASE_VERSIONCORE = RELEASE_VERSION.split('-')[0]
+                    echo "Update from $env.CURRENT_TAG to $env.RELEASE_VERSION"
                 }
                 echo sh(script: 'env|sort', returnStdout: true)
             }
@@ -40,7 +40,7 @@ pipeline {
                 dir('project') {
                     script {
                         iosutils.checkoutIosKtoAsia('master')
-                        def nextBuildNumber = iosutils.getTestFlightBuildNumber(env.PROP_RELEASE_VERSIONCORE, env.PRE_RELEASE) + 1
+                        def nextBuildNumber = iosutils.getTestFlightBuildNumber(env.RELEASE_VERSIONCORE, env.PRE_RELEASE) + 1
                         env.NEXT_BUILD_NUMBER = nextBuildNumber
                         def tag = version.getReleaseTag(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, nextBuildNumber)
                         currentBuild.displayName = "[Qat1] $tag"
@@ -83,7 +83,7 @@ pipeline {
                     issueList.addAll(jira.getChangeLogIssues())
                     issueList.addAll(jira.getChangeIssues())
                     echo "Get Jira Issues: $issueList"
-                    jira.transferIssues(issueList, 'ReleaseToReporter', "$ios-$PROP_RELEASE_VERSIONCORE-qat")
+                    jira.transferIssues(issueList, 'ReleaseToReporter', "$ios-${env.RELEASE_VERSIONCORE}-qat")
                 }
             }
         }
@@ -91,7 +91,7 @@ pipeline {
         stage('Notification') {
             steps {
                 script {
-                    teams.notifyQat1(env.TEAMS_NOTIFICATION_TOKEN, env.RELEASE_VERSIONCORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.PROP_CURRENT_TAG)                }
+                    teams.notifyQat1(env.TEAMS_NOTIFICATION_TOKEN, env.RELEASE_VERSIONCORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.CURRENT_TAG)                }
             }
         }
     }
