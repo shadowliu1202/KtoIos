@@ -32,20 +32,20 @@ def publishIosVersionToQat(def preRelease, def versionCore, def buildNumber, def
     }
 }
 
-def getProductionTag(){
-     // Get Production version
+def getProductionTag() {
+    // Get Production version
     def sysadmin_rsa = '0dd067b6-8bd0-4c0a-9cb7-fb374ed7084e'
     withCredentials([sshUserPrivateKey(credentialsId: "$sysadmin_rsa", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
         def remote = [:]
         remote.name = 'mis ansible'
-        remote.host = "10.10.16.16"
+        remote.host = '10.10.16.16'
         remote.user = user
         remote.identityFile = identity
         remote.allowAnyHosts = true
         def commandResult = sshCommand remote: remote, command: "curl -s https://appkto.com/ios/api/get-ios-ipa-version | jq -r '.data.ipaVersion'", failOnError : false
         echo "$commandResult"
         String[] result = commandResult.trim().split('\\+')
-        def productionTag = ""
+        def productionTag = ''
         if (result.length == 1) {
             productionTag = "${result[0]}-release"
         } else {
@@ -54,4 +54,22 @@ def getProductionTag(){
         echo "production tag = $productionTag"
         return productionTag
     }
+}
+
+def getQatTag() {
+     // Get Production version
+     def rootRsa = '2cb1ac3a-2e81-474e-9846-25fad87697ef'
+     withCredentials([sshUserPrivateKey(credentialsId: "$rootRsa", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
+        def remote = [:]
+            remote.name = 'mis ansible'
+            remote.host = 'mis-ansible-app-01p'
+            remote.user = username
+            remote.identityFile = keyFile
+            remote.allowAnyHosts = true
+        def commandResult = sshCommand remote: remote, command: """
+            ssh root@172.16.100.122 'curl -s https://qat1-mobile.affclub.xyz/ios/api/get-ios-ipa-version | jq -r '.data.ipaVersion'
+        """
+        echo "Get QAT version ${commandResult.trim()}"
+        return commandResult
+     }
 }
