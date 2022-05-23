@@ -1,11 +1,14 @@
-def checkoutIosKtoAsia(branch, compareTag) {
+def checkoutIosKtoAsia(branch, compareTag = null) {
     def gitCredential = '28ef89bf-70a2-475d-b5e0-a1ea12a8fcdb'
     def gitRepo = 'git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git'
-
+    def gitOptions = []
+    if (compareTag != null) {
+        gitOptions = [compareRemote: 'refs', compareTarget: "tags/$compareTag"]
+    }
     checkout([$class: 'GitSCM',
             branches         : [[name: "refs/heads/$branch"]],
             browser          : [$class: 'GitLab', repoUrl: "$gitRepo", version: '14.4'],
-            extensions       : [[$class: 'ChangelogToBranch', options: [compareRemote: 'refs', compareTarget: "tags/$compareTag"]],
+            extensions       : [[$class: 'ChangelogToBranch', options: gitOptions],
                                 [$class: 'AuthorInChangelog'],
                                 [$class: 'BuildSingleRevisionOnly']],
             userRemoteConfigs: [[credentialsId: "$gitCredential",
@@ -46,7 +49,7 @@ def getNextBuildNumber(productionTag, versionCore, enviroment) {
      }
 }
 
-def buildQat1Project(branch, compareTag, versionCore, preRelease, nextBuildNumber){
+def buildQat1Project(branch, compareTag, versionCore, preRelease, nextBuildNumber) {
      buildProject(versionCore, preRelease, nextBuildNumber, 'uploadToTestflight')
 }
 
