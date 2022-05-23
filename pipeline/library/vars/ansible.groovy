@@ -71,8 +71,8 @@ def getQatTag() {
         """
         def tag = sh(script: "echo '${commandResult.trim()}' | jq -r '.data.ipaVersion'", returnStdout: true).trim()
         echo "Get QAT version ${tag.trim()}"
-        String[] buildNumber = commandResult.trim().split('\\+')
-        String[] version = commandResult.trim().split('-')
+        String[] buildNumber = tag.trim().split('\\+')
+        String[] version = tag.trim().split('-')
 
         def qatTag = ''
         if (buildNumber.length == 1) {
