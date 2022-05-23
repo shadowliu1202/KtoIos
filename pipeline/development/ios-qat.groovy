@@ -65,8 +65,10 @@ pipeline {
                 expression { INCLUDE_STAGING == true }
             }
             steps {
-                def tag = getReleaseTag( env.RELEASE_VERSIONCORE, env.PRERELEASE, env.NEXT_BUILD_NUMBER)
-                build wait: false, job: 'stg_release', parameters: [text(name: 'ReleaseTag', value: tag)]
+                script{
+                    def tag = getReleaseTag( env.RELEASE_VERSIONCORE, env.PRERELEASE, env.NEXT_BUILD_NUMBER)
+                    build wait: false, job: 'stg_release', parameters: [text(name: 'ReleaseTag', value: tag)]
+                }
             }
         }
 
@@ -91,3 +93,4 @@ pipeline {
         }
     }
 }
+
