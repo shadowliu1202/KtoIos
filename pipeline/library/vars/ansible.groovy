@@ -67,7 +67,7 @@ def getQatTag() {
             remote.identityFile = keyFile
             remote.allowAnyHosts = true
         def commandResult = sshCommand remote: remote, command: """
-            ssh root@172.16.100.122 'curl -s https://qat1-mobile.affclub.xyz/ios/api/get-ios-ipa-version | jq -r '.data.ipaVersion'
+            ssh root@172.16.100.122 'curl -s https://qat1-mobile.affclub.xyz/ios/api/get-ios-ipa-version'
         """
         echo "Get QAT version ${commandResult.trim()}"
         return commandResult

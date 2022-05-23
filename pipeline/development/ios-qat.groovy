@@ -32,7 +32,7 @@ pipeline {
             steps {
                 cleanWs()
                 script {
-                    ehco ansible.getQatTag()        
+                    ehco ansible.getQatTag()
                     def lastTag = sh(
                             script: """
                                 git ls-remote --tags --sort="v:refname" git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git | tail -n1 | sed 's/.*\\///; s/\\^{}//'
