@@ -73,17 +73,12 @@ pipeline {
         stage('Update jira issues') {
             //Update jira issue have been deploted to qat3
             steps {
-                withEnv(['Enviroment=qat',
-                         "NewVersion=ios-$PROP_RELEASE_VERSIONCORE",
-                         'Transition=ReleaseToReporter'
-                ]) {
-                    script {
-                        def issueList = []
-                        issueList.addAll(jira.getChangeLogIssues())
-                        issueList.addAll(jira.getChangeIssues())
-                        echo "Get Jira Issues: $issueList"
-                        jira.transferIssues(issueList, Transition, "$NewVersion-$Enviroment")
-                    }
+                script {
+                    def issueList = []
+                    issueList.addAll(jira.getChangeLogIssues())
+                    issueList.addAll(jira.getChangeIssues())
+                    echo "Get Jira Issues: $issueList"
+                    jira.transferIssues(issueList, 'ReleaseToReporter', "$ios-$PROP_RELEASE_VERSIONCORE-qat")
                 }
             }
         }
