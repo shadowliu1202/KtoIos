@@ -3,7 +3,8 @@ import RxSwift
 import SharedBu
 
 protocol AppUpdateRepository {
-    func getLatestAppVersion() -> Maybe<Version>
+    func getLatestAppVersion() -> Single<Version>
+    func getSuperSignatureMaintenance() -> Single<SuperSignMaintenanceBean>
 }
 
 class AppUpdateRepositoryImpl: AppUpdateRepository {
@@ -13,7 +14,11 @@ class AppUpdateRepositoryImpl: AppUpdateRepository {
         self.portalApi = portalApi
     }
     
-    func getLatestAppVersion() -> Maybe<Version> {
-        portalApi.getIOSVersion().compactMap({$0.data}).map({ $0.toVersion() })
+    func getLatestAppVersion() -> Single<Version> {
+        portalApi.getIOSVersion().map({ $0.data.toVersion() })
+    }
+    
+    func getSuperSignatureMaintenance() -> Single<SuperSignMaintenanceBean> {
+        portalApi.getSuperSignatureMaintenance()
     }
 }

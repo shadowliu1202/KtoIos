@@ -101,10 +101,6 @@ class ResetPasswordStep3ViewController: LandingViewController {
             }
         }
     }
-    
-    override func abstracObserverUpdate() {
-        self.observerCompulsoryUpdate()
-    }
 }
 
 extension ResetPasswordStep3ViewController: BarButtonItemable { }

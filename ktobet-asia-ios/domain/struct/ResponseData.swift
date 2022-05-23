@@ -19,7 +19,7 @@ struct ResponseData<T:Codable> : Codable {
 struct NonNullResponseData<T:Codable> : Codable {
     var statusCode: String
     var errorMsg: String?
-    var node: String
+    var node: String?
     var data: T
 }
 
@@ -2044,6 +2044,11 @@ struct VersionData: Codable {
     func toVersion() -> Version {
         Version.companion.create(version: ipaVersion, link: downloadUrl, size: ipaCapacity.doubleValue())
     }
+}
+
+struct SuperSignMaintenanceBean: Codable {
+    let endTime: Double?
+    let isMaintenance: Bool
 }
 
 struct CryptoTutorialBean: Codable {

@@ -132,10 +132,6 @@ class SignupLanguageViewController: LandingViewController {
         Alert.show(title, message, confirm: nil, cancel: nil)
     }
     
-    override func abstracObserverUpdate() {
-        self.observerCompulsoryUpdate()
-    }
-    
     private func didSelectRowAt(indexPath: IndexPath) {
         guard indexPath.row < arrLangs.count else { return }
         for idx in 0..<arrLangs.count{

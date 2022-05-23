@@ -199,10 +199,6 @@ class ResetPasswordViewController: LandingViewController {
         commonVerifyOtpViewController.delegate = resetPasswordStep2ViewController
         self.navigationController?.pushViewController(commonVerifyOtpViewController, animated: true)
     }
-    
-    override func abstracObserverUpdate() {
-        self.observerCompulsoryUpdate()
-    }
 }
 
 extension ResetPasswordViewController {

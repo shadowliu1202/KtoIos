@@ -3,26 +3,43 @@ import RxSwift
 import SharedBu
 
 class AppVersionCheckViewController: APPViewController {
-    private var appSyncDispose: Disposable?
-    private var disposeBag = DisposeBag()
+    private var disposeBag: DisposeBag!
     private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private let playerViewModel = DI.resolve(PlayerViewModel.self)!
+    private let appSyncViewModel = DI.resolve(AppSynchronizeViewModel.self)!
     private var productType: ProductType?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        observerCompulsoryUpdate()
+        disposeBag = DisposeBag()
+        observeUpdateVersion()
         observeSystemStatus()
+        registerAppEnterForeground()
     }
     
-    func observerCompulsoryUpdate() {
-        appSyncDispose = AppSynchronizeViewModel.shared.compulsoryupdate.compactMap({$0}).subscribe(onNext: {[weak self] _ in
-            let _ = self?.playerViewModel.logout().subscribeOn(MainScheduler.instance).subscribe(onCompleted: {
-                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
-            }, onError: {
-                print($0)
-            })
-        })
+    func registerAppEnterForeground() {
+        NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification).takeUntil(self.rx.deallocated).subscribe(onNext: { [weak self] _ in
+            self?.observeUpdateVersion()
+        }).disposed(by: disposeBag)
+    }
+    
+    func observeUpdateVersion() {
+        guard Configuration.isAutoUpdate else { return }
+        appSyncViewModel.getLatestAppVersion().map({ Bundle.main.currentVersion.getUpdateAction(latestVersion: $0) })
+            .subscribe(onSuccess: { [weak self] in
+                if $0 == .compulsoryupdate {
+                    self?.executeLogout()
+                }
+            }).disposed(by: disposeBag)
+    }
+    
+    private func executeLogout() {
+        playerViewModel.logout().subscribeOn(MainScheduler.instance).subscribe(onCompleted: { [weak self] in
+            self?.disposeBag = DisposeBag()
+            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+        }, onError: {
+            print($0)
+        }).disposed(by: disposeBag)
     }
     
     private func observeSystemStatus() {
@@ -47,14 +64,14 @@ class AppVersionCheckViewController: APPViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        appSyncDispose?.dispose()
+        disposeBag = DisposeBag()
     }
     
     func gameDidDisappear() {
         if Reachability?.isNetworkConnected == false {
             self.networkDisConnected()
         }
-        AppSynchronizeViewModel.shared.syncAppVersion()
+        observeUpdateVersion()
         serviceViewModel.refreshProductStatus()
     }
     

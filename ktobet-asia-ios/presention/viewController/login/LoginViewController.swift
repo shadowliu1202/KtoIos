@@ -41,6 +41,7 @@ class LoginViewController: LandingViewController {
     private var disposeBag = DisposeBag()
     private var viewModel = DI.resolve(LoginViewModel.self)!
     private var serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private let appSyncViewModel = DI.resolve(AppSynchronizeViewModel.self)!
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -85,8 +86,18 @@ class LoginViewController: LandingViewController {
         print("\(type(of: self)) deinit")
     }
     
-    override func abstracObserverUpdate() {
-        self.observerUpdates()
+    override func updateStrategy(_ incoming: Version, _ superSignStatus: SuperSignStatus?) {
+        super.updateStrategy(incoming, superSignStatus)
+        let action = Bundle.main.currentVersion.getUpdateAction(latestVersion: incoming)
+        if action == .optionalupdate {
+            doOptionalUpdateConfirm(incoming, superSignStatus)
+        }
+    }
+    
+    private func doOptionalUpdateConfirm(_ incoming: Version,_ superSignStatus: SuperSignStatus?) {
+        if superSignStatus?.isMaintenance == false {
+            confirmUpdate(incoming.apkLink)
+        }
     }
     
     // MARK: NOTIFICATION
@@ -343,12 +354,13 @@ class LoginViewController: LandingViewController {
     }
     
     private func versionAlert(_ newVer: Version) {
-        let currVersion = AppSynchronizeViewModel.shared.getCurrentVersion()
+        let currVersion = Bundle.main.currentVersion
         let title = Localize.string("update_proceed_now")
         let msg = "目前版本 : \(currVersion) \n最新版本 : \(newVer)"
         if currVersion.compareTo(other: newVer) < 0 {
-            Alert.show(title, msg, confirm: { [weak self] in
-                self?.confirmUpdate(newVer.apkLink)
+            Alert.show(title, msg, confirm: {
+                Configuration.isAutoUpdate = true
+                self.syncAppVersionUpdate()
             }, confirmText: Localize.string("update_proceed_now"), cancel: {})
         } else {
             Alert.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
@@ -381,7 +393,7 @@ extension LoginViewController: BarButtonItemable {
         case registerBarBtnId:
             btnSignupPressed()
         case manualUpdateBtnId:
-            AppSynchronizeViewModel.shared.synchronize.subscribe(onSuccess: { [weak self] (inComingAppVersion) in
+            appSyncViewModel.getLatestAppVersion().subscribe(onSuccess: { [weak self] (inComingAppVersion) in
                 self?.versionAlert(inComingAppVersion)
             }, onError: { [weak self] in
                 self?.handleErrors($0)

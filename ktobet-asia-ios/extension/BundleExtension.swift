@@ -1,4 +1,5 @@
 import Foundation
+import SharedBu
 
 extension Bundle {
     var releaseVersionNumber: String {
@@ -9,5 +10,13 @@ extension Bundle {
     }
     var releaseVersionNumberPretty: String {
         return "v\(releaseVersionNumber)"
+    }
+    var currentVersion: Version {
+        if let buildNumber = self.buildVersionNumber,
+           let number = Double(buildNumber) {
+            return Version.companion.create(version: self.releaseVersionNumber, code: Int32(number))
+        } else {
+            return Version.companion.create(version: self.releaseVersionNumber)
+        }
     }
 }
