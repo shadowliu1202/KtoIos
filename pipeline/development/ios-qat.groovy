@@ -32,6 +32,18 @@ pipeline {
             steps {
                 cleanWs()
                 script {
+                    withCredentials([sshUserPrivateKey(credentialsId: "$RootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
+                        def remote = [:]
+                            remote.name = 'mis ansible'
+                            remote.host = "mis-ansible-app-01p"
+                            remote.user = username
+                            remote.identityFile = keyFile
+                            remote.allowAnyHosts = true
+                        def result = sshCommand remote: remote, command: """
+                            ssh root@172.16.100.122 'curl https://qat1-mobile.affclub.xyz/ios/api/get-ios-ipa-version'
+                        """
+                        echo "Get $result"
+                    }
                     def lastTag = sh(
                             script: """
                                 git ls-remote --tags --sort="v:refname" git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git | tail -n1 | sed 's/.*\\///; s/\\^{}//'
