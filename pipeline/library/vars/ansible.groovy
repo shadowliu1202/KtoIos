@@ -70,7 +70,16 @@ def getQatTag() {
             ssh root@172.16.100.122 'curl -s https://qat1-mobile.affclub.xyz/ios/api/get-ios-ipa-version'
         """
         def tag = sh(script: "echo '${commandResult.trim()}' | jq -r '.data.ipaVersion'", returnStdout: true).trim()
-        echo "Get QAT tag ${tag.trim()}"
-        return tag
+        echo "Get QAT version ${tag.trim()}"
+        String[] buildNumber = commandResult.trim().split('\\+')
+        String[] version = commandResult.trim().split('-')
+
+        def qatTag = ''
+        if (buildNumber.length == 1) {
+            productionTag = "${version[0]}-dev"
+        } else {
+            productionTag = "${version[0]}-dev+${buildNumber[1]}"
+        }
+        return qatTag
      }
 }
