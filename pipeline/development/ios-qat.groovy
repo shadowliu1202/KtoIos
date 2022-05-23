@@ -32,13 +32,7 @@ pipeline {
             steps {
                 cleanWs()
                 script {
-                    echo ansible.getQatTag()
-                    def lastTag = sh(
-                            script: """
-                                git ls-remote --tags --sort="v:refname" git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git | tail -n1 | sed 's/.*\\///; s/\\^{}//'
-                            """,
-                            returnStdout: true
-                    ).trim()
+                    def lastTag =  ansible.qatTag
                     iosutils.checkoutIosKtoAsia('master', lastTag)
                     env.PROP_CURRENT_TAG = lastTag
                     env.PROP_RELEASE_VERSION = nextVersion(preRelease: 'dev')
@@ -60,7 +54,7 @@ pipeline {
         //                 iosutils.checkoutIosKtoAsia(env.BUILD_BRANCH)
         //                 def nextBuildNumber = iosutils.getTestFlightBuildNumber(env.PROP_RELEASE_VERSIONCORE, 'dev') + 1
         //                 env.NEXT_BUILD_NUMBER = nextBuildNumber
-        //                 currentBuild.displayName = "[Qat1] $env.PROP_RELEASE_VERSIONCORE-$env.PROP_PRE_REALEASE+$env.NEXT_BUILD_NUMBER"
+        //                 currentBuild.displayName = "[Qat1] $env.PROP_RELEASE_VERSIONCORE-dev+$env.NEXT_BUILD_NUMBER"
         //                 iosutils.buildProject(env.RELEASE_VERSIONCORE, env.PRERELEASE, nextBuildNumber, 'uploadToTestflight')
         //             }
         //         }
@@ -68,37 +62,14 @@ pipeline {
         // }
 
         // stage('Publish APK to Ansible') {
+        //     agent {
+        //         label 'ios-agent'
+        //     }
         //     steps {
-        //         withEnv(["ReleaseTag=${env.PROP_RELEASE_TAG}",
-        //                  "RootCredentialsId=$PROP_ROOT_RSA",
-        //                  "IpaSize=${env.IPA_SIZE}",
-        //                  "BuildUser=${env.BUIlD_USER}",
-        //                  "JenkinsCredentialsId=$PROP_GIT_CREDENTIALS_ID",
-        //                  "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
-        //                  "DownloadLink=$PROP_DOWNLOAD_LINK"
-        //         ]) {
-        //             withCredentials([sshUserPrivateKey(credentialsId: "$RootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
-        //                 script {
-        //                     def remote = [:]
-        //                     remote.name = 'mis ansible'
-        //                     remote.host = "$PROP_ANSIABLE_SERVER"
-        //                     remote.user = username
-        //                     remote.identityFile = keyFile
-        //                     remote.allowAnyHosts = true
-        //                 sshCommand remote: remote, command: """
-        //                     ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$ReleaseTag ipa_size=$IpaSize download_url=$PROP_DOWNLOAD_LINK" -i /data-disk/brand-team/qat1.ini
-        //                 """
-        //                 }
-        //             }
-        //             wrap([$class: 'BuildUser']) {
-        //                 sshagent(["$JenkinsCredentialsId"]) {
-        //                     sh """
-        //                     git config user.name "devops"
-        //                     git tag -f -a -m "release $BuildEnviroment version from ${env.BUIlD_USER}" $ReleaseTag
-        //                     git push $PROP_GIT_REPO_URL $ReleaseTag
-        //                 """
-        //                 }
-        //             }
+        //         script {
+        //             def size = sh(script:"du -s -k output/ktobet-asia-ios-qat3.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
+        //             echo "Get Ipa Size = $size"
+        //             ansible.publishIosVersionToQat(env.PRERELEASE, env.RELEASE_VERSIONCORE, env.NEXT_BUILD_NUMBER, PROP_DOWNLOAD_LINK, size, 'qat1')
         //         }
         //     }
         // }
