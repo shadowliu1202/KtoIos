@@ -33,6 +33,7 @@ pipeline {
                 cleanWs()
                 script {
                     def lastTag =  ansible.qatTag
+                    echo "Get Last Tag $lastTag"
                     iosutils.checkoutIosKtoAsia('master', lastTag)
                     env.PROP_CURRENT_TAG = lastTag
                     env.PROP_RELEASE_VERSION = nextVersion(preRelease: 'dev')
