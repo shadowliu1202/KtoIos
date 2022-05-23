@@ -1,5 +1,5 @@
-def CURRENT_DEV_TAG = "0.0.0"
-def RELEASE_DEV_VERSION = "0.0.0"
+def CURRENT_DEV_TAG = '0.0.0'
+def RELEASE_DEV_VERSION = '0.0.0'
 def remote = [:]
 remote.name = 'mis ansible'
 remote.host = 'mis-ansible-app-01p'
@@ -29,13 +29,13 @@ pipeline {
     }
 
     stages {
-        stage("Init workspace") {
+        stage('Init workspace') {
             steps {
                 cleanWs()
                 script {
                     CURRENT_DEV_TAG = sh(
                             script: """
-                                git ls-remote --tags --sort="v:refname" git@gitlab.higgstar.com:mobile/kto-asia-android.git | tail -n1 | sed 's/.*\\///; s/\\^{}//' 
+                                git ls-remote --tags --sort="v:refname" git@gitlab.higgstar.com:mobile/kto-asia-android.git | tail -n1 | sed 's/.*\\///; s/\\^{}//'
                             """,
                             returnStdout: true
                     ).trim()
@@ -52,10 +52,10 @@ pipeline {
 
                     script {
                         // === workaround for plugin ===
-                        sh "mv build.gradle temp.gradle"
+                        sh 'mv build.gradle temp.gradle'
                         echo "Project Current Tag : ${currentVersion()}"
                         RELEASE_DEV_VERSION = nextVersion(preRelease: 'dev')
-                        sh "mv temp.gradle build.gradle"
+                        sh 'mv temp.gradle build.gradle'
                         // === workaround for plugin ===
 
                         env.RELEASE_TAG = "$RELEASE_DEV_VERSION+${env.BUILD_NUMBER}"
@@ -73,8 +73,8 @@ pipeline {
                             }
                             signAndroidApks(
                                     keyStoreId: "$ANDROID_KEYSTORE",
-                                    keyAlias: "kto",
-                                    apksToSign: "app/build/outputs/apk/**/*.apk",
+                                    keyAlias: 'kto',
+                                    apksToSign: 'app/build/outputs/apk/**/*.apk',
                                     androidHome: env.ANDROID_HOME,
                                     zipalignPath: env.ANDROID_ZIPALIGN,
                                     skipZipalign: true
@@ -94,14 +94,14 @@ pipeline {
                         script {
                             remote.identityFile = keyFile
                         }
-                        sshCommand remote: remote, command: """                        
-                        ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-android-apk.yml -u root --extra-vars "apkFeed=kto-asia tag=$ReleaseTag" -i /data-disk/brand-team/qat1.ini                                                          
+                        sshCommand remote: remote, command: """
+                        ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-android-apk.yml -u root --extra-vars "apkFeed=kto-asia tag=$ReleaseTag" -i /data-disk/brand-team/qat1.ini
                    """
                     }
                     wrap([$class: 'BuildUser']) {
                         sshagent(["${GIT_CREDENTIALS_ID}"]) {
                             sh """
-                            cd project 
+                            cd project
                             git config user.name "devops"
                             git tag -f -a -m "release $PROP_BUILD_ENVIRONMENT version from ${env.BUIlD_USER}" $ReleaseTag
                             git push $GIT_REPO_URL $ReleaseTag
@@ -136,9 +136,8 @@ pipeline {
                     def version = RELEASE_DEV_VERSION.split('-')[0]
                     office365ConnectorSend webhookUrl: "$QAT_NOTIFICATION",
                             message: ">**[Android] [KTO Asia]** has been deployed to QAT</br>version : **[$RELEASE_TAG]($PROGET_HOME/feeds/app/android/kto-asia/$RELEASE_DEV_VERSION/files)**",
-                            factDefinitions: [[name: "Download Page", template: '<a href="https://qat1-mobile.affclub.xyz/">Download Page</a>'],
-                                              [name: "Related Issues", template: "<a href=\"https://jira.higgstar.com/issues/?jql=project = APP AND labels = android-${version}-qat\">Jira Issues</a>"]]
-
+                            factDefinitions: [[name: 'Download Page', template: '<a href="https://qat1-mobile.affclub.xyz/">Download Page</a>'],
+                                              [name: 'Related Issues', template: "<a href=\"https://jira.higgstar.com/issues/?jql=project = APP AND labels = android-${version}-qat\">Jira Issues</a>"]]
                 }
             }
         }
