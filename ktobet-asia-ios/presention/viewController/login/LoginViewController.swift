@@ -219,11 +219,14 @@ class LoginViewController: LandingViewController {
                 if countDown > 0 {
                     self.showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
                 }
-                self.btnLogin.setTitle({
-                    var title = Localize.string("common_login")
-                    if countDown > 0 { title += "(\(countDown))" }
-                    return title
-                }(), for: .normal)
+                UIView.performWithoutAnimation {
+                    self.btnLogin.setTitle({
+                        var title = Localize.string("common_login")
+                        if countDown > 0 { title += "(\(countDown))" }
+                        return title
+                    }(), for: .normal)
+                    self.btnLogin.layoutIfNeeded()
+                }
             })
             .disposed(by: disposeBag)
         
