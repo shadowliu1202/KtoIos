@@ -14,7 +14,7 @@ pipeline {
                 cleanWs()
                 echo sh(script: 'env|sort', returnStdout: true)
                 script {
-                    currentBuild.displayName = "[Pro] $params.RELEASE_TAG"
+                    currentBuild.displayName = "[Pro][SelfTest] $params.RELEASE_TAG"
                     env.ONLINE_TAG = ansible.getIosOnlineVersion('pro').trim()
                     String[] result =  params.RELEASE_TAG.trim().split('\\+')
                     String[] core =  result[0].split('-')
@@ -39,7 +39,7 @@ pipeline {
                 cleanWs()
                 dir('project') {
                     script {
-                        iosutils.checkoutTagOnIosKtoAsia(params.PARAMS_SELECT_TAG, env.ONLINE_TAG)
+                        iosutils.checkoutTagOnIosKtoAsia(params.RELEASE_TAG, env.ONLINE_TAG)
                         iosutils.buildProject(env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, 'buildIpaProduction')
                         iosutils.updateTestFlight(env.VERSION_CORE, env.NEXT_BUILD_NUMBER, 'selftest')
                         iosutils.updateTestFlight(env.VERSION_CORE, env.NEXT_BUILD_NUMBER, 'backup')

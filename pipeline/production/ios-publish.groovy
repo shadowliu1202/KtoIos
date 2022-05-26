@@ -67,14 +67,13 @@ pipeline {
         }
 
         stage('trigger build for qat3 enviroment') {
+            when {
+                expression { env.PRE_RELEASE == 'release' }
+            }
             steps {
-                script {
-                    if (env.PRE_RELEASE == 'release') {
-                        build job: 'qat3_publish', parameters: [string(name: 'HOTFIX_BRNACH', value: 'master'), string(name: 'UP_STREAM_TAG', value: params.RELEASE_TAG)] , wait: false , propagate : false
-                    }
-                }
+                build job: 'qat3_publish', parameters: [string(name: 'HOTFIX_BRNACH', value: 'master'), string(name: 'UP_STREAM_TAG', value: params.RELEASE_TAG)] , wait: false , propagate : false
             }
         }
     }
 }
- 
+
