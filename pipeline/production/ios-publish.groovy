@@ -1,3 +1,4 @@
+library 'utils'
 pipeline {
     agent {
         label 'master'
@@ -5,78 +6,27 @@ pipeline {
     options {
         ansiColor('gnome-terminal')
     }
-    environment {
-        //ios-publish
-        PROP_SYSADMIN_RSA = '0dd067b6-8bd0-4c0a-9cb7-fb374ed7084e'
-        PROP_GIT_CREDENTIALS_ID = '28ef89bf-70a2-475d-b5e0-a1ea12a8fcdb'
-        PROP_GIT_REPO_URL = 'git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git'
-        PROP_PRE_REALEASE = "$env.PRE_RELEASE" // <= setup from upstream
-        PROP_DOWNLOAD_LINK = "$env.IOS_DOWNLOAD_URL" // <= setup from upstream
-        PROP_TESTFLIGHT_LINK = "$env.IOS_TESTFLIGHT_URL" // <= setup from upstream
-        PROP_REMOTE_ANS_HOST = "$env.REMOTE_ANS_HOST" // <= setup from upstream
-        PROP_BUILD_ENVIRONMENT = "$env.BUILD_ENVIRONMENT" // <= setup from upstream
-        PROP_PUBLISH_TAG = "$env.PROP_RELEASE_TAG" // < = setup from upstream
-        PROP_CURRENT_ONLINE_TAG = "$env.CURRENT_ONLINE_TAG" // < = setup from upstream
-        PROP_TEAMS_NOTIFICATION = "$env.TEAMS_NOTIFICATION_TOKEN"
-        PROP_VERSION_CORE = "${env.PROP_RELEASE_TAG.split('\\+')[0].split('-')[0]}"
-        PROP_BUILD_ENVIRONMENT_FULL = "$env.BUILD_ENVIRONMENT_FULL"
-        PROP_JIRA_TRANSITION = "$env.JIRA_TRANSITION"
-    }
 
     stages {
-        stage('Define Change Set') {
+        stage('init workspace') {
             //取得Production環境的線上版本，
             steps {
-                echo sh(script: 'env|sort', returnStdout: true)
                 cleanWs()
+                echo sh(script: 'env|sort', returnStdout: true)
                 script {
-                    withEnv(["PublishTag=$PROP_PUBLISH_TAG",                    
-                             "BuildEnviroment=$PROP_BUILD_ENVIRONMENT",
-                             "SysAdmin=$PROP_SYSADMIN_RSA",
-                             "AnsibleServer=$PROP_REMOTE_ANS_HOST",
-                    ]) {
-                        script {
-                                // Get Production version
-                                withCredentials([sshUserPrivateKey(credentialsId: "$SysAdmin", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
-                                    def remote = [:]
-                                    remote.name = 'mis ansible'
-                                    remote.host = "$AnsibleServer"
-                                    remote.user = user
-                                    remote.identityFile = identity
-                                    remote.allowAnyHosts = true
-                                    def commandResult = sshCommand remote: remote, command: "curl -s https://appkto.com/ios/api/get-ios-ipa-version | jq -r '.data.ipaVersion'", failOnError : false
-                                    echo "$commandResult"
-                                    if (commandResult.empty) {
-                                        env.PRODUCTION_ONLINE_TAG = '0.0.1'
-                                    } else {
-                                        String[] result = commandResult.trim().split('\\+')
-                                        if (result.length == 1) {
-                                            env.PRODUCTION_ONLINE_TAG = "${result[0]}-release"
-                                        } else {
-                                            env.PRODUCTION_ONLINE_TAG = "${result[0]}-release+${result[1]}"
-                                        }
-                                    }
-                                    echo "production version = $PRODUCTION_ONLINE_TAG"
-                                    currentBuild.displayName = "[$BuildEnviroment] $PublishTag"
-                                }
-                        }
+                    currentBuild.displayName = "[$env.BUILD_ENVIRONMENT] $params.RELEASE_TAG"
+                    env.ONLINE_TAG = ansible.getIosOnlineVersion('pro').trim()
+                    String[] result =  params.RELEASE_TAG.trim().split('\\+')
+                    String[] core =  result[0].split('-')
+                    env.VERSION_CORE = core[0]
+                    env.PRE_RELEASE = core[1]
+                    if (result.length == 1) {
+                        env.NEXT_BUILD_NUMBER = 1
+                    } else {
+                        env.NEXT_BUILD_NUMBER = result[1]
                     }
-                }
-            }
-        }
-
-        stage('Get IPA Size') {
-            //取得檔案的size
-            steps{
-                withEnv(["PublishTag=$PROP_PUBLISH_TAG",
-                         "AnsibleServer=$PROP_REMOTE_ANS_HOST",
-                          "BuildEnviromentFull=$PROP_BUILD_ENVIRONMENT_FULL"
-                ]){                    
-                    script {
-                        String version  = PublishTag.split('\\+')[0]
-                        downloadProgetPackage downloadFolder: "$WORKSPACE", downloadFormat: 'unpack', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "$version"
-                        env.IPA_SIZE = sh(script:"du -s -k output/ktobet-asia-ios-${BuildEnviromentFull}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
-                        echo "Get Ipa Size = $env.IPA_SIZE"
+                    dir('project') {
+                        iosutils.checkoutTagOnIosKtoAsia(params.RELEASE_TAG, env.ONLINE_TAG)
                     }
                 }
             }
@@ -84,24 +34,13 @@ pipeline {
 
         stage('Publish APK to Ansible') {
             steps {
-                withEnv(["PublishTag=$PROP_PUBLISH_TAG",
-                         "IpaSize=$env.IPA_SIZE",
-                         "AnsibleServer=$PROP_REMOTE_ANS_HOST",
-                         "DownloadLink=$PROP_DOWNLOAD_LINK",
-                         "SysAdmin=$PROP_SYSADMIN_RSA"
-                ]) {
-                    withCredentials([sshUserPrivateKey(credentialsId: "$SysAdmin", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
-                        script {
-                            def remote = [:]
-                            remote.name = 'mis ansible'
-                            remote.host = "$AnsibleServer"
-                            remote.user = user
-                            remote.identityFile = identity
-                            remote.allowAnyHosts = true
-                        sshCommand remote: remote, command: """
-                            ansible-playbook -v /data-disk/brand-deployment-document/playbooks/deploy-kto-ios-ipa.yml --extra-vars "apkFeed=kto-asia tag=$PublishTag ipa_size=$IpaSize download_url=$DownloadLink"
-                        """
-                        }
+                script {
+                    dir('project') {
+                        downloadProgetPackage downloadFolder: "${WORKSPACE}/project", downloadFormat: 'zip', feedName: 'app', groupName: 'ios', packageName: 'kto-asia', version: "$env.VERSION_CORE-$env.PRE_RELEASE"
+                        unzip dir: '', glob: 'output/*ios-staging.ipa', zipFile: "kto-asia-${env.VERSION_CORE}-${env.PRE_RELEASE}.zip"
+                        def size = sh(script:"du -s -k output/ktobet-asia-ios-${env.BUILD_ENVIRONMENT_FULL}.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
+                        echo "Get Ipa Size = $size"
+                        ansible.publishIosOnlineVersion(env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.IOS_DOWNLOAD_URL, size)
                     }
                 }
             }
@@ -109,32 +48,12 @@ pipeline {
 
         stage('Update jira issues') {
             steps {
-                withEnv(["ReleaseVersionCore=$PROP_VERSION_CORE",
-                         "ProductionOnlineTag=$PRODUCTION_ONLINE_TAG",
-                         "Enviroment=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
-                         "Transition=$PROP_JIRA_TRANSITION"
-                ]) {
-                    script {
-                        def issueKeys = jiraIssueSelector(issueSelector: [$class: 'DefaultIssueSelector'])
-                        for (issue in issueKeys) {
-                            def jiraTransitions = jiraGetIssueTransitions failOnError: false, idOrKey: "$issue", site: 'Higgs-Jira'
-                            def data = jiraTransitions.data
-                            if (data != null && data.transitions != null) {
-                                for (transition in data.transitions) {
-                                    if (transition.name == "$Transition") {
-                                        echo "transfer $issue with $transition"
-                                        def transitionInput = [transition: [id: "$transition.id"]]
-                                        jiraTransitionIssue failOnError: false, site: 'Higgs-Jira', input:transitionInput, idOrKey: "$issue"
-                                        break
-                                    }
-                                }
-                            }
-                        }
-                        if (Enviroment == 'pro') {
-                            def releaseVersion = [ name: "ios-$ReleaseVersionCore", released: true, project: 'APP' ]
-                            jiraNewVersion failOnError: false, version: releaseVersion, site: 'Higgs-Jira'
-                        }
-                    }
+                script {
+                    def issueList = []
+                    issueList.addAll(jira.getChangeLogIssues())
+                    issueList.addAll(jira.getChangeIssues())
+                    echo "Get Jira Issues: $issueList"
+                    jira.transferIssues(issueList, env.JIRA_TRANSITION, null, "ios-$env.VERSION_CORE")
                 }
             }
         }
@@ -142,25 +61,20 @@ pipeline {
         stage('Publish Notification') {
             steps {
                 script {
-                    withEnv(["PublishTag=$PROP_PUBLISH_TAG",
-                             "OnlineTag=$PROP_CURRENT_ONLINE_TAG",
-                             "Enviroment=${PROP_BUILD_ENVIRONMENT.toLowerCase()}",
-                             "Version=$PROP_VERSION_CORE",
-                             "TeamsToken=$PROP_TEAMS_NOTIFICATION",
-                             "DownloadLink=$PROP_DOWNLOAD_LINK",
-                             "UpdateIssues=https://jira.higgstar.com/issues/?jql=project = APP AND fixVersion = ios-$PROP_VERSION_CORE",
-                    ]) {
-                        String path = PublishTag.split('\\+')[0]
-                        String publish = PublishTag.split('-')[0]
-                        String online = OnlineTag.split('-')[0]
-                        echo "detail $path $publish $online"
-                        office365ConnectorSend webhookUrl: "$TeamsToken",
-                                message: ">**[IOS] [KTO Asia]** has been published to $Enviroment</br>version : **[$PublishTag]($JENKINS_PROGET_HOME/feeds/app/ios/kto-asia/${path}/files)**",
-                                factDefinitions: [[name: 'Testflight Page', template: "<a href=\"$DownloadLink\">link</a>"],
-                                                  [name: 'Update Issues', template: "$online->$publish (<a href=\"$UpdateIssues\">issues</a>)"]]
+                    teams.notifyRelease(env.TEAMS_NOTIFICATION, env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.BUILD_ENVIRONMENT, env.API_HOST)
+                }
+            }
+        }
+
+        stage('trigger build for qat3 enviroment') {
+            steps {
+                script {
+                    if (env.PRE_RELEASE == 'release') {
+                        build job: 'qat3_publish', parameters: [string(name: 'HOTFIX_BRNACH', value: 'master'), string(name: 'UP_STREAM_TAG', value: params.RELEASE_TAG)] , wait: false , propagate : false
                     }
                 }
             }
         }
     }
 }
+ 

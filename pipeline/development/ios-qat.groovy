@@ -45,20 +45,11 @@ pipeline {
                         def tag = version.getReleaseTag(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, nextBuildNumber)
                         currentBuild.displayName = "[Qat1] $tag"
                         iosutils.buildProject(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, nextBuildNumber, 'uploadToTestflight')
+                        def size = sh(script:"du -s -k output/ktobet-asia-ios-qat3.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
+                        echo "Get Ipa Size = $size"
+                        ansible.publishIosVersionToQat(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.IOS_DOWNLOAD_URL, size, 'qat1')
+                        version.setIosTag( env.RELEASE_VERSIONCORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, 'qat1')
                     }
-                }
-            }
-        }
-
-        stage('Publish APK to Ansible') {
-            agent {
-                label 'ios-agent'
-            }
-            steps {
-                script {
-                    def size = sh(script:"du -s -k output/ktobet-asia-ios-qat3.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
-                    echo "Get Ipa Size = $size"
-                    ansible.publishIosVersionToQat(env.PRE_RELEASE, env.RELEASE_VERSIONCORE, env.NEXT_BUILD_NUMBER, env.IOS_DOWNLOAD_URL, size, 'qat1')
                 }
             }
         }
