@@ -56,7 +56,7 @@ pipeline {
                         iosutils.checkoutTagOnIosKtoAsia(params.PARAMS_SELECT_TAG, env.ONLINE_TAG)
                         iosutils.buildProject(env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.FASTLANE_JOB)
                         iosutils.updateTestFlight(env.VERSION_CORE, env.NEXT_BUILD_NUMBER, env.PRE_RELEASE)
-                        version.setIosTag(env.RELEASE_VERSIONCORE, env.PRERELEASE, env.NEXT_BUILD_NUMBER, env.BUILD_ENVIRONMENT.toLowerCase())
+                        version.setIosTag(env.VERSION_CORE,  env.NEXT_BUILD_NUMBER,env.PRERELEASE, env.BUILD_ENVIRONMENT.toLowerCase())
                     }
                 }
             }

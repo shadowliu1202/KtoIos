@@ -61,7 +61,7 @@ pipeline {
         stage('Publish Notification') {
             steps {
                 script {
-                    teams.notifyRelease(env.TEAMS_NOTIFICATION, env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.BUILD_ENVIRONMENT, env.API_HOST)
+                    teams.notifyPublish(env.TEAMS_NOTIFICATION, env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.BUILD_ENVIRONMENT, env.API_HOST)
                 }
             }
         }
