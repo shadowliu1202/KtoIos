@@ -18,16 +18,6 @@ class DateViewController: UIViewController {
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
     
     private var dateSegmentTitle = [Localize.string("common_last7day"), Localize.string("common_select_day"), Localize.string("common_select_month")]
-    private var dateSegmentTitleFontSize: CGFloat {
-        switch Localize.getLanguage() {
-        case "vi-vn":
-            return 12
-        case "zh-cn":
-            fallthrough
-        default:
-            return 14
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,10 +59,11 @@ class DateViewController: UIViewController {
                 self.month.setSelectedDate(starDate.convertdateToUTC())
             }
 
-            self.currentDateLabel.text = self.dateLabelAccordingToDifferentLanguages()
+            self.currentDateLabel.text = Theme.shared.getDatePickerTitleLabel(by: Localize.getSupportLocale(), self.koyomi)
+
         }
         
-        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: dateSegmentTitleFontSize)!]
+        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: Theme.shared.getDateSegmentTitleFontSize(by: Localize.getSupportLocale()))!]
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .normal)
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .selected)
         dateSegment.addTarget(
@@ -101,17 +92,6 @@ class DateViewController: UIViewController {
         
         let spaceIndexRange = text.rangeOfComposedCharacterSequence(at: spaceIndex)
         return text.replacingCharacters(in: spaceIndexRange, with: "\n")
-    }
-    
-    private func dateLabelAccordingToDifferentLanguages() -> String {
-        switch Localize.getLanguage() {
-        case "vi-vn":
-            return Localize.string("common_month") + " " + self.koyomi.currentDateString(withFormat: "M") + "/" + self.koyomi.currentDateString(withFormat: "yyyy")
-        case "zh-cn":
-            fallthrough
-        default:
-            return self.koyomi.currentDateString() + Localize.string("common_month")
-        }
     }
     
     fileprivate func selectSingleDate(date: Date = Date()) {

@@ -59,8 +59,7 @@ class SurveyViewModel {
         return self.isSurveyContentValid
     }).startWith(false)
     
-    //TODO: Refactor on VN
-    let playerLocale: SupportLocale = .China.init()
+    let playerLocale = Localize.getSupportLocale()
 
     init(_ surveyUseCase: CustomerServiceSurveyUseCase, _ authenticationUseCase: AuthenticationUseCase) {
         self.surveyUseCase = surveyUseCase
@@ -102,6 +101,16 @@ class SurveyViewModel {
         return surveyUseCase.createOfflineSurvey(message: msg, email: email)
     }
     
+    func getTextFieldMaxLengthByLocale() -> Int {
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            return 300
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return 100
+        }
+    }
 }
 
 class SurveyAnswerItem {
