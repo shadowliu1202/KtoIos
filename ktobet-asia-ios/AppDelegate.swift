@@ -16,7 +16,8 @@ import Firebase
 @main
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    private(set) var rechabilityObserver: ReachabilityHandler?
+    private let localStorageRepository = DI.resolve(LocalStorageRepository.self)!
+    private(set) var reachabilityObserver: ReachabilityHandler?
     private weak var timer: Timer?
     
     var window: UIWindow?
@@ -54,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.addDebugGesture()
         }
         if Configuration.manualControlNetwork {
-            self.addNetworkControllGesture()
+            self.addNetworkControlGesture()
         }
 
         //MARK: 待VN上線時移除
@@ -63,9 +64,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         gesture.numberOfTapsRequired = 3
         self.window?.addGestureRecognizer(gesture)
 
-        rechabilityObserver = ReachabilityHandler.shared(connected: didConnect, disconnected: disConnect, requestError: requestErrorWhenRetry)
+        reachabilityObserver = ReachabilityHandler.shared(connected: didConnect, disconnected: disConnect, requestError: requestErrorWhenRetry)
         
         SharedBu.Platform.init().debugBuild()
+        
+        if UserDefaults.standard.string(forKey: "cultureCode") == nil {
+            initialCultureCode()
+        }
+        
         return true
     }
 
@@ -89,6 +95,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("\(error)")
     }
     
+    private func initialCultureCode() {
+        let localeCultureCode = systemLocaleToCultureCode()
+        localStorageRepository.setCultureCode(localeCultureCode)
+    }
+    
+    private func systemLocaleToCultureCode() -> String {
+        switch Locale.current.languageCode {
+        case "vi":
+            return SupportLocale.Vietnam.shared.cultureCode()
+        case "zh":
+            fallthrough
+        default:
+            return SupportLocale.China.shared.cultureCode()
+        }
+    }
+    
     func forceCheckNetworkStatus() {
         self.timer?.invalidate()
         let nextTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.debounceCheckNetworkStatus), userInfo: nil, repeats: false)
@@ -96,7 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc private func debounceCheckNetworkStatus() {
-        self.rechabilityObserver?.setForceCheck()
+        self.reachabilityObserver?.setForceCheck()
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -155,7 +177,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.isDebugModel = true
     }
     
-    func addNetworkControllGesture() {
+    func addNetworkControlGesture() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(addNetworkFloatButton(_:)))
         gesture.numberOfTouchesRequired = 2
         gesture.numberOfTapsRequired = 2

@@ -269,21 +269,11 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let countOfWords = textView.text.count - range.length + text.count
         
-        return limitMessageContentLengthByLocale(countOfWords)
+        return isMessageLengthValid(countOfWords)
     }
     
-    private func limitMessageContentLengthByLocale(_ countOfWords: Int) -> Bool {
-        switch viewModel.playerLocale {
-        case is SupportLocale.Vietnam:
-            return limitMessageContentLength(countOfWords, maxLength: 300)
-        case is SupportLocale.China:
-            fallthrough
-        default:
-            return limitMessageContentLength(countOfWords, maxLength: 100)
-        }
-    }
-    
-    private func limitMessageContentLength(_ countOfWords: Int, maxLength: Int) -> Bool {
+    private func isMessageLengthValid(_ countOfWords: Int) -> Bool {
+        let maxLength = viewModel.getTextFieldMaxLengthByLocale()
         return countOfWords <= maxLength
     }
 }
