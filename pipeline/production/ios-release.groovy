@@ -90,7 +90,16 @@ pipeline {
                 expression { params.AUTO_PUBLISH != null && params.AUTO_PUBLISH == true }
             }
             steps {
-                build wait: false, job: env.PUBLISH_JOB, parameters: [text(name: 'PROP_RELEASE_TAG', value: env.RELEASE_TAG)]
+                build wait: false, job: env.PUBLISH_JOB, parameters: [string(name: 'RELEASE_TAG', value: env.RELEASE_TAG)]
+            }
+        }
+
+         stage('Publish Self Test') {
+            when {
+                expression { env.PRE_RELEASE == 'release' }
+            }
+            steps {
+                build job: 'pro_selftest', parameters: [string(name: 'RELEASE_TAG', value: env.RELEASE_TAG)] , wait: false , propagate : false
             }
         }
     }
