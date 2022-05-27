@@ -12,12 +12,12 @@ def notifyPublish(def teamsTokenId, def versionCore, def preRelease, def nextBui
     }
 }
 
-def notifyProductionRelease(def teamsTokenId, def versionCore, def preRelease, def nextBuildNumber, def onlineTag, def buildEnviroment, def selftestLink,def backupLink) {
+def notifyProductionRelease(def teamsTokenId, def versionCore, def preRelease, def nextBuildNumber, def onlineTag, def buildEnviroment,def downloadPage,def protestLink, def selftestLink,def backupLink) {
     wrap([$class: 'BuildUser']) {
         def totalIssues = "https://jira.higgstar.com/issues/?jql=project = APP AND fixVersion = ios-$versionCore"
         def releasePath = "$versionCore-$preRelease"
         String[] result =  onlineTag.split('\\+')
-        String[] core =  eonlineTag.split('-')
+        String[] core =  onlineTag.split('-')
         def onlineVersion = core[0]
         if (result.length > 1) {
             onlineVersion += "+$result[1]"
@@ -25,13 +25,14 @@ def notifyProductionRelease(def teamsTokenId, def versionCore, def preRelease, d
         def tag = version.getReleaseTag(versionCore, preRelease, nextBuildNumber)
         def definitions = [[name: 'release issues', template: "from $onlineVersion to $versionCore+$nextBuildNumber (<a href=\"$totalIssues\">issues</a>)"],
                                     [name: 'release by', template: "$env.BUIlD_USER"],
-                                    [name: 'testflight', template: "<a href=\"$testFlightPage\">selftest</a>, <a href=\"$testFlightPage\">backup</a>"]]
+                                    [name: 'download page', template: "$downloadPage"],
+                                    [name: 'testflight', template: "<a href=\"$protestLink\">pro</a>, <a href=\"$selftestLink\">selftest</a>, <a href=\"$backupLink\">backup</a>"]]
         def message = ">**[IOS][KTO Asia]** production has been released</br>version : **[$tag]($JENKINS_PROGET_HOME/feeds/app/ios/kto-asia/$releasePath/files)**"
         notify(teamsTokenId, message, definitions)
     }
 }
 
-def notifyRelease(def teamsTokenId, def versionCore, def preRelease, def nextBuildNumber, def onlineTag, def buildEnviroment, def downloadPage, def testFlightPage) {
+def notifyStagingRelease(def teamsTokenId, def versionCore, def preRelease, def nextBuildNumber, def onlineTag, def buildEnviroment, def downloadPage, def testFlightPage) {
     wrap([$class: 'BuildUser']) {
         def updateIssues = "https://jira.higgstar.com/issues/?jql=project = APP AND labels = ios-$versionCore-$buildEnviroment"
         def releasePath = "$versionCore-$preRelease"
