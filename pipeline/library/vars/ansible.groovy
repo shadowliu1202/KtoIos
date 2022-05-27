@@ -1,8 +1,10 @@
 def publishIosOnlineVersion( def versionCore, def preRelease, def buildNumber, def download_url, def size) {
     if (preRelease.toString() == 'rc') {
-        return publishToIDC('10.10.16.15',versionCore,buildNumber,download_url,size)
+        publishToIDC('10.10.16.15', versionCore, buildNumber, download_url, size)
+        setOnlineVersion('ios','10.10.16.15',versionCore,buildNumber)
     }else if (preRelease.toString() == 'release') {
-        return publishToIDC('10.10.16.16',versionCore,buildNumber,download_url,size)
+        publishToIDC('10.10.16.16', versionCore, buildNumber, download_url, size)
+        setOnlineVersion('ios','10.10.16.16',versionCore,buildNumber)
     }
 }
 
@@ -86,6 +88,21 @@ def getOnlineVersion(platform, server, preRelease) {
         }
         echo "$preRelease online tag = $tag"
         return tag
+    }
+}
+
+def setOnlineVersion(platform, server, versionCore, buildNumber) {
+    def sysadmin_rsa = '0dd067b6-8bd0-4c0a-9cb7-fb374ed7084e'
+    withCredentials([sshUserPrivateKey(credentialsId: "$sysadmin_rsa", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
+        def tag = "$versionCore+$buildNumber"
+        echo "set online tag = $tag"
+        def remote = [:]
+        remote.name = 'mis ansible'
+        remote.host = server
+        remote.identityFile = identity
+        remote.user = user
+        remote.allowAnyHosts = true
+        sshCommand remote: remote, command:"echo $tag > /data-disk/mobile-deployment-document/${platform}.version"
     }
 }
 
