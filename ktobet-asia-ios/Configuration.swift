@@ -54,7 +54,6 @@ enum Configuration: String {
     static var isAutoUpdate: Bool       = env.isAutoUpdate
     static var manualUpdate: Bool       = env.manualUpdate
     static var debugGesture: Bool       = env.debugGesture
-    static var affiliateUrl: URL        = URL(string: "\(host)affiliate")!
     static var isAllowedVN: Bool        = current == .production ? false : env.isAllowedVN
     static var enableCrashlytics: Bool  = env.enableCrashlytics
     static var manualControlNetwork: Bool   = env.manualControlNetwork
@@ -97,6 +96,13 @@ enum Configuration: String {
     static func getKtoAgent() -> String {
         let userAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")(\(UIDevice.modelName))"
         return userAgent
+    }
+    
+    static func getAffiliateUrl(cultureCode: String) -> URL? {
+        if let host = Configuration.host[cultureCode] {
+            return URL(string: "\(host)affiliate")!
+        }
+        return nil
     }
 }
 
