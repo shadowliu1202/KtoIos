@@ -184,8 +184,9 @@ class ProfileViewController: APPViewController, AuthProfileVerification {
             self.affiliateView.isHidden = !$0
             self.affiliateViewHeight.constant = $0 ? 48 : 0
             self.affiliateView.setOnClick {
-                if UIApplication.shared.canOpenURL(Configuration.affiliateUrl) {
-                    UIApplication.shared.open(Configuration.affiliateUrl)
+                if let url = Configuration.getAffiliateUrl(cultureCode: LocalizeUtils.shared.getLanguage()),
+                   UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url)
                 }
             }
         }).disposed(by: disposeBag)
