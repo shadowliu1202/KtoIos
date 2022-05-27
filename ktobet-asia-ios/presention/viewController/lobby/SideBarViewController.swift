@@ -43,6 +43,7 @@ class SideBarViewController: APPViewController {
     @IBOutlet private weak var levelView: UIView!
     @IBOutlet private weak var balanceView: UIView!
     
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     private var player : Player?
     private var disposeBag = DisposeBag()
     private var disposableNotify: Disposable?
@@ -206,7 +207,7 @@ class SideBarViewController: APPViewController {
             let width = (UIScreen.main.bounds.size.width - space * 5) / 4
             let flowLayout = UICollectionViewFlowLayout()
             flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
-            if LocalizeUtils.shared.getLanguage() == SupportLocale.China.init().cultureCode() {
+            if localStorageRepo.getCultureCode() == SupportLocale.China.init().cultureCode() {
                 flowLayout.itemSize = CGSize(width: width, height: 84)
             } else {
                 flowLayout.itemSize = CGSize(width: width, height: 124)

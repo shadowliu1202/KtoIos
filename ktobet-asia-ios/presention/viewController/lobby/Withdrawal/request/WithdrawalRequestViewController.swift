@@ -14,6 +14,8 @@ class WithdrawalRequestViewController: APPViewController, AuthProfileVerificatio
     @IBOutlet private weak var withdrawalVNDTopLabel: UILabel!
     @IBOutlet private weak var nextButton: UIButton!
     
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    
     private var viewModel = DI.resolve(WithdrawalRequestViewModel.self)!
     private var disposeBag = DisposeBag()
     
@@ -31,7 +33,7 @@ class WithdrawalRequestViewController: APPViewController, AuthProfileVerificatio
     }
 
     private func localize() {
-        if LocalizeUtils.shared.getLanguage() == SupportLocale.China.init().cultureCode() {
+        if localStorageRepo.getCultureCode() == SupportLocale.China.init().cultureCode() {
             withdrawalVNDTopLabel.isHidden = true
         }
     }

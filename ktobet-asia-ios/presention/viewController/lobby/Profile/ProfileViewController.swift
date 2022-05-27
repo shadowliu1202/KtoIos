@@ -179,12 +179,14 @@ class ProfileViewController: APPViewController, AuthProfileVerification {
     }
     
     private func checkAffiliate() {
+        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+        
         viewModel.isAffiliateMember.subscribe(onSuccess: { [weak self] in
             guard let `self` = self else {return}
             self.affiliateView.isHidden = !$0
             self.affiliateViewHeight.constant = $0 ? 48 : 0
             self.affiliateView.setOnClick {
-                if let url = Configuration.getAffiliateUrl(cultureCode: LocalizeUtils.shared.getLanguage()),
+                if let url = Configuration.getAffiliateUrl(cultureCode: localStorageRepo.getCultureCode()),
                    UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url)
                 }

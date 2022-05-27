@@ -14,9 +14,9 @@ protocol ConfigurationUseCase {
 class ConfigurationUseCaseImpl : ConfigurationUseCase{
     
     var playerRepo : PlayerRepository!
-    private var localStorageRepository: LocalStorageRepository!
+    private var localStorageRepository: LocalStorageRepositoryImpl!
     
-    init(_ playerRepo : PlayerRepository, _ localStorageRepository: LocalStorageRepository) {
+    init(_ playerRepo : PlayerRepository, _ localStorageRepository: LocalStorageRepositoryImpl) {
         self.playerRepo = playerRepo
         self.localStorageRepository = localStorageRepository
     }
@@ -34,7 +34,7 @@ class ConfigurationUseCaseImpl : ConfigurationUseCase{
     }
     
     func locale() -> SupportLocale {
-        return localStorageRepository.getSupportLocal()
+        return localStorageRepository.getSupportLocale()
     }
     
     func getOtpRetryCount() -> Int {

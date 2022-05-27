@@ -6,7 +6,7 @@ import RxCocoa
 class WithdrawalCryptoRequestViewModel {
     private var withdrawalUseCase: WithdrawalUseCase!
     private var playerUseCase : PlayerDataUseCase!
-    private var localStorageRepository: LocalStorageRepository!
+    private var localStorageRepository: LocalStorageRepositoryImpl!
     lazy var localCurrency = localStorageRepository.getLocalCurrency()
    
     ///input
@@ -26,7 +26,7 @@ class WithdrawalCryptoRequestViewModel {
     private var cryptoType: SupportCryptoType!
     private var cryptoNetwork: CryptoNetwork!
     
-    init(withdrawalUseCase: WithdrawalUseCase, playerUseCase: PlayerDataUseCase, localStorageRepository: LocalStorageRepository) {
+    init(withdrawalUseCase: WithdrawalUseCase, playerUseCase: PlayerDataUseCase, localStorageRepository: LocalStorageRepositoryImpl) {
         self.withdrawalUseCase = withdrawalUseCase
         self.playerUseCase = playerUseCase
         self.localStorageRepository = localStorageRepository
@@ -104,7 +104,7 @@ class WithdrawalCryptoRequestViewModel {
     }
     
     func fiatDecimalToAccountCurrency(_ de: Decimal) -> AccountCurrency {
-        FiatFactory.init().create(supportLocale: self.localStorageRepository.getSupportLocal(), amount_: "\(de)")
+        FiatFactory.init().create(supportLocale: self.localStorageRepository.getSupportLocale(), amount_: "\(de)")
     }
     
     func cryptoDecimalToCryptoCurrency(_ type: SupportCryptoType, _ de: Decimal) -> CryptoCurrency {

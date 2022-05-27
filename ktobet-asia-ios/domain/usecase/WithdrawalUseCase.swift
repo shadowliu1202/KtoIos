@@ -29,11 +29,11 @@ protocol WithdrawalUseCase {
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
     private var withdrawalRepository : WithdrawalRepository!
-    private var localStorageRepository: LocalStorageRepository!
+    private let localStorageRepo: PlayerLocaleConfiguration
     
-    init(_ withdrawalRepository : WithdrawalRepository, _ localStorageRepository: LocalStorageRepository) {
+    init(_ withdrawalRepository : WithdrawalRepository, _ localStorageRepo: PlayerLocaleConfiguration) {
         self.withdrawalRepository = withdrawalRepository
-        self.localStorageRepository = localStorageRepository
+        self.localStorageRepo = localStorageRepo
     }
 
     func getCryptoWithdrawalLimits(_ cryptoType: SupportCryptoType, _ cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits> {
@@ -109,7 +109,7 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     }
     
     func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType) -> Single<IExchangeRate> {
-        return withdrawalRepository.getCryptoExchangeRate(cryptoCurrency, self.localStorageRepository.getSupportLocal())
+        return withdrawalRepository.getCryptoExchangeRate(cryptoCurrency, self.localStorageRepo.getSupportLocale())
     }
     
     func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable {

@@ -43,6 +43,8 @@ class DepositOfflineConfirmViewController: APPViewController {
     fileprivate let timer = CountDownTimer()
     fileprivate var disposeBag = DisposeBag()
     
+    let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +83,7 @@ class DepositOfflineConfirmViewController: APPViewController {
     
     // MARK: METHOD
     fileprivate func localize() {
-        if LocalizeUtils.shared.getLanguage() == SupportLocale.Vietnam.init().cultureCode() {
+        if localStorageRepo.getCultureCode() == SupportLocale.Vietnam.init().cultureCode() {
             remitterView.isHidden = true
         }
     }

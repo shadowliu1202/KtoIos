@@ -39,6 +39,8 @@ class DepositGatewayViewController: APPViewController {
     fileprivate var onlineViewModel = DI.resolve(ThirdPartyDepositViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     
+    let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(back))
@@ -61,7 +63,7 @@ class DepositGatewayViewController: APPViewController {
     }
 
     private func localize() {
-        if LocalizeUtils.shared.getLanguage() == SupportLocale.China.init().cultureCode() {
+        if localStorageRepo.getCultureCode() == SupportLocale.China.init().cultureCode() {
             withdrawalVNDTipLabel.isHidden = true
         }
     }

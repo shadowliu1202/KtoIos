@@ -319,7 +319,9 @@ struct DepositRecordDetailData: Codable {
               let supportCryptoType = cryptoCurrency?.toSupportCryptoType(),
               let rate = rate,
               let rateDate = rateDate else { return nil }
-        let exchangeRate = CryptoExchangeFactory.init().create(from: supportCryptoType, to: LocalStorageRepository().getSupportLocal(), exRate: rate)
+        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+        let exchangeRate = CryptoExchangeFactory.init().create(from: supportCryptoType, to: localStorageRepo.getSupportLocale(), exRate: rate)
+        
         return CryptoExchangeRecord.init(cryptoAmount: cryptoAmount.toCryptoCurrency(cryptoCurrencyCode: cryptoCurrency),
                                          exchangeRate: exchangeRate,
                                          cashAmount: flatAmount.toAccountCurrency(),
@@ -419,10 +421,12 @@ struct WithdrawalRecordDetailData: Codable {
     }
     
     private func toCryptoExchangeRecord(_ cryptoCurrency: String, _ cryptoCurrencyCode: Int, _ accountCurrency: String, _ exchangeRate: String, _ createdDate: String) -> CryptoExchangeRecord {
+        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+        
          do {
             let crypto = cryptoCurrency.toCryptoCurrency(cryptoCurrencyCode: cryptoCurrencyCode)
             let cryptoType = try SupportCryptoType.companion.typeOf(cryptoCurrency: crypto)
-            let exchangeRate = CryptoExchangeFactory.init().create(from: cryptoType, to: LocalStorageRepository().getSupportLocal(), exRate: exchangeRate)
+            let exchangeRate = CryptoExchangeFactory.init().create(from: cryptoType, to: localStorageRepo.getSupportLocale(), exRate: exchangeRate)
             return CryptoExchangeRecord.init(cryptoAmount: crypto,
                                              exchangeRate: exchangeRate,
                                              cashAmount: accountCurrency.toAccountCurrency(),

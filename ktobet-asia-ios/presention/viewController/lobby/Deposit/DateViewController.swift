@@ -17,6 +17,7 @@ class DateViewController: UIViewController {
     fileprivate var currentSelectedStyle: SelectionMode = .sequence(style: .semicircleEdge)
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
     
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     private var dateSegmentTitle = [Localize.string("common_last7day"), Localize.string("common_select_day"), Localize.string("common_select_month")]
     
     override func viewDidLoad() {
@@ -59,11 +60,11 @@ class DateViewController: UIViewController {
                 self.month.setSelectedDate(starDate.convertdateToUTC())
             }
 
-            self.currentDateLabel.text = Theme.shared.getDatePickerTitleLabel(by: Localize.getSupportLocale(), self.koyomi)
+            self.currentDateLabel.text = Theme.shared.getDatePickerTitleLabel(by: self.localStorageRepo.getSupportLocale(), self.koyomi)
 
         }
         
-        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: Theme.shared.getDateSegmentTitleFontSize(by: Localize.getSupportLocale()))!]
+        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: Theme.shared.getDateSegmentTitleFontSize(by: self.localStorageRepo.getSupportLocale()))!]
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .normal)
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .selected)
         dateSegment.addTarget(

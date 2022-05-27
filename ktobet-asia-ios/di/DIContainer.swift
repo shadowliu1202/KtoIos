@@ -38,7 +38,7 @@ class DIContainer {
         let httpclient = container.resolve(HttpClient.self)!
         
         ctner.register(PlayerConfiguration.self) { (resolver)  in
-            return LocalStorageRepository()
+            return LocalStorageRepositoryImpl()
         }.inObjectScope(.lobby)
         
         ctner.register(ExternalProtocolService.self) { (resolver)  in
@@ -159,8 +159,8 @@ class DIContainer {
         ctner.register(SystemSignalRepository.self) { resolver in
             return SystemSignalRepositoryImpl(httpclient)
         }
-        ctner.register(LocalStorageRepository.self) { resolver in
-            return LocalStorageRepository()
+        ctner.register(LocalStorageRepositoryImpl.self) { resolver in
+            return LocalStorageRepositoryImpl()
         }
         ctner.register(SettingStore.self) { resolver in
             return SettingStore()
@@ -182,8 +182,8 @@ class DIContainer {
             let imageApi = ctner.resolve(ImageApi.self)!
             let cpsApi = ctner.resolve(CPSApi.self)!
             let repoBank = ctner.resolve(BankRepository.self)!
-            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
-            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi, bankRepository: repoBank, localStorageRepository: repoLocalStorage)
+            let localStorageRepo = ctner.resolve(LocalStorageRepositoryImpl.self)!
+            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi, bankRepository: repoBank, localStorageRepo: localStorageRepo)
         }
         ctner.register(CasinoRecordRepository.self) { resolver in
             let casinoApi = ctner.resolve(CasinoApi.self)!
@@ -244,8 +244,8 @@ class DIContainer {
             return CustomServiceRepositoryImpl(csApi, local)
         }
         ctner.register(AccountPatternGenerator.self) { resolver in
-            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
-            return AccountPatternGeneratorFactory.create(repoLocalStorage.getSupportLocal())
+            let repoLocalStorage = ctner.resolve(LocalStorageRepositoryImpl.self)!
+            return AccountPatternGeneratorFactory.create(repoLocalStorage.getSupportLocale())
         }
         ctner.register(LocalizationRepository.self) { (resolver) in
             let portalApi = ctner.resolve(PortalApi.self)!
@@ -267,13 +267,13 @@ class DIContainer {
         }
         ctner.register(ConfigurationUseCase.self) { (resolver) in
             let repo = ctner.resolve(PlayerRepository.self)!
-            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocalStorage = ctner.resolve(LocalStorageRepositoryImpl.self)!
             return ConfigurationUseCaseImpl.init(repo, repoLocalStorage)
         }
         ctner.register(AuthenticationUseCase.self) { (resolver)  in
             let repoAuth = ctner.resolve(IAuthRepository.self)!
             let repoPlayer = ctner.resolve(PlayerRepository.self)!
-            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocalStorage = ctner.resolve(LocalStorageRepositoryImpl.self)!
             let settingStore = ctner.resolve(SettingStore.self)!
             return AuthenticationUseCaseImpl(repoAuth, repoPlayer, repoLocalStorage, settingStore)
         }
@@ -283,7 +283,7 @@ class DIContainer {
         }
         ctner.register(ResetPasswordUseCase.self) { (resolver)  in
             let repoSystem = ctner.resolve(ResetPasswordRepository.self)!
-            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocal = ctner.resolve(LocalStorageRepositoryImpl.self)!
             return ResetPasswordUseCaseImpl(repoSystem, localRepository: repoLocal)
         }
         ctner.register(SystemSignalRUseCase.self) { (resolver)  in
@@ -292,7 +292,7 @@ class DIContainer {
         }
         ctner.register(PlayerDataUseCase.self) { (resolver)  in
             let repoPlayer = ctner.resolve(PlayerRepository.self)!
-            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocal = ctner.resolve(LocalStorageRepositoryImpl.self)!
             let settingStore = ctner.resolve(SettingStore.self)!
             return PlayerDataUseCaseImpl(repoPlayer, localRepository: repoLocal, settingStore: settingStore)
         }
@@ -310,7 +310,7 @@ class DIContainer {
         }
         ctner.register(WithdrawalUseCase.self) { (resolver)  in
             let repoWithdrawal = ctner.resolve(WithdrawalRepository.self)!
-            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocal = ctner.resolve(LocalStorageRepositoryImpl.self)!
             return WithdrawalUseCaseImpl(repoWithdrawal, repoLocal)
         }
         ctner.register(BankUseCase.self) { (resolver)  in
@@ -324,12 +324,12 @@ class DIContainer {
         }
         ctner.register(CasinoUseCase.self) { (resolver) in
             let repo = ctner.resolve(CasinoRepository.self)!
-            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocal = ctner.resolve(LocalStorageRepositoryImpl.self)!
             return CasinoUseCaseImpl(repo, repoLocal)
         }
         ctner.register(SlotUseCase.self) { (resolver) in
             let repo = ctner.resolve(SlotRepository.self)!
-            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocal = ctner.resolve(LocalStorageRepositoryImpl.self)!
             return SlotUseCaseImpl(repo, repoLocal)
         }
         ctner.register(SlotRecordUseCase.self) { (resolver) in
@@ -339,7 +339,7 @@ class DIContainer {
         }
         ctner.register(NumberGameUseCase.self) { (resolver) in
             let repo = ctner.resolve(NumberGameRepository.self)!
-            let repoLocal = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocal = ctner.resolve(LocalStorageRepositoryImpl.self)!
             return NumberGameUseCasaImp(repo, repoLocal)
         }
         ctner.register(NumberGameRecordUseCase.self) { (resolver) in
@@ -397,7 +397,7 @@ class DIContainer {
         }
         ctner.register(AppVersionUpdateUseCase.self) { (resolver) in
             let repo = ctner.resolve(AppUpdateRepository.self)!
-            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocalStorage = ctner.resolve(LocalStorageRepositoryImpl.self)!
             return AppVersionUpdateUseCaseImpl(repo, repoLocalStorage)
         }
     }
@@ -433,7 +433,8 @@ class DIContainer {
             let pattern = ctner.resolve(AccountPatternGenerator.self)!
             let bankUseCase = ctner.resolve(BankUseCase.self)!
             let navigator = ctner.resolve(DepositNavigator.self)!
-            return OfflineViewModel(deposit, playerUseCase: playerUseCase, accountPatternGenerator: pattern, bankUseCase: bankUseCase, navigator: navigator)
+            let localStorageRepo = ctner.resolve(LocalStorageRepositoryImpl.self)!
+            return OfflineViewModel(deposit, playerUseCase: playerUseCase, accountPatternGenerator: pattern, bankUseCase: bankUseCase, navigator: navigator, localStorageRepo: localStorageRepo)
         }.inObjectScope(.depositFlow)
         ctner.register(DepositViewModel.self) { resolver in
             let applicationFactory = ctner.resolve(ApplicationFactory.self)!
@@ -486,7 +487,8 @@ class DIContainer {
         ctner.register(ResetPasswordViewModel.self) { resolver  in
             let usecaseAuthentication = ctner.resolve(ResetPasswordUseCase.self)!
             let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
-            return ResetPasswordViewModel(usecaseAuthentication, systemUseCase)
+            let localStorageRepo = ctner.resolve(LocalStorageRepositoryImpl.self)!
+            return ResetPasswordViewModel(usecaseAuthentication, systemUseCase, localStorageRepo)
         }
         ctner.register(SystemViewModel.self) { (resolver) in
             let systemSignalRUseCase = ctner.resolve(SystemSignalRUseCase.self)!
@@ -494,7 +496,8 @@ class DIContainer {
         }
         ctner.register(ServiceStatusViewModel.self) { resolver  in
             let systemUseCase = ctner.resolve(GetSystemStatusUseCase.self)!
-            return ServiceStatusViewModel(usecaseSystemStatus: systemUseCase)
+            let localStorageRepo = ctner.resolve(LocalStorageRepositoryImpl.self)!
+            return ServiceStatusViewModel(usecaseSystemStatus: systemUseCase, localStorageRepo: localStorageRepo)
         }
         ctner.register(PlayerViewModel.self) { (resolver) in
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
@@ -507,7 +510,7 @@ class DIContainer {
         }
         ctner.register(WithdrawalViewModel.self) { (resolver) in
             let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
-            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocalStorage = ctner.resolve(LocalStorageRepositoryImpl.self)!
             return WithdrawalViewModel(withdrawalUseCase: withdrawalUseCase, localStorageRepository: repoLocalStorage)
         }
         ctner.register(ManageCryptoBankCardViewModel.self) { (resolver) in
@@ -520,7 +523,8 @@ class DIContainer {
             return CryptoViewModel(withdrawalUseCase: withdrawalUseCase, depositUseCase: depositUseCase)
         }
         ctner.register(AddBankViewModel.self) { (resolver) in
-            return AddBankViewModel(ctner.resolve(AuthenticationUseCase.self)!,
+            return AddBankViewModel(ctner.resolve(LocalStorageRepositoryImpl.self)!,
+                                    ctner.resolve(AuthenticationUseCase.self)!,
                                     ctner.resolve(BankUseCase.self)!,
                                     ctner.resolve(WithdrawalUseCase.self)!,
                                     ctner.resolve(PlayerDataUseCase.self)!,
@@ -537,7 +541,7 @@ class DIContainer {
         ctner.register(WithdrawalCryptoRequestViewModel.self) { (resolver) in
             let withdrawalUseCase = ctner.resolve(WithdrawalUseCase.self)!
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
-            let repoLocalStorage = ctner.resolve(LocalStorageRepository.self)!
+            let repoLocalStorage = ctner.resolve(LocalStorageRepositoryImpl.self)!
             return WithdrawalCryptoRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerUseCase: playerUseCase, localStorageRepository: repoLocalStorage)
         }
         ctner.register(CasinoViewModel.self) { (resolver) in
@@ -583,7 +587,7 @@ class DIContainer {
             return CustomerServiceViewModel(customerServiceUseCase: ctner.resolve(CustomerServiceUseCase.self)!)
         }
         ctner.register(SurveyViewModel.self) { (resolver) in
-            return SurveyViewModel(ctner.resolve(CustomerServiceSurveyUseCase.self)!, ctner.resolve(AuthenticationUseCase.self)!)
+            return SurveyViewModel(ctner.resolve(CustomerServiceSurveyUseCase.self)!, ctner.resolve(AuthenticationUseCase.self)!, ctner.resolve(LocalStorageRepositoryImpl.self)!)
         }
         ctner.register(CustomerServiceHistoryViewModel.self) { (resolver) in
             return CustomerServiceHistoryViewModel(historyUseCase: ctner.resolve(ChatRoomHistoryUseCase.self)!)

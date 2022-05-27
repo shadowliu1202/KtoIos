@@ -6,13 +6,15 @@ import RxCocoa
 
 final class ServiceStatusViewModel: ViewModelType {
     private var usecaseSystemStatus: GetSystemStatusUseCase!
+    private let localStorageRepo: PlayerLocaleConfiguration
     private let playerDefaultProductType = ReplaySubject<ProductType>.create(bufferSize: 1)
     
     private(set) var input: Input!
     private(set) var output: Output!
     
-    init(usecaseSystemStatus: GetSystemStatusUseCase) {
+    init(usecaseSystemStatus: GetSystemStatusUseCase, localStorageRepo: PlayerLocaleConfiguration) {
         self.usecaseSystemStatus = usecaseSystemStatus
+        self.localStorageRepo = localStorageRepo
         
         let otpService = usecaseSystemStatus.getOtpStatus()
         let customerServiceEmail = usecaseSystemStatus.getCustomerServiceEmail().asDriver(onErrorJustReturn: "")
@@ -97,7 +99,7 @@ final class ServiceStatusViewModel: ViewModelType {
     
     private func getMaintainImage(productType: Driver<ProductType>) -> Driver<String> {
         return productType.map { productType -> String in
-            let language = Language(rawValue: LocalizeUtils.shared.getLanguage())
+            let language = Language(rawValue: self.localStorageRepo.getCultureCode())
             switch language {
             case .ZH:
                 return "CNY-maintain\(productType.name)"

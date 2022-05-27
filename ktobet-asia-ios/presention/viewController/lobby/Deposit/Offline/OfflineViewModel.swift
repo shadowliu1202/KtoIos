@@ -12,6 +12,7 @@ class OfflineViewModel: KTOViewModel, ViewModelType {
     private var playerUseCase: PlayerDataUseCase!
     private var bankUseCase: BankUseCase!
     private var navigator: DepositNavigator!
+    private var localStorageRepo: PlayerLocaleConfiguration!
 
     private let selectPaymentGateway = ReplaySubject<PaymentsDTO.BankCard>.create(bufferSize: 1)
     private let remitterBank = ReplaySubject<String>.create(bufferSize: 1)
@@ -23,13 +24,14 @@ class OfflineViewModel: KTOViewModel, ViewModelType {
     private var inProgress = ActivityIndicator()
     var unwindSegueId: String = ""
 
-    init(_ depositService: IDepositAppService, playerUseCase: PlayerDataUseCase, accountPatternGenerator: AccountPatternGenerator, bankUseCase: BankUseCase, navigator: DepositNavigator) {
+    init(_ depositService: IDepositAppService, playerUseCase: PlayerDataUseCase, accountPatternGenerator: AccountPatternGenerator, bankUseCase: BankUseCase, navigator: DepositNavigator, localStorageRepo: PlayerLocaleConfiguration) {
         super.init()
         self.depositService = depositService
         self.playerUseCase = playerUseCase
         self.accountPatternGenerator = accountPatternGenerator
         self.bankUseCase = bankUseCase
         self.navigator = navigator
+        self.localStorageRepo = localStorageRepo
 
         let payments = RxSwift.Observable.from(depositService.getPayments())
         let offlinePayment = payments.compactMap { $0.offline }
@@ -109,7 +111,7 @@ class OfflineViewModel: KTOViewModel, ViewModelType {
     }
 
     private func getIconNamed(_ bankId: String) -> String {
-        let language = Language(rawValue: LocalizeUtils.shared.getLanguage())
+        let language = Language(rawValue: localStorageRepo.getCultureCode())
         switch language {
         case .ZH:
             return "CNY-\(bankId)"

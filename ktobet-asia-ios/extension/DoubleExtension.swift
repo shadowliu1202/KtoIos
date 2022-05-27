@@ -38,7 +38,9 @@ extension Numeric {
     }
     
     func toAccountCurrency() -> AccountCurrency {
-        return FiatFactory.shared.create(supportLocale: LocalStorageRepository().getSupportLocal(), amount_: "\(self)")
+        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+        
+        return FiatFactory.shared.create(supportLocale: localStorageRepo.getSupportLocale(), amount_: "\(self)")
     }
     
     func toCryptoCurrency(_ cryptoCurrencyCode: Int) -> CryptoCurrency {

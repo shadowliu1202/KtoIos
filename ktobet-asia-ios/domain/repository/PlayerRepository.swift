@@ -26,6 +26,7 @@ protocol PlayerRepository {
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
+    private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
     
     private var playerApi : PlayerApi!
     private var portalApi : PortalApi!
@@ -58,7 +59,7 @@ class PlayerRepositoryImpl : PlayerRepository {
                     }
                 }()
                 
-                LocalizeUtils.shared.setLanguage(language: bindLocale)
+                self.localStorageRepo.setCultureCode(bindLocale.cultureCode())
 
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",
                                             displayId: responsePlayerInfo.data?.displayId ?? "" ,

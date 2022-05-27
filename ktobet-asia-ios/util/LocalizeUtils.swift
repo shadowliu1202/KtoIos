@@ -13,23 +13,25 @@ let Localize = LocalizeUtils.shared
 class LocalizeUtils: NSObject {
     static let shared = LocalizeUtils()
     
+    private let playerLocaleCultureCode = DI.resolve(LocalStorageRepositoryImpl.self)!.getCultureCode()
+    
     func string(_ key: String, _ parameters: [String]) -> String {
-        let localizationFileNmae = getLanguage()
-        let path = Bundle.main.path(forResource: localizationFileNmae, ofType: "lproj")
+        let localizationFileName = playerLocaleCultureCode
+        let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
         let bundle = Bundle(path: path!)
         return String(format: NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: ""), arguments: parameters)
     }
     
     func string(_ key: String, _ parameters: String...) -> String {
-        let localizationFileNmae = getLanguage()
-        let path = Bundle.main.path(forResource: localizationFileNmae, ofType: "lproj")
+        let localizationFileName = playerLocaleCultureCode
+        let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
         let bundle = Bundle(path: path!)
         return String(format: NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: ""), arguments: parameters)
     }
     
     func string(_ key: String, _ parameter: String? = nil) -> String {
-        let localizationFileNmae = getLanguage()
-        let path = Bundle.main.path(forResource: localizationFileNmae, ofType: "lproj")
+        let localizationFileName = playerLocaleCultureCode
+        let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
         let bundle = Bundle(path: path!)
         if let parameter = parameter {
             return String(format: NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: ""), parameter)
@@ -39,48 +41,10 @@ class LocalizeUtils: NSObject {
     }
     
     func string(_ key: String) -> String {
-        let localizationFileNmae = getLanguage()
+        let localizationFileNmae = playerLocaleCultureCode
         let path = Bundle.main.path(forResource: localizationFileNmae, ofType: "lproj")
         let bundle = Bundle(path: path!)
         return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")
-    }
-    
-    func setLanguage(language : SupportLocale) {
-        let lang = language.cultureCode()
-        UserDefaults.standard.setValue(lang, forKey: "cultureCode")
-    }
-    
-    func getLanguage() -> String {
-        if let lang = UserDefaults.standard.string(forKey: "cultureCode") {
-            return lang
-        } else {
-            switch Locale.current.languageCode {
-            case "zh":
-                setLanguage(language: SupportLocale.China.init())
-                return SupportLocale.China.shared.cultureCode()
-            case "vi":
-                setLanguage(language: SupportLocale.Vietnam.init())
-                return SupportLocale.Vietnam.shared.cultureCode()
-            default:
-                setLanguage(language: SupportLocale.China.init())
-                return SupportLocale.China.shared.cultureCode()
-            }
-        }
-    }
-
-    func getSupportLocale() -> SupportLocale {
-        if let lang = UserDefaults.standard.string(forKey: "cultureCode") {
-            switch lang {
-            case SupportLocale.China.shared.cultureCode():
-                return SupportLocale.China.init()
-            case SupportLocale.Vietnam.shared.cultureCode():
-                return SupportLocale.Vietnam.init()
-            default:
-                return SupportLocale.China.init()
-            }
-        } else {
-            return SupportLocale.China.init()
-        }
     }
 }
 

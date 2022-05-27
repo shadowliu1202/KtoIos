@@ -32,15 +32,15 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     private var imageApi: ImageApi!
     private var cpsApi: CPSApi!
     private var bankRepository: BankRepository!
-    private var localStorageRepository: LocalStorageRepository!
+    private let localStorageRepo: PlayerLocaleConfiguration
     private let withdrawalSystem = WithdrawalSystem.create()
     
-    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi, bankRepository: BankRepository!, localStorageRepository: LocalStorageRepository) {
+    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi, bankRepository: BankRepository!, localStorageRepo: PlayerLocaleConfiguration) {
         self.bankApi = bankApi
         self.imageApi = imageApi
         self.cpsApi = cpsApi
         self.bankRepository = bankRepository
-        self.localStorageRepository = localStorageRepository
+        self.localStorageRepo = localStorageRepo
     }
     
     func deleteCryptoBankCard(id: String) -> Completable {
@@ -187,7 +187,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func getWithdrawalAccounts() -> Single<[FiatBankCard]> {
         return Single<[FiatBankCard]>.zip(bankApi.getWithdrawalAccount(), bankRepository.getBankDictionary()) { [unowned self] (response, banks) in
             if let databeans = response.data?.payload {
-                let data: [FiatBankCard] = databeans.map({ $0.toFiatBankCard(banks: banks, locale: self.localStorageRepository.getSupportLocal())
+                let data: [FiatBankCard] = databeans.map({ $0.toFiatBankCard(banks: banks, locale: self.localStorageRepo.getSupportLocale())
 
                 })
                 return data

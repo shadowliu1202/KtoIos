@@ -7,6 +7,7 @@ import NotificationBannerSwift
 import RxRelay
 
 class SportBookViewController: APPViewController {
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
     private var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
@@ -117,7 +118,7 @@ extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
     }
     
     func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if challenge.protectionSpace.host == Configuration.host[Localize.getSupportLocale().cultureCode()]! {
+        if challenge.protectionSpace.host == Configuration.host[localStorageRepo.getCultureCode()]! {
             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
             completionHandler(.performDefaultHandling, nil)

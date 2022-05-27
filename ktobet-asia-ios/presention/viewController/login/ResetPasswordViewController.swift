@@ -19,6 +19,8 @@ class ResetPasswordViewController: LandingViewController {
     @IBOutlet private weak var viewInputView : UIView!
     @IBOutlet private weak var constraintResetErrorView: NSLayoutConstraint!
     @IBOutlet private weak var constraintResetErrorViewPadding: NSLayoutConstraint!
+    
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
@@ -26,7 +28,7 @@ class ResetPasswordViewController: LandingViewController {
     private var disposeBag = DisposeBag()
     private var isFirstTimeEnter = true
     private var timerResend = CountDownTimer()
-    private var locale : SupportLocale = LocalizeUtils.shared.getSupportLocale()
+    private lazy var locale : SupportLocale = localStorageRepo.getSupportLocale()
     private var inputAccount : InputText {
         get{
             switch viewModel.currentAccountType() {

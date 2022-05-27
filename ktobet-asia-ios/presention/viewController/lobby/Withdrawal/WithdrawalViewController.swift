@@ -82,7 +82,9 @@ class WithdrawalViewController: APPViewController {
     }
 
     private func localize() {
-        if Localize.getLanguage() == SupportLocale.Vietnam.init().cultureCode() {
+        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+        
+        if localStorageRepo.getCultureCode() == SupportLocale.Vietnam.init().cultureCode() {
             tipLabelStackView.isHidden = true
             crpytoView.isHidden = true
         }
