@@ -22,12 +22,12 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
     
     private var repoAuth : IAuthRepository!
     private var repoPlayer : PlayerRepository!
-    private var repoLocalStorage : LocalStorageRepository!
+    private var repoLocalStorage : LocalStorageRepositoryImpl!
     private var settingStore: SettingStore!
     
     init(_ authRepository : IAuthRepository,
          _ playerRepository : PlayerRepository,
-         _ localStroageRepo : LocalStorageRepository,
+         _ localStroageRepo : LocalStorageRepositoryImpl,
          _ settingStore: SettingStore) {
         self.repoAuth = authRepository
         self.repoPlayer = playerRepository

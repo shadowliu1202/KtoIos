@@ -303,8 +303,11 @@ struct SpeakingAsyncBean: Codable {
 }
 
 class NSURLSessionPinningDelegate: NSObject, URLSessionDelegate {
+    
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if challenge.protectionSpace.host == Configuration.host[Localize.getSupportLocale().cultureCode()]! {
+        if challenge.protectionSpace.host == Configuration.host[localStorageRepo.getCultureCode()]! {
             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
             completionHandler(.performDefaultHandling, nil)

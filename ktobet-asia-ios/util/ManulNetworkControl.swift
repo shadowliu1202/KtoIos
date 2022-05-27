@@ -8,6 +8,8 @@ class ManualNetworkControl {
         if !isNetworkConnect {
             return URL(string: "https://")!
         }
-        return URL(string: Configuration.host[Localize.getSupportLocale().cultureCode()]!)!
+        return URL(string: Configuration.host[localStorageRepo.getCultureCode()]!)!
     }
+    
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
 }

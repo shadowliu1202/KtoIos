@@ -16,7 +16,7 @@ import Firebase
 @main
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    private let localStorageRepository = DI.resolve(LocalStorageRepository.self)!
+    private let localStorageRepository = DI.resolve(LocalStorageRepositoryImpl.self)!
     private(set) var reachabilityObserver: ReachabilityHandler?
     private weak var timer: Timer?
     

@@ -9,6 +9,7 @@ class ResetPasswordViewModel {
     static let retryCountDownTime = 60
     private var resetUseCase : ResetPasswordUseCase!
     private var systemUseCase : GetSystemStatusUseCase!
+    private let localStorageRepo: PlayerLocaleConfiguration
     private var phoneEdited = false
     private var mailEdited = false
     private var passwordEdited = false
@@ -17,7 +18,6 @@ class ResetPasswordViewModel {
     var relayPassword = BehaviorRelay(value: "")
     var relayConfirmPassword = BehaviorRelay(value: "")
     var relayAccountType = BehaviorRelay(value: AccountType.phone)
-    var locale : SupportLocale = LocalizeUtils.shared.getSupportLocale()
     var remainTime = 0
     var retryCount: Int {
         get {
@@ -44,13 +44,16 @@ class ResetPasswordViewModel {
         }
     }
     
+    lazy var locale = localStorageRepo.getSupportLocale()
+    
     private var otpStatusRefreshSubject = PublishSubject<()>()
     private let otpStatus: ReplaySubject<OtpStatus> = .create(bufferSize: 1)
     private let disposeBag = DisposeBag()
     
-    init(_ resetUseCase : ResetPasswordUseCase, _ systemUseCase : GetSystemStatusUseCase) {
+    init(_ resetUseCase : ResetPasswordUseCase, _ systemUseCase : GetSystemStatusUseCase, _ localStorageRepo: PlayerLocaleConfiguration) {
         self.resetUseCase = resetUseCase
         self.systemUseCase = systemUseCase
+        self.localStorageRepo = localStorageRepo
         
         otpStatusRefreshSubject.asObservable()
             .flatMapLatest{[unowned self] in self.systemUseCase.getOtpStatus().asObservable() }

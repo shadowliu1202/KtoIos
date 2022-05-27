@@ -18,6 +18,8 @@ class GameWebViewViewController: UIViewController {
     lazy var backSiteOption1 = KtoURL.baseUrl.absoluteString + gameProduct
     let backSiteHost = "app.ktoasia.com"
     
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bind(position: .left, barButtonItems: .kto(.close))
@@ -89,7 +91,8 @@ extension GameWebViewViewController: WKNavigationDelegate, WKUIDelegate {
     }
     
     func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if challenge.protectionSpace.host == Configuration.host[Localize.getSupportLocale().cultureCode()]! {
+        
+        if challenge.protectionSpace.host == Configuration.host[localStorageRepo.getCultureCode()]! {
             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
             completionHandler(.performDefaultHandling, nil)

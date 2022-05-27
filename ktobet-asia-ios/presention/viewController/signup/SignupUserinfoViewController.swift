@@ -42,9 +42,11 @@ class SignupUserinfoViewController: LandingViewController {
     
     @IBOutlet private weak var constraintRegistErrMessageHeight : NSLayoutConstraint!
     var barButtonItems: [UIBarButtonItem] = []
+    lazy var locale: SupportLocale = localStorageRepo.getSupportLocale()
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
     
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     private let errMsgHeight = CGFloat(56)
     private let segueLanguage = "BackToLanguageList"
     private let seguePhone = "GoToPhone"
@@ -66,7 +68,6 @@ class SignupUserinfoViewController: LandingViewController {
         }
     }
     private var disposeBag = DisposeBag()
-    var locale: SupportLocale = LocalizeUtils.shared.getSupportLocale()
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {

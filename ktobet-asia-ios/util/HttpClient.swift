@@ -27,12 +27,14 @@ private func JSONResponseDataFormatter(_ data: Data) -> String {
 }
 
 class KtoURL {
+    static fileprivate let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    
     static fileprivate var host = Configuration.host
     static var baseUrl : URL {
         if Configuration.manualControlNetwork {
             return ManualNetworkControl.shared.baseUrl
         }
-        return URL(string: self.host[Localize.getSupportLocale().cultureCode()]!)!
+        return URL(string: self.host[localStorageRepo.getCultureCode()]!)!
     }
 }
 
@@ -41,7 +43,7 @@ class HttpClient {
     let provider : MoyaProvider<MultiTarget>!
     let retryProvider : MoyaProvider<MultiTarget>!
     var session : Session { return AF}
-    var host : String {return KtoURL.host[Localize.getSupportLocale().cultureCode()]!}
+    var host : String {return KtoURL.host[KtoURL.localStorageRepo.getCultureCode()]!}
     var baseUrl : URL { return KtoURL.baseUrl}
     var headers : [String : String] {
         var header : [String : String] = [:]

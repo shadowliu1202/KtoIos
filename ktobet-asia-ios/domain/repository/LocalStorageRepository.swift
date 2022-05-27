@@ -1,9 +1,14 @@
 import Foundation
 import SharedBu
 
-class LocalStorageRepository: PlayerConfiguration {
+protocol  PlayerLocaleConfiguration: PlayerConfiguration {
+    func getCultureCode() -> String
+    func getSupportLocale() -> SupportLocale
+}
+
+class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration {
     
-    override var supportLocale: SupportLocale { getSupportLocal() }
+    override var supportLocale: SupportLocale { getSupportLocale() }
     
     let kRememberAccount = "rememberAccount"
     let kRememberPassword = "rememberPassword"
@@ -60,12 +65,12 @@ class LocalStorageRepository: PlayerConfiguration {
         return getUserDefaultValue(key: KcultureCode) ?? ""
     }
     
-    func getSupportLocal() -> SupportLocale {
+    func getSupportLocale() -> SupportLocale {
         return SupportLocale.Companion.init().create(language: getCultureCode())
     }
     
     func getLocalCurrency() -> AccountCurrency {
-        return FiatFactory.init().create(supportLocale: getSupportLocal(), amount_: "0")
+        return FiatFactory.init().create(supportLocale: getSupportLocale(), amount_: "0")
     }
     
     func getLocale() -> Locale {

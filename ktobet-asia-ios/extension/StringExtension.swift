@@ -137,7 +137,9 @@ extension String {
 
 extension String {
     func toAccountCurrency() -> AccountCurrency {
-        return FiatFactory.shared.create(supportLocale: LocalStorageRepository().getSupportLocal(), amount_: self.replacingOccurrences(of: ",", with: ""))
+        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+        
+        return FiatFactory.shared.create(supportLocale: localStorageRepo.getSupportLocale(), amount_: self.replacingOccurrences(of: ",", with: ""))
     }
     
     func toCryptoCurrency(cryptoCurrencyCode: Int?) -> CryptoCurrency {

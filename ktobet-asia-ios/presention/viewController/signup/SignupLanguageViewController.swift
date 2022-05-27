@@ -30,6 +30,7 @@ class SignupLanguageViewController: LandingViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var constraintTableHeight: NSLayoutConstraint!
     
+    private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
     private let segueLogin = "BackToLogin"
     private let segueInfo = "GoToInfo"
     private let segueTerms = "GoToTermsOfService"
@@ -84,7 +85,7 @@ class SignupLanguageViewController: LandingViewController {
             var arr = [LanguageListData]()
             for (type, text) in types {
                 arr.append({
-                    let selected : Bool = type.cultureCode() == Localize.getLanguage()
+                    let selected : Bool = type.cultureCode() == localStorageRepo.getCultureCode()
                     let item = LanguageListData(title: text,
                                                 type: type,
                                                 selected: selected)
@@ -138,7 +139,7 @@ class SignupLanguageViewController: LandingViewController {
             arrLangs[idx].selected = indexPath.row == idx
         }
         if let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type {
-            Localize.setLanguage(language: locale)
+            localStorageRepo.setCultureCode(locale.cultureCode())
         }
         localize()
         languageChangeHandler?()

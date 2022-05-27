@@ -6,6 +6,8 @@ class StringMapper {
     static let sharedInstance = StringMapper()
     private init() { }
     
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    
     func parse(_ transactionStatus: TransactionStatus, isPendingHold: Bool, ignorePendingHold: Bool) -> String {
         switch transactionStatus {
         case .approved:
@@ -97,10 +99,10 @@ class StringMapper {
     }
 
     func localizeBankName(banks tuple: [(Int, Bank)]) -> [String] {
-        switch LocalizeUtils.shared.getLanguage() {
-        case SupportLocale.Vietnam.init().cultureCode():
+        switch localStorageRepo.getSupportLocale() {
+        case is SupportLocale.Vietnam:
             return tuple.map{ "(\($0.1.shortName)) \($0.1.name)" }
-        case SupportLocale.China.init().cultureCode():
+        case is SupportLocale.China, is SupportLocale.Unknown:
             return tuple.map{ $0.1.name }
         default:
             return []

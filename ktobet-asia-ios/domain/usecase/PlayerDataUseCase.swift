@@ -31,18 +31,18 @@ protocol PlayerDataUseCase {
 let PASSWORD_ERROR_LIMIT = 5
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
     var playerRepository : PlayerRepository!
-    var localRepository: LocalStorageRepository!
+    var localRepository: LocalStorageRepositoryImpl!
     var settingStore: SettingStore!
     private var passwordErrorCount: Int = 0
     
-    init(_ playerRepository : PlayerRepository, localRepository: LocalStorageRepository, settingStore: SettingStore) {
+    init(_ playerRepository : PlayerRepository, localRepository: LocalStorageRepositoryImpl, settingStore: SettingStore) {
         self.playerRepository = playerRepository
         self.localRepository = localRepository
         self.settingStore = settingStore
     }
     
     func getBalance() -> Single<AccountCurrency> {
-        return self.playerRepository.getBalance(localRepository.getSupportLocal())
+        return self.playerRepository.getBalance(localRepository.getSupportLocale())
     }
     
     func setBalanceHiddenState(gameId: String, isHidden: Bool) {
@@ -76,7 +76,7 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
     }
     
     func getSupportLocalFromCache() -> SupportLocale {
-        return localRepository.getSupportLocal()
+        return localRepository.getSupportLocale()
     }
     
     func isAffiliateMember() -> Single<Bool> {

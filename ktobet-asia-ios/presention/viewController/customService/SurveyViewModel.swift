@@ -8,6 +8,7 @@ class SurveyViewModel {
     
     private var surveyUseCase: CustomerServiceSurveyUseCase
     private var authenticationUseCase: AuthenticationUseCase
+    private let localStorageRepo: PlayerLocaleConfiguration
     private var disposeBag = DisposeBag()
     private var chatSurveyInfo: Survey? {
         didSet {
@@ -59,11 +60,12 @@ class SurveyViewModel {
         return self.isSurveyContentValid
     }).startWith(false)
     
-    let playerLocale = Localize.getSupportLocale()
+    lazy var playerLocale = localStorageRepo.getSupportLocale()
 
-    init(_ surveyUseCase: CustomerServiceSurveyUseCase, _ authenticationUseCase: AuthenticationUseCase) {
+    init(_ surveyUseCase: CustomerServiceSurveyUseCase, _ authenticationUseCase: AuthenticationUseCase, _ localStorageRepo: PlayerLocaleConfiguration) {
         self.surveyUseCase = surveyUseCase
         self.authenticationUseCase = authenticationUseCase
+        self.localStorageRepo = localStorageRepo
     }
     
     func getPreChatSurvey() -> Single<Survey> {

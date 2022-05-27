@@ -79,17 +79,20 @@ class AddBankViewModel {
         return $0 && $1 && $2 && $3 && $4
     }.startWith(false)
     
+    private let localStorageRepo: PlayerLocaleConfiguration
     private var usecaseAuth : AuthenticationUseCase!
     private var bankUseCase: BankUseCase!
     private var withdrawalUseCase: WithdrawalUseCase!
     private var playerDataUseCase: PlayerDataUseCase!
     private var accountPatternGenerator: AccountPatternGenerator!
     
-    init(_ authenticationUseCase : AuthenticationUseCase,
+    init(_ localStorageRepo: PlayerLocaleConfiguration,
+         _ authenticationUseCase : AuthenticationUseCase,
          _ bankUseCase: BankUseCase,
          _ withdrawalUseCase: WithdrawalUseCase,
          _ playerDataUseCase: PlayerDataUseCase,
          _ accountPatternGenerator: AccountPatternGenerator) {
+        self.localStorageRepo = localStorageRepo
         self.usecaseAuth = authenticationUseCase
         self.bankUseCase = bankUseCase
         self.withdrawalUseCase = withdrawalUseCase
@@ -126,7 +129,7 @@ class AddBankViewModel {
     }
 
     private func displayBank(_ bank: Bank) -> String {
-        switch Localize.getSupportLocale() {
+        switch localStorageRepo.getSupportLocale() {
         case is SupportLocale.China:
             return bank.name
         case is SupportLocale.Vietnam:

@@ -9,6 +9,7 @@ protocol LocalizationRepository {
 }
 
 class LocalizationRepositoryImpl: LocalizationRepository {
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     private var portalApi: PortalApi!
     
     init(_ portalApi: PortalApi) {
@@ -16,7 +17,7 @@ class LocalizationRepositoryImpl: LocalizationRepository {
     }
     
     func setupCultureCode() -> Completable {
-        portalApi.initLocale(cultureCode: LocalizeUtils.shared.getLanguage())
+        portalApi.initLocale(cultureCode: localStorageRepo.getCultureCode())
     }
     
     func getLocalization() -> Single<[String : String]> {
