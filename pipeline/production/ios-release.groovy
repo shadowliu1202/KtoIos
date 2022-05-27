@@ -43,39 +43,39 @@ pipeline {
             }
         }
 
-        // stage('Build Project') {
-        //     //建置專案
-        //     //上傳到TestFlight, 建置IPA到Proget, 押上建置的版本號TAG
-        //     agent {
-        //         label 'ios-agent'
-        //     }
-        //     steps {
-        //         cleanWs()
-        //         dir('project') {
-        //             script {
-        //                 iosutils.checkoutTagOnIosKtoAsia(params.PARAMS_SELECT_TAG, env.ONLINE_TAG)
-        //                 iosutils.buildProject(env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.FASTLANE_JOB)
-        //                 iosutils.updateTestFlight(env.VERSION_CORE, env.NEXT_BUILD_NUMBER, env.PRE_RELEASE)
-        //                 version.setIosTag(env.VERSION_CORE, env.PRERELEASE, env.NEXT_BUILD_NUMBER, env.BUILD_ENVIRONMENT.toLowerCase())
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Build Project') {
+            //建置專案
+            //上傳到TestFlight, 建置IPA到Proget, 押上建置的版本號TAG
+            agent {
+                label 'ios-agent'
+            }
+            steps {
+                cleanWs()
+                dir('project') {
+                    script {
+                        iosutils.checkoutTagOnIosKtoAsia(params.PARAMS_SELECT_TAG, env.ONLINE_TAG)
+                        iosutils.buildProject(env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.FASTLANE_JOB)
+                        iosutils.updateTestFlight(env.VERSION_CORE, env.NEXT_BUILD_NUMBER, env.PRE_RELEASE)
+                        version.setIosTag(env.VERSION_CORE, env.PRERELEASE, env.NEXT_BUILD_NUMBER, env.BUILD_ENVIRONMENT.toLowerCase())
+                    }
+                }
+            }
+        }
 
-        // stage('Update jira issues') {
-        //     //建置專案
-        //     //建立Jira Release Version, 如果已經存在就忽略
-        //     //更新所有改變的Jira Issue的 環境Label
-        //     steps {
-        //         script {
-        //             def issueList = []
-        //             issueList.addAll(jira.getChangeLogIssues())
-        //             issueList.addAll(jira.getChangeIssues())
-        //             echo "Get Jira Issues: $issueList"
-        //             jira.transferIssues(issueList, null, "ios-${env.VERSION_CORE}-${env.BUILD_ENVIRONMENT.toLowerCase()}")
-        //         }
-        //     }
-        // }
+        stage('Update jira issues') {
+            //建置專案
+            //建立Jira Release Version, 如果已經存在就忽略
+            //更新所有改變的Jira Issue的 環境Label
+            steps {
+                script {
+                    def issueList = []
+                    issueList.addAll(jira.getChangeLogIssues())
+                    issueList.addAll(jira.getChangeIssues())
+                    echo "Get Jira Issues: $issueList"
+                    jira.transferIssues(issueList, null, "ios-${env.VERSION_CORE}-${env.BUILD_ENVIRONMENT.toLowerCase()}")
+                }
+            }
+        }
 
         stage('Release Notification') {
             steps {
