@@ -13,24 +13,24 @@ let Localize = LocalizeUtils.shared
 class LocalizeUtils: NSObject {
     static let shared = LocalizeUtils()
     
-    private let playerLocaleCultureCode = DI.resolve(LocalStorageRepositoryImpl.self)!.getCultureCode()
+    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     
     func string(_ key: String, _ parameters: [String]) -> String {
-        let localizationFileName = playerLocaleCultureCode
+        let localizationFileName = localStorageRepo.getCultureCode()
         let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
         let bundle = Bundle(path: path!)
         return String(format: NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: ""), arguments: parameters)
     }
     
     func string(_ key: String, _ parameters: String...) -> String {
-        let localizationFileName = playerLocaleCultureCode
+        let localizationFileName = localStorageRepo.getCultureCode()
         let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
         let bundle = Bundle(path: path!)
         return String(format: NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: ""), arguments: parameters)
     }
     
     func string(_ key: String, _ parameter: String? = nil) -> String {
-        let localizationFileName = playerLocaleCultureCode
+        let localizationFileName = localStorageRepo.getCultureCode()
         let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
         let bundle = Bundle(path: path!)
         if let parameter = parameter {
@@ -41,8 +41,8 @@ class LocalizeUtils: NSObject {
     }
     
     func string(_ key: String) -> String {
-        let localizationFileNmae = playerLocaleCultureCode
-        let path = Bundle.main.path(forResource: localizationFileNmae, ofType: "lproj")
+        let localizationFileName = localStorageRepo.getCultureCode()
+        let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
         let bundle = Bundle(path: path!)
         return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")
     }

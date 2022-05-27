@@ -68,10 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SharedBu.Platform.init().debugBuild()
         
-        if UserDefaults.standard.string(forKey: "cultureCode") == nil {
-            initialCultureCode()
-        }
-        
         return true
     }
 
@@ -93,22 +89,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func requestErrorWhenRetry(error: Error) {
         print("\(error)")
-    }
-    
-    private func initialCultureCode() {
-        let localeCultureCode = systemLocaleToCultureCode()
-        localStorageRepository.setCultureCode(localeCultureCode)
-    }
-    
-    private func systemLocaleToCultureCode() -> String {
-        switch Locale.current.languageCode {
-        case "vi":
-            return SupportLocale.Vietnam.shared.cultureCode()
-        case "zh":
-            fallthrough
-        default:
-            return SupportLocale.China.shared.cultureCode()
-        }
     }
     
     func forceCheckNetworkStatus() {
