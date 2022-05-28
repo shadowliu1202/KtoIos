@@ -112,7 +112,8 @@ class LevelPrivilegeViewController: APPViewController {
     private func dataBinding() {
         self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return Observable.combineLatest(self.viewModel.getPrivilege().asObservable(), self.viewModel.loadPlayerInfo())
-        }).flatMap({ [unowned self] (levelOverview: [LevelOverview], player: Player) -> BehaviorRelay<[Item]> in
+        })
+        .flatMap({ [unowned self] (levelOverview: [LevelOverview], player: Player) -> BehaviorRelay<[Item]> in
             self.currentLevel = player.playerInfo.level
             let items = levelOverview.map({ Item($0) })
             self.mappingItem(items)
@@ -120,19 +121,19 @@ class LevelPrivilegeViewController: APPViewController {
         }).catchError({ [weak self] (error) -> Observable<[Item]> in
             self?.handleErrors(error)
             return Observable<[Item]>.just([])
-        }).bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
+        }).bind(to: tableView.rx.items) { [weak self] tableView, row, item in
             let collapseHandler: (Observable<Void>, DisposeBag) -> Void = { [weak self] (collapse, disposeBag) in
                 self?.updateCollapse(tableView: tableView, item: item, collapse: collapse, disposeBag: disposeBag)
             }
             let tapPrivilegeHandler: (LevelPrivilege) -> Void = { [weak self] (privilege) in
                 self?.clickPrivilege(level: item.level, privilege)
             }
-            if isPreviewLevel(row) {
+            if self?.isPreviewLevel(row) == true {
                 return tableView.dequeueReusableCell(withIdentifier: "NextLevelTableViewCell", cellType: NextLevelTableViewCell.self).configure(item, callback: collapseHandler)
-            } else if isTopLevel(row) {
+            } else if self?.isTopLevel(row) == true {
                 return tableView.dequeueReusableCell(withIdentifier: "TopLevelTableViewCell", cellType: TopLevelTableViewCell.self).configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
             }
-            else if isZeroLevel(row) {
+            else if self?.isZeroLevel(row) == true {
                 return tableView.dequeueReusableCell(withIdentifier: "ZeroLevelTableViewCell", cellType: ZeroLevelTableViewCell.self).configure(item)
             } else {
                 return tableView.dequeueReusableCell(withIdentifier: "LevelTableViewCell", cellType: LevelTableViewCell.self).configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
