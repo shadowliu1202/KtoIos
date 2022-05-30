@@ -18,12 +18,11 @@ class DateViewController: UIViewController {
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
     
     private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-    private var dateSegmentTitle = [Localize.string("common_last7day"), Localize.string("common_select_day"), Localize.string("common_select_month")]
+    private lazy var dateSegmentTitle = Theme.shared.getSegmentTitleName(by: localStorageRepo.getSupportLocale())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
-        UILabel.appearance(whenContainedInInstancesOf:[UISegmentedControl.self]).numberOfLines = 2
         self.setupDateSegmentLabel()
         
         DispatchQueue.main.async {
@@ -78,21 +77,12 @@ class DateViewController: UIViewController {
     }
     
     private func setupDateSegmentLabel() {
+        UILabel.appearance(whenContainedInInstancesOf:[UISegmentedControl.self]).numberOfLines = 2
         var segmentIndex = 0
         for titleName in dateSegmentTitle {
-            let newTitleName = insertNewLineBeforeLastWord(titleName)
-            dateSegment.setTitle(newTitleName, forSegmentAt: segmentIndex)
+            dateSegment.setTitle(titleName, forSegmentAt: segmentIndex)
             segmentIndex += 1
         }
-    }
-    
-    private func insertNewLineBeforeLastWord(_ text: String) -> String {
-        guard let spaceIndex = text.lastIndex(of: " ") else {
-            return text
-        }
-        
-        let spaceIndexRange = text.rangeOfComposedCharacterSequence(at: spaceIndex)
-        return text.replacingCharacters(in: spaceIndexRange, with: "\n")
     }
     
     fileprivate func selectSingleDate(date: Date = Date()) {

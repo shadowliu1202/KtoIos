@@ -28,4 +28,32 @@ final class Theme {
             return 14
         }
     }
+    
+    func getSegmentTitleName(by playerLocale: SupportLocale) -> [String] {
+        let dateSegmentTitle = [Localize.string("common_last7day"), Localize.string("common_select_day"), Localize.string("common_select_month")]
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            return insertNewLineBeforeLastWord(dateSegmentTitle)
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return dateSegmentTitle
+        }
+    }
+    
+    private func insertNewLineBeforeLastWord(_ segmentTitle: [String]) -> [String] {
+        var newSegmentTitle: [String] = []
+        for title in segmentTitle {
+            guard let spaceIndex = title.lastIndex(of: " ") else {
+                newSegmentTitle.append(title)
+                continue
+            }
+            
+            let spaceIndexRange = title.rangeOfComposedCharacterSequence(at: spaceIndex)
+            let newTitle = title.replacingCharacters(in: spaceIndexRange, with: "\n")
+            newSegmentTitle.append(newTitle)
+        }
+        
+        return newSegmentTitle
+    }
 }
