@@ -35,16 +35,14 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
         self.settingStore = settingStore
     }
     
-    func loginFrom(account: String, pwd: String, captcha: Captcha)->Single<Player>{
-        let login = repoAuth.authorize(account, pwd, captcha)
-        return login.flatMap { (stat) -> Single<Player> in
-            switch stat.status {
+    func loginFrom(account: String, pwd: String, captcha: Captcha) -> Single<Player> {
+        repoAuth.authorize(account, pwd, captcha).flatMap { (data) -> Single<Player> in
+            switch data.status {
             case .success: return self.repoPlayer.loadPlayer()
-            default:
-                let error = LoginError()
-                error.status = stat.status
-                error.isLock = stat.isLocked
-                return Single.error(error)
+            case .failed1to5: return Single.error(LoginException.Failed1to5Exception.init(isLocked: data.isLocked))
+            case .failed6to10: return Single.error(LoginException.Failed6to10Exception.init(isLocked: data.isLocked))
+            case .failedabove11: return Single.error(LoginException.AboveVerifyLimitation.init(isLocked: data.isLocked))
+            default: fatalError()
             }
         }
     }
