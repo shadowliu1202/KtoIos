@@ -70,7 +70,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     @objc func alloweVNGesture(_ gesture: UITapGestureRecognizer) {
+#if QAT || STAGING
         Configuration.isAllowedVN.toggle()
+#endif
     }
     
     private func didConnect(c: Connectivity) {
