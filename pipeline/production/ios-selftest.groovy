@@ -43,7 +43,6 @@ pipeline {
                         iosutils.buildProject(env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, 'buildIpaProduction')
                         iosutils.updateTestFlight(env.VERSION_CORE, env.NEXT_BUILD_NUMBER, 'selftest')
                         iosutils.updateTestFlight(env.VERSION_CORE, env.NEXT_BUILD_NUMBER, 'backup')
-                        version.setIosTag(env.RELEASE_VERSIONCORE, env.PRERELEASE, env.NEXT_BUILD_NUMBER, env.BUILD_ENVIRONMENT.toLowerCase())
                     }
                 }
             }
@@ -52,7 +51,7 @@ pipeline {
         stage('Publish Notification') {
             steps {
                 script {
-                    teams.notifyRelease(env.TEAMS_NOTIFICATION, env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.BUILD_ENVIRONMENT, env.API_HOST)
+                    teams.notifyPublish(env.TEAMS_NOTIFICATION, env.VERSION_CORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.BUILD_ENVIRONMENT, env.API_HOST)
                 }
             }
         }
