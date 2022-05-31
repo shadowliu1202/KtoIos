@@ -59,11 +59,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         //MARK: 待VN上線時移除
+#if QAT || STAGING
         let gesture = UITapGestureRecognizer(target: self, action: #selector(alloweVNGesture(_:)))
         gesture.numberOfTouchesRequired = 3
         gesture.numberOfTapsRequired = 3
         self.window?.addGestureRecognizer(gesture)
-
+#endif
         reachabilityObserver = ReachabilityHandler.shared(connected: didConnect, disconnected: disConnect, requestError: requestErrorWhenRetry)
         
         SharedBu.Platform.init().debugBuild()
@@ -72,9 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     @objc func alloweVNGesture(_ gesture: UITapGestureRecognizer) {
-#if QAT || STAGING
         Configuration.isAllowedVN.toggle()
-#endif
     }
     
     private func didConnect(c: Connectivity) {
