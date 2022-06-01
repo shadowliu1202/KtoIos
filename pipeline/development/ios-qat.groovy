@@ -19,7 +19,8 @@ pipeline {
             steps {
                 cleanWs()
                 script {
-                    def lastTag = ansible.qatTag
+                    //def lastTag = ansible.qatTag
+                    def lastTag = "1.4.0-dev"
                     echo "Get Last Tag $lastTag"
                     iosutils.checkoutIosKtoAsia('master', lastTag)
                     env.CURRENT_TAG = lastTag
@@ -45,7 +46,7 @@ pipeline {
                         def tag = version.getReleaseTag(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, nextBuildNumber)
                         currentBuild.displayName = "[Qat1] $tag"
                         iosutils.buildProject(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, nextBuildNumber, 'uploadToTestflight')
-                        def size = sh(script:"du -s -k output/ktobet-asia-ios-qat3.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
+                        def size = sh(script:"du -s -k output/ktobet-asia-ios-qat.ipa | awk '{printf \"%.2f\\n\", \$1/1024}'", returnStdout: true).trim()
                         echo "Get Ipa Size = $size"
                         ansible.publishIosVersionToQat(env.RELEASE_VERSIONCORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, env.IOS_DOWNLOAD_URL, size, 'qat1')
                         version.setIosTag( env.RELEASE_VERSIONCORE, env.PRE_RELEASE, env.NEXT_BUILD_NUMBER, 'qat1')
