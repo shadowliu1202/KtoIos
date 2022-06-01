@@ -5,7 +5,7 @@ class AccountPatternGeneratorFactory {
         return AccountPatternGeneratorCompanion.init().create(supportLocale: supportLocale)
     }
     
-    static func transfer(_ pattern: AccountPatternGenerator, _ e: AccountNameException?) -> String {
+    static func transform(_ pattern: AccountPatternGenerator, _ e: AccountNameException?) -> String {
         guard let exception = e else { return "" }
         var result = ""
         switch exception {

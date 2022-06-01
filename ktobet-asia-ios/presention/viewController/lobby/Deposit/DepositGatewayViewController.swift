@@ -315,7 +315,7 @@ class DepositGatewayViewController: APPViewController {
                 self?.remitterNameErrorLabel.text = ""
                 return
             }
-            let message = AccountPatternGeneratorFactory.transfer(self.offlineViewModel.accountPatternGenerator, accountNameException)
+            let message = AccountPatternGeneratorFactory.transform(self.offlineViewModel.accountPatternGenerator, accountNameException)
             self.remitterNameErrorLabel.text = message
         }.disposed(by: disposeBag)
         
@@ -397,7 +397,7 @@ class DepositGatewayViewController: APPViewController {
                 self?.remitterBankErrorLabel.text = ""
                 return
             }
-            let message = AccountPatternGeneratorFactory.transfer(self.offlineViewModel.accountPatternGenerator, accountNameException)
+            let message = AccountPatternGeneratorFactory.transform(self.offlineViewModel.accountPatternGenerator, accountNameException)
             self.remitterBankErrorLabel.text = message
         }.disposed(by: disposeBag)
         
@@ -406,7 +406,7 @@ class DepositGatewayViewController: APPViewController {
                 self?.remitterNameErrorLabel.text = ""
                 return
             }
-            let message = AccountPatternGeneratorFactory.transfer(self.offlineViewModel.accountPatternGenerator, accountNameException)
+            let message = AccountPatternGeneratorFactory.transform(self.offlineViewModel.accountPatternGenerator, accountNameException)
             self.remitterNameErrorLabel.text = message
         }.disposed(by: disposeBag)
         
