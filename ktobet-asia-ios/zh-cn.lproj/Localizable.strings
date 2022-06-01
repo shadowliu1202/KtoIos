@@ -67,6 +67,8 @@
 我们尽量保持信息更新，但我们不对客户在各交易所探索过程中出现的不准确信息或任何损失负责。
 
 如果对交易所使用有任何疑问或问题，建议您直接联络交易所客服。";
+"cps_crypto_currency_deposit_times_hint" = "每笔 %@ %%红利,每日上限 %@ 次，1倍流水";
+"cps_withdrawal_all_fiat_first" = "您需要先将人民币的金额提款完毕，才能提款虚拟币。";
 
 //MARK: - Common
 "common_kto" = "KTO";
@@ -812,6 +814,8 @@
 "product_dealer" = "荷官";
 "product_player" = "玩家";
 "product_split" = "分牌";
+"product_favorite_reach_max" = "已达到收藏上限，请移除部份后再加入";
+"product_search_condition_not_match" = "搜寻条件需要超过两个字符。";
 
 //MARK: - Update
 "update_new_version_content" = "新版本已发布，请更新后再进行操作。";

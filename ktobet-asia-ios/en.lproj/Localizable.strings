@@ -61,6 +61,8 @@
 "cps_crypto_currency_guide_hint" = "";
 "cps_crypto_currency_guide_title" = "";
 "cps_crypto_guidance_description" = "";
+"cps_crypto_currency_deposit_times_hint" = "";
+"cps_withdrawal_all_fiat_first" = "";
 
 //MARK: - Common
 "common_kto" = "KTO";
@@ -822,6 +824,8 @@ Thank you";
 "product_dealer" = "Dealer";
 "product_player" = "Player";
 "product_split" = "Split";
+"product_favorite_reach_max" = "";
+"product_search_condition_not_match" = "";
 
 //MARK: - Update
 "update_new_version_content" = "The New Version has been released, please update before proceeding.";
