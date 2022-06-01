@@ -1,10 +1,10 @@
 def publishIosOnlineVersion( def versionCore, def preRelease, def buildNumber, def download_url, def size) {
     if (preRelease.toString() == 'rc') {
         publishToIDC('10.10.16.15', versionCore, buildNumber, download_url, size)
-        setOnlineVersion('ios','10.10.16.15',versionCore,buildNumber)
+        setOnlineVersion('ios', '10.10.16.15', versionCore, buildNumber)
     }else if (preRelease.toString() == 'release') {
         publishToIDC('10.10.16.16', versionCore, buildNumber, download_url, size)
-        setOnlineVersion('ios','10.10.16.16',versionCore,buildNumber)
+        setOnlineVersion('ios', '10.10.16.16', versionCore, buildNumber)
     }
 }
 
@@ -31,12 +31,13 @@ def publishToIDC(def server, def versionCore, def buildNumber, def download_url,
 
 def publishIosVersionToQat(def versionCore, def preRelease, def buildNumber, def download_url, def size, def buildEnviroment) {
     string publishVersion = "$versionCore+$buildNumber"
-    if (buildNumber == 1) {
+    echo "publishIosVersionToQat $versionCore $preRelease $buildNumber"
+    if (buildNumber.toString() == '1') {
+         echo 'buildNumber is 1'
         publishVersion = "$versionCore"
     }
+    echo "publishIosVersionToQat $publishVersion"
     string rootCredentialsId = '2cb1ac3a-2e81-474e-9846-25fad87697ef'
-    string gitRepo = 'git@gitlab.higgstar.com:mobile/ktobet-asia-ios.git'
-    string releaseTag = "$versionCore-$preRelease+$buildNumber"
     withCredentials([sshUserPrivateKey(credentialsId: "$rootCredentialsId", keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
         script {
             def remote = [:]
