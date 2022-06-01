@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1055,7 +1055,6 @@
 		60AC5C1127683190008F0281 /* Maintenance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60AC5C0E27683190008F0281 /* Maintenance.storyboard */; };
 		60AE474C25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AE474B25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift */; };
 		60AE474D25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AE474B25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift */; };
-		60BAC1692846270C00553D8A /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60BAC1682846270C00553D8A /* sharedbu.xcframework */; };
 		60BCC2BE25B6821200C56D6E /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */; };
 		60BCC2CA25B6AB2E00C56D6E /* PlayerDataUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */; };
 		60BCC2D025B6D8AF00C56D6E /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */; };
@@ -4519,7 +4518,6 @@
 		60AC5C0A2766E7F7008F0281 /* PortalMaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalMaintenanceViewController.swift; sourceTree = "<group>"; };
 		60AC5C0E27683190008F0281 /* Maintenance.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Maintenance.storyboard; sourceTree = "<group>"; };
 		60AE474B25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositOfflineConfirmViewController.swift; sourceTree = "<group>"; };
-		60BAC1682846270C00553D8A /* sharedbu.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sharedbu.xcframework; path = ../kto_shared_bu/sharedbu/build/XCFrameworks/release/sharedbu.xcframework; sourceTree = "<group>"; };
 		60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = slideMenu.storyboard; sourceTree = "<group>"; };
 		60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDataUseCase.swift; sourceTree = "<group>"; };
 		60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
@@ -4796,7 +4794,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60BAC1692846270C00553D8A /* sharedbu.xcframework in Frameworks */,
 				36B25B99C4C51F7B4DBE7022 /* (null) in Frameworks */,
 				6BD79E3CD326C49EBC8EDCBC /* Pods_ktobet_asia_ios_qat.framework in Frameworks */,
 			);
@@ -5440,7 +5437,6 @@
 			isa = PBXGroup;
 			children = (
 				3439EB7929E175EF3BC7A116 /* Pods_ktobet_asia_ios.framework */,
-				60BAC1682846270C00553D8A /* sharedbu.xcframework */,
 				C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */,
 				30DFCC5EC3774654AD6E39A8 /* libPods-ktobet-asia-iosTests.a */,
 				19630262B3438BDC7A8408C7 /* libPods-ktobet-asia-iosUITests.a */,
