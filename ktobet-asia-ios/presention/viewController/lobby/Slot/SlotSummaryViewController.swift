@@ -50,7 +50,7 @@ class SlotSummaryViewController: APPViewController {
                 self.switchContent(betSummary)
                 var addUnFinishGame = betSummary.finishedGame
                 if self.hasUnsettleGameRecords(summary: betSummary) {
-                    addUnFinishGame.insert(DateSummary(totalStakes: 0.toAccountCurrency(), totalWinLoss: 0.toAccountCurrency(), createdDateTime: Kotlinx_datetimeLocalDate.init(year: 0, monthNumber: 1, dayOfMonth: 1), count: 0), at: 0)
+                    addUnFinishGame.insert(DateSummary(totalStakes: 0.toAccountCurrency(), totalWinLoss: 0.toAccountCurrency(), createdDateTime: SharedBu.LocalDate.init(year: 0, monthNumber: 1, dayOfMonth: 1), count: 0), at: 0)
                 }
                 return addUnFinishGame
             }.bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in

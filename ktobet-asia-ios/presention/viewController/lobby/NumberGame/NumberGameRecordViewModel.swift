@@ -11,7 +11,7 @@ class NumberGameRecordViewModel {
     
     var pagination: Pagination<NumberGameSummary.Game>!
     var betPagination: Pagination<NumberGameSummary.Bet>!
-    var selectedDate: Kotlinx_datetimeLocalDate?
+    var selectedDate: SharedBu.LocalDate?
     var selectedStatus: NumberGameSummary.CompanionStatus?
     
     init(numberGameRecordUseCase: NumberGameRecordUseCase) {
@@ -50,7 +50,7 @@ class NumberGameRecordViewModel {
     }
     
     var selectedGameId: Int32?
-    var selectedBetDate: Kotlinx_datetimeLocalDate?
+    var selectedBetDate: SharedBu.LocalDate?
     var selectedBetStatus: NumberGameSummary.CompanionStatus?
     func getGameBetsByDate(gameId: Int32, date: Date, betStatus: NumberGameSummary.CompanionStatus, skip: Int, take: Int) -> Single<[NumberGameSummary.Bet]> {
         return numberGameRecordUseCase.getGameBetsByDate(gameId: gameId, date: date, betStatus: betStatus, skip: skip, take: take)

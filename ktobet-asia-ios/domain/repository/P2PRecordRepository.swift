@@ -3,19 +3,21 @@ import RxSwift
 import SharedBu
 
 protocol P2PRecordRepository {
-    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[DateSummary]>
-    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[GameGroupedRecord]>
-    func getBetSummaryByGame(beginDate: String, endDate: String, gameId: Int32) -> Single<[P2PGameBetRecord]>
+    func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[DateSummary]>
+    func getBetSummaryByDate(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[GameGroupedRecord]>
+    func getBetSummaryByGame(beginDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32) -> Single<[P2PGameBetRecord]>
 }
 
 class P2PRecordRepositoryImpl: P2PRecordRepository {
     private var p2pApi: P2PApi!
+    private var playerConfiguation: PlayerConfiguration!
     
-    init(_ p2pApi: P2PApi) {
+    init(_ p2pApi: P2PApi, playerConfiguation: PlayerConfiguration) {
         self.p2pApi = p2pApi
+        self.playerConfiguation = playerConfiguation
     }
     
-    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[DateSummary]> {
+    func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[DateSummary]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return p2pApi.getBetSummary(offset: secondsToHours).map({ (response) -> [DateSummary] in
             guard let data = response.data else { return [] }
@@ -23,7 +25,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
         })
     }
     
-    func getBetSummaryByDate(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[GameGroupedRecord]> {
+    func getBetSummaryByDate(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[GameGroupedRecord]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return p2pApi.getGameRecordByDate(date: localDate, offset: secondsToHours).map({ (response) -> [GameGroupedRecord] in
             guard let data = response.data else { return [] }
@@ -38,8 +40,10 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
         })
     }
     
-    func getBetSummaryByGame(beginDate: String, endDate: String, gameId: Int32) -> Single<[P2PGameBetRecord]> {
-        return p2pApi.getBetRecords(beginDate: beginDate, endDate: endDate, gameId: gameId).map { (response) -> [P2PGameBetRecord] in
+    func getBetSummaryByGame(beginDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32) -> Single<[P2PGameBetRecord]> {
+        p2pApi.getBetRecords(beginDate: beginDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
+                             endDate: endDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
+                             gameId: gameId).map { (response) -> [P2PGameBetRecord] in
             guard let data = response.data else { return [] }
             return data.map({ $0.toP2PGameBetRecord() })
         }

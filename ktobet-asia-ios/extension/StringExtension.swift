@@ -53,27 +53,27 @@ extension String {
 
 //MARK: String to DateTime
 extension String {
-    var playerTimeZone: TimeZone {
+    var playerTimeZone: Foundation.TimeZone {
         DI.resolve(PlayerConfiguration.self)!.localeTimeZone()
     }
 
     func toOffsetDateTime() -> OffsetDateTime {
         let offsetDate = getOffsetDate()
-        let createLocalDateTime = Kotlinx_datetimeLocalDateTime(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
-        return OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: TimeZone.current.identifier)
+        let createLocalDateTime = SharedBu.LocalDateTime(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
+        return OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: Foundation.TimeZone.current.identifier)
     }
 
-    func toLocalDateTime() -> Kotlinx_datetimeLocalDateTime {
+    func toLocalDateTime() -> SharedBu.LocalDateTime {
         let offsetDate = getOffsetDate()
-        return Kotlinx_datetimeLocalDateTime.init(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
+        return SharedBu.LocalDateTime.init(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
     }
 
-    func toLocalDate() -> Kotlinx_datetimeLocalDate {
+    func toLocalDate() -> SharedBu.LocalDate {
         let offsetDate = getOffsetDate()
-        return Kotlinx_datetimeLocalDate(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth())
+        return SharedBu.LocalDate(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth())
     }
 
-    func toDate(format: String, timeZone: TimeZone) -> Date? {
+    func toDate(format: String, timeZone: Foundation.TimeZone) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         dateFormatter.timeZone = timeZone

@@ -33,7 +33,7 @@ class P2PBetViewModel {
         return p2pRecordUseCase.getBetSummaryByDate(localDate: localDate)
     }
     
-    func getBetDetail(startDate: String, endDate: String, gameId: Int32) -> Single<[P2PGameBetRecord]> {
+    func getBetDetail(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32) -> Single<[P2PGameBetRecord]> {
         return p2pRecordUseCase.getBetRecord(startDate: startDate, endDate: endDate, gameId: gameId)
     }
 }

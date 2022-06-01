@@ -3,22 +3,24 @@ import RxSwift
 import SharedBu
 
 protocol CasinoRecordRepository {
-    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<BetSummary>
-    func getUnsettledSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[UnsettledBetSummary]>
+    func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<BetSummary>
+    func getUnsettledSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[UnsettledBetSummary]>
     func getUnsettledRecords(date: String) -> Single<[UnsettledBetRecord]>
-    func getPeriodRecords(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[PeriodOfRecord]>
+    func getPeriodRecords(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[PeriodOfRecord]>
     func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]>
     func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?>
 }
 
 class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     private var casinoApi: CasinoApi!
+    private var playerConfiguation: PlayerConfiguration!
     
-    init(_ casinoApi: CasinoApi) {
+    init(_ casinoApi: CasinoApi, playerConfiguation: PlayerConfiguration) {
         self.casinoApi = casinoApi
+        self.playerConfiguation = playerConfiguation
     }
     
-    func getBetSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<BetSummary> {
+    func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<BetSummary> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getCasinoBetSummary(offset: secondsToHours).map { (response) -> BetSummary in
             guard let d = response.data else { return BetSummary.init(unFinishedGames: 0, finishedGame: []) }
@@ -33,7 +35,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         }
     }
     
-    func getUnsettledSummary(zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[UnsettledBetSummary]> {
+    func getUnsettledSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[UnsettledBetSummary]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getUnsettledSummary(offset: secondsToHours).map { (response) -> [UnsettledBetSummary] in
             guard let data = response.data else { return [] }
@@ -61,7 +63,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         }
     }
     
-    func getPeriodRecords(localDate: String, zoneOffset: Kotlinx_datetimeUtcOffset) -> Single<[PeriodOfRecord]> {
+    func getPeriodRecords(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[PeriodOfRecord]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getGameGroup(date: localDate, offset: secondsToHours).map { (response) -> [PeriodOfRecord] in
             guard let data = response.data else { return [] }
@@ -75,15 +77,16 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     }
     
     func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]> {
-        let starString = "\(periodOfRecord.startDate)"
-        let endString = "\(periodOfRecord.endDate)"
-        return casinoApi.getBetRecordsByPage(lobbyId: Int(periodOfRecord.lobbyId), beginDate: starString, endDate: endString, offset: offset, take: 20).map { (response) -> [BetRecord] in
+        casinoApi.getBetRecordsByPage(lobbyId: Int(periodOfRecord.lobbyId),
+                                      beginDate: periodOfRecord.startDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
+                                      endDate: periodOfRecord.endDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
+                                      offset: offset, take: 20).map { (response) -> [BetRecord] in
             guard let data = response.data?.data else { return [] }
             var betRecords: [BetRecord] = []
             for b in data {
                 betRecords.append(BetRecord(betId: b.betId, gameName: b.gameName, isEvent: b.showWinLoss, prededuct: b.prededuct.toAccountCurrency(), stakes: b.stakes.toAccountCurrency(), wagerId: b.wagerId, winLoss: b.winLoss.toAccountCurrency(), hasDetails: b.hasDetails))
             }
-            
+
             return betRecords
         }
     }

@@ -2,8 +2,8 @@ import Foundation
 import SharedBu
 
 extension PlayerConfiguration {
-    func localeTimeZone() -> TimeZone {
+    func localeTimeZone() -> Foundation.TimeZone {
         let kotlinTimeZone = self.timezone()
-        return TimeZone(identifier: kotlinTimeZone.description()) ?? TimeZone.current
+        return Foundation.TimeZone(identifier: kotlinTimeZone.description()) ?? Foundation.TimeZone.current
     }
 }

@@ -276,7 +276,7 @@ struct MonthItem {
     
     static func from(year: Int, month: Int) -> Date {
         var components = DateComponents()
-        components.timeZone = TimeZone(abbreviation: "UTC")!
+        components.timeZone = Foundation.TimeZone(abbreviation: "UTC")!
         components.year = year
         components.month = month
         return calendar.date(from: components)!

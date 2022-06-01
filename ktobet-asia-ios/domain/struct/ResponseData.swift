@@ -1610,10 +1610,10 @@ struct Log: Codable {
     
     class Transaction: ITransaction {
         var amount: AccountCurrency
-        var date: Kotlinx_datetimeLocalDateTime
+        var date: SharedBu.LocalDateTime
         var id_: String
         
-        init(amount: AccountCurrency, date: Kotlinx_datetimeLocalDateTime, id_: String) {
+        init(amount: AccountCurrency, date: SharedBu.LocalDateTime, id_: String) {
             self.amount = amount
             self.date = date
             self.id_ = id_
@@ -1905,7 +1905,7 @@ struct ChatHistories: Codable {
         let roomId: String
         let title: String?
         
-        func toChatHistory(timeZone: TimeZone) -> ChatHistory {
+        func toChatHistory(timeZone: Foundation.TimeZone) -> ChatHistory {
             ChatHistory(createDate: createdDate.toLocalDateTime(), title: title ?? "", roomId: roomId)
         }
     }

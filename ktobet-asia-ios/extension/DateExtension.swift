@@ -3,13 +3,13 @@ import SharedBu
 
 
 extension Date {
-    var playerTimeZone: TimeZone {
+    var playerTimeZone: Foundation.TimeZone {
         DI.resolve(PlayerConfiguration.self)!.localeTimeZone()
     }
     
     var calendar: Calendar {
         var calendar = Calendar(identifier: .gregorian)
-        let timezone = TimeZone(secondsFromGMT: 0)!
+        let timezone = Foundation.TimeZone(secondsFromGMT: 0)!
         calendar.timeZone = timezone
         return calendar
     }
@@ -129,7 +129,7 @@ extension Date {
     
     func convertdateToUTC() -> Date {
         var comp = Calendar.current.dateComponents([.year, .month, .day], from: self)
-        comp.timeZone = TimeZone(abbreviation: "UTC")!
+        comp.timeZone = Foundation.TimeZone(abbreviation: "UTC")!
         return Calendar.current.date(from: comp)!
     }
     
@@ -161,8 +161,8 @@ extension Date {
     }
     
     func convertDateToOffsetDateTime() -> OffsetDateTime {
-        let createLocalDateTime = Kotlinx_datetimeLocalDateTime(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
-        let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: TimeZone.current.identifier)
+        let createLocalDateTime = SharedBu.LocalDateTime(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
+        let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: Foundation.TimeZone.current.identifier)
         return offsetDateTime
     }
     
@@ -177,12 +177,12 @@ extension Date {
         Date().adding(value: -adultAge, byAdding: .year)
     }
     
-    func convertToKotlinx_datetimeLocalDateTime() -> Kotlinx_datetimeLocalDateTime {
-        return Kotlinx_datetimeLocalDateTime.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
+    func convertToKotlinx_datetimeLocalDateTime() -> SharedBu.LocalDateTime {
+        return SharedBu.LocalDateTime.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
     }
     
-    func convertToKotlinx_datetimeLocalDate() -> Kotlinx_datetimeLocalDate {
-        return Kotlinx_datetimeLocalDate.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth())
+    func convertToKotlinx_datetimeLocalDate() -> SharedBu.LocalDate {
+        return SharedBu.LocalDate.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth())
     }
     
     static func - (lhs: Date, rhs: Date) -> TimeInterval {
@@ -211,7 +211,7 @@ extension OffsetDateTime {
         let dateStr = self.toDateTimeString()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.timeZone = Foundation.TimeZone.current
         dateFormatter.locale = Locale.current
         return dateFormatter.date(from: dateStr) ?? Date()
     }
@@ -241,13 +241,13 @@ extension OffsetDateTime {
     }
 }
 
-extension Kotlinx_datetimeLocalDateTime {
+extension SharedBu.LocalDateTime {
     func convertToDate(with SeparatorSymbol: String = "-") -> Date {
         let date = String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d.%03d", self.year, self.monthNumber, self.dayOfMonth, self.hour, self.minute, self.second, self.nanosecond)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
-        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.timeZone = Foundation.TimeZone.current
         dateFormatter.locale = Locale.current
         return dateFormatter.date(from: date) ?? Date()
     }
@@ -266,15 +266,21 @@ extension Kotlinx_datetimeLocalDateTime {
         let second = self.second
         return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", hour, minute, second)
     }
+
+    func toQueryFormatString(timeZone: SharedBu.TimeZone) -> String {
+        let instant = SharedBu.TimeZone.companion.UTC.toInstant(self)
+        let utcOffset = instant.offsetIn(timeZone: timeZone)
+        return "\(self)\(utcOffset)"
+    }
 }
 
-extension Kotlinx_datetimeLocalDate {
+extension SharedBu.LocalDate {
     func convertToDate(with SeparatorSymbol: String = "-") -> Date {
         let date = String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", self.year, self.monthNumber, self.dayOfMonth)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MM/dd"
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")!
+        dateFormatter.timeZone = Foundation.TimeZone(abbreviation: "UTC")!
         dateFormatter.locale = Locale.current
         return dateFormatter.date(from: date) ?? Date()
     }
@@ -298,7 +304,7 @@ extension Kotlinx_datetimeLocalDate {
     
 }
 
-extension Kotlinx_datetimeInstant {
+extension SharedBu.Instant {
     private func convertToDate() -> Date {
         return Date(timeIntervalSince1970: TimeInterval(self.epochSeconds))
     }

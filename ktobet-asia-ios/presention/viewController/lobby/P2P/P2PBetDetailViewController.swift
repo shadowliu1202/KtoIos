@@ -27,7 +27,7 @@ class P2PBetDetailViewController: APPViewController {
     
     private func dataBinding() {
         guard let recordData = recordData else { return }
-        viewModel.getBetDetail(startDate: recordData.startDate.description(), endDate: recordData.endDate.description(), gameId: recordData.gameId).asObservable()
+        viewModel.getBetDetail(startDate: recordData.startDate, endDate: recordData.endDate, gameId: recordData.gameId).asObservable()
             .catchError({ [weak self] (error) -> Observable<[P2PGameBetRecord]> in
                 self?.handleErrors(error)
                 return Observable.empty()

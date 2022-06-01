@@ -15,7 +15,7 @@ class NumberGameDetailViewController: APPViewController {
     
     var gameId: Int32?
     var gameName: String?
-    var betDate: Kotlinx_datetimeLocalDate?
+    var betDate: SharedBu.LocalDate?
     var betStatus: NumberGameSummary.CompanionStatus?
     var totalCounts: Int32?
     
