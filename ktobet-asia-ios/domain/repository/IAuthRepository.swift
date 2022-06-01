@@ -87,6 +87,7 @@ class IAuthRepositoryImpl : IAuthRepository {
                 }
             }()
             let isLocked = response.data?.isLocked ?? false
+            self.httpClient.setDefaultToken(self.httpClient.getToken())
             return LoginStatus(status: tryStatus, isLocked: isLocked)
         }
     }

@@ -54,6 +54,11 @@ class HttpClient {
             for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: baseUrl) ?? []  {
                 token.append(cookie.name + "=" + cookie.value)
             }
+
+            if tokenCookie != nil {
+                token.append("token" + "=" + tokenCookie!)
+            }
+
             return token.joined(separator: ";")
         }()
 
@@ -104,14 +109,19 @@ class HttpClient {
                 return Single.just(response)
             })
     }
+
+    private var tokenCookie: String?
+    func setDefaultToken(_ token: String) {
+        self.tokenCookie = token
+    }
     
     func getCookies()->[HTTPCookie]{
         return session.sessionConfiguration.httpCookieStorage?.cookies(for: self.baseUrl) ?? []
     }
-    
-    func getToken()->String{
-        var token : [String] = []
-        for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: self.baseUrl) ?? []  {
+
+    func getCookieString() -> String {
+        var token: [String] = []
+        for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: self.baseUrl) ?? [] {
             token.append(cookie.name + "=" + cookie.value)
         }
         return token.joined(separator: ";")
@@ -119,6 +129,10 @@ class HttpClient {
     
     func getHost() -> String {
         return host
+    }
+
+    func getToken() -> String {
+        session.sessionConfiguration.httpCookieStorage?.cookies(for: baseUrl)?.first(where: { $0.name == "token" })?.value ?? ""
     }
 
     func getCulture() -> String {

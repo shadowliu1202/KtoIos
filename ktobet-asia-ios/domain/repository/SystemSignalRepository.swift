@@ -28,7 +28,7 @@ class SystemSignalRepositoryImpl : SystemSignalRepository {
                 .withJSONHubProtocol()
                 .withHttpConnectionOptions(configureHttpOptions: { (option) in
                     option.skipNegotiation = true
-                    option.headers["Cookie"] = self.httpClient.getToken()
+                    option.headers["Cookie"] = self.httpClient.getCookieString()
                 })
                 .withLogging(minLogLevel: .debug)
                 .withAutoReconnect()
