@@ -234,25 +234,25 @@ class LoginViewController: LandingViewController {
     
     // MARK: ERROR
     private func handleError(error: Any) {
-        if let loginFail = error as? LoginError, let status = loginFail.status {
-            switch status {
-            case .failed1to5:
+        if let loginFail = error as? LoginException {
+            switch loginFail {
+            case is LoginException.Failed1to5Exception:
                 showLoginError(message: Localize.string("login_invalid_username_password"))
-            case .failed6to10:
+            case is LoginException.Failed6to10Exception:
                 if viewModel.relayImgCaptcha.value == nil {
                     getCaptcha()
                     showLoginError(message: Localize.string("login_invalid_username_password"))
                 } else {
                     showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
                 }
-            case .failedabove11:
+            case is LoginException.AboveVerifyLimitation:
                 showLoginError(message: Localize.string("login_invalid_lockdown"))
                 viewModel.launchLoginLimitTimer()
                 if imgCaptcha.image == nil { getCaptcha() }
             default: break
             }
         } else {
-            self.handleErrors(error as! Error)
+            handleErrors(error as! Error)
         }
     }
     
