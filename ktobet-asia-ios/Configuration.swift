@@ -54,7 +54,8 @@ enum Configuration: String {
     static var isAutoUpdate: Bool       = env.isAutoUpdate
     static var manualUpdate: Bool       = env.manualUpdate
     static var debugGesture: Bool       = env.debugGesture
-    static var isAllowedVN: Bool        = current == .production ? false : env.isAllowedVN
+    static var affiliateUrl: URL        = URL(string: "\(host)affiliate")!
+    static var isAllowedVN: Bool        = env.isAllowedVN
     static var enableCrashlytics: Bool  = env.enableCrashlytics
     static var manualControlNetwork: Bool   = env.manualControlNetwork
 
