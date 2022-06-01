@@ -221,18 +221,7 @@ class SignupUserinfoViewController: LandingViewController {
 
         event.nameValid
             .subscribe(onNext: { [unowned self] status in
-                var message = ""
-                switch status {
-                case is AccountNameException.EmptyAccountName:
-                    message = Localize.string("common_field_must_fill")
-                case is AccountNameException.InvalidNameFormat:
-                    message = Localize.string("register_step2_name_format_error")
-                case is AccountNameException.ExceededLength:
-                    message = Localize.string("register_name_format_error_length_limitation", "\(self.viewModel.accountPatternGenerator.withdrawalName().maxLength)")
-                default:
-                    break
-                }
-
+                let message = AccountPatternGeneratorFactory.transform(self.viewModel.accountPatternGenerator, status)
                 self.labNameTip.text = message
                 self.inputName.showUnderline(message.count > 0)
                 self.inputName.setCorner(topCorner: true, bottomCorner: message.count == 0)
