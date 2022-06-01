@@ -89,7 +89,7 @@ class ModifyProfileViewModel: KTOViewModel {
     }
     
     func modifyBirthday(birthDay: String?) -> Completable {
-        if let date = birthDay?.toDate(format: "yyyy/MM/dd", timeZone: TimeZone(abbreviation: "UTC")!) {
+        if let date = birthDay?.toDate(format: "yyyy/MM/dd", timeZone: Foundation.TimeZone(abbreviation: "UTC")!) {
             return playerUseCase.setBirthDay(birthDay: date)
         }
         return Completable.error(KTOError.EmptyData)

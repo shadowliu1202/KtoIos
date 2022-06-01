@@ -23,7 +23,7 @@ class PortalMaintenanceViewController: APPViewController {
         viewModel.output.portalMaintenanceStatus.drive {[weak self] status in
             switch status {
             case let allPortal as MaintenanceStatus.AllPortal:
-                self?.initCountDownTimer(secondsToPortalActive: allPortal.remainingSeconds)
+                self?.initCountDownTimer(secondsToPortalActive: allPortal.convertDurationToSeconds()?.int32Value ?? 0)
             default:
                 self?.showNavigation()
             }

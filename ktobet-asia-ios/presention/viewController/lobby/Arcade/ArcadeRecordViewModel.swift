@@ -44,12 +44,8 @@ class ArcadeRecordViewModel {
         arcadeRecordUseCase.getBetSummaryByDate(localDate: selectedLocalDate, skip: skip, take: 20).asObservable()
     }
     
-    func getBetDetail(startDate: String, endDate: String, gameId: Int32, skip: Int, take: Int) -> Single<[ArcadeGameBetRecord]> {
-        arcadeRecordUseCase.getBetRecord(startDate: startDate, endDate: endDate, gameId: gameId, skip: skip, take: take)
-    }
-    
     func getBetDetail(skip: Int) -> Observable<[ArcadeGameBetRecord]> {
         guard let record = self.selectedRecord else { return Observable.just([]) }
-        return arcadeRecordUseCase.getBetRecord(startDate: record.startDate.description(), endDate: record.endDate.description(), gameId: record.gameId, skip: skip, take: 20).asObservable()
+        return arcadeRecordUseCase.getBetRecord(startDate: record.startDate, endDate: record.endDate, gameId: record.gameId, skip: skip, take: 20).asObservable()
     }
 }

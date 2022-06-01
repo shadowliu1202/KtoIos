@@ -40,9 +40,7 @@ class SlotBetViewModel {
     
     func fetchNextBetRecords(recordData: SlotGroupedRecord, _ lastIndex: Int) {
         let offset = lastIndex == 0 ? 0 : lastIndex + 1
-        let start: String = recordData.startDate.description()
-        let end = recordData.endDate.description()
-        self.getBetRecords(offset: offset, startDate: start, endDate: end, gameId: recordData.gameId).subscribe(onSuccess: { [weak self] (response) in
+        self.getBetRecords(offset: offset, startDate: recordData.startDate, endDate: recordData.endDate, gameId: recordData.gameId).subscribe(onSuccess: { [weak self] (response) in
             if response.data is [SlotBetRecord], var copyValue = try? self?.betRecordDetails.value() {
                 self?.betRecordDetailsTotalCount = response.totalCount
                 let data = response.data as! [SlotBetRecord]
@@ -54,8 +52,8 @@ class SlotBetViewModel {
         }).disposed(by: disposeBag)
     }
     
-    private func getBetRecords(offset: Int, startDate: String, endDate: String, gameId: Int32) -> Single<CommonPage<SlotBetRecord>> {
-        return slotRecordUseCase.getBetRecordByPage(startDate: startDate, endDate: endDate, gameId: gameId, offset: offset, take: PaginationTake)
+    private func getBetRecords(offset: Int, startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32) -> Single<CommonPage<SlotBetRecord>> {
+        slotRecordUseCase.getBetRecordByPage(startDate: startDate, endDate: endDate, gameId: gameId, offset: offset, take: PaginationTake)
     }
     
     func fetchUnsettledBetSummary() {
@@ -84,7 +82,7 @@ class SlotBetViewModel {
         fetchNextUnsettledRecords(betTime: section.betTime, 0).subscribe().disposed(by: disposeBag)
     }
     
-    func fetchNextUnsettledRecords(betTime: Kotlinx_datetimeLocalDateTime, _ lastIndex: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
+    func fetchNextUnsettledRecords(betTime: SharedBu.LocalDateTime, _ lastIndex: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
         let offset = lastIndex == 0 ? 0 : lastIndex + 1
         return self.getUnsettledRecords(betTime: betTime, offset: offset).do(onSuccess: { [weak self] (response) in
             guard let `self` = self,
@@ -100,7 +98,7 @@ class SlotBetViewModel {
         })
     }
     
-    private func getUnsettledRecords(betTime: Kotlinx_datetimeLocalDateTime, offset: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
+    private func getUnsettledRecords(betTime: SharedBu.LocalDateTime, offset: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
         return slotRecordUseCase.getUnsettledRecords(betTime: betTime, offset: offset, take: PaginationTake)
     }
 }
@@ -121,7 +119,7 @@ class SlotUnsettledSection {
     private let summary: SlotUnsettledSummary
     var records: [SlotUnsettledRecord] = []
     
-    var betTime: Kotlinx_datetimeLocalDateTime {
+    var betTime: SharedBu.LocalDateTime {
         return summary.betTime
     }
     var totalCount: Int32 = 0

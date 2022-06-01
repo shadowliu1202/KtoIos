@@ -323,7 +323,7 @@ final class DateModel: NSObject {
 private extension DateModel {
     var calendar: Calendar {
         var calendar = Calendar(identifier: .gregorian)
-        let timezone = TimeZone(secondsFromGMT: 0)!
+        let timezone = Foundation.TimeZone(secondsFromGMT: 0)!
         calendar.timeZone = timezone
         return calendar
     }

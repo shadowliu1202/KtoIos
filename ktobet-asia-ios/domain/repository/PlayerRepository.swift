@@ -309,7 +309,7 @@ class PlayerProfile {
         }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormatter.timeZone = Foundation.TimeZone(abbreviation: "UTC")
         return dateFormatter.date(from: dateStr)
     }
 }

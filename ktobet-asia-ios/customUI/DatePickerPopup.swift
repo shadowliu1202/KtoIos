@@ -37,7 +37,7 @@ class DatePickerPopup: UIView {
         self.datePicker.locale = locale
         self.datePicker.setDate(initDate ?? Date(), animated: false)
         self.datePicker.maximumDate = maximumDate
-        self.datePicker.minimumDate = "1900/01/01".toDate(format: "yyyy/MM/dd", timeZone: TimeZone(abbreviation: "UTC")!)
+        self.datePicker.minimumDate = "1900/01/01".toDate(format: "yyyy/MM/dd", timeZone: Foundation.TimeZone(abbreviation: "UTC")!)
         self.alpha = 0.0
         UIView.animate(withDuration: 0.3) {
             self.alpha = 1.0

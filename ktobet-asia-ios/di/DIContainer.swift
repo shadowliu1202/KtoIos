@@ -187,7 +187,8 @@ class DIContainer {
         }
         ctner.register(CasinoRecordRepository.self) { resolver in
             let casinoApi = ctner.resolve(CasinoApi.self)!
-            return CasinoRecordRepositoryImpl(casinoApi)
+            let playerConfiguration = ctner.resolve(PlayerConfiguration.self)!
+            return CasinoRecordRepositoryImpl(casinoApi, playerConfiguation: playerConfiguration)
         }
         ctner.register(CasinoRepository.self) { resolver in
             let casinoApi = ctner.resolve(CasinoApi.self)!
@@ -199,7 +200,8 @@ class DIContainer {
         }
         ctner.register(SlotRecordRepository.self) { resolver in
             let slotApi = ctner.resolve(SlotApi.self)!
-            return SlotRecordRepositoryImpl(slotApi)
+            let playerConfiguration = ctner.resolve(PlayerConfiguration.self)!
+            return SlotRecordRepositoryImpl(slotApi, playerConfiguation: playerConfiguration)
         }
         ctner.register(NumberGameRepository.self) { (resolver) in
             let numberGameApi = ctner.resolve(NumberGameApi.self)!
@@ -215,11 +217,13 @@ class DIContainer {
         }
         ctner.register(P2PRecordRepository.self) { (resolver) in
             let p2pApi = ctner.resolve(P2PApi.self)!
-            return P2PRecordRepositoryImpl(p2pApi)
+            let playerConfiguration = ctner.resolve(PlayerConfiguration.self)!
+            return P2PRecordRepositoryImpl(p2pApi, playerConfiguation: playerConfiguration)
         }
         ctner.register(ArcadeRecordRepository.self) { (resolver) in
             let arcadeApi = ctner.resolve(ArcadeApi.self)!
-            return ArcadeRecordRepositoryImpl(arcadeApi)
+            let playerConfiguration = ctner.resolve(PlayerConfiguration.self)!
+            return ArcadeRecordRepositoryImpl(arcadeApi, playerConfiguation: playerConfiguration)
         }
         ctner.register(ArcadeRepository.self) { (resolver) in
             let arcadeApi = ctner.resolve(ArcadeApi.self)!

@@ -5,7 +5,7 @@ import RxSwift
 protocol ArcadeRecordUseCase {
     func getBetSummary() -> Single<[DateSummary]>
     func getBetSummaryByDate(localDate: String, skip: Int, take: Int) -> Single<[GameGroupedRecord]>
-    func getBetRecord(startDate: String, endDate: String, gameId: Int32, skip: Int, take: Int) -> Single<[ArcadeGameBetRecord]>
+    func getBetRecord(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32, skip: Int, take: Int) -> Single<[ArcadeGameBetRecord]>
 }
 
 
@@ -32,7 +32,7 @@ class ArcadeRecordUseCaseImpl: ArcadeRecordUseCase {
         }
     }
     
-    func getBetRecord(startDate: String, endDate: String, gameId: Int32, skip: Int, take: Int) -> Single<[ArcadeGameBetRecord]> {
+    func getBetRecord(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32, skip: Int, take: Int) -> Single<[ArcadeGameBetRecord]> {
         let zoneOffset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
         return zoneOffset.flatMap { [unowned self] (zoneOffset) -> Single<[ArcadeGameBetRecord]> in
             return self.arcadeRecordRepository.getBetSummaryByGame(beginDate: startDate, endDate: endDate, gameId: gameId, skip: skip, take: take)

@@ -1055,6 +1055,7 @@
 		60AC5C1127683190008F0281 /* Maintenance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60AC5C0E27683190008F0281 /* Maintenance.storyboard */; };
 		60AE474C25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AE474B25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift */; };
 		60AE474D25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AE474B25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift */; };
+		60BAC1692846270C00553D8A /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60BAC1682846270C00553D8A /* sharedbu.xcframework */; };
 		60BCC2BE25B6821200C56D6E /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */; };
 		60BCC2CA25B6AB2E00C56D6E /* PlayerDataUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */; };
 		60BCC2D025B6D8AF00C56D6E /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */; };
@@ -1630,7 +1631,6 @@
 		60E581AD27F190E4008CE5A9 /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
 		60E581AE27F190E4008CE5A9 /* PromotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD338026CDECC90081A846 /* PromotionViewController.swift */; };
 		60E581AF27F190E4008CE5A9 /* P2PUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9FF2695573300941BDD /* P2PUseCase.swift */; };
-		60E581B227F190E4008CE5A9 /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
 		60E581B427F190E4008CE5A9 /* Maintenance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60AC5C0E27683190008F0281 /* Maintenance.storyboard */; };
 		60E581B527F190E4008CE5A9 /* NextLevelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D17954526A65A86001C8BF8 /* NextLevelTableViewCell.xib */; };
 		60E581B627F190E4008CE5A9 /* DatePickerPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D02BBFB27D0C6FA00824F53 /* DatePickerPopup.xib */; };
@@ -1690,19 +1690,12 @@
 		60E581EC27F190E4008CE5A9 /* Date.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 600E247426CCAB9A00D8B073 /* Date.storyboard */; };
 		60E581ED27F190E4008CE5A9 /* ring1_cs_animation.ai in Resources */ = {isa = PBXBuildFile; fileRef = 6D9938A1271E72440068A616 /* ring1_cs_animation.ai */; };
 		60E581EE27F190E4008CE5A9 /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
-		60E581F027F190E4008CE5A9 /* sharedbu.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		60E7B80527B63A7900A15D42 /* ThirdPartyDepositViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E7B80427B63A7900A15D42 /* ThirdPartyDepositViewModel.swift */; };
 		60E7B80627B63A7900A15D42 /* ThirdPartyDepositViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E7B80427B63A7900A15D42 /* ThirdPartyDepositViewModel.swift */; };
 		60E7B80727B63A7900A15D42 /* ThirdPartyDepositViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E7B80427B63A7900A15D42 /* ThirdPartyDepositViewModel.swift */; };
 		60EDDF37274793940096890D /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EDDF36274793940096890D /* IntExtension.swift */; };
 		60EDDF38274793940096890D /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EDDF36274793940096890D /* IntExtension.swift */; };
 		60EDDF39274793940096890D /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EDDF36274793940096890D /* IntExtension.swift */; };
-		60F405F727C4D0C3003028C9 /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
-		60F405F827C4D0C3003028C9 /* sharedbu.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		60F405FA27C4D0F9003028C9 /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
-		60F405FB27C4D0F9003028C9 /* sharedbu.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		60F405FC27C4D0FE003028C9 /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
-		60F405FD27C4D0FE003028C9 /* sharedbu.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		60F537EB26F0A4430043B4C0 /* TransactionLogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F537EA26F0A4430043B4C0 /* TransactionLogTableViewCell.swift */; };
 		60F537EC26F0A4430043B4C0 /* TransactionLogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F537EA26F0A4430043B4C0 /* TransactionLogTableViewCell.swift */; };
 		60F537ED26F0A4430043B4C0 /* TransactionLogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F537EA26F0A4430043B4C0 /* TransactionLogTableViewCell.swift */; };
@@ -2645,7 +2638,6 @@
 		6D966D3B27FEE3FA006086B7 /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
 		6D966D3C27FEE3FA006086B7 /* PromotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD338026CDECC90081A846 /* PromotionViewController.swift */; };
 		6D966D3D27FEE3FA006086B7 /* P2PUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9FF2695573300941BDD /* P2PUseCase.swift */; };
-		6D966D3F27FEE3FA006086B7 /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
 		6D966D4227FEE3FA006086B7 /* Maintenance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60AC5C0E27683190008F0281 /* Maintenance.storyboard */; };
 		6D966D4327FEE3FA006086B7 /* NextLevelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D17954526A65A86001C8BF8 /* NextLevelTableViewCell.xib */; };
 		6D966D4427FEE3FA006086B7 /* DatePickerPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D02BBFB27D0C6FA00824F53 /* DatePickerPopup.xib */; };
@@ -2706,7 +2698,6 @@
 		6D966D7B27FEE3FA006086B7 /* Date.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 600E247426CCAB9A00D8B073 /* Date.storyboard */; };
 		6D966D7C27FEE3FA006086B7 /* ring1_cs_animation.ai in Resources */ = {isa = PBXBuildFile; fileRef = 6D9938A1271E72440068A616 /* ring1_cs_animation.ai */; };
 		6D966D7D27FEE3FA006086B7 /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
-		6D966D7F27FEE3FA006086B7 /* sharedbu.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D966D8B27FEE416006086B7 /* CloseSystemDialogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C642272741FE6900868D6A /* CloseSystemDialogTableViewCell.swift */; };
 		6D966D8C27FEE416006086B7 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		6D966D8D27FEE416006086B7 /* DepositLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC9A279551FF00794145 /* DepositLogViewModel.swift */; };
@@ -3218,7 +3209,6 @@
 		6D966F8827FEE416006086B7 /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
 		6D966F8927FEE416006086B7 /* PromotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD338026CDECC90081A846 /* PromotionViewController.swift */; };
 		6D966F8A27FEE416006086B7 /* P2PUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9FF2695573300941BDD /* P2PUseCase.swift */; };
-		6D966F8C27FEE416006086B7 /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
 		6D966F8F27FEE416006086B7 /* Maintenance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60AC5C0E27683190008F0281 /* Maintenance.storyboard */; };
 		6D966F9027FEE416006086B7 /* NextLevelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D17954526A65A86001C8BF8 /* NextLevelTableViewCell.xib */; };
 		6D966F9127FEE416006086B7 /* DatePickerPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D02BBFB27D0C6FA00824F53 /* DatePickerPopup.xib */; };
@@ -3279,7 +3269,6 @@
 		6D966FC827FEE416006086B7 /* Date.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 600E247426CCAB9A00D8B073 /* Date.storyboard */; };
 		6D966FC927FEE416006086B7 /* ring1_cs_animation.ai in Resources */ = {isa = PBXBuildFile; fileRef = 6D9938A1271E72440068A616 /* ring1_cs_animation.ai */; };
 		6D966FCA27FEE416006086B7 /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
-		6D966FCC27FEE416006086B7 /* sharedbu.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D966FD827FEE42B006086B7 /* DepositAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC8D2795190200794145 /* DepositAdapter.swift */; };
 		6D966FD927FEE42B006086B7 /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B80261EDE1700E89EE6 /* Units.swift */; };
 		6D966FDA27FEE42B006086B7 /* WithdrawalCryptoRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D29221A26806310009404BA /* WithdrawalCryptoRequestViewController.swift */; };
@@ -3789,7 +3778,6 @@
 		6D9671D327FEE42B006086B7 /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
 		6D9671D427FEE42B006086B7 /* P2PRecordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA88BF42696F203008D77B9 /* P2PRecordUseCase.swift */; };
 		6D9671D527FEE42B006086B7 /* WagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BECC0D26F04CAE00BE3F99 /* WagerType.swift */; };
-		6D9671D827FEE42B006086B7 /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
 		6D9671DA27FEE42B006086B7 /* NextLevelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D17954526A65A86001C8BF8 /* NextLevelTableViewCell.xib */; };
 		6D9671DB27FEE42B006086B7 /* cs_connection.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D993892271E6AFD0068A616 /* cs_connection.json */; };
 		6D9671DC27FEE42B006086B7 /* DatePickerPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D02BBFB27D0C6FA00824F53 /* DatePickerPopup.xib */; };
@@ -3850,7 +3838,6 @@
 		6D96721327FEE42B006086B7 /* Date.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 600E247426CCAB9A00D8B073 /* Date.storyboard */; };
 		6D96721427FEE42B006086B7 /* ring1_cs_animation.ai in Resources */ = {isa = PBXBuildFile; fileRef = 6D9938A1271E72440068A616 /* ring1_cs_animation.ai */; };
 		6D96721527FEE42B006086B7 /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
-		6D96721927FEE42B006086B7 /* sharedbu.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D96722327FEE5B0006086B7 /* ktobet-asia-ios-prod-backup-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D96722027FEE5B0006086B7 /* ktobet-asia-ios-prod-backup-Info.plist */; };
 		6D96722427FEE5B0006086B7 /* ktobet-asia-ios-prod-selftest-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D96722127FEE5B0006086B7 /* ktobet-asia-ios-prod-selftest-Info.plist */; };
 		6D96722527FEE5B0006086B7 /* ktobet-asia-ios-qat3-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D96722227FEE5B0006086B7 /* ktobet-asia-ios-qat3-Info.plist */; };
@@ -4101,7 +4088,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				60F405FD27C4D0FE003028C9 /* sharedbu.xcframework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4112,7 +4098,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				60F405FB27C4D0F9003028C9 /* sharedbu.xcframework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4123,7 +4108,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				60E581F027F190E4008CE5A9 /* sharedbu.xcframework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4134,7 +4118,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				60F405F827C4D0C3003028C9 /* sharedbu.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4145,7 +4128,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6D966D7F27FEE3FA006086B7 /* sharedbu.xcframework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4156,7 +4138,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6D966FCC27FEE416006086B7 /* sharedbu.xcframework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4167,7 +4148,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6D96721927FEE42B006086B7 /* sharedbu.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4539,6 +4519,7 @@
 		60AC5C0A2766E7F7008F0281 /* PortalMaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalMaintenanceViewController.swift; sourceTree = "<group>"; };
 		60AC5C0E27683190008F0281 /* Maintenance.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Maintenance.storyboard; sourceTree = "<group>"; };
 		60AE474B25DD19DD00AE9B5E /* DepositOfflineConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositOfflineConfirmViewController.swift; sourceTree = "<group>"; };
+		60BAC1682846270C00553D8A /* sharedbu.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sharedbu.xcframework; path = ../kto_shared_bu/sharedbu/build/XCFrameworks/release/sharedbu.xcframework; sourceTree = "<group>"; };
 		60BCC2BD25B6821200C56D6E /* slideMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = slideMenu.storyboard; sourceTree = "<group>"; };
 		60BCC2C925B6AB2E00C56D6E /* PlayerDataUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDataUseCase.swift; sourceTree = "<group>"; };
 		60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
@@ -4571,7 +4552,6 @@
 		60E581F627F190E4008CE5A9 /* ktobet-asia-ios-production.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-production.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E7B80427B63A7900A15D42 /* ThirdPartyDepositViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartyDepositViewModel.swift; sourceTree = "<group>"; };
 		60EDDF36274793940096890D /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
-		60F405F627C4D0C3003028C9 /* sharedbu.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sharedbu.xcframework; path = Pods/sharedbu/sharedbu/build/XCFrameworks/release/sharedbu.xcframework; sourceTree = "<group>"; };
 		60F537EA26F0A4430043B4C0 /* TransactionLogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionLogTableViewCell.swift; sourceTree = "<group>"; };
 		60F894A827E2C9C400FC92D9 /* NotificationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSearchViewController.swift; sourceTree = "<group>"; };
 		60FB338B27F5707D0014B866 /* ktobet-asia-ios-production-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-production-Info.plist"; sourceTree = "<group>"; };
@@ -4580,7 +4560,6 @@
 		60FE05BC27CEFF0600B7914A /* Common.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Common.storyboard; sourceTree = "<group>"; };
 		60FE05C027CEFF5D00B7914A /* CommonVerifyOtpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonVerifyOtpViewController.swift; sourceTree = "<group>"; };
 		60FE05C427CF082100B7914A /* OldEmailVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldEmailVerifyViewController.swift; sourceTree = "<group>"; };
-		60FF74B727C48C1F0078EFE3 /* sharedbu.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sharedbu.xcframework; path = ../kto_shared_bu/sharedbu/build/XCFrameworks/debug/sharedbu.xcframework; sourceTree = "<group>"; };
 		6D00CA722649348700C0CEC9 /* DisplayProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayProduct.swift; sourceTree = "<group>"; };
 		6D02BBF327D097B500824F53 /* SetBirthdayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetBirthdayViewController.swift; sourceTree = "<group>"; };
 		6D02BBF727D0BBC900824F53 /* DatePickerPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerPopup.swift; sourceTree = "<group>"; };
@@ -4817,8 +4796,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60BAC1692846270C00553D8A /* sharedbu.xcframework in Frameworks */,
 				36B25B99C4C51F7B4DBE7022 /* (null) in Frameworks */,
-				60F405F727C4D0C3003028C9 /* sharedbu.xcframework in Frameworks */,
 				6BD79E3CD326C49EBC8EDCBC /* Pods_ktobet_asia_ios_qat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4844,7 +4823,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				16DFE0C9C2D40DC82C8CB57A /* Pods_ktobet_asia_ios.framework in Frameworks */,
-				60F405FC27C4D0FE003028C9 /* sharedbu.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4853,7 +4831,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D7526F526D8CD3108747E0B /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
-				60F405FA27C4D0F9003028C9 /* sharedbu.xcframework in Frameworks */,
 				1CF06C02A6512DB1ADB9C616 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4862,7 +4839,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60E581B227F190E4008CE5A9 /* sharedbu.xcframework in Frameworks */,
 				14015EC86E821C390DD2103F /* (null) in Frameworks */,
 				9D251F82C849689504792088 /* Pods_ktobet_asia_ios_production.framework in Frameworks */,
 			);
@@ -4872,7 +4848,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D966D3F27FEE3FA006086B7 /* sharedbu.xcframework in Frameworks */,
 				83510DF143C79CCDF214AFF7 /* Pods_ktobet_asia_ios_prod_selftest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4881,7 +4856,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D966F8C27FEE416006086B7 /* sharedbu.xcframework in Frameworks */,
 				43E162807800D161516E3EDC /* Pods_ktobet_asia_ios_prod_backup.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4890,7 +4864,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D9671D827FEE42B006086B7 /* sharedbu.xcframework in Frameworks */,
 				F2F8110681BE27C716069CB2 /* Pods_ktobet_asia_ios_qat3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5466,9 +5439,8 @@
 		4C474D9E99E3A650D6F478B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				60FF74B727C48C1F0078EFE3 /* sharedbu.xcframework */,
-				60F405F627C4D0C3003028C9 /* sharedbu.xcframework */,
 				3439EB7929E175EF3BC7A116 /* Pods_ktobet_asia_ios.framework */,
+				60BAC1682846270C00553D8A /* sharedbu.xcframework */,
 				C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */,
 				30DFCC5EC3774654AD6E39A8 /* libPods-ktobet-asia-iosTests.a */,
 				19630262B3438BDC7A8408C7 /* libPods-ktobet-asia-iosUITests.a */,

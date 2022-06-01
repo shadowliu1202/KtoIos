@@ -60,7 +60,7 @@ class SetBirthdayViewController: APPViewController, AuthProfileVerification {
         self.view.addSubview(calendarBackground)
         let locale = viewModel.locale
         let dateStr = birthdayInput.textContent.text
-        let initDate = dateStr?.toDate(format: "yyy/MM/dd", timeZone: TimeZone(abbreviation: "UTC")!) ?? Date.getMinimumAdultBirthday()
+        let initDate = dateStr?.toDate(format: "yyy/MM/dd", timeZone: Foundation.TimeZone(abbreviation: "UTC")!) ?? Date.getMinimumAdultBirthday()
         let datePickerPopup = DatePickerPopup(locale: locale, initDate: initDate, self)
         self.view.addSubview(datePickerPopup, constraints: [
             .equal(\.centerXAnchor),

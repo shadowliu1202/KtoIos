@@ -206,7 +206,7 @@ struct WithdrawalCryptoDetailView_Previews: PreviewProvider {
 
 class WithdrawalCryptoPreviewData {
     var withdrawalRecord: WithdrawalRecord {
-        WithdrawalRecord(transactionTransactionType: TransactionType.cryptowithdrawal, displayId: "displayId", transactionStatus: TransactionStatus.approved, createDate: Date().convertDateToOffsetDateTime(), cashAmount: AccountCurrency(tempAmount: BignumBigDecimal.companion.fromInt(int: 200), simpleName: "", symbol: ""), isPendingHold: true, groupDay: Kotlinx_datetimeLocalDate.init(year: 1999, month: Kotlinx_datetimeMonth.october, dayOfMonth: 1))
+        WithdrawalRecord(transactionTransactionType: TransactionType.cryptowithdrawal, displayId: "displayId", transactionStatus: TransactionStatus.approved, createDate: Date().convertDateToOffsetDateTime(), cashAmount: AccountCurrency(tempAmount: BignumBigDecimal.companion.fromInt(int: 200), simpleName: "", symbol: ""), isPendingHold: true, groupDay: SharedBu.LocalDate.init(year: 1999, month: SharedBu.Month.october, dayOfMonth: 1))
     }
     
     var requestCryptoAmount: CryptoExchangeRecord {

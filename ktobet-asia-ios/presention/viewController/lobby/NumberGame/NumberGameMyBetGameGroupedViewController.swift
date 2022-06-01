@@ -13,7 +13,7 @@ class NumberGameMyBetGameGroupedViewController: APPViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     
-    var betDate: Kotlinx_datetimeLocalDate!
+    var betDate: SharedBu.LocalDate!
     var betStatus: NumberGameSummary.CompanionStatus!
     
     fileprivate var activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
@@ -109,7 +109,7 @@ class NumberGameMyBetGameGroupedViewController: APPViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == NumberGameDetailViewController.segueIdentifier {
             if let dest = segue.destination as? NumberGameDetailViewController {
-                let parameter = sender as! (gameId: Int32, status: NumberGameSummary.CompanionStatus, betDate: Kotlinx_datetimeLocalDate, gameName: String)
+                let parameter = sender as! (gameId: Int32, status: NumberGameSummary.CompanionStatus, betDate: SharedBu.LocalDate, gameName: String)
                 dest.betDate = parameter.betDate
                 dest.betStatus = parameter.status
                 dest.gameName = parameter.gameName

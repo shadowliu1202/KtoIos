@@ -10,12 +10,13 @@ protocol AppVersionUpdateUseCase {
 class AppVersionUpdateUseCaseImpl: AppVersionUpdateUseCase {
     var repo : AppUpdateRepository!
     var playerConf: PlayerConfiguration!
-    private var timezone: TimeZone!
+    private var timezone: Foundation.TimeZone!
     
     init(_ repo : AppUpdateRepository, _ playerConfiguration: PlayerConfiguration) {
         self.repo = repo
         self.playerConf = playerConfiguration
         self.timezone = self.playerConf.localeTimeZone()
+
     }
     
     func getLatestAppVersion() -> Single<Version> {

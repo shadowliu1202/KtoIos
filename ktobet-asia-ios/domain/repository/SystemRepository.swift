@@ -68,7 +68,7 @@ class SystemRepositoryImpl : SystemRepository{
             .catchError({ [weak self] error in
             guard let self = self else { return Single.error(error) }
             if error.isMaintenance() {
-                return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
+                return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: KotlinInt.init(value: self.getMaintenanceTimeFromCookies())))
             } else {
                 return Single.error(error)
             }

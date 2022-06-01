@@ -5,9 +5,9 @@ import RxSwift
 protocol SlotRecordUseCase {
     func getBetSummary() -> Single<BetSummary>
     func getSlotGameRecordByDate(localDate: String) -> Single<[SlotGroupedRecord]>
-    func getBetRecordByPage(startDate: String, endDate: String, gameId: Int32, offset: Int, take: Int) -> Single<CommonPage<SlotBetRecord>>
+    func getBetRecordByPage(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32, offset: Int, take: Int) -> Single<CommonPage<SlotBetRecord>>
     func getUnsettledSummary() -> Single<[SlotUnsettledSummary]>
-    func getUnsettledRecords(betTime: Kotlinx_datetimeLocalDateTime, offset: Int, take: Int) -> Single<CommonPage<SlotUnsettledRecord>>
+    func getUnsettledRecords(betTime: SharedBu.LocalDateTime, offset: Int, take: Int) -> Single<CommonPage<SlotUnsettledRecord>>
 }
 
 class SlotRecordUseCaseImpl: SlotRecordUseCase {
@@ -33,11 +33,8 @@ class SlotRecordUseCaseImpl: SlotRecordUseCase {
         }
     }
     
-    func getBetRecordByPage(startDate: String, endDate: String, gameId: Int32, offset: Int, take: Int) -> Single<CommonPage<SlotBetRecord>> {
-        let zoneOffset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
-        return zoneOffset.flatMap { [unowned self] (zoneOffset) -> Single<CommonPage<SlotBetRecord>> in
-            return self.slotRecordRepository.getBetRecords(startDate: startDate, endDate: endDate, gameId: gameId, offset: offset, take: take)
-        }
+    func getBetRecordByPage(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32, offset: Int, take: Int) -> Single<CommonPage<SlotBetRecord>> {
+        slotRecordRepository.getBetRecords(startDate: startDate, endDate: endDate, gameId: gameId, offset: offset, take: take)
     }
     
     func getUnsettledSummary() -> Single<[SlotUnsettledSummary]> {
@@ -48,7 +45,7 @@ class SlotRecordUseCaseImpl: SlotRecordUseCase {
         
     }
     
-    func getUnsettledRecords(betTime: Kotlinx_datetimeLocalDateTime, offset: Int, take: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
+    func getUnsettledRecords(betTime: SharedBu.LocalDateTime, offset: Int, take: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
         return slotRecordRepository.getUnsettledRecords(betTime: betTime, offset: offset, take: take)
     }
 }
