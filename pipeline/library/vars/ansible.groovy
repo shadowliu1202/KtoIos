@@ -47,9 +47,9 @@ def publishIosVersionToQat(def versionCore, def preRelease, def buildNumber, def
             remote.identityFile = keyFile
             remote.allowAnyHosts = true
 
-            // sshCommand remote: remote, command: """
-            //     ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$publishVersion ipa_size=$size download_url=$download_url" -i /data-disk/brand-team/${buildEnviroment.toLowerCase()}.ini
-            // """
+            sshCommand remote: remote, command: """
+                ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TIMEOUT=30; ansible-playbook -v /data-disk/brand-team/deploy-kto-ios-ipa.yml -u root --extra-vars "apkFeed=kto-asia tag=$publishVersion ipa_size=$size download_url=$download_url" -i /data-disk/brand-team/${buildEnviroment.toLowerCase()}.ini
+            """
         }
     }
 }
