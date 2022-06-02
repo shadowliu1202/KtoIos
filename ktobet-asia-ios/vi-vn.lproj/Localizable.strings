@@ -63,6 +63,8 @@
 "cps_crypto_currency_guide_hint" = "";
 "cps_crypto_currency_guide_title" = "";
 "cps_crypto_guidance_description" = "";
+"cps_crypto_currency_deposit_times_hint" = "每笔 %@ %%红利,每日上限 %@ 元，1倍流水";
+"cps_withdrawal_all_fiat_first" = "";
 
 //MARK: - Common
 "common_kto" = "KTO";
@@ -830,6 +832,8 @@ Cám ơn.";
 "product_dealer" = "Nhà Cái";
 "product_player" = "Người Chơi";
 "product_split" = "Tách Bài";
+"product_favorite_reach_max" = "Đã đạt số Trò Chơi Yêu Thích tối đa, vui lòng xóa bớt trước khi thêm mới.";
+"product_search_condition_not_match" = "Vui lòng điền hơn 2 ký tự để tìm kiếm";
 
 //MARK: - Update
 "update_new_version_content" = "Phiên Bản Mới đã được phát hành, vui lòng cập nhật trước khi tiếp tục.";
