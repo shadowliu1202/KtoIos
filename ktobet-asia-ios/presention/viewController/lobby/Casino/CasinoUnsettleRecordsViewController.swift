@@ -37,7 +37,7 @@ class CasinoUnsettleRecordsViewController: AppVersionCheckViewController {
     private func getUnsettledRecords() {
         viewModel.getUnsettledRecords().subscribe(onNext: {[weak self] (dic) in
             for (date, records) in dic {
-                self?.sections.append(Section(sectionClass: date.replacingOccurrences(of: "-", with: "/"),
+                self?.sections.append(Section(sectionClass: date.date.toDateFormatString(),
                                               name: records.map{ $0.gameName },
                                               betId: records.map{ $0.betId },
                                               totalAmount: records.map{ $0.stakes },

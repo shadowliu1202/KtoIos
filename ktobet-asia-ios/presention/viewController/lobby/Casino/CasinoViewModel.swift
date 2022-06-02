@@ -34,7 +34,7 @@ class CasinoViewModel: KTOViewModel {
     private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
     
     lazy var betSummary = casinoRecordUseCase.getBetSummary()
-    var betTime: [String] = []
+    var betTime: [SharedBu.LocalDateTime] = []
     var pagination: Pagination<BetRecord>!
     var periodOfRecord: PeriodOfRecord!
     var section: Int = 0
@@ -96,14 +96,14 @@ class CasinoViewModel: KTOViewModel {
     }
     
     func getUnsettledBetSummary() -> Observable<[UnsettledBetSummary]> {
-        return casinoRecordUseCase.getUnsettledSummary().do(onSuccess: { $0.forEach{ self.betTime.append("\($0.betTime.date)") } }).asObservable()
+        return casinoRecordUseCase.getUnsettledSummary().do(onSuccess: { $0.forEach{ self.betTime.append($0.betTime) } }).asObservable()
     }
     
-    func getUnsettledRecords(betTime: String) -> Single<[String: [UnsettledBetRecord]]> {
+    func getUnsettledRecords(betTime: SharedBu.LocalDateTime) -> Single<[SharedBu.LocalDateTime: [UnsettledBetRecord]]> {
         return casinoRecordUseCase.getUnsettledRecords(date: betTime).map{ [betTime: $0] }
     }
     
-    func getUnsettledRecords() -> Observable<[String: [UnsettledBetRecord]]> {
+    func getUnsettledRecords() -> Observable<[SharedBu.LocalDateTime: [UnsettledBetRecord]]> {
         let allObservables = betTime.map{ getUnsettledRecords(betTime: $0).asObservable() }
         return Observable.merge(allObservables)
     }
