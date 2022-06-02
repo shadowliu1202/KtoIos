@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,7 +29,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="EeE-kT-q6T">
                                 <rect key="frame" x="12" y="12" width="80.5" height="103"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJF-wP-mdi">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJF-wP-mdi">
                                         <rect key="frame" x="0.0" y="0.0" width="31" height="17"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="12"/>
                                         <color key="textColor" name="textPrimaryDustyGray"/>
@@ -98,7 +98,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mel-qm-1cd">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mel-qm-1cd">
                                 <rect key="frame" x="318.5" y="12" width="35.5" height="20"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                 <color key="textColor" name="whiteFull"/>
@@ -161,12 +161,13 @@
                             <constraint firstAttribute="trailing" secondItem="yvR-px-HGq" secondAttribute="trailing" id="V5f-bF-0Gr"/>
                             <constraint firstItem="7jP-Hh-mq7" firstAttribute="top" secondItem="frn-k6-kyr" secondAttribute="bottom" constant="28" id="YVQ-kz-XCb"/>
                             <constraint firstItem="mel-qm-1cd" firstAttribute="top" secondItem="bGj-1V-TFq" secondAttribute="top" constant="12" id="Ze4-9C-9Ic"/>
+                            <constraint firstItem="mel-qm-1cd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EeE-kT-q6T" secondAttribute="trailing" constant="12" id="b5L-Ro-ZK5"/>
                             <constraint firstItem="yW2-4C-tSw" firstAttribute="centerX" secondItem="mel-qm-1cd" secondAttribute="centerX" id="f6V-8U-2QF"/>
                             <constraint firstItem="frn-k6-kyr" firstAttribute="top" secondItem="EeE-kT-q6T" secondAttribute="bottom" constant="12" id="h9e-0u-h1y"/>
                             <constraint firstItem="EeE-kT-q6T" firstAttribute="leading" secondItem="bGj-1V-TFq" secondAttribute="leading" constant="12" id="hBC-sm-5Ub"/>
                             <constraint firstItem="EeE-kT-q6T" firstAttribute="top" secondItem="bGj-1V-TFq" secondAttribute="top" constant="12" id="hOF-57-uQf"/>
                             <constraint firstAttribute="trailing" secondItem="mel-qm-1cd" secondAttribute="trailing" constant="12" id="rr7-QI-J4n"/>
-                            <constraint firstItem="zck-Rc-cPV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EeE-kT-q6T" secondAttribute="trailing" constant="12" id="x9B-lv-8WD"/>
+                            <constraint firstItem="zck-Rc-cPV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EeE-kT-q6T" secondAttribute="trailing" constant="12" id="xTV-S4-iXb"/>
                             <constraint firstItem="frn-k6-kyr" firstAttribute="leading" secondItem="bGj-1V-TFq" secondAttribute="leading" constant="12" id="ygg-CR-vHv"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>

@@ -18,11 +18,11 @@
         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sA6-ou-3DE">
             <rect key="frame" x="0.0" y="0.0" width="366" height="48"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconDatePicker24" translatesAutoresizingMaskIntoConstraints="NO" id="DtK-yX-75b">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" image="iconDatePicker24" translatesAutoresizingMaskIntoConstraints="NO" id="DtK-yX-75b">
                     <rect key="frame" x="12" y="14" width="20" height="20"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最近7天" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DYq-Go-1Xb">
-                    <rect key="frame" x="40" y="14" width="50" height="20"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="最近7天" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DYq-Go-1Xb">
+                    <rect key="frame" x="40" y="14" width="300" height="20"/>
                     <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
                     <color key="textColor" name="textPrimaryDustyGray"/>
                     <nil key="highlightedColor"/>
@@ -30,8 +30,11 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_last7day"/>
                     </userDefinedRuntimeAttributes>
                 </label>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconChevronRight16" translatesAutoresizingMaskIntoConstraints="NO" id="PNX-r7-bCq">
-                    <rect key="frame" x="338" y="16" width="16" height="16"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" image="iconChevronRight16" translatesAutoresizingMaskIntoConstraints="NO" id="PNX-r7-bCq">
+                    <rect key="frame" x="340" y="16" width="16" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="16" id="HkU-zS-E2h"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="MWE-Mc-XMH"/>
@@ -39,9 +42,10 @@
             <constraints>
                 <constraint firstItem="PNX-r7-bCq" firstAttribute="centerY" secondItem="sA6-ou-3DE" secondAttribute="centerY" id="5p8-EV-bQI"/>
                 <constraint firstItem="DtK-yX-75b" firstAttribute="leading" secondItem="sA6-ou-3DE" secondAttribute="leading" constant="12" id="GDe-6E-EAd"/>
+                <constraint firstItem="PNX-r7-bCq" firstAttribute="leading" secondItem="DYq-Go-1Xb" secondAttribute="trailing" priority="999" id="ICj-X0-Y4d"/>
                 <constraint firstItem="DYq-Go-1Xb" firstAttribute="leading" secondItem="DtK-yX-75b" secondAttribute="trailing" constant="8" id="QoO-fc-3Pt"/>
                 <constraint firstItem="DYq-Go-1Xb" firstAttribute="centerY" secondItem="sA6-ou-3DE" secondAttribute="centerY" id="j1x-MY-74I"/>
-                <constraint firstAttribute="trailing" secondItem="PNX-r7-bCq" secondAttribute="trailing" constant="12" id="q0t-zg-2sM"/>
+                <constraint firstAttribute="trailing" secondItem="PNX-r7-bCq" secondAttribute="trailing" constant="10" id="q0t-zg-2sM"/>
                 <constraint firstItem="DtK-yX-75b" firstAttribute="centerY" secondItem="sA6-ou-3DE" secondAttribute="centerY" id="u3t-EM-dZW"/>
                 <constraint firstAttribute="height" constant="48" id="x2y-ti-Jld"/>
             </constraints>

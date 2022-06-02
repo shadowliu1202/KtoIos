@@ -8,6 +8,7 @@ class PortalMaintenanceViewController: APPViewController {
     @IBOutlet weak var hourLabel: UILabel!
     @IBOutlet weak var minuteLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
+    @IBOutlet var titleTextView: UITextView!
     
     private var viewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -16,6 +17,9 @@ class PortalMaintenanceViewController: APPViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initTitleTextViewAttributes(titleTextView)
+        
         viewModel.output.customerServiceEmail.drive(onNext: {[weak self] email in
             self?.csEmailButton.setTitle(Localize.string("common_cs_email", email), for: .normal)
         }).disposed(by: disposeBag)
@@ -41,6 +45,18 @@ class PortalMaintenanceViewController: APPViewController {
                 }
             }
         }).disposed(by: disposeBag)
+    }
+    
+    func initTitleTextViewAttributes(_ textView: UITextView) {
+        textView.textContainerInset = .zero
+        let suffix = Localize.string("common_kto")
+        let maintenance = Localize.string("product_maintenance_title", suffix)
+        let txt = AttribTextHolder(text: maintenance)
+            .addAttr((text: maintenance, type: .color, UIColor.textPrimaryDustyGray))
+            .addAttr((text: maintenance, type: .font, UIFont.init(name: "PingFangSC-Semibold", size: 24)!))
+            .addAttr((text: suffix, type: .color, UIColor.red))
+            .addAttr((text: maintenance, type: .center, ""))
+        txt.setTo(textView: textView)
     }
     
     private func initCountDownTimer(secondsToPortalActive: Int32) {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -228,7 +228,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="yDK-88-Cpi">
-                                                    <rect key="frame" x="0.0" y="502" width="414" height="92"/>
+                                                    <rect key="frame" x="0.0" y="506" width="414" height="92"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qa8-kl-Nwt">
@@ -321,23 +321,20 @@
                                                         </connections>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LevelDetail2TableViewCell" id="fqI-zu-InF" customClass="LevelDetail2TableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="144.5" width="414" height="64.5"/>
+                                                        <rect key="frame" x="0.0" y="144.5" width="414" height="68.5"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fqI-zu-InF" id="XzU-lf-n2A">
-                                                            <rect key="frame" x="0.0" y="0.0" width="414" height="64.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="414" height="68.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Chc-8d-aeN">
-                                                                    <rect key="frame" x="40" y="16" width="52" height="24"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="24" id="Cb1-31-28n"/>
-                                                                    </constraints>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Chc-8d-aeN">
+                                                                    <rect key="frame" x="40" y="16" width="334" height="28.5"/>
                                                                     <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="20"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hoO-Zf-Jse">
-                                                                    <rect key="frame" x="40" y="48" width="0.0" height="0.5"/>
+                                                                    <rect key="frame" x="40" y="52.5" width="334" height="0.0"/>
                                                                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                                                     <color key="textColor" name="textSecondaryScorpionGray"/>
                                                                     <nil key="highlightedColor"/>
@@ -348,7 +345,9 @@
                                                                 <constraint firstItem="Chc-8d-aeN" firstAttribute="top" secondItem="XzU-lf-n2A" secondAttribute="top" constant="16" id="1xq-rk-e1o"/>
                                                                 <constraint firstAttribute="bottom" secondItem="hoO-Zf-Jse" secondAttribute="bottom" constant="16" id="J2M-9k-2Xi"/>
                                                                 <constraint firstItem="hoO-Zf-Jse" firstAttribute="top" secondItem="Chc-8d-aeN" secondAttribute="bottom" constant="8" id="Z2G-OS-QIs"/>
+                                                                <constraint firstItem="hoO-Zf-Jse" firstAttribute="trailing" secondItem="Chc-8d-aeN" secondAttribute="trailing" id="hxl-uB-Lyl"/>
                                                                 <constraint firstItem="hoO-Zf-Jse" firstAttribute="leading" secondItem="Chc-8d-aeN" secondAttribute="leading" id="iFm-ru-XWc"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Chc-8d-aeN" secondAttribute="trailing" constant="40" id="zHk-Xv-ihZ"/>
                                                             </constraints>
                                                         </tableViewCellContentView>
                                                         <connections>
@@ -357,7 +356,7 @@
                                                         </connections>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LevelDetailImageTableViewCell" id="bb6-ei-XnD" customClass="LevelDetailImageTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="209" width="414" height="270.5"/>
+                                                        <rect key="frame" x="0.0" y="213" width="414" height="270.5"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bb6-ei-XnD" id="jaa-dC-qdD">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="270.5"/>

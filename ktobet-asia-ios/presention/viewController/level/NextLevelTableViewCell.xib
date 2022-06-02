@@ -18,11 +18,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="303"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目前尚未解锁。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vrv-gd-t3d">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目前尚未解锁。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vrv-gd-t3d">
                         <rect key="frame" x="52" y="74" width="362" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="UQo-b9-kW8"/>
-                        </constraints>
                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
                         <color key="textColor" name="textPrimaryDustyGray"/>
                         <nil key="highlightedColor"/>
@@ -117,7 +114,7 @@
                                     <constraint firstAttribute="height" id="aFI-Rb-muN"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="yPm-KU-FYK">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="yPm-KU-FYK">
                                 <rect key="frame" x="0.0" y="12" width="332" height="173"/>
                             </stackView>
                         </subviews>
