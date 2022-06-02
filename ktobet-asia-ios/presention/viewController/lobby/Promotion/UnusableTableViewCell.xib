@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,16 +31,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="80" height="179"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="sCC-EU-oDH">
-                                        <rect key="frame" x="15" y="39.5" width="50" height="100"/>
+                                        <rect key="frame" x="14" y="39.5" width="56" height="100"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlO-l8-PU3">
-                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="56" height="50"/>
                                                 <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="12"/>
                                                 <color key="textColor" name="whiteFull2"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="arc-Q1-0nw">
-                                                <rect key="frame" x="0.0" y="50" width="50" height="50"/>
+                                                <rect key="frame" x="0.0" y="50" width="56" height="50"/>
                                                 <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="14"/>
                                                 <color key="textColor" name="whiteFull"/>
                                                 <nil key="highlightedColor"/>
@@ -56,11 +56,12 @@
                                 </subviews>
                                 <color key="backgroundColor" name="textPrimaryDustyGray"/>
                                 <constraints>
-                                    <constraint firstItem="sCC-EU-oDH" firstAttribute="centerX" secondItem="9II-VB-lb8" secondAttribute="centerX" id="2PW-vT-6pt"/>
                                     <constraint firstItem="tVB-Sq-aga" firstAttribute="top" secondItem="9II-VB-lb8" secondAttribute="top" id="54A-Yg-hRx"/>
                                     <constraint firstItem="tVB-Sq-aga" firstAttribute="leading" secondItem="9II-VB-lb8" secondAttribute="leading" constant="-4" id="8vT-7B-xYg"/>
                                     <constraint firstAttribute="bottom" secondItem="tVB-Sq-aga" secondAttribute="bottom" id="Bjt-rf-sxM"/>
                                     <constraint firstItem="sCC-EU-oDH" firstAttribute="centerY" secondItem="9II-VB-lb8" secondAttribute="centerY" id="Mvb-vK-IKP"/>
+                                    <constraint firstAttribute="trailing" secondItem="sCC-EU-oDH" secondAttribute="trailing" constant="10" id="k6P-eJ-jc1"/>
+                                    <constraint firstItem="sCC-EU-oDH" firstAttribute="leading" secondItem="tVB-Sq-aga" secondAttribute="trailing" constant="10" id="l5U-NV-bbt"/>
                                     <constraint firstAttribute="width" constant="80" id="pvO-mu-IKw"/>
                                 </constraints>
                             </view>

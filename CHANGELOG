@@ -1,1 +1,5 @@
-APP-2806 [iOS][GPI] 提供 Arcade 交易紀錄並可領取優惠券 //已實作
+APP-3121 [iOS][CS] VND 聊天紀錄內系統歡迎文字最後方部分文字被截斷 //已修正
+APP-3130 [iOS][CS] VND 聊天室打字框內 "輸入文字" 提示未翻譯為越南文 //不需要有”輸入文字”，因此已移除。
+APP-3131 [iOS][CS] VND Photo Picker 內文字未翻譯為越南文 //已修正
+APP-3126 [iOS][CS] VND 編輯聊天紀錄頁，全選/取消全選 按鈕文字顯示不完整 //已修正
+APP-3132 [iOS][CS] VND Photo Picker 挑選不合法檔案時，Toast 提示文字後方被截斷 //已修正

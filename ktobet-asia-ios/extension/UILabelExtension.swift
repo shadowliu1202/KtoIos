@@ -32,6 +32,19 @@ extension UILabel {
         let rect = attributedText.boundingRect(with: CGSize(width: self.frame.size.width, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil)
         return ceil(rect.size.height)
     }
+    
+    var isTruncated: Bool {
+        frame.width < intrinsicContentSize.width
+    }
+    
+    func countLines() -> Int {
+        self.layoutIfNeeded()
+        let myText = self.text! as NSString
+        let attributes = [NSAttributedString.Key.font : self.font]
+
+        let labelSize = myText.boundingRect(with: CGSize(width: self.bounds.width, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes as [NSAttributedString.Key : Any], context: nil)
+        return Int(ceil(CGFloat(labelSize.height) / self.font.lineHeight))
+    }
 }
 
 extension UIFont {

@@ -68,7 +68,7 @@ class CustomerServiceHistoryEditViewController: UIViewController {
             .constraint(.equal, \.trailingAnchor, offset: -16),
             .constraint(.equal, \.bottomAnchor, offset: -16),
             .constraint(.equal, \.heightAnchor, length: 20),
-            .constraint(.equal, \.widthAnchor, length: 56)
+            .constraint(.greaterThanOrEqual, \.widthAnchor, length: 56)
         ])
         self.selectAllBtn = button
     }

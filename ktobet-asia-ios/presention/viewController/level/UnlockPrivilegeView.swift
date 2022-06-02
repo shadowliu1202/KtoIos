@@ -2,9 +2,10 @@ import UIKit
 import SharedBu
 
 class UnlockPrivilegeView: UIView {
-
+    let subTagOneLineHeight: CGFloat = 14
     @IBOutlet weak var stamp: UIView!
     @IBOutlet weak var icon: UIImageView!
+    @IBOutlet weak var tagStack: UIStackView!
     @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var subTagLabel: UILabel!
     @IBOutlet weak var msgLabel: UILabel!
@@ -90,4 +91,15 @@ class UnlockPrivilegeView: UIView {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if subTagLabel.frame.height > subTagOneLineHeight {
+            tagStack.axis = .vertical
+            DispatchQueue.main.async { [weak self] in
+                self?.subTagLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+            }
+        } else {
+            tagStack.axis = .horizontal
+        }
+    }
 }

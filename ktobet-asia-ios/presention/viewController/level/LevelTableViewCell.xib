@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,11 +18,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="329"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Level Up! 恭喜您升级为 Lv ?。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4A-W4-c75">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Level Up! 恭喜您升级为 Lv ?。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4A-W4-c75">
                         <rect key="frame" x="52" y="114" width="362" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="jMo-2i-PCD"/>
-                        </constraints>
                         <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
                         <color key="textColor" name="whiteFull"/>
                         <nil key="highlightedColor"/>
@@ -138,7 +135,7 @@
                                     <constraint firstAttribute="height" id="TRB-RR-pt4"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="qF5-Z9-4kl">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="qF5-Z9-4kl">
                                 <rect key="frame" x="0.0" y="12" width="332" height="159"/>
                             </stackView>
                         </subviews>
@@ -147,7 +144,6 @@
                 <constraints>
                     <constraint firstItem="oNU-vU-Elg" firstAttribute="top" secondItem="rJj-WP-EfI" secondAttribute="bottom" id="2rW-Uc-Vc4"/>
                     <constraint firstItem="NyX-12-AHe" firstAttribute="leading" secondItem="cXT-xa-030" secondAttribute="leading" constant="37" id="4yI-N7-fR2"/>
-                    <constraint firstItem="V4A-W4-c75" firstAttribute="bottom" secondItem="NyX-12-AHe" secondAttribute="bottom" constant="108" id="7aY-GX-gF5"/>
                     <constraint firstItem="Fvm-Ym-nJA" firstAttribute="leading" secondItem="cXT-xa-030" secondAttribute="leading" constant="35" id="9cn-kf-u0J"/>
                     <constraint firstAttribute="bottom" secondItem="oNU-vU-Elg" secondAttribute="bottom" id="Lrl-Uo-5ju"/>
                     <constraint firstAttribute="trailing" secondItem="V4A-W4-c75" secondAttribute="trailing" id="Lxb-lU-avJ"/>
@@ -155,6 +151,7 @@
                     <constraint firstItem="rJj-WP-EfI" firstAttribute="trailing" secondItem="oNU-vU-Elg" secondAttribute="trailing" id="Sx7-z8-s8g"/>
                     <constraint firstItem="Fvm-Ym-nJA" firstAttribute="top" secondItem="cXT-xa-030" secondAttribute="top" id="Tac-1M-4ZE"/>
                     <constraint firstItem="rJj-WP-EfI" firstAttribute="trailing" secondItem="NyX-12-AHe" secondAttribute="trailing" id="YUA-L4-OeK"/>
+                    <constraint firstItem="nK3-iK-3Aq" firstAttribute="top" secondItem="G0b-vd-jZf" secondAttribute="bottom" constant="12" id="aCA-6f-9At"/>
                     <constraint firstItem="V4A-W4-c75" firstAttribute="trailing" secondItem="nK3-iK-3Aq" secondAttribute="trailing" id="cN0-5u-6tY"/>
                     <constraint firstItem="V4A-W4-c75" firstAttribute="top" secondItem="nK3-iK-3Aq" secondAttribute="bottom" constant="4" id="cPt-5w-rBF"/>
                     <constraint firstItem="nK3-iK-3Aq" firstAttribute="centerY" secondItem="hj1-Sa-noo" secondAttribute="centerY" id="e3d-hK-nNe"/>
