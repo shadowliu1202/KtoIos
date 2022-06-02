@@ -31,7 +31,7 @@ merge-job:
         - 'branch_name=$(echo "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME")' 
         - >            
             if ! [[ "${branch_name}" =~ "ci" ]] && ! [[ "${branch_name}" =~ $BRANCH_PATTERN ]]; then                
-                echo "\033[31mBranch name should either be CI related or Jira tickets\033[0;m"
+                echo -e "\033[31mBranch name should either be CI related or Jira tickets\033[0;m"
                 exit 1
             fi;    
         - >
@@ -49,7 +49,7 @@ merge-job:
           echo -e "\033[34;1m Merge Request:$TITLE, Description:$DESCRIPTION\033[0;m"
         - >           
             if ! [[ "${TITLE}" =~ "ci" ]] && [[ "${ISSUE_NAME}" =~ "bug" ]] && ! [[ "${DESCRIPTION}" =~ $BUGFIX_PATTERN ]]; then                
-                echo "\033[31mdescription of fix type should follow pattern as fix:APP-XXX #comment rootcause:xxx \\ solution:xxx\033[0;m"
+                echo -e "\033[31mdescription of fix type should follow pattern as fix:APP-XXX #comment rootcause:xxx \\ solution:xxx\033[0;m"
                 exit 1
             fi;
         - >
