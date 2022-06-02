@@ -143,9 +143,7 @@ class ChatRoomViewController: APPViewController {
                             if self.dataCount - 1 == row && self.dataCount > 1 {
                                 cell = tableView.dequeueReusableCell(withIdentifier: "\(CloseSystemDialogTableViewCell.self)") as! CloseSystemDialogTableViewCell
                                 let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
-                                var str = message
-                                str.insert(contentsOf: "\n", at: str.index(str.firstIndex(where: { $0 == "。" })!, offsetBy: 1))
-                                (cell as! CloseSystemDialogTableViewCell).messageLabel.text = str
+                                (cell as! CloseSystemDialogTableViewCell).messageLabel.text = message
                             } else {
                                 cell = tableView.dequeueReusableCell(withIdentifier: "\(SystemDialogTableViewCell.self)") as! SystemDialogTableViewCell
                                 (cell as! SystemDialogTableViewCell).dateLabel.text = message.createTimeTick.toDateFormatString()
