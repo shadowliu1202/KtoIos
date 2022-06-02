@@ -124,7 +124,8 @@ class AddBankViewModel {
         if !bankNames.contains(self.bankName.value) {
             bankId = 0
         }
-        let newWithdrawalAccount: NewWithdrawalAccount = NewWithdrawalAccount(bankId: bankId, bankName: self.bankName.value, branch: self.branchName.value, location: self.province.value, city: self.county.value, address: "", accountNumber: self.account.value , accountName: self.userName.value)
+        let pureBankName = StringMapper.sharedInstance.splitShortNameAndBankName(bankName: self.bankName.value)
+        let newWithdrawalAccount: NewWithdrawalAccount = NewWithdrawalAccount(bankId: bankId, bankName: pureBankName, branch: self.branchName.value, location: self.province.value, city: self.county.value, address: "", accountNumber: self.account.value , accountName: self.userName.value)
         return withdrawalUseCase.addWithdrawalAccount(newWithdrawalAccount)
     }
 

@@ -108,4 +108,16 @@ class StringMapper {
             return []
         }
     }
+    
+    func splitShortNameAndBankName(bankName: String) -> String {
+        switch localStorageRepo.getSupportLocale() {
+        case is SupportLocale.Vietnam:
+            return bankName.components(separatedBy: ") ").last ?? bankName
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            return bankName
+        default:
+            return bankName
+        }
+            
+    }
 }
