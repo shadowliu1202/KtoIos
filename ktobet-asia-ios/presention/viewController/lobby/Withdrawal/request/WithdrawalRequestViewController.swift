@@ -79,8 +79,8 @@ class WithdrawalRequestViewController: APPViewController, AuthProfileVerificatio
         withdrawalAmountTextField.shouldChangeCharactersIn = {(textField, range, string) -> Bool in
             let candidate = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string).replacingOccurrences(of: ",", with: "")
             if candidate == "" { return true }
-            let isWellFormatted = candidate.range(of: RegularFormat.currencyFormatWithTwoDecimal.rawValue, options: .regularExpression) != nil
-            if isWellFormatted,
+            let isWellFormat = self.wellFormatByLocale(candidate)
+            if isWellFormat,
                 let value = formatter.number(from: candidate)?.doubleValue,
                 value >= 0,
                 value < 99999999 {
@@ -103,6 +103,17 @@ class WithdrawalRequestViewController: APPViewController, AuthProfileVerificatio
         }, onError: { [weak self]  (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
+    }
+    
+    private func wellFormatByLocale(_ string: String) -> Bool {
+        switch localStorageRepo.getSupportLocale() {
+        case is SupportLocale.Vietnam:
+            return string.range(of: RegularFormat.currencyFormat.rawValue, options: .regularExpression) != nil
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return string.range(of: RegularFormat.currencyFormatWithTwoDecimal.rawValue, options: .regularExpression) != nil
+        }
     }
     
     private func withdrawalLimitationDataBinding() {
