@@ -12,6 +12,7 @@ class ManageCryptoBankCardViewModel {
     var selectedCryptoType = BehaviorRelay<String>(value: "")
     lazy var selectedCryptoNetwork = BehaviorRelay<String>(value: "")
     lazy var supportCryptoNetwork = BehaviorRelay<[CryptoNetwork]>(value: [])
+    lazy var isCryptoWithdrawalValid = withdrawalUseCase.isCryptoProcessCertified()
     
     private var withdrawalUseCase: WithdrawalUseCase!
     private let disposeBag = DisposeBag()
