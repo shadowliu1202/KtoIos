@@ -77,7 +77,7 @@ class WithdrawalCryptoRequestConfirmViewController: APPViewController {
                 self.viewModel.requestCryptoWithdrawal(playerCryptoBankCardId: self.request.cardId, requestCryptoAmount: self.request.cryptoAmount.doubleValue, requestFiatAmount: self.request.fiatAmount.doubleValue, cryptoCurrency: self.requestCryptoAmount).subscribe(onCompleted: { [weak self] in
                     self?.popThenToast()
                 }, onError: { [weak self] (error) in
-                    self?.handleKtoError(error)
+                    self?.handleErrors(error)
                 }).disposed(by: self.disposeBag)
             }).disposed(by: disposeBag)
     }
@@ -91,14 +91,17 @@ class WithdrawalCryptoRequestConfirmViewController: APPViewController {
         })
     }
     
-    private func handleKtoError(_ error: Error) {
-        if error is KtoRequestCryptoRateChange {
+    override func handleErrors(_ error: Error) {
+        switch error {
+        case is KtoRequestCryptoRateChange:
             self.delegate?.rateDidChange()
             self.notifyRateChanged()
-        } else if error is KtoPlayerWithdrawalDefective {
+        case is KtoPlayerWithdrawalDefective:
             notifyRequestFailureThenExit()
-        } else {
-            handleErrors(error)
+        case is KtoPlayerNotQualifiedForCryptoWithdrawal:
+            alertPlayerNotQualifiedForCryptoWithdrawal()
+        default:
+            super.handleErrors(error)
         }
     }
     
@@ -108,6 +111,10 @@ class WithdrawalCryptoRequestConfirmViewController: APPViewController {
     
     private func notifyRequestFailureThenExit() {
         displayAlert(nil, Localize.string("withdrawal_fail"))
+    }
+    
+    private func alertPlayerNotQualifiedForCryptoWithdrawal() {
+        Alert.show(nil, Localize.string("cps_withdrawal_all_fiat_first"), confirm: {}, cancel: nil)
     }
     
     private func displayAlert(_ title: String?, _ message: String) {

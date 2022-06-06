@@ -25,6 +25,7 @@ protocol WithdrawalRepository {
     func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem>
     func getIsAnyTicketApplying() -> Single<Bool>
     func getCryptoWithdrawalLimits(cryptoType: SupportCryptoType, cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits>
+    func isCryptoProcessCertified() -> Single<Bool>
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
@@ -260,6 +261,8 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
         let bean = CryptoWithdrawalRequest(playerCryptoBankCardId: playerCryptoBankCardId, requestCryptoAmount: requestCryptoAmount, requestFiatAmount: requestFiatAmount, cryptoCurrency: currencyId)
         return cpsApi.createCryptoWithdrawal(request: bean).catchException(transferLogic: {
             switch $0 {
+            case is PlayerNotQualifiedForCryptoWithdrawal:
+                return KtoPlayerNotQualifiedForCryptoWithdrawal()
             case is PlayerWithdrawalRequestCryptoRateChange:
                 return KtoRequestCryptoRateChange()
             case is PlayerWithdrawalDefective:
@@ -276,5 +279,16 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     func getIsAnyTicketApplying() -> Single<Bool> {
         return bankApi.getIsAnyTicketApplying().map { $0.data }
+    }
+    
+    func isCryptoProcessCertified() -> Single<Bool> {
+        return bankApi.isCryptoProcessCertified().catchException(transferLogic: {
+            switch $0 {
+            case is PlayerNotQualifiedForCryptoWithdrawal:
+                return KtoPlayerNotQualifiedForCryptoWithdrawal()
+            default:
+                return $0
+            }
+        }).map { $0.data }
     }
 }

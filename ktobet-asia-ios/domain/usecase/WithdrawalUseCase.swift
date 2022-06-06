@@ -25,6 +25,7 @@ protocol WithdrawalUseCase {
     func getWithdrawalSystem() -> Single<WithdrawalSystem>
     func isAnyTicketApplying() -> Single<Bool>
     func getCryptoWithdrawalLimits(_ cryptoType: SupportCryptoType, _ cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits>
+    func isCryptoProcessCertified() -> Single<Bool>
 }
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
@@ -122,5 +123,9 @@ class WithdrawalUseCaseImpl: WithdrawalUseCase {
     
     func isAnyTicketApplying() -> Single<Bool> {
         return withdrawalRepository.getIsAnyTicketApplying()
+    }
+    
+    func isCryptoProcessCertified() -> Single<Bool> {
+        return withdrawalRepository.isCryptoProcessCertified()
     }
 }

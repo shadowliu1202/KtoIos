@@ -182,7 +182,15 @@ class WithdrawalViewController: APPViewController {
     }
     
     @objc fileprivate func crpytoTap(_ sender: UITapGestureRecognizer) {
-        self.performSegue(withIdentifier: WithdrawlLandingViewController.segueIdentifier, sender: BankCardType.crypto)
+        bandCardviewModel.isCryptoWithdrawalValid.subscribe(onSuccess: { [weak self] in
+            if $0 {
+                self?.performSegue(withIdentifier: WithdrawlLandingViewController.segueIdentifier, sender: BankCardType.crypto)
+            } else {
+                self?.alertPlayerNotQualifiedForCryptoWithdrawal()
+            }
+        }, onError: { [weak self] in
+            self?.handleErrors($0)
+        }).disposed(by: disposeBag)
     }
     
     fileprivate func withdrawalLimitationDataBinding() {
@@ -285,6 +293,19 @@ class WithdrawalViewController: APPViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             self.withdrawalRecordTableView.deselectRow(at: indexPath, animated: true)
         }.disposed(by: disposeBag)
+    }
+    
+    override func handleErrors(_ error: Error) {
+        switch error {
+        case is KtoPlayerNotQualifiedForCryptoWithdrawal:
+            alertPlayerNotQualifiedForCryptoWithdrawal()
+        default:
+            super.handleErrors(error)
+        }
+    }
+    
+    private func alertPlayerNotQualifiedForCryptoWithdrawal() {
+        Alert.show(nil, Localize.string("cps_withdrawal_all_fiat_first"), confirm: {}, cancel: nil)
     }
 }
 

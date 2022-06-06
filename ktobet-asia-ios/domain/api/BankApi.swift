@@ -152,6 +152,11 @@ class BankApi: ApiService {
         return httpClient.request(target).map(NonNullResponseData<Bool>.self)
     }
     
+    func isCryptoProcessCertified() -> Single<NonNullResponseData<Bool>> {
+        let target = GetAPITarget(service: self.url("\(prefixW)/player-certification/crypto"))
+        return httpClient.request(target).map(NonNullResponseData<Bool>.self)
+    }
+    
     // MARK: New
     func getDepositTypesString() -> Single<String> {
         let target = APITarget(baseUrl: httpClient.baseUrl,
