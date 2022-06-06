@@ -100,7 +100,11 @@ class SlotViewController: AppVersionCheckViewController {
         viewModel.popularGames.subscribe {[weak self] (slotGames) in
             guard let self = self,
                   let urlStr = slotGames.first?.thumbnail.url(),
-                  let url = URL(string: urlStr) else { return }
+                  let url = URL(string: urlStr) else {
+                      self?.recentlyViewTop.constant = 30
+                      self?.pagerView.isHidden = true
+                      return
+                  }
             if self.datas.count == 0 && slotGames.count >= 3 {
                 self.addBlurBackgoundImageView(url: url)
                 self.pagerView.scrollToItem(at: 0, animate: false)
