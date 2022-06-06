@@ -266,7 +266,7 @@
 "common_setting_fail" = "Cài Đặt không thành công";
 "common_change_done" = "Thay Đổi thành công";
 "common_change_fail" = "Thay Đổi không thành công";
-"common_tip_title_warm" = "Thông Báo";
+"common_tip_title_warm" = "Lưu Ý";
 "common_tip_content_bind" = "Cài Đặt này sẽ được ràng buộc với tài khoản và không thể thay đổi.";
 "common_tip_title_unfinished" = "Dữ liệu chưa được lưu. Quý Khác có chắc chắn rời đi?";
 "common_tip_content_unfinished" = "Sau khi rời đi, dữ liệu sẽ không còn tồn tại.";
@@ -728,7 +728,7 @@ Nếu Quý Khách cần thay đổi Họ Tên, vui lòng hủy giao dịch Rút 
 "withdrawal_account" = "Tài Khoản Rút Tiền";
 "withdrawal_bank_card_deleting" = "Dữ liệu Tài Khoản Ngân Hàng này sẽ không còn tồn tại.";
 "withdrawal_id" = "Mã Số Rút Tiền";
-"withdrawal_account_exist" = "Tài Khoản Rút Tiền này đã được cài đặt.";
+"withdrawal_account_exist" = "Tài Khoản Rút Tiền này đã được thiết lập.";
 "withdrawal_crypto_locked" = "APP hiện chưa hỗ trợ Gửi và Rút Crypto. Vui lòng đăng nhập phiên bản WEB để thực hiện.";
 "withdrawal_cancel_title" = "Xác nhận Hủy?";
 "withdrawal_cancel_content" = "Giao Dịch Rút Tiền này sẽ được Hủy ngay lập tức.";
