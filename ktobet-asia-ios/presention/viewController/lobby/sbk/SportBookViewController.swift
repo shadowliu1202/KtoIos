@@ -59,6 +59,7 @@ class SportBookViewController: APPViewController {
         webView.configuration.defaultWebpagePreferences = webPagePreferences
         webView.configuration.allowsInlineMediaPlayback = true
         webView.configuration.dataDetectorTypes = .all
+        webView.configuration.userContentController.addUserScript(self.getZoomDisableScript())
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.scrollView.showsVerticalScrollIndicator = false
         webView.allowsBackForwardNavigationGestures = true
@@ -80,6 +81,14 @@ class SportBookViewController: APPViewController {
             let request = URLRequest(url: url)
             webView.load(request)
         }
+    }
+    
+    private func getZoomDisableScript() -> WKUserScript {
+        let source: String = "var meta = document.createElement('meta');" +
+            "meta.name = 'viewport';" +
+            "meta.content = 'width=device-width, initial-scale=1.0, maximum- scale=1.0, user-scalable=no';" +
+            "var head = document.getElementsByTagName('head')[0];" + "head.appendChild(meta);"
+        return WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
     }
 }
 
