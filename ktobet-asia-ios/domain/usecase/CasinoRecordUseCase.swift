@@ -5,7 +5,7 @@ import RxSwift
 protocol CasinoRecordUseCase {
     func getBetSummary() -> Single<BetSummary>
     func getUnsettledSummary() -> Single<[UnsettledBetSummary]>
-    func getUnsettledRecords(date: String) -> Single<[UnsettledBetRecord]>
+    func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]>
     func getBetSummaryByDate(localDate: String) -> Single<[PeriodOfRecord]>
     func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]>
     func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?>
@@ -34,7 +34,7 @@ class CasinoRecordUseCaseImpl: CasinoRecordUseCase {
         }
     }
     
-    func getUnsettledRecords(date: String) -> Single<[UnsettledBetRecord]> {
+    func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]> {
         return casinoRecordRepository.getUnsettledRecords(date: date)
     }
     

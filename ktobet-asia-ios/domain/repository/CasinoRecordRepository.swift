@@ -5,7 +5,7 @@ import SharedBu
 protocol CasinoRecordRepository {
     func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<BetSummary>
     func getUnsettledSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[UnsettledBetSummary]>
-    func getUnsettledRecords(date: String) -> Single<[UnsettledBetRecord]>
+    func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]>
     func getPeriodRecords(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[PeriodOfRecord]>
     func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]>
     func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?>
@@ -50,8 +50,8 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         }
     }
     
-    func getUnsettledRecords(date: String) -> Single<[UnsettledBetRecord]> {
-        return casinoApi.getUnsettledRecords(date: date).map { (response) -> [UnsettledBetRecord] in
+    func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]> {
+        return casinoApi.getUnsettledRecords(date: date.toQueryFormatString(timeZone: playerConfiguation.timezone())).map { (response) -> [UnsettledBetRecord] in
             guard let data = response.data else { return [] }
             var unsettledBetRecords: [UnsettledBetRecord] = []
             for d in data {
