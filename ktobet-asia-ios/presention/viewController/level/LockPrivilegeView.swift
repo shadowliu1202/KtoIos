@@ -2,7 +2,6 @@ import UIKit
 import SharedBu
 
 class LockPrivilegeView: UIView {
-    let subTagOneLineHeight: CGFloat = 14
     @IBOutlet weak var stamp: UIView!
     @IBOutlet weak var tagStack: UIStackView!
     @IBOutlet weak var tagLabel: UILabel!
@@ -26,6 +25,7 @@ class LockPrivilegeView: UIView {
         self.init(frame: CGRect.zero)
         tagLabel.text = args.title.value as? String
         subTagLabel.text = args.subTitle.value as? String
+        adjustSubTagPosition()
         msgLabel.text = args.description_.value as? String
     }
     
@@ -48,15 +48,14 @@ class LockPrivilegeView: UIView {
         }
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if subTagLabel.frame.height > subTagOneLineHeight {
-            tagStack.axis = .vertical
-            DispatchQueue.main.async { [weak self] in
+    func adjustSubTagPosition() {
+        DispatchQueue.main.async { [weak self] in
+            if self?.subTagLabel.frame.height ?? 0 > subTagOneLineHeight {
+                self?.tagStack.axis = .vertical
                 self?.subTagLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+            } else {
+                self?.tagStack.axis = .horizontal
             }
-        } else {
-            tagStack.axis = .horizontal
         }
     }
 }
