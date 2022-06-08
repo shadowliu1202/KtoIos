@@ -40,7 +40,7 @@ class ChatMapper {
             
             
             
-            return ChatMessage.ContentText.init(content: it.insert, attributes: it.attributes?.convert())
+            return ChatMessage.ContentText.init(content: it.insert ?? "", attributes: it.attributes?.convert())
         }
     }
 }
