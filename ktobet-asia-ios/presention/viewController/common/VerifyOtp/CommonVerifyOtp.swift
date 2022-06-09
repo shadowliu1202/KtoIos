@@ -118,7 +118,7 @@ class CommonVerifyOtpFactory {
         CommonVerifyOtpBuilder(commonFailedType: ProfileEmailFailedType(),
                                title: Localize.string("profile_identity_email_step2"),
                                description: Localize.string("profile_identity_email_step2_title"),
-                               identityTip: Localize.string("common_otp_sent_content") + "\n" + identity,
+                               identityTip: Localize.string("common_otp_sent_content_email") + "\n" + identity,
                                junkTip: Localize.string("common_email_spam_check"),
                                otpExeedSendLimitError: Localize.string("common_email_otp_exeed_send_limit")).build()
     }
@@ -127,7 +127,7 @@ class CommonVerifyOtpFactory {
         CommonVerifyOtpBuilder(commonFailedType: ProfileMobileFailedType(),
                                title: Localize.string("profile_identity_mobile_step2"),
                                description: Localize.string("profile_identity_mobile_step2_title"),
-                               identityTip: Localize.string("common_otp_sent_content") + "\n" + identity,
+                               identityTip: Localize.string("common_otp_sent_content_mobile") + "\n" + identity,
                                otpExeedSendLimitError: Localize.string("common_sms_otp_exeed_send_limit")).build()
     }
     
@@ -135,7 +135,7 @@ class CommonVerifyOtpFactory {
         CommonVerifyOtpBuilder(commonFailedType: ProfileEmailFailedType(),
                                title: Localize.string("profile_identity_email_step4"),
                                description: Localize.string("profile_identity_email_step4_title"),
-                               identityTip: Localize.string("common_otp_sent_content") + "\n" + identity,
+                               identityTip: Localize.string("common_otp_sent_content_email") + "\n" + identity,
                                junkTip: Localize.string("common_email_spam_check"),
                                otpExeedSendLimitError: Localize.string("common_email_otp_exeed_send_limit")).build()
     }
@@ -144,14 +144,14 @@ class CommonVerifyOtpFactory {
         CommonVerifyOtpBuilder(commonFailedType: ProfileMobileFailedType(),
                                title: Localize.string("profile_identity_mobile_step4"),
                                description: Localize.string("profile_identity_mobile_step4_title"),
-                               identityTip: Localize.string("common_otp_sent_content") + "\n" + identity,
+                               identityTip: Localize.string("common_otp_sent_content_mobile") + "\n" + identity,
                                otpExeedSendLimitError: Localize.string("common_sms_otp_exeed_send_limit")).build()
     }
     
     private func profileBrandNewEmailArgs() -> CommonVerifyOtpArgs {
         CommonVerifyOtpBuilder(commonFailedType: ProfileEmailFailedType(),
                                description: Localize.string("profile_identity_email_step4_title"),
-                               identityTip: Localize.string("common_otp_sent_content") + "\n" + identity,
+                               identityTip: Localize.string("common_otp_sent_content_email") + "\n" + identity,
                                junkTip: Localize.string("common_email_spam_check"),
                                otpExeedSendLimitError: Localize.string("common_email_otp_exeed_send_limit")).build()
     }
@@ -159,7 +159,7 @@ class CommonVerifyOtpFactory {
     private func profileBrandNewMobileArgs() -> CommonVerifyOtpArgs {
         CommonVerifyOtpBuilder(commonFailedType: ProfileMobileFailedType(),
                                description: Localize.string("profile_identity_mobile_step4_title"),
-                               identityTip: Localize.string("common_otp_sent_content") + "\n" + identity,
+                               identityTip: Localize.string("common_otp_sent_content_mobile") + "\n" + identity,
                                otpExeedSendLimitError: Localize.string("common_sms_otp_exeed_send_limit")).build()
     }
     
