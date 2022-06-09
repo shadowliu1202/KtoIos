@@ -327,7 +327,7 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
                 return ChatMessage.ContentLink(content: link)
             }
             
-            return ChatMessage.ContentText(content: it.insert, attributes: it.attributes?.convert())
+            return ChatMessage.ContentText(content: it.insert ?? "", attributes: it.attributes?.convert())
         }
     }
 }

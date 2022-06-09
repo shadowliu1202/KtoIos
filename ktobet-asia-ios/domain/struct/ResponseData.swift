@@ -1938,7 +1938,7 @@ struct Message: Codable {
 
 struct QuillDelta: Codable {
     let attributes: Attributes?
-    let insert: String
+    let insert: String?
 }
 
 struct Attributes: Codable {
