@@ -51,6 +51,8 @@ class PromotionTableViewCell: UITableViewCell {
         timerLabelHeight.constant = TimerLabelHeight
         amountPrefixLabel.text = nil
         timerLabel.text = nil
+        btnGetCouponHeight.constant = 0
+        btnGetCoupon.isHidden = true
     }
     
     override func layoutSubviews() {
