@@ -43,6 +43,7 @@ class UsableTableViewCell: PromotionTableViewCell {
     
     private func setManualImmediately() {
         setBtnGetCouponGradient()
+        btnGetCoupon.isHidden = false
         btnGetCouponHeight.constant = BtnGetCouponHeight
         btnGetCoupon.setTitle(Localize.string("bonus_getcoupon"), for: .normal)
         timerLabel.textAlignment = .center
@@ -60,6 +61,7 @@ class UsableTableViewCell: PromotionTableViewCell {
     
     override func configureValidPeriodLayout(_ now: Date, _ period: ValidPeriod.Always) {
         setBtnGetCouponGradient()
+        btnGetCoupon.isHidden = false
         btnGetCouponHeight.constant = BtnGetCouponHeight
         btnGetCoupon.setTitle(Localize.string("bonus_getcoupon"), for: .normal)
         timerLabelHeight.constant = 0.0

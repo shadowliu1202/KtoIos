@@ -154,7 +154,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U5Y-aO-1UK" userLabel="BottomView">
                                 <rect key="frame" x="80" y="150" width="391" height="72"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKu-de-0io">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKu-de-0io">
                                         <rect key="frame" x="151.5" y="12" width="88" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="82c-b0-rcS"/>
