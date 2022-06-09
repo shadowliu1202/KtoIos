@@ -208,12 +208,7 @@ extension Date {
 
 extension OffsetDateTime {
     func convertToDate() -> Date {
-        let dateStr = self.toDateTimeString()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-        dateFormatter.timeZone = Foundation.TimeZone.current
-        dateFormatter.locale = Locale.current
-        return dateFormatter.date(from: dateStr) ?? Date()
+        return Date(timeIntervalSince1970: Double(self.toInstant().epochSeconds))
     }
     
     func toDateTimeString(with SeparatorSymbol: String = "/") -> String {
@@ -335,3 +330,15 @@ extension SharedBu.Instant {
     }
     
 }
+
+extension SharedBu.TimeZone {
+
+    func toFoundation() -> Foundation.TimeZone {
+        return Foundation.TimeZone(identifier: self.id)!
+    }
+    
+    static func fromFoundation(_ timeZone: Foundation.TimeZone) -> SharedBu.TimeZone {
+        return SharedBu.TimeZone.companion.of(zoneId: timeZone.identifier)
+    }
+}
+
