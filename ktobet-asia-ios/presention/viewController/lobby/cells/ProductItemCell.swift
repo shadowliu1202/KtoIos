@@ -21,7 +21,7 @@ class ProductItemCell: UICollectionViewCell {
         self.tickCircle?.remove()
         if let time = data.maintainTime {
             self.mainatainView.isHidden = false
-            let remainTime = TimeInterval(time.epochSeconds - Date().convertDateToOffsetDateTime().epochSeconds)
+            let remainTime = TimeInterval(time.epochSeconds - Int64(Date().timeIntervalSince1970))
             self.tickCircle = TickCircle(view: self.mainatainView)
             self.tickCircle?.drawTickCircle(diameter: 56, countDownSecond: Int(remainTime))
             self.tickCircle?.finishCountDown = self.finishCountDown
