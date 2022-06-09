@@ -25,15 +25,15 @@ class MaintenanceViewController: UIViewController {
         serviceViewModel.output.productMaintainTime.drive(onNext: { [weak self] time in
             guard let `self` = self else { return }
             if time != nil {
-                self.updateTimelabels(time!, Date())
+                self.updateTimelabels(time!)
             } else {
                 NavigationManagement.sharedInstance.goTo(productType: self.productType)
             }
         }).disposed(by: disposeBag)
     }
     
-    private func updateTimelabels(_ endTime: OffsetDateTime, _ now: Date) {
-        let remainTime = TimeInterval(endTime.toEpochMilliseconds() - now.convertDateToOffsetDateTime().toEpochMilliseconds()) / 1000
+    private func updateTimelabels(_ endTime: OffsetDateTime) {
+        let remainTime = TimeInterval(endTime.epochSeconds - Int64(Date().timeIntervalSince1970))
         if self.timer == nil {
             self.timer = CountDownTimer()
         }

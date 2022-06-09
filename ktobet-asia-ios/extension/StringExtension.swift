@@ -60,7 +60,7 @@ extension String {
     func toOffsetDateTime() -> OffsetDateTime {
         let offsetDate = getOffsetDate()
         let createLocalDateTime = SharedBu.LocalDateTime(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
-        return OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: Foundation.TimeZone.current.identifier)
+        return OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: playerTimeZone.identifier)
     }
 
     func toLocalDateTime() -> SharedBu.LocalDateTime {
