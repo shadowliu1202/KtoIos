@@ -12,9 +12,10 @@ class DepositViewModel {
         var list: [DepositSelection] = []
         if let offline = paymentsDTO.offline {
             list.append(OfflinePayment(offline))
-            let online = paymentsDTO.fiat.compactMap { OnlinePayment($0) }
-            list.append(contentsOf: online)
         }
+
+        let online = paymentsDTO.fiat.compactMap { OnlinePayment($0) }
+        list.append(contentsOf: online)
 
         if let crypto = paymentsDTO.crypto {
             list.append(CryptoPayment(crypto))
