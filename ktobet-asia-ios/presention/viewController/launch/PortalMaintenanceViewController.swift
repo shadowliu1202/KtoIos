@@ -13,7 +13,7 @@ class PortalMaintenanceViewController: APPViewController {
     private var viewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
     private var email: String = ""
-    private var countDownTimer: CountDownTimer?
+    private var countDownTimer = CountDownTimer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +24,11 @@ class PortalMaintenanceViewController: APPViewController {
             self?.csEmailButton.setTitle(Localize.string("common_cs_email", email), for: .normal)
         }).disposed(by: disposeBag)
 
-        viewModel.output.portalMaintenanceStatus.drive {[weak self] status in
+        viewModel.output.portalMaintenanceStatusPreSecond.drive {[weak self] status in
             switch status {
             case let allPortal as MaintenanceStatus.AllPortal:
-                self?.initCountDownTimer(secondsToPortalActive: allPortal.convertDurationToSeconds()?.int32Value ?? 0)
+                let seconds = allPortal.convertDurationToSeconds()?.int32Value
+                self?.startCountDown(seconds: seconds)
             default:
                 self?.showNavigation()
             }
@@ -59,20 +60,24 @@ class PortalMaintenanceViewController: APPViewController {
         txt.setTo(textView: textView)
     }
     
-    private func initCountDownTimer(secondsToPortalActive: Int32) {
-        if countDownTimer == nil {
-            countDownTimer = CountDownTimer()
-            countDownTimer?.start(timeInterval: 1, duration: TimeInterval(secondsToPortalActive)) {[weak self] (index, countDownSecond, finish) in
-                self?.hourLabel.text = String(format: "%02d", (countDownSecond / 3600))
-                self?.minuteLabel.text = String(format: "%02d", ((countDownSecond / 60) % 60))
-                self?.secondLabel.text = String(format: "%02d", (countDownSecond % 60))
+    private func startCountDown(seconds: Int32?) {
+        if let seconds = seconds, seconds > 0 {
+            guard countDownTimer.isStart() == false else { return }
+            countDownTimer.start(timeInterval: 1, duration: TimeInterval(seconds)) {[weak self] (index, countDownSecond, finish) in
+                self?.displayRemainTimeView(countDownSecond)
                 if finish {
                     self?.showNavigation()
-                } else {
-                    self?.viewModel.refreshProductStatus()
                 }
             }
+        } else {
+            displayRemainTimeView(0)
         }
+    }
+    
+    private func displayRemainTimeView(_ countDownSecond: Int) {
+        self.hourLabel.text = String(format: "%02d", (countDownSecond / 3600))
+        self.minuteLabel.text = String(format: "%02d", ((countDownSecond / 60) % 60))
+        self.secondLabel.text = String(format: "%02d", (countDownSecond % 60))
     }
     
     private func showNavigation() {

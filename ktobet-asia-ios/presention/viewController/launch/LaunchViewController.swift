@@ -76,6 +76,7 @@ class LaunchViewController: APPViewController {
     }
     
     private func showPortalMaintenance() {
+        self.disposeBag = DisposeBag()
         DispatchQueue.main.async {
             let vc = UIStoryboard(name: "Maintenance", bundle: nil).instantiateViewController(withIdentifier: "PortalMaintenanceViewController")
             self.present(vc, animated: true, completion: nil)

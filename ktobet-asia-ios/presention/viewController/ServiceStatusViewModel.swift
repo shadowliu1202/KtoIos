@@ -8,6 +8,7 @@ final class ServiceStatusViewModel: ViewModelType {
     private var usecaseSystemStatus: GetSystemStatusUseCase!
     private let localStorageRepo: PlayerLocaleConfiguration
     private let playerDefaultProductType = ReplaySubject<ProductType>.create(bufferSize: 1)
+    private var countDownTimer: CountDownTimer?
     
     private(set) var input: Input!
     private(set) var output: Output!
@@ -19,6 +20,16 @@ final class ServiceStatusViewModel: ViewModelType {
         let otpService = usecaseSystemStatus.getOtpStatus()
         let customerServiceEmail = usecaseSystemStatus.getCustomerServiceEmail().asDriver(onErrorJustReturn: "")
         let maintainStatus = usecaseSystemStatus.observePortalMaintenanceState().asDriver(onErrorJustReturn: .init())
+        let maintainStatusPreSecond = usecaseSystemStatus.observePortalMaintenanceState().asDriver(onErrorJustReturn: .init()).do(onNext: { [weak self] status in
+            switch status {
+            case let allPortal as MaintenanceStatus.AllPortal:
+                self?.timeOfRefresh(seconds: allPortal.convertDurationToSeconds()?.int32Value)
+            default:
+                self?.countDownTimer?.stop()
+                break
+            }
+        })
+
         let playerDefaultType = playerDefaultProductType.asDriver(onErrorJustReturn: .none)
         let maintainDefaultType = self.maintainDefaultProductType(playerDefaultProductType: playerDefaultProductType, maintainStatus: maintainStatus)
         let isAllProductMaintain = maintainDefaultType.map { $0 == nil }.asDriver(onErrorJustReturn: false)
@@ -29,10 +40,18 @@ final class ServiceStatusViewModel: ViewModelType {
         
         self.output = Output(playerDefaultType: playerDefaultType, maintainDefaultType: maintainDefaultType,
                              isAllProductMaintain: isAllProductMaintain, toNextPage: toNextPage,
-                             portalMaintenanceStatus: maintainStatus, otpService: otpService,
+                             portalMaintenanceStatus: maintainStatus, portalMaintenanceStatusPreSecond: maintainStatusPreSecond, otpService: otpService,
                              customerServiceEmail: customerServiceEmail, productMaintainTime: productMaintainTime,
                              productsMaintainTime: productsMaintainTime, maintainImage: maintainImage)
         self.input = Input(playerDefaultProductType: playerDefaultProductType.asObserver())
+    }
+    
+    private func timeOfRefresh(seconds: Int32?) {
+        guard countDownTimer == nil else { return }
+        countDownTimer = CountDownTimer()
+        countDownTimer?.repeat(timeInterval: 1, block: { [weak self] _ in
+            self?.refreshProductStatus()
+        })
     }
     
     func refreshProductStatus() {
@@ -126,6 +145,7 @@ extension ServiceStatusViewModel {
         let isAllProductMaintain: Driver<Bool>
         let toNextPage: Completable
         let portalMaintenanceStatus: Driver<MaintenanceStatus>
+        let portalMaintenanceStatusPreSecond: Driver<MaintenanceStatus>
         let otpService: Single<OtpStatus>
         let customerServiceEmail: Driver<String>
         let productMaintainTime: Driver<OffsetDateTime?>

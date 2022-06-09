@@ -20,6 +20,10 @@ class CountDownTimer {
         stop()
     }
     
+    func isStart() -> Bool {
+        timer?.isValid ?? false
+    }
+    
     func start(timeInterval : TimeInterval,
                duration : TimeInterval,
                block: ((_ index: Int, _ countDownSeconds: Int, _ finish: Bool)->())?){
@@ -63,7 +67,7 @@ class CountDownTimer {
         timer?.fire()
     }
     
-    func repeate(timeInterval : TimeInterval, block : ((_ index : Int)->())?){
+    func `repeat`(timeInterval : TimeInterval, block : ((_ index : Int)->())?){
         stop()
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true, block: { (t) in
             self.index += 1
