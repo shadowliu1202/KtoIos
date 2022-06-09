@@ -195,7 +195,7 @@ class SignupEmailViewController: LandingViewController {
     func verifyTimer(launch : Bool){
         if launch{
             timerVerify
-                .repeate(timeInterval: 5, block: { [weak self] index in
+                .repeat(timeInterval: 5, block: { [weak self] index in
                     self?.checkRegistration(manual: false)
                 })
         } else {
