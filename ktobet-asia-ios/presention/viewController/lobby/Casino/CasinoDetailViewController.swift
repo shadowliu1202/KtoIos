@@ -27,7 +27,7 @@ class CasinoDetailViewController: APPViewController {
             guard let self = self, let detail = detail else { return }
             self.recordDetail = detail
             self.tableView.reloadData()
-            self.createResultView(gameResult: detail.gameResult)
+            self.displayGameResult(detail)
         } onError: {[weak self] (error) in
             self?.handleErrors(error)
         }.disposed(by: disposeBag)
@@ -39,6 +39,40 @@ class CasinoDetailViewController: APPViewController {
     
     deinit {
         print("CasinoDetailViewController deinit")
+    }
+    
+    private func displayGameResult(_ detail: CasinoDetail) {
+        switch detail.status {
+        case .canceled, .void_ :
+            createCancelView()
+        case .bet, .settled:
+            createResultView(gameResult: detail.gameResult)
+        default:
+            break
+        }
+    }
+    
+    private func createCancelView() {
+        let cancelTitleLabel = UILabel()
+        cancelTitleLabel.text = Localize.string("common_cancel")
+        cancelTitleLabel.font = UIFont(name: "PingFangSC-Medium", size: 14)
+        cancelTitleLabel.textColor = UIColor.whiteFull
+        scrollView.addSubview(cancelTitleLabel)
+        cancelTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        cancelTitleLabel.leadingAnchor.constraint(equalTo: betResultTitleLabel.leadingAnchor, constant: 0).isActive = true
+        cancelTitleLabel.topAnchor.constraint(equalTo: betResultTitleLabel.bottomAnchor, constant: 4).isActive = true
+        addResultBottomLine()
+    }
+    
+    private func addResultBottomLine() {
+        let bottomBorderLine = UIView()
+        bottomBorderLine.backgroundColor = UIColor.dividerCapeCodGray2
+        scrollView.addSubview(bottomBorderLine)
+        bottomBorderLine.translatesAutoresizingMaskIntoConstraints = false
+        bottomBorderLine.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor, multiplier: 1).isActive = true
+        bottomBorderLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        bottomBorderLine.topAnchor.constraint(equalTo: betResultTitleLabel.bottomAnchor, constant: 40).isActive = true
+        bottomBorderLine.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
     }
     
     private func createResultView(gameResult: CasinoGameResult) {
@@ -66,22 +100,7 @@ class CasinoDetailViewController: APPViewController {
         }
         
         if gameResult is CasinoGameResult.Unknown {
-            let cancelTitleLabel = UILabel()
-            cancelTitleLabel.text = Localize.string("common_cancel")
-            cancelTitleLabel.font = UIFont(name: "PingFangSC-Medium", size: 14)
-            cancelTitleLabel.textColor = UIColor.whiteFull
-            scrollView.addSubview(cancelTitleLabel)
-            cancelTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-            cancelTitleLabel.leadingAnchor.constraint(equalTo: betResultTitleLabel.leadingAnchor, constant: 0).isActive = true
-            cancelTitleLabel.topAnchor.constraint(equalTo: betResultTitleLabel.bottomAnchor, constant: 4).isActive = true
-            let bottomBorderLine = UIView()
-            bottomBorderLine.backgroundColor = UIColor.dividerCapeCodGray2
-            scrollView.addSubview(bottomBorderLine)
-            bottomBorderLine.translatesAutoresizingMaskIntoConstraints = false
-            bottomBorderLine.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor, multiplier: 1).isActive = true
-            bottomBorderLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
-            bottomBorderLine.topAnchor.constraint(equalTo: cancelTitleLabel.bottomAnchor, constant: 12).isActive = true
-            bottomBorderLine.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
+            addResultBottomLine()
         }
     }
     
@@ -474,6 +493,9 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
                 cell.setup(index: indexPath.row, detail: detail)
                 if indexPath.row != 0 {
                     cell.addBorder()
+                }
+                if indexPath.row == 5 {
+                    cell.addBorder(.bottom)
                 }
                 
                 return cell
