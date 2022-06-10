@@ -1,3 +1,4 @@
+library 'utils'
 def publishIosOnlineVersion( def versionCore, def preRelease, def buildNumber, def download_url, def size) {
     if (preRelease.toString() == 'rc') {
         publishToIDC('10.10.16.15', versionCore, buildNumber, download_url, size)
@@ -10,10 +11,7 @@ def publishIosOnlineVersion( def versionCore, def preRelease, def buildNumber, d
 
 def publishToIDC(def server, def versionCore, def buildNumber, def download_url, def size) {
     def sysAdmin = '0dd067b6-8bd0-4c0a-9cb7-fb374ed7084e'
-    string publishVersion = "$versionCore+$buildNumber"
-    if (buildNumber == 1) {
-        publishVersion = "$versionCore"
-    }
+    def publishVersion = version.getReleaseVersion(versionCore, buildNumber)
     withCredentials([sshUserPrivateKey(credentialsId: "$sysAdmin", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
         script {
             def remote = [:]
@@ -95,7 +93,7 @@ def getOnlineVersion(platform, server, preRelease) {
 def setOnlineVersion(platform, server, versionCore, buildNumber) {
     def sysadmin_rsa = '0dd067b6-8bd0-4c0a-9cb7-fb374ed7084e'
     withCredentials([sshUserPrivateKey(credentialsId: "$sysadmin_rsa", keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'user')]) {
-        def tag = "$versionCore+$buildNumber"
+        def tag = version.getReleaseVersion(versionCore, buildNumber)
         echo "set online tag = $tag"
         def remote = [:]
         remote.name = 'mis ansible'
