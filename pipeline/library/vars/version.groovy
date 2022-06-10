@@ -1,10 +1,19 @@
 
 def getReleaseTag(core, preRelease, buildNumber) {
-    echo "release : $core $preRelease $buildNumber"
+    echo "release tag: $core $preRelease $buildNumber"
     if (buildNumber.toString() == '1') {
         return "$core-$preRelease"
     } else {
         return "$core-$preRelease+$buildNumber"
+    }
+}
+
+def getReleaseVersion(core, buildNumber) {
+    echo "release version: $core $buildNumber"
+    if (buildNumber.toString() == '1') {
+        return "$core"
+    } else {
+        return "$core+$buildNumber"
     }
 }
 
