@@ -48,6 +48,7 @@ enum PromotionFilter {
         case Slot
         case Casino
         case Numbergame
+        case Arcade
         
         var name: String {
             switch self {
@@ -59,6 +60,8 @@ enum PromotionFilter {
                 return Localize.string("common_casino")
             case .Numbergame:
                 return Localize.string("common_keno")
+            case .Arcade:
+                return Localize.string("common_arcade")
             }
         }
         var iconId: Int {
@@ -137,7 +140,8 @@ class PromotionFilterDropDwon: UIView {
     lazy var productTags: [PromotionProductTag] = [PromotionProductTag(isSelected: true, filter: .Sport),
                                                    PromotionProductTag(isSelected: true, filter: .Slot),
                                                    PromotionProductTag(isSelected: true, filter: .Casino),
-                                                   PromotionProductTag(isSelected: true, filter: .Numbergame)]
+                                                   PromotionProductTag(isSelected: true, filter: .Numbergame),
+                                                   PromotionProductTag(isSelected: true, filter: .Arcade)]
     var clickHandler: ((PromotionTag?, [PromotionProductTag]) -> ())?
     override init(frame: CGRect) {
         super.init(frame: frame)

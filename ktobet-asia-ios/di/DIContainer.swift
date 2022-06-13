@@ -259,6 +259,9 @@ class DIContainer {
             let portalApi = ctner.resolve(PortalApi.self)!
             return AppUpdateRepositoryImpl(portalApi)
         }
+        ctner.register(PlayerLocaleConfiguration.self) { resolver in
+            return ctner.resolve(LocalStorageRepositoryImpl.self)!
+        }
     }
     
     func registUsecase(){

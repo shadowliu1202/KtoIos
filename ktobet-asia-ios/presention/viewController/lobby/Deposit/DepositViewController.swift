@@ -17,6 +17,7 @@ class DepositViewController: APPViewController {
     
     private var viewModel = DI.resolve(DepositViewModel.self)!
     private var depositLogViewModel = DI.resolve(DepositLogViewModel.self)!
+    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     private var disposeBag = DisposeBag()
     
     // MARK: LIFE CYCLE
@@ -82,8 +83,8 @@ class DepositViewController: APPViewController {
                 self?.depositNoDataLabel.isHidden = true
                 self?.depositTypeTableView.isHidden = false
             }
-        }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { index, data, cell in
-            cell.setUp(depositSelection: data)
+        }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { [unowned self] index, data, cell in
+            cell.setUp(depositSelection: data, local: self.playerLocaleConfiguration.getSupportLocale())
             cell.removeBorder()
             if index != 0 {
                 cell.addBorder(leftConstant: 78)

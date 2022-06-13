@@ -284,7 +284,7 @@
                                     <constraint firstAttribute="height" constant="48" id="8rP-3u-EVj"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
-                                <state key="normal" title="完成">
+                                <state key="normal">
                                     <color key="titleColor" name="whiteFull"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -292,6 +292,7 @@
                                         <integer key="value" value="8"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="common_done"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
                         </subviews>

@@ -8,10 +8,10 @@ class UnusableTableViewCell: PromotionTableViewCell {
         watermarkIcon.image = nil
     }
     
-    func configure(_ item: PromotionVmItem, _ isFull: Bool = false) -> Self {
+    func configure(_ item: PromotionVmItem, _ local: SupportLocale) -> Self {
         super.setData(item)
-        if let limitationItem = item as? HasAmountLimitationItem {
-            watermarkIcon.image = limitationItem.watermarkIcon
+        if let limitationItem = item as? HasAmountLimitation {
+            watermarkIcon.image = getWatermarkIcon(limitationItem, local)
         }
         return self
     }
@@ -20,5 +20,18 @@ class UnusableTableViewCell: PromotionTableViewCell {
         btnGetCouponHeight.constant = 0
         btnGetCoupon.setTitle(nil, for: .normal)
         timerLabel.textAlignment = .left
+    }
+    
+    private func getWatermarkIcon(_ item: HasAmountLimitation, _ local: SupportLocale) -> UIImage? {
+        switch item.getFullType() {
+        case .none:
+            return nil
+        case .daily:
+            return Theme.shared.getUIImage(name: "promotionDailyFull", by: local)
+        case .complete:
+            return Theme.shared.getUIImage(name: "promotionIsFull", by: local)
+        default:
+            return nil
+        }
     }
 }

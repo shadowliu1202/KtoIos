@@ -149,6 +149,8 @@ class PromotionViewModel {
             return .casino
         case .Numbergame:
             return .numbergame
+        case .Arcade:
+            return .arcade
         }
     }
 }

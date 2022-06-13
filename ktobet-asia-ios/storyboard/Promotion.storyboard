@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -173,8 +173,12 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="bonus_promotionrule"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="promotionAutoUseBig" translatesAutoresizingMaskIntoConstraints="NO" id="bjb-fN-MSt">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="promotionAutoUse" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bjb-fN-MSt">
                                         <rect key="frame" x="303" y="135.5" width="111" height="111"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="111" id="nvz-18-zMf"/>
+                                            <constraint firstAttribute="width" constant="111" id="rlX-Ig-Sxu"/>
+                                        </constraints>
                                     </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bxm-hL-dOV">
                                         <rect key="frame" x="22" y="298" width="370" height="36"/>
@@ -286,7 +290,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bCH-oj-ei0">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" name="blackFull"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="21"/>
@@ -1126,13 +1130,13 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="IoM-gM-ToQ" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="159" width="354" height="96"/>
+                                    <rect key="frame" x="0.0" y="124" width="354" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromotionHeaderViewCell" id="pYD-1Q-vQS" customClass="PromotionHeaderViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="84.5" width="354" height="56.5"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="354" height="56.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pYD-1Q-vQS" id="t81-s2-X1e">
                                             <rect key="frame" x="0.0" y="0.0" width="354" height="56.5"/>
@@ -1190,7 +1194,7 @@
     </scenes>
     <resources>
         <image name="iconLvSlot48" width="48" height="48"/>
-        <image name="promotionAutoUseBig" width="111" height="111"/>
+        <image name="promotionAutoUse" width="74" height="75"/>
         <image name="promotionListEmpty" width="82" height="64"/>
         <namedColor name="alert">
             <color red="1" green="0.50196078431372548" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
