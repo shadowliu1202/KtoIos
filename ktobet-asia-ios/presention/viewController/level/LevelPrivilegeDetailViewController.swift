@@ -27,6 +27,7 @@ class LevelPrivilegeDetailViewController: APPViewController {
     private var arg: PrivilegeArg!
     private var cells: [UITableViewCell] = []
     private var disposeBag: DisposeBag = DisposeBag()
+    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -159,13 +160,13 @@ class LevelPrivilegeDetailViewController: APPViewController {
         
         let imageCell = tableView.dequeueReusableCell(withIdentifier: "LevelDetailImageTableViewCell") as! LevelDetailImageTableViewCell
         if level >= 1 && level <= 4 {
-            imageCell.slotImageView.image = UIImage(named: "group1-4")
+            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group1-4", by: playerLocaleConfiguration.getSupportLocale())
         } else if level >= 5 && level <= 6 {
-            imageCell.slotImageView.image = UIImage(named: "group5-6")
+            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group5-6", by: playerLocaleConfiguration.getSupportLocale())
         } else if level >= 7 && level <= 8 {
-            imageCell.slotImageView.image = UIImage(named: "group7-8")
+            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group7-8", by: playerLocaleConfiguration.getSupportLocale())
         } else {
-            imageCell.slotImageView.image = UIImage(named: "group9+")
+            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group9+", by: playerLocaleConfiguration.getSupportLocale())
         }
         
         cells.append(imageCell)

@@ -25,6 +25,8 @@ class PromotionDetailViewController: APPViewController {
     
     fileprivate var disposeBag = DisposeBag()
     
+    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
@@ -118,7 +120,7 @@ class PromotionDetailViewController: APPViewController {
         nameLabel.text = productName
         amountLabel.text = promotionAmount.replacingOccurrences(of: "\n", with: " ")
         promotionImageView.image = UIImage(named: productTypeDrawable)
-        statusImageView.isHidden = !isFull
+        setStatusImageView(isFull)
         
         
         switch item {
@@ -139,6 +141,15 @@ class PromotionDetailViewController: APPViewController {
             }
         default:
             break
+        }
+    }
+    
+    private func setStatusImageView(_ isAutoUse: Bool) {
+        if isAutoUse {
+            statusImageView.image = Theme.shared.getUIImage(name: "promotionAutoUse", by: playerLocaleConfiguration.getSupportLocale())
+            statusImageView.isHidden = false
+        } else {
+            statusImageView.isHidden = true
         }
     }
     

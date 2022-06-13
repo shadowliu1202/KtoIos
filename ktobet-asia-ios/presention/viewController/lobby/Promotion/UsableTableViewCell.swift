@@ -23,8 +23,8 @@ class UsableTableViewCell: PromotionTableViewCell {
         return self
     }
     
-    func configure(_ item: PromotionVmItem, _ autoUse: Bool = false) -> Self {
-        configureWatermark(autoUse)
+    func configure(_ item: PromotionVmItem, _ autoUse: Bool = false, _ playerLocale: SupportLocale) -> Self {
+        configureWatermark(autoUse, playerLocale)
         return self.configure(item)
     }
     
@@ -73,9 +73,9 @@ class UsableTableViewCell: PromotionTableViewCell {
         timerLabel.textAlignment = .center
     }
     
-    private func configureWatermark(_ autoUse: Bool) {
+    private func configureWatermark(_ autoUse: Bool, _ playerLocale: SupportLocale ) {
         if autoUse {
-            watermarkIcon.image = UIImage(named: "promotionAutoUse")
+            watermarkIcon.image = Theme.shared.getUIImage(name: "promotionAutoUse", by: playerLocale)
         } else {
             watermarkIcon.image = nil
         }

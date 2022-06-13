@@ -1,6 +1,7 @@
 import Foundation
 import SharedBu
 import CoreGraphics
+import UIKit
 
 final class Theme {
     static let shared = Theme()
@@ -55,5 +56,16 @@ final class Theme {
         }
         
         return newSegmentTitle
+    }
+    
+    func getUIImage(name: String, by playerLocale: SupportLocale) -> UIImage {
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            return  UIImage(named: "\(name)-VN")!
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return UIImage(named: name)!
+        }
     }
 }

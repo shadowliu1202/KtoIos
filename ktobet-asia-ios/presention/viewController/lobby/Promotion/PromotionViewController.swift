@@ -14,6 +14,7 @@ class PromotionViewController: APPViewController {
     private var dataSource: [[PromotionVmItem]] = [[]]
     private var lastTag: PromotionTag?
     private var lastProductTags: [PromotionProductTag]?
+    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -151,9 +152,9 @@ extension PromotionViewController: UITableViewDataSource, UITableViewDelegate {
                     }).disposed(by: disposeBag)
                 })
         } else if let promotion = item as? PromotionEventItem {
-            cell = tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self).configure(item, promotion.isAutoUse())
+            cell = tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self).configure(item, promotion.isAutoUse(), playerLocaleConfiguration.getSupportLocale())
         } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "UnusableTableViewCell", cellType: UnusableTableViewCell.self).configure(item, false)
+            cell = tableView.dequeueReusableCell(withIdentifier: "UnusableTableViewCell", cellType: UnusableTableViewCell.self).configure(item, playerLocaleConfiguration.getSupportLocale())
         }
         return cell.refreshHandler({ [weak self] in
             self?.viewModel.fetchData()

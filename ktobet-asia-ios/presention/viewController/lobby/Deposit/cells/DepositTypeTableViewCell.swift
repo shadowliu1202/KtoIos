@@ -7,7 +7,7 @@ class DepositTypeTableViewCell: UITableViewCell {
     @IBOutlet private weak var recommendButton: UIButton!
     @IBOutlet private weak var hintLabel: UILabel!
     
-    lazy var imgIcon: [String: String] = ["0": Localize.string("Topup ¥(32)"),
+    lazy var imgIcon: [String: String] = ["0": "Pay_Deposit",
                                           "1": "UnionPay(32)",
                                           "2": "WeChatPay(32)",
                                           "3": "AliPay(32)",
@@ -18,9 +18,13 @@ class DepositTypeTableViewCell: UITableViewCell {
                                           "14": "iconPayMultiple",
                                           "2001": "Crypto"]
 
-    func setUp(depositSelection: DepositSelection) {
+    func setUp(depositSelection: DepositSelection, local: SupportLocale) {
         nameLabel.text = depositSelection.name
-        iconImg.image = UIImage(named: imgIcon[depositSelection.id] ?? "Default(32)")
+        if depositSelection.id == "0" {
+            iconImg.image = Theme.shared.getUIImage(name: "Pay_Deposit", by: local)
+        } else {
+            iconImg.image = UIImage(named: imgIcon[depositSelection.id] ?? "Default(32)")
+        }
         recommendButton.isHidden = !depositSelection.isRecommend
         recommendButton.setTitle(Localize.string("deposit_recommend"), for: .normal)
         hintLabel.text = depositSelection.hint
