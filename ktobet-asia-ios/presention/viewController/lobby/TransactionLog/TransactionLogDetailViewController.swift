@@ -40,40 +40,47 @@ class TransactionLogDetailViewController: APPViewController {
         setHeaderView()
         tableView.tableFooterView?.frame.size.height += resultViewHeight
     }
-
+    
     private func setHeaderView() {
         let headerView = UIView(frame: .zero)
         headerView.backgroundColor = UIColor.clear
         tableView.tableHeaderView?.addSubview(headerView, constraints: [
-                                                .constraint(.equal, \.trailingAnchor, offset: -30),
-                                                .constraint(.equal, \.leadingAnchor, offset: 30),
-                                                .constraint(.equal, \.topAnchor, offset: 0),
-                                                .constraint(.equal, \.bottomAnchor, offset: 0)])
+            .constraint(.equal, \.trailingAnchor, offset: -30),
+            .constraint(.equal, \.leadingAnchor, offset: 30),
+            .constraint(.equal, \.topAnchor, offset: 0),
+            .constraint(.equal, \.bottomAnchor, offset: 0)])
         
         let naviLabel = UILabel()
         naviLabel.textAlignment = .left
         naviLabel.font = UIFont.init(name: "PingFangSC-Semibold", size: 24)
         naviLabel.textColor = UIColor.whiteFull
         naviLabel.text = Localize.string("common_transaction")
-        headerView.addSubview(naviLabel, constraints: [
-                                .constraint(.equal, \.trailingAnchor, offset: 0),
-                                .constraint(.equal, \.leadingAnchor, offset: 0),
-                                .constraint(.equal, \.topAnchor, offset: 30),
-                                .constraint(.equal, \.heightAnchor, length: 32)])
+        
         let titleLabel = UILabel()
         titleLabel.textAlignment = .left
         titleLabel.font = UIFont.init(name: "PingFangSC-Medium", size: 16)
         titleLabel.textColor = UIColor.whiteFull
         titleLabel.text = param?.title
         titleLabel.numberOfLines = 0
-        headerView.addSubview(titleLabel, constraints: [
-                                .constraint(.equal, \.trailingAnchor, offset: 0),
-                                .constraint(.equal, \.leadingAnchor, offset: 0),
-                                .constraint(.equal, \.bottomAnchor, offset: -16)])
-        titleLabel.constrain(to: naviLabel, constraints: [.equal(\.topAnchor, \.bottomAnchor, offset: 30)])
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        
+        let vStackView = UIStackView()
+        headerView.addSubview(vStackView, constraints: [
+            .constraint(.equal, \.trailingAnchor, offset: 0),
+            .constraint(.equal, \.leadingAnchor, offset: 0),
+            .constraint(.equal, \.topAnchor, offset: 30),
+            .constraint(.equal, \.bottomAnchor, offset: -16)
+        ])
+        vStackView.axis = .vertical
+        vStackView.distribution = .fill
+        vStackView.alignment = .fill
+        vStackView.spacing = 30
+        vStackView.translatesAutoresizingMaskIntoConstraints = false
+        vStackView.addArrangedSubview(naviLabel)
+        vStackView.addArrangedSubview(titleLabel)
         tableView.layoutTableHeaderView()
     }
-    
     private func bindData() {
         guard let param = param else { return }
         viewModel.getTransactionLogDetail(transactionId: param.transactionId).subscribe(onSuccess: { [weak self] (result) in
