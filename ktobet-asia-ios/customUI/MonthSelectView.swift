@@ -53,6 +53,7 @@ class MonthSelectView: UIView {
         }
     }
     private var hasPrevious = false
+    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -212,7 +213,7 @@ extension MonthSelectView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MonthCollectionViewCell
         var item = currentSource[indexPath.section][indexPath.row]
-        cell.config(item.title, isEnable: item.isEnable, isSelected: item.isSelected) { (pressedEvent, disposeBag) in
+        cell.config(item.month, playerLocale: playerLocaleConfiguration.getSupportLocale(), isEnable: item.isEnable, isSelected: item.isSelected) { (pressedEvent, disposeBag) in
             pressedEvent.subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.toggle(indexPath)
@@ -257,10 +258,7 @@ extension MonthSelectView: UICollectionViewDelegateFlowLayout {
 
 struct MonthItem {
     private var year: Int
-    private var month: Int
-    var title: String {
-        return "\(month)\(Localize.string("common_month"))"
-    }
+    private(set) var month: Int
     static private let calendar = Calendar(identifier: .gregorian)
     lazy var startDate: Date = MonthItem.from(year: self.year,month: self.month)
     lazy var endDate: Date = MonthItem.end(year: self.year, month: self.month)

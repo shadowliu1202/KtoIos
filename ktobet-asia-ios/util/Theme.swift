@@ -68,4 +68,15 @@ final class Theme {
             return UIImage(named: name)!
         }
     }
+    
+    func getMonthCollectionViewCellTitle(_ month: Int, by playerLocale: SupportLocale) -> String {
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            return  "\(month)"
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return "\(month)\(Localize.string("common_month"))"
+        }
+    }
 }
