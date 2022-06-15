@@ -193,11 +193,8 @@
                                                     <action selector="btnRefreshBalance:" destination="OF6-mV-Bpi" eventType="touchUpInside" id="Qmp-rY-YDI"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJd-Wa-R1U">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="hJd-Wa-R1U">
                                                 <rect key="frame" x="354" y="15.5" width="40" height="32"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="40" id="fzX-MT-bhK"/>
-                                                </constraints>
                                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                                 <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                                                 <state key="normal" title="隐藏">
