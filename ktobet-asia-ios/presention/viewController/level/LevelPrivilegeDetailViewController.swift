@@ -131,17 +131,13 @@ class LevelPrivilegeDetailViewController: APPViewController {
         iconImageView.image = UIImage(named: "lvDetailProduct")
         footerView.isHidden = false
         dailyLimitAmountLabel.text = data.maxBonus.description()
-        let titles = [Localize.string("common_sportsbook"), Localize.string("common_casino"), Localize.string("common_slot"), Localize.string("common_keno"), Localize.string("common_arcade")]
-        let content: [String] =
-            [data.percentages[ProductType.sbk]?.description() ?? "" + "%",
-             data.percentages[ProductType.casino]?.description() ?? "" + "%",
-             data.percentages[ProductType.slot]?.description() ?? "" + "%",
-             data.percentages[ProductType.numbergame]?.description() ?? "" + "%",
-             data.percentages[ProductType.arcade]?.description() ?? "" + "%"]
         
-        for i in 0...4 {
-            cells.append(generateDetailOneRowCell(leftContent: titles[i], RightContent: content[i]))
-        }
+        let products: [ProductType] = [.sbk, .casino, .slot, .numbergame, .arcade]
+        products.forEach({
+            let title = StringMapper.sharedInstance.parseProductTypeString(productType: $0)
+            let content = generatePercentageText(data.percentages[$0])
+            cells.append(generateDetailOneRowCell(leftContent: title, RightContent: content))
+        })
         
         if !data.isMaxBonusLimited() {
             productUnlimitedTopBarView.backgroundColor = UIColor.orangeFull
@@ -151,6 +147,10 @@ class LevelPrivilegeDetailViewController: APPViewController {
         
         cells.last?.addBorder(.bottom, size: 0.5, rightConstant: 40, leftConstant: 40)
         arg = PrivilegeArg(cells: cells, rowCount: cells.count)
+    }
+    
+    private func generatePercentageText(_ percentage: Percentage?) -> String {
+        percentage == nil ? "" : percentage!.description() + "%"
     }
     
     private func generateSlot() {
