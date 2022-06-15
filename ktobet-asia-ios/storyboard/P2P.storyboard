@@ -115,7 +115,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TzL-UD-qSL">
-                                <rect key="frame" x="72" y="209" width="270" height="478"/>
+                                <rect key="frame" x="72" y="249.5" width="270" height="397"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZx-eL-Rnh">
                                         <rect key="frame" x="135" y="16" width="0.0" height="0.0"/>
@@ -310,7 +310,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zJW-Hp-wHa">
-                                        <rect key="frame" x="0.0" y="367" width="270" height="111"/>
+                                        <rect key="frame" x="0.0" y="367" width="270" height="30"/>
                                         <state key="normal" title="Button">
                                             <color key="titleColor" name="redForLightFull"/>
                                         </state>
@@ -344,7 +344,6 @@
                                     <constraint firstItem="n7E-rv-BgL" firstAttribute="leading" secondItem="TzL-UD-qSL" secondAttribute="leading" constant="16" id="nWd-yX-F2R"/>
                                     <constraint firstItem="dzv-4f-g6Q" firstAttribute="top" secondItem="7Bt-hi-ckv" secondAttribute="bottom" constant="12" id="pEb-hl-AI9"/>
                                     <constraint firstItem="7Bt-hi-ckv" firstAttribute="leading" secondItem="TzL-UD-qSL" secondAttribute="leading" id="rYF-be-B4r"/>
-                                    <constraint firstAttribute="height" constant="478" id="viQ-HR-pBm"/>
                                     <constraint firstAttribute="trailing" secondItem="FmX-1Y-HMA" secondAttribute="trailing" id="xH9-sM-cx2"/>
                                     <constraint firstItem="LZx-eL-Rnh" firstAttribute="top" secondItem="TzL-UD-qSL" secondAttribute="top" constant="16" id="zhP-E8-pbm"/>
                                 </constraints>
