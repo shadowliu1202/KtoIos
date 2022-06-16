@@ -53,24 +53,44 @@ extension String {
 
 //MARK: String to DateTime
 extension String {
-    var playerTimeZone: Foundation.TimeZone {
+    private static func getPlayerTimeZone() -> Foundation.TimeZone {
         DI.resolve(PlayerConfiguration.self)!.localeTimeZone()
     }
-
-    func toOffsetDateTime() -> OffsetDateTime {
-        let offsetDate = getOffsetDate()
-        let createLocalDateTime = SharedBu.LocalDateTime(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
-        return OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: playerTimeZone.identifier)
+    
+    func toOffsetDateTime(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> OffsetDateTime {
+        let localDateTime = try toLocalDateTime(timeZone: timeZone)
+        return OffsetDateTime.Companion.init().create(localDateTime: localDateTime, zoneId: timeZone.identifier)
     }
-
-    func toLocalDateTime() -> SharedBu.LocalDateTime {
-        let offsetDate = getOffsetDate()
-        return SharedBu.LocalDateTime.init(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth(), hour: offsetDate.getHour(), minute: offsetDate.getMinute(), second: offsetDate.getSecond(), nanosecond: offsetDate.getNanosecond())
+    
+    func toOffsetDateTimeWithAccountTimeZone(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> OffsetDateTime {
+        let localDateTime = try toLocalDateTimeWithAccountTimeZone()
+        return OffsetDateTime.Companion.init().create(localDateTime: localDateTime, zoneId: timeZone.identifier)
     }
-
-    func toLocalDate() -> SharedBu.LocalDate {
-        let offsetDate = getOffsetDate()
-        return SharedBu.LocalDate(year: offsetDate.getYear(), monthNumber: offsetDate.getMonth(), dayOfMonth: offsetDate.getDayOfMonth())
+    
+    func toLocalDateTime(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> SharedBu.LocalDateTime {
+        var offsetDate = try DateUtils.parseOffsetDate(string: self)
+        let offsetTime = TimeInterval(timeZone.secondsFromGMT())
+        offsetDate.addTimeInterval(offsetTime)
+        let localDate = offsetDate
+        return SharedBu.LocalDateTime.init(year: localDate.getYear(), monthNumber: localDate.getMonth(), dayOfMonth: localDate.getDayOfMonth(), hour: localDate.getHour(), minute: localDate.getMinute(), second: localDate.getSecond(), nanosecond: localDate.getNanosecond())
+    }
+    
+    func toLocalDateTimeWithAccountTimeZone() throws -> SharedBu.LocalDateTime {
+        let localDate = try DateUtils.parseLocalDate(string: self)
+        return SharedBu.LocalDateTime.init(year: localDate.getYear(), monthNumber: localDate.getMonth(), dayOfMonth: localDate.getDayOfMonth(), hour: localDate.getHour(), minute: localDate.getMinute(), second: localDate.getSecond(), nanosecond: localDate.getNanosecond())
+    }
+    
+    func toLocalDate(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> SharedBu.LocalDate {
+        var offsetDate = try DateUtils.parseOffsetDate(string: self)
+        let offsetTime = TimeInterval(timeZone.secondsFromGMT())
+        offsetDate.addTimeInterval(offsetTime)
+        let localDate = offsetDate
+        return SharedBu.LocalDate(year: localDate.getYear(), monthNumber: localDate.getMonth(), dayOfMonth: localDate.getDayOfMonth())
+    }
+    
+    func toLocalDateWithAccountTimeZone() throws -> SharedBu.LocalDate {
+        let localDate = try DateUtils.parseLocalDate(string: self)
+        return SharedBu.LocalDate(year: localDate.getYear(), monthNumber: localDate.getMonth(), dayOfMonth: localDate.getDayOfMonth())
     }
 
     func toDate(format: String, timeZone: Foundation.TimeZone) -> Date? {
@@ -80,7 +100,7 @@ extension String {
         return dateFormatter.date(from: self)
     }
 
-    private func getOffsetDate() -> Date {
+    func getOffsetDate() -> Date {
         let dateFormatterWithFractionalSeconds = ISO8601DateFormatter()
         let dateFormatterwithFullDate = ISO8601DateFormatter()
         let dateFormatter = ISO8601DateFormatter()
@@ -95,8 +115,6 @@ extension String {
             date = createDate
         }
 
-        let offsetTime = TimeInterval(playerTimeZone.secondsFromGMT())
-        date.addTimeInterval(offsetTime)
         return date
     }
 }
@@ -121,11 +139,11 @@ extension Optional where Wrapped == String {
         return self.isEmpty
     }
     
-    func toShareOffsetDateTime() -> OffsetDateTime {
+    func toShareOffsetDateTime() throws -> OffsetDateTime {
         guard let `self` = self else {
             return OffsetDateTime.companion.NotDefine
         }
-        return self.toOffsetDateTime()
+        return try self.toOffsetDateTime()
     }
 }
 

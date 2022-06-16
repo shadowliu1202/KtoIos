@@ -7,12 +7,12 @@ class ChatMapper {
     
     static private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     
-    static func mapTo(speakingAsyncBean: SpeakingAsyncBean) -> ChatMessage.Message {
+    static func mapTo(speakingAsyncBean: SpeakingAsyncBean) throws -> ChatMessage.Message {
         let type = EnumMapper.convert(speakerType: speakingAsyncBean.speakerType)
         return ChatMessage.Message(id: speakingAsyncBean.messageId,
                                    speaker: convertSpeaker(speaker: speakingAsyncBean.speaker, speakerType: type),
                                    message: mapTo(speakingAsyncBean: speakingAsyncBean.message, speakerType: type),
-                                   createTimeTick: speakingAsyncBean.createdDate.toLocalDateTime())
+                                   createTimeTick: try speakingAsyncBean.createdDate.toLocalDateTime())
     }
     
     private static func convertSpeaker(speaker: String, speakerType: SpeakerType) -> PortalChatRoom.Speaker {

@@ -119,7 +119,7 @@ class PlayerRepositoryImpl : PlayerRepository {
     func getLevelPrivileges() -> Single<[LevelOverview]> {
         playerApi.getPlayerLevel().map { (response) -> [LevelOverview] in
             guard let data = response.data else { return [] }
-            return data.map{ self.convert(levelBean: $0) }
+            return try data.map { try self.convert(levelBean: $0) }
         }
     }
     
@@ -141,9 +141,9 @@ class PlayerRepositoryImpl : PlayerRepository {
         playerApi.sendOldAccountOtp(accountType: verifyType.rawValue).asCompletable()
     }
     
-    private func convert(levelBean: LevelBean) -> LevelOverview {
+    private func convert(levelBean: LevelBean) throws -> LevelOverview {
         let privileges = levelBean.data?.map{ self.convert(level: levelBean.level, privilegeBean: $0) } ?? []
-        return LevelOverview(level: levelBean.level, timeStamp: levelBean.timestamp.toLocalDateTime(), privileges: privileges)
+        return LevelOverview(level: levelBean.level, timeStamp: try levelBean.timestamp.toLocalDateTime(), privileges: privileges)
     }
     
     private func convert(level: Int32, privilegeBean: PrivilegeBean) -> LevelPrivilege {

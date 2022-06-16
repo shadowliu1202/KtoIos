@@ -35,12 +35,12 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
         return self.numberGameApi.getMyBetSummary().map { (response) -> (latest: [NumberGameSummary.RecentlyBet], settled: [NumberGameSummary.Date], unsettled: [NumberGameSummary.Date])? in
             guard let data = response.data else { return nil }
             
-            let settled = data.settledSummary.details.map { (settledRecords) -> NumberGameSummary.Date in
-                return settledRecords.toNumberGame()
+            let settled = try data.settledSummary.details.map { (settledRecords) -> NumberGameSummary.Date in
+                return try settledRecords.toNumberGame()
             }
             
-            let unSettled = data.unsettledSummary.details.map { (unsettledRecords) -> NumberGameSummary.Date in
-                return unsettledRecords.toUnSettleNumberGame()
+            let unSettled = try data.unsettledSummary.details.map { (unsettledRecords) -> NumberGameSummary.Date in
+                return try unsettledRecords.toUnSettleNumberGame()
             }
             
             let recently = data.recentlyBets.map { (recentlyBets) -> NumberGameSummary.RecentlyBet in
@@ -57,9 +57,9 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
         return numberGameApi.getMyGameBetInDuration(begindate: begindate, endDate: endDate, gameId: gameId, myBetType: betStatus.ordinal, skip: skip).map { (response) -> [NumberGameSummary.Bet] in
             guard let data = response.data else { return [] }
             if betStatus == NumberGameSummary.CompanionStatus.settled {
-                return data.data.map { $0.toSettleGameSummary() }
+                return try data.data.map { try $0.toSettleGameSummary() }
             } else if betStatus == NumberGameSummary.CompanionStatus.unsettled {
-                return data.data.map { $0.toUnSettleGameSummary() }
+                return try data.data.map { try $0.toUnSettleGameSummary() }
             } else {
                 return []
             }
@@ -72,9 +72,9 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
         return numberGameApi.getMyGameBetInDuration(begindate: begindate, endDate: endDate, gameId: gameId, myBetType: betStatus.ordinal).map { (response) -> [NumberGameSummary.Bet] in
             guard let data = response.data else { return [] }
             if betStatus == NumberGameSummary.CompanionStatus.settled {
-                return data.map { $0.toSettleGameSummary() }
+                return try data.map { try $0.toSettleGameSummary() }
             } else if betStatus == NumberGameSummary.CompanionStatus.unsettled {
-                return data.map { $0.toUnSettleGameSummary() }
+                return try data.map { try $0.toUnSettleGameSummary() }
             } else {
                 return []
             }
@@ -83,7 +83,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
     
     func getBetsDetails(betId: String) -> Single<NumberGameBetDetail> {
         return numberGameApi.getMyBetDetail(wagerId: betId).map { (response) -> NumberGameBetDetail in
-            return response.data.toNumberGameBetDetail()
+            return try response.data.toNumberGameBetDetail()
         }
     }
 }

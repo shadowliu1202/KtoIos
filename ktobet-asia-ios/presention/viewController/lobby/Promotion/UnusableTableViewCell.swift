@@ -16,7 +16,7 @@ class UnusableTableViewCell: PromotionTableViewCell {
         return self
     }
     
-    override func configureValidPeriodLayout(_ now: Date, _ period: ValidPeriod.Duration) {
+    override func configureValidPeriodLayout(_ period: ValidPeriod.Duration) {
         btnGetCouponHeight.constant = 0
         btnGetCoupon.setTitle(nil, for: .normal)
         timerLabel.textAlignment = .left

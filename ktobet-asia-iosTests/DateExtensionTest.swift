@@ -4,7 +4,7 @@ import SharedBu
 @testable import ktobet_asia_ios_qat
 class DateExtensionTest: XCTestCase {
     
-    func testOffsetDateTimeToDate() throws {
+    func testOffsetDateTimeToDate() {
         let timeZoneID = "Asia/Taipei"
         
         let expect = DateComponents.init(calendar: .current, timeZone: Foundation.TimeZone(identifier: timeZoneID), year: 2022, month: 6, day: 7, hour: 12, minute: 0, second: 0).date
@@ -38,5 +38,25 @@ class DateExtensionTest: XCTestCase {
         let actual = SharedBu.TimeZone.fromFoundation(foundationTimeZone)
         
         XCTAssertEqual(expect, actual)
+    }
+    
+    func testToUTCOffsetDateTime() {
+        let timeZoneID = "UTC+0"
+        let now = DateComponents.init(calendar: .current, timeZone: Foundation.TimeZone(identifier: timeZoneID), year: 2022, month: 6, day: 15, hour: 0, minute: 0, second: 0, nanosecond: 0).date!
+        let localDateTime = SharedBu.LocalDateTime.init(year: 2022, monthNumber: 6, dayOfMonth: 15, hour: 0, minute: 0, second: 0, nanosecond: 0)
+        
+        let expect = SharedBu.OffsetDateTime.companion.create(localDateTime: localDateTime, zoneId: "UTC+0")
+        let actual = now.toUTCOffsetDateTime()
+        
+        XCTAssertEqual(expect, actual)
+        
+        let timeZoneID1 = "Asia/Taipei"
+        let now1 = DateComponents.init(calendar: .current, timeZone: Foundation.TimeZone(identifier: timeZoneID1), year: 2022, month: 6, day: 15, hour: 8, minute: 0, second: 0, nanosecond: 0).date!
+        let localDateTime1 = SharedBu.LocalDateTime.init(year: 2022, monthNumber: 6, dayOfMonth: 15, hour: 0, minute: 0, second: 0, nanosecond: 0)
+        
+        let expect1 = SharedBu.OffsetDateTime.companion.create(localDateTime: localDateTime1, zoneId: "UTC+0")
+        let actual1 = now1.toUTCOffsetDateTime()
+        
+        XCTAssertEqual(expect1, actual1)
     }
 }

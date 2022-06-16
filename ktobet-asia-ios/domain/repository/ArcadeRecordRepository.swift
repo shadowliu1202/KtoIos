@@ -22,7 +22,7 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return arcadeApi.getBetSummary(offset: secondsToHours).map({ (response) -> [DateSummary] in
             guard let data = response.data else { return [] }
-            return data.summaries.map({ $0.toDateSummary() })
+            return try data.summaries.map({ try $0.toDateSummary() })
         })
     }
     
@@ -30,7 +30,7 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return arcadeApi.getGameRecordByDate(date: localDate, offset: secondsToHours, skip: skip, take: take).map({ (response) -> [GameGroupedRecord] in
             guard let data = response.data?.data else { return [] }
-            return data.map({$0.toGameGroupedRecord()})
+            return try data.map({ try $0.toGameGroupedRecord()})
         })
     }
     
@@ -42,7 +42,7 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
                                 take: take)
             .map { (response) -> [ArcadeGameBetRecord] in
                 guard let data = response.data?.data else { return [] }
-                return data.map({ $0.toArcadeGameBetRecord() })
+                return try data.map({ try $0.toArcadeGameBetRecord() })
             }
     }
 }

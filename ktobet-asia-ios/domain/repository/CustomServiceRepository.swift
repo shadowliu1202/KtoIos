@@ -123,7 +123,7 @@ extension CustomServiceRepositoryImpl: CustomerInfraService {
     func queryChatHistory(page: Int, pageSize: Int = 20) -> Single<(TotalCount, [ChatHistory])> {
         apiCustomService.getPlayerChatHistory(pageIndex: page, pageSize: pageSize).map({ [unowned self] in
             guard let data = $0.data else { return (0, []) }
-            let histories = data.payload.map({ $0.toChatHistory(timeZone: self.playerConfig.localeTimeZone()) })
+            let histories = try data.payload.map({ try $0.toChatHistory(timeZone: self.playerConfig.localeTimeZone()) })
             return (data.totalCount, histories)
         })
     }
@@ -176,11 +176,11 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
     func getInProcessChatMessageHistory(roomId: String) -> Single<[ChatMessage]> {
         apiCustomService.getInProcessInformation(roomId: roomId).map { response in
             guard let data = response.data else { return [] }
-            return data.map {
+            return try data.map {
                 ChatMessage.Message(id: $0.messageId,
                                     speaker: self.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
                                     message: self.covertContentFromInProcess(message: $0.message, speakerType: EnumMapper.convert(speakerType: $0.speakerType)),
-                                    createTimeTick: $0.createdDate.toLocalDateTime())
+                                    createTimeTick: try $0.createdDate.toLocalDateTime())
             }
         }
     }
@@ -293,7 +293,7 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
         apiCustomService.getChatHistory(roomId: roomId)
             .map { response in
                 let roomHistories = response.data.roomHistories
-                return roomHistories.map{ self.toChatMessage(history: $0) }
+                return try roomHistories.map{ try self.toChatMessage(history: $0) }
             }
     }
     
@@ -310,11 +310,11 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
         }
     }
     
-    private func toChatMessage(history: RoomHistory) -> ChatMessage {
+    private func toChatMessage(history: RoomHistory) throws -> ChatMessage {
         ChatMessage.Message(id: history.messageId,
                             speaker: convertSpeaker(speaker: history.speaker, speakerType: history.speakerType),
                             message: covertContentFromInProcess(message: history.message, speakerType: EnumMapper.convert(speakerType: history.speakerType)),
-                            createTimeTick: history.createdDate.toLocalDateTime())
+                            createTimeTick: try history.createdDate.toLocalDateTime())
     }
     
     func covertContentFromInProcess(message: Message, speakerType: SpeakerType) -> [ChatMessage.Content] {

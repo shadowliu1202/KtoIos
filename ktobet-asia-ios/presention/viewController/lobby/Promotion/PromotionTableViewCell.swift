@@ -135,7 +135,7 @@ class PromotionTableViewCell: UITableViewCell {
     private func configureBonusCouponItem(_ bonusCoupon: BonusCouponItem) {
         let now = Date()
         if let duration = bonusCoupon.validPeriod as? ValidPeriod.Duration {
-            configureValidPeriodLayout(now, duration)
+            configureValidPeriodLayout(duration)
             setTextPerSecond(now, duration)
             let remainTime = TimeInterval(duration.countLeftMilliSeconds()) / 1000
             if self.timer == nil {
@@ -171,7 +171,7 @@ class PromotionTableViewCell: UITableViewCell {
         }
     }
     
-    public func configureValidPeriodLayout(_ now: Date, _ period: ValidPeriod.Duration) {
+    public func configureValidPeriodLayout(_ period: ValidPeriod.Duration) {
         fatalError("implements in subclass")
     }
     

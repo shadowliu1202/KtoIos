@@ -58,11 +58,16 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     
     func getHistory(roomId: String) -> LoadingStatus<NSArray> {
         var messages: NSArray?
-        if isPlayerInChat() {
-            messages = getInProcessChatMessageHistory()
-        } else {
-            messages = getChatHistory(roomId)
+        do {
+            if isPlayerInChat() {
+                messages = try getInProcessChatMessageHistory()
+            } else {
+                messages = try getChatHistory(roomId)
+            }
+        } catch {
+            print("ChatRoomSignalRClient, Please Check Date Format Return By API")
         }
+        
         let status: Status = messages != nil ? .success : .failed
         return  LoadingStatus.init(status: status, data: messages, message: "")
     }
@@ -74,7 +79,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         return false
     }
     
-    private func getInProcessChatMessageHistory() -> NSArray? {
+    private func getInProcessChatMessageHistory() throws -> NSArray? {
         let group = DispatchGroup()
         group.enter()
         var decodedObject: [InProcessBean]!
@@ -90,11 +95,11 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         
         group.wait()
         if let object = decodedObject {
-            let messages = object.map {
+            let messages = try object.map {
                 ChatMessage.Message(id: $0.messageId,
                                     speaker: self.repository.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
                                     message: self.repository.covertContentFromInProcess(message: $0.message, speakerType: EnumMapper.convert(speakerType: $0.speakerType)),
-                                    createTimeTick: $0.createdDate.toLocalDateTime())
+                                    createTimeTick: try $0.createdDate.toLocalDateTime())
             } as NSArray
             return messages
         } else {
@@ -102,7 +107,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         }
     }
     
-    private func getChatHistory(_ roomId: String) -> NSArray? {
+    private func getChatHistory(_ roomId: String) throws -> NSArray? {
         let group = DispatchGroup()
         group.enter()
         var decodedObject: [RoomHistory]!
@@ -118,11 +123,11 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         
         group.wait()
         if let object = decodedObject {
-            let messages = object.map {
+            let messages = try object.map {
                 ChatMessage.Message(id: $0.messageId,
                                     speaker: self.repository.convertSpeaker(speaker: $0.speaker, speakerType: $0.speakerType),
                                     message: self.repository.covertContentFromInProcess(message: $0.message, speakerType: EnumMapper.convert(speakerType: $0.speakerType)),
-                                    createTimeTick: $0.createdDate.toLocalDateTime())
+                                    createTimeTick: try $0.createdDate.toLocalDateTime())
             } as NSArray
             return messages
         } else {
@@ -254,7 +259,11 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         })
 
         self.socketConnect?.on(method: Target.SpeakingAsync.rawValue, callback: {[weak self] (bean: SpeakingAsyncBean) in
-            self?.onMessage?(PortalChatRoom.ChatActionMessage.init(message: ChatMapper.mapTo(speakingAsyncBean: bean)))
+            do {
+                self?.onMessage?(PortalChatRoom.ChatActionMessage.init(message: try ChatMapper.mapTo(speakingAsyncBean: bean)))
+            } catch {
+                print("ChatRoomSignalRClient, Please Check Date Format Return By API")
+            }
         })
 
         self.socketConnect?.on(method: Target.StopRoomAsync.rawValue, callback: {[weak self] (id: String) in

@@ -206,25 +206,25 @@ struct WithdrawalCryptoDetailView_Previews: PreviewProvider {
 
 class WithdrawalCryptoPreviewData {
     var withdrawalRecord: WithdrawalRecord {
-        WithdrawalRecord(transactionTransactionType: TransactionType.cryptowithdrawal, displayId: "displayId", transactionStatus: TransactionStatus.approved, createDate: Date().convertDateToOffsetDateTime(), cashAmount: AccountCurrency(tempAmount: BignumBigDecimal.companion.fromInt(int: 200), simpleName: "", symbol: ""), isPendingHold: true, groupDay: SharedBu.LocalDate.init(year: 1999, month: SharedBu.Month.october, dayOfMonth: 1))
+        WithdrawalRecord(transactionTransactionType: TransactionType.cryptowithdrawal, displayId: "displayId", transactionStatus: TransactionStatus.approved, createDate: Date().toUTCOffsetDateTime(), cashAmount: AccountCurrency(tempAmount: BignumBigDecimal.companion.fromInt(int: 200), simpleName: "", symbol: ""), isPendingHold: true, groupDay: SharedBu.LocalDate.init(year: 1999, month: SharedBu.Month.october, dayOfMonth: 1))
     }
     
     var requestCryptoAmount: CryptoExchangeRecord {
         let cryptoType = SupportCryptoType.valueOf("ETH")
         let locale = SupportLocale.companion.create(language: "zh-cn")
         let exchangeRate = CryptoExchangeFactory.init().create(from: cryptoType, to: locale, exRate: "0")
-        return CryptoExchangeRecord (cryptoAmount: 0.toCryptoCurrency(SupportCryptoType.valueOf("ETH")), exchangeRate: exchangeRate, cashAmount: 3600.toAccountCurrency(), date: Date().convertDateToOffsetDateTime())
+        return CryptoExchangeRecord (cryptoAmount: 0.toCryptoCurrency(SupportCryptoType.valueOf("ETH")), exchangeRate: exchangeRate, cashAmount: 3600.toAccountCurrency(), date: Date().toUTCOffsetDateTime())
     }
     
     var actualCryptoAmount: CryptoExchangeRecord {
         let cryptoType = SupportCryptoType.valueOf("ETH")
         let locale = SupportLocale.companion.create(language: "zh-cn")
         let exchangeRate = CryptoExchangeFactory.init().create(from: cryptoType, to: locale, exRate: "0")
-        return CryptoExchangeRecord (cryptoAmount: 10.toCryptoCurrency(SupportCryptoType.valueOf("ETH")), exchangeRate: exchangeRate, cashAmount: 2030.toAccountCurrency(), date: Date().convertDateToOffsetDateTime())
+        return CryptoExchangeRecord (cryptoAmount: 10.toCryptoCurrency(SupportCryptoType.valueOf("ETH")), exchangeRate: exchangeRate, cashAmount: 2030.toAccountCurrency(), date: Date().toUTCOffsetDateTime())
     }
     
     var statusChangeHistory: SharedBu.Transaction.StatusChangeHistory {
-        SharedBu.Transaction.StatusChangeHistory(createdDate: Date().convertDateToOffsetDateTime(), imageIds: [PortalImage.init()], remarkLevel1: "remarkLevel1", remarkLevel2: "remarkLevel2", remarkLevel3: "remarkLevel3")
+        SharedBu.Transaction.StatusChangeHistory(createdDate: Date().toUTCOffsetDateTime(), imageIds: [PortalImage.init()], remarkLevel1: "remarkLevel1", remarkLevel2: "remarkLevel2", remarkLevel3: "remarkLevel3")
     }
     
     var withdrawalDetail: WithdrawalDetail.Crypto {
@@ -232,12 +232,12 @@ class WithdrawalCryptoPreviewData {
                                 isBatched: true,
                                 isPendingHold: true,
                                 statusChangeHistories: [statusChangeHistory],
-                                updatedDate: Date().convertDateToOffsetDateTime(),
+                                updatedDate: Date().toUTCOffsetDateTime(),
                                 requestCryptoAmount: requestCryptoAmount,
                                 actualCryptoAmount: actualCryptoAmount,
                                 playerCryptoAddress: "playerCryptoAddress",
                                 providerCryptoAddress: "providerCryptoAddress",
-                                approvedDate: Date().convertDateToOffsetDateTime(),
+                                approvedDate: Date().toUTCOffsetDateTime(),
                                 hashId: "hashId")
     }
 }

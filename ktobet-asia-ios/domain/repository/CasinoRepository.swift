@@ -43,7 +43,7 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
         typeId.enumerated().forEach { (index, element) in map["gameTags[\(index)]"] = String(element) }
         let fetchApi =  casinoApi.search(sortBy: GameSorting.convertCasinoGameOrder(sortBy: GameSorting.releaseddate), map: map).map {  (response) -> [CasinoGame] in
             guard let data = response.data else { return [] }
-            return data.map({ $0.toCasinoGame() })
+            return try data.map({ try $0.toCasinoGame() })
         }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games
@@ -59,7 +59,7 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
     override func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
         let fetchApi = casinoApi.getFavoriteCasinos().map({ (response) -> [WebGameWithDuplicatable] in
             guard let data = response.data else { return [] }
-            return data.map { $0.toCasinoGame() }
+            return try data.map { try $0.toCasinoGame() }
         })
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games
@@ -76,7 +76,7 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
     override func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]> {
         let fetchApi =  casinoApi.searchCasino(keyword: keyword.getKeyword()).map { (response) -> [WebGameWithDuplicatable] in
             guard let data = response.data else { return [] }
-            return data.map { $0.toCasinoGame() }
+            return try data.map { try $0.toCasinoGame() }
         }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games

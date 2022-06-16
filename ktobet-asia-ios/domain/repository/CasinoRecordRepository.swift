@@ -24,10 +24,10 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getCasinoBetSummary(offset: secondsToHours).map { (response) -> BetSummary in
             guard let d = response.data else { return BetSummary.init(unFinishedGames: 0, finishedGame: []) }
-            let finishedGame = d.summaries.map { (s) -> DateSummary in
+            let finishedGame = try d.summaries.map { (s) -> DateSummary in
                 return DateSummary(totalStakes: s.stakes.toAccountCurrency(),
                                    totalWinLoss: s.winLoss.toAccountCurrency(),
-                                   createdDateTime: s.betDate.toLocalDate(),
+                                   createdDateTime: try s.betDate.toLocalDateWithAccountTimeZone(),
                                    count: s.count)
             }
             
@@ -41,7 +41,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             guard let data = response.data else { return [] }
             var unsettledBetSummaries: [UnsettledBetSummary] = []
             for s in data {
-                let betTime = s.betTime.toLocalDateTime()
+                let betTime = try s.betTime.toLocalDateTime()
                 let unsettledBetSummary = UnsettledBetSummary(betTime: betTime)
                 unsettledBetSummaries.append(unsettledBetSummary)
             }
@@ -55,7 +55,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             guard let data = response.data else { return [] }
             var unsettledBetRecords: [UnsettledBetRecord] = []
             for d in data {
-                let betTime = d.betTime.toLocalDateTime()
+                let betTime = try d.betTime.toLocalDateTime()
                 unsettledBetRecords.append(UnsettledBetRecord(betId: d.betId, otherId: d.otherId, gameId: d.gameId, gameName: d.gameName, betTime: betTime, stakes: d.stakes.toAccountCurrency(), prededuct: d.prededuct.toAccountCurrency()))
             }
             
@@ -69,7 +69,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             guard let data = response.data else { return [] }
             var periodOfRecords: [PeriodOfRecord] = []
             for p in data {
-                periodOfRecords.append(PeriodOfRecord(endDate: p.endDate.toLocalDateTime(), startDate: p.startDate.toLocalDateTime(), lobbyId: p.lobbyId, lobbyName: p.lobbyName, records: []))
+                periodOfRecords.append(PeriodOfRecord(endDate: try p.endDate.toLocalDateTime(), startDate: try p.startDate.toLocalDateTime(), lobbyId: p.lobbyId, lobbyName: p.lobbyName, records: []))
             }
             
             return periodOfRecords
@@ -94,7 +94,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?> {
         return casinoApi.getWagerDetail(wagerId: wagerId).map { (response) -> CasinoDetail? in
             guard let data = response.data else { return nil }
-            let betTime = data.betTime.toLocalDateTime()
+            let betTime = try data.betTime.toLocalDateTime()
             let casinoBetType = CasinoBetType.Companion.init().convert(type: data.gameType)
             let provider = GameProvider.Companion.init().convert(type: data.gameProviderId)
             let gameResult = CasinoGameResult.Companion.init().create(casinoBetType: casinoBetType, provider: provider, gameResult: data.gameResult)

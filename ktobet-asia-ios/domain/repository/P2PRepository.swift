@@ -25,7 +25,7 @@ class P2PRepositoryImpl: P2PRepository {
                 guard let currentBonus = data.currentBonus else {
                     return P2PTurnOver.Calculating.init()
                 }
-                return self.convertToTurnOverReceipt(bean: currentBonus)
+                return try self.convertToTurnOverReceipt(bean: currentBonus)
             } else {
                 return P2PTurnOver.Calculating.init()
             }
@@ -53,8 +53,8 @@ class P2PRepositoryImpl: P2PRepository {
         })
     }
     
-    private func convertToTurnOverReceipt(bean: LockedBonusDataBean) -> P2PTurnOver.TurnOverReceipt {
-        return bean.toTurnOverReceipt()
+    private func convertToTurnOverReceipt(bean: LockedBonusDataBean) throws -> P2PTurnOver.TurnOverReceipt {
+        return try bean.toTurnOverReceipt()
     }
 }
 
