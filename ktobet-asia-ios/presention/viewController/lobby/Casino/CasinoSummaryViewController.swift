@@ -26,7 +26,7 @@ class CasinoSummaryViewController: APPViewController {
     }
     
     private func bindingSummaryData() {
-        let betSummaryObservable = viewModel.betSummary.catchError { _ in Single<BetSummary>.never() }.asObservable().share(replay: 1)
+        let betSummaryObservable = viewModel.betSummary.asObservable().share(replay: 1)
         let dateSummaryObservable = betSummaryObservable.map {[weak self] (betSummary) -> [DateSummary] in
             guard let self = self else { return [] }
             var addUnFinishGame = betSummary.finishedGame
@@ -37,16 +37,14 @@ class CasinoSummaryViewController: APPViewController {
             return addUnFinishGame
         }
         
-        betSummaryObservable.subscribe{[weak self] (betSummary) in
+        betSummaryObservable.subscribe(onNext: {[weak self] (betSummary) in
             guard let self = self else { return }
             self.unfinishGameCount = betSummary.unFinishedGames
             if !self.hasUnsettleGameRecords(summary: betSummary) && !self.hasGameRecords(summary: betSummary) {
                 self.noDataView.isHidden = false
                 self.tableView.isHidden = true
             }
-        } onError: {[weak self] (error) in
-            self?.handleErrors(error)
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
         dateSummaryObservable.catchError({ [weak self] (error) -> Observable<[DateSummary]> in
             self?.handleErrors(error)

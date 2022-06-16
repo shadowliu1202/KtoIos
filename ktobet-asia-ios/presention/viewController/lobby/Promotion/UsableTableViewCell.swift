@@ -32,8 +32,8 @@ class UsableTableViewCell: PromotionTableViewCell {
         self.stamp.applyGradient(vertical: [UIColor(rgb: 0xffd500).cgColor, UIColor(rgb: 0xfea144).cgColor])
     }
     
-    override func configureValidPeriodLayout(_ now: Date, _ period: ValidPeriod.Duration) {
-        let isValid  = period.verify(time: now.convertDateToOffsetDateTime())
+    override func configureValidPeriodLayout(_ period: ValidPeriod.Duration) {
+        let isValid  = period.verify(time: Date().toUTCOffsetDateTime())
         if isValid {
             setManualImmediately()
         } else {

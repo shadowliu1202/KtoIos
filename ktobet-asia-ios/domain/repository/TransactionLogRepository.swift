@@ -26,7 +26,7 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
                 return balanceDateLogBean.logs
             })  else { return [] }
             
-            return data.map{ $0.toBalanceLog(transactionFactory: transactionFactory) }
+            return try data.map{ try $0.toBalanceLog(transactionFactory: transactionFactory) }
         }
     }
     
@@ -68,7 +68,7 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
             let transactionType = TransactionTypes.Companion.init().create(type: data.transactionType)
             switch transactionType {
             case is TransactionTypes.Adjustment, is TransactionTypes.DepositFeeRefund:
-                return self.convertToBalanceLogDetail(detail: data)
+                return try self.convertToBalanceLogDetail(detail: data)
             case is TransactionTypes.Bonus:
                 return self.getBonusBalanceLogDetail(detail: data)
             default:
@@ -91,19 +91,19 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
         })
     }
     
-    private func convertToBalanceLogDetail(detail: BalanceLogDetailBean) -> Single<BalanceLogDetail> {
-        return Single.just(detail.toBalanceLogDetail())
+    private func convertToBalanceLogDetail(detail: BalanceLogDetailBean) throws -> Single<BalanceLogDetail> {
+        return Single.just(try detail.toBalanceLogDetail())
     }
     
     private func getBonusBalanceLogDetail(detail: BalanceLogDetailBean) -> Single<BalanceLogDetail> {
         return transactionLogApi.getBalanceLogBonusRemark(externalId: detail.wagerMappingId ?? detail.externalId).map({ (response) in
-            return detail.toBalanceLogDetail(remark: response.data?.toBalanceLogDetailRemark())
+            return try detail.toBalanceLogDetail(remark: response.data?.toBalanceLogDetailRemark())
         })
     }
     
     private func getGeneralBalanceLogDetail(detail: BalanceLogDetailBean) -> Single<BalanceLogDetail> {
         return transactionLogApi.getBalanceLogDetailRemark(externalId: detail.wagerMappingId ?? detail.externalId).map { (response) in
-            detail.toBalanceLogDetail(remark: response.data?.toBalanceLogDetailRemark())
+            try detail.toBalanceLogDetail(remark: response.data?.toBalanceLogDetailRemark())
         }
     }
 }

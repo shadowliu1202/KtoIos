@@ -126,7 +126,7 @@ class PromotionDetailViewController: APPViewController {
         switch item {
         case let bonusItem as BonusCouponItem:
             configureBonusCouponItem(bonusItem)
-            let verify = bonusItem.validPeriod.verify(time: Date().convertDateToOffsetDateTime())
+            let verify = bonusItem.validPeriod.verify(time: Date().toUTCOffsetDateTime())
             getPromotionButton.alpha = verify ? 1.0 : 0.4
             getPromotionButton.isEnabled = verify
             if let product = bonusItem as? BonusCoupon.Product {

@@ -160,12 +160,6 @@ extension Date {
         return Calendar(identifier: .gregorian).date(byAdding: components, to: startOfMonth)!
     }
     
-    func convertDateToOffsetDateTime() -> OffsetDateTime {
-        let createLocalDateTime = SharedBu.LocalDateTime(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
-        let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: Foundation.TimeZone.current.identifier)
-        return offsetDateTime
-    }
-    
     func getPastSevenDate() -> Date {
         var dateComponent = DateComponents()
         dateComponent.day = -6
@@ -183,6 +177,12 @@ extension Date {
     
     func convertToKotlinx_datetimeLocalDate() -> SharedBu.LocalDate {
         return SharedBu.LocalDate.init(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth())
+    }
+    
+    func toUTCOffsetDateTime() -> OffsetDateTime {
+        let createLocalDateTime = SharedBu.LocalDateTime(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth(), hour: self.getHour(), minute: self.getMinute(), second: self.getSecond(), nanosecond: self.getNanosecond())
+        let offsetDateTime = OffsetDateTime.Companion.init().create(localDateTime: createLocalDateTime, zoneId: "UTC+0")
+        return offsetDateTime
     }
     
     static func - (lhs: Date, rhs: Date) -> TimeInterval {

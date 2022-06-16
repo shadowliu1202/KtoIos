@@ -33,28 +33,28 @@ class PromotionRepositoryImpl: PromotionRepository {
                                               type: bonusTypes.map{ BonusType.convert($0) })
         return promotionApi.searchPromotionHistory(request: request).map{ (response) -> CouponHistorySummary in
             guard let data = response.data else { return CouponHistorySummary(summary: 0.toAccountCurrency(), totalCoupon: 0, couponHistory: [])}
-            return data.convertToPromotions()
+            return try data.convertToPromotions()
         }
     }
     
     func getBonusCoupons() -> Single<[BonusCoupon]> {
         return self.promotionApi.getBonusCoupons().map({ (response) in
             guard let data = response.data else { return [] }
-            return data.map({ $0.toBonusCoupon() })
+            return try data.map({ try $0.toBonusCoupon() })
         })
     }
     
     func getProductPromotions() -> Single<[PromotionEvent.Product]> {
         return self.promotionApi.getProductPromotions().map { (response) in
             guard let data = response.data else { return [] }
-            return data.map({ $0.toProductPromotion() })
+            return try data.map({ try $0.toProductPromotion() })
         }
     }
     
     func getRebatePromotions() -> Single<[PromotionEvent.Rebate]> {
         return self.promotionApi.getPromotions().map { (response) in
             guard let data = response.data else { return [] }
-            return data.map({ $0.toRebatePromotion() })
+            return try data.map({ try $0.toRebatePromotion() })
         }
     }
     
@@ -78,7 +78,7 @@ class PromotionRepositoryImpl: PromotionRepository {
     func getLockedBonusDetail() -> Single<TurnOverDetail> {
         return self.promotionApi.getCurrentLockedBonus().flatMap({ (response) in
             guard let data = response.data else { return Single.error(KTOError.EmptyData) }
-            return Single<TurnOverDetail>.just(data.toTurnOverDetail())
+            return Single<TurnOverDetail>.just(try data.toTurnOverDetail())
         })
     }
     

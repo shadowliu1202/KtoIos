@@ -62,7 +62,7 @@ class SystemRepositoryImpl : SystemRepository{
     }
     
     private func updateMaintenanceStatus() -> Single<MaintenanceStatus> {
-        portalApi.getProductStatus().map { $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.init() }
+        portalApi.getProductStatus().map { try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.init() }
             .do(onSuccess: { self.productStatusChange.onNext($0) })
             .catchError({ [weak self] error in
             guard let self = self else { return Single.error(error) }

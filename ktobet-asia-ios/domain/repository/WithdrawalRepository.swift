@@ -93,21 +93,21 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
             
             return floatingData + noFloatingData
         }.map {
-            $0.map { (r) -> WithdrawalRecord in
-                return self.convertWithdrawalDataToWithdrawalRecord(r)
+            try $0.map { (r) -> WithdrawalRecord in
+                return try self.convertWithdrawalDataToWithdrawalRecord(r)
             }
         }
         
         return withdrawalRecord
     }
     
-    fileprivate func convertWithdrawalDataToWithdrawalRecord(_ r: WithdrawalRecordData) -> WithdrawalRecord {
+    fileprivate func convertWithdrawalDataToWithdrawalRecord(_ r: WithdrawalRecordData) throws -> WithdrawalRecord {
         WithdrawalRecord(transactionTransactionType: TransactionType.Companion.init().convertTransactionType(transactionType_: r.ticketType), displayId: r.displayID,
                          transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: r.status),
-                         createDate: r.createdDate.toOffsetDateTime(),
+                         createDate: try r.createdDate.toOffsetDateTime(),
                          cashAmount: r.requestAmount.toAccountCurrency(),
                          isPendingHold: r.isPendingHold,
-                         groupDay: r.createdDate.toLocalDate())
+                         groupDay: try r.createdDate.toLocalDate())
     }
     
     func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
@@ -124,7 +124,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
             var records: [WithdrawalRecord] = []
             for d in sortedData {
                 for r in d.logs {
-                    let record =  self.convertWithdrawalDataToWithdrawalRecord(r)
+                    let record =  try self.convertWithdrawalDataToWithdrawalRecord(r)
                     records.append(record)
                 }
             }
@@ -156,7 +156,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     fileprivate func createWithdrawalRecordDetail(detail: WithdrawalRecordDetailData, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
         return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { (tHistories) -> WithdrawalDetail in
-            detail.toWithdrawalDetail(transactionTransactionType: transactionTransactionType, statusChangeHistories: tHistories)
+            try detail.toWithdrawalDetail(transactionTransactionType: transactionTransactionType, statusChangeHistories: tHistories)
         }
     }
     
@@ -181,7 +181,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
                 portalImages.append(PortalImage.Private(imageId: r.data ?? "", fileName: "", host: HttpClient().getHost()))
             }
             
-            return Transaction.StatusChangeHistory(createdDate: changeHistory.createdDate.toOffsetDateTime(), imageIds: portalImages, remarkLevel1: changeHistory.remarkLevel1, remarkLevel2: changeHistory.remarkLevel2, remarkLevel3: changeHistory.remarkLevel3)
+            return Transaction.StatusChangeHistory(createdDate: try changeHistory.createdDate.toOffsetDateTime(), imageIds: portalImages, remarkLevel1: changeHistory.remarkLevel1, remarkLevel2: changeHistory.remarkLevel2, remarkLevel3: changeHistory.remarkLevel3)
         }
     }
     
@@ -215,7 +215,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func getCryptoBankCards() -> Single<[CryptoBankCard]> {
         return cpsApi.getCryptoBankCard().map { (response) -> [CryptoBankCard] in
             guard let data = response.data?.payload else { return [] }
-            return data.map{ $0.toCryptoBankCard() }
+            return try data.map{ try $0.toCryptoBankCard() }
         }
     }
     
@@ -249,7 +249,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     }
     
     func getCryptoLimitTransactions() -> Single<CpsWithdrawalSummary> {
-        return cpsApi.getCryptoWithdrawalLimitTransactions().map({ $0.data.toSummary() })
+        return cpsApi.getCryptoWithdrawalLimitTransactions().map({ try $0.data.toSummary() })
     }
     
     func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType, _ supportLocale: SupportLocale) -> Single<IExchangeRate> {

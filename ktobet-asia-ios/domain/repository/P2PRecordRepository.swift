@@ -21,7 +21,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return p2pApi.getBetSummary(offset: secondsToHours).map({ (response) -> [DateSummary] in
             guard let data = response.data else { return [] }
-            return data.summaries.map({ $0.toDateSummary() })
+            return try data.summaries.map({ try $0.toDateSummary() })
         })
     }
     
@@ -35,7 +35,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
             let groupedArray = groupedDicts.map { (gameGroupId: Int32, value: [P2PDateBetRecordBean]) -> P2PDateBetRecordBean in
                 return P2PDateBetRecordBean(gameGroupId: gameGroupId, gameList: value)
             }.sorted(by: {$0.endDate > $1.endDate })
-            let records: [GameGroupedRecord] = groupedArray.map({$0.toGameGroupedRecord()})
+            let records: [GameGroupedRecord] = try groupedArray.map({ try $0.toGameGroupedRecord()})
             return records
         })
     }
@@ -45,7 +45,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
                              endDate: endDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
                              gameId: gameId).map { (response) -> [P2PGameBetRecord] in
             guard let data = response.data else { return [] }
-            return data.map({ $0.toP2PGameBetRecord() })
+            return try data.map({ try $0.toP2PGameBetRecord() })
         }
     }
     
