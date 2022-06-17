@@ -129,6 +129,12 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
             .equal(\.centerYAnchor)
         ])
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let gameId = gameId(at: indexPath)
+        let gameName = gameName(at: indexPath)
+        self.goToWebGame(viewModel: self.viewModel, gameId: gameId, gameName: gameName)
+    }
 }
 
 extension CasinoUnsettleRecordsViewController: ExpandableHeaderViewDelegate {

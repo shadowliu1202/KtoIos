@@ -46,22 +46,13 @@ class P2PViewController: AppVersionCheckViewController {
     }
     
     private func checkTurnOver(p2pGame: P2PGame) {
-        viewModel.getTurnOverStatus().subscribe { (turnOver) in
+        viewModel.getTurnOverStatus().subscribe { [unowned self] (turnOver) in
             switch turnOver {
             case is P2PTurnOver.Calculating:
                 print("Calculating")
                 Alert.show(Localize.string("common_tip_title_warm"), Localize.string("product_p2p_bonus_calculating"), confirm: {}, cancel: nil)
             case is P2PTurnOver.None:
-                let storyboard = UIStoryboard(name: "Product", bundle: nil)
-                let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
-                if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
-                    gameVc.gameId = p2pGame.gameId
-                    gameVc.gameName = p2pGame.gameName
-                    gameVc.viewModel = self.viewModel
-                    gameVc.delegate = self
-                    navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
-                    self.present(navi, animated: true, completion: nil)
-                }
+                self.goToWebGame(viewModel: self.viewModel, gameId: p2pGame.gameId, gameName: p2pGame.gameName)
             case is P2PTurnOver.TurnOverReceipt:
                 guard let p2pAlertView = UIStoryboard(name: "P2P", bundle: nil).instantiateViewController(withIdentifier: "P2PAlertViewController") as? P2PAlertViewController else { return }
                 p2pAlertView.p2pTurnOver = turnOver

@@ -40,7 +40,7 @@ extension ExceptionFactory {
     private static func create(_ error: NSError) -> ApiException {
         let exception = ExceptionFactory
             .Companion.init()
-            .create(message: error.userInfo["NSLocalizedDescription"] as? String ?? "", statusCode: "\(error.code)")
+            .create(message: error.userInfo["errorMsg"] as? String ?? "", statusCode: error.userInfo["statusCode"] as? String ?? "")
         return exception
 
     }

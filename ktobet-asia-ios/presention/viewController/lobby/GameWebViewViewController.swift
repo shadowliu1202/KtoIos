@@ -9,7 +9,7 @@ class GameWebViewViewController: UIViewController {
     weak var delegate: WebGameViewCallback?
     private var disposeBag = DisposeBag()
     
-    var gameId: Int32!
+    var gameUrl: URL?
     var gameName: String = ""
     var gameProduct: String! {
         return viewModel?.getGameProduct() ?? ""
@@ -46,13 +46,9 @@ class GameWebViewViewController: UIViewController {
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
         }
         
-        viewModel?.createGame(gameId: gameId).subscribeOn(MainScheduler.instance).subscribe { (url) in
-            guard let url = url else { return }
-            let request = URLRequest(url: url)
-            webView.load(request)
-        } onError: { [weak self] in
-            self?.handleErrors($0)
-        }.disposed(by: disposeBag)
+        guard let url = gameUrl else { return }
+        let request = URLRequest(url: url)
+        webView.load(request)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

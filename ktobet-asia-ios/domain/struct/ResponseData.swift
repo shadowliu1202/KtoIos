@@ -515,7 +515,7 @@ struct CasinoData: Codable {
     let hasForFun, isFavorite: Bool
     let imageID: String
     let isGameMaintenance: Bool
-    let status: Int
+    let status: Int32
     let releaseDate: String?
     
     enum CodingKeys: String, CodingKey {
@@ -526,7 +526,7 @@ struct CasinoData: Codable {
     
     func toCasinoGame() throws -> CasinoGame {
         let thumbnail = CasinoThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: self.imageID)
-        return CasinoGame(gameId: Int32(self.gameID), gameName: self.name, isFavorite: self.isFavorite, gameStatus: GameStatus.convertToGameStatus(self.isGameMaintenance, self.status), thumbnail: thumbnail, releaseDate: try self.releaseDate?.toLocalDate())
+        return CasinoGame(gameId: Int32(self.gameID), gameName: self.name, isFavorite: self.isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isGameMaintenance, status: self.status), thumbnail: thumbnail, releaseDate: try self.releaseDate?.toLocalDate())
     }
 }
 

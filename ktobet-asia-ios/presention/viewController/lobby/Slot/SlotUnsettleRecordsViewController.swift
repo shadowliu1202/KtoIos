@@ -157,6 +157,11 @@ extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDat
         let lastRowIndex = tableView.numberOfRows(inSection: indexPath.section) - 1
         return indexPath.row == lastRowIndex
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let game = self.unsettleds[indexPath.section].records[indexPath.row]
+        self.goToWebGame(viewModel: self.viewModel, gameId: game.gameId, gameName: game.gameName)
+    }
 }
 
 class SlotUnsettleRecordsCell: UITableViewCell {
