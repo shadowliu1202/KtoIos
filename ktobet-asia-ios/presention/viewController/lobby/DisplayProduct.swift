@@ -11,7 +11,7 @@ protocol ProductBaseCollection: AnyObject {
     func setViewModel() -> DisplayProductViewModel?
 }
 
-class DisplayGameCollectionBaseViewController: AppVersionCheckViewController, ProductVCProtocol {
+class DisplayGameCollectionBaseViewController: ProductsViewController, ProductVCProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()

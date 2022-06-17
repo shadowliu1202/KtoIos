@@ -5,7 +5,7 @@ import SharedBu
 import RxCocoa
 
 
-class PromotionDetailViewController: APPViewController {
+class PromotionDetailViewController: LobbyViewController {
     @IBOutlet weak var typeButton: UIButton!
     @IBOutlet weak var subTypeLabel: UILabel!
     @IBOutlet weak var issueNumberLabel: UILabel!

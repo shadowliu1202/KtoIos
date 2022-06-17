@@ -5,7 +5,7 @@ import RxDataSources
 import SharedBu
 import SwiftUI
 
-class WithdrawalRecordViewController: APPViewController {
+class WithdrawalRecordViewController: LobbyViewController {
     static let segueIdentifier = "toAllRecordSegue"
     
     @IBOutlet private weak var dateView: KTODateView!

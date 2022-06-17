@@ -5,7 +5,7 @@ import SDWebImage
 import IQKeyboardManagerSwift
 import SwiftUI
 
-class ChatRoomViewController: APPViewController {
+class ChatRoomViewController: CommonViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: CustomerServiceViewModel!
     var surveyViewModel: SurveyViewModel!

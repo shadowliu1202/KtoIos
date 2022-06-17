@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 
 
-class PromotionHistoryViewController: APPViewController {
+class PromotionHistoryViewController: LobbyViewController {
     @IBOutlet private weak var dateView: KTODateView!
     @IBOutlet private weak var filterBtn: FilterButton!
     @IBOutlet private weak var emptyView: UIView!

@@ -6,7 +6,7 @@ import SwiftUI
 import NotificationBannerSwift
 import RxRelay
 
-class SportBookViewController: APPViewController {
+class SportBookViewController: LobbyViewController {
     private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()

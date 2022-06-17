@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SetBirthdayViewController: APPViewController, AuthProfileVerification {
+class SetBirthdayViewController: LobbyViewController, AuthProfileVerification {
     static let segueIdentifier = "toSetBirthday"
     private var isPickedDate = false
     @IBOutlet weak var birthdayInput: InputText!

@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-class TransactionHtmlViewController: UIViewController {
+class TransactionHtmlViewController: LobbyViewController {
 
     var html: String!
     @IBOutlet weak var webView: WKWebView!

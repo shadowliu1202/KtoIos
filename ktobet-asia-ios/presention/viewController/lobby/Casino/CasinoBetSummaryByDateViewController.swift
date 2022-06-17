@@ -4,7 +4,7 @@ import RxCocoa
 import SharedBu
 
 
-class CasinoBetSummaryByDateViewController: APPViewController {
+class CasinoBetSummaryByDateViewController: LobbyViewController {
     static let segueIdentifier = "toCasinoBetSummaryByDate"
     
     @IBOutlet private weak var tableView: UITableView!

@@ -8,7 +8,7 @@ struct LogDetail {
     var transactionId: String
     var isSmartBet: Bool = false
 }
-class TransactionLogDetailViewController: APPViewController {
+class TransactionLogDetailViewController: LobbyViewController {
     var param: LogDetail?
     var detailItem: LogDetailRowItem? {
         didSet {

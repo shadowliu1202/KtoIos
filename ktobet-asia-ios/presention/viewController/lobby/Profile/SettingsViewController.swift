@@ -1,6 +1,6 @@
 import UIKit
 
-class SettingsViewController: APPViewController, SettingsTableDelegate {
+class SettingsViewController: LobbyViewController, SettingsTableDelegate {
     private static let embedSegue = "embedSegue"
     static let segueIdentifier = "toSettings"
     

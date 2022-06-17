@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class ExitSurveyViewController: APPViewController {
+class ExitSurveyViewController: CommonViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: SurveyViewModel!
     var roomId: RoomId?
@@ -16,7 +16,6 @@ class ExitSurveyViewController: APPViewController {
     
     @IBOutlet weak var containView: UIView!
     @IBOutlet weak var completeBtn: UIButton!
-    
     private lazy var surveyVC: SurveyViewController = {
         var viewController = self.storyboard?.instantiateViewController(withIdentifier: "SurveyViewController") as! SurveyViewController
         viewController.viewModel = self.viewModel

@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class P2PBetSummaryByDateViewController: APPViewController {
+class P2PBetSummaryByDateViewController: LobbyViewController {
     static let segueIdentifier = "toP2PBetSummaryByDate"
     var selectDate: String? = ""
     var viewModel = DI.resolve(P2PBetViewModel.self)!

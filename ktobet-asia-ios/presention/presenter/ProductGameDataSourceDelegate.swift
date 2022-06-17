@@ -2,7 +2,7 @@ import UIKit
 import SharedBu
 import RxSwift
 
-typealias ProductFavoriteHelper = AppVersionCheckViewController & ProductVCProtocol & WebGameViewCallback
+typealias ProductFavoriteHelper = ProductsViewController & ProductVCProtocol & WebGameViewCallback
 
 class ProductGameDataSourceDelegate : NSObject {
     enum CellType {

@@ -4,7 +4,7 @@ import RxSwift
 import RxCocoa
 import SwiftUI
 
-class NotificationViewController: APPViewController {
+class NotificationViewController: LobbyViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyViewContainer: UIView!
 

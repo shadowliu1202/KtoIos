@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 
 
-class PromotionRuleTermViewController: APPViewController {
+class PromotionRuleTermViewController: LobbyViewController {
     static let segueIdentifier = "toPromotionRuleTerm"
     @IBOutlet weak var textView: UITextView!
     

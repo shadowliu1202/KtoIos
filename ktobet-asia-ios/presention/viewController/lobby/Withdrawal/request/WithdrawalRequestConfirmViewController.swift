@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class WithdrawalRequestConfirmViewController: APPViewController {
+class WithdrawalRequestConfirmViewController: LobbyViewController {
     static let segueIdentifier = "toWithdrawalRequestConfirm"
     @IBOutlet private weak var withdrawalAmountLabel: UILabel!
     @IBOutlet private weak var withdrawalTodayCountLimitLabel: UILabel!

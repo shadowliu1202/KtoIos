@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class ProfileViewController: APPViewController, AuthProfileVerification {
+class ProfileViewController: LobbyViewController, AuthProfileVerification {
     
     @IBOutlet weak var passwordView: OneItemView!
     @IBOutlet weak var gameIdLabel: UILabel!

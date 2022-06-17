@@ -1,15 +1,9 @@
-//
-//  SignupRegistFailViewController.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/12/22.
-//
-
 import Foundation
 import UIKit
 import RxSwift
+import SharedBu
 
-class CommonFailViewController: UIViewController {
+class CommonFailViewController: CommonViewController {
     static let segueIdentifier = "GoToFail"
     var barButtonItems: [UIBarButtonItem] = []
 
@@ -25,7 +19,7 @@ class CommonFailViewController: UIViewController {
 
     var commonFailedType: CommonFailedTypeProtocol!
     private var disposeBag = DisposeBag()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bind(position: .right, barButtonItems: commonFailedType.barItems)

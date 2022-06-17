@@ -5,7 +5,7 @@ import SharedBu
 
 protocol NotificationNavigate: UIViewController {}
 
-class NotificationDetailViewController: UIViewController, NotificationNavigate {
+class NotificationDetailViewController: LobbyViewController, NotificationNavigate {
     static let segueIdentifier = "toNotificationDetail"
     var data: NotificationItem!
     @IBOutlet weak var titleLabel: UILabel!

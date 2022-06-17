@@ -4,7 +4,7 @@ import RxSwift
 import SharedBu
 import Moya
 
-class DepositViewController: APPViewController {
+class DepositViewController: LobbyViewController {
     @IBOutlet private weak var depositDescriptionLabel: UILabel!
     @IBOutlet private weak var depositNoDataLabel: UILabel!
     @IBOutlet private weak var depositTypeTableView: UITableView!

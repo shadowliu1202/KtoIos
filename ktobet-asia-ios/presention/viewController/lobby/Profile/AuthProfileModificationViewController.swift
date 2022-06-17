@@ -21,7 +21,7 @@ extension AuthProfileVerification where Self: UIViewController {
     }
 }
 
-class AuthProfileModificationViewController: APPViewController {
+class AuthProfileModificationViewController: LobbyViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var didAuthenticated: (() -> ())?
     @IBOutlet weak var errorViewHeight: NSLayoutConstraint!

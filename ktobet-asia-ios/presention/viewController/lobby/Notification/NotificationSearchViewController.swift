@@ -3,7 +3,7 @@ import RxSwift
 import RxSwiftExt
 import SharedBu
 
-class NotificationSearchViewController: APPViewController {
+class NotificationSearchViewController: LobbyViewController {
     @IBOutlet weak var searchBarView: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!

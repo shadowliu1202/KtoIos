@@ -3,7 +3,7 @@ import SharedBu
 import RxSwift
 import SwiftUI
 
-class LevelPrivilegeDetailViewController: APPViewController {
+class LevelPrivilegeDetailViewController: LobbyViewController {
     static let segueIdentifier = "toPrivilegeDetail"
     
     @IBOutlet private weak var btnPromotion: UIButton!

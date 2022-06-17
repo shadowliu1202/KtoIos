@@ -4,7 +4,7 @@ import RxSwift
 import Photos
 import RxCocoa
 
-class DepositRecordDetailViewController: UIViewController {
+class DepositRecordDetailViewController: LobbyViewController {
     @IBOutlet private weak var titleNameLabel: UILabel!
     @IBOutlet private weak var amountTitleLabel: UILabel!
     @IBOutlet private weak var statusTitleLabel: UILabel!

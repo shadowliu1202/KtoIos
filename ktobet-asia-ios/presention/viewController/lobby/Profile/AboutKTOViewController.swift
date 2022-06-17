@@ -1,7 +1,7 @@
 import UIKit
 import RxSwift
 
-class AboutKTOViewController: APPViewController {
+class AboutKTOViewController: LobbyViewController {
     static let segueIdentifier = "toAboutKTO"
     
     @IBOutlet weak var webLink: UITextView!

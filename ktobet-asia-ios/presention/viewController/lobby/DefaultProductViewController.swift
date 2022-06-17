@@ -12,7 +12,7 @@ struct DefaultProductItem {
     var unselectImg : UIImage
 }
 
-class DefaultProductViewController: APPViewController {
+class DefaultProductViewController: LobbyViewController {
     @IBOutlet private weak var btnIgnore: UIBarButtonItem!
     @IBOutlet private weak var btnInfo : UIButton!
     @IBOutlet private weak var labTitle : UILabel!

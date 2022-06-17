@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class WithdrawlEmptyViewController: UIViewController {
+class WithdrawlEmptyViewController: LobbyViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -59,4 +59,6 @@ class WithdrawlEmptyViewController: UIViewController {
     func tapBack() {
         NavigationManagement.sharedInstance.popToRootViewController()
     }
+    
+    override func networkDisconnectHandler() { }
 }

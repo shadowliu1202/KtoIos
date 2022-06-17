@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class OldAccountModifyConfirmationViewController: APPViewController {
+class OldAccountModifyConfirmationViewController: LobbyViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var verifyButton: UIButton!

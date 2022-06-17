@@ -3,7 +3,7 @@ import SwiftUI
 import RxSwift
 import SharedBu
 
-class DepositRecordContainer: APPViewController {
+class DepositRecordContainer: LobbyViewController {
     
     @IBOutlet weak var containView: UIView!
     

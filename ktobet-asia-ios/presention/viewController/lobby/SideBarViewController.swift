@@ -24,7 +24,7 @@ extension SideBarViewController: SideMenuNavigationControllerDelegate {
     }
 }
 
-class SideBarViewController: APPViewController {
+class SideBarViewController: LobbyViewController {
     @IBOutlet private weak var btnGift: UIBarButtonItem!
     @IBOutlet private weak var btnNotification: UIBarButtonItem!
     @IBOutlet private weak var btnClose: UIBarButtonItem!
@@ -393,6 +393,12 @@ class SideBarViewController: APPViewController {
     @IBAction func toNotify(_ sender : UIButton){
         cleanProductSelected()
         NavigationManagement.sharedInstance.goTo(storyboard: "Notification", viewControllerId: "AccountNotificationNavigationController")
+    }
+    
+    @IBAction func manualUpdate() {
+        if Configuration.manualUpdate {
+            Configuration.isAutoUpdate = true
+        }
     }
     
     fileprivate func cleanProductSelected() {

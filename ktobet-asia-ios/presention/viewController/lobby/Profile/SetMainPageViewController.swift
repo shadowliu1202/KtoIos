@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SetMainPageViewController: APPViewController {
+class SetMainPageViewController: LobbyViewController {
     static let segueIdentifier = "toSetMainPage"
     
     @IBOutlet weak var sportbookView: ProductItemView!

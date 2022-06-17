@@ -3,7 +3,7 @@ import WebKit
 import RxSwift
 import SharedBu
 
-class DepositCryptoViewController: APPViewController {
+class DepositCryptoViewController: LobbyViewController {
     
     @IBOutlet private weak var webView: WKWebView!
     
