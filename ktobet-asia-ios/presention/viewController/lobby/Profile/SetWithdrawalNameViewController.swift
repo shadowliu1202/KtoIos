@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SetWithdrawalNameViewController: APPViewController, AuthProfileVerification {
+class SetWithdrawalNameViewController: LobbyViewController, AuthProfileVerification {
     static let segueIdentifier = "toSetWithdrawalName"
     
     @IBOutlet weak var realNameInput: InputText!

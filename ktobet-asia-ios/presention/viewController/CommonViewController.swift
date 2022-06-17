@@ -1,11 +1,13 @@
 import UIKit
-import SharedBu
 import RxSwift
+import SharedBu
 
-class LandingViewController: APPViewController, VersionUpdateProtocol {
+class CommonViewController: APPViewController, VersionUpdateProtocol {
+    private let playerViewModel = DI.resolve(PlayerViewModel.self)!
     var appSyncViewModel = DI.resolve(AppSynchronizeViewModel.self)!
     private let playerConfiguration = DI.resolve(PlayerConfiguration.self)!
-    lazy var playerTimeZone: Foundation.TimeZone = playerConfiguration.localeTimeZone()
+    private lazy var playerTimeZone: Foundation.TimeZone = playerConfiguration.localeTimeZone()
+    private var disposeBag = DisposeBag()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -16,15 +18,19 @@ class LandingViewController: APPViewController, VersionUpdateProtocol {
     func updateStrategy(_ incoming: Version, _ superSignStatus: SuperSignStatus) {
         let action = Bundle.main.currentVersion.getUpdateAction(latestVersion: incoming)
         if action == .compulsoryupdate {
-            doCompulsoryUpdateConfirm(incoming, superSignStatus)
-        }
-    }
-
-    private func doCompulsoryUpdateConfirm(_ incoming: Version, _ superSignStatus: SuperSignStatus) {
-        if superSignStatus.isMaintenance, let endTime = superSignStatus.endTime {
-            self.alertSuperSignMaintain(endTime)
-        } else {
-            self.confirmUpdate(incoming.apkLink)
+            playerViewModel.checkIsLogged().subscribe(onSuccess: { [weak self] isLogin in
+                guard isLogin == false else {
+                    self?.executeLogout()
+                    return
+                }
+                if superSignStatus.isMaintenance, let endTime = superSignStatus.endTime {
+                    self?.alertSuperSignMaintain(endTime)
+                } else {
+                    self?.confirmUpdate(incoming.apkLink)
+                }
+            }, onError: { [weak self] in
+                self?.handleErrors($0)
+            }).disposed(by: versionSyncDisposeBag)
         }
     }
     
@@ -43,7 +49,7 @@ class LandingViewController: APPViewController, VersionUpdateProtocol {
         return dateFormatter.string(from: date)
     }
     
-    func confirmUpdate(_ urlString: String) {
+    private func confirmUpdate(_ urlString: String) {
         guard !Alert.isShown() else { return }
         Alert.show(nil,
                    Localize.string("update_new_version_content"),
@@ -57,5 +63,14 @@ class LandingViewController: APPViewController, VersionUpdateProtocol {
             exit(0)
         },
                    cancelText: Localize.string("update_exit"))
+    }
+    
+    private func executeLogout() {
+        playerViewModel.logout().subscribeOn(MainScheduler.instance).subscribe(onCompleted: { [weak self] in
+            self?.disposeBag = DisposeBag()
+            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+        }, onError: {
+            print($0)
+        }).disposed(by: disposeBag)
     }
 }

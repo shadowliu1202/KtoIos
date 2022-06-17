@@ -7,7 +7,7 @@ protocol AccountAddComplete: AnyObject {
     func addAccountSuccess()
 }
 
-class WithdrawlAccountsViewController: UIViewController {
+class WithdrawlAccountsViewController: LobbyViewController {
     static let unwindSegue = "unwindsegueAccount"
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!

@@ -1,7 +1,7 @@
 import UIKit
 import RxSwift
 
-class OfflineMessageViewController: UIViewController {
+class OfflineMessageViewController: CommonViewController {
     var barButtonItems: [UIBarButtonItem] = []
     
     @IBOutlet weak var emailInputText: InputText!

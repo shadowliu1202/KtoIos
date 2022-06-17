@@ -2,7 +2,7 @@ import UIKit
 import SharedBu
 import RxSwift
 
-class CryptoSelectorViewController: APPViewController {
+class CryptoSelectorViewController: LobbyViewController {
     @IBOutlet weak var guideLabel: UILabel!
     @IBOutlet weak var guideBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!

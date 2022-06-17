@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SetIdentityViewController: APPViewController {
+class SetIdentityViewController: LobbyViewController {
     @IBOutlet private weak var inputIdentity: InputText!
     @IBOutlet private weak var stepTitle: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!

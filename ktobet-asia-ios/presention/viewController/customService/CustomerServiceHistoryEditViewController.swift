@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class CustomerServiceHistoryEditViewController: UIViewController {
+class CustomerServiceHistoryEditViewController: LobbyViewController {
     static let segueIdentifier = "toCustomerServiceHistoryEditViewController"
     private var activityIndicator = UIActivityIndicatorView(style: .large)
     private var disposeBag = DisposeBag()

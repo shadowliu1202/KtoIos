@@ -71,4 +71,11 @@ class Alert {
 
         topVc.dismiss(animated: true, completion: completion)
     }
+    
+    class func isShown() -> Bool {
+        if let topVC = UIApplication.topViewController(), topVC is UIAlertController {
+            return true
+        }
+        return false
+    }
 }

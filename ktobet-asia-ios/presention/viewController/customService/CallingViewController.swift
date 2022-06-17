@@ -3,11 +3,10 @@ import Lottie
 import RxSwift
 import SharedBu
 
-class CallingViewController: UIViewController {
+class CallingViewController: CommonViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var csViewModel: CustomerServiceViewModel!
     var svViewModel: SurveyViewModel!
-    
     private let disposeBag = DisposeBag()
     
     @IBOutlet weak var waitingCountLabel: UILabel!
@@ -110,7 +109,6 @@ class CallingViewController: UIViewController {
                    cancel: { CustomService.close() },
                    cancelText: Localize.string("common_skip"))
     }
-    
 }
 
 extension CallingViewController: BarButtonItemable {

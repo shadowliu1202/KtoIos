@@ -4,7 +4,7 @@ import RxDataSources
 import SharedBu
 
 
-class CasinoSummaryViewController: APPViewController {
+class CasinoSummaryViewController: LobbyViewController {
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet private weak var tableView: UITableView!
     

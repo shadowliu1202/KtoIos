@@ -8,22 +8,23 @@ func methodPointer<T: AnyObject>(obj: T, method: @escaping (T) -> () -> Void) ->
 
 class APPViewController: UIViewController {
     private var banner: UIView?
-    
+
     private let _errors = PublishSubject<Error>.init()
     private var errorsDispose: Disposable?
     let networkConnectRelay = BehaviorRelay<Bool>(value: true)
-    
+    var versionSyncDisposeBag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         observerRequestError()
         initNetworkConnectRelay()
     }
-    
+
     private func initNetworkConnectRelay() {
         guard let reachability = Reachability else { return }
         networkConnectRelay.accept(reachability.isNetworkConnected)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if Reachability?.isNetworkConnected == true {
@@ -32,25 +33,26 @@ class APPViewController: UIViewController {
             self.networkDisconnectHandler()
         }
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         errorsDispose?.dispose()
+        versionSyncDisposeBag = DisposeBag()
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.dismissBanner()
     }
-    
+
     func networkReConnectedHandler() {
         dismissBanner()
     }
-    
+
     func networkDisconnectHandler() {
         displayBanner()
     }
-    
+
     private func displayBanner() {
         guard banner == nil else { return }
         banner = UIHostingController(rootView: BannerView()).view
@@ -62,12 +64,12 @@ class APPViewController: UIViewController {
             .equal(\.trailingAnchor, offset: -0)
         ])
     }
-    
+
     private func dismissBanner() {
         banner?.removeFromSuperview()
         banner = nil
     }
-    
+
     private func observerRequestError() {
         errorsDispose = _errors.throttle(.milliseconds(1500), latest: false, scheduler: MainScheduler.instance)
             .observeOn(MainScheduler.instance)
@@ -84,12 +86,12 @@ extension APPViewController: NetworkStatusDisplay {
         self.networkReConnectedHandler()
         self.networkConnectRelay.accept(true)
     }
-    
+
     func networkDisConnected() {
         self.networkDisconnectHandler()
         self.networkConnectRelay.accept(false)
     }
-    
+
     func networkRequestHandle(error: Error) {
         _errors.onNext(error)
     }
@@ -104,4 +106,3 @@ extension APPViewController: UIAdaptivePresentationControllerDelegate {
         }
     }
 }
-

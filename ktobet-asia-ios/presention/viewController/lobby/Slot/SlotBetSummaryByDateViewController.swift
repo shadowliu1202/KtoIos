@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 import SDWebImage
 
-class SlotBetSummaryByDateViewController: APPViewController {
+class SlotBetSummaryByDateViewController: LobbyViewController {
     static let segueIdentifier = "toSlotBetSummaryByDate"
     var selectDate: String? = ""
     var viewModel = DI.resolve(SlotBetViewModel.self)!

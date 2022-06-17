@@ -5,7 +5,7 @@ import RxCocoa
 import RxDataSources
 
 
-class NumberGameDetailViewController: APPViewController {
+class NumberGameDetailViewController: LobbyViewController {
     static let segueIdentifier = "toNumberGameBetDetail"
     @IBOutlet weak var tableView: UITableView!
     

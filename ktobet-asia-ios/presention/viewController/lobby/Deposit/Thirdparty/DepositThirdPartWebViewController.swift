@@ -2,7 +2,7 @@ import UIKit
 import WebKit
 import SharedBu
 
-class DepositThirdPartWebViewController: APPViewController {
+class DepositThirdPartWebViewController: LobbyViewController {
     static let segueIdentifier = "toThirdPartWebSegue"
     
     @IBOutlet private weak var webView: WKWebView!

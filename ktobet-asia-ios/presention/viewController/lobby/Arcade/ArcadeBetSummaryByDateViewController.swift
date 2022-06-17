@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class ArcadeBetSummaryByDateViewController: APPViewController {
+class ArcadeBetSummaryByDateViewController: LobbyViewController {
     static let segueIdentifier = "toArcadeBetSummaryByDate"
     var viewModel: ArcadeRecordViewModel!
     private var disposeBag = DisposeBag()

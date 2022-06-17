@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class TransactionLogSummaryViewController: APPViewController {
+class TransactionLogSummaryViewController: LobbyViewController {
     static let segueIdentifier = "toTransactionLogSummary"
     
     @IBOutlet weak var tableView: UITableView!

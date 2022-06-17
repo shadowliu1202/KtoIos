@@ -5,7 +5,7 @@ import RxCocoa
 import RxDataSources
 
 
-class NumberGameMyBetGameGroupedViewController: APPViewController {
+class NumberGameMyBetGameGroupedViewController: LobbyViewController {
     static let segueIdentifier = "toNumberGameMyBetGameGrouped"
     
     let viewModel = DI.resolve(NumberGameRecordViewModel.self)!

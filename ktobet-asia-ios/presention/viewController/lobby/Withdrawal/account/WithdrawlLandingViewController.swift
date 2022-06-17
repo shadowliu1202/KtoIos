@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class WithdrawlLandingViewController: APPViewController {
+class WithdrawlLandingViewController: LobbyViewController {
     static let segueIdentifier = "toWithdrawalBankLanding"
     static let unwindSegue = "unwindsegueWithdrawalLanding"
 

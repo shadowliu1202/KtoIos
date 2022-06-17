@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class ChangePasswordViewController: APPViewController, AuthProfileVerification {
+class ChangePasswordViewController: LobbyViewController, AuthProfileVerification {
     static let segueIdentifier = "goChangePassword"
     @IBOutlet weak var errorViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var inputPassword: InputPassword!

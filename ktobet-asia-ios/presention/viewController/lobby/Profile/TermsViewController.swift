@@ -5,7 +5,7 @@ enum TermsRow: Int {
     case privacy, service, gamblingResponsibility, aboutKto, legalSupervision
 }
 
-class TermsViewController: APPViewController, TermsTableDelegate {
+class TermsViewController: LobbyViewController, TermsTableDelegate {
     private static let embedSegue = "embedSegue"
     static let segueIdentifier = "toTerms"
     

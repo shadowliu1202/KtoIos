@@ -6,7 +6,7 @@ import SDWebImage
 import TYCyclePagerView
 import AlignedCollectionViewFlowLayout
 
-class SlotViewController: AppVersionCheckViewController {
+class SlotViewController: ProductsViewController {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var recentlyCollectionView: LoadMoreCollectionView!
     @IBOutlet var newCollectionView: LoadMoreCollectionView!

@@ -5,7 +5,7 @@ import SharedBu
 import AlignedCollectionViewFlowLayout
 import SDWebImage
 
-class P2PViewController: AppVersionCheckViewController {
+class P2PViewController: ProductsViewController {
     
     @IBOutlet private weak var tableView: UITableView!
         

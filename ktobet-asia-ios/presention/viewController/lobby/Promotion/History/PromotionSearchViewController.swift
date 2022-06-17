@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 
 
-class PromotionSearchViewController: APPViewController {
+class PromotionSearchViewController: LobbyViewController {
     @IBOutlet var searchBarView: UISearchBar!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var emptyView: UIView!

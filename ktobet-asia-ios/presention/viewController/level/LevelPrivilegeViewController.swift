@@ -29,7 +29,7 @@ class Item {
 
 let TopLevel = 10
 
-class LevelPrivilegeViewController: APPViewController {
+class LevelPrivilegeViewController: LobbyViewController {
     
     var currentLevel: Int32 = 0
     let resource = BehaviorRelay<[Item]>(value: [])

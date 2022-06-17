@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class AddBankViewController: APPViewController, AuthProfileVerification {
+class AddBankViewController: LobbyViewController, AuthProfileVerification {
     static let segueIdentifier = "toAddBank"
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!

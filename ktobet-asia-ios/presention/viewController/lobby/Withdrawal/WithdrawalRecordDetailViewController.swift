@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 import Photos
 
-class WithdrawalRecordDetailViewController: APPViewController {
+class WithdrawalRecordDetailViewController: LobbyViewController {
     @IBOutlet private weak var titleNameLabel: UILabel!
     @IBOutlet private weak var amountTitleLabel: UILabel!
     @IBOutlet private weak var statusTitleLabel: UILabel!

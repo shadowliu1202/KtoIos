@@ -17,8 +17,7 @@ enum TermsType {
     case gamblingResponsibility
 }
 
-class TermsOfServiceViewController: LandingViewController, UIScrollViewDelegate {
-    
+class TermsOfServiceViewController: CommonViewController, UIScrollViewDelegate {
     @IBOutlet private weak var btnBack: UIBarButtonItem!
     @IBOutlet private weak var btnTitle : UIBarButtonItem!
     @IBOutlet private weak var labTitle : UILabel!

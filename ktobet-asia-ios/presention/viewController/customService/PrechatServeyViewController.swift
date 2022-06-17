@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class PrechatServeyViewController: APPViewController {
+class PrechatServeyViewController: CommonViewController {
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: SurveyViewModel!
     var csViewModel: CustomerServiceViewModel!
@@ -80,7 +80,6 @@ class PrechatServeyViewController: APPViewController {
             return Disposables.create()
         }
     }
-    
 }
 
 extension PrechatServeyViewController: BarButtonItemable {

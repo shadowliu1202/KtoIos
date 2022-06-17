@@ -12,7 +12,7 @@ class AppSynchronizeViewModel {
     func getLatestAppVersion() -> Single<Version> {
         self.appUpdateUseCase.getLatestAppVersion()
     }
-    
+
     func getSuperSignStatus() -> Single<SuperSignStatus> {
         self.appUpdateUseCase.getSuperSignatureMaintenance()
     }

@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 
 
-class WithdrawalRequestViewController: APPViewController, AuthProfileVerification {
+class WithdrawalRequestViewController: LobbyViewController, AuthProfileVerification {
     static let segueIdentifier = "toWithdrawalRequest"
     @IBOutlet private weak var withdrawalStep1TitleLabel: UILabel!
     @IBOutlet private weak var withdrawalTitleLabel: UILabel!

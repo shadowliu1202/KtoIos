@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 
 
-class CasinoUnsettleRecordsViewController: AppVersionCheckViewController {
+class CasinoUnsettleRecordsViewController: ProductsViewController {
     static let segueIdentifier = "toCasinoUnsettleRecords"
     @IBOutlet private weak var tableView: UITableView!
     
