@@ -16,18 +16,8 @@ class UnsettleGameDelegate : NSObject {
 
 extension UnsettleGameDelegate: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let helper = helper else { return }
-        let storyboard = UIStoryboard(name: "Product", bundle: nil)
-        let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
-        if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
-            gameVc.gameId = helper.gameId(at: indexPath)
-            gameVc.gameName = helper.gameName(at: indexPath)
-            gameVc.viewModel = helper.getProductViewModel()
-            gameVc.delegate = helper
-            navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
-            helper.present(navi, animated: true, completion: nil)
-        }
         tableView.deselectRow(at: indexPath, animated: true)
+        helper?.tableView?(tableView, didSelectRowAt: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

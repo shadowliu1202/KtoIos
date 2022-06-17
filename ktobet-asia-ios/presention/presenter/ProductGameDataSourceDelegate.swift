@@ -1,7 +1,8 @@
 import UIKit
 import SharedBu
+import RxSwift
 
-typealias ProductFavoriteHelper = UIViewController & ProductVCProtocol & WebGameViewCallback
+typealias ProductFavoriteHelper = AppVersionCheckViewController & ProductVCProtocol & WebGameViewCallback
 
 class ProductGameDataSourceDelegate : NSObject {
     enum CellType {
@@ -113,19 +114,11 @@ extension ProductGameDataSourceDelegate: UICollectionViewDataSource {
 
 extension ProductGameDataSourceDelegate: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let vc = self.vc, let viewModel = vc.getProductViewModel() else { return }
         let data = self.game(at: indexPath)
         switch data.gameState() {
         case .active:
-            let storyboard = UIStoryboard(name: "Product", bundle: nil)
-            let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
-            if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
-                gameVc.gameId = data.gameId
-                gameVc.gameName = data.gameName
-                gameVc.viewModel = self.vc?.getProductViewModel()
-                gameVc.delegate = self.vc
-                navi.modalPresentationStyle = .fullScreen
-                self.vc?.present(navi, animated: true, completion: nil)
-            }
+            vc.goToWebGame(viewModel: viewModel, gameId: data.gameId, gameName: data.gameName)
         default:
             break
         }

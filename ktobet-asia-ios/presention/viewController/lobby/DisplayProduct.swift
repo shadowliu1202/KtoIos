@@ -1,5 +1,6 @@
 import UIKit
 import SharedBu
+import RxSwift
 
 typealias DisplayProductViewModel = ProductFavoriteViewModelProtocol & ProductWebGameViewModelProtocol
 typealias DisplayProduct = DisplayGameCollectionBaseViewController & ProductBaseCollection
@@ -96,7 +97,6 @@ class DisplayGameCollectionBaseViewController: AppVersionCheckViewController, Pr
     @objc public func pressGameTag(_ sender: UIButton) {
         
     }
-
 }
 
 protocol BaseGameTag: AnyObject {

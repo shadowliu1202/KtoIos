@@ -75,6 +75,31 @@ class AppVersionCheckViewController: APPViewController {
         serviceViewModel.refreshProductStatus()
     }
     
+    func goToWebGame(viewModel: ProductWebGameViewModelProtocol, gameId: Int32, gameName: String) {
+        viewModel.createGame(gameId: gameId).subscribeOn(MainScheduler.instance).subscribe { (url) in
+            let storyboard = UIStoryboard(name: "Product", bundle: nil)
+            let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
+            if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
+                gameVc.gameUrl = url
+                gameVc.gameName = gameName
+                gameVc.viewModel = viewModel
+                gameVc.delegate = self
+                navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+                self.present(navi, animated: true, completion: nil)
+            }
+        } onError: { [weak self] in
+            self?.handleErrors($0)
+        }.disposed(by: disposeBag)
+    }
+    
+    override func handleErrors(_ error: Error) {
+        if error is KtoGameUnderMaintenance {
+            Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {}, cancel: nil)
+        } else {
+            super.handleErrors(error)
+        }
+    }
+    
     deinit {
         print("\(type(of: self)) deinit")
     }

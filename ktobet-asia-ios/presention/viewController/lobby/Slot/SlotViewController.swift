@@ -234,16 +234,7 @@ extension SlotViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDataSour
     
     func pagerView(_ pageView: TYCyclePagerView, didSelectedItemCell cell: UICollectionViewCell, at index: Int) {
         let slotGame = datas[index]
-        let storyboard = UIStoryboard(name: "Product", bundle: nil)
-        let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
-        if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
-            gameVc.gameId = slotGame.gameId
-            gameVc.gameName = slotGame.gameName
-            gameVc.viewModel = self.viewModel
-            gameVc.delegate = self
-            navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
-            self.present(navi, animated: true, completion: nil)
-        }
+        self.goToWebGame(viewModel: viewModel, gameId: slotGame.gameId, gameName: slotGame.gameName)
     }
 }
 
