@@ -88,7 +88,6 @@ class PromotionHistoryTableViewCell: UITableViewCell {
         let detailViewRow = PromotionHistoryDetailView()
         detailViewRow.setUp(title: title, content: content)
         detailViewRow.translatesAutoresizingMaskIntoConstraints = false
-        detailViewRow.heightAnchor.constraint(equalToConstant: detailViewRow.getHeight()).isActive = true
         detailStackView.addArrangedSubview(detailViewRow)
     }
     
@@ -111,16 +110,24 @@ class PromotionHistoryDetailView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        titleLbl = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 20))
-        contentLbl = UILabel(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width - 72, height: 0))
-        self.addSubview(titleLbl)
-        self.addSubview(contentLbl)
+        let childStack = UIStackView(frame: .zero)
+        childStack.translatesAutoresizingMaskIntoConstraints = false
+        childStack.axis = .vertical
+        childStack.alignment = .fill
+        childStack.distribution = .fill
+        self.addSubview(childStack,constraints: .fill())
+        titleLbl = UILabel(frame: .zero)
+        contentLbl = UILabel(frame: .zero)
         titleLbl.font = UIFont.init(name: "PingFangSC-Regular", size: 14)
         titleLbl.textColor = UIColor.textPrimaryDustyGray
         contentLbl.font = UIFont.init(name: "PingFangSC-Medium", size: 14)
         contentLbl.textColor = UIColor.whiteFull
+        titleLbl.numberOfLines = 0
+        titleLbl.lineBreakMode = .byWordWrapping
         contentLbl.numberOfLines = 0
         contentLbl.lineBreakMode = .byWordWrapping
+        childStack.addArrangedSubview(titleLbl)
+        childStack.addArrangedSubview(contentLbl)
     }
     
     required init?(coder: NSCoder) {
