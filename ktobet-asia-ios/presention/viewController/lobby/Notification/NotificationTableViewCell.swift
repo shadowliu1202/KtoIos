@@ -27,7 +27,7 @@ class NotificationTableViewCell: UITableViewCell {
             let maintenanceStart = maintainStartTime.toDateString()
             let maintenanceEnd = maintainEndTime.toDateString()
             maintainTime.text = Localize.string("notification_maintenancetime",
-                                                maintenanceStart,
+                                                maintainStartTime.toDateTimeString(),
                                                 maintenanceStart == maintenanceEnd ?
                                                 maintainEndTime.toTimeString(): maintainEndTime.toDateTimeString())
         } else {
