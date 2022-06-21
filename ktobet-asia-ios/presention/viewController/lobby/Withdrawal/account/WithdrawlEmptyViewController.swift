@@ -33,7 +33,7 @@ class WithdrawlEmptyViewController: LobbyViewController {
         case .general:
             titleLabel.text = Localize.string("withdrawal_setbankaccount_title")
             descriptionLabel.text = Localize.string("withdrawal_setbankaccount_tips")
-            continueButton.setTitle(Localize.string("common_continue"), for: .normal)
+            continueButton.setTitle(Localize.string("common_continue2"), for: .normal)
             skipButton.setTitle(Localize.string("common_notset"), for: .normal)
         default:
             break
