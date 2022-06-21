@@ -1,1 +1,1 @@
-APP-3181 [iOS][CPS] CPS Portal should show warning messages when hashid input value is not valid
+fix: APP-3213 [iOS][Footer] 【關於】文檔標題沒有置頂、內文多重複了一句 // 已更換本地化字串檔於3209。
