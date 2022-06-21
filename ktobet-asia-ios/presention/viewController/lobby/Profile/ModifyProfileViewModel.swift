@@ -84,6 +84,10 @@ class ModifyProfileViewModel: KTOViewModel {
         return playerUseCase.setWithdrawalName(name: name)
     }
     
+    func transformExceptionToMessage(_ e: AccountNameException?) -> String {
+        AccountPatternGeneratorFactory.transform(self.accountPatternGenerator, e)
+    }
+    
     func validateBirthday(_ date: Date?) -> BithdayValidError {
         return birthdayValidator.validateBirthday(date)
     }
