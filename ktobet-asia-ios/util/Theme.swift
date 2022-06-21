@@ -79,4 +79,15 @@ final class Theme {
             return "\(month)\(Localize.string("common_month"))"
         }
     }
+    
+    func getRemitterBankCardHeight(by playerLocale: SupportLocale) -> CGFloat {
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            return  75
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return 60
+        }
+    }
 }

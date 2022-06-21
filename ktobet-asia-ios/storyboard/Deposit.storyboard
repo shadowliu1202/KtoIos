@@ -1557,6 +1557,7 @@
                         <outlet property="remitterAmountDropDown" destination="aHj-0Y-lJL" id="LxU-Aw-d3c"/>
                         <outlet property="remitterAmountErrorLabel" destination="5fs-X7-E7r" id="CcQ-iY-LrE"/>
                         <outlet property="remitterAmountTextField" destination="soO-Zx-zJB" id="0Em-Pt-Xjs"/>
+                        <outlet property="remitterBankCardHeight" destination="O75-jm-36b" id="Ofx-ie-hBN"/>
                         <outlet property="remitterBankCardNumberErrorLabel" destination="J0r-dZ-KnV" id="2sT-ks-ljR"/>
                         <outlet property="remitterBankCardNumberTextField" destination="2qu-HF-ZLq" id="TPn-ti-p5f"/>
                         <outlet property="remitterBankErrorLabel" destination="3yY-eS-yxK" id="FHx-v0-JXS"/>

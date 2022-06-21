@@ -39,6 +39,7 @@ class InputText : UIView {
         labTitle.font = UIFont.systemFont(ofSize: 12)
         labTitle.textColor = UIColor.textPrimaryDustyGray
         labTitle.backgroundColor = .clear
+        labTitle.numberOfLines = 0
         
         labSubTitle.font = UIFont.systemFont(ofSize: 16)
         labSubTitle.textColor = .white
@@ -95,11 +96,10 @@ class InputText : UIView {
         let titleFont = UIFont.systemFont(ofSize: 14)
         let border : CGFloat = 15
         let title : CGRect = {
-            let width : CGFloat = labTitle.text?.width(withConstrainedHeight: bounds.height, font: titleFont) ?? 0
-            let height : CGFloat = labTitle.text?.height(withConstrainedWidth: width, font: titleFont) ?? 0
+            let height : CGFloat = labTitle.text?.height(withConstrainedWidth: bounds.width - 30, font: titleFont) ?? 0
             let x : CGFloat = border
             let y = bounds.midY - height * 0.5
-            return CGRect(x: x, y: y, width: width, height: height)
+            return CGRect(x: x, y: y, width: bounds.width - 30, height: height)
         }()
         let subTitle : CGRect = CGRect.zero
         let content : CGRect = {
@@ -116,11 +116,10 @@ class InputText : UIView {
         let titleFont = UIFont.systemFont(ofSize: 12)
         let border : CGFloat = 15
         let title : CGRect = {
-            let width = labTitle.text?.width(withConstrainedHeight: bounds.height, font: titleFont) ?? 0 + 2
-            let height = labTitle.text?.height(withConstrainedWidth: width, font: titleFont) ?? 0
+            let height = labTitle.text?.height(withConstrainedWidth: bounds.width - 30, font: titleFont) ?? 0
             let x = border
             let y : CGFloat = 8
-            return CGRect(x: x, y: y, width: width, height: height)
+            return CGRect(x: x, y: y, width: bounds.width - 30, height: height)
         }()
         let subTitle : CGRect = {
             guard (labSubTitle.text ?? "").count > 0 else { return CGRect.zero }
