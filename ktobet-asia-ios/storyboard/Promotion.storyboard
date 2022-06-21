@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -290,7 +290,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bCH-oj-ei0">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" name="blackFull"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="21"/>
@@ -324,7 +324,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yda-ar-7YE">
-                                <rect key="frame" x="72" y="221" width="270" height="454"/>
+                                <rect key="frame" x="72" y="236" width="270" height="424.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70J-GG-a7j">
                                         <rect key="frame" x="8" y="16" width="254" height="22.5"/>
@@ -518,7 +518,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhC-Mu-ai6">
-                                        <rect key="frame" x="0.0" y="389.5" width="270" height="64.5"/>
+                                        <rect key="frame" x="0.0" y="389.5" width="270" height="35"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="16"/>
                                         <state key="normal" title="Button">
                                             <color key="titleColor" name="redForLightFull"/>
@@ -548,7 +548,6 @@
                                     <constraint firstAttribute="trailing" secondItem="70J-GG-a7j" secondAttribute="trailing" constant="8" id="c4q-Pk-wfR"/>
                                     <constraint firstItem="8o6-iP-5V4" firstAttribute="leading" secondItem="Yda-ar-7YE" secondAttribute="leading" constant="16" id="iUw-SW-nK2"/>
                                     <constraint firstItem="Jl7-Nu-LrW" firstAttribute="top" secondItem="Rcx-tJ-j0p" secondAttribute="bottom" constant="12" id="lTK-OU-cX7"/>
-                                    <constraint firstAttribute="height" constant="454" id="lUs-TC-NBy"/>
                                     <constraint firstItem="H6A-Mg-IRF" firstAttribute="top" secondItem="mxx-sY-OrH" secondAttribute="bottom" constant="12" id="o9J-qH-qw2"/>
                                     <constraint firstAttribute="trailing" secondItem="Jl7-Nu-LrW" secondAttribute="trailing" id="pUv-Qf-5ah"/>
                                     <constraint firstItem="gve-ht-RHi" firstAttribute="top" secondItem="70J-GG-a7j" secondAttribute="bottom" constant="12" id="qsY-9m-58w"/>
@@ -819,7 +818,6 @@
                                     <constraint firstItem="c3e-hb-sy4" firstAttribute="top" secondItem="pCd-K1-VbZ" secondAttribute="bottom" constant="12" id="XLD-1E-wBX"/>
                                     <constraint firstAttribute="trailing" secondItem="ghX-RM-GKx" secondAttribute="trailing" constant="16" id="YXy-Tt-cvw"/>
                                     <constraint firstItem="L2C-rv-IPR" firstAttribute="leading" secondItem="KFI-Qh-KwQ" secondAttribute="leading" constant="8" id="dub-vP-INB"/>
-                                    <constraint firstAttribute="height" constant="418" id="fKJ-qo-goq"/>
                                     <constraint firstAttribute="trailing" secondItem="QVi-aZ-d0n" secondAttribute="trailing" constant="16" id="kKI-0t-XPa"/>
                                     <constraint firstItem="c3e-hb-sy4" firstAttribute="leading" secondItem="KFI-Qh-KwQ" secondAttribute="leading" id="ocM-YF-BEA"/>
                                     <constraint firstAttribute="trailing" secondItem="tcS-ve-pej" secondAttribute="trailing" constant="16" id="qOL-kx-ZN2"/>
@@ -1136,20 +1134,20 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="IoM-gM-ToQ" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="158.5" width="354" height="96"/>
+                                    <rect key="frame" x="0.0" y="124" width="354" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromotionHeaderViewCell" id="pYD-1Q-vQS" customClass="PromotionHeaderViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="84.5" width="354" height="56"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="354" height="56.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pYD-1Q-vQS" id="t81-s2-X1e">
-                                            <rect key="frame" x="0.0" y="0.0" width="354" height="56"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="354" height="56.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONp-OA-9gE">
-                                                    <rect key="frame" x="0.0" y="24" width="354" height="26"/>
+                                                    <rect key="frame" x="0.0" y="24" width="354" height="26.5"/>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="18"/>
                                                     <color key="textColor" name="whiteFull"/>
                                                     <nil key="highlightedColor"/>
