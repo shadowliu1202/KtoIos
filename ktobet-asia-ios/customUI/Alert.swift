@@ -68,7 +68,7 @@ class Alert {
                   completion?()
                   return
               }
-
+        alertOutsideBackground.removeFromSuperview()
         topVc.dismiss(animated: true, completion: completion)
     }
     
