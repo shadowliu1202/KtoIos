@@ -406,7 +406,7 @@ Mã Xác Minh gồm 4 số</br>
 "common_p2p" = "Đánh Bài Đối Kháng";
 "common_arcade" = "Trò Chơi Arcade";
 "common_affiliate" = "Đại Lý";
-"common_email_spam_check" = "Vui lòng đồng thời kiểm tra 
+"common_email_spam_check" = "Vui lòng đồng thời kiểm tra
 Hộp Thư Rác/Quảng Cáo.";
 "common_day" = "Ngày";
 "common_crypto" = "虚拟币";
@@ -826,7 +826,7 @@ Nếu Quý Khách cần thay đổi Họ Tên, vui lòng hủy giao dịch Rút 
 Quý Khách sẽ không thể
 đặt cược \"Đánh Bài Đối Kháng\".";
 "product_mid_break" = "Nghỉ Giữa Hiệp";
-"product_will_be_back" = "Chúng Tôi sẽ quay lại sớm. 
+"product_will_be_back" = "Chúng Tôi sẽ quay lại sớm.
 Cám ơn.";
 "product_p2p_turnover_description" = "Trước khi tham gia “Đánh Bài Đối Kháng”, Quý Khách cần hoàn thành Yêu Cầu Đặt Cược cho tiền thưởng đã nhận vào %@. Chi tiết như sau:";
 "product_dealer" = "Nhà Cái";
@@ -936,7 +936,7 @@ Chăm Sóc Khách Hàng?";
 Tiền Thưởng Sẽ Nhận: %@ VND.
 Tổng Doanh Thu Cược yêu cầu sau khi nhận Tiền Thưởng: %@ VND.
 Công Thức Tính: %@ VND.";
-"bonus_islocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại. 
+"bonus_islocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại.
 
 Chi tiết như sau:
 
@@ -994,7 +994,7 @@ Mức Độ Hoàn Thành: %@%";
 "bonus_isturnoverremind" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành của %@. Sau khi đã nhận Tiền Thưởng này, Quý Khách vẫn cần hoàn thành Doanh Thu Cược còn lại, trước khi có thể thực hiện Rút Tiền. Chi tiết như sau:";
 "bonus_current_completion" = "Hiện Tại Đã Hoàn Thành %@%%";
 "bonus_waiting" = "Hủy";
-"bonus_computelocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại. 
+"bonus_computelocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại.
 
 Chi tiết như sau:
 
@@ -1145,7 +1145,7 @@ Mã Số Giao Dịch: %@";
 Mã Số Giao Dịch: %@";
 "notify_content_40" = "Thay Đổi Họ Tên Rút Tiền yêu cầu xác minh chứng từ.";
 "notify_content_41" = "Chúc mừng, Họ Tên Rút Tiền của Quý Khách đã được thay đổi.";
-"notify_content_42" = "Thay Đổi Họ Tên Rút Tiền không thành công. 
+"notify_content_42" = "Thay Đổi Họ Tên Rút Tiền không thành công.
 Vui lòng kiểm tra tại mục cài đặt Thông Tin Cá Nhân – Họ Tên Rút Tiền.";
 "notify_content_50" = "Vui lòng lưu ý, thông tin Ngân Hàng Nhận Tiền của Quý Khách đã được thay đổi.";
 "notify_content_51" = "Vui lòng lưu ý, thông tin Phương Thức Gửi Tiền đã được thay đổi.";
@@ -1236,10 +1236,10 @@ Email Hiện Tại";
 "profile_defaultproduct_title" = "Cài Đặt Trang Chủ";
 "profile_defaultproduct_description" = "Mặc định hiện tại là Thể Thao. Bây giờ Quý Khách có thể tùy chọn một Sản Phẩm để đặt làm Trang Chủ mới, hoặc thay đổi sau.";
 "profile_defaultproduct_sportsbook_description" = "Những sự kiện Thể Thao toàn diện
-nhất. Một khi đã sở hữu Nền Tảng 
-Cược Thể Thao KTO, Quý Khách 
+nhất. Một khi đã sở hữu Nền Tảng
+Cược Thể Thao KTO, Quý Khách
 sẽ không còn cần gì khác!";
-"profile_defaultproduct_casino_description" = "KTO mang màu rực đỏ như chính 
+"profile_defaultproduct_casino_description" = "KTO mang màu rực đỏ như chính
 vận đỏ của Quý Khách tại 'Sòng' KTO.
 Có vận đỏ là có long mạch.
 Có long mạch là có cả thế giới!";
@@ -1256,7 +1256,7 @@ Quý Khách cũng sẽ vậy!";
 "profile_bind_identity_locked" = "Vì lý do bảo mật, tài khoản của Quý Khách đã bị đóng băng. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
 "profile_new_mobile_description" = "Số Di Động có thể sử dụng để Đăng Nhập và Xác Minh Bảo Mật.
 Vui lòng nhập Số Di Động để nhận Mã Xác Minh.";
-"profile_sms_unavailable_title" = "Bảo Trì 
+"profile_sms_unavailable_title" = "Bảo Trì
 Xác Minh Số Di Động ";
 "profile_sms_unavailable_description" = "KTO tạm ngưng Xác Minh Số Di Động do vấn đề máy chủ. Cám ơn Quý Khách đã thông cảm. ";
 "profile_mail_unavailable_title" = "Bảo Trì
@@ -1481,12 +1481,10 @@ Trừ khi có quy định rõ, nếu không, KTO Châu Á trong mọi trường 
 "license_priority_order_content" = "Các quy định đặt cược (nếu áp dụng) và bất kỳ quy định nào khác áp dụng cho việc sử dụng và kết nối các dịch vụ đặt cược, phần mềm đặt cược, thông tin đặt cược và website đặt cược là một phần không thể tách rời của quy định này.
 
 Nếu các quy định đặt cược và bất kỳ quy định nào khác áp dụng cho việc sử dụng và kết nối các dịch vụ đặt cược, phần mềm đặt cược, thông tin đặt cược và website đặt cược mâu thuẫn với quy định này, vậy trừ khi có quy định rõ, nếu không, quy định này sẽ được áp dụng.";
-"license_forcemajeure_content" = "Nếu KTO Châu Á có bất kỳ sự cố nào ngoài tầm kiểm soát (bao gồm nhưng không giới hạn ở thảm hỏa; thay đổi pháp luật và quy định hiện hành, hành vi hoặc thiếu sót của chính phủ, các vấn đề dân sự hoặc các tổ chức quân sự; lệnh của tòa án; hoạt động khủng bố; sấm sét hoặc hỏa hoạn; đình công, đình chỉ hoặc tranh chấp lao động khác; lũ lụt; hạn hán; chiến tranh; bạo loạn; trộm cắp; lỗi truyền tải hoặc hệ thống; lỗi hoặc gián đoạn dịch vụ truyền thông hoặc băng thông rộng; lỗi hoặc thiếu hụt cung cấp điện hoặc thiết bị điện; thời tiết khắc nghiệt; động đất và thiên tai), Thất bại hoặc chậm trễ trong việc thực hiện bất kỳ nghĩa vụ nào theo quy định này không cấu thành vi phạm quy định này. Thành viên đồng ý thực hiện tất cả các hành động cần thiết để giảm thiểu hậu quả của các sự cố nêu trên.";
+"license_forcemajeure_content" = "Nếu KTO Châu Á có bất kỳ sự cố nào ngoài tầm kiểm soát (bao gồm nhưng không giới hạn ở thảm họa; thay đổi pháp luật và quy định hiện hành, hành vi hoặc thiếu sót của chính phủ, các vấn đề dân sự hoặc các tổ chức quân sự; lệnh của tòa án; hoạt động khủng bố; sấm sét hoặc hỏa hoạn; đình công, đình chỉ hoặc tranh chấp lao động khác; lũ lụt; hạn hán; chiến tranh; bạo loạn; trộm cắp; lỗi truyền tải hoặc hệ thống; lỗi hoặc gián đoạn dịch vụ truyền thông hoặc băng thông rộng; lỗi hoặc thiếu hụt cung cấp điện hoặc thiết bị điện; thời tiết khắc nghiệt; động đất và thiên tai), Thất bại hoặc chậm trễ trong việc thực hiện bất kỳ nghĩa vụ nào theo quy định này không cấu thành vi phạm quy định này. Thành viên đồng ý thực hiện tất cả các hành động cần thiết để giảm thiểu hậu quả của các sự cố nêu trên.";
 "license_abstain_content" = "KTO Châu Á không thực hiện bất kỳ quy định nào trong Điều Khoản Dịch Vụ này, tại bất kỳ thời điểm nào, không được xem là từ bỏ các quyền được cung cấp trong quy định này, hoặc bằng bất kỳ cách nào ảnh hưởng đến hiệu lực của tất cả hoặc một phần của quy định này, và không ảnh hưởng đến quyền của KTO Châu Á để thực hiện các bước tiếp theo.";
 "license_severability_content" = "Nếu bất kỳ điều khoản hoặc bất kỳ phần nào trong đó được xem là không hợp lệ, phi pháp hoặc không thể thực thi trong bất kỳ phạm vi nào đối với các cơ quan thẩm quyền có liên quan, vậy điều khoản đó hoặc phần đó sẽ được tách ra khỏi các điều khoản khác trong phạm vi trên, và các điều khoản khác vẫn hoàn toàn có hiệu lực trong phạm vi được pháp luật cho phép.";
-"license_law_jurisdiction_content" = "Luật Hiện Hành và Quyền Tài Phán
-
-1. Thành viên đồng ý rằng việc kết nối và sử dụng các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược, thông tin đặt cược của thành viên, và việc giải thích quy định này được quản lý bởi pháp luật Philippines và được giải thích theo pháp luật Philippines.
+"license_law_jurisdiction_content" = "1. Thành viên đồng ý rằng việc kết nối và sử dụng các dịch vụ đặt cược, website đặt cược, phần mềm đặt cược, thông tin đặt cược của thành viên, và việc giải thích quy định này được quản lý bởi pháp luật Philippines và được giải thích theo pháp luật Philippines.
 
 Bất kỳ tranh chấp nào phát sinh từ hoặc liên quan đến quy định này:
 

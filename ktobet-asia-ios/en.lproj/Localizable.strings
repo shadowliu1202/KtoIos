@@ -818,7 +818,7 @@ If you need to change your name, please cancel the withdrawal application first,
 You will not be able to
 bet P2P.";
 "product_mid_break" = "Half Time Break";
-"product_will_be_back" = "We will resume soon 
+"product_will_be_back" = "We will resume soon
 Thank you";
 "product_p2p_turnover_description" = "进入对战前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
 "product_dealer" = "Dealer";
@@ -1134,7 +1134,7 @@ Transaction ID: %@";
 Transaction ID: %@";
 "notify_content_40" = "Withdrawal Name Change requires further actions.";
 "notify_content_41" = "Congratulations, your withdrawal name has been changed.";
-"notify_content_42" = "Withdrawal Name Change failed. 
+"notify_content_42" = "Withdrawal Name Change failed.
 \n Please check at Personal Info - Withdrawal Name Page.";
 "notify_content_50" = "Reminder,  your receiving bank information has been changed.";
 "notify_content_51" = "Reminder, The deposit channel details has been changed.";
