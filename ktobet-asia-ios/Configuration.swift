@@ -55,6 +55,7 @@ enum Configuration: String {
     static var manualUpdate: Bool       = env.manualUpdate
     static var debugGesture: Bool       = env.debugGesture
     static var affiliateUrl: URL        = URL(string: "\(host)affiliate")!
+    static var isAllowedVN: Bool        = env.isAllowedVN
     static var enableCrashlytics: Bool  = env.enableCrashlytics
     static var manualControlNetwork: Bool   = env.manualControlNetwork
 
@@ -112,6 +113,7 @@ protocol Env {
     var isAutoUpdate: Bool { get }
     var manualUpdate: Bool { get }
     var debugGesture: Bool { get }
+    var isAllowedVN: Bool { get }
     var enableCrashlytics: Bool { get }
     var manualControlNetwork: Bool { get }
 }
@@ -122,6 +124,7 @@ fileprivate class DevConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
+    var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
 }
@@ -135,6 +138,7 @@ fileprivate class QatConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
+    var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = true
     var manualControlNetwork: Bool = false
 }
@@ -147,6 +151,7 @@ fileprivate class StagingConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
+    var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = true
     var manualControlNetwork: Bool = false
 }
@@ -159,6 +164,7 @@ fileprivate class ProductionConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
+    var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = true
     var manualControlNetwork: Bool = false
 }
@@ -171,6 +177,7 @@ fileprivate class ProductionSelftestConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = false
     var debugGesture: Bool = true
+    var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
 }
@@ -183,6 +190,7 @@ fileprivate class ProductionBackupConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
+    var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
 }
@@ -195,6 +203,7 @@ fileprivate class Qat3Config: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
+    var isAllowedVN: Bool = false
     var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
 }
