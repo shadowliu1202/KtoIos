@@ -26,17 +26,7 @@ class SetWithdrawalNameViewController: LobbyViewController, AuthProfileVerificat
     private func dataBinding() {
         (self.realNameInput.text <-> self.viewModel.relayRealName).disposed(by: self.disposeBag)
         viewModel.verifyAccountNameError.bind(onNext: { [unowned self] accountNameException in
-            var message = ""
-            switch accountNameException {
-            case is AccountNameException.EmptyAccountName:
-                message = Localize.string("common_field_must_fill")
-            case is AccountNameException.InvalidNameFormat:
-                message = Localize.string("register_step2_name_format_error")
-            case is AccountNameException.ExceededLength:
-                message = Localize.string("register_name_format_error_length_limitation", "\(self.viewModel.accountNameMaxLength)")
-            default:
-                break
-            }
+            let message = self.viewModel.transformExceptionToMessage(accountNameException)
             self.errorLabel.text = message
             self.realNameInput.showUnderline(message.count > 0)
             self.realNameInput.setCorner(topCorner: true, bottomCorner: message.count == 0)

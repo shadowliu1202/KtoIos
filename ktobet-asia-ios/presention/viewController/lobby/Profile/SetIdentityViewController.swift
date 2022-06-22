@@ -97,6 +97,8 @@ class SetIdentityViewController: LobbyViewController {
             message = self.delegate.setIdentityArgs.inputFormatError
         } else if status == .empty {
             message = Localize.string("common_field_must_fill")
+        } else if status == .errPhoneFormat {
+            message = Localize.string("common_error_mobile_format")
         }
         
         self.labResetTypeTip.text = message
