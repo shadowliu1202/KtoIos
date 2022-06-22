@@ -2,12 +2,12 @@ import UIKit
 import SDWebImage
 
 extension UIImageView {
-    func sd_setImage(url: URL?, placeholderImage: UIImage? = nil, context: [SDWebImageContextOption : Any]? = nil) {
+    func sd_setImage(url: URL?, placeholderImage: UIImage? = nil, context: [SDWebImageContextOption : Any]? = nil, completed: SDExternalCompletionBlock? = nil) {
         var sdWebImageOptions: SDWebImageOptions = [.refreshCached]
         if Configuration.disableSSL {
             sdWebImageOptions.insert(.allowInvalidSSLCertificates)
         }
-        self.sd_setImage(with: url, placeholderImage: placeholderImage, options: sdWebImageOptions, context: context)
+        self.sd_setImage(with: url, placeholderImage: placeholderImage, options: sdWebImageOptions, context: context, progress: nil, completed: completed)
     }
     
     @IBInspectable

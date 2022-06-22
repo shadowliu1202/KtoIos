@@ -3,6 +3,10 @@ import RxSwift
 import SharedBu
 import SDWebImage
 
+protocol RemarkTableCellCallback: AnyObject {
+    func refreshTableView()
+}
+
 class RemarkTableViewCell: UITableViewCell {
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var remarkLabel: UILabel!
@@ -10,7 +14,7 @@ class RemarkTableViewCell: UITableViewCell {
     @IBOutlet private weak var img1: UIImageView!
     @IBOutlet private weak var img2: UIImageView!
     @IBOutlet private weak var img3: UIImageView!
-    
+    weak var delegate: RemarkTableCellCallback?
     var toBigImage: ((String, UIImage?) -> ())?
     private var disposeBag = DisposeBag()
     
@@ -34,7 +38,9 @@ class RemarkTableViewCell: UITableViewCell {
             if let imgs = imgs[safe: index] {
                 imgs?.isHidden = false
                 imgs?.tag = index
-                imgs?.sd_setImage(url: URL(string: img.thumbnailLink() + ".jpg"), placeholderImage: nil)
+                imgs?.sd_setImage(url: URL(string: img.thumbnailLink() + ".jpg"), placeholderImage: nil, completed: { [weak self] (image, error, cache, url) in
+                    self?.delegate?.refreshTableView()
+                })
                 imgs?.isUserInteractionEnabled = true
                 let tapGesture = UITapGestureRecognizer()
                 imgs?.addGestureRecognizer(tapGesture)
@@ -65,7 +71,9 @@ class RemarkTableViewCell: UITableViewCell {
             if let imgs = imgs[safe: index] {
                 imgs?.isHidden = false
                 imgs?.tag = index
-                imgs?.sd_setImage(url: URL(string: img.thumbnailFullPath + ".jpg"), placeholderImage: nil)
+                imgs?.sd_setImage(url: URL(string: img.thumbnailFullPath + ".jpg"), placeholderImage: nil, completed: { [weak self] (image, error, cache, url) in
+                    self?.delegate?.refreshTableView()
+                })
                 imgs?.isUserInteractionEnabled = true
                 let tapGesture = UITapGestureRecognizer()
                 imgs?.addGestureRecognizer(tapGesture)
