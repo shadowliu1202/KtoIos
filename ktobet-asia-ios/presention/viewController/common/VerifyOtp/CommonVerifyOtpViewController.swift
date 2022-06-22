@@ -15,15 +15,14 @@ class CommonVerifyOtpViewController: CommonViewController {
     @IBOutlet private weak var btnBack: UIBarButtonItem!
     @IBOutlet private weak var btnVerify: UIButton!
     @IBOutlet private weak var btnResend: UIButton!
-    @IBOutlet private weak var constraintErrTipHeight: NSLayoutConstraint!
-    @IBOutlet private weak var constraintErrTipBottom: NSLayoutConstraint!
+    @IBOutlet private weak var constraintLabelErrTipTop: NSLayoutConstraint!
+    @IBOutlet private weak var constraintLabelErrTipBottom: NSLayoutConstraint!
     @IBOutlet private weak var constraintStatusTipBottom: NSLayoutConstraint!
     
     var delegate: OtpViewControllerProtocol!
     var barButtonItems: [UIBarButtonItem] = []
 
-    private let errTipHeight = CGFloat(44)
-    private let errTipBottom = CGFloat(12)
+    private let errTipLabelPadding = CGFloat(12)
     private var disposeBag = DisposeBag()
     private let resendTimer = CountDownTimer()
     private let step2CountDownTimer = CountDownTimer()
@@ -140,8 +139,8 @@ class CommonVerifyOtpViewController: CommonViewController {
     }
     
     private func showPasscodeUncorrectTip(_ show: Bool) {
-        constraintErrTipHeight.constant = show ? errTipHeight : 0
-        constraintErrTipBottom.constant = show ? errTipBottom : 0
+        constraintLabelErrTipTop.constant = show ? errTipLabelPadding : 0
+        constraintLabelErrTipBottom.constant = show ? errTipLabelPadding : 0
         viewErrTip.isHidden = !show
     }
 

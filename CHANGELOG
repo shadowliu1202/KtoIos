@@ -1,1 +1,1 @@
-fix: APP-3213 [iOS][Footer] 【關於】文檔標題沒有置頂、內文多重複了一句 // 已更換本地化字串檔於3209。
+APP-3234 [ios][Portal][Reset Password] 使用信箱重置密碼時，輸入錯誤 OTP 畫面的提示訊息顯示中文 
