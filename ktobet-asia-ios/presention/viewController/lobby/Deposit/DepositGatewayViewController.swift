@@ -30,6 +30,7 @@ class DepositGatewayViewController: LobbyViewController {
     @IBOutlet private weak var remitterDirectErrorLabel: UILabel!
     @IBOutlet private weak var directViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var directView: UIView!
+    @IBOutlet private weak var remitterBankCardHeight: NSLayoutConstraint!
     
     var depositType: DepositSelection?
     var paymentIdentity: String!
@@ -39,7 +40,7 @@ class DepositGatewayViewController: LobbyViewController {
     fileprivate var onlineViewModel = DI.resolve(ThirdPartyDepositViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     
-    let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +64,7 @@ class DepositGatewayViewController: LobbyViewController {
     }
 
     private func localize() {
-        if localStorageRepo.getCultureCode() == SupportLocale.China.init().cultureCode() {
+        if playerLocaleConfiguration.getCultureCode() == SupportLocale.China.init().cultureCode() {
             withdrawalVNDTipLabel.isHidden = true
         }
     }
@@ -157,6 +158,8 @@ class DepositGatewayViewController: LobbyViewController {
         remitterBankCardNumberTextField.setKeyboardType(.numberPad)
         remitterBankCardNumberTextField.maxLength = 4
         remitterBankCardNumberTextField.numberOnly = true
+        
+        remitterBankCardHeight.constant = Theme.shared.getRemitterBankCardHeight(by: playerLocaleConfiguration.getSupportLocale())
 
         remitterAmountTextField.setTitle(Localize.string("deposit_amount"))
         remitterAmountTextField.setKeyboardType(.numberPad)
