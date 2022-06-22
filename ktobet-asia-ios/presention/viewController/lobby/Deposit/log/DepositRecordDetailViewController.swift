@@ -109,29 +109,27 @@ class DepositRecordDetailViewController: LobbyViewController {
     
     // MARK: METHOD
     fileprivate func initUI() {
-        DispatchQueue.main.async {
-            self.scrollview.isHidden = true
-            self.titleNameLabel.text = Localize.string("deposit_detail_title")
-            self.amountTitleLabel.text = Localize.string("common_transactionamount")
-            self.statusTitleLabel.text = Localize.string("common_status")
-            self.applytimeTitleLabel.text = Localize.string("common_applytime")
-            self.depositIdTitleLabel.text = Localize.string("deposit_ticketnumber")
-            self.remarkTitleLabel.text = Localize.string("common_remark")
-            self.uploadTitleLabel.text = Localize.string("common_upload_file")
-            self.clickUploadLabel.text = Localize.string("common_click_to_upload")
-            self.uploadLimitTiplabel.text = Localize.string("common_photo_upload_limit")
-            self.confrimButton.setTitle(Localize.string("common_submit"), for: .normal)
-            self.confrimButton.isValid = false
-            self.amountView.addBorder(.top)
-            self.amountView.addBorder(.bottom, rightConstant: 30, leftConstant: 30)
-            self.applyTimeView.addBorder(.top, rightConstant: 30, leftConstant: 30)
-            self.applyTimeView.addBorder(.bottom, rightConstant: 30, leftConstant: 30)
-            self.remarkView.addBorder(.top, rightConstant: 30, leftConstant: 30)
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.openPhoto(_:)))
-            self.uploadClickView.addGestureRecognizer(tap)
-            self.activityIndicator.center = self.view.center
-            self.view.addSubview(self.activityIndicator)
-        }
+        self.scrollview.isHidden = true
+        self.titleNameLabel.text = Localize.string("deposit_detail_title")
+        self.amountTitleLabel.text = Localize.string("common_transactionamount")
+        self.statusTitleLabel.text = Localize.string("common_status")
+        self.applytimeTitleLabel.text = Localize.string("common_applytime")
+        self.depositIdTitleLabel.text = Localize.string("deposit_ticketnumber")
+        self.remarkTitleLabel.text = Localize.string("common_remark")
+        self.uploadTitleLabel.text = Localize.string("common_upload_file")
+        self.clickUploadLabel.text = Localize.string("common_click_to_upload")
+        self.uploadLimitTiplabel.text = Localize.string("common_photo_upload_limit")
+        self.confrimButton.setTitle(Localize.string("common_submit"), for: .normal)
+        self.confrimButton.isValid = false
+        self.amountView.addBorder(.top)
+        self.amountView.addBorder(.bottom, rightConstant: 30, leftConstant: 30)
+        self.applyTimeView.addBorder(.top, rightConstant: 30, leftConstant: 30)
+        self.applyTimeView.addBorder(.bottom, rightConstant: 30, leftConstant: 30)
+        self.remarkView.addBorder(.top, rightConstant: 30, leftConstant: 30)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.openPhoto(_:)))
+        self.uploadClickView.addGestureRecognizer(tap)
+        self.activityIndicator.center = self.view.center
+        self.view.addSubview(self.activityIndicator)
     }
     
     fileprivate func showImagePicker() {
@@ -267,6 +265,7 @@ class DepositRecordDetailViewController: LobbyViewController {
                 cell.toBigImage = {[weak self] (url, image) in
                     self?.performSegue(withIdentifier: ImageViewController.segueIdentifier, sender: (url, image))
                 }
+                cell.delegate = self
             }.disposed(by: disposeBag)
         shareDepositRecordDetail.subscribeOn(MainScheduler.instance)
             .subscribe { [weak self] (item) in
@@ -306,5 +305,15 @@ extension DepositRecordDetailViewController: UIImagePickerControllerDelegate, UI
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension DepositRecordDetailViewController: RemarkTableCellCallback {
+    func refreshTableView() {
+        self.remarkTableview.layoutIfNeeded()
+        self.remarkTableViewHeight.constant = self.remarkTableview.contentSize.height
+        self.remarkTableview.layoutIfNeeded()
+        self.remarkViewHeight.constant = self.remarkTableViewHeight.constant + self.uploadViewHeight.constant + 60
+        self.remarkView.layoutIfNeeded()
     }
 }
