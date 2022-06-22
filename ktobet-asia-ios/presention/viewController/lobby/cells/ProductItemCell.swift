@@ -25,6 +25,9 @@ class ProductItemCell: UICollectionViewCell {
             self.tickCircle = TickCircle(view: self.mainatainView)
             self.tickCircle?.drawTickCircle(diameter: 56, countDownSecond: Int(remainTime))
             self.tickCircle?.finishCountDown = self.finishCountDown
+            self.isUserInteractionEnabled = false
+        } else {
+            self.isUserInteractionEnabled = true
         }
     }
     

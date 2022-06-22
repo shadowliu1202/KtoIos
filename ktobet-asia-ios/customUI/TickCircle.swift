@@ -120,6 +120,7 @@ class TickCircle {
         timeLabel.font = UIFont(name: "PingFangSC-Semibold", size: 12)
         timeLabel.textColor = UIColor.white
         timeLabel.textAlignment = .center
+        timeLabel.numberOfLines = 0
         circle.addSubview(timeLabel)
     }
     
