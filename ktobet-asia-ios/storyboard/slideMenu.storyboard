@@ -272,7 +272,7 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
-                                                        <view hidden="YES" alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vvw-nG-EPU">
+                                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vvw-nG-EPU">
                                                             <rect key="frame" x="36" y="0.0" width="56" height="56"/>
                                                             <color key="backgroundColor" red="0.074509803920000006" green="0.074509803920000006" blue="0.074509803920000006" alpha="0.70203550169999995" colorSpace="calibratedRGB"/>
                                                             <userDefinedRuntimeAttributes>
