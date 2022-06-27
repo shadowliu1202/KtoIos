@@ -4031,6 +4031,13 @@
 		6DCEC6FD2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6FC2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift */; };
 		6DCEC6FE2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6FC2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift */; };
 		6DCEC7002660CBE9005E4F8B /* NumberGameBetDetailBetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6FC2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift */; };
+		6DD049732864611900728878 /* CDNErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD049722864611900728878 /* CDNErrorViewController.swift */; };
+		6DD049742864611900728878 /* CDNErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD049722864611900728878 /* CDNErrorViewController.swift */; };
+		6DD049752864611900728878 /* CDNErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD049722864611900728878 /* CDNErrorViewController.swift */; };
+		6DD049762864611900728878 /* CDNErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD049722864611900728878 /* CDNErrorViewController.swift */; };
+		6DD049772864611900728878 /* CDNErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD049722864611900728878 /* CDNErrorViewController.swift */; };
+		6DD049782864611900728878 /* CDNErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD049722864611900728878 /* CDNErrorViewController.swift */; };
+		6DD049792864611900728878 /* CDNErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD049722864611900728878 /* CDNErrorViewController.swift */; };
 		6DD4BA23260C40CD001848EE /* RxSwiftExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD4BA22260C40CD001848EE /* RxSwiftExtension.swift */; };
 		6DD4BA24260C40CD001848EE /* RxSwiftExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD4BA22260C40CD001848EE /* RxSwiftExtension.swift */; };
 		6DDC234B27C88C5B002EDAB7 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC234A27C88C5B002EDAB7 /* ChangePasswordViewController.swift */; };
@@ -4807,6 +4814,7 @@
 		6DCEC6BC265E1902005E4F8B /* RecentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDetailViewController.swift; sourceTree = "<group>"; };
 		6DCEC6C5265E2655005E4F8B /* NumberGameMyBetPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameMyBetPageViewController.swift; sourceTree = "<group>"; };
 		6DCEC6FC2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameBetDetailBetStatus.swift; sourceTree = "<group>"; };
+		6DD049722864611900728878 /* CDNErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDNErrorViewController.swift; sourceTree = "<group>"; };
 		6DD4BA22260C40CD001848EE /* RxSwiftExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwiftExtension.swift; sourceTree = "<group>"; };
 		6DDC234A27C88C5B002EDAB7 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		6DDD333626CBC2DA0081A846 /* ProductType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
@@ -5419,6 +5427,7 @@
 				600F4A09264E449300827EB1 /* ServiceStatusViewModel.swift */,
 				609A0D2E27589EC6003242AE /* TermsViewModel.swift */,
 				6062DC022761CECB0077D803 /* RestrictedViewController.swift */,
+				6DD049722864611900728878 /* CDNErrorViewController.swift */,
 				6017E7BC276AD45E0073A7A6 /* ProductMaintenanceViewController.swift */,
 				6D7C1D7F2779C38800D45654 /* MaintenanceViewController.swift */,
 				6DAFA07B276355900089A135 /* AppSynchronizeViewModel.swift */,
@@ -7678,6 +7687,7 @@
 				6DF65388278D6B55009F73FF /* ModifyProfileViewModel.swift in Sources */,
 				60A1DEC42797AE95004C3078 /* OfflineViewModel.swift in Sources */,
 				6034621826327DC800F5D1D9 /* WebGameItemCell.swift in Sources */,
+				6DD049742864611900728878 /* CDNErrorViewController.swift in Sources */,
 				6DDD333826CBC2DA0081A846 /* ProductType.swift in Sources */,
 				600A8F7A26CD019700F56412 /* PromotionPresenter.swift in Sources */,
 				6D940A0326DCACD300C70FDA /* WaitingConfirm.swift in Sources */,
@@ -8225,6 +8235,7 @@
 				60A1DEC32797AE95004C3078 /* OfflineViewModel.swift in Sources */,
 				6034621726327DC800F5D1D9 /* WebGameItemCell.swift in Sources */,
 				6DDD333726CBC2DA0081A846 /* ProductType.swift in Sources */,
+				6DD049732864611900728878 /* CDNErrorViewController.swift in Sources */,
 				600A8F7926CD019700F56412 /* PromotionPresenter.swift in Sources */,
 				6D940A0226DCACD300C70FDA /* WaitingConfirm.swift in Sources */,
 				6D4E99492636907A00860FF7 /* ProductProtocol.swift in Sources */,
@@ -8723,6 +8734,7 @@
 				609012C22640EE7000419F8E /* DepositMethodTableViewCell.swift in Sources */,
 				609012C32640EE7000419F8E /* ResetPasswordViewController.swift in Sources */,
 				6D5B14D6264A7B38004138E8 /* SlotBetViewModel.swift in Sources */,
+				6DD049752864611900728878 /* CDNErrorViewController.swift in Sources */,
 				601F0FD927D758250036D9C7 /* OldMobileVerifyViewController.swift in Sources */,
 				6D5B14CF264A7B38004138E8 /* SlotViewModel.swift in Sources */,
 				6D5B14E4264A7B4E004138E8 /* SlotRecordRepository.swift in Sources */,
@@ -9251,6 +9263,7 @@
 				60E5808227F190E4008CE5A9 /* DepositMethodTableViewCell.swift in Sources */,
 				60E5808327F190E4008CE5A9 /* ResetPasswordViewController.swift in Sources */,
 				60E5808427F190E4008CE5A9 /* SlotBetViewModel.swift in Sources */,
+				6DD049762864611900728878 /* CDNErrorViewController.swift in Sources */,
 				60E5808527F190E4008CE5A9 /* OldMobileVerifyViewController.swift in Sources */,
 				60E5808627F190E4008CE5A9 /* SlotViewModel.swift in Sources */,
 				60E5808727F190E4008CE5A9 /* SlotRecordRepository.swift in Sources */,
@@ -9779,6 +9792,7 @@
 				6D966C1027FEE3FA006086B7 /* DepositMethodTableViewCell.swift in Sources */,
 				6D966C1127FEE3FA006086B7 /* ResetPasswordViewController.swift in Sources */,
 				6D966C1227FEE3FA006086B7 /* SlotBetViewModel.swift in Sources */,
+				6DD049772864611900728878 /* CDNErrorViewController.swift in Sources */,
 				6D966C1327FEE3FA006086B7 /* OldMobileVerifyViewController.swift in Sources */,
 				6D966C1427FEE3FA006086B7 /* SlotViewModel.swift in Sources */,
 				6D966C1527FEE3FA006086B7 /* SlotRecordRepository.swift in Sources */,
@@ -10307,6 +10321,7 @@
 				6D966E5D27FEE416006086B7 /* DepositMethodTableViewCell.swift in Sources */,
 				6D966E5E27FEE416006086B7 /* ResetPasswordViewController.swift in Sources */,
 				6D966E5F27FEE416006086B7 /* SlotBetViewModel.swift in Sources */,
+				6DD049782864611900728878 /* CDNErrorViewController.swift in Sources */,
 				6D966E6027FEE416006086B7 /* OldMobileVerifyViewController.swift in Sources */,
 				6D966E6127FEE416006086B7 /* SlotViewModel.swift in Sources */,
 				6D966E6227FEE416006086B7 /* SlotRecordRepository.swift in Sources */,
@@ -10863,6 +10878,7 @@
 				6D9670C627FEE42B006086B7 /* AddBankViewController.swift in Sources */,
 				6D9670C727FEE42B006086B7 /* P2PRecordRepository.swift in Sources */,
 				6D9670C827FEE42B006086B7 /* ModifyProfileViewModel.swift in Sources */,
+				6DD049792864611900728878 /* CDNErrorViewController.swift in Sources */,
 				6D9670C927FEE42B006086B7 /* OfflineViewModel.swift in Sources */,
 				6D9670CA27FEE42B006086B7 /* WebGameItemCell.swift in Sources */,
 				6D9670CB27FEE42B006086B7 /* ProductType.swift in Sources */,

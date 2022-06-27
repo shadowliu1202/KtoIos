@@ -57,6 +57,13 @@ extension Error {
         return false
     }
     
+    func isCDNError() -> Bool {
+        if let error = (self as? MoyaError), case let .statusCode(response) = error {
+            return response.statusCode == 608
+        }
+        return false
+    }
+    
     func isNetworkLost() -> Bool {
         if case let apiException as ApiException = self, let errorCode = apiException.errorCode, let code = Int(errorCode) {
             return code.isNetworkConnectionLost()

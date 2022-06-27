@@ -73,6 +73,8 @@ extension UIViewController{
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
         case 503:
             showAlertError(String(format: Localize.string("common_http_503"), "\(statusCode)"))
+        case 608:
+            showCDNErrorView()
         default:
             if statusCode.isNetworkConnectionLost() {
                 showAlertError(Localize.string("common_unknownhostexception"))
@@ -132,6 +134,11 @@ extension UIViewController{
     func showRestrictView() {
         let restrictedVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "restrictedVC")
         self.present(restrictedVC, animated: true, completion: nil)
+    }
+    
+    func showCDNErrorView() {
+        let cndErrorVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "CDNErrorViewController")
+        self.present(cndErrorVC, animated: true, completion: nil)
     }
 
     func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {
