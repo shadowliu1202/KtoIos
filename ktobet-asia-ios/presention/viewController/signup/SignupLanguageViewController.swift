@@ -137,10 +137,23 @@ class SignupLanguageViewController: LandingViewController {
         }
         if let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type {
             localStorageRepo.setCultureCode(locale.cultureCode())
+            Theme.shared.changeEntireAPPFont(by: locale)
+            changeViewFont(by: locale)
         }
         refreshLocalize()
         languageChangeHandler?()
         tableView.reloadData()
+    }
+    
+    private func changeViewFont(by playerLocale: SupportLocale) {
+        let fontDictionary: [String: UIFont]
+        fontDictionary = Theme.shared.getSignupLanguageViewFont(by: playerLocale)
+        btnNext.titleLabel?.font = fontDictionary["btnNext"]
+        btnTerms.titleLabel?.font = fontDictionary["btnTerms"]
+        labTitle.font = fontDictionary["labTitle"]
+        labDesc.font = fontDictionary["labDesc"]
+        labTermsTip.font = fontDictionary["labTermsTip"]
+        btnTermsOfService.titleLabel?.font = fontDictionary["btnTermsOfService"]
     }
 }
 

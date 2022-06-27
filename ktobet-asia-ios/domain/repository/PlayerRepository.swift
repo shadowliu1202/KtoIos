@@ -60,6 +60,7 @@ class PlayerRepositoryImpl : PlayerRepository {
                 }()
                 
                 self.localStorageRepo.setCultureCode(bindLocale.cultureCode())
+                Theme.shared.changeEntireAPPFont(by: bindLocale)
 
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",
                                             displayId: responsePlayerInfo.data?.displayId ?? "" ,

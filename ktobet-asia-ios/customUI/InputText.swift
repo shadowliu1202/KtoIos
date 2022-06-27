@@ -36,18 +36,18 @@ class InputText : UIView {
         super.awakeFromNib()
         
         backgroundColor = UIColor.inputSelectedTundoraGray
-        labTitle.font = UIFont.systemFont(ofSize: 12)
+        labTitle.font = UIFont(name: "PingFangSC-Regular", size: 12)
         labTitle.textColor = UIColor.textPrimaryDustyGray
         labTitle.backgroundColor = .clear
         labTitle.numberOfLines = 0
         
-        labSubTitle.font = UIFont.systemFont(ofSize: 16)
+        labSubTitle.font = UIFont(name: "PingFangSC-Regular", size: 16)
         labSubTitle.textColor = .white
         labSubTitle.backgroundColor = .clear
         
         textContent.textColor = .white
         textContent.backgroundColor = .clear
-        textContent.font = UIFont.systemFont(ofSize: 16)
+        textContent.font = UIFont(name: "PingFangSC-Regular", size: 16)
         textContent.borderStyle = .none
         textContent.delegate = self
         textContent.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
@@ -93,7 +93,7 @@ class InputText : UIView {
     }
     
     private func emptyPosition()->(titleFont: UIFont, title: CGRect, subTitle: CGRect, content: CGRect){
-        let titleFont = UIFont.systemFont(ofSize: 14)
+        let titleFont = UIFont(name: "PingFangSC-Regular", size: 14)!
         let border : CGFloat = 15
         let title : CGRect = {
             let height : CGFloat = labTitle.text?.height(withConstrainedWidth: bounds.width - 30, font: titleFont) ?? 0
@@ -113,7 +113,7 @@ class InputText : UIView {
     }
     
     private func editedPosition()->(titleFont: UIFont, title: CGRect, subTitle: CGRect, content: CGRect){
-        let titleFont = UIFont.systemFont(ofSize: 12)
+        let titleFont = UIFont(name: "PingFangSC-Regular", size: 12)!
         let border : CGFloat = 15
         let title : CGRect = {
             let height = labTitle.text?.height(withConstrainedWidth: bounds.width - 30, font: titleFont) ?? 0

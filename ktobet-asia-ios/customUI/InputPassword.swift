@@ -38,14 +38,14 @@ class InputPassword : UIView{
         super.awakeFromNib()
         
         backgroundColor = UIColor.inputSelectedTundoraGray
-        labTitle.font = UIFont.systemFont(ofSize: 12)
+        labTitle.font = UIFont(name: "PingFangSC-Regular", size: 12)
         labTitle.textColor = UIColor.textPrimaryDustyGray
         labTitle.backgroundColor = .clear
         
         textContent.keyboardType = .alphabet
         textContent.textColor = .white
         textContent.backgroundColor = .clear
-        textContent.font = UIFont.systemFont(ofSize: 16)
+        textContent.font = UIFont(name: "PingFangSC-Regular", size: 16)
         textContent.borderStyle = .none
         textContent.delegate = self
         textContent.isSecureTextEntry = true
@@ -98,7 +98,7 @@ class InputPassword : UIView{
     }
     
     private func emptyPosition()->(titleFont: UIFont, title: CGRect, hideBtn: CGRect, content: CGRect){
-        let titleFont = UIFont.systemFont(ofSize: 14)
+        let titleFont = UIFont(name: "PingFangSC-Regular", size: 14)!
         let border : CGFloat = 15
         let title : CGRect = {
             let width : CGFloat = labTitle.text?.width(withConstrainedHeight: bounds.height, font: titleFont) ?? 0
@@ -125,7 +125,7 @@ class InputPassword : UIView{
     }
     
     private func editedPosition()->(titleFont: UIFont, title: CGRect, hideBtn: CGRect, content: CGRect){
-        let titleFont = UIFont.systemFont(ofSize: 12)
+        let titleFont = UIFont(name: "PingFangSC-Regular", size: 12)!
         let border : CGFloat = 15
         let title : CGRect = {
             let width = labTitle.text?.width(withConstrainedHeight: bounds.height, font: titleFont) ?? 0 + 2

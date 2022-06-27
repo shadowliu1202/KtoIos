@@ -150,6 +150,7 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
     func initCultureCode() {
         let localeCultureCode = systemLocaleToCultureCode()
         self.localRepository.setCultureCode(localeCultureCode)
+        Theme.shared.changeEntireAPPFont(by: localRepository.getSupportLocale())
     }
     
     private func systemLocaleToCultureCode() -> String {

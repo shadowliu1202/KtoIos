@@ -18,6 +18,13 @@
 		35B9B3CE259C796F00050914 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
 		36B25B99C4C51F7B4DBE7022 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		395AE2B35D841A4458361AEE /* libPods-ktobet-asia-iosUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19630262B3438BDC7A8408C7 /* libPods-ktobet-asia-iosUITests.a */; };
+		3C2401982861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
+		3C2401992861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
+		3C24019A2861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
+		3C24019B2861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
+		3C24019C2861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
+		3C24019D2861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
+		3C24019E2861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
 		3C30A28A283D58C600BAC905 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C30A289283D58C600BAC905 /* Theme.swift */; };
 		3C30A28B283D58C600BAC905 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C30A289283D58C600BAC905 /* Theme.swift */; };
 		3C30A28C283D58C600BAC905 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C30A289283D58C600BAC905 /* Theme.swift */; };
@@ -4223,6 +4230,7 @@
 		35B9B3CD259C796F00050914 /* CommonEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonEnum.swift; sourceTree = "<group>"; };
 		3812377EC718BC810E6CB165 /* Pods-ktobet-asia-ios-prod-backup.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-prod-backup.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-prod-backup/Pods-ktobet-asia-ios-prod-backup.release.xcconfig"; sourceTree = "<group>"; };
 		3B05A32E625529B438C5F71A /* Pods-ktobet-asia-ios-production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-production.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-production/Pods-ktobet-asia-ios-production.debug.xcconfig"; sourceTree = "<group>"; };
+		3C2401972861AC1000761FFC /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		3C30A289283D58C600BAC905 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNotificationView.swift; sourceTree = "<group>"; };
@@ -5275,6 +5283,7 @@
 				6D0C89E927C8EB0300DA95C7 /* UIImageViewExtension.swift */,
 				6D08726227D766A600457215 /* UITextViewExtension.swift */,
 				3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */,
+				3C2401972861AC1000761FFC /* FontExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -7492,6 +7501,7 @@
 				6D4083D1265212A800BECD0E /* NumberGameUseCase.swift in Sources */,
 				608EA47B271D4A1300A3DA91 /* unreadTableViewCell.swift in Sources */,
 				60790C32264128BF0005D62F /* SlotAllViewController.swift in Sources */,
+				3C2401992861AC1100761FFC /* FontExtension.swift in Sources */,
 				6DDD339E26CDF3610081A846 /* HistoryBarButtonItem.swift in Sources */,
 				4199A02B25AE9918002E2D7E /* InputPassword.swift in Sources */,
 				6060AF652671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */,
@@ -8040,6 +8050,7 @@
 				6D4083D0265212A800BECD0E /* NumberGameUseCase.swift in Sources */,
 				608EA47A271D4A1300A3DA91 /* unreadTableViewCell.swift in Sources */,
 				60790C31264128BF0005D62F /* SlotAllViewController.swift in Sources */,
+				3C2401982861AC1100761FFC /* FontExtension.swift in Sources */,
 				6DDD339D26CDF3610081A846 /* HistoryBarButtonItem.swift in Sources */,
 				48AAA115256E458800E075CA /* PlayerApi.swift in Sources */,
 				6060AF642671C0EE001DD3F3 /* DepositCryptoDetailView.swift in Sources */,
@@ -8884,6 +8895,7 @@
 				6D993876271D73050068A616 /* CustomImageBarButtonItem.swift in Sources */,
 				609013042640EE7000419F8E /* DefaultHttpClient.swift in Sources */,
 				6D986A73271915BB00194E0D /* CustomServicePresenter.swift in Sources */,
+				3C24019A2861AC1100761FFC /* FontExtension.swift in Sources */,
 				609013052640EE7000419F8E /* WebGameCollectionView.swift in Sources */,
 				6D4083CC2652081E00BECD0E /* NumberGameRecordRepository.swift in Sources */,
 				6D14D9E426FAFCAD0001ACFA /* DepositRecordContainer.swift in Sources */,
@@ -9413,6 +9425,7 @@
 				60E5811427F190E4008CE5A9 /* CustomImageBarButtonItem.swift in Sources */,
 				60E5811527F190E4008CE5A9 /* DefaultHttpClient.swift in Sources */,
 				60E5811627F190E4008CE5A9 /* CustomServicePresenter.swift in Sources */,
+				3C24019B2861AC1100761FFC /* FontExtension.swift in Sources */,
 				60E5811727F190E4008CE5A9 /* WebGameCollectionView.swift in Sources */,
 				60E5811827F190E4008CE5A9 /* NumberGameRecordRepository.swift in Sources */,
 				60E5811927F190E4008CE5A9 /* DepositRecordContainer.swift in Sources */,
@@ -9942,6 +9955,7 @@
 				6D966CA227FEE3FA006086B7 /* CustomImageBarButtonItem.swift in Sources */,
 				6D966CA327FEE3FA006086B7 /* DefaultHttpClient.swift in Sources */,
 				6D966CA427FEE3FA006086B7 /* CustomServicePresenter.swift in Sources */,
+				3C24019C2861AC1100761FFC /* FontExtension.swift in Sources */,
 				6D966CA527FEE3FA006086B7 /* WebGameCollectionView.swift in Sources */,
 				6D966CA627FEE3FA006086B7 /* NumberGameRecordRepository.swift in Sources */,
 				6D966CA727FEE3FA006086B7 /* DepositRecordContainer.swift in Sources */,
@@ -10471,6 +10485,7 @@
 				6D966EEF27FEE416006086B7 /* CustomImageBarButtonItem.swift in Sources */,
 				6D966EF027FEE416006086B7 /* DefaultHttpClient.swift in Sources */,
 				6D966EF127FEE416006086B7 /* CustomServicePresenter.swift in Sources */,
+				3C24019D2861AC1100761FFC /* FontExtension.swift in Sources */,
 				6D966EF227FEE416006086B7 /* WebGameCollectionView.swift in Sources */,
 				6D966EF327FEE416006086B7 /* NumberGameRecordRepository.swift in Sources */,
 				6D966EF427FEE416006086B7 /* DepositRecordContainer.swift in Sources */,
@@ -10683,6 +10698,7 @@
 				6D96700727FEE42B006086B7 /* NumberGameUseCase.swift in Sources */,
 				6D96700827FEE42B006086B7 /* unreadTableViewCell.swift in Sources */,
 				6D96700927FEE42B006086B7 /* SlotAllViewController.swift in Sources */,
+				3C24019E2861AC1100761FFC /* FontExtension.swift in Sources */,
 				6D96700A27FEE42B006086B7 /* HistoryBarButtonItem.swift in Sources */,
 				6D96700B27FEE42B006086B7 /* InputPassword.swift in Sources */,
 				6D96700C27FEE42B006086B7 /* DepositCryptoDetailView.swift in Sources */,

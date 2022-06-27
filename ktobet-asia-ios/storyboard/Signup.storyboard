@@ -29,43 +29,50 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="注册 1/3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="su5-Xz-dF0">
-                                        <rect key="frame" x="30" y="30" width="51.5" height="20"/>
+                                        <rect key="frame" x="30" y="30" width="54" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="wCB-gF-mhE"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                         <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="register_step1_title_1"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择语言与货币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptb-Lf-ku9">
-                                        <rect key="frame" x="30" y="50" width="170.5" height="32"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="n1c-wV-hkJ">
+                                        <rect key="frame" x="30" y="50" width="207" height="34"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="253" verticalCompressionResistancePriority="1000" text="选择语言与货币" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptb-Lf-ku9">
+                                                <rect key="frame" x="0.0" y="0.0" width="168" height="34"/>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="24"/>
+                                                <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="register_step1_title_2"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMf-Xp-0tw">
+                                                <rect key="frame" x="175" y="1" width="32" height="32"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="JF6-jt-xFi"/>
+                                                    <constraint firstAttribute="width" constant="32" id="ftm-6S-avH"/>
+                                                </constraints>
+                                                <state key="normal" image="Tips"/>
+                                                <connections>
+                                                    <action selector="btnTipPressed:" destination="dAT-XM-Zpy" eventType="touchUpInside" id="kpO-Vm-2pY"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="32" id="EEy-gg-q9c"/>
+                                            <constraint firstAttribute="bottom" secondItem="Ptb-Lf-ku9" secondAttribute="bottom" id="6a4-d5-izz"/>
+                                            <constraint firstItem="Ptb-Lf-ku9" firstAttribute="top" secondItem="n1c-wV-hkJ" secondAttribute="top" id="Pvi-DV-7zu"/>
+                                            <constraint firstItem="Ptb-Lf-ku9" firstAttribute="leading" secondItem="n1c-wV-hkJ" secondAttribute="leading" id="cSx-iX-6dL"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="register_step1_title_2"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMf-Xp-0tw">
-                                        <rect key="frame" x="207.5" y="50" width="32" height="32"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="32" id="JF6-jt-xFi"/>
-                                            <constraint firstAttribute="width" constant="32" id="ftm-6S-avH"/>
-                                        </constraints>
-                                        <state key="normal" image="Tips"/>
-                                        <connections>
-                                            <action selector="btnTipPressed:" destination="dAT-XM-Zpy" eventType="touchUpInside" id="kpO-Vm-2pY"/>
-                                        </connections>
-                                    </button>
+                                    </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Nag-52-peI">
-                                        <rect key="frame" x="30" y="112" width="354" height="200"/>
+                                        <rect key="frame" x="30" y="96" width="354" height="200"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="Y0e-Az-HWc"/>
@@ -82,7 +89,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="354" height="90"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="简体中文 + 人民币" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9hr-1T-0Ef">
-                                                                    <rect key="frame" x="15" y="34.5" width="140.5" height="21"/>
+                                                                    <rect key="frame" x="15" y="35" width="140.5" height="20.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -133,12 +140,12 @@
                                         </connections>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jAD-JG-pVN">
-                                        <rect key="frame" x="30" y="352" width="354" height="48"/>
+                                        <rect key="frame" x="30" y="336" width="354" height="48"/>
                                         <color key="backgroundColor" red="0.94117647058823528" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="AHY-PV-kRP"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
                                         <state key="normal" title="下一步"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="common_next"/>
@@ -148,8 +155,8 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="按“下一步”代表您已阅读并同意以下条款" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ENo-BW-qw0">
-                                        <rect key="frame" x="30" y="424" width="354" height="14.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <rect key="frame" x="30" y="408" width="354" height="17"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="12"/>
                                         <color key="textColor" red="0.34901960784313724" green="0.34901960784313724" blue="0.34901960784313724" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <userDefinedRuntimeAttributes>
@@ -157,8 +164,8 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jUM-oH-Ayc">
-                                        <rect key="frame" x="164" y="446.5" width="86" height="29"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <rect key="frame" x="165" y="433" width="84" height="32"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                         <state key="normal" title="《服务条款》">
                                             <color key="titleColor" red="0.94901960784313721" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
@@ -172,11 +179,11 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="n1c-wV-hkJ" firstAttribute="top" secondItem="su5-Xz-dF0" secondAttribute="bottom" id="4O3-zy-Fpc"/>
                                     <constraint firstItem="clt-ea-XRo" firstAttribute="width" secondItem="sw4-Ms-sr3" secondAttribute="width" id="4Pt-Zi-ocW"/>
-                                    <constraint firstItem="ZMf-Xp-0tw" firstAttribute="leading" secondItem="Ptb-Lf-ku9" secondAttribute="trailing" constant="7" id="6aQ-UZ-WbE"/>
-                                    <constraint firstItem="Nag-52-peI" firstAttribute="top" secondItem="Ptb-Lf-ku9" secondAttribute="bottom" constant="30" id="8Mu-Ca-lwu"/>
-                                    <constraint firstItem="Ptb-Lf-ku9" firstAttribute="leading" secondItem="su5-Xz-dF0" secondAttribute="leading" id="D8C-zk-LI3"/>
+                                    <constraint firstItem="Nag-52-peI" firstAttribute="top" secondItem="n1c-wV-hkJ" secondAttribute="bottom" constant="12" id="Bqn-N0-V6P"/>
                                     <constraint firstItem="clt-ea-XRo" firstAttribute="top" secondItem="sw4-Ms-sr3" secondAttribute="top" id="EVl-uy-Tat"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n1c-wV-hkJ" secondAttribute="trailing" constant="30" id="LRi-uU-r1c"/>
                                     <constraint firstItem="jAD-JG-pVN" firstAttribute="leading" secondItem="sw4-Ms-sr3" secondAttribute="leading" constant="30" id="NVi-DV-NiP"/>
                                     <constraint firstItem="jUM-oH-Ayc" firstAttribute="top" secondItem="ENo-BW-qw0" secondAttribute="bottom" constant="8" id="R1U-2i-Q7q"/>
                                     <constraint firstAttribute="trailing" secondItem="jAD-JG-pVN" secondAttribute="trailing" constant="30" id="VXg-XG-SHt"/>
@@ -186,16 +193,14 @@
                                     <constraint firstAttribute="bottom" secondItem="jUM-oH-Ayc" secondAttribute="bottom" constant="20" id="ZKJ-Qq-fq7"/>
                                     <constraint firstAttribute="trailing" secondItem="clt-ea-XRo" secondAttribute="trailing" id="cCI-O8-qHi"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="su5-Xz-dF0" secondAttribute="trailing" constant="30" id="dij-6m-qKO"/>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ZMf-Xp-0tw" secondAttribute="trailing" constant="24" id="djl-X9-gEn"/>
                                     <constraint firstItem="ENo-BW-qw0" firstAttribute="top" secondItem="jAD-JG-pVN" secondAttribute="bottom" constant="24" id="doH-PW-D0L"/>
                                     <constraint firstItem="jAD-JG-pVN" firstAttribute="top" secondItem="Nag-52-peI" secondAttribute="bottom" constant="40" id="klA-Xj-03a"/>
                                     <constraint firstItem="ENo-BW-qw0" firstAttribute="leading" secondItem="sw4-Ms-sr3" secondAttribute="leading" constant="30" id="npx-SG-sdf"/>
+                                    <constraint firstItem="n1c-wV-hkJ" firstAttribute="leading" secondItem="su5-Xz-dF0" secondAttribute="leading" id="pPF-x1-0ac"/>
                                     <constraint firstItem="su5-Xz-dF0" firstAttribute="top" secondItem="clt-ea-XRo" secondAttribute="bottom" constant="30" id="pz9-NT-V8V"/>
                                     <constraint firstItem="Nag-52-peI" firstAttribute="leading" secondItem="sw4-Ms-sr3" secondAttribute="leading" constant="30" id="q9J-YV-XW4"/>
                                     <constraint firstItem="clt-ea-XRo" firstAttribute="leading" secondItem="sw4-Ms-sr3" secondAttribute="leading" id="qjb-j9-6E8"/>
-                                    <constraint firstItem="ZMf-Xp-0tw" firstAttribute="centerY" secondItem="Ptb-Lf-ku9" secondAttribute="centerY" id="vCC-LU-Xtt"/>
                                     <constraint firstAttribute="trailing" secondItem="ENo-BW-qw0" secondAttribute="trailing" constant="30" id="yUQ-se-Bdv"/>
-                                    <constraint firstItem="Ptb-Lf-ku9" firstAttribute="top" secondItem="su5-Xz-dF0" secondAttribute="bottom" id="yvW-EF-cl0"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
