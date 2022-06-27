@@ -73,7 +73,7 @@ class qrCodeViewController: UIViewController {
                 qrCodeFrameView.addSubview(cr)
                 
                 let label = UILabel()
-                label.font = UIFont.boldSystemFont(ofSize: 60)
+                label.font = UIFont(name: "PingFangSC-Semibold", size: 60)
                 label.textAlignment = .center
                 label.text = "＋"
                 label.textColor = UIColor(red: 254/255, green: 213/255, blue: 0/255, alpha: 1)

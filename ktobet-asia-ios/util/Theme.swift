@@ -101,4 +101,46 @@ final class Theme {
             return 24
         }
     }
+    
+    func changeEntireAPPFont(by playerLocale: SupportLocale) {
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            UILabel.appearance().substituteFontFamilyName = "Helvetica"
+            UITextView.appearance().substituteFontFamilyName = "Helvetica"
+            UITextField.appearance().substituteFontFamilyName = "Helvetica"
+            UINavigationBarAppearance().titleTextAttributes = [.font: UIFont(name: "Helvetica-Bold", size: 16)!]
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            UILabel.appearance().substituteFontFamilyName = "PingFangSC"
+            UITextView.appearance().substituteFontFamilyName = "PingFangSC"
+            UITextField.appearance().substituteFontFamilyName = "PingFangSC"
+            UINavigationBarAppearance().titleTextAttributes = [.font: UIFont(name: "PingFangSC-Semibold", size: 16)!]
+        }
+    }
+    
+    func getSignupLanguageViewFont(by playerLocale: SupportLocale) -> [String: UIFont] {
+        var fontDictionary: [String: UIFont]
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            fontDictionary = ["btnNext": UIFont(name: "Helvetica", size: 16)!,
+                              "btnTerms": UIFont(name: "Helvetica", size: 14)!,
+                              "labTitle": UIFont(name: "Helvetica-Light", size: 14)!,
+                              "labDesc": UIFont(name: "Helvetica", size: 24)!,
+                              "labTermsTip": UIFont(name: "Helvetica-Light", size: 12)!,
+                              "btnTermsOfService": UIFont(name: "Helvetica-Light", size: 12)!]
+            
+            return fontDictionary
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            fontDictionary = ["btnNext": UIFont(name: "PingFangSC-Regular", size: 16)!,
+                              "btnTerms": UIFont(name: "PingFangSC-Regular", size: 14)!,
+                              "labTitle": UIFont(name: "PingFangSC-Medium", size: 14)!,
+                              "labDesc": UIFont(name: "PingFangSC-Regular", size: 24)!,
+                              "labTermsTip": UIFont(name: "PingFangSC-Medium", size: 12)!,
+                              "btnTermsOfService": UIFont(name: "PingFangSC-Medium", size: 12)!]
+            return fontDictionary
+        }
+    }
 }

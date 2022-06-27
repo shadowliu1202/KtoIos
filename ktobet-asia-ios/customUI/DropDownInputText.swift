@@ -96,17 +96,17 @@ class DropDownInputText: UIView {
         if let color = customizeBackgroundColor {
             backgroundColor = color.0
         }
-        labTitle.font = UIFont.systemFont(ofSize: 12)
+        labTitle.font = UIFont(name: "PingFangSC-Regular", size: 12)
         labTitle.textColor = UIColor.textPrimaryDustyGray
         labTitle.backgroundColor = .clear
         
-        labSubTitle.font = UIFont.systemFont(ofSize: 16)
+        labSubTitle.font = UIFont(name: "PingFangSC-Regular", size: 16)
         labSubTitle.textColor = .white
         labSubTitle.backgroundColor = .clear
         
         dropDownText.textColor = .white
         dropDownText.backgroundColor = .clear
-        dropDownText.font = UIFont.systemFont(ofSize: 16)
+        dropDownText.font = UIFont(name: "PingFangSC-Regular", size: 16)
         dropDownText.borderStyle = .none
         dropDownText.delegate = self
         dropDownText.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
@@ -214,7 +214,7 @@ class DropDownInputText: UIView {
     }
     
     private func emptyPosition()->(titleFont: UIFont, title: CGRect, subTitle: CGRect, content: CGRect){
-        let titleFont = UIFont.systemFont(ofSize: 14)
+        let titleFont = UIFont(name: "PingFangSC-Regular", size: 14)!
         let border : CGFloat = 15
         let title : CGRect = {
             let width : CGFloat = labTitle.text?.width(withConstrainedHeight: bounds.height, font: titleFont) ?? 0
@@ -235,7 +235,7 @@ class DropDownInputText: UIView {
     }
     
     private func editedPosition()->(titleFont: UIFont, title: CGRect, subTitle: CGRect, content: CGRect){
-        let titleFont = UIFont.systemFont(ofSize: 12)
+        let titleFont = UIFont(name: "PingFangSC-Regular", size: 12)!
         let border : CGFloat = 15
         let title : CGRect = {
             let width = labTitle.text?.width(withConstrainedHeight: bounds.height, font: titleFont) ?? 0 + 2
