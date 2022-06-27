@@ -10,10 +10,10 @@ class SearchViewController: SearchProduct {
     @IBOutlet weak var tagsStackView: UIStackView!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var lackConditionView: UIView!
     lazy var gameDataSourceDelegate = { return SearchGameDataSourceDelegate(self) }()
     private var gameData: [WebGameWithDuplicatable] = [] {
         didSet {
-            self.switchContent(gameData)
             self.gameDataSourceDelegate.searchKeyword = self.searchText.value
             self.reloadGameData(gameData)
         }
@@ -109,7 +109,6 @@ class SearchViewController: SearchProduct {
             }
             if text?.isEmpty ?? true {
                 self?.searchBarView.endEditing(true)
-                self?.switchContent()
             }
         }).disposed(by: disposeBag)
         
@@ -131,28 +130,60 @@ class SearchViewController: SearchProduct {
                     self?.gameData = games.filter{ $0.gameStatus != .maintenance }
                 }
                 if let error = event.error {
-                    self?.switchContent()
                     self?.handleErrors(error)
                 }
             }).disposed(by: self.disposeBag)
+        
+        Observable.combineLatest(searchText.asObservable(), viewModel!.searchResult()).subscribe(onNext: { [weak self] (text, event) in
+            if let games = event.element {
+                self?.gameData = games.filter{ $0.gameStatus != .maintenance }
+                self?.changeContent(text: text!, games: games)
+            }
+            if let error = event.error {
+                self?.handleErrors(error)
+            }
+        }).disposed(by: self.disposeBag)
     }
     
-    private func switchContent(_ games: [WebGameWithProperties]? = nil) {
-        if let items = games, items.count > 0 {
-            self.gamesCollectionView.isHidden = false
-            self.suggestionView.isHidden = true
-            emptyView.isHidden = true
+    private func changeContent(text: String, games: [WebGameWithProperties]) {
+        let searchKeyword = SearchKeyword(keyword: text)
+        if text.isEmpty {
+            takeSuggestion()
+        } else if !searchKeyword.isSearchPermitted(), text.isNotEmpty {
+            lackCondition()
+        } else if games.count == 0 {
+            noResult()
         } else {
-            if let count = searchText.value?.count, count >= 3 {
-                emptyView.isHidden = false
-                self.suggestionView.isHidden = true
-            } else {
-                self.suggestionView.isHidden = false
-                emptyView.isHidden = true
-            }
-
-            self.gamesCollectionView.isHidden = true
+            displayResult()
         }
+    }
+    
+    private func displayResult() {
+        gamesCollectionView.isHidden = false
+        emptyView.isHidden = true
+        suggestionView.isHidden = true
+        lackConditionView .isHidden = true
+    }
+    
+    private func noResult() {
+        gamesCollectionView.isHidden = true
+        emptyView.isHidden = false
+        suggestionView.isHidden = true
+        lackConditionView .isHidden = true
+    }
+    
+    private func lackCondition() {
+        gamesCollectionView.isHidden = true
+        emptyView.isHidden = true
+        suggestionView.isHidden = true
+        lackConditionView.isHidden = false
+    }
+    
+    private func takeSuggestion() {
+        gamesCollectionView.isHidden = true
+        emptyView.isHidden = true
+        suggestionView.isHidden = false
+        lackConditionView.isHidden = true
     }
     
     private func addTagBtns(stackView: UIStackView, data: [String]) {
