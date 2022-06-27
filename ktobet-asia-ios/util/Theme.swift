@@ -90,4 +90,15 @@ final class Theme {
             return 60
         }
     }
+    
+    func getDefaultProductTextPadding(by playerLocale: SupportLocale) -> CGFloat {
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            return 12
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return 24
+        }
+    }
 }
