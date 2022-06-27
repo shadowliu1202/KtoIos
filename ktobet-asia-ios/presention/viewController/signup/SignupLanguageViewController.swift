@@ -39,7 +39,13 @@ class SignupLanguageViewController: LandingViewController {
 
     private var disposeBag = DisposeBag()
     private lazy var arrLangs : [LanguageListData] = {
-        let supportLocals = [SupportLocale.China.init(), SupportLocale.Vietnam.init()]
+        //MARK: 暫屏蔽VN註冊，待VN上線時打開
+        var supportLocals: [SupportLocale]
+        if Configuration.isAllowedVN {
+            supportLocals = [SupportLocale.China.init(), SupportLocale.Vietnam.init()]
+        } else {
+            supportLocals = [SupportLocale.China.init()]
+        }
         let arr: [LanguageListData] = supportLocals.map({
             let item = LanguageListData(title: registerOptionText($0),
                                         type: $0,
