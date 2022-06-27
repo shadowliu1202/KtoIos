@@ -13,6 +13,7 @@ import Moya
 enum KTOError: Error {
     case EmptyData
     case WrongDateFormat
+    case WrongProductType
 }
 
 extension KotlinThrowable: Error {}

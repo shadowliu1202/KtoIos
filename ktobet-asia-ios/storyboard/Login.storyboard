@@ -366,6 +366,9 @@
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                 <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="profile_defaultproduct_title"/>
+                                </userDefinedRuntimeAttributes>
                             </label>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZBG-GM-b1a">
                                 <rect key="frame" x="263" y="129" width="32" height="32"/>
@@ -385,6 +388,9 @@
                                     <constraint firstAttribute="height" constant="50" id="Rut-dx-1GO"/>
                                 </constraints>
                                 <state key="normal" title="下一步"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="common_next"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="btnNextPressed:" destination="r9Z-Rg-Nee" eventType="touchUpInside" id="fyo-7d-EEd"/>
                                 </connections>
@@ -407,18 +413,18 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J7C-lJ-rNY">
                                                     <rect key="frame" x="30" y="8" width="354" height="100"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="(375)SBK-Select" translatesAutoresizingMaskIntoConstraints="NO" id="uh3-pK-8V6">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="(375)SBK-Select" translatesAutoresizingMaskIntoConstraints="NO" id="uh3-pK-8V6">
                                                             <rect key="frame" x="0.0" y="0.0" width="354" height="100"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="體育" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nC-ZV-yq8">
-                                                            <rect key="frame" x="24" y="24" width="306" height="28"/>
+                                                            <rect key="frame" x="24" y="24" width="306" height="21.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tOF-6k-Mma">
-                                                            <rect key="frame" x="24" y="52" width="306" height="24"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tOF-6k-Mma">
+                                                            <rect key="frame" x="24" y="55.5" width="306" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -427,16 +433,15 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="tOF-6k-Mma" secondAttribute="bottom" constant="24" id="0yh-XI-6Ro"/>
-                                                        <constraint firstItem="tOF-6k-Mma" firstAttribute="height" secondItem="3nC-ZV-yq8" secondAttribute="height" multiplier="0.854167" id="2Wz-vs-4H3"/>
                                                         <constraint firstItem="3nC-ZV-yq8" firstAttribute="leading" secondItem="J7C-lJ-rNY" secondAttribute="leading" constant="24" id="8zB-2B-3cs"/>
                                                         <constraint firstItem="uh3-pK-8V6" firstAttribute="leading" secondItem="J7C-lJ-rNY" secondAttribute="leading" id="D3C-yY-409"/>
-                                                        <constraint firstItem="tOF-6k-Mma" firstAttribute="leading" secondItem="J7C-lJ-rNY" secondAttribute="leading" constant="24" id="Dnn-9j-PgI"/>
                                                         <constraint firstAttribute="bottom" secondItem="uh3-pK-8V6" secondAttribute="bottom" id="Jst-CS-lDh"/>
                                                         <constraint firstAttribute="trailing" secondItem="3nC-ZV-yq8" secondAttribute="trailing" constant="24" id="JyU-Jy-71I"/>
                                                         <constraint firstAttribute="trailing" secondItem="uh3-pK-8V6" secondAttribute="trailing" id="UfQ-Nh-aEo"/>
-                                                        <constraint firstAttribute="trailing" secondItem="tOF-6k-Mma" secondAttribute="trailing" constant="24" id="VW9-j2-EhN"/>
                                                         <constraint firstItem="uh3-pK-8V6" firstAttribute="top" secondItem="J7C-lJ-rNY" secondAttribute="top" id="XTb-Qh-15E"/>
-                                                        <constraint firstItem="tOF-6k-Mma" firstAttribute="top" secondItem="3nC-ZV-yq8" secondAttribute="bottom" id="lSs-lS-53n"/>
+                                                        <constraint firstItem="tOF-6k-Mma" firstAttribute="trailing" secondItem="3nC-ZV-yq8" secondAttribute="trailing" id="gCm-tZ-DMa"/>
+                                                        <constraint firstItem="tOF-6k-Mma" firstAttribute="top" secondItem="3nC-ZV-yq8" secondAttribute="bottom" constant="10" id="lSs-lS-53n"/>
+                                                        <constraint firstItem="tOF-6k-Mma" firstAttribute="leading" secondItem="3nC-ZV-yq8" secondAttribute="leading" id="qEg-Y0-ohS"/>
                                                         <constraint firstItem="3nC-ZV-yq8" firstAttribute="top" secondItem="J7C-lJ-rNY" secondAttribute="top" constant="24" id="rzg-Sq-NpZ"/>
                                                     </constraints>
                                                 </view>
@@ -458,6 +463,8 @@
                                             <outlet property="imgBackground" destination="uh3-pK-8V6" id="xsu-6U-Vig"/>
                                             <outlet property="labDesc" destination="tOF-6k-Mma" id="w8U-LO-xFS"/>
                                             <outlet property="labTitle" destination="3nC-ZV-yq8" id="d9I-mp-nHC"/>
+                                            <outlet property="titleLeading" destination="8zB-2B-3cs" id="v79-4v-8IA"/>
+                                            <outlet property="titleTrailing" destination="JyU-Jy-71I" id="5bG-aX-2vj"/>
                                             <outlet property="viewBg" destination="J7C-lJ-rNY" id="ui1-im-evC"/>
                                             <outlet property="viewShadow" destination="SPx-Li-MD1" id="4wI-0o-Z8X"/>
                                         </connections>
@@ -489,6 +496,9 @@
                         <barButtonItem key="leftBarButtonItem" id="Uck-Kr-fHS"/>
                         <barButtonItem key="rightBarButtonItem" title="略过" id="iwh-P2-NMa">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="common_skip"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="btnIgnorePressed:" destination="r9Z-Rg-Nee" id="Mz9-cd-9QP"/>
                             </connections>

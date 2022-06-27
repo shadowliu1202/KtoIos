@@ -47,6 +47,11 @@ extension UIBarButtonItem {
         self.tag = id
         return self
     }
+    @IBInspectable
+    public var localizeTitle: String? {
+        get { return title }
+        set { title = newValue == nil ? nil : Localize.string(newValue!)}
+    }
 }
 
 enum KTOBarButtonItemStyle {
