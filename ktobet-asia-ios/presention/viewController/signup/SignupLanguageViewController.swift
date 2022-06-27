@@ -38,7 +38,16 @@ class SignupLanguageViewController: LandingViewController {
     private let rowSpace : CGFloat = 12
 
     private var disposeBag = DisposeBag()
-    private var arrLangs : [LanguageListData] = []
+    private lazy var arrLangs : [LanguageListData] = {
+        let supportLocals = [SupportLocale.China.init(), SupportLocale.Vietnam.init()]
+        let arr: [LanguageListData] = supportLocals.map({
+            let item = LanguageListData(title: registerOptionText($0),
+                                        type: $0,
+                                        selected: $0.cultureCode() == localStorageRepo.getCultureCode())
+            return item
+        })
+        return arr
+    }()
     
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var login = UIBarButtonItem.kto(.login)
@@ -51,8 +60,7 @@ class SignupLanguageViewController: LandingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bind(position: .right, barButtonItems: padding, login, spacing, customService)
-        localize()
-        reloadLanguageList()
+        setTableViewHeight()
         setupStyle()
     }
     
@@ -61,7 +69,7 @@ class SignupLanguageViewController: LandingViewController {
     }
     
     // MARK: METHOD
-    private func localize(){
+    private func refreshLocalize(){
         login.title = Localize.string("common_login")
         customService.title = Localize.string("customerservice_action_bar_title")
         labTitle.text = Localize.string("register_step1_title_1")
@@ -71,28 +79,23 @@ class SignupLanguageViewController: LandingViewController {
         btnTerms.setTitle(Localize.string("register_step1_tips_1_highlight"), for: .normal)
     }
     
-    private func reloadLanguageList(){
-        arrLangs = {
-            let types = [SupportLocale.China.init(): Localize.string("register_language_option_chinese"),
-                         SupportLocale.Vietnam.init(): Localize.string("register_language_option_vietnam")]
-
-            var arr = [LanguageListData]()
-            for (type, text) in types {
-                arr.append({
-                    let selected : Bool = type.cultureCode() == localStorageRepo.getCultureCode()
-                    let item = LanguageListData(title: text,
-                                                type: type,
-                                                selected: selected)
-                    return item
-                }())
-            }
-            return arr
-        }()
+    private func setTableViewHeight(){
         constraintTableHeight.constant = {
             var height = rowHeight * CGFloat(arrLangs.count)
             if height > 12 { height -= 12 }
             return height
         }()
+    }
+    
+    private func registerOptionText(_ local: SupportLocale) -> String {
+        switch local {
+        case is SupportLocale.Vietnam:
+            return Localize.string("register_language_option_vietnam")
+        case is SupportLocale.China:
+            fallthrough
+        default:
+            return Localize.string("register_language_option_chinese")
+        }
     }
     
     private func setupStyle(){
@@ -135,7 +138,7 @@ class SignupLanguageViewController: LandingViewController {
         if let locale = arrLangs.filter({ (data) -> Bool in return data.selected }).first?.type {
             localStorageRepo.setCultureCode(locale.cultureCode())
         }
-        localize()
+        refreshLocalize()
         languageChangeHandler?()
         tableView.reloadData()
     }

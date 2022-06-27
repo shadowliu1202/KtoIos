@@ -28,6 +28,7 @@ class LanguageAndCurrencyCell: UITableViewCell {
         let tundoraGray = UIColor.inputSelectedTundoraGray
         let shaftGray = UIColor.inputBaseMineShaftGray
         labTitle.text = data.title
+        labTitle.textColor = data.selected ? UIColor.whiteFull : UIColor.textPrimaryDustyGray
         btnSelected.isSelected = data.selected
         background.backgroundColor = data.selected ? tundoraGray : shaftGray
     }
