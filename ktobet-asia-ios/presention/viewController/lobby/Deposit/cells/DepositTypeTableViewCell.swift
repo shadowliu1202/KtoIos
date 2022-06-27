@@ -7,7 +7,7 @@ class DepositTypeTableViewCell: UITableViewCell {
     @IBOutlet private weak var recommendButton: UIButton!
     @IBOutlet private weak var hintLabel: UILabel!
     
-    lazy var imgIcon: [String: String] = ["0": "Pay_Deposit",
+    lazy var imgIcon: [String: String] = ["0": "OfflineDeposit",
                                           "1": "UnionPay(32)",
                                           "2": "WeChatPay(32)",
                                           "3": "AliPay(32)",
@@ -21,7 +21,7 @@ class DepositTypeTableViewCell: UITableViewCell {
     func setUp(depositSelection: DepositSelection, local: SupportLocale) {
         nameLabel.text = depositSelection.name
         if depositSelection.id == "0" {
-            iconImg.image = Theme.shared.getUIImage(name: "Pay_Deposit", by: local)
+            iconImg.image = Theme.shared.getUIImage(name: "OfflineDeposit", by: local)
         } else {
             iconImg.image = UIImage(named: imgIcon[depositSelection.id] ?? "Default(32)")
         }
