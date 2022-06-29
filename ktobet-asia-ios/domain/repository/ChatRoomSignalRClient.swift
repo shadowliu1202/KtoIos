@@ -17,25 +17,27 @@ extension ChatRoomSignalRClient: HubConnectionDelegate {
 }
 
 class ChatRoomSignalRClient: PortalChatRoomChatService {
-    var token: String
-    var roomId: String
-    var skillId: String
-    var repository: CustomServiceRepository
-    var customerInfraService: CustomerInfraService
+    private(set) var token: String
+    private var roomId: String
+    private var skillId: String
+    private var repository: CustomServiceRepository
+    private var customerInfraService: CustomerInfraService
+    private let httpClient: HttpClient
     private let disposeBag = DisposeBag()
     private var socketConnect: HubConnection?
     private var onMessage: ((PortalChatRoom.ChatAction) -> ())?
     
-    init(token: String, skillId: String, roomId: String, repository: CustomServiceRepository, customerInfraService: CustomerInfraService) {
+    init(token: String, skillId: String, roomId: String, repository: CustomServiceRepository, customerInfraService: CustomerInfraService, httpClient: HttpClient) {
         self.token = token
         self.skillId = skillId
         self.roomId = roomId
         self.repository = repository
         self.customerInfraService = customerInfraService
+        self.httpClient = httpClient
     }
     
-    convenience init(token: String, repository: CustomServiceRepository, customerInfraService: CustomerInfraService) {
-        self.init(token: token, skillId: "", roomId: "", repository: repository, customerInfraService: customerInfraService)
+    convenience init(token: String, repository: CustomServiceRepository, customerInfraService: CustomerInfraService, httpClient: HttpClient) {
+        self.init(token: token, skillId: "", roomId: "", repository: repository, customerInfraService: customerInfraService, httpClient: httpClient)
     }
 
     
@@ -182,7 +184,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
                 }
             } else {
                 if let number = getQueueNumber(), let bean = getPlayerInChat() {
-                    onMessage?(PortalChatRoom.ChatActionInitChatRoom.init(roomId: bean.roomId!, skillId: bean.skillId!, queue: number))
+                    onMessage?(PortalChatRoom.ChatActionInitChatRoom.init(roomId: bean.roomId, skillId: bean.skillId, queue: number))
                 }
             }
         }
@@ -208,9 +210,9 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     }
     
     private func refreshChatRoomState(_ bean: PlayerInChatBean) {
-        if let token = bean.token, token.isNotEmpty  {
-            skillId = bean.skillId!
-            roomId = bean.roomId!
+        if token.isNotEmpty  {
+            skillId = bean.skillId
+            roomId = bean.roomId
             start(isReconnect: true)
         } else {
             refreshAndDisconnect()
@@ -225,15 +227,14 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     private func getPlayerInChat() -> PlayerInChatBean? {
         let group = DispatchGroup()
         group.enter()
-        var decodedObject: PlayerInChatBean?
-        let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/player/in-chat")!
+        var decodedObject: PlayerInChatBean? = nil
+        let url = URL(string: httpClient.baseUrl.absoluteString + "onlinechat/api/room/player/in-chat")!
         let urlSession = generateUrlSession()
         let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<PlayerInChatBean>.self, from: data).data
             group.leave()
         }
-        
         task.resume()
         
         group.wait()

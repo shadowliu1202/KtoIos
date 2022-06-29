@@ -10,7 +10,6 @@ protocol VersionUpdateProtocol  {
 
 extension VersionUpdateProtocol where Self: APPViewController {
     func syncAppVersionUpdate(_ disposeBag: DisposeBag) {
-        guard Configuration.isAutoUpdate else { return }
         syncAppVersion(disposeBag)
         registerAppEnterForeground(disposeBag)
     }
@@ -18,6 +17,7 @@ extension VersionUpdateProtocol where Self: APPViewController {
     private func syncAppVersion(_ disposeBag: DisposeBag) {
         Observable.combineLatest(appSyncViewModel.getLatestAppVersion().asObservable(), appSyncViewModel.getSuperSignStatus().asObservable())
             .subscribe(onNext: { [weak self] (incoming, superSignStatus) in
+                guard Configuration.isAutoUpdate else { return }
                 self?.updateStrategy(incoming, superSignStatus)
             }).disposed(by: disposeBag)
     }

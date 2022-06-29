@@ -1745,9 +1745,9 @@ struct BalanceLogDetailRemarkBean: Codable {
 //}
 
 struct PlayerInChatBean: Codable {
-    let roomId: String?
-    let skillId: String?
-    let token: String?
+    let roomId: String
+    let skillId: String
+    let token: String
 }
 
 struct InProcessBean: Codable {

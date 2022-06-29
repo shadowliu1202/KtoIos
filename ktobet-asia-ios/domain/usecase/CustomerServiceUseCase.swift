@@ -37,7 +37,7 @@ class CustomerServiceUseCaseImpl: CustomerServiceUseCase, ChatRoomHistoryUseCase
     
     func searchChatRoom() -> Single<PortalChatRoom> {
         customerInfraService.isPlayerInChat().flatMap {[unowned self] chat in
-            if chat.token.isNullOrEmpty() {
+            if chat.token.isEmpty {
                 return Single.just(CustomServiceRepositoryImpl.PortalChatRoomNoExist)
             } else {
                 return self.customServiceRepository.connectChatRoom(chat)

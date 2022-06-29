@@ -149,6 +149,7 @@ protocol CustomServiceRepository {
 class CustomServiceRepositoryImpl : CustomServiceRepository {
     private var apiCustomService : CustomServiceApi!
     private var playerConfig: PlayerConfiguration
+    private let httpClient: HttpClient
     private var portalChatRoom: PortalChatRoom? = nil {
         didSet {
             if let room = portalChatRoom {
@@ -161,8 +162,9 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
     private var chatRoomClient: ChatRoomSignalRClient? = nil
     private var chatRoomSubject = BehaviorSubject<PortalChatRoom>(value: CustomServiceRepositoryImpl.PortalChatRoomNoExist)
     
-    init(_ apiCustomService : CustomServiceApi, _ playerConfig: PlayerConfiguration) {
+    init(_ apiCustomService : CustomServiceApi, _ httpClient: HttpClient, _ playerConfig: PlayerConfiguration) {
         self.apiCustomService = apiCustomService
+        self.httpClient = httpClient
         self.playerConfig = playerConfig
     }
     
@@ -233,7 +235,7 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
         Single.create { emitter in
             if (self.chatRoomClient?.token != token) {
                 self.chatRoomClient?.disconnect()
-                self.chatRoomClient = ChatRoomSignalRClient(token: token, repository: self, customerInfraService: self)
+                self.chatRoomClient = ChatRoomSignalRClient(token: token, repository: self, customerInfraService: self, httpClient: self.httpClient)
                 self.portalChatRoom = PortalChatRoom.init(service: self.chatRoomClient!)
             } else if (self.portalChatRoom == nil) {
                 self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
@@ -252,16 +254,14 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
                 return Disposables.create()
             }
             
-            if let token = bean.token {
-                if self.chatRoomClient?.token != bean.token {
-                    self.chatRoomClient?.disconnect()
-                    self.chatRoomClient = ChatRoomSignalRClient(token: token, skillId: bean.skillId ?? "", roomId: bean.roomId ?? "", repository: self, customerInfraService: self)
-                    self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
-                } else if self.portalChatRoom == nil {
-                    self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
-                }
-                
+            if self.chatRoomClient?.token != bean.token {
+                self.chatRoomClient?.disconnect()
+                self.chatRoomClient = ChatRoomSignalRClient(token: bean.token, skillId: bean.skillId, roomId: bean.roomId, repository: self, customerInfraService: self, httpClient: self.httpClient)
+                self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
+            } else if self.portalChatRoom == nil {
+                self.portalChatRoom = PortalChatRoom(service: self.chatRoomClient!)
             }
+            
             single(.success(self.portalChatRoom ?? CustomServiceRepositoryImpl.PortalChatRoomNoExist))
             
             return Disposables.create()

@@ -28,11 +28,13 @@ protocol PlayerRepository {
 class PlayerRepositoryImpl : PlayerRepository {
     private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
     
-    private var playerApi : PlayerApi!
-    private var portalApi : PortalApi!
+    private let httpClient: HttpClient
+    private var playerApi: PlayerApi!
+    private var portalApi: PortalApi!
     private var settingStore: SettingStore!
     
-    init(_ playerApi : PlayerApi, _ portalApi : PortalApi, _ settingStore: SettingStore) {
+    init(_ httpClient: HttpClient, _ playerApi: PlayerApi, _ portalApi: PortalApi, _ settingStore: SettingStore) {
+        self.httpClient = httpClient
         self.playerApi = playerApi
         self.portalApi = portalApi
         self.settingStore = settingStore
@@ -47,6 +49,7 @@ class PlayerRepositoryImpl : PlayerRepository {
             }
         })
         let contactInfo = playerApi.getPlayerContact()
+        let oldURLString = KtoURL.baseUrl.description
         
         return Single
             .zip(favorProduct, localization, playerInfo, contactInfo)
@@ -61,6 +64,12 @@ class PlayerRepositoryImpl : PlayerRepository {
                 
                 self.localStorageRepo.setCultureCode(bindLocale.cultureCode())
                 Theme.shared.changeEntireAPPFont(by: bindLocale)
+                
+                let newURLString = KtoURL.baseUrl.description
+                
+                if oldURLString != newURLString {
+                    self.httpClient.replaceCookiesDomain(oldURLString, to: newURLString)
+                }
 
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",
                                             displayId: responsePlayerInfo.data?.displayId ?? "" ,
