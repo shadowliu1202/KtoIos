@@ -33,7 +33,7 @@ extension UILabel {
     }
     
     private func isVNFontFamilyName(_ fontName: String) -> Bool {
-        if fontName.range(of: "Helvetica") != nil {
+        if fontName.range(of: "HelveticaNeue") != nil {
             return true
         } else {
             return false
@@ -51,11 +51,11 @@ extension UILabel {
     private func toCNFontName(familyName: String, _ fontNameToConvert: String) -> String {
         var fontName = familyName
         if fontNameToConvert.range(of: "light") != nil {
-            fontName += "-Medium"
+            fontName += "-Regular"
         } else if fontNameToConvert.range(of: "bold") != nil {
             fontName += "-Semibold"
-        } else if fontNameToConvert.range(of: "helvetica") != nil {
-            fontName += "-Regular"
+        } else if fontNameToConvert.range(of: "medium") != nil {
+            fontName += "-Medium"
         }
         
         return fontName
@@ -64,9 +64,9 @@ extension UILabel {
     private func toVNFontName(familyName: String, _ fontNameToConvert: String) -> String {
         var fontName = familyName
         if fontNameToConvert.range(of: "medium") != nil {
-            fontName += "-Light"
+            fontName += "-Medium"
         } else if fontNameToConvert.range(of: "regular") != nil {
-            fontName += ""
+            fontName += "-Light"
         } else if fontNameToConvert.range(of: "semibold") != nil {
             fontName += "-Bold"
         }
@@ -103,7 +103,7 @@ extension UILabel {
     private func systemFontToVNFontName(familyName: String, _ fontNameToConvert: String) -> String {
         var fontName = familyName
         if fontNameToConvert.range(of: "semibold") != nil {
-            fontName += ""
+            fontName += "-Medium"
         } else if fontNameToConvert.range(of: "regular") != nil {
             fontName += "-Light"
         } else if fontNameToConvert.range(of: "bold") != nil {
@@ -148,7 +148,7 @@ extension UITextView {
     }
     
     private func isVNFontFamilyName(_ fontName: String) -> Bool {
-        if fontName.range(of: "Helvetica") != nil {
+        if fontName.range(of: "HelveticaNeue") != nil {
             return true
         } else {
             return false
@@ -166,11 +166,11 @@ extension UITextView {
     private func toCNFontName(familyName: String, _ fontNameToConvert: String) -> String {
         var fontName = familyName
         if fontNameToConvert.range(of: "light") != nil {
-            fontName += "-Medium"
+            fontName += "-Regular"
         } else if fontNameToConvert.range(of: "bold") != nil {
             fontName += "-Semibold"
-        } else if fontNameToConvert.range(of: "helvetica") != nil {
-            fontName += "-Regular"
+        } else if fontNameToConvert.range(of: "medium") != nil {
+            fontName += "-Medium"
         }
         
         return fontName
@@ -179,9 +179,9 @@ extension UITextView {
     private func toVNFontName(familyName: String, _ fontNameToConvert: String) -> String {
         var fontName = familyName
         if fontNameToConvert.range(of: "medium") != nil {
-            fontName += "-Light"
+            fontName += "-Medium"
         } else if fontNameToConvert.range(of: "regular") != nil {
-            fontName += ""
+            fontName += "-Light"
         } else if fontNameToConvert.range(of: "semibold") != nil {
             fontName += "-Bold"
         }
@@ -218,7 +218,7 @@ extension UITextView {
     private func systemFontToVNFontName(familyName: String, _ fontNameToConvert: String) -> String {
         var fontName = familyName
         if fontNameToConvert.range(of: "semibold") != nil {
-            fontName += ""
+            fontName += "-Medium"
         } else if fontNameToConvert.range(of: "regular") != nil {
             fontName += "-Light"
         } else if fontNameToConvert.range(of: "bold") != nil {
@@ -263,7 +263,7 @@ extension UITextField {
     }
     
     private func isVNFontFamilyName(_ fontName: String) -> Bool {
-        if fontName.range(of: "Helvetica") != nil {
+        if fontName.range(of: "HelveticaNeue") != nil {
             return true
         } else {
             return false
@@ -281,11 +281,11 @@ extension UITextField {
     private func toCNFontName(familyName: String, _ fontNameToConvert: String) -> String {
         var fontName = familyName
         if fontNameToConvert.range(of: "light") != nil {
-            fontName += "-Medium"
+            fontName += "-Regular"
         } else if fontNameToConvert.range(of: "bold") != nil {
             fontName += "-Semibold"
-        } else if fontNameToConvert.range(of: "helvetica") != nil {
-            fontName += "-Regular"
+        } else if fontNameToConvert.range(of: "medium") != nil {
+            fontName += "-Medium"
         }
         
         return fontName
@@ -294,9 +294,9 @@ extension UITextField {
     private func toVNFontName(familyName: String, _ fontNameToConvert: String) -> String {
         var fontName = familyName
         if fontNameToConvert.range(of: "medium") != nil {
-            fontName += "-Light"
+            fontName += "-Medium"
         } else if fontNameToConvert.range(of: "regular") != nil {
-            fontName += ""
+            fontName += "-Light"
         } else if fontNameToConvert.range(of: "semibold") != nil {
             fontName += "-Bold"
         }
@@ -333,7 +333,7 @@ extension UITextField {
     private func systemFontToVNFontName(familyName: String, _ fontNameToConvert: String) -> String {
         var fontName = familyName
         if fontNameToConvert.range(of: "semibold") != nil {
-            fontName += ""
+            fontName += "-Medium"
         } else if fontNameToConvert.range(of: "regular") != nil {
             fontName += "-Light"
         } else if fontNameToConvert.range(of: "bold") != nil {

@@ -105,10 +105,10 @@ final class Theme {
     func changeEntireAPPFont(by playerLocale: SupportLocale) {
         switch playerLocale {
         case is SupportLocale.Vietnam:
-            UILabel.appearance().substituteFontFamilyName = "Helvetica"
-            UITextView.appearance().substituteFontFamilyName = "Helvetica"
-            UITextField.appearance().substituteFontFamilyName = "Helvetica"
-            UINavigationBarAppearance().titleTextAttributes = [.font: UIFont(name: "Helvetica-Bold", size: 16)!]
+            UILabel.appearance().substituteFontFamilyName = "HelveticaNeue"
+            UITextView.appearance().substituteFontFamilyName = "HelveticaNeue"
+            UITextField.appearance().substituteFontFamilyName = "HelveticaNeue"
+            UINavigationBarAppearance().titleTextAttributes = [.font: UIFont(name: "HelveticaNeue-Bold", size: 16)!]
         case is SupportLocale.China, is SupportLocale.Unknown:
             fallthrough
         default:
@@ -123,12 +123,12 @@ final class Theme {
         var fontDictionary: [String: UIFont]
         switch playerLocale {
         case is SupportLocale.Vietnam:
-            fontDictionary = ["btnNext": UIFont(name: "Helvetica", size: 16)!,
-                              "btnTerms": UIFont(name: "Helvetica", size: 14)!,
-                              "labTitle": UIFont(name: "Helvetica-Light", size: 14)!,
-                              "labDesc": UIFont(name: "Helvetica", size: 24)!,
-                              "labTermsTip": UIFont(name: "Helvetica-Light", size: 12)!,
-                              "btnTermsOfService": UIFont(name: "Helvetica-Light", size: 12)!]
+            fontDictionary = ["btnNext": UIFont(name: "HelveticaNeue", size: 16)!,
+                              "btnTerms": UIFont(name: "HelveticaNeue", size: 14)!,
+                              "labTitle": UIFont(name: "HelveticaNeue-Light", size: 14)!,
+                              "labDesc": UIFont(name: "HelveticaNeue", size: 24)!,
+                              "labTermsTip": UIFont(name: "HelveticaNeue-Light", size: 12)!,
+                              "btnTermsOfService": UIFont(name: "HelveticaNeue-Light", size: 12)!]
             
             return fontDictionary
         case is SupportLocale.China, is SupportLocale.Unknown:
