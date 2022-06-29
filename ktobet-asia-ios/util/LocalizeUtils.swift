@@ -46,6 +46,31 @@ class LocalizeUtils: NSObject {
         let bundle = Bundle(path: path!)
         return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")
     }
+    
+    private var aRegex = "[ÀÁÂÃĂàáâãăẠẢẤẦẨẪẬẮẰẲẴẶạảấầẩẫậắằẳẵặ]"
+    private var eRegex = "[ÈÉÊèéêẸẺẼỀỂẾẹẻẽềểếỄỆễệ]"
+    private var iRegex = "[ÌÍĨìíĩỈỊỉị]"
+    private var oRegex = "[ÒÓÔÕƠòóôõơỌỎỐỒỔỖỘỚỜỞỠỢọỏốồổỗộớờởỡợ]"
+    private var uRegex = "[ÙÚŨùúũƯưỤỦỨỪụủứừỬỮỰửữự]"
+    private var dRegex = "[Đđ]"
+    private var yRegex = "[ỲỴÝỶỸỳỵỷỹý]"
+    
+    func removeAccent(str: String) -> String {
+        var result: String
+        do {
+            result = try str.replacingRegex(matching: aRegex, with: "a")
+                .replacingRegex(matching: eRegex, with: "e")
+                .replacingRegex(matching: iRegex, with: "i")
+                .replacingRegex(matching: oRegex, with: "o")
+                .replacingRegex(matching: uRegex, with: "u")
+                .replacingRegex(matching: dRegex, with: "d")
+                .replacingRegex(matching: yRegex, with: "y")
+        } catch {
+            result = str
+            print(error)
+        }
+        return result
+    }
 }
 
 extension LocalizeUtils: StringSupporter {

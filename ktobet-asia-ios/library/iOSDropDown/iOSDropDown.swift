@@ -83,7 +83,7 @@ open class DropDown : UITextField{
                 self.dataArray = self.optionArray
             }else{
                 self.dataArray = optionArray.filter {
-                    return $0.range(of: searchText, options: .caseInsensitive) != nil
+                    return $0.removeAccent().range(of: searchText.removeAccent(), options: .caseInsensitive) != nil
                 }
             }
             reSizeTable()
