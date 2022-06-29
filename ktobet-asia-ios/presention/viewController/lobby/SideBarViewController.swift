@@ -401,7 +401,7 @@ class SideBarViewController: LobbyViewController {
         }
     }
     
-    fileprivate func cleanProductSelected() {
+    func cleanProductSelected() {
         self.slideViewModel.currentSelectedProductType = ProductType.none
         self.listProduct.reloadData()
     }

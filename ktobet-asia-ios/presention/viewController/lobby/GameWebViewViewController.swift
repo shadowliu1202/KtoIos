@@ -14,9 +14,8 @@ class GameWebViewViewController: UIViewController {
     var gameProduct: String! {
         return viewModel?.getGameProduct() ?? ""
     }
-    
-    lazy var backSiteOption1 = KtoURL.baseUrl.absoluteString + gameProduct
-    let backSiteHost = "app.ktoasia.com"
+    private let deposit: String = "deposit"
+    lazy var backSiteOption = KtoURL.baseUrl.absoluteString
     
     private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     
@@ -74,16 +73,37 @@ class GameWebViewViewController: UIViewController {
             super.handleErrors(error)
         }
     }
+    
+    func redirectCloseGame() {
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    func redirectNavigateToDeposit() {
+        self.dismiss(animated: false, completion: {
+            NavigationManagement.sharedInstance.cleanProductSelected()
+            NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
+        })
+    }
 }
 
 
 extension GameWebViewViewController: WKNavigationDelegate, WKUIDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        if let url = webView.url?.absoluteString, let host = webView.url?.host {
-            if url == backSiteOption1 || url == "HTTPS://\(backSiteHost)/" + gameProduct || host == backSiteHost {
-                self.dismiss(animated: false, completion: nil)
+        if let url = webView.url?.absoluteString {
+            if url == backSiteOption + gameProduct  {
+                redirectCloseGame()
+            } else if url == backSiteOption + deposit {
+                redirectNavigateToDeposit()
             }
         }
+    }
+    
+    /// Handles target=_blank links by opening them in the same view
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+        }
+        return nil
     }
     
     func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {

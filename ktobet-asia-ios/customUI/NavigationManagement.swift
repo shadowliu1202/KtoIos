@@ -129,6 +129,10 @@ class NavigationManagement {
         self.unwindNavigate = unwindNavigate
     }
     
+    func cleanProductSelected() {
+        sideBarViewController.cleanProductSelected()
+    }
+    
     func popToNotificationOrBack(unwind: () -> Void) {
         if let navi = self.unwindNavigate {
             let callback = {
