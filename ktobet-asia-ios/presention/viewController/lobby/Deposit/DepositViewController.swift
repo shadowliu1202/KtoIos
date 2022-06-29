@@ -172,7 +172,7 @@ class DepositViewController: LobbyViewController {
         if let vc = segue.source as? DepositOfflineConfirmViewController {
             if vc.depositSuccess {
                 let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-                toastView.show(on: self.view, statusTip: Localize.string("common_request_submitted"), img: UIImage(named: "Success"))
+                toastView.show(on: self.view, statusTip: Localize.string("deposit_offline_step3_title"), img: UIImage(named: "Success"))
             }
         }
         
