@@ -35,7 +35,8 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     @IBOutlet private weak var branchNameCopyButton: UIButton!
     @IBOutlet private weak var userNameCopyButton: UIButton!
     @IBOutlet private weak var bankCardNumberCopyButton: UIButton!
-    @IBOutlet private weak var stackView: UIStackView!
+    
+    @IBOutlet private weak var bankImageViewWidthConstraint: NSLayoutConstraint!
     
     var depositSuccess = false
     
@@ -85,6 +86,8 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     fileprivate func localize() {
         if localStorageRepo.getCultureCode() == SupportLocale.Vietnam.init().cultureCode() {
             remitterView.isHidden = true
+            bankImageViewWidthConstraint.isActive = false
+            bankImageView.widthAnchor.constraint(equalTo: bankImageView.heightAnchor, multiplier: 3).isActive = true
         }
     }
 
@@ -112,9 +115,6 @@ class DepositOfflineConfirmViewController: LobbyViewController {
             $0?.layer.borderWidth = 1
             $0?.setTitle(Localize.string("common_copy"), for: .normal)
         }
-        
-        stackView.setCustomSpacing(16, after: tipTitleLabel)
-        stackView.setCustomSpacing(12, after: remitterView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
