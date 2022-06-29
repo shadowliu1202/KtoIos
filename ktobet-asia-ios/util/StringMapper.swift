@@ -59,6 +59,8 @@ class StringMapper {
             return Localize.string("common_casino")
         case .numbergame:
             return Localize.string("common_keno")
+        case .p2p:
+            return Localize.string("common_p2p")
         case .arcade:
             return Localize.string("common_arcade")
         case .none:

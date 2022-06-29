@@ -237,25 +237,6 @@ func convertToLocalize(forProduct productType: ProductType) -> String {
     }
 }
 
-func convertToLocalize(forRebate productType: ProductType) -> String {
-    switch productType {
-    case .slot:
-        return Localize.string("common_slot")
-    case .casino:
-        return Localize.string("common_casino")
-    case .sbk:
-        return Localize.string("common_sportsbook")
-    case .numbergame:
-        return Localize.string("common_keno")
-    case .p2p:
-        return Localize.string("common_p2p")
-    case .arcade:
-        return Localize.string("common_arcade")
-    default:
-        return ""
-    }
-}
-
 extension BonusCoupon.Rebate: BonusCouponItem {
     var displayBetMultiple: String {
         self.betMultiple.description
@@ -304,9 +285,9 @@ extension BonusCoupon.Rebate: BonusCouponItem {
         ""
     }
     var message: String {
-        return convertToLocalize(forRebate: rebateFrom)
-            + Localize.string("bonus_bonustype_4") + " "
-            + percentage.description() + "%"
+        return Localize.string("bonus_rebate_title",
+                               StringMapper.sharedInstance.parseProductTypeString(productType: rebateFrom),
+                               percentage.description())
     }
     var couponState: CouponStatus {
         self.couponStatus
@@ -366,8 +347,8 @@ extension PromotionEvent.Rebate: PromotionEventItem {
         ""
     }
     var message: String {
-        return convertToLocalize(forRebate: type)
-            + Localize.string("bonus_bonustype_4") + " "
-            + percentage.description() + "%"
+        return Localize.string("bonus_rebate_title",
+                               StringMapper.sharedInstance.parseProductTypeString(productType: type),
+                               percentage.description())
     }
 }
