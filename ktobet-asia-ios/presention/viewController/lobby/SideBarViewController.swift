@@ -230,7 +230,7 @@ class SideBarViewController: LobbyViewController {
         
         let shareLoadPlayerInfo = refreshTrigger.flatMapLatest {[weak self] _ -> Observable<Player> in
             guard let self = self else { return Observable.error(KTOError.EmptyData)}
-            return self.viewModel.loadPlayerInfo().asObservable()
+            return self.viewModel.loadPlayerInfo()
         }.share(replay: 1)
         
         shareLoadPlayerInfo.compactMap{ $0.defaultProduct }.bind(to: serviceViewModel.input.playerDefaultProductType).disposed(by: disposeBag)

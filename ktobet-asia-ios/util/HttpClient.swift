@@ -15,7 +15,6 @@ import Connectivity
 import SharedBu
 
 let debugCharCount = 500
-
 private func JSONResponseDataFormatter(_ data: Data) -> String {
     do {
         let dataAsJSON = try JSONSerialization.jsonObject(with: data)
@@ -53,10 +52,6 @@ class HttpClient {
             var token : [String] = []
             for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: baseUrl) ?? []  {
                 token.append(cookie.name + "=" + cookie.value)
-            }
-
-            if tokenCookie != nil {
-                token.append("token" + "=" + tokenCookie!)
             }
 
             return token.joined(separator: ";")
@@ -115,7 +110,7 @@ class HttpClient {
         self.tokenCookie = token
     }
     
-    func getCookies()->[HTTPCookie]{
+    func getCookies() -> [HTTPCookie] {
         return session.sessionConfiguration.httpCookieStorage?.cookies(for: self.baseUrl) ?? []
     }
 
@@ -140,7 +135,22 @@ class HttpClient {
         return culture
     }
     
-    func clearCookie()->Completable{
+    func replaceCookiesDomain(_ oldURLString: String, to newURLString: String) {
+        let oldDomain = oldURLString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
+        let newDomain = newURLString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
+        let storage = self.session.sessionConfiguration.httpCookieStorage
+        
+        for cookie in storage?.cookies ?? []{
+            if cookie.domain == oldDomain {
+                var props = cookie.properties!
+                props[HTTPCookiePropertyKey.domain] = newDomain
+                storage!.setCookie(HTTPCookie(properties: props)!)
+                storage!.deleteCookie(cookie)
+            }
+        }
+    }
+    
+    func clearCookie() -> Completable {
         return Completable.create { (completable) -> Disposable in
             let storage = self.session.sessionConfiguration.httpCookieStorage
             for cookie in self.getCookies(){
