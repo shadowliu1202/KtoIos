@@ -1,4 +1,5 @@
 import UIKit
+import Foundation
 import RxSwift
 import RxCocoa
 import SharedBu
@@ -100,9 +101,7 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
     
     private func bindProvince() {
         (provinceDropDown.text <-> viewModel.province).disposed(by: disposeBag)
-        let keyboardDidHide = NotificationCenter.default.rx.notification(UIResponder.keyboardDidHideNotification)
-        let editingDidEnd = provinceDropDown.dropDownText.rx.controlEvent(.editingDidEnd)
-        let provinceLoseFocus = Observable.zip(keyboardDidHide, editingDidEnd)
+        let provinceLoseFocus = loseFocus(dropDown: provinceDropDown)
         provinceLoseFocus.subscribe(onNext: { [weak self] (_, _) in
             guard let `self` = self else { return }
             if self.viewModel.isProvinceLegal(self.viewModel.province.value) == false {
@@ -127,9 +126,7 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
     private func bindCounty() {
         viewModel.isProvinceValid.bind(to: countyDropDown.rx.isEnable).disposed(by: disposeBag)
         (countyDropDown.text <-> viewModel.county).disposed(by: disposeBag)
-        let keyboardDidHide = NotificationCenter.default.rx.notification(UIResponder.keyboardDidHideNotification)
-        let editingDidEnd = countyDropDown.dropDownText.rx.controlEvent(.editingDidEnd)
-        let countyLoseFocus = Observable.zip(keyboardDidHide, editingDidEnd)
+        let countyLoseFocus = loseFocus(dropDown: countyDropDown)
         countyLoseFocus.subscribe(onNext: { [weak self] (_, _) in
             guard let `self` = self else { return }
             if self.viewModel.isCountyLegal(self.viewModel.county.value) == false {
@@ -139,6 +136,12 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
         viewModel.countyValid.subscribe(onNext: { [weak self] (status) in
             self?.handleErrorLabel(error: status, textField: self?.countyDropDown, label: self?.countyErrorLabel)
         }).disposed(by: disposeBag)
+    }
+    
+    private func loseFocus(dropDown: DropDownInputText) -> Observable<(Foundation.Notification, ControlEvent<()>.Element)> {
+        let keyboardDidHide = NotificationCenter.default.rx.notification(UIResponder.keyboardDidHideNotification)
+        let editingDidEnd = dropDown.dropDownText.rx.controlEvent(.editingDidEnd)
+        return Observable.zip(keyboardDidHide, editingDidEnd)
     }
     
     private func clearCountyTextField() {
