@@ -59,30 +59,23 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
             break
         }
         
-        if #available(iOS 15.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = UIColor.clear
-            appearance.shadowImage = UIImage(color: UIColor.clear)
-            self.navigationController?.navigationBar.standardAppearance = appearance
-            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        }
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.clear
+        appearance.shadowImage = UIImage(color: UIColor.clear)
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        // Restore the navigation bar to default
-        if #available(iOS 15.0, *) {
-            let appearance = UINavigationBarAppearance()
-            let navigationBar = UINavigationBar()
-            appearance.configureWithOpaqueBackground()
-            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.whiteFull]
-            appearance.backgroundColor = UIColor.black_two
-            navigationBar.isTranslucent = true
-            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-            self.navigationController?.navigationBar.standardAppearance = appearance
-        }
+        let barAppearance = UINavigationBarAppearance()
+        barAppearance.configureWithTransparentBackground()
+        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: Theme.shared.getNavigationTitleFont(by: playerLocaleConfiguration.getSupportLocale())]
+        UINavigationBar.appearance().isTranslucent = true
+        self.navigationController?.navigationBar.standardAppearance = barAppearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = barAppearance
     }
     
     override func networkReConnectedHandler() {

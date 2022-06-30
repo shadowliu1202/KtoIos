@@ -108,14 +108,25 @@ final class Theme {
             UILabel.appearance().substituteFontFamilyName = "HelveticaNeue"
             UITextView.appearance().substituteFontFamilyName = "HelveticaNeue"
             UITextField.appearance().substituteFontFamilyName = "HelveticaNeue"
-            UINavigationBarAppearance().titleTextAttributes = [.font: UIFont(name: "HelveticaNeue-Bold", size: 16)!]
+            
+            let barAppearance = UINavigationBarAppearance()
+            barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: UIFont(name: "HelveticaNeue-Bold", size: 16)!]
+            barAppearance.backgroundColor = UIColor.black_two
+            UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
+            UINavigationBar.appearance().standardAppearance = barAppearance
+
         case is SupportLocale.China, is SupportLocale.Unknown:
             fallthrough
         default:
             UILabel.appearance().substituteFontFamilyName = "PingFangSC"
             UITextView.appearance().substituteFontFamilyName = "PingFangSC"
             UITextField.appearance().substituteFontFamilyName = "PingFangSC"
-            UINavigationBarAppearance().titleTextAttributes = [.font: UIFont(name: "PingFangSC-Semibold", size: 16)!]
+            
+            let barAppearance = UINavigationBarAppearance()
+            barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: UIFont(name: "PingFangSC-Semibold", size: 16)!]
+            barAppearance.backgroundColor = UIColor.black_two
+            UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
+            UINavigationBar.appearance().standardAppearance = barAppearance
         }
     }
     
@@ -141,6 +152,17 @@ final class Theme {
                               "labTermsTip": UIFont(name: "PingFangSC-Medium", size: 12)!,
                               "btnTermsOfService": UIFont(name: "PingFangSC-Medium", size: 12)!]
             return fontDictionary
+        }
+    }
+    
+    func getNavigationTitleFont(by playerLocale: SupportLocale) -> UIFont {
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            return UIFont(name: "HelveticaNeue-Bold", size: 16)!
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return UIFont(name: "PingFangSC-Semibold", size: 16)!
         }
     }
 }
