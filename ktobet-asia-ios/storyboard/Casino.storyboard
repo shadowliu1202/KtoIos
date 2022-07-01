@@ -44,7 +44,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nya-Sz-0uG">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -149,8 +149,8 @@
                             <constraint firstItem="OFR-XN-4QQ" firstAttribute="trailing" secondItem="nya-Sz-0uG" secondAttribute="trailing" id="9wo-LX-fZb"/>
                             <constraint firstItem="zDS-1h-HQv" firstAttribute="centerX" secondItem="8lb-YG-01J" secondAttribute="centerX" id="HUY-SG-qCY"/>
                             <constraint firstItem="nya-Sz-0uG" firstAttribute="leading" secondItem="OFR-XN-4QQ" secondAttribute="leading" id="Lut-XL-vDx"/>
+                            <constraint firstItem="nya-Sz-0uG" firstAttribute="top" secondItem="8lb-YG-01J" secondAttribute="top" id="Pi0-N4-1Xl"/>
                             <constraint firstItem="OFR-XN-4QQ" firstAttribute="bottom" secondItem="nya-Sz-0uG" secondAttribute="bottom" id="bKN-E3-6ug"/>
-                            <constraint firstItem="nya-Sz-0uG" firstAttribute="top" secondItem="OFR-XN-4QQ" secondAttribute="top" id="d9x-dl-wHf"/>
                         </constraints>
                     </view>
                     <connections>
@@ -173,7 +173,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="vJy-Pt-k8w">
-                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
@@ -241,8 +241,8 @@
                         <viewLayoutGuide key="safeArea" id="IRr-Se-dzg"/>
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
+                            <constraint firstItem="vJy-Pt-k8w" firstAttribute="top" secondItem="60f-9S-ltT" secondAttribute="top" id="46a-fb-MjJ"/>
                             <constraint firstItem="IRr-Se-dzg" firstAttribute="bottom" secondItem="vJy-Pt-k8w" secondAttribute="bottom" id="YVz-bG-6s6"/>
-                            <constraint firstItem="vJy-Pt-k8w" firstAttribute="top" secondItem="IRr-Se-dzg" secondAttribute="top" id="kVY-H4-mHk"/>
                             <constraint firstItem="vJy-Pt-k8w" firstAttribute="leading" secondItem="IRr-Se-dzg" secondAttribute="leading" id="qvv-hb-Ynk"/>
                             <constraint firstItem="IRr-Se-dzg" firstAttribute="trailing" secondItem="vJy-Pt-k8w" secondAttribute="trailing" id="zXH-FR-bT2"/>
                         </constraints>
@@ -265,7 +265,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="pJs-Vg-xTV">
-                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="25" minY="0.0" maxX="25" maxY="0.0"/>
@@ -338,7 +338,7 @@
                             <constraint firstItem="RFo-Yd-npd" firstAttribute="trailing" secondItem="pJs-Vg-xTV" secondAttribute="trailing" id="2NN-8f-hMk"/>
                             <constraint firstItem="RFo-Yd-npd" firstAttribute="bottom" secondItem="pJs-Vg-xTV" secondAttribute="bottom" id="9eT-Ih-OV7"/>
                             <constraint firstItem="pJs-Vg-xTV" firstAttribute="leading" secondItem="RFo-Yd-npd" secondAttribute="leading" id="HDd-cv-7K6"/>
-                            <constraint firstItem="pJs-Vg-xTV" firstAttribute="top" secondItem="RFo-Yd-npd" secondAttribute="top" id="h5m-Ye-heV"/>
+                            <constraint firstItem="pJs-Vg-xTV" firstAttribute="top" secondItem="EjY-OL-dbK" secondAttribute="top" id="NYO-Z9-HC5"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xgn-2O-OIZ"/>
@@ -517,7 +517,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7E-Cv-Ug1">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lAU-vh-yrt" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="600"/>
@@ -556,9 +556,9 @@
                         <viewLayoutGuide key="safeArea" id="y57-PW-nAi"/>
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
+                            <constraint firstItem="P7E-Cv-Ug1" firstAttribute="top" secondItem="6EZ-cZ-TzV" secondAttribute="top" id="8ih-zG-Z5N"/>
                             <constraint firstItem="P7E-Cv-Ug1" firstAttribute="leading" secondItem="y57-PW-nAi" secondAttribute="leading" id="GX6-Mp-j6d"/>
                             <constraint firstItem="P7E-Cv-Ug1" firstAttribute="bottom" secondItem="y57-PW-nAi" secondAttribute="bottom" id="bZA-xQ-mxI"/>
-                            <constraint firstItem="P7E-Cv-Ug1" firstAttribute="top" secondItem="y57-PW-nAi" secondAttribute="top" id="rGN-ir-BOL"/>
                             <constraint firstItem="P7E-Cv-Ug1" firstAttribute="trailing" secondItem="y57-PW-nAi" secondAttribute="trailing" id="yjp-QQ-WLK"/>
                         </constraints>
                     </view>
@@ -574,13 +574,13 @@
         <!--Casino View Controller-->
         <scene sceneID="LkU-Uo-WNt">
             <objects>
-                <viewController storyboardIdentifier="CasinoViewController" id="yZ5-La-WtM" customClass="CasinoViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CasinoViewController" extendedLayoutIncludesOpaqueBars="YES" id="yZ5-La-WtM" customClass="CasinoViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Uv5-n3-DZh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VMo-jo-jHQ">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vhw-k9-SKF" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="900"/>
@@ -663,8 +663,8 @@
                         <constraints>
                             <constraint firstItem="VMo-jo-jHQ" firstAttribute="leading" secondItem="cHB-GA-JaP" secondAttribute="leading" id="9FO-JK-TMx"/>
                             <constraint firstAttribute="bottom" secondItem="VMo-jo-jHQ" secondAttribute="bottom" id="MHx-P8-XJZ"/>
+                            <constraint firstItem="VMo-jo-jHQ" firstAttribute="top" secondItem="Uv5-n3-DZh" secondAttribute="top" id="cd4-9z-nua"/>
                             <constraint firstItem="VMo-jo-jHQ" firstAttribute="trailing" secondItem="cHB-GA-JaP" secondAttribute="trailing" id="sdS-qj-NNM"/>
-                            <constraint firstItem="VMo-jo-jHQ" firstAttribute="top" secondItem="cHB-GA-JaP" secondAttribute="top" id="vmI-l4-Hpb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3Hw-NO-YKB"/>

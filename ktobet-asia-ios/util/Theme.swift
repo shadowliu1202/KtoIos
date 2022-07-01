@@ -110,8 +110,10 @@ final class Theme {
             UITextField.appearance().substituteFontFamilyName = "HelveticaNeue"
             
             let barAppearance = UINavigationBarAppearance()
+            barAppearance.configureWithTransparentBackground()
             barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: UIFont(name: "HelveticaNeue-Bold", size: 16)!]
-            barAppearance.backgroundColor = UIColor.black_two
+            barAppearance.backgroundColor = UIColor.black_two90
+            UINavigationBar.appearance().isTranslucent = true
             UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
             UINavigationBar.appearance().standardAppearance = barAppearance
 
@@ -123,8 +125,10 @@ final class Theme {
             UITextField.appearance().substituteFontFamilyName = "PingFangSC"
             
             let barAppearance = UINavigationBarAppearance()
+            barAppearance.configureWithTransparentBackground()
             barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: UIFont(name: "PingFangSC-Semibold", size: 16)!]
-            barAppearance.backgroundColor = UIColor.black_two
+            barAppearance.backgroundColor = UIColor.black_two90
+            UINavigationBar.appearance().isTranslucent = true
             UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
             UINavigationBar.appearance().standardAppearance = barAppearance
         }

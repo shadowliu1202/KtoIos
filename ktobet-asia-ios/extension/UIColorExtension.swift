@@ -34,6 +34,9 @@ extension UIColor {
     @nonobjc class var backgroundSidebarMineShaftGray: UIColor {
         return UIColor(white: 32.0 / 255.0, alpha: 1.0)
     }
+    @nonobjc class var backgroundSidebarMineShaftGray90: UIColor {
+        return UIColor(white: 32.0 / 255.0, alpha: 0.9)
+    }
     @nonobjc class var yellowFull: UIColor {
         return UIColor(red: 1.0, green: 213.0 / 255.0, blue: 0.0, alpha: 1.0)
     }
@@ -75,6 +78,9 @@ extension UIColor {
     }
     @nonobjc class var black_two: UIColor {
         return UIColor(red: 19.0/255.0, green: 19.0/255.0, blue: 19.0/255.0, alpha: 1.0)
+    }
+    @nonobjc class var black_two90: UIColor {
+        return UIColor(red: 19.0/255.0, green: 19.0/255.0, blue: 19.0/255.0, alpha: 0.9)
     }
     @nonobjc class var black80: UIColor {
         return UIColor(white: 19.0 / 255.0, alpha: 0.8)

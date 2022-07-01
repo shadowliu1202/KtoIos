@@ -12,13 +12,13 @@
         <!--Transaction Log View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="TransactionLogViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" id="Y6W-OH-hqX" customClass="TransactionLogViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecp-PF-D2Y">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJx-Iz-JTK">
                                         <rect key="frame" x="24" y="42" width="366" height="116"/>
@@ -260,8 +260,8 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
+                            <constraint firstItem="Ecp-PF-D2Y" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="7Ma-ac-LMi"/>
                             <constraint firstAttribute="bottom" secondItem="Ecp-PF-D2Y" secondAttribute="bottom" id="OdG-SD-ofZ"/>
-                            <constraint firstItem="Ecp-PF-D2Y" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Pef-bU-h4J"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Ecp-PF-D2Y" secondAttribute="trailing" id="mvh-rR-xEC"/>
                             <constraint firstItem="Ecp-PF-D2Y" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="nsu-t6-3QZ"/>
                         </constraints>
@@ -287,13 +287,13 @@
         <!--Transaction Log Summary View Controller-->
         <scene sceneID="QBj-P0-Ic3">
             <objects>
-                <viewController id="jOd-oR-5kl" customClass="TransactionLogSummaryViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" id="jOd-oR-5kl" customClass="TransactionLogSummaryViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CzO-Zb-z3A">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehL-X5-n0g">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YLo-zi-utS">
                                         <rect key="frame" x="30" y="30" width="63" height="34"/>
@@ -569,7 +569,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cc0-E8-VtC">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <color key="separatorColor" name="dividerCapeCodGray"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -632,8 +632,8 @@
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
                             <constraint firstItem="cc0-E8-VtC" firstAttribute="leading" secondItem="A6R-gV-JwH" secondAttribute="leading" id="18J-uf-5EG"/>
-                            <constraint firstItem="cc0-E8-VtC" firstAttribute="top" secondItem="A6R-gV-JwH" secondAttribute="top" id="4fu-a3-wIw"/>
                             <constraint firstAttribute="bottom" secondItem="cc0-E8-VtC" secondAttribute="bottom" id="UgR-Oq-yYv"/>
+                            <constraint firstItem="cc0-E8-VtC" firstAttribute="top" secondItem="1L8-8l-87d" secondAttribute="top" id="pai-M8-6A6"/>
                             <constraint firstItem="cc0-E8-VtC" firstAttribute="trailing" secondItem="A6R-gV-JwH" secondAttribute="trailing" id="zQr-LH-DVh"/>
                         </constraints>
                     </view>
