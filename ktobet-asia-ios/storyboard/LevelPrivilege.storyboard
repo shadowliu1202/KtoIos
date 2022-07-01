@@ -13,13 +13,13 @@
         <!--Level Privilege View Controller-->
         <scene sceneID="3Ki-ZW-5xt">
             <objects>
-                <viewController storyboardIdentifier="LevelPrivilegeViewController" id="g5O-Wb-29F" customClass="LevelPrivilegeViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LevelPrivilegeViewController" extendedLayoutIncludesOpaqueBars="YES" id="g5O-Wb-29F" customClass="LevelPrivilegeViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DMu-bs-v9T">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ooX-5l-hhC">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="NBM-zc-JSr" userLabel="header">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="270"/>
@@ -170,8 +170,8 @@
                             <constraint firstItem="HAH-MN-4GG" firstAttribute="bottom" secondItem="ooX-5l-hhC" secondAttribute="bottom" id="2hh-2e-r7D"/>
                             <constraint firstItem="66h-0s-5IN" firstAttribute="leading" secondItem="HAH-MN-4GG" secondAttribute="leading" id="cNg-t1-Ues"/>
                             <constraint firstItem="66h-0s-5IN" firstAttribute="top" secondItem="HAH-MN-4GG" secondAttribute="top" id="hoV-5B-nin"/>
+                            <constraint firstItem="ooX-5l-hhC" firstAttribute="top" secondItem="DMu-bs-v9T" secondAttribute="top" id="k52-ma-Sg9"/>
                             <constraint firstItem="ooX-5l-hhC" firstAttribute="leading" secondItem="HAH-MN-4GG" secondAttribute="leading" id="m0R-Xi-rfZ"/>
-                            <constraint firstItem="ooX-5l-hhC" firstAttribute="top" secondItem="HAH-MN-4GG" secondAttribute="top" id="o2J-Z5-BAA"/>
                             <constraint firstItem="HAH-MN-4GG" firstAttribute="trailing" secondItem="66h-0s-5IN" secondAttribute="trailing" id="pvq-RY-oBJ"/>
                         </constraints>
                     </view>

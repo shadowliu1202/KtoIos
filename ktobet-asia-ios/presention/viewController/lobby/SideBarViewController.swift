@@ -72,7 +72,7 @@ class SideBarViewController: LobbyViewController {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.whiteFull]
-        appearance.backgroundColor = UIColor.backgroundSidebarMineShaftGray
+        appearance.backgroundColor = UIColor.backgroundSidebarMineShaftGray90
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.navigationController?.navigationBar.standardAppearance = appearance
     }

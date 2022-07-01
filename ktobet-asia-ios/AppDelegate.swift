@@ -39,16 +39,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.statusBarStyle = .lightContent
         }
         
-        if #available(iOS 15.0, *) {
-            let appearance = UINavigationBarAppearance()
-            let navigationBar = UINavigationBar()
-            appearance.configureWithOpaqueBackground()
-            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.whiteFull]
-            appearance.backgroundColor = UIColor.black_two
-            navigationBar.isTranslucent = true
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-            UINavigationBar.appearance().standardAppearance = appearance
-        }
+        let barAppearance = UINavigationBarAppearance()
+        barAppearance.configureWithTransparentBackground()
+        barAppearance.backgroundColor = UIColor.black_two90
+        UINavigationBar.appearance().isTranslucent = true
+        UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
+        UINavigationBar.appearance().standardAppearance = barAppearance
         
         if Configuration.debugGesture {
             self.addDebugGesture()

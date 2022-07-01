@@ -589,13 +589,13 @@
         <!--Survey View Controller-->
         <scene sceneID="Lr9-wn-UU3">
             <objects>
-                <viewController storyboardIdentifier="SurveyViewController" id="cNi-Tj-r4W" customClass="SurveyViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SurveyViewController" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="cNi-Tj-r4W" customClass="SurveyViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="va6-fw-WHr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Gnq-Ka-wnA">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="OtA-67-txF">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="149"/>
@@ -815,9 +815,9 @@
                         <viewLayoutGuide key="safeArea" id="GzG-Xc-pNw"/>
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
-                            <constraint firstItem="Gnq-Ka-wnA" firstAttribute="top" secondItem="GzG-Xc-pNw" secondAttribute="top" id="FA6-jl-Omm"/>
                             <constraint firstItem="Gnq-Ka-wnA" firstAttribute="leading" secondItem="GzG-Xc-pNw" secondAttribute="leading" id="MhE-rv-xbY"/>
                             <constraint firstItem="Gnq-Ka-wnA" firstAttribute="trailing" secondItem="GzG-Xc-pNw" secondAttribute="trailing" id="T3K-af-T3M"/>
+                            <constraint firstItem="Gnq-Ka-wnA" firstAttribute="top" secondItem="va6-fw-WHr" secondAttribute="top" id="bbE-pc-tkp"/>
                             <constraint firstItem="GzG-Xc-pNw" firstAttribute="bottom" secondItem="Gnq-Ka-wnA" secondAttribute="bottom" id="uFW-C8-i0C"/>
                         </constraints>
                     </view>
@@ -1065,13 +1065,13 @@
         <!--Customer Service History Edit View Controller-->
         <scene sceneID="ybE-0a-exn">
             <objects>
-                <viewController storyboardIdentifier="CustomerServiceHistoryEditViewController" id="5Iv-V6-Ka9" customClass="CustomerServiceHistoryEditViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CustomerServiceHistoryEditViewController" extendedLayoutIncludesOpaqueBars="YES" id="5Iv-V6-Ka9" customClass="CustomerServiceHistoryEditViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dll-vL-dG7">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4lC-rP-jCn">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="782"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditChatHistoryCell" rowHeight="112" id="2th-Vy-tCF" customClass="EditChatHistoryCell" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -1131,7 +1131,7 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pwh-A4-GTd">
-                                <rect key="frame" x="0.0" y="694" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="782" width="414" height="80"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Nk-oA-kNo">
                                         <rect key="frame" x="30" y="16" width="354" height="48"/>
@@ -1149,7 +1149,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" name="black80"/>
+                                <color key="backgroundColor" name="blackTwo"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="3Nk-oA-kNo" secondAttribute="bottom" constant="16" id="54R-xA-hiq"/>
                                     <constraint firstAttribute="height" constant="80" id="Ecm-LJ-9eq"/>
@@ -1162,11 +1162,11 @@
                         <viewLayoutGuide key="safeArea" id="RI6-KT-3Ki"/>
                         <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="4lC-rP-jCn" secondAttribute="bottom" id="GTg-xH-yiE"/>
+                            <constraint firstItem="4lC-rP-jCn" firstAttribute="top" secondItem="dll-vL-dG7" secondAttribute="top" id="3rC-NG-Uhm"/>
+                            <constraint firstItem="pwh-A4-GTd" firstAttribute="top" secondItem="4lC-rP-jCn" secondAttribute="bottom" id="CK2-3R-cuz"/>
                             <constraint firstItem="4lC-rP-jCn" firstAttribute="trailing" secondItem="RI6-KT-3Ki" secondAttribute="trailing" id="SJQ-tv-ghi"/>
                             <constraint firstItem="RI6-KT-3Ki" firstAttribute="trailing" secondItem="pwh-A4-GTd" secondAttribute="trailing" id="eJO-d5-wy9"/>
                             <constraint firstItem="RI6-KT-3Ki" firstAttribute="bottom" secondItem="pwh-A4-GTd" secondAttribute="bottom" id="eM9-9f-wmo"/>
-                            <constraint firstItem="4lC-rP-jCn" firstAttribute="top" secondItem="RI6-KT-3Ki" secondAttribute="top" id="gUc-pv-lVh"/>
                             <constraint firstItem="pwh-A4-GTd" firstAttribute="leading" secondItem="RI6-KT-3Ki" secondAttribute="leading" id="oNe-3j-6lc"/>
                             <constraint firstItem="4lC-rP-jCn" firstAttribute="leading" secondItem="RI6-KT-3Ki" secondAttribute="leading" id="y2F-Dn-f8D"/>
                         </constraints>
@@ -1446,9 +1446,6 @@
         </namedColor>
         <namedColor name="backgroundListCodGray">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="black80">
-            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="0.80000001192092896" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="blackFull">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

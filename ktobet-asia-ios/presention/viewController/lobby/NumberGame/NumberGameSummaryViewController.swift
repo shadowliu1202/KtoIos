@@ -3,7 +3,6 @@ import RxSwift
 import RxCocoa
 
 class NumberGameSummaryViewController: LobbyViewController {
-    @IBOutlet weak var topView: UIView!
     @IBOutlet weak var segment: UISegmentedControl!
     @IBOutlet weak var containView: UIView!
     
@@ -38,12 +37,6 @@ class NumberGameSummaryViewController: LobbyViewController {
     }
     
     private func initView() {
-        let blurEffect = UIBlurEffect(style: .dark)
-        let blurEffectView = CustomIntensityVisualEffectView(effect: blurEffect, intensity: 0.1)
-        blurEffectView.frame = topView.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        topView.addSubview(blurEffectView)
-        
         segment.setTitle(Localize.string("product_new_bets"), forSegmentAt: 0)
         segment.setTitle(Localize.string("product_unsettled_bets"), forSegmentAt: 1)
         segment.setTitle(Localize.string("product_settled_bets"), forSegmentAt: 2)

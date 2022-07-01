@@ -76,13 +76,13 @@
         <!--Side Bar View Controller-->
         <scene sceneID="Vc8-3m-Q4R">
             <objects>
-                <viewController storyboardIdentifier="LeftMenuNavigationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OF6-mV-Bpi" customClass="SideBarViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LeftMenuNavigationController" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OF6-mV-Bpi" customClass="SideBarViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P1u-5E-bJo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBk-Uj-oGO">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBk-Uj-oGO">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zAz-CK-M4v">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
@@ -367,7 +367,7 @@
                                         </prototypes>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="backgroundSidebarMineShaftGray"/>
                                 <constraints>
                                     <constraint firstItem="VzH-2y-tL7" firstAttribute="top" secondItem="tUc-hZ-HRH" secondAttribute="bottom" id="1eB-oj-ObT"/>
                                     <constraint firstItem="tUc-hZ-HRH" firstAttribute="top" secondItem="myS-lw-RID" secondAttribute="bottom" id="1qW-cf-Q9s"/>
@@ -481,6 +481,9 @@
         <image name="Profile" width="32" height="32"/>
         <image name="Promotion" width="24" height="24"/>
         <image name="Refresh" width="24" height="24"/>
+        <namedColor name="backgroundSidebarMineShaftGray">
+            <color red="0.125" green="0.125" blue="0.125" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="blackTwo">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

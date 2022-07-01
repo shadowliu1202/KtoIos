@@ -73,6 +73,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
         let barAppearance = UINavigationBarAppearance()
         barAppearance.configureWithTransparentBackground()
         barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: Theme.shared.getNavigationTitleFont(by: playerLocaleConfiguration.getSupportLocale())]
+        barAppearance.backgroundColor = UIColor.black_two90
         UINavigationBar.appearance().isTranslucent = true
         self.navigationController?.navigationBar.standardAppearance = barAppearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = barAppearance

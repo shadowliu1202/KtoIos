@@ -49,7 +49,6 @@ class LevelPrivilegeViewController: LobbyViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = UIRectEdge()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("level_levelprivilege"))
         dataBinding()
         

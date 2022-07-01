@@ -32,13 +32,13 @@
         <!--Login View Controller-->
         <scene sceneID="XjA-Mo-X8b">
             <objects>
-                <viewController storyboardIdentifier="LoginViewController" id="PxA-hP-tdG" customClass="LoginViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" extendedLayoutIncludesOpaqueBars="YES" id="PxA-hP-tdG" customClass="LoginViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EzL-eu-DHp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Es0-r8-42K" customClass="ToastView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                <rect key="frame" x="10" y="716" width="394" height="48"/>
+                                <rect key="frame" x="10" y="804" width="394" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="B7f-5r-OoO"/>
                                 </constraints>
@@ -53,7 +53,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9LE-9s-njz">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXI-KE-5Tx">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
@@ -278,8 +278,8 @@
                         <color key="backgroundColor" red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Sp6-jx-oot" firstAttribute="trailing" secondItem="9LE-9s-njz" secondAttribute="trailing" id="FD5-Mo-sgL"/>
+                            <constraint firstItem="9LE-9s-njz" firstAttribute="top" secondItem="EzL-eu-DHp" secondAttribute="top" id="IbZ-Ir-UfZ"/>
                             <constraint firstItem="9LE-9s-njz" firstAttribute="leading" secondItem="Sp6-jx-oot" secondAttribute="leading" id="L3r-19-7Qy"/>
-                            <constraint firstItem="9LE-9s-njz" firstAttribute="top" secondItem="Sp6-jx-oot" secondAttribute="top" id="Otz-z1-YZh"/>
                             <constraint firstItem="Es0-r8-42K" firstAttribute="leading" secondItem="Sp6-jx-oot" secondAttribute="leading" constant="10" id="Tfe-Hq-9M1"/>
                             <constraint firstItem="Sp6-jx-oot" firstAttribute="bottom" secondItem="Es0-r8-42K" secondAttribute="bottom" constant="10" id="XUx-Pk-WTf"/>
                             <constraint firstItem="Sp6-jx-oot" firstAttribute="trailing" secondItem="Es0-r8-42K" secondAttribute="trailing" constant="10" id="YNo-HK-nuS"/>

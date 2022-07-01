@@ -62,7 +62,7 @@ class SignupEmailViewController: LandingViewController {
         btnQatCancelAutoVerify = UIButton()
         btnQatCancelAutoVerify?.frame = {
             let x = CGFloat(view.bounds.size.width * 0.5)
-            let y = CGFloat(30)
+            let y = CGFloat(74)
             let width = CGFloat(200)
             let height = CGFloat(40)
             return CGRect(x: x, y: y, width: width, height: height)
