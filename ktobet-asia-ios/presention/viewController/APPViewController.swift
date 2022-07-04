@@ -58,7 +58,7 @@ class APPViewController: UIViewController {
         banner = UIHostingController(rootView: BannerView()).view
         banner?.backgroundColor = .clear
         self.view.addSubview(banner!, constraints: [
-            .constraint(.equal, \.topAnchor, offset: 0),
+            .constraint(.equal, \.layoutMarginsGuide.topAnchor, offset: 0),
             .constraint(.equal, \.heightAnchor, length: 52),
             .equal(\.leadingAnchor, offset: 0),
             .equal(\.trailingAnchor, offset: -0)

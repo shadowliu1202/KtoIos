@@ -100,14 +100,14 @@ extension SurveyViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = indexPath.section
         let row = indexPath.row
-        let option: SurveyQuestion_.SurveyQuestionOption = dataSource[section].surveyQuestionOptions[row]
         let surveyQuestionType: SurveyQuestion_.SurveyQuestionType = dataSource[section].surveyQuestionType
         switch surveyQuestionType {
         case .simpleoption:
+            let option: SurveyQuestion_.SurveyQuestionOption = dataSource[section].surveyQuestionOptions[row]
             answer(simple: option, indexPath: indexPath)
         case .multipleoption:
+            let option: SurveyQuestion_.SurveyQuestionOption = dataSource[section].surveyQuestionOptions[row]
             answer(multiple: option, indexPath: indexPath)
-            let section = indexPath.section
             tableView.reloadSections(IndexSet(integersIn: section...section), with: .none)
             break
         case .textfield:
