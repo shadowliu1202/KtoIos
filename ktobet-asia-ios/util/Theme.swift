@@ -169,4 +169,15 @@ final class Theme {
             return UIFont(name: "PingFangSC-Semibold", size: 16)!
         }
     }
+    
+    func getTextFieldCellMaxLength(by playerLocale: SupportLocale) -> Int {
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            return 300
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return 100
+        }
+    }
 }

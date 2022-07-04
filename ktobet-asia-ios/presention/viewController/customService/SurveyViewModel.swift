@@ -8,7 +8,6 @@ class SurveyViewModel {
     
     private var surveyUseCase: CustomerServiceSurveyUseCase
     private var authenticationUseCase: AuthenticationUseCase
-    private let localStorageRepo: PlayerLocaleConfiguration
     private var disposeBag = DisposeBag()
     private var chatSurveyInfo: Survey? {
         didSet {
@@ -59,13 +58,10 @@ class SurveyViewModel {
         }
         return self.isSurveyContentValid
     }).startWith(false)
-    
-    lazy var playerLocale = localStorageRepo.getSupportLocale()
 
-    init(_ surveyUseCase: CustomerServiceSurveyUseCase, _ authenticationUseCase: AuthenticationUseCase, _ localStorageRepo: PlayerLocaleConfiguration) {
+    init(_ surveyUseCase: CustomerServiceSurveyUseCase, _ authenticationUseCase: AuthenticationUseCase) {
         self.surveyUseCase = surveyUseCase
         self.authenticationUseCase = authenticationUseCase
-        self.localStorageRepo = localStorageRepo
     }
     
     func getPreChatSurvey() -> Single<Survey> {
@@ -101,17 +97,6 @@ class SurveyViewModel {
         let msg = offlineSurveyContent.value ?? ""
         let email = offlineSurveyAccount.value ?? ""
         return surveyUseCase.createOfflineSurvey(message: msg, email: email)
-    }
-    
-    func getTextFieldMaxLengthByLocale() -> Int {
-        switch playerLocale {
-        case is SupportLocale.Vietnam:
-            return 300
-        case is SupportLocale.China, is SupportLocale.Unknown:
-            fallthrough
-        default:
-            return 100
-        }
     }
 }
 

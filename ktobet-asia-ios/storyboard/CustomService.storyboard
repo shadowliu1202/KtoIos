@@ -841,7 +841,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y5A-DR-A4F">
-                                <rect key="frame" x="0.0" y="44" width="414" height="738"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="782"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tdu-o5-4ji">
@@ -865,11 +865,11 @@
                         <viewLayoutGuide key="safeArea" id="A1h-sX-r26"/>
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
-                            <constraint firstItem="Y5A-DR-A4F" firstAttribute="top" secondItem="A1h-sX-r26" secondAttribute="top" id="CnU-31-3wD"/>
                             <constraint firstItem="A1h-sX-r26" firstAttribute="bottom" secondItem="Tdu-o5-4ji" secondAttribute="bottom" constant="16" id="Er2-xF-us3"/>
                             <constraint firstItem="Tdu-o5-4ji" firstAttribute="top" secondItem="Y5A-DR-A4F" secondAttribute="bottom" constant="16" id="Hqb-vb-dKt"/>
                             <constraint firstItem="Y5A-DR-A4F" firstAttribute="leading" secondItem="A1h-sX-r26" secondAttribute="leading" id="IVI-rK-dC8"/>
                             <constraint firstItem="A1h-sX-r26" firstAttribute="trailing" secondItem="Tdu-o5-4ji" secondAttribute="trailing" constant="30" id="Jar-Cq-oJO"/>
+                            <constraint firstItem="Y5A-DR-A4F" firstAttribute="top" secondItem="9zc-HB-ilY" secondAttribute="top" id="gf9-W5-qD2"/>
                             <constraint firstItem="Tdu-o5-4ji" firstAttribute="leading" secondItem="A1h-sX-r26" secondAttribute="leading" constant="30" id="ml3-7X-c1J"/>
                             <constraint firstItem="Y5A-DR-A4F" firstAttribute="trailing" secondItem="A1h-sX-r26" secondAttribute="trailing" id="zS4-HM-poY"/>
                         </constraints>

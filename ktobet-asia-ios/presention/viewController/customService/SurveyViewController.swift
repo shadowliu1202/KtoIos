@@ -239,6 +239,8 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
     private var viewModel: SurveyViewModel!
     var callback: ((String) -> ())?
     
+    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    
     func configure(viewModel: SurveyViewModel, _ callback: ((String) -> ())? = nil) -> Self {
         self.selectionStyle = .none
         self.textView.delegate = self
@@ -273,7 +275,7 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
     }
     
     private func isMessageLengthValid(_ countOfWords: Int) -> Bool {
-        let maxLength = viewModel.getTextFieldMaxLengthByLocale()
+        let maxLength = Theme.shared.getTextFieldCellMaxLength(by: playerLocaleConfiguration.getSupportLocale())
         return countOfWords <= maxLength
     }
 }
