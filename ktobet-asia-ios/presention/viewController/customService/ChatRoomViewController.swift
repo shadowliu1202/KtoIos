@@ -37,6 +37,11 @@ class ChatRoomViewController: CommonViewController {
         getChatRoomStatus()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        IQKeyboardManager.shared.enable = true
+    }
+    
     // MARK: UI
     private func setupUI() {
         setKeyboardEvent()
