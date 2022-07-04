@@ -594,7 +594,7 @@ class DIContainer {
             return CustomerServiceViewModel(customerServiceUseCase: ctner.resolve(CustomerServiceUseCase.self)!)
         }
         ctner.register(SurveyViewModel.self) { (resolver) in
-            return SurveyViewModel(ctner.resolve(CustomerServiceSurveyUseCase.self)!, ctner.resolve(AuthenticationUseCase.self)!, ctner.resolve(LocalStorageRepositoryImpl.self)!)
+            return SurveyViewModel(ctner.resolve(CustomerServiceSurveyUseCase.self)!, ctner.resolve(AuthenticationUseCase.self)!)
         }
         ctner.register(CustomerServiceHistoryViewModel.self) { (resolver) in
             return CustomerServiceHistoryViewModel(historyUseCase: ctner.resolve(ChatRoomHistoryUseCase.self)!)
