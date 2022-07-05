@@ -17,6 +17,7 @@ class DIContainer {
     let container = Container()
     
     private init() {
+        registerPlayerConfig()
         registerHttpClient()
         registFactory()
         registApi()
@@ -26,11 +27,20 @@ class DIContainer {
         registViewModel()
     }
     
+    func registerPlayerConfig() {
+        let ctner = container
+        ctner.register(PlayerLocaleConfiguration.self) { resolver in
+            return LocalStorageRepositoryImpl()
+        }.inObjectScope(.lobby)
+    }
     func registerHttpClient() {
         let ctner = container
+        ctner.register(KtoURL.self) { (resolver) in
+            return KtoURL(playConfig: resolver.resolve(PlayerLocaleConfiguration.self)!)
+        }.inObjectScope(.lobby)
         ctner.register(HttpClient.self) { (resolver)  in
-            return HttpClient()
-        }.inObjectScope(.weak)
+            return HttpClient(ktoUrl: resolver.resolve(KtoURL.self)!)
+        }.inObjectScope(.lobby)
     }
     
     func registFactory() {
@@ -150,7 +160,8 @@ class DIContainer {
         }
         ctner.register(SystemRepository.self) { resolver in
             let api = ctner.resolve(PortalApi.self)!
-            return SystemRepositoryImpl(api)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return SystemRepositoryImpl(api, httpClient: httpClient)
         }
         ctner.register(ResetPasswordRepository.self) { resolver in
             let api = ctner.resolve(AuthenticationApi.self)!
@@ -183,7 +194,8 @@ class DIContainer {
             let cpsApi = ctner.resolve(CPSApi.self)!
             let repoBank = ctner.resolve(BankRepository.self)!
             let localStorageRepo = ctner.resolve(LocalStorageRepositoryImpl.self)!
-            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi, bankRepository: repoBank, localStorageRepo: localStorageRepo)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return WithdrawalRepositoryImpl(bankApi, imageApi: imageApi, cpsApi: cpsApi, bankRepository: repoBank, localStorageRepo: localStorageRepo, httpClient: httpClient)
         }
         ctner.register(CasinoRecordRepository.self) { resolver in
             let casinoApi = ctner.resolve(CasinoApi.self)!
@@ -192,42 +204,51 @@ class DIContainer {
         }
         ctner.register(CasinoRepository.self) { resolver in
             let casinoApi = ctner.resolve(CasinoApi.self)!
-            return CasinoRepositoryImpl(casinoApi)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return CasinoRepositoryImpl(casinoApi, httpClient: httpClient)
         }
         ctner.register(SlotRepository.self) { resolver in
             let slotApi = ctner.resolve(SlotApi.self)!
-            return SlotRepositoryImpl(slotApi)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return SlotRepositoryImpl(slotApi, httpClient: httpClient)
         }
         ctner.register(SlotRecordRepository.self) { resolver in
             let slotApi = ctner.resolve(SlotApi.self)!
             let playerConfiguration = ctner.resolve(PlayerConfiguration.self)!
-            return SlotRecordRepositoryImpl(slotApi, playerConfiguation: playerConfiguration)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return SlotRecordRepositoryImpl(slotApi, playerConfiguation: playerConfiguration, httpClient: httpClient)
         }
         ctner.register(NumberGameRepository.self) { (resolver) in
             let numberGameApi = ctner.resolve(NumberGameApi.self)!
-            return NumberGameRepositoryImpl(numberGameApi)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return NumberGameRepositoryImpl(numberGameApi, httpClient: httpClient)
         }
         ctner.register(NumberGameRecordRepository.self) { (resolver) in
             let numberGameApi = ctner.resolve(NumberGameApi.self)!
-            return NumberGameRecordRepositoryImpl(numberGameApi)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return NumberGameRecordRepositoryImpl(numberGameApi, httpClient: httpClient)
         }
         ctner.register(P2PRepository.self) { (resolver) in
             let p2pApi = ctner.resolve(P2PApi.self)!
-            return P2PRepositoryImpl(p2pApi)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return P2PRepositoryImpl(p2pApi, httpClient: httpClient)
         }
         ctner.register(P2PRecordRepository.self) { (resolver) in
             let p2pApi = ctner.resolve(P2PApi.self)!
             let playerConfiguration = ctner.resolve(PlayerConfiguration.self)!
-            return P2PRecordRepositoryImpl(p2pApi, playerConfiguation: playerConfiguration)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return P2PRecordRepositoryImpl(p2pApi, playerConfiguation: playerConfiguration, httpClient: httpClient)
         }
         ctner.register(ArcadeRecordRepository.self) { (resolver) in
             let arcadeApi = ctner.resolve(ArcadeApi.self)!
             let playerConfiguration = ctner.resolve(PlayerConfiguration.self)!
-            return ArcadeRecordRepositoryImpl(arcadeApi, playerConfiguation: playerConfiguration)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return ArcadeRecordRepositoryImpl(arcadeApi, playerConfiguation: playerConfiguration, httpClient: httpClient)
         }
         ctner.register(ArcadeRepository.self) { (resolver) in
             let arcadeApi = ctner.resolve(ArcadeApi.self)!
-            return ArcadeRepositoryImpl(arcadeApi)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return ArcadeRepositoryImpl(arcadeApi, httpClient: httpClient)
         }
         ctner.register(PromotionRepository.self) { (resolver) in
             let promotionApi = ctner.resolve(PromotionApi.self)!
@@ -431,7 +452,8 @@ class DIContainer {
             let deposit = applicationFactory.deposit()
             let playerUseCase = ctner.resolve(PlayerDataUseCase.self)!
             let navigator = ctner.resolve(DepositNavigator.self)!
-            return ThirdPartyDepositViewModel(playerUseCase: playerUseCase, depositService: deposit, navigator: navigator)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return ThirdPartyDepositViewModel(playerUseCase: playerUseCase, depositService: deposit, navigator: navigator, httpClient: httpClient)
         }
         ctner.register(OfflineViewModel.self) { resolver in
             let applicationFactory = ctner.resolve(ApplicationFactory.self)!

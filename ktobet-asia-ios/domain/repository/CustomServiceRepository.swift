@@ -320,7 +320,7 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
     func covertContentFromInProcess(message: Message, speakerType: SpeakerType) -> [ChatMessage.Content] {
         message.quillDeltas.map { it in
             if let image = it.attributes?.image {
-                return ChatMessage.ContentImage(image: PortalImage.ChatImage(host: HttpClient().host, path: image))
+                return ChatMessage.ContentImage(image: PortalImage.ChatImage(host: httpClient.host.absoluteString, path: image))
             }
             
             if let link = it.attributes?.link {

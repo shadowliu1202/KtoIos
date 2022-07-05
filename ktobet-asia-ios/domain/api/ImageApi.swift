@@ -12,7 +12,7 @@ class ImageApi {
     }
     
     func getPrivateImageToken(imageId: String) -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/image/hash/\(imageId)",
                                method: .get,
                                task: .requestPlain,
@@ -21,7 +21,7 @@ class ImageApi {
     }
     
     func uploadImage(query: [String: Any], imageData: [MultipartFormData]) -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/image/upload",
                                method: .post,
                                task: .uploadCompositeMultipart(imageData, urlParameters: query),
@@ -31,7 +31,7 @@ class ImageApi {
     
     // MARK: New
     func getPrivateImageToken(imageId: String) -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/image/hash/\(imageId)",
                                method: .get,
                                task: .requestPlain,

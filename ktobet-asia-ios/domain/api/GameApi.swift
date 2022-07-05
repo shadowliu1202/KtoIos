@@ -20,8 +20,8 @@ class GameApi{
     }
     
     func getGameUrl()->Single<URL>{
-        let para = ["siteUrl":httpClient.host]
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let para = ["siteUrl":httpClient.host.absoluteString]
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "casino/api/game/url/55",
                                method: .get,
                                task: .requestParameters(parameters: para, encoding: URLEncoding.default),

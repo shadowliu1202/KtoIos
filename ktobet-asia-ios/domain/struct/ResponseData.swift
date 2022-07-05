@@ -524,8 +524,8 @@ struct CasinoData: Codable {
         case isGameMaintenance, status, name, hasForFun, isFavorite, releaseDate
     }
     
-    func toCasinoGame() throws -> CasinoGame {
-        let thumbnail = CasinoThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: self.imageID)
+    func toCasinoGame(host: String) throws -> CasinoGame {
+        let thumbnail = CasinoThumbnail(host: host, thumbnailId: self.imageID)
         return CasinoGame(gameId: Int32(self.gameID), gameName: self.name, isFavorite: self.isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isGameMaintenance, status: self.status), thumbnail: thumbnail, releaseDate: try self.releaseDate?.toLocalDate())
     }
 }
@@ -734,8 +734,8 @@ struct SlotDateGameRecordBean: Codable {
         self.winloss = gameList.map({$0.winloss}).reduce(0, +)
     }
     
-    func toSlotGroupedRecord() throws -> SlotGroupedRecord {
-        let thumbnail = SlotThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
+    func toSlotGroupedRecord(host: String) throws -> SlotGroupedRecord {
+        let thumbnail = SlotThumbnail(host: host, thumbnailId: imageId)
         return SlotGroupedRecord(slotThumbnail: thumbnail, endDate: try endDate.toLocalDateTime(), gameId: gameId, gameName: gameName, stakes: stakes.toAccountCurrency(), startDate: try startDate.toLocalDateTime(), winloss: winloss.toAccountCurrency(), recordCount: count)
     }
 }
@@ -772,9 +772,9 @@ struct SlotUnsettledRecordBean: Codable {
     let stakes: Double
     let imageId: String
     
-    func toSlotUnsettledRecord() throws -> SlotUnsettledRecord {
+    func toSlotUnsettledRecord(host: String) throws -> SlotUnsettledRecord {
         let betLocalTime = try betTime.toLocalDateTime()
-        let thumbnail = SlotThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
+        let thumbnail = SlotThumbnail(host: host, thumbnailId: imageId)
         return SlotUnsettledRecord(betId: betId, betTime: betLocalTime, gameId: gameId, gameName: gameName, otherId: otherId, stakes: stakes.toAccountCurrency(), slotThumbnail: thumbnail)
     }
 }
@@ -1164,8 +1164,8 @@ struct P2PDateBetRecordBean: Codable {
         self.imageId = gameList.first?.imageId ?? ""
     }
     
-    func toGameGroupedRecord() throws -> GameGroupedRecord {
-        let thumbnail = P2PThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
+    func toGameGroupedRecord(host: String) throws -> GameGroupedRecord {
+        let thumbnail = P2PThumbnail(host: host, thumbnailId: imageId)
         return GameGroupedRecord(gameId: gameGroupId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), startDate: try startDate.toLocalDateTime(), endDate: try endDate.toLocalDateTime())
     }
 }
@@ -1191,8 +1191,8 @@ struct ArcadeDateDataRecordBean: Codable {
         self.imageId = gameList.first?.imageId ?? ""
     }
     
-    func toGameGroupedRecord() throws -> GameGroupedRecord {
-        let thumbnail = P2PThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId)
+    func toGameGroupedRecord(host: String) throws -> GameGroupedRecord {
+        let thumbnail = P2PThumbnail(host: host, thumbnailId: imageId)
         return GameGroupedRecord(gameId: gameId, gameName: gameName, thumbnail: thumbnail, recordsCount: count, stakes: stakes.toAccountCurrency(), winLoss: winLoss.toAccountCurrency(), startDate: try startDate.toLocalDateTime(), endDate: try endDate.toLocalDateTime())
     }
 }
@@ -1258,8 +1258,8 @@ struct ArcadeGameDataBean: Codable {
     let releaseDate: String?
     let providerId: Int
     
-    func toArcadeGame() -> ArcadeGame{
-        return ArcadeGame(gameId: gameId, gameName: name, isFavorite: isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isMaintenance, status: self.status), thumbnail: ArcadeThumbnail(host: KtoURL.baseUrl.absoluteString, thumbnailId: imageId))
+    func toArcadeGame(host: String) -> ArcadeGame{
+        return ArcadeGame(gameId: gameId, gameName: name, isFavorite: isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isMaintenance, status: self.status), thumbnail: ArcadeThumbnail(host: host, thumbnailId: imageId))
     }
 }
 

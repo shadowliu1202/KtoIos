@@ -23,12 +23,16 @@ class CPSApi: ApiService {
         return httpClient.headers
     }
     
+    var baseUrl: URL {
+        return httpClient.host
+    }
+    
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
     }
     
     func createCryptoDeposit(cryptoDepositRequest: CryptoDepositRequest) -> Single<ResponseData<CryptoDepositReceipt>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit/online-deposit-crypto",
                                method: .post,
                                task: .requestJSONEncodable(cryptoDepositRequest),
@@ -37,7 +41,7 @@ class CPSApi: ApiService {
     }
     
     func getCryptoBankCard() -> Single<ResponseData<PayloadPage<CryptoBankCardBean>>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/crypto-bank-card",
                                method: .get,
                                task: .requestPlain,
@@ -46,7 +50,7 @@ class CPSApi: ApiService {
     }
     
     func createCryptoBankCard(cryptoBankCardRequest: CryptoBankCardRequest) -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/crypto-bank-card",
                                method: .post,
                                task: .requestJSONEncodable(cryptoBankCardRequest),
@@ -107,7 +111,7 @@ class CPSApi: ApiService {
     }
     
     func onlineDepositCrypto(cryptoDepositRequest: CryptoDepositRequest) -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit/online-deposit-crypto",
                                method: .post,
                                task: .requestJSONEncodable(cryptoDepositRequest),

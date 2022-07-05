@@ -405,6 +405,7 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
 
 
 class MixTableViewCell: UITableViewCell {
+    private var httpClient = DI.resolve(HttpClient.self)!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var stackViewWidth: NSLayoutConstraint!
@@ -458,7 +459,7 @@ class MixTableViewCell: UITableViewCell {
     
     func setImage(image: ChatMessage.ContentImage, root: UIViewController?) {
         let imageDownloader = SDWebImageDownloader.shared
-        for header in HttpClient().headers {
+        for header in httpClient.headers {
             imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
         }
         

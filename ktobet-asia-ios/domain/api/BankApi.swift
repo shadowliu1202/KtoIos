@@ -22,12 +22,16 @@ class BankApi: ApiService {
         return httpClient.headers
     }
     
+    var baseUrl: URL {
+        return httpClient.host
+    }
+    
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
     }
 
     func getBanks() -> Single<ResponseData<[SimpleBank]>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/init/bank",
                                method: .get,
                                task: .requestPlain,
@@ -36,7 +40,7 @@ class BankApi: ApiService {
     }
 
     func bindingImageWithWithdrawalRecord(displayId: String, uploadImagesData: UploadImagesData) -> Completable {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/withdrawal/images/\(displayId)",
                                method: .put,
                                task: .requestJSONEncodable(uploadImagesData),
@@ -45,7 +49,7 @@ class BankApi: ApiService {
     }
 
     func getWithdrawalLimitation() -> Single<ResponseData<DailyWithdrawalLimits>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/withdrawal/limit-count",
                                method: .get,
                                task: .requestPlain,
@@ -54,7 +58,7 @@ class BankApi: ApiService {
     }
 
     func getWithdrawalRecords() -> Single<ResponseData<[WithdrawalRecordData]>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/withdrawal",
                                method: .get,
                                task: .requestPlain,
@@ -63,7 +67,7 @@ class BankApi: ApiService {
     }
 
     func getWithdrawalRecordDetail(displayId: String, ticketType: Int32) -> Single<ResponseData<WithdrawalRecordDetailData>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/withdrawal/detail/",
                                method: .get,
                                task: .requestParameters(parameters: ["displayId": displayId,
@@ -75,7 +79,7 @@ class BankApi: ApiService {
     func getWithdrawalRecords(page: String, deteBegin: String, dateEnd: String, status: [String: Int32]) ->     Single<ResponseData<[WithdrawalRecordAllData]>> {
         var parameters =  ["dateRange.begin" : deteBegin, "dateRange.end": dateEnd]
         status.forEach { parameters[$0.key] = String($0.value) }
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/withdrawal/logs/\(page)",
                                method: .get,
                                task: .requestParameters(parameters: parameters, encoding: URLEncoding.default),
@@ -85,7 +89,7 @@ class BankApi: ApiService {
 
     func cancelWithdrawal(ticketId: String) -> Completable {
         let request = WithdrawalCancelRequest(ticketId: ticketId)
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/withdrawal/cancel/",
                                method: .put,
                                task: .requestJSONEncodable(request),
@@ -94,7 +98,7 @@ class BankApi: ApiService {
     }
 
     func sendWithdrawalRequest(withdrawalRequest: WithdrawalRequest) -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/withdrawal/bank-card",
                                method: .post,
                                task: .requestJSONEncodable(withdrawalRequest),
@@ -108,7 +112,7 @@ class BankApi: ApiService {
     }
 
     func sendWithdrawalAddAccount(request: WithdrawalAccountAddRequest) -> Single<ResponseData<Nothing>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/bank-card",
                                method: .post,
                                task: .requestJSONEncodable(request),
@@ -129,7 +133,7 @@ class BankApi: ApiService {
     }
 
     func getEachLimit() -> Single<ResponseData<SingleWithdrawalLimitsData>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/withdrawal/each-limit",
                                method: .get,
                                task: .requestPlain,
@@ -159,7 +163,7 @@ class BankApi: ApiService {
     
     // MARK: New
     func getDepositTypesString() -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit/player-deposit-type",
                                method: .get,
                                task: .requestPlain,
@@ -168,7 +172,7 @@ class BankApi: ApiService {
     }
     
     func getDepositLogs() -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit",
                                method: .get,
                                task: .requestPlain,
@@ -182,7 +186,7 @@ class BankApi: ApiService {
     }
     
     func getDepositOfflineBankAccounts() -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit/bank",
                                method: .get,
                                task: .requestPlain,
@@ -191,7 +195,7 @@ class BankApi: ApiService {
     }
     
     func getDepositMethods(depositType: Int32) -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit/player-deposit-method/",
                                method: .get,
                                task: .requestParameters(parameters: ["depositType": depositType], encoding: URLEncoding.default),
@@ -200,7 +204,7 @@ class BankApi: ApiService {
     }
     
     func getBanks() -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/init/bank",
                                method: .get,
                                task: .requestPlain,
@@ -209,7 +213,7 @@ class BankApi: ApiService {
     }
     
     func sendOfflineDepositRequest(request: DepositOfflineBankAccountsRequest) -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit/offline",
                                method: .post,
                                task: .requestJSONEncodable(request),
@@ -218,7 +222,7 @@ class BankApi: ApiService {
     }
     
     func sendOnlineDepositRequest(request: DepositOnlineAccountsRequest) -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit/online-deposit",
                                method: .post,
                                task: .requestJSONEncodable(request),
@@ -227,7 +231,7 @@ class BankApi: ApiService {
     }
 
     func bindingImageWithDepositRecord(displayId: String, uploadImagesData: UploadImagesData) -> Completable {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit/images/\(displayId)",
                                method: .put,
                                task: .requestJSONEncodable(uploadImagesData),
@@ -243,7 +247,7 @@ class BankApi: ApiService {
     func getDepositRecords(page: Int32, deteBegin: String, dateEnd: String, status: [String: String]) -> Single<String> {
         var parameters =  ["dateRange.begin" : deteBegin, "dateRange.end": dateEnd]
         status.forEach { parameters[$0.key] = $0.value }
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/deposit/logs/\(page)",
                                method: .get,
                                task: .requestParameters(parameters: parameters, encoding: URLEncoding.default),

@@ -9,9 +9,8 @@ class LaunchViewController: APPViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        viewModel.initLocale().subscribe(onCompleted: { }).disposed(by: disposeBag)
-        Observable.combineLatest(serviceViewModel.output.portalMaintenanceStatus.asObservable(), viewModel.checkIsLogged().asObservable())
+        viewModel.initLocale()
+            .andThen(Observable.combineLatest(serviceViewModel.output.portalMaintenanceStatus.asObservable(), viewModel.checkIsLogged().asObservable()))
             .subscribe(onNext: { [weak self] (status, isLogged) in
                 switch status {
                 case is MaintenanceStatus.AllPortal:
@@ -32,6 +31,8 @@ class LaunchViewController: APPViewController {
             }) { [weak self] error in
                 if error.isMaintenance() {
                     self?.showPortalMaintenance()
+                } else if error.isNetworkLost() {
+                    self?.displayAlert(Localize.string("common_error"), Localize.string("common_network_error"))
                 } else {
                     self?.handleErrors(error)
                 }

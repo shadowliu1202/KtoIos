@@ -11,10 +11,12 @@ protocol NumberGameRepository: WebGameRepository {
 
 class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
     private var numberGameApi: NumberGameApi!
+    private var httpClient: HttpClient!
     
-    init(_ numberGameApi: NumberGameApi) {
-        super.init(numberGameApi)
+    init(_ numberGameApi: NumberGameApi, httpClient: HttpClient) {
+        super.init(numberGameApi, httpClient: httpClient)
         self.numberGameApi = numberGameApi
+        self.httpClient = httpClient
     }
     
     func searchGames(order: GameSorting, tags: Set<GameFilter>) -> Observable<[NumberGame]> {
@@ -30,9 +32,9 @@ class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
             }
         }
         
-        let fetchApi = numberGameApi.searchGames(sortBy: order.ordinal, isRecommend: isRecommand, isNew: isNew, map: map).map { (response) -> [NumberGame] in
+        let fetchApi = numberGameApi.searchGames(sortBy: order.ordinal, isRecommend: isRecommand, isNew: isNew, map: map).map { [unowned self] (response) -> [NumberGame] in
             guard let data = response.data else { return [] }
-            return data.map { $0.toNumberGame(portalHost: KtoURL.baseUrl.absoluteString) }
+            return data.map { $0.toNumberGame(portalHost: self.httpClient.host.absoluteString) }
         }.asObservable()
         
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
@@ -61,9 +63,9 @@ class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
     }
     
     func getPopularGames() -> Observable<HotNumberGames> {
-        let fetchApi = numberGameApi.getHotGame().map { (response) -> HotNumberGames in
+        let fetchApi = numberGameApi.getHotGame().map { [unowned self] (response) -> HotNumberGames in
             guard let data = response.data else { return HotNumberGames(betCountRanking: [], winLossRanking: []) }
-            return data.toHotNumberGames(portalHost: HttpClient.init().getHost())
+            return data.toHotNumberGames(portalHost: self.httpClient.host.absoluteString)
         }.asObservable()
         
         return Observable.combineLatest(favoriteRecord.asObservable(), fetchApi).map { (favorites, games) -> HotNumberGames in
@@ -73,9 +75,9 @@ class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
     }
     
     override func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
-        let fetchApi = numberGameApi.getFavorite().map({ (response) -> [NumberGame] in
+        let fetchApi = numberGameApi.getFavorite().map({ [unowned self] (response) -> [NumberGame] in
             guard let data = response.data else { return [] }
-            return data.map { $0.toNumberGame(portalHost: KtoURL.baseUrl.absoluteString) }
+            return data.map { $0.toNumberGame(portalHost: self.httpClient.host.absoluteString) }
         })
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [unowned self] (favorites, games) in
             return self.updateSourceByFavorite(games, favorites)
@@ -83,9 +85,9 @@ class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
     }
     
     override func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]> {
-        let fetchApi =  numberGameApi.searchKeyword(keyword: keyword.getKeyword()).map {(response) -> [NumberGame] in
+        let fetchApi =  numberGameApi.searchKeyword(keyword: keyword.getKeyword()).map { [unowned self] (response) -> [NumberGame] in
             guard let data = response.data else { return [] }
-            return data.map { $0.toNumberGame(portalHost: KtoURL.baseUrl.absoluteString) }
+            return data.map { $0.toNumberGame(portalHost: self.httpClient.host.absoluteString) }
         }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [unowned self] (favorites, games) in
             return self.updateSourceByFavorite(games, favorites)

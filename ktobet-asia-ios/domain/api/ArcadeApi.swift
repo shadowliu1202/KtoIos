@@ -21,6 +21,10 @@ class ArcadeApi: ApiService, WebGameApi {
         return httpClient.headers
     }
     
+    var baseUrl: URL {
+        return httpClient.host
+    }
+    
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
     }

@@ -29,13 +29,17 @@ class CustomServiceApi: ApiService{
         return httpClient.headers
     }
 
+    var baseUrl: URL {
+        return httpClient.host
+    }
+    
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
     }
     
     func getBelongedSkillId(platform: Int) -> Single<ResponseData<String>> {
         let para = ["platForm": platform]
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "onlinechat/api/survey/skill",
                                method: .get,
                                task: .requestParameters(parameters: para, encoding: URLEncoding.default),
@@ -44,7 +48,7 @@ class CustomServiceApi: ApiService{
     }
     
     func getInProcessInformation(roomId: String) -> Single<ResponseData<[InProcessBean]>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "onlinechat/api/room/in-process",
                                method: .get,
                                task: .requestPlain,
@@ -53,7 +57,7 @@ class CustomServiceApi: ApiService{
     }
     
     func removeToken() -> Completable {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "onlinechat/api/common/remove-token",
                                method: .post,
                                task: .requestPlain,
@@ -62,7 +66,7 @@ class CustomServiceApi: ApiService{
     }
     
     func closeChatRoom(roomId: String) -> Completable {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "onlinechat/api/room/player/close",
                                method: .post,
                                task: .requestPlain,
@@ -86,7 +90,7 @@ class CustomServiceApi: ApiService{
     }
     
     func send(request: SendBean) -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "onlinechat/api/room/send",
                                method: .post,
                                task: .requestJSONEncodable(request),
@@ -95,7 +99,7 @@ class CustomServiceApi: ApiService{
     }
     
     func uploadImage(query: [String: Any], imageData: [MultipartFormData]) -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "onlinechat/api/image/upload",
                                method: .post,
                                task: .uploadCompositeMultipart(imageData, urlParameters: query),
@@ -144,7 +148,7 @@ class CustomServiceApi: ApiService{
     }
     
     func getChatHistory(roomId: RoomId) -> Single<NonNullResponseData<ChatHistoryBean>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/room/record/\(roomId)",
                                method: .get,
                                task: .requestPlain,

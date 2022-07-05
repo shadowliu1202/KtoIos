@@ -26,6 +26,10 @@ class PortalApi: ApiService {
     var headers: [String : String]? {
         return httpClient.headers
     }
+    
+    var baseUrl: URL {
+        return httpClient.host
+    }
 
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
@@ -52,7 +56,7 @@ class PortalApi: ApiService {
     }
     
     func getCustomerServiceEmail() -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/profile/cs-mail",
                                method: .get,
                                task: .requestPlain,

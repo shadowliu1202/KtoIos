@@ -35,13 +35,15 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     private var bankRepository: BankRepository!
     private let localStorageRepo: PlayerLocaleConfiguration
     private let withdrawalSystem = WithdrawalSystem.create()
+    private var httpClient: HttpClient!
     
-    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi, bankRepository: BankRepository!, localStorageRepo: PlayerLocaleConfiguration) {
+    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi, bankRepository: BankRepository!, localStorageRepo: PlayerLocaleConfiguration, httpClient: HttpClient) {
         self.bankApi = bankApi
         self.imageApi = imageApi
         self.cpsApi = cpsApi
         self.bankRepository = bankRepository
         self.localStorageRepo = localStorageRepo
+        self.httpClient = httpClient
     }
     
     func deleteCryptoBankCard(id: String) -> Completable {
@@ -176,9 +178,9 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
             imgIDs.append(imageApi.getPrivateImageToken(imageId: id))
         }
         
-        return Single.zip(imgIDs).map { (response) -> Transaction.StatusChangeHistory in
+        return Single.zip(imgIDs).map { [unowned self] (response) -> Transaction.StatusChangeHistory in
             for r in response {
-                portalImages.append(PortalImage.Private(imageId: r.data ?? "", fileName: "", host: HttpClient().getHost()))
+                portalImages.append(PortalImage.Private(imageId: r.data ?? "", fileName: "", host: self.httpClient.host.absoluteString))
             }
             
             return Transaction.StatusChangeHistory(createdDate: try changeHistory.createdDate.toOffsetDateTime(), imageIds: portalImages, remarkLevel1: changeHistory.remarkLevel1, remarkLevel2: changeHistory.remarkLevel2, remarkLevel3: changeHistory.remarkLevel3)

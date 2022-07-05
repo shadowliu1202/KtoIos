@@ -26,7 +26,6 @@ protocol PlayerDataUseCase {
     func setEmail(_ email: String) -> Completable
     func verifyNewAccountOtp(_ otp: String, _ accountType: AccountType) -> Completable
     func setMobile(_ mobile: String) -> Completable
-    func initCultureCode()
 }
 
 let PASSWORD_ERROR_LIMIT = 5
@@ -145,22 +144,5 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
     
     func verifyNewAccountOtp(_ otp: String, _ accountType: AccountType) -> Completable {
         playerRepository.verifyChangeIdentityOtp(otp, accountType, false)
-    }
-    
-    func initCultureCode() {
-        let localeCultureCode = systemLocaleToCultureCode()
-        self.localRepository.setCultureCode(localeCultureCode)
-        Theme.shared.changeEntireAPPFont(by: localRepository.getSupportLocale())
-    }
-    
-    private func systemLocaleToCultureCode() -> String {
-        switch Locale.current.languageCode {
-        case "vi":
-            return SupportLocale.Vietnam.shared.cultureCode()
-        case "zh":
-            fallthrough
-        default:
-            return SupportLocale.China.shared.cultureCode()
-        }
     }
 }

@@ -48,61 +48,17 @@ enum Configuration: String {
         }
     }()
 
-    static var host: [String: String] = hostName.mapValues{ "https://\($0)/"  }
-    static var hostName: [String: String] = env.hostName.mapValues{ $0.first(where: checkNetwork) ?? $0.first! }
+    static var hostName: [String: [String]] = env.hostName
     static var disableSSL: Bool         = env.disableSSL
     static var isAutoUpdate: Bool       = env.isAutoUpdate
     static var manualUpdate: Bool       = env.manualUpdate
     static var debugGesture: Bool       = env.debugGesture
-    static var affiliateUrl: URL        = URL(string: "\(host)affiliate")!
     static var enableCrashlytics: Bool  = env.enableCrashlytics
     static var manualControlNetwork: Bool   = env.manualControlNetwork
 
-    static private func checkNetwork(url: String) -> Bool {
-        let group = DispatchGroup()
-        group.enter()
-        var isSuccess = false
-        guard let url = URL(string: "https://\(url)") else {
-            group.leave()
-            return isSuccess
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "HEAD"
-        URLSession(configuration: .default)
-            .dataTask(with: request) { (_, response, error) -> Void in
-            guard error == nil else {
-                print("Error:", error ?? "")
-                isSuccess = false
-                group.leave()
-                return
-            }
-
-            guard (response as? HTTPURLResponse)?
-                .statusCode == 200 else {
-                isSuccess = false
-                group.leave()
-                return
-            }
-
-            isSuccess = true
-            group.leave()
-        }.resume()
-
-        group.wait()
-        return isSuccess
-    }
-    
     static func getKtoAgent() -> String {
         let userAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")(\(UIDevice.modelName))"
         return userAgent
-    }
-    
-    static func getAffiliateUrl(cultureCode: String) -> URL? {
-        if let host = Configuration.host[cultureCode] {
-            return URL(string: "\(host)affiliate")!
-        }
-        return nil
     }
 }
 

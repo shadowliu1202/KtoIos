@@ -4,6 +4,7 @@ import SharedBu
 import SDWebImage
 
 class WebGameItemCell: UICollectionViewCell {
+    private var httpClient = DI.resolve(HttpClient.self)!
     @IBOutlet weak var labelHeight: NSLayoutConstraint!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var gameImage: UIImageView!
@@ -33,7 +34,7 @@ class WebGameItemCell: UICollectionViewCell {
     @discardableResult
     func configure(game: WebGameWithProperties) -> Self {
         let imageDownloader = SDWebImageDownloader.shared
-        for header in HttpClient().headers {
+        for header in httpClient.headers {
             imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
         }
         gameImage.sd_setImage(url: URL(string: game.thumbnail.url()), placeholderImage: nil)

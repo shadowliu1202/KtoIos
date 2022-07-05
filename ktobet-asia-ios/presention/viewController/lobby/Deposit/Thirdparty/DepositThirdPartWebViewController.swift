@@ -3,6 +3,7 @@ import WebKit
 import SharedBu
 
 class DepositThirdPartWebViewController: LobbyViewController {
+    private var httpClient = DI.resolve(HttpClient.self)!
     static let segueIdentifier = "toThirdPartWebSegue"
     
     @IBOutlet private weak var webView: WKWebView!
@@ -13,7 +14,7 @@ class DepositThirdPartWebViewController: LobbyViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
-        for cookie in HttpClient().getCookies() {
+        for cookie in httpClient.getCookies() {
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
         }
         let MockWebViewUserAgent = Configuration.getKtoAgent()

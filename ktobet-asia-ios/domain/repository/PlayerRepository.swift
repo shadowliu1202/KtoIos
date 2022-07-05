@@ -49,11 +49,11 @@ class PlayerRepositoryImpl : PlayerRepository {
             }
         })
         let contactInfo = playerApi.getPlayerContact()
-        let oldURLString = KtoURL.baseUrl.description
+        let oldURLString = httpClient.host.description
         
         return Single
             .zip(favorProduct, localization, playerInfo, contactInfo)
-            .map { (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
+            .map { [unowned self] (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
                 let bindLocale : SupportLocale = {
                     if let cultureCode = responseLocalization.data {
                         return SupportLocale.Companion.init().create(language: cultureCode)
@@ -65,10 +65,11 @@ class PlayerRepositoryImpl : PlayerRepository {
                 self.localStorageRepo.setCultureCode(bindLocale.cultureCode())
                 Theme.shared.changeEntireAPPFont(by: bindLocale)
                 
-                let newURLString = KtoURL.baseUrl.description
+                let newURLString = self.httpClient.host.description
                 
                 if oldURLString != newURLString {
                     self.httpClient.replaceCookiesDomain(oldURLString, to: newURLString)
+                    DI.resetObjectScope(.lobby)
                 }
 
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",

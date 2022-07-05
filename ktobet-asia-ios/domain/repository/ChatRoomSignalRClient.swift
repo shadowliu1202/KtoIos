@@ -85,7 +85,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         let group = DispatchGroup()
         group.enter()
         var decodedObject: [InProcessBean]!
-        let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/in-process")!
+        let url = URL(string: httpClient.host.absoluteString + "onlinechat/api/room/in-process")!
         let urlSession = generateUrlSession()
         let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
@@ -113,7 +113,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         let group = DispatchGroup()
         group.enter()
         var decodedObject: [RoomHistory]!
-        let url = URL(string: HttpClient().baseUrl.absoluteString + "api/room/record/\(roomId)")!
+        let url = URL(string: httpClient.host.absoluteString + "api/room/record/\(roomId)")!
         let urlSession = generateUrlSession()
         let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
@@ -161,7 +161,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         self.socketConnect?.stop()
         self.socketConnect = nil
         
-        if let url = URL(string: HttpClient().getHost().replacingOccurrences(of: "https", with: "wss") + "chat-ws?access_token=" + token) {
+        if let url = URL(string: httpClient.host.absoluteString.replacingOccurrences(of: "https", with: "wss") + "chat-ws?access_token=" + token) {
             self.socketConnect = HubConnectionBuilder.init(url: url)
                 .withJSONHubProtocol()
                 .withHttpConnectionOptions(configureHttpOptions: { (option) in
@@ -194,7 +194,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         let group = DispatchGroup()
         group.enter()
         var decodedObject: Int32?
-        let url = URL(string: HttpClient().baseUrl.absoluteString + "onlinechat/api/room/queue-number")!
+        let url = URL(string: httpClient.host.absoluteString + "onlinechat/api/room/queue-number")!
         let urlSession = generateUrlSession()
         let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
@@ -228,7 +228,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         let group = DispatchGroup()
         group.enter()
         var decodedObject: PlayerInChatBean? = nil
-        let url = URL(string: httpClient.baseUrl.absoluteString + "onlinechat/api/room/player/in-chat")!
+        let url = URL(string: httpClient.host.absoluteString + "onlinechat/api/room/player/in-chat")!
         let urlSession = generateUrlSession()
         let task = urlSession.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
@@ -244,7 +244,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     
     private func generateUrlSession() -> URLSession {
         if Configuration.disableSSL {
-            return URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(), delegateQueue: nil)
+            return URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(httpClient: httpClient), delegateQueue: nil)
         } else {
             return URLSession.shared
         }
@@ -313,11 +313,15 @@ struct SpeakingAsyncBean: Codable {
 }
 
 class NSURLSessionPinningDelegate: NSObject, URLSessionDelegate {
-    
+    private var httpClient: HttpClient
     private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     
+    init(httpClient: HttpClient) {
+        self.httpClient = httpClient
+    }
+    
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if challenge.protectionSpace.host == Configuration.host[localStorageRepo.getCultureCode()]! {
+        if challenge.protectionSpace.host == self.httpClient.host.absoluteString {
             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
             completionHandler(.performDefaultHandling, nil)

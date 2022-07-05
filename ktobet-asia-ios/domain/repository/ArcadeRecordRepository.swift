@@ -12,10 +12,12 @@ protocol ArcadeRecordRepository {
 class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
     private var arcadeApi: ArcadeApi!
     private var playerConfiguation: PlayerConfiguration!
+    private var httpClient: HttpClient!
     
-    init(_ arcadeApi: ArcadeApi, playerConfiguation: PlayerConfiguration) {
+    init(_ arcadeApi: ArcadeApi, playerConfiguation: PlayerConfiguration, httpClient: HttpClient) {
         self.arcadeApi = arcadeApi
         self.playerConfiguation = playerConfiguation
+        self.httpClient = httpClient
     }
     
     func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[DateSummary]> {
@@ -30,7 +32,7 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return arcadeApi.getGameRecordByDate(date: localDate, offset: secondsToHours, skip: skip, take: take).map({ (response) -> [GameGroupedRecord] in
             guard let data = response.data?.data else { return [] }
-            return try data.map({ try $0.toGameGroupedRecord()})
+            return try data.map({ try $0.toGameGroupedRecord(host: self.httpClient.host.absoluteString)})
         })
     }
     

@@ -21,13 +21,14 @@ class SystemRepositoryImpl : SystemRepository{
     let csMailCookieName = "csm"
     let maintenanceTimeCookieName = "dist"
     private var portalApi : PortalApi
+    private var httpClient: HttpClient
     private var productStatusChange = BehaviorSubject<MaintenanceStatus>(value: MaintenanceStatus.init())
     private var maintenanceStatus: Observable<MaintenanceStatus>!
     private let portalMaintenanceStateRefresh = PublishSubject<()>()
 
-    init(_ portalApi : PortalApi) {
+    init(_ portalApi : PortalApi, httpClient: HttpClient) {
         self.portalApi = portalApi
-        
+        self.httpClient = httpClient
         maintenanceStatus = portalMaintenanceStateRefresh.startWith(()).flatMap{[unowned self] in
             self.updateMaintenanceStatus().asObservable()
         }
@@ -75,14 +76,14 @@ class SystemRepositoryImpl : SystemRepository{
     }
     
     private func getMaintenanceTimeFromCookies() -> KotlinInt? {
-        if let str = HttpClient().getCookies().first(where: { $0.name == maintenanceTimeCookieName })?.value, let doubleValue = Double(str) {
+        if let str = httpClient.getCookies().first(where: { $0.name == maintenanceTimeCookieName })?.value, let doubleValue = Double(str) {
             return KotlinInt.init(value: Int32(ceil(doubleValue)))
         }
         return nil
     }
     
     private func maintainCsEmail() -> String {
-        HttpClient().getCookies().first(where: { $0.name == csMailCookieName })?.value ?? ""
+        httpClient.getCookies().first(where: { $0.name == csMailCookieName })?.value ?? ""
     }
     
     func getYearOfCopyRight() -> Single<String> {
