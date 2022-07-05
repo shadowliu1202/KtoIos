@@ -393,6 +393,8 @@ class PromotionFilterDropDwon: UIView {
             button.titleLabel?.font =  UIFont(name: "PingFangSC-Medium", size: 12)
             button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
             button.sizeToFit()
+            button.titleLabel?.numberOfLines = 0
+            button.setContentCompressionResistancePriority(.required, for: .vertical)
             button.layer.cornerRadius = 2
             button.layer.masksToBounds = true
             button.backgroundColor = .inputBaseMineShaftGray
