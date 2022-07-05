@@ -1,1 +1,1 @@
-APP-2737 [iOS] 登入時可允許 VN 帳號
+APP-3277 [iOS][CS] VND ExitSurvey 若有 Paragraph 輸入超過兩百字，送出不應彈出 "未知錯誤" error toast // API修正後已可以送出超過200字
