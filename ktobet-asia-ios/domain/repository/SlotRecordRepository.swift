@@ -13,10 +13,12 @@ protocol SlotRecordRepository {
 class SlotRecordRepositoryImpl: SlotRecordRepository {
     private var slotApi: SlotApi!
     private var playerConfiguation: PlayerConfiguration!
+    private var httpClient: HttpClient!
     
-    init(_ slotApi: SlotApi, playerConfiguation: PlayerConfiguration) {
+    init(_ slotApi: SlotApi, playerConfiguation: PlayerConfiguration, httpClient: HttpClient) {
         self.slotApi = slotApi
         self.playerConfiguation = playerConfiguation
+        self.httpClient = httpClient
     }
     
     func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<BetSummary> {
@@ -30,7 +32,7 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
     
     func getBetSummaryByDate(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[SlotGroupedRecord]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
-        return slotApi.getSlotGameRecordByDate(date: localDate, offset: secondsToHours).map { (response) -> [SlotGroupedRecord] in
+        return slotApi.getSlotGameRecordByDate(date: localDate, offset: secondsToHours).map { [unowned self] (response) -> [SlotGroupedRecord] in
             guard let data = response.data else { return [] }
             let groupedDicts = Dictionary(grouping: data, by: { (element: SlotDateGameRecordBean) in
                 return element.gameId
@@ -38,7 +40,7 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
             let groupedArray = groupedDicts.map { (gameId: Int32, gameList: [SlotDateGameRecordBean]) -> SlotDateGameRecordBean in
                 return SlotDateGameRecordBean(gameId: gameId, gameList: gameList)
             }.sorted(by: {$0.endDate > $1.endDate })
-            let records: [SlotGroupedRecord] = try groupedArray.map({ try $0.toSlotGroupedRecord()})
+            let records: [SlotGroupedRecord] = try groupedArray.map({ try $0.toSlotGroupedRecord(host: self.httpClient.host.absoluteString)})
             return records
         }
     }
@@ -64,9 +66,9 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
     }
     
     func getUnsettledRecords(betTime: SharedBu.LocalDateTime, offset: Int, take: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
-        return slotApi.getUnsettleGameRecords(date: betTime.toDateTimeFormatString(), offset: offset, take: take).map({ (response) in
+        return slotApi.getUnsettleGameRecords(date: betTime.toDateTimeFormatString(), offset: offset, take: take).map({ [unowned self] (response) in
             guard let data = response.data else { return CommonPage(data: [], totalCount: 0) }
-            return CommonPage(data: try data.data.map({ try $0.toSlotUnsettledRecord()}), totalCount: Int32(data.totalCount))
+            return CommonPage(data: try data.data.map({ try $0.toSlotUnsettledRecord(host: self.httpClient.host.absoluteString)}), totalCount: Int32(data.totalCount))
         })
     }
 }

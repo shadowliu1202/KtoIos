@@ -11,9 +11,6 @@ class LaunchViewModel {
         self.authUseCase = authUseCase
         self.playerUseCase = playerUseCase
         self.localizationPolicyUseCase = localizationPolicyUseCase
-        if UserDefaults.standard.string(forKey: "cultureCode") == nil {
-            self.playerUseCase.initCultureCode()
-        }
     }
     
     func checkIsLogged() -> Single<Bool>{

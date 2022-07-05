@@ -2,7 +2,7 @@ import UIKit
 import WebKit
 
 class TransactionHtmlViewController: LobbyViewController {
-
+    private var httpClient = DI.resolve(HttpClient.self)!
     var html: String!
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var closeBtn: UIButton!
@@ -21,7 +21,7 @@ class TransactionHtmlViewController: LobbyViewController {
                 return ""
             }
             let template =  try String(contentsOfFile: filePath, encoding: .utf8)
-            return String(format: template, KtoURL.baseUrl.absoluteString, KtoURL.baseUrl.absoluteString, html)
+            return String(format: template, httpClient.host.absoluteString, httpClient.host.absoluteString, html)
         } catch {
             print("File reading error")
         }

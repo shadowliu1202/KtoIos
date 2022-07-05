@@ -21,6 +21,30 @@ class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration
     let kUserName = "userName"
     let KcultureCode = "cultureCode"
 
+    override init() {
+        super.init()
+        if UserDefaults.standard.string(forKey: "cultureCode") == nil {
+            self.initCultureCode()
+        }
+    }
+    
+    private func initCultureCode() {
+        let localeCultureCode = systemLocaleToCultureCode()
+        self.setCultureCode(localeCultureCode)
+        Theme.shared.changeEntireAPPFont(by: self.getSupportLocale())
+    }
+    
+    private func systemLocaleToCultureCode() -> String {
+        switch Locale.current.languageCode {
+        case "vi":
+            return SupportLocale.Vietnam.shared.cultureCode()
+        case "zh":
+            fallthrough
+        default:
+            return SupportLocale.China.shared.cultureCode()
+        }
+    }
+    
     func getRememberMe() -> Bool {
         return getUserDefaultValue(key: kRememberMe) ?? false
     }

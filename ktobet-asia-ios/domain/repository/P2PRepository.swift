@@ -11,9 +11,11 @@ protocol P2PRepository {
 
 class P2PRepositoryImpl: P2PRepository {
     private var p2pApi: P2PApi!
+    private var httpClient: HttpClient!
     
-    init(_ p2pApi: P2PApi) {
+    init(_ p2pApi: P2PApi, httpClient: HttpClient) {
         self.p2pApi = p2pApi
+        self.httpClient = httpClient
     }
     
     func getTurnOverStatus() -> Single<P2PTurnOver> {
@@ -35,14 +37,14 @@ class P2PRepositoryImpl: P2PRepository {
     func getAllGames() -> Single<[P2PGame]> {
         return p2pApi.getAllGames().map { (response) -> [P2PGame] in
             guard let data = response.data else { return [] }
-            return data.map { (bean) -> P2PGame in
-                P2PGame.init(gameId: bean.gameId, gameName: bean.name, isFavorite: false, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: false, status: bean.status), thumbnail: P2PThumbnail.init(host: KtoURL.baseUrl.absoluteString, thumbnailId: bean.imageId))
+            return data.map { [unowned self] (bean) -> P2PGame in
+                P2PGame.init(gameId: bean.gameId, gameName: bean.name, isFavorite: false, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: false, status: bean.status), thumbnail: P2PThumbnail.init(host: self.httpClient.host.absoluteString, thumbnailId: bean.imageId))
             }
         }
     }
     
     func createGame(gameId: Int32) -> Single<URL?> {
-        return p2pApi.getGameUrl(gameId: gameId, siteUrl: KtoURL.baseUrl.absoluteString).map { (response) -> URL? in
+        return p2pApi.getGameUrl(gameId: gameId, siteUrl: httpClient.host.absoluteString).map { (response) -> URL? in
             guard let data = response.data else { return nil }
             return URL(string: data)
         }.catchException(transferLogic: {

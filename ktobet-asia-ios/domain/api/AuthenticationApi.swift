@@ -21,7 +21,7 @@ class AuthenticationApi {
     
     // MARK: 註冊
     func register(_ registerRequest : IRegisterRequest)-> Completable{
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/register",
                                method: .post,
                                task: .requestJSONEncodable(registerRequest),
@@ -30,7 +30,7 @@ class AuthenticationApi {
     }
     
     func verifyOtp(_ params: IVerifyOtpRequest)-> Single<ResponseData<String>>{
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/register/otp-verify",
                                method: .post,
                                task: .requestJSONEncodable(params),
@@ -39,7 +39,7 @@ class AuthenticationApi {
     }
     
     func resendRegisterOtp()-> Completable{
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/register/resend-otp",
                                method: .post,
                                task: .requestPlain,
@@ -48,7 +48,7 @@ class AuthenticationApi {
     }
     
     func checkAccount(_ account: String)-> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/check-account",
                                method: .get,
                                task: .requestParameters(parameters: ["accountName": account], encoding: URLEncoding.default),
@@ -59,7 +59,7 @@ class AuthenticationApi {
     // MARK: 登入
     func login(_ account: String, _ password: String, _ captcha: Captcha)->Single<ResponseData<ILoginData>>{
         let para = LoginRequest(account: account, password: password, captcha: captcha.passCode)
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/auth/login",
                                method: .post,
                                task: .requestJSONEncodable(para),
@@ -68,7 +68,7 @@ class AuthenticationApi {
     }
     
     func isLogged()->Single<ResponseData<Bool>>{
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/auth/is-logged",
                                method: .get,
                                task: .requestPlain,
@@ -77,7 +77,7 @@ class AuthenticationApi {
     }
     
     func getCaptchaImage()->Single<UIImage>{
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/auth/get-captcha-image",
                                method: .get,
                                task: .requestPlain,
@@ -93,7 +93,7 @@ class AuthenticationApi {
     // MARK: 重置密碼
     func requestResetPassword(_ account: String, accountType: Int)-> Completable {
         let para = IResetPasswordRequest(account: account, accountType: accountType)
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/forget-password",
                                method: .post,
                                task: .requestJSONEncodable(para),
@@ -102,7 +102,7 @@ class AuthenticationApi {
      }
 
     func verifyResetOtp(_ params: IVerifyOtpRequest) -> Single<ResponseData<Bool>>{
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/forget-password/verify-otp",
                                method: .post,
                                task: .requestJSONEncodable(params),
@@ -111,7 +111,7 @@ class AuthenticationApi {
      }
 
     func changePassword(_ request: INewPasswordRequest)-> Completable {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/forget-password/change-password",
                                method: .post,
                                task: .requestJSONEncodable(request),
@@ -120,7 +120,7 @@ class AuthenticationApi {
     }
 
     func resentOtp()-> Completable {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/forget-password/resend-otp",
                                method: .post,
                                task: .requestPlain,

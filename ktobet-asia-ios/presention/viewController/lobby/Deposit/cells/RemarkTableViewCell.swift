@@ -8,6 +8,7 @@ protocol RemarkTableCellCallback: AnyObject {
 }
 
 class RemarkTableViewCell: UITableViewCell {
+    private var httpClient = DI.resolve(HttpClient.self)!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var remarkLabel: UILabel!
     @IBOutlet private weak var imagesViewHeight: NSLayoutConstraint!
@@ -30,7 +31,7 @@ class RemarkTableViewCell: UITableViewCell {
         imageView?.isHidden = history.imageIds.count == 0
         imagesViewHeight.constant = history.imageIds.count == 0 ? 0 : 96
         let imageDownloader = SDWebImageDownloader.shared
-        for header in HttpClient().headers {
+        for header in httpClient.headers {
             imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
         }
         
@@ -63,7 +64,7 @@ class RemarkTableViewCell: UITableViewCell {
         imageView?.isHidden = history.imageIds.count == 0
         imagesViewHeight.constant = history.imageIds.count == 0 ? 0 : 96
         let imageDownloader = SDWebImageDownloader.shared
-        for header in HttpClient().headers {
+        for header in httpClient.headers {
             imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
         }
         
@@ -71,14 +72,17 @@ class RemarkTableViewCell: UITableViewCell {
             if let imgs = imgs[safe: index] {
                 imgs?.isHidden = false
                 imgs?.tag = index
-                imgs?.sd_setImage(url: URL(string: img.thumbnailFullPath + ".jpg"), placeholderImage: nil, completed: { [weak self] (image, error, cache, url) in
+                let urlString = httpClient.host.absoluteString + img.thumbnailPath() + ".jpg"
+                imgs?.sd_setImage(url: URL(string: urlString), placeholderImage: nil, completed: { [weak self] (image, error, cache, url) in
                     self?.delegate?.refreshTableView()
                 })
                 imgs?.isUserInteractionEnabled = true
                 let tapGesture = UITapGestureRecognizer()
                 imgs?.addGestureRecognizer(tapGesture)
-                tapGesture.rx.event.bind(onNext: {[weak self]  _ in
-                    self?.toBigImage?(img.fullpath, imgs?.image)
+                tapGesture.rx.event.bind(onNext: { [weak self]  _ in
+                    guard let urlString = self?.httpClient.host.absoluteString else { return }
+                    let pathString = urlString + img.path()
+                    self?.toBigImage?(pathString, imgs?.image)
                 }).disposed(by: disposeBag)
             }
         }

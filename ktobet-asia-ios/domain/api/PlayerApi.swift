@@ -28,12 +28,16 @@ class PlayerApi: ApiService {
         return httpClient.headers
     }
     
+    var baseUrl: URL {
+        return httpClient.host
+    }
+    
     init(_ httpClient : HttpClient) {
         self.httpClient = httpClient
     }
     
     func getPlayerInfo()-> Single<ResponseData<IPlayer>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/profile/player-info",
                                method: .get,
                                task: .requestPlain,
@@ -42,7 +46,7 @@ class PlayerApi: ApiService {
     }
     
     func getPlayerContact() -> Single<ResponseData<ContactInfoBean>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/profile/contact-info",
                                method: .get,
                                task: .requestPlain,
@@ -51,7 +55,7 @@ class PlayerApi: ApiService {
     }
     
     func sendOldAccountOtp(accountType: Int) -> Single<NonNullResponseData<Nothing>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/profile/verify-oldAccount",
                                method: .post,
                                task: .requestCompositeParameters(bodyParameters: [:], bodyEncoding: JSONEncoding.default, urlParameters: ["profileType": accountType]),
@@ -60,7 +64,7 @@ class PlayerApi: ApiService {
     }
     
     func setFavoriteProduct(productId: Int)->Completable{
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/profile/favorite-product/\(productId)",
                                method: .post,
                                task: .requestPlain,
@@ -69,7 +73,7 @@ class PlayerApi: ApiService {
     }
     
     func getFavoriteProduct()->Single<Int>{
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/profile/favorite-product",
                                method: .get,
                                task: .requestPlain,
@@ -84,7 +88,7 @@ class PlayerApi: ApiService {
     }
     
     func getCashBalance() -> Single<ResponseData<Double>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/cash/balance",
                                method: .get,
                                task: .requestPlain,
@@ -93,7 +97,7 @@ class PlayerApi: ApiService {
     }
     
     func getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<ResponseData<[String: Double]>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/cash/transaction-summary",
                                method: .get,
                                task: .requestParameters(parameters: ["createdDateRange.begin": begin,
@@ -104,7 +108,7 @@ class PlayerApi: ApiService {
     }
     
     func isRealNameEditable() -> Single<ResponseData<Bool>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/profile/realname-editable",
                                method: .get,
                                task: .requestPlain,
@@ -113,7 +117,7 @@ class PlayerApi: ApiService {
     }
     
     func getPlayerLevel() -> Single<ResponseData<[LevelBean]>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/level",
                                method: .get,
                                task: .requestPlain,
@@ -122,7 +126,7 @@ class PlayerApi: ApiService {
     }
     
     func getPlayerRealName() -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/profile/real-name",
                                method: .get,
                                task: .requestPlain,
@@ -131,7 +135,7 @@ class PlayerApi: ApiService {
     }
     
     func getCultureCode() -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/init/culture",
                                method: .get,
                                task: .requestPlain,
@@ -191,7 +195,7 @@ class PlayerApi: ApiService {
 
     // MARK: New
     func getCashLogSummary1(begin: String, end: String, balanceLogFilterType: Int) -> Single<String> {
-        let target = APITarget(baseUrl: httpClient.baseUrl,
+        let target = APITarget(baseUrl: httpClient.host,
                                path: "api/cash/transaction-summary",
                                method: .get,
                                task: .requestParameters(parameters: ["createdDateRange.begin": begin,

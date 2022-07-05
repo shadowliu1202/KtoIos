@@ -4,7 +4,7 @@ import RxSwift
 import SharedBu
 
 class DepositCryptoViewController: LobbyViewController {
-    
+    private var httpClient = DI.resolve(HttpClient.self)!
     @IBOutlet private weak var webView: WKWebView!
     
     static var segueIdentifier = "toCryptoWebView"
@@ -20,7 +20,7 @@ class DepositCryptoViewController: LobbyViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
-        HttpClient().getCookies().forEach{ webView.configuration.websiteDataStore.httpCookieStore.setCookie($0, completionHandler: nil) }
+        httpClient.getCookies().forEach{ webView.configuration.websiteDataStore.httpCookieStore.setCookie($0, completionHandler: nil) }
         let webPagePreferences = WKWebpagePreferences()
         webPagePreferences.allowsContentJavaScript = true
         webView.configuration.defaultWebpagePreferences = webPagePreferences

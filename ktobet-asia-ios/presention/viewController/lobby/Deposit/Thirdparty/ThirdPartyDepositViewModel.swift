@@ -11,6 +11,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
     private var playerUseCase: PlayerDataUseCase!
     private var depositService: IDepositAppService!
     private var navigator: DepositNavigator!
+    private var httpClient: HttpClient!
     private let paymentIdentity = ReplaySubject<String>.create(bufferSize: 1)
     private let selectPaymentGateway = ReplaySubject<PaymentsDTO.Gateway>.create(bufferSize: 1)
     private let selectBankCode = ReplaySubject<String?>.create(bufferSize: 1)
@@ -21,11 +22,12 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
     private let errors = PublishSubject<Error>()
     private var inProgress = ActivityIndicator()
 
-    init(playerUseCase: PlayerDataUseCase, depositService: IDepositAppService, navigator: DepositNavigator) {
+    init(playerUseCase: PlayerDataUseCase, depositService: IDepositAppService, navigator: DepositNavigator, httpClient: HttpClient) {
         super.init()
         self.playerUseCase = playerUseCase
         self.depositService = depositService
         self.navigator = navigator
+        self.httpClient = httpClient
 
         let paymentGateways = getPaymentGateways()
         let remittance = self.remittance.asDriverLogError()
@@ -187,7 +189,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
                     .compose(self.applySingleErrorHandler())
                     .trackActivity(self.inProgress)
         }.do(onNext: { [weak self] url in
-            let host = HttpClient().host
+            guard let host = self?.httpClient.host.absoluteString else { return }
             let url = host + url.path
             self?.navigator.toOnlineWebPage(url: url)
         }).asDriverLogError()

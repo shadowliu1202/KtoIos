@@ -13,18 +13,20 @@ protocol NumberGameRecordRepository {
 
 class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
     private var numberGameApi: NumberGameApi!
+    private var httpClient: HttpClient!
     
-    init(_ numberGameApi: NumberGameApi) {
+    init(_ numberGameApi: NumberGameApi, httpClient: HttpClient) {
         self.numberGameApi = numberGameApi
+        self.httpClient = httpClient
     }
     
     func getGamesSummaryByDate(date: Date, betStatus: NumberGameSummary.CompanionStatus, skip: Int, take: Int) -> Single<[NumberGameSummary.Game]> {       
-        return numberGameApi.getMyBetGameGroupByDate(date: date.toDateString(with: "-"), myBetType:  betStatus.ordinal, skip: skip, take: take).map { (response) -> [NumberGameSummary.Game] in
+        return numberGameApi.getMyBetGameGroupByDate(date: date.toDateString(with: "-"), myBetType:  betStatus.ordinal, skip: skip, take: take).map { [unowned self] (response) -> [NumberGameSummary.Game] in
             guard let data = response.data else { return [] }
             if betStatus == NumberGameSummary.CompanionStatus.settled {
-                return data.data.map { $0.toSettleGameSummary(portalHost: KtoURL.baseUrl.absoluteString) }
+                return data.data.map { $0.toSettleGameSummary(portalHost: self.httpClient.host.absoluteString) }
             } else if betStatus == NumberGameSummary.CompanionStatus.unsettled {
-                return data.data.map { $0.toUnSettleGameSummary(portalHost: KtoURL.baseUrl.absoluteString) }
+                return data.data.map { $0.toUnSettleGameSummary(portalHost: self.httpClient.host.absoluteString) }
             } else {
                 return []
             }

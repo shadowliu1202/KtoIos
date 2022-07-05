@@ -26,10 +26,13 @@ protocol WebGameCreateRepository {
 
 class WebGameRepositoryImpl: WebGameRepository {
     private var api: WebGameApi!
+    private var httpClient: HttpClient!
+    
     let favoriteRecord = BehaviorRelay<[WebGameWithDuplicatable]>(value: [])
     
-    init(_ api: WebGameApi) {
+    init(_ api: WebGameApi, httpClient: HttpClient) {
         self.api = api
+        self.httpClient = httpClient
     }
     
     func addFavorite(game: WebGameWithDuplicatable) -> Completable {
@@ -78,7 +81,7 @@ class WebGameRepositoryImpl: WebGameRepository {
     }
     
     func createGame(gameId: Int32) -> Single<URL?> {
-        return api.getGameUrl(gameId: gameId, siteUrl: KtoURL.baseUrl.absoluteString).map { (response) -> URL? in
+        return api.getGameUrl(gameId: gameId, siteUrl: httpClient.host.absoluteString).map { (response) -> URL? in
             if let path = response.data, let url = URL(string: path) {
                 return url
             }

@@ -4,6 +4,7 @@ import SharedBu
 import WebKit
 
 class GameWebViewViewController: UIViewController {
+    private var httpClient = DI.resolve(HttpClient.self)!
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: ProductWebGameViewModelProtocol?
     weak var delegate: WebGameViewCallback?
@@ -15,7 +16,7 @@ class GameWebViewViewController: UIViewController {
         return viewModel?.getGameProduct() ?? ""
     }
     private let deposit: String = "deposit"
-    lazy var backSiteOption = KtoURL.baseUrl.absoluteString
+    lazy var backSiteOption = httpClient.host.absoluteString
     
     private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     
@@ -41,7 +42,7 @@ class GameWebViewViewController: UIViewController {
         webView.configuration.dataDetectorTypes = .all
         webView.translatesAutoresizingMaskIntoConstraints = false
 
-        for cookie in HttpClient().getCookies() {
+        for cookie in httpClient.getCookies() {
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
         }
         
@@ -108,7 +109,7 @@ extension GameWebViewViewController: WKNavigationDelegate, WKUIDelegate {
     
     func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         
-        if challenge.protectionSpace.host == Configuration.host[localStorageRepo.getCultureCode()]! {
+        if challenge.protectionSpace.host == httpClient.host.absoluteString {
             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
             completionHandler(.performDefaultHandling, nil)

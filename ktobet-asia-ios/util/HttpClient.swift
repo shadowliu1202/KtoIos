@@ -26,31 +26,81 @@ private func JSONResponseDataFormatter(_ data: Data) -> String {
 }
 
 class KtoURL {
-    static fileprivate let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-    
-    static fileprivate var host = Configuration.host
-    static var baseUrl : URL {
+    private var playConfig: PlayerLocaleConfiguration
+    private lazy var baseUrl = hostName.mapValues{ "https://\($0)/" }
+    private var hostName: [String: String]!
+
+    fileprivate var host: URL {
         if Configuration.manualControlNetwork {
             return ManualNetworkControl.shared.baseUrl
         }
-        return URL(string: self.host[localStorageRepo.getCultureCode()]!)!
+        return URL(string: self.baseUrl[playConfig.getCultureCode()]!)!
+    }
+    
+    init(playConfig: PlayerLocaleConfiguration) {
+        self.playConfig = playConfig
+        self.hostName = Configuration.hostName.mapValues{ $0.first(where: checkNetwork) ?? $0.first! }
+    }
+    
+    private func checkNetwork(url: String) -> Bool {
+        let group = DispatchGroup()
+        group.enter()
+        var isSuccess = false
+        guard let url = URL(string: "https://\(url)") else {
+            group.leave()
+            return isSuccess
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "HEAD"
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 5
+        URLSession(configuration: configuration)
+            .dataTask(with: request) { (_, response, error) -> Void in
+            guard error == nil else {
+                print("Error:", error ?? "")
+                isSuccess = false
+                if case .sessionTaskFailed(let err) = error as? AFError {
+                    Reachability?.requestErrorCallback(err)
+                } else {
+                    Reachability?.requestErrorCallback(error!)
+                }
+                group.leave()
+                return
+            }
+
+            guard (response as? HTTPURLResponse)?
+                .statusCode == 200 else {
+                isSuccess = false
+                group.leave()
+                return
+            }
+
+            isSuccess = true
+            group.leave()
+        }.resume()
+
+        group.wait()
+        return isSuccess
+    }
+    
+    func getAffiliateUrl() -> URL? {
+        if let host = self.baseUrl[playConfig.getCultureCode()] {
+            return URL(string: "\(host)affiliate")!
+        }
+        return nil
     }
 }
 
 class HttpClient {
     
-    let provider : MoyaProvider<MultiTarget>!
-    let retryProvider : MoyaProvider<MultiTarget>!
-    var session : Session { return AF}
-    var host : String {return KtoURL.host[KtoURL.localStorageRepo.getCultureCode()]!}
-    var baseUrl : URL { return KtoURL.baseUrl}
     var headers : [String : String] {
         var header : [String : String] = [:]
         header["Accept"] = "application/json"
         header["User-Agent"] = "AppleWebKit/" + Configuration.getKtoAgent()
         header["Cookie"] = {
             var token : [String] = []
-            for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: baseUrl) ?? []  {
+            for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: host) ?? []  {
                 token.append(cookie.name + "=" + cookie.value)
             }
 
@@ -59,6 +109,12 @@ class HttpClient {
 
         return header
     }
+    
+    private var provider: MoyaProvider<MultiTarget>!
+    private var retryProvider: MoyaProvider<MultiTarget>!
+    private var session: Session { return AF}
+    private(set) var host: URL
+    private(set) var domain: String
 
     private var retrier = APIRequestRetrier()
     private(set) var debugDatas: [DebugData] = []
@@ -69,13 +125,16 @@ class HttpClient {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return dateFormatter
     }
-    
-    init() {
+
+    init(ktoUrl: KtoURL) {
+        self.host = ktoUrl.host
+        self.domain = self.host.absoluteString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
+        
         let configuration = logConfig()
         let session = AlamofireSessionWithRetier()
-        provider = MoyaProvider<MultiTarget>(session: session, plugins: [NetworkLoggerPlugin(configuration: configuration)])
+        self.provider = MoyaProvider<MultiTarget>(session: session, plugins: [NetworkLoggerPlugin(configuration: configuration)])
         let retrySession = AlamofireSessionWithRetier(retrier)
-        retryProvider = MoyaProvider<MultiTarget>(session: retrySession, plugins: [NetworkLoggerPlugin(configuration: configuration)])
+        self.retryProvider = MoyaProvider<MultiTarget>(session: retrySession, plugins: [NetworkLoggerPlugin(configuration: configuration)])
     }
 
     func request(_ target: APITarget) -> Single<Response> {
@@ -95,7 +154,7 @@ class HttpClient {
                    let statusCode = json["statusCode"].string,
                    let errorMsg = json["errorMsg"].string,
                    statusCode.count > 0 && errorMsg.count > 0 {
-                    let domain = self?.baseUrl.path ?? ""
+                    let domain = self?.host.path ?? ""
                     let code = Int(statusCode) ?? 0
                     let error = NSError(domain: domain, code: code, userInfo: ["statusCode": statusCode , "errorMsg" : errorMsg]) as Error
                     let err = ExceptionFactory.create(error)
@@ -111,27 +170,23 @@ class HttpClient {
     }
     
     func getCookies() -> [HTTPCookie] {
-        return session.sessionConfiguration.httpCookieStorage?.cookies(for: self.baseUrl) ?? []
+        return session.sessionConfiguration.httpCookieStorage?.cookies(for: self.host) ?? []
     }
 
     func getCookieString() -> String {
         var token: [String] = []
-        for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: self.baseUrl) ?? [] {
+        for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: self.host) ?? [] {
             token.append(cookie.name + "=" + cookie.value)
         }
         return token.joined(separator: ";")
     }
-    
-    func getHost() -> String {
-        return host
-    }
 
     func getToken() -> String {
-        session.sessionConfiguration.httpCookieStorage?.cookies(for: baseUrl)?.first(where: { $0.name == "token" })?.value ?? ""
+        session.sessionConfiguration.httpCookieStorage?.cookies(for: host)?.first(where: { $0.name == "token" })?.value ?? ""
     }
 
     func getCulture() -> String {
-        let culture = session.sessionConfiguration.httpCookieStorage?.cookies(for: baseUrl)?.first(where: { $0.name == "culture" })?.value ?? ""
+        let culture = session.sessionConfiguration.httpCookieStorage?.cookies(for: host)?.first(where: { $0.name == "culture" })?.value ?? ""
         return culture
     }
     
@@ -211,11 +266,20 @@ class HttpClient {
                 if let str = String(data: response.data, encoding: .utf8) {
                    return Single.just(str)
                 } else {
-                    let domain = self?.baseUrl.path ?? ""
+                    let domain = self?.host.path ?? ""
                     let error = NSError(domain: domain, code: response.statusCode, userInfo: ["statusCode": response.statusCode , "errorMsg" : ""]) as Error
                     return Single.error(error)
                 }
             }
+    }
+    
+    private func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = nil) -> Session {
+        let configuration = URLSessionConfiguration.default
+        configuration.headers = .default
+        configuration.timeoutIntervalForRequest = 30
+        let evaluators: [String: ServerTrustEvaluating] = [domain: DisabledTrustEvaluator()]
+        let manager = ServerTrustManager(evaluators: evaluators)
+        return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor, serverTrustManager: manager)
     }
 }
 
@@ -230,15 +294,6 @@ fileprivate func logConfig() -> NetworkLoggerPlugin.Configuration {
     let logOptions : NetworkLoggerPlugin.Configuration.LogOptions = .verbose
     let configuration : NetworkLoggerPlugin.Configuration = .init(formatter: formatter, logOptions: logOptions)
     return configuration
-}
-
-fileprivate func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = nil) -> Session {
-    let configuration = URLSessionConfiguration.default
-    configuration.headers = .default
-    var evaluators: [String: ServerTrustEvaluating] = [:]
-    Configuration.hostName.forEach{ evaluators[$1] = DisabledTrustEvaluator() }
-    let manager = ServerTrustManager(evaluators: evaluators)
-    return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor, serverTrustManager: manager)
 }
 
 class APIRequestRetrier: Retrier {

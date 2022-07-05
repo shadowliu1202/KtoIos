@@ -2,14 +2,13 @@ import Foundation
 
 class ManualNetworkControl {
     static let shared = ManualNetworkControl()
+    private var httpClient = DI.resolve(HttpClient.self)!
     private init() {}
     var isNetworkConnect: Bool = true
     var baseUrl : URL {
         if !isNetworkConnect {
             return URL(string: "https://")!
         }
-        return URL(string: Configuration.host[localStorageRepo.getCultureCode()]!)!
+        return httpClient.host
     }
-    
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
 }

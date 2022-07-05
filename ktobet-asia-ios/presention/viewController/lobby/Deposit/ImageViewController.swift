@@ -4,6 +4,7 @@ import SharedBu
 
 
 class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate {
+    private var httpClient = DI.resolve(HttpClient.self)!
     static let segueIdentifier = "toShowBigImageSegue"
     @IBOutlet private weak var imageView: UIImageView!
 
@@ -18,7 +19,7 @@ class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScro
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
         let imageDownloader = SDWebImageDownloader.shared
-        for header in HttpClient().headers {
+        for header in httpClient.headers {
             imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
         }
         

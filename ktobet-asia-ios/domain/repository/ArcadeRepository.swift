@@ -9,10 +9,12 @@ protocol ArcadeRepository: WebGameRepository {
 
 class ArcadeRepositoryImpl: WebGameRepositoryImpl, ArcadeRepository {
     private var arcadeApi: ArcadeApi!
+    private var httpClient: HttpClient!
     
-    init(_ arcadeApi: ArcadeApi) {
-        super.init(arcadeApi)
+    init(_ arcadeApi: ArcadeApi, httpClient: HttpClient) {
+        super.init(arcadeApi, httpClient: httpClient)
         self.arcadeApi = arcadeApi
+        self.httpClient = httpClient
     }
     
     func searchGames(tags: [GameFilter]) -> Observable<[ArcadeGame]> {
@@ -40,9 +42,9 @@ class ArcadeRepositoryImpl: WebGameRepositoryImpl, ArcadeRepository {
         }
         let fetchApi = arcadeApi.searchGames(sortBy: sort, isRecommend: isRecommend, isNew: isNew)
             .asObservable()
-            .map { (response) -> [ArcadeGame] in
+            .map { [unowned self] (response) -> [ArcadeGame] in
             guard let data = response.data else {return []}
-            return data.map { $0.toArcadeGame() }
+                return data.map { $0.toArcadeGame(host: self.httpClient.host.absoluteString) }
         }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games
@@ -57,9 +59,9 @@ class ArcadeRepositoryImpl: WebGameRepositoryImpl, ArcadeRepository {
     }
 
     override func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
-        let fetchApi = arcadeApi.getFavoriteArcade().map({ (response) -> [WebGameWithDuplicatable] in
+        let fetchApi = arcadeApi.getFavoriteArcade().map({ [unowned self] (response) -> [WebGameWithDuplicatable] in
             guard let data = response.data else { return [] }
-            return data.map { $0.toArcadeGame() }
+            return data.map { $0.toArcadeGame(host: self.httpClient.host.absoluteString) }
         })
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games
@@ -74,9 +76,9 @@ class ArcadeRepositoryImpl: WebGameRepositoryImpl, ArcadeRepository {
     }
     
     override func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]> {
-        let fetchApi = arcadeApi.searchGames(keyword: keyword.getKeyword()).map { (response) -> [WebGameWithDuplicatable] in
+        let fetchApi = arcadeApi.searchGames(keyword: keyword.getKeyword()).map { [unowned self] (response) -> [WebGameWithDuplicatable] in
             guard let data = response.data else { return [] }
-            return data.map { $0.toArcadeGame() }
+            return data.map { $0.toArcadeGame(host: self.httpClient.host.absoluteString) }
         }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { (favorites, games) in
             var duplicateGames = games
