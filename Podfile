@@ -36,7 +36,15 @@ target 'ktobet-asia-ios-staging' do
   default_pods
 end
 
+target 'ktobet-asia-ios-staging-vn' do
+  default_pods
+end
+
 target 'ktobet-asia-ios-production' do
+  default_pods
+end
+
+target 'ktobet-asia-ios-production-vn' do
   default_pods
 end
 
