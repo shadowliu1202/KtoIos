@@ -1,5 +1,5 @@
 git_url "git@gitlab.higgstar.com:mobile/kto-asia-ios-certification.git"
-app_identifier(["com.kto.asia.dev", "com.kto.asia.qat-1", "com.kto.asia.stg", "com.kto.asia.selftest", "com.kto.asia.backup", "com.kto.asia.qat3", "com.kto.asia"])
+app_identifier(["com.kto.asia.dev", "com.kto.asia.qat-1", "com.kto.asia.stg", "com.kto.asia.selftest", "com.kto.asia.backup", "com.kto.asia.qat3", "com.kto.asia", "com.kto.asia.stg.vn", "com.kto.asia.vn"])
 username "higgs-mobile@hotmail.com"
 shallow_clone true
 

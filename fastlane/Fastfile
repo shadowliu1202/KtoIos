@@ -123,26 +123,50 @@ platform :ios do
 
 	end
 
-	lane :buildIpaStaging  do |options|
-	    match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.stg")
-		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
-				  block: proc do |plist|
-					plist["CFBundleVersion"]  = options[:buildVersion]
-					plist["CFBundleShortVersionString"] = options[:appVersion]
-  				  end)
-  		build_app(scheme: "ktobet-asia-ios-staging",
-			  workspace: "ktobet-asia-ios.xcworkspace",
-            		  include_bitcode: true,
-			  clean: true,
-		   	  output_directory: "output",
-			  export_method: "ad-hoc",
-	    		  export_options: { 
-					    method: "ad-hoc",
-					  }
-			 )
-
+    lane :buildIpaStaging  do |options|
+        buildIpaStgCN(options)
+        buildIpaStgVN(options)
 	end
 
+    lane :buildIpaStgCN  do |options|
+        match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.stg")
+        update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist",
+                  block: proc do |plist|
+                    plist["CFBundleVersion"]  = options[:buildVersion]
+                    plist["CFBundleShortVersionString"] = options[:appVersion]
+                    end)
+          build_app(scheme: "ktobet-asia-ios-staging",
+                    workspace: "ktobet-asia-ios.xcworkspace",
+                    include_bitcode: true,
+                    clean: true,
+                    output_directory: "output",
+                    output_name: "staging-cn.ipa"
+                    export_method: "ad-hoc",
+                    export_options: {
+                        method: "ad-hoc",
+                    }
+             )
+    end
+    
+    lane :buildIpaStgVN  do |options|
+        match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.stg.vn")
+        update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-vn-Info.plist",
+                  block: proc do |plist|
+                    plist["CFBundleVersion"]  = options[:buildVersion]
+                    plist["CFBundleShortVersionString"] = options[:appVersion]
+                    end)
+          build_app(scheme: "ktobet-asia-ios-staging-vn",
+                    workspace: "ktobet-asia-ios.xcworkspace",
+                    include_bitcode: true,
+                    clean: true,
+                    output_directory: "output",
+                    output_name: "staging-vn.ipa"
+                    export_method: "ad-hoc",
+                    export_options: {
+                        method: "ad-hoc",
+                    }
+             )
+    end
 
 	lane :uploadstagingToTestflight do |options|
 	match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.stg")
@@ -188,23 +212,47 @@ platform :ios do
 	end
 	
 	lane :buildIpaProduction do |options|
-	    match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia")
-		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-production-Info.plist", 
-				  block: proc do |plist|
+        buildIpaProdCN(options)
+        buildIpaProdVN(options)
+	end
+ 
+    lane :buildIpaProdCN do |options|
+        match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia")
+        update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-production-Info.plist",
+                  block: proc do |plist|
                   plist["CFBundleVersion"] = options[:buildVersion]
                   plist["CFBundleShortVersionString"] = options[:appVersion]
-  				  end)
-  		build_app(scheme: "ktobet-asia-ios-production",
-			  workspace: "ktobet-asia-ios.xcworkspace",
-              include_bitcode: true,
-			  clean: true,
-		   	  output_directory: "output",
-			  export_method: "ad-hoc",
-              export_options: {
-                method: "ad-hoc",
-              })
-
-	end
+                    end)
+          build_app(scheme: "ktobet-asia-ios-production",
+                    workspace: "ktobet-asia-ios.xcworkspace",
+                    include_bitcode: true,
+                    clean: true,
+                    output_directory: "output",
+                    output_name: "Prod-cn.ipa"
+                    export_method: "ad-hoc",
+                    export_options: {
+                        method: "ad-hoc",
+                    })
+    end
+    
+    lane :buildIpaProdVN do |options|
+        match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.vn")
+        update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-production-vn-Info.plist",
+                  block: proc do |plist|
+                  plist["CFBundleVersion"] = options[:buildVersion]
+                  plist["CFBundleShortVersionString"] = options[:appVersion]
+                    end)
+          build_app(scheme: "ktobet-asia-ios-production-vn",
+                    workspace: "ktobet-asia-ios.xcworkspace",
+                    include_bitcode: true,
+                    clean: true,
+                    output_directory: "output",
+                    output_name: "Prod-vn.ipa"
+                    export_method: "ad-hoc",
+                    export_options: {
+                        method: "ad-hoc",
+                    })
+    end
  
     lane :buildProdSelf do |options|
         match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.selftest")
