@@ -140,7 +140,7 @@ platform :ios do
                     include_bitcode: true,
                     clean: true,
                     output_directory: "output",
-                    output_name: "staging-cn.ipa"
+                    output_name: "staging-cn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
@@ -160,7 +160,7 @@ platform :ios do
                     include_bitcode: true,
                     clean: true,
                     output_directory: "output",
-                    output_name: "staging-vn.ipa"
+                    output_name: "staging-vn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
@@ -228,7 +228,7 @@ platform :ios do
                     include_bitcode: true,
                     clean: true,
                     output_directory: "output",
-                    output_name: "Prod-cn.ipa"
+                    output_name: "Prod-cn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
@@ -247,7 +247,7 @@ platform :ios do
                     include_bitcode: true,
                     clean: true,
                     output_directory: "output",
-                    output_name: "Prod-vn.ipa"
+                    output_name: "Prod-vn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
