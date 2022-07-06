@@ -7,16 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14015EC86E821C390DD2103F /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		14015EC86E821C390DD2103F /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		14B6E5B5263A3D63653B0201 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 062A290137C82184014908DE /* Pods_ktobet_asia_ios_staging.framework */; };
 		16DFE0C9C2D40DC82C8CB57A /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3439EB7929E175EF3BC7A116 /* Pods_ktobet_asia_ios.framework */; };
-		1CF06C02A6512DB1ADB9C616 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */; };
+		1CF06C02A6512DB1ADB9C616 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		359994EF259D7A600020EF5A /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359994EE259D7A600020EF5A /* UIButtonExtension.swift */; };
 		35B9B37E259AE7CD00050914 /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
 		35B9B382259AFB4A00050914 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */; };
 		35B9B397259B028800050914 /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B396259B028800050914 /* ResetPasswordViewModel.swift */; };
 		35B9B39B259B034400050914 /* ResetPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */; };
 		35B9B3CE259C796F00050914 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
-		36B25B99C4C51F7B4DBE7022 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		36B25B99C4C51F7B4DBE7022 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		395AE2B35D841A4458361AEE /* libPods-ktobet-asia-iosUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19630262B3438BDC7A8408C7 /* libPods-ktobet-asia-iosUITests.a */; };
 		3C2401982861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
 		3C2401992861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
@@ -282,6 +283,7 @@
 		48AAA173256E458800E075CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485DF04425415454001F9D4A /* Assets.xcassets */; };
 		48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
 		48FDF3692591ECB000C3AE75 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
+		5F08DE1E76D69187E8A4A7F1 /* Pods_ktobet_asia_ios_production_vn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A646BF162572D3B326329C0 /* Pods_ktobet_asia_ios_production_vn.framework */; };
 		60001A2E25E6046E00CEB72F /* ImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60001A2D25E6046E00CEB72F /* ImageApi.swift */; };
 		60001A2F25E6046E00CEB72F /* ImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60001A2D25E6046E00CEB72F /* ImageApi.swift */; };
 		6000DADA265DE2CB002A7A87 /* NumberGameMyBetGameGroupedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6000DAD9265DE2CB002A7A87 /* NumberGameMyBetGameGroupedViewController.swift */; };
@@ -1127,7 +1129,7 @@
 		60E4A7B1275716CA0088245F /* Notification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60E4A7AF275716CA0088245F /* Notification.storyboard */; };
 		60E4A7B2275716CA0088245F /* Notification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60E4A7AF275716CA0088245F /* Notification.storyboard */; };
 		60E57FB027F190E4008CE5A9 /* CloseSystemDialogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C642272741FE6900868D6A /* CloseSystemDialogTableViewCell.swift */; };
-		60E57FB127F190E4008CE5A9 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		60E57FB127F190E4008CE5A9 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		60E57FB227F190E4008CE5A9 /* DepositLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC9A279551FF00794145 /* DepositLogViewModel.swift */; };
 		60E57FB327F190E4008CE5A9 /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B80261EDE1700E89EE6 /* Units.swift */; };
 		60E57FB427F190E4008CE5A9 /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
@@ -1473,7 +1475,7 @@
 		60E5810A27F190E4008CE5A9 /* FilterPresentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414930E625F3319D008F32C5 /* FilterPresentProtocol.swift */; };
 		60E5810B27F190E4008CE5A9 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853B44A2552A019001D618E /* LoginViewModel.swift */; };
 		60E5810C27F190E4008CE5A9 /* CustomerServiceSurveyUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938EA271FB1D30068A616 /* CustomerServiceSurveyUseCase.swift */; };
-		60E5810D27F190E4008CE5A9 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		60E5810D27F190E4008CE5A9 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		60E5810E27F190E4008CE5A9 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487288E92589E94400D8983B /* UIImageExtension.swift */; };
 		60E5810F27F190E4008CE5A9 /* SlotBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5856263FCB8A00E6942A /* SlotBetDetailViewController.swift */; };
 		60E5811027F190E4008CE5A9 /* TermsOfServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481882362546A558000A45F0 /* TermsOfServiceCell.swift */; };
@@ -1796,7 +1798,7 @@
 		6D0D901626E0C15B00733C4D /* PromotionFilterDropDwon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D901426E0C15B00733C4D /* PromotionFilterDropDwon.swift */; };
 		6D0D901726E0C15B00733C4D /* PromotionFilterDropDwon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D901426E0C15B00733C4D /* PromotionFilterDropDwon.swift */; };
 		6D0EDAE428743FAC004A9E3C /* CloseSystemDialogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C642272741FE6900868D6A /* CloseSystemDialogTableViewCell.swift */; };
-		6D0EDAE528743FAC004A9E3C /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D0EDAE528743FAC004A9E3C /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D0EDAE628743FAC004A9E3C /* DepositLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC9A279551FF00794145 /* DepositLogViewModel.swift */; };
 		6D0EDAE728743FAC004A9E3C /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B80261EDE1700E89EE6 /* Units.swift */; };
 		6D0EDAE828743FAC004A9E3C /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
@@ -1879,7 +1881,7 @@
 		6D0EDB3528743FAC004A9E3C /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D986A25A5CC2E00634197 /* DateExtension.swift */; };
 		6D0EDB3628743FAC004A9E3C /* CryptoDepositItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DB5B4C27BA596700B1AD53 /* CryptoDepositItemViewModel.swift */; };
 		6D0EDB3728743FAC004A9E3C /* ProductMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6017E7BC276AD45E0073A7A6 /* ProductMaintenanceViewController.swift */; };
-		6D0EDB3828743FAC004A9E3C /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D0EDB3828743FAC004A9E3C /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D0EDB3928743FAC004A9E3C /* AuthenticationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718155255E829C007B7764 /* AuthenticationApi.swift */; };
 		6D0EDB3A28743FAC004A9E3C /* P2PRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA88BEB2696DF4C008D77B9 /* P2PRecordRepository.swift */; };
 		6D0EDB3B28743FAC004A9E3C /* BankCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D738AB5279551E70018CE1D /* BankCard.swift */; };
@@ -2152,7 +2154,7 @@
 		6D0EDC4628743FAC004A9E3C /* FilterPresentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414930E625F3319D008F32C5 /* FilterPresentProtocol.swift */; };
 		6D0EDC4728743FAC004A9E3C /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853B44A2552A019001D618E /* LoginViewModel.swift */; };
 		6D0EDC4828743FAC004A9E3C /* CustomerServiceSurveyUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938EA271FB1D30068A616 /* CustomerServiceSurveyUseCase.swift */; };
-		6D0EDC4928743FAC004A9E3C /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D0EDC4928743FAC004A9E3C /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D0EDC4A28743FAC004A9E3C /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487288E92589E94400D8983B /* UIImageExtension.swift */; };
 		6D0EDC4B28743FAC004A9E3C /* SlotBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5856263FCB8A00E6942A /* SlotBetDetailViewController.swift */; };
 		6D0EDC4C28743FAC004A9E3C /* TermsOfServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481882362546A558000A45F0 /* TermsOfServiceCell.swift */; };
@@ -2318,9 +2320,7 @@
 		6D0EDCEC28743FAC004A9E3C /* LanguageAndCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833ACD92542BDA400B4110E /* LanguageAndCurrencyCell.swift */; };
 		6D0EDCED28743FAC004A9E3C /* PromotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD338026CDECC90081A846 /* PromotionViewController.swift */; };
 		6D0EDCEE28743FAC004A9E3C /* P2PUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9FF2695573300941BDD /* P2PUseCase.swift */; };
-		6D0EDCF028743FAC004A9E3C /* Pods_ktobet_asia_ios_staging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */; };
 		6D0EDCF128743FAC004A9E3C /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
-		6D0EDCF228743FAC004A9E3C /* Pods_ktobet_asia_ios_staging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */; };
 		6D0EDCF428743FAC004A9E3C /* Maintenance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60AC5C0E27683190008F0281 /* Maintenance.storyboard */; };
 		6D0EDCF528743FAC004A9E3C /* NextLevelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D17954526A65A86001C8BF8 /* NextLevelTableViewCell.xib */; };
 		6D0EDCF628743FAC004A9E3C /* DatePickerPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D02BBFB27D0C6FA00824F53 /* DatePickerPopup.xib */; };
@@ -2329,7 +2329,6 @@
 		6D0EDCF928743FAC004A9E3C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
 		6D0EDCFA28743FAC004A9E3C /* Casino.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6034629326327EAC00F5D1D9 /* Casino.storyboard */; };
 		6D0EDCFB28743FAC004A9E3C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* InfoPlist.strings */; };
-		6D0EDCFC28743FAC004A9E3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605BBD4527FD6F0C0092A550 /* GoogleService-Info.plist */; };
 		6D0EDCFD28743FAC004A9E3C /* CustomService.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D986A592718316500194E0D /* CustomService.storyboard */; };
 		6D0EDCFE28743FAC004A9E3C /* SBK.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DB195792701A952003C6730 /* SBK.storyboard */; };
 		6D0EDCFF28743FAC004A9E3C /* wager_template.html in Resources */ = {isa = PBXBuildFile; fileRef = 6D14DA6926FC17B40001ACFA /* wager_template.html */; };
@@ -2383,7 +2382,7 @@
 		6D0EDD2F28743FAC004A9E3C /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
 		6D0EDD3128743FAC004A9E3C /* sharedbu.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D0EDD3F28744704004A9E3C /* CloseSystemDialogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C642272741FE6900868D6A /* CloseSystemDialogTableViewCell.swift */; };
-		6D0EDD4028744704004A9E3C /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D0EDD4028744704004A9E3C /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D0EDD4128744704004A9E3C /* DepositLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC9A279551FF00794145 /* DepositLogViewModel.swift */; };
 		6D0EDD4228744704004A9E3C /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B80261EDE1700E89EE6 /* Units.swift */; };
 		6D0EDD4328744704004A9E3C /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
@@ -2466,7 +2465,7 @@
 		6D0EDD9028744704004A9E3C /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D986A25A5CC2E00634197 /* DateExtension.swift */; };
 		6D0EDD9128744704004A9E3C /* CryptoDepositItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DB5B4C27BA596700B1AD53 /* CryptoDepositItemViewModel.swift */; };
 		6D0EDD9228744704004A9E3C /* ProductMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6017E7BC276AD45E0073A7A6 /* ProductMaintenanceViewController.swift */; };
-		6D0EDD9328744704004A9E3C /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D0EDD9328744704004A9E3C /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D0EDD9428744704004A9E3C /* AuthenticationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48718155255E829C007B7764 /* AuthenticationApi.swift */; };
 		6D0EDD9528744704004A9E3C /* P2PRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA88BEB2696DF4C008D77B9 /* P2PRecordRepository.swift */; };
 		6D0EDD9628744704004A9E3C /* BankCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D738AB5279551E70018CE1D /* BankCard.swift */; };
@@ -2739,7 +2738,7 @@
 		6D0EDEA128744704004A9E3C /* FilterPresentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414930E625F3319D008F32C5 /* FilterPresentProtocol.swift */; };
 		6D0EDEA228744704004A9E3C /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853B44A2552A019001D618E /* LoginViewModel.swift */; };
 		6D0EDEA328744704004A9E3C /* CustomerServiceSurveyUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938EA271FB1D30068A616 /* CustomerServiceSurveyUseCase.swift */; };
-		6D0EDEA428744704004A9E3C /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D0EDEA428744704004A9E3C /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D0EDEA528744704004A9E3C /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487288E92589E94400D8983B /* UIImageExtension.swift */; };
 		6D0EDEA628744704004A9E3C /* SlotBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5856263FCB8A00E6942A /* SlotBetDetailViewController.swift */; };
 		6D0EDEA728744704004A9E3C /* TermsOfServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481882362546A558000A45F0 /* TermsOfServiceCell.swift */; };
@@ -2906,8 +2905,6 @@
 		6D0EDF4828744704004A9E3C /* PromotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD338026CDECC90081A846 /* PromotionViewController.swift */; };
 		6D0EDF4928744704004A9E3C /* P2PUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9FF2695573300941BDD /* P2PUseCase.swift */; };
 		6D0EDF4B28744704004A9E3C /* sharedbu.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; };
-		6D0EDF4C28744704004A9E3C /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		6D0EDF4D28744704004A9E3C /* Pods_ktobet_asia_ios_production.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7968F3B02A4680298D7748AF /* Pods_ktobet_asia_ios_production.framework */; };
 		6D0EDF4F28744704004A9E3C /* Maintenance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60AC5C0E27683190008F0281 /* Maintenance.storyboard */; };
 		6D0EDF5028744704004A9E3C /* NextLevelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D17954526A65A86001C8BF8 /* NextLevelTableViewCell.xib */; };
 		6D0EDF5128744704004A9E3C /* DatePickerPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D02BBFB27D0C6FA00824F53 /* DatePickerPopup.xib */; };
@@ -2925,7 +2922,6 @@
 		6D0EDF5D28744704004A9E3C /* WebGameItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 603461FC26327DC800F5D1D9 /* WebGameItemCell.xib */; };
 		6D0EDF5E28744704004A9E3C /* LockPrivilegeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1795DA26A90280001C8BF8 /* LockPrivilegeView.xib */; };
 		6D0EDF5F28744704004A9E3C /* KTO.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0C9D127BDF524002C3D72 /* KTO.mp4 */; };
-		6D0EDF6028744704004A9E3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 601DD9AC27FD768700E21525 /* GoogleService-Info.plist */; };
 		6D0EDF6128744704004A9E3C /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648C258742150064AAC9 /* Signup.storyboard */; };
 		6D0EDF6228744704004A9E3C /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
 		6D0EDF6328744704004A9E3C /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D72752625EF7A1C000BF51F /* Filter.storyboard */; };
@@ -2971,6 +2967,8 @@
 		6D0EDF8C28744704004A9E3C /* sharedbu.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D0EDF9828744FF4004A9E3C /* ktobet-asia-ios-staging-vn-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D0EDF9728744FF4004A9E3C /* ktobet-asia-ios-staging-vn-Info.plist */; };
 		6D0EDF9A28744FFC004A9E3C /* ktobet-asia-ios-production-vn-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D0EDF9928744FFC004A9E3C /* ktobet-asia-ios-production-vn-Info.plist */; };
+		6D0EDF9D28759495004A9E3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D0EDF9C28759495004A9E3C /* GoogleService-Info.plist */; };
+		6D0EDFA028759509004A9E3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D0EDF9F28759509004A9E3C /* GoogleService-Info.plist */; };
 		6D10269F27CF044800C9D233 /* RealNameValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D10269E27CF044800C9D233 /* RealNameValidator.swift */; };
 		6D1026A027CF044800C9D233 /* RealNameValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D10269E27CF044800C9D233 /* RealNameValidator.swift */; };
 		6D1026A127CF044800C9D233 /* RealNameValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D10269E27CF044800C9D233 /* RealNameValidator.swift */; };
@@ -3193,7 +3191,7 @@
 		6D5B14BF264A7AF5004138E8 /* ProductGameDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E57D2263936C700E6942A /* ProductGameDataSourceDelegate.swift */; };
 		6D5B14C2264A7B03004138E8 /* SlotApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E995A26369E6600860FF7 /* SlotApi.swift */; };
 		6D5B14C5264A7B0C004138E8 /* SlotRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E99622636A03E00860FF7 /* SlotRepository.swift */; };
-		6D5B14C8264A7B2C004138E8 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D5B14C8264A7B2C004138E8 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D5B14CB264A7B2F004138E8 /* SlotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60074CE12632A2E40014326A /* SlotViewController.swift */; };
 		6D5B14CE264A7B38004138E8 /* SlotUnsettleRecordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D148E93264299D0001C40EC /* SlotUnsettleRecordsViewController.swift */; };
 		6D5B14CF264A7B38004138E8 /* SlotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E9954263694EE00860FF7 /* SlotViewModel.swift */; };
@@ -3201,7 +3199,7 @@
 		6D5B14D1264A7B38004138E8 /* SlotSeeMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E58A0264140C500E6942A /* SlotSeeMoreViewController.swift */; };
 		6D5B14D2264A7B38004138E8 /* SlotBetSummaryByDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E584C263F968C00E6942A /* SlotBetSummaryByDateViewController.swift */; };
 		6D5B14D3264A7B38004138E8 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60074CEF2632A7050014326A /* FavoriteViewController.swift */; };
-		6D5B14D4264A7B38004138E8 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D5B14D4264A7B38004138E8 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D5B14D5264A7B38004138E8 /* SlotAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60790C30264128BF0005D62F /* SlotAllViewController.swift */; };
 		6D5B14D6264A7B38004138E8 /* SlotBetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D148E8D26427642001C40EC /* SlotBetViewModel.swift */; };
 		6D5B14D7264A7B38004138E8 /* SlotBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5856263FCB8A00E6942A /* SlotBetDetailViewController.swift */; };
@@ -3331,7 +3329,7 @@
 		6D94B726263819EF00982901 /* MemoryCacheImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D94B725263819EF00982901 /* MemoryCacheImpl.swift */; };
 		6D94B727263819EF00982901 /* MemoryCacheImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D94B725263819EF00982901 /* MemoryCacheImpl.swift */; };
 		6D966B3E27FEE3FA006086B7 /* CloseSystemDialogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C642272741FE6900868D6A /* CloseSystemDialogTableViewCell.swift */; };
-		6D966B3F27FEE3FA006086B7 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D966B3F27FEE3FA006086B7 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D966B4027FEE3FA006086B7 /* DepositLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC9A279551FF00794145 /* DepositLogViewModel.swift */; };
 		6D966B4127FEE3FA006086B7 /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B80261EDE1700E89EE6 /* Units.swift */; };
 		6D966B4227FEE3FA006086B7 /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
@@ -3677,7 +3675,7 @@
 		6D966C9827FEE3FA006086B7 /* FilterPresentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414930E625F3319D008F32C5 /* FilterPresentProtocol.swift */; };
 		6D966C9927FEE3FA006086B7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853B44A2552A019001D618E /* LoginViewModel.swift */; };
 		6D966C9A27FEE3FA006086B7 /* CustomerServiceSurveyUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938EA271FB1D30068A616 /* CustomerServiceSurveyUseCase.swift */; };
-		6D966C9B27FEE3FA006086B7 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D966C9B27FEE3FA006086B7 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D966C9C27FEE3FA006086B7 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487288E92589E94400D8983B /* UIImageExtension.swift */; };
 		6D966C9D27FEE3FA006086B7 /* SlotBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5856263FCB8A00E6942A /* SlotBetDetailViewController.swift */; };
 		6D966C9E27FEE3FA006086B7 /* TermsOfServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481882362546A558000A45F0 /* TermsOfServiceCell.swift */; };
@@ -3903,7 +3901,7 @@
 		6D966D7D27FEE3FA006086B7 /* Cps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6018F7DB2689774A00941BDD /* Cps.storyboard */; };
 		6D966D7F27FEE3FA006086B7 /* sharedbu.xcframework in Copy Files */ = {isa = PBXBuildFile; fileRef = 60F405F627C4D0C3003028C9 /* sharedbu.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6D966D8B27FEE416006086B7 /* CloseSystemDialogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C642272741FE6900868D6A /* CloseSystemDialogTableViewCell.swift */; };
-		6D966D8C27FEE416006086B7 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D966D8C27FEE416006086B7 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D966D8D27FEE416006086B7 /* DepositLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC9A279551FF00794145 /* DepositLogViewModel.swift */; };
 		6D966D8E27FEE416006086B7 /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60251B80261EDE1700E89EE6 /* Units.swift */; };
 		6D966D8F27FEE416006086B7 /* HubConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480937F9255CEB87002EA837 /* HubConnectionDelegate.swift */; };
@@ -4249,7 +4247,7 @@
 		6D966EE527FEE416006086B7 /* FilterPresentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414930E625F3319D008F32C5 /* FilterPresentProtocol.swift */; };
 		6D966EE627FEE416006086B7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4853B44A2552A019001D618E /* LoginViewModel.swift */; };
 		6D966EE727FEE416006086B7 /* CustomerServiceSurveyUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938EA271FB1D30068A616 /* CustomerServiceSurveyUseCase.swift */; };
-		6D966EE827FEE416006086B7 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		6D966EE827FEE416006086B7 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		6D966EE927FEE416006086B7 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487288E92589E94400D8983B /* UIImageExtension.swift */; };
 		6D966EEA27FEE416006086B7 /* SlotBetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5856263FCB8A00E6942A /* SlotBetDetailViewController.swift */; };
 		6D966EEB27FEE416006086B7 /* TermsOfServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481882362546A558000A45F0 /* TermsOfServiceCell.swift */; };
@@ -5284,11 +5282,13 @@
 		6DF907A32697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DF9079E2697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib */; };
 		6DF907A42697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DF9079E2697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib */; };
 		6DF907A62697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DF9079E2697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib */; };
+		7BB072A58C39D704023BB601 /* Pods_ktobet_asia_ios_production.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D6291E069BE6057FF10C53F /* Pods_ktobet_asia_ios_production.framework */; };
 		83510DF143C79CCDF214AFF7 /* Pods_ktobet_asia_ios_prod_selftest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D4CAF38E15CF18C61D6D54 /* Pods_ktobet_asia_ios_prod_selftest.framework */; };
-		8D7526F526D8CD3108747E0B /* Pods_ktobet_asia_ios_staging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */; };
-		9D251F82C849689504792088 /* Pods_ktobet_asia_ios_production.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7968F3B02A4680298D7748AF /* Pods_ktobet_asia_ios_production.framework */; };
+		8D7526F526D8CD3108747E0B /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		9D251F82C849689504792088 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		9DC64D835F32D084F8DE5674 /* libPods-ktobet-asia-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DFCC5EC3774654AD6E39A8 /* libPods-ktobet-asia-iosTests.a */; };
 		F2F8110681BE27C716069CB2 /* Pods_ktobet_asia_ios_qat3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3228163C35543564E15C4DD5 /* Pods_ktobet_asia_ios_qat3.framework */; };
+		FE414492400C787590E5F6B4 /* Pods_ktobet_asia_ios_staging_vn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFBE31E73FC50AD947897C /* Pods_ktobet_asia_ios_staging_vn.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -5404,12 +5404,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		062A290137C82184014908DE /* Pods_ktobet_asia_ios_staging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_staging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B542E220A813E407049831E /* Pods-ktobet-asia-ios-prod-backup.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-prod-backup.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-prod-backup/Pods-ktobet-asia-ios-prod-backup.debug.xcconfig"; sourceTree = "<group>"; };
 		0E1C1F1191261D56552B424C /* Pods-ktobet-asia-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		0FCB36392413308A6894210B /* Pods-ktobet-asia-ios-qat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.debug.xcconfig"; sourceTree = "<group>"; };
 		1213E073D36A2FBC9C44CE7E /* Pods-ktobet-asia-ios-prod-selftest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-prod-selftest.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-prod-selftest/Pods-ktobet-asia-ios-prod-selftest.release.xcconfig"; sourceTree = "<group>"; };
 		19630262B3438BDC7A8408C7 /* libPods-ktobet-asia-iosUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ktobet-asia-iosUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2148A1C593328896EB214C23 /* Pods-ktobet-asia-ios-staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging.release.xcconfig"; sourceTree = "<group>"; };
+		21AF25BE30A4AA45E2124E3B /* Pods-ktobet-asia-ios-production-vn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-production-vn.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-production-vn/Pods-ktobet-asia-ios-production-vn.release.xcconfig"; sourceTree = "<group>"; };
 		30DFCC5EC3774654AD6E39A8 /* libPods-ktobet-asia-iosTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ktobet-asia-iosTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3228163C35543564E15C4DD5 /* Pods_ktobet_asia_ios_qat3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_qat3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3439EB7929E175EF3BC7A116 /* Pods_ktobet_asia_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -5552,6 +5554,8 @@
 		52D4CAF38E15CF18C61D6D54 /* Pods_ktobet_asia_ios_prod_selftest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_prod_selftest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		547A0C878C351CFA65E8D2AC /* Pods-ktobet-asia-ios-prod-selftest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-prod-selftest.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-prod-selftest/Pods-ktobet-asia-ios-prod-selftest.debug.xcconfig"; sourceTree = "<group>"; };
 		5700DA7C380BA223E8A9B9DF /* Pods_ktobet_asia_ios_qat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_qat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57DE8781CEBB8CB8D0F35DC3 /* Pods-ktobet-asia-ios-production-vn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-production-vn.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-production-vn/Pods-ktobet-asia-ios-production-vn.debug.xcconfig"; sourceTree = "<group>"; };
+		5D6291E069BE6057FF10C53F /* Pods_ktobet_asia_ios_production.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_production.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60001A2D25E6046E00CEB72F /* ImageApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageApi.swift; sourceTree = "<group>"; };
 		6000DAD9265DE2CB002A7A87 /* NumberGameMyBetGameGroupedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameMyBetGameGroupedViewController.swift; sourceTree = "<group>"; };
 		6000DB292664C4A9002A7A87 /* NumberGameDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameDetailViewController.swift; sourceTree = "<group>"; };
@@ -5813,6 +5817,7 @@
 		60FE05C027CEFF5D00B7914A /* CommonVerifyOtpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonVerifyOtpViewController.swift; sourceTree = "<group>"; };
 		60FE05C427CF082100B7914A /* OldEmailVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldEmailVerifyViewController.swift; sourceTree = "<group>"; };
 		60FF74B727C48C1F0078EFE3 /* sharedbu.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sharedbu.xcframework; path = ../kto_shared_bu/sharedbu/build/XCFrameworks/debug/sharedbu.xcframework; sourceTree = "<group>"; };
+		62645C141ADF90521D3EBB71 /* Pods-ktobet-asia-ios-staging-vn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging-vn.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn.debug.xcconfig"; sourceTree = "<group>"; };
 		6D00CA722649348700C0CEC9 /* DisplayProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayProduct.swift; sourceTree = "<group>"; };
 		6D02BBF327D097B500824F53 /* SetBirthdayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetBirthdayViewController.swift; sourceTree = "<group>"; };
 		6D02BBF727D0BBC900824F53 /* DatePickerPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerPopup.swift; sourceTree = "<group>"; };
@@ -5839,6 +5844,8 @@
 		6D0EDF9328744704004A9E3C /* ktobet-asia-ios-production-vn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ktobet-asia-ios-production-vn.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D0EDF9728744FF4004A9E3C /* ktobet-asia-ios-staging-vn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-staging-vn-Info.plist"; sourceTree = "<group>"; };
 		6D0EDF9928744FFC004A9E3C /* ktobet-asia-ios-production-vn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ktobet-asia-ios-production-vn-Info.plist"; sourceTree = "<group>"; };
+		6D0EDF9C28759495004A9E3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6D0EDF9F28759509004A9E3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6D10269E27CF044800C9D233 /* RealNameValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealNameValidator.swift; sourceTree = "<group>"; };
 		6D1430CC2859BC36002BD18E /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
 		6D148E8D26427642001C40EC /* SlotBetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotBetViewModel.swift; sourceTree = "<group>"; };
@@ -6042,14 +6049,15 @@
 		6DF9079E2697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyBetSummaryTableViewCell.xib; sourceTree = "<group>"; };
 		6F3086406301207E65E0DD9E /* Pods-ktobet-asia-ios-qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.release.xcconfig"; sourceTree = "<group>"; };
 		7665D58EE5D27AC8286804AD /* Pods-ktobet-asia-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosTests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosTests/Pods-ktobet-asia-iosTests.release.xcconfig"; sourceTree = "<group>"; };
-		7968F3B02A4680298D7748AF /* Pods_ktobet_asia_ios_production.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_production.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CA84F59CABE37F4AC59762F /* Pods-ktobet-asia-ios-qat3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat3.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat3/Pods-ktobet-asia-ios-qat3.debug.xcconfig"; sourceTree = "<group>"; };
 		7F04D996F84BBE8659A74A6D /* Pods-ktobet-asia-ios-production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-production.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-production/Pods-ktobet-asia-ios-production.release.xcconfig"; sourceTree = "<group>"; };
 		81EF96B8AC0EE4246E6A415C /* Pods-ktobet-asia-ios-qat3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat3.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat3/Pods-ktobet-asia-ios-qat3.release.xcconfig"; sourceTree = "<group>"; };
+		9A646BF162572D3B326329C0 /* Pods_ktobet_asia_ios_production_vn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_production_vn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEC56EA9D7768873A7967D96 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging.debug.xcconfig"; sourceTree = "<group>"; };
-		C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_staging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEEFBE31E73FC50AD947897C /* Pods_ktobet_asia_ios_staging_vn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_staging_vn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8019990CEA2ED93CDA79991 /* Pods_ktobet_asia_ios_prod_backup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_prod_backup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE6A3CDF15DC19BF28D35B6 /* Pods-ktobet-asia-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
+		F709D799CF4A890846129123 /* Pods-ktobet-asia-ios-staging-vn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging-vn.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -6057,7 +6065,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36B25B99C4C51F7B4DBE7022 /* (null) in Frameworks */,
+				36B25B99C4C51F7B4DBE7022 /* BuildFile in Frameworks */,
 				60F405F727C4D0C3003028C9 /* sharedbu.xcframework in Frameworks */,
 				6BD79E3CD326C49EBC8EDCBC /* Pods_ktobet_asia_ios_qat.framework in Frameworks */,
 			);
@@ -6092,9 +6100,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D7526F526D8CD3108747E0B /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
+				8D7526F526D8CD3108747E0B /* BuildFile in Frameworks */,
 				60F405FA27C4D0F9003028C9 /* sharedbu.xcframework in Frameworks */,
-				1CF06C02A6512DB1ADB9C616 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
+				1CF06C02A6512DB1ADB9C616 /* BuildFile in Frameworks */,
+				14B6E5B5263A3D63653B0201 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6103,8 +6112,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				60E581B227F190E4008CE5A9 /* sharedbu.xcframework in Frameworks */,
-				14015EC86E821C390DD2103F /* (null) in Frameworks */,
-				9D251F82C849689504792088 /* Pods_ktobet_asia_ios_production.framework in Frameworks */,
+				14015EC86E821C390DD2103F /* BuildFile in Frameworks */,
+				9D251F82C849689504792088 /* BuildFile in Frameworks */,
+				7BB072A58C39D704023BB601 /* Pods_ktobet_asia_ios_production.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6112,9 +6122,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D0EDCF028743FAC004A9E3C /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
 				6D0EDCF128743FAC004A9E3C /* sharedbu.xcframework in Frameworks */,
-				6D0EDCF228743FAC004A9E3C /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
+				FE414492400C787590E5F6B4 /* Pods_ktobet_asia_ios_staging_vn.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6123,8 +6132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D0EDF4B28744704004A9E3C /* sharedbu.xcframework in Frameworks */,
-				6D0EDF4C28744704004A9E3C /* (null) in Frameworks */,
-				6D0EDF4D28744704004A9E3C /* Pods_ktobet_asia_ios_production.framework in Frameworks */,
+				5F08DE1E76D69187E8A4A7F1 /* Pods_ktobet_asia_ios_production_vn.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6742,14 +6750,16 @@
 				60FF74B727C48C1F0078EFE3 /* sharedbu.xcframework */,
 				60F405F627C4D0C3003028C9 /* sharedbu.xcframework */,
 				3439EB7929E175EF3BC7A116 /* Pods_ktobet_asia_ios.framework */,
-				C229B61BD8A066AD1E61B563 /* Pods_ktobet_asia_ios_staging.framework */,
 				30DFCC5EC3774654AD6E39A8 /* libPods-ktobet-asia-iosTests.a */,
 				19630262B3438BDC7A8408C7 /* libPods-ktobet-asia-iosUITests.a */,
 				C8019990CEA2ED93CDA79991 /* Pods_ktobet_asia_ios_prod_backup.framework */,
 				52D4CAF38E15CF18C61D6D54 /* Pods_ktobet_asia_ios_prod_selftest.framework */,
-				7968F3B02A4680298D7748AF /* Pods_ktobet_asia_ios_production.framework */,
 				3228163C35543564E15C4DD5 /* Pods_ktobet_asia_ios_qat3.framework */,
 				5700DA7C380BA223E8A9B9DF /* Pods_ktobet_asia_ios_qat.framework */,
+				9A646BF162572D3B326329C0 /* Pods_ktobet_asia_ios_production_vn.framework */,
+				BEEFBE31E73FC50AD947897C /* Pods_ktobet_asia_ios_staging_vn.framework */,
+				5D6291E069BE6057FF10C53F /* Pods_ktobet_asia_ios_production.framework */,
+				062A290137C82184014908DE /* Pods_ktobet_asia_ios_staging.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -6851,7 +6861,9 @@
 			isa = PBXGroup;
 			children = (
 				601DD9AE27FD769000E21525 /* prod */,
+				6D0EDF9E28759509004A9E3C /* prod_vn */,
 				601DD9AB27FD71A400E21525 /* stg */,
+				6D0EDF9B28759495004A9E3C /* stg-vn */,
 				601DD9AA27FD718C00E21525 /* qat */,
 			);
 			path = Firebase;
@@ -7210,6 +7222,22 @@
 			path = common;
 			sourceTree = "<group>";
 		};
+		6D0EDF9B28759495004A9E3C /* stg-vn */ = {
+			isa = PBXGroup;
+			children = (
+				6D0EDF9C28759495004A9E3C /* GoogleService-Info.plist */,
+			);
+			path = "stg-vn";
+			sourceTree = "<group>";
+		};
+		6D0EDF9E28759509004A9E3C /* prod_vn */ = {
+			isa = PBXGroup;
+			children = (
+				6D0EDF9F28759509004A9E3C /* GoogleService-Info.plist */,
+			);
+			path = prod_vn;
+			sourceTree = "<group>";
+		};
 		6D17950926A5626D001C8BF8 /* level */ = {
 			isa = PBXGroup;
 			children = (
@@ -7432,6 +7460,10 @@
 				1213E073D36A2FBC9C44CE7E /* Pods-ktobet-asia-ios-prod-selftest.release.xcconfig */,
 				7CA84F59CABE37F4AC59762F /* Pods-ktobet-asia-ios-qat3.debug.xcconfig */,
 				81EF96B8AC0EE4246E6A415C /* Pods-ktobet-asia-ios-qat3.release.xcconfig */,
+				57DE8781CEBB8CB8D0F35DC3 /* Pods-ktobet-asia-ios-production-vn.debug.xcconfig */,
+				21AF25BE30A4AA45E2124E3B /* Pods-ktobet-asia-ios-production-vn.release.xcconfig */,
+				62645C141ADF90521D3EBB71 /* Pods-ktobet-asia-ios-staging-vn.debug.xcconfig */,
+				F709D799CF4A890846129123 /* Pods-ktobet-asia-ios-staging-vn.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -8024,7 +8056,6 @@
 				6D0EDCF928743FAC004A9E3C /* Localizable.strings in Resources */,
 				6D0EDCFA28743FAC004A9E3C /* Casino.storyboard in Resources */,
 				6D0EDCFB28743FAC004A9E3C /* InfoPlist.strings in Resources */,
-				6D0EDCFC28743FAC004A9E3C /* GoogleService-Info.plist in Resources */,
 				6D0EDCFD28743FAC004A9E3C /* CustomService.storyboard in Resources */,
 				6D0EDCFE28743FAC004A9E3C /* SBK.storyboard in Resources */,
 				6D0EDCFF28743FAC004A9E3C /* wager_template.html in Resources */,
@@ -8034,6 +8065,7 @@
 				6D0EDD0328743FAC004A9E3C /* WebGameItemCell.xib in Resources */,
 				6D0EDD0428743FAC004A9E3C /* LockPrivilegeView.xib in Resources */,
 				6D0EDD0528743FAC004A9E3C /* KTO.mp4 in Resources */,
+				6D0EDF9D28759495004A9E3C /* GoogleService-Info.plist in Resources */,
 				6D0EDD0628743FAC004A9E3C /* Signup.storyboard in Resources */,
 				6D0EDD0728743FAC004A9E3C /* ResetPassword.storyboard in Resources */,
 				6D0EDD0828743FAC004A9E3C /* Filter.storyboard in Resources */,
@@ -8100,7 +8132,7 @@
 				6D0EDF5D28744704004A9E3C /* WebGameItemCell.xib in Resources */,
 				6D0EDF5E28744704004A9E3C /* LockPrivilegeView.xib in Resources */,
 				6D0EDF5F28744704004A9E3C /* KTO.mp4 in Resources */,
-				6D0EDF6028744704004A9E3C /* GoogleService-Info.plist in Resources */,
+				6D0EDFA028759509004A9E3C /* GoogleService-Info.plist in Resources */,
 				6D0EDF6128744704004A9E3C /* Signup.storyboard in Resources */,
 				6D0EDF6228744704004A9E3C /* ResetPassword.storyboard in Resources */,
 				6D0EDF6328744704004A9E3C /* Filter.storyboard in Resources */,
@@ -8551,7 +8583,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ktobet-asia-ios-staging-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ktobet-asia-ios-staging-vn-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -8581,15 +8613,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6D0EDD3428743FAC004A9E3C /* ShellScript */ = {
@@ -8626,7 +8658,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ktobet-asia-ios-production-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ktobet-asia-ios-production-vn-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -8675,15 +8707,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-production/Pods-ktobet-asia-ios-production-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-production-vn/Pods-ktobet-asia-ios-production-vn-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-production/Pods-ktobet-asia-ios-production-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-production-vn/Pods-ktobet-asia-ios-production-vn-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-production/Pods-ktobet-asia-ios-production-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-production-vn/Pods-ktobet-asia-ios-production-vn-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6D966B3C27FEE3FA006086B7 /* [CP] Check Pods Manifest.lock */ = {
@@ -10076,7 +10108,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60C6422A2741FE6900868D6A /* CloseSystemDialogTableViewCell.swift in Sources */,
-				6D5B14D4264A7B38004138E8 /* (null) in Sources */,
+				6D5B14D4264A7B38004138E8 /* BuildFile in Sources */,
 				6083DC9D279551FF00794145 /* DepositLogViewModel.swift in Sources */,
 				609012692640EE7000419F8E /* Units.swift in Sources */,
 				6090126A2640EE7000419F8E /* HubConnectionDelegate.swift in Sources */,
@@ -10431,7 +10463,7 @@
 				609012FF2640EE7000419F8E /* FilterPresentProtocol.swift in Sources */,
 				609013002640EE7000419F8E /* LoginViewModel.swift in Sources */,
 				6D9938ED271FB1D30068A616 /* CustomerServiceSurveyUseCase.swift in Sources */,
-				6D5B14C8264A7B2C004138E8 /* (null) in Sources */,
+				6D5B14C8264A7B2C004138E8 /* BuildFile in Sources */,
 				609013012640EE7000419F8E /* UIImageExtension.swift in Sources */,
 				6D5B14D7264A7B38004138E8 /* SlotBetDetailViewController.swift in Sources */,
 				609013022640EE7000419F8E /* TermsOfServiceCell.swift in Sources */,
@@ -10605,7 +10637,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60E57FB027F190E4008CE5A9 /* CloseSystemDialogTableViewCell.swift in Sources */,
-				60E57FB127F190E4008CE5A9 /* (null) in Sources */,
+				60E57FB127F190E4008CE5A9 /* BuildFile in Sources */,
 				60E57FB227F190E4008CE5A9 /* DepositLogViewModel.swift in Sources */,
 				60E57FB327F190E4008CE5A9 /* Units.swift in Sources */,
 				60E57FB427F190E4008CE5A9 /* HubConnectionDelegate.swift in Sources */,
@@ -10960,7 +10992,7 @@
 				60E5810A27F190E4008CE5A9 /* FilterPresentProtocol.swift in Sources */,
 				60E5810B27F190E4008CE5A9 /* LoginViewModel.swift in Sources */,
 				60E5810C27F190E4008CE5A9 /* CustomerServiceSurveyUseCase.swift in Sources */,
-				60E5810D27F190E4008CE5A9 /* (null) in Sources */,
+				60E5810D27F190E4008CE5A9 /* BuildFile in Sources */,
 				60E5810E27F190E4008CE5A9 /* UIImageExtension.swift in Sources */,
 				60E5810F27F190E4008CE5A9 /* SlotBetDetailViewController.swift in Sources */,
 				60E5811027F190E4008CE5A9 /* TermsOfServiceCell.swift in Sources */,
@@ -11134,7 +11166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D0EDAE428743FAC004A9E3C /* CloseSystemDialogTableViewCell.swift in Sources */,
-				6D0EDAE528743FAC004A9E3C /* (null) in Sources */,
+				6D0EDAE528743FAC004A9E3C /* BuildFile in Sources */,
 				6D0EDAE628743FAC004A9E3C /* DepositLogViewModel.swift in Sources */,
 				6D0EDAE728743FAC004A9E3C /* Units.swift in Sources */,
 				6D0EDAE828743FAC004A9E3C /* HubConnectionDelegate.swift in Sources */,
@@ -11217,7 +11249,7 @@
 				6D0EDB3528743FAC004A9E3C /* DateExtension.swift in Sources */,
 				6D0EDB3628743FAC004A9E3C /* CryptoDepositItemViewModel.swift in Sources */,
 				6D0EDB3728743FAC004A9E3C /* ProductMaintenanceViewController.swift in Sources */,
-				6D0EDB3828743FAC004A9E3C /* (null) in Sources */,
+				6D0EDB3828743FAC004A9E3C /* BuildFile in Sources */,
 				6D0EDB3928743FAC004A9E3C /* AuthenticationApi.swift in Sources */,
 				6D0EDB3A28743FAC004A9E3C /* P2PRecordRepository.swift in Sources */,
 				6D0EDB3B28743FAC004A9E3C /* BankCard.swift in Sources */,
@@ -11490,7 +11522,7 @@
 				6D0EDC4628743FAC004A9E3C /* FilterPresentProtocol.swift in Sources */,
 				6D0EDC4728743FAC004A9E3C /* LoginViewModel.swift in Sources */,
 				6D0EDC4828743FAC004A9E3C /* CustomerServiceSurveyUseCase.swift in Sources */,
-				6D0EDC4928743FAC004A9E3C /* (null) in Sources */,
+				6D0EDC4928743FAC004A9E3C /* BuildFile in Sources */,
 				6D0EDC4A28743FAC004A9E3C /* UIImageExtension.swift in Sources */,
 				6D0EDC4B28743FAC004A9E3C /* SlotBetDetailViewController.swift in Sources */,
 				6D0EDC4C28743FAC004A9E3C /* TermsOfServiceCell.swift in Sources */,
@@ -11664,7 +11696,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D0EDD3F28744704004A9E3C /* CloseSystemDialogTableViewCell.swift in Sources */,
-				6D0EDD4028744704004A9E3C /* (null) in Sources */,
+				6D0EDD4028744704004A9E3C /* BuildFile in Sources */,
 				6D0EDD4128744704004A9E3C /* DepositLogViewModel.swift in Sources */,
 				6D0EDD4228744704004A9E3C /* Units.swift in Sources */,
 				6D0EDD4328744704004A9E3C /* HubConnectionDelegate.swift in Sources */,
@@ -11747,7 +11779,7 @@
 				6D0EDD9028744704004A9E3C /* DateExtension.swift in Sources */,
 				6D0EDD9128744704004A9E3C /* CryptoDepositItemViewModel.swift in Sources */,
 				6D0EDD9228744704004A9E3C /* ProductMaintenanceViewController.swift in Sources */,
-				6D0EDD9328744704004A9E3C /* (null) in Sources */,
+				6D0EDD9328744704004A9E3C /* BuildFile in Sources */,
 				6D0EDD9428744704004A9E3C /* AuthenticationApi.swift in Sources */,
 				6D0EDD9528744704004A9E3C /* P2PRecordRepository.swift in Sources */,
 				6D0EDD9628744704004A9E3C /* BankCard.swift in Sources */,
@@ -12020,7 +12052,7 @@
 				6D0EDEA128744704004A9E3C /* FilterPresentProtocol.swift in Sources */,
 				6D0EDEA228744704004A9E3C /* LoginViewModel.swift in Sources */,
 				6D0EDEA328744704004A9E3C /* CustomerServiceSurveyUseCase.swift in Sources */,
-				6D0EDEA428744704004A9E3C /* (null) in Sources */,
+				6D0EDEA428744704004A9E3C /* BuildFile in Sources */,
 				6D0EDEA528744704004A9E3C /* UIImageExtension.swift in Sources */,
 				6D0EDEA628744704004A9E3C /* SlotBetDetailViewController.swift in Sources */,
 				6D0EDEA728744704004A9E3C /* TermsOfServiceCell.swift in Sources */,
@@ -12194,7 +12226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D966B3E27FEE3FA006086B7 /* CloseSystemDialogTableViewCell.swift in Sources */,
-				6D966B3F27FEE3FA006086B7 /* (null) in Sources */,
+				6D966B3F27FEE3FA006086B7 /* BuildFile in Sources */,
 				6D966B4027FEE3FA006086B7 /* DepositLogViewModel.swift in Sources */,
 				6D966B4127FEE3FA006086B7 /* Units.swift in Sources */,
 				6D966B4227FEE3FA006086B7 /* HubConnectionDelegate.swift in Sources */,
@@ -12549,7 +12581,7 @@
 				6D966C9827FEE3FA006086B7 /* FilterPresentProtocol.swift in Sources */,
 				6D966C9927FEE3FA006086B7 /* LoginViewModel.swift in Sources */,
 				6D966C9A27FEE3FA006086B7 /* CustomerServiceSurveyUseCase.swift in Sources */,
-				6D966C9B27FEE3FA006086B7 /* (null) in Sources */,
+				6D966C9B27FEE3FA006086B7 /* BuildFile in Sources */,
 				6D966C9C27FEE3FA006086B7 /* UIImageExtension.swift in Sources */,
 				6D966C9D27FEE3FA006086B7 /* SlotBetDetailViewController.swift in Sources */,
 				6D966C9E27FEE3FA006086B7 /* TermsOfServiceCell.swift in Sources */,
@@ -12723,7 +12755,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D966D8B27FEE416006086B7 /* CloseSystemDialogTableViewCell.swift in Sources */,
-				6D966D8C27FEE416006086B7 /* (null) in Sources */,
+				6D966D8C27FEE416006086B7 /* BuildFile in Sources */,
 				6D966D8D27FEE416006086B7 /* DepositLogViewModel.swift in Sources */,
 				6D966D8E27FEE416006086B7 /* Units.swift in Sources */,
 				6D966D8F27FEE416006086B7 /* HubConnectionDelegate.swift in Sources */,
@@ -13078,7 +13110,7 @@
 				6D966EE527FEE416006086B7 /* FilterPresentProtocol.swift in Sources */,
 				6D966EE627FEE416006086B7 /* LoginViewModel.swift in Sources */,
 				6D966EE727FEE416006086B7 /* CustomerServiceSurveyUseCase.swift in Sources */,
-				6D966EE827FEE416006086B7 /* (null) in Sources */,
+				6D966EE827FEE416006086B7 /* BuildFile in Sources */,
 				6D966EE927FEE416006086B7 /* UIImageExtension.swift in Sources */,
 				6D966EEA27FEE416006086B7 /* SlotBetDetailViewController.swift in Sources */,
 				6D966EEB27FEE416006086B7 /* TermsOfServiceCell.swift in Sources */,
@@ -13875,7 +13907,7 @@
 		};
 		6D0EDD3628743FAC004A9E3C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEC56EA9D7768873A7967D96 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */;
+			baseConfigurationReference = 62645C141ADF90521D3EBB71 /* Pods-ktobet-asia-ios-staging-vn.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -13907,7 +13939,7 @@
 		};
 		6D0EDD3728743FAC004A9E3C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2148A1C593328896EB214C23 /* Pods-ktobet-asia-ios-staging.release.xcconfig */;
+			baseConfigurationReference = F709D799CF4A890846129123 /* Pods-ktobet-asia-ios-staging-vn.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -13938,7 +13970,7 @@
 		};
 		6D0EDF9128744704004A9E3C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B05A32E625529B438C5F71A /* Pods-ktobet-asia-ios-production.debug.xcconfig */;
+			baseConfigurationReference = 57DE8781CEBB8CB8D0F35DC3 /* Pods-ktobet-asia-ios-production-vn.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -13970,7 +14002,7 @@
 		};
 		6D0EDF9228744704004A9E3C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F04D996F84BBE8659A74A6D /* Pods-ktobet-asia-ios-production.release.xcconfig */;
+			baseConfigurationReference = 21AF25BE30A4AA45E2124E3B /* Pods-ktobet-asia-ios-production-vn.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
