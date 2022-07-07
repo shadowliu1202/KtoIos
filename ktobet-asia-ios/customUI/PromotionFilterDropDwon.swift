@@ -358,7 +358,9 @@ class PromotionFilterDropDwon: UIView {
             let button = UIButton(frame: frame)
             data[i].rxName.bind(to: button.rx.title()).disposed(by: disposeBag)
             button.titleLabel?.font =  UIFont(name: "PingFangSC-Regular", size: 12)
-            button.titleLabel?.lineBreakMode = .byTruncatingTail
+            button.titleLabel?.numberOfLines = 0
+            button.titleLabel?.textAlignment = .center
+            button.setContentCompressionResistancePriority(.required, for: .vertical)
             button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
             button.sizeToFit()
             button.layer.cornerRadius = 2
@@ -394,6 +396,7 @@ class PromotionFilterDropDwon: UIView {
             button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
             button.sizeToFit()
             button.titleLabel?.numberOfLines = 0
+            button.titleLabel?.textAlignment = .center
             button.setContentCompressionResistancePriority(.required, for: .vertical)
             button.layer.cornerRadius = 2
             button.layer.masksToBounds = true
