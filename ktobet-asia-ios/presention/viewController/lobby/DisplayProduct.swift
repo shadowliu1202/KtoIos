@@ -61,6 +61,7 @@ class DisplayGameCollectionBaseViewController: ProductsViewController, ProductVC
             let button = UIButton(frame: frame)
             button.setTitle("\(data[i].name)", for: .normal)
             button.titleLabel?.font =  UIFont(name: "PingFangSC-Medium", size: 12)
+            button.titleLabel?.numberOfLines = 0
             button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 18, bottom: 8, right: 18)
             button.sizeToFit()
             button.layer.cornerRadius = 16
