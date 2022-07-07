@@ -414,9 +414,12 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J7C-lJ-rNY">
                                                     <rect key="frame" x="30" y="8" width="354" height="100"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="(375)SBK-Select" translatesAutoresizingMaskIntoConstraints="NO" id="uh3-pK-8V6">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="(375)SBK-Select" translatesAutoresizingMaskIntoConstraints="NO" id="uh3-pK-8V6">
                                                             <rect key="frame" x="0.0" y="0.0" width="354" height="100"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="uh3-pK-8V6" secondAttribute="height" multiplier="315:102" id="0sq-8O-5rX"/>
+                                                            </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="體育" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nC-ZV-yq8">
                                                             <rect key="frame" x="24" y="24" width="306" height="25.5"/>
