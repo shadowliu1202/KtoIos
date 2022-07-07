@@ -2044,9 +2044,18 @@ struct VersionData: Codable {
     let ipaVersion: String
     let ipaVersionHash: String
     let downloadUrl: String
+    let downloadUrlVn: String
     
     func toVersion() -> Version {
-        Version.companion.create(version: ipaVersion, link: downloadUrl, size: ipaCapacity.doubleValue())
+        return Version.companion.create(version: ipaVersion, link: getDownloadLink(), size: ipaCapacity.doubleValue())
+    }
+    
+    private func getDownloadLink() -> String {
+        if Bundle.main.bundleIdentifier?.contains(".vn") == true {
+            return downloadUrlVn
+        } else {
+            return downloadUrl
+        }
     }
 }
 
