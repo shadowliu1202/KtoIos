@@ -65,6 +65,9 @@
 "cps_crypto_guidance_description" = "";
 "cps_crypto_currency_deposit_times_hint" = "每笔 %@ %%红利,每日上限 %@ 元，1倍流水";
 "cps_withdrawal_all_fiat_first" = "";
+"cps_withdrawal_fiat_amount_below_limit_message" = "";
+"cps_withdrawal_fiat_amount_over_limit_message" = "";
+"cps_withdrawal_exceeding_daily_limit_message" = "";
 
 //MARK: - Common
 "common_kto" = "KTO";
@@ -575,6 +578,7 @@ Vui lòng Xác Minh.";
 "deposit_cps_hint" = "推广：存款优惠";
 "deposit_multiple_hint" = "温馨提示：支持支付宝、微信、网上银行、云闪付，支付宝微信如果遇到错误提示，尝试使用网银或者云闪付，以便您的款项实时到账。";
 "deposit_float_hint" = "请您提交带有小数点的金额，以便您的存款更快到账。";
+"deposit_amount_option_hint" = "本通道为固定存款金额，请下拉选择存款金额进行存款操作";
 
 //MARK: - BalanceLog
 "balancelog_previousbalance" = "Số Dư Trước Giao Dịch";
@@ -1028,6 +1032,7 @@ Hệ thống đang xử lý, vui lòng kiểm tra lại sau…";
 "bonus_quota_is_full_message" = "Xin lỗi, vui lòng chọn Khuyến Mãi khác.";
 "bonus_use_expired_bonus_title" = "Khuyến Mãi đã hết hạn";
 "bonus_use_expired_bonus_content" = "Rất tiếc, Khuyến Mãi này đã hết hạn. Vui lòng tham khảo các Khuyến Mãi khác. Xin lỗi vì sự bất tiện.";
+"bonus_use_coupon" = "Xác nhận Nhận %@?";
 
 //MARK: - Level
 "level_4" = "Hoàn Trả hàng ngày cho tất cả sản phẩm. Lên đến %@%% số tiền cược hợp lệ.";
@@ -1672,9 +1677,3 @@ Chúng Tôi là KTO, Chúng Tôi độc lập.";
 "license_partner_description_1" = "Đối Tác Khu Vực Chính Thức 2022, 2023";
 "license_partner_title_2" = "Câu Lạc Bộ Bóng Đá RCD Espanyol";
 "license_partner_description_2" = "Đối Tác Châu Á Chính Thức 2021";
-
-//MARK: - (Deprecated)Landing
-
-//MARK: - (Ignore)Localization
-
-//MARK: - (Ignore)Bug
