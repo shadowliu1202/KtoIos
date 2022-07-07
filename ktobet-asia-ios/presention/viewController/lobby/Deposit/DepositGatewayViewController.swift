@@ -30,7 +30,10 @@ class DepositGatewayViewController: LobbyViewController {
     @IBOutlet private weak var remitterDirectErrorLabel: UILabel!
     @IBOutlet private weak var directViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var directView: UIView!
+    @IBOutlet private weak var remitterBankCardTop: NSLayoutConstraint!
     @IBOutlet private weak var remitterBankCardHeight: NSLayoutConstraint!
+    @IBOutlet private weak var remitterNameTextFieldTop: NSLayoutConstraint!
+    @IBOutlet private weak var remitterNameTextFieldHeight: NSLayoutConstraint!
     
     var depositType: DepositSelection?
     var paymentIdentity: String!
@@ -98,14 +101,26 @@ class DepositGatewayViewController: LobbyViewController {
     }
 
     private func displayRemitType(gateway: PaymentsDTO.Gateway) {
-        setFromBankView(isHidden: true)
-        setDirectToView(isHidden: true)
-
         switch gateway.remitType {
-        case let remitType where remitType == PaymentsDTO.RemitType.frombank:
+        case PaymentsDTO.RemitType.normal:
+            setFromBankView(isHidden: true)
+            setDirectToView(isHidden: true)
+            setOnlyAmountView(isHidden: false)
+            
+        case PaymentsDTO.RemitType.frombank:
             setFromBankView(isHidden: false, remitBank: gateway.remitBank)
-        case let remitType where remitType == PaymentsDTO.RemitType.directto:
+            setDirectToView(isHidden: true)
+            setOnlyAmountView(isHidden: false)
+            
+        case PaymentsDTO.RemitType.directto:
+            setFromBankView(isHidden: true)
             setDirectToView(isHidden: false, remitBank: gateway.remitBank)
+            setOnlyAmountView(isHidden: false)
+            
+        case PaymentsDTO.RemitType.onlyamount:
+            setFromBankView(isHidden: true)
+            setDirectToView(isHidden: true)
+            setOnlyAmountView(isHidden: true, hint: gateway.hint)
         default:
             break
         }
@@ -126,6 +141,16 @@ class DepositGatewayViewController: LobbyViewController {
         remitterDirectTextField.optionArray = remitBank.map{ $0.name }
         directViewHeight.constant = isHidden ? 0 : 110
         directView.isHidden = isHidden
+    }
+    
+    private func setOnlyAmountView(isHidden: Bool, hint: String = "") {
+        remitterNameTextField.isHidden = isHidden
+        remitterNameTextFieldHeight.constant = isHidden ? 0 : 60
+        remitterNameTextFieldTop.constant = isHidden ? 0 : 12
+        remitterBankCardNumberTextField.isHidden = isHidden
+        remitterBankCardHeight.constant = isHidden ? 0 : 60
+        remitterBankCardTop.constant = isHidden ? 0 : 12
+        remitterHintLabel.text = hint
     }
     
     override func handleErrors(_ error: Error) {
