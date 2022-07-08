@@ -49,7 +49,6 @@ class PlayerRepositoryImpl : PlayerRepository {
             }
         })
         let contactInfo = playerApi.getPlayerContact()
-        let oldURLString = httpClient.host.description
         
         return Single
             .zip(favorProduct, localization, playerInfo, contactInfo)
@@ -62,14 +61,15 @@ class PlayerRepositoryImpl : PlayerRepository {
                     }
                 }()
                 
+                let oldURLString = httpClient.host.description
                 self.localStorageRepo.setCultureCode(bindLocale.cultureCode())
                 Theme.shared.changeEntireAPPFont(by: bindLocale)
+                DI.resetObjectScope(.lobby)
                 
-                let newURLString = self.httpClient.host.description
+                let newURLString = DI.resolve(HttpClient.self)!.host.description
                 
                 if oldURLString != newURLString {
                     self.httpClient.replaceCookiesDomain(oldURLString, to: newURLString)
-                    DI.resetObjectScope(.lobby)
                 }
 
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",

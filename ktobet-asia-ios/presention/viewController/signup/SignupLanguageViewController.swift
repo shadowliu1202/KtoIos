@@ -142,6 +142,7 @@ class SignupLanguageViewController: LandingViewController {
         }
         refreshLocalize()
         languageChangeHandler?()
+        DI.resetObjectScope(.lobby)
         tableView.reloadData()
     }
     

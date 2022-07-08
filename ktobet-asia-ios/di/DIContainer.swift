@@ -45,14 +45,14 @@ class DIContainer {
     
     func registFactory() {
         let ctner = container
-        let httpclient = container.resolve(HttpClient.self)!
         
         ctner.register(PlayerConfiguration.self) { (resolver)  in
             return LocalStorageRepositoryImpl()
         }.inObjectScope(.lobby)
         
         ctner.register(ExternalProtocolService.self) { (resolver)  in
-            return NetworkFactory(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return NetworkFactory(httpClient)
         }.inObjectScope(.lobby)
         
         ctner.register(ExternalStringService.self) { (resolver)  in
@@ -79,67 +79,82 @@ class DIContainer {
     func registApi() {
         
         let ctner = container
-        let httpclient = container.resolve(HttpClient.self)!
 
         ctner.register(NotificationApi.self) { (resolver)  in
-            return NotificationApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return NotificationApi(httpClient)
         }
         ctner.register(AuthenticationApi.self) { (resolver)  in
-            return AuthenticationApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return AuthenticationApi(httpClient)
         }
         ctner.register(PlayerApi.self) { (resolver)  in
-            return PlayerApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return PlayerApi(httpClient)
         }
         ctner.register(PortalApi.self) { (resolver) in
-            return PortalApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return PortalApi(httpClient)
         }
         ctner.register(GameApi.self) { (resolver)  in
-            return GameApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return GameApi(httpClient)
         }
         ctner.register(CustomServiceApi.self) { (resolver) in
-            return CustomServiceApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return CustomServiceApi(httpClient)
         }
         ctner.register(BankApi.self) { (resolver) in
-            return BankApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return BankApi(httpClient)
         }
         ctner.register(ImageApi.self) { (resolver) in
-            return ImageApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return ImageApi(httpClient)
         }
         ctner.register(CasinoApi.self) { (resolver) in
-            return CasinoApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return CasinoApi(httpClient)
         }
         ctner.register(SlotApi.self) { (resolver) in
-            return SlotApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return SlotApi(httpClient)
         }
         ctner.register(NumberGameApi.self) { (resolver) in
-            return NumberGameApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return NumberGameApi(httpClient)
         }
         ctner.register(CPSApi.self) { (resolver) in
-            return CPSApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return CPSApi(httpClient)
         }
         ctner.register(P2PApi.self) { (resolver) in
-            return P2PApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return P2PApi(httpClient)
         }
         ctner.register(ArcadeApi.self) { (resolver) in
-            return ArcadeApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return ArcadeApi(httpClient)
         }
         ctner.register(PromotionApi.self) { (resolver) in
-            return PromotionApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return PromotionApi(httpClient)
         }
         ctner.register(TransactionLogApi.self) { (resolver) in
-            return TransactionLogApi(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return TransactionLogApi(httpClient)
         }
     }
     
     func registRepo(){
         let ctner = container
-        let httpclient = container.resolve(HttpClient.self)!
         
         ctner.register(PlayerRepository.self) { (resolver) in
+            let httpClient = ctner.resolve(HttpClient.self)!
             let player = ctner.resolve(PlayerApi.self)!
             let portal = ctner.resolve(PortalApi.self)!
             let settingStore = ctner.resolve(SettingStore.self)!
-            return PlayerRepositoryImpl(httpclient, player, portal, settingStore)
+            return PlayerRepositoryImpl(httpClient, player, portal, settingStore)
         }
         ctner.register(NotificationRepository.self) { (resolver) in
             let notificationApi = ctner.resolve(NotificationApi.self)!
@@ -147,16 +162,19 @@ class DIContainer {
         }
         ctner.register(GameInfoRepository.self) { (resolver) in
             let gameApi = ctner.resolve(GameApi.self)!
-            return GameInfoRepositoryImpl(gameApi, httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return GameInfoRepositoryImpl(gameApi, httpClient)
         }
         ctner.register(CustomServiceRepository.self) { (resolver) in
             let csApi = ctner.resolve(CustomServiceApi.self)!
+            let httpClient = ctner.resolve(HttpClient.self)!
             let local = ctner.resolve(PlayerConfiguration.self)!
-            return CustomServiceRepositoryImpl(csApi, httpclient, local)
+            return CustomServiceRepositoryImpl(csApi, httpClient, local)
         }
         ctner.register(IAuthRepository.self) { resolver in
             let api = ctner.resolve(AuthenticationApi.self)!
-            return IAuthRepositoryImpl( api, httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return IAuthRepositoryImpl(api, httpClient)
         }
         ctner.register(SystemRepository.self) { resolver in
             let api = ctner.resolve(PortalApi.self)!
@@ -165,10 +183,12 @@ class DIContainer {
         }
         ctner.register(ResetPasswordRepository.self) { resolver in
             let api = ctner.resolve(AuthenticationApi.self)!
-            return IAuthRepositoryImpl(api, httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return IAuthRepositoryImpl(api, httpClient)
         }
         ctner.register(SystemSignalRepository.self) { resolver in
-            return SystemSignalRepositoryImpl(httpclient)
+            let httpClient = ctner.resolve(HttpClient.self)!
+            return SystemSignalRepositoryImpl(httpClient)
         }
         ctner.register(LocalStorageRepositoryImpl.self) { resolver in
             return LocalStorageRepositoryImpl()
@@ -260,13 +280,15 @@ class DIContainer {
         }
         ctner.register(SurveyInfraService.self) { (resolver) in
             let csApi = ctner.resolve(CustomServiceApi.self)!
+            let httpClient = ctner.resolve(HttpClient.self)!
             let local = ctner.resolve(PlayerConfiguration.self)!
-            return CustomServiceRepositoryImpl(csApi, httpclient, local)
+            return CustomServiceRepositoryImpl(csApi, httpClient, local)
         }
         ctner.register(CustomerInfraService.self) { (resolver) in
             let csApi = ctner.resolve(CustomServiceApi.self)!
+            let httpClient = ctner.resolve(HttpClient.self)!
             let local = ctner.resolve(PlayerConfiguration.self)!
-            return CustomServiceRepositoryImpl(csApi, httpclient, local)
+            return CustomServiceRepositoryImpl(csApi, httpClient, local)
         }
         ctner.register(AccountPatternGenerator.self) { resolver in
             let repoLocalStorage = ctner.resolve(LocalStorageRepositoryImpl.self)!
