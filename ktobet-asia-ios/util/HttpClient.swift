@@ -164,11 +164,6 @@ class HttpClient {
             })
     }
 
-    private var tokenCookie: String?
-    func setDefaultToken(_ token: String) {
-        self.tokenCookie = token
-    }
-    
     func getCookies() -> [HTTPCookie] {
         return session.sessionConfiguration.httpCookieStorage?.cookies(for: self.host) ?? []
     }
@@ -181,10 +176,6 @@ class HttpClient {
         return token.joined(separator: ";")
     }
 
-    func getToken() -> String {
-        session.sessionConfiguration.httpCookieStorage?.cookies(for: host)?.first(where: { $0.name == "token" })?.value ?? ""
-    }
-
     func getCulture() -> String {
         let culture = session.sessionConfiguration.httpCookieStorage?.cookies(for: host)?.first(where: { $0.name == "culture" })?.value ?? ""
         return culture
@@ -195,7 +186,7 @@ class HttpClient {
         let newDomain = newURLString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
         let storage = self.session.sessionConfiguration.httpCookieStorage
         
-        for cookie in storage?.cookies ?? []{
+        for cookie in storage?.cookies ?? [] {
             if cookie.domain == oldDomain {
                 var props = cookie.properties!
                 props[HTTPCookiePropertyKey.domain] = newDomain
@@ -208,7 +199,7 @@ class HttpClient {
     func clearCookie() -> Completable {
         return Completable.create { (completable) -> Disposable in
             let storage = self.session.sessionConfiguration.httpCookieStorage
-            for cookie in self.getCookies(){
+            for cookie in self.getCookies() {
                 storage?.deleteCookie(cookie)
             }
             completable(.completed)
