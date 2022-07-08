@@ -121,7 +121,7 @@ class CommonVerifyOtpViewController: CommonViewController {
             case is PlayerIpOverOtpDailyLimit:
                 onExccedResendLimit()
             default:
-                viewStatusTip.show(statusTip: Localize.string("common_unknownerror"), img: UIImage(named: "Failed"))
+                self.handleErrors(error)
             }
         }
     }
