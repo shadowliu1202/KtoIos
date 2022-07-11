@@ -41,6 +41,8 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
     
     func loadPlayer() -> Single<Player> {
+        let appLocale = localStorageRepo.getSupportLocale()
+        
         let favorProduct = getDefaultProduct()
         let localization = playerApi.getCultureCode()
         let playerInfo = playerApi.getPlayerInfo().do(onSuccess: { [weak self] in
@@ -53,7 +55,7 @@ class PlayerRepositoryImpl : PlayerRepository {
         return Single
             .zip(favorProduct, localization, playerInfo, contactInfo)
             .map { [unowned self] (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
-                let bindLocale : SupportLocale = {
+                let playerLocale : SupportLocale = {
                     if let cultureCode = responseLocalization.data {
                         return SupportLocale.Companion.init().create(language: cultureCode)
                     } else {
@@ -61,15 +63,19 @@ class PlayerRepositoryImpl : PlayerRepository {
                     }
                 }()
                 
-                let oldURLString = httpClient.host.description
-                self.localStorageRepo.setCultureCode(bindLocale.cultureCode())
-                Theme.shared.changeEntireAPPFont(by: bindLocale)
-                DI.resetObjectScope(.lobby)
-                
-                let newURLString = DI.resolve(HttpClient.self)!.host.description
-                
-                if oldURLString != newURLString {
+                if appLocale != playerLocale {
+                    let oldURLString = httpClient.host.description
+                    self.localStorageRepo.setCultureCode(playerLocale.cultureCode())
+                    Theme.shared.changeEntireAPPFont(by: playerLocale)
+                    DI.resetObjectScope(.lobby)
+                    
+                    let newURLString = DI.resolve(HttpClient.self)!.host.description
                     self.httpClient.replaceCookiesDomain(oldURLString, to: newURLString)
+                    DI.resetObjectScope(.lobby)
+                    
+                    let _ = CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
+                        print("Completed")
+                    })
                 }
 
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",
@@ -81,7 +87,7 @@ class PlayerRepositoryImpl : PlayerRepository {
                                             contact: PlayerInfo.Contact.init(email: responseContactInfo.data?.email, mobile: responseContactInfo.data?.mobile) )
                 let player = Player(gameId: responsePlayerInfo.data?.gameId ?? "" ,
                                     playerInfo: playerInfo,
-                                    bindLocale: bindLocale,
+                                    bindLocale: playerLocale,
                                     defaultProduct: defaultProduct)
                 return player
             }

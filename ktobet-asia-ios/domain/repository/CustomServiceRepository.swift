@@ -306,7 +306,7 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
         case .system:
             return PortalChatRoom.SpeakerSystem.init(name: speaker)
         default:
-            return PortalChatRoom.Speaker.init()
+            return PortalChatRoom.SpeakerPlayer.init(name: speaker)
         }
     }
     

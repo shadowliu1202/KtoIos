@@ -127,7 +127,7 @@ class ChatRoomViewController: CommonViewController {
                     return read.unique { $0.id }
                 } else {
                     dividerIndex = read.unique { $0.id }.count + 1
-                    let unreadDivider = ChatMessage.init()
+                    let unreadDivider = ChatMessage.Close()
                     return Array(read.unique { $0.id } + [unreadDivider] + unread)
                 }
             })
@@ -324,9 +324,9 @@ class ChatRoomViewController: CommonViewController {
 
     private func goToExitSurvey(skillId: SkillId, roomId: RoomId, exitSurvey: Survey) {
         if exitSurvey.surveyQuestions.isEmpty {
-            CustomService.close(completion: nil)
+            CustomServicePresenter.shared.close(completion: nil)
         } else {
-            CustomService.switchToExitSurvey(roomId: roomId, skillId: skillId)
+            CustomServicePresenter.shared.switchToExitSurvey(roomId: roomId, skillId: skillId)
         }
     }
     
@@ -377,7 +377,7 @@ extension ChatRoomViewController: BarButtonItemable {
                        cancelText: Localize.string("common_finish"))
         case collapseBarBtnId:
             self.presentationController?.delegate?.presentationControllerDidDismiss?(self.presentationController!)
-            CustomService.collapse()
+            CustomServicePresenter.shared.collapse()
         default:
             break
         }

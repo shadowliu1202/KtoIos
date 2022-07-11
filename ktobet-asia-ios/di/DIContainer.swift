@@ -19,6 +19,7 @@ class DIContainer {
     private init() {
         registerPlayerConfig()
         registerHttpClient()
+        registerCustomServicePresenter()
         registFactory()
         registApi()
         registRepo()
@@ -42,7 +43,14 @@ class DIContainer {
             return HttpClient(ktoUrl: resolver.resolve(KtoURL.self)!)
         }.inObjectScope(.lobby)
     }
-    
+    func registerCustomServicePresenter() {
+        let ctner = container
+        ctner.register(CustomServicePresenter.self) { (resolver)  in
+            let csViewModel = DI.resolve(CustomerServiceViewModel.self)!
+            let surveyViewModel = DI.resolve(SurveyViewModel.self)!
+            return CustomServicePresenter(csViewModel: csViewModel, surveyViewModel: surveyViewModel)
+        }.inObjectScope(.lobby)
+    }
     func registFactory() {
         let ctner = container
         

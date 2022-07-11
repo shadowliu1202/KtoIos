@@ -10,7 +10,7 @@ class ArcadeViewModel: KTOViewModel {
     
     var gameFilter = BehaviorRelay<[ArcadeGameTag]>(value: [])
     lazy var gameSource = gameFilter.flatMapLatest({
-        return self.arcadeUseCase.getGames(tags: $0.filter({$0.isSelected}).map{ $0.getGameFilter() }).compose(self.applyObservableErrorHandle()).catchError { error in
+        return self.arcadeUseCase.getGames(tags: $0.filter({$0.isSelected}).flatMap{ $0.getGameFilter() }).compose(self.applyObservableErrorHandle()).catchError { error in
             return Observable.error(error)
         }.retry()
     })
@@ -145,16 +145,16 @@ class ArcadeGameTag: NSObject, BaseGameTag {
         self.name = name
     }
     
-    func getGameFilter() -> GameFilter {
+    func getGameFilter() -> [GameFilter] {
         switch tagId {
         case TagAllID:
-            return GameFilter()
+            return [.Promote() ,.New()]
         case TagRecommandID:
-            return GameFilter.Promote()
+            return [.Promote()]
         case TagNewID:
-            return GameFilter.New()
+            return [.New()]
         default:
-            return GameFilter()
+            return [.Promote() ,.New()]
         }
     }
 }
