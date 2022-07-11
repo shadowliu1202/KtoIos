@@ -165,11 +165,16 @@ class CommonVerifyOtpViewController: CommonViewController {
             navigateToErrorPage()
             return
         }
-
-        smsVerifyView.getOtpCode()
-            .flatMapLatest(delegate.verify)
-            .subscribe(onError: handleError, onCompleted: { [weak self] in
-                self?.otpRetryCount = 0
+        btnVerify.isValid = false
+        smsVerifyView.getOtpCode().first()
+            .flatMapCompletable({ [unowned self] in
+                self.delegate.verify(otp: $0!)
+            })
+            .subscribe(onCompleted: { [weak self] in
+                self?.btnVerify.isValid = true
+            }, onError: { [weak self] in
+                self?.btnVerify.isValid = true
+                self?.handleError($0)
             }).disposed(by: disposeBag)
     }
 
