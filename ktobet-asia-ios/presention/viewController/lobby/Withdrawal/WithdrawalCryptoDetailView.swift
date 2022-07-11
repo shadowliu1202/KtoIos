@@ -224,7 +224,7 @@ class WithdrawalCryptoPreviewData {
     }
     
     var statusChangeHistory: SharedBu.Transaction.StatusChangeHistory {
-        SharedBu.Transaction.StatusChangeHistory(createdDate: Date().toUTCOffsetDateTime(), imageIds: [PortalImage.init()], remarkLevel1: "remarkLevel1", remarkLevel2: "remarkLevel2", remarkLevel3: "remarkLevel3")
+        SharedBu.Transaction.StatusChangeHistory(createdDate: Date().toUTCOffsetDateTime(), imageIds: [PortalImage.Public(imageId: "", fileName: "", host: "")], remarkLevel1: "remarkLevel1", remarkLevel2: "remarkLevel2", remarkLevel3: "remarkLevel3")
     }
     
     var withdrawalDetail: WithdrawalDetail.Crypto {

@@ -22,7 +22,7 @@ class SystemRepositoryImpl : SystemRepository{
     let maintenanceTimeCookieName = "dist"
     private var portalApi : PortalApi
     private var httpClient: HttpClient
-    private var productStatusChange = BehaviorSubject<MaintenanceStatus>(value: MaintenanceStatus.init())
+    private var productStatusChange = BehaviorSubject<MaintenanceStatus>(value: MaintenanceStatus.AllPortal(duration: nil))
     private var maintenanceStatus: Observable<MaintenanceStatus>!
     private let portalMaintenanceStateRefresh = PublishSubject<()>()
 
@@ -63,7 +63,7 @@ class SystemRepositoryImpl : SystemRepository{
     }
     
     private func updateMaintenanceStatus() -> Single<MaintenanceStatus> {
-        portalApi.getProductStatus().map { try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.init() }
+        portalApi.getProductStatus().map { try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil) }
             .do(onSuccess: { self.productStatusChange.onNext($0) })
             .catchError({ [weak self] error in
             guard let self = self else { return Single.error(error) }

@@ -47,7 +47,7 @@ class CustomerServiceButtonItem: TextBarButtonItem {
                         NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
                     }, cancel: nil)
                 case is MaintenanceStatus.Product:
-                    CustomService.startCustomerService(from: vc, delegate: self.delegate)
+                    CustomServicePresenter.shared.startCustomerService(from: vc, delegate: self.delegate)
                         .subscribe(onCompleted: { [weak self] in
                             self?.isEnabled = true
                         }, onError: { [weak self] in

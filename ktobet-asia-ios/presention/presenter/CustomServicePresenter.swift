@@ -49,12 +49,12 @@ extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewContr
 }
 
 class CustomServicePresenter: NSObject {
-    static let shared = CustomServicePresenter()
+    static var shared: CustomServicePresenter { DI.resolve(CustomServicePresenter.self)! }
     weak var delegate: CustomServiceDelegate?
     let storyboard = UIStoryboard(name: "CustomService", bundle: nil)
     
-    fileprivate var csViewModel = DI.resolve(CustomerServiceViewModel.self)!
-    fileprivate var surveyViewModel = DI.resolve(SurveyViewModel.self)!
+    fileprivate var csViewModel: CustomerServiceViewModel
+    fileprivate var surveyViewModel: SurveyViewModel
 
     private(set)var ballWindow: CustomerServiceIconViewWindow?
     
@@ -73,6 +73,11 @@ class CustomServicePresenter: NSObject {
     }
     
     lazy var chatRoomConnectStatus = iconOb
+    
+    init(csViewModel: CustomerServiceViewModel, surveyViewModel: SurveyViewModel) {
+        self.csViewModel = csViewModel
+        self.surveyViewModel = surveyViewModel
+    }
     
     func observeCustomerService() -> Completable {
         Completable.create {[weak self] completable in

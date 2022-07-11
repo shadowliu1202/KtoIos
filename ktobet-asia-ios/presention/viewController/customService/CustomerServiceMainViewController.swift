@@ -31,11 +31,11 @@ class CustomerServiceMainViewController: LobbyViewController {
     }
 
     private func initUI() {
-        callinBtn.bind(CustomService.chatRoomConnectStatus.asObservable(), disposeBag) { [unowned self] (pressCallin) in
+        callinBtn.bind(CustomServicePresenter.shared.chatRoomConnectStatus.asObservable(), disposeBag) { [unowned self] (pressCallin) in
             pressCallin.throttle(.seconds(3), latest: false, scheduler: MainScheduler.instance).flatMap({ [unowned self] () -> Completable in
                 if Reachability?.isNetworkConnected == true {
                     self.callinBtn.isEnable = false
-                    return CustomService.startCustomerService(from: self, delegate: self)
+                    return CustomServicePresenter.shared.startCustomerService(from: self, delegate: self)
                 } else {
                     return networkLostToast()
                 }

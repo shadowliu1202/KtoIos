@@ -20,7 +20,7 @@ class P2PRepositoryImpl: P2PRepository {
     
     func getTurnOverStatus() -> Single<P2PTurnOver> {
         return self.p2pApi.checkBonusLockStatus().map { (response) -> P2PTurnOver in
-            guard let data = response.data else { return P2PTurnOver.init() }
+            guard let data = response.data else { return P2PTurnOver.None() }
             if !data.bonusLocked && !data.hasBonusTag {
                 return P2PTurnOver.None.init()
             } else if data.bonusLocked && data.hasBonusTag {

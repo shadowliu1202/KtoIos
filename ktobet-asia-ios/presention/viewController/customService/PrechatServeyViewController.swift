@@ -66,7 +66,7 @@ class PrechatServeyViewController: CommonViewController {
                 return Observable.error($0)
             }).retry()
             .subscribe(onNext: { [unowned self] in
-                CustomService.switchToCalling(svViewModel: viewModel)
+                CustomServicePresenter.shared.switchToCalling(svViewModel: viewModel)
             }).disposed(by: disposeBag)
     }
     
@@ -84,12 +84,12 @@ class PrechatServeyViewController: CommonViewController {
 
 extension PrechatServeyViewController: BarButtonItemable {
     func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
-        CustomService.close(completion: {
-            CustomService.delegate?.sessionClosed()
+        CustomServicePresenter.shared.close(completion: {
+            CustomServicePresenter.shared.delegate?.sessionClosed()
         })
     }
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
-        CustomService.switchToCalling(svViewModel: viewModel)
+        CustomServicePresenter.shared.switchToCalling(svViewModel: viewModel)
     }
 }
 

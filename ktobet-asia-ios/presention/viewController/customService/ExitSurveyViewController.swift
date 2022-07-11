@@ -71,7 +71,7 @@ class ExitSurveyViewController: CommonViewController {
     }
     
     private func popThenToast() {
-        CustomService.close() {
+        CustomServicePresenter.shared.close() {
             if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
                 let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: topVc.view.frame.width, height: 48))
                 toastView.show(on: topVc.view, statusTip: Localize.string("customerservice_offline_survey_confirm_title"), img: UIImage(named: "Success"))
@@ -82,10 +82,10 @@ class ExitSurveyViewController: CommonViewController {
 
 extension ExitSurveyViewController: BarButtonItemable {
     func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
-        CustomService.close()
+        CustomServicePresenter.shared.close()
     }
     
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
-        CustomService.close()
+        CustomServicePresenter.shared.close()
     }
 }
