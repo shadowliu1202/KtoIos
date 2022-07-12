@@ -167,15 +167,18 @@ class CommonVerifyOtpViewController: CommonViewController {
         }
         btnVerify.isValid = false
         smsVerifyView.getOtpCode().first()
-            .flatMapCompletable({ [unowned self] in
-                self.delegate.verify(otp: $0!)
-            })
-            .subscribe(onCompleted: { [weak self] in
-                self?.btnVerify.isValid = true
-            }, onError: { [weak self] in
-                self?.btnVerify.isValid = true
-                self?.handleError($0)
-            }).disposed(by: disposeBag)
+            .flatMapCompletable(verifyOTP)
+            .do(onDispose: enableBtnVerify)
+            .subscribe(onError: handleError)
+            .disposed(by: disposeBag)
+    }
+    
+    private func verifyOTP(_ code: String?) -> Completable {
+        delegate.verify(otp: code!)
+    }
+    
+    private func enableBtnVerify() {
+        btnVerify.isValid = true
     }
 
     @IBAction func btnBackPressed(_ sender: UIButton) {
