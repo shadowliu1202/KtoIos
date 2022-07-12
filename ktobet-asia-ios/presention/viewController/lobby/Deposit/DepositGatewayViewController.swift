@@ -42,6 +42,7 @@ class DepositGatewayViewController: LobbyViewController {
     fileprivate var offlineViewModel = DI.resolve(OfflineViewModel.self)!
     fileprivate var onlineViewModel = DI.resolve(ThirdPartyDepositViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
+    private var alertMessage = ""
     
     let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     
@@ -56,12 +57,15 @@ class DepositGatewayViewController: LobbyViewController {
         case is OfflinePayment:
             offlineViewModel.unwindSegueId = "unwindToDeposit"
             bindOfflineViewModel()
+            alertMessage = Localize.string("deposit_offline_termniate")
         case is OnlinePayment:
             initOnlineUI()
             bindThirdPartyViewModel()
+            alertMessage = Localize.string("deposit_online_terminate")
         default:
             offlineViewModel.unwindSegueId = "unwindToNotificationDetail"
             bindOfflineViewModel()
+            alertMessage = Localize.string("deposit_offline_termniate")
             break
         }
     }
@@ -198,7 +202,7 @@ class DepositGatewayViewController: LobbyViewController {
     }
     
     @objc func back() {
-        Alert.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_offline_termniate"), confirm: {[weak self] in
+        Alert.show(Localize.string("common_confirm_cancel_operation"), alertMessage, confirm: {[weak self] in
             self?.disposeBag = DisposeBag()
             NavigationManagement.sharedInstance.popViewController()
         }, cancel: { })
