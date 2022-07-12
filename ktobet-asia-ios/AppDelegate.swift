@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var debugController: MainDebugViewController?
     let disposeBag = DisposeBag()
     private var networkControlWindow: NetworkControlWindow?
+    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         if Configuration.enableCrashlytics {
@@ -41,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let barAppearance = UINavigationBarAppearance()
         barAppearance.configureWithTransparentBackground()
+        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: Theme.shared.getNavigationTitleFont(by: playerLocaleConfiguration.getSupportLocale())]
         barAppearance.backgroundColor = UIColor.black_two90
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
