@@ -4,6 +4,7 @@ import RxSwift
 
 protocol AuthenticationUseCase {
     func loginFrom(account: String, pwd: String, captcha: Captcha)->Single<Player>
+    func refreshHttpClient(playerLocale: SupportLocale)
     func logout()->Completable
     func isLogged()->Single<Bool>
     func getCaptchaImage()->Single<UIImage>
@@ -45,6 +46,10 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
             default: fatalError()
             }
         }
+    }
+    
+    func refreshHttpClient(playerLocale: SupportLocale) {
+        repoPlayer.refreshHttpClient(playerLocale: playerLocale)
     }
     
     func logout()->Completable  {

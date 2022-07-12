@@ -212,6 +212,7 @@ class SignupEmailViewController: LandingViewController {
                 .subscribe(onSuccess: { [weak self] valid in
                     switch valid{
                     case .valid:
+                        let _ = CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe {}
                         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
                     default:
                         self?.checking = false

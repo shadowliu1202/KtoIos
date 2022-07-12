@@ -21,7 +21,10 @@ class SignupPhoneViewController: OtpViewControllerProtocol {
     }
     
     func verify(otp: String) -> Completable {
-        viewModel.otpVerify(otp: otp).asCompletable().do(onCompleted: {[weak self] in self?.onVerified() })
+        viewModel.otpVerify(otp: otp).asCompletable().do(onCompleted: {[weak self] in
+            let _ = CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe {}
+            self?.onVerified()
+        })
     }
     
     func resendOtp() -> Completable {

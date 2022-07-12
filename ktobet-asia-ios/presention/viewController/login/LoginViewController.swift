@@ -324,6 +324,7 @@ class LoginViewController: LandingViewController {
         viewModel.loginFrom(isRememberMe: btnRememberMe.isSelected)
             .do(onSubscribe: { [weak self] in self?.btnLogin.isValid = false })
             .subscribe(onSuccess: { [weak self] player in
+                let _ = CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe {}
                 self?.toNextPage(player.defaultProduct)
             }, onError: { [weak self] error in
                 self?.btnLogin.isValid = true
