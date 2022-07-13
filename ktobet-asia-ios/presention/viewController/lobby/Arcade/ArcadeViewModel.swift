@@ -148,13 +148,13 @@ class ArcadeGameTag: NSObject, BaseGameTag {
     func getGameFilter() -> [GameFilter] {
         switch tagId {
         case TagAllID:
-            return [.Promote() ,.New()]
+            return []
         case TagRecommandID:
             return [.Promote()]
         case TagNewID:
             return [.New()]
         default:
-            return [.Promote() ,.New()]
+            return []
         }
     }
 }

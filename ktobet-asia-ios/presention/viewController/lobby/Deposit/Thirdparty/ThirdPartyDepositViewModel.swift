@@ -184,7 +184,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
     private func confirm() -> Driver<CommonDTO.WebPath> {
         confirmTrigger.withLatestFrom(createRequest())
             .flatMapLatest { [unowned self] request -> Observable<CommonDTO.WebPath> in
-                Single.from(self.depositService.requestOnlineDeposit(request: request))
+                Single.from(self.depositService.requestOnlineDeposit(request: request, host: httpClient.host.absoluteString))
                     .observeOn(MainScheduler.instance)
                     .compose(self.applySingleErrorHandler())
                     .trackActivity(self.inProgress)

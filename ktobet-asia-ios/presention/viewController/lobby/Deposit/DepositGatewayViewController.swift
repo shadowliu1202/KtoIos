@@ -102,6 +102,7 @@ class DepositGatewayViewController: LobbyViewController {
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
         remitterBankTextField.selectedID.bind(to: onlineViewModel.input.selectBankCode).disposed(by: disposeBag)
+        remitterDirectTextField.selectedID.bind(to: onlineViewModel.input.selectBankCode).disposed(by: disposeBag)
     }
 
     private func displayRemitType(gateway: PaymentsDTO.Gateway) {
@@ -152,7 +153,7 @@ class DepositGatewayViewController: LobbyViewController {
         remitterNameTextFieldHeight.constant = isHidden ? 0 : 60
         remitterNameTextFieldTop.constant = isHidden ? 0 : 12
         remitterBankCardNumberTextField.isHidden = isHidden
-        remitterBankCardHeight.constant = isHidden ? 0 : 60
+        remitterBankCardHeight.constant = isHidden ? 0 : Theme.shared.getRemitterBankCardHeight(by: playerLocaleConfiguration.getSupportLocale())
         remitterBankCardTop.constant = isHidden ? 0 : 12
         remitterHintLabel.text = hint
     }
