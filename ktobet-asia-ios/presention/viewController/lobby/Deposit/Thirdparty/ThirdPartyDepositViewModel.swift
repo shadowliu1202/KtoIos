@@ -190,7 +190,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
                     .trackActivity(self.inProgress)
         }.do(onNext: { [weak self] url in
             guard let host = self?.httpClient.host.absoluteString else { return }
-            let url = host + url.path
+            let url = host + url.path + "&backUrl=\(host)" 
             self?.navigator.toOnlineWebPage(url: url)
         }).asDriverLogError()
     }
