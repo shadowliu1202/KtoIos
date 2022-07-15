@@ -54,7 +54,7 @@ class KtoURL {
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 5
+        configuration.timeoutIntervalForRequest = 4
         URLSession(configuration: configuration)
             .dataTask(with: request) { (_, response, error) -> Void in
             guard error == nil else {

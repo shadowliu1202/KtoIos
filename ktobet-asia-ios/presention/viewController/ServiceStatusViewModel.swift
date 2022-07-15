@@ -20,7 +20,7 @@ final class ServiceStatusViewModel: ViewModelType {
         let otpService = usecaseSystemStatus.getOtpStatus()
         let customerServiceEmail = usecaseSystemStatus.getCustomerServiceEmail().asDriver(onErrorJustReturn: "")
         // TODO: Remove onErrorJustReturn
-        let maintainStatus = usecaseSystemStatus.observePortalMaintenanceState().asDriver(onErrorJustReturn: MaintenanceStatus.AllPortal(duration: nil))
+        let maintainStatus = usecaseSystemStatus.observePortalMaintenanceState().asDriverOnErrorJustComplete()
         let maintainStatusPreSecond = usecaseSystemStatus.observePortalMaintenanceState().asDriver(onErrorJustReturn: MaintenanceStatus.AllPortal(duration: nil)).do(onNext: { [weak self] status in
             switch status {
             case let allPortal as MaintenanceStatus.AllPortal:

@@ -44,16 +44,7 @@ class LaunchViewController: APPViewController {
     }
     
     func displayAlert(_ title: String?, _ message: String?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.view.backgroundColor = UIColor.white
-        alert.view.layer.cornerRadius = 14
-        alert.view.clipsToBounds = true
-        let confirmAction = UIAlertAction(title: Localize.string("common_confirm"), style: .default) { (action) in
-            exit(0)
-        }
-        confirmAction.setValue(UIColor.redForLightFull, forKey: "titleTextColor")
-        alert.addAction(confirmAction)
-        self.present(alert, animated: true, completion: nil)
+        Alert.show(title, message ,confirm: {exit(0)}, confirmText: Localize.string("common_confirm"), cancel: nil)
     }
     
     private func nextPage() {
