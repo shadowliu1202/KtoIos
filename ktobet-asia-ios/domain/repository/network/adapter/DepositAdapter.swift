@@ -75,4 +75,8 @@ class DepositAdapter: DepositProtocol {
             providerId: request.providerId,
             bankCode: request.bankCode)).asReaktiveResponseItem(serial: OnlineDepositResponseBean.companion.serializer())
     }
+    
+    func getCryptoExchangeFeeSetting(cryptoExchange: Int32 = 1) -> SingleWrapper<ResponseItem<FeeSettingBean>> {
+        cpsAPI.getCryptoExchangeFeeSettingString(cryptoExchange: cryptoExchange).asReaktiveResponseItem(serial: FeeSettingBean.companion.serializer())
+    }
 }

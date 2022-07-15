@@ -674,6 +674,11 @@ class DIContainer {
             let appUpdateUseCase = ctner.resolve(AppVersionUpdateUseCase.self)!
             return AppSynchronizeViewModel(appUpdateUseCase: appUpdateUseCase)
         }.inObjectScope(.application)
+        ctner.register(StarMergerViewModel.self) { (resolver) in
+            let applicationFactory = ctner.resolve(ApplicationFactory.self)!
+            let depositService = applicationFactory.deposit()
+            return StarMergerViewModel(depositService: depositService)
+        }
     }
     
     func registLoginView(){

@@ -50,3 +50,17 @@ struct OnlinePayment: DepositSelection {
         self.isRecommend = online.isRecommend
     }
 }
+
+struct CryptoMarket: DepositSelection {
+    var id: String
+    var name: String
+    var hint: String
+    var isRecommend: Bool
+    
+    init(_ cryptoMarket: PaymentsDTO.CryptoMarket) {
+        self.id = cryptoMarket.identity
+        self.name = cryptoMarket.name
+        self.hint = cryptoMarket.hint
+        self.isRecommend = cryptoMarket.isRecommend
+    }
+}

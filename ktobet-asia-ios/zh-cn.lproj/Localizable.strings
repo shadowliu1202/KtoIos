@@ -72,6 +72,18 @@
 "cps_withdrawal_fiat_amount_below_limit_message" = "您的提现金额低于单笔限额";
 "cps_withdrawal_fiat_amount_over_limit_message" = "您的提现金额超过单笔限额";
 "cps_withdrawal_exceeding_daily_limit_message" = "您的提现金额或次数要求已大于今日可提现限制";
+"cps_deposit_market_condition_amount_per_day" = "单笔金额大于%@，每笔最高%@%%,每日上限%@元，1倍流水";
+"cps_deposit_market_condition_times_per_day" = "单笔金额大于%@，每笔最高%@%%,每日上限%@次，1倍流水";
+"cps_starmerger_title" = "星合交易所";
+"cps_deposit_amount_limit" = "存款限额";
+"cps_starmerger_description" = "1.您点击链接后会进入星合交易所APP，在交易所实名认证后可以进行存款的操作，通道支持支付宝、微信和银行卡。
+
+2.您在交易所成功买币后，系统会自动按照您花费的RMB的金额添加到游戏账户中心。
+
+3.在交易所如果遇到任何交易问题，可以咨询交易所的客服，如果遇到特殊情况，可以反馈给我们，我们会为您协调处理。
+
+4.当您符合交易所条件后，可以进行高级认证，认证成功后可以在交易所进行虚拟币自由交易，详情可以咨询交易所的客服。";
+"cps_starmerger_hint" = "充值完成后请重刷页面，如有关交易所问题可咨询交易所客服。";
 
 //MARK: - Common
 "common_kto" = "KTO";

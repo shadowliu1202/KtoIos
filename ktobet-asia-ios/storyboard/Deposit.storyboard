@@ -689,6 +689,7 @@
                         <segue destination="2is-AB-lQC" kind="show" identifier="toDepositRecordSegue" id="keF-G9-Ps9"/>
                         <segue destination="AGT-ah-Yup" kind="show" identifier="toAllRecordSegue" id="F0Y-xT-FZE"/>
                         <segue destination="Avu-Ft-lF9" kind="show" identifier="toCryptoSelector" id="nHC-IL-8gK"/>
+                        <segue destination="YKU-wZ-kb4" kind="show" identifier="toStarMergerViewController" id="bFD-tn-R4q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FYP-XU-rzd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -936,6 +937,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O9R-kW-j1d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-418.84057971014494" y="1271.6517857142856"/>
+        </scene>
+        <!--Star Merger View Controller-->
+        <scene sceneID="ajU-oE-D0v">
+            <objects>
+                <viewController extendedLayoutIncludesOpaqueBars="YES" id="YKU-wZ-kb4" customClass="StarMergerViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yOc-FT-cta">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F12-Xc-cIu">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="q6m-k2-1zI" kind="embed" destinationCreationSelector="toStarMergerView:" id="qmS-Lk-Hc2"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="IKp-ED-Hty"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="F12-Xc-cIu" firstAttribute="leading" secondItem="IKp-ED-Hty" secondAttribute="leading" id="0Jc-eB-iLv"/>
+                            <constraint firstItem="IKp-ED-Hty" firstAttribute="bottom" secondItem="F12-Xc-cIu" secondAttribute="bottom" id="bam-WA-Uas"/>
+                            <constraint firstItem="IKp-ED-Hty" firstAttribute="trailing" secondItem="F12-Xc-cIu" secondAttribute="trailing" id="cGQ-s2-UnX"/>
+                            <constraint firstItem="F12-Xc-cIu" firstAttribute="top" secondItem="yOc-FT-cta" secondAttribute="top" id="t9C-AC-mFB"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZBZ-Qr-tgL"/>
+                    <connections>
+                        <segue destination="8tx-d2-eAY" kind="show" identifier="toThirdPartWebSegue" id="Oqv-Be-XzM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HYj-G6-vdP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="454" y="1256"/>
         </scene>
         <!--Crypto Selector View Controller-->
         <scene sceneID="MNJ-p0-9it">
@@ -2115,8 +2150,17 @@
             </objects>
             <point key="canvasLocation" x="-1279" y="1800"/>
         </scene>
+        <!--Hosting Controller-->
+        <scene sceneID="YQ7-Lp-BwA">
+            <objects>
+                <hostingController extendedLayoutIncludesOpaqueBars="YES" id="q6m-k2-1zI" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qM9-jG-mhf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="455" y="2021"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="Oqv-Be-XzM"/>
         <segue reference="hkd-5J-lSd"/>
     </inferredMetricsTieBreakers>
     <resources>

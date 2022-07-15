@@ -21,6 +21,10 @@ class DepositViewModel {
             list.append(CryptoPayment(crypto))
         }
         
+        if let cryptoMarket = paymentsDTO.cryptoMarket {
+            list.append(CryptoMarket(cryptoMarket))
+        }
+        
         return list
     }
     

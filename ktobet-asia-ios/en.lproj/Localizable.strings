@@ -66,6 +66,12 @@
 "cps_withdrawal_fiat_amount_below_limit_message" = "";
 "cps_withdrawal_fiat_amount_over_limit_message" = "";
 "cps_withdrawal_exceeding_daily_limit_message" = "";
+"cps_deposit_market_condition_amount_per_day" = "";
+"cps_deposit_market_condition_times_per_day" = "";
+"cps_starmerger_title" = "";
+"cps_deposit_amount_limit" = "";
+"cps_starmerger_description" = "";
+"cps_starmerger_hint" = "";
 
 //MARK: - Common
 "common_kto" = "KTO";
