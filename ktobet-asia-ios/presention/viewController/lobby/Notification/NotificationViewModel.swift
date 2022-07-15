@@ -65,18 +65,15 @@ class NotificationViewModel: KTOViewModel, ViewModelType {
         refreshTrigger.flatMapLatest { [unowned self] _ -> Driver<[NotificationItem]> in
             self.pagination.refreshTrigger.onNext(())
             return Driver.combineLatest(getActivityNotification(), self.pagination.elements.asDriver(onErrorJustReturn: []))
-                .map { (activityNnotificationSummary, playerNotifications) -> [NotificationItem] in
-                    let sortedNotifications = self.sortedNotifications(activityNotifications: activityNnotificationSummary.notifications, playerNotifications: playerNotifications)
-                    return filterKeyword(notificationItem: sortedNotifications)
-                }
+                .map({self.sortedNotifications(activityNotifications: $0.notifications, playerNotifications: $1)})
         }.asDriver(onErrorJustReturn: [])
     }
 
     private func sortedNotifications(activityNotifications: [SharedBu.Notification], playerNotifications: [SharedBu.Notification]) -> [NotificationItem] {
         let supportLocale = configurationUseCase.locale()
         let allNotification = activityNotifications + playerNotifications
-        let sortedNotification = allNotification.sorted(by: { $0.displayTime.compareTo(other: $1.displayTime) > 0 })
-        return sortedNotification.map { NotificationItem($0, supportLocale: supportLocale) }
+        let sortedNotification = allNotification.sorted(by: { $0.displayTime.compareTo(other: $1.displayTime) > 0 }).map { NotificationItem($0, supportLocale: supportLocale) }
+        return filterKeyword(notificationItem: sortedNotification)
     }
 
     private func filterKeyword(notificationItem: [NotificationItem]) -> [NotificationItem] {
@@ -85,9 +82,17 @@ class NotificationViewModel: KTOViewModel, ViewModelType {
             if keyword.isEmpty {
                 return true
             } else {
-                return notificationItem.title.localizedCaseInsensitiveContains(keyword) || notificationItem.content.localizedCaseInsensitiveContains(keyword)
+                return isNotificationItemContainedKeyword(item: notificationItem, keyword: keyword)
             }
         }
+    }
+    
+    private func isNotificationItemContainedKeyword(item: NotificationItem, keyword: String) -> Bool {
+        isStringContainedKeyword(item.title, keyword) || isStringContainedKeyword(item.content, keyword)
+    }
+    
+    private func isStringContainedKeyword(_ item: String, _ keyword: String) -> Bool {
+        item.removeAccent().localizedCaseInsensitiveContains(keyword.removeAccent())
     }
 
     private func isHiddenEmptyView(_ notifications: Driver<[NotificationItem]>) -> Driver<Bool> {
