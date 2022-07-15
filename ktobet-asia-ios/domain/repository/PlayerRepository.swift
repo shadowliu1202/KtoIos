@@ -3,6 +3,7 @@ import SharedBu
 import RxSwift
 
 protocol PlayerRepository {
+    func refreshHttpClient(playerLocale: SupportLocale)
     func loadPlayer()-> Single<Player>
     func getDefaultProduct()->Single<ProductType>
     func saveDefaultProduct(_ productType: ProductType)->Completable
@@ -40,8 +41,18 @@ class PlayerRepositoryImpl : PlayerRepository {
         self.settingStore = settingStore
     }
     
+    func refreshHttpClient(playerLocale: SupportLocale) {
+        let oldURLString = httpClient.host.description
+        self.localStorageRepo.setCultureCode(playerLocale.cultureCode())
+        Theme.shared.changeEntireAPPFont(by: playerLocale)
+        DI.resetObjectScope(.lobby)
+        
+        let newURLString = DI.resolve(HttpClient.self)!.host.description
+        self.httpClient.replaceCookiesDomain(oldURLString, to: newURLString)
+        DI.resetObjectScope(.lobby)
+    }
+    
     func loadPlayer() -> Single<Player> {
-        let appLocale = localStorageRepo.getSupportLocale()
         
         let favorProduct = getDefaultProduct()
         let localization = playerApi.getCultureCode()
@@ -54,7 +65,7 @@ class PlayerRepositoryImpl : PlayerRepository {
         
         return Single
             .zip(favorProduct, localization, playerInfo, contactInfo)
-            .map { [unowned self] (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
+            .map { (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
                 let playerLocale : SupportLocale = {
                     if let cultureCode = responseLocalization.data {
                         return SupportLocale.Companion.init().create(language: cultureCode)
@@ -62,21 +73,6 @@ class PlayerRepositoryImpl : PlayerRepository {
                         return SupportLocale.China()
                     }
                 }()
-                
-                if appLocale != playerLocale {
-                    let oldURLString = httpClient.host.description
-                    self.localStorageRepo.setCultureCode(playerLocale.cultureCode())
-                    Theme.shared.changeEntireAPPFont(by: playerLocale)
-                    DI.resetObjectScope(.lobby)
-                    
-                    let newURLString = DI.resolve(HttpClient.self)!.host.description
-                    self.httpClient.replaceCookiesDomain(oldURLString, to: newURLString)
-                    DI.resetObjectScope(.lobby)
-                    
-                    let _ = CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
-                        print("Completed")
-                    })
-                }
 
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",
                                             displayId: responsePlayerInfo.data?.displayId ?? "" ,

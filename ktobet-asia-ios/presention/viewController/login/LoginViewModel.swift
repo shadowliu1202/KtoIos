@@ -84,13 +84,14 @@ class LoginViewModel{
         timerOverLoginLimit.stop()
     }
     
-    func loginFrom(isRememberMe : Bool)->Single<(Player)>{
+    func loginFrom(isRememberMe : Bool) -> Single<(Player)> {
         let account = self.relayAccount.value.trimmingCharacters(in: .whitespaces)
         let password = self.relayPassword.value
         let captcha = Captcha(passCode: self.relayCaptcha.value)
         return usecaseAuth
             .loginFrom(account: account, pwd: password, captcha: captcha)
             .map { (player) -> Player in
+                self.usecaseAuth.refreshHttpClient(playerLocale: player.locale())
                 self.usecaseAuth.setRemeberAccount(isRememberMe ? account : nil)
                 self.usecaseAuth.setNeedCaptcha(nil)
                 self.usecaseAuth.setLastOverLoginLimitDate(nil)
@@ -99,12 +100,12 @@ class LoginViewModel{
             }
     }
     
-    func isRememberMe()->Bool{
+    func isRememberMe() -> Bool {
         let haveAccount = usecaseAuth.getRemeberAccount().count > 0
         return haveAccount
     }
     
-    func getCaptchaImage()->Single<UIImage>{
+    func getCaptchaImage() -> Single<UIImage> {
         return usecaseAuth
             .getCaptchaImage()
             .map { (img) -> UIImage in
@@ -114,7 +115,7 @@ class LoginViewModel{
             }
     }
     
-    func event()-> (accountValid : Observable<LoginDataStatus>,
+    func event() -> (accountValid : Observable<LoginDataStatus>,
                     passwordValid : Observable<LoginDataStatus>,
                     captchaValid : Observable<Bool>,
                     captchaImage : Observable<UIImage?>,

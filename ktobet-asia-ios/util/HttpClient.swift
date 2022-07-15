@@ -182,6 +182,7 @@ class HttpClient {
     }
     
     func replaceCookiesDomain(_ oldURLString: String, to newURLString: String) {
+        guard oldURLString != newURLString else { return }
         let oldDomain = oldURLString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
         let newDomain = newURLString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
         let storage = self.session.sessionConfiguration.httpCookieStorage
