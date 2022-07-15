@@ -9,7 +9,9 @@ class DepositStringServiceFactory: ExternalStringService {
                              depositMultipleHint: KNLazyCompanion().create(input: Localize.string("deposit_pay_multiple_hint")),
                              depositAmountOptionHint: KNLazyCompanion().create(input: Localize.string("deposit_amount_option_hint")),
                              cpsCryptoCurrencyDepositFeeMaximumHint: ResourceKey(key: Localize.string("cps_crypto_currency_deposit_hint")),
-                             cpsCryptoCurrencyDepositFeeTimesHint: ResourceKey(key: Localize.string("cps_crypto_currency_deposit_times_hint")))
+                             cpsCryptoCurrencyDepositFeeTimesHint: ResourceKey(key: Localize.string("cps_crypto_currency_deposit_times_hint")),
+                             cryptoMarketPromotionFeeMaximumHint: ResourceKey(key: Localize.string("cps_deposit_market_condition_amount_per_day")),
+                             cryptoMarketPromotionFeeTimesHint: ResourceKey(key: Localize.string("cps_deposit_market_condition_times_per_day")))
     }
 }
 
@@ -17,6 +19,8 @@ class depositStringService: DepositStringService {
     var cpsCryptoCurrencyDepositFeeMaximumHint: ResourceKey
     var cpsCryptoCurrencyDepositFeeTimesHint: ResourceKey
     var cpsCryptoCurrencyDepositHint: ResourceKey
+    var cryptoMarketPromotionFeeMaximumHint: ResourceKey
+    var cryptoMarketPromotionFeeTimesHint: ResourceKey
     var depositCpsHint: KotlinLazy
     var depositFloatAmountHelpSpeed: KotlinLazy
     var depositMultipleHint: KotlinLazy
@@ -28,7 +32,9 @@ class depositStringService: DepositStringService {
          depositMultipleHint: KotlinLazy,
          depositAmountOptionHint: KotlinLazy,
          cpsCryptoCurrencyDepositFeeMaximumHint: ResourceKey,
-         cpsCryptoCurrencyDepositFeeTimesHint: ResourceKey) {
+         cpsCryptoCurrencyDepositFeeTimesHint: ResourceKey,
+         cryptoMarketPromotionFeeMaximumHint: ResourceKey,
+         cryptoMarketPromotionFeeTimesHint: ResourceKey) {
         self.cpsCryptoCurrencyDepositHint = cpsCryptoCurrencyDepositHint
         self.depositCpsHint = depositCpsHint
         self.depositFloatAmountHelpSpeed = depositFloatAmountHelpSpeed
@@ -36,5 +42,7 @@ class depositStringService: DepositStringService {
         self.depositAmountOptionHint = depositAmountOptionHint
         self.cpsCryptoCurrencyDepositFeeMaximumHint = cpsCryptoCurrencyDepositFeeMaximumHint
         self.cpsCryptoCurrencyDepositFeeTimesHint = cpsCryptoCurrencyDepositFeeTimesHint
+        self.cryptoMarketPromotionFeeMaximumHint = cryptoMarketPromotionFeeMaximumHint
+        self.cryptoMarketPromotionFeeTimesHint = cryptoMarketPromotionFeeTimesHint
     }
 }

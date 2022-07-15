@@ -98,6 +98,8 @@ class DepositViewController: LobbyViewController {
             switch data {
             case is CryptoPayment:
                 self.alertCryptoDepositWarnings()
+            case is CryptoMarket:
+                self.performSegue(withIdentifier: StarMergerViewController.segueIdentifier, sender: data.id)
             default:
                 self.performSegue(withIdentifier: DepositGatewayViewController.segueIdentifier, sender: data)
             }
@@ -158,13 +160,14 @@ class DepositViewController: LobbyViewController {
                 dest.depositType = depositType
                 dest.paymentIdentity = depositType?.id
             }
-        }
-        
-        if segue.identifier == DepositCryptoViewController.segueIdentifier {
+        } else if segue.identifier == DepositCryptoViewController.segueIdentifier {
             if let dest = segue.destination as? DepositCryptoViewController {
                 dest.url = sender as? String
             }
+        } else if segue.identifier == StarMergerViewController.segueIdentifier, let dest = segue.destination as? StarMergerViewController {
+            dest.paymentGatewayID = (sender as? String)!
         }
+        
     }
     
     @IBAction func backToDeposit(segue: UIStoryboardSegue) {

@@ -103,7 +103,6 @@ class CPSApi: ApiService {
         return httpClient.request(target).map(ResponseData<[CryptoLimitBean]>.self)
     }
     
-    
     // MARK: New
     func getCryptoCurrency() -> Single<String> {
         let target = GetAPITarget(service: self.url("api/deposit/crypto-currency"))
@@ -115,6 +114,15 @@ class CPSApi: ApiService {
                                path: "api/deposit/online-deposit-crypto",
                                method: .post,
                                task: .requestJSONEncodable(cryptoDepositRequest),
+                               header: httpClient.headers)
+        return httpClient.requestJsonString(target)
+    }
+    
+    func getCryptoExchangeFeeSettingString(cryptoExchange: Int32 = 1) -> Single<String> {
+        let target = APITarget(baseUrl: httpClient.host,
+                               path: "api/deposit/crypto-exchange/\(cryptoExchange)/fee-setting",
+                               method: .get,
+                               task: .requestPlain,
                                header: httpClient.headers)
         return httpClient.requestJsonString(target)
     }

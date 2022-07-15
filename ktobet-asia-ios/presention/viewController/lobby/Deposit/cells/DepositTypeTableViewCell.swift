@@ -16,7 +16,8 @@ class DepositTypeTableViewCell: UITableViewCell {
                                           "9": "iconCloudpay",
                                           "11": "雲閃付(32)",
                                           "14": "iconPayMultiple",
-                                          "2001": "Crypto"]
+                                          "2001": "Crypto",
+                                          "22": "StarMerger"]
 
     func setUp(depositSelection: DepositSelection, local: SupportLocale) {
         nameLabel.text = depositSelection.name

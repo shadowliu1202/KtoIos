@@ -1,1 +1,2 @@
-APP-3277 [iOS][CS] VND ExitSurvey 若有 Paragraph 輸入超過兩百字，送出不應彈出 "未知錯誤" error toast // API修正後已可以送出超過200字
+APP-3078 [iOS] 電子郵件規則調整
+APP-3322 [iOS][金鐿 JinYi ] 支付宝微博话费充值串接新增限額200
