@@ -6,7 +6,7 @@ struct StarMergerView: View {
     @StateObject var viewModel: StarMergerViewModel
     let confirmButtonAction: (CommonDTO.WebPath?) -> Void
     
-    init(viewModel: StarMergerViewModel, _ confirmButtonAction: @escaping (_ url: CommonDTO.WebPath?) -> Void) {
+    init(viewModel: StarMergerViewModel, _ confirmButtonAction: @escaping (_ webPath: CommonDTO.WebPath?) -> Void) {
         self._viewModel = StateObject.init(wrappedValue: viewModel)
         self.confirmButtonAction = confirmButtonAction
     }
@@ -32,9 +32,9 @@ struct StarMergerView: View {
                 Button(Localize.string("common_submit2")) {
                     confirmButtonAction(viewModel.paymentLink)
                 }
+                .buttonStyle(RedButtonStyle())
                 .disabled(viewModel.paymentLink == nil ? true : false)
                 .allowsHitTesting(viewModel.paymentLink == nil ? false : true)
-                .buttonStyle(RedButtonStyle())
             }
             .padding(.horizontal, 30)
             .KTOPageSpacer()
@@ -65,6 +65,7 @@ struct StarMergerView: View {
             
             Text(Localize.string("cps_starmerger_description"))
                 .fontAndColor(font: .custom("PingFangSC-Medium", size: 14), color: .white)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
     
@@ -74,9 +75,9 @@ struct StarMergerView: View {
     }
 }
 
-//struct StarMergerView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StarMergerView(viewModel: DI.resolve(StarMergerViewModel.self)!, { _ in
-//        })
-//    }
-//}
+struct StarMergerView_Previews: PreviewProvider {
+    static var previews: some View {
+        StarMergerView(viewModel: DI.resolve(StarMergerViewModel.self)!, { _ in
+        })
+    }
+}
