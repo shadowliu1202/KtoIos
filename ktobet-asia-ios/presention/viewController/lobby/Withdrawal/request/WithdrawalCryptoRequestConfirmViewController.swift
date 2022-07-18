@@ -95,32 +95,24 @@ class WithdrawalCryptoRequestConfirmViewController: LobbyViewController {
         switch error {
         case is KtoRequestCryptoRateChange:
             self.delegate?.rateDidChange()
-            self.notifyRateChanged()
+            Alert.show(Localize.string("cps_rate_changed"), Localize.string("cps_please_refill_amounts"), confirm: { self.navigateBack() }, cancel: nil)
         case is KtoPlayerWithdrawalDefective:
-            notifyRequestFailureThenExit()
+            Alert.show(nil, Localize.string("withdrawal_fail"), confirm: { self.navigateBack() }, cancel: nil)
         case is KtoPlayerNotQualifiedForCryptoWithdrawal:
-            alertPlayerNotQualifiedForCryptoWithdrawal()
+            Alert.show(nil, Localize.string("cps_withdrawal_all_fiat_first"), confirm: {}, cancel: nil)
+        case is KtoPlayerExceededPaymentGroupLimit:
+            Alert.show(Localize.string("common_tip_title_warm"), Localize.string("cps_withdrawal_exceeding_daily_limit_message"), confirm: { self.navigateBack() }, cancel: nil)
+        case is KtoPlayerAmountExceededLimit:
+            Alert.show(Localize.string("common_tip_title_warm"), Localize.string("cps_withdrawal_fiat_amount_over_limit_message"), confirm: { self.navigateBack() }, cancel: nil)
+        case is KtoPlayerAmountBelowLimit:
+            Alert.show(Localize.string("common_tip_title_warm"), Localize.string("cps_withdrawal_fiat_amount_below_limit_message"), confirm: { self.navigateBack() }, cancel: nil)
         default:
             super.handleErrors(error)
         }
     }
     
-    private func notifyRateChanged() {
-        displayAlert(Localize.string("cps_rate_changed"), Localize.string("cps_please_refill_amounts"))
-    }
-    
-    private func notifyRequestFailureThenExit() {
-        displayAlert(nil, Localize.string("withdrawal_fail"))
-    }
-    
-    private func alertPlayerNotQualifiedForCryptoWithdrawal() {
-        Alert.show(nil, Localize.string("cps_withdrawal_all_fiat_first"), confirm: {}, cancel: nil)
-    }
-    
-    private func displayAlert(_ title: String?, _ message: String) {
-        Alert.show(title, message, confirm: {
-            NavigationManagement.sharedInstance.back()
-        }, cancel: nil)
+    private func navigateBack() {
+        NavigationManagement.sharedInstance.back()
     }
     
     deinit {
