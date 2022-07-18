@@ -269,6 +269,12 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
                 return KtoRequestCryptoRateChange()
             case is PlayerWithdrawalDefective:
                 return KtoPlayerWithdrawalDefective()
+            case is PlayerExceededPaymentGroupLimit:
+                return KtoPlayerExceededPaymentGroupLimit()
+            case is PlayerAmountExceededLimit:
+                return KtoPlayerAmountExceededLimit()
+            case is PlayerAmountBelowLimit:
+                return KtoPlayerAmountBelowLimit()
             default:
                 return $0
             }
