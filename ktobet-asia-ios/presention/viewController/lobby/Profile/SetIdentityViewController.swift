@@ -49,8 +49,12 @@ class SetIdentityViewController: LobbyViewController {
         settingButton.isValid = false
         inputIdentity.setKeyboardType(delegate.setIdentityArgs.keyboardType)
         inputIdentity.setTitle(delegate.setIdentityArgs.inputTitle)
-        if delegate.setIdentityArgs.keyboardType == .phonePad {
+        if delegate.setIdentityArgs.accountType == .phone {
             inputIdentity.setSubTitle("+\(viewModel.locale.cellPhoneNumberFormat().areaCode())")
+        }
+        
+        if delegate.setIdentityArgs.accountType == .email {
+            inputIdentity.maxLength = Account.Email.companion.MAX_LENGTH
         }
         
         inputIdentity.textContent.rx
@@ -64,7 +68,7 @@ class SetIdentityViewController: LobbyViewController {
         settingButton.rx.throttledTap.subscribe(onNext: { [unowned self] in
             self.delegate.modifyIdentity(identity: self.inputIdentity.textContent.text!)
                 .subscribe {
-                    viewModel.otpRetryCount = 0
+                    self.viewModel.otpRetryCount = 0
                 }.disposed(by: disposeBag)
         }).disposed(by: disposeBag)
 
@@ -91,7 +95,7 @@ class SetIdentityViewController: LobbyViewController {
     }
     
     private func showErrorTip(identity: String) {
-        let status = delegate.setIdentityArgs.keyboardType == .emailAddress ? emailValid(identity) : mobileValid(identity)
+        let status = delegate.setIdentityArgs.accountType == .email ? emailValid(identity) : mobileValid(identity)
         var message = ""
         if status == .errEmailFormat {
             message = self.delegate.setIdentityArgs.inputFormatError
@@ -204,6 +208,7 @@ struct SetIdentityArgs {
     fileprivate(set) var inputFormatError: String
     fileprivate(set) var invalidIdentityError: String
     fileprivate(set) var barItemType: BarItemType
+    fileprivate(set) var accountType: AccountType
 }
 
 protocol ISetIdentityBuilder {
@@ -221,6 +226,7 @@ class SetIdentityBuilder: ISetIdentityBuilder {
     fileprivate(set) var inputFormatError: String
     fileprivate(set) var invalidIdentityError: String
     fileprivate(set) var barItemType: BarItemType
+    fileprivate(set) var accountType: AccountType
     
     fileprivate init(keyboardType: UIKeyboardType = .emailAddress,
                      failedType: CommonFailedTypeProtocol = CommonFailedType(),
@@ -231,7 +237,8 @@ class SetIdentityBuilder: ISetIdentityBuilder {
                      inputTitle: String = "",
                      inputFormatError: String = "",
                      invalidIdentityError: String = "",
-                     barItemType: BarItemType) {
+                     barItemType: BarItemType,
+                     accountType: AccountType) {
         self.keyboardType = keyboardType
         self.failedType = failedType
         self.stepTitle = stepTitle
@@ -242,6 +249,7 @@ class SetIdentityBuilder: ISetIdentityBuilder {
         self.inputFormatError = inputFormatError
         self.invalidIdentityError = invalidIdentityError
         self.barItemType = barItemType
+        self.accountType = accountType
     }
     
     func build() -> SetIdentityArgs {
@@ -254,7 +262,8 @@ class SetIdentityBuilder: ISetIdentityBuilder {
                         inputTitle: inputTitle,
                         inputFormatError: inputFormatError,
                         invalidIdentityError: invalidIdentityError,
-                        barItemType: barItemType)
+                        barItemType: barItemType,
+                        accountType: accountType)
     }
 }
 
@@ -291,7 +300,8 @@ class SetIdentityFactory {
                            inputTitle: Localize.string("common_email"),
                            inputFormatError: Localize.string("common_error_email_format"),
                            invalidIdentityError: Localize.string("common_error_email_verify"),
-                           barItemType: .close).build()
+                           barItemType: .close,
+                           accountType: .email).build()
     }
     
     private func profileExistMobileArgs() -> SetIdentityArgs {
@@ -304,7 +314,8 @@ class SetIdentityFactory {
                            inputTitle: Localize.string("common_mobile"),
                            inputFormatError: Localize.string("common_error_mobile_format"),
                            invalidIdentityError: Localize.string("common_error_phone_verify"),
-                           barItemType: .close).build()
+                           barItemType: .close,
+                           accountType: .phone).build()
     }
     
     private func profileNoExistEmailArgs() -> SetIdentityArgs {
@@ -316,7 +327,8 @@ class SetIdentityFactory {
                            inputTitle: Localize.string("common_email"),
                            inputFormatError: Localize.string("common_error_email_format"),
                            invalidIdentityError: Localize.string("common_error_email_verify"),
-                           barItemType: .back).build()
+                           barItemType: .back,
+                           accountType: .email).build()
     }
     
     private func profileNoExistMobileArgs() -> SetIdentityArgs {
@@ -328,7 +340,8 @@ class SetIdentityFactory {
                            inputTitle: Localize.string("common_mobile"),
                            inputFormatError: Localize.string("common_error_mobile_format"),
                            invalidIdentityError: Localize.string("common_error_phone_verify"),
-                           barItemType: .back).build()
+                           barItemType: .back,
+                           accountType: .phone).build()
     }
 }
 

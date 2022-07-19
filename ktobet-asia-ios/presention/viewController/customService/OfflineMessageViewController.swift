@@ -1,5 +1,6 @@
 import UIKit
 import RxSwift
+import SharedBu
 
 class OfflineMessageViewController: CommonViewController {
     var barButtonItems: [UIBarButtonItem] = []
@@ -24,6 +25,7 @@ class OfflineMessageViewController: CommonViewController {
         emailInputText.setTitle(Localize.string("common_email"))
         emailInputText.setCorner(topCorner: true, bottomCorner: true)
         emailInputText.setKeyboardType(.emailAddress)
+        emailInputText.maxLength = Account.Email.companion.MAX_LENGTH
         messageContent.delegate = self
         messageContent.text = Localize.string("customerservice_offline_survey_hint")
         messageContent.textColor = UIColor.textPrimaryDustyGray

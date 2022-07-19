@@ -58,6 +58,7 @@ class ResetPasswordViewController: LandingViewController {
         inputMobile.setKeyboardType(.numberPad)
         inputEmail.setTitle(Localize.string("common_email"))
         inputMobile.setTitle(Localize.string("common_mobile"))
+        inputEmail.maxLength = Account.Email.companion.MAX_LENGTH
         btnSubmit.setTitle(Localize.string("common_get_code"), for: .normal)
         for button in [btnEmail, btnPhone]{
             let selectedColor = UIColor.backgroundTabsGray
