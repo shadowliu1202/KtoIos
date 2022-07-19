@@ -6,6 +6,5 @@
   
 */
 
-"CFBundleDisplayName" = "KTO\U2007Asia=com.kto.asia=";
 "NSCameraUsageDescription" = "Requires Camera Access permission.";
 "NSPhotoLibraryUsageDescription" = "Requires Photos Access permission.";
