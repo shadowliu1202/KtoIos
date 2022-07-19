@@ -188,7 +188,7 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
     
     private func confirmUseRebateCoupon(_ bonusCoupon: BonusCoupon.Rebate) -> Single<WaitingConfirm> {
         return verifyAccountLockedBonus(bonusCoupon)
-            .andThen(Single.just(ConfirmAutoUse(useCase: self, bonusCoupon: bonusCoupon)))
+            .andThen(Single.just(ConfirmUseBonusCoupon(useCase: self, bonusCoupon: bonusCoupon)))
             .catchError({ (error) -> Single<WaitingConfirm> in
                 if let exception = error as? PromotionException {
                     var waitingConfirm: WaitingConfirm

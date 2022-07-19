@@ -35,15 +35,17 @@ class ConfirmUseBonusCoupon: WaitingConfirm {
         self.bonusCoupon = bonusCoupon
     }
     func execute(confirm: Single<Bool>) -> Single<WaitingConfirm> {
-        return confirm.flatMap({
-            if ($0) {
+        return confirm.flatMap({ confirm in 
+            if confirm == false {
+                return Single.just(DoNothing())
+            } else if let rebateBonusCoupon = self.bonusCoupon as? BonusCoupon.Rebate {
+                return Single.just(ConfirmAutoUse(useCase: self.useCase, bonusCoupon: rebateBonusCoupon))
+            } else {
                 return self.useCase.useBonusCoupon(bonusCoupon: self.bonusCoupon)
                     .andThen(Single.just(UseCouponSucceeded()))
                     .catchError { (error) -> Single<WaitingConfirm> in
                         return self.addUseCouponHandler(error)
                     }
-            } else {
-                return Single.just(DoNothing())
             }
         })
     }
