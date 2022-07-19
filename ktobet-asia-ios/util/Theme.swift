@@ -180,4 +180,19 @@ final class Theme {
             return 100
         }
     }
+    
+    func getBetTimeWeekdayFormat(by playerLocale: SupportLocale) -> DateFormatter {
+        let dateFormatter = DateFormatter()
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.dateFormat = "yyyy/MM/dd (EEE) HH:mm:ss"
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            dateFormatter.locale = Locale(identifier: "zh_Hans_CN")
+            dateFormatter.dateFormat = "yyyy/MM/dd (EEEEE) HH:mm:ss"
+        }
+        return dateFormatter
+    }
 }
