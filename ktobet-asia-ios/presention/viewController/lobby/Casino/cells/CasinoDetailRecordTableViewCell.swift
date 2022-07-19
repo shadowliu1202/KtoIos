@@ -13,7 +13,7 @@ class CasinoDetailRecord2TableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     
-    func setup(index: Int, detail: CasinoDetail) {
+    func setup(index: Int, detail: CasinoDetail, supportLocal: SupportLocale) {
         if index == 1 {
             self.titleLabel.text = Localize.string("product_game_name_id")
             self.contentLabel.text = detail.gameName + "(\(detail.roundId))"
@@ -27,8 +27,7 @@ class CasinoDetailRecord2TableViewCell: UITableViewCell {
         if index == 3 {
             self.titleLabel.text = Localize.string("product_bet_time")
             let date = detail.betTime.convertToDate()
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy/MM/dd(E)HH:mm:ss"
+            let dateFormatter = Theme.shared.getBetTimeWeekdayFormat(by: supportLocal)
             let currentDateString: String = dateFormatter.string(from: date)
             self.contentLabel.text = "\(currentDateString)"
         }

@@ -11,6 +11,8 @@ class RecentDetailViewController: LobbyViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -93,7 +95,7 @@ extension RecentDetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let item = detailItem else { return UITableViewCell() }
-        let cell =  self.tableView.dequeueReusableCell(withIdentifier: "RecentDetailCell", cellType: RecentDetailCell.self).configure(index: indexPath.row, data: item)
+        let cell =  self.tableView.dequeueReusableCell(withIdentifier: "RecentDetailCell", cellType: RecentDetailCell.self).configure(index: indexPath.row, data: item, supportLocal: playerLocaleConfiguration.getSupportLocale())
         cell.removeBorder()
         if indexPath.row != 0 {
             cell.addBorder()
@@ -108,7 +110,7 @@ class RecentDetailCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var subDescriptionLabel: UILabel!
     
-    func configure(index: Int, data: NumberGameBetDetail) -> Self {
+    func configure(index: Int, data: NumberGameBetDetail, supportLocal: SupportLocale) -> Self {
         if index == 0 {
             setTilte(key:"product_bet_id")
             setValue(data.displayId)
@@ -122,9 +124,7 @@ class RecentDetailCell: UITableViewCell {
         } else if index == 3 {
             setTilte(key: "product_bet_time")
             let date = data.betTime.convertToDate()
-            let dateFormatter = DateFormatter()
-            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-            dateFormatter.dateFormat = "yyyy/MM/dd (E) HH:mm:ss"
+            let dateFormatter = Theme.shared.getBetTimeWeekdayFormat(by: supportLocal)
             let currentDateString: String = dateFormatter.string(from: date)
             setValue(currentDateString)
         } else if index == 4 {
