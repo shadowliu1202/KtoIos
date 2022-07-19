@@ -83,9 +83,11 @@ class UseBonusCoupon {
 
     private class func createUseCouponDialog(bonusCoupon: BonusCoupon) -> Single<Bool> {
         if let coupon = bonusCoupon as? BonusCoupon.FreeBet {
-            return createUseCouponConfirmDialog(title: coupon.name, message: Localize.string("bonus_usefreebet"))
+            return createUseCouponConfirmDialog(title: coupon.name, message: Localize.string("bonus_use_coupon", Localize.string("bonus_bonustype_1")))
         } else if let coupon = bonusCoupon as? BonusCoupon.DepositReturn {
-            return createUseCouponConfirmDialog(title: coupon.name, message: Localize.string("bonus_usedepositbonus"))
+            return createUseCouponConfirmDialog(title: coupon.name, message: Localize.string("bonus_use_coupon", Localize.string("bonus_bonustype_2_2")))
+        } else if let coupon = bonusCoupon as? BonusCoupon.Rebate {
+            return createUseCouponConfirmDialog(title: coupon.message, message: Localize.string("bonus_use_coupon", Localize.string("bonus_bonustype_4")))
         } else {
             return Single.just(false)
         }
@@ -100,7 +102,7 @@ class UseBonusCoupon {
                        cancel: {
                         single(.success(false))
                        },
-                       cancelText: Localize.string("bonus_waiting"))
+                       cancelText: Localize.string("common_cancel"))
             return Disposables.create()
         })
     }
