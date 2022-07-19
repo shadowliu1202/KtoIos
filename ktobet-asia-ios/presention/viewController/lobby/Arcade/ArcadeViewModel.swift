@@ -10,7 +10,7 @@ class ArcadeViewModel: KTOViewModel {
     
     var gameFilter = BehaviorRelay<[ArcadeGameTag]>(value: [])
     lazy var gameSource = gameFilter.flatMapLatest({
-        return self.arcadeUseCase.getGames(tags: $0.filter({$0.isSelected}).flatMap{ $0.getGameFilter() }).compose(self.applyObservableErrorHandle()).catchError { error in
+        return self.arcadeUseCase.getGames(tags: self.convertToGameFilters($0)).compose(self.applyObservableErrorHandle()).catchError { error in
             return Observable.error(error)
         }.retry()
     })
@@ -23,6 +23,16 @@ class ArcadeViewModel: KTOViewModel {
         self.arcadeUseCase = arcadeUseCase
         self.memoryCache = memoryCache
         setupGameFilter(memoryCache.getGameTag(.arcadeGameTag))
+    }
+    
+    private func convertToGameFilters(_ tag: [ArcadeGameTag]) -> [GameFilter] {
+        return tag.filter({$0.isSelected}).reduce([GameFilter]()) { partialResult, arcadeGameTag in
+            var filters = partialResult
+            if let filter = arcadeGameTag.getGameFilter() {
+                filters.append(filter)
+            }
+            return filters
+        }
     }
     
     private func setupGameFilter(_ tags: [ArcadeGameTag]?) {
@@ -145,16 +155,16 @@ class ArcadeGameTag: NSObject, BaseGameTag {
         self.name = name
     }
     
-    func getGameFilter() -> [GameFilter] {
+    func getGameFilter() -> GameFilter? {
         switch tagId {
         case TagAllID:
-            return [.Promote() ,.New()]
+            return nil
         case TagRecommandID:
-            return [.Promote()]
+            return .Promote()
         case TagNewID:
-            return [.New()]
+            return .New()
         default:
-            return [.Promote() ,.New()]
+            return nil
         }
     }
 }
