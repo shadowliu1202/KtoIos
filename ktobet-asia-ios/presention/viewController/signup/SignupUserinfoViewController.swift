@@ -109,6 +109,7 @@ class SignupUserinfoViewController: LandingViewController {
         inputMobile.setSubTitle(countryCode)
         inputEmail.setCorner(topCorner: true, bottomCorner: true)
         inputEmail.setKeyboardType(.emailAddress)
+        inputEmail.maxLength = Account.Email.companion.MAX_LENGTH
         inputName.setCorner(topCorner: true, bottomCorner: true)
         inputPassword.setCorner(topCorner: true, bottomCorner: false)
         inputPassword.confirmPassword = inputCsPassword
