@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct RedButtonStyle: ButtonStyle {
+struct ConfirmRed: ButtonStyle {
     @Environment(\.isEnabled) var isEnabled
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
@@ -16,4 +16,8 @@ struct RedButtonStyle: ButtonStyle {
             )
             .opacity(configuration.isPressed ? 0.8 : 1.0)
     }
+}
+
+extension ButtonStyle where Self == ConfirmRed {
+    static var confirmRed: ConfirmRed { get { self.init() } }
 }

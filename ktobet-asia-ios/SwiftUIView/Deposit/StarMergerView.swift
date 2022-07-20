@@ -15,32 +15,31 @@ struct StarMergerView: View {
         ScrollView {
             VStack(spacing: 0) {
                 self.starMergerTitle()
-                HeightSpacer(16)
+                LimitSpacer(16)
                 VStack(alignment: .leading, spacing: 0) {
                     self.amountRange()
-                    HeightSpacer(12)
+                    LimitSpacer(12)
                     CustomizedDivider()
-                    HeightSpacer(12)
+                    LimitSpacer(12)
                     self.description()
                 }
                 .padding(.vertical, 30)
                 .padding(.horizontal, 20)
                 .customizedStrokeBorder(color: .primaryGray, cornerRadius: 14)
-                HeightSpacer(30)
+                LimitSpacer(30)
                 self.starMergerHint()
-                HeightSpacer(40)
+                LimitSpacer(40)
                 Button(Localize.string("common_submit2")) {
                     confirmButtonAction(viewModel.paymentLink)
                 }
-                .buttonStyle(RedButtonStyle())
+                .buttonStyle(.confirmRed)
                 .disabled(viewModel.paymentLink == nil ? true : false)
                 .allowsHitTesting(viewModel.paymentLink == nil ? false : true)
             }
             .padding(.horizontal, 30)
             .KTOPageSpacer()
         }
-        .backgroundColor(.defaultGray)
-        .ignoresSafeArea(.all, edges: .top)
+        .pageBackgroundColor(.defaultGray)
     }
     
     private func starMergerTitle() -> some View {
