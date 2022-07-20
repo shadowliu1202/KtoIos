@@ -19,11 +19,19 @@ extension View {
             )
     }
     
+    func pageBackgroundColor(_ color: Color) -> some View {
+        self
+            .background(
+                color
+                    .ignoresSafeArea()
+            )
+    }
+    
     func KTOPageSpacer() -> some View {
         VStack(spacing: 0) {
-            HeightSpacer(78)
+            LimitSpacer(26)
             self
-            HeightSpacer(96)
+            LimitSpacer(96)
         }
     }
 }
