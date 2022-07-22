@@ -72,6 +72,7 @@
 "cps_deposit_amount_limit" = "";
 "cps_starmerger_description" = "";
 "cps_starmerger_hint" = "";
+"cps_crypto_market" = "";
 
 //MARK: - Common
 "common_kto" = "KTO";

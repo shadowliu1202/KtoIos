@@ -84,6 +84,7 @@
 
 4.当您符合交易所条件后，可以进行高级认证，认证成功后可以在交易所进行虚拟币自由交易，详情可以咨询交易所的客服。";
 "cps_starmerger_hint" = "充值完成后请重刷页面，如有关交易所问题可咨询交易所客服。";
+"cps_crypto_market" = "虚拟币交易所";
 
 //MARK: - Common
 "common_kto" = "KTO";
@@ -699,7 +700,7 @@
 "withdrawal_bankcard_branch_placeholder" = "上海分行";
 "withdrawal_bankcard_state_placeholder" = "浙江省";
 "withdrawal_bankcard_city_placeholder" = "上海市";
-"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
+"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
 "withdrawal_bankcard_change_confirm_title" = "是否要变更姓名?";
 "withdrawal_bankcard_change_confirm_content" = "如需要变更姓名，请前往个人设定";
 "withdrawal_step2_title_1_tip" = "本次申请提现金额为";

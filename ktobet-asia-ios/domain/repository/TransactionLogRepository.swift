@@ -304,6 +304,7 @@ class TransactionResourceFactory: ITransactionResource {
 
 class TransactionLogFactoryTransactionString: TransactionFactoryTransactionString {
     var cash: KotlinLazy = Localize.convert(resourceId: ResourceKey(key: "balancelog_cash"))
+    var cryptoMarket: KotlinLazy = Localize.convert(resourceId: ResourceKey(key: "cps_crypto_market"))
     var ethereum: KotlinLazy = Localize.convert(resourceId: ResourceKey(key: "common_ethereum"))
     var parley: KotlinLazy = Localize.convert(resourceId: ResourceKey(key: "product_sbk_parlay"))
 }
