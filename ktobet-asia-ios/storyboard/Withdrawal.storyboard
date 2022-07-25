@@ -1464,248 +1464,263 @@
         <!--Withdrawl Accounts View Controller-->
         <scene sceneID="0zi-oT-i0L">
             <objects>
-                <viewController storyboardIdentifier="WithdrawlAccountsViewController" id="Hvb-cx-4tI" customClass="WithdrawlAccountsViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WithdrawlAccountsViewController" extendedLayoutIncludesOpaqueBars="YES" id="Hvb-cx-4tI" customClass="WithdrawlAccountsViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JLk-n2-Zzy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="el9-pt-s4c">
-                                <rect key="frame" x="30" y="74" width="354" height="0.0"/>
-                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                <color key="textColor" name="whiteFull"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gDV-ym-iAX">
-                                <rect key="frame" x="0.0" y="104" width="414" height="758"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="E4b-Wp-AoR" userLabel="FooterView">
-                                    <rect key="frame" x="0.0" y="327.5" width="414" height="56"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default(32)" translatesAutoresizingMaskIntoConstraints="NO" id="e9s-0V-2OU">
-                                            <rect key="frame" x="30" y="12" width="32" height="32"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hUo-qF-9mp">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="el9-pt-s4c">
+                                        <rect key="frame" x="30" y="30" width="354" height="0.0"/>
+                                        <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
+                                        <color key="textColor" name="whiteFull"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gDV-ym-iAX">
+                                        <rect key="frame" x="0.0" y="60" width="414" height="758"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <view key="tableFooterView" contentMode="scaleToFill" id="E4b-Wp-AoR" userLabel="FooterView">
+                                            <rect key="frame" x="0.0" y="327.5" width="414" height="56"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default(32)" translatesAutoresizingMaskIntoConstraints="NO" id="e9s-0V-2OU">
+                                                    <rect key="frame" x="30" y="12" width="32" height="32"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="32" id="6pu-Wg-6Mx"/>
+                                                        <constraint firstAttribute="height" constant="32" id="r4H-se-Dan"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="reC-iO-rHa">
+                                                    <rect key="frame" x="78" y="18" width="320" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="Rsa-69-AOS"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                    <color key="textColor" name="whiteFull"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="53l-d8-Fqj">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                                                </button>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8kb-cd-v60" userLabel="Line">
+                                                    <rect key="frame" x="0.0" y="55" width="414" height="1"/>
+                                                    <color key="backgroundColor" name="dividerCapeCodGray2"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="R4H-pZ-A7n"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" name="backgroundListCodGray"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="32" id="6pu-Wg-6Mx"/>
-                                                <constraint firstAttribute="height" constant="32" id="r4H-se-Dan"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="reC-iO-rHa">
-                                            <rect key="frame" x="78" y="18" width="320" height="20"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="20" id="Rsa-69-AOS"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                            <color key="textColor" name="whiteFull"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="53l-d8-Fqj">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
-                                        </button>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8kb-cd-v60" userLabel="Line">
-                                            <rect key="frame" x="0.0" y="55" width="414" height="1"/>
-                                            <color key="backgroundColor" name="dividerCapeCodGray2"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="1" id="R4H-pZ-A7n"/>
+                                                <constraint firstItem="reC-iO-rHa" firstAttribute="centerY" secondItem="E4b-Wp-AoR" secondAttribute="centerY" id="1l1-Qs-FDg"/>
+                                                <constraint firstAttribute="bottom" secondItem="8kb-cd-v60" secondAttribute="bottom" id="Hr7-Ac-RxT"/>
+                                                <constraint firstAttribute="trailing" secondItem="53l-d8-Fqj" secondAttribute="trailing" id="KxQ-Fd-5OS"/>
+                                                <constraint firstItem="reC-iO-rHa" firstAttribute="leading" secondItem="e9s-0V-2OU" secondAttribute="trailing" constant="16" id="Ly6-Ym-5pH"/>
+                                                <constraint firstAttribute="trailing" secondItem="reC-iO-rHa" secondAttribute="trailing" constant="16" id="clV-cC-uY5"/>
+                                                <constraint firstItem="e9s-0V-2OU" firstAttribute="leading" secondItem="E4b-Wp-AoR" secondAttribute="leading" constant="30" id="eeB-tV-CBs"/>
+                                                <constraint firstItem="53l-d8-Fqj" firstAttribute="leading" secondItem="E4b-Wp-AoR" secondAttribute="leading" id="gko-bd-egS"/>
+                                                <constraint firstItem="8kb-cd-v60" firstAttribute="leading" secondItem="E4b-Wp-AoR" secondAttribute="leading" id="hE7-zK-KQ1"/>
+                                                <constraint firstItem="e9s-0V-2OU" firstAttribute="centerY" secondItem="E4b-Wp-AoR" secondAttribute="centerY" id="qKR-qu-nLR"/>
+                                                <constraint firstItem="53l-d8-Fqj" firstAttribute="top" secondItem="E4b-Wp-AoR" secondAttribute="top" id="rXg-Lo-vXb"/>
+                                                <constraint firstAttribute="bottom" secondItem="53l-d8-Fqj" secondAttribute="bottom" id="w9c-57-6Hv"/>
+                                                <constraint firstAttribute="trailing" secondItem="8kb-cd-v60" secondAttribute="trailing" id="yFY-ff-vSG"/>
                                             </constraints>
                                         </view>
-                                    </subviews>
-                                    <color key="backgroundColor" name="backgroundListCodGray"/>
-                                    <constraints>
-                                        <constraint firstItem="reC-iO-rHa" firstAttribute="centerY" secondItem="E4b-Wp-AoR" secondAttribute="centerY" id="1l1-Qs-FDg"/>
-                                        <constraint firstAttribute="bottom" secondItem="8kb-cd-v60" secondAttribute="bottom" id="Hr7-Ac-RxT"/>
-                                        <constraint firstAttribute="trailing" secondItem="53l-d8-Fqj" secondAttribute="trailing" id="KxQ-Fd-5OS"/>
-                                        <constraint firstItem="reC-iO-rHa" firstAttribute="leading" secondItem="e9s-0V-2OU" secondAttribute="trailing" constant="16" id="Ly6-Ym-5pH"/>
-                                        <constraint firstAttribute="trailing" secondItem="reC-iO-rHa" secondAttribute="trailing" constant="16" id="clV-cC-uY5"/>
-                                        <constraint firstItem="e9s-0V-2OU" firstAttribute="leading" secondItem="E4b-Wp-AoR" secondAttribute="leading" constant="30" id="eeB-tV-CBs"/>
-                                        <constraint firstItem="53l-d8-Fqj" firstAttribute="leading" secondItem="E4b-Wp-AoR" secondAttribute="leading" id="gko-bd-egS"/>
-                                        <constraint firstItem="8kb-cd-v60" firstAttribute="leading" secondItem="E4b-Wp-AoR" secondAttribute="leading" id="hE7-zK-KQ1"/>
-                                        <constraint firstItem="e9s-0V-2OU" firstAttribute="centerY" secondItem="E4b-Wp-AoR" secondAttribute="centerY" id="qKR-qu-nLR"/>
-                                        <constraint firstItem="53l-d8-Fqj" firstAttribute="top" secondItem="E4b-Wp-AoR" secondAttribute="top" id="rXg-Lo-vXb"/>
-                                        <constraint firstAttribute="bottom" secondItem="53l-d8-Fqj" secondAttribute="bottom" id="w9c-57-6Hv"/>
-                                        <constraint firstAttribute="trailing" secondItem="8kb-cd-v60" secondAttribute="trailing" id="yFY-ff-vSG"/>
-                                    </constraints>
-                                </view>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AccountCell" id="EvL-n6-4Xt" customClass="AccountCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="110.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EvL-n6-4Xt" id="EGh-zh-U3V">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="110.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="需上传文件" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zXZ-P5-JrD">
-                                                    <rect key="frame" x="50" y="16" width="294" height="20"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AccountCell" id="EvL-n6-4Xt" customClass="AccountCell" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="44.5" width="414" height="110.5"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EvL-n6-4Xt" id="EGh-zh-U3V">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="110.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="需上传文件" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zXZ-P5-JrD">
+                                                            <rect key="frame" x="50" y="16" width="294" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" priority="750" constant="20" id="Jsd-Zd-nQx"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                            <color key="textColor" name="whiteFull"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17k-fJ-E4l">
+                                                            <rect key="frame" x="50" y="45" width="294" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="rgd-Gj-c79"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                            <color key="textColor" name="textPrimaryDustyGray"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AWH-X8-yYe">
+                                                            <rect key="frame" x="50" y="74" width="70" height="20.5"/>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                            <color key="textColor" name="textSuccessedGreen"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kZi-Bw-sTa" userLabel="Line">
+                                                            <rect key="frame" x="30" y="109.5" width="384" height="1"/>
+                                                            <color key="backgroundColor" name="dividerCapeCodGray2"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="1" id="ux9-i1-pjh"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconChevronRight24" translatesAutoresizingMaskIntoConstraints="NO" id="hDP-Pb-YPr">
+                                                            <rect key="frame" x="374" y="43.5" width="24" height="24"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="24" id="C46-j8-2eM"/>
+                                                                <constraint firstAttribute="height" constant="24" id="pZV-re-H7j"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" priority="750" constant="20" id="Jsd-Zd-nQx"/>
+                                                        <constraint firstItem="17k-fJ-E4l" firstAttribute="trailing" secondItem="zXZ-P5-JrD" secondAttribute="trailing" id="6bL-op-tPU"/>
+                                                        <constraint firstItem="kZi-Bw-sTa" firstAttribute="leading" secondItem="EGh-zh-U3V" secondAttribute="leading" constant="30" id="AZv-Ud-jOG"/>
+                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="AWH-X8-yYe" secondAttribute="trailing" constant="16" id="FXn-qA-h3C"/>
+                                                        <constraint firstAttribute="trailing" secondItem="kZi-Bw-sTa" secondAttribute="trailing" id="GF3-qO-7vW"/>
+                                                        <constraint firstAttribute="bottom" secondItem="kZi-Bw-sTa" secondAttribute="bottom" id="Gzs-lu-JnD"/>
+                                                        <constraint firstItem="zXZ-P5-JrD" firstAttribute="leading" secondItem="EGh-zh-U3V" secondAttribute="leadingMargin" constant="30" id="RYH-q1-29p"/>
+                                                        <constraint firstItem="hDP-Pb-YPr" firstAttribute="leading" secondItem="17k-fJ-E4l" secondAttribute="trailing" constant="30" id="XG6-1W-Mun"/>
+                                                        <constraint firstItem="17k-fJ-E4l" firstAttribute="top" secondItem="zXZ-P5-JrD" secondAttribute="bottom" constant="9" id="Y0D-4g-mDn"/>
+                                                        <constraint firstAttribute="bottom" secondItem="AWH-X8-yYe" secondAttribute="bottom" constant="16" id="dnJ-Li-dte"/>
+                                                        <constraint firstAttribute="trailing" secondItem="hDP-Pb-YPr" secondAttribute="trailing" constant="16" id="e63-7w-lOg"/>
+                                                        <constraint firstItem="AWH-X8-yYe" firstAttribute="top" secondItem="17k-fJ-E4l" secondAttribute="bottom" constant="9" id="jhq-hU-MgJ"/>
+                                                        <constraint firstItem="hDP-Pb-YPr" firstAttribute="centerY" secondItem="EGh-zh-U3V" secondAttribute="centerY" id="py3-zW-9nY"/>
+                                                        <constraint firstItem="AWH-X8-yYe" firstAttribute="leading" secondItem="zXZ-P5-JrD" secondAttribute="leading" id="ssj-ti-ADZ"/>
+                                                        <constraint firstItem="zXZ-P5-JrD" firstAttribute="top" secondItem="EGh-zh-U3V" secondAttribute="top" constant="16" id="xHh-yw-TDQ"/>
+                                                        <constraint firstItem="17k-fJ-E4l" firstAttribute="leading" secondItem="zXZ-P5-JrD" secondAttribute="leading" id="y44-II-Fbr"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                                    <color key="textColor" name="whiteFull"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17k-fJ-E4l">
-                                                    <rect key="frame" x="50" y="45" width="294" height="20"/>
+                                                </tableViewCellContentView>
+                                                <color key="backgroundColor" name="backgroundListCodGray"/>
+                                                <connections>
+                                                    <outlet property="bankNameLabel" destination="zXZ-P5-JrD" id="MV8-Lg-Y8C"/>
+                                                    <outlet property="bankNumLabel" destination="17k-fJ-E4l" id="hLh-hd-F4W"/>
+                                                    <outlet property="imgView" destination="hDP-Pb-YPr" id="S4w-Ow-V8u"/>
+                                                    <outlet property="verifyLabel" destination="AWH-X8-yYe" id="lla-MC-v9V"/>
+                                                </connections>
+                                            </tableViewCell>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CryptoAccountCell" rowHeight="150" id="jud-9R-Wos" customClass="CryptoAccountCell" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="155" width="414" height="150"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jud-9R-Wos" id="AFe-OY-qRE">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2D3-c8-Woc">
+                                                            <rect key="frame" x="50" y="16" width="70" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="BZ8-rS-AbC"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                            <color key="textColor" name="whiteFull"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gKU-lQ-buY">
+                                                            <rect key="frame" x="50" y="78" width="70" height="20"/>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                            <color key="textColor" name="textPrimaryDustyGray"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1vL-hd-mNF">
+                                                            <rect key="frame" x="50" y="114" width="70" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="Vci-8f-QGi"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                            <color key="textColor" name="textSuccessedGreen"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dSD-ci-rGT" userLabel="Line">
+                                                            <rect key="frame" x="30" y="149" width="384" height="1"/>
+                                                            <color key="backgroundColor" name="dividerCapeCodGray2"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="1" id="Mmo-Vg-0jm"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconChevronRight24" translatesAutoresizingMaskIntoConstraints="NO" id="KE3-cP-wr0">
+                                                            <rect key="frame" x="374" y="63" width="24" height="24"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="24" id="ZyW-gc-lnw"/>
+                                                                <constraint firstAttribute="height" constant="24" id="eJp-C0-bOQ"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sw2-l7-cjd">
+                                                            <rect key="frame" x="50" y="42" width="70" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="IIx-Hf-QQO"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                            <color key="textColor" name="whiteFull"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6V-dl-wJb">
+                                                            <rect key="frame" x="128" y="42" width="70" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="Oq1-jp-95U"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                            <color key="textColor" name="whiteFull"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="rgd-Gj-c79"/>
+                                                        <constraint firstAttribute="trailing" secondItem="KE3-cP-wr0" secondAttribute="trailing" constant="16" id="BYK-XP-gFU"/>
+                                                        <constraint firstAttribute="bottom" secondItem="1vL-hd-mNF" secondAttribute="bottom" constant="16" id="ECK-BW-VA9"/>
+                                                        <constraint firstItem="dSD-ci-rGT" firstAttribute="leading" secondItem="AFe-OY-qRE" secondAttribute="leading" constant="30" id="Mde-Sg-A2O"/>
+                                                        <constraint firstItem="gKU-lQ-buY" firstAttribute="leading" secondItem="2D3-c8-Woc" secondAttribute="leading" id="U1D-GS-Kk5"/>
+                                                        <constraint firstItem="1vL-hd-mNF" firstAttribute="leading" secondItem="2D3-c8-Woc" secondAttribute="leading" id="UQ2-iU-Ea9"/>
+                                                        <constraint firstItem="D6V-dl-wJb" firstAttribute="leading" secondItem="Sw2-l7-cjd" secondAttribute="trailing" constant="8" id="X5p-6P-IVA"/>
+                                                        <constraint firstAttribute="trailing" secondItem="dSD-ci-rGT" secondAttribute="trailing" id="ZG3-ug-4Av"/>
+                                                        <constraint firstItem="Sw2-l7-cjd" firstAttribute="leading" secondItem="2D3-c8-Woc" secondAttribute="leading" id="Zp4-WQ-WhW"/>
+                                                        <constraint firstItem="1vL-hd-mNF" firstAttribute="top" secondItem="gKU-lQ-buY" secondAttribute="bottom" constant="16" id="bz8-pa-sjL"/>
+                                                        <constraint firstItem="D6V-dl-wJb" firstAttribute="bottom" secondItem="Sw2-l7-cjd" secondAttribute="bottom" id="cWi-xG-lP4"/>
+                                                        <constraint firstItem="KE3-cP-wr0" firstAttribute="centerY" secondItem="AFe-OY-qRE" secondAttribute="centerY" id="fJq-Ig-lPl"/>
+                                                        <constraint firstItem="2D3-c8-Woc" firstAttribute="top" secondItem="AFe-OY-qRE" secondAttribute="top" constant="16" id="nRc-ch-Lxc"/>
+                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1vL-hd-mNF" secondAttribute="trailing" constant="16" id="oHq-C8-kM6"/>
+                                                        <constraint firstAttribute="bottom" secondItem="dSD-ci-rGT" secondAttribute="bottom" id="qZ6-J0-dgg"/>
+                                                        <constraint firstItem="2D3-c8-Woc" firstAttribute="leading" secondItem="AFe-OY-qRE" secondAttribute="leadingMargin" constant="30" id="rwg-OZ-MEM"/>
+                                                        <constraint firstItem="Sw2-l7-cjd" firstAttribute="top" secondItem="2D3-c8-Woc" secondAttribute="bottom" constant="6" id="snC-2x-5XU"/>
+                                                        <constraint firstItem="KE3-cP-wr0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gKU-lQ-buY" secondAttribute="trailing" constant="16" id="tv1-5O-2zi"/>
+                                                        <constraint firstItem="gKU-lQ-buY" firstAttribute="top" secondItem="Sw2-l7-cjd" secondAttribute="bottom" constant="16" id="y6x-US-CXB"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                                    <color key="textColor" name="textPrimaryDustyGray"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AWH-X8-yYe">
-                                                    <rect key="frame" x="50" y="74" width="70" height="20.5"/>
-                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                                    <color key="textColor" name="textSuccessedGreen"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kZi-Bw-sTa" userLabel="Line">
-                                                    <rect key="frame" x="30" y="109.5" width="384" height="1"/>
-                                                    <color key="backgroundColor" name="dividerCapeCodGray2"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="1" id="ux9-i1-pjh"/>
-                                                    </constraints>
-                                                </view>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconChevronRight24" translatesAutoresizingMaskIntoConstraints="NO" id="hDP-Pb-YPr">
-                                                    <rect key="frame" x="374" y="43.5" width="24" height="24"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="24" id="C46-j8-2eM"/>
-                                                        <constraint firstAttribute="height" constant="24" id="pZV-re-H7j"/>
-                                                    </constraints>
-                                                </imageView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="17k-fJ-E4l" firstAttribute="trailing" secondItem="zXZ-P5-JrD" secondAttribute="trailing" id="6bL-op-tPU"/>
-                                                <constraint firstItem="kZi-Bw-sTa" firstAttribute="leading" secondItem="EGh-zh-U3V" secondAttribute="leading" constant="30" id="AZv-Ud-jOG"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="AWH-X8-yYe" secondAttribute="trailing" constant="16" id="FXn-qA-h3C"/>
-                                                <constraint firstAttribute="trailing" secondItem="kZi-Bw-sTa" secondAttribute="trailing" id="GF3-qO-7vW"/>
-                                                <constraint firstAttribute="bottom" secondItem="kZi-Bw-sTa" secondAttribute="bottom" id="Gzs-lu-JnD"/>
-                                                <constraint firstItem="zXZ-P5-JrD" firstAttribute="leading" secondItem="EGh-zh-U3V" secondAttribute="leadingMargin" constant="30" id="RYH-q1-29p"/>
-                                                <constraint firstItem="hDP-Pb-YPr" firstAttribute="leading" secondItem="17k-fJ-E4l" secondAttribute="trailing" constant="30" id="XG6-1W-Mun"/>
-                                                <constraint firstItem="17k-fJ-E4l" firstAttribute="top" secondItem="zXZ-P5-JrD" secondAttribute="bottom" constant="9" id="Y0D-4g-mDn"/>
-                                                <constraint firstAttribute="bottom" secondItem="AWH-X8-yYe" secondAttribute="bottom" constant="16" id="dnJ-Li-dte"/>
-                                                <constraint firstAttribute="trailing" secondItem="hDP-Pb-YPr" secondAttribute="trailing" constant="16" id="e63-7w-lOg"/>
-                                                <constraint firstItem="AWH-X8-yYe" firstAttribute="top" secondItem="17k-fJ-E4l" secondAttribute="bottom" constant="9" id="jhq-hU-MgJ"/>
-                                                <constraint firstItem="hDP-Pb-YPr" firstAttribute="centerY" secondItem="EGh-zh-U3V" secondAttribute="centerY" id="py3-zW-9nY"/>
-                                                <constraint firstItem="AWH-X8-yYe" firstAttribute="leading" secondItem="zXZ-P5-JrD" secondAttribute="leading" id="ssj-ti-ADZ"/>
-                                                <constraint firstItem="zXZ-P5-JrD" firstAttribute="top" secondItem="EGh-zh-U3V" secondAttribute="top" constant="16" id="xHh-yw-TDQ"/>
-                                                <constraint firstItem="17k-fJ-E4l" firstAttribute="leading" secondItem="zXZ-P5-JrD" secondAttribute="leading" id="y44-II-Fbr"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" name="backgroundListCodGray"/>
-                                        <connections>
-                                            <outlet property="bankNameLabel" destination="zXZ-P5-JrD" id="MV8-Lg-Y8C"/>
-                                            <outlet property="bankNumLabel" destination="17k-fJ-E4l" id="hLh-hd-F4W"/>
-                                            <outlet property="imgView" destination="hDP-Pb-YPr" id="S4w-Ow-V8u"/>
-                                            <outlet property="verifyLabel" destination="AWH-X8-yYe" id="lla-MC-v9V"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CryptoAccountCell" rowHeight="150" id="jud-9R-Wos" customClass="CryptoAccountCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="155" width="414" height="150"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jud-9R-Wos" id="AFe-OY-qRE">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2D3-c8-Woc">
-                                                    <rect key="frame" x="50" y="16" width="70" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="BZ8-rS-AbC"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                                    <color key="textColor" name="whiteFull"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gKU-lQ-buY">
-                                                    <rect key="frame" x="50" y="78" width="70" height="20"/>
-                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                                    <color key="textColor" name="textPrimaryDustyGray"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1vL-hd-mNF">
-                                                    <rect key="frame" x="50" y="114" width="70" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="Vci-8f-QGi"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                                    <color key="textColor" name="textSuccessedGreen"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dSD-ci-rGT" userLabel="Line">
-                                                    <rect key="frame" x="30" y="149" width="384" height="1"/>
-                                                    <color key="backgroundColor" name="dividerCapeCodGray2"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="1" id="Mmo-Vg-0jm"/>
-                                                    </constraints>
-                                                </view>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconChevronRight24" translatesAutoresizingMaskIntoConstraints="NO" id="KE3-cP-wr0">
-                                                    <rect key="frame" x="374" y="63" width="24" height="24"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="24" id="ZyW-gc-lnw"/>
-                                                        <constraint firstAttribute="height" constant="24" id="eJp-C0-bOQ"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sw2-l7-cjd">
-                                                    <rect key="frame" x="50" y="42" width="70" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="IIx-Hf-QQO"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                                    <color key="textColor" name="whiteFull"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="需上传文件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6V-dl-wJb">
-                                                    <rect key="frame" x="128" y="42" width="70" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="Oq1-jp-95U"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                                    <color key="textColor" name="whiteFull"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="KE3-cP-wr0" secondAttribute="trailing" constant="16" id="BYK-XP-gFU"/>
-                                                <constraint firstAttribute="bottom" secondItem="1vL-hd-mNF" secondAttribute="bottom" constant="16" id="ECK-BW-VA9"/>
-                                                <constraint firstItem="dSD-ci-rGT" firstAttribute="leading" secondItem="AFe-OY-qRE" secondAttribute="leading" constant="30" id="Mde-Sg-A2O"/>
-                                                <constraint firstItem="gKU-lQ-buY" firstAttribute="leading" secondItem="2D3-c8-Woc" secondAttribute="leading" id="U1D-GS-Kk5"/>
-                                                <constraint firstItem="1vL-hd-mNF" firstAttribute="leading" secondItem="2D3-c8-Woc" secondAttribute="leading" id="UQ2-iU-Ea9"/>
-                                                <constraint firstItem="D6V-dl-wJb" firstAttribute="leading" secondItem="Sw2-l7-cjd" secondAttribute="trailing" constant="8" id="X5p-6P-IVA"/>
-                                                <constraint firstAttribute="trailing" secondItem="dSD-ci-rGT" secondAttribute="trailing" id="ZG3-ug-4Av"/>
-                                                <constraint firstItem="Sw2-l7-cjd" firstAttribute="leading" secondItem="2D3-c8-Woc" secondAttribute="leading" id="Zp4-WQ-WhW"/>
-                                                <constraint firstItem="1vL-hd-mNF" firstAttribute="top" secondItem="gKU-lQ-buY" secondAttribute="bottom" constant="16" id="bz8-pa-sjL"/>
-                                                <constraint firstItem="D6V-dl-wJb" firstAttribute="bottom" secondItem="Sw2-l7-cjd" secondAttribute="bottom" id="cWi-xG-lP4"/>
-                                                <constraint firstItem="KE3-cP-wr0" firstAttribute="centerY" secondItem="AFe-OY-qRE" secondAttribute="centerY" id="fJq-Ig-lPl"/>
-                                                <constraint firstItem="2D3-c8-Woc" firstAttribute="top" secondItem="AFe-OY-qRE" secondAttribute="top" constant="16" id="nRc-ch-Lxc"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1vL-hd-mNF" secondAttribute="trailing" constant="16" id="oHq-C8-kM6"/>
-                                                <constraint firstAttribute="bottom" secondItem="dSD-ci-rGT" secondAttribute="bottom" id="qZ6-J0-dgg"/>
-                                                <constraint firstItem="2D3-c8-Woc" firstAttribute="leading" secondItem="AFe-OY-qRE" secondAttribute="leadingMargin" constant="30" id="rwg-OZ-MEM"/>
-                                                <constraint firstItem="Sw2-l7-cjd" firstAttribute="top" secondItem="2D3-c8-Woc" secondAttribute="bottom" constant="6" id="snC-2x-5XU"/>
-                                                <constraint firstItem="KE3-cP-wr0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gKU-lQ-buY" secondAttribute="trailing" constant="16" id="tv1-5O-2zi"/>
-                                                <constraint firstItem="gKU-lQ-buY" firstAttribute="top" secondItem="Sw2-l7-cjd" secondAttribute="bottom" constant="16" id="y6x-US-CXB"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" name="backgroundListCodGray"/>
-                                        <connections>
-                                            <outlet property="bankNameLabel" destination="2D3-c8-Woc" id="TZw-W6-XhW"/>
-                                            <outlet property="bankNumLabel" destination="gKU-lQ-buY" id="vn2-lv-M7A"/>
-                                            <outlet property="imgView" destination="KE3-cP-wr0" id="c92-zb-cjQ"/>
-                                            <outlet property="networkLabel" destination="D6V-dl-wJb" id="zbo-ff-Sya"/>
-                                            <outlet property="verifyLabel" destination="1vL-hd-mNF" id="l1i-F8-VeZ"/>
-                                            <outlet property="walletType" destination="Sw2-l7-cjd" id="Mvt-NM-4Fm"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
+                                                </tableViewCellContentView>
+                                                <color key="backgroundColor" name="backgroundListCodGray"/>
+                                                <connections>
+                                                    <outlet property="bankNameLabel" destination="2D3-c8-Woc" id="TZw-W6-XhW"/>
+                                                    <outlet property="bankNumLabel" destination="gKU-lQ-buY" id="vn2-lv-M7A"/>
+                                                    <outlet property="imgView" destination="KE3-cP-wr0" id="c92-zb-cjQ"/>
+                                                    <outlet property="networkLabel" destination="D6V-dl-wJb" id="zbo-ff-Sya"/>
+                                                    <outlet property="verifyLabel" destination="1vL-hd-mNF" id="l1i-F8-VeZ"/>
+                                                    <outlet property="walletType" destination="Sw2-l7-cjd" id="Mvt-NM-4Fm"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="gDV-ym-iAX" firstAttribute="leading" secondItem="zGW-xk-50s" secondAttribute="leading" id="GfC-gR-PPp"/>
+                                    <constraint firstItem="gDV-ym-iAX" firstAttribute="top" secondItem="el9-pt-s4c" secondAttribute="bottom" constant="30" id="Mnb-jF-tnN"/>
+                                    <constraint firstItem="gDV-ym-iAX" firstAttribute="bottom" secondItem="zGW-xk-50s" secondAttribute="bottom" id="Mye-YA-TYC"/>
+                                    <constraint firstItem="gDV-ym-iAX" firstAttribute="height" secondItem="WEE-eh-Y60" secondAttribute="height" multiplier="0.87935" priority="750" id="N8X-YN-Yuy"/>
+                                    <constraint firstItem="gDV-ym-iAX" firstAttribute="width" secondItem="WEE-eh-Y60" secondAttribute="width" id="bfW-C3-JgE"/>
+                                    <constraint firstItem="el9-pt-s4c" firstAttribute="top" secondItem="zGW-xk-50s" secondAttribute="top" constant="30" id="dQe-hq-uJk"/>
+                                    <constraint firstItem="el9-pt-s4c" firstAttribute="leading" secondItem="zGW-xk-50s" secondAttribute="leading" constant="30" id="kPV-Ce-5n2"/>
+                                    <constraint firstItem="zGW-xk-50s" firstAttribute="trailing" secondItem="el9-pt-s4c" secondAttribute="trailing" constant="30" id="kaZ-7L-5oP"/>
+                                    <constraint firstItem="gDV-ym-iAX" firstAttribute="trailing" secondItem="zGW-xk-50s" secondAttribute="trailing" id="tuF-Z8-ir3"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="zGW-xk-50s"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="WEE-eh-Y60"/>
+                            </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZTX-p1-9Ad"/>
                         <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
-                            <constraint firstItem="el9-pt-s4c" firstAttribute="leading" secondItem="ZTX-p1-9Ad" secondAttribute="leading" constant="30" id="5Z0-Zd-DYg"/>
-                            <constraint firstItem="el9-pt-s4c" firstAttribute="top" secondItem="ZTX-p1-9Ad" secondAttribute="top" constant="30" id="66p-d1-isB"/>
-                            <constraint firstItem="ZTX-p1-9Ad" firstAttribute="trailing" secondItem="el9-pt-s4c" secondAttribute="trailing" constant="30" id="JFi-IW-fRk"/>
-                            <constraint firstItem="ZTX-p1-9Ad" firstAttribute="bottom" secondItem="gDV-ym-iAX" secondAttribute="bottom" id="NPs-Q8-uCy"/>
-                            <constraint firstItem="gDV-ym-iAX" firstAttribute="top" secondItem="el9-pt-s4c" secondAttribute="bottom" constant="30" id="TRn-0b-CAG"/>
-                            <constraint firstItem="ZTX-p1-9Ad" firstAttribute="trailing" secondItem="gDV-ym-iAX" secondAttribute="trailing" id="Vem-qQ-5nD"/>
-                            <constraint firstItem="gDV-ym-iAX" firstAttribute="leading" secondItem="ZTX-p1-9Ad" secondAttribute="leading" id="xf7-xP-pVe"/>
+                            <constraint firstItem="hUo-qF-9mp" firstAttribute="top" secondItem="JLk-n2-Zzy" secondAttribute="top" id="A82-dR-auU"/>
+                            <constraint firstItem="hUo-qF-9mp" firstAttribute="trailing" secondItem="ZTX-p1-9Ad" secondAttribute="trailing" id="U6w-Xf-AfV"/>
+                            <constraint firstItem="ZTX-p1-9Ad" firstAttribute="leading" secondItem="hUo-qF-9mp" secondAttribute="leading" id="j2l-hM-LfF"/>
+                            <constraint firstItem="hUo-qF-9mp" firstAttribute="bottom" secondItem="ZTX-p1-9Ad" secondAttribute="bottom" id="lOl-2t-CnX"/>
                         </constraints>
                     </view>
                     <connections>
@@ -4055,7 +4070,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="AB8-OG-jSH"/>
+        <segue reference="eKD-WT-m4x"/>
         <segue reference="pWL-dG-JgZ"/>
         <segue reference="IGH-yb-Sof"/>
         <segue reference="o2C-6f-Lpf"/>
