@@ -47,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
         UINavigationBar.appearance().standardAppearance = barAppearance
+        Theme.shared.changeEntireAPPFont(by: playerLocaleConfiguration.getSupportLocale())
         
         if Configuration.debugGesture {
             self.addDebugGesture()
