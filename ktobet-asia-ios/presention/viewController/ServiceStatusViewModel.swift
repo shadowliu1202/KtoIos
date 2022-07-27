@@ -19,9 +19,8 @@ final class ServiceStatusViewModel: ViewModelType {
         
         let otpService = usecaseSystemStatus.getOtpStatus()
         let customerServiceEmail = usecaseSystemStatus.getCustomerServiceEmail().asDriver(onErrorJustReturn: "")
-        // TODO: Remove onErrorJustReturn
-        let maintainStatus = usecaseSystemStatus.observePortalMaintenanceState().asDriverOnErrorJustComplete()
-        let maintainStatusPreSecond = usecaseSystemStatus.observePortalMaintenanceState().asDriver(onErrorJustReturn: MaintenanceStatus.AllPortal(duration: nil)).do(onNext: { [weak self] status in
+        let maintainStatus = usecaseSystemStatus.observePortalMaintenanceState()
+        let maintainStatusPerSecond = usecaseSystemStatus.observePortalMaintenanceState().do(onNext: { [weak self] status in
             switch status {
             case let allPortal as MaintenanceStatus.AllPortal:
                 self?.timeOfRefresh(seconds: allPortal.convertDurationToSeconds()?.int32Value)
@@ -41,7 +40,7 @@ final class ServiceStatusViewModel: ViewModelType {
         
         self.output = Output(playerDefaultType: playerDefaultType, maintainDefaultType: maintainDefaultType,
                              isAllProductMaintain: isAllProductMaintain, toNextPage: toNextPage,
-                             portalMaintenanceStatus: maintainStatus, portalMaintenanceStatusPreSecond: maintainStatusPreSecond, otpService: otpService,
+                             portalMaintenanceStatus: maintainStatus, portalMaintenanceStatusPerSecond: maintainStatusPerSecond, otpService: otpService,
                              customerServiceEmail: customerServiceEmail, productMaintainTime: productMaintainTime,
                              productsMaintainTime: productsMaintainTime, maintainImage: maintainImage)
         self.input = Input(playerDefaultProductType: playerDefaultProductType.asObserver())
@@ -59,9 +58,9 @@ final class ServiceStatusViewModel: ViewModelType {
         usecaseSystemStatus.refreshMaintenanceState()
     }
     
-    private func toNextPage(_ playerDefaultType: Driver<ProductType>, _ maintainDefaultType: Driver<ProductType?>, _ isAllProductMaintain: Driver<Bool>, _ maintainStatus: Driver<MaintenanceStatus>) -> Completable {
+    private func toNextPage(_ playerDefaultType: Driver<ProductType>, _ maintainDefaultType: Driver<ProductType?>, _ isAllProductMaintain: Driver<Bool>, _ maintainStatus: Observable<MaintenanceStatus>) -> Completable {
         let navigator: ServiceStatusNavigator = ServiceStatusNavigatorImpl()
-        return Driver.combineLatest(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus)
+        return Driver.combineLatest(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus.asDriverOnErrorJustComplete())
             .do(onNext: { (playerType, maintainType, isAllProductMaintain, maintainStatus) in
             switch maintainStatus {
             case is MaintenanceStatus.AllPortal:
@@ -80,7 +79,7 @@ final class ServiceStatusViewModel: ViewModelType {
         }).asObservable().ignoreElements()
     }
 
-    private func maintainDefaultProductType(playerDefaultProductType: ReplaySubject<ProductType>, maintainStatus: Driver<MaintenanceStatus>) -> Driver<ProductType?> {
+    private func maintainDefaultProductType(playerDefaultProductType: ReplaySubject<ProductType>, maintainStatus: Observable<MaintenanceStatus>) -> Driver<ProductType?> {
         let productMaintenPriorityOrder: [ProductType] = [.sbk, .casino, .slot, .numbergame, .arcade, .p2p]
         return playerDefaultProductType.flatMapLatest { playerDefaultProduct in
             maintainStatus.map { status -> ProductType? in
@@ -94,7 +93,7 @@ final class ServiceStatusViewModel: ViewModelType {
         }.asDriver(onErrorJustReturn: nil)
     }
     
-    private func productMaintainTime(_ maintainStatus: SharedSequence<DriverSharingStrategy, MaintenanceStatus>) -> SharedSequence<DriverSharingStrategy, OffsetDateTime?> {
+    private func productMaintainTime(_ maintainStatus: Observable<MaintenanceStatus>) -> SharedSequence<DriverSharingStrategy, OffsetDateTime?> {
         return playerDefaultProductType.flatMapLatest { playerDefaultProduct in
             maintainStatus.map { status -> OffsetDateTime? in
                 if let status = status as? MaintenanceStatus.Product {
@@ -106,7 +105,7 @@ final class ServiceStatusViewModel: ViewModelType {
         }.asDriver(onErrorJustReturn: nil)
     }
     
-    private func productsMaintainTime(_ maintainStatus: SharedSequence<DriverSharingStrategy, MaintenanceStatus>) -> Observable<[(productType: ProductType, maintainTime: OffsetDateTime?)]> {
+    private func productsMaintainTime(_ maintainStatus: Observable<MaintenanceStatus>) -> Observable<[(productType: ProductType, maintainTime: OffsetDateTime?)]> {
         let productTypes: [ProductType] = [.sbk, .casino, .slot, .numbergame, .p2p, .arcade]
         return maintainStatus.map { status -> [(productType: ProductType, maintainTime: OffsetDateTime?)] in
             if let status = status as? MaintenanceStatus.Product {
@@ -145,8 +144,8 @@ extension ServiceStatusViewModel {
         let maintainDefaultType: Driver<ProductType?>
         let isAllProductMaintain: Driver<Bool>
         let toNextPage: Completable
-        let portalMaintenanceStatus: Driver<MaintenanceStatus>
-        let portalMaintenanceStatusPreSecond: Driver<MaintenanceStatus>
+        let portalMaintenanceStatus: Observable<MaintenanceStatus>
+        let portalMaintenanceStatusPerSecond: Observable<MaintenanceStatus>
         let otpService: Single<OtpStatus>
         let customerServiceEmail: Driver<String>
         let productMaintainTime: Driver<OffsetDateTime?>

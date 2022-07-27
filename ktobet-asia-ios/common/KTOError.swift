@@ -57,6 +57,13 @@ extension Error {
         return false
     }
     
+    func isRestrictedArea() -> Bool {
+        if let error = (self as? MoyaError), case let .statusCode(response) = error {
+            return response.statusCode == 403
+        }
+        return false
+    }
+    
     func isCDNError() -> Bool {
         if let error = (self as? MoyaError), case let .statusCode(response) = error {
             return response.statusCode == 608

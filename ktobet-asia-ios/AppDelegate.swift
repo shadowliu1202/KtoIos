@@ -91,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         let storyboardId =  UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController?.restorationIdentifier ?? ""
-        if storyboardId != "LoginNavigation" {
+        if storyboardId != "LandingNavigation" {
             let viewModel = DI.resolve(LaunchViewModel.self)!
             viewModel
                 .checkIsLogged()
@@ -101,18 +101,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }).disposed(by: self.disposeBag)
 
                     if !isLogged {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
                     }
                 } onError: { (error) in
                     if error.isUnauthorized() {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
                     } else {
                         UIApplication.topViewController()?.handleErrors(error)
                     }
                 }.disposed(by: disposeBag)
         } else {
             let viewModel = DI.resolve(ServiceStatusViewModel.self)!
-            viewModel.output.portalMaintenanceStatus.drive(onNext: { status in
+            viewModel.output.portalMaintenanceStatus.subscribe(onNext: { status in
                 switch status {
                 case is MaintenanceStatus.AllPortal:
                     UIApplication.topViewController()?.showUnLoginMaintenanAlert()

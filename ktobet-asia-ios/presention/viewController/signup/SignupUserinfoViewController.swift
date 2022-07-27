@@ -176,7 +176,7 @@ class SignupUserinfoViewController: LandingViewController {
                     let title = Localize.string("common_error")
                     let message = Localize.string("register_service_down")
                     Alert.show(title, message, confirm: {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
                     }, cancel: nil)
                 }
                 

@@ -29,7 +29,7 @@ class SportBookViewController: LobbyViewController {
         self.activityIndicator.startAnimating()
         self.setupWebView()
         
-        serviceViewModel.output.portalMaintenanceStatus.drive(onNext: { status in
+        serviceViewModel.output.portalMaintenanceStatus.subscribe(onNext: { status in
             switch status {
             case let product as MaintenanceStatus.Product:
                 if product.isProductMaintain(productType: .sbk) {

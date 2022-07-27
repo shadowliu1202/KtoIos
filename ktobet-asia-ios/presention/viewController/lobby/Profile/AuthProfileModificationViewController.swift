@@ -85,7 +85,7 @@ class AuthProfileModificationViewController: LobbyViewController {
                 viewModel.logout()
                     .subscribeOn(MainScheduler.instance)
                     .subscribe(onCompleted: {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
                     }).disposed(by: self.disposeBag)
             })
         }, cancel: nil)

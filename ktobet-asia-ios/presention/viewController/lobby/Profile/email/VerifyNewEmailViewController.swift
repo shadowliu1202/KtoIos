@@ -33,7 +33,7 @@ class VerifyNewEmailViewController: OtpViewControllerProtocol {
     
     private func navigateToLoginPage() {
         Alert.show(Localize.string("common_tip_title_warm"), Localize.string("profile_identity_email_modify_success"), confirm: {
-            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
         }, cancel: nil)
     }
 }

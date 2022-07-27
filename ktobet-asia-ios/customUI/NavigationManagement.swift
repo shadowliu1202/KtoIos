@@ -67,7 +67,7 @@ class NavigationManagement {
     }
     
     func goTo(storyboard name: String, viewControllerId: String) {
-        if viewControllerId == "LoginNavigation" || viewControllerId == "LaunchViewController" || viewControllerId == "PortalMaintenanceViewController" {
+        if viewControllerId == "LandingNavigation" || viewControllerId == "LaunchViewController" || viewControllerId == "PortalMaintenanceViewController" {
             dispose()
         }
         

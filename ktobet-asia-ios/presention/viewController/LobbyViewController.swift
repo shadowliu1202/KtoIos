@@ -22,7 +22,7 @@ class LobbyViewController: APPViewController, VersionUpdateProtocol {
     private func executeLogout() {
         playerViewModel.logout().subscribeOn(MainScheduler.instance).subscribe(onCompleted: { [weak self] in
             self?.versionSyncDisposeBag = DisposeBag()
-            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
         }, onError: {
             print($0)
         }).disposed(by: versionSyncDisposeBag)

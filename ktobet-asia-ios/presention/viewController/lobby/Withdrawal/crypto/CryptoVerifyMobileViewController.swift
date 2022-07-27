@@ -28,7 +28,7 @@ class CryptoVerifyMobileViewController: OtpViewControllerProtocol {
     
     func onExccedResendLimit() {
         Alert.show(Localize.string("common_tip_title_warm"), Localize.string("common_sms_otp_exeed_send_limit"), confirm: {
-            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
         }, cancel: nil)
     }
     
