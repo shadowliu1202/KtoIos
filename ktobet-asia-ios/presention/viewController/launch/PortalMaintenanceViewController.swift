@@ -24,7 +24,7 @@ class PortalMaintenanceViewController: LandingViewController {
             self?.csEmailButton.setTitle(Localize.string("common_cs_email", email), for: .normal)
         }).disposed(by: disposeBag)
 
-        viewModel.output.portalMaintenanceStatusPreSecond.drive {[weak self] status in
+        viewModel.output.portalMaintenanceStatusPerSecond.subscribe(onNext: { [weak self] status in
             switch status {
             case let allPortal as MaintenanceStatus.AllPortal:
                 let seconds = allPortal.convertDurationToSeconds()?.int32Value
@@ -32,7 +32,7 @@ class PortalMaintenanceViewController: LandingViewController {
             default:
                 self?.showNavigation()
             }
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
         viewModel.refreshProductStatus()
         

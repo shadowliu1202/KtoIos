@@ -14,7 +14,7 @@ class ProductsViewController: LobbyViewController {
     }
 
     private func observeSystemStatus() {
-        serviceViewModel.output.portalMaintenanceStatus.drive(onNext: { [weak self] status in
+        serviceViewModel.output.portalMaintenanceStatus.subscribe(onNext: { [weak self] status in
             guard let self = self, let productType = self.productType else { return }
             switch status {
             case is MaintenanceStatus.AllPortal:

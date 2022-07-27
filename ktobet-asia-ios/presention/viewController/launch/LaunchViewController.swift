@@ -10,7 +10,7 @@ class LaunchViewController: APPViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.initLocale()
-            .andThen(Observable.combineLatest(serviceViewModel.output.portalMaintenanceStatus.asObservable(), viewModel.checkIsLogged().asObservable()))
+            .andThen(Observable.combineLatest(serviceViewModel.output.portalMaintenanceStatus, viewModel.checkIsLogged().asObservable()))
             .subscribe(onNext: { [weak self] (status, isLogged) in
                 switch status {
                 case is MaintenanceStatus.AllPortal:
@@ -21,22 +21,22 @@ class LaunchViewController: APPViewController {
                         self?.nextPage()
                     } else {
                         self?.displayVideo {
-                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
                             self?.observeCustomerService()
                         }
                     }
                 default:
                     break
                 }
-            }) { [weak self] error in
+            }, onError: { [weak self] error in
                 if error.isMaintenance() {
                     self?.showPortalMaintenance()
-                } else if error.isNetworkLost() {
-                    self?.displayAlert(Localize.string("common_error"), Localize.string("common_network_error"))
-                } else {
+                } else if error.isCDNError() || error.isRestrictedArea() {
                     self?.handleErrors(error)
+                } else {
+                    self?.displayAlert(Localize.string("common_error"), Localize.string("common_network_error"))
                 }
-            }.disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
     }
     
     override func networkDisconnectHandler() {

@@ -90,7 +90,7 @@ extension UIViewController{
         let viewModel = DI.resolve(PlayerViewModel.self)!
         let disposeBag = DisposeBag()
         let serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
-        serviceViewModel.output.portalMaintenanceStatus.drive(onNext: { [weak self] status in
+        serviceViewModel.output.portalMaintenanceStatus.subscribe(onNext: { [weak self] status in
             switch status {
             case is MaintenanceStatus.AllPortal:
                 if UIApplication.topViewController() is LandingViewController {

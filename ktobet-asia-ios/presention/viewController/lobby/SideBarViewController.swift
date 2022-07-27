@@ -172,7 +172,7 @@ class SideBarViewController: LobbyViewController {
                         if isMaintain {
                             NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
                         } else {
-                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LoginNavigation")
+                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
                         }
                     }).disposed(by: self.disposeBag)
             })
@@ -242,7 +242,7 @@ class SideBarViewController: LobbyViewController {
             self?.listProduct.reloadData()
         }).disposed(by: disposeBag)
         
-        serviceViewModel.output.portalMaintenanceStatus.drive(onNext: {[weak self] status in
+        serviceViewModel.output.portalMaintenanceStatus.subscribe(onNext: {[weak self] status in
             self?.updateMaintainStatus(status)
         }).disposed(by: disposeBag)
         

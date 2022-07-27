@@ -39,7 +39,7 @@ class CustomerServiceButtonItem: TextBarButtonItem {
             guard let `self` = self, let vc = self.delegate as? UIViewController else { return }
             self.isEnabled = false
             
-            self.serviceStatusViewModel.output.portalMaintenanceStatus.drive(onNext: { maintenanceStatus in
+            self.serviceStatusViewModel.output.portalMaintenanceStatus.subscribe(onNext: { maintenanceStatus in
                 switch maintenanceStatus {
                 case is MaintenanceStatus.AllPortal:
                     Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
