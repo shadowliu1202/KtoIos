@@ -33,7 +33,7 @@ class WithdrawlRecordContainer: LobbyViewController {
 
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         
-        self.viewModel.getWithdrawalRecordDetail(transactionId: displayId, transactionTransactionType: transactionTransactionType).subscribe(onSuccess: { [weak self] (withdrawalDetail) in
+        self.viewModel.getWithdrawalRecordDetail(transactionId: displayId, transactionTransactionType: transactionTransactionType).subscribe(onNext: { [weak self] (withdrawalDetail) in
             self?.switchContain(withdrawalDetail)
         }, onError: {[weak self] (error) in
             self?.handleErrors(error)

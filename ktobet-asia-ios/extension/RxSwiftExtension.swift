@@ -36,6 +36,14 @@ extension Completable {
             emitter.setDisposable(disposable: DisposableWrapper.init(dispoable: swiftDisposable))
         }))
     }
+    
+    public func catchException(transferLogic: @escaping (Error) -> Error) -> PrimitiveSequence<CompletableTrait, Swift.Never> {
+        let handler: (Swift.Error) throws -> PrimitiveSequence<CompletableTrait, Swift.Never> = { (error) in
+            let e = transferLogic(error)
+            return Completable.error(e)
+        }
+        return catchError(handler)
+    }
 }
 
 extension RxSwift.Observable where Element: AnyObject {

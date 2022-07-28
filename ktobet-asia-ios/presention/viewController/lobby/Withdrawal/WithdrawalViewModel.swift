@@ -7,6 +7,7 @@ class WithdrawalViewModel {
     static let selectedImageCountLimit = 3
     private var withdrawalUseCase: WithdrawalUseCase!
     private var localStorageRepository: LocalStorageRepositoryImpl!
+    private let refreshTrigger = BehaviorRelay<Void>.init(value: ())
     lazy var localCurrency = localStorageRepository.getLocalCurrency()
     var uploadImageDetail: [Int: UploadImageDetail] = [:]
     var pagination: Pagination<WithdrawalRecord>!
@@ -39,8 +40,14 @@ class WithdrawalViewModel {
         return self.withdrawalUseCase.getWithdrawalRecords()
     }
     
-    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
-        return self.withdrawalUseCase.getWithdrawalRecordDetail(transactionId: transactionId, transactionTransactionType: transactionTransactionType)
+    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Observable<WithdrawalDetail> {
+        return refreshTrigger.flatMap({ [unowned self] in
+            withdrawalUseCase.getWithdrawalRecordDetail(transactionId: transactionId, transactionTransactionType: transactionTransactionType)
+        })
+    }
+    
+    func refreshRecordDetail() {
+        self.refreshTrigger.accept(())
     }
     
     func getWithdrawalRecords(page: String = "1") -> Observable<[WithdrawalRecord]> {

@@ -727,6 +727,7 @@
 "withdrawal_daily_limit_widthrawal_amount" = "每日提现额度：%@";
 "withdrawal_daily_limit_widthrawal_times" = "每日提现次数：%@";
 "withdrawal_turnover_requirement" = "投注额提现要求：";
+"withdrawal_cancel_locked" = "";
 
 //MARK: - Product
 "product_slot_recent_play" = "最近游玩";
