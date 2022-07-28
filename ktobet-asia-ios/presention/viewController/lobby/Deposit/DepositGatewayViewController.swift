@@ -107,22 +107,25 @@ class DepositGatewayViewController: LobbyViewController {
 
     private func displayRemitType(gateway: PaymentsDTO.Gateway) {
         switch gateway.remitType {
-        case PaymentsDTO.RemitType.normal:
+        case is PaymentsDTO.RemitTypeNormal:
             setFromBankView(isHidden: true)
             setDirectToView(isHidden: true)
             setOnlyAmountView(isHidden: false)
             
-        case PaymentsDTO.RemitType.frombank:
+            let remitTypeNormal = gateway.remitType as! PaymentsDTO.RemitTypeNormal
+            remitterBankCardNumberTextField.visibility = remitTypeNormal.isAccountNumberRequired ? .visible : .gone
+            
+        case is PaymentsDTO.RemitTypeFromBank:
             setFromBankView(isHidden: false, remitBank: gateway.remitBank)
             setDirectToView(isHidden: true)
             setOnlyAmountView(isHidden: false)
             
-        case PaymentsDTO.RemitType.directto:
+        case is PaymentsDTO.RemitTypeDirectTo:
             setFromBankView(isHidden: true)
             setDirectToView(isHidden: false, remitBank: gateway.remitBank)
             setOnlyAmountView(isHidden: false)
             
-        case PaymentsDTO.RemitType.onlyamount:
+        case is PaymentsDTO.RemitTypeOnlyAmount:
             setFromBankView(isHidden: true)
             setDirectToView(isHidden: true)
             setOnlyAmountView(isHidden: true, hint: gateway.hint)
