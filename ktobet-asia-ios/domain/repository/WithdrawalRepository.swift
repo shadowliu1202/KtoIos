@@ -136,7 +136,14 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     }
     
     func cancelWithdrawal(ticketId: String) -> Completable {
-        return bankApi.cancelWithdrawal(ticketId: ticketId)
+        return bankApi.cancelWithdrawal(ticketId: ticketId).catchException(transferLogic: {
+            switch $0 {
+            case is WithdrawalTicketBatched:
+                return KtoWithdrawalTicketBatched()
+            default:
+                return $0
+            }
+        })
     }
     
     func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String> {
