@@ -97,7 +97,7 @@ struct textRowView: View {
         return [memo.fromCrypto.formatString(),
                 memo.rate.formatString(),
                 memo.toFiat.formatString(),
-                memo.date.toDateTimeString()]
+                data.log.createdDate.toDateTimeString()]
     }
     
     private func finalContentString() -> [String]? {
