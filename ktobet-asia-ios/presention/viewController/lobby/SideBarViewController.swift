@@ -217,7 +217,6 @@ class SideBarViewController: LobbyViewController {
             return flowLayout
         }()
         
-        labBalance.numberOfLines = 0
         labBalance.lineBreakMode = .byCharWrapping
         labUserAcoount.numberOfLines = 0
         labUserAcoount.lineBreakMode = .byCharWrapping

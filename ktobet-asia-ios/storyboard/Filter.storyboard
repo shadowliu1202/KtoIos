@@ -43,17 +43,22 @@
                                                             <color key="textColor" name="textPrimaryDustyGray"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NHP-bw-5zn">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NHP-bw-5zn">
                                                             <rect key="frame" x="0.0" y="47" width="414" height="1"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" name="dividerCapeCodGray2"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="1" id="bJj-YY-jwV"/>
+                                                            </constraints>
                                                         </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
+                                                        <constraint firstItem="NHP-bw-5zn" firstAttribute="leading" secondItem="jau-fg-Q14" secondAttribute="leading" id="7v9-1d-URZ"/>
+                                                        <constraint firstAttribute="bottom" secondItem="NHP-bw-5zn" secondAttribute="bottom" id="AY8-CN-jwz"/>
                                                         <constraint firstItem="beT-xG-DY8" firstAttribute="centerY" secondItem="jau-fg-Q14" secondAttribute="centerY" id="MkN-4d-Sg0"/>
                                                         <constraint firstAttribute="trailing" secondItem="beT-xG-DY8" secondAttribute="trailing" constant="30" id="NzC-E2-Gz6"/>
                                                         <constraint firstItem="beT-xG-DY8" firstAttribute="leading" secondItem="jau-fg-Q14" secondAttribute="leading" constant="30" id="YmA-zj-kHG"/>
+                                                        <constraint firstAttribute="trailing" secondItem="NHP-bw-5zn" secondAttribute="trailing" id="ykj-cf-eXh"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -84,16 +89,21 @@
                                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                                             </state>
                                                         </button>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JBc-9Q-NeD">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JBc-9Q-NeD">
                                                             <rect key="frame" x="30" y="47" width="384" height="1"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" name="dividerCapeCodGray2"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="1" id="bNF-pb-APi"/>
+                                                            </constraints>
                                                         </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstItem="Cp7-Cd-juV" firstAttribute="leading" secondItem="afm-aT-7O9" secondAttribute="leading" constant="30" id="0sS-lV-lPs"/>
+                                                        <constraint firstItem="JBc-9Q-NeD" firstAttribute="leading" secondItem="afm-aT-7O9" secondAttribute="leading" constant="30" id="1Qm-9n-zfk"/>
+                                                        <constraint firstAttribute="trailing" secondItem="JBc-9Q-NeD" secondAttribute="trailing" id="3gs-Pt-iH6"/>
                                                         <constraint firstItem="eek-WQ-bfd" firstAttribute="leading" secondItem="afm-aT-7O9" secondAttribute="leading" constant="30" id="9vQ-t2-kjI"/>
+                                                        <constraint firstAttribute="bottom" secondItem="JBc-9Q-NeD" secondAttribute="bottom" id="IMp-Je-a7z"/>
                                                         <constraint firstItem="Cp7-Cd-juV" firstAttribute="centerY" secondItem="afm-aT-7O9" secondAttribute="centerY" id="Na6-vD-ElO"/>
                                                         <constraint firstAttribute="trailing" secondItem="Cp7-Cd-juV" secondAttribute="trailing" constant="30" id="YOj-fE-uUd"/>
                                                         <constraint firstItem="eek-WQ-bfd" firstAttribute="centerY" secondItem="afm-aT-7O9" secondAttribute="centerY" id="c58-xv-jeD"/>
