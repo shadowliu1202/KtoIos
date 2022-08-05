@@ -15,12 +15,26 @@
 
 default_platform(:ios)
 platform :ios do
-    before_all do |lane, options|
+    lane :setupKeyStore do
         unlock_keychain( # Unlock an existing keychain and add it to the keychain search list
             path: "login.keychain-db",
             password: ENV["KEYCHAIN_PASSWORD"]
         )
+        app_store_connect_api_key(
+            key_id:  ENV['KEY_ID'],#API kid
+            issuer_id: "7a9803b0-51d8-44c5-ba26-f916da982cbe",#Issuer ID
+            key_filepath: ENV['API_KEY'],
+            duration: 1200, 
+            in_house: false, 
+        )
     end
+    
+    lane :tests do
+        run_tests(scheme: "ktobet-asia-iosTests",
+                  output_types: 'junit,html',
+                  output_files: "junit.xml,report.html")
+    end
+
 	lane :getIdentifier do |options|
 		preRelease = options[:preRelease]
 		puts "Get #{preRelease}"
@@ -73,17 +87,8 @@ platform :ios do
 		end
 	end
 
-    key_file_path = ENV['API_KEY']
-	key_id_value = ENV['KEY_ID']
-    api_key = app_store_connect_api_key(
-            key_id: key_id_value,#API kid
-            issuer_id: "7a9803b0-51d8-44c5-ba26-f916da982cbe",#Issuer ID
-            key_filepath: key_file_path,
-            duration: 1200, 
-            in_house: false, 
-        )
-
 	lane :buildIpa  do |options|
+        setupKeyStore()
 	    match(type: "adhoc", readonly: is_ci, app_identifier: "com.kto.asia.dev")
 		update_info_plist(plist_path: "ktobet-asia-ios/info.plist", 
 				  block: proc do |plist|
@@ -104,6 +109,7 @@ platform :ios do
 
 
 	lane :buildIpaQat  do |options|
+        setupKeyStore()
 	    match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.qat-1")
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist", 
 				  block: proc do |plist|
@@ -129,6 +135,7 @@ platform :ios do
 	end
 
     lane :buildIpaStgCN  do |options|
+        setupKeyStore()
         match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.stg")
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist",
                   block: proc do |plist|
@@ -169,6 +176,7 @@ platform :ios do
     end
 
 	lane :uploadstagingToTestflight do |options|
+    setupKeyStore()
 	match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.stg")
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
 				  block: proc do |plist|
@@ -192,6 +200,7 @@ platform :ios do
 
 
 	lane :uploadToTestflight do |options|
+    setupKeyStore()
 	match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.qat-1")
 		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist", 
 				  block: proc do |plist|
@@ -217,6 +226,7 @@ platform :ios do
 	end
  
     lane :buildIpaProdCN do |options|
+        setupKeyStore()
         match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia")
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-production-Info.plist",
                   block: proc do |plist|
@@ -236,6 +246,7 @@ platform :ios do
     end
     
     lane :buildIpaProdVN do |options|
+        setupKeyStore()
         match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.vn")
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-production-vn-Info.plist",
                   block: proc do |plist|
@@ -255,8 +266,8 @@ platform :ios do
     end
  
     lane :buildProdSelf do |options|
-        match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.selftest")
-        
+        setupKeyStore()
+        match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.selftest")    
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-prod-selftest-Info.plist",
                   block: proc do |plist|
                   plist["CFBundleVersion"] = options[:buildVersion]
@@ -277,6 +288,7 @@ platform :ios do
     end
     
     lane :buildProdBackup do |options|
+        setupKeyStore()
         match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.backup")
         
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-prod-backup-Info.plist",
@@ -299,6 +311,7 @@ platform :ios do
     end
     
     lane :buildQat3 do |options|
+        setupKeyStore()
         match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.qat3")
         
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat3-Info.plist",
@@ -320,11 +333,8 @@ platform :ios do
 
     end
     
-    lane :tests do
-        run_tests(scheme: "ktobet-asia-iosTests")
-    end
-
 	lane :uploadTestflight do |options|
+        setupKeyStore()
 		identifier  = getIdentifier(preRelease: options[:releaseTarget])
 		env = getEnviroment(preRelease: options[:releaseTarget])
 		plistPath = "ktobet-asia-ios/ktobet-asia-ios-#{env}-Info.plist"
