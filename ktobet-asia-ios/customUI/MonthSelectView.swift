@@ -1,6 +1,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SharedBu
 
 private let reuseIdentifier = "MonthCollectionViewCell"
 private let displayLimit = 6
@@ -53,9 +54,10 @@ class MonthSelectView: UIView {
         }
     }
     private var hasPrevious = false
-    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    private var playerLocale: SupportLocale
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, playerLocale: SupportLocale) {
+        self.playerLocale = playerLocale
         super.init(frame: frame)
         setupUI()
         calculate()
@@ -63,10 +65,7 @@ class MonthSelectView: UIView {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupUI()
-        calculate()
-        setupBinding()
+        fatalError()
     }
     
     private func setupUI() {
@@ -80,6 +79,8 @@ class MonthSelectView: UIView {
         collectionView.topAnchor.constraint(equalTo: yearHeadView.bottomAnchor, constant: 18).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
+    
+    
     private func leftBtn(enable: Bool) {
         leftBtn.isEnabled = enable
         var iconNmae: String = ""
@@ -213,7 +214,7 @@ extension MonthSelectView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MonthCollectionViewCell
         var item = currentSource[indexPath.section][indexPath.row]
-        cell.config(item.month, playerLocale: playerLocaleConfiguration.getSupportLocale(), isEnable: item.isEnable, isSelected: item.isSelected) { (pressedEvent, disposeBag) in
+        cell.config(item.month, playerLocale: playerLocale, isEnable: item.isEnable, isSelected: item.isSelected) { (pressedEvent, disposeBag) in
             pressedEvent.subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.toggle(indexPath)

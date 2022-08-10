@@ -7,7 +7,9 @@ class DateViewController: UIViewController {
     @IBOutlet fileprivate weak var dateView: UIView!
     @IBOutlet fileprivate weak var nextButton: UIButton!
     @IBOutlet fileprivate weak var previousButton: UIButton!
-    @IBOutlet var month: MonthSelectView!
+    @IBOutlet var month: UIView!
+    
+    private lazy var monthSelectView = MonthSelectView(frame: .zero, playerLocale: playerLocaleConfiguration.getSupportLocale())
     
     var conditionCallbck: ((_ dateType: DateType) -> ())?
     var dateType: DateType = .week()
@@ -17,11 +19,12 @@ class DateViewController: UIViewController {
     fileprivate var currentSelectedStyle: SelectionMode = .sequence(style: .semicircleEdge)
     fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
     
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-    private lazy var dateSegmentTitle = Theme.shared.getSegmentTitleName(by: localStorageRepo.getSupportLocale())
+    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    private lazy var dateSegmentTitle = Theme.shared.getSegmentTitleName(by: playerLocaleConfiguration.getSupportLocale())
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        month.addSubview(monthSelectView, constraints: .fill())
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         self.setupDateSegmentLabel()
         
@@ -56,14 +59,14 @@ class DateViewController: UIViewController {
                 self.dateSegment.selectedSegmentIndex = 2
                 self.month.isHidden = false
                 self.dateView.isHidden = true
-                self.month.setSelectedDate(starDate.convertdateToUTC())
+                self.monthSelectView.setSelectedDate(starDate.convertdateToUTC())
             }
 
-            self.currentDateLabel.text = Theme.shared.getDatePickerTitleLabel(by: self.localStorageRepo.getSupportLocale(), self.koyomi)
+            self.currentDateLabel.text = Theme.shared.getDatePickerTitleLabel(by: self.playerLocaleConfiguration.getSupportLocale(), self.koyomi)
 
         }
         
-        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: Theme.shared.getDateSegmentTitleFontSize(by: self.localStorageRepo.getSupportLocale()))!]
+        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: Theme.shared.getDateSegmentTitleFontSize(by: self.playerLocaleConfiguration.getSupportLocale()))!]
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .normal)
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .selected)
         dateSegment.addTarget(
@@ -71,7 +74,7 @@ class DateViewController: UIViewController {
             action: #selector(onChange),
             for: .valueChanged)
         month.isHidden = true
-        month.callback = { [weak self] (starDate, endDate) in
+        monthSelectView.callback = { [weak self] (starDate, endDate) in
             self?.dateType = .month(fromDate: starDate, toDate: endDate)
         }
     }
@@ -199,7 +202,7 @@ class DateViewController: UIViewController {
             month.isHidden = false
             dateView.isHidden = true
             let currentDate = Date()
-            month.setSelectedDate(currentDate)
+            monthSelectView.setSelectedDate(currentDate)
             dateType = .month(fromDate: MonthItem.from(year: Int(currentDate.getYear()), month: Int(currentDate.getMonth())),
                               toDate: MonthItem.end(year: Int(currentDate.getYear()), month: Int(currentDate.getMonth())))
         default:

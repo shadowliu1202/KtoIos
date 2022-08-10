@@ -22,7 +22,7 @@ class CryptoAccountDetailViewController: LobbyViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         
-        verifyStatusLabel.text = StringMapper.sharedInstance.getVerifyStatus(status: account.verifyStatus).text
+        verifyStatusLabel.text = StringMapper.getVerifyStatus(status: account.verifyStatus).text
         accountNameLabel.text = account.name
         cryptoTypeLabel.text = account.currency.name
         cryptoNetworkLabel.text = account.cryptoNetwork.name

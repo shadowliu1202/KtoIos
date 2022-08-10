@@ -1,9 +1,3 @@
-//
-//  MainDebugViewController.swift
-//  ktobet-asia-ios
-//
-//  Created by LeoOnHiggstar on 2021/3/15.
-//
 
 import UIKit
 import RxSwift
@@ -16,6 +10,7 @@ struct DebugData {
     var body: String?
     var error: String?
     var response: String?
+    var hideHeader: Bool = true
 }
 
 class MainDebugViewController: UIViewController {
@@ -27,15 +22,14 @@ class MainDebugViewController: UIViewController {
     var cancelHandle: (() -> Void)?
     
     private var debugDatas = BehaviorRelay<[DebugData]>(value: [])
-    private var debugLogs: [String] = []
-
     private lazy var disposeBag = DisposeBag()
+    private let httpClient = DI.resolve(HttpClient.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.setupBinding()
-        loadData(DI.resolve(HttpClient.self)!.debugDatas.reversed())
+        loadData(httpClient.debugDatas.reversed())
     }
     
     private func setCell(cell:MainDebugDataCell, callbackTime: String?, url: String?, headers: String?, body: String?, error: String?, response: String?) {
@@ -57,14 +51,14 @@ class MainDebugViewController: UIViewController {
     }
 
     private func setupBinding() {
-        self.debugDatas.asDriver().drive(tableView.rx.items(cellIdentifier: "MainDebugDataCell", cellType: MainDebugDataCell.self)) { [weak self] row, item, cell in
-            self?.setCell(cell: cell, callbackTime: item.callbackTime, url: item.url, headers: item.headers, body: item.body, error: item.error, response: item.response)
+        debugDatas.bind(to: tableView.rx.items) { tableView, row, item in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MainDebugDataCell", cellType: MainDebugDataCell.self)
+            cell.configure(callbackTime: item.callbackTime, url: item.url, headers: item.headers, body: item.body, error: item.error, response: item.response, hideHeader: item.hideHeader)
+            return cell
         }.disposed(by: self.disposeBag)
         
-        self.tableView.rx.itemSelected.subscribe(onNext: { [weak self] indexPath in
-            self?.tableView.deselectRow(at: indexPath, animated: true)
-            guard !(self?.debugLogs.isEmpty ?? true), let log = self?.debugLogs[indexPath.row] else { return }
-            self?.presentActivityView(with: [log])
+        self.tableView.rx.itemSelected.bind(onNext: { [unowned self] indexPath in
+            self.refreshData(indexPath.row)
         }).disposed(by: self.disposeBag)
         
         self.cancelButton.rx.touchUpInside.subscribe(onNext: { [weak self] _ in
@@ -76,13 +70,13 @@ class MainDebugViewController: UIViewController {
         debugDatas.accept(logs)
     }
     
-    private func presentActivityView(with shareItem: [Any],
-                             excluded types: [UIActivity.ActivityType]? = nil,
-                             completionWithItemsHandler: UIActivityViewController.CompletionWithItemsHandler? = nil) {
-        let activityViewController = UIActivityViewController(activityItems: shareItem, applicationActivities: nil)
-        activityViewController.excludedActivityTypes = types
-        activityViewController.completionWithItemsHandler = completionWithItemsHandler
-        self.present(activityViewController, animated: true, completion: nil)
+    private func refreshData(_ row: Int) {
+        var copyValue = self.debugDatas.value
+        var data = copyValue[row]
+        data.hideHeader.toggle()
+        copyValue.remove(at: row)
+        copyValue.insert(data, at: row)
+        self.debugDatas.accept(copyValue)
     }
     
     deinit {
@@ -103,4 +97,20 @@ class MainDebugDataCell: UITableViewCell {
     @IBOutlet weak var headersLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
     @IBOutlet weak var responseLabel: UILabel!
+    
+    func configure(callbackTime: String?, url: String?, headers: String?, body: String?, error: String?, response: String?, hideHeader: Bool?) {
+        callbackTimeRowStackView.isHidden = callbackTime == nil
+        urlRowStackView.isHidden = url == nil
+        headersRowStackView.isHidden = headers == nil
+        bodyRowStackView.isHidden = body == nil
+        errorImageView.isHidden = error == nil
+        callbackTimeLabel.text = callbackTime
+        urlLabel.text = url
+        headersLabel.text = headers
+        headersRowStackView.isHidden = hideHeader ?? true
+        responseLabel.textColor = error != nil ? UIColor(hex: 0xff0000) : UIColor(hex: 0x000000)
+        responseLabel.text = error != nil ? error : response
+        bodyLabel.text = body
+    }
+    
 }

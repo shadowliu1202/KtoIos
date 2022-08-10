@@ -31,9 +31,9 @@ class PromotionHistoryTableViewCell: UITableViewCell {
     
     func config(_ coupon: CouponHistory, tableView: UITableView) {
         datelabel.text = "\(coupon.receiveDate.toDateTimeFormatString()) \(Localize.string("bonus_receive"))"
-        typeButton.setTitle(StringMapper.sharedInstance.parseBonusTypeString(bonusType: coupon.type), for: .normal)
+        typeButton.setTitle(StringMapper.parseBonusTypeString(bonusType: coupon.type), for: .normal)
         typeNameLabel.isHidden = coupon.type != BonusType.product
-        typeNameLabel.text = StringMapper.sharedInstance.parseProductTypeString(productType: coupon.productType)
+        typeNameLabel.text = StringMapper.parseProductTypeString(productType: coupon.productType)
         nameLabel.text = coupon.name
         if let issue = coupon.issue, issue != 0 {
             noLabel.text = String(format: Localize.string("bonus_period"), "\(issue)")
@@ -41,8 +41,8 @@ class PromotionHistoryTableViewCell: UITableViewCell {
             noLabel.isHidden = true
         }
         
-        statusLabel.text = StringMapper.sharedInstance.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
-        statusLabel.textColor = ColorMapper.sharedInstance.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
+        statusLabel.text = StringMapper.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
+        statusLabel.textColor = Theme.shared.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
         amountLabel.text = coupon.amount.description()
         if coupon.isTurnOverCalculating {
             amountLabel.isHidden = true

@@ -20,8 +20,8 @@ extension UIBarButtonItem {
             return CloseBarButtonItem()
         case .customIamge(let name):
             return CustomImageBarButtonItem(imgName: name)
-        case .cs(let delegate, let disposeBag):
-            return CustomerServiceButtonItem(delegate, disposeBag)
+        case .cs(let serviceStatusViewModel, let delegate, let disposeBag):
+            return CustomerServiceButtonItem(serviceStatusViewModel: serviceStatusViewModel, delegate, disposeBag)
         case .register:
             return RegisterButtonItem()
         case .login:
@@ -63,7 +63,7 @@ enum KTOBarButtonItemStyle {
     case history
     case close
     case customIamge(named: String)
-    case cs(delegate: CustomServiceDelegate, disposeBag: DisposeBag)
+    case cs(serviceStatusViewModel: ServiceStatusViewModel, delegate: CustomServiceDelegate, disposeBag: DisposeBag)
     case register
     case login
     case manulUpdate

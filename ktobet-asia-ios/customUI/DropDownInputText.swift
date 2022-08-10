@@ -188,7 +188,7 @@ class DropDownInputText: UIView {
         } else {
             position = editedPosition()
             if self.dropDownOffsetOnece {
-                self.dropDownText.ktoOffset = CGRect(origin: CGPoint(x: position.content.origin.x, y: position.content.origin.y), size: CGSize(width: position.content.origin.x, height: 0))
+                self.dropDownText.ktoOffset = CGRect(origin: CGPoint(x: position.content.origin.x, y: position.content.origin.y), size: CGSize(width: position.content.origin.x, height: self.bounds.height))
                 self.dropDownOffsetOnece = false
             }
         }

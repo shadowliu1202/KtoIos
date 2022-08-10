@@ -53,7 +53,7 @@ class WithdrawlAccountsViewController: LobbyViewController {
     
     private func initUI() {
         tableView.separatorColor = UIColor.clear
-        tableView.addTopBorder()
+        tableView.tableHeaderView?.addBorder(.bottom)
     }
     
     private func dataBinding() {
@@ -288,7 +288,7 @@ class CryptoAccountCell: UITableViewCell {
     }
     
     func configure(_ item: CryptoBankCard, _ isEditMode: Bool) -> Self {
-        let verifyStatus = StringMapper.sharedInstance.getVerifyStatus(status: item.verifyStatus)
+        let verifyStatus = StringMapper.getVerifyStatus(status: item.verifyStatus)
         self.selectionStyle = .none
         self.bankNameLabel.text = item.name
         self.bankNumLabel.text = item.walletAddress

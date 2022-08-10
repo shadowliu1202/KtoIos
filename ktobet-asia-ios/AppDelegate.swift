@@ -1,14 +1,7 @@
-//
-//  AppDelegate.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/10/22.
-//
 
 import UIKit
 import IQKeyboardManagerSwift
 import RxSwift
-import Connectivity
 import SharedBu
 import WebKit
 import Firebase
@@ -16,7 +9,7 @@ import Firebase
 @main
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    private(set) var reachabilityObserver: ReachabilityHandler?
+    private(set) var reachabilityObserver: NetworkStateMonitor?
     private weak var timer: Timer?
     
     var window: UIWindow?
@@ -25,7 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let disposeBag = DisposeBag()
     private var networkControlWindow: NetworkControlWindow?
     private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
-        
+    
+    override init() {
+        super.init()
+        NetworkStateMonitor.setup(connected: networkDidConnect, disconnected: networkDisConnect, requestError: requestErrorWhenRetry)
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         if Configuration.enableCrashlytics {
             FirebaseApp.configure()
@@ -55,21 +53,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Configuration.manualControlNetwork {
             self.addNetworkControlGesture()
         }
-
-        reachabilityObserver = ReachabilityHandler.shared(connected: didConnect, disconnected: disConnect, requestError: requestErrorWhenRetry)
         
         SharedBu.Platform.init().debugBuild()
         
         return true
     }
     
-    private func didConnect(c: Connectivity) {
+    private func networkDidConnect() {
         if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
             topVc.networkDidConnected()
         }
     }
     
-    private func disConnect(c: Connectivity) {
+    private func networkDisConnect() {
         if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
             topVc.networkDisConnected()
         }
@@ -162,9 +158,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             networkControlWindow = NetworkControlWindow(frame: CGRect(x: UIScreen.main.bounds.width - rightPadding, y: UIScreen.main.bounds.height - bottomPadding, width: 56, height: 56))
             networkControlWindow?.isHidden = false
-            networkControlWindow?.touchUpInside = { isConnected in
+            networkControlWindow?.touchUpInside = { isNetworkConnected in
                 if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-                    if isConnected {
+                    if isNetworkConnected {
                         topVc.networkDidConnected()
                     } else {
                         topVc.networkDisConnected()

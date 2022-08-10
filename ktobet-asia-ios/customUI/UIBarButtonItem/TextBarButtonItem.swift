@@ -4,7 +4,6 @@ import SharedBu
 import SwiftUI
 
 class TextBarButtonItem: UIBarButtonItem {
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -24,22 +23,19 @@ let manualUpdateBtnId = 1004
 let skipBarBtnId = 1005
 
 class CustomerServiceButtonItem: TextBarButtonItem {
-    weak var delegate: CustomServiceDelegate? = nil
-    let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    init(_ delegate: CustomServiceDelegate? = nil, _ disposeBag: DisposeBag) {
+    init(serviceStatusViewModel: ServiceStatusViewModel, _ delegate: CustomServiceDelegate,_ disposeBag: DisposeBag) {
         super.init(title: Localize.string("customerservice_action_bar_title"))
         self.senderId(customerServiceBarBtnId)
-        self.delegate = delegate
-        self.delegate?.monitorChatRoomStatus(disposeBag)
+        delegate.monitorChatRoomStatus(disposeBag)
         self.actionHandler({ [weak self] _ in
-            guard let `self` = self, let vc = self.delegate as? UIViewController else { return }
+            guard let `self` = self, let vc = delegate as? UIViewController else { return }
             self.isEnabled = false
             
-            self.serviceStatusViewModel.output.portalMaintenanceStatus.subscribe(onNext: { maintenanceStatus in
+            serviceStatusViewModel.output.portalMaintenanceStatus.subscribe(onNext: { maintenanceStatus in
                 switch maintenanceStatus {
                 case is MaintenanceStatus.AllPortal:
                     Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
@@ -47,7 +43,7 @@ class CustomerServiceButtonItem: TextBarButtonItem {
                         NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
                     }, cancel: nil)
                 case is MaintenanceStatus.Product:
-                    CustomServicePresenter.shared.startCustomerService(from: vc, delegate: self.delegate)
+                    CustomServicePresenter.shared.startCustomerService(from: vc, delegate: delegate)
                         .subscribe(onCompleted: { [weak self] in
                             self?.isEnabled = true
                         }, onError: { [weak self] in

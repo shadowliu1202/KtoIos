@@ -102,7 +102,7 @@
                                     <constraint firstAttribute="width" secondItem="shg-6E-eB9" secondAttribute="height" multiplier="307:306" id="KPZ-Tm-J8b"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NT6-nn-a71" customClass="MonthSelectView" customModule="ktobet_asia_ios" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NT6-nn-a71">
                                 <rect key="frame" x="30" y="202" width="354" height="269"/>
                                 <color key="backgroundColor" name="blackTwo"/>
                             </view>

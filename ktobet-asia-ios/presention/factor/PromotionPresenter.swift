@@ -113,28 +113,28 @@ class PromotionPresenter: FilterPresentProtocol {
     
     class func createProductPromotionItem() -> ProductPromotionItem {
         return ProductPromotionItem(type: .interactive,
-                                    title: StringMapper.sharedInstance.parseProductTypeString(productType: .none),
+                                    title: StringMapper.parseProductTypeString(productType: .none),
                                     select: true,
                                     productType: ProductType.none)
     }
     
     class func createInteractive(_ productType: ProductType) -> PromotionItem {
         return PromotionItem(type: .interactive,
-                             title: StringMapper.sharedInstance.parseProductTypeString(productType: productType),
+                             title: StringMapper.parseProductTypeString(productType: productType),
                              select: true,
                              productType: productType)
     }
     
     class func createInteractive(_ bonusType: BonusType) -> PromotionItem {
         return PromotionItem(type: .interactive,
-                             title: StringMapper.sharedInstance.parseBonusTypeString(bonusType: bonusType),
+                             title: StringMapper.parseBonusTypeString(bonusType: bonusType),
                              select: true,
                              bonusType: bonusType)
     }
     
     class func createInteractive(_ sortingType: SortingType) -> PromotionItem {
         return PromotionItem(type: .interactive,
-                             title: StringMapper.sharedInstance.getPromotionSortingTypeString(sortingType: sortingType),
+                             title: StringMapper.getPromotionSortingTypeString(sortingType: sortingType),
                              select: true,
                              sortingType: sortingType)
     }

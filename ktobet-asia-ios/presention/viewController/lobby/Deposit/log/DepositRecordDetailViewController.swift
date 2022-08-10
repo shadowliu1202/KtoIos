@@ -27,7 +27,7 @@ class DepositRecordDetailViewController: LobbyViewController {
     @IBOutlet private weak var remarkView: UIView!
     @IBOutlet private weak var uploadClickView: UIView!
     @IBOutlet private weak var clickUploadLabel: UILabel!
-    @IBOutlet private weak var uploadLimitTiplabel: UILabel!
+    @IBOutlet private weak var uploadLimitTipLabel: UILabel!
     
     @IBOutlet private weak var uploadViewHeight: NSLayoutConstraint!
     @IBOutlet private weak var remarkViewHeight: NSLayoutConstraint!
@@ -43,13 +43,14 @@ class DepositRecordDetailViewController: LobbyViewController {
     var activityIndicator = UIActivityIndicatorView(style: .large)
     var displayId: String!
     
-    private var viewModel: DepositLogViewModel = DI.resolve(DepositLogViewModel.self)!
-    fileprivate var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
-    fileprivate var disposeBag = DisposeBag()
-    fileprivate var removeButtons: [UIButton] = []
-    fileprivate var imageIndex = 0
-    fileprivate var imageUploadInex = 0
-    fileprivate var imagePickerView: ImagePickerViewController!
+    private var viewModel = DI.resolve(DepositLogViewModel.self)!
+    private let httpClient = DI.resolve(HttpClient.self)!
+    private var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
+    private var disposeBag = DisposeBag()
+    private var removeButtons: [UIButton] = []
+    private var imageIndex = 0
+    private var imageUploadInex = 0
+    private var imagePickerView: ImagePickerViewController!
 
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -108,7 +109,7 @@ class DepositRecordDetailViewController: LobbyViewController {
     }
     
     // MARK: METHOD
-    fileprivate func initUI() {
+    private func initUI() {
         self.scrollview.isHidden = true
         self.titleNameLabel.text = Localize.string("deposit_detail_title")
         self.amountTitleLabel.text = Localize.string("common_transactionamount")
@@ -118,7 +119,7 @@ class DepositRecordDetailViewController: LobbyViewController {
         self.remarkTitleLabel.text = Localize.string("common_remark")
         self.uploadTitleLabel.text = Localize.string("common_upload_file")
         self.clickUploadLabel.text = Localize.string("common_click_to_upload")
-        self.uploadLimitTiplabel.text = Localize.string("common_photo_upload_limit")
+        self.uploadLimitTipLabel.text = Localize.string("common_photo_upload_limit")
         self.confrimButton.setTitle(Localize.string("common_submit"), for: .normal)
         self.confrimButton.isValid = false
         self.amountView.addBorder(.top)
@@ -132,7 +133,7 @@ class DepositRecordDetailViewController: LobbyViewController {
         self.view.addSubview(self.activityIndicator)
     }
     
-    fileprivate func showImagePicker() {
+    private func showImagePicker() {
         let currentSelectedImageCount = self.imageStackView.subviews.count
         if currentSelectedImageCount >= DepositLogViewModel.selectedImageCountLimit {
             Alert.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(DepositLogViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
@@ -168,7 +169,7 @@ class DepositRecordDetailViewController: LobbyViewController {
         NavigationManagement.sharedInstance.pushViewController(vc: imagePickerView)
     }
     
-    fileprivate func addImageToUI(image: UIImage) {
+    private func addImageToUI(image: UIImage) {
         let y = self.imageStackView.frame.origin.y + CGFloat(self.imageStackView.subviews.count * 192)
         let imageView = UIImageView()
         imageView.tag = imageUploadInex
@@ -198,7 +199,7 @@ class DepositRecordDetailViewController: LobbyViewController {
         removeButtons.append(removeButton)
     }
     
-    fileprivate func uploadImage(image: UIImage, count: Int) {
+    private func uploadImage(image: UIImage, count: Int) {
         let imageData = image.jpegData(compressionQuality: 1.0)!
         uploadViewModel.uploadImage(imageData: imageData).subscribe { [weak self] (result) in
             guard let `self` = self else { return }
@@ -217,7 +218,7 @@ class DepositRecordDetailViewController: LobbyViewController {
         }.disposed(by: disposeBag)
     }
     
-    fileprivate func updateUI(data: PaymentLogDTO.FiatLog) {
+    private func updateUI(data: PaymentLogDTO.FiatLog) {
         let log = data.log
         self.scrollview.isHidden = false
         self.applytimeLabel.text = log.createdDate.toDateTimeString()
@@ -246,7 +247,7 @@ class DepositRecordDetailViewController: LobbyViewController {
         }
     }
     
-    fileprivate func dataBinding() {
+    private func dataBinding() {
         let shareDepositRecordDetail = viewModel.getDepositFiatLog(transactionId: displayId).share()
         shareDepositRecordDetail.subscribeOn(MainScheduler.instance)
             .subscribe {[unowned self] (item: PaymentLogDTO.FiatLog) in
@@ -260,8 +261,8 @@ class DepositRecordDetailViewController: LobbyViewController {
         shareStatusChangeHistories
             .catchError({ _ -> Observable<[UpdateHistory]> in
                 return Observable<[UpdateHistory]>.just([])
-            }).bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) { [weak self] (index, d, cell) in
-                cell.setup(history: d)
+            }).bind(to: self.remarkTableview.rx.items(cellIdentifier: String(describing: RemarkTableViewCell.self), cellType: RemarkTableViewCell.self)) { [unowned self] (index, d, cell) in
+                cell.setup(history: d, httpClient: self.httpClient)
                 cell.toBigImage = {[weak self] (url, image) in
                     self?.performSegue(withIdentifier: ImageViewController.segueIdentifier, sender: (url, image))
                 }

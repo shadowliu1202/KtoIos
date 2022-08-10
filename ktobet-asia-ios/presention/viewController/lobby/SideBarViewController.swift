@@ -15,7 +15,7 @@ extension SideBarViewController: SideMenuNavigationControllerDelegate {
         CustomServicePresenter.shared.isInSideMenu = false
         CustomServicePresenter.shared.showServiceIcon()
         if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-            if Reachability?.isNetworkConnected == true {
+            if NetworkStateMonitor.shared.isNetworkConnected == true {
                 topVc.networkDidConnected()
             } else {
                 topVc.networkDisConnected()

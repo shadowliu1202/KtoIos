@@ -8,12 +8,14 @@
 import Foundation
 import SharedBu
 
-let Localize = LocalizeUtils.shared
+let Localize = DI.resolve(LocalizeUtils.self)!
 
 class LocalizeUtils: NSObject {
-    static let shared = LocalizeUtils()
+    private let localStorageRepo: PlayerLocaleConfiguration
     
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    init(playerLocaleConfiguration: PlayerLocaleConfiguration) {
+        self.localStorageRepo = playerLocaleConfiguration
+    }
     
     func string(_ key: String, _ parameters: [String]) -> String {
         let localizationFileName = localStorageRepo.getCultureCode()

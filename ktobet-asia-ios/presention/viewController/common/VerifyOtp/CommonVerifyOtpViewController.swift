@@ -29,9 +29,10 @@ class CommonVerifyOtpViewController: CommonViewController {
     private var overStep2TimeLimit = false
     private var otpRetryCount = 0
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
+    private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     private lazy var validator = OtpValidator(accountPatternGenerator: accountPatternGenerator)
     private var accountPatternGenerator = DI.resolve(AccountPatternGenerator.self)!
+    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -8,7 +8,6 @@ protocol RemarkTableCellCallback: AnyObject {
 }
 
 class RemarkTableViewCell: UITableViewCell {
-    private var httpClient = DI.resolve(HttpClient.self)!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var remarkLabel: UILabel!
     @IBOutlet private weak var imagesViewHeight: NSLayoutConstraint!
@@ -19,7 +18,7 @@ class RemarkTableViewCell: UITableViewCell {
     var toBigImage: ((String, UIImage?) -> ())?
     private var disposeBag = DisposeBag()
     
-    func setup(history: Transaction.StatusChangeHistory) {
+    func setup(history: Transaction.StatusChangeHistory, httpClient: HttpClient) {
         let imgs = [img1, img2, img3]
         imgs.forEach { $0?.isHidden = true }
         dateLabel.text = history.createdDate.toDateTimeString()
@@ -52,7 +51,7 @@ class RemarkTableViewCell: UITableViewCell {
         }
     }
     
-    func setup(history: UpdateHistory) {
+    func setup(history: UpdateHistory, httpClient: HttpClient) {
         let imgs = [img1, img2, img3]
         imgs.forEach { $0?.isHidden = true }
         dateLabel.text = history.createdDate.toDateTimeString()
@@ -80,7 +79,7 @@ class RemarkTableViewCell: UITableViewCell {
                 let tapGesture = UITapGestureRecognizer()
                 imgs?.addGestureRecognizer(tapGesture)
                 tapGesture.rx.event.bind(onNext: { [weak self]  _ in
-                    guard let urlString = self?.httpClient.host.absoluteString else { return }
+                    let urlString = httpClient.host.absoluteString
                     let pathString = urlString + img.path()
                     self?.toBigImage?(pathString, imgs?.image)
                 }).disposed(by: disposeBag)

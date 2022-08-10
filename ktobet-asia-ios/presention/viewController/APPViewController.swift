@@ -21,13 +21,12 @@ class APPViewController: UIViewController {
     }
 
     private func initNetworkConnectRelay() {
-        guard let reachability = Reachability else { return }
-        networkConnectRelay.accept(reachability.isNetworkConnected)
+        networkConnectRelay.accept(NetworkStateMonitor.shared.isNetworkConnected)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if Reachability?.isNetworkConnected == true {
+        if NetworkStateMonitor.shared.isNetworkConnected == true {
             self.networkReConnectedHandler()
         } else {
             self.networkDisconnectHandler()
@@ -99,7 +98,7 @@ extension APPViewController: NetworkStatusDisplay {
 
 extension APPViewController: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        if Reachability?.isNetworkConnected == true {
+        if NetworkStateMonitor.shared.isNetworkConnected == true {
             self.networkReConnectedHandler()
         } else {
             self.networkDisconnectHandler()

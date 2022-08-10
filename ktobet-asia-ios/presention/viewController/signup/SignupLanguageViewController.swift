@@ -31,6 +31,7 @@ class SignupLanguageViewController: LandingViewController {
     @IBOutlet private weak var constraintTableHeight: NSLayoutConstraint!
     
     private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
+    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private let segueLogin = "BackToLogin"
     private let segueInfo = "GoToInfo"
     private let segueTerms = "GoToTermsOfService"
@@ -52,7 +53,7 @@ class SignupLanguageViewController: LandingViewController {
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var login = UIBarButtonItem.kto(.login)
     private var spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
-    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
+    private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     
     var languageChangeHandler : (()->())?
 

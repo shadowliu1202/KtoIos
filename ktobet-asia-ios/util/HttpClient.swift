@@ -15,31 +15,24 @@ import Connectivity
 import SharedBu
 
 let debugCharCount = 500
-private func JSONResponseDataFormatter(_ data: Data) -> String {
-    do {
-        let dataAsJSON = try JSONSerialization.jsonObject(with: data)
-        let prettyData = try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
-        return String(data: prettyData, encoding: .utf8) ?? String(data: data, encoding: .utf8) ?? ""
-    } catch {
-        return String(data: data, encoding: .utf8) ?? ""
-    }
-}
 
 class KtoURL {
     private var playConfig: PlayerLocaleConfiguration
     private lazy var baseUrl = hostName.mapValues{ "https://\($0)/" }
     private var hostName: [String: String]!
 
-    fileprivate var host: URL {
-        if Configuration.manualControlNetwork {
-            return ManualNetworkControl.shared.baseUrl
-        }
-        return URL(string: self.baseUrl[playConfig.getCultureCode()]!)!
-    }
+    fileprivate lazy var host = URL(string: baseUrl[playConfig.getCultureCode()]!)!
     
     init(playConfig: PlayerLocaleConfiguration) {
         self.playConfig = playConfig
         self.hostName = Configuration.hostName.mapValues{ $0.first(where: checkNetwork) ?? $0.first! }
+    }
+    
+    func getAffiliateUrl() -> URL? {
+        if let host = self.baseUrl[playConfig.getCultureCode()] {
+            return URL(string: "\(host)affiliate")!
+        }
+        return nil
     }
     
     private func checkNetwork(url: String) -> Bool {
@@ -61,9 +54,9 @@ class KtoURL {
                 print("Error:", error ?? "")
                 isSuccess = false
                 if case .sessionTaskFailed(let err) = error as? AFError {
-                    Reachability?.requestErrorCallback(err)
+                    NetworkStateMonitor.shared.requestErrorCallback(err)
                 } else {
-                    Reachability?.requestErrorCallback(error!)
+                    NetworkStateMonitor.shared.requestErrorCallback(error!)
                 }
                 group.leave()
                 return
@@ -82,13 +75,6 @@ class KtoURL {
 
         group.wait()
         return isSuccess
-    }
-    
-    func getAffiliateUrl() -> URL? {
-        if let host = self.baseUrl[playConfig.getCultureCode()] {
-            return URL(string: "\(host)affiliate")!
-        }
-        return nil
     }
 }
 
@@ -112,9 +98,21 @@ class HttpClient {
     
     private var provider: MoyaProvider<MultiTarget>!
     private var retryProvider: MoyaProvider<MultiTarget>!
-    private var session: Session { return AF}
-    private(set) var host: URL
-    private(set) var domain: String
+    private var session: Session { return AF }
+    private let ktoUrl: KtoURL
+    var host: URL {
+        get {
+            if Configuration.manualControlNetwork && !NetworkStateMonitor.shared.isNetworkConnected {
+                return URL(string: "https://")!
+            }
+            return ktoUrl.host
+        }
+    }
+    var domain: String {
+        get {
+            host.absoluteString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
+        }
+    }
 
     private var retrier = APIRequestRetrier()
     private(set) var debugDatas: [DebugData] = []
@@ -122,14 +120,11 @@ class HttpClient {
         let dateFormatter = DateFormatter()
         dateFormatter.calendar = Calendar(identifier: .iso8601)
         dateFormatter.locale = Locale(identifier: "zh_Hant_TW")
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return dateFormatter
     }
 
     init(ktoUrl: KtoURL) {
-        self.host = ktoUrl.host
-        self.domain = self.host.absoluteString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
-        
+        self.ktoUrl = ktoUrl
         let configuration = logConfig()
         let session = AlamofireSessionWithRetier()
         self.provider = MoyaProvider<MultiTarget>(session: session, plugins: [NetworkLoggerPlugin(configuration: configuration)])
@@ -208,6 +203,61 @@ class HttpClient {
         }
     }
     
+    func requestJsonString(_ target: APITarget) -> Single<String> {
+        var provider: MoyaProvider<MultiTarget>!
+        if target.method == .get {
+            provider = self.retryProvider
+        } else {
+            provider = self.provider
+        }
+        return provider
+            .rx
+            .request(MultiTarget(target))
+            .filterSuccessfulStatusCodes()
+            .flatMap { [weak self] response in
+                self?.printResponseData(target.iMethod.rawValue, response: response)
+                if let str = String(data: response.data, encoding: .utf8) {
+                   return Single.just(str)
+                } else {
+                    let domain = self?.host.path ?? ""
+                    let error = NSError(domain: domain, code: response.statusCode, userInfo: ["statusCode": response.statusCode , "errorMsg" : ""]) as Error
+                    return Single.error(error)
+                }
+            }
+    }
+    
+    private func logConfig() -> NetworkLoggerPlugin.Configuration {
+        let entry = { [unowned self] (identifier: String, message: String, target: TargetType) -> String in
+            let formatter = self.dateFormatter
+            formatter.dateFormat = "yyyy/MM/dd HH:mm:ss.SSSXXXXX"
+            let date = formatter.string(from: Date())
+            return "Moya_Logger: [\(date)] \(identifier): \(message)"
+        }
+        let formatter : NetworkLoggerPlugin.Configuration.Formatter = .init(entry: entry, responseData: JSONResponseDataFormatter)
+        let logOptions : NetworkLoggerPlugin.Configuration.LogOptions = .verbose
+        let configuration : NetworkLoggerPlugin.Configuration = .init(formatter: formatter, logOptions: logOptions)
+        return configuration
+    }
+    
+    private func JSONResponseDataFormatter(_ data: Data) -> String {
+        do {
+            let dataAsJSON = try JSONSerialization.jsonObject(with: data)
+            let prettyData = try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
+            return String(data: prettyData, encoding: .utf8) ?? String(data: data, encoding: .utf8) ?? ""
+        } catch {
+            return String(data: data, encoding: .utf8) ?? ""
+        }
+    }
+    
+    private func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = nil) -> Session {
+        let configuration = URLSessionConfiguration.default
+        configuration.headers = .default
+        configuration.timeoutIntervalForRequest = 30
+        let evaluators: [String: ServerTrustEvaluating] = [domain: DisabledTrustEvaluator()]
+        let manager = ServerTrustManager(evaluators: evaluators)
+        return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor, serverTrustManager: manager)
+    }
+    
     private func printResponseData(_ method: String, response: Response) {
         let data = self.loadResponseData(method, response: response)
         
@@ -220,7 +270,9 @@ class HttpClient {
     
     private func loadResponseData(_ method: String, response: Response) -> DebugData {
         var debugData = DebugData()
-        debugData.callbackTime = "\(dateFormatter.string(from: Date()))"
+        let formatter = self.dateFormatter
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        debugData.callbackTime = "\(formatter.string(from: Date()))"
         debugData.url = "\(String(describing: (response.request?.url)!))"
         if response.request?.allHTTPHeaderFields != nil {
             debugData.headers = "\((response.request?.allHTTPHeaderFields)!)"
@@ -243,61 +295,18 @@ class HttpClient {
         return debugData
     }
     
-    func requestJsonString(_ target: APITarget) -> Single<String> {
-        var provider: MoyaProvider<MultiTarget>!
-        if target.method == .get {
-            provider = self.retryProvider
-        } else {
-            provider = self.provider
-        }
-        return provider
-            .rx
-            .request(MultiTarget(target))
-            .filterSuccessfulStatusCodes()
-            .flatMap { [weak self] response in
-                if let str = String(data: response.data, encoding: .utf8) {
-                   return Single.just(str)
-                } else {
-                    let domain = self?.host.path ?? ""
-                    let error = NSError(domain: domain, code: response.statusCode, userInfo: ["statusCode": response.statusCode , "errorMsg" : ""]) as Error
-                    return Single.error(error)
-                }
-            }
-    }
-    
-    private func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = nil) -> Session {
-        let configuration = URLSessionConfiguration.default
-        configuration.headers = .default
-        configuration.timeoutIntervalForRequest = 30
-        let evaluators: [String: ServerTrustEvaluating] = [domain: DisabledTrustEvaluator()]
-        let manager = ServerTrustManager(evaluators: evaluators)
-        return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor, serverTrustManager: manager)
-    }
-}
-
-fileprivate func logConfig() -> NetworkLoggerPlugin.Configuration {
-    let entry = { (identifier: String, message: String, target: TargetType) -> String in
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss.SSSXXXXX"
-        let date = formatter.string(from: Date())
-        return "Moya_Logger: [\(date)] \(identifier): \(message)"
-    }
-    let formatter : NetworkLoggerPlugin.Configuration.Formatter = .init(entry: entry, responseData: JSONResponseDataFormatter)
-    let logOptions : NetworkLoggerPlugin.Configuration.LogOptions = .verbose
-    let configuration : NetworkLoggerPlugin.Configuration = .init(formatter: formatter, logOptions: logOptions)
-    return configuration
 }
 
 class APIRequestRetrier: Retrier {
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     init() {
         super.init { _, _, _, _ in }
     }
     
     override func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        guard Reachability?.isNetworkConnected == true else {
-            Reachability?.didBecomeConnected.asObservable().subscribe(onNext: {
+        guard NetworkStateMonitor.shared.isNetworkConnected == true else {
+            NetworkStateMonitor.shared.didBecomeConnected.asObservable().subscribe(onNext: {
                 guard !request.isCancelled else {
                     completion(.doNotRetry)
                     return
@@ -306,9 +315,9 @@ class APIRequestRetrier: Retrier {
             }).disposed(by: disposeBag)
             
             if case .sessionTaskFailed(let err) = error as? AFError {
-                Reachability?.requestErrorCallback(err)
+                NetworkStateMonitor.shared.requestErrorCallback(err)
             } else {
-                Reachability?.requestErrorCallback(error)
+                NetworkStateMonitor.shared.requestErrorCallback(error)
             }
             return
         }

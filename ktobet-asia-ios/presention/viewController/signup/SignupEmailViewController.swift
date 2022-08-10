@@ -27,11 +27,12 @@ class SignupEmailViewController: LandingViewController {
     
     var barButtonItems: [UIBarButtonItem] = []
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
+    private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     private var disposeBag = DisposeBag()
     private let segueUserInfo = "BackToUserInfo"
     private let segueDefault = "GoToDefault"
     private var viewModel = DI.resolve(SignupEmailViewModel.self)!
+    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposebag = DisposeBag()
     private var timerResend = CountDownTimer()
     private var timerVerify = CountDownTimer()

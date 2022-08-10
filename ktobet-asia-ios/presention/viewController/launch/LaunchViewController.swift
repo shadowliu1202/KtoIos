@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class LaunchViewController: APPViewController {
+class LaunchViewController: UIViewController {
     private var viewModel = DI.resolve(LaunchViewModel.self)!
     private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -37,10 +37,6 @@ class LaunchViewController: APPViewController {
                     self?.displayAlert(Localize.string("common_error"), Localize.string("common_network_error"))
                 }
             }).disposed(by: disposeBag)
-    }
-    
-    override func networkDisconnectHandler() {
-        self.displayAlert(Localize.string("common_error"), Localize.string("common_network_error"))
     }
     
     func displayAlert(_ title: String?, _ message: String?) {

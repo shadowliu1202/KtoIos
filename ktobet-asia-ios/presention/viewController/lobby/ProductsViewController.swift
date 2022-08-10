@@ -34,7 +34,7 @@ class ProductsViewController: LobbyViewController {
     }
 
     func gameDidDisappear() {
-        if Reachability?.isNetworkConnected == false {
+        if NetworkStateMonitor.shared.isNetworkConnected == false {
             self.networkDisConnected()
         }
         syncAppVersionUpdate(versionSyncDisposeBag)
