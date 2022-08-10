@@ -38,7 +38,7 @@ class DefaultProductCell: UITableViewCell {
     func setup(_ gameType: ProductType, _ local: SupportLocale, _ selectedGameType: ProductType?){
         let isSelected = gameType == selectedGameType ? true : false
         self.imgBackground?.image = isSelected ? try! getSelectImg(gameType) : try! getUnselectImg(gameType)
-        self.labTitle.text = StringMapper.sharedInstance.parseProductTypeString(productType: gameType)
+        self.labTitle.text = StringMapper.parseProductTypeString(productType: gameType)
         self.labDesc.text = try! getDesc(gameType)
         self.viewBg.layer.borderWidth = isSelected ? 1 : 0
         self.viewBg.layer.borderColor = (isSelected ? UIColor.white : UIColor.clear).cgColor

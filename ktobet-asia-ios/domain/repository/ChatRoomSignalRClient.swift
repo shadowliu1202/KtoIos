@@ -259,9 +259,9 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
             self.onMessage?(PortalChatRoom.ChatActionCSAnswer.init())
         })
 
-        self.socketConnect?.on(method: Target.SpeakingAsync.rawValue, callback: {[weak self] (bean: SpeakingAsyncBean) in
+        self.socketConnect?.on(method: Target.SpeakingAsync.rawValue, callback: {[unowned self] (bean: SpeakingAsyncBean) in
             do {
-                self?.onMessage?(PortalChatRoom.ChatActionMessage.init(message: try ChatMapper.mapTo(speakingAsyncBean: bean)))
+                self.onMessage?(PortalChatRoom.ChatActionMessage.init(message: try ChatMapper.mapTo(speakingAsyncBean: bean, httpClient: self.httpClient)))
             } catch {
                 print("ChatRoomSignalRClient, Please Check Date Format Return By API")
             }
@@ -314,7 +314,6 @@ struct SpeakingAsyncBean: Codable {
 
 class NSURLSessionPinningDelegate: NSObject, URLSessionDelegate {
     private var httpClient: HttpClient
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     
     init(httpClient: HttpClient) {
         self.httpClient = httpClient

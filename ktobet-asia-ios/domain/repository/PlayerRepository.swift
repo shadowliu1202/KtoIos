@@ -27,15 +27,15 @@ protocol PlayerRepository {
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
-    private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
-    
     private let httpClient: HttpClient
+    private let localStorageRepo: LocalStorageRepositoryImpl
     private var playerApi: PlayerApi!
     private var portalApi: PortalApi!
     private var settingStore: SettingStore!
     
-    init(_ httpClient: HttpClient, _ playerApi: PlayerApi, _ portalApi: PortalApi, _ settingStore: SettingStore) {
+    init(_ httpClient: HttpClient, _ localStorageRepo: LocalStorageRepositoryImpl, _ playerApi: PlayerApi, _ portalApi: PortalApi, _ settingStore: SettingStore) {
         self.httpClient = httpClient
+        self.localStorageRepo = localStorageRepo
         self.playerApi = playerApi
         self.portalApi = portalApi
         self.settingStore = settingStore

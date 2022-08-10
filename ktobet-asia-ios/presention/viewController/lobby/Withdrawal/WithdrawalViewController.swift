@@ -133,8 +133,8 @@ class WithdrawalViewController: LobbyViewController {
         withdrawViewEnable(false)
         withdrawalRecordTableView.isHidden = true
         crpytoViewEnable(false)
-        withdrawView.addBorder(.top)
-        crpytoView.addBorder(.bottom)
+        chanelStackView.addBorder(.top)
+        chanelStackView.addBorder(.bottom)
     }
     
     fileprivate func cryptoWithdrawlDataBinding() {

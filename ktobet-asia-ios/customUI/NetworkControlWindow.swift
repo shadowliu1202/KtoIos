@@ -5,7 +5,7 @@ class NetworkControlWindow: UIWindow {
     var backgroundView: UIView!
     var count = 0
     var touchUpInside: ((Bool) -> ())?
-    var fakeNetworkConnected: Bool = true
+    var isNetworkConnected: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,7 +19,7 @@ class NetworkControlWindow: UIWindow {
         label.textColor = .white
         label.font = UIFont(name: "PingFangSC-Semibold", size: 14)
         label.roundCorners(corners: .allCorners, radius: label.frame.width / 2)
-        label.text = "Disconnect"
+        label.text = "連線中"
         addSubview(label, constraints: .fill())
         label.backgroundColor = .red
         windowLevel = UIWindow.Level.alert + 1
@@ -61,14 +61,13 @@ class NetworkControlWindow: UIWindow {
     }
     
     @objc func tap(gesture: UITapGestureRecognizer) {
-        fakeNetworkConnected = !fakeNetworkConnected
-        ManualNetworkControl.shared.isNetworkConnect = fakeNetworkConnected
-        Reachability?.isNetworkConnected = fakeNetworkConnected
-        if fakeNetworkConnected {
-            label.text = "Disconnect"
+        isNetworkConnected.toggle()
+        NetworkStateMonitor.shared.setIsNetworkConnected(isNetworkConnected)
+        if isNetworkConnected {
+            label.text = "連線中"
         } else {
-            label.text = "Connect"
+            label.text = "斷網中"
         }
-        touchUpInside?(fakeNetworkConnected)
+        touchUpInside?(isNetworkConnected)
     }
 }

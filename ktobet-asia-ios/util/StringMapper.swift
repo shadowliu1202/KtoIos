@@ -3,12 +3,7 @@ import SharedBu
 import UIKit
 
 class StringMapper {
-    static let sharedInstance = StringMapper()
-    private init() { }
-    
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-    
-    func parse(_ transactionStatus: TransactionStatus, isPendingHold: Bool, ignorePendingHold: Bool) -> String {
+    static func parse(_ transactionStatus: TransactionStatus, isPendingHold: Bool, ignorePendingHold: Bool) -> String {
         switch transactionStatus {
         case .approved:
             return Localize.string("common_approved")
@@ -29,7 +24,7 @@ class StringMapper {
         }
     }
     
-    func getVerifyStatus(status: PlayerBankCardVerifyStatus) -> (text: String, color: UIColor) {
+    static func getVerifyStatus(status: PlayerBankCardVerifyStatus) -> (text: String, color: UIColor) {
         switch status {
         case .pending:
             return (Localize.string("withdrawal_bankcard_new"), UIColor.textPrimaryDustyGray)
@@ -40,7 +35,7 @@ class StringMapper {
         }
     }
     
-    func getPromotionSortingTypeString(sortingType: SortingType) -> String {
+    static func getPromotionSortingTypeString(sortingType: SortingType) -> String {
         switch sortingType {
         case .asc:
             return Localize.string("bonus_orderby_asc")
@@ -49,7 +44,7 @@ class StringMapper {
         }
     }
     
-    func parseProductTypeString(productType: ProductType) -> String {
+    static func parseProductTypeString(productType: ProductType) -> String {
         switch productType {
         case .sbk:
             return Localize.string("common_sportsbook")
@@ -70,7 +65,7 @@ class StringMapper {
         }
     }
     
-    func parseBonusTypeString(bonusType: BonusType) -> String {
+    static func parseBonusTypeString(bonusType: BonusType) -> String {
         switch bonusType {
         case .rebate:
             return Localize.string("common_rebate")
@@ -85,7 +80,7 @@ class StringMapper {
         }
     }
     
-    func parse(bonusReceivingStatus: BonusReceivingStatus) -> String {
+    static func parse(bonusReceivingStatus: BonusReceivingStatus) -> String {
         switch bonusReceivingStatus {
         case .noturnover:
             return Localize.string("bonus_bonuslockstatus_0")
@@ -100,8 +95,8 @@ class StringMapper {
         }
     }
 
-    func localizeBankName(banks tuple: [(Int, Bank)]) -> [String] {
-        switch localStorageRepo.getSupportLocale() {
+    static func localizeBankName(banks tuple: [(Int, Bank)], supportLocale: SupportLocale) -> [String] {
+        switch supportLocale {
         case is SupportLocale.Vietnam:
             return tuple.map{ "(\($0.1.shortName)) \($0.1.name)" }
         case is SupportLocale.China, is SupportLocale.Unknown:
@@ -111,12 +106,12 @@ class StringMapper {
         }
     }
     
-    func splitShortNameAndBankName(bankName: String) -> String {
-        switch localStorageRepo.getSupportLocale() {
+    static func splitShortNameAndBankName(bankName: String, supportLocale: SupportLocale) -> String {
+        switch supportLocale {
         case is SupportLocale.Vietnam:
             return bankName.components(separatedBy: ") ").last ?? bankName
         case is SupportLocale.China, is SupportLocale.Unknown:
-            return bankName
+            fallthrough
         default:
             return bankName
         }

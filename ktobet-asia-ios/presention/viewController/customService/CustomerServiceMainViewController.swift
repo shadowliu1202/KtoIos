@@ -33,7 +33,7 @@ class CustomerServiceMainViewController: LobbyViewController {
     private func initUI() {
         callinBtn.bind(CustomServicePresenter.shared.chatRoomConnectStatus.asObservable(), disposeBag) { [unowned self] (pressCallin) in
             pressCallin.throttle(.seconds(3), latest: false, scheduler: MainScheduler.instance).flatMap({ [unowned self] () -> Completable in
-                if Reachability?.isNetworkConnected == true {
+                if NetworkStateMonitor.shared.isNetworkConnected == true {
                     self.callinBtn.isEnable = false
                     return CustomServicePresenter.shared.startCustomerService(from: self, delegate: self)
                 } else {
@@ -140,7 +140,7 @@ extension CustomerServiceMainViewController: CustomServiceDelegate {
     func sessionClosed() {
         self.callinBtn.isEnable = true
         self.viewModel.refreshData()
-        if Reachability?.isNetworkConnected == true {
+        if NetworkStateMonitor.shared.isNetworkConnected == true {
             self.networkDidConnected()
         } else {
             self.networkDisConnected()
@@ -148,7 +148,7 @@ extension CustomerServiceMainViewController: CustomServiceDelegate {
     }
     
     func sessionCollapse() {
-        if Reachability?.isNetworkConnected == true {
+        if NetworkStateMonitor.shared.isNetworkConnected == true {
             self.networkDidConnected()
         } else {
             self.networkDisConnected()

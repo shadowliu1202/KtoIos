@@ -276,57 +276,6 @@ struct DepositRecordDetailData: Codable {
         case displayID = "displayId"
         case requestAmount, createdDate, updatedDate, status, statusChangeHistories, isPendingHold, ticketType, fee, actualAmount, actualCryptoAmount, actualRate, actualFiatAmount, actualRateDate, hashId, requestRate, requestRateDate, toAddress, requestCryptoAmount, approvedDate, cryptoCurrency
     }
-    
-    func toDepositDetail(statusChangeHistories: [Transaction.StatusChangeHistory]) throws -> DepositDetail? {
-        let detail = DepositDetail.Flat.init(displayId: self.displayID,
-                                             fee: self.fee?.toAccountCurrency() ?? AccountCurrency.zero(),
-                                             isPendingHold: self.isPendingHold,
-                                             requestAmount: self.requestAmount?.toAccountCurrency() ?? AccountCurrency.zero(),
-                                             actualAmount: self.actualAmount?.toAccountCurrency() ?? AccountCurrency.zero(),
-                                             status: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: self.status),
-                                             statusChangeHistories: statusChangeHistories,
-                                             ticketType: TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType),
-                                             createdDate: try self.createdDate.toOffsetDateTime(),
-                                             updatedDate: try self.updatedDate.toOffsetDateTime(),
-                                             approvedDate: try (self.approvedDate ?? "").toOffsetDateTime())
-        
-        switch TransactionType.Companion.init().convertTransactionType(transactionType_: self.ticketType) {
-        case .deposit, .a2ptransferin, .p2ptransferin:
-            return detail
-        case .cryptodeposit:
-            return DepositDetail.Crypto(requestTransaction:
-                                            try createExchangeRecord(flatAmount: self.requestAmount?.toAccountCurrency().amount(),
-                                                                 cryptoAmount: String(self.requestCryptoAmount ?? 0),
-                                                                 cryptoCurrency: self.cryptoCurrency,
-                                                                 rate: String(self.requestRate ?? 0),
-                                                                 rateDate: self.requestRateDate)!,
-                                             actualTransaction: try createExchangeRecord(flatAmount: self.actualAmount?.toAccountCurrency().amount(),
-                                                                                     cryptoAmount: String(self.actualCryptoAmount ?? 0),
-                                                                                     cryptoCurrency: self.cryptoCurrency,
-                                                                                     rate: String(self.actualRate ?? 0),
-                                                                                     rateDate: self.actualRateDate),
-                                             hashId: self.hashId ?? "",
-                                             toAddress: self.toAddress ?? "",
-                                             generalDetail: detail)
-        default:
-            return nil
-        }
-    }
-    
-    private func createExchangeRecord(flatAmount: String?, cryptoAmount: String?, cryptoCurrency: Int?, rate: String?, rateDate: String?) throws -> CryptoExchangeRecord? {
-        guard let flatAmount = flatAmount,
-              let cryptoAmount = cryptoAmount,
-              let supportCryptoType = cryptoCurrency?.toSupportCryptoType(),
-              let rate = rate,
-              let rateDate = rateDate else { return nil }
-        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-        let exchangeRate = CryptoExchangeFactory.init().create(from: supportCryptoType, to: localStorageRepo.getSupportLocale(), exRate: rate)
-        
-        return CryptoExchangeRecord.init(cryptoAmount: cryptoAmount.toCryptoCurrency(cryptoCurrencyCode: cryptoCurrency),
-                                         exchangeRate: exchangeRate,
-                                         cashAmount: flatAmount.toAccountCurrency(),
-                                         date: try rateDate.toOffsetDateTime())
-    }
 }
 
 struct StatusChangeHistory: Codable {
@@ -394,7 +343,7 @@ struct WithdrawalRecordDetailData: Codable {
     let ticketType: Int?
     let updatedDate: String
     
-    func toWithdrawalDetail(transactionTransactionType: TransactionType, statusChangeHistories: [Transaction.StatusChangeHistory]) throws -> WithdrawalDetail {
+    func toWithdrawalDetail(transactionTransactionType: TransactionType, statusChangeHistories: [Transaction.StatusChangeHistory], playerLocale: SupportLocale) throws -> WithdrawalDetail {
         let withdrawalRecord = WithdrawalRecord.init(
             transactionTransactionType: transactionTransactionType,
             displayId: displayId,
@@ -414,19 +363,18 @@ struct WithdrawalRecordDetailData: Codable {
                                                  statusChangeHistories: statusChangeHistories,
                                                  updatedDate: try self.updatedDate.toOffsetDateTime())
         case .cryptowithdrawal:
-            return WithdrawalDetail.Crypto(record: withdrawalRecord, isBatched: isBatched, isPendingHold: isPendingHold, statusChangeHistories: statusChangeHistories, updatedDate: try updatedDate.toOffsetDateTime(), requestCryptoAmount: try toCryptoExchangeRecord("\(requestCryptoAmount ?? 0)", cryptoCurrency, "\(requestAmount)", "\(requestRate ?? 0)", createdDate), actualCryptoAmount: try toCryptoExchangeRecord("\(actualCryptoAmount ?? 0)", cryptoCurrency, "\(actualAmount ?? 0)", "\(actualRate ?? 0)", createdDate), playerCryptoAddress: playerCryptoAddress ?? "", providerCryptoAddress: providerCryptoAddress ?? "", approvedDate: try approvedDate.toOffsetDateTime(), hashId: hashId ?? "")
+            return WithdrawalDetail.Crypto(record: withdrawalRecord, isBatched: isBatched, isPendingHold: isPendingHold, statusChangeHistories: statusChangeHistories, updatedDate: try updatedDate.toOffsetDateTime(), requestCryptoAmount: try toCryptoExchangeRecord("\(requestCryptoAmount ?? 0)", cryptoCurrency, "\(requestAmount)", "\(requestRate ?? 0)", createdDate, playerLocale: playerLocale), actualCryptoAmount: try toCryptoExchangeRecord("\(actualCryptoAmount ?? 0)", cryptoCurrency, "\(actualAmount ?? 0)", "\(actualRate ?? 0)", createdDate, playerLocale: playerLocale), playerCryptoAddress: playerCryptoAddress ?? "", providerCryptoAddress: providerCryptoAddress ?? "", approvedDate: try approvedDate.toOffsetDateTime(), hashId: hashId ?? "")
         default:
             return WithdrawalDetail.Unknown.init()
         }
     }
     
-    private func toCryptoExchangeRecord(_ cryptoCurrency: String, _ cryptoCurrencyCode: Int, _ accountCurrency: String, _ exchangeRate: String, _ createdDate: String) throws -> CryptoExchangeRecord {
-        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    private func toCryptoExchangeRecord(_ cryptoCurrency: String, _ cryptoCurrencyCode: Int, _ accountCurrency: String, _ exchangeRate: String, _ createdDate: String, playerLocale: SupportLocale) throws -> CryptoExchangeRecord {
         
          do {
             let crypto = cryptoCurrency.toCryptoCurrency(cryptoCurrencyCode: cryptoCurrencyCode)
             let cryptoType = try SupportCryptoType.companion.typeOf(cryptoCurrency: crypto)
-            let exchangeRate = CryptoExchangeFactory.init().create(from: cryptoType, to: localStorageRepo.getSupportLocale(), exRate: exchangeRate)
+            let exchangeRate = CryptoExchangeFactory.init().create(from: cryptoType, to: playerLocale, exRate: exchangeRate)
             return CryptoExchangeRecord.init(cryptoAmount: crypto,
                                              exchangeRate: exchangeRate,
                                              cashAmount: accountCurrency.toAccountCurrency(),

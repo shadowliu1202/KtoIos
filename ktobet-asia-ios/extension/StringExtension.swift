@@ -245,6 +245,6 @@ extension String {
     }
     
     func removeAccent() -> String {
-        LocalizeUtils.shared.removeAccent(str: self)
+        Localize.removeAccent(str: self)
     }
  }

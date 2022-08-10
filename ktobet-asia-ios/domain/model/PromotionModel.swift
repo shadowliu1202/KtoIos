@@ -286,7 +286,7 @@ extension BonusCoupon.Rebate: BonusCouponItem {
     }
     var message: String {
         return Localize.string("bonus_rebate_title",
-                               StringMapper.sharedInstance.parseProductTypeString(productType: rebateFrom),
+                               StringMapper.parseProductTypeString(productType: rebateFrom),
                                percentage.description())
     }
     var couponState: CouponStatus {
@@ -348,7 +348,7 @@ extension PromotionEvent.Rebate: PromotionEventItem {
     }
     var message: String {
         return Localize.string("bonus_rebate_title",
-                               StringMapper.sharedInstance.parseProductTypeString(productType: type),
+                               StringMapper.parseProductTypeString(productType: type),
                                percentage.description())
     }
 }

@@ -58,7 +58,7 @@ struct WithdrawalCryptoDetailView: View {
                 
                 VStack(alignment: .leading, spacing: 0) {
                     WithdrawalCryptoDetailRowView(title: Localize.string("balancelog_detail_id"), content: data.record.displayId, isShowBottomDivider: true)
-                    WithdrawalCryptoDetailRowView(title: Localize.string("common_status"), content: StringMapper.sharedInstance.parse(data.record.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: true), isShowBottomDivider: true)
+                    WithdrawalCryptoDetailRowView(title: Localize.string("common_status"), content: StringMapper.parse(data.record.transactionStatus, isPendingHold: data.isPendingHold, ignorePendingHold: true), isShowBottomDivider: true)
                 }
                 .padding(.horizontal, 30)
                 

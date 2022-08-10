@@ -1271,7 +1271,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="puo-Ni-fBt">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="784"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uHV-qw-owJ">
                                         <rect key="frame" x="30" y="30" width="0.0" height="0.0"/>
@@ -1549,7 +1549,7 @@
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tvu-g6-bTu">
-                                <rect key="frame" x="0.0" y="818" width="414" height="94"/>
+                                <rect key="frame" x="0.0" y="784" width="414" height="94"/>
                                 <subviews>
                                     <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEI-Ps-rKr">
                                         <rect key="frame" x="30" y="30" width="354" height="48"/>
@@ -1583,9 +1583,9 @@
                             <constraint firstItem="puo-Ni-fBt" firstAttribute="top" secondItem="RSb-m4-kBI" secondAttribute="top" id="C6M-nj-G0w"/>
                             <constraint firstItem="puo-Ni-fBt" firstAttribute="leading" secondItem="bQh-Fr-dO7" secondAttribute="leading" id="Chv-5v-lg6"/>
                             <constraint firstItem="bQh-Fr-dO7" firstAttribute="trailing" secondItem="Tvu-g6-bTu" secondAttribute="trailing" id="HOl-zc-d5L"/>
+                            <constraint firstItem="bQh-Fr-dO7" firstAttribute="bottom" secondItem="Tvu-g6-bTu" secondAttribute="bottom" id="Hkn-pW-V3R"/>
                             <constraint firstItem="bRB-c5-2Cy" firstAttribute="width" secondItem="RSb-m4-kBI" secondAttribute="width" id="Hvb-pd-GoU"/>
                             <constraint firstItem="Tvu-g6-bTu" firstAttribute="leading" secondItem="bQh-Fr-dO7" secondAttribute="leading" id="cWO-7C-m7f"/>
-                            <constraint firstAttribute="bottom" secondItem="Tvu-g6-bTu" secondAttribute="bottom" id="ei7-Fm-IUk"/>
                             <constraint firstItem="bQh-Fr-dO7" firstAttribute="trailing" secondItem="puo-Ni-fBt" secondAttribute="trailing" id="mm4-b5-RQy"/>
                             <constraint firstItem="Tvu-g6-bTu" firstAttribute="top" secondItem="puo-Ni-fBt" secondAttribute="bottom" id="vGw-Do-PHn"/>
                         </constraints>
@@ -2161,7 +2161,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Oqv-Be-XzM"/>
+        <segue reference="pQr-oz-FEk"/>
         <segue reference="hkd-5J-lSd"/>
     </inferredMetricsTieBreakers>
     <resources>

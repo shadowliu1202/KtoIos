@@ -84,8 +84,8 @@ fileprivate class DevConfig: Env {
 
 fileprivate class QatConfig: Env {
     var hostName: [String: [String]] =
-    [SupportLocale.China.shared.cultureCode(): ["qat1-mobile.affclub.xyz", "qat1-mobile2.affclub.xyz"],
-     SupportLocale.Vietnam.shared.cultureCode(): ["qat1-mobile2.affclub.xyz", "qat1-mobile.affclub.xyz"]]
+    [SupportLocale.China.shared.cultureCode(): ["qat1-app.affclub.xyz", "qat1-appvnd.affclub.xyz"],
+     SupportLocale.Vietnam.shared.cultureCode(): ["qat1-appvnd.affclub.xyz", "qat1-app.affclub.xyz"]]
 
     var disableSSL: Bool = true
     var isAutoUpdate: Bool = false
@@ -145,8 +145,8 @@ fileprivate class ProductionBackupConfig: Env {
 
 fileprivate class Qat3Config: Env {
     var hostName: [String: [String]] =
-    [SupportLocale.China.shared.cultureCode(): ["qat3-mobile.affclub.xyz"],
-     SupportLocale.Vietnam.shared.cultureCode(): ["qat3-mobile2.affclub.xyz"]]
+    [SupportLocale.China.shared.cultureCode(): ["qat3-app.affclub.xyz"],
+     SupportLocale.Vietnam.shared.cultureCode(): ["qat3-appvnd.affclub.xyz"]]
     var disableSSL: Bool = true
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false

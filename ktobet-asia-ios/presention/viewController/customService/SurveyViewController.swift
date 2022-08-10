@@ -201,7 +201,7 @@ class DropdownOptionCell: UITableViewCell {
         }
         optionDropDown.isSearchEnable = false
         optionDropDown.arrowSize = 15.0
-        optionDropDown.arrowSolid = .filled
+        optionDropDown.arrowSolid = .filledWithCorner
         optionDropDown.didSelect(completion: { (selectedText, index , id) in
             let option = item[index]
             callback?(option)

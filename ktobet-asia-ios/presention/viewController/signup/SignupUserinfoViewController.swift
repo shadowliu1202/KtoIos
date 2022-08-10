@@ -44,7 +44,7 @@ class SignupUserinfoViewController: LandingViewController {
     var barButtonItems: [UIBarButtonItem] = []
     lazy var locale: SupportLocale = localStorageRepo.getSupportLocale()
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
+    private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     
     private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
     private let errMsgHeight = CGFloat(56)
@@ -54,6 +54,7 @@ class SignupUserinfoViewController: LandingViewController {
     private var isFirstTimeEnter = true
     private var accountPatternGenerator = DI.resolve(AccountPatternGenerator.self)!
     private var viewModel = DI.resolve(SignupUserInfoViewModel.self)!
+    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private var inputAccount : InputText {
         get{
             switch viewModel.currentAccountType() {

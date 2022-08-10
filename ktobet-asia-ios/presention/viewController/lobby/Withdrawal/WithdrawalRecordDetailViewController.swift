@@ -46,14 +46,15 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
     var displayId: String!
     var transactionTransactionType: TransactionType!
     
-    fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
-    fileprivate var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
-    fileprivate var disposeBag = DisposeBag()
-    fileprivate var removeButtons: [UIButton] = []
-    fileprivate var isOverImageLimit = false
-    fileprivate var imageIndex = 0
-    fileprivate var imageUploadInex = 0
-    fileprivate var imagePickerView: ImagePickerViewController!
+    private var viewModel = DI.resolve(WithdrawalViewModel.self)!
+    private let httpClient = DI.resolve(HttpClient.self)!
+    private var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
+    private var disposeBag = DisposeBag()
+    private var removeButtons: [UIButton] = []
+    private var isOverImageLimit = false
+    private var imageIndex = 0
+    private var imageUploadInex = 0
+    private var imagePickerView: ImagePickerViewController!
     private var statusChangeHistories: [Transaction.StatusChangeHistory] = []
     
     // MARK: LIFE CYCLE
@@ -66,7 +67,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
     }
     
     // MARK: METHOD
-    fileprivate func initUI() {
+    private func initUI() {
         remarkTableview.dataSource = self
         DispatchQueue.main.async {
             self.scrollview.isHidden = true
@@ -105,14 +106,14 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
             }, onError: handleErrors).disposed(by: disposeBag)
     }
     
-    fileprivate func updateUI(detail: WithdrawalDetail.General) {
+    private func updateUI(detail: WithdrawalDetail.General) {
         DispatchQueue.main.async {
             self.remarkView.removeBorder(.bottom)
             self.scrollview.isHidden = false
             self.applytimeLabel.text = detail.record.createDate.toDateTimeString()
             self.amountLabel.text = detail.record.cashAmount.description()
             self.withdrawalIdLabel.text = detail.record.displayId
-            self.statusLabel.text = StringMapper.sharedInstance.parse(detail.record.transactionStatus, isPendingHold: detail.isPendingHold, ignorePendingHold: false)
+            self.statusLabel.text = StringMapper.parse(detail.record.transactionStatus, isPendingHold: detail.isPendingHold, ignorePendingHold: false)
             self.statusDateLabel.text = detail.updatedDate.toDateTimeString()
             self.uploadViewHeight.constant = 0
             self.statusViewHeight.constant = 77
@@ -153,12 +154,12 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
         }
     }
     
-    fileprivate func eventHandler() {
+    private func eventHandler() {
         self.confirmButton.rx.tap.subscribe(onNext: cofirmUploadImage).disposed(by: self.disposeBag)
         self.cancelButton.rx.tap.subscribe(onNext: cancelWithdrawal).disposed(by: self.disposeBag)
     }
     
-    fileprivate func cofirmUploadImage() {
+    private func cofirmUploadImage() {
         self.viewModel.bindingImageWithWithdrawalRecord(displayId: displayId, transactionId: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: .pending), portalImages: self.viewModel.uploadImageDetail.map { $0.value.portalImage })
             .do(onSubscribe: { [unowned self] in
                 self.startActivityIndicator(activityIndicator: self.activityIndicator)
@@ -168,7 +169,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
             .disposed(by: self.disposeBag)
     }
     
-    fileprivate func cancelWithdrawal() {
+    private func cancelWithdrawal() {
         self.viewModel.cancelWithdrawal(ticketId: displayId)
             .do(onSubscribe: { [unowned self] in
                 self.startActivityIndicator(activityIndicator: self.activityIndicator)
@@ -178,7 +179,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
             .disposed(by: disposeBag)
     }
     
-    fileprivate func openPhoto() {
+    private func openPhoto() {
         let tap = UITapGestureRecognizer.init()
         self.uploadClickView.addGestureRecognizer(tap)
         tap.rx.event.subscribe {[weak self] (gesture) in
@@ -186,7 +187,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
         }.disposed(by: self.disposeBag)
     }
     
-    fileprivate func showImagePicker() {
+    private func showImagePicker() {
         let currentSelectedImageCount = self.imageStackView.subviews.count
         if currentSelectedImageCount >= WithdrawalViewModel.selectedImageCountLimit {
             Alert.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(WithdrawalViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
@@ -222,7 +223,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
         NavigationManagement.sharedInstance.pushViewController(vc: imagePickerView)
     }
     
-    fileprivate func uploadImage(image: UIImage, count: Int) {
+    private func uploadImage(image: UIImage, count: Int) {
         let imageData = image.jpegData(compressionQuality: 1.0)!
         uploadViewModel.uploadImage(imageData: imageData).subscribe {[weak self] (result) in
             guard let self = self else { return }
@@ -241,7 +242,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
         }.disposed(by: disposeBag)
     }
     
-    fileprivate func addImageToUI(image: UIImage) {
+    private func addImageToUI(image: UIImage) {
         let y = self.imageStackView.frame.origin.y + CGFloat(self.imageStackView.subviews.count * 192)
         let imageView = UIImageView()
         imageView.tag = imageUploadInex
@@ -274,7 +275,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
         removeButtons.append(removeButton)
     }
     
-    fileprivate func removeImage(sender: UIButton) {
+    private func removeImage(sender: UIButton) {
         self.imageStackView.subviews.forEach { (view) in
             guard let imageView = view as? UIImageView else { return }
             if imageView.tag == sender.tag {
@@ -344,7 +345,7 @@ extension WithdrawalRecordDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = String(describing: RemarkTableViewCell.self)
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! RemarkTableViewCell
-        cell.setup(history: statusChangeHistories[indexPath.row])
+        cell.setup(history: statusChangeHistories[indexPath.row], httpClient: httpClient)
         cell.toBigImage = {(url, image) in
             if let vc = UIStoryboard(name: "Deposit", bundle: nil).instantiateViewController(withIdentifier: "ImageViewController") as? ImageViewController {
                 vc.url = url

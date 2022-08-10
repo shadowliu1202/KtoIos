@@ -3,10 +3,6 @@ import SharedBu
 
 
 extension Date {
-    var playerTimeZone: Foundation.TimeZone {
-        DI.resolve(PlayerConfiguration.self)!.localeTimeZone()
-    }
-    
     var calendar: Calendar {
         var calendar = Calendar(identifier: .gregorian)
         let timezone = Foundation.TimeZone(secondsFromGMT: 0)!

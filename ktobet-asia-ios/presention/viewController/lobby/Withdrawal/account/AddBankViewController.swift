@@ -24,6 +24,8 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
     let viewModel = DI.resolve(AddBankViewModel.self)!
     let disposeBag = DisposeBag()
     
+    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -82,8 +84,9 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
             }
         }).disposed(by: disposeBag)
         viewModel.getBanks().subscribe(onSuccess: { [weak self] (tuple: [(Int, Bank)]) in
-            self?.bankDropDown.optionArray = StringMapper.sharedInstance.localizeBankName(banks: tuple)
-            self?.bankDropDown.optionIds = tuple.map{ String($0.0) }
+            guard let `self` = self else { return }
+            self.bankDropDown.optionArray = StringMapper.localizeBankName(banks: tuple, supportLocale: self.playerLocaleConfiguration.getSupportLocale())
+            self.bankDropDown.optionIds = tuple.map{ String($0.0) }
         }, onError: { [weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)

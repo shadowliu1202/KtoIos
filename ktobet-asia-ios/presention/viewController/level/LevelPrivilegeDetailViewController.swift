@@ -128,7 +128,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
         
         let products: [ProductType] = [.sbk, .casino, .slot, .numbergame, .arcade]
         products.forEach({
-            let title = StringMapper.sharedInstance.parseProductTypeString(productType: $0)
+            let title = StringMapper.parseProductTypeString(productType: $0)
             let content = generatePercentageText(data.percentages[$0])
             cells.append(generateDetailOneRowCell(leftContent: title, RightContent: content))
         })

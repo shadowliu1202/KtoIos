@@ -5,8 +5,6 @@ enum GameTagKey: String {
 }
 
 class MemoryCacheImpl {
-    static let shared = MemoryCacheImpl()
-    private init() {}
     private var dicts: [String: Any?] = [:]
     
     func setGameTag<T>(_ key: GameTagKey,_ tags: T) {

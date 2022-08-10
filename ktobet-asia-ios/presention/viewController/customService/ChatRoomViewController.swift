@@ -306,7 +306,7 @@ class ChatRoomViewController: CommonViewController {
     }
     
     private func confirmNetworkThenCloseChatRoom() {
-        if Reachability?.isNetworkConnected == true {
+        if NetworkStateMonitor.shared.isNetworkConnected == true {
             viewModel.findCurrentRoomId()
                 .flatMap { [unowned self] (skillId, roomId) in
                     self.viewModel.closeChatRoom().andThen(prepareExitSurvey(skillId, roomId))

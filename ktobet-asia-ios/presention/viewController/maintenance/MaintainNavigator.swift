@@ -30,7 +30,7 @@ class ServiceStatusNavigatorImpl: ServiceStatusNavigator {
     }
     
     private func showDefaultProductMaintenAlert(playerDefaultProductType: ProductType, gotoProductType: ProductType) {
-        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_default_product_maintain_content", StringMapper.sharedInstance.parseProductTypeString(productType: playerDefaultProductType)), confirm: {
+        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: playerDefaultProductType)), confirm: {
             NavigationManagement.sharedInstance.goTo(productType: gotoProductType)
         }, cancel: nil)
     }

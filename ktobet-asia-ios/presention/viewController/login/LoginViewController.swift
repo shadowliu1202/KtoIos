@@ -32,7 +32,7 @@ class LoginViewController: LandingViewController {
     private let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
 
     private var _customService: CustomerServiceButtonItem?
-    private lazy var customService = UIBarButtonItem.kto(.cs(delegate: self, disposeBag: disposeBag))
+    private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     
     private var captcha: UIImage?
     private let segueSignup = "GoToSignup"
@@ -351,7 +351,7 @@ class LoginViewController: LandingViewController {
     }
     
     private func showDefaultProductMaintenAlert(playerDefaultProductType: ProductType, gotoProductType: ProductType) {
-        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_default_product_maintain_content", StringMapper.sharedInstance.parseProductTypeString(productType: playerDefaultProductType)), confirm: {
+        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: playerDefaultProductType)), confirm: {
             NavigationManagement.sharedInstance.goTo(productType: gotoProductType)
         }, cancel: nil)
     }
