@@ -18,6 +18,7 @@ platform :ios do
     lane :metrics do
         scan(
             scheme: "ktobet-asia-iosTests", 
+	    workspace: "ktobet-asia-ios.xcworkspace",
             code_coverage: true, 
             derived_data_path: "./DerivedData", 
             output_directory: "./sonar-reports",
@@ -34,7 +35,7 @@ platform :ios do
             binary_basename: "ktobet-asia-ios-qat",
             workspace: "ktobet-asia-ios.xcworkspace",
             cobertura_xml: "true")
-        lizard(source_folder: "./", language: "swift", export_type: "xml", report_file: "sonar-reports/lizard-report.xml")
+        lizard(source_folder: "./ktobet-asia-ios", language: "swift", export_type: "xml", report_file: "sonar-reports/lizard-report.xml")
         sonar(
             sonar_runner_args: "-X",
             sonar_url:"http://172.16.5.60:64132/",         
