@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         let storyboardId =  UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController?.restorationIdentifier ?? ""
         if storyboardId != "LandingNavigation" {
-            let viewModel = DI.resolve(LaunchViewModel.self)!
+            let viewModel = DI.resolve(NavigationViewModel.self)!
             viewModel
                 .checkIsLogged()
                 .subscribe { (isLogged) in

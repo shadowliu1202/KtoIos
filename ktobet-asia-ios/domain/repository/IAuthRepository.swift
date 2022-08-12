@@ -68,7 +68,7 @@ class IAuthRepositoryImpl : IAuthRepository {
     func authorize(_ account: String, _ password: String, _ captcha: Captcha) -> Single<LoginStatus>{
         return api.login(account, password, captcha).map { (response) -> LoginStatus in
             let tryStatus : LoginStatus.TryStatus = {
-                switch (response.data?.phase ){
+                switch (response.data?.phase) {
                 case 0: return LoginStatus.TryStatus.success
                 case 1: return LoginStatus.TryStatus.failed1to5
                 case 2: return LoginStatus.TryStatus.failed6to10

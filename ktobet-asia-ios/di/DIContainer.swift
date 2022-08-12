@@ -154,7 +154,8 @@ class DIContainer {
             let player = resolver.resolve(PlayerApi.self)!
             let portal = resolver.resolve(PortalApi.self)!
             let settingStore = resolver.resolve(SettingStore.self)!
-            return PlayerRepositoryImpl(httpClient, localStorageRepo, player, portal, settingStore)
+            let localStorageRepositoryImpl = resolver.resolve(LocalStorageRepositoryImpl.self)!
+            return PlayerRepositoryImpl(httpClient, player, portal, settingStore, localStorageRepositoryImpl)
         }
         container.register(NotificationRepository.self) { resolver in
             let notificationApi = resolver.resolve(NotificationApi.self)!
@@ -499,11 +500,12 @@ class DIContainer {
             let systemUseCase = resolver.resolve(GetSystemStatusUseCase.self)!
             return NotificationViewModel(useCase: useCase, configurationUseCase: usecaseConfiguration, systemStatusUseCase: systemUseCase)
         }
-        container.register(LaunchViewModel.self) { resolver in
+        container.register(NavigationViewModel.self) { (resolver)  in
             let usecaseAuth = resolver.resolve(AuthenticationUseCase.self)!
             let playerUseCase = resolver.resolve(PlayerDataUseCase.self)!
             let localizationUseCase = resolver.resolve(LocalizationPolicyUseCase.self)!
-            return LaunchViewModel(usecaseAuth, playerUseCase: playerUseCase, localizationPolicyUseCase: localizationUseCase)
+            let getSystemStatusUseCase = resolver.resolve(GetSystemStatusUseCase.self)!
+            return NavigationViewModel(usecaseAuth, playerUseCase, localizationUseCase, getSystemStatusUseCase)
         }
         container.register(LoginViewModel.self) { resolver in
             let usecaseAuthentication = resolver.resolve(AuthenticationUseCase.self)!
@@ -543,7 +545,7 @@ class DIContainer {
         container.register(ServiceStatusViewModel.self) { resolver in
             let systemUseCase = resolver.resolve(GetSystemStatusUseCase.self)!
             let localStorageRepo = resolver.resolve(LocalStorageRepositoryImpl.self)!
-            return ServiceStatusViewModel(usecaseSystemStatus: systemUseCase, localStorageRepo: localStorageRepo)
+            return ServiceStatusViewModel(systemStatusUseCase: systemUseCase, localStorageRepo: localStorageRepo)
         }
         container.register(PlayerViewModel.self) { resolver in
             let playerUseCase = resolver.resolve(PlayerDataUseCase.self)!

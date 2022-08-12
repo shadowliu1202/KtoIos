@@ -47,9 +47,9 @@ class SignupEmailViewModel{
             .flatMap { [unowned self] (success) -> Single<RegistrationVerification> in
                 if success{
                     return self.authenticationUseCase
-                        .loginFrom(account: account, pwd: password, captcha: Captcha(passCode: ""))
+                        .login(account: account, pwd: password, captcha: Captcha(passCode: ""))
                         .map { [unowned self] (player) -> RegistrationVerification in
-                            self.authenticationUseCase.refreshHttpClient(playerLocale: player.locale())
+                         
                             return .valid(player: player)
                         }
                 } else {

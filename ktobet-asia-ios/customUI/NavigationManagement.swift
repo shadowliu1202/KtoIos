@@ -89,12 +89,11 @@ class NavigationManagement {
         }
     }
     
-    func goTo(productType: ProductType?, isMaintenance: Bool = false) {
-        guard let productType = productType, productType != .none else {
-            goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
-            return
-        }
-
+    func goToSetDefaultProduct() {
+        goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
+    }
+    
+    func goTo(productType: ProductType, isMaintenance: Bool = false) {
         let storyboard = isMaintenance ? "Maintenance" : productType.name
         let viewControllerId = isMaintenance ? productType.name + "Maintenance" : productType.name + "NavigationController"
         goTo(storyboard: storyboard, viewControllerId: viewControllerId)

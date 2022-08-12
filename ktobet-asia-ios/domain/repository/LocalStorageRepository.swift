@@ -49,7 +49,7 @@ class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration
         return getUserDefaultValue(key: kRememberMe) ?? false
     }
 
-    func getRemeberAccount() -> String {
+    func getRememberAccount() -> String {
         return getUserDefaultValue(key: kRememberAccount) ?? ""
     }
 
@@ -105,7 +105,7 @@ class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration
         setUserDefaultValue(value: rememberMe, key: kRememberMe)
     }
 
-    func setRemeberAccount(_ rememberAccount: String?) {
+    func setRememberAccount(_ rememberAccount: String?) {
         setUserDefaultValue(value: rememberAccount, key: kRememberAccount)
     }
 

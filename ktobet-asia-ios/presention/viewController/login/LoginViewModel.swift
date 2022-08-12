@@ -1,17 +1,9 @@
-//
-//  LoginViewModel.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/4.
-//
-
 import Foundation
 import RxSwift
 import SharedBu
 import RxCocoa
 
-class LoginViewModel{
-    
+class LoginViewModel {
     enum LoginDataStatus {
         case valid
         case firstEmpty
@@ -19,23 +11,23 @@ class LoginViewModel{
         case invalid
     }
     
-    private var usecaseAuth : AuthenticationUseCase!
-    private var usecaseConfig : ConfigurationUseCase!
+    private var authUseCase : AuthenticationUseCase!
+    private var configUseCase : ConfigurationUseCase!
     private var accountEdited = false
     private var passwordEdited = false
     private var timerOverLoginLimit : CountDownTimer = CountDownTimer()
     
-    var relayAccount = BehaviorRelay(value: "")
+    lazy var relayAccount = BehaviorRelay(value: authUseCase.getRememberAccount())
     var relayPassword = BehaviorRelay(value: "")
     var relayCaptcha = BehaviorRelay(value: "")
     var relayOverLoginLimit = BehaviorRelay(value: false)
     var relayCountDown = BehaviorRelay(value: 0)
     var relayImgCaptcha = BehaviorRelay<UIImage?>(value: nil)
         
-    init(_ authenticationUseCase : AuthenticationUseCase, _ configurationUseCase : ConfigurationUseCase) {
-        usecaseAuth = authenticationUseCase
-        usecaseConfig = configurationUseCase
-        relayAccount.accept(usecaseAuth.getRemeberAccount())
+    init(_ authenticationUseCase : AuthenticationUseCase,
+         _ configurationUseCase : ConfigurationUseCase) {
+        authUseCase = authenticationUseCase
+        configUseCase = configurationUseCase
     }
     
     func refresh(){
@@ -48,11 +40,11 @@ class LoginViewModel{
     }
     
     func continueLoginLimitTimer(){
-        var lastLoginLimitDate = usecaseAuth.getLastOverLoginLimitDate()
+        var lastLoginLimitDate = authUseCase.getLastOverLoginLimitDate()
         let count = Int(ceil(lastLoginLimitDate.timeIntervalSince1970 - Date().timeIntervalSince1970))
         if count <= 0 {
             let date = Date()
-            usecaseAuth.setLastOverLoginLimitDate(date)
+            authUseCase.setLastOverLoginLimitDate(date)
             lastLoginLimitDate = date
         }
         relayOverLoginLimit.accept(true)
@@ -68,7 +60,7 @@ class LoginViewModel{
     
     func launchLoginLimitTimer(){
         let lastLoginLimitDate = Date(timeIntervalSince1970: Date().timeIntervalSince1970 + 60)
-        usecaseAuth.setLastOverLoginLimitDate(lastLoginLimitDate)
+        authUseCase.setLastOverLoginLimitDate(lastLoginLimitDate)
         relayOverLoginLimit.accept(true)
         relayCountDown.accept(60)
         timerOverLoginLimit
@@ -84,32 +76,18 @@ class LoginViewModel{
         timerOverLoginLimit.stop()
     }
     
-    func loginFrom(isRememberMe : Bool) -> Single<(Player)> {
+    func login() -> Single<Player> {
         let account = self.relayAccount.value.trimmingCharacters(in: .whitespaces)
         let password = self.relayPassword.value
         let captcha = Captcha(passCode: self.relayCaptcha.value)
-        return usecaseAuth
-            .loginFrom(account: account, pwd: password, captcha: captcha)
-            .map { (player) -> Player in
-                self.usecaseAuth.refreshHttpClient(playerLocale: player.locale())
-                self.usecaseAuth.setRemeberAccount(isRememberMe ? account : nil)
-                self.usecaseAuth.setNeedCaptcha(nil)
-                self.usecaseAuth.setLastOverLoginLimitDate(nil)
-                self.usecaseAuth.setUserName(player.playerInfo.withdrawalName)
-                return player
-            }
-    }
-    
-    func isRememberMe() -> Bool {
-        let haveAccount = usecaseAuth.getRemeberAccount().count > 0
-        return haveAccount
+        return authUseCase.login(account: account, pwd: password, captcha: captcha)
     }
     
     func getCaptchaImage() -> Single<UIImage> {
-        return usecaseAuth
+        return authUseCase
             .getCaptchaImage()
             .map { (img) -> UIImage in
-                self.usecaseAuth.setNeedCaptcha(true)
+                self.authUseCase.setNeedCaptcha(true)
                 self.relayImgCaptcha.accept(img)
                 return img
             }
@@ -137,7 +115,7 @@ class LoginViewModel{
         }
         
         let image : Observable<UIImage?> = {
-            if usecaseAuth.getNeedCaptcha(){
+            if authUseCase.getNeedCaptcha(){
                 return getCaptchaImage()
                     .asObservable()
                     .flatMap { (image) -> Observable<UIImage?> in

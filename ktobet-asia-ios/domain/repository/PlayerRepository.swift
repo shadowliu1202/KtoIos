@@ -28,17 +28,21 @@ protocol PlayerRepository {
 
 class PlayerRepositoryImpl : PlayerRepository {
     private let httpClient: HttpClient
-    private let localStorageRepo: LocalStorageRepositoryImpl
     private var playerApi: PlayerApi!
     private var portalApi: PortalApi!
     private var settingStore: SettingStore!
+    private let localStorageRepo: LocalStorageRepositoryImpl
     
-    init(_ httpClient: HttpClient, _ localStorageRepo: LocalStorageRepositoryImpl, _ playerApi: PlayerApi, _ portalApi: PortalApi, _ settingStore: SettingStore) {
+    init(_ httpClient: HttpClient,
+         _ playerApi: PlayerApi,
+         _ portalApi: PortalApi,
+         _ settingStore: SettingStore,
+         _ localStorageRepo: LocalStorageRepositoryImpl) {
         self.httpClient = httpClient
-        self.localStorageRepo = localStorageRepo
         self.playerApi = playerApi
         self.portalApi = portalApi
         self.settingStore = settingStore
+        self.localStorageRepo = localStorageRepo
     }
     
     func refreshHttpClient(playerLocale: SupportLocale) {
@@ -87,6 +91,7 @@ class PlayerRepositoryImpl : PlayerRepository {
                                     defaultProduct: defaultProduct)
                 return player
             }
+            .do(onSuccess: { self.localStorageRepo.setUserName($0.playerInfo.withdrawalName)})
     }
     
     func getDefaultProduct()->Single<ProductType>{
