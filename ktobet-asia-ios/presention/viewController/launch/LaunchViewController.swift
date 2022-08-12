@@ -3,75 +3,88 @@ import RxSwift
 import SharedBu
 
 class LaunchViewController: UIViewController {
-    private var viewModel = DI.resolve(LaunchViewModel.self)!
-    private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
-    private var disposeBag = DisposeBag()
+    private let viewModel = DI.resolve(NavigationViewModel.self)!
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.initLocale()
-            .andThen(Observable.combineLatest(serviceViewModel.output.portalMaintenanceStatus, viewModel.checkIsLogged().asObservable()))
-            .subscribe(onNext: { [weak self] (status, isLogged) in
-                switch status {
-                case is MaintenanceStatus.AllPortal:
-                    self?.showPortalMaintenance()
-                case is MaintenanceStatus.Product:
-                    if isLogged {
-                        self?.observeCustomerService()
-                        self?.nextPage()
-                    } else {
-                        self?.displayVideo {
-                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-                            self?.observeCustomerService()
-                        }
-                    }
-                default:
-                    break
-                }
-            }, onError: { [weak self] error in
-                if error.isMaintenance() {
-                    self?.showPortalMaintenance()
-                } else if error.isCDNError() || error.isRestrictedArea() {
-                    self?.handleErrors(error)
-                } else {
-                    self?.displayAlert(Localize.string("common_error"), Localize.string("common_network_error"))
-                }
-            }).disposed(by: disposeBag)
+        viewModel.initLaunchNavigation()
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: executeNavigation, onError: handleErrors).disposed(by: disposeBag)
     }
     
-    func displayAlert(_ title: String?, _ message: String?) {
-        Alert.show(title, message ,confirm: {exit(0)}, confirmText: Localize.string("common_confirm"), cancel: nil)
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
-    private func nextPage() {
-        let playerDefaultProduct = viewModel.loadPlayerInfo().compactMap{ $0.defaultProduct }.asObservable()
-        playerDefaultProduct.bind(to: serviceViewModel.input.playerDefaultProductType).disposed(by: disposeBag)
-        serviceViewModel.output.toNextPage.subscribe(onError: {[weak self] error in self?.handleErrors(error) }).disposed(by: disposeBag)
+    override func handleErrors(_ error: Error) {
+        if error.isMaintenance() {
+            navigateToPortalMaintenancePage()
+        } else if error.isCDNError() || error.isRestrictedArea() {
+            super.handleErrors(error)
+        } else {
+            self.showAlert(Localize.string("common_error"), Localize.string("common_network_error"))
+        }
+    }
+    
+    private func showAlert(_ title: String?, _ message: String?) {
+        Alert.show(title, message ,confirm: { exit(0) }, confirmText: Localize.string("common_confirm"), cancel: nil)
+    }
+    
+    private func executeNavigation(navigation: NavigationViewModel.LobbyPageNavigation) {
+        observeCustomerService()
+        switch navigation {
+        case .portalAllMaintenance:
+            navigateToPortalMaintenancePage()
+        case .notLogin:
+            playVideo(onCompleted: navigateToLandingPage)
+        case .playerDefaultProduct(let product):
+            navigateToProductPage(product)
+        case .alternativeProduct(let defaultProduct, let alternativeProduct):
+            navigateToMaintainPage(defaultProduct)
+            alertMaintenance(product: defaultProduct, onConfirm: {
+                self.navigateToProductPage(alternativeProduct)
+            })
+        case .setDefaultProduct:
+            navigateToSetDefaultProductPage()
+        }
     }
     
     private func observeCustomerService() {
         CustomServicePresenter.shared.observeCustomerService().subscribe().disposed(by: disposeBag)
     }
+
+    private func navigateToPortalMaintenancePage(){
+        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+    }
     
-    private func displayVideo(_ complete: (() -> Void)?) {
+    private func playVideo(onCompleted: @escaping (() -> Void)) {
         let videoView = VideoView()
-        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using: { _ in
-            complete?()
-        })
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using: { _ in onCompleted() })
         let videoURL = Bundle.main.url(forResource: "KTO", withExtension: "mp4")!
         self.view.addSubview(videoView, constraints: .fill())
-        videoView.play(with: videoURL, fail: { complete?() })
+        videoView.play(with: videoURL, fail: onCompleted)
     }
     
-    private func showPortalMaintenance() {
-        self.disposeBag = DisposeBag()
-        DispatchQueue.main.async {
-            let vc = UIStoryboard(name: "Maintenance", bundle: nil).instantiateViewController(withIdentifier: "PortalMaintenanceViewController")
-            self.present(vc, animated: true, completion: nil)
-        }
+    private func navigateToLandingPage() {
+        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
     }
     
-    deinit {
-        print("\(type(of: self)) deinit")
+    private func navigateToProductPage(_ productType: ProductType) {
+        NavigationManagement.sharedInstance.goTo(productType: productType)
+    }
+    
+    private func navigateToMaintainPage(_ type: ProductType) {
+        NavigationManagement.sharedInstance.goTo(productType: type, isMaintenance: true)
+    }
+    
+    private func alertMaintenance(product: ProductType, onConfirm: @escaping (() -> Void)) {
+        Alert.show(Localize.string("common_maintenance_notify"),
+                   Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: product)),
+                   confirm: onConfirm, cancel: nil)
+    }
+    
+    private func navigateToSetDefaultProductPage() {
+        NavigationManagement.sharedInstance.goToSetDefaultProduct()
     }
 }

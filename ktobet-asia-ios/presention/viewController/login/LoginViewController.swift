@@ -4,8 +4,6 @@ import RxSwift
 import SharedBu
 
 class LoginViewController: LandingViewController {
-    var barButtonItems: [UIBarButtonItem] = []
-    
     @IBOutlet private weak var labTitle: UILabel!
     @IBOutlet private weak var viewLoginErr: UIView!
     @IBOutlet private weak var viewLoginErrBg: UIView!
@@ -26,23 +24,161 @@ class LoginViewController: LandingViewController {
     @IBOutlet private weak var constraintLoginErrorHeight: NSLayoutConstraint!
     @IBOutlet private weak var constraintCaptchaHeight: NSLayoutConstraint!
     @IBOutlet private weak var toastView: ToastView!
-    private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-    private lazy var register = UIBarButtonItem.kto(.register)
-    private var spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
-    private let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
-
-    private var _customService: CustomerServiceButtonItem?
-    private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+    
+    var barButtonItems: [UIBarButtonItem] = []
     
     private var captcha: UIImage?
+    private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+    
+    private let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+    private let register = UIBarButtonItem.kto(.register)
+    private let spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
+    private let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
+    
     private let segueSignup = "GoToSignup"
     private let heightSpace = CGFloat(12)
     private let heightCaptchaView = CGFloat(257)
-    private var disposeBag = DisposeBag()
-    private var viewModel = DI.resolve(LoginViewModel.self)!
-    private var serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private let disposeBag = DisposeBag()
+    private let viewModel = DI.resolve(LoginViewModel.self)!
+    private var navigationViewModel = DI.resolve(NavigationViewModel.self)!
+    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
     
-    // MARK: LIFE CYCLE
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
+    
+    @IBAction func btnLoginPressed(_ sender: UIButton) {
+        viewModel.login()
+            .do(onSuccess: { [unowned self] _ in
+                self.setRememberAccount(isRememberMe: self.btnRememberMe.isSelected)
+                self.resetLoginLimit()
+            })
+            .flatMap({ [unowned self] (player) in
+                return self.navigationViewModel.initLoginNavigation(defaultProduct: player.defaultProduct)
+            })
+            .do(onSubscribe: { [unowned self] in
+                self.btnLogin.isValid = false
+            }, onDispose: { [unowned self] in
+                self.btnLogin.isValid = true
+            })
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: executeNavigation, onError: handleError)
+            .disposed(by: disposeBag)
+    }
+    
+    private func setRememberAccount(isRememberMe: Bool) {
+        localStorageRepo.setRememberAccount(isRememberMe ? textAccount.textContent.text! : nil)
+    }
+    
+    private func resetLoginLimit() {
+        localStorageRepo.setNeedCaptcha(nil)
+        localStorageRepo.setLastOverLoginLimitDate(nil)
+    }
+    
+    private func handleError(error: Any) {
+        if let loginFail = error as? LoginException {
+            switch loginFail {
+            case is LoginException.Failed1to5Exception:
+                showLoginError(message: Localize.string("login_invalid_username_password"))
+            case is LoginException.Failed6to10Exception:
+                if viewModel.relayImgCaptcha.value == nil {
+                    getCaptcha()
+                    showLoginError(message: Localize.string("login_invalid_username_password"))
+                } else {
+                    showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
+                }
+            case is LoginException.AboveVerifyLimitation:
+                showLoginError(message: Localize.string("login_invalid_lockdown"))
+                viewModel.launchLoginLimitTimer()
+                if imgCaptcha.image == nil { getCaptcha() }
+            default: break
+            }
+        } else {
+            handleErrors(error as! Error)
+        }
+    }
+    
+    private func showLoginError(message: String) {
+        labLoginErr.text = message
+        labLoginErr.layoutIfNeeded()
+        viewLoginErr.isHidden = false
+        constraintLoginErrorHeight.constant = labLoginErr.frame.height + heightSpace * 3
+    }
+    
+    private func getCaptcha() {
+        viewModel
+            .getCaptchaImage()
+            .subscribe(onSuccess: { [weak self] image in
+                self?.imgCaptcha.image = image
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func executeNavigation(navigation: NavigationViewModel.LobbyPageNavigation) {
+        observeCustomerService()
+        switch navigation {
+        case .portalAllMaintenance:
+            navigateToPortalMaintenancePage()
+        case .notLogin:
+            assertionFailure("Should not reach here.")
+        case .playerDefaultProduct(let product):
+            navigateToProductPage(product)
+        case .alternativeProduct(let defaultProduct, let alternativeProduct):
+            navigateToMaintainPage(defaultProduct)
+            alertMaintenance(product: defaultProduct, onConfirm: {
+                self.navigateToProductPage(alternativeProduct)
+            })
+        case .setDefaultProduct:
+            navigateToSetDefaultProductPage()
+        }
+    }
+    
+    private func observeCustomerService() {
+        CustomServicePresenter.shared.observeCustomerService().subscribe().disposed(by: disposeBag)
+    }
+
+    private func navigateToPortalMaintenancePage(){
+        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
+            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+        }, cancel: nil)
+    }
+    
+    private func navigateToProductPage(_ productType: ProductType) {
+        NavigationManagement.sharedInstance.goTo(productType: productType)
+    }
+    
+    private func navigateToMaintainPage(_ type: ProductType) {
+        NavigationManagement.sharedInstance.goTo(productType: type, isMaintenance: true)
+    }
+    
+    private func alertMaintenance(product: ProductType, onConfirm: @escaping (() -> Void)) {
+        Alert.show(Localize.string("common_maintenance_notify"),
+                   Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: product)),
+                   confirm: onConfirm, cancel: nil)
+    }
+    
+    private func navigateToSetDefaultProductPage() {
+        NavigationManagement.sharedInstance.goToSetDefaultProduct()
+    }
+    
+    @IBAction func btnRememberMePressed(_ sender: UIButton) {
+        btnRememberMe.isSelected = !btnRememberMe.isSelected
+    }
+    
+    @IBAction func btnResendCaptchaPressed(_ sender: UIButton) {
+        getCaptcha()
+    }
+
+    @IBAction func backToLogin(segue: UIStoryboardSegue) {
+        segue.source.presentationController?.delegate?.presentationControllerDidDismiss?(segue.source.presentationController!)
+        if let vc = segue.source as? ResetPasswordStep3ViewController {
+            if vc.changePasswordSuccess {
+                toastView.show(on: self.view, statusTip: Localize.string("login_resetpassword_success"), img: UIImage(named: "Success"))
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         var barButtoms = [padding, register, spacing, customService]
@@ -52,7 +188,7 @@ class LoginViewController: LandingViewController {
         }
         self.bind(position: .right, barButtonItems: barButtoms)
         localize()
-        defaulStyle()
+        defaultStyle()
         setViewModel()
         
         btnResetPassword.rx.tap.subscribe(onNext: {[weak self] in
@@ -69,54 +205,7 @@ class LoginViewController: LandingViewController {
         }).disposed(by: disposeBag)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.continueLoginLimitTimer()
-        addNotificationCenter()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel.stopLoginLimitTimer()
-        removeNotificationCenter()
-    }
-    
-    deinit {
-        print("\(type(of: self)) deinit")
-    }
-    
-    override func updateStrategy(_ incoming: Version, _ superSignStatus: SuperSignStatus) {
-        super.updateStrategy(incoming, superSignStatus)
-        let action = Bundle.main.currentVersion.getUpdateAction(latestVersion: incoming)
-        if action == .optionalupdate {
-            doOptionalUpdateConfirm(incoming, superSignStatus)
-        }
-    }
-    
-    private func doOptionalUpdateConfirm(_ incoming: Version,_ superSignStatus: SuperSignStatus?) {
-        if superSignStatus?.isMaintenance == false {
-            confirmUpdate(incoming.apkLink)
-        }
-    }
-    
-    // MARK: NOTIFICATION
-    private func addNotificationCenter() {
-        NotificationCenter
-            .default
-            .addObserver(forName: UIApplication.willEnterForegroundNotification,
-                         object: nil,
-                         queue: nil,
-                         using: { notification in
-                self.viewModel.continueLoginLimitTimer()
-            })
-    }
-    
-    private func removeNotificationCenter() {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    // MARK: METHOD
-    func localize() {
+    private func localize() {
         register.title = Localize.string("common_register")
         customService.title = Localize.string("customerservice_action_bar_title")
         update.title = Localize.string("update_title")
@@ -146,8 +235,8 @@ class LoginViewController: LandingViewController {
         }(), for: .normal)
     }
     
-    func defaulStyle() {
-        btnRememberMe.isSelected = viewModel.isRememberMe()
+    private func defaultStyle() {
+        btnRememberMe.isSelected = haveRememberAccount()
         viewLoginErr.isHidden = true
         viewLoginErrBg.layer.cornerRadius = 8
         viewLoginErrBg.layer.masksToBounds = true
@@ -164,7 +253,11 @@ class LoginViewController: LandingViewController {
         textAccount.setKeyboardType(.emailAddress)
     }
     
-    func setViewModel() {
+    private func haveRememberAccount() -> Bool {
+        return localStorageRepo.getRememberAccount().count > 0
+    }
+    
+    private func setViewModel() {
         (textAccount.text <-> viewModel.relayAccount).disposed(by: disposeBag)
         (textPassword.text <-> viewModel.relayPassword).disposed(by: disposeBag)
         (textCaptcha.text <-> viewModel.relayCaptcha).disposed(by: disposeBag)
@@ -179,7 +272,7 @@ class LoginViewController: LandingViewController {
                     case .empty: return Localize.string("common_field_must_fill")
                     }
                 }()
-                self.showAccountValidtip(message: message)
+                self.showAccountValidTip(message: message)
             })
             .disposed(by: disposeBag)
         
@@ -231,149 +324,73 @@ class LoginViewController: LandingViewController {
         
     }
     
-    // MARK: ERROR
-    private func handleError(error: Any) {
-        if let loginFail = error as? LoginException {
-            switch loginFail {
-            case is LoginException.Failed1to5Exception:
-                showLoginError(message: Localize.string("login_invalid_username_password"))
-            case is LoginException.Failed6to10Exception:
-                if viewModel.relayImgCaptcha.value == nil {
-                    getCaptcha()
-                    showLoginError(message: Localize.string("login_invalid_username_password"))
-                } else {
-                    showLoginError(message: Localize.string("login_invalid_username_password_captcha"))
-                }
-            case is LoginException.AboveVerifyLimitation:
-                showLoginError(message: Localize.string("login_invalid_lockdown"))
-                viewModel.launchLoginLimitTimer()
-                if imgCaptcha.image == nil { getCaptcha() }
-            default: break
-            }
-        } else {
-            handleErrors(error as! Error)
-        }
+    private func showAccountValidTip(message: String) {
+        labAccountErr.text = message
+        textAccount.showUnderline(message.count > 0)
+        textAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
     }
     
-    // MARK: PRESENT TIP
-    func showLoginError(message: String) {
-        labLoginErr.text = message
-        labLoginErr.layoutIfNeeded()
-        viewLoginErr.isHidden = false
-        constraintLoginErrorHeight.constant = labLoginErr.frame.height + heightSpace * 3
+    private func showPasswordValidTip(message: String) {
+        labPasswordErr.text = message
+        textPassword.showUnderline(message.count > 0)
+        textPassword.setCorner(topCorner: true, bottomCorner: message.count == 0)
     }
     
-    func hideCaptcha() {
+    private func hideCaptcha() {
         self.viewCaptcha.isHidden = true
         self.constraintCaptchaHeight.constant = 0
     }
     
-    func showCaptcha(cpatchaTip: String, captcha: UIImage) {
+    private func showCaptcha(cpatchaTip: String, captcha: UIImage) {
         viewCaptcha.isHidden = false
         constraintCaptchaHeight.constant = btnResendCaptcha.frame.maxY
         labCaptchaTip.text = cpatchaTip
         imgCaptcha.image = captcha
     }
     
-    func showPasswordValidTip(message: String) {
-        labPasswordErr.text = message
-        textPassword.showUnderline(message.count > 0)
-        textPassword.setCorner(topCorner: true, bottomCorner: message.count == 0)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.continueLoginLimitTimer()
+        addNotificationCenter()
     }
     
-    func showAccountValidtip(message: String) {
-        labAccountErr.text = message
-        textAccount.showUnderline(message.count > 0)
-        textAccount.setCorner(topCorner: true, bottomCorner: message.count == 0)
+    private func addNotificationCenter() {
+        NotificationCenter
+            .default
+            .addObserver(forName: UIApplication.willEnterForegroundNotification,
+                         object: nil,
+                         queue: nil,
+                         using: { notification in
+                self.viewModel.continueLoginLimitTimer()
+            })
     }
     
-    private func getCaptcha() {
-        viewModel
-            .getCaptchaImage()
-            .subscribe(onSuccess: { image in })
-            .disposed(by: disposeBag)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.stopLoginLimitTimer()
+        removeNotificationCenter()
     }
     
-    private func toNextPage(_ defaultProduct: ProductType?) {
-        serviceStatusViewModel.input.playerDefaultProductType.onNext(defaultProduct ?? .none)
-        serviceStatusViewModel.output.toNextPage
-            .subscribeOn(MainScheduler.instance)
-            .subscribe { [weak self] in
-                self?.btnLogin.isValid = true
-            } onError: { [weak self] error in
-                self?.handleErrors(error)
-            }.disposed(by: disposeBag)
+    private func removeNotificationCenter() {
+        NotificationCenter.default.removeObserver(self)
     }
     
-    // MARK: BUTTON ACTION
-    func btnSignupPressed() {
-        serviceStatusViewModel.output.otpService.subscribe { [weak self] (otpStatus) in
-            if !otpStatus.isMailActive && !otpStatus.isSmsActive {
-                let title = Localize.string("common_error")
-                let message = Localize.string("register_service_down")
-                Alert.show(title, message, confirm: nil, cancel: nil)
-            } else {
-                self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
-            }
-        } onError: { [weak self] (error) in
-            self?.handleErrors(error)
-        }.disposed(by: disposeBag)
-    }
-    
-    @IBAction func btnLoginPressed(_ sender: UIButton) {
-        viewModel.loginFrom(isRememberMe: btnRememberMe.isSelected)
-            .do(onSubscribe: { [weak self] in self?.btnLogin.isValid = false })
-            .subscribe(onSuccess: { [weak self] player in
-                let _ = CustomServicePresenter.shared.observeCustomerService().observeOn(MainScheduler.asyncInstance).subscribe {}
-                self?.toNextPage(player.defaultProduct)
-            }, onError: { [weak self] error in
-                self?.btnLogin.isValid = true
-                self?.handleError(error: error)
-            }).disposed(by: disposeBag)
-    }
-    
-    @IBAction func btnRememberMePressed(_ sender: UIButton) {
-        btnRememberMe.isSelected = !btnRememberMe.isSelected
-    }
-    
-    @IBAction func btnResendCaptchaPressed(_ sender: UIButton) {
-        getCaptcha()
-    }
-    
-    // MARK: PAGE ACTION
-    @IBAction func backToLogin(segue: UIStoryboardSegue) {
-        segue.source.presentationController?.delegate?.presentationControllerDidDismiss?(segue.source.presentationController!)
-        if let vc = segue.source as? ResetPasswordStep3ViewController {
-            if vc.changePasswordSuccess {
-                toastView.show(on: self.view, statusTip: Localize.string("login_resetpassword_success"), img: UIImage(named: "Success"))
-            }
+    override func updateStrategy(_ incoming: Version, _ superSignStatus: SuperSignStatus) {
+        super.updateStrategy(incoming, superSignStatus)
+        let action = Bundle.main.currentVersion.getUpdateAction(latestVersion: incoming)
+        if action == .optionalupdate {
+            doOptionalUpdateConfirm(incoming, superSignStatus)
         }
     }
     
-    private func showDefaultProductMaintenAlert(playerDefaultProductType: ProductType, gotoProductType: ProductType) {
-        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: playerDefaultProductType)), confirm: {
-            NavigationManagement.sharedInstance.goTo(productType: gotoProductType)
-        }, cancel: nil)
-    }
-    
-    private func versionAlert(_ newVer: Version) {
-        let currentVersion = Bundle.main.currentVersion
-        let currentVersionCode = currentVersion.versionCode
-        let newVersionCode = newVer.versionCode
-        let title = Localize.string("update_proceed_now")
-        let msg = "目前版本 : \(currentVersion)+\(currentVersionCode) \n最新版本 : \(newVer)+\(newVersionCode)"
-        if currentVersion.compareTo(other: newVer) < 0 {
-            Alert.show(title, msg, confirm: {
-                self.syncAppVersionUpdate(self.versionSyncDisposeBag)
-            }, confirmText: Localize.string("update_proceed_now"), cancel: {}, cancelText: "稍後")
-        } else {
-            Alert.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
+    private func doOptionalUpdateConfirm(_ incoming: Version,_ superSignStatus: SuperSignStatus?) {
+        if superSignStatus?.isMaintenance == false {
+            confirmUpdate(incoming.apkLink)
         }
     }
 }
 
 extension LoginViewController {
-    // MARK: PAGE PREPARE
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navi = segue.destination as? UINavigationController,
            let signupVc = navi.viewControllers.first as? SignupLanguageViewController {
@@ -388,6 +405,7 @@ extension LoginViewController {
             vc.presentationController?.delegate = self
         }
     }
+    
     override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) { }
 }
 
@@ -406,6 +424,35 @@ extension LoginViewController: BarButtonItemable {
             break
         default:
             break
+        }
+    }
+    
+    private func btnSignupPressed() {
+        serviceStatusViewModel.output.otpService.subscribe { [weak self] (otpStatus) in
+            if !otpStatus.isMailActive && !otpStatus.isSmsActive {
+                let title = Localize.string("common_error")
+                let message = Localize.string("register_service_down")
+                Alert.show(title, message, confirm: nil, cancel: nil)
+            } else {
+                self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
+            }
+        } onError: { [weak self] (error) in
+            self?.handleErrors(error)
+        }.disposed(by: disposeBag)
+    }
+    
+    private func versionAlert(_ newVer: Version) {
+        let currentVersion = Bundle.main.currentVersion
+        let currentVersionCode = currentVersion.versionCode
+        let newVersionCode = newVer.versionCode
+        let title = Localize.string("update_proceed_now")
+        let msg = "目前版本 : \(currentVersion)+\(currentVersionCode) \n最新版本 : \(newVer)+\(newVersionCode)"
+        if currentVersion.compareTo(other: newVer) < 0 {
+            Alert.show(title, msg, confirm: {
+                self.syncAppVersionUpdate(self.versionSyncDisposeBag)
+            }, confirmText: Localize.string("update_proceed_now"), cancel: {}, cancelText: "稍後")
+        } else {
+            Alert.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
         }
     }
 }

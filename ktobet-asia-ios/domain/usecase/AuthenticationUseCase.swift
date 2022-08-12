@@ -3,40 +3,38 @@ import SharedBu
 import RxSwift
 
 protocol AuthenticationUseCase {
-    func loginFrom(account: String, pwd: String, captcha: Captcha)->Single<Player>
-    func refreshHttpClient(playerLocale: SupportLocale)
-    func logout()->Completable
-    func isLogged()->Single<Bool>
-    func getCaptchaImage()->Single<UIImage>
-    func getRemeberAccount()->String
-    func getLastOverLoginLimitDate()->Date
-    func getNeedCaptcha()->Bool
+    func login(account: String, pwd: String, captcha: Captcha) -> Single<Player>
+    func logout() -> Completable
+    func isLogged() -> Single<Bool>
+    func getCaptchaImage() -> Single<UIImage>
+    func getRememberAccount() -> String
+    func getLastOverLoginLimitDate() -> Date
+    func getNeedCaptcha() -> Bool
     func getUserName() -> String
-    func setRemeberAccount(_ rememberAccount : String?)
-    func setLastOverLoginLimitDate(_ lastOverLoginLimitDate : Date?)
-    func setNeedCaptcha(_ needCaptcha : Bool?)
+    func setRememberAccount(_ rememberAccount: String?)
+    func setLastOverLoginLimitDate(_ lastOverLoginLimitDate: Date?)
+    func setNeedCaptcha(_ needCaptcha: Bool?)
     func setUserName(_ name: String)
     func accountValidation() -> Single<Bool>
 }
 
 class AuthenticationUseCaseImpl : AuthenticationUseCase {
-    
-    private var repoAuth : IAuthRepository!
-    private var repoPlayer : PlayerRepository!
-    private var repoLocalStorage : LocalStorageRepositoryImpl!
-    private var settingStore: SettingStore!
+    private let repoAuth : IAuthRepository
+    private let repoPlayer : PlayerRepository
+    private let repoLocalStorage : LocalStorageRepositoryImpl
+    private let settingStore: SettingStore
     
     init(_ authRepository : IAuthRepository,
          _ playerRepository : PlayerRepository,
-         _ localStroageRepo : LocalStorageRepositoryImpl,
+         _ localStorageRepo : LocalStorageRepositoryImpl,
          _ settingStore: SettingStore) {
         self.repoAuth = authRepository
         self.repoPlayer = playerRepository
-        self.repoLocalStorage = localStroageRepo
+        self.repoLocalStorage = localStorageRepo
         self.settingStore = settingStore
     }
     
-    func loginFrom(account: String, pwd: String, captcha: Captcha) -> Single<Player> {
+    func login(account: String, pwd: String, captcha: Captcha) -> Single<Player> {
         repoAuth.authorize(account, pwd, captcha).flatMap { (data) -> Single<Player> in
             switch data.status {
             case .success: return self.repoPlayer.loadPlayer()
@@ -46,10 +44,11 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
             default: fatalError()
             }
         }
+        .do(onSuccess: refreshHttpClient)
     }
     
-    func refreshHttpClient(playerLocale: SupportLocale) {
-        repoPlayer.refreshHttpClient(playerLocale: playerLocale)
+    private func refreshHttpClient(_ player: Player) {
+        repoPlayer.refreshHttpClient(playerLocale: player.locale())
     }
     
     func logout()->Completable  {
@@ -58,23 +57,23 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
         })
     }
     
-    func isLogged()->Single<Bool>{
+    func isLogged() -> Single<Bool>{
         return repoAuth.checkAuthorization()
     }
     
-    func getCaptchaImage()->Single<UIImage>{
+    func getCaptchaImage() -> Single<UIImage>{
         return repoAuth.getCaptchaImage()
     }
     
-    func getRemeberAccount()->String{
-        return repoLocalStorage.getRemeberAccount()
+    func getRememberAccount() -> String{
+        return repoLocalStorage.getRememberAccount()
     }
     
-    func getNeedCaptcha()->Bool{
+    func getNeedCaptcha() -> Bool{
         return repoLocalStorage.getNeedCaptcha()
     }
     
-    func getLastOverLoginLimitDate()->Date{
+    func getLastOverLoginLimitDate() -> Date{
         return repoLocalStorage.getLastOverLoginLimitDate()
     }
     
@@ -82,8 +81,8 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
         return repoLocalStorage.getUserName()
     }
     
-    func setRemeberAccount(_ rememberAccount : String?){
-        repoLocalStorage.setRemeberAccount(rememberAccount)
+    func setRememberAccount(_ rememberAccount : String?){
+        repoLocalStorage.setRememberAccount(rememberAccount)
     }
     
     func setLastOverLoginLimitDate(_ lastOverLoginLimitDate : Date?){

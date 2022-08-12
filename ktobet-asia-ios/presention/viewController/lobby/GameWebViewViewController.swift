@@ -67,9 +67,13 @@ class GameWebViewViewController: UIViewController {
     override func handleErrors(_ error: Error) {
         if error is KtoGameUnderMaintenance {
             let productType = viewModel?.getGameProductType()
-            Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {
-                NavigationManagement.sharedInstance.goTo(productType: productType)
-            }, cancel: nil)
+            if let productType = productType {
+                Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {
+                    NavigationManagement.sharedInstance.goTo(productType: productType)
+                }, cancel: nil)
+            } else {
+                NavigationManagement.sharedInstance.goToSetDefaultProduct()
+            }
         } else {
             super.handleErrors(error)
         }

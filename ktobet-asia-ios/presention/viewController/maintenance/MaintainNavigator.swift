@@ -3,13 +3,25 @@ import SharedBu
 
 
 protocol ServiceStatusNavigator {
+    func toPortalMaintainPage()
+    func toLandingPage()
     func toSBKMaintainPage()
     func toDefaultProductMaintainPage(playerType: ProductType, maintainType: ProductType)
     func toPlayerProductPage(productType: ProductType)
-    func toPortalMaintainPage()
+    func toSetDefaultProduct()
 }
 
 class ServiceStatusNavigatorImpl: ServiceStatusNavigator {
+    func toPortalMaintainPage() {
+        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
+            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+        }, cancel: nil)
+    }
+    
+    func toLandingPage() {
+        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+    }
+
     func toSBKMaintainPage() {
         NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
     }
@@ -23,10 +35,8 @@ class ServiceStatusNavigatorImpl: ServiceStatusNavigator {
         NavigationManagement.sharedInstance.goTo(productType: productType)
     }
     
-    func toPortalMaintainPage() {
-        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
-            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-        }, cancel: nil)
+    func toSetDefaultProduct() {
+        NavigationManagement.sharedInstance.goToSetDefaultProduct()
     }
     
     private func showDefaultProductMaintenAlert(playerDefaultProductType: ProductType, gotoProductType: ProductType) {

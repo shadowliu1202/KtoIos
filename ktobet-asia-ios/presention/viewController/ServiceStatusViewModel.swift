@@ -5,7 +5,7 @@ import RxSwiftExt
 import RxCocoa
 
 final class ServiceStatusViewModel: ViewModelType {
-    private var usecaseSystemStatus: GetSystemStatusUseCase!
+    private let systemStatusUseCase: GetSystemStatusUseCase
     private let localStorageRepo: PlayerLocaleConfiguration
     private let playerDefaultProductType = ReplaySubject<ProductType>.create(bufferSize: 1)
     private var countDownTimer: CountDownTimer?
@@ -13,14 +13,14 @@ final class ServiceStatusViewModel: ViewModelType {
     private(set) var input: Input!
     private(set) var output: Output!
     
-    init(usecaseSystemStatus: GetSystemStatusUseCase, localStorageRepo: PlayerLocaleConfiguration) {
-        self.usecaseSystemStatus = usecaseSystemStatus
+    init(systemStatusUseCase: GetSystemStatusUseCase, localStorageRepo: PlayerLocaleConfiguration) {
+        self.systemStatusUseCase = systemStatusUseCase
         self.localStorageRepo = localStorageRepo
         
-        let otpService = usecaseSystemStatus.getOtpStatus()
-        let customerServiceEmail = usecaseSystemStatus.getCustomerServiceEmail().asDriver(onErrorJustReturn: "")
-        let maintainStatus = usecaseSystemStatus.observePortalMaintenanceState()
-        let maintainStatusPerSecond = usecaseSystemStatus.observePortalMaintenanceState().do(onNext: { [weak self] status in
+        let otpService = systemStatusUseCase.getOtpStatus()
+        let customerServiceEmail = systemStatusUseCase.getCustomerServiceEmail().asDriver(onErrorJustReturn: "")
+        let maintainStatus = systemStatusUseCase.observePortalMaintenanceState()
+        let maintainStatusPerSecond = systemStatusUseCase.observePortalMaintenanceState().do(onNext: { [weak self] status in
             switch status {
             case let allPortal as MaintenanceStatus.AllPortal:
                 self?.timeOfRefresh(seconds: allPortal.convertDurationToSeconds()?.int32Value)
@@ -32,14 +32,11 @@ final class ServiceStatusViewModel: ViewModelType {
 
         let playerDefaultType = playerDefaultProductType.asDriver(onErrorJustReturn: .none)
         let maintainDefaultType = self.maintainDefaultProductType(playerDefaultProductType: playerDefaultProductType, maintainStatus: maintainStatus)
-        let isAllProductMaintain = maintainDefaultType.map { $0 == nil }.asDriver(onErrorJustReturn: false)
-        let toNextPage = self.toNextPage(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus)
         let productMaintainTime = self.productMaintainTime(maintainStatus)
         let productsMaintainTime = self.productsMaintainTime(maintainStatus)
         let maintainImage = self.getMaintainImage(productType: playerDefaultType)
         
-        self.output = Output(playerDefaultType: playerDefaultType, maintainDefaultType: maintainDefaultType,
-                             isAllProductMaintain: isAllProductMaintain, toNextPage: toNextPage,
+        self.output = Output(maintainDefaultType: maintainDefaultType,
                              portalMaintenanceStatus: maintainStatus, portalMaintenanceStatusPerSecond: maintainStatusPerSecond, otpService: otpService,
                              customerServiceEmail: customerServiceEmail, productMaintainTime: productMaintainTime,
                              productsMaintainTime: productsMaintainTime, maintainImage: maintainImage)
@@ -55,28 +52,7 @@ final class ServiceStatusViewModel: ViewModelType {
     }
     
     func refreshProductStatus() {
-        usecaseSystemStatus.refreshMaintenanceState()
-    }
-    
-    private func toNextPage(_ playerDefaultType: Driver<ProductType>, _ maintainDefaultType: Driver<ProductType?>, _ isAllProductMaintain: Driver<Bool>, _ maintainStatus: Observable<MaintenanceStatus>) -> Completable {
-        let navigator: ServiceStatusNavigator = ServiceStatusNavigatorImpl()
-        return Driver.combineLatest(playerDefaultType, maintainDefaultType, isAllProductMaintain, maintainStatus.asDriverOnErrorJustComplete())
-            .do(onNext: { (playerType, maintainType, isAllProductMaintain, maintainStatus) in
-            switch maintainStatus {
-            case is MaintenanceStatus.AllPortal:
-                navigator.toPortalMaintainPage()
-            case is MaintenanceStatus.Product:
-                if isAllProductMaintain {
-                    navigator.toSBKMaintainPage()
-                } else if maintainType != playerType {
-                    navigator.toDefaultProductMaintainPage(playerType: playerType, maintainType: maintainType!)
-                } else {
-                    navigator.toPlayerProductPage(productType: playerType)
-                }
-            default:
-                break
-            }
-        }).asObservable().ignoreElements()
+        systemStatusUseCase.refreshMaintenanceState()
     }
 
     private func maintainDefaultProductType(playerDefaultProductType: ReplaySubject<ProductType>, maintainStatus: Observable<MaintenanceStatus>) -> Driver<ProductType?> {
@@ -140,10 +116,7 @@ extension ServiceStatusViewModel {
     }
     
     struct Output {
-        let playerDefaultType: Driver<ProductType>
         let maintainDefaultType: Driver<ProductType?>
-        let isAllProductMaintain: Driver<Bool>
-        let toNextPage: Completable
         let portalMaintenanceStatus: Observable<MaintenanceStatus>
         let portalMaintenanceStatusPerSecond: Observable<MaintenanceStatus>
         let otpService: Single<OtpStatus>
