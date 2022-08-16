@@ -71,7 +71,7 @@ class NavigationViewModel {
     }
     
     private func getLobbyNavigation(_ defaultProduct: ProductType?, _ productStatus: MaintenanceStatus.Product) -> LobbyPageNavigation {
-        if defaultProduct == nil {
+        if defaultProduct == ProductType.none {
             return .setDefaultProduct
         } else if !productStatus.isProductMaintain(productType: defaultProduct!) {
             return .playerDefaultProduct(defaultProduct!)
