@@ -69,9 +69,9 @@ target 'ktobet-asia-iosTests' do
 end
 
 target 'ktobet-asia-iosUITests' do
-  # Pods for testing
+  inherit! :search_paths
+  default_pods
 end
-
 
 #post_install do |installer|
 #  installer.pods_project.targets.each do |target|

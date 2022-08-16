@@ -57,8 +57,8 @@ class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration
         return getUserDefaultValue(key: kRememberPassword) ?? ""
     }
 
-    func getLastOverLoginLimitDate() -> Date {
-        return getUserDefaultValue(key: kLastOverLoginLimitDate) ?? Date()
+    func getLastOverLoginLimitDate() -> Date? {
+        return getUserDefaultValue(key: kLastOverLoginLimitDate)
     }
 
     func getNeedCaptcha() -> Bool {

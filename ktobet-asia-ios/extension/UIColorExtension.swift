@@ -133,6 +133,9 @@ extension UIColor {
     @nonobjc class var alert: UIColor {
         return UIColor(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 0.0, alpha: 1.0)
     }
+    @nonobjc class var primaryRed: UIColor {
+        return UIColor(red: 0.949, green: 0, blue: 0, alpha: 1)
+    }
 }
 
 extension UIColor {
