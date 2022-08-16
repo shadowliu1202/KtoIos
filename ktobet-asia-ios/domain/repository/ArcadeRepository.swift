@@ -4,7 +4,7 @@ import RxCocoa
 import SharedBu
 
 protocol ArcadeRepository: WebGameRepository {
-    func searchGames(tags: [GameFilter]) -> Observable<[ArcadeGame]>
+    func searchGames(isRecommend: Bool, isNew: Bool) -> Observable<[ArcadeGame]>
 }
 
 class ArcadeRepositoryImpl: WebGameRepositoryImpl, ArcadeRepository {
@@ -17,21 +17,7 @@ class ArcadeRepositoryImpl: WebGameRepositoryImpl, ArcadeRepository {
         self.httpClient = httpClient
     }
     
-    func searchGames(tags: [GameFilter]) -> Observable<[ArcadeGame]> {
-        var isRecommend: Bool = false
-        var isNew: Bool = false
-        tags.forEach { (tag) in
-            switch tag {
-            case is GameFilter.New:
-                isNew = true
-                break
-            case is GameFilter.Promote:
-                isRecommend = true
-                break
-            default:
-                break
-            }
-        }
+    func searchGames(isRecommend: Bool = false, isNew: Bool = false) -> Observable<[ArcadeGame]> {
         var sort: Int32
         if isRecommend || (isRecommend && isNew) {
             sort = GameSorting.Companion.init().convert(sortBy: GameSorting.popular)

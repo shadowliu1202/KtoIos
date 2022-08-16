@@ -4,29 +4,41 @@ import RxCocoa
 import SharedBu
 
 class CasinoViewModel: KTOViewModel {
-    private var casinoRecordUseCase : CasinoRecordUseCase!
-    private var casinoUseCase: CasinoUseCase!
-    private var memoryCache: MemoryCacheImpl!
-    // MARK: GameTags
-    private var gameFilter = BehaviorRelay<[CasinoTag]>(value: [])
-    private var gameTags: [CasinoTag] = []
-    lazy var casinoGameTagStates: Observable<[CasinoTag]> = Observable.combineLatest(gameFilter.asObservable(), getCasinoBetTypeTags()) { [weak self] (filters, tags) in
-        var gameTags: [CasinoTag] = tags.map({ CasinoTag($0)})
-        filters.forEach { (filter) in
-            gameTags.filter { $0.tagId == filter.tagId }.first?.isSelected = filter.isSelected
-        }
-        self?.gameTags = gameTags
-        return gameTags
+    private let casinoRecordUseCase : CasinoRecordUseCase
+    private let casinoUseCase: CasinoUseCase
+    private let memoryCache: MemoryCacheImpl
+    private let casinoAppService: ICasinoAppService
+    private lazy var gameTags = RxSwift.Single<CasinoDTO.GameTags>.from(casinoAppService.getTags()).asObservable()
+    private var tagFilter = BehaviorRelay<[ProductDTO.GameTag]>(value: [])
+    
+    lazy var tagStates: Observable<[(ProductDTO.GameTag, Bool)]> = Observable.combineLatest(tagFilter, gameTags).map({ (filter, gameTags) in
+        return gameTags.gameTags.map({ ($0, filter.contains($0)) })
+    }).compose(applyObservableErrorHandle())
+    
+    func selectAll() {
+        tagFilter.accept([])
+        setCache(gameTags: [])
     }
-    // MARK: CasinoGames
-    lazy var searchedCasinoByTag = gameFilter.flatMap { [unowned self] (filters) -> Observable<[CasinoGame]> in
-        var tags: [CasinoGameTag] = []
-        filters.forEach { (filter) in
-            if filter.isSelected {
-                tags.append(filter.getCasinoGameTag())
-            }
+    
+    func toggleTag(_ tag: ProductDTO.GameTag) {
+        var copyValue = tagFilter.value
+        if let index = copyValue.firstIndex(of: tag) {
+            copyValue.remove(at: index)
+        } else {
+            copyValue.append(tag)
         }
-        return self.searchedCasinoByTag(tags: tags)
+        tagFilter.accept(copyValue)
+        setCache(gameTags: copyValue)
+    }
+    
+    private func setCache(gameTags: [ProductDTO.GameTag]) {
+        let gameFilters: [GameFilter] = gameTags.map({ GameFilter.Tag.init(tag: GameTag.init(type: $0.id, name: $0.name)) })
+        memoryCache.setGameTag(.casinoGameTag, gameFilters)
+    }
+    
+    // MARK: CasinoGames
+    lazy var searchedCasinoByTag = tagFilter.flatMap { [unowned self] (filters) -> Observable<[CasinoGame]> in
+        return self.searchedCasinoByTag(tags: filters)
     }
     // MARK: Favorites
     var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
@@ -42,13 +54,16 @@ class CasinoViewModel: KTOViewModel {
     
     private var disposeBag = DisposeBag()
     
-    init(casinoRecordUseCase: CasinoRecordUseCase, casinoUseCase: CasinoUseCase, memoryCache: MemoryCacheImpl) {
-        super.init()
+    init(casinoRecordUseCase: CasinoRecordUseCase, casinoUseCase: CasinoUseCase, memoryCache: MemoryCacheImpl, casinoAppService: ICasinoAppService) {
         self.casinoRecordUseCase = casinoRecordUseCase
         self.casinoUseCase = casinoUseCase
         self.memoryCache = memoryCache
-        if let tags: [CasinoTag] = memoryCache.getGameTag(.casinoGameTag) {
-            gameFilter.accept(tags)
+        self.casinoAppService = casinoAppService
+        super.init()
+        if let tags: [GameFilter] = memoryCache.getGameTag(.casinoGameTag) {
+            tagFilter.accept(tags.filter({$0 is GameFilter.Tag}).map{ $0 as! GameFilter.Tag }.map({
+                ProductDTO.GameTag.init(id: $0.tag.type, name: $0.tag.name)
+            }))
         }
         
         pagination = Pagination<BetRecord>(pageIndex: 0, offset: 20, callBack: {(page) -> Observable<[BetRecord]> in
@@ -61,7 +76,7 @@ class CasinoViewModel: KTOViewModel {
         })
     }
     
-    private func searchedCasinoByTag(tags: [CasinoGameTag]) -> Observable<[CasinoGame]> {
+    private func searchedCasinoByTag(tags: [ProductDTO.GameTag]) -> Observable<[CasinoGame]> {
         return casinoUseCase.searchGamesByTag(tags: tags).compose(applyObservableErrorHandle()).catchError { error in
             return Observable.error(error)
         }.retry()
@@ -79,20 +94,6 @@ class CasinoViewModel: KTOViewModel {
                 return Single.error(KTOError.EmptyData)
             }
         }
-    }
-    
-    func toggleFilter(gameTagId: Int) {
-        var copyValue = gameFilter.value
-        if gameTagId == TagAllID {
-            copyValue.removeAll()
-        } else if let oldTag = copyValue.filter({ $0.tagId == Int32(gameTagId) }).first {
-            oldTag.isSelected.toggle()
-        } else if let filter = gameTags.filter({ $0.tagId == Int32(gameTagId)}).first {
-            filter.isSelected.toggle()
-            copyValue.append(filter)
-        }
-        memoryCache.setGameTag(.casinoGameTag, copyValue)
-        gameFilter.accept(copyValue)
     }
     
     func getUnsettledBetSummary() -> Observable<[UnsettledBetSummary]> {
@@ -150,25 +151,6 @@ class CasinoViewModel: KTOViewModel {
     
     func refreshLobbyGames() {
         refreshTrigger.onNext(())
-    }
-}
-
-class CasinoTag: NSObject, BaseGameTag {
-    private let bean: CasinoGameTag
-    var isSelected: Bool = false
-    var tagId: Int32 {
-        return bean.id
-    }
-    var name: String {
-        return bean.name
-    }
-    init(_ model: CasinoGameTag, isSeleced: Bool = false) {
-        self.bean = model
-        self.isSelected = isSeleced
-    }
-    
-    func getCasinoGameTag() -> CasinoGameTag {
-        return bean
     }
 }
 

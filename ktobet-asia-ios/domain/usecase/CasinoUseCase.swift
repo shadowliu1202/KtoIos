@@ -5,7 +5,7 @@ import RxSwift
 protocol CasinoUseCase: WebGameUseCase {
     func getCasinoBetTypeTags() -> Single<[CasinoGameTag]>
     func getLobbies() -> Single<[CasinoLobby]>
-    func searchGamesByTag(tags: [CasinoGameTag]) -> Observable<[CasinoGame]>
+    func searchGamesByTag(tags: [ProductDTO.GameTag]) -> Observable<[CasinoGame]>
     func searchGamesByLobby(lobby: CasinoLobbyType) -> Observable<[CasinoGame]>
 }
 
@@ -36,18 +36,11 @@ class CasinoUseCaseImpl: WebGameUseCaseImpl, CasinoUseCase {
         return casinoRepository.getLobby()
     }
     
-    func searchGamesByTag(tags: [CasinoGameTag]) -> Observable<[CasinoGame]> {
-        let lobbyIds = tags.filter { (tag: CasinoGameTag) -> Bool in
-            return tag is CasinoGameTag.BelongTo
-        }.map { (tag) -> Int32 in
+    func searchGamesByTag(tags: [ProductDTO.GameTag]) -> Observable<[CasinoGame]> {
+        let typeIds = tags.map { (tag) -> Int32 in
             return tag.id
         }
-        let typeIds = tags.filter { (tag: CasinoGameTag) -> Bool in
-            return tag is CasinoGameTag.GameType
-        }.map { (tag) -> Int32 in
-            return tag.id
-        }
-        return casinoRepository.searchCasinoGame(lobbyIds: Set(lobbyIds), typeId: Set(typeIds))
+        return casinoRepository.searchCasinoGame(lobbyIds: Set<Int32>(), typeId: Set(typeIds))
     }
     
     func searchGamesByLobby(lobby: CasinoLobbyType) -> Observable<[CasinoGame]> {

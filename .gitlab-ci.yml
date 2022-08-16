@@ -92,7 +92,7 @@ merge-job:
             else
                 echo -e "\033[31mIgnore transition for ${ISSUE_TYPE} type\033[0;m"
             fi;
-        - pod install --allow-root
+        - pod install --repo-update --allow-root
         - fastlane tests
     artifacts:
         when: always

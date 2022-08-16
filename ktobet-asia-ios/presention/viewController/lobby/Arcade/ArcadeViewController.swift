@@ -6,13 +6,13 @@ class ArcadeViewController: DisplayProduct {
     
     var barButtonItems: [UIBarButtonItem] = []
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var tagsStackView: UIStackView!
+    @IBOutlet weak var tagsStackView: GameTagStackView!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
     private var viewModel = DI.resolve(ArcadeViewModel.self)!
     private var disposeBag = DisposeBag()
-    lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     
+    lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,16 +38,16 @@ class ArcadeViewController: DisplayProduct {
             .subscribe(onNext: { [weak self] (games) in
                 self?.reloadGameData(games)
         }).disposed(by: disposeBag)
-        viewModel.gameFilter.bind(onNext: { [weak self] (tags) in
-            guard let `self` = self else { return }
-            self.addBtnTags(stackView: self.tagsStackView, data: tags)
-        }).disposed(by: disposeBag)
+        viewModel.tagStates.subscribe(onNext: { [unowned self] (data) in
+            self.tagsStackView.initialize(
+                recommend: data.0,
+                new: data.1,
+                allTagClick: { self.viewModel.selectAll() },
+                recommendClick: { self.viewModel.toggleRecommend() },
+                newClick: { self.viewModel.toggleNew() })
+        }).disposed(by: self.disposeBag)
     }
     
-    
-    @objc override func pressGameTag(_ sender: UIButton) {
-        viewModel.toggleFilter(gameTagId: sender.tag)
-    }
     
     // MARK: KVO
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

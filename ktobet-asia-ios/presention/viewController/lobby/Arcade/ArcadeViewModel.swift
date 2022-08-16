@@ -5,69 +5,78 @@ import SharedBu
 
 
 class ArcadeViewModel: KTOViewModel {
-    private var arcadeUseCase: ArcadeUseCase!
-    private var memoryCache: MemoryCacheImpl!
+    private let arcadeUseCase: ArcadeUseCase
+    private let memoryCache: MemoryCacheImpl
+    private let arcadeAppService: IArcadeAppService
+    private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
+    private var disposeBag = DisposeBag()
+    private lazy var gameTags = RxSwift.Single<ArcadeDTO.GameTags>.from(arcadeAppService.getTags()).asObservable()
+    private var recommendFilter = BehaviorRelay<Bool>(value: false)
+    private var newFilter = BehaviorRelay<Bool>(value: false)
+    private lazy var filterSets: Observable<(Bool, Bool)> = Observable.combineLatest(recommendFilter, newFilter) { ($0, $1) }
     
-    var gameFilter = BehaviorRelay<[ArcadeGameTag]>(value: [])
-    lazy var gameSource = gameFilter.flatMapLatest({
-        return self.arcadeUseCase.getGames(tags: self.convertToGameFilters($0)).compose(self.applyObservableErrorHandle()).catchError { error in
+    lazy var tagStates: Observable<((ProductDTO.RecommendTag? , Bool), (ProductDTO.NewTag? , Bool))> = Observable.combineLatest(recommendFilter, newFilter, gameTags).map({ (isRecommend, isNew , gameTags) in
+        return ((gameTags.recommendTag, isRecommend), (gameTags.newTag, isNew))
+    }).compose(applyObservableErrorHandle())
+           
+    func selectAll() {
+        recommendFilter.accept(false)
+        newFilter.accept(false)
+        setCache(isRecommend: false, isNew: false)
+    }
+    
+    func toggleRecommend() {
+        let value = !recommendFilter.value
+        recommendFilter.accept(value)
+        setCache(isRecommend: value)
+    }
+    
+    func toggleNew() {
+        let value = !newFilter.value
+        newFilter.accept(value)
+        setCache(isNew: value)
+    }
+    
+    private func setCache(isRecommend: Bool? = nil, isNew: Bool? = nil) {
+        let filters: [GameFilter] = memoryCache.getGameTag(.arcadeGameTag) ?? []
+        var recommend: Bool
+        if isRecommend == nil {
+            recommend = filters.contains(GameFilter.Promote.init())
+        } else {
+            recommend = isRecommend!
+        }
+        var new: Bool
+        if isNew == nil {
+            new = filters.contains(GameFilter.New.init())
+        } else {
+            new = isNew!
+        }
+        var gameFilters: [GameFilter] = []
+        if(recommend) { gameFilters.append(GameFilter.Promote.init()) }
+        if(new) { gameFilters.append(GameFilter.New.init()) }
+        memoryCache.setGameTag(.arcadeGameTag, gameFilters)
+    }
+    
+    lazy var gameSource = filterSets.flatMapLatest({
+        return self.arcadeUseCase.getGames(isRecommend: $0.0, isNew: $0.1).compose(self.applyObservableErrorHandle()).catchError { error in
             return Observable.error(error)
         }.retry()
     })
     var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-    private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
-    private var disposeBag = DisposeBag()
     
-    init(arcadeUseCase: ArcadeUseCase, memoryCache: MemoryCacheImpl) {
-        super.init()
+    init(arcadeUseCase: ArcadeUseCase, memoryCache: MemoryCacheImpl, arcadeAppService: IArcadeAppService) {
         self.arcadeUseCase = arcadeUseCase
         self.memoryCache = memoryCache
-        setupGameFilter(memoryCache.getGameTag(.arcadeGameTag))
-    }
-    
-    private func convertToGameFilters(_ tag: [ArcadeGameTag]) -> [GameFilter] {
-        return tag.filter({$0.isSelected}).reduce([GameFilter]()) { partialResult, arcadeGameTag in
-            var filters = partialResult
-            if let filter = arcadeGameTag.getGameFilter() {
-                filters.append(filter)
+        self.arcadeAppService = arcadeAppService
+        super.init()
+        if let tags: [GameFilter] = memoryCache.getGameTag(.arcadeGameTag) {
+            if tags.contains(GameFilter.New.init()) {
+                newFilter.accept(true)
             }
-            return filters
-        }
-    }
-    
-    private func setupGameFilter(_ tags: [ArcadeGameTag]?) {
-        if let tags = tags {
-            gameFilter.accept(tags)
-        } else {
-            let tagAll: ArcadeGameTag = ArcadeGameTag(TagAllID, name: Localize.string("common_all"), isSelected: true)
-            let tagRecommand: ArcadeGameTag = ArcadeGameTag(TagRecommandID, name: Localize.string("common_recommend"))
-            let tagNew: ArcadeGameTag = ArcadeGameTag(TagNewID, name: Localize.string("common_new"))
-            gameFilter.accept([tagAll, tagRecommand, tagNew])
-        }
-    }
-    
-    func toggleFilter(gameTagId: Int) {
-        let copyValue = gameFilter.value
-        copyValue.forEach({ (element) in
-            if gameTagId == TagAllID {
-                if element.tagId == gameTagId {
-                    element.isSelected = true
-                } else {
-                    element.isSelected = false
-                }
-            } else {
-                if element.tagId == TagAllID {
-                    element.isSelected = false
-                } else if element.tagId == gameTagId {
-                    element.isSelected.toggle()
-                }
+            if tags.contains(GameFilter.Promote.init()) {
+                recommendFilter.accept(true)
             }
-        })
-        if gameFilter.value.allSatisfy({ $0.isSelected == false }), let tagAll = copyValue.filter({ $0.tagId == TagAllID }).first {
-            tagAll.isSelected = true
         }
-        memoryCache.setGameTag(.arcadeGameTag, gameFilter.value)
-        gameFilter.accept(copyValue)
     }
     
     private func addFavorite(_ game: WebGameWithDuplicatable) -> Completable {
@@ -140,31 +149,6 @@ extension ArcadeViewModel: ProductViewModel {
     func searchResult() -> Observable<Event<[WebGameWithDuplicatable]>> {
         return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithDuplicatable]>> in
             return self.arcadeUseCase.searchGames(keyword: keyword).materialize()
-        }
-    }
-}
-
-class ArcadeGameTag: NSObject, BaseGameTag {
-    private(set) var tagId: Int32
-    var isSelected: Bool = false
-    var name: String
-    
-    init(_ tagId: Int32, name: String, isSelected: Bool = false) {
-        self.tagId = tagId
-        self.isSelected = isSelected
-        self.name = name
-    }
-    
-    func getGameFilter() -> GameFilter? {
-        switch tagId {
-        case TagAllID:
-            return nil
-        case TagRecommandID:
-            return .Promote()
-        case TagNewID:
-            return .New()
-        default:
-            return nil
         }
     }
 }

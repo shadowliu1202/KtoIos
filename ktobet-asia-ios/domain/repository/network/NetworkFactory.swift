@@ -23,4 +23,16 @@ class NetworkFactory: ExternalProtocolService {
     func getImage() -> ImageProtocol {
         ImageAdapter(ImageApi(httpClient))
     }
+    
+    func getCasino() -> CasinoProtocol {
+        CasinoAdapter(CasinoApi(httpClient))
+    }
+    
+    func getNumberGame() -> NumberGameProtocol {
+        NumberGameAdapter(NumberGameApi(httpClient))
+    }
+    
+    func getArcade() -> ArcadeProtocol {
+        ArcadeAdapter(ArcadeApi(httpClient))
+    }
 }
