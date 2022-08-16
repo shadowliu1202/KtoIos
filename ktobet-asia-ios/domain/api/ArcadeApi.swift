@@ -89,4 +89,8 @@ class ArcadeApi: ApiService, WebGameApi {
         return httpClient.request(target).map(ResponseData<String>.self)
     }
     
+    func getArcadeTagsWithCount() -> Single<String> {
+        let target = GetAPITarget(service: self.url("\(prefix)/game/mobile/tag-with-gamecount"))
+        return httpClient.requestJsonString(target)
+    }
 }

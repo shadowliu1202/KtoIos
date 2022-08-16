@@ -5,9 +5,6 @@ import SharedBu
 import AlignedCollectionViewFlowLayout
 import SideMenu
 
-let TagAllID: Int32 = -1
-let TagRecommandID: Int32 = -2
-let TagNewID: Int32 = -3
 class CasinoViewController: DisplayProduct {
 
     var barButtonItems: [UIBarButtonItem] = []
@@ -16,14 +13,12 @@ class CasinoViewController: DisplayProduct {
     @IBOutlet weak var lobbyCollectionView: CasinoLobbyCollectionView!
     @IBOutlet weak var lobbyCollectionUpSpace: NSLayoutConstraint!
     @IBOutlet weak var lobbyCollectionHeight: NSLayoutConstraint!
-    @IBOutlet weak var tagsStackView: UIStackView!
+    @IBOutlet weak var tagsStackView: GameTagStackView!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     private var lobbies: [CasinoLobby] = []
     lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
-    lazy private var tagAll: CasinoTag = {
-        CasinoTag(CasinoGameTag.GameType(id: TagAllID, name: Localize.string("common_all")), isSeleced: false)
-    }()
+    
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
     private var viewModel = DI.resolve(CasinoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
@@ -63,8 +58,6 @@ class CasinoViewController: DisplayProduct {
         lobbyCollectionView.registerCellFromNib(CasinoLobbyItemCell.className)
         lobbyCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-        let data = [tagAll]
-        addBtnTags(stackView: tagsStackView, data: data)
         lobbyCollectionView.dataSource = self
         lobbyCollectionView.delegate = self
     }
@@ -98,30 +91,14 @@ class CasinoViewController: DisplayProduct {
                 self?.reloadGameData(games)
         }).disposed(by: disposeBag)
         
-        Observable.combineLatest(viewDidRotate, viewModel.casinoGameTagStates)
-            .flatMap { (_, tags) -> Observable<[CasinoTag]> in
-            return Observable.just(tags)
-        }.catchError({ [weak self] (error) -> Observable<[CasinoTag]> in
-            guard let `self` = self else { return Observable.just([])}
-            return Observable.just([self.tagAll])
-        }).subscribe(onNext: { [weak self] (tags: [CasinoTag]) in
-            guard let `self` = self else { return }
-            var data = [self.tagAll]
-            if tags.filter({ $0.isSelected }).count == 0 {
-                self.tagAll.isSelected = true
-            }
-            data.append(contentsOf: tags)
-            self.addBtnTags(stackView: self.tagsStackView, data: data)
+        Observable.combineLatest(viewDidRotate, viewModel.tagStates)
+        .flatMap { return Observable.just($1) }
+        .subscribe(onNext: { [unowned self] (data) in
+            self.tagsStackView.initialize(
+                data: data,
+                allTagClick: { self.viewModel.selectAll() },
+                customClick: { self.viewModel.toggleTag($0) })
         }).disposed(by: self.disposeBag)
-    }
-    
-    @objc override func pressGameTag(_ sender: UIButton) {
-        if sender.tag == TagAllID {
-            tagAll.isSelected = true
-        } else {
-            tagAll.isSelected = false
-        }
-        viewModel.toggleFilter(gameTagId: sender.tag)
     }
     
     // MARK: KVO

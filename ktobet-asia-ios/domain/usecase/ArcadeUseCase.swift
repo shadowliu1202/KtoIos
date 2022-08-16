@@ -3,7 +3,7 @@ import SharedBu
 import RxSwift
 
 protocol ArcadeUseCase: WebGameUseCase {
-    func getGames(tags: [GameFilter]) -> Observable<[ArcadeGame]>
+    func getGames(isRecommend: Bool, isNew: Bool) -> Observable<[ArcadeGame]>
 }
 
 class ArcadeUseCaseImpl: WebGameUseCaseImpl, ArcadeUseCase {
@@ -14,7 +14,7 @@ class ArcadeUseCaseImpl: WebGameUseCaseImpl, ArcadeUseCase {
         self.arcadeRepository = arcadeRepository
     }
     
-    func getGames(tags: [GameFilter]) -> Observable<[ArcadeGame]> {
-        return arcadeRepository.searchGames(tags: tags)
+    func getGames(isRecommend: Bool, isNew: Bool) -> Observable<[ArcadeGame]> {
+        return arcadeRepository.searchGames(isRecommend: isRecommend, isNew: isNew)
     }
 }

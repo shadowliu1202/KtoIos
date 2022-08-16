@@ -4,6 +4,20 @@ import RxCocoa
 import SharedBu
 
 class NumberGameViewModel: KTOViewModel {
+    private let numberGameUseCase: NumberGameUseCase
+    private let memoryCache: MemoryCacheImpl
+    private let numberGameService: INumberGameAppService
+    private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
+    private var disposeBag = DisposeBag()
+    private lazy var filterSets: Observable<Set<GameFilter>> = Observable.combineLatest(tagFilter, recommendFilter, newFilter) { (tags, recommand, new) -> Set<GameFilter> in
+        var gameFilters: Set<GameFilter> = Set(tags.map({
+            GameFilter.Tag.init(tag: GameTag.init(type: $0.id, name: $0.name))
+        }))
+        if recommand { gameFilters.insert(GameFilter.Promote.init()) }
+        if new { gameFilters.insert(GameFilter.New.init()) }
+        return gameFilters
+    }
+    
     lazy var popularGames = numberGameUseCase.getPopularGames()
     lazy var allGames = Observable.combineLatest(gameSorting, filterSets).flatMapLatest { (gameSorting, gameFilters) ->  Observable<[NumberGame]> in
         return self.numberGameUseCase.getGames(order: gameSorting, tags: gameFilters).compose(self.applyObservableErrorHandle()).catchError { error in
@@ -11,77 +25,97 @@ class NumberGameViewModel: KTOViewModel {
         }.retry()
     }
     
-    var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
+    private lazy var gameTags = RxSwift.Single<NumberGameDTO.GameTags>.from(numberGameService.getTags()).asObservable()
+    private var tagFilter = BehaviorRelay<[ProductDTO.GameTag]>(value: [])
+    private var recommendFilter = BehaviorRelay<Bool>(value: false)
+    private var newFilter = BehaviorRelay<Bool>(value: false)
     
-    private var numberGameUseCase: NumberGameUseCase!
-    private var memoryCache: MemoryCacheImpl!
-    private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
+    lazy var tagStates: Observable<((ProductDTO.RecommendTag? , Bool), (ProductDTO.NewTag? , Bool), [(ProductDTO.GameTag, Bool)])> = Observable.combineLatest(tagFilter, recommendFilter, newFilter, gameTags).map({ (filter, isRecommend, isNew , gameTags) in
+        return ((gameTags.recommendTag, isRecommend), (gameTags.newTag, isNew), gameTags.gameTags.map({ ($0, filter.contains($0)) }))
+    }).compose(applyObservableErrorHandle())
     
-    var tagFilter = BehaviorRelay<[NumberGameTag]>(value: [])
-    var recommendFilter = BehaviorRelay<Bool>(value: false)
-    var newFilter = BehaviorRelay<Bool>(value: false)
-    var gameSorting = BehaviorRelay<GameSorting>(value: .popular)
-    
-    private var disposeBag = DisposeBag()
-    private lazy var filterSets: Observable<Set<GameFilter>> = Observable.combineLatest(tagFilter, recommendFilter, newFilter) { (tags, recommand, new) -> Set<GameFilter> in
-        var gameFilters: Set<GameFilter> = []
-        tags.filter{ $0.isSelected && $0.tagId >= 0 }.forEach{ gameFilters.insert(GameFilter.Tag.init(tag: $0.getGameTag())) }
-        if recommand { gameFilters.insert(GameFilter.Promote.init()) }
-        if new { gameFilters.insert(GameFilter.New.init()) }
-        return gameFilters
-    }
-    
-    var gameTags: [NumberGameTag] = []
-    lazy var gameTagStates: Observable<[NumberGameTag]> = Observable.combineLatest(tagFilter.asObservable(), getTags()) { [weak self] (filters, tags) in
-        var gameTags: [NumberGameTag] = []
-        gameTags.append(NumberGameTag(GameTag.init(type: -2, name: Localize.string("common_recommend"))))
-        gameTags.append(NumberGameTag(GameTag.init(type: -3, name: Localize.string("common_new"))))
-        gameTags.append(contentsOf: tags.map({ NumberGameTag($0)}))
-        filters.forEach { (filter) in
-            gameTags.filter { $0.tagId == filter.tagId }.first?.isSelected = filter.isSelected
-        }
-        self?.gameTags = gameTags
-        return gameTags
-    }
-    
-    init(numberGameUseCase: NumberGameUseCase, memoryCache: MemoryCacheImpl) {
-        super.init()
-        self.numberGameUseCase = numberGameUseCase
-        self.memoryCache = memoryCache
-        if let tags: [NumberGameTag] = memoryCache.getGameTag(.numberGameTag) {
-            tagFilter.accept(tags)
-        }
-    }
-    
-    func setRecommendFilter(isRecommand: Bool) {
-        recommendFilter.accept(isRecommand)
-        updateGameSorting()
-    }
-    
-    func setNewFilter(isNew: Bool) {
-        newFilter.accept(isNew)
-        updateGameSorting()
-    }
-    
-    func toggleFilter(gameTagId: Int) {
-        var copyValue = tagFilter.value
-        if gameTagId == TagAllID {
-            copyValue.removeAll()
-        } else if let oldTag = copyValue.filter({ $0.tagId == Int32(gameTagId) }).first {
-            oldTag.isSelected.toggle()
-        } else if let filter = gameTags.filter({ $0.tagId == Int32(gameTagId)}).first {
-            filter.isSelected.toggle()
-            copyValue.append(filter)
-        }
-
-        memoryCache.setGameTag(.numberGameTag, copyValue)
-        tagFilter.accept(copyValue)
-    }
-    
-    func clearFilter() {
+    func selectAll() {
         tagFilter.accept([])
         recommendFilter.accept(false)
         newFilter.accept(false)
+        updateGameSorting()
+        setCache(isRecommend: false, isNew: false, gameTags: [])
+    }
+    
+    func toggleRecommend() {
+        let value = !recommendFilter.value
+        recommendFilter.accept(value)
+        updateGameSorting()
+        setCache(isRecommend: value)
+    }
+    
+    func toggleNew() {
+        let value = !newFilter.value
+        newFilter.accept(value)
+        updateGameSorting()
+        setCache(isNew: value)
+    }
+    
+    func toggleTag(_ tag: ProductDTO.GameTag) {
+        var copyValue = tagFilter.value
+        if let index = copyValue.firstIndex(of: tag) {
+            copyValue.remove(at: index)
+        } else {
+            copyValue.append(tag)
+        }
+        tagFilter.accept(copyValue)
+        setCache(gameTags: copyValue)
+    }
+    
+    private func setCache(isRecommend: Bool? = nil, isNew: Bool? = nil, gameTags:[ProductDTO.GameTag]? = nil){
+        let filters: [GameFilter] = memoryCache.getGameTag(.numberGameTag) ?? []
+        
+        var recommend: Bool
+        if isRecommend == nil {
+            recommend = filters.contains(GameFilter.Promote.init())
+        } else {
+            recommend = isRecommend!
+        }
+        
+        var new: Bool
+        if isNew == nil {
+            new = filters.contains(GameFilter.New.init())
+        } else {
+            new = isNew!
+        }
+        
+        var gameFilters: [GameFilter]
+        if gameTags == nil {
+            gameFilters = filters.filter({ $0 is GameFilter.Tag})
+        } else {
+            gameFilters = gameTags!.map({ GameFilter.Tag.init(tag: GameTag.init(type: $0.id, name: $0.name)) })
+        }
+        
+        if(recommend) { gameFilters.append(GameFilter.Promote.init()) }
+        if(new) { gameFilters.append(GameFilter.New.init()) }
+        
+        memoryCache.setGameTag(.numberGameTag, gameFilters)
+    }
+    
+    var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
+    var gameSorting = BehaviorRelay<GameSorting>(value: .popular)
+    
+    init(numberGameUseCase: NumberGameUseCase, memoryCache: MemoryCacheImpl, numberGameService: INumberGameAppService) {
+        self.numberGameUseCase = numberGameUseCase
+        self.memoryCache = memoryCache
+        self.numberGameService = numberGameService
+        super.init()
+        if let tags: [GameFilter] = memoryCache.getGameTag(.numberGameTag) {
+            tagFilter.accept(tags.filter({$0 is GameFilter.Tag}).map{ $0 as! GameFilter.Tag }.map({
+                ProductDTO.GameTag.init(id: $0.tag.type, name: $0.tag.name)
+            }))
+            if tags.contains(GameFilter.New.init()) {
+                newFilter.accept(true)
+            }
+            if tags.contains(GameFilter.Promote.init()) {
+                recommendFilter.accept(true)
+            }
+        }
     }
     
     private func updateGameSorting() {
@@ -175,25 +209,5 @@ extension NumberGameViewModel: ProductViewModel {
         return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithDuplicatable]>> in
             return self.numberGameUseCase.searchGames(keyword: keyword).materialize()
         }
-    }
-}
-
-class NumberGameTag: NSObject, BaseGameTag {
-    private let bean: GameTag
-    var isSelected: Bool = false
-    var tagId: Int32 {
-        return bean.type
-    }
-    var name: String {
-        return bean.name
-    }
-    
-    init(_ model: GameTag, isSelected: Bool = false) {
-        self.bean = model
-        self.isSelected = isSelected
-    }
-    
-    func getGameTag() -> GameTag {
-        return bean
     }
 }

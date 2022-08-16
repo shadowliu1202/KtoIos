@@ -35,7 +35,7 @@
                                                     <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_arcade"/>
                                                 </userDefinedRuntimeAttributes>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="o1J-q2-xns">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="o1J-q2-xns" customClass="GameTagStackView" customModule="ktobet_asia_ios" customModuleProvider="target">
                                                 <rect key="frame" x="24" y="70" width="366" height="40"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>

@@ -119,4 +119,9 @@ class CasinoApi: ApiService, WebGameApi {
         let target = GetAPITarget(service: self.url("\(prefix)/game/url/\(gameId)")).parameters(["siteUrl": siteUrl])
         return httpClient.request(target).map(ResponseData<String>.self)
     }
+    
+    func getCasinoTagsWithCount() -> Single<String> {
+        let target = GetAPITarget(service: self.url("\(prefix)/game/mobile/tag-with-gamecount"))
+        return httpClient.requestJsonString(target)
+    }
 }

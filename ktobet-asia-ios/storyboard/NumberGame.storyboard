@@ -35,7 +35,7 @@
                                             <constraint firstAttribute="height" constant="322" id="VrJ-l7-fHw"/>
                                         </constraints>
                                     </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2eg-vV-atb">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2eg-vV-atb" customClass="GameTagStackView" customModule="ktobet_asia_ios" customModuleProvider="target">
                                         <rect key="frame" x="24" y="330" width="366" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>

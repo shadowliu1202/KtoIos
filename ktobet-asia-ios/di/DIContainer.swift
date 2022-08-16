@@ -67,7 +67,6 @@ class DIContainer {
             return resolver.resolve(LocalizeUtils.self)!
         }.inObjectScope(.application)
         
-        
         container.register(ApplicationFactory.self) { resolver in
             let local = resolver.resolve(PlayerConfiguration.self)!
             let network = resolver.resolve(ExternalProtocolService.self)!
@@ -307,6 +306,9 @@ class DIContainer {
         container.register(PlayerLocaleConfiguration.self) { resolver in
             return resolver.resolve(LocalStorageRepositoryImpl.self)!
         }
+        container.register(MemoryCacheImpl.self) { _ in
+            return MemoryCacheImpl()
+        }.inObjectScope(.lobby)
     }
     
     func registUsecase(){
@@ -593,7 +595,9 @@ class DIContainer {
             return WithdrawalCryptoRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerUseCase: playerUseCase, localStorageRepository: repoLocalStorage)
         }
         container.register(CasinoViewModel.self) { resolver in
-            return CasinoViewModel(casinoRecordUseCase: resolver.resolve(CasinoRecordUseCase.self)!, casinoUseCase: resolver.resolve(CasinoUseCase.self)!, memoryCache: resolver.resolve(MemoryCacheImpl.self)!)
+            let applicationFactory = resolver.resolve(ApplicationFactory.self)!
+            let casinoAppService = applicationFactory.casino()
+            return CasinoViewModel(casinoRecordUseCase: resolver.resolve(CasinoRecordUseCase.self)!, casinoUseCase: resolver.resolve(CasinoUseCase.self)!, memoryCache: resolver.resolve(MemoryCacheImpl.self)!, casinoAppService: casinoAppService)
         }
         container.register(SlotViewModel.self) { resolver in
             return SlotViewModel(slotUseCase: resolver.resolve(SlotUseCase.self)!)
@@ -602,7 +606,9 @@ class DIContainer {
             return SlotBetViewModel(slotUseCase: resolver.resolve(SlotUseCase.self)!, slotRecordUseCase: resolver.resolve(SlotRecordUseCase.self)!)
         }
         container.register(NumberGameViewModel.self) { resolver in
-            return NumberGameViewModel(numberGameUseCase: resolver.resolve(NumberGameUseCase.self)!, memoryCache: resolver.resolve(MemoryCacheImpl.self)!)
+            let applicationFactory = resolver.resolve(ApplicationFactory.self)!
+            let numberGameService = applicationFactory.numberGame()
+            return NumberGameViewModel(numberGameUseCase: resolver.resolve(NumberGameUseCase.self)!, memoryCache: resolver.resolve(MemoryCacheImpl.self)!, numberGameService: numberGameService)
         }
         container.register(NumberGameRecordViewModel.self) { resolver in
             return NumberGameRecordViewModel(numberGameRecordUseCase: resolver.resolve(NumberGameRecordUseCase.self)!)
@@ -620,7 +626,9 @@ class DIContainer {
             return ArcadeRecordViewModel(arcadeRecordUseCase: resolver.resolve(ArcadeRecordUseCase.self)!)
         }
         container.register(ArcadeViewModel.self) { resolver in
-            return ArcadeViewModel(arcadeUseCase: resolver.resolve(ArcadeUseCase.self)!, memoryCache: resolver.resolve(MemoryCacheImpl.self)!)
+            let applicationFactory = resolver.resolve(ApplicationFactory.self)!
+            let arcadeAppService = applicationFactory.arcade()
+            return ArcadeViewModel(arcadeUseCase: resolver.resolve(ArcadeUseCase.self)!, memoryCache: resolver.resolve(MemoryCacheImpl.self)!, arcadeAppService: arcadeAppService)
         }
         container.register(PromotionViewModel.self) { resolver in
             return PromotionViewModel(promotionUseCase: resolver.resolve(PromotionUseCase.self)!, playerUseCase: resolver.resolve(PlayerDataUseCase.self)!)
@@ -673,9 +681,6 @@ class DIContainer {
     func registSingleton() {
         container.register(LocalizeUtils.self) { resolver in
             return LocalizeUtils(playerLocaleConfiguration: resolver.resolve(PlayerLocaleConfiguration.self)!)
-        }.inObjectScope(.application)
-        container.register(MemoryCacheImpl.self) { _ in
-            return MemoryCacheImpl()
         }.inObjectScope(.application)
     }
 }

@@ -9,7 +9,7 @@ import TYCyclePagerView
 class NumberGameViewController: DisplayProduct {
     @IBOutlet weak var blurImageBackgroundView: UIImageView!
     @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet weak var tagsStackView: UIStackView!
+    @IBOutlet weak var tagsStackView: GameTagStackView!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     @IBOutlet weak var dropDownView: UIView!
     @IBOutlet weak var dropDownTableView: UITableView!
@@ -22,15 +22,6 @@ class NumberGameViewController: DisplayProduct {
     private var disposeBag = DisposeBag()
     lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
-    lazy private var tagAll: NumberGameTag = {
-        NumberGameTag(GameTag(type: TagAllID, name: Localize.string("common_all")), isSelected: false)
-    }()
-    lazy private var tagRecommand: NumberGameTag = {
-        NumberGameTag(GameTag(type: TagRecommandID, name: Localize.string("common_recommend")), isSelected: false)
-    }()
-    lazy private var tagNew: NumberGameTag = {
-        NumberGameTag(GameTag(type: TagNewID, name: Localize.string("common_new")), isSelected: false)
-    }()
     var datas = [NumberGame]()
     var barButtonItems: [UIBarButtonItem] = []
     lazy var pagerView: TYCyclePagerView = {
@@ -96,8 +87,6 @@ class NumberGameViewController: DisplayProduct {
 
         getPopularGames()
 
-        let data = [tagAll]
-        addBtnTags(stackView: tagsStackView, data: data)
         viewModel.errors().subscribe(onNext: {[weak self] in
             if $0.isMaintenance() {
                 NavigationManagement.sharedInstance.goTo(productType: .numbergame, isMaintenance: true)
@@ -105,21 +94,19 @@ class NumberGameViewController: DisplayProduct {
                 self?.handleErrors($0)
             }
         }).disposed(by: disposeBag)
-        Observable.combineLatest(viewDidRotate, viewModel.gameTagStates)
-            .flatMap { (_, tags) -> Observable<[NumberGameTag]> in
-            return Observable.just(tags)
-        }.catchError({ [weak self] (error) -> Observable<[NumberGameTag]> in
-            guard let `self` = self else { return Observable.just([])}
-            return Observable.just([self.tagAll])
-        }).subscribe(onNext: { [weak self] (tags: [NumberGameTag]) in
-            guard let `self` = self else { return }
-            var data = [self.tagAll]
-            if tags.filter({ $0.isSelected }).count == 0 {
-                self.tagAll.isSelected = true
-            }
-            data.append(contentsOf: tags)
-            self.addBtnTags(stackView: self.tagsStackView, data: data)
-        }).disposed(by: self.disposeBag)
+        
+        Observable.combineLatest(viewDidRotate, viewModel.tagStates)
+            .flatMap { return Observable.just($1) }
+            .subscribe(onNext: { [unowned self] (data) in
+                self.tagsStackView.initialize(
+                    recommend: data.0,
+                    new: data.1,
+                    data: data.2,
+                    allTagClick: { self.viewModel.selectAll() },
+                    recommendClick: { self.viewModel.toggleRecommend() },
+                    newClick: { self.viewModel.toggleNew() },
+                    customClick: { self.viewModel.toggleTag($0) })
+            }).disposed(by: self.disposeBag)
 
         getAllGames()
     }
@@ -148,40 +135,6 @@ class NumberGameViewController: DisplayProduct {
         self.dropDownTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
         self.dropDownItem[index].isSelected = true
         self.dropDownTableView.reloadData()
-    }
-    
-    @objc override func pressGameTag(_ sender: UIButton) {
-        if sender.tag == TagAllID {
-            tagAll.isSelected = true
-            viewModel.setRecommendFilter(isRecommand: false)
-            viewModel.setNewFilter(isNew: false)
-        } else {
-            tagAll.isSelected = false
-        }
-        
-        if sender.tag == TagRecommandID {
-            tagRecommand.isSelected.toggle()
-            viewModel.setRecommendFilter(isRecommand: !sender.isSelected)
-        }
-        
-        if sender.tag == TagNewID {
-            viewModel.setNewFilter(isNew: !sender.isSelected)
-        }
-        
-        viewModel.toggleFilter(gameTagId: sender.tag)
-
-        if ((sender.tag == TagNewID && !sender.isSelected) ||
-            self.viewModel.gameTags.contains(where: { $0.isSelected && $0.tagId == TagNewID })) &&
-            self.viewModel.gameTags.contains(where: { !$0.isSelected && $0.tagId == TagRecommandID })
-        {
-            setDropDownSort(index: 2)
-        } else {
-            setDropDownSort(index: 0)
-        }
-        
-        if (sender.tag == TagRecommandID && !sender.isSelected) {
-            setDropDownSort(index: 0)
-        }
     }
     
     private func addBlurBackgoundImageView(url: URL) {
