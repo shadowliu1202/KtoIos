@@ -120,6 +120,8 @@ class LoginViewController: LandingViewController {
         switch navigation {
         case .portalAllMaintenance:
             navigateToPortalMaintenancePage()
+        case .productAllMaintenance:
+            navigateToSBKMaintenancePage()
         case .notLogin:
             assertionFailure("Should not reach here.")
         case .playerDefaultProduct(let product):
@@ -138,10 +140,14 @@ class LoginViewController: LandingViewController {
         CustomServicePresenter.shared.observeCustomerService().subscribe().disposed(by: disposeBag)
     }
 
-    private func navigateToPortalMaintenancePage(){
+    private func navigateToPortalMaintenancePage() {
         Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
             NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
         }, cancel: nil)
+    }
+    
+    private func navigateToSBKMaintenancePage() {
+        NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
     }
     
     private func navigateToProductPage(_ productType: ProductType) {

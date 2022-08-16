@@ -7,6 +7,7 @@ class NavigationViewModel {
     
     enum LobbyPageNavigation {
         case portalAllMaintenance
+        case productAllMaintenance
         case notLogin
         case playerDefaultProduct(ProductType)
         case alternativeProduct(ProductType, ProductType)
@@ -75,15 +76,18 @@ class NavigationViewModel {
         } else if !productStatus.isProductMaintain(productType: defaultProduct!) {
             return .playerDefaultProduct(defaultProduct!)
         } else {
-            let alternation = alternativeProduct(defaultProduct!, productStatus)
-            return .alternativeProduct(defaultProduct!,alternation)
+            if let alternation = alternativeProduct(defaultProduct!, productStatus) {
+                return .alternativeProduct(defaultProduct!,alternation)
+            } else {
+                return .productAllMaintenance
+            }
         }
     }
     
-    private func alternativeProduct(_ defaultProduct: ProductType,_ productStatus: MaintenanceStatus.Product) -> ProductType {
+    private func alternativeProduct(_ defaultProduct: ProductType,_ productStatus: MaintenanceStatus.Product) -> ProductType? {
         return alternativePriority.first { type in
             !productStatus.isProductMaintain(productType: type)
-        } ?? ProductType.sbk
+        } ?? nil
     }
     
     func initLoginNavigation(defaultProduct: ProductType?) -> Single<LobbyPageNavigation> {
