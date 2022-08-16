@@ -2,6 +2,7 @@ import Foundation
 import SharedBu
 import RxSwift
 
+//Todo: Need refactor.
 protocol AuthenticationUseCase {
     func login(account: String, pwd: String, captcha: Captcha) -> Single<Player>
     func logout() -> Completable
@@ -73,8 +74,8 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
         return repoLocalStorage.getNeedCaptcha()
     }
     
-    func getLastOverLoginLimitDate() -> Date{
-        return repoLocalStorage.getLastOverLoginLimitDate()
+    func getLastOverLoginLimitDate() -> Date {
+        return repoLocalStorage.getLastOverLoginLimitDate() ?? Date()
     }
     
     func getUserName() -> String {

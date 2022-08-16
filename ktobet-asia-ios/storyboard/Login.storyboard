@@ -4,11 +4,61 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Hosting Controller-->
+        <scene sceneID="kLV-RL-hnF">
+            <objects>
+                <hostingController id="pcC-yW-m2q" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n7c-uE-WRX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2213" y="129"/>
+        </scene>
+        <!--New Login View Controller-->
+        <scene sceneID="ESy-gd-YZH">
+            <objects>
+                <viewController extendedLayoutIncludesOpaqueBars="YES" id="Nyo-Kw-8Tr" customClass="NewLoginViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3eD-JV-Vuh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQL-7x-RhR">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <connections>
+                                    <segue destination="pcC-yW-m2q" kind="embed" destinationCreationSelector="segueToHostingController:" id="xeW-JO-FKz"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Irt-Zp-FrD"/>
+                        <color key="backgroundColor" name="blackTwo"/>
+                        <constraints>
+                            <constraint firstItem="uQL-7x-RhR" firstAttribute="bottom" secondItem="Irt-Zp-FrD" secondAttribute="bottom" id="5hU-9O-EiL"/>
+                            <constraint firstItem="uQL-7x-RhR" firstAttribute="top" secondItem="3eD-JV-Vuh" secondAttribute="top" id="Ebw-Cl-z6E"/>
+                            <constraint firstItem="uQL-7x-RhR" firstAttribute="leading" secondItem="Irt-Zp-FrD" secondAttribute="leading" id="NJM-DI-MYe"/>
+                            <constraint firstItem="Irt-Zp-FrD" firstAttribute="trailing" secondItem="uQL-7x-RhR" secondAttribute="trailing" id="wf7-wb-MdZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="eK9-oA-DBo">
+                        <leftBarButtonItems>
+                            <barButtonItem width="10" id="DZB-EC-Ou0"/>
+                            <barButtonItem image="KTO (D)" id="Lfn-s2-xH8">
+                                <color key="tintColor" name="red"/>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="Hwk-qb-uGL" kind="presentation" identifier="GoToSignup" id="VbY-sp-yfg"/>
+                        <segue destination="k1X-SW-WfT" kind="show" identifier="goResetPasswordSegue" id="zn1-b8-YcB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BVy-iq-BKO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1349.2753623188407" y="140.625"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="tdA-BR-Lgr">
             <objects>
@@ -22,7 +72,7 @@
                         </textAttributes>
                     </navigationBar>
                     <connections>
-                        <segue destination="PxA-hP-tdG" kind="relationship" relationship="rootViewController" id="3xa-W3-qEH"/>
+                        <segue destination="Nyo-Kw-8Tr" kind="relationship" relationship="rootViewController" id="BXv-FX-Cgw"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iUQ-tY-SJk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -552,13 +602,31 @@
             </objects>
             <point key="canvasLocation" x="298.55072463768118" y="902.67857142857133"/>
         </scene>
+        <!--Hosting Controller-->
+        <scene sceneID="YJD-Od-ct5">
+            <objects>
+                <hostingController id="LbC-nj-swb" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rLC-ub-fM7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-471" y="785"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="zn1-b8-YcB"/>
+        <segue reference="VbY-sp-yfg"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="(375)SBK-Select" width="315" height="102"/>
         <image name="Double Selection (Empty)" width="24" height="24"/>
         <image name="Double Selection (Selected)(24)" width="24" height="24"/>
         <image name="KTO (D)" width="64" height="16"/>
         <image name="Tips" width="24" height="24"/>
+        <namedColor name="blackTwo">
+            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="red">
+            <color red="0.94901960784313721" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -13,64 +13,65 @@ struct StarMergerView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 0) {
-                self.starMergerTitle()
-                LimitSpacer(16)
-                VStack(alignment: .leading, spacing: 0) {
-                    self.amountRange()
-                    LimitSpacer(12)
-                    CustomizedDivider()
-                    LimitSpacer(12)
-                    self.description()
+            PageContainer {
+                VStack(spacing: 0) {
+                    self.starMergerTitle()
+                    LimitSpacer(16)
+                    VStack(alignment: .leading, spacing: 0) {
+                        self.amountRange()
+                        LimitSpacer(12)
+                        CustomizedDivider()
+                        LimitSpacer(12)
+                        self.description()
+                    }
+                    .padding(.vertical, 30)
+                    .padding(.horizontal, 20)
+                    .customizedStrokeBorder(color: .primaryGray, cornerRadius: 14)
+                    LimitSpacer(30)
+                    self.starMergerHint()
+                    LimitSpacer(40)
+                    Button(Localize.string("common_submit2")) {
+                        confirmButtonAction(viewModel.paymentLink)
+                    }
+                    .buttonStyle(.confirmRed)
+                    .disabled(viewModel.paymentLink == nil ? true : false)
+                    .allowsHitTesting(viewModel.paymentLink == nil ? false : true)
                 }
-                .padding(.vertical, 30)
-                .padding(.horizontal, 20)
-                .customizedStrokeBorder(color: .primaryGray, cornerRadius: 14)
-                LimitSpacer(30)
-                self.starMergerHint()
-                LimitSpacer(40)
-                Button(Localize.string("common_submit2")) {
-                    confirmButtonAction(viewModel.paymentLink)
-                }
-                .buttonStyle(.confirmRed)
-                .disabled(viewModel.paymentLink == nil ? true : false)
-                .allowsHitTesting(viewModel.paymentLink == nil ? false : true)
+                .padding(.horizontal, 30)
             }
-            .padding(.horizontal, 30)
-            .KTOPageSpacer()
+            .pageBackgroundColor(.defaultGray)
         }
-        .pageBackgroundColor(.defaultGray)
     }
     
     private func starMergerTitle() -> some View {
         Text(Localize.string("cps_starmerger_title"))
-            .fontAndColor(font: .custom("PingFangSC-Semibold", size: 24), color: .white)
+            .customizedFont(fontWeight: .semibold, size: 24, color: .white)
     }
     
     private func amountRange() -> some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(Localize.string("common_tip_title_warm"))
-                .fontAndColor(font: .custom("PingFangSC-Regular", size: 14), color: .primaryGray)
+                .customizedFont(fontWeight: .regular, size: 14, color: .primaryGray)
             
             Text("\(viewModel.amountRange?.min.description() ?? "") RMB-\(viewModel.amountRange?.max.description() ?? "") RMB")
-                .fontAndColor(font: .custom("PingFangSC-Medium", size: 14), color: .white)
+                .customizedFont(fontWeight: .medium, size: 14, color: .white)
         }
     }
     
     private func description() -> some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(Localize.string("common_tip_title_warm"))
-                .fontAndColor(font: .custom("PingFangSC-Regular", size: 14), color: .primaryGray)
+                .customizedFont(fontWeight: .regular, size: 14, color: .primaryGray)
             
             Text(Localize.string("cps_starmerger_description"))
-                .fontAndColor(font: .custom("PingFangSC-Medium", size: 14), color: .white)
+                .customizedFont(fontWeight: .medium, size: 14, color: .white)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
     
     private func starMergerHint() -> some View {
         Text(Localize.string("cps_starmerger_hint"))
-            .fontAndColor(font: .custom("PingFangSC-Regular", size: 14), color: .primaryRed)
+            .customizedFont(fontWeight: .regular, size: 14, color: .primaryRed)
     }
 }
 

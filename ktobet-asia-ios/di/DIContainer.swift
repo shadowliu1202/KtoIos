@@ -149,7 +149,6 @@ class DIContainer {
     func registRepo(){
         container.register(PlayerRepository.self) { resolver in
             let httpClient = resolver.resolve(HttpClient.self)!
-            let localStorageRepo = resolver.resolve(LocalStorageRepositoryImpl.self)!
             let player = resolver.resolve(PlayerApi.self)!
             let portal = resolver.resolve(PortalApi.self)!
             let settingStore = resolver.resolve(SettingStore.self)!
@@ -675,6 +674,13 @@ class DIContainer {
             let applicationFactory = resolver.resolve(ApplicationFactory.self)!
             let depositService = applicationFactory.deposit()
             return StarMergerViewModel(depositService: depositService)
+        }
+        container.register(NewLoginViewModel.self) { (resolver) in
+            let authenticationUseCase = resolver.resolve(AuthenticationUseCase.self)!
+            let configurationUseCase = resolver.resolve(ConfigurationUseCase.self)!
+            let navigationViewModel = resolver.resolve(NavigationViewModel.self)!
+            let localStorageRepo = resolver.resolve(LocalStorageRepositoryImpl.self)!
+            return NewLoginViewModel(authenticationUseCase, configurationUseCase, navigationViewModel, localStorageRepo)
         }
     }
     

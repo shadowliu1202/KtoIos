@@ -5,6 +5,7 @@ import RxSwift
 import SharedBu
 import WebKit
 import Firebase
+import SwiftUI
 
 @main
 
@@ -25,6 +26,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        if ProcessInfo.processInfo.arguments.contains("isUITesting") {
+            let viewName = ProcessInfo.processInfo.environment["viewName"] ?? ""
+            guard let rootViewController = UITestAdapter.getViewController(viewName) else { fatalError("Not in UITesting") }
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = rootViewController
+            self.window?.makeKeyAndVisible()
+            return true
+        }
+        
         if Configuration.enableCrashlytics {
             FirebaseApp.configure()
         }
