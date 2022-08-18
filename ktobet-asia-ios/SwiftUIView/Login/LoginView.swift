@@ -12,7 +12,7 @@ struct LoginView: View {
     private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
     
     var body: some View {
-        AdaptiveScrollView {
+        ScrollView {
             PageContainer {
                 VStack(spacing: 0) {
                     self.loginTitle()

@@ -39,8 +39,8 @@ struct StarMergerView: View {
                 }
                 .padding(.horizontal, 30)
             }
-            .pageBackgroundColor(.defaultGray)
         }
+        .pageBackgroundColor(.defaultGray)
     }
     
     private func starMergerTitle() -> some View {
