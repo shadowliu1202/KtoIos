@@ -35,4 +35,16 @@ class NetworkFactory: ExternalProtocolService {
     func getArcade() -> ArcadeProtocol {
         ArcadeAdapter(ArcadeApi(httpClient))
     }
+    
+    func getCrypto() -> CryptoProtocol {
+        fatalError("TODO")
+    }
+    
+    func getWithdrawal() -> WithdrawalProtocol {
+        fatalError("TODO")
+    }
+    
+    func getPlayer() -> PlayerProtocol {
+        fatalError("TODO")
+    }
 }
