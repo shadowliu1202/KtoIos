@@ -45,12 +45,11 @@
                     <navigationItem key="navigationItem" id="eK9-oA-DBo">
                         <leftBarButtonItems>
                             <barButtonItem width="10" id="DZB-EC-Ou0"/>
-                            <barButtonItem image="KTO (D)" id="Lfn-s2-xH8">
-                                <color key="tintColor" name="red"/>
-                            </barButtonItem>
+                            <barButtonItem image="KTO (D)" style="plain" id="Lfn-s2-xH8"/>
                         </leftBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="logoItem" destination="Lfn-s2-xH8" id="nMT-2f-Eqj"/>
                         <segue destination="Hwk-qb-uGL" kind="presentation" identifier="GoToSignup" id="VbY-sp-yfg"/>
                         <segue destination="k1X-SW-WfT" kind="show" identifier="goResetPasswordSegue" id="zn1-b8-YcB"/>
                     </connections>
@@ -623,9 +622,6 @@
         <image name="Tips" width="24" height="24"/>
         <namedColor name="blackTwo">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="red">
-            <color red="0.94901960784313721" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -5,6 +5,7 @@ import SharedBu
 
 class NewLoginViewController: LandingViewController {
     private let segueSignup = "GoToSignup"
+    @IBOutlet weak var logoItem: UIBarButtonItem!
     
     var barButtonItems: [UIBarButtonItem] = []
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
@@ -19,6 +20,7 @@ class NewLoginViewController: LandingViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        logoItem.image = UIImage(named: "KTO (D)")?.withRenderingMode(.alwaysOriginal)
         var barButtoms = [padding, register, spacing, customService]
         if Configuration.manualUpdate {
             let spacing2 = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
