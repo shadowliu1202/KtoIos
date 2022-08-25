@@ -86,8 +86,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: [InProcessBean]!
         let url = URL(string: httpClient.host.absoluteString + "onlinechat/api/room/in-process")!
-        let urlSession = generateUrlSession()
-        let task = urlSession.dataTask(with: url) {(data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<[InProcessBean]>.self, from: data).data
             group.leave()
@@ -114,8 +113,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: [RoomHistory]!
         let url = URL(string: httpClient.host.absoluteString + "api/room/record/\(roomId)")!
-        let urlSession = generateUrlSession()
-        let task = urlSession.dataTask(with: url) {(data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<ChatHistoryBean>.self, from: data).data?.roomHistories
             group.leave()
@@ -195,8 +193,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: Int32?
         let url = URL(string: httpClient.host.absoluteString + "onlinechat/api/room/queue-number")!
-        let urlSession = generateUrlSession()
-        let task = urlSession.dataTask(with: url) {(data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<Int32>.self, from: data).data
             group.leave()
@@ -229,8 +226,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.enter()
         var decodedObject: PlayerInChatBean? = nil
         let url = URL(string: httpClient.host.absoluteString + "onlinechat/api/room/player/in-chat")!
-        let urlSession = generateUrlSession()
-        let task = urlSession.dataTask(with: url) {(data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             decodedObject = try? JSONDecoder().decode(ResponseData<PlayerInChatBean>.self, from: data).data
             group.leave()
@@ -240,14 +236,6 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         group.wait()
         
         return decodedObject
-    }
-    
-    private func generateUrlSession() -> URLSession {
-        if Configuration.disableSSL {
-            return URLSession(configuration: .default, delegate: NSURLSessionPinningDelegate(httpClient: httpClient), delegateQueue: nil)
-        } else {
-            return URLSession.shared
-        }
     }
     
     private func subscribeHub() {
