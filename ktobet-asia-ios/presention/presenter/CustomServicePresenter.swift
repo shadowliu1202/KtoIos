@@ -60,6 +60,14 @@ class CustomServicePresenter: NSObject {
         }
     }
     
+    var isInCallingView: Bool = false {
+        willSet(inCallingView) {
+            if inCallingView {
+                self.ballWindow?.isHidden = true
+            }
+        }
+    }
+    
     var topViewController: UIViewController? {
         if let root = UIApplication.shared.windows.first?.topViewController as? UINavigationController {
             if let top = root.topViewController {
@@ -107,7 +115,7 @@ class CustomServicePresenter: NSObject {
     func initCustomerService() -> Completable {
         self.csViewModel.searchChatRoom().asCompletable().andThen(self.csViewModel.preLoadChatRoomStatus)
             .first()
-            .observeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.instance)
             .do(onSuccess: { status in
                 guard let status = status else { return }
                 switch status {
@@ -126,7 +134,9 @@ class CustomServicePresenter: NSObject {
                         self.hiddenServiceIcon()
                     }
                     
-                    self.showServiceIcon()
+                    if !self.isInCallingView {
+                        self.showServiceIcon()
+                    }
                 case .closed:
                     self.setServiceIconTap {
                         self.switchToChatRoom(isRoot: true)

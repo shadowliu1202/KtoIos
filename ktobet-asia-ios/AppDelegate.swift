@@ -102,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             viewModel
                 .checkIsLogged()
                 .subscribe { (isLogged) in
-                    CustomServicePresenter.shared.initCustomerService().observeOn(MainScheduler.asyncInstance).subscribe(onCompleted: {
+                    CustomServicePresenter.shared.initCustomerService().subscribe(onCompleted: {
                         print("Completed")
                     }).disposed(by: self.disposeBag)
 
