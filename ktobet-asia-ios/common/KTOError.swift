@@ -72,7 +72,7 @@ extension Error {
     }
     
     func isNetworkLost() -> Bool {
-        if case let apiException as ApiException = self, let errorCode = apiException.errorCode, let code = Int(errorCode) {
+        if case let apiException as ApiException = self, let code = Int(apiException.errorCode) {
             return code.isNetworkConnectionLost()
         } else if case let moyaError as MoyaError = self {
             return isNetworkLost(moyaError)
