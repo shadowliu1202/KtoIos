@@ -50,6 +50,7 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
     
     private func refreshHttpClient(_ player: Player) {
         repoPlayer.refreshHttpClient(playerLocale: player.locale())
+        CustomServicePresenter.shared.changeCsDomainIfNeed()
     }
     
     func logout()->Completable  {

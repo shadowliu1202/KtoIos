@@ -31,11 +31,14 @@ class CustomerServiceMainViewController: LobbyViewController {
     }
 
     private func initUI() {
-        callinBtn.bind(CustomServicePresenter.shared.chatRoomConnectStatus.asObservable(), disposeBag) { [unowned self] (pressCallin) in
+        observeCustomerServiceExist().subscribe(onNext: { [unowned self] connectStatusExist in
+            self.callinBtn.isEnable = !connectStatusExist
+        }).disposed(by: disposeBag)
+        
+        callinBtn.onPressed { [unowned self] (pressCallin) in
             pressCallin.throttle(.seconds(3), latest: false, scheduler: MainScheduler.instance).flatMap({ [unowned self] () -> Completable in
                 if NetworkStateMonitor.shared.isNetworkConnected == true {
-                    self.callinBtn.isEnable = false
-                    return CustomServicePresenter.shared.startCustomerService(from: self, delegate: self)
+                    return CustomServicePresenter.shared.startCustomerService(from: self)
                 } else {
                     return networkLostToast()
                 }
@@ -44,14 +47,20 @@ class CustomerServiceMainViewController: LobbyViewController {
                 self?.callinBtn.isEnable = true
                 return Observable.error($0)
             }).retry()
-            .subscribe( onCompleted: { [weak self] in
-                self?.callinBtn.isEnable = true
-            }).disposed(by: self.disposeBag)
+            .subscribe()
+            .disposed(by: self.disposeBag)
         }
         tableView.dataSource = self
         tableView.delegate = self
         tableView.setHeaderFooterDivider()
         tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    private func observeCustomerServiceExist() -> Observable<Bool> {
+        return CustomServicePresenter.shared.chatRoomConnectStatus
+            .map { status in
+                status != PortalChatRoom.ConnectStatus.notexist
+            }
     }
     
     private func dataBinding() {
@@ -176,14 +185,7 @@ class CallinButton: UIView {
         self.immediatelyStyle()
     }
     
-    func bind(_ status: Observable<Bool>, _ disposeBag: DisposeBag, callback: ((Observable<Void>) -> ())?) {
-        status.subscribe(onNext: { [weak self] in
-            if $0 {
-                self?.immediatelyStyle()
-            } else {
-                self?.connectedStyle()
-            }
-        }).disposed(by: disposeBag)
+    func onPressed(_ callback: ((Observable<Void>) -> ())?) {
         callback?(btn.rx.touchUpInside.asObservable())
     }
     

@@ -20,14 +20,15 @@ class ChatRoomViewController: CommonViewController {
     var banner: UIView?
     
     private var activityIndicator = UIActivityIndicatorView(style: .large)
-    private let disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     private var imagePickerView: ImagePickerViewController!
     private var imageIndex = 0
     private var imageUploadInex = 0
     private var dataCount = 0
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    // FIXME: Use viewDidLoad after resolve memory leak
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.fullscreen().subscribe().disposed(by: disposeBag)
         setupUI()
         textFieldBinding()
@@ -40,6 +41,7 @@ class ChatRoomViewController: CommonViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         IQKeyboardManager.shared.enable = true
+        disposeBag = DisposeBag()
     }
     
     // MARK: UI

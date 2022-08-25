@@ -32,32 +32,32 @@ class DIContainer {
     func registerPlayerConfig() {
         container.register(PlayerLocaleConfiguration.self) { _ in
             return LocalStorageRepositoryImpl()
-        }.inObjectScope(.lobby)
+        }.inObjectScope(.locale)
     }
     func registerHttpClient() {
         container.register(KtoURL.self) { resolver in
             return KtoURL(playConfig: resolver.resolve(PlayerLocaleConfiguration.self)!)
-        }.inObjectScope(.lobby)
+        }.inObjectScope(.locale)
         container.register(HttpClient.self) { resolver in
             return HttpClient(ktoUrl: resolver.resolve(KtoURL.self)!)
-        }.inObjectScope(.lobby)
+        }.inObjectScope(.locale)
     }
     func registerCustomServicePresenter() {
         container.register(CustomServicePresenter.self) { resolver in
             let csViewModel = resolver.resolve(CustomerServiceViewModel.self)!
             let surveyViewModel = resolver.resolve(SurveyViewModel.self)!
-            return CustomServicePresenter(csViewModel: csViewModel, surveyViewModel: surveyViewModel)
-        }.inObjectScope(.lobby)
+            return CustomServicePresenter(csViewModel, surveyViewModel)
+        }.inObjectScope(.application)
     }
     func registFactory() {
         container.register(PlayerConfiguration.self) { _ in
             return LocalStorageRepositoryImpl()
-        }.inObjectScope(.lobby)
+        }.inObjectScope(.locale)
         
         container.register(ExternalProtocolService.self) { resolver in
             let httpClient = resolver.resolve(HttpClient.self)!
             return NetworkFactory(httpClient)
-        }.inObjectScope(.lobby)
+        }.inObjectScope(.locale)
         
         container.register(ExternalStringService.self) { _ in
             return DepositStringServiceFactory()
@@ -76,7 +76,7 @@ class DIContainer {
                                       externalProtocolService: network,
                                       stringServiceFactory: stringService,
                                       stringSupporter: localize)
-        }.inObjectScope(.lobby)
+        }.inObjectScope(.locale)
     }
     
     func registApi() {
@@ -307,7 +307,7 @@ class DIContainer {
         }
         container.register(MemoryCacheImpl.self) { _ in
             return MemoryCacheImpl()
-        }.inObjectScope(.lobby)
+        }.inObjectScope(.locale)
     }
     
     func registUsecase(){
@@ -640,7 +640,7 @@ class DIContainer {
         }
         container.register(CustomerServiceViewModel.self) { resolver in
             return CustomerServiceViewModel(customerServiceUseCase: resolver.resolve(CustomerServiceUseCase.self)!)
-        }
+        }.inObjectScope(.locale)
         container.register(SurveyViewModel.self) { resolver in
             return SurveyViewModel(resolver.resolve(CustomerServiceSurveyUseCase.self)!, resolver.resolve(AuthenticationUseCase.self)!)
         }
@@ -650,7 +650,7 @@ class DIContainer {
         container.register(TermsViewModel.self) { resolver in
             let systemUseCase = resolver.resolve(GetSystemStatusUseCase.self)!
             return TermsViewModel(localizationPolicyUseCase: resolver.resolve(LocalizationPolicyUseCase.self)!, systemStatusUseCase: systemUseCase)
-        }
+        }.inObjectScope(.locale)
         container.register(ModifyProfileViewModel.self) { resolver in
             let playerUseCase = resolver.resolve(PlayerDataUseCase.self)!
             let usecaseConfiguration = resolver.resolve(ConfigurationUseCase.self)!
@@ -693,7 +693,7 @@ class DIContainer {
 
 extension ObjectScope {
     static let application = ObjectScope(storageFactory: PermanentStorage.init)
-    static let lobby = ObjectScope(storageFactory: PermanentStorage.init)
+    static let locale = ObjectScope(storageFactory: PermanentStorage.init)
     static let landing = ObjectScope(storageFactory: PermanentStorage.init)
     static let depositFlow = ObjectScope(storageFactory: PermanentStorage.init)
 }

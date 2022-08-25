@@ -30,7 +30,7 @@ class CustomerServiceButtonItem: TextBarButtonItem {
     init(serviceStatusViewModel: ServiceStatusViewModel, _ delegate: CustomServiceDelegate,_ disposeBag: DisposeBag) {
         super.init(title: Localize.string("customerservice_action_bar_title"))
         self.senderId(customerServiceBarBtnId)
-        delegate.monitorChatRoomStatus(disposeBag)
+        CustomServicePresenter.shared.observeCsStatus(by: delegate, disposeBag)
         self.actionHandler({ [weak self] _ in
             guard let `self` = self, let vc = delegate as? UIViewController else { return }
             self.isEnabled = false
@@ -43,7 +43,7 @@ class CustomerServiceButtonItem: TextBarButtonItem {
                         NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
                     }, cancel: nil)
                 case is MaintenanceStatus.Product:
-                    CustomServicePresenter.shared.startCustomerService(from: vc, delegate: delegate)
+                    CustomServicePresenter.shared.startCustomerService(from: vc)
                         .subscribe(onCompleted: { [weak self] in
                             self?.isEnabled = true
                         }, onError: { [weak self] in

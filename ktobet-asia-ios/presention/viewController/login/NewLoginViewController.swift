@@ -48,7 +48,6 @@ class NewLoginViewController: LandingViewController {
     }
     
     private func executeNavigation(_ navigation: NavigationViewModel.LobbyPageNavigation) {
-        observeCustomerService()
         switch navigation {
         case .portalAllMaintenance:
             navigateToPortalMaintenancePage()
@@ -66,10 +65,6 @@ class NewLoginViewController: LandingViewController {
         case .setDefaultProduct:
             navigateToSetDefaultProductPage()
         }
-    }
-    
-    private func observeCustomerService() {
-        CustomServicePresenter.shared.observeCustomerService().subscribe().disposed(by: disposeBag)
     }
 
     private func navigateToPortalMaintenancePage() {
