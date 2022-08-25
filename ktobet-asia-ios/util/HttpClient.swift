@@ -253,9 +253,7 @@ class HttpClient {
         let configuration = URLSessionConfiguration.default
         configuration.headers = .default
         configuration.timeoutIntervalForRequest = 30
-        let evaluators: [String: ServerTrustEvaluating] = [domain: DisabledTrustEvaluator()]
-        let manager = ServerTrustManager(evaluators: evaluators)
-        return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor, serverTrustManager: manager)
+        return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor)
     }
     
     private func printResponseData(_ method: String, response: Response) {
