@@ -56,7 +56,7 @@ enum Configuration: String {
     static var manualControlNetwork: Bool   = env.manualControlNetwork
 
     static func getKtoAgent() -> String {
-        let userAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")(\(UIDevice.modelName))"
+        let userAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(UIDevice.modelName))"
         return userAgent
     }
 }
