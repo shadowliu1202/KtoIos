@@ -5,60 +5,68 @@ import SharedBu
 import RxRelay
 import RxSwiftExt
 
-let CustomService = CustomServicePresenter.shared
 let endChatBarBtnId = 1003
 let collapseBarBtnId = 1004
 
 protocol CustomServiceDelegate: AnyObject {
     func customServiceBarButtons() -> [UIBarButtonItem]?
-    func monitorChatRoomStatus(_ disposeBag: DisposeBag)
-    func sessionClosed()
-    func removeCustomServiceBarButtons()
-    func sessionCollapse()
+    func didCsIconAppear(isAppear: Bool)
 }
 
 extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewController  {
-    func sessionClosed() {
-        reAddCustomServiceBarButtons()
+    func didCsIconAppear(isAppear: Bool) {
+        if isAppear {
+            removeCustomServiceBarButtons()
+        } else {
+            reAddCustomServiceBarButtons()
+        }
     }
     
     private func reAddCustomServiceBarButtons() {
         self.bind(position: .right, barButtonItems: barButtonItems)
     }
     
-    func removeCustomServiceBarButtons() {
+    private func removeCustomServiceBarButtons() {
         if let csItems = customServiceBarButtons() {
             let items = barButtonItems.filter({ !csItems.contains($0)})
             self.bind(position: .right, barButtonItems: items)
         }
     }
-    
-    func monitorChatRoomStatus(_ disposeBag: DisposeBag) {
-        CustomService.iconOb
-            .observeOn(MainScheduler.asyncInstance)
-            .subscribe(onNext: {[weak self] isHidden in
-                guard let self = self else { return }
-                if isHidden {
-                    self.sessionClosed()
-                } else {
-                    self.removeCustomServiceBarButtons()
-                }
-            }).disposed(by: disposeBag)
-    }
-    func sessionCollapse() { }
 }
 
-class CustomServicePresenter: NSObject {
-    static var shared: CustomServicePresenter { DI.resolve(CustomServicePresenter.self)! }
-    weak var delegate: CustomServiceDelegate?
-    let storyboard = UIStoryboard(name: "CustomService", bundle: nil)
-    
-    fileprivate var csViewModel: CustomerServiceViewModel
-    fileprivate var surveyViewModel: SurveyViewModel
 
-    private(set)var ballWindow: CustomerServiceIconViewWindow?
+class CustomServicePresenter: NSObject {
+    static var shared: CustomServicePresenter = DI.resolve(CustomServicePresenter.self)!
     
-    private let disposeBag = DisposeBag()
+    var isInSideMenu: Bool = false {
+        willSet(inSideMenu) {
+            guard isCSIconAppear.value else { return }
+            if inSideMenu {
+                self.ballWindow?.isHidden = true
+            } else {
+                self.ballWindow?.isHidden = false
+            }
+        }
+    }
+    
+    var isInGameWebView: Bool = false {
+        willSet(inGameWebView) {
+            guard isCSIconAppear.value else { return }
+            if inGameWebView {
+                self.ballWindow?.isHidden = true
+            } else {
+                self.ballWindow?.isHidden = false
+            }
+        }
+    }
+    
+    var isInCallingView: Bool = false {
+        willSet(inCallingView) {
+            if inCallingView {
+                self.ballWindow?.isHidden = true
+            }
+        }
+    }
     
     var topViewController: UIViewController? {
         if let root = UIApplication.shared.windows.first?.topViewController as? UINavigationController {
@@ -72,51 +80,25 @@ class CustomServicePresenter: NSObject {
         return nil
     }
     
-    lazy var chatRoomConnectStatus = iconOb
+    var csViewModel: CustomerServiceViewModel
+    var surveyViewModel: SurveyViewModel
+    lazy var observeCsIcon: Observable<Bool> = isCSIconAppear.share(replay: 1)
+    var chatRoomConnectStatus: Observable<PortalChatRoom.ConnectStatus> { csViewModel.preLoadChatRoomStatus.share(replay: 1) }
     
-    init(csViewModel: CustomerServiceViewModel, surveyViewModel: SurveyViewModel) {
-        self.csViewModel = csViewModel
+    private(set) var ballWindow: CustomerServiceIconViewWindow?
+    
+    private let storyboard = UIStoryboard(name: "CustomService", bundle: nil)
+    private let isCSIconAppear = BehaviorRelay.init(value: false)
+    private let disposeBag = DisposeBag()
+    private var testDisposeBag = DisposeBag()
+    
+    init(_ customerServiceViewModel: CustomerServiceViewModel, _ surveyViewModel: SurveyViewModel) {
+        csViewModel = customerServiceViewModel
         self.surveyViewModel = surveyViewModel
+        super.init()
+        addServiceIcon()
     }
     
-    func observeCustomerService() -> Completable {
-        Completable.create {[weak self] completable in
-            guard let self = self else {  return Disposables.create() }
-            self.addServiceIcon()
-            self.csViewModel.searchChatRoom().subscribe(onError: { error in completable(.error(error)) }).disposed(by: self.disposeBag)
-            Observable.combineLatest(self.csViewModel.screenSizeOption, self.csViewModel.preLoadChatRoomStatus)
-                .observeOn(MainScheduler.asyncInstance)
-                .subscribe(onNext: {(size, status) in
-                    if size == .Minimize {
-                        switch status {
-                        case .notexist:
-                            self.hiddenServiceIcon()
-                        case .connected:
-                            self.setServiceIconTap() { self.switchToChatRoom(isRoot: true) }
-                            self.showServiceIcon()
-                        case .connecting:
-                            self.setServiceIconTap() { self.switchToCalling(isRoot: true, svViewModel: self.surveyViewModel) }
-                            self.showServiceIcon()
-                        case .closed:
-                            self.setServiceIconTap() { self.switchToChatRoom(isRoot: true) }
-                            self.showServiceIcon()
-                        default:
-                            break
-                        }
-                        completable(.completed)
-                    } else {
-                        self.hiddenServiceIcon()
-                    }
-                }).disposed(by: self.disposeBag)
-            return Disposables.create()
-        }
-    }
-    
-    fileprivate var isHiddenIcon = BehaviorRelay<Bool>(value: true)
-    fileprivate lazy var iconOb: Observable<Bool> = Observable.combineLatest(csViewModel.preLoadChatRoomStatus, isHiddenIcon)
-        .map{ $0 == PortalChatRoom.ConnectStatus.notexist || $1 }
-        .share(replay: 1)
-
     private func addServiceIcon() {
         if ballWindow == nil {
             var rightPadding: CGFloat = 80
@@ -127,9 +109,45 @@ class CustomServicePresenter: NSObject {
             }
             
             ballWindow = CustomerServiceIconViewWindow(frame: CGRect(x: UIScreen.main.bounds.width - rightPadding, y: UIScreen.main.bounds.height - bottomPadding, width: 56, height: 56), viewModel: csViewModel)
-            iconOb.bind(to: self.ballWindow!.rx.isHidden).disposed(by: disposeBag)
-
         }
+    }
+    
+    func initCustomerService() -> Completable {
+        self.csViewModel.searchChatRoom().asCompletable().andThen(self.csViewModel.preLoadChatRoomStatus)
+            .first()
+            .observeOn(MainScheduler.instance)
+            .do(onSuccess: { status in
+                guard let status = status else { return }
+                switch status {
+                case .notexist:
+                    self.hiddenServiceIcon()
+                case .connected:
+                    self.setServiceIconTap {
+                        self.switchToChatRoom(isRoot: true)
+                        self.hiddenServiceIcon()
+                    }
+                    
+                    self.showServiceIcon()
+                case .connecting:
+                    self.setServiceIconTap {
+                        self.switchToCalling(isRoot: true, svViewModel: self.surveyViewModel)
+                        self.hiddenServiceIcon()
+                    }
+                    
+                    if !self.isInCallingView {
+                        self.showServiceIcon()
+                    }
+                case .closed:
+                    self.setServiceIconTap {
+                        self.switchToChatRoom(isRoot: true)
+                        self.hiddenServiceIcon()
+                    }
+                    
+                    self.showServiceIcon()
+                default:
+                    break
+                }
+            }).asCompletable()
     }
     
     private func setServiceIconTap(touchEvent: (() -> ())?) {
@@ -138,23 +156,17 @@ class CustomServicePresenter: NSObject {
         }
     }
     
-    func removeServiceIcon() {
-        ballWindow = nil
-    }
-    
-    var isInSideMenu: Bool = false
     func showServiceIcon() {
-        if isInSideMenu { return }
-        self.isHiddenIcon.accept(false)
+        self.ballWindow?.isHidden = false
+        isCSIconAppear.accept(true)
     }
     
     func hiddenServiceIcon() {
-        self.isHiddenIcon.accept(true)
+        self.ballWindow?.isHidden = true
+        isCSIconAppear.accept(false)
     }
     
-    func startCustomerService(from vc: UIViewController, delegate: CustomServiceDelegate?) -> Completable {
-        self.delegate = delegate
-        delegate?.removeCustomServiceBarButtons()
+    func startCustomerService(from vc: UIViewController) -> Completable {
         let csViewModel = self.csViewModel
         let surveyViewModel = self.surveyViewModel
         return csViewModel.checkServiceAvailable().flatMap({ (isAvailable) in
@@ -163,20 +175,19 @@ class CustomServicePresenter: NSObject {
             } else {
                 return Single.error(ServiceUnavailableException())
             }
-        }).do(onSuccess: { (info: Survey) in
+        }).do(onSuccess: { [unowned self] (info: Survey) in
             if info.surveyQuestions.isEmpty {
-                CustomService.switchToCalling(isRoot: true, svViewModel: surveyViewModel)
+                self.switchToCalling(isRoot: true, svViewModel: surveyViewModel)
             } else {
-                CustomService.switchToPrechat(from: vc, vm: surveyViewModel, csViewModel: csViewModel)
+                self.switchToPrechat(from: vc, vm: surveyViewModel, csViewModel: csViewModel)
             }
         }).asCompletable()
             .catchError({ (error) in
                 switch error {
                 case is ServiceUnavailableException:
-                    CustomService.switchToCalling(isRoot: true, svViewModel: surveyViewModel)
+                    self.switchToCalling(isRoot: true, svViewModel: surveyViewModel)
                     return Completable.empty()
                 default:
-                    delegate?.sessionClosed()
                     return Completable.error(error)
                 }
             })
@@ -280,15 +291,11 @@ class CustomServicePresenter: NSObject {
         self.topViewController?.navigationController?.setViewControllers([exitSurveyVC], animated: false)
     }
     
-    private func cleanSurveyAnswers() {
-        csViewModel.setupSurveyAnswer(answers: nil)
-    }
-    
     func close(completion: (() -> Void)? = nil) {
         csViewModel.closeChatRoom()
             .subscribe(onCompleted: {[weak self] in
                 self?.cleanSurveyAnswers()
-                self?.delegate?.sessionClosed()
+                self?.hiddenServiceIcon()
                 print("close room")
             }).disposed(by: disposeBag)
         
@@ -296,14 +303,44 @@ class CustomServicePresenter: NSObject {
             NavigationManagement.sharedInstance.viewController = self?.topViewController
             completion?()
         })
+        
+        changeCsDomainIfNeed()
+    }
+    
+    private func cleanSurveyAnswers() {
+        csViewModel.setupSurveyAnswer(answers: nil)
     }
     
     func collapse() {
+        self.setServiceIconTap {
+            self.switchToChatRoom(isRoot: true)
+            self.hiddenServiceIcon()
+        }
+        
+        showServiceIcon()
         csViewModel.minimize().subscribe(onCompleted: {}).disposed(by: disposeBag)
-        CustomServicePresenter.shared.csViewModel.minimize().subscribe(onCompleted: { }).disposed(by: disposeBag)
         topViewController?.navigationController?.dismiss(animated: true, completion: {[weak self] in
-            self?.delegate?.sessionCollapse()
             NavigationManagement.sharedInstance.viewController = self?.topViewController
         })
+    }
+    
+    func observeCsStatus(by delegate: CustomServiceDelegate, _ disposeBag: DisposeBag) {
+        observeCsIcon
+            .subscribeOn(MainScheduler.instance)
+            .subscribe(onNext: delegate.didCsIconAppear).disposed(by: disposeBag)
+    }
+    
+    func changeCsDomainIfNeed() {
+        chatRoomConnectStatus.first()
+            .map({ connectStatus in
+                connectStatus == PortalChatRoom.ConnectStatus.notexist
+            })
+            .subscribeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [unowned self] noConnectStatus in
+                if noConnectStatus {
+                    self.csViewModel = DI.resolve(CustomerServiceViewModel.self)!
+                    self.surveyViewModel = DI.resolve(SurveyViewModel.self)!
+                }
+            }).disposed(by: disposeBag)
     }
 }

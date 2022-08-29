@@ -87,6 +87,7 @@ platform :ios do
 	end
 
 	lane :getNextTestflightBuildNumber do |options|
+ 		setupKeyStore()
 		id  = getIdentifier(preRelease: options[:releaseTarget])
 		buildNumber = latest_testflight_build_number(app_identifier: id, version:options[:targetVersion], initial_build_number:0)
 		sh("echo #{buildNumber} > buildNumber")

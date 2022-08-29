@@ -32,7 +32,6 @@ class LaunchViewController: UIViewController {
     }
     
     private func executeNavigation(navigation: NavigationViewModel.LobbyPageNavigation) {
-        observeCustomerService()
         switch navigation {
         case .portalAllMaintenance:
             navigateToPortalMaintenancePage()
@@ -52,15 +51,17 @@ class LaunchViewController: UIViewController {
         }
     }
     
-    private func observeCustomerService() {
-        CustomServicePresenter.shared.observeCustomerService().subscribe().disposed(by: disposeBag)
+    private func initCustomerService() {
+        CustomServicePresenter.shared.initCustomerService().subscribe().disposed(by: disposeBag)
     }
 
     private func navigateToPortalMaintenancePage() {
+        initCustomerService()
         NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
     }
     
     private func navigateToSBKMaintenancePage() {
+        initCustomerService()
         NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
     }
     
@@ -73,14 +74,17 @@ class LaunchViewController: UIViewController {
     }
     
     private func navigateToLandingPage() {
+        initCustomerService()
         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
     }
     
     private func navigateToProductPage(_ productType: ProductType) {
+        initCustomerService()
         NavigationManagement.sharedInstance.goTo(productType: productType)
     }
     
     private func navigateToMaintainPage(_ type: ProductType) {
+        initCustomerService()
         NavigationManagement.sharedInstance.goTo(productType: type, isMaintenance: true)
     }
     
@@ -91,6 +95,7 @@ class LaunchViewController: UIViewController {
     }
     
     private func navigateToSetDefaultProductPage() {
+        initCustomerService()
         NavigationManagement.sharedInstance.goToSetDefaultProduct()
     }
 }

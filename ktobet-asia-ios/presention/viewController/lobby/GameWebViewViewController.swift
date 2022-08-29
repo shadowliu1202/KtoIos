@@ -24,7 +24,7 @@ class GameWebViewViewController: UIViewController {
         super.viewDidLoad()
         self.bind(position: .left, barButtonItems: .kto(.close))
         self.title = gameName
-        CustomServicePresenter.shared.hiddenServiceIcon()
+        CustomServicePresenter.shared.isInGameWebView = true
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .all
         let wkWebConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: self.view.bounds, configuration: wkWebConfig)
@@ -57,7 +57,7 @@ class GameWebViewViewController: UIViewController {
         UIDevice.current.setValue(value, forKey: "orientation")
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
         self.delegate?.gameDidDisappear(productType: viewModel?.getGameProductType())
-        CustomServicePresenter.shared.showServiceIcon()
+        CustomServicePresenter.shared.isInGameWebView = false
     }
     
     deinit {

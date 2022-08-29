@@ -37,7 +37,7 @@ class PlayerViewModel {
     
     func logout() -> Completable {
         authUsecase.logout().do(afterCompleted: {
-            DI.resetObjectScope(.lobby)
+            DI.resetObjectScope(.locale)
         })
     }
     
