@@ -3,6 +3,7 @@ import SharedBu
 import RxSwift
 
 typealias ProductFavoriteHelper = ProductsViewController & ProductVCProtocol & WebGameViewCallback
+let reuseFooterTag = 300
 
 class ProductGameDataSourceDelegate : NSObject {
     enum CellType {
@@ -81,27 +82,30 @@ extension ProductGameDataSourceDelegate: UICollectionViewDataSource {
         if isLookMore {
             switch kind {
             case UICollectionView.elementKindSectionFooter:
-                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Footer", for: indexPath)
-                let imageView = UIImageView(image: UIImage(named: "see-more"))
-                imageView.backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
-                imageView.sizeToFit()
-                imageView.cornerRadius = imageView.frame.width / 2
-                imageView.clipsToBounds = true
-                headerView.addSubview(imageView)
-                imageView.translatesAutoresizingMaskIntoConstraints = false
-                imageView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: -18).isActive = true
-                imageView.centerXAnchor.constraint(equalTo: headerView.centerXAnchor, constant: -4).isActive = true
-                let textLabel = UILabel()
-                headerView.addSubview(textLabel)
-                textLabel.text = Localize.string("product_see_more")
-                textLabel.font = UIFont(name: "PingFangSC-Regular", size: 12)
-                textLabel.textColor = UIColor.textPrimaryDustyGray
-                textLabel.translatesAutoresizingMaskIntoConstraints = false
-                textLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
-                textLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor, constant: -4).isActive = true
-                let gesture = UITapGestureRecognizer(target: self, action: #selector(lookMore))
-                headerView.addGestureRecognizer(gesture)
-                return headerView
+                let reuseView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Footer", for: indexPath)
+                if reuseView.tag == 0 {
+                    let imageView = UIImageView(image: UIImage(named: "see-more"))
+                    imageView.backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+                    imageView.sizeToFit()
+                    imageView.cornerRadius = imageView.frame.width / 2
+                    imageView.clipsToBounds = true
+                    reuseView.addSubview(imageView)
+                    imageView.translatesAutoresizingMaskIntoConstraints = false
+                    imageView.centerYAnchor.constraint(equalTo: reuseView.centerYAnchor, constant: -18).isActive = true
+                    imageView.centerXAnchor.constraint(equalTo: reuseView.centerXAnchor, constant: -4).isActive = true
+                    let textLabel = UILabel()
+                    reuseView.addSubview(textLabel)
+                    textLabel.text = Localize.string("product_see_more")
+                    textLabel.font = UIFont(name: "PingFangSC-Regular", size: 12)
+                    textLabel.textColor = UIColor.textPrimaryDustyGray
+                    textLabel.translatesAutoresizingMaskIntoConstraints = false
+                    textLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
+                    textLabel.centerXAnchor.constraint(equalTo: reuseView.centerXAnchor, constant: -4).isActive = true
+                    let gesture = UITapGestureRecognizer(target: self, action: #selector(lookMore))
+                    reuseView.addGestureRecognizer(gesture)
+                    reuseView.tag = reuseFooterTag
+                }
+                return reuseView
             default:
                 fatalError("Unexpected element kind")
             }

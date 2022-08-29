@@ -56,16 +56,12 @@ class SlotViewController: ProductsViewController {
         jackpotCollectionView.contentInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         recentlyCollectionView.contentInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         newCollectionView.contentInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+        bindingData()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.pagerView.frame = CGRect(x: 0, y: 66, width: self.view.frame.width, height: 240)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        bindingData()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
