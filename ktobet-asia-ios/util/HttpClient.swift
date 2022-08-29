@@ -13,19 +13,47 @@ import SwiftyJSON
 import UIKit
 import Connectivity
 import SharedBu
+import RxBlocking
 
 let debugCharCount = 500
 
 class KtoURL {
     private var playConfig: PlayerLocaleConfiguration
-    private lazy var baseUrl = hostName.mapValues{ "https://\($0)/" }
     private var hostName: [String: String]!
-
-    fileprivate lazy var host = URL(string: baseUrl[playConfig.getCultureCode()]!)!
+    fileprivate lazy var baseUrl = hostName.mapValues{ "https://\($0)/" }
     
     init(playConfig: PlayerLocaleConfiguration) {
         self.playConfig = playConfig
         self.hostName = Configuration.hostName.mapValues{ $0.first(where: checkNetwork) ?? $0.first! }
+    }
+    
+    private func checkNetwork(urlString: String) -> Bool {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 4
+        let session = AlamofireSessionWithRetrier(configuration: configuration)
+        let result = request(session: session, hostName: urlString).toBlocking()
+        do{
+            return try result.single()
+        } catch {
+            return false
+        }
+    }
+    
+    private func request(session: Session, hostName: String) -> Single<Bool> {
+        return RxSwift.Single<Bool>.create { observer in
+            let request = session.request("https://\(hostName)/", method: .head).response { response in
+                switch response.result {
+                case .success:
+                    observer(.success(true))
+                case let .failure(error):
+                    observer(.success(false))
+                    print("afRequestError:\(error)")
+                }
+            }
+            return Disposables.create {
+                request.cancel()
+            }
+        }
     }
     
     func getAffiliateUrl() -> URL? {
@@ -33,48 +61,6 @@ class KtoURL {
             return URL(string: "\(host)affiliate")!
         }
         return nil
-    }
-    
-    private func checkNetwork(url: String) -> Bool {
-        let group = DispatchGroup()
-        group.enter()
-        var isSuccess = false
-        guard let url = URL(string: "https://\(url)") else {
-            group.leave()
-            return isSuccess
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "HEAD"
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 4
-        URLSession(configuration: configuration)
-            .dataTask(with: request) { (_, response, error) -> Void in
-            guard error == nil else {
-                print("Error:", error ?? "")
-                isSuccess = false
-                if case .sessionTaskFailed(let err) = error as? AFError {
-                    NetworkStateMonitor.shared.requestErrorCallback(err)
-                } else {
-                    NetworkStateMonitor.shared.requestErrorCallback(error!)
-                }
-                group.leave()
-                return
-            }
-
-            guard (response as? HTTPURLResponse)?
-                .statusCode == 200 else {
-                isSuccess = false
-                group.leave()
-                return
-            }
-
-            isSuccess = true
-            group.leave()
-        }.resume()
-
-        group.wait()
-        return isSuccess
     }
 }
 
@@ -99,13 +85,14 @@ class HttpClient {
     private var provider: MoyaProvider<MultiTarget>!
     private var retryProvider: MoyaProvider<MultiTarget>!
     private var session: Session { return AF }
+    private var playConfig: PlayerLocaleConfiguration
     private let ktoUrl: KtoURL
     var host: URL {
         get {
             if Configuration.manualControlNetwork && !NetworkStateMonitor.shared.isNetworkConnected {
                 return URL(string: "https://")!
             }
-            return ktoUrl.host
+            return URL(string: ktoUrl.baseUrl[playConfig.getCultureCode()]!)!
         }
     }
     var domain: String {
@@ -123,13 +110,21 @@ class HttpClient {
         return dateFormatter
     }
 
-    init(ktoUrl: KtoURL) {
+    init(playConfig: PlayerLocaleConfiguration, ktoUrl: KtoURL) {
+        self.playConfig = playConfig
         self.ktoUrl = ktoUrl
-        let configuration = logConfig()
-        let session = AlamofireSessionWithRetier()
-        self.provider = MoyaProvider<MultiTarget>(session: session, plugins: [NetworkLoggerPlugin(configuration: configuration)])
-        let retrySession = AlamofireSessionWithRetier(retrier)
-        self.retryProvider = MoyaProvider<MultiTarget>(session: retrySession, plugins: [NetworkLoggerPlugin(configuration: configuration)])
+        generateSession()
+    }
+    
+    func generateSession() {
+        let uRLSessionConfiguration = URLSessionConfiguration.default
+        uRLSessionConfiguration.headers = .default
+        uRLSessionConfiguration.timeoutIntervalForRequest = 30
+        let session = AlamofireSessionWithRetrier(configuration: uRLSessionConfiguration, startRequestsImmediately: false)
+        let logConfiguration = logConfig()
+        self.provider = MoyaProvider<MultiTarget>(session: session, plugins: [NetworkLoggerPlugin(configuration: logConfiguration)])
+        let retrySession = AlamofireSessionWithRetrier(configuration: uRLSessionConfiguration, interceptor: retrier, startRequestsImmediately: false)
+        self.retryProvider = MoyaProvider<MultiTarget>(session: retrySession, plugins: [NetworkLoggerPlugin(configuration: logConfiguration)])
     }
 
     func request(_ target: APITarget) -> Single<Response> {
@@ -190,6 +185,8 @@ class HttpClient {
                 storage!.deleteCookie(cookie)
             }
         }
+        
+        generateSession()
     }
     
     func clearCookie() -> Completable {
@@ -247,13 +244,6 @@ class HttpClient {
         } catch {
             return String(data: data, encoding: .utf8) ?? ""
         }
-    }
-    
-    private func AlamofireSessionWithRetier(_ interceptor: APIRequestRetrier? = nil) -> Session {
-        let configuration = URLSessionConfiguration.default
-        configuration.headers = .default
-        configuration.timeoutIntervalForRequest = 30
-        return Session(configuration: configuration, startRequestsImmediately: false, interceptor: interceptor)
     }
     
     private func printResponseData(_ method: String, response: Response) {
@@ -321,4 +311,10 @@ class APIRequestRetrier: Retrier {
         }
         completion(.doNotRetry)
     }
+}
+
+fileprivate func AlamofireSessionWithRetrier(configuration: URLSessionConfiguration,
+                                             interceptor: APIRequestRetrier? = nil,
+                                             startRequestsImmediately: Bool = true) -> Session {
+    return Session(configuration: configuration, startRequestsImmediately: startRequestsImmediately, interceptor: interceptor)
 }

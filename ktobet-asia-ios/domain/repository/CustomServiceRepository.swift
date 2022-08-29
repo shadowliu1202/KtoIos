@@ -250,7 +250,7 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
     func connectChatRoom(_ bean: PlayerInChatBean) -> Single<PortalChatRoom> {
         Single.create { [weak self] single in
             guard let self = self else {
-                single(.error(NSError.init(domain: "connect socket failed", code: 401, userInfo: nil)))
+                single(.failure(NSError.init(domain: "connect socket failed", code: 401, userInfo: nil)))
                 return Disposables.create()
             }
             

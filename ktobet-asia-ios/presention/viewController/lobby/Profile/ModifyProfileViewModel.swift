@@ -69,7 +69,7 @@ class ModifyProfileViewModel: KTOViewModel {
     }
 
     func authorizeProfileSetting(password: String) -> Completable {
-        return playerUseCase.authorizeProfileEdition(password: password).asObservable().ignoreElements()
+        return playerUseCase.authorizeProfileEdition(password: password).asCompletable()
     }
 
     func changePassword(password: String) -> Completable {
