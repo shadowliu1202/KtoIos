@@ -13,6 +13,7 @@ class DefaultProductViewController: LobbyViewController {
     private let segueLobby = "BackToLobby"
     private var viewModel = DI.resolve(DefaultProductViewModel.self)!
     private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    private let navigationViewModel = DI.resolve(NavigationViewModel.self)!
     private var disposeBag = DisposeBag()
     private var games: [ProductType] = [.sbk, .casino, .slot, .numbergame]
     private var currentSelectGame: ProductType?
@@ -32,30 +33,72 @@ class DefaultProductViewController: LobbyViewController {
     
     // MARK: BUTTON ACTION
     @IBAction func btnIgnorePressed(_ sender : UIButton){
-        viewModel.saveDefaultProduct(.sbk)
-            .andThen(viewModel.getPlayerInfo())
-            .subscribeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { player in
-                DispatchQueue.main.async {
-                    NavigationManagement.sharedInstance.goTo(productType: .sbk)
-                }
-            }, onError: { error in
-                self.handleErrors(error)
-            }).disposed(by: disposeBag)
+        saveDefaultProductThenNavigation(.sbk)
     }
     
     @IBAction func btnNextPressed(_ sender : UIButton){
         guard let item = currentSelectGame else {
             return
         }
+        saveDefaultProductThenNavigation(item)
+    }
+    
+    private func saveDefaultProductThenNavigation(_ productType: ProductType) {
         viewModel
-            .saveDefaultProduct(item)
-            .andThen(viewModel.getPlayerInfo())
-            .subscribe(onSuccess: { _ in
-                NavigationManagement.sharedInstance.goTo(productType: item)
+            .saveDefaultProduct(productType)
+            .andThen(Single.zip(viewModel.getPlayerInfo(), viewModel.getPortalMaintenanceState()))
+            .subscribe(onSuccess: { [unowned self](player, maintenanceStatus) in
+                switch maintenanceStatus {
+                case let status as MaintenanceStatus.Product:
+                    let setting = PlayerSetting(accountLocale: player.locale(), defaultProduct: productType)
+                    let navigation = self.navigationViewModel.getLobbyNavigation(setting, status)
+                    self.executeNavigation(navigation)
+                case is MaintenanceStatus.AllPortal:
+                    self.navigateToPortalMaintenancePage()
+                default:
+                    fatalError("Should not reach here.")
+                }
             }, onError: { error in
                 self.handleErrors(error)
             }).disposed(by: disposeBag)
+    }
+    
+    private func executeNavigation(_ navigation: NavigationViewModel.LobbyPageNavigation) {
+        switch navigation {
+        case .portalAllMaintenance:
+            navigateToPortalMaintenancePage()
+        case .notLogin:
+            assertionFailure("Should not reach here.")
+        case .playerDefaultProduct(let product):
+            navigateToProductPage(product)
+        case .alternativeProduct(let defaultProduct, let alternativeProduct):
+            navigateToMaintainPage(defaultProduct)
+            alertMaintenance(product: defaultProduct, onConfirm: {
+                self.navigateToProductPage(alternativeProduct)
+            })
+        case .setDefaultProduct:
+            assertionFailure("Should not reach here.")
+        }
+    }
+    
+    private func navigateToPortalMaintenancePage() {
+        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
+            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+        }, cancel: nil)
+    }
+    
+    private func navigateToProductPage(_ productType: ProductType) {
+        NavigationManagement.sharedInstance.goTo(productType: productType)
+    }
+    
+    private func navigateToMaintainPage(_ type: ProductType) {
+        NavigationManagement.sharedInstance.goTo(productType: type, isMaintenance: true)
+    }
+    
+    private func alertMaintenance(product: ProductType, onConfirm: @escaping (() -> Void)) {
+        Alert.show(Localize.string("common_maintenance_notify"),
+                   Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: product)),
+                   confirm: onConfirm, cancel: nil)
     }
     
     @IBAction func btnInfoPressed(_ sender: UIButton){

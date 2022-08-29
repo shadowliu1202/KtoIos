@@ -113,10 +113,11 @@ class NewLoginViewModel: ObservableObject {
                 self.disableLoginButton = true
             })
             .flatMap({ [unowned self] (player) in
-                return self.navigationViewModel.initLoginNavigation(defaultProduct: player.defaultProduct)
+                let setting = PlayerSetting(accountLocale: player.locale(), defaultProduct: player.defaultProduct)
+                return self.navigationViewModel.initLoginNavigation(playerSetting: setting)
             })
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [unowned self] navigation in
+            .subscribe(onSuccess: { [unowned self] (navigation: NavigationViewModel.LobbyPageNavigation) in
                 self.loginOnSuccess()
                 self.disableLoginButton = false
                 callBack(navigation, nil)

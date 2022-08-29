@@ -6,15 +6,14 @@ class NavigationViewModel {
     typealias isLogged = Bool
     
     enum LobbyPageNavigation {
+        //TODO: Split Lobby and Launch
         case portalAllMaintenance
-        case productAllMaintenance
         case notLogin
         case playerDefaultProduct(ProductType)
         case alternativeProduct(ProductType, ProductType)
         case setDefaultProduct
     }
     
-    private let alternativePriority: [ProductType] = [.sbk, .casino, .slot, .numbergame, .arcade, .p2p]
     private let authUseCase: AuthenticationUseCase!
     private let playerUseCase : PlayerDataUseCase!
     private let localizationPolicyUseCase: LocalizationPolicyUseCase!
@@ -35,23 +34,23 @@ class NavigationViewModel {
     }
     
     func initLaunchNavigation() -> Single<LobbyPageNavigation> {
-        return getLaunchNeededStatus().map { (status, isLogged, defaultType) in
+        return getLaunchNeededStatus().map { (status, isLogged, playerSetting) in
             switch status {
             case is MaintenanceStatus.AllPortal:
                 return .portalAllMaintenance
             case is MaintenanceStatus.Product:
-                return self.getPageNavigation(isLogged, defaultType, status as! MaintenanceStatus.Product)
+                return self.getPageNavigation(isLogged, playerSetting, status as! MaintenanceStatus.Product)
             default:
                 fatalError("Should not reach here.")
             }
         }
     }
     
-    private func getLaunchNeededStatus() -> Single<(MaintenanceStatus?, isLogged, ProductType?)> {
+    private func getLaunchNeededStatus() -> Single<(MaintenanceStatus?, isLogged, PlayerSetting?)> {
         return initLocale().andThen(Single.zip(systemStatusUseCase.observePortalMaintenanceState().first(), checkIsLogged()))
             .flatMap { (maintenanceStatus, isLogin) in
                 if isLogin {
-                    return self.loadDefaultProduct().map { (maintenanceStatus, isLogin, $0) }
+                    return self.getPlayerSetting().map { (maintenanceStatus, isLogin, $0) }
                 } else {
                     return Single.just((maintenanceStatus, isLogin, nil))
                 }
@@ -62,41 +61,32 @@ class NavigationViewModel {
         localizationPolicyUseCase.initLocale()
     }
     
-    private func loadDefaultProduct() -> Single<ProductType?> {
-        playerUseCase.loadPlayer().map { $0.defaultProduct }
+    private func getPlayerSetting() -> Single<PlayerSetting> {
+        return playerUseCase.loadPlayer().map({ PlayerSetting(accountLocale: $0.locale(), defaultProduct: $0.defaultProduct) })
+    }
+   
+    private func getPageNavigation(_ isLogged: Bool, _ playerSetting: PlayerSetting?, _ productStatus: MaintenanceStatus.Product) -> LobbyPageNavigation {
+        isLogged ? getLobbyNavigation(playerSetting!, productStatus) : .notLogin
     }
     
-    private func getPageNavigation(_ isLogged: Bool, _ defaultProduct: ProductType?, _ productStatus: MaintenanceStatus.Product) -> LobbyPageNavigation {
-        isLogged ? getLobbyNavigation(defaultProduct, productStatus) : .notLogin
-    }
-    
-    private func getLobbyNavigation(_ defaultProduct: ProductType?, _ productStatus: MaintenanceStatus.Product) -> LobbyPageNavigation {
-        if defaultProduct == ProductType.none {
+    func getLobbyNavigation(_ playerSetting: PlayerSetting, _ productStatus: MaintenanceStatus.Product) -> LobbyPageNavigation {
+        let alternativeProduct = playerSetting.applyBackupStrategy(maintenanceStatus: productStatus)
+        if playerSetting.defaultProduct == ProductType.none {
             return .setDefaultProduct
-        } else if !productStatus.isProductMaintain(productType: defaultProduct!) {
-            return .playerDefaultProduct(defaultProduct!)
+        } else if playerSetting.defaultProduct != alternativeProduct {
+            return .alternativeProduct(playerSetting.defaultProduct!, alternativeProduct!)
         } else {
-            if let alternation = alternativeProduct(defaultProduct!, productStatus) {
-                return .alternativeProduct(defaultProduct!,alternation)
-            } else {
-                return .productAllMaintenance
-            }
+            return .playerDefaultProduct(playerSetting.defaultProduct!)
         }
     }
     
-    private func alternativeProduct(_ defaultProduct: ProductType,_ productStatus: MaintenanceStatus.Product) -> ProductType? {
-        return alternativePriority.first { type in
-            !productStatus.isProductMaintain(productType: type)
-        } ?? nil
-    }
-    
-    func initLoginNavigation(defaultProduct: ProductType?) -> Single<LobbyPageNavigation> {
+    func initLoginNavigation(playerSetting: PlayerSetting) -> Single<LobbyPageNavigation> {
         return getLoginNeededStatus().map { status in
             switch status {
             case is MaintenanceStatus.AllPortal:
                 return .portalAllMaintenance
             case is MaintenanceStatus.Product:
-                return self.getLobbyNavigation(defaultProduct, status as! MaintenanceStatus.Product)
+                return self.getLobbyNavigation(playerSetting, status as! MaintenanceStatus.Product)
             default:
                 fatalError("Should not reach here.")
             }

@@ -35,8 +35,6 @@ class LaunchViewController: UIViewController {
         switch navigation {
         case .portalAllMaintenance:
             navigateToPortalMaintenancePage()
-        case .productAllMaintenance:
-            navigateToSBKMaintenancePage()
         case .notLogin:
             playVideo(onCompleted: navigateToLandingPage)
         case .playerDefaultProduct(let product):
@@ -58,11 +56,6 @@ class LaunchViewController: UIViewController {
     private func navigateToPortalMaintenancePage() {
         initCustomerService()
         NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-    }
-    
-    private func navigateToSBKMaintenancePage() {
-        initCustomerService()
-        NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
     }
     
     private func playVideo(onCompleted: @escaping (() -> Void)) {
