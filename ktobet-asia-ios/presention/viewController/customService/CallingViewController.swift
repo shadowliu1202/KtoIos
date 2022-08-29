@@ -29,6 +29,11 @@ class CallingViewController: CommonViewController {
         dataBinding()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        CustomServicePresenter.shared.isInCallingView = false
+    }
+    
     deinit {
         print("\(type(of: self)) deinit")
     }
@@ -37,6 +42,7 @@ class CallingViewController: CommonViewController {
         lottieView.addSubview(animationView, constraints: .fill())
         NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification).takeUntil(self.rx.deallocated).subscribe(onNext: { [weak self] _ in
             self?.animationView.play()
+            CustomServicePresenter.shared.isInCallingView = true
         }).disposed(by: disposeBag)
     }
     

@@ -49,11 +49,11 @@ class PlayerRepositoryImpl : PlayerRepository {
         let oldURLString = httpClient.host.description
         self.localStorageRepo.setCultureCode(playerLocale.cultureCode())
         Theme.shared.changeEntireAPPFont(by: playerLocale)
-        DI.resetObjectScope(.lobby)
+        DI.resetObjectScope(.locale)
         
         let newURLString = DI.resolve(HttpClient.self)!.host.description
         self.httpClient.replaceCookiesDomain(oldURLString, to: newURLString)
-        DI.resetObjectScope(.lobby)
+        DI.resetObjectScope(.locale)
     }
     
     func loadPlayer() -> Single<Player> {

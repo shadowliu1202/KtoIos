@@ -37,12 +37,19 @@ class DIContainer {
     func registerHttpClient() {
         container.register(KtoURL.self) { resolver in
             return KtoURL(playConfig: resolver.resolve(PlayerLocaleConfiguration.self)!)
+<<<<<<< HEAD
+        }.inObjectScope(.locale)
+        container.register(HttpClient.self) { resolver in
+            return HttpClient(ktoUrl: resolver.resolve(KtoURL.self)!)
+        }.inObjectScope(.locale)
+=======
         }.inObjectScope(.application)
         container.register(HttpClient.self) { resolver in
             let playerLocaleConfiguration = resolver.resolve(PlayerLocaleConfiguration.self)!
             let ktoUrl = resolver.resolve(KtoURL.self)!
             return HttpClient(playConfig: playerLocaleConfiguration, ktoUrl: ktoUrl)
-        }.inObjectScope(.locale)
+        }.inObjectScope(.lobby)
+>>>>>>> master
     }
     func registerCustomServicePresenter() {
         container.register(CustomServicePresenter.self) { resolver in
