@@ -14,9 +14,11 @@ class DefaultProductViewModel {
     
     private var disposeBag = DisposeBag()
     private var usecaseConfig : ConfigurationUseCase!
+    private let systemStatusUseCase: GetSystemStatusUseCase!
 
-    init(_ usecaseConfig : ConfigurationUseCase) {
+    init(_ usecaseConfig : ConfigurationUseCase, _ systemStatusUseCase: GetSystemStatusUseCase) {
         self.usecaseConfig = usecaseConfig
+        self.systemStatusUseCase = systemStatusUseCase
     }
     
     func saveDefaultProduct(_ type : ProductType)-> Completable{
@@ -25,5 +27,9 @@ class DefaultProductViewModel {
     
     func getPlayerInfo()-> Single<Player>{
         return usecaseConfig.getPlayerInfo()
+    }
+    
+    func getPortalMaintenanceState() -> Single<MaintenanceStatus?> {
+        return systemStatusUseCase.observePortalMaintenanceState().first()
     }
 }

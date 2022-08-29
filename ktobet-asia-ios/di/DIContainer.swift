@@ -533,7 +533,8 @@ class DIContainer {
         }
         container.register(DefaultProductViewModel.self) { resolver in
             let usecase = resolver.resolve(ConfigurationUseCase.self)!
-            return DefaultProductViewModel(usecase)
+            let systemUseCase = resolver.resolve(GetSystemStatusUseCase.self)!
+            return DefaultProductViewModel(usecase, systemUseCase)
         }
         container.register(ResetPasswordViewModel.self) { resolver in
             let usecaseAuthentication = resolver.resolve(ResetPasswordUseCase.self)!
