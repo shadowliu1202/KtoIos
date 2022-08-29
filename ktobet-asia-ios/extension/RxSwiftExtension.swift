@@ -161,7 +161,7 @@ extension RxSwift.Single where Element: AnyObject {
         return RxSwift.Single<Element>.create { observer in
             let disposable = single.subscribe(
                 isThreadLocal: false,
-                onError: { observer(.error($0)) },
+                onError: { observer(.failure($0)) },
                 onSuccess: { observer(.success($0)) }
             )
             
