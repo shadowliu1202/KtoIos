@@ -82,13 +82,6 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="bonus_promotionrule"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="promotionAutoUse" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bjb-fN-MSt">
-                                        <rect key="frame" x="303" y="131.5" width="111" height="111"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="111" id="nvz-18-zMf"/>
-                                            <constraint firstAttribute="width" constant="111" id="rlX-Ig-Sxu"/>
-                                        </constraints>
-                                    </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bxm-hL-dOV">
                                         <rect key="frame" x="22" y="294" width="370" height="36"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -192,6 +185,13 @@
                                             <constraint firstItem="sNM-7A-4Pw" firstAttribute="top" secondItem="mjP-Bl-Xuh" secondAttribute="bottom" constant="8" id="z9b-by-4nf"/>
                                         </constraints>
                                     </view>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="promotionAutoUse" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bjb-fN-MSt">
+                                        <rect key="frame" x="303" y="131.5" width="111" height="111"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="111" id="nvz-18-zMf"/>
+                                            <constraint firstAttribute="width" constant="111" id="rlX-Ig-Sxu"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -1165,20 +1165,20 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="IoM-gM-ToQ" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="123.5" width="354" height="96"/>
+                                    <rect key="frame" x="0.0" y="124" width="354" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromotionHeaderViewCell" id="pYD-1Q-vQS" customClass="PromotionHeaderViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="49.5" width="354" height="56"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="354" height="56.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pYD-1Q-vQS" id="t81-s2-X1e">
-                                            <rect key="frame" x="0.0" y="0.0" width="354" height="56"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="354" height="56.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONp-OA-9gE">
-                                                    <rect key="frame" x="0.0" y="24" width="354" height="26"/>
+                                                    <rect key="frame" x="0.0" y="24" width="354" height="26.5"/>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="18"/>
                                                     <color key="textColor" name="whiteFull"/>
                                                     <nil key="highlightedColor"/>

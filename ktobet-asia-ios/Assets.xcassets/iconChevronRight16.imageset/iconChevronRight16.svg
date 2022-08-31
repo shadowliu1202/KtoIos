@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16pt" height="16pt" viewBox="0 0 16 16" version="1.1">
+<defs>
+<clipPath id="clip1">
+  <path d="M 4 2 L 12 2 L 12 14 L 4 14 Z M 4 2 "/>
+</clipPath>
+<clipPath id="clip2">
+  <path d="M 4 3.398438 L 5.398438 2 L 11.398438 8 L 5.398438 14 L 4 12.601562 L 8.601562 8 Z M 4 3.398438 "/>
+</clipPath>
+</defs>
+<g id="surface1">
+<g clip-path="url(#clip1)" clip-rule="nonzero">
+<g clip-path="url(#clip2)" clip-rule="evenodd">
+<rect x="0" y="0" width="16" height="16" style="fill:rgb(60.784912%,60.784912%,60.784912%);fill-opacity:1;stroke:none;"/>
+</g>
+</g>
+</g>
+</svg>

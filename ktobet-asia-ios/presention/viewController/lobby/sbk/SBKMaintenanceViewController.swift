@@ -10,12 +10,11 @@ class SBKMaintenanceViewController: MaintenanceViewController {
     @IBOutlet var secondLabel: UILabel!
     @IBOutlet var imageView: UIImageView!
     
+    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        serviceViewModel.output.maintainImage.drive(onNext: { [weak self] imgStr in
-            self?.imageView.image = UIImage(named: imgStr)
-        }).disposed(by: disposeBag)
+        imageView.image = Theme.shared.getUIImage(name: "maintainSBK", by: playerLocaleConfiguration.getSupportLocale())
     }
     
     override func setTextPerSecond(_ countdownseconds: Int) {
