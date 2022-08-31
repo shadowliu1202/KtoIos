@@ -11,6 +11,7 @@ class WithdrawlAccountsViewController: LobbyViewController {
     static let unwindSegue = "unwindsegueAccount"
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var footerImg: UIImageView!
     @IBOutlet weak var footerLabel: UILabel!
     @IBOutlet weak var footerBtn: UIButton!
@@ -85,8 +86,8 @@ class WithdrawlAccountsViewController: LobbyViewController {
         let cryptoDataSource = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return cryptoSource.asObservable()
         }).share(replay: 1)
-        cryptoDataSource.asObservable()
-            .catchError({ [weak self] (error) -> Observable<[CryptoBankCard]> in
+        cryptoDataSource
+            .catch({ [weak self] (error) -> Observable<[CryptoBankCard]> in
                 self?.handleErrors(error)
                 return Observable.just([])
             }).bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
@@ -111,8 +112,8 @@ class WithdrawlAccountsViewController: LobbyViewController {
         let dataSource = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return source.asObservable()
         }).share(replay: 1)
-        dataSource.asObservable()
-            .catchError({ [weak self] (error) -> Observable<[FiatBankCard]> in
+        dataSource
+            .catch({ [weak self] (error) -> Observable<[FiatBankCard]> in
                 self?.handleErrors(error)
                 return Observable.just([])
             }).bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
