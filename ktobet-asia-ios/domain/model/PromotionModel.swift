@@ -80,7 +80,7 @@ extension BonusCoupon.DepositReturn: HasAmountLimitationItem {
         self.informPlayerDate.toDateString()
     }
     var icon: String {
-        "iconLvDepositBonus48"
+        "iconLvDepositBonus48Big"
     }
     var id: String {
         self.promotionId

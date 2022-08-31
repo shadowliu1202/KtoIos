@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1">
+<defs>
+<clipPath id="clip1">
+  <path d="M 1 1 L 23 1 L 23 23 L 1 23 Z M 1 1 "/>
+</clipPath>
+<clipPath id="clip2">
+  <path d="M 12 23 C 18.074219 23 23 18.074219 23 12 C 23 5.925781 18.074219 1 12 1 C 5.925781 1 1 5.925781 1 12 C 1 18.074219 5.925781 23 12 23 Z M 12 23 "/>
+</clipPath>
+<clipPath id="clip4">
+  <path d="M 11 22 C 17.074219 22 22 17.074219 22 11 C 22 4.925781 17.074219 0 11 0 C 4.925781 0 0 4.925781 0 11 C 0 17.074219 4.925781 22 11 22 Z M 11 22 "/>
+</clipPath>
+<clipPath id="clip3">
+  <rect x="0" y="0" width="22" height="22"/>
+</clipPath>
+<g id="surface5" clip-path="url(#clip3)">
+<g clip-path="url(#clip4)" clip-rule="evenodd">
+<path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(34.901428%,34.901428%,34.901428%);stroke-opacity:1;stroke-miterlimit:10;" d="M 11 22 C 17.074219 22 22 17.074219 22 11 C 22 4.925781 17.074219 0 11 0 C 4.925781 0 0 4.925781 0 11 C 0 17.074219 4.925781 22 11 22 Z M 11 22 "/>
+</g>
+</g>
+</defs>
+<g id="surface1">
+<g clip-path="url(#clip1)" clip-rule="nonzero">
+<g clip-path="url(#clip2)" clip-rule="evenodd">
+<use xlink:href="#surface5" transform="matrix(1,0,0,1,1,1)"/>
+</g>
+</g>
+</g>
+</svg>

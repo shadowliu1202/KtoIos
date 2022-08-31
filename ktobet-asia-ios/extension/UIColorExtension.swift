@@ -67,8 +67,14 @@ extension UIColor {
     @nonobjc class var white15: UIColor {
         return UIColor(white: 1.0, alpha: 0.15)
     }
+    @nonobjc class var white30: UIColor {
+        return UIColor(white: 1.0, alpha: 0.3)
+    }
     @nonobjc class var white40: UIColor {
         return UIColor(white: 1.0, alpha: 0.4)
+    }
+    @nonobjc class var white50: UIColor {
+        return UIColor(white: 1.0, alpha: 0.5)
     }
     @nonobjc class var toastIconSuccessedGreen: UIColor {
         return UIColor(red: 17.0 / 255.0, green: 103.0 / 255.0, blue: 57.0 / 255.0, alpha: 1.0)

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "game-favorite-activeinactive.png",
+      "filename" : "game-favorite-activeinactive.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "game-favorite-activeinactive@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "game-favorite-activeinactive@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

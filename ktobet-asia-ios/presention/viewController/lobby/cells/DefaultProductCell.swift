@@ -8,7 +8,7 @@ class DefaultProductCell: UITableViewCell {
     @IBOutlet private weak var viewBg : UIView!
     @IBOutlet private weak var imgBackground : UIImageView!
     @IBOutlet private weak var viewShadow : UIView!
-    
+    @IBOutlet private weak var imgMask : UIView!
     @IBOutlet weak var titleLeading: NSLayoutConstraint!
     @IBOutlet weak var titleTrailing: NSLayoutConstraint!
     
@@ -37,11 +37,12 @@ class DefaultProductCell: UITableViewCell {
     
     func setup(_ gameType: ProductType, _ local: SupportLocale, _ selectedGameType: ProductType?){
         let isSelected = gameType == selectedGameType ? true : false
-        self.imgBackground?.image = isSelected ? try! getSelectImg(gameType) : try! getUnselectImg(gameType)
+        self.imgBackground?.image = try! getSelectImg(gameType)
+        self.imgMask.isHidden = isSelected
         self.labTitle.text = StringMapper.parseProductTypeString(productType: gameType)
         self.labDesc.text = try! getDesc(gameType)
         self.viewBg.layer.borderWidth = isSelected ? 1 : 0
-        self.viewBg.layer.borderColor = (isSelected ? UIColor.white : UIColor.clear).cgColor
+        self.viewBg.layer.borderColor = (isSelected ? UIColor.white50 : UIColor.white30).cgColor
         self.viewShadow.isHidden = !isSelected
         titleLeading.constant = Theme.shared.getDefaultProductTextPadding(by: local)
         titleTrailing.constant = Theme.shared.getDefaultProductTextPadding(by: local)
@@ -77,18 +78,4 @@ class DefaultProductCell: UITableViewCell {
         }
     }
     
-    private func getUnselectImg(_ productType: ProductType) throws -> UIImage {
-        switch productType {
-        case .sbk:
-            return UIImage(named: "(375)SBK-Unselect")!
-        case .casino:
-            return UIImage(named: "(375)Casino-Unselect")!
-        case .slot:
-            return UIImage(named: "(375)Slot-Unselect")!
-        case .numbergame:
-            return UIImage(named: "(375)Number Game-Unselect")!
-        default:
-            throw KTOError.WrongProductType
-        }
-    }
 }

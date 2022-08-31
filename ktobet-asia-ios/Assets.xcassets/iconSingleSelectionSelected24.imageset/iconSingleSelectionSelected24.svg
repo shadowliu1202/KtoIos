@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24pt" height="24pt" viewBox="0 0 24 24" version="1.1">
+<defs>
+<clipPath id="clip1">
+  <path d="M 1 12 C 1 18.074219 5.925781 23 12 23 C 18.074219 23 23 18.074219 23 12 C 23 5.925781 18.074219 1 12 1 C 5.925781 1 1 5.925781 1 12 Z M 0 12 C 0 5.371094 5.371094 0 12 0 C 18.628906 0 24 5.371094 24 12 C 24 18.628906 18.628906 24 12 24 C 5.371094 24 0 18.628906 0 12 Z M 0 12 "/>
+</clipPath>
+<clipPath id="clip2">
+  <path d="M 5 5 L 19 5 L 19 19 L 5 19 Z M 5 5 "/>
+</clipPath>
+<clipPath id="clip3">
+  <path d="M 12 19 C 8.132812 19 5 15.867188 5 12 C 5 8.132812 8.132812 5 12 5 C 15.867188 5 19 8.132812 19 12 C 19 15.867188 15.867188 19 12 19 Z M 12 19 "/>
+</clipPath>
+</defs>
+<g id="surface1">
+<g clip-path="url(#clip1)" clip-rule="evenodd">
+<rect x="0" y="0" width="24" height="24" style="fill:rgb(100%,83.529663%,0%);fill-opacity:1;stroke:none;"/>
+</g>
+<g clip-path="url(#clip2)" clip-rule="nonzero">
+<g clip-path="url(#clip3)" clip-rule="evenodd">
+<rect x="0" y="0" width="24" height="24" style="fill:rgb(100%,83.529663%,0%);fill-opacity:1;stroke:none;"/>
+</g>
+</g>
+</g>
+</svg>
