@@ -97,11 +97,10 @@ class WithdrawalViewController: LobbyViewController {
     // MARK: PAGE ACTION
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == WithdrawlLandingViewController.segueIdentifier {
-            if let dest = segue.destination as? WithdrawlLandingViewController,
-               let accounts = accounts, let cryptoBankCards = cryptoBankCards,
-               let bankCardType = sender as? BankCardType {
-                dest.accounts = accounts
-                dest.cryptoBankCards = cryptoBankCards
+            if let dest = segue.destination as? WithdrawlLandingViewController {
+                let bankCardType = sender as? BankCardType
+                dest.accounts = accounts ?? []
+                dest.cryptoBankCards = cryptoBankCards ?? []
                 dest.bankCardType = bankCardType
             }
         } else if segue.identifier == CrpytoTransationLogViewController.segueIdentifier {

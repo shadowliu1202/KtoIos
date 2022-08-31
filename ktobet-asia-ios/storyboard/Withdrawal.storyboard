@@ -1731,6 +1731,7 @@
                         <outlet property="footerBtn" destination="53l-d8-Fqj" id="5bh-FX-1tt"/>
                         <outlet property="footerImg" destination="e9s-0V-2OU" id="fdK-HD-QHa"/>
                         <outlet property="footerLabel" destination="reC-iO-rHa" id="8xM-wI-Wi5"/>
+                        <outlet property="footerView" destination="E4b-Wp-AoR" id="B9B-F6-Vy1"/>
                         <outlet property="tableView" destination="gDV-ym-iAX" id="FQ6-Zd-94Q"/>
                         <outlet property="titleLabel" destination="el9-pt-s4c" id="t7C-Wr-1NQ"/>
                         <segue destination="gDx-Re-BJl" kind="show" identifier="toAddBank" id="IGH-yb-Sof"/>

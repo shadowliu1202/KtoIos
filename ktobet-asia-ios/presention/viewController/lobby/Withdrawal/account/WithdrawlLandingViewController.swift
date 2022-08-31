@@ -31,14 +31,17 @@ class WithdrawlLandingViewController: LobbyViewController {
             return accounts.count
         case .crypto:
             return cryptoBankCards.count
+        case .none:
+            fatalError("Should net reach here.")
         }
     }
     lazy var accounts: [FiatBankCard] = []
     lazy var cryptoBankCards: [CryptoBankCard] = []
-    lazy var bankCardType: BankCardType = .general
+    var bankCardType: BankCardType?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAccountsView()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(tapBack))
     }
     
@@ -49,16 +52,18 @@ class WithdrawlLandingViewController: LobbyViewController {
             viewModel.withdrawalAccounts().subscribe(onSuccess: { [weak self] (accounts) in
                 self?.accounts = accounts
                 self?.updateWithdrawAccountsView()
-            }, onError: { [weak self] (error) in
+            }, onFailure: { [weak self] (error) in
                 self?.handleErrors(error)
             }).disposed(by: disposeBag)
         case .crypto:
             viewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
                 self?.cryptoBankCards = cryptoBankCards
                 self?.updateWithdrawAccountsView()
-            } onError: { (error) in
-                self.handleErrors(error)
+            } onFailure: { [weak self] (error) in
+                self?.handleErrors(error)
             }.disposed(by: disposeBag)
+        case .none:
+            fatalError("Should net reach here.")
         }
     }
     
@@ -104,6 +109,11 @@ class WithdrawlLandingViewController: LobbyViewController {
     @IBAction func unwindsegueWithdrawalLanding(segue: UIStoryboardSegue) {
         NavigationManagement.sharedInstance.viewController = self
         accountsViewController.isEditMode = false
+    }
+    
+    override func handleErrors(_ error: Error) {
+        super.handleErrors(error)
+        self.accountsViewController.footerView.isHidden = true
     }
     
     deinit {
