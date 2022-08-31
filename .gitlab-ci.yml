@@ -9,7 +9,7 @@ variables:
 
 build-job:    
     rules:
-        - if: '$CI_COMMIT_BRANCH =~ /APP-[0-9]+/'
+        - if: '$CI_COMMIT_BRANCH =~ /(APP|KTO|SP)-[0-9]+/'
         - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
     stage: inProgress 
     script:              
@@ -57,8 +57,8 @@ merge-job:
     variables:
         # CI_DEBUG_TRACE: "true"
         MR_COMMAND : 'curl --header PRIVATE-TOKEN:$GITLAB_AUTH_TOKEN https://gitlab.higgstar.com/api/v4/projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}'
-        BRANCH_PATTERN : 'APP-[0-9]+'
-        BUGFIX_PATTERN : 'fix[[:space:]]*:[[:space:]]*APP-[0-9]+[[:space:]]+.*#comment[[:space:]]+root[[:space:]]{0,1}cause:[[:space:]]*.{2,}[[:space:]]*\\[[:space:]]*solution[[:space:]]*:[[:space:]]*.{2,}'
+        BRANCH_PATTERN : '(APP|KTO|SP)-[0-9]+'
+        BUGFIX_PATTERN : 'fix[[:space:]]*:[[:space:]]*(APP|KTO|SP)-[0-9]+[[:space:]]+.*#comment[[:space:]]+root[[:space:]]{0,1}cause:[[:space:]]*.{2,}[[:space:]]*\\[[:space:]]*solution[[:space:]]*:[[:space:]]*.{2,}'
     script:    
         - 'branch_name=$(echo "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME")' 
         - >            
