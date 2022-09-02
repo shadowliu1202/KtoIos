@@ -54,6 +54,7 @@ enum Configuration: String {
     static var debugGesture: Bool       = env.debugGesture
     static var enableCrashlytics: Bool  = env.enableCrashlytics
     static var manualControlNetwork: Bool   = env.manualControlNetwork
+    static var enableLogger: Bool = env.enableLogger
 
     static func getKtoAgent() -> String {
         let userAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(UIDevice.modelName))"
@@ -68,6 +69,7 @@ protocol Env {
     var debugGesture: Bool { get }
     var enableCrashlytics: Bool { get }
     var manualControlNetwork: Bool { get }
+    var enableLogger: Bool { get }
 }
 
 fileprivate class DevConfig: Env {
@@ -77,6 +79,7 @@ fileprivate class DevConfig: Env {
     var debugGesture: Bool = true
     var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
+    var enableLogger: Bool = false
 }
 
 fileprivate class QatConfig: Env {
@@ -88,6 +91,7 @@ fileprivate class QatConfig: Env {
     var debugGesture: Bool = true
     var enableCrashlytics: Bool = true
     var manualControlNetwork: Bool = false
+    var enableLogger: Bool = true
 }
 
 fileprivate class StagingConfig: Env {
@@ -99,6 +103,7 @@ fileprivate class StagingConfig: Env {
     var debugGesture: Bool = false
     var enableCrashlytics: Bool = true
     var manualControlNetwork: Bool = false
+    var enableLogger: Bool = true
 }
 
 fileprivate class ProductionConfig: Env {
@@ -110,6 +115,7 @@ fileprivate class ProductionConfig: Env {
     var debugGesture: Bool = false
     var enableCrashlytics: Bool = true
     var manualControlNetwork: Bool = false
+    var enableLogger: Bool = false
 }
 
 fileprivate class ProductionSelftestConfig: Env {
@@ -121,6 +127,7 @@ fileprivate class ProductionSelftestConfig: Env {
     var debugGesture: Bool = true
     var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
+    var enableLogger: Bool = false
 }
 
 fileprivate class ProductionBackupConfig: Env {
@@ -132,6 +139,7 @@ fileprivate class ProductionBackupConfig: Env {
     var debugGesture: Bool = false
     var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
+    var enableLogger: Bool = false
 }
 
 fileprivate class Qat3Config: Env {
@@ -143,4 +151,5 @@ fileprivate class Qat3Config: Env {
     var debugGesture: Bool = false
     var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
+    var enableLogger: Bool = true
 }

@@ -11,7 +11,7 @@ public class LongPollingTransport: Transport {
     
     public var delegate: TransportDelegate?
     
-    private let logger: Logger
+    private let logger: SocketLogger
     private let closeQueue = DispatchQueue(label: "LongPollingTransportCloseQueue")
     
     private var active = false
@@ -22,7 +22,7 @@ public class LongPollingTransport: Transport {
     private var closeError: Error?
     
     
-    init(logger: Logger) {
+    init(logger: SocketLogger) {
         self.logger = logger
     }
     
