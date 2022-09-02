@@ -10,12 +10,12 @@ import Foundation
 
 public class WebsocketsTransport: Transport {
     private var isTransportClosed = false
-    private let logger: Logger
+    private let logger: SocketLogger
 
     var webSocket:WebSocket? = nil
     public weak var delegate: TransportDelegate? = nil
 
-    init(logger: Logger) {
+    init(logger: SocketLogger) {
         self.logger = logger
     }
 

@@ -26,6 +26,7 @@ def default_pods
   pod 'Connectivity', '5.0.0'
   pod 'NotificationBannerSwift', '3.0.0'
   pod 'RxBlocking', '6.5.0'
+  pod 'Puppy', '~> 0.5'
   use_frameworks!
 end
 

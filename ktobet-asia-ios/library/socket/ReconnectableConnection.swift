@@ -12,7 +12,7 @@ internal class ReconnectableConnection: Connection {
 
     private let connectionFactory: () -> Connection
     private let reconnectPolicy: ReconnectPolicy
-    private let logger: Logger
+    private let logger: SocketLogger
 
     private var underlyingConnection: Connection
     private var wrappedDelegate: ConnectionDelegate?
@@ -33,7 +33,7 @@ internal class ReconnectableConnection: Connection {
         return underlyingConnection.connectionId
     }
 
-    init(connectionFactory: @escaping () -> Connection, reconnectPolicy: ReconnectPolicy, logger: Logger) {
+    init(connectionFactory: @escaping () -> Connection, reconnectPolicy: ReconnectPolicy, logger: SocketLogger) {
         self.connectionFactory = connectionFactory
         self.reconnectPolicy = reconnectPolicy
         self.logger = logger

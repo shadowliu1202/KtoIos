@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum LogLevel: Int {
+public enum SocketLogLevel: Int {
     case error = 1
     case warning = 2
     case info = 3
@@ -18,17 +18,17 @@ public enum LogLevel: Int {
 /**
  Protocol for implementing loggers.
  */
-public protocol Logger {
+public protocol SocketLogger {
     /**
      Invoked by the client to write a log entry.
 
      - parameter logLevel: the log level of the entry to write
      - parameter message: log entry
     */
-    func log(logLevel: LogLevel, message: @autoclosure () -> String)
+    func log(logLevel: SocketLogLevel, message: @autoclosure () -> String)
 }
 
-public extension LogLevel {
+public extension SocketLogLevel {
     func toString() -> String {
         switch (self) {
         case .error: return "error"
@@ -42,7 +42,7 @@ public extension LogLevel {
 /**
  Logger that log entries with the `print()` function.
  */
-public class PrintLogger: Logger {
+public class PrintLogger: SocketLogger {
     let dateFormatter: DateFormatter
 
     /**
@@ -62,15 +62,15 @@ public class PrintLogger: Logger {
      - parameter logLevel: the log level of the entry to write
      - parameter message: log entry
     */
-    public func log(logLevel: LogLevel, message: @autoclosure () -> String) {
-        print("\(dateFormatter.string(from: Date())) \(logLevel.toString()): \(message())")
+    public func log(logLevel: SocketLogLevel, message: @autoclosure () -> String) {
+        Logger.shared.debug("\(dateFormatter.string(from: Date())) \(logLevel.toString()): \(message())")
     }
 }
 
 /**
  Logger that discards all log entries.
  */
-public class NullLogger: Logger {
+public class NullLogger: SocketLogger {
     /**
      Initializes a `NullLogger`.
     */
@@ -83,20 +83,20 @@ public class NullLogger: Logger {
      - parameter logLevel: ignored
      - parameter message: ignored
     */
-    public func log(logLevel: LogLevel, message: @autoclosure () -> String) {
+    public func log(logLevel: SocketLogLevel, message: @autoclosure () -> String) {
     }
 }
 
-class FilteringLogger: Logger {
-    private let minLogLevel: LogLevel
-    private let logger: Logger
+class FilteringLogger: SocketLogger {
+    private let minLogLevel: SocketLogLevel
+    private let logger: SocketLogger
 
-    init(minLogLevel: LogLevel, logger: Logger) {
+    init(minLogLevel: SocketLogLevel, logger: SocketLogger) {
         self.minLogLevel = minLogLevel
         self.logger = logger
     }
 
-    func log(logLevel: LogLevel, message: @autoclosure () -> String) {
+    func log(logLevel: SocketLogLevel, message: @autoclosure () -> String) {
         if (logLevel.rawValue <= minLogLevel.rawValue) {
             logger.log(logLevel: logLevel, message: message())
         }

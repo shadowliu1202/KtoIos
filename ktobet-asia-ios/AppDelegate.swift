@@ -35,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         
+        Logger.shared.delegate = PuppyLog.shared
+        CookieUtil.shared.loadCookiesFromUserDefault()
+        
         if Configuration.enableCrashlytics {
             FirebaseApp.configure()
         }
@@ -206,5 +209,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
+        CookieUtil.shared.saveCookieToUserDefault()
     }
 }
