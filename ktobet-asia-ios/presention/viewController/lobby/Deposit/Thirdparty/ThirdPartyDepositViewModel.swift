@@ -93,14 +93,7 @@ final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
     }
 
     private func getDepositLimit() -> Driver<AmountRange?> {
-        selectPaymentGateway.map { gateway -> AmountRange? in
-            switch gateway.cash {
-            case let input as CashType.Input:
-                return input.limitation
-            default:
-                return nil
-            }
-        }.compose(self.applyObservableErrorHandle()).asDriverLogError()
+        selectPaymentGateway.map({ $0.cash.limitation }).compose(self.applyObservableErrorHandle()).asDriverLogError()
     }
     
     private func getCashTypeInput() -> Driver<FloatAllow?> {
