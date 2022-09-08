@@ -11,7 +11,8 @@ class DefaultProductViewController: LobbyViewController {
     @IBOutlet private weak var btnNext : UIButton!
     
     private let segueLobby = "BackToLobby"
-    private var viewModel = DI.resolve(DefaultProductViewModel.self)!
+    private let httpClient = DI.resolve(HttpClient.self)!
+    private let viewModel = DI.resolve(DefaultProductViewModel.self)!
     private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     private let navigationViewModel = DI.resolve(NavigationViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -125,7 +126,11 @@ extension DefaultProductViewController : UITableViewDataSource{
         let item = games[indexPath.row]
         let identifier = String(describing: DefaultProductCell.self)
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! DefaultProductCell
-        cell.setup(item, playerLocaleConfiguration.getSupportLocale(), currentSelectGame)
+        cell.setup(item, playerLocaleConfiguration.getSupportLocale(), currentSelectGame, httpClient.host.absoluteString)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        116
     }
 }

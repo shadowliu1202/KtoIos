@@ -2029,7 +2029,7 @@
         <!--AboutKTO View Controller-->
         <scene sceneID="69z-RP-Bkp">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="iiH-tR-7xp" customClass="AboutKTOViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AboutKTOViewController" modalPresentationStyle="fullScreen" id="iiH-tR-7xp" customClass="AboutKTOViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M4Q-jB-gKb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2058,7 +2058,7 @@
                                                     <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="license_about_content"/>
                                                 </userDefinedRuntimeAttributes>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="aboutKTO" translatesAutoresizingMaskIntoConstraints="NO" id="6DT-Jn-Dzl">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6DT-Jn-Dzl">
                                                 <rect key="frame" x="0.0" y="128" width="414" height="282.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="6DT-Jn-Dzl" secondAttribute="height" multiplier="375:256" id="oaa-06-SgA"/>
@@ -2203,7 +2203,7 @@
                                                     <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="license_ktoglobal_link"/>
                                                 </userDefinedRuntimeAttributes>
                                             </textView>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ktoMap" translatesAutoresizingMaskIntoConstraints="NO" id="X1L-Le-NM2">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X1L-Le-NM2">
                                                 <rect key="frame" x="0.0" y="1164.5" width="414" height="283"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="X1L-Le-NM2" secondAttribute="height" multiplier="375:256" id="QJw-ce-mQ7"/>
@@ -2288,6 +2288,8 @@
                     <navigationItem key="navigationItem" id="oZk-ko-1I1"/>
                     <connections>
                         <outlet property="csLink" destination="6JU-p5-1Ff" id="Ith-J1-peK"/>
+                        <outlet property="imgKto" destination="6DT-Jn-Dzl" id="2qr-FX-gaT"/>
+                        <outlet property="imgMap" destination="X1L-Le-NM2" id="6gP-5o-xXg"/>
                         <outlet property="webLink" destination="jMl-ij-bDW" id="YeE-eG-Wh7"/>
                     </connections>
                 </viewController>
@@ -2531,9 +2533,7 @@
         <image name="InterMilan-Logo" width="84" height="84"/>
         <image name="Profile Chevron Right" width="24" height="24"/>
         <image name="Tips" width="24" height="24"/>
-        <image name="aboutKTO" width="375" height="256"/>
-        <image name="ktoMap" width="375" height="256"/>
-        <image name="legalSupervision" width="316" height="446"/>
+        <image name="legalSupervision" width="317" height="447"/>
         <namedColor name="alert">
             <color red="1" green="0.50196078431372548" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
