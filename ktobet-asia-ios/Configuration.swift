@@ -52,9 +52,9 @@ enum Configuration: String {
     static var isAutoUpdate: Bool       = env.isAutoUpdate
     static var manualUpdate: Bool       = env.manualUpdate
     static var debugGesture: Bool       = env.debugGesture
-    static var enableCrashlytics: Bool  = env.enableCrashlytics
     static var manualControlNetwork: Bool   = env.manualControlNetwork
-    static var enableLogger: Bool = env.enableLogger
+    static var enableFileLog: Bool      = env.enableFileLog
+    static var enableRemoteLog: Bool    = env.enableRemoteLog
 
     static func getKtoAgent() -> String {
         let userAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(UIDevice.modelName))"
@@ -67,9 +67,9 @@ protocol Env {
     var isAutoUpdate: Bool { get }
     var manualUpdate: Bool { get }
     var debugGesture: Bool { get }
-    var enableCrashlytics: Bool { get }
     var manualControlNetwork: Bool { get }
-    var enableLogger: Bool { get }
+    var enableFileLog: Bool { get }
+    var enableRemoteLog: Bool { get }
 }
 
 fileprivate class DevConfig: Env {
@@ -77,9 +77,9 @@ fileprivate class DevConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
-    var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
-    var enableLogger: Bool = false
+    var enableFileLog: Bool = false
+    var enableRemoteLog: Bool = false
 }
 
 fileprivate class QatConfig: Env {
@@ -89,9 +89,9 @@ fileprivate class QatConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
-    var enableCrashlytics: Bool = true
     var manualControlNetwork: Bool = false
-    var enableLogger: Bool = true
+    var enableFileLog: Bool = true
+    var enableRemoteLog: Bool = true
 }
 
 fileprivate class StagingConfig: Env {
@@ -101,9 +101,9 @@ fileprivate class StagingConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
-    var enableCrashlytics: Bool = true
     var manualControlNetwork: Bool = false
-    var enableLogger: Bool = true
+    var enableFileLog: Bool = true
+    var enableRemoteLog: Bool = true
 }
 
 fileprivate class ProductionConfig: Env {
@@ -113,9 +113,9 @@ fileprivate class ProductionConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
-    var enableCrashlytics: Bool = true
     var manualControlNetwork: Bool = false
-    var enableLogger: Bool = false
+    var enableFileLog: Bool = false
+    var enableRemoteLog: Bool = true
 }
 
 fileprivate class ProductionSelftestConfig: Env {
@@ -125,9 +125,9 @@ fileprivate class ProductionSelftestConfig: Env {
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = false
     var debugGesture: Bool = true
-    var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
-    var enableLogger: Bool = false
+    var enableFileLog: Bool = true
+    var enableRemoteLog: Bool = true
 }
 
 fileprivate class ProductionBackupConfig: Env {
@@ -137,9 +137,9 @@ fileprivate class ProductionBackupConfig: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
-    var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
-    var enableLogger: Bool = false
+    var enableFileLog: Bool = false
+    var enableRemoteLog: Bool = true
 }
 
 fileprivate class Qat3Config: Env {
@@ -149,7 +149,7 @@ fileprivate class Qat3Config: Env {
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
-    var enableCrashlytics: Bool = false
     var manualControlNetwork: Bool = false
-    var enableLogger: Bool = true
+    var enableFileLog: Bool = true
+    var enableRemoteLog: Bool = true
 }

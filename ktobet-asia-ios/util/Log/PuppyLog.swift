@@ -25,42 +25,40 @@ class PuppyLog: LoggerDelegate {
         }
     }
 
-    func debug(_ message: String, tag: String) {
-        log(.debug, message, tag: tag)
+    func debug(_ message: String, tag: String, function: String, file: String, line: UInt) {
+        log(.debug, message, tag: tag, function: function, file: file, line: line)
     }
 
-    func info(_ message: String, tag: String) {
-        log(.info, message, tag: tag)
+    func info(_ message: String, tag: String, function: String, file: String, line: UInt) {
+        log(.info, message, tag: tag, function: function, file: file, line: line)
     }
 
-    func warning(_ message: String, tag: String) {
-        log(.warning, message, tag: tag)
+    func warning(_ message: String, tag: String, function: String, file: String, line: UInt) {
+        log(.warning, message, tag: tag, function: function, file: file, line: line)
     }
 
-    func error(_ message: String, tag: String) {
-        log(.error, message, tag: tag)
+    func error(_ error: Error, tag: String, function: String, file: String, line: UInt) {
+        log(.error, "\(error)", tag: tag, function: function, file: file, line: line)
     }
     
-    private func log(_ level: LogLevel, _ message: String, tag: String) {
-        if Configuration.enableLogger {
-            switch level {
-            case .trace:
-                break
-            case .verbose:
-                break
-            case .debug:
-                puppy.debug(message, tag: tag)
-            case .info:
-                puppy.info(message, tag: tag)
-            case .notice:
-                break
-            case .warning:
-                puppy.warning(message, tag: tag)
-            case .error:
-                puppy.error(message, tag: tag)
-            case .critical:
-                break
-            }
+    private func log(_ level: LogLevel, _ message: String, tag: String, function: String, file: String, line: UInt) {
+        switch level {
+        case .trace:
+            break
+        case .verbose:
+            break
+        case .debug:
+            puppy.debug(message, tag: tag, function: function, file: file, line: line)
+        case .info:
+            puppy.info(message, tag: tag, function: function, file: file, line: line)
+        case .notice:
+            break
+        case .warning:
+            puppy.warning(message, tag: tag, function: function, file: file, line: line)
+        case .error:
+            puppy.error(message, tag: tag, function: function, file: file, line: line)
+        case .critical:
+            break
         }
     }
 }

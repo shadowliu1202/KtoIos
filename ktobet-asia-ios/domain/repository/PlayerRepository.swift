@@ -63,6 +63,7 @@ class PlayerRepositoryImpl : PlayerRepository {
         let playerInfo = playerApi.getPlayerInfo().do(onSuccess: { [weak self] in
             if let data = $0.data {
                 self?.settingStore.playerInfo = data
+                FirebaseLog.shared.setUserID(data.gameId)
             }
         })
         let contactInfo = playerApi.getPlayerContact()

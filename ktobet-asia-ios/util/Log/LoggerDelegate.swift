@@ -1,6 +1,6 @@
 protocol LoggerDelegate {
-    func debug(_ message: String, tag: String)
-    func info(_ message: String, tag: String)
-    func warning(_ message: String, tag: String)
-    func error(_ message: String, tag: String)
+    func debug(_ message: String, tag: String, function: String, file: String , line: UInt)
+    func info(_ message: String, tag: String, function: String, file: String , line: UInt)
+    func warning(_ message: String, tag: String, function: String, file: String , line: UInt)
+    func error(_ error: Error, tag: String, function: String, file: String , line: UInt)
 }

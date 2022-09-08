@@ -35,13 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         
-        Logger.shared.delegate = PuppyLog.shared
         CookieUtil.shared.loadCookiesFromUserDefault()
         
-        if Configuration.enableCrashlytics {
-            FirebaseApp.configure()
-        }
-
+        Logger.configure()
         IQKeyboardManager.shared.enable = true
         UIView.appearance().isExclusiveTouch = true
         UICollectionView.appearance().isExclusiveTouch = true

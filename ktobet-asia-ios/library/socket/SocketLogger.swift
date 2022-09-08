@@ -63,7 +63,7 @@ public class PrintLogger: SocketLogger {
      - parameter message: log entry
     */
     public func log(logLevel: SocketLogLevel, message: @autoclosure () -> String) {
-        Logger.shared.debug("\(dateFormatter.string(from: Date())) \(logLevel.toString()): \(message())")
+        Logger.shared.debug("\(message())")
     }
 }
 
