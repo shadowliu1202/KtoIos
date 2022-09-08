@@ -18,13 +18,16 @@ extension UIViewController{
     @objc func handleErrors(_ error: Error) {
         switch error {
         case let apiException as ApiException:
-            handleHttpError(Int(apiException.errorCode ?? "0") ?? 0)
+            let code = Int(apiException.errorCode) ?? 0
+            let errorMsg: String = apiException.message ?? ""
+            let err = NSError(domain: "", code: code, userInfo: ["errorMsg" : errorMsg])
+            handleHttpError(err)
         case let moyaError as MoyaError:
             handleMoyaError(moyaError)
         case let afError as AFError:
             handleAFError(afError)
         case let nsError as NSError:
-            handleHttpError(nsError.code)
+            handleHttpError(nsError)
         default:
             handleUnknownError(error)
         }
@@ -33,14 +36,19 @@ extension UIViewController{
     private func handleMoyaError(_ error: MoyaError) {
         switch error {
         case .statusCode(let response):
-            handleHttpError(response.statusCode)
+            let domain = response.request?.url?.path ?? ""
+            let code = response.statusCode
+            let err = NSError(domain: domain, code: code, userInfo: ["errorMsg" : response.description])
+            handleHttpError(err)
         case .underlying(let err, _):
             if err is AFError {
                 handleAFError(err as! AFError)
             } else {
-                handleHttpError((err as NSError).code)
+                handleHttpError(err as NSError)
             }
-        case .jsonMapping, .encodableMapping, .imageMapping, .objectMapping:
+        case .parameterEncoding(let err):
+            Logger.shared.error(err)
+        case .jsonMapping, .encodableMapping, .imageMapping, .objectMapping, .stringMapping:
             showAlertError(Localize.string("common_malformedexception"))
         default:
             handleUnknownError(error)
@@ -48,9 +56,8 @@ extension UIViewController{
     }
 
     private func handleAFError(_ error: AFError) {
-        if case .sessionTaskFailed(let err) = error,
-            let nsError = err as NSError? {
-            handleHttpError(nsError.code)
+        if case .sessionTaskFailed(let err) = error, let nsError = err as NSError? {
+            handleHttpError(nsError)
         } else if case .explicitlyCancelled = error {
             // do nothing
         } else {
@@ -61,16 +68,19 @@ extension UIViewController{
     private func handleUnknownError(_ error: Error) {
         let unknownErrorString = String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
         showAlertError(unknownErrorString)
+        Logger.shared.error(error)
     }
 
-    private func handleHttpError(_ statusCode: Int) {
+    private func handleHttpError(_ nsError: NSError) {
+        let statusCode = nsError.code
         switch statusCode {
         case 403:
             showRestrictView()
-        case 410:
-            handleMaintenance()
         case 404:
             showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
+            Logger.shared.error(nsError)
+        case 410:
+            handleMaintenance()
         case 503:
             showAlertError(String(format: Localize.string("common_http_503"), "\(statusCode)"))
         case 608:
@@ -80,6 +90,7 @@ extension UIViewController{
                 showAlertError(Localize.string("common_unknownhostexception"))
             } else {
                 showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
+                Logger.shared.error(nsError)
             }
         }
     }
