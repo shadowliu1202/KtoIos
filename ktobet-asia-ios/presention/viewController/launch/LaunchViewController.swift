@@ -50,7 +50,7 @@ class LaunchViewController: UIViewController {
     }
     
     private func initCustomerService() {
-        CustomServicePresenter.shared.initCustomerService().subscribe().disposed(by: disposeBag)
+        CustomServicePresenter.shared.initCustomerService()
     }
 
     private func navigateToPortalMaintenancePage() {

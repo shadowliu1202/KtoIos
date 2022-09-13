@@ -101,9 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             viewModel
                 .checkIsLogged()
                 .subscribe { (isLogged) in
-                    CustomServicePresenter.shared.initCustomerService().subscribe(onCompleted: {
-                        print("Completed")
-                    }).disposed(by: self.disposeBag)
+                    CustomServicePresenter.shared.initCustomerService()
 
                     if !isLogged {
                         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
