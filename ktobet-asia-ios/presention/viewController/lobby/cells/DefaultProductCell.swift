@@ -15,6 +15,12 @@ class DefaultProductCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imgBackground.sd_cancelCurrentImageLoad()
+        imgBackground.image = nil
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -35,9 +41,9 @@ class DefaultProductCell: UITableViewCell {
         self.viewShadow.layer.shadowRadius = 5
     }
     
-    func setup(_ gameType: ProductType, _ local: SupportLocale, _ selectedGameType: ProductType?){
+    func setup(_ gameType: ProductType, _ local: SupportLocale, _ selectedGameType: ProductType?, _ host: String){
         let isSelected = gameType == selectedGameType ? true : false
-        self.imgBackground?.image = try! getSelectImg(gameType)
+        self.imgBackground.sd_setImage(url: try! getSelectImgUrl(host, gameType))
         self.imgMask.isHidden = isSelected
         self.labTitle.text = StringMapper.parseProductTypeString(productType: gameType)
         self.labDesc.text = try! getDesc(gameType)
@@ -63,16 +69,16 @@ class DefaultProductCell: UITableViewCell {
         }
     }
     
-    private func getSelectImg(_ productType: ProductType) throws -> UIImage {
+    private func getSelectImgUrl(_ host: String, _ productType: ProductType) throws -> URL? {
         switch productType {
         case .sbk:
-            return UIImage(named: "(375)SBK-Select")!
+            return URL(string: "\(host)/img/app/sbk.png")
         case .casino:
-            return UIImage(named: "(375)Casino-Select")!
+            return URL(string: "\(host)/img/app/casino.png")
         case .slot:
-            return UIImage(named: "(375)Slot-Select")!
+            return URL(string: "\(host)/img/app/slot.png")
         case .numbergame:
-            return UIImage(named: "(375)Number Game-Select")!
+            return URL(string: "\(host)/img/app/number_game.png")
         default:
             throw KTOError.WrongProductType
         }

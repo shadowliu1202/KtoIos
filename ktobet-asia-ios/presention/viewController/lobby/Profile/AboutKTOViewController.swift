@@ -4,17 +4,27 @@ import RxSwift
 class AboutKTOViewController: LobbyViewController {
     static let segueIdentifier = "toAboutKTO"
     
+    @IBOutlet weak var imgKto: UIImageView!
+    @IBOutlet weak var imgMap: UIImageView!
     @IBOutlet weak var webLink: UITextView!
     @IBOutlet weak var csLink: UITextView!
     
-    private var viewModel = DI.resolve(TermsViewModel.self)!
+    private let httpClient = DI.resolve(HttpClient.self)!
+    private let viewModel = DI.resolve(TermsViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
+        initImage()
         setKtoWebLinkTextView()
         setCsLinkTextView()
+    }
+    
+    private func initImage() {
+        let host = httpClient.host.absoluteString
+        imgKto.sd_setImage(url: URL(string: "\(host)/img/app/kto.png"))
+        imgMap.sd_setImage(url: URL(string: "\(host)/img/app/map.png"))
     }
     
      private func setKtoWebLinkTextView() {
