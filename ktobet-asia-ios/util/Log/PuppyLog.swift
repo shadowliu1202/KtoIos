@@ -21,7 +21,7 @@ class PuppyLog: LoggerDelegate {
                               filePermission: "600")
         if let fileLogger = fileLogger {
             fileLogger.format = logFormatter
-            puppy.add(fileLogger, withLevel: .debug)
+            puppy.add(fileLogger, withLevel: .info)
         }
     }
 

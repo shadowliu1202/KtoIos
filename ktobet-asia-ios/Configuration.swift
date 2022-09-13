@@ -100,7 +100,7 @@ fileprivate class StagingConfig: Env {
      SupportLocale.Vietnam.shared.cultureCode(): ["mobile2.staging.support", "mobile.staging.support"]]
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
-    var debugGesture: Bool = false
+    var debugGesture: Bool = true
     var manualControlNetwork: Bool = false
     var enableFileLog: Bool = true
     var enableRemoteLog: Bool = true

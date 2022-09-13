@@ -26,6 +26,12 @@ class Logger {
         }
     }
     
+    func info(_ message: String, tag: String, function: String = #function, file: String = #file, line: UInt = #line) {
+        for delegate in delegates {
+            delegate.info(message, tag: tag, function: function, file: file, line: line)
+        }
+    }
+    
     func error(_ error: Error, tag: String = "", function: String = #function, file: String = #file, line: UInt = #line) {
         for delegate in delegates {
             delegate.error(error, tag: tag, function: function, file: file, line: line)

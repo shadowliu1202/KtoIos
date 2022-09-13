@@ -26,6 +26,7 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("", tag: "KTO-876")
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
         
         viewModel.refreshOtpStatus()
@@ -55,7 +56,7 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
             }
         }).disposed(by: disposeBag)
         
-        viewModel.phone.subscribe { (phone) in
+        viewModel.phone.subscribe(onSuccess: { (phone) in
             if let phone = phone, !phone.isEmpty {
                 self.phone = Localize.string("common_otp_hint") + "\n" + phone
             } else {
@@ -64,19 +65,15 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
             
             self.contentLabel.text = self.phone
             self.btnSubmit.isHidden = self.phone == Localize.string("common_not_set_mobile")
-        } onError: {[weak self] (error) in
-            self?.handleErrors(error)
-        }.disposed(by: self.disposeBag)
+        }, onFailure: handleErrors).disposed(by: self.disposeBag)
         
-        viewModel.email.subscribe { (email) in
+        viewModel.email.subscribe(onSuccess: { (email) in
             if let email = email, !email.isEmpty {
                 self.email = Localize.string("common_otp_hint") + "\n" + email
             } else {
                 self.email = Localize.string("common_not_set_email")
             }
-        } onError: {[weak self] (error) in
-            self?.handleErrors(error)
-        }.disposed(by: self.disposeBag)
+        }, onFailure: handleErrors).disposed(by: self.disposeBag)
         
         btnEmail.rx.tap.subscribe {[weak self] _ in
             guard let self = self else { return }
@@ -111,6 +108,7 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
                 case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:
                     self?.viewModel.refreshOtpStatus()
                 default:
+                    Logger.shared.error(error, tag: "KTO-876")
                     self?.showToastAlertFailed()
                 }
             }).disposed(by: self.disposeBag)

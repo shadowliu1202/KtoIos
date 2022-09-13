@@ -28,7 +28,7 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        Logger.shared.info("", tag: "KTO-876")
         initUI()
         dataBinding()
     }
@@ -71,9 +71,7 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
                 let gesture =  UITapGestureRecognizer(target: self, action:  #selector(self.editNameAction))
                 self.nameLabel.addGestureRecognizer(gesture)
             }
-        }, onError: { [weak self]  (error) in
-            self?.handleErrors(error)
-        }).disposed(by: disposeBag)
+        }, onFailure: handleErrors).disposed(by: disposeBag)
     }
     
     private func bindBankName() {
@@ -87,9 +85,7 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
             guard let `self` = self else { return }
             self.bankDropDown.optionArray = StringMapper.localizeBankName(banks: tuple, supportLocale: self.playerLocaleConfiguration.getSupportLocale())
             self.bankDropDown.optionIds = tuple.map{ String($0.0) }
-        }, onError: { [weak self] (error) in
-            self?.handleErrors(error)
-        }).disposed(by: disposeBag)
+        }, onFailure: handleErrors).disposed(by: disposeBag)
         viewModel.bankValid.subscribe(onNext: { [weak self] (status) in
             self?.handleErrorLabel(error: status, textField: self?.bankDropDown, label: self?.bankErrorLabel)
         }).disposed(by: disposeBag)
@@ -162,6 +158,7 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
     private func bindSubmit() {
         viewModel.btnValid.bind(to: submitButton.rx.valid).disposed(by: disposeBag)
         submitButton.rx.touchUpInside.bind { [weak self] _ in
+            Logger.shared.info("submitButton.rx.touchUpInside", tag: "KTO-876")
             guard let `self` = self else { return }
             self.viewModel.addWithdrawalAccount().subscribe(onCompleted: {
                 let title = Localize.string("withdrawal_setbankaccountsuccess_modal_title")
