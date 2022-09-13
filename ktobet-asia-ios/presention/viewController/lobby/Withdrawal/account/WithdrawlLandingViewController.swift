@@ -43,12 +43,14 @@ class WithdrawlLandingViewController: LobbyViewController {
         super.viewDidLoad()
         setAccountsView()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(tapBack))
+        Logger.shared.info("", tag: "KTO-876")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         switch bankCardType {
         case .general:
+            Logger.shared.info("general", tag: "KTO-876")
             viewModel.withdrawalAccounts().subscribe(onSuccess: { [weak self] (accounts) in
                 self?.accounts = accounts
                 self?.updateWithdrawAccountsView()
@@ -56,6 +58,7 @@ class WithdrawlLandingViewController: LobbyViewController {
                 self?.handleErrors(error)
             }).disposed(by: disposeBag)
         case .crypto:
+            Logger.shared.info("crypto", tag: "KTO-876")
             viewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
                 self?.cryptoBankCards = cryptoBankCards
                 self?.updateWithdrawAccountsView()

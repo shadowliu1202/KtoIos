@@ -25,6 +25,7 @@ class AddCryptoAccountViewController: LobbyViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("", tag: "KTO-876")
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         accountAddressTextField.rx.observe(UIColor.self, "backgroundColor").bind(to: accountAddressView.rx.backgroundColor).disposed(by: disposeBag)
         
@@ -99,25 +100,31 @@ class AddCryptoAccountViewController: LobbyViewController {
         event.dataValid.bind(to: submitButton.rx.valid).disposed(by: disposeBag)
         
         submitButton.rx.tap.subscribe(onNext: {[weak self] in
-            guard let self = self else { return }
+            Logger.shared.info("submitButton.rx.tap", tag: "KTO-876")
+            guard let `self` = self else { return }
             if self.bankCardCount >= Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT {
                 Alert.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT), confirm: nil, cancel: nil, tintColor: UIColor.red)
             } else {
+                Logger.shared.info("viewModel.addCryptoBankCard()", tag: "KTO-876")
                 self.viewModel.addCryptoBankCard().subscribe(onSuccess: { (data) in
                     Alert.show(Localize.string("profile_safety_verification_title"), Localize.string("cps_security_alert"), confirm: {
                         self.performSegue(withIdentifier: WithdrawalCryptoVerifyViewController.segueIdentifier, sender: data)
                     }, cancel: nil)
-                }, onError: { (error) in
-                    if error is KtoWithdrawalAccountExist {
-                        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("cps_bank_card_exist"), confirm: nil, cancel: nil, tintColor: UIColor.red)
-                    }
-                }).disposed(by: self.disposeBag)
+                }, onFailure: self.handleErrors).disposed(by: self.disposeBag)
             }
         }).disposed(by: disposeBag)
         
         qrCodeButton.rx.tap.subscribe(onNext: {[weak self] in
             self?.showImagePicker()
         }).disposed(by: disposeBag)
+    }
+    
+    override func handleErrors(_ error: Error) {
+        if error is KtoWithdrawalAccountExist {
+            Alert.show(Localize.string("common_tip_title_warm"), Localize.string("cps_bank_card_exist"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+        } else {
+            super.handleErrors(error)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -36,6 +36,7 @@ class CommonVerifyOtpViewController: CommonViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("", tag: "KTO-876")
         if !delegate.commonVerifyOtpArgs.isHiddenCSBarItem { self.bind(position: .right, barButtonItems: padding, customService) }
         initialize()
         bindingViews()
@@ -162,6 +163,7 @@ class CommonVerifyOtpViewController: CommonViewController {
     }
 
     @IBAction func btnVerifyPressed(_ sender: UIButton) {
+        Logger.shared.info("btnVerifyPressed", tag: "KTO-876")
         if overStep2TimeLimit {
             navigateToErrorPage()
             return

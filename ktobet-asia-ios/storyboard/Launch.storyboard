@@ -46,12 +46,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Debug Log" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0eY-HX-A1s">
-                                <rect key="frame" x="10" y="54" width="121" height="29"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rdR-ll-w99">
+                                <rect key="frame" x="10" y="54" width="62.5" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="看Log"/>
+                                <connections>
+                                    <action selector="clickSwitch:" destination="9Gi-ns-jaX" eventType="touchUpInside" id="7gH-D4-KqC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owg-ZU-fsh">
+                                <rect key="frame" x="92.5" y="54" width="28" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title=" "/>
+                                <connections>
+                                    <action selector="clickClean:" destination="9Gi-ns-jaX" eventType="touchUpInside" id="plb-jO-TRa"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhi-D2-eC8">
                                 <rect key="frame" x="369" y="54" width="35" height="35"/>
                                 <color key="backgroundColor" name="black"/>
@@ -224,18 +234,23 @@
                         <viewLayoutGuide key="safeArea" id="7v5-94-ehB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="0eY-HX-A1s" firstAttribute="top" secondItem="7v5-94-ehB" secondAttribute="top" constant="10" id="5YT-tQ-1f0"/>
+                            <constraint firstItem="rdR-ll-w99" firstAttribute="leading" secondItem="7v5-94-ehB" secondAttribute="leading" constant="10" id="3kk-2J-235"/>
+                            <constraint firstItem="owg-ZU-fsh" firstAttribute="top" secondItem="rdR-ll-w99" secondAttribute="top" id="9ya-pk-OGR"/>
                             <constraint firstItem="xbD-VK-kEE" firstAttribute="top" secondItem="yhi-D2-eC8" secondAttribute="bottom" id="DhV-rZ-CpJ"/>
                             <constraint firstItem="yhi-D2-eC8" firstAttribute="top" secondItem="7v5-94-ehB" secondAttribute="top" constant="10" id="RJ2-Gk-e9h"/>
                             <constraint firstItem="xbD-VK-kEE" firstAttribute="leading" secondItem="7v5-94-ehB" secondAttribute="leading" constant="5" id="RnE-84-hOW"/>
                             <constraint firstItem="7v5-94-ehB" firstAttribute="trailing" secondItem="yhi-D2-eC8" secondAttribute="trailing" constant="10" id="T0O-B0-iJJ"/>
-                            <constraint firstItem="0eY-HX-A1s" firstAttribute="leading" secondItem="7v5-94-ehB" secondAttribute="leading" constant="10" id="Tgj-xk-tGa"/>
+                            <constraint firstItem="owg-ZU-fsh" firstAttribute="leading" secondItem="rdR-ll-w99" secondAttribute="trailing" constant="20" id="bum-Yu-tOg"/>
                             <constraint firstItem="7v5-94-ehB" firstAttribute="bottom" secondItem="xbD-VK-kEE" secondAttribute="bottom" constant="5" id="e0H-P6-m4g"/>
                             <constraint firstItem="7v5-94-ehB" firstAttribute="trailing" secondItem="xbD-VK-kEE" secondAttribute="trailing" constant="5" id="egX-C3-8gI"/>
+                            <constraint firstItem="owg-ZU-fsh" firstAttribute="bottom" secondItem="rdR-ll-w99" secondAttribute="bottom" id="kQ0-tX-NJS"/>
+                            <constraint firstItem="rdR-ll-w99" firstAttribute="top" secondItem="7v5-94-ehB" secondAttribute="top" constant="10" id="uDz-2k-oTF"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="yhi-D2-eC8" id="AAb-Lq-CAs"/>
+                        <outlet property="cleanBtn" destination="owg-ZU-fsh" id="vEu-Ko-ZBC"/>
+                        <outlet property="switchBtn" destination="rdR-ll-w99" id="svt-H9-0uz"/>
                         <outlet property="tableView" destination="mFG-6a-I1f" id="N8i-cv-hiQ"/>
                     </connections>
                 </viewController>

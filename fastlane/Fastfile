@@ -223,7 +223,8 @@ platform :ios do
       			export_method: 'app-store')
 
     		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
-  					app_identifier: "com.kto.asia.stg")
+  					app_identifier: "com.kto.asia.stg",
+					skip_waiting_for_build_processing: true)
 	end
 
 
@@ -246,7 +247,8 @@ platform :ios do
       			export_method: 'app-store')
 
     		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
-  					app_identifier: "com.kto.asia.qat-1")
+  					app_identifier: "com.kto.asia.qat-1",
+					skip_waiting_for_build_processing: true)
 	end
 	
 	lane :buildIpaProduction do |options|
@@ -311,8 +313,9 @@ platform :ios do
             output_directory: "output",
             export_method: 'app-store')
 
-        upload_to_testflight(username: "higgs-mobile@hotmail.com",
-            app_identifier: "com.kto.asia.selftest")
+        upload_to_testflight(	username: "higgs-mobile@hotmail.com",
+            			app_identifier: "com.kto.asia.selftest",
+				skip_waiting_for_build_processing: true)
 
     end
     
@@ -334,8 +337,9 @@ platform :ios do
             output_directory: "output",
             export_method: 'app-store')
 
-        upload_to_testflight(username: "higgs-mobile@hotmail.com",
-            app_identifier: "com.kto.asia.backup")
+        upload_to_testflight(	username: "higgs-mobile@hotmail.com",
+            			app_identifier: "com.kto.asia.backup",
+				skip_waiting_for_build_processing: true)
 
     end
     
@@ -357,8 +361,9 @@ platform :ios do
             output_directory: "output",
             export_method: 'app-store')
 
-        upload_to_testflight(username: "higgs-mobile@hotmail.com",
-            app_identifier: "com.kto.asia.qat3")
+        upload_to_testflight(	username: "higgs-mobile@hotmail.com",
+            			app_identifier: "com.kto.asia.qat3",
+				skip_waiting_for_build_processing: true)
 
     end
     
@@ -383,6 +388,8 @@ platform :ios do
 			output_directory: "output",
 			export_method: 'app-store')
 
-		upload_to_testflight(username: "higgs-mobile@hotmail.com",app_identifier: identifier)
+		upload_to_testflight(	username: "higgs-mobile@hotmail.com",
+					app_identifier: identifier,
+					skip_waiting_for_build_processing: true)
 	end
 end
