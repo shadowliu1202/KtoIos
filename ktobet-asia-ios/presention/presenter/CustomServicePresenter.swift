@@ -112,7 +112,7 @@ class CustomServicePresenter: NSObject {
         }
     }
     
-    func initCustomerService() -> Completable {
+    func initCustomerService() {
         self.csViewModel.searchChatRoom().asCompletable().andThen(self.csViewModel.preLoadChatRoomStatus)
             .first()
             .observeOn(MainScheduler.instance)
@@ -147,7 +147,9 @@ class CustomServicePresenter: NSObject {
                 default:
                     break
                 }
-            }).asCompletable()
+            })
+            .subscribe().disposed(by: disposeBag)
+
     }
     
     private func setServiceIconTap(touchEvent: (() -> ())?) {
