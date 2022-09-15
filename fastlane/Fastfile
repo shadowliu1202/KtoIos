@@ -254,7 +254,7 @@ platform :ios do
             include_bitcode: true,
             archive_path: "./output/qat.xcarchive",
             output_directory: "output",
-            output_name: "Qat-testflight.ipa",
+            output_name: "ktobet-asia-ios-qat.ipa",
             export_method: 'app-store')
     end
     
