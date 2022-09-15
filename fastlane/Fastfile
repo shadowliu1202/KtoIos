@@ -230,26 +230,43 @@ platform :ios do
 
 
 	lane :uploadToTestflight do |options|
-    setupKeyStore()
-	match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.qat-1")
-		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist", 
-				  block: proc do |plist|
+        setupKeyStore()
+		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist",
+                    block: proc do |plist|
 					plist["CFBundleVersion"]  = options[:buildVersion]
 					plist["CFBundleShortVersionString"] = options[:appVersion]
   				  end)
 
-    		gym(	configuration: "Release",
-      		     	scheme: "ktobet-asia-ios-qat",
-      		     	clean: true,
-      		     	include_bitcode: true,
-      			include_symbols: true,
-			output_directory: "output",
-      			export_method: 'app-store')
-
-    		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
-  					app_identifier: "com.kto.asia.qat-1",
+        qat1Testflight()
+        qat1AdHoc()
+        
+        upload_to_testflight(username: "higgs-mobile@hotmail.com",
+                    app_identifier: "com.kto.asia.qat-1",
+                    ipa:"./output/Qat-testflight.ipa",
 					skip_waiting_for_build_processing: true)
 	end
+ 
+    private_lane :qat1Testflight do
+        match(type: "appstore", readonly: true, app_identifier:"com.kto.asia.qat-1")
+        gym(configuration: "Release",
+            scheme: "ktobet-asia-ios-qat",
+            clean: true,
+            include_bitcode: true,
+            archive_path: "./output/qat.xcarchive",
+            output_directory: "output",
+            output_name: "Qat-testflight.ipa",
+            export_method: 'app-store')
+    end
+    
+    private_lane :qat1AdHoc do
+        match(type: "adhoc", readonly: true, app_identifier:"com.kto.asia.qat-1")
+        gym(scheme: "ktobet-asia-ios-qat",
+            skip_build_archive: true,
+            archive_path: "./output/qat.xcarchive",
+            output_directory: "output",
+            output_name: "Qat-adHoc.ipa",
+            export_method: "ad-hoc")
+    end
 	
 	lane :buildIpaProduction do |options|
         buildIpaProdCN(options)
