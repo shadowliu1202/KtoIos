@@ -242,7 +242,7 @@ platform :ios do
         
         upload_to_testflight(username: "higgs-mobile@hotmail.com",
                     app_identifier: "com.kto.asia.qat-1",
-                    ipa:"./output/Qat-testflight.ipa",
+                    ipa:"./output/ktobet-asia-ios-qat.ipa",
 					skip_waiting_for_build_processing: true)
 	end
  
