@@ -7,7 +7,7 @@ import SharedBu
 class StarMergerViewController: APPViewController {
     static let segueIdentifier = "toStarMergerViewController"
     
-    let viewModel = DI.resolve(StarMergerViewModel.self)!
+    let viewModel = DI.resolve(StarMergerViewModelImpl.self)!
     let httpClient = DI.resolve(HttpClient.self)!
     var link: CommonDTO.WebPath? {
         viewModel.paymentLink
