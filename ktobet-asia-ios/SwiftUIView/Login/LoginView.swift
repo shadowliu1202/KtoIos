@@ -2,7 +2,7 @@ import SwiftUI
 import SharedBu
 
 struct LoginView: View {
-    @StateObject private var viewModel: NewLoginViewModel = DI.resolve(NewLoginViewModel.self)!
+    @StateObject var viewModel: NewLoginViewModel = DI.resolve(NewLoginViewModel.self)!
     
     @State private var isLoadedData: Bool = false
     

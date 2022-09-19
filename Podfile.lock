@@ -148,6 +148,7 @@ PODS:
   - SwiftyJSON (5.0.0)
   - Swinject (2.7.1)
   - TYCyclePagerView (1.2.0)
+  - ViewInspector (0.9.1)
 
 DEPENDENCIES:
   - Alamofire (= 5.4.1)
@@ -171,6 +172,7 @@ DEPENDENCIES:
   - SwiftyJSON (= 5.0.0)
   - Swinject (= 2.7.1)
   - TYCyclePagerView (= 1.2.0)
+  - ViewInspector
 
 SPEC REPOS:
   "git@gitlab.higgstar.com:mobile/ios_pod_repo.git":
@@ -210,6 +212,7 @@ SPEC REPOS:
     - SwiftyJSON
     - Swinject
     - TYCyclePagerView
+    - ViewInspector
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
@@ -247,7 +250,8 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
+  ViewInspector: 68842776f07fbf186713689d4846e54f32ccbffb
 
-PODFILE CHECKSUM: b03b075e024f0a154bb9f9890ee51236fe9c4f40
+PODFILE CHECKSUM: 27cc7d4edcc5a1dbe000bd06db3098c44ccec32d
 
 COCOAPODS: 1.11.3

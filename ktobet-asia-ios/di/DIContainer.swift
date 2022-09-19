@@ -673,10 +673,10 @@ class DIContainer {
             let appUpdateUseCase = resolver.resolve(AppVersionUpdateUseCase.self)!
             return AppSynchronizeViewModel(appUpdateUseCase: appUpdateUseCase)
         }.inObjectScope(.application)
-        container.register(StarMergerViewModel.self) { resolver in
+        container.register(StarMergerViewModelImpl.self) { resolver in
             let applicationFactory = resolver.resolve(ApplicationFactory.self)!
             let depositService = applicationFactory.deposit()
-            return StarMergerViewModel(depositService: depositService)
+            return StarMergerViewModelImpl(depositService: depositService)
         }
         container.register(NewLoginViewModel.self) { (resolver) in
             let authenticationUseCase = resolver.resolve(AuthenticationUseCase.self)!
