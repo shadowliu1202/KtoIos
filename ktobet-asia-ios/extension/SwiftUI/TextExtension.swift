@@ -42,19 +42,34 @@ enum KTOFontWeight: String {
 enum KTOTextColor {
     case primaryGray
     case primaryRed
+    case primaryForLight
     case white
     case alert
-
+    case defaultGray
+    case black
+    case gray2
+    case secondary
+    
     var value: Color {
         switch self {
         case .primaryGray:
             return .primaryGray
         case .primaryRed:
             return .primaryRed
+        case .primaryForLight:
+            return .primaryForLight
         case .white:
             return .white
         case .alert:
             return .alert
+        case .defaultGray:
+            return .defaultGray
+        case .black:
+            return .black
+        case .gray2:
+            return .gray2
+        case .secondary:
+            return .secondary
         }
     }
 }

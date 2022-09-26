@@ -115,17 +115,18 @@ struct DepositCryptoDetailView: View {
         
     var textView: textRowView{ textRowView(data: data) }
     var titleStrings = [Localize.string("balancelog_detail_id"), Localize.string("activity_status"), String(format: Localize.string("common_cps_remitter"), Localize.string("common_player")), String(format: Localize.string("common_cps_payee"), Localize.string("cps_kto")), Localize.string("common_cps_hash_id"), Localize.string("common_remark")]
-    private let applyTitleStrings =
+    private var applyTitleStrings: [String] {
         [Localize.string("common_cps_apply_crypto"),
          Localize.string("common_cps_apply_rate"),
-         String(format: Localize.string("common_cps_apply_amount"), "CNY"),
+         String(format: Localize.string("common_cps_apply_amount"), data?.processingMemo.request?.toFiat.simpleName ?? ""),
          Localize.string("common_applytime")]
-    
-    private let finalTitleString = [Localize.string("common_cps_final_crypto"),
-                                    Localize.string("common_cps_final_rate"),
-                                    String(format: Localize.string("common_cps_final_amount"), "CNY"),
-                                    Localize.string("common_cps_final_datetime")
-    ]
+    }
+    private var finalTitleString: [String] {
+        [Localize.string("common_cps_final_crypto"),
+         Localize.string("common_cps_final_rate"),
+         String(format: Localize.string("common_cps_final_amount"), data?.processingMemo.request?.toFiat.simpleName ?? ""),
+         Localize.string("common_cps_final_datetime")]
+    }
     
     var body: some View {
         ScrollView(.vertical) {

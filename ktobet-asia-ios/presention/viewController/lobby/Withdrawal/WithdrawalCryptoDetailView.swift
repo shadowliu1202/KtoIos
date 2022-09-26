@@ -8,14 +8,14 @@ struct WithdrawalCryptoDetailView: View {
     private var finalInfoData: [(title: String, content: String)] {
         [(Localize.string("common_cps_final_crypto"), data.actualCryptoAmount.cryptoAmount.formatString()),
          (Localize.string("common_cps_final_rate"), data.actualCryptoAmount.exchangeRate.formatString()),
-         (String(format: Localize.string("common_cps_final_amount"), "CNY"), data.actualCryptoAmount.cashAmount.description()),
+         (String(format: Localize.string("common_cps_final_amount"), data.actualCryptoAmount.cashAmount.simpleName), data.actualCryptoAmount.cashAmount.description()),
          (Localize.string("common_cps_final_datetime"), data.approvedDate.toDateTimeString())]
     }
     
     private var applyInfoData: [(title: String, content: String)] {
         [(Localize.string("common_cps_apply_crypto"), data.requestCryptoAmount.cryptoAmount.formatString()),
          (Localize.string("common_cps_apply_rate"), data.requestCryptoAmount.exchangeRate.formatString()),
-         (String(format: Localize.string("common_cps_apply_amount"), "CNY"), data.requestCryptoAmount.cashAmount.description()),
+         (String(format: Localize.string("common_cps_apply_amount"), data.requestCryptoAmount.cashAmount.simpleName), data.requestCryptoAmount.cashAmount.description()),
          (Localize.string("common_applytime"), data.record.createDate.toDateTimeString())]
     }
     
@@ -33,7 +33,7 @@ struct WithdrawalCryptoDetailView: View {
     }
     
     var body: some View {
-        ScrollView(.vertical) {
+        ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(Localize.string("withdrawal_detail_title"))
@@ -87,7 +87,7 @@ struct WithdrawalCryptoDetailView: View {
             Spacer(minLength: 96)
         }
         .background(Color(.black_two))
-        .edgesIgnoringSafeArea(.all)
+        .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
     
     var detailInfo: some View {

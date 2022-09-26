@@ -1,6 +1,5 @@
 import Combine
 import SwiftUI
-import ViewInspector
 
 internal final class Inspection<V> {
 
@@ -13,5 +12,3 @@ internal final class Inspection<V> {
         }
     }
 }
-
-extension Inspection: InspectionEmissary { }

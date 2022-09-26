@@ -10,7 +10,7 @@ class StarMergerViewTest: XCTestCase {
     func test_Get_Payment_Link_On_Success() throws {
         stubObject.paymentLink = CommonDTO.WebPath.init(path: "")
         
-        testUI(wrappedView: StarMergerView(viewModel: stubObject, { _ in })) { view in
+        testUI(testView: StarMergerView(viewModel: stubObject, { _ in })) { view in
             let submitButton = try view.find(viewWithId: "submitButton").button()
             
             XCTAssertFalse(submitButton.isDisabled())
@@ -20,7 +20,7 @@ class StarMergerViewTest: XCTestCase {
     func test_Get_Payment_Link_Not_On_Success() throws {
         stubObject.paymentLink = nil
         
-        testUI(wrappedView: StarMergerView(viewModel: stubObject, { _ in })) { view in
+        testUI(testView: StarMergerView(viewModel: stubObject, { _ in })) { view in
             let submitButton = try view.find(viewWithId: "submitButton").button()
             
             XCTAssertTrue(submitButton.isDisabled())
@@ -28,7 +28,7 @@ class StarMergerViewTest: XCTestCase {
     }
 }
 
-extension StarMergerView: Inspectable {}
+extension StarMergerView: UITestable {}
 
 class StubStarMergerViewModel: StarMergerViewModel {
     var amountRange: AmountRange?

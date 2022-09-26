@@ -46,7 +46,14 @@ extension CryptoCurrency {
 
 extension AccountCurrency {
     @objc override var flagIcon: UIImage? {
-        return UIImage(named: "IconCryptoType_CNY")
+        switch self.simpleName {
+        case "KVND":
+            return UIImage(named: "IconCryptoType_VND")
+        case "CNY":
+            fallthrough
+        default:
+            return UIImage(named: "IconCryptoType_CNY")
+        }
     }
 }
 

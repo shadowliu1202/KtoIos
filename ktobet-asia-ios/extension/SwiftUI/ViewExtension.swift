@@ -31,7 +31,7 @@ extension View {
     }
     
     @ViewBuilder
-    func customizedFont(fontWeight: KTOFontWeight, size: CGFloat, color: KTOTextColor?) -> some View {
+    func customizedFont(fontWeight: KTOFontWeight, size: CGFloat, color: KTOTextColor? = nil) -> some View {
         LocalizeFont(fontWeight: fontWeight, size: size, color: color) {
             self
         }
@@ -58,6 +58,44 @@ extension View {
         } else {
             self
         }
+    }
+    
+    func generateHighlightSentence(fullSentence: String, generalColor: KTOTextColor, highlightWords: [String], highlightColor: KTOTextColor) -> Text {
+        var words = highlightWords
+        
+        for word in words {
+            if fullSentence.range(of: word) == nil {
+                guard let index = words.firstIndex(of: word) else { continue }
+                words.remove(at: index)
+            }
+        }
+        
+        var sentence = fullSentence
+        var highlightSentence: Text = Text("")
+        
+        words.sort { lhs, rhs in
+            let lhsStartIndex = sentence.range(of: lhs)!.lowerBound
+            let rhsStartIndex = sentence.range(of: rhs)!.lowerBound
+            
+            if lhsStartIndex == rhsStartIndex {
+                return lhs.count > rhs.count
+            }
+            
+            return lhsStartIndex < rhsStartIndex
+        }
+        
+        for word in words {
+            guard let range = sentence.range(of: word) else { continue }
+            
+            highlightSentence = highlightSentence + Text(sentence[..<range.lowerBound]).foregroundColor(generalColor.value)
+            highlightSentence = highlightSentence + Text(word).foregroundColor(highlightColor.value)
+            
+            sentence = String(sentence[range.upperBound...])
+        }
+        
+        highlightSentence = highlightSentence + Text(sentence).foregroundColor(generalColor.value)
+        
+        return highlightSentence
     }
 }
 

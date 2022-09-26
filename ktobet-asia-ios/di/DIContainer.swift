@@ -685,6 +685,10 @@ class DIContainer {
             let localStorageRepo = resolver.resolve(LocalStorageRepositoryImpl.self)!
             return NewLoginViewModel(authenticationUseCase, configurationUseCase, navigationViewModel, localStorageRepo)
         }
+        container.register(CryptoGuideVNDViewModelImpl.self) { (resolver) in
+            let localizationUseCase = resolver.resolve(LocalizationPolicyUseCase.self)!
+            return CryptoGuideVNDViewModelImpl(localizationPolicyUseCase: localizationUseCase)
+        }
     }
     
     func registSingleton() {

@@ -50,7 +50,8 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
         fiatView = exchangeInput.fiatView
         let stream = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return Observable.combineLatest(viewModel.getWithdrawalLimitation().asObservable(),
-                                            viewModel.getBalance().asObservable(), viewModel.cryptoCurrency(cryptoCurrency: cryptoType).asObservable())
+                                            viewModel.getBalance().asObservable(),
+                                            viewModel.cryptoCurrency(cryptoCurrency: cryptoType).asObservable())
         }).share()
         setupExchangeUI(stream)
         setupWithdrawalAmountRange(stream)
@@ -298,10 +299,8 @@ class CurrencyView: UIView {
         let maximumAmount: Decimal = 9999999
         if amount > maximumAmount {
             amount = maximumAmount
-            textField.text = amount.currencyFormatWithoutSymbol()
-        } else {
-            textField.text = currencyFormat(amount)
         }
+        textField.text = currencyFormat(amount)
         textField.sendActions(for: .valueChanged)
     }
     
@@ -325,18 +324,13 @@ class CryptoView: CurrencyView {
     }
     
     override func currencyFormat(_ amount: Decimal) -> String {
-        switch self.cryptoType! {
-        case .usdt:
-            return amount.currencyFormatWithoutSymbol(precision: 0, maximumFractionDigits: 2)
-        default:
-            return amount.currencyFormatWithoutSymbol(precision: 0, maximumFractionDigits: 8)
-        }
+        amount.toCryptoCurrency(self.cryptoType).description()
     }
 }
 
 class FiatView: CurrencyView {
     override func currencyFormat(_ amount: Decimal) -> String {
-        return amount.currencyFormatWithoutSymbol(precision: 0, maximumFractionDigits: 2)
+        amount.toAccountCurrency().description()
     }
 }
 
@@ -411,8 +405,12 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
             let fiatAmount = cryptoAmount * exchangeRate
             fiatView.setAmount(fiatAmount.description())
         } else if textField == fiatView.textField {
-            fiatView.textField.text = str
             let fiatAmount = amount.toAccountCurrency()
+            var fiatText = fiatAmount.description()
+            if str.hasSuffix(".") {
+                fiatText = fiatText.appending(".")
+            }
+            fiatView.textField.text = fiatText
             let cryptoAmount = fiatAmount * exchangeRate
             cryptoView.setAmount(cryptoAmount.description())
         }

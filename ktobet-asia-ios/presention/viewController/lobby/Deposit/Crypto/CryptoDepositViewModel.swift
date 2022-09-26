@@ -12,7 +12,6 @@ final class CryptoDepositViewModel: KTOViewModel, ViewModelType {
 
     private let selectPaymentGateway = ReplaySubject<PaymentsDTO.TypeOptions>.create(bufferSize: 1)
     private let confirmTrigger = PublishSubject<Void>()
-    private let guideTrigger = PublishSubject<Void>()
 
     init(depositService: IDepositAppService, navigator: DepositNavigator) {
         super.init()
@@ -23,14 +22,11 @@ final class CryptoDepositViewModel: KTOViewModel, ViewModelType {
         let cryptoPayment = payments.compactMap { $0.crypto }
         let options = getCryptoOptions(cryptoPayment)
         let webUrl = request()
-        let guide = self.guideTrigger.do(onNext: {[weak self] in self?.navigator.toGuidePage() }).asDriverLogError()
 
         self.input = Input(selectPaymentGateway: selectPaymentGateway.asObserver(),
-                           guideTrigger: self.guideTrigger.asObserver(),
                            confirmTrigger: confirmTrigger.asObserver())
         self.output = Output(options: options,
-                             webUrl: webUrl,
-                             guide: guide)
+                             webUrl: webUrl)
     }
 
     private func getCryptoOptions(_ cryptoPayment: Observable<PaymentsDTO.Crypto>) -> Driver<[CryptoDepositItemViewModel]> {
@@ -70,13 +66,11 @@ final class CryptoDepositViewModel: KTOViewModel, ViewModelType {
 extension CryptoDepositViewModel {
     struct Input {
         let selectPaymentGateway: AnyObserver<PaymentsDTO.TypeOptions>
-        let guideTrigger: AnyObserver<Void>
         let confirmTrigger: AnyObserver<Void>
     }
 
     struct Output {
         let options: Driver<[CryptoDepositItemViewModel]>
         let webUrl: Driver<CommonDTO.WebUrl>
-        let guide: Driver<Void>
     }
 }

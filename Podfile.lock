@@ -142,7 +142,7 @@ PODS:
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
-  - sharedbu (2.7.4)
+  - sharedbu (2.8.1)
   - SideMenu (6.5.0)
   - SnapKit (5.0.1)
   - SwiftyJSON (5.0.0)
@@ -167,7 +167,7 @@ DEPENDENCIES:
   - RxSwift (= 6.5.0)
   - RxSwiftExt (= 6.0.1)
   - SDWebImage (= 5.10.4)
-  - sharedbu (= 2.7.4)
+  - sharedbu (= 2.8.1)
   - SideMenu (= 6.5.0)
   - SwiftyJSON (= 5.0.0)
   - Swinject (= 2.7.1)
@@ -244,7 +244,7 @@ SPEC CHECKSUMS:
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   RxSwiftExt: d61c4b9b06e0a448041b1c659e0f1b5c5a035afc
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
-  sharedbu: ae2bb0edba278c32cca0cbf38139dc4d4daf4583
+  sharedbu: 24090ed95cd28f81d93cd3a245864d707f194381
   SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
@@ -252,6 +252,6 @@ SPEC CHECKSUMS:
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
   ViewInspector: 68842776f07fbf186713689d4846e54f32ccbffb
 
-PODFILE CHECKSUM: 27cc7d4edcc5a1dbe000bd06db3098c44ccec32d
+PODFILE CHECKSUM: 077e6d51592f2515ef8d9789a612a33b79a08920
 
 COCOAPODS: 1.11.3

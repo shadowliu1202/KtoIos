@@ -73,21 +73,11 @@ class WithdrawalViewController: LobbyViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_withdrawal"))
         initUI()
-        localize()
         withdrawalLimitationDataBinding()
         recordDataBinding()
         showAllRecordEvenhandler()
         recordDataEvenhandler()
         cryptoWithdrawlDataBinding()
-    }
-
-    private func localize() {
-        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-        
-        if localStorageRepo.getCultureCode() == SupportLocale.Vietnam.init().cultureCode() {
-            tipLabelStackView.isHidden = true
-            crpytoView.isHidden = true
-        }
     }
     
     deinit {

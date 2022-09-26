@@ -6,7 +6,7 @@ protocol DepositNavigator {
     func toDepositHomePage(unwindSegueId: String)
     func toOnlineWebPage(url: String)
     func toCryptoWebPage(url: String)
-    func toGuidePage()
+    func toGuidePage(_ playerLocale: SupportLocale)
 }
 
 class DepositNavigatorImpl: DepositNavigator {
@@ -32,7 +32,14 @@ class DepositNavigatorImpl: DepositNavigator {
         NavigationManagement.sharedInstance.viewController.performSegue(withIdentifier: DepositCryptoViewController.segueIdentifier, sender: url)
     }
     
-    func toGuidePage() {
-        NavigationManagement.sharedInstance.viewController.performSegue(withIdentifier: CryptoGuideViewController.segueIdentifier, sender: nil)
+    func toGuidePage(_ playerLocale: SupportLocale) {
+        switch playerLocale {
+        case is SupportLocale.Vietnam:
+            NavigationManagement.sharedInstance.viewController.performSegue(withIdentifier: CryptoGuideVNDViewController.segueIdentifier, sender: nil)
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            NavigationManagement.sharedInstance.viewController.performSegue(withIdentifier: CryptoGuideViewController.segueIdentifier, sender: nil)
+        }
     }
 }
