@@ -119,54 +119,12 @@ platform :ios do
 		end
 	end
 
-	lane :buildIpa  do |options|
-        setupKeyStore()
-	    match(type: "adhoc", readonly: is_ci, app_identifier: "com.kto.asia.dev")
-		update_info_plist(plist_path: "ktobet-asia-ios/info.plist", 
-				  block: proc do |plist|
-					plist["CFBundleVersion"]  = options[:buildVersion]
-					plist["CFBundleShortVersionString"] = options[:appVersion]
-  				  end)
-  		build_app(scheme: "ktobet-asia-ios",
-			  workspace: "ktobet-asia-ios.xcworkspace",
-            		  include_bitcode: true,
-			  clean: true,
-		   	  output_directory: "output",
-			  export_method: "ad-hoc",
-			  skip_package_ipa: true,
-			  skip_archive: true
-			 )
-
-	end
-
-
-	lane :buildIpaQat  do |options|
-        setupKeyStore()
-	    match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.qat-1")
-		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist", 
-				  block: proc do |plist|
-					plist["CFBundleVersion"]  = options[:buildVersion]
-					plist["CFBundleShortVersionString"] = options[:appVersion]
-  				  end)
-  		build_app(scheme: "ktobet-asia-ios-qat",
-			  workspace: "ktobet-asia-ios.xcworkspace",
-            		  include_bitcode: true,
-			  clean: true,
-		   	  output_directory: "output",
-			  export_method: "ad-hoc",
-	    		  export_options: { 
-					    method: "ad-hoc",
-					  }
-			 )
-
-	end
-
     lane :buildIpaStaging  do |options|
         buildIpaStgCN(options)
         buildIpaStgVN(options)
 	end
 
-    lane :buildIpaStgCN  do |options|
+    private_lane :buildIpaStgCN  do |options|
         setupKeyStore()
         match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.stg")
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist",
@@ -174,12 +132,16 @@ platform :ios do
                     plist["CFBundleVersion"]  = options[:buildVersion]
                     plist["CFBundleShortVersionString"] = options[:appVersion]
                     end)
-          build_app(scheme: "ktobet-asia-ios-staging",
+        env = getEnviroment(preRelease: options[:releaseTarget])
+        versionNum = options[:appVersion]
+        build_app(scheme: "ktobet-asia-ios-staging",
                     workspace: "ktobet-asia-ios.xcworkspace",
                     include_bitcode: true,
+                    include_symbols: true,
                     clean: true,
+                    archive_path: "./output/#{env}.xcarchive",
                     output_directory: "output",
-                    output_name: "staging-cn.ipa",
+                    output_name: "kto-asia-#{versionNum}-staging-cn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
@@ -187,19 +149,21 @@ platform :ios do
              )
     end
     
-    lane :buildIpaStgVN  do |options|
+    private_lane :buildIpaStgVN  do |options|
         match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.stg.vn")
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-vn-Info.plist",
                   block: proc do |plist|
                     plist["CFBundleVersion"]  = options[:buildVersion]
                     plist["CFBundleShortVersionString"] = options[:appVersion]
                     end)
-          build_app(scheme: "ktobet-asia-ios-staging-vn",
+        versionNum = options[:appVersion]
+        build_app(scheme: "ktobet-asia-ios-staging-vn",
                     workspace: "ktobet-asia-ios.xcworkspace",
                     include_bitcode: true,
+                    include_symbols: true,
                     clean: true,
                     output_directory: "output",
-                    output_name: "staging-vn.ipa",
+                    output_name: "kto-asia-#{versionNum}-staging-vn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
@@ -207,59 +171,53 @@ platform :ios do
              )
     end
 
-	lane :uploadstagingToTestflight do |options|
-    setupKeyStore()
-	match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.stg")
-		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist", 
-				  block: proc do |plist|
-					plist["CFBundleVersion"]  = options[:buildVersion]
-					plist["CFBundleShortVersionString"] = options[:appVersion]
-  				  end)
-
-    		gym(	configuration: "Release",
-      		     	scheme: "ktobet-asia-ios-staging",
-      		     	clean: true,
-      		     	include_bitcode: true,
-      			include_symbols: true,
-			output_name: "staging-testflight.ipa",
-			output_directory: "output",
-      			export_method: 'app-store')
-
-    		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
-  					app_identifier: "com.kto.asia.stg",
-					skip_waiting_for_build_processing: true)
-	end
-
-
-
 	lane :uploadToTestflight do |options|
-    setupKeyStore()
-	match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.qat-1")
-		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist", 
-				  block: proc do |plist|
+        setupKeyStore()
+		update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist",
+                    block: proc do |plist|
 					plist["CFBundleVersion"]  = options[:buildVersion]
 					plist["CFBundleShortVersionString"] = options[:appVersion]
   				  end)
 
-    		gym(	configuration: "Release",
-      		     	scheme: "ktobet-asia-ios-qat",
-      		     	clean: true,
-      		     	include_bitcode: true,
-      			include_symbols: true,
-			output_directory: "output",
-      			export_method: 'app-store')
-
-    		upload_to_testflight(   username: "higgs-mobile@hotmail.com",
-  					app_identifier: "com.kto.asia.qat-1",
+        qat1Testflight(options)
+        
+        versionNum = options[:appVersion]
+        upload_to_testflight(username: "higgs-mobile@hotmail.com",
+                    app_identifier: "com.kto.asia.qat-1",
+                    ipa:"./output/ktobet-asia-ios-#{versionNum}-qat.ipa",
 					skip_waiting_for_build_processing: true)
 	end
+ 
+    private_lane :qat1Testflight do |options|
+        versionNum = options[:appVersion]
+        match(type: "appstore", readonly: true, app_identifier:"com.kto.asia.qat-1")
+        gym(configuration: "Release",
+            scheme: "ktobet-asia-ios-qat",
+            clean: true,
+            include_bitcode: true,
+            archive_path: "./output/qat.xcarchive",
+            output_directory: "output",
+            output_name: "ktobet-asia-ios-#{versionNum}-qat.ipa",
+            export_method: 'app-store')
+    end
+    
+    private_lane :qat1AdHoc do |options|
+        versionNum = options[:appVersion]
+        match(type: "adhoc", readonly: true, app_identifier:"com.kto.asia.qat-1")
+        gym(scheme: "ktobet-asia-ios-qat",
+            skip_build_archive: true,
+            archive_path: "./output/qat.xcarchive",
+            output_directory: "output",
+            output_name: "ktobet-asia-ios-#{versionNum}-qat-adHoc.ipa",
+            export_method: "ad-hoc")
+    end
 	
 	lane :buildIpaProduction do |options|
         buildIpaProdCN(options)
         buildIpaProdVN(options)
 	end
  
-    lane :buildIpaProdCN do |options|
+    private_lane :buildIpaProdCN do |options|
         setupKeyStore()
         match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia")
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-production-Info.plist",
@@ -267,19 +225,23 @@ platform :ios do
                   plist["CFBundleVersion"] = options[:buildVersion]
                   plist["CFBundleShortVersionString"] = options[:appVersion]
                     end)
-          build_app(scheme: "ktobet-asia-ios-production",
+        env = getEnviroment(preRelease: options[:releaseTarget])
+        versionNum = options[:appVersion]
+        build_app(scheme: "ktobet-asia-ios-production",
                     workspace: "ktobet-asia-ios.xcworkspace",
                     include_bitcode: true,
+                    include_symbols: true,
                     clean: true,
+                    archive_path: "./output/#{env}.xcarchive",
                     output_directory: "output",
-                    output_name: "Prod-cn.ipa",
+                    output_name: "kto-asia-#{versionNum}-prod-cn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
                     })
     end
     
-    lane :buildIpaProdVN do |options|
+    private_lane :buildIpaProdVN do |options|
         setupKeyStore()
         match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.vn")
         update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-production-vn-Info.plist",
@@ -287,12 +249,14 @@ platform :ios do
                   plist["CFBundleVersion"] = options[:buildVersion]
                   plist["CFBundleShortVersionString"] = options[:appVersion]
                     end)
-          build_app(scheme: "ktobet-asia-ios-production-vn",
+        versionNum = options[:appVersion]
+        build_app(scheme: "ktobet-asia-ios-production-vn",
                     workspace: "ktobet-asia-ios.xcworkspace",
                     include_bitcode: true,
+                    include_symbols: true,
                     clean: true,
                     output_directory: "output",
-                    output_name: "Prod-vn.ipa",
+                    output_name: "kto-asia-#{versionNum}-prod-vn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
@@ -316,9 +280,9 @@ platform :ios do
             output_directory: "output",
             export_method: 'app-store')
 
-        upload_to_testflight(	username: "higgs-mobile@hotmail.com",
-            			app_identifier: "com.kto.asia.selftest",
-				skip_waiting_for_build_processing: true)
+        upload_to_testflight(username: "higgs-mobile@hotmail.com",
+                            app_identifier: "com.kto.asia.selftest",
+                            skip_waiting_for_build_processing: true)
 
     end
     
@@ -340,9 +304,9 @@ platform :ios do
             output_directory: "output",
             export_method: 'app-store')
 
-        upload_to_testflight(	username: "higgs-mobile@hotmail.com",
-            			app_identifier: "com.kto.asia.backup",
-				skip_waiting_for_build_processing: true)
+        upload_to_testflight(username: "higgs-mobile@hotmail.com",
+                            app_identifier: "com.kto.asia.backup",
+                            skip_waiting_for_build_processing: true)
 
     end
     
@@ -364,9 +328,9 @@ platform :ios do
             output_directory: "output",
             export_method: 'app-store')
 
-        upload_to_testflight(	username: "higgs-mobile@hotmail.com",
-            			app_identifier: "com.kto.asia.qat3",
-				skip_waiting_for_build_processing: true)
+        upload_to_testflight(username: "higgs-mobile@hotmail.com",
+                            app_identifier: "com.kto.asia.qat3",
+                            skip_waiting_for_build_processing: true)
 
     end
     
@@ -385,14 +349,15 @@ platform :ios do
 
 		gym(configuration: "Release",
 			scheme: scheme,
-			clean: true,
+			skip_build_archive: true,
+            archive_path: "./output/#{env}.xcarchive",
 			include_bitcode: true,
 			include_symbols: true,
 			output_directory: "output",
 			export_method: 'app-store')
 
-		upload_to_testflight(	username: "higgs-mobile@hotmail.com",
-					app_identifier: identifier,
-					skip_waiting_for_build_processing: true)
+		upload_to_testflight(username: "higgs-mobile@hotmail.com",
+                            app_identifier: identifier,
+                            skip_waiting_for_build_processing: true)
 	end
 end
