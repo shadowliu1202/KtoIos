@@ -4,7 +4,6 @@ import RxSwift
 
 class CryptoSelectorViewController: LobbyViewController {
     @IBOutlet weak var guideLabel: UILabel!
-    @IBOutlet weak var guideBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var confrimButton: UIButton!
@@ -12,6 +11,8 @@ class CryptoSelectorViewController: LobbyViewController {
     static let segueIdentifier = "toCryptoSelector"
     
     private var viewModel = DI.resolve(CryptoDepositViewModel.self)!
+    private let navigator = DI.resolve(DepositNavigator.self)!
+    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     private var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -31,10 +32,7 @@ class CryptoSelectorViewController: LobbyViewController {
     private func bindViewModel() {
         confrimButton.rx.tap.bind(to: viewModel.input.confirmTrigger).disposed(by: disposeBag)
         viewModel.output.webUrl.drive().disposed(by: disposeBag)
-        viewModel.output.guide.drive().disposed(by: disposeBag)
-        guideBtn.rx.tap.bind(to: viewModel.input.guideTrigger).disposed(by: disposeBag)
-        let tapGesture = UITapGestureRecognizer()
-        tapGesture.rx.event.map{ _ in () }.bind(to: viewModel.input.guideTrigger).disposed(by: disposeBag)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(navigateToGuide))
         guideLabel.addGestureRecognizer(tapGesture)
         
         tableView.rx.observe(CGSize.self, #keyPath(UITableView.contentSize)).asObservable()
@@ -67,6 +65,14 @@ class CryptoSelectorViewController: LobbyViewController {
                 dest.url = sender as? String
             }
         }
+    }
+    
+    @IBAction func clickGuideBtn(_ sender: Any) {
+        navigateToGuide()
+    }
+    
+    @objc private func navigateToGuide() {
+        navigator.toGuidePage(playerLocaleConfiguration.getSupportLocale())
     }
 }
 

@@ -2239,7 +2239,7 @@
                                                     <color key="titleColor" name="whiteFull"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="新增虚拟币账户"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="cps_add_account"/>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                         <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
@@ -4075,7 +4075,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eKD-WT-m4x"/>
+        <segue reference="AB8-OG-jSH"/>
         <segue reference="pWL-dG-JgZ"/>
         <segue reference="IGH-yb-Sof"/>
         <segue reference="XFi-hN-hfe"/>
@@ -4086,7 +4086,7 @@
         <image name="IconCrypto" width="24" height="24"/>
         <image name="IconCryptoType_CNY" width="24" height="24"/>
         <image name="IconCryptoType_ETH" width="24" height="24"/>
-        <image name="IconPayCrypto" width="32" height="32"/>
+        <image name="IconPayCrypto" width="32" height="32.00006103515625"/>
         <image name="IconPayWithdrawal" width="32" height="32"/>
         <image name="QRcode" width="24" height="24"/>
         <image name="Tips" width="24" height="24"/>

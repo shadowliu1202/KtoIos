@@ -3,8 +3,8 @@ import SwiftUI
 import CoreGraphics
 
 struct CustomizedDivider: View {
-    let color: Color = .primaryGray
-    let lineWeight: CGFloat = 1
+    var color: Color = .primaryGray
+    var lineWeight: CGFloat = 1
     
     var body: some View {
         Rectangle()

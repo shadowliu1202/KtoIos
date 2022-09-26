@@ -18,6 +18,7 @@ class WithdrawlRecordContainer: LobbyViewController {
         let viewController = WithdrawalCryptoDetailView(data: data)
         let hostingController = UIHostingController(rootView: viewController)
         hostingController.navigationItem.hidesBackButton = true
+        hostingController.view.backgroundColor = .black_two
         return hostingController
     }
     private var presentingVC: UIViewController?

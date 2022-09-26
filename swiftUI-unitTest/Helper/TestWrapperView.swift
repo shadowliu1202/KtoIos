@@ -1,5 +1,6 @@
 import SwiftUI
 import ViewInspector
+@testable import ktobet_asia_ios_qat
 
 public let TEST_WRAPPED_ID: String = "wrapped"
 

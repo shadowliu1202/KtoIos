@@ -1105,6 +1105,9 @@
                                                 </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" image="iconChevronRightRed7"/>
+                                                <connections>
+                                                    <action selector="clickGuideBtn:" destination="Avu-Ft-lF9" eventType="touchUpInside" id="slL-H2-llD"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1149,12 +1152,12 @@
                     <navigationItem key="navigationItem" id="bW3-cx-hS6"/>
                     <connections>
                         <outlet property="confrimButton" destination="u5c-gd-J3z" id="rQ6-gT-6nu"/>
-                        <outlet property="guideBtn" destination="2WF-Ak-It6" id="Y9v-ku-Lg2"/>
                         <outlet property="guideLabel" destination="pVT-d2-fL0" id="hv5-zI-2p2"/>
                         <outlet property="tableView" destination="3Qd-Ck-WQd" id="6pd-s6-cOI"/>
                         <outlet property="tableViewHeightConstraint" destination="vq5-iM-l8d" id="Dsc-Vx-etM"/>
                         <segue destination="H2h-kh-Eib" kind="show" identifier="toCryptoWebView" id="WNq-NT-CEs"/>
                         <segue destination="wxM-NB-YPP" kind="show" identifier="toCryptoGuide" id="KBr-X6-OWA"/>
+                        <segue destination="A4d-yS-7WD" kind="show" identifier="toCryptoVNDGuide" id="fJG-Qd-PUz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xfZ-x6-C6h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1261,6 +1264,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EfZ-4b-12G" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2100" y="1662.7232142857142"/>
+        </scene>
+        <!--Crypto GuideVND View Controller-->
+        <scene sceneID="AZP-ea-E7f">
+            <objects>
+                <viewController id="A4d-yS-7WD" customClass="CryptoGuideVNDViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Pt3-b5-96c">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jaw-OF-hKV">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                <connections>
+                                    <segue destination="GeS-GV-Qnu" kind="embed" destinationCreationSelector="toCryptoGuideVNDView:" id="xvM-mW-KRU"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="PLG-vl-rFy"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jaw-OF-hKV" firstAttribute="bottom" secondItem="PLG-vl-rFy" secondAttribute="bottom" id="G9c-nW-pCl"/>
+                            <constraint firstItem="jaw-OF-hKV" firstAttribute="leading" secondItem="PLG-vl-rFy" secondAttribute="leading" id="MmW-N2-w1G"/>
+                            <constraint firstItem="jaw-OF-hKV" firstAttribute="top" secondItem="Pt3-b5-96c" secondAttribute="top" id="e4G-Ds-XLN"/>
+                            <constraint firstItem="jaw-OF-hKV" firstAttribute="trailing" secondItem="PLG-vl-rFy" secondAttribute="trailing" id="hSR-b1-Hib"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="j3U-IO-sBq"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F0C-v9-ejs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2100" y="2329.6875"/>
+        </scene>
+        <!--Hosting Controller-->
+        <scene sceneID="IXs-vZ-7Bp">
+            <objects>
+                <hostingController id="GeS-GV-Qnu" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JLG-yS-o4C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2801" y="2330"/>
         </scene>
         <!--Deposit Gateway View Controller-->
         <scene sceneID="m6P-ZS-vUL">
@@ -2161,7 +2202,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pQr-oz-FEk"/>
+        <segue reference="Oqv-Be-XzM"/>
         <segue reference="hkd-5J-lSd"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -2169,7 +2210,7 @@
         <image name="Chevron Right(24)" width="24" height="24"/>
         <image name="Default(32)" width="32" height="32"/>
         <image name="iconChevronRight24" width="24" height="24"/>
-        <image name="iconChevronRightRed7" width="8" height="12"/>
+        <image name="iconChevronRightRed7" width="7.399993896484375" height="12"/>
         <image name="iconPhoto24" width="24" height="24"/>
         <image name="promotionHistroyEmpty" width="80" height="81"/>
         <namedColor name="backgroundListCodGray2">

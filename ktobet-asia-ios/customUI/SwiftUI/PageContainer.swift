@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct PageContainer<Content: View>: View {
-    @ViewBuilder var content: Content
+    var content: Content
+    
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
     
     var body: some View {
         VStack(spacing: 0) {

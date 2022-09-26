@@ -2,6 +2,7 @@ import SwiftUI
 import SharedBu
 
 struct StarMergerView<ViewModel: StarMergerViewModel>: View {
+    var inspection = Inspection<Self>()
     enum Identifier: String {
         case submitButton
     }
@@ -37,6 +38,7 @@ struct StarMergerView<ViewModel: StarMergerViewModel>: View {
         .onAppear {
             viewModel.getGatewayInformation()
         }
+        .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
     
     @ViewBuilder

@@ -58,7 +58,7 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
         
         viewModel.phone.subscribe(onSuccess: { (phone) in
             if let phone = phone, !phone.isEmpty {
-                self.phone = Localize.string("common_otp_hint") + "\n" + phone
+                self.phone = Localize.string("common_otp_hint_mobile") + "\n" + phone
             } else {
                 self.phone = Localize.string("common_not_set_mobile")
             }
@@ -69,7 +69,7 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
         
         viewModel.email.subscribe(onSuccess: { (email) in
             if let email = email, !email.isEmpty {
-                self.email = Localize.string("common_otp_hint") + "\n" + email
+                self.email = Localize.string("common_otp_hint_email") + "\n" + email
             } else {
                 self.email = Localize.string("common_not_set_email")
             }
