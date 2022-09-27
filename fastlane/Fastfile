@@ -147,6 +147,9 @@ platform :ios do
                         method: "ad-hoc",
                     }
              )
+             
+        upload_symbols_to_crashlytics(dsym_path: "./output/ktobet-asia-#{versionNum}-staging-cn.app.dSYM.zip",
+                                    gsp_path:"./ktobet-asia-ios/Firebase/stg/GoogleService-Info.plist")
     end
     
     private_lane :buildIpaStgVN  do |options|
@@ -169,6 +172,9 @@ platform :ios do
                         method: "ad-hoc",
                     }
              )
+            
+        upload_symbols_to_crashlytics(dsym_path: "./output/ktobet-asia-#{versionNum}-staging-vn.app.dSYM.zip",
+                                    gsp_path:"./ktobet-asia-ios/Firebase/stg-vn/GoogleService-Info.plist")
     end
 
 	lane :uploadToTestflight do |options|
@@ -186,6 +192,9 @@ platform :ios do
                     app_identifier: "com.kto.asia.qat-1",
                     ipa:"./output/ktobet-asia-ios-#{versionNum}-qat.ipa",
 					skip_waiting_for_build_processing: true)
+                    
+        upload_symbols_to_crashlytics(dsym_path: "./output/ktobet-asia-ios-#{versionNum}-qat.app.dSYM.zip",
+                                    gsp_path:"./ktobet-asia-ios/Firebase/qat/GoogleService-Info.plist")
 	end
  
     private_lane :qat1Testflight do |options|
@@ -239,6 +248,9 @@ platform :ios do
                     export_options: {
                         method: "ad-hoc",
                     })
+                    
+        upload_symbols_to_crashlytics(dsym_path: "./output/ktobet-asia-#{versionNum}-prod-cn.app.dSYM.zip",
+                                    gsp_path:"./ktobet-asia-ios/Firebase/prod/GoogleService-Info.plist")
     end
     
     private_lane :buildIpaProdVN do |options|
@@ -261,55 +273,11 @@ platform :ios do
                     export_options: {
                         method: "ad-hoc",
                     })
+                    
+        upload_symbols_to_crashlytics(dsym_path: "./output/ktobet-asia-#{versionNum}-prod-vn.app.dSYM.zip",
+                                    gsp_path:"./ktobet-asia-ios/Firebase/prod_vn/GoogleService-Info.plist")
     end
  
-    lane :buildProdSelf do |options|
-        setupKeyStore()
-        match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.selftest")    
-        update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-prod-selftest-Info.plist",
-                  block: proc do |plist|
-                  plist["CFBundleVersion"] = options[:buildVersion]
-                  plist["CFBundleShortVersionString"] = options[:appVersion]
-                  end)
-                  
-        gym(configuration: "Release",
-            scheme: "ktobet-asia-ios-prod-selftest",
-            clean: true,
-            include_bitcode: true,
-            include_symbols: true,
-            output_directory: "output",
-            export_method: 'app-store')
-
-        upload_to_testflight(username: "higgs-mobile@hotmail.com",
-                            app_identifier: "com.kto.asia.selftest",
-                            skip_waiting_for_build_processing: true)
-
-    end
-    
-    lane :buildProdBackup do |options|
-        setupKeyStore()
-        match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.backup")
-        
-        update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-prod-backup-Info.plist",
-                  block: proc do |plist|
-                  plist["CFBundleVersion"] = options[:buildVersion]
-                  plist["CFBundleShortVersionString"] = options[:appVersion]
-                  end)
-        
-        gym(configuration: "Release",
-            scheme: "ktobet-asia-ios-prod-backup",
-            clean: true,
-            include_bitcode: true,
-            include_symbols: true,
-            output_directory: "output",
-            export_method: 'app-store')
-
-        upload_to_testflight(username: "higgs-mobile@hotmail.com",
-                            app_identifier: "com.kto.asia.backup",
-                            skip_waiting_for_build_processing: true)
-
-    end
-    
     lane :buildQat3 do |options|
         setupKeyStore()
         match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.qat3")
@@ -331,6 +299,13 @@ platform :ios do
         upload_to_testflight(username: "higgs-mobile@hotmail.com",
                             app_identifier: "com.kto.asia.qat3",
                             skip_waiting_for_build_processing: true)
+        
+        versionNum = options[:appVersion]
+        download_dsyms(username: "higgs-mobile@hotmail.com",
+                    app_identifier: "com.kto.asia.qat3",
+                    version: versionNum)
+                    
+        upload_symbols_to_crashlytics(gsp_path: "./ktobet-asia-ios/Firebase/qat3/GoogleService-Info.plist")
 
     end
     
@@ -359,5 +334,36 @@ platform :ios do
 		upload_to_testflight(username: "higgs-mobile@hotmail.com",
                             app_identifier: identifier,
                             skip_waiting_for_build_processing: true)
+                            
+        versionNum = options[:appVersion]
+        download_dsyms(username: "higgs-mobile@hotmail.com",
+                    app_identifier: identifier,
+                    version: versionNum)
+                    
+        infoPath = getGoogleServiceInfo(preRelease: options[:releaseTarget])
+        upload_symbols_to_crashlytics(gsp_path: "./ktobet-asia-ios/Firebase/#{infoPath}/GoogleService-Info.plist")
 	end
+ 
+    lane :getGoogleServiceInfo do |options|
+        preRelease = options[:preRelease]
+        puts "Get #{preRelease}"
+        case options[:preRelease]
+        when 'test'
+            "dev"
+        when 'dev'
+            "qat"
+        when 'rc'
+            "stg"
+        when 'release'
+            "prod"
+        when 'hotfix'
+            "qat3"
+        when 'selftest'
+            "prod_self_test"
+        when 'backup'
+            "prod_backup"
+        else
+            UI.user_error!("No selectable options(option:test,dev,rc,pro,hotfix,selftest,backup)")
+        end
+    end
 end
