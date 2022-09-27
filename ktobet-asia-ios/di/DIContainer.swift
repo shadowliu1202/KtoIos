@@ -678,7 +678,7 @@ class DIContainer {
             let depositService = applicationFactory.deposit()
             return StarMergerViewModelImpl(depositService: depositService)
         }
-        container.register(NewLoginViewModel.self) { (resolver) in
+        container.register(NewLoginViewModel.self) { resolver in
             let authenticationUseCase = resolver.resolve(AuthenticationUseCase.self)!
             let configurationUseCase = resolver.resolve(ConfigurationUseCase.self)!
             let navigationViewModel = resolver.resolve(NavigationViewModel.self)!

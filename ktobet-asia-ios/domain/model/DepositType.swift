@@ -42,12 +42,14 @@ struct OnlinePayment: DepositSelection {
     var id: String
     var name: String
     var isRecommend: Bool
+    var paymentDTO: PaymentsDTO.Online
     
     init(_ online: PaymentsDTO.Online) {
         self.hint = online.hint
         self.id = online.identity
         self.name = online.name
         self.isRecommend = online.isRecommend
+        self.paymentDTO = online
     }
 }
 

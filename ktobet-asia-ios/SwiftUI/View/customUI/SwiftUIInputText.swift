@@ -5,20 +5,28 @@ struct SwiftUIInputText: View {
     @State private var isEditing: Bool = false
     @State private var showTextField: Bool = false
     @State private var showPassword: Bool = false
-    
-    let placeHolder: String
-    
+
     @Binding var textFieldText: String
     
-    var errorText: String?
-    var isPasswordType: Bool = false
+    let placeHolder: String
+    let errorText: String?
+    let isPasswordType: Bool
+    let keyboardType: UIKeyboardType
+    
+    init(placeHolder: String, textFieldText: Binding<String>, errorText: String? = nil, isPasswordType: Bool = false, keyboardType: UIKeyboardType = .default) {
+        self.placeHolder = placeHolder
+        self._textFieldText = textFieldText
+        self.errorText = errorText
+        self.isPasswordType = isPasswordType
+        self.keyboardType = keyboardType
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             self.inputText()
                 .overlay(
                     errorUnderline()
-                        .visibility(errorText == nil ? .gone : .visible)
+                        .visibility(errorText != nil ? .visible : .gone)
                 )
             self.errorHint()
                 .visibility(errorText == nil ? .gone : .visible)
@@ -34,7 +42,8 @@ struct SwiftUIInputText: View {
                     .foregroundColor(.primaryGray)
                     .padding(.top, showTextField ? 1 : 12)
                     .padding(.bottom, showTextField ? 0 : 10)
-                UIKitTextField(text: $textFieldText, isFirstResponder: $isEditing, showPassword: $showPassword, isPasswordType: isPasswordType) { uiTextField in
+                
+                UIKitTextField(text: $textFieldText, isFirstResponder: $isEditing, showPassword: $showPassword, isPasswordType: isPasswordType, keyboardType: keyboardType) { uiTextField in
                     uiTextField.font = UIFont(name: "PingFangSC", size: 16)
                     uiTextField.textColor = .white
                     uiTextField.tintColor = .primaryRed
@@ -116,5 +125,3 @@ struct SwiftUIInputText_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 315, height: 84))
     }
 }
-
- 
