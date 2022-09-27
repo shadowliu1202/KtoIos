@@ -690,6 +690,7 @@
                         <segue destination="AGT-ah-Yup" kind="show" identifier="toAllRecordSegue" id="F0Y-xT-FZE"/>
                         <segue destination="Avu-Ft-lF9" kind="show" identifier="toCryptoSelector" id="nHC-IL-8gK"/>
                         <segue destination="YKU-wZ-kb4" kind="show" identifier="toStarMergerViewController" id="bFD-tn-R4q"/>
+                        <segue destination="USV-YY-4dQ" kind="show" identifier="toOnlinePaymentSegue" id="rzT-vK-EOZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FYP-XU-rzd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2191,6 +2192,86 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0xS-fx-WTt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1279" y="1800"/>
+        </scene>
+        <!--Online Payment View Controller-->
+        <scene sceneID="eWC-lP-24u">
+            <objects>
+                <viewController extendedLayoutIncludesOpaqueBars="YES" id="USV-YY-4dQ" customClass="OnlinePaymentViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="51A-po-Iha">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YgF-Ih-iBy">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <connections>
+                                    <segue destination="GS6-Cc-6Os" kind="embed" destinationCreationSelector="toOnlinePayment:" id="g7w-7v-zh5"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="J4b-5l-Xvb"/>
+                        <color key="backgroundColor" name="blackTwo"/>
+                        <constraints>
+                            <constraint firstItem="J4b-5l-Xvb" firstAttribute="bottom" secondItem="YgF-Ih-iBy" secondAttribute="bottom" id="1jf-DU-wob"/>
+                            <constraint firstItem="YgF-Ih-iBy" firstAttribute="leading" secondItem="J4b-5l-Xvb" secondAttribute="leading" id="YIo-yG-EpZ"/>
+                            <constraint firstItem="J4b-5l-Xvb" firstAttribute="trailing" secondItem="YgF-Ih-iBy" secondAttribute="trailing" id="fic-V0-LJJ"/>
+                            <constraint firstItem="YgF-Ih-iBy" firstAttribute="top" secondItem="51A-po-Iha" secondAttribute="top" id="yd9-Fa-awK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="yMB-Xh-vhH"/>
+                    <connections>
+                        <segue destination="bAT-IC-UKw" kind="show" identifier="toJinYiDigitalUserGuideSegue" id="iWu-55-cdL"/>
+                        <segue destination="8tx-d2-eAY" kind="show" identifier="toThirdPartWebSegue" id="FXa-X7-GJ5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vZI-Dg-YbC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1281.1594202898552" y="2816.5178571428569"/>
+        </scene>
+        <!--Jin Yi Digital View Controller-->
+        <scene sceneID="kKm-fz-fKK">
+            <objects>
+                <viewController extendedLayoutIncludesOpaqueBars="YES" id="bAT-IC-UKw" customClass="JinYiDigitalViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YEc-8X-bC4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G8G-np-nNE">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <connections>
+                                    <segue destination="9aa-6X-jIr" kind="embed" destinationCreationSelector="toJinYiDigitalGuide:" id="jvW-dz-p5g"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Oe2-1c-Ijf"/>
+                        <color key="backgroundColor" name="blackTwo"/>
+                        <constraints>
+                            <constraint firstItem="Oe2-1c-Ijf" firstAttribute="bottom" secondItem="G8G-np-nNE" secondAttribute="bottom" id="HeT-Vu-NeH"/>
+                            <constraint firstItem="Oe2-1c-Ijf" firstAttribute="trailing" secondItem="G8G-np-nNE" secondAttribute="trailing" id="ZJm-NI-mOh"/>
+                            <constraint firstItem="G8G-np-nNE" firstAttribute="leading" secondItem="Oe2-1c-Ijf" secondAttribute="leading" id="b7w-70-Edw"/>
+                            <constraint firstItem="G8G-np-nNE" firstAttribute="top" secondItem="YEc-8X-bC4" secondAttribute="top" id="rkm-cU-E5d"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="b0e-Yc-gPN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jgR-VU-XIF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-268.1159420289855" y="2816.5178571428569"/>
+        </scene>
+        <!--Hosting Controller-->
+        <scene sceneID="f26-fl-9E5">
+            <objects>
+                <hostingController id="GS6-Cc-6Os" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ntE-C6-2Cd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1288" y="3518"/>
+        </scene>
+        <!--Hosting Controller-->
+        <scene sceneID="cPH-8B-kvN">
+            <objects>
+                <hostingController id="9aa-6X-jIr" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PH1-xo-d4n" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-268" y="3518"/>
         </scene>
         <!--Hosting Controller-->
         <scene sceneID="YQ7-Lp-BwA">

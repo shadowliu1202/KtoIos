@@ -101,6 +101,12 @@ class DepositViewController: LobbyViewController {
             case is CryptoMarket:
                 self.performSegue(withIdentifier: StarMergerViewController.segueIdentifier, sender: data.id)
             default:
+                //TODO: Separate Offline and Online.
+                if data.id == "24" {
+                    self.performSegue(withIdentifier: OnlinePaymentViewController.segueIdentifier, sender: data)
+                    return
+                }
+                
                 self.performSegue(withIdentifier: DepositGatewayViewController.segueIdentifier, sender: data)
             }
             
@@ -166,6 +172,8 @@ class DepositViewController: LobbyViewController {
             }
         } else if segue.identifier == StarMergerViewController.segueIdentifier, let dest = segue.destination as? StarMergerViewController {
             dest.paymentGatewayID = (sender as? String)!
+        } else if segue.identifier == OnlinePaymentViewController.segueIdentifier, let dest = segue.destination as? OnlinePaymentViewController {
+            dest.selectedOnlinePayment = (sender as? OnlinePayment)!.paymentDTO
         }
         
     }
