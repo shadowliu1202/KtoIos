@@ -148,7 +148,7 @@ platform :ios do
                     }
              )
              
-        upload_symbols_to_crashlytics(dsym_path: "./output/ktobet-asia-#{versionNum}-staging-cn.app.dSYM.zip",
+        upload_symbols_to_crashlytics(dsym_path: "./output/kto-asia-#{versionNum}-staging-cn.app.dSYM.zip",
                                     gsp_path:"./ktobet-asia-ios/Firebase/stg/GoogleService-Info.plist")
     end
     
@@ -173,7 +173,7 @@ platform :ios do
                     }
              )
             
-        upload_symbols_to_crashlytics(dsym_path: "./output/ktobet-asia-#{versionNum}-staging-vn.app.dSYM.zip",
+        upload_symbols_to_crashlytics(dsym_path: "./output/kto-asia-#{versionNum}-staging-vn.app.dSYM.zip",
                                     gsp_path:"./ktobet-asia-ios/Firebase/stg-vn/GoogleService-Info.plist")
     end
 
@@ -249,7 +249,7 @@ platform :ios do
                         method: "ad-hoc",
                     })
                     
-        upload_symbols_to_crashlytics(dsym_path: "./output/ktobet-asia-#{versionNum}-prod-cn.app.dSYM.zip",
+        upload_symbols_to_crashlytics(dsym_path: "./output/kto-asia-#{versionNum}-prod-cn.app.dSYM.zip",
                                     gsp_path:"./ktobet-asia-ios/Firebase/prod/GoogleService-Info.plist")
     end
     
@@ -274,7 +274,7 @@ platform :ios do
                         method: "ad-hoc",
                     })
                     
-        upload_symbols_to_crashlytics(dsym_path: "./output/ktobet-asia-#{versionNum}-prod-vn.app.dSYM.zip",
+        upload_symbols_to_crashlytics(dsym_path: "./output/kto-asia-#{versionNum}-prod-vn.app.dSYM.zip",
                                     gsp_path:"./ktobet-asia-ios/Firebase/prod_vn/GoogleService-Info.plist")
     end
  
