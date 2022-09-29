@@ -2,10 +2,11 @@ import UIKit
 
 class AttribTextHolder {
     enum AttrType {
-        case link
+        case link(_ showUnderline: Bool)
         case color
         case font
         case center
+        case attachment
     }
     
     let originalText: String
@@ -32,8 +33,11 @@ class AttribTextHolder {
         for item in attributes {
             let arange = attributedOriginalText.mutableString.range(of: item.text)
             switch item.type {
-            case .link:
+            case .link(let showUnderline):
                 attributedOriginalText.addAttribute(NSAttributedString.Key.link, value: item.value, range: arange)
+                if !showUnderline {
+                    attributedOriginalText.addAttribute(NSAttributedString.Key.underlineColor, value: UIColor.clear, range: arange)
+                }
             case .color:
                 var color = UIColor.black
                 if let c = item.value as? UIColor { color = c }
@@ -43,6 +47,11 @@ class AttribTextHolder {
                 attributedOriginalText.addAttributes(boldFontAttribute, range: NSRange(originalText.range(of: item.text) ?? originalText.startIndex..<originalText.endIndex, in: originalText))
             case .center:
                 style.alignment = .center
+            case .attachment:
+                if let attachment = item.value as? NSTextAttachment {
+                    let attrAttachment = NSAttributedString(attachment: attachment)
+                    attributedOriginalText.append(attrAttachment)
+                }
             }
         }
         

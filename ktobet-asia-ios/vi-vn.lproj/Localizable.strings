@@ -58,15 +58,14 @@ Khi Quý Khách gửi vào Crypto thành công, \"Số Crypto được yêu cầ
 "cps_erc20_address_error" = "Địa chỉ bắt đầu với \"0x\". Sau đó, bao gồm 40 ký tự (0-9, a-f, A-F).";
 "cps_applied_network_address_title" = "Mạng Lưới Crypto và Địa Chỉ Ví là:";
 "cps_select_crypto_type" = "Chọn Loại Tiền Gửi";
-"cps_crypto_currency_deposit_hint" = "Thưởng %@%% mỗi giao dịch, tối đa %@ VND mỗi ngày, doanh thu cược x1.";
+"cps_crypto_currency_deposit_hint" = "Thưởng %@%% mỗi giao dịch, tối đa %@ KVND mỗi ngày, doanh thu cược x1.";
 "cps_crypto_currency_guide_hint" = "Không sử dụng Crypto?Tham khảo tại đây!";
-"cps_crypto_currency_guide_title" = "Hướng Dẫn cho thành viên
- mới sử dụng Crypto.";
+"cps_crypto_currency_guide_title" = "Hướng Dẫn cho thành viên mới sử dụng Crypto.";
 "cps_crypto_guidance_description" = "Dưới đây là danh sách các Sàn Giao Dịch mà thành viên có thể mua Crypto.
 Chúng tôi luôn cố gắng tốt nhất để cập nhật những thông tin này. Tuy nhiên, chúng tôi không chịu trách nhiệm về bất kỳ thông tin không chính xác nào, hoặc bất kỳ tổn thất nào mà thành viên có thể gặp phải trong quá trình trải nghiệm các Sàn Giao Dịch khác nhau.
 Nếu Quý Khách có bất kỳ câu hỏi hoặc vấn đề nào trong việc sử dụng một Sàn Giao Dịch, vui lòng liên hệ trực tiếp với Chăm Sóc Khách Hàng của Sàn Giao Dịch đó.";
-"cps_crypto_currency_deposit_times_hint" = "Thưởng %@% mỗi giao dịch, tối đa %@ lần mỗi ngày, doanh thu cược x1.";
-"cps_withdrawal_all_fiat_first" = "Quý Khách phải thiết lập một tài khoản Crypto để thực hiện Rút Tiền.";
+"cps_crypto_currency_deposit_times_hint" = "Thưởng %@%% mỗi giao dịch, tối đa %@ lần mỗi ngày, doanh thu cược x1.";
+"cps_withdrawal_all_fiat_first" = "Quý Khách cần rút về VND, trước khi có thể rút Crypto.";
 "cps_withdrawal_fiat_amount_below_limit_message" = "Số Tiền Rút của Quý Khách dưới Giới Hạn Mỗi Giao Dịch.";
 "cps_withdrawal_fiat_amount_over_limit_message" = "Số Tiền Rút của Quý Khách vượt quá Giới Hạn Mỗi Giao Dịch.";
 "cps_withdrawal_exceeding_daily_limit_message" = "Quý Khách đã vượt quá Số Lần Rút Tiền khả dụng, hoặc Số Tiền Rút khả dụng hôm nay.";

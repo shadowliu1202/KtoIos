@@ -1,1 +1,2 @@
-APP-3552 [ios][Portal][Withdrawal] 進入提現頁面時，下方會彈出錯誤代碼 99999 // fix by QQ-12711
+KTO-758 [iOS][Portal][Online Payment] 串接JinYiPAY 数字人民币-JYP012
+KTO-500 [iOS][APP][KTO][CPS] Enable CPS deposit and withdrawal flow for VND players

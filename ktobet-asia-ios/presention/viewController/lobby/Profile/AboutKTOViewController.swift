@@ -31,7 +31,7 @@ class AboutKTOViewController: LobbyViewController {
          let link = Localize.string("license_ktoglobal_link")
          let txt = AttribTextHolder(text: link)
              .addAttr((text: link, type: .color, UIColor.redForLightFull))
-             .addAttr((text: link, type: .link, link))
+             .addAttr((text: link, type: .link(true), link))
          txt.setTo(textView: webLink)
          webLink.textContainerInset = .zero
      }
@@ -42,7 +42,7 @@ class AboutKTOViewController: LobbyViewController {
             let csEmail = Localize.string("common_cs_email", "\($0)")
             let txt = AttribTextHolder(text: csEmail)
                 .addAttr((text: csEmail, type: .color, UIColor.redForLightFull))
-                .addAttr((text: $0, type: .link, URL(string:"mailto:\($0)") as Any))
+                .addAttr((text: $0, type: .link(true), URL(string:"mailto:\($0)") as Any))
             txt.setTo(textView: self.csLink)
         }, onError: { [weak self] in
             self?.handleErrors($0)

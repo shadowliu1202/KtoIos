@@ -12,7 +12,6 @@ class CryptoGuideVNDViewController: LobbyViewController {
     }
     
     @IBSegueAction func toCryptoGuideVNDView(_ coder: NSCoder) -> UIViewController? {
-        return UIHostingController(coder: coder, rootView: CryptoGuideVNDView(viewModel: viewModel))
+        return UIHostingController(coder: coder, rootView: CryptoGuideVNDView(viewModel: self.viewModel))
     }
-
 }

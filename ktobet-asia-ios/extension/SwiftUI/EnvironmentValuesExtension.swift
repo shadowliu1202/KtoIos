@@ -14,7 +14,6 @@ extension EnvironmentValues {
 
 extension View {
     func playerLocale(_ supportLocale: SupportLocale) -> some View {
-        self
-            .environment(\.playerLocale, supportLocale)
+        environment(\.playerLocale, supportLocale)
     }
 }
