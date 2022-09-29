@@ -1,13 +1,11 @@
 import SwiftUI
+import SharedBu
 
 struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
-    
     @StateObject var viewModel: ViewModel
     
-    init(viewModel: ViewModel) {
-        self._viewModel = StateObject.init(wrappedValue: viewModel)
-    }
-    
+    private let supportLocale: SupportLocale = DI.resolve(PlayerLocaleConfiguration.self)!.getSupportLocale()
+
     var body: some View {
         ScrollView {
             PageContainer {
@@ -16,27 +14,26 @@ struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
                     
                     LimitSpacer(24)
                     
-                    ForEach(0..<(viewModel.exchanges?.count ?? 0), id: \.self) { index in
-                        if let exchange = viewModel.exchanges?[index] {
-                            let isLastBlock = index == viewModel.exchanges!.count - 1 ? true : false
-                            ExpandableBlock(title: exchange.name, isLastBlock: isLastBlock, contentAlignment: .leading) {
-                                VStack(alignment: .leading, spacing: 16) {
-                                    ForEach(0..<exchange.guides.count, id: \.self) { index in
-                                        let guide = exchange.guides[index]
-                                        Text(guide.name)
-                                            .customizedFont(fontWeight: .semibold, size: 14, color: .primaryForLight)
-                                            .onTapGesture { openTour(guide.link) }
-                                    }
+                    ForEach(viewModel.guidances, id: \.self) { guidance in
+                        ExpandableBlock(title: guidance.title, isLastBlock: guidance == viewModel.guidances.last, contentAlignment: .leading) {
+                            VStack(alignment: .leading, spacing: 16) {
+                                ForEach(guidance.links, id: \.self) { (guidanceLink: CryptoDepositGuidance.GuidanceLink) in
+                                    Text(guidanceLink.title)
+                                        .customizedFont(fontWeight: .semibold, size: 14, color: .primaryForLight)
+                                        .onTapGesture {
+                                            openTour(guidanceLink.link)
+                                        }
                                 }
-                                .padding(12)
                             }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 16)
                         }
                     }
-                    
                 }
                 .padding(.horizontal, 30)
             }
         }
+        .playerLocale(supportLocale)
         .onAppear {
             viewModel.getCryptoGuidance()
         }
@@ -57,15 +54,6 @@ struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
         UIApplication.shared.open(url)
     }
     
-}
-
-class CryptoMarketExchange {
-    var name: String
-    var guides: [Guide]
-    init(_ name: String, _ guides: [Guide] = []) {
-        self.name = name
-        self.guides = guides
-    }
 }
 
 struct CryptoGuideVNDView_Previews: PreviewProvider {

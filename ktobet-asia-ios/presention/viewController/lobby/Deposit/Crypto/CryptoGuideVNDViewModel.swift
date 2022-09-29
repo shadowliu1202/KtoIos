@@ -4,26 +4,28 @@ import RxCocoa
 import SharedBu
 
  protocol CryptoGuideVNDViewModel: ObservableObject {
-     var exchanges: [CryptoMarketExchange]? { get set }
+     var guidances: [CryptoDepositGuidance] { get }
      
      func getCryptoGuidance()
  }
 
 class CryptoGuideVNDViewModelImpl: CryptoGuideVNDViewModel {
-    private var localizationPolicyUseCase: LocalizationPolicyUseCase!
+    @Published private(set) var guidances: [CryptoDepositGuidance] = []
     
-    @Published var exchanges: [CryptoMarketExchange]? = nil
-    let disposeBag = DisposeBag()
+    private let localizationPolicyUseCase: LocalizationPolicyUseCase
+    private let disposeBag = DisposeBag()
     
     init(localizationPolicyUseCase: LocalizationPolicyUseCase) {
         self.localizationPolicyUseCase = localizationPolicyUseCase
     }
     
     func getCryptoGuidance() {
-        if exchanges == nil {
-            localizationPolicyUseCase.getCryptoGuidance().subscribe(onSuccess: { [weak self] (data: [CryptoDepositGuidance]) in
-                self?.exchanges = data.map({ CryptoMarketExchange($0.title, $0.links.map({Guide(name: $0.title, link: $0.link)}))})
-            }).disposed(by: disposeBag)
+        if guidances.isEmpty {
+            localizationPolicyUseCase.getCryptoGuidance()
+                .subscribe(onSuccess: { cryptoDepositGuidances in
+                    self.guidances = cryptoDepositGuidances
+                })
+                .disposed(by: disposeBag)
         }
     }
 }

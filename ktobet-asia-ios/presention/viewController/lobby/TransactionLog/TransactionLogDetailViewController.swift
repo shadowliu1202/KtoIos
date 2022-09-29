@@ -162,7 +162,7 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
                         .addAttr((text: displayId, type: .font, UIFont.init(name: "PingFangSC-Regular", size: 16) as Any))
                     if displayId.isValidRegex(format: .numbers) {
                         txt = txt
-                            .addAttr((text: displayId, type: .link, "Casino://\(wagerId)"))
+                            .addAttr((text: displayId, type: .link(true), "Casino://\(wagerId)"))
                             .addAttr((text: displayId, type: .color, UIColor.systemRed))
                     }
                     txt.setTo(textView: textView)

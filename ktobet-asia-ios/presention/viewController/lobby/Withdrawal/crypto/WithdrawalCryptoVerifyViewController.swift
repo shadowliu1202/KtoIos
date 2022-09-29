@@ -5,6 +5,7 @@ import SharedBu
 class WithdrawalCryptoVerifyViewController: LobbyViewController {
     static let segueIdentifier = "toCryptoVerify"
     
+    @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet private weak var btnPhone: UIButton!
     @IBOutlet private weak var btnEmail: UIButton!
     @IBOutlet private weak var btnSubmit: UIButton!
@@ -43,16 +44,15 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
         
         viewModel.otpValid().subscribe(onNext: {[weak self] status in
             guard let self = self else { return }
-            if status == .errOtpServiceDown {
-                Alert.show(Localize.string("common_error"), Localize.string("cps_otp_service_down"), confirm: {
-                    NavigationManagement.sharedInstance.popViewController()
-                }, cancel: nil)
-            } else if status == .errSMSOtpInactive || status == .errEmailOtpInactive {
-                self.viewOtpServiceDown.isHidden = false
-                self.viewInputView.isHidden = true
-            } else {
-                self.viewOtpServiceDown.isHidden = true
-                self.viewInputView.isHidden = false
+            switch status {
+            case .errOtpServiceDown:
+                self.alertServiceIsDown()
+            case .errSMSOtpInactive:
+                self.showSMSOtpInactiveHint()
+            case .errEmailOtpInactive:
+                self.showEmailOtpInactiveHint()
+            default:
+                self.showInputWhenOtpActive()
             }
         }).disposed(by: disposeBag)
         
@@ -113,6 +113,29 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
                 }
             }).disposed(by: self.disposeBag)
         }.disposed(by: disposeBag)
+    }
+    
+    private func alertServiceIsDown() {
+        Alert.show(Localize.string("common_error"), Localize.string("cps_otp_service_down"), confirm: {
+            NavigationManagement.sharedInstance.popViewController()
+        }, cancel: nil)
+    }
+    
+    private func showSMSOtpInactiveHint() {
+        self.errorLabel.text = Localize.string("register_step2_sms_inactive")
+        self.viewOtpServiceDown.isHidden = false
+        self.viewInputView.isHidden = true
+    }
+    
+    private func showEmailOtpInactiveHint() {
+        self.errorLabel.text = Localize.string("register_step2_email_inactive")
+        self.viewOtpServiceDown.isHidden = false
+        self.viewInputView.isHidden = true
+    }
+    
+    private func showInputWhenOtpActive() {
+        self.viewOtpServiceDown.isHidden = true
+        self.viewInputView.isHidden = false
     }
     
     private func navigateToPhoneOtpPage() {

@@ -753,7 +753,7 @@
 "withdrawal_bankcard_branch_placeholder" = "上海分行";
 "withdrawal_bankcard_state_placeholder" = "浙江省";
 "withdrawal_bankcard_city_placeholder" = "上海市";
-"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
+"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
 "withdrawal_bankcard_change_confirm_title" = "是否要变更姓名?";
 "withdrawal_bankcard_change_confirm_content" = "如需要变更姓名，请前往个人设定";
 "withdrawal_step2_title_1_tip" = "本次申请提现金额为";

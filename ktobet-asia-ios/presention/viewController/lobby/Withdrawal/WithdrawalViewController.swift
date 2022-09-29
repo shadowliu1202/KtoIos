@@ -7,9 +7,7 @@ class WithdrawalViewController: LobbyViewController {
     @IBOutlet private weak var withdrawalTodayAmountLimitLabel: UILabel!
     @IBOutlet private weak var withdrawalTodayCountLimitLabel: UILabel!
     @IBOutlet private weak var turnoverRequirementLabel: UILabel!
-    @IBOutlet private weak var crpytoWithdrawalRequirementLabel: UILabel!
-    @IBOutlet private weak var crpytoWithdrawalAmountLabel: UILabel!
-    @IBOutlet private weak var showInfoButton: UIButton!
+    @IBOutlet weak var crpytoWithdrawalRequirementTextView: UITextView!
     @IBOutlet private weak var withdrawView: UIView!
     @IBOutlet private weak var withdrawLabel: UILabel!
     @IBOutlet private weak var crpytoView: UIView!
@@ -19,7 +17,6 @@ class WithdrawalViewController: LobbyViewController {
     @IBOutlet private weak var showAllWithdrawalButton: UIButton!
     @IBOutlet private weak var withdrawalRecordTableView: UITableView!
     @IBOutlet private weak var constraintWithdrawalRecordTableHeight: NSLayoutConstraint!
-    @IBOutlet private weak var tipLabelStackView: UIStackView!
     @IBOutlet private weak var chanelStackView: UIStackView!
 
     private var accounts: [FiatBankCard]?
@@ -51,20 +48,15 @@ class WithdrawalViewController: LobbyViewController {
     }
     private lazy var crpytoWithdrawalRequirement: AccountCurrency? = AccountCurrency.zero() {
         didSet {
-            var suffix = Localize.string("common_none")
-            var textColor = UIColor.textPrimaryDustyGray
-            var icon = UIImage(named: "Tips")
+            let cpsWithdrawalRequirement = Localize.string("cps_crpyto_withdrawal_requirement")
+            var attribTextHolder: AttribTextHolder
             if let crpytoWithdrawalRequirement = crpytoWithdrawalRequirement, crpytoWithdrawalRequirement.isPositive {
-                suffix = Localize.string("common_requirement", crpytoWithdrawalRequirement.formatString())
-                textColor = UIColor.redForDarkFull
-                icon = UIImage(named: "iconChevronRightRed7")
-                let tap = UITapGestureRecognizer(target: self, action: #selector(switchToCrpytoTransationLog))
-                self.crpytoWithdrawalAmountLabel.addGestureRecognizer(tap)
-                self.crpytoWithdrawalAmountLabel.isUserInteractionEnabled = true
+                attribTextHolder = generateRequirementTextAttribute(requireAmount: crpytoWithdrawalRequirement.formatString(), cpsWithdrawalRequirement)
+            } else {
+                attribTextHolder = generateNotRequirementTextAttribute(cpsWithdrawalRequirement)
             }
-            self.crpytoWithdrawalAmountLabel.text = suffix
-            self.crpytoWithdrawalAmountLabel.textColor = textColor
-            self.showInfoButton.setImage(icon, for: .normal)
+            
+            attribTextHolder.setTo(textView: crpytoWithdrawalRequirementTextView)
         }
     }
     
@@ -115,6 +107,10 @@ class WithdrawalViewController: LobbyViewController {
         self.dailyLimitAmount = ""
         self.dailyMaxCount = ""
         self.turnoverRequirement = nil
+        crpytoWithdrawalRequirementTextView.textContainerInset = .zero
+        crpytoWithdrawalRequirementTextView.textContainer.lineFragmentPadding = 0
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapOnRequirementTextView(_:)))
+        crpytoWithdrawalRequirementTextView.addGestureRecognizer(tapGesture)
         self.crpytoWithdrawalRequirement = nil
         withdrawalRecordTitleLabel.text = Localize.string("withdrawal_log")
         showAllWithdrawalButton.setTitle(Localize.string("common_show_all"), for: .normal)
@@ -124,6 +120,83 @@ class WithdrawalViewController: LobbyViewController {
         crpytoViewEnable(false)
         chanelStackView.addBorder(.top)
         chanelStackView.addBorder(.bottom)
+    }
+    
+    private func generateRequirementTextAttribute(requireAmount: String, _ prefix: String) -> AttribTextHolder {
+        var attribTextHolder: AttribTextHolder
+        let suffix = Localize.string("common_requirement", requireAmount)
+        let fullText = prefix + suffix
+        attribTextHolder = AttribTextHolder(text: fullText)
+            .addAttr((text: fullText, type: .color, UIColor.textPrimaryDustyGray))
+            .addAttr((text: fullText, type: .font, UIFont.init(name: "PingFangSC-Medium", size: 14)!))
+            .addAttr((text: suffix, type: .color, UIColor.redForDarkFull))
+            .addAttr((text: suffix, type: .link(false), "TapRequireAmount://"))
+        
+        let padding = NSTextAttachment()
+        padding.bounds = CGRect(x: 0, y: 0, width: 8.6, height: 0)
+        attribTextHolder = attribTextHolder.addAttr((text: "", type: .attachment, value: padding))
+        
+        let tips = NSTextAttachment()
+        tips.image = UIImage(named: "iconChevronRightRed7")
+        tips.bounds = CGRect.init(x: 0, y: 0, width: 7.4, height: 12)
+        attribTextHolder = attribTextHolder.addAttr((text: "", type: .attachment, value: tips))
+        return attribTextHolder
+    }
+    
+    private func generateNotRequirementTextAttribute(_ prefix: String) -> AttribTextHolder {
+        var attribTextHolder: AttribTextHolder
+        let suffix = Localize.string("common_none")
+        let fullText = prefix + suffix
+        attribTextHolder = AttribTextHolder(text: fullText)
+            .addAttr((text: fullText, type: .color, UIColor.textPrimaryDustyGray))
+            .addAttr((text: fullText, type: .font, UIFont.init(name: "PingFangSC-Medium", size: 14)!))
+            .addAttr((text: suffix, type: .color, UIColor.textPrimaryDustyGray))
+        
+        let padding = NSTextAttachment()
+        padding.bounds = CGRect(x: 0, y: 0, width: 10, height: 0)
+        attribTextHolder = attribTextHolder.addAttr((text: "", type: .attachment, value: padding))
+        
+        let tips = NSTextAttachment()
+        tips.image = UIImage(named: "Tips")
+        tips.bounds = CGRect.init(x: 0, y: -5, width: 20, height: 20)
+        attribTextHolder = attribTextHolder.addAttr((text: "", type: .attachment, value: tips))
+        return attribTextHolder
+    }
+    
+    @objc private func tapOnRequirementTextView(_ sender: UITapGestureRecognizer) {
+        let textView = sender.view as! UITextView
+        let layoutManager = textView.layoutManager
+        
+        var location = sender.location(in: textView)
+        location.x -= textView.textContainerInset.left
+        location.y -= textView.textContainerInset.top
+        
+        let characterIndex = layoutManager.characterIndex(for: location,
+                                                          in: textView.textContainer,
+                                                          fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        if characterIndex < textView.textStorage.length {
+            let link = textView.attributedText.attribute(NSAttributedString.Key.link,
+                                                      at: characterIndex,
+                                                      effectiveRange: nil)
+            if link != nil {
+                self.switchToCryptoTransationLog()
+                return
+            }
+            let attachment = textView.attributedText.attribute(NSAttributedString.Key.attachment,
+                                                               at: characterIndex,
+                                                               effectiveRange: nil) as? NSTextAttachment
+            guard attachment != nil else { return }
+            if let amount = self.crpytoWithdrawalRequirementAmount(), amount.isPositive {
+                self.switchToCryptoTransationLog()
+            } else {
+                Alert.show(Localize.string("cps_crpyto_withdrawal_requirement_title"),
+                           Localize.string("cps_crpyto_withdrawal_requirement_desc"),
+                           confirm: {
+                                self.dismiss(animated: true, completion: nil)
+                           }, cancel: nil)
+            }
+        }
     }
     
     fileprivate func cryptoWithdrawlDataBinding() {
@@ -203,21 +276,9 @@ class WithdrawalViewController: LobbyViewController {
         }, onError: { (error) in
             self.handleErrors(error)
         }).disposed(by: disposeBag)
-        
-        self.showInfoButton.rx.tap.subscribe(onNext: { [weak self] _ in
-            if let amount = self?.crpytoWithdrawalRequirementAmount(), amount.isPositive {
-                self?.switchToCrpytoTransationLog()
-            } else {
-                Alert.show(Localize.string("cps_crpyto_withdrawal_requirement_title"),
-                           Localize.string("cps_crpyto_withdrawal_requirement_desc"),
-                           confirm: {
-                                self?.dismiss(animated: true, completion: nil)
-                           }, cancel: nil)
-            }
-        }).disposed(by: self.disposeBag)
     }
     
-    @objc private func switchToCrpytoTransationLog() {
+    @objc private func switchToCryptoTransationLog() {
         self.performSegue(withIdentifier: CrpytoTransationLogViewController.segueIdentifier, sender: nil)
     }
     

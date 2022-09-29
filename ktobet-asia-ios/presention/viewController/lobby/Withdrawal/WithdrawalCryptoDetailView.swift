@@ -49,6 +49,7 @@ struct WithdrawalCryptoDetailView: View {
                     Text(Localize.string("common_cps_incomplete_field_placeholder_hint"))
                         .foregroundColor(Color(UIColor.textPrimaryDustyGray))
                         .font(Font.custom("PingFangSC-Regular", size: 14))
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 .padding(EdgeInsets(top: 0, leading: 30, bottom: 24, trailing: 0))
                 
@@ -181,10 +182,6 @@ struct WithdrawalCryptoDetailView: View {
                         .foregroundColor(Color(UIColor.whiteFull))
                         .font(Font.custom("PingFangSC-Regular", size: 16))
                 }
-            } else {
-                Text("-")
-                    .foregroundColor(Color(UIColor.whiteFull))
-                    .font(Font.custom("PingFangSC-Regular", size: 16))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
