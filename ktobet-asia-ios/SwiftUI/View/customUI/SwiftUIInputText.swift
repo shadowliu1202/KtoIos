@@ -2,6 +2,10 @@
 import SwiftUI
 
 struct SwiftUIInputText: View {
+    enum Identifier: String {
+        case ErrorHint
+    }
+    
     @State private var isEditing: Bool = false
     @State private var showTextField: Bool = false
     @State private var showPassword: Bool = false
@@ -23,18 +27,25 @@ struct SwiftUIInputText: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            self.inputText()
+            inputText
                 .overlay(
-                    errorUnderline()
-                        .visibility(errorText != nil ? .visible : .gone)
+                    errorUnderline
+                        .visibility(errorText == nil ? .gone : .visible)
                 )
-            self.errorHint()
+            
+            Text(errorText ?? "")
+                .id(Identifier.ErrorHint.rawValue)
+                .customizedFont(fontWeight: .regular, size: 12, color: .alert)
                 .visibility(errorText == nil ? .gone : .visible)
+        }
+        .onAppear {
+            if !textFieldText.isEmpty {
+                showTextField = true
+            }
         }
     }
     
-    @ViewBuilder
-    private func inputText() -> some View {
+    private var inputText: some View {
         HStack(spacing: 14) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(placeHolder)
@@ -42,7 +53,6 @@ struct SwiftUIInputText: View {
                     .foregroundColor(.primaryGray)
                     .padding(.top, showTextField ? 1 : 12)
                     .padding(.bottom, showTextField ? 0 : 10)
-                
                 UIKitTextField(text: $textFieldText, isFirstResponder: $isEditing, showPassword: $showPassword, isPasswordType: isPasswordType, keyboardType: keyboardType) { uiTextField in
                     uiTextField.font = UIFont(name: "PingFangSC", size: 16)
                     uiTextField.textColor = .white
@@ -62,9 +72,11 @@ struct SwiftUIInputText: View {
                 withAnimation(.easeOut(duration: 0.2)) {
                     showTextField = true
                 }
+                
                 isEditing = true
             }
-            self.eyeIcon()
+            
+            eyeIcon
                 .onTapGesture {
                     showPassword.toggle()
                 }
@@ -75,20 +87,10 @@ struct SwiftUIInputText: View {
         .padding(.horizontal, 12)
         .backgroundColor(isEditing ? .inputFocus : .inputDefault)
         .cornerRadius(8)
-        .onAppear {
-            if !textFieldText.isEmpty && !showTextField {
-                showTextField = true
-            }
-        }
-        .onChange(of: textFieldText) { _ in
-            if !textFieldText.isEmpty && !showTextField {
-                showTextField = true
-            }
-        }
     }
     
     @ViewBuilder
-    private func eyeIcon() -> some View {
+    private var eyeIcon: some View {
         if showPassword {
             Image("Eye-Show")
         } else {
@@ -96,8 +98,7 @@ struct SwiftUIInputText: View {
         }
     }
     
-    @ViewBuilder
-    private func errorUnderline() -> some View {
+    private var errorUnderline: some View {
         VStack(spacing: 0) {
             Rectangle()
                 .foregroundColor(isEditing ? .inputFocus : .inputDefault)
@@ -110,12 +111,6 @@ struct SwiftUIInputText: View {
         .frame(maxHeight: .infinity ,alignment: .bottom)
         .animation(.easeOut(duration: 0.2), value: showTextField)
         .allowsHitTesting(false)
-    }
-    
-    @ViewBuilder
-    private func errorHint() -> some View {
-        Text(errorText ?? "")
-            .customizedFont(fontWeight: .regular, size: 12, color: .alert)
     }
 }
 

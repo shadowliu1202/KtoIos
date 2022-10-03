@@ -1,12 +1,22 @@
 import SwiftUI
 import SharedBu
 import RxSwift
+import Combine
 
-struct OnlinePaymentView: View {
-    @StateObject var viewModel: OnlineDepositViewModel
+struct OnlinePaymentView<ViewModel: OnlineDepositViewModel>: View {
+    enum Identifier: String {
+        case RemitButton
+        case RemittanceInputTextField
+    }
+    
+    var inspection = Inspection<Self>()
+    
+    @StateObject var viewModel: ViewModel
+    
+    @State var selectedGateway: PaymentsDTO.Gateway? = nil
+    @State var amount: String = ""
     
     @State private var remitterName: String = ""
-    @State private var amount: String = ""
     @State private var submitInProgress = false
     
     var userGuideOnTap = {}
@@ -23,7 +33,7 @@ struct OnlinePaymentView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 30)
                     
-                    if let selectedGateway = viewModel.selectedGateway, selectedGateway.isInstructionDisplayed {
+                    if let selectedGateway = selectedGateway, selectedGateway.isInstructionDisplayed {
                         userGuide
                     }
                     
@@ -34,7 +44,7 @@ struct OnlinePaymentView: View {
                             .customizedFont(fontWeight: .medium, size: 16, color: .primaryGray)
                             .padding(.horizontal, 30)
                         
-                        PickList(selectedItem: $viewModel.selectedGateway, items: viewModel.gateways)
+                        PickList(selectedItem: $selectedGateway, items: viewModel.gateways)
                     }
                     
                     LimitSpacer(30)
@@ -44,7 +54,7 @@ struct OnlinePaymentView: View {
                     LimitSpacer(40)
                     
                     Button {
-                        viewModel.submitRemittance(paymentIdentity: viewModel.selectedOnlinePayment.identity)
+                        viewModel.submitRemittance(gatewayIdentity: selectedGateway!.identity, remitterName: remitterName, remittance: amount)
                             .do(onSubscribe: {
                                 submitInProgress = true
                             }, onDispose: {
@@ -61,6 +71,7 @@ struct OnlinePaymentView: View {
                     .buttonStyle(.confirmRed)
                     .padding(.horizontal, 30)
                     .disabled(!isOnlineDataValid() || submitInProgress)
+                    .id(Identifier.RemitButton.rawValue)
                 }
             }
         }
@@ -73,15 +84,19 @@ struct OnlinePaymentView: View {
                     })
                     .disposed(by: disposeBag)
             }
-            
-            if viewModel.selectedGateway == nil {
-                viewModel.setupDefaultSelectedGateway()
+        }
+        .onChange(of: viewModel.gateways, perform: { gateways in
+            if !gateways.isEmpty, selectedGateway == nil {
+                selectedGateway = viewModel.gateways.first
+            }
+        })
+        .onChange(of: selectedGateway) { _ in
+            if !amount.isEmpty {
+                viewModel.verifyRemitInput(gateway: selectedGateway, remitterName: remitterName, remittance: amount)
             }
         }
-        .onChange(of: viewModel.selectedGateway) { _ in
-            if !amount.isEmpty {
-                viewModel.createVerifiedRemitApplication(gateway: viewModel.selectedGateway!, remitterName: remitterName, remittance: amount)
-            }
+        .onReceive(inspection.notice) {
+           self.inspection.visit(self, $0)
         }
     }
     
@@ -113,15 +128,16 @@ struct OnlinePaymentView: View {
             LimitSpacer(16)
             
             SwiftUIInputText(placeHolder: Localize.string("deposit_amount"), textFieldText: $amount, errorText: getAmountErrorText(), keyboardType: .numberPad)
+                .id(Identifier.RemittanceInputTextField.rawValue)
             
             LimitSpacer(12)
             
-            Text(viewModel.selectedGateway == nil ? "" : String(format: Localize.string("deposit_offline_step1_tips"), viewModel.selectedGateway!.cash.limitation.min.description(), viewModel.selectedGateway!.cash.limitation.max.description()))
+            Text(selectedGateway == nil ? "" : String(format: Localize.string("deposit_offline_step1_tips"), selectedGateway!.cash.limitation.min.description(), selectedGateway!.cash.limitation.max.description()))
             .customizedFont(fontWeight: .medium, size: 14, color: .primaryGray)
         }
         .padding(.horizontal, 30)
         .onChange(of: amount) { _ in
-            viewModel.createVerifiedRemitApplication(gateway: viewModel.selectedGateway!, remitterName: remitterName, remittance: amount)
+            viewModel.verifyRemitInput(gateway: selectedGateway, remitterName: remitterName, remittance: amount)
         }
     }
     
@@ -136,25 +152,25 @@ struct OnlinePaymentView: View {
         } else if amountError.first! is PaymentError.RemittanceOutOfRange {
             return Localize.string("deposit_limitation_hint")
         } else {
-            fatalError()
+            fatalError("Should not reach here.")
         }
     }
     
     private func isOnlineDataValid() -> Bool {
-        !amount.isEmpty && viewModel.applicationErrors.isEmpty && viewModel.selectedGateway != nil
-    }
-}
-
-struct OnlinePaymentViewPreviews: View {
-    private let onlinePayment = PaymentsDTO.Online.init(identity: "24", name: "数字人民币", hint: "", isRecommend: false, beneficiaries: Single<NSArray>.just([PaymentsDTO.Gateway(identity: "70", name: "JinYi_Digital", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "200"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "2000")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true), PaymentsDTO.Gateway(identity: "20", name: "JinYi_Crypto", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "300"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "700")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true)] as NSArray).asNSArray())
-    
-    var body: some View {
-        OnlinePaymentView(viewModel: OnlineDepositViewModel(selectedOnlinePayment: onlinePayment))
+        !amount.isEmpty && viewModel.applicationErrors.isEmpty && selectedGateway != nil
     }
 }
 
 struct OnlinePaymentView_Previews: PreviewProvider {
+    struct Preview: View {
+        private let onlinePayment = PaymentsDTO.Online.init(identity: "24", name: "数字人民币", hint: "", isRecommend: false, beneficiaries: Single<NSArray>.just([PaymentsDTO.Gateway(identity: "70", name: "JinYi_Digital", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "200"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "2000")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true), PaymentsDTO.Gateway(identity: "20", name: "JinYi_Crypto", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "300"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "700")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true)] as NSArray).asNSArray())
+        
+        var body: some View {
+            OnlinePaymentView(viewModel: OnlineDepositViewModelImpl(selectedOnlinePayment: onlinePayment))
+        }
+    }
+    
     static var previews: some View {
-        OnlinePaymentViewPreviews()
+        Preview()
     }
 }

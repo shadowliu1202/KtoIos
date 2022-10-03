@@ -1,12 +1,13 @@
 import SwiftUI
 
 struct ExpandableBlock<Content: View>: View {
-    var inspection = Inspection<Self>()
     enum Identifier: String {
         case blockHeader
         case blockContent
     }
     
+    var inspection = Inspection<Self>()
+
     @State private var isExpand = false
     
     let title: String
