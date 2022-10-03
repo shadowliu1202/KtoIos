@@ -136,6 +136,7 @@
 		3C656EA628E30DB000EFB754 /* NewLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9F28E30DAF00EFB754 /* NewLoginViewModel.swift */; };
 		3C656EA728E30DB000EFB754 /* NewLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9F28E30DAF00EFB754 /* NewLoginViewModel.swift */; };
 		3C656EA828E30DB000EFB754 /* NewLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9F28E30DAF00EFB754 /* NewLoginViewModel.swift */; };
+		3C656EAA28E3E6DB00EFB754 /* OnlinePaymentViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656EA928E3E6DB00EFB754 /* OnlinePaymentViewTest.swift */; };
 		3C7672D62899085E001DF62F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7672D52899085E001DF62F /* LoginView.swift */; };
 		3C7672D72899085E001DF62F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7672D52899085E001DF62F /* LoginView.swift */; };
 		3C7672D82899085E001DF62F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7672D52899085E001DF62F /* LoginView.swift */; };
@@ -5810,6 +5811,7 @@
 		3C5C1FEA28AB6FCC00D4C735 /* LocalizeFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizeFont.swift; sourceTree = "<group>"; };
 		3C656E9528E30C8500EFB754 /* CryptoGuideVNDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoGuideVNDView.swift; sourceTree = "<group>"; };
 		3C656E9F28E30DAF00EFB754 /* NewLoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLoginViewModel.swift; sourceTree = "<group>"; };
+		3C656EA928E3E6DB00EFB754 /* OnlinePaymentViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePaymentViewTest.swift; sourceTree = "<group>"; };
 		3C7672D52899085E001DF62F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3C7672DF2899127A001DF62F /* UIKitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitTextField.swift; sourceTree = "<group>"; };
 		3C7672E9289912CE001DF62F /* SwiftUIInputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIInputText.swift; sourceTree = "<group>"; };
@@ -6625,6 +6627,7 @@
 				3C57DE4028B8C6F30094780D /* Helper */,
 				3C1C810E28CF40DF0033871A /* StarMergerViewTest.swift */,
 				6D35F9F428DC681B00C67696 /* ExpandableBlockTest.swift */,
+				3C656EA928E3E6DB00EFB754 /* OnlinePaymentViewTest.swift */,
 			);
 			path = "swiftUI-unitTest";
 			sourceTree = "<group>";
@@ -9761,6 +9764,7 @@
 				6D35F9F528DC681B00C67696 /* ExpandableBlockTest.swift in Sources */,
 				3C1C810F28CF40DF0033871A /* StarMergerViewTest.swift in Sources */,
 				3C2908D928D2BDCD003D6F06 /* Mock.swift in Sources */,
+				3C656EAA28E3E6DB00EFB754 /* OnlinePaymentViewTest.swift in Sources */,
 				3C57DE3F28B8C6EC0094780D /* TestWrapperView.swift in Sources */,
 				3C9889E428C2087000634990 /* Inspectable.swift in Sources */,
 				3C2908DC28D3007F003D6F06 /* XCTestCaseExtension.swift in Sources */,

@@ -75,16 +75,13 @@ struct UIKitTextField: UIViewRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator($text, keyboardType)
+        Coordinator(keyboardType)
     }
 
     class Coordinator: NSObject, UITextFieldDelegate {
-        var text: Binding<String>
-        
         let keyboardType: UIKeyboardType
 
-        init(_ text: Binding<String>, _ keyboardType: UIKeyboardType) {
-            self.text = text
+        init(_ keyboardType: UIKeyboardType) {
             self.keyboardType = keyboardType
         }
         

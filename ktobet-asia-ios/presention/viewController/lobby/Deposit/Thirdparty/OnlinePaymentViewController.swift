@@ -8,7 +8,7 @@ class OnlinePaymentViewController: LobbyViewController {
     
     var selectedOnlinePayment: PaymentsDTO.Online!
     
-    private lazy var onlineDepositViewModel = OnlineDepositViewModel(selectedOnlinePayment: selectedOnlinePayment)
+    private lazy var onlineDepositViewModel = OnlineDepositViewModelImpl(selectedOnlinePayment: selectedOnlinePayment)
     
     private let httpClient = DI.resolve(HttpClient.self)!
     private let disposeBag = DisposeBag()

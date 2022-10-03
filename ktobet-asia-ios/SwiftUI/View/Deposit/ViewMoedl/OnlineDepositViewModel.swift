@@ -1,15 +1,23 @@
 import RxSwift
 import SharedBu
 
-class OnlineDepositViewModel: KTOViewModel, ObservableObject {
-    @Published var selectedGateway: PaymentsDTO.Gateway? = nil
+protocol OnlineDepositViewModel: KTOViewModel, ObservableObject {
+    var gateways: [PaymentsDTO.Gateway] { get }
+    var applicationErrors: [PaymentError] { get }
+    var selectedOnlinePayment: PaymentsDTO.Online { get }
     
+    func getRemitterName() -> Single<String>
+    func verifyRemitInput(gateway: PaymentsDTO.Gateway?, remitterName: String, remittance: String)
+    func submitRemittance(gatewayIdentity: String, remitterName: String, remittance: String) -> Single<CommonDTO.WebPath>
+}
+
+class OnlineDepositViewModelImpl: KTOViewModel, OnlineDepositViewModel, ObservableObject {
     @Published private(set) var gateways: [PaymentsDTO.Gateway] = []
     @Published private(set) var applicationErrors: [PaymentError] = []
     
-    var remitApplication: OnlineRemitApplication!
-    
     let selectedOnlinePayment: PaymentsDTO.Online
+    
+    private(set) var remitApplication: OnlineRemitApplication!
     
     private let playerDataUseCase = DI.resolve(PlayerDataUseCase.self)!
     private let depositService = DI.resolve(ApplicationFactory.self)!.deposit()
@@ -17,14 +25,17 @@ class OnlineDepositViewModel: KTOViewModel, ObservableObject {
     
     init(selectedOnlinePayment: PaymentsDTO.Online) {
         self.selectedOnlinePayment = selectedOnlinePayment
+        super.init()
+        
+        setupGateways()
     }
     
-    func setupDefaultSelectedGateway() {
-        RxSwift.Single.from(selectedOnlinePayment.beneficiaries).subscribe(onSuccess: { [unowned self] gateways in
-            let gateways = gateways as! [PaymentsDTO.Gateway]
-            self.gateways = gateways
-            self.selectedGateway = gateways.first
-        }).disposed(by: disposeBag)
+    private func setupGateways() {
+        RxSwift.Single.from(selectedOnlinePayment.beneficiaries)
+            .subscribe(onSuccess: { [unowned self] gateways in
+                let gateways = gateways as! [PaymentsDTO.Gateway]
+                self.gateways = gateways
+            }).disposed(by: disposeBag)
     }
     
     func getRemitterName() -> Single<String> {
@@ -32,29 +43,26 @@ class OnlineDepositViewModel: KTOViewModel, ObservableObject {
             .compose(self.applySingleErrorHandler())
     }
     
-    func createVerifiedRemitApplication(gateway: PaymentsDTO.Gateway, remitterName: String, remittance: String) {
+    func verifyRemitInput(gateway: PaymentsDTO.Gateway?, remitterName: String, remittance: String) {
+        guard let gateway = gateway else { return }
+
         let remittance = remittance.isEmpty ? nil : remittance.replacingOccurrences(of: ",", with: "")
-        verifiedRemitApplication(gateway, remitterName, remittance)
-        
-        if applicationErrors.isEmpty {
-            createRemitApplication(gatewayIdentity: gateway.identity, remitterName, remittance!)
-        }
-    }
-    
-    private func verifiedRemitApplication(_ gateway: PaymentsDTO.Gateway, _ remitterName: String, _ remittance: String?) {
         let remitApplication =  RemitApplication(remitterName: remitterName, remitterAccount: "", remitterBankName: "",remittance: remittance, supportBankCode: "")
+        
         applicationErrors = gateway.verifier.verify(target: remitApplication, isIgnoreNull: false)
     }
     
-    private func createRemitApplication(gatewayIdentity: String, _ remitterName: String, _ remittance: String) {
-        let onlineRemitter =  OnlineRemitter(name: remitterName, account: "")
-        remitApplication = OnlineRemitApplication(remitter: onlineRemitter, remittance: remittance, gatewayIdentity: gatewayIdentity, supportBankCode: nil)
-    }
-    
-    func submitRemittance(paymentIdentity: String) -> Single<CommonDTO.WebPath> {
-        let onlineDepositDTO = OnlineDepositDTO.Request(paymentIdentity: paymentIdentity, application: remitApplication)
+    func submitRemittance(gatewayIdentity: String, remitterName: String, remittance: String) -> Single<CommonDTO.WebPath> {
+        let onlineRemitApplication = createOnlineRemitApplication(gatewayIdentity, remitterName, remittance)
+        let onlineDepositDTO = OnlineDepositDTO.Request(paymentIdentity: selectedOnlinePayment.identity, application: onlineRemitApplication)
         
         return Single.from(self.depositService.requestOnlineDeposit(request: onlineDepositDTO))
             .observe(on: MainScheduler.instance)
+    }
+    
+    private func createOnlineRemitApplication(_ gatewayIdentity: String, _ remitterName: String, _ remittance: String) -> OnlineRemitApplication {
+        let onlineRemitter = OnlineRemitter(name: remitterName, account: "")
+        
+        return OnlineRemitApplication(remitter: onlineRemitter, remittance: remittance, gatewayIdentity: gatewayIdentity, supportBankCode: nil)
     }
 }
