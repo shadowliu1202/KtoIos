@@ -938,7 +938,6 @@
 		605AC72725C0FE5900873D63 /* DepositRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC72625C0FE5900873D63 /* DepositRecordTableViewCell.swift */; };
 		605AC72825C0FE5900873D63 /* DepositRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605AC72625C0FE5900873D63 /* DepositRecordTableViewCell.swift */; };
 		605BBD4927FD6F0C0092A550 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605BBD4527FD6F0C0092A550 /* GoogleService-Info.plist */; };
-		605BBD4C27FD6F0C0092A550 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605BBD4627FD6F0C0092A550 /* GoogleService-Info.plist */; };
 		605CF88C2642317400FBCF31 /* DropDownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605CF88B2642317400FBCF31 /* DropDownTableViewCell.swift */; };
 		605CF88D2642317400FBCF31 /* DropDownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605CF88B2642317400FBCF31 /* DropDownTableViewCell.swift */; };
 		605D986B25A5CC2E00634197 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D986A25A5CC2E00634197 /* DateExtension.swift */; };
@@ -2082,6 +2081,7 @@
 		6D0C89EE27CDF83000DA95C7 /* NewPasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0C89ED27CDF83000DA95C7 /* NewPasswordValidator.swift */; };
 		6D0C89EF27CDF83000DA95C7 /* NewPasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0C89ED27CDF83000DA95C7 /* NewPasswordValidator.swift */; };
 		6D0C89F027CDF83000DA95C7 /* NewPasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0C89ED27CDF83000DA95C7 /* NewPasswordValidator.swift */; };
+		6D0D33D628EC3E56004273D4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605BBD4627FD6F0C0092A550 /* GoogleService-Info.plist */; };
 		6D0D8FD626DF668500733C4D /* UseBonusCoupon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8FD526DF668500733C4D /* UseBonusCoupon.swift */; };
 		6D0D8FD726DF668500733C4D /* UseBonusCoupon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8FD526DF668500733C4D /* UseBonusCoupon.swift */; };
 		6D0D8FD826DF668500733C4D /* UseBonusCoupon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8FD526DF668500733C4D /* UseBonusCoupon.swift */; };
@@ -5320,7 +5320,6 @@
 		6D9671ED27FEE42B006086B7 /* Black_cs_animation.ai in Resources */ = {isa = PBXBuildFile; fileRef = 6D99389E271E72440068A616 /* Black_cs_animation.ai */; };
 		6D9671EE27FEE42B006086B7 /* Arcade.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6010413D26B2AA5C00B28FC8 /* Arcade.storyboard */; };
 		6D9671EF27FEE42B006086B7 /* PromotionHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 600E242826CB5A8500D8B073 /* PromotionHistory.storyboard */; };
-		6D9671F027FEE42B006086B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605BBD4627FD6F0C0092A550 /* GoogleService-Info.plist */; };
 		6D9671F127FEE42B006086B7 /* UsableTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D94090626D4A69C00C70FDA /* UsableTableViewCell.xib */; };
 		6D9671F227FEE42B006086B7 /* Notification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60E4A7AF275716CA0088245F /* Notification.storyboard */; };
 		6D9671F327FEE42B006086B7 /* UnusableTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D9409BC26D8B67D00C70FDA /* UnusableTableViewCell.xib */; };
@@ -8445,7 +8444,6 @@
 				6D9938AC271E72440068A616 /* Black_cs_animation.ai in Resources */,
 				6010413F26B2AA5C00B28FC8 /* Arcade.storyboard in Resources */,
 				600E242A26CB5A8500D8B073 /* PromotionHistory.storyboard in Resources */,
-				605BBD4C27FD6F0C0092A550 /* GoogleService-Info.plist in Resources */,
 				6D94090B26D4A69C00C70FDA /* UsableTableViewCell.xib in Resources */,
 				60E4A7B1275716CA0088245F /* Notification.storyboard in Resources */,
 				6D9409C126D8B67D00C70FDA /* UnusableTableViewCell.xib in Resources */,
@@ -8478,6 +8476,7 @@
 				6D9938AF271E72440068A616 /* ring3_cs_animation.ai in Resources */,
 				600A8FDE26D3471D00F56412 /* PromotionHistoryTableViewCell.xib in Resources */,
 				4199A09025AE9918002E2D7E /* Launch.storyboard in Resources */,
+				6D0D33D628EC3E56004273D4 /* GoogleService-Info.plist in Resources */,
 				60251B0F261C427F00E89EE6 /* ImagePicker.storyboard in Resources */,
 				6085050226005DAD009394CA /* Withdrawal.storyboard in Resources */,
 				600E247626CCAB9A00D8B073 /* Date.storyboard in Resources */,
@@ -9011,7 +9010,6 @@
 				6D9671ED27FEE42B006086B7 /* Black_cs_animation.ai in Resources */,
 				6D9671EE27FEE42B006086B7 /* Arcade.storyboard in Resources */,
 				6D9671EF27FEE42B006086B7 /* PromotionHistory.storyboard in Resources */,
-				6D9671F027FEE42B006086B7 /* GoogleService-Info.plist in Resources */,
 				6D9671F127FEE42B006086B7 /* UsableTableViewCell.xib in Resources */,
 				6D9671F227FEE42B006086B7 /* Notification.storyboard in Resources */,
 				6D9671F327FEE42B006086B7 /* UnusableTableViewCell.xib in Resources */,
