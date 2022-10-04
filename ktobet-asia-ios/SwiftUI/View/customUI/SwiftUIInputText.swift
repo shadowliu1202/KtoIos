@@ -58,9 +58,9 @@ struct SwiftUIInputText: View {
                     uiTextField.textColor = .white
                     uiTextField.tintColor = .primaryRed
                     uiTextField.autocapitalizationType = .none
-                } editingDidEnd: {
+                } editingDidEnd: { text in
                     withAnimation(.easeOut(duration: 0.2)) {
-                        showTextField = textFieldText.isEmpty ? false : true
+                        showTextField = text.isEmpty ? false : true
                     }
                 }
                 .fixedSize(horizontal: false, vertical: true)

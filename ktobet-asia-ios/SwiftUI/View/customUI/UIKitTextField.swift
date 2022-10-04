@@ -8,11 +8,11 @@ struct UIKitTextField: UIViewRepresentable {
 
     var isPasswordType: Bool
     var configuration = { (uiTextField: UITextField) in }
-    var editingDidEnd = {}
+    var editingDidEnd = { (text: String) in }
     
     let keyboardType: UIKeyboardType
 
-    init(text: Binding<String>, isFirstResponder: Binding<Bool>, showPassword: Binding<Bool>, isPasswordType: Bool, keyboardType: UIKeyboardType = .default, configuration: @escaping (UITextField) -> () = { (uiTextField: UITextField) in }, editingDidEnd: @escaping () -> () = {}) {
+    init(text: Binding<String>, isFirstResponder: Binding<Bool>, showPassword: Binding<Bool>, isPasswordType: Bool, keyboardType: UIKeyboardType = .default, configuration: @escaping (UITextField) -> () = { (uiTextField: UITextField) in }, editingDidEnd: @escaping (String) -> () = {(text: String) in }) {
         self._text = text
         self._isFirstResponder = isFirstResponder
         self._showPassword = showPassword
@@ -24,43 +24,20 @@ struct UIKitTextField: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UITextField {
         let view = UITextField()
+        view.text = text
         view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         view.keyboardType = keyboardType
         configuration(view)
-        view.addAction(UIAction(handler: { _ in
-            guard let inputText = view.text else { return }
-            
-            if inputText.isEmpty {
-                text = inputText
-                return
-            }
-            
-            if keyboardType == .numberPad {
-                guard let amount = Double(inputText.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else { return }
-                text = amount
-                return
-            }
-            
-            text = inputText
-        }), for: .editingChanged)
-        
-        view.addAction(UIAction(handler: { _ in
-            self.isFirstResponder = false
-            self.editingDidEnd()
-        }), for: .editingDidEnd)
-        
-        view.addAction(UIAction(handler: { _ in
-            self.isFirstResponder = false
-            self.editingDidEnd()
-        }), for: .editingDidEndOnExit)
         
         view.delegate = context.coordinator
+        view.addTarget(context.coordinator, action: #selector(context.coordinator.textChanged), for: .editingChanged)
+        view.addTarget(context.coordinator, action: #selector(context.coordinator.textEditEnd), for: .editingDidEnd)
+        view.addTarget(context.coordinator, action: #selector(context.coordinator.textEditEnd), for: .editingDidEndOnExit)
         
         return view
     }
 
     func updateUIView(_ uiView: UITextField, context: Context) {
-        uiView.text = text
         uiView.isSecureTextEntry = isPasswordType && !showPassword
         switch isFirstResponder {
         case true:
@@ -75,14 +52,21 @@ struct UIKitTextField: UIViewRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(keyboardType)
+        Coordinator($isFirstResponder, $text, keyboardType, editingDidEnd)
     }
 
     class Coordinator: NSObject, UITextFieldDelegate {
+        @Binding private var text: String
+        @Binding private var isFirstResponder: Bool
+        
         let keyboardType: UIKeyboardType
-
-        init(_ keyboardType: UIKeyboardType) {
+        var editingDidEnd = { (text: String) in }
+        
+        init(_ isFirstResponder: Binding<Bool>, _ text: Binding<String>, _ keyboardType: UIKeyboardType, _ editingDidEnd: @escaping (String) -> () ) {
+            self._isFirstResponder = isFirstResponder
+            self._text = text
             self.keyboardType = keyboardType
+            self.editingDidEnd = editingDidEnd
         }
         
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -94,6 +78,26 @@ struct UIKitTextField: UIViewRepresentable {
             }
             
             return true
+        }
+        
+        @objc func textChanged(_ sender: UITextField) {
+            guard let inputText = sender.text else { return }
+                       
+            if keyboardType == .numberPad {
+                guard inputText.isEmpty == false, let amount = Double(inputText.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else {
+                    text = inputText
+                    return
+                }
+                text = amount
+                return
+            }
+      
+            self.text = inputText
+        }
+        
+        @objc func textEditEnd(_ sender: UITextField) {
+            isFirstResponder = false
+            editingDidEnd(sender.text ?? "")
         }
     }
 }
