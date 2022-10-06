@@ -67,9 +67,9 @@ class SetIdentityViewController: LobbyViewController {
         
         settingButton.rx.throttledTap.subscribe(onNext: { [unowned self] in
             self.delegate.modifyIdentity(identity: self.inputIdentity.textContent.text!)
-                .subscribe {
-                    self.viewModel.otpRetryCount = 0
-                }.disposed(by: disposeBag)
+                .subscribe(onCompleted: { [weak self] in
+                    self?.viewModel.otpRetryCount = 0
+                }).disposed(by: disposeBag)
         }).disposed(by: disposeBag)
 
         delegate.handleErrors().subscribe(onNext: { [unowned self] error in
