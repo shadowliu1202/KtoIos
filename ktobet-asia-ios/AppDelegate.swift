@@ -6,6 +6,7 @@ import SharedBu
 import WebKit
 import Firebase
 import SwiftUI
+import FirebaseCore
 
 @main
 
@@ -36,8 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         CookieUtil.shared.loadCookiesFromUserDefault()
-        
-        Logger.configure()
+        FirebaseApp.configure()
         IQKeyboardManager.shared.enable = true
         UIView.appearance().isExclusiveTouch = true
         UICollectionView.appearance().isExclusiveTouch = true
