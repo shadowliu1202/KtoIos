@@ -2,11 +2,6 @@ import Foundation
 
 class Logger {
     static let shared = Logger()
-    static func configure() {
-        if Configuration.enableRemoteLog {
-            FirebaseLog.configure()
-        }
-    }
     
     private var delegates: [LoggerDelegate] = []
     

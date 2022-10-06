@@ -2,9 +2,6 @@ import Firebase
 
 class FirebaseLog: LoggerDelegate {
     static let shared: FirebaseLog = FirebaseLog()
-    static func configure() {
-        FirebaseApp.configure()
-    }
     
     private init() {}
     
