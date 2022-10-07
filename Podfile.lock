@@ -120,6 +120,7 @@ PODS:
   - Logging (1.4.0)
   - lottie-ios (3.2.3)
   - MarqueeLabel (4.0.5)
+  - MockingbirdFramework (0.20.0)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
   - Moya/RxSwift (15.0.0):
@@ -180,6 +181,7 @@ DEPENDENCIES:
   - Firebase/Performance (= 8.15.0)
   - IQKeyboardManagerSwift (= 6.5.6)
   - lottie-ios (= 3.2.3)
+  - MockingbirdFramework (~> 0.20)
   - Moya/RxSwift (= 15.0.0)
   - NotificationBannerSwift (= 3.0.0)
   - Puppy (~> 0.5)
@@ -220,6 +222,7 @@ SPEC REPOS:
     - Logging
     - lottie-ios
     - MarqueeLabel
+    - MockingbirdFramework
     - Moya
     - nanopb
     - NotificationBannerSwift
@@ -260,6 +263,7 @@ SPEC CHECKSUMS:
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   MarqueeLabel: 00cc0bcd087111dca575878b3531af980559707d
+  MockingbirdFramework: 54e35fbbb47b806c1a1fae2cf3ef99f6eceb55e5
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   NotificationBannerSwift: 842401d30f5c36e4f2eafc152824566f6b3c1bb5

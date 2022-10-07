@@ -4,7 +4,7 @@ import RxSwiftExt
 import RxSwift
 import RxCocoa
 
-final class ThirdPartyDepositViewModel: KTOViewModel, ViewModelType {
+final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
     private(set) var input: Input!
     private(set) var output: Output!
 

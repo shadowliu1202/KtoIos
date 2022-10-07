@@ -3,7 +3,7 @@ import SharedBu
 import RxSwift
 import Combine
 
-struct OnlinePaymentView<ViewModel: OnlineDepositViewModel>: View {
+struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErrorViewModelProtocol & ObservableObject>: View {
     enum Identifier: String {
         case RemitButton
         case RemittanceInputTextField
@@ -166,7 +166,7 @@ struct OnlinePaymentView_Previews: PreviewProvider {
         private let onlinePayment = PaymentsDTO.Online.init(identity: "24", name: "数字人民币", hint: "", isRecommend: false, beneficiaries: Single<NSArray>.just([PaymentsDTO.Gateway(identity: "70", name: "JinYi_Digital", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "200"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "2000")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true), PaymentsDTO.Gateway(identity: "20", name: "JinYi_Crypto", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "300"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "700")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true)] as NSArray).asNSArray())
         
         var body: some View {
-            OnlinePaymentView(viewModel: OnlineDepositViewModelImpl(selectedOnlinePayment: onlinePayment))
+            OnlinePaymentView(viewModel: OnlineDepositViewModel(selectedOnlinePayment: onlinePayment))
         }
     }
     

@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class CasinoViewModel: KTOViewModel {
+class CasinoViewModel: CollectErrorViewModel {
     private let casinoRecordUseCase : CasinoRecordUseCase
     private let casinoUseCase: CasinoUseCase
     private let memoryCache: MemoryCacheImpl

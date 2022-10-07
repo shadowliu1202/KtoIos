@@ -3,7 +3,7 @@ import SharedBu
 import RxSwift
 import RxCocoa
 
-class OfflineViewModel: KTOViewModel, ViewModelType {
+class OfflineViewModel: CollectErrorViewModel, ViewModelType {
     var accountPatternGenerator: AccountPatternGenerator!
 
     private(set) var input: Input!

@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class NotificationViewModel: KTOViewModel, ViewModelType {
+class NotificationViewModel: CollectErrorViewModel, ViewModelType {
     private(set) var input: Input!
     private(set) var output: Output!
     private var useCase: NotificationUseCase!

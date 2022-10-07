@@ -4,7 +4,7 @@ import RxCocoa
 import SharedBu
 
 
-class ArcadeViewModel: KTOViewModel {
+class ArcadeViewModel: CollectErrorViewModel {
     private let arcadeUseCase: ArcadeUseCase
     private let memoryCache: MemoryCacheImpl
     private let arcadeAppService: IArcadeAppService

@@ -1,7 +1,7 @@
 import RxSwift
 import SharedBu
 
-protocol OnlineDepositViewModel: KTOViewModel, ObservableObject {
+protocol OnlineDepositViewModelProtocol {
     var gateways: [PaymentsDTO.Gateway] { get }
     var applicationErrors: [PaymentError] { get }
     var selectedOnlinePayment: PaymentsDTO.Online { get }
@@ -11,13 +11,11 @@ protocol OnlineDepositViewModel: KTOViewModel, ObservableObject {
     func submitRemittance(gatewayIdentity: String, remitterName: String, remittance: String) -> Single<CommonDTO.WebPath>
 }
 
-class OnlineDepositViewModelImpl: KTOViewModel, OnlineDepositViewModel, ObservableObject {
+class OnlineDepositViewModel: CollectErrorViewModel, OnlineDepositViewModelProtocol, ObservableObject {
     @Published private(set) var gateways: [PaymentsDTO.Gateway] = []
     @Published private(set) var applicationErrors: [PaymentError] = []
     
     let selectedOnlinePayment: PaymentsDTO.Online
-    
-    private(set) var remitApplication: OnlineRemitApplication!
     
     private let playerDataUseCase = DI.resolve(PlayerDataUseCase.self)!
     private let depositService = DI.resolve(ApplicationFactory.self)!.deposit()
