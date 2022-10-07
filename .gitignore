@@ -99,3 +99,5 @@ node_modules/
 gitmessage.template
 gitmessage.sh
 commitlint.config.js
+ktobet-asia-ios.xcodeproj/MockingbirdCache
+MockingbirdMocks

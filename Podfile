@@ -31,6 +31,10 @@ def default_pods
   use_frameworks!
 end
 
+def unitTest_pods
+  pod 'MockingbirdFramework', '~> 0.20'
+end
+
 target 'ktobet-asia-ios-qat' do
   default_pods
 end
@@ -69,6 +73,8 @@ end
 
 target 'ktobet-asia-iosTests' do
   inherit! :search_paths
+  default_pods
+  unitTest_pods
 end
 
 target 'ktobet-asia-iosUITests' do
@@ -78,8 +84,9 @@ end
 
 target 'swiftUI-unitTest' do
   inherit! :search_paths
-  pod 'ViewInspector'
   default_pods
+  unitTest_pods
+  pod 'ViewInspector'
 end
 
 #post_install do |installer|

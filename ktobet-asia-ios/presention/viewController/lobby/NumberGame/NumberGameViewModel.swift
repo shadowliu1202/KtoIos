@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class NumberGameViewModel: KTOViewModel {
+class NumberGameViewModel: CollectErrorViewModel {
     private let numberGameUseCase: NumberGameUseCase
     private let memoryCache: MemoryCacheImpl
     private let numberGameService: INumberGameAppService

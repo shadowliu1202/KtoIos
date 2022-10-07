@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class ModifyProfileViewModel: KTOViewModel {
+class ModifyProfileViewModel: CollectErrorViewModel {
     private var playerUseCase: PlayerDataUseCase!
     private var configurationUseCase: ConfigurationUseCase!
     private var withdrawalUseCase: WithdrawalUseCase!
