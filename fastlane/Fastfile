@@ -140,7 +140,7 @@ platform :ios do
                     include_symbols: true,
                     clean: true,
                     archive_path: "./output/#{env}.xcarchive",
-                    output_directory: "output",
+                    output_directory: "#{versionNum}",
                     output_name: "kto-asia-#{versionNum}-staging-cn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
@@ -148,7 +148,7 @@ platform :ios do
                     }
              )
              
-        upload_symbols_to_crashlytics(dsym_path: "./output/kto-asia-#{versionNum}-staging-cn.app.dSYM.zip",
+        upload_symbols_to_crashlytics(dsym_path: "./#{versionNum}/kto-asia-#{versionNum}-staging-cn.app.dSYM.zip",
                                     gsp_path:"./ktobet-asia-ios/Firebase/stg/GoogleService-Info.plist")
     end
     
@@ -165,7 +165,7 @@ platform :ios do
                     include_bitcode: true,
                     include_symbols: true,
                     clean: true,
-                    output_directory: "output",
+                    output_directory: "#{versionNum}",
                     output_name: "kto-asia-#{versionNum}-staging-vn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
@@ -173,7 +173,7 @@ platform :ios do
                     }
              )
             
-        upload_symbols_to_crashlytics(dsym_path: "./output/kto-asia-#{versionNum}-staging-vn.app.dSYM.zip",
+        upload_symbols_to_crashlytics(dsym_path: "./#{versionNum}/kto-asia-#{versionNum}-staging-vn.app.dSYM.zip",
                                     gsp_path:"./ktobet-asia-ios/Firebase/stg-vn/GoogleService-Info.plist")
     end
 
@@ -242,14 +242,14 @@ platform :ios do
                     include_symbols: true,
                     clean: true,
                     archive_path: "./output/#{env}.xcarchive",
-                    output_directory: "output",
+                    output_directory: "#{versionNum}",
                     output_name: "kto-asia-#{versionNum}-prod-cn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
                     })
                     
-        upload_symbols_to_crashlytics(dsym_path: "./output/kto-asia-#{versionNum}-prod-cn.app.dSYM.zip",
+        upload_symbols_to_crashlytics(dsym_path: "./#{versionNum}/kto-asia-#{versionNum}-prod-cn.app.dSYM.zip",
                                     gsp_path:"./ktobet-asia-ios/Firebase/prod/GoogleService-Info.plist")
     end
     
@@ -267,14 +267,14 @@ platform :ios do
                     include_bitcode: true,
                     include_symbols: true,
                     clean: true,
-                    output_directory: "output",
+                    output_directory: "#{versionNum}",
                     output_name: "kto-asia-#{versionNum}-prod-vn.ipa",
                     export_method: "ad-hoc",
                     export_options: {
                         method: "ad-hoc",
                     })
                     
-        upload_symbols_to_crashlytics(dsym_path: "./output/kto-asia-#{versionNum}-prod-vn.app.dSYM.zip",
+        upload_symbols_to_crashlytics(dsym_path: "./#{versionNum}/kto-asia-#{versionNum}-prod-vn.app.dSYM.zip",
                                     gsp_path:"./ktobet-asia-ios/Firebase/prod_vn/GoogleService-Info.plist")
     end
  
