@@ -62,6 +62,7 @@ class OnlineDepositViewModelImpl: KTOViewModel, OnlineDepositViewModel, Observab
     
     private func createOnlineRemitApplication(_ gatewayIdentity: String, _ remitterName: String, _ remittance: String) -> OnlineRemitApplication {
         let onlineRemitter = OnlineRemitter(name: remitterName, account: "")
+        let remittance = remittance.replacingOccurrences(of: ",", with: "")
         
         return OnlineRemitApplication(remitter: onlineRemitter, remittance: remittance, gatewayIdentity: gatewayIdentity, supportBankCode: nil)
     }
