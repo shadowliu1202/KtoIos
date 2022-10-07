@@ -82,17 +82,15 @@ struct UIKitTextField: UIViewRepresentable {
         
         @objc func textChanged(_ sender: UITextField) {
             guard let inputText = sender.text else { return }
-                       
-            if keyboardType == .numberPad {
-                guard inputText.isEmpty == false, let amount = Double(inputText.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() else {
-                    text = inputText
-                    return
-                }
-                text = amount
-                return
+            
+            if keyboardType == .numberPad, !inputText.isEmpty,
+               let amount = Double(inputText.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() {
+                self.text = amount
+                sender.text = amount
+            } else {
+                self.text = inputText
+                sender.text = inputText
             }
-      
-            self.text = inputText
         }
         
         @objc func textEditEnd(_ sender: UITextField) {
