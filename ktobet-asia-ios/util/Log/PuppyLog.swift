@@ -5,7 +5,7 @@ class PuppyLog: LoggerDelegate {
     
     let fileURL: URL
 
-    private let puppy = Puppy()
+    private let puppy = Puppy.default
     private let logFormatter = LogFormatter()
     
     private init() {
@@ -15,7 +15,7 @@ class PuppyLog: LoggerDelegate {
         puppy.add(consoleLogger, withLevel: .debug)
         
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        fileURL = URL(string: "\(paths.absoluteString)kto-asia/puppy.log")!
+        fileURL = URL(string: "\(paths.absoluteString)Log/puppy.log")!
         let fileLogger = try? FileLogger("com.kto.asia.file",
                               fileURL: fileURL,
                               filePermission: "600")
@@ -60,6 +60,14 @@ class PuppyLog: LoggerDelegate {
         case .critical:
             break
         }
+    }
+    
+    func addLogger(_ logger: BaseLogger, withLevel level: LogLevel) {
+        puppy.add(logger, withLevel: level)
+    }
+    
+    func removeLogger(_ logger: BaseLogger) {
+        puppy.remove(logger)
     }
 }
 
