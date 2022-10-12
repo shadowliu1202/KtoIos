@@ -64,11 +64,6 @@ class PortalApi: ApiService {
         return httpClient.request(target).map(ResponseData<String>.self)
     }
     
-    func getIOSVersion() -> Single<NonNullResponseData<VersionData>> {
-        let target = GetAPITarget(service: self.url("ios/api/get-ios-ipa-version"))
-        return httpClient.request(target).map(NonNullResponseData<VersionData>.self)
-    }
-    
     func getCryptoTutorials() -> Single<ResponseData<[CryptoTutorialBean]>> {
         let target = GetAPITarget(service: self.url("api/crypto/exchange-tutorials"))
         return httpClient.request(target).map(ResponseData<[CryptoTutorialBean]>.self)
@@ -77,10 +72,5 @@ class PortalApi: ApiService {
     func getYearOfCopyRight() -> Single<NonNullResponseData<String>> {
         let target = GetAPITarget(service: self.url("api/init/license"))
         return httpClient.request(target).map(NonNullResponseData<String>.self)
-    }
-    
-    func getSuperSignatureMaintenance() -> Single<SuperSignMaintenanceBean> {
-        let target = GetAPITarget(service: self.url("api/download-ios-maintenance"))
-        return httpClient.request(target).map(SuperSignMaintenanceBean.self)
     }
 }

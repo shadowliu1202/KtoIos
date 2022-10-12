@@ -17,53 +17,6 @@ import RxBlocking
 
 let debugCharCount = 500
 
-class KtoURL {
-    private var playConfig: PlayerLocaleConfiguration
-    private var hostName: [String: String]!
-    fileprivate lazy var baseUrl = hostName.mapValues{ "https://\($0)/" }
-    
-    init(playConfig: PlayerLocaleConfiguration) {
-        self.playConfig = playConfig
-        self.hostName = Configuration.hostName.mapValues{ $0.first(where: checkNetwork) ?? $0.first! }
-    }
-    
-    private func checkNetwork(urlString: String) -> Bool {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 4
-        let session = AlamofireSessionWithRetrier(configuration: configuration)
-        let result = request(session: session, hostName: urlString).toBlocking()
-        do{
-            return try result.single()
-        } catch {
-            return false
-        }
-    }
-    
-    private func request(session: Session, hostName: String) -> Single<Bool> {
-        return RxSwift.Single<Bool>.create { observer in
-            let request = session.request("https://\(hostName)/", method: .head).response { response in
-                switch response.result {
-                case .success:
-                    observer(.success(true))
-                case let .failure(error):
-                    observer(.success(false))
-                    print("afRequestError:\(error)")
-                }
-            }
-            return Disposables.create {
-                request.cancel()
-            }
-        }
-    }
-    
-    func getAffiliateUrl() -> URL? {
-        if let host = self.baseUrl[playConfig.getCultureCode()] {
-            return URL(string: "\(host)affiliate")!
-        }
-        return nil
-    }
-}
-
 class HttpClient {
     
     var headers : [String : String] {
@@ -223,6 +176,13 @@ class HttpClient {
             }
     }
     
+    func getAffiliateUrl() -> URL? {
+        if let host = self.ktoUrl.baseUrl[playConfig.getCultureCode()] {
+            return URL(string: "\(host)affiliate")!
+        }
+        return nil
+    }
+    
     private func logConfig() -> NetworkLoggerPlugin.Configuration {
         let entry = { [unowned self] (identifier: String, message: String, target: TargetType) -> String in
             let formatter = self.dateFormatter
@@ -313,8 +273,8 @@ class APIRequestRetrier: Retrier {
     }
 }
 
-fileprivate func AlamofireSessionWithRetrier(configuration: URLSessionConfiguration,
-                                             interceptor: APIRequestRetrier? = nil,
-                                             startRequestsImmediately: Bool = true) -> Session {
+func AlamofireSessionWithRetrier(configuration: URLSessionConfiguration,
+                                 interceptor: APIRequestRetrier? = nil,
+                                 startRequestsImmediately: Bool = true) -> Session {
     return Session(configuration: configuration, startRequestsImmediately: startRequestsImmediately, interceptor: interceptor)
 }

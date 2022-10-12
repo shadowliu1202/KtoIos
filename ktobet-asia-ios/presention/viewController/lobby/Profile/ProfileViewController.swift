@@ -4,7 +4,7 @@ import RxCocoa
 import SharedBu
 
 class ProfileViewController: LobbyViewController, AuthProfileVerification {
-    let ktoURL = DI.resolve(KtoURL.self)!
+    let httpClient = DI.resolve(HttpClient.self)!
     @IBOutlet weak var passwordView: OneItemView!
     @IBOutlet weak var gameIdLabel: UILabel!
     @IBOutlet weak var tipsIcon: UIButton!
@@ -184,7 +184,7 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
             self.affiliateView.isHidden = !$0
             self.affiliateViewHeight.constant = $0 ? 48 : 0
             self.affiliateView.setOnClick {
-                if let url = self.ktoURL.getAffiliateUrl(), UIApplication.shared.canOpenURL(url) {
+                if let url = self.httpClient.getAffiliateUrl(), UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url)
                 }
             }

@@ -35,12 +35,20 @@ class DIContainer {
         }.inObjectScope(.locale)
     }
     func registerHttpClient() {
-        container.register(KtoURL.self) { resolver in
-            return KtoURL(playConfig: resolver.resolve(PlayerLocaleConfiguration.self)!)
+        container.register(KtoURL.self) { _ in
+            return PortalURL()
         }.inObjectScope(.application)
+        container.register(KtoURL.self, name: "update") { _ in
+            return VersionUpdateURL()
+        }
         container.register(HttpClient.self) { resolver in
             let playerLocaleConfiguration = resolver.resolve(PlayerLocaleConfiguration.self)!
             let ktoUrl = resolver.resolve(KtoURL.self)!
+            return HttpClient(playConfig: playerLocaleConfiguration, ktoUrl: ktoUrl)
+        }.inObjectScope(.locale)
+        container.register(HttpClient.self, name: "update") { resolver in
+            let playerLocaleConfiguration = resolver.resolve(PlayerLocaleConfiguration.self)!
+            let ktoUrl = resolver.resolve(KtoURL.self, name: "update")!
             return HttpClient(playConfig: playerLocaleConfiguration, ktoUrl: ktoUrl)
         }.inObjectScope(.locale)
     }
@@ -93,6 +101,10 @@ class DIContainer {
         container.register(PlayerApi.self) { resolver in
             let httpClient = resolver.resolve(HttpClient.self)!
             return PlayerApi(httpClient)
+        }
+        container.register(VersionUpdateApi.self) { resolver in
+            let httpClient = resolver.resolve(HttpClient.self, name: "update")!
+            return VersionUpdateApi(httpClient)
         }
         container.register(PortalApi.self) { resolver in
             let httpClient = resolver.resolve(HttpClient.self)!
@@ -302,8 +314,8 @@ class DIContainer {
             return LocalizationRepositoryImpl(playerLocaleConfiguration, portalApi)
         }
         container.register(AppUpdateRepository.self) { resolver in
-            let portalApi = resolver.resolve(PortalApi.self)!
-            return AppUpdateRepositoryImpl(portalApi)
+            let versionUpdateApi = resolver.resolve(VersionUpdateApi.self)!
+            return AppUpdateRepositoryImpl(versionUpdateApi)
         }
         container.register(PlayerLocaleConfiguration.self) { resolver in
             return resolver.resolve(LocalStorageRepositoryImpl.self)!
