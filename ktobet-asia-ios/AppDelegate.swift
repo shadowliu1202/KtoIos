@@ -27,12 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        if ProcessInfo.processInfo.arguments.contains("isUITesting") {
-            let viewName = ProcessInfo.processInfo.environment["viewName"] ?? ""
-            guard let rootViewController = UITestAdapter.getViewController(viewName) else { fatalError("Not in UITesting") }
-            self.window = UIWindow(frame: UIScreen.main.bounds)
-            self.window?.rootViewController = rootViewController
-            self.window?.makeKeyAndVisible()
+        guard !isInUIKitUnitTest() else {
+            switchInitViewControllerToTestViewController()
+            return true
+        }
+        
+        guard !isInSwiftUIPreviewLiveMode() else {
+            switchInitViewControllerToEmptyViewController()
             return true
         }
         
@@ -66,6 +67,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SharedBu.Platform.init().debugBuild()
         
         return true
+    }
+    
+    private func isInUIKitUnitTest() -> Bool {
+        return ProcessInfo.processInfo.arguments.contains("isUITesting")
+    }
+    
+    private func switchInitViewControllerToTestViewController() {
+        let viewName = ProcessInfo.processInfo.environment["viewName"] ?? ""
+        guard let rootViewController = UITestAdapter.getViewController(viewName) else { fatalError("Not in UITesting") }
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = rootViewController
+        self.window?.makeKeyAndVisible()
+    }
+    
+    private func isInSwiftUIPreviewLiveMode() -> Bool {
+        return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+    }
+    
+    private func switchInitViewControllerToEmptyViewController() {
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = UIViewController()
+        self.window?.makeKeyAndVisible()
     }
     
     private func networkDidConnect() {
