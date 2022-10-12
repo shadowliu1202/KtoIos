@@ -155,7 +155,8 @@ class DIContainer {
             let portal = resolver.resolve(PortalApi.self)!
             let settingStore = resolver.resolve(SettingStore.self)!
             let localStorageRepositoryImpl = resolver.resolve(LocalStorageRepositoryImpl.self)!
-            return PlayerRepositoryImpl(httpClient, player, portal, settingStore, localStorageRepositoryImpl)
+            let memoryCacheImpl = resolver.resolve(MemoryCacheImpl.self)!
+            return PlayerRepositoryImpl(httpClient, player, portal, settingStore, localStorageRepositoryImpl, memoryCacheImpl)
         }
         container.register(NotificationRepository.self) { resolver in
             let notificationApi = resolver.resolve(NotificationApi.self)!

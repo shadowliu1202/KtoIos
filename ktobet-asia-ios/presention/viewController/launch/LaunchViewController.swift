@@ -9,8 +9,8 @@ class LaunchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.initLaunchNavigation()
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: executeNavigation, onError: handleErrors).disposed(by: disposeBag)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: executeNavigation, onFailure: handleErrors).disposed(by: disposeBag)
     }
     
     deinit {

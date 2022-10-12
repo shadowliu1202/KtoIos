@@ -100,7 +100,7 @@ class NewLoginViewController: LandingViewController {
             } else {
                 self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
             }
-        } onError: { [weak self] (error) in
+        } onFailure: { [weak self] (error) in
             self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
@@ -122,7 +122,7 @@ class NewLoginViewController: LandingViewController {
             } else {
                 Alert.show(Localize.string("common_error"), Localize.string("login_resetpassword_service_down"), confirm: { }, cancel: nil)
             }
-        }, onError: { [weak self] error in
+        }, onFailure: { [weak self] error in
             self?.handleErrors(error)
         }).disposed(by: self.disposeBag)
     }
@@ -169,7 +169,7 @@ extension NewLoginViewController: BarButtonItemable {
             Configuration.isAutoUpdate = true
             appSyncViewModel.getLatestAppVersion().subscribe(onSuccess: { [weak self] (inComingAppVersion) in
                 self?.versionAlert(inComingAppVersion)
-            }, onError: { [weak self] in
+            }, onFailure: { [weak self] in
                 self?.handleErrors($0)
             }).disposed(by: disposeBag)
             break
@@ -187,7 +187,7 @@ extension NewLoginViewController: BarButtonItemable {
             } else {
                 self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
             }
-        } onError: { [weak self] (error) in
+        } onFailure: { [weak self] (error) in
             self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }

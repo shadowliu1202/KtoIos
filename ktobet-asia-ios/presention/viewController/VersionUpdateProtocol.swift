@@ -23,7 +23,7 @@ extension VersionUpdateProtocol where Self: APPViewController {
     }
     
     private func registerAppEnterForeground(_ disposeBag: DisposeBag) {
-        NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification).takeUntil(self.rx.deallocated).subscribe(onNext: { [weak self] _ in
+        NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification).take(until: self.rx.deallocated).subscribe(onNext: { [weak self] _ in
             self?.syncAppVersion(disposeBag)
         }).disposed(by: disposeBag)
     }

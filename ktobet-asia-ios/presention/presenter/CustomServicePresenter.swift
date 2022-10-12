@@ -115,7 +115,7 @@ class CustomServicePresenter: NSObject {
     func initCustomerService() {
         self.csViewModel.searchChatRoom().asCompletable().andThen(self.csViewModel.preLoadChatRoomStatus)
             .first()
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .do(onSuccess: { status in
                 guard let status = status else { return }
                 switch status {
@@ -184,7 +184,7 @@ class CustomServicePresenter: NSObject {
                 self.switchToPrechat(from: vc, vm: surveyViewModel, csViewModel: csViewModel)
             }
         }).asCompletable()
-            .catchError({ (error) in
+            .catch({ (error) in
                 switch error {
                 case is ServiceUnavailableException:
                     self.switchToCalling(isRoot: true, svViewModel: surveyViewModel)
@@ -328,7 +328,7 @@ class CustomServicePresenter: NSObject {
     
     func observeCsStatus(by delegate: CustomServiceDelegate, _ disposeBag: DisposeBag) {
         observeCsIcon
-            .subscribeOn(MainScheduler.instance)
+            .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: delegate.didCsIconAppear).disposed(by: disposeBag)
     }
     
@@ -337,7 +337,7 @@ class CustomServicePresenter: NSObject {
             .map({ connectStatus in
                 connectStatus == PortalChatRoom.ConnectStatus.notexist
             })
-            .subscribeOn(MainScheduler.instance)
+            .subscribe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] noConnectStatus in
                 if noConnectStatus {
                     self.csViewModel = DI.resolve(CustomerServiceViewModel.self)!
