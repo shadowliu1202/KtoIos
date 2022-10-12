@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var debugController: MainDebugViewController?
     let disposeBag = DisposeBag()
     private var networkControlWindow: NetworkControlWindow?
+    private var logRecorderViewWindow = LogRecorderViewWindow.init(frame: CGRect(x: UIScreen.main.bounds.width - 50, y: 80, width: 50, height: 50))
     private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     
     override init() {
@@ -37,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         
+        Logger.shared.info("APP launch.")
         CookieUtil.shared.loadCookiesFromUserDefault()
         FirebaseApp.configure()
         IQKeyboardManager.shared.enable = true
@@ -169,6 +171,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window?.addSubview(self.debugController!.view)
         self.isDebugModel = true
+        
+        logRecorderViewWindow.isHidden = false
     }
     
     func addNetworkControlGesture() {
@@ -227,5 +231,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
         CookieUtil.shared.saveCookieToUserDefault()
+        Logger.shared.info("APP terminate.")
     }
 }
