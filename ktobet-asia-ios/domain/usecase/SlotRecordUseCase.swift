@@ -20,14 +20,14 @@ class SlotRecordUseCaseImpl: SlotRecordUseCase {
     }
     
     func getBetSummary() -> Single<BetSummary> {
-        let offset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let offset = playerRepository.getUtcOffset()
         return offset.flatMap { [unowned self] (offset) -> Single<BetSummary> in
             return self.slotRecordRepository.getBetSummary(zoneOffset: offset)
         }
     }
     
     func getSlotGameRecordByDate(localDate: String) -> Single<[SlotGroupedRecord]> {
-        let offset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let offset = playerRepository.getUtcOffset()
         return offset.flatMap { [unowned self] (offset) -> Single<[SlotGroupedRecord]> in
             return self.slotRecordRepository.getBetSummaryByDate(localDate: localDate, zoneOffset: offset)
         }
@@ -38,7 +38,7 @@ class SlotRecordUseCaseImpl: SlotRecordUseCase {
     }
     
     func getUnsettledSummary() -> Single<[SlotUnsettledSummary]> {
-        let zoneOffset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let zoneOffset = playerRepository.getUtcOffset()
         return zoneOffset.flatMap({ [unowned self] (zoneOffset) -> Single<[SlotUnsettledSummary]> in
             return slotRecordRepository.getUnsettledSummary(zoneOffset: zoneOffset)
         })

@@ -4,6 +4,8 @@ enum GameTagKey: String {
     case casinoGameTag, numberGameTag, arcadeGameTag
 }
 
+let KeyPlayer = "Player"
+
 class MemoryCacheImpl {
     private var dicts: [String: Any?] = [:]
     
@@ -13,6 +15,14 @@ class MemoryCacheImpl {
     
     func getGameTag<T>(_ key: GameTagKey) -> T? {
         return self.dicts[key.rawValue] as? T
+    }
+    
+    func set<T>(_ key: String, _ value: T) {
+        self.dicts[key] = value
+    }
+    
+    func get<T>(_ key: String) -> T? {
+        return self.dicts[key] as? T
     }
     
     private func setByKey<T>(_ key: String, _ value: T) {

@@ -19,14 +19,14 @@ class P2PRecordUseCaseImpl: P2PRecordUseCase {
     }
     
     func getBetSummary() -> Single<[DateSummary]> {
-        let offset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let offset = playerRepository.getUtcOffset()
         return offset.flatMap { [unowned self] (offset) -> Single<[DateSummary]> in
             return self.p2pRecordRepository.getBetSummary(zoneOffset: offset)
         }
     }
     
     func getBetSummaryByDate(localDate: String) -> Single<[GameGroupedRecord]> {
-        let offset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let offset = playerRepository.getUtcOffset()
         return offset.flatMap { [unowned self] (offset) -> Single<[GameGroupedRecord]> in
             return self.p2pRecordRepository.getBetSummaryByDate(localDate: localDate, zoneOffset: offset)
         }

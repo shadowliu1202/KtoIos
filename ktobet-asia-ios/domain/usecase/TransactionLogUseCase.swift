@@ -38,14 +38,14 @@ class TransactionLogUseCaseImpl: TransactionLogUseCase {
     }
     
     func getCasinoWagerDetail(wagerId: String) -> Single<HtmlString> {
-        let offset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let offset = playerRepository.getUtcOffset()
         return offset.flatMap { [unowned self] (offset) -> Single<String> in
             return self.transactionLogRepository.getCasinoWagerDetail(wagerId: wagerId, zoneOffset: offset)
         }
     }
     
     func getSportsBookWagerDetail(wagerId: String) -> Single<HtmlString> {
-        let offset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let offset = playerRepository.getUtcOffset()
         return offset.flatMap({ [unowned self] (offset) -> Single<String> in
             return self.transactionLogRepository.getSportsBookWagerDetail(wagerId: wagerId, zoneOffset: offset)
         })

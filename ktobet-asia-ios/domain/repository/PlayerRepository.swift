@@ -5,6 +5,7 @@ import RxSwift
 protocol PlayerRepository {
     func refreshHttpClient(playerLocale: SupportLocale)
     func loadPlayer()-> Single<Player>
+    func getUtcOffset() -> Single<UtcOffset>
     func getDefaultProduct()->Single<ProductType>
     func saveDefaultProduct(_ productType: ProductType)->Completable
     func getBalance(_ supportLocale: SupportLocale) -> Single<AccountCurrency>
@@ -32,17 +33,20 @@ class PlayerRepositoryImpl : PlayerRepository {
     private var portalApi: PortalApi!
     private var settingStore: SettingStore!
     private let localStorageRepo: LocalStorageRepositoryImpl
+    private let memoryRepo: MemoryCacheImpl
     
     init(_ httpClient: HttpClient,
          _ playerApi: PlayerApi,
          _ portalApi: PortalApi,
          _ settingStore: SettingStore,
-         _ localStorageRepo: LocalStorageRepositoryImpl) {
+         _ localStorageRepo: LocalStorageRepositoryImpl,
+         _ memoryRepo: MemoryCacheImpl) {
         self.httpClient = httpClient
         self.playerApi = playerApi
         self.portalApi = portalApi
         self.settingStore = settingStore
         self.localStorageRepo = localStorageRepo
+        self.memoryRepo = memoryRepo
     }
     
     func refreshHttpClient(playerLocale: SupportLocale) {
@@ -93,6 +97,14 @@ class PlayerRepositoryImpl : PlayerRepository {
                 return player
             }
             .do(onSuccess: { self.localStorageRepo.setUserName($0.playerInfo.withdrawalName)})
+    }
+    
+    func getUtcOffset() -> Single<UtcOffset> {
+        if let offset = memoryRepo.get(KeyPlayer).map({ (player: Player) in player.zoneOffset() }) {
+            return Single<UtcOffset>.just(offset)
+        } else {
+            return self.loadPlayer().do(onSuccess: { [weak self] in self?.memoryRepo.set(KeyPlayer, $0)}).map{ $0.zoneOffset() }
+        }
     }
     
     func getDefaultProduct()->Single<ProductType>{

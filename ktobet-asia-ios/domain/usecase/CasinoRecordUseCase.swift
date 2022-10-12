@@ -21,14 +21,14 @@ class CasinoRecordUseCaseImpl: CasinoRecordUseCase {
     }
     
     func getBetSummary() -> Single<BetSummary> {
-        let offset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let offset = playerRepository.getUtcOffset()
         return offset.flatMap {[unowned self] (offset) -> Single<BetSummary> in
             return self.casinoRecordRepository.getBetSummary(zoneOffset: offset)
         }
     }
     
     func getUnsettledSummary() -> Single<[UnsettledBetSummary]> {
-        let offset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let offset = playerRepository.getUtcOffset()
         return offset.flatMap {[unowned self] (offset) -> Single<[UnsettledBetSummary]> in
             return self.casinoRecordRepository.getUnsettledSummary(zoneOffset: offset)
         }
@@ -39,7 +39,7 @@ class CasinoRecordUseCaseImpl: CasinoRecordUseCase {
     }
     
     func getBetSummaryByDate(localDate: String) -> Single<[PeriodOfRecord]> {
-        let offset = playerRepository.loadPlayer().map{ $0.zoneOffset() }
+        let offset = playerRepository.getUtcOffset()
         return offset.flatMap {[unowned self] (offset) -> Single<[PeriodOfRecord]> in
             return self.casinoRecordRepository.getPeriodRecords(localDate: localDate,zoneOffset: offset)
         }
