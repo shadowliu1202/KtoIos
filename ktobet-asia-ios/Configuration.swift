@@ -48,13 +48,14 @@ enum Configuration: String {
         }
     }()
 
-    static var hostName: [String: [String]] = env.hostName
-    static var isAutoUpdate: Bool       = env.isAutoUpdate
-    static var manualUpdate: Bool       = env.manualUpdate
-    static var debugGesture: Bool       = env.debugGesture
-    static var manualControlNetwork: Bool   = env.manualControlNetwork
-    static var enableFileLog: Bool      = env.enableFileLog
-    static var enableRemoteLog: Bool    = env.enableRemoteLog
+    static var hostName: [String: [String]]                 = env.hostName
+    static var versionUpdateHostName: [String: [String]]    = env.versionUpdateHostName
+    static var isAutoUpdate: Bool                           = env.isAutoUpdate
+    static var manualUpdate: Bool                           = env.manualUpdate
+    static var debugGesture: Bool                           = env.debugGesture
+    static var manualControlNetwork: Bool                   = env.manualControlNetwork
+    static var enableFileLog: Bool                          = env.enableFileLog
+    static var enableRemoteLog: Bool                        = env.enableRemoteLog
 
     static func getKtoAgent() -> String {
         let userAgent = "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(UIDevice.modelName))"
@@ -64,6 +65,7 @@ enum Configuration: String {
 
 protocol Env {
     var hostName: [String: [String]] { get }
+    var versionUpdateHostName: [String: [String]] { get }
     var isAutoUpdate: Bool { get }
     var manualUpdate: Bool { get }
     var debugGesture: Bool { get }
@@ -73,7 +75,9 @@ protocol Env {
 }
 
 fileprivate class DevConfig: Env {
-    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["qat1-mobile.affclub.xyz"]]
+    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["qat1-mobile.affclub.xyz"],
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["qat1-appvnd.affclub.xyz"]]
+    lazy var versionUpdateHostName = hostName
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
@@ -83,9 +87,9 @@ fileprivate class DevConfig: Env {
 }
 
 fileprivate class QatConfig: Env {
-    var hostName: [String: [String]] =
-    [SupportLocale.China.shared.cultureCode(): ["qat1-app.affclub.xyz", "qat1-appvnd.affclub.xyz"],
-     SupportLocale.Vietnam.shared.cultureCode(): ["qat1-appvnd.affclub.xyz", "qat1-app.affclub.xyz"]]
+    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["qat1-app.affclub.xyz", "qat1-appvnd.affclub.xyz"],
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["qat1-appvnd.affclub.xyz", "qat1-app.affclub.xyz"]]
+    lazy var versionUpdateHostName = hostName
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = true
     var debugGesture: Bool = true
@@ -95,9 +99,9 @@ fileprivate class QatConfig: Env {
 }
 
 fileprivate class StagingConfig: Env {
-    var hostName: [String: [String]] =
-    [SupportLocale.China.shared.cultureCode(): ["mobile.staging.support", "mobile2.staging.support"],
-     SupportLocale.Vietnam.shared.cultureCode(): ["mobile2.staging.support", "mobile.staging.support"]]
+    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["mobile.staging.support", "mobile2.staging.support"],
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["mobile2.staging.support", "mobile.staging.support"]]
+    lazy var versionUpdateHostName = hostName
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = true
@@ -107,9 +111,10 @@ fileprivate class StagingConfig: Env {
 }
 
 fileprivate class ProductionConfig: Env {
-    var hostName: [String: [String]] =
-    [SupportLocale.China.shared.cultureCode(): ["appkto.com", "thekto.app"],
-     SupportLocale.Vietnam.shared.cultureCode(): ["ktovn.app", "lobby.ktoviet.app:9000"]]
+    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["appkto.com", "thekto.app"],
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["ktovn.app", "lobby.ktoviet.app:9000"]]
+    var versionUpdateHostName: [String : [String]] = [SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
+                                                      SupportLocale.Vietnam.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"]]
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
@@ -119,9 +124,10 @@ fileprivate class ProductionConfig: Env {
 }
 
 fileprivate class ProductionSelftestConfig: Env {
-    var hostName: [String: [String]] =
-    [SupportLocale.China.shared.cultureCode(): ["mobile-selftest.ktokto.net"],
-     SupportLocale.Vietnam.shared.cultureCode(): ["mobile-selftest.ktokto.net"]]
+    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["mobile-selftest.ktokto.net"],
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["mobile-selftest.ktokto.net"]]
+    var versionUpdateHostName: [String : [String]] = [SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
+                                                      SupportLocale.Vietnam.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"]]
     var isAutoUpdate: Bool = false
     var manualUpdate: Bool = false
     var debugGesture: Bool = true
@@ -131,9 +137,10 @@ fileprivate class ProductionSelftestConfig: Env {
 }
 
 fileprivate class ProductionBackupConfig: Env {
-    var hostName: [String: [String]] =
-    [SupportLocale.China.shared.cultureCode(): ["thekto.app"],
-     SupportLocale.Vietnam.shared.cultureCode(): ["thekto.app"]]
+    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["thekto.app"],
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["thekto.app"]]
+    var versionUpdateHostName: [String : [String]] = [SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
+                                                      SupportLocale.Vietnam.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"]]
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
@@ -143,9 +150,9 @@ fileprivate class ProductionBackupConfig: Env {
 }
 
 fileprivate class Qat3Config: Env {
-    var hostName: [String: [String]] =
-    [SupportLocale.China.shared.cultureCode(): ["qat3-app.affclub.xyz"],
-     SupportLocale.Vietnam.shared.cultureCode(): ["qat3-appvnd.affclub.xyz"]]
+    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["qat3-app.affclub.xyz"],
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["qat3-appvnd.affclub.xyz"]]
+    lazy var versionUpdateHostName = hostName
     var isAutoUpdate: Bool = true
     var manualUpdate: Bool = false
     var debugGesture: Bool = false
