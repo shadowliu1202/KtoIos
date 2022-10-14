@@ -38,7 +38,7 @@ class ResetPasswordStep2ViewController: OtpViewControllerProtocol {
         }, cancel: nil)
     }
     
-    func validateAccountType(validator: OtpValidator) {
+    func validateAccountType(validator: OtpValidatorDelegation) {
         let type = EnumMapper.convert(accountType: accountType.rawValue)
         validator.otpAccountType.onNext(type)
     }

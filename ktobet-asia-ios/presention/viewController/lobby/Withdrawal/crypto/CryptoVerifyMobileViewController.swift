@@ -32,7 +32,7 @@ class CryptoVerifyMobileViewController: OtpViewControllerProtocol {
         }, cancel: nil)
     }
     
-    func validateAccountType(validator: OtpValidator) {
+    func validateAccountType(validator: OtpValidatorDelegation) {
         let type = EnumMapper.convert(accountType: AccountType.phone.rawValue)
         validator.otpAccountType.onNext(type)
     }

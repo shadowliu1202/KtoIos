@@ -89,6 +89,12 @@ target 'swiftUI-unitTest' do
   pod 'ViewInspector'
 end
 
+target 'UIKit-unitTest' do
+  inherit! :search_paths
+  default_pods
+  unitTest_pods
+end
+
 #post_install do |installer|
 #  installer.pods_project.targets.each do |target|
 #    target.build_configurations.each do |config|
