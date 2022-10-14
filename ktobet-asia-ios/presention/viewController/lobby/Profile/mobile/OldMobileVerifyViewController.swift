@@ -27,7 +27,7 @@ class OldMobileVerifyViewController: OtpViewControllerProtocol {
         } cancel: { }
     }
 
-    func validateAccountType(validator: OtpValidator) {
+    func validateAccountType(validator: OtpValidatorDelegation) {
         validator.otpAccountType.onNext(SharedBu.AccountType.phone)
     }
     

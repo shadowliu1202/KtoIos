@@ -3,18 +3,18 @@ import RxSwift
 import SharedBu
 
 class CommonVerifyOtpViewController: CommonViewController {
-    @IBOutlet private weak var naviItem: UINavigationItem!
-    @IBOutlet private weak var labTitle: UILabel!
-    @IBOutlet private weak var labDesc: UILabel!
-    @IBOutlet private weak var labTip: UILabel!
-    @IBOutlet private weak var labJunkTip: UILabel!
+    @IBOutlet weak var naviItem: UINavigationItem!
+    @IBOutlet weak var labTitle: UILabel!
+    @IBOutlet weak var labDesc: UILabel!
+    @IBOutlet weak var labTip: UILabel!
+    @IBOutlet weak var labJunkTip: UILabel!
     @IBOutlet private weak var labErrTip: UILabel!
     @IBOutlet private weak var viewErrTip: UIView!
     @IBOutlet private weak var viewStatusTip: ToastView!
     @IBOutlet private weak var smsVerifyView: SMSVerifyCodeInputView!
     @IBOutlet private weak var btnBack: UIBarButtonItem!
-    @IBOutlet private weak var btnVerify: UIButton!
-    @IBOutlet private weak var btnResend: UIButton!
+    @IBOutlet weak var btnVerify: UIButton!
+    @IBOutlet weak var btnResend: UIButton!
     @IBOutlet private weak var constraintLabelErrTipTop: NSLayoutConstraint!
     @IBOutlet private weak var constraintLabelErrTipBottom: NSLayoutConstraint!
     @IBOutlet private weak var constraintStatusTipBottom: NSLayoutConstraint!
@@ -30,7 +30,7 @@ class CommonVerifyOtpViewController: CommonViewController {
     private var otpRetryCount = 0
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
-    private lazy var validator = OtpValidator(accountPatternGenerator: accountPatternGenerator)
+    lazy var validator: OtpValidatorDelegation = OtpValidator(accountPatternGenerator: accountPatternGenerator)
     private var accountPatternGenerator = DI.resolve(AccountPatternGenerator.self)!
     private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
 
@@ -82,8 +82,8 @@ class CommonVerifyOtpViewController: CommonViewController {
         )
     }
 
-    func setResendTimer() {
-        resendTimer.start(timeInterval: 1, duration: Setting.resendOtpCountDownSecond) { [weak self] (index, countDownSecond, finish) in
+    func setResendTimer( _ duration: TimeInterval = Setting.resendOtpCountDownSecond) {
+        resendTimer.start(timeInterval: 1, duration: duration) { [weak self] (index, countDownSecond, finish) in
             let isTimeUp = countDownSecond == 0
             let mm = isTimeUp ? 00 : countDownSecond / 60
             let ss = isTimeUp ? 00 : countDownSecond % 60
@@ -215,7 +215,7 @@ extension CommonVerifyOtpViewController: CustomServiceDelegate {
 protocol OtpViewControllerProtocol {
     func verify(otp: String) -> Completable
     func resendOtp() -> Completable
-    func validateAccountType(validator: OtpValidator)
+    func validateAccountType(validator: OtpValidatorDelegation)
     func onCloseVerifyProcess()
 
     var isProfileVerify: Bool { get set }

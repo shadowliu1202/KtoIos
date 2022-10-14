@@ -20,7 +20,7 @@ class VerifyNewEmailViewController: OtpViewControllerProtocol {
         viewModel.resendOtp(accountType: .email)
     }
     
-    func validateAccountType(validator: OtpValidator) {
+    func validateAccountType(validator: OtpValidatorDelegation) {
         let type = EnumMapper.convert(accountType: AccountType.email.rawValue)
         validator.otpAccountType.onNext(type)
     }

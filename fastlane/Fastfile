@@ -64,6 +64,9 @@ platform :ios do
         run_tests(scheme: "swiftUI-unitTest",
                   output_types: 'junit,html',
                   output_files: "swiftUI_junit.xml,swiftUI_report.html")
+        run_tests(scheme: "UIKit-unitTest",
+                  output_types: 'junit,html',
+                  output_files: "UIKit_junit.xml,UIKit_report.html")
     end
 
 	lane :getIdentifier do |options|

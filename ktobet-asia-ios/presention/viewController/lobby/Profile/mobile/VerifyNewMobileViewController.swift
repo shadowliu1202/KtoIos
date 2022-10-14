@@ -21,7 +21,7 @@ class VerifyNewMobileViewController: OtpViewControllerProtocol {
         viewModel.resendOtp(accountType: .phone)
     }
     
-    func validateAccountType(validator: OtpValidator) {
+    func validateAccountType(validator: OtpValidatorDelegation) {
         validator.otpAccountType.onNext(SharedBu.AccountType.phone)
     }
     
