@@ -100,7 +100,7 @@ class WithdrawlAccountsViewController: LobbyViewController {
                 if data.bankCard.verifyStatus == PlayerBankCardVerifyStatus.verified {
                     self.performSegue(withIdentifier: WithdrawalCryptoRequestViewController.segueIdentifier, sender: data)
                 } else {
-                    Alert.show(Localize.string("profile_safety_verification_title"), Localize.string("cps_security_alert"), confirm: {
+                    Alert.shared.show(Localize.string("profile_safety_verification_title"), Localize.string("cps_security_alert"), confirm: {
                         self.performSegue(withIdentifier: WithdrawalCryptoVerifyViewController.segueIdentifier, sender: data)
                     }, cancel: nil)
                 }
@@ -146,13 +146,13 @@ class WithdrawlAccountsViewController: LobbyViewController {
         } else {
             let title = Localize.string("common_kindly_remind")
             let msg = Localize.string("withdrawal_bankcard_add_overlimit", "\(Settings.init().WITHDRAWAL_CASH_BANK_CARD_LIMIT)")
-            Alert.show(title, msg, confirm: nil, cancel: nil)
+            Alert.shared.show(title, msg, confirm: nil, cancel: nil)
         }
     }
     
     private func switchToAddCryptoAccount() {
         if cryptoSource.value.count >= Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT {
-            Alert.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "\(Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT)"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+            Alert.shared.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "\(Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT)"), confirm: nil, cancel: nil, tintColor: UIColor.red)
         } else {
             self.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: cryptoSource.value.count)
         }

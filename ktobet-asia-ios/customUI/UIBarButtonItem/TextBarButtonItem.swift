@@ -38,7 +38,7 @@ class CustomerServiceButtonItem: TextBarButtonItem {
             serviceStatusViewModel.output.portalMaintenanceStatus.subscribe(onNext: { maintenanceStatus in
                 switch maintenanceStatus {
                 case is MaintenanceStatus.AllPortal:
-                    Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
+                    Alert.shared.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
                         self.isEnabled = true
                         NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
                     }, cancel: nil)

@@ -29,9 +29,9 @@ class LandingViewController: APPViewController, VersionUpdateProtocol {
     }
     
     private func alertSuperSignMaintain(_ endTime: Date) {
-        guard !Alert.isShown() else { return }
+        guard !Alert.shared.isShown() else { return }
         let endTimeStr = convertDateString(endTime)
-        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("common_super_signature_maintenance", endTimeStr), confirm: {
+        Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("common_super_signature_maintenance", endTimeStr), confirm: {
             exit(0)
         }, cancel: nil)
     }
@@ -44,8 +44,8 @@ class LandingViewController: APPViewController, VersionUpdateProtocol {
     }
     
     func confirmUpdate(_ urlString: String) {
-        guard !Alert.isShown() else { return }
-        Alert.show(nil,
+        guard !Alert.shared.isShown() else { return }
+        Alert.shared.show(nil,
                    Localize.string("update_new_version_content"),
                    confirm: {
             if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {

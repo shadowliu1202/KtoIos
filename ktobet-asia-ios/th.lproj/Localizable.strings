@@ -554,6 +554,8 @@
 "deposit_limitation_hint" = "THTH请在单笔限额范围内。";
 "deposit_offline_termniate" = "THTH离线充值将中断并结束。";
 "deposit_online_terminate" = "THTH在线充值将中断并结束。";
+"deposit_payment_terminate" = "";
+"deposit_crypto_terminate" = "THTH在线充值将中断并结束。";
 "deposit_select_method" = "THTH选择充值渠道";
 "deposit_no_available_type" = "THTH目前暂无可用的充值方式";
 "deposit_no_records" = "THTH目前暂无与您充值相关的纪录";

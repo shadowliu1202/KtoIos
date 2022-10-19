@@ -45,7 +45,7 @@ class WithdrawalAccountDetailViewController: LobbyViewController {
     private func dataBinding() {
         submitButton.rx.touchUpInside.bind { [weak self] (_) in
             if let `self` = self, let id = self.account?.bankCard.id_ {
-                Alert.show(Localize.string("common_confirm_delete"),
+                Alert.shared.show(Localize.string("common_confirm_delete"),
                            Localize.string("withdrawal_bank_card_deleting"),
                            confirm: { self.deleteAccount(id) },
                            confirmText: Localize.string("common_yes"),

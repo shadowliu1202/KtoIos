@@ -28,7 +28,7 @@ class LaunchViewController: UIViewController {
     }
     
     private func showAlert(_ title: String?, _ message: String?) {
-        Alert.show(title, message ,confirm: { exit(0) }, confirmText: Localize.string("common_confirm"), cancel: nil)
+        Alert.shared.show(title, message ,confirm: { exit(0) }, confirmText: Localize.string("common_confirm"), cancel: nil)
     }
     
     private func executeNavigation(navigation: NavigationViewModel.LobbyPageNavigation) {
@@ -82,7 +82,7 @@ class LaunchViewController: UIViewController {
     }
     
     private func alertMaintenance(product: ProductType, onConfirm: @escaping (() -> Void)) {
-        Alert.show(Localize.string("common_maintenance_notify"),
+        Alert.shared.show(Localize.string("common_maintenance_notify"),
                    Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: product)),
                    confirm: onConfirm, cancel: nil)
     }

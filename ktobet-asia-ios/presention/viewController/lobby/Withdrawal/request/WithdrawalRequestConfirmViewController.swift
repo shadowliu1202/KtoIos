@@ -45,7 +45,7 @@ class WithdrawalRequestConfirmViewController: LobbyViewController {
         confirmButton.rx.tap.subscribe(onNext: {[weak self] in
             guard let self = self else { return }
             if self.viewModel.relayNameEditable {
-                Alert.show( String(format: Localize.string("withdrawal_success_confirm_title"), self.account.accountName) , Localize.string("withdrawal_success_confirm_content"), confirm: {[weak self] in
+                Alert.shared.show( String(format: Localize.string("withdrawal_success_confirm_title"), self.account.accountName) , Localize.string("withdrawal_success_confirm_content"), confirm: {[weak self] in
                     self?.sendWithdrawalRequest()
                 }, cancel: nil)
             } else {
@@ -61,7 +61,7 @@ class WithdrawalRequestConfirmViewController: LobbyViewController {
             self.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
         } onError: { (error) in
             if error is KtoPlayerWithdrawalDefective {
-                Alert.show("" ,Localize.string("withdrawal_fail"), confirm: {[weak self] in
+                Alert.shared.show("" ,Localize.string("withdrawal_fail"), confirm: {[weak self] in
                     self?.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
                 }, cancel: nil)
             } else {

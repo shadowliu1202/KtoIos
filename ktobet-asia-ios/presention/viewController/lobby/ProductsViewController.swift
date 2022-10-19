@@ -60,7 +60,7 @@ class ProductsViewController: LobbyViewController {
     
     override func handleErrors(_ error: Error) {
         if error is KtoGameUnderMaintenance {
-            Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {}, cancel: nil)
+            Alert.shared.show(nil, Localize.string("product_game_maintenance"), confirm: {}, cancel: nil)
         } else {
             super.handleErrors(error)
         }

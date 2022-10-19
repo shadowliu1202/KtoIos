@@ -111,13 +111,13 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
     }
 
     private func confirmOldAccountModification(_ origin: String, _ accountType: AccountTypeProtocol) {
-        Alert.show(Localize.string("common_tip_title_warm"), accountType.identityAreadyHint, confirm: {
+        Alert.shared.show(Localize.string("common_tip_title_warm"), accountType.identityAreadyHint, confirm: {
             accountType.navigateToConfirmPage(origin)
         }, cancel: { [weak self] in self?.dismiss(animated: true, completion: nil) })
     }
 
     private func alertOtpServiceInactive(_ accountType: AccountTypeProtocol) {
-        Alert.show(accountType.otpUnavailableTitle, accountType.otpUnavailableDescription, confirm: { [weak self] in
+        Alert.shared.show(accountType.otpUnavailableTitle, accountType.otpUnavailableDescription, confirm: { [weak self] in
             self?.dismiss(animated: true, completion: nil)
         }, confirmText: Localize.string("common_determine"), cancel: nil)
     }
@@ -162,7 +162,7 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
     
     private func setUpTips() {
         tipsIcon.rx.touchUpInside.bind(onNext: {
-            Alert.show(Localize.string("profile_player_game_id"), Localize.string("profile_player_game_id_description"), confirm: nil, cancel: nil)
+            Alert.shared.show(Localize.string("profile_player_game_id"), Localize.string("profile_player_game_id_description"), confirm: nil, cancel: nil)
         }).disposed(by: disposeBag)
     }
     
@@ -192,7 +192,7 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
     }
     
     private func alertWithdrawalOnGoing() {
-        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("profile_real_name_ticket_on_going_not_editable"), confirm: {}, cancel: nil)
+        Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("profile_real_name_ticket_on_going_not_editable"), confirm: {}, cancel: nil)
     }
     
     deinit {

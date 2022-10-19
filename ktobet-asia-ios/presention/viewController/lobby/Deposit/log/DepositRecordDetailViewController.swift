@@ -136,7 +136,7 @@ class DepositRecordDetailViewController: LobbyViewController {
     private func showImagePicker() {
         let currentSelectedImageCount = self.imageStackView.subviews.count
         if currentSelectedImageCount >= DepositLogViewModel.selectedImageCountLimit {
-            Alert.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(DepositLogViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
+            Alert.shared.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(DepositLogViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
         }
         
         imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController

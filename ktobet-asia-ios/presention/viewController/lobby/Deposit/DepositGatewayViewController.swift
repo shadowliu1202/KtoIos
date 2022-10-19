@@ -38,13 +38,15 @@ class DepositGatewayViewController: LobbyViewController {
     var depositType: DepositSelection?
     var paymentIdentity: String!
     var isStarInputAmount: Bool = false
+    var terminateAlertMessage = ""
     
-    fileprivate var offlineViewModel = DI.resolve(OfflineViewModel.self)!
-    fileprivate var onlineViewModel = DI.resolve(ThirdPartyDepositViewModel.self)!
-    fileprivate var disposeBag = DisposeBag()
-    private var alertMessage = ""
+    var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    var alert: AlertProtocol = DI.resolve(Alert.self)!
     
-    let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    private var disposeBag = DisposeBag()
+
+    private let offlineViewModel = DI.resolve(OfflineViewModel.self)!
+    private let onlineViewModel = DI.resolve(ThirdPartyDepositViewModel.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,22 +59,64 @@ class DepositGatewayViewController: LobbyViewController {
         case is OfflinePayment:
             offlineViewModel.unwindSegueId = "unwindToDeposit"
             bindOfflineViewModel()
-            alertMessage = Localize.string("deposit_offline_termniate")
+            terminateAlertMessage = Localize.string("deposit_offline_termniate")
         case is OnlinePayment:
             initOnlineUI()
             bindThirdPartyViewModel()
-            alertMessage = Localize.string("deposit_online_terminate")
+            terminateAlertMessage = getTerminateAlertMessage(by: playerLocaleConfiguration.getSupportLocale(), paymentName: depositType!.name)
+        
         default:
             offlineViewModel.unwindSegueId = "unwindToNotificationDetail"
             bindOfflineViewModel()
-            alertMessage = Localize.string("deposit_offline_termniate")
+            terminateAlertMessage = Localize.string("deposit_offline_termniate")
             break
         }
+    }
+    
+    private func initUI() {
+        titleLabel.text = Localize.string("deposit_offline_step1_title")
+        selectDepositBankLabel.text = Localize.string("deposit_selectbank")
+        myDepositInfo.text = Localize.string("deposit_my_account_detail")
+        
+        remitterBankTextField.setTitle(Localize.string("deposit_bankname_placeholder"))
+        remitterBankTextField.isSearchEnable = true
+
+        remitterNameTextField.setTitle(Localize.string("deposit_name"))
+
+        remitterDirectTextField.setTitle(Localize.string("deposit_bankname_placeholder"))
+
+        remitterBankCardNumberTextField.setTitle(Localize.string("deposit_accountlastfournumber"))
+        remitterBankCardNumberTextField.setKeyboardType(.numberPad)
+        remitterBankCardNumberTextField.maxLength = 4
+        remitterBankCardNumberTextField.numberOnly = true
+        
+        remitterBankCardHeight.constant = Theme.shared.getRemitterBankCardHeight(by: playerLocaleConfiguration.getSupportLocale())
+
+        remitterAmountTextField.setTitle(Localize.string("deposit_amount"))
+        remitterAmountTextField.setKeyboardType(.numberPad)
+        amountTextOnlyInputNumber()
+
+        depositConfirmButton.setTitle(Localize.string("deposit_offline_step1_button"), for: .normal)
+        depositConfirmButton.isValid = false
+        
+        remitterAmountDropDown.setTitle(Localize.string("deposit_amount"))
+        remitterAmountDropDown.isSearchEnable = false
     }
 
     private func localize() {
         if playerLocaleConfiguration.getCultureCode() == SupportLocale.China.init().cultureCode() {
             withdrawalVNDTipLabel.isHidden = true
+        }
+    }
+    
+    private func getTerminateAlertMessage(by playerLocale: SupportLocale, paymentName: String) -> String {
+        switch playerLocaleConfiguration.getSupportLocale() {
+        case is SupportLocale.Vietnam:
+            return Localize.string("deposit_payment_terminate", paymentName)
+        case is SupportLocale.China, is SupportLocale.Unknown:
+            fallthrough
+        default:
+            return Localize.string("deposit_online_terminate")
         }
     }
     
@@ -169,43 +213,13 @@ class DepositGatewayViewController: LobbyViewController {
     }
     
     private func notifyTryLaterAndPopBack() {
-        Alert.show(nil, Localize.string("deposit_notify_request_later"), confirm: {
+        alert.show(nil, Localize.string("deposit_notify_request_later"), confirm: {
             NavigationManagement.sharedInstance.popViewController()
         }, cancel: nil)
     }
     
-    private func initUI() {
-        titleLabel.text = Localize.string("deposit_offline_step1_title")
-        selectDepositBankLabel.text = Localize.string("deposit_selectbank")
-        myDepositInfo.text = Localize.string("deposit_my_account_detail")
-        
-        remitterBankTextField.setTitle(Localize.string("deposit_bankname_placeholder"))
-        remitterBankTextField.isSearchEnable = true
-
-        remitterNameTextField.setTitle(Localize.string("deposit_name"))
-
-        remitterDirectTextField.setTitle(Localize.string("deposit_bankname_placeholder"))
-
-        remitterBankCardNumberTextField.setTitle(Localize.string("deposit_accountlastfournumber"))
-        remitterBankCardNumberTextField.setKeyboardType(.numberPad)
-        remitterBankCardNumberTextField.maxLength = 4
-        remitterBankCardNumberTextField.numberOnly = true
-        
-        remitterBankCardHeight.constant = Theme.shared.getRemitterBankCardHeight(by: playerLocaleConfiguration.getSupportLocale())
-
-        remitterAmountTextField.setTitle(Localize.string("deposit_amount"))
-        remitterAmountTextField.setKeyboardType(.numberPad)
-        amountTextOnlyInputNumber()
-
-        depositConfirmButton.setTitle(Localize.string("deposit_offline_step1_button"), for: .normal)
-        depositConfirmButton.isValid = false
-        
-        remitterAmountDropDown.setTitle(Localize.string("deposit_amount"))
-        remitterAmountDropDown.isSearchEnable = false
-    }
-    
     @objc func back() {
-        Alert.show(Localize.string("common_confirm_cancel_operation"), alertMessage, confirm: {[weak self] in
+        alert.show(Localize.string("common_confirm_cancel_operation"), terminateAlertMessage, confirm: {[weak self] in
             self?.disposeBag = DisposeBag()
             NavigationManagement.sharedInstance.popViewController()
         }, cancel: { })

@@ -564,6 +564,8 @@
 "deposit_limitation_hint" = "请在单笔限额范围内。";
 "deposit_offline_termniate" = "离线充值将中断并结束。";
 "deposit_online_terminate" = "在线充值将中断并结束。";
+"deposit_payment_terminate" = "%@将中断并结束。";
+"deposit_crypto_terminate" = "在线充值将中断并结束。";
 "deposit_select_method" = "选择充值渠道";
 "deposit_no_available_type" = "目前暂无可用的充值方式";
 "deposit_no_records" = "目前暂无与您充值相关的纪录";
@@ -753,7 +755,7 @@
 "withdrawal_bankcard_branch_placeholder" = "上海分行";
 "withdrawal_bankcard_state_placeholder" = "浙江省";
 "withdrawal_bankcard_city_placeholder" = "上海市";
-"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
+"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
 "withdrawal_bankcard_change_confirm_title" = "是否要变更姓名?";
 "withdrawal_bankcard_change_confirm_content" = "如需要变更姓名，请前往个人设定";
 "withdrawal_step2_title_1_tip" = "本次申请提现金额为";

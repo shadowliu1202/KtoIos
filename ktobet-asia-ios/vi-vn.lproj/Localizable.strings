@@ -573,6 +573,8 @@ Vui lòng Xác Minh.";
 "deposit_limitation_hint" = "Vui lòng gửi tiền theo Giới Hạn Mỗi Giao Dịch.";
 "deposit_offline_termniate" = "Gửi Tiền \"Ngân Hàng Địa Phương\" sẽ bị gián đoạn và kết thúc.";
 "deposit_online_terminate" = "Gửi Tiền \"Chuyển Khoản Trực Tuyến\" sẽ bị gián đoạn và kết thúc.";
+"deposit_payment_terminate" = "Gửi Tiền \"%@\" sẽ bị gián đoạn và kết thúc.";
+"deposit_crypto_terminate" = "Gửi Tiền \"Crypto\" sẽ bị gián đoạn và kết thúc.";
 "deposit_select_method" = "Chọn Phương Thức Gửi Tiền";
 "deposit_no_available_type" = "Hiện tại không có phương thức Gửi Tiền khả dụng.";
 "deposit_no_records" = "Hiện tại không có lịch sử liên quan đến tiền gửi của Quý Khách.";

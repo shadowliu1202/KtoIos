@@ -126,13 +126,13 @@ extension UIViewController{
     }
 
     func showLoginMaintenanAlert() {
-        Alert.show(Localize.string("common_urgent_maintenance"), Localize.string("common_maintenance_logout"), confirm: {
+        Alert.shared.show(Localize.string("common_urgent_maintenance"), Localize.string("common_maintenance_logout"), confirm: {
             NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
         }, cancel: nil)
     }
 
     func showUnLoginMaintenanAlert() {
-        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
+        Alert.shared.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
             NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
         }, cancel: nil)
     }

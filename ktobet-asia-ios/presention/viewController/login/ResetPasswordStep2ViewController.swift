@@ -25,7 +25,7 @@ class ResetPasswordStep2ViewController: OtpViewControllerProtocol {
     func onCloseVerifyProcess() {
         let title = Localize.string("common_confirm_cancel_operation")
         let message = Localize.string("login_resetpassword_cancel_content")
-        Alert.show(title, message) {
+        Alert.shared.show(title, message) {
             UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
         } cancel: { }
     }
@@ -33,7 +33,7 @@ class ResetPasswordStep2ViewController: OtpViewControllerProtocol {
     func onExccedResendLimit() {
         let title = Localize.string("common_tip_title_warm")
         let message = viewModel.currentAccountType() == .phone ? Localize.string("common_sms_otp_exeed_send_limit") : Localize.string("common_sms_otp_exeed_send_limit")
-        Alert.show(title, message, confirm: {
+        Alert.shared.show(title, message, confirm: {
             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
         }, cancel: nil)
     }

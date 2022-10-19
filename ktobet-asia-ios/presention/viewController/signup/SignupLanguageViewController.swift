@@ -128,7 +128,7 @@ class SignupLanguageViewController: LandingViewController {
     @IBAction func btnTipPressed(_ sender : UIButton){
         let title = Localize.string("common_tip_title_warm")
         let message = Localize.string("common_tip_content_bind")
-        Alert.show(title, message, confirm: nil, cancel: nil)
+        Alert.shared.show(title, message, confirm: nil, cancel: nil)
     }
     
     private func didSelectRowAt(indexPath: IndexPath) {

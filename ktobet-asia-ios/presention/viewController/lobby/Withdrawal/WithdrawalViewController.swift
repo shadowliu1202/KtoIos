@@ -190,7 +190,7 @@ class WithdrawalViewController: LobbyViewController {
             if let amount = self.crpytoWithdrawalRequirementAmount(), amount.isPositive {
                 self.switchToCryptoTransationLog()
             } else {
-                Alert.show(Localize.string("cps_crpyto_withdrawal_requirement_title"),
+                Alert.shared.show(Localize.string("cps_crpyto_withdrawal_requirement_title"),
                            Localize.string("cps_crpyto_withdrawal_requirement_desc"),
                            confirm: {
                                 self.dismiss(animated: true, completion: nil)
@@ -221,7 +221,7 @@ class WithdrawalViewController: LobbyViewController {
     
     @objc fileprivate func withdrawTap(_ sender: UITapGestureRecognizer) {
         if let withdrawalLimits = withdrawalLimits, withdrawalLimits.hasCryptoRequirement() {
-            Alert.show(Localize.string("cps_cash_withdrawal_lock_title"),
+            Alert.shared.show(Localize.string("cps_cash_withdrawal_lock_title"),
                        Localize.string("cps_cash_withdrawal_lock_desc", crpytoWithdrawalRequirementAmount()?.denomination()),
                        confirm: {
                             self.dismiss(animated: true, completion: nil)
@@ -355,7 +355,7 @@ class WithdrawalViewController: LobbyViewController {
     }
     
     private func alertPlayerNotQualifiedForCryptoWithdrawal() {
-        Alert.show(nil, Localize.string("cps_withdrawal_all_fiat_first"), confirm: {}, cancel: nil)
+        Alert.shared.show(nil, Localize.string("cps_withdrawal_all_fiat_first"), confirm: {}, cancel: nil)
     }
 }
 

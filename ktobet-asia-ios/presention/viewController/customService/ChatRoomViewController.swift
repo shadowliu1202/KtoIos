@@ -372,7 +372,7 @@ extension ChatRoomViewController: BarButtonItemable {
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
         switch sender.tag {
         case endChatBarBtnId:
-            Alert.show(Localize.string("customerservice_chat_room_close_confirm_title"),
+            Alert.shared.show(Localize.string("customerservice_chat_room_close_confirm_title"),
                        Localize.string("customerservice_chat_room_close_confirm_content"),
                        confirm: { }, confirmText: Localize.string("common_continue"),
                        cancel: { self.confirmNetworkThenCloseChatRoom() },

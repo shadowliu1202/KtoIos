@@ -37,14 +37,14 @@ class DepositCryptoViewController: LobbyViewController {
             viewModel.requestCryptoDepositUpdate(displayId: displayId).subscribe {[weak self] (url) in
                 let request = URLRequest(url: URL(string: url)!)
                 self?.webView.load(request)
-            } onError: {[weak self] (error) in
+            } onFailure: {[weak self] (error) in
                 self?.handleErrors(error)
             }.disposed(by: disposeBag)
         } else if let updateUrl = updateUrl {
             Single.from(updateUrl).subscribe {[weak self] url in
                 let request = URLRequest(url: URL(string: url.url)!)
                 self?.webView.load(request)
-            } onError: { error in
+            } onFailure: { error in
                 self.handleErrors(error)
             }.disposed(by: disposeBag)
         }
@@ -58,8 +58,8 @@ class DepositCryptoViewController: LobbyViewController {
                 }
             } else {
                 let title = Localize.string("common_confirm_cancel_operation")
-                let message = Localize.string("deposit_online_terminate")
-                Alert.show(title, message) {
+                let message = Localize.string("deposit_crypto_terminate")
+                Alert.shared.show(title, message) {
                     NavigationManagement.sharedInstance.popToNotificationOrBack { [weak self] in
                         self?.performSegue(withIdentifier: "unwindToDeposit", sender: nil)
                     }

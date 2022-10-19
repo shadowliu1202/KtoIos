@@ -149,7 +149,7 @@ class TransactionLogViewController: LobbyViewController {
     }
     
     private func displayAlert(_ tilte: String, _ msg: String) {
-        Alert.show(tilte, msg, confirm: {}, cancel: nil)
+        Alert.shared.show(tilte, msg, confirm: {}, cancel: nil)
     }
 }
 

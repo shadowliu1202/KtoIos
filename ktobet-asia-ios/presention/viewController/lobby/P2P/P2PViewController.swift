@@ -50,7 +50,7 @@ class P2PViewController: ProductsViewController {
             switch turnOver {
             case is P2PTurnOver.Calculating:
                 print("Calculating")
-                Alert.show(Localize.string("common_tip_title_warm"), Localize.string("product_p2p_bonus_calculating"), confirm: {}, cancel: nil)
+                Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("product_p2p_bonus_calculating"), confirm: {}, cancel: nil)
             case is P2PTurnOver.None:
                 self.goToWebGame(viewModel: self.viewModel, gameId: p2pGame.gameId, gameName: p2pGame.gameName)
             case is P2PTurnOver.TurnOverReceipt:

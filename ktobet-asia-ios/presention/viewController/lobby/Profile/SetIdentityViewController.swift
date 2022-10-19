@@ -163,7 +163,7 @@ class SetIdentityViewController: LobbyViewController {
     }
     
     private func alertExceedResendLimit() {
-        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("profile_otp_exceed_otp_limit"), confirm: { [weak self] in
+        Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("profile_otp_exceed_otp_limit"), confirm: { [weak self] in
             self?.navigateToErrorPage()
         }, cancel: nil)
     }
@@ -181,7 +181,7 @@ class SetIdentityViewController: LobbyViewController {
     }
     
     @objc func close() {
-        Alert.show(Localize.string("common_tip_title_unfinished"), Localize.string("common_tip_content_unfinished")) {
+        Alert.shared.show(Localize.string("common_tip_title_unfinished"), Localize.string("common_tip_content_unfinished")) {
             NavigationManagement.sharedInstance.popToRootViewController()
         } cancel: { }
     }

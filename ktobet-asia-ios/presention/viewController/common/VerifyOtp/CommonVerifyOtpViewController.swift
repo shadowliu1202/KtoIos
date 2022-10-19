@@ -129,7 +129,7 @@ class CommonVerifyOtpViewController: CommonViewController {
     }
     
     private func onExccedResendLimit() {
-        Alert.show(Localize.string("common_tip_title_warm"), delegate.commonVerifyOtpArgs.otpExeedSendLimitError, confirm: {[weak self] in
+        Alert.shared.show(Localize.string("common_tip_title_warm"), delegate.commonVerifyOtpArgs.otpExeedSendLimitError, confirm: {[weak self] in
             self?.showErrorPage()
         }, cancel: nil)
     }

@@ -68,7 +68,7 @@ class GameWebViewViewController: UIViewController {
         if error is KtoGameUnderMaintenance {
             let productType = viewModel?.getGameProductType()
             if let productType = productType {
-                Alert.show(nil, Localize.string("product_game_maintenance"), confirm: {
+                Alert.shared.show(nil, Localize.string("product_game_maintenance"), confirm: {
                     NavigationManagement.sharedInstance.goTo(productType: productType)
                 }, cancel: nil)
             } else {

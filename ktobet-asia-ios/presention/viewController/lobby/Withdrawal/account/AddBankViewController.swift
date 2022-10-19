@@ -163,13 +163,13 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
             self.viewModel.addWithdrawalAccount().subscribe(onCompleted: {
                 let title = Localize.string("withdrawal_setbankaccountsuccess_modal_title")
                 let message = Localize.string("withdrawal_setbankaccountsuccess_modal_content")
-                Alert.show(title, message, confirm: { [weak self] in
+                Alert.shared.show(title, message, confirm: { [weak self] in
                     self?.popThenToast()
                     self?.delegate?.addAccountSuccess()
                 }, cancel: nil)
             }, onError: { [weak self] (error) in
                 if error is KtoWithdrawalAccountExist {
-                    Alert.show(Localize.string("common_tip_title_warm"), Localize.string("withdrawal_account_exist"), confirm: nil, cancel: nil)
+                    Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("withdrawal_account_exist"), confirm: nil, cancel: nil)
                 } else {
                     self?.handleErrors(error)
                 }
@@ -180,7 +180,7 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
     @objc func editNameAction() {
         let title = Localize.string("withdrawal_bankcard_change_confirm_title")
         let message = Localize.string("withdrawal_bankcard_change_confirm_content")
-        Alert.show(title, message, confirm: {
+        Alert.shared.show(title, message, confirm: {
             self.navigateToAuthorization()
         }, confirmText: Localize.string("common_moveto"), cancel: {})
     }

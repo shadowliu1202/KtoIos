@@ -135,7 +135,7 @@ class LoginViewController: LandingViewController {
     }
 
     private func navigateToPortalMaintenancePage() {
-        Alert.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
+        Alert.shared.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
             NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
         }, cancel: nil)
     }
@@ -149,7 +149,7 @@ class LoginViewController: LandingViewController {
     }
     
     private func alertMaintenance(product: ProductType, onConfirm: @escaping (() -> Void)) {
-        Alert.show(Localize.string("common_maintenance_notify"),
+        Alert.shared.show(Localize.string("common_maintenance_notify"),
                    Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: product)),
                    confirm: onConfirm, cancel: nil)
     }
@@ -193,7 +193,7 @@ class LoginViewController: LandingViewController {
                 if otpStatus.isSmsActive || otpStatus.isMailActive {
                     self?.performSegue(withIdentifier: ResetPasswordViewController.segueIdentifier, sender: nil)
                 } else {
-                    Alert.show(Localize.string("common_error"), Localize.string("login_resetpassword_service_down"), confirm: { }, cancel: nil)
+                    Alert.shared.show(Localize.string("common_error"), Localize.string("login_resetpassword_service_down"), confirm: { }, cancel: nil)
                 }
             }, onError: { [weak self] error in
                 self?.handleErrors(error)
@@ -428,7 +428,7 @@ extension LoginViewController: BarButtonItemable {
             if !otpStatus.isMailActive && !otpStatus.isSmsActive {
                 let title = Localize.string("common_error")
                 let message = Localize.string("register_service_down")
-                Alert.show(title, message, confirm: nil, cancel: nil)
+                Alert.shared.show(title, message, confirm: nil, cancel: nil)
             } else {
                 self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
             }
@@ -444,11 +444,11 @@ extension LoginViewController: BarButtonItemable {
         let title = Localize.string("update_proceed_now")
         let msg = "目前版本 : \(currentVersion)+\(currentVersionCode) \n最新版本 : \(newVer)+\(newVersionCode)"
         if currentVersion.compareTo(other: newVer) < 0 {
-            Alert.show(title, msg, confirm: {
+            Alert.shared.show(title, msg, confirm: {
                 self.syncAppVersionUpdate(self.versionSyncDisposeBag)
             }, confirmText: Localize.string("update_proceed_now"), cancel: {}, cancelText: "稍後")
         } else {
-            Alert.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
+            Alert.shared.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
         }
     }
 }
