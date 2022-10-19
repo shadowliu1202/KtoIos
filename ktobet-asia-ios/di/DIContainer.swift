@@ -708,6 +708,9 @@ class DIContainer {
         container.register(LocalizeUtils.self) { resolver in
             return LocalizeUtils(playerLocaleConfiguration: resolver.resolve(PlayerLocaleConfiguration.self)!)
         }.inObjectScope(.application)
+        container.register(Alert.self) { _ in
+            return Alert.shared
+        }.inObjectScope(.application)
     }
 }
 

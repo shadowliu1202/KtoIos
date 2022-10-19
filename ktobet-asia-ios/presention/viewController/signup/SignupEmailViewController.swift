@@ -163,7 +163,7 @@ class SignupEmailViewController: LandingViewController {
         case is PlayerIdOverOtpLimit, is PlayerIpOverOtpDailyLimit:
             let title = Localize.string("common_tip_title_warm")
             let message = Localize.string("common_email_otp_exeed_send_limit")
-            Alert
+            Alert.shared
                 .show(title, message, confirm: {
                     self.navigationController?.popToRootViewController(animated: true)
                 }, cancel: nil)
@@ -171,7 +171,7 @@ class SignupEmailViewController: LandingViewController {
         case is PlayerOverOtpRetryLimit, is PlayerResentOtpOverTenTimes:
             let title = Localize.string("common_tip_title_warm")
             let message = Localize.string("common_email_otp_exeed_send_limit")
-            Alert
+            Alert.shared
                 .show(title, message, confirm: {
                     self.navigationController?.popToRootViewController(animated: true)
                 }, cancel: nil)
@@ -219,7 +219,7 @@ class SignupEmailViewController: LandingViewController {
                         if manual {
                             let title = Localize.string("common_tip_title_warm")
                             let message = Localize.string("register_step3_verification_pending")
-                            Alert.show(title, message, confirm: nil, cancel: nil)
+                            Alert.shared.show(title, message, confirm: nil, cancel: nil)
                         }
                     }
                 }, onError: { [weak self] error in
@@ -281,7 +281,7 @@ class SignupEmailViewController: LandingViewController {
     @IBAction func btnBackPressed(_ sender : UIButton){
         let title = Localize.string("common_tip_title_unfinished")
         let message = Localize.string("common_tip_content_unfinished")
-        Alert.show(title, message) {
+        Alert.shared.show(title, message) {
             self.navigationController?.popToRootViewController(animated: true)
         } cancel: {}
     }

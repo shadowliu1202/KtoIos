@@ -165,7 +165,7 @@ class SideBarViewController: LobbyViewController {
     }
     
     fileprivate func showAlert(title: String, message: String, cancel: (() -> ())? = nil, isMaintain: Bool = false) {
-        Alert.show(title, message, confirm: {[weak self] in
+        Alert.shared.show(title, message, confirm: {[weak self] in
             guard let self = self else { return }
             CustomServicePresenter.shared.close(completion: {
                 self.viewModel.logout()

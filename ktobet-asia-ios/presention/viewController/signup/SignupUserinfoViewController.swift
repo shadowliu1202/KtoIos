@@ -176,7 +176,7 @@ class SignupUserinfoViewController: LandingViewController {
                 if !status.isMailActive && !status.isSmsActive {
                     let title = Localize.string("common_error")
                     let message = Localize.string("register_service_down")
-                    Alert.show(title, message, confirm: {
+                    Alert.shared.show(title, message, confirm: {
                         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
                     }, cancel: nil)
                 }
@@ -311,7 +311,7 @@ extension SignupUserinfoViewController{
     @IBAction func btnBackPressed(_ sender : Any){
         let title = Localize.string("common_tip_title_unfinished")
         let message = Localize.string("common_tip_content_unfinished")
-        Alert.show(title, message) {
+        Alert.shared.show(title, message) {
             self.performSegue(withIdentifier: self.segueLanguage, sender: nil)
         } cancel: {}
     }

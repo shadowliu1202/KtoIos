@@ -22,7 +22,7 @@ class SubUseBonusCoupon: UseBonusCoupon {
         let title = Localize.string("bonus_use_expired_bonus_title")
         let message = Localize.string("bonus_use_expired_bonus_content")
         return Completable.create { (completable) -> Disposable in
-            Alert.show(title, message, confirm: {
+            Alert.shared.show(title, message, confirm: {
                 NavigationManagement.sharedInstance.popViewController()
                 completable(.completed)
             }, confirmText: Localize.string("common_confirm"), cancel: nil)
@@ -74,7 +74,7 @@ class UseBonusCoupon {
 
     private class func createNotifyDialog(title: String, message: String) -> Completable {
         return Completable.create { (completable) -> Disposable in
-            Alert.show(title, message, confirm: {
+            Alert.shared.show(title, message, confirm: {
                 completable(.completed)
             }, confirmText: Localize.string("common_confirm"), cancel: nil)
             return Disposables.create {}
@@ -95,7 +95,7 @@ class UseBonusCoupon {
 
     private class func createUseCouponConfirmDialog(title: String, message: String) -> Single<Bool> {
         return Single<Bool>.create(subscribe: { single in
-            Alert.show(title, message, confirm: {
+            Alert.shared.show(title, message, confirm: {
                         single(.success(true))
                        },
                        confirmText: Localize.string("common_confirm"),
@@ -109,7 +109,7 @@ class UseBonusCoupon {
 
     private class func createAutoUsedDialog() -> Single<Bool> {
         return Single<Bool>.create(subscribe: { single in
-            Alert.show(nil, Localize.string("bonus_allowautouse"), confirm: {
+            Alert.shared.show(nil, Localize.string("bonus_allowautouse"), confirm: {
                         single(.success(true))
                        },
                        confirmText: Localize.string("common_allow"),
@@ -203,7 +203,7 @@ class UseBonusCoupon {
             break
         }
         return Completable.create { (completable) -> Disposable in
-            Alert.show(title, message, confirm: {
+            Alert.shared.show(title, message, confirm: {
                 completable(.completed)
             }, confirmText: Localize.string("common_confirm"), cancel: nil)
             return Disposables.create {}

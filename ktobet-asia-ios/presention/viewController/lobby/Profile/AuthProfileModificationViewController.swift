@@ -79,7 +79,7 @@ class AuthProfileModificationViewController: LobbyViewController {
     }
     
     private func alertAndLogout() {
-        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("profile_wrong_password_over_limit"), confirm: {
+        Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("profile_wrong_password_over_limit"), confirm: {
             CustomServicePresenter.shared.close(completion: {
                 let viewModel = DI.resolve(PlayerViewModel.self)!
                 viewModel.logout()

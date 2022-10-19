@@ -116,7 +116,7 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
     }
     
     private func alertServiceIsDown() {
-        Alert.show(Localize.string("common_error"), Localize.string("cps_otp_service_down"), confirm: {
+        Alert.shared.show(Localize.string("common_error"), Localize.string("cps_otp_service_down"), confirm: {
             NavigationManagement.sharedInstance.popViewController()
         }, cancel: nil)
     }

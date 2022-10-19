@@ -40,7 +40,7 @@ class WithdrawalRequestViewController: LobbyViewController, AuthProfileVerificat
     
     @objc func tapBack() {
         view.endEditing(true)
-        Alert.show(Localize.string("withdrawal_cancel_title"), Localize.string("withdrawal_cancel_content"), confirm: {
+        Alert.shared.show(Localize.string("withdrawal_cancel_title"), Localize.string("withdrawal_cancel_content"), confirm: {
             NavigationManagement.sharedInstance.back()
         }, confirmText: Localize.string("common_yes"), cancel: {}, cancelText: Localize.string("common_no"))
     }
@@ -157,7 +157,7 @@ class WithdrawalRequestViewController: LobbyViewController, AuthProfileVerificat
     @objc func editNameAction() {
         let title = Localize.string("withdrawal_bankcard_change_confirm_title")
         let message = Localize.string("withdrawal_bankcard_change_confirm_content")
-        Alert.show(title, message, confirm: {
+        Alert.shared.show(title, message, confirm: {
             self.navigateToAuthorization()
         }, confirmText: Localize.string("common_moveto"), cancel: {})
     }

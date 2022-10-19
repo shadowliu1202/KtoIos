@@ -44,13 +44,13 @@ class OnlinePaymentViewController: LobbyViewController {
     private func toOnlineWebPage(url: String) {
         let title = Localize.string("common_kindly_remind")
         let message = Localize.string("deposit_thirdparty_transaction_remind")
-        Alert.show(title, message, confirm: {
+        Alert.shared.show(title, message, confirm: {
             NavigationManagement.sharedInstance.viewController.performSegue(withIdentifier: DepositThirdPartWebViewController.segueIdentifier, sender: url)
         }, cancel: nil)
     }
     
     @objc func back() {
-        Alert.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_online_terminate"), confirm: { 
+        Alert.shared.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_online_terminate"), confirm: { 
             NavigationManagement.sharedInstance.popViewController()
         }, cancel: { })
     }

@@ -98,7 +98,7 @@ class NumberGameMyBetGameGroupedViewController: LobbyViewController {
         Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(NumberGameSummary.Game.self)).bind {[weak self] (indexPath, data) in
             guard let self = self else { return }
             if self.tempIndex.contains(indexPath.row) {
-                Alert.show(nil, Localize.string("product_bet_has_settled"), confirm: nil, cancel: nil)
+                Alert.shared.show(nil, Localize.string("product_bet_has_settled"), confirm: nil, cancel: nil)
             } else {
                 let parameter = (data.gameId, self.betStatus, self.betDate, data.gameName)
                 self.performSegue(withIdentifier: NumberGameDetailViewController.segueIdentifier, sender: parameter)

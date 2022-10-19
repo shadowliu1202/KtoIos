@@ -190,7 +190,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
     private func showImagePicker() {
         let currentSelectedImageCount = self.imageStackView.subviews.count
         if currentSelectedImageCount >= WithdrawalViewModel.selectedImageCountLimit {
-            Alert.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(WithdrawalViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
+            Alert.shared.show("", String(format: Localize.string("common_photo_upload_limit_reached"), "\(WithdrawalViewModel.selectedImageCountLimit)"), confirm: nil, cancel: nil)
         }
         
         imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil).instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
@@ -309,7 +309,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
     
     override func handleErrors(_ error: Error) {
         if error is KtoWithdrawalTicketBatched {
-            Alert.show(nil, Localize.string("withdrawal_cancel_locked"), confirm: {}, cancel: nil)
+            Alert.shared.show(nil, Localize.string("withdrawal_cancel_locked"), confirm: {}, cancel: nil)
         } else {
             super.handleErrors(error)
         }

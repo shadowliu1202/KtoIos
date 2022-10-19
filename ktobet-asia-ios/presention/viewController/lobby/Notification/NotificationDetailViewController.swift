@@ -44,7 +44,7 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
             }),
 
             deleteButton.rx.touchUpInside.subscribe(onNext: {
-                Alert.show(Localize.string("notification_delete_title"), Localize.string("notification_delete_content"), confirm: { [weak self] in
+                Alert.shared.show(Localize.string("notification_delete_title"), Localize.string("notification_delete_content"), confirm: { [weak self] in
                     self?.viewModel.input.deleteTrigger.onNext(())
                 }, confirmText: Localize.string("common_yes"), cancel: { }, cancelText: Localize.string("common_no"))
 

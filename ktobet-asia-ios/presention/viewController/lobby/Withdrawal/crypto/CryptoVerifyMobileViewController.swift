@@ -21,13 +21,13 @@ class CryptoVerifyMobileViewController: OtpViewControllerProtocol {
     }
     
     func onCloseVerifyProcess() {
-        Alert.show(Localize.string("common_close_setting_hint"), Localize.string("cps_close_otp_verify_hint")) {[weak self] in
+        Alert.shared.show(Localize.string("common_close_setting_hint"), Localize.string("cps_close_otp_verify_hint")) {[weak self] in
             self?.navigateToAccountsPage()
         } cancel: {}
     }
     
     func onExccedResendLimit() {
-        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("common_sms_otp_exeed_send_limit"), confirm: {
+        Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("common_sms_otp_exeed_send_limit"), confirm: {
             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
         }, cancel: nil)
     }
@@ -44,7 +44,7 @@ class CryptoVerifyMobileViewController: OtpViewControllerProtocol {
     }
     
     private func onVerified() {
-        Alert.show(Localize.string("common_verify_finished"), Localize.string("cps_verify_hint"), confirm: {[weak self] in
+        Alert.shared.show(Localize.string("common_verify_finished"), Localize.string("cps_verify_hint"), confirm: {[weak self] in
             self?.navigateToAccountsPage()
         }, cancel: nil)
     }

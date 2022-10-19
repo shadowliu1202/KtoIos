@@ -103,7 +103,7 @@ class NumberGameDetailViewController: LobbyViewController {
         Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(NumberGameSummary.Bet.self)).bind {[weak self] (indexPath, data) in
             guard let self = self else { return }
             if self.tempIndex.contains(indexPath.row) {
-                Alert.show(nil, Localize.string("product_bet_has_settled"), confirm: nil, cancel: nil)
+                Alert.shared.show(nil, Localize.string("product_bet_has_settled"), confirm: nil, cancel: nil)
                 return
             }
             guard let status = self.betStatus, let date = self.betDate?.convertToDate(), let id = self.gameId else { return }

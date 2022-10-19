@@ -80,7 +80,7 @@ class ResetPasswordStep3ViewController: LandingViewController {
     @IBAction func btnBackPressed(_ sender : Any){
         let title = Localize.string("common_confirm_cancel_operation")
         let message = Localize.string("login_resetpassword_cancel_content")
-        Alert.show(title, message) {
+        Alert.shared.show(title, message) {
             self.navigationController?.dismiss(animated: true, completion: nil)
         } cancel: {}
     }

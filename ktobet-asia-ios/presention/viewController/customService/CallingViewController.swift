@@ -67,7 +67,7 @@ class CallingViewController: CommonViewController {
             .subscribe { status in
                 switch status {
                 case .connected:
-                    Alert.dismiss() {
+                    Alert.shared.dismiss() {
                         CustomServicePresenter.shared.switchToChatRoom(isRoot: false)
                     }
                 case .connecting:
@@ -94,7 +94,7 @@ class CallingViewController: CommonViewController {
     }
     
     func confirmExitOrProceedToOfflineMessage() {
-        Alert.show(Localize.string("customerservice_stop_call_title"),
+        Alert.shared.show(Localize.string("customerservice_stop_call_title"),
                    Localize.string("customerservice_stop_call_content"),
                    confirm: { },
                    confirmText: Localize.string("common_continue"),
@@ -108,7 +108,7 @@ class CallingViewController: CommonViewController {
     }
     
     func stopServiceAndShowServiceOccupied() {
-        Alert.show(Localize.string("customerservice_leave_a_message_title"),
+        Alert.shared.show(Localize.string("customerservice_leave_a_message_title"),
                    Localize.string("customerservice_leave_a_message_content"),
                    confirm: { [weak self] in CustomServicePresenter.shared.switchToOfflineMessage(from: self) },
                    confirmText: Localize.string("customerservice_leave_a_message_confirm"),

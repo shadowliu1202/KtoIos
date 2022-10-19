@@ -1,21 +1,42 @@
-//
-//  AlertView.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/12/17.
-//
-
 import Foundation
 import UIKit
 
-class Alert {
-    private static var alertOutsideBackground: UIView = {
+protocol AlertProtocol {
+    func show(_ title: String?,
+              _ message: String?,
+              confirm: (() -> Void)?,
+              confirmText: String?,
+              cancel: (() -> Void)?,
+              cancelText: String?,
+              tintColor: UIColor?)
+    func dismiss(completion: (() -> ())?)
+    func isShown() -> Bool
+}
+
+extension AlertProtocol {
+    func show(_ title: String?,
+                   _ message: String?,
+                   confirm: (() -> Void)?,
+                   confirmText: String? = nil,
+                   cancel: (() -> Void)?,
+                   cancelText: String? = nil,
+              tintColor: UIColor? = nil) {
+        self.show(title, message, confirm: confirm, confirmText: confirmText, cancel: cancel, cancelText: cancelText, tintColor: tintColor)
+    }
+}
+
+class Alert: AlertProtocol {
+    static let shared = Alert()
+    
+    private var alertOutsideBackground: UIView = {
         let view = UIView(frame: UIWindow.key!.frame)
         view.backgroundColor = .black80
         return view
     }()
 
-    class func show(_ title: String?,
+    private init() {}
+
+    func show(_ title: String?,
                     _ message: String?,
                     confirm: (() -> Void)?,
                     confirmText: String? = nil,
@@ -30,12 +51,12 @@ class Alert {
                 alert.view.clipsToBounds = true
 
                 let confirmAction = UIAlertAction(title: confirmText ?? Localize.string("common_confirm"), style: .default) { (action) in
-                    removeBackgroundView()
+                    self.removeBackgroundView()
                     confirm?()
                 }
 
                 let cancelction = UIAlertAction(title: cancelText ?? Localize.string("common_cancel"), style: .cancel) { (action) in
-                    removeBackgroundView()
+                    self.removeBackgroundView()
                     cancel?()
                 }
 
@@ -49,20 +70,20 @@ class Alert {
 
                 topVc.present(alert, animated: true, completion: nil)
 
-                if !(UIWindow.key?.subviews.contains(alertOutsideBackground) ?? false) {
-                    UIWindow.key?.addSubview(alertOutsideBackground)
+                if !(UIWindow.key?.subviews.contains(self.alertOutsideBackground) ?? false) {
+                    UIWindow.key?.addSubview(self.alertOutsideBackground)
                 }
             }
         }
     }
 
-    private static func removeBackgroundView() {
+    private func removeBackgroundView() {
         if let topVC = UIApplication.topViewController(), !(topVC is UIAlertController) {
             alertOutsideBackground.removeFromSuperview()
         }
     }
 
-    class func dismiss(completion: (() -> ())?) {
+    func dismiss(completion: (() -> ())?) {
         guard let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController,
               topVc is UIAlertController else {
                   completion?()
@@ -72,7 +93,7 @@ class Alert {
         topVc.dismiss(animated: true, completion: completion)
     }
     
-    class func isShown() -> Bool {
+    func isShown() -> Bool {
         if let topVC = UIApplication.topViewController(), topVC is UIAlertController {
             return true
         }

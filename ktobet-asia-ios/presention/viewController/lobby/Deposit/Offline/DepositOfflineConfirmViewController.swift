@@ -57,7 +57,7 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     }
     
     @objc func close () {
-        Alert.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_offline_termniate"), confirm: {
+        Alert.shared.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_offline_termniate"), confirm: {
             DI.resetObjectScope(.depositFlow)
             NavigationManagement.sharedInstance.popToRootViewController()
         }, cancel: { })

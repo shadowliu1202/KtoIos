@@ -40,7 +40,7 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
     
     @objc func tapBack() {
         view.endEditing(true)
-        Alert.show(Localize.string("withdrawal_cancel_title"), Localize.string("withdrawal_cancel_content"), confirm: {
+        Alert.shared.show(Localize.string("withdrawal_cancel_title"), Localize.string("withdrawal_cancel_content"), confirm: {
             NavigationManagement.sharedInstance.back()
         }, confirmText: Localize.string("common_yes"), cancel: {}, cancelText: Localize.string("common_no"))
     }
@@ -173,7 +173,7 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
     }
     
     private func alertAutoFillMessage(title: String, message: String, confirm: (() -> Void)? ) {
-        Alert.show(title, message, confirm: confirm, confirmText: Localize.string("common_determine"), cancel: nil)
+        Alert.shared.show(title, message, confirm: confirm, confirmText: Localize.string("common_determine"), cancel: nil)
     }
     
     private func fillAmounts(accountCurrency: AccountCurrency, rate: IExchangeRate) {

@@ -31,7 +31,7 @@ class SignupPhoneViewController: OtpViewControllerProtocol {
     }
     
     func onCloseVerifyProcess() {
-        Alert.show(Localize.string("common_tip_title_unfinished"), Localize.string("common_tip_content_unfinished")) {
+        Alert.shared.show(Localize.string("common_tip_title_unfinished"), Localize.string("common_tip_content_unfinished")) {
             UIApplication.topViewController()?.navigationController?.popToRootViewController(animated: true)
         } cancel: { }
     }
@@ -42,7 +42,7 @@ class SignupPhoneViewController: OtpViewControllerProtocol {
     }
     
     func onExccedResendLimit() {
-        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("common_sms_otp_exeed_send_limit"), confirm: {
+        Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("common_sms_otp_exeed_send_limit"), confirm: {
             UIApplication.topViewController()?.navigationController?.popToRootViewController(animated: true)
         }, cancel: nil)
     }

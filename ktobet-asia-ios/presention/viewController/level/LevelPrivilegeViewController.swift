@@ -73,7 +73,7 @@ class LevelPrivilegeViewController: LobbyViewController {
     }
     
     @IBAction func showExpInfo(_ sender: UIButton) {
-        Alert.show(Localize.string("level_experience_title"), Localize.string("level_experience_desc"), confirm: {}, cancel: nil)
+        Alert.shared.show(Localize.string("level_experience_title"), Localize.string("level_experience_desc"), confirm: {}, cancel: nil)
     }
     
     deinit {

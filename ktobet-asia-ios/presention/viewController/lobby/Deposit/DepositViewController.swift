@@ -69,7 +69,7 @@ class DepositViewController: LobbyViewController {
         let depositType = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return self.viewModel.submitList
         }).share(replay: 1)
-        depositType.catchError({ [weak self] (error) -> Observable<[DepositSelection]> in
+        depositType.catch({ [weak self] (error) -> Observable<[DepositSelection]> in
             self?.handleErrors(error)
             return Observable.just([])
         }).do(onNext: { [weak self] (depositTypes) in
@@ -115,7 +115,7 @@ class DepositViewController: LobbyViewController {
     }
     
     fileprivate func alertCryptoDepositWarnings() {
-        Alert.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_crypto_warning"), confirm: {[weak self] in
+        Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("deposit_crypto_warning"), confirm: {[weak self] in
             self?.performSegue(withIdentifier: CryptoSelectorViewController.segueIdentifier, sender: nil)
         }, cancel: nil)
     }
@@ -124,7 +124,7 @@ class DepositViewController: LobbyViewController {
         let depositRecord = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return self.depositLogViewModel.recentPaymentLogs
         }).share(replay: 1)
-        depositRecord.catchError({ [weak self] (error) -> Observable<[PaymentLogDTO.Log]> in
+        depositRecord.catch({ [weak self] (error) -> Observable<[PaymentLogDTO.Log]> in
             self?.handleErrors(error)
             return Observable.just([])
         }).do(onNext: { [weak self] (depositRecord) in
@@ -192,7 +192,6 @@ class DepositViewController: LobbyViewController {
             toastView.show(on: self.view, statusTip: Localize.string("common_request_submitted"), img: UIImage(named: "Success"))
         }
     }
-    
 }
 
 

@@ -565,6 +565,8 @@ Please go verify.";
 "deposit_limitation_hint" = "Please input within the Single Deposit Limit.";
 "deposit_offline_termniate" = "Local Bank Transfer will be interrupted and ended.";
 "deposit_online_terminate" = "Online Transfer will be interrupted and ended.";
+"deposit_payment_terminate" = "%@ will be interrupted and ended.";
+"deposit_crypto_terminate" = "Online Transfer will be interrupted and ended.";
 "deposit_select_method" = "Select Deposit Method";
 "deposit_no_available_type" = "There is no deposit method available currently.";
 "deposit_no_records" = "There is no deposit related history currently.";

@@ -194,7 +194,7 @@ class ResetPasswordViewController: LandingViewController {
     
     private func alertExceedResendLimit() {
         let message = viewModel.currentAccountType() == .phone ? Localize.string("common_sms_otp_exeed_send_limit") : Localize.string("common_email_otp_exeed_send_limit")
-        Alert.show(Localize.string("common_tip_title_warm"), message, confirm: nil, cancel: nil, tintColor: UIColor.red)
+        Alert.shared.show(Localize.string("common_tip_title_warm"), message, confirm: nil, cancel: nil, tintColor: UIColor.red)
     }
     
     private func navigateToStep2() {

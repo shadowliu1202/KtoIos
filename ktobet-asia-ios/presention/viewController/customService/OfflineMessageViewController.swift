@@ -74,7 +74,7 @@ class OfflineMessageViewController: CommonViewController {
     }
     
     private func notifySurveySentSuccessfully() {
-        Alert.show(Localize.string("customerservice_offline_survey_confirm_title"),
+        Alert.shared.show(Localize.string("customerservice_offline_survey_confirm_title"),
                    Localize.string("customerservice_offline_survey_confirm_content"),
                    confirm: { CustomServicePresenter.shared.close() }, cancel: nil)
     }
