@@ -3511,6 +3511,15 @@
 		6D48BA5827633DDB00C8DC2D /* AppUpdateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D48BA5727633DDB00C8DC2D /* AppUpdateRepository.swift */; };
 		6D48BA5927633DDB00C8DC2D /* AppUpdateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D48BA5727633DDB00C8DC2D /* AppUpdateRepository.swift */; };
 		6D48BA5A27633DDB00C8DC2D /* AppUpdateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D48BA5727633DDB00C8DC2D /* AppUpdateRepository.swift */; };
+		6D4E8F7D28FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
+		6D4E8F7E28FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
+		6D4E8F7F28FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
+		6D4E8F8028FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
+		6D4E8F8128FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
+		6D4E8F8228FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
+		6D4E8F8328FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
+		6D4E8F8428FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
+		6D4E8F8528FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
 		6D4E99492636907A00860FF7 /* ProductProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E99482636907A00860FF7 /* ProductProtocol.swift */; };
 		6D4E994A2636907A00860FF7 /* ProductProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E99482636907A00860FF7 /* ProductProtocol.swift */; };
 		6D4E994F2636943100860FF7 /* SlotGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E994E2636943100860FF7 /* SlotGame.swift */; };
@@ -3615,6 +3624,7 @@
 		6D5BE317273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */; };
 		6D5BE318273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */; };
 		6D5BE319273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */; };
+		6D6DEC582900D98500B08FEA /* XCTestCaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DEC572900D98500B08FEA /* XCTestCaseExtension.swift */; };
 		6D6E6F77274E2BE0005D88A6 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */; };
 		6D6E6F78274E2BE0005D88A6 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */; };
 		6D6E6F79274E2BE0005D88A6 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */; };
@@ -5680,6 +5690,7 @@
 		6DE36B8926563BE30058A1BC /* UnSettleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */; };
 		6DE36B8A26563BE30058A1BC /* UnSettleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */; };
 		6DE36B8C26563BE30058A1BC /* UnSettleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */; };
+		6DEA784228FFE53000420A3D /* PasteableTextFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA784128FFE53000420A3D /* PasteableTextFieldTest.swift */; };
 		6DF26A61264A31C600DDD3C5 /* FilterBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF26A60264A31C600DDD3C5 /* FilterBarButtonItem.swift */; };
 		6DF26A62264A31C600DDD3C5 /* FilterBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF26A60264A31C600DDD3C5 /* FilterBarButtonItem.swift */; };
 		6DF26A69264A358900DDD3C5 /* TextBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF26A68264A358900DDD3C5 /* TextBarButtonItem.swift */; };
@@ -6420,6 +6431,7 @@
 		6D48BA492761D09300C8DC2D /* MarketHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketHeaderView.xib; sourceTree = "<group>"; };
 		6D48BA532763252B00C8DC2D /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		6D48BA5727633DDB00C8DC2D /* AppUpdateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateRepository.swift; sourceTree = "<group>"; };
+		6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteableTextField.swift; sourceTree = "<group>"; };
 		6D4E99482636907A00860FF7 /* ProductProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductProtocol.swift; sourceTree = "<group>"; };
 		6D4E994E2636943100860FF7 /* SlotGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotGame.swift; sourceTree = "<group>"; };
 		6D4E9954263694EE00860FF7 /* SlotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotViewModel.swift; sourceTree = "<group>"; };
@@ -6438,6 +6450,7 @@
 		6D5BE2F9273B9D600072F994 /* CustomerServiceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceMainViewController.swift; sourceTree = "<group>"; };
 		6D5BE309273CCAA70072F994 /* CustomerServiceHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceHistoryViewModel.swift; sourceTree = "<group>"; };
 		6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceHistoryEditViewController.swift; sourceTree = "<group>"; };
+		6D6DEC572900D98500B08FEA /* XCTestCaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCaseExtension.swift; sourceTree = "<group>"; };
 		6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCurrency.swift; sourceTree = "<group>"; };
 		6D6E6FFC27507A28005D88A6 /* CurrencyUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUnit.swift; sourceTree = "<group>"; };
 		6D6E705D27546C1C005D88A6 /* CryptoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoViewModel.swift; sourceTree = "<group>"; };
@@ -6559,6 +6572,7 @@
 		6DE36B7826563B9B0058A1BC /* RecentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentViewController.swift; sourceTree = "<group>"; };
 		6DE36B7F26563BB80058A1BC /* SettleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettleViewController.swift; sourceTree = "<group>"; };
 		6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnSettleViewController.swift; sourceTree = "<group>"; };
+		6DEA784128FFE53000420A3D /* PasteableTextFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteableTextFieldTest.swift; sourceTree = "<group>"; };
 		6DF26A60264A31C600DDD3C5 /* FilterBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBarButtonItem.swift; sourceTree = "<group>"; };
 		6DF26A68264A358900DDD3C5 /* TextBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBarButtonItem.swift; sourceTree = "<group>"; };
 		6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBKMaintenanceViewController.swift; sourceTree = "<group>"; };
@@ -7042,7 +7056,9 @@
 		485DF05C25415454001F9D4A /* ktobet-asia-iosUITests */ = {
 			isa = PBXGroup;
 			children = (
+				6D6DEC572900D98500B08FEA /* XCTestCaseExtension.swift */,
 				485DF05D25415454001F9D4A /* ktobet_asia_iosUITests.swift */,
+				6DEA784128FFE53000420A3D /* PasteableTextFieldTest.swift */,
 				485DF05F25415454001F9D4A /* Info.plist */,
 				3CBAFE9228A26FF300ECC80A /* LoginViewTest.swift */,
 				3CE559BC28A3A81A005FB6EF /* UITestAdapter.swift */,
@@ -7281,6 +7297,7 @@
 				60CA712227E1D408005680A5 /* PaddingLabel.swift */,
 				3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */,
 				6D5A034E28AA39B9005D0960 /* GameTagStackView.swift */,
+				6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */,
 			);
 			path = customUI;
 			sourceTree = "<group>";
@@ -10508,6 +10525,7 @@
 				6D94091126D4BF6700C70FDA /* DashedLineView.swift in Sources */,
 				6010411A26B2A41E00B28FC8 /* ArcadeApi.swift in Sources */,
 				6DE36B8A26563BE30058A1BC /* UnSettleViewController.swift in Sources */,
+				6D4E8F7E28FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				6D4083D8265212ED00BECD0E /* NumberGameRecordUseCase.swift in Sources */,
 				6034620C26327DC800F5D1D9 /* BetRecordTableViewCell.swift in Sources */,
 				41077DA225BA634D0057B340 /* PlayerDataUseCase.swift in Sources */,
@@ -10656,9 +10674,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D6DEC582900D98500B08FEA /* XCTestCaseExtension.swift in Sources */,
 				3CBAFE9328A26FF300ECC80A /* LoginViewTest.swift in Sources */,
 				3CCD219428FD28BC00313212 /* FakePlayerLocaleConfiguration.swift in Sources */,
 				485DF05E25415454001F9D4A /* ktobet_asia_iosUITests.swift in Sources */,
+				6DEA784228FFE53000420A3D /* PasteableTextFieldTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11105,6 +11125,7 @@
 				6D94091026D4BF6700C70FDA /* DashedLineView.swift in Sources */,
 				6010411926B2A41E00B28FC8 /* ArcadeApi.swift in Sources */,
 				6DE36B8926563BE30058A1BC /* UnSettleViewController.swift in Sources */,
+				6D4E8F7D28FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				6D4083D7265212ED00BECD0E /* NumberGameRecordUseCase.swift in Sources */,
 				6034620B26327DC800F5D1D9 /* BetRecordTableViewCell.swift in Sources */,
 				48AAA153256E458800E075CA /* HubProtocol.swift in Sources */,
@@ -11577,6 +11598,7 @@
 				6DA88BFF2696F4CD008D77B9 /* P2PBetViewModel.swift in Sources */,
 				609012EF2640EE7000419F8E /* StringExtension.swift in Sources */,
 				3CFC0B8D28EFD5D60012DD73 /* LoggerConfirmTerminateView.swift in Sources */,
+				6D4E8F7F28FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				6000DADD265DE2CB002A7A87 /* NumberGameMyBetGameGroupedViewController.swift in Sources */,
 				6D48BA562763252B00C8DC2D /* Configuration.swift in Sources */,
 				6DE36B75265605C40058A1BC /* NumberGameSummaryViewController.swift in Sources */,
@@ -12151,6 +12173,7 @@
 				60E580E227F190E4008CE5A9 /* P2PBetViewModel.swift in Sources */,
 				60E580E327F190E4008CE5A9 /* StringExtension.swift in Sources */,
 				3CFC0B8E28EFD5D60012DD73 /* LoggerConfirmTerminateView.swift in Sources */,
+				6D4E8F8028FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				60E580E427F190E4008CE5A9 /* NumberGameMyBetGameGroupedViewController.swift in Sources */,
 				60E580E527F190E4008CE5A9 /* Configuration.swift in Sources */,
 				60E580E627F190E4008CE5A9 /* NumberGameSummaryViewController.swift in Sources */,
@@ -12860,6 +12883,7 @@
 				6D0EDC9828743FAC004A9E3C /* CasinoDetailRecordTableViewCell.swift in Sources */,
 				6D0EDC9928743FAC004A9E3C /* CommonAdapter.swift in Sources */,
 				6D0EDC9A28743FAC004A9E3C /* RemarkTableViewCell.swift in Sources */,
+				6D4E8F8428FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				6D0EDC9B28743FAC004A9E3C /* Decimal.swift in Sources */,
 				6D0EDC9C28743FAC004A9E3C /* P2PRepository.swift in Sources */,
 				6D0EDC9D28743FAC004A9E3C /* CustomerServiceIconViewWindow.swift in Sources */,
@@ -13435,6 +13459,7 @@
 				6D0EDEF328744704004A9E3C /* CasinoDetailRecordTableViewCell.swift in Sources */,
 				6D0EDEF428744704004A9E3C /* CommonAdapter.swift in Sources */,
 				6D0EDEF528744704004A9E3C /* RemarkTableViewCell.swift in Sources */,
+				6D4E8F8528FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				6D0EDEF628744704004A9E3C /* Decimal.swift in Sources */,
 				6D0EDEF728744704004A9E3C /* P2PRepository.swift in Sources */,
 				6D0EDEF828744704004A9E3C /* CustomerServiceIconViewWindow.swift in Sources */,
@@ -13887,6 +13912,7 @@
 				6D966C7027FEE3FA006086B7 /* P2PBetViewModel.swift in Sources */,
 				6D966C7127FEE3FA006086B7 /* StringExtension.swift in Sources */,
 				3CFC0B8F28EFD5D60012DD73 /* LoggerConfirmTerminateView.swift in Sources */,
+				6D4E8F8128FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				6D966C7227FEE3FA006086B7 /* NumberGameMyBetGameGroupedViewController.swift in Sources */,
 				6D966C7327FEE3FA006086B7 /* Configuration.swift in Sources */,
 				6D966C7427FEE3FA006086B7 /* NumberGameSummaryViewController.swift in Sources */,
@@ -14461,6 +14487,7 @@
 				6D966EBD27FEE416006086B7 /* P2PBetViewModel.swift in Sources */,
 				6D966EBE27FEE416006086B7 /* StringExtension.swift in Sources */,
 				3CFC0B9028EFD5D60012DD73 /* LoggerConfirmTerminateView.swift in Sources */,
+				6D4E8F8228FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				6D966EBF27FEE416006086B7 /* NumberGameMyBetGameGroupedViewController.swift in Sources */,
 				6D966EC027FEE416006086B7 /* Configuration.swift in Sources */,
 				6D966EC127FEE416006086B7 /* NumberGameSummaryViewController.swift in Sources */,
@@ -15135,6 +15162,7 @@
 				6D96716127FEE42B006086B7 /* CasinoBetSummaryByDateViewController.swift in Sources */,
 				6D96716227FEE42B006086B7 /* DashedLineView.swift in Sources */,
 				6D96716327FEE42B006086B7 /* ArcadeApi.swift in Sources */,
+				6D4E8F8328FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				6D96716427FEE42B006086B7 /* UnSettleViewController.swift in Sources */,
 				6D96716527FEE42B006086B7 /* NumberGameRecordUseCase.swift in Sources */,
 				6D96716627FEE42B006086B7 /* BetRecordTableViewCell.swift in Sources */,
