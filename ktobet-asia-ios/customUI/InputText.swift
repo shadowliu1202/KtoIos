@@ -14,6 +14,14 @@ class InputText : UIView {
     private var firstPosition = true
     private var isEditing = false
     private(set) var isEdited = false
+    
+    @IBInspectable
+    public var disablePaste: Bool = false {
+        didSet {
+            textContent.disablePaste = disablePaste
+        }
+    }
+    
     var editingChangedHandler: ((String) -> Void)?
     var shouldChangeCharactersIn: ((UITextField, NSRange, String) -> Bool)?
     var showPickerView: (() -> ())?
@@ -23,7 +31,7 @@ class InputText : UIView {
     
     private var labTitle = UILabel()
     private var labSubTitle = UILabel()
-    var textContent = UITextField()
+    var textContent = PasteableTextField()
     private var underline = UIView()
     var text : ControlProperty<String> {
         get {

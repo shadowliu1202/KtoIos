@@ -10,23 +10,26 @@ struct UIKitTextField: UIViewRepresentable {
     var configuration = { (uiTextField: UITextField) in }
     var editingDidEnd = { (text: String) in }
     
+    let disablePaste: Bool
     let keyboardType: UIKeyboardType
 
-    init(text: Binding<String>, isFirstResponder: Binding<Bool>, showPassword: Binding<Bool>, isPasswordType: Bool, keyboardType: UIKeyboardType = .default, configuration: @escaping (UITextField) -> () = { (uiTextField: UITextField) in }, editingDidEnd: @escaping (String) -> () = {(text: String) in }) {
+    init(text: Binding<String>, isFirstResponder: Binding<Bool>, showPassword: Binding<Bool>, isPasswordType: Bool, disablePaste: Bool = false, keyboardType: UIKeyboardType = .default, configuration: @escaping (UITextField) -> () = { (uiTextField: UITextField) in }, editingDidEnd: @escaping (String) -> () = {(text: String) in }) {
         self._text = text
         self._isFirstResponder = isFirstResponder
         self._showPassword = showPassword
         self.isPasswordType = isPasswordType
+        self.disablePaste = disablePaste
         self.keyboardType = keyboardType
         self.configuration = configuration
         self.editingDidEnd = editingDidEnd
     }
 
     func makeUIView(context: Context) -> UITextField {
-        let view = UITextField()
+        let view = PasteableTextField()
         view.text = text
         view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         view.keyboardType = keyboardType
+        view.disablePaste = disablePaste
         configuration(view)
         
         view.delegate = context.coordinator
@@ -81,7 +84,7 @@ struct UIKitTextField: UIViewRepresentable {
         }
         
         @objc func textChanged(_ sender: UITextField) {
-            guard let inputText = sender.text else { return }
+            guard let inputText = sender.text?.halfWidth else { return }
             
             if keyboardType == .numberPad, !inputText.isEmpty,
                let amount = Double(inputText.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() {
@@ -95,6 +98,7 @@ struct UIKitTextField: UIViewRepresentable {
         
         @objc func textEditEnd(_ sender: UITextField) {
             isFirstResponder = false
+            sender.text = sender.text?.halfWidth
             editingDidEnd(sender.text ?? "")
         }
     }

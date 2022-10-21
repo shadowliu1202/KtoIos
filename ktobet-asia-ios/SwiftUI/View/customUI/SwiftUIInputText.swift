@@ -15,13 +15,15 @@ struct SwiftUIInputText: View {
     let placeHolder: String
     let errorText: String?
     let isPasswordType: Bool
+    let disablePaste: Bool
     let keyboardType: UIKeyboardType
     
-    init(placeHolder: String, textFieldText: Binding<String>, errorText: String? = nil, isPasswordType: Bool = false, keyboardType: UIKeyboardType = .default) {
+    init(placeHolder: String, textFieldText: Binding<String>, errorText: String? = nil, isPasswordType: Bool = false, disablePaste: Bool = false, keyboardType: UIKeyboardType = .default) {
         self.placeHolder = placeHolder
         self._textFieldText = textFieldText
         self.errorText = errorText
         self.isPasswordType = isPasswordType
+        self.disablePaste = disablePaste
         self.keyboardType = keyboardType
     }
     
@@ -53,7 +55,7 @@ struct SwiftUIInputText: View {
                     .foregroundColor(.primaryGray)
                     .padding(.top, showTextField ? 1 : 12)
                     .padding(.bottom, showTextField ? 0 : 10)
-                UIKitTextField(text: $textFieldText, isFirstResponder: $isEditing, showPassword: $showPassword, isPasswordType: isPasswordType, keyboardType: keyboardType) { uiTextField in
+                UIKitTextField(text: $textFieldText, isFirstResponder: $isEditing, showPassword: $showPassword, isPasswordType: isPasswordType, disablePaste: disablePaste, keyboardType: keyboardType) { uiTextField in
                     uiTextField.font = UIFont(name: "PingFangSC", size: 16)
                     uiTextField.textColor = .white
                     uiTextField.tintColor = .primaryRed
