@@ -31,12 +31,10 @@ final class ServiceStatusViewModel: ViewModelType {
         })
 
         let playerDefaultType = playerDefaultProductType.asDriver(onErrorJustReturn: .none)
-        let maintainDefaultType = self.maintainDefaultProductType(playerDefaultProductType: playerDefaultProductType, maintainStatus: maintainStatus)
         let productMaintainTime = self.productMaintainTime(maintainStatus)
         let productsMaintainTime = self.productsMaintainTime(maintainStatus)
         
-        self.output = Output(maintainDefaultType: maintainDefaultType,
-                             portalMaintenanceStatus: maintainStatus, portalMaintenanceStatusPerSecond: maintainStatusPerSecond, otpService: otpService,
+        self.output = Output(portalMaintenanceStatus: maintainStatus, portalMaintenanceStatusPerSecond: maintainStatusPerSecond, otpService: otpService,
                              customerServiceEmail: customerServiceEmail, productMaintainTime: productMaintainTime,
                              productsMaintainTime: productsMaintainTime)
         self.input = Input(playerDefaultProductType: playerDefaultProductType.asObserver())
@@ -52,20 +50,6 @@ final class ServiceStatusViewModel: ViewModelType {
     
     func refreshProductStatus() {
         systemStatusUseCase.refreshMaintenanceState()
-    }
-
-    private func maintainDefaultProductType(playerDefaultProductType: ReplaySubject<ProductType>, maintainStatus: Observable<MaintenanceStatus>) -> Driver<ProductType?> {
-        let productMaintenPriorityOrder: [ProductType] = [.sbk, .casino, .slot, .numbergame, .arcade, .p2p]
-        return playerDefaultProductType.flatMapLatest { playerDefaultProduct in
-            maintainStatus.map { status -> ProductType? in
-                guard let productStatus = status as? MaintenanceStatus.Product else { return nil }
-                if productStatus.isProductMaintain(productType: playerDefaultProduct) {
-                    return productMaintenPriorityOrder.first { !productStatus.isProductMaintain(productType: $0) } ?? nil
-                } else {
-                    return playerDefaultProduct
-                }
-            }
-        }.asDriver(onErrorJustReturn: nil)
     }
     
     private func productMaintainTime(_ maintainStatus: Observable<MaintenanceStatus>) -> SharedSequence<DriverSharingStrategy, OffsetDateTime?> {
@@ -99,7 +83,6 @@ extension ServiceStatusViewModel {
     }
     
     struct Output {
-        let maintainDefaultType: Driver<ProductType?>
         let portalMaintenanceStatus: Observable<MaintenanceStatus>
         let portalMaintenanceStatusPerSecond: Observable<MaintenanceStatus>
         let otpService: Single<OtpStatus>

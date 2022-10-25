@@ -28,6 +28,7 @@ protocol PlayerRepository {
 }
 
 class PlayerRepositoryImpl : PlayerRepository {
+    
     private let httpClient: HttpClient
     private var playerApi: PlayerApi!
     private var portalApi: PortalApi!
@@ -61,7 +62,6 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
     
     func loadPlayer() -> Single<Player> {
-        
         let favorProduct = getDefaultProduct()
         let localization = playerApi.getCultureCode()
         let playerInfo = playerApi.getPlayerInfo().do(onSuccess: { [weak self] in
@@ -74,14 +74,8 @@ class PlayerRepositoryImpl : PlayerRepository {
         
         return Single
             .zip(favorProduct, localization, playerInfo, contactInfo)
-            .map { (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> Player in
-                let playerLocale : SupportLocale = {
-                    if let cultureCode = responseLocalization.data {
-                        return SupportLocale.Companion.init().create(language: cultureCode)
-                    } else {
-                        return SupportLocale.China()
-                    }
-                }()
+            .map { (defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo) -> (Player, PlayerInfoCache) in
+                let playerLocale = SupportLocale.Companion.init().create(language: responseLocalization.data)
 
                 let playerInfo = PlayerInfo(gameId: responsePlayerInfo.data?.gameId ?? "",
                                             displayId: responsePlayerInfo.data?.displayId ?? "" ,
@@ -94,9 +88,24 @@ class PlayerRepositoryImpl : PlayerRepository {
                                     playerInfo: playerInfo,
                                     bindLocale: playerLocale,
                                     defaultProduct: defaultProduct)
+                
+                let playerInfoCache = PlayerInfoCache(account: playerInfo.displayId, ID: playerInfo.gameId, locale: responseLocalization.data, VIPLevel: playerInfo.level, defaultProduct: ProductType.convert(defaultProduct))
+                
+                return (player, playerInfoCache)
+            }
+            .do(onSuccess: { [weak self] (player, playerInfoCache) in
+                guard let self = self else {
+                    Logger.shared.debug("set player info fail: missing reference.")
+                    return
+                }
+                
+                self.localStorageRepo.setUserName(player.playerInfo.withdrawalName)
+                self.localStorageRepo.setPlayerInfo(playerInfoCache)
+                self.localStorageRepo.setLastAPISuccessDate(Date())
+                Logger.shared.debug("set player info.")
+            }).map { (player, playerInfoCache) in
                 return player
             }
-            .do(onSuccess: { self.localStorageRepo.setUserName($0.playerInfo.withdrawalName)})
     }
     
     func getUtcOffset() -> Single<UtcOffset> {

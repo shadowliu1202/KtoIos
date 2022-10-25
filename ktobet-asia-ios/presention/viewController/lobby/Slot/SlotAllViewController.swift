@@ -76,6 +76,10 @@ class SlotAllViewController: DisplayProduct {
     func setViewModel() -> DisplayProductViewModel? {
         return viewModel
     }
+    
+    override func setProductType() -> ProductType {
+        .slot
+    }
 }
 
 

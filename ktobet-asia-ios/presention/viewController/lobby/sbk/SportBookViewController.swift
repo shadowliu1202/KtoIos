@@ -7,20 +7,24 @@ import NotificationBannerSwift
 import RxRelay
 
 class SportBookViewController: LobbyViewController {
-    private var httpClient = DI.resolve(HttpClient.self)!
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-    private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
-    private var disposeBag = DisposeBag()
+    
+    private let isWebLoadSuccess = BehaviorRelay<Bool>(value: false)
+    
     private var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
     private var sbkWebUrlString: String { httpClient.host.absoluteString + "sbk" }
     private lazy var activityIndicator: UIActivityIndicatorView = {
         return UIActivityIndicatorView(style: .large)
     }()
-    private let isWebLoadSuccess = BehaviorRelay<Bool>(value: false)
     private var banner: NotificationBanner?
+    
+    private lazy var httpClient = DI.resolve(HttpClient.self)!
+    private lazy var localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    private lazy var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("\(type(of: self)) viewDidLoad.")
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_sportsbook"))
         self.view.addSubview(self.activityIndicator, constraints: [
             .equal(\.centerXAnchor),
@@ -38,6 +42,8 @@ class SportBookViewController: LobbyViewController {
             default:
                 break
             }
+        }, onError: { [weak self] error in
+            self?.handleErrors(error)
         }).disposed(by: disposeBag)
         Observable.combineLatest(networkConnectRelay, isWebLoadSuccess).subscribe(onNext: { [unowned self] isNetworkConnected, isWebLoadSuccess in
             guard isWebLoadSuccess == false else { return }

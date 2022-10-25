@@ -81,17 +81,17 @@ class IAuthRepositoryImpl : IAuthRepository {
         }
     }
     
-    func deAuthorize()->Completable{
+    func deAuthorize() -> Completable{
         return httpClient.clearCookie()
     }
     
-    func checkAuthorization()-> Single<Bool>{
+    func checkAuthorization() -> Single<Bool>{
         return api.isLogged().map { (response) -> Bool in
             return (response.data ?? false)
         }
     }
     
-    func resendRegisterOtp()-> Completable  {
+    func resendRegisterOtp() -> Completable  {
         return api.resendRegisterOtp()
     }
     

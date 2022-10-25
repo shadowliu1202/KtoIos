@@ -43,13 +43,15 @@ class DIContainer {
         }
         container.register(HttpClient.self) { resolver in
             let playerLocaleConfiguration = resolver.resolve(PlayerLocaleConfiguration.self)!
+            let localStorageRepo = resolver.resolve(LocalStorageRepositoryImpl.self)!
             let ktoUrl = resolver.resolve(KtoURL.self)!
-            return HttpClient(playConfig: playerLocaleConfiguration, ktoUrl: ktoUrl)
+            return HttpClient(playerLocaleConfiguration, localStorageRepo, ktoUrl)
         }.inObjectScope(.locale)
         container.register(HttpClient.self, name: "update") { resolver in
             let playerLocaleConfiguration = resolver.resolve(PlayerLocaleConfiguration.self)!
+            let localStorageRepo = resolver.resolve(LocalStorageRepositoryImpl.self)!
             let ktoUrl = resolver.resolve(KtoURL.self, name: "update")!
-            return HttpClient(playConfig: playerLocaleConfiguration, ktoUrl: ktoUrl)
+            return HttpClient(playerLocaleConfiguration, localStorageRepo, ktoUrl)
         }.inObjectScope(.locale)
     }
     func registerCustomServicePresenter() {
@@ -521,7 +523,8 @@ class DIContainer {
             let playerUseCase = resolver.resolve(PlayerDataUseCase.self)!
             let localizationUseCase = resolver.resolve(LocalizationPolicyUseCase.self)!
             let getSystemStatusUseCase = resolver.resolve(GetSystemStatusUseCase.self)!
-            return NavigationViewModel(usecaseAuth, playerUseCase, localizationUseCase, getSystemStatusUseCase)
+            let localStorageRepo = resolver.resolve(LocalStorageRepositoryImpl.self)!
+            return NavigationViewModel(usecaseAuth, playerUseCase, localizationUseCase, getSystemStatusUseCase, localStorageRepo)
         }
         container.register(LoginViewModel.self) { resolver in
             let usecaseAuthentication = resolver.resolve(AuthenticationUseCase.self)!
@@ -567,7 +570,7 @@ class DIContainer {
         container.register(PlayerViewModel.self) { resolver in
             let playerUseCase = resolver.resolve(PlayerDataUseCase.self)!
             let authUseCase = resolver.resolve(AuthenticationUseCase.self)!
-            return PlayerViewModel(playerUseCase: playerUseCase, authUsecase: authUseCase)
+            return PlayerViewModel(playerUseCase: playerUseCase, authUseCase: authUseCase)
         }
         container.register(UploadPhotoViewModel.self) { resolver in
             let imageUseCase = resolver.resolve(UploadImageUseCase.self)!
@@ -679,8 +682,9 @@ class DIContainer {
             return CommonOtpViewModel(usecaseConfiguration)
         }
         container.register(ConfigurationViewModel.self) { resolver in
-            let usecaseConfiguration = resolver.resolve(ConfigurationUseCase.self)!
-            return ConfigurationViewModel(usecaseConfiguration)
+            let useCaseConfiguration = resolver.resolve(ConfigurationUseCase.self)!
+            let localStorageRepo = resolver.resolve(LocalStorageRepositoryImpl.self)!
+            return ConfigurationViewModel(useCaseConfiguration, localStorageRepo)
         }
         container.register(AppSynchronizeViewModel.self) { resolver in
             let appUpdateUseCase = resolver.resolve(AppVersionUpdateUseCase.self)!

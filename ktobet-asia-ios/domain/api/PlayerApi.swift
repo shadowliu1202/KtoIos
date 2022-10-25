@@ -134,13 +134,13 @@ class PlayerApi: ApiService {
         return httpClient.request(target).map(ResponseData<String>.self)
     }
     
-    func getCultureCode() -> Single<ResponseData<String>> {
+    func getCultureCode() -> Single<NonNullResponseData<String>> {
         let target = APITarget(baseUrl: httpClient.host,
                                path: "api/init/culture",
                                method: .get,
                                task: .requestPlain,
                                header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<String>.self)
+        return httpClient.request(target).map(NonNullResponseData<String>.self)
     }
     
     func getPlayerAffiliateStatus() -> Single<NonNullResponseData<Int32>>{

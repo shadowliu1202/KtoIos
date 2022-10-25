@@ -12,7 +12,6 @@ protocol ProductBaseCollection: AnyObject {
 }
 
 class DisplayGameCollectionBaseViewController: ProductsViewController, ProductVCProtocol {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setup()

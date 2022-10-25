@@ -7,6 +7,7 @@ import TYCyclePagerView
 import AlignedCollectionViewFlowLayout
 
 class SlotViewController: ProductsViewController {
+    
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var recentlyCollectionView: LoadMoreCollectionView!
     @IBOutlet var newCollectionView: LoadMoreCollectionView!
@@ -21,12 +22,17 @@ class SlotViewController: ProductsViewController {
     @IBOutlet var newViewHeight: NSLayoutConstraint!
     @IBOutlet var jackpotViewHeight: NSLayoutConstraint!
 
+    private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
+    private lazy var viewModel = DI.resolve(SlotViewModel.self)!
+    private var disposeBag = DisposeBag()
+    
     var barButtonItems: [UIBarButtonItem] = []
     var datas = [SlotGame]()
     var maxGamesDisplay = 8
     lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self, cellType: .loadMore) }()
     lazy var newGameDataSourceDelegate = { return ProductGameDataSourceDelegate(self, cellType: .loadMore) }()
     lazy var jackpotGameDataSourceDelegate = { return ProductGameDataSourceDelegate(self, cellType: .loadMore) }()
+    
     lazy var pagerView: TYCyclePagerView = {
         let pagerView = TYCyclePagerView()
         pagerView.isInfiniteLoop = true
@@ -37,12 +43,10 @@ class SlotViewController: ProductsViewController {
         pagerView.backgroundView = UIImageView()
         return pagerView
     }()
-    private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
-    private var viewModel = DI.resolve(SlotViewModel.self)!
-    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("\(type(of: self)) viewDidLoad.")
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
         self.bind(position: .right, barButtonItems: .kto(.search), .kto(.favorite), .kto(.record))
         self.scrollView.addSubview(self.pagerView)
@@ -186,6 +190,10 @@ class SlotViewController: ProductsViewController {
         }
         
         self.showToastOnCenter(ToastPopUp(icon: icon!, text: text))
+    }
+    
+    override func setProductType() -> ProductType {
+        .slot
     }
 }
 

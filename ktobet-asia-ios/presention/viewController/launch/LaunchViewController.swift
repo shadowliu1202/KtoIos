@@ -3,18 +3,22 @@ import RxSwift
 import SharedBu
 
 class LaunchViewController: UIViewController {
-    private let viewModel = DI.resolve(NavigationViewModel.self)!
-    private let disposeBag = DisposeBag()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private let viewModel = DI.resolve(NavigationViewModel.self)!
+    
+    private var disposeBag = DisposeBag()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         viewModel.initLaunchNavigation()
             .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: executeNavigation, onFailure: handleErrors).disposed(by: disposeBag)
+            .subscribe(onSuccess: executeNavigation, onFailure: handleErrors)
+            .disposed(by: disposeBag)
     }
     
     deinit {
-        print("\(type(of: self)) deinit")
+        Logger.shared.info("\(type(of: self)) deinit.")
+        CustomServicePresenter.shared.initCustomerService()
     }
     
     override func handleErrors(_ error: Error) {
@@ -31,30 +35,18 @@ class LaunchViewController: UIViewController {
         Alert.shared.show(title, message ,confirm: { exit(0) }, confirmText: Localize.string("common_confirm"), cancel: nil)
     }
     
-    private func executeNavigation(navigation: NavigationViewModel.LobbyPageNavigation) {
+    private func executeNavigation(navigation: NavigationViewModel.LaunchPageNavigation) {
         switch navigation {
-        case .portalAllMaintenance:
-            navigateToPortalMaintenancePage()
-        case .notLogin:
-            playVideo(onCompleted: navigateToLandingPage)
-        case .playerDefaultProduct(let product):
-            navigateToProductPage(product)
-        case .alternativeProduct(let defaultProduct, let alternativeProduct):
-            navigateToMaintainPage(defaultProduct)
-            alertMaintenance(product: defaultProduct, onConfirm: {
-                self.navigateToProductPage(alternativeProduct)
+        case .Landing:
+            playVideo(onCompleted: { [weak self] in
+                self?.navigateToLandingPage()
             })
-        case .setDefaultProduct:
-            navigateToSetDefaultProductPage()
+        case .Lobby(let productType):
+            navigateToProductPage(productType)
         }
-    }
-    
-    private func initCustomerService() {
-        CustomServicePresenter.shared.initCustomerService()
     }
 
     private func navigateToPortalMaintenancePage() {
-        initCustomerService()
         NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
     }
     
@@ -67,28 +59,14 @@ class LaunchViewController: UIViewController {
     }
     
     private func navigateToLandingPage() {
-        initCustomerService()
         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
     }
     
     private func navigateToProductPage(_ productType: ProductType) {
-        initCustomerService()
-        NavigationManagement.sharedInstance.goTo(productType: productType)
-    }
-    
-    private func navigateToMaintainPage(_ type: ProductType) {
-        initCustomerService()
-        NavigationManagement.sharedInstance.goTo(productType: type, isMaintenance: true)
-    }
-    
-    private func alertMaintenance(product: ProductType, onConfirm: @escaping (() -> Void)) {
-        Alert.shared.show(Localize.string("common_maintenance_notify"),
-                   Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: product)),
-                   confirm: onConfirm, cancel: nil)
-    }
-    
-    private func navigateToSetDefaultProductPage() {
-        initCustomerService()
-        NavigationManagement.sharedInstance.goToSetDefaultProduct()
+        if productType == .none {
+            NavigationManagement.sharedInstance.goToSetDefaultProduct()
+        } else {
+            NavigationManagement.sharedInstance.goTo(productType: productType)
+        }
     }
 }

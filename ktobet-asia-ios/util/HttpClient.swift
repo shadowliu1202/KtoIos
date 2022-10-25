@@ -18,7 +18,6 @@ import RxBlocking
 let debugCharCount = 500
 
 class HttpClient {
-    
     var headers : [String : String] {
         var header : [String : String] = [:]
         header["Accept"] = "application/json"
@@ -34,12 +33,6 @@ class HttpClient {
 
         return header
     }
-    
-    private var provider: MoyaProvider<MultiTarget>!
-    private var retryProvider: MoyaProvider<MultiTarget>!
-    private var session: Session { return AF }
-    private var playConfig: PlayerLocaleConfiguration
-    private let ktoUrl: KtoURL
     var host: URL {
         get {
             if Configuration.manualControlNetwork && !NetworkStateMonitor.shared.isNetworkConnected {
@@ -53,18 +46,27 @@ class HttpClient {
             host.absoluteString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
         }
     }
-
+    
+    private var provider: MoyaProvider<MultiTarget>!
+    private var retryProvider: MoyaProvider<MultiTarget>!
+    private var session: Session { return AF }
     private var retrier = APIRequestRetrier()
-    private(set) var debugDatas: [DebugData] = []
     private var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.calendar = Calendar(identifier: .iso8601)
         dateFormatter.locale = Locale(identifier: "zh_Hant_TW")
         return dateFormatter
     }
+    
+    private(set) var debugDatas: [DebugData] = []
 
-    init(playConfig: PlayerLocaleConfiguration, ktoUrl: KtoURL) {
+    private let playConfig: PlayerLocaleConfiguration
+    private let localStorageRepo: LocalStorageRepositoryImpl
+    private let ktoUrl: KtoURL
+
+    init(_ playConfig: PlayerLocaleConfiguration, _ localStorageRepo: LocalStorageRepositoryImpl, _ ktoUrl: KtoURL) {
         self.playConfig = playConfig
+        self.localStorageRepo = localStorageRepo
         self.ktoUrl = ktoUrl
         generateSession()
     }
@@ -104,7 +106,15 @@ class HttpClient {
                     return Single.error(err)
                 }
                 return Single.just(response)
+                    .do(onSuccess: { [unowned self] _ in
+                        self?.refreshLastAPISuccessDate()
+                    })
             })
+    }
+    
+    private func refreshLastAPISuccessDate() {
+        localStorageRepo.setLastAPISuccessDate(Date())
+        Logger.shared.debug("refresh API success date.")
     }
 
     func getCookies() -> [HTTPCookie] {

@@ -7,6 +7,7 @@ import TYCyclePagerView
 
 
 class NumberGameViewController: DisplayProduct {
+    
     @IBOutlet weak var blurImageBackgroundView: UIImageView!
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet weak var tagsStackView: GameTagStackView!
@@ -18,12 +19,15 @@ class NumberGameViewController: DisplayProduct {
     @IBOutlet var gamesCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var blurBackgroundViewHeight: NSLayoutConstraint!
     
-    private var viewModel = DI.resolve(NumberGameViewModel.self)!
+    private lazy var viewModel = DI.resolve(NumberGameViewModel.self)!
     private var disposeBag = DisposeBag()
-    lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
+    
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
+    
+    lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     var datas = [NumberGame]()
     var barButtonItems: [UIBarButtonItem] = []
+    
     lazy var pagerView: TYCyclePagerView = {
         let pagerView = TYCyclePagerView()
         pagerView.isInfiniteLoop = true
@@ -34,6 +38,7 @@ class NumberGameViewController: DisplayProduct {
         pagerView.backgroundView = UIImageView()
         return pagerView
     }()
+    
     var dropDownItem: [(contentText: String, isSelected: Bool, sorting: GameSorting)] = [(Localize.string("product_hot_sorting"), true, .popular),
                                                                                          (Localize.string("product_name_sorting"), false, .gamename),
                                                                                          (Localize.string("product_release_sorting"), false, .releaseddate)]
@@ -75,6 +80,7 @@ class NumberGameViewController: DisplayProduct {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("\(type(of: self)) viewDidLoad.")
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
         self.bind(position: .right, barButtonItems: .kto(.search), .kto(.favorite), .kto(.record))
         scrollView.addSubview(pagerView)
@@ -195,6 +201,10 @@ class NumberGameViewController: DisplayProduct {
     
     func setViewModel() -> DisplayProductViewModel? {
         return viewModel
+    }
+    
+    override func setProductType() -> ProductType {
+        .numbergame
     }
 }
 

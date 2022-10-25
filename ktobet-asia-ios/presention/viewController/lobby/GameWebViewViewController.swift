@@ -56,7 +56,7 @@ class GameWebViewViewController: UIViewController {
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
-        self.delegate?.gameDidDisappear(productType: viewModel?.getGameProductType())
+        self.delegate?.gameDisappear()
         CustomServicePresenter.shared.isInGameWebView = false
     }
     
