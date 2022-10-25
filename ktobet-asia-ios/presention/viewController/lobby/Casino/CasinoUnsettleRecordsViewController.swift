@@ -4,6 +4,7 @@ import SharedBu
 
 
 class CasinoUnsettleRecordsViewController: ProductsViewController {
+    
     static let segueIdentifier = "toCasinoUnsettleRecords"
     @IBOutlet private weak var tableView: UITableView!
     
@@ -54,6 +55,10 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
         }, onError: {[weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
+    }
+    
+    override func setProductType() -> ProductType {
+        .casino
     }
 }
 

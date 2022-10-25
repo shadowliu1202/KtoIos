@@ -4,28 +4,36 @@ import SharedBu
 
 class ProductsViewController: LobbyViewController {
     private var disposeBag = DisposeBag()
-    private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
-    private let playerViewModel = DI.resolve(PlayerViewModel.self)!
-    private var productType: ProductType?
+    private lazy var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private lazy var playerViewModel = DI.resolve(PlayerViewModel.self)!
+    private var productType: ProductType!
+    override func viewDidLoad() {
+       super.viewDidLoad()
+       self.productType = setProductType()
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         observeSystemStatus()
     }
 
+    func setProductType() -> ProductType {
+        fatalError("implements in sub class")
+    }
+    
     private func observeSystemStatus() {
         serviceViewModel.output.portalMaintenanceStatus.subscribe(onNext: { [weak self] status in
-            guard let self = self, let productType = self.productType else { return }
+            guard let self = self else { return }
             switch status {
             case is MaintenanceStatus.AllPortal:
                 self.playerViewModel.logout()
-                    .subscribeOn(MainScheduler.instance)
+                    .subscribe(on: MainScheduler.instance)
                     .subscribe(onCompleted: { [weak self] in
                         self?.showLoginMaintenanAlert()
                     }).disposed(by: self.disposeBag)
             case let productStatus as MaintenanceStatus.Product:
-                if productStatus.isProductMaintain(productType: productType) {
-                    NavigationManagement.sharedInstance.goTo(productType: productType, isMaintenance: true)
+                if productStatus.isProductMaintain(productType: self.productType) {
+                    NavigationManagement.sharedInstance.goTo(productType: self.productType, isMaintenance: true)
                 }
             default:
                 break
@@ -42,7 +50,7 @@ class ProductsViewController: LobbyViewController {
     }
     
     func goToWebGame(viewModel: ProductWebGameViewModelProtocol, gameId: Int32, gameName: String) {
-        viewModel.createGame(gameId: gameId).subscribeOn(MainScheduler.instance).subscribe { (url) in
+        viewModel.createGame(gameId: gameId).subscribe(on: MainScheduler.instance).subscribe { (url) in
             let storyboard = UIStoryboard(name: "Product", bundle: nil)
             let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
             if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
@@ -53,7 +61,7 @@ class ProductsViewController: LobbyViewController {
                 navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
                 self.present(navi, animated: true, completion: nil)
             }
-        } onError: { [weak self] in
+        } onFailure: { [weak self] in
             self?.handleErrors($0)
         }.disposed(by: disposeBag)
     }
@@ -72,8 +80,7 @@ class ProductsViewController: LobbyViewController {
 }
 
 extension ProductsViewController: WebGameViewCallback {
-    func gameDidDisappear(productType: ProductType?) {
-        self.productType = productType
+    func gameDisappear() {
         self.gameDidDisappear()
     }
 }

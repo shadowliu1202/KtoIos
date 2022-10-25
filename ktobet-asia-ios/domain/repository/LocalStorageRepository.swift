@@ -20,6 +20,8 @@ class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration
     let kCountDownEndTime = "countDownEndTime"
     let kUserName = "userName"
     let KcultureCode = "cultureCode"
+    let KplayerInfoCache = "playerInfoCache"
+    let KlastAPISuccessDate = "lastAPISuccessDate"
 
     override init() {
         super.init()
@@ -100,6 +102,18 @@ class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration
     func getLocale() -> Locale {
         return Locale(identifier: getCultureCode())
     }
+    
+    func getPlayerInfo() -> PlayerInfoCache? {
+        do {
+            return try getObject(forKey: KplayerInfoCache, castTo: PlayerInfoCache.self)
+        } catch {
+            return nil
+        }
+    }
+    
+    func getLastAPISuccessDate() -> Date? {
+        return getUserDefaultValue(key: KlastAPISuccessDate)
+    }
 
     func setRememberMe(_ rememberMe: Bool?) {
         setUserDefaultValue(value: rememberMe, key: kRememberMe)
@@ -143,6 +157,18 @@ class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration
     
     func setCultureCode(_ cultureCode: String) {
         setUserDefaultValue(value: cultureCode, key: KcultureCode)
+    }
+    
+    func setPlayerInfo(_ playerInfo: PlayerInfoCache?) {
+        do {
+            try setObject(playerInfo, forKey: KplayerInfoCache)
+        } catch {
+            Logger.shared.error(error)
+        }
+    }
+    
+    func setLastAPISuccessDate(_ time: Date?) {
+        return setUserDefaultValue(value: time, key: KlastAPISuccessDate)
     }
 
     private func setUserDefaultValue<T>(value: T?, key: String) {

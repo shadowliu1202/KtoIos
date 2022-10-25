@@ -36,7 +36,7 @@ extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewContr
 
 
 class CustomServicePresenter: NSObject {
-    static var shared: CustomServicePresenter = DI.resolve(CustomServicePresenter.self)!
+    static let shared: CustomServicePresenter = DI.resolve(CustomServicePresenter.self)!
     
     var isInSideMenu: Bool = false {
         willSet(inSideMenu) {
@@ -90,9 +90,9 @@ class CustomServicePresenter: NSObject {
     private let storyboard = UIStoryboard(name: "CustomService", bundle: nil)
     private let isCSIconAppear = BehaviorRelay.init(value: false)
     private let disposeBag = DisposeBag()
-    private var testDisposeBag = DisposeBag()
     
     init(_ customerServiceViewModel: CustomerServiceViewModel, _ surveyViewModel: SurveyViewModel) {
+        Logger.shared.info("\(type(of: self)) init.")
         csViewModel = customerServiceViewModel
         self.surveyViewModel = surveyViewModel
         super.init()
@@ -113,6 +113,7 @@ class CustomServicePresenter: NSObject {
     }
     
     func initCustomerService() {
+        Logger.shared.info("CustomerService init.")
         self.csViewModel.searchChatRoom().asCompletable().andThen(self.csViewModel.preLoadChatRoomStatus)
             .first()
             .observe(on: MainScheduler.instance)

@@ -7,16 +7,41 @@ protocol KtoURL {
 
 extension KtoURL {
     func checkNetwork(urlString: String) -> Bool {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 4
-        let session = AlamofireSessionWithRetrier(configuration: configuration)
-        let result = request(session: session, hostName: urlString).toBlocking()
-        do{
-            return try result.single()
-        } catch {
-            return false
+            let group = DispatchGroup()
+            group.enter()
+            var isSuccess = false
+            guard let url = URL(string: "https://\(urlString)") else {
+                group.leave()
+                return isSuccess
+            }
+
+            var request = URLRequest(url: url)
+            request.httpMethod = "HEAD"
+            let configuration = URLSessionConfiguration.default
+            configuration.timeoutIntervalForRequest = 4
+            URLSession(configuration: configuration)
+                .dataTask(with: request) { (_, response, error) -> Void in
+                guard error == nil else {
+                    print("Error:", error ?? "")
+                    isSuccess = false
+                    group.leave()
+                    return
+                }
+
+                guard (response as? HTTPURLResponse)?
+                    .statusCode == 200 else {
+                    isSuccess = false
+                    group.leave()
+                    return
+                }
+
+                isSuccess = true
+                group.leave()
+            }.resume()
+
+            group.wait()
+            return isSuccess
         }
-    }
     
     private func request(session: Session, hostName: String) -> Single<Bool> {
         return RxSwift.Single<Bool>.create { observer in
@@ -37,7 +62,11 @@ extension KtoURL {
 }
 
 class PortalURL: KtoURL {
-    private lazy var hostName: [String: String] = Configuration.hostName.mapValues{ $0.first(where: checkNetwork) ?? $0.first! }
+    private lazy var hostName: [String: String] = Configuration.hostName
+        .mapValues {
+            Logger.shared.info("checkNetwork")
+            return $0.first(where: checkNetwork) ?? $0.first!
+        }
     lazy var baseUrl = hostName.mapValues{ "https://\($0)/" }
 }
 

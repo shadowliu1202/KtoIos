@@ -251,4 +251,8 @@ class SearchViewController: SearchProduct {
     func setViewModel() -> ProductViewModel? {
         return viewModel
     }
+    
+    override func setProductType() -> ProductType {
+        viewModel!.getGameProductType()
+    }
 }

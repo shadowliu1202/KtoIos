@@ -4,18 +4,21 @@ import SharedBu
 
 class ArcadeViewController: DisplayProduct {
     
-    var barButtonItems: [UIBarButtonItem] = []
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tagsStackView: GameTagStackView!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
-    private var viewModel = DI.resolve(ArcadeViewModel.self)!
+    
+    private lazy var viewModel = DI.resolve(ArcadeViewModel.self)!
     private var disposeBag = DisposeBag()
+    
+    var barButtonItems: [UIBarButtonItem] = []
     
     lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("\(type(of: self)) viewDidLoad.")
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
         self.bind(position: .right, barButtonItems: .kto(.search), .kto(.favorite), .kto(.record))
         initUI()
@@ -71,6 +74,10 @@ class ArcadeViewController: DisplayProduct {
     
     func setViewModel() -> DisplayProductViewModel? {
         return viewModel
+    }
+    
+    override func setProductType() -> ProductType {
+        .arcade
     }
 }
 

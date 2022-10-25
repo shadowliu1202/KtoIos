@@ -4,6 +4,7 @@ import RxCocoa
 import SharedBu
 
 class DefaultProductViewController: LobbyViewController {
+    
     @IBOutlet private weak var btnIgnore: UIBarButtonItem!
     @IBOutlet private weak var btnInfo : UIButton!
     @IBOutlet private weak var labTitle : UILabel!
@@ -11,10 +12,13 @@ class DefaultProductViewController: LobbyViewController {
     @IBOutlet private weak var btnNext : UIButton!
     
     private let segueLobby = "BackToLobby"
-    private let httpClient = DI.resolve(HttpClient.self)!
-    private let viewModel = DI.resolve(DefaultProductViewModel.self)!
+    
     private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     private let navigationViewModel = DI.resolve(NavigationViewModel.self)!
+
+    private lazy var httpClient = DI.resolve(HttpClient.self)!
+    private lazy var viewModel = DI.resolve(DefaultProductViewModel.self)!
+    
     private var disposeBag = DisposeBag()
     private var games: [ProductType] = [.sbk, .casino, .slot, .numbergame]
     private var currentSelectGame: ProductType?
@@ -22,6 +26,7 @@ class DefaultProductViewController: LobbyViewController {
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("\(type(of: self)) viewDidLoad.")
         defaultStyle()
     }
     
@@ -59,7 +64,7 @@ class DefaultProductViewController: LobbyViewController {
                 default:
                     fatalError("Should not reach here.")
                 }
-            }, onError: { error in
+            }, onFailure: { error in
                 self.handleErrors(error)
             }).disposed(by: disposeBag)
     }

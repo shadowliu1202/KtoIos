@@ -36,21 +36,39 @@ class SetMainPageViewController: LobbyViewController {
     }
     
     private func dataBinding() {
-        viewModel.fetchDefaultProduct().subscribe(onSuccess: { [weak self] in
-            self?.changeSelected($0)
-        }, onError: { [weak self] in
-            self?.handleErrors($0)
-            self?.submitBtn.isValid = false
-        }).disposed(by: disposeBag)
-        submitBtn.rx.touchUpInside.bind(onNext: { [unowned self] in
-            self.submitBtn.isEnabled = false
-            let _ = self.viewModel.saveDefaultProduct(productType: self.selectedProduct).subscribe(onCompleted: { [weak self] in
-                self?.popThenToastSuccess()
+        viewModel.fetchDefaultProduct()
+            .subscribe(onSuccess: { [weak self] in
+                self?.changeSelected($0)
+            }, onFailure: { [weak self] in
+                self?.handleErrors($0)
+                self?.submitBtn.isValid = false
+            })
+            .disposed(by: disposeBag)
+        
+        submitBtn.rx.touchUpInside
+            .bind(onNext: { [weak self] in
+                self?.submitBtn.isEnabled = false
+                self?.saveDefaultProduct()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func saveDefaultProduct() {
+        viewModel
+            .saveDefaultProduct(productType: self.selectedProduct)
+            .subscribe(onCompleted: { [weak self] in
+                guard let self = self else {
+                    Logger.shared.debug("Missing reference.")
+                    return
+                }
+                
+                self.popThenToastSuccess()
+                self.viewModel.refreshPlayerInfoCache(self.selectedProduct)
             }, onError: { [weak self] in
                 self?.submitBtn.isEnabled = true
                 self?.handleErrors($0)
             })
-        }).disposed(by: disposeBag)
+            .disposed(by: disposeBag)
     }
     
     private func changeSelected(_ productType: ProductType) {

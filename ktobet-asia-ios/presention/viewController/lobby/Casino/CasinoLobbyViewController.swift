@@ -63,4 +63,8 @@ class CasinoLobbyViewController: DisplayProduct {
     func setViewModel() -> DisplayProductViewModel? {
         return viewModel
     }
+    
+    override func setProductType() -> ProductType {
+        .casino
+    }
 }

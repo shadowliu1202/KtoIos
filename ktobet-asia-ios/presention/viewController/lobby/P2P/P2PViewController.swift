@@ -9,19 +9,21 @@ class P2PViewController: ProductsViewController {
     
     @IBOutlet private weak var tableView: UITableView!
         
-    var barButtonItems: [UIBarButtonItem] = []
-    private var viewModel = DI.resolve(P2PViewModel.self)!
+    private lazy var viewModel = DI.resolve(P2PViewModel.self)!
     private var disposeBag = DisposeBag()
+
+    var barButtonItems: [UIBarButtonItem] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("\(type(of: self)) viewDidLoad.")
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
         self.bind(position: .right, barButtonItems: .kto(.record))
         
         let dataSource = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
             return self.viewModel.getAllGames().asObservable()
         }).share(replay: 1)
-        dataSource.catchError({ [weak self] (error) -> Observable<[P2PGame]> in
+        dataSource.catch({ [weak self] (error) -> Observable<[P2PGame]> in
             self?.handleErrors(error)
             return Observable.just([])
         }).bind(to: tableView.rx.items) {tableView, row, item in
@@ -63,11 +65,15 @@ class P2PViewController: ProductsViewController {
             default:
                 break
             }
-        } onError: { (error) in
+        } onFailure: { (error) in
             if error.isMaintenance() {
                 NavigationManagement.sharedInstance.goTo(productType: .p2p, isMaintenance: true)
             }
         }.disposed(by: disposeBag)
+    }
+    
+    override func setProductType() -> ProductType {
+        .p2p
     }
 }
 

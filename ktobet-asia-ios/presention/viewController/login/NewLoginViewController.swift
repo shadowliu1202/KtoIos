@@ -4,22 +4,26 @@ import RxSwift
 import SharedBu
 
 class NewLoginViewController: LandingViewController {
-    private let segueSignup = "GoToSignup"
+    
     @IBOutlet weak var logoItem: UIBarButtonItem!
     
     var barButtonItems: [UIBarButtonItem] = []
-    private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+    
+    private let segueSignup = "GoToSignup"
     
     private let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private let register = UIBarButtonItem.kto(.register)
     private let spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
     private let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
     
-    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
     private let disposeBag = DisposeBag()
+    
+    private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+    private lazy var serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("\(type(of: self)) viewDidLoad.")
         logoItem.image = UIImage(named: "KTO (D)")?.withRenderingMode(.alwaysOriginal)
         var barButtoms = [padding, register, spacing, customService]
         if Configuration.manualUpdate {
@@ -27,6 +31,32 @@ class NewLoginViewController: LandingViewController {
             barButtoms.append(contentsOf: [spacing2, update])
         }
         self.bind(position: .right, barButtonItems: barButtoms)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        observeSystemStatus()
+    }
+    
+    private func observeSystemStatus() {
+        serviceStatusViewModel.output.portalMaintenanceStatus.subscribe(onNext: { [weak self] status in
+            guard let self = self else {
+                Logger.shared.debug("Get status fail: missing reference.")
+                return
+            }
+            
+            switch status {
+            case is MaintenanceStatus.AllPortal:
+                self.navigateToPortalMaintenancePage()
+            case is MaintenanceStatus.Product:
+                break
+            default:
+                break
+            }
+            
+        }, onError: { [weak self] error in
+            self?.handleErrors(error)
+        }).disposed(by: disposeBag)
     }
     
     private func localize() {

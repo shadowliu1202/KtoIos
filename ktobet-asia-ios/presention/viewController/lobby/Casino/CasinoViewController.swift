@@ -7,7 +7,6 @@ import SideMenu
 
 class CasinoViewController: DisplayProduct {
 
-    var barButtonItems: [UIBarButtonItem] = []
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var lobbyCollectionView: CasinoLobbyCollectionView!
@@ -15,18 +14,24 @@ class CasinoViewController: DisplayProduct {
     @IBOutlet weak var lobbyCollectionHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsStackView: GameTagStackView!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
-    private var lobbies: [CasinoLobby] = []
-    lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
+    
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
+    
+    private var lobbies: [CasinoLobby] = []
     
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
     private var viewModel = DI.resolve(CasinoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
+    
     private var lobbyHeight: CGFloat = 0
     private var gamesHeight: CGFloat = 0
+
+    var barButtonItems: [UIBarButtonItem] = []
+    lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Logger.shared.info("\(type(of: self)) viewDidLoad.")
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
         self.bind(position: .right, barButtonItems: .kto(.search), .kto(.favorite), .kto(.record))
         initUI()
@@ -78,8 +83,8 @@ class CasinoViewController: DisplayProduct {
                 self?.lobbyCollectionHeight.constant = 0
             })
             .map({$1})
-            .catchErrorJustReturn([])
-            .subscribeOn(MainScheduler.instance)
+            .catchAndReturn([])
+            .subscribe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] (lobbies) in
                 guard let `self` = self else { return }
                 self.lobbies = lobbies
@@ -126,6 +131,10 @@ class CasinoViewController: DisplayProduct {
     
     func setViewModel() -> DisplayProductViewModel? {
         return viewModel
+    }
+    
+    override func setProductType() -> ProductType {
+        .casino
     }
 }
 

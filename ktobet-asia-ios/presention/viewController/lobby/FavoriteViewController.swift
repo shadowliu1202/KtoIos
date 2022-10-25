@@ -83,4 +83,8 @@ class FavoriteViewController: DisplayProduct {
     func setViewModel() -> DisplayProductViewModel? {
         return viewModel
     }
+    
+    override func setProductType() -> ProductType {
+        viewModel!.getGameProductType()
+    }
 }

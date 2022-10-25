@@ -89,6 +89,10 @@ class SlotSeeMoreViewController: DisplayProduct {
     func setViewModel() -> DisplayProductViewModel? {
         return viewModel
     }
+    
+    override func setProductType() -> ProductType {
+        .slot
+    }
 }
 
 extension SlotSeeMoreViewController: BarButtonItemable {

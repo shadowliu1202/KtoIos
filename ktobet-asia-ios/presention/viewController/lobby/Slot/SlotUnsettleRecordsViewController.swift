@@ -76,6 +76,10 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }
+    
+    override func setProductType() -> ProductType {
+        .slot
+    }
 }
 
 extension SlotUnsettleRecordsViewController: ProductGoWebGameVCProtocol, UnsettleTableViewDelegate {

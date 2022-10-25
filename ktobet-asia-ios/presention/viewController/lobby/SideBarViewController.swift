@@ -60,7 +60,6 @@ class SideBarViewController: LobbyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
-        initProducts()
         initFeatures()
         eventHandler()
         dataBinding()
@@ -169,7 +168,7 @@ class SideBarViewController: LobbyViewController {
             guard let self = self else { return }
             CustomServicePresenter.shared.close(completion: {
                 self.viewModel.logout()
-                    .subscribeOn(MainScheduler.instance)
+                    .subscribe(on: MainScheduler.instance)
                     .subscribe(onCompleted: {
                         if isMaintain {
                             NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
@@ -225,37 +224,97 @@ class SideBarViewController: LobbyViewController {
     }
     
     fileprivate func dataBinding() {
-        viewModel.playerBalance.drive {[unowned self] _ in
-            self.setBalanceHiddenState(isHidden: self.viewModel.getBalanceHiddenState(gameId: self.player?.gameId ?? ""))
-        }.disposed(by: disposeBag)
-        
-        let shareLoadPlayerInfo = refreshTrigger.flatMapLatest {[weak self] _ -> Observable<Player> in
-            guard let self = self else { return Observable.error(KTOError.EmptyData)}
-            return self.viewModel.loadPlayerInfo()
-        }.share(replay: 1)
-        
-        shareLoadPlayerInfo.compactMap{ $0.defaultProduct }.bind(to: serviceViewModel.input.playerDefaultProductType).disposed(by: disposeBag)
-        serviceViewModel.output.maintainDefaultType.drive(onNext: {[weak self] maintainType in
-            if self?.slideViewModel.currentSelectedProductType == nil {
-                self?.slideViewModel.currentSelectedProductType = maintainType
+        viewModel.playerBalance
+            .drive {[unowned self] _ in
+                self.setBalanceHiddenState(isHidden: self.viewModel.getBalanceHiddenState(gameId: self.player?.gameId ?? ""))
             }
-            
-            self?.listProduct.reloadData()
-        }).disposed(by: disposeBag)
+            .disposed(by: disposeBag)
         
-        serviceViewModel.output.portalMaintenanceStatus.subscribe(onNext: {[weak self] status in
-            self?.updateMaintainStatus(status)
-        }).disposed(by: disposeBag)
+        let shareLoadPlayerInfo = refreshTrigger
+            .flatMapLatest {[weak self] _ -> Observable<Player> in
+                guard let self = self else { return Observable.error(KTOError.EmptyData)}
+                return self.viewModel.loadPlayerInfo()
+            }
+            .share(replay: 1)
         
-        shareLoadPlayerInfo.subscribe(onNext: { [weak self] (player) in
-            guard let self = self else { return }
-            self.player = player
-            self.labUserLevel.text = "LV\(player.playerInfo.level)"
-            self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
-            self.labUserName.text = "\(player.playerInfo.gameId)"
-        }, onError: { [weak self] (error) in
-            self?.handleErrors(error)
-        }).disposed(by: self.disposeBag)
+        shareLoadPlayerInfo
+            .compactMap{ $0.defaultProduct }
+            .bind(to: serviceViewModel.input.playerDefaultProductType)
+            .disposed(by: disposeBag)
+        
+        viewModel.loadPlayerInfo()
+            .do(onNext: { [weak self] player in
+                guard let self = self else {
+                    Logger.shared.debug("Load player fail: missing reference.")
+                    return
+                }
+
+                if self.slideViewModel.currentSelectedProductType == nil {
+                    self.slideViewModel.currentSelectedProductType = player.defaultProduct
+                }
+            })
+            .flatMap({ [weak self] _ -> Observable<[ProductItem]> in
+                guard let self = self else { return .just([]) }
+                
+                return Observable
+                    .combineLatest(
+                        self.slideViewModel.arrProducts,
+                        self.serviceViewModel.output.productsMaintainTime
+                    )
+                    .map { (productItems, maintainTimes) in
+                        productItems.map { item in
+                            ProductItem(
+                                title: item.title,
+                                image: item.image,
+                                type: item.type,
+                                maintainTime: maintainTimes.first(where: { $0.productType == item.type })?.maintainTime
+                            )
+                        }
+                    }
+            })
+            .catch({ [weak self] error in
+                self?.handleErrors(error)
+                return .just([])
+            })
+            .bind(to: self.listProduct.rx.items) { [weak self] collection, row, data in
+                guard let self = self,
+                      let cell = collection.dequeueReusableCell(withReuseIdentifier: "ProductItemCell", for: [0, row]) as? ProductItemCell
+                else { return .init() }
+
+                cell.setup(data)
+                cell.finishCountDown = { [weak self] in
+                    self?.serviceViewModel.refreshProductStatus()
+                }
+
+                if let selectedProductType = self.slideViewModel.currentSelectedProductType, data.type == selectedProductType {
+                    cell.setSelectedIcon(selectedProductType, isSelected: true)
+                    self.listProduct.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .init())
+                } else {
+                    cell.setSelectedIcon(data.type, isSelected: false)
+                }
+                
+                return cell
+            }
+            .disposed(by: disposeBag)
+                
+        serviceViewModel.output
+            .portalMaintenanceStatus
+            .subscribe(onNext: {[weak self] status in
+                self?.updateMaintainStatus(status)
+            })
+            .disposed(by: disposeBag)
+        
+        shareLoadPlayerInfo
+            .subscribe(onNext: { [weak self] (player) in
+                guard let self = self else { return }
+                self.player = player
+                self.labUserLevel.text = "LV\(player.playerInfo.level)"
+                self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
+                self.labUserName.text = "\(player.playerInfo.gameId)"
+            }, onError: { [weak self] (error) in
+                self?.handleErrors(error)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     private func updateMaintainStatus(_ status: MaintenanceStatus) {
@@ -267,29 +326,6 @@ class SideBarViewController: LobbyViewController {
         default:
             break
         }
-    }
-    
-    fileprivate func initProducts() {
-        Observable.combineLatest(slideViewModel.arrProducts, serviceViewModel.output.productsMaintainTime)
-            .map { (productItems, maintainTimes) in
-                productItems.map { item in
-                    ProductItem(title: item.title,
-                                image: item.image,
-                                type: item.type,
-                                maintainTime: maintainTimes.first(where: { $0.productType == item.type })?.maintainTime) }
-            }.bind(to: self.listProduct.rx.items(cellIdentifier: String(describing: ProductItemCell.self), cellType: ProductItemCell.self)) { [weak self] (index, data, cell) in
-                guard let self = self else { return }
-                cell.setup(data)
-                cell.finishCountDown = { [weak self] in
-                    self?.serviceViewModel.refreshProductStatus()
-                }
-                if let selectedProductType = self.slideViewModel.currentSelectedProductType, data.type == selectedProductType {
-                    cell.setSelectedIcon(selectedProductType, isSelected: true)
-                    self.listProduct.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .init())
-                } else {
-                    cell.setSelectedIcon(data.type, isSelected: false)
-                }
-            }.disposed(by: disposeBag)
     }
     
     fileprivate func initFeatures() {

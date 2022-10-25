@@ -3,8 +3,9 @@ import SharedBu
 import RxSwift
 
 class LobbyViewController: APPViewController, VersionUpdateProtocol {
-    private let playerViewModel = DI.resolve(PlayerViewModel.self)!
-    var appSyncViewModel = DI.resolve(AppSynchronizeViewModel.self)!
+    private lazy var playerViewModel = DI.resolve(PlayerViewModel.self)!
+    
+    lazy var appSyncViewModel = DI.resolve(AppSynchronizeViewModel.self)!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -20,7 +21,7 @@ class LobbyViewController: APPViewController, VersionUpdateProtocol {
     }
     
     private func executeLogout() {
-        playerViewModel.logout().subscribeOn(MainScheduler.instance).subscribe(onCompleted: { [weak self] in
+        playerViewModel.logout().subscribe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
             self?.versionSyncDisposeBag = DisposeBag()
             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
         }, onError: {

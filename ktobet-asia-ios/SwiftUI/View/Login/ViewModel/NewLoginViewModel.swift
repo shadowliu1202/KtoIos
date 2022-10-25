@@ -116,12 +116,12 @@ class NewLoginViewModel: ObservableObject {
                 let setting = PlayerSetting(accountLocale: player.locale(), defaultProduct: player.defaultProduct)
                 return self.navigationViewModel.initLoginNavigation(playerSetting: setting)
             })
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] (navigation: NavigationViewModel.LobbyPageNavigation) in
                 self.loginOnSuccess()
                 self.disableLoginButton = false
                 callBack(navigation, nil)
-            }, onError: { [unowned self] error in
+            }, onFailure: { [unowned self] error in
                 guard let loginFail = error as? LoginException else {
                     callBack(nil, error)
                     return

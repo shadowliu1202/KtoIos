@@ -3,20 +3,23 @@ import RxSwift
 import SharedBu
 
 class PlayerViewModel {
-    private var playerUseCase : PlayerDataUseCase!
-    private var authUsecase : AuthenticationUseCase!
+    
+    private let playerUseCase: PlayerDataUseCase
+    private let authUseCase: AuthenticationUseCase
     
     private(set) var balance: String?
-    var refreshBalance = PublishSubject<(Void)>()
+
     lazy var playerBalance = refreshBalance.flatMapLatest{_ in
         self.playerUseCase.getBalance()
             .map { "\($0.symbol) \($0.formatString())" }
             .do(onSuccess: { self.balance = $0 })
     }.asDriver(onErrorJustReturn: "")
+
+    var refreshBalance = PublishSubject<(Void)>()
                 
-    init(playerUseCase: PlayerDataUseCase, authUsecase: AuthenticationUseCase) {
+    init(playerUseCase: PlayerDataUseCase, authUseCase: AuthenticationUseCase) {
         self.playerUseCase = playerUseCase
-        self.authUsecase = authUsecase
+        self.authUseCase = authUseCase
     }
     
     func loadPlayerInfo() -> Observable<Player> {
@@ -36,13 +39,13 @@ class PlayerViewModel {
     }
     
     func logout() -> Completable {
-        authUsecase.logout().do(afterCompleted: {
+        authUseCase.logout().do(afterCompleted: {
             DI.resetObjectScope(.locale)
         })
     }
     
     func checkIsLogged() -> Single<Bool>{
-        authUsecase.isLogged()
+        authUseCase.isLogged()
     }
 }
 
