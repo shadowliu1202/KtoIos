@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-final class CryptoDepositViewModel: CollectErrorViewModel, ViewModelType {
+class CryptoDepositViewModel: CollectErrorViewModel, ViewModelType {
     private(set) var input: Input!
     private(set) var output: Output!
 

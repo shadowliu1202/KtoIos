@@ -104,6 +104,13 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
         SingleWrapper(inner: SingleByEmitterKt.single { emitter in
             let swiftDisposable = self.subscribe { jsonString in
                 let json = JSON(parseJSON: jsonString)
+                if let statusCode = json["statusCode"].string, let errorMsg = json["errorMsg"].string, statusCode.count > 0 && errorMsg.count > 0 {
+                    let domain = ""
+                    let code = Int(statusCode) ?? 0
+                    let error = NSError(domain: domain, code: code, userInfo: ["statusCode": statusCode , "errorMsg" : errorMsg]) as Error
+                    emitter.onError(error: ExceptionFactory.create(error))
+                    return
+                }
                 let item : ResponseItem<T> = ResponseItem.init(data: json["data"].rawValue as! T, errorMsg: "", node: "", statusCode: "")
                 emitter.onSuccess(value: item)
             } onError: { error in

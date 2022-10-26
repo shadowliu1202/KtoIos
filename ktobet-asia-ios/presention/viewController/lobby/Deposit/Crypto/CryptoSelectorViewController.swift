@@ -7,10 +7,11 @@ class CryptoSelectorViewController: LobbyViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var confrimButton: UIButton!
+    var alert: AlertProtocol = DI.resolve(Alert.self)!
     
     static let segueIdentifier = "toCryptoSelector"
     
-    private var viewModel = DI.resolve(CryptoDepositViewModel.self)!
+    var viewModel = DI.resolve(CryptoDepositViewModel.self)!
     private let navigator = DI.resolve(DepositNavigator.self)!
     private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
     private var disposeBag = DisposeBag()
@@ -57,6 +58,20 @@ class CryptoSelectorViewController: LobbyViewController {
         viewModel.errors().subscribe(onNext: {[weak self] error in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
+    }
+    
+    override func handleErrors(_ error: Error) {
+        if error is PlayerDepositCountOverLimit {
+            self.notifyTryLaterAndPopBack()
+        } else {
+            super.handleErrors(error)
+        }
+    }
+    
+    private func notifyTryLaterAndPopBack() {
+        alert.show(nil, Localize.string("deposit_notify_request_later"), confirm: {
+            NavigationManagement.sharedInstance.popViewController()
+        }, cancel: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
