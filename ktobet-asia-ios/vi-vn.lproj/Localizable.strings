@@ -1,5 +1,4 @@
 
-
 //MARK: - CPS
 "cps_kto" = "KTO";
 "cps_daily_limit_widthrawal_amount" = "Số Tiền Rút khả dụng hôm nay：%@";
@@ -584,7 +583,7 @@ Vui lòng Xác Minh.";
 "deposit_file_format_invalid" = "File của Quý Khách không phù hợp với định dạng hệ thống.";
 "deposit_crypto_warning" = "Khi Quý Khách gửi vào Crypto thành công, Quý Khách cần rút về bằng với Số Crypto đã gửi vào, trước khi có thể rút Tiền Mặt.";
 "deposit_pay_multiple_hint" = "";
-"deposit_notify_request_later" = "Quý Khách có 3 giao dịch Gửi Tiền đang chờ xử lý, vui lòng thử lại sau 3 phút.";
+"deposit_notify_request_later" = "Quý Khách có 5 giao dịch Gửi Tiền đang chờ xử lý, vui lòng thử lại sau 3 phút.";
 "deposit_cps_hint" = "Khuyến Mãi: Thưởng Gửi Tiền.";
 "deposit_multiple_hint" = "温馨提示：支持支付宝、微信、网上银行、云闪付，支付宝微信如果遇到错误提示，尝试使用网银或者云闪付，以便您的款项实时到账。";
 "deposit_float_hint" = "请您提交带有小数点的金额，以便您的存款更快到账。";

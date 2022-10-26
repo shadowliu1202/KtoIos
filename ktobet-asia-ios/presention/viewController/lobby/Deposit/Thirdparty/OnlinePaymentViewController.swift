@@ -7,6 +7,7 @@ class OnlinePaymentViewController: LobbyViewController {
     static let segueIdentifier = "toOnlinePaymentSegue"
     
     var selectedOnlinePayment: PaymentsDTO.Online!
+    var alert: AlertProtocol = DI.resolve(Alert.self)!
     
     private lazy var onlineDepositViewModel = OnlineDepositViewModel(selectedOnlinePayment: selectedOnlinePayment)
     
@@ -53,5 +54,19 @@ class OnlinePaymentViewController: LobbyViewController {
         Alert.shared.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_online_terminate"), confirm: { 
             NavigationManagement.sharedInstance.popViewController()
         }, cancel: { })
+    }
+    
+    override func handleErrors(_ error: Error) {
+        if error is PlayerDepositCountOverLimit {
+            self.notifyTryLaterAndPopBack()
+        } else {
+            super.handleErrors(error)
+        }
+    }
+    
+    private func notifyTryLaterAndPopBack() {
+        alert.show(nil, Localize.string("deposit_notify_request_later"), confirm: {
+            NavigationManagement.sharedInstance.popViewController()
+        }, cancel: nil)
     }
 }

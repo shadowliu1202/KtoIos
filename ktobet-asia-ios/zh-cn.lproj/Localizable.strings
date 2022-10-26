@@ -1,5 +1,4 @@
 
-
 //MARK: - CPS
 "cps_kto" = "KTO";
 "cps_daily_limit_widthrawal_amount" = "每日提现额度：%@";
@@ -575,7 +574,7 @@
 "deposit_file_format_invalid" = "您的档案不符合系统格式";
 "deposit_crypto_warning" = "“虚拟币充值” 成功后需要提现等额的虚拟币才能使用 “现金提现”。";
 "deposit_pay_multiple_hint" = "温馨提示：支持支付宝、微信、网上银行、云闪付，支付宝微信如果遇到错误提示，尝试使用网银或者云闪付，以便您的款项实时到账。";
-"deposit_notify_request_later" = "您有三个待处理的充值请求，请您过三分钟后再试";
+"deposit_notify_request_later" = "您有五个待处理的充值请求，请您过三分钟后再试";
 "deposit_cps_hint" = "推广：存款优惠";
 "deposit_multiple_hint" = "温馨提示：支持支付宝、微信、网上银行、云闪付，支付宝微信如果遇到错误提示，尝试使用网银或者云闪付，以便您的款项实时到账。";
 "deposit_float_hint" = "请您提交带有小数点的金额，以便您的存款更快到账。";
@@ -755,7 +754,7 @@
 "withdrawal_bankcard_branch_placeholder" = "上海分行";
 "withdrawal_bankcard_state_placeholder" = "浙江省";
 "withdrawal_bankcard_city_placeholder" = "上海市";
-"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
+"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
 "withdrawal_bankcard_change_confirm_title" = "是否要变更姓名?";
 "withdrawal_bankcard_change_confirm_content" = "如需要变更姓名，请前往个人设定";
 "withdrawal_step2_title_1_tip" = "本次申请提现金额为";

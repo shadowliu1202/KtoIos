@@ -38,6 +38,8 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     
     @IBOutlet private weak var bankImageViewWidthConstraint: NSLayoutConstraint!
     
+    private let alert: AlertProtocol = DI.resolve(Alert.self)!
+    
     var depositSuccess = false
     
     fileprivate var offlineViewModel = DI.resolve(OfflineViewModel.self)!
@@ -166,6 +168,20 @@ class DepositOfflineConfirmViewController: LobbyViewController {
                 self?.validDepositTimeLabel.text = String(format: "%02d:%02d:%02d", hh, mm, ss)
             }
         }
+    }
+    
+    override func handleErrors(_ error: Error) {
+        if error is PlayerDepositCountOverLimit {
+            self.notifyTryLaterAndPopBack()
+        } else {
+            super.handleErrors(error)
+        }
+    }
+    
+    private func notifyTryLaterAndPopBack() {
+        alert.show(nil, Localize.string("deposit_notify_request_later"), confirm: {
+            NavigationManagement.sharedInstance.popViewController()
+        }, cancel: nil)
     }
     
     deinit {

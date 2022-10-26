@@ -976,7 +976,7 @@
         <!--Crypto Selector View Controller-->
         <scene sceneID="MNJ-p0-9it">
             <objects>
-                <viewController id="Avu-Ft-lF9" customClass="CryptoSelectorViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CryptoSelectorViewController" id="Avu-Ft-lF9" customClass="CryptoSelectorViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FZb-UK-SrM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2285,7 +2285,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Oqv-Be-XzM"/>
-        <segue reference="hkd-5J-lSd"/>
+        <segue reference="keF-G9-Ps9"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="CNY-28" width="32" height="32"/>
