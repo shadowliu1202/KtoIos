@@ -124,6 +124,23 @@ platform :ios do
 			UI.user_error!("No selectable options(option:test,dev,rc,pro,hotfix,selftest,backup)")
 		end
 	end
+ 
+    lane :getSkipBuildArchive do |options|
+        preRelease = options[:preRelease]
+        puts "Get #{preRelease}"
+        case options[:preRelease]
+        when 'rc'
+            true
+        when 'release'
+            true
+        when 'selftest'
+            false
+        when 'backup'
+            false
+        else
+            UI.user_error!("Should not set skip_build_archive in env:test,dev,hotfix)")
+        end
+    end
 
     lane :buildIpaStaging  do |options|
         buildIpaStgCN(options)
@@ -319,6 +336,7 @@ platform :ios do
         setupKeyStore()
 		identifier  = getIdentifier(preRelease: options[:releaseTarget])
 		env = getEnviroment(preRelease: options[:releaseTarget])
+        isSkipBuildArchive = getSkipBuildArchive(preRelease: options[:releaseTarget])
 		plistPath = "ktobet-asia-ios/ktobet-asia-ios-#{env}-Info.plist"
 		scheme = "ktobet-asia-ios-#{env}"
 		match(type: "appstore", readonly: is_ci, app_identifier: identifier)
@@ -330,7 +348,7 @@ platform :ios do
 
 		gym(configuration: "Release",
 			scheme: scheme,
-			skip_build_archive: true,
+			skip_build_archive: isSkipBuildArchive,
             archive_path: "./output/#{env}.xcarchive",
 			include_bitcode: true,
 			include_symbols: true,
