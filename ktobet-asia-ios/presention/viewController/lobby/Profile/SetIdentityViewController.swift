@@ -13,7 +13,7 @@ class SetIdentityViewController: LobbyViewController {
     @IBOutlet private weak var constraintErrorHeight: NSLayoutConstraint!
     @IBOutlet private weak var errorLabel: UILabel!
     
-    var delegate: SetIdentityProtocol!
+    var delegate: SetIdentityDelegate!
     
     private var viewModel = DI.resolve(CommonOtpViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -65,12 +65,20 @@ class SetIdentityViewController: LobbyViewController {
                 self.showErrorTip(identity: text)
             }).disposed(by: disposeBag)
         
-        settingButton.rx.throttledTap.subscribe(onNext: { [unowned self] in
-            self.delegate.modifyIdentity(identity: self.inputIdentity.textContent.text!)
-                .subscribe(onCompleted: { [weak self] in
-                    self?.viewModel.otpRetryCount = 0
-                }).disposed(by: disposeBag)
-        }).disposed(by: disposeBag)
+        settingButton.rx.throttledTap
+            .withUnretained(self)
+            .flatMap({ owner, _ in
+                owner.delegate.modifyIdentity(identity: owner.inputIdentity.textContent.text!)
+                    .do(onCompleted: { [weak self] in
+                        guard let self = self else { return }
+                        
+                        self.viewModel.otpRetryCount = 0
+                        self.delegate.navigateToOtpSent(identity: self.inputIdentity.textContent.text!)
+                    })
+                    .asObservable()
+            })
+            .subscribe()
+            .disposed(by: disposeBag)
 
         delegate.handleErrors().subscribe(onNext: { [unowned self] error in
             if error.isUnauthorized() {
@@ -191,10 +199,13 @@ class SetIdentityViewController: LobbyViewController {
     }
 }
 
-protocol SetIdentityProtocol {
+protocol SetIdentityDelegate {
+    var setIdentityArgs: SetIdentityArgs { get }
+    var viewModel: ModifyProfileViewModel { get }
+
     func modifyIdentity(identity: String) -> Completable
     func handleErrors() -> Observable<Error>
-    var setIdentityArgs: SetIdentityArgs { get }
+    func navigateToOtpSent(identity: String)
 }
 
 struct SetIdentityArgs {

@@ -33,7 +33,7 @@ class OldMobileVerifyViewController: OtpViewControllerProtocol {
     
     private func navigateToSetMobileIdentity() {
         let setIdentityViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "SetIdentityViewController") as! SetIdentityViewController
-        setIdentityViewController.delegate = SetMobileIdentityViewController(mode: .oldModify)
+        setIdentityViewController.delegate = SetMobileIdentity(mode: .oldModify)
         NavigationManagement.sharedInstance.pushViewController(vc: setIdentityViewController)
     }
 }

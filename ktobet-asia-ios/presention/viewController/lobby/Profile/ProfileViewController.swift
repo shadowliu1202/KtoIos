@@ -224,7 +224,7 @@ struct EmailAccountType: AccountTypeProtocol {
 
     func navigateToSetNewIdentity() {
         let setIdentityViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "SetIdentityViewController") as! SetIdentityViewController
-        setIdentityViewController.delegate = SetEmailIdentityViewController(mode: .new)
+        setIdentityViewController.delegate = SetEmailIdentity(mode: .new)
         NavigationManagement.sharedInstance.pushViewController(vc: setIdentityViewController)
     }
 }
@@ -243,7 +243,7 @@ struct MobileAccounType: AccountTypeProtocol {
 
     func navigateToSetNewIdentity() {
         let setIdentityViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "SetIdentityViewController") as! SetIdentityViewController
-        setIdentityViewController.delegate = SetMobileIdentityViewController(mode: .new)
+        setIdentityViewController.delegate = SetMobileIdentity(mode: .new)
         NavigationManagement.sharedInstance.pushViewController(vc: setIdentityViewController)
     }
 }

@@ -8,6 +8,8 @@ class ModifyProfileViewModel: CollectErrorViewModel {
     private var configurationUseCase: ConfigurationUseCase!
     private var withdrawalUseCase: WithdrawalUseCase!
     private var accountPatternGenerator: AccountPatternGenerator!
+    
+    let disposeBag = DisposeBag()
 
     var relayPassword = BehaviorRelay(value: "")
     lazy var isAffiliateMember = playerUseCase.isAffiliateMember()
@@ -108,11 +110,13 @@ class ModifyProfileViewModel: CollectErrorViewModel {
     }
     
     func modifyEmail(email: String) -> Completable {
-        playerUseCase.setEmail(email).compose(self.applyCompletableErrorHandler())
+        playerUseCase.setEmail(email)
+            .compose(self.applyCompletableErrorHandler())
     }
     
     func modifyMobile(mobile: String) -> Completable {
-        playerUseCase.setMobile(mobile).compose(self.applyCompletableErrorHandler())
+        playerUseCase.setMobile(mobile)
+            .compose(self.applyCompletableErrorHandler())
     }
     
     var otpRetryCount: Int {

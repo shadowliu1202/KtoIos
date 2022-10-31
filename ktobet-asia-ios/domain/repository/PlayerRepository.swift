@@ -289,21 +289,22 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
     
     func setIdentity(_ identity: String, _ accountType: AccountType) -> Completable {
-        playerApi.bindIdentity(request: RequestChangeIdentity(account: identity, bindProfileType: accountType.rawValue)).catchException(transferLogic: {
-            switch $0 {
-            case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:
-                return KtoOtpMaintenance()
-            case is PlayerProfileInvalidInput, is PlayerProfileValidateFail, is PlayerProfileAlreadyExist:
-                let exception = $0 as! ApiException
-                return UnhandledException(message: exception.message, errorCode: exception.errorCode)
-            case is PlayerProfileOldAccountVerifyFail:
-                return KtoOldProfileValidateFail()
-            case is PlayerIdOverOtpLimit, is PlayerIpOverOtpDailyLimit, is PlayerResentOtpOverTenTimes, is PlayerResentOtpLessResendTime:
-                return KtoPlayerOverOtpDailySendLimit()
-            default:
-                return $0
-            }
-        }).asCompletable()
+        playerApi.bindIdentity(request: RequestChangeIdentity(account: identity, bindProfileType: accountType.rawValue))
+            .catchException(transferLogic: {
+                switch $0 {
+                case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:
+                    return KtoOtpMaintenance()
+                case is PlayerProfileInvalidInput, is PlayerProfileValidateFail, is PlayerProfileAlreadyExist:
+                    let exception = $0 as! ApiException
+                    return UnhandledException(message: exception.message, errorCode: exception.errorCode)
+                case is PlayerProfileOldAccountVerifyFail:
+                    return KtoOldProfileValidateFail()
+                case is PlayerIdOverOtpLimit, is PlayerIpOverOtpDailyLimit, is PlayerResentOtpOverTenTimes, is PlayerResentOtpLessResendTime:
+                    return KtoPlayerOverOtpDailySendLimit()
+                default:
+                    return $0
+                }
+            }).asCompletable()
     }
 }
 
