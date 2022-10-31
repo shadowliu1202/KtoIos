@@ -63,16 +63,17 @@ class SystemRepositoryImpl : SystemRepository{
     }
     
     private func updateMaintenanceStatus() -> Single<MaintenanceStatus> {
-        portalApi.getProductStatus().map { try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil) }
+        portalApi.getProductStatus()
+            .map { try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil) }
             .do(onSuccess: { self.productStatusChange.onNext($0) })
-            .catchError({ [weak self] error in
-            guard let self = self else { return Single.error(error) }
-            if error.isMaintenance() {
-                return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
-            } else {
-                return Single.error(error)
-            }
-        })
+            .catch({ [weak self] error in
+                guard let self = self else { return Single.error(error) }
+                if error.isMaintenance() {
+                    return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
+                } else {
+                    return Single.error(error)
+                }
+            })
     }
     
     private func getMaintenanceTimeFromCookies() -> KotlinInt? {
