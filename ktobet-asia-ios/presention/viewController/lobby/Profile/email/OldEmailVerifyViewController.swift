@@ -33,7 +33,7 @@ class OldEmailVerifyViewController: OtpViewControllerProtocol {
     
     private func navigateToSetEmailIdentity() {
         let setIdentityViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "SetIdentityViewController") as! SetIdentityViewController
-        setIdentityViewController.delegate = SetEmailIdentityViewController(mode: .oldModify)
+        setIdentityViewController.delegate = SetEmailIdentity(mode: .oldModify)
         NavigationManagement.sharedInstance.pushViewController(vc: setIdentityViewController)
     }
 }

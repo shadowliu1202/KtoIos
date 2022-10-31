@@ -2,11 +2,12 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class SetMobileIdentityViewController: SetIdentityProtocol {
-    var setIdentityArgs: SetIdentityArgs
-    
-    private var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+class SetMobileIdentity: SetIdentityDelegate {
     private var mode: ModifyMode
+
+    private(set) var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+
+    var setIdentityArgs: SetIdentityArgs    
     
     init(mode: ModifyMode) {
         self.mode = mode
@@ -14,16 +15,16 @@ class SetMobileIdentityViewController: SetIdentityProtocol {
     }
     
     func modifyIdentity(identity: String) -> Completable {
-        viewModel.modifyMobile(mobile: identity).do(onCompleted: {[weak self] in self?.navigateToOtpSent(mobile: identity) })
+        viewModel.modifyMobile(mobile: identity)
     }
 
     func handleErrors() -> Observable<Error> {
         viewModel.errors()
     }
     
-    private func navigateToOtpSent(mobile: String) {
+    func navigateToOtpSent(identity: String) {
         let commonVerifyOtpViewController = UIStoryboard(name: "Common", bundle: nil).instantiateViewController(withIdentifier: "CommonVerifyOtpViewController") as! CommonVerifyOtpViewController
-        let verifyNewMobileViewController = VerifyNewMobileViewController(mobile: mobile, mode: mode)
+        let verifyNewMobileViewController = VerifyNewMobileViewController(mobile: identity, mode: mode)
         commonVerifyOtpViewController.delegate = verifyNewMobileViewController
         NavigationManagement.sharedInstance.pushViewController(vc: commonVerifyOtpViewController)
     }
