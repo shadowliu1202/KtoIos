@@ -11,11 +11,8 @@ class NavigationViewModel {
     }
     
     enum LobbyPageNavigation {
-        //TODO: Split Lobby and Launch
         case portalAllMaintenance
-        case notLogin
         case playerDefaultProduct(ProductType)
-        case alternativeProduct(ProductType, ProductType)
         case setDefaultProduct
     }
     
@@ -66,11 +63,8 @@ class NavigationViewModel {
     }
     
     func getLobbyNavigation(_ playerSetting: PlayerSetting, _ productStatus: MaintenanceStatus.Product) -> LobbyPageNavigation {
-        let alternativeProduct = playerSetting.applyBackupStrategy(maintenanceStatus: productStatus)
         if playerSetting.defaultProduct == ProductType.none {
             return .setDefaultProduct
-        } else if playerSetting.defaultProduct != alternativeProduct {
-            return .alternativeProduct(playerSetting.defaultProduct!, alternativeProduct!)
         } else {
             return .playerDefaultProduct(playerSetting.defaultProduct!)
         }

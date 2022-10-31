@@ -83,15 +83,8 @@ class NewLoginViewController: LandingViewController {
         switch navigation {
         case .portalAllMaintenance:
             navigateToPortalMaintenancePage()
-        case .notLogin:
-            assertionFailure("Should not reach here.")
         case .playerDefaultProduct(let product):
             navigateToProductPage(product)
-        case .alternativeProduct(let defaultProduct, let alternativeProduct):
-            navigateToMaintainPage(defaultProduct)
-            alertMaintenance(product: defaultProduct, onConfirm: {
-                self.navigateToProductPage(alternativeProduct)
-            })
         case .setDefaultProduct:
             navigateToSetDefaultProductPage()
         }

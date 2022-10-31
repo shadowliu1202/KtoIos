@@ -73,15 +73,8 @@ class DefaultProductViewController: LobbyViewController {
         switch navigation {
         case .portalAllMaintenance:
             navigateToPortalMaintenancePage()
-        case .notLogin:
-            assertionFailure("Should not reach here.")
         case .playerDefaultProduct(let product):
             navigateToProductPage(product)
-        case .alternativeProduct(let defaultProduct, let alternativeProduct):
-            navigateToMaintainPage(defaultProduct)
-            alertMaintenance(product: defaultProduct, onConfirm: {
-                self.navigateToProductPage(alternativeProduct)
-            })
         case .setDefaultProduct:
             assertionFailure("Should not reach here.")
         }
@@ -95,16 +88,6 @@ class DefaultProductViewController: LobbyViewController {
     
     private func navigateToProductPage(_ productType: ProductType) {
         NavigationManagement.sharedInstance.goTo(productType: productType)
-    }
-    
-    private func navigateToMaintainPage(_ type: ProductType) {
-        NavigationManagement.sharedInstance.goTo(productType: type, isMaintenance: true)
-    }
-    
-    private func alertMaintenance(product: ProductType, onConfirm: @escaping (() -> Void)) {
-        Alert.shared.show(Localize.string("common_maintenance_notify"),
-                   Localize.string("common_default_product_maintain_content", StringMapper.parseProductTypeString(productType: product)),
-                   confirm: onConfirm, cancel: nil)
     }
     
     @IBAction func btnInfoPressed(_ sender: UIButton){
