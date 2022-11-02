@@ -112,7 +112,7 @@ fileprivate class StagingConfig: Env {
 
 fileprivate class ProductionConfig: Env {
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["appkto.com", "thekto.app"],
-                                        SupportLocale.Vietnam.shared.cultureCode(): ["ktovn.app", "lobby.ktoviet.app:9000"]]
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["ktovn.app", "ktoviet.app"]]
     var versionUpdateHostName: [String : [String]] = [SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
                                                       SupportLocale.Vietnam.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"]]
     var isAutoUpdate: Bool = true
@@ -138,7 +138,7 @@ fileprivate class ProductionSelftestConfig: Env {
 
 fileprivate class ProductionBackupConfig: Env {
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["thekto.app"],
-                                        SupportLocale.Vietnam.shared.cultureCode(): ["thekto.app"]]
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["ktoviet.app"]]
     var versionUpdateHostName: [String : [String]] = [SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
                                                       SupportLocale.Vietnam.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"]]
     var isAutoUpdate: Bool = true
