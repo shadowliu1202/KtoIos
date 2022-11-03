@@ -41,8 +41,13 @@ class NavigationViewModel {
     func initLaunchNavigation() -> Single<LaunchPageNavigation> {
         guard let playerInfoCache = localStorageRepo.getPlayerInfo() else { return .just(.Landing) }
         let defaultProduct = ProductType.convert(playerInfoCache.defaultProduct)
-
-        return Single.just(authUseCase.IsLastAPISuccessDateExpire() ? .Landing : .Lobby(defaultProduct))
+        
+        if authUseCase.IsLastAPISuccessDateExpire() {
+            localStorageRepo.setPlayerInfo(nil)
+            return .just(.Landing)
+        } else {
+            return .just(.Lobby(defaultProduct))
+        }
     }
     
     func initLoginNavigation(playerSetting: PlayerSetting) -> Single<LobbyPageNavigation> {
