@@ -7,7 +7,6 @@ import NotificationBannerSwift
 import RxRelay
 
 class SportBookViewController: LobbyViewController {
-    
     private let isWebLoadSuccess = BehaviorRelay<Bool>(value: false)
     
     private var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
@@ -17,15 +16,20 @@ class SportBookViewController: LobbyViewController {
     }()
     private var banner: NotificationBanner?
     
-    private lazy var httpClient = DI.resolve(HttpClient.self)!
-    private lazy var localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-    private lazy var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private lazy var httpClient = Injectable.resolveWrapper(HttpClient.self)
+    private lazy var localStorageRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
+        
     private var disposeBag = DisposeBag()
+    
+    lazy var playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
+    lazy var serviceViewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         Logger.shared.info("\(type(of: self)) viewDidLoad.")
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_sportsbook"))
+        
         self.view.addSubview(self.activityIndicator, constraints: [
             .equal(\.centerXAnchor),
             .equal(\.centerYAnchor)
@@ -33,25 +37,44 @@ class SportBookViewController: LobbyViewController {
         self.activityIndicator.startAnimating()
         self.setupWebView()
         
-        serviceViewModel.output.portalMaintenanceStatus.subscribe(onNext: { status in
-            switch status {
-            case let product as MaintenanceStatus.Product:
-                if product.isProductMaintain(productType: .sbk) {
-                    NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
+        serviceViewModel.output.portalMaintenanceStatus
+            .subscribe(onNext: { [weak self] status in
+                guard let self = self else { return }
+                    
+                switch status {
+                case is MaintenanceStatus.AllPortal:
+                    self.playerViewModel.logout()
+                        .subscribe(on: MainScheduler.instance)
+                        .subscribe(onCompleted: { [weak self] in
+                            self?.showLoginMaintenanAlert()
+                        })
+                        .disposed(by: self.disposeBag)
+                    
+                case let productStatus as MaintenanceStatus.Product:
+                    if productStatus.isProductMaintain(productType: .sbk) {
+                        NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
+                    }
+                    
+                default:
+                    break
                 }
-            default:
-                break
-            }
-        }, onError: { [weak self] error in
-            self?.handleErrors(error)
-        }).disposed(by: disposeBag)
-        Observable.combineLatest(networkConnectRelay, isWebLoadSuccess).subscribe(onNext: { [unowned self] isNetworkConnected, isWebLoadSuccess in
-            guard isWebLoadSuccess == false else { return }
-            if isNetworkConnected {
-                self.loadURL(webView: self.webView, urlString: self.sbkWebUrlString)
-            }
-        }).disposed(by: disposeBag)
+            }, onError: { [weak self] error in
+                self?.handleErrors(error)
+            })
+            .disposed(by: disposeBag)
         
+        Observable
+            .combineLatest(
+                networkConnectRelay,
+                isWebLoadSuccess
+            )
+            .subscribe(onNext: { [unowned self] isNetworkConnected, isWebLoadSuccess in
+                guard isWebLoadSuccess == false else { return }
+                if isNetworkConnected {
+                    self.loadURL(webView: self.webView, urlString: self.sbkWebUrlString)
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     deinit {

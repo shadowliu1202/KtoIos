@@ -11,8 +11,8 @@ class RecentDetailViewController: LobbyViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
-    
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -95,7 +95,7 @@ extension RecentDetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let item = detailItem else { return UITableViewCell() }
-        let cell =  self.tableView.dequeueReusableCell(withIdentifier: "RecentDetailCell", cellType: RecentDetailCell.self).configure(index: indexPath.row, data: item, supportLocal: playerLocaleConfiguration.getSupportLocale())
+        let cell =  self.tableView.dequeueReusableCell(withIdentifier: "RecentDetailCell", cellType: RecentDetailCell.self).configure(index: indexPath.row, data: item, supportLocal: localStorageRepo.getSupportLocale())
         cell.removeBorder()
         if indexPath.row != 0 {
             cell.addBorder()

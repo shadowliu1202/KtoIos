@@ -301,11 +301,11 @@ extension SharedBu.Instant {
     }
     
     private func convertToDateString(_ dateFormat: String) -> String {
-        let playerConfig = DI.resolve(PlayerConfiguration.self)!
+        let localRepo = Injectable.resolve(LocalStorageRepository.self)!
         let date = self.convertToDate()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
-        dateFormatter.timeZone = playerConfig.localeTimeZone()
+        dateFormatter.timeZone = localRepo.localeTimeZone()
         let localDate = dateFormatter.string(from: date)
         return localDate
     }

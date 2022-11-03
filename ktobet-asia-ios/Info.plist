@@ -68,10 +68,6 @@
 	<string>需要您的存取照片权限</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>UILaunchStoryboardName</key>
-	<string>Launch</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Launch</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

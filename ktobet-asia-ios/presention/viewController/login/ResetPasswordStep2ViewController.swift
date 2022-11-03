@@ -5,7 +5,7 @@ import RxDataSources
 class ResetPasswordStep2ViewController: OtpViewControllerProtocol {
     var commonVerifyOtpArgs: CommonVerifyOtpArgs
 
-    private var viewModel = DI.resolve(ResetPasswordViewModel.self)!
+    private var viewModel = Injectable.resolve(ResetPasswordViewModel.self)!
     private var disposeBag = DisposeBag()
     private var accountType: AccountType!
 

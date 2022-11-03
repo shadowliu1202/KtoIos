@@ -9,7 +9,7 @@ class NotificationSearchViewController: LobbyViewController {
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var keywordLengthTipLabel: UILabel!
 
-    private let viewModel = DI.resolve(NotificationViewModel.self)!
+    private let viewModel = Injectable.resolve(NotificationViewModel.self)!
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {

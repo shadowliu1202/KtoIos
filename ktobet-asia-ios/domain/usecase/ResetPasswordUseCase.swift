@@ -24,9 +24,9 @@ protocol ResetPasswordUseCase {
 
 class ResetPasswordUseCaseImpl : ResetPasswordUseCase {
     var authRepo: ResetPasswordRepository!
-    var localRepo: LocalStorageRepositoryImpl!
+    var localRepo: LocalStorageRepository!
     
-    init(_ authRepository : ResetPasswordRepository, localRepository: LocalStorageRepositoryImpl) {
+    init(_ authRepository : ResetPasswordRepository, localRepository: LocalStorageRepository) {
         self.authRepo = authRepository
         self.localRepo = localRepository
     }

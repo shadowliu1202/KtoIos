@@ -23,14 +23,14 @@ class NewLoginViewModel: ObservableObject {
     private let authUseCase : AuthenticationUseCase
     private let configUseCase : ConfigurationUseCase
     private let navigationViewModel: NavigationViewModel
-    private let localStorageRepo: LocalStorageRepositoryImpl
+    private let localStorageRepo: LocalStorageRepository
     private let timerOverLoginLimit : CountDownTimer = CountDownTimer()
     private let disposeBag = DisposeBag()
         
     init(_ authenticationUseCase : AuthenticationUseCase,
          _ configurationUseCase : ConfigurationUseCase,
          _ navigationViewModel: NavigationViewModel,
-         _ localStorageRepo: LocalStorageRepositoryImpl) {
+         _ localStorageRepo: LocalStorageRepository) {
         authUseCase = authenticationUseCase
         configUseCase = configurationUseCase
         self.navigationViewModel = navigationViewModel

@@ -54,7 +54,7 @@ extension String {
 //MARK: String to DateTime
 extension String {
     private static func getPlayerTimeZone() -> Foundation.TimeZone {
-        DI.resolve(PlayerConfiguration.self)!.localeTimeZone()
+        Injectable.resolve(LocalStorageRepository.self)!.localeTimeZone()
     }
     
     func toOffsetDateTime(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> OffsetDateTime {
@@ -155,9 +155,12 @@ extension String {
 
 extension String {
     func toAccountCurrency() -> AccountCurrency {
-        let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+        let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
         
-        return FiatFactory.shared.create(supportLocale: localStorageRepo.getSupportLocale(), amount_: self.replacingOccurrences(of: ",", with: ""))
+        return FiatFactory.shared.create(
+            supportLocale: localStorageRepo.getSupportLocale(),
+            amount_: self.replacingOccurrences(of: ",", with: "")
+        )
     }
     
     func toCryptoCurrency(cryptoCurrencyCode: Int?) -> CryptoCurrency {

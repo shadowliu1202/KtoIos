@@ -4,16 +4,13 @@ import SharedBu
 
 class LaunchViewController: UIViewController {
     
-    private let viewModel = DI.resolve(NavigationViewModel.self)!
-    
+    var viewModel = Injectable.resolveWrapper(NavigationViewModel.self)
+
     private var disposeBag = DisposeBag()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.initLaunchNavigation()
-            .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: executeNavigation, onFailure: handleErrors)
-            .disposed(by: disposeBag)
+        executeNavigation()
     }
     
     deinit {
@@ -35,8 +32,8 @@ class LaunchViewController: UIViewController {
         Alert.shared.show(title, message ,confirm: { exit(0) }, confirmText: Localize.string("common_confirm"), cancel: nil)
     }
     
-    private func executeNavigation(navigation: NavigationViewModel.LaunchPageNavigation) {
-        switch navigation {
+    func executeNavigation() {
+        switch viewModel.initLaunchNavigation() {
         case .Landing:
             playVideo(onCompleted: { [weak self] in
                 self?.navigateToLandingPage()

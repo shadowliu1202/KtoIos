@@ -5,7 +5,7 @@ import RxDataSources
 class CryptoVerifyMobileViewController: OtpViewControllerProtocol {
     var commonVerifyOtpArgs: CommonVerifyOtpArgs
     
-    private let viewModel = DI.resolve(CryptoVerifyViewModel.self)!
+    private let viewModel = Injectable.resolve(CryptoVerifyViewModel.self)!
     private let disposeBag = DisposeBag()
     
     init(identity: String) {

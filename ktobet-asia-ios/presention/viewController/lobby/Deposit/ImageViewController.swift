@@ -4,7 +4,7 @@ import SharedBu
 
 
 class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate {
-    private var httpClient = DI.resolve(HttpClient.self)!
+    private var httpClient = Injectable.resolve(HttpClient.self)!
     static let segueIdentifier = "toShowBigImageSegue"
     @IBOutlet private weak var imageView: UIImageView!
 

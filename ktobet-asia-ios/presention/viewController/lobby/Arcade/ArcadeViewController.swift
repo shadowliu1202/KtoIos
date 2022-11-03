@@ -9,7 +9,7 @@ class ArcadeViewController: DisplayProduct {
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
     
-    private lazy var viewModel = DI.resolve(ArcadeViewModel.self)!
+    private lazy var viewModel = Injectable.resolve(ArcadeViewModel.self)!
     private var disposeBag = DisposeBag()
     
     var barButtonItems: [UIBarButtonItem] = []

@@ -4,7 +4,7 @@ import RxSwift
 
 class RestrictedViewController: UIViewController {
 
-    private var viewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private var viewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
 
     override func viewDidLoad() {

@@ -26,7 +26,7 @@ extension AlertProtocol {
 }
 
 class Alert: AlertProtocol {
-    static let shared = Alert()
+    static var shared: AlertProtocol = Alert()
     
     private var alertOutsideBackground: UIView = {
         let view = UIView(frame: UIWindow.key!.frame)

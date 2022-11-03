@@ -4,7 +4,7 @@ import RxCocoa
 import SharedBu
 
 class ProfileViewController: LobbyViewController, AuthProfileVerification {
-    let httpClient = DI.resolve(HttpClient.self)!
+    let httpClient = Injectable.resolve(HttpClient.self)!
     @IBOutlet weak var passwordView: OneItemView!
     @IBOutlet weak var gameIdLabel: UILabel!
     @IBOutlet weak var tipsIcon: UIButton!
@@ -17,8 +17,8 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
     @IBOutlet weak var affiliateView: OneItemView!
     @IBOutlet weak var affiliateViewHeight: NSLayoutConstraint!
     
-    private var viewModel = DI.resolve(ModifyProfileViewModel.self)!
-    private var portalServiceViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
+    private var portalServiceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

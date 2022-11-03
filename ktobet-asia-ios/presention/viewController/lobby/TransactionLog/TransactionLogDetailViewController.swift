@@ -18,7 +18,7 @@ class TransactionLogDetailViewController: LobbyViewController {
     private var resultViewHeight: CGFloat = 0
     @IBOutlet weak var tableView: UITableView!
     let disposeBag = DisposeBag()
-    let viewModel = DI.resolve(TransactionLogViewModel.self)!
+    let viewModel = Injectable.resolve(TransactionLogViewModel.self)!
     private lazy var flow = TranscationFlowController(self, disposeBag: disposeBag)
     
     override func viewDidLoad() {

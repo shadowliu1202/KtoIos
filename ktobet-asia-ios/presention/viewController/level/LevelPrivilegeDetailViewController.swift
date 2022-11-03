@@ -27,8 +27,8 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
     private var arg: PrivilegeArg!
     private var cells: [UITableViewCell] = []
     private var disposeBag: DisposeBag = DisposeBag()
-    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
-    
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -72,7 +72,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
         
         let barAppearance = UINavigationBarAppearance()
         barAppearance.configureWithTransparentBackground()
-        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: Theme.shared.getNavigationTitleFont(by: playerLocaleConfiguration.getSupportLocale())]
+        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())]
         barAppearance.backgroundColor = UIColor.black_two90
         UINavigationBar.appearance().isTranslucent = true
         self.navigationController?.navigationBar.standardAppearance = barAppearance
@@ -154,13 +154,13 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
         
         let imageCell = tableView.dequeueReusableCell(withIdentifier: "LevelDetailImageTableViewCell") as! LevelDetailImageTableViewCell
         if level >= 1 && level <= 4 {
-            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group1-4", by: playerLocaleConfiguration.getSupportLocale())
+            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group1-4", by: localStorageRepo.getSupportLocale())
         } else if level >= 5 && level <= 6 {
-            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group5-6", by: playerLocaleConfiguration.getSupportLocale())
+            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group5-6", by: localStorageRepo.getSupportLocale())
         } else if level >= 7 && level <= 8 {
-            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group7-8", by: playerLocaleConfiguration.getSupportLocale())
+            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group7-8", by: localStorageRepo.getSupportLocale())
         } else {
-            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group9+", by: playerLocaleConfiguration.getSupportLocale())
+            imageCell.slotImageView.image = Theme.shared.getUIImage(name: "group9+", by: localStorageRepo.getSupportLocale())
         }
         
         cells.append(imageCell)

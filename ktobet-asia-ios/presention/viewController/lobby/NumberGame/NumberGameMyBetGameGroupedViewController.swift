@@ -8,7 +8,7 @@ import RxDataSources
 class NumberGameMyBetGameGroupedViewController: LobbyViewController {
     static let segueIdentifier = "toNumberGameMyBetGameGrouped"
     
-    let viewModel = DI.resolve(NumberGameRecordViewModel.self)!
+    let viewModel = Injectable.resolve(NumberGameRecordViewModel.self)!
     private var disposeBag = DisposeBag()
     
     @IBOutlet private weak var tableView: UITableView!

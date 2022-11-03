@@ -30,8 +30,8 @@ class SignupLanguageViewController: LandingViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var constraintTableHeight: NSLayoutConstraint!
     
-    private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
-    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private let segueLogin = "BackToLogin"
     private let segueInfo = "GoToInfo"
     private let segueTerms = "GoToTermsOfService"
@@ -143,7 +143,7 @@ class SignupLanguageViewController: LandingViewController {
         }
         refreshLocalize()
         languageChangeHandler?()
-        DI.resetObjectScope(.locale)
+        Injectable.resetObjectScope(.locale)
         CustomServicePresenter.shared.changeCsDomainIfNeed()
         tableView.reloadData()
     }

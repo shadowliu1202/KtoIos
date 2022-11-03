@@ -10,7 +10,7 @@ class SetBirthdayViewController: LobbyViewController, AuthProfileVerification {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var submitBtn: UIButton!
    
-    private var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
     private var disposeBag = DisposeBag()
     private var calendarBackground: UIView!
     

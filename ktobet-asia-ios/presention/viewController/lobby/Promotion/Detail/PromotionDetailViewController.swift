@@ -25,7 +25,7 @@ class PromotionDetailViewController: LobbyViewController {
     
     fileprivate var disposeBag = DisposeBag()
     
-    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    private var localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,7 +146,7 @@ class PromotionDetailViewController: LobbyViewController {
     
     private func setStatusImageView(_ isAutoUse: Bool) {
         if isAutoUse {
-            statusImageView.image = Theme.shared.getUIImage(name: "promotionAutoUse", by: playerLocaleConfiguration.getSupportLocale())
+            statusImageView.image = Theme.shared.getUIImage(name: "promotionAutoUse", by: localStorageRepo.getSupportLocale())
             statusImageView.isHidden = false
         } else {
             statusImageView.isHidden = true

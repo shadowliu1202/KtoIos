@@ -7,13 +7,13 @@ class CryptoSelectorViewController: LobbyViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var confrimButton: UIButton!
-    var alert: AlertProtocol = DI.resolve(Alert.self)!
+    var alert: AlertProtocol = Injectable.resolve(AlertProtocol.self)!
     
     static let segueIdentifier = "toCryptoSelector"
     
-    var viewModel = DI.resolve(CryptoDepositViewModel.self)!
-    private let navigator = DI.resolve(DepositNavigator.self)!
-    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    var viewModel = Injectable.resolve(CryptoDepositViewModel.self)!
+    private let navigator = Injectable.resolve(DepositNavigator.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     private var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -87,7 +87,7 @@ class CryptoSelectorViewController: LobbyViewController {
     }
     
     @objc private func navigateToGuide() {
-        navigator.toGuidePage(playerLocaleConfiguration.getSupportLocale())
+        navigator.toGuidePage(localStorageRepo.getSupportLocale())
     }
 }
 

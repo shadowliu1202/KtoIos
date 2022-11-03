@@ -8,7 +8,7 @@ class PromotionRuleTermViewController: LobbyViewController {
     
     var privacyTitle = ""
     
-    private var viewModel = DI.resolve(TermsViewModel.self)!
+    private var viewModel = Injectable.resolve(TermsViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

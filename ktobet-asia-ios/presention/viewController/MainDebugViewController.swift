@@ -25,7 +25,7 @@ class MainDebugViewController: UIViewController {
     
     private var debugDatas = BehaviorRelay<[DebugData]>(value: [])
     private lazy var disposeBag = DisposeBag()
-    private let httpClient = DI.resolve(HttpClient.self)!
+    private let httpClient = Injectable.resolve(HttpClient.self)!
     private var isLoadApi = true
     
     override func viewDidLoad() {

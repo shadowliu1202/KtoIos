@@ -2,7 +2,7 @@ import UIKit
 import WebKit
 
 class TransactionHtmlViewController: LobbyViewController {
-    private var httpClient = DI.resolve(HttpClient.self)!
+    private var httpClient = Injectable.resolve(HttpClient.self)!
     var html: String!
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var closeBtn: UIButton!

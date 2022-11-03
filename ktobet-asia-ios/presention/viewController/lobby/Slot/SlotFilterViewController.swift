@@ -32,7 +32,7 @@ class SlotFilterViewController: UIViewController {
     var themeButtons: [UIButton] = []
     var payLineWayButtons: [UIButton] = []
     var options: [SlotGameFilter] = []
-    private var viewModel = DI.resolve(SlotViewModel.self)!
+    private var viewModel = Injectable.resolve(SlotViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

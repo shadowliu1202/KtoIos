@@ -39,10 +39,10 @@ class LoginViewController: LandingViewController {
     private let heightSpace = CGFloat(12)
     private let heightCaptchaView = CGFloat(257)
     private let disposeBag = DisposeBag()
-    private let viewModel = DI.resolve(LoginViewModel.self)!
-    private var navigationViewModel = DI.resolve(NavigationViewModel.self)!
-    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
-    private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
+    private let viewModel = Injectable.resolve(LoginViewModel.self)!
+    private var navigationViewModel = Injectable.resolve(NavigationViewModel.self)!
+    private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     
     deinit {
         print("\(type(of: self)) deinit")

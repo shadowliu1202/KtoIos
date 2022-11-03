@@ -2,14 +2,14 @@ import SwiftUI
 import SharedBu
 
 struct LoginView: View {
-    @StateObject var viewModel: NewLoginViewModel = DI.resolve(NewLoginViewModel.self)!
+    @StateObject var viewModel: NewLoginViewModel = Injectable.resolve(NewLoginViewModel.self)!
     
     @State private var isLoadedData: Bool = false
     
     var onLogin = { (pageNavigation: NavigationViewModel.LobbyPageNavigation?, generalError: Error?) -> Void in }
     var onResetPassword = { () -> Void in }
     
-    private let localStorageRepo = DI.resolve(LocalStorageRepositoryImpl.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     
     var body: some View {
         ScrollView {

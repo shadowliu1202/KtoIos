@@ -21,8 +21,8 @@ class WithdrawalViewController: LobbyViewController {
 
     private var accounts: [FiatBankCard]?
     private var cryptoBankCards: [CryptoBankCard]?
-    fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
-    fileprivate var bandCardviewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
+    fileprivate var viewModel = Injectable.resolve(WithdrawalViewModel.self)!
+    fileprivate var bandCardviewModel = Injectable.resolve(ManageCryptoBankCardViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     private var withdrawalLimits: WithdrawalLimits?
     

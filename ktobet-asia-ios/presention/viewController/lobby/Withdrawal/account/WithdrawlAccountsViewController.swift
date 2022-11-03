@@ -40,7 +40,7 @@ class WithdrawlAccountsViewController: LobbyViewController {
             self.updateUI()
         }
     }
-    fileprivate var bankCardViewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
+    fileprivate var bankCardViewModel = Injectable.resolve(ManageCryptoBankCardViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var switchAddAccount: (() -> ())?
     

@@ -22,7 +22,7 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
     private var cryptoType: SupportCryptoType!
     private lazy var fiat = viewModel.localCurrency
     
-    fileprivate var viewModel = DI.resolve(WithdrawalCryptoRequestViewModel.self)!
+    fileprivate var viewModel = Injectable.resolve(WithdrawalCryptoRequestViewModel.self)!
     private var disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()

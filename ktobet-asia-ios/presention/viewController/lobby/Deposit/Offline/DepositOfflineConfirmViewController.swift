@@ -38,16 +38,16 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     
     @IBOutlet private weak var bankImageViewWidthConstraint: NSLayoutConstraint!
     
-    private let alert: AlertProtocol = DI.resolve(Alert.self)!
+    private let alert: AlertProtocol = Injectable.resolve(AlertProtocol.self)!
     
     var depositSuccess = false
     
-    fileprivate var offlineViewModel = DI.resolve(OfflineViewModel.self)!
+    fileprivate var offlineViewModel = Injectable.resolve(OfflineViewModel.self)!
     fileprivate let timer = CountDownTimer()
     fileprivate var disposeBag = DisposeBag()
     
-    let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-    
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +60,7 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     
     @objc func close () {
         Alert.shared.show(Localize.string("common_confirm_cancel_operation"), Localize.string("deposit_offline_termniate"), confirm: {
-            DI.resetObjectScope(.depositFlow)
+            Injectable.resetObjectScope(.depositFlow)
             NavigationManagement.sharedInstance.popToRootViewController()
         }, cancel: { })
     }
@@ -128,7 +128,7 @@ class DepositOfflineConfirmViewController: LobbyViewController {
         confirmButton.rx.tap.bind(to: offlineViewModel.input.depositTrigger).disposed(by: disposeBag)
         offlineViewModel.output.deposit.drive(onNext: { [weak self] isSuccess in
             self?.depositSuccess = isSuccess
-            DI.resetObjectScope(.depositFlow)
+            Injectable.resetObjectScope(.depositFlow)
         }).disposed(by: disposeBag)
         offlineViewModel.output.selectPaymentGatewayIcon.drive(bankImageView.rx.image).disposed(by: disposeBag)
         offlineViewModel.output.memo.drive(onNext: { [weak self] memo in

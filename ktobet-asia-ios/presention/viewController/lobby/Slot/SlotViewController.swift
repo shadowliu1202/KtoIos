@@ -23,7 +23,7 @@ class SlotViewController: ProductsViewController {
     @IBOutlet var jackpotViewHeight: NSLayoutConstraint!
 
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
-    private lazy var viewModel = DI.resolve(SlotViewModel.self)!
+    private lazy var viewModel = Injectable.resolve(SlotViewModel.self)!
     private var disposeBag = DisposeBag()
     
     var barButtonItems: [UIBarButtonItem] = []

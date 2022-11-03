@@ -4,7 +4,7 @@ import SharedBu
 import SDWebImage
 
 class WebGameItemCell: UICollectionViewCell {
-    private var httpClient = DI.resolve(HttpClient.self)!
+    private var httpClient = Injectable.resolve(HttpClient.self)!
     @IBOutlet weak var labelHeight: NSLayoutConstraint!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var gameImage: UIImageView!

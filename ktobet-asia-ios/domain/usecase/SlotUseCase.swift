@@ -23,7 +23,7 @@ protocol SlotUseCase: WebGameUseCase {
 
 class SlotUseCaseImpl: WebGameUseCaseImpl, SlotUseCase {
     var slotRepository: SlotRepository!
-    var localRepository: LocalStorageRepositoryImpl!
+    var localRepository: LocalStorageRepository!
     
     var randomPopularSlotGames = BehaviorRelay<[SlotGame]>(value: [])
     lazy var recentSlotGames = slotRepository.getRecentlyPlaySlots().share(replay: 1)
@@ -34,7 +34,7 @@ class SlotUseCaseImpl: WebGameUseCaseImpl, SlotUseCase {
     let SELECT_GAME_AMOUNT = 2
     let MINIMUM_POPULAR_GAME = 3
 
-    init(_ slotRepository: SlotRepository, _ localRepository: LocalStorageRepositoryImpl) {
+    init(_ slotRepository: SlotRepository, _ localRepository: LocalStorageRepository) {
         super.init(slotRepository)
         self.slotRepository = slotRepository
         self.localRepository = localRepository

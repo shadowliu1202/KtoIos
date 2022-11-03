@@ -6,7 +6,7 @@ import RxCocoa
 class WithdrawalCryptoRequestViewModel {
     private var withdrawalUseCase: WithdrawalUseCase!
     private var playerUseCase : PlayerDataUseCase!
-    private var localStorageRepository: LocalStorageRepositoryImpl!
+    private var localStorageRepository: LocalStorageRepository!
     lazy var localCurrency = localStorageRepository.getLocalCurrency()
    
     ///input
@@ -26,7 +26,7 @@ class WithdrawalCryptoRequestViewModel {
     private var cryptoType: SupportCryptoType!
     private var cryptoNetwork: CryptoNetwork!
     
-    init(withdrawalUseCase: WithdrawalUseCase, playerUseCase: PlayerDataUseCase, localStorageRepository: LocalStorageRepositoryImpl) {
+    init(withdrawalUseCase: WithdrawalUseCase, playerUseCase: PlayerDataUseCase, localStorageRepository: LocalStorageRepository) {
         self.withdrawalUseCase = withdrawalUseCase
         self.playerUseCase = playerUseCase
         self.localStorageRepository = localStorageRepository

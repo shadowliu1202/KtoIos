@@ -19,7 +19,7 @@ class NumberGameViewController: DisplayProduct {
     @IBOutlet var gamesCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var blurBackgroundViewHeight: NSLayoutConstraint!
     
-    private lazy var viewModel = DI.resolve(NumberGameViewModel.self)!
+    private lazy var viewModel = Injectable.resolve(NumberGameViewModel.self)!
     private var disposeBag = DisposeBag()
     
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)

@@ -407,7 +407,7 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
 
 
 class MixTableViewCell: UITableViewCell {
-    private var httpClient = DI.resolve(HttpClient.self)!
+    private var httpClient = Injectable.resolve(HttpClient.self)!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var stackViewWidth: NSLayoutConstraint!

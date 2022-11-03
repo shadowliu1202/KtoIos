@@ -17,8 +17,8 @@ class OnlineDepositViewModel: CollectErrorViewModel, OnlineDepositViewModelProto
     
     let selectedOnlinePayment: PaymentsDTO.Online
     
-    private let playerDataUseCase = DI.resolve(PlayerDataUseCase.self)!
-    private let depositService = DI.resolve(ApplicationFactory.self)!.deposit()
+    private let playerDataUseCase = Injectable.resolve(PlayerDataUseCase.self)!
+    private let depositService = Injectable.resolve(ApplicationFactory.self)!.deposit()
     private let disposeBag = DisposeBag()
     
     init(selectedOnlinePayment: PaymentsDTO.Online) {

@@ -8,42 +8,135 @@ import Firebase
 import SwiftUI
 import FirebaseCore
 
-@main
+public var isTesting: Bool { ProcessInfo.processInfo.arguments.contains("isTesting") }
 
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    private(set) var reachabilityObserver: NetworkStateMonitor?
+    
+    @Injected private var localStorageRepo: LocalStorageRepository
+    
+    private (set) var reachabilityObserver: NetworkStateMonitor?
+    
     private weak var timer: Timer?
     
-    var window: UIWindow?
-    var isDebugModel = false
-    var debugController: MainDebugViewController?
-    let disposeBag = DisposeBag()
     private var networkControlWindow: NetworkControlWindow?
-    private var logRecorderViewWindow = LogRecorderViewWindow.init(frame: CGRect(x: UIScreen.main.bounds.width - 50, y: 80, width: 50, height: 50))
-    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    private var logRecorderViewWindow = LogRecorderViewWindow(
+        frame: CGRect(x: UIScreen.main.bounds.width - 50, y: 80, width: 50, height: 50)
+    )
+    
+    /// For recive message at phone lock state
+    var backgroundUpdateTask = UIBackgroundTaskIdentifier(rawValue: 0)
+    
+    let disposeBag = DisposeBag()
+    
+    var window: UIWindow?
+    
+    var isDebugModel = false
+    
+    var debugController: MainDebugViewController?
+    
+    var restrictRotation:UIInterfaceOrientationMask = .portrait
     
     override init() {
         super.init()
-        NetworkStateMonitor.setup(connected: networkDidConnect, disconnected: networkDisConnect, requestError: requestErrorWhenRetry)
+        NetworkStateMonitor.setup(
+            connected: networkDidConnect,
+            disconnected: networkDisConnect,
+            requestError: requestErrorWhenRetry
+        )
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        guard !isInUIKitUnitTest() else {
-            switchInitViewControllerToTestViewController()
-            return true
-        }
         
-        guard !isInSwiftUIPreviewLiveMode() else {
-            switchInitViewControllerToEmptyViewController()
-            return true
-        }
-        
+        guard !isInTesting(),
+              !isInSwiftUIPreviewLiveMode()
+        else { return true }
+
         Logger.shared.info("APP launch.")
+        
         CookieUtil.shared.loadCookiesFromUserDefault()
+        
         FirebaseApp.configure()
+        
+        configUISetting(application)
+        
+        Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
+        
+        SharedBu.Platform.init().debugBuild()
+        
+        return true
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        let storyboardId =  UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController?.restorationIdentifier ?? ""
+        
+        if storyboardId != "LandingNavigation" {
+            let viewModel = Injectable.resolve(NavigationViewModel.self)!
+            
+            viewModel
+                .checkIsLogged()
+                .subscribe { (isLogged) in
+                    CustomServicePresenter.shared.initCustomerService()
+                    
+                    if !isLogged {
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+                    }
+                } onFailure: { (error) in
+                    if error.isUnauthorized() {
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+                    } else {
+                        UIApplication.topViewController()?.handleErrors(error)
+                    }
+                }
+                .disposed(by: disposeBag)
+        }
+        else {
+            let viewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+            
+            viewModel.output.portalMaintenanceStatus
+                .subscribe(onNext: { status in
+                    switch status {
+                    case is MaintenanceStatus.AllPortal:
+                        UIApplication.topViewController()?.showUnLoginMaintenanAlert()
+                    default:
+                        break
+                    }
+                })
+                .disposed(by: disposeBag)
+        }
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return self.restrictRotation
+    }
+        
+    func applicationWillResignActive(_ application: UIApplication) {
+        self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+            self.endBackgroundUpdateTask()
+        })
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        self.endBackgroundUpdateTask()
+
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
+        CookieUtil.shared.saveCookieToUserDefault()
+        Logger.shared.info("APP terminate.")
+    }
+}
+
+// MARK: - UI Setting
+
+private extension AppDelegate {
+    
+    func configUISetting(_ application: UIApplication) {
         IQKeyboardManager.shared.enable = true
         UIView.appearance().isExclusiveTouch = true
         UICollectionView.appearance().isExclusiveTouch = true
+        
         if #available(iOS 13.0, *) {
             window?.overrideUserInterfaceStyle = .light
         } else {
@@ -52,12 +145,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let barAppearance = UINavigationBarAppearance()
         barAppearance.configureWithTransparentBackground()
-        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: Theme.shared.getNavigationTitleFont(by: playerLocaleConfiguration.getSupportLocale())]
+        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())]
         barAppearance.backgroundColor = UIColor.black_two90
+        
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
         UINavigationBar.appearance().standardAppearance = barAppearance
-        Theme.shared.changeEntireAPPFont(by: playerLocaleConfiguration.getSupportLocale())
         
         if Configuration.debugGesture {
             self.addDebugGesture()
@@ -66,89 +159,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.addNetworkControlGesture()
         }
         
-        SharedBu.Platform.init().debugBuild()
-        
-        return true
-    }
-    
-    private func isInUIKitUnitTest() -> Bool {
-        return ProcessInfo.processInfo.arguments.contains("isUITesting")
-    }
-    
-    private func switchInitViewControllerToTestViewController() {
-        let viewName = ProcessInfo.processInfo.environment["viewName"] ?? ""
-        guard let rootViewController = UITestAdapter.getViewController(viewName) else { fatalError("Not in UITesting") }
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = rootViewController
-        self.window?.makeKeyAndVisible()
-    }
-    
-    private func isInSwiftUIPreviewLiveMode() -> Bool {
-        return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
-    }
-    
-    private func switchInitViewControllerToEmptyViewController() {
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = UIViewController()
-        self.window?.makeKeyAndVisible()
-    }
-    
-    private func networkDidConnect() {
-        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-            topVc.networkDidConnected()
-        }
-    }
-    
-    private func networkDisConnect() {
-        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-            topVc.networkDisConnected()
-        }
-    }
-    
-    private func requestErrorWhenRetry(error: Error) {
-        print("\(error)")
-    }
-    
-    func forceCheckNetworkStatus() {
-        self.timer?.invalidate()
-        let nextTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.debounceCheckNetworkStatus), userInfo: nil, repeats: false)
-        self.timer = nextTimer
-    }
-    
-    @objc private func debounceCheckNetworkStatus() {
-        self.reachabilityObserver?.setForceCheck()
-    }
-    
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        let storyboardId =  UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController?.restorationIdentifier ?? ""
-        if storyboardId != "LandingNavigation" {
-            let viewModel = DI.resolve(NavigationViewModel.self)!
-            viewModel
-                .checkIsLogged()
-                .subscribe { (isLogged) in
-                    CustomServicePresenter.shared.initCustomerService()
-
-                    if !isLogged {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-                    }
-                } onError: { (error) in
-                    if error.isUnauthorized() {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-                    } else {
-                        UIApplication.topViewController()?.handleErrors(error)
-                    }
-                }.disposed(by: disposeBag)
-        } else {
-            let viewModel = DI.resolve(ServiceStatusViewModel.self)!
-            viewModel.output.portalMaintenanceStatus.subscribe(onNext: { status in
-                switch status {
-                case is MaintenanceStatus.AllPortal:
-                    UIApplication.topViewController()?.showUnLoginMaintenanAlert()
-                default:
-                    break
-                }
-            }).disposed(by: disposeBag)
-        }
+        let launch = UIStoryboard(name: "Launch", bundle: nil).instantiateViewController(withIdentifier: "LaunchViewController")
+        window?.rootViewController = launch
+        window?.makeKeyAndVisible()
     }
     
     func addDebugGesture() {
@@ -204,33 +217,85 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    var restrictRotation:UIInterfaceOrientationMask = .portrait
-
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask
-    {
-        return self.restrictRotation
-    }
-    
-    //----For recive message at phone lock state----//
-    var backgroundUpdateTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier(rawValue: 0)
     func endBackgroundUpdateTask() {
         UIApplication.shared.endBackgroundTask(self.backgroundUpdateTask)
         self.backgroundUpdateTask = UIBackgroundTaskIdentifier.invalid
     }
-    func applicationWillResignActive(_ application: UIApplication) {
-        self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
-            self.endBackgroundUpdateTask()
-        })
-    }
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        self.endBackgroundUpdateTask()
+}
 
-    }
-    //----For recive message at phone lock state----//
+// MARK: - Network
+
+extension AppDelegate {
     
-    func applicationWillTerminate(_ application: UIApplication) {
-        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
-        CookieUtil.shared.saveCookieToUserDefault()
-        Logger.shared.info("APP terminate.")
+    private func networkDidConnect() {
+        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
+            topVc.networkDidConnected()
+        }
+    }
+    
+    private func networkDisConnect() {
+        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
+            topVc.networkDisConnected()
+        }
+    }
+    
+    func forceCheckNetworkStatus() {
+        self.timer?.invalidate()
+        let nextTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.debounceCheckNetworkStatus), userInfo: nil, repeats: false)
+        self.timer = nextTimer
+    }
+    
+    @objc private func debounceCheckNetworkStatus() {
+        self.reachabilityObserver?.setForceCheck()
+    }
+    
+    private func requestErrorWhenRetry(error: Error) {
+        print("\(error)")
+    }
+}
+
+
+// MARK: - Test Task
+
+private extension AppDelegate {
+    
+    func isInTesting() -> Bool {
+        guard isTesting else { return false }
+        
+        configTesting()
+        
+        return true
+    }
+    
+    func configTesting() {
+        let environment = ProcessInfo.processInfo.environment
+        let target: UIViewController
+        
+        if let viewName = environment["viewName"],
+           let rootViewController = UITestAdapter.getViewController(viewName) {
+            target = rootViewController
+        }
+        else {
+            target = .init()
+        }
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = target
+        window?.makeKeyAndVisible()
+    }
+    
+    func isInSwiftUIPreviewLiveMode() -> Bool {
+        let previewing = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+        
+        if previewing {
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = UIViewController()
+            self.window?.makeKeyAndVisible()
+            
+            return true
+        }
+        else {
+            return false
+        }
     }
 }

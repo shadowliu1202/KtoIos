@@ -15,7 +15,7 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
     @IBOutlet private weak var constraintResetErrorView: NSLayoutConstraint!
     @IBOutlet private weak var constraintResetErrorViewPadding: NSLayoutConstraint!
     
-    let viewModel = DI.resolve(CryptoVerifyViewModel.self)!
+    let viewModel = Injectable.resolve(CryptoVerifyViewModel.self)!
     let disposeBag = DisposeBag()
     
     var cryptoBankCard: CryptoBankCard?

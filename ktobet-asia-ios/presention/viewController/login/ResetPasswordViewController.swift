@@ -20,12 +20,12 @@ class ResetPasswordViewController: LandingViewController {
     @IBOutlet private weak var constraintResetErrorView: NSLayoutConstraint!
     @IBOutlet private weak var constraintResetErrorViewPadding: NSLayoutConstraint!
     
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     
-    private var viewModel = DI.resolve(ResetPasswordViewModel.self)!
+    private var viewModel = Injectable.resolve(ResetPasswordViewModel.self)!
     private var disposeBag = DisposeBag()
     private var isFirstTimeEnter = true
     private var timerResend = CountDownTimer()

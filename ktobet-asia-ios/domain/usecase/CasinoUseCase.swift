@@ -11,9 +11,9 @@ protocol CasinoUseCase: WebGameUseCase {
 
 class CasinoUseCaseImpl: WebGameUseCaseImpl, CasinoUseCase {
     var casinoRepository: CasinoRepository!
-    var localStorageRepo: PlayerLocaleConfiguration!
+    var localStorageRepo: LocalStorageRepository!
     
-    init(_ casinoRepository : CasinoRepository, _ localStorageRepo: PlayerLocaleConfiguration) {
+    init(_ casinoRepository : CasinoRepository, _ localStorageRepo: LocalStorageRepository) {
         super.init(casinoRepository)
         self.casinoRepository = casinoRepository
         self.localStorageRepo = localStorageRepo

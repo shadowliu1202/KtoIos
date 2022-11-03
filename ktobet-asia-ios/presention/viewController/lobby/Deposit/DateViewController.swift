@@ -9,7 +9,7 @@ class DateViewController: UIViewController {
     @IBOutlet fileprivate weak var previousButton: UIButton!
     @IBOutlet var month: UIView!
     
-    private lazy var monthSelectView = MonthSelectView(frame: .zero, playerLocale: playerLocaleConfiguration.getSupportLocale())
+    private lazy var monthSelectView = MonthSelectView(frame: .zero, playerLocale: localStorageRepo.getSupportLocale())
     
     var conditionCallbck: ((_ dateType: DateType) -> ())?
     var dateType: DateType = .week()
@@ -17,10 +17,10 @@ class DateViewController: UIViewController {
     fileprivate var koyomi: Koyomi!
     fileprivate var seletedDate: Date?
     fileprivate var currentSelectedStyle: SelectionMode = .sequence(style: .semicircleEdge)
-    fileprivate var viewModel = DI.resolve(DepositViewModel.self)!
+    fileprivate var viewModel = Injectable.resolve(DepositViewModel.self)!
     
-    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
-    private lazy var dateSegmentTitle = Theme.shared.getSegmentTitleName(by: playerLocaleConfiguration.getSupportLocale())
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    private lazy var dateSegmentTitle = Theme.shared.getSegmentTitleName(by: localStorageRepo.getSupportLocale())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,11 +62,11 @@ class DateViewController: UIViewController {
                 self.monthSelectView.setSelectedDate(starDate.convertdateToUTC())
             }
 
-            self.currentDateLabel.text = Theme.shared.getDatePickerTitleLabel(by: self.playerLocaleConfiguration.getSupportLocale(), self.koyomi)
+            self.currentDateLabel.text = Theme.shared.getDatePickerTitleLabel(by: self.localStorageRepo.getSupportLocale(), self.koyomi)
 
         }
         
-        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: Theme.shared.getDateSegmentTitleFontSize(by: self.playerLocaleConfiguration.getSupportLocale()))!]
+        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: Theme.shared.getDateSegmentTitleFontSize(by: self.localStorageRepo.getSupportLocale()))!]
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .normal)
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .selected)
         dateSegment.addTarget(

@@ -11,13 +11,13 @@ protocol NumberGameUseCase: WebGameUseCase {
 
 class NumberGameUseCasaImp: WebGameUseCaseImpl, NumberGameUseCase {
     var numberGameRepository: NumberGameRepository!
-    var localRepository: LocalStorageRepositoryImpl!
+    var localRepository: LocalStorageRepository!
     
     var randomPopularNumberGames = BehaviorRelay<[NumberGame]>(value: [])
     let SELECT_GAME_AMOUNT = 2
     let REQUEST_GAME_AMOUNT = 10
     
-    init(_ numberGameRepository : NumberGameRepository, _ localRepository: LocalStorageRepositoryImpl) {
+    init(_ numberGameRepository : NumberGameRepository, _ localRepository: LocalStorageRepository) {
         super.init(numberGameRepository)
         self.numberGameRepository = numberGameRepository
         self.localRepository = localRepository

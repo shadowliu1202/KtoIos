@@ -11,12 +11,12 @@ protocol ArcadeRecordRepository {
 
 class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
     private var arcadeApi: ArcadeApi!
-    private var playerConfiguation: PlayerConfiguration!
+    private var localStorageRepo: LocalStorageRepository!
     private var httpClient: HttpClient!
     
-    init(_ arcadeApi: ArcadeApi, playerConfiguation: PlayerConfiguration, httpClient: HttpClient) {
+    init(_ arcadeApi: ArcadeApi, localStorageRepo: LocalStorageRepository, httpClient: HttpClient) {
         self.arcadeApi = arcadeApi
-        self.playerConfiguation = playerConfiguation
+        self.localStorageRepo = localStorageRepo
         self.httpClient = httpClient
     }
     
@@ -36,12 +36,19 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
         })
     }
     
-    func getBetSummaryByGame(beginDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32, skip: Int, take: Int) -> Single<[ArcadeGameBetRecord]> {
-        arcadeApi.getBetRecords(beginDate: beginDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
-                                endDate: endDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
-                                gameId: gameId,
-                                skip: skip,
-                                take: take)
+    func getBetSummaryByGame(beginDate: SharedBu.LocalDateTime,
+                             endDate: SharedBu.LocalDateTime,
+                             gameId: Int32,
+                             skip: Int,
+                             take: Int) -> Single<[ArcadeGameBetRecord]> {
+        arcadeApi
+            .getBetRecords(
+                beginDate: beginDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+                endDate: endDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+                gameId: gameId,
+                skip: skip,
+                take: take
+            )
             .map { (response) -> [ArcadeGameBetRecord] in
                 guard let data = response.data?.data else { return [] }
                 return try data.map({ try $0.toArcadeGameBetRecord() })

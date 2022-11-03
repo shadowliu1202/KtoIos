@@ -3,7 +3,7 @@ import WebKit
 import SharedBu
 
 class DepositThirdPartWebViewController: LobbyViewController {
-    private var httpClient = DI.resolve(HttpClient.self)!
+    private var httpClient = Injectable.resolve(HttpClient.self)!
     static let segueIdentifier = "toThirdPartWebSegue"
     
     @IBOutlet private weak var webView: WKWebView!

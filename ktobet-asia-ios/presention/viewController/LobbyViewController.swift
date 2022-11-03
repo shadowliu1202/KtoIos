@@ -3,50 +3,13 @@ import SharedBu
 import RxSwift
 
 class LobbyViewController: APPViewController, VersionUpdateProtocol {
+    private lazy var playerViewModel = Injectable.resolve(PlayerViewModel.self)!
     
-    private let disposeBag = DisposeBag()
-    
-    private lazy var playerViewModel = DI.resolve(PlayerViewModel.self)!
-    
-    lazy var appSyncViewModel = DI.resolve(AppSynchronizeViewModel.self)!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        checkPlayerLoginStatus()
-    }
+    lazy var appSyncViewModel = Injectable.resolve(AppSynchronizeViewModel.self)!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         syncAppVersionUpdate(versionSyncDisposeBag)
-    }
-
-    private func checkPlayerLoginStatus() {
-        playerViewModel.checkIsLogged()
-            .subscribe { [weak self] isLogged in
-                if !isLogged {
-                    self?.logoutToLanding()
-                }
-                
-            } onFailure: { [weak self] error in
-                if error.isUnauthorized() {
-                    self?.logoutToLanding()
-                } else {
-                    UIApplication.topViewController()?.handleErrors(error)
-                }
-            }
-            .disposed(by: disposeBag)
-    }
-    
-    private func logoutToLanding() {
-        CustomServicePresenter.shared.close(completion: { [weak self] in
-            guard let self = self else { return }
-            
-            self.playerViewModel.logout()
-                .subscribe(onCompleted: {
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-                })
-                .disposed(by: self.disposeBag)
-        })
     }
     
     // MARK: VersionUpdateProtocol

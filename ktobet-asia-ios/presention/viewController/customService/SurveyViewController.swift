@@ -239,7 +239,7 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
     private var viewModel: SurveyViewModel!
     var callback: ((String) -> ())?
     
-    private let playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     
     func configure(viewModel: SurveyViewModel, _ callback: ((String) -> ())? = nil) -> Self {
         self.selectionStyle = .none
@@ -275,7 +275,7 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
     }
     
     private func isMessageLengthValid(_ countOfWords: Int) -> Bool {
-        let maxLength = Theme.shared.getTextFieldCellMaxLength(by: playerLocaleConfiguration.getSupportLocale())
+        let maxLength = Theme.shared.getTextFieldCellMaxLength(by: localStorageRepo.getSupportLocale())
         return countOfWords <= maxLength
     }
 }

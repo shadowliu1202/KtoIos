@@ -36,7 +36,7 @@ extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewContr
 
 
 class CustomServicePresenter: NSObject {
-    static let shared: CustomServicePresenter = DI.resolve(CustomServicePresenter.self)!
+    static let shared: CustomServicePresenter = Injectable.resolve(CustomServicePresenter.self)!
     
     var isInSideMenu: Bool = false {
         willSet(inSideMenu) {
@@ -341,8 +341,8 @@ class CustomServicePresenter: NSObject {
             .subscribe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] noConnectStatus in
                 if noConnectStatus {
-                    self.csViewModel = DI.resolve(CustomerServiceViewModel.self)!
-                    self.surveyViewModel = DI.resolve(SurveyViewModel.self)!
+                    self.csViewModel = Injectable.resolve(CustomerServiceViewModel.self)!
+                    self.surveyViewModel = Injectable.resolve(SurveyViewModel.self)!
                 }
             }).disposed(by: disposeBag)
     }

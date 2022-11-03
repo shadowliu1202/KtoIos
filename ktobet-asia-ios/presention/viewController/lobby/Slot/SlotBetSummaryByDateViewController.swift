@@ -6,7 +6,7 @@ import SDWebImage
 class SlotBetSummaryByDateViewController: LobbyViewController {
     static let segueIdentifier = "toSlotBetSummaryByDate"
     var selectDate: String? = ""
-    var viewModel = DI.resolve(SlotBetViewModel.self)!
+    var viewModel = Injectable.resolve(SlotBetViewModel.self)!
     private var disposeBag = DisposeBag()
     
     @IBOutlet private weak var tableView: UITableView!

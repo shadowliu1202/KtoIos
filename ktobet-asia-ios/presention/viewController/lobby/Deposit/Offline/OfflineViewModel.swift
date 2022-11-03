@@ -12,8 +12,8 @@ class OfflineViewModel: CollectErrorViewModel, ViewModelType {
     private var playerUseCase: PlayerDataUseCase!
     private var bankUseCase: BankUseCase!
     private var navigator: DepositNavigator!
-    private var localStorageRepo: PlayerLocaleConfiguration!
-
+    private var localStorageRepo: LocalStorageRepository!
+    
     private let selectPaymentGateway = ReplaySubject<PaymentsDTO.BankCard>.create(bufferSize: 1)
     private let remitterBank = ReplaySubject<String>.create(bufferSize: 1)
     private let remitterName = ReplaySubject<String>.create(bufferSize: 1)
@@ -24,7 +24,7 @@ class OfflineViewModel: CollectErrorViewModel, ViewModelType {
     private var inProgress = ActivityIndicator()
     var unwindSegueId: String = ""
 
-    init(_ depositService: IDepositAppService, playerUseCase: PlayerDataUseCase, accountPatternGenerator: AccountPatternGenerator, bankUseCase: BankUseCase, navigator: DepositNavigator, localStorageRepo: PlayerLocaleConfiguration) {
+    init(_ depositService: IDepositAppService, playerUseCase: PlayerDataUseCase, accountPatternGenerator: AccountPatternGenerator, bankUseCase: BankUseCase, navigator: DepositNavigator, localStorageRepo: LocalStorageRepository) {
         super.init()
         self.depositService = depositService
         self.playerUseCase = playerUseCase

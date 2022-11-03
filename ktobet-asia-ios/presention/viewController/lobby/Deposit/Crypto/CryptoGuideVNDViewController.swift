@@ -4,7 +4,7 @@ import SwiftUI
 class CryptoGuideVNDViewController: LobbyViewController {
     static let segueIdentifier = "toCryptoVNDGuide"
     
-    private let viewModel = DI.resolve(CryptoGuideVNDViewModelImpl.self)!
+    private let viewModel = Injectable.resolve(CryptoGuideVNDViewModelImpl.self)!
 
     override func viewDidLoad() {
         super.viewDidLoad()

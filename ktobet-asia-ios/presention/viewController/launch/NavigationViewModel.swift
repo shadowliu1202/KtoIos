@@ -16,17 +16,18 @@ class NavigationViewModel {
         case setDefaultProduct
     }
     
-    private let authUseCase: AuthenticationUseCase!
     private let playerUseCase : PlayerDataUseCase!
     private let localizationPolicyUseCase: LocalizationPolicyUseCase!
     private let systemStatusUseCase: GetSystemStatusUseCase!
-    private let localStorageRepo: LocalStorageRepositoryImpl
+    
+    var authUseCase: AuthenticationUseCase!
+    var localStorageRepo: LocalStorageRepository
     
     init(_ authUseCase: AuthenticationUseCase,
          _ playerUseCase: PlayerDataUseCase,
          _ localizationPolicyUseCase: LocalizationPolicyUseCase,
          _ systemStatusUseCase: GetSystemStatusUseCase,
-         _ localStorageRepo: LocalStorageRepositoryImpl) {
+         _ localStorageRepo: LocalStorageRepository) {
         self.authUseCase = authUseCase
         self.playerUseCase = playerUseCase
         self.localizationPolicyUseCase = localizationPolicyUseCase
@@ -38,15 +39,15 @@ class NavigationViewModel {
         authUseCase.isLogged()
     }
     
-    func initLaunchNavigation() -> Single<LaunchPageNavigation> {
-        guard let playerInfoCache = localStorageRepo.getPlayerInfo() else { return .just(.Landing) }
+    func initLaunchNavigation() -> LaunchPageNavigation {
+        guard let playerInfoCache = localStorageRepo.getPlayerInfo() else { return .Landing }
         let defaultProduct = ProductType.convert(playerInfoCache.defaultProduct)
-        
-        if authUseCase.IsLastAPISuccessDateExpire() {
-            localStorageRepo.setPlayerInfo(nil)
-            return .just(.Landing)
-        } else {
-            return .just(.Lobby(defaultProduct))
+
+        if authUseCase.isLastAPISuccessDateExpire() {
+            return .Landing
+        }
+        else {
+            return .Lobby(defaultProduct)
         }
     }
     

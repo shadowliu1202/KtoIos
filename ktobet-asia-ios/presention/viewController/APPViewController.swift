@@ -16,6 +16,9 @@ class APPViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.accessibilityIdentifier = "\(type(of: self))"
+        
         observerRequestError()
         initNetworkConnectRelay()
     }

@@ -4,7 +4,7 @@ import RxSwift
 
 //Todo: Need refactor.
 protocol AuthenticationUseCase {
-    func IsLastAPISuccessDateExpire() -> Bool
+    func isLastAPISuccessDateExpire() -> Bool
     func login(account: String, pwd: String, captcha: Captcha) -> Single<Player>
     func logout() -> Completable
     func isLogged() -> Single<Bool>
@@ -21,15 +21,14 @@ protocol AuthenticationUseCase {
 }
 
 class AuthenticationUseCaseImpl : AuthenticationUseCase {
-    
     private let repoAuth : IAuthRepository
     private let repoPlayer : PlayerRepository
-    private let repoLocalStorage : LocalStorageRepositoryImpl
+    private let repoLocalStorage : LocalStorageRepository
     private let settingStore: SettingStore
-    
+
     init(_ authRepository : IAuthRepository,
          _ playerRepository : PlayerRepository,
-         _ localStorageRepo : LocalStorageRepositoryImpl,
+         _ localStorageRepo : LocalStorageRepository,
          _ settingStore: SettingStore) {
         self.repoAuth = authRepository
         self.repoPlayer = playerRepository
@@ -65,9 +64,8 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
         })
     }
     
-    func IsLastAPISuccessDateExpire() -> Bool {
+    func isLastAPISuccessDateExpire() -> Bool {
         guard let lastAPISuccessDate = repoLocalStorage.getLastAPISuccessDate() else { return true }
-        
         return lastAPISuccessDate.addingTimeInterval(1800) < Date()
     }
     

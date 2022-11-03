@@ -8,7 +8,7 @@ class ChatHistoryViewController: LobbyViewController {
     
     var roomId: String!
     
-    private var viewModel = DI.resolve(CustomerServiceHistoryViewModel.self)!
+    private var viewModel = Injectable.resolve(CustomerServiceHistoryViewModel.self)!
     private var dataCount = 0
     private let disposeBag = DisposeBag()
     

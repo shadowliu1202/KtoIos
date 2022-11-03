@@ -7,11 +7,11 @@ class OnlinePaymentViewController: LobbyViewController {
     static let segueIdentifier = "toOnlinePaymentSegue"
     
     var selectedOnlinePayment: PaymentsDTO.Online!
-    var alert: AlertProtocol = DI.resolve(Alert.self)!
+    var alert: AlertProtocol = Injectable.resolve(AlertProtocol.self)!
     
     private lazy var onlineDepositViewModel = OnlineDepositViewModel(selectedOnlinePayment: selectedOnlinePayment)
     
-    private let httpClient = DI.resolve(HttpClient.self)!
+    private let httpClient = Injectable.resolve(HttpClient.self)!
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {

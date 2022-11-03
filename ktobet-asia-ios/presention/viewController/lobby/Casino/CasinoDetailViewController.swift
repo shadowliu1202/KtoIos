@@ -11,8 +11,8 @@ class CasinoDetailViewController: LobbyViewController {
     @IBOutlet private weak var backgroundViewHeightConstant: NSLayoutConstraint!
     @IBOutlet private weak var tableViewHeightConstant: NSLayoutConstraint!
     
-    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
-    private var viewModel = DI.resolve(CasinoViewModel.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    private var viewModel = Injectable.resolve(CasinoViewModel.self)!
     private var disposeBag = DisposeBag()
     
     var wagerId: String! = ""
@@ -29,7 +29,7 @@ class CasinoDetailViewController: LobbyViewController {
             self.recordDetail = detail
             self.tableView.reloadData()
             self.displayGameResult(detail)
-        } onError: {[weak self] (error) in
+        } onFailure: {[weak self] (error) in
             self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
@@ -491,7 +491,7 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
             }
         } else {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoDetailRecord2Cell", for: indexPath) as? CasinoDetailRecord2TableViewCell {
-                cell.setup(index: indexPath.row, detail: detail, supportLocal: playerLocaleConfiguration.getSupportLocale())
+                cell.setup(index: indexPath.row, detail: detail, supportLocal: localStorageRepo.getSupportLocale())
                 if indexPath.row != 0 {
                     cell.addBorder()
                 }

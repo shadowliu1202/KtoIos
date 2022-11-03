@@ -19,8 +19,8 @@ class ResetPasswordStep3ViewController: LandingViewController {
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     
-    private var viewModel = DI.resolve(ResetPasswordViewModel.self)!
-    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private var viewModel = Injectable.resolve(ResetPasswordViewModel.self)!
+    private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
     
     var changePasswordSuccess = true

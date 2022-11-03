@@ -8,7 +8,7 @@ class CasinoSummaryViewController: LobbyViewController {
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet private weak var tableView: UITableView!
     
-    private var viewModel = DI.resolve(CasinoViewModel.self)!
+    private var viewModel = Injectable.resolve(CasinoViewModel.self)!
     private var disposeBag = DisposeBag()
     private var unfinishGameCount: Int32 = 0
 

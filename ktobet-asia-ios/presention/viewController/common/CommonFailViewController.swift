@@ -15,7 +15,7 @@ class CommonFailViewController: CommonViewController {
     @IBOutlet private weak var scollView: UIScrollView!
 
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
 
     var commonFailedType: CommonFailedTypeProtocol!

@@ -13,7 +13,7 @@ class SetMainPageViewController: LobbyViewController {
     @IBOutlet weak var submitBtn: UIButton!
     
     private var selectedProduct: ProductType!
-    private var viewModel = DI.resolve(ConfigurationViewModel.self)!
+    private var viewModel = Injectable.resolve(ConfigurationViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

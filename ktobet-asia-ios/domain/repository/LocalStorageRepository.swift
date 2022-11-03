@@ -1,39 +1,63 @@
 import Foundation
 import SharedBu
 
-protocol  PlayerLocaleConfiguration: PlayerConfiguration {
+protocol LocalStorageRepository: PlayerConfiguration,
+                                 NSObjectMockingbirdWrapper {
+    func getRememberMe() -> Bool
+    func getRememberAccount() -> String
+    func getRememberPassword() -> String
+    func getLastOverLoginLimitDate() -> Date?
+    func getNeedCaptcha() -> Bool
+    func getRetryCount() -> Int
+    func getOtpRetryCount() -> Int
+    func getCountDownEndTime() -> Date?
+    func getBalanceHiddenState(gameId: String) -> Bool
+    func getUserName() -> String
+    func getLocalCurrency() -> AccountCurrency
+    func getLocale() -> Locale
     func getCultureCode() -> String
     func getSupportLocale() -> SupportLocale
+    
+    func getPlayerInfo() -> PlayerInfoCache?
+    func getLastAPISuccessDate() -> Date?
+    
+    func setRememberMe(_ rememberMe: Bool?)
+    func setRememberAccount(_ rememberAccount: String?)
+    func setRememberPassword(_ rememberPassword: String?)
+    func setLastOverLoginLimitDate(_ lastOverLoginLimitDate: Date?)
+    func setNeedCaptcha(_ needCaptcha: Bool?)
+    func setRetryCount(_ count: Int)
+    func setOtpRetryCount(_ count: Int)
+    func setCountDownEndTime(date: Date?)
+    func setBalanceHiddenState(isHidden: Bool, gameId: String)
+    func setUserName(_ name: String)
+    func setCultureCode(_ cultureCode: String)
+    func setPlayerInfo(_ playerInfo: PlayerInfoCache?)
+    func setLastAPISuccessDate(_ time: Date?)
 }
 
-class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration {
+class LocalStorageRepositoryImpl: PlayerConfiguration,
+                                  LocalStorageRepository,
+                                  LocalStorable {
     
     override var supportLocale: SupportLocale { getSupportLocale() }
     
-    let kRememberAccount = "rememberAccount"
-    let kRememberPassword = "rememberPassword"
-    let kLastOverLoginLimitDate = "overLoginLimit"
-    let kNeedCaptcha = "needCaptcha"
-    let kRememberMe = "rememberMe"
-    let kRetryCount = "retryCount"
-    let kOtpRetryCount = "otpRetryCount"
-    let kCountDownEndTime = "countDownEndTime"
-    let kUserName = "userName"
-    let KcultureCode = "cultureCode"
-    let KplayerInfoCache = "playerInfoCache"
-    let KlastAPISuccessDate = "lastAPISuccessDate"
-
+    required init(_ ignoreThis: String?) {
+        super.init()
+    }
+    
     override init() {
         super.init()
-        if UserDefaults.standard.string(forKey: "cultureCode") == nil {
+        
+        if get(key: .cultureCode) == nil {
             self.initCultureCode()
         }
     }
     
     private func initCultureCode() {
         let localeCultureCode = systemLocaleToCultureCode()
-        self.setCultureCode(localeCultureCode)
-        Theme.shared.changeEntireAPPFont(by: self.getSupportLocale())
+        setCultureCode(localeCultureCode)
+        Theme.shared.changeEntireAPPFont(by: getSupportLocale())
     }
     
     private func systemLocaleToCultureCode() -> String {
@@ -48,51 +72,43 @@ class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration
     }
     
     func getRememberMe() -> Bool {
-        return getUserDefaultValue(key: kRememberMe) ?? false
+        get(key: .rememberMe) ?? false
     }
 
     func getRememberAccount() -> String {
-        return getUserDefaultValue(key: kRememberAccount) ?? ""
+        get(key: .rememberAccount) ?? ""
     }
 
     func getRememberPassword() -> String {
-        return getUserDefaultValue(key: kRememberPassword) ?? ""
+        get(key: .rememberPassword) ?? ""
     }
 
     func getLastOverLoginLimitDate() -> Date? {
-        return getUserDefaultValue(key: kLastOverLoginLimitDate)
+        get(key: .lastOverLoginLimitDate)
     }
 
     func getNeedCaptcha() -> Bool {
-        return getUserDefaultValue(key: kNeedCaptcha) ?? false
+        get(key: .needCaptcha) ?? false
     }
 
     func getRetryCount() -> Int {
-        return getUserDefaultValue(key: kRetryCount) ?? 0
+        get(key: .retryCount) ?? 0
     }
 
     func getOtpRetryCount() -> Int {
-        return getUserDefaultValue(key: kOtpRetryCount) ?? 0
+        get(key: .otpRetryCount) ?? 0
     }
 
     func getCountDownEndTime() -> Date? {
-        return getUserDefaultValue(key: kCountDownEndTime)
+        get(key: .countDownEndTime)
     }
 
     func getBalanceHiddenState(gameId: String) -> Bool {
-        return getUserDefaultValue(key: gameId) ?? false
+        get(key: .balanceHiddenState(gameId: gameId)) ?? false
     }
 
     func getUserName() -> String {
-        return getUserDefaultValue(key: kUserName) ?? ""
-    }
-    
-    func getCultureCode() -> String {
-        return getUserDefaultValue(key: KcultureCode) ?? ""
-    }
-    
-    func getSupportLocale() -> SupportLocale {
-        return SupportLocale.Companion.init().create(language: getCultureCode())
+        get(key: .userName) ?? ""
     }
     
     func getLocalCurrency() -> AccountCurrency {
@@ -103,117 +119,79 @@ class LocalStorageRepositoryImpl: PlayerConfiguration, PlayerLocaleConfiguration
         return Locale(identifier: getCultureCode())
     }
     
+    func getCultureCode() -> String {
+        get(key: .cultureCode) ?? ""
+    }
+    
+    func getSupportLocale() -> SupportLocale {
+        return SupportLocale.Companion.init().create(language: getCultureCode())
+    }
+    
     func getPlayerInfo() -> PlayerInfoCache? {
         do {
-            return try getObject(forKey: KplayerInfoCache, castTo: PlayerInfoCache.self)
+            return try getObject(key: .playerInfoCache, to: PlayerInfoCache.self)
         } catch {
             return nil
         }
     }
     
     func getLastAPISuccessDate() -> Date? {
-        return getUserDefaultValue(key: KlastAPISuccessDate)
+        get(key: .lastAPISuccessDate)
     }
 
     func setRememberMe(_ rememberMe: Bool?) {
-        setUserDefaultValue(value: rememberMe, key: kRememberMe)
+        set(value: rememberMe, key: .rememberMe)
     }
 
     func setRememberAccount(_ rememberAccount: String?) {
-        setUserDefaultValue(value: rememberAccount, key: kRememberAccount)
+        set(value: rememberAccount, key: .rememberAccount)
     }
 
     func setRememberPassword(_ rememberPassword: String?) {
-        setUserDefaultValue(value: rememberPassword, key: kRememberPassword)
+        set(value: rememberPassword, key: .rememberPassword)
     }
 
     func setLastOverLoginLimitDate(_ lastOverLoginLimitDate: Date?) {
-        setUserDefaultValue(value: lastOverLoginLimitDate, key: kLastOverLoginLimitDate)
+        set(value: lastOverLoginLimitDate, key: .lastOverLoginLimitDate)
     }
 
     func setNeedCaptcha(_ needCaptcha: Bool?) {
-        setUserDefaultValue(value: needCaptcha, key: kNeedCaptcha)
+        set(value: needCaptcha, key: .needCaptcha)
     }
 
     func setRetryCount(_ count: Int) {
-        setUserDefaultValue(value: count, key: kRetryCount)
+        set(value: count, key: .retryCount)
     }
 
     func setOtpRetryCount(_ count: Int) {
-        setUserDefaultValue(value: count, key: kOtpRetryCount)
+        set(value: count, key: .otpRetryCount)
     }
 
     func setCountDownEndTime(date: Date?) {
-        setUserDefaultValue(value: date, key: kCountDownEndTime)
+        set(value: date, key: .countDownEndTime)
     }
 
     func setBalanceHiddenState(isHidden: Bool, gameId: String) {
-        setUserDefaultValue(value: isHidden, key: gameId)
+        set(value: isHidden, key: .balanceHiddenState(gameId: gameId))
     }
 
     func setUserName(_ name: String) {
-        setUserDefaultValue(value: name, key: kUserName)
+        set(value: name, key: .userName)
     }
     
     func setCultureCode(_ cultureCode: String) {
-        setUserDefaultValue(value: cultureCode, key: KcultureCode)
+        set(value: cultureCode, key: .cultureCode)
     }
     
     func setPlayerInfo(_ playerInfo: PlayerInfoCache?) {
         do {
-            try setObject(playerInfo, forKey: KplayerInfoCache)
+            try setObject(playerInfo, for: .playerInfoCache)
         } catch {
             Logger.shared.error(error)
         }
     }
     
     func setLastAPISuccessDate(_ time: Date?) {
-        return setUserDefaultValue(value: time, key: KlastAPISuccessDate)
-    }
-
-    private func setUserDefaultValue<T>(value: T?, key: String) {
-        if value == nil { UserDefaults.standard.removeObject(forKey: key) }
-        else { UserDefaults.standard.setValue(value, forKey: key) }
-        UserDefaults.standard.synchronize()
-    }
-
-    private func getUserDefaultValue<T>(key: String) -> T? {
-        guard let value = UserDefaults.standard.object(forKey: key) as? T else {
-            return nil
-        }
-
-        return value
-    }
-    
-    // MARK: Save custom objects into UserDefaults
-    private func setObject<Object>(_ object: Object, forKey: String) throws where Object: Encodable {
-        let encoder = JSONEncoder()
-        do {
-            let data = try encoder.encode(object)
-            UserDefaults.standard.set(data, forKey: forKey)
-        } catch {
-            throw ObjectSavableError.unableToEncode
-        }
-    }
-    
-    private func getObject<Object>(forKey: String, castTo type: Object.Type) throws -> Object where Object: Decodable {
-        guard let data = UserDefaults.standard.data(forKey: forKey) else { throw ObjectSavableError.noValue }
-        let decoder = JSONDecoder()
-        do {
-            let object = try decoder.decode(type, from: data)
-            return object
-        } catch {
-            throw ObjectSavableError.unableToDecode
-        }
-    }
-}
-
-enum ObjectSavableError: String, LocalizedError {
-    case unableToEncode = "Unable to encode object into data"
-    case noValue = "No data object found for the given key"
-    case unableToDecode = "Unable to decode object into given type"
-    
-    var errorDescription: String? {
-        rawValue
+        set(value: time, key: .lastAPISuccessDate)
     }
 }

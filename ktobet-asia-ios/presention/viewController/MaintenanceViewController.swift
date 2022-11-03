@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 
 class MaintenanceViewController: UIViewController {
-    var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    var serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private var productType: ProductType!
     var disposeBag = DisposeBag()
     private var timer: CountDownTimer?

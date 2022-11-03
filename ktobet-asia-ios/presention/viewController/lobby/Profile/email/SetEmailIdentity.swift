@@ -2,9 +2,8 @@ import UIKit
 import RxSwift
 import SharedBu
 
-class SetEmailIdentity: SetIdentityDelegate {
-    
-    private(set) var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+class SetEmailIdentity: SetIdentityDelegate {    
+    private(set) var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
     
     private var mode: ModifyMode
 

@@ -43,9 +43,9 @@ class DepositRecordDetailViewController: LobbyViewController {
     var activityIndicator = UIActivityIndicatorView(style: .large)
     var displayId: String!
     
-    private var viewModel = DI.resolve(DepositLogViewModel.self)!
-    private let httpClient = DI.resolve(HttpClient.self)!
-    private var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
+    private var viewModel = Injectable.resolve(DepositLogViewModel.self)!
+    private let httpClient = Injectable.resolve(HttpClient.self)!
+    private var uploadViewModel = Injectable.resolve(UploadPhotoViewModel.self)!
     private var disposeBag = DisposeBag()
     private var removeButtons: [UIButton] = []
     private var imageIndex = 0

@@ -4,7 +4,7 @@ import SharedBu
 import WebKit
 
 class GameWebViewViewController: UIViewController {
-    private var httpClient = DI.resolve(HttpClient.self)!
+    private var httpClient = Injectable.resolve(HttpClient.self)!
     var barButtonItems: [UIBarButtonItem] = []
     var viewModel: ProductWebGameViewModelProtocol?
     weak var delegate: WebGameViewCallback?
@@ -18,7 +18,7 @@ class GameWebViewViewController: UIViewController {
     private let deposit: String = "deposit"
     lazy var backSiteOption = httpClient.host.absoluteString
     
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()

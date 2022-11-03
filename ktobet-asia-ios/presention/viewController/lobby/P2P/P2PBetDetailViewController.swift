@@ -7,7 +7,7 @@ class P2PBetDetailViewController: LobbyViewController {
     var recordData: GameGroupedRecord?
     @IBOutlet weak var tableView: UITableView!
     
-    var viewModel = DI.resolve(P2PBetViewModel.self)!
+    var viewModel = Injectable.resolve(P2PBetViewModel.self)!
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {

@@ -6,7 +6,7 @@ class WithdrawalViewModel {
     static let imageMBSizeLimit = 20
     static let selectedImageCountLimit = 3
     private var withdrawalUseCase: WithdrawalUseCase!
-    private var localStorageRepository: LocalStorageRepositoryImpl!
+    private var localStorageRepository: LocalStorageRepository!
     private let refreshTrigger = BehaviorRelay<Void>.init(value: ())
     lazy var localCurrency = localStorageRepository.getLocalCurrency()
     var uploadImageDetail: [Int: UploadImageDetail] = [:]
@@ -15,7 +15,7 @@ class WithdrawalViewModel {
     var dateBegin: Date?
     var dateEnd: Date?
     
-    init(withdrawalUseCase: WithdrawalUseCase, localStorageRepository: LocalStorageRepositoryImpl) {
+    init(withdrawalUseCase: WithdrawalUseCase, localStorageRepository: LocalStorageRepository) {
         self.withdrawalUseCase = withdrawalUseCase
         self.localStorageRepository = localStorageRepository
         pagination = Pagination<WithdrawalRecord>(callBack: {(page) -> Observable<[WithdrawalRecord]> in
