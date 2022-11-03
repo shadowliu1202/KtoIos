@@ -12,7 +12,7 @@ class CrpytoTransationLogViewController: LobbyViewController {
     private var dataSource = [[CpsWithdrawalSummary.TurnOverDetail]](repeating: [], count: 2)
     private var totalRequestAmount: String = ""
     private var totalAchievedAmount: String = ""
-    fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
+    fileprivate var viewModel = Injectable.resolve(WithdrawalViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

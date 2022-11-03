@@ -12,7 +12,7 @@ class ChangePasswordViewController: LobbyViewController, AuthProfileVerification
     @IBOutlet private weak var labPasswordTip: UILabel!
     @IBOutlet weak var btnSubmit: UIButton!
     
-    private var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

@@ -4,7 +4,7 @@ import RxSwift
 import SharedBu
 
 class DepositCryptoViewController: LobbyViewController {
-    private var httpClient = DI.resolve(HttpClient.self)!
+    private var httpClient = Injectable.resolve(HttpClient.self)!
     @IBOutlet private weak var webView: WKWebView!
     
     static var segueIdentifier = "toCryptoWebView"
@@ -13,7 +13,7 @@ class DepositCryptoViewController: LobbyViewController {
     var updateUrl: SingleWrapper<HttpUrl>?
     var displayId: String?
     
-    private var viewModel = DI.resolve(DepositViewModel.self)!
+    private var viewModel = Injectable.resolve(DepositViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

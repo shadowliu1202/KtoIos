@@ -20,7 +20,7 @@ class CasinoViewController: DisplayProduct {
     private var lobbies: [CasinoLobby] = []
     
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
-    private var viewModel = DI.resolve(CasinoViewModel.self)!
+    private var viewModel = Injectable.resolve(CasinoViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     
     private var lobbyHeight: CGFloat = 0

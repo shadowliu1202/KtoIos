@@ -5,7 +5,7 @@ import SharedBu
 class OldEmailModifyConfirmViewController: OldAccountModifyProtocol {
     var oldAccountModifyArgs: OldAccountModifyArgs
     
-    private var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
     private var disposeBag = DisposeBag()
     private var email = ""
     

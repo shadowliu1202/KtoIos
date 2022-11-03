@@ -7,7 +7,7 @@ class P2PSummaryViewController: LobbyViewController {
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet private weak var tableView: UITableView!
     
-    private var viewModel = DI.resolve(P2PBetViewModel.self)!
+    private var viewModel = Injectable.resolve(P2PBetViewModel.self)!
     private var disposeBag = DisposeBag()
     private var unfinishGameCount: Int32 = 0
 

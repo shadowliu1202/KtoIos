@@ -5,8 +5,8 @@ import SharedBu
 class WithdrawalAccountDetailViewController: LobbyViewController {
     static let segueIdentifier = "toAccountDetail"
     
-    fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!
-    fileprivate var playerViewModel = DI.resolve(PlayerViewModel.self)!
+    fileprivate var viewModel = Injectable.resolve(WithdrawlLandingViewModel.self)!
+    fileprivate var playerViewModel = Injectable.resolve(PlayerViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     var account: FiatBankCard?
     @IBOutlet weak var verifyStatusLabel: UILabel!

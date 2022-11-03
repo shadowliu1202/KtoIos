@@ -4,7 +4,7 @@ import SharedBu
 
 class SlotUnsettleRecordsViewController: ProductsViewController {
     static let segueIdentifier = "toSlotUnsettleRecords"
-    var viewModel = DI.resolve(SlotBetViewModel.self)!
+    var viewModel = Injectable.resolve(SlotBetViewModel.self)!
     private var disposeBag = DisposeBag()
     private var unsettleds: [SlotUnsettledSection] = []
     

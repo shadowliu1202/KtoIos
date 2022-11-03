@@ -11,7 +11,7 @@ import RxCocoa
 import SharedBu
 
 class SignupPhoneViewController: OtpViewControllerProtocol {
-    private var viewModel = DI.resolve(SignupPhoneViewModel.self)!
+    private var viewModel = Injectable.resolve(SignupPhoneViewModel.self)!
     private var disposeBag = DisposeBag()
     
     var commonVerifyOtpArgs: CommonVerifyOtpArgs

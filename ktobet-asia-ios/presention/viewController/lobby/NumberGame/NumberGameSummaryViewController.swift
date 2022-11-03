@@ -6,7 +6,7 @@ class NumberGameSummaryViewController: LobbyViewController {
     @IBOutlet weak var segment: UISegmentedControl!
     @IBOutlet weak var containView: UIView!
     
-    private var viewModel = DI.resolve(NumberGameRecordViewModel.self)!
+    private var viewModel = Injectable.resolve(NumberGameRecordViewModel.self)!
     private var disposeBag = DisposeBag()
     
     var presentingVC: UIViewController?

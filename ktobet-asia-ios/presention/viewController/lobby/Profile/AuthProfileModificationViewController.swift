@@ -28,7 +28,7 @@ class AuthProfileModificationViewController: LobbyViewController {
     @IBOutlet weak var passwordTextField: InputPassword!
     @IBOutlet weak var verifyBtn: UIButton!
     
-    private var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -81,7 +81,7 @@ class AuthProfileModificationViewController: LobbyViewController {
     private func alertAndLogout() {
         Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("profile_wrong_password_over_limit"), confirm: {
             CustomServicePresenter.shared.close(completion: {
-                let viewModel = DI.resolve(PlayerViewModel.self)!
+                let viewModel = Injectable.resolve(PlayerViewModel.self)!
                 viewModel.logout()
                     .subscribeOn(MainScheduler.instance)
                     .subscribe(onCompleted: {

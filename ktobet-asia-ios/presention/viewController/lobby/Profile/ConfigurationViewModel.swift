@@ -5,9 +5,9 @@ import SharedBu
 class ConfigurationViewModel {
     
     private let configurationUseCase: ConfigurationUseCase
-    private let localStorageRepo: LocalStorageRepositoryImpl
+    private let localStorageRepo: LocalStorageRepository
     
-    init(_ configurationUseCase : ConfigurationUseCase, _ localStorageRepo: LocalStorageRepositoryImpl) {
+    init(_ configurationUseCase : ConfigurationUseCase, _ localStorageRepo: LocalStorageRepository) {
         self.configurationUseCase = configurationUseCase
         self.localStorageRepo = localStorageRepo
     }

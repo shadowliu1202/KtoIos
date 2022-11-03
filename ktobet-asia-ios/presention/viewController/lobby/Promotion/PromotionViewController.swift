@@ -10,11 +10,11 @@ class PromotionViewController: LobbyViewController {
     
     var barButtonItems: [UIBarButtonItem] = []
     private var disposeBag = DisposeBag()
-    private var viewModel = DI.resolve(PromotionViewModel.self)!
+    private var viewModel = Injectable.resolve(PromotionViewModel.self)!
     private var dataSource: [[PromotionVmItem]] = [[]]
     private var lastTag: PromotionTag?
     private var lastProductTags: [PromotionProductTag]?
-    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    private var localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,9 +152,9 @@ extension PromotionViewController: UITableViewDataSource, UITableViewDelegate {
                     }).disposed(by: disposeBag)
                 })
         } else if let promotion = item as? PromotionEventItem {
-            cell = tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self).configure(item, promotion.isAutoUse(), playerLocaleConfiguration.getSupportLocale())
+            cell = tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self).configure(item, promotion.isAutoUse(), localStorageRepo.getSupportLocale())
         } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "UnusableTableViewCell", cellType: UnusableTableViewCell.self).configure(item, playerLocaleConfiguration.getSupportLocale())
+            cell = tableView.dequeueReusableCell(withIdentifier: "UnusableTableViewCell", cellType: UnusableTableViewCell.self).configure(item, localStorageRepo.getSupportLocale())
         }
         return cell.refreshHandler({ [weak self] in
             self?.viewModel.fetchData()

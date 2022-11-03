@@ -5,7 +5,7 @@ import SharedBu
 class SetMobileIdentity: SetIdentityDelegate {
     private var mode: ModifyMode
 
-    private(set) var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+    private(set) var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
 
     var setIdentityArgs: SetIdentityArgs    
     

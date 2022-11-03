@@ -14,9 +14,8 @@ class WithdrawalRequestViewController: LobbyViewController, AuthProfileVerificat
     @IBOutlet private weak var withdrawalVNDTopLabel: UILabel!
     @IBOutlet private weak var nextButton: UIButton!
     
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
-    
-    private var viewModel = DI.resolve(WithdrawalRequestViewModel.self)!
+    private let localStorageRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
+    private var viewModel = Injectable.resolve(WithdrawalRequestViewModel.self)!
     private var disposeBag = DisposeBag()
     
     var account: FiatBankCard!

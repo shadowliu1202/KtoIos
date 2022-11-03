@@ -3,10 +3,10 @@ import RxSwift
 import SharedBu
 
 class CommonViewController: APPViewController, VersionUpdateProtocol {
-    private let playerViewModel = DI.resolve(PlayerViewModel.self)!
-    var appSyncViewModel = DI.resolve(AppSynchronizeViewModel.self)!
-    private let playerConfiguration = DI.resolve(PlayerConfiguration.self)!
-    private lazy var playerTimeZone: Foundation.TimeZone = playerConfiguration.localeTimeZone()
+    private let playerViewModel = Injectable.resolve(PlayerViewModel.self)!
+    var appSyncViewModel = Injectable.resolve(AppSynchronizeViewModel.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    private lazy var playerTimeZone: Foundation.TimeZone = localStorageRepo.localeTimeZone()
     private var disposeBag = DisposeBag()
     
     override func viewDidAppear(_ animated: Bool) {
@@ -28,7 +28,7 @@ class CommonViewController: APPViewController, VersionUpdateProtocol {
                 } else {
                     self?.confirmUpdate(incoming.apkLink)
                 }
-            }, onError: { [weak self] in
+            }, onFailure: { [weak self] in
                 self?.handleErrors($0)
             }).disposed(by: versionSyncDisposeBag)
         }
@@ -66,7 +66,7 @@ class CommonViewController: APPViewController, VersionUpdateProtocol {
     }
     
     private func executeLogout() {
-        playerViewModel.logout().subscribeOn(MainScheduler.instance).subscribe(onCompleted: { [weak self] in
+        playerViewModel.logout().subscribe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
             self?.disposeBag = DisposeBag()
             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
         }, onError: {

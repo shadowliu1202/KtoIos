@@ -16,7 +16,7 @@ class WithdrawalRecordViewController: LobbyViewController {
     @IBOutlet private weak var emptyView: UIView!
     
     private lazy var filterPersenter = WithdrawalPresenter()
-    fileprivate var viewModel = DI.resolve(WithdrawalViewModel.self)!
+    fileprivate var viewModel = Injectable.resolve(WithdrawalViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var isLoading = false
     fileprivate var activityIndicator = UIActivityIndicatorView(style: .large)

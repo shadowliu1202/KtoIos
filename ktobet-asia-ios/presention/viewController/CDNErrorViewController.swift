@@ -5,7 +5,7 @@ import Moya
 
 class CDNErrorViewController: UIViewController {
     
-    private var viewModel = DI.resolve(TermsViewModel.self)!
+    private var viewModel = Injectable.resolve(TermsViewModel.self)!
     private var disposeBag = DisposeBag()
     private var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
     

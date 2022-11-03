@@ -9,7 +9,7 @@ class ResetPasswordViewModel {
     static let retryCountDownTime = 60
     private var resetUseCase : ResetPasswordUseCase!
     private var systemUseCase : GetSystemStatusUseCase!
-    private let localStorageRepo: PlayerLocaleConfiguration
+    private let localStorageRepo: LocalStorageRepository
     private var phoneEdited = false
     private var mailEdited = false
     private var passwordEdited = false
@@ -50,7 +50,7 @@ class ResetPasswordViewModel {
     private let otpStatus: ReplaySubject<OtpStatus> = .create(bufferSize: 1)
     private let disposeBag = DisposeBag()
     
-    init(_ resetUseCase : ResetPasswordUseCase, _ systemUseCase : GetSystemStatusUseCase, _ localStorageRepo: PlayerLocaleConfiguration) {
+    init(_ resetUseCase : ResetPasswordUseCase, _ systemUseCase : GetSystemStatusUseCase, _ localStorageRepo: LocalStorageRepository) {
         self.resetUseCase = resetUseCase
         self.systemUseCase = systemUseCase
         self.localStorageRepo = localStorageRepo

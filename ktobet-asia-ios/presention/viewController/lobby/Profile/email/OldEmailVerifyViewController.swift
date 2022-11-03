@@ -6,7 +6,7 @@ class OldEmailVerifyViewController: OtpViewControllerProtocol {
     var commonVerifyOtpArgs: CommonVerifyOtpArgs
     var isProfileVerify: Bool = true
     
-    private var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
     private var disposeBag = DisposeBag()
     
     init(email: String) {

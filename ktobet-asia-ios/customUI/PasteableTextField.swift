@@ -18,3 +18,4 @@ class PasteableTextField: UITextField {
         return super.canPerformAction(action, withSender: sender)
     }
 }
+

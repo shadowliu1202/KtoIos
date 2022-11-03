@@ -10,7 +10,7 @@ class PortalMaintenanceViewController: LandingViewController {
     @IBOutlet weak var secondLabel: UILabel!
     @IBOutlet var titleTextView: UITextView!
     
-    private var viewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private var viewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
     private var email: String = ""
     private var countDownTimer = CountDownTimer()

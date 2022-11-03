@@ -26,7 +26,7 @@ class WithdrawlRecordContainer: LobbyViewController {
     var transactionTransactionType: TransactionType!
     var displayId: String!
     
-    private var viewModel = DI.resolve(WithdrawalViewModel.self)!
+    private var viewModel = Injectable.resolve(WithdrawalViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

@@ -9,7 +9,7 @@ class WithdrawalRequestConfirmViewController: LobbyViewController {
     @IBOutlet private weak var withdrawalTodayAmountLimitLabel: UILabel!
     @IBOutlet private weak var confirmButton: UIButton!
     
-    private var viewModel = DI.resolve(WithdrawalRequestViewModel.self)!
+    private var viewModel = Injectable.resolve(WithdrawalRequestViewModel.self)!
     private var activityIndicator = UIActivityIndicatorView(style: .large)
     var account: FiatBankCard!
     var amount: String!

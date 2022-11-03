@@ -6,7 +6,7 @@ class CryptoGuideViewController: LobbyViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    private var viewModel = DI.resolve(TermsViewModel.self)!
+    private var viewModel = Injectable.resolve(TermsViewModel.self)!
     private var resources: [Market] = [] {
         didSet {
             self.tableView.reloadData()

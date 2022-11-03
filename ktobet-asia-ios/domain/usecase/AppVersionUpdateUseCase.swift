@@ -9,13 +9,13 @@ protocol AppVersionUpdateUseCase {
 
 class AppVersionUpdateUseCaseImpl: AppVersionUpdateUseCase {
     var repo : AppUpdateRepository!
-    var playerConf: PlayerConfiguration!
+    var localStorageRepo: LocalStorageRepository!
     private var timezone: Foundation.TimeZone!
     
-    init(_ repo : AppUpdateRepository, _ playerConfiguration: PlayerConfiguration) {
+    init(_ repo : AppUpdateRepository, _ localStorageRepo: LocalStorageRepository) {
         self.repo = repo
-        self.playerConf = playerConfiguration
-        self.timezone = self.playerConf.localeTimeZone()
+        self.localStorageRepo = localStorageRepo
+        self.timezone = self.localStorageRepo.localeTimeZone()
 
     }
     

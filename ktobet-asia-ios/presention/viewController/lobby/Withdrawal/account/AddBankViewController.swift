@@ -21,11 +21,11 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
     @IBOutlet weak var accountErrorLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
     weak var delegate: AccountAddComplete?
-    let viewModel = DI.resolve(AddBankViewModel.self)!
+    let viewModel = Injectable.resolve(AddBankViewModel.self)!
     let disposeBag = DisposeBag()
     
-    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
-    
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         Logger.shared.info("", tag: "KTO-876")
@@ -83,7 +83,7 @@ class AddBankViewController: LobbyViewController, AuthProfileVerification {
         }).disposed(by: disposeBag)
         viewModel.getBanks().subscribe(onSuccess: { [weak self] (tuple: [(Int, Bank)]) in
             guard let `self` = self else { return }
-            self.bankDropDown.optionArray = StringMapper.localizeBankName(banks: tuple, supportLocale: self.playerLocaleConfiguration.getSupportLocale())
+            self.bankDropDown.optionArray = StringMapper.localizeBankName(banks: tuple, supportLocale: self.localStorageRepo.getSupportLocale())
             self.bankDropDown.optionIds = tuple.map{ String($0.0) }
         }, onFailure: handleErrors).disposed(by: disposeBag)
         viewModel.bankValid.subscribe(onNext: { [weak self] (status) in

@@ -8,7 +8,7 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
     static let segueIdentifier = "toCasinoUnsettleRecords"
     @IBOutlet private weak var tableView: UITableView!
     
-    private var viewModel = DI.resolve(CasinoViewModel.self)!
+    private var viewModel = Injectable.resolve(CasinoViewModel.self)!
     private var disposeBag = DisposeBag()
     private var sections: [Section] = []
     

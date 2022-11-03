@@ -79,14 +79,14 @@ class AddBankViewModel {
         return $0 && $1 && $2 && $3 && $4
     }.startWith(false)
     
-    private let localStorageRepo: PlayerLocaleConfiguration
-    private var usecaseAuth : AuthenticationUseCase!
+    private let localStorageRepo: LocalStorageRepository!
+    private var usecaseAuth: AuthenticationUseCase!
     private var bankUseCase: BankUseCase!
     private var withdrawalUseCase: WithdrawalUseCase!
     private var playerDataUseCase: PlayerDataUseCase!
     private var accountPatternGenerator: AccountPatternGenerator!
     
-    init(_ localStorageRepo: PlayerLocaleConfiguration,
+    init(_ localStorageRepo: LocalStorageRepository,
          _ authenticationUseCase : AuthenticationUseCase,
          _ bankUseCase: BankUseCase,
          _ withdrawalUseCase: WithdrawalUseCase,

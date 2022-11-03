@@ -8,7 +8,7 @@ class PromotionSearchViewController: LobbyViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var emptyView: UIView!
     private let FirstEmptyTime = 1
-    private var viewModel = DI.resolve(PromotionHistoryViewModel.self)!
+    private var viewModel = Injectable.resolve(PromotionHistoryViewModel.self)!
     
     private let searchText = BehaviorRelay<String?>(value: nil)
     private var keepNavigationBar: UIColor?

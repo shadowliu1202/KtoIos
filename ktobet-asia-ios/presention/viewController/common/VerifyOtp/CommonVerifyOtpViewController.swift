@@ -31,8 +31,8 @@ class CommonVerifyOtpViewController: CommonViewController {
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     lazy var validator: OtpValidatorDelegation = OtpValidator(accountPatternGenerator: accountPatternGenerator)
-    private var accountPatternGenerator = DI.resolve(AccountPatternGenerator.self)!
-    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private var accountPatternGenerator = Injectable.resolve(AccountPatternGenerator.self)!
+    private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
 
     override func viewDidLoad() {
         super.viewDidLoad()

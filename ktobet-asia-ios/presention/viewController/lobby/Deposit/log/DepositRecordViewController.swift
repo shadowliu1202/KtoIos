@@ -18,7 +18,7 @@ class DepositRecordViewController: LobbyViewController {
     @IBOutlet private weak var emptyView: UIView!
     
     private lazy var filterPersenter = DepositPresenter()
-    private var depositLogViewModel = DI.resolve(DepositLogViewModel.self)!
+    private var depositLogViewModel = Injectable.resolve(DepositLogViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var isLoading = false
     fileprivate var activityIndicator = UIActivityIndicatorView(style: .large)

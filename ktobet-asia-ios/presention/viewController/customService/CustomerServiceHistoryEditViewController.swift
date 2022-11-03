@@ -17,7 +17,7 @@ class CustomerServiceHistoryEditViewController: LobbyViewController {
     var selecteds: [ChatHistory] = []
     var deleteMode: DeleteMode = .include
     
-    var viewModel = DI.resolve(CustomerServiceHistoryViewModel.self)!
+    var viewModel = Injectable.resolve(CustomerServiceHistoryViewModel.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()

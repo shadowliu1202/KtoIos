@@ -14,9 +14,9 @@ protocol ConfigurationUseCase {
 class ConfigurationUseCaseImpl : ConfigurationUseCase{
     
     var playerRepo : PlayerRepository!
-    private var localStorageRepository: LocalStorageRepositoryImpl!
+    private var localStorageRepository: LocalStorageRepository!
     
-    init(_ playerRepo : PlayerRepository, _ localStorageRepository: LocalStorageRepositoryImpl) {
+    init(_ playerRepo : PlayerRepository, _ localStorageRepository: LocalStorageRepository) {
         self.playerRepo = playerRepo
         self.localStorageRepository = localStorageRepository
     }

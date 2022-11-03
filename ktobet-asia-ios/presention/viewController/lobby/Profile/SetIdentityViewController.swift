@@ -15,7 +15,7 @@ class SetIdentityViewController: LobbyViewController {
     
     var delegate: SetIdentityDelegate!
     
-    private var viewModel = DI.resolve(CommonOtpViewModel.self)!
+    private var viewModel = Injectable.resolve(CommonOtpViewModel.self)!
     private var disposeBag = DisposeBag()
     private let countDownTimer = CountDownTimer()
     private var countDownSecond = 0

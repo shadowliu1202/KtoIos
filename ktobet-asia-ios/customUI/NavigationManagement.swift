@@ -7,11 +7,58 @@ let CUSTOM_NAVI_HEIGHT: CGFloat = 48.0
 let DEFAULT_NAVI_HEIGHT: CGFloat = 44.0
 let DIFF_NAVI_HEIGHT = CUSTOM_NAVI_HEIGHT - DEFAULT_NAVI_HEIGHT
 
-class NavigationManagement {
-    static let sharedInstance = NavigationManagement()
+protocol Navigator {
+    var sideBarViewController: SideBarViewController! { get set }
+    var menu: SideMenuNavigationController! { get set }
+    
+    var viewController: UIViewController! { get set }
+    var previousRootViewController: UIViewController? { get set }
+    var unwindNavigate: NotificationNavigate? { get set}
+    
+    func addMenuToBarButtonItem(vc: UIViewController, title: String?)
+    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, title: String?)
+    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, leftItemTitle: String)
+    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String?, action: Selector?)
+    func addRightBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String?, action: Selector?)
+    
+    func goTo(storyboard name: String, viewControllerId: String)
+    func goToPreviousRootViewController()
+    func goToSetDefaultProduct()
+    func goTo(productType: ProductType, isMaintenance: Bool)
+    
+    func popViewController(_ completion: (() -> Void)?)
+    func popViewController(_ completion: (() -> Void)?, to vc: UIViewController)
+    func popToRootViewController(_ completion: (() -> Void)?)
+    func popToNotificationOrBack(unwind: () -> Void)
+    
+    func pushViewController(vc: UIViewController)
+    func pushViewController(vc: UIViewController, unwindNavigate: NotificationNavigate?)
+
+    func cleanProductSelected()
+    
+    func back()
+}
+
+extension Navigator {
+    func addMenuToBarButtonItem(vc: UIViewController, title: String? = nil) { }
+    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, title: String? = nil) { }
+    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) { }
+    func addRightBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) { }
+    
+    func goTo(productType: ProductType, isMaintenance: Bool = false) {
+        goTo(productType: productType, isMaintenance: isMaintenance)
+    }
+        
+    func popToRootViewController(_ completion: (() -> Void)? = nil) { }
+    func popViewController(_ completion: (() -> Void)? = nil, to vc: UIViewController) { }
+    func popViewController(_ completion: (() -> Void)? = nil) { }
+}
+
+class NavigationManagement: Navigator {
+    static var sharedInstance: Navigator = NavigationManagement()
     
     var sideBarViewController: SideBarViewController!
-    private var menu: SideMenuNavigationController!
+    var menu: SideMenuNavigationController!
     
     var viewController: UIViewController!
     var previousRootViewController: UIViewController?
@@ -20,15 +67,26 @@ class NavigationManagement {
     private init() { }
     
     func addMenuToBarButtonItem(vc: UIViewController, title: String? = nil) {
+        guard let navigationBar = vc.navigationController?.navigationBar else { return }
+        
         viewController = vc
+        
         if sideBarViewController == nil {
             initSideMenu()
         }
         
-        SideMenuManager.default.addPanGestureToPresent(toView: vc.navigationController!.navigationBar)
+        SideMenuManager.default.addPanGestureToPresent(toView: navigationBar)
         SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: vc.view, forMenu: .left)
-        let menuButton = UIBarButtonItem(image: UIImage(named: "Menu")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(NavigationManagement.showMenu))
+        
+        let menuButton = UIBarButtonItem(
+            image: UIImage(named: "Menu")?.withRenderingMode(.alwaysOriginal),
+            style: .plain,
+            target: self,
+            action: #selector(NavigationManagement.showMenu)
+        )
+        
         add(leftBarButtonItems: [menuButton])
+        
         vc.navigationItem.title = title
     }
     

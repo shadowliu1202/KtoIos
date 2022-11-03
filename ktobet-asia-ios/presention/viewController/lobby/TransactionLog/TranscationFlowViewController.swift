@@ -106,7 +106,7 @@ class TranscationFlowController {
     
     private func goNumberGameDetail(_ wagerId: String) {
         self.vc?.view.isUserInteractionEnabled = false
-        let viewModel = DI.resolve(NumberGameRecordViewModel.self)!
+        let viewModel = Injectable.resolve(NumberGameRecordViewModel.self)!
         viewModel.getGameDetail(wagerId: wagerId).subscribe(onSuccess: { [weak self] (result) in
             guard let detail = UIStoryboard(name: "NumberGame", bundle: nil).instantiateViewController(withIdentifier: "NumberGameMyBetDetailViewController") as? NumberGameMyBetDetailViewController else { return }
             detail.details = [result]

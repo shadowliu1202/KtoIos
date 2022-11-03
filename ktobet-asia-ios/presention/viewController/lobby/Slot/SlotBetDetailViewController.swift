@@ -6,7 +6,7 @@ class SlotBetDetailViewController: LobbyViewController {
     static let segueIdentifier = "toSlotBetDetail"
     @IBOutlet weak var tableView: UITableView!
     
-    var viewModel = DI.resolve(SlotBetViewModel.self)!
+    var viewModel = Injectable.resolve(SlotBetViewModel.self)!
     var recordData: SlotGroupedRecord?
     var records: [SlotBetRecord] = [] {
         didSet {

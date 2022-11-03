@@ -4,7 +4,7 @@ import SharedBu
 struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
     @StateObject var viewModel: ViewModel
     
-    private let supportLocale: SupportLocale = DI.resolve(PlayerLocaleConfiguration.self)!.getSupportLocale()
+    private let supportLocale: SupportLocale = Injectable.resolve(LocalStorageRepository.self)!.getSupportLocale()
 
     var body: some View {
         ScrollView {
@@ -58,6 +58,6 @@ struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
 
 struct CryptoGuideVNDView_Previews: PreviewProvider {
     static var previews: some View {
-        CryptoGuideVNDView(viewModel: DI.resolve(CryptoGuideVNDViewModelImpl.self)!)
+        CryptoGuideVNDView(viewModel: Injectable.resolve(CryptoGuideVNDViewModelImpl.self)!)
     }
 }

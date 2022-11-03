@@ -9,7 +9,7 @@ class NumberGameDetailViewController: LobbyViewController {
     static let segueIdentifier = "toNumberGameBetDetail"
     @IBOutlet weak var tableView: UITableView!
     
-    var viewModel = DI.resolve(NumberGameRecordViewModel.self)!
+    var viewModel = Injectable.resolve(NumberGameRecordViewModel.self)!
     private let disposeBag = DisposeBag()
     private var details: [NumberGameBetDetail]?
     

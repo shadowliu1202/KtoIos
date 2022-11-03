@@ -45,7 +45,7 @@ class LevelPrivilegeViewController: LobbyViewController {
     @IBOutlet weak var bannerContainer: UIView!
     var banner: UIView?
     private var disposeBag = DisposeBag()
-    private var viewModel = DI.resolve(PlayerViewModel.self)!
+    private var viewModel = Injectable.resolve(PlayerViewModel.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()

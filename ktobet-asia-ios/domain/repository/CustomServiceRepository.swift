@@ -121,11 +121,16 @@ extension CustomServiceRepositoryImpl: CustomerInfraService {
     }
     
     func queryChatHistory(page: Int, pageSize: Int = 20) -> Single<(TotalCount, [ChatHistory])> {
-        apiCustomService.getPlayerChatHistory(pageIndex: page, pageSize: pageSize).map({ [unowned self] in
-            guard let data = $0.data else { return (0, []) }
-            let histories = try data.payload.map({ try $0.toChatHistory(timeZone: self.playerConfig.localeTimeZone()) })
-            return (data.totalCount, histories)
-        })
+        apiCustomService
+            .getPlayerChatHistory(
+                pageIndex: page,
+                pageSize: pageSize
+            )
+            .map({ [unowned self] in
+                guard let data = $0.data else { return (0, []) }
+                let histories = try data.payload.map({ try $0.toChatHistory(timeZone: self.localStorageRepo.localeTimeZone()) })
+                return (data.totalCount, histories)
+            })
     }
 }
 
@@ -148,7 +153,7 @@ protocol CustomServiceRepository {
 
 class CustomServiceRepositoryImpl : CustomServiceRepository {
     private var apiCustomService : CustomServiceApi!
-    private var playerConfig: PlayerConfiguration
+    private var localStorageRepo: LocalStorageRepository
     private let httpClient: HttpClient
     private var portalChatRoom: PortalChatRoom? = nil {
         didSet {
@@ -162,10 +167,10 @@ class CustomServiceRepositoryImpl : CustomServiceRepository {
     private var chatRoomClient: ChatRoomSignalRClient? = nil
     private var chatRoomSubject = BehaviorSubject<PortalChatRoom>(value: CustomServiceRepositoryImpl.PortalChatRoomNoExist)
     
-    init(_ apiCustomService : CustomServiceApi, _ httpClient: HttpClient, _ playerConfig: PlayerConfiguration) {
+    init(_ apiCustomService : CustomServiceApi, _ httpClient: HttpClient, _ localStorageRepo: LocalStorageRepository) {
         self.apiCustomService = apiCustomService
         self.httpClient = httpClient
-        self.playerConfig = playerConfig
+        self.localStorageRepo = localStorageRepo
     }
     
     func getBelongedSkillId(platform: Int) -> Single<String> {

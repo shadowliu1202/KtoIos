@@ -33,16 +33,16 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     private var imageApi: ImageApi!
     private var cpsApi: CPSApi!
     private var bankRepository: BankRepository!
-    private let playerLocaleConfiguration: PlayerLocaleConfiguration
+    private let localStorageRepo: LocalStorageRepository
     private let withdrawalSystem = WithdrawalSystem.create()
     private var httpClient: HttpClient!
     
-    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi, bankRepository: BankRepository!, playerLocaleConfiguration: PlayerLocaleConfiguration, httpClient: HttpClient) {
+    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi, bankRepository: BankRepository!, localStorageRepo: LocalStorageRepository, httpClient: HttpClient) {
         self.bankApi = bankApi
         self.imageApi = imageApi
         self.cpsApi = cpsApi
         self.bankRepository = bankRepository
-        self.playerLocaleConfiguration = playerLocaleConfiguration
+        self.localStorageRepo = localStorageRepo
         self.httpClient = httpClient
     }
     
@@ -165,7 +165,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     
     fileprivate func createWithdrawalRecordDetail(detail: WithdrawalRecordDetailData, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
         return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { (tHistories) -> WithdrawalDetail in
-            try detail.toWithdrawalDetail(transactionTransactionType: transactionTransactionType, statusChangeHistories: tHistories, playerLocale: self.playerLocaleConfiguration.getSupportLocale())
+            try detail.toWithdrawalDetail(transactionTransactionType: transactionTransactionType, statusChangeHistories: tHistories, playerLocale: self.localStorageRepo.getSupportLocale())
         }
     }
     
@@ -197,7 +197,7 @@ class WithdrawalRepositoryImpl: WithdrawalRepository {
     func getWithdrawalAccounts() -> Single<[FiatBankCard]> {
         return Single<[FiatBankCard]>.zip(bankApi.getWithdrawalAccount(), bankRepository.getBankDictionary()) { [unowned self] (response, banks) in
             if let databeans = response.data?.payload {
-                let data: [FiatBankCard] = databeans.map({ $0.toFiatBankCard(banks: banks, locale: self.playerLocaleConfiguration.getSupportLocale())
+                let data: [FiatBankCard] = databeans.map({ $0.toFiatBankCard(banks: banks, locale: self.localStorageRepo.getSupportLocale())
 
                 })
                 return data

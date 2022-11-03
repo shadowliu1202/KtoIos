@@ -12,7 +12,7 @@ class OfflineMessageViewController: CommonViewController {
     @IBOutlet weak var emailInputTextHetght: NSLayoutConstraint!
     @IBOutlet weak var emailInputTextTopMargin: NSLayoutConstraint!
     
-    private var viewModel = DI.resolve(SurveyViewModel.self)!
+    private var viewModel = Injectable.resolve(SurveyViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

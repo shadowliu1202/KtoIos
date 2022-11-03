@@ -10,12 +10,12 @@ protocol P2PRecordRepository {
 
 class P2PRecordRepositoryImpl: P2PRecordRepository {
     private var p2pApi: P2PApi!
-    private var playerConfiguation: PlayerConfiguration!
+    private var localStorageRepo: LocalStorageRepository!
     private var httpClient: HttpClient!
     
-    init(_ p2pApi: P2PApi, playerConfiguation: PlayerConfiguration, httpClient: HttpClient) {
+    init(_ p2pApi: P2PApi, localStorageRepo: LocalStorageRepository, httpClient: HttpClient) {
         self.p2pApi = p2pApi
-        self.playerConfiguation = playerConfiguation
+        self.localStorageRepo = localStorageRepo
         self.httpClient = httpClient
     }
     
@@ -43,12 +43,15 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
     }
     
     func getBetSummaryByGame(beginDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32) -> Single<[P2PGameBetRecord]> {
-        p2pApi.getBetRecords(beginDate: beginDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
-                             endDate: endDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
-                             gameId: gameId).map { (response) -> [P2PGameBetRecord] in
-            guard let data = response.data else { return [] }
-            return try data.map({ try $0.toP2PGameBetRecord() })
-        }
+        p2pApi
+            .getBetRecords(
+                beginDate: beginDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+                endDate: endDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+                gameId: gameId
+            )
+            .map { (response) -> [P2PGameBetRecord] in
+                guard let data = response.data else { return [] }
+                return try data.map({ try $0.toP2PGameBetRecord() })
+            }
     }
-    
 }

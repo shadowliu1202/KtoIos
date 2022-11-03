@@ -75,6 +75,6 @@ struct StarMergerView<ViewModel: StarMergerViewModel>: View {
 
 struct StarMergerView_Previews: PreviewProvider {
     static var previews: some View {
-        StarMergerView(viewModel: DI.resolve(StarMergerViewModelImpl.self)!, { _ in })
+        StarMergerView(viewModel: Injectable.resolve(StarMergerViewModelImpl.self)!, { _ in })
     }
 }

@@ -16,7 +16,7 @@ class CustomerServiceMainViewController: LobbyViewController {
             self.tableView.reloadData()
         }
     }
-    var viewModel = DI.resolve(CustomerServiceHistoryViewModel.self)!
+    var viewModel = Injectable.resolve(CustomerServiceHistoryViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

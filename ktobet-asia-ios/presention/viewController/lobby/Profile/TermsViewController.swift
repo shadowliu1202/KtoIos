@@ -10,7 +10,7 @@ class TermsViewController: LobbyViewController, TermsTableDelegate {
     static let segueIdentifier = "toTerms"
     
     private var tableContainer: TermsTableViewController?
-    private var viewModel = DI.resolve(TermsViewModel.self)!
+    private var viewModel = Injectable.resolve(TermsViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

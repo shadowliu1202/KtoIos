@@ -13,7 +13,7 @@ class PromotionHistoryViewController: LobbyViewController {
     
     var barButtonItems: [UIBarButtonItem] = []
     
-    fileprivate var viewModel = DI.resolve(PromotionHistoryViewModel.self)!
+    fileprivate var viewModel = Injectable.resolve(PromotionHistoryViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var currentFilter: [FilterItem]?
     fileprivate var filterPersenter = PromotionPresenter()

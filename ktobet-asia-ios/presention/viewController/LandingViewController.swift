@@ -3,9 +3,9 @@ import SharedBu
 import RxSwift
 
 class LandingViewController: APPViewController, VersionUpdateProtocol {
-    var appSyncViewModel = DI.resolve(AppSynchronizeViewModel.self)!
-    private let playerConfiguration = DI.resolve(PlayerConfiguration.self)!
-    lazy var playerTimeZone: Foundation.TimeZone = playerConfiguration.localeTimeZone()
+    var appSyncViewModel = Injectable.resolve(AppSynchronizeViewModel.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    lazy var playerTimeZone: Foundation.TimeZone = localStorageRepo.localeTimeZone()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

@@ -40,13 +40,13 @@ class DepositGatewayViewController: LobbyViewController {
     var isStarInputAmount: Bool = false
     var terminateAlertMessage = ""
     
-    var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
-    var alert: AlertProtocol = DI.resolve(Alert.self)!
+    var localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    var alert: AlertProtocol = Injectable.resolve(AlertProtocol.self)!
     
     private var disposeBag = DisposeBag()
 
-    private let offlineViewModel = DI.resolve(OfflineViewModel.self)!
-    private let onlineViewModel = DI.resolve(ThirdPartyDepositViewModel.self)!
+    private let offlineViewModel = Injectable.resolve(OfflineViewModel.self)!
+    private let onlineViewModel = Injectable.resolve(ThirdPartyDepositViewModel.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +63,7 @@ class DepositGatewayViewController: LobbyViewController {
         case is OnlinePayment:
             initOnlineUI()
             bindThirdPartyViewModel()
-            terminateAlertMessage = getTerminateAlertMessage(by: playerLocaleConfiguration.getSupportLocale(), paymentName: depositType!.name)
+            terminateAlertMessage = getTerminateAlertMessage(by: localStorageRepo.getSupportLocale(), paymentName: depositType!.name)
         
         default:
             offlineViewModel.unwindSegueId = "unwindToNotificationDetail"
@@ -90,7 +90,7 @@ class DepositGatewayViewController: LobbyViewController {
         remitterBankCardNumberTextField.maxLength = 4
         remitterBankCardNumberTextField.numberOnly = true
         
-        remitterBankCardHeight.constant = Theme.shared.getRemitterBankCardHeight(by: playerLocaleConfiguration.getSupportLocale())
+        remitterBankCardHeight.constant = Theme.shared.getRemitterBankCardHeight(by: localStorageRepo.getSupportLocale())
 
         remitterAmountTextField.setTitle(Localize.string("deposit_amount"))
         remitterAmountTextField.setKeyboardType(.numberPad)
@@ -104,13 +104,13 @@ class DepositGatewayViewController: LobbyViewController {
     }
 
     private func localize() {
-        if playerLocaleConfiguration.getCultureCode() == SupportLocale.China.init().cultureCode() {
+        if localStorageRepo.getCultureCode() == SupportLocale.China.init().cultureCode() {
             withdrawalVNDTipLabel.isHidden = true
         }
     }
     
     private func getTerminateAlertMessage(by playerLocale: SupportLocale, paymentName: String) -> String {
-        switch playerLocaleConfiguration.getSupportLocale() {
+        switch localStorageRepo.getSupportLocale() {
         case is SupportLocale.Vietnam:
             return Localize.string("deposit_payment_terminate", paymentName)
         case is SupportLocale.China, is SupportLocale.Unknown:
@@ -199,7 +199,7 @@ class DepositGatewayViewController: LobbyViewController {
         remitterNameTextFieldHeight.constant = isHidden ? 0 : 60
         remitterNameTextFieldTop.constant = isHidden ? 0 : 12
         remitterBankCardNumberTextField.isHidden = isHidden
-        remitterBankCardHeight.constant = isHidden ? 0 : Theme.shared.getRemitterBankCardHeight(by: playerLocaleConfiguration.getSupportLocale())
+        remitterBankCardHeight.constant = isHidden ? 0 : Theme.shared.getRemitterBankCardHeight(by: localStorageRepo.getSupportLocale())
         remitterBankCardTop.constant = isHidden ? 0 : 12
         remitterHintLabel.text = hint
     }

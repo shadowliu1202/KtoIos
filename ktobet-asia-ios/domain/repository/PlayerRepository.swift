@@ -33,14 +33,14 @@ class PlayerRepositoryImpl : PlayerRepository {
     private var playerApi: PlayerApi!
     private var portalApi: PortalApi!
     private var settingStore: SettingStore!
-    private let localStorageRepo: LocalStorageRepositoryImpl
+    private let localStorageRepo: LocalStorageRepository
     private let memoryRepo: MemoryCacheImpl
     
     init(_ httpClient: HttpClient,
          _ playerApi: PlayerApi,
          _ portalApi: PortalApi,
          _ settingStore: SettingStore,
-         _ localStorageRepo: LocalStorageRepositoryImpl,
+         _ localStorageRepo: LocalStorageRepository,
          _ memoryRepo: MemoryCacheImpl) {
         self.httpClient = httpClient
         self.playerApi = playerApi
@@ -54,11 +54,11 @@ class PlayerRepositoryImpl : PlayerRepository {
         let oldURLString = httpClient.host.description
         self.localStorageRepo.setCultureCode(playerLocale.cultureCode())
         Theme.shared.changeEntireAPPFont(by: playerLocale)
-        DI.resetObjectScope(.locale)
+        Injectable.resetObjectScope(.locale)
         
-        let newURLString = DI.resolve(HttpClient.self)!.host.description
+        let newURLString = Injectable.resolve(HttpClient.self)!.host.description
         self.httpClient.replaceCookiesDomain(oldURLString, to: newURLString)
-        DI.resetObjectScope(.locale)
+        Injectable.resetObjectScope(.locale)
     }
     
     func loadPlayer() -> Single<Player> {

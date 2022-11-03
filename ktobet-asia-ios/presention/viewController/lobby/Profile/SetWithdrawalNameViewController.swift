@@ -10,7 +10,7 @@ class SetWithdrawalNameViewController: LobbyViewController, AuthProfileVerificat
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var submitBtn: UIButton!
     
-    private var viewModel = DI.resolve(ModifyProfileViewModel.self)!
+    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

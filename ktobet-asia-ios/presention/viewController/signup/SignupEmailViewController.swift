@@ -31,8 +31,8 @@ class SignupEmailViewController: LandingViewController {
     private var disposeBag = DisposeBag()
     private let segueUserInfo = "BackToUserInfo"
     private let segueDefault = "GoToDefault"
-    private var viewModel = DI.resolve(SignupEmailViewModel.self)!
-    private let serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private var viewModel = Injectable.resolve(SignupEmailViewModel.self)!
+    private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private var disposebag = DisposeBag()
     private var timerResend = CountDownTimer()
     private var timerVerify = CountDownTimer()

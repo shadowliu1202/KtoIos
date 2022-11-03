@@ -15,7 +15,7 @@ class TransactionLogViewController: LobbyViewController {
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     let disposeBag = DisposeBag()
-    let viewModel = DI.resolve(TransactionLogViewModel.self)!
+    let viewModel = Injectable.resolve(TransactionLogViewModel.self)!
     let summaryRefresh = PublishSubject<()>()
     var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<String, TransactionLog>>!
     
@@ -28,7 +28,7 @@ class TransactionLogViewController: LobbyViewController {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("balancelog_title"))
         //Deposit refactor feature兼容舊的流程
-        let depositLogViewModel = DI.resolve(DepositLogViewModel.self)!
+        let depositLogViewModel = Injectable.resolve(DepositLogViewModel.self)!
         depositLogViewModel.recentPaymentLogs.subscribe(onNext: { _ in }).disposed(by: disposeBag)
         //end
         tableView.rx.setDelegate(self).disposed(by: disposeBag)

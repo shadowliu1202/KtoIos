@@ -31,11 +31,11 @@ protocol PlayerDataUseCase {
 let PASSWORD_ERROR_LIMIT = 5
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
     var playerRepository : PlayerRepository!
-    var localRepository: LocalStorageRepositoryImpl!
+    var localRepository: LocalStorageRepository!
     var settingStore: SettingStore!
     private var passwordErrorCount: Int = 0
     
-    init(_ playerRepository : PlayerRepository, localRepository: LocalStorageRepositoryImpl, settingStore: SettingStore) {
+    init(_ playerRepository : PlayerRepository, localRepository: LocalStorageRepository, settingStore: SettingStore) {
         self.playerRepository = playerRepository
         self.localRepository = localRepository
         self.settingStore = settingStore

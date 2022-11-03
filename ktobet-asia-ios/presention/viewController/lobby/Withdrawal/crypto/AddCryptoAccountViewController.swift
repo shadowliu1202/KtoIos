@@ -17,8 +17,8 @@ class AddCryptoAccountViewController: LobbyViewController {
 
     var bankCardCount: Int = 0
     
-    fileprivate let viewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
-    private let cryptoViewModel = DI.resolve(CryptoViewModel.self)!
+    fileprivate let viewModel = Injectable.resolve(ManageCryptoBankCardViewModel.self)!
+    private let cryptoViewModel = Injectable.resolve(CryptoViewModel.self)!
     
     fileprivate let disposeBag = DisposeBag()
     fileprivate var imagePickerView: ImagePickerViewController!

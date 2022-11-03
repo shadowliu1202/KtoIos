@@ -8,13 +8,13 @@
 import Foundation
 import SharedBu
 
-let Localize = DI.resolve(LocalizeUtils.self)!
+let Localize = Injectable.resolve(LocalizeUtils.self)!
 
 class LocalizeUtils: NSObject {
-    private let localStorageRepo: PlayerLocaleConfiguration
+    private let localStorageRepo: LocalStorageRepository
     
-    init(playerLocaleConfiguration: PlayerLocaleConfiguration) {
-        self.localStorageRepo = playerLocaleConfiguration
+    init(localStorageRepo: LocalStorageRepository) {
+        self.localStorageRepo = localStorageRepo
     }
     
     func string(_ key: String, _ parameters: [String]) -> String {

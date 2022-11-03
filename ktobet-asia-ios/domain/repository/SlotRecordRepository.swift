@@ -12,12 +12,12 @@ protocol SlotRecordRepository {
 
 class SlotRecordRepositoryImpl: SlotRecordRepository {
     private var slotApi: SlotApi!
-    private var playerConfiguation: PlayerConfiguration!
+    private var localStorageRepo: LocalStorageRepository!
     private var httpClient: HttpClient!
     
-    init(_ slotApi: SlotApi, playerConfiguation: PlayerConfiguration, httpClient: HttpClient) {
+    init(_ slotApi: SlotApi, localStorageRepo: LocalStorageRepository, httpClient: HttpClient) {
         self.slotApi = slotApi
-        self.playerConfiguation = playerConfiguation
+        self.localStorageRepo = localStorageRepo
         self.httpClient = httpClient
     }
     
@@ -45,16 +45,23 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
         }
     }
     
-    func getBetRecords(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32, offset: Int, take: Int) -> Single<CommonPage<SlotBetRecord>> {
-        slotApi.getSlotBetRecordByPage(beginDate: startDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
-                                       endDate: endDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
-                                       gameId: gameId,
-                                       offset: offset,
-                                       take: take)
+    func getBetRecords(startDate: SharedBu.LocalDateTime,
+                       endDate: SharedBu.LocalDateTime,
+                       gameId: Int32,
+                       offset: Int,
+                       take: Int) -> Single<CommonPage<SlotBetRecord>> {
+        slotApi
+            .getSlotBetRecordByPage(
+                beginDate: startDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+                endDate: endDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+                gameId: gameId,
+                offset: offset,
+                take: take
+            )
             .map { (response) -> CommonPage<SlotBetRecord> in
-            guard let data = response.data else { return CommonPage(data: [], totalCount: 0) }
-            return CommonPage(data: try data.data.map { try $0.toSlotBetRecord() }, totalCount: Int32(data.totalCount))
-        }
+                guard let data = response.data else { return CommonPage(data: [], totalCount: 0) }
+                return CommonPage(data: try data.data.map { try $0.toSlotBetRecord() }, totalCount: Int32(data.totalCount))
+            }
     }
     
     func getUnsettledSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[SlotUnsettledSummary]> {

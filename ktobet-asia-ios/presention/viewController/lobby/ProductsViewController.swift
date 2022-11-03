@@ -4,8 +4,8 @@ import SharedBu
 
 class ProductsViewController: LobbyViewController {
     private var disposeBag = DisposeBag()
-    private lazy var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
-    private lazy var playerViewModel = DI.resolve(PlayerViewModel.self)!
+    private lazy var serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+    private lazy var playerViewModel = Injectable.resolve(PlayerViewModel.self)!
     private var productType: ProductType!
     override func viewDidLoad() {
        super.viewDidLoad()
@@ -22,23 +22,29 @@ class ProductsViewController: LobbyViewController {
     }
     
     private func observeSystemStatus() {
-        serviceViewModel.output.portalMaintenanceStatus.subscribe(onNext: { [weak self] status in
+        serviceViewModel.output.portalMaintenanceStatus
+            .subscribe(onNext: { [weak self] status in
             guard let self = self else { return }
+                
             switch status {
             case is MaintenanceStatus.AllPortal:
                 self.playerViewModel.logout()
                     .subscribe(on: MainScheduler.instance)
                     .subscribe(onCompleted: { [weak self] in
                         self?.showLoginMaintenanAlert()
-                    }).disposed(by: self.disposeBag)
+                    })
+                    .disposed(by: self.disposeBag)
+                
             case let productStatus as MaintenanceStatus.Product:
                 if productStatus.isProductMaintain(productType: self.productType) {
                     NavigationManagement.sharedInstance.goTo(productType: self.productType, isMaintenance: true)
                 }
+                
             default:
                 break
             }
-        }).disposed(by: disposeBag)
+        })
+            .disposed(by: disposeBag)
     }
 
     func gameDidDisappear() {

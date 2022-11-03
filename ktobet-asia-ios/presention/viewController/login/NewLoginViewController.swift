@@ -19,7 +19,7 @@ class NewLoginViewController: LandingViewController {
     private let disposeBag = DisposeBag()
     
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
-    private lazy var serviceStatusViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private lazy var serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()

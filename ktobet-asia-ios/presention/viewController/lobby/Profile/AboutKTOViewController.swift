@@ -9,8 +9,8 @@ class AboutKTOViewController: LobbyViewController {
     @IBOutlet weak var webLink: UITextView!
     @IBOutlet weak var csLink: UITextView!
     
-    private let httpClient = DI.resolve(HttpClient.self)!
-    private let viewModel = DI.resolve(TermsViewModel.self)!
+    private let httpClient = Injectable.resolve(HttpClient.self)!
+    private let viewModel = Injectable.resolve(TermsViewModel.self)!
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

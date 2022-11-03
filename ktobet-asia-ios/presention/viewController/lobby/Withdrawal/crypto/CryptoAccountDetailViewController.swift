@@ -15,7 +15,7 @@ class CryptoAccountDetailViewController: LobbyViewController {
     
     var account: CryptoBankCard!
 
-    fileprivate var viewModel = DI.resolve(ManageCryptoBankCardViewModel.self)!
+    fileprivate var viewModel = Injectable.resolve(ManageCryptoBankCardViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     
     override func viewDidLoad() {

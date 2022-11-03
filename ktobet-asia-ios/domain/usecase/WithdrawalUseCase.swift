@@ -30,9 +30,9 @@ protocol WithdrawalUseCase {
 
 class WithdrawalUseCaseImpl: WithdrawalUseCase {
     private var withdrawalRepository : WithdrawalRepository!
-    private let localStorageRepo: PlayerLocaleConfiguration
+    private let localStorageRepo: LocalStorageRepository
     
-    init(_ withdrawalRepository : WithdrawalRepository, _ localStorageRepo: PlayerLocaleConfiguration) {
+    init(_ withdrawalRepository : WithdrawalRepository, _ localStorageRepo: LocalStorageRepository) {
         self.withdrawalRepository = withdrawalRepository
         self.localStorageRepo = localStorageRepo
     }

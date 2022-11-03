@@ -15,9 +15,9 @@ class DepositViewController: LobbyViewController {
     @IBOutlet private weak var showAllRecordButton: UIButton!
     @IBOutlet private weak var depositRecordTableView: UITableView!
     
-    private var viewModel = DI.resolve(DepositViewModel.self)!
-    private var depositLogViewModel = DI.resolve(DepositLogViewModel.self)!
-    private var playerLocaleConfiguration = DI.resolve(PlayerLocaleConfiguration.self)!
+    private var viewModel = Injectable.resolve(DepositViewModel.self)!
+    private var depositLogViewModel = Injectable.resolve(DepositLogViewModel.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     private var disposeBag = DisposeBag()
     
     // MARK: LIFE CYCLE
@@ -33,7 +33,7 @@ class DepositViewController: LobbyViewController {
     }
     
     deinit {
-        DI.resetObjectScope(.depositFlow)
+        Injectable.resetObjectScope(.depositFlow)
         print("\(type(of: self)) deinit")
     }
     
@@ -84,7 +84,7 @@ class DepositViewController: LobbyViewController {
                 self?.depositTypeTableView.isHidden = false
             }
         }).bind(to: depositTypeTableView.rx.items(cellIdentifier: String(describing: DepositTypeTableViewCell.self), cellType: DepositTypeTableViewCell.self)) { [unowned self] index, data, cell in
-            cell.setUp(depositSelection: data, local: self.playerLocaleConfiguration.getSupportLocale())
+            cell.setUp(depositSelection: data, local: self.localStorageRepo.getSupportLocale())
             cell.removeBorder()
             if index != 0 {
                 cell.addBorder(leftConstant: 78)

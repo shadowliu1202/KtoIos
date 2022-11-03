@@ -23,7 +23,7 @@ class WithdrawlLandingViewController: LobbyViewController {
         self.addViewWithFrames(asChildViewController: viewController)
         return viewController
     }()
-    fileprivate var viewModel = DI.resolve(WithdrawlLandingViewModel.self)!
+    fileprivate var viewModel = Injectable.resolve(WithdrawlLandingViewModel.self)!
     fileprivate var disposeBag = DisposeBag()
     fileprivate var accountsCount: Int {
         switch bankCardType {

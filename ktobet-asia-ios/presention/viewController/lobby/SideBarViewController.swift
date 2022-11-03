@@ -45,13 +45,13 @@ class SideBarViewController: LobbyViewController {
     @IBOutlet private weak var levelView: UIView!
     @IBOutlet private weak var balanceView: UIView!
     
-    private let localStorageRepo: PlayerLocaleConfiguration = DI.resolve(LocalStorageRepositoryImpl.self)!
+    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     private var player : Player?
     private var disposeBag = DisposeBag()
     private var disposableNotify: Disposable?
-    private var viewModel = DI.resolve(PlayerViewModel.self)!
-    private var systemViewModel = DI.resolve(SystemViewModel.self)!
-    private var serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
+    private var viewModel = Injectable.resolve(PlayerViewModel.self)!
+    private var systemViewModel = Injectable.resolve(SystemViewModel.self)!
+    private var serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private var slideViewModel = SlideMenuViewModel()
     private var refreshTrigger = PublishSubject<()>()
     private var productMaintenanceStatus: MaintenanceStatus.Product?
@@ -166,7 +166,6 @@ class SideBarViewController: LobbyViewController {
     fileprivate func showAlert(title: String, message: String, cancel: (() -> ())? = nil, isMaintain: Bool = false) {
         Alert.shared.show(title, message, confirm: {[weak self] in
             guard let self = self else { return }
-            
             CustomServicePresenter.shared.close(completion: {
                 self.viewModel.logout()
                     .subscribe(on: MainScheduler.instance)
@@ -176,8 +175,7 @@ class SideBarViewController: LobbyViewController {
                         } else {
                             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
                         }
-                    })
-                    .disposed(by: self.disposeBag)
+                    }).disposed(by: self.disposeBag)
             })
         }, cancel: cancel)
     }

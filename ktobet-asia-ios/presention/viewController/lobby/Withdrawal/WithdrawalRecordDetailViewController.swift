@@ -46,9 +46,9 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
     var displayId: String!
     var transactionTransactionType: TransactionType!
     
-    private var viewModel = DI.resolve(WithdrawalViewModel.self)!
-    private let httpClient = DI.resolve(HttpClient.self)!
-    private var uploadViewModel = DI.resolve(UploadPhotoViewModel.self)!
+    private var viewModel = Injectable.resolve(WithdrawalViewModel.self)!
+    private let httpClient = Injectable.resolve(HttpClient.self)!
+    private var uploadViewModel = Injectable.resolve(UploadPhotoViewModel.self)!
     private var disposeBag = DisposeBag()
     private var removeButtons: [UIButton] = []
     private var isOverImageLimit = false

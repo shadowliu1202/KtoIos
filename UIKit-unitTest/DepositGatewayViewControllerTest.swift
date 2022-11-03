@@ -1,6 +1,7 @@
 import Mockingbird
 import SharedBu
 import RxSwift
+
 @testable import ktobet_asia_ios_qat
 
 class DepositGatewayViewControllerTest: XCTestCase {
@@ -25,7 +26,7 @@ class DepositGatewayViewControllerTest: XCTestCase {
         let stubPlayerLocaleConfiguration = FakePlayerLocaleConfiguration(stubSupportLocale: .Vietnam.init())
         let mockAlert = mock(AlertProtocol.self)
         
-        vc.playerLocaleConfiguration = stubPlayerLocaleConfiguration
+        vc.localStorageRepo = stubPlayerLocaleConfiguration
         vc.alert = mockAlert
         vc.paymentIdentity = ""
         vc.depositType = OnlinePayment(stubOnlinePayment)
@@ -45,7 +46,7 @@ class DepositGatewayViewControllerTest: XCTestCase {
         let stubPlayerLocaleConfiguration = FakePlayerLocaleConfiguration(stubSupportLocale: .China.init())
         let mockAlert = mock(AlertProtocol.self)
         
-        vc.playerLocaleConfiguration = stubPlayerLocaleConfiguration
+        vc.localStorageRepo = stubPlayerLocaleConfiguration
         vc.alert = mockAlert
         vc.paymentIdentity = ""
         vc.depositType = OnlinePayment(stubOnlinePayment)

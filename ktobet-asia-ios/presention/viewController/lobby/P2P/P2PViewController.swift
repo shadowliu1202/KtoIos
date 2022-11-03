@@ -9,7 +9,7 @@ class P2PViewController: ProductsViewController {
     
     @IBOutlet private weak var tableView: UITableView!
         
-    private lazy var viewModel = DI.resolve(P2PViewModel.self)!
+    private lazy var viewModel = Injectable.resolve(P2PViewModel.self)!
     private var disposeBag = DisposeBag()
 
     var barButtonItems: [UIBarButtonItem] = []

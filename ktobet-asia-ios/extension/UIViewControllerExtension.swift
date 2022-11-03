@@ -98,31 +98,35 @@ extension UIViewController{
 
 extension UIViewController{
     func handleMaintenance() {
-        let viewModel = DI.resolve(PlayerViewModel.self)!
+        let viewModel = Injectable.resolve(PlayerViewModel.self)!
         let disposeBag = DisposeBag()
-        let serviceViewModel = DI.resolve(ServiceStatusViewModel.self)!
-        serviceViewModel.output.portalMaintenanceStatus.subscribe(onNext: { [weak self] status in
-            switch status {
-            case is MaintenanceStatus.AllPortal:
-                if UIApplication.topViewController() is LandingViewController {
-                    self?.showUnLoginMaintenanAlert()
-                } else {
-                    viewModel.logout()
-                        .subscribeOn(MainScheduler.instance)
-                        .subscribe(onCompleted: { [weak self] in
-                        self?.showLoginMaintenanAlert()
-                    }).disposed(by: disposeBag)
+        let serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+        
+        serviceViewModel.output.portalMaintenanceStatus
+            .subscribe(onNext: { [weak self] status in
+                switch status {
+                case is MaintenanceStatus.AllPortal:
+                    if UIApplication.topViewController() is LandingViewController {
+                        self?.showUnLoginMaintenanAlert()
+                    } else {
+                        viewModel.logout()
+                            .subscribe(on: MainScheduler.instance)
+                            .subscribe(onCompleted: { [weak self] in
+                                self?.showLoginMaintenanAlert()
+                            }).disposed(by: disposeBag)
+                    }
+                    
+                case let productStatus as MaintenanceStatus.Product:
+                    if let navi = NavigationManagement.sharedInstance.viewController.navigationController as? ProductNavigations {
+                        let isMaintenance = productStatus.isProductMaintain(productType: navi.productType)
+                        NavigationManagement.sharedInstance.goTo(productType: navi.productType, isMaintenance: isMaintenance)
+                    }
+
+                default:
+                    break
                 }
-            case let productStatus as MaintenanceStatus.Product:
-                if let navi = NavigationManagement.sharedInstance.viewController.navigationController as? ProductNavigations {
-                    let isMaintenance = productStatus.isProductMaintain(productType: navi.productType)
-                    NavigationManagement.sharedInstance.goTo(productType: navi.productType, isMaintenance: isMaintenance)
-                }
-                break
-            default:
-                break
-            }
-        }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
     }
 
     func showLoginMaintenanAlert() {

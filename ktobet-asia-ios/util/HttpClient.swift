@@ -38,7 +38,7 @@ class HttpClient {
             if Configuration.manualControlNetwork && !NetworkStateMonitor.shared.isNetworkConnected {
                 return URL(string: "https://")!
             }
-            return URL(string: ktoUrl.baseUrl[playConfig.getCultureCode()]!)!
+            return URL(string: ktoUrl.baseUrl[localStorageRepo.getCultureCode()]!)!
         }
     }
     var domain: String {
@@ -60,12 +60,10 @@ class HttpClient {
     
     private(set) var debugDatas: [DebugData] = []
 
-    private let playConfig: PlayerLocaleConfiguration
-    private let localStorageRepo: LocalStorageRepositoryImpl
+    private let localStorageRepo: LocalStorageRepository
     private let ktoUrl: KtoURL
 
-    init(_ playConfig: PlayerLocaleConfiguration, _ localStorageRepo: LocalStorageRepositoryImpl, _ ktoUrl: KtoURL) {
-        self.playConfig = playConfig
+    init(_ localStorageRepo: LocalStorageRepository, _ ktoUrl: KtoURL) {
         self.localStorageRepo = localStorageRepo
         self.ktoUrl = ktoUrl
         generateSession()
@@ -187,7 +185,7 @@ class HttpClient {
     }
     
     func getAffiliateUrl() -> URL? {
-        if let host = self.ktoUrl.baseUrl[playConfig.getCultureCode()] {
+        if let host = self.ktoUrl.baseUrl[localStorageRepo.getCultureCode()] {
             return URL(string: "\(host)affiliate")!
         }
         return nil

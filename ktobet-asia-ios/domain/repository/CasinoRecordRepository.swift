@@ -13,11 +13,11 @@ protocol CasinoRecordRepository {
 
 class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     private var casinoApi: CasinoApi!
-    private var playerConfiguation: PlayerConfiguration!
+    private var localStorageRepo: LocalStorageRepository!
     
-    init(_ casinoApi: CasinoApi, playerConfiguation: PlayerConfiguration) {
+    init(_ casinoApi: CasinoApi, localStorageRepo: LocalStorageRepository) {
         self.casinoApi = casinoApi
-        self.playerConfiguation = playerConfiguation
+        self.localStorageRepo = localStorageRepo
     }
     
     func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<BetSummary> {
@@ -51,7 +51,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     }
     
     func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]> {
-        return casinoApi.getUnsettledRecords(date: date.toQueryFormatString(timeZone: playerConfiguation.timezone())).map { (response) -> [UnsettledBetRecord] in
+        return casinoApi.getUnsettledRecords(date: date.toQueryFormatString(timeZone: localStorageRepo.timezone())).map { (response) -> [UnsettledBetRecord] in
             guard let data = response.data else { return [] }
             var unsettledBetRecords: [UnsettledBetRecord] = []
             for d in data {
@@ -78,8 +78,8 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     
     func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]> {
         casinoApi.getBetRecordsByPage(lobbyId: Int(periodOfRecord.lobbyId),
-                                      beginDate: periodOfRecord.startDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
-                                      endDate: periodOfRecord.endDate.toQueryFormatString(timeZone: playerConfiguation.timezone()),
+                                      beginDate: periodOfRecord.startDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+                                      endDate: periodOfRecord.endDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
                                       offset: offset, take: 20).map { (response) -> [BetRecord] in
             guard let data = response.data?.data else { return [] }
             var betRecords: [BetRecord] = []
