@@ -18,7 +18,7 @@ build-job:
       - >
         curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'${JIRA_ISSUE_SUBTASK_START_WORKING_ACTION}'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
       - >
-        JIRA_SUB=$(curl --request PUT --url "https://jira.higgstar.com/rest/api/2/issue/$CI_COMMIT_BRANCH/assignee" --data "{\"name\":\"$EMAIL_NAME\"}" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
+        JIRA_SUB=$(curl --request PUT --url "https://jira.higgstar.com/rest/api/2/issue/$CI_COMMIT_BRANCH/" --data '{"fields":{"assignee":{"name":"'${EMAIL_NAME}'"},"customfield_11000":{"value":"iOS"},"customfield_12006":{"value":"App"}}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
       - echo -e "$JIRA_SUB"
 
 merge-job:      
