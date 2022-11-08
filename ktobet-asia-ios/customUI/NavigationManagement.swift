@@ -40,18 +40,37 @@ protocol Navigator {
 }
 
 extension Navigator {
-    func addMenuToBarButtonItem(vc: UIViewController, title: String? = nil) { }
-    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, title: String? = nil) { }
-    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) { }
-    func addRightBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) { }
+    func addMenuToBarButtonItem(vc: UIViewController, title: String? = nil) {
+        addMenuToBarButtonItem(vc: vc, title: title)
+    }
+    
+    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, title: String? = nil) {
+        addBarButtonItem(vc: vc, barItemType: barItemType, title: title)
+    }
+    
+    func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) {
+        addBarButtonItem(vc: vc, barItemType: barItemType, image: image, action: action)
+    }
+    
+    func addRightBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) {
+        addRightBarButtonItem(vc: vc, barItemType: barItemType, image: image, action: action)
+    }
     
     func goTo(productType: ProductType, isMaintenance: Bool = false) {
         goTo(productType: productType, isMaintenance: isMaintenance)
     }
         
-    func popToRootViewController(_ completion: (() -> Void)? = nil) { }
-    func popViewController(_ completion: (() -> Void)? = nil, to vc: UIViewController) { }
-    func popViewController(_ completion: (() -> Void)? = nil) { }
+    func popToRootViewController(_ completion: (() -> Void)? = nil) {
+        popToRootViewController(completion)
+    }
+    
+    func popViewController(_ completion: (() -> Void)? = nil, to vc: UIViewController) {
+        popViewController(completion, to: vc)
+    }
+    
+    func popViewController(_ completion: (() -> Void)? = nil) {
+        popViewController(completion)
+    }
 }
 
 class NavigationManagement: Navigator {
