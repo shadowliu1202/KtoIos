@@ -424,6 +424,7 @@ has been sent Via Call to";
 "common_image_format_not_support" = "您的档案不符合系统格式";
 "common_capture_image" = "拍一张";
 "common_super_signature_maintenance" = "下载服务器维护中\n请于%@再尝试";
+"common_retry_later" = "Please try again later";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "Sports Rules";

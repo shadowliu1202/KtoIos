@@ -432,6 +432,7 @@ Hộp Thư Rác/Quảng Cáo.";
 "common_capture_image" = "Chụp Ảnh";
 "common_super_signature_maintenance" = "Máy chủ tải xuống đang được bảo trì,
 vui lòng thử lại lúc %@";
+"common_retry_later" = "Vui lòng thử lại sau";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "Luật Thể Thao";

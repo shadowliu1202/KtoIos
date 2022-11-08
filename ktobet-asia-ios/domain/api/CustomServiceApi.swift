@@ -11,7 +11,7 @@ import SwiftyJSON
 import Moya
 
 
-class CustomServiceApi: ApiService{
+class CustomServiceApi: ApiService, ImageApiProtocol {
     let prefix = "onlinechat/api"
     private var urlPath: String!
     
