@@ -49,8 +49,10 @@ class LocalStorageRepositoryImpl: PlayerConfiguration,
     override init() {
         super.init()
         
-        if get(key: .cultureCode) == nil {
-            self.initCultureCode()
+        guard let _: String = get(key: .cultureCode)
+        else {
+            initCultureCode()
+            return
         }
     }
     

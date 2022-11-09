@@ -39,9 +39,11 @@ class PlayerViewModel {
     }
     
     func logout() -> Completable {
-        authUseCase.logout().do(afterCompleted: {
-            Injectable.resetObjectScope(.locale)
-        })
+        authUseCase
+            .logout()
+            .do(afterCompleted: {
+                Injectable.resetObjectScope(.locale)
+            })
     }
     
     func checkIsLogged() -> Single<Bool>{
