@@ -166,6 +166,7 @@ class SideBarViewController: LobbyViewController {
     fileprivate func showAlert(title: String, message: String, cancel: (() -> ())? = nil, isMaintain: Bool = false) {
         Alert.shared.show(title, message, confirm: {[weak self] in
             guard let self = self else { return }
+            
             CustomServicePresenter.shared.close(completion: {
                 self.viewModel.logout()
                     .subscribe(on: MainScheduler.instance)
@@ -175,7 +176,8 @@ class SideBarViewController: LobbyViewController {
                         } else {
                             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
                         }
-                    }).disposed(by: self.disposeBag)
+                    })
+                    .disposed(by: self.disposeBag)
             })
         }, cancel: cancel)
     }

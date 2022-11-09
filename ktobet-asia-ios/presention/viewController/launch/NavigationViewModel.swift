@@ -44,6 +44,7 @@ class NavigationViewModel {
         let defaultProduct = ProductType.convert(playerInfoCache.defaultProduct)
 
         if authUseCase.isLastAPISuccessDateExpire() {
+            localStorageRepo.setPlayerInfo(nil)
             return .Landing
         }
         else {
