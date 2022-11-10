@@ -1081,6 +1081,17 @@ System in progress, please check back later…";
 "bonus_use_expired_bonus_title" = "Promotion Expired";
 "bonus_use_expired_bonus_content" = "This promotion is already expired. Please check out other promotions. Sorry for any inconvenience caused.";
 "bonus_use_coupon" = "";
+"bonus_bonustype_7" = "负盈利返现";
+"bonus_bonustype_7_count" = "负盈利返现(%@)";
+"bonus_cashback_remark_title" = "负盈利返现:";
+"bonus_cashback_remark_subtitle" = "%@月会员输赢额 (不包含对战) :";
+"bonus_cashback_remark_total_bonus" = "%@月获取彩金总额：";
+"bonus_cashback_remark_percentage" = "负盈利返现百分比：";
+"bonus_cashback_remark_formula" = "计算公式：";
+"bonus_cashback_remark_formula_content" = "[ (-总计)- 彩金总额 ]×%@%%";
+"bonus_cashback_loss_amount" = "去除彩金后的负盈利($)";
+"bonus_cashback_percent" = "返现比例";
+"bonus_cashback_max_amount" = "最高金额";
 
 //MARK: - Level
 "level_4" = "Daily Rebate or all Products. Up to %@% of Valid Bet Amount.";

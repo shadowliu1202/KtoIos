@@ -1091,6 +1091,17 @@ Hệ thống đang xử lý, vui lòng kiểm tra lại sau…";
 "bonus_use_expired_bonus_title" = "Khuyến Mãi đã hết hạn";
 "bonus_use_expired_bonus_content" = "Rất tiếc, Khuyến Mãi này đã hết hạn. Vui lòng tham khảo các Khuyến Mãi khác. Xin lỗi vì sự bất tiện.";
 "bonus_use_coupon" = "Xác nhận Nhận %@?";
+"bonus_bonustype_7" = "负盈利返现";
+"bonus_bonustype_7_count" = "负盈利返现(%@)";
+"bonus_cashback_remark_title" = "负盈利返现:";
+"bonus_cashback_remark_subtitle" = "%@月会员输赢额 (不包含对战) :";
+"bonus_cashback_remark_total_bonus" = "%@月获取彩金总额：";
+"bonus_cashback_remark_percentage" = "负盈利返现百分比：";
+"bonus_cashback_remark_formula" = "计算公式：";
+"bonus_cashback_remark_formula_content" = "[ (-总计)- 彩金总额 ]×%@%%";
+"bonus_cashback_loss_amount" = "去除彩金后的负盈利($)";
+"bonus_cashback_percent" = "返现比例";
+"bonus_cashback_max_amount" = "最高金额";
 
 //MARK: - Level
 "level_4" = "Hoàn Trả hàng ngày cho tất cả sản phẩm. Lên đến %@%% số tiền cược hợp lệ.";

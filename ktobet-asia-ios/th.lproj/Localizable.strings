@@ -200,7 +200,7 @@
 "common_submit" = "THTH送出";
 "common_depositbonus" = "THTH存送";
 "common_freebet" = "THTH免费金";
-"common_rebate" = "THTH返现";
+"common_rebate" = "THTH投注额返现";
 "common_win" = "THTH赢";
 "common_lose" = "THTH输";
 "common_push" = "THTH和";
@@ -633,11 +633,11 @@
 "balancelog_bonustype_1" = "THTH%@免费金";
 "balancelog_producttype_1_bonustype_3" = "THTH保险投注第%@期";
 "balancelog_producttype_2_bonustype_3" = "THTH救援金第%@期";
-"balancelog_producttype_1_bonustype_4" = "第%@期体育返现";
-"balancelog_producttype_2_bonustype_4" = "第%@期老虎机返现";
-"balancelog_producttype_3_bonustype_4" = "第%@期娛乐场返现";
-"balancelog_producttype_4_bonustype_4" = "第%@期数字彩返现";
-"balancelog_producttype_6_bonustype_4" = "第%@期小游戏返现";
+"balancelog_producttype_1_bonustype_4" = "第%@期体育投注额返现";
+"balancelog_producttype_2_bonustype_4" = "第%@期老虎机投注额返现";
+"balancelog_producttype_3_bonustype_4" = "第%@期娛乐场投注额返现";
+"balancelog_producttype_4_bonustype_4" = "第%@期数字彩投注额返现";
+"balancelog_producttype_6_bonustype_4" = "第%@期小游戏投注额返现";
 "balancelog_win" = "THTHWin";
 "balancelog_push" = "THTHPush";
 "balancelog_lose" = "THTHLose";
@@ -938,14 +938,14 @@
 "bonus_bonustype_2" = "THTH存送";
 "bonus_bonustype_2_2" = "存送券";
 "bonus_bonustype_3" = "THTH产品特有";
-"bonus_bonustype_4" = "THTH返现";
+"bonus_bonustype_4" = "THTH投注额返现";
 "bonus_bonustype_5" = "THTH等级优惠";
 "bonus_bonustype_all_count" = "全部(%@)";
 "bonus_bonustype_manual_count" = "手动领取(%@)";
 "bonus_bonustype_1_count" = "免费金(%@)";
 "bonus_bonustype_2_count" = "存送(%@)";
 "bonus_bonustype_3_count" = "产品特有(%@)";
-"bonus_bonustype_4_count" = "返现(%@)";
+"bonus_bonustype_4_count" = "投注额返现(%@)";
 "bonus_bonustype_5_count" = "等级优惠(%@)";
 "bonus_categoryfilter" = "THTH类别筛选";
 "bonus_freebonus" = "THTH免费金";
@@ -963,11 +963,11 @@
 "bonus_status_sbk_notstart" = "THTH赛事即将开始，距离开赛";
 "bonus_status_sbk_progressing" = "THTH赛事进行中";
 "bonus_title" = "THTH优惠券";
-"bonus_rebate_title" = "%@返现 %@%%";
+"bonus_rebate_title" = "%@投注额返现 %@%%";
 "bonus_title_3_2" = "THTH老虎机救援金";
-"bonus_title_4_1" = "体育返现 %@%%";
-"bonus_title_4_2" = "老虎机返现 %@%%";
-"bonus_title_4_3" = "娱乐场返现 %@%%";
+"bonus_title_4_1" = "体育投注额返现 %@%%";
+"bonus_title_4_2" = "老虎机投注额返现 %@%%";
+"bonus_title_4_3" = "娱乐场投注额返现 %@%%";
 "bonus_use" = "THTH手动领取";
 "bonus_applicationtrial" = "账户当前余额:%@元
 可获取彩金:%@元
@@ -1000,7 +1000,7 @@
 "bonus_historytrialformula" = "THTH计算方式:%@";
 "bonus_historytrialcompletion" = "完成度";
 "bonus_unlimited" = "THTH无上限";
-"bonus_allowautouse" = "THTH允许日后自动领取返现红利";
+"bonus_allowautouse" = "THTH允许日后自动领取投注额返现红利?";
 "bonus_auto_use" = "自动领取";
 "bonus_confirmapplication" = "THTH确定申请";
 "bonus_applicationtips" = "THTH温馨提示";
@@ -1049,6 +1049,17 @@
 "bonus_use_expired_bonus_title" = "优惠已到期";
 "bonus_use_expired_bonus_content" = "很抱歉，本优惠已到期，请您参考其它优惠，造成您不便敬请见谅。";
 "bonus_use_coupon" = "";
+"bonus_bonustype_7" = "负盈利返现";
+"bonus_bonustype_7_count" = "负盈利返现(%@)";
+"bonus_cashback_remark_title" = "负盈利返现:";
+"bonus_cashback_remark_subtitle" = "%@月会员输赢额 (不包含对战) :";
+"bonus_cashback_remark_total_bonus" = "%@月获取彩金总额：";
+"bonus_cashback_remark_percentage" = "负盈利返现百分比：";
+"bonus_cashback_remark_formula" = "计算公式：";
+"bonus_cashback_remark_formula_content" = "[ (-总计)- 彩金总额 ]×%@%%";
+"bonus_cashback_loss_amount" = "去除彩金后的负盈利($)";
+"bonus_cashback_percent" = "返现比例";
+"bonus_cashback_max_amount" = "最高金额";
 
 //MARK: - Level
 "level_4" = "全场天天返，最高 %@%% 投注额返现。";
@@ -1059,7 +1070,7 @@
 "level_3_1_leveltop" = "THTH为特定赛事，给您买了顶级保险。";
 "level_3_2" = "THTH我们的救援，元气满满！ 最高 %@元。";
 "level_3_2_leveltop" = "THTH瞬间恢复，强劲的最高级救援金！";
-"level_4_leveltop" = "THTH无限的最高级返现!";
+"level_4_leveltop" = "THTH无限的最高级投注额返现!";
 "level_5_0_level1" = "%@%%首次充值彩金！";
 "level_5_0_level2" = "再次充值, 获取 %@%%高额彩金！";
 "level_5_1" = "每月享 %@%%高额充值彩金。";
@@ -1096,7 +1107,7 @@
 "level_level" = "THTH等级";
 "level_levelprivilege" = "THTH等级特权";
 "level_privilegetype_3" = "THTH产品特权";
-"level_privilegetype_4" = "THTH返现特权";
+"level_privilegetype_4" = "THTH投注额返现特权";
 "level_privilegetype_5" = "THTH存送特权";
 "level_privilegetype_90" = "THTH专属特权";
 "level_privilegetype_91" = "THTH提现特权";
@@ -1104,7 +1115,7 @@
 "level_producttype_1" = "THTH保险投注";
 "level_producttype_2" = "THTH老虎机救援金";
 "level_navigate_to_promotion" = "前往优惠专区";
-"level_product_rebate" = "产品返现";
+"level_product_rebate" = "产品投注额返现";
 
 //MARK: - Notification
 "notification_type_0" = "THTH维护";
