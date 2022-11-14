@@ -10,6 +10,7 @@ enum PromotionFilter {
     case depositReturn
     case product
     case rebate
+    case cashBack
     var tagId: Int {
         switch self {
         case .all:
@@ -24,6 +25,8 @@ enum PromotionFilter {
             return 104
         case .rebate:
             return 105
+        case .cashBack:
+            return 106
         }
     }
     var name: String {
@@ -40,6 +43,8 @@ enum PromotionFilter {
             return Localize.string("bonus_bonustype_3_count")
         case .rebate:
             return Localize.string("bonus_bonustype_4_count")
+        case .cashBack:
+            return Localize.string("bonus_bonustype_7_count")
         }
     }
     
@@ -108,8 +113,7 @@ class PromotionFilterDropDwon: UIView {
     private var once = true
     private var parentController: UIViewController?
     private var pointToParent = CGPoint(x: 0, y: 0)
-    private let mainViewHeight: CGFloat = 129
-    private let mainViewPlusProductViewHeight: CGFloat = 240
+    private var mainViewHeight: CGFloat = 120
     
     private(set) var mainView: UIView!
     private var mainStackView: UIStackView!
@@ -226,6 +230,7 @@ class PromotionFilterDropDwon: UIView {
                                                          .constraint(.equal, \.leadingAnchor, offset: 30),
                                                          .constraint(.equal, \.topAnchor, offset: 24)])
         addBtnTags(stackView: mainStackView, data: tags)
+        calculateMainViewHeight(tags)
         if case .product = self.selected?.filter {
             self.isProductListExpand = true
             self.setupProductListConstrains(with: productTags)
@@ -239,7 +244,7 @@ class PromotionFilterDropDwon: UIView {
                        animations: { () -> Void in
                         var height = self.mainViewHeight
                         if case .product = self.selected?.filter {
-                            height = self.mainViewPlusProductViewHeight
+                            height = self.calculatePlusProductViewHeight()
                         }
                         self.mainView.frame = CGRect(x: self.pointToParent.x,
                                                      y: self.pointToParent.y + self.frame.height,
@@ -247,6 +252,16 @@ class PromotionFilterDropDwon: UIView {
                                                      height: height)
                         self.mainView.alpha = 1
                        }, completion: nil)
+    }
+    
+    private func calculateMainViewHeight(_ data: [PromotionTag]) {
+        let quotient = ceil(Double(data.count) / 3)
+        mainViewHeight = 24 + 32 * quotient + 16 * (quotient-1) + 24
+    }
+    
+    private func calculatePlusProductViewHeight() -> CGFloat {
+        let quotient = ceil(Double(productTags.count) / 3)
+        return mainViewHeight - 24 + 32 + 32 * quotient + 16 * (quotient-1) + 24
     }
     
     private func hideList() {
@@ -301,7 +316,7 @@ class PromotionFilterDropDwon: UIView {
                         self.mainView.frame = CGRect(x: self.pointToParent.x,
                                                      y: self.pointToParent.y + self.frame.height,
                                                      width: self.frame.width,
-                                                     height: self.mainViewPlusProductViewHeight)
+                                                     height: self.calculatePlusProductViewHeight())
                         self.bottomStackView?.alpha = 1
                        }, completion: nil)
     }
@@ -369,6 +384,17 @@ class PromotionFilterDropDwon: UIView {
             button.tag = tags[i].tagId
             button.addTarget(self, action: #selector(pressFirstLayerTag(_:)), for: .touchUpInside)
             childStack?.addArrangedSubview(button)
+            if i == data.count - 1, i % 3 != 2 {
+                switch (i % 3) {
+                case 0:
+                    childStack?.addArrangedSubview(UIView())
+                    fallthrough
+                case 1:
+                    childStack?.addArrangedSubview(UIView())
+                default:
+                    break
+                }
+            }
         }
     }
     

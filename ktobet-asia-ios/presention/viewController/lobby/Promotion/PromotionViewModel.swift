@@ -4,33 +4,42 @@ import RxCocoa
 import SharedBu
 
 class PromotionViewModel {
-    private var promotionUseCase: PromotionUseCase!
-    private var playerUseCase : PlayerDataUseCase!
+    private let promotionUseCase: PromotionUseCase
+    private let playerUseCase : PlayerDataUseCase
     
     private lazy var bonusCoupons = self.promotionUseCase.getBonusCoupons().asObservable().share()
     private lazy var productPromotions = self.promotionUseCase.getProductPromotionEvents().asObservable().share()
     private lazy var rebatePromotions = self.promotionUseCase.getRebatePromotionEvents().asObservable().share()
+    // TODO:
+    private lazy var cashBackPromotions = Observable<[PromotionEvent.Rebate]>.just([])
     
-    private lazy var trigerRefresh = PublishSubject<Void>()
-    private lazy var freeBetCoupon: Observable<[BonusCoupon.FreeBet]> = self.bonusCoupons.map { $0.filterThenCast() }
-    private lazy var depositReturnCoupon: Observable<[BonusCoupon.DepositReturn]> = self.bonusCoupons.map { $0.filterThenCast() }
-    private lazy var productOfBonusCoupon: Observable<[BonusCoupon.Product]> = self.bonusCoupons.map { $0.filterThenCast() }
-    private lazy var productPromotionSummary: Observable<([BonusCoupon.Product], [PromotionEvent.Product])> = Observable.combineLatest(productOfBonusCoupon, productPromotions)
-    private lazy var rebateOfBonusCoupon: Observable<[BonusCoupon.Rebate]> = self.bonusCoupons.map { $0.filterThenCast() }
-    private lazy var rebatePromotionSummary: Observable<([BonusCoupon.Rebate], [PromotionEvent.Rebate])> = Observable.combineLatest(rebateOfBonusCoupon, rebatePromotions).map { (coupon, rebate) -> ([BonusCoupon.Rebate], [PromotionEvent.Rebate]) in
+    lazy var trigerRefresh = PublishSubject<Void>()
+    private lazy var freeBetCoupon = self.bonusCoupons.forceCast(BonusCoupon.FreeBet.self)
+    private lazy var depositReturnCoupon = self.bonusCoupons.forceCast(BonusCoupon.DepositReturn.self)
+    private lazy var productOfBonusCoupon = self.bonusCoupons.forceCast(BonusCoupon.Product.self)
+    private lazy var productPromotionSummary = Observable.combineLatest(productOfBonusCoupon, productPromotions)
+    private lazy var rebateOfBonusCoupon = self.bonusCoupons.forceCast(BonusCoupon.Rebate.self)
+    private lazy var rebatePromotionSummary = Observable.combineLatest(rebateOfBonusCoupon, rebatePromotions).map { (coupon, rebate) -> ([BonusCoupon.Rebate], [PromotionEvent.Rebate]) in
         if rebate.contains(where: {$0.isAutoUse}) {
             return ([], rebate)
         }
         return (coupon, rebate)
     }
-    
+    private lazy var cashBackOfBonusCoupon = self.bonusCoupons.forceCast(BonusCoupon.VVIPCashback.self)
+    // TODO:
+    private lazy var cashBackPromotionSummary: Observable<([BonusCoupon.VVIPCashback], [PromotionEvent.Rebate])> = Observable.combineLatest(cashBackOfBonusCoupon, cashBackPromotions).map { (coupon, promotion) -> ([BonusCoupon.VVIPCashback], [PromotionEvent.Rebate]) in
+        if promotion.contains(where: {$0.isAutoUse}) {
+            return ([], promotion)
+        }
+        return (coupon, promotion)
+    }
     private var filterOfSorce = BehaviorRelay<PromotionFilter>(value: .all)
     private(set) var sectionHeaders: [String] = []
     lazy var dataSource = Observable.combineLatest(trigerRefresh, filterOfSorce).flatMap { [unowned self] (_, selected) -> Observable<[[PromotionVmItem]]> in
         switch selected {
         case .all:
-            self.sectionHeaders = [Localize.string("bonus_bonustype_manual"), Localize.string("bonus_bonustype_1"), Localize.string("bonus_bonustype_2"), Localize.string("bonus_bonustype_3"), Localize.string("bonus_bonustype_4")]
-            return Observable.combineLatest(self.manualCoupon, self.freeBets, self.depositReturns, self.products, self.rebates).map({[$0,$1,$2,$3,$4]})
+            self.sectionHeaders = [Localize.string("bonus_bonustype_manual"), Localize.string("bonus_bonustype_7"), Localize.string("bonus_bonustype_1"), Localize.string("bonus_bonustype_2"), Localize.string("bonus_bonustype_3"), Localize.string("bonus_bonustype_4")]
+            return Observable.combineLatest(self.manualCoupon, self.cashBacks, self.freeBets, self.depositReturns, self.products, self.rebates).map({[$0,$1,$2,$3,$4,$5]})
         case .manual:
             self.sectionHeaders.removeAll()
             return self.manualCoupon.map({[$0]})
@@ -46,12 +55,19 @@ class PromotionViewModel {
         case .rebate:
             self.sectionHeaders.removeAll()
             return self.rebates.map({[$0]})
+        case .cashBack:
+            self.sectionHeaders.removeAll()
+            return self.cashBacks.map({[$0]})
         }
     }
     lazy var filterSource = trigerRefresh.flatMap({ [unowned self] in
-        return Observable.combineLatest(self.manualCoupon, self.freeBets, self.depositReturns, self.products, self.rebates).map({ [unowned self] (manualCoupons, freebets, depositReturns, products, rebates) -> [(PromotionFilter, Int)] in
-            let allCount = manualCoupons.count + freebets.count + depositReturns.count + products.count + rebates.count
-            return [(.all, allCount), (.manual, manualCoupons.count), (.freeBet, freebets.count), (.depositReturn, depositReturns.count), (.product, products.count), (.rebate, rebates.count)]
+        return Observable.combineLatest(self.manualCoupon, self.cashBacks, self.freeBets, self.depositReturns, self.products, self.rebates).map({ [unowned self] (manualCoupons, cashBacks, freebets, depositReturns, products, rebates) -> [(PromotionFilter, Int)] in
+            let allCount = manualCoupons.count + cashBacks.count + freebets.count + depositReturns.count + products.count + rebates.count
+            var filter: [(PromotionFilter, Int)] = [(.all, allCount), (.manual, manualCoupons.count), (.freeBet, freebets.count), (.depositReturn, depositReturns.count), (.product, products.count), (.rebate, rebates.count)]
+            if cashBacks.count > 0 {
+                filter.insert((.cashBack, cashBacks.count), at: 2)
+            }
+            return filter
         })
     })
     private lazy var freeBets: Observable<[PromotionVmItem]> = self.freeBetCoupon.map({ $0.mapToItem() })
@@ -63,16 +79,19 @@ class PromotionViewModel {
         var bonus: [BonusCoupon.Product] = []
         var promotions: [PromotionEvent.Product] = []
         var filterTypes = filters.map({ [unowned self] in self.transfer($0) })
+        
         bonusProducts.forEach({ (product) in
             if filterTypes.contains(product.productType) {
                 bonus.append(product)
             }
         })
+        
         promotionProducts.forEach({ (product) in
             if filterTypes.contains(product.type) {
                 promotions.append(product)
             }
         })
+        
         var result: [PromotionVmItem] = []
         result.append(contentsOf: bonus.mapToItem())
         result.append(contentsOf: promotions.mapToItem())
@@ -85,12 +104,22 @@ class PromotionViewModel {
         result.append(contentsOf: promotionProducts.mapToItem())
         return Observable<[PromotionVmItem]>.just(result)
     }
+    
     private lazy var rebates: Observable<[PromotionVmItem]> = self.rebatePromotionSummary.flatMapLatest { (bonusRebates, promotionRebates) -> Observable<[PromotionVmItem]> in
         var result: [PromotionVmItem] = []
         result.append(contentsOf: bonusRebates.mapToItem())
         result.append(contentsOf: promotionRebates.mapToItem())
         return Observable<[PromotionVmItem]>.just(result)
     }
+    
+    private lazy var cashBacks: Observable<[PromotionVmItem]> = self.cashBackPromotionSummary.flatMapLatest { (bonusCashBacks, promotionCashBacks) -> Observable<[PromotionVmItem]> in
+        var result: [PromotionVmItem] = []
+        result.append(contentsOf: bonusCashBacks.mapToItem())
+        result.append(contentsOf: promotionCashBacks.mapToItem())
+        
+        return Observable<[PromotionVmItem]>.just(result)
+    }
+    
     private lazy var manualCoupon: Observable<[PromotionVmItem]> = Observable.combineLatest(bonusCoupons, rebatePromotions).map { (bonusCoupons, rebateEvents) -> [PromotionVmItem] in
         let rebateIsAutoUse = rebateEvents.contains(where: {$0.isAutoUse})
         let result: [PromotionVmItem] = bonusCoupons
@@ -110,12 +139,12 @@ class PromotionViewModel {
         return result
     }
     
+    lazy var playerLevel = playerUseCase.loadPlayer().map{ $0.playerInfo.level.description }
+    
     init(promotionUseCase: PromotionUseCase, playerUseCase: PlayerDataUseCase) {
         self.promotionUseCase = promotionUseCase
         self.playerUseCase = playerUseCase
     }
-    
-    lazy var playerLevel = playerUseCase.loadPlayer().map{ $0.playerInfo.level.description }
     
     func fetchData() {
         trigerRefresh.onNext(())
@@ -133,6 +162,10 @@ class PromotionViewModel {
                 let rule = promotionDescriptions.rules.htmlToString
                 return PromotionDescriptions.init(content: content, rules: rule)
             }.asDriver(onErrorJustReturn: PromotionDescriptions.init(content: "", rules: ""))
+    }
+    
+    func getCashBackSettings(id promotionId: String) -> Single<[CashBackSetting]> {
+        promotionUseCase.getCashBackSettings(displayId: promotionId)
     }
     
     func requestCouponApplication(bonusCoupon: BonusCoupon) -> Single<WaitingConfirm> {
@@ -156,6 +189,7 @@ class PromotionViewModel {
 }
 
 protocol PromotionVmItem {
+    var stampIcon: String { get }
     var displayAmount: String { get }
     var issueNo: String { get }
     var title: String { get }
@@ -167,6 +201,10 @@ protocol PromotionVmItem {
     var displayPercentage: String { get }
     var displayLevel: String? { get }
     var displayMaxAmount: String { get }
+}
+
+extension PromotionVmItem {
+    var stampIcon: String { "" }
 }
 
 protocol BonusCouponItem: PromotionVmItem {

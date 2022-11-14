@@ -28,7 +28,7 @@ class NotificationViewController: LobbyViewController {
         disposeBag.insert(
             rx.sentMessage(#selector(UIViewController.viewWillAppear(_:))).map { _ in () }.bind(to: viewModel.input.refreshTrigger),
             tableView.rx.modelSelected(NotificationItem.self).bind(onNext: navigateToDetail),
-            tableView.rx_reachedBottom.bind(to: viewModel.input.loadNextPageTrigger),
+            tableView.rx.reachedBottom.bind(to: viewModel.input.loadNextPageTrigger),
             viewModel.output.isHiddenEmptyView.drive(emptyViewContainer.rx.isHidden),
             viewModel.output.notifications.drive(tableView.rx.items(cellIdentifier: String(describing: NotificationTableViewCell.self), cellType: NotificationTableViewCell.self)) {(row, element, cell) in
                 cell.setUp(element)

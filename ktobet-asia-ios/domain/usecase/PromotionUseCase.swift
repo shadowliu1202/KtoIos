@@ -9,6 +9,7 @@ protocol PromotionUseCase {
     func getRebatePromotionEvents() -> Single<[PromotionEvent.Rebate]>
     func getPromotionDetail(promotionId: String) -> Single<PromotionDescriptions>
     func requestBonusCoupon(bonusCoupon: BonusCoupon) -> Single<WaitingConfirm>
+    func getCashBackSettings(displayId: String) -> Single<[CashBackSetting]>
 }
 
 protocol CouponUseCase {
@@ -125,7 +126,7 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
         return verifyDepositReturnCouponLimitation(bonusCoupon)
             .andThen(verifyAccountLockedBonus(bonusCoupon))
             .andThen(Single.just(ConfirmUseBonusCoupon(useCase: self, bonusCoupon: bonusCoupon)))
-            .catchError({ (error) -> Single<WaitingConfirm> in
+            .catch({ (error) -> Single<WaitingConfirm> in
                 if let exception = error as? PromotionException {
                     var waitingConfirm: WaitingConfirm
                     switch exception {
@@ -189,7 +190,7 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
     private func confirmUseRebateCoupon(_ bonusCoupon: BonusCoupon.Rebate) -> Single<WaitingConfirm> {
         return verifyAccountLockedBonus(bonusCoupon)
             .andThen(Single.just(ConfirmUseBonusCoupon(useCase: self, bonusCoupon: bonusCoupon)))
-            .catchError({ (error) -> Single<WaitingConfirm> in
+            .catch({ (error) -> Single<WaitingConfirm> in
                 if let exception = error as? PromotionException {
                     var waitingConfirm: WaitingConfirm
                     switch exception {
@@ -204,5 +205,9 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
                 }
                 return Single.error(error)
             })
+    }
+    
+    func getCashBackSettings(displayId: String) -> Single<[CashBackSetting]> {
+        promotionRepository.getCashBackSettings(displayId: displayId)
     }
 }

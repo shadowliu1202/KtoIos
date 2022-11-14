@@ -89,7 +89,7 @@ class NumberGameDetailViewController: LobbyViewController {
             .bind(to: viewModel.betPagination.refreshTrigger)
             .disposed(by: disposeBag)
 
-        tableView.rx_reachedBottom
+        tableView.rx.reachedBottom
             .map{ _ in ()}
             .bind(to: self.viewModel.betPagination.loadNextPageTrigger)
             .disposed(by: disposeBag)

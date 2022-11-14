@@ -352,3 +352,71 @@ extension PromotionEvent.Rebate: PromotionEventItem {
                                percentage.description())
     }
 }
+
+extension BonusCoupon.VVIPCashback: BonusCouponItem {
+    var stampIcon: String {
+        "iconCrown"
+    }
+    
+    var displayBetMultiple: String {
+        self.betMultiple.description
+    }
+    
+    var displayPercentage: String {
+        ""
+    }
+    
+    var displayMaxAmount: String {
+        self.amount.description()
+    }
+    
+    var displayMinCapital: String {
+        self.minCapital.description()
+    }
+    
+    var displayLevel: String? {
+        "0"
+    }
+    
+    var displayInformPlayerDate: String {
+        self.informPlayerDate.toDateString()
+    }
+    var icon: String {
+        ""
+    }
+    
+    var id: String {
+        self.promotionId
+    }
+    var displayAmount: String {
+        self.amount.description()
+    }
+    
+    var issueNo: String {
+        if let num = issueNumber {
+            return Localize.string("bonus_period", "\(num)")
+        } else {
+            return Localize.string("bonus_period", "")
+        }
+    }
+    
+    var title: String {
+        Localize.string("bonus_bonustype_7")
+    }
+    
+    var subTitle: String {
+        ""
+    }
+    
+    var message: String {
+        Localize.string("bonus_bonustype_7")
+    }
+    
+    var couponState: CouponStatus {
+        self.couponStatus
+    }
+    
+    var rawValue: BonusCoupon {
+        self
+    }
+}

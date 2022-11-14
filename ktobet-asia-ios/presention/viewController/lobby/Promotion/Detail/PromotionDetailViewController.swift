@@ -4,8 +4,8 @@ import RxSwift
 import SharedBu
 import RxCocoa
 
-
 class PromotionDetailViewController: LobbyViewController {
+    
     @IBOutlet weak var typeButton: UIButton!
     @IBOutlet weak var subTypeLabel: UILabel!
     @IBOutlet weak var issueNumberLabel: UILabel!
@@ -19,25 +19,42 @@ class PromotionDetailViewController: LobbyViewController {
     @IBOutlet weak var buttonViewHeight: NSLayoutConstraint!
     @IBOutlet weak var textViewContent: UITextView!
     @IBOutlet weak var textViewRule: UITextView!
+    @IBOutlet weak var cashBackInfoStackView: UIStackView!
     
+    private let stampIconImageView = UIImageView()
+    
+    private let yellowGradient = [UIColor.yellowFull.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor]
+    private let yellowGradientAlpha60 = [UIColor.yellowFull.withAlphaComponent(0.6).cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 0.6).cgColor]
+    private let yellowGradientAlpha20 = [UIColor.yellowFull.withAlphaComponent(0.2).cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 0.2).cgColor]
+    
+    private var localStorageRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
+
+    fileprivate var disposeBag = DisposeBag()
+
     var viewModel: PromotionViewModel!
     var item: PromotionVmItem!
-    
-    fileprivate var disposeBag = DisposeBag()
-    
-    private var localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         
-        getPromotionButton.applyGradient(horizontal: [UIColor.yellowFull.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor])
-        topBackgroundView.applyGradient(horizontal: [UIColor.yellowFull.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor])
+        getPromotionButton.applyGradient(horizontal: yellowGradient)
+        topBackgroundView.applyGradient(horizontal: yellowGradient)
+        
         textViewContent.linkTextAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: UIColor.red, .foregroundColor: UIColor.red]
         textViewRule.linkTextAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: UIColor.red, .foregroundColor: UIColor.red]
         
         textViewContent.delegate = self
         textViewRule.delegate = self
+        
+        stampIconImageView.contentMode = .scaleToFill
+        
+        self.view.addSubview(stampIconImageView)
+        stampIconImageView.snp.makeConstraints { make in
+            make.size.equalTo(CGSize(width: 32, height: 40))
+            make.top.equalTo(view.snp.topMargin).offset(-4)
+            make.trailing.equalTo(-30)
+        }
         
         let promotionDetail = Driver.combineLatest(viewModel.getPromotionDetail(id: item.id), viewModel.playerLevel.asDriver(onErrorJustReturn: ""))
         promotionDetail.map{ self.replaceContent(text: $0.content, level: $1) }.drive(textViewContent.rx.attributedText).disposed(by: disposeBag)
@@ -50,7 +67,9 @@ class PromotionDetailViewController: LobbyViewController {
                 productTypeDrawable: item.icon,
                 promotionAmount: item.displayAmount,
                 validPeriod: (item as? BonusCouponItem)?.validPeriod,
-                isFull: (item as? PromotionEventItem)?.isAutoUse() ?? false)
+                isFull: (item as? PromotionEventItem)?.isAutoUse() ?? false,
+                stampIcon: item.stampIcon,
+                promotionId: item is BonusCoupon.VVIPCashback ? item.id : nil)
         
         getPromotionButton.rx.tap.subscribe(onNext: {[weak self] in
             guard let self = self else { return }
@@ -64,8 +83,8 @@ class PromotionDetailViewController: LobbyViewController {
                         self?.handleErrors(error)
                     }).disposed(by: self.disposeBag)
             }
-        }).disposed(by: disposeBag)
-        
+        })
+        .disposed(by: disposeBag)
     }
     
     private func replaceContent(text: String, level: String) -> NSMutableAttributedString {
@@ -111,7 +130,10 @@ class PromotionDetailViewController: LobbyViewController {
         productTypeDrawable: String,
         promotionAmount: String,
         validPeriod: ValidPeriod?,
-        isFull: Bool = false) {
+        isFull: Bool = false,
+        stampIcon: String,
+        promotionId: String?)
+    {
         typeButton.setTitle(productTypeTitle, for: .normal)
         subTypeLabel.isHidden = productSubType.isEmpty
         subTypeLabel.text = productSubType
@@ -121,6 +143,7 @@ class PromotionDetailViewController: LobbyViewController {
         amountLabel.text = promotionAmount.replacingOccurrences(of: "\n", with: " ")
         promotionImageView.image = UIImage(named: productTypeDrawable)
         setStatusImageView(isFull)
+        stampIconImageView.image = UIImage(named: stampIcon)
         
         
         switch item {
@@ -142,6 +165,8 @@ class PromotionDetailViewController: LobbyViewController {
         default:
             break
         }
+        
+        setupCashBackInfoStackView(id: promotionId)
     }
     
     private func setStatusImageView(_ isAutoUse: Bool) {
@@ -237,6 +262,42 @@ class PromotionDetailViewController: LobbyViewController {
         }
         return Localize.string("bonus_status_expirydate", "00:00:00")
     }
+    
+    private func setupCashBackInfoStackView(id promotionId: String?) {
+        guard let id = promotionId
+        else {
+            cashBackInfoStackView.visibility = .gone
+            return
+        }
+        
+        cashBackInfoStackView.addArrangedSubview(
+            ListRow(rowConfig: .init(
+                field1: Localize.string("bonus_cashback_loss_amount"),
+                field2: Localize.string("bonus_cashback_percent"),
+                field3: Localize.string("bonus_cashback_max_amount"),
+                textColor: .black,
+                rowBackgroundColor: .init(gradientColor: yellowGradientAlpha60)
+            ))
+        )
+        
+        viewModel.getCashBackSettings(id: id)
+            .subscribe(onSuccess: { [weak self] settings in
+                settings.enumerated().forEach { (index, setting) in
+                    self?.cashBackInfoStackView.addArrangedSubview(
+                        ListRow(rowConfig: .init(
+                            field1: setting.lossAmountRange,
+                            field2: setting.cashBackPercentage.description() + "%",
+                            field3: setting.maxAmount.description(),
+                            textColor: .yellowEA9E16,
+                            rowBackgroundColor: index % 2 == 0 ? .init(backgroundColor: .white) : .init(gradientColor: self?.yellowGradientAlpha20)
+                        ))
+                    )
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        cashBackInfoStackView.visibility = .visible
+    }
 }
 
 extension PromotionDetailViewController: UITextViewDelegate {
@@ -244,4 +305,95 @@ extension PromotionDetailViewController: UITextViewDelegate {
         performSegue(withIdentifier: PromotionRuleTermViewController.segueIdentifier, sender: nil)
         return false
     }
+}
+
+// MARK: - ListRow
+
+extension PromotionDetailViewController {
+    
+    class ListRow: UIView {
+        
+        struct RowConfig {
+            let field1: String
+            let field2: String
+            let field3: String
+            let textColor: UIColor
+            let rowBackgroundColor: ColorSet
+        }
+        
+        struct ColorSet {
+            var backgroundColor: UIColor?
+            var gradientColor: [CGColor]?
+        }
+        
+        let field1Label = UILabel()
+        let field2Label = UILabel()
+        let field3Label = UILabel()
+        
+        lazy var labels = [field1Label, field2Label, field3Label]
+        
+        init(rowConfig: RowConfig) {
+            super.init(frame: .zero)
+            setupUI()
+            config(rowConfig)
+        }
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            setupUI()
+        }
+        
+        required init?(coder: NSCoder) {
+            super.init(coder: coder)
+            setupUI()
+        }
+        
+        private func setupUI() {
+            let hstack = UIStackView(
+                arrangedSubviews: labels,
+                spacing: 0,
+                axis: .horizontal,
+                distribution: .fill,
+                alignment: .fill
+            )
+            
+            for label in labels {
+                label.font = UIFont(name: "PingFangSC-Medium", size: 12)!
+                label.textAlignment = .center
+                label.numberOfLines = 0
+            }
+            
+            addSubview(hstack)
+            hstack.snp.makeConstraints { make in
+                make.edges.equalToSuperview().inset(UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0))
+            }
+            
+            field1Label.snp.makeConstraints { make in
+                make.width.equalToSuperview().multipliedBy(0.5)
+            }
+            
+            field2Label.snp.makeConstraints { make in
+                make.width.equalToSuperview().multipliedBy(0.25)
+            }
+            
+            field3Label.snp.makeConstraints { make in
+                make.width.equalToSuperview().multipliedBy(0.25)
+            }
+        }
+        
+        func config(_ rowConfig: RowConfig) {
+            field1Label.text = rowConfig.field1
+            field2Label.text = rowConfig.field2
+            field3Label.text = rowConfig.field3
+            labels.forEach({ $0.textColor = rowConfig.textColor })
+             
+            if let color = rowConfig.rowBackgroundColor.backgroundColor {
+                self.backgroundColor = color
+            }
+            else if let gradientColor = rowConfig.rowBackgroundColor.gradientColor {
+                self.applyGradient(horizontal: gradientColor)
+            }
+        }
+    }
+    
 }

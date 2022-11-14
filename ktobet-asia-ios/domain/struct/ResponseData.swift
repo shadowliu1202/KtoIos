@@ -1337,22 +1337,22 @@ struct BonusBean: Codable {
     }
     
     private func toRebate() throws -> BonusCoupon {
-        return BonusCoupon.Rebate(promotionId: self.displayId,
-                                  bonusId: self.no,
-                                  rebateFrom: ProductType.convert(self.productType),
-                                  name: self.name,
-                                  issueNumber: self.issue == 0 ? nil : KotlinInt(value: self.issue),
-                                  percentage: self.knPercentage,
-                                  amount: self.knAmount,
-                                  endDate: try self.effectiveDate.toLocalDateTime(),
-                                  betMultiple: self.betMultiple,
-                                  fixTurnoverRequirement: self.fixTurnoverRequirement,
-                                  validPeriod: ValidPeriod.Companion.init().create(start: try self.effectiveDate.toOffsetDateTime(),
-                                                                                   end: try self.expiryDate.toOffsetDateTime()),
-                                  couponStatus: self.couponStatus,
-                                  updatedDate: try self.updatedDate.toLocalDateTime(),
-                                  informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
-                                  minCapital: self.knMinCapital)
+        let property = BonusCoupon.Property(promotionId: self.displayId,
+                                     bonusId: self.no,
+                                     name: self.name,
+                                     issueNumber: self.issue == 0 ? nil : KotlinInt(value: self.issue),
+                                     percentage: self.knPercentage,
+                                     amount: self.knAmount,
+                                     endDate: try self.effectiveDate.toLocalDateTime(),
+                                     betMultiple: self.betMultiple,
+                                     fixTurnoverRequirement: self.fixTurnoverRequirement,
+                                     validPeriod: ValidPeriod.Companion.init().create(start: try self.effectiveDate.toOffsetDateTime(),
+                                                                                      end: try self.expiryDate.toOffsetDateTime()),
+                                     couponStatus: self.couponStatus,
+                                     updatedDate: try self.updatedDate.toLocalDateTime(),
+                                     informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
+                                     minCapital: self.knMinCapital)
+        return BonusCoupon.Rebate(property: property, rebateFrom: ProductType.convert(self.productType))
     }
     
     private func toDepositReturnLevel() throws -> BonusCoupon {
@@ -1674,23 +1674,11 @@ struct BalanceLogDetailRemarkBean: Codable {
     }
 }
 
-//struct InProcessResponse: Codable {
-//    let messageID: Int32
-//    let speaker: String
-//    let speakerID: Int?
-//    let speakerType: Int32
-//    let html, text, createDate: String
-//    let messageType: Int32
-//    let fileID: String?
-//
-//    enum CodingKeys: String, CodingKey {
-//        case messageID = "messageId"
-//        case speaker
-//        case speakerID = "speakerId"
-//        case speakerType, html, text, createDate, messageType
-//        case fileID = "fileId"
-//    }
-//}
+struct CashBackSettingBean: Codable, Equatable {
+    let lossAmountRange: String
+    let maxAmount: String
+    let cashBackPercentage: String
+}
 
 struct PlayerInChatBean: Codable {
     let roomId: String

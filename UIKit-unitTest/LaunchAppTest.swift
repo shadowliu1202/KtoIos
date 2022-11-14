@@ -29,16 +29,6 @@ final class LaunchAppTest: XCTestCase {
         reset(mockAlert)
     }
     
-    func buildLaunchSUT() -> LaunchViewController? {
-        let storyboard = UIStoryboard(name: "Launch", bundle: nil)
-        return storyboard.instantiateViewController(withIdentifier: "LaunchViewController") as? LaunchViewController
-    }
-    
-    func buildSBKSUT() -> SportBookViewController? {
-        let storyboard = UIStoryboard(name: "SBK", bundle: nil)
-        return storyboard.instantiateViewController(withIdentifier: "SportBookViewController") as? SportBookViewController
-    }
-    
     func simulateApplicationWillEnterForeground() {
         (UIApplication.shared.delegate as? AppDelegate)?.applicationWillEnterForeground(UIApplication.shared)
         wait(for: 2)
@@ -55,14 +45,15 @@ final class LaunchAppTest: XCTestCase {
                 
         NavigationManagement.sharedInstance = mockNavigator
         
-        let sut = buildLaunchSUT()
+        let sut = makeSUT(
+            LaunchViewController.self,
+            from: "Launch"
+        ) { [unowned self] in
+            $0.viewModel.authUseCase = self.stubAuthUseCase
+            $0.viewModel.localStorageRepo = self.stubLocalStorage
+        }
         
-        sut?.viewModel.authUseCase = stubAuthUseCase
-        sut?.viewModel.localStorageRepo = stubLocalStorage
-        
-        sut?.loadViewIfNeeded()
-        
-        sut?.executeNavigation()
+        sut.executeNavigation()
 
         verify(
             mockNavigator.goTo(
@@ -80,15 +71,16 @@ final class LaunchAppTest: XCTestCase {
                 
         NavigationManagement.sharedInstance = mockNavigator
         
-        let sut = buildLaunchSUT()
+        let sut = makeSUT(
+            LaunchViewController.self,
+            from: "Launch"
+        ) { [unowned self] in
+            $0.viewModel.authUseCase = self.stubAuthUseCase
+            $0.viewModel.localStorageRepo = self.stubLocalStorage
+        }
         
-        sut?.viewModel.authUseCase = stubAuthUseCase
-        sut?.viewModel.localStorageRepo = stubLocalStorage
+        sut.executeNavigation()
         
-        sut?.loadViewIfNeeded()
-        
-        sut?.executeNavigation()
-
         waitAnimation()
         
         verify(
@@ -167,19 +159,20 @@ final class LaunchAppTest: XCTestCase {
         
         Alert.shared = mockAlert
         
-        let sut = buildSBKSUT()
-        
-        sut?.serviceViewModel = .init(
-            systemStatusUseCase: stubServiceStatusUseCase,
-            localStorageRepo: stubLocalStorage
-        )
-        
-        sut?.playerViewModel = .init(
-            playerUseCase: Injectable.resolveWrapper(PlayerDataUseCase.self),
-            authUseCase: stubAuthUseCase
-        )
-        
-        sut?.loadViewIfNeeded()
+        let sut = makeSUT(
+            SportBookViewController.self,
+            from: "SBK"
+        ) { [unowned self] in
+            $0.serviceViewModel = .init(
+                systemStatusUseCase: self.stubServiceStatusUseCase,
+                localStorageRepo: self.stubLocalStorage
+            )
+            
+            $0.playerViewModel = .init(
+                playerUseCase: Injectable.resolveWrapper(PlayerDataUseCase.self),
+                authUseCase: self.stubAuthUseCase
+            )
+        }
         
         verify(
             mockAlert.show(

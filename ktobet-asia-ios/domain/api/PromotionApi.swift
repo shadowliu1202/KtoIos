@@ -83,4 +83,9 @@ class PromotionApi: ApiService {
         let target = GetAPITarget(service: self.url("\(prefix)/template/\(displayId)"))
         return httpClient.request(target).map(ResponseData<PromotionTemplateBean>.self)
     }
+    
+    func getCashBackSettings(displayId: String) -> Single<ResponseDataList<CashBackSettingBean>> {
+        let target = GetAPITarget(service: self.url("\(prefix)/api/bonus/cashback/reference-percentage")).parameters(["displayId": displayId])
+        return httpClient.request(target).map(ResponseDataList<CashBackSettingBean>.self)
+    }
 }

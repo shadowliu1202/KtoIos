@@ -11,75 +11,104 @@ class PromotionHistoryViewController: LobbyViewController {
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var summaryLabel: UILabel!
     
-    var barButtonItems: [UIBarButtonItem] = []
+    @Injected fileprivate var viewModel: PromotionHistoryViewModel
     
-    fileprivate var viewModel = Injectable.resolve(PromotionHistoryViewModel.self)!
-    fileprivate var disposeBag = DisposeBag()
     fileprivate var currentFilter: [FilterItem]?
     fileprivate var filterPersenter = PromotionPresenter()
     
+    fileprivate var disposeBag = DisposeBag()
+    
+    var barButtonItems: [UIBarButtonItem] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
-        self.bind(position: .right, barButtonItems: .kto(.search))
-        tableView.register(UINib(nibName: "PromotionHistoryTableViewCell", bundle: nil), forCellReuseIdentifier: "PromotionHistoryTableViewCell")
-        let storyboard = UIStoryboard(name: "Filter", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "PromotionFilterViewController") as! FilterConditionViewController
-        filterBtn.set(filterPersenter)
-            .setGotoFilterVC(vc: vc)
-            .set { [weak self] (items) in
+        
+        bind(position: .right, barButtonItems: .kto(.search))
+        
+        tableView.register(
+            UINib(nibName: "PromotionHistoryTableViewCell", bundle: nil),
+            forCellReuseIdentifier: "PromotionHistoryTableViewCell"
+        )
+        
+        @Storyboard(name: "Filter") var filterController: PromotionFilterViewController
+        
+        filterBtn
+            .set(filterPersenter)
+            .setGotoFilterVC(vc: filterController)
+            .`set` { [weak self] (items) in
                 guard let self = self else { return }
+                
                 let condition = (items as? [PromotionItem])?.filter{ $0.productType != ProductType.none }
                 self.currentFilter = condition
                 self.filterBtn.set(items)
                 self.filterBtn.setPromotionStyleTitle(source: condition)
+                
                 let status = self.filterPersenter.getConditionStatus(condition!)
                 self.viewModel.productTypes = status.prodcutType
                 self.viewModel.bonusTypes = status.bonusType
                 self.viewModel.sortingBy = status.sorting
+                
                 self.fetchData()
             }
         
-        dateView.callBackCondition = {[weak self] (beginDate, endDate, dateType) in
-            if let fromDate = beginDate, let toDate = endDate {
+        dateView.callBackCondition = { [weak self] (beginDate, endDate, dateType) in
+            if let fromDate = beginDate,
+               let toDate = endDate {
                 self?.viewModel.beginDate = fromDate
                 self?.viewModel.endDate = toDate
                 self?.fetchData()
             }
         }
         
-        viewModel.relayTotalCountAmount.bind(to: summaryLabel.rx.text).disposed(by: disposeBag)        
-        viewModel.recordPagination.elements.do{[weak self](element) in
-            self?.tableView.isHidden = element.isEmpty
-            self?.emptyView.isHidden = !element.isEmpty
-        }.bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in
-            guard let self = self else { return  UITableViewCell()}
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: "PromotionHistoryTableViewCell", cellType: PromotionHistoryTableViewCell.self)
-            cell.config(element, tableView: self.tableView)
-            return cell
-        }.disposed(by: disposeBag)
+        viewModel.relayTotalCountAmount
+            .bind(to: summaryLabel.rx.text)
+            .disposed(by: disposeBag)
         
-        viewModel.recordPagination.error.subscribe(onNext: {[weak self] error in
-            self?.handleErrors(error)
-        }).disposed(by: disposeBag)
+        viewModel.recordPagination.elements
+            .do(onNext: { [weak self](element) in
+                self?.tableView.isHidden = element.isEmpty
+                self?.emptyView.isHidden = !element.isEmpty
+            })
+            .bind(to: tableView.rx.items) { [weak self] (tableView, row, element) in
+                guard let self = self else { return .init() }
+                
+                let cell = self.tableView.dequeueReusableCell(
+                    withIdentifier: "PromotionHistoryTableViewCell",
+                    cellType: PromotionHistoryTableViewCell.self
+                )
+                
+                cell.config(element, tableView: self.tableView)
+                
+                return cell
+            }
+            .disposed(by: disposeBag)
         
-        scrollView.rx_reachedBottom
-            .map{ _ in ()}
+        viewModel.recordPagination.error
+            .subscribe(onNext: { [weak self] error in
+                self?.handleErrors(error)
+            })
+            .disposed(by: disposeBag)
+        
+        scrollView.rx.reachedBottom
             .bind(to: self.viewModel.recordPagination.loadNextPageTrigger)
             .disposed(by: disposeBag)
         
         checkNetworkThenFetchData()
-        
     }
     
     private func checkNetworkThenFetchData() {
-        self.networkConnectRelay.filter{$0}.subscribe(onNext: { [weak self] _ in
-            self?.fetchData()
-        }).disposed(by: disposeBag)
+        networkConnectRelay
+            .filter { $0 }
+            .subscribe(onNext: { [weak self] _ in
+                self?.fetchData()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func fetchData() {
-        self.viewModel.recordPagination.refreshTrigger.onNext(())
+        viewModel.recordPagination.refreshTrigger.onNext(())
     }
     
     deinit {
@@ -102,12 +131,10 @@ final class ContentSizedTableView: UITableView {
 
 extension PromotionHistoryViewController: BarButtonItemable {
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
-        switch sender {
-        case is SearchButtonItem:
-            guard let searchViewController = UIStoryboard(name: "PromotionHistory", bundle: nil).instantiateViewController(withIdentifier: "PromotionSearchViewController") as? PromotionSearchViewController else { return }
-            self.navigationController?.pushViewController(searchViewController, animated: true)
-            break
-        default: break
-        }
+        guard sender is SearchButtonItem else { return }
+        
+        @Storyboard(name: "PromotionHistory") var searchController: PromotionSearchViewController
+        
+        navigationController?.pushViewController(searchController, animated: true)
     }
 }

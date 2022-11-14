@@ -4,13 +4,13 @@ import RxCocoa
 import SharedBu
 
 class PromotionViewController: LobbyViewController {
-    @IBOutlet private weak var filterDropDwon: PromotionFilterDropDwon!
+    @IBOutlet weak var filterDropDwon: PromotionFilterDropDwon!
     @IBOutlet private weak var noDataView: UIView!
-    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     
     var barButtonItems: [UIBarButtonItem] = []
     private var disposeBag = DisposeBag()
-    private var viewModel = Injectable.resolve(PromotionViewModel.self)!
+    var viewModel = Injectable.resolve(PromotionViewModel.self)!
     private var dataSource: [[PromotionVmItem]] = [[]]
     private var lastTag: PromotionTag?
     private var lastProductTags: [PromotionProductTag]?
@@ -45,7 +45,7 @@ class PromotionViewController: LobbyViewController {
     }
     
     private func dataBinding() {
-        viewModel.dataSource.catchError({ [weak self] (error) in
+        viewModel.dataSource.catch({ [weak self] (error) in
             self?.handleErrors(error)
             return Observable.just([[]])
         }).subscribe(onNext:{[weak self] (bonusCoupons) in

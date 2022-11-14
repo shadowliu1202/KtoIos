@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,6 +31,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tqy-bj-zo9" userLabel="stamp">
                                 <rect key="frame" x="0.0" y="0.0" width="80" height="222"/>
                                 <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GTb-oC-hPo">
+                                        <rect key="frame" x="24" y="0.0" width="32" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="32" id="UH8-XR-7y8"/>
+                                            <constraint firstAttribute="height" constant="40" id="eJ5-Sj-gSm"/>
+                                        </constraints>
+                                    </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dzb-ar-9ID">
                                         <rect key="frame" x="14" y="111" width="56" height="0.0"/>
                                         <subviews>
@@ -60,7 +67,9 @@
                                     <constraint firstItem="dzb-ar-9ID" firstAttribute="centerY" secondItem="tqy-bj-zo9" secondAttribute="centerY" id="6aU-dV-1vI"/>
                                     <constraint firstAttribute="width" constant="80" id="Kuq-cH-aFh"/>
                                     <constraint firstItem="OWi-vu-pyY" firstAttribute="leading" secondItem="tqy-bj-zo9" secondAttribute="leading" constant="-4" id="NiI-o3-eO1"/>
+                                    <constraint firstItem="GTb-oC-hPo" firstAttribute="centerX" secondItem="tqy-bj-zo9" secondAttribute="centerX" id="Uf6-Fv-Qt3"/>
                                     <constraint firstAttribute="trailing" secondItem="dzb-ar-9ID" secondAttribute="trailing" constant="10" id="hll-1G-zNP"/>
+                                    <constraint firstItem="GTb-oC-hPo" firstAttribute="top" secondItem="tqy-bj-zo9" secondAttribute="top" id="qlb-xQ-Ppl"/>
                                     <constraint firstItem="dzb-ar-9ID" firstAttribute="leading" secondItem="OWi-vu-pyY" secondAttribute="trailing" constant="10" id="rOw-xR-ddx"/>
                                     <constraint firstAttribute="bottom" secondItem="OWi-vu-pyY" secondAttribute="bottom" id="rUm-Ub-1A6"/>
                                     <constraint firstItem="OWi-vu-pyY" firstAttribute="top" secondItem="tqy-bj-zo9" secondAttribute="top" id="tqz-4r-piK"/>
@@ -277,6 +286,7 @@
                 <outlet property="msgLabel" destination="Wmo-mX-q6v" id="m1z-HG-zun"/>
                 <outlet property="msgLabelHeight" destination="F14-A8-kbq" id="5HR-sh-hc3"/>
                 <outlet property="stamp" destination="tqy-bj-zo9" id="OiW-99-jiE"/>
+                <outlet property="stampIcon" destination="GTb-oC-hPo" id="JmQ-IE-yeN"/>
                 <outlet property="subTagLabel" destination="jIm-hh-muY" id="rGt-0g-YvF"/>
                 <outlet property="subTagLabelHeight" destination="Ihs-To-faV" id="bnR-74-z6j"/>
                 <outlet property="tagLabel" destination="Ic8-b6-Wxe" id="7Z4-2N-lsv"/>

@@ -119,22 +119,18 @@ extension UITableView {
         headerView.removeConstraint(temporaryWidthConstraint)
         headerView.translatesAutoresizingMaskIntoConstraints = true
     }
-    
 }
 
-extension UIScrollView {
-    var rx_reachedBottom: Observable<Void> {
-        return rx.contentOffset
-            .flatMap { [weak self] contentOffset -> Observable<Void> in
-                guard let scrollView = self else {
-                    return Observable.empty()
-                }
-                
+extension Reactive where Base: UIScrollView {
+    var reachedBottom: Observable<Void> {
+        base.rx.contentOffset
+            .flatMap { contentOffset -> Observable<Void> in
+                let scrollView = base
                 let visibleHeight = scrollView.frame.height - scrollView.contentInset.top - scrollView.contentInset.bottom
                 let y = contentOffset.y + scrollView.contentInset.top
                 let threshold = max(0.0, scrollView.contentSize.height - visibleHeight)
                 
                 return y > threshold ? Observable.just(()) : Observable.empty()
-        }
+            }
     }
 }

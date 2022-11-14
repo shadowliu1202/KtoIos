@@ -7,7 +7,7 @@ class PromotionPresenter: FilterPresentProtocol {
     static let productRows = 4...8
     
     private let productAllRow = 3
-    private let bonusRows = 9...11
+    private let bonusRows = 9...12
     
     func getTitle() -> String {
         return Localize.string("common_filter")
@@ -104,7 +104,8 @@ class PromotionPresenter: FilterPresentProtocol {
          PromotionPresenter.createInteractive(.arcade),
          PromotionPresenter.createInteractive(.rebate),
          PromotionPresenter.createInteractive(.freebet),
-         PromotionPresenter.createInteractive(.depositbonus)]
+         PromotionPresenter.createInteractive(.depositbonus),
+         PromotionPresenter.createInteractive(.vvipcashback)]
 
     
     class func createStaticDisplay(_ title: String) -> PromotionItem {

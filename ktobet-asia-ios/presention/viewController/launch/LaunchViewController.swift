@@ -4,7 +4,7 @@ import SharedBu
 
 class LaunchViewController: UIViewController {
     
-    var viewModel = Injectable.resolveWrapper(NavigationViewModel.self)
+    @Injected private (set) var viewModel: NavigationViewModel
 
     private var disposeBag = DisposeBag()
     

@@ -1,4 +1,7 @@
 import XCTest
+import RxSwift
+
+@testable import ktobet_asia_ios_qat
 
 extension XCTestCase {
     

@@ -120,15 +120,21 @@ class FilterButton: UIView {
     }
     
     private func goToFilterVC() {
-        guard let presenter = presenter, let vc = self.vc else { return }
+        guard let presenter = presenter,
+              let vc = self.vc
+        else { return }
+        
         vc.presenter = presenter
+        
         if let filter = initalFilterItem {
-            presenter.setConditions(filter)
+            presenter.setConditions(filter + [])
         }
+        
         vc.conditionCallbck = { [weak self] (items) in
             self?.setTitle(items)
             self?.conditionCallbck?(items)
         }
+        
         parentController?.navigationController?.pushViewController(vc, animated: true)
     }
 }

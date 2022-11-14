@@ -89,7 +89,7 @@ class TransactionLogViewController: LobbyViewController {
                 return sectionModels.sorted(by: { $0.model > $1.model })
             }.asObservable().bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
-        scrollView.rx_reachedBottom
+        scrollView.rx.reachedBottom
             .map{ _ in ()}
             .bind(to: self.viewModel.pagination.loadNextPageTrigger)
             .disposed(by: disposeBag)

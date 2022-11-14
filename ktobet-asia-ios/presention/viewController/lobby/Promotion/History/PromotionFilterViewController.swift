@@ -3,17 +3,21 @@ import RxSwift
 import RxCocoa
 
 
-class PromotionFilterViewController: FilterConditionViewController, UITableViewDelegate {
+class PromotionFilterViewController: FilterConditionViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnSubmit: UIButton!
     
-    private var sortingStackView: UIStackView!
-    private lazy var totalSource = BehaviorRelay<[FilterItem]>(value: [])
     private let disposeBag = DisposeBag()
+    
+    private lazy var totalSource = BehaviorRelay<[FilterItem]>(value: [])
+    private var sortingStackView: UIStackView!
 
     private var _presenter: FilterPresentProtocol!
-    override internal var presenter: FilterPresentProtocol! {
+    
+    private var _conditionCallbck: (([FilterItem]) -> ())?
+    
+    override var presenter: FilterPresentProtocol! {
         get {
             return _presenter
         }
@@ -21,8 +25,8 @@ class PromotionFilterViewController: FilterConditionViewController, UITableViewD
             _presenter = newValue
         }
     }
-    private var _conditionCallbck: (([FilterItem]) -> ())?
-    override internal var conditionCallbck: (([FilterItem]) -> ())? {
+    
+    override var conditionCallbck: (([FilterItem]) -> ())? {
         get {
             return _conditionCallbck
         }
@@ -33,96 +37,138 @@ class PromotionFilterViewController: FilterConditionViewController, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         initUI()
         dataBinding()
-        tableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
-  
-    private func initUI() {
+    
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
+}
+
+// MARK: - UI
+
+private extension PromotionFilterViewController {
+    
+    func initUI() {
         titleLabel.text = presenter.getTitle()
+        
         tableView.separatorColor = .clear
+        
         displayLastRowSperator()
+        
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, image: "Close")
     }
         
-    private func dataBinding() {
+    func dataBinding() {
         totalSource.accept(presenter.getDatasource())
-        btnSubmit.rx.touchUpInside.subscribe(onNext: { [weak self] in
-            self?.conditionCallbck?(self?.getConditions() ?? [])
-            NavigationManagement.sharedInstance.popViewController()
-        }).disposed(by: disposeBag)
         
-        totalSource.asObservable().bind(to: tableView.rx.items) { [weak self] tableView, row, item in
-            guard let self = self else { return UITableViewCell() }
-            if item.type == .static {
-                return tableView.dequeueReusableCell(withIdentifier: "StaticCell", cellType: StaticCell.self).configure(item, impl: self.presenter)
-            } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "InteractiveCell", cellType: InteractiveCell.self).configure(item, impl: self.presenter) { (pressedEvent, disposeBag) in
-                    pressedEvent.subscribe(onNext: { [weak self] _ in
-                        guard let `self` = self else { return }
-                        self.toggle(row)
-                    }).disposed(by: disposeBag)
+        btnSubmit.rx.touchUpInside
+            .subscribe(onNext: { [weak self] in
+                self?.conditionCallbck?(self?.getConditions() ?? [])
+                NavigationManagement.sharedInstance.popViewController()
+            })
+            .disposed(by: disposeBag)
+        
+        totalSource.asObservable()
+            .bind(to: tableView.rx.items) { [weak self] tableView, row, item in
+                guard let self = self else { return UITableViewCell() }
+                
+                if item.type == .static {
+                    return tableView
+                        .dequeueReusableCell(
+                            withIdentifier: "StaticCell",
+                            cellType: StaticCell.self
+                        )
+                        .configure(item, impl: self.presenter)
                 }
-                cell.removeBorder()
-                if PromotionPresenter.productRows.contains(row) {
-                    cell.addBorder(leftConstant: 52)
-                    cell.titleLeadingConstraint.constant = 47
-                } else if row == 1 {
-                    cell.addBorder()
-                    cell.addBorder(.bottom)
-                    cell.titleLeadingConstraint.constant = 24
-                } else if row == 3 {
-                    cell.addBorder()
-                    cell.titleLeadingConstraint.constant = 24
-                } else {
-                    cell.addBorder(leftConstant: 24)
-                    cell.titleLeadingConstraint.constant = 24
+                else {
+                    let cell = tableView
+                        .dequeueReusableCell(
+                            withIdentifier: "InteractiveCell",
+                            cellType: InteractiveCell.self
+                        )
+                        .configure(item, impl: self.presenter) { (pressedEvent, disposeBag) in
+                            pressedEvent
+                                .subscribe(onNext: { [weak self] _ in
+                                    guard let `self` = self else { return }
+                                    self.toggle(row)
+                                })
+                                .disposed(by: disposeBag)
+                        }
+                    
+                    cell.removeBorder()
+                    
+                    if PromotionPresenter.productRows.contains(row) {
+                        cell.addBorder(leftConstant: 52)
+                        cell.titleLeadingConstraint.constant = 47
+                    }
+                    else if row == 1 {
+                        cell.addBorder()
+                        cell.addBorder(.bottom)
+                        cell.titleLeadingConstraint.constant = 24
+                    }
+                    else if row == 3 {
+                        cell.addBorder()
+                        cell.titleLeadingConstraint.constant = 24
+                    }
+                    else {
+                        cell.addBorder(leftConstant: 24)
+                        cell.titleLeadingConstraint.constant = 24
+                    }
+                    
+                    return cell
                 }
-                return cell
             }
-        }.disposed(by: disposeBag)
+            .disposed(by: disposeBag)
     }
     
-    @objc private func sortingDescTapped(_ sender: UITapGestureRecognizer) {
+    @objc func sortingDescTapped(_ sender: UITapGestureRecognizer) {
         sortringTapped(Localize.string("bonus_orderby_desc"))
     }
     
-    @objc private func sortingAscTapped(_ sender: UITapGestureRecognizer) {
+    @objc func sortingAscTapped(_ sender: UITapGestureRecognizer) {
         sortringTapped(Localize.string("bonus_orderby_asc"))
     }
     
-    private func sortringTapped(_ currenttitle: String) {
-        self.sortingStackView.removeFromSuperview()
-        let sortingCondition = self.presenter.getDatasource()[PromotionPresenter.sortingRow]
+    func sortringTapped(_ currenttitle: String) {
+        sortingStackView.removeFromSuperview()
+        
+        let sortingCondition = presenter.getDatasource()[PromotionPresenter.sortingRow]
         if sortingCondition.title != currenttitle {
-            self.presenter.toggleItem(PromotionPresenter.sortingRow)
+            presenter.toggleItem(PromotionPresenter.sortingRow)
         }
         
-        let newValue = self.presenter.getDatasource()
+        let newValue = presenter.getDatasource()
         totalSource.accept(newValue)
     }
     
-    private func getConditions() -> [FilterItem] {
+    func getConditions() -> [FilterItem] {
         return totalSource.value
     }
     
-    private func toggle(_ row: Int) {
+    func toggle(_ row: Int) {
         if row == PromotionPresenter.sortingRow {
             showSortingView()
-        } else {
-            self.presenter.toggleItem(row)
-            let newValue = self.presenter.getDatasource()
+        }
+        else {
+            presenter.toggleItem(row)
+            
+            let newValue = presenter.getDatasource()
             totalSource.accept(newValue)
         }
     }
     
-    private func showSortingView() {
+    func showSortingView() {
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! InteractiveCell
+        
         let descLabel = UILabel()
         descLabel.textColor = .whiteFull
         descLabel.text = Localize.string("bonus_orderby_desc")
         descLabel.font = UIFont(name: "PingFangSC-Medium", size: 14)
-        let descTap = UITapGestureRecognizer(target: self, action: #selector(self.sortingDescTapped(_:)))
+        
+        let descTap = UITapGestureRecognizer(target: self, action: #selector(sortingDescTapped(_:)))
         descLabel.isUserInteractionEnabled = true
         descLabel.addGestureRecognizer(descTap)
         
@@ -130,23 +176,32 @@ class PromotionFilterViewController: FilterConditionViewController, UITableViewD
         ascLabel.textColor = .whiteFull
         ascLabel.text = Localize.string("bonus_orderby_asc")
         ascLabel.font = UIFont(name: "PingFangSC-Medium", size: 14)
-        let ascTap = UITapGestureRecognizer(target: self, action: #selector(self.sortingAscTapped(_:)))
+        
+        let ascTap = UITapGestureRecognizer(target: self, action: #selector(sortingAscTapped(_:)))
         ascLabel.isUserInteractionEnabled = true
         ascLabel.addGestureRecognizer(ascTap)
         
-        self.sortingStackView = UIStackView(frame: CGRect(x: cell.titleLbl.frame.origin.x - 8, y: cell.frame.origin.y, width: cell.frame.width * 0.87, height: cell.frame.height * 2))
-        self.sortingStackView.distribution = .fillEqually
-        self.sortingStackView.alignment = .fill
-        self.sortingStackView.axis = .vertical
-        self.sortingStackView.insertArrangedSubview(descLabel, at: 0)
-        self.sortingStackView.insertArrangedSubview(ascLabel, at: 1)
-        self.sortingStackView.backgroundColor = UIColor.black_two
-        self.sortingStackView.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-        self.sortingStackView.isLayoutMarginsRelativeArrangement = true
-        tableView.addSubview(self.sortingStackView ?? UIView())
+        sortingStackView = UIStackView(
+            frame: CGRect(
+                x: cell.titleLbl.frame.origin.x - 8,
+                y: cell.frame.origin.y,
+                width: cell.frame.width * 0.87,
+                height: cell.frame.height * 2
+            )
+        )
+        sortingStackView.distribution = .fillEqually
+        sortingStackView.alignment = .fill
+        sortingStackView.axis = .vertical
+        sortingStackView.insertArrangedSubview(descLabel, at: 0)
+        sortingStackView.insertArrangedSubview(ascLabel, at: 1)
+        sortingStackView.backgroundColor = UIColor.black_two
+        sortingStackView.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        sortingStackView.isLayoutMarginsRelativeArrangement = true
+        
+        tableView.addSubview(sortingStackView ?? UIView())
     }
     
-    private func lastRowSeparator() -> CALayer {
+    func lastRowSeparator() -> CALayer {
         let sepFrame = CGRect(x: 0, y: -1, width: self.tableView.bounds.width, height: 1)
         let sep = CALayer()
         sep.frame = sepFrame
@@ -154,11 +209,16 @@ class PromotionFilterViewController: FilterConditionViewController, UITableViewD
         return sep
     }
     
-    private func displayLastRowSperator() {
+    func displayLastRowSperator() {
         let seprator = UIView(frame: .zero)
         seprator.layer.addSublayer(lastRowSeparator())
-        self.tableView.tableFooterView = seprator
+        tableView.tableFooterView = seprator
     }
+}
+
+// MARK: - TableViewDelegate
+
+extension PromotionFilterViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 2 {
@@ -166,10 +226,6 @@ class PromotionFilterViewController: FilterConditionViewController, UITableViewD
         } else {
             return 48
         }
-    }
-    
-    deinit {
-        print("\(type(of: self)) deinit")
     }
 }
 

@@ -84,7 +84,7 @@ class NumberGameMyBetGameGroupedViewController: LobbyViewController {
             .bind(to: viewModel.pagination.refreshTrigger)
             .disposed(by: disposeBag)
 
-        tableView.rx_reachedBottom
+        tableView.rx.reachedBottom
             .map{ _ in ()}
             .bind(to: self.viewModel.pagination.loadNextPageTrigger)
             .disposed(by: disposeBag)

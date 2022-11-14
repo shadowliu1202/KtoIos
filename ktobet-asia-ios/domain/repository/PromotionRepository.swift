@@ -13,6 +13,7 @@ protocol PromotionRepository {
     func getTurnOverDetail(bonusCoupon: BonusCoupon) -> Single<TurnOverHint>
     func useCoupon(bonusCoupon: BonusCoupon, autoUse: Bool) -> Completable
     func getPromotionDetail(promotionId: String) -> Single<PromotionDescriptions>
+    func getCashBackSettings(displayId: String) -> Single<[CashBackSetting]>
 }
 
 
@@ -99,6 +100,19 @@ class PromotionRepositoryImpl: PromotionRepository {
             guard let data = response.data else { return Single.error(KTOError.EmptyData) }
             return Single<PromotionDescriptions>.just(data.toPromotionDescriptions())
         }
+    }
+    
+    func getCashBackSettings(displayId: String) -> Single<[CashBackSetting]> {
+        promotionApi.getCashBackSettings(displayId: displayId)
+            .map ({ responseDataList in
+                responseDataList.data
+                    .map ({ bean in
+                        CashBackSetting(
+                            cashBackPercentage: Percentage(percent: Double(bean.cashBackPercentage) ?? 0),
+                            lossAmountRange: bean.lossAmountRange,
+                            maxAmount: bean.maxAmount.toAccountCurrency())
+                    })
+            })
     }
 }
 
