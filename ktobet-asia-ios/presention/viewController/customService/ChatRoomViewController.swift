@@ -6,9 +6,6 @@ import IQKeyboardManagerSwift
 import SwiftUI
 
 class ChatRoomViewController: CommonViewController {
-    var barButtonItems: [UIBarButtonItem] = []
-    var viewModel: CustomerServiceViewModel!
-    var surveyViewModel: SurveyViewModel!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var inputTextField: UITextField!
@@ -17,7 +14,8 @@ class ChatRoomViewController: CommonViewController {
     @IBOutlet weak var textFieldView: UIView!
     @IBOutlet weak var textFieldBottomPaddingConstraint: NSLayoutConstraint!
     @IBOutlet weak var bannerContainer: UIView!
-    var banner: UIView?
+    
+    private let inputTextFieldTextCountLimit = 500
     
     private var activityIndicator = UIActivityIndicatorView(style: .large)
     private var disposeBag = DisposeBag()
@@ -25,6 +23,12 @@ class ChatRoomViewController: CommonViewController {
     private var imageIndex = 0
     private var imageUploadInex = 0
     private var dataCount = 0
+    
+    var banner: UIView?
+    
+    var barButtonItems: [UIBarButtonItem] = []
+    var viewModel: CustomerServiceViewModel!
+    var surveyViewModel: SurveyViewModel!
     
     // FIXME: Use viewDidLoad after resolve memory leak
     override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +54,7 @@ class ChatRoomViewController: CommonViewController {
         addIndicator()
         setTextFieldPadding()
         textFieldBottomPaddingConstraint.constant = UIDevice.current.hasNotch ? 22 : 0
+        inputTextField.delegate = self
     }
     
     private func setKeyboardEvent() {
@@ -405,6 +410,59 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
     }
 }
 
+extension ChatRoomViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.isContainsPhoneticCharacters() { return true }
+
+        guard let currentText = textField.text,
+              let stringRange = Range(range, in: currentText)
+        else { return false }
+
+        let shouldFixStringWhenPasted = !(currentText.isEmpty) && string.count > 1
+        let replacement = shouldFixStringWhenPasted ? string.trimmingCharacters(in: .whitespaces) : string
+        
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: replacement)
+
+        if updatedText.count > inputTextFieldTextCountLimit {
+            let overCount = updatedText.count - inputTextFieldTextCountLimit
+            let finalText = currentText.replacingCharacters(
+                in: stringRange,
+                with: replacement.dropLast(overCount)
+            )
+            
+            inputTextField.remainCursor(to: finalText)
+        }
+        else {
+            inputTextField.remainCursor(to: updatedText)
+        }
+
+        return false
+    }
+}
+
+
+// MARK:  TextField
+private extension UITextField {
+    
+    func remainCursor(to new: String) {
+        guard let selectedTextRange = selectedTextRange else { return }
+        
+        let currentCursorPosition = offset(from: beginningOfDocument, to: selectedTextRange.start)
+        let selectedCount = offset(from: selectedTextRange.start, to: selectedTextRange.end)
+        let differentCount = new.count - (text?.count ?? 0)
+        
+        let cursorOffset = currentCursorPosition + selectedCount + differentCount
+        
+        text = new
+        
+        if let newCursorPosition = position(from: beginningOfDocument, offset: cursorOffset) {
+            DispatchQueue.main.async {
+                self.selectedTextRange = self.textRange(from: newCursorPosition, to: newCursorPosition)
+            }
+        }
+    }
+}
 
 class MixTableViewCell: UITableViewCell {
     private var httpClient = DI.resolve(HttpClient.self)!
