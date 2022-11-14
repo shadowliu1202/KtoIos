@@ -3,10 +3,11 @@ import SharedBu
 import RxSwift
 
 protocol PromotionUseCase {
-    func searchBonusCoupons(keyword: String, from: Date, to: Date, productTypes: [ProductType], bonusTypes: [BonusType], sortingBy: SortingType, page: Int) -> Single<CouponHistorySummary>
+    func searchBonusCoupons(keyword: String, from: Date, to: Date, productTypes: [ProductType], privilegeTypes: [PrivilegeType], sortingBy: SortingType, page: Int) -> Single<CouponHistorySummary>
     func getBonusCoupons() -> Single<[BonusCoupon]>
     func getProductPromotionEvents() -> Single<[PromotionEvent.Product]>
     func getRebatePromotionEvents() -> Single<[PromotionEvent.Rebate]>
+    func getVVIPCashbackPromotionEvents() -> Single<[PromotionEvent.VVIPCashback]>
     func getPromotionDetail(promotionId: String) -> Single<PromotionDescriptions>
     func requestBonusCoupon(bonusCoupon: BonusCoupon) -> Single<WaitingConfirm>
     func getCashBackSettings(displayId: String) -> Single<[CashBackSetting]>
@@ -26,8 +27,8 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
         self.playerRepository = playerRepository
     }
     
-    func searchBonusCoupons(keyword: String, from: Date, to: Date, productTypes: [ProductType], bonusTypes: [BonusType], sortingBy: SortingType, page: Int) -> Single<CouponHistorySummary> {
-        promotionRepository.searchBonusCoupons(keyword: keyword, from: from, to: to, productTypes: productTypes, bonusTypes: bonusTypes, sortingBy: sortingBy, page: page)
+    func searchBonusCoupons(keyword: String, from: Date, to: Date, productTypes: [ProductType], privilegeTypes: [PrivilegeType], sortingBy: SortingType, page: Int) -> Single<CouponHistorySummary> {
+        promotionRepository.searchBonusCoupons(keyword: keyword, from: from, to: to, productTypes: productTypes, privilegeTypes: privilegeTypes, sortingBy: sortingBy, page: page)
     }
     
     func getBonusCoupons() -> Single<[BonusCoupon]> {
@@ -96,6 +97,10 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
     
     func getRebatePromotionEvents() -> Single<[PromotionEvent.Rebate]> {
         return self.promotionRepository.getRebatePromotions()
+    }
+    
+    func getVVIPCashbackPromotionEvents() -> Single<[PromotionEvent.VVIPCashback]> {
+        return self.promotionRepository.getCashbackPromotions()
     }
     
     func getPromotionDetail(promotionId: String) -> Single<PromotionDescriptions> {

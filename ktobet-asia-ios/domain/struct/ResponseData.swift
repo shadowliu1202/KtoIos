@@ -1291,6 +1291,8 @@ struct BonusBean: Codable {
             return try self.toRebate()
         case 5:
             return try self.toDepositReturnLevel()
+        case 7:
+            return try self.toVVIPCashback()
         default:
             return BonusCoupon.Other.init()
         }
@@ -1376,6 +1378,24 @@ struct BonusBean: Codable {
                                                     end: try self.expiryDate.toOffsetDateTime()),
                                                  minCapital: self.knMinCapital)
     }
+    
+    private func toVVIPCashback() throws -> BonusCoupon.VVIPCashback {
+        BonusCoupon.VVIPCashback(property: BonusCoupon.Property(promotionId: self.displayId,
+                                                                bonusId: self.no,
+                                                                name: self.name,
+                                                                issueNumber: KotlinInt.init(value: Int32(self.issue)),
+                                                                percentage: self.knPercentage,
+                                                                amount: self.knAmount,
+                                                                endDate: try self.effectiveDate.toLocalDateTime(),
+                                                                betMultiple: self.betMultiple,
+                                                                fixTurnoverRequirement: self.fixTurnoverRequirement,
+                                                                validPeriod: ValidPeriod.Companion.init().create(start: try self.effectiveDate.toOffsetDateTime(),
+                                                                                                                 end: try self.expiryDate.toOffsetDateTime()),
+                                                                couponStatus: self.couponStatus,
+                                                                updatedDate: try self.updatedDate.toLocalDateTime(),
+                                                                informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
+                                                                minCapital: self.knMinCapital))
+    }
 }
 
 struct PromotionBean: Codable {
@@ -1420,6 +1440,26 @@ struct ProductPromotionBean: Codable {
                     endDate: try self.endDate.toOffsetDateTime(),
                     maxBonusAmount: self.maxAmount.toAccountCurrency(),
                     type: ProductType.convert(self.productType))
+    }
+}
+
+struct CashbackPromotionBean: Codable {
+    let displayId: String
+    let issue: Int32
+    let type: Int32
+    let maxAmount: Double
+    let endDate: String
+    let percentage: Double
+    let informPlayerDate: String
+
+    func toCashbackPromotion() throws -> PromotionEvent.VVIPCashback {
+        PromotionEvent.VVIPCashbackCompanion.init()
+            .create(promotionId: self.displayId,
+                    issueNumber: self.issue,
+                    informPlayerDate: try self.informPlayerDate.toLocalDateTime(),
+                    percentage: Percentage(percent: self.percentage),
+                    maxBonusAmount: self.maxAmount.toAccountCurrency(),
+                    endDate: try self.endDate.toOffsetDateTime())
     }
 }
 
@@ -1642,10 +1682,37 @@ struct BalanceLogBonusRemarkBean: Codable {
     let productType: Int32
     let type: Int32
     let updatedDate: String
+    let cashbackRemark: CashBackRemarkBean?
     
     func toBalanceLogDetailRemark() -> BalanceLogDetailRemark {
-        return BalanceLogDetailRemark.Bonus(bonusId: no, bonusName: name, bonusType: BonusType.convert(type), issueNumber: issueNumber, productType: ProductType.convert(productType))
+        if let cashbackRemark = cashbackRemark {
+            return BalanceLogDetailRemark.CashBack(
+                title: name,
+                issueNumber: IssueNumber.Companion.init().create(yearMonth: String(issueNumber)),
+                bonusId: no,
+                arcade: cashbackRemark.arcade.toAccountCurrency(),
+                casino: cashbackRemark.casino.toAccountCurrency(),
+                numberGame: cashbackRemark.numberGame.toAccountCurrency(),
+                percent: Percentage(percent: cashbackRemark.percent),
+                sbk: cashbackRemark.sbk.toAccountCurrency(),
+                slot: cashbackRemark.slot.toAccountCurrency(),
+                totalBonusAmount: cashbackRemark.totalBonusAmount.toAccountCurrency(),
+                totalWinLoss: cashbackRemark.totalWinLoss.toAccountCurrency())
+        } else {
+            return BalanceLogDetailRemark.Bonus(bonusId: no, bonusName: name, bonusType: BonusType.convert(type), issueNumber: issueNumber, productType: ProductType.convert(productType))
+        }
     }
+}
+
+struct CashBackRemarkBean: Codable {
+    let sbk: Double
+    let casino: Double
+    let slot: Double
+    let numberGame: Double
+    let arcade: Double
+    let totalWinLoss: Double
+    let totalBonusAmount: Double
+    let percent: Double
 }
 
 struct BalanceLogDetailRemarkBean: Codable {

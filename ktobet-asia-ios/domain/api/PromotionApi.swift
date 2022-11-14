@@ -49,6 +49,11 @@ class PromotionApi: ApiService {
         return httpClient.request(target).map(ResponseData<[ProductPromotionBean]>.self)
     }
     
+    func getCashbackPromotions() -> Single<ResponseData<[CashbackPromotionBean]>> {
+        let target = GetAPITarget(service: self.url("\(prefix)/cashback-promotions"))
+        return httpClient.request(target).map(ResponseData<[CashbackPromotionBean]>.self)
+    }
+    
     func getLockedBonus() -> Single<ResponseData<LockBonusBean>> {
         let target = GetAPITarget(service: self.url("\(prefix)/locked"))
         return httpClient.request(target).map(ResponseData<LockBonusBean>.self)
@@ -85,7 +90,7 @@ class PromotionApi: ApiService {
     }
     
     func getCashBackSettings(displayId: String) -> Single<ResponseDataList<CashBackSettingBean>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/api/bonus/cashback/reference-percentage")).parameters(["displayId": displayId])
+        let target = GetAPITarget(service: self.url("\(prefix)/cashback/reference-percentage")).parameters(["displayId": displayId])
         return httpClient.request(target).map(ResponseDataList<CashBackSettingBean>.self)
     }
 }

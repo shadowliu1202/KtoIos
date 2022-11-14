@@ -170,6 +170,21 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
                     textView.delegate = self
                 })
             }
+            else if let vvipCashback = data.vvipCashback {
+                descriptionLabel.isHidden = true
+                
+                let data = cashbackRemark(vvipCashback)
+                data.forEach {
+                    let row = ListRow(rowConfig: $0)
+                    stackView.addArrangedSubview(row)
+                }
+                
+                let foot = UIView()
+                foot.snp.makeConstraints { make in
+                    make.height.equalTo(44)
+                }
+                stackView.addArrangedSubview(foot)
+            }
         }
         return self
     }
@@ -180,6 +195,20 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
     
     private func setValue(_ txt: String?) {
         descriptionLabel.text = txt ?? " "
+    }
+    
+    private func cashbackRemark(_ vvipCashback: BalanceLogDetailRemark.CashBack) -> [ListRow.RowConfig] {
+        [ListRow.RowConfig(title: Localize.string("bonus_cashback_remark_title"), content: vvipCashback.title),
+         ListRow.RowConfig(title: Localize.string("bonus_cashback_remark_subtitle", "\(vvipCashback.issueNumber.month)"), content: nil),
+         ListRow.RowConfig(title: Localize.string("common_sportsbook"), content: vvipCashback.sbk.formatString(sign: .signed_)),
+         ListRow.RowConfig(title: Localize.string("common_casino"), content: vvipCashback.casino.formatString(sign: .signed_)),
+         ListRow.RowConfig(title: Localize.string("common_slot"), content: vvipCashback.slot.formatString(sign: .signed_)),
+         ListRow.RowConfig(title: Localize.string("common_keno"), content: vvipCashback.numberGame.formatString(sign: .signed_)),
+         ListRow.RowConfig(title: Localize.string("common_arcade"), content: vvipCashback.arcade.formatString(sign: .signed_)),
+         ListRow.RowConfig(title: Localize.string("common_total_amount"), content: vvipCashback.totalWinLoss.formatString(sign: .signed_)),
+         ListRow.RowConfig(title: Localize.string("bonus_cashback_remark_total_bonus", "\(vvipCashback.issueNumber.month)"), content: vvipCashback.totalBonusAmount.formatString(sign: .signed_)),
+         ListRow.RowConfig(title: Localize.string("bonus_cashback_remark_percentage"), content: "\(vvipCashback.percent.description())%"),
+         ListRow.RowConfig(title: Localize.string("bonus_cashback_remark_formula"), content: Localize.string("bonus_cashback_remark_formula_content", "\(vvipCashback.percent.description())"))]
     }
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
@@ -197,6 +226,70 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
     
 }
 
+extension LogDetailCell {
+    class ListRow: UIView {
+        
+        struct RowConfig {
+            let title: String
+            let content: String?
+        }
+        
+        let field1Label = UILabel()
+        let field2Label = UILabel()
+        
+        private lazy var labels = [field1Label, field2Label]
+        
+        init(rowConfig: RowConfig) {
+            super.init(frame: .zero)
+            setupUI()
+            config(rowConfig)
+        }
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            setupUI()
+        }
+        
+        required init?(coder: NSCoder) {
+            super.init(coder: coder)
+            setupUI()
+        }
+        
+        private func setupUI() {
+            let hstack = UIStackView(
+                arrangedSubviews: labels,
+                spacing: 5,
+                axis: .horizontal,
+                distribution: .fill,
+                alignment: .fill
+            )
+            
+            field1Label.textAlignment = .left
+            field2Label.textAlignment = .right
+            
+            labels.forEach({
+                $0.font = UIFont(name: "PingFangSC-Regular", size: 16)!
+                $0.numberOfLines = 0
+            })
+            
+            addSubview(hstack)
+            hstack.snp.makeConstraints { make in
+                make.edges.equalToSuperview().inset(UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 0))
+            }
+            
+            field1Label.setContentHuggingPriority(.required, for: .horizontal)
+            field2Label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        }
+        
+        private func config(_ rowConfig: RowConfig) {
+            field1Label.text = rowConfig.title
+            field2Label.text = rowConfig.content
+            field2Label.isHidden = rowConfig.content?.isEmpty ?? true
+            labels.forEach({ $0.textColor = .white })
+        }
+    }
+}
+
 class LogDetailRowItem {
     private(set) var bean: BalanceLogDetail!
     private(set) var isSmartBet: Bool!
@@ -209,6 +302,7 @@ class LogDetailRowItem {
     var logId: String?
     var remark: String?
     var linkRemark: [(String?, String?)]?
+    var vvipCashback: BalanceLogDetailRemark.CashBack?
     
     init(bean: BalanceLogDetail, isSmartBet: Bool) {
         self.bean = bean
@@ -316,6 +410,11 @@ class LogDetailRowItem {
         case let r as BalanceLogDetailRemark.Bonus:
             self.logId = r.bonusId
             self.remark = parse(bonusType: r.bonusType) + ":" + parseProductBonusSubTitle(bonusType: r.bonusType, productType: r.productType, issueNumber: r.issueNumber, defaultTitle: r.bonusName)
+            break
+        case let r as BalanceLogDetailRemark.CashBack:
+            self.logId = r.bonusId
+            self.remark = nil
+            self.vvipCashback = r
             break
         case is BalanceLogDetailRemark.None:
             self.logId = bean.wagerMappingId

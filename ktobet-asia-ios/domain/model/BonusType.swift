@@ -18,6 +18,7 @@ extension BonusType {
             case .product:          return (3, BonusType.product)
             case .rebate:           return (4, BonusType.rebate)
             case .levelbonus:       return (5, BonusType.levelbonus)
+            case .vvipcashback:     return (7, BonusType.vvipcashback)
             default:                return (-1, BonusType.other)
             }
         case let i as Int32:
@@ -27,6 +28,7 @@ extension BonusType {
             case 3:             return (3, BonusType.product)
             case 4:             return (4, BonusType.rebate)
             case 5:             return (5, BonusType.levelbonus)
+            case 7:             return (7, BonusType.vvipcashback)
             default:            return (-1, BonusType.other)
             }
         default:                return (-1, BonusType.other)

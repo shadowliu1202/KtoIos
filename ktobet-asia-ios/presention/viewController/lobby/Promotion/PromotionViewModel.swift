@@ -10,8 +10,7 @@ class PromotionViewModel {
     private lazy var bonusCoupons = self.promotionUseCase.getBonusCoupons().asObservable().share()
     private lazy var productPromotions = self.promotionUseCase.getProductPromotionEvents().asObservable().share()
     private lazy var rebatePromotions = self.promotionUseCase.getRebatePromotionEvents().asObservable().share()
-    // TODO:
-    private lazy var cashBackPromotions = Observable<[PromotionEvent.Rebate]>.just([])
+    private lazy var cashBackPromotions = self.promotionUseCase.getVVIPCashbackPromotionEvents().asObservable().share()
     
     lazy var trigerRefresh = PublishSubject<Void>()
     private lazy var freeBetCoupon = self.bonusCoupons.forceCast(BonusCoupon.FreeBet.self)
@@ -26,13 +25,7 @@ class PromotionViewModel {
         return (coupon, rebate)
     }
     private lazy var cashBackOfBonusCoupon = self.bonusCoupons.forceCast(BonusCoupon.VVIPCashback.self)
-    // TODO:
-    private lazy var cashBackPromotionSummary: Observable<([BonusCoupon.VVIPCashback], [PromotionEvent.Rebate])> = Observable.combineLatest(cashBackOfBonusCoupon, cashBackPromotions).map { (coupon, promotion) -> ([BonusCoupon.VVIPCashback], [PromotionEvent.Rebate]) in
-        if promotion.contains(where: {$0.isAutoUse}) {
-            return ([], promotion)
-        }
-        return (coupon, promotion)
-    }
+    private lazy var cashBackPromotionSummary = Observable.combineLatest(cashBackOfBonusCoupon, cashBackPromotions)
     private var filterOfSorce = BehaviorRelay<PromotionFilter>(value: .all)
     private(set) var sectionHeaders: [String] = []
     lazy var dataSource = Observable.combineLatest(trigerRefresh, filterOfSorce).flatMap { [unowned self] (_, selected) -> Observable<[[PromotionVmItem]]> in
@@ -123,7 +116,7 @@ class PromotionViewModel {
     private lazy var manualCoupon: Observable<[PromotionVmItem]> = Observable.combineLatest(bonusCoupons, rebatePromotions).map { (bonusCoupons, rebateEvents) -> [PromotionVmItem] in
         let rebateIsAutoUse = rebateEvents.contains(where: {$0.isAutoUse})
         let result: [PromotionVmItem] = bonusCoupons
-            .filter({ $0.isFromEvent() }) // is Rebate or Product
+            .filter({ $0.isFromEvent() }) // is Rebate or Product or VVIPCashback
             .filter({ (coupon) in
                 if rebateIsAutoUse, coupon is BonusCoupon.Rebate {
                     return false

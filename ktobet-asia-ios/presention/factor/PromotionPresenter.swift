@@ -77,19 +77,19 @@ class PromotionPresenter: FilterPresentProtocol {
         conditions[row].isSelected?.toggle()
     }
     
-    func getConditionStatus(_ items: [PromotionItem]) -> (prodcutType: [ProductType], bonusType: [BonusType], sorting: SortingType) {
+    func getConditionStatus(_ items: [PromotionItem]) -> (prodcutTypes: [ProductType], privilegeTypes: [PrivilegeType], sorting: SortingType) {
         let productTypes = items.filter({ $0.isSelected == true }).compactMap{ $0.productType }
-        var bonusTypes = items.filter({ $0.isSelected == true }).compactMap{ $0.bonusType }
+        var privilegeTypes = items.filter({ $0.isSelected == true }).compactMap{ $0.privilegeType }
         let sortingType = (items.filter({ $0.sortingType != nil }).first?.sortingType)!
         if !productTypes.isEmpty {
-            bonusTypes.append(BonusType.product)
+            privilegeTypes.append(PrivilegeType.product)
         }
         
-        if bonusTypes.filter({ $0 == BonusType.depositbonus }).count != 0 {
-            bonusTypes.append(BonusType.levelbonus)
+        if privilegeTypes.filter({ $0 == PrivilegeType.depositbonus }).count != 0 {
+            privilegeTypes.append(PrivilegeType.levelbonus)
         }
         
-        return (productTypes, bonusTypes, sortingType)
+        return (productTypes, privilegeTypes, sortingType)
     }
     
     private var conditions: [PromotionItem] =
@@ -126,11 +126,11 @@ class PromotionPresenter: FilterPresentProtocol {
                              productType: productType)
     }
     
-    class func createInteractive(_ bonusType: BonusType) -> PromotionItem {
+    class func createInteractive(_ privilegeType: PrivilegeType) -> PromotionItem {
         return PromotionItem(type: .interactive,
-                             title: StringMapper.parseBonusTypeString(bonusType: bonusType),
+                             title: StringMapper.parseprivilegeTypeTypeString(privilegeType: privilegeType),
                              select: true,
-                             bonusType: bonusType)
+                             bonusType: privilegeType)
     }
     
     class func createInteractive(_ sortingType: SortingType) -> PromotionItem {
@@ -193,13 +193,13 @@ class PromotionItem: FilterItem {
         }
     }
 
-    private var _bonusType: BonusType?
-    var bonusType: BonusType? {
+    private var _privilegeType: PrivilegeType?
+    var privilegeType: PrivilegeType? {
         switch type {
         case .static:
             return nil
         case .interactive:
-            return _bonusType
+            return _privilegeType
         }
     }
 
@@ -220,11 +220,11 @@ class PromotionItem: FilterItem {
         return select ?? false ? UIImage(named: "iconDoubleSelectionSelected24") : UIImage(named: "iconDoubleSelectionEmpty24")
     }
     
-    init(type: Display, title: String, select: Bool, bonusType: BonusType? = nil, productType: ProductType? = nil, sortingType: SortingType? = nil) {
+    init(type: Display, title: String, select: Bool, bonusType: PrivilegeType? = nil, productType: ProductType? = nil, sortingType: SortingType? = nil) {
         self.type = type
         self.title = title
         self.select = select
-        self._bonusType = bonusType
+        self._privilegeType = bonusType
         self._productType = productType
         self.sortingType = sortingType
     }

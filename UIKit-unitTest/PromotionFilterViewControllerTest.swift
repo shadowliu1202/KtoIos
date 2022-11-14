@@ -5,27 +5,22 @@ import SharedBu
 @testable import ktobet_asia_ios_qat
 
 final class PromotionFilterViewControllerTest: XCTestCase {
+    private lazy var sut = PromotionFilterViewController.initFrom(storyboard: "Filter")
     let stubDataSource = mock(FilterPresentProtocol.self)
     
+    override func setUp() {
+        super.setUp()
+        stubCultureCode()
+    }
+    
     func test_HasVVIPRebateCoupon_InPromtionFilterPage_VVIPCouponFilterIsDisplayed_KTO_TC_25() {
-        let stubLocalStorageRepository = mock(LocalStorageRepository.self).initialize(nil)
-        given(stubLocalStorageRepository.getCultureCode()) ~> "zh-cn"
-        
-        Injectable
-            .register(LocalizeUtils.self) { resolver in
-                return LocalizeUtils(localStorageRepo: stubLocalStorageRepository)
-            }
         
         given(stubDataSource.getTitle()) ~> ""
         given(stubDataSource.itemText(any())) ~> { ($0 as! PromotionItem).title }
         given(stubDataSource.getDatasource()) ~> [PromotionPresenter.createInteractive(.vvipcashback)]
         
-        let sut = makeSUT(
-            PromotionFilterViewController.self,
-            from: "Filter"
-        ) { [unowned self] in
-            $0.presenter = stubDataSource
-        }
+        sut.presenter = stubDataSource
+        sut.loadViewIfNeeded()
 
         XCTAssertEqual(1, sut.tableView.numberOfRows(inSection: 0))
         

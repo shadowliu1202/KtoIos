@@ -17,10 +17,10 @@ final class PromotionRepositoryImplTests: XCTestCase {
                 statusCode: "200",
                 errorMsg: "",
                 data: [
-                    CashBackSettingBean(lossAmountRange: "100000~199999", maxAmount: "1888", cashBackPercentage: "1"),
-                    CashBackSettingBean(lossAmountRange: "200000~499999", maxAmount: "6888", cashBackPercentage: "1.5"),
-                    CashBackSettingBean(lossAmountRange: "500000~999999", maxAmount: "16888", cashBackPercentage: "2"),
-                    CashBackSettingBean(lossAmountRange: "≥1000000", maxAmount: "28888", cashBackPercentage: "2.5")
+                    CashBackSettingBean(lossAmountRange: "100000~199999", maxAmount: "1888", cashBackPercentage: "1%"),
+                    CashBackSettingBean(lossAmountRange: "200000~499999", maxAmount: "6888", cashBackPercentage: "1.5%"),
+                    CashBackSettingBean(lossAmountRange: "500000~999999", maxAmount: "16888", cashBackPercentage: "2%"),
+                    CashBackSettingBean(lossAmountRange: "≥1000000", maxAmount: "28888", cashBackPercentage: "2.5%")
                 ]
             ))
         

@@ -382,7 +382,7 @@ extension BonusCoupon.VVIPCashback: BonusCouponItem {
         self.informPlayerDate.toDateString()
     }
     var icon: String {
-        ""
+        "iconVVIPCashBack48Big"
     }
     
     var id: String {
@@ -418,5 +418,59 @@ extension BonusCoupon.VVIPCashback: BonusCouponItem {
     
     var rawValue: BonusCoupon {
         self
+    }
+}
+
+extension PromotionEvent.VVIPCashback : PromotionEventItem {
+    var stampIcon: String {
+        "iconCrown"
+    }
+    
+    var displayMaxAmount: String {
+        maxBonus.formatString()
+    }
+    
+    var displayPercentage: String {
+        self.percentage.description()
+    }
+    
+    var displayLevel: String? {
+        nil
+    }
+    
+    var displayInformPlayerDate: String {
+        self.informPlayerDate.toDateFormatString()
+    }
+    
+    var icon: String {
+        "iconVVIPCashBack48Big"
+    }
+    
+    var id: String {
+        self.promotionId
+    }
+    
+    func isAutoUse() -> Bool {
+        false
+    }
+    
+    var expireDate: Date {
+        endDate.convertToDate()
+    }
+    
+    var displayAmount: String {
+        Localize.string("bonus_gettop") + "\n\(maxBonus.formatString())"
+    }
+    var issueNo: String {
+        return Localize.string("bonus_period", "\(issueNumber)")
+    }
+    var title: String {
+        Localize.string("bonus_bonustype_7")
+    }
+    var subTitle: String {
+        ""
+    }
+    var message: String {
+        Localize.string("bonus_bonustype_7")
     }
 }

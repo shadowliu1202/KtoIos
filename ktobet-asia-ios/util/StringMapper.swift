@@ -82,6 +82,23 @@ class StringMapper {
         }
     }
     
+    static func parseprivilegeTypeTypeString(privilegeType: PrivilegeType) -> String {
+        switch privilegeType {
+        case .rebate:
+            return Localize.string("common_rebate")
+        case .freebet:
+            return Localize.string("common_freebet")
+        case .depositbonus, .levelbonus:
+            return Localize.string("common_depositbonus")
+        case .product:
+            return Localize.string("bonus_bonustype_3")
+        case .vvipcashback:
+            return Localize.string("bonus_bonustype_7")
+        default:
+            return ""
+        }
+    }
+    
     static func parse(bonusReceivingStatus: BonusReceivingStatus) -> String {
         switch bonusReceivingStatus {
         case .noturnover:

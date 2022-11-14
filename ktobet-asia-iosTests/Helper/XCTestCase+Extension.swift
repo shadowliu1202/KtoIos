@@ -43,21 +43,17 @@ extension XCTestCase {
         return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyKtoURL)
     }
     
-    func makeSUT<ViewController>(
-        _ type: ViewController.Type,
-        from storyboard: String,
-        given: ((ViewController) -> ())? = nil
-    ) -> ViewController where ViewController: UIViewController {
-        @Storyboard(name: storyboard) var target: ViewController
+    func stubCultureCode(_ code: String = "zh-cn") {
+        let stubLocalStorageRepository = mock(LocalStorageRepository.self).initialize(nil)
+        given(stubLocalStorageRepository.getCultureCode()) ~> code
         
-        given?(target)
-        
-        target.loadViewIfNeeded()
-        
-        return target
+        Injectable
+            .register(LocalizeUtils.self) { resolver in
+                return LocalizeUtils(localStorageRepo: stubLocalStorageRepository)
+            }
     }
     
-    func injectStubPlayerLoginStatus(isLogin: Bool = true) {
+    func injectStubAuthenticationUseCase(isLogin: Bool = true) {
         let stubAuthenticationUseCase = mock(AuthenticationUseCase.self)
         
         given(stubAuthenticationUseCase.isLogged()) ~> .just(isLogin)

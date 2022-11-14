@@ -219,6 +219,12 @@ extension UIViewController{
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
     }
+    
+    static func initFrom(storyboard: String) -> Self {
+        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
+        let id = String(describing: self)
+        return storyboard.instantiateViewController(withIdentifier: id) as! Self
+    }
 }
 
 /// Reference: https://www.cnblogs.com/strengthen/p/13675147.html

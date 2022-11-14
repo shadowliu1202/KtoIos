@@ -12,7 +12,7 @@ class PromotionHistoryViewModel {
     var keyword: String = ""
     var sortingBy: SortingType = .desc
     var productTypes: [ProductType] = []
-    var bonusTypes: [BonusType] = [.freebet, .depositbonus, .rebate, .levelbonus, .product, .vvipcashback]
+    var privilegeTypes: [PrivilegeType] = [.freebet, .depositbonus, .rebate, .levelbonus, .product, .vvipcashback]
     var beginDate = Date().getPastSevenDate()
     var endDate = Date()
     var relayTotalCountAmount = BehaviorRelay(value: "")
@@ -41,7 +41,7 @@ class PromotionHistoryViewModel {
                 from: beginDate,
                 to: endDate,
                 productTypes: productTypes,
-                bonusTypes: bonusTypes,
+                privilegeTypes: privilegeTypes,
                 sortingBy: sortingBy,
                 page: page
             )
