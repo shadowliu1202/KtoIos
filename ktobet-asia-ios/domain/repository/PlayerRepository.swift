@@ -189,7 +189,7 @@ class PlayerRepositoryImpl : PlayerRepository {
     private func convert(level: Int32, privilegeBean: PrivilegeBean) -> LevelPrivilege {
         PrivilegeFactory.init(stringSupporter: Localize, resourceMapper: LevelPrivilegeResourceMapper())
             .create(level: level,
-                    type: convertToPrivilegeType(type: privilegeBean.type),
+                    type: PrivilegeType.convert(privilegeBean.type),
                     productType: ProductType.convert(privilegeBean.productType),
                     betMultiple: privilegeBean.betMultiple,
                     issueFrequency: LevelPrivilege.DepositIssueFrequencyCompanion.init().convert(type: privilegeBean.issueFrequency),
@@ -199,29 +199,6 @@ class PlayerRepositoryImpl : PlayerRepository {
                     rebatePercentages: rebatePercentages(privilegeBean),
                     withdrawalLimitAmount: privilegeBean.withdrawalLimitAmount.toAccountCurrency(),
                     withdrawalLimitCount: privilegeBean.withdrawalLimitCount)
-    }
-    
-    private func convertToPrivilegeType(type: Int32) -> PrivilegeType {
-        switch type {
-        case 1:
-            return PrivilegeType.freebet
-        case 2:
-            return PrivilegeType.depositbonus
-        case 3:
-            return PrivilegeType.product
-        case 4:
-            return PrivilegeType.rebate
-        case 5:
-            return PrivilegeType.levelbonus
-        case 90:
-            return PrivilegeType.feedback
-        case 91:
-            return PrivilegeType.withdrawal
-        case 92:
-            return PrivilegeType.domain
-        default:
-            return PrivilegeType.none
-        }
     }
    
     private func rebatePercentages(_ bean: PrivilegeBean) -> [ProductType : Percentage] {

@@ -32,7 +32,7 @@ class PromotionHistoryViewController: LobbyViewController {
             forCellReuseIdentifier: "PromotionHistoryTableViewCell"
         )
         
-        @Storyboard(name: "Filter") var filterController: PromotionFilterViewController
+        let filterController = PromotionFilterViewController.initFrom(storyboard: "Filter")
         
         filterBtn
             .set(filterPersenter)
@@ -46,8 +46,8 @@ class PromotionHistoryViewController: LobbyViewController {
                 self.filterBtn.setPromotionStyleTitle(source: condition)
                 
                 let status = self.filterPersenter.getConditionStatus(condition!)
-                self.viewModel.productTypes = status.prodcutType
-                self.viewModel.bonusTypes = status.bonusType
+                self.viewModel.productTypes = status.prodcutTypes
+                self.viewModel.privilegeTypes = status.privilegeTypes
                 self.viewModel.sortingBy = status.sorting
                 
                 self.fetchData()
@@ -133,7 +133,7 @@ extension PromotionHistoryViewController: BarButtonItemable {
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
         guard sender is SearchButtonItem else { return }
         
-        @Storyboard(name: "PromotionHistory") var searchController: PromotionSearchViewController
+        let searchController = PromotionSearchViewController.initFrom(storyboard: "PromotionHistory")
         
         navigationController?.pushViewController(searchController, animated: true)
     }

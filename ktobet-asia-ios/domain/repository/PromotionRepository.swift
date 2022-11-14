@@ -3,10 +3,11 @@ import RxSwift
 import SharedBu
 
 protocol PromotionRepository {
-    func searchBonusCoupons(keyword: String, from: Date, to: Date, productTypes: [ProductType], bonusTypes: [BonusType], sortingBy: SortingType, page: Int) -> Single<CouponHistorySummary>
+    func searchBonusCoupons(keyword: String, from: Date, to: Date, productTypes: [ProductType], privilegeTypes: [PrivilegeType], sortingBy: SortingType, page: Int) -> Single<CouponHistorySummary>
     func getBonusCoupons() -> Single<[BonusCoupon]>
     func getProductPromotions() -> Single<[PromotionEvent.Product]>
     func getRebatePromotions() -> Single<[PromotionEvent.Rebate]>
+    func getCashbackPromotions() -> Single<[PromotionEvent.VVIPCashback]>
     func hasAccountLockedBonus() -> Single<Bool>
     func isLockedBonusCalculating() -> Single<Bool>
     func getLockedBonusDetail() -> Single<TurnOverDetail>
@@ -24,14 +25,14 @@ class PromotionRepositoryImpl: PromotionRepository {
         self.promotionApi = promotionApi
     }
     
-    func searchBonusCoupons(keyword: String, from: Date, to: Date, productTypes: [ProductType], bonusTypes: [BonusType], sortingBy: SortingType, page: Int) -> Single<CouponHistorySummary> {
+    func searchBonusCoupons(keyword: String, from: Date, to: Date, productTypes: [ProductType], privilegeTypes: [PrivilegeType], sortingBy: SortingType, page: Int) -> Single<CouponHistorySummary> {
         let request = PromotionHistoryRequest(begin: from.toDateString(with: "-"),
                                               end: to.toDateString(with: "-"),
                                               page: page,
                                               productType: productTypes.map{ ProductType.convert($0) },
                                               query: keyword,
                                               selected: sortingBy.rawValue,
-                                              type: bonusTypes.map{ BonusType.convert($0) })
+                                              type: privilegeTypes.map{ PrivilegeType.convert($0) })
         return promotionApi.searchPromotionHistory(request: request).map{ (response) -> CouponHistorySummary in
             guard let data = response.data else { return CouponHistorySummary(summary: 0.toAccountCurrency(), totalCoupon: 0, couponHistory: [])}
             return try data.convertToPromotions()
@@ -56,6 +57,13 @@ class PromotionRepositoryImpl: PromotionRepository {
         return self.promotionApi.getPromotions().map { (response) in
             guard let data = response.data else { return [] }
             return try data.map({ try $0.toRebatePromotion() })
+        }
+    }
+    
+    func getCashbackPromotions() -> Single<[PromotionEvent.VVIPCashback]> {
+        self.promotionApi.getCashbackPromotions().map { (response) in
+            guard let data = response.data else { return [] }
+            return try data.map({ try $0.toCashbackPromotion() })
         }
     }
     
@@ -108,7 +116,7 @@ class PromotionRepositoryImpl: PromotionRepository {
                 responseDataList.data
                     .map ({ bean in
                         CashBackSetting(
-                            cashBackPercentage: Percentage(percent: Double(bean.cashBackPercentage) ?? 0),
+                            cashBackPercentage: Percentage(percent: Double(bean.cashBackPercentage.replacingOccurrences(of: "%", with: "")) ?? 0),
                             lossAmountRange: bean.lossAmountRange,
                             maxAmount: bean.maxAmount.toAccountCurrency())
                     })

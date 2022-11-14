@@ -9,7 +9,7 @@ final class PromotionDetailViewControllerTests: XCTestCase {
     private var vc: PromotionDetailViewController!
     
     override func setUp() {
-        injectStubPlayerLoginStatus()
+        injectStubAuthenticationUseCase()
         
         let storyboard = UIStoryboard(name: "Promotion", bundle: nil)
         vc = (storyboard.instantiateViewController(identifier: "PromotionDetailViewController") as! PromotionDetailViewController)
@@ -96,6 +96,25 @@ final class PromotionDetailViewControllerTests: XCTestCase {
     
     func test_whenCashBackCouponType_thenDisplayCashBackInfo_KTO_TC_23() {
         let stubPromotionVmItem = BonusCoupon.VVIPCashback(property: stubCouponProperty())
+        
+        vc.item = stubPromotionVmItem
+        vc.viewModel = dummyPromotionViewModel()
+        
+        vc.loadViewIfNeeded()
+        
+        XCTAssertFalse(vc.cashBackInfoStackView.isHidden)
+    }
+    
+    func test_whenCashBackPromotionEventType_thenDisplayCashBackInfo_KTO_TC_30() {
+        let stubPromotionVmItem = PromotionEvent.VVIPCashback(promotionId: "",
+                                                              issueNumber: 0,
+                                                              informPlayerDate: stubLocalDateTime(year: 2022),
+                                                              percentage: .init(percent: 1),
+                                                              maxBonus: Promotion.companion.create(amount: "100.0".toAccountCurrency()),
+                                                              endDate: .init(
+                                                                localDateTime: stubLocalDateTime(year: 2022),
+                                                                timeZone: TimeZone.fromFoundation(.current)
+                                                              ))
         
         vc.item = stubPromotionVmItem
         vc.viewModel = dummyPromotionViewModel()

@@ -159,7 +159,7 @@ private extension AppDelegate {
             self.addNetworkControlGesture()
         }
         
-        @Storyboard(name: "Launch") var launchController: LaunchViewController
+        let launchController = LaunchViewController.initFrom(storyboard: "Launch")
         window?.rootViewController = launchController
         window?.makeKeyAndVisible()
     }

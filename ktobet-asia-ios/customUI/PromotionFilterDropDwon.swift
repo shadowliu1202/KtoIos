@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SwiftUI
 
-enum PromotionFilter {
+enum PromotionFilter: CaseIterable {
     case all
     case manual
     case freeBet

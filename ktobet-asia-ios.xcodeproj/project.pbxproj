@@ -5693,6 +5693,15 @@
 		6DE36B8A26563BE30058A1BC /* UnSettleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */; };
 		6DE36B8C26563BE30058A1BC /* UnSettleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */; };
 		6DEA282D291397C700D85CD4 /* PromotionViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282C291397C700D85CD4 /* PromotionViewControllerTest.swift */; };
+		6DEA282F291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
+		6DEA2830291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
+		6DEA2831291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
+		6DEA2832291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
+		6DEA2833291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
+		6DEA2834291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
+		6DEA2835291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
+		6DEA2836291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
+		6DEA2837291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
 		6DEA784228FFE53000420A3D /* PasteableTextFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA784128FFE53000420A3D /* PasteableTextFieldTest.swift */; };
 		6DF26A61264A31C600DDD3C5 /* FilterBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF26A60264A31C600DDD3C5 /* FilterBarButtonItem.swift */; };
 		6DF26A62264A31C600DDD3C5 /* FilterBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF26A60264A31C600DDD3C5 /* FilterBarButtonItem.swift */; };
@@ -5748,15 +5757,6 @@
 		FF2F96D929125C2D0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF2F96DA29125C2E0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF4081F12918A5A100297D4E /* PromotionFilterViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */; };
-		FF9A5E322913AB9E0032A556 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A5E312913AB9E0032A556 /* Storyboard.swift */; };
-		FF9A5E332913AC060032A556 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A5E312913AB9E0032A556 /* Storyboard.swift */; };
-		FF9A5E342913AC060032A556 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A5E312913AB9E0032A556 /* Storyboard.swift */; };
-		FF9A5E352913AC070032A556 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A5E312913AB9E0032A556 /* Storyboard.swift */; };
-		FF9A5E362913AC070032A556 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A5E312913AB9E0032A556 /* Storyboard.swift */; };
-		FF9A5E372913AC080032A556 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A5E312913AB9E0032A556 /* Storyboard.swift */; };
-		FF9A5E382913AC080032A556 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A5E312913AB9E0032A556 /* Storyboard.swift */; };
-		FF9A5E392913AC090032A556 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A5E312913AB9E0032A556 /* Storyboard.swift */; };
-		FF9A5E3A2913AC0A0032A556 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A5E312913AB9E0032A556 /* Storyboard.swift */; };
 		FFC6B8AE2907BAEB002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8AF2907BAEF002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8B02907BAF0002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
@@ -6638,6 +6638,7 @@
 		6DE36B7F26563BB80058A1BC /* SettleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettleViewController.swift; sourceTree = "<group>"; };
 		6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnSettleViewController.swift; sourceTree = "<group>"; };
 		6DEA282C291397C700D85CD4 /* PromotionViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionViewControllerTest.swift; sourceTree = "<group>"; };
+		6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivilegeType.swift; sourceTree = "<group>"; };
 		6DEA784128FFE53000420A3D /* PasteableTextFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteableTextFieldTest.swift; sourceTree = "<group>"; };
 		6DF26A60264A31C600DDD3C5 /* FilterBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBarButtonItem.swift; sourceTree = "<group>"; };
 		6DF26A68264A358900DDD3C5 /* TextBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBarButtonItem.swift; sourceTree = "<group>"; };
@@ -6671,7 +6672,6 @@
 		F92587415FD8526B9C269127 /* Pods_UIKit_unitTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UIKit_unitTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectMockingBirdWrapper.swift; sourceTree = "<group>"; };
 		FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionFilterViewControllerTest.swift; sourceTree = "<group>"; };
-		FF9A5E312913AB9E0032A556 /* Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		FFC6B8B92907BB6C002D843B /* LocalStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorable.swift; sourceTree = "<group>"; };
 		FFC6B8EB290A4146002D843B /* InjectionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectionComponent.swift; sourceTree = "<group>"; };
@@ -8298,6 +8298,7 @@
 				6D94096526D7458300C70FDA /* DepositType.swift */,
 				6DDD333626CBC2DA0081A846 /* ProductType.swift */,
 				6DDD335426CCE72B0081A846 /* BonusType.swift */,
+				6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */,
 				6D9408DF26CF4FCD00C70FDA /* PromotionModel.swift */,
 				6D940A0126DCACD300C70FDA /* WaitingConfirm.swift */,
 				60BECC0D26F04CAE00BE3F99 /* WagerType.swift */,
@@ -10314,6 +10315,7 @@
 				3C656E9728E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */,
 				6D6E705F27546C1C005D88A6 /* CryptoViewModel.swift in Sources */,
 				6034623C26327E1400F5D1D9 /* Constraint.swift in Sources */,
+				6DEA2830291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
 				6D3D7ED3279E390900AE343D /* WithdrawalSystem.swift in Sources */,
 				6D48BA472761D08100C8DC2D /* MarketHeaderView.swift in Sources */,
 				608112B026EF4CEF00920B06 /* TransactionLogViewController.swift in Sources */,
@@ -10920,6 +10922,7 @@
 				3C656E9628E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */,
 				4870F49B25A6A9350052EE60 /* CountDownTimer.swift in Sources */,
 				48AAA11D256E458800E075CA /* TransportType.swift in Sources */,
+				6DEA282F291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
 				6D3D7ED2279E390900AE343D /* WithdrawalSystem.swift in Sources */,
 				6D48BA462761D08100C8DC2D /* MarketHeaderView.swift in Sources */,
 				FFC6B8BA2907BB6C002D843B /* LocalStorable.swift in Sources */,
@@ -11835,6 +11838,7 @@
 				609013112640EE7000419F8E /* LocalStorageRepository.swift in Sources */,
 				6010407C26A6C1D600B28FC8 /* LevelDetailImageTableViewCell.swift in Sources */,
 				6D29221E26806310009404BA /* WithdrawalCryptoRequestViewController.swift in Sources */,
+				6DEA2831291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
 				6D09CEF926BD1AAC00695C65 /* WebGameRepository.swift in Sources */,
 				609013122640EE7000419F8E /* ServerInvocationHandler.swift in Sources */,
 				609013132640EE7000419F8E /* SignupLanguageViewController.swift in Sources */,
@@ -12416,6 +12420,7 @@
 				60E5813127F190E4008CE5A9 /* LocalStorageRepository.swift in Sources */,
 				60E5813227F190E4008CE5A9 /* LevelDetailImageTableViewCell.swift in Sources */,
 				60E5813327F190E4008CE5A9 /* WithdrawalCryptoRequestViewController.swift in Sources */,
+				6DEA2832291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
 				60E5813427F190E4008CE5A9 /* WebGameRepository.swift in Sources */,
 				60E5813527F190E4008CE5A9 /* ServerInvocationHandler.swift in Sources */,
 				60E5813627F190E4008CE5A9 /* SignupLanguageViewController.swift in Sources */,
@@ -12782,6 +12787,7 @@
 				6D0EDBAD28743FAC004A9E3C /* SlotViewController.swift in Sources */,
 				6D0EDBAE28743FAC004A9E3C /* HistoryBarButtonItem.swift in Sources */,
 				6D0EDBAF28743FAC004A9E3C /* PromotionHistoryTableViewCell.swift in Sources */,
+				6DEA2836291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
 				6D0EDBB028743FAC004A9E3C /* LaunchViewController.swift in Sources */,
 				6D0EDBB128743FAC004A9E3C /* NavigationViewModel.swift in Sources */,
 				6D0EDBB228743FAC004A9E3C /* SignupEmailViewController.swift in Sources */,
@@ -13364,6 +13370,7 @@
 				6D0EDE0828744704004A9E3C /* SlotViewController.swift in Sources */,
 				6D0EDE0928744704004A9E3C /* HistoryBarButtonItem.swift in Sources */,
 				6D0EDE0A28744704004A9E3C /* PromotionHistoryTableViewCell.swift in Sources */,
+				6DEA2837291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
 				6D0EDE0B28744704004A9E3C /* LaunchViewController.swift in Sources */,
 				6D0EDE0C28744704004A9E3C /* NavigationViewModel.swift in Sources */,
 				6D0EDE0D28744704004A9E3C /* SignupEmailViewController.swift in Sources */,
@@ -14180,6 +14187,7 @@
 				6D966CBF27FEE3FA006086B7 /* LocalStorageRepository.swift in Sources */,
 				6D966CC027FEE3FA006086B7 /* LevelDetailImageTableViewCell.swift in Sources */,
 				6D966CC127FEE3FA006086B7 /* WithdrawalCryptoRequestViewController.swift in Sources */,
+				6DEA2833291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
 				6D966CC227FEE3FA006086B7 /* WebGameRepository.swift in Sources */,
 				6D966CC327FEE3FA006086B7 /* ServerInvocationHandler.swift in Sources */,
 				6D966CC427FEE3FA006086B7 /* SignupLanguageViewController.swift in Sources */,
@@ -14761,6 +14769,7 @@
 				6D966F0C27FEE416006086B7 /* LocalStorageRepository.swift in Sources */,
 				6D966F0D27FEE416006086B7 /* LevelDetailImageTableViewCell.swift in Sources */,
 				6D966F0E27FEE416006086B7 /* WithdrawalCryptoRequestViewController.swift in Sources */,
+				6DEA2834291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
 				6D966F0F27FEE416006086B7 /* WebGameRepository.swift in Sources */,
 				6D966F1027FEE416006086B7 /* ServerInvocationHandler.swift in Sources */,
 				6D966F1127FEE416006086B7 /* SignupLanguageViewController.swift in Sources */,
@@ -15006,6 +15015,7 @@
 				3C656E9C28E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */,
 				6D96702F27FEE42B006086B7 /* CryptoViewModel.swift in Sources */,
 				6D96703027FEE42B006086B7 /* Constraint.swift in Sources */,
+				6DEA2835291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
 				6D96703127FEE42B006086B7 /* WithdrawalSystem.swift in Sources */,
 				6D96703227FEE42B006086B7 /* MarketHeaderView.swift in Sources */,
 				FFC6B8C02907BB9D002D843B /* LocalStorable.swift in Sources */,

@@ -49,11 +49,11 @@ class PromotionDetailViewController: LobbyViewController {
         
         stampIconImageView.contentMode = .scaleToFill
         
-        self.view.addSubview(stampIconImageView)
+        topBackgroundView.addSubview(stampIconImageView)
         stampIconImageView.snp.makeConstraints { make in
-            make.size.equalTo(CGSize(width: 32, height: 40))
-            make.top.equalTo(view.snp.topMargin).offset(-4)
-            make.trailing.equalTo(-30)
+            make.size.equalTo(CGSize(width: 40, height: 32 ))
+            make.top.equalTo(30)
+            make.trailing.equalTo(0)
         }
         
         let promotionDetail = Driver.combineLatest(viewModel.getPromotionDetail(id: item.id), viewModel.playerLevel.asDriver(onErrorJustReturn: ""))
@@ -68,8 +68,8 @@ class PromotionDetailViewController: LobbyViewController {
                 promotionAmount: item.displayAmount,
                 validPeriod: (item as? BonusCouponItem)?.validPeriod,
                 isFull: (item as? PromotionEventItem)?.isAutoUse() ?? false,
-                stampIcon: item.stampIcon,
-                promotionId: item is BonusCoupon.VVIPCashback ? item.id : nil)
+                stampIconName: item is BonusCoupon.VVIPCashback || item is PromotionEvent.VVIPCashback ? "VVIPCashBackDetailPageIcon" : nil,
+                promotionId: item is BonusCoupon.VVIPCashback || item is PromotionEvent.VVIPCashback ? item.id : nil)
         
         getPromotionButton.rx.tap.subscribe(onNext: {[weak self] in
             guard let self = self else { return }
@@ -102,6 +102,7 @@ class PromotionDetailViewController: LobbyViewController {
         replaceParameter(text: &attributedString, parameter: "{percentage}", value: self.item.displayPercentage)
         replaceParameter(text: &attributedString, parameter: "{mincapital}", value: (self.item as? BonusCouponItem)?.displayMinCapital ?? "")
         replaceBonusTnc(text: &attributedString, parameter: "{bonustnc}", value: Localize.string("bonus_detail_contentrule"))
+        replaceBonusTnc(text: &attributedString, parameter: "{month}", value: item.issueNo)
         return attributedString
     }
     
@@ -131,7 +132,7 @@ class PromotionDetailViewController: LobbyViewController {
         promotionAmount: String,
         validPeriod: ValidPeriod?,
         isFull: Bool = false,
-        stampIcon: String,
+        stampIconName: String?,
         promotionId: String?)
     {
         typeButton.setTitle(productTypeTitle, for: .normal)
@@ -143,7 +144,13 @@ class PromotionDetailViewController: LobbyViewController {
         amountLabel.text = promotionAmount.replacingOccurrences(of: "\n", with: " ")
         promotionImageView.image = UIImage(named: productTypeDrawable)
         setStatusImageView(isFull)
-        stampIconImageView.image = UIImage(named: stampIcon)
+        
+        if let stampIconName = stampIconName {
+            stampIconImageView.image = UIImage(named: stampIconName)
+        }
+        else {
+            stampIconImageView.visibility = .gone
+        }
         
         
         switch item {
