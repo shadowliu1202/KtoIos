@@ -81,6 +81,8 @@ extension UIViewController{
             Logger.shared.error(nsError)
         case 410:
             handleMaintenance()
+        case 429:
+            handleTooManyRequest()
         case 503:
             showAlertError(String(format: Localize.string("common_http_503"), "\(statusCode)"))
         case 608:
@@ -137,6 +139,10 @@ extension UIViewController{
         }, cancel: nil)
     }
 
+    func handleTooManyRequest() {
+        showToastOnBottom(Localize.string("common_retry_later"), img: nil)
+    }
+    
     private func showAlertError(_ content: String) {
         let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
         toastView.show(on: nil, statusTip: content, img: UIImage(named: "Failed"))

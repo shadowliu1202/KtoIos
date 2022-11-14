@@ -4,6 +4,10 @@ import SharedBu
 import Moya
 import SwiftyJSON
 
+protocol ImageApiProtocol {
+    func uploadImage(query: [String: Any], imageData: [MultipartFormData]) -> Single<ResponseData<String>>
+}
+
 class ImageApi {
     private var httpClient: HttpClient!
     
@@ -20,15 +24,6 @@ class ImageApi {
         return httpClient.request(target).map(ResponseData<String>.self)
     }
     
-    func uploadImage(query: [String: Any], imageData: [MultipartFormData]) -> Single<ResponseData<String>> {
-        let target = APITarget(baseUrl: httpClient.host,
-                               path: "api/image/upload",
-                               method: .post,
-                               task: .uploadCompositeMultipart(imageData, urlParameters: query),
-                               header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<String>.self)
-    }
-    
     // MARK: New
     func getPrivateImageToken(imageId: String) -> Single<String> {
         let target = APITarget(baseUrl: httpClient.host,
@@ -37,5 +32,16 @@ class ImageApi {
                                task: .requestPlain,
                                header: httpClient.headers)
         return httpClient.requestJsonString(target)
+    }
+}
+
+extension ImageApi: ImageApiProtocol {
+    func uploadImage(query: [String: Any], imageData: [MultipartFormData]) -> Single<ResponseData<String>> {
+        let target = APITarget(baseUrl: httpClient.host,
+                               path: "api/image/upload",
+                               method: .post,
+                               task: .uploadCompositeMultipart(imageData, urlParameters: query),
+                               header: httpClient.headers)
+        return httpClient.request(target).map(ResponseData<String>.self)
     }
 }

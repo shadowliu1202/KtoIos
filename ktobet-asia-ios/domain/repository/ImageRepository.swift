@@ -4,33 +4,36 @@ import Moya
 import SharedBu
 
 protocol ImageRepository {
+    var imageApi: ImageApiProtocol { get }
     func uploadImage(imageData: Data) -> Single<UploadImageDetail>
 }
 
-class ImageRepositoryImpl: ImageRepository {
-    private var imageApi: ImageApi!
-
-    init(_ imageApi: ImageApi) {
-        self.imageApi = imageApi
-    }
-
+extension ImageRepository {
     func uploadImage(imageData: Data) -> Single<UploadImageDetail> {
         let uuid = UUID().uuidString + ".jpeg"
         let completables = createChunks(imageData: imageData, uuid: uuid)
-        return Single.zip(completables).flatMap { (tokens) -> Single<UploadImageDetail> in
-            let token = tokens.filter { $0.count != 0 }
-            let uploadImageDetail = UploadImageDetail(uriString: uuid, portalImage: PortalImage.Private.init(imageId: token.first!, fileName: uuid, host: uuid), fileName: uuid)
-            return Single.just(uploadImageDetail)
-        }
+        
+        return Single<UploadImageDetail>.create(subscribe: { single in
+            let subscription = Observable
+                .concat(completables)
+                .takeLast(1)
+                .do(onNext: {
+                    let uploadImageDetail = UploadImageDetail(uriString: uuid, portalImage: PortalImage.Private.init(imageId: $0, fileName: uuid, host: uuid), fileName: uuid)
+                    single(.success(uploadImageDetail))
+                })
+                .subscribe()
+            
+            return Disposables.create { subscription.dispose() }
+        })
     }
-
-    private func createChunks(imageData: Data, uuid: String) -> [Single<String>] {
+    
+    private func createChunks(imageData: Data, uuid: String) -> [Observable<String>] {
         var chunks: [Data] = []
-        var completables: [Single<String>] = []
+        var completables: [Observable<String>] = []
         let mimiType = "image/jpeg"
         let totalSize = imageData.count
         let dataLen = imageData.count
-        let chunkSize = 819200
+        let chunkSize = 512 * 1024
         let fullChunks = Int(dataLen / chunkSize)
         let totalChunks = fullChunks + (dataLen % 1024 != 0 ? 1 : 0)
         for chunkCounter in 0..<totalChunks {
@@ -67,7 +70,7 @@ class ImageRepositoryImpl: ImageRepository {
             let m9 = MultipartFormData(provider: .data(String(chunks.count).data(using: .utf8)!), name: "resumableTotalChunks")
             let multiPartData = MultipartFormData(provider: .data(chunk), name: "file", fileName: uuid, mimeType: mimiType)
             let query = createQuery(chunkImageDetil: chunkImageDetil)
-            completables.append(imageApi.uploadImage(query: query, imageData: [m1,m2,m3,m4,m5,m6,m7,m8,m9,multiPartData]).map { $0.data ?? "" })
+            completables.append(imageApi.uploadImage(query: query, imageData: [m1,m2,m3,m4,m5,m6,m7,m8,m9,multiPartData]).map { $0.data ?? "" }.asObservable())
         }
         
         return completables
@@ -88,5 +91,13 @@ class ImageRepositoryImpl: ImageRepository {
         }
         
         return query
+    }
+}
+
+class ImageRepositoryImpl: ImageRepository {
+    var imageApi: ImageApiProtocol
+
+    init(_ imageApi: ImageApi) {
+        self.imageApi = imageApi
     }
 }
