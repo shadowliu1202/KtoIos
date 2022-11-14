@@ -61,6 +61,14 @@ extension RxSwift.Observable where Element: AnyObject {
     }
 }
 
+extension ObservableType where Element: Sequence {
+    func forceCast<Element>(_ type: Element.Type) -> Observable<[Element]> {
+        self.map {
+            $0.compactMap { $0 as? Element }
+        }
+    }
+}
+
 extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element == String {
     func asReaktiveResponseList<T>(serial: Kotlinx_serialization_coreKSerializer) -> SingleWrapper<ResponseList<T>> where T: KotlinBase {
         SingleWrapper(inner: SingleByEmitterKt.single { emitter in

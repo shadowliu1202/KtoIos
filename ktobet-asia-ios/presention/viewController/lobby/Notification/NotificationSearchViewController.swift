@@ -65,7 +65,7 @@ class NotificationSearchViewController: LobbyViewController {
             cell.selectionStyle = .none
         }.disposed(by: disposeBag)
 
-        tableView.rx_reachedBottom.bind(to: viewModel.input.loadNextPageTrigger).disposed(by: disposeBag)
+        tableView.rx.reachedBottom.bind(to: viewModel.input.loadNextPageTrigger).disposed(by: disposeBag)
         tableView.rx.modelSelected(NotificationItem.self).bind { [weak self] (data) in
             self?.performSegue(withIdentifier: NotificationDetailViewController.segueIdentifier, sender: data)
         }.disposed(by: disposeBag)

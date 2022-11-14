@@ -75,6 +75,8 @@ class StringMapper {
             return Localize.string("common_depositbonus")
         case .product:
             return Localize.string("bonus_bonustype_3")
+        case .vvipcashback:
+            return Localize.string("bonus_bonustype_7")
         default:
             return ""
         }

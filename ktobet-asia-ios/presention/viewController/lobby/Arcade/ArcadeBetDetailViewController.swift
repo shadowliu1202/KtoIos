@@ -46,7 +46,7 @@ class ArcadeBetDetailViewController: LobbyViewController {
             .bind(to: viewModel.recordDetailPagination.refreshTrigger)
             .disposed(by: disposeBag)
         
-        tableView.rx_reachedBottom
+        tableView.rx.reachedBottom
             .map{ _ in ()}
             .bind(to: self.viewModel.recordDetailPagination.loadNextPageTrigger)
             .disposed(by: disposeBag)

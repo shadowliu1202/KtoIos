@@ -107,7 +107,7 @@ class PromotionSearchViewController: LobbyViewController {
         
         viewModel.recordPagination.error.subscribe(onNext: handleErrors).disposed(by: disposeBag)
         
-        tableView.rx_reachedBottom
+        tableView.rx.reachedBottom
             .map{ _ in ()}
             .bind(to: viewModel.recordPagination.loadNextPageTrigger)
             .disposed(by: disposeBag)

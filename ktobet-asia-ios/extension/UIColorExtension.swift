@@ -26,7 +26,6 @@ extension UIColor {
     }
 }
 
-
 extension UIColor {
     @nonobjc class var iconWhite: UIColor {
         return UIColor(white: 230.0 / 255.0, alpha: 1.0)
@@ -141,6 +140,9 @@ extension UIColor {
     }
     @nonobjc class var primaryRed: UIColor {
         return UIColor(red: 0.949, green: 0, blue: 0, alpha: 1)
+    }
+    @nonobjc class var yellowEA9E16: UIColor {
+        return UIColor(red: 0.92, green: 0.62, blue: 0.09, alpha: 1.0)
     }
 }
 

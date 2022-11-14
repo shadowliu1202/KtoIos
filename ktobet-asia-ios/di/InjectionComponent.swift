@@ -5,14 +5,19 @@ public let Injectable = Injection.shared.container
 
 @propertyWrapper
 struct Injected<Dependency> {
-    let wrappedValue: Dependency
+    var _wrappedValue: Dependency
+    
+    var wrappedValue: Dependency {
+        get { _wrappedValue }
+        set { _wrappedValue = newValue }
+    }
     
     init() {
-        wrappedValue = Injectable.resolveWrapper(Dependency.self)
+        _wrappedValue = Injectable.resolveWrapper(Dependency.self)
     }
     
     init(name: String) {
-        wrappedValue = Injectable.resolveWrapper(Dependency.self, name: name)
+        _wrappedValue = Injectable.resolveWrapper(Dependency.self, name: name)
     }
 }
 

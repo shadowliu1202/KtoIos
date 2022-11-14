@@ -48,7 +48,7 @@ class ArcadeBetSummaryByDateViewController: LobbyViewController {
             .bind(to: viewModel.recordByDatePagination.refreshTrigger)
             .disposed(by: disposeBag)
         
-        tableView.rx_reachedBottom
+        tableView.rx.reachedBottom
             .map{ _ in ()}
             .bind(to: self.viewModel.recordByDatePagination.loadNextPageTrigger)
             .disposed(by: disposeBag)

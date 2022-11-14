@@ -9,6 +9,8 @@ class DepositGatewayViewControllerTest: XCTestCase {
     private let stubOnlinePayment = mock(PaymentsDTO.Online.self)
     
     override func setUp() {
+        injectStubPlayerLoginStatus()
+        
         let storyboard = UIStoryboard(name: "Deposit", bundle: nil)
         vc = (storyboard.instantiateViewController(identifier: "DepositGatewayViewController") as! DepositGatewayViewController)
     }

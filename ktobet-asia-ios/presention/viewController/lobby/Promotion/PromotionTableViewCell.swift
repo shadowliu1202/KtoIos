@@ -11,6 +11,7 @@ let TimerLabelHeight: CGFloat = 16.0
 
 class PromotionTableViewCell: UITableViewCell {
     @IBOutlet weak var stamp: UIView!
+    @IBOutlet weak var stampIcon: UIImageView!
     @IBOutlet weak var issueLabel: UILabel!
     @IBOutlet weak var issueLabelHeight: NSLayoutConstraint!
     @IBOutlet weak var amountPrefixLabel: UILabel!

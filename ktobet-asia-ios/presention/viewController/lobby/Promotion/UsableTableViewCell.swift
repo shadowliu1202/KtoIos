@@ -14,6 +14,7 @@ class UsableTableViewCell: PromotionTableViewCell {
     
     func configure(_ item: PromotionVmItem) -> Self {
         setStampGradient()
+        setStampIcon(item)
         super.setData(item)
         return self
     }
@@ -30,6 +31,10 @@ class UsableTableViewCell: PromotionTableViewCell {
     
     private func setStampGradient() {
         self.stamp.applyGradient(vertical: [UIColor(rgb: 0xffd500).cgColor, UIColor(rgb: 0xfea144).cgColor])
+    }
+    
+    private func setStampIcon(_ item: PromotionVmItem) {
+        self.stampIcon.image = UIImage(named: item.stampIcon)
     }
     
     override func configureValidPeriodLayout(_ period: ValidPeriod.Duration) {

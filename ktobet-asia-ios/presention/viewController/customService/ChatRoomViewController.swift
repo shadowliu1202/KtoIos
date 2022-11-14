@@ -114,7 +114,7 @@ class ChatRoomViewController: CommonViewController {
         var firstLoad = true
         viewModel.chatRoomUnreadMessage
             .flatMapLatest { [unowned self] unreadMessages in
-                return self.tableView.rx_reachedBottom.map { unreadMessages }
+                return self.tableView.rx.reachedBottom.map { unreadMessages }
             }
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] unreadMessages in

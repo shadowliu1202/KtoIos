@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -16,7 +16,7 @@
                 <navigationController storyboardIdentifier="PromotionNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="xN3-nm-sef" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="iRf-7o-Mcu">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="blackTwo"/>
                         <textAttributes key="titleTextAttributes">
@@ -192,23 +192,32 @@
                                             <constraint firstAttribute="width" constant="111" id="rlX-Ig-Sxu"/>
                                         </constraints>
                                     </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="f8p-0J-WsC">
+                                        <rect key="frame" x="30" y="346" width="354" height="292"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="292" placeholder="YES" id="KyP-1e-KPf"/>
+                                        </constraints>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="lrF-T3-3jy" firstAttribute="top" secondItem="Ooy-of-Tpe" secondAttribute="top" constant="-4" id="149-tf-xv2"/>
+                                    <constraint firstItem="lrF-T3-3jy" firstAttribute="top" secondItem="0yc-a2-JWf" secondAttribute="top" constant="-4" id="149-tf-xv2"/>
                                     <constraint firstAttribute="trailing" secondItem="cUt-9B-4n7" secondAttribute="trailing" constant="22" id="6Zp-Eh-veN"/>
                                     <constraint firstItem="Bxm-hL-dOV" firstAttribute="top" secondItem="tbn-xI-WdC" secondAttribute="bottom" id="7pR-hB-hCa"/>
                                     <constraint firstItem="hwA-Sb-qyp" firstAttribute="top" secondItem="cUt-9B-4n7" secondAttribute="bottom" id="AaV-1c-ceQ"/>
                                     <constraint firstAttribute="trailing" secondItem="lrF-T3-3jy" secondAttribute="trailing" id="Lay-wB-1j1"/>
                                     <constraint firstItem="Bxm-hL-dOV" firstAttribute="leading" secondItem="tbn-xI-WdC" secondAttribute="leading" constant="-4" id="MrO-92-vqp"/>
+                                    <constraint firstItem="f8p-0J-WsC" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" constant="30" id="NMk-go-ndS"/>
                                     <constraint firstAttribute="trailing" secondItem="bjb-fN-MSt" secondAttribute="trailing" id="OXE-rh-jSv"/>
                                     <constraint firstItem="cUt-9B-4n7" firstAttribute="top" secondItem="QUd-7I-8th" secondAttribute="bottom" id="Omd-N7-8Hj"/>
-                                    <constraint firstAttribute="bottom" secondItem="Bxm-hL-dOV" secondAttribute="bottom" constant="96" id="Rhb-e1-QpM"/>
+                                    <constraint firstAttribute="bottom" secondItem="f8p-0J-WsC" secondAttribute="bottom" constant="96" id="SWZ-Yg-M1Q"/>
                                     <constraint firstItem="hwA-Sb-qyp" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" constant="30" id="Sha-D6-ctT"/>
+                                    <constraint firstItem="f8p-0J-WsC" firstAttribute="top" secondItem="Bxm-hL-dOV" secondAttribute="bottom" constant="16" id="WXF-kR-UNO"/>
                                     <constraint firstItem="cUt-9B-4n7" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" constant="22" id="akI-eB-x1J"/>
                                     <constraint firstItem="cUt-9B-4n7" firstAttribute="leading" secondItem="QUd-7I-8th" secondAttribute="leading" constant="-4" id="bjm-fE-8kF"/>
                                     <constraint firstItem="lrF-T3-3jy" firstAttribute="width" secondItem="0yc-a2-JWf" secondAttribute="width" id="gmM-gu-61p"/>
                                     <constraint firstItem="tbn-xI-WdC" firstAttribute="top" secondItem="hwA-Sb-qyp" secondAttribute="bottom" constant="24" id="jLP-1J-zKA"/>
+                                    <constraint firstAttribute="trailing" secondItem="f8p-0J-WsC" secondAttribute="trailing" constant="30" id="jkP-Cg-7ki"/>
                                     <constraint firstItem="lrF-T3-3jy" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" id="lrA-dC-Z20"/>
                                     <constraint firstItem="bjb-fN-MSt" firstAttribute="centerY" secondItem="lrF-T3-3jy" secondAttribute="bottom" id="mGU-w8-qNd"/>
                                     <constraint firstAttribute="trailing" secondItem="hwA-Sb-qyp" secondAttribute="trailing" constant="30" id="nai-1L-GLH"/>
@@ -216,8 +225,6 @@
                                     <constraint firstItem="Bxm-hL-dOV" firstAttribute="leading" secondItem="0yc-a2-JWf" secondAttribute="leading" constant="22" id="r3D-o7-2mg"/>
                                     <constraint firstAttribute="trailing" secondItem="Bxm-hL-dOV" secondAttribute="trailing" constant="22" id="xia-4H-R5H"/>
                                 </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="Ooy-of-Tpe"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="zi5-eK-9o7"/>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1fi-lp-Ukf">
                                 <rect key="frame" x="0.0" y="782" width="414" height="80"/>
@@ -269,6 +276,7 @@
                     <connections>
                         <outlet property="amountLabel" destination="5V7-fg-zBV" id="yeJ-s8-LFq"/>
                         <outlet property="buttonViewHeight" destination="CkJ-dD-h5b" id="WNW-P9-OrY"/>
+                        <outlet property="cashBackInfoStackView" destination="f8p-0J-WsC" id="ljw-YD-Zgy"/>
                         <outlet property="expireDateLabel" destination="wFp-pE-jSP" id="ALw-Na-yB6"/>
                         <outlet property="getPromotionButton" destination="THR-CQ-G9s" id="mCm-YY-l1d"/>
                         <outlet property="issueNumberLabel" destination="bXY-TZ-TKV" id="Kb7-sl-17C"/>
@@ -292,11 +300,11 @@
             <objects>
                 <viewController id="hHL-Ko-hPe" customClass="PromotionRuleTermViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="of2-fc-tNZ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bCH-oj-ei0">
-                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="790"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" name="blackFull"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="21"/>
@@ -1117,7 +1125,7 @@
             <objects>
                 <viewController storyboardIdentifier="PromotionViewController" id="lWj-VV-gzB" customClass="PromotionViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qkc-rl-14r">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uan-RM-NH9" userLabel="SeaweedView" customClass="PromotionFilterDropDwon" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -1128,7 +1136,7 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jl2-p0-7Xm">
-                                <rect key="frame" x="0.0" y="48" width="414" height="726"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="722"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GsT-0c-Yy0">
                                         <rect key="frame" x="0.0" y="216" width="414" height="0.0"/>
@@ -1157,7 +1165,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="UcC-5D-oGp">
-                                <rect key="frame" x="30" y="48" width="354" height="760"/>
+                                <rect key="frame" x="30" y="48" width="354" height="756"/>
                                 <color key="backgroundColor" name="blackFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="rnK-TB-Ch2">
                                     <rect key="frame" x="0.0" y="0.0" width="354" height="0.0"/>
@@ -1165,13 +1173,13 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="IoM-gM-ToQ" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="124" width="354" height="96"/>
+                                    <rect key="frame" x="0.0" y="130" width="354" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromotionHeaderViewCell" id="pYD-1Q-vQS" customClass="PromotionHeaderViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="49.5" width="354" height="56.5"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="354" height="56.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pYD-1Q-vQS" id="t81-s2-X1e">
                                             <rect key="frame" x="0.0" y="0.0" width="354" height="56.5"/>
@@ -1259,7 +1267,7 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

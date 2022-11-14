@@ -100,7 +100,7 @@ class DepositRecordViewController: LobbyViewController {
             .bind(to: depositLogViewModel.pagination.refreshTrigger)
             .disposed(by: disposeBag)
 
-        tableView.rx_reachedBottom
+        tableView.rx.reachedBottom
             .map{ _ in ()}
             .bind(to: self.depositLogViewModel.pagination.loadNextPageTrigger)
             .disposed(by: disposeBag)
