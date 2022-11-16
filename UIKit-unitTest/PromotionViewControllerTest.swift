@@ -40,8 +40,8 @@ final class PromotionViewControllerTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        stubCultureCode()
-        injectStubAuthenticationUseCase()
+        injectStubCultureCode()
+        injectStubPlayerLoginStatus()
         Injectable
             .register(PromotionUseCase.self) { _ in
                 self.mockPromotionUseCase
@@ -168,6 +168,31 @@ final class PromotionViewControllerTest: XCTestCase {
         XCTAssertTrue(cell.tagLabel.text!.contains("负盈利返现"))
         
         XCTAssertEqual(1, sut.tableView.numberOfRows(inSection: 0))
+    }
+    
+    func test_HasOneVVIPCashbackCoupon_InAllCouponPage_VVIPTabIsAfterManualTabAndBeforeFreebetTab_KTO_TC_37() {
+        givenPromotionUseCaseStubs(productPromotion: [], rebatePromotion: [], bonusCoupon: [vvipCoupon], VVIPCashbackPromotion: [])
+        
+        sut.loadViewIfNeeded()
+        sut.viewModel.trigerRefresh.onNext(())
+        
+        let dropDown = sut.filterDropDwon!
+        let indexManual = dropDown.tags.firstIndex(where: { $0.name.contains("手动领取") })!
+        let indexVVIPCashback = dropDown.tags.firstIndex(where: { $0.name.contains("负盈利返现") })!
+        let indexFreebet = dropDown.tags.firstIndex(where: { $0.name.contains("免费金") })!
+        XCTAssertGreaterThan(indexVVIPCashback, indexManual)
+        XCTAssertLessThan(indexVVIPCashback, indexFreebet)
+    }
+    
+    func test_HasOneVVIPCashbackCoupon_InAllCouponPage_ManualTabCountShouldBeOne_KTO_TC_38() {
+        givenPromotionUseCaseStubs(productPromotion: [], rebatePromotion: [], bonusCoupon: [vvipCoupon], VVIPCashbackPromotion: [])
+        
+        sut.loadViewIfNeeded()
+        sut.viewModel.trigerRefresh.onNext(())
+        
+        let dropDown = sut.filterDropDwon!
+        let manualTab = dropDown.tags.first(where: {$0.name.contains("手动领取")})!
+        XCTAssertEqual(1, manualTab.count)
     }
     
     func test_HasOneVVIPPromotionEventAndOneVVIPCashbackCouponWithoutOtherCoupons_AllTabCountShouldBeThree() {

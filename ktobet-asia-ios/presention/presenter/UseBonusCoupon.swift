@@ -4,10 +4,11 @@ import RxCocoa
 import SharedBu
 
 class SubUseBonusCoupon: UseBonusCoupon {
-    override class func confirm(waiting: WaitingConfirm, bonusCoupon: BonusCoupon) -> Completable {
+    
+    override func confirm(waiting: WaitingConfirm, bonusCoupon: BonusCoupon) -> Completable {
         switch waiting {
         case let waiting as ConfirmUseCouponFail where waiting.throwable is BonusCouponIsNotExist:
-            return waiting.execute(confirm: showUseCouponFailDialog(throwable: waiting.throwable))
+            return waiting.execute(confirm: showUseCouponFailDialog())
         case is UseCouponSucceeded:
             return Completable.create { (completable) -> Disposable in
                 NavigationManagement.sharedInstance.popViewController()
@@ -18,48 +19,78 @@ class SubUseBonusCoupon: UseBonusCoupon {
         }
     }
     
-    class func showUseCouponFailDialog(throwable: ApiException) -> Completable {
+    private func showUseCouponFailDialog() -> Completable {
         let title = Localize.string("bonus_use_expired_bonus_title")
         let message = Localize.string("bonus_use_expired_bonus_content")
-        return Completable.create { (completable) -> Disposable in
-            Alert.shared.show(title, message, confirm: {
-                NavigationManagement.sharedInstance.popViewController()
-                completable(.completed)
-            }, confirmText: Localize.string("common_confirm"), cancel: nil)
+        return Completable.create { [weak self] (completable) -> Disposable in
+            self?.presenter.showAlert(
+                title,
+                message,
+                confirm: {
+                    NavigationManagement.sharedInstance.popViewController()
+                    completable(.completed)
+                },
+                confirmText: Localize.string("common_confirm"),
+                cancel: nil,
+                cancelText: nil
+            )
+            
             return Disposables.create {}
         }
     }
 }
 
 class UseBonusCoupon {
-    class func confirm(waiting: WaitingConfirm, bonusCoupon: BonusCoupon) -> Completable {
+    
+    fileprivate let presenter: UseCouponPresenter
+    
+     init(presenter: UseCouponPresenter = UseCouponPresenterImpl()) {
+        self.presenter = presenter
+    }
+    
+    func confirm(waiting: WaitingConfirm, bonusCoupon: BonusCoupon) -> Completable {
         switch waiting {
         case let waiting as ConfirmUsageFull:
             return waiting.execute(confirm: createNotifyDialog(title: Localize.string("bonus_couponstatus_full_title"), message: Localize.string("bonus_quota_is_full_message")))
         case let waiting as ConfirmUseBonusCoupon:
-            return waiting.execute(confirm: createUseCouponDialog(bonusCoupon: bonusCoupon)).flatMapCompletable({ (waiting) in
-                confirm(waiting: waiting, bonusCoupon: bonusCoupon)
-            })
+            return waiting.execute(confirm: createUseCouponDialog(bonusCoupon: bonusCoupon))
+                .flatMapCompletable({ [weak self] (waiting) in
+                    guard let self = self else { return .empty() }
+
+                    return self.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
+                })
         case let waiting as ConfirmLockedBonusCalculating:
             return waiting.execute(confirm: createNotifyDialog(title: Localize.string("bonus_applicationtips"), message: Localize.string("bonus_compute")))
         case let waiting as ConfirmBonusLocked:
-            return waiting.execute(confirm: createNotifyDialog(title: Localize.string("bonus_applicationtips"), turnOver: waiting.turnOver))
+            return waiting.execute(confirm: createTurnOverLockedDialog(turnOver: waiting.turnOver))
         case let waiting as ConfirmLockedBonusHintForRebateCoupon:
-            return waiting.execute(confirm: createTurnOverHintApprovedDialog(turnOver: waiting.turnOver, bonusCoupon: bonusCoupon)).flatMapCompletable({ (waiting) in
-                confirm(waiting: waiting, bonusCoupon: bonusCoupon)
-            })
+            return waiting.execute(confirm: createTurnOverHintApprovedDialog(turnOver: waiting.turnOver, bonusCoupon: bonusCoupon))
+                .flatMapCompletable({ [weak self] waiting in
+                    guard let self = self else { return .empty() }
+                    
+                    return self.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
+                })
         case let waiting as ConfirmLockedBonusHintForNoTurnOverCoupon:
-            return waiting.execute(confirm: createTurnOverHintApprovedDialog(turnOver: waiting.turnOver, bonusCoupon: bonusCoupon)).flatMapCompletable({ (waiting) in
-                confirm(waiting: waiting, bonusCoupon: bonusCoupon)
-            })
+            return waiting.execute(confirm: createTurnOverHintApprovedDialog(turnOver: waiting.turnOver, bonusCoupon: bonusCoupon))
+                .flatMapCompletable({  [weak self] waiting in
+                    guard let self = self else { return .empty() }
+                    
+                    return self.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
+                })
         case let waiting as ConfirmAutoUse:
-            return waiting.execute(confirm: createAutoUsedDialog()).flatMapCompletable { (waiting) in
-                confirm(waiting: waiting, bonusCoupon: bonusCoupon)
-            }
+            return waiting.execute(confirm: createAutoUsedDialog())
+                .flatMapCompletable({ [weak self] waiting in
+                    guard let self = self else { return .empty() }
+                    
+                    return self.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
+                })
         case let waiting as ConfirmUseWithTurnOver:
-            return waiting.execute(confirm: createUseCouponConfirmDialog(turnOver: waiting.hint, title: bonusCoupon.name)).flatMapCompletable({ (waiting) in
-                confirm(waiting: waiting, bonusCoupon: bonusCoupon)
-            })
+            return waiting.execute(confirm: createUseCouponConfirmDialog(turnOver: waiting.hint, title: bonusCoupon.name))
+                .flatMapCompletable({ [weak self] waiting in
+                    guard let self = self else { return .empty() }
+                    
+                    return self.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
+                })
         case is DoNothing:
             return Completable.empty()
         case let waiting as ConfirmUseCouponFail:
@@ -72,70 +103,77 @@ class UseBonusCoupon {
     }
 
 
-    private class func createNotifyDialog(title: String, message: String) -> Completable {
-        return Completable.create { (completable) -> Disposable in
-            Alert.shared.show(title, message, confirm: {
-                completable(.completed)
-            }, confirmText: Localize.string("common_confirm"), cancel: nil)
+    private func createNotifyDialog(title: String, message: String) -> Completable {
+        return Completable.create { [weak self] (completable) -> Disposable in
+            self?.presenter.showAlert(
+                title,
+                message,
+                confirm: { completable(.completed) },
+                confirmText: Localize.string("common_confirm"),
+                cancel: nil,
+                cancelText: nil
+            )
+            
             return Disposables.create {}
         }
     }
 
-    private class func createUseCouponDialog(bonusCoupon: BonusCoupon) -> Single<Bool> {
+    private func createUseCouponDialog(bonusCoupon: BonusCoupon) -> Single<Bool> {
         if let coupon = bonusCoupon as? BonusCoupon.FreeBet {
             return createUseCouponConfirmDialog(title: coupon.name, message: Localize.string("bonus_use_coupon", Localize.string("bonus_bonustype_1")))
         } else if let coupon = bonusCoupon as? BonusCoupon.DepositReturn {
             return createUseCouponConfirmDialog(title: coupon.name, message: Localize.string("bonus_use_coupon", Localize.string("bonus_bonustype_2_2")))
         } else if let coupon = bonusCoupon as? BonusCoupon.Rebate {
             return createUseCouponConfirmDialog(title: coupon.message, message: Localize.string("bonus_use_coupon", Localize.string("bonus_bonustype_4")))
+        } else if let coupon = bonusCoupon as? BonusCoupon.VVIPCashback {
+            return createUseCouponConfirmDialog(title: coupon.message, message: Localize.string("bonus_use_coupon", Localize.string("bonus_bonustype_7")))
         } else {
             return Single.just(false)
         }
     }
 
-    private class func createUseCouponConfirmDialog(title: String, message: String) -> Single<Bool> {
-        return Single<Bool>.create(subscribe: { single in
-            Alert.shared.show(title, message, confirm: {
-                        single(.success(true))
-                       },
-                       confirmText: Localize.string("common_confirm"),
-                       cancel: {
-                        single(.success(false))
-                       },
-                       cancelText: Localize.string("common_cancel"))
+    private func createUseCouponConfirmDialog(title: String, message: String) -> Single<Bool> {
+        return Single<Bool>.create(subscribe: { [weak self] single in
+            self?.presenter.showAlert(
+                title,
+                message,
+                confirm: { single(.success(true)) },
+                confirmText: Localize.string("common_confirm"),
+                cancel: { single(.success(false)) },
+                cancelText: Localize.string("common_cancel")
+            )
+            
             return Disposables.create()
         })
     }
 
-    private class func createAutoUsedDialog() -> Single<Bool> {
-        return Single<Bool>.create(subscribe: { single in
-            Alert.shared.show(nil, Localize.string("bonus_allowautouse"), confirm: {
-                        single(.success(true))
-                       },
-                       confirmText: Localize.string("common_allow"),
-                       cancel: {
-                        single(.success(false))
-                       },
-                       cancelText: Localize.string("common_skip"))
+    private func createAutoUsedDialog() -> Single<Bool> {
+        return Single<Bool>.create(subscribe: { [weak self] single in
+            self?.presenter.showAlert(
+                nil,
+                Localize.string("bonus_allowautouse"),
+                confirm: { single(.success(true)) },
+                confirmText: Localize.string("common_allow"),
+                cancel: { single(.success(false)) },
+                cancelText: Localize.string("common_skip")
+            )
+            
             return Disposables.create()
         })
     }
 
-    private class func createNotifyDialog(title: String, turnOver: TurnOverDetail) -> Completable {
-        return Completable.create { (completable) -> Disposable in
-            if let alertView = UIStoryboard(name: "Promotion", bundle: nil).instantiateViewController(withIdentifier: "PromotionAlert1ViewController") as? PromotionAlert1ViewController, let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
-                alertView.turnOver = turnOver
-                alertView.confirmAction = { completable(.completed) }
-                alertView.view.backgroundColor = UIColor.black80
-                alertView.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-                alertView.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-                topVc.present(alertView, animated: true, completion: nil)
-            }
+    private func createTurnOverLockedDialog(turnOver: TurnOverDetail) -> Completable {
+        return Completable.create { [weak self] (completable) -> Disposable in
+            self?.presenter.presentTurnOverLockedDialog(
+                turnOver: turnOver,
+                confirmAction: { completable(.completed) }
+            )
+            
             return Disposables.create {}
         }
     }
 
-    private class func createTurnOverHintApprovedDialog(turnOver: TurnOverDetail, bonusCoupon: BonusCoupon) -> Single<Bool> {
+    private func createTurnOverHintApprovedDialog(turnOver: TurnOverDetail, bonusCoupon: BonusCoupon) -> Single<Bool> {
         var title = ""
         switch bonusCoupon.bonusType {
         case .freebet:
@@ -150,40 +188,35 @@ class UseBonusCoupon {
             break
         }
         
-        return Single<Bool>.create(subscribe: { single in
-            if let alertView = UIStoryboard(name: "Promotion", bundle: nil).instantiateViewController(withIdentifier: "PromotionAlert2ViewController") as? PromotionAlert2ViewController, let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
-                alertView.titleString = Localize.string("bonus_receive_confirm", title)
-                alertView.confirmAction = { single(.success(true)) }
-                alertView.cancelAction = { single(.success(false)) }
-                alertView.turnOver = turnOver
-                alertView.view.backgroundColor = UIColor.black80
-                alertView.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-                alertView.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-                topVc.present(alertView, animated: true, completion: nil)
-            }
+        return Single<Bool>.create(subscribe: { [weak self] single in
+            self?.presenter.presentTurnOverApproveDialog(
+                title: title,
+                turnOver: turnOver,
+                confirmAction: { single(.success(true)) },
+                cancelAction: { single(.success(false)) }
+            )
+            
             return Disposables.create()
         })
     }
 
-    private class func createUseCouponConfirmDialog(turnOver: TurnOverHint, title: String) -> Single<Bool> {
-        return Single<Bool>.create(subscribe: { single in
-            if let alertView = UIStoryboard(name: "Promotion", bundle: nil).instantiateViewController(withIdentifier: "PromotionAlert3ViewController") as? PromotionAlert3ViewController, let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
-                alertView.titleString = Localize.string("bonus_receive_confirm", title)
-                alertView.confirmAction = { single(.success(true)) }
-                alertView.cancelAction = { single(.success(false)) }
-                alertView.turnOver = turnOver
-                alertView.view.backgroundColor = UIColor.black80
-                alertView.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-                alertView.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-                topVc.present(alertView, animated: true, completion: nil)
-            }
+    private func createUseCouponConfirmDialog(turnOver: TurnOverHint, title: String) -> Single<Bool> {
+        return Single<Bool>.create(subscribe: { [weak self] single in
+            self?.presenter.presentConfirmUseDialog(
+                title: title,
+                turnOver: turnOver,
+                confirmAction: { single(.success(true)) },
+                cancelAction: { single(.success(false)) }
+            )
+            
             return Disposables.create()
         })
     }
 
-    private class func showUseCouponFailDialog(throwable: ApiException) -> Completable {
+    private func showUseCouponFailDialog(throwable: ApiException) -> Completable {
         var title = ""
         var message = ""
+        
         switch throwable {
         case is BonusBalanceLowerMinimumLimit:
             title = Localize.string("bonus_condition_error")
@@ -202,10 +235,17 @@ class UseBonusCoupon {
             message = Localize.string("bonus_usebonus_fail")
             break
         }
-        return Completable.create { (completable) -> Disposable in
-            Alert.shared.show(title, message, confirm: {
-                completable(.completed)
-            }, confirmText: Localize.string("common_confirm"), cancel: nil)
+        
+        return Completable.create { [weak self] (completable) -> Disposable in
+            self?.presenter.showAlert(
+                title,
+                message,
+                confirm: { completable(.completed) },
+                confirmText: Localize.string("common_confirm"),
+                cancel: nil,
+                cancelText: nil
+            )
+            
             return Disposables.create {}
         }
     }

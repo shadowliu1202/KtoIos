@@ -43,7 +43,7 @@ extension XCTestCase {
         return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyKtoURL)
     }
     
-    func stubCultureCode(_ code: String = "zh-cn") {
+    func injectStubCultureCode(_ code: String = "zh-cn") {
         let stubLocalStorageRepository = mock(LocalStorageRepository.self).initialize(nil)
         given(stubLocalStorageRepository.getCultureCode()) ~> code
         
@@ -53,7 +53,7 @@ extension XCTestCase {
             }
     }
     
-    func injectStubAuthenticationUseCase(isLogin: Bool = true) {
+    func injectStubPlayerLoginStatus(isLogin: Bool = true) {
         let stubAuthenticationUseCase = mock(AuthenticationUseCase.self)
         
         given(stubAuthenticationUseCase.isLogged()) ~> .just(isLogin)

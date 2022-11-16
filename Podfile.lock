@@ -184,7 +184,7 @@ DEPENDENCIES:
   - MockingbirdFramework (~> 0.20)
   - Moya/RxSwift (= 15.0.0)
   - NotificationBannerSwift (= 3.0.0)
-  - Puppy (~> 0.5)
+  - Puppy (= 0.5.0)
   - RxBlocking (= 6.5.0)
   - RxCocoa (= 6.5.0)
   - RxDataSources (= 5.0.0)
@@ -193,6 +193,7 @@ DEPENDENCIES:
   - SDWebImage (= 5.10.4)
   - sharedbu (= 2.9.1)
   - SideMenu (= 6.5.0)
+  - SnapKit
   - SwiftyJSON (= 5.0.0)
   - Swinject (= 2.7.1)
   - TYCyclePagerView (= 1.2.0)
@@ -284,6 +285,6 @@ SPEC CHECKSUMS:
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
   ViewInspector: 68842776f07fbf186713689d4846e54f32ccbffb
 
-PODFILE CHECKSUM: 8c2483f2abfe4e57c6f05595d41e2ba1cff39547
+PODFILE CHECKSUM: 195ca63efbf36051720c3aa613e60f11dddc5da1
 
 COCOAPODS: 1.11.3
