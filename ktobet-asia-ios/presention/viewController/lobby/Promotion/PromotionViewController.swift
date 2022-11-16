@@ -8,13 +8,18 @@ class PromotionViewController: LobbyViewController {
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    var barButtonItems: [UIBarButtonItem] = []
-    private var disposeBag = DisposeBag()
-    var viewModel = Injectable.resolve(PromotionViewModel.self)!
     private var dataSource: [[PromotionVmItem]] = [[]]
     private var lastTag: PromotionTag?
     private var lastProductTags: [PromotionProductTag]?
+   
+    
     private var localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    private var disposeBag = DisposeBag()
+    
+    var barButtonItems: [UIBarButtonItem] = []
+    var viewModel = Injectable.resolve(PromotionViewModel.self)!
+    
+    var useBonusCoupon = UseBonusCoupon()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,7 +153,7 @@ extension PromotionViewController: UITableViewDataSource, UITableViewDelegate {
                 .configure(item)
                 .setClickGetCouponHandler({ [weak self] (pressEvent, disposeBag) in
                     pressEvent.bind(onNext: { [weak self] in
-                        self?.useBonusCoupon(bonusCoupon.rawValue)
+                        self?.useCoupon(bonusCoupon.rawValue)
                     }).disposed(by: disposeBag)
                 })
         } else if let promotion = item as? PromotionEventItem {
@@ -161,15 +166,19 @@ extension PromotionViewController: UITableViewDataSource, UITableViewDelegate {
         })
     }
     
-    func useBonusCoupon(_ bonusCoupon: BonusCoupon) {
+    func useCoupon(_ bonusCoupon: BonusCoupon) {
         self.viewModel.requestCouponApplication(bonusCoupon: bonusCoupon)
-            .flatMapCompletable({ (waiting) in
-                return UseBonusCoupon.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
-            }).subscribe(onCompleted: { [weak self] in
+            .flatMapCompletable({ [weak self] waiting in
+                guard let self = self else { return .empty() }
+                
+                return self.useBonusCoupon.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
+            })
+            .subscribe(onCompleted: { [weak self] in
                 self?.viewModel.fetchData()
             }, onError: { [weak self] (error) in
                 self?.handleErrors(error)
-            }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

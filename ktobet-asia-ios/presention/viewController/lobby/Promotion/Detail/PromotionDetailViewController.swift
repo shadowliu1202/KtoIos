@@ -34,6 +34,8 @@ class PromotionDetailViewController: LobbyViewController {
     var viewModel: PromotionViewModel!
     var item: PromotionVmItem!
     
+    var subUseBonusCoupon = SubUseBonusCoupon()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
@@ -71,12 +73,13 @@ class PromotionDetailViewController: LobbyViewController {
                 stampIconName: item is BonusCoupon.VVIPCashback || item is PromotionEvent.VVIPCashback ? "VVIPCashBackDetailPageIcon" : nil,
                 promotionId: item is BonusCoupon.VVIPCashback || item is PromotionEvent.VVIPCashback ? item.id : nil)
         
-        getPromotionButton.rx.tap.subscribe(onNext: {[weak self] in
-            guard let self = self else { return }
+        getPromotionButton.rx.tap.subscribe(onNext: {[unowned self] in
             if let bonusCoupon = self.item as? BonusCoupon {
                 self.viewModel.requestCouponApplication(bonusCoupon: bonusCoupon)
-                    .flatMapCompletable({ (waiting) in
-                        return SubUseBonusCoupon.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
+                    .flatMapCompletable({ [weak self] waiting in
+                        guard let self = self else { return .empty() }
+                        
+                        return self.subUseBonusCoupon.confirm(waiting: waiting, bonusCoupon: bonusCoupon)
                     }).subscribe(onCompleted: { [weak self] in
                         self?.viewModel.fetchData()
                     }, onError: { [weak self] (error) in

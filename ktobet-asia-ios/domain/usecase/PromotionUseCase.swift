@@ -117,8 +117,9 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
     func requestBonusCoupon(bonusCoupon: BonusCoupon) -> Single<WaitingConfirm> {
         switch bonusCoupon {
         case is BonusCoupon.Product,
-             is BonusCoupon.FreeBet,
-             is BonusCoupon.DepositReturn:
+            is BonusCoupon.FreeBet,
+            is BonusCoupon.DepositReturn,
+            is BonusCoupon.VVIPCashback:
             return confirmUseBonusCoupon(bonusCoupon)
         case let rebate as BonusCoupon.Rebate:
             return confirmUseRebateCoupon(rebate)

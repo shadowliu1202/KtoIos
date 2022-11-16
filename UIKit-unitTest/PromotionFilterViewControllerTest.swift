@@ -10,7 +10,7 @@ final class PromotionFilterViewControllerTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        stubCultureCode()
+        injectStubCultureCode()
     }
     
     func test_HasVVIPRebateCoupon_InPromtionFilterPage_VVIPCouponFilterIsDisplayed_KTO_TC_25() {
