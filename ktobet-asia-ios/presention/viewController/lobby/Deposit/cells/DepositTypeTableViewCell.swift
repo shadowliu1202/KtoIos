@@ -16,6 +16,7 @@ class DepositTypeTableViewCell: UITableViewCell {
                                           "9": "iconCloudpay",
                                           "11": "雲閃付(32)",
                                           "14": "iconPayMultiple",
+                                          "25": "QQPay",
                                           "2001": "Crypto",
                                           "22": "StarMerger",
                                           "24": "JinYiPAY"]
