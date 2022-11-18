@@ -1,14 +1,19 @@
-//
-//  LocalizeUtils.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/12/14.
-//
-
 import Foundation
 import SharedBu
 
-let Localize = Injectable.resolve(LocalizeUtils.self)!
+private var _Localize = Injectable.resolve(LocalizeUtils.self)!
+
+var Localize: LocalizeUtils {
+    get { _Localize }
+    set {
+        if !isTesting {
+            fatalError("Only allow change when testing !!")
+        }
+        else {
+            _Localize = newValue
+        }
+    }
+}
 
 class LocalizeUtils: NSObject {
     private let localStorageRepo: LocalStorageRepository
@@ -76,6 +81,7 @@ class LocalizeUtils: NSObject {
 }
 
 extension LocalizeUtils: StringSupporter {
+    
     func convert(resourceId: ResourceKey, args: KotlinArray<AnyObject>) -> KotlinLazy {
         let key = resourceId.asString()
         if args.size > 0 {

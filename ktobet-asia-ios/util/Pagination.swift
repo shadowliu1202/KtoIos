@@ -22,10 +22,11 @@ class Pagination<T> {
         
         let refreshRequest = loading.asObservable()
             .sample(refreshTrigger)
-            .flatMap { loading -> Observable<Int> in
+            .flatMap { [unowned self] loading -> Observable<Int> in
                 if loading {
                     return Observable.empty()
-                } else {
+                }
+                else {
                     self.pageIndex = pageIndex
                     return Observable<Int>.create { observer in
                         observer.onNext(self.pageIndex)
@@ -37,12 +38,14 @@ class Pagination<T> {
         
         let nextPageRequest = loading.asObservable()
             .sample(loadNextPageTrigger)
-            .flatMap { loading -> Observable<Int> in
+            .flatMap { [unowned self] loading -> Observable<Int> in
                 if loading {
                     return Observable.empty()
-                } else if self.isLastData {
+                }
+                else if self.isLastData {
                     return Observable.empty()
-                } else {
+                }
+                else {
                     return Observable<Int>.create { observer in
                         self.pageIndex += self.offset
                         observer.onNext(self.pageIndex)
@@ -68,7 +71,7 @@ class Pagination<T> {
                 request,
                 response,
                 elements.asObservable()
-            ) { request, response, elements in
+            ) { [unowned self] request, response, elements in
                 return self.pageIndex == self.startPageIndex ? response : elements + response
             }
             .sample(response)
@@ -80,7 +83,7 @@ class Pagination<T> {
                 request.map({ (response) -> Bool in
                     return true
                 }),
-                response.map({ (response) -> Bool in
+                response.map({ [unowned self] (response) -> Bool in
                     self.isLastData = response.count == 0
                     return false
                 }),
@@ -91,5 +94,9 @@ class Pagination<T> {
             .merge()
             .bind(to: loading)
             .disposed(by: disposeBag)
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
 }

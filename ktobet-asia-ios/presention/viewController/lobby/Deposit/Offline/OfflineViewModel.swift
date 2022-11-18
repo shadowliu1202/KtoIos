@@ -113,11 +113,11 @@ class OfflineViewModel: CollectErrorViewModel, ViewModelType {
     private func getIconNamed(_ bankId: String) -> String {
         let language = Language(rawValue: localStorageRepo.getCultureCode())
         switch language {
-        case .ZH:
+        case .CN:
             return "CNY-\(bankId)"
         case .TH:
             return "THB-\(bankId)"
-        case .VI:
+        case .VN:
             return "VND-\(bankId)"
         default:
             return ""

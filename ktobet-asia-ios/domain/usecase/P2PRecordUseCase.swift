@@ -19,21 +19,31 @@ class P2PRecordUseCaseImpl: P2PRecordUseCase {
     }
     
     func getBetSummary() -> Single<[DateSummary]> {
-        let offset = playerRepository.getUtcOffset()
-        return offset.flatMap { [unowned self] (offset) -> Single<[DateSummary]> in
-            return self.p2pRecordRepository.getBetSummary(zoneOffset: offset)
-        }
+        playerRepository
+            .getUtcOffset()
+            .flatMap { [unowned self] (offset) -> Single<[DateSummary]> in
+                self.p2pRecordRepository.getBetSummary(zoneOffset: offset)
+            }
     }
     
     func getBetSummaryByDate(localDate: String) -> Single<[GameGroupedRecord]> {
-        let offset = playerRepository.getUtcOffset()
-        return offset.flatMap { [unowned self] (offset) -> Single<[GameGroupedRecord]> in
-            return self.p2pRecordRepository.getBetSummaryByDate(localDate: localDate, zoneOffset: offset)
-        }
+        playerRepository
+            .getUtcOffset()
+            .flatMap { [unowned self] (offset) -> Single<[GameGroupedRecord]> in
+                self.p2pRecordRepository.getBetSummaryByDate(localDate: localDate, zoneOffset: offset)
+            }
     }
     
-    func getBetRecord(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32) -> Single<[P2PGameBetRecord]> {
-        p2pRecordRepository.getBetSummaryByGame(beginDate: startDate, endDate: endDate, gameId: gameId)
+    func getBetRecord(
+        startDate: SharedBu.LocalDateTime,
+        endDate: SharedBu.LocalDateTime,
+        gameId: Int32
+    ) -> Single<[P2PGameBetRecord]> {
+        
+        p2pRecordRepository.getBetSummaryByGame(
+            beginDate: startDate,
+            endDate: endDate,
+            gameId: gameId)
     }
     
 }

@@ -77,8 +77,8 @@ public enum FeatureType {
 }
 
 public enum Language : String {
-    case ZH = "zh-cn"
-    case VI = "vi-vn"
+    case CN = "zh-cn"
+    case VN = "vi-vn"
     case TH = "th"
 }
 

@@ -3,9 +3,9 @@ import RxSwift
 import SharedBu
 
 class P2PBetViewModel {
-    private var p2pRecordUseCase: P2PRecordUseCase!
+    private (set) var betSummary = PublishSubject<MyBetSummary>()
     
-    var betSummary = PublishSubject<MyBetSummary>()
+    private var p2pRecordUseCase: P2PRecordUseCase!
     
     private var disposeBag = DisposeBag()
     
@@ -14,26 +14,38 @@ class P2PBetViewModel {
     }
     
     func getBetSummary() -> Single<[DateSummary]> {
-        return p2pRecordUseCase.getBetSummary()
+        p2pRecordUseCase.getBetSummary()
     }
     
     func fetchBetSummary() {
-        self.getBetSummary().subscribe(onSuccess: { [weak self] (summaries) in
-            if summaries.count == 0 {
-                self?.betSummary.onError(KTOError.EmptyData)
-            } else {
-                self?.betSummary.onNext(SummaryAdapter(summaries))
-            }
-        }, onError: { [weak self] (error) in
-            self?.betSummary.onError(error)
-        }).disposed(by: disposeBag)
+        getBetSummary()
+            .subscribe(onSuccess: { [weak self] (summaries) in
+                if summaries.count == 0 {
+                    self?.betSummary.onError(KTOError.EmptyData)
+                }
+                else {
+                    self?.betSummary.onNext(SummaryAdapter(summaries))
+                }
+            }, onFailure: { [weak self] (error) in
+                self?.betSummary.onError(error)
+            })
+            .disposed(by: disposeBag)
     }
     
     func betSummaryByDate(localDate: String) -> Single<[GameGroupedRecord]> {
-        return p2pRecordUseCase.getBetSummaryByDate(localDate: localDate)
+        p2pRecordUseCase.getBetSummaryByDate(localDate: localDate)
     }
     
-    func getBetDetail(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32) -> Single<[P2PGameBetRecord]> {
-        return p2pRecordUseCase.getBetRecord(startDate: startDate, endDate: endDate, gameId: gameId)
+    func getBetDetail(
+        startDate: SharedBu.LocalDateTime,
+        endDate: SharedBu.LocalDateTime,
+        gameId: Int32
+    ) -> Single<[P2PGameBetRecord]> {
+        
+        p2pRecordUseCase.getBetRecord(
+            startDate: startDate,
+            endDate: endDate,
+            gameId: gameId
+        )
     }
 }

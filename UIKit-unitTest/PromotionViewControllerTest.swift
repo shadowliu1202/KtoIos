@@ -40,7 +40,7 @@ final class PromotionViewControllerTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        injectStubCultureCode()
+        injectStubCultureCode(.CN)
         injectStubPlayerLoginStatus()
         Injectable
             .register(PromotionUseCase.self) { _ in

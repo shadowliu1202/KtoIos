@@ -29,6 +29,7 @@ def default_pods
   pod 'RxBlocking', '6.5.0'
   pod 'Puppy', '0.5.0'
   pod 'SnapKit'
+  pod 'RxGesture'
   use_frameworks!
 end
 

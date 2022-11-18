@@ -21,28 +21,53 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
     
     func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[DateSummary]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
-        return p2pApi.getBetSummary(offset: secondsToHours).map({ (response) -> [DateSummary] in
-            guard let data = response.data else { return [] }
-            return try data.summaries.map({ try $0.toDateSummary() })
-        })
-    }
-    
-    func getBetSummaryByDate(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[GameGroupedRecord]> {
-        let secondsToHours = zoneOffset.totalSeconds / 3600
-        return p2pApi.getGameRecordByDate(date: localDate, offset: secondsToHours).map({ [unowned self] (response) -> [GameGroupedRecord] in
-            guard let data = response.data else { return [] }
-            let groupedDicts = Dictionary(grouping: data, by: { (element) in
-                return element.gameGroupId
+        
+        return p2pApi
+            .getBetSummary(offset: secondsToHours)
+            .map({ (response) -> [DateSummary] in
+                guard let data = response.data else { return [] }
+                return try data.summaries.map({ try $0.toDateSummary() })
             })
-            let groupedArray = groupedDicts.map { (gameGroupId: Int32, value: [P2PDateBetRecordBean]) -> P2PDateBetRecordBean in
-                return P2PDateBetRecordBean(gameGroupId: gameGroupId, gameList: value)
-            }.sorted(by: {$0.endDate > $1.endDate })
-            let records: [GameGroupedRecord] = try groupedArray.map({ try $0.toGameGroupedRecord(host: self.httpClient.host.absoluteString)})
-            return records
-        })
     }
     
-    func getBetSummaryByGame(beginDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32) -> Single<[P2PGameBetRecord]> {
+    func getBetSummaryByDate(
+        localDate: String,
+        zoneOffset: SharedBu.UtcOffset
+    ) -> Single<[GameGroupedRecord]> {
+        
+        let secondsToHours = zoneOffset.totalSeconds / 3600
+        
+        return p2pApi
+            .getGameRecordByDate(
+                date: localDate,
+                offset: secondsToHours
+            )
+            .map({ [unowned self] (response) -> [GameGroupedRecord] in
+                guard let data = response.data else { return [] }
+                
+                let groupedDicts = Dictionary(grouping: data, by: { (element) in
+                    return element.gameGroupId
+                })
+                
+                let groupedArray = groupedDicts
+                    .map { (gameGroupId: Int32, value: [P2PDateBetRecordBean]) -> P2PDateBetRecordBean in
+                        return P2PDateBetRecordBean(gameGroupId: gameGroupId, gameList: value)
+                    }
+                    .sorted(by: {$0.endDate > $1.endDate })
+                
+                let records: [GameGroupedRecord] = try groupedArray
+                    .map({ try $0.toGameGroupedRecord(host: self.httpClient.host.absoluteString)})
+                
+                return records
+            })
+    }
+    
+    func getBetSummaryByGame(
+        beginDate: SharedBu.LocalDateTime,
+        endDate: SharedBu.LocalDateTime,
+        gameId: Int32
+    ) -> Single<[P2PGameBetRecord]> {
+        
         p2pApi
             .getBetRecords(
                 beginDate: beginDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
