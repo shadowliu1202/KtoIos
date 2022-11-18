@@ -150,6 +150,9 @@ PODS:
     - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
+  - RxGesture (4.0.4):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
@@ -188,6 +191,7 @@ DEPENDENCIES:
   - RxBlocking (= 6.5.0)
   - RxCocoa (= 6.5.0)
   - RxDataSources (= 5.0.0)
+  - RxGesture
   - RxSwift (= 6.5.0)
   - RxSwiftExt (= 6.0.1)
   - SDWebImage (= 5.10.4)
@@ -232,6 +236,7 @@ SPEC REPOS:
     - RxBlocking
     - RxCocoa
     - RxDataSources
+    - RxGesture
     - RxRelay
     - RxSwift
     - RxSwiftExt
@@ -273,6 +278,7 @@ SPEC CHECKSUMS:
   RxBlocking: 04b5fd28bb5ea49f7d64b80db8bbfe50d9cc1c7d
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   RxSwiftExt: d61c4b9b06e0a448041b1c659e0f1b5c5a035afc
@@ -285,6 +291,6 @@ SPEC CHECKSUMS:
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
   ViewInspector: 68842776f07fbf186713689d4846e54f32ccbffb
 
-PODFILE CHECKSUM: 195ca63efbf36051720c3aa613e60f11dddc5da1
+PODFILE CHECKSUM: 3aaf21977f5402838628c1663ca7b99885507d0f
 
 COCOAPODS: 1.11.3

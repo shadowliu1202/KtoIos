@@ -21,7 +21,7 @@ final class PromotionDetailViewControllerTests: XCTestCase {
     private var vc: PromotionDetailViewController!
     
     override func setUp() {
-        injectStubCultureCode()
+        injectStubCultureCode(.CN)
         injectStubPlayerLoginStatus()
         
         let storyboard = UIStoryboard(name: "Promotion", bundle: nil)

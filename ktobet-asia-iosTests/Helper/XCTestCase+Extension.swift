@@ -43,14 +43,11 @@ extension XCTestCase {
         return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyKtoURL)
     }
     
-    func injectStubCultureCode(_ code: String = "zh-cn") {
+    func injectStubCultureCode(_ language: Language) {
         let stubLocalStorageRepository = mock(LocalStorageRepository.self).initialize(nil)
-        given(stubLocalStorageRepository.getCultureCode()) ~> code
+        given(stubLocalStorageRepository.getCultureCode()) ~> language.rawValue
         
-        Injectable
-            .register(LocalizeUtils.self) { resolver in
-                return LocalizeUtils(localStorageRepo: stubLocalStorageRepository)
-            }
+        Localize = LocalizeUtils(localStorageRepo: stubLocalStorageRepository)
     }
     
     func injectStubPlayerLoginStatus(isLogin: Bool = true) {

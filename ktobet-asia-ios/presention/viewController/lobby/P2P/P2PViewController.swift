@@ -7,86 +7,119 @@ import SDWebImage
 
 class P2PViewController: ProductsViewController {
     
-    @IBOutlet private weak var tableView: UITableView!
-        
-    private lazy var viewModel = Injectable.resolve(P2PViewModel.self)!
+    @IBOutlet weak var tableView: UITableView!
+    
+    @Injected private (set) var viewModel: P2PViewModel
+    
     private var disposeBag = DisposeBag()
-
+    
     var barButtonItems: [UIBarButtonItem] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         Logger.shared.info("\(type(of: self)) viewDidLoad.")
+        
+        setupUI()
+        binding()
+    }
+    
+    override func setProductType() -> ProductType {
+        .p2p
+    }
+    
+    override func handleErrors(_ error: Error) {
+        if error.isMaintenance() {
+            NavigationManagement.sharedInstance.goTo(productType: .p2p, isMaintenance: true)
+        }
+        else {
+            super.handleErrors(error)
+        }
+    }
+    
+    private func checkTurnOver(p2pGame: P2PGame) {
+        viewModel.getTurnOverStatus()
+            .subscribe(onSuccess: { [unowned self] (turnOver) in
+                switch turnOver {
+                case is P2PTurnOver.Calculating:
+                    Logger.shared.info("Calculating")
+                    
+                    Alert.shared.show(
+                        Localize.string("common_tip_title_warm"),
+                        Localize.string("product_p2p_bonus_calculating"),
+                        confirm: {},
+                        cancel: nil
+                    )
+                    
+                case is P2PTurnOver.None:
+                    self.goToWebGame(
+                        viewModel: self.viewModel,
+                        gameId: p2pGame.gameId,
+                        gameName: p2pGame.gameName
+                    )
+                    
+                case is P2PTurnOver.TurnOverReceipt:
+                    let p2pAlertView = P2PAlertViewController.initFrom(storyboard: "P2P")
+                    p2pAlertView.p2pTurnOver = turnOver
+                    p2pAlertView.view.backgroundColor = .grayC8D4DE
+                    p2pAlertView.modalPresentationStyle = .overCurrentContext
+                    p2pAlertView.modalTransitionStyle = .crossDissolve
+                    self.present(p2pAlertView, animated: true, completion: nil)
+                    
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - UI
+
+private extension P2PViewController {
+    
+    func setupUI() {
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
-        self.bind(position: .right, barButtonItems: .kto(.record))
-        
-        let dataSource = self.rx.viewWillAppear.flatMap({ [unowned self](_) in
-            return self.viewModel.getAllGames().asObservable()
-        }).share(replay: 1)
-        dataSource.catch({ [weak self] (error) -> Observable<[P2PGame]> in
-            self?.handleErrors(error)
-            return Observable.just([])
-        }).bind(to: tableView.rx.items) {tableView, row, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "p2pTableVIewCell", cellType: P2PTableViewCell.self)
-            if let url = URL(string: item.thumbnail.url()) {
-                cell.iconImageView.sd_setImage(url: url)
-                cell.iconImageView.borderWidth = 1
-                cell.iconImageView.bordersColor = UIColor(red: 200.0/255.0, green: 212.0/255.0, blue: 222.0/255.0, alpha: 1)
-            }
-            
-            cell.label.text = item.gameName
-            return cell
-        }.disposed(by: disposeBag)
-        
-        tableView.rx.modelSelected(P2PGame.self).bind{ [unowned self] (data) in
-            self.checkTurnOver(p2pGame: data)
-        }.disposed(by: disposeBag)
+        bind(position: .right, barButtonItems: .kto(.record))
         
         tableView.estimatedRowHeight = 208.0
         tableView.rowHeight = UITableView.automaticDimension
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 96, right: 0)
     }
     
-    private func checkTurnOver(p2pGame: P2PGame) {
-        viewModel.getTurnOverStatus().subscribe { [unowned self] (turnOver) in
-            switch turnOver {
-            case is P2PTurnOver.Calculating:
-                print("Calculating")
-                Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("product_p2p_bonus_calculating"), confirm: {}, cancel: nil)
-            case is P2PTurnOver.None:
-                self.goToWebGame(viewModel: self.viewModel, gameId: p2pGame.gameId, gameName: p2pGame.gameName)
-            case is P2PTurnOver.TurnOverReceipt:
-                guard let p2pAlertView = UIStoryboard(name: "P2P", bundle: nil).instantiateViewController(withIdentifier: "P2PAlertViewController") as? P2PAlertViewController else { return }
-                p2pAlertView.p2pTurnOver = turnOver
-                p2pAlertView.view.backgroundColor = UIColor(red: 19/255, green: 19/255, blue: 19/255, alpha: 0.8)
-                p2pAlertView.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-                p2pAlertView.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-                self.present(p2pAlertView, animated: true, completion: nil)
-            default:
-                break
+    func binding() {
+        viewModel.dataSource
+            .bind(to: tableView.rx.items) { tableView, row, item in
+                let cell: P2PTableViewCell = tableView.dequeueReusableCell(forIndexPath: [0, row])
+                
+                if let url = URL(string: item.thumbnail.url()) {
+                    cell.iconImageView.sd_setImage(url: url)
+                    cell.iconImageView.borderWidth = 1
+                    cell.iconImageView.bordersColor = .gray131313.withAlphaComponent(0.8)
+                }
+                
+                cell.label.text = item.gameName
+                return cell
             }
-        } onFailure: { (error) in
-            if error.isMaintenance() {
-                NavigationManagement.sharedInstance.goTo(productType: .p2p, isMaintenance: true)
+            .disposed(by: disposeBag)
+        
+        tableView.rx
+            .modelSelected(P2PGame.self)
+            .bind { [unowned self] (data) in
+                self.checkTurnOver(p2pGame: data)
             }
-        }.disposed(by: disposeBag)
-    }
-    
-    override func setProductType() -> ProductType {
-        .p2p
+            .disposed(by: disposeBag)
     }
 }
+
+// MARK: - BarButtonItemable
 
 extension P2PViewController: BarButtonItemable {
     
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
-        switch sender {
-        case is RecordBarButtonItem:
-            guard let betSummaryViewController = self.storyboard?.instantiateViewController(withIdentifier: "P2PSummaryViewController") as? P2PSummaryViewController else { return }
-            self.navigationController?.pushViewController(betSummaryViewController, animated: true)
-            break
-        default: break
-        }
+        guard sender is RecordBarButtonItem else { return }
+        
+        let betSummaryViewController = P2PSummaryViewController.initFrom(storyboard: "P2P")
+        navigationController?.pushViewController(betSummaryViewController, animated: true)
     }
-    
 }

@@ -5765,6 +5765,7 @@
 		FF2F96D829125C2C0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF2F96D929125C2D0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF2F96DA29125C2E0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
+		FF34F34E2923344B005E3F55 /* TransactionLogViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34F34D2923344B005E3F55 /* TransactionLogViewControllerTests.swift */; };
 		FF4081F12918A5A100297D4E /* PromotionFilterViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */; };
 		FFC6B8AE2907BAEB002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8AF2907BAEF002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
@@ -5803,6 +5804,8 @@
 		FFDBCF5A290FD98E00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		FFDBCF5B290FD98F00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		FFDBCF5C290FD98F00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
+		FFE0C4A4292218E600CDB0C2 /* P2PViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE0C4A3292218E600CDB0C2 /* P2PViewControllerTests.swift */; };
+		FFE0C4A629223A7900CDB0C2 /* P2PSummaryViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE0C4A529223A7900CDB0C2 /* P2PSummaryViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -6681,12 +6684,15 @@
 		F709D799CF4A890846129123 /* Pods-ktobet-asia-ios-staging-vn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging-vn.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn.release.xcconfig"; sourceTree = "<group>"; };
 		F92587415FD8526B9C269127 /* Pods_UIKit_unitTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UIKit_unitTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectMockingBirdWrapper.swift; sourceTree = "<group>"; };
+		FF34F34D2923344B005E3F55 /* TransactionLogViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionLogViewControllerTests.swift; sourceTree = "<group>"; };
 		FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionFilterViewControllerTest.swift; sourceTree = "<group>"; };
 		FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		FFC6B8B92907BB6C002D843B /* LocalStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorable.swift; sourceTree = "<group>"; };
 		FFC6B8EB290A4146002D843B /* InjectionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectionComponent.swift; sourceTree = "<group>"; };
 		FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAppTest.swift; sourceTree = "<group>"; };
 		FFDBCF52290FD97000C0735F /* UITestAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestAdapter.swift; sourceTree = "<group>"; };
+		FFE0C4A3292218E600CDB0C2 /* P2PViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PViewControllerTests.swift; sourceTree = "<group>"; };
+		FFE0C4A529223A7900CDB0C2 /* P2PSummaryViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PSummaryViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -8182,6 +8188,9 @@
 				6DEA282C291397C700D85CD4 /* PromotionViewControllerTest.swift */,
 				FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */,
 				3CB830192914FB4D001246BB /* PromotionDetailViewControllerTests.swift */,
+				FFE0C4A3292218E600CDB0C2 /* P2PViewControllerTests.swift */,
+				FFE0C4A529223A7900CDB0C2 /* P2PSummaryViewControllerTests.swift */,
+				FF34F34D2923344B005E3F55 /* TransactionLogViewControllerTests.swift */,
 			);
 			path = "UIKit-unitTest";
 			sourceTree = "<group>";
@@ -13742,12 +13751,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF34F34E2923344B005E3F55 /* TransactionLogViewControllerTests.swift in Sources */,
 				3C31F0CF291BA057002962E9 /* XCTestCase+Extension.swift in Sources */,
 				FF4081F12918A5A100297D4E /* PromotionFilterViewControllerTest.swift in Sources */,
+				FFE0C4A629223A7900CDB0C2 /* P2PSummaryViewControllerTests.swift in Sources */,
 				6D8AC5A628F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift in Sources */,
 				3CB8301A2914FB4D001246BB /* PromotionDetailViewControllerTests.swift in Sources */,
 				3CCD219328FD28BC00313212 /* FakePlayerLocaleConfiguration.swift in Sources */,
 				3CD7B4492918AD7900CA04A0 /* ChatRoomViewControllerTests.swift in Sources */,
+				FFE0C4A4292218E600CDB0C2 /* P2PViewControllerTests.swift in Sources */,
 				FFDBCF51290FD6DF00C0735F /* LaunchAppTest.swift in Sources */,
 				6D8AC59928F553E80029358A /* swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
 				3CCD218D28F974D100313212 /* DepositGatewayViewControllerTest.swift in Sources */,

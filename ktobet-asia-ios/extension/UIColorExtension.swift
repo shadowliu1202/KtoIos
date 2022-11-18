@@ -141,9 +141,12 @@ extension UIColor {
     @nonobjc class var primaryRed: UIColor {
         return UIColor(red: 0.949, green: 0, blue: 0, alpha: 1)
     }
-    @nonobjc class var yellowEA9E16: UIColor {
-        return UIColor(red: 0.92, green: 0.62, blue: 0.09, alpha: 1.0)
-    }
+    
+    static let yellowEA9E16: UIColor = #colorLiteral(red: 0.9176470588, green: 0.6196078431, blue: 0.0862745098, alpha: 1)
+    
+    static let grayC8D4DE: UIColor = #colorLiteral(red: 0.8232876658, green: 0.8638820052, blue: 0.8960149288, alpha: 1)
+    
+    static let gray131313: UIColor = #colorLiteral(red: 0.07450980392, green: 0.07450980392, blue: 0.07450980392, alpha: 1)
 }
 
 extension UIColor {
