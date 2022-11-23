@@ -51,15 +51,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4199A02525AE9918002E2D7E"
-            BuildableName = "ktobet-asia-ios-qat.app"
-            BlueprintName = "ktobet-asia-ios-qat"
-            ReferencedContainer = "container:ktobet-asia-ios.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

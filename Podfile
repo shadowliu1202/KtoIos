@@ -96,6 +96,12 @@ target 'UIKit-unitTest' do
   unitTest_pods
 end
 
+target 'AIO-unitTests' do
+  inherit! :search_paths
+  default_pods
+  unitTest_pods
+end
+
 #post_install do |installer|
 #  installer.pods_project.targets.each do |target|
 #    target.build_configurations.each do |config|
