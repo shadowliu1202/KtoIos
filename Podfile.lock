@@ -174,6 +174,7 @@ PODS:
   - Swinject (2.7.1)
   - TYCyclePagerView (1.2.0)
   - ViewInspector (0.9.1)
+  - youtube-ios-player-helper (1.0.4)
 
 DEPENDENCIES:
   - Alamofire (= 5.4.1)
@@ -197,10 +198,12 @@ DEPENDENCIES:
   - SDWebImage (= 5.10.4)
   - sharedbu (= 2.10.0)
   - SideMenu (= 6.5.0)
+  - SnapKit
   - SwiftyJSON (= 5.0.0)
   - Swinject (= 2.7.1)
   - TYCyclePagerView (= 1.2.0)
   - ViewInspector
+  - youtube-ios-player-helper
 
 SPEC REPOS:
   "git@gitlab.higgstar.com:mobile/ios_pod_repo.git":
@@ -246,6 +249,7 @@ SPEC REPOS:
     - Swinject
     - TYCyclePagerView
     - ViewInspector
+    - youtube-ios-player-helper
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
@@ -289,7 +293,8 @@ SPEC CHECKSUMS:
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
   ViewInspector: 68842776f07fbf186713689d4846e54f32ccbffb
+  youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: 2f2baa33275fb95406aae91d5014317c482e29a9
+PODFILE CHECKSUM: 5a730f9d610662184d05545a897a9e74cb23655c
 
 COCOAPODS: 1.11.3

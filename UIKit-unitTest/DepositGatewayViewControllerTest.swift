@@ -7,8 +7,11 @@ import RxSwift
 class DepositGatewayViewControllerTest: XCTestCase {
     private var vc: DepositGatewayViewController!
     private let stubOnlinePayment = mock(PaymentsDTO.Online.self)
-    
+    private let stubLocalRepo = mock(LocalStorageRepository.self)
+
     override func setUp() {
+        super.setUp()
+        
         injectStubPlayerLoginStatus()
         
         let storyboard = UIStoryboard(name: "Deposit", bundle: nil)
@@ -16,7 +19,10 @@ class DepositGatewayViewControllerTest: XCTestCase {
     }
     
     override func tearDown() {
+        super.tearDown()
+        
         clearStubs(on: stubOnlinePayment)
+        clearStubs(on: stubLocalRepo)
     }
     
     func test_givenVietnameseUser_whenNavigationPopBack_thenAlertMessageContainsPaymentName() {
@@ -25,10 +31,12 @@ class DepositGatewayViewControllerTest: XCTestCase {
         given(stubOnlinePayment.name) ~> "Thẻ Cào Điện Thoại"
         given(stubOnlinePayment.isRecommend) ~> false
         
-        let stubPlayerLocaleConfiguration = FakePlayerLocaleConfiguration(stubSupportLocale: .Vietnam.init())
+        given(stubLocalRepo.getCultureCode()) ~> Language.VN.rawValue
+        given(stubLocalRepo.getSupportLocale()) ~> .Vietnam()
+        
         let mockAlert = mock(AlertProtocol.self)
         
-        vc.localStorageRepo = stubPlayerLocaleConfiguration
+        vc.localStorageRepo = stubLocalRepo
         vc.alert = mockAlert
         vc.paymentIdentity = ""
         vc.depositType = OnlinePayment(stubOnlinePayment)
@@ -36,7 +44,20 @@ class DepositGatewayViewControllerTest: XCTestCase {
         
         vc.back()
         
-        verify(mockAlert.show(any(), any(String.self, where: { $0.contains("Thẻ Cào Điện Thoại")}), confirm: any(), confirmText: any(), cancel: any(), cancelText: any(), tintColor: any())).wasCalled()
+        verify(
+            mockAlert.show(
+                any(),
+                any(
+                    String.self,
+                    where: { $0.contains("Thẻ Cào Điện Thoại")}
+                ),
+                confirm: any(),
+                confirmText: any(),
+                cancel: any(),
+                cancelText: any(),
+                tintColor: any()
+            )
+        ).wasCalled()
     }
     
     func test_givenChinaUser_whenNavigationPopback_thenAlertOnlinePaymentTerminate() {
@@ -45,10 +66,12 @@ class DepositGatewayViewControllerTest: XCTestCase {
         given(stubOnlinePayment.name) ~> "Thẻ Cào Điện Thoại"
         given(stubOnlinePayment.isRecommend) ~> false
         
-        let stubPlayerLocaleConfiguration = FakePlayerLocaleConfiguration(stubSupportLocale: .China.init())
+        given(stubLocalRepo.getCultureCode()) ~> Language.CN.rawValue
+        given(stubLocalRepo.getSupportLocale()) ~> .China()
+        
         let mockAlert = mock(AlertProtocol.self)
         
-        vc.localStorageRepo = stubPlayerLocaleConfiguration
+        vc.localStorageRepo = stubLocalRepo
         vc.alert = mockAlert
         vc.paymentIdentity = ""
         vc.depositType = OnlinePayment(stubOnlinePayment)
@@ -56,6 +79,19 @@ class DepositGatewayViewControllerTest: XCTestCase {
         
         vc.back()
         
-        verify(mockAlert.show(any(), any(String.self, where: { $0.contains("在线充值将中断并结束。")}), confirm: any(), confirmText: any(), cancel: any(), cancelText: any(), tintColor: any())).wasCalled()
+        verify(
+            mockAlert.show(
+                any(),
+                any(
+                    String.self,
+                    where: { $0.contains("在线充值将中断并结束。")}
+                ),
+                confirm: any(),
+                confirmText: any(),
+                cancel: any(),
+                cancelText: any(),
+                tintColor: any()
+            )
+        ).wasCalled()
     }
 }

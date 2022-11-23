@@ -13,21 +13,14 @@ extension View {
             )
     }
     
-    @ViewBuilder
     func backgroundColor(_ color: Color) -> some View {
-        self
-            .background(
-                color
-            )
+        background(color)
     }
     
-    @ViewBuilder
     func pageBackgroundColor(_ color: Color) -> some View {
-        self
-            .background(
-                color
-                    .ignoresSafeArea()
-            )
+        background(
+            color.ignoresSafeArea()
+        )
     }
     
     @ViewBuilder

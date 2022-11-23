@@ -1,5 +1,4 @@
 
-
 //MARK: - CPS
 "cps_kto" = "KTO";
 "cps_daily_limit_widthrawal_amount" = "Daily Withdrawal amount limit：%@";
@@ -582,6 +581,7 @@ Please go verify.";
 "deposit_multiple_hint" = "温馨提示：支持支付宝、微信、网上银行、云闪付，支付宝微信如果遇到错误提示，尝试使用网银或者云闪付，以便您的款项实时到账。";
 "deposit_float_hint" = "请您提交带有小数点的金额，以便您的存款更快到账。";
 "deposit_amount_option_hint" = "本通道为固定存款金额，请下拉选择存款金额进行存款操作";
+"deposit_crypto_video_tutorial" = "Video Tutorial";
 
 //MARK: - JinYiDigital
 "jinyidigital_instructions_click_here" = "";

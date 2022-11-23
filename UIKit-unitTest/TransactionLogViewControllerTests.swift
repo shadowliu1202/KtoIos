@@ -29,7 +29,7 @@ final class TransactionLogViewControllerTests: XCTestCase {
     
     func test_HasOneP2PBetRecrod_InTransactionLogPage_P2PLogIsDisplayedWithNumber1_KTO_TC_36() {
         injectStubCultureCode(.VN)
-        
+
         let stubTransactionRepo = mock(TransactionLogRepository.self)
         
         given(stubTransactionRepo.searchTransactionLog(
@@ -44,7 +44,7 @@ final class TransactionLogViewControllerTests: XCTestCase {
             end: any(),
             balanceLogFilterType: any())
         ) ~> .just(.init(income: .zero(), outcome: .zero()))
-                        
+        
         Injectable.register(TransactionLogRepository.self) { _ in stubTransactionRepo }
         
         injectStubPlayerLoginStatus()

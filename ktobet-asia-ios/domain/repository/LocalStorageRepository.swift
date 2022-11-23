@@ -1,8 +1,7 @@
 import Foundation
 import SharedBu
 
-protocol LocalStorageRepository: PlayerConfiguration,
-                                 NSObjectMockingbirdWrapper {
+protocol LocalStorageRepository {
     func getRememberMe() -> Bool
     func getRememberAccount() -> String
     func getRememberPassword() -> String
@@ -34,20 +33,17 @@ protocol LocalStorageRepository: PlayerConfiguration,
     func setCultureCode(_ cultureCode: String)
     func setPlayerInfo(_ playerInfo: PlayerInfoCache?)
     func setLastAPISuccessDate(_ time: Date?)
+    
+    func timezone() -> SharedBu.TimeZone
+    func localeTimeZone() -> Foundation.TimeZone
 }
 
-class LocalStorageRepositoryImpl: PlayerConfiguration,
-                                  LocalStorageRepository,
+class LocalStorageRepositoryImpl: LocalStorageRepository,
                                   LocalStorable {
+    let playerConfiguration: PlayerConfiguration
     
-    override var supportLocale: SupportLocale { getSupportLocale() }
-    
-    required init(_ ignoreThis: String?) {
-        super.init()
-    }
-    
-    override init() {
-        super.init()
+    init(playerConfiguration: PlayerConfiguration) {
+        self.playerConfiguration = playerConfiguration
         
         guard let _: String = get(key: .cultureCode)
         else {
@@ -126,7 +122,7 @@ class LocalStorageRepositoryImpl: PlayerConfiguration,
     }
     
     func getSupportLocale() -> SupportLocale {
-        return SupportLocale.Companion.init().create(language: getCultureCode())
+        playerConfiguration.supportLocale
     }
     
     func getPlayerInfo() -> PlayerInfoCache? {
@@ -195,5 +191,13 @@ class LocalStorageRepositoryImpl: PlayerConfiguration,
     
     func setLastAPISuccessDate(_ time: Date?) {
         set(value: time, key: .lastAPISuccessDate)
+    }
+    
+    func timezone() -> SharedBu.TimeZone {
+        playerConfiguration.timezone()
+    }
+    
+    func localeTimeZone() -> Foundation.TimeZone {
+        playerConfiguration.localeTimeZone()
     }
 }

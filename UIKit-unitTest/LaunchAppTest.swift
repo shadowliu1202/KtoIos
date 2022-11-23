@@ -15,7 +15,7 @@ final class LaunchAppTest: XCTestCase {
         defaultProduct: 1
     )
     
-    private lazy var stubLocalStorage = mock(LocalStorageRepository.self).initialize(nil)
+    private lazy var stubLocalStorage = mock(LocalStorageRepository.self)
     private lazy var stubAuthUseCase = mock(AuthenticationUseCase.self)
     private lazy var stubServiceStatusUseCase = mock(GetSystemStatusUseCase.self)
     
