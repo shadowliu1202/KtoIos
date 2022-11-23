@@ -81,7 +81,7 @@ final class Injection {
         
         container
             .register(ApplicationFactory.self) { resolver in
-                let local = resolver.resolveWrapper(LocalStorageRepository.self)
+                let local = resolver.resolveWrapper(PlayerConfiguration.self)
                 let network = resolver.resolveWrapper(ExternalProtocolService.self)
                 let stringService = resolver.resolveWrapper(ExternalStringService.self)
                 let localize = resolver.resolveWrapper(StringSupporter.self)
@@ -253,8 +253,16 @@ final class Injection {
             }
         
         container
-            .register(LocalStorageRepository.self) { _ in
-                return LocalStorageRepositoryImpl()
+            .register(PlayerConfiguration.self) { _ in
+                return PlayerConfigurationImpl()
+            }
+            .inObjectScope(.locale)
+        
+        container
+            .register(LocalStorageRepository.self) {
+                LocalStorageRepositoryImpl(
+                    playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self)
+                )
             }
             .inObjectScope(.locale)
         
@@ -492,7 +500,7 @@ final class Injection {
                 let repoPlayer = resolver.resolveWrapper(PlayerRepository.self)
                 let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
                 let settingStore = resolver.resolveWrapper(SettingStore.self)
-                dump(repoLocalStorage)
+
                 return AuthenticationUseCaseImpl(
                     repoAuth,
                     repoPlayer,

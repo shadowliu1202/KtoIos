@@ -19,8 +19,7 @@ extension XCTestCase {
     }
     
     func stubHttpClientRequest(responseJsonString: String) -> HttpClientMock {
-        
-        let dummyLocalStorageRepo = mock(LocalStorageRepository.self).initialize("")
+        let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
         let dummyKtoURL = mock(KtoURL.self)
         
         let apiResponse = Response(
@@ -37,14 +36,15 @@ extension XCTestCase {
     }
     
     func getFakeHttpClient() -> HttpClientMock {
-        let dummyLocalStorageRepo = mock(LocalStorageRepository.self).initialize("")
+        let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
         let dummyKtoURL = mock(KtoURL.self)
         
         return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyKtoURL)
     }
     
     func injectStubCultureCode(_ language: Language) {
-        let stubLocalStorageRepository = mock(LocalStorageRepository.self).initialize(nil)
+        let stubLocalStorageRepository = mock(LocalStorageRepository.self)
+        
         given(stubLocalStorageRepository.getCultureCode()) ~> language.rawValue
         
         Localize = LocalizeUtils(localStorageRepo: stubLocalStorageRepository)
@@ -59,5 +59,11 @@ extension XCTestCase {
             .register(AuthenticationUseCase.self) { resolver in
                 return stubAuthenticationUseCase
             }
+    }
+    
+    func makeItVisable(_ target: UIViewController) {
+        let keyWindow = (UIApplication.shared.delegate as? AppDelegate)?.window
+        keyWindow?.rootViewController = target
+        keyWindow?.makeKeyAndVisible()
     }
 }
