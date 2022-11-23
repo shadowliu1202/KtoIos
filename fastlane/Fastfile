@@ -71,6 +71,12 @@ platform :ios do
                   output_types: 'junit,html',
                   output_files: "UIKit_junit.xml,UIKit_report.html")
     end
+    
+    lane :AIOTests do
+        run_tests(scheme: "AIO-unitTests",
+                  output_types: 'junit,html',
+                  output_files: "junit.xml,report.html")
+    end
 
 	lane :getIdentifier do |options|
 		preRelease = options[:preRelease]
