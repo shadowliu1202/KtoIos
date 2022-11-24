@@ -32,7 +32,9 @@ build-job:
     rules:
         - if: '$CI_COMMIT_BRANCH =~ /(APP|KTO|SP)-[0-9]+/'
         - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
-    stage: inProgress 
+    stage: inProgress
+    tags:
+      - ios_handler
     script:              
       - EMAIL_NAME="$(echo $GITLAB_USER_EMAIL | sed "s/@.*//")"
       - >
