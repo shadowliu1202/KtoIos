@@ -12,82 +12,179 @@ final class LaunchAppTest: XCTestCase {
         ID: "",
         locale: "",
         VIPLevel: 1,
-        defaultProduct: 1
+        defaultProduct: 3
     )
     
-    private lazy var stubLocalStorage = mock(LocalStorageRepository.self)
-    private lazy var stubAuthUseCase = mock(AuthenticationUseCase.self)
-    private lazy var stubServiceStatusUseCase = mock(GetSystemStatusUseCase.self)
-    
     private lazy var mockNavigator = mock(Navigator.self)
-    private lazy var mockAlert = mock(AlertProtocol.self)
         
     override func tearDown() {
         super.tearDown()
-        
-        reset(stubLocalStorage)
-        reset(stubAuthUseCase)
-        reset(stubServiceStatusUseCase)
-        
         reset(mockNavigator)
-        reset(mockAlert)
+        Injection.shared.registerAllDependency()
     }
     
-    func simulateApplicationWillEnterForeground() {
+    private func simulateApplicationWillEnterForeground() {
         (UIApplication.shared.delegate as? AppDelegate)?.applicationWillEnterForeground(UIApplication.shared)
     }
     
-    func simulateAnimationEnd() {
+    private func simulateAnimationEnd() {
         NotificationCenter.default.post(name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
-    func makeLaunchSUT() -> LaunchViewController {
+    private func makeLaunchSUT() -> LaunchViewController {
         .initFrom(storyboard: "Launch")
     }
     
-    func makeSBKSUT() -> SportBookViewController {
-        .initFrom(storyboard: "SBK")
+    private func getFakeNavigationViewModel(
+        stubAuthenticationUseCase: AuthenticationUseCaseMock = mock(AuthenticationUseCase.self),
+        stubPlayerDataUseCase: PlayerDataUseCaseMock = mock(PlayerDataUseCase.self),
+        stubLocalizationPolicyUseCase: LocalizationPolicyUseCaseMock = mock(LocalizationPolicyUseCase.self),
+        stubGetSystemStatusUseCase: GetSystemStatusUseCaseMock = mock(GetSystemStatusUseCase.self),
+        stubLocalStorageRepository: LocalStorageRepositoryMock = mock(LocalStorageRepository.self)
+    ) -> NavigationViewModel
+    {
+        NavigationViewModel(
+            stubAuthenticationUseCase,
+            stubPlayerDataUseCase,
+            stubLocalizationPolicyUseCase,
+            stubGetSystemStatusUseCase,
+            stubLocalStorageRepository
+        )
     }
     
-    func test_givenUserLoggedInAndUnexpired_whenColdStart_thenEnterLobbyPage() {
-        given(stubLocalStorage.getPlayerInfo()) ~> self.loggedPlayer
+    private func stubLoginStatus(isLogged: Bool) {
+        let stubNavigationViewModel = getFakeNavigationViewModelMock()
+        given(stubNavigationViewModel.checkIsLogged()) ~> .just(isLogged)
+        
+        let stubPlayerViewModel = getFakePlayerViewModelMock()
+        given(stubPlayerViewModel.checkIsLogged()) ~> .just(isLogged)
+        given(stubPlayerViewModel.logout()) ~> Single<Void>.just(()).asCompletable
+        
+        Injectable.register(NavigationViewModel.self) { _ in
+            stubNavigationViewModel
+        }
+        
+        Injectable.register(PlayerViewModel.self) { _ in
+            stubPlayerViewModel
+        }
+    }
+    
+    private func stubMaintenanceStatus(isAllMaintenance: Bool) {
+        let stubServiceStatusViewModel = getFakeServiceStatusViewModelMock()
+        given(stubServiceStatusViewModel.output)
+        ~> .init(
+            portalMaintenanceStatus: isAllMaintenance ? .just(.AllPortal(duration: 1000)) : .never(),
+            portalMaintenanceStatusPerSecond: .never(),
+            otpService: .never(),
+            customerServiceEmail: .never(),
+            productMaintainTime: .never(),
+            productsMaintainTime: .never()
+        )
+        
+        Injectable.register(ServiceStatusViewModel.self) { _ in
+            stubServiceStatusViewModel
+        }
+    }
+    
+    private func getFakeNavigationViewModelMock() -> NavigationViewModelMock {
+        
+        let dummyAuthenticationUseCase = mock(AuthenticationUseCase.self)
+        let dummyPlayerDataUseCase = mock(PlayerDataUseCase.self)
+        let dummyLocalizationPolicyUseCase = mock(LocalizationPolicyUseCase.self)
+        let dummyGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+        let dummyLocalStorageRepository = mock(LocalStorageRepository.self)
+        
+        return mock(NavigationViewModel.self)
+            .initialize(
+                dummyAuthenticationUseCase,
+                dummyPlayerDataUseCase,
+                dummyLocalizationPolicyUseCase,
+                dummyGetSystemStatusUseCase,
+                dummyLocalStorageRepository
+            )
+    }
+    
+    private func getFakeServiceStatusViewModelMock() -> ServiceStatusViewModelMock {
+        
+        let dummyGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+        let dummyLocalStorageRepository = mock(LocalStorageRepository.self)
+        
+        given(dummyGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: false, isSmsActive: false))
+        given(dummyGetSystemStatusUseCase.getCustomerServiceEmail()) ~> .just("")
+        given(dummyGetSystemStatusUseCase.getYearOfCopyRight()) ~> .just("")
+        given(dummyGetSystemStatusUseCase.observePortalMaintenanceState()) ~> .never()
+        
+        return mock(ServiceStatusViewModel.self)
+            .initialize(
+                systemStatusUseCase: dummyGetSystemStatusUseCase,
+                localStorageRepo: dummyLocalStorageRepository
+            )
+    }
+    
+    private func getFakePlayerViewModelMock() -> PlayerViewModelMock {
+        
+        let dummyPlayerDataUseCase = mock(PlayerDataUseCase.self)
+        let dummyAuthenticationUseCase = mock(AuthenticationUseCase.self)
+        
+        return mock(PlayerViewModel.self)
+            .initialize(
+                playerUseCase: dummyPlayerDataUseCase,
+                authUseCase: dummyAuthenticationUseCase)
+    }
 
+    func test_givenUserLoggedInAndUnexpired_whenColdStart_thenEnterLobbyPage() {
+        
+        let stubAuthUseCase = mock(AuthenticationUseCase.self)
         given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> false
+
+        let stubLocalStorageRepo = mock(LocalStorageRepository.self)
+        given(stubLocalStorageRepo.getPlayerInfo()) ~> self.loggedPlayer
+        
+        let stubNavigationViewModel = getFakeNavigationViewModel(
+            stubAuthenticationUseCase: stubAuthUseCase,
+            stubLocalStorageRepository: stubLocalStorageRepo
+        )
 
         NavigationManagement.sharedInstance = mockNavigator
 
         let sut = makeLaunchSUT()
-        sut.viewModel.authUseCase = self.stubAuthUseCase
-        sut.viewModel.localStorageRepo = self.stubLocalStorage
-        
+        sut.viewModel = stubNavigationViewModel
+
         sut.loadViewIfNeeded()
         sut.executeNavigation()
 
         verify(
             mockNavigator.goTo(
-                productType: .sbk,
+                productType: .casino,
                 isMaintenance: any()
             )
         )
         .wasCalled()
     }
-    
+
     func test_givenUserLoggedInAndExpired_whenColdStart_thenEnterLandingPage() {
-        given(stubLocalStorage.getPlayerInfo()) ~> self.loggedPlayer
         
+        let stubAuthUseCase = mock(AuthenticationUseCase.self)
         given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> true
-                
+        
+        let stubLocalStorageRepo = mock(LocalStorageRepository.self)
+        given(stubLocalStorageRepo.getPlayerInfo()) ~> self.loggedPlayer
+        
+        let stubNavigationViewModel = getFakeNavigationViewModel(
+            stubAuthenticationUseCase: stubAuthUseCase,
+            stubLocalStorageRepository: stubLocalStorageRepo
+        )
+
         NavigationManagement.sharedInstance = mockNavigator
-        
+
         let sut = makeLaunchSUT()
-        sut.viewModel.authUseCase = self.stubAuthUseCase
-        sut.viewModel.localStorageRepo = self.stubLocalStorage
-        
+        sut.viewModel = stubNavigationViewModel
+
         sut.loadViewIfNeeded()
         sut.executeNavigation()
-        
+
         simulateAnimationEnd()
-        
+
         verify(
             mockNavigator.goTo(
                 storyboard: "Login",
@@ -96,23 +193,62 @@ final class LaunchAppTest: XCTestCase {
         )
         .wasCalled()
     }
-    
+
     func test_givenUserNotLoggedInAndUnexpired_whenColdStart_thenEnterLandingPage() {
-        given(stubLocalStorage.getPlayerInfo()) ~> nil
         
+        let stubAuthUseCase = mock(AuthenticationUseCase.self)
         given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> false
-                
+        
+        let stubLocalStorageRepo = mock(LocalStorageRepository.self)
+        given(stubLocalStorageRepo.getPlayerInfo()) ~> nil
+
+        let stubNavigationViewModel = getFakeNavigationViewModel(
+            stubAuthenticationUseCase: stubAuthUseCase,
+            stubLocalStorageRepository: stubLocalStorageRepo
+        )
+        
         NavigationManagement.sharedInstance = mockNavigator
-        
+
         let sut = makeLaunchSUT()
-        sut.viewModel.authUseCase = self.stubAuthUseCase
-        sut.viewModel.localStorageRepo = self.stubLocalStorage
-        
+        sut.viewModel = stubNavigationViewModel
+
         sut.loadViewIfNeeded()
         sut.executeNavigation()
-        
+
         simulateAnimationEnd()
+
+        verify(
+            mockNavigator.goTo(
+                storyboard: "Login",
+                viewControllerId: "LandingNavigation"
+            )
+        )
+        .wasCalled()
+    }
+
+    func test_givenUserNotLoggedInAndExpired_whenColdStart_thenEnterLandingPage() {
+
+        let stubAuthUseCase = mock(AuthenticationUseCase.self)
+        given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> true
         
+        let stubLocalStorageRepo = mock(LocalStorageRepository.self)
+        given(stubLocalStorageRepo.getPlayerInfo()) ~> nil
+
+        let stubNavigationViewModel = getFakeNavigationViewModel(
+            stubAuthenticationUseCase: stubAuthUseCase,
+            stubLocalStorageRepository: stubLocalStorageRepo
+        )
+        
+        NavigationManagement.sharedInstance = mockNavigator
+
+        let sut = makeLaunchSUT()
+        sut.viewModel = stubNavigationViewModel
+
+        sut.loadViewIfNeeded()
+        sut.executeNavigation()
+
+        simulateAnimationEnd()
+
         verify(
             mockNavigator.goTo(
                 storyboard: "Login",
@@ -122,178 +258,126 @@ final class LaunchAppTest: XCTestCase {
         .wasCalled()
     }
     
-    func test_givenUserNotLoggedInAndExpired_whenColdStart_thenEnterLandingPage() {
-        given(stubLocalStorage.getPlayerInfo()) ~> nil
-
-        given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> true
+    func test_givenUserLoggedInAndAllMaintenance_whenColdStart_thenEnterMaintenancePage() {
+        
+        stubMaintenanceStatus(isAllMaintenance: true)
 
         NavigationManagement.sharedInstance = mockNavigator
 
-        let sut = makeLaunchSUT()
-        sut.viewModel.authUseCase = self.stubAuthUseCase
-        sut.viewModel.localStorageRepo = self.stubLocalStorage
-        
-        sut.loadViewIfNeeded()
-        sut.executeNavigation()
-        
-        simulateAnimationEnd()
+        let sut = CasinoViewController.initFrom(storyboard: "Casino")
 
+        sut.loadViewIfNeeded()
+        sut.viewDidAppear(true)
+        
         verify(
             mockNavigator.goTo(
-                storyboard: "Login",
-                viewControllerId: "LandingNavigation"
+                storyboard: "Maintenance",
+                viewControllerId: "PortalMaintenanceViewController"
+            )
+        )
+        .wasCalled()
+    }
+    
+    func test_givenUserNotLoggedInAndAllMaintenance_whenColdStart_thenEnterMaintenancePage() {
+        
+        stubMaintenanceStatus(isAllMaintenance: true)
+        
+        NavigationManagement.sharedInstance = mockNavigator
+
+        let sut = NewLoginViewController.initFrom(storyboard: "Login")
+
+        sut.loadViewIfNeeded()
+        sut.viewDidAppear(true)
+        
+        verify(
+            mockNavigator.goTo(
+                storyboard: "Maintenance",
+                viewControllerId: "PortalMaintenanceViewController"
             )
         )
         .wasCalled()
     }
 
-    func test_givenUserOpenAppFirstTime_whenColdStart_thenEnterLandingPage() {
-        given(stubLocalStorage.getPlayerInfo()) ~> nil
-
-        given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> false
-
-        NavigationManagement.sharedInstance = mockNavigator
-
-        let sut = makeLaunchSUT()
-        sut.viewModel.authUseCase = self.stubAuthUseCase
-        sut.viewModel.localStorageRepo = self.stubLocalStorage
+    func test_givenUserLoggedInAndNoAllMaintenance_whenHotStart_thenNotEnterMaintenancePage() {
         
-        sut.loadViewIfNeeded()
-        sut.executeNavigation()
+        stubLoginStatus(isLogged: true)
+        stubMaintenanceStatus(isAllMaintenance: false)
         
-        simulateAnimationEnd()
-
-        verify(
-            mockNavigator.goTo(
-                storyboard: "Login",
-                viewControllerId: "LandingNavigation"
-            )
-        )
-        .wasCalled()
-    }
-
-    func test_givenUserLoggedInAndUnexpired_whenHotStart_thenBackToOriginalPage() {
-        given(stubAuthUseCase.isLogged()) ~> .just(true)
-
-        Injectable
-            .register(AuthenticationUseCase.self) { [unowned self] _ in
-                self.stubAuthUseCase
-            }
-
         NavigationManagement.sharedInstance = mockNavigator
 
         simulateApplicationWillEnterForeground()
-        
+
         verify(
             mockNavigator.goTo(
-                storyboard: "Login",
-                viewControllerId: "LandingNavigation"
+                storyboard: "Maintenance",
+                viewControllerId: "PortalMaintenanceViewController"
+            )
+        )
+        .wasNeverCalled()
+    }
+    
+    func test_givenUserLoggedInAndAllMaintenance_whenHotStart_thenEnterMaintenancePage() {
+        
+        stubLoginStatus(isLogged: true)
+        stubMaintenanceStatus(isAllMaintenance: true)
+
+        NavigationManagement.sharedInstance = mockNavigator
+        
+        let sut = CasinoViewController.initFrom(storyboard: "Casino")
+        
+        makeItVisible(sut)
+        
+        simulateApplicationWillEnterForeground()
+        
+        sut.loadViewIfNeeded()
+        sut.viewDidAppear(true)
+
+        verify(
+            mockNavigator.goTo(
+                storyboard: "Maintenance",
+                viewControllerId: "PortalMaintenanceViewController"
+            )
+        )
+        .wasCalled()
+    }
+
+    func test_givenUserNotLoggedInAndNoAllMaintenance_whenHotStart_thenNotEnterMaintenancePage() {
+        
+        stubLoginStatus(isLogged: false)
+        stubMaintenanceStatus(isAllMaintenance: false)
+        
+        NavigationManagement.sharedInstance = mockNavigator
+
+        simulateApplicationWillEnterForeground()
+
+        verify(
+            mockNavigator.goTo(
+                storyboard: "Maintenance",
+                viewControllerId: "PortalMaintenanceViewController"
             )
         )
         .wasNeverCalled()
     }
 
-    func test_givenUserLoggedInAndExpired_whenHotStart_thenEnterLandingPage() {
-        given(stubAuthUseCase.isLogged()) ~> .just(false)
-
-        Injectable
-            .register(AuthenticationUseCase.self) { [unowned self] _ in
-                self.stubAuthUseCase
-            }
-
-        NavigationManagement.sharedInstance = mockNavigator
-
-        simulateApplicationWillEnterForeground()
+    func test_givenUserNotLoggedInAndAllMaintenance_whenHotStart_thenEnterMaintenancePage() {
         
+        stubLoginStatus(isLogged: false)
+        stubMaintenanceStatus(isAllMaintenance: true)
+        
+        let sut = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "LandingNavigation")
+        
+        makeItVisible(sut)
+        
+        NavigationManagement.sharedInstance = mockNavigator
+        
+        simulateApplicationWillEnterForeground()
+
         verify(
             mockNavigator.goTo(
-                storyboard: "Login",
-                viewControllerId: "LandingNavigation"
-            )
-        )
-        .wasCalled()
-    }
-
-    func test_givenUserNotLoggedInAndUnexpired_whenHotStart_thenEnterLandingPage() {
-        given(stubAuthUseCase.isLogged()) ~> .just(false)
-
-        Injectable
-            .register(AuthenticationUseCase.self) { [unowned self] _ in
-                self.stubAuthUseCase
-            }
-
-        NavigationManagement.sharedInstance = mockNavigator
-
-        simulateApplicationWillEnterForeground()
-        
-        verify(
-            mockNavigator.goTo(
-                storyboard: "Login",
-                viewControllerId: "LandingNavigation"
-            )
-        )
-        .wasCalled()
-    }
-
-    func test_givenUserNotLoggedInAndExpired_whenHotStart_thenEnterLandingPage() {
-        given(stubAuthUseCase.isLogged()) ~> .just(false)
-
-        Injectable
-            .register(AuthenticationUseCase.self) { [unowned self] _ in
-                self.stubAuthUseCase
-            }
-
-        NavigationManagement.sharedInstance = mockNavigator
-
-        simulateApplicationWillEnterForeground()
-        
-        verify(
-            mockNavigator.goTo(
-                storyboard: "Login",
-                viewControllerId: "LandingNavigation"
-            )
-        )
-        .wasCalled()
-    }
-
-    func test_givenOpenApp_whenUnderMaintenance_thenEnterMaintenancePage() {
-        given(stubServiceStatusUseCase.observePortalMaintenanceState()) ~> .just(.AllPortal(duration: 1000))
-        given(stubServiceStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: false, isSmsActive: false))
-        given(stubServiceStatusUseCase.getCustomerServiceEmail()) ~> .just("")
-        given(stubServiceStatusUseCase.getYearOfCopyRight()) ~> .just("")
-
-        given(stubLocalStorage.getPlayerInfo()) ~> .init(account: "", ID: "", locale: "", VIPLevel: 1, defaultProduct: 1)
-
-        given(stubAuthUseCase.logout()) ~> Single<Void>.just(()).asCompletable
-
-        Alert.shared = mockAlert
-
-        let sut = makeSBKSUT()
-        
-        sut.serviceViewModel = .init(
-            systemStatusUseCase: self.stubServiceStatusUseCase,
-            localStorageRepo: self.stubLocalStorage
-        )
-
-        sut.playerViewModel = .init(
-            playerUseCase: Injectable.resolveWrapper(PlayerDataUseCase.self),
-            authUseCase: self.stubAuthUseCase
-        )
-
-        sut.loadViewIfNeeded()
-
-        verify(
-            mockAlert.show(
-                Localize.string("common_urgent_maintenance"),
-                Localize.string("common_maintenance_logout"),
-                confirm: any(),
-                confirmText: any(),
-                cancel: any(),
-                cancelText: any(),
-                tintColor: any()
+                storyboard: "Maintenance",
+                viewControllerId: "PortalMaintenanceViewController"
             )
         )
         .wasCalled()
     }
 }
-

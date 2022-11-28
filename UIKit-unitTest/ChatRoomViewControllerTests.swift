@@ -6,6 +6,7 @@ import SharedBu
 @testable import ktobet_asia_ios_qat
 
 final class ChatRoomViewControllerTests: XCTestCase {
+    
     private var vc: ChatRoomViewController!
     
     override func setUp() {

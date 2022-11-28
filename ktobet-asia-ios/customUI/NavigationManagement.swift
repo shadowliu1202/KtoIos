@@ -31,10 +31,10 @@ protocol Navigator {
     func popToRootViewController(_ completion: (() -> Void)?)
     func popToNotificationOrBack(unwind: () -> Void)
     
+    func navigateToAuthorization()
+    
     func pushViewController(vc: UIViewController)
     func pushViewController(vc: UIViewController, unwindNavigate: NotificationNavigate?)
-
-    func cleanProductSelected()
     
     func back()
 }
@@ -205,8 +205,21 @@ class NavigationManagement: Navigator {
         self.unwindNavigate = unwindNavigate
     }
     
-    func cleanProductSelected() {
-        sideBarViewController.cleanProductSelected()
+    func navigateToAuthorization() {
+        sideBarViewController.navigationController?.dismiss(animated: true, completion: nil)
+        
+        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
+        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation") as! UINavigationController
+        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        let vc = navi.viewControllers.first as? AuthProfileModificationViewController
+        vc?.didAuthenticated = { [weak self] in
+            self?.sideBarViewController.cleanProductSelected()
+        }
+        if let currentVC = viewController as? UIAdaptivePresentationControllerDelegate {
+            vc?.presentationController?.delegate = currentVC
+        }
+        
+        viewController.present(navi, animated: true, completion: nil)
     }
     
     func popToNotificationOrBack(unwind: () -> Void) {
@@ -233,7 +246,6 @@ class NavigationManagement: Navigator {
         menu.settings = settings
         menu.menuWidth = viewController.view.bounds.width
         SideMenuManager.default.leftMenuNavigationController = menu
-        sideBarViewController.observeSystemMessage()
     }
     
     private func getBarButtonItem(barItemType: BarItemType, action: Selector? = nil, image: String? = nil) -> UIBarButtonItem {
@@ -279,7 +291,6 @@ class NavigationManagement: Navigator {
     
     private func dispose() {
         guard let sideBar = sideBarViewController else { return }
-        NotificationCenter.default.removeObserver(sideBar, name: NSNotification.Name(rawValue: "disposeSystemNotify"), object: nil)
         sideBarViewController = nil
         menu = nil
         UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = nil

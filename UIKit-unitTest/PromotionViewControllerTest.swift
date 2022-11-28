@@ -6,9 +6,11 @@ import SharedBu
 @testable import ktobet_asia_ios_qat
 
 final class PromotionViewControllerTest: XCTestCase {
-    private lazy var sut = PromotionViewController.initFrom(storyboard: "Promotion")
+    
     private let mockPromotionUseCase = mock(PromotionUseCase.self)
     private let now = Date()
+    
+    private lazy var sut = PromotionViewController.initFrom(storyboard: "Promotion")
     private lazy var startDate = now.adding(value: -1, byAdding: .day).convertToKotlinx_datetimeLocalDateTime()
     private lazy var endDate = now.adding(value: 1, byAdding: .day).convertToKotlinx_datetimeLocalDateTime()
     private lazy var vvipCoupon = BonusCoupon.VVIPCashback(
@@ -29,6 +31,7 @@ final class PromotionViewControllerTest: XCTestCase {
             minCapital: "10".toAccountCurrency()
         )
     )
+    
     private lazy var vvipPromotion = PromotionEvent.VVIPCashback(
         promotionId: "",
         issueNumber: 0,
@@ -40,10 +43,8 @@ final class PromotionViewControllerTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        
         injectStubCultureCode(.CN)
         injectStubPlayerLoginStatus()
-
         Injectable
             .register(PromotionUseCase.self) { _ in
                 self.mockPromotionUseCase
@@ -52,12 +53,15 @@ final class PromotionViewControllerTest: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
+        Injection.shared.registerAllDependency()
     }
     
-    private func givenPromotionUseCaseStubs(productPromotion: [PromotionEvent.Product],
-                                            rebatePromotion: [PromotionEvent.Rebate],
-                                            bonusCoupon: [BonusCoupon],
-                                            VVIPCashbackPromotion: [PromotionEvent.VVIPCashback]) {
+    private func givenPromotionUseCaseStubs(
+        productPromotion: [PromotionEvent.Product],
+        rebatePromotion: [PromotionEvent.Rebate],
+        bonusCoupon: [BonusCoupon],
+        VVIPCashbackPromotion: [PromotionEvent.VVIPCashback]
+    ) {
         given(mockPromotionUseCase.getProductPromotionEvents()) ~> .just(productPromotion)
         given(mockPromotionUseCase.getRebatePromotionEvents()) ~> .just(rebatePromotion)
         given(mockPromotionUseCase.getBonusCoupons()) ~> .just(bonusCoupon)

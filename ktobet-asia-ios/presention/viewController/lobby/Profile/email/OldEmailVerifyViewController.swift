@@ -3,18 +3,19 @@ import SharedBu
 import RxSwift
 
 class OldEmailVerifyViewController: OtpViewControllerProtocol {
+    
+    private let viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
+    private let disposeBag = DisposeBag()
+    
     var commonVerifyOtpArgs: CommonVerifyOtpArgs
     var isProfileVerify: Bool = true
-    
-    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
-    private var disposeBag = DisposeBag()
     
     init(email: String) {
         self.commonVerifyOtpArgs = CommonVerifyOtpFactory.create(identity: email, verifyType: .profileOld, accountType: .email)
     }
     
     func verify(otp: String) -> Completable {
-        viewModel.verifyOldOtp(otp: otp, accountType: .email).do(onCompleted: {[weak self] in self?.navigateToSetEmailIdentity() })
+        viewModel.verifyOldOtp(otp: otp, accountType: .email)
     }
     
     func resendOtp() -> Completable {
@@ -31,7 +32,7 @@ class OldEmailVerifyViewController: OtpViewControllerProtocol {
         validator.otpAccountType.onNext(SharedBu.AccountType.email)
     }
     
-    private func navigateToSetEmailIdentity() {
+    func verifyOnCompleted() {
         let setIdentityViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "SetIdentityViewController") as! SetIdentityViewController
         setIdentityViewController.delegate = SetEmailIdentity(mode: .oldModify)
         NavigationManagement.sharedInstance.pushViewController(vc: setIdentityViewController)

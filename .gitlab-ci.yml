@@ -102,5 +102,5 @@ merge-job:
             - "fastlane/test_output/"
         reports:
             junit:
-                - "fastlane/test_output/**/*.xml"          
+                - "fastlane/test_output/*.xml"          
     # - echo "${CI_COMMIT_MESSAGE}" | npx commitlint

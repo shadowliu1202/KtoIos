@@ -61,7 +61,7 @@ extension XCTestCase {
             }
     }
     
-    func makeItVisable(_ target: UIViewController) {
+    func makeItVisible(_ target: UIViewController) {
         let keyWindow = (UIApplication.shared.delegate as? AppDelegate)?.window
         keyWindow?.rootViewController = target
         keyWindow?.makeKeyAndVisible()

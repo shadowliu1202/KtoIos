@@ -1,18 +1,12 @@
-//
-//  Register3ViewController.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/10/29.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
 import SharedBu
 
 class SignupPhoneViewController: OtpViewControllerProtocol {
-    private var viewModel = Injectable.resolve(SignupPhoneViewModel.self)!
-    private var disposeBag = DisposeBag()
+    
+    private let viewModel = Injectable.resolve(SignupPhoneViewModel.self)!
+    private let disposeBag = DisposeBag()
     
     var commonVerifyOtpArgs: CommonVerifyOtpArgs
     
@@ -21,9 +15,7 @@ class SignupPhoneViewController: OtpViewControllerProtocol {
     }
     
     func verify(otp: String) -> Completable {
-        viewModel.otpVerify(otp: otp).asCompletable().do(onCompleted: {[weak self] in
-            self?.onVerified()
-        })
+        viewModel.otpVerify(otp: otp).asCompletable()
     }
     
     func resendOtp() -> Completable {
@@ -47,7 +39,7 @@ class SignupPhoneViewController: OtpViewControllerProtocol {
         }, cancel: nil)
     }
     
-    private func onVerified() {
+    func verifyOnCompleted() {
         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
     }
 }

@@ -3,18 +3,19 @@ import RxSwift
 import SharedBu
 
 class VerifyNewMobileViewController: OtpViewControllerProtocol {
+    
+    private let viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
+    private let disposeBag = DisposeBag()
+    
     var commonVerifyOtpArgs: CommonVerifyOtpArgs
     var isProfileVerify: Bool = true
-    
-    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
-    private var disposeBag = DisposeBag()
     
     init(mobile: String, mode: ModifyMode) {
         self.commonVerifyOtpArgs = CommonVerifyOtpFactory.create(identity: mobile, verifyType: .profileNew, accountType: .phone, mode: mode)
     }
     
     func verify(otp: String) -> Completable {
-        viewModel.verifyNewOtp(otp: otp, accountType: .phone).do(onCompleted: {[weak self] in self?.navigateToLoginPage() })
+        viewModel.verifyNewOtp(otp: otp, accountType: .phone)
     }
     
     func resendOtp() -> Completable {
@@ -31,9 +32,20 @@ class VerifyNewMobileViewController: OtpViewControllerProtocol {
         } cancel: { }
     }
     
-    private func navigateToLoginPage() {
+    func verifyOnCompleted() {
         Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("profile_identity_mobile_modify_success"), confirm: {
-            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+            self.logoutToLanding()
         }, cancel: nil)
+    }
+    
+    private func logoutToLanding() {
+        let playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
+        
+        playerViewModel
+            .logout()
+            .subscribe(onCompleted: {
+                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+            })
+            .disposed(by: disposeBag)
     }
 }

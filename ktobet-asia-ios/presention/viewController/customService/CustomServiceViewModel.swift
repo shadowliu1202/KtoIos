@@ -20,7 +20,7 @@ class CustomerServiceViewModel {
                 return Disposables.create()
             }
         }
-        .catchErrorJustReturn(false)
+        .catchAndReturn(false)
     
     
     lazy var chatRoomMessage = customerServiceUseCase.currentChatRoom()
@@ -30,7 +30,7 @@ class CustomerServiceViewModel {
                 return Disposables.create()
             }
         }
-        .catchErrorJustReturn([])
+        .catchAndReturn([])
     
     lazy var chatRoomUnreadMessage = customerServiceUseCase.currentChatRoom()
         .flatMapLatest { room in
@@ -39,7 +39,7 @@ class CustomerServiceViewModel {
                 return Disposables.create()
             }
         }
-        .catchErrorJustReturn([])
+        .catchAndReturn([])
     
     lazy var preLoadChatRoomStatus = customerServiceUseCase.currentChatRoom()
         .flatMapLatest { room in
@@ -48,7 +48,7 @@ class CustomerServiceViewModel {
                 return Disposables.create()
             }
         }
-        .catchErrorJustReturn(PortalChatRoom.ConnectStatus.notexist)
+        .catchAndReturn(PortalChatRoom.ConnectStatus.notexist)
         .distinctUntilChanged()
     
     lazy var currentQueueNumber = customerServiceUseCase.currentChatRoom()
@@ -58,7 +58,7 @@ class CustomerServiceViewModel {
                 return Disposables.create()
             }
         }
-        .catchErrorJustReturn(0)
+        .catchAndReturn(0)
     
     private var surveyAnswers: SurveyAnswers? = nil
     func connectChatRoom(survey: Survey?) -> Observable<PortalChatRoom.ConnectStatus> {
@@ -82,12 +82,17 @@ class CustomerServiceViewModel {
     
     func closeChatRoom() -> Completable {
         return findChatRoom().flatMapCompletable { chatRoom -> Completable in
-            return Completable.create { (completable) -> Disposable in
-                DispatchQueue.main.async {
-                    chatRoom.leaveChatRoom(onFinished: {
-                        completable(.completed)
-                    })
+            return Completable.create { event -> Disposable in
+                if chatRoom == CustomServiceRepositoryImpl.PortalChatRoomNoExist {
+                    event(.completed)
+                } else {
+                    DispatchQueue.main.async {
+                        chatRoom.leaveChatRoom(onFinished: {
+                            event(.completed)
+                        })
+                    }                    
                 }
+                
                 return Disposables.create {}
             }
         }

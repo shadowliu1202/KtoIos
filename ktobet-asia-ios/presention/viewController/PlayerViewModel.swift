@@ -39,9 +39,11 @@ class PlayerViewModel {
     }
     
     func logout() -> Completable {
-        authUseCase
-            .logout()
-            .do(afterCompleted: {
+        CustomServicePresenter.shared.closeService()
+            .concat(
+                authUseCase.logout()
+            )
+            .do(onCompleted: {
                 Injectable.resetObjectScope(.locale)
             })
     }

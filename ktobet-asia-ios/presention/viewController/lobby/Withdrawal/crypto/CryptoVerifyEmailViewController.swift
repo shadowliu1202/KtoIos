@@ -3,17 +3,18 @@ import RxSwift
 import RxDataSources
 
 class CryptoVerifyEmailViewController: OtpViewControllerProtocol {
-    var commonVerifyOtpArgs: CommonVerifyOtpArgs
     
     private let viewModel = Injectable.resolve(CryptoVerifyViewModel.self)!
     private let disposeBag = DisposeBag()
+    
+    var commonVerifyOtpArgs: CommonVerifyOtpArgs
     
     init(identity: String) {
         self.commonVerifyOtpArgs = CommonVerifyOtpFactory.create(identity: identity, verifyType: .crypto, accountType: .email)
     }
     
     func verify(otp: String) -> Completable {
-        viewModel.verifyOtp(otp: otp, accountType: .email).do(onCompleted: {[weak self] in self?.onVerified() })
+        viewModel.verifyOtp(otp: otp, accountType: .email)
     }
     
     func resendOtp() -> Completable {
@@ -37,7 +38,7 @@ class CryptoVerifyEmailViewController: OtpViewControllerProtocol {
         validator.otpAccountType.onNext(type)
     }
     
-    private func onVerified() {
+    func verifyOnCompleted() {
         Alert.shared.show(Localize.string("common_verify_finished"), Localize.string("cps_verify_hint"), confirm: {[weak self] in
             self?.navigateToAccountsPage()
         }, cancel: nil)

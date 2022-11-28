@@ -85,7 +85,7 @@ class GameWebViewViewController: UIViewController {
     
     func redirectNavigateToDeposit() {
         self.dismiss(animated: false, completion: {
-            NavigationManagement.sharedInstance.cleanProductSelected()
+            NavigationManagement.sharedInstance.sideBarViewController.cleanProductSelected()
             NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
         })
     }

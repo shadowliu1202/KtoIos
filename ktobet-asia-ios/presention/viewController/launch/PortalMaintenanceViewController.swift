@@ -30,7 +30,7 @@ class PortalMaintenanceViewController: LandingViewController {
                 let seconds = allPortal.convertDurationToSeconds()?.int32Value
                 self?.startCountDown(seconds: seconds)
             default:
-                self?.showNavigation()
+                self?.navigateToLaunch()
             }
         }).disposed(by: disposeBag)
         
@@ -66,7 +66,7 @@ class PortalMaintenanceViewController: LandingViewController {
             countDownTimer.start(timeInterval: 1, duration: TimeInterval(seconds)) {[weak self] (index, countDownSecond, finish) in
                 self?.displayRemainTimeView(countDownSecond)
                 if finish {
-                    self?.showNavigation()
+                    self?.navigateToLaunch()
                 }
             }
         } else {
@@ -80,7 +80,7 @@ class PortalMaintenanceViewController: LandingViewController {
         self.secondLabel.text = String(format: "%02d", (countDownSecond % 60))
     }
     
-    private func showNavigation() {
+    private func navigateToLaunch() {
         NavigationManagement.sharedInstance.goTo(storyboard: "Launch", viewControllerId: "LaunchViewController")
     }
     

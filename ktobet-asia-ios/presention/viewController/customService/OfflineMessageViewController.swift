@@ -74,9 +74,16 @@ class OfflineMessageViewController: CommonViewController {
     }
     
     private func notifySurveySentSuccessfully() {
-        Alert.shared.show(Localize.string("customerservice_offline_survey_confirm_title"),
-                   Localize.string("customerservice_offline_survey_confirm_content"),
-                   confirm: { CustomServicePresenter.shared.close() }, cancel: nil)
+        Alert.shared.show(
+            Localize.string("customerservice_offline_survey_confirm_title"),
+            Localize.string("customerservice_offline_survey_confirm_content"),
+            confirm: {
+                CustomServicePresenter.shared.closeService()
+                    .subscribe()
+                    .disposed(by: self.disposeBag)
+            },
+            cancel: nil
+        )
     }
     
     deinit {
@@ -87,7 +94,9 @@ class OfflineMessageViewController: CommonViewController {
 
 extension OfflineMessageViewController: BarButtonItemable {
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
-        CustomServicePresenter.shared.close()
+        CustomServicePresenter.shared.closeService()
+            .subscribe()
+            .disposed(by: disposeBag)
     }
 }
 

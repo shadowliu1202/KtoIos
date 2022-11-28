@@ -78,8 +78,9 @@ class SideBarViewController: LobbyViewController {
         self.navigationController?.navigationBar.standardAppearance = appearance
     }
     
-    deinit {
-        disposeSystemNotify()
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        observeSystemMessage()
     }
     
     // MARK: BUTTON EVENT
@@ -113,7 +114,7 @@ class SideBarViewController: LobbyViewController {
             guard let self = self else { return }
             switch target {
             case .Kickout(let type):
-                self.alertAndLogout(type)
+                self.alertAndExitLobby(type)
             case .Balance:
                 self.viewModel.refreshBalance.onNext(())
             case .Maintenance:
@@ -127,59 +128,76 @@ class SideBarViewController: LobbyViewController {
         self.disposableNotify?.dispose()
     }
     
-    fileprivate func alertAndLogout(_ type: KickOutType?, cancel: (() -> ())? = nil) {
-        let commonWarmtitle = Localize.string("common_tip_title_warm")
-        switch type {
-        case .duplicatedLogin:
-            showAlert(title: commonWarmtitle,
-                      message: Localize.string("common_notify_logout_content"),
-                      cancel: cancel)
-        case .Suspend:
-            showAlert(title: commonWarmtitle,
-                      message: Localize.string("common_kick_out_suspend"),
-                      cancel: cancel)
-        case .Inactive:
-            showAlert(title: commonWarmtitle,
-                      message: Localize.string("common_kick_out_inactive"),
-                      cancel: cancel)
-        case .Maintenance:
-            if CustomServicePresenter.shared.topViewController is ChatRoomViewController {
-                showAlert(title: Localize.string("common_maintenance_notify"),
-                          message: Localize.string("common_maintenance_contact_later"),
-                          cancel: cancel, isMaintain: true)
-            } else {
-                showAlert(title: Localize.string("common_urgent_maintenance"),
-                          message: Localize.string("common_maintenance_logout"),
-                          cancel: cancel, isMaintain: true)
-            }
-        case .TokenExpired:
-            showAlert(title: Localize.string("common_kick_out_token_expired_title"),
-                      message: Localize.string("common_kick_out_token_expired"),
-                      cancel: cancel)
-        default:
-            showAlert(title: Localize.string("common_tip_title_warm"),
-                      message: Localize.string("common_confirm_logout"),
-                      cancel: cancel)
-        }
-    }
-    
-    fileprivate func showAlert(title: String, message: String, cancel: (() -> ())? = nil, isMaintain: Bool = false) {
-        Alert.shared.show(title, message, confirm: {[weak self] in
+    private func alertAndExitLobby(_ type: KickOutType?, cancel: (() -> ())? = nil) {
+        var title: String
+        var message: String
+        var isMaintain: Bool
+        
+        (title, message, isMaintain) = parseKickOutType(type)
+        
+        Alert.shared.show(title, message, confirm: { [weak self] in
             guard let self = self else { return }
             
-            CustomServicePresenter.shared.close(completion: {
-                self.viewModel.logout()
-                    .subscribe(on: MainScheduler.instance)
-                    .subscribe(onCompleted: {
-                        if isMaintain {
-                            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-                        } else {
-                            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-                        }
-                    })
-                    .disposed(by: self.disposeBag)
-            })
+            self.viewModel.logout()
+                .subscribe(on: MainScheduler.instance)
+                .subscribe(onCompleted: {
+                    if isMaintain {
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+                    }
+                    else {
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+                    }
+                })
+                .disposed(by: self.disposeBag)
+            
         }, cancel: cancel)
+    }
+    
+    private func parseKickOutType(_ type: KickOutType?) -> (String, String, Bool) {
+        var title: String
+        var message: String
+        var isMaintain: Bool
+        
+        switch type {
+        case .duplicatedLogin:
+            title = Localize.string("common_tip_title_warm")
+            message = Localize.string("common_notify_logout_content")
+            isMaintain = false
+            
+        case .Suspend:
+            title = Localize.string("common_tip_title_warm")
+            message = Localize.string("common_kick_out_suspend")
+            isMaintain = false
+            
+        case .Inactive:
+            title = Localize.string("common_tip_title_warm")
+            message = Localize.string("common_kick_out_inactive")
+            isMaintain = false
+            
+        case .Maintenance:
+            if CustomServicePresenter.shared.topViewController is ChatRoomViewController {
+                title = Localize.string("common_maintenance_notify")
+                message = Localize.string("common_maintenance_contact_later")
+                isMaintain = true
+            }
+            else {
+                title = Localize.string("common_urgent_maintenance")
+                message = Localize.string("common_maintenance_logout")
+                isMaintain = true
+            }
+            
+        case .TokenExpired:
+            title = Localize.string("common_kick_out_token_expired_title")
+            message = Localize.string("common_kick_out_token_expired")
+            isMaintain = false
+            
+        default:
+            title = Localize.string("common_tip_title_warm")
+            message = Localize.string("common_confirm_logout")
+            isMaintain = false
+        }
+        
+        return (title, message, isMaintain)
     }
     
     fileprivate func setBalanceHiddenState(isHidden: Bool) {
@@ -322,7 +340,7 @@ class SideBarViewController: LobbyViewController {
     private func updateMaintainStatus(_ status: MaintenanceStatus) {
         switch status {
         case is MaintenanceStatus.AllPortal:
-            alertAndLogout(KickOutType.Maintenance)
+            alertAndExitLobby(KickOutType.Maintenance)
         case let productStatus as MaintenanceStatus.Product:
             productMaintenanceStatus = productStatus
         default:
@@ -364,7 +382,7 @@ class SideBarViewController: LobbyViewController {
             
             switch featureType {
             case .logout:
-                self?.alertAndLogout(nil, cancel: {})
+                self?.alertAndExitLobby(nil, cancel: {})
             case .withdraw:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Withdrawal", viewControllerId: "WithdrawalNavigation")
             case .deposit:
@@ -392,26 +410,7 @@ class SideBarViewController: LobbyViewController {
     @objc func accountTap(_ sender: UITapGestureRecognizer) {
         let rootVC = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController
         NavigationManagement.sharedInstance.previousRootViewController = rootVC
-        navigateToAuthorization()
-    }
-
-    static func showAuthorizationPage() {
-        SideBarViewController().navigateToAuthorization()
-    }
-    
-    private func navigateToAuthorization() {
-        navigationController?.dismiss(animated: true, completion: nil)
-        let storyboard = UIStoryboard(name: "Profile", bundle: nil)
-        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation") as! UINavigationController
-        navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        let vc = navi.viewControllers.first as? AuthProfileModificationViewController
-        vc?.didAuthenticated = { [weak self] in
-            self?.cleanProductSelected()
-        }
-        if let currentVC = NavigationManagement.sharedInstance.viewController as? UIAdaptivePresentationControllerDelegate {
-            vc?.presentationController?.delegate = currentVC
-        }
-        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
+        NavigationManagement.sharedInstance.navigateToAuthorization()
     }
     
     @objc func accountLevelTap(_ sender: UITapGestureRecognizer) {

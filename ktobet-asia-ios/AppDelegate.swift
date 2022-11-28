@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     override init() {
         super.init()
+
         NetworkStateMonitor.setup(
             connected: networkDidConnect,
             disconnected: networkDisConnect,
@@ -51,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard !isInTesting(),
               !isInSwiftUIPreviewLiveMode()
         else { return true }
-
+        
         Logger.shared.info("APP launch.")
         
         CookieUtil.shared.loadCookiesFromUserDefault()
@@ -71,45 +72,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storyboardId = UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController?.restorationIdentifier ?? ""
         
         if storyboardId != "LandingNavigation" {
-            let viewModel = Injectable.resolve(NavigationViewModel.self)!
-            
-            viewModel
-                .checkIsLogged()
-                .subscribe { (isLogged) in
-                    CustomServicePresenter.shared.initCustomerService()
-                    
-                    if !isLogged {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-                    }
-                } onFailure: { (error) in
-                    if error.isUnauthorized() {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-                    } else {
-                        UIApplication.topViewController()?.handleErrors(error)
-                    }
-                }
-                .disposed(by: disposeBag)
-        }
-        else {
-            let viewModel = Injectable.resolve(ServiceStatusViewModel.self)!
-            
-            viewModel.output.portalMaintenanceStatus
-                .subscribe(onNext: { status in
-                    switch status {
-                    case is MaintenanceStatus.AllPortal:
-                        UIApplication.topViewController()?.showUnLoginMaintenanAlert()
-                    default:
-                        break
-                    }
-                })
-                .disposed(by: disposeBag)
+            checkLoginStatus()
+        } else {
+            checkMaintenanceStatus()
         }
     }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return self.restrictRotation
     }
-        
+    
     func applicationWillResignActive(_ application: UIApplication) {
         self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
             self.endBackgroundUpdateTask()
@@ -118,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         self.endBackgroundUpdateTask()
-
+        
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -223,6 +195,58 @@ private extension AppDelegate {
     }
 }
 
+// MARK: - Status check
+
+private extension AppDelegate {
+    
+    func checkLoginStatus() {
+        let viewModel = Injectable.resolveWrapper(NavigationViewModel.self)
+        
+        viewModel.checkIsLogged()
+            .subscribe(
+                onSuccess: {[weak self] isLogged in
+                    if isLogged {
+                        CustomServicePresenter.shared.initService()
+                    } else {
+                        self?.logoutToLanding()
+                    }},
+                onFailure: {[weak self] error in
+                    if error.isUnauthorized() {
+                        self?.logoutToLanding()
+                    } else {
+                        UIApplication.topViewController()?.handleErrors(error)
+                    }}
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func checkMaintenanceStatus() {
+        let viewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
+        
+        viewModel.output.portalMaintenanceStatus
+            .subscribe(onNext: { status in
+                switch status {
+                case is MaintenanceStatus.AllPortal:
+                    NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func logoutToLanding() {
+        let playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
+        
+        playerViewModel
+            .logout()
+            .subscribe(onCompleted: {
+                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+            })
+            .disposed(by: disposeBag)
+    }
+}
+
 // MARK: - Network
 
 extension AppDelegate {
@@ -278,7 +302,7 @@ private extension AppDelegate {
         else {
             target = .init()
         }
-
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = target
         window?.makeKeyAndVisible()

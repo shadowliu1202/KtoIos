@@ -5,6 +5,10 @@ import SharedBu
 @testable import ktobet_asia_ios_qat
 
 final class P2PSummaryViewControllerTests: XCTestCase {
+    
+    override func tearDown() {
+        Injection.shared.registerAllDependency()
+    }
 
     func test_HasOneP2PGameBetRecord_InP2PSummaryPage_RecordIsDisplayedWithNumber1_KTO_TC_35() {
         let dummySummary = DateSummary(

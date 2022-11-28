@@ -1,8 +1,6 @@
 import Foundation
 import RxSwift
 
-
-
 class SystemViewModel {
     private var systemUseCase : SystemSignalRUseCase!
     

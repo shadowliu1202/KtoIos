@@ -9,6 +9,12 @@ final class Injection {
     private (set) var container = Container()
     
     private init() {
+        registerAllDependency()
+    }
+    
+    
+    /// Only be use in unit test.
+    func registerAllDependency () {
         registerHttpClient()
         registerCustomServicePresenter()
         registFactory()
@@ -253,18 +259,17 @@ final class Injection {
             }
         
         container
-            .register(PlayerConfiguration.self) { _ in
-                return PlayerConfigurationImpl()
-            }
-            .inObjectScope(.locale)
-        
-        container
-            .register(LocalStorageRepository.self) {
-                LocalStorageRepositoryImpl(
-                    playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self)
-                )
-            }
-            .inObjectScope(.locale)
+                    .register(PlayerConfiguration.self) { _ in
+                        return PlayerConfigurationImpl()
+                    }
+                    .inObjectScope(.locale)
+                container
+                    .register(LocalStorageRepository.self) {
+                        LocalStorageRepositoryImpl(
+                            playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self)
+                        )
+                    }
+                    .inObjectScope(.locale)
         
         container
             .register(SettingStore.self) { _ in
@@ -500,7 +505,6 @@ final class Injection {
                 let repoPlayer = resolver.resolveWrapper(PlayerRepository.self)
                 let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
                 let settingStore = resolver.resolveWrapper(SettingStore.self)
-
                 return AuthenticationUseCaseImpl(
                     repoAuth,
                     repoPlayer,
