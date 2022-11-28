@@ -39,20 +39,12 @@ class LobbyViewController: APPViewController, VersionUpdateProtocol {
     }
     
     private func logoutToLanding() {
-        CustomServicePresenter.shared
-            .close(completion: { [weak self] in
-                guard let self = self else { return }
-                
-                self.playerViewModel
-                    .logout()
-                    .subscribe(onCompleted: {
-                        NavigationManagement.sharedInstance.goTo(
-                            storyboard: "Login",
-                            viewControllerId: "LandingNavigation"
-                        )
-                    })
-                    .disposed(by: self.disposeBag)
+        playerViewModel
+            .logout()
+            .subscribe(onCompleted: {
+                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
             })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: VersionUpdateProtocol

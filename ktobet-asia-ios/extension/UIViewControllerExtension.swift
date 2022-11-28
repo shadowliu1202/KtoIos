@@ -105,42 +105,29 @@ extension UIViewController{
         let serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
         
         serviceViewModel.output.portalMaintenanceStatus
-            .subscribe(onNext: { [weak self] status in
+            .subscribe(onNext: { status in
                 switch status {
                 case is MaintenanceStatus.AllPortal:
                     if UIApplication.topViewController() is LandingViewController {
-                        self?.showUnLoginMaintenanAlert()
-                    } else {
-                        viewModel.logout()
-                            .subscribe(on: MainScheduler.instance)
-                            .subscribe(onCompleted: { [weak self] in
-                                self?.showLoginMaintenanAlert()
-                            }).disposed(by: disposeBag)
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
                     }
-                    
+                    else {
+                        viewModel.logout()
+                            .subscribe(onCompleted: {
+                                NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+                            })
+                            .disposed(by: disposeBag)
+                    }
                 case let productStatus as MaintenanceStatus.Product:
                     if let navi = NavigationManagement.sharedInstance.viewController.navigationController as? ProductNavigations {
                         let isMaintenance = productStatus.isProductMaintain(productType: navi.productType)
                         NavigationManagement.sharedInstance.goTo(productType: navi.productType, isMaintenance: isMaintenance)
                     }
-
                 default:
                     break
                 }
             })
             .disposed(by: disposeBag)
-    }
-
-    func showLoginMaintenanAlert() {
-        Alert.shared.show(Localize.string("common_urgent_maintenance"), Localize.string("common_maintenance_logout"), confirm: {
-            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-        }, cancel: nil)
-    }
-
-    func showUnLoginMaintenanAlert() {
-        Alert.shared.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
-            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-        }, cancel: nil)
     }
 
     func handleTooManyRequest() {

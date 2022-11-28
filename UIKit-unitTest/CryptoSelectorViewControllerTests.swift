@@ -9,7 +9,7 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
     func test_TapVideoTutorialBtn_InCryptoSelectorPage_VideoTutorialIsDisplayed_KTO_TC_40() {
         let sut = CryptoSelectorViewController.initFrom(storyboard: "Deposit")
 
-        makeItVisable(sut)
+        makeItVisible(sut)
         
         sut.loadViewIfNeeded()
         

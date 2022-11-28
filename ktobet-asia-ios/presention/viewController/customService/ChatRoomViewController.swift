@@ -331,7 +331,9 @@ class ChatRoomViewController: CommonViewController {
 
     private func goToExitSurvey(skillId: SkillId, roomId: RoomId, exitSurvey: Survey) {
         if exitSurvey.surveyQuestions.isEmpty {
-            CustomServicePresenter.shared.close(completion: nil)
+            CustomServicePresenter.shared.closeService()
+                .subscribe()
+                .disposed(by: disposeBag)
         } else {
             CustomServicePresenter.shared.switchToExitSurvey(roomId: roomId, skillId: skillId)
         }

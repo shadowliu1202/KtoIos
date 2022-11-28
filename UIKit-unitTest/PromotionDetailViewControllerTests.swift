@@ -28,6 +28,10 @@ final class PromotionDetailViewControllerTests: XCTestCase {
         vc = (storyboard.instantiateViewController(identifier: "PromotionDetailViewController") as! PromotionDetailViewController)
     }
     
+    override func tearDown() {
+        Injection.shared.registerAllDependency()
+    }
+    
     private func getStubCoupon(type: CouponForTest.CouponType, status: CouponForTest.CouponStatus) -> PromotionVmItem {
         switch type {
         case .VVIP:

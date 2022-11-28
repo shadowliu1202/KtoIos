@@ -17,24 +17,30 @@ protocol SystemRepository {
     func getYearOfCopyRight() -> Single<String>
 }
 
-class SystemRepositoryImpl : SystemRepository{
+class SystemRepositoryImpl: SystemRepository{
+
+    private let portalMaintenanceStateRefresh = PublishSubject<()>()
+    private let portalApi : PortalApi
+    private let httpClient: HttpClient
+    private let productStatusChange = BehaviorSubject<MaintenanceStatus>(value: MaintenanceStatus.AllPortal(duration: nil))
+  
+    private var maintenanceStatus: Observable<MaintenanceStatus>!
+
     let csMailCookieName = "csm"
     let maintenanceTimeCookieName = "dist"
-    private var portalApi : PortalApi
-    private var httpClient: HttpClient
-    private var productStatusChange = BehaviorSubject<MaintenanceStatus>(value: MaintenanceStatus.AllPortal(duration: nil))
-    private var maintenanceStatus: Observable<MaintenanceStatus>!
-    private let portalMaintenanceStateRefresh = PublishSubject<()>()
 
     init(_ portalApi : PortalApi, httpClient: HttpClient) {
         self.portalApi = portalApi
         self.httpClient = httpClient
-        maintenanceStatus = portalMaintenanceStateRefresh.startWith(()).flatMap{[unowned self] in
-            self.updateMaintenanceStatus().asObservable()
-        }
+        
+        maintenanceStatus = portalMaintenanceStateRefresh
+            .startWith(())
+            .flatMap{ [unowned self] in
+                self.updateMaintenanceStatus().asObservable()
+            }
     }
     
-    func getPortalMaintenance()->Single<OtpStatus>{
+    func getPortalMaintenance() -> Single<OtpStatus>{
         return portalApi
             .getPortalMaintenance()
             .map { (response) -> OtpStatus in
@@ -51,17 +57,19 @@ class SystemRepositoryImpl : SystemRepository{
     }
     
     func getCustomerService() -> Single<String> {
-        portalApi.getCustomerServiceEmail().map{ $0.data ?? "" }
-        .catchError {[weak self] error in
-            guard let self = self else { return Single.error(error)}
-            if error.isMaintenance() {
-                return Single.just(self.maintainCsEmail())
-            } else {
-                return Single.error(error)
-            }
-        }
+        portalApi.getCustomerServiceEmail()
+            .map{ $0.data ?? "" }
+            .catch({ [weak self] error in
+                guard let self = self else { return Single.error(error)}
+                if error.isMaintenance() {
+                    return Single.just(self.maintainCsEmail())
+                } else {
+                    return Single.error(error)
+                }
+            })
     }
     
+    // FIXME: use concat in wrong way.
     private func updateMaintenanceStatus() -> Single<MaintenanceStatus> {
         portalApi.getProductStatus()
             .map { try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil) }
@@ -69,10 +77,12 @@ class SystemRepositoryImpl : SystemRepository{
             .catch({ [weak self] error in
                 guard let self = self else { return Single.error(error) }
                 if error.isMaintenance() {
-                    return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
+                    self.productStatusChange.onNext(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
                 } else {
                     return Single.error(error)
                 }
+                
+                return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
             })
     }
     

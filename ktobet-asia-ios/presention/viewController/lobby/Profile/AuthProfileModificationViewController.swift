@@ -79,16 +79,20 @@ class AuthProfileModificationViewController: LobbyViewController {
     }
     
     private func alertAndLogout() {
-        Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("profile_wrong_password_over_limit"), confirm: {
-            CustomServicePresenter.shared.close(completion: {
-                let viewModel = Injectable.resolve(PlayerViewModel.self)!
+        Alert.shared.show(
+            Localize.string("common_tip_title_warm"),
+            Localize.string("profile_wrong_password_over_limit"),
+            confirm: {
+                let viewModel = Injectable.resolveWrapper(PlayerViewModel.self)
+                
                 viewModel.logout()
-                    .subscribeOn(MainScheduler.instance)
+                    .subscribe(on: MainScheduler.instance)
                     .subscribe(onCompleted: {
                         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-                    }).disposed(by: self.disposeBag)
-            })
-        }, cancel: nil)
+                    })
+                    .disposed(by: self.disposeBag)
+            },
+            cancel: nil)
     }
     
     deinit {

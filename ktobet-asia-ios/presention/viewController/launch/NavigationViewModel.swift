@@ -19,9 +19,8 @@ class NavigationViewModel {
     private let playerUseCase : PlayerDataUseCase!
     private let localizationPolicyUseCase: LocalizationPolicyUseCase!
     private let systemStatusUseCase: GetSystemStatusUseCase!
-    
-    var authUseCase: AuthenticationUseCase!
-    var localStorageRepo: LocalStorageRepository
+    private let authUseCase: AuthenticationUseCase!
+    private let localStorageRepo: LocalStorageRepository
     
     init(_ authUseCase: AuthenticationUseCase,
          _ playerUseCase: PlayerDataUseCase,

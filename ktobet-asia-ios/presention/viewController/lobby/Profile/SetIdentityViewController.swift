@@ -82,7 +82,7 @@ class SetIdentityViewController: LobbyViewController {
 
         delegate.handleErrors().subscribe(onNext: { [unowned self] error in
             if error.isUnauthorized() {
-                SideBarViewController.showAuthorizationPage()
+                NavigationManagement.sharedInstance.navigateToAuthorization()
             } else {
                 viewModel.otpRetryCount += 1
                 switch error {

@@ -84,7 +84,9 @@ class PrechatServeyViewController: CommonViewController {
 
 extension PrechatServeyViewController: BarButtonItemable {
     func pressedLeftBarButtonItems(_ sender: UIBarButtonItem) {
-        CustomServicePresenter.shared.close(completion: nil)
+        CustomServicePresenter.shared.closeService()
+            .subscribe()
+            .disposed(by: disposeBag)
     }
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
         CustomServicePresenter.shared.switchToCalling(svViewModel: viewModel)

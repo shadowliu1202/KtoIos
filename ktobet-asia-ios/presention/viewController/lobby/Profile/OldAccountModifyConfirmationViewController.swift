@@ -28,7 +28,7 @@ class OldAccountModifyConfirmationViewController: LobbyViewController {
 
         delegate.handleErrors().subscribe(onNext: {[weak self] error in
             if error.isUnauthorized() {
-                SideBarViewController.showAuthorizationPage()
+                NavigationManagement.sharedInstance.navigateToAuthorization()
             } else {
                 switch error {
                 case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:

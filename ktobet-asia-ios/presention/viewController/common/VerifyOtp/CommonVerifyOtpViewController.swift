@@ -111,7 +111,7 @@ class CommonVerifyOtpViewController: CommonViewController {
 
     private func handleError(_ error: Error) {
         if delegate.isProfileVerify && error.isUnauthorized() {
-            SideBarViewController.showAuthorizationPage()
+            NavigationManagement.sharedInstance.navigateToAuthorization()
         } else {
             switch error {
             case is PlayerOtpCheckError:
@@ -172,7 +172,9 @@ class CommonVerifyOtpViewController: CommonViewController {
         smsVerifyView.getOtpCode().first()
             .flatMapCompletable(verifyOTP)
             .do(onDispose: enableBtnVerify)
-            .subscribe(onError: handleError)
+            .subscribe(onCompleted: { [weak self] in
+                self?.delegate.verifyOnCompleted()
+            }, onError: handleError)
             .disposed(by: disposeBag)
     }
     
@@ -217,6 +219,7 @@ protocol OtpViewControllerProtocol {
     func resendOtp() -> Completable
     func validateAccountType(validator: OtpValidatorDelegation)
     func onCloseVerifyProcess()
+    func verifyOnCompleted()
 
     var isProfileVerify: Bool { get set }
     var commonVerifyOtpArgs: CommonVerifyOtpArgs { get }

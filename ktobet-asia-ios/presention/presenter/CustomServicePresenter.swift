@@ -112,7 +112,7 @@ class CustomServicePresenter: NSObject {
         }
     }
     
-    func initCustomerService() {
+    func initService() {
         Logger.shared.info("CustomerService init.")
         self.csViewModel.searchChatRoom().asCompletable().andThen(self.csViewModel.preLoadChatRoomStatus)
             .first()
@@ -294,20 +294,20 @@ class CustomServicePresenter: NSObject {
         self.topViewController?.navigationController?.setViewControllers([exitSurveyVC], animated: false)
     }
     
-    func close(completion: (() -> Void)? = nil) {
+    func closeService() -> Completable {
         csViewModel.closeChatRoom()
-            .subscribe(onCompleted: {[weak self] in
+            .do(onCompleted: { [weak self] in
                 self?.cleanSurveyAnswers()
                 self?.hiddenServiceIcon()
-                print("close room")
-            }).disposed(by: disposeBag)
-        
-        topViewController?.navigationController?.dismiss(animated: true, completion: {[weak self] in
-            NavigationManagement.sharedInstance.viewController = self?.topViewController
-            completion?()
-        })
-        
-        changeCsDomainIfNeed()
+                Logger.shared.info("Customer service close.")
+                
+                self?.changeCsDomainIfNeed()
+            },
+            afterCompleted: { [weak self] in
+                self?.topViewController?.navigationController?.dismiss(animated: true, completion: {[weak self] in
+                    NavigationManagement.sharedInstance.viewController = self?.topViewController
+                })
+            })
     }
     
     private func cleanSurveyAnswers() {

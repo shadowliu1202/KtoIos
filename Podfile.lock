@@ -188,7 +188,7 @@ DEPENDENCIES:
   - MockingbirdFramework (~> 0.20)
   - Moya/RxSwift (= 15.0.0)
   - NotificationBannerSwift (= 3.0.0)
-  - Puppy (~> 0.5)
+  - Puppy (= 0.5.0)
   - RxBlocking (= 6.5.0)
   - RxCocoa (= 6.5.0)
   - RxDataSources (= 5.0.0)
@@ -295,6 +295,6 @@ SPEC CHECKSUMS:
   ViewInspector: 68842776f07fbf186713689d4846e54f32ccbffb
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: 5a730f9d610662184d05545a897a9e74cb23655c
+PODFILE CHECKSUM: cc9a5639188d135f5bac38d6ed2a3e92c09effce
 
 COCOAPODS: 1.11.3

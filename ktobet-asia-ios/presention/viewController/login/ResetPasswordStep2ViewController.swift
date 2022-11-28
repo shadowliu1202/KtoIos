@@ -3,11 +3,12 @@ import RxSwift
 import RxDataSources
 
 class ResetPasswordStep2ViewController: OtpViewControllerProtocol {
-    var commonVerifyOtpArgs: CommonVerifyOtpArgs
 
-    private var viewModel = Injectable.resolve(ResetPasswordViewModel.self)!
-    private var disposeBag = DisposeBag()
-    private var accountType: AccountType!
+    private let viewModel = Injectable.resolve(ResetPasswordViewModel.self)!
+    private let disposeBag = DisposeBag()
+    private let accountType: AccountType!
+    
+    var commonVerifyOtpArgs: CommonVerifyOtpArgs
 
     init(identity: String, accountType: AccountType) {
         self.accountType = accountType
@@ -15,7 +16,7 @@ class ResetPasswordStep2ViewController: OtpViewControllerProtocol {
     }
 
     func verify(otp: String) -> Completable {
-        viewModel.verifyResetOtp(otpCode: otp).do(onCompleted: {[weak self] in self?.onVerified() })
+        viewModel.verifyResetOtp(otpCode: otp)
     }
 
     func resendOtp() -> Completable {
@@ -43,7 +44,7 @@ class ResetPasswordStep2ViewController: OtpViewControllerProtocol {
         validator.otpAccountType.onNext(type)
     }
     
-    private func onVerified() {
+    func verifyOnCompleted() {
         let resetPasswordStep3ViewController = UIStoryboard(name: "ResetPassword", bundle: nil).instantiateViewController(withIdentifier: "ResetPasswordStep3ViewController") as! ResetPasswordStep3ViewController
         UIApplication.topViewController()?.navigationController?.pushViewController(resetPasswordStep3ViewController, animated: true)
     }

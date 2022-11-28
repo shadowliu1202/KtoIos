@@ -39,24 +39,21 @@ class NewLoginViewController: LandingViewController {
     }
     
     private func observeSystemStatus() {
-        serviceStatusViewModel.output.portalMaintenanceStatus.subscribe(onNext: { [weak self] status in
-            guard let self = self else {
-                Logger.shared.debug("Get status fail: missing reference.")
-                return
-            }
-            
-            switch status {
-            case is MaintenanceStatus.AllPortal:
-                self.navigateToPortalMaintenancePage()
-            case is MaintenanceStatus.Product:
-                break
-            default:
-                break
-            }
-            
-        }, onError: { [weak self] error in
-            self?.handleErrors(error)
-        }).disposed(by: disposeBag)
+        serviceStatusViewModel.output.portalMaintenanceStatus
+            .subscribe(
+                onNext: { status in
+                    switch status {
+                    case is MaintenanceStatus.AllPortal:
+                        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+                    default:
+                        break
+                    }
+                },
+                onError: { [weak self] error in
+                    self?.handleErrors(error)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     private func localize() {
@@ -91,9 +88,7 @@ class NewLoginViewController: LandingViewController {
     }
 
     private func navigateToPortalMaintenancePage() {
-        Alert.shared.show(Localize.string("common_maintenance_notify"), Localize.string("common_maintenance_contact_later"), confirm: {
-            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-        }, cancel: nil)
+        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
     }
     
     private func navigateToProductPage(_ productType: ProductType) {

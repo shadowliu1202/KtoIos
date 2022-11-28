@@ -5,13 +5,13 @@ import RxSwift
 @testable import ktobet_asia_ios_qat
 
 class DepositGatewayViewControllerTest: XCTestCase {
-    private var vc: DepositGatewayViewController!
+    
     private let stubOnlinePayment = mock(PaymentsDTO.Online.self)
     private let stubLocalRepo = mock(LocalStorageRepository.self)
-
+    
+    private var vc: DepositGatewayViewController!
+    
     override func setUp() {
-        super.setUp()
-        
         injectStubPlayerLoginStatus()
         
         let storyboard = UIStoryboard(name: "Deposit", bundle: nil)
@@ -19,10 +19,9 @@ class DepositGatewayViewControllerTest: XCTestCase {
     }
     
     override func tearDown() {
-        super.tearDown()
-        
         clearStubs(on: stubOnlinePayment)
         clearStubs(on: stubLocalRepo)
+        Injection.shared.registerAllDependency()
     }
     
     func test_givenVietnameseUser_whenNavigationPopBack_thenAlertMessageContainsPaymentName() {

@@ -4,7 +4,7 @@ import SharedBu
 
 class LaunchViewController: UIViewController {
     
-    @Injected private (set) var viewModel: NavigationViewModel
+    var viewModel: NavigationViewModel = Injectable.resolveWrapper(NavigationViewModel.self)
 
     private var disposeBag = DisposeBag()
     
@@ -15,17 +15,7 @@ class LaunchViewController: UIViewController {
     
     deinit {
         Logger.shared.info("\(type(of: self)) deinit.")
-        CustomServicePresenter.shared.initCustomerService()
-    }
-    
-    override func handleErrors(_ error: Error) {
-        if error.isMaintenance() {
-            navigateToPortalMaintenancePage()
-        } else if error.isCDNError() || error.isRestrictedArea() {
-            super.handleErrors(error)
-        } else {
-            self.showAlert(Localize.string("common_error"), Localize.string("common_network_error"))
-        }
+        CustomServicePresenter.shared.initService()
     }
     
     private func showAlert(_ title: String?, _ message: String?) {
@@ -41,10 +31,6 @@ class LaunchViewController: UIViewController {
         case .Lobby(let productType):
             navigateToProductPage(productType)
         }
-    }
-
-    private func navigateToPortalMaintenancePage() {
-        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
     }
     
     private func playVideo(onCompleted: @escaping (() -> Void)) {

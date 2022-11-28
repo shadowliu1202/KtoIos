@@ -6,7 +6,6 @@ protocol SystemSignalRUseCase {
     func disconnectService()
 }
 
-
 class SystemSignalRUseCaseImpl: SystemSignalRUseCase {
     
     var systemRepo : SystemSignalRepository!

@@ -38,29 +38,30 @@ class SportBookViewController: LobbyViewController {
         self.setupWebView()
         
         serviceViewModel.output.portalMaintenanceStatus
-            .subscribe(onNext: { [weak self] status in
-                guard let self = self else { return }
+            .subscribe(
+                onNext: { [weak self] status in
+                    guard let self = self else { return }
                     
-                switch status {
-                case is MaintenanceStatus.AllPortal:
-                    self.playerViewModel.logout()
-                        .subscribe(on: MainScheduler.instance)
-                        .subscribe(onCompleted: { [weak self] in
-                            self?.showLoginMaintenanAlert()
-                        })
-                        .disposed(by: self.disposeBag)
-                    
-                case let productStatus as MaintenanceStatus.Product:
-                    if productStatus.isProductMaintain(productType: .sbk) {
-                        NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
+                    switch status {
+                    case is MaintenanceStatus.AllPortal:
+                        self.playerViewModel.logout()
+                            .subscribe(onCompleted: {
+                                NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+                            })
+                            .disposed(by: self.disposeBag)
+                        
+                    case let productStatus as MaintenanceStatus.Product:
+                        if productStatus.isProductMaintain(productType: .sbk) {
+                            NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
+                        }
+                    default:
+                        break
                     }
-                    
-                default:
-                    break
+                },
+                onError: { [weak self] error in
+                    self?.handleErrors(error)
                 }
-            }, onError: { [weak self] error in
-                self?.handleErrors(error)
-            })
+            )
             .disposed(by: disposeBag)
         
         Observable

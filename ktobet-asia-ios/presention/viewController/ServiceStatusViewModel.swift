@@ -4,14 +4,15 @@ import SharedBu
 import RxSwiftExt
 import RxCocoa
 
-final class ServiceStatusViewModel: ViewModelType {
+class ServiceStatusViewModel: ViewModelType {
     private let systemStatusUseCase: GetSystemStatusUseCase
     private let localStorageRepo: LocalStorageRepository
     private let playerDefaultProductType = ReplaySubject<ProductType>.create(bufferSize: 1)
     private var countDownTimer: CountDownTimer?
 
     private(set) var input: Input!
-    private(set) var output: Output!
+    
+    var output: Output!
     
     init(systemStatusUseCase: GetSystemStatusUseCase,
          localStorageRepo: LocalStorageRepository) {

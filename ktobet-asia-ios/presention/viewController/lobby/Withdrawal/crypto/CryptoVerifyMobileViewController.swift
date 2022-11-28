@@ -3,17 +3,18 @@ import RxSwift
 import RxDataSources
 
 class CryptoVerifyMobileViewController: OtpViewControllerProtocol {
-    var commonVerifyOtpArgs: CommonVerifyOtpArgs
     
     private let viewModel = Injectable.resolve(CryptoVerifyViewModel.self)!
     private let disposeBag = DisposeBag()
+    
+    var commonVerifyOtpArgs: CommonVerifyOtpArgs
     
     init(identity: String) {
         self.commonVerifyOtpArgs = CommonVerifyOtpFactory.create(identity: identity, verifyType: .crypto, accountType: .phone)
     }
 
     func verify(otp: String) -> Completable {
-        viewModel.verifyOtp(otp: otp, accountType: .phone).do(onCompleted: {[weak self] in self?.onVerified() })
+        viewModel.verifyOtp(otp: otp, accountType: .phone)
     }
     
     func resendOtp() -> Completable {
@@ -37,15 +38,15 @@ class CryptoVerifyMobileViewController: OtpViewControllerProtocol {
         validator.otpAccountType.onNext(type)
     }
     
+    func verifyOnCompleted() {
+        Alert.shared.show(Localize.string("common_verify_finished"), Localize.string("cps_verify_hint"), confirm: {[weak self] in
+            self?.navigateToAccountsPage()
+        }, cancel: nil)
+    }
+    
     private func navigateToAccountsPage() {
         let withdrawlAccountsViewController = UIApplication.topViewController()?.navigationController?.viewControllers[1] as! WithdrawlLandingViewController
         withdrawlAccountsViewController.bankCardType = .crypto
         NavigationManagement.sharedInstance.popViewController(nil, to: withdrawlAccountsViewController)
-    }
-    
-    private func onVerified() {
-        Alert.shared.show(Localize.string("common_verify_finished"), Localize.string("cps_verify_hint"), confirm: {[weak self] in
-            self?.navigateToAccountsPage()
-        }, cancel: nil)
     }
 }

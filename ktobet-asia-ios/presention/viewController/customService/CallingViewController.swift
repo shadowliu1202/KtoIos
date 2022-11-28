@@ -108,12 +108,18 @@ class CallingViewController: CommonViewController {
     }
     
     func stopServiceAndShowServiceOccupied() {
-        Alert.shared.show(Localize.string("customerservice_leave_a_message_title"),
-                   Localize.string("customerservice_leave_a_message_content"),
-                   confirm: { [weak self] in CustomServicePresenter.shared.switchToOfflineMessage(from: self) },
-                   confirmText: Localize.string("customerservice_leave_a_message_confirm"),
-                   cancel: { CustomServicePresenter.shared.close() },
-                   cancelText: Localize.string("common_skip"))
+        Alert.shared.show(
+            Localize.string("customerservice_leave_a_message_title"),
+            Localize.string("customerservice_leave_a_message_content"),
+            confirm: { [weak self] in CustomServicePresenter.shared.switchToOfflineMessage(from: self) },
+            confirmText: Localize.string("customerservice_leave_a_message_confirm"),
+            cancel: {
+                CustomServicePresenter.shared.closeService()
+                    .subscribe()
+                    .disposed(by: self.disposeBag)
+            },
+            cancelText: Localize.string("common_skip")
+        )
     }
 }
 
