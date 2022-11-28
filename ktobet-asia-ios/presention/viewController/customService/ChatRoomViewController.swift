@@ -128,14 +128,14 @@ class ChatRoomViewController: CommonViewController {
         
         var dividerIndex = 0
         messagesOb
-            .map({ (read, unread) -> [ChatMessage] in
+            .map({ (read, unread) -> NSArray in
                 if unread.count == 0 {
                     dividerIndex = read.unique { $0.id }.count - 1
-                    return read.unique { $0.id }
+                    return read.unique { $0.id } as NSArray
                 } else {
                     dividerIndex = read.unique { $0.id }.count + 1
-                    let unreadDivider = ChatMessage.Close()
-                    return Array(read.unique { $0.id } + [unreadDivider] + unread)
+                    let unreadDivider = UnreadDivider()
+                    return Array(read.unique { $0.id } + [unreadDivider] + unread) as NSArray
                 }
             })
             .do(onNext: { [weak self] data in self?.dataCount = data.count })
@@ -168,8 +168,9 @@ class ChatRoomViewController: CommonViewController {
                             break
                         }
                         
-                    default:
+                    case is UnreadDivider:
                         cell = tableView.dequeueReusableCell(withIdentifier: unreadTableViewCell.identifer) as! unreadTableViewCell
+                    default:
                         break
                     }
                     
@@ -617,3 +618,5 @@ class MixTableViewCell: UITableViewCell {
         }
     }
 }
+
+class UnreadDivider { }
