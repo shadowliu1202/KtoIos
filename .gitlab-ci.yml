@@ -10,7 +10,8 @@ variables:
 instrumentedTests:
   allow_failure: true
   stage: spec-test
-  tag: mac-slave
+  tags:
+      - mac-slave
   rules:
     - if: ($CI_COMMIT_BRANCH == "master" && $CI_PIPELINE_SOURCE == "push")
   script:   
