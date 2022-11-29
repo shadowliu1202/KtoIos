@@ -30,8 +30,7 @@ instrumentedTests:
             - "fastlane/test_output/*.xml"          
 
 
-build-job:
-    allow_failure: true    
+build-job: 
     rules:
         - if: ($CI_COMMIT_BRANCH =~ /(APP|KTO|SP)-[0-9]+/ && $CI_PIPELINE_SOURCE != "merge_request_event")        
     stage: inProgress
@@ -48,7 +47,6 @@ build-job:
       - echo -e "$JIRA_SUB"
 
 merge-job:   
-    allow_failure: true   
     tags:
       - ios-runner
     before_script:            
