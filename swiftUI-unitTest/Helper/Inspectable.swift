@@ -11,5 +11,5 @@ extension PageContainer: Inspectable {}
 extension SwiftUIInputText: Inspectable {}
 extension UIKitTextField: Inspectable {}
 extension LocalizeFont: Inspectable {}
-extension CustomizedDivider: Inspectable {}
+extension Separator: Inspectable {}
 extension LimitSpacer: Inspectable {}

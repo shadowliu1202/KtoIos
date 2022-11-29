@@ -25,10 +25,10 @@ class LanguageAndCurrencyCell: UITableViewCell {
     }
 
     func setup(_ data : SignupLanguageViewController.LanguageListData){
-        let tundoraGray = UIColor.inputSelectedTundoraGray
-        let shaftGray = UIColor.inputBaseMineShaftGray
+        let tundoraGray = UIColor.gray454545
+        let shaftGray = UIColor.gray333333
         labTitle.text = data.title
-        labTitle.textColor = data.selected ? UIColor.whiteFull : UIColor.textPrimaryDustyGray
+        labTitle.textColor = data.selected ? UIColor.whitePure : UIColor.gray9B9B9B
         btnSelected.isSelected = data.selected
         background.backgroundColor = data.selected ? tundoraGray : shaftGray
     }

@@ -98,7 +98,7 @@ class DepositOfflineConfirmViewController: LobbyViewController {
         subTitleLabel.text = Localize.string("deposit_offline_step2_title_tips")
         bankTitleLabel.text = Localize.string("deposit_payee_detail")
         bankView.layer.borderWidth = 1
-        bankView.layer.borderColor = UIColor.textPrimaryDustyGray.cgColor
+        bankView.layer.borderColor = UIColor.gray9B9B9B.cgColor
         bankNameTitleLabel.text = Localize.string("deposit_receivebank")
         branchNameTitleLabel.text = Localize.string("deposit_branch")
         userNameTitleLabel.text = Localize.string("deposit_receivename")
@@ -106,14 +106,14 @@ class DepositOfflineConfirmViewController: LobbyViewController {
         validDepositTimeTitleLabel.text = Localize.string("deposit_validdeposittime")
         tipTitleLabel.text = Localize.string("deposit_offline_remitter_title")
         remitterView.layer.borderWidth = 1
-        remitterView.layer.borderColor = UIColor.textPrimaryDustyGray.cgColor
+        remitterView.layer.borderColor = UIColor.gray9B9B9B.cgColor
         remitterTitleLabel.text = Localize.string("deposit_name")
         amountTitleLabel.text = Localize.string("deposit_custom_cash")
         tipLabel.text = Localize.string("deposit_offline_summary_tip")
         confirmButton.setTitle(Localize.string("common_submit2"), for: .normal)
         let buttons = [bankNameCopyButton, branchNameCopyButton, userNameCopyButton, bankCardNumberCopyButton]
         buttons.forEach {
-            $0?.layer.borderColor = UIColor.textPrimaryDustyGray.cgColor
+            $0?.layer.borderColor = UIColor.gray9B9B9B.cgColor
             $0?.layer.borderWidth = 1
             $0?.setTitle(Localize.string("common_copy"), for: .normal)
         }
@@ -140,10 +140,10 @@ class DepositOfflineConfirmViewController: LobbyViewController {
             amountStr.removeFirst()
             let attributedString = NSMutableAttributedString(string: amountStr, attributes: [
                 .font: UIFont(name: "PingFangSC-Semibold", size: 24.0)!,
-                .foregroundColor: UIColor.whiteFull
+                .foregroundColor: UIColor.whitePure
             ])
             
-            attributedString.addAttribute(.foregroundColor, value: UIColor.orangeFull, range: NSRange(location: amountStr.count - 2, length: 2))
+            attributedString.addAttribute(.foregroundColor, value: UIColor.orangeFF8000, range: NSRange(location: amountStr.count - 2, length: 2))
             self?.amountLabel.attributedText = attributedString
             self?.startExpireTimer(expiredHour: memo.expiredHour)
         }).disposed(by: disposeBag)

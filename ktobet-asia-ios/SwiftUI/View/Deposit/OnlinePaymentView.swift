@@ -29,7 +29,7 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
             PageContainer {
                 VStack(spacing: 0) {
                     Text(viewModel.selectedOnlinePayment.name)
-                        .customizedFont(fontWeight: .semibold, size: 24, color: .white)
+                        .localized(weight: .semibold, size: 24, color: .white)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 30)
                     
@@ -41,7 +41,7 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
                     
                     VStack(alignment: .leading, spacing: 16) {
                         Text(Localize.string("deposit_select_method"))
-                            .customizedFont(fontWeight: .medium, size: 16, color: .primaryGray)
+                            .localized(weight: .medium, size: 16, color: .gray9B9B9B)
                             .padding(.horizontal, 30)
                         
                         PickList(selectedItem: $selectedGateway, items: viewModel.gateways)
@@ -75,7 +75,7 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
                 }
             }
         }
-        .pageBackgroundColor(.defaultGray)
+        .pageBackgroundColor(.gray131313)
         .onAppear {
             if remitterName.isEmpty {
                 viewModel.getRemitterName()
@@ -106,7 +106,7 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
             
             HStack(spacing: 0) {
                 Text(Localize.string("jinyidigital_instructions_click_here"))
-                    .customizedFont(fontWeight: .medium, size: 14, color: .primaryRed)
+                    .localized(weight: .medium, size: 14, color: .redF20000)
                 Image("iconChevronRightRed24")
                     .resizable()
                     .scaledToFit()
@@ -123,7 +123,7 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
     private var remitInfo: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(Localize.string("deposit_my_account_detail"))
-                .customizedFont(fontWeight: .medium, size: 16, color: .primaryGray)
+                .localized(weight: .medium, size: 16, color: .gray9B9B9B)
             
             LimitSpacer(16)
             
@@ -133,7 +133,7 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
             LimitSpacer(12)
             
             Text(selectedGateway == nil ? "" : String(format: Localize.string("deposit_offline_step1_tips"), selectedGateway!.cash.limitation.min.description(), selectedGateway!.cash.limitation.max.description()))
-            .customizedFont(fontWeight: .medium, size: 14, color: .primaryGray)
+            .localized(weight: .medium, size: 14, color: .gray9B9B9B)
         }
         .padding(.horizontal, 30)
         .onChange(of: amount) { _ in
@@ -163,7 +163,14 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
 
 struct OnlinePaymentView_Previews: PreviewProvider {
     struct Preview: View {
-        private let onlinePayment = PaymentsDTO.Online.init(identity: "24", name: "数字人民币", hint: "", isRecommend: false, beneficiaries: Single<NSArray>.just([PaymentsDTO.Gateway(identity: "70", name: "JinYi_Digital", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "200"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "2000")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true), PaymentsDTO.Gateway(identity: "20", name: "JinYi_Crypto", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "300"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "700")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true)] as NSArray).asNSArray())
+        private let onlinePayment = PaymentsDTO.Online.init(
+            identity: "24",
+            name: "数字人民币",
+            hint: "",
+            isRecommend: false,
+            beneficiaries: Single<NSArray>.just([
+                PaymentsDTO.Gateway(identity: "70", name: "JinYi_Digital", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "200"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "2000")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true), PaymentsDTO.Gateway(identity: "20", name: "JinYi_Crypto", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "300"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "700")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true)] as NSArray).asWrapper()
+        )
         
         var body: some View {
             OnlinePaymentView(viewModel: OnlineDepositViewModel(selectedOnlinePayment: onlinePayment))

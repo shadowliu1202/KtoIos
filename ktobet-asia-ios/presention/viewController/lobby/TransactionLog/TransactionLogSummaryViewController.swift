@@ -19,15 +19,15 @@ class TransactionLogSummaryViewController: LobbyViewController {
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
         tableView.addTopBorder()
         tableView.addBottomBorder()
-        viewModel.getCashLogSummary()
+        viewModel.getCashLogSummary(from: viewModel.from, to: viewModel.to)
             .do(onSuccess: {[weak self] summary in
                 guard let self = self else { return }
-                self.beginDateLabel.text = String(format: Localize.string("balancelog_summary_start_date"), self.viewModel.from!.toDateString())
+                self.beginDateLabel.text = String(format: Localize.string("balancelog_summary_start_date"), self.viewModel.from.toDateString())
                 self.beginAmountLabel.text = String(format: Localize.string("balancelog_summary_start_amount"), summary.previousBalance)
-                self.endDateLabel.text = Date().convertdateToUTC() <= self.viewModel.to!.convertdateToUTC() ?
+                self.endDateLabel.text = Date().convertdateToUTC() <= self.viewModel.to.convertdateToUTC() ?
                 String(format: Localize.string("balancelog_summary_end_date"), Date().toDateString()) :
-                String(format: Localize.string("balancelog_summary_end_date"), self.viewModel.to!.toDateString())
-                self.endAmountLabel.text = Date().convertdateToUTC() <= self.viewModel.to!.convertdateToUTC() ? Localize.string("balancelog_summary_end_date_is_today") : String(format: Localize.string("balancelog_summary_end_amount"), summary.afterBalance)
+                String(format: Localize.string("balancelog_summary_end_date"), self.viewModel.to.toDateString())
+                self.endAmountLabel.text = Date().convertdateToUTC() <= self.viewModel.to.convertdateToUTC() ? Localize.string("balancelog_summary_end_date_is_today") : String(format: Localize.string("balancelog_summary_end_amount"), summary.afterBalance)
             })
             .map({summary -> [LogSummaryModel] in
                 var logSummary: [LogSummaryModel] = []
@@ -53,7 +53,7 @@ class TransactionLogSummaryViewController: LobbyViewController {
                 cell.removeBorder()
                 cell.typeLabel.text = element.typeName
                 cell.amountLabel.text = element.amount.formatString(sign: .signed_)
-                cell.amountLabel.textColor = element.amount.isPositive ? .textSuccessedGreen : .textPrimaryDustyGray
+                cell.amountLabel.textColor = element.amount.isPositive ? .green6AB336 : .gray9B9B9B
                 cell.addBorder()
                 return cell
             }.disposed(by: disposeBag)

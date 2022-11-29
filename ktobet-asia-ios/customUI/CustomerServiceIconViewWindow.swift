@@ -15,7 +15,7 @@ class CustomerServiceIconViewWindow: UIWindow {
         super.init(frame: frame)
         self.viewModel = viewModel
         backgroundView = UIView()
-        backgroundView.backgroundColor = .yellowFull
+        backgroundView.backgroundColor = .yellowFFD500
         backgroundView.frame.size = CGSize(width: 56, height: 56)
         backgroundView.roundCorners(corners: .allCorners, radius: backgroundView.frame.width / 2)
         addSubview(backgroundView)
@@ -28,7 +28,7 @@ class CustomerServiceIconViewWindow: UIWindow {
         unReadNumberLabel.font = UIFont(name: "PingFangSC-Semibold", size: 12)
         unReadNumberLabel.roundCorners(corners: .allCorners, radius: unReadNumberLabel.frame.width / 2)
         addSubview(unReadNumberLabel)
-        unReadNumberLabel.backgroundColor = .red
+        unReadNumberLabel.backgroundColor = .redF20000
         windowLevel = UIWindow.Level.alert + 1
         
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(dragga)))

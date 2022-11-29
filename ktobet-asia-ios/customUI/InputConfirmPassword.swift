@@ -36,9 +36,9 @@ class InputConfirmPassword : UIView{
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        backgroundColor = UIColor.inputSelectedTundoraGray
+        backgroundColor = UIColor.gray454545
         labTitle.font = UIFont(name: "PingFangSC-Regular", size: 12)
-        labTitle.textColor = UIColor.textPrimaryDustyGray
+        labTitle.textColor = UIColor.gray9B9B9B
         labTitle.backgroundColor = .clear
         
         labSubTitle.font = UIFont(name: "PingFangSC-Regular", size: 16)
@@ -53,7 +53,7 @@ class InputConfirmPassword : UIView{
         textContent.isSecureTextEntry = true
         textContent.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
         
-        underline.backgroundColor = UIColor.orangeFull
+        underline.backgroundColor = UIColor.orangeFF8000
         underline.isHidden = true
         
         addSubview(labTitle)
@@ -83,7 +83,7 @@ class InputConfirmPassword : UIView{
             self.labSubTitle.frame = position.subTitle
             self.textContent.frame = position.content
             self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-            self.backgroundColor = self.getAllFocus() ? UIColor.inputSelectedTundoraGray : UIColor.inputBaseMineShaftGray
+            self.backgroundColor = self.getAllFocus() ? UIColor.gray454545 : UIColor.gray333333
         }
         if firstPosition{
             changePosition()
@@ -228,9 +228,9 @@ extension InputConfirmPassword : InputPasswordDelegate{
         isFocus = focus
         self.backgroundColor = {
             guard self.getAllFocus() else {
-                return UIColor.inputBaseMineShaftGray
+                return UIColor.gray333333
             }
-            return UIColor.inputSelectedTundoraGray
+            return UIColor.gray454545
         }()
     }
     func shouldHidePassword(_ hide: Bool){

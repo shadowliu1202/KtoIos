@@ -52,7 +52,7 @@ class LevelPrivilegeViewController: LobbyViewController {
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("level_levelprivilege"))
         dataBinding()
         
-        headerView.applyGradient(horizontal: [UIColor.yellowFull.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor])
+        headerView.applyGradient(horizontal: [UIColor.yellowFFD500.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor])
         progress.borderWidth = 1
         progress.bordersColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
         progress.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2)

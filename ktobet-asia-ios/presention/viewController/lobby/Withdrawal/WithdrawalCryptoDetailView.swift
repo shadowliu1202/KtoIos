@@ -37,17 +37,17 @@ struct WithdrawalCryptoDetailView: View {
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(Localize.string("withdrawal_detail_title"))
-                        .foregroundColor(Color(UIColor.whiteFull))
+                        .foregroundColor(Color(UIColor.whitePure))
                         .font(Font.custom("PingFangSC-Semibold", size: 24))
                         .padding(EdgeInsets(top: 78, leading: 0, bottom: 30, trailing: 0))
                     
                     Text("\(Localize.string("withdrawal_title")) - \(data.requestCryptoAmount.cryptoAmount.simpleName)")
-                        .foregroundColor(Color(UIColor.whiteFull))
+                        .foregroundColor(Color(UIColor.whitePure))
                         .font(Font.custom("PingFangSC-Medium", size: 16))
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
                     
                     Text(Localize.string("common_cps_incomplete_field_placeholder_hint"))
-                        .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                        .foregroundColor(Color(UIColor.gray9B9B9B))
                         .font(Font.custom("PingFangSC-Regular", size: 14))
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -55,7 +55,7 @@ struct WithdrawalCryptoDetailView: View {
                 
                 Divider()
                     .frame(height: 1)
-                    .background(Color(UIColor.dividerCapeCodGray2))
+                    .background(Color(UIColor.gray3C3E40))
                 
                 VStack(alignment: .leading, spacing: 0) {
                     WithdrawalCryptoDetailRowView(title: Localize.string("balancelog_detail_id"), content: data.record.displayId, isShowBottomDivider: true)
@@ -80,14 +80,14 @@ struct WithdrawalCryptoDetailView: View {
                 Spacer(minLength: 56)
                 Divider()
                     .frame(height: 1)
-                    .background(Color(UIColor.dividerCapeCodGray2))
+                    .background(Color(UIColor.gray3C3E40))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .offset(x: 0, y: -60)
             
             Spacer(minLength: 96)
         }
-        .background(Color(.black_two))
+        .background(Color(.black131313))
         .edgesIgnoringSafeArea([.leading, .trailing, .bottom])
     }
     
@@ -95,7 +95,7 @@ struct WithdrawalCryptoDetailView: View {
         VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 Text(Localize.string("common_cps_apply_info"))
-                    .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                    .foregroundColor(Color(UIColor.gray9B9B9B))
                     .font(Font.custom("PingFangSC-Medium", size: 16))
                     .padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
                 ForEach(applyInfoData.indices){ index in
@@ -105,15 +105,15 @@ struct WithdrawalCryptoDetailView: View {
                 Spacer().frame(height: 16)
                 Divider()
                     .frame(height: 1)
-                    .background(Color(UIColor.dividerCapeCodGray2))
+                    .background(Color(UIColor.gray3C3E40))
                 
                 Text(Localize.string("common_cps_final_info"))
-                    .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                    .foregroundColor(Color(UIColor.gray9B9B9B))
                     .font(Font.custom("PingFangSC-Medium", size: 16))
                     .padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
                 if TransactionStatus.approved == data.record.transactionStatus {
                     ForEach(finalInfoData.indices){ index in
-                        WithdrawalCryptoDetailRowView(title: finalInfoData[index].title, content: finalInfoData[index].content, isShowBottomDivider: false, contentColor: index == 0 ? Color(UIColor.alert) : Color(.whiteFull))
+                        WithdrawalCryptoDetailRowView(title: finalInfoData[index].title, content: finalInfoData[index].content, isShowBottomDivider: false, contentColor: index == 0 ? Color(UIColor.orangeFF8000) : Color(.whitePure))
                     }
                 } else {
                     ForEach(finalInfoData.indices){ index in
@@ -124,12 +124,12 @@ struct WithdrawalCryptoDetailView: View {
                 Spacer().frame(height: 16)
             }
             .padding(.horizontal, 16)
-            .border(Color(UIColor.dividerCapeCodGray2), width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+            .border(Color(UIColor.gray3C3E40), width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
             
             Spacer().frame(height: 16)
             Divider()
                 .frame(height: 1)
-                .background(Color(UIColor.dividerCapeCodGray2))
+                .background(Color(UIColor.gray3C3E40))
         }
         .padding(.horizontal, 30)
     }
@@ -137,7 +137,7 @@ struct WithdrawalCryptoDetailView: View {
     var hashId: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(Localize.string("common_cps_hash_id"))
-                .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                .foregroundColor(Color(UIColor.gray9B9B9B))
                 .font(Font.custom("PingFangSC-Regular", size: 12))
             
             Spacer().frame(height: 2)
@@ -149,37 +149,37 @@ struct WithdrawalCryptoDetailView: View {
                     NavigationManagement.sharedInstance.pushViewController(vc: depositCryptoViewController)
                 }) {
                     Text(Localize.string("common_cps_submit_hash_id_to_complete"))
-                        .foregroundColor(Color(UIColor.redForDarkFull))
+                        .foregroundColor(Color(UIColor.redF20000))
                         .font(Font.custom("PingFangSC-Regular", size: 16))
                         .underline()
                 }
             } else {
                 Text(data.hashId.isEmpty ? "-" : data.hashId)
-                    .foregroundColor(Color(UIColor.whiteFull))
+                    .foregroundColor(Color(UIColor.whitePure))
                     .font(Font.custom("PingFangSC-Regular", size: 16))
             }
             
             Spacer().frame(height: 8.5)
             Divider()
                 .frame(height: 1)
-                .background(Color(UIColor.dividerCapeCodGray2))
+                .background(Color(UIColor.gray3C3E40))
         }
     }
     
     var remark: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(Localize.string("common_remark"))
-                .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                .foregroundColor(Color(UIColor.gray9B9B9B))
                 .font(Font.custom("PingFangSC-Regular", size: 12))
             
             if !remarkContent.isEmpty {
                 ForEach(remarkContent.indices) { index in
                     Text(remarkContent[index].date)
-                        .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                        .foregroundColor(Color(UIColor.gray9B9B9B))
                         .font(Font.custom("PingFangSC-Regular", size: 12))
                     
                     Text(remarkContent[index].content)
-                        .foregroundColor(Color(UIColor.whiteFull))
+                        .foregroundColor(Color(UIColor.whitePure))
                         .font(Font.custom("PingFangSC-Regular", size: 16))
                 }
             }

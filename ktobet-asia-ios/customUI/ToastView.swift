@@ -4,7 +4,7 @@ import UIKit
 class ToastView: UIView {
     @IBOutlet private weak var labStatusTip: UILabel!
     @IBOutlet private weak var imgStatusTip : UIImageView!
-    private var bgColor = UIColor.toastBackgroundGray
+    private var bgColor = UIColor.black2B2B2B
     private var shadowLayer: CAShapeLayer!
     var xibView: UIView!
     

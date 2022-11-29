@@ -23,13 +23,13 @@ struct textRowView: View {
     
     var body: some View {
         Text(title)
-            .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+            .foregroundColor(Color(UIColor.gray9B9B9B))
             .font(Font.custom("PingFangSC-Regular", size: 12))
         Spacer().frame(height: 2)
         
         if !isRemark {
             Text(content)
-                .foregroundColor(Color(UIColor.whiteFull))
+                .foregroundColor(Color(UIColor.whitePure))
                 .font(Font.custom("PingFangSC-Regular", size: 16))
             if isFlooting && PaymentStatus.floating == data?.log.status {
                 Spacer().frame(height: 2)
@@ -39,7 +39,7 @@ struct textRowView: View {
                     NavigationManagement.sharedInstance.pushViewController(vc: depositCryptoViewController)
                 }) {
                     Text(Localize.string("common_cps_submit_hash_id_to_complete"))
-                        .foregroundColor(Color(UIColor.redForDarkFull))
+                        .foregroundColor(Color(UIColor.redF20000))
                         .font(Font.custom("PingFangSC-Regular", size: 16))
                         .underline()
                 }
@@ -49,13 +49,13 @@ struct textRowView: View {
                 let histories: [UpdateHistory] = data.updateHistories
                 ForEach(0..<histories.count, id: \.self) { index in
                     Text(data.log.updateDate.toDateTimeString())
-                        .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                        .foregroundColor(Color(UIColor.gray9B9B9B))
                         .font(Font.custom("PingFangSC-Regular", size: 12))
                     Spacer().frame(height: 2)
                     Text(histories[index].remarkLevel1 + " > " +
                          histories[index].remarkLevel2 + " > " +
                          histories[index].remarkLevel3)
-                        .foregroundColor(Color(UIColor.whiteFull))
+                        .foregroundColor(Color(UIColor.whitePure))
                         .font(Font.custom("PingFangSC-Regular", size: 16))
                     Spacer().frame(height: 18)
                 }
@@ -86,9 +86,9 @@ struct textRowView: View {
     
     func getFinalConentColor(group: Int, row: Int) -> Color {
         if group == 1 && row == 0 && finalContentString()?[row] != "0" {
-            return Color(UIColor.alert)
+            return Color(UIColor.orangeFF8000)
         } else {
-            return Color(UIColor.whiteFull)
+            return Color(UIColor.whitePure)
         }
     }
     
@@ -135,14 +135,14 @@ struct DepositCryptoDetailView: View {
                     Spacer()
                 }
                 Text(Localize.string("deposit_detail_title"))
-                    .foregroundColor(Color(UIColor.whiteFull))
+                    .foregroundColor(Color(UIColor.whitePure))
                     .font(Font.custom("PingFangSC-Semibold", size: 24))
                 Spacer().frame(height: 22)
                 Text("\(Localize.string("deposit_title")) - \(data?.processingMemo.request?.fromCrypto.simpleName ?? "")")
-                    .foregroundColor(Color(UIColor.whiteFull))
+                    .foregroundColor(Color(UIColor.whitePure))
                     .font(Font.custom("PingFangSC-Medium", size: 16))
                 Text(Localize.string("common_cps_incomplete_field_placeholder_hint"))
-                    .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                    .foregroundColor(Color(UIColor.gray9B9B9B))
                     .font(Font.custom("PingFangSC-Regular", size: 14))
             }.padding(.leading, 30).padding(.bottom, 24).padding(.trailing, 30)
             .navigationBarTitle("", displayMode: .inline)
@@ -155,14 +155,14 @@ struct DepositCryptoDetailView: View {
                                         SwiftUI.Image("Back")
                                     }
             )
-            Divider().frame(height: 1).background(Color(UIColor.dividerCapeCodGray2))
+            Divider().frame(height: 1).background(Color(UIColor.gray3C3E40))
             VStack(alignment: .leading) {
                 HStack {
                     Spacer()
                 }
                 ForEach(0 ..< 2) { index in
                     textRowView(title: titleStrings[index], content: contentStrings()?[index] ?? "", isFlooting: index == 1, data: data)
-                    Divider().frame(height: 1).background(Color(UIColor.dividerCapeCodGray2))
+                    Divider().frame(height: 1).background(Color(UIColor.gray3C3E40))
                 }
             }
             .padding(.leading, 30.0).padding(.trailing, 30)
@@ -175,11 +175,11 @@ struct DepositCryptoDetailView: View {
                     ForEach(0..<2) { groupIndex in
                         Spacer().frame(height: groupIndex == 1 ? 8 : 0)
                         Text(groupIndex == 0 ? Localize.string("common_cps_apply_info") : Localize.string("common_cps_final_info"))
-                            .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                            .foregroundColor(Color(UIColor.gray9B9B9B))
                             .font(Font.custom("PingFangSC-Medium", size: 16))
                         ForEach(0..<4) { i in
                             Text(groupIndex == 0 ? applyTitleStrings[i] : finalTitleString[i])
-                                .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                                .foregroundColor(Color(UIColor.gray9B9B9B))
                                 .font(Font.custom("PingFangSC-Regular", size: 12))
                             Text(textView.getTranctionInfoContent(group: groupIndex, row: i))
                                 .foregroundColor(textView.getFinalConentColor(group: groupIndex, row: i))
@@ -187,19 +187,19 @@ struct DepositCryptoDetailView: View {
                         }
                         
                         if groupIndex == 0 {
-                            Divider().frame(height: 1).background(Color(UIColor.dividerCapeCodGray2))
+                            Divider().frame(height: 1).background(Color(UIColor.gray3C3E40))
                         }
                     }
                 }
                 .padding(16).padding(.top, -8)
-                .border(Color(UIColor.dividerCapeCodGray2), width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                .border(Color(UIColor.gray3C3E40), width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
             }.padding(.leading, 30.0).padding(.trailing, 30)
             VStack(alignment: .leading) {
                 HStack {
                     Spacer()
                 }
                 ForEach(2 ..< 6) { index in
-                    Divider().frame(height: 1).background(Color(UIColor.dividerCapeCodGray2))
+                    Divider().frame(height: 1).background(Color(UIColor.gray3C3E40))
                     if index != 5 {
                         textRowView(title: titleStrings[index], content: contentStrings()?[index] ?? "")
                     } else {
@@ -208,10 +208,10 @@ struct DepositCryptoDetailView: View {
                 }
             }
             .padding(.leading, 30.0).padding(.trailing, 30)
-            Divider().frame(height: 1).background(Color(UIColor.dividerCapeCodGray2))
+            Divider().frame(height: 1).background(Color(UIColor.gray3C3E40))
             Spacer().frame(height: 96)
         }
-        .background(Color(UIColor.black_two).edgesIgnoringSafeArea(.all))
+        .background(Color(UIColor.black131313).edgesIgnoringSafeArea(.all))
     }
     
     private func contentStrings() -> [String]? {

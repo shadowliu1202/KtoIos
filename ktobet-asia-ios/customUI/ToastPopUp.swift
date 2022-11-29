@@ -7,7 +7,7 @@ class ToastPopUp: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.init(name: "PingFangSC-Semibold", size: 16)
-        label.textColor = UIColor.whiteFull
+        label.textColor = UIColor.whitePure
         return label
     }()
     override var intrinsicContentSize: CGSize {
@@ -16,7 +16,7 @@ class ToastPopUp: UIView {
     
     init(icon: UIImage, text: String) {
         super.init(frame: .zero)
-        self.backgroundColor = UIColor.black80
+        self.backgroundColor = UIColor.black131313.withAlphaComponent(0.8)
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 8
         msgLabel.text = text

@@ -4,14 +4,14 @@ struct WithdrawalCryptoDetailRowView: View {
     var title = ""
     var content = ""
     var isShowBottomDivider = true
-    var contentColor: Color = Color(.whiteFull)
+    var contentColor: Color = Color(.whitePure)
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Spacer().frame(height: 8.5)
             
             Text(title)
-                .foregroundColor(Color(UIColor.textPrimaryDustyGray))
+                .foregroundColor(Color(UIColor.gray9B9B9B))
                 .font(Font.custom("PingFangSC-Regular", size: 12))
             
             Spacer().frame(height: 2)
@@ -24,10 +24,10 @@ struct WithdrawalCryptoDetailRowView: View {
                 Spacer().frame(height: 8.5)
                 Divider()
                     .frame(height: 1)
-                    .background(Color(UIColor.dividerCapeCodGray2))
+                    .background(Color(UIColor.gray3C3E40))
             }
         }
-        .background(Color(.black_two))
+        .background(Color(.black131313))
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

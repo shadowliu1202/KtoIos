@@ -41,13 +41,13 @@ class CryptoAccountDetailViewController: LobbyViewController {
     private func alertDelete() {
         Alert.shared.show(Localize.string("withdrawal_bankcard_delete_confirm_title"), Localize.string("withdrawal_bankaccountdetail_modal_content"), confirm: {
             self.deleteAccount()
-        }, cancel: { }, tintColor: UIColor.red)
+        }, cancel: { }, tintColor: UIColor.redF20000)
     }
     
     private func alertVerifiedDelete() {
         Alert.shared.show(Localize.string("withdrawal_bankcard_delete_confirm_title"), Localize.string("cps_crypto_delete_hint"), confirm: {
             self.deleteAccount()
-        }, cancel: { }, tintColor: UIColor.red)
+        }, cancel: { }, tintColor: UIColor.redF20000)
     }
     
     private func deleteAccount() {

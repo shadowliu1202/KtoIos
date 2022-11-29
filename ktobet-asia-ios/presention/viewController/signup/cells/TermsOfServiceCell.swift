@@ -21,8 +21,8 @@ class TermsOfServiceCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        labTitle.textColor = UIColor.black_two
-        labContent.textColor = UIColor.black_two
+        labTitle.textColor = UIColor.black131313
+        labContent.textColor = UIColor.black131313
         
     }
 

@@ -53,13 +53,13 @@ class TransactionLogDetailViewController: LobbyViewController {
         let naviLabel = UILabel()
         naviLabel.textAlignment = .left
         naviLabel.font = UIFont.init(name: "PingFangSC-Semibold", size: 24)
-        naviLabel.textColor = UIColor.whiteFull
+        naviLabel.textColor = UIColor.whitePure
         naviLabel.text = Localize.string("common_transaction")
         
         let titleLabel = UILabel()
         titleLabel.textAlignment = .left
         titleLabel.font = UIFont.init(name: "PingFangSC-Medium", size: 16)
-        titleLabel.textColor = UIColor.whiteFull
+        titleLabel.textColor = UIColor.whitePure
         titleLabel.text = param?.title
         titleLabel.numberOfLines = 0
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
@@ -158,7 +158,7 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
                     textView.isScrollEnabled = false
                     textView.textContainerInset = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
                     var txt = AttribTextHolder(text: displayId)
-                        .addAttr((text: displayId, type: .color, UIColor.whiteFull))
+                        .addAttr((text: displayId, type: .color, UIColor.whitePure))
                         .addAttr((text: displayId, type: .font, UIFont.init(name: "PingFangSC-Regular", size: 16) as Any))
                     if displayId.isValidRegex(format: .numbers) {
                         txt = txt
@@ -295,7 +295,7 @@ class LogDetailRowItem {
     private(set) var isSmartBet: Bool!
     var balancelogAmount: String { bean.amount.formatString(sign: .signed_) }
     var amountColor: UIColor {
-        return bean.amount.isPositive ? .textSuccessedGreen : .whiteFull
+        return bean.amount.isPositive ? .green6AB336 : .whitePure
     }
     var balancelogAfterAmount: String { bean.afterBalance.description() }
     var dateTime: String { bean.date.toDateTimeFormatString() }

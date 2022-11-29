@@ -72,8 +72,8 @@ class SideBarViewController: LobbyViewController {
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.whiteFull]
-        appearance.backgroundColor = UIColor.backgroundSidebarMineShaftGray90
+        appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.whitePure]
+        appearance.backgroundColor = UIColor.gray202020.withAlphaComponent(0.9)
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.navigationController?.navigationBar.standardAppearance = appearance
     }
@@ -213,7 +213,7 @@ class SideBarViewController: LobbyViewController {
     
     fileprivate func initUI() {
         let navigationBar = navigationController?.navigationBar
-        navigationBar?.barTintColor = UIColor.backgroundSidebarMineShaftGray
+        navigationBar?.barTintColor = UIColor.gray202020
         navigationBar?.isTranslucent = false
         navigationBar?.setBackgroundImage(UIImage(), for: .default)
         navigationBar?.shadowImage = UIImage()
@@ -386,7 +386,7 @@ class SideBarViewController: LobbyViewController {
             case .withdraw:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Withdrawal", viewControllerId: "WithdrawalNavigation")
             case .deposit:
-                NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
+                NavigationManagement.sharedInstance.goToDeposit()
             case .callService:
                 NavigationManagement.sharedInstance.goTo(storyboard: "CustomService", viewControllerId: "CustomerServiceMainNavigationController")
             }

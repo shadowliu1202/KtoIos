@@ -299,10 +299,10 @@ class TwoItemView: UIView {
     func setUp(_ data: EditableContent<String?>, _ callback: (() -> Void)?) {
         if let content = data.content, !content.isEmpty {
             self.valueLabel.text = content
-            self.valueLabel.textColor = .textPrimaryDustyGray
+            self.valueLabel.textColor = .gray9B9B9B
         } else {
             self.valueLabel.text = Localize.string("profile_field_not_set")
-            self.valueLabel.textColor = .complementary
+            self.valueLabel.textColor = .yellowFFD500
         }
         self.icon.isHidden = !data.editable
         if data.editable {

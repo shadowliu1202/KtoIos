@@ -5,7 +5,7 @@ public enum BorderSide: Int {
 }
 
 extension UIView {
-    func addBorder(_ side: BorderSide = .top, size: CGFloat = 1, color: UIColor = .dividerCapeCodGray2, rightConstant: CGFloat = 0, leftConstant: CGFloat = 0) {
+    func addBorder(_ side: BorderSide = .top, size: CGFloat = 1, color: UIColor = .gray3C3E40, rightConstant: CGFloat = 0, leftConstant: CGFloat = 0) {
         if side == .around {
             self.borderWidth = size
             self.bordersColor = color

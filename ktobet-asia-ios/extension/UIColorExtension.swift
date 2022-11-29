@@ -27,126 +27,38 @@ extension UIColor {
 }
 
 extension UIColor {
-    @nonobjc class var iconWhite: UIColor {
-        return UIColor(white: 230.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var backgroundSidebarMineShaftGray: UIColor {
-        return UIColor(white: 32.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var backgroundSidebarMineShaftGray90: UIColor {
-        return UIColor(white: 32.0 / 255.0, alpha: 0.9)
-    }
-    @nonobjc class var yellowFull: UIColor {
-        return UIColor(red: 1.0, green: 213.0 / 255.0, blue: 0.0, alpha: 1.0)
-    }
-    @nonobjc class var complementary: UIColor {
-        return UIColor(red: 254/255, green: 213/255, blue: 0/255, alpha: 1)
-    }
-    @nonobjc class var orangeFull: UIColor {
-        return UIColor(red: 1.0, green: 128.0 / 255.0, blue: 0.0, alpha: 1.0)
-    }
-    @nonobjc class var inputSelectedTundoraGray: UIColor {
-        return UIColor(white: 69.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var inputBaseMineShaftGray: UIColor {
-        return UIColor(white: 51.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var textPrimaryDustyGray: UIColor {
-        return UIColor(white: 155.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var whiteFull: UIColor {
-        return UIColor(white: 1.0, alpha: 1.0)
-    }
-    @nonobjc class var redForLightFull: UIColor {
-        return UIColor(red: 217.0 / 255.0, green: 1.0 / 255.0, blue: 1.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var textSecondaryScorpionGray: UIColor {
-        return UIColor(white: 89.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var white15: UIColor {
-        return UIColor(white: 1.0, alpha: 0.15)
-    }
-    @nonobjc class var white30: UIColor {
-        return UIColor(white: 1.0, alpha: 0.3)
-    }
-    @nonobjc class var white40: UIColor {
-        return UIColor(white: 1.0, alpha: 0.4)
-    }
-    @nonobjc class var white50: UIColor {
-        return UIColor(white: 1.0, alpha: 0.5)
-    }
-    @nonobjc class var toastIconSuccessedGreen: UIColor {
-        return UIColor(red: 17.0 / 255.0, green: 103.0 / 255.0, blue: 57.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var toastBackgroundGray: UIColor {
-        return UIColor(white: 43.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var black_two: UIColor {
-        return UIColor(red: 19.0/255.0, green: 19.0/255.0, blue: 19.0/255.0, alpha: 1.0)
-    }
-    @nonobjc class var black_two90: UIColor {
-        return UIColor(red: 19.0/255.0, green: 19.0/255.0, blue: 19.0/255.0, alpha: 0.9)
-    }
-    @nonobjc class var black80: UIColor {
-        return UIColor(white: 19.0 / 255.0, alpha: 0.8)
-    }
-    @nonobjc class var backgroundTabsGray: UIColor {
-        return UIColor(red: 99.0 / 255.0, green: 99.0 / 255.0, blue: 102.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var backgroundTabsGray2: UIColor {
-        return UIColor(red: 118.0 / 255.0, green: 118.0 / 255.0, blue: 128.0 / 255.0, alpha: 0.12)
-    }
-    @nonobjc class var yellow50: UIColor {
-        return UIColor(red: 1.0, green: 213.0 / 255.0, blue: 0.0, alpha: 0.5)
-    }
-    @nonobjc class var backgroundChatWindowMineShaftG2: UIColor {
-        return UIColor(white: 48.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var iconBlack2: UIColor {
-        return UIColor(white: 0.0, alpha: 1.0)
-    }
-    @nonobjc class var redForDark502: UIColor {
-        return UIColor(red: 242.0 / 255.0, green: 0.0, blue: 0.0, alpha: 0.5)
-    }
-    @nonobjc class var iconGray: UIColor {
-        return UIColor(white: 92.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var dividerCapeCodGray2: UIColor {
-        return UIColor(red: 60.0 / 255.0, green: 62.0 / 255.0, blue: 64.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var backgroundListCodGray2: UIColor {
-        return UIColor(white: 26.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var black902: UIColor {
-        return UIColor(white: 19.0 / 255.0, alpha: 0.9)
-    }
-    @nonobjc class var yellow302: UIColor {
-        return UIColor(red: 1.0, green: 213.0 / 255.0, blue: 0.0, alpha: 0.3)
-    }
-    @nonobjc class var textSuccessedGreen: UIColor {
-        return UIColor(red: 106.0 / 255.0, green: 179.0 / 255.0, blue: 54.0 / 255.0, alpha: 1.0)
-    }
-    @nonobjc class var red: UIColor {
-        return UIColor(red: 242.0 / 255.0, green: 0.0, blue: 0.0, alpha: 1.0)
-    }
-    @nonobjc class var redForDark50230: UIColor {
-        return UIColor(red: 242.0 / 255.0, green: 0.0, blue: 0.0, alpha: 0.3)
-    }
-    @nonobjc class var redForDarkFull: UIColor {
-      return UIColor(red: 242.0 / 255.0, green: 0.0, blue: 0.0, alpha: 1.0)
-    }
-    @nonobjc class var alert: UIColor {
-        return UIColor(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 0.0, alpha: 1.0)
-    }
-    @nonobjc class var primaryRed: UIColor {
-        return UIColor(red: 0.949, green: 0, blue: 0, alpha: 1)
-    }
+    static let whitePure: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    static let whiteE6E6E6: UIColor = #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1)
     
-    static let yellowEA9E16: UIColor = #colorLiteral(red: 0.9176470588, green: 0.6196078431, blue: 0.0862745098, alpha: 1)
-    
-    static let grayC8D4DE: UIColor = #colorLiteral(red: 0.8232876658, green: 0.8638820052, blue: 0.8960149288, alpha: 1)
+    static let blackPure: UIColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+    static let black131313: UIColor = #colorLiteral(red: 0.07450980392, green: 0.07450980392, blue: 0.07450980392, alpha: 1)
+    static let black1A1A1A: UIColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 1)
+    static let black2B2B2B: UIColor = #colorLiteral(red: 0.168627451, green: 0.168627451, blue: 0.168627451, alpha: 1)
     
     static let gray131313: UIColor = #colorLiteral(red: 0.07450980392, green: 0.07450980392, blue: 0.07450980392, alpha: 1)
+    static let gray202020: UIColor = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.1254901961, alpha: 1)
+    static let gray454545: UIColor = #colorLiteral(red: 0.2705882353, green: 0.2705882353, blue: 0.2705882353, alpha: 1)
+    static let gray333333: UIColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
+    static let gray979797: UIColor = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
+    static let gray595959: UIColor = #colorLiteral(red: 0.3490196078, green: 0.3490196078, blue: 0.3490196078, alpha: 1)
+    static let gray636366: UIColor = #colorLiteral(red: 0.3882352941, green: 0.3882352941, blue: 0.4, alpha: 1)
+    static let gray303030: UIColor = #colorLiteral(red: 0.1882352941, green: 0.1882352941, blue: 0.1882352941, alpha: 1)
+    static let gray5C5C5C: UIColor = #colorLiteral(red: 0.3607843137, green: 0.3607843137, blue: 0.3607843137, alpha: 1)
+    static let gray3C3E40: UIColor = #colorLiteral(red: 0.2352941176, green: 0.2431372549, blue: 0.2509803922, alpha: 1)
+    static let gray9B9B9B: UIColor = #colorLiteral(red: 0.6078431373, green: 0.6078431373, blue: 0.6078431373, alpha: 1)
+    static let grayC8D4DE: UIColor = #colorLiteral(red: 0.8232876658, green: 0.8638820052, blue: 0.8960149288, alpha: 1)
+    static let grayF2F2F2: UIColor = #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)
+    
+    static let redF20000: UIColor = #colorLiteral(red: 0.9490196078, green: 0, blue: 0, alpha: 1)
+    static let redD90101: UIColor = #colorLiteral(red: 0.8509803922, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
+
+    static let orangeFF8000: UIColor = #colorLiteral(red: 1, green: 0.5019607843, blue: 0, alpha: 1)
+    
+    static let yellowFFD500: UIColor = #colorLiteral(red: 1, green: 0.8352941176, blue: 0, alpha: 1)
+    static let yellowEA9E16: UIColor = #colorLiteral(red: 0.9176470588, green: 0.6196078431, blue: 0.0862745098, alpha: 1)
+    
+    static let green116739: UIColor = #colorLiteral(red: 0.06666666667, green: 0.4039215686, blue: 0.2235294118, alpha: 1)
+    static let green6AB336: UIColor = #colorLiteral(red: 0.4156862745, green: 0.7019607843, blue: 0.2117647059, alpha: 1)
 }
 
 extension UIColor {

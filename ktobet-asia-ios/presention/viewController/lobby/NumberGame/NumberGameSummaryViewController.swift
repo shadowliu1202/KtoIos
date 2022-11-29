@@ -40,8 +40,8 @@ class NumberGameSummaryViewController: LobbyViewController {
         segment.setTitle(Localize.string("product_new_bets"), forSegmentAt: 0)
         segment.setTitle(Localize.string("product_unsettled_bets"), forSegmentAt: 1)
         segment.setTitle(Localize.string("product_settled_bets"), forSegmentAt: 2)
-        segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.whiteFull], for: .selected)
-        segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.whiteFull], for: .normal)
+        segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.whitePure], for: .selected)
+        segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.whitePure], for: .normal)
     }
     
     private func bindData() {

@@ -30,7 +30,7 @@ class AboutKTOViewController: LobbyViewController {
      private func setKtoWebLinkTextView() {
          let link = Localize.string("license_ktoglobal_link")
          let txt = AttribTextHolder(text: link)
-             .addAttr((text: link, type: .color, UIColor.redForLightFull))
+             .addAttr((text: link, type: .color, UIColor.redD90101))
              .addAttr((text: link, type: .link(true), link))
          txt.setTo(textView: webLink)
          webLink.textContainerInset = .zero
@@ -41,7 +41,7 @@ class AboutKTOViewController: LobbyViewController {
         viewModel.getCustomerServiceEmail.subscribe(onSuccess: { [unowned self] in
             let csEmail = Localize.string("common_cs_email", "\($0)")
             let txt = AttribTextHolder(text: csEmail)
-                .addAttr((text: csEmail, type: .color, UIColor.redForLightFull))
+                .addAttr((text: csEmail, type: .color, UIColor.redD90101))
                 .addAttr((text: $0, type: .link(true), URL(string:"mailto:\($0)") as Any))
             txt.setTo(textView: self.csLink)
         }, onError: { [weak self] in

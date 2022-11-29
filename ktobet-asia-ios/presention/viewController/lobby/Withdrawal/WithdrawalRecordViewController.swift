@@ -136,7 +136,7 @@ extension WithdrawalRecordViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clear
         let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = UIColor.whiteFull
+        header.textLabel?.textColor = UIColor.whitePure
         header.textLabel?.font = UIFont(name: "PingFangSC-Medium", size: 16.0)
     }
     

@@ -132,11 +132,11 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
 }
 
 extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element == NSArray {
-    func asNSArray<T>() -> SingleWrapper<T> where T: Any {
+    func asWrapper<T>() -> SingleWrapper<T> where T: Any {
         SingleWrapper(inner: SingleByEmitterKt.single { emitter in
             let swiftDisposable = self.subscribe { array in
                 emitter.onSuccess(value: array)
-            } onError: { error in
+            } onFailure: { error in
                 emitter.onError(error: ExceptionFactory.create(error))
             }
             emitter.setDisposable(disposable: DisposableWrapper.init(dispoable: swiftDisposable))

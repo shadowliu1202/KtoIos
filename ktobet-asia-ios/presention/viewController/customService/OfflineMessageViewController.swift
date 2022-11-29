@@ -28,7 +28,7 @@ class OfflineMessageViewController: CommonViewController {
         emailInputText.maxLength = Account.Email.companion.MAX_LENGTH
         messageContent.delegate = self
         messageContent.text = Localize.string("customerservice_offline_survey_hint")
-        messageContent.textColor = UIColor.textPrimaryDustyGray
+        messageContent.textColor = UIColor.gray9B9B9B
         messageContent.textContainer.lineFragmentPadding = 0
         messageContent.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
     }
@@ -102,9 +102,9 @@ extension OfflineMessageViewController: BarButtonItemable {
 
 extension OfflineMessageViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.textPrimaryDustyGray {
+        if textView.textColor == UIColor.gray9B9B9B {
             textView.text = nil
-            textView.textColor = UIColor.whiteFull
+            textView.textColor = UIColor.whitePure
         }
     }
     
@@ -112,7 +112,7 @@ extension OfflineMessageViewController: UITextViewDelegate {
         viewModel.offlineSurveyContent.accept(textView.text)
         if textView.text.isEmpty {
             textView.text = Localize.string("customerservice_offline_survey_hint")
-            textView.textColor = UIColor.textPrimaryDustyGray
+            textView.textColor = UIColor.gray9B9B9B
         }
     }
     

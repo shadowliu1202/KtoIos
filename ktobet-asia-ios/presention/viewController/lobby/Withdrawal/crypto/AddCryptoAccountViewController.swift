@@ -91,7 +91,7 @@ class AddCryptoAccountViewController: LobbyViewController {
             self.accountAddressTextField.setCorner(topCorner: true, bottomCorner: isValid)
             self.accountAddressView.setViewCorner(topCorner: true, bottomCorner: isValid)
             if !isValid {
-                self.accountAddressView.addBorder(.bottom, color: UIColor.orangeFull)
+                self.accountAddressView.addBorder(.bottom, color: UIColor.orangeFF8000)
             } else {
                 self.accountAddressView.removeBorder(.bottom)
             }
@@ -103,7 +103,7 @@ class AddCryptoAccountViewController: LobbyViewController {
             Logger.shared.info("submitButton.rx.tap", tag: "KTO-876")
             guard let `self` = self else { return }
             if self.bankCardCount >= Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT {
-                Alert.shared.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT), confirm: nil, cancel: nil, tintColor: UIColor.red)
+                Alert.shared.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT), confirm: nil, cancel: nil, tintColor: UIColor.redF20000)
             } else {
                 Logger.shared.info("viewModel.addCryptoBankCard()", tag: "KTO-876")
                 self.viewModel.addCryptoBankCard().subscribe(onSuccess: { (data) in
@@ -121,7 +121,7 @@ class AddCryptoAccountViewController: LobbyViewController {
     
     override func handleErrors(_ error: Error) {
         if error is KtoWithdrawalAccountExist {
-            Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("cps_bank_card_exist"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+            Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("cps_bank_card_exist"), confirm: nil, cancel: nil, tintColor: UIColor.redF20000)
         } else {
             super.handleErrors(error)
         }
@@ -153,7 +153,7 @@ class AddCryptoAccountViewController: LobbyViewController {
                     self?.accountAddressTextField.adjustPosition()
                 }
             }  else {
-                Alert.shared.show(Localize.string("cps_qr_code_read_fail"), Localize.string("cps_qr_code_read_fail_content"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+                Alert.shared.show(Localize.string("cps_qr_code_read_fail"), Localize.string("cps_qr_code_read_fail_content"), confirm: nil, cancel: nil, tintColor: UIColor.redF20000)
 
             }
         }

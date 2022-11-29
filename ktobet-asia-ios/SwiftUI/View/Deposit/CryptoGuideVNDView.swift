@@ -19,7 +19,7 @@ struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
                             VStack(alignment: .leading, spacing: 16) {
                                 ForEach(guidance.links, id: \.self) { (guidanceLink: CryptoDepositGuidance.GuidanceLink) in
                                     Text(guidanceLink.title)
-                                        .customizedFont(fontWeight: .semibold, size: 14, color: .primaryForLight)
+                                        .localized(weight: .semibold, size: 14, color: .redD90101)
                                         .onTapGesture {
                                             openTour(guidanceLink.link)
                                         }
@@ -33,7 +33,7 @@ struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
                 .padding(.horizontal, 30)
             }
         }
-        .playerLocale(supportLocale)
+        .environment(\.playerLocale, supportLocale)
         .onAppear {
             viewModel.getCryptoGuidance()
         }
@@ -42,10 +42,10 @@ struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(Localize.string("cps_crypto_currency_guide_title"))
-                .customizedFont(fontWeight: .semibold, size: 24, color: .defaultGray)
+                .localized(weight: .semibold, size: 24, color: .gray131313)
      
             Text(Localize.string("cps_crypto_guidance_description"))
-                .customizedFont(fontWeight: .regular, size: 14, color: .defaultGray)
+                .localized(weight: .regular, size: 14, color: .gray131313)
         }
     }
     

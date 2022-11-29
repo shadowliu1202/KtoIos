@@ -30,7 +30,7 @@ class Alert: AlertProtocol {
     
     private var alertOutsideBackground: UIView = {
         let view = UIView(frame: UIWindow.key!.frame)
-        view.backgroundColor = .black80
+        view.backgroundColor = .black131313.withAlphaComponent(0.8)
         return view
     }()
 
@@ -60,8 +60,8 @@ class Alert: AlertProtocol {
                     cancel?()
                 }
 
-                cancelction.setValue(tintColor ?? UIColor.redForLightFull, forKey: "titleTextColor")
-                confirmAction.setValue(tintColor ?? UIColor.redForLightFull, forKey: "titleTextColor")
+                cancelction.setValue(tintColor ?? UIColor.redD90101, forKey: "titleTextColor")
+                confirmAction.setValue(tintColor ?? UIColor.redD90101, forKey: "titleTextColor")
                 alert.addAction(confirmAction)
 
                 if cancel != nil {

@@ -1,21 +1,20 @@
-
 import SwiftUI
 import CoreGraphics
 
-struct CustomizedDivider: View {
-    var color: Color = .primaryGray
+struct Separator: View {
+    var color: UIColor = .gray9B9B9B
     var lineWeight: CGFloat = 1
     
     var body: some View {
         Rectangle()
-            .foregroundColor(color)
+            .foregroundColor(.from(color))
             .frame(height: lineWeight)
     }
 }
 
-struct CustomizedDivider_Previews: PreviewProvider {
+struct Separator_Previews: PreviewProvider {
     static var previews: some View {
-        CustomizedDivider()
+        Separator()
             .previewLayout(.sizeThatFits)
     }
 }

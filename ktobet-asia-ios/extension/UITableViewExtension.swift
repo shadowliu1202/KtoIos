@@ -48,17 +48,17 @@ extension UITableView {
     
     func setHeaderFooterDivider(headerHeight: CGFloat = 30,
                                 headerColor: UIColor = UIColor.clear,
-                                headerDividerColor: UIColor = UIColor.dividerCapeCodGray2,
+                                headerDividerColor: UIColor = UIColor.gray3C3E40,
                                 footerHeight: CGFloat = 96,
                                 footerColor: UIColor = UIColor.clear,
-                                footerDividerColor: UIColor = UIColor.dividerCapeCodGray2) {
+                                footerDividerColor: UIColor = UIColor.gray3C3E40) {
         self.setHeader(headerHeight: headerHeight, headerColor: headerColor, headerDividerColor: headerDividerColor)
         self.setFooter(footerHeight: footerHeight, footerColor: footerColor, footerDividerColor: footerDividerColor)
         self.separatorColor = .clear
     }
     
     func setDivider(dividerInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0),
-                    dividerColor: UIColor = UIColor.dividerCapeCodGray2) {
+                    dividerColor: UIColor = UIColor.gray3C3E40) {
         self.separatorInset = dividerInset
         self.separatorStyle = .singleLine
         self.separatorColor = dividerColor
@@ -66,7 +66,7 @@ extension UITableView {
     
     private func setHeader(headerHeight: CGFloat = 30,
                            headerColor: UIColor = UIColor.clear,
-                           headerDividerColor: UIColor = UIColor.dividerCapeCodGray2) {
+                           headerDividerColor: UIColor = UIColor.gray3C3E40) {
         self.tableHeaderView = UIView(frame: CGRect.init(x: 0, y: 0, width: self.bounds.width, height: headerHeight))
         self.tableHeaderView?.backgroundColor = headerColor
         self.tableHeaderView?.addBorder(.bottom, color: headerDividerColor)
@@ -74,20 +74,20 @@ extension UITableView {
     
     private func setFooter(footerHeight: CGFloat = 96,
                            footerColor: UIColor = UIColor.clear,
-                           footerDividerColor: UIColor = UIColor.dividerCapeCodGray2) {
+                           footerDividerColor: UIColor = UIColor.gray3C3E40) {
         self.tableFooterView = UIView(frame: CGRect.init(x: 0, y: 0, width: self.bounds.width, height: footerHeight))
         self.tableFooterView?.backgroundColor = footerColor
         self.tableFooterView?.addBorder(.top, color: footerDividerColor)
     }
     
-    func addTopBorder(size: CGFloat = 1, color: UIColor = .dividerCapeCodGray2) {
+    func addTopBorder(size: CGFloat = 1, color: UIColor = .gray3C3E40) {
         if self.tableHeaderView == nil {
             self.tableHeaderView = UIView(frame: CGRect.init(x: 0, y: 0, width: self.bounds.width, height: 0))
         }
         self.tableHeaderView?.addBorder(.top, size: size, color: color)
     }
     
-    func addBottomBorder(size: CGFloat = 1, color: UIColor = .dividerCapeCodGray2) {
+    func addBottomBorder(size: CGFloat = 1, color: UIColor = .gray3C3E40) {
         if self.tableFooterView == nil {
             self.tableFooterView = UIView(frame: CGRect.init(x: 0, y: 0, width: self.bounds.width, height: 0))
         }

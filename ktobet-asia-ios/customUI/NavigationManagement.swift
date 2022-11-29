@@ -13,7 +13,7 @@ protocol Navigator {
     
     var viewController: UIViewController! { get set }
     var previousRootViewController: UIViewController? { get set }
-    var unwindNavigate: NotificationNavigate? { get set}
+    var unwindNavigate: NotificationNavigate? { get set }
     
     func addMenuToBarButtonItem(vc: UIViewController, title: String?)
     func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, title: String?)
@@ -25,6 +25,8 @@ protocol Navigator {
     func goToPreviousRootViewController()
     func goToSetDefaultProduct()
     func goTo(productType: ProductType, isMaintenance: Bool)
+    
+    func goToDeposit()
     
     func popViewController(_ completion: (() -> Void)?)
     func popViewController(_ completion: (() -> Void)?, to vc: UIViewController)
@@ -71,6 +73,12 @@ extension Navigator {
     func popViewController(_ completion: (() -> Void)? = nil) {
         popViewController(completion)
     }
+}
+
+enum BarItemType {
+    case back
+    case close
+    case none
 }
 
 class NavigationManagement: Navigator {
@@ -269,7 +277,7 @@ class NavigationManagement: Navigator {
     private func createTitleItem(title: String) -> UIBarButtonItem {
         let titleItem = UIBarButtonItem(title: title, style: .plain, target: self, action: nil)
         titleItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "PingFangSC-Semibold", size: 16.0)!], for: .normal)
-        titleItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.whiteFull], for: .normal)
+        titleItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.whitePure], for: .normal)
         return titleItem
     }
     
@@ -298,8 +306,45 @@ class NavigationManagement: Navigator {
     }
 }
 
-enum BarItemType {
-    case back
-    case close
-    case none
+// FIXME: - Refactor
+
+extension NavigationManagement {
+    
+    func goToDeposit() {
+        if menu != nil {
+            menu.dismiss(
+                animated: true,
+                completion: {
+                    self.setDepoistToRoot()
+                }
+            )
+        }
+        else {
+            setDepoistToRoot()
+        }
+    }
+    
+    private func setDepoistToRoot() {
+        @Injected var viewModel: DepositViewModel
+        @Injected var logViewModel: DepositLogViewModel
+        
+        let navigation = UIStoryboard(name: "Deposit", bundle: nil)
+            .instantiateViewController(withIdentifier: "DepositNavigation") as? UINavigationController
+        
+        navigation?.viewControllers = [
+            DepositViewController.initFrom(
+                storyboard: "Deposit",
+                creator: {
+                    DepositViewController(
+                        coder: $0,
+                        viewModel: viewModel,
+                        logViewModel: logViewModel
+                    )
+                }
+            )
+        ]
+        
+        viewController = navigation
+        UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = viewController
+    }
 }

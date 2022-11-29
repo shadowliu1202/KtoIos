@@ -62,7 +62,7 @@ class ResetPasswordViewController: LandingViewController {
         inputEmail.maxLength = Account.Email.companion.MAX_LENGTH
         btnSubmit.setTitle(Localize.string("common_get_code"), for: .normal)
         for button in [btnEmail, btnPhone]{
-            let selectedColor = UIColor.backgroundTabsGray
+            let selectedColor = UIColor.gray636366
             let unSelectedColor = UIColor.clear
             button?.setBackgroundImage(UIImage(color: selectedColor), for: .selected)
             button?.setBackgroundImage(UIImage(color: unSelectedColor), for: .normal)
@@ -194,7 +194,7 @@ class ResetPasswordViewController: LandingViewController {
     
     private func alertExceedResendLimit() {
         let message = viewModel.currentAccountType() == .phone ? Localize.string("common_sms_otp_exeed_send_limit") : Localize.string("common_email_otp_exeed_send_limit")
-        Alert.shared.show(Localize.string("common_tip_title_warm"), message, confirm: nil, cancel: nil, tintColor: UIColor.red)
+        Alert.shared.show(Localize.string("common_tip_title_warm"), message, confirm: nil, cancel: nil, tintColor: UIColor.redF20000)
     }
     
     private func navigateToStep2() {

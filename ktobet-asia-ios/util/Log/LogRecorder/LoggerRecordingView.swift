@@ -14,7 +14,7 @@ struct LoggerRecordingView: View {
             }
             .contentShape(Rectangle())
         }
-        .backgroundColor(.gray2)
+        .backgroundColor(.gray979797)
         .frame(width: 50, height: 50)
         .ignoresSafeArea()
     }

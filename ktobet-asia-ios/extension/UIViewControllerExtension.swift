@@ -206,11 +206,15 @@ extension UIViewController{
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
     }
-    
-    static func initFrom(storyboard: String) -> Self {
+
+    static func initFrom(
+        storyboard: String,
+        creator: ((NSCoder) -> UIViewController?)? = nil
+    ) -> Self {
+        
         let storyboard = UIStoryboard(name: storyboard, bundle: nil)
         let id = String(describing: self)
-        return storyboard.instantiateViewController(withIdentifier: id) as! Self
+        return storyboard.instantiateViewController(identifier: id, creator: creator) as! Self
     }
 }
 

@@ -68,8 +68,8 @@ class CommonVerifyOtpViewController: CommonViewController {
         labJunkTip.text = delegate.commonVerifyOtpArgs.junkTip
         btnVerify.layer.cornerRadius = 8
         btnVerify.layer.masksToBounds = true
-        btnVerify.setBackgroundImage(UIImage(color: UIColor.red), for: .disabled)
-        btnVerify.setBackgroundImage(UIImage(color: UIColor.redForDark50230), for: .normal)
+        btnVerify.setBackgroundImage(UIImage(color: UIColor.redF20000), for: .disabled)
+        btnVerify.setBackgroundImage(UIImage(color: UIColor.redF20000.withAlphaComponent(0.3)), for: .normal)
     }
 
     func bindingViews() {
@@ -91,11 +91,11 @@ class CommonVerifyOtpViewController: CommonViewController {
             let range = (text as NSString).range(of: Localize.string("common_resendotp"))
             let mutableAttributedString = NSMutableAttributedString(string: text, attributes: [
                 .font: UIFont(name: "PingFangSC-Regular", size: 14.0)!,
-                .foregroundColor: UIColor.textPrimaryDustyGray,
+                .foregroundColor: UIColor.gray9B9B9B,
                 .kern: 0.0
             ])
 
-            mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.redForDark502, range: range)
+            mutableAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.redF20000.withAlphaComponent(0.5), range: range)
             self?.btnResend.setAttributedTitle(mutableAttributedString, for: .normal)
             self?.btnResend.isEnabled = isTimeUp
         }

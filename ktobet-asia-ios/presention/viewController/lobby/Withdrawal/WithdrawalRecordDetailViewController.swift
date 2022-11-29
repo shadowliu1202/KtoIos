@@ -83,7 +83,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
             self.confirmButton.setTitle(Localize.string("common_submit"), for: .normal)
             self.confirmButton.isEnabled = false
             self.confirmButton.layer.borderWidth = 1
-            self.confirmButton.layer.borderColor = UIColor.textSecondaryScorpionGray.cgColor
+            self.confirmButton.layer.borderColor = UIColor.gray595959.cgColor
             self.cancelButton.setTitle(Localize.string("withdrawal_cancel"), for: .normal)
             self.amountView.addBorder(.top)
             self.amountView.addBorder(.bottom, rightConstant: 30, leftConstant: 30)
@@ -229,7 +229,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
             guard let self = self else { return }
             self.viewModel.uploadImageDetail[self.imageUploadInex] = result
             self.confirmButton.isEnabled = true
-            self.confirmButton.setTitleColor(UIColor.redForDarkFull, for: .normal)
+            self.confirmButton.setTitleColor(UIColor.redF20000, for: .normal)
             self.addImageToUI(image: image)
             self.imageUploadInex += 1
             self.imageIndex += 1
@@ -256,12 +256,12 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
         let removeButton = UIButton(frame: CGRect(x: self.imageStackView.frame.origin.x + CGFloat(12),
                                                   y: CGFloat(y) + CGFloat(12),
                                                   width: 52, height: 32))
-        removeButton.backgroundColor = UIColor.iconBlack2.withAlphaComponent(0.5)
+        removeButton.backgroundColor = UIColor.blackPure.withAlphaComponent(0.5)
         removeButton.layer.cornerRadius = 10
         removeButton.tag = imageUploadInex
         let attributedString = NSMutableAttributedString(string: Localize.string("common_remove"), attributes: [
             .font: UIFont(name: "PingFangSC-Medium", size: 14.0)!,
-            .foregroundColor: UIColor.whiteFull,
+            .foregroundColor: UIColor.whitePure,
             .kern: 0.0
         ])
         
@@ -300,10 +300,10 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
         
         if self.removeButtons.count != 0 {
             self.confirmButton.isEnabled = true
-            self.confirmButton.setTitleColor(UIColor.redForDarkFull, for: .normal)
+            self.confirmButton.setTitleColor(UIColor.redF20000, for: .normal)
         } else {
             self.confirmButton.isEnabled = false
-            self.confirmButton.setTitleColor(UIColor.textSecondaryScorpionGray, for: .normal)
+            self.confirmButton.setTitleColor(UIColor.gray595959, for: .normal)
         }
     }
     

@@ -25,7 +25,7 @@ class MonthSelectView: UIView {
         cv.delegate = self
         cv.dataSource = self
         cv.register(UINib(nibName: "MonthCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
-        cv.backgroundColor = UIColor.black_two
+        cv.backgroundColor = UIColor.black131313
         return cv
     }()
     

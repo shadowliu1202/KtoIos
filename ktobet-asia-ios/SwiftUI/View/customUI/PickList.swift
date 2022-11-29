@@ -8,15 +8,15 @@ struct PickList: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            CustomizedDivider(color: .dividerGray)
+            Separator(color: .gray3C3E40)
             
             ForEach(items, id: \.self) { item in
                 gatewayCell(name: item.name, identity: item.identity, isLastCell: item == items.last)
             }
             
-            CustomizedDivider(color: .dividerGray)
+            Separator(color: .gray3C3E40)
         }
-        .backgroundColor(.defaultGray)
+        .backgroundColor(.gray131313)
     }
     
     private func gatewayCell(name: String, identity: String, isLastCell: Bool) -> some View {
@@ -28,7 +28,7 @@ struct PickList: View {
                     .frame(width: 32, height: 32)
                 LimitSpacer(16)
                 Text(name)
-                    .customizedFont(fontWeight: .medium, size: 14, color: .white)
+                    .localized(weight: .medium, size: 14, color: .white)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 LimitSpacer(8)
                 Image(selectedItem == nil ? "iconSingleSelectionEmpty24": identity == selectedItem!.identity ? "iconSingleSelectionSelected24" : "iconSingleSelectionEmpty24")
@@ -40,7 +40,7 @@ struct PickList: View {
             .padding(.horizontal, 30)
             
             if !isLastCell {
-                CustomizedDivider(color: .dividerGray)
+                Separator(color: .gray3C3E40)
                     .padding(.leading, 78)
             }
         }
@@ -70,6 +70,6 @@ struct PickList_Previews: PreviewProvider {
             Preview()
             Spacer()
         }
-        .pageBackgroundColor(.defaultGray)
+        .pageBackgroundColor(.gray131313)
     }
 }

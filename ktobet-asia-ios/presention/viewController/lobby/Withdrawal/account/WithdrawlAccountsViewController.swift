@@ -152,7 +152,7 @@ class WithdrawlAccountsViewController: LobbyViewController {
     
     private func switchToAddCryptoAccount() {
         if cryptoSource.value.count >= Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT {
-            Alert.shared.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "\(Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT)"), confirm: nil, cancel: nil, tintColor: UIColor.red)
+            Alert.shared.show(Localize.string("common_tip_title_warm"),  String(format: Localize.string("withdrawal_bankcard_add_overlimit"), "\(Settings.init().WITHDRAWAL_CRYPTO_BANK_CARD_LIMIT)"), confirm: nil, cancel: nil, tintColor: UIColor.redF20000)
         } else {
             self.performSegue(withIdentifier: AddCryptoAccountViewController.segueIdentifier, sender: cryptoSource.value.count)
         }

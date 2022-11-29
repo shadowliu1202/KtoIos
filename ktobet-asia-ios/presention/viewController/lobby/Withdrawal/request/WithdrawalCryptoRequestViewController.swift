@@ -287,9 +287,9 @@ class CurrencyView: UIView {
     
     func setFocus(_ isFocus: Bool) {
         if isFocus {
-            textField.textColor = UIColor.whiteFull
+            textField.textColor = UIColor.whitePure
         } else {
-            textField.textColor = UIColor.textPrimaryDustyGray
+            textField.textColor = UIColor.gray9B9B9B
         }
     }
     
@@ -369,7 +369,7 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     }
     
     func setError(_ errMsg: String?) {
-        contentView.bordersColor = errMsg == nil ? UIColor.textPrimaryDustyGray : UIColor.alert
+        contentView.bordersColor = errMsg == nil ? UIColor.gray9B9B9B : UIColor.orangeFF8000
         errorLabel.text = errMsg
     }
     
