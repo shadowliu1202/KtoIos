@@ -28,7 +28,8 @@ instrumentedTests:
             - "fastlane/test_output/*.xml"          
 
 
-build-job:    
+build-job:
+    allow_failure: true    
     rules:
         - if: '$CI_COMMIT_BRANCH =~ /(APP|KTO|SP)-[0-9]+/'
         - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
@@ -45,7 +46,8 @@ build-job:
         JIRA_SUB=$(curl --request PUT --url "https://jira.higgstar.com/rest/api/2/issue/$CI_COMMIT_BRANCH/" --data '{"fields":{"assignee":{"name":"'${EMAIL_NAME}'"},"customfield_11000":{"value":"iOS"},"customfield_12006":{"value":"App"}}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
       - echo -e "$JIRA_SUB"
 
-merge-job:      
+merge-job:   
+    allow_failure: true   
     tags:
       - ios_handler
     before_script:            
