@@ -18,7 +18,7 @@ instrumentedTests:
     - |
       set +e
       cd  fastlane/test_output            
-      curl -X POST "https://jira.higgstar.com/rest/aio-tcms-api/1.0/project/KTO/testcycle/KTO-CY-2/import/results?type=JUnit" -H "accept: application/json;charset=utf-8" -H "Authorization: Bearer NDAxNDczMzg3NzI1OhRgpgrH/QGJNxHTijVwHeJFJeua" -H "Content-Type: multipart/form-data" -F "createNewRun=true" -F "addCaseToCycle=true" -F "file=@junit.xml;type=text/xml"
+      curl -X POST "https://jira.higgstar.com/rest/aio-tcms-api/1.0/project/KTO/testcycle/KTO-CY-2/import/results?type=JUnit" -H "accept: application/json;charset=utf-8" -H "Authorization: Bearer $JIRA_TOKEN" -H "Content-Type: multipart/form-data" -F "createNewRun=true" -F "addCaseToCycle=true" -F "file=@junit.xml;type=text/xml"
   artifacts:
     when: always
     paths:
