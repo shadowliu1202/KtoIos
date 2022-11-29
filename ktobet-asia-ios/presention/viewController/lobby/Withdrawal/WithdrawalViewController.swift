@@ -127,9 +127,9 @@ class WithdrawalViewController: LobbyViewController {
         let suffix = Localize.string("common_requirement", requireAmount)
         let fullText = prefix + suffix
         attribTextHolder = AttribTextHolder(text: fullText)
-            .addAttr((text: fullText, type: .color, UIColor.textPrimaryDustyGray))
+            .addAttr((text: fullText, type: .color, UIColor.gray9B9B9B))
             .addAttr((text: fullText, type: .font, UIFont.init(name: "PingFangSC-Medium", size: 14)!))
-            .addAttr((text: suffix, type: .color, UIColor.redForDarkFull))
+            .addAttr((text: suffix, type: .color, UIColor.redF20000))
             .addAttr((text: suffix, type: .link(false), "TapRequireAmount://"))
         
         let padding = NSTextAttachment()
@@ -148,9 +148,9 @@ class WithdrawalViewController: LobbyViewController {
         let suffix = Localize.string("common_none")
         let fullText = prefix + suffix
         attribTextHolder = AttribTextHolder(text: fullText)
-            .addAttr((text: fullText, type: .color, UIColor.textPrimaryDustyGray))
+            .addAttr((text: fullText, type: .color, UIColor.gray9B9B9B))
             .addAttr((text: fullText, type: .font, UIFont.init(name: "PingFangSC-Medium", size: 14)!))
-            .addAttr((text: suffix, type: .color, UIColor.textPrimaryDustyGray))
+            .addAttr((text: suffix, type: .color, UIColor.gray9B9B9B))
         
         let padding = NSTextAttachment()
         padding.bounds = CGRect(x: 0, y: 0, width: 10, height: 0)

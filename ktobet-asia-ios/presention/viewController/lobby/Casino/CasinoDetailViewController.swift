@@ -57,7 +57,7 @@ class CasinoDetailViewController: LobbyViewController {
         let cancelTitleLabel = UILabel()
         cancelTitleLabel.text = Localize.string("common_cancel")
         cancelTitleLabel.font = UIFont(name: "PingFangSC-Medium", size: 14)
-        cancelTitleLabel.textColor = UIColor.whiteFull
+        cancelTitleLabel.textColor = UIColor.whitePure
         scrollView.addSubview(cancelTitleLabel)
         cancelTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         cancelTitleLabel.leadingAnchor.constraint(equalTo: betResultTitleLabel.leadingAnchor, constant: 0).isActive = true
@@ -67,7 +67,7 @@ class CasinoDetailViewController: LobbyViewController {
     
     private func addResultBottomLine() {
         let bottomBorderLine = UIView()
-        bottomBorderLine.backgroundColor = UIColor.dividerCapeCodGray2
+        bottomBorderLine.backgroundColor = UIColor.gray3C3E40
         scrollView.addSubview(bottomBorderLine)
         bottomBorderLine.translatesAutoresizingMaskIntoConstraints = false
         bottomBorderLine.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor, multiplier: 1).isActive = true
@@ -166,7 +166,7 @@ class CasinoDetailViewController: LobbyViewController {
         
         let leftTitleLabel = UILabel()
         backgroundView.addSubview(leftTitleLabel)
-        leftTitleLabel.textColor = UIColor.whiteFull
+        leftTitleLabel.textColor = UIColor.whitePure
         leftTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         leftTitleLabel.centerXAnchor.constraint(equalTo: leftStackView.centerXAnchor).isActive = true
         leftTitleLabel.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -7).isActive = true
@@ -174,7 +174,7 @@ class CasinoDetailViewController: LobbyViewController {
         
         let rightTitleLabel = UILabel()
         backgroundView.addSubview(rightTitleLabel)
-        rightTitleLabel.textColor = UIColor.whiteFull
+        rightTitleLabel.textColor = UIColor.whitePure
         rightTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         rightTitleLabel.centerXAnchor.constraint(equalTo: rightStackView.centerXAnchor).isActive = true
         rightTitleLabel.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -7).isActive = true
@@ -251,7 +251,7 @@ class CasinoDetailViewController: LobbyViewController {
         stackView.layoutIfNeeded()
         backgroundViewHeightConstant.constant = stackView.frame.height + 30
         backgroundView.layoutIfNeeded()
-        backgroundView.addBorder(.bottom, size: 1, color: UIColor.dividerCapeCodGray2)
+        backgroundView.addBorder(.bottom, size: 1, color: UIColor.gray3C3E40)
     }
     
     private func createRouletteResultView(gameResult: CasinoGameResult.Roulette) {
@@ -263,7 +263,7 @@ class CasinoDetailViewController: LobbyViewController {
         squareView.widthAnchor.constraint(equalToConstant: width).isActive = true
         squareView.centerXAnchor.constraint(equalTo: self.backgroundView.centerXAnchor).isActive = true
         squareView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 0).isActive = true
-        squareView.backgroundColor = UIColor.red
+        squareView.backgroundColor = UIColor.redF20000
         squareView.cornerRadius = width / 2
         
         let numberLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 22, height: 24))
@@ -273,7 +273,7 @@ class CasinoDetailViewController: LobbyViewController {
         numberLabel.centerYAnchor.constraint(equalTo: squareView.centerYAnchor).isActive = true
         numberLabel.text = String(gameResult.result)
         numberLabel.font = UIFont(name: "PingFangTC-Semibold", size: 18)
-        numberLabel.textColor = UIColor.whiteFull
+        numberLabel.textColor = UIColor.whitePure
         numberLabel.textAlignment = .center
         backgroundViewHeightConstant.constant = 60
         backgroundView.layoutIfNeeded()
@@ -315,9 +315,9 @@ class CasinoDetailViewController: LobbyViewController {
         numberLabel.font = UIFont(name: "PingFangTC-Semibold", size: 20)
         numberLabel.textAlignment = .center
         if pokerCardSuit == PokerSuits.diamond ||  pokerCardSuit == PokerSuits.heart {
-            numberLabel.textColor = UIColor.redForDarkFull
+            numberLabel.textColor = UIColor.redF20000
         } else {
-            numberLabel.textColor = UIColor.black_two
+            numberLabel.textColor = UIColor.black131313
         }
         
         
@@ -373,7 +373,7 @@ class CasinoDetailViewController: LobbyViewController {
         
         let titleLabel = UILabel()
         backgroundView.addSubview(titleLabel)
-        titleLabel.textColor = UIColor.whiteFull
+        titleLabel.textColor = UIColor.whitePure
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.leftAnchor.constraint(equalTo: vStackView.leftAnchor, constant: 0).isActive = true
         titleLabel.bottomAnchor.constraint(equalTo: vStackView.topAnchor, constant: -7).isActive = true
@@ -480,7 +480,7 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
                     cell.betIdLabel.text = detail.stakes.description()
                     cell.otherBetIdLabel.text = Localize.string("product_prededuct") + " " + detail.prededuct.description()
                     cell.otherBetIdLabel.font = UIFont(name: "PingFangSC-Semibold", size: 14)
-                    cell.otherBetIdLabel.textColor = UIColor.whiteFull
+                    cell.otherBetIdLabel.textColor = UIColor.whitePure
                 }
                 
                 if indexPath.row != 0 {

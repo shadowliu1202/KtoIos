@@ -21,7 +21,7 @@ class CasinoBetSummaryByDateViewController: LobbyViewController {
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: selectDate?.replacingOccurrences(of: "-", with: "/"))
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.setHeaderFooterDivider(headerColor: UIColor.black_two)
+        tableView.setHeaderFooterDivider(headerColor: UIColor.black131313)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -155,14 +155,14 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
         header.imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         
-        header.titleLabel.textColor = UIColor.whiteFull
+        header.titleLabel.textColor = UIColor.whitePure
         header.titleLabel.font = UIFont(name: "PingFangSC-Regular", size: 16)
         view.addSubview(header.titleLabel, constraints: [
             .constraint(.equal, \.leadingAnchor, offset: 24),
             .equal(\.centerYAnchor)
         ])
         
-        header.dateTimeLabel.textColor = UIColor.textSecondaryScorpionGray
+        header.dateTimeLabel.textColor = UIColor.gray595959
         header.dateTimeLabel.font = UIFont(name: "PingFangSC-Regular", size: 14)
         view.addSubview(header.dateTimeLabel, constraints: [
             .equal(\.centerYAnchor)

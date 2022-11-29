@@ -75,7 +75,7 @@ class WebGameSearchItemCell: WebGameItemCell {
     func configure(game: WebGameWithProperties, searchKeyword: String?) -> Self {
         super.configure(game: game)
         self.previousKeyword = searchKeyword
-        self.labTitle.highlight(text: searchKeyword?.trimmingCharacters(in: .whitespacesAndNewlines), color: .redForDark502)
+        self.labTitle.highlight(text: searchKeyword?.trimmingCharacters(in: .whitespacesAndNewlines), color: .redF20000.withAlphaComponent(0.5))
         return self
     }
 }

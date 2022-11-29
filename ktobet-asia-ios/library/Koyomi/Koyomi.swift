@@ -169,10 +169,10 @@ final public class Koyomi: UICollectionView {
     
     public var style: KoyomiStyle = .standard {
         didSet {
-            dayBackgrondColor  = .black_two //style.colors.dayBackgrond
-            weekBackgrondColor = .black_two//style.colors.weekBackgrond
-            weekColor = .black_two//style.colors.week
-            weekdayColor = .black_two//style.colors.weekday
+            dayBackgrondColor  = .black131313 //style.colors.dayBackgrond
+            weekBackgrondColor = .black131313//style.colors.weekBackgrond
+            weekColor = .black131313//style.colors.week
+            weekdayColor = .black131313//style.colors.weekday
             holidayColor = style.colors.holiday
             otherMonthColor = style.colors.otherMonth
             backgroundColor = style.colors.separator
@@ -532,16 +532,16 @@ private extension Koyomi {
                 return calendarDelegate?.koyomi?(self, selectionTextColorForItemAt: indexPath, date: date) ?? textColor
             } else {
                 if cell.xLabel.text != "" {
-                    return UIColor.textSecondaryScorpionGray
+                    return UIColor.gray595959
                 } else {
                     if indexPath.section == 0 {
-                        return UIColor.yellowFull
+                        return UIColor.yellowFFD500
                     } else {
                         if let begin = model.indexAtBeginning(in: .current),
                            let end = model.indexAtEnd(in: .current), (begin...end).contains(indexPath.row) {
                             return UIColor.white
                         } else {
-                            return UIColor.textSecondaryScorpionGray
+                            return UIColor.gray595959
                         }
                     }
                 }

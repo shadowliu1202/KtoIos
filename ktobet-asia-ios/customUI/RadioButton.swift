@@ -1,8 +1,8 @@
 import UIKit
 
 class RadioButton: UIButton {
-    var selectedButtonColor:UIColor = UIColor.yellowFull
-    var borderColor:UIColor = UIColor.textPrimaryDustyGray
+    var selectedButtonColor:UIColor = UIColor.yellowFFD500
+    var borderColor:UIColor = UIColor.gray9B9B9B
     
     override func draw(_ rect: CGRect) {
         self.tintColor = UIColor.clear

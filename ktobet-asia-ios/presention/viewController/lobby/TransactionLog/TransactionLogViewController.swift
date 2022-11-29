@@ -71,8 +71,8 @@ private extension TransactionLogViewController {
         )
         
         dateView.callBackCondition = { [weak self] (dateBegin, dateEnd, dateType) in
-            self?.viewModel.from = dateBegin
-            self?.viewModel.to = dateEnd
+            self?.viewModel.from = dateBegin ?? .init()
+            self?.viewModel.to = dateEnd ?? .init()
             self?.dateType = dateType
             self?.refreshData()
         }
@@ -186,7 +186,7 @@ extension TransactionLogViewController: UITableViewDelegate {
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.bottomAnchor.constraint(equalTo: header.bottomAnchor, constant: -12).isActive = true
-        label.textColor = UIColor.whiteFull
+        label.textColor = UIColor.whitePure
         label.font = UIFont(name: "PingFangSC-Medium", size: 16.0)
         label.text = viewModel.section(at: section)?.model
         label.sizeToFit()
@@ -209,7 +209,7 @@ extension TransactionLogViewController: TranscationFlowDelegate {
             .subscribe(onSuccess: { [weak self] (html) in
                 let alertView = TransactionHtmlViewController.initFrom(storyboard: "TransactionLog")
                 alertView.html = html
-                alertView.view.backgroundColor = UIColor.black80
+                alertView.view.backgroundColor = UIColor.black131313.withAlphaComponent(0.8)
                 alertView.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
                 alertView.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
                 self?.present(alertView, animated: true, completion: nil)

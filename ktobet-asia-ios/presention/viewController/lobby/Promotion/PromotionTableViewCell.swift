@@ -82,7 +82,7 @@ class PromotionTableViewCell: UITableViewCell {
             let circleView = UIView()
             circleView.layer.cornerRadius = 4
             circleView.layer.masksToBounds = true
-            circleView.backgroundColor = UIColor.black_two
+            circleView.backgroundColor = UIColor.black131313
             halfCircleStack.addArrangedSubview(circleView)
         }
         self.halfCircleBorderStack.addArrangedSubview(halfCircleStack)

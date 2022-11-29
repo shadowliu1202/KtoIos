@@ -37,7 +37,7 @@ struct SwiftUIInputText: View {
             
             Text(errorText ?? "")
                 .id(Identifier.ErrorHint.rawValue)
-                .customizedFont(fontWeight: .regular, size: 12, color: .alert)
+                .localized(weight: .regular, size: 12, color: .orangeFF8000)
                 .visibility(errorText == nil ? .gone : .visible)
         }
         .onAppear {
@@ -52,13 +52,13 @@ struct SwiftUIInputText: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(placeHolder)
                     .font(.custom("PingFangSC-Regular", size: showTextField ? 12 : 14))
-                    .foregroundColor(.primaryGray)
+                    .foregroundColor(.from(.gray9B9B9B))
                     .padding(.top, showTextField ? 1 : 12)
                     .padding(.bottom, showTextField ? 0 : 10)
                 UIKitTextField(text: $textFieldText, isFirstResponder: $isEditing, showPassword: $showPassword, isPasswordType: isPasswordType, disablePaste: disablePaste, keyboardType: keyboardType) { uiTextField in
                     uiTextField.font = UIFont(name: "PingFangSC", size: 16)
                     uiTextField.textColor = .white
-                    uiTextField.tintColor = .primaryRed
+                    uiTextField.tintColor = .redF20000
                     uiTextField.autocapitalizationType = .none
                 } editingDidEnd: { text in
                     withAnimation(.easeOut(duration: 0.2)) {
@@ -87,7 +87,7 @@ struct SwiftUIInputText: View {
         .padding(.top, 8)
         .padding(.bottom, 10)
         .padding(.horizontal, 12)
-        .backgroundColor(isEditing ? .inputFocus : .inputDefault)
+        .backgroundColor(isEditing ? .gray454545 : .gray333333)
         .cornerRadius(8)
     }
     
@@ -103,11 +103,11 @@ struct SwiftUIInputText: View {
     private var errorUnderline: some View {
         VStack(spacing: 0) {
             Rectangle()
-                .foregroundColor(isEditing ? .inputFocus : .inputDefault)
+                .foregroundColor(.from(isEditing ? .gray454545 : .gray333333))
                 .frame(height: 10)
             
             Rectangle()
-                .foregroundColor(.alert)
+                .foregroundColor(.from(.orangeFF8000))
                 .frame(height: 2)
         }
         .frame(maxHeight: .infinity ,alignment: .bottom)

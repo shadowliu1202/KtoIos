@@ -184,12 +184,12 @@ class DepositRecordDetailViewController: LobbyViewController {
         let removeButton = UIButton(frame: CGRect(x: self.imageStackView.frame.origin.x + CGFloat(12),
                                                   y: CGFloat(y) + CGFloat(12),
                                                   width: 52, height: 32))
-        removeButton.backgroundColor = UIColor.iconBlack2.withAlphaComponent(0.5)
+        removeButton.backgroundColor = UIColor.blackPure.withAlphaComponent(0.5)
         removeButton.layer.cornerRadius = 10
         removeButton.tag = imageUploadInex
         let attributedString = NSMutableAttributedString(string: Localize.string("common_remove"), attributes: [
             .font: UIFont(name: "PingFangSC-Medium", size: 14.0)!,
-            .foregroundColor: UIColor.whiteFull,
+            .foregroundColor: UIColor.whitePure,
             .kern: 0.0
         ])
         

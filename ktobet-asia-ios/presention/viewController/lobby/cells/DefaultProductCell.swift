@@ -48,7 +48,7 @@ class DefaultProductCell: UITableViewCell {
         self.labTitle.text = StringMapper.parseProductTypeString(productType: gameType)
         self.labDesc.text = try! getDesc(gameType)
         self.viewBg.layer.borderWidth = isSelected ? 1 : 0
-        self.viewBg.layer.borderColor = (isSelected ? UIColor.white50 : UIColor.white30).cgColor
+        self.viewBg.layer.borderColor = (isSelected ? UIColor.whitePure.withAlphaComponent(0.5) : UIColor.whitePure.withAlphaComponent(0.3)).cgColor
         self.viewShadow.isHidden = !isSelected
         titleLeading.constant = Theme.shared.getDefaultProductTextPadding(by: local)
         titleTrailing.constant = Theme.shared.getDefaultProductTextPadding(by: local)

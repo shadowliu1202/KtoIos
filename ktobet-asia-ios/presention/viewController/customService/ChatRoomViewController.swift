@@ -509,7 +509,7 @@ class MixTableViewCell: UITableViewCell {
         
         parseText.forEach { (url, range) in
             underlineAttriString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-            underlineAttriString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: range)
+            underlineAttriString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.redF20000, range: range)
         }
         
         label.attributedText = underlineAttriString
@@ -565,7 +565,7 @@ class MixTableViewCell: UITableViewCell {
         linkTextView.font = UIFont(name: "PingFangSC-Regular", size: 14.0)!
         linkTextView.backgroundColor = .clear
         linkTextView.linkTextAttributes = [
-            .foregroundColor: UIColor.red,
+            .foregroundColor: UIColor.redF20000,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
         

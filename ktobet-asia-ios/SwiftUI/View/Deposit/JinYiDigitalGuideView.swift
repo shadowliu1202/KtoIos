@@ -1,6 +1,8 @@
 import SwiftUI
+import SharedBu
 
 struct JinYiDigitalGuideView: View {
+    let locale: SupportLocale
     let highlightWords = [Localize.string("jinyidigital_desciption_highlight_1"), Localize.string("jinyidigital_desciption_highlight_2"), Localize.string("jinyidigital_desciption_highlight_3"), Localize.string("jinyidigital_desciption_highlight_4")]
     
     var body: some View {
@@ -43,29 +45,29 @@ struct JinYiDigitalGuideView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(Localize.string("jinyidigital_instructions_title"))
-                .customizedFont(fontWeight: .semibold, size: 24, color: .defaultGray)
+                .localized(weight: .semibold, size: 24, color: .gray131313)
             
             Text(Localize.string("jinyidigital_instructions_download"))
-                .customizedFont(fontWeight: .regular, size: 14, color: .defaultGray)
+                .localized(weight: .regular, size: 14, color: .gray131313)
             
             ZStack {
                 Rectangle()
-                    .foregroundColor(.lightGray)
+                    .foregroundColor(.from(.grayF2F2F2))
                     .frame(height: 160)
                 
                 RoundedRectangle(cornerRadius: 20)
                     .foregroundColor(.white)
-                    .shadow(color: .shadowBlack, radius: 4, x: 0, y: 2)
+                    .shadow(color: .from(.blackPure, alpha: 0.1), radius: 4, x: 0, y: 2)
                     .padding(30)
                     .overlay(
                         HStack(spacing: 10) {
-                            Image("JinYiPAY")
+                            Image(DepositType.JinYiDigital.imageName(locale: locale))
                                 .frame(width: 48, height: 48)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(Localize.string("jinyidigital_app_title"))
-                                    .customizedFont(fontWeight: .semibold, size: 12, color: .black)
+                                    .localized(weight: .semibold, size: 12, color: .blackPure)
                                 Text(Localize.string("jinyidigital_app_category"))
-                                    .customizedFont(fontWeight: .semibold, size: 12, color: .gray2)
+                                    .localized(weight: .semibold, size: 12, color: .gray979797)
                             }
                         }
                             .padding(.horizontal, 38)
@@ -113,15 +115,15 @@ struct JinYiDigitalGuideView: View {
             
             VStack(alignment: .leading, spacing: 8) {
                 Text(Localize.string("jinyidigital_application_requirements"))
-                    .customizedFont(fontWeight: .semibold, size: 14, color: .secondary)
+                    .localized(weight: .semibold, size: 14, color: .gray595959)
                 
                 Text(requirement)
-                    .customizedFont(fontWeight: .regular, size: 14, color: .secondary)
+                    .localized(weight: .regular, size: 14, color: .gray595959)
             }
             
             VStack(alignment: .leading, spacing: 8) {
                 Text(Localize.string("jinyidigital_application_limits"))
-                    .customizedFont(fontWeight: .semibold, size: 14, color: .secondary)
+                    .localized(weight: .semibold, size: 14, color: .gray595959)
                 
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
@@ -134,7 +136,7 @@ struct JinYiDigitalGuideView: View {
                             .padding(.vertical, 6)
                             .frame(maxWidth: .infinity)
                     }
-                    .backgroundColor(.darkGray)
+                    .backgroundColor(.gray595959, alpha: 0.15)
                     
                     HStack(spacing: 0) {
                         Text(Localize.string("jinyidigital_single_transfer_upper_limit"))
@@ -159,7 +161,7 @@ struct JinYiDigitalGuideView: View {
                             .padding(.vertical, 6)
                             .frame(maxWidth: .infinity)
                     }
-                    .backgroundColor(.darkGray)
+                    .backgroundColor(.gray595959, alpha: 0.15)
                     
                     HStack(spacing: 0) {
                         Text(Localize.string("jinyidigital_annually_transfer_upper_limit"))
@@ -174,7 +176,7 @@ struct JinYiDigitalGuideView: View {
                     }
                     .backgroundColor(.white)
                 }
-                .customizedFont(fontWeight: .medium, size: 12, color: .secondary)
+                .localized(weight: .medium, size: 12, color: .gray595959)
             }
         }
     }
@@ -187,7 +189,7 @@ struct JinYiDigitalGuideView: View {
                 .padding(.horizontal, 5)
             
             Text(text)
-                .customizedFont(fontWeight: .semibold, size: 14, color: .defaultGray)
+                .localized(weight: .semibold, size: 14, color: .gray131313)
         }
     }
     
@@ -195,15 +197,15 @@ struct JinYiDigitalGuideView: View {
         VStack(alignment: .leading, spacing: 16) {
             bulletText(title)
             
-            generateHighlightSentence(fullSentence: content, generalColor: .secondary, highlightWords: highlightWords, highlightColor: .primaryRed)
-                .customizedFont(fontWeight: .regular, size: 14)
+            generateHighlightSentence(fullSentence: content, generalColor: .gray595959, highlightWords: highlightWords, highlightColor: .redF20000)
+                .localized(weight: .regular, size: 14)
         }
     }
 }
 
 struct JinYiDigitalGuideView_Previews: PreviewProvider {
     static var previews: some View {
-        JinYiDigitalGuideView()
+        JinYiDigitalGuideView(locale: .China())
             .previewLayout(.fixed(width: 360, height: 2000))
     }
 }

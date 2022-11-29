@@ -11,7 +11,28 @@ extension SwiftUIConverter {
         configure: ((UIHostingController<Content>) -> Void)? = nil
     ) where Content : View {
         
-        let hostingController = UIHostingController(rootView: swiftUIView)
+        let hostingController = embedHosting(swiftUIView)
+        configure?(hostingController)
+    }
+    
+    /// Use factory to init  *@StateObject*
+    /// Make sure to use unretain self
+    func addSubView<Content>(
+        from factory: () -> Content,
+        to view: UIView,
+        configure: ((UIHostingController<Content>) -> Void)? = nil
+    ) where Content : View {
+        
+        let hostingController = embedHosting(factory())
+        configure?(hostingController)
+    }
+    
+    private func embedHosting
+        <Content: View>
+        (_ content: Content)
+        -> UIHostingController<Content>
+    {
+        let hostingController = UIHostingController(rootView: content)
         hostingController.view.backgroundColor = .clear
         
         addChild(hostingController)
@@ -23,6 +44,6 @@ extension SwiftUIConverter {
 
         hostingController.didMove(toParent: self)
         
-        configure?(hostingController)
+        return hostingController
     }
 }

@@ -43,7 +43,7 @@ class SMSVerifyCodeInputView: UIView {
             code.keyboardType = .numberPad
             code.textAlignment = .center
             code.textColor = .white
-            code.backgroundColor = .white15
+            code.backgroundColor = .white.withAlphaComponent(0.15)
             code.layer.cornerRadius = 6
             code.layer.masksToBounds = true
             code.tag = index

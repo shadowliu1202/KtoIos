@@ -35,6 +35,6 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.contentView.backgroundColor = UIColor.black_two
+        self.contentView.backgroundColor = UIColor.black131313
     }
 }

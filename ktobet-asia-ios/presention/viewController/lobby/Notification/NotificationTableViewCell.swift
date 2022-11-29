@@ -34,7 +34,7 @@ class NotificationTableViewCell: UITableViewCell {
             maintainTime.text = ""
         }
 
-        self.title.highlight(text: keyword.trimmingCharacters(in: .whitespacesAndNewlines), color: .redForDark502)
-        self.content.highlight(text: keyword.trimmingCharacters(in: .whitespacesAndNewlines), color: .redForDark502)
+        self.title.highlight(text: keyword.trimmingCharacters(in: .whitespacesAndNewlines), color: .redF20000.withAlphaComponent(0.5))
+        self.content.highlight(text: keyword.trimmingCharacters(in: .whitespacesAndNewlines), color: .redF20000.withAlphaComponent(0.5))
     }
 }

@@ -43,7 +43,7 @@ class DateViewController: UIViewController {
             self.koyomi.style = .deepBlack
             self.koyomi.dayPosition = .center
             self.koyomi.selectedStyleColor = UIColor(red: 1.0, green: 213/255, blue: 0, alpha: 1)
-            self.koyomi.weekColor = UIColor.yellowFull
+            self.koyomi.weekColor = UIColor.yellowFFD500
             self.koyomi.setWeekFont(fontName: "PingFangSC-Medium", size: 12)
             self.koyomi.setDayFont(fontName: "PingFangSC-Medium", size: 12)
             self.dateView.addSubview(self.koyomi)
@@ -66,7 +66,7 @@ class DateViewController: UIViewController {
 
         }
         
-        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whiteFull, .font: UIFont.init(name: "PingFangSC-Medium", size: Theme.shared.getDateSegmentTitleFontSize(by: self.localStorageRepo.getSupportLocale()))!]
+        let titleTextAttributes: [NSAttributedString.Key : Any]? = [.foregroundColor: UIColor.whitePure, .font: UIFont.init(name: "PingFangSC-Medium", size: Theme.shared.getDateSegmentTitleFontSize(by: self.localStorageRepo.getSupportLocale()))!]
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .normal)
         dateSegment.setTitleTextAttributes(titleTextAttributes, for: .selected)
         dateSegment.addTarget(

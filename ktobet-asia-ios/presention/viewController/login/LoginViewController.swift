@@ -200,12 +200,12 @@ class LoginViewController: LandingViewController {
             let text = NSMutableAttributedString()
             let attr1: NSAttributedString = {
                 let text = Localize.string("login_tips_1") + " "
-                let color = UIColor.textPrimaryDustyGray
+                let color = UIColor.gray9B9B9B
                 return NSAttributedString.init(string: text, attributes: [.foregroundColor: color])
             }()
             let attr2: NSAttributedString = {
                 let text = Localize.string("login_tips_1_highlight")
-                let color = UIColor.red
+                let color = UIColor.redF20000
                 return NSAttributedString.init(string: text, attributes: [.foregroundColor: color])
             }()
             text.append(attr1)

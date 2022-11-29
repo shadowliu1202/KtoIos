@@ -34,7 +34,7 @@ struct StarMergerView<ViewModel: StarMergerViewModel>: View {
                 .padding(.horizontal, 30)
             }
         }
-        .pageBackgroundColor(.defaultGray)
+        .pageBackgroundColor(.gray131313)
         .onAppear {
             viewModel.getGatewayInformation()
         }
@@ -44,32 +44,32 @@ struct StarMergerView<ViewModel: StarMergerViewModel>: View {
     @ViewBuilder
     private var starMergerInfo: some View {
         Text(Localize.string("cps_starmerger_title"))
-            .customizedFont(fontWeight: .semibold, size: 24, color: .white)
+            .localized(weight: .semibold, size: 24, color: .white)
         
         LimitSpacer(16)
         
         VStack(alignment: .leading, spacing: 0) {
             Text(Localize.string("common_tip_title_warm"))
-                .customizedFont(fontWeight: .regular, size: 14, color: .primaryGray)
+                .localized(weight: .regular, size: 14, color: .gray9B9B9B)
             Text("\(viewModel.amountRange?.min.description() ?? "") RMB-\(viewModel.amountRange?.max.description() ?? "") RMB")
-                .customizedFont(fontWeight: .medium, size: 14, color: .white)
+                .localized(weight: .medium, size: 14, color: .white)
             LimitSpacer(12)
-            CustomizedDivider()
+            Separator()
             LimitSpacer(12)
             Text(Localize.string("common_tip_title_warm"))
-                .customizedFont(fontWeight: .regular, size: 14, color: .primaryGray)
+                .localized(weight: .regular, size: 14, color: .gray9B9B9B)
             Text(Localize.string("cps_starmerger_description"))
-                .customizedFont(fontWeight: .medium, size: 14, color: .white)
+                .localized(weight: .medium, size: 14, color: .white)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.vertical, 30)
         .padding(.horizontal, 20)
-        .customizedStrokeBorder(color: .primaryGray, cornerRadius: 14)
+        .strokeBorder(color: .gray9B9B9B, cornerRadius: 14)
         
         LimitSpacer(30)
         
         Text(Localize.string("cps_starmerger_hint"))
-            .customizedFont(fontWeight: .regular, size: 14, color: .primaryRed)
+            .localized(weight: .regular, size: 14, color: .redF20000)
     }
 }
 

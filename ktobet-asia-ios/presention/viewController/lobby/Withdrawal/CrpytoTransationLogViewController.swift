@@ -41,8 +41,8 @@ class CrpytoTransationLogViewController: LobbyViewController {
     private func setRequirementText(_ txt: String) {
         let requirementTxt = Localize.string("cps_remaining_requirement", txt)
         let txt = AttribTextHolder(text: requirementTxt)
-            .addAttr((text: requirementTxt, type: .color, UIColor.textPrimaryDustyGray))
-            .addAttr((text: txt, type: .color, UIColor.alert))
+            .addAttr((text: requirementTxt, type: .color, UIColor.gray9B9B9B))
+            .addAttr((text: txt, type: .color, UIColor.orangeFF8000))
         
         txt.setTo(textView: requirementTextView)
     }

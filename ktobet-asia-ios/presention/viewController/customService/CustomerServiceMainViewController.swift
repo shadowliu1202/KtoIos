@@ -190,12 +190,12 @@ class CallinButton: UIView {
     }
     
     private func immediatelyStyle() {
-        self.backgroundColor = .red
+        self.backgroundColor = .redF20000
         self.borderWidth = 1
-        self.bordersColor = .red
+        self.bordersColor = .redF20000
         self.cornerRadius = 6
         self.label.text = Localize.string("customerservice_call_immediately")
-        self.label.textColor = .whiteFull
+        self.label.textColor = .whitePure
         self.icon.image = UIImage(named: "CS_immediately")
         self.btn.isEnabled = true
     }
@@ -203,10 +203,10 @@ class CallinButton: UIView {
     private func connectedStyle() {
         self.backgroundColor = .clear
         self.borderWidth = 1
-        self.bordersColor = .textPrimaryDustyGray
+        self.bordersColor = .gray9B9B9B
         self.cornerRadius = 6
         self.label.text = Localize.string("customerservice_call_connected")
-        self.label.textColor = .textPrimaryDustyGray
+        self.label.textColor = .gray9B9B9B
         self.icon.image = UIImage(named: "CS_connected")
         self.btn.isEnabled = false
     }

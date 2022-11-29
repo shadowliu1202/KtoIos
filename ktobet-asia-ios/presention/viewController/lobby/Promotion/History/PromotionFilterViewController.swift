@@ -164,7 +164,7 @@ private extension PromotionFilterViewController {
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! InteractiveCell
         
         let descLabel = UILabel()
-        descLabel.textColor = .whiteFull
+        descLabel.textColor = .whitePure
         descLabel.text = Localize.string("bonus_orderby_desc")
         descLabel.font = UIFont(name: "PingFangSC-Medium", size: 14)
         
@@ -173,7 +173,7 @@ private extension PromotionFilterViewController {
         descLabel.addGestureRecognizer(descTap)
         
         let ascLabel = UILabel()
-        ascLabel.textColor = .whiteFull
+        ascLabel.textColor = .whitePure
         ascLabel.text = Localize.string("bonus_orderby_asc")
         ascLabel.font = UIFont(name: "PingFangSC-Medium", size: 14)
         
@@ -194,7 +194,7 @@ private extension PromotionFilterViewController {
         sortingStackView.axis = .vertical
         sortingStackView.insertArrangedSubview(descLabel, at: 0)
         sortingStackView.insertArrangedSubview(ascLabel, at: 1)
-        sortingStackView.backgroundColor = UIColor.black_two
+        sortingStackView.backgroundColor = UIColor.black131313
         sortingStackView.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         sortingStackView.isLayoutMarginsRelativeArrangement = true
         
@@ -205,7 +205,7 @@ private extension PromotionFilterViewController {
         let sepFrame = CGRect(x: 0, y: -1, width: self.tableView.bounds.width, height: 1)
         let sep = CALayer()
         sep.frame = sepFrame
-        sep.backgroundColor = UIColor.dividerCapeCodGray2.cgColor
+        sep.backgroundColor = UIColor.gray3C3E40.cgColor
         return sep
     }
     

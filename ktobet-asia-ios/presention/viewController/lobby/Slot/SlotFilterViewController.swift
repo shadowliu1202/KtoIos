@@ -76,10 +76,10 @@ class SlotFilterViewController: UIViewController {
     }
     
     private func setTagButtonStyle(button: UIButton) {
-        button.setTitleColor(.black_two, for: .selected)
-        button.setTitleColor(.yellowFull, for: .normal)
-        button.setBackgroundColor(color: .black_two, forUIControlState: .normal)
-        button.setBackgroundColor(color: .yellowFull, forUIControlState: .selected)
+        button.setTitleColor(.black131313, for: .selected)
+        button.setTitleColor(.yellowFFD500, for: .normal)
+        button.setBackgroundColor(color: .black131313, forUIControlState: .normal)
+        button.setBackgroundColor(color: .yellowFFD500, forUIControlState: .selected)
     }
     
     private func selectTag(_ sender: UIButton, filterType: Int) {

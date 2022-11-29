@@ -117,8 +117,8 @@ private extension AppDelegate {
         
         let barAppearance = UINavigationBarAppearance()
         barAppearance.configureWithTransparentBackground()
-        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())]
-        barAppearance.backgroundColor = UIColor.black_two90
+        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whitePure, .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())]
+        barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
         
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().scrollEdgeAppearance = barAppearance

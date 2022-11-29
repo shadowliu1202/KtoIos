@@ -4,7 +4,7 @@ struct ConfirmRed: ButtonStyle {
     @Environment(\.isEnabled) var isEnabled
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
-            .foregroundColor(isEnabled ? .white : .white40)
+            .foregroundColor(isEnabled ? .from(.whitePure) : .from(.whitePure, alpha: 0.4))
             .font(.custom("PingFangSC-Regular", size: 14))
             .padding(10)
             .frame(maxWidth: .infinity)
@@ -12,7 +12,7 @@ struct ConfirmRed: ButtonStyle {
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .frame(height: 48)
-                    .foregroundColor(isEnabled ? .primaryRed : .primaryRed30)
+                    .foregroundColor(isEnabled ? .from(.redF20000) : .from(.redF20000, alpha: 0.3))
             )
             .opacity(configuration.isPressed ? 0.8 : 1.0)
     }

@@ -87,7 +87,7 @@ class UnlockPrivilegeView: UIView {
             let circleView = UIView()
             circleView.layer.cornerRadius = 4
             circleView.layer.masksToBounds = true
-            circleView.backgroundColor = UIColor.black_two
+            circleView.backgroundColor = UIColor.black131313
             self.halfCircleStack.addArrangedSubview(circleView)
         }
     }

@@ -31,9 +31,7 @@ struct CryptoVideoTutorialView: View {
                     contentMode: .fit
                 )
         }
-        .pageBackgroundColor(
-            Color(.black.withAlphaComponent(0.8))
-        )
+        .pageBackgroundColor(.blackPure, alpha: 0.8)
     }
 }
 

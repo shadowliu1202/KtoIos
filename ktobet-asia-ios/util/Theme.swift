@@ -111,8 +111,8 @@ final class Theme {
             
             let barAppearance = UINavigationBarAppearance()
             barAppearance.configureWithTransparentBackground()
-            barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: UIFont(name: "HelveticaNeue-Bold", size: 16)!]
-            barAppearance.backgroundColor = UIColor.black_two90
+            barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whitePure, .font: UIFont(name: "HelveticaNeue-Bold", size: 16)!]
+            barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
             UINavigationBar.appearance().isTranslucent = true
             UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
             UINavigationBar.appearance().standardAppearance = barAppearance
@@ -126,8 +126,8 @@ final class Theme {
             
             let barAppearance = UINavigationBarAppearance()
             barAppearance.configureWithTransparentBackground()
-            barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: UIFont(name: "PingFangSC-Semibold", size: 16)!]
-            barAppearance.backgroundColor = UIColor.black_two90
+            barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whitePure, .font: UIFont(name: "PingFangSC-Semibold", size: 16)!]
+            barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
             UINavigationBar.appearance().isTranslucent = true
             UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
             UINavigationBar.appearance().standardAppearance = barAppearance
@@ -199,22 +199,22 @@ final class Theme {
     func parse(_ transactionStatus: TransactionStatus) -> UIColor {
         switch transactionStatus {
         case .floating:
-            return UIColor.orangeFull
+            return UIColor.orangeFF8000
         default:
-            return UIColor.textPrimaryDustyGray
+            return UIColor.gray9B9B9B
         }
     }
     
     func parse(bonusReceivingStatus: BonusReceivingStatus) -> UIColor {
         switch bonusReceivingStatus {
         case .inprogress:
-            return UIColor.orangeFull
+            return UIColor.orangeFF8000
         case .noturnover:
-            return UIColor.textSuccessedGreen
+            return UIColor.green6AB336
         case .completed:
-            return UIColor.textSuccessedGreen
+            return UIColor.green6AB336
         case .canceled:
-            return UIColor.textPrimaryDustyGray
+            return UIColor.gray9B9B9B
         default:
             return UIColor.clear
         }

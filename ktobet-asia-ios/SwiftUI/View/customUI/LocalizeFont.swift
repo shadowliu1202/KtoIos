@@ -6,11 +6,11 @@ struct LocalizeFont<Content: View>: View {
     
     let fontWeight: KTOFontWeight
     let size: CGFloat
-    let color: KTOTextColor?
+    let color: UIColor
     
     var content: Content
     
-    init(fontWeight: KTOFontWeight, size: CGFloat, color: KTOTextColor?, @ViewBuilder content: () -> Content) {
+    init(fontWeight: KTOFontWeight, size: CGFloat, color: UIColor, @ViewBuilder content: () -> Content) {
         self.fontWeight = fontWeight
         self.size = size
         self.color = color
@@ -22,22 +22,22 @@ struct LocalizeFont<Content: View>: View {
         case is SupportLocale.Vietnam:
             content
                 .font(.custom("HelveticaNeue-\(fontWeight.getSuffix(playerLocale))", size: size))
-                .foregroundColor(color?.value)
+                .foregroundColor(.from(color))
         case is SupportLocale.China:
             content
                 .font(.custom("PingFangSC-\(fontWeight.getSuffix(playerLocale))", size: size))
-                .foregroundColor(color?.value)
+                .foregroundColor(.from(color))
         default:
             content
                 .font(.custom("PingFangSC-\(fontWeight.getSuffix(playerLocale))", size: size))
-                .foregroundColor(color?.value)
+                .foregroundColor(.from(color))
         }
     }
 }
 
 struct FontAndColor_Previews: PreviewProvider {
     static var previews: some View {
-        LocalizeFont(fontWeight: .medium, size: 12, color: .primaryGray) {
+        LocalizeFont(fontWeight: .medium, size: 12, color: .gray9B9B9B) {
             Text("你好")
         }
     }

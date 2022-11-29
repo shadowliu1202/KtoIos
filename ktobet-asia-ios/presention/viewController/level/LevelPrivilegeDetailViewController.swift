@@ -35,7 +35,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
         tableView.dataSource = self
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, image: "iconNavBack24")
         
-        btnPromotion.applyGradient(horizontal: [UIColor.yellowFull.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor])
+        btnPromotion.applyGradient(horizontal: [UIColor.yellowFFD500.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor])
         btnPromotion.rx.touchUpInside.subscribe(onNext:{
             NavigationManagement.sharedInstance.goTo(storyboard: "Promotion", viewControllerId: "PromotionNavigationController")
         }).disposed(by: disposeBag)
@@ -72,8 +72,8 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
         
         let barAppearance = UINavigationBarAppearance()
         barAppearance.configureWithTransparentBackground()
-        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whiteFull, .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())]
-        barAppearance.backgroundColor = UIColor.black_two90
+        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whitePure, .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())]
+        barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
         UINavigationBar.appearance().isTranslucent = true
         self.navigationController?.navigationBar.standardAppearance = barAppearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = barAppearance
@@ -134,7 +134,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
         })
         
         if !data.isMaxBonusLimited() {
-            productUnlimitedTopBarView.backgroundColor = UIColor.orangeFull
+            productUnlimitedTopBarView.backgroundColor = UIColor.orangeFF8000
             productUnlimitedView.backgroundColor = UIColor(red: 1, green: 128/255, blue: 0, alpha: 0.2)
             dailyLimitAmountLabel.text = Localize.string("bonus_unlimited")
         }

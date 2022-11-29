@@ -3,31 +3,33 @@ import SwiftUI
 import CoreGraphics
 
 extension View {
-    @ViewBuilder
-    func customizedStrokeBorder(color: Color, cornerRadius: CGFloat, lineWidth: CGFloat = 1) -> some View {
-        self
-            .background(
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(lineWidth: lineWidth)
-                    .foregroundColor(color)
-            )
-    }
     
-    func backgroundColor(_ color: Color) -> some View {
-        background(color)
-    }
-    
-    func pageBackgroundColor(_ color: Color) -> some View {
+    func strokeBorder(color: UIColor, cornerRadius: CGFloat, lineWidth: CGFloat = 1) -> some View {
         background(
-            color.ignoresSafeArea()
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .stroke(lineWidth: lineWidth)
+                .foregroundColor(.from(color))
         )
     }
     
-    @ViewBuilder
-    func customizedFont(fontWeight: KTOFontWeight, size: CGFloat, color: KTOTextColor? = nil) -> some View {
-        LocalizeFont(fontWeight: fontWeight, size: size, color: color) {
-            self
-        }
+    func backgroundColor(_ color: UIColor, alpha: CGFloat = 1) -> some View {
+        background(
+            Color.from(color, alpha: alpha)
+        )
+    }
+    
+    func pageBackgroundColor(_ color: UIColor, alpha: CGFloat = 1) -> some View {
+        background(
+            Color.from(color, alpha: alpha).ignoresSafeArea()
+        )
+    }
+    
+    func localized(weight: KTOFontWeight, size: CGFloat, color: UIColor = .clear) -> some View {
+        LocalizeFont(
+            fontWeight: weight,
+            size: size,
+            color: color
+        ) { self }
     }
     
     @ViewBuilder
@@ -53,7 +55,13 @@ extension View {
         }
     }
     
-    func generateHighlightSentence(fullSentence: String, generalColor: KTOTextColor, highlightWords: [String], highlightColor: KTOTextColor) -> Text {
+    func generateHighlightSentence(
+        fullSentence: String,
+        generalColor: UIColor,
+        highlightWords: [String],
+        highlightColor: UIColor
+    ) -> Text {
+        
         var words = highlightWords
         
         for word in words {
@@ -80,13 +88,13 @@ extension View {
         for word in words {
             guard let range = sentence.range(of: word) else { continue }
             
-            highlightSentence = highlightSentence + Text(sentence[..<range.lowerBound]).foregroundColor(generalColor.value)
-            highlightSentence = highlightSentence + Text(word).foregroundColor(highlightColor.value)
+            highlightSentence = highlightSentence + Text(sentence[..<range.lowerBound]).foregroundColor(.from(generalColor))
+            highlightSentence = highlightSentence + Text(word).foregroundColor(.from(highlightColor))
             
             sentence = String(sentence[range.upperBound...])
         }
         
-        highlightSentence = highlightSentence + Text(sentence).foregroundColor(generalColor.value)
+        highlightSentence = highlightSentence + Text(sentence).foregroundColor(.from(generalColor))
         
         return highlightSentence
     }

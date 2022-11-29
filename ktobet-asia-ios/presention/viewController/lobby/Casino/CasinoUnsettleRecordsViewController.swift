@@ -19,7 +19,7 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, title: Localize.string("product_unsettled_game"))
         tableView.delegate = unsettleGameDelegate
         tableView.dataSource = self
-        tableView.setHeaderFooterDivider(headerColor: UIColor.black_two)
+        tableView.setHeaderFooterDivider(headerColor: UIColor.black131313)
         getUnsettledBetSummary()
     }
     
@@ -127,7 +127,7 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
         header.imageView.image = UIImage(named: "arrow-drop-down")
         view.addSubview(header.imageView)
         
-        header.titleLabel.textColor = UIColor.whiteFull
+        header.titleLabel.textColor = UIColor.whitePure
         header.titleLabel.font = UIFont(name: "PingFangSC-Regular", size: 16)
         view.addSubview(header.titleLabel, constraints: [
             .constraint(.equal, \.leadingAnchor, offset: 24),

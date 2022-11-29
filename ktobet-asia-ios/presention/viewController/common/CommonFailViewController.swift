@@ -39,7 +39,7 @@ class CommonFailViewController: CommonViewController {
         naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
         btnRestart.layer.cornerRadius = 9
         btnRestart.layer.masksToBounds = true
-        scollView.backgroundColor = UIColor.black_two
+        scollView.backgroundColor = UIColor.black131313
     }
 
     @IBAction private func btnRestartPressed(_ sender: UIButton) {

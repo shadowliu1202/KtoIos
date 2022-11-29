@@ -29,7 +29,7 @@ class ChatLinkTableViewCell: UITableViewCell {
         linkTextView.textContainerInset = UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 20)
         linkTextView.font = UIFont(name: "PingFangSC-Regular", size: 14.0)!        
         linkTextView.linkTextAttributes = [
-            .foregroundColor: UIColor.red,
+            .foregroundColor: UIColor.redF20000,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
     }

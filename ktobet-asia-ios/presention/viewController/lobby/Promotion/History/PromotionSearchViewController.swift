@@ -53,16 +53,16 @@ class PromotionSearchViewController: LobbyViewController {
         let titleView = UIView(frame: frame)
         searchBarView.removeMagnifyingGlass()
         searchBarView.setClearButtonColorTo(color: .white)
-        searchBarView.setCursorColorTo(color: UIColor.redForDarkFull)
+        searchBarView.setCursorColorTo(color: UIColor.redF20000)
         titleView.addSubview(searchBarView)
         searchBarView.center = titleView.convert(titleView.center, from: titleView.superview)
         navigationItem.titleView = titleView
         keepNavigationBar = self.navigationController?.navigationBar.barTintColor
-        self.navigationController?.navigationBar.barTintColor = UIColor.backgroundSidebarMineShaftGray
+        self.navigationController?.navigationBar.barTintColor = UIColor.gray202020
         searchBarView.addDoneButton(title: "Done", target: self, selector: #selector(pressDone(_:)))
         searchBarView.searchTextField.borderStyle = .none
         searchBarView.searchTextField.backgroundColor = UIColor.black
-        searchBarView.searchTextField.attributedPlaceholder = NSAttributedString(string: " \(Localize.string("common_search"))", attributes: [NSAttributedString.Key.foregroundColor : UIColor.textPrimaryDustyGray])
+        searchBarView.searchTextField.attributedPlaceholder = NSAttributedString(string: " \(Localize.string("common_search"))", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray9B9B9B])
     }
     
     private func dataBinding() {

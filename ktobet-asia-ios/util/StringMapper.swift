@@ -27,11 +27,11 @@ class StringMapper {
     static func getVerifyStatus(status: PlayerBankCardVerifyStatus) -> (text: String, color: UIColor) {
         switch status {
         case .pending:
-            return (Localize.string("withdrawal_bankcard_new"), UIColor.textPrimaryDustyGray)
+            return (Localize.string("withdrawal_bankcard_new"), UIColor.gray9B9B9B)
         case .verified:
-            return (Localize.string("cps_account_status_verified"), UIColor.textSuccessedGreen)
+            return (Localize.string("cps_account_status_verified"), UIColor.green6AB336)
         default:
-            return ("", UIColor.textPrimaryDustyGray)
+            return ("", UIColor.gray9B9B9B)
         }
     }
     

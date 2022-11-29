@@ -23,14 +23,14 @@ class DropDownInputText: UIView {
     private var labSubTitle = UILabel()
     private var arrow: Arrow = {
         let arrow = Arrow(origin: CGPoint(x: 0, y: 0), size: ArrowSize)
-        arrow.arrowColor = UIColor.textPrimaryDustyGray
+        arrow.arrowColor = UIColor.gray9B9B9B
         return arrow
     }()
     var dropDownText: DropDown = {
         let mainDropDown = DropDown(frame: .zero)
         mainDropDown.arrowSize = 0
-        mainDropDown.rowBackgroundColor = UIColor.toastBackgroundGray
-        mainDropDown.rowTextColor = UIColor.textPrimaryDustyGray
+        mainDropDown.rowBackgroundColor = UIColor.black2B2B2B
+        mainDropDown.rowTextColor = UIColor.gray9B9B9B
         mainDropDown.selectedRowColor = UIColor.clear
         mainDropDown.checkMarkEnabled = false
         return mainDropDown
@@ -72,8 +72,8 @@ class DropDownInputText: UIView {
     @IBInspectable public var isEnable: Bool = true {
         didSet {
             self.isUserInteractionEnabled = isEnable
-            self.arrow.arrowColor = isEnable ? UIColor.textPrimaryDustyGray : UIColor.textSecondaryScorpionGray
-            self.labTitle.textColor = isEnable ? UIColor.textPrimaryDustyGray : UIColor.textSecondaryScorpionGray
+            self.arrow.arrowColor = isEnable ? UIColor.gray9B9B9B : UIColor.gray595959
+            self.labTitle.textColor = isEnable ? UIColor.gray9B9B9B : UIColor.gray595959
         }
     }
     @IBInspectable public var isEmptyTip: Bool = false {
@@ -92,12 +92,12 @@ class DropDownInputText: UIView {
     // MARK: LIFE CYCLE
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = UIColor.inputSelectedTundoraGray
+        backgroundColor = UIColor.gray454545
         if let color = customizeBackgroundColor {
             backgroundColor = color.0
         }
         labTitle.font = UIFont(name: "PingFangSC-Regular", size: 12)
-        labTitle.textColor = UIColor.textPrimaryDustyGray
+        labTitle.textColor = UIColor.gray9B9B9B
         labTitle.backgroundColor = .clear
         
         labSubTitle.font = UIFont(name: "PingFangSC-Regular", size: 16)
@@ -156,7 +156,7 @@ class DropDownInputText: UIView {
             })
         }
         
-        underline.backgroundColor = UIColor.orangeFull
+        underline.backgroundColor = UIColor.orangeFF8000
         underline.isHidden = true
         
         addSubview(labTitle)
@@ -201,7 +201,7 @@ class DropDownInputText: UIView {
             if let color = self.customizeBackgroundColor {
                 self.backgroundColor = self.isEditing ? color.0 : color.1
             } else {
-                self.backgroundColor = self.isEditing ? UIColor.inputSelectedTundoraGray : UIColor.inputBaseMineShaftGray
+                self.backgroundColor = self.isEditing ? UIColor.gray454545 : UIColor.gray333333
             }
         }
         if firstPosition{

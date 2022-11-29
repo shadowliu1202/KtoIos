@@ -758,14 +758,18 @@ final class Injection {
                 let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
                 let deposit = applicationFactory.deposit()
                 let depositUseCase = resolver.resolveWrapper(DepositUseCase.self)
-                return DepositViewModel(deposit, depositUseCase: depositUseCase)
+                
+                return .init(
+                    depositService: deposit,
+                    depositUseCase: depositUseCase
+                )
             }
         
         container
             .register(DepositLogViewModel.self) { resolver in
                 let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
                 let deposit = applicationFactory.deposit()
-                return DepositLogViewModel(deposit)
+                return .init(deposit)
             }
         
         container

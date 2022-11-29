@@ -38,7 +38,7 @@ class TermsOfServiceViewController: CommonViewController, UIScrollViewDelegate {
     }
     
     private func initUI(){
-        labDesc.textColor = UIColor.black_two
+        labDesc.textColor = UIColor.black131313
         tableView.addTopBorder(size: 1, color: UIColor.black)
         let navigationTitle: String = termsPresenter.navigationTitle
         let naviBarBtn: BarItemType = termsPresenter.barItemType

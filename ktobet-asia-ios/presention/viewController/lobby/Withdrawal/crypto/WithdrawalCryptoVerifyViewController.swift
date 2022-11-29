@@ -34,7 +34,7 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
         btnPhone.setTitle(Localize.string("common_mobile"), for: .normal)
         btnEmail.setTitle(Localize.string("common_email"), for: .normal)
         for button in [btnEmail, btnPhone]{
-            let selectedColor = UIColor.backgroundTabsGray
+            let selectedColor = UIColor.gray636366
             let unSelectedColor = UIColor.clear
             button?.setBackgroundImage(UIImage(color: selectedColor), for: .selected)
             button?.setBackgroundImage(UIImage(color: unSelectedColor), for: .normal)

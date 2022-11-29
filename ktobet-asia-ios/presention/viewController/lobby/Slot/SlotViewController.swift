@@ -163,7 +163,7 @@ class SlotViewController: ProductsViewController {
         bottomGradient.endPoint = CGPoint(x: 0.5, y: 1.0)
         bottomGradient.frame = blurImageBackgroundView.bounds
         let startColor = UIColor.clear.cgColor
-        let endColor = UIColor.black_two.cgColor
+        let endColor = UIColor.black131313.cgColor
         bottomGradient.colors = [startColor, endColor]
         blurImageBackgroundView.layer.insertSublayer(bottomGradient, at: 0)
         
@@ -172,7 +172,7 @@ class SlotViewController: ProductsViewController {
         topGradient.endPoint = CGPoint(x: 0.5, y: 0.0)
         topGradient.frame = blurImageBackgroundView.bounds
         let startColor1 = UIColor.clear.cgColor
-        let endColor1 = UIColor.black_two.cgColor
+        let endColor1 = UIColor.black131313.cgColor
         topGradient.colors = [startColor1, endColor1]
         blurImageBackgroundView.layer.insertSublayer(topGradient, at: 1)
     }

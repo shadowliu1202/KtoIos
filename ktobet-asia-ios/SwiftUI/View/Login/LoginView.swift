@@ -50,8 +50,8 @@ struct LoginView: View {
                 .padding(.horizontal, 30 )
             }
         }
-        .pageBackgroundColor(.defaultGray)
-        .playerLocale(localStorageRepo.getSupportLocale())
+        .pageBackgroundColor(.gray131313)
+        .environment(\.playerLocale, localStorageRepo.getSupportLocale())
         .onAppear {
             if !isLoadedData {
                 viewModel.initRememberAccount()
@@ -68,7 +68,7 @@ struct LoginView: View {
     @ViewBuilder
     private func loginTitle() -> some View {
         Text(Localize.string("common_login"))
-            .customizedFont(fontWeight: .semibold, size: 24, color: .primaryGray)
+            .localized(weight: .semibold, size: 24, color: .gray9B9B9B)
     }
     
     @ViewBuilder
@@ -100,13 +100,13 @@ struct LoginView: View {
                     Image("isRememberMe")
                 } else {
                     Circle()
-                        .strokeBorder(Color.primaryGray, lineWidth: 1.5)
+                        .strokeBorder(Color.from(.gray9B9B9B), lineWidth: 1.5)
                         .frame(width: 22, height: 22)
                         .padding(1)
                 }
                 
                 Text(Localize.string("login_account_remember_me"))
-                    .customizedFont(fontWeight: .regular, size: 12, color: .primaryGray)
+                    .localized(weight: .regular, size: 12, color: .gray9B9B9B)
             }
             .onTapGesture {
                 isRememberMe.wrappedValue.toggle()
@@ -133,7 +133,7 @@ struct LoginView: View {
                     .scaledToFit()
                     .frame(width: 80, height: 32)
                 Text(Localize.string("login_captcha_new"))
-                    .customizedFont(fontWeight: .medium, size: 14, color: .primaryRed)
+                    .localized(weight: .medium, size: 14, color: .redF20000)
                     .onTapGesture {
                         getCaptchaOnTap()
                     }
@@ -165,15 +165,15 @@ struct LoginView: View {
     private func resetPassword(onTapped: @escaping () -> Void) -> some View {
         HStack(spacing: 0) {
             Text(Localize.string("login_tips_1"))
-                .foregroundColor(.primaryGray)
+                .foregroundColor(.from(.gray9B9B9B))
             Text(" ")
             Text(Localize.string("login_tips_1_highlight"))
-                .foregroundColor(.primaryRed)
+                .foregroundColor(.from(.redF20000))
                 .onTapGesture {
                     onTapped()
                 }
         }
-        .customizedFont(fontWeight: .regular, size: 14, color: nil)
+        .localized(weight: .regular, size: 14)
     }
 }
 

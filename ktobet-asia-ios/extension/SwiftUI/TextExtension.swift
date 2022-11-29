@@ -39,50 +39,15 @@ enum KTOFontWeight: String {
     }
 }
 
-enum KTOTextColor {
-    case primaryGray
-    case primaryRed
-    case primaryForLight
-    case white
-    case alert
-    case defaultGray
-    case black
-    case gray2
-    case secondary
-    
-    var value: Color {
-        switch self {
-        case .primaryGray:
-            return .primaryGray
-        case .primaryRed:
-            return .primaryRed
-        case .primaryForLight:
-            return .primaryForLight
-        case .white:
-            return .white
-        case .alert:
-            return .alert
-        case .defaultGray:
-            return .defaultGray
-        case .black:
-            return .black
-        case .gray2:
-            return .gray2
-        case .secondary:
-            return .secondary
-        }
-    }
-}
-
 extension Text {
     @ViewBuilder
     func alertStyle() -> some View {
         self
-            .customizedFont(fontWeight: .regular, size: 14, color: .white)
+            .localized(weight: .regular, size: 14, color: .whitePure)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, 12)
             .padding(.horizontal, 15)
-            .backgroundColor(.alert)
+            .backgroundColor(.orangeFF8000)
             .cornerRadius(8)
             .fixedSize(horizontal: false, vertical: true)
     }

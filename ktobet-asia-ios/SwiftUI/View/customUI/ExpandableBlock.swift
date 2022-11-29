@@ -25,13 +25,13 @@ struct ExpandableBlock<Content: View>: View {
     var body: some View {
         VStack(alignment: contentAlignment, spacing: 0) {
             VStack(spacing: 0) {
-                CustomizedDivider(color: .dividerGray)
+                Separator(color: .gray3C3E40)
                 
                 LimitSpacer(11)
                 
                 HStack {
                     Text(title)
-                        .customizedFont(fontWeight: .semibold, size: 16, color: .black)
+                        .localized(weight: .semibold, size: 16, color: .black)
                     Spacer()
                     Image(isExpand ? "termsArrowUp" : "termsArrowDown")
                         .resizable()
@@ -42,7 +42,7 @@ struct ExpandableBlock<Content: View>: View {
                 LimitSpacer(11)
                 
                 if isExpand || isLastBlock {
-                    CustomizedDivider(color: .dividerGray)
+                    Separator(color: .gray3C3E40)
                 }
             }
             .contentShape(Rectangle())

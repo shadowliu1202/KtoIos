@@ -23,9 +23,9 @@ class PromotionDetailViewController: LobbyViewController {
     
     private let stampIconImageView = UIImageView()
     
-    private let yellowGradient = [UIColor.yellowFull.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor]
-    private let yellowGradientAlpha60 = [UIColor.yellowFull.withAlphaComponent(0.6).cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 0.6).cgColor]
-    private let yellowGradientAlpha20 = [UIColor.yellowFull.withAlphaComponent(0.2).cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 0.2).cgColor]
+    private let yellowGradient = [UIColor.yellowFFD500.cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 1).cgColor]
+    private let yellowGradientAlpha60 = [UIColor.yellowFFD500.withAlphaComponent(0.6).cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 0.6).cgColor]
+    private let yellowGradientAlpha20 = [UIColor.yellowFFD500.withAlphaComponent(0.2).cgColor, UIColor(red: 254/255, green: 161/255, blue: 68/255, alpha: 0.2).cgColor]
     
     private var localStorageRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
 
@@ -43,8 +43,8 @@ class PromotionDetailViewController: LobbyViewController {
         getPromotionButton.applyGradient(horizontal: yellowGradient)
         topBackgroundView.applyGradient(horizontal: yellowGradient)
         
-        textViewContent.linkTextAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: UIColor.red, .foregroundColor: UIColor.red]
-        textViewRule.linkTextAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: UIColor.red, .foregroundColor: UIColor.red]
+        textViewContent.linkTextAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: UIColor.redF20000, .foregroundColor: UIColor.redF20000]
+        textViewRule.linkTextAttributes = [.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: UIColor.redF20000, .foregroundColor: UIColor.redF20000]
         
         textViewContent.delegate = self
         textViewRule.delegate = self
@@ -94,7 +94,7 @@ class PromotionDetailViewController: LobbyViewController {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.2
         let fontAttribute = [NSAttributedString.Key.font: UIFont(name: "PingFangSC-Regular", size: 14)!,
-                             NSAttributedString.Key.foregroundColor: UIColor.textSecondaryScorpionGray,
+                             NSAttributedString.Key.foregroundColor: UIColor.gray595959,
                              NSAttributedString.Key.paragraphStyle: paragraphStyle]
         
         var attributedString = NSMutableAttributedString(string: text, attributes: fontAttribute)
@@ -118,7 +118,7 @@ class PromotionDetailViewController: LobbyViewController {
     private func replaceParameter(text: inout NSMutableAttributedString, parameter: String, value: String) {
         guard let index = text.string.index(of: parameter)?.utf16Offset(in: text.string) else { return }
         text.replaceCharacters(in: NSRange(location: index, length: parameter.count), with: NSAttributedString(string: value))
-        text.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: index, length: value.count))
+        text.addAttribute(.foregroundColor, value: UIColor.redF20000, range: NSRange(location: index, length: value.count))
         text.addAttribute(.font, value: UIFont(name: "PingFangSC-Regular", size: 14)!, range: NSRange(location: index, length: value.count))
     }
     

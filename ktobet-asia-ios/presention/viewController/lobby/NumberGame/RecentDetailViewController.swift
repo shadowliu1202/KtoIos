@@ -41,7 +41,7 @@ class RecentDetailViewController: LobbyViewController {
         let label = UILabel()
         label.textAlignment = .left
         label.font = UIFont.init(name: "PingFangSC-Medium", size: 14)
-        label.textColor = UIColor.textPrimaryDustyGray
+        label.textColor = UIColor.gray9B9B9B
         label.text = Localize.string("product_draw_result")
         resultView.addSubview(label, constraints: [
             .constraint(.equal, \.trailingAnchor, offset: 24),
@@ -72,11 +72,11 @@ class RecentDetailViewController: LobbyViewController {
             .equal(\.heightAnchor, length: 47),
             .equal(\.widthAnchor, length: 47)
         ])
-        circle.backgroundColor = UIColor.red
+        circle.backgroundColor = UIColor.redF20000
         circle.cornerRadius = 47 / 2
         let label = UILabel()
         label.font = UIFont.init(name: "PingFangSC-Semibold", size: 14)
-        label.textColor = UIColor.whiteFull
+        label.textColor = UIColor.whitePure
         label.text = "\(num.intValue)"
         circle.addSubview(label, constraints: .center)
         return circle
@@ -137,7 +137,7 @@ class RecentDetailCell: UITableViewCell {
             setValue(betStatus)
             if status is NumberGameBetDetail.BetStatusSettledWinLose,
                (status as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss.isPositive {
-                descriptionLabel.textColor = UIColor.textSuccessedGreen
+                descriptionLabel.textColor = UIColor.green6AB336
             }
         }
         return self
