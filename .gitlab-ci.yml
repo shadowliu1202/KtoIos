@@ -11,7 +11,7 @@ instrumentedTests:
   allow_failure: true
   stage: spec-test
   tags:
-      - mac-slave
+      - ios-runner
   rules:
     - if: ($CI_COMMIT_BRANCH == "master" && $CI_PIPELINE_SOURCE == "push")
   script:   
@@ -36,7 +36,7 @@ build-job:
         - if: ($CI_COMMIT_BRANCH =~ /(APP|KTO|SP)-[0-9]+/ && $CI_PIPELINE_SOURCE != "merge_request_event")        
     stage: inProgress
     tags:
-      - mac-slave
+      - ios-runner
     script:              
       - EMAIL_NAME="$(echo $GITLAB_USER_EMAIL | sed "s/@.*//")"
       - >
@@ -50,7 +50,7 @@ build-job:
 merge-job:   
     allow_failure: true   
     tags:
-      - mac-slave
+      - ios-runner
     before_script:            
         - source ~/.nvm/nvm.sh
         # - nvm install node
