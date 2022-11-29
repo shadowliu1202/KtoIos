@@ -46,6 +46,8 @@ build-job:
       - echo -e "$JIRA_SUB"
 
 merge-job:      
+    tags:
+      - ios_handler
     before_script:            
         - source ~/.nvm/nvm.sh
         # - nvm install node
