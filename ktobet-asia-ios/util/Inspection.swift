@@ -12,3 +12,15 @@ internal final class Inspection<V> {
         }
     }
 }
+
+extension View {
+    
+    func onInspected<Content: View>
+        (_ inspection: Inspection<Content>, _ target: Content)
+        -> some View
+    {
+        onReceive(inspection.notice) {
+            inspection.visit(target, $0)
+        }
+    }
+}
