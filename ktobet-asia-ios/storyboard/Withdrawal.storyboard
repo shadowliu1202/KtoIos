@@ -2724,6 +2724,9 @@
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="common_submit"/>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="clickConfirm:" destination="bHS-HC-OYc" eventType="touchUpInside" id="McA-F8-DIb"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
