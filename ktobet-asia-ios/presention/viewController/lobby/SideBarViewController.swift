@@ -386,7 +386,7 @@ class SideBarViewController: LobbyViewController {
             case .withdraw:
                 NavigationManagement.sharedInstance.goTo(storyboard: "Withdrawal", viewControllerId: "WithdrawalNavigation")
             case .deposit:
-                NavigationManagement.sharedInstance.goToDeposit()
+                NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
             case .callService:
                 NavigationManagement.sharedInstance.goTo(storyboard: "CustomService", viewControllerId: "CustomerServiceMainNavigationController")
             }

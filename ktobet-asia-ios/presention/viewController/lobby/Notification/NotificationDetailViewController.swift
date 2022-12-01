@@ -110,7 +110,7 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
             }
         case .onlinecardschange:
             self.navigateToDestination = {
-                NavigationManagement.sharedInstance.goToDeposit()
+                NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
             }
         case .registercompleted, .levelup:
             self.navigateToDestination = {

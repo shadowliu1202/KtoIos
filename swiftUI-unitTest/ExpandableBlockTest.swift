@@ -1,27 +1,40 @@
 import XCTest
 import SwiftUI
 import ViewInspector
+
 @testable import ktobet_asia_ios_qat
 
+extension ExpandableBlock: Inspecting { }
+
 class ExpandableBlockTest: XCTestCase {
+    
     func test_Guide_Link_isExpanded() throws {
-        testUI(testView: ExpandableBlock(title: "Title", content: { Text("content") })) { view in
+        let sut = ExpandableBlock(title: "Title", content: { Text("content") })
+        
+        let exp = sut.inspection.inspect { view in
             let header = try view.find(viewWithId: "blockHeader").vStack()
             try header.callOnTapGesture()
+            
             let rows = try view.find(viewWithId: "blockContent").text()
             XCTAssertNotNil(rows)
         }
+        
+        ViewHosting.host(view: sut)
+        
+        wait(for: [exp], timeout: 10)
     }
     
     func test_Guide_Link_isFolded() throws {
-        testUI(testView: ExpandableBlock(title: "Title", content: { Text("content") })) { view in
+        let sut = ExpandableBlock(title: "Title", content: { Text("content") })
+        
+        let exp = sut.inspection.inspect { view in
             let rows = try? view.find(viewWithId: "blockContent").text()
             XCTAssertNil(rows)
         }
+        
+        ViewHosting.host(view: sut)
+        
+        wait(for: [exp], timeout: 10)
     }
-    
 }
-
-extension ExpandableBlock: UITestable {}
-
 

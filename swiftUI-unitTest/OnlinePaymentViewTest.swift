@@ -5,7 +5,11 @@ import SharedBu
 import RxSwift
 import Combine
 import Mockingbird
+
 @testable import ktobet_asia_ios_qat
+
+extension OnlinePaymentView: Inspecting { }
+extension OnlineDepositViewModelProtocolMock: CollectErrorViewModelProtocol, ObservableObject { } 
 
 class OnlinePaymentViewTest: XCTestCase {
     private let onlinePayment: PaymentsDTO.Online = PaymentsDTO.Online.init(identity: "24", name: "数字人民币", hint: "", isRecommend: false, beneficiaries: RxSwift.Single<NSArray>.just([PaymentsDTO.Gateway(identity: "70", name: "JinYi_Digital", cash: CashType.Input.init(limitation: AmountRange.init(min: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "200"), max: FiatFactory.shared.create(supportLocale: SupportLocale.China.init(), amount_: "2000")), isFloatAllowed: false), remitType: PaymentsDTO.RemitType.normal, remitBank: [], verifier: CompositeVerification<RemitApplication, PaymentError>(), hint: "", isAccountNumberDenied: true, isInstructionDisplayed: true)] as NSArray).asWrapper())
@@ -117,6 +121,3 @@ class OnlinePaymentViewTest: XCTestCase {
         wait(for: [exp], timeout: 10)
     }
 }
-
-extension OnlinePaymentView: UITestable {}
-extension OnlineDepositViewModelProtocolMock: CollectErrorViewModelProtocol, ObservableObject {}

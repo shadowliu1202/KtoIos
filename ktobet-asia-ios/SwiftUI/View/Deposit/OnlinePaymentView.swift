@@ -95,9 +95,7 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
                 viewModel.verifyRemitInput(gateway: selectedGateway, remitterName: remitterName, remittance: amount)
             }
         }
-        .onReceive(inspection.notice) {
-           self.inspection.visit(self, $0)
-        }
+        .onInspected(inspection, self)
     }
     
     private var userGuide: some View {

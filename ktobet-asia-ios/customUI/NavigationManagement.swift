@@ -25,9 +25,7 @@ protocol Navigator {
     func goToPreviousRootViewController()
     func goToSetDefaultProduct()
     func goTo(productType: ProductType, isMaintenance: Bool)
-    
-    func goToDeposit()
-    
+        
     func popViewController(_ completion: (() -> Void)?)
     func popViewController(_ completion: (() -> Void)?, to vc: UIViewController)
     func popToRootViewController(_ completion: (() -> Void)?)
@@ -303,48 +301,5 @@ class NavigationManagement: Navigator {
         menu = nil
         UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = nil
         SideMenuManager.default.leftMenuNavigationController = nil
-    }
-}
-
-// FIXME: - Refactor
-
-extension NavigationManagement {
-    
-    func goToDeposit() {
-        if menu != nil {
-            menu.dismiss(
-                animated: true,
-                completion: {
-                    self.setDepoistToRoot()
-                }
-            )
-        }
-        else {
-            setDepoistToRoot()
-        }
-    }
-    
-    private func setDepoistToRoot() {
-        @Injected var viewModel: DepositViewModel
-        @Injected var logViewModel: DepositLogViewModel
-        
-        let navigation = UIStoryboard(name: "Deposit", bundle: nil)
-            .instantiateViewController(withIdentifier: "DepositNavigation") as? UINavigationController
-        
-        navigation?.viewControllers = [
-            DepositViewController.initFrom(
-                storyboard: "Deposit",
-                creator: {
-                    DepositViewController(
-                        coder: $0,
-                        viewModel: viewModel,
-                        logViewModel: logViewModel
-                    )
-                }
-            )
-        ]
-        
-        viewController = navigation
-        UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = viewController
     }
 }

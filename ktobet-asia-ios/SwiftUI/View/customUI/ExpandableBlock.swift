@@ -57,9 +57,7 @@ struct ExpandableBlock<Content: View>: View {
                 content.id(Identifier.blockContent.rawValue)
             }
         }
-        .onReceive(inspection.notice) {
-            self.inspection.visit(self, $0)
-        }
+        .onInspected(inspection, self)
     }
 }
 

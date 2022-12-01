@@ -7,19 +7,19 @@ import Moya
 class DepositViewController: LobbyViewController,
                              SwiftUIConverter {
     
-    private let viewModel: DepositViewModel
-    private let logViewModel: DepositLogViewModel
+    @Injected private var viewModel: DepositViewModel
+    @Injected private var logViewModel: DepositLogViewModel
     
     private let disposeBag = DisposeBag()
     
     init?(coder: NSCoder, viewModel: DepositViewModel, logViewModel: DepositLogViewModel) {
+        super.init(coder: coder)
         self.viewModel = viewModel
         self.logViewModel = logViewModel
-        super.init(coder: coder)
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Use another init for inject viewModel!!")
+        super.init(coder: coder)
     }
     
     override func viewDidLoad() {

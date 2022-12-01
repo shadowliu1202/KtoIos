@@ -36,11 +36,21 @@ struct DepositView: View {
 
 extension DepositView {
     
+    enum Identifier: String {
+        case payments
+        case paymentsEmptyReminder
+        case histories
+        case historiesEmptyReminder
+        case historyShowAllButton
+    }
+    
     struct Payments: View {
         @EnvironmentObject var viewModel: DepositViewModel
         @Environment(\.playerLocale) var locale: SupportLocale
         
         var onSelected: ((DepositSelection) -> Void)?
+        
+        var inspection = Inspection<Self>()
         
         var body: some View {
             VStack(spacing: 0) {
@@ -56,10 +66,10 @@ extension DepositView {
                         
                         Separator(color: .gray3C3E40)
                             .padding(.leading, 48)
-                            .padding(.trailing, 0)
                             .visibility($0 == selections.count - 1 ? .invisible : .visible)
                     }
                     .backgroundColor(.black1A1A1A)
+                    .id(DepositView.Identifier.payments.rawValue)
                     
                     DepositView.PaymentFooter(isEmpty: selections.isEmpty)
                 }
@@ -67,6 +77,7 @@ extension DepositView {
                     EmptyView()
                 }
             }
+            .onInspected(inspection, self)
         }
     }
     
@@ -94,6 +105,7 @@ extension DepositView {
                     )
                     .padding(.horizontal, 30)
                     .visibility(isEmpty ? .visible : .gone)
+                    .id(DepositView.Identifier.paymentsEmptyReminder.rawValue)
             }
         }
     }
@@ -141,7 +153,7 @@ extension DepositView {
                         .padding(.horizontal, 9)
                         .backgroundColor(.yellowFFD500)
                         .cornerRadius(12)
-                        .visibility(selection.isRecommend ? .visible : .invisible)
+                        .visibility(selection.isRecommend ? .visible : .gone)
                 }
                 .padding(.leading, 16)
                 .padding(.trailing, 8)
@@ -168,15 +180,14 @@ extension DepositView {
                 .visibility(isEmpty ? .gone : .visible)
         }
     }
-}
 
-extension DepositView {
-    
     struct Histories: View {
         @EnvironmentObject var logViewModel: DepositLogViewModel
         
         var onDisplayAll: (() -> Void)?
         var onSelected: ((PaymentLogDTO.Log) -> Void)?
+        
+        var inspection = Inspection<Self>()
         
         var body: some View {
             VStack(spacing: 0) {
@@ -191,16 +202,18 @@ extension DepositView {
                             log: recentLogs[$0],
                             onSelected: onSelected
                         )
-
+                        
                         Separator(color: .gray3C3E40)
                             .padding(.top, 15)
                     }
                     .backgroundColor(.black1A1A1A)
+                    .id(DepositView.Identifier.histories.rawValue)
                 }
                 else {
                     EmptyView()
                 }
             }
+            .onInspected(inspection, self)
         }
     }
     
@@ -233,6 +246,7 @@ extension DepositView {
                         }
                     )
                     .visibility(isEmpty ? .gone : .visible)
+                    .id(DepositView.Identifier.historyShowAllButton.rawValue)
                 }
                 .padding(.horizontal, 30)
                 
@@ -247,6 +261,7 @@ extension DepositView {
                     )
                     .padding(.horizontal, 30)
                     .visibility(isEmpty ? .visible : .gone)
+                    .id(DepositView.Identifier.historiesEmptyReminder.rawValue)
             }
         }
     }
