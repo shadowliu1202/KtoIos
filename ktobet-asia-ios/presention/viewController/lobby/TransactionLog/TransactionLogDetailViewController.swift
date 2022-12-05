@@ -204,7 +204,13 @@ class LogDetailRowItem {
     var amountColor: UIColor {
         return bean.amount.isPositive ? .textSuccessedGreen : .whiteFull
     }
-    var balancelogAfterAmount: String { bean.afterBalance.description() }
+    var balancelogAfterAmount: String {
+        let afterBalance = bean.afterBalance
+        if afterBalance.isNegative {
+            return afterBalance.negativeAmount()
+        }
+        return afterBalance.formatString()
+    }
     var dateTime: String { bean.date.toDateTimeFormatString() }
     var logId: String?
     var remark: String?

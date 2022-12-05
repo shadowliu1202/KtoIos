@@ -11,7 +11,12 @@ class PlayerViewModel {
 
     lazy var playerBalance = refreshBalance.flatMapLatest{_ in
         self.playerUseCase.getBalance()
-            .map { "\($0.symbol) \($0.formatString())" }
+            .map {
+                if $0.isNegative {
+                    return "\($0.symbol) \($0.negativeAmount())"
+                }
+                return "\($0.symbol) \($0.formatString())"
+            }
             .do(onSuccess: { self.balance = $0 })
     }.asDriver(onErrorJustReturn: "")
 
