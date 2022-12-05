@@ -1,21 +1,12 @@
 import Foundation
 import RxSwift
 import SharedBu
+import RxCocoa
 
-class PlayerViewModel {
+class PlayerViewModel: CollectErrorViewModel {
     
     private let playerUseCase: PlayerDataUseCase
     private let authUseCase: AuthenticationUseCase
-    
-    private(set) var balance: String?
-
-    lazy var playerBalance = refreshBalance.flatMapLatest{_ in
-        self.playerUseCase.getBalance()
-            .map { "\($0.symbol) \($0.formatString())" }
-            .do(onSuccess: { self.balance = $0 })
-    }.asDriver(onErrorJustReturn: "")
-
-    var refreshBalance = PublishSubject<(Void)>()
                 
     init(playerUseCase: PlayerDataUseCase, authUseCase: AuthenticationUseCase) {
         self.playerUseCase = playerUseCase
@@ -50,6 +41,26 @@ class PlayerViewModel {
     
     func checkIsLogged() -> Single<Bool>{
         authUseCase.isLogged()
+    }
+    
+    func getPlayerInfo() -> Driver<Player?> {
+        playerUseCase.loadPlayer()
+            .map { $0 }
+            .asDriver(onErrorRecover: { [weak self] error in
+                self?.errorsSubject.onNext(error)
+                
+                return .just(nil)
+            })
+    }
+    
+    func getBalance() -> Driver<AccountCurrency?> {
+        playerUseCase.getBalance()
+            .map { $0 }
+            .asDriver(onErrorRecover: { [weak self] error in
+                self?.errorsSubject.onNext(error)
+                
+                return .just(nil)
+            })
     }
 }
 
