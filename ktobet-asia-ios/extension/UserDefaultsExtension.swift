@@ -23,6 +23,7 @@ extension UserDefaults {
         case playerInfoCache
         case lastAPISuccessDate
         case balanceHiddenState(gameId: String)
+        case isFirstLaunch
         
         var rawValue: String {
             switch self {
@@ -52,6 +53,8 @@ extension UserDefaults {
                 return "lastAPISuccessDate"
             case .balanceHiddenState(let gameId):
                 return "balanceHiddenState" + gameId
+            case .isFirstLaunch:
+                return "isFirstLaunch"
             }
         }
         
