@@ -5795,6 +5795,7 @@
 		FF694ACE2936F98900FF21EB /* DepositViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACD2936F98900FF21EB /* DepositViewTests.swift */; };
 		FF694AD22936F99200FF21EB /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
 		FF694AD32936F99200FF21EB /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
+		FF6A94D7293745DD00D36FF3 /* TermsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6A94D6293745DD00D36FF3 /* TermsViewTests.swift */; };
 		FF77F0F329261D3E001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0F429261F41001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0F529261F41001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
@@ -5893,6 +5894,15 @@
 		FFDBCF5C290FD98F00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		FFEC22762924BA94006EA6F2 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		FFEC22782924BB83006EA6F2 /* YTPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEC22772924BB83006EA6F2 /* YTPlayer.swift */; };
+		FFEF4A3D29349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
+		FFEF4A3E29349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
+		FFEF4A3F29349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
+		FFEF4A4029349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
+		FFEF4A4129349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
+		FFEF4A4229349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
+		FFEF4A4329349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
+		FFEF4A4429349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
+		FFEF4A4529349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
 		FFF5CA2C292603AF00FC161B /* P2PViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */; };
 		FFF5CA2D292603AF00FC161B /* P2PSummaryViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */; };
 /* End PBXBuildFile section */
@@ -6796,6 +6806,7 @@
 		FF694ACD2936F98900FF21EB /* DepositViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepositViewTests.swift; sourceTree = "<group>"; };
 		FF694ACF2936F99200FF21EB /* Inspecting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inspecting.swift; sourceTree = "<group>"; };
 		FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InspectableView+Extension.swift"; sourceTree = "<group>"; };
+		FF6A94D6293745DD00D36FF3 /* TermsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewTests.swift; sourceTree = "<group>"; };
 		FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerConfigurationImpl.swift; sourceTree = "<group>"; };
 		FF9ED01B2924CAB600F99E2B /* SwiftUIConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIConverter.swift; sourceTree = "<group>"; };
 		FF9ED01D2924CBD800F99E2B /* CryptoVideoTutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoVideoTutorialViewController.swift; sourceTree = "<group>"; };
@@ -6807,6 +6818,7 @@
 		FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAppTest.swift; sourceTree = "<group>"; };
 		FFDBCF52290FD97000C0735F /* UITestAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestAdapter.swift; sourceTree = "<group>"; };
 		FFEC22772924BB83006EA6F2 /* YTPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTPlayer.swift; sourceTree = "<group>"; };
+		FFEF4A3C29349F7F001EEC73 /* TermsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PViewControllerTests.swift; sourceTree = "<group>"; };
 		FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PSummaryViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -6974,6 +6986,7 @@
 				FF694ACD2936F98900FF21EB /* DepositViewTests.swift */,
 				6D35F9F428DC681B00C67696 /* ExpandableBlockTest.swift */,
 				3C656EA928E3E6DB00EFB754 /* OnlinePaymentViewTest.swift */,
+				FF6A94D6293745DD00D36FF3 /* TermsViewTests.swift */,
 			);
 			path = "swiftUI-unitTest";
 			sourceTree = "<group>";
@@ -7009,6 +7022,7 @@
 			isa = PBXGroup;
 			children = (
 				3CA9E3F128DD4E6900FFB33E /* customUI */,
+				FFEF4A3B29349F7F001EEC73 /* Sign Up */,
 				3C7672D428990843001DF62F /* Login */,
 				3CC064B1287E7B85008AAC09 /* Deposit */,
 			);
@@ -8544,6 +8558,14 @@
 				6DA40A77292F20DD0046E439 /* KeychainStorable.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		FFEF4A3B29349F7F001EEC73 /* Sign Up */ = {
+			isa = PBXGroup;
+			children = (
+				FFEF4A3C29349F7F001EEC73 /* TermsView.swift */,
+			);
+			path = "Sign Up";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -10446,6 +10468,7 @@
 				FF7ABFAB2936FB25001D37EB /* XCTestCase+Extension.swift in Sources */,
 				3C656EAA28E3E6DB00EFB754 /* OnlinePaymentViewTest.swift in Sources */,
 				FF694AD22936F99200FF21EB /* Inspecting.swift in Sources */,
+				FF6A94D7293745DD00D36FF3 /* TermsViewTests.swift in Sources */,
 				FF694AD32936F99200FF21EB /* InspectableView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -10810,6 +10833,7 @@
 				6DCC261F27587825007C973B /* NotificationViewController.swift in Sources */,
 				4199A05C25AE9918002E2D7E /* CommonFailViewController.swift in Sources */,
 				6034626C26327E5A00F5D1D9 /* KTOBarButtonItem.swift in Sources */,
+				FFEF4A3E29349F7F001EEC73 /* TermsView.swift in Sources */,
 				4199A05D25AE9918002E2D7E /* Transport.swift in Sources */,
 				6D47070F2786F37B00FDCBAD /* UIApplicationExtension.swift in Sources */,
 				4199A05E25AE9918002E2D7E /* HttpClient.swift in Sources */,
@@ -11428,6 +11452,7 @@
 				48AAA143256E458800E075CA /* HttpClient.swift in Sources */,
 				48AAA144256E458800E075CA /* ConfigurationUseCase.swift in Sources */,
 				6083DC9B279551FF00794145 /* DepositLogViewModel.swift in Sources */,
+				FFEF4A3D29349F7F001EEC73 /* TermsView.swift in Sources */,
 				6DCC261E27587825007C973B /* NotificationViewController.swift in Sources */,
 				48AAA145256E458800E075CA /* SignupPhoneViewController.swift in Sources */,
 				6034626B26327E5A00F5D1D9 /* KTOBarButtonItem.swift in Sources */,
@@ -12178,6 +12203,7 @@
 				6090132E2640EE7000419F8E /* CasinoLobbyType.swift in Sources */,
 				6090132F2640EE7000419F8E /* Alert.swift in Sources */,
 				6060AF3D26704CE4001DD3F3 /* DepositCryptoViewController.swift in Sources */,
+				FFEF4A3F29349F7F001EEC73 /* TermsView.swift in Sources */,
 				6018F79C2684660C00941BDD /* CryptoVerifyMobileViewController.swift in Sources */,
 				609013302640EE7000419F8E /* Injection.swift in Sources */,
 				60AC5C0D2766E7F7008F0281 /* PortalMaintenanceViewController.swift in Sources */,
@@ -12769,6 +12795,7 @@
 				60E5817527F190E4008CE5A9 /* CasinoLobbyType.swift in Sources */,
 				60E5817627F190E4008CE5A9 /* Alert.swift in Sources */,
 				60E5817727F190E4008CE5A9 /* DepositCryptoViewController.swift in Sources */,
+				FFEF4A4029349F7F001EEC73 /* TermsView.swift in Sources */,
 				60E5817827F190E4008CE5A9 /* CryptoVerifyMobileViewController.swift in Sources */,
 				60E5817927F190E4008CE5A9 /* Injection.swift in Sources */,
 				60E5817A27F190E4008CE5A9 /* PortalMaintenanceViewController.swift in Sources */,
@@ -12916,6 +12943,7 @@
 				6D0EDB2328743FAC004A9E3C /* ArcadeApi.swift in Sources */,
 				6D0EDB2428743FAC004A9E3C /* DepositThirdPartWebViewController.swift in Sources */,
 				6D0EDB2528743FAC004A9E3C /* PromotionModel.swift in Sources */,
+				FFEF4A4429349F7F001EEC73 /* TermsView.swift in Sources */,
 				3CA9E3CF28D962DB00FFB33E /* JinYiDigitalGuideView.swift in Sources */,
 				6D0EDB2628743FAC004A9E3C /* SuperSignStatus.swift in Sources */,
 				6D0EDB2728743FAC004A9E3C /* WithdrawlLandingViewController.swift in Sources */,
@@ -13508,6 +13536,7 @@
 				6D0EDD7E28744704004A9E3C /* ArcadeApi.swift in Sources */,
 				6D0EDD7F28744704004A9E3C /* DepositThirdPartWebViewController.swift in Sources */,
 				6D0EDD8028744704004A9E3C /* PromotionModel.swift in Sources */,
+				FFEF4A4529349F7F001EEC73 /* TermsView.swift in Sources */,
 				3CA9E3D028D962DB00FFB33E /* JinYiDigitalGuideView.swift in Sources */,
 				6D0EDD8128744704004A9E3C /* SuperSignStatus.swift in Sources */,
 				6D0EDD8228744704004A9E3C /* WithdrawlLandingViewController.swift in Sources */,
@@ -14576,6 +14605,7 @@
 				6D966D0327FEE3FA006086B7 /* CasinoLobbyType.swift in Sources */,
 				6D966D0427FEE3FA006086B7 /* Alert.swift in Sources */,
 				6D966D0527FEE3FA006086B7 /* DepositCryptoViewController.swift in Sources */,
+				FFEF4A4129349F7F001EEC73 /* TermsView.swift in Sources */,
 				6D966D0627FEE3FA006086B7 /* CryptoVerifyMobileViewController.swift in Sources */,
 				6D966D0727FEE3FA006086B7 /* Injection.swift in Sources */,
 				6D966D0827FEE3FA006086B7 /* PortalMaintenanceViewController.swift in Sources */,
@@ -15167,6 +15197,7 @@
 				6D966F5027FEE416006086B7 /* CasinoLobbyType.swift in Sources */,
 				6D966F5127FEE416006086B7 /* Alert.swift in Sources */,
 				6D966F5227FEE416006086B7 /* DepositCryptoViewController.swift in Sources */,
+				FFEF4A4229349F7F001EEC73 /* TermsView.swift in Sources */,
 				6D966F5327FEE416006086B7 /* CryptoVerifyMobileViewController.swift in Sources */,
 				6D966F5427FEE416006086B7 /* Injection.swift in Sources */,
 				6D966F5527FEE416006086B7 /* PortalMaintenanceViewController.swift in Sources */,
@@ -15597,6 +15628,7 @@
 				6D96711527FEE42B006086B7 /* ProductItemCell.swift in Sources */,
 				6D96711627FEE42B006086B7 /* DepositLogViewModel.swift in Sources */,
 				6D96711727FEE42B006086B7 /* NotificationViewController.swift in Sources */,
+				FFEF4A4329349F7F001EEC73 /* TermsView.swift in Sources */,
 				6D96711827FEE42B006086B7 /* CommonFailViewController.swift in Sources */,
 				6D96711927FEE42B006086B7 /* KTOBarButtonItem.swift in Sources */,
 				6D96711A27FEE42B006086B7 /* Transport.swift in Sources */,

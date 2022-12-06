@@ -17,11 +17,14 @@ class TermsViewController: LobbyViewController, TermsTableDelegate {
         super.viewDidLoad()
 
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
-        viewModel.yearOfCopyRight.subscribe(onSuccess: { [weak self] in
-            self?.tableContainer?.copyrightLabel.text = Localize.string("common_copyright", "\($0)")
-        }, onError: { [weak self] in
-            self?.handleErrors($0)
-        }).disposed(by: disposeBag)
+        
+        viewModel.yearOfCopyRight
+            .subscribe(onSuccess: { [weak self] in
+                self?.tableContainer?.copyrightLabel.text = Localize.string("common_copyright", "\($0)")
+            }, onFailure: { [weak self] in
+                self?.handleErrors($0)
+            })
+            .disposed(by: disposeBag)
     }
     
     deinit {
@@ -54,15 +57,24 @@ class TermsViewController: LobbyViewController, TermsTableDelegate {
     }
     
     private func navigateToPrivacyTerm() {
-        navigateToTermsOfService(presnter: SecurityPrivacyTerms())
+        navigationController?.pushViewController(
+            TermsOfServiceViewController.instantiate(SecurityPrivacyTerms()),
+            animated: true
+        )
     }
     
     private func navigateToServiceTerms() {
-        navigateToTermsOfService(presnter: ServiceTerms(barItemType: .back))
+        navigationController?.pushViewController(
+            TermsOfServiceViewController.instantiate(ServiceTerms(barItemType: .back)),
+            animated: true
+        )
     }
     
     private func navigateToGamblingResponsibility() {
-        navigateToTermsOfService(presnter: GameblingResponsibility())
+        navigationController?.pushViewController(
+            TermsOfServiceViewController.instantiate(GameblingResponsibility()),
+            animated: true
+        )
     }
     
     private func navigateToAboutKTO() {
@@ -71,13 +83,6 @@ class TermsViewController: LobbyViewController, TermsTableDelegate {
     
     private func navigateToLegalSupervision() {
         self.performSegue(withIdentifier: LegalSupervisionViewController.segueIdentifier, sender: nil)
-    }
-    
-    private func navigateToTermsOfService(presnter: TermsPresenter) {
-        if let termsOfServiceViewController = UIStoryboard(name: "Signup", bundle: nil).instantiateViewController(withIdentifier: "TermsOfServiceViewController") as? TermsOfServiceViewController {
-            termsOfServiceViewController.termsPresenter = presnter
-            self.navigationController?.pushViewController(termsOfServiceViewController, animated: true)
-        }
     }
 }
 

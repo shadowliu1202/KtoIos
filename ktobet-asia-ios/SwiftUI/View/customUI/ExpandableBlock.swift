@@ -11,13 +11,13 @@ struct ExpandableBlock<Content: View>: View {
     @State private var isExpand = false
     
     let title: String
-    let isLastBlock: Bool
+    let bottomLineVisible: Bool
     let contentAlignment: HorizontalAlignment
     var content: Content
     
-    init(title: String, isLastBlock: Bool = false, contentAlignment: HorizontalAlignment = .center, @ViewBuilder content: () -> Content) {
+    init(title: String, bottomLineVisible: Bool = false, contentAlignment: HorizontalAlignment = .center, @ViewBuilder content: () -> Content) {
         self.title = title
-        self.isLastBlock = isLastBlock
+        self.bottomLineVisible = bottomLineVisible
         self.contentAlignment = contentAlignment
         self.content = content()
     }
@@ -41,7 +41,7 @@ struct ExpandableBlock<Content: View>: View {
                 
                 LimitSpacer(11)
                 
-                if isExpand || isLastBlock {
+                if isExpand || bottomLineVisible {
                     Separator(color: .gray3C3E40)
                 }
             }
@@ -63,7 +63,7 @@ struct ExpandableBlock<Content: View>: View {
 
 struct ExpandableBlock_Previews: PreviewProvider {
     static var previews: some View {
-        ExpandableBlock(title: "Title", isLastBlock: true) {
+        ExpandableBlock(title: "Title", bottomLineVisible: true) {
             VStack {
                 Text("Hello World!")
             }

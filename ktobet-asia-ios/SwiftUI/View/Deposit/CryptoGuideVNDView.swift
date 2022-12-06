@@ -15,7 +15,7 @@ struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
                     LimitSpacer(24)
                     
                     ForEach(viewModel.guidances, id: \.self) { guidance in
-                        ExpandableBlock(title: guidance.title, isLastBlock: guidance == viewModel.guidances.last, contentAlignment: .leading) {
+                        ExpandableBlock(title: guidance.title, bottomLineVisible: guidance == viewModel.guidances.last, contentAlignment: .leading) {
                             VStack(alignment: .leading, spacing: 16) {
                                 ForEach(guidance.links, id: \.self) { (guidanceLink: CryptoDepositGuidance.GuidanceLink) in
                                     Text(guidanceLink.title)

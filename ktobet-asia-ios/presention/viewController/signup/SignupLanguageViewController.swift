@@ -107,10 +107,8 @@ class SignupLanguageViewController: LandingViewController {
     
     // MARK: BUTTON ACTION
     @IBAction func btnTermsOfServicePressed(_ sender : UIButton){
-        if let termsOfServiceViewController = UIStoryboard(name: "Signup", bundle: nil).instantiateViewController(withIdentifier: "TermsOfServiceViewController") as? TermsOfServiceViewController {
-            termsOfServiceViewController.termsPresenter = ServiceTerms(barItemType: .close)
-            self.navigationController?.pushViewController(termsOfServiceViewController, animated: true)
-        }
+        let controller = TermsOfServiceViewController.instantiate(ServiceTerms(barItemType: .close))
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @IBAction func btnNextPressed(_ sender : UIButton){

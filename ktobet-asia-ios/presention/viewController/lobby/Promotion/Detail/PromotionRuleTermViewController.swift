@@ -59,10 +59,9 @@ class PromotionRuleTermViewController: LobbyViewController {
 extension PromotionRuleTermViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         if (URL.absoluteString == "someUrl1") {
-            if let termsOfServiceViewController = UIStoryboard(name: "Signup", bundle: nil).instantiateViewController(withIdentifier: "TermsOfServiceViewController") as? TermsOfServiceViewController {
-                termsOfServiceViewController.termsPresenter = SecurityPrivacyTerms()
-                NavigationManagement.sharedInstance.pushViewController(vc: termsOfServiceViewController)
-            }
+            NavigationManagement.sharedInstance.pushViewController(
+                vc: TermsOfServiceViewController.instantiate(SecurityPrivacyTerms())
+            )
         }
         
         return false
