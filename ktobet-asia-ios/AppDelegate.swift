@@ -7,7 +7,6 @@ import WebKit
 import Firebase
 import SwiftUI
 import FirebaseCore
-import FirebaseAnalytics
 
 public var isTesting: Bool { ProcessInfo.processInfo.arguments.contains("isTesting") }
 
@@ -15,8 +14,6 @@ public var isTesting: Bool { ProcessInfo.processInfo.arguments.contains("isTesti
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @Injected private var localStorageRepo: LocalStorageRepository
-    @Injected private var applicationStorage: ApplicationStorable
-    @Injected private var keychain: KeychainStorable
     
     private (set) var reachabilityObserver: NetworkStateMonitor?
     
@@ -67,8 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
         
         SharedBu.Platform.init().debugBuild()
-        
-        updateInstallDate(applicationStorage, keychain)
         
         return true
     }
@@ -280,34 +275,6 @@ extension AppDelegate {
     
     private func requestErrorWhenRetry(error: Error) {
         print("\(error)")
-    }
-}
-
-// MARK: - Install Date check
-
-private extension AppDelegate {
-    
-    func updateInstallDate(_ applicationStorage: ApplicationStorable, _ keychain: KeychainStorable) {
-        guard applicationStorage.getAppIsFirstLaunch() else { return }
-        
-        applicationStorage.setAppWasLaunch()
-        
-        let now = Date().convertdateToUTC()
-        
-        if keychain.getInstallDate() == nil {
-            keychain.setInstallDate(now)
-        }
-        else {
-            let lastInstallDay = keychain.getInstallDate()!
-            keychain.setInstallDate(now)
-            let surviveDay = lastInstallDay.betweenTwoDay(sencondDate: now)
-            
-            let parameters = [
-                "surviveDay": surviveDay,
-               ]
-            Analytics.logEvent("app_install_again",
-                               parameters: parameters)
-        }
     }
 }
 

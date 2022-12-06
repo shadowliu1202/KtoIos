@@ -31,7 +31,6 @@ def default_pods
   pod 'SnapKit'
   pod 'RxGesture'
   pod 'youtube-ios-player-helper'
-  pod 'SwiftKeychainWrapper'
   use_frameworks!
 end
 
