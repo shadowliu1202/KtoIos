@@ -25,7 +25,7 @@ struct JinYiDigitalGuideView: View {
                         .padding(.horizontal, 12)
                     }
                     
-                    ExpandableBlock(title: Localize.string("jinyidigital_wallet_application_requirements"), isLastBlock: true) {
+                    ExpandableBlock(title: Localize.string("jinyidigital_wallet_application_requirements"), bottomLineVisible: true) {
                         VStack(alignment: .leading, spacing: 24) {
                             walletRequirement1
                             walletRequirement2
