@@ -36,7 +36,7 @@ class WithdrawalRequestConfirmViewController: LobbyViewController {
         self.viewModel.isRealNameEditable().subscribe { [weak self] _ in
             guard let self = self else { return }
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-        } onError: {[weak self] (error) in
+        } onFailure: {[weak self] (error) in
             guard let self = self else { return }
             self.stopActivityIndicator(activityIndicator: self.activityIndicator)
             self.handleErrors(error)
@@ -55,18 +55,23 @@ class WithdrawalRequestConfirmViewController: LobbyViewController {
     }
     
     private func sendWithdrawalRequest() {
+        confirmButton.isEnabled = false
         guard let amount = Double(amount.replacingOccurrences(of: ",", with: "")) else { return }
-        self.viewModel.sendWithdrawalRequest(playerBankCardId: self.account.bankCard.id_, cashAmount: amount.toAccountCurrency()).subscribe { (transactionId) in
-            self.withdrawalSuccess = transactionId != ""
-            self.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
-        } onError: { (error) in
-            if error is KtoPlayerWithdrawalDefective {
-                Alert.shared.show("" ,Localize.string("withdrawal_fail"), confirm: {[weak self] in
-                    self?.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
-                }, cancel: nil)
-            } else {
-                self.handleErrors(error)
-            }
-        }.disposed(by: self.disposeBag)
+        self.viewModel.sendWithdrawalRequest(playerBankCardId: self.account.bankCard.id_, cashAmount: amount.toAccountCurrency())
+            .subscribe(onSuccess: { [weak self] (transactionId) in
+                self?.withdrawalSuccess = transactionId != ""
+                self?.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
+                self?.confirmButton.isEnabled = true
+            }, onFailure: { [weak self] (error) in
+                if error is KtoPlayerWithdrawalDefective {
+                    Alert.shared.show("" ,Localize.string("withdrawal_fail"), confirm: {[weak self] in
+                        self?.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
+                    }, cancel: nil)
+                } else {
+                    self?.handleErrors(error)
+                }
+                self?.confirmButton.isEnabled = true
+            })
+            .disposed(by: self.disposeBag)
     }
 }
