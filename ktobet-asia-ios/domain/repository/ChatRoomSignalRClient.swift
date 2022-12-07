@@ -8,10 +8,16 @@ extension ChatRoomSignalRClient: HubConnectionDelegate {
     func connectionDidOpen(hubConnection: HubConnection) { }
     func connectionDidFailToOpen(error: Error) { }
     func connectionWillReconnect(error: Error) {
-        customerInfraService.isPlayerInChat().asObservable().retry()
-        .subscribe(onNext: { [weak self]  in
-            self?.refreshChatRoomState($0)
-        }).disposed(by: disposeBag)
+        subscription?.dispose()
+        
+        subscription = customerInfraService.isPlayerInChat()
+            .asObservable()
+            .debug()
+            .retry(.delayed(maxCount: 180, time: 1))
+            .subscribe(onNext: { [weak self]  in
+                self?.refreshChatRoomState($0)
+                self?.subscription?.dispose()
+            })
     }
     func connectionDidClose(error: Error?) { }
 }
@@ -26,6 +32,8 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     private let disposeBag = DisposeBag()
     private var socketConnect: HubConnection?
     private var onMessage: ((PortalChatRoom.ChatAction) -> ())?
+    
+    private var subscription: Disposable?
     
     init(token: String, skillId: String, roomId: String, repository: CustomServiceRepository, customerInfraService: CustomerInfraService, httpClient: HttpClient) {
         self.token = token
@@ -181,7 +189,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
                     onMessage?(PortalChatRoom.ChatActionInitChatRoom.init(roomId: self.roomId, skillId: self.skillId, queue: object))
                 }
             } else {
-                if let number = getQueueNumber(), let bean = getPlayerInChat() {
+                if let number = getQueueNumber(), let bean = getPlayerInChat(), bean.roomId.isNotEmpty {
                     onMessage?(PortalChatRoom.ChatActionInitChatRoom.init(roomId: bean.roomId, skillId: bean.skillId, queue: number))
                 }
             }
@@ -207,7 +215,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
     }
     
     private func refreshChatRoomState(_ bean: PlayerInChatBean) {
-        if token.isNotEmpty  {
+        if bean.token.isNotEmpty  {
             skillId = bean.skillId
             roomId = bean.roomId
             start(isReconnect: true)

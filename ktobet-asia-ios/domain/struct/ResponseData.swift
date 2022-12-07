@@ -1674,28 +1674,21 @@ struct BalanceLogDetailRemarkBean: Codable {
     }
 }
 
-//struct InProcessResponse: Codable {
-//    let messageID: Int32
-//    let speaker: String
-//    let speakerID: Int?
-//    let speakerType: Int32
-//    let html, text, createDate: String
-//    let messageType: Int32
-//    let fileID: String?
-//
-//    enum CodingKeys: String, CodingKey {
-//        case messageID = "messageId"
-//        case speaker
-//        case speakerID = "speakerId"
-//        case speakerType, html, text, createDate, messageType
-//        case fileID = "fileId"
-//    }
-//}
-
 struct PlayerInChatBean: Codable {
-    let roomId: String
+    
     let skillId: String
-    let token: String
+    
+    var roomId: String { _roomId ?? "" }
+    var token: String { _token ?? "" }
+    
+    private let _roomId: String?
+    private let _token: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case _roomId = "roomId"
+        case _token = "token"
+        case skillId
+    }
 }
 
 struct InProcessBean: Codable {
