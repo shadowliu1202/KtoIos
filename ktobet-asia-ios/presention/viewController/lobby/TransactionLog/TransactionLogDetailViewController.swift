@@ -329,8 +329,9 @@ class LogDetailRowItem {
     private func consider(_ type: TransactionTypes.Product, _ group: ProductGroup) {
         switch group {
         case is ProductGroup.P2P:
-            let remarkStr = bean.productGroup.supportProvider.provider == Provider.Support.gpi ? bean.externalId : bean.wagerMappingId
             let status = getBetStatus(type)
+            self.logId = bean.productGroup.supportProvider.provider == Provider.Support.v8 ? bean.wagerMappingId : ""
+            let remarkStr = bean.productGroup.supportProvider.provider == Provider.Support.gpi ? bean.externalId : bean.wagerMappingId
             self.remark = status.isEmpty ? remarkStr : "\(status)\n\(remarkStr)"
         case is ProductGroup.Arcade, is ProductGroup.Slot, is ProductGroup.NumberGame:
             if let remark = bean.remark as? BalanceLogDetailRemark.General {
