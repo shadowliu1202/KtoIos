@@ -96,7 +96,6 @@ class SportBookViewController: LobbyViewController {
         webView.allowsBackForwardNavigationGestures = true
         webView.isOpaque = false
         for cookie in httpClient.getCookies() {
-            print("test: cookie:\(cookie)")
             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
         }
         webView.navigationDelegate = self
