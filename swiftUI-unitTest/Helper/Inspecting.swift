@@ -10,6 +10,7 @@ protocol Inspecting: Inspectable, View {
 
 extension PageContainer: Inspectable { }
 extension SwiftUIInputText: Inspectable { }
+extension SwiftUIDropDownText: Inspectable { }
 extension UIKitTextField: Inspectable { }
 extension LocalizeFont: Inspectable { }
 extension Separator: Inspectable { }

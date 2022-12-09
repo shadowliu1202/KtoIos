@@ -1,30 +1,47 @@
 
 import SwiftUI
 
-struct SwiftUIInputText: View {
+extension SwiftUIInputText {
     enum Identifier: String {
+        case textField
         case ErrorHint
-    }
+        case inputText
+    }    
+}
+
+struct SwiftUIInputText: View {
     
-    @State private var isEditing: Bool = false
+    @State private var innerIsEditing: Bool = false
     @State private var showTextField: Bool = false
     @State private var showPassword: Bool = false
 
     @Binding var textFieldText: String
+    @Binding var isEditing: Bool
     
     let placeHolder: String
     let errorText: String?
-    let isPasswordType: Bool
-    let disablePaste: Bool
+    let featureType: FeatureType
     let keyboardType: UIKeyboardType
+    let disablePaste: Bool
+    let disableInput: Bool
     
-    init(placeHolder: String, textFieldText: Binding<String>, errorText: String? = nil, isPasswordType: Bool = false, disablePaste: Bool = false, keyboardType: UIKeyboardType = .default) {
+    init(placeHolder: String,
+         textFieldText: Binding<String>,
+         errorText: String? = nil,
+         featureType: FeatureType = .nil,
+         keyboardType: UIKeyboardType = .default,
+         disablePaste: Bool = false,
+         disableInput: Bool = false,
+         isEditing: Binding<Bool> = .constant(false)
+    ) {
         self.placeHolder = placeHolder
         self._textFieldText = textFieldText
         self.errorText = errorText
-        self.isPasswordType = isPasswordType
-        self.disablePaste = disablePaste
+        self.featureType = featureType
         self.keyboardType = keyboardType
+        self.disablePaste = disablePaste
+        self.disableInput = disableInput
+        self._isEditing = isEditing
     }
     
     var body: some View {
@@ -34,6 +51,13 @@ struct SwiftUIInputText: View {
                     errorUnderline
                         .visibility(errorText == nil ? .gone : .visible)
                 )
+                .onTapGesture {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        showTextField = true
+                    }
+                    
+                    innerIsEditing = true
+                }
             
             Text(errorText ?? "")
                 .id(Identifier.ErrorHint.rawValue)
@@ -45,50 +69,95 @@ struct SwiftUIInputText: View {
                 showTextField = true
             }
         }
+        .onChange(of: innerIsEditing, perform: { newValue in
+            if isEditing != newValue {
+                isEditing = newValue
+            }
+        })
+        .onChange(of: isEditing) { newValue in
+            if innerIsEditing != newValue {
+                innerIsEditing = newValue
+            }
+        }
+        .id(Identifier.inputText.rawValue)
     }
     
     private var inputText: some View {
-        HStack(spacing: 14) {
+        HStack(spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(placeHolder)
                     .font(.custom("PingFangSC-Regular", size: showTextField ? 12 : 14))
                     .foregroundColor(.from(.gray9B9B9B))
                     .padding(.top, showTextField ? 1 : 12)
                     .padding(.bottom, showTextField ? 0 : 10)
-                UIKitTextField(text: $textFieldText, isFirstResponder: $isEditing, showPassword: $showPassword, isPasswordType: isPasswordType, disablePaste: disablePaste, keyboardType: keyboardType) { uiTextField in
-                    uiTextField.font = UIFont(name: "PingFangSC", size: 16)
-                    uiTextField.textColor = .white
-                    uiTextField.tintColor = .redF20000
-                    uiTextField.autocapitalizationType = .none
-                } editingDidEnd: { text in
-                    withAnimation(.easeOut(duration: 0.2)) {
-                        showTextField = text.isEmpty ? false : true
+                
+                UIKitTextField(
+                    text: $textFieldText,
+                    isFirstResponder: $innerIsEditing,
+                    showPassword: $showPassword,
+                    isPasswordType: featureType == .password,
+                    disablePaste: disablePaste,
+                    keyboardType: keyboardType,
+                    configuration: { uiTextField in
+                        uiTextField.font = UIFont(name: "PingFangSC", size: 16)
+                        uiTextField.textColor = .white
+                        uiTextField.tintColor = .redF20000
+                        uiTextField.autocapitalizationType = .none
+                    },
+                    editingDidEnd: { text in
+                        withAnimation(.easeOut(duration: 0.2)) {
+                            showTextField = text.isEmpty ? false : true
+                        }
                     }
-                }
+                )
                 .fixedSize(horizontal: false, vertical: true)
                 .visibility(showTextField ? .visible : .gone)
+                .disabled(disableInput)
+                .id(Identifier.textField.rawValue)
+                .overlay(
+                    Text(textFieldText)
+                        .localized(
+                            weight: .regular,
+                            size: 16,
+                            color: .white
+                        )
+                        .visibility(disableInput ? .visible : .gone),
+                    alignment: .leading 
+                )
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
-            .onTapGesture {
-                withAnimation(.easeOut(duration: 0.2)) {
-                    showTextField = true
-                }
-                
-                isEditing = true
-            }
             
+            featureButton(featureType)
+        }
+        .padding(.top, 8)
+        .padding(.bottom, 10)
+        .padding(.horizontal, 15)
+        .backgroundColor(innerIsEditing ? .gray454545 : .gray333333)
+        .cornerRadius(8)
+    }
+    
+    @ViewBuilder
+    private func featureButton(_ type: FeatureType) -> some View {
+        switch type {
+        case .nil :
+            EmptyView()
+            
+        case .password:
             eyeIcon
                 .onTapGesture {
                     showPassword.toggle()
                 }
-                .visibility(isPasswordType ? .visible : .gone)
+            
+        case .lock(let buttonOnTap):
+            Image("Lock")
+                .onTapGesture {
+                    buttonOnTap()
+                }
+            
+        case .other:
+            LimitSpacer(24)
         }
-        .padding(.top, 8)
-        .padding(.bottom, 10)
-        .padding(.horizontal, 12)
-        .backgroundColor(isEditing ? .gray454545 : .gray333333)
-        .cornerRadius(8)
     }
     
     @ViewBuilder
@@ -103,7 +172,7 @@ struct SwiftUIInputText: View {
     private var errorUnderline: some View {
         VStack(spacing: 0) {
             Rectangle()
-                .foregroundColor(.from(isEditing ? .gray454545 : .gray333333))
+                .foregroundColor(.from(innerIsEditing ? .gray454545 : .gray333333))
                 .frame(height: 10)
             
             Rectangle()
@@ -116,9 +185,32 @@ struct SwiftUIInputText: View {
     }
 }
 
+extension SwiftUIInputText {
+    enum FeatureType: Equatable {
+        case `nil`
+        case password
+        case lock(() -> Void)
+        case other
+        
+        static func == (lhs: SwiftUIInputText.FeatureType, rhs: SwiftUIInputText.FeatureType) -> Bool {
+            switch (lhs, rhs) {
+            case (.password, .password):
+                return true
+            default:
+                return false
+            }
+        }
+    }
+}
+
 struct SwiftUIInputText_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUIInputText(placeHolder: "手机/电子邮箱", textFieldText: .constant(""), errorText: "请输入正确的电子邮箱。", isPasswordType: true)
-            .previewLayout(.fixed(width: 315, height: 84))
+        SwiftUIInputText(
+            placeHolder: "手机/电子邮箱",
+            textFieldText: .constant(""),
+            errorText: "请输入正确的电子邮箱。",
+            featureType: .password
+        )
+        .previewLayout(.fixed(width: 315, height: 84))
     }
 }
