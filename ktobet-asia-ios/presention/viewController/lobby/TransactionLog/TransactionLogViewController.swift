@@ -109,7 +109,7 @@ private extension TransactionLogViewController {
         viewModel.summary
             .subscribe(onNext: { [weak self] cashFlowSummary in
                 self?.inComeLabel.text = cashFlowSummary.income.formatString(sign: .signed_)
-                self?.outComeLabel.text = cashFlowSummary.outcome.negativeAmount()
+                self?.outComeLabel.text = cashFlowSummary.outcome.formatString(sign: .signed_)
             })
             .disposed(by: disposeBag)
         

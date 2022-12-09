@@ -326,13 +326,16 @@ extension SideBarViewController {
                 return self.playerViewModel.getBalance()
             }
             .compactMap { $0 }
-            .map { "\($0.symbol) \($0.formatString())" }
-            .drive { [weak self] balanceSummary in
+            .map { (currency: AccountCurrency) -> String in
+                let sign: FormatPattern.Sign = currency.isNegative ? .signed_ : .none
+                return "\(currency.symbol) \(currency.formatString(sign))"
+            }
+            .drive(onNext: { [weak self] balanceSummary in
                 guard let self = self else { return }
                 
                 self.balanceSummary = balanceSummary
                 self.updateBalanceLabel(isHidden: self.isBalanceLabelHidden)
-            }
+            })
             .disposed(by: disposeBag)
     }
     
