@@ -94,7 +94,7 @@ struct LoginView: View {
             SwiftUIInputText(placeHolder: Localize.string("common_password"),
                              textFieldText: passwordText,
                              errorText: passwordErrorText,
-                             isPasswordType: true)
+                             featureType: .password)
             HStack(spacing: 4) {
                 if isRememberMe.wrappedValue {
                     Image("isRememberMe")

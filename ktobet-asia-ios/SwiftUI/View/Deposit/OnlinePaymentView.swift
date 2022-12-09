@@ -125,7 +125,7 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
             
             LimitSpacer(16)
             
-            SwiftUIInputText(placeHolder: Localize.string("deposit_amount"), textFieldText: $amount, errorText: getAmountErrorText(), disablePaste: true, keyboardType: .numberPad)
+            SwiftUIInputText(placeHolder: Localize.string("deposit_amount"), textFieldText: $amount, errorText: getAmountErrorText(), keyboardType: .numberPad, disablePaste: true)
                 .id(Identifier.RemittanceInputTextField.rawValue)
             
             LimitSpacer(12)

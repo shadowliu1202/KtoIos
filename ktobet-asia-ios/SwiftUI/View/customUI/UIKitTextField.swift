@@ -98,6 +98,11 @@ struct UIKitTextField: UIViewRepresentable {
         
         @objc func textEditEnd(_ sender: UITextField) {
             isFirstResponder = false
+            
+            if let senderText = sender.text, senderText != text {
+                sender.text = text
+            }
+            
             sender.text = sender.text?.halfWidth
             editingDidEnd(sender.text ?? "")
         }

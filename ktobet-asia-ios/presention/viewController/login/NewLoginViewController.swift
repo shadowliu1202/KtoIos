@@ -67,7 +67,7 @@ class NewLoginViewController: LandingViewController {
             if let pageNavigation = pageNavigation {
                 self.executeNavigation(pageNavigation)
             }
-            
+
             if let generalError = generalError {
                 self.handleErrors(generalError)
             }

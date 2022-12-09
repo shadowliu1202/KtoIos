@@ -255,6 +255,7 @@
 		3CBC879C2857318C00B57607 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBC87962857318B00B57607 /* DateUtils.swift */; };
 		3CBC879D2857318C00B57607 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBC87962857318B00B57607 /* DateUtils.swift */; };
 		3CBC879F2857396400B57607 /* DateUtilsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBC879E2857396400B57607 /* DateUtilsTest.swift */; };
+		3CBFBE9029418E4D00790C08 /* SwiftUIDropDownTextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBFBE8F29418E4D00790C08 /* SwiftUIDropDownTextTest.swift */; };
 		3CC064BD287E7BF9008AAC09 /* StarMergerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC064BC287E7BF9008AAC09 /* StarMergerView.swift */; };
 		3CC064BE287E7BF9008AAC09 /* StarMergerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC064BC287E7BF9008AAC09 /* StarMergerView.swift */; };
 		3CC064BF287E7BF9008AAC09 /* StarMergerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC064BC287E7BF9008AAC09 /* StarMergerView.swift */; };
@@ -339,6 +340,33 @@
 		3CCD218D28F974D100313212 /* DepositGatewayViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD218C28F974D100313212 /* DepositGatewayViewControllerTest.swift */; };
 		3CD7B4492918AD7900CA04A0 /* ChatRoomViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */; };
 		3CDB7B59284F035B006DE0FA /* DateExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */; };
+		3CF19A4D2939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
+		3CF19A4E2939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
+		3CF19A4F2939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
+		3CF19A502939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
+		3CF19A512939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
+		3CF19A522939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
+		3CF19A532939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
+		3CF19A542939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
+		3CF19A552939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
+		3CF19A572939F04300BB22FF /* PositionDetectModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */; };
+		3CF19A582939F04300BB22FF /* PositionDetectModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */; };
+		3CF19A592939F04300BB22FF /* PositionDetectModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */; };
+		3CF19A5A2939F04300BB22FF /* PositionDetectModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */; };
+		3CF19A5B2939F04300BB22FF /* PositionDetectModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */; };
+		3CF19A5C2939F04300BB22FF /* PositionDetectModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */; };
+		3CF19A5D2939F04300BB22FF /* PositionDetectModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */; };
+		3CF19A5E2939F04300BB22FF /* PositionDetectModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */; };
+		3CF19A5F2939F04300BB22FF /* PositionDetectModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */; };
+		3CF19A612939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */; };
+		3CF19A622939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */; };
+		3CF19A632939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */; };
+		3CF19A642939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */; };
+		3CF19A652939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */; };
+		3CF19A662939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */; };
+		3CF19A672939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */; };
+		3CF19A682939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */; };
+		3CF19A692939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */; };
 		3CFA2BBB28E15AB7006D8BD2 /* OnlineDepositViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFA2BBA28E15AB7006D8BD2 /* OnlineDepositViewModel.swift */; };
 		3CFA2BBC28E15AB7006D8BD2 /* OnlineDepositViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFA2BBA28E15AB7006D8BD2 /* OnlineDepositViewModel.swift */; };
 		3CFA2BBD28E15AB7006D8BD2 /* OnlineDepositViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFA2BBA28E15AB7006D8BD2 /* OnlineDepositViewModel.swift */; };
@@ -6098,6 +6126,7 @@
 		3CBC879428530FFB00B57607 /* StringExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionTest.swift; sourceTree = "<group>"; };
 		3CBC87962857318B00B57607 /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		3CBC879E2857396400B57607 /* DateUtilsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilsTest.swift; sourceTree = "<group>"; };
+		3CBFBE8F29418E4D00790C08 /* SwiftUIDropDownTextTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIDropDownTextTest.swift; sourceTree = "<group>"; };
 		3CC064BC287E7BF9008AAC09 /* StarMergerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarMergerView.swift; sourceTree = "<group>"; };
 		3CC064C6287EB8E2008AAC09 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		3CC064E6287EBCC6008AAC09 /* TextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextExtension.swift; sourceTree = "<group>"; };
@@ -6111,6 +6140,9 @@
 		3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewControllerTests.swift; sourceTree = "<group>"; };
 		3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionTest.swift; sourceTree = "<group>"; };
 		3CE559C628A3C648005FB6EF /* NewLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginViewModel.swift; sourceTree = "<group>"; };
+		3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeAreaReader.swift; sourceTree = "<group>"; };
+		3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionDetectModifier.swift; sourceTree = "<group>"; };
+		3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIDropDownText.swift; sourceTree = "<group>"; };
 		3CFA2BBA28E15AB7006D8BD2 /* OnlineDepositViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineDepositViewModel.swift; sourceTree = "<group>"; };
 		3CFC0B4E28EEC4A90012DD73 /* LogRecorderViewWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRecorderViewWindow.swift; sourceTree = "<group>"; };
 		3CFC0B5828EECD940012DD73 /* LoggerEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerEntryView.swift; sourceTree = "<group>"; };
@@ -6967,6 +6999,7 @@
 				6D35F9F428DC681B00C67696 /* ExpandableBlockTest.swift */,
 				3C656EA928E3E6DB00EFB754 /* OnlinePaymentViewTest.swift */,
 				FF6A94D6293745DD00D36FF3 /* TermsViewTests.swift */,
+				3CBFBE8F29418E4D00790C08 /* SwiftUIDropDownTextTest.swift */,
 			);
 			path = "swiftUI-unitTest";
 			sourceTree = "<group>";
@@ -7025,12 +7058,14 @@
 				3CC0653828800BEB008AAC09 /* LimitSpacer.swift */,
 				3C7672DF2899127A001DF62F /* UIKitTextField.swift */,
 				3C7672E9289912CE001DF62F /* SwiftUIInputText.swift */,
+				3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */,
 				3C45CDD328A358D600E39828 /* PageContainer.swift */,
 				3C1FA9E628A510DA00F9AEC0 /* AdaptiveScrollView.swift */,
 				3C5C1FEA28AB6FCC00D4C735 /* LocalizeFont.swift */,
 				3CA9E3D128D9770E00FFB33E /* ExpandableBlock.swift */,
 				3CA9E3E528DC425A00FFB33E /* PickList.swift */,
 				FFEC22772924BB83006EA6F2 /* YTPlayer.swift */,
+				3CF19A602939F2BB00BB22FF /* SwiftUIDropDownText.swift */,
 			);
 			path = customUI;
 			sourceTree = "<group>";
@@ -8517,6 +8552,7 @@
 			isa = PBXGroup;
 			children = (
 				FFA26A45292C7B90008C3E71 /* ViewDidLoadModifier.swift */,
+				3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */,
 			);
 			path = Modifier;
 			sourceTree = "<group>";
@@ -10445,6 +10481,7 @@
 				FF7ABFAC2936FBD6001D37EB /* APIWrapper.swift in Sources */,
 				FF7ABFAB2936FB25001D37EB /* XCTestCase+Extension.swift in Sources */,
 				3C656EAA28E3E6DB00EFB754 /* OnlinePaymentViewTest.swift in Sources */,
+				3CBFBE9029418E4D00790C08 /* SwiftUIDropDownTextTest.swift in Sources */,
 				FF694AD22936F99200FF21EB /* Inspecting.swift in Sources */,
 				FF6A94D7293745DD00D36FF3 /* TermsViewTests.swift in Sources */,
 				FF694AD32936F99200FF21EB /* InspectableView+Extension.swift in Sources */,
@@ -10843,6 +10880,7 @@
 				3C45CDD528A358D600E39828 /* PageContainer.swift in Sources */,
 				60037D1227D5B70600FF50A5 /* CommonVerifyOtp.swift in Sources */,
 				4199A06425AE9918002E2D7E /* UIImageExtension.swift in Sources */,
+				3CF19A4E2939EC0B00BB22FF /* SafeAreaReader.swift in Sources */,
 				6010412D26B2A7C400B28FC8 /* ArcadeViewModel.swift in Sources */,
 				4199A06525AE9918002E2D7E /* TermsOfServiceCell.swift in Sources */,
 				60228C6A26DF52C7008EC641 /* PromotionRuleTermViewController.swift in Sources */,
@@ -10987,6 +11025,7 @@
 				4199A07925AE9918002E2D7E /* ReconnectableConnection.swift in Sources */,
 				6DCEC6B7265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift in Sources */,
 				6034623626327DC800F5D1D9 /* CasinoSummaryViewController.swift in Sources */,
+				3CF19A622939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */,
 				60E4A7A52754BF070088245F /* CryptoSelectorViewController.swift in Sources */,
 				4199A07A25AE9918002E2D7E /* DataExtension.swift in Sources */,
 				6DB8320F28DC3E6600E0A704 /* CryptoGuideVNDViewModel.swift in Sources */,
@@ -11013,6 +11052,7 @@
 				4199A08125AE9918002E2D7E /* Util.swift in Sources */,
 				600E241126CB522900D8B073 /* PromotionUseCase.swift in Sources */,
 				60FE05C227CEFF5D00B7914A /* CommonVerifyOtpViewController.swift in Sources */,
+				3CF19A582939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				6D9408E726D33A0800C70FDA /* TimeInterval.swift in Sources */,
 				4199A08225AE9918002E2D7E /* ConnectionDelegate.swift in Sources */,
 				6D08725827D6119F00457215 /* ConfigurationViewModel.swift in Sources */,
@@ -11460,6 +11500,7 @@
 				60340CD827291C0E008680BC /* ChatRoomSignalRClient.swift in Sources */,
 				48AAA14A256E458800E075CA /* DefaultHttpClient.swift in Sources */,
 				6D986A71271915BB00194E0D /* CustomServicePresenter.swift in Sources */,
+				3CF19A4D2939EC0B00BB22FF /* SafeAreaReader.swift in Sources */,
 				3C45CDD428A358D600E39828 /* PageContainer.swift in Sources */,
 				60037D1127D5B70600FF50A5 /* CommonVerifyOtp.swift in Sources */,
 				48AAA14B256E458800E075CA /* HttpConnection.swift in Sources */,
@@ -11604,6 +11645,7 @@
 				48AAA15C256E458800E075CA /* DataExtension.swift in Sources */,
 				6DCEC6B6265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift in Sources */,
 				6034623526327DC800F5D1D9 /* CasinoSummaryViewController.swift in Sources */,
+				3CF19A612939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */,
 				60E4A7A42754BF070088245F /* CryptoSelectorViewController.swift in Sources */,
 				48AAA15D256E458800E075CA /* LongPollingTransport.swift in Sources */,
 				6DB8320E28DC3E6600E0A704 /* CryptoGuideVNDViewModel.swift in Sources */,
@@ -11630,6 +11672,7 @@
 				48AAA164256E458800E075CA /* ConnectionDelegate.swift in Sources */,
 				600E241026CB522900D8B073 /* PromotionUseCase.swift in Sources */,
 				60FE05C127CEFF5D00B7914A /* CommonVerifyOtpViewController.swift in Sources */,
+				3CF19A572939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				6D9408E626D33A0800C70FDA /* TimeInterval.swift in Sources */,
 				605D986B25A5CC2E00634197 /* DateExtension.swift in Sources */,
 				6D08725727D6119F00457215 /* ConfigurationViewModel.swift in Sources */,
@@ -11970,6 +12013,7 @@
 				3C2F123C28C067AD0044CBA7 /* CookieUtil.swift in Sources */,
 				609012E32640EE7000419F8E /* FilterButton.swift in Sources */,
 				3CFC0B6528EECDA60012DD73 /* LoggerRecordingView.swift in Sources */,
+				3CF19A4F2939EC0B00BB22FF /* SafeAreaReader.swift in Sources */,
 				609012E42640EE7000419F8E /* ResponseData.swift in Sources */,
 				60DB5B4B27BA4EB800B1AD53 /* CryptoDepositViewModel.swift in Sources */,
 				609012E52640EE7000419F8E /* UIColorExtension.swift in Sources */,
@@ -11989,6 +12033,7 @@
 				608112BD26EF4F4300920B06 /* TransactionLogUseCase.swift in Sources */,
 				6DF65389278D6B55009F73FF /* ModifyProfileViewModel.swift in Sources */,
 				6082864527E067B400C7F492 /* NotificationViewModel.swift in Sources */,
+				3CF19A632939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */,
 				6018F9FC2695563500941BDD /* P2PViewModel.swift in Sources */,
 				6D0D8FD826DF668500733C4D /* UseBonusCoupon.swift in Sources */,
 				3C2F125128C0C58D0044CBA7 /* LoggerDelegate.swift in Sources */,
@@ -12180,6 +12225,7 @@
 				609013302640EE7000419F8E /* Injection.swift in Sources */,
 				60AC5C0D2766E7F7008F0281 /* PortalMaintenanceViewController.swift in Sources */,
 				609013312640EE7000419F8E /* GameWebViewViewController.swift in Sources */,
+				3CF19A592939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				6D17957E26A6CC75001C8BF8 /* TopLevelTableViewCell.swift in Sources */,
 				3CC064E9287EBCC6008AAC09 /* TextExtension.swift in Sources */,
 				609013322640EE7000419F8E /* WithdrawalAccountDetailViewController.swift in Sources */,
@@ -12560,6 +12606,7 @@
 				3C2F123D28C067AD0044CBA7 /* CookieUtil.swift in Sources */,
 				60E580C227F190E4008CE5A9 /* FilterButton.swift in Sources */,
 				3CFC0B6628EECDA60012DD73 /* LoggerRecordingView.swift in Sources */,
+				3CF19A502939EC0B00BB22FF /* SafeAreaReader.swift in Sources */,
 				60E580C327F190E4008CE5A9 /* ResponseData.swift in Sources */,
 				60E580C427F190E4008CE5A9 /* CryptoDepositViewModel.swift in Sources */,
 				60E580C527F190E4008CE5A9 /* UIColorExtension.swift in Sources */,
@@ -12579,6 +12626,7 @@
 				60E580D127F190E4008CE5A9 /* TransactionLogUseCase.swift in Sources */,
 				60E580D227F190E4008CE5A9 /* ModifyProfileViewModel.swift in Sources */,
 				60E580D327F190E4008CE5A9 /* NotificationViewModel.swift in Sources */,
+				3CF19A642939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */,
 				60E580D427F190E4008CE5A9 /* P2PViewModel.swift in Sources */,
 				60E580D527F190E4008CE5A9 /* UseBonusCoupon.swift in Sources */,
 				3C2F125228C0C58D0044CBA7 /* LoggerDelegate.swift in Sources */,
@@ -12770,6 +12818,7 @@
 				60E5817927F190E4008CE5A9 /* Injection.swift in Sources */,
 				60E5817A27F190E4008CE5A9 /* PortalMaintenanceViewController.swift in Sources */,
 				60E5817B27F190E4008CE5A9 /* GameWebViewViewController.swift in Sources */,
+				3CF19A5A2939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				60E5817C27F190E4008CE5A9 /* TopLevelTableViewCell.swift in Sources */,
 				3CC064EA287EBCC6008AAC09 /* TextExtension.swift in Sources */,
 				60E5817D27F190E4008CE5A9 /* WithdrawalAccountDetailViewController.swift in Sources */,
@@ -12895,6 +12944,7 @@
 				6D0EDB1428743FAC004A9E3C /* StringMapper.swift in Sources */,
 				6D0EDB1528743FAC004A9E3C /* CommonVerifyOtpViewController.swift in Sources */,
 				6D0EDB1628743FAC004A9E3C /* LobbyViewController.swift in Sources */,
+				3CF19A682939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */,
 				6D0EDB1728743FAC004A9E3C /* DepositRepository.swift in Sources */,
 				6D98EBA228EFD7D400065D68 /* VersionUpdateApi.swift in Sources */,
 				6D0EDB1828743FAC004A9E3C /* WithdrawRecordTableViewCell.swift in Sources */,
@@ -13063,6 +13113,7 @@
 				6D0EDBAB28743FAC004A9E3C /* SportBookViewController.swift in Sources */,
 				6D0EDBAC28743FAC004A9E3C /* DefaultTransportFactory.swift in Sources */,
 				6D0EDBAD28743FAC004A9E3C /* SlotViewController.swift in Sources */,
+				3CF19A5E2939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				6D0EDBAE28743FAC004A9E3C /* HistoryBarButtonItem.swift in Sources */,
 				6D0EDBAF28743FAC004A9E3C /* PromotionHistoryTableViewCell.swift in Sources */,
 				6DEA2836291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
@@ -13323,6 +13374,7 @@
 				6D0EDC9328743FAC004A9E3C /* UnusableTableViewCell.swift in Sources */,
 				6D0EDC9428743FAC004A9E3C /* SlotSummaryViewController.swift in Sources */,
 				6D0EDC9528743FAC004A9E3C /* CasinoApi.swift in Sources */,
+				3CF19A542939EC0B00BB22FF /* SafeAreaReader.swift in Sources */,
 				6D0EDC9628743FAC004A9E3C /* CryptoGuideViewController.swift in Sources */,
 				6D0EDC9728743FAC004A9E3C /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */,
 				6D0EDC9828743FAC004A9E3C /* CasinoDetailRecordTableViewCell.swift in Sources */,
@@ -13486,6 +13538,7 @@
 				6D0EDD6F28744704004A9E3C /* StringMapper.swift in Sources */,
 				6D0EDD7028744704004A9E3C /* CommonVerifyOtpViewController.swift in Sources */,
 				6D0EDD7128744704004A9E3C /* LobbyViewController.swift in Sources */,
+				3CF19A692939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */,
 				6D0EDD7228744704004A9E3C /* DepositRepository.swift in Sources */,
 				6D98EBA328EFD7D400065D68 /* VersionUpdateApi.swift in Sources */,
 				6D0EDD7328744704004A9E3C /* WithdrawRecordTableViewCell.swift in Sources */,
@@ -13654,6 +13707,7 @@
 				6D0EDE0628744704004A9E3C /* SportBookViewController.swift in Sources */,
 				6D0EDE0728744704004A9E3C /* DefaultTransportFactory.swift in Sources */,
 				6D0EDE0828744704004A9E3C /* SlotViewController.swift in Sources */,
+				3CF19A5F2939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				6D0EDE0928744704004A9E3C /* HistoryBarButtonItem.swift in Sources */,
 				6D0EDE0A28744704004A9E3C /* PromotionHistoryTableViewCell.swift in Sources */,
 				6DEA2837291DDEA700D85CD4 /* PrivilegeType.swift in Sources */,
@@ -13914,6 +13968,7 @@
 				6D0EDEEE28744704004A9E3C /* UnusableTableViewCell.swift in Sources */,
 				6D0EDEEF28744704004A9E3C /* SlotSummaryViewController.swift in Sources */,
 				6D0EDEF028744704004A9E3C /* CasinoApi.swift in Sources */,
+				3CF19A552939EC0B00BB22FF /* SafeAreaReader.swift in Sources */,
 				6D0EDEF128744704004A9E3C /* CryptoGuideViewController.swift in Sources */,
 				6D0EDEF228744704004A9E3C /* WithdrawalCryptoRequestConfirmViewController.swift in Sources */,
 				6D0EDEF328744704004A9E3C /* CasinoDetailRecordTableViewCell.swift in Sources */,
@@ -14364,6 +14419,7 @@
 				3C2F123E28C067AD0044CBA7 /* CookieUtil.swift in Sources */,
 				6D966C5027FEE3FA006086B7 /* FilterButton.swift in Sources */,
 				3CFC0B6728EECDA60012DD73 /* LoggerRecordingView.swift in Sources */,
+				3CF19A512939EC0B00BB22FF /* SafeAreaReader.swift in Sources */,
 				6D966C5127FEE3FA006086B7 /* ResponseData.swift in Sources */,
 				6D966C5227FEE3FA006086B7 /* CryptoDepositViewModel.swift in Sources */,
 				6D966C5327FEE3FA006086B7 /* UIColorExtension.swift in Sources */,
@@ -14383,6 +14439,7 @@
 				6D966C5F27FEE3FA006086B7 /* TransactionLogUseCase.swift in Sources */,
 				6D966C6027FEE3FA006086B7 /* ModifyProfileViewModel.swift in Sources */,
 				6D966C6127FEE3FA006086B7 /* NotificationViewModel.swift in Sources */,
+				3CF19A652939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */,
 				6D966C6227FEE3FA006086B7 /* P2PViewModel.swift in Sources */,
 				6D966C6327FEE3FA006086B7 /* UseBonusCoupon.swift in Sources */,
 				3C2F125328C0C58D0044CBA7 /* LoggerDelegate.swift in Sources */,
@@ -14574,6 +14631,7 @@
 				6D966D0727FEE3FA006086B7 /* Injection.swift in Sources */,
 				6D966D0827FEE3FA006086B7 /* PortalMaintenanceViewController.swift in Sources */,
 				6D966D0927FEE3FA006086B7 /* GameWebViewViewController.swift in Sources */,
+				3CF19A5B2939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				6D966D0A27FEE3FA006086B7 /* TopLevelTableViewCell.swift in Sources */,
 				3CC064EB287EBCC6008AAC09 /* TextExtension.swift in Sources */,
 				6D966D0B27FEE3FA006086B7 /* WithdrawalAccountDetailViewController.swift in Sources */,
@@ -14954,6 +15012,7 @@
 				3C2F123F28C067AD0044CBA7 /* CookieUtil.swift in Sources */,
 				6D966E9D27FEE416006086B7 /* FilterButton.swift in Sources */,
 				3CFC0B6828EECDA60012DD73 /* LoggerRecordingView.swift in Sources */,
+				3CF19A522939EC0B00BB22FF /* SafeAreaReader.swift in Sources */,
 				6D966E9E27FEE416006086B7 /* ResponseData.swift in Sources */,
 				6D966E9F27FEE416006086B7 /* CryptoDepositViewModel.swift in Sources */,
 				6D966EA027FEE416006086B7 /* UIColorExtension.swift in Sources */,
@@ -14973,6 +15032,7 @@
 				6D966EAC27FEE416006086B7 /* TransactionLogUseCase.swift in Sources */,
 				6D966EAD27FEE416006086B7 /* ModifyProfileViewModel.swift in Sources */,
 				6D966EAE27FEE416006086B7 /* NotificationViewModel.swift in Sources */,
+				3CF19A662939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */,
 				6D966EAF27FEE416006086B7 /* P2PViewModel.swift in Sources */,
 				6D966EB027FEE416006086B7 /* UseBonusCoupon.swift in Sources */,
 				3C2F125428C0C58D0044CBA7 /* LoggerDelegate.swift in Sources */,
@@ -15164,6 +15224,7 @@
 				6D966F5427FEE416006086B7 /* Injection.swift in Sources */,
 				6D966F5527FEE416006086B7 /* PortalMaintenanceViewController.swift in Sources */,
 				6D966F5627FEE416006086B7 /* GameWebViewViewController.swift in Sources */,
+				3CF19A5C2939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				6D966F5727FEE416006086B7 /* TopLevelTableViewCell.swift in Sources */,
 				3CC064EC287EBCC6008AAC09 /* TextExtension.swift in Sources */,
 				6D966F5827FEE416006086B7 /* WithdrawalAccountDetailViewController.swift in Sources */,
@@ -15622,6 +15683,7 @@
 				3C45CDDA28A358D600E39828 /* PageContainer.swift in Sources */,
 				6D96713127FEE42B006086B7 /* LoginViewModel.swift in Sources */,
 				6D96713227FEE42B006086B7 /* CustomServicePresenter.swift in Sources */,
+				3CF19A532939EC0B00BB22FF /* SafeAreaReader.swift in Sources */,
 				6D96713327FEE42B006086B7 /* CommonVerifyOtp.swift in Sources */,
 				6D96713427FEE42B006086B7 /* UIImageExtension.swift in Sources */,
 				6D96713527FEE42B006086B7 /* ArcadeViewModel.swift in Sources */,
@@ -15766,6 +15828,7 @@
 				6D9671A727FEE42B006086B7 /* ThirdPartyDepositViewModel.swift in Sources */,
 				6D9671A827FEE42B006086B7 /* ReconnectableConnection.swift in Sources */,
 				6D9671A927FEE42B006086B7 /* NumberGameMyBetDetailViewController.swift in Sources */,
+				3CF19A672939F2BB00BB22FF /* SwiftUIDropDownText.swift in Sources */,
 				6D9671AA27FEE42B006086B7 /* CasinoSummaryViewController.swift in Sources */,
 				6D9671AB27FEE42B006086B7 /* CryptoSelectorViewController.swift in Sources */,
 				6DB8321428DC3E6600E0A704 /* CryptoGuideVNDViewModel.swift in Sources */,
@@ -15792,6 +15855,7 @@
 				6D9671BE27FEE42B006086B7 /* NotificationRepository.swift in Sources */,
 				6D9671BF27FEE42B006086B7 /* Util.swift in Sources */,
 				6D9671C027FEE42B006086B7 /* PromotionUseCase.swift in Sources */,
+				3CF19A5D2939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				6D9671C127FEE42B006086B7 /* CommonVerifyOtpViewController.swift in Sources */,
 				6D9671C227FEE42B006086B7 /* TimeInterval.swift in Sources */,
 				6D9671C327FEE42B006086B7 /* ConnectionDelegate.swift in Sources */,
