@@ -1748,9 +1748,20 @@ struct CashBackSettingBean: Codable, Equatable {
 }
 
 struct PlayerInChatBean: Codable {
-    let roomId: String
+    
     let skillId: String
-    let token: String
+    
+    var roomId: String { _roomId ?? "" }
+    var token: String { _token ?? "" }
+    
+    private let _roomId: String?
+    private let _token: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case _roomId = "roomId"
+        case _token = "token"
+        case skillId
+    }
 }
 
 struct InProcessBean: Codable {
