@@ -6,9 +6,9 @@ class CookieUtil {
     private init() {}
     
     func saveCookieToUserDefault() {
-        guard let cookieStorage = HTTPCookieStorage.shared.cookies else { return }
+        guard let cookies = HTTPCookieStorage.shared.cookies else { return }
         var cookieArray: [[HTTPCookiePropertyKey: Any]] = []
-        for cookie in cookieStorage {
+        for cookie in cookies {
             cookieArray.append(cookie.properties!)
         }
         
