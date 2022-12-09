@@ -7,8 +7,4 @@ extension ICurrencyUnit {
     func formatString(_ sign: FormatPattern.Sign = .none) -> String {
         self.formatString(sign: sign)
     }
-    
-    func negativeAmount() -> String {
-        "-\(self.formatString())"
-    }
 }
