@@ -2,8 +2,7 @@ import Foundation
 import SharedBu
 import RxSwift
 
-class DepositLogViewModel: CollectErrorViewModel,
-                           ObservableObject {
+class DepositLogViewModel: CollectErrorViewModel {
     
     static let imageMBSizeLimit = 20
     static let selectedImageCountLimit = 3
@@ -12,12 +11,8 @@ class DepositLogViewModel: CollectErrorViewModel,
     
     private let disposeBag = DisposeBag()
     
-    @Published private (set) var recentLogs: [PaymentLogDTO.Log]? = nil
-
     let recordDetailRefreshTrigger = PublishSubject<Void>()
     
-    lazy var recentPaymentLogs = getRecentPaymentLogs()
-
     var uploadImageDetail: [Int: UploadImageDetail] = [:]
     var pagination: Pagination<PaymentLogDTO.GroupLog>!
     var dateBegin: Date?
@@ -47,14 +42,6 @@ class DepositLogViewModel: CollectErrorViewModel,
 // MARK: - API
 
 extension DepositLogViewModel {
-    
-    func fetchRecentLogs() {
-        recentPaymentLogs
-            .subscribe(onNext: { [unowned self] in
-                self.recentLogs = $0
-            })
-            .disposed(by: disposeBag)
-    }
     
     func bindingImageWithDepositRecord(displayId: String, portalImages: [UploadImage]) -> Completable {
         Single.from(
@@ -111,14 +98,6 @@ extension DepositLogViewModel {
         Single.from(
             depositService.getPaymentLog(displayId: displayId)
         )
-    }
-    
-    func getRecentPaymentLogs() -> Observable<[PaymentLogDTO.Log]> {
-        Observable.from(
-            depositService.getRecentPaymentLogs()
-        )
-        .map { $0.compactMap { $0 as? PaymentLogDTO.Log } }
-        .compose(applyObservableErrorHandle())
     }
 }
 

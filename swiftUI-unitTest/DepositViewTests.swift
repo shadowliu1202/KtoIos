@@ -6,6 +6,8 @@ import Mockingbird
 
 @testable import ktobet_asia_ios_qat
 
+extension DepositViewModelProtocolMock: ObservableObject { }
+
 extension DepositView.Payments: Inspecting { }
 extension DepositView.PaymentHeader: Inspectable { }
 extension DepositView.Histories: Inspecting { }
@@ -13,21 +15,9 @@ extension DepositView.HistoryHeader: Inspectable { }
 
 final class DepositViewTests: XCTestCase {
     
-    func buildStubDepositViewModel() -> DepositViewModel {
+    func buildStubDepositViewModel() -> DepositViewModelProtocolMock {
         injectStubCultureCode(.CN)
-        
-        let stubed = mock(DepositViewModel.self).initialize(
-            depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
-            depositUseCase: mock(DepositUseCase.self)
-        )
-        
-        return stubed
-    }
-    
-    func buildStubDepositLogViewModel() -> DepositLogViewModel {
-        mock(DepositLogViewModel.self).initialize(
-            Injectable.resolveWrapper(ApplicationFactory.self).deposit()
-        )
+        return mock(DepositViewModelProtocol.self)
     }
     
     func test_HasOnePayment_InDepositPage_OnePaymentIsDisplayed_KTO_TC_44() throws {
@@ -43,7 +33,7 @@ final class DepositViewTests: XCTestCase {
             ))
         ]
         
-        let sut = DepositView.Payments()
+        let sut = DepositView<DepositViewModelProtocolMock>.Payments()
         
         let expectation = sut.inspection.inspect { view in
             let numberOfRows = try view
@@ -66,7 +56,7 @@ final class DepositViewTests: XCTestCase {
                 
         given(stubViewModel.selections) ~> []
         
-        let sut = DepositView.Payments()
+        let sut = DepositView<DepositViewModelProtocolMock>.Payments()
         
         let expectation = sut.inspection.inspect { view in
             let expect = "目前暂无可用的充值方式"
@@ -86,7 +76,7 @@ final class DepositViewTests: XCTestCase {
     }
     
     func test_HasOneDepositHistory_InDepositPage_OneHistoryIsDisplayed_KTO_TC_46() throws {
-        let stubViewModel = buildStubDepositLogViewModel()
+        let stubViewModel = buildStubDepositViewModel()
 
         given(stubViewModel.recentLogs) ~> [
             PaymentLogDTO.Log(
@@ -99,7 +89,7 @@ final class DepositViewTests: XCTestCase {
             )
         ]
 
-        let sut = DepositView.Histories()
+        let sut = DepositView<DepositViewModelProtocolMock>.Histories()
 
         let expectation = sut.inspection.inspect { view in
             let numberOfRows = try view
@@ -118,11 +108,11 @@ final class DepositViewTests: XCTestCase {
     }
     
     func test_NoDepositHistory_InDepositPage_ReminderIsDisplayedAndShowAllBtnIsNotDisplayed_KTO_TC_47() throws {
-        let stubViewModel = buildStubDepositLogViewModel()
+        let stubViewModel = buildStubDepositViewModel()
 
         given(stubViewModel.recentLogs) ~> []
 
-        let sut = DepositView.Histories()
+        let sut = DepositView<DepositViewModelProtocolMock>.Histories()
 
         let reminderExpectation = sut.inspection.inspect { view in
             let expect = "目前暂无与您充值相关的纪录"
