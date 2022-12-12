@@ -9,7 +9,7 @@ class PlayerConfigurationImpl: PlayerConfiguration,
     
     override init() { }
     
-    init(_supportLocale: SupportLocale) {
+    init(supportLocale: SupportLocale) {
         super.init()
         self._supportLocale = _supportLocale
     }

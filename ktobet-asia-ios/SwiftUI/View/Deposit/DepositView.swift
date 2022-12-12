@@ -1,11 +1,12 @@
 import SwiftUI
 import SharedBu
 
-struct DepositView: View {
-    @Injected var playerConfig: PlayerConfiguration
+struct DepositView<ViewModel>: View
+    where ViewModel: DepositViewModelProtocol & ObservableObject
+{
+    let playerConfig: PlayerConfiguration
     
-    @StateObject var viewModel: DepositViewModel
-    @StateObject var logViewModel: DepositLogViewModel
+    @StateObject var viewModel: ViewModel
     
     var onMethodSelected: ((DepositSelection) -> Void)?
     var onHistorySelected: ((PaymentLogDTO.Log) -> Void)?
@@ -23,11 +24,9 @@ struct DepositView: View {
         }
         .pageBackgroundColor(.gray131313)
         .environmentObject(viewModel)
-        .environmentObject(logViewModel)
         .environment(\.playerLocale, playerConfig.supportLocale)
         .onAppear {
             viewModel.fetchMethods()
-            logViewModel.fetchRecentLogs()
         }
     }
 }
@@ -45,7 +44,7 @@ extension DepositView {
     }
     
     struct Payments: View {
-        @EnvironmentObject var viewModel: DepositViewModel
+        @EnvironmentObject var viewModel: ViewModel
         @Environment(\.playerLocale) var locale: SupportLocale
         
         var onSelected: ((DepositSelection) -> Void)?
@@ -182,7 +181,7 @@ extension DepositView {
     }
 
     struct Histories: View {
-        @EnvironmentObject var logViewModel: DepositLogViewModel
+        @EnvironmentObject var viewModel: ViewModel
         
         var onDisplayAll: (() -> Void)?
         var onSelected: ((PaymentLogDTO.Log) -> Void)?
@@ -191,7 +190,7 @@ extension DepositView {
         
         var body: some View {
             VStack(spacing: 0) {
-                if let recentLogs = logViewModel.recentLogs {
+                if let recentLogs = viewModel.recentLogs {
                     DepositView.HistoryHeader(
                         isEmpty: recentLogs.isEmpty,
                         onDisplayAll: onDisplayAll
@@ -322,35 +321,11 @@ extension DepositView {
 
 struct DepositView_Previews: PreviewProvider {
     
-    struct Preview: View {
-        @Injected var viewModel: DepositViewModel
-        @Injected var logViewModel: DepositLogViewModel
-        
-        let previewMethods: PaymentsDTO = .init(
-            offline: nil,
-            crypto: nil,
-            fiat: [
-                .init(
-                    identity: "\(DepositType.AlipayScan.rawValue)",
-                    name: "TestAli",
-                    hint: "This is test.\nThis is test\nThis is test",
-                    isRecommend: false,
-                    beneficiaries: Single<NSArray>.just([]).asWrapper()
-                ),
-                .init(
-                    identity: "\(DepositType.WechatScan.rawValue)",
-                    name: "TestWechat",
-                    hint: "",
-                    isRecommend: true,
-                    beneficiaries: Single<NSArray>.just([]).asWrapper()
-                ),
-            ],
-            cryptoMarket: nil
-        )
-        
-        let previewHistory: [PaymentLogDTO.Log] = {
+    class ViewModel: DepositViewModelProtocol,
+                     ObservableObject {
+        @Published var recentLogs: [PaymentLogDTO.Log]? = {
             let status: [PaymentStatus] = [.approved, .floating, .cancel, .fail]
-            
+
             return status
                 .enumerated()
                 .map { index, value in
@@ -365,19 +340,43 @@ struct DepositView_Previews: PreviewProvider {
                 }
         }()
         
-        init() {
-            viewModel.payments = .just(previewMethods)
-            logViewModel.recentPaymentLogs = .just(previewHistory)
+        @Published var selections: [DepositSelection]? = [
+            OnlinePayment(.init(
+                identity: "\(DepositType.AlipayScan.rawValue)",
+                name: "TestAli",
+                hint: "This is test.\nThis is test\nThis is test",
+                isRecommend: false,
+                beneficiaries: Single<NSArray>.just([]).asWrapper()
+            )),
+            OnlinePayment(.init(
+                identity: "\(DepositType.WechatScan.rawValue)",
+                name: "TestWechat",
+                hint: "",
+                isRecommend: true,
+                beneficiaries: Single<NSArray>.just([]).asWrapper()
+            )),
+        ]
+        
+        func getPayments() -> Observable<PaymentsDTO> {
+            fatalError("No need to implement")
         }
         
+        func getRecentPaymentLogs() -> Observable<[PaymentLogDTO.Log]> {
+            .just([])
+        }
+        
+        func fetchMethods() { }
+    }
+    
+    struct Preview: View {
         var body: some View {
             DepositView(
-                viewModel: viewModel,
-                logViewModel: logViewModel
+                playerConfig: PlayerConfigurationImpl(supportLocale: .China()),
+                viewModel: ViewModel()
             )
         }
     }
-    
+
     static var previews: some View {
         Preview()
     }

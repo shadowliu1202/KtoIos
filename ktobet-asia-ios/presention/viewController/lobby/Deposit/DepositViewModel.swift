@@ -3,7 +3,18 @@ import RxSwift
 import SharedBu
 import RxCocoa
 
+protocol DepositViewModelProtocol {
+    var selections: [DepositSelection]? { get }
+    var recentLogs: [PaymentLogDTO.Log]? { get }
+    
+    func getPayments() -> Observable<PaymentsDTO>
+    func getRecentPaymentLogs() -> Observable<[PaymentLogDTO.Log]>
+    
+    func fetchMethods()
+}
+
 class DepositViewModel: CollectErrorViewModel,
+                        DepositViewModelProtocol,
                         ObservableObject {
     
     private let depositService: IDepositAppService
@@ -11,9 +22,8 @@ class DepositViewModel: CollectErrorViewModel,
     
     private let disposeBag = DisposeBag()
     
-    @Published private (set) var selections: [DepositSelection]? = nil
-    
-    lazy var payments = getPayments()
+    @Published private (set) var selections: [DepositSelection]?
+    @Published private (set) var recentLogs: [PaymentLogDTO.Log]?
         
     //FIXME: depositUseCase 等withdrawal refactor後移除
     init(
@@ -34,7 +44,7 @@ class DepositViewModel: CollectErrorViewModel,
 extension DepositViewModel {
     
     func fetchMethods() {
-        payments
+        getPayments()
             .map { [unowned self] in
                 self.buildSelections($0)
             }
@@ -43,12 +53,27 @@ extension DepositViewModel {
                 self.selections = $0
             })
             .disposed(by: disposeBag)
+        
+        getRecentPaymentLogs()
+            .catchAndReturn([])
+            .subscribe(onNext: { [unowned self] in
+                self.recentLogs = $0
+            })
+            .disposed(by: disposeBag)
     }
     
     func getPayments() -> Observable<PaymentsDTO> {
         Observable
             .from(depositService.getPayments())
             .compose(applyObservableErrorHandle())
+    }
+    
+    func getRecentPaymentLogs() -> Observable<[PaymentLogDTO.Log]> {
+        Observable.from(
+            depositService.getRecentPaymentLogs()
+        )
+        .map { $0.compactMap { $0 as? PaymentLogDTO.Log } }
+        .compose(applyObservableErrorHandle())
     }
     
     func requestCryptoDepositUpdate(displayId: String) -> Single<String> {

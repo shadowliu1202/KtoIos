@@ -158,10 +158,6 @@ private extension TransactionLogViewController {
         tableView.rx
             .setDelegate(self)
             .disposed(by: disposeBag)
-        
-        /// Deposit refactor feature兼容舊的流程
-        @Injected var depositLogViewModel: DepositLogViewModel
-        depositLogViewModel.recentPaymentLogs.subscribe(onNext: { _ in }).disposed(by: disposeBag)
     }
     
     func refreshData() {

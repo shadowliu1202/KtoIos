@@ -7,15 +7,15 @@ import Moya
 class DepositViewController: LobbyViewController,
                              SwiftUIConverter {
     
+    @Injected private var playerConfig: PlayerConfiguration
     @Injected private var viewModel: DepositViewModel
-    @Injected private var logViewModel: DepositLogViewModel
     
     private let disposeBag = DisposeBag()
     
-    init?(coder: NSCoder, viewModel: DepositViewModel, logViewModel: DepositLogViewModel) {
+    init?(coder: NSCoder, viewModel: DepositViewModel, playerConfig: PlayerConfiguration) {
         super.init(coder: coder)
         self.viewModel = viewModel
-        self.logViewModel = logViewModel
+        self.playerConfig = playerConfig
     }
     
     required init?(coder: NSCoder) {
@@ -78,14 +78,15 @@ private extension DepositViewController {
         addSubView(
             from: { [unowned self] in
                 DepositView(
+                    playerConfig: self.playerConfig,
                     viewModel: self.viewModel,
-                    logViewModel: self.logViewModel,
                     onMethodSelected: {
                         self.pushToMethodPage($0)
                     },
                     onHistorySelected: {
                         self.pushToRecordPage($0)
-                    }, onDisplayAll: {
+                    },
+                    onDisplayAll: {
                         self.pushToAllRecordPage()
                     }
                 )

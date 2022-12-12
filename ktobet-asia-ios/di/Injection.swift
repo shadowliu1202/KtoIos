@@ -259,22 +259,24 @@ final class Injection {
             }
         
         container
-                    .register(PlayerConfiguration.self) { _ in
-                        return PlayerConfigurationImpl()
-                    }
-                    .inObjectScope(.locale)
-                container
-                    .register(LocalStorageRepository.self) {
-                        LocalStorageRepositoryImpl(
-                            playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self)
-                        )
-                    }
-                    .inObjectScope(.locale)
+            .register(PlayerConfiguration.self) { _ in
+                return PlayerConfigurationImpl()
+            }
+            .inObjectScope(.locale)
+        
+        container
+            .register(LocalStorageRepository.self) {
+                LocalStorageRepositoryImpl(
+                    playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self)
+                )
+            }
+            .inObjectScope(.locale)
         
         container
             .register(SettingStore.self) { _ in
                 return SettingStore()
             }
+        
         container
             .register(DepositRepository.self) { resolver in
                 let bankApi = resolver.resolveWrapper(BankApi.self)
