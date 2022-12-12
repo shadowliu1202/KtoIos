@@ -160,7 +160,7 @@ private extension TransactionLogViewController {
             .disposed(by: disposeBag)
         
         /// Deposit refactor feature兼容舊的流程
-        let depositLogViewModel = Injectable.resolve(DepositLogViewModel.self)!
+        @Injected var depositLogViewModel: DepositLogViewModel
         depositLogViewModel.recentPaymentLogs.subscribe(onNext: { _ in }).disposed(by: disposeBag)
     }
     

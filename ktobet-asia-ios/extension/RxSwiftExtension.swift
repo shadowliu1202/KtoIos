@@ -144,6 +144,19 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
     }
 }
 
+extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait {
+    func asWrapper<T>() -> SingleWrapper<T> where T: Any {
+        SingleWrapper(inner: SingleByEmitterKt.single { emitter in
+            let swiftDisposable = self.subscribe { element in
+                emitter.onSuccess(value: element)
+            } onFailure: { error in
+                emitter.onError(error: ExceptionFactory.create(error))
+            }
+            emitter.setDisposable(disposable: DisposableWrapper.init(dispoable: swiftDisposable))
+        })
+    }
+}
+
 extension RxSwift.Observable where Element == String {
     func asReaktiveResponseList<T>(serial: Kotlinx_serialization_coreKSerializer) -> ObservableWrapper<ResponseList<T>> where T: KotlinBase {
         ObservableWrapper(inner: ObservableByEmitterKt.observable { emitter in

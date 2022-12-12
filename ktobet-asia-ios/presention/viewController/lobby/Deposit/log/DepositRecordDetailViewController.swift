@@ -43,7 +43,7 @@ class DepositRecordDetailViewController: LobbyViewController {
     var activityIndicator = UIActivityIndicatorView(style: .large)
     var displayId: String!
     
-    private var viewModel = Injectable.resolve(DepositLogViewModel.self)!
+    @Injected private var viewModel: DepositLogViewModel
     private let httpClient = Injectable.resolve(HttpClient.self)!
     private var uploadViewModel = Injectable.resolve(UploadPhotoViewModel.self)!
     private var disposeBag = DisposeBag()

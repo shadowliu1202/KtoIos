@@ -13,18 +13,12 @@ class DepositRecordContainer: LobbyViewController {
         viewController.displayId = self.displayId
         return viewController
     }()
-    private func cryptoDetailVC(data: PaymentLogDTO.CryptoLog) -> UIHostingController<DepositCryptoDetailView> {
-        let viewController = DepositCryptoDetailView(data: data)
-        let hostingController = UIHostingController(rootView: viewController)
-        hostingController.navigationItem.hidesBackButton = true
-        return hostingController
-    }
     private var presentingVC: UIViewController?
     
     var displayId: String!
     var paymentCurrencyType: PaymentLogDTO.PaymentCurrencyType?
     var transactionType: TransactionType?
-    private var depositLogViewModel = Injectable.resolve(DepositLogViewModel.self)!
+    @Injected private var depositLogViewModel: DepositLogViewModel
     private var viewModel = Injectable.resolve(DepositViewModel.self)!
     private var disposeBag = DisposeBag()
     
@@ -61,7 +55,7 @@ class DepositRecordContainer: LobbyViewController {
     private func updateTransactionType() {
         let _ = depositLogViewModel.getDepositLog(displayId).subscribe(onSuccess: { [weak self] in
             self?.fetchData($0.currencyType)
-        }, onError: { [weak self] in
+        }, onFailure: { [weak self] in
             self?.handleErrors($0)
         })
     }
@@ -69,16 +63,15 @@ class DepositRecordContainer: LobbyViewController {
     func fetchData(_ paymentType: PaymentLogDTO.PaymentCurrencyType) {
         switch paymentType {
         case .crypto:
-            depositLogViewModel.getDepositCryptoLog(transactionId: displayId)
-                .take(1)
-                .subscribe(onNext: { [weak self] in
-                    guard let `self` = self else { return }
-                    let vc = self.cryptoDetailVC(data: $0)
-                    self.addChildViewController(vc, inner: self.containView)
-                    self.presentingVC = vc
-                }, onError: { [weak self] in
-                    self?.handleErrors($0)
-                }).disposed(by: self.disposeBag)
+            @Injected var factory: ApplicationFactory
+            let vc = DepositCryptoRecordViewController(
+                viewModel: .init(
+                    depositService: factory.deposit(),
+                    transactionId: displayId
+                )
+            )
+            self.addChildViewController(vc, inner: self.containView)
+            self.presentingVC = vc
             break
         case .fiat:
             self.addChildViewController(depositRecordVC, inner: containView)
