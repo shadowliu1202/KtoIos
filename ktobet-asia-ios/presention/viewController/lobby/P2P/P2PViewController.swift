@@ -95,7 +95,7 @@ private extension P2PViewController {
                 if let url = URL(string: item.thumbnail.url()) {
                     cell.iconImageView.sd_setImage(url: url)
                     cell.iconImageView.borderWidth = 1
-                    cell.iconImageView.bordersColor = .gray131313.withAlphaComponent(0.8)
+                    cell.iconImageView.bordersColor = .grayC8D4DE.withAlphaComponent(0.8)
                 }
                 
                 cell.label.text = item.gameName

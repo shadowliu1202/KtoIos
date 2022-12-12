@@ -88,6 +88,20 @@ public enum DateType {
     case month(fromDate: Date, toDate: Date)
 }
 
+extension DateType {
+    
+    var result: (from: Date, to: Date) {
+        switch self {
+        case .week(let from, let to):
+            return (from, to)
+        case .day(let date):
+            return (date, date)
+        case .month(let from, let to):
+            return (from, to)
+        }
+    }
+}
+
 public enum RegularFormat: String {
     case currencyFormatWithTwoDecimal = "^[0-9]{1,8}([.][0-9]{0,2})?$"
     case currencyFormat = "^[0-9]{1,8}?$"

@@ -41,7 +41,7 @@ class NotificationViewModel: CollectErrorViewModel, ViewModelType {
     }
 
     private func initPagination() {
-        pagination = Pagination<SharedBu.Notification>(pageIndex: 1, offset: 1, callBack: { [unowned self] (page) -> Observable<[SharedBu.Notification]> in
+        pagination = Pagination<SharedBu.Notification>(pageIndex: 1, offset: 1, observable: { [unowned self] (page) -> Observable<[SharedBu.Notification]> in
             self.searchNotification(page: page)
         })
     }

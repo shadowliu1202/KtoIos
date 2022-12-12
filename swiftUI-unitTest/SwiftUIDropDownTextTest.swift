@@ -90,7 +90,7 @@ final class SwiftUIDropDownTextTest: XCTestCase {
 
             try candidateWordList.first?.callOnTapGesture()
 
-            let expect1 = try candidateWordList.first?.findText().string()
+            let expect1 = try candidateWordList.first?.localizedText().string()
             let actual1 = try view.actualView().textFieldText
 
             XCTAssertEqual(expect1, actual1)
@@ -138,7 +138,7 @@ final class SwiftUIDropDownTextTest: XCTestCase {
             
             let candidateWords = try candidateWordList
                 .compactMap { view in
-                    try view.findText().string()
+                    try view.localizedText().string()
                 }
             
             let actual = !candidateWords
@@ -152,7 +152,7 @@ final class SwiftUIDropDownTextTest: XCTestCase {
 
             try candidateWordList.first?.callOnTapGesture()
 
-            let expect1 = try candidateWordList.first?.findText().string()
+            let expect1 = try candidateWordList.first?.localizedText().string()
             let actual1 = try view.actualView().textFieldText
 
             XCTAssertEqual(expect1, actual1)

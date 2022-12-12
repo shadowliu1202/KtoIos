@@ -6,9 +6,22 @@ import ViewInspector
 
 extension Inspection: InspectionEmissary {}
 
-extension InspectableView {
+extension InspectableView where View: SingleViewContent {
     
-    func findText() throws -> InspectableView<ViewType.Text> {
-        try find(ViewType.Text.self)
+    func localizedText() throws
+        -> InspectableView<ViewType.Text>
+    {
+        try view(LocalizeFont<Text>.self)
+            .find(ViewType.Text.self)
+    }
+}
+
+extension InspectableView where View: MultipleViewContent {
+    
+    func localizedText(_ index: Int) throws
+        -> InspectableView<ViewType.Text>
+    {
+        try view(LocalizeFont<Text>.self, index)
+            .find(ViewType.Text.self)
     }
 }

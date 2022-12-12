@@ -2,129 +2,159 @@ import Foundation
 import UIKit
 import SharedBu
 
-class TransactionLogPresenter: FilterPresentProtocol {
-    func getTitle() -> String {
-        return Localize.string("common_filter")
-    }
+class TransactionLogPresenter: FilterPresentProtocol,
+                               ObservableObject {
+    
+    private var conditions: [Item] = TransactionType
+        .allCases
+        .map {
+            .init(
+                type: $0 == .all ? .static : .interactive,
+                title: $0.title,
+                isSelected: $0 == .all ? false : true,
+                transactionType: $0
+            )
+        }
+    
+    func getTitle() -> String { Localize.string("common_filter") }
+    
+    func getDatasource() -> [FilterItem] { conditions }
+    
+    func itemText(_ item: FilterItem) -> String { item.title }
+    
+    func itemAccenery(_ item: FilterItem) -> Any? { (item as? Item)?.image }
+    
     func setConditions(_ items: [FilterItem]) {
-        conditions = items as! [TransactionLogItem]
+        conditions = items.compactMap { $0 as? Item }
     }
-    func getDatasource() -> [FilterItem] {
-        return conditions
-    }
-    func itemText(_ item: FilterItem) -> String {
-        return (item as! TransactionLogItem).title
-    }
-    func itemAccenery(_ item: FilterItem) -> Any? {
-        return (item as! TransactionLogItem).image
-    }
+    
     func toggleItem(_ row: Int) {
         if row == 0 {
-            if conditions[0].isAllSelected {
-                conditions.indices.forEach{ conditions[$0].isSelected = false }
-                conditions.indices.forEach{ conditions[$0].isAllSelected = false }
-                conditions[1].isSelected? = true
-            } else {
-                conditions.indices.forEach{ conditions[$0].isSelected = true }
-                conditions.indices.forEach{ conditions[$0].isAllSelected = true }
-            }
+            let staticSelected = conditions[row].isAllSelected
             
-            conditions[0].isSelected?.toggle()
-        } else {
-            conditions.indices.forEach{ conditions[$0].isAllSelected = false }
-            conditions.indices.forEach{ conditions[$0].isSelected = false }
+            conditions
+                .indices
+                .forEach {
+                    conditions[$0].isSelected = !staticSelected
+                    conditions[$0].isAllSelected = !staticSelected
+                }
+        }
+        else {
+            conditions
+                .indices
+                .forEach {
+                    conditions[$0].isSelected = false
+                    conditions[$0].isAllSelected = false
+                }
+            
             conditions[row].isSelected = true
-            conditions[0].isSelected = true
+        }
+        
+        conditions[0].isSelected?.toggle()
+    }
+        
+    func getSelectedItems(_ items: [FilterItem]) -> [FilterItem] {
+        if let all = items.first(where: { $0.isSelected == false && $0.type == .static }) {
+            return [all]
+        }
+        else {
+            return items.filter { $0.isSelected == true && $0.type != .static }
         }
     }
     
-    func getConditionStatus(_ items: [TransactionLogItem]) -> CashLogFilter {
-        let transactionTypes = items.filter({ $0.isSelected == true }).compactMap{ $0.transactionTypes }
-        return transactionTypes.count == conditions.count - 1 ? CashLogFilter.all : transactionTypes.first!
+    func getSelectedTitle(_ items: [FilterItem]) -> String {
+        let selected = getSelectedItems(items)
+        
+        if selected.first?.type == .static {
+            return Localize.string("common_all")
+        }
+        else {
+            return selected
+                .compactMap { $0.title }
+                .joined(separator: "/")
+        }
     }
     
-    private var conditions: [TransactionLogItem] =
-        [TransactionLogPresenter.createStaticDisplay(Localize.string("balancelog_categoryfilter")),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_deposit"), .deposit),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_withdrawal"), .withdrawal),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_sportsbook"), .sportsBook),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_slot"), .slot),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_casino"), .casino),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_keno"), .numberGame),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_p2p"), .p2P),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_arcade"), .arcade),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_adjustment"), .adjustment),
-         TransactionLogPresenter.createInteractive(title: Localize.string("common_bonus"), .bonus),]
-
-    
-    class func createStaticDisplay(_ title: String) -> TransactionLogItem {
-        return TransactionLogItem(type: .static, title: title, select: false)
+    func getConditionStatus(_ items: [Item]) -> TransactionType {
+        (getSelectedItems(items).first as? Item)?.transactionType ?? .all
     }
     
-    class func createInteractive(title: String, _ transactionTypes: CashLogFilter) -> TransactionLogItem {
-        return TransactionLogItem(type: .interactive,
-                             title: title,
-                             select: true,
-                             transactionTypes: transactionTypes)
+    deinit {
+        print("\(type(of: self)) deinit")
     }
 }
 
-struct TransactionLogItem: FilterItem {
-    var type: Display
-    var title: String
-    private var select: Bool? = true
-    var isSelected: Bool? {
-        set{
-            select = newValue
-        }
-        get {
-            switch type {
-            case .static:
-                return select
-            case .interactive:
-                return select
+// MARK: - Model
+
+extension TransactionLogPresenter {
+    
+    enum TransactionType: Int, CaseIterable {
+        case all = 0
+        case deposit = 1
+        case withdrawal = 2
+        case sportsBook = 3
+        case slot = 4
+        case casino = 5
+        case numberGame = 8
+        case p2P = 9
+        case arcade = 10
+        case adjustment = 6
+        case bonus = 7
+        
+        var title: String {
+            switch self {
+            case .all:
+                return Localize.string("balancelog_categoryfilter")
+            case .deposit:
+                return Localize.string("common_deposit")
+            case .withdrawal:
+                return Localize.string("common_withdrawal")
+            case .sportsBook:
+                return Localize.string("common_sportsbook")
+            case .slot:
+                return Localize.string("common_slot")
+            case .casino:
+                return Localize.string("common_casino")
+            case .numberGame:
+                return Localize.string("common_keno")
+            case .p2P:
+                return Localize.string("common_p2p")
+            case .arcade:
+                return Localize.string("common_arcade")
+            case .adjustment:
+                return Localize.string("common_adjustment")
+            case .bonus:
+                return Localize.string("common_bonus")
             }
         }
     }
-    var isAllSelected: Bool = true
-    var image: UIImage? {
-        if select ?? false {
-            let img = isAllSelected ? UIImage(named: "iconDoubleSelectionSelected24") : UIImage(named: "iconSingleSelectionSelected24")
-            return img
-        } else {
-            return UIImage(named: "iconSingleSelectionEmpty24")
-        }
-        
-        
-    }
     
-    init(type: Display, title: String, select: Bool, transactionTypes: CashLogFilter? = nil) {
-        self.type = type
-        self.title = title
-        self.select = select
-        self._transactionTypes = transactionTypes
-    }
-    private var _transactionTypes: CashLogFilter?
-    var transactionTypes: CashLogFilter? {
-        switch type {
-        case .static:
-            return nil
-        case .interactive:
-            return _transactionTypes
+    struct Item: FilterItem {
+        var type: Display
+        var title: String
+        var isSelected: Bool? = true
+        var isAllSelected: Bool = true
+        var transactionType: TransactionType
+        
+        var image: UIImage? {
+            if isSelected ?? false {
+                let img = isAllSelected ? UIImage(named: "iconDoubleSelectionSelected24") : UIImage(named: "iconSingleSelectionSelected24")
+                return img
+            } else {
+                return UIImage(named: "iconSingleSelectionEmpty24")
+            }
+        }
+        
+        init(
+            type: Display,
+            title: String,
+            isSelected: Bool,
+            transactionType: TransactionType
+        ) {
+            self.type = type
+            self.title = title
+            self.isSelected = isSelected
+            self.transactionType = transactionType
         }
     }
-}
-
-enum CashLogFilter: Int {
-    case all = 0
-    case deposit = 1
-    case withdrawal = 2
-    case sportsBook = 3
-    case slot = 4
-    case casino = 5
-    case numberGame = 8
-    case p2P = 9
-    case arcade = 10
-    case adjustment = 6
-    case bonus = 7
 }

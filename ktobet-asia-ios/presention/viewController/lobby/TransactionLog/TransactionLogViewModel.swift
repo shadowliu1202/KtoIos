@@ -3,45 +3,58 @@ import RxSwift
 import RxDataSources
 import SharedBu
 
-class TransactionLogViewModel: CollectErrorViewModel {
+protocol TransactionLogViewModelProtocol {
     typealias Section = SectionModel<String, TransactionLog>
+
+    var summary: CashFlowSummary? { get }
+    var sections: [Section]? { get }
+    var dateType: DateType { get }
+    
+    var pagination: Pagination<Section>! { get }
+    var summaryRefreshTrigger: PublishSubject<Void> { get }
+    
+    func searchTransactionLog() -> Observable<[Section]>
+    func getCashFlowSummary() -> Single<CashFlowSummary>
+}
+
+class TransactionLogViewModel: CollectErrorViewModel,
+                               ObservableObject,
+                               TransactionLogViewModelProtocol {
+    
+    private let transactionLogUseCase: TransactionLogUseCase
     
     private let disposeBag = DisposeBag()
     
-    private let summaryRelay = PublishSubject<CashFlowSummary>()
+    private (set) var pagination: Pagination<TransactionLogViewModelProtocol.Section>!
     
-    private (set) var pagination: Pagination<Section>!
+    private (set) var summaryRefreshTrigger = PublishSubject<Void>()
     
-    private (set) var summaryRefreshTrigger = PublishSubject<()>()
+    @Published private (set) var summary: CashFlowSummary?
+    @Published private (set) var sections: [TransactionLogViewModelProtocol.Section]?
     
-    private var transactionLogUseCase: TransactionLogUseCase!
-    
-    var from: Date = Date().adding(value: -7, byAdding: .day)
-    var to: Date = Date()
+    var dateType: DateType = .week(
+        fromDate: Date().adding(value: -7, byAdding: .day),
+        toDate: Date()
+    )
     
     var balanceLogFilterType: Int = 0
     
     init(transactionLogUseCase: TransactionLogUseCase) {
-        super.init()
-        
         self.transactionLogUseCase = transactionLogUseCase
         
-        pagination = .init(callBack: { [unowned self] page in
-            self.searchTransactionLog(
-                from: self.from,
-                to: self.to,
-                filterType: self.balanceLogFilterType,
-                page: page
-            )
-        })
+        super.init()
+        
+        self.pagination = .init(
+            observable: { [unowned self] _ in
+                self.searchTransactionLog()
+            }, onElementChanged: { [unowned self] in
+                self.sections = $0
+            }
+        )
         
         summaryRefreshTrigger
             .flatMapLatest { [unowned self] in
-                self.getCashFlowSummary(
-                    from: self.from,
-                    to: self.to,
-                    filterType: self.balanceLogFilterType
-                )
+                self.getCashFlowSummary()
             }
             .subscribe()
             .disposed(by: disposeBag)
@@ -56,19 +69,13 @@ class TransactionLogViewModel: CollectErrorViewModel {
 
 extension TransactionLogViewModel {
     
-    private func searchTransactionLog(
-        from: Date,
-        to: Date,
-        filterType: Int,
-        page: Int
-    ) -> Observable<[Section]> {
-        
+    func searchTransactionLog() -> Observable<[TransactionLogViewModelProtocol.Section]> {
         transactionLogUseCase
             .searchTransactionLog(
-                from: from,
-                to: to,
-                BalanceLogFilterType: filterType,
-                page: page
+                from: dateType.result.from,
+                to: dateType.result.to,
+                BalanceLogFilterType: balanceLogFilterType,
+                page: pagination.pageIndex
             )
             .map { [unowned self] in
                 self.buildSections($0)
@@ -80,20 +87,15 @@ extension TransactionLogViewModel {
             .compose(applyObservableErrorHandle())
     }
     
-    func getCashFlowSummary(
-        from: Date,
-        to: Date,
-        filterType: Int
-    ) -> Single<CashFlowSummary> {
-        
+    func getCashFlowSummary() -> Single<CashFlowSummary> {
         transactionLogUseCase
             .getCashFlowSummary(
-                begin: from,
-                end: to,
-                balanceLogFilterType: filterType
+                begin: dateType.result.from,
+                end: dateType.result.to,
+                balanceLogFilterType: balanceLogFilterType
             )
             .do(onSuccess: { [unowned self] in
-                self.summaryRelay.onNext($0)
+                self.summary = $0
             })
             .compose(applySingleErrorHandler())
     }
@@ -107,7 +109,7 @@ extension TransactionLogViewModel {
             .getCashLogSummary(
                 begin: from,
                 end: to,
-                balanceLogFilterType: CashLogFilter.all.rawValue
+                balanceLogFilterType: TransactionLogPresenter.TransactionType.all.rawValue
             )
             .compose(applySingleErrorHandler())
     }
@@ -129,22 +131,7 @@ extension TransactionLogViewModel {
 
 extension TransactionLogViewModel {
     
-    var summary: Observable<CashFlowSummary> {
-        summaryRelay.asObservable()
-    }
-    
-    var sections: Observable<[Section]>{
-        pagination.elements
-            .skip(1)
-            .catchAndReturn([])
-            .asObservable()
-    }
-    
-    func section(at index: Int) -> Section? {
-        pagination.elements.value[index]
-    }
-    
-    func buildSections(_ logs: [TransactionLog]) -> [Section] {
+    func buildSections(_ logs: [TransactionLog]) -> [TransactionLogViewModelProtocol.Section] {
         let sortedData = logs
             .sorted(by: { $0.date.toDateTimeFormatString() > $1.date.toDateTimeFormatString() })
         
@@ -154,7 +141,7 @@ extension TransactionLogViewModel {
                 String(format: "%02d/%02d/%02d", $0.date.year, $0.date.monthNumber, $0.date.dayOfMonth)
             }
         )
-        .map { (key, value) -> Section in
+        .map { (key, value) -> TransactionLogViewModelProtocol.Section in
             let today = Date().convertdateToUTC().toDateString()
             let title = key == today ? Localize.string("common_today") : key
             
@@ -164,5 +151,16 @@ extension TransactionLogViewModel {
             )
         }
         .sorted(by: { $0.model > $1.model })
+    }
+    
+    func updateTypeFilter(
+        with items: [FilterItem],
+        and presenter: TransactionLogPresenter
+    ) {
+        guard let _items = items as? [TransactionLogPresenter.Item]
+        else { fatalError("FilterItem should be TransactionLogPresenter.Item") }
+        
+        let type = presenter.getConditionStatus(_items)
+        balanceLogFilterType = type.rawValue
     }
 }

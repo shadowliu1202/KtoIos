@@ -11,7 +11,7 @@ class DateViewController: UIViewController {
     
     private lazy var monthSelectView = MonthSelectView(frame: .zero, playerLocale: localStorageRepo.getSupportLocale())
     
-    var conditionCallbck: ((_ dateType: DateType) -> ())?
+    var conditionCallback: ((_ dateType: DateType) -> ())?
     var dateType: DateType = .week()
     fileprivate let invalidPeriodLength = 90
     fileprivate var koyomi: Koyomi!
@@ -122,7 +122,7 @@ class DateViewController: UIViewController {
             selectDate.append(date.convertdateToUTC())
         }
         
-        conditionCallbck?(dateType)
+        conditionCallback?(dateType)
         NavigationManagement.sharedInstance.popViewController()
     }
     

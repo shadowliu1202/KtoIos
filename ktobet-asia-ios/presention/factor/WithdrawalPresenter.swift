@@ -63,4 +63,7 @@ class WithdrawalPresenter: FilterPresentProtocol {
             return ""
         }
     }
+    
+    func getSelectedTitle(_ item: [FilterItem]) -> String { "" }
+    func getSelectedItems(_ items: [FilterItem]) -> [FilterItem] { [] }
 }

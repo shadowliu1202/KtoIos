@@ -4,12 +4,14 @@ import RxCocoa
 
 class FilterButton: UIView {
     typealias ConditionCallbck = (([FilterItem]) -> ())
+    
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet fileprivate weak var interactiveBtn: UIButton!
+    
     private weak var parentController: UIViewController?
     private var presenter: FilterPresentProtocol?
     private var initalFilterItem: [FilterItem]?
-    private var conditionCallbck: ConditionCallbck?
+    private var conditionCallback: ConditionCallbck?
     private var vc: FilterConditionViewController?
     
     override init(frame: CGRect) {
@@ -115,7 +117,7 @@ class FilterButton: UIView {
     
     @discardableResult
     func set(_ callback: @escaping ConditionCallbck) -> Self {
-        self.conditionCallbck = callback
+        self.conditionCallback = callback
         return self
     }
     
@@ -130,9 +132,9 @@ class FilterButton: UIView {
             presenter.setConditions(filter + [])
         }
         
-        vc.conditionCallbck = { [weak self] (items) in
+        vc.conditionCallback = { [weak self] (items) in
             self?.setTitle(items)
-            self?.conditionCallbck?(items)
+            self?.conditionCallback?(items)
         }
         
         parentController?.navigationController?.pushViewController(vc, animated: true)

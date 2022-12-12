@@ -18,7 +18,7 @@ class WithdrawalViewModel {
     init(withdrawalUseCase: WithdrawalUseCase, localStorageRepository: LocalStorageRepository) {
         self.withdrawalUseCase = withdrawalUseCase
         self.localStorageRepository = localStorageRepository
-        pagination = Pagination<WithdrawalRecord>(callBack: {(page) -> Observable<[WithdrawalRecord]> in
+        pagination = Pagination<WithdrawalRecord>(observable: {(page) -> Observable<[WithdrawalRecord]> in
             self.getWithdrawalRecords(page: String(page))
                 .do(onError: { error in
                     self.pagination.error.onNext(error)

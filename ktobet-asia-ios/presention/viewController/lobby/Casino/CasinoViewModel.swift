@@ -66,7 +66,7 @@ class CasinoViewModel: CollectErrorViewModel {
             }))
         }
         
-        pagination = Pagination<BetRecord>(pageIndex: 0, offset: 20, callBack: {(page) -> Observable<[BetRecord]> in
+        pagination = Pagination<BetRecord>(pageIndex: 0, offset: 20, observable: {(page) -> Observable<[BetRecord]> in
             self.getBetRecords(offset: page)
                 .do(onError: { error in
                     self.pagination.error.onNext(error)

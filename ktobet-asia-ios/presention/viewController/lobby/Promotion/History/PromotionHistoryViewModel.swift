@@ -22,7 +22,7 @@ class PromotionHistoryViewModel {
         self.recordPagination = Pagination<CouponHistory>(
             pageIndex: 1,
             offset: 1,
-            callBack: { [weak self] page -> Observable<[CouponHistory]> in
+            observable: { [weak self] page -> Observable<[CouponHistory]> in
                 self?.searchBonusCoupons(page: page)
                     .do(onError: { error in
                         self?.recordPagination.error.onNext(error)

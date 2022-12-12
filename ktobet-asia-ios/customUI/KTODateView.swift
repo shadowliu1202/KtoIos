@@ -57,7 +57,7 @@ class KTODateView: UIView {
     fileprivate func goToDateVC() {
         let storyboard = UIStoryboard(name: "Date", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DateConditionViewController") as! DateViewController
-        vc.conditionCallbck = {[weak self] (dateType) in
+        vc.conditionCallback = {[weak self] (dateType) in
             DispatchQueue.main.async {
                 self?.currentSelectedDateType = dateType
                 let dateBegin: Date?
