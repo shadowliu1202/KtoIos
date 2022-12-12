@@ -24,7 +24,7 @@ class DepositLogViewModel: CollectErrorViewModel {
         
         super.init()
         
-        pagination = .init(callBack: { [unowned self] page in
+        pagination = .init(observable: { [unowned self] page in
             self.getDepositRecords(page: Int32(page))
                 .do(onError: { error in
                     self.pagination.error.onNext(error)

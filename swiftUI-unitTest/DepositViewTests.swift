@@ -62,7 +62,7 @@ final class DepositViewTests: XCTestCase {
             let expect = "目前暂无可用的充值方式"
             let actual = try view
                 .find(viewWithId: "paymentsEmptyReminder")
-                .findText()
+                .localizedText()
                 .string()
             
             XCTAssertEqual(expect, actual)
@@ -118,7 +118,7 @@ final class DepositViewTests: XCTestCase {
             let expect = "目前暂无与您充值相关的纪录"
             let actual = try view
                 .find(viewWithId: "historiesEmptyReminder")
-                .findText()
+                .localizedText()
                 .string()
             
             XCTAssertEqual(expect, actual)

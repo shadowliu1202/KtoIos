@@ -250,7 +250,7 @@ class WithdrawalViewController: LobbyViewController {
             } else {
                 self?.alertPlayerNotQualifiedForCryptoWithdrawal()
             }
-        }, onError: { [weak self] in
+        }, onFailure: { [weak self] in
             self?.handleErrors($0)
         }).disposed(by: disposeBag)
     }

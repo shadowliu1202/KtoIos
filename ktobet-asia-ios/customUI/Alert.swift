@@ -15,11 +15,11 @@ protocol AlertProtocol {
 
 extension AlertProtocol {
     func show(_ title: String?,
-                   _ message: String?,
-                   confirm: (() -> Void)?,
-                   confirmText: String? = nil,
-                   cancel: (() -> Void)?,
-                   cancelText: String? = nil,
+              _ message: String?,
+              confirm: (() -> Void)? = nil,
+              confirmText: String? = nil,
+              cancel: (() -> Void)? = nil,
+              cancelText: String? = nil,
               tintColor: UIColor? = nil) {
         self.show(title, message, confirm: confirm, confirmText: confirmText, cancel: cancel, cancelText: cancelText, tintColor: tintColor)
     }

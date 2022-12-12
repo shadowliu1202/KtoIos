@@ -62,6 +62,8 @@ extension DepositPresenter: FilterPresentProtocol {
         if allSelectCount <= 1, conditions[row].isSelected == true { return }
         conditions[row].isSelected?.toggle()
     }
+    func getSelectedTitle(_ item: [FilterItem]) -> String { "" }
+    func getSelectedItems(_ items: [FilterItem]) -> [FilterItem] { [] }
 }
 
 struct DepositTransactionItem: FilterItem {

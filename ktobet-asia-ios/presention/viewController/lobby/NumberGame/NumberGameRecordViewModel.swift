@@ -17,7 +17,7 @@ class NumberGameRecordViewModel {
     init(numberGameRecordUseCase: NumberGameRecordUseCase) {
         self.numberGameRecordUseCase = numberGameRecordUseCase
         
-        pagination = Pagination<NumberGameSummary.Game>(pageIndex: 0, offset: 20, callBack: {(page) -> Observable<[NumberGameSummary.Game]> in
+        pagination = Pagination<NumberGameSummary.Game>(pageIndex: 0, offset: 20, observable: {(page) -> Observable<[NumberGameSummary.Game]> in
             self.getGamesSummaryByDate(skip: page)
                 .do(onError: { error in
                     self.pagination.error.onNext(error)
@@ -26,7 +26,7 @@ class NumberGameRecordViewModel {
                 })
         })
         
-        betPagination = Pagination<NumberGameSummary.Bet>(pageIndex: 0, offset: 20, callBack: {(page) -> Observable<[NumberGameSummary.Bet]> in
+        betPagination = Pagination<NumberGameSummary.Bet>(pageIndex: 0, offset: 20, observable: {(page) -> Observable<[NumberGameSummary.Bet]> in
             self.getGameBetsByDate(skip: page)
                 .do(onError: { error in
                     self.betPagination.error.onNext(error)

@@ -21,7 +21,7 @@ class BankFilterConditionViewController: FilterConditionViewController {
     
     let disposeBag = DisposeBag()
     var _conditionCallbck: (([FilterItem]) -> ())?
-    override var conditionCallbck: (([FilterItem]) -> ())? {
+    override var conditionCallback: (([FilterItem]) -> ())? {
         get {
             return _conditionCallbck
         }
@@ -46,7 +46,7 @@ class BankFilterConditionViewController: FilterConditionViewController {
     func dataBinding() {
         totalSource.accept(presenter.getDatasource())
         btnSubmit.rx.touchUpInside.subscribe(onNext: { [weak self] in
-            self?.conditionCallbck?(self?.getConditions() ?? [])
+            self?.conditionCallback?(self?.getConditions() ?? [])
             NavigationManagement.sharedInstance.popViewController()
         }).disposed(by: disposeBag)
         
@@ -108,6 +108,10 @@ class StaticCell: UITableViewCell {
     func configure(_ item: FilterItem, impl: FilterPresentProtocol?, selectAllCallback: ((Observable<Void>, DisposeBag) -> Void)? = nil) -> Self {
         self.selectionStyle = .none
         self.titleLabel.text = impl?.itemText(item)
+        selectAllButton.setTitle(
+            (item.isSelected ?? false) ? Localize.string("common_select_all") : Localize.string("common_unselect_all"),
+            for: .normal
+        )
         selectAllCallback?(selectAllButton.rx.tap.asObservable(), disposeBag)
         return self
     }

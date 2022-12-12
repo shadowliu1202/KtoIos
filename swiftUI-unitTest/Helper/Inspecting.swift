@@ -15,3 +15,4 @@ extension UIKitTextField: Inspectable { }
 extension LocalizeFont: Inspectable { }
 extension Separator: Inspectable { }
 extension LimitSpacer: Inspectable { }
+extension FunctionalButton: Inspectable { }

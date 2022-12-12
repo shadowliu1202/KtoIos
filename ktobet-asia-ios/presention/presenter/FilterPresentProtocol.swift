@@ -7,6 +7,8 @@ protocol FilterPresentProtocol {
     func itemText(_ item: FilterItem) -> String
     func itemAccenery(_ item: FilterItem) -> Any?
     func toggleItem(_ row: Int)
+    func getSelectedItems(_ items: [FilterItem]) -> [FilterItem]
+    func getSelectedTitle(_ items: [FilterItem]) -> String
 }
 
 protocol FilterItem {

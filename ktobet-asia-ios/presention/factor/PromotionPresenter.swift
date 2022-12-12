@@ -139,6 +139,9 @@ class PromotionPresenter: FilterPresentProtocol {
                              select: true,
                              sortingType: sortingType)
     }
+    
+    func getSelectedTitle(_ item: [FilterItem]) -> String { "" }
+    func getSelectedItems(_ items: [FilterItem]) -> [FilterItem] { [] }
 }
 
 class ProductPromotionItem: PromotionItem {

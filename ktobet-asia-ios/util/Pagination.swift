@@ -16,9 +16,23 @@ class Pagination<T> {
     var offset: Int = 1
     var isLastData = false
     
-    init(pageIndex: Int = 1, offset: Int = 1, callBack: @escaping ((Int) -> Observable<[T]>)) {
+    var onElementChanged: (([T]) -> Void)?
+    
+    init(
+        pageIndex: Int = 1,
+        offset: Int = 1,
+        observable: @escaping ((Int) -> Observable<[T]>),
+        onElementChanged: (([T]) -> Void)? = nil
+    ) {
         self.offset = offset
         self.startPageIndex = pageIndex
+        self.onElementChanged = onElementChanged
+        
+        elements
+            .subscribe(onNext: { [unowned self] in
+                self.onElementChanged?($0)
+            })
+            .disposed(by: disposeBag)
         
         let refreshRequest = loading.asObservable()
             .sample(refreshTrigger)
@@ -62,7 +76,7 @@ class Pagination<T> {
         
         let response = request
             .flatMap { page -> Observable<[T]> in
-                callBack(page)
+                observable(page)
             }
             .share(replay: 1)
         
@@ -71,13 +85,14 @@ class Pagination<T> {
                 request,
                 response,
                 elements.asObservable()
-            ) { [unowned self] request, response, elements in
+            )
+            .map { [unowned self] request, response, elements in
                 return self.pageIndex == self.startPageIndex ? response : elements + response
             }
             .sample(response)
             .bind(to: elements)
             .disposed(by: disposeBag)
-                
+        
         Observable
             .of(
                 request.map({ (response) -> Bool in

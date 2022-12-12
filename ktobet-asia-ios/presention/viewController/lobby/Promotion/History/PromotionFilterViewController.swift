@@ -26,7 +26,7 @@ class PromotionFilterViewController: FilterConditionViewController {
         }
     }
     
-    override var conditionCallbck: (([FilterItem]) -> ())? {
+    override var conditionCallback: (([FilterItem]) -> ())? {
         get {
             return _conditionCallbck
         }
@@ -66,7 +66,7 @@ private extension PromotionFilterViewController {
         
         btnSubmit.rx.touchUpInside
             .subscribe(onNext: { [weak self] in
-                self?.conditionCallbck?(self?.getConditions() ?? [])
+                self?.conditionCallback?(self?.getConditions() ?? [])
                 NavigationManagement.sharedInstance.popViewController()
             })
             .disposed(by: disposeBag)
@@ -231,6 +231,6 @@ extension PromotionFilterViewController: UITableViewDelegate {
 
 class FilterConditionViewController: UIViewController {
     var presenter: FilterPresentProtocol!
-    var conditionCallbck: (([FilterItem]) -> ())?
+    var conditionCallback: (([FilterItem]) -> ())?
 }
 

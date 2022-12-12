@@ -30,7 +30,7 @@ final class DepositCryptoRecordViewTest: XCTestCase {
         let expectation = sut.inspection.inspect { view in
             let hintView = try? view
                 .find(viewWithId: "headerCpsIncompleteHint")
-                .findText()
+                .localizedText()
 
             XCTAssertNil(hintView)
         }
@@ -50,7 +50,7 @@ final class DepositCryptoRecordViewTest: XCTestCase {
         let expectation = sut.inspection.inspect { view in
             let hintView = try view
                 .find(viewWithId: "headerCpsIncompleteHint")
-                .findText()
+                .localizedText()
 
             XCTAssertNotNil(hintView)
         }
@@ -75,7 +75,7 @@ final class DepositCryptoRecordViewTest: XCTestCase {
         let expectation = sut.inspection.inspect { view in
             let content = try? view
                 .find(viewWithId: "infoRowContent")
-                .findText()
+                .localizedText()
 
             XCTAssertNotNil(content)
         }
@@ -101,7 +101,7 @@ final class DepositCryptoRecordViewTest: XCTestCase {
         let expectation = sut.inspection.inspect { view in
             let content = try? view
                 .find(viewWithId: "infoRowAttachment")
-                .findText()
+                .localizedText()
 
             XCTAssertNotNil(content)
         }
