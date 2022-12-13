@@ -33,6 +33,7 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
         let remittance = self.remittance.asDriverLogError()
         let remitterName = getPlayerRealName()
         let depositLimit = getDepositLimit()
+        let depositAmountHint = getDepositAmountHint()
         let cashOption = getCashOption()
         let floatAllow = getCashTypeInput()
 
@@ -55,6 +56,7 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
         self.output = Output(paymentGateways: paymentGateways,
                              selectPaymentGateway: selectPaymentGateway.asDriverLogError(),
                              depositLimit: depositLimit,
+                             depositAmountHintText: depositAmountHint,
                              remitterName: remitterName,
                              remittance: remittance,
                              cashOption: cashOption,
@@ -105,12 +107,35 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
             switch gateway.cash {
             case let input as CashType.Input:
                 return input.limitation
+            case let option as CashType.Option:
+                return option.limitation
             default:
                 return nil
             }
         }
         .compose(self.applyObservableErrorHandle())
         .asDriverLogError()
+    }
+    
+    private func getDepositAmountHint() -> Driver<String> {
+        selectPaymentGateway
+            .map { gatewayDTO in
+                switch gatewayDTO.cash {
+                case let input as CashType.Input:
+                    let amountRange = input.limitation
+                    
+                    return String(format: Localize.string("deposit_offline_step1_tips"),
+                                  amountRange.min.description(),
+                                  amountRange.max.description())
+                    
+                case _ as CashType.Option:
+                    return Localize.string("deposit_amount_option_hint")
+                    
+                default:
+                    return ""
+                }
+            }
+            .asDriver(onErrorJustReturn: "")
     }
     
     private func getCashTypeInput() -> Driver<Bool?> {
@@ -223,6 +248,7 @@ extension ThirdPartyDepositViewModel {
         let paymentGateways: Driver<[OnlinePaymentGatewayItemViewModel]>
         let selectPaymentGateway: Driver<PaymentsDTO.Gateway>
         let depositLimit: Driver<AmountRange?>
+        let depositAmountHintText: Driver<String>
         let remitterName: Driver<String>
         let remittance: Driver<String>
         let cashOption: Driver<[KotlinDouble]?>
