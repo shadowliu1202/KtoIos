@@ -18,12 +18,14 @@ final class OfflinePaymentGatewayItemViewModel {
 final class OnlinePaymentGatewayItemViewModel {
     let gateway: PaymentsDTO.Gateway
     let name: String
+    let hint: String
     let icon: String
     let isSelected: Bool
     
     init (with gateway: PaymentsDTO.Gateway, icon: String = "Default(32)", isSelected: Bool) {
         self.gateway = gateway
         self.name = gateway.name
+        self.hint = gateway.hint
         self.icon = icon
         self.isSelected = isSelected
     }

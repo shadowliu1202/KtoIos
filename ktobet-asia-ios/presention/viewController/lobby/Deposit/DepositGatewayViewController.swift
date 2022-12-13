@@ -14,7 +14,7 @@ class DepositGatewayViewController: LobbyViewController {
     @IBOutlet private weak var remitterBankCardNumberTextField: InputText!
     @IBOutlet private weak var remitterAmountTextField: InputText!
     @IBOutlet private weak var remitterAmountDropDown: DropDownInputText!
-    @IBOutlet private weak var depositLimitLabel: UILabel!
+    @IBOutlet private weak var depositAmountHintLabel: UILabel!
     @IBOutlet private weak var remitterHintLabel: UILabel!
     @IBOutlet private weak var depositConfirmButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
@@ -101,6 +101,16 @@ class DepositGatewayViewController: LobbyViewController {
         
         remitterAmountDropDown.setTitle(Localize.string("deposit_amount"))
         remitterAmountDropDown.isSearchEnable = false
+        
+        depositTableView.rowHeight = UITableView.automaticDimension
+        
+        depositTableView.rx
+            .observe(\.contentSize)
+            .map { $0.height }
+            .subscribe(onNext: { [weak self] in
+                self?.constraintBankTableHeight.constant = $0
+            })
+            .disposed(by: disposeBag)
     }
 
     private func localize() {
@@ -171,7 +181,7 @@ class DepositGatewayViewController: LobbyViewController {
         case PaymentsDTO.RemitType.onlyamount:
             setFromBankView(isHidden: true)
             setDirectToView(isHidden: true)
-            setOnlyAmountView(isHidden: true, hint: gateway.hint)
+            setOnlyAmountView(isHidden: true)
         default:
             break
         }
@@ -194,14 +204,13 @@ class DepositGatewayViewController: LobbyViewController {
         directView.isHidden = isHidden
     }
     
-    private func setOnlyAmountView(isHidden: Bool, hint: String = "") {
+    private func setOnlyAmountView(isHidden: Bool) {
         remitterNameTextField.isHidden = isHidden
         remitterNameTextFieldHeight.constant = isHidden ? 0 : 60
         remitterNameTextFieldTop.constant = isHidden ? 0 : 12
         remitterBankCardNumberTextField.isHidden = isHidden
         remitterBankCardHeight.constant = isHidden ? 0 : Theme.shared.getRemitterBankCardHeight(by: playerLocaleConfiguration.getSupportLocale())
         remitterBankCardTop.constant = isHidden ? 0 : 12
-        remitterHintLabel.text = hint
     }
     
     override func handleErrors(_ error: Error) {
@@ -238,7 +247,7 @@ class DepositGatewayViewController: LobbyViewController {
         
         onlineViewModel.output.paymentGateways.drive(onNext: { [weak self] data in
             guard let self = self else { return }
-            self.constraintBankTableHeight.constant = CGFloat(data.count * 56)
+            
             self.depositTableView.layoutIfNeeded()
             self.depositTableView.addTopBorder()
             self.depositTableView.addBottomBorder()
@@ -252,16 +261,18 @@ class DepositGatewayViewController: LobbyViewController {
     }
     
     private func onlineAmountLimitationBinding() {
-        onlineViewModel.output.depositLimit.drive(onNext: { [weak self] amountRange in
-            guard let amountRange = amountRange else {
-                self?.depositLimitLabel.text = ""
-                return
-            }
-            
-            self?.depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"),
-                                                  amountRange.min.description(),
-                                                  amountRange.max.description())
-        }).disposed(by: disposeBag)
+        onlineViewModel.output.depositLimit
+            .drive(onNext: { [weak self] amountRange in
+                guard let amountRange = amountRange else {
+                    self?.depositAmountHintLabel.text = Localize.string("deposit_amount_option_hint")
+                    return
+                }
+                
+                self?.depositAmountHintLabel.text = String(format: Localize.string("deposit_offline_step1_tips"),
+                                                           amountRange.min.description(),
+                                                           amountRange.max.description())
+            })
+            .disposed(by: disposeBag)
         
         onlineViewModel.output.floatAllow.drive(onNext: { [weak self] floatAllow in
             self?.gatewayAndFloatAllowDidChange(floatAllow)
@@ -272,7 +283,6 @@ class DepositGatewayViewController: LobbyViewController {
                 self?.remitterAmountDropDown.isHidden = false
                 self?.remitterAmountTextField.isHidden = true
                 self?.remitterAmountErrorLabel.isHidden = true
-                self?.depositLimitLabel.text = nil
                 self?.remitterAmountDropDown.optionArray = list.map {
                     $0.decimalValue.currencyFormatWithoutSymbol(maximumFractionDigits: 0)
                 }
@@ -284,11 +294,11 @@ class DepositGatewayViewController: LobbyViewController {
         }).disposed(by: disposeBag)
     }
     
-    private func gatewayAndFloatAllowDidChange(_ floatAllow: FloatAllow?) {
-        remitterHintLabel.text = floatAllow?.hint
+    private func gatewayAndFloatAllowDidChange(_ floatAllow: Bool?) {
+        remitterHintLabel.isHidden = !(floatAllow ?? false)
         cleanAmountTextFieldValue()
         remitterAmountTextField.textContent.endEditing(true)
-        if floatAllow?.isAllowed == true {
+        if floatAllow == true {
             remitterAmountTextField.setKeyboardType(.decimalPad)
             amountTextCanInputDecimalPoint()
         } else {
@@ -400,7 +410,6 @@ class DepositGatewayViewController: LobbyViewController {
         
         offlineViewModel.output.paymentGateway.drive(onNext: { [weak self] data in
             guard let self = self else { return }
-            self.constraintBankTableHeight.constant = CGFloat(data.count * 56)
             self.depositTableView.layoutIfNeeded()
             self.depositTableView.addTopBorder()
             self.depositTableView.addBottomBorder()
@@ -434,7 +443,7 @@ class DepositGatewayViewController: LobbyViewController {
     
     private func amountLimitationBinding() {
         offlineViewModel.output.depositLimit.drive(onNext: { [weak self] amountRange in
-            self?.depositLimitLabel.text = String(format: Localize.string("deposit_offline_step1_tips"),
+            self?.depositAmountHintLabel.text = String(format: Localize.string("deposit_offline_step1_tips"),
                                                   amountRange.min.description(),
                                                   amountRange.max.description())
         }).disposed(by: disposeBag)
