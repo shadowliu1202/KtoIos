@@ -78,9 +78,17 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
             .compose(self.applyObservableErrorHandle())
             .do(onNext: { [weak self] gateway in self?.selectPaymentGateway.onNext(gateway.first!) })
 
-        let paymentGateways = Observable.combineLatest(_paymentGateways, selectPaymentGateway).map { (paymentGateways, selectPaymentGateway) in
-            paymentGateways.map { OnlinePaymentGatewayItemViewModel(with: $0, icon: "Default(32)", isSelected: $0 == selectPaymentGateway) }
-        }.asDriverLogError()
+        let paymentGateways = Observable.combineLatest(_paymentGateways, selectPaymentGateway)
+            .map { (paymentGateways, selectPaymentGateway) in
+                paymentGateways
+                    .map { gatewayDTO in
+                        OnlinePaymentGatewayItemViewModel(
+                            with: gatewayDTO,
+                            isSelected: gatewayDTO == selectPaymentGateway
+                        )
+                    }
+            }
+            .asDriverLogError()
 
         return paymentGateways
     }
@@ -93,19 +101,30 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
     }
 
     private func getDepositLimit() -> Driver<AmountRange?> {
-        selectPaymentGateway.map({ $0.cash.limitation }).compose(self.applyObservableErrorHandle()).asDriverLogError()
-    }
-    
-    private func getCashTypeInput() -> Driver<FloatAllow?> {
-        selectPaymentGateway.map { gateway -> FloatAllow? in
-            let hint = gateway.hint
+        selectPaymentGateway.map { gateway -> AmountRange? in
             switch gateway.cash {
             case let input as CashType.Input:
-                return FloatAllow(isAllowed: input.isFloatAllowed, hint: hint)
+                return input.limitation
             default:
                 return nil
             }
-        }.distinctUntilChanged().compose(self.applyObservableErrorHandle()).asDriverLogError()
+        }
+        .compose(self.applyObservableErrorHandle())
+        .asDriverLogError()
+    }
+    
+    private func getCashTypeInput() -> Driver<Bool?> {
+        selectPaymentGateway.map { gateway -> Bool? in
+            switch gateway.cash {
+            case let input as CashType.Input:
+                return input.isFloatAllowed
+            default:
+                return nil
+            }
+        }
+        .distinctUntilChanged()
+        .compose(self.applyObservableErrorHandle())
+        .asDriverLogError()
     }
 
     private func getCashOption() -> SharedSequence<DriverSharingStrategy, [KotlinDouble]?> {
@@ -207,7 +226,7 @@ extension ThirdPartyDepositViewModel {
         let remitterName: Driver<String>
         let remittance: Driver<String>
         let cashOption: Driver<[KotlinDouble]?>
-        let floatAllow: Driver<FloatAllow?>
+        let floatAllow: Driver<Bool?>
         let remitterNameValid: Driver<AccountNameException?>
         let remitterBankCardNumbeValid: Driver<Bool>
         let remittanceValid: Driver<AmountExpection?>
@@ -215,9 +234,4 @@ extension ThirdPartyDepositViewModel {
         let webPath: Driver<CommonDTO.WebPath>
         let inProgress: Driver<Bool>
     }
-}
-
-struct FloatAllow: Equatable {
-    let isAllowed: Bool
-    let hint: String
 }

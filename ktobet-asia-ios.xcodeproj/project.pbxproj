@@ -329,8 +329,8 @@
 		3CCD219128FD28BC00313212 /* FakePlayerLocaleConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD219028FD28BC00313212 /* FakePlayerLocaleConfiguration.swift */; };
 		3CCD219228FD28BC00313212 /* FakePlayerLocaleConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD219028FD28BC00313212 /* FakePlayerLocaleConfiguration.swift */; };
 		3CCD219328FD28BC00313212 /* FakePlayerLocaleConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD219028FD28BC00313212 /* FakePlayerLocaleConfiguration.swift */; };
-		3CD7B4492918AD7900CA04A0 /* ChatRoomViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */; };
 		3CCD219428FD28BC00313212 /* FakePlayerLocaleConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD219028FD28BC00313212 /* FakePlayerLocaleConfiguration.swift */; };
+		3CD7B4492918AD7900CA04A0 /* ChatRoomViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */; };
 		3CDB7B59284F035B006DE0FA /* DateExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */; };
 		3CE559BD28A3A81A005FB6EF /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE559BC28A3A81A005FB6EF /* UITestAdapter.swift */; };
 		3CE559BE28A3A81A005FB6EF /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE559BC28A3A81A005FB6EF /* UITestAdapter.swift */; };
@@ -13584,7 +13584,6 @@
 				6D8AC5A628F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift in Sources */,
 				3CCD219328FD28BC00313212 /* FakePlayerLocaleConfiguration.swift in Sources */,
 				3CD7B4492918AD7900CA04A0 /* ChatRoomViewControllerTests.swift in Sources */,
-				FFDBCF51290FD6DF00C0735F /* LaunchAppTest.swift in Sources */,
 				6D8AC59928F553E80029358A /* swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
 				3CCD218D28F974D100313212 /* DepositGatewayViewControllerTest.swift in Sources */,
 				AA4DBB98F5A5373EDA676636 /* UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
