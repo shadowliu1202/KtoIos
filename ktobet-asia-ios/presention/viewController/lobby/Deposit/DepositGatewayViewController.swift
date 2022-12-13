@@ -1,6 +1,7 @@
 import UIKit
 import RxSwift
 import SharedBu
+import RxCocoa
 
 class DepositGatewayViewController: LobbyViewController {
     static let segueIdentifier = "toOfflineSegue"
@@ -261,17 +262,8 @@ class DepositGatewayViewController: LobbyViewController {
     }
     
     private func onlineAmountLimitationBinding() {
-        onlineViewModel.output.depositLimit
-            .drive(onNext: { [weak self] amountRange in
-                guard let amountRange = amountRange else {
-                    self?.depositAmountHintLabel.text = Localize.string("deposit_amount_option_hint")
-                    return
-                }
-                
-                self?.depositAmountHintLabel.text = String(format: Localize.string("deposit_offline_step1_tips"),
-                                                           amountRange.min.description(),
-                                                           amountRange.max.description())
-            })
+        onlineViewModel.output.depositAmountHintText
+            .drive(depositAmountHintLabel.rx.text)
             .disposed(by: disposeBag)
         
         onlineViewModel.output.floatAllow.drive(onNext: { [weak self] floatAllow in
@@ -282,14 +274,12 @@ class DepositGatewayViewController: LobbyViewController {
             if let list = list {
                 self?.remitterAmountDropDown.isHidden = false
                 self?.remitterAmountTextField.isHidden = true
-                self?.remitterAmountErrorLabel.isHidden = true
                 self?.remitterAmountDropDown.optionArray = list.map {
                     $0.decimalValue.currencyFormatWithoutSymbol(maximumFractionDigits: 0)
                 }
             } else {
                 self?.remitterAmountDropDown.isHidden = true
                 self?.remitterAmountTextField.isHidden = false
-                self?.remitterAmountErrorLabel.isHidden = false
             }
         }).disposed(by: disposeBag)
     }
@@ -359,11 +349,15 @@ class DepositGatewayViewController: LobbyViewController {
         
         remitterAmountDropDown.text.bind(to: onlineViewModel.input.remittance).disposed(by: disposeBag)
         remitterAmountTextField.text.bind(to: onlineViewModel.input.remittance).disposed(by: disposeBag)
-        remitterAmountTextField.text.subscribe(onNext: { [weak self] in
-            if self?.isStarInputAmount == false, $0.count > 0 {
-                self?.isStarInputAmount = true
-            }
-        }).disposed(by: disposeBag)
+        
+        remitterAmountTextField.text
+            .subscribe(onNext: { [weak self] in
+                if self?.isStarInputAmount == false, $0.count > 0 {
+                    self?.isStarInputAmount = true
+                }
+            })
+            .disposed(by: disposeBag)
+        
         remitterNameTextField.text.bind(to: onlineViewModel.input.remitterName).disposed(by: disposeBag)
         remitterBankCardNumberTextField.text.bind(to: onlineViewModel.input.remitterBankCardNumber).disposed(by: disposeBag)
     }
@@ -378,8 +372,15 @@ class DepositGatewayViewController: LobbyViewController {
             self.remitterNameErrorLabel.text = message
         }.disposed(by: disposeBag)
         
-        onlineViewModel.output.remittanceValid.drive { [weak self] (isValid) in
-            guard let `self` = self, self.isStarInputAmount else { return }
+        Driver.combineLatest(
+            onlineViewModel.output.selectPaymentGateway,
+            onlineViewModel.output.remittanceValid
+        )
+        .drive(onNext: { [weak self] (gatewayDTO, isValid) in
+            guard let self = self,
+                  gatewayDTO.cash is CashType.Input ? self.isStarInputAmount : true
+            else { return }
+            
             switch isValid {
             case .overLimitation:
                 self.remitterAmountErrorLabel.text = Localize.string("deposit_limitation_hint")
@@ -388,7 +389,8 @@ class DepositGatewayViewController: LobbyViewController {
             default:
                 self.remitterAmountErrorLabel.text = ""
             }
-        }.disposed(by: disposeBag)
+        })
+        .disposed(by: disposeBag)
         
         onlineViewModel.output
             .onlineDataValid
