@@ -6,6 +6,13 @@ import SharedBu
 @testable import ktobet_asia_ios_qat
 
 extension TransactionLogViewModelProtocolMock: ObservableObject { }
+extension TransactionLogViewModelProtocolMock: Selecting {
+    public var dataSource: [ktobet_asia_ios_qat.Selectable] { [] }
+    public var selectedTitle: String { "" }
+    public var selectedItems: [ktobet_asia_ios_qat.Selectable] {
+        get { [] } set { }
+    }
+}
 
 extension TransactionLogView.Sections: Inspecting { }
 extension TransactionLogView.Row: Inspectable { }
@@ -56,7 +63,7 @@ final class TransactionLogViewTests: XCTestCase {
             )
         ]
         
-        let sut = TransactionLogView<TransactionLogPresenter, TransactionLogViewModelProtocolMock>.Sections()
+        let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
         
         let expectation = sut.inspection.inspect { view in
             let sections = try view
@@ -75,7 +82,7 @@ final class TransactionLogViewTests: XCTestCase {
             XCTAssertEqual(numberOfRowAtSection0, 1)
             
             let rowText = try sectionAt0
-                .view(TransactionLogView<TransactionLogPresenter, TransactionLogViewModelProtocolMock>.Row.self, 0)
+                .view(TransactionLogView<TransactionLogViewModelProtocolMock>.Row.self, 0)
                 .find(text: "Đánh Bài Đối Kháng")
             
             XCTAssertNotNil(rowText)
@@ -105,7 +112,7 @@ final class TransactionLogViewTests: XCTestCase {
             )
         ]
         
-        let sut = TransactionLogView<TransactionLogPresenter, TransactionLogViewModelProtocolMock>.Sections()
+        let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
         
         let expectation = sut.inspection.inspect { view in
             let sections = try view
@@ -124,7 +131,7 @@ final class TransactionLogViewTests: XCTestCase {
             XCTAssertEqual(numberOfRowAtSection0, 1)
             
             let rowText = try sectionAt0
-                .view(TransactionLogView<TransactionLogPresenter, TransactionLogViewModelProtocolMock>.Row.self, 0)
+                .view(TransactionLogView<TransactionLogViewModelProtocolMock>.Row.self, 0)
                 .find(text: "+100")
             
             XCTAssertNotNil(rowText)
@@ -154,7 +161,7 @@ final class TransactionLogViewTests: XCTestCase {
             )
         ]
         
-        let sut = TransactionLogView<TransactionLogPresenter, TransactionLogViewModelProtocolMock>.Sections()
+        let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
         
         let expectation = sut.inspection.inspect { view in
             let sections = try view
@@ -173,7 +180,7 @@ final class TransactionLogViewTests: XCTestCase {
             XCTAssertEqual(numberOfRowAtSection0, 1)
             
             let rowText = try sectionAt0
-                .view(TransactionLogView<TransactionLogPresenter, TransactionLogViewModelProtocolMock>.Row.self, 0)
+                .view(TransactionLogView<TransactionLogViewModelProtocolMock>.Row.self, 0)
                 .find(text: "-100")
             
             XCTAssertNotNil(rowText)
@@ -196,7 +203,7 @@ final class TransactionLogViewTests: XCTestCase {
             outcome: "-100".toAccountCurrency()
         )
         
-        let sut = TransactionLogView<TransactionLogPresenter, TransactionLogViewModelProtocolMock>.Summary()
+        let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Summary()
         
         let expectation = sut.inspection.inspect { view in
             let vStack = try view.find(viewWithId: "FunctionalButton_Content_ID")
@@ -260,7 +267,7 @@ final class TransactionLogViewTests: XCTestCase {
             )
         ]
         
-        let sut = TransactionLogView<TransactionLogPresenter, TransactionLogViewModelProtocolMock>.Sections()
+        let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
         
         let expectation = sut.inspection.inspect { view in
             let sectionTitle = try view
@@ -289,7 +296,7 @@ final class TransactionLogViewTests: XCTestCase {
         
         given(stubViewModel.sections) ~> []
         
-        let sut = TransactionLogView<TransactionLogPresenter, TransactionLogViewModelProtocolMock>.Sections()
+        let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
         
         let expectation = sut.inspection.inspect { view in
             let sectionTitle = try view

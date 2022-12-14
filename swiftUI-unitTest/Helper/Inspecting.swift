@@ -16,3 +16,4 @@ extension LocalizeFont: Inspectable { }
 extension Separator: Inspectable { }
 extension LimitSpacer: Inspectable { }
 extension FunctionalButton: Inspectable { }
+extension ItemSelector: Inspectable { }

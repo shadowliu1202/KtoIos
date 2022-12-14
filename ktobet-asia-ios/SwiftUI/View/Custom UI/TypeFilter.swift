@@ -2,24 +2,15 @@ import SwiftUI
 import UIKit
 
 struct TypeFilter: View {
-    typealias Selection = ([FilterItem]) -> Void
-
-    let presenter: FilterPresentProtocol
+    let title: String
     
-    @State var currentFilters: [FilterItem] = []
-
-    var onTypeSelected: Selection?
-    var onNavigateToController: ((_ controllerCallback: Selection?) -> Void)?
-    
-    var selectedTitle: String {
-        presenter.getSelectedTitle(currentFilters)
-    }
+    var onNavigateToController: (() -> Void)?
     
     var body: some View {
         FunctionalButton(
             imageName: "icon.filter",
             content: {
-                Text(selectedTitle)
+                Text(title)
                     .localized(
                         weight: .medium,
                         size: 14,
@@ -28,23 +19,15 @@ struct TypeFilter: View {
                     .lineLimit(1)
             },
             action: {
-                onNavigateToController? {
-                    currentFilters = $0
-                    onTypeSelected?($0)
-                }
+                onNavigateToController?()
             }
         )
-        .onAppear {
-            currentFilters = presenter.getDatasource()
-        }
     }
 }
 
 struct TypeFilter_Previews: PreviewProvider {
     
     static var previews: some View {
-        TypeFilter(
-            presenter: TransactionLogPresenter()
-        )
+        TypeFilter(title: "ABC")
     }
 }

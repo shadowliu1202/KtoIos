@@ -3,27 +3,26 @@ import UIKit
 import RxSwift
 import SharedBu
 
-struct TransactionLogView<Presenter, ViewModel>: View
-    where Presenter: FilterPresentProtocol & ObservableObject,
-          ViewModel: TransactionLogViewModelProtocol & ObservableObject
+struct TransactionLogView<ViewModel>: View
+where
+    ViewModel: TransactionLogViewModelProtocol &
+               Selecting &
+               ObservableObject
 {
     @EnvironmentObject var safeAreaMonitor: SafeAreaMonitor
 
     @StateObject var viewModel: ViewModel
-    @StateObject var presenter: Presenter    
     
     var onDateSelected: DateFilter.Selection?
-    var onTypeSelected: TypeFilter.Selection?
     var onSummarySelected: (() -> Void)?
     var onRowSelected: ((TransactionLog) -> Void)?
-    var onNavigateToFilterController: ((_ controllerCallback: TypeFilter.Selection?) -> Void)?
+    var onNavigateToFilterController: (() -> Void)?
     
     var body: some View {
         DelegatedScrollView {
             PageContainer {
                 Header(
                     onDateSelected: onDateSelected,
-                    onTypeSelected: onTypeSelected,
                     onSummarySelected: onSummarySelected,
                     onNavigateToFilterController: onNavigateToFilterController
                 )
@@ -43,7 +42,6 @@ struct TransactionLogView<Presenter, ViewModel>: View
             viewModel.pagination.loadNextPageTrigger.onNext(())
         }
         .pageBackgroundColor(.gray131313)
-        .environmentObject(presenter)
         .environmentObject(viewModel)
         .onViewDidLoad {
             viewModel.pagination.refreshTrigger.onNext(())
@@ -116,12 +114,10 @@ extension TransactionLogView {
         weak var parentViewController: UIViewController?
         
         @EnvironmentObject var viewModel: ViewModel
-        @EnvironmentObject var presenter: Presenter
         
         var onDateSelected: DateFilter.Selection?
-        var onTypeSelected: TypeFilter.Selection?
         var onSummarySelected: (() -> Void)?
-        var onNavigateToFilterController: ((_ controllerCallback: TypeFilter.Selection?) -> Void)?
+        var onNavigateToFilterController: (() -> Void)?
 
         var body: some View {
             VStack(spacing: 12) {
@@ -132,8 +128,7 @@ extension TransactionLogView {
                     )
                     
                     TypeFilter(
-                        presenter: presenter,
-                        onTypeSelected: onTypeSelected,
+                        title: viewModel.selectedTitle,
                         onNavigateToController: onNavigateToFilterController
                     )
                 }
@@ -250,11 +245,17 @@ extension TransactionLogView {
 struct TransactionLogView_Previews: PreviewProvider {
     
     class ViewModel: TransactionLogViewModelProtocol,
+                     Selecting,
                      ObservableObject {
+        
         var summaryRefreshTrigger = PublishSubject<Void>()
         
         @Published var summary: CashFlowSummary?
         @Published var sections: [TransactionLogViewModelProtocol.Section]?
+        @Published var selectedItems: [Selectable] = []
+        
+        var dataSource: [Selectable] = []
+        var selectedTitle: String = "Test"
         
         var dateType: DateType  = .week()
         
@@ -324,8 +325,7 @@ struct TransactionLogView_Previews: PreviewProvider {
         
         var body: some View {
             TransactionLogView(
-                viewModel: ViewModel(isEmpty: isEmpty),
-                presenter: TransactionLogPresenter()
+                viewModel: ViewModel(isEmpty: isEmpty)
             )
         }
     }

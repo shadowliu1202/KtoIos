@@ -8,7 +8,6 @@ class TransactionLogViewController: LobbyViewController,
                                     SwiftUIConverter {
     
     @Injected private var viewModel: TransactionLogViewModel
-    private let presenter = TransactionLogPresenter()
     
     private lazy var flowCoordinator = TranscationFlowController(self, disposeBag: disposeBag)
 
@@ -78,16 +77,8 @@ private extension TransactionLogViewController {
                 SafeAreaReader {
                     TransactionLogView(
                         viewModel: self.viewModel,
-                        presenter: self.presenter,
                         onDateSelected: { type in
                             self.viewModel.dateType = type
-                            self.refresh()
-                        },
-                        onTypeSelected: {
-                            self.viewModel.updateTypeFilter(
-                                with: $0,
-                                and: self.presenter
-                            )
                             self.refresh()
                         },
                         onSummarySelected: {
@@ -100,10 +91,7 @@ private extension TransactionLogViewController {
                             self.flowCoordinator.goNext($0)
                         },
                         onNavigateToFilterController: {
-                            self.navigateToFilterViewController(
-                                presenter: self.presenter,
-                                conditionCallback: $0
-                            )
+                            self.navigateToFilterViewController()
                         }
                     )
                 }
@@ -117,16 +105,16 @@ private extension TransactionLogViewController {
         viewModel.summaryRefreshTrigger.onNext(())
     }
     
-    func navigateToFilterViewController(
-        presenter: FilterPresentProtocol,
-        conditionCallback: (([FilterItem]) -> Void)?
-    ) {
-        let filterController = TransactionFilterViewController.initFrom(storyboard: "Filter")
-        
-        filterController.presenter = presenter
-        filterController.conditionCallback = conditionCallback
-        
-        navigationController?.pushViewController(filterController, animated: true)
+    func navigateToFilterViewController() {
+        navigationController?.pushViewController(
+            TransactionFilterViewController(
+                presenter: viewModel,
+                onDone: { [unowned self] in
+                    self.refresh()
+                }
+            ),
+            animated: true
+        )
     }
 }
 
