@@ -19,6 +19,7 @@ protocol TransactionLogViewModelProtocol {
 
 class TransactionLogViewModel: CollectErrorViewModel,
                                ObservableObject,
+                               Selecting,
                                TransactionLogViewModelProtocol {
     
     private let transactionLogUseCase: TransactionLogUseCase
@@ -32,17 +33,28 @@ class TransactionLogViewModel: CollectErrorViewModel,
     @Published private (set) var summary: CashFlowSummary?
     @Published private (set) var sections: [TransactionLogViewModelProtocol.Section]?
     
+    @Published var selectedItems: [Selectable] = []
+    
     var dateType: DateType = .week(
-        fromDate: Date().adding(value: -7, byAdding: .day),
+        fromDate: Date().adding(value: -6, byAdding: .day),
         toDate: Date()
     )
     
-    var balanceLogFilterType: Int = 0
+    var selectedLogType: Int {
+        if isSelectedAll {
+            return LogType.all.rawValue
+        }
+        
+        let selected = selectedItems.first?.identity ?? ""
+        return Int(selected) ?? LogType.all.rawValue
+    }
     
     init(transactionLogUseCase: TransactionLogUseCase) {
         self.transactionLogUseCase = transactionLogUseCase
         
         super.init()
+        
+        selectedItems = dataSource
         
         self.pagination = .init(
             observable: { [unowned self] _ in
@@ -74,7 +86,7 @@ extension TransactionLogViewModel {
             .searchTransactionLog(
                 from: dateType.result.from,
                 to: dateType.result.to,
-                BalanceLogFilterType: balanceLogFilterType,
+                BalanceLogFilterType: selectedLogType,
                 page: pagination.pageIndex
             )
             .map { [unowned self] in
@@ -92,7 +104,7 @@ extension TransactionLogViewModel {
             .getCashFlowSummary(
                 begin: dateType.result.from,
                 end: dateType.result.to,
-                balanceLogFilterType: balanceLogFilterType
+                balanceLogFilterType: selectedLogType
             )
             .do(onSuccess: { [unowned self] in
                 self.summary = $0
@@ -109,7 +121,7 @@ extension TransactionLogViewModel {
             .getCashLogSummary(
                 begin: from,
                 end: to,
-                balanceLogFilterType: TransactionLogPresenter.TransactionType.all.rawValue
+                balanceLogFilterType: LogType.all.rawValue
             )
             .compose(applySingleErrorHandler())
     }
@@ -152,15 +164,68 @@ extension TransactionLogViewModel {
         }
         .sorted(by: { $0.model > $1.model })
     }
+}
+
+// MARK: - Selecting
+
+extension TransactionLogViewModel {
     
-    func updateTypeFilter(
-        with items: [FilterItem],
-        and presenter: TransactionLogPresenter
-    ) {
-        guard let _items = items as? [TransactionLogPresenter.Item]
-        else { fatalError("FilterItem should be TransactionLogPresenter.Item") }
-        
-        let type = presenter.getConditionStatus(_items)
-        balanceLogFilterType = type.rawValue
+    var dataSource: [Selectable] {
+        LogType.allCases.filter { $0 != .all }
     }
+    
+    var selectedTitle: String {
+        isSelectedAll ? Localize.string("common_all") : selectedItems.first?.title ?? ""
+    }
+}
+
+extension TransactionLogViewModel {
+    
+    enum LogType: Int, CaseIterable {
+        case all = 0
+        case deposit = 1
+        case withdrawal = 2
+        case sportsBook = 3
+        case slot = 4
+        case casino = 5
+        case numberGame = 8
+        case p2p = 9
+        case arcade = 10
+        case adjustment = 6
+        case bonus = 7
+    }
+}
+
+extension TransactionLogViewModel.LogType: Selectable {
+    
+    var identity: String { "\(rawValue)" }
+    
+    var title: String {
+        switch self {
+        case .all:
+            return Localize.string("common_all")
+        case .deposit:
+            return Localize.string("common_deposit")
+        case .withdrawal:
+            return Localize.string("common_withdrawal")
+        case .sportsBook:
+            return Localize.string("common_sportsbook")
+        case .slot:
+            return Localize.string("common_slot")
+        case .casino:
+            return Localize.string("common_casino")
+        case .numberGame:
+            return Localize.string("common_keno")
+        case .p2p:
+            return Localize.string("common_p2p")
+        case .arcade:
+            return Localize.string("common_arcade")
+        case .adjustment:
+            return Localize.string("common_adjustment")
+        case .bonus:
+            return Localize.string("common_bonus")
+        }
+    }
+
+    var image: String? { nil }
 }

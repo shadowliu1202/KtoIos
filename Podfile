@@ -123,4 +123,10 @@ post_install do |installer|
         config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
         config.build_settings['SWIFT_SUPPRESS_WARNINGS'] = "YES"
       end
+      
+      installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+          config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+        end
+      end
 end
