@@ -1,4 +1,5 @@
 
+
 //MARK: - CPS
 "cps_kto" = "KTO";
 "cps_daily_limit_widthrawal_amount" = "Số Tiền Rút khả dụng hôm nay：%@";
@@ -590,6 +591,7 @@ Vui lòng Xác Minh.";
 "deposit_float_hint" = "请您提交带有小数点的金额，以便您的存款更快到账。";
 "deposit_amount_option_hint" = "本通道为固定存款金额，请下拉选择存款金额进行存款操作";
 "deposit_crypto_video_tutorial" = "Video hướng dẫn";
+"deposit_download_jingdong_app" = "";
 
 //MARK: - JinYiDigital
 "jinyidigital_instructions_click_here" = "";
