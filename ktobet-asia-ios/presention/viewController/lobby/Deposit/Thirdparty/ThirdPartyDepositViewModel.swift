@@ -33,6 +33,7 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
         let remittance = self.remittance.asDriverLogError()
         let remitterName = getPlayerRealName()
         let depositLimit = getDepositLimit()
+        let depositAmountHint = getDepositAmountHint()
         let cashOption = getCashOption()
         let floatAllow = getCashTypeInput()
 
@@ -55,6 +56,7 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
         self.output = Output(paymentGateways: paymentGateways,
                              selectPaymentGateway: selectPaymentGateway.asDriverLogError(),
                              depositLimit: depositLimit,
+                             depositAmountHintText: depositAmountHint,
                              remitterName: remitterName,
                              remittance: remittance,
                              cashOption: cashOption,
@@ -78,9 +80,17 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
             .compose(self.applyObservableErrorHandle())
             .do(onNext: { [weak self] gateway in self?.selectPaymentGateway.onNext(gateway.first!) })
 
-        let paymentGateways = Observable.combineLatest(_paymentGateways, selectPaymentGateway).map { (paymentGateways, selectPaymentGateway) in
-            paymentGateways.map { OnlinePaymentGatewayItemViewModel(with: $0, icon: "Default(32)", isSelected: $0 == selectPaymentGateway) }
-        }.asDriverLogError()
+        let paymentGateways = Observable.combineLatest(_paymentGateways, selectPaymentGateway)
+            .map { (paymentGateways, selectPaymentGateway) in
+                paymentGateways
+                    .map { gatewayDTO in
+                        OnlinePaymentGatewayItemViewModel(
+                            with: gatewayDTO,
+                            isSelected: gatewayDTO == selectPaymentGateway
+                        )
+                    }
+            }
+            .asDriverLogError()
 
         return paymentGateways
     }
@@ -93,19 +103,53 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
     }
 
     private func getDepositLimit() -> Driver<AmountRange?> {
-        selectPaymentGateway.map({ $0.cash.limitation }).compose(self.applyObservableErrorHandle()).asDriverLogError()
-    }
-    
-    private func getCashTypeInput() -> Driver<FloatAllow?> {
-        selectPaymentGateway.map { gateway -> FloatAllow? in
-            let hint = gateway.hint
+        selectPaymentGateway.map { gateway -> AmountRange? in
             switch gateway.cash {
             case let input as CashType.Input:
-                return FloatAllow(isAllowed: input.isFloatAllowed, hint: hint)
+                return input.limitation
+            case let option as CashType.Option:
+                return option.limitation
             default:
                 return nil
             }
-        }.distinctUntilChanged().compose(self.applyObservableErrorHandle()).asDriverLogError()
+        }
+        .compose(self.applyObservableErrorHandle())
+        .asDriverLogError()
+    }
+    
+    private func getDepositAmountHint() -> Driver<String> {
+        selectPaymentGateway
+            .map { gatewayDTO in
+                switch gatewayDTO.cash {
+                case let input as CashType.Input:
+                    let amountRange = input.limitation
+                    
+                    return String(format: Localize.string("deposit_offline_step1_tips"),
+                                  amountRange.min.description(),
+                                  amountRange.max.description())
+                    
+                case _ as CashType.Option:
+                    return Localize.string("deposit_amount_option_hint")
+                    
+                default:
+                    return ""
+                }
+            }
+            .asDriver(onErrorJustReturn: "")
+    }
+    
+    private func getCashTypeInput() -> Driver<Bool?> {
+        selectPaymentGateway.map { gateway -> Bool? in
+            switch gateway.cash {
+            case let input as CashType.Input:
+                return input.isFloatAllowed
+            default:
+                return nil
+            }
+        }
+        .distinctUntilChanged()
+        .compose(self.applyObservableErrorHandle())
+        .asDriverLogError()
     }
 
     private func getCashOption() -> SharedSequence<DriverSharingStrategy, [KotlinDouble]?> {
@@ -204,10 +248,11 @@ extension ThirdPartyDepositViewModel {
         let paymentGateways: Driver<[OnlinePaymentGatewayItemViewModel]>
         let selectPaymentGateway: Driver<PaymentsDTO.Gateway>
         let depositLimit: Driver<AmountRange?>
+        let depositAmountHintText: Driver<String>
         let remitterName: Driver<String>
         let remittance: Driver<String>
         let cashOption: Driver<[KotlinDouble]?>
-        let floatAllow: Driver<FloatAllow?>
+        let floatAllow: Driver<Bool?>
         let remitterNameValid: Driver<AccountNameException?>
         let remitterBankCardNumbeValid: Driver<Bool>
         let remittanceValid: Driver<AmountExpection?>
@@ -215,9 +260,4 @@ extension ThirdPartyDepositViewModel {
         let webPath: Driver<CommonDTO.WebPath>
         let inProgress: Driver<Bool>
     }
-}
-
-struct FloatAllow: Equatable {
-    let isAllowed: Bool
-    let hint: String
 }
