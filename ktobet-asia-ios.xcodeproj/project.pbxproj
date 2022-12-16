@@ -11,16 +11,15 @@
 		14B6E5B5263A3D63653B0201 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 062A290137C82184014908DE /* Pods_ktobet_asia_ios_staging.framework */; };
 		16DFE0C9C2D40DC82C8CB57A /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3439EB7929E175EF3BC7A116 /* Pods_ktobet_asia_ios.framework */; };
 		1CF06C02A6512DB1ADB9C616 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		275CC837B8C3DBF7E4B17E2F /* KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FE0E43128E7E75C6287782 /* KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift */; };
 		359994EF259D7A600020EF5A /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359994EE259D7A600020EF5A /* UIButtonExtension.swift */; };
 		35B9B37E259AE7CD00050914 /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
 		35B9B382259AFB4A00050914 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */; };
 		35B9B397259B028800050914 /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B396259B028800050914 /* ResetPasswordViewModel.swift */; };
 		35B9B39B259B034400050914 /* ResetPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */; };
 		35B9B3CE259C796F00050914 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
-		368B04CBAC117878CE845EFD /* Pods_UIKit_unitTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F92587415FD8526B9C269127 /* Pods_UIKit_unitTest.framework */; };
 		36B25B99C4C51F7B4DBE7022 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		36D20D0C03D14BD48684D53B /* Pods_ktobet_asia_iosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E976814BCFB436375C8A311 /* Pods_ktobet_asia_iosUITests.framework */; };
-		3C1C810F28CF40DF0033871A /* StarMergerViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1C810E28CF40DF0033871A /* StarMergerViewTest.swift */; };
 		3C1FA9E728A510DA00F9AEC0 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FA9E628A510DA00F9AEC0 /* AdaptiveScrollView.swift */; };
 		3C1FA9E828A510DA00F9AEC0 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FA9E628A510DA00F9AEC0 /* AdaptiveScrollView.swift */; };
 		3C1FA9E928A510DA00F9AEC0 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FA9E628A510DA00F9AEC0 /* AdaptiveScrollView.swift */; };
@@ -72,7 +71,6 @@
 		3C30A28F283D58C600BAC905 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C30A289283D58C600BAC905 /* Theme.swift */; };
 		3C30A290283D58C600BAC905 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C30A289283D58C600BAC905 /* Theme.swift */; };
 		3C31F0CE291BA057002962E9 /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C31F0CD291BA057002962E9 /* XCTestCase+Extension.swift */; };
-		3C31F0CF291BA057002962E9 /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C31F0CD291BA057002962E9 /* XCTestCase+Extension.swift */; };
 		3C4431F729233AEF0031B984 /* UseCouponPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4431F629233AEF0031B984 /* UseCouponPresenter.swift */; };
 		3C4431F829233AEF0031B984 /* UseCouponPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4431F629233AEF0031B984 /* UseCouponPresenter.swift */; };
 		3C4431F929233AEF0031B984 /* UseCouponPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4431F629233AEF0031B984 /* UseCouponPresenter.swift */; };
@@ -143,7 +141,6 @@
 		3C656EA628E30DB000EFB754 /* NewLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9F28E30DAF00EFB754 /* NewLoginViewModel.swift */; };
 		3C656EA728E30DB000EFB754 /* NewLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9F28E30DAF00EFB754 /* NewLoginViewModel.swift */; };
 		3C656EA828E30DB000EFB754 /* NewLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9F28E30DAF00EFB754 /* NewLoginViewModel.swift */; };
-		3C656EAA28E3E6DB00EFB754 /* OnlinePaymentViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656EA928E3E6DB00EFB754 /* OnlinePaymentViewTest.swift */; };
 		3C7672D62899085E001DF62F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7672D52899085E001DF62F /* LoginView.swift */; };
 		3C7672D72899085E001DF62F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7672D52899085E001DF62F /* LoginView.swift */; };
 		3C7672D82899085E001DF62F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7672D52899085E001DF62F /* LoginView.swift */; };
@@ -245,7 +242,6 @@
 		3CB8300D2914DAF3001246BB /* PromotionRepositoryImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB8300C2914DAF3001246BB /* PromotionRepositoryImplTests.swift */; };
 		3CB830162914F1D5001246BB /* PromotionUseCaseImplTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB830152914F1D5001246BB /* PromotionUseCaseImplTests.swift */; };
 		3CB830182914F6BF001246BB /* PromotionViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB830172914F6BF001246BB /* PromotionViewModelTests.swift */; };
-		3CB8301A2914FB4D001246BB /* PromotionDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB830192914FB4D001246BB /* PromotionDetailViewControllerTests.swift */; };
 		3CBC879528530FFB00B57607 /* StringExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBC879428530FFB00B57607 /* StringExtensionTest.swift */; };
 		3CBC87972857318B00B57607 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBC87962857318B00B57607 /* DateUtils.swift */; };
 		3CBC87982857318B00B57607 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBC87962857318B00B57607 /* DateUtils.swift */; };
@@ -255,7 +251,6 @@
 		3CBC879C2857318C00B57607 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBC87962857318B00B57607 /* DateUtils.swift */; };
 		3CBC879D2857318C00B57607 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBC87962857318B00B57607 /* DateUtils.swift */; };
 		3CBC879F2857396400B57607 /* DateUtilsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBC879E2857396400B57607 /* DateUtilsTest.swift */; };
-		3CBFBE9029418E4D00790C08 /* SwiftUIDropDownTextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBFBE8F29418E4D00790C08 /* SwiftUIDropDownTextTest.swift */; };
 		3CC064BD287E7BF9008AAC09 /* StarMergerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC064BC287E7BF9008AAC09 /* StarMergerView.swift */; };
 		3CC064BE287E7BF9008AAC09 /* StarMergerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC064BC287E7BF9008AAC09 /* StarMergerView.swift */; };
 		3CC064BF287E7BF9008AAC09 /* StarMergerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC064BC287E7BF9008AAC09 /* StarMergerView.swift */; };
@@ -337,8 +332,6 @@
 		3CCD218928F6942C00313212 /* UserDefaultCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD218228F6942C00313212 /* UserDefaultCodable.swift */; };
 		3CCD218A28F6942C00313212 /* UserDefaultCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD218228F6942C00313212 /* UserDefaultCodable.swift */; };
 		3CCD218B28F6942C00313212 /* UserDefaultCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD218228F6942C00313212 /* UserDefaultCodable.swift */; };
-		3CCD218D28F974D100313212 /* DepositGatewayViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD218C28F974D100313212 /* DepositGatewayViewControllerTest.swift */; };
-		3CD7B4492918AD7900CA04A0 /* ChatRoomViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */; };
 		3CDB7B59284F035B006DE0FA /* DateExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */; };
 		3CF19A4D2939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
 		3CF19A4E2939EC0B00BB22FF /* SafeAreaReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF19A4C2939EC0A00BB22FF /* SafeAreaReader.swift */; };
@@ -568,14 +561,12 @@
 		4199A09025AE9918002E2D7E /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648E258742150064AAC9 /* Launch.storyboard */; };
 		4199A0A225AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4199A0A125AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist */; };
 		43E162807800D161516E3EDC /* Pods_ktobet_asia_ios_prod_backup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8019990CEA2ED93CDA79991 /* Pods_ktobet_asia_ios_prod_backup.framework */; };
-		442D5C0B33874CD9FE79BA8B /* ktobet_asia_iosTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776CB7149849B031C1DF5D07 /* ktobet_asia_iosTests-ktobet_asia_ios_qatMocks.generated.swift */; };
 		483F42BB258C41A90091960B /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483F42BA258C41A90091960B /* UIWindowExtension.swift */; };
 		4840645C25871D760064AAC9 /* LocalizeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4840645B25871D760064AAC9 /* LocalizeUtils.swift */; };
 		4840646B258721740064AAC9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4840646D258721740064AAC9 /* InfoPlist.strings */; };
 		48406491258742150064AAC9 /* Signup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648C258742150064AAC9 /* Signup.storyboard */; };
 		48406492258742150064AAC9 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648D258742150064AAC9 /* Login.storyboard */; };
 		48406493258742150064AAC9 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4840648E258742150064AAC9 /* Launch.storyboard */; };
-		485DF05325415454001F9D4A /* ktobet_asia_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF05225415454001F9D4A /* ktobet_asia_iosTests.swift */; };
 		485E35ED2588A01600EEF23F /* SystemRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E35EC2588A01600EEF23F /* SystemRepository.swift */; };
 		485E35F12588AA8500EEF23F /* GetSystemStatusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485E35F02588AA8500EEF23F /* GetSystemStatusUseCase.swift */; };
 		485F12AE2592E807007B07B6 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485F12AD2592E807007B07B6 /* UIViewControllerExtension.swift */; };
@@ -664,7 +655,6 @@
 		48AAA173256E458800E075CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485DF04425415454001F9D4A /* Assets.xcassets */; };
 		48D7F9E72575E38B00540B85 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48D7F9EB2575E38B00540B85 /* Localizable.strings */; };
 		48FDF3692591ECB000C3AE75 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
-		55F11963423BB52A0D220422 /* Pods_ktobet_asia_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BAA2CB695EBEBD61ACB0F4B /* Pods_ktobet_asia_iosTests.framework */; };
 		5F08DE1E76D69187E8A4A7F1 /* Pods_ktobet_asia_ios_production_vn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A646BF162572D3B326329C0 /* Pods_ktobet_asia_ios_production_vn.framework */; };
 		60001A2E25E6046E00CEB72F /* ImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60001A2D25E6046E00CEB72F /* ImageApi.swift */; };
 		60001A2F25E6046E00CEB72F /* ImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60001A2D25E6046E00CEB72F /* ImageApi.swift */; };
@@ -727,6 +717,7 @@
 		600A8FDD26D3471D00F56412 /* PromotionHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600A8FDC26D3471D00F56412 /* PromotionHistoryTableViewCell.xib */; };
 		600A8FDE26D3471D00F56412 /* PromotionHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600A8FDC26D3471D00F56412 /* PromotionHistoryTableViewCell.xib */; };
 		600A8FDF26D3471D00F56412 /* PromotionHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600A8FDC26D3471D00F56412 /* PromotionHistoryTableViewCell.xib */; };
+		600DD45753EC9FC68460187E /* Pods_KTO_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31C4EC4A65383F9E22E51D4B /* Pods_KTO_UnitTests.framework */; };
 		600E240426CB514300D8B073 /* PromotionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600E240326CB514300D8B073 /* PromotionApi.swift */; };
 		600E240526CB514300D8B073 /* PromotionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600E240326CB514300D8B073 /* PromotionApi.swift */; };
 		600E240626CB514300D8B073 /* PromotionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600E240326CB514300D8B073 /* PromotionApi.swift */; };
@@ -3440,7 +3431,6 @@
 		6D31CF9A278BE26000DF920D /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D31CF97278BE26000DF920D /* BannerView.swift */; };
 		6D35F38A2819264B0094FA2B /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
 		6D35F38B2819264B0094FA2B /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
-		6D35F9F528DC681B00C67696 /* ExpandableBlockTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F9F428DC681B00C67696 /* ExpandableBlockTest.swift */; };
 		6D3859782681ECF400C854CF /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3859772681ECF400C854CF /* Decimal.swift */; };
 		6D3859792681ECF400C854CF /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3859772681ECF400C854CF /* Decimal.swift */; };
 		6D38597B2681ECF400C854CF /* Decimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3859772681ECF400C854CF /* Decimal.swift */; };
@@ -3704,7 +3694,6 @@
 		6D899BF32705461400AC164E /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D899BF22705461400AC164E /* PaymentProvider.swift */; };
 		6D899BF42705461400AC164E /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D899BF22705461400AC164E /* PaymentProvider.swift */; };
 		6D899BF52705461400AC164E /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D899BF22705461400AC164E /* PaymentProvider.swift */; };
-		6D8AC5A628F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */; };
 		6D92AD6825FA04F40093D94C /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD6025FA007E0093D94C /* RxExtension.swift */; };
 		6D92AD6B25FA04F60093D94C /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD6025FA007E0093D94C /* RxExtension.swift */; };
 		6D92AD8625FAFFAA0093D94C /* CollectErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D92AD8525FAFFAA0093D94C /* CollectErrorViewModel.swift */; };
@@ -5545,7 +5534,6 @@
 		6DA7D4112939FFD0009F4F09 /* DepositLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA7D40A2939FFD0009F4F09 /* DepositLogViewModel.swift */; };
 		6DA7D4122939FFD0009F4F09 /* DepositLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA7D40A2939FFD0009F4F09 /* DepositLogViewModel.swift */; };
 		6DA7D4132939FFD0009F4F09 /* DepositLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA7D40A2939FFD0009F4F09 /* DepositLogViewModel.swift */; };
-		6DA7D415293C7A0C009F4F09 /* DepositCryptoRecordViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA7D414293C7A0C009F4F09 /* DepositCryptoRecordViewTest.swift */; };
 		6DA88BEC2696DF4C008D77B9 /* P2PRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA88BEB2696DF4C008D77B9 /* P2PRecordRepository.swift */; };
 		6DA88BED2696DF4C008D77B9 /* P2PRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA88BEB2696DF4C008D77B9 /* P2PRecordRepository.swift */; };
 		6DA88BEF2696DF4C008D77B9 /* P2PRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA88BEB2696DF4C008D77B9 /* P2PRecordRepository.swift */; };
@@ -5743,7 +5731,6 @@
 		6DE36B8926563BE30058A1BC /* UnSettleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */; };
 		6DE36B8A26563BE30058A1BC /* UnSettleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */; };
 		6DE36B8C26563BE30058A1BC /* UnSettleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE36B8826563BE20058A1BC /* UnSettleViewController.swift */; };
-		6DEA282D291397C700D85CD4 /* PromotionViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282C291397C700D85CD4 /* PromotionViewControllerTest.swift */; };
 		6DEA282F291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
 		6DEA2830291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
 		6DEA2831291DDEA700D85CD4 /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
@@ -5789,14 +5776,10 @@
 		6DF907A42697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DF9079E2697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib */; };
 		6DF907A62697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DF9079E2697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib */; };
 		7BB072A58C39D704023BB601 /* Pods_ktobet_asia_ios_production.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D6291E069BE6057FF10C53F /* Pods_ktobet_asia_ios_production.framework */; };
-		7FFCEB09D553633A936A05E0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		82D3C5131D167920B4B5AB68 /* Pods_AIO_unitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B264CDC75354594389A694 /* Pods_AIO_unitTests.framework */; };
 		83510DF143C79CCDF214AFF7 /* Pods_ktobet_asia_ios_prod_selftest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D4CAF38E15CF18C61D6D54 /* Pods_ktobet_asia_ios_prod_selftest.framework */; };
-		8A2F20836606C10AB0E51E65 /* Pods_swiftUI_unitTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E686ADD25DBBA6A10FCADC23 /* Pods_swiftUI_unitTest.framework */; };
-		8B0EB8A3757685440A61D742 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B560E6C4E6CB481A107CAA7 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift */; };
 		8D7526F526D8CD3108747E0B /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9D251F82C849689504792088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		AA4DBB98F5A5373EDA676636 /* UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08194B8B556BE4E032F2A95B /* UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift */; };
 		F2F8110681BE27C716069CB2 /* Pods_ktobet_asia_ios_qat3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3228163C35543564E15C4DD5 /* Pods_ktobet_asia_ios_qat3.framework */; };
 		FE414492400C787590E5F6B4 /* Pods_ktobet_asia_ios_staging_vn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFBE31E73FC50AD947897C /* Pods_ktobet_asia_ios_staging_vn.framework */; };
 		FF270F5029385815008345EF /* TransationLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF270F4F29385815008345EF /* TransationLogView.swift */; };
@@ -5817,7 +5800,6 @@
 		FF282E4C2927767B005CD7A7 /* DepositView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF282E452927767B005CD7A7 /* DepositView.swift */; };
 		FF282E4D2927767B005CD7A7 /* DepositView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF282E452927767B005CD7A7 /* DepositView.swift */; };
 		FF282E4E2927767B005CD7A7 /* DepositView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF282E452927767B005CD7A7 /* DepositView.swift */; };
-		FF2F96D02912238C0079D48A /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC7B279015FF00794145 /* APIWrapper.swift */; };
 		FF2F96D229125B970079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF2F96D329125C270079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF2F96D429125C290079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
@@ -5827,13 +5809,7 @@
 		FF2F96D829125C2C0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF2F96D929125C2D0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF2F96DA29125C2E0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
-		FF4081F12918A5A100297D4E /* PromotionFilterViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */; };
 		FF4E0B492942D99900678D1F /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
-		FF64E11729345FF90019DE5C /* swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA96F61A1689775CFB5607A /* swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift */; };
-		FF694ACE2936F98900FF21EB /* DepositViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACD2936F98900FF21EB /* DepositViewTests.swift */; };
-		FF694AD22936F99200FF21EB /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
-		FF694AD32936F99200FF21EB /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
-		FF6A94D7293745DD00D36FF3 /* TermsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6A94D6293745DD00D36FF3 /* TermsViewTests.swift */; };
 		FF77F0F329261D3E001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0F429261F41001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0F529261F41001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
@@ -5844,8 +5820,6 @@
 		FF77F0FA29261F44001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0FB29261F45001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF7ABFAA2936FB24001D37EB /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C31F0CD291BA057002962E9 /* XCTestCase+Extension.swift */; };
-		FF7ABFAB2936FB25001D37EB /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C31F0CD291BA057002962E9 /* XCTestCase+Extension.swift */; };
-		FF7ABFAC2936FBD6001D37EB /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC7B279015FF00794145 /* APIWrapper.swift */; };
 		FF7ABFAD2936FBD7001D37EB /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC7B279015FF00794145 /* APIWrapper.swift */; };
 		FF7ABFAE2936FBD8001D37EB /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC7B279015FF00794145 /* APIWrapper.swift */; };
 		FF7ABFAF2936FBD9001D37EB /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC7B279015FF00794145 /* APIWrapper.swift */; };
@@ -5892,7 +5866,6 @@
 		FF9ED02D2924CDBC00F99E2B /* SwiftUIConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED01B2924CAB600F99E2B /* SwiftUIConverter.swift */; };
 		FF9ED02E2924CDBC00F99E2B /* SwiftUIConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED01B2924CAB600F99E2B /* SwiftUIConverter.swift */; };
 		FF9ED02F2924CDBD00F99E2B /* SwiftUIConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED01B2924CAB600F99E2B /* SwiftUIConverter.swift */; };
-		FF9ED0332924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */; };
 		FFA0A29B294816A5005631F9 /* FilterSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA0A29A294816A5005631F9 /* FilterSelector.swift */; };
 		FFA0A29C2948177D005631F9 /* FilterSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA0A29A294816A5005631F9 /* FilterSelector.swift */; };
 		FFA0A29D2948177D005631F9 /* FilterSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA0A29A294816A5005631F9 /* FilterSelector.swift */; };
@@ -5929,7 +5902,31 @@
 		FFA48703293886260088F172 /* DateFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA486FC293886000088F172 /* DateFilter.swift */; };
 		FFA48704293886270088F172 /* DateFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA486FC293886000088F172 /* DateFilter.swift */; };
 		FFA48705293886270088F172 /* DateFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA486FC293886000088F172 /* DateFilter.swift */; };
-		FFBEFABA293F3C530026901D /* TransactionLogViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBEFAB9293F3C530026901D /* TransactionLogViewTests.swift */; };
+		FFBD376C294ACAE3009E9A97 /* P2PViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */; };
+		FFBD376D294ACAE3009E9A97 /* LaunchAppTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */; };
+		FFBD376E294ACAE3009E9A97 /* CommonVerifyOtpViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */; };
+		FFBD376F294ACAE3009E9A97 /* DepositGatewayViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD218C28F974D100313212 /* DepositGatewayViewControllerTest.swift */; };
+		FFBD3770294ACAE3009E9A97 /* PromotionViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282C291397C700D85CD4 /* PromotionViewControllerTest.swift */; };
+		FFBD3771294ACAE3009E9A97 /* PromotionFilterViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */; };
+		FFBD3772294ACAE3009E9A97 /* PromotionDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB830192914FB4D001246BB /* PromotionDetailViewControllerTests.swift */; };
+		FFBD3773294ACAE3009E9A97 /* ChatRoomViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */; };
+		FFBD3774294ACAE3009E9A97 /* P2PSummaryViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */; };
+		FFBD3775294ACAE3009E9A97 /* CryptoSelectorViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */; };
+		FFBD3776294ACBB6009E9A97 /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
+		FFBD3777294ACBB6009E9A97 /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
+		FFBD3778294ACBB6009E9A97 /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
+		FFBD3779294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
+		FFBD377A294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
+		FFBD377B294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
+		FFBD377C294ACBDA009E9A97 /* OnlinePaymentViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656EA928E3E6DB00EFB754 /* OnlinePaymentViewTest.swift */; };
+		FFBD377D294ACBDA009E9A97 /* ItemSelectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC89B7929434768003925AC /* ItemSelectorTests.swift */; };
+		FFBD377E294ACBDA009E9A97 /* DepositViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACD2936F98900FF21EB /* DepositViewTests.swift */; };
+		FFBD377F294ACBDA009E9A97 /* StarMergerViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1C810E28CF40DF0033871A /* StarMergerViewTest.swift */; };
+		FFBD3780294ACBDA009E9A97 /* ExpandableBlockTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F9F428DC681B00C67696 /* ExpandableBlockTest.swift */; };
+		FFBD3781294ACBDA009E9A97 /* DepositCryptoRecordViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA7D414293C7A0C009F4F09 /* DepositCryptoRecordViewTest.swift */; };
+		FFBD3782294ACBDA009E9A97 /* TermsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6A94D6293745DD00D36FF3 /* TermsViewTests.swift */; };
+		FFBD3783294ACBDA009E9A97 /* TransactionLogViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBEFAB9293F3C530026901D /* TransactionLogViewTests.swift */; };
+		FFBD3784294ACBDA009E9A97 /* SwiftUIDropDownTextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBFBE8F29418E4D00790C08 /* SwiftUIDropDownTextTest.swift */; };
 		FFC6B8AE2907BAEB002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8AF2907BAEF002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8B02907BAF0002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
@@ -5965,8 +5962,6 @@
 		FFC89B76294311F6003925AC /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
 		FFC89B77294311F7003925AC /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
 		FFC89B78294311F7003925AC /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
-		FFC89B7A29434768003925AC /* ItemSelectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC89B7929434768003925AC /* ItemSelectorTests.swift */; };
-		FFDBCF51290FD6DF00C0735F /* LaunchAppTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */; };
 		FFDBCF54290FD98A00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		FFDBCF55290FD98B00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		FFDBCF56290FD98C00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
@@ -5987,8 +5982,6 @@
 		FFEF4A4329349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
 		FFEF4A4429349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
 		FFEF4A4529349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
-		FFF5CA2C292603AF00FC161B /* P2PViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */; };
-		FFF5CA2D292603AF00FC161B /* P2PSummaryViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */; };
 		FFF7D82E293DC5FC007462E0 /* DelegatedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF7D82D293DC5FC007462E0 /* DelegatedScrollView.swift */; };
 		FFF7D82F293DC62E007462E0 /* DelegatedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF7D82D293DC5FC007462E0 /* DelegatedScrollView.swift */; };
 		FFF7D830293DC62F007462E0 /* DelegatedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF7D82D293DC5FC007462E0 /* DelegatedScrollView.swift */; };
@@ -6008,13 +6001,6 @@
 			remoteGlobalIDString = 4199A02525AE9918002E2D7E;
 			remoteInfo = "ktobet-asia-ios-qat";
 		};
-		3C57DE3328B8C6840094780D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 485DF03025415453001F9D4A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4199A02525AE9918002E2D7E;
-			remoteInfo = "ktobet-asia-ios-qat";
-		};
 		6D3DD77A283203D60065D6B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 485DF03025415453001F9D4A /* Project object */;
@@ -6023,13 +6009,6 @@
 			remoteInfo = "ktobet-asia-ios-qat";
 		};
 		6D75934A29235E54007D2BF3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 485DF03025415453001F9D4A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4199A02525AE9918002E2D7E;
-			remoteInfo = "ktobet-asia-ios-qat";
-		};
-		6D8AC58F28F553E80029358A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 485DF03025415453001F9D4A /* Project object */;
 			proxyType = 1;
@@ -6149,7 +6128,6 @@
 
 /* Begin PBXFileReference section */
 		062A290137C82184014908DE /* Pods_ktobet_asia_ios_staging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_staging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		08194B8B556BE4E032F2A95B /* UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift"; path = "MockingbirdMocks/UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift"; sourceTree = "<group>"; };
 		0B542E220A813E407049831E /* Pods-ktobet-asia-ios-prod-backup.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-prod-backup.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-prod-backup/Pods-ktobet-asia-ios-prod-backup.debug.xcconfig"; sourceTree = "<group>"; };
 		0E1C1F1191261D56552B424C /* Pods-ktobet-asia-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios/Pods-ktobet-asia-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		0FCB36392413308A6894210B /* Pods-ktobet-asia-ios-qat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.debug.xcconfig"; sourceTree = "<group>"; };
@@ -6158,6 +6136,7 @@
 		2148A1C593328896EB214C23 /* Pods-ktobet-asia-ios-staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging.release.xcconfig"; sourceTree = "<group>"; };
 		21AF25BE30A4AA45E2124E3B /* Pods-ktobet-asia-ios-production-vn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-production-vn.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-production-vn/Pods-ktobet-asia-ios-production-vn.release.xcconfig"; sourceTree = "<group>"; };
 		2B992CA3EB2EE64818B9061A /* Pods-AIO-unitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIO-unitTests.release.xcconfig"; path = "Target Support Files/Pods-AIO-unitTests/Pods-AIO-unitTests.release.xcconfig"; sourceTree = "<group>"; };
+		31C4EC4A65383F9E22E51D4B /* Pods_KTO_UnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KTO_UnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3228163C35543564E15C4DD5 /* Pods_ktobet_asia_ios_qat3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_qat3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3439EB7929E175EF3BC7A116 /* Pods_ktobet_asia_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		359994EE259D7A600020EF5A /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
@@ -6180,7 +6159,6 @@
 		3C4431F629233AEF0031B984 /* UseCouponPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCouponPresenter.swift; sourceTree = "<group>"; };
 		3C45CDD328A358D600E39828 /* PageContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageContainer.swift; sourceTree = "<group>"; };
 		3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
-		3C57DE2F28B8C6840094780D /* swiftUI-unitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "swiftUI-unitTest.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C57DE3C28B8C6E90094780D /* Inspection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspection.swift; sourceTree = "<group>"; };
 		3C5C1FD628A652E000D4C735 /* NewLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginViewController.swift; sourceTree = "<group>"; };
 		3C5C1FE028AB64CC00D4C735 /* EnvironmentValuesExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValuesExtension.swift; sourceTree = "<group>"; };
@@ -6304,8 +6282,7 @@
 		485DF03B25415453001F9D4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		485DF04425415454001F9D4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		485DF04925415454001F9D4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		485DF04E25415454001F9D4A /* ktobet-asia-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ktobet-asia-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		485DF05225415454001F9D4A /* ktobet_asia_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ktobet_asia_iosTests.swift; sourceTree = "<group>"; };
+		485DF04E25415454001F9D4A /* KTO-UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "KTO-UnitTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		485DF05425415454001F9D4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		485DF05925415454001F9D4A /* ktobet-asia-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ktobet-asia-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		485DF05F25415454001F9D4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -6359,7 +6336,6 @@
 		547A0C878C351CFA65E8D2AC /* Pods-ktobet-asia-ios-prod-selftest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-prod-selftest.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-prod-selftest/Pods-ktobet-asia-ios-prod-selftest.debug.xcconfig"; sourceTree = "<group>"; };
 		5700DA7C380BA223E8A9B9DF /* Pods_ktobet_asia_ios_qat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_qat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57DE8781CEBB8CB8D0F35DC3 /* Pods-ktobet-asia-ios-production-vn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-production-vn.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-production-vn/Pods-ktobet-asia-ios-production-vn.debug.xcconfig"; sourceTree = "<group>"; };
-		5BAA2CB695EBEBD61ACB0F4B /* Pods_ktobet_asia_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D6291E069BE6057FF10C53F /* Pods_ktobet_asia_ios_production.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_production.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60001A2D25E6046E00CEB72F /* ImageApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageApi.swift; sourceTree = "<group>"; };
 		6000DAD9265DE2CB002A7A87 /* NumberGameMyBetGameGroupedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameMyBetGameGroupedViewController.swift; sourceTree = "<group>"; };
@@ -6618,7 +6594,6 @@
 		60FE05C427CF082100B7914A /* OldEmailVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldEmailVerifyViewController.swift; sourceTree = "<group>"; };
 		60FF74B727C48C1F0078EFE3 /* sharedbu.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sharedbu.xcframework; path = ../kto_shared_bu/sharedbu/build/XCFrameworks/debug/sharedbu.xcframework; sourceTree = "<group>"; };
 		62645C141ADF90521D3EBB71 /* Pods-ktobet-asia-ios-staging-vn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging-vn.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn.debug.xcconfig"; sourceTree = "<group>"; };
-		6B560E6C4E6CB481A107CAA7 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift"; path = "MockingbirdMocks/AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift"; sourceTree = "<group>"; };
 		6D0094EA28C7371900A98D03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6D0094ED28C737A500A98D03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6D0094F028C7380100A98D03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -6760,7 +6735,6 @@
 		6D87629A26F1E4CA00EFD6CE /* TransactionLogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionLogDetailViewController.swift; sourceTree = "<group>"; };
 		6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscationFlowViewController.swift; sourceTree = "<group>"; };
 		6D899BF22705461400AC164E /* PaymentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentProvider.swift; sourceTree = "<group>"; };
-		6D8AC5A128F553E80029358A /* UIKit-unitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UIKit-unitTest.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonVerifyOtpViewControllerTest.swift; sourceTree = "<group>"; };
 		6D92AD6025FA007E0093D94C /* RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
 		6D92AD8525FAFFAA0093D94C /* CollectErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectErrorViewModel.swift; sourceTree = "<group>"; };
@@ -6877,15 +6851,15 @@
 		6DF9079D2697DE3A0086AF54 /* MyBetSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBetSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		6DF9079E2697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyBetSummaryTableViewCell.xib; sourceTree = "<group>"; };
 		6F3086406301207E65E0DD9E /* Pods-ktobet-asia-ios-qat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat/Pods-ktobet-asia-ios-qat.release.xcconfig"; sourceTree = "<group>"; };
+		74FE0E43128E7E75C6287782 /* KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift"; path = "MockingbirdMocks/KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift"; sourceTree = "<group>"; };
 		7665D58EE5D27AC8286804AD /* Pods-ktobet-asia-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosTests.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosTests/Pods-ktobet-asia-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		767FECABA6627A022304EC16 /* Pods-ktobet-asia-iosUITests-staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests-staging.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests-staging/Pods-ktobet-asia-iosUITests-staging.release.xcconfig"; sourceTree = "<group>"; };
-		776CB7149849B031C1DF5D07 /* ktobet_asia_iosTests-ktobet_asia_ios_qatMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "ktobet_asia_iosTests-ktobet_asia_ios_qatMocks.generated.swift"; path = "MockingbirdMocks/ktobet_asia_iosTests-ktobet_asia_ios_qatMocks.generated.swift"; sourceTree = "<group>"; };
 		7CA84F59CABE37F4AC59762F /* Pods-ktobet-asia-ios-qat3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat3.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat3/Pods-ktobet-asia-ios-qat3.debug.xcconfig"; sourceTree = "<group>"; };
 		7F04D996F84BBE8659A74A6D /* Pods-ktobet-asia-ios-production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-production.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-production/Pods-ktobet-asia-ios-production.release.xcconfig"; sourceTree = "<group>"; };
 		81EF96B8AC0EE4246E6A415C /* Pods-ktobet-asia-ios-qat3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-qat3.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-qat3/Pods-ktobet-asia-ios-qat3.release.xcconfig"; sourceTree = "<group>"; };
 		9078CECDB771BD74203675C9 /* Pods_ktobet_asia_iosUITests_staging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_iosUITests_staging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A646BF162572D3B326329C0 /* Pods_ktobet_asia_ios_production_vn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_production_vn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ACA96F61A1689775CFB5607A /* swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift"; path = "MockingbirdMocks/swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift"; sourceTree = "<group>"; };
+		B0FF264DD9F5655A9CB0D5A7 /* Pods-KTO-UnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KTO-UnitTests.release.xcconfig"; path = "Target Support Files/Pods-KTO-UnitTests/Pods-KTO-UnitTests.release.xcconfig"; sourceTree = "<group>"; };
 		BEC56EA9D7768873A7967D96 /* Pods-ktobet-asia-ios-staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging.debug.xcconfig"; sourceTree = "<group>"; };
 		BEEFBE31E73FC50AD947897C /* Pods_ktobet_asia_ios_staging_vn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_staging_vn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8019990CEA2ED93CDA79991 /* Pods_ktobet_asia_ios_prod_backup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ktobet_asia_ios_prod_backup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -6895,6 +6869,7 @@
 		E686ADD25DBBA6A10FCADC23 /* Pods_swiftUI_unitTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_swiftUI_unitTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4EF5E5D6EEAADD28C26C2E9 /* Pods-swiftUI-unitTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swiftUI-unitTest.debug.xcconfig"; path = "Target Support Files/Pods-swiftUI-unitTest/Pods-swiftUI-unitTest.debug.xcconfig"; sourceTree = "<group>"; };
 		F654D853930630F588243614 /* Pods-UIKit-unitTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIKit-unitTest.debug.xcconfig"; path = "Target Support Files/Pods-UIKit-unitTest/Pods-UIKit-unitTest.debug.xcconfig"; sourceTree = "<group>"; };
+		F6B7476CD5F4286011272436 /* Pods-KTO-UnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KTO-UnitTests.debug.xcconfig"; path = "Target Support Files/Pods-KTO-UnitTests/Pods-KTO-UnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F709D799CF4A890846129123 /* Pods-ktobet-asia-ios-staging-vn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging-vn.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn.release.xcconfig"; sourceTree = "<group>"; };
 		F92587415FD8526B9C269127 /* Pods_UIKit_unitTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UIKit_unitTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF270F4F29385815008345EF /* TransationLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransationLogView.swift; sourceTree = "<group>"; };
@@ -6930,15 +6905,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3C57DE2C28B8C6840094780D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7FFCEB09D553633A936A05E0 /* (null) in Frameworks */,
-				8A2F20836606C10AB0E51E65 /* Pods_swiftUI_unitTest.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4199A08625AE9918002E2D7E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -6953,7 +6919,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55F11963423BB52A0D220422 /* Pods_ktobet_asia_iosTests.framework in Frameworks */,
+				600DD45753EC9FC68460187E /* Pods_KTO_UnitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7022,14 +6988,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6D8AC59A28F553E80029358A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				368B04CBAC117878CE845EFD /* Pods_UIKit_unitTest.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6D966D3E27FEE3FA006086B7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -7084,10 +7042,9 @@
 			path = Log;
 			sourceTree = "<group>";
 		};
-		3C57DE3028B8C6840094780D /* swiftUI-unitTest */ = {
+		3C57DE3028B8C6840094780D /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				3C57DE4028B8C6F30094780D /* Helper */,
 				3C1C810E28CF40DF0033871A /* StarMergerViewTest.swift */,
 				FF694ACD2936F98900FF21EB /* DepositViewTests.swift */,
 				6DA7D414293C7A0C009F4F09 /* DepositCryptoRecordViewTest.swift */,
@@ -7098,16 +7055,7 @@
 				3CBFBE8F29418E4D00790C08 /* SwiftUIDropDownTextTest.swift */,
 				FFC89B7929434768003925AC /* ItemSelectorTests.swift */,
 			);
-			path = "swiftUI-unitTest";
-			sourceTree = "<group>";
-		};
-		3C57DE4028B8C6F30094780D /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */,
-				FF694ACF2936F99200FF21EB /* Inspecting.swift */,
-			);
-			path = Helper;
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		3C656E8A28E30AF700EFB754 /* Recovered References */ = {
@@ -7314,10 +7262,8 @@
 			isa = PBXGroup;
 			children = (
 				485DF03A25415453001F9D4A /* ktobet-asia-ios */,
-				485DF05125415454001F9D4A /* ktobet-asia-iosTests */,
+				485DF05125415454001F9D4A /* KTO-UnitTests */,
 				485DF05C25415454001F9D4A /* ktobet-asia-iosUITests */,
-				3C57DE3028B8C6840094780D /* swiftUI-unitTest */,
-				6D8AC5A228F557C30029358A /* UIKit-unitTest */,
 				6D75934729235E54007D2BF3 /* AIO-unitTests */,
 				485DF03925415453001F9D4A /* Products */,
 				FB115C1C0A068F47EB84C1FE /* Pods */,
@@ -7330,7 +7276,7 @@
 		485DF03925415453001F9D4A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				485DF04E25415454001F9D4A /* ktobet-asia-iosTests.xctest */,
+				485DF04E25415454001F9D4A /* KTO-UnitTests.xctest */,
 				485DF05925415454001F9D4A /* ktobet-asia-iosUITests.xctest */,
 				48AAA179256E458800E075CA /* ktobet-asia-ios.app */,
 				4199A09725AE9918002E2D7E /* ktobet-asia-ios-qat.app */,
@@ -7341,8 +7287,6 @@
 				6D96721E27FEE42B006086B7 /* ktobet-asia-ios-qat3.app */,
 				6D0EDD3828743FAC004A9E3C /* ktobet-asia-ios-staging-vn.app */,
 				6D0EDF9328744704004A9E3C /* ktobet-asia-ios-production-vn.app */,
-				3C57DE2F28B8C6840094780D /* swiftUI-unitTest.xctest */,
-				6D8AC5A128F553E80029358A /* UIKit-unitTest.xctest */,
 				6D75934629235E54007D2BF3 /* AIO-unitTests.xctest */,
 			);
 			name = Products;
@@ -7386,22 +7330,16 @@
 			path = "ktobet-asia-ios";
 			sourceTree = "<group>";
 		};
-		485DF05125415454001F9D4A /* ktobet-asia-iosTests */ = {
+		485DF05125415454001F9D4A /* KTO-UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				FF4081EB29189D1A00297D4E /* Helper */,
-				485DF05225415454001F9D4A /* ktobet_asia_iosTests.swift */,
-				6D3DD77C283231560065D6B3 /* AppVersionTest.swift */,
 				485DF05425415454001F9D4A /* Info.plist */,
-				3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */,
-				3CBC879428530FFB00B57607 /* StringExtensionTest.swift */,
-				3CBC879E2857396400B57607 /* DateUtilsTest.swift */,
-				3CA721E42913CA9800B94548 /* PromotionApiTests.swift */,
-				3CB8300C2914DAF3001246BB /* PromotionRepositoryImplTests.swift */,
-				3CB830152914F1D5001246BB /* PromotionUseCaseImplTests.swift */,
-				3CB830172914F6BF001246BB /* PromotionViewModelTests.swift */,
+				FF4081EB29189D1A00297D4E /* Helper */,
+				FFBD376A294ACA78009E9A97 /* Base */,
+				FFBD376B294ACABC009E9A97 /* UIKit */,
+				3C57DE3028B8C6840094780D /* SwiftUI */,
 			);
-			path = "ktobet-asia-iosTests";
+			path = "KTO-UnitTests";
 			sourceTree = "<group>";
 		};
 		485DF05C25415454001F9D4A /* ktobet-asia-iosUITests */ = {
@@ -7852,11 +7790,11 @@
 				5D6291E069BE6057FF10C53F /* Pods_ktobet_asia_ios_production.framework */,
 				062A290137C82184014908DE /* Pods_ktobet_asia_ios_staging.framework */,
 				1E976814BCFB436375C8A311 /* Pods_ktobet_asia_iosUITests.framework */,
-				5BAA2CB695EBEBD61ACB0F4B /* Pods_ktobet_asia_iosTests.framework */,
 				F92587415FD8526B9C269127 /* Pods_UIKit_unitTest.framework */,
 				E686ADD25DBBA6A10FCADC23 /* Pods_swiftUI_unitTest.framework */,
 				9078CECDB771BD74203675C9 /* Pods_ktobet_asia_iosUITests_staging.framework */,
 				D0B264CDC75354594389A694 /* Pods_AIO_unitTests.framework */,
+				31C4EC4A65383F9E22E51D4B /* Pods_KTO_UnitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -8428,23 +8366,6 @@
 			path = "AIO-unitTests";
 			sourceTree = "<group>";
 		};
-		6D8AC5A228F557C30029358A /* UIKit-unitTest */ = {
-			isa = PBXGroup;
-			children = (
-				FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */,
-				6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */,
-				3CCD218C28F974D100313212 /* DepositGatewayViewControllerTest.swift */,
-				3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */,
-				6DEA282C291397C700D85CD4 /* PromotionViewControllerTest.swift */,
-				FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */,
-				3CB830192914FB4D001246BB /* PromotionDetailViewControllerTests.swift */,
-				FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */,
-				FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */,
-				FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */,
-			);
-			path = "UIKit-unitTest";
-			sourceTree = "<group>";
-		};
 		6D986A5F271833C500194E0D /* customService */ = {
 			isa = PBXGroup;
 			children = (
@@ -8600,10 +8521,7 @@
 		928B70FA8A1565938CA8B68D /* Generated Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				ACA96F61A1689775CFB5607A /* swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift */,
-				776CB7149849B031C1DF5D07 /* ktobet_asia_iosTests-ktobet_asia_ios_qatMocks.generated.swift */,
-				08194B8B556BE4E032F2A95B /* UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift */,
-				6B560E6C4E6CB481A107CAA7 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift */,
+				74FE0E43128E7E75C6287782 /* KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift */,
 			);
 			name = "Generated Mocks";
 			sourceTree = "<group>";
@@ -8641,6 +8559,8 @@
 				767FECABA6627A022304EC16 /* Pods-ktobet-asia-iosUITests-staging.release.xcconfig */,
 				3C6E8B3BD2E06A8285F7AB5B /* Pods-AIO-unitTests.debug.xcconfig */,
 				2B992CA3EB2EE64818B9061A /* Pods-AIO-unitTests.release.xcconfig */,
+				F6B7476CD5F4286011272436 /* Pods-KTO-UnitTests.debug.xcconfig */,
+				B0FF264DD9F5655A9CB0D5A7 /* Pods-KTO-UnitTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -8649,6 +8569,8 @@
 			isa = PBXGroup;
 			children = (
 				3C31F0CD291BA057002962E9 /* XCTestCase+Extension.swift */,
+				FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */,
+				FF694ACF2936F99200FF21EB /* Inspecting.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -8660,6 +8582,38 @@
 				3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */,
 			);
 			path = Modifier;
+			sourceTree = "<group>";
+		};
+		FFBD376A294ACA78009E9A97 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				6D3DD77C283231560065D6B3 /* AppVersionTest.swift */,
+				3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */,
+				3CBC879428530FFB00B57607 /* StringExtensionTest.swift */,
+				3CBC879E2857396400B57607 /* DateUtilsTest.swift */,
+				3CA721E42913CA9800B94548 /* PromotionApiTests.swift */,
+				3CB8300C2914DAF3001246BB /* PromotionRepositoryImplTests.swift */,
+				3CB830152914F1D5001246BB /* PromotionUseCaseImplTests.swift */,
+				3CB830172914F6BF001246BB /* PromotionViewModelTests.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		FFBD376B294ACABC009E9A97 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */,
+				6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */,
+				3CCD218C28F974D100313212 /* DepositGatewayViewControllerTest.swift */,
+				3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */,
+				6DEA282C291397C700D85CD4 /* PromotionViewControllerTest.swift */,
+				FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */,
+				3CB830192914FB4D001246BB /* PromotionDetailViewControllerTests.swift */,
+				FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */,
+				FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */,
+				FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */,
+			);
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		FFC6B8B72907BB0A002D843B /* protocol */ = {
@@ -8690,27 +8644,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3C57DE2E28B8C6840094780D /* swiftUI-unitTest */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3C57DE3728B8C6840094780D /* Build configuration list for PBXNativeTarget "swiftUI-unitTest" */;
-			buildPhases = (
-				E684DEF5AF935FED1AEC4426 /* [CP] Check Pods Manifest.lock */,
-				CAAB9687B493B3B2BA800CA1 /* Generate Mockingbird Mocks */,
-				3C57DE2B28B8C6840094780D /* Sources */,
-				3C57DE2C28B8C6840094780D /* Frameworks */,
-				3C57DE2D28B8C6840094780D /* Resources */,
-				A3C0410CD8C9C56F9146486F /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3C57DE3428B8C6840094780D /* PBXTargetDependency */,
-			);
-			name = "swiftUI-unitTest";
-			productName = "swiftUI-unitTest";
-			productReference = 3C57DE2F28B8C6840094780D /* swiftUI-unitTest.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4199A09425AE9918002E2D7E /* Build configuration list for PBXNativeTarget "ktobet-asia-ios-qat" */;
@@ -8733,12 +8666,12 @@
 			productReference = 4199A09725AE9918002E2D7E /* ktobet-asia-ios-qat.app */;
 			productType = "com.apple.product-type.application";
 		};
-		485DF04D25415454001F9D4A /* ktobet-asia-iosTests */ = {
+		485DF04D25415454001F9D4A /* KTO-UnitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 485DF06525415454001F9D4A /* Build configuration list for PBXNativeTarget "ktobet-asia-iosTests" */;
+			buildConfigurationList = 485DF06525415454001F9D4A /* Build configuration list for PBXNativeTarget "KTO-UnitTests" */;
 			buildPhases = (
 				9BEF6EA72F1E13DDD4F70447 /* [CP] Check Pods Manifest.lock */,
-				A9DB15C4A23A0792B876776F /* Generate Mockingbird Mocks */,
+				208E9F7647659323C697BBAA /* Generate Mockingbird Mocks */,
 				485DF04A25415454001F9D4A /* Sources */,
 				485DF04B25415454001F9D4A /* Frameworks */,
 				485DF04C25415454001F9D4A /* Resources */,
@@ -8749,9 +8682,9 @@
 			dependencies = (
 				6D3DD77B283203D60065D6B3 /* PBXTargetDependency */,
 			);
-			name = "ktobet-asia-iosTests";
+			name = "KTO-UnitTests";
 			productName = "ktobet-asia-iosTests";
-			productReference = 485DF04E25415454001F9D4A /* ktobet-asia-iosTests.xctest */;
+			productReference = 485DF04E25415454001F9D4A /* KTO-UnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		485DF05825415454001F9D4A /* ktobet-asia-iosUITests */ = {
@@ -8905,27 +8838,6 @@
 			productReference = 6D75934629235E54007D2BF3 /* AIO-unitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		6D8AC58D28F553E80029358A /* UIKit-unitTest */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6D8AC59E28F553E80029358A /* Build configuration list for PBXNativeTarget "UIKit-unitTest" */;
-			buildPhases = (
-				6D8AC59028F553E80029358A /* [CP] Check Pods Manifest.lock */,
-				F7EE5D9BA05D6B79B7B08E61 /* Generate Mockingbird Mocks */,
-				6D8AC59228F553E80029358A /* Sources */,
-				6D8AC59A28F553E80029358A /* Frameworks */,
-				6D8AC59C28F553E80029358A /* Resources */,
-				6D8AC59D28F553E80029358A /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				6D8AC58E28F553E80029358A /* PBXTargetDependency */,
-			);
-			name = "UIKit-unitTest";
-			productName = "swiftUI-unitTest";
-			productReference = 6D8AC5A128F553E80029358A /* UIKit-unitTest.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		6D966B3B27FEE3FA006086B7 /* ktobet-asia-ios-prod-selftest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D966D8327FEE3FA006086B7 /* Build configuration list for PBXNativeTarget "ktobet-asia-ios-prod-selftest" */;
@@ -8998,11 +8910,6 @@
 				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
-					3C57DE2E28B8C6840094780D = {
-						CreatedOnToolsVersion = 13.3;
-						LastSwiftMigration = 1330;
-						TestTargetID = 4199A02525AE9918002E2D7E;
-					};
 					485DF04D25415454001F9D4A = {
 						CreatedOnToolsVersion = 12.1;
 						TestTargetID = 4199A02525AE9918002E2D7E;
@@ -9013,9 +8920,6 @@
 					};
 					6D75934529235E54007D2BF3 = {
 						CreatedOnToolsVersion = 14.0.1;
-						TestTargetID = 4199A02525AE9918002E2D7E;
-					};
-					6D8AC58D28F553E80029358A = {
 						TestTargetID = 4199A02525AE9918002E2D7E;
 					};
 				};
@@ -9039,10 +8943,6 @@
 			projectRoot = "";
 			targets = (
 				48AAA10E256E458800E075CA /* ktobet-asia-ios */,
-				485DF04D25415454001F9D4A /* ktobet-asia-iosTests */,
-				3C57DE2E28B8C6840094780D /* swiftUI-unitTest */,
-				6D8AC58D28F553E80029358A /* UIKit-unitTest */,
-				485DF05825415454001F9D4A /* ktobet-asia-iosUITests */,
 				4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */,
 				609012662640EE7000419F8E /* ktobet-asia-ios-staging */,
 				60E57FAD27F190E4008CE5A9 /* ktobet-asia-ios-production */,
@@ -9051,19 +8951,14 @@
 				6D966FD527FEE42B006086B7 /* ktobet-asia-ios-qat3 */,
 				6D0EDAE128743FAC004A9E3C /* ktobet-asia-ios-staging-vn */,
 				6D0EDD3C28744704004A9E3C /* ktobet-asia-ios-production-vn */,
+				485DF04D25415454001F9D4A /* KTO-UnitTests */,
 				6D75934529235E54007D2BF3 /* AIO-unitTests */,
+				485DF05825415454001F9D4A /* ktobet-asia-iosUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		3C57DE2D28B8C6840094780D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4199A08925AE9918002E2D7E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -9500,13 +9395,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6D8AC59C28F553E80029358A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6D966D4127FEE3FA006086B7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -9735,6 +9623,22 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		208E9F7647659323C697BBAA /* Generate Mockingbird Mocks */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Mockingbird Mocks";
+			outputPaths = (
+				"$(SRCROOT)/MockingbirdMocks/KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -eu\n\n# Prevent Xcode 13 from running this script while indexing.\n[[ \"${ACTION}\" == \"indexbuild\" ]] && exit 0\n\n\"${SRCROOT}/Pods/MockingbirdFramework/mockingbird\" generate --targets \"ktobet-asia-ios-qat\" --disable-swiftlint --outputs \"${SRCROOT}/MockingbirdMocks/KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift\"";
 		};
 		32C269E63089BAFE3EDF165C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -10089,45 +9993,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-production-vn/Pods-ktobet-asia-ios-production-vn-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6D8AC59028F553E80029358A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-UIKit-unitTest-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6D8AC59D28F553E80029358A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UIKit-unitTest/Pods-UIKit-unitTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UIKit-unitTest/Pods-UIKit-unitTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UIKit-unitTest/Pods-UIKit-unitTest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6D966B3C27FEE3FA006086B7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -10366,45 +10231,12 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ktobet-asia-iosTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-KTO-UnitTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		A3C0410CD8C9C56F9146486F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-swiftUI-unitTest/Pods-swiftUI-unitTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-swiftUI-unitTest/Pods-swiftUI-unitTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-swiftUI-unitTest/Pods-swiftUI-unitTest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A9DB15C4A23A0792B876776F /* Generate Mockingbird Mocks */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Mockingbird Mocks";
-			outputPaths = (
-				"$(SRCROOT)/MockingbirdMocks/ktobet_asia_iosTests-ktobet_asia_ios_qatMocks.generated.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -eu\n\n# Prevent Xcode 13 from running this script while indexing.\n[[ \"${ACTION}\" == \"indexbuild\" ]] && exit 0\n\n\"${SRCROOT}/Pods/MockingbirdFramework/mockingbird\" generate --targets \"ktobet-asia-ios-qat\" --disable-swiftlint --outputs \"${SRCROOT}/MockingbirdMocks/ktobet_asia_iosTests-ktobet_asia_ios_qatMocks.generated.swift\"\n";
 		};
 		B47C3619979782117F75D630 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -10445,37 +10277,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CAAB9687B493B3B2BA800CA1 /* Generate Mockingbird Mocks */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Mockingbird Mocks";
-			outputPaths = (
-				"$(SRCROOT)/MockingbirdMocks/swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -eu\n\n# Prevent Xcode 13 from running this script while indexing.\n[[ \"${ACTION}\" == \"indexbuild\" ]] && exit 0\n\n\"${SRCROOT}/Pods/MockingbirdFramework/mockingbird\" generate --targets \"ktobet-asia-ios-qat\" --disable-swiftlint --outputs \"${SRCROOT}/MockingbirdMocks/swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift\"\n";
-		};
 		DC99D4C289A15CFFF0BCEB55 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-iosTests/Pods-ktobet-asia-iosTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-KTO-UnitTests/Pods-KTO-UnitTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-iosTests/Pods-ktobet-asia-iosTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-KTO-UnitTests/Pods-KTO-UnitTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-iosTests/Pods-ktobet-asia-iosTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KTO-UnitTests/Pods-KTO-UnitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E026F7C6B985AE08AED4E658 /* [CP] Embed Pods Frameworks */ = {
@@ -10517,28 +10333,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E684DEF5AF935FED1AEC4426 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-swiftUI-unitTest-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		F22A5C15681054DA761FF79E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -10556,46 +10350,9 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-staging/Pods-ktobet-asia-ios-staging-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F7EE5D9BA05D6B79B7B08E61 /* Generate Mockingbird Mocks */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Mockingbird Mocks";
-			outputPaths = (
-				"$(SRCROOT)/MockingbirdMocks/UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -eu\n\n# Prevent Xcode 13 from running this script while indexing.\n[[ \"${ACTION}\" == \"indexbuild\" ]] && exit 0\n\n\"${SRCROOT}/Pods/MockingbirdFramework/mockingbird\" generate --targets \"ktobet-asia-ios-qat\" --disable-swiftlint --outputs \"${SRCROOT}/MockingbirdMocks/UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3C57DE2B28B8C6840094780D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6D35F9F528DC681B00C67696 /* ExpandableBlockTest.swift in Sources */,
-				FF694ACE2936F98900FF21EB /* DepositViewTests.swift in Sources */,
-				FF64E11729345FF90019DE5C /* swiftUI_unitTest-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
-				3C1C810F28CF40DF0033871A /* StarMergerViewTest.swift in Sources */,
-				FF7ABFAC2936FBD6001D37EB /* APIWrapper.swift in Sources */,
-				6DA7D415293C7A0C009F4F09 /* DepositCryptoRecordViewTest.swift in Sources */,
-				FFC89B7A29434768003925AC /* ItemSelectorTests.swift in Sources */,
-				FF7ABFAB2936FB25001D37EB /* XCTestCase+Extension.swift in Sources */,
-				3C656EAA28E3E6DB00EFB754 /* OnlinePaymentViewTest.swift in Sources */,
-				3CBFBE9029418E4D00790C08 /* SwiftUIDropDownTextTest.swift in Sources */,
-				FF694AD22936F99200FF21EB /* Inspecting.swift in Sources */,
-				FFBEFABA293F3C530026901D /* TransactionLogViewTests.swift in Sources */,
-				FF6A94D7293745DD00D36FF3 /* TermsViewTests.swift in Sources */,
-				FF694AD32936F99200FF21EB /* InspectableView+Extension.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4199A02725AE9918002E2D7E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -11201,17 +10958,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C31F0CE291BA057002962E9 /* XCTestCase+Extension.swift in Sources */,
+				FFBD3777294ACBB6009E9A97 /* Inspecting.swift in Sources */,
+				FFBD3772294ACAE3009E9A97 /* PromotionDetailViewControllerTests.swift in Sources */,
+				FFBD376D294ACAE3009E9A97 /* LaunchAppTest.swift in Sources */,
+				FFBD376E294ACAE3009E9A97 /* CommonVerifyOtpViewControllerTest.swift in Sources */,
+				FFBD3771294ACAE3009E9A97 /* PromotionFilterViewControllerTest.swift in Sources */,
 				3CBC879528530FFB00B57607 /* StringExtensionTest.swift in Sources */,
+				FFBD3780294ACBDA009E9A97 /* ExpandableBlockTest.swift in Sources */,
+				FFBD3781294ACBDA009E9A97 /* DepositCryptoRecordViewTest.swift in Sources */,
 				3CDB7B59284F035B006DE0FA /* DateExtensionTest.swift in Sources */,
-				485DF05325415454001F9D4A /* ktobet_asia_iosTests.swift in Sources */,
 				3CB830182914F6BF001246BB /* PromotionViewModelTests.swift in Sources */,
+				FFBD377F294ACBDA009E9A97 /* StarMergerViewTest.swift in Sources */,
+				FFBD3770294ACAE3009E9A97 /* PromotionViewControllerTest.swift in Sources */,
 				3CB830162914F1D5001246BB /* PromotionUseCaseImplTests.swift in Sources */,
 				3CB8300D2914DAF3001246BB /* PromotionRepositoryImplTests.swift in Sources */,
+				FFBD377C294ACBDA009E9A97 /* OnlinePaymentViewTest.swift in Sources */,
 				3CBC879F2857396400B57607 /* DateUtilsTest.swift in Sources */,
+				FFBD377D294ACBDA009E9A97 /* ItemSelectorTests.swift in Sources */,
+				FFBD377E294ACBDA009E9A97 /* DepositViewTests.swift in Sources */,
+				FFBD3774294ACAE3009E9A97 /* P2PSummaryViewControllerTests.swift in Sources */,
+				FFBD3783294ACBDA009E9A97 /* TransactionLogViewTests.swift in Sources */,
+				FFBD3784294ACBDA009E9A97 /* SwiftUIDropDownTextTest.swift in Sources */,
 				6D3DD77D283231560065D6B3 /* AppVersionTest.swift in Sources */,
+				FFBD376F294ACAE3009E9A97 /* DepositGatewayViewControllerTest.swift in Sources */,
+				FFBD377A294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */,
 				3CA721E52913CA9800B94548 /* PromotionApiTests.swift in Sources */,
+				FFBD3775294ACAE3009E9A97 /* CryptoSelectorViewControllerTests.swift in Sources */,
 				FF7ABFAD2936FBD7001D37EB /* APIWrapper.swift in Sources */,
-				442D5C0B33874CD9FE79BA8B /* ktobet_asia_iosTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
+				275CC837B8C3DBF7E4B17E2F /* KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
+				FFBD376C294ACAE3009E9A97 /* P2PViewControllerTests.swift in Sources */,
+				FFBD3782294ACBDA009E9A97 /* TermsViewTests.swift in Sources */,
+				FFBD3773294ACAE3009E9A97 /* ChatRoomViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11220,8 +10997,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF7ABFAA2936FB24001D37EB /* XCTestCase+Extension.swift in Sources */,
+				FFBD3779294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */,
 				FF7ABFAE2936FBD8001D37EB /* APIWrapper.swift in Sources */,
 				6DEA784228FFE53000420A3D /* PasteableTextFieldTest.swift in Sources */,
+				FFBD3778294ACBB6009E9A97 /* Inspecting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -14240,29 +14019,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D75934F29237F35007D2BF3 /* XCTestCase+Extension.swift in Sources */,
+				FFBD377B294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */,
 				6D75934929235E54007D2BF3 /* AIO_unitTests.swift in Sources */,
 				FF7ABFAF2936FBD9001D37EB /* APIWrapper.swift in Sources */,
-				8B0EB8A3757685440A61D742 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6D8AC59228F553E80029358A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FFF5CA2D292603AF00FC161B /* P2PSummaryViewControllerTests.swift in Sources */,
-				FF9ED0332924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift in Sources */,
-				3C31F0CF291BA057002962E9 /* XCTestCase+Extension.swift in Sources */,
-				FF4081F12918A5A100297D4E /* PromotionFilterViewControllerTest.swift in Sources */,
-				6D8AC5A628F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift in Sources */,
-				3CB8301A2914FB4D001246BB /* PromotionDetailViewControllerTests.swift in Sources */,
-				3CD7B4492918AD7900CA04A0 /* ChatRoomViewControllerTests.swift in Sources */,
-				FFDBCF51290FD6DF00C0735F /* LaunchAppTest.swift in Sources */,
-				FFF5CA2C292603AF00FC161B /* P2PViewControllerTests.swift in Sources */,
-				3CCD218D28F974D100313212 /* DepositGatewayViewControllerTest.swift in Sources */,
-				FF2F96D02912238C0079D48A /* APIWrapper.swift in Sources */,
-				6DEA282D291397C700D85CD4 /* PromotionViewControllerTest.swift in Sources */,
-				AA4DBB98F5A5373EDA676636 /* UIKit_unitTest-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
+				FFBD3776294ACBB6009E9A97 /* Inspecting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -16078,11 +15838,6 @@
 			target = 4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */;
 			targetProxy = 3C45CDDF28A359E700E39828 /* PBXContainerItemProxy */;
 		};
-		3C57DE3428B8C6840094780D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */;
-			targetProxy = 3C57DE3328B8C6840094780D /* PBXContainerItemProxy */;
-		};
 		6D3DD77B283203D60065D6B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */;
@@ -16092,11 +15847,6 @@
 			isa = PBXTargetDependency;
 			target = 4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */;
 			targetProxy = 6D75934A29235E54007D2BF3 /* PBXContainerItemProxy */;
-		};
-		6D8AC58E28F553E80029358A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4199A02525AE9918002E2D7E /* ktobet-asia-ios-qat */;
-			targetProxy = 6D8AC58F28F553E80029358A /* PBXContainerItemProxy */;
 		};
 		6DC749E82924984400115601 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -16131,67 +15881,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		3C57DE3528B8C6840094780D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F4EF5E5D6EEAADD28C26C2E9 /* Pods-swiftUI-unitTest.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kto.asia.swiftUI.unitTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ktobet-asia-ios-qat.app/ktobet-asia-ios-qat";
-			};
-			name = Debug;
-		};
-		3C57DE3628B8C6840094780D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 460B68265A4347330D0C507B /* Pods-swiftUI-unitTest.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kto.asia.swiftUI.unitTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ktobet-asia-ios-qat.app/ktobet-asia-ios-qat";
-			};
-			name = Release;
-		};
 		60E581F427F190E4008CE5A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3B05A32E625529B438C5F71A /* Pods-ktobet-asia-ios-production.debug.xcconfig */;
@@ -16474,7 +16163,7 @@
 		};
 		6D2C8BDE2766E7A600655D0F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7665D58EE5D27AC8286804AD /* Pods-ktobet-asia-iosTests.release.xcconfig */;
+			baseConfigurationReference = B0FF264DD9F5655A9CB0D5A7 /* Pods-KTO-UnitTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -16491,7 +16180,7 @@
 					"$(inherited)",
 					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
 				);
-				INFOPLIST_FILE = "ktobet-asia-iosTests/Info.plist";
+				INFOPLIST_FILE = "KTO-UnitTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -16686,67 +16375,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kto.asia.aio.unitTests.AIO-unitTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ktobet-asia-ios-qat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)ktobet-asia-ios-qat";
-			};
-			name = Release;
-		};
-		6D8AC59F28F553E80029358A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F654D853930630F588243614 /* Pods-UIKit-unitTest.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kto.asia.UIKit.unitTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ktobet-asia-ios-qat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)ktobet-asia-ios-qat";
-			};
-			name = Debug;
-		};
-		6D8AC5A028F553E80029358A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 463CA3C9C7F08731ED84EB64 /* Pods-UIKit-unitTest.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kto.asia.UIKit.unitTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -17170,7 +16798,7 @@
 		};
 		6DB5CF3027673D840018B0E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 507A261B77E847BA8A4A03FF /* Pods-ktobet-asia-iosTests.debug.xcconfig */;
+			baseConfigurationReference = F6B7476CD5F4286011272436 /* Pods-KTO-UnitTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -17187,7 +16815,7 @@
 					"$(inherited)",
 					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
 				);
-				INFOPLIST_FILE = "ktobet-asia-iosTests/Info.plist";
+				INFOPLIST_FILE = "KTO-UnitTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -17355,15 +16983,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3C57DE3728B8C6840094780D /* Build configuration list for PBXNativeTarget "swiftUI-unitTest" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3C57DE3528B8C6840094780D /* Debug */,
-				3C57DE3628B8C6840094780D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		4199A09425AE9918002E2D7E /* Build configuration list for PBXNativeTarget "ktobet-asia-ios-qat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -17382,7 +17001,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		485DF06525415454001F9D4A /* Build configuration list for PBXNativeTarget "ktobet-asia-iosTests" */ = {
+		485DF06525415454001F9D4A /* Build configuration list for PBXNativeTarget "KTO-UnitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6DB5CF3027673D840018B0E8 /* Debug */,
@@ -17450,15 +17069,6 @@
 			buildConfigurations = (
 				6D75934C29235E54007D2BF3 /* Debug */,
 				6D75934D29235E54007D2BF3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		6D8AC59E28F553E80029358A /* Build configuration list for PBXNativeTarget "UIKit-unitTest" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6D8AC59F28F553E80029358A /* Debug */,
-				6D8AC5A028F553E80029358A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

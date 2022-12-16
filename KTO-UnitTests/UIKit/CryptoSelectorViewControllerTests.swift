@@ -6,6 +6,11 @@ import SharedBu
 
 final class CryptoSelectorViewControllerTests: XCTestCase {
     
+    override func tearDown() {
+        super.tearDown()
+        Injection.shared.registerAllDependency()
+    }
+    
     func test_TapVideoTutorialBtn_InCryptoSelectorPage_VideoTutorialIsDisplayed_KTO_TC_40() {
         let sut = CryptoSelectorViewController.initFrom(storyboard: "Deposit")
 

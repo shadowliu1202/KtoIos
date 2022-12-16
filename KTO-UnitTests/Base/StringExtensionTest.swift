@@ -95,4 +95,13 @@ class StringExtensionTest: XCTestCase {
         
         XCTAssertEqual(expect, actual)
     }
+    
+    func testBranchName() throws {
+        //chinese and english
+        XCTAssertTrue("branchName".isValidRegex(format: .branchName), "英文可以")
+        XCTAssertTrue("中文".isValidRegex(format: .branchName), "中文可以")
+        XCTAssertFalse("2k".isValidRegex(format: .branchName), "數字不行")
+        XCTAssertFalse("".isValidRegex(format: .branchName), "空白不行")
+        XCTAssertFalse("qwertyuiopasdfghjklzxcvbnmqwertyuiop".isValidRegex(format: .branchName), "長度不超過31")
+    }
 }
