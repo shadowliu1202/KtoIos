@@ -61,15 +61,9 @@ platform :ios do
     end
     
     lane :tests do
-        run_tests(scheme: "ktobet-asia-iosTests",
+        run_tests(scheme: "KTO-UnitTests",
                   output_types: 'junit,html',
-                  output_files: "junit.xml,report.html")
-        run_tests(scheme: "swiftUI-unitTest",
-                  output_types: 'junit,html',
-                  output_files: "swiftUI_junit.xml,swiftUI_report.html")
-        run_tests(scheme: "UIKit-unitTest",
-                  output_types: 'junit,html',
-                  output_files: "UIKit_junit.xml,UIKit_report.html")
+                  output_files: "KTO_UnitTests_junit.xml,KTO_UnitTests.html")
     end
     
     lane :AIOTests do

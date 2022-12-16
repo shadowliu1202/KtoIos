@@ -5,6 +5,22 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "485DF04D25415454001F9D4A"
+               BuildableName = "KTO-UnitTests.xctest"
+               BlueprintName = "KTO-UnitTests"
+               ReferencedContainer = "container:ktobet-asia-ios.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -22,9 +38,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3C57DE2E28B8C6840094780D"
-               BuildableName = "swiftUI-unitTest.xctest"
-               BlueprintName = "swiftUI-unitTest"
+               BlueprintIdentifier = "485DF04D25415454001F9D4A"
+               BuildableName = "KTO-UnitTests.xctest"
+               BlueprintName = "KTO-UnitTests"
                ReferencedContainer = "container:ktobet-asia-ios.xcodeproj">
             </BuildableReference>
          </TestableReference>

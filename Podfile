@@ -74,28 +74,16 @@ target 'ktobet-asia-ios' do
   default_pods
 end
 
-target 'ktobet-asia-iosTests' do
-  inherit! :search_paths
-  default_pods
-  unitTest_pods
-end
-
-target 'ktobet-asia-iosUITests' do
-  inherit! :search_paths
-  default_pods
-end
-
-target 'swiftUI-unitTest' do
+target 'KTO-UnitTests' do
   inherit! :search_paths
   default_pods
   unitTest_pods
   pod 'ViewInspector'
 end
 
-target 'UIKit-unitTest' do
+target 'ktobet-asia-iosUITests' do
   inherit! :search_paths
   default_pods
-  unitTest_pods
 end
 
 target 'AIO-unitTests' do
