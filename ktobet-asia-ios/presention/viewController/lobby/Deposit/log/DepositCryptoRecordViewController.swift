@@ -5,10 +5,12 @@ import SharedBu
 class DepositCryptoRecordViewController: LobbyViewController,
                                             SwiftUIConverter {
 
-    private let viewModel: DepositCryptoRecordViewModel
+    @Injected var viewModel: DepositCryptoRecordViewModel
+    @Injected private var playerConfig: PlayerConfiguration
+    private let transactionId: String
     
-    init(viewModel: DepositCryptoRecordViewModel) {
-        self.viewModel = viewModel
+    init(transactionId: String) {
+        self.transactionId = transactionId
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,9 +40,11 @@ private extension DepositCryptoRecordViewController {
     func setupUI() {
         addSubView(from: { [unowned self] in
             DepositCryptoRecordView(
+                playerConfig: self.playerConfig,
                 submitTransactionIdOnClick: {
                     self.navigateToDepositCryptoVC($0)
                 },
+                transactionId: self.transactionId,
                 viewModel: self.viewModel
             )
         }, to: view)

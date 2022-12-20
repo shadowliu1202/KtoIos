@@ -234,7 +234,7 @@ extension TransactionLogView {
                 }
             }
             else {
-                EmptyView()
+                Spacer()
             }
         }
     }
@@ -259,7 +259,7 @@ struct TransactionLogView_Previews: PreviewProvider {
         
         var dateType: DateType  = .week()
         
-        var pagination: Pagination<TransactionLogViewModelProtocol.Section>!
+        var pagination: Pagination<TransactionLog>!
         
         let disposeBag = DisposeBag()
         
@@ -269,7 +269,7 @@ struct TransactionLogView_Previews: PreviewProvider {
                     let request = isEmpty ? .just([]) : self.searchTransactionLog()
                     return request
                         .do(onNext: {
-                            self.sections = $0
+                            self.sections = [.init(model: "123456", items: $0)]
                         })
                 }
             )
@@ -284,28 +284,23 @@ struct TransactionLogView_Previews: PreviewProvider {
                 .disposed(by: disposeBag)
         }
         
-        func searchTransactionLog() -> Observable<[TransactionLogViewModelProtocol.Section]> {
-            .just([
-                .init(
-                    model: "2022/12/02",
-                    items: (0...10).map {
-                        GeneralProduct(
-                            transactionLog: BalanceLogDetail(
-                                afterBalance: .zero(),
-                                amount: "\($0 + 100)".toAccountCurrency(),
-                                date: Date().convertToKotlinx_datetimeLocalDateTime(),
-                                wagerMappingId: "",
-                                productGroup: .P2P(supportProvider: .CompanionNone()),
-                                productType: .p2p,
-                                transactionType: .ProductBet(),
-                                remark: .None(),
-                                externalId: ""
-                            ),
-                            displayName: .init(title: KNLazyCompanion().create(input: "Test only"))
-                        )
-                    }
+        func searchTransactionLog() -> Observable<[TransactionLog]> {
+            .just((0...10).map {
+                GeneralProduct(
+                    transactionLog: BalanceLogDetail(
+                        afterBalance: .zero(),
+                        amount: "\($0 + 100)".toAccountCurrency(),
+                        date: Date().convertToKotlinx_datetimeLocalDateTime(),
+                        wagerMappingId: "",
+                        productGroup: .P2P(supportProvider: .CompanionNone()),
+                        productType: .p2p,
+                        transactionType: .ProductBet(),
+                        remark: .None(),
+                        externalId: ""
+                    ),
+                    displayName: .init(title: KNLazyCompanion().create(input: "Test only"))
                 )
-            ])
+            })
         }
         
         func getCashFlowSummary() -> Single<CashFlowSummary> {

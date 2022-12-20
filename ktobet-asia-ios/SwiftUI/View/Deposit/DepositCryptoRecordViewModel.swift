@@ -9,14 +9,11 @@ class DepositCryptoRecordViewModel: CollectErrorViewModel,
     private let depositService: IDepositAppService
     private let disposeBag = DisposeBag()
     
-    let transactionId: String
-    
     @Published private (set) var header: DepositCryptoRecordHeader?
     @Published private (set) var info: [DepositCryptoRecord]?
     
-    init(depositService: IDepositAppService, transactionId: String) {
+    init(depositService: IDepositAppService) {
         self.depositService = depositService
-        self.transactionId = transactionId
     }
     
     func getDepositCryptoLog(transactionId: String) {

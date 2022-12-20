@@ -4,8 +4,10 @@ import SharedBu
 struct DepositCryptoRecordView<ViewModel>: View
     where ViewModel: DepositCryptoRecordViewModelProtocol & ObservableObject {
     
+    let playerConfig: PlayerConfiguration
     let submitTransactionIdOnClick: ((SingleWrapper<HttpUrl>?) -> Void)?
-
+    let transactionId: String
+    
     @StateObject var viewModel: ViewModel
     
     var body: some View {
@@ -19,9 +21,10 @@ struct DepositCryptoRecordView<ViewModel>: View
         }
         .pageBackgroundColor(.gray131313)
         .onViewDidLoad {
-            viewModel.getDepositCryptoLog(transactionId: viewModel.transactionId)
+            viewModel.getDepositCryptoLog(transactionId: transactionId)
         }
         .environmentObject(viewModel)
+        .environment(\.playerLocale, playerConfig.supportLocale)
     }
     
 }
@@ -302,7 +305,9 @@ struct DepositCryptoRecordViewPreviews: PreviewProvider {
 
         var body: some View {
             DepositCryptoRecordView(
+                playerConfig: PlayerConfigurationImpl(supportLocale: .China()),
                 submitTransactionIdOnClick: nil,
+                transactionId: "123",
                 viewModel: viewModel
             )
         }

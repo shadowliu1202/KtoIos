@@ -17,24 +17,22 @@ extension Selecting {
     var isSelectedAll: Bool {
         selectedItems.count == dataSource.count
     }
-    
-    func selectedIndex(_ selectable: Selectable) -> Int? {
-        selectedItems.firstIndex(where: { $0.identity == selectable.identity })
-    }
 }
 
-struct ItemSelector<Presenter>: View
-    where Presenter: Selecting & ObservableObject
-{
-    @StateObject var presenter: Presenter
+struct ItemSelector: View {
+    let dataSource: [Selectable]
     
-    let accessory: Accessory
+    @Binding var selectedItems: [Selectable]
     
     var haveSelectAll: Bool = false
     var selectAtLeastOne: Bool = false
     var allowMultipleSelection: Bool = false
  
     var inspection = Inspection<Self>()
+    
+    var isSelectedAll: Bool {
+        selectedItems.count == dataSource.count
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -54,7 +52,7 @@ struct ItemSelector<Presenter>: View
                     },
                     label: {
                         Text(
-                            presenter.isSelectedAll ?
+                            isSelectedAll ?
                             Localize.string("common_unselect_all") : Localize.string("common_select_all")
                         )
                         .localized(
@@ -71,11 +69,12 @@ struct ItemSelector<Presenter>: View
             
             Separator(color: .gray3C3E40)
             
-            ForEach(presenter.dataSource.indices, id: \.self) {
+            ForEach(dataSource.indices, id: \.self) {
                 Item(
-                    accessory: accessory,
-                    selectable: presenter.dataSource[$0],
-                    bottomLineVisible: $0 < presenter.dataSource.count - 1,
+                    accessory: allowMultipleSelection ? .tick : selectedItems.count > 1 ? .tick : .circle,
+                    selectable: dataSource[$0],
+                    isSelected: selectedIndex(dataSource[$0]) != nil,
+                    bottomLineVisible: $0 < dataSource.count - 1,
                     onSelected: {
                         handleSelection($0)
                     }
@@ -84,42 +83,50 @@ struct ItemSelector<Presenter>: View
             
             Separator(color: .gray3C3E40)
         }
-        .environmentObject(presenter)
         .backgroundColor(.gray131313)
         .onInspected(inspection, self)
     }
     
+    private func selectedIndex(_ selectable: Selectable) -> Int? {
+        selectedItems.firstIndex(where: { $0.identity == selectable.identity })
+    }
+    
     private func selectAllAction() {
-        if presenter.isSelectedAll {
-            presenter.selectedItems.removeAll()
+        if isSelectedAll {
+            if selectAtLeastOne, let first = dataSource.first {
+                selectedItems = [first]
+            }
+            else {
+                selectedItems.removeAll()
+            }
         }
         else {
-            presenter.selectedItems = presenter.dataSource
+            selectedItems = dataSource
         }
     }
     
     private func handleSelection(_ selectable: Selectable) {
         
-        if let selectedIndex = presenter.selectedIndex(selectable) {
-            if presenter.isSelectedAll {
-                presenter.selectedItems
+        if let selectedIndex = selectedIndex(selectable) {
+            if isSelectedAll {
+                selectedItems
                     .removeAll(where: { $0.identity != selectable.identity })
             }
             else {
-                if selectAtLeastOne, presenter.selectedItems.count == 1 {
+                if selectAtLeastOne, selectedItems.count == 1 {
                     return
                 }
                 else {
-                    presenter.selectedItems.remove(at: selectedIndex)
+                    selectedItems.remove(at: selectedIndex)
                 }
             }
         }
         else {
-            if !allowMultipleSelection, presenter.selectedItems.count == 1 {
-                presenter.selectedItems.removeAll()
+            if !allowMultipleSelection, selectedItems.count == 1 {
+                selectedItems.removeAll()
             }
             
-            presenter.selectedItems.append(selectable)
+            selectedItems.append(selectable)
         }
     }
 }
@@ -141,19 +148,12 @@ extension ItemSelector {
     }
     
     struct Item: View {
-        @EnvironmentObject var presenter: Presenter
-        
         let accessory: Accessory
         let selectable: Selectable
-        
+        let isSelected: Bool
         let bottomLineVisible: Bool
         
         var onSelected: ((Selectable) -> Void)?
-        
-        var accessoryImage: String {
-            presenter.selectedIndex(selectable) != nil ?
-            accessory.imageNames.selected : accessory.imageNames.unselected
-        }
         
         var body: some View {
             VStack(spacing: 0) {
@@ -173,7 +173,7 @@ extension ItemSelector {
                     
                     LimitSpacer(8)
                     
-                    Image(accessoryImage)
+                    Image(isSelected ? accessory.imageNames.selected : accessory.imageNames.unselected)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 24, height: 24)
@@ -194,30 +194,31 @@ extension ItemSelector {
 }
 
 struct ItemSelector_Previews: PreviewProvider {
-    
+
     class Presenter: ObservableObject, Selecting {
         @Published var selectedItems: [Selectable] = []
 
         var dataSource: [Selectable] {
             TransactionLogViewModel.LogType.allCases.filter { $0 != .all }
         }
-        
+
         var selectedTitle: String { "" }
     }
-    
+
     struct Preview: View {
         @StateObject var presenter = Presenter()
-        
+        @State var selectedItems: [Selectable]
+
         var body: some View {
             VStack {
                 Text("\(presenter.selectedItems.map { $0.title }.joined(separator: " /"))")
                     .localized(weight: .regular, size: 20, color: .whitePure)
-                
+
                 Spacer()
-                
+
                 ItemSelector(
-                    presenter: presenter,
-                    accessory: .circle,
+                    dataSource: TransactionLogViewModel.LogType.allCases.filter { $0 != .all },
+                    selectedItems: $selectedItems,
                     haveSelectAll: true,
                     selectAtLeastOne: true,
                     allowMultipleSelection: true
@@ -229,6 +230,6 @@ struct ItemSelector_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        Preview()
+        Preview(selectedItems: .init())
     }
 }

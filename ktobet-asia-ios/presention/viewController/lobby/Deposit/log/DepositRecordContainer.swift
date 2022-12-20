@@ -35,7 +35,7 @@ class DepositRecordContainer: LobbyViewController {
             // old flow
             switch transactionType {
             case .cryptodeposit?:
-                fetchData(.crypto)
+                updateTransactionType()
             case .deposit?:
                 fetchData(.fiat)
             default:
@@ -63,13 +63,7 @@ class DepositRecordContainer: LobbyViewController {
     func fetchData(_ paymentType: PaymentLogDTO.PaymentCurrencyType) {
         switch paymentType {
         case .crypto:
-            @Injected var factory: ApplicationFactory
-            let vc = DepositCryptoRecordViewController(
-                viewModel: .init(
-                    depositService: factory.deposit(),
-                    transactionId: displayId
-                )
-            )
+            let vc = DepositCryptoRecordViewController(transactionId: displayId)
             self.addChildViewController(vc, inner: self.containView)
             self.presentingVC = vc
             break
