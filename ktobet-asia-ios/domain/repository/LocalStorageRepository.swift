@@ -16,9 +16,9 @@ protocol LocalStorageRepository {
     func getLocale() -> Locale
     func getCultureCode() -> String
     func getSupportLocale() -> SupportLocale
-    
     func getPlayerInfo() -> PlayerInfoCache?
     func getLastAPISuccessDate() -> Date?
+    func getLastLoginDate() -> Date?
     
     func setRememberMe(_ rememberMe: Bool?)
     func setRememberAccount(_ rememberAccount: String?)
@@ -33,7 +33,7 @@ protocol LocalStorageRepository {
     func setCultureCode(_ cultureCode: String)
     func setPlayerInfo(_ playerInfo: PlayerInfoCache?)
     func setLastAPISuccessDate(_ time: Date?)
-    
+    func setLastLoginDate(_ day: Date?)
     func timezone() -> SharedBu.TimeZone
     func localeTimeZone() -> Foundation.TimeZone
 }
@@ -136,6 +136,10 @@ class LocalStorageRepositoryImpl: LocalStorageRepository,
     func getLastAPISuccessDate() -> Date? {
         get(key: .lastAPISuccessDate)
     }
+    
+    func getLastLoginDate() -> Date? {
+        get(key: .lastLoginDate)
+    }
 
     func setRememberMe(_ rememberMe: Bool?) {
         set(value: rememberMe, key: .rememberMe)
@@ -191,6 +195,10 @@ class LocalStorageRepositoryImpl: LocalStorageRepository,
     
     func setLastAPISuccessDate(_ time: Date?) {
         set(value: time, key: .lastAPISuccessDate)
+    }
+    
+    func setLastLoginDate(_ day: Date?) {
+        set(value: day, key: .lastLoginDate)
     }
     
     func timezone() -> SharedBu.TimeZone {
