@@ -5946,6 +5946,7 @@
 		FFBD3782294ACBDA009E9A97 /* TermsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6A94D6293745DD00D36FF3 /* TermsViewTests.swift */; };
 		FFBD3783294ACBDA009E9A97 /* TransactionLogViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBEFAB9293F3C530026901D /* TransactionLogViewTests.swift */; };
 		FFBD3784294ACBDA009E9A97 /* SwiftUIDropDownTextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBFBE8F29418E4D00790C08 /* SwiftUIDropDownTextTest.swift */; };
+		FFC30E13294C80FA00A425F4 /* WithdrawalViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */; };
 		FFC6B8AE2907BAEB002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8AF2907BAEF002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8B02907BAF0002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
@@ -6913,6 +6914,7 @@
 		FFA486F2293871D40088F172 /* FunctionalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalButton.swift; sourceTree = "<group>"; };
 		FFA486FC293886000088F172 /* DateFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFilter.swift; sourceTree = "<group>"; };
 		FFBEFAB9293F3C530026901D /* TransactionLogViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionLogViewTests.swift; sourceTree = "<group>"; };
+		FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawalViewControllerTests.swift; sourceTree = "<group>"; };
 		FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		FFC6B8B92907BB6C002D843B /* LocalStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorable.swift; sourceTree = "<group>"; };
 		FFC6B8EB290A4146002D843B /* InjectionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectionComponent.swift; sourceTree = "<group>"; };
@@ -8645,6 +8647,7 @@
 				FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */,
 				FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */,
 				FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */,
+				FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -10998,6 +11001,7 @@
 				FFBD376D294ACAE3009E9A97 /* LaunchAppTest.swift in Sources */,
 				FFBD376E294ACAE3009E9A97 /* CommonVerifyOtpViewControllerTest.swift in Sources */,
 				FFBD3771294ACAE3009E9A97 /* PromotionFilterViewControllerTest.swift in Sources */,
+				FFC30E13294C80FA00A425F4 /* WithdrawalViewControllerTests.swift in Sources */,
 				3CBC879528530FFB00B57607 /* StringExtensionTest.swift in Sources */,
 				FFBD3780294ACBDA009E9A97 /* ExpandableBlockTest.swift in Sources */,
 				FFBD3781294ACBDA009E9A97 /* DepositCryptoRecordViewTest.swift in Sources */,

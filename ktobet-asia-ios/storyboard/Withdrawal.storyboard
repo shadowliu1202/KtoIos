@@ -13,7 +13,7 @@
         <!--Withdrawal View Controller-->
         <scene sceneID="s3C-MX-dhc">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" id="Vda-NJ-C7G" customClass="WithdrawalViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WithdrawalViewController" extendedLayoutIncludesOpaqueBars="YES" id="Vda-NJ-C7G" customClass="WithdrawalViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dzq-wq-Kwd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

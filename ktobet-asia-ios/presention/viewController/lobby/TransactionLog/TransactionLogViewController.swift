@@ -7,14 +7,20 @@ import RxGesture
 class TransactionLogViewController: LobbyViewController,
                                     SwiftUIConverter {
     
+    @Injected private var playerConfig: PlayerConfiguration
     @Injected private var viewModel: TransactionLogViewModel
     
     private lazy var flowCoordinator = TranscationFlowController(self, disposeBag: disposeBag)
 
     private let disposeBag = DisposeBag()
     
-    init?(coder: NSCoder, viewModel: TransactionLogViewModel) {
+    init?(
+        coder: NSCoder,
+        playerConfig: PlayerConfiguration,
+        viewModel: TransactionLogViewModel
+    ) {
         super.init(coder: coder)
+        self.playerConfig = playerConfig
         self.viewModel = viewModel
     }
     
@@ -77,6 +83,7 @@ private extension TransactionLogViewController {
                 SafeAreaReader {
                     TransactionLogView(
                         viewModel: self.viewModel,
+                        playerConfig: self.playerConfig,
                         onDateSelected: { type in
                             self.viewModel.dateType = type
                             self.refresh()

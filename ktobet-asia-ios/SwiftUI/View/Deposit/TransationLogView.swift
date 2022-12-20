@@ -12,6 +12,8 @@ where
     @EnvironmentObject var safeAreaMonitor: SafeAreaMonitor
 
     @StateObject var viewModel: ViewModel
+
+    let playerConfig: PlayerConfiguration
     
     var onDateSelected: DateFilter.Selection?
     var onSummarySelected: (() -> Void)?
@@ -43,6 +45,7 @@ where
         }
         .pageBackgroundColor(.gray131313)
         .environmentObject(viewModel)
+        .environment(\.playerLocale, playerConfig.supportLocale)
         .onViewDidLoad {
             viewModel.pagination.refreshTrigger.onNext(())
             viewModel.summaryRefreshTrigger.onNext(())
@@ -320,7 +323,8 @@ struct TransactionLogView_Previews: PreviewProvider {
         
         var body: some View {
             TransactionLogView(
-                viewModel: ViewModel(isEmpty: isEmpty)
+                viewModel: ViewModel(isEmpty: isEmpty),
+                playerConfig: PlayerConfigurationImpl()
             )
         }
     }

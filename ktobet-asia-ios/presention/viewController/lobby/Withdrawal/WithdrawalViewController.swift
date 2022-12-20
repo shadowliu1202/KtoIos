@@ -21,9 +21,8 @@ class WithdrawalViewController: LobbyViewController {
 
     private var accounts: [FiatBankCard]?
     private var cryptoBankCards: [CryptoBankCard]?
-    fileprivate var viewModel = Injectable.resolve(WithdrawalViewModel.self)!
-    fileprivate var bandCardviewModel = Injectable.resolve(ManageCryptoBankCardViewModel.self)!
-    fileprivate var disposeBag = DisposeBag()
+    private var viewModel = Injectable.resolve(WithdrawalViewModel.self)!
+    private var disposeBag = DisposeBag()
     private var withdrawalLimits: WithdrawalLimits?
     
     private lazy var dailyLimitAmount: String = "" {
@@ -59,6 +58,8 @@ class WithdrawalViewController: LobbyViewController {
             attribTextHolder.setTo(textView: crpytoWithdrawalRequirementTextView)
         }
     }
+    
+    var bankCardViewModel = Injectable.resolve(ManageCryptoBankCardViewModel.self)!
     
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
@@ -200,7 +201,7 @@ class WithdrawalViewController: LobbyViewController {
     }
     
     fileprivate func cryptoWithdrawlDataBinding() {
-        bandCardviewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
+        bankCardViewModel.getCryptoBankCards().subscribe {[weak self] (cryptoBankCards) in
             self?.cryptoBankCards = cryptoBankCards
         } onError: { (error) in
             self.handleErrors(error)
@@ -243,8 +244,8 @@ class WithdrawalViewController: LobbyViewController {
         }
     }
     
-    @objc fileprivate func crpytoTap(_ sender: UITapGestureRecognizer) {
-        bandCardviewModel.isCryptoWithdrawalValid.subscribe(onSuccess: { [weak self] in
+    @objc func crpytoTap(_ sender: UITapGestureRecognizer) {
+        bankCardViewModel.isCryptoWithdrawalValid().subscribe(onSuccess: { [weak self] in
             if $0 {
                 self?.performSegue(withIdentifier: WithdrawlLandingViewController.segueIdentifier, sender: BankCardType.crypto)
             } else {
@@ -263,6 +264,7 @@ class WithdrawalViewController: LobbyViewController {
         }, onError: {[weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
+        
         self.rx.viewWillAppear.flatMap({ [unowned self] (_) in
             return self.viewModel.getWithdrawalLimitation().asObservable()
         }).subscribe(onNext: { [weak self] (withdrawalLimits) in
