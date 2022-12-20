@@ -3,7 +3,6 @@ import SharedBu
 import RxSwift
 
 protocol DepositCryptoRecordViewModelProtocol {
-    var transactionId: String { get }
     var header: DepositCryptoRecordHeader? { get }
     var info: [DepositCryptoRecord]? { get }
     

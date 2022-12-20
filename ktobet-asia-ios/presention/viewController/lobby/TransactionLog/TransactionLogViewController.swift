@@ -107,8 +107,10 @@ private extension TransactionLogViewController {
     
     func navigateToFilterViewController() {
         navigationController?.pushViewController(
-            TransactionFilterViewController(
+            FilterViewController(
                 presenter: viewModel,
+                barItemType: .back,
+                barItemImageName: "Close",
                 onDone: { [unowned self] in
                     self.refresh()
                 }

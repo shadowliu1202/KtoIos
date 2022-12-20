@@ -1056,6 +1056,18 @@ final class Injection {
                 let localizationUseCase = resolver.resolveWrapper(LocalizationPolicyUseCase.self)
                 return CryptoGuideVNDViewModelImpl(localizationPolicyUseCase: localizationUseCase)
             }
+        
+        container
+            .register(DepositCryptoRecordViewModel.self) { (resolver) in
+                DepositCryptoRecordViewModel(depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit())
+            }
+        
+        container
+            .register(DepositLogSummaryViewModel.self) { (resolver) in
+                DepositLogSummaryViewModel(
+                    depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit()
+                )
+            }
     }
     
     func registSingleton() {

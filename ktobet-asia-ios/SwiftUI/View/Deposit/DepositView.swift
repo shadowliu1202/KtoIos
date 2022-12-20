@@ -165,6 +165,7 @@ extension DepositView {
             .padding(.vertical, 18)
             .padding(.leading, 30)
             .padding(.trailing, 16)
+            .contentShape(Rectangle())
             .onTapGesture {
                 onSelected?(selection)
             }
@@ -310,6 +311,7 @@ extension DepositView {
             }
             .padding(.horizontal, 30)
             .padding(.top, 15)
+            .contentShape(Rectangle())
             .onTapGesture {
                 onSelected?(log)
             }

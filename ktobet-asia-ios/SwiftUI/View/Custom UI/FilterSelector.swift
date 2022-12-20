@@ -5,7 +5,8 @@ struct FilterSelector<Presenter>: View
 {
     @StateObject var presenter: Presenter
     
-    var accessory = ItemSelector<Presenter>.Accessory.circle
+    @State var selectedItems: [Selectable]
+    
     var haveSelectAll = false
     var selectAtLeastOne = false
     var allowMultipleSelection = false
@@ -25,8 +26,8 @@ struct FilterSelector<Presenter>: View
                         .padding(.horizontal, 30)
                     
                     ItemSelector(
-                        presenter: presenter,
-                        accessory: accessory,
+                        dataSource: presenter.dataSource,
+                        selectedItems: $selectedItems,
                         haveSelectAll: haveSelectAll,
                         selectAtLeastOne: selectAtLeastOne,
                         allowMultipleSelection: allowMultipleSelection
@@ -36,6 +37,7 @@ struct FilterSelector<Presenter>: View
             
             Button(
                 action: {
+                    presenter.selectedItems = selectedItems
                     onDone?()
                     NavigationManagement.sharedInstance.popViewController()
                 },
@@ -68,6 +70,10 @@ struct FilterSelector_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        FilterSelector(presenter: ViewModel(), haveSelectAll: true)
+        FilterSelector(
+            presenter: ViewModel(),
+            selectedItems: [],
+            haveSelectAll: true
+        )
     }
 }

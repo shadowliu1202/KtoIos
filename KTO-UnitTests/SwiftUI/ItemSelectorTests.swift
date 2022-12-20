@@ -41,38 +41,29 @@ final class ItemSelectorTests: XCTestCase {
         let stubSelecting = buildStubSelecting(count: 4)
 
         let sut = ItemSelector(
-            presenter: stubSelecting,
-            accessory: .circle,
+            dataSource: stubSelecting.dataSource,
+            selectedItems: .init(wrappedValue: stubSelecting.selectedItems),
             haveSelectAll: false,
             selectAtLeastOne: false,
             allowMultipleSelection: true
         )
+        
+        let simulatedTapIndex = [0, 1]
 
         let expectation = sut.inspection.inspect { view in
             let forEach = try view
                 .vStack()
                 .forEach(2)
             
-            try (0...1).forEach {
+            try simulatedTapIndex.forEach {
                 let row = try forEach
-                    .view(ItemSelector<SelectingMock>.Item.self, $0)
+                    .view(ItemSelector.Item.self, $0)
                     .vStack()
                 
                 try row.callOnTapGesture()
             }
-
-            let condition = stubSelecting
-                .setSelectedItems(any(
-                    [SelectableMock].self,
-                    where: {
-                        $0.contains(where: {
-                            $0.identity == "0" ||
-                            $0.identity == "1"
-                        })
-                    }
-                ))
             
-            verify(condition).wasCalled(2)
+            XCTAssertEqual(sut.selectedItems.count, 2)
         }
         
         ViewHosting.host(view: sut)
@@ -81,11 +72,12 @@ final class ItemSelectorTests: XCTestCase {
     }
     
     func test_AllowMultipleSelectionIsTrue_SelectTwoRow_TwoRowIsSelected() {
-        let stubSelecting = buildStubSelecting(count: 4, selectedIndex: [0, 1])
+        let selectedIndex = [0, 1]
+        let stubSelecting = buildStubSelecting(count: 4, selectedIndex: selectedIndex)
 
         let sut = ItemSelector(
-            presenter: stubSelecting,
-            accessory: .circle,
+            dataSource: stubSelecting.dataSource,
+            selectedItems: .init(wrappedValue: stubSelecting.selectedItems),
             haveSelectAll: false,
             selectAtLeastOne: false,
             allowMultipleSelection: true
@@ -95,73 +87,67 @@ final class ItemSelectorTests: XCTestCase {
             let forEach = try view
                 .vStack()
                 .forEach(2)
-            
-            try (0...1).forEach {
+
+            try selectedIndex.forEach {
                 let imageName = try forEach
-                    .view(ItemSelector<SelectingMock>.Item.self, $0)
+                    .view(ItemSelector.Item.self, $0)
                     .vStack()
                     .hStack(0)
                     .image(3)
                     .actualImage()
                     .name()
-                
-                XCTAssertEqual(imageName, "iconSingleSelectionSelected24")
+
+                XCTAssertEqual(imageName, "iconDoubleSelectionSelected24")
             }
         }
-        
+
         ViewHosting.host(view: sut)
-        
+
         wait(for: [expectation], timeout: 10)
     }
-    
+
     func test_AllowMultipleSelectionIsFalse_CanNotSelectMultiple() {
         let stubSelecting = buildStubSelecting(count: 4)
 
         let sut = ItemSelector(
-            presenter: stubSelecting,
-            accessory: .circle,
+            dataSource: stubSelecting.dataSource,
+            selectedItems: .init(wrappedValue: stubSelecting.selectedItems),
             haveSelectAll: false,
             selectAtLeastOne: false,
             allowMultipleSelection: false
         )
+        
+        let simulatedTapIndex = [0, 1]
 
         let expectation = sut.inspection.inspect { view in
             let forEach = try view
                 .vStack()
                 .forEach(2)
-            
-            try (0...1).forEach {
+
+            try simulatedTapIndex.forEach {
                 let row = try forEach
-                    .view(ItemSelector<SelectingMock>.Item.self, $0)
+                    .view(ItemSelector.Item.self, $0)
                     .vStack()
-                
+
                 try row.callOnTapGesture()
             }
 
-            let condition = stubSelecting
-                .setSelectedItems(any(
-                    [SelectableMock].self,
-                    where: {
-                        $0.count == 1
-                    }
-                ))
-            
-            verify(condition).wasCalled(2)
+            XCTAssertEqual(sut.selectedItems.count, 1)
         }
-        
+
         ViewHosting.host(view: sut)
-        
+
         wait(for: [expectation], timeout: 10)
     }
-    
+
     func test_HaveSelectAllIsTrue_CanSelectAllWhenPressAllButton() {
         injectStubCultureCode(.CN)
-        
+
         let stubSelecting = buildStubSelecting(count: 4)
 
         let sut = ItemSelector(
-            presenter: stubSelecting,
-            accessory: .circle,
+            dataSource: stubSelecting.dataSource,
+            selectedItems: .init(wrappedValue: stubSelecting.selectedItems),
             haveSelectAll: true,
             selectAtLeastOne: false,
             allowMultipleSelection: true
@@ -172,40 +158,33 @@ final class ItemSelectorTests: XCTestCase {
                 .vStack()
                 .hStack(0)
                 .button(2)
-            
+
             let text = try button
                 .labelView()
                 .localizedText(0)
                 .string()
-            
+
             XCTAssertEqual(text, "全选")
-            
+
             try button.tap()
 
-            let condition = stubSelecting
-                .setSelectedItems(any(
-                    [SelectableMock].self,
-                    where: {
-                        $0.count == 4
-                    }
-                ))
-            
-            verify(condition).wasCalled()
+            XCTAssertEqual(sut.selectedItems.count, 4)
         }
-        
+
         ViewHosting.host(view: sut)
-        
+
         wait(for: [expectation], timeout: 10)
     }
-    
+
     func test_HaveSelectAllIsTrue_SelectAll_AllRowIsSelected() {
         injectStubCultureCode(.CN)
-        
-        let stubSelecting = buildStubSelecting(count: 4, selectedIndex: [0, 1, 2, 3])
+
+        let selectedIndex = [0, 1, 2, 3]
+        let stubSelecting = buildStubSelecting(count: 4, selectedIndex: selectedIndex)
 
         let sut = ItemSelector(
-            presenter: stubSelecting,
-            accessory: .circle,
+            dataSource: stubSelecting.dataSource,
+            selectedItems: .init(wrappedValue: stubSelecting.selectedItems),
             haveSelectAll: true,
             selectAtLeastOne: false,
             allowMultipleSelection: true
@@ -219,37 +198,37 @@ final class ItemSelectorTests: XCTestCase {
                 .labelView()
                 .localizedText(0)
                 .string()
-            
+
             XCTAssertEqual(buttonText, "取消全选")
-            
+
             let forEach = try view
                 .vStack()
                 .forEach(2)
-            
-            try (0...3).forEach {
+
+            try selectedIndex.forEach {
                 let imageName = try forEach
-                    .view(ItemSelector<SelectingMock>.Item.self, $0)
+                    .view(ItemSelector.Item.self, $0)
                     .vStack()
                     .hStack(0)
                     .image(3)
                     .actualImage()
                     .name()
-                
-                XCTAssertEqual(imageName, "iconSingleSelectionSelected24")
+
+                XCTAssertEqual(imageName, "iconDoubleSelectionSelected24")
             }
         }
-        
+
         ViewHosting.host(view: sut)
-        
+
         wait(for: [expectation], timeout: 10)
     }
-    
+
     func test_SelectAtLeastOneIsTrue_HaveOnSelection_CanNotCancelSelection() {
         let stubSelecting = buildStubSelecting(count: 4, selectedIndex: [0])
 
         let sut = ItemSelector(
-            presenter: stubSelecting,
-            accessory: .circle,
+            dataSource: stubSelecting.dataSource,
+            selectedItems: .init(wrappedValue: stubSelecting.selectedItems),
             haveSelectAll: false,
             selectAtLeastOne: true,
             allowMultipleSelection: false
@@ -259,20 +238,18 @@ final class ItemSelectorTests: XCTestCase {
             let forEach = try view
                 .vStack()
                 .forEach(2)
-            
+
             let row0 = try forEach
-                .view(ItemSelector<SelectingMock>.Item.self, 0)
+                .view(ItemSelector.Item.self, 0)
                 .vStack()
-            
+
             try row0.callOnTapGesture()
 
-            let condition = stubSelecting.setSelectedItems(any())
-            
-            verify(condition).wasNeverCalled()
+            XCTAssertEqual(sut.selectedItems.count, 1)
         }
-        
+
         ViewHosting.host(view: sut)
-        
+
         wait(for: [expectation], timeout: 10)
     }
 
@@ -280,8 +257,8 @@ final class ItemSelectorTests: XCTestCase {
         let stubSelecting = buildStubSelecting(count: 4, selectedIndex: [0])
 
         let sut = ItemSelector(
-            presenter: stubSelecting,
-            accessory: .circle,
+            dataSource: stubSelecting.dataSource,
+            selectedItems: .init(wrappedValue: stubSelecting.selectedItems),
             haveSelectAll: false,
             selectAtLeastOne: false,
             allowMultipleSelection: false
@@ -291,35 +268,28 @@ final class ItemSelectorTests: XCTestCase {
             let forEach = try view
                 .vStack()
                 .forEach(2)
-            
+
             let row0 = try forEach
-                .view(ItemSelector<SelectingMock>.Item.self, 0)
+                .view(ItemSelector.Item.self, 0)
                 .vStack()
-            
+
             try row0.callOnTapGesture()
 
-            let condition = stubSelecting
-                .setSelectedItems(any(
-                    [SelectableMock].self,
-                    where: {
-                        $0.isEmpty
-                    }
-                ))
-            
-            verify(condition).wasCalled()
+            XCTAssertEqual(sut.selectedItems.count, 0)
         }
-        
+
         ViewHosting.host(view: sut)
-        
+
         wait(for: [expectation], timeout: 10)
     }
-    
+
     func test_AllRowIsSelected_ClickOneRow_SelectOneRowButDeselectOtherRow() {
-        let stubSelecting = buildStubSelecting(count: 4, selectedIndex: [0, 1, 2, 3])
+        let selectedIndex = [0, 1, 2, 3]
+        let stubSelecting = buildStubSelecting(count: 4, selectedIndex: selectedIndex)
 
         let sut = ItemSelector(
-            presenter: stubSelecting,
-            accessory: .circle,
+            dataSource: stubSelecting.dataSource,
+            selectedItems: .init(wrappedValue: stubSelecting.selectedItems),
             haveSelectAll: true,
             selectAtLeastOne: true,
             allowMultipleSelection: true
@@ -329,24 +299,16 @@ final class ItemSelectorTests: XCTestCase {
             let row1 = try view
                 .vStack()
                 .forEach(2)
-                .view(ItemSelector<SelectingMock>.Item.self, 1)
+                .view(ItemSelector.Item.self, 1)
                 .vStack()
-            
+
             try row1.callOnTapGesture()
 
-            let condition = stubSelecting
-                .setSelectedItems(any(
-                    [SelectableMock].self,
-                    where: {
-                        $0.first?.identity == "1"
-                    }
-                ))
-            
-            verify(condition).wasCalled()
+            XCTAssertEqual(sut.selectedItems.count, 1)
         }
-        
+
         ViewHosting.host(view: sut)
-        
+
         wait(for: [expectation], timeout: 10)
     }
 }

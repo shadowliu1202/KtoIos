@@ -10,10 +10,10 @@ protocol TransactionLogViewModelProtocol {
     var sections: [Section]? { get }
     var dateType: DateType { get }
     
-    var pagination: Pagination<Section>! { get }
+    var pagination: Pagination<TransactionLog>! { get }
     var summaryRefreshTrigger: PublishSubject<Void> { get }
     
-    func searchTransactionLog() -> Observable<[Section]>
+    func searchTransactionLog() -> Observable<[TransactionLog]>
     func getCashFlowSummary() -> Single<CashFlowSummary>
 }
 
@@ -26,7 +26,7 @@ class TransactionLogViewModel: CollectErrorViewModel,
     
     private let disposeBag = DisposeBag()
     
-    private (set) var pagination: Pagination<TransactionLogViewModelProtocol.Section>!
+    private (set) var pagination: Pagination<TransactionLog>!
     
     private (set) var summaryRefreshTrigger = PublishSubject<Void>()
     
@@ -60,7 +60,7 @@ class TransactionLogViewModel: CollectErrorViewModel,
             observable: { [unowned self] _ in
                 self.searchTransactionLog()
             }, onElementChanged: { [unowned self] in
-                self.sections = $0
+                self.sections = self.buildSections($0)
             }
         )
         
@@ -81,7 +81,7 @@ class TransactionLogViewModel: CollectErrorViewModel,
 
 extension TransactionLogViewModel {
     
-    func searchTransactionLog() -> Observable<[TransactionLogViewModelProtocol.Section]> {
+    func searchTransactionLog() -> Observable<[TransactionLog]> {
         transactionLogUseCase
             .searchTransactionLog(
                 from: dateType.result.from,
@@ -89,9 +89,6 @@ extension TransactionLogViewModel {
                 BalanceLogFilterType: selectedLogType,
                 page: pagination.pageIndex
             )
-            .map { [unowned self] in
-                self.buildSections($0)
-            }
             .do(onError: { [unowned self] in
                 self.pagination.error.onNext($0)
             })
@@ -144,11 +141,8 @@ extension TransactionLogViewModel {
 extension TransactionLogViewModel {
     
     func buildSections(_ logs: [TransactionLog]) -> [TransactionLogViewModelProtocol.Section] {
-        let sortedData = logs
-            .sorted(by: { $0.date.toDateTimeFormatString() > $1.date.toDateTimeFormatString() })
-        
         return Dictionary(
-            grouping: sortedData,
+            grouping: logs,
             by: {
                 String(format: "%02d/%02d/%02d", $0.date.year, $0.date.monthNumber, $0.date.dayOfMonth)
             }

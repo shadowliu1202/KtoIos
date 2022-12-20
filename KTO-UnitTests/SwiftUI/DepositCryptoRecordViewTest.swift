@@ -115,8 +115,7 @@ final class DepositCryptoRecordViewTest: XCTestCase {
     
     func test_PaymentStatusIsApprove_finalCryptoAmountTextColorIsOrangeFF8000() {
         let stubViewModel = DepositCryptoRecordViewModel(
-            depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
-            transactionId: "123"
+            depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit()
         )
         
         let records = stubViewModel.generateRecords(generateCryptoLog(status: .approved))
