@@ -12,7 +12,6 @@ class ManageCryptoBankCardViewModel {
     var selectedCryptoType = BehaviorRelay<String>(value: "")
     lazy var selectedCryptoNetwork = BehaviorRelay<String>(value: "")
     lazy var supportCryptoNetwork = BehaviorRelay<[CryptoNetwork]>(value: [])
-    lazy var isCryptoWithdrawalValid = withdrawalUseCase.isCryptoProcessCertified()
     
     private var withdrawalUseCase: WithdrawalUseCase!
     private let disposeBag = DisposeBag()
@@ -55,6 +54,10 @@ class ManageCryptoBankCardViewModel {
     
     func deleteCryptoAccount(_ playerBankCardId: String) -> Completable {
         withdrawalUseCase.deleteCryptoBankCard(id: playerBankCardId)
+    }
+    
+    func isCryptoWithdrawalValid() -> Single<Bool> {
+        withdrawalUseCase.isCryptoProcessCertified()
     }
     
     func event() -> (accountNameValid: Observable<Bool>,
