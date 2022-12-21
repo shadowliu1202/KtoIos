@@ -69,6 +69,11 @@ struct SwiftUIInputText: View {
                 showTextField = true
             }
         }
+        .onChange(of: textFieldText) { newValue in
+            if !newValue.isEmpty {
+                showTextField = true
+            }
+        }
         .onChange(of: innerIsEditing, perform: { newValue in
             if isEditing != newValue {
                 isEditing = newValue
