@@ -36,14 +36,14 @@ class HttpClient {
     var host: URL {
         get {
             if Configuration.manualControlNetwork && !NetworkStateMonitor.shared.isNetworkConnected {
-                return URL(string: "\(Configuration.internetProtocol)")!
+                return URL(string: "https://")!
             }
             return URL(string: ktoUrl.baseUrl[localStorageRepo.getCultureCode()]!)!
         }
     }
     var domain: String {
         get {
-            host.absoluteString.replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "").replacingOccurrences(of: "/", with: "")
+            host.absoluteString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
         }
     }
     
@@ -134,8 +134,8 @@ class HttpClient {
     
     func replaceCookiesDomain(_ oldURLString: String, to newURLString: String) {
         guard oldURLString != newURLString else { return }
-        let oldDomain = oldURLString.replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "").replacingOccurrences(of: "/", with: "")
-        let newDomain = newURLString.replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "").replacingOccurrences(of: "/", with: "")
+        let oldDomain = oldURLString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
+        let newDomain = newURLString.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "")
         let storage = self.session.sessionConfiguration.httpCookieStorage
         
         for cookie in storage?.cookies ?? [] {

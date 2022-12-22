@@ -10,7 +10,7 @@ extension KtoURL {
             let group = DispatchGroup()
             group.enter()
             var isSuccess = false
-            guard let url = URL(string: "\(Configuration.internetProtocol)\(urlString)") else {
+            guard let url = URL(string: "https://\(urlString)") else {
                 group.leave()
                 return isSuccess
             }
@@ -45,7 +45,7 @@ extension KtoURL {
     
     private func request(session: Session, hostName: String) -> Single<Bool> {
         return RxSwift.Single<Bool>.create { observer in
-            let request = session.request("\(Configuration.internetProtocol)\(hostName)/", method: .head).response { response in
+            let request = session.request("https://\(hostName)/", method: .head).response { response in
                 switch response.result {
                 case .success:
                     observer(.success(true))
@@ -67,10 +67,10 @@ class PortalURL: KtoURL {
             Logger.shared.info("checkNetwork")
             return $0.first(where: checkNetwork) ?? $0.first!
         }
-    lazy var baseUrl = hostName.mapValues{ "\(Configuration.internetProtocol)\($0)/" }
+    lazy var baseUrl = hostName.mapValues{ "https://\($0)/" }
 }
 
 class VersionUpdateURL: KtoURL {
     private lazy var hostName: [String: String] = Configuration.versionUpdateHostName.mapValues{ $0.first(where: checkNetwork) ?? $0.first! }
-    lazy var baseUrl = hostName.mapValues{ "\(Configuration.internetProtocol)\($0)/" }
+    lazy var baseUrl = hostName.mapValues{ "https://\($0)/" }
 }
