@@ -484,18 +484,6 @@ final class Injection {
                 return MemoryCacheImpl()
             }
             .inObjectScope(.locale)
-        
-        container
-            .register(ApplicationStorable.self) { _ in
-                return ApplicationStorage()
-            }
-            .inObjectScope(.application)
-        
-        container
-            .register(KeychainStorable.self) { _ in
-                return Keychain()
-            }
-            .inObjectScope(.application)
     }
     
     func registUsecase(){

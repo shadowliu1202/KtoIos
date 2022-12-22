@@ -14,8 +14,6 @@ public var isTesting: Bool { ProcessInfo.processInfo.arguments.contains("isTesti
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @Injected private var localStorageRepo: LocalStorageRepository
-    @Injected private var applicationStorage: ApplicationStorable
-    @Injected private var keychain: KeychainStorable
     
     private (set) var reachabilityObserver: NetworkStateMonitor?
     
@@ -66,8 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
         
         SharedBu.Platform.init().debugBuild()
-        
-        updateAndLogInstallDate(applicationStorage, keychain)
         
         return true
     }
@@ -279,33 +275,6 @@ extension AppDelegate {
     
     private func requestErrorWhenRetry(error: Error) {
         print("\(error)")
-    }
-}
-
-// MARK: - Install Date check
-
-private extension AppDelegate {
-    
-    func updateAndLogInstallDate(_ applicationStorage: ApplicationStorable, _ keychain: KeychainStorable) {
-        guard applicationStorage.getAppIsFirstLaunch() else { return }
-        
-        applicationStorage.setAppWasLaunch()
-        
-        let now = Date().convertdateToUTC()
-        
-        if keychain.getInstallDate() == nil {
-            keychain.setInstallDate(now)
-            AnalyticsLog.shared.brandNewInstall()
-        }
-        else {
-            let lastInstallDay = keychain.getInstallDate()!
-            keychain.setInstallDate(now)
-            let surviveDay = lastInstallDay.betweenTwoDay(sencondDate: now)
-            AnalyticsLog.shared.appReinstall(
-                lastInstallDate: lastInstallDay.convertdateToUTC().toDateString(),
-                surviveDay: surviveDay
-            )
-        }
     }
 }
 

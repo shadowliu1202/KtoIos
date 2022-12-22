@@ -47,21 +47,11 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
             }
         }
         .do(onSuccess: refreshHttpClient)
-        .do(onSuccess: logLoginDay)
     }
     
     private func refreshHttpClient(_ player: Player) {
         repoPlayer.refreshHttpClient(playerLocale: player.locale())
         CustomServicePresenter.shared.changeCsDomainIfNeed()
-    }
-    
-    private func logLoginDay(_ : Player) {
-        let now = Date().convertdateToUTC()
-        let lastDay = repoLocalStorage.getLastLoginDate()?.convertdateToUTC()
-        if lastDay?.betweenTwoDay(sencondDate: now) != 0 {
-            AnalyticsLog.shared.playerLogin()
-            repoLocalStorage.setLastLoginDate(now)
-        }
     }
     
     func logout() -> Completable  {
