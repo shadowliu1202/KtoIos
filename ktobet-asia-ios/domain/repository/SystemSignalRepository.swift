@@ -22,7 +22,7 @@ class SystemSignalRepositoryImpl : SystemSignalRepository {
     func connectService() {
         socketConnect?.stop()
         socketConnect = nil
-        let url = httpClient.host.absoluteString.replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "wss://") + "notification-ws"
+        let url = httpClient.host.absoluteString.replacingOccurrences(of: "https", with: "wss") + "notification-ws"
         if let url = URL(string: url) {
             socketConnect = HubConnectionBuilder.init(url: url)
                 .withJSONHubProtocol()
