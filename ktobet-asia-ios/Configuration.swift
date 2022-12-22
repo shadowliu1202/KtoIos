@@ -7,6 +7,7 @@ enum Configuration: String {
     case dev
     case qat
     case staging
+    case pre_prod
     case production
     case prod_selftest
     case prod_backup
@@ -19,6 +20,8 @@ enum Configuration: String {
         return .qat
 #elseif STAGING
         return .staging
+#elseif PREPROD
+        return .pre_prod
 #elseif PRODUCTION
         return .production
 #elseif PRODUCTION_SELFTEST
@@ -37,6 +40,8 @@ enum Configuration: String {
             return QatConfig()
         case .staging:
             return StagingConfig()
+        case .pre_prod:
+            return PreProductionConfig()
         case .production:
             return ProductionConfig()
         case .prod_selftest:
@@ -48,6 +53,7 @@ enum Configuration: String {
         }
     }()
 
+    static var internetProtocol: String                     = env.internetProtocol
     static var hostName: [String: [String]]                 = env.hostName
     static var versionUpdateHostName: [String: [String]]    = env.versionUpdateHostName
     static var isAutoUpdate: Bool                           = env.isAutoUpdate
@@ -64,6 +70,7 @@ enum Configuration: String {
 }
 
 protocol Env {
+    var internetProtocol: String { get }
     var hostName: [String: [String]] { get }
     var versionUpdateHostName: [String: [String]] { get }
     var isAutoUpdate: Bool { get }
@@ -75,6 +82,7 @@ protocol Env {
 }
 
 fileprivate class DevConfig: Env {
+    var internetProtocol: String = "https://"
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["qat1-mobile.affclub.xyz"],
                                         SupportLocale.Vietnam.shared.cultureCode(): ["qat1-appvnd.affclub.xyz"]]
     lazy var versionUpdateHostName = hostName
@@ -87,6 +95,7 @@ fileprivate class DevConfig: Env {
 }
 
 fileprivate class QatConfig: Env {
+    var internetProtocol: String = "https://"
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["qat1-app.affclub.xyz", "qat1-appvnd.affclub.xyz"],
                                         SupportLocale.Vietnam.shared.cultureCode(): ["qat1-appvnd.affclub.xyz", "qat1-app.affclub.xyz"]]
     lazy var versionUpdateHostName = hostName
@@ -99,6 +108,7 @@ fileprivate class QatConfig: Env {
 }
 
 fileprivate class StagingConfig: Env {
+    var internetProtocol: String = "https://"
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["mobile.staging.support", "mobile2.staging.support"],
                                         SupportLocale.Vietnam.shared.cultureCode(): ["mobile2.staging.support", "mobile.staging.support"]]
     lazy var versionUpdateHostName = hostName
@@ -110,7 +120,21 @@ fileprivate class StagingConfig: Env {
     var enableRemoteLog: Bool = true
 }
 
+fileprivate class PreProductionConfig: Env {
+    var internetProtocol: String = "http://"
+    var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["kpp-app.ppsite.fun"],
+                                        SupportLocale.Vietnam.shared.cultureCode(): ["kpp-appvnd.ppsite.fun"]]
+    lazy var versionUpdateHostName = hostName
+    var isAutoUpdate: Bool = true
+    var manualUpdate: Bool = false
+    var debugGesture: Bool = false
+    var manualControlNetwork: Bool = false
+    var enableFileLog: Bool = true
+    var enableRemoteLog: Bool = true
+}
+
 fileprivate class ProductionConfig: Env {
+    var internetProtocol: String = "https://"
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["appkto.com", "thekto.app"],
                                         SupportLocale.Vietnam.shared.cultureCode(): ["ktovn.app", "ktoviet.app"]]
     var versionUpdateHostName: [String : [String]] = [SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
@@ -124,6 +148,7 @@ fileprivate class ProductionConfig: Env {
 }
 
 fileprivate class ProductionSelftestConfig: Env {
+    var internetProtocol: String = "https://"
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["mobile-selftest.ktokto.net"],
                                         SupportLocale.Vietnam.shared.cultureCode(): ["mobile-selftest.ktokto.net"]]
     var versionUpdateHostName: [String : [String]] = [SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
@@ -137,6 +162,7 @@ fileprivate class ProductionSelftestConfig: Env {
 }
 
 fileprivate class ProductionBackupConfig: Env {
+    var internetProtocol: String = "https://"
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["thekto.app"],
                                         SupportLocale.Vietnam.shared.cultureCode(): ["ktoviet.app"]]
     var versionUpdateHostName: [String : [String]] = [SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
@@ -150,6 +176,7 @@ fileprivate class ProductionBackupConfig: Env {
 }
 
 fileprivate class Qat3Config: Env {
+    var internetProtocol: String = "https://"
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["qat3-app.affclub.xyz"],
                                         SupportLocale.Vietnam.shared.cultureCode(): ["qat3-appvnd.affclub.xyz"]]
     lazy var versionUpdateHostName = hostName

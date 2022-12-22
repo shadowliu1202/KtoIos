@@ -85,7 +85,7 @@ platform :ios do
 		when 'release'
 			"com.kto.asia"
 		when 'hotfix'
-			"com.kto.asia.qat3"
+			"com.kto.asia.pre"
 		when 'selftest'
 			"com.kto.asia.selftest"
 		when 'backup'
@@ -115,7 +115,7 @@ platform :ios do
 		when 'release'
 			"production"
 		when 'hotfix'
-			"com.kto.asia.qat3"
+			"preprod"
 		when 'selftest'
 			"prod-selftest"
 		when 'backup'
@@ -303,16 +303,16 @@ platform :ios do
  
     lane :buildQat3 do |options|
         setupKeyStore()
-        match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.qat3")
+        match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.pre")
         
-        update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-qat3-Info.plist",
+        update_info_plist(plist_path: "ktobet-asia-ios/ktobet-asia-ios-preprod-Info.plist",
                   block: proc do |plist|
                   plist["CFBundleVersion"] = options[:buildVersion]
                   plist["CFBundleShortVersionString"] = options[:appVersion]
                   end)
         
         gym(configuration: "Release",
-            scheme: "ktobet-asia-ios-qat3",
+            scheme: "ktobet-asia-ios-preprod",
             clean: true,
             include_bitcode: true,
             include_symbols: true,
@@ -320,15 +320,15 @@ platform :ios do
             export_method: 'app-store')
 
         upload_to_testflight(username: "higgs-mobile@hotmail.com",
-                            app_identifier: "com.kto.asia.qat3",
+                            app_identifier: "com.kto.asia.pre",
                             skip_waiting_for_build_processing: true)
         
         versionNum = options[:appVersion]
         download_dsyms(username: "higgs-mobile@hotmail.com",
-                    app_identifier: "com.kto.asia.qat3",
+                    app_identifier: "com.kto.asia.pre",
                     version: versionNum)
                     
-        upload_symbols_to_crashlytics(gsp_path: "./ktobet-asia-ios/Firebase/qat3/GoogleService-Info.plist")
+        upload_symbols_to_crashlytics(gsp_path: "./ktobet-asia-ios/Firebase/pre_prod/GoogleService-Info.plist")
 
     end
     
@@ -381,7 +381,7 @@ platform :ios do
         when 'release'
             "prod"
         when 'hotfix'
-            "qat3"
+            "pre_prod"
         when 'selftest'
             "prod_self_test"
         when 'backup'
