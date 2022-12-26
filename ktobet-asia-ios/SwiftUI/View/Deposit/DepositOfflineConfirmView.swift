@@ -32,7 +32,7 @@ struct DepositOfflineConfirmView<ViewModel>: View
                         onCopyed: onCopyed
                     )
                     
-                    if viewModel.locale == .Vietnam() {
+                    if viewModel.locale == .China() {
                         LimitSpacer(30)
                         
                         Section(
