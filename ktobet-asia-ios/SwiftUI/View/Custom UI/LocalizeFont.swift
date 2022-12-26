@@ -18,20 +18,9 @@ struct LocalizeFont<Content: View>: View {
     }
     
     var body: some View {
-        switch playerLocale {
-        case is SupportLocale.Vietnam:
-            content
-                .font(.custom("HelveticaNeue-\(fontWeight.getSuffix(playerLocale))", size: size))
-                .foregroundColor(.from(color))
-        case is SupportLocale.China:
-            content
-                .font(.custom("PingFangSC-\(fontWeight.getSuffix(playerLocale))", size: size))
-                .foregroundColor(.from(color))
-        default:
-            content
-                .font(.custom("PingFangSC-\(fontWeight.getSuffix(playerLocale))", size: size))
-                .foregroundColor(.from(color))
-        }
+        content
+            .font(.custom(fontWeight.fontString(playerLocale), size: size))
+            .foregroundColor(.from(color))
     }
 }
 

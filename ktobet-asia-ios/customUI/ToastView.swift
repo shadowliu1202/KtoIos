@@ -8,6 +8,11 @@ class ToastView: UIView {
     private var shadowLayer: CAShapeLayer!
     var xibView: UIView!
     
+    static func show(statusTip: String, img: UIImage?, on target: UIView) {
+        let toast = ToastView(frame: .init(origin: .zero, size: .init(width: target.frame.width, height: 48)))
+        toast.show(on: target, statusTip: statusTip, img: img)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         loadXib()
