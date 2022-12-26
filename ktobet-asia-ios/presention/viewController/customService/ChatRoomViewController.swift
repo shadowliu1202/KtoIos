@@ -548,26 +548,28 @@ class MixTableViewCell: UITableViewCell {
     func setHyperLinker(text: String) {
         let linkTextView = UITextView()
         linkTextView.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        
-        var urlComponents = URLComponents(string: text)!
-        if urlComponents.scheme == nil { urlComponents.scheme = "https" }
-        let urlStr = urlComponents.url!.absoluteString
-
-        let attributedString = NSMutableAttributedString(string: urlStr)
-        let url = URL(string: urlStr)!
-        let urlRange = urlStr.startIndex..<urlStr.endIndex
-        let convertedRange = NSRange(urlRange, in: urlStr)
-        
-        attributedString.setAttributes([.link: url], range: convertedRange)
         linkTextView.isEditable = false
-        linkTextView.dataDetectorTypes = .all
-        linkTextView.attributedText = attributedString
         linkTextView.font = UIFont(name: "PingFangSC-Regular", size: 14.0)!
         linkTextView.backgroundColor = .clear
-        linkTextView.linkTextAttributes = [
-            .foregroundColor: UIColor.redF20000,
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ]
+            
+        if let url = URL(string: text) {
+            let urlStr = url.absoluteString
+            
+            let attributedString = NSMutableAttributedString(string: urlStr)
+            let urlRange = urlStr.startIndex..<urlStr.endIndex
+            let convertedRange = NSRange(urlRange, in: urlStr)
+            
+            attributedString.setAttributes([.link: url], range: convertedRange)
+            linkTextView.attributedText = attributedString
+            linkTextView.dataDetectorTypes = .all
+            linkTextView.linkTextAttributes = [
+                .foregroundColor: UIColor.redF20000,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+        }
+        else {
+            linkTextView.text = text
+        }
         
         stackView.addArrangedSubview(linkTextView)
         linkTextView.sizeToFit()
