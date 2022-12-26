@@ -30,7 +30,7 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     @IBOutlet private weak var amountLabel: UILabel!
     @IBOutlet private weak var tipLabel: UILabel!
     @IBOutlet private weak var confirmButton: UIButton!
-
+    
     @IBOutlet private weak var bankNameCopyButton: UIButton!
     @IBOutlet private weak var branchNameCopyButton: UIButton!
     @IBOutlet private weak var userNameCopyButton: UIButton!
@@ -47,7 +47,7 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     fileprivate var disposeBag = DisposeBag()
     
     private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
-
+    
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,7 +92,7 @@ class DepositOfflineConfirmViewController: LobbyViewController {
             bankImageView.widthAnchor.constraint(equalTo: bankImageView.heightAnchor, multiplier: 3).isActive = true
         }
     }
-
+    
     fileprivate func initUI() {
         titleLabel.text = Localize.string("deposit_offline_step2_title")
         subTitleLabel.text = Localize.string("deposit_offline_step2_title_tips")
@@ -186,5 +186,116 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     
     deinit {
         print("\(type(of: self)) deinit")
+    }
+}
+
+class _DepositOfflineConfirmViewController:
+    LobbyViewController,
+    SwiftUIConverter
+{
+    @Injected private var viewModel: DepositOfflineConfirmViewModel
+    @Injected private var alert: AlertProtocol
+    
+    private let disposeBag = DisposeBag()
+    
+    /// Those parameter need to set before controller been presented
+    var unwindSegueId: String = ""
+    var memo: OfflineDepositDTO.Memo!
+    var selectedBank: PaymentsDTO.BankCard!
+    
+    /// For unwind segue
+    var confirmSuccess = false
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUI()
+        binding()
+    }
+    
+    override func handleErrors(_ error: Error) {
+        if error is PlayerDepositCountOverLimit {
+            self.notifyTryLaterAndPopBack()
+        }
+        else {
+            super.handleErrors(error)
+        }
+    }
+    
+    deinit {
+        Injectable.resetObjectScope(.depositFlow)
+        print("\(type(of: self)) deinit")
+    }
+}
+
+// MARK: - UI
+
+private extension _DepositOfflineConfirmViewController {
+    
+    func setupUI() {
+        NavigationManagement.sharedInstance.addBarButtonItem(
+            vc: self,
+            barItemType: .close,
+            action: #selector(close)
+        )
+        
+        addSubView(
+            from: { [unowned self] in
+                DepositOfflineConfirmView(
+                    viewModel: self.viewModel,
+                    memo: self.memo,
+                    selectedBank: self.selectedBank,
+                    onCopyed: {
+                        ToastView.show(
+                            statusTip: Localize.string("common_copied"),
+                            img: UIImage(named: "Success"),
+                            on: self.view
+                        )
+                    }
+                )
+            },
+            to: view
+        )
+    }
+    
+    func binding() {
+        viewModel.depositSuccessDriver
+            .drive(onNext: { [unowned self] in
+                self.confirmSuccess = true
+                self.performSegue(withIdentifier: self.unwindSegueId, sender: nil)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.expiredDriver
+            .drive(onNext: {
+                NavigationManagement.sharedInstance.popToRootViewController()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.errors()
+            .subscribe(onNext: { [weak self] error in
+                self?.handleErrors(error)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    @objc func close () {
+        alert.show(
+            Localize.string("common_confirm_cancel_operation"),
+            Localize.string("deposit_offline_termniate"),
+            confirm: {
+                NavigationManagement.sharedInstance.popToRootViewController()
+            }
+        )
+    }
+    
+    func notifyTryLaterAndPopBack() {
+        alert.show(
+            nil,
+            Localize.string("deposit_notify_request_later"),
+            confirm: {
+                NavigationManagement.sharedInstance.popViewController()
+            }
+        )
     }
 }

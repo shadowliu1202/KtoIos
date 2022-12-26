@@ -6,34 +6,34 @@ enum KTOFontWeight: String {
     case medium
     case semibold
     
-    func getSuffix(_ playerLocale: SupportLocale) -> String {
+    func fontString(_ playerLocale: SupportLocale) -> String {
         switch self {
         case .regular:
             switch playerLocale {
             case is SupportLocale.Vietnam:
-                return "Light"
+                return "HelveticaNeue-Light"
             case is SupportLocale.China:
-                fallthrough
+                return "PingFangSC-Regular"
             default:
-                return "Regular"
+                return "PingFangSC-Regular"
             }
         case .medium:
             switch playerLocale {
             case is SupportLocale.Vietnam:
-                return "Medium"
+                return "HelveticaNeue-Medium"
             case is SupportLocale.China:
-                fallthrough
+                return "PingFangSC-Medium"
             default:
-                return "Medium"
+                return "PingFangSC-Medium"
             }
         case .semibold:
             switch playerLocale {
             case is SupportLocale.Vietnam:
-                return "Bold"
+                return "HelveticaNeue-Bold"
             case is SupportLocale.China:
-                fallthrough
+                return "PingFangSC-Semibold"
             default:
-                return "Semibold"
+                return "PingFangSC-Semibold"
             }
         }
     }

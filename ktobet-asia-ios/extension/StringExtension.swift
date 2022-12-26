@@ -251,3 +251,90 @@ extension String {
         Localize.removeAccent(str: self)
     }
  }
+
+extension String {
+    
+    var attributed: NSMutableAttributedString {
+        .init(string: self)
+    }
+    
+    func ranges(of occurrence: String, skip: Int = 0) -> [Range<String.Index>] {
+        var indices = [Int]()
+        var position = self.index(startIndex, offsetBy: skip)
+        
+        while let range = range(of: occurrence, range: position ..< endIndex) {
+            
+            let offset = occurrence.distance(from: occurrence.startIndex, to: occurrence.endIndex) - 1
+            guard let after = index(
+                range.lowerBound,
+                offsetBy: offset,
+                limitedBy: endIndex
+            )
+            else { break }
+            
+            indices.append(distance(from: startIndex,  to: range.lowerBound))
+            position = index(after: after)
+        }
+        
+        let count = occurrence.count
+        return indices.map { index(startIndex, offsetBy: $0) ..< index(startIndex, offsetBy: $0 + count) }
+    }
+}
+
+// MARK: - NSMutableAttributedString
+
+extension NSMutableAttributedString {
+    
+    @discardableResult
+    func textColor(_ color: UIColor) -> NSMutableAttributedString {
+        addAttribute(
+            .foregroundColor,
+            value: color,
+            range: .init(location: 0, length: self.length)
+        )
+        return self
+    }
+    
+    @discardableResult
+    func font(
+        weight: KTOFontWeight,
+        locale: SupportLocale,
+        size: CGFloat
+    ) -> NSMutableAttributedString {
+        addAttribute(
+            .font,
+            value: UIFont(name: weight.fontString(locale), size: size) ?? .systemFont(ofSize: size),
+            range: .init(location: 0, length: self.length)
+        )
+        return self
+    }
+    
+    @discardableResult
+    func highlights(
+            weight: KTOFontWeight,
+            locale: SupportLocale,
+            size: CGFloat,
+            color: UIColor,
+            subStrings: [String?],
+            skip: String = ""
+    ) -> NSMutableAttributedString {
+        
+        let font = UIFont(name: weight.fontString(locale), size: size) ?? .systemFont(ofSize: size)
+        
+        subStrings
+            .compactMap { $0 }
+            .forEach { string in
+                guard self.string.count > skip.count else { return }
+
+                self.string.ranges(of: string, skip: skip.count)
+                    .forEach {
+                        addAttributes(
+                            [.font: font, .foregroundColor: color],
+                            range: NSRange($0, in: self.string)
+                        )
+                    }
+            }
+        
+        return self
+    }
+}

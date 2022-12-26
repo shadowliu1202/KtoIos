@@ -768,6 +768,15 @@ final class Injection {
             }
         
         container
+            .register(DepositOfflineConfirmViewModel.self) { resolver in
+                return .init(
+                    depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+                    locale: resolver.resolveWrapper(PlayerConfiguration.self).supportLocale
+                )
+            }
+            .inObjectScope(.depositFlow)
+        
+        container
             .register(DepositLogViewModel.self) { resolver in
                 let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
                 let deposit = applicationFactory.deposit()
