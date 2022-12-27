@@ -297,6 +297,7 @@ class NavigationManagement: Navigator {
     
     private func dispose() {
         guard let sideBar = sideBarViewController else { return }
+        sideBarViewController.disposeSystemNotify()
         sideBarViewController = nil
         menu = nil
         UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController = nil

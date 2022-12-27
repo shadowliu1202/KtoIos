@@ -93,7 +93,7 @@ class SideBarViewController: LobbyViewController {
         }
     }
     
-    private func disposeSystemNotify() {
+    func disposeSystemNotify() {
         self.systemViewModel.disconnectService()
         self.disposableNotify?.dispose()
     }
