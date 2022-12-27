@@ -14,9 +14,9 @@ struct DepositCryptoRecordView<ViewModel>: View
         ScrollView() {
             PageContainer {
                 Header()
-                Separator()
+                Separator(color: .gray3C3E40)
                 Info(submitTransactionIdOnClick: submitTransactionIdOnClick)
-                Separator()
+                Separator(color: .gray3C3E40)
             }
         }
         .pageBackgroundColor(.gray131313)
@@ -88,7 +88,7 @@ extension DepositCryptoRecordView {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 30)
             .padding(.top, 8)
-            .padding(.bottom, 38)
+            .padding(.bottom, 56)
             .onInspected(inspection, self)
         }
         
@@ -105,10 +105,12 @@ extension DepositCryptoRecordView {
                 case .remark(let item):
                     RemarkRow(item)
                 case .table(let requests, let finals):
+                    LimitSpacer(0)
                     InfoTable(applyInfo: requests, finallyInfo: finals)
+                    LimitSpacer(0)
                 }
                 
-                Separator()
+                Separator(color: .gray3C3E40)
                     .visibility((index == records.count - 1) ? .gone : .visible)
             }
         }
@@ -158,42 +160,44 @@ extension DepositCryptoRecordView {
         let finallyInfo: [DepositCryptoRecord.Item]?
         
         var body: some View {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 16) {
                 if let applyInfo = applyInfo, let finallyInfo = finallyInfo {
-                    LimitSpacer(8)
                     
-                    ForEach(applyInfo.indices, id: \.self) {
-                        if $0 == 0 {
-                            Text(applyInfo[$0].title)
-                                .localized(weight: .medium, size: 16, color: .gray9B9B9B)
-                        }
-                        else {
-                            let record = applyInfo[$0]
-                            DepositCryptoRecordView.InfoRow(record)
-                        }
-                    }
-                    
-                    Separator()
-                    
-                    ForEach(finallyInfo.indices, id: \.self) {
-                        if $0 == 0 {
-                            Text(finallyInfo[$0].title)
-                                .localized(weight: .medium, size: 16, color: .gray9B9B9B)
-                        }
-                        else {
-                            let record = finallyInfo[$0]
-                            DepositCryptoRecordView.InfoRow(record)
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(applyInfo.indices, id: \.self) {
+                            if $0 == 0 {
+                                Text(applyInfo[$0].title)
+                                    .localized(weight: .medium, size: 16, color: .gray9B9B9B)
+                            }
+                            else {
+                                let record = applyInfo[$0]
+                                DepositCryptoRecordView.InfoRow(record)
+                            }
                         }
                     }
                     
-                    LimitSpacer(8)
+                    Separator(color: .gray3C3E40)
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(finallyInfo.indices, id: \.self) {
+                            if $0 == 0 {
+                                Text(finallyInfo[$0].title)
+                                    .localized(weight: .medium, size: 16, color: .gray9B9B9B)
+                            }
+                            else {
+                                let record = finallyInfo[$0]
+                                DepositCryptoRecordView.InfoRow(record)
+                            }
+                        }
+                    }
+                    
                 } else {
                     EmptyView()
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 30)
-            .strokeBorder(color: .gray9B9B9B, cornerRadius: 0)
+            .padding(16)
+            .strokeBorder(color: .gray3C3E40, cornerRadius: 0)
             .id(DepositCryptoRecordView.Identifier.infoTable.rawValue)
         }
     }
@@ -222,6 +226,7 @@ extension DepositCryptoRecordView {
                         Text(content[$0])
                             .localized(weight: .regular, size: 16, color: .whitePure)
                         LimitSpacer(18)
+                            .visibility(($0 == content.count - 1) ? .gone : .visible)
                     }
                 }
             }
@@ -291,8 +296,8 @@ struct DepositCryptoRecordViewPreviews: PreviewProvider {
                 ),
                 DepositCryptoRecord.remark(
                     .init(title: Localize.string("common_remark"),
-                               content: ["1 > 2 > 3", "3 > 4 > 5"],
-                               date: "log.updateTimeString")
+                          content: ["1 > 2 > 3", "3 > 4 > 5"],
+                          date: "log.updateTimeString")
                 )
             ]
         }

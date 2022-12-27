@@ -157,7 +157,7 @@ extension DepositView {
                 .padding(.leading, 16)
                 .padding(.trailing, 8)
                 
-                Image("Chevron Right Disable(24)")
+                Image("iconChevronRight16")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 16, height: 16)
