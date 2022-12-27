@@ -92,10 +92,7 @@ extension TransactionLogView {
                             )
                             
                             Text(
-                                viewModel
-                                    .summary?
-                                    .outcome
-                                    .formatString(sign: .signed_) ?? "0.00"
+                                "-" + (viewModel.summary?.outcome.formatString() ?? "0.00")
                             )
                             .localized(
                                 weight: .regular,
@@ -269,10 +266,14 @@ struct TransactionLogView_Previews: PreviewProvider {
         init(isEmpty: Bool) {
             pagination = .init(
                 observable: { _ in
-                    let request = isEmpty ? .just([]) : self.searchTransactionLog()
-                    return request
+                    self.searchTransactionLog()
                         .do(onNext: {
-                            self.sections = [.init(model: "123456", items: $0)]
+                            if isEmpty {
+                                self.sections = []
+                            }
+                            else {
+                                self.sections = [.init(model: "123456", items: $0)]
+                            }
                         })
                 }
             )

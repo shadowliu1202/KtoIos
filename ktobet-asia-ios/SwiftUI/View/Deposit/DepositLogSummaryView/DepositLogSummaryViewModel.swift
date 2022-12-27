@@ -122,11 +122,16 @@ extension DepositLogSummaryViewModel {
     }
     
     var selectedTitle: String {
-        return selectedItems
-            .compactMap { $0 as? PaymentLogDTO.LogStatus }
-            .reorder(by: filterStatusSource)
-            .map { $0.title }
-            .joined(separator: "/")
+        if isSelectedAll {
+            return Localize.string("common_all")
+        }
+        else {
+            return selectedItems
+                .compactMap { $0 as? PaymentLogDTO.LogStatus }
+                .reorder(by: filterStatusSource)
+                .map { $0.title }
+                .joined(separator: "/")            
+        }
     }
 }
 
