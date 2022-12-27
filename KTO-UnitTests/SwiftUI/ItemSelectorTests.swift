@@ -292,7 +292,7 @@ final class ItemSelectorTests: XCTestCase {
             selectedItems: .init(wrappedValue: stubSelecting.selectedItems),
             haveSelectAll: true,
             selectAtLeastOne: true,
-            allowMultipleSelection: true
+            allowMultipleSelection: false
         )
 
         let expectation = sut.inspection.inspect { view in

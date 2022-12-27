@@ -106,11 +106,16 @@ struct ItemSelector: View {
     }
     
     private func handleSelection(_ selectable: Selectable) {
-        
         if let selectedIndex = selectedIndex(selectable) {
             if isSelectedAll {
-                selectedItems
-                    .removeAll(where: { $0.identity != selectable.identity })
+                if allowMultipleSelection {
+                    selectedItems.remove(at: selectedIndex)
+                }
+                else {
+                    selectedItems.removeAll(
+                        where: { $0.identity != selectable.identity }
+                    )
+                }
             }
             else {
                 if selectAtLeastOne, selectedItems.count == 1 {
@@ -221,7 +226,7 @@ struct ItemSelector_Previews: PreviewProvider {
                     selectedItems: $selectedItems,
                     haveSelectAll: true,
                     selectAtLeastOne: true,
-                    allowMultipleSelection: true
+                    allowMultipleSelection: false
                 )
             }
             .pageBackgroundColor(.gray131313)
