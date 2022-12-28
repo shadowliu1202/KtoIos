@@ -166,7 +166,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
         self.socketConnect?.stop()
         self.socketConnect = nil
         
-        if let url = URL(string: httpClient.host.absoluteString.replacingOccurrences(of: "https", with: "wss") + "chat-ws?access_token=" + token) {
+        if let url = URL(string: httpClient.host.absoluteString.replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "wss://") + "chat-ws?access_token=" + token) {
             self.socketConnect = HubConnectionBuilder.init(url: url)
                 .withJSONHubProtocol()
                 .withHttpConnectionOptions(configureHttpOptions: { (option) in
