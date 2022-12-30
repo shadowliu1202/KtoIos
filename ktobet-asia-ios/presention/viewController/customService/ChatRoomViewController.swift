@@ -108,7 +108,7 @@ class ChatRoomViewController: CommonViewController {
     
     private func messageBinding() {
         let messagesOb = Observable.combineLatest(viewModel.chatRoomMessage, viewModel.chatRoomUnreadMessage)
-            .observeOn(MainScheduler.asyncInstance)
+            .observe(on: MainScheduler.asyncInstance)
             .share(replay: 1)
         
         var firstLoad = true
@@ -116,7 +116,7 @@ class ChatRoomViewController: CommonViewController {
             .flatMapLatest { [unowned self] unreadMessages in
                 return self.tableView.rx.reachedBottom.map { unreadMessages }
             }
-            .observeOn(MainScheduler.asyncInstance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] unreadMessages in
                 if unreadMessages.count != 0 && !firstLoad {
                     guard let self = self else { return }
@@ -124,11 +124,12 @@ class ChatRoomViewController: CommonViewController {
                 }
                 
                 firstLoad = false
-            }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
         
         var dividerIndex = 0
         messagesOb
-            .map({ (read, unread) -> NSArray in
+            .map { (read, unread) -> NSArray in
                 if unread.count == 0 {
                     dividerIndex = read.unique { $0.id }.count - 1
                     return read.unique { $0.id } as NSArray
@@ -137,45 +138,45 @@ class ChatRoomViewController: CommonViewController {
                     let unreadDivider = UnreadDivider()
                     return Array(read.unique { $0.id } + [unreadDivider] + unread) as NSArray
                 }
-            })
+            }
             .do(onNext: { [weak self] data in self?.dataCount = data.count })
-                .bind(to: tableView.rx.items) { [weak self] tableView, row, element in
-                    guard let self = self else { return UITableViewCell() }
-                    var cell: UITableViewCell!
-                    
-                    switch element {
-                    case let message as ChatMessage.Message:
-                        
-                        switch message.speaker {
-                        case is PortalChatRoom.SpeakerPlayer:
-                            cell = self.setHandlerCell(message: message, identifier: "MixPlayerTableViewCell")
-                        case is PortalChatRoom.SpeakerHandler:
-                            cell = self.setHandlerCell(message: message, identifier: "MixHandlerTableViewCell")
-                        case is PortalChatRoom.SpeakerSystem:
-                            if self.dataCount - 1 == row && self.dataCount > 1 {
-                                cell = tableView.dequeueReusableCell(withIdentifier: "\(CloseSystemDialogTableViewCell.self)") as! CloseSystemDialogTableViewCell
-                                let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
-                                (cell as! CloseSystemDialogTableViewCell).messageLabel.text = message
-                            } else {
-                                cell = tableView.dequeueReusableCell(withIdentifier: "\(SystemDialogTableViewCell.self)") as! SystemDialogTableViewCell
-                                (cell as! SystemDialogTableViewCell).dateLabel.text = message.createTimeTick.toDateFormatString()
-                                let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
-                                var str = message
-                                str = str.replacingLastOccurrenceOfString("\n", with: "")
-                                (cell as! SystemDialogTableViewCell).messageLabel.text = str
-                            }
-                        default:
-                            break
+            .bind(to: tableView.rx.items) { [weak self] tableView, row, element in
+                guard let self = self else { return UITableViewCell.empty }
+                var cell = UITableViewCell.empty
+                
+                switch element {
+                case let message as ChatMessage.Message:
+                    switch message.speaker {
+                    case is PortalChatRoom.SpeakerPlayer:
+                        cell = self.setHandlerCell(message: message, identifier: "MixPlayerTableViewCell")
+                    case is PortalChatRoom.SpeakerHandler:
+                        cell = self.setHandlerCell(message: message, identifier: "MixHandlerTableViewCell")
+                    case is PortalChatRoom.SpeakerSystem:
+                        if self.dataCount - 1 == row && self.dataCount > 1 {
+                            cell = tableView.dequeueReusableCell(withIdentifier: "\(CloseSystemDialogTableViewCell.self)") as! CloseSystemDialogTableViewCell
+                            let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
+                            (cell as! CloseSystemDialogTableViewCell).messageLabel.text = message
+                        } else {
+                            cell = tableView.dequeueReusableCell(withIdentifier: "\(SystemDialogTableViewCell.self)") as! SystemDialogTableViewCell
+                            (cell as! SystemDialogTableViewCell).dateLabel.text = message.createTimeTick.toDateFormatString()
+                            let message = message.message.map { ($0 as! ChatMessage.ContentText).content }.joined(separator: "")
+                            var str = message
+                            str = str.replacingLastOccurrenceOfString("\n", with: "")
+                            (cell as! SystemDialogTableViewCell).messageLabel.text = str
                         }
-                        
-                    case is UnreadDivider:
-                        cell = tableView.dequeueReusableCell(withIdentifier: unreadTableViewCell.identifer) as! unreadTableViewCell
                     default:
                         break
                     }
                     
-                    return cell
-                }.disposed(by: disposeBag)
+                case is UnreadDivider:
+                    cell = tableView.dequeueReusableCell(withIdentifier: unreadTableViewCell.identifer) as! unreadTableViewCell
+                default:
+                    break
+                }
+                
+                return cell
+            }
+            .disposed(by: disposeBag)
         
         messagesOb.subscribe(onNext: { [weak self] (read, unread) in
             DispatchQueue.main.async {
@@ -306,7 +307,7 @@ class ChatRoomViewController: CommonViewController {
                 if count == self.imageIndex {
                     self.stopActivityIndicator(activityIndicator: self.activityIndicator)
                 }
-            } onError: { [weak self] (error) in
+            } onFailure: { [weak self] (error) in
                 guard let self = self else { return }
                 self.handleErrors(error)
                 self.stopActivityIndicator(activityIndicator: self.activityIndicator)
@@ -319,7 +320,7 @@ class ChatRoomViewController: CommonViewController {
                 .flatMap { [unowned self] (skillId, roomId) in
                     self.viewModel.closeChatRoom().andThen(prepareExitSurvey(skillId, roomId))
                 }
-                .subscribe(onSuccess: goToExitSurvey, onError: handleErrors)
+                .subscribe(onSuccess: goToExitSurvey, onFailure: handleErrors)
                 .disposed(by: self.disposeBag)
         } else {
             showToastOnBottom(Localize.string("common_unknownhostexception"), img: UIImage(named: "Failed"))
@@ -622,3 +623,22 @@ class MixTableViewCell: UITableViewCell {
 }
 
 class UnreadDivider { }
+
+private extension UITableViewCell {
+    
+    static let empty: UITableViewCell = {
+        let cell = UITableViewCell()
+        cell.selectionStyle = .none
+        cell.backgroundColor = .clear
+        cell.contentView.backgroundColor = .clear
+        
+        let view = UIView()
+        cell.contentView.addSubview(view)
+        view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
+        return cell
+    }()
+}
