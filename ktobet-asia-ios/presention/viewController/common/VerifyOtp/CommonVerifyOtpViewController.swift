@@ -118,12 +118,12 @@ class CommonVerifyOtpViewController: CommonViewController {
                 otpRetryCount += 1
                 showPasscodeUncorrectTip(true)
                 if otpRetryCount >= Setting.otpRetryLimit { navigateToErrorPage() }
-            case is PlayerOverOtpRetryLimit:
-                navigateToErrorPage()
             case is PlayerIpOverOtpDailyLimit:
                 onExccedResendLimit()
+            case is ApiException:
+                navigateToErrorPage()
             default:
-                self.handleErrors(error)
+                super.handleErrors(error)
             }
         }
     }
