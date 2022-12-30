@@ -68,6 +68,10 @@ class CustomServicePresenter: NSObject {
         }
     }
     
+    var isInChatRoom: Bool {
+        topViewController is ChatRoomViewController
+    }
+    
     var topViewController: UIViewController? {
         if let root = UIApplication.shared.windows.first?.topViewController as? UINavigationController {
             if let top = root.topViewController {
@@ -114,11 +118,18 @@ class CustomServicePresenter: NSObject {
     
     func initService() {
         Logger.shared.info("CustomerService init.")
-        self.csViewModel.searchChatRoom().asCompletable().andThen(self.csViewModel.preLoadChatRoomStatus)
+        
+        csViewModel
+            .searchChatRoom()
+            .asCompletable()
+            .andThen(self.csViewModel.preLoadChatRoomStatus)
             .first()
             .observe(on: MainScheduler.instance)
-            .do(onSuccess: { status in
-                guard let status = status else { return }
+            .subscribe(onSuccess: { [weak self] status in
+                guard let self = self,
+                      let status = status
+                else { return }
+                
                 switch status {
                 case .notexist:
                     self.hiddenServiceIcon()
@@ -128,7 +139,9 @@ class CustomServicePresenter: NSObject {
                         self.hiddenServiceIcon()
                     }
                     
-                    self.showServiceIcon()
+                    if !self.isInChatRoom {
+                        self.showServiceIcon()
+                    }
                 case .connecting:
                     self.setServiceIconTap {
                         self.switchToCalling(isRoot: true, svViewModel: self.surveyViewModel)
@@ -149,7 +162,7 @@ class CustomServicePresenter: NSObject {
                     break
                 }
             })
-            .subscribe().disposed(by: disposeBag)
+            .disposed(by: disposeBag)
 
     }
     
