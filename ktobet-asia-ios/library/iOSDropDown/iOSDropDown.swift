@@ -415,9 +415,6 @@ extension DropDown : UITextFieldDelegate {
     }
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string.isContainsPhoneticCharacters() {
-            return true
-        }
         if let subText = self.text as NSString? {
             self.searchText = subText.replacingCharacters(in: range, with: string)
         }

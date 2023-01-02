@@ -28,16 +28,6 @@ extension String {
         }
     }
     
-    //Check string contain Zhuyin
-    func isContainsPhoneticCharacters() -> Bool {
-        for scalar in self.unicodeScalars {
-            if (scalar.value >= 12549 && scalar.value <= 12582) || (scalar.value == 12584 || scalar.value == 12585 || scalar.value == 19968) {
-                return true
-            }
-        }
-        return false
-    }
-    
     func currencyAmountToDouble() -> Double? {
         return Double(self.replacingOccurrences(of: ",", with: ""))
     }
