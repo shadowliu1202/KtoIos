@@ -54,7 +54,6 @@ class ChatRoomViewController: CommonViewController {
         addIndicator()
         setTextFieldPadding()
         textFieldBottomPaddingConstraint.constant = UIDevice.current.hasNotch ? 22 : 0
-        inputTextField.delegate = self
     }
     
     private func setKeyboardEvent() {
@@ -89,6 +88,13 @@ class ChatRoomViewController: CommonViewController {
         let inputTextObservable = inputTextField.rx.text.share(replay: 1)
         inputTextObservable.map { !$0.isNullOrEmpty() }.bind(to: sendImageView.rx.isUserInteractionEnabled).disposed(by: disposeBag)
         inputTextObservable.map { $0.isNullOrEmpty() ? UIImage(named: "Send Message(Disable)") : UIImage(named: "Send Message") }.bind(to: sendImageView.rx.image).disposed(by: disposeBag)
+        
+        inputTextField.rx.text
+            .orEmpty
+            .subscribe(onNext: { [weak self] text in
+                self?.textChanged(text)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func sendMessageBinding() {
@@ -414,37 +420,24 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
     }
 }
 
-extension ChatRoomViewController: UITextFieldDelegate {
+extension ChatRoomViewController {
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string.isContainsPhoneticCharacters() { return true }
-
-        guard let currentText = textField.text,
-              let stringRange = Range(range, in: currentText)
-        else { return false }
-
-        let shouldFixStringWhenPasted = !(currentText.isEmpty) && string.count > 1
-        let replacement = shouldFixStringWhenPasted ? string.trimmingCharacters(in: .whitespaces) : string
+    func textChanged(_ text: String) {
+        if let markedRange = inputTextField.markedTextRange,
+           inputTextField.position(from: markedRange.start, offset: 0) != nil {
+            return
+        }
         
-        let updatedText = currentText.replacingCharacters(in: stringRange, with: replacement)
-
-        if updatedText.count > inputTextFieldTextCountLimit {
-            let overCount = updatedText.count - inputTextFieldTextCountLimit
-            let finalText = currentText.replacingCharacters(
-                in: stringRange,
-                with: replacement.dropLast(overCount)
-            )
-            
-            inputTextField.remainCursor(to: finalText)
+        var updatedText = inputTextField.text ?? ""
+        
+        if text.count > inputTextFieldTextCountLimit {
+            updatedText = String(text[..<text.index(text.startIndex, offsetBy: inputTextFieldTextCountLimit)])
         }
-        else {
-            inputTextField.remainCursor(to: updatedText)
-        }
-
-        return false
+        
+        inputTextField.remainCursor(to: updatedText)
+        
     }
 }
-
 
 // MARK:  TextField
 private extension UITextField {
