@@ -17,6 +17,8 @@ default_platform(:ios)
 platform :ios do
     before_all do
         ENV["ITMSTRANSPORTER_FORCE_ITMS_PACKAGE_UPLOAD"] = "true"
+	ENV["FASTLANE_ITUNES_TRANSPORTER_USE_SHELL_SCRIPT"]="1"
+  	ENV["FASTLANE_ITUNES_TRANSPORTER_PATH"]="/Applications/Transporter.app/Contents/itms"
     end
     lane :metrics do
         scan(
@@ -331,8 +333,9 @@ platform :ios do
         upload_symbols_to_crashlytics(gsp_path: "./ktobet-asia-ios/Firebase/pre_prod/GoogleService-Info.plist")
 
     end
+
     
-	lane :uploadTestflight do |options|
+    lane :uploadTestflight do |options|
         setupKeyStore()
 		identifier  = getIdentifier(preRelease: options[:releaseTarget])
 		env = getEnviroment(preRelease: options[:releaseTarget])
