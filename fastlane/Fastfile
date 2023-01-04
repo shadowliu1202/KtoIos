@@ -161,7 +161,6 @@ platform :ios do
         versionNum = options[:appVersion]
         build_app(scheme: "ktobet-asia-ios-staging",
                     workspace: "ktobet-asia-ios.xcworkspace",
-                    include_bitcode: true,
                     include_symbols: true,
                     clean: true,
                     archive_path: "./output/#{env}.xcarchive",
@@ -187,7 +186,6 @@ platform :ios do
         versionNum = options[:appVersion]
         build_app(scheme: "ktobet-asia-ios-staging-vn",
                     workspace: "ktobet-asia-ios.xcworkspace",
-                    include_bitcode: true,
                     include_symbols: true,
                     clean: true,
                     output_directory: "#{versionNum}",
@@ -228,7 +226,6 @@ platform :ios do
         gym(configuration: "Release",
             scheme: "ktobet-asia-ios-qat",
             clean: true,
-            include_bitcode: true,
             archive_path: "./output/qat.xcarchive",
             output_directory: "output",
             output_name: "ktobet-asia-ios-#{versionNum}-qat.ipa",
@@ -263,7 +260,6 @@ platform :ios do
         versionNum = options[:appVersion]
         build_app(scheme: "ktobet-asia-ios-production",
                     workspace: "ktobet-asia-ios.xcworkspace",
-                    include_bitcode: true,
                     include_symbols: true,
                     clean: true,
                     archive_path: "./output/#{env}.xcarchive",
@@ -289,7 +285,6 @@ platform :ios do
         versionNum = options[:appVersion]
         build_app(scheme: "ktobet-asia-ios-production-vn",
                     workspace: "ktobet-asia-ios.xcworkspace",
-                    include_bitcode: true,
                     include_symbols: true,
                     clean: true,
                     output_directory: "#{versionNum}",
@@ -316,7 +311,6 @@ platform :ios do
         gym(configuration: "Release",
             scheme: "ktobet-asia-ios-preprod",
             clean: true,
-            include_bitcode: true,
             include_symbols: true,
             output_directory: "output",
             export_method: 'app-store')
@@ -353,7 +347,6 @@ platform :ios do
 			scheme: scheme,
 			skip_build_archive: isSkipBuildArchive,
             archive_path: "./output/#{env}.xcarchive",
-			include_bitcode: true,
 			include_symbols: true,
 			output_directory: "output",
 			export_method: 'app-store')
