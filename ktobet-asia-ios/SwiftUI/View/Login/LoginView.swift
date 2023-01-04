@@ -83,9 +83,9 @@ struct LoginView: View {
     
     @ViewBuilder
     private func loginInputTextField(_ accountText: Binding<String>,
-                                     _ accountErrorText: String?,
+                                     _ accountErrorText: String,
                                      _ passwordText: Binding<String>,
-                                     _ passwordErrorText: String?,
+                                     _ passwordErrorText: String,
                                      _ isRememberMe: Binding<Bool>, accountOnChange: @escaping () -> Void, passwordOnChange: @escaping () -> Void) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             SwiftUIInputText(placeHolder: Localize.string("login_account_identity"),
@@ -121,7 +121,7 @@ struct LoginView: View {
     }
     
     @ViewBuilder
-    private func captcha(_ text: Binding<String>, _ errorText: String?, _ image: UIImage?, getCaptchaOnTap: @escaping () -> Void, captchaTextOnChange: @escaping () -> Void) -> some View {
+    private func captcha(_ text: Binding<String>, _ errorText: String, _ image: UIImage?, getCaptchaOnTap: @escaping () -> Void, captchaTextOnChange: @escaping () -> Void) -> some View {
         Group {
             LimitSpacer(30)
             VStack(spacing: 12) {

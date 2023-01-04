@@ -6,6 +6,7 @@ extension SwiftUIDropDownText {
         case arrow
         case candidateWordList
         case entireView
+        case textField
     }
 }
 
@@ -21,38 +22,53 @@ struct SwiftUIDropDownText: View {
     @Binding var textFieldText: String
     @Binding var selectedItemIndex: Int?
     
-    let placeHolder: String
-    let items: [String]
+    private let placeHolder: String
+    private let items: [String]
     
-    let featureType: FeatureType
-    let dropDownArrowVisible: Bool
+    private let featureType: FeatureType
+    private let dropDownArrowVisible: Bool
+    
+    private let errorText: String
+    
+    private let currencyFormatMaxDigits: Int?
+    private let maxLength: Int?
     
     let inspection = Inspection<Self>()
     
     init(
         placeHolder: String,
         textFieldText: Binding<String>,
+        errorText: String = "",
         items: [String],
         selectedItemIndex: Binding<Int?>,
         featureType: FeatureType,
-        dropDownArrowVisible: Bool = true
+        dropDownArrowVisible: Bool = true,
+        currencyFormatMaxDigits: Int? = nil,
+        maxLength: Int? = nil
     ) {
         self.placeHolder = placeHolder
         self._textFieldText = textFieldText
+        self.errorText = errorText
         self.items = items
         self._selectedItemIndex = selectedItemIndex
         self.featureType = featureType
         self.dropDownArrowVisible = dropDownArrowVisible
+        self.currencyFormatMaxDigits = currencyFormatMaxDigits
+        self.maxLength = maxLength
     }
     
     var body: some View {
         SwiftUIInputText(
             placeHolder: placeHolder,
             textFieldText: $textFieldText,
+            errorText: errorText,
             featureType: dropDownArrowVisible ? .other : .nil,
+            currencyFormatMaxDigits: currencyFormatMaxDigits,
+            maxLength: maxLength,
             disableInput: featureType == .select ? true : false,
             isEditing: $isEditing
         )
+        .id(Identifier.textField.rawValue)
         .positionDetect(result: $isInTopSide)
         .overlay(
             GeometryReader { geometryProxy in
@@ -86,6 +102,9 @@ struct SwiftUIDropDownText: View {
         )
         .onAppear {
             filteredItems = items
+        }
+        .onChange(of: items) { newItems in
+            filteredItems = newItems
         }
         .onChange(of: textFieldText) { keyword in
             guard featureType == .input else { return }

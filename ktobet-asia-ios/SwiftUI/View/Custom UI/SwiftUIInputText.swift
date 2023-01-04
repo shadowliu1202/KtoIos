@@ -18,18 +18,23 @@ struct SwiftUIInputText: View {
     @Binding var textFieldText: String
     @Binding var isEditing: Bool
     
-    let placeHolder: String
-    let errorText: String?
-    let featureType: FeatureType
-    let keyboardType: UIKeyboardType
-    let disablePaste: Bool
-    let disableInput: Bool
+    private let placeHolder: String
+    private let errorText: String
+    private let featureType: FeatureType
+    private let keyboardType: UIKeyboardType
+    private let currencyFormatMaxDigits: Int?
+    private let maxLength: Int?
+
+    private let disablePaste: Bool
+    private let disableInput: Bool
     
     init(placeHolder: String,
          textFieldText: Binding<String>,
-         errorText: String? = nil,
+         errorText: String = "",
          featureType: FeatureType = .nil,
          keyboardType: UIKeyboardType = .default,
+         currencyFormatMaxDigits: Int? = nil,
+         maxLength: Int? = nil,
          disablePaste: Bool = false,
          disableInput: Bool = false,
          isEditing: Binding<Bool> = .constant(false)
@@ -39,6 +44,8 @@ struct SwiftUIInputText: View {
         self.errorText = errorText
         self.featureType = featureType
         self.keyboardType = keyboardType
+        self.currencyFormatMaxDigits = currencyFormatMaxDigits
+        self.maxLength = maxLength
         self.disablePaste = disablePaste
         self.disableInput = disableInput
         self._isEditing = isEditing
@@ -49,7 +56,7 @@ struct SwiftUIInputText: View {
             inputText
                 .overlay(
                     errorUnderline
-                        .visibility(errorText == nil ? .gone : .visible)
+                        .visibility(errorText.isEmpty ? .gone : .visible)
                 )
                 .onTapGesture {
                     withAnimation(.easeOut(duration: 0.2)) {
@@ -59,26 +66,26 @@ struct SwiftUIInputText: View {
                     innerIsEditing = true
                 }
             
-            Text(errorText ?? "")
+            Text(errorText)
                 .id(Identifier.ErrorHint.rawValue)
                 .localized(weight: .regular, size: 12, color: .orangeFF8000)
-                .visibility(errorText == nil ? .gone : .visible)
+                .visibility(errorText.isEmpty ? .gone : .visible)
         }
         .onAppear {
             if !textFieldText.isEmpty {
                 showTextField = true
             }
         }
-        .onChange(of: textFieldText) { newValue in
-            if !newValue.isEmpty {
+        .onChange(of: textFieldText) { text in
+            if !text.isEmpty {
                 showTextField = true
             }
         }
-        .onChange(of: innerIsEditing, perform: { newValue in
+        .onChange(of: innerIsEditing) { newValue in
             if isEditing != newValue {
                 isEditing = newValue
             }
-        })
+        }
         .onChange(of: isEditing) { newValue in
             if innerIsEditing != newValue {
                 innerIsEditing = newValue
@@ -103,6 +110,8 @@ struct SwiftUIInputText: View {
                     isPasswordType: featureType == .password,
                     disablePaste: disablePaste,
                     keyboardType: keyboardType,
+                    currencyFormatMaxDigits: currencyFormatMaxDigits,
+                    maxLength: maxLength,
                     configuration: { uiTextField in
                         uiTextField.font = UIFont(name: "PingFangSC", size: 16)
                         uiTextField.textColor = .white

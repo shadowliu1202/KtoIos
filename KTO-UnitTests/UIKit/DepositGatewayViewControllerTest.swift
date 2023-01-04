@@ -25,6 +25,8 @@ class DepositGatewayViewControllerTest: XCTestCase {
     }
     
     func test_givenVietnameseUser_whenNavigationPopBack_thenAlertMessageContainsPaymentName() {
+        injectStubCultureCode(.VN)
+        
         given(stubOnlinePayment.hint) ~> ""
         given(stubOnlinePayment.identity) ~> "9"
         given(stubOnlinePayment.name) ~> "Thẻ Cào Điện Thoại"
@@ -60,6 +62,8 @@ class DepositGatewayViewControllerTest: XCTestCase {
     }
     
     func test_givenChinaUser_whenNavigationPopback_thenAlertOnlinePaymentTerminate() {
+        injectStubCultureCode(.CN)
+        
         given(stubOnlinePayment.hint) ~> ""
         given(stubOnlinePayment.identity) ~> "9"
         given(stubOnlinePayment.name) ~> "Thẻ Cào Điện Thoại"

@@ -96,8 +96,8 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
             }
         case .paymentgroupchanged, .offlinecardschange:
             self.navigateToDestination = {
-                let storyboard = UIStoryboard(name: "Deposit", bundle: Bundle.main)
-                let vc = storyboard.instantiateViewController(withIdentifier: "DepositGatewayViewController") as! DepositGatewayViewController
+                let vc = OfflinePaymentViewController()
+                vc.offlineConfirmUnwindSegueId = "unwindToNotificationDetail"
                 NavigationManagement.sharedInstance.pushViewController(vc: vc)
             }
         case .withdrawalrejected, .withdrawalneedsverifieddoc:
@@ -133,8 +133,8 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
     
     @IBAction func backToNotificationDetail(segue: UIStoryboardSegue) {
         NavigationManagement.sharedInstance.viewController = self
-        if let vc = segue.source as? DepositOfflineConfirmViewController {
-            if vc.depositSuccess {
+        if let vc = segue.source as? _DepositOfflineConfirmViewController {
+            if vc.confirmSuccess {
                 let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
                 toastView.show(on: self.view, statusTip: Localize.string("common_request_submitted"), img: UIImage(named: "Success"))
             }

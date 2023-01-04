@@ -189,6 +189,8 @@ class DepositOfflineConfirmViewController: LobbyViewController {
     }
 }
 
+// MARK: - SwiftUI Version
+
 class _DepositOfflineConfirmViewController:
     LobbyViewController,
     SwiftUIConverter
@@ -205,6 +207,20 @@ class _DepositOfflineConfirmViewController:
     
     /// For unwind segue
     var confirmSuccess = false
+    
+    static func instantiate(
+        memo: OfflineDepositDTO.Memo,
+        selectedBank: PaymentsDTO.BankCard,
+        unwindSegueId: String
+    ) -> _DepositOfflineConfirmViewController {
+        let vc = _DepositOfflineConfirmViewController.initFrom(storyboard: "Deposit")
+        
+        vc.memo = memo
+        vc.selectedBank = selectedBank
+        vc.unwindSegueId = unwindSegueId
+        
+        return vc
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -435,29 +435,6 @@ extension ChatRoomViewController {
         }
         
         inputTextField.remainCursor(to: updatedText)
-        
-    }
-}
-
-// MARK:  TextField
-private extension UITextField {
-    
-    func remainCursor(to new: String) {
-        guard let selectedTextRange = selectedTextRange else { return }
-        
-        let currentCursorPosition = offset(from: beginningOfDocument, to: selectedTextRange.start)
-        let selectedCount = offset(from: selectedTextRange.start, to: selectedTextRange.end)
-        let differentCount = new.count - (text?.count ?? 0)
-        
-        let cursorOffset = currentCursorPosition + selectedCount + differentCount
-        
-        text = new
-        
-        if let newCursorPosition = position(from: beginningOfDocument, offset: cursorOffset) {
-            DispatchQueue.main.async {
-                self.selectedTextRange = self.textRange(from: newCursorPosition, to: newCursorPosition)
-            }
-        }
     }
 }
 
