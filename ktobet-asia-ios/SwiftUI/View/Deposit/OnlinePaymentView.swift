@@ -139,12 +139,12 @@ struct OnlinePaymentView<ViewModel: OnlineDepositViewModelProtocol & CollectErro
         }
     }
     
-    private func getAmountErrorText() -> String? {
+    private func getAmountErrorText() -> String {
         let amountError =  viewModel.applicationErrors.filter { paymentError in
             paymentError is PaymentError.RemittanceIsEmpty || paymentError is PaymentError.RemittanceOutOfRange
         }
         
-        guard !amountError.isEmpty else { return nil }
+        guard !amountError.isEmpty else { return "" }
         if amountError.first! is PaymentError.RemittanceIsEmpty {
             return Localize.string("common_field_must_fill")
         } else if amountError.first! is PaymentError.RemittanceOutOfRange {

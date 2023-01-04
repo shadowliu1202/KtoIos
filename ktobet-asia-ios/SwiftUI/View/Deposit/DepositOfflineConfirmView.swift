@@ -109,6 +109,7 @@ extension DepositOfflineConfirmView {
                         )
                 }
                 .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
             }
         }
     }
@@ -217,7 +218,7 @@ extension DepositOfflineConfirmView {
         ) -> some View {
             
             HStack(spacing: 10) {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 0) {
                     Text(Localize.string(stringTag))
                         .localized(
                             weight: .regular,
@@ -289,7 +290,7 @@ extension DepositOfflineConfirmView {
         }
         
         private func buildCustomAmount() -> some View {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text(Localize.string("deposit_custom_cash"))
                     .localized(
                         weight: .regular,

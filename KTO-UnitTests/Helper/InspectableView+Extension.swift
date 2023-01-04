@@ -25,3 +25,15 @@ extension InspectableView where View: MultipleViewContent {
             .find(ViewType.Text.self)
     }
 }
+
+extension InspectableView {
+    func isExist(viewWithId id: String) -> Bool {
+        do {
+            _ = try self.find(viewWithId: id)
+            return true
+        }
+        catch {
+            return false
+        }
+    }
+}

@@ -1077,8 +1077,16 @@ final class Injection {
                     depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit()
                 )
             }
+        
+        container
+            .register(OfflinePaymentViewModel.self) { (resolver) in
+                return OfflinePaymentViewModel(
+                    depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+                    playerUseCase: resolver.resolveWrapper(PlayerDataUseCase.self),
+                    localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self))
+            }
     }
-    
+
     func registSingleton() {
         container
             .register(LocalizeUtils.self) { resolver in

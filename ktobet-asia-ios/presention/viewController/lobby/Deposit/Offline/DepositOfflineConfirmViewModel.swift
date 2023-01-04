@@ -107,7 +107,8 @@ extension DepositOfflineConfirmViewModel {
     func startCounting() {
         Observable<Int>
             .interval(.seconds(1), scheduler: MainScheduler.instance)
-            .map { [unowned self] in Int(self.receiverInfo.validTimeLeftHour) * 3600 - $0 }
+            .map { [unowned self] in Int(self.receiverInfo.validTimeLeftHour) * 3600 - 1 - $0 }
+            .startWith(Int(self.receiverInfo.validTimeLeftHour) * 3600)
             .take(
                 until: { $0 <= 0 },
                 behavior: .inclusive

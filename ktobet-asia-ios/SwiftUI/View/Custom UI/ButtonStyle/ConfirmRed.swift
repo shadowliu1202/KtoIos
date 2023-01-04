@@ -5,7 +5,10 @@ struct ConfirmRed: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .foregroundColor(isEnabled ? .from(.whitePure) : .from(.whitePure, alpha: 0.4))
-            .font(.custom("PingFangSC-Regular", size: 14))
+            .localized(
+                weight: .regular,
+                size: 14
+            )
             .padding(10)
             .frame(maxWidth: .infinity)
             .lineLimit(1)

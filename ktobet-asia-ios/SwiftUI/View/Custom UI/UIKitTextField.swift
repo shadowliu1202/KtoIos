@@ -12,14 +12,29 @@ struct UIKitTextField: UIViewRepresentable {
     
     let disablePaste: Bool
     let keyboardType: UIKeyboardType
-
-    init(text: Binding<String>, isFirstResponder: Binding<Bool>, showPassword: Binding<Bool>, isPasswordType: Bool, disablePaste: Bool = false, keyboardType: UIKeyboardType = .default, configuration: @escaping (UITextField) -> () = { (uiTextField: UITextField) in }, editingDidEnd: @escaping (String) -> () = {(text: String) in }) {
+    let currencyFormatMaxDigits: Int?
+    let maxLength: Int?
+    
+    init(
+        text: Binding<String>,
+        isFirstResponder: Binding<Bool>,
+        showPassword: Binding<Bool>,
+        isPasswordType: Bool,
+        disablePaste: Bool = false,
+        keyboardType: UIKeyboardType = .default,
+        currencyFormatMaxDigits: Int?,
+        maxLength: Int?,
+        configuration: @escaping (UITextField) -> () = { (uiTextField: UITextField) in },
+        editingDidEnd: @escaping (String) -> () = {(text: String) in }
+    ) {
         self._text = text
         self._isFirstResponder = isFirstResponder
         self._showPassword = showPassword
         self.isPasswordType = isPasswordType
         self.disablePaste = disablePaste
         self.keyboardType = keyboardType
+        self.currencyFormatMaxDigits = currencyFormatMaxDigits
+        self.maxLength = maxLength
         self.configuration = configuration
         self.editingDidEnd = editingDidEnd
     }
@@ -33,7 +48,6 @@ struct UIKitTextField: UIViewRepresentable {
         configuration(view)
         
         view.delegate = context.coordinator
-        view.addTarget(context.coordinator, action: #selector(context.coordinator.textChanged), for: .editingChanged)
         view.addTarget(context.coordinator, action: #selector(context.coordinator.textEditEnd), for: .editingDidEnd)
         view.addTarget(context.coordinator, action: #selector(context.coordinator.textEditEnd), for: .editingDidEndOnExit)
         
@@ -55,7 +69,14 @@ struct UIKitTextField: UIViewRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator($isFirstResponder, $text, keyboardType, editingDidEnd)
+        Coordinator(
+            $isFirstResponder,
+            $text,
+            keyboardType,
+            currencyFormatMaxDigits,
+            maxLength,
+            editingDidEnd
+        )
     }
 
     class Coordinator: NSObject, UITextFieldDelegate {
@@ -63,36 +84,127 @@ struct UIKitTextField: UIViewRepresentable {
         @Binding private var isFirstResponder: Bool
         
         let keyboardType: UIKeyboardType
+        let currencyFormatMaxDigits: Int?
+        let maxLength: Int?
         var editingDidEnd = { (text: String) in }
         
-        init(_ isFirstResponder: Binding<Bool>, _ text: Binding<String>, _ keyboardType: UIKeyboardType, _ editingDidEnd: @escaping (String) -> () ) {
+        init(
+            _ isFirstResponder: Binding<Bool>,
+            _ text: Binding<String>,
+            _ keyboardType: UIKeyboardType,
+            _ currencyFormatMaxDigits: Int?,
+            _ maxLength: Int?,
+            _ editingDidEnd: @escaping (String) -> ()
+        ) {
             self._isFirstResponder = isFirstResponder
             self._text = text
             self.keyboardType = keyboardType
+            self.currencyFormatMaxDigits = currencyFormatMaxDigits
+            self.maxLength = maxLength
             self.editingDidEnd = editingDidEnd
         }
         
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            if keyboardType == .numberPad {
-                let candidate = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string).replacingOccurrences(of: ",", with: "")
-                if candidate == "" { return true }
-                let isWellFormatted = candidate.range(of: RegularFormat.currencyFormat.rawValue, options: .regularExpression) != nil
-                return isWellFormatted
-            }
+            guard let currentText = textField.text,
+                  var rangeInCurrent = Range(range, in: currentText)
+            else { return false }
+
+            let newText = currentText.replacingCharacters(in: rangeInCurrent, with: string).halfWidth
             
+            if let maxLength = maxLength {
+                guard lengthIsShorter(than: maxLength, newText)
+                else { return false }
+            }
+
+            if let maxDigits = currencyFormatMaxDigits {
+                if string.isEmpty && String(currentText[rangeInCurrent]) == "," {
+                    rangeInCurrent = Range(NSRange(location: range.location - 1, length: range.length), in: currentText) ?? rangeInCurrent
+                }
+                
+                var newText = currentText.replacingCharacters(in: rangeInCurrent, with: string).halfWidth
+                
+                guard !newText.isEmpty
+                else {
+                    self.text = newText
+                    textField.text = newText
+
+                    return false
+                }
+                
+                guard !isMultipleDecimalPoints(newText) else { return false }
+                guard !isEndWithDecimalPoint(newText) else {
+                    self.text = String(newText.dropLast())
+                    textField.text = newText
+
+                    return false
+                }
+                guard !isAfterDecimalPointInputInProgress(newText, maxDigits:  maxDigits) else { return true }
+
+                toCurrencyFormat(&newText, maxDigits: maxDigits)
+                
+                self.text = newText
+                textField.remainCursor(to: newText)
+
+                return false
+            }
+
+            self.text = newText
             return true
         }
         
-        @objc func textChanged(_ sender: UITextField) {
-            guard let inputText = sender.text?.halfWidth else { return }
+        private func toCurrencyFormat(_ text: inout String, maxDigits: Int) {
+            text = text.replacingOccurrences(of: ",", with: "")
             
-            if keyboardType == .numberPad, !inputText.isEmpty,
-               let amount = Double(inputText.replacingOccurrences(of: ",", with: ""))?.currencyFormatWithoutSymbol() {
-                self.text = amount
-                sender.text = amount
-            } else {
-                self.text = inputText
-                sender.text = inputText
+            checkStartWithDecimalPoint(&text)
+            
+            if let amountString = Decimal(string: text)?.currencyFormatWithoutSymbol(maximumFractionDigits: maxDigits) {
+                text = amountString
+            }
+        }
+        
+        private func lengthIsShorter(than max: Int, _ text: String) -> Bool {
+            if text.count <= max {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+        
+        private func isEndWithDecimalPoint(_ text: String) -> Bool {
+            if text.last == "." {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+        
+        private func isMultipleDecimalPoints(_ text: String) -> Bool {
+            if text.filter({ $0 == "."}).count > 1 {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+        
+        private func isAfterDecimalPointInputInProgress(_ text: String, maxDigits: Int) -> Bool {
+            let splittedText = text.split(separator: ".")
+            
+            guard splittedText.count == 2 else { return false }
+            
+            if splittedText[1].contains(where: { $0 != "0" }) || splittedText[1].count == maxDigits {
+                return false
+            }
+            else {
+                return true
+            }
+        }
+        
+        private func checkStartWithDecimalPoint(_ text: inout  String) {
+            if text.first == "." {
+                text = "0" + text
             }
         }
         

@@ -10,9 +10,9 @@ class NewLoginViewModel: ObservableObject {
     @Published var captchaText: String = ""
     
     @Published private(set) var loginError: LoginException? = nil
-    @Published private(set) var accountErrorText: String? = nil
-    @Published private(set) var passwordErrorText: String? = nil
-    @Published private(set) var captchaErrorText: String? = nil
+    @Published private(set) var accountErrorText: String = ""
+    @Published private(set) var passwordErrorText: String = ""
+    @Published private(set) var captchaErrorText: String = ""
     
     @Published private(set) var captchaImage: UIImage? = nil
     @Published private(set) var countDownSecond: Int? = nil
@@ -84,15 +84,15 @@ class NewLoginViewModel: ObservableObject {
     }
     
     func checkAccountFormat() {
-        accountErrorText = account.isEmpty ? Localize.string("common_field_must_fill") : nil
+        accountErrorText = account.isEmpty ? Localize.string("common_field_must_fill") : ""
     }
     
     func checkPasswordFormat() {
-        passwordErrorText = password.isEmpty ? Localize.string("common_field_must_fill") : nil
+        passwordErrorText = password.isEmpty ? Localize.string("common_field_must_fill") : ""
     }
     
     func checkCaptchaFormat() {
-        captchaErrorText = captchaText.isEmpty ? Localize.string("common_field_must_fill") : nil
+        captchaErrorText = captchaText.isEmpty ? Localize.string("common_field_must_fill") : ""
     }
     
     func checkLoginInputFormat() {

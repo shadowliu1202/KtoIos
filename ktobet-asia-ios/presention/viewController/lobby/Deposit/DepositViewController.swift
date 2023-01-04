@@ -122,6 +122,8 @@ extension DepositViewController {
     
     func pushToMethodPage(_ selection: DepositSelection) {
         switch selection.type {
+        case .OfflinePayment:
+            navigationController?.pushViewController(OfflinePaymentViewController(), animated: true)
         case .Crypto:
             self.presentCryptoDepositWarnings()
         case .CryptoMarket:
@@ -152,10 +154,10 @@ extension DepositViewController {
         let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
         
         switch segue.source {
-        case is DepositOfflineConfirmViewController:
-            let confirm = segue.source as! DepositOfflineConfirmViewController
+        case is _DepositOfflineConfirmViewController:
+            let confirm = segue.source as! _DepositOfflineConfirmViewController
             
-            if confirm.depositSuccess {
+            if confirm.confirmSuccess {
                 toastView.show(
                     on: self.view,
                     statusTip: Localize.string("deposit_offline_step3_title"),
