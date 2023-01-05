@@ -85,6 +85,12 @@ struct SwiftUIInputText: View {
             if isEditing != newValue {
                 isEditing = newValue
             }
+            
+            if !newValue {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    showTextField = textFieldText.isEmpty ? false : true
+                }
+            }
         }
         .onChange(of: isEditing) { newValue in
             if innerIsEditing != newValue {
@@ -117,11 +123,6 @@ struct SwiftUIInputText: View {
                         uiTextField.textColor = .white
                         uiTextField.tintColor = .redF20000
                         uiTextField.autocapitalizationType = .none
-                    },
-                    editingDidEnd: { text in
-                        withAnimation(.easeOut(duration: 0.2)) {
-                            showTextField = text.isEmpty ? false : true
-                        }
                     }
                 )
                 .fixedSize(horizontal: false, vertical: true)

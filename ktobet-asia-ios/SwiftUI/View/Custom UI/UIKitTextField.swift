@@ -8,7 +8,6 @@ struct UIKitTextField: UIViewRepresentable {
 
     var isPasswordType: Bool
     var configuration = { (uiTextField: UITextField) in }
-    var editingDidEnd = { (text: String) in }
     
     let disablePaste: Bool
     let keyboardType: UIKeyboardType
@@ -24,8 +23,7 @@ struct UIKitTextField: UIViewRepresentable {
         keyboardType: UIKeyboardType = .default,
         currencyFormatMaxDigits: Int?,
         maxLength: Int?,
-        configuration: @escaping (UITextField) -> () = { (uiTextField: UITextField) in },
-        editingDidEnd: @escaping (String) -> () = {(text: String) in }
+        configuration: @escaping (UITextField) -> () = { (uiTextField: UITextField) in }
     ) {
         self._text = text
         self._isFirstResponder = isFirstResponder
@@ -36,9 +34,18 @@ struct UIKitTextField: UIViewRepresentable {
         self.currencyFormatMaxDigits = currencyFormatMaxDigits
         self.maxLength = maxLength
         self.configuration = configuration
-        self.editingDidEnd = editingDidEnd
     }
 
+    func makeCoordinator() -> Coordinator {
+        Coordinator(
+            $isFirstResponder,
+            $text,
+            keyboardType,
+            currencyFormatMaxDigits,
+            maxLength
+        )
+    }
+    
     func makeUIView(context: Context) -> UITextField {
         let view = PasteableTextField()
         view.text = text
@@ -67,17 +74,6 @@ struct UIKitTextField: UIViewRepresentable {
             }
         }
     }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(
-            $isFirstResponder,
-            $text,
-            keyboardType,
-            currencyFormatMaxDigits,
-            maxLength,
-            editingDidEnd
-        )
-    }
 
     class Coordinator: NSObject, UITextFieldDelegate {
         @Binding private var text: String
@@ -86,22 +82,19 @@ struct UIKitTextField: UIViewRepresentable {
         let keyboardType: UIKeyboardType
         let currencyFormatMaxDigits: Int?
         let maxLength: Int?
-        var editingDidEnd = { (text: String) in }
         
         init(
             _ isFirstResponder: Binding<Bool>,
             _ text: Binding<String>,
             _ keyboardType: UIKeyboardType,
             _ currencyFormatMaxDigits: Int?,
-            _ maxLength: Int?,
-            _ editingDidEnd: @escaping (String) -> ()
+            _ maxLength: Int?
         ) {
             self._isFirstResponder = isFirstResponder
             self._text = text
             self.keyboardType = keyboardType
             self.currencyFormatMaxDigits = currencyFormatMaxDigits
             self.maxLength = maxLength
-            self.editingDidEnd = editingDidEnd
         }
         
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -214,9 +207,6 @@ struct UIKitTextField: UIViewRepresentable {
             if let senderText = sender.text, senderText != text {
                 sender.text = text
             }
-            
-            sender.text = sender.text?.halfWidth
-            editingDidEnd(sender.text ?? "")
         }
     }
 }
