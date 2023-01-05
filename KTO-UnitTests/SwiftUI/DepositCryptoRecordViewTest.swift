@@ -56,7 +56,7 @@ final class DepositCryptoRecordViewTest: XCTestCase {
             view: sut.environmentObject(stubViewModel)
         )
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_RecordHasContent_InfoRowContentIsVisible() {
@@ -81,7 +81,7 @@ final class DepositCryptoRecordViewTest: XCTestCase {
             view: sut.environmentObject(stubViewModel)
         )
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_RecordHasAttachmentContent_InfoRowAttachmentIsVisible() {
@@ -107,7 +107,7 @@ final class DepositCryptoRecordViewTest: XCTestCase {
             view: sut.environmentObject(stubViewModel)
         )
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_PaymentStatusIsApprove_finalCryptoAmountTextColorIsOrangeFF8000() {

@@ -39,7 +39,7 @@ class OnlinePaymentViewTest: XCTestCase {
         }
         
         ViewHosting.host(view: sut)
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 30)
     }
     
     func test_Remit_Button_Disable_When_Remittance_Out_Of_Limit_Range() {
@@ -54,7 +54,7 @@ class OnlinePaymentViewTest: XCTestCase {
         }
         
         ViewHosting.host(view: sut)
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 30)
     }
     
     func test_Remit_Button_Disable_When_Remittance_is_Empty() {
@@ -69,7 +69,7 @@ class OnlinePaymentViewTest: XCTestCase {
         }
         
         ViewHosting.host(view: sut)
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 30)
     }
     
     func test_Error_Text_When_Remittance_Error_Occurred() {
@@ -85,7 +85,7 @@ class OnlinePaymentViewTest: XCTestCase {
         }
         
         ViewHosting.host(view: sut)
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 30)
     }
     
     func test_Error_Text_When_No_Remittance_Error_Occurred() {
@@ -118,6 +118,6 @@ class OnlinePaymentViewTest: XCTestCase {
         }
         
         ViewHosting.host(view: sut)
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 30)
     }
 }

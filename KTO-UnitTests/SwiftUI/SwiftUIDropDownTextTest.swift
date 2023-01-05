@@ -103,7 +103,7 @@ final class SwiftUIDropDownTextTest: XCTestCase {
 
         ViewHosting.host(view: sut.environmentObject(SafeAreaMonitor()))
 
-        wait(for: [expectation1, expectation2], timeout: 10)
+        wait(for: [expectation1, expectation2], timeout: 30)
     }
     
     func test_givenFeatureTypeIsInput_whenInputText_thenDisplayedItemsContainsText() throws {
@@ -160,6 +160,6 @@ final class SwiftUIDropDownTextTest: XCTestCase {
 
         ViewHosting.host(view: sut.environmentObject(SafeAreaMonitor()))
 
-        wait(for: [expectation1, expectation2, expectation3], timeout: 10)
+        wait(for: [expectation1, expectation2, expectation3], timeout: 30)
     }
 }

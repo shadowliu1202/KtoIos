@@ -157,7 +157,9 @@ class CustomServicePresenter: NSObject {
                         self.hiddenServiceIcon()
                     }
                     
-                    self.showServiceIcon()
+                    if !self.isInChatRoom {
+                        self.showServiceIcon()
+                    }
                 default:
                     break
                 }

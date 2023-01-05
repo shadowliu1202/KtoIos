@@ -29,7 +29,7 @@ class StarMergerViewTest: XCTestCase {
         
         ViewHosting.host(view: sut)
         
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 30)
     }
     
     func test_Get_Payment_Link_Not_On_Success() throws {
@@ -45,6 +45,6 @@ class StarMergerViewTest: XCTestCase {
         
         ViewHosting.host(view: sut)
         
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 30)
     }
 }

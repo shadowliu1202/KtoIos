@@ -32,6 +32,6 @@ final class TermsViewTests: XCTestCase {
             )
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 }

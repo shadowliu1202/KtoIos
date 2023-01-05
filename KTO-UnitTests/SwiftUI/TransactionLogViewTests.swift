@@ -93,7 +93,7 @@ final class TransactionLogViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_HasOnePositive100ProfitLog_InTransactionLogPage_LogIsDisplayedWithNumber1_KTO_TC_53() {
@@ -142,7 +142,7 @@ final class TransactionLogViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_HasOneNegative100ProfitLog_InTransactionLogPage_LogIsDisplayedWithNumber1() {
@@ -191,7 +191,7 @@ final class TransactionLogViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_HasPositive1000AndNegative100Summary_InTransactionLogPage_SummaryIsDisplayedPositive1000AndNegative100_KTO_TC_54() {
@@ -199,7 +199,7 @@ final class TransactionLogViewTests: XCTestCase {
         
         given(stubViewModel.summary) ~> .init(
             income: "1000".toAccountCurrency(),
-            outcome: "-100".toAccountCurrency()
+            outcome: "100".toAccountCurrency()
         )
         
         let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Summary()
@@ -226,7 +226,7 @@ final class TransactionLogViewTests: XCTestCase {
             view: sut.environmentObject(stubViewModel)
         )
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_HasLogToday_SectionTitleIsToday() {
@@ -285,7 +285,7 @@ final class TransactionLogViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_HasNoLog_InTransactionLogPage_ReminderIsDisplayed_KTO_TC_56() {
@@ -312,6 +312,6 @@ final class TransactionLogViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 }

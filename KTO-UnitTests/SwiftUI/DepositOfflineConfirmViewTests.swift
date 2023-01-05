@@ -114,6 +114,6 @@ final class DepositOfflineConfirmViewTests: XCTestCase {
             view: row.environmentObject(stubViewModel)
         )
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 }

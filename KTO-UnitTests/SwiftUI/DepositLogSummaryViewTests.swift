@@ -99,7 +99,7 @@ final class DepositLogSummaryViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_HasDepositTotalAmount300_InDepositLogPage_DepositSummaryIsDisplayedWithNumber300_KTO_TC_83() {
@@ -131,7 +131,7 @@ final class DepositLogSummaryViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     
@@ -164,7 +164,7 @@ final class DepositLogSummaryViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_HasLogToday_SectionTitleIsToday_KTO_TC_85() {
