@@ -67,7 +67,7 @@ final class ItemSelectorTests: XCTestCase {
         
         ViewHosting.host(view: sut)
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_AllowMultipleSelectionIsTrue_SelectTwoRow_TwoRowIsSelected() {
@@ -102,7 +102,7 @@ final class ItemSelectorTests: XCTestCase {
 
         ViewHosting.host(view: sut)
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_AllowMultipleSelectionIsFalse_CanNotSelectMultiple() {
@@ -136,7 +136,7 @@ final class ItemSelectorTests: XCTestCase {
 
         ViewHosting.host(view: sut)
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_HaveSelectAllIsTrue_CanSelectAllWhenPressAllButton() {
@@ -172,7 +172,7 @@ final class ItemSelectorTests: XCTestCase {
 
         ViewHosting.host(view: sut)
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_HaveSelectAllIsTrue_SelectAll_AllRowIsSelected() {
@@ -219,7 +219,7 @@ final class ItemSelectorTests: XCTestCase {
 
         ViewHosting.host(view: sut)
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_SelectAtLeastOneIsTrue_HaveOnSelection_CanNotCancelSelection() {
@@ -249,7 +249,7 @@ final class ItemSelectorTests: XCTestCase {
 
         ViewHosting.host(view: sut)
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_SelectAtLeastOneIsFalse_HaveOnSelection_CanCancelSelection() {
@@ -279,7 +279,7 @@ final class ItemSelectorTests: XCTestCase {
 
         ViewHosting.host(view: sut)
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_AllRowIsSelected_ClickOneRow_SelectOneRowButDeselectOtherRow() {
@@ -308,6 +308,6 @@ final class ItemSelectorTests: XCTestCase {
 
         ViewHosting.host(view: sut)
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 }

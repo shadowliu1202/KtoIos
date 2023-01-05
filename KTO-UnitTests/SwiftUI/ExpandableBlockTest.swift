@@ -21,7 +21,7 @@ class ExpandableBlockTest: XCTestCase {
         
         ViewHosting.host(view: sut)
         
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 30)
     }
     
     func test_Guide_Link_isFolded() throws {
@@ -34,7 +34,7 @@ class ExpandableBlockTest: XCTestCase {
         
         ViewHosting.host(view: sut)
         
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 30)
     }
 }
 

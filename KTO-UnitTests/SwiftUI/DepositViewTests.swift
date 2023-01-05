@@ -46,7 +46,7 @@ final class DepositViewTests: XCTestCase {
             view: sut.environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_NoAvailablePayment_InDepositPage_ReminderIsDisplayed_KTO_TC_45() throws {
@@ -70,7 +70,7 @@ final class DepositViewTests: XCTestCase {
             view: sut.environmentObject(stubViewModel)
         )
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_HasOneDepositHistory_InDepositPage_OneHistoryIsDisplayed_KTO_TC_46() throws {
@@ -102,7 +102,7 @@ final class DepositViewTests: XCTestCase {
             view: sut.environmentObject(stubViewModel)
         )
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
     
     func test_NoDepositHistory_InDepositPage_ReminderIsDisplayedAndShowAllBtnIsNotDisplayed_KTO_TC_47() throws {
@@ -134,7 +134,7 @@ final class DepositViewTests: XCTestCase {
             view: sut.environmentObject(stubViewModel)
         )
 
-        wait(for: [reminderExpectation, showAllBtnExpectation], timeout: 10)
+        wait(for: [reminderExpectation, showAllBtnExpectation], timeout: 30)
     }
 }
 

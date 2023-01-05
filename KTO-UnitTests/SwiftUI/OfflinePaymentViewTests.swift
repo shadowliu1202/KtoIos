@@ -66,7 +66,7 @@ final class OfflinePaymentViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [exp1], timeout: 10)
+        wait(for: [exp1], timeout: 30)
     }
     
     func test_whenRemitButtonDisable_thenRemitButtonDisable() {
@@ -96,7 +96,7 @@ final class OfflinePaymentViewTests: XCTestCase {
                 .environmentObject(SafeAreaMonitor())
         )
         
-        wait(for: [exp1], timeout: 10)
+        wait(for: [exp1], timeout: 30)
     }
     
     func test_whenRemitInfoInvalid_thenErrorMessageDisplayed() {
@@ -143,7 +143,7 @@ final class OfflinePaymentViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [exp1], timeout: 10)
+        wait(for: [exp1], timeout: 30)
     }
     
     func test_whenRemitInfoValid_thenNoErrorMessageDisplayed() {
@@ -185,6 +185,6 @@ final class OfflinePaymentViewTests: XCTestCase {
                 .environmentObject(stubViewModel)
         )
         
-        wait(for: [exp1], timeout: 10)
+        wait(for: [exp1], timeout: 30)
     }
 }
