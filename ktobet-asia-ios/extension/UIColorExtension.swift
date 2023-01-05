@@ -39,6 +39,7 @@ extension UIColor {
     static let gray202020: UIColor = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.1254901961, alpha: 1)
     static let gray2B2B2B: UIColor = #colorLiteral(red: 0.168627451, green: 0.168627451, blue: 0.168627451, alpha: 1)
     static let gray454545: UIColor = #colorLiteral(red: 0.2705882353, green: 0.2705882353, blue: 0.2705882353, alpha: 1)
+    static let gray3F3F3F: UIColor = #colorLiteral(red: 0.2470588235, green: 0.2470588235, blue: 0.2470588235, alpha: 1)
     static let gray333333: UIColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
     static let gray979797: UIColor = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
     static let gray595959: UIColor = #colorLiteral(red: 0.3490196078, green: 0.3490196078, blue: 0.3490196078, alpha: 1)
@@ -54,6 +55,7 @@ extension UIColor {
     static let redD90101: UIColor = #colorLiteral(red: 0.8509803922, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
 
     static let orangeFF8000: UIColor = #colorLiteral(red: 1, green: 0.5019607843, blue: 0, alpha: 1)
+    static let orangeFF691D: UIColor = #colorLiteral(red: 1, green: 0.4117647059, blue: 0.1137254902, alpha: 1)
     
     static let yellowFFD500: UIColor = #colorLiteral(red: 1, green: 0.8352941176, blue: 0, alpha: 1)
     static let yellowEA9E16: UIColor = #colorLiteral(red: 0.9176470588, green: 0.6196078431, blue: 0.0862745098, alpha: 1)

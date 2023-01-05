@@ -9,6 +9,15 @@ enum GameState {
 }
 
 extension WebGameWithProperties {
+    var isActive: Bool {
+        switch gameState() {
+        case .active:
+            return true
+        default:
+            return false
+        }
+    }
+    
     func gameState() -> GameState {
         switch self.gameStatus {
         case .active:
@@ -58,7 +67,13 @@ protocol ProductSearchViewModelProtocol {
 }
 
 protocol ProductWebGameViewModelProtocol {
+    var checkBonusUseCase: WebGameCheckBonusUseCase? { get }
+    
     func getGameProduct() -> String
     func getGameProductType() -> ProductType
     func createGame(gameId: Int32) -> Single<URL?>
+}
+
+extension ProductWebGameViewModelProtocol {
+    var checkBonusUseCase: WebGameCheckBonusUseCase? { nil }
 }

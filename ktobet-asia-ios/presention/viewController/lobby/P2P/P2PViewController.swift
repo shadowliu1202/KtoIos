@@ -61,7 +61,7 @@ class P2PViewController: ProductsViewController {
                 case is P2PTurnOver.TurnOverReceipt:
                     let p2pAlertView = P2PAlertViewController.initFrom(storyboard: "P2P")
                     p2pAlertView.p2pTurnOver = turnOver
-                    p2pAlertView.view.backgroundColor = .grayC8D4DE
+                    p2pAlertView.view.backgroundColor = .gray131313.withAlphaComponent(0.8)
                     p2pAlertView.modalPresentationStyle = .overCurrentContext
                     p2pAlertView.modalTransitionStyle = .crossDissolve
                     self.present(p2pAlertView, animated: true, completion: nil)

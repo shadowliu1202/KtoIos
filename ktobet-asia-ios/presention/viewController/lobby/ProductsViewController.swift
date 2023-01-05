@@ -70,10 +70,37 @@ class ProductsViewController: LobbyViewController {
         }.disposed(by: disposeBag)
     }
     
+    func handleBonusStatusAlert(_ status: WebGameBonusStatus?) {
+        switch status {
+        case .bonusCalculating(let gameName):
+            Alert.shared.show(
+                Localize.string("common_tip_title_warm"),
+                String(format: Localize.string("product_bonus_calculating"), gameName),
+                confirm: {},
+                cancel: nil
+            )
+            
+        case .lockedBonus(let gameName, let turnOverDetail):
+            present(
+                TurnoverAlertViewController(gameName: gameName, turnover: turnOverDetail),
+                animated: true
+            )
+            
+        default:
+            break
+        }
+    }
+    
     override func handleErrors(_ error: Error) {
-        if error is KtoGameUnderMaintenance {
-            Alert.shared.show(nil, Localize.string("product_game_maintenance"), confirm: {}, cancel: nil)
-        } else {
+        switch error {
+        case is KtoGameUnderMaintenance:
+            Alert.shared.show(
+                nil,
+                Localize.string("product_game_maintenance"),
+                confirm: {},
+                cancel: nil
+            )
+        default:
             super.handleErrors(error)
         }
     }

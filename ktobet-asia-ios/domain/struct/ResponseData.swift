@@ -463,18 +463,19 @@ struct CasinoData: Codable {
     let hasForFun, isFavorite: Bool
     let imageID: String
     let isGameMaintenance: Bool
+    let isCheckBonusLock: Bool
     let status: Int32
     let releaseDate: String?
     
     enum CodingKeys: String, CodingKey {
         case gameID = "gameId"
         case imageID = "imageId"
-        case isGameMaintenance, status, name, hasForFun, isFavorite, releaseDate
+        case isGameMaintenance, status, name, hasForFun, isFavorite, releaseDate, isCheckBonusLock
     }
     
     func toCasinoGame(host: String) throws -> CasinoGame {
         let thumbnail = CasinoThumbnail(host: host, thumbnailId: self.imageID)
-        return CasinoGame(gameId: Int32(self.gameID), gameName: self.name, isFavorite: self.isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isGameMaintenance, status: self.status), thumbnail: thumbnail, releaseDate: try self.releaseDate?.toLocalDate())
+        return CasinoGame(gameId: Int32(self.gameID), gameName: self.name, isFavorite: self.isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isGameMaintenance, status: self.status), thumbnail: thumbnail, requireNoBonusLock: self.isCheckBonusLock, releaseDate: try self.releaseDate?.toLocalDate())
     }
 }
 

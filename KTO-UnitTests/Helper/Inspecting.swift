@@ -4,17 +4,6 @@ import ViewInspector
 
 @testable import ktobet_asia_ios_qat
 
-protocol Inspecting: Inspectable, View {
+protocol Inspecting: View {
     var inspection: Inspection<Self> { get }
 }
-
-extension PageContainer: Inspectable { }
-extension SwiftUIInputText: Inspectable { }
-extension SwiftUIDropDownText: Inspectable { }
-extension UIKitTextField: Inspectable { }
-extension LocalizeFont: Inspectable { }
-extension Separator: Inspectable { }
-extension LimitSpacer: Inspectable { }
-extension FunctionalButton: Inspectable { }
-extension ItemSelector: Inspectable { }
-extension SafeAreaReader: Inspectable { }

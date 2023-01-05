@@ -8,7 +8,6 @@ import SharedBu
 extension SelectingMock: ObservableObject { }
 
 extension ItemSelector: Inspecting { }
-extension ItemSelector.Item: Inspectable { }
 
 final class ItemSelectorTests: XCTestCase {
     
