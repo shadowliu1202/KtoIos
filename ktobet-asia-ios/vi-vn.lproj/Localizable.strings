@@ -1,5 +1,4 @@
 
-
 //MARK: - CPS
 "cps_kto" = "KTO";
 "cps_daily_limit_widthrawal_amount" = "Số Tiền Rút khả dụng hôm nay：%@";
@@ -899,6 +898,10 @@ Cám ơn.";
 "product_split" = "Tách Bài";
 "product_favorite_reach_max" = "Đã đạt số Trò Chơi Yêu Thích tối đa, vui lòng xóa bớt trước khi thêm mới.";
 "product_search_condition_not_match" = "Vui lòng điền hơn 2 ký tự để tìm kiếm";
+"product_turnover_description" = "Trước khi tham gia %@, Quý Khách cần hoàn thành Yêu Cầu Đặt Cược cho tiền thưởng đã nhận vào %@. Chi tiết như sau:";
+"product_bonus_calculating" = "Sau khi tiền thưởng được cập nhật,
+Quý Khách sẽ không thể
+đặt cược %@.";
 
 //MARK: - Update
 "update_new_version_content" = "Phiên Bản Mới đã được phát hành, vui lòng cập nhật trước khi tiếp tục.";

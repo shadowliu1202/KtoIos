@@ -54,32 +54,57 @@ class CasinoViewModel: CollectErrorViewModel {
     
     private var disposeBag = DisposeBag()
     
-    init(casinoRecordUseCase: CasinoRecordUseCase, casinoUseCase: CasinoUseCase, memoryCache: MemoryCacheImpl, casinoAppService: ICasinoAppService) {
+    let checkBonusUseCase: WebGameCheckBonusUseCase?
+    
+    init(
+        casinoRecordUseCase: CasinoRecordUseCase,
+        casinoUseCase: CasinoUseCase,
+        memoryCache: MemoryCacheImpl,
+        casinoAppService: ICasinoAppService,
+        checkBonusUseCase: WebGameCheckBonusUseCase?
+    ) {
         self.casinoRecordUseCase = casinoRecordUseCase
         self.casinoUseCase = casinoUseCase
         self.memoryCache = memoryCache
         self.casinoAppService = casinoAppService
+        self.checkBonusUseCase = checkBonusUseCase
+       
         super.init()
+        
         if let tags: [GameFilter] = memoryCache.getGameTag(.casinoGameTag) {
             tagFilter.accept(tags.filter({$0 is GameFilter.Tag}).map{ $0 as! GameFilter.Tag }.map({
                 ProductDTO.GameTag.init(id: $0.tag.type, name: $0.tag.name)
             }))
         }
         
-        pagination = Pagination<BetRecord>(pageIndex: 0, offset: 20, observable: {(page) -> Observable<[BetRecord]> in
+        pagination = Pagination<BetRecord>(pageIndex: 0, offset: 20, observable: { [unowned self] (page) -> Observable<[BetRecord]> in
             self.getBetRecords(offset: page)
                 .do(onError: { error in
                     self.pagination.error.onNext(error)
-                }).catchError({ error -> Observable<[BetRecord]> in
+                }).catch({ error -> Observable<[BetRecord]> in
                     Observable.empty()
                 })
         })
+        
+        checkBonusUseCase?
+            .subscribeGameClick(
+                onError: { [unowned self] in self.errorsSubject.onNext($0) },
+                disposed: disposeBag
+            )
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     private func searchedCasinoByTag(tags: [ProductDTO.GameTag]) -> Observable<[CasinoGame]> {
-        return casinoUseCase.searchGamesByTag(tags: tags).compose(applyObservableErrorHandle()).catchError { error in
-            return Observable.error(error)
-        }.retry()
+        casinoUseCase
+            .searchGamesByTag(tags: tags)
+            .compose(applyObservableErrorHandle())
+            .catch { error in
+                return Observable.error(error)
+            }
+            .retry(3)
     }
     
     private func getCasinoBetTypeTags() -> Observable<[CasinoGameTag]> {
@@ -97,7 +122,11 @@ class CasinoViewModel: CollectErrorViewModel {
     }
     
     func getUnsettledBetSummary() -> Observable<[UnsettledBetSummary]> {
-        return casinoRecordUseCase.getUnsettledSummary().do(onSuccess: { $0.forEach{ self.betTime.append($0.betTime) } }).asObservable()
+        return casinoRecordUseCase.getUnsettledSummary()
+            .do(onSuccess: { [unowned self] in
+                $0.forEach{ self.betTime.append($0.betTime) }
+            })
+            .asObservable()
     }
     
     func getUnsettledRecords(betTime: SharedBu.LocalDateTime) -> Single<[SharedBu.LocalDateTime: [UnsettledBetRecord]]> {
@@ -110,9 +139,10 @@ class CasinoViewModel: CollectErrorViewModel {
     }
     
     func getBetSummaryByDate(localDate: String) -> Single<[PeriodOfRecord]> {
-        return casinoRecordUseCase.getBetSummaryByDate(localDate: localDate).do(onSuccess: { (periodOfRecords) in
-            self.periodOfRecord = periodOfRecords.first
-        })
+        return casinoRecordUseCase.getBetSummaryByDate(localDate: localDate)
+            .do(onSuccess: { [unowned self] (periodOfRecords) in
+                self.periodOfRecord = periodOfRecords.first
+            })
     }
     
     func getBetRecords(offset: Int) -> Observable<[BetRecord]> {
@@ -155,6 +185,7 @@ class CasinoViewModel: CollectErrorViewModel {
 }
 
 extension CasinoViewModel: ProductViewModel {
+    
     func getFavorites() {
         favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
         casinoUseCase.getFavorites().subscribe(onNext: { [weak self] (games) in
@@ -216,5 +247,4 @@ extension CasinoViewModel: ProductViewModel {
     func createGame(gameId: Int32) -> Single<URL?> {
         return casinoUseCase.createGame(gameId: gameId)
     }
-
 }

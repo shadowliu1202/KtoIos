@@ -32,7 +32,7 @@ struct DepositOfflineConfirmView<ViewModel>: View
                         onCopyed: onCopyed
                     )
                     
-                    if viewModel.locale == .China() {
+                    Group {
                         LimitSpacer(30)
                         
                         Section(
@@ -52,6 +52,7 @@ struct DepositOfflineConfirmView<ViewModel>: View
                                 color: .gray9B9B9B
                             )
                     }
+                    .visableLocale([.China()])
                     
                     LimitSpacer(40)
                     
@@ -86,6 +87,8 @@ struct DepositOfflineConfirmView<ViewModel>: View
         }
     }
 }
+
+// MARK: - Component
 
 extension DepositOfflineConfirmView {
     
@@ -237,9 +240,11 @@ extension DepositOfflineConfirmView {
                         if let imageName = imageName {
                             Image(imageName)
                                 .resizable()
+                                .scaledToFit()
                                 .frame(
-                                    width: locale is SupportLocale.China ? 16 : 48,
-                                    height: 16
+                                    width: 48,
+                                    height: 16,
+                                    alignment: .leading
                                 )
                         }
                     }

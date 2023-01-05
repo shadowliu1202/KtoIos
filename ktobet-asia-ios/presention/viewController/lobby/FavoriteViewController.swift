@@ -27,7 +27,14 @@ class FavoriteViewController: DisplayProduct {
     }
     
     private func initUI() {
-        gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+        gamesCollectionView.rx
+            .observe(\.contentSize)
+            .subscribe(onNext: { [weak self] in
+                let space: CGFloat = 30
+                let bottomPadding: CGFloat = 96
+                self?.scrollViewContentHeight.constant = $0.height + space + bottomPadding
+            })
+            .disposed(by: disposeBag)
     }
     
     private func dataBinding() {
@@ -57,17 +64,6 @@ class FavoriteViewController: DisplayProduct {
         } else {
             self.gamesCollectionView.isHidden = true
             self.emptyView.isHidden = false
-        }
-    }
-    
-    // MARK: KVO
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "contentSize", let newvalue = change?[.newKey] {
-            if let obj = object as? UICollectionView , obj == gamesCollectionView {
-                let space: CGFloat = 30
-                let bottomPadding: CGFloat = 96
-                scrollViewContentHeight.constant = (newvalue as! CGSize).height + space + bottomPadding
-            }
         }
     }
     

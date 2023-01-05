@@ -6,7 +6,6 @@ import AlignedCollectionViewFlowLayout
 import SideMenu
 
 class CasinoViewController: DisplayProduct {
-
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var lobbyCollectionView: CasinoLobbyCollectionView!
@@ -18,29 +17,28 @@ class CasinoViewController: DisplayProduct {
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
     
     private var lobbies: [CasinoLobby] = []
-    
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
-    private var viewModel = Injectable.resolve(CasinoViewModel.self)!
-    fileprivate var disposeBag = DisposeBag()
-    
-    private var lobbyHeight: CGFloat = 0
-    private var gamesHeight: CGFloat = 0
+    private var disposeBag = DisposeBag()
 
-    var barButtonItems: [UIBarButtonItem] = []
     lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
+    
+    var barButtonItems: [UIBarButtonItem] = []
+    
+    var viewModel = Injectable.resolveWrapper(CasinoViewModel.self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         Logger.shared.info("\(type(of: self)) viewDidLoad.")
-        NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
-        self.bind(position: .right, barButtonItems: .kto(.search), .kto(.favorite), .kto(.record))
-        initUI()
+        
+        setupUI()
+        binding()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         disposeBag = DisposeBag()
-        dataBinding()
+        binding()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -53,71 +51,6 @@ class CasinoViewController: DisplayProduct {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.disposeBag = DisposeBag()
-    }
-    
-    deinit {
-        print("\(type(of: self)) deinit")
-    }
-    
-    fileprivate func initUI() {
-        lobbyCollectionView.registerCellFromNib(CasinoLobbyItemCell.className)
-        lobbyCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-        gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-        lobbyCollectionView.dataSource = self
-        lobbyCollectionView.delegate = self
-    }
-    
-    fileprivate func dataBinding() {
-        viewModel.errors().subscribe(onNext: {[weak self] in
-            if $0.isMaintenance() {
-                NavigationManagement.sharedInstance.goTo(productType: .casino, isMaintenance: true)
-            } else {
-                self?.handleErrors($0)
-            }
-        }).disposed(by: disposeBag)
-        Observable.combineLatest(viewDidRotate, viewModel.lobby().asObservable())
-            .do(onNext: { [weak self] (didRoTate , _) in
-                if didRoTate { self?.scrollViewContentHeight.constant = 0 }
-            }, onError: { [weak self] _ in
-                self?.lobbyCollectionUpSpace.constant = 0
-                self?.lobbyCollectionHeight.constant = 0
-            })
-            .map({$1})
-            .catchAndReturn([])
-            .subscribe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] (lobbies) in
-                guard let `self` = self else { return }
-                self.lobbies = lobbies
-                self.lobbyCollectionView.reloadData()
-            }).disposed(by: self.disposeBag)
-        
-        viewModel.searchedCasinoByTag
-            .subscribe(onNext: { [weak self] (games) in
-                self?.reloadGameData(games)
-        }).disposed(by: disposeBag)
-        
-        Observable.combineLatest(viewDidRotate, viewModel.tagStates)
-        .flatMap { return Observable.just($1) }
-        .subscribe(onNext: { [unowned self] (data) in
-            self.tagsStackView.initialize(
-                data: data,
-                allTagClick: { self.viewModel.selectAll() },
-                customClick: { self.viewModel.toggleTag($0) })
-        }).disposed(by: self.disposeBag)
-    }
-    
-    // MARK: KVO
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "contentSize", let newValue = change?[.newKey] {
-            let aboveHeight = titleLabel.frame.size.height + tagsStackView.frame.size.height
-            let space: CGFloat = 8 + 34 + 24 * 2
-            if let obj = object as? UICollectionView , obj == gamesCollectionView {
-                gamesHeight = (newValue as! CGSize).height
-            } else if let obj = object as? UICollectionView , obj == lobbyCollectionView {
-                lobbyHeight = (newValue as! CGSize).height
-            }
-            scrollViewContentHeight.constant = lobbyHeight + gamesHeight + aboveHeight + space
-        }
     }
     
     // MARK: ProductBaseCollection
@@ -136,7 +69,106 @@ class CasinoViewController: DisplayProduct {
     override func setProductType() -> ProductType {
         .casino
     }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
 }
+
+// MARK: - UI
+
+private extension CasinoViewController {
+    
+    func setupUI() {
+        NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
+        
+        bind(
+            position: .right,
+            barButtonItems: .kto(.search), .kto(.favorite), .kto(.record)
+        )
+        
+        lobbyCollectionView.registerCellFromNib(CasinoLobbyItemCell.className)
+        
+        lobbyCollectionView.dataSource = self
+        lobbyCollectionView.delegate = self
+    }
+    
+    func binding() {
+        viewModel.errors()
+            .subscribe(onNext: { [weak self] in
+            if $0.isMaintenance() {
+                NavigationManagement.sharedInstance
+                    .goTo(
+                        productType: .casino,
+                        isMaintenance: true
+                    )
+            }
+            else {
+                self?.handleErrors($0)
+            }
+        })
+        .disposed(by: disposeBag)
+        
+        Observable
+            .combineLatest(
+                viewDidRotate,
+                viewModel.lobby().asObservable()
+            )
+            .do(onNext: { [weak self] (didRoTate , _) in
+                if didRoTate { self?.scrollViewContentHeight.constant = 0 }
+            }, onError: { [weak self] _ in
+                self?.lobbyCollectionUpSpace.constant = 0
+                self?.lobbyCollectionHeight.constant = 0
+            })
+            .map { $1 }
+            .catchAndReturn([])
+            .subscribe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] (lobbies) in
+                guard let `self` = self else { return }
+                self.lobbies = lobbies
+                self.lobbyCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+                
+        viewModel.searchedCasinoByTag
+            .subscribe(onNext: { [weak self] (games) in
+                self?.reloadGameData(games)
+            })
+            .disposed(by: disposeBag)
+                
+        Observable
+            .combineLatest(
+                viewDidRotate,
+                viewModel.tagStates
+            )
+            .subscribe(onNext: { [unowned self] (_, data) in
+                self.tagsStackView.initialize(
+                    data: data,
+                    allTagClick: { self.viewModel.selectAll() },
+                    customClick: { self.viewModel.toggleTag($0) }
+                )
+            })
+            .disposed(by: disposeBag)
+        
+        Observable
+            .combineLatest(
+                gamesCollectionView.rx.observe(\.contentSize),
+                lobbyCollectionView.rx.observe(\.contentSize)
+            )
+            .asDriverLogError()
+            .map { [unowned self] (game, lobby) -> CGFloat in
+                let aboveHeight = self.titleLabel.frame.size.height + self.tagsStackView.frame.size.height
+                let space: CGFloat = 8 + 34 + 24 * 2
+                return game.height + lobby.height + aboveHeight + space
+            }
+            .drive(onNext: { [unowned self] in
+                self.scrollViewContentHeight.constant = $0
+            })
+            .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - BarButtonItemable
 
 extension CasinoViewController: BarButtonItemable {
     
@@ -159,8 +191,9 @@ extension CasinoViewController: BarButtonItemable {
         default: break
         }
     }
-    
 }
+
+// MARK: - UICollectionView Component
 
 extension CasinoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

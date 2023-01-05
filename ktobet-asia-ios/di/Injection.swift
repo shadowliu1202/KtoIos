@@ -12,7 +12,6 @@ final class Injection {
         registerAllDependency()
     }
     
-    
     /// Only be use in unit test.
     func registerAllDependency () {
         registerHttpClient()
@@ -590,10 +589,18 @@ final class Injection {
             }
         
         container
+            .register(WebGameCheckBonusUseCase.self) { resolver in
+                return WebGameCheckBonusUseCaseImpl(
+                    promotionRepository: resolver.resolveWrapper(PromotionRepository.self)
+                )
+            }
+        
+        container
             .register(CasinoUseCase.self) { resolver in
-                let repo = resolver.resolveWrapper(CasinoRepository.self)
-                let repoLocal = resolver.resolveWrapper(LocalStorageRepository.self)
-                return CasinoUseCaseImpl(repo, repoLocal)
+                return CasinoUseCaseImpl(
+                    casinoRepository: resolver.resolveWrapper(CasinoRepository.self),
+                    localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self)
+                )
             }
         
         container
@@ -923,9 +930,18 @@ final class Injection {
         
         container
             .register(CasinoViewModel.self) { resolver in
-                let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
-                let casinoAppService = applicationFactory.casino()
-                return CasinoViewModel(casinoRecordUseCase: resolver.resolveWrapper(CasinoRecordUseCase.self), casinoUseCase: resolver.resolveWrapper(CasinoUseCase.self), memoryCache: resolver.resolveWrapper(MemoryCacheImpl.self), casinoAppService: casinoAppService)
+                return CasinoViewModel(
+                    casinoRecordUseCase: resolver.resolveWrapper(CasinoRecordUseCase.self),
+                    casinoUseCase: resolver.resolveWrapper(CasinoUseCase.self),
+                    memoryCache: resolver.resolveWrapper(MemoryCacheImpl.self),
+                    casinoAppService: resolver.resolveWrapper(ApplicationFactory.self).casino(),
+                    checkBonusUseCase: resolver.resolveWrapper(WebGameCheckBonusUseCase.self)
+                )
+            }
+        
+        container
+            .register(TurnoverAlertViewModel.self) { resolver in
+                return .init(locale: resolver.resolveWrapper(PlayerConfiguration.self).supportLocale)
             }
         
         container

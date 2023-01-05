@@ -1,5 +1,4 @@
 
-
 //MARK: - CPS
 "cps_kto" = "KTO";
 "cps_daily_limit_widthrawal_amount" = "Daily Withdrawal amount limit：%@";
@@ -891,6 +890,10 @@ Thank you";
 "product_split" = "Split";
 "product_favorite_reach_max" = "";
 "product_search_condition_not_match" = "";
+"product_turnover_description" = "进入%@前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
+"product_bonus_calculating" = "Once Bonus is Credited,
+You will not be able to
+bet %@.";
 
 //MARK: - Update
 "update_new_version_content" = "The New Version has been released, please update before proceeding.";

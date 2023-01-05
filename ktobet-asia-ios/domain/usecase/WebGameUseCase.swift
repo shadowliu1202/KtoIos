@@ -51,5 +51,4 @@ class WebGameUseCaseImpl: WebGameUseCase {
     func createGame(gameId: Int32) -> Single<URL?> {
         repo.createGame(gameId: gameId)
     }
-    
 }

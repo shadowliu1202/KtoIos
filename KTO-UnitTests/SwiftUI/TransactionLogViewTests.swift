@@ -15,7 +15,6 @@ extension TransactionLogViewModelProtocolMock: Selecting {
 }
 
 extension TransactionLogView.Sections: Inspecting { }
-extension TransactionLogView.Row: Inspectable { }
 extension TransactionLogView.Summary: Inspecting { }
 
 final class TransactionLogViewTests: XCTestCase {

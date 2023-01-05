@@ -9,9 +9,7 @@ import Mockingbird
 extension DepositViewModelProtocolMock: ObservableObject { }
 
 extension DepositView.Payments: Inspecting { }
-extension DepositView.PaymentHeader: Inspectable { }
 extension DepositView.Histories: Inspecting { }
-extension DepositView.HistoryHeader: Inspectable { }
 
 final class DepositViewTests: XCTestCase {
     

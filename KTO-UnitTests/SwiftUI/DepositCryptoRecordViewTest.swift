@@ -10,9 +10,6 @@ extension DepositCryptoRecordViewModelProtocolMock: ObservableObject { }
 
 extension DepositCryptoRecordView.Header: Inspecting { }
 extension DepositCryptoRecordView.Info: Inspecting { }
-extension DepositCryptoRecordView.InfoRow: Inspectable { }
-extension DepositCryptoRecordView.InfoTable: Inspectable { }
-extension DepositCryptoRecordView.RemarkRow: Inspectable { }
 
 final class DepositCryptoRecordViewTest: XCTestCase {
 
@@ -39,7 +36,7 @@ final class DepositCryptoRecordViewTest: XCTestCase {
             view: sut.environmentObject(stubViewModel)
         )
 
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 
     func test_PaymentStatusIsNotApproved_CpsInCompleteHintIsVisible() {

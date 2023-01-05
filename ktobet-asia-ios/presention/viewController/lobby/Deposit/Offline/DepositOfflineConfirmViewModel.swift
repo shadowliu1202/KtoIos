@@ -1,6 +1,7 @@
 import Foundation
 import SharedBu
 import RxSwift
+import RxSwiftExt
 import RxCocoa
 
 protocol DepositOfflineConfirmViewModelProtocol {
@@ -47,10 +48,13 @@ class DepositOfflineConfirmViewModel:
         self.locale = locale
         
         super.init()
-        
+
         depositTrigger
             .flatMapLatest { [unowned self] in
                 self.deposit()
+                    .asObservable()
+                    .materialize()
+                    .elements()
             }
             .subscribe(onNext: { [unowned self] _ in
                 self.depositSuccessSubject.onNext(())
@@ -75,8 +79,8 @@ private extension DepositOfflineConfirmViewModel {
                 )
             )
         )
+        .do(onError: { [unowned self] in self.errorsSubject.onNext($0) })
         .andThen(.just(true))
-        .compose(applySingleErrorHandler())
     }
 }
 

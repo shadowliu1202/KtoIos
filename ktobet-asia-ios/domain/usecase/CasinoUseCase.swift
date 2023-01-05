@@ -6,17 +6,20 @@ protocol CasinoUseCase: WebGameUseCase {
     func getCasinoBetTypeTags() -> Single<[CasinoGameTag]>
     func getLobbies() -> Single<[CasinoLobby]>
     func searchGamesByTag(tags: [ProductDTO.GameTag]) -> Observable<[CasinoGame]>
-    func searchGamesByLobby(lobby: CasinoLobbyType) -> Observable<[CasinoGame]>
+    func searchGamesByLobby(lobby: CasinoLobbyType) -> Observable<[CasinoGame]> 
 }
 
 class CasinoUseCaseImpl: WebGameUseCaseImpl, CasinoUseCase {
-    var casinoRepository: CasinoRepository!
-    var localStorageRepo: LocalStorageRepository!
+    let casinoRepository: CasinoRepository
+    let localStorageRepo: LocalStorageRepository
     
-    init(_ casinoRepository : CasinoRepository, _ localStorageRepo: LocalStorageRepository) {
-        super.init(casinoRepository)
+    init(
+        casinoRepository : CasinoRepository,
+        localStorageRepo: LocalStorageRepository
+    ) {
         self.casinoRepository = casinoRepository
         self.localStorageRepo = localStorageRepo
+        super.init(casinoRepository)
     }
     
     func getCasinoBetTypeTags() -> Single<[CasinoGameTag]> {

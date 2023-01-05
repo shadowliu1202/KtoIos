@@ -59,6 +59,7 @@ private extension DepositRecordViewController {
             FilterViewController(
                 presenter: viewModel,
                 barItemType: .back,
+                barItemImageName: "Close",
                 haveSelectAll: false,
                 selectAtLeastOne: true,
                 allowMultipleSelection: true,

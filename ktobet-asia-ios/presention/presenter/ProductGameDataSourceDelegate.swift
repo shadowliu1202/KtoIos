@@ -14,13 +14,41 @@ class ProductGameDataSourceDelegate : NSObject {
     fileprivate var games: [WebGameWithDuplicatable] = []
     fileprivate weak var vc: ProductFavoriteHelper?
     fileprivate var cellType: CellType = .general
+    
     var searchKeyword: String?
     var lookMoreTap: (() -> ())?
     var isLookMore: Bool = false
     
+    var shouldCheckBonus: Bool {
+        vc?.getProductViewModel()?.checkBonusUseCase != nil
+    }
+    
+    private let disposeBag = DisposeBag()
+    
     init(_ vc: ProductFavoriteHelper, cellType: CellType = .general) {
         self.vc = vc
         self.cellType = cellType
+        
+        super.init()
+        
+        if shouldCheckBonus {
+            vc.getProductViewModel()?
+                .checkBonusUseCase?
+                .allowGoWebGameDriver
+                .drive(onNext: { [weak self] in
+                    switch $0 {
+                    case .normal(let game):
+                        self?.goToWeb(game)
+                    default:
+                        self?.vc?.handleBonusStatusAlert($0)
+                    }
+                })
+                .disposed(by: disposeBag)
+        }
+    }
+    
+    deinit {
+        print("\(type(of: self)) deinit")
     }
     
     func setGames(_ games: [WebGameWithDuplicatable]) {
@@ -48,6 +76,18 @@ class ProductGameDataSourceDelegate : NSObject {
     @objc func lookMore() {
         lookMoreTap?()
     }
+    
+    private func goToWeb(_ game: WebGameWithProperties?) {
+        guard let game = game ,
+              let viewModel = vc?.getProductViewModel()
+        else { return }
+
+        vc?.goToWebGame(
+            viewModel: viewModel,
+            gameId: game.gameId,
+            gameName: game.gameName
+        )
+    }
 }
 
 extension ProductGameDataSourceDelegate: UICollectionViewDataSource {
@@ -64,12 +104,12 @@ extension ProductGameDataSourceDelegate: UICollectionViewDataSource {
         case .search:
             cell = collectionView.dequeueReusableCell(cellType: WebGameSearchItemCell.self, indexPath: indexPath).configure(game: game, searchKeyword: self.searchKeyword)
         }
-        cell.favoriteBtnClick = { (favoriteBtn) in
+        cell.favoriteBtnClick = { [weak self] (favoriteBtn) in
             favoriteBtn?.isUserInteractionEnabled = false
-            self.vc?.toggleFavorite(game, onCompleted: { [weak self] (action) in
+            self?.vc?.toggleFavorite(game, onCompleted: { (action) in
                 favoriteBtn?.isUserInteractionEnabled = true
                 self?.showToast(action)
-            }, onError: { [weak self] (error) in
+            }, onError: { (error) in
                 favoriteBtn?.isUserInteractionEnabled = true
                 self?.vc?.handleErrors(error)
             })
@@ -118,16 +158,19 @@ extension ProductGameDataSourceDelegate: UICollectionViewDataSource {
 
 extension ProductGameDataSourceDelegate: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let vc = self.vc, let viewModel = vc.getProductViewModel() else { return }
+        guard let vc = self.vc,
+              let viewModel = vc.getProductViewModel()
+        else { return }
+        
         let data = self.game(at: indexPath)
-        switch data.gameState() {
-        case .active:
-            vc.goToWebGame(viewModel: viewModel, gameId: data.gameId, gameName: data.gameName)
-        default:
-            break
+        
+        if shouldCheckBonus {
+            viewModel.checkBonusUseCase?.clickGameTrigger.onNext(data)
+        }
+        else if data.isActive {
+            goToWeb(data)
         }
     }
-    
 }
 
 class SearchGameDataSourceDelegate: ProductGameDataSourceDelegate {
