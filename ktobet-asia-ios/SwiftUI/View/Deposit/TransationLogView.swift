@@ -80,10 +80,7 @@ extension TransactionLogView {
                         
                         VStack(alignment: .trailing) {
                             Text(
-                                viewModel
-                                    .summary?
-                                    .income
-                                    .formatString(sign: .signed_) ?? "0.00"
+                                "+" + (viewModel.summary?.income.formatString(.none) ?? "0.00")
                             )
                             .localized(
                                 weight: .regular,
@@ -92,7 +89,7 @@ extension TransactionLogView {
                             )
                             
                             Text(
-                                "-" + (viewModel.summary?.outcome.formatString() ?? "0.00")
+                                "-" + (viewModel.summary?.outcome.formatString(.none) ?? "0.00")
                             )
                             .localized(
                                 weight: .regular,
@@ -293,7 +290,7 @@ struct TransactionLogView_Previews: PreviewProvider {
                 GeneralProduct(
                     transactionLog: BalanceLogDetail(
                         afterBalance: .zero(),
-                        amount: "\($0 + 100)".toAccountCurrency(),
+                        amount: "\($0 - 100)".toAccountCurrency(),
                         date: Date().convertToKotlinx_datetimeLocalDateTime(),
                         wagerMappingId: "",
                         productGroup: .P2P(supportProvider: .CompanionNone()),

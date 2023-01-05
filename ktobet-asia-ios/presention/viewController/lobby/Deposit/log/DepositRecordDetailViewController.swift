@@ -249,7 +249,7 @@ class DepositRecordDetailViewController: LobbyViewController {
     
     private func dataBinding() {
         let shareDepositRecordDetail = viewModel.getDepositFiatLog(transactionId: displayId).share()
-        shareDepositRecordDetail.subscribeOn(MainScheduler.instance)
+        shareDepositRecordDetail.subscribe(on: MainScheduler.instance)
             .subscribe {[unowned self] (item: PaymentLogDTO.FiatLog) in
                 let log = item.log
                 self.statusDateLabel.text = log.updateDate.toDateTimeString()

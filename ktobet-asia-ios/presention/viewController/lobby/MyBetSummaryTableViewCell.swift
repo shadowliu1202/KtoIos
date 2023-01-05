@@ -22,7 +22,7 @@ class MyBetSummaryTableViewCell: UITableViewCell {
         recordCountLabel.text = String(format: Localize.string("product_count_bet_record"), "\(element.count.formattedWithSeparator)")
         dateLabel.text = displayDate(element.createdDateTime)
         let status = element.totalWinLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
-        betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.totalStakes.description() + "  " + status + " " + element.totalWinLoss.formatString(sign: .none))
+        betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.totalStakes.description() + "  " + status + " " + element.totalWinLoss.formatString(.none))
         
         return self
     }

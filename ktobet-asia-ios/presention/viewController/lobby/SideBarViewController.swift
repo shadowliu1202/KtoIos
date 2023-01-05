@@ -327,8 +327,7 @@ extension SideBarViewController {
             }
             .compactMap { $0 }
             .map { (currency: AccountCurrency) -> String in
-                let sign: FormatPattern.Sign = currency.isNegative ? .signed_ : .none
-                return "\(currency.symbol) \(currency.formatString(sign))"
+                return "\(currency.symbol) \(currency.formatString(.none))"
             }
             .drive(onNext: { [weak self] balanceSummary in
                 guard let self = self else { return }
@@ -357,7 +356,7 @@ extension SideBarViewController {
             .map { (player, accountCurrency) in
                 return (player!, accountCurrency!)
             }
-            .map { ($0, "\($1.symbol) \($1.formatString())") }
+            .map { ($0, "\($1.symbol) \($1.formatString(.none))") }
             .do(onNext: { [weak self] (player, balanceSummary) in
                 guard let self = self else { return }
                 

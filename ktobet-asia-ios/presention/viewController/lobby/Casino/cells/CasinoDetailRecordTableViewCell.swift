@@ -43,7 +43,7 @@ class CasinoDetailRecord2TableViewCell: UITableViewCell {
                 self.contentLabel.text = String(format: Localize.string("product_winning_amount"), detail.winLoss.description())
                 self.contentLabel.textColor = UIColor.green6AB336
             } else {
-                self.contentLabel.text = String(format: Localize.string("product_losing_amount"), detail.winLoss.formatString())
+                self.contentLabel.text = String(format: Localize.string("product_losing_amount"), detail.winLoss.formatString(.none))
             }
         }
     }
