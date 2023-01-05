@@ -141,7 +141,7 @@ private extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
     }
     
     var requestFromCrypto: String {
-        if self?.request?.fromCrypto.formatString() != "0" {
+        if self?.request?.fromCrypto.formatString(.none) != "0" {
             return self?.request?.fromCrypto.formatString() ?? ""
         }
         else {
@@ -159,7 +159,7 @@ private extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
     }
     
     var requestFiatFormat: String {
-        if self?.request?.toFiat.formatString() != "0" {
+        if self?.request?.toFiat.formatString(.none) != "0" {
             return self?.request?.toFiat.formatString() ?? ""
         }
         else {

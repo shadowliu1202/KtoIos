@@ -52,10 +52,10 @@ class WithdrawalCryptoRequestConfirmViewController: LobbyViewController {
             self.dailyCountLabel.text = Localize.string("common_times_count", "\(limits.dailyCurrentCount - 1)")
             let fiatAccountCurrency = self.viewModel.fiatDecimalToAccountCurrency(self.request.fiatAmount)
             let remainingAmount = limits.dailyCurrentCash - fiatAccountCurrency
-            self.dailyAmountLabel.text = remainingAmount.formatString(sign: .none)
+            self.dailyAmountLabel.text = remainingAmount.formatString()
             let remainingCryptoRequest = limits.calculateRemainTurnOver(depositAmount: fiatAccountCurrency)
             self.remainingRequirementLabel.text =  remainingCryptoRequest.description() + " \(remainingCryptoRequest.simpleName)"
-        }, onError: { [weak self] (error) in
+        }, onFailure: { [weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
         viewModel.getCryptoRequestBankCard(bankCardId: self.request.cardId).subscribe(onSuccess: { [weak self] (bank) in
@@ -64,7 +64,7 @@ class WithdrawalCryptoRequestConfirmViewController: LobbyViewController {
             } else {
                 self?.cryptoAddressLabel.text = ""
             }
-        }, onError: { [weak self] (error) in
+        }, onFailure: { [weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }

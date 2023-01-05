@@ -298,8 +298,7 @@ class LogDetailRowItem {
         return bean.amount.isPositive ? .green6AB336 : .whitePure
     }
     var balancelogAfterAmount: String {
-        let sign: FormatPattern.Sign = bean.afterBalance.isNegative ? .signed_ : .none
-        return bean.afterBalance.formatString(sign)
+        return bean.afterBalance.formatString(.normal)
     }
     var dateTime: String { bean.date.toDateTimeFormatString() }
     var logId: String?

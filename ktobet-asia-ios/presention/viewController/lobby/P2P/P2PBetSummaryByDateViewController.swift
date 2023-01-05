@@ -75,7 +75,7 @@ class P2PBetSummaryByDateCell: UITableViewCell {
         betCountLabel.text = Localize.string("product_count_bet_record", "\(item.recordsCount)")
         let status = item.winLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
         betAmountLabel.text = Localize.string("product_total_bet", item.stakes.description())
-        betWinLossLabel.text = status + " \(item.winLoss.formatString())"
+        betWinLossLabel.text = status + " \(item.winLoss.formatString(.none))"
         return self
     }
     

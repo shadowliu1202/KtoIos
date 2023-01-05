@@ -31,7 +31,7 @@ class WithdrawalRequestConfirmViewController: LobbyViewController {
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         withdrawalTodayCountLimitLabel.text = Localize.string("common_times_count","\(withdrawalLimits.dailyCurrentCount - 1)")
-        withdrawalTodayAmountLimitLabel.text = (withdrawalLimits.dailyCurrentCash - amount.toAccountCurrency()).formatString(sign: .none)
+        withdrawalTodayAmountLimitLabel.text = (withdrawalLimits.dailyCurrentCash - amount.toAccountCurrency()).formatString(.none)
         self.startActivityIndicator(activityIndicator: self.activityIndicator)
         self.viewModel.isRealNameEditable().subscribe { [weak self] _ in
             guard let self = self else { return }

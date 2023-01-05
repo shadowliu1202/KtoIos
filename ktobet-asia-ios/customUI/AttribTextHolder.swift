@@ -38,6 +38,12 @@ class AttribTextHolder {
                 if !showUnderline {
                     attributedOriginalText.addAttribute(NSAttributedString.Key.underlineColor, value: UIColor.clear, range: arange)
                 }
+                
+                textView.linkTextAttributes = [
+                    kCTForegroundColorAttributeName: UIColor.redF20000,
+                    kCTUnderlineStyleAttributeName: NSUnderlineStyle.single.rawValue,
+                    ] as [NSAttributedString.Key : Any]
+                
             case .color:
                 var color = UIColor.black
                 if let c = item.value as? UIColor { color = c }
@@ -57,11 +63,6 @@ class AttribTextHolder {
         
         let fullRange = NSMakeRange(0, attributedOriginalText.length)
         attributedOriginalText.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: fullRange)
-        
-        textView.linkTextAttributes = [
-            kCTForegroundColorAttributeName: UIColor.blue,
-            kCTUnderlineStyleAttributeName: NSUnderlineStyle.single.rawValue,
-            ] as [NSAttributedString.Key : Any]
         
         textView.attributedText = attributedOriginalText
     }
