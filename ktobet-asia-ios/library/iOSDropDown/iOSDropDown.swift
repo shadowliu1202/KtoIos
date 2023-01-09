@@ -258,7 +258,8 @@ open class DropDown : UITextField{
                        usingSpringWithDamping: 0.9,
                        initialSpringVelocity: 0.1,
                        options: .curveEaseInOut,
-                       animations: { () -> Void in
+                       animations: { [weak self] () -> Void in
+            guard let `self` = self else { return }
             self.table.frame = CGRect(x: self.pointToParent.x,
                                       y: y,
                                       width: self.frame.width + self.ktoOffset.origin.x,
@@ -268,8 +269,8 @@ open class DropDown : UITextField{
             self.shadow.dropShadow()
             self.arrow.position = .up
             self.bubbleShape.alpha = self.tableHeightX > 0 ? 1 : 0
-        }, completion: { (finish) -> Void in
-            self.layoutIfNeeded()
+        }, completion: { [weak self] (finish) -> Void in
+            self?.layoutIfNeeded()
         })
     }
 
@@ -287,7 +288,8 @@ open class DropDown : UITextField{
                        usingSpringWithDamping: 0.9,
                        initialSpringVelocity: 0.1,
                        options: .curveEaseInOut,
-                       animations: { () -> Void in
+                       animations: { [weak self] () -> Void in
+            guard let `self` = self else { return }
             self.table.frame = CGRect(x: self.pointToParent.x,
                                       y: y,
                                       width: self.frame.width + self.ktoOffset.origin.x,
@@ -296,14 +298,14 @@ open class DropDown : UITextField{
             self.shadow.alpha = 0
             self.shadow.frame = self.table.frame
             self.arrow.position = .down
-        }, completion: { (didFinish) -> Void in
-            self.bubbleShape.removeFromSuperview()
-            self.shadow.removeFromSuperview()
-            self.table.tableFooterView = nil
-            self.table.removeFromSuperview()
-            self.backgroundView.removeFromSuperview()
-            self.isSelected = false
-            self.TableDidDisappearCompletion()
+        }, completion: { [weak self] (didFinish) -> Void in
+            self?.bubbleShape.removeFromSuperview()
+            self?.shadow.removeFromSuperview()
+            self?.table.tableFooterView = nil
+            self?.table.removeFromSuperview()
+            self?.backgroundView.removeFromSuperview()
+            self?.isSelected = false
+            self?.TableDidDisappearCompletion()
         })
     }
 
@@ -350,7 +352,8 @@ open class DropDown : UITextField{
                        usingSpringWithDamping: 0.9,
                        initialSpringVelocity: 0.1,
                        options: .curveEaseInOut,
-                       animations: { () -> Void in
+                       animations: { [weak self] () -> Void in
+            guard let `self` = self else { return }
             self.table.frame = CGRect(x: self.pointToParent.x,
                                       y: y,
                                       width: self.frame.width + self.ktoOffset.origin.x,
@@ -360,8 +363,8 @@ open class DropDown : UITextField{
             self.bubbleShape.alpha = self.tableHeightX > 0 ? 1 : 0
             self.bubbleShape.position = bubbleDirection
             self.bubbleShape.frame.origin = CGPoint(x: self.pointToParent.x + 20, y: bubbleY)
-        }, completion: { (didFinish) -> Void in
-            self.layoutIfNeeded()
+        }, completion: { [weak self] (didFinish) -> Void in
+            self?.layoutIfNeeded()
         })
     }
 
@@ -472,8 +475,8 @@ extension DropDown: UITableViewDelegate {
                        animations: { () -> Void in
             tableView.cellForRow(at: indexPath)?.alpha = 1.0
             tableView.cellForRow(at: indexPath)?.backgroundColor = self.selectedRowColor
-        }, completion: { (didFinish) -> Void in
-            self.text = "\(selectedText)"
+        }, completion: { [weak self] (didFinish) -> Void in
+            self?.text = "\(selectedText)"
             tableView.reloadData()
         })
         if hideOptionsWhenSelect {
