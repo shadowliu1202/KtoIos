@@ -125,7 +125,7 @@ When you deposit cryptocurrency successfully, cryptocurrency withdrawal requirem
 "common_language" = "Vietnamese";
 "common_lastday" = "Last %@ Days";
 "common_level" = "Level";
-"common_level_2" = "LV%@";
+"common_level_2" = "LV %@";
 "common_login" = "Sign In";
 "common_minute" = "Minute";
 "common_mobile" = "Mobile";
@@ -155,7 +155,6 @@ When you deposit cryptocurrency successfully, cryptocurrency withdrawal requirem
 "common_previous" = "Previous";
 "common_promotion" = "Promotion";
 "common_realname" = "Withdrawal Name";
-"common_rebet" = "Rebate";
 "common_redirect" = "You will be redirected to the KTO Asia homepage in %@ seconds.";
 "common_register" = "Sign Up";
 "common_registerdate" = "Sign Up Date";
