@@ -11,6 +11,8 @@ class P2PViewController: ProductsViewController {
     
     @Injected private (set) var viewModel: P2PViewModel
     
+    @Injected private var loading: Loading
+    
     private var disposeBag = DisposeBag()
     
     var barButtonItems: [UIBarButtonItem] = []
@@ -35,42 +37,6 @@ class P2PViewController: ProductsViewController {
         else {
             super.handleErrors(error)
         }
-    }
-    
-    private func checkTurnOver(p2pGame: P2PGame) {
-        viewModel.getTurnOverStatus()
-            .subscribe(onSuccess: { [unowned self] (turnOver) in
-                switch turnOver {
-                case is P2PTurnOver.Calculating:
-                    Logger.shared.info("Calculating")
-                    
-                    Alert.shared.show(
-                        Localize.string("common_tip_title_warm"),
-                        Localize.string("product_p2p_bonus_calculating"),
-                        confirm: {},
-                        cancel: nil
-                    )
-                    
-                case is P2PTurnOver.None:
-                    self.goToWebGame(
-                        viewModel: self.viewModel,
-                        gameId: p2pGame.gameId,
-                        gameName: p2pGame.gameName
-                    )
-                    
-                case is P2PTurnOver.TurnOverReceipt:
-                    let p2pAlertView = P2PAlertViewController.initFrom(storyboard: "P2P")
-                    p2pAlertView.p2pTurnOver = turnOver
-                    p2pAlertView.view.backgroundColor = .gray131313.withAlphaComponent(0.8)
-                    p2pAlertView.modalPresentationStyle = .overCurrentContext
-                    p2pAlertView.modalTransitionStyle = .crossDissolve
-                    self.present(p2pAlertView, animated: true, completion: nil)
-                    
-                default:
-                    break
-                }
-            })
-            .disposed(by: disposeBag)
     }
 }
 
@@ -103,10 +69,22 @@ private extension P2PViewController {
             }
             .disposed(by: disposeBag)
         
+        bindWebGameResult(with: viewModel)
+        
+        viewModel.errorsSubject
+            .subscribe(onNext: { [weak self] in
+                self?.handleErrors($0)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.activityIndicator
+            .bind(to: loading)
+            .disposed(by: disposeBag)
+        
         tableView.rx
             .modelSelected(P2PGame.self)
             .bind { [unowned self] (data) in
-                self.checkTurnOver(p2pGame: data)
+                self.viewModel.fetchGame(data)
             }
             .disposed(by: disposeBag)
     }

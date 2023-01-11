@@ -19,10 +19,6 @@ class ProductGameDataSourceDelegate : NSObject {
     var lookMoreTap: (() -> ())?
     var isLookMore: Bool = false
     
-    var shouldCheckBonus: Bool {
-        vc?.getProductViewModel()?.checkBonusUseCase != nil
-    }
-    
     private let disposeBag = DisposeBag()
     
     init(_ vc: ProductFavoriteHelper, cellType: CellType = .general) {
@@ -30,21 +26,6 @@ class ProductGameDataSourceDelegate : NSObject {
         self.cellType = cellType
         
         super.init()
-        
-        if shouldCheckBonus {
-            vc.getProductViewModel()?
-                .checkBonusUseCase?
-                .allowGoWebGameDriver
-                .drive(onNext: { [weak self] in
-                    switch $0 {
-                    case .normal(let game):
-                        self?.goToWeb(game)
-                    default:
-                        self?.vc?.handleBonusStatusAlert($0)
-                    }
-                })
-                .disposed(by: disposeBag)
-        }
     }
     
     deinit {
@@ -75,18 +56,6 @@ class ProductGameDataSourceDelegate : NSObject {
     
     @objc func lookMore() {
         lookMoreTap?()
-    }
-    
-    private func goToWeb(_ game: WebGameWithProperties?) {
-        guard let game = game ,
-              let viewModel = vc?.getProductViewModel()
-        else { return }
-
-        vc?.goToWebGame(
-            viewModel: viewModel,
-            gameId: game.gameId,
-            gameName: game.gameName
-        )
     }
 }
 
@@ -164,12 +133,7 @@ extension ProductGameDataSourceDelegate: UICollectionViewDelegate {
         
         let data = self.game(at: indexPath)
         
-        if shouldCheckBonus {
-            viewModel.checkBonusUseCase?.clickGameTrigger.onNext(data)
-        }
-        else if data.isActive {
-            goToWeb(data)
-        }
+        viewModel.fetchGame(data)
     }
 }
 

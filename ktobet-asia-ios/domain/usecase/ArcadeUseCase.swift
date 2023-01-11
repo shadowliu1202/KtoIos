@@ -7,11 +7,11 @@ protocol ArcadeUseCase: WebGameUseCase {
 }
 
 class ArcadeUseCaseImpl: WebGameUseCaseImpl, ArcadeUseCase {
-    var arcadeRepository : ArcadeRepository!
+    private let arcadeRepository : ArcadeRepository
     
-    init(_ arcadeRepository : ArcadeRepository) {
-        super.init(arcadeRepository)
+    init(arcadeRepository : ArcadeRepository, promotionRepository: PromotionRepository) {
         self.arcadeRepository = arcadeRepository
+        super.init(webGameRepository: arcadeRepository, promotionRepository: promotionRepository)
     }
     
     func getGames(isRecommend: Bool, isNew: Bool) -> Observable<[ArcadeGame]> {

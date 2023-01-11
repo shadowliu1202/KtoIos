@@ -19,6 +19,8 @@ class NumberGameViewController: DisplayProduct {
     @IBOutlet var gamesCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var blurBackgroundViewHeight: NSLayoutConstraint!
     
+    @Injected private var loading: Loading
+    
     private lazy var viewModel = Injectable.resolve(NumberGameViewModel.self)!
     private var disposeBag = DisposeBag()
     
@@ -100,6 +102,12 @@ class NumberGameViewController: DisplayProduct {
                 self?.handleErrors($0)
             }
         }).disposed(by: disposeBag)
+        
+        bindWebGameResult(with: viewModel)
+        
+        viewModel.activityIndicator
+            .bind(to: loading)
+            .disposed(by: disposeBag)
         
         Observable.combineLatest(viewDidRotate, viewModel.tagStates)
             .flatMap { return Observable.just($1) }
@@ -249,7 +257,7 @@ extension NumberGameViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDa
     
     func pagerView(_ pageView: TYCyclePagerView, didSelectedItemCell cell: UICollectionViewCell, at index: Int) {
         let game = datas[index]
-        self.goToWebGame(viewModel: viewModel, gameId: game.gameId, gameName: game.gameName)
+        self.viewModel.fetchGame(game)
     }
 }
 

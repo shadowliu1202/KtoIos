@@ -8,6 +8,8 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
     static let segueIdentifier = "toCasinoUnsettleRecords"
     @IBOutlet private weak var tableView: UITableView!
     
+    @Injected private var loading: Loading
+    
     private var viewModel = Injectable.resolve(CasinoViewModel.self)!
     private var disposeBag = DisposeBag()
     private var sections: [Section] = []
@@ -21,6 +23,18 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
         tableView.dataSource = self
         tableView.setHeaderFooterDivider(headerColor: UIColor.black131313)
         getUnsettledBetSummary()
+        
+        viewModel.errors()
+            .subscribe(onNext: { [weak self] in
+                self?.handleErrors($0)
+            })
+            .disposed(by: disposeBag)
+        
+        bindWebGameResult(with: viewModel)
+        
+        viewModel.activityIndicator
+            .bind(to: loading)
+            .disposed(by: disposeBag)
     }
     
     deinit {
@@ -38,7 +52,8 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
     private func getUnsettledRecords() {
         viewModel.getUnsettledRecords().subscribe(onNext: {[weak self] (dic) in
             for (date, records) in dic {
-                self?.sections.append(Section(sectionClass: date.date.toDateFormatString(),
+                self?.sections.append(Section(webGames: records,
+                                              sectionClass: date.date.toDateFormatString(),
                                               name: records.map{ $0.gameName },
                                               betId: records.map{ $0.betId },
                                               totalAmount: records.map{ $0.stakes },
@@ -136,9 +151,8 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let gameId = gameId(at: indexPath)
-        let gameName = gameName(at: indexPath)
-        self.goToWebGame(viewModel: self.viewModel, gameId: gameId, gameName: gameName)
+        let game = sections[indexPath.section].webGames[indexPath.row]
+        viewModel.fetchGame(game)
     }
 }
 
@@ -158,6 +172,7 @@ extension CasinoUnsettleRecordsViewController: ExpandableHeaderViewDelegate {
 
 
 struct Section {
+    var webGames: [WebGame] = []
     var gameId: [Int32] = []
     var sectionClass: String!
     var sectionDate: String?
@@ -181,7 +196,8 @@ struct Section {
         self.sectionClass = self.periodOfRecord.lobbyName
     }
     
-    init(sectionClass: String, name: [String] = [], betId: [String] = [], totalAmount: [AccountCurrency] = [], winAmount: [AccountCurrency] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32] = [], prededuct: [AccountCurrency] = []) {
+    init(webGames: [WebGame],sectionClass: String, name: [String] = [], betId: [String] = [], totalAmount: [AccountCurrency] = [], winAmount: [AccountCurrency] = [], expanded: Bool, sectionDate: String? = nil, betStatus: [BetStatus] = [], hasDetail: [Bool] = [], wagerId: [String] = [], gameId: [Int32] = [], prededuct: [AccountCurrency] = []) {
+        self.webGames = webGames
         self.sectionClass = sectionClass
         self.name = name
         self.betId = betId

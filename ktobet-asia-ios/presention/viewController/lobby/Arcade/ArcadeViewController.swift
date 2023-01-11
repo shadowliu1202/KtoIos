@@ -9,6 +9,8 @@ class ArcadeViewController: DisplayProduct {
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
     
+    @Injected private var loading: Loading
+    
     private lazy var viewModel = Injectable.resolve(ArcadeViewModel.self)!
     private var disposeBag = DisposeBag()
     
@@ -30,25 +32,39 @@ class ArcadeViewController: DisplayProduct {
     }
     
     private func dataBinding() {
-        viewModel.errors().subscribe(onNext: {[weak self] in
-            if $0.isMaintenance() {
-                NavigationManagement.sharedInstance.goTo(productType: .arcade, isMaintenance: true)
-            } else {
-                self?.handleErrors($0)
-            }
-        }).disposed(by: disposeBag)
-        viewModel.gameSource
+        viewModel.errors()
+            .subscribe(onNext: {[weak self] in
+                if $0.isMaintenance() {
+                    NavigationManagement.sharedInstance.goTo(productType: .arcade, isMaintenance: true)
+                } else {
+                    self?.handleErrors($0)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        bindWebGameResult(with: viewModel)
+        
+        viewModel.activityIndicator
+            .bind(to: loading)
+            .disposed(by: disposeBag)
+        
+        viewModel
+            .gameSource
             .subscribe(onNext: { [weak self] (games) in
                 self?.reloadGameData(games)
-        }).disposed(by: disposeBag)
-        viewModel.tagStates.subscribe(onNext: { [unowned self] (data) in
-            self.tagsStackView.initialize(
-                recommend: data.0,
-                new: data.1,
-                allTagClick: { self.viewModel.selectAll() },
-                recommendClick: { self.viewModel.toggleRecommend() },
-                newClick: { self.viewModel.toggleNew() })
-        }).disposed(by: self.disposeBag)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.tagStates
+            .subscribe(onNext: { [unowned self] (data) in
+                self.tagsStackView.initialize(
+                    recommend: data.0,
+                    new: data.1,
+                    allTagClick: { self.viewModel.selectAll() },
+                    recommendClick: { self.viewModel.toggleRecommend() },
+                    newClick: { self.viewModel.toggleNew() })
+            })
+            .disposed(by: self.disposeBag)
     }
     
     

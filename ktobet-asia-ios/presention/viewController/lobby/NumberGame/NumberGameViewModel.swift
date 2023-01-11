@@ -3,12 +3,19 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class NumberGameViewModel: CollectErrorViewModel {
+class NumberGameViewModel: CollectErrorViewModel, ProductViewModel {
     private let numberGameUseCase: NumberGameUseCase
     private let memoryCache: MemoryCacheImpl
     private let numberGameService: INumberGameAppService
+
+    private let disposeBag = DisposeBag()
+
+    private let webGameResultSubject = PublishSubject<WebGameResult>()
+
     private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
-    private var disposeBag = DisposeBag()
+    
+    private lazy var gameTags = RxSwift.Single<NumberGameDTO.GameTags>.from(numberGameService.getTags()).asObservable()
+    
     private lazy var filterSets: Observable<Set<GameFilter>> = Observable.combineLatest(tagFilter, recommendFilter, newFilter) { (tags, recommand, new) -> Set<GameFilter> in
         var gameFilters: Set<GameFilter> = Set(tags.map({
             GameFilter.Tag.init(tag: GameTag.init(type: $0.id, name: $0.name))
@@ -19,20 +26,61 @@ class NumberGameViewModel: CollectErrorViewModel {
     }
     
     lazy var popularGames = numberGameUseCase.getPopularGames()
-    lazy var allGames = Observable.combineLatest(gameSorting, filterSets).flatMapLatest { (gameSorting, gameFilters) ->  Observable<[NumberGame]> in
-        return self.numberGameUseCase.getGames(order: gameSorting, tags: gameFilters).compose(self.applyObservableErrorHandle()).catchError { error in
-            return Observable.error(error)
-        }.retry()
+    lazy var allGames = Observable
+        .combineLatest(gameSorting, filterSets)
+        .flatMapLatest { (gameSorting, gameFilters) ->  Observable<[NumberGame]> in
+            return self.numberGameUseCase
+                .getGames(order: gameSorting, tags: gameFilters)
+                .compose(self.applyObservableErrorHandle())
+                .catch { error in
+                    return Observable.error(error)
+                }
+                .retry(3)
     }
     
-    private lazy var gameTags = RxSwift.Single<NumberGameDTO.GameTags>.from(numberGameService.getTags()).asObservable()
     private var tagFilter = BehaviorRelay<[ProductDTO.GameTag]>(value: [])
     private var recommendFilter = BehaviorRelay<Bool>(value: false)
     private var newFilter = BehaviorRelay<Bool>(value: false)
     
-    lazy var tagStates: Observable<((ProductDTO.RecommendTag? , Bool), (ProductDTO.NewTag? , Bool), [(ProductDTO.GameTag, Bool)])> = Observable.combineLatest(tagFilter, recommendFilter, newFilter, gameTags).map({ (filter, isRecommend, isNew , gameTags) in
-        return ((gameTags.recommendTag, isRecommend), (gameTags.newTag, isNew), gameTags.gameTags.map({ ($0, filter.contains($0)) }))
-    }).compose(applyObservableErrorHandle())
+    lazy var tagStates = Observable
+        .combineLatest(
+            tagFilter,
+            recommendFilter,
+            newFilter,
+            gameTags
+        )
+        .map { (filter, isRecommend, isNew , gameTags) in
+            return ((gameTags.recommendTag, isRecommend), (gameTags.newTag, isNew), gameTags.gameTags.map({ ($0, filter.contains($0)) }))
+        }
+        .compose(applyObservableErrorHandle())
+    
+    
+    var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
+    var gameSorting = BehaviorRelay<GameSorting>(value: .popular)
+    
+    var webGameResultDriver: Driver<WebGameResult> {
+        webGameResultSubject.asDriverLogError()
+    }
+    
+    let activityIndicator: ActivityIndicator = .init()
+    
+    init(numberGameUseCase: NumberGameUseCase, memoryCache: MemoryCacheImpl, numberGameService: INumberGameAppService) {
+        self.numberGameUseCase = numberGameUseCase
+        self.memoryCache = memoryCache
+        self.numberGameService = numberGameService
+        super.init()
+        if let tags: [GameFilter] = memoryCache.getGameTag(.numberGameTag) {
+            tagFilter.accept(tags.filter({$0 is GameFilter.Tag}).map{ $0 as! GameFilter.Tag }.map({
+                ProductDTO.GameTag.init(id: $0.tag.type, name: $0.tag.name)
+            }))
+            if tags.contains(GameFilter.New.init()) {
+                newFilter.accept(true)
+            }
+            if tags.contains(GameFilter.Promote.init()) {
+                recommendFilter.accept(true)
+            }
+        }
+    }
     
     func selectAll() {
         tagFilter.accept([])
@@ -97,27 +145,6 @@ class NumberGameViewModel: CollectErrorViewModel {
         memoryCache.setGameTag(.numberGameTag, gameFilters)
     }
     
-    var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-    var gameSorting = BehaviorRelay<GameSorting>(value: .popular)
-    
-    init(numberGameUseCase: NumberGameUseCase, memoryCache: MemoryCacheImpl, numberGameService: INumberGameAppService) {
-        self.numberGameUseCase = numberGameUseCase
-        self.memoryCache = memoryCache
-        self.numberGameService = numberGameService
-        super.init()
-        if let tags: [GameFilter] = memoryCache.getGameTag(.numberGameTag) {
-            tagFilter.accept(tags.filter({$0 is GameFilter.Tag}).map{ $0 as! GameFilter.Tag }.map({
-                ProductDTO.GameTag.init(id: $0.tag.type, name: $0.tag.name)
-            }))
-            if tags.contains(GameFilter.New.init()) {
-                newFilter.accept(true)
-            }
-            if tags.contains(GameFilter.Promote.init()) {
-                recommendFilter.accept(true)
-            }
-        }
-    }
-    
     private func updateGameSorting() {
         if recommendFilter.value {
             updateGameSorting(sorting: .popular)
@@ -131,22 +158,41 @@ class NumberGameViewModel: CollectErrorViewModel {
     func updateGameSorting(sorting: GameSorting) {
         gameSorting.accept(sorting)
     }
+}
+// MARK: - Game
+
+extension NumberGameViewModel {
     
-    private func addFavorite(_ game: WebGameWithDuplicatable) -> Completable {
-        return numberGameUseCase.addFavorite(game: game)
+    func getGameProduct() -> String {
+        return "numbergame"
     }
     
-    private func removeFavorite(_ game: WebGameWithDuplicatable) -> Completable {
-        return numberGameUseCase.removeFavorite(game: game)
+    func getGameProductType() -> ProductType {
+        ProductType.numbergame
     }
     
     private func getTags() -> Observable<[GameTag]> {
         return numberGameUseCase.getGameTags().asObservable().share(replay: 1)
     }
     
+    func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult> {
+        numberGameUseCase.checkBonusAndCreateGame(game)
+    }
+    
+    func fetchGame(_ game: WebGame) {
+        configFetchGame(
+            game,
+            resultSubject: webGameResultSubject,
+            errorSubject: errorsSubject
+        )
+        .disposed(by: disposeBag)
+    }
 }
 
-extension NumberGameViewModel: ProductViewModel {
+// MARK: - Favorite
+
+extension NumberGameViewModel {
+    
     func getFavorites() {
         favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
         numberGameUseCase.getFavorites().subscribe(onNext: { [weak self] (games) in
@@ -158,10 +204,6 @@ extension NumberGameViewModel: ProductViewModel {
         }, onError: { [weak self] (e) in
             self?.favorites.onError(e)
         }).disposed(by: disposeBag)
-    }
-    
-    func getGameProductType() -> ProductType {
-        ProductType.numbergame
     }
     
     func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
@@ -184,13 +226,18 @@ extension NumberGameViewModel: ProductViewModel {
         }
     }
     
-    func getGameProduct() -> String {
-        return "numbergame"
+    private func addFavorite(_ game: WebGameWithDuplicatable) -> Completable {
+        return numberGameUseCase.addFavorite(game: game)
     }
     
-    func createGame(gameId: Int32) -> Single<URL?> {
-        return numberGameUseCase.createGame(gameId: gameId)
+    private func removeFavorite(_ game: WebGameWithDuplicatable) -> Completable {
+        return numberGameUseCase.removeFavorite(game: game)
     }
+}
+
+// MARK: - Search
+
+extension NumberGameViewModel {
     
     func clearSearchResult() {
         triggerSearch("")

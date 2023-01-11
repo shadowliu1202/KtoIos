@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SlotBetViewModel {
+class SlotBetViewModel: CollectErrorViewModel, ProductWebGameViewModelProtocol {
     let PaginationTake = 20
     private var slotUseCase: SlotUseCase!
     private var slotRecordUseCase : SlotRecordUseCase!
@@ -12,6 +12,13 @@ class SlotBetViewModel {
     private var betRecordDetailsTotalCount: Int32 = 0
     lazy var unsettledBetSummary = BehaviorSubject<[SlotUnsettledSection]>(value: [])
     private var disposeBag = DisposeBag()
+    
+    let activityIndicator: ActivityIndicator = .init()
+    
+    private let webGameResultSubject = PublishSubject<WebGameResult>()
+    var webGameResultDriver: Driver<WebGameResult> {
+        webGameResultSubject.asDriverLogError()
+    }
     
     init(slotUseCase: SlotUseCase, slotRecordUseCase: SlotRecordUseCase) {
         self.slotUseCase = slotUseCase
@@ -25,7 +32,7 @@ class SlotBetViewModel {
             } else {
                 self?.betSummary.onNext(summaries)
             }
-        }, onError: { [weak self] (error) in
+        }, onFailure: { [weak self] (error) in
             self?.betSummary.onError(error)
         }).disposed(by: disposeBag)
     }
@@ -47,7 +54,7 @@ class SlotBetViewModel {
                 copyValue.append(contentsOf: data)
                 self?.betRecordDetails.onNext(copyValue)
             }
-        }, onError: { [weak self] (error) in
+        }, onFailure: { [weak self] (error) in
             self?.betRecordDetails.onError(error)
         }).disposed(by: disposeBag)
     }
@@ -73,7 +80,7 @@ class SlotBetViewModel {
                 } else {
                     self?.unsettledBetSummary.onError(KTOError.EmptyData)
                 }
-        }, onError: { [weak self] (error) in
+            }, onFailure: { [weak self] (error) in
             self?.unsettledBetSummary.onError(error)
         }).disposed(by: disposeBag)
     }
@@ -103,15 +110,25 @@ class SlotBetViewModel {
     }
 }
 
-extension SlotBetViewModel: ProductWebGameViewModelProtocol {
+extension SlotBetViewModel {
+    
     func getGameProduct() -> String { "slot" }
     
     func getGameProductType() -> ProductType {
         ProductType.slot
     }
     
-    func createGame(gameId: Int32) -> Single<URL?> {
-        return slotUseCase.createGame(gameId: gameId)
+    func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult> {
+        slotUseCase.checkBonusAndCreateGame(game)
+    }
+    
+    func fetchGame(_ game: WebGame) {
+        configFetchGame(
+            game,
+            resultSubject: webGameResultSubject,
+            errorSubject: errorsSubject
+        )
+        .disposed(by: disposeBag)
     }
 }
 

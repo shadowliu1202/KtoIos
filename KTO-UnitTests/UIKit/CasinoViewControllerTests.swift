@@ -26,15 +26,18 @@ final class CasinoViewControllerTests: XCTestCase {
         )
     )
     
-    func stubCasinoUseCase(requireNoBonusLock: Bool) -> CasinoUseCase {
+    func stubCasinoUseCase(
+        requireNoBonusLock: Bool,
+        result: WebGameResult
+    ) -> CasinoUseCase {
         let stubCasinoUseCase = mock(CasinoUseCase.self)
         
         given(stubCasinoUseCase.getLobbies()) ~> .just([])
-        given(stubCasinoUseCase.createGame(gameId: any())) ~> .just(nil)
+        given(stubCasinoUseCase.checkBonusAndCreateGame(any())) ~> .just(result)
         given(stubCasinoUseCase.searchGamesByTag(tags: any())) ~> .just([
             CasinoGame(
                 gameId: 0,
-                gameName: "TestGame",
+                gameName: "",
                 isFavorite: false,
                 gameStatus: .active,
                 thumbnail: CasinoThumbnail(host: "", thumbnailId: ""),
@@ -46,39 +49,16 @@ final class CasinoViewControllerTests: XCTestCase {
         return stubCasinoUseCase
     }
     
-    func stubPromotionRepo(
-        userLockedBonus: Bool,
-        bonusIsCalculating: Bool,
-        turnoverDetail: TurnOverDetail
-    ) -> PromotionRepository {
-        let stubPromotionRepo = mock(PromotionRepository.self)
-        
-        given(stubPromotionRepo.hasAccountLockedBonus()) ~> .just(userLockedBonus)
-        given(stubPromotionRepo.isLockedBonusCalculating()) ~> .just(bonusIsCalculating)
-        given(stubPromotionRepo.getLockedBonusDetail()) ~> .just(turnoverDetail)
-        
-        return stubPromotionRepo
-    }
-    
     func stubViewModel(
         requireNoBonusLock: Bool,
-        userLockedBonus: Bool,
-        bonusIsCalculating: Bool,
-        turnoverDetail: TurnOverDetail
+        result: WebGameResult
     ) -> CasinoViewModel {
         
         let viewModel = CasinoViewModel(
             casinoRecordUseCase: mock(CasinoRecordUseCase.self),
-            casinoUseCase: stubCasinoUseCase(requireNoBonusLock: requireNoBonusLock),
+            casinoUseCase: stubCasinoUseCase(requireNoBonusLock: requireNoBonusLock, result: result),
             memoryCache: mock(MemoryCacheImpl.self),
-            casinoAppService: Injectable.resolveWrapper(ApplicationFactory.self).casino(),
-            checkBonusUseCase: WebGameCheckBonusUseCaseImpl(
-                promotionRepository: stubPromotionRepo(
-                    userLockedBonus: userLockedBonus,
-                    bonusIsCalculating: bonusIsCalculating,
-                    turnoverDetail: turnoverDetail
-                )
-            )
+            casinoAppService: Injectable.resolveWrapper(ApplicationFactory.self).casino()
         )
         
         viewModel.tagStates = .just([])
@@ -89,9 +69,7 @@ final class CasinoViewControllerTests: XCTestCase {
     func test_UserHaveBonusLockAndNotCalculating_PressRequireNoBonusLockGame_ShowBonusLockDetailAlert_KTO_TC_95() {
         let stubViewModel = stubViewModel(
             requireNoBonusLock: true,
-            userLockedBonus: true,
-            bonusIsCalculating: false,
-            turnoverDetail: dummyTurnoverDetail
+            result: .lockedBonus(gameName: "", dummyTurnoverDetail)
         )
         
         let sut = CasinoViewController.initFrom(storyboard: "Casino")
@@ -110,9 +88,7 @@ final class CasinoViewControllerTests: XCTestCase {
         
         let stubViewModel = stubViewModel(
             requireNoBonusLock: true,
-            userLockedBonus: true,
-            bonusIsCalculating: true,
-            turnoverDetail: any()
+            result: .bonusCalculating(gameName: "TestGame")
         )
         
         let stubAlert = mock(AlertProtocol.self)
@@ -121,7 +97,7 @@ final class CasinoViewControllerTests: XCTestCase {
         let sut = CasinoViewController.initFrom(storyboard: "Casino")
         sut.viewModel = stubViewModel
         
-        makeItVisible(sut)
+        sut.loadViewIfNeeded()
                 
         sut.gameDataSourceDelegate.collectionView(sut.gamesCollectionView, didSelectItemAt: [0, 0])
     
@@ -144,9 +120,7 @@ final class CasinoViewControllerTests: XCTestCase {
     func test_UserNoBonusLock_PressNotRequireNoBonusLockGame_EnterGamePage_KTO_TC_97() {
         let stubViewModel = stubViewModel(
             requireNoBonusLock: false,
-            userLockedBonus: true,
-            bonusIsCalculating: false,
-            turnoverDetail: any()
+            result: .loaded(gameName: "", nil)
         )
         
         let sut = CasinoViewController.initFrom(storyboard: "Casino")

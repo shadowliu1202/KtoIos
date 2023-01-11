@@ -3,10 +3,9 @@ import RxSwift
 import SharedBu
 
 
-protocol P2PRepository {
+protocol P2PRepository: WebGameCreateRepository {
     func getTurnOverStatus() -> Single<P2PTurnOver>
     func getAllGames() -> Single<[P2PGame]>
-    func createGame(gameId: Int32) -> Single<URL?>
 }
 
 class P2PRepositoryImpl: P2PRepository {

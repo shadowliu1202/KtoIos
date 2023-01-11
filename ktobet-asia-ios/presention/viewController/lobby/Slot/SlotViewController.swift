@@ -22,6 +22,8 @@ class SlotViewController: ProductsViewController {
     @IBOutlet var newViewHeight: NSLayoutConstraint!
     @IBOutlet var jackpotViewHeight: NSLayoutConstraint!
 
+    @Injected private var loading: Loading
+    
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
     private lazy var viewModel = Injectable.resolve(SlotViewModel.self)!
     private var disposeBag = DisposeBag()
@@ -97,29 +99,43 @@ class SlotViewController: ProductsViewController {
     }
     
     private func bindingData() {
-        viewModel.popularGames.subscribe {[weak self] (slotGames) in
-            guard let self = self,
-                  let urlStr = slotGames.first?.thumbnail.url(),
-                  let url = URL(string: urlStr) else {
-                      self?.recentlyViewTop.constant = 30
-                      self?.pagerView.isHidden = true
-                      return
-                  }
-            if self.datas.count == 0 && slotGames.count >= 3 {
-                self.addBlurBackgoundImageView(url: url)
-                self.pagerView.scrollToItem(at: 0, animate: false)
+        viewModel.popularGames
+            .subscribe {[weak self] (slotGames) in
+                guard let self = self,
+                      let urlStr = slotGames.first?.thumbnail.url(),
+                      let url = URL(string: urlStr) else {
+                    self?.recentlyViewTop.constant = 30
+                    self?.pagerView.isHidden = true
+                    return
+                }
+                if self.datas.count == 0 && slotGames.count >= 3 {
+                    self.addBlurBackgoundImageView(url: url)
+                    self.pagerView.scrollToItem(at: 0, animate: false)
+                }
+                self.datas = slotGames
+                if self.datas.count < 3 {
+                    self.recentlyViewTop.constant = 30
+                    self.pagerView.isHidden = true
+                } else {
+                    self.pagerView.reloadData()
+                }
+            } onError: {[weak self] (error) in
+                self?.handleErrors(error)
             }
-            self.datas = slotGames
-            if self.datas.count < 3 {
-                self.recentlyViewTop.constant = 30
-                self.pagerView.isHidden = true
-            } else {
-                self.pagerView.reloadData()
-            }
-        } onError: {[weak self] (error) in
-            self?.handleErrors(error)
-        }.disposed(by: disposeBag)
+            .disposed(by: disposeBag)
 
+        viewModel.errors()
+            .subscribe(onNext: { [weak self] in
+                self?.handleErrors($0)
+            })
+            .disposed(by: disposeBag)
+        
+        bindWebGameResult(with: viewModel)
+        
+        viewModel.activityIndicator
+            .bind(to: loading)
+            .disposed(by: disposeBag)
+        
         loadMoreCollectionView(delegate: gameDataSourceDelegate, collectionView: recentlyCollectionView, getGame: viewModel.recentGames, containerView: recentlyView, containerViewHeight: recentlyViewHeight)
         loadMoreCollectionView(delegate: newGameDataSourceDelegate, collectionView: newCollectionView, getGame: viewModel.newGames, containerView: newView, containerViewHeight: newViewHeight)
         loadMoreCollectionView(delegate: jackpotGameDataSourceDelegate, collectionView: jackpotCollectionView, getGame: viewModel.jackpotGames, containerView: jackpotView, containerViewHeight: jackpotViewHeight)
@@ -238,7 +254,7 @@ extension SlotViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDataSour
     
     func pagerView(_ pageView: TYCyclePagerView, didSelectedItemCell cell: UICollectionViewCell, at index: Int) {
         let slotGame = datas[index]
-        self.goToWebGame(viewModel: viewModel, gameId: slotGame.gameId, gameName: slotGame.gameName)
+        viewModel.fetchGame(slotGame)
     }
 }
 
