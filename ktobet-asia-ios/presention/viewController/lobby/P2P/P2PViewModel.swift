@@ -4,16 +4,25 @@ import RxCocoa
 import SharedBu
 
 
-class P2PViewModel: CollectErrorViewModel {
+class P2PViewModel: CollectErrorViewModel,
+                    ProductWebGameViewModelProtocol {
     private (set) var refreshTrigger = BehaviorSubject<Void>(value: ())
     
     private let gameSubject = PublishSubject<[P2PGame]>()
     
+    private let webGameResultSubject: PublishSubject<WebGameResult> = .init()
+
     private var p2pUseCase: P2PUseCase!
     
     private var productName: String! = "p2p"
     
     private var disposeBag = DisposeBag()
+    
+    let activityIndicator: ActivityIndicator = .init()
+    
+    var webGameResultDriver: Driver<WebGameResult> {
+        webGameResultSubject.asDriverLogError()
+    }
     
     init(p2pUseCase: P2PUseCase) {
         super.init()
@@ -48,6 +57,19 @@ extension P2PViewModel {
             })
             .compose(applySingleErrorHandler())
     }
+    
+    func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult> {
+        p2pUseCase.checkBonusAndCreateGame(game)
+    }
+    
+    func fetchGame(_ game: WebGame) {
+        configFetchGame(
+            game,
+            resultSubject: webGameResultSubject,
+            errorSubject: errorsSubject
+        )
+        .disposed(by: disposeBag)
+    }
 }
 
 // MARK: - Data Handle
@@ -59,11 +81,6 @@ extension P2PViewModel {
             .catchAndReturn([])
             .share(replay: 1)
     }
-}
-
-// MARK: - ProductWebGameViewModelProtocol
-
-extension P2PViewModel: ProductWebGameViewModelProtocol {
     
     func getGameProduct() -> String {
         productName
@@ -71,9 +88,5 @@ extension P2PViewModel: ProductWebGameViewModelProtocol {
     
     func getGameProductType() -> ProductType {
         ProductType.p2p
-    }
-    
-    func createGame(gameId: Int32) -> Single<URL?> {
-        p2pUseCase.createGame(gameId: gameId)
     }
 }

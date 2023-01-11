@@ -53,25 +53,32 @@ class ProductsViewController: LobbyViewController {
         serviceViewModel.refreshProductStatus()
     }
     
-    func goToWebGame(viewModel: ProductWebGameViewModelProtocol, gameId: Int32, gameName: String) {
-        viewModel.createGame(gameId: gameId).subscribe(on: MainScheduler.instance).subscribe { (url) in
-            let storyboard = UIStoryboard(name: "Product", bundle: nil)
-            let navi = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as! UINavigationController
-            if let gameVc = navi.viewControllers.first as? GameWebViewViewController {
-                gameVc.gameUrl = url
-                gameVc.gameName = gameName
-                gameVc.viewModel = viewModel
-                gameVc.delegate = self
-                navi.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
-                self.present(navi, animated: true, completion: nil)
-            }
-        } onFailure: { [weak self] in
-            self?.handleErrors($0)
-        }.disposed(by: disposeBag)
+    func bindWebGameResult(with viewModel: ProductWebGameViewModelProtocol) {
+        viewModel
+            .webGameResultDriver
+            .drive(onNext: { [weak self] in
+                self?.handleWebGameResult($0, with: viewModel)
+            })
+            .disposed(by: disposeBag)
     }
     
-    func handleBonusStatusAlert(_ status: WebGameBonusStatus?) {
-        switch status {
+    private func handleWebGameResult(_ result: WebGameResult, with viewModel: ProductWebGameViewModelProtocol) {
+        switch result {
+        case .loaded(let gameName, let url):
+            let storyboard = UIStoryboard(name: "Product", bundle: nil)
+            guard let navigation = storyboard.instantiateViewController(withIdentifier: "GameNavigationViewController") as? UINavigationController,
+                  let web = navigation.viewControllers.first as? GameWebViewViewController
+            else {
+                return
+            }
+            
+            web.gameUrl = url
+            web.gameName = gameName
+            web.viewModel = viewModel
+            web.delegate = self
+            navigation.modalPresentationStyle = .overFullScreen
+            present(navigation, animated: true)
+            
         case .bonusCalculating(let gameName):
             Alert.shared.show(
                 Localize.string("common_tip_title_warm"),
@@ -86,7 +93,7 @@ class ProductsViewController: LobbyViewController {
                 animated: true
             )
             
-        default:
+        case .inactive:
             break
         }
     }

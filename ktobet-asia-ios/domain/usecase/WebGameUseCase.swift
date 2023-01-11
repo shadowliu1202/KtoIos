@@ -2,7 +2,10 @@ import Foundation
 import SharedBu
 import RxSwift
 
-typealias WebGameUseCase = WebGameFavoriteUseCase & WebGameSearchUseCase & WebGameCreateUseCase
+typealias WebGameUseCase = WebGameFavoriteUseCase &
+                           WebGameSearchUseCase &
+                           WebGameCreateUseCase
+
 protocol WebGameFavoriteUseCase {
     func addFavorite(game: WebGameWithDuplicatable) -> Completable
     func removeFavorite(game: WebGameWithDuplicatable) -> Completable
@@ -14,41 +17,114 @@ protocol WebGameSearchUseCase {
     func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]>
 }
 
-protocol WebGameCreateUseCase {
-    func createGame(gameId: Int32) -> Single<URL?>
+protocol WebGameCreateUseCase: AnyObject {
+    var webGameCreateRepository: WebGameCreateRepository { get }
+    var promotionRepository: PromotionRepository { get }
+    
+    func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult>
+}
+
+extension WebGameCreateUseCase {
+    
+    func createGame(_ game: WebGame) -> Observable<WebGameResult> {
+        webGameCreateRepository
+            .createGame(gameId: game.gameId)
+            .map { WebGameResult.loaded(gameName: game.gameName, $0) }
+            .asObservable()
+    }
+    
+    private func isLockedOrCalculating(gameName: String) -> Observable<WebGameResult> {
+        let getLockedDetail = promotionRepository
+            .getLockedBonusDetail()
+            .asObservable()
+            .map {
+                WebGameResult.lockedBonus(gameName: gameName, $0)
+            }
+        
+        return promotionRepository
+            .isLockedBonusCalculating()
+            .asObservable()
+            .flatMap {
+                if $0 {
+                    return Observable.just(WebGameResult.bonusCalculating(gameName: gameName))
+                }
+                else {
+                    return getLockedDetail
+                }
+            }
+    }
+    
+    func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult> {
+        guard let withProperties = game as? WebGameWithProperties
+        else {
+            return createGame(game)
+        }
+        
+        guard withProperties.isActive
+        else {
+            return .just(.inactive)
+        }
+        
+        if withProperties.requireNoBonusLock {
+            return promotionRepository
+                .hasAccountLockedBonus()
+                .asObservable()
+                .flatMap { [unowned self] locked in
+                    if locked {
+                        return self.isLockedOrCalculating(gameName: withProperties.gameName)
+                    }
+                    else {
+                        return self.createGame(withProperties)
+                    }
+                }
+        }
+        else {
+            return createGame(withProperties)
+        }
+    }
+}
+
+enum WebGameResult {
+    case inactive
+    case loaded(gameName: String, URL?)
+    case bonusCalculating(gameName: String)
+    case lockedBonus(gameName: String, TurnOverDetail)
 }
 
 class WebGameUseCaseImpl: WebGameUseCase {
-    var repo : WebGameRepository!
+    let promotionRepository: PromotionRepository
+    let webGameRepository : WebGameRepository
     
-    init(_ repo : WebGameRepository) {
-        self.repo = repo
+    var webGameCreateRepository: WebGameCreateRepository { webGameRepository }
+    
+    init(
+        webGameRepository : WebGameRepository,
+        promotionRepository: PromotionRepository
+    ) {
+        self.webGameRepository = webGameRepository
+        self.promotionRepository = promotionRepository
     }
     
     func addFavorite(game: WebGameWithDuplicatable) -> Completable {
-        repo.addFavorite(game: game)
+        webGameRepository.addFavorite(game: game)
     }
     
     func removeFavorite(game: WebGameWithDuplicatable) -> Completable {
-        repo.removeFavorite(game: game)
+        webGameRepository.removeFavorite(game: game)
     }
     
     func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
-        repo.getFavorites()
+        webGameRepository.getFavorites()
     }
     
     func getSuggestKeywords() -> Single<[String]> {
-        repo.getSuggestKeywords()
+        webGameRepository.getSuggestKeywords()
     }
     
     func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]> {
         if keyword.isSearchPermitted() {
-            return repo.searchGames(keyword: keyword)
+            return webGameRepository.searchGames(keyword: keyword)
         }
         return Observable.just([])
-    }
-    
-    func createGame(gameId: Int32) -> Single<URL?> {
-        repo.createGame(gameId: gameId)
     }
 }

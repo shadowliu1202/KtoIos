@@ -10,17 +10,21 @@ protocol NumberGameUseCase: WebGameUseCase {
 }
 
 class NumberGameUseCasaImp: WebGameUseCaseImpl, NumberGameUseCase {
-    var numberGameRepository: NumberGameRepository!
-    var localRepository: LocalStorageRepository!
+    private let numberGameRepository: NumberGameRepository
+    private let localRepository: LocalStorageRepository
     
     var randomPopularNumberGames = BehaviorRelay<[NumberGame]>(value: [])
     let SELECT_GAME_AMOUNT = 2
     let REQUEST_GAME_AMOUNT = 10
     
-    init(_ numberGameRepository : NumberGameRepository, _ localRepository: LocalStorageRepository) {
-        super.init(numberGameRepository)
+    init(
+        numberGameRepository : NumberGameRepository,
+        localRepository: LocalStorageRepository,
+        promotionRepository: PromotionRepository
+    ) {
         self.numberGameRepository = numberGameRepository
         self.localRepository = localRepository
+        super.init(webGameRepository: numberGameRepository, promotionRepository: promotionRepository)
     }
     
     func getGames(order: GameSorting, tags: Set<GameFilter>) -> Observable<[NumberGame]> {

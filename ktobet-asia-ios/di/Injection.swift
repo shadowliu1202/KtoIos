@@ -601,25 +601,21 @@ final class Injection {
             }
         
         container
-            .register(WebGameCheckBonusUseCase.self) { resolver in
-                return WebGameCheckBonusUseCaseImpl(
+            .register(CasinoUseCase.self) { resolver in
+                return CasinoUseCaseImpl(
+                    casinoRepository: resolver.resolveWrapper(CasinoRepository.self),
+                    localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self),
                     promotionRepository: resolver.resolveWrapper(PromotionRepository.self)
                 )
             }
         
         container
-            .register(CasinoUseCase.self) { resolver in
-                return CasinoUseCaseImpl(
-                    casinoRepository: resolver.resolveWrapper(CasinoRepository.self),
-                    localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self)
-                )
-            }
-        
-        container
             .register(SlotUseCase.self) { resolver in
-                let repo = resolver.resolveWrapper(SlotRepository.self)
-                let repoLocal = resolver.resolveWrapper(LocalStorageRepository.self)
-                return SlotUseCaseImpl(repo, repoLocal)
+                return SlotUseCaseImpl(
+                    slotRepository: resolver.resolveWrapper(SlotRepository.self),
+                    localRepository: resolver.resolveWrapper(LocalStorageRepository.self),
+                    promotionRepository: resolver.resolveWrapper(PromotionRepository.self)
+                )
             }
         
         container
@@ -631,9 +627,11 @@ final class Injection {
         
         container
             .register(NumberGameUseCase.self) { resolver in
-                let repo = resolver.resolveWrapper(NumberGameRepository.self)
-                let repoLocal = resolver.resolveWrapper(LocalStorageRepository.self)
-                return NumberGameUseCasaImp(repo, repoLocal)
+                return NumberGameUseCasaImp(
+                    numberGameRepository: resolver.resolveWrapper(NumberGameRepository.self),
+                    localRepository: resolver.resolveWrapper(LocalStorageRepository.self),
+                    promotionRepository: resolver.resolveWrapper(PromotionRepository.self)
+                )
             }
         
         container
@@ -644,8 +642,10 @@ final class Injection {
         
         container
             .register(P2PUseCase.self) { resolver in
-                let repo = resolver.resolveWrapper(P2PRepository.self)
-                return P2PUseCaseImpl(repo)
+                return P2PUseCaseImpl(
+                    p2pRepository: resolver.resolveWrapper(P2PRepository.self),
+                    promotionRepository: resolver.resolveWrapper(PromotionRepository.self)
+                )
             }
         
         container
@@ -664,8 +664,10 @@ final class Injection {
         
         container
             .register(ArcadeUseCase.self) { resolver in
-                let repo = resolver.resolveWrapper(ArcadeRepository.self)
-                return ArcadeUseCaseImpl(repo)
+                return ArcadeUseCaseImpl(
+                    arcadeRepository: resolver.resolveWrapper(ArcadeRepository.self),
+                    promotionRepository: resolver.resolveWrapper(PromotionRepository.self)
+                )
             }
         
         container
@@ -946,8 +948,7 @@ final class Injection {
                     casinoRecordUseCase: resolver.resolveWrapper(CasinoRecordUseCase.self),
                     casinoUseCase: resolver.resolveWrapper(CasinoUseCase.self),
                     memoryCache: resolver.resolveWrapper(MemoryCacheImpl.self),
-                    casinoAppService: resolver.resolveWrapper(ApplicationFactory.self).casino(),
-                    checkBonusUseCase: resolver.resolveWrapper(WebGameCheckBonusUseCase.self)
+                    casinoAppService: resolver.resolveWrapper(ApplicationFactory.self).casino()
                 )
             }
         
@@ -1125,6 +1126,12 @@ final class Injection {
         container
             .register(AlertProtocol.self) { _ in
                 return Alert.shared
+            }
+            .inObjectScope(.application)
+        
+        container
+            .register(Loading.self) { _ in
+                return LoadingImpl.shared
             }
             .inObjectScope(.application)
     }

@@ -3,16 +3,18 @@ import RxSwift
 import RxCocoa
 import SharedBu
 
-class SlotViewModel {
+class SlotViewModel: CollectErrorViewModel, ProductViewModel {
+    private let webGameResultSubject = PublishSubject<WebGameResult>()
+    private let disposeBag = DisposeBag()
+
+    private var slotUseCase: SlotUseCase!
+    private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
+    
     lazy var popularGames = slotUseCase.getPopularSlots()
     lazy var recentGames = slotUseCase.getRecentlyPlaySlots()
     lazy var newGames = slotUseCase.getNewSlots()
     lazy var jackpotGames = slotUseCase.getJackpotSlots()
-    var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
     
-    private var slotUseCase: SlotUseCase!
-    private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
-    private var disposeBag = DisposeBag()
     lazy var gameCountWithSearchFilters = Observable<(Int, [SlotGameFilter])>.combineLatest(gameCount, gameCountFilters) { ($0, $1) }
     lazy var gameCountFilters = BehaviorSubject<[SlotGameFilter]>(value: [])
     lazy var gameCount = gameCountFilters.flatMapLatest { (filters) -> Observable<Int> in
@@ -26,8 +28,27 @@ class SlotViewModel {
                                           payLineWayTags: payLineWayTags)
     }
     
+    var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
+    
+    var webGameResultDriver: Driver<WebGameResult> {
+        webGameResultSubject.asDriverLogError()
+    }
+    
+    let activityIndicator: ActivityIndicator = .init()
+    
     init(slotUseCase: SlotUseCase) {
         self.slotUseCase = slotUseCase
+    }
+}
+
+// MARK: - Game
+
+extension SlotViewModel {
+    
+    func getGameProduct() -> String{ "slot" }
+    
+    func getGameProductType() -> ProductType {
+        ProductType.slot
     }
     
     func gatAllGame(sorting: GameSorting, filters: [SlotGameFilter] = []) -> Observable<[SlotGame]> {
@@ -38,17 +59,24 @@ class SlotViewModel {
         return self.slotUseCase.searchSlot(sortBy: sorting, isJackpot: false, isNew: false, featureTags: featureTags, themeTags: themeTags, payLineWayTags: payLineWayTags)
     }
     
-    private func addFavorite(_ slotGame: WebGameWithDuplicatable) -> Completable {
-        return slotUseCase.addFavorite(game: slotGame)
+    func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult> {
+        slotUseCase.checkBonusAndCreateGame(game)
     }
     
-    private func removeFavorite(_ slotGame: WebGameWithDuplicatable) -> Completable {
-        return slotUseCase.removeFavorite(game: slotGame)
+    func fetchGame(_ game: WebGame) {
+        configFetchGame(
+            game,
+            resultSubject: webGameResultSubject,
+            errorSubject: errorsSubject
+        )
+        .disposed(by: disposeBag)
     }
-    
 }
 
-extension SlotViewModel: ProductViewModel {
+// MARK: - Favorite
+
+extension SlotViewModel {
+    
     func getFavorites() {
         favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
         slotUseCase.getFavorites().subscribe(onNext: { [weak self] (games) in
@@ -82,6 +110,19 @@ extension SlotViewModel: ProductViewModel {
         }
     }
     
+    private func addFavorite(_ slotGame: WebGameWithDuplicatable) -> Completable {
+        return slotUseCase.addFavorite(game: slotGame)
+    }
+    
+    private func removeFavorite(_ slotGame: WebGameWithDuplicatable) -> Completable {
+        return slotUseCase.removeFavorite(game: slotGame)
+    }
+}
+
+// MARK: - Search
+
+extension SlotViewModel {
+    
     func clearSearchResult() {
         triggerSearch("")
     }
@@ -99,15 +140,5 @@ extension SlotViewModel: ProductViewModel {
         return self.searchKey.flatMapLatest { [unowned self] (keyword) -> Observable<Event<[WebGameWithDuplicatable]>> in
             return self.slotUseCase.searchGames(keyword: keyword).materialize()
         }
-    }
-    
-    func getGameProduct() -> String{ "slot" }
-    
-    func getGameProductType() -> ProductType {
-        ProductType.slot
-    }
-    
-    func createGame(gameId: Int32) -> Single<URL?> {
-        return slotUseCase.createGame(gameId: gameId)
     }
 }

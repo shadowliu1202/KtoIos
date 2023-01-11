@@ -10,16 +10,17 @@ protocol CasinoUseCase: WebGameUseCase {
 }
 
 class CasinoUseCaseImpl: WebGameUseCaseImpl, CasinoUseCase {
-    let casinoRepository: CasinoRepository
-    let localStorageRepo: LocalStorageRepository
+    private let casinoRepository: CasinoRepository
+    private let localStorageRepo: LocalStorageRepository
     
     init(
         casinoRepository : CasinoRepository,
-        localStorageRepo: LocalStorageRepository
+        localStorageRepo: LocalStorageRepository,
+        promotionRepository: PromotionRepository
     ) {
         self.casinoRepository = casinoRepository
         self.localStorageRepo = localStorageRepo
-        super.init(casinoRepository)
+        super.init(webGameRepository: casinoRepository, promotionRepository: promotionRepository)
     }
     
     func getCasinoBetTypeTags() -> Single<[CasinoGameTag]> {

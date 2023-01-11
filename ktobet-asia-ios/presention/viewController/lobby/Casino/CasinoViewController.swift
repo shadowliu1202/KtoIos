@@ -16,6 +16,8 @@ class CasinoViewController: DisplayProduct {
     
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
     
+    @Injected private var loading: Loading
+    
     private var lobbies: [CasinoLobby] = []
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
     private var disposeBag = DisposeBag()
@@ -35,22 +37,11 @@ class CasinoViewController: DisplayProduct {
         binding()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        disposeBag = DisposeBag()
-        binding()
-    }
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: nil, completion: { [weak self] _ in
             self?.viewDidRotate.accept(true)
         })
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.disposeBag = DisposeBag()
     }
     
     // MARK: ProductBaseCollection
@@ -108,6 +99,12 @@ private extension CasinoViewController {
             }
         })
         .disposed(by: disposeBag)
+        
+        bindWebGameResult(with: viewModel)
+        
+        viewModel.activityIndicator
+            .bind(to: loading)
+            .disposed(by: disposeBag)
         
         Observable
             .combineLatest(

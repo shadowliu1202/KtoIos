@@ -10,6 +10,9 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
     
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!
+    
+    @Injected private var loading: Loading
+    
     lazy var unsettleGameDelegate = { return UnsettleGameDelegate(self) }()
     
     override func viewDidLoad() {
@@ -67,12 +70,24 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
                 self?.unsettleds = unsettleds
                 self?.tableView.reloadData()
             }).disposed(by: disposeBag)
+        
+        viewModel.errors()
+            .subscribe(onNext: { [weak self] in
+                self?.handleErrors($0)
+            })
+            .disposed(by: disposeBag)
+        
+        bindWebGameResult(with: viewModel)
+        
+        viewModel.activityIndicator
+            .bind(to: loading)
+            .disposed(by: disposeBag)
     }
     
     private func fetchNextUnsettleRecords(sectionIndex: Int, rowIndex: Int = 0) {
         viewModel.fetchNextUnsettledRecords(betTime: unsettleds[sectionIndex].betTime, rowIndex).subscribe(onSuccess: { [weak self] (page) in
             self?.tableView.reloadData()
-        }, onError: { [weak self] (error) in
+        }, onFailure: { [weak self] (error) in
             self?.handleErrors(error)
         }).disposed(by: disposeBag)
     }
@@ -164,7 +179,7 @@ extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let game = self.unsettleds[indexPath.section].records[indexPath.row]
-        self.goToWebGame(viewModel: self.viewModel, gameId: game.gameId, gameName: game.gameName)
+        viewModel.fetchGame(game)
     }
 }
 

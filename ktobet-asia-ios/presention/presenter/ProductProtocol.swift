@@ -1,6 +1,7 @@
 import UIKit
 import RxSwift
 import SharedBu
+import RxCocoa
 
 enum GameState {
     case active
@@ -67,13 +68,31 @@ protocol ProductSearchViewModelProtocol {
 }
 
 protocol ProductWebGameViewModelProtocol {
-    var checkBonusUseCase: WebGameCheckBonusUseCase? { get }
-    
+    var activityIndicator: ActivityIndicator { get }
+    var webGameResultDriver: Driver<WebGameResult> { get }
+
     func getGameProduct() -> String
     func getGameProductType() -> ProductType
-    func createGame(gameId: Int32) -> Single<URL?>
+
+    func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult>
+    
+    func fetchGame(_ game: WebGame)
 }
 
 extension ProductWebGameViewModelProtocol {
-    var checkBonusUseCase: WebGameCheckBonusUseCase? { nil }
+    
+    func configFetchGame(
+        _ game: WebGame,
+        resultSubject: PublishSubject<WebGameResult>,
+        errorSubject: PublishSubject<Error>
+    ) -> Disposable {
+        
+        checkBonusAndCreateGame(game)
+            .trackActivity(activityIndicator)
+            .subscribe(onNext: {
+                resultSubject.onNext($0)
+            }, onError: {
+                errorSubject.onNext($0)
+            })
+    }
 }

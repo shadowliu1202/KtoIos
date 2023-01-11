@@ -22,8 +22,8 @@ protocol SlotUseCase: WebGameUseCase {
 }
 
 class SlotUseCaseImpl: WebGameUseCaseImpl, SlotUseCase {
-    var slotRepository: SlotRepository!
-    var localRepository: LocalStorageRepository!
+    private let slotRepository: SlotRepository
+    private let localRepository: LocalStorageRepository
     
     var randomPopularSlotGames = BehaviorRelay<[SlotGame]>(value: [])
     lazy var recentSlotGames = slotRepository.getRecentlyPlaySlots().share(replay: 1)
@@ -34,10 +34,14 @@ class SlotUseCaseImpl: WebGameUseCaseImpl, SlotUseCase {
     let SELECT_GAME_AMOUNT = 2
     let MINIMUM_POPULAR_GAME = 3
 
-    init(_ slotRepository: SlotRepository, _ localRepository: LocalStorageRepository) {
-        super.init(slotRepository)
+    init(
+        slotRepository: SlotRepository,
+        localRepository: LocalStorageRepository,
+        promotionRepository: PromotionRepository
+    ) {
         self.slotRepository = slotRepository
         self.localRepository = localRepository
+        super.init(webGameRepository: slotRepository, promotionRepository: promotionRepository)
     }
     
     func getPopularSlots() -> Observable<[SlotGame]> {
