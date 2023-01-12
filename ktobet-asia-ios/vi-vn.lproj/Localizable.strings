@@ -127,7 +127,7 @@ Nếu Quý Khách có bất kỳ câu hỏi hoặc vấn đề nào trong việc
 "common_language" = "Tiếng Việt";
 "common_lastday" = "%@ Ngày Gần Nhất";
 "common_level" = "Cấp Độ";
-"common_level_2" = "LV%@";
+"common_level_2" = "LV %@";
 "common_login" = "Đăng Nhập";
 "common_minute" = "Phút";
 "common_mobile" = "Di Động";
@@ -157,7 +157,6 @@ Nếu Quý Khách có bất kỳ câu hỏi hoặc vấn đề nào trong việc
 "common_previous" = "Bước Trước";
 "common_promotion" = "Khuyến Mãi";
 "common_realname" = "Họ Tên Rút Tiền";
-"common_rebet" = "Hoàn Trả";
 "common_redirect" = "Quý Khách sẽ được chuyển đến trang chủ KTO Châu Á sau %@ giây.";
 "common_register" = "Đăng Ký";
 "common_registerdate" = "Ngày Đăng Ký";

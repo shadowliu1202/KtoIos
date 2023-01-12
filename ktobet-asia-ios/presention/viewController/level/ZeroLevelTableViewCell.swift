@@ -7,7 +7,7 @@ class ZeroLevelTableViewCell: UITableViewCell {
 
     func configure(_ item: Item) -> Self {
         self.selectionStyle = .none
-        levelLabel.text = "Lv \(item.level)"
+        levelLabel.text = Localize.string("common_level_2", "\(item.level)")
         timeLabel.text = item.time
         
         return self

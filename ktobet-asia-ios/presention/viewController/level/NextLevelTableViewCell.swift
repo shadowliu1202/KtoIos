@@ -20,7 +20,7 @@ class NextLevelTableViewCell: UITableViewCell {
     
     func configure(_ item: Item, callback: (Observable<Void>, DisposeBag) -> Void) -> Self {
         self.selectionStyle = .none
-        levelLabel.text = "Lv \(item.level)"
+        levelLabel.text = Localize.string("common_level_2", "\(item.level)")
         switch item.collapse {
         case .unFold:
             collapseLabel.text = Localize.string("common_fold") //收起

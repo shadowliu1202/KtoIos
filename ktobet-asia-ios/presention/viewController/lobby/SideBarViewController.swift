@@ -257,7 +257,7 @@ extension SideBarViewController {
     }
     
     private func updatePlayerInfoUI(_ player: Player) {
-        self.labUserLevel.text = "LV\(player.playerInfo.level)"
+        self.labUserLevel.text = Localize.string("common_level_2", "\(player.playerInfo.level)")
         self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
         self.labUserName.text = "\(player.playerInfo.gameId)"
     }

@@ -22,7 +22,7 @@ class TopLevelTableViewCell: UITableViewCell {
     
     func configure(_ item: Item, callback: (Observable<Void>, DisposeBag) -> Void, tapPrivilegeHandler: @escaping (LevelPrivilege) -> ()) -> Self {
         self.selectionStyle = .none
-        levelLabel.text = "Lv \(item.level)"
+        levelLabel.text = Localize.string("common_level_2", "\(item.level)")
         timeLabel.text = item.time
         msgLabel.text = Localize.string("level_desc_levelup", "\(item.level)")
         switch item.collapse {

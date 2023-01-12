@@ -136,7 +136,7 @@
 "common_language" = "简体中文";
 "common_lastday" = "最近%@天";
 "common_level" = "等级";
-"common_level_2" = "LV%@";
+"common_level_2" = "LV %@";
 "common_login" = "登录";
 "common_minute" = "分";
 "common_mobile" = "手机";
@@ -166,7 +166,6 @@
 "common_previous" = "上一步";
 "common_promotion" = "优惠券";
 "common_realname" = "提现姓名";
-"common_rebet" = "返现";
 "common_redirect" = "系统将于 %@ 秒后重新导向 KTO 首页。";
 "common_register" = "注册";
 "common_registerdate" = "注册日期";
@@ -1098,7 +1097,7 @@
 "level_5_3" = "天天尊享！ %@%% 高额充值彩金。";
 "level_5_4" = "天天享 %@%% 高额充值彩金。";
 "level_91_leveltop" = "您的提现，我们会为您直接插队…";
-"level_desc_levelup" = "Level Up! 恭喜您升级为 Lv%@。";
+"level_desc_levelup" = "Level Up! 恭喜您升级为 LV %@。";
 "level_desc_register" = "恭喜您顺利完成注册";
 "level_detail_3_1_content" = "当日负盈利金额越高，救援金即越高。";
 "level_detail_3_1_title" = "负盈利回馈";

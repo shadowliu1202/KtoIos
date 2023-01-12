@@ -126,7 +126,7 @@
 "common_language" = "THTH简体中文";
 "common_lastday" = "THTH最近%@天";
 "common_level" = "THTH等级";
-"common_level_2" = "THTHLV%@";
+"common_level_2" = "THTHLV %@";
 "common_login" = "THTH登录";
 "common_minute" = "THTH分";
 "common_mobile" = "THTH手机";
@@ -156,7 +156,6 @@
 "common_previous" = "THTH上一步";
 "common_promotion" = "THTH优惠券";
 "common_realname" = "THTH提现姓名";
-"common_rebet" = "THTH返现";
 "common_redirect" = "THTH系统将于 %@ 秒后重新导向 KTO 首页。";
 "common_register" = "THTH注册";
 "common_registerdate" = "THTH注册日期";
@@ -1082,7 +1081,7 @@
 "level_5_3" = "天天尊享！ %@%%高额充值彩金。";
 "level_5_4" = "天天享 %@%%高额充值彩金。";
 "level_91_leveltop" = "THTH您的提现，我们会为您直接插队…";
-"level_desc_levelup" = "THTHLevel Up! 恭喜您升级为 Lv%@。";
+"level_desc_levelup" = "THTHLevel Up! 恭喜您升级为 LV %@。";
 "level_desc_register" = "THTH恭喜您顺利完成注册";
 "level_detail_3_1_content" = "当日负盈利金额越高，救援金即越高。";
 "level_detail_3_1_title" = "THTH负盈利回馈";
