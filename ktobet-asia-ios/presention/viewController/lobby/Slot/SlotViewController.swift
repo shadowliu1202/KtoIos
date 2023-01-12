@@ -25,8 +25,9 @@ class SlotViewController: ProductsViewController {
     @Injected private var loading: Loading
     
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
-    private lazy var viewModel = Injectable.resolve(SlotViewModel.self)!
     private var disposeBag = DisposeBag()
+    
+    var viewModel = Injectable.resolve(SlotViewModel.self)!
     
     var barButtonItems: [UIBarButtonItem] = []
     var datas = [SlotGame]()
