@@ -6100,6 +6100,7 @@
 		FFB2101B29597A9C00ED3C3A /* UIKitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB2101529597A9B00ED3C3A /* UIKitLabel.swift */; };
 		FFB2101D29597A9C00ED3C3A /* UIKitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB2101529597A9B00ED3C3A /* UIKitLabel.swift */; };
 		FFB2101E29597A9C00ED3C3A /* UIKitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB2101529597A9B00ED3C3A /* UIKitLabel.swift */; };
+		FFB70491296D5AF7008834D3 /* SlotViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */; };
 		FFBD376C294ACAE3009E9A97 /* P2PViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */; };
 		FFBD376D294ACAE3009E9A97 /* LaunchAppTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */; };
 		FFBD376E294ACAE3009E9A97 /* CommonVerifyOtpViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */; };
@@ -7105,6 +7106,7 @@
 		FFB2100929597A2D00ED3C3A /* DepositOfflineConfirmViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepositOfflineConfirmViewTests.swift; sourceTree = "<group>"; };
 		FFB2100B29597A6400ED3C3A /* DepositOfflineConfirmViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepositOfflineConfirmViewModel.swift; sourceTree = "<group>"; };
 		FFB2101529597A9B00ED3C3A /* UIKitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitLabel.swift; sourceTree = "<group>"; };
+		FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotViewControllerTests.swift; sourceTree = "<group>"; };
 		FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawalViewControllerTests.swift; sourceTree = "<group>"; };
 		FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		FFC6B8B92907BB6C002D843B /* LocalStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorable.swift; sourceTree = "<group>"; };
@@ -8905,6 +8907,7 @@
 				FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */,
 				FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */,
 				FFB016C32965841F007E0236 /* CasinoViewControllerTests.swift */,
+				FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -11271,6 +11274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFB70491296D5AF7008834D3 /* SlotViewControllerTests.swift in Sources */,
 				3CF9BB43295C37AB00EC91DC /* DepositOfflineConfirmViewTests.swift in Sources */,
 				3CF9BB44295C37AB00EC91DC /* DepositLogSummaryViewTests.swift in Sources */,
 				3C31F0CE291BA057002962E9 /* XCTestCase+Extension.swift in Sources */,

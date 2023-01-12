@@ -1206,9 +1206,10 @@ struct ArcadeGameDataBean: Codable {
     let cultureCode: String?
     let releaseDate: String?
     let providerId: Int
+    let isCheckBonusLock: Bool
     
     func toArcadeGame(host: String) -> ArcadeGame{
-        return ArcadeGame(gameId: gameId, gameName: name, isFavorite: isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isMaintenance, status: self.status), thumbnail: ArcadeThumbnail(host: host, thumbnailId: imageId))
+        return ArcadeGame(gameId: gameId, gameName: name, isFavorite: isFavorite, gameStatus: GameStatus.Companion.init().convert(gameMaintenance: self.isMaintenance, status: self.status), thumbnail: ArcadeThumbnail(host: host, thumbnailId: imageId), requireNoBonusLock: isCheckBonusLock)
     }
 }
 
