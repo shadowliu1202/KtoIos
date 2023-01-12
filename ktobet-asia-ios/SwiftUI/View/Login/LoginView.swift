@@ -88,13 +88,24 @@ struct LoginView: View {
                                      _ passwordErrorText: String,
                                      _ isRememberMe: Binding<Bool>, accountOnChange: @escaping () -> Void, passwordOnChange: @escaping () -> Void) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            SwiftUIInputText(placeHolder: Localize.string("login_account_identity"),
-                             textFieldText: accountText,
-                             errorText: accountErrorText)
-            SwiftUIInputText(placeHolder: Localize.string("common_password"),
-                             textFieldText: passwordText,
-                             errorText: passwordErrorText,
-                             featureType: .password)
+            SwiftUIInputText(
+                placeHolder: Localize.string("login_account_identity"),
+                textFieldText: accountText,
+                errorText: accountErrorText,
+                textFieldType: GeneralType(
+                    regex: .email,
+                    keyboardType: .emailAddress
+                )
+            )
+            
+            SwiftUIInputText(
+                placeHolder: Localize.string("common_password"),
+                textFieldText: passwordText,
+                errorText: passwordErrorText,
+                featureType: .password,
+                textFieldType: GeneralType(regex: .all)
+            )
+            
             HStack(spacing: 4) {
                 if isRememberMe.wrappedValue {
                     Image("isRememberMe")
@@ -127,7 +138,12 @@ struct LoginView: View {
             VStack(spacing: 12) {
                 Text(Localize.string("login_enter_captcha_to_prceed"))
                     .alertStyle()
-                SwiftUIInputText(placeHolder: Localize.string("login_captcha"), textFieldText: text, errorText: errorText)
+                SwiftUIInputText(
+                    placeHolder: Localize.string("login_captcha"),
+                    textFieldText: text,
+                    errorText: errorText,
+                    textFieldType: GeneralType(regex: .numberAndEnglish)
+                )
                 Image(uiImage: image ?? UIImage())
                     .resizable()
                     .scaledToFit()

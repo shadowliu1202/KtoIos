@@ -21,32 +21,24 @@ struct SwiftUIInputText: View {
     private let placeHolder: String
     private let errorText: String
     private let featureType: FeatureType
-    private let keyboardType: UIKeyboardType
-    private let currencyFormatMaxDigits: Int?
-    private let maxLength: Int?
+    private let textFieldType: any TextFieldType
 
-    private let disablePaste: Bool
     private let disableInput: Bool
     
-    init(placeHolder: String,
-         textFieldText: Binding<String>,
-         errorText: String = "",
-         featureType: FeatureType = .nil,
-         keyboardType: UIKeyboardType = .default,
-         currencyFormatMaxDigits: Int? = nil,
-         maxLength: Int? = nil,
-         disablePaste: Bool = false,
-         disableInput: Bool = false,
-         isEditing: Binding<Bool> = .constant(false)
+    init(
+        placeHolder: String,
+        textFieldText: Binding<String>,
+        errorText: String = "",
+        featureType: FeatureType = .nil,
+        textFieldType: some TextFieldType,
+        disableInput: Bool = false,
+        isEditing: Binding<Bool> = .constant(false)
     ) {
         self.placeHolder = placeHolder
         self._textFieldText = textFieldText
         self.errorText = errorText
         self.featureType = featureType
-        self.keyboardType = keyboardType
-        self.currencyFormatMaxDigits = currencyFormatMaxDigits
-        self.maxLength = maxLength
-        self.disablePaste = disablePaste
+        self.textFieldType = textFieldType
         self.disableInput = disableInput
         self._isEditing = isEditing
     }
@@ -114,10 +106,7 @@ struct SwiftUIInputText: View {
                     isFirstResponder: $innerIsEditing,
                     showPassword: $showPassword,
                     isPasswordType: featureType == .password,
-                    disablePaste: disablePaste,
-                    keyboardType: keyboardType,
-                    currencyFormatMaxDigits: currencyFormatMaxDigits,
-                    maxLength: maxLength,
+                    textFieldType: textFieldType,
                     configuration: { uiTextField in
                         uiTextField.font = UIFont(name: "PingFangSC", size: 16)
                         uiTextField.textColor = .white
@@ -224,7 +213,8 @@ struct SwiftUIInputText_Previews: PreviewProvider {
             placeHolder: "手机/电子邮箱",
             textFieldText: .constant(""),
             errorText: "请输入正确的电子邮箱。",
-            featureType: .password
+            featureType: .password,
+            textFieldType: GeneralType(regex: .all)
         )
         .previewLayout(.fixed(width: 315, height: 84))
     }
