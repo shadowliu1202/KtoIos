@@ -217,7 +217,8 @@ extension OfflinePaymentView {
                     SwiftUIInputText(
                         placeHolder: Localize.string("deposit_name"),
                         textFieldText: $remitterName ?? "",
-                        errorText: viewModel.remitInfoErrorMessage.remitterName
+                        errorText: viewModel.remitInfoErrorMessage.remitterName,
+                        textFieldType: GeneralType(regex: .all)
                     )
                     .id(Identifier.remitterInputText.rawValue)
                     
@@ -225,8 +226,12 @@ extension OfflinePaymentView {
                         placeHolder: Localize.string("deposit_accountlastfournumber"),
                         textFieldText: $remitBankCardNumber ?? "",
                         errorText: viewModel.remitInfoErrorMessage.bankCardNumber,
-                        keyboardType: .numberPad,
-                        maxLength: 4
+                        textFieldType: GeneralType(
+                            regex: .number,
+                            keyboardType: .numberPad,
+                            disablePaste: false,
+                            maxLength: 4
+                        )
                     )
                     .id(Identifier.remitBankCardInputText.rawValue)
                     
@@ -234,9 +239,7 @@ extension OfflinePaymentView {
                         placeHolder: Localize.string("deposit_amount"),
                         textFieldText: $remitAmount ?? "",
                         errorText: viewModel.remitInfoErrorMessage.amount,
-                        keyboardType: .numberPad,
-                        currencyFormatMaxDigits: 2,
-                        disablePaste: true
+                        textFieldType: CurrencyType(regex: .noDecimal)
                     )
                     .id(Identifier.remitAmountInputText.rawValue)
                     

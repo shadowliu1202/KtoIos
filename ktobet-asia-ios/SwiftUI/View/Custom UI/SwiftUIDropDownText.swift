@@ -30,9 +30,6 @@ struct SwiftUIDropDownText: View {
     
     private let errorText: String
     
-    private let currencyFormatMaxDigits: Int?
-    private let maxLength: Int?
-    
     let inspection = Inspection<Self>()
     
     init(
@@ -42,9 +39,7 @@ struct SwiftUIDropDownText: View {
         items: [String],
         selectedItemIndex: Binding<Int?>,
         featureType: FeatureType,
-        dropDownArrowVisible: Bool = true,
-        currencyFormatMaxDigits: Int? = nil,
-        maxLength: Int? = nil
+        dropDownArrowVisible: Bool = true
     ) {
         self.placeHolder = placeHolder
         self._textFieldText = textFieldText
@@ -53,8 +48,6 @@ struct SwiftUIDropDownText: View {
         self._selectedItemIndex = selectedItemIndex
         self.featureType = featureType
         self.dropDownArrowVisible = dropDownArrowVisible
-        self.currencyFormatMaxDigits = currencyFormatMaxDigits
-        self.maxLength = maxLength
     }
     
     var body: some View {
@@ -63,8 +56,7 @@ struct SwiftUIDropDownText: View {
             textFieldText: $textFieldText,
             errorText: errorText,
             featureType: dropDownArrowVisible ? .other : .nil,
-            currencyFormatMaxDigits: currencyFormatMaxDigits,
-            maxLength: maxLength,
+            textFieldType: GeneralType(regex: .all),
             disableInput: featureType == .select ? true : false,
             isEditing: $isEditing
         )

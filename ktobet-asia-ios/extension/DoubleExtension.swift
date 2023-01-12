@@ -26,6 +26,7 @@ extension Formatter {
 
 extension Numeric {
     var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
+    
     func currencyFormatWithoutSymbol(precision: Int = 0, maximumFractionDigits: Int = 2) -> String {
         let numberFormatter = Formatter.withSeparator
         numberFormatter.groupingSize = 3
