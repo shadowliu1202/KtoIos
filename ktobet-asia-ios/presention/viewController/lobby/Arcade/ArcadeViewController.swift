@@ -11,9 +11,9 @@ class ArcadeViewController: DisplayProduct {
     
     @Injected private var loading: Loading
     
-    private lazy var viewModel = Injectable.resolve(ArcadeViewModel.self)!
     private var disposeBag = DisposeBag()
     
+    var viewModel = Injectable.resolveWrapper(ArcadeViewModel.self)
     var barButtonItems: [UIBarButtonItem] = []
     
     lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
@@ -28,7 +28,20 @@ class ArcadeViewController: DisplayProduct {
     }
     
     private func initUI() {
-        gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+        gamesCollectionView.rx
+            .observe(\.contentSize)
+            .asDriverLogError()
+            .map { [weak self] size -> CGFloat in
+                guard let `self` = self else { return 0 }
+                let aboveHeight = self.titleLabel.frame.size.height + self.tagsStackView.frame.size.height
+                let space: CGFloat = 8 + 30 + 24 + 20
+                 
+                return size.height + aboveHeight + space
+            }
+            .drive(onNext: { [unowned self] in
+                self.scrollViewContentHeight.constant = $0
+            })
+            .disposed(by: disposeBag)
     }
     
     private func dataBinding() {
@@ -65,18 +78,6 @@ class ArcadeViewController: DisplayProduct {
                     newClick: { self.viewModel.toggleNew() })
             })
             .disposed(by: self.disposeBag)
-    }
-    
-    
-    // MARK: KVO
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "contentSize", let newvalue = change?[.newKey] {
-            if let obj = object as? UICollectionView , obj == gamesCollectionView {
-                let aboveHeight = titleLabel.frame.size.height + tagsStackView.frame.size.height
-                let space: CGFloat = 8 + 30 + 24 + 20
-                scrollViewContentHeight.constant = (newvalue as! CGSize).height + aboveHeight + space
-            }
-        }
     }
     
     // MARK: ProductBaseCollection
