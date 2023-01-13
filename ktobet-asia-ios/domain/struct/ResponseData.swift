@@ -1720,7 +1720,7 @@ struct CashBackRemarkBean: Codable {
 struct BalanceLogDetailRemarkBean: Codable {
     let betStatus: Int32
     let description: String?
-    let displayIds: [String]?
+    let displayIds: [String?]?
     let gameName: String?
     let isDetail: Bool
     let lobbyName: String?
@@ -1733,9 +1733,12 @@ struct BalanceLogDetailRemarkBean: Codable {
             return BalanceLogDetailRemark.None()
         } else {
             var pair: [KotlinPair<NSString, NSString>] = []
-            if let displayIds = displayIds, let wagerId = wagerId, displayIds.count == wagerId.count {
-                for i in 0..<displayIds.count {
-                    pair.append(KotlinPair(first: displayIds[i] as NSString, second: wagerId[i] as NSString))
+            if let displayIds = displayIds?.compactMap({ $0 as? NSString }),
+               let wagerId = wagerId?.compactMap({ $0 as NSString }),
+               displayIds.count == wagerId.count {
+                
+                displayIds.enumerated().forEach { (index, element) in
+                    pair.append(KotlinPair(first: element, second: wagerId[index]))
                 }
             }
             return BalanceLogDetailRemark.General(betStatus: BetStatus_.convert(betStatus), lobbyName: lobbyName ?? "", ids: pair)

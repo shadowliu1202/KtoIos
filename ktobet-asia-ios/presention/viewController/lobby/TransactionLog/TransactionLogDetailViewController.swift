@@ -83,12 +83,18 @@ class TransactionLogDetailViewController: LobbyViewController {
     }
     private func bindData() {
         guard let param = param else { return }
-        viewModel.getTransactionLogDetail(transactionId: param.transactionId).subscribe(onSuccess: { [weak self] (result) in
-            guard let `self` = self, let param = self.param else { return }
-            self.detailItem = LogDetailRowItem(bean: result, isSmartBet: param.isSmartBet)
-        }, onError: { [weak self] in
-            self?.handleErrors($0)
-        }).disposed(by: disposeBag)
+        viewModel.getTransactionLogDetail(transactionId: param.transactionId)
+            .subscribe(onSuccess: { [weak self] (result) in
+                guard let `self` = self, let param = self.param else { return }
+                self.detailItem = LogDetailRowItem(bean: result, isSmartBet: param.isSmartBet)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.errors()
+            .subscribe(onNext: { [weak self] in
+                self?.handleErrors($0)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func goToCasinoDetail(_ wagerId: String) {
