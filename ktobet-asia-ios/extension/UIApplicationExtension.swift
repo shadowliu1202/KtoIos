@@ -19,9 +19,4 @@ extension UIApplication {
         }
         return base
     }
-    
-    class func forceCheckNetworkStatus() {
-        (UIApplication.shared.delegate as! AppDelegate).forceCheckNetworkStatus()
-    }
-    
 }

@@ -1,66 +1,57 @@
 import Connectivity
 import RxCocoa
 
-@objc protocol NetworkStatusDisplay: AnyObject {
-    @objc func networkDidConnected()
-    @objc func networkDisConnected()
-    @objc func networkRequestHandle(error: Error)
-}
-
 final class NetworkStateMonitor {
-    static let shared = NetworkStateMonitor()
     
-    struct Config {
-        fileprivate var connected: () -> Void
-        fileprivate var disconnected: () -> Void
-        fileprivate var requestErrorCallback: (Error) -> Void
+    enum Status {
+        case connected
+        case reconnected
+        case disconnect
     }
     
-    var didBecomeConnected: Signal<Void> { return _didBecomeReachable.asSignal() }
-
-    private(set) var requestErrorCallback: (Error) -> Void
-    private(set) var isNetworkConnected = true
-
-    private static var config: Config?
-    private var connected: (Connectivity) -> Void
-    private var disconnected: (Connectivity) -> Void
-    private let connectivity: Connectivity = Connectivity()
-    private let _didBecomeReachable = PublishRelay<Void>()
+    static let shared = NetworkStateMonitor()
     
-    private init() {
-        guard let config = NetworkStateMonitor.config else {
-            fatalError("You must call setup before accessing NetworkStateMonitor.shared")
+    private let connectivity: Connectivity = Connectivity()
+    private let _networkStatus = BehaviorRelay<Status?>(value: nil)
+    
+    var isNetworkConnected: Bool {
+        switch _networkStatus.value {
+        case .disconnect:
+            return false
+        default:
+            return true
         }
-        
-        self.connected = { (connectivity) in
-            connectivity.isPollingEnabled = false
-            NetworkStateMonitor.shared.isNetworkConnected = true
-            config.connected()
-            NetworkStateMonitor.shared._didBecomeReachable.accept(())
-        }
-        
-        self.disconnected = { (connectivity) in
-            connectivity.isPollingEnabled = true
-            NetworkStateMonitor.shared.isNetworkConnected = false
-            config.disconnected()
-        }
-        
-        self.requestErrorCallback = { (error) in
+    }
+    
+    var listener: Observable<Status> {
+        return _networkStatus.compactMap { $0 }
+    }
+    
+    private init() { }
+    
+    func startNotifier() {
+        connectivity.whenConnected = { [weak self] (connectivity) in
             DispatchQueue.main.async {
-                config.requestErrorCallback(error)
+                if self?.isNetworkConnected == false {
+                    self?._networkStatus.accept(.reconnected)
+                }
+                connectivity.isPollingEnabled = false
+                self?._networkStatus.accept(.connected)
             }
         }
         
-        configure()
+        connectivity.whenDisconnected = { [weak self] (connectivity) in
+            DispatchQueue.main.async {
+                connectivity.isPollingEnabled = true
+                self?._networkStatus.accept(.disconnect)
+            }
+        }
+        
+        connectivity.startNotifier(queue: DispatchQueue.global())
     }
     
     deinit {
         connectivity.stopNotifier()
-    }
-    
-    static func setup(connected: @escaping () -> Void, disconnected: @escaping () -> Void, requestError: @escaping (Error) -> Void) {
-        let config = Config(connected: connected, disconnected: disconnected, requestErrorCallback: requestError)
-        NetworkStateMonitor.config = config
     }
     
     func setForceCheck() {
@@ -68,12 +59,11 @@ final class NetworkStateMonitor {
     }
     
     func setIsNetworkConnected(_ flag: Bool) {
-        isNetworkConnected = flag
-    }
-
-    private func configure() {
-        connectivity.whenConnected = connected
-        connectivity.whenDisconnected = disconnected
-        connectivity.startNotifier()
+        if flag {
+            _networkStatus.accept(.connected)
+        }
+        else {
+            _networkStatus.accept(.disconnect)
+        }
     }
 }

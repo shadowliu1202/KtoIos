@@ -547,14 +547,4 @@ extension SideBarViewController: SideMenuNavigationControllerDelegate {
     func sideMenuWillDisappear(menu: SideMenuNavigationController, animated: Bool) {
         CustomServicePresenter.shared.isInSideMenu = false
     }
-    
-    func sideMenuDidDisappear(menu: SideMenuNavigationController, animated: Bool) {
-        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-            if NetworkStateMonitor.shared.isNetworkConnected == true {
-                topVc.networkDidConnected()
-            } else {
-                topVc.networkDisConnected()
-            }
-        }
-    }
 }

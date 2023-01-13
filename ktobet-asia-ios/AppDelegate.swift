@@ -42,11 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     override init() {
         super.init()
 
-        NetworkStateMonitor.setup(
-            connected: networkDidConnect,
-            disconnected: networkDisConnect,
-            requestError: requestErrorWhenRetry
-        )
+        NetworkStateMonitor.shared.startNotifier()
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -181,15 +177,6 @@ private extension AppDelegate {
             }
             networkControlWindow = NetworkControlWindow(frame: CGRect(x: UIScreen.main.bounds.width - rightPadding, y: UIScreen.main.bounds.height - bottomPadding, width: 56, height: 56))
             networkControlWindow?.isHidden = false
-            networkControlWindow?.touchUpInside = { isNetworkConnected in
-                if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-                    if isNetworkConnected {
-                        topVc.networkDidConnected()
-                    } else {
-                        topVc.networkDisConnected()
-                    }
-                }
-            }
         }
     }
     
@@ -248,37 +235,6 @@ private extension AppDelegate {
                 NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
             })
             .disposed(by: disposeBag)
-    }
-}
-
-// MARK: - Network
-
-extension AppDelegate {
-    
-    private func networkDidConnect() {
-        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-            topVc.networkDidConnected()
-        }
-    }
-    
-    private func networkDisConnect() {
-        if let topVc = UIApplication.topViewController() as? NetworkStatusDisplay {
-            topVc.networkDisConnected()
-        }
-    }
-    
-    func forceCheckNetworkStatus() {
-        self.timer?.invalidate()
-        let nextTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.debounceCheckNetworkStatus), userInfo: nil, repeats: false)
-        self.timer = nextTimer
-    }
-    
-    @objc private func debounceCheckNetworkStatus() {
-        self.reachabilityObserver?.setForceCheck()
-    }
-    
-    private func requestErrorWhenRetry(error: Error) {
-        print("\(error)")
     }
 }
 

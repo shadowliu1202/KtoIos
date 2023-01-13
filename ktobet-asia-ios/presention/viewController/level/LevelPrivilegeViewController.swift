@@ -80,7 +80,7 @@ class LevelPrivilegeViewController: LobbyViewController {
         print("\(type(of: self)) deinit")
     }
     
-    override func networkReConnectedHandler() {
+    override func networkDidConnectedHandler() {
         removeBanner()
     }
     

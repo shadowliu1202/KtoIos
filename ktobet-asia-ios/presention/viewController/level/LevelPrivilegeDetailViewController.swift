@@ -79,7 +79,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = barAppearance
     }
     
-    override func networkReConnectedHandler() {
+    override func networkDidConnectedHandler() {
         removeBanner()
     }
     

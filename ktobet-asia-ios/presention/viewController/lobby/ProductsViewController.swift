@@ -4,6 +4,7 @@ import SharedBu
 
 class ProductsViewController: LobbyViewController {
     private var disposeBag = DisposeBag()
+    private var viewDisappearBag = DisposeBag()
     private lazy var serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private lazy var playerViewModel = Injectable.resolve(PlayerViewModel.self)!
     private var productType: ProductType!
@@ -17,6 +18,11 @@ class ProductsViewController: LobbyViewController {
         observeSystemStatus()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewDisappearBag = DisposeBag()
+    }
+    
     func setProductType() -> ProductType {
         fatalError("implements in sub class")
     }
@@ -46,10 +52,7 @@ class ProductsViewController: LobbyViewController {
     }
 
     func gameDidDisappear() {
-        if NetworkStateMonitor.shared.isNetworkConnected == false {
-            self.networkDisConnected()
-        }
-        syncAppVersionUpdate(versionSyncDisposeBag)
+        syncAppVersionUpdate(viewDisappearBag)
         serviceViewModel.refreshProductStatus()
     }
     

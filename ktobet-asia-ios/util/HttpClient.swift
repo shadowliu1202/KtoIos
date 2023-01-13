@@ -255,29 +255,31 @@ class HttpClient {
 
 class APIRequestRetrier: Retrier {
     private let disposeBag = DisposeBag()
+    private var status: NetworkStateMonitor.Status?
     
     init() {
         super.init { _, _, _, _ in }
+        
+        NetworkStateMonitor.shared.listener
+            .subscribe(onNext: { [weak self] in
+                self?.status = $0
+            })
+            .disposed(by: disposeBag)
     }
     
     override func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        guard NetworkStateMonitor.shared.isNetworkConnected == true else {
-            NetworkStateMonitor.shared.didBecomeConnected.asObservable().subscribe(onNext: {
-                guard !request.isCancelled else {
-                    completion(.doNotRetry)
-                    return
-                }
-                completion(.retry)
-            }).disposed(by: disposeBag)
-            
-            if case .sessionTaskFailed(let err) = error as? AFError {
-                NetworkStateMonitor.shared.requestErrorCallback(err)
-            } else {
-                NetworkStateMonitor.shared.requestErrorCallback(error)
+        switch status {
+        case .connected:
+            completion(.doNotRetry)
+        case .disconnect:
+            guard !request.isCancelled else {
+                completion(.doNotRetry)
+                return
             }
-            return
+            completion(.retry)
+        default:
+            break
         }
-        completion(.doNotRetry)
     }
 }
 

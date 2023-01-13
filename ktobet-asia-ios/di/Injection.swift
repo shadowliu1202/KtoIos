@@ -1033,6 +1033,11 @@ final class Injection {
             }
         
         container
+            .register(CustomerServiceMainViewModel.self) { _ in
+                    .init()
+            }
+        
+        container
             .register(CustomerServiceHistoryViewModel.self) { resolver in
                 return CustomerServiceHistoryViewModel(historyUseCase: resolver.resolveWrapper(ChatRoomHistoryUseCase.self))
             }

@@ -361,4 +361,11 @@ class CustomServicePresenter: NSObject {
                 }
             }).disposed(by: disposeBag)
     }
+    
+    func getIsChatRoomExist() -> Observable<Bool> {
+        return CustomServicePresenter.shared.chatRoomConnectStatus
+            .map {
+                $0 != PortalChatRoom.ConnectStatus.notexist
+            }
+    }
 }

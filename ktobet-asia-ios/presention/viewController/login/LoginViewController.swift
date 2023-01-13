@@ -43,6 +43,7 @@ class LoginViewController: LandingViewController {
     private var navigationViewModel = Injectable.resolve(NavigationViewModel.self)!
     private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    private var viewDisappearBag = DisposeBag()
     
     deinit {
         print("\(type(of: self)) deinit")
@@ -348,6 +349,7 @@ class LoginViewController: LandingViewController {
         super.viewWillDisappear(animated)
         viewModel.stopLoginLimitTimer()
         removeNotificationCenter()
+        viewDisappearBag = DisposeBag()
     }
     
     private func removeNotificationCenter() {
@@ -428,7 +430,7 @@ extension LoginViewController: BarButtonItemable {
         let msg = "目前版本 : \(currentVersion)+\(currentVersionCode) \n最新版本 : \(newVer)+\(newVersionCode)"
         if currentVersion.compareTo(other: newVer) < 0 {
             Alert.shared.show(title, msg, confirm: {
-                self.syncAppVersionUpdate(self.versionSyncDisposeBag)
+                self.syncAppVersionUpdate(self.viewDisappearBag)
             }, confirmText: Localize.string("update_proceed_now"), cancel: {}, cancelText: "稍後")
         } else {
             Alert.shared.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)

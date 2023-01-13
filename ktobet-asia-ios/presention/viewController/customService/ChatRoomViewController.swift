@@ -347,7 +347,7 @@ class ChatRoomViewController: CommonViewController {
         }
     }
     
-    override func networkReConnectedHandler() {
+    override func networkDidConnectedHandler() {
         removeBanner()
     }
     

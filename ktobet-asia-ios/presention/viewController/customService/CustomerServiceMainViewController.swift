@@ -4,26 +4,30 @@ import RxCocoa
 import SharedBu
 
 class CustomerServiceMainViewController: LobbyViewController {
-    var barButtonItems: [UIBarButtonItem] = []
+    private let viewModel = Injectable.resolveWrapper(CustomerServiceHistoryViewModel.self)
+    private let mainViewModel = Injectable.resolveWrapper(CustomerServiceMainViewModel.self)
+    private var disposeBag = DisposeBag()
+    
     let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     let edit = UIBarButtonItem.kto(.text(text: Localize.string("common_edit")))
     
     @IBOutlet weak var callinBtn: CallinButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!
+    
+    var barButtonItems: [UIBarButtonItem] = []
     var records: [ChatHistory] = [] {
         didSet {
             self.tableView.reloadData()
         }
     }
-    var viewModel = Injectable.resolve(CustomerServiceHistoryViewModel.self)!
-    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("customerservice_online"))
         initUI()
-        dataBinding()
+        binding()
+        viewModel.refreshData()
     }
     
     deinit {
@@ -31,55 +35,61 @@ class CustomerServiceMainViewController: LobbyViewController {
     }
 
     private func initUI() {
-        observeCustomerServiceExist().subscribe(onNext: { [unowned self] connectStatusExist in
-            self.callinBtn.isEnable = !connectStatusExist
-        }).disposed(by: disposeBag)
-        
-        callinBtn.onPressed { [unowned self] (pressCallin) in
-            pressCallin.throttle(.seconds(3), latest: false, scheduler: MainScheduler.instance).flatMap({ [unowned self] () -> Completable in
+        callinBtn.btn.rx.touchUpInside
+            .throttle(.seconds(3), latest: false, scheduler: MainScheduler.instance)
+            .flatMap({ [unowned self] () -> Completable in
                 if NetworkStateMonitor.shared.isNetworkConnected == true {
-                    return CustomServicePresenter.shared.startCustomerService(from: self)
-                } else {
+                    return CustomServicePresenter.shared
+                        .startCustomerService(from: self)
+                        .catch({
+                            self.handleErrors($0)
+                            self.callinBtn.isEnable = true
+                            return Completable.empty()
+                        })
+                }
+                else {
                     return networkLostToast()
                 }
-            }).catchError({[weak self] in
-                self?.handleErrors($0)
-                self?.callinBtn.isEnable = true
-                return Observable.error($0)
-            }).retry()
+            })
             .subscribe()
             .disposed(by: self.disposeBag)
-        }
+       
         tableView.dataSource = self
         tableView.delegate = self
         tableView.setHeaderFooterDivider()
         tableView.rowHeight = UITableView.automaticDimension
     }
     
-    private func observeCustomerServiceExist() -> Observable<Bool> {
-        return CustomServicePresenter.shared.chatRoomConnectStatus
-            .map { status in
-                status != PortalChatRoom.ConnectStatus.notexist
-            }
-    }
-    
-    private func dataBinding() {
-        self.rx.viewWillAppear.bind(onNext: { [weak self] _ in
-            self?.viewModel.refreshData()
-        }).disposed(by: disposeBag)
+    private func binding() {
+        mainViewModel
+            .getIsChatRoomExist()
+            .subscribe(onNext: { [weak self] in
+                self?.callinBtn.isEnable = !$0
+            })
+            .disposed(by: disposeBag)
         
-        viewModel.getChatHistories().catchError({ [weak self] (error) in
-            switch error {
-            case KTOError.EmptyData:
-                self?.switchContent()
-            default:
-                self?.handleErrors(error)
-            }
-            return Observable.just(self?.records ?? [])
-        }).subscribe(onNext: { [weak self] (data) in
-            self?.switchContent(data)
-            self?.records = data
-        }).disposed(by: disposeBag)
+        mainViewModel
+            .leftCustomerService()
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.refreshData()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.getChatHistories()
+            .catch({ [weak self] (error) in
+                switch error {
+                case KTOError.EmptyData:
+                    self?.switchContent()
+                default:
+                    self?.handleErrors(error)
+                }
+                return Observable.just(self?.records ?? [])
+            })
+            .subscribe(onNext: { [weak self] (data) in
+                self?.switchContent(data)
+                self?.records = data
+            })
+            .disposed(by: disposeBag)
     }
     
     private func switchContent(_ element: [ChatHistory]? = nil) {
@@ -145,25 +155,6 @@ extension CustomerServiceMainViewController: CustomServiceDelegate {
     func customServiceBarButtons() -> [UIBarButtonItem]? {
         nil
     }
-    
-    func sessionClosed() {
-        self.callinBtn.isEnable = true
-        self.viewModel.refreshData()
-        if NetworkStateMonitor.shared.isNetworkConnected == true {
-            self.networkDidConnected()
-        } else {
-            self.networkDisConnected()
-        }
-    }
-    
-    func sessionCollapse() {
-        if NetworkStateMonitor.shared.isNetworkConnected == true {
-            self.networkDidConnected()
-        } else {
-            self.networkDisConnected()
-        }
-    }
-    
 }
 
 class CallinButton: UIView {
