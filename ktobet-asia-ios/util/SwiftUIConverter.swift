@@ -37,7 +37,7 @@ extension SwiftUIConverter {
         
         addChild(hostingController)
         
-        view.addSubview(hostingController.view)
+        view.insertSubview(hostingController.view, at: 0)
         hostingController.view.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

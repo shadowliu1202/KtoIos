@@ -3,13 +3,22 @@ import SharedBu
 import RxSwift
 
 class LandingViewController: APPViewController, VersionUpdateProtocol {
-    var appSyncViewModel = Injectable.resolve(AppSynchronizeViewModel.self)!
     private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+
+    private var viewDisappearBag = DisposeBag()
+
+    var appSyncViewModel = Injectable.resolve(AppSynchronizeViewModel.self)!
+
     lazy var playerTimeZone: Foundation.TimeZone = localStorageRepo.localeTimeZone()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        syncAppVersionUpdate(versionSyncDisposeBag)
+        syncAppVersionUpdate(viewDisappearBag)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewDisappearBag = DisposeBag()
     }
     
     // MARK: VersionUpdateProtocol

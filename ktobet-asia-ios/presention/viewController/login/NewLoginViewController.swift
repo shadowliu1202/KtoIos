@@ -17,6 +17,7 @@ class NewLoginViewController: LandingViewController {
     private let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
     
     private let disposeBag = DisposeBag()
+    private var viewDisappearBag = DisposeBag()
     
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     private lazy var serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
@@ -36,6 +37,11 @@ class NewLoginViewController: LandingViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         observeSystemStatus()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewDisappearBag = DisposeBag()
     }
     
     private func observeSystemStatus() {
@@ -218,7 +224,7 @@ extension NewLoginViewController: BarButtonItemable {
         let msg = "目前版本 : \(currentVersion)+\(currentVersionCode) \n最新版本 : \(newVer)+\(newVersionCode)"
         if currentVersion.compareTo(other: newVer) < 0 {
             Alert.shared.show(title, msg, confirm: {
-                self.syncAppVersionUpdate(self.versionSyncDisposeBag)
+                self.syncAppVersionUpdate(self.viewDisappearBag)
             }, confirmText: Localize.string("update_proceed_now"), cancel: {}, cancelText: "稍後")
         } else {
             Alert.shared.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)

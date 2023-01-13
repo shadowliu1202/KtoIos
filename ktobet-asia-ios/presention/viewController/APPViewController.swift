@@ -9,102 +9,71 @@ func methodPointer<T: AnyObject>(obj: T, method: @escaping (T) -> () -> Void) ->
 class APPViewController: UIViewController {
     private var banner: UIView?
 
-    private let _errors = PublishSubject<Error>.init()
-    private var errorsDispose: Disposable?
+    private let disposeBag = DisposeBag()
+    
     let networkConnectRelay = BehaviorRelay<Bool>(value: true)
-    var versionSyncDisposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.accessibilityIdentifier = "\(type(of: self))"
         
-        observerRequestError()
         initNetworkConnectRelay()
+        handleNetworkStatus()
     }
-
-    private func initNetworkConnectRelay() {
-        networkConnectRelay.accept(NetworkStateMonitor.shared.isNetworkConnected)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if NetworkStateMonitor.shared.isNetworkConnected == true {
-            self.networkReConnectedHandler()
-        } else {
-            self.networkDisconnectHandler()
-        }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        errorsDispose?.dispose()
-        versionSyncDisposeBag = DisposeBag()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.dismissBanner()
+    
+    func networkDidConnectedHandler() {
+        dismissBanner()
     }
 
     func networkReConnectedHandler() {
         dismissBanner()
     }
-
+    
     func networkDisconnectHandler() {
         displayBanner()
     }
 
     private func displayBanner() {
         guard banner == nil else { return }
-        banner = UIHostingController(rootView: BannerView()).view
-        banner?.backgroundColor = .clear
-        self.view.addSubview(banner!, constraints: [
-            .constraint(.equal, \.layoutMarginsGuide.topAnchor, offset: 0),
-            .constraint(.equal, \.heightAnchor, length: 52),
-            .equal(\.leadingAnchor, offset: 0),
-            .equal(\.trailingAnchor, offset: -0)
-        ])
+        if let banner = UIHostingController(rootView: BannerView()).view {
+            self.banner = banner
+            banner.backgroundColor = .clear
+            self.view.addSubview(banner)
+            banner.snp.makeConstraints { [unowned self] make in
+                make.width.equalToSuperview()
+                make.height.equalTo(52)
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            }
+        }
     }
 
     private func dismissBanner() {
         banner?.removeFromSuperview()
         banner = nil
     }
-
-    private func observerRequestError() {
-        errorsDispose = _errors.throttle(.milliseconds(1500), latest: false, scheduler: MainScheduler.instance)
-            .observeOn(MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
+    
+    private func initNetworkConnectRelay() {
+        networkConnectRelay.accept(NetworkStateMonitor.shared.isNetworkConnected)
+    }
+    
+    private func handleNetworkStatus() {
+        NetworkStateMonitor.shared.listener
             .subscribe(onNext: { [weak self] in
-                self?.handleErrors($0)
+                switch $0 {
+                case .connected:
+                    self?.networkDidConnectedHandler()
+                case .reconnected:
+                    self?.networkReConnectedHandler()
+                case .disconnect:
+                    self?.networkDisconnectHandler()
+                }
             })
-    }
-
-}
-
-extension APPViewController: NetworkStatusDisplay {
-    func networkDidConnected() {
-        self.networkReConnectedHandler()
-        self.networkConnectRelay.accept(true)
-    }
-
-    func networkDisConnected() {
-        self.networkDisconnectHandler()
-        self.networkConnectRelay.accept(false)
-    }
-
-    func networkRequestHandle(error: Error) {
-        _errors.onNext(error)
+            .disposed(by: disposeBag)
     }
 }
 
 extension APPViewController: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        if NetworkStateMonitor.shared.isNetworkConnected == true {
-            self.networkReConnectedHandler()
-        } else {
-            self.networkDisconnectHandler()
-        }
+        
     }
 }

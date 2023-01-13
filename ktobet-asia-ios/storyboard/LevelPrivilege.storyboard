@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -139,13 +139,13 @@
                                     </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="p0U-lA-qxf" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="381" width="414" height="96"/>
+                                    <rect key="frame" x="0.0" y="392" width="414" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CELL" id="aJ1-OF-cI7">
-                                        <rect key="frame" x="0.0" y="314.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="320" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aJ1-OF-cI7" id="5d4-RZ-EfY">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -156,10 +156,10 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="66h-0s-5IN">
-                                <rect key="frame" x="0.0" y="88" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="52"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="6gG-TG-KON"/>
+                                    <constraint firstAttribute="height" constant="52" id="6gG-TG-KON"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -228,7 +228,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="yDK-88-Cpi">
-                                                    <rect key="frame" x="0.0" y="506" width="414" height="92"/>
+                                                    <rect key="frame" x="0.0" y="517" width="414" height="92"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qa8-kl-Nwt">
@@ -287,7 +287,7 @@
                                                 </view>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LevelDetailTableViewCell" rowHeight="56" id="kfe-zz-ODZ" customClass="LevelDetailTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="88.5" width="414" height="56"/>
+                                                        <rect key="frame" x="0.0" y="94" width="414" height="56"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kfe-zz-ODZ" id="BaR-4O-TZg">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
@@ -321,7 +321,7 @@
                                                         </connections>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LevelDetail2TableViewCell" id="fqI-zu-InF" customClass="LevelDetail2TableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="144.5" width="414" height="68.5"/>
+                                                        <rect key="frame" x="0.0" y="150" width="414" height="68.5"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fqI-zu-InF" id="XzU-lf-n2A">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="68.5"/>
@@ -356,7 +356,7 @@
                                                         </connections>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LevelDetailImageTableViewCell" id="bb6-ei-XnD" customClass="LevelDetailImageTableViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="213" width="414" height="270.5"/>
+                                                        <rect key="frame" x="0.0" y="218.5" width="414" height="270.5"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bb6-ei-XnD" id="jaa-dC-qdD">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="270.5"/>
@@ -453,10 +453,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vS6-GO-ETA">
-                                <rect key="frame" x="0.0" y="88" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="52"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="ib7-Hu-Gc0"/>
+                                    <constraint firstAttribute="height" constant="52" id="ib7-Hu-Gc0"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -505,7 +505,7 @@
                 <navigationController storyboardIdentifier="LevelPrivilegeNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Inq-Yo-wWU" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gts-Ia-RYV">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="blackTwo"/>
                         <textAttributes key="titleTextAttributes">

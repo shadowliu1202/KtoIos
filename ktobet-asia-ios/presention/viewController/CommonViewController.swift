@@ -4,14 +4,24 @@ import SharedBu
 
 class CommonViewController: APPViewController, VersionUpdateProtocol {
     private let playerViewModel = Injectable.resolve(PlayerViewModel.self)!
-    var appSyncViewModel = Injectable.resolve(AppSynchronizeViewModel.self)!
     private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
-    private lazy var playerTimeZone: Foundation.TimeZone = localStorageRepo.localeTimeZone()
+    
     private var disposeBag = DisposeBag()
+    private var viewDisappearBag = DisposeBag()
+    
+    private lazy var playerTimeZone: Foundation.TimeZone = localStorageRepo.localeTimeZone()
+    
+    var appSyncViewModel = Injectable.resolve(AppSynchronizeViewModel.self)!
     
     override func viewDidAppear(_ animated: Bool) {
+        
         super.viewDidAppear(animated)
-        syncAppVersionUpdate(versionSyncDisposeBag)
+        syncAppVersionUpdate(viewDisappearBag)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewDisappearBag = DisposeBag()
     }
     
     // MARK: VersionUpdateProtocol
@@ -30,7 +40,7 @@ class CommonViewController: APPViewController, VersionUpdateProtocol {
                 }
             }, onFailure: { [weak self] in
                 self?.handleErrors($0)
-            }).disposed(by: versionSyncDisposeBag)
+            }).disposed(by: viewDisappearBag)
         }
     }
     

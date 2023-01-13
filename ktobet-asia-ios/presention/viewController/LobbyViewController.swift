@@ -6,6 +6,8 @@ class LobbyViewController: APPViewController, VersionUpdateProtocol {
     
     private let disposeBag = DisposeBag()
     
+    private var viewDisappearBag = DisposeBag()
+    
     private lazy var playerViewModel = Injectable.resolve(PlayerViewModel.self)!
     
     lazy var appSyncViewModel = Injectable.resolve(AppSynchronizeViewModel.self)!
@@ -17,7 +19,17 @@ class LobbyViewController: APPViewController, VersionUpdateProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        syncAppVersionUpdate(versionSyncDisposeBag)
+        syncAppVersionUpdate(viewDisappearBag)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewDisappearBag = DisposeBag()
+    }
+    
+    override func networkReConnectedHandler() {
+        super.networkReConnectedHandler()
+        checkPlayerLoginStatus()
     }
 
     private func checkPlayerLoginStatus() {
@@ -57,10 +69,10 @@ class LobbyViewController: APPViewController, VersionUpdateProtocol {
     
     private func executeLogout() {
         playerViewModel.logout().subscribe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
-            self?.versionSyncDisposeBag = DisposeBag()
+            self?.viewDisappearBag = DisposeBag()
             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
         }, onError: {
             print($0)
-        }).disposed(by: versionSyncDisposeBag)
+        }).disposed(by: viewDisappearBag)
     }
 }
