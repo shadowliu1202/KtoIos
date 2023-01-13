@@ -4367,6 +4367,7 @@
 		6D8762EC26F4299700EFD6CE /* TranscationFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */; };
 		6D8762ED26F4299700EFD6CE /* TranscationFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */; };
 		6D8762EE26F4299700EFD6CE /* TranscationFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */; };
+		6D885392296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D885391296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift */; };
 		6D899BF32705461400AC164E /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D899BF22705461400AC164E /* PaymentProvider.swift */; };
 		6D899BF42705461400AC164E /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D899BF22705461400AC164E /* PaymentProvider.swift */; };
 		6D899BF52705461400AC164E /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D899BF22705461400AC164E /* PaymentProvider.swift */; };
@@ -6977,6 +6978,7 @@
 		6D7C1D7F2779C38800D45654 /* MaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceViewController.swift; sourceTree = "<group>"; };
 		6D87629A26F1E4CA00EFD6CE /* TransactionLogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionLogDetailViewController.swift; sourceTree = "<group>"; };
 		6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscationFlowViewController.swift; sourceTree = "<group>"; };
+		6D885391296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeViewControllerTests.swift; sourceTree = "<group>"; };
 		6D899BF22705461400AC164E /* PaymentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentProvider.swift; sourceTree = "<group>"; };
 		6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonVerifyOtpViewControllerTest.swift; sourceTree = "<group>"; };
 		6D92AD6025FA007E0093D94C /* RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
@@ -8959,6 +8961,7 @@
 				FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */,
 				FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */,
 				FFB016C32965841F007E0236 /* CasinoViewControllerTests.swift */,
+				6D885391296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift */,
 				FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */,
 			);
 			path = UIKit;
@@ -11330,6 +11333,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D885392296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift in Sources */,
 				FFB70491296D5AF7008834D3 /* SlotViewControllerTests.swift in Sources */,
 				3CF9BB43295C37AB00EC91DC /* DepositOfflineConfirmViewTests.swift in Sources */,
 				3CF9BB44295C37AB00EC91DC /* DepositLogSummaryViewTests.swift in Sources */,
