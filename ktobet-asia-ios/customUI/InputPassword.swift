@@ -49,6 +49,7 @@ class InputPassword : UIView{
         textContent.borderStyle = .none
         textContent.delegate = self
         textContent.isSecureTextEntry = true
+        textContent.disableAutoFillOnIos16()
         textContent.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
         
         btnHideContent.backgroundColor = .clear
