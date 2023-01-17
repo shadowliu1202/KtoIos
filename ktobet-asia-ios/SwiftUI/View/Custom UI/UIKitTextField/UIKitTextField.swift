@@ -38,6 +38,7 @@ struct UIKitTextField: UIViewRepresentable {
     
     func makeUIView(context: Context) -> UITextField {
         let view = PasteableTextField()
+        view.disableAutoFillOnIos16()
         view.text = text
         view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         configuration(view)
@@ -52,6 +53,7 @@ struct UIKitTextField: UIViewRepresentable {
 
     func updateUIView(_ uiView: UITextField, context: Context) {
         uiView.isSecureTextEntry = isPasswordType && !showPassword
+        uiView.disableAutoFillOnIos16()
         uiView.text = text
         
         switch isFirstResponder {

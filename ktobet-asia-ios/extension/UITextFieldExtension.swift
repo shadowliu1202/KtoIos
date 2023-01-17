@@ -36,6 +36,18 @@ extension UITextField {
     }
 }
 
+extension UITextField {
+    // FIXME: workaround iOS16 textfield autofill feature will cause crash.
+    // https://developer.apple.com/forums/thread/714608
+    // Use oneTimeCode of textContentType to disable autofill.
+    // https://developer.apple.com/forums/thread/108085
+    func disableAutoFillOnIos16() {
+        if #available(iOS 16.0, *) {
+            self.textContentType = .oneTimeCode
+        }
+    }
+}
+
 /// For overwrite UITextField  return text value  to 半形
 extension Reactive where Base: UITextField {
     /// Reactive wrapper for `text` property.
