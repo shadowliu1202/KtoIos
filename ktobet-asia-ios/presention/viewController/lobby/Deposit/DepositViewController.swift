@@ -154,8 +154,8 @@ extension DepositViewController {
         let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
         
         switch segue.source {
-        case is _DepositOfflineConfirmViewController:
-            let confirm = segue.source as! _DepositOfflineConfirmViewController
+        case is DepositOfflineConfirmViewController:
+            let confirm = segue.source as! DepositOfflineConfirmViewController
             
             if confirm.confirmSuccess {
                 toastView.show(

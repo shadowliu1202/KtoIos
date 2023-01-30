@@ -133,7 +133,7 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
     
     @IBAction func backToNotificationDetail(segue: UIStoryboardSegue) {
         NavigationManagement.sharedInstance.viewController = self
-        if let vc = segue.source as? _DepositOfflineConfirmViewController {
+        if let vc = segue.source as? DepositOfflineConfirmViewController {
             if vc.confirmSuccess {
                 let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
                 toastView.show(on: self.view, statusTip: Localize.string("common_request_submitted"), img: UIImage(named: "Success"))

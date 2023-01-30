@@ -73,7 +73,7 @@ extension OfflinePaymentViewController {
     }
 
     private func navigateToOfflineConfirmVC(_ memoDTO: OfflineDepositDTO.Memo, _ bankCardDTO: PaymentsDTO.BankCard) {
-        let vc = _DepositOfflineConfirmViewController
+        let vc = DepositOfflineConfirmViewController
             .instantiate(memo: memoDTO, selectedBank: bankCardDTO, unwindSegueId: offlineConfirmUnwindSegueId)
         
         navigationController?.pushViewController(vc, animated: true)
