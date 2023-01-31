@@ -1298,7 +1298,7 @@
         <!--Deposit Offline Confirm View Controller-->
         <scene sceneID="slI-9a-EUz">
             <objects>
-                <viewController storyboardIdentifier="_DepositOfflineConfirmViewController" id="znd-rS-fvo" customClass="_DepositOfflineConfirmViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DepositOfflineConfirmViewController" id="znd-rS-fvo" customClass="DepositOfflineConfirmViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DHs-JT-lu2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="878"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
