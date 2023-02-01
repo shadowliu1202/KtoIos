@@ -287,7 +287,7 @@
 "common_tip_title_warm" = "温馨提示";
 "common_tip_content_bind" = "该设定将与账户绑定，无法更改。";
 "common_tip_title_unfinished" = "当前页面数据未保存，确定要离开？";
-"common_tip_content_unfinished" = "一但删除，此笔账户数据就不存在";
+"common_tip_content_unfinished" = "一旦删除，此笔账户数据就不存在";
 "common_field_must_fill" = "此栏位必填";
 "common_field_must_fill_2" = "此为必填栏位。";
 "common_field_format_incorrect" = "您所填写的格式不正确";
@@ -751,7 +751,7 @@
 "withdrawal_bankcard_fail" = "本账户资料不正确";
 "withdrawal_bankcard_delete" = "删除提现账户";
 "withdrawal_bankcard_delete_confirm_title" = "是否删除提现账户?";
-"withdrawal_bankcard_delete_confirm_content" = "一但删除，此笔账户资料就不存在";
+"withdrawal_bankcard_delete_confirm_content" = "一旦删除，此笔账户资料就不存在";
 "withdrawal_bankcard_name_placeholder" = "王大明";
 "withdrawal_bankcard_branch_placeholder" = "上海分行";
 "withdrawal_bankcard_state_placeholder" = "浙江省";
