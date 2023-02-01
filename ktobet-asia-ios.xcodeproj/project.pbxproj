@@ -3371,6 +3371,12 @@
 		6D10269F27CF044800C9D233 /* RealNameValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D10269E27CF044800C9D233 /* RealNameValidator.swift */; };
 		6D1026A027CF044800C9D233 /* RealNameValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D10269E27CF044800C9D233 /* RealNameValidator.swift */; };
 		6D1026A127CF044800C9D233 /* RealNameValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D10269E27CF044800C9D233 /* RealNameValidator.swift */; };
+		6D11303C2988E1AD00EC04A8 /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
+		6D11303E2988E1B000EC04A8 /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
+		6D1130412988E88400EC04A8 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1130402988E88400EC04A8 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift */; };
+		6D1130442988EB5200EC04A8 /* XCTestCase+Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1130432988EB5200EC04A8 /* XCTestCase+Wait.swift */; };
+		6D1130452988EB5200EC04A8 /* XCTestCase+Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1130432988EB5200EC04A8 /* XCTestCase+Wait.swift */; };
+		6D1130462988EB5200EC04A8 /* XCTestCase+Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1130432988EB5200EC04A8 /* XCTestCase+Wait.swift */; };
 		6D1430CD2859BC36002BD18E /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1430CC2859BC36002BD18E /* CommonViewController.swift */; };
 		6D1430CE2859BC36002BD18E /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1430CC2859BC36002BD18E /* CommonViewController.swift */; };
 		6D1430CF2859BC36002BD18E /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1430CC2859BC36002BD18E /* CommonViewController.swift */; };
@@ -5960,7 +5966,6 @@
 		FF77F0F829261F43001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0FA29261F44001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0FB29261F45001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
-		FF7ABFAA2936FB24001D37EB /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C31F0CD291BA057002962E9 /* XCTestCase+Extension.swift */; };
 		FF7ABFAD2936FBD7001D37EB /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC7B279015FF00794145 /* APIWrapper.swift */; };
 		FF7ABFAE2936FBD8001D37EB /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC7B279015FF00794145 /* APIWrapper.swift */; };
 		FF7ABFAF2936FBD9001D37EB /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC7B279015FF00794145 /* APIWrapper.swift */; };
@@ -6157,12 +6162,8 @@
 		FFBD3773294ACAE3009E9A97 /* ChatRoomViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */; };
 		FFBD3774294ACAE3009E9A97 /* P2PSummaryViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */; };
 		FFBD3775294ACAE3009E9A97 /* CryptoSelectorViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */; };
-		FFBD3776294ACBB6009E9A97 /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
 		FFBD3777294ACBB6009E9A97 /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
-		FFBD3778294ACBB6009E9A97 /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
-		FFBD3779294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
 		FFBD377A294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
-		FFBD377B294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
 		FFC30E13294C80FA00A425F4 /* WithdrawalViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */; };
 		FFC6B8AE2907BAEB002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8AF2907BAEF002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
@@ -6876,6 +6877,8 @@
 		6D0EDF9C28759495004A9E3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6D0EDF9F28759509004A9E3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6D10269E27CF044800C9D233 /* RealNameValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealNameValidator.swift; sourceTree = "<group>"; };
+		6D1130402988E88400EC04A8 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift"; path = "MockingbirdMocks/AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift"; sourceTree = "<group>"; };
+		6D1130432988EB5200EC04A8 /* XCTestCase+Wait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Wait.swift"; sourceTree = "<group>"; };
 		6D1430CC2859BC36002BD18E /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
 		6D148E8D26427642001C40EC /* SlotBetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotBetViewModel.swift; sourceTree = "<group>"; };
 		6D148E93264299D0001C40EC /* SlotUnsettleRecordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotUnsettleRecordsViewController.swift; sourceTree = "<group>"; };
@@ -8839,6 +8842,7 @@
 			isa = PBXGroup;
 			children = (
 				74FE0E43128E7E75C6287782 /* KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift */,
+				6D1130402988E88400EC04A8 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift */,
 			);
 			name = "Generated Mocks";
 			sourceTree = "<group>";
@@ -8887,6 +8891,7 @@
 		FF4081EB29189D1A00297D4E /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				6D1130432988EB5200EC04A8 /* XCTestCase+Wait.swift */,
 				3C31F0CD291BA057002962E9 /* XCTestCase+Extension.swift */,
 				FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */,
 				FF694ACF2936F99200FF21EB /* Inspecting.swift */,
@@ -11376,6 +11381,7 @@
 				FFBD377A294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */,
 				3C17059729505CCA00531357 /* TermsViewTests.swift in Sources */,
 				3CA721E52913CA9800B94548 /* PromotionApiTests.swift in Sources */,
+				6D1130442988EB5200EC04A8 /* XCTestCase+Wait.swift in Sources */,
 				FFBD3775294ACAE3009E9A97 /* CryptoSelectorViewControllerTests.swift in Sources */,
 				3C17059A29505CCA00531357 /* TransactionLogViewTests.swift in Sources */,
 				FF7ABFAD2936FBD7001D37EB /* APIWrapper.swift in Sources */,
@@ -11391,11 +11397,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF7ABFAA2936FB24001D37EB /* XCTestCase+Extension.swift in Sources */,
-				FFBD3779294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */,
 				FF7ABFAE2936FBD8001D37EB /* APIWrapper.swift in Sources */,
 				6DEA784228FFE53000420A3D /* PasteableTextFieldTest.swift in Sources */,
-				FFBD3778294ACBB6009E9A97 /* Inspecting.swift in Sources */,
+				6D1130462988EB5200EC04A8 /* XCTestCase+Wait.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -14539,10 +14543,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D75934F29237F35007D2BF3 /* XCTestCase+Extension.swift in Sources */,
-				FFBD377B294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */,
 				6D75934929235E54007D2BF3 /* AIO_unitTests.swift in Sources */,
+				6D11303E2988E1B000EC04A8 /* Inspecting.swift in Sources */,
 				FF7ABFAF2936FBD9001D37EB /* APIWrapper.swift in Sources */,
-				FFBD3776294ACBB6009E9A97 /* Inspecting.swift in Sources */,
+				6D1130452988EB5200EC04A8 /* XCTestCase+Wait.swift in Sources */,
+				6D1130412988E88400EC04A8 /* AIO_unitTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
+				6D11303C2988E1AD00EC04A8 /* InspectableView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
