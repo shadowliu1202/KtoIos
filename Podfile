@@ -37,6 +37,7 @@ end
 
 def unitTest_pods
   pod 'MockingbirdFramework', '~> 0.20'
+  pod 'ViewInspector'
 end
 
 target 'ktobet-asia-ios-qat' do
@@ -79,7 +80,6 @@ target 'KTO-UnitTests' do
   inherit! :search_paths
   default_pods
   unitTest_pods
-  pod 'ViewInspector'
 end
 
 target 'ktobet-asia-iosUITests' do

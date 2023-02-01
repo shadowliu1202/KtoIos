@@ -174,7 +174,7 @@ PODS:
   - SwiftyJSON (5.0.0)
   - Swinject (2.7.1)
   - TYCyclePagerView (1.2.0)
-  - ViewInspector (0.9.3)
+  - ViewInspector (0.9.5)
   - youtube-ios-player-helper (1.0.4)
 
 DEPENDENCIES:
@@ -296,9 +296,9 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
-  ViewInspector: 13dea4a201132e7df0f76811204020a4cbcdc4b2
+  ViewInspector: 607c4f3ea4be92c4c9e1e0cccfef54a1b8335b64
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: 226e3db1aefbbe109b94b4ce65df0e0971831806
+PODFILE CHECKSUM: 458c494740983a77c4b6bd2155020bc3f51070fd
 
 COCOAPODS: 1.11.3

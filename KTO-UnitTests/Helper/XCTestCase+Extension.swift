@@ -9,15 +9,6 @@ extension XCTestCase {
         try XCTContext.runActivity(named: description, block: { _ in try block() })
     }
     
-    func wait(for duration: TimeInterval) {
-        let waitExpectation = expectation(description: "Waiting")
-        let when = DispatchTime.now() + duration
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            waitExpectation.fulfill()
-        }
-        waitForExpectations(timeout: duration + 0.5)
-    }
-    
     func stubHttpClientRequest(responseJsonString: String) -> HttpClientMock {
         let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
         let dummyKtoURL = mock(KtoURL.self)
