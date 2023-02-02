@@ -1,9 +1,15 @@
 import RxSwift
 import RxCocoa
 
-extension ObservableConvertibleType {
+extension ObservableType {
     public func trackActivity(_ activityIndicator: ActivityIndicator) -> RxSwift.Observable<Element> {
         activityIndicator.trackActivityOfObservable(self)
+    }
+}
+
+extension PrimitiveSequenceType where Trait == SingleTrait {
+    public func trackActivity(_ activityIndicator: ActivityIndicator) -> RxSwift.Single<Element> {
+        activityIndicator.trackActivityOfSingle(self)
     }
 }
 
@@ -21,21 +27,43 @@ public class ActivityIndicator : SharedSequenceConvertibleType {
     private let _relay = BehaviorRelay(value: 0)
     private let _loading: SharedSequence<SharingStrategy, Bool>
 
+    var isLoading: Bool {
+        _relay.value > 0
+    }
+    
     public init() {
         _loading = _relay.asDriver()
             .map { $0 > 0 }
             .distinctUntilChanged()
     }
 
-    fileprivate func trackActivityOfObservable<Source: ObservableConvertibleType>(_ source: Source) -> RxSwift.Observable<Source.Element> {
-        return RxSwift.Observable.using({ () -> ActivityToken<Source.Element> in
+    fileprivate func trackActivityOfObservable
+        <Source: ObservableConvertibleType>
+        (_ source: Source)
+        -> RxSwift.Observable<Source.Element>
+    {
+        .using {
             self.increment()
             return ActivityToken(source: source.asObservable(), disposeAction: self.decrement)
-        }) { t in
-            return t.asObservable()
+        } observableFactory: { token in
+            return token.asObservable()
         }
     }
 
+    fileprivate func trackActivityOfSingle
+        <Source: PrimitiveSequenceType>
+        (_ source: Source)
+        -> RxSwift.Single<Source.Element>
+        where Source.Trait == SingleTrait
+    {
+        .using {
+            self.increment()
+            return ActivityToken(source: source.primitiveSequence, disposeAction: self.decrement)
+        } primitiveSequenceFactory: { token in
+            return token.asSingle()
+        }
+    }
+    
     private func increment() {
         _lock.lock()
         _relay.accept(_relay.value + 1)
@@ -51,12 +79,17 @@ public class ActivityIndicator : SharedSequenceConvertibleType {
     public func asSharedSequence() -> SharedSequence<SharingStrategy, Element> {
         _loading
     }
+}
+
+// MARK: - ActivityToken
+
+private extension ActivityIndicator {
     
-    private struct ActivityToken<E> : ObservableConvertibleType, Disposable {
-        private let _source: Observable<E>
+    struct ActivityToken<T: ObservableConvertibleType>: Disposable {
+        private let _source: T
         private let _dispose: Cancelable
 
-        init(source: Observable<E>, disposeAction: @escaping () -> Void) {
+        init(source: T, disposeAction: @escaping () -> Void) {
             _source = source
             _dispose = Disposables.create(with: disposeAction)
         }
@@ -65,8 +98,14 @@ public class ActivityIndicator : SharedSequenceConvertibleType {
             _dispose.dispose()
         }
 
-        func asObservable() -> Observable<E> {
-            _source
+        func asObservable() -> Observable<T.Element> {
+            _source.asObservable()
+        }
+        
+        func asSingle() -> Single<T.Element> {
+            guard let single = _source as? Single<T.Element>
+            else { fatalError("The source is not a single type, consider to use asObservable") }
+            return single
         }
     }
 }

@@ -220,9 +220,9 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
 
     private func confirm() -> Driver<CommonDTO.WebPath> {
         confirmTrigger.withLatestFrom(createRequest())
-            .flatMapLatest { [unowned self] request -> Observable<CommonDTO.WebPath> in
+            .flatMapLatest { [unowned self] request -> Single<CommonDTO.WebPath> in
                 Single.from(self.depositService.requestOnlineDeposit(request: request))
-                    .observeOn(MainScheduler.instance)
+                    .observe(on: MainScheduler.instance)
                     .compose(self.applySingleErrorHandler())
                     .trackActivity(self.inProgress)
         }.do(onNext: { [weak self] url in

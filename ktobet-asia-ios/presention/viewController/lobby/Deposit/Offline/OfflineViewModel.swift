@@ -219,7 +219,7 @@ class OfflineViewModel: CollectErrorViewModel, ViewModelType {
 
     private func deposit(memo: Driver<OfflineDepositDTO.Memo>) -> Driver<Bool> {
         depositTrigger.withLatestFrom(memo).flatMapLatest { [unowned self] memo in
-            Completable.from(CompletableWrapperKt.wrap(self.depositService.confirmOfflineDeposit(beneficiaryIdentity: memo.identity))).andThen(Single.just(true)).compose(self.applySingleErrorHandler()).asDriver(onErrorJustReturn: false).trackActivity(self.inProgress)
+            Completable.from(CompletableWrapperKt.wrap(self.depositService.confirmOfflineDeposit(beneficiaryIdentity: memo.identity))).andThen(Single.just(true)).compose(self.applySingleErrorHandler()).trackActivity(self.inProgress).asDriver(onErrorJustReturn: false)
         }
         .do(onNext: { [unowned self] _ in
             self.navigator.toDepositHomePage(unwindSegueId: self.unwindSegueId)
