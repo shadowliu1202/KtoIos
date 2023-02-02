@@ -22,6 +22,12 @@ class NavigationViewModel {
     private let authUseCase: AuthenticationUseCase!
     private let localStorageRepo: LocalStorageRepository
     
+    private let checkIsLoggedTracker = ActivityIndicator()
+    
+    var isCheckingLogged: Bool {
+        checkIsLoggedTracker.isLoading
+    }
+    
     init(_ authUseCase: AuthenticationUseCase,
          _ playerUseCase: PlayerDataUseCase,
          _ localizationPolicyUseCase: LocalizationPolicyUseCase,
@@ -34,8 +40,10 @@ class NavigationViewModel {
         self.localStorageRepo = localStorageRepo
     }
     
-    func checkIsLogged() -> Single<isLogged>{
-        authUseCase.isLogged()
+    func checkIsLogged() -> Single<isLogged> {
+        authUseCase
+            .isLogged()
+            .trackActivity(checkIsLoggedTracker)
     }
     
     func initLaunchNavigation() -> LaunchPageNavigation {

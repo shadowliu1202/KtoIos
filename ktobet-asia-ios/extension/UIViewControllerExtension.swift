@@ -15,6 +15,7 @@ import SharedBu
 
 //MARK: Handle error
 extension UIViewController{
+    
     @objc func handleErrors(_ error: Error) {
         switch error {
         case let apiException as ApiException:
@@ -66,14 +67,27 @@ extension UIViewController{
     }
     
     private func handleUnknownError(_ error: Error) {
-        let unknownErrorString = String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
-        showAlertError(unknownErrorString)
-        Logger.shared.error(error)
+        let statusCode = (error as NSError).code
+        
+        if statusCode.isNetworkConnectionLost() {
+            showAlertError(Localize.string("common_unknownhostexception"))
+        }
+        else {
+            showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
+            Logger.shared.error(error)
+        }
     }
 
     private func handleHttpError(_ nsError: NSError) {
         let statusCode = nsError.code
+        
         switch statusCode {
+        case 401:
+            guard let delegate = UIApplication.shared.delegate as? AppDelegate,
+                  !delegate.viewModel.isCheckingLogged
+            else { return }
+            
+            handleUnknownError(nsError)
         case 403:
             showRestrictView()
         case 404:
@@ -88,12 +102,7 @@ extension UIViewController{
         case 608:
             showCDNErrorView()
         default:
-            if statusCode.isNetworkConnectionLost() {
-                showAlertError(Localize.string("common_unknownhostexception"))
-            } else {
-                showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
-                Logger.shared.error(nsError)
-            }
+            handleUnknownError(nsError)
         }
     }
 }
