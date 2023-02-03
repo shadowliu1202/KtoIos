@@ -6196,6 +6196,15 @@
 		FFC89B76294311F6003925AC /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
 		FFC89B77294311F7003925AC /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
 		FFC89B78294311F7003925AC /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
+		FFD397F2298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */; };
+		FFD397F3298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */; };
+		FFD397F4298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */; };
+		FFD397F5298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */; };
+		FFD397F6298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */; };
+		FFD397F7298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */; };
+		FFD397F8298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */; };
+		FFD397F9298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */; };
+		FFD397FA298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */; };
 		FFDBCF54290FD98A00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		FFDBCF55290FD98B00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		FFDBCF56290FD98C00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
@@ -7168,6 +7177,8 @@
 		FFC6B8EB290A4146002D843B /* InjectionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectionComponent.swift; sourceTree = "<group>"; };
 		FFC89B7929434768003925AC /* ItemSelectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelectorTests.swift; sourceTree = "<group>"; };
 		FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAppTest.swift; sourceTree = "<group>"; };
+		FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorHandler.swift; sourceTree = "<group>"; };
+		FFD651C1298B5995007E8AF6 /* kto-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kto-bridging-header.h"; sourceTree = "<group>"; };
 		FFDBCF52290FD97000C0735F /* UITestAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestAdapter.swift; sourceTree = "<group>"; };
 		FFEC22772924BB83006EA6F2 /* YTPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTPlayer.swift; sourceTree = "<group>"; };
 		FFEF4A3C29349F7F001EEC73 /* TermsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
@@ -7552,6 +7563,7 @@
 				3C2F123928C067AD0044CBA7 /* CookieUtil.swift */,
 				3C57DE3C28B8C6E90094780D /* Inspection.swift */,
 				FF9ED01B2924CAB600F99E2B /* SwiftUIConverter.swift */,
+				FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -7617,6 +7629,7 @@
 				6D9937D6271D43980068A616 /* resurce */,
 				485DF03B25415453001F9D4A /* AppDelegate.swift */,
 				6D48BA532763252B00C8DC2D /* Configuration.swift */,
+				FFD651C1298B5995007E8AF6 /* kto-bridging-header.h */,
 				6D14DA6926FC17B40001ACFA /* wager_template.html */,
 				485DF04425415454001F9D4A /* Assets.xcassets */,
 				6D5A035C28B365D8005D0960 /* NotProd.xcassets */,
@@ -10999,6 +11012,7 @@
 				6010421126BA774400B28FC8 /* ArcadeBetDetailViewController.swift in Sources */,
 				6D87629C26F1E4CA00EFD6CE /* TransactionLogDetailViewController.swift in Sources */,
 				FFDBCF54290FD98A00C0735F /* UITestAdapter.swift in Sources */,
+				FFD397F3298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D7275E925F5D035000BF51F /* MonthSelectView.swift in Sources */,
 				6DAEA6242600B2E600995A6E /* LockInputText.swift in Sources */,
 				4199A04925AE9918002E2D7E /* AuthenticationUseCase.swift in Sources */,
@@ -11681,6 +11695,7 @@
 				6010421026BA774400B28FC8 /* ArcadeBetDetailViewController.swift in Sources */,
 				FFDBCF55290FD98B00C0735F /* UITestAdapter.swift in Sources */,
 				6D87629B26F1E4CA00EFD6CE /* TransactionLogDetailViewController.swift in Sources */,
+				FFD397F2298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D7275E825F5D035000BF51F /* MonthSelectView.swift in Sources */,
 				6DAEA6232600B2E600995A6E /* LockInputText.swift in Sources */,
 				48AAA133256E458800E075CA /* JSONHubProtocol.swift in Sources */,
@@ -12079,6 +12094,7 @@
 				609012772640EE7000419F8E /* KTOError.swift in Sources */,
 				609012782640EE7000419F8E /* SlideMenuViewModel.swift in Sources */,
 				609012792640EE7000419F8E /* SearchViewController.swift in Sources */,
+				FFD397F4298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D53B71727D85BB2007B7F8E /* TermsPresenter.swift in Sources */,
 				6D1A5C5427E187EF002BF3A0 /* NotificationDetailViewController.swift in Sources */,
 				6DA5F299274C96CB005479A3 /* AccountCurrency.swift in Sources */,
@@ -12706,6 +12722,7 @@
 				60E57FD827F190E4008CE5A9 /* KTOError.swift in Sources */,
 				60E57FD927F190E4008CE5A9 /* SlideMenuViewModel.swift in Sources */,
 				60E57FDA27F190E4008CE5A9 /* SearchViewController.swift in Sources */,
+				FFD397F7298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				60E57FDB27F190E4008CE5A9 /* TermsPresenter.swift in Sources */,
 				60E57FDC27F190E4008CE5A9 /* NotificationDetailViewController.swift in Sources */,
 				60E57FDD27F190E4008CE5A9 /* AccountCurrency.swift in Sources */,
@@ -13874,6 +13891,7 @@
 				6D0EDCCF28743FAC004A9E3C /* SignupUserinfoViewController.swift in Sources */,
 				6D0EDCD028743FAC004A9E3C /* ArcadeRecordUseCase.swift in Sources */,
 				6D0EDCD128743FAC004A9E3C /* WithdrawlLandingViewModel.swift in Sources */,
+				FFD397F5298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D0EDCD228743FAC004A9E3C /* ChatDialogTableViewCell.swift in Sources */,
 				6D0EDCD328743FAC004A9E3C /* LevelDetailTableViewCell.swift in Sources */,
 				6D0EDCD428743FAC004A9E3C /* P2PViewController.swift in Sources */,
@@ -14502,6 +14520,7 @@
 				6D0EDF2A28744704004A9E3C /* SignupUserinfoViewController.swift in Sources */,
 				6D0EDF2B28744704004A9E3C /* ArcadeRecordUseCase.swift in Sources */,
 				6D0EDF2C28744704004A9E3C /* WithdrawlLandingViewModel.swift in Sources */,
+				FFD397F8298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D0EDF2D28744704004A9E3C /* ChatDialogTableViewCell.swift in Sources */,
 				6D0EDF2E28744704004A9E3C /* LevelDetailTableViewCell.swift in Sources */,
 				6D0EDF2F28744704004A9E3C /* P2PViewController.swift in Sources */,
@@ -14603,6 +14622,7 @@
 				6D966B6627FEE3FA006086B7 /* KTOError.swift in Sources */,
 				6D966B6727FEE3FA006086B7 /* SlideMenuViewModel.swift in Sources */,
 				6D966B6827FEE3FA006086B7 /* SearchViewController.swift in Sources */,
+				FFD397F9298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D966B6927FEE3FA006086B7 /* TermsPresenter.swift in Sources */,
 				6D966B6A27FEE3FA006086B7 /* NotificationDetailViewController.swift in Sources */,
 				6D966B6B27FEE3FA006086B7 /* AccountCurrency.swift in Sources */,
@@ -15230,6 +15250,7 @@
 				6D966DB327FEE416006086B7 /* KTOError.swift in Sources */,
 				6D966DB427FEE416006086B7 /* SlideMenuViewModel.swift in Sources */,
 				6D966DB527FEE416006086B7 /* SearchViewController.swift in Sources */,
+				FFD397FA298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D966DB627FEE416006086B7 /* TermsPresenter.swift in Sources */,
 				6D966DB727FEE416006086B7 /* NotificationDetailViewController.swift in Sources */,
 				6D966DB827FEE416006086B7 /* AccountCurrency.swift in Sources */,
@@ -15980,6 +16001,7 @@
 				6D55C95B296662790038E8FB /* SetIdentityViewController.swift in Sources */,
 				6D55C83529657ECB0038E8FB /* NumberGameRecordRepository.swift in Sources */,
 				6D55C7DC29657EAB0038E8FB /* TermsViewModel.swift in Sources */,
+				FFD397F6298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D55C83429657ECB0038E8FB /* GameInfoRepository.swift in Sources */,
 				6D55C6B729657DC30038E8FB /* DataExtension.swift in Sources */,
 				6D55C68D29657DB40038E8FB /* Koyomi.swift in Sources */,
@@ -16725,6 +16747,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/ktobet-asia-ios/kto-bridging-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -17367,6 +17390,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/ktobet-asia-ios/kto-bridging-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;

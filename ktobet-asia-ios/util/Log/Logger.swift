@@ -27,10 +27,15 @@ class Logger {
         }
     }
     
-    func error(_ error: Error, tag: String = "", function: String = #function, file: String = #file, line: UInt = #line) {
+    func error(
+      _ error: Error, tag: String = "",
+      function: String = #function,
+      file: String = #file,
+      line: UInt = #line,
+      customValues: [String : Any] = [:])
+    {
         for delegate in delegates {
-            delegate.error(error, tag: tag, function: function, file: file, line: line)
+            delegate.error(error, tag: tag, function: function, file: file, line: line, customValues: customValues)
         }
     }
-    
 }
