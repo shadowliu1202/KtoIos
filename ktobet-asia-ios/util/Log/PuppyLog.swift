@@ -37,7 +37,7 @@ class PuppyLog: LoggerDelegate {
         log(.warning, message, tag: tag, function: function, file: file, line: line)
     }
 
-    func error(_ error: Error, tag: String, function: String, file: String, line: UInt) {
+    func error(_ error: Error, tag: String, function: String, file: String, line: UInt, customValues: [String : Any]) {
         log(.error, "\(error)", tag: tag, function: function, file: file, line: line)
     }
     

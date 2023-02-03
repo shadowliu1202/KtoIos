@@ -1,10 +1,3 @@
-//
-//  UIViewControllerExtension.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/12/23.
-//
-
 import Foundation
 import UIKit
 import RxSwift
@@ -13,101 +6,12 @@ import Alamofire
 import Moya
 import SharedBu
 
-//MARK: Handle error
-extension UIViewController{
-    
+extension UIViewController {
+
     @objc func handleErrors(_ error: Error) {
-        switch error {
-        case let apiException as ApiException:
-            let code = Int(apiException.errorCode) ?? 0
-            let errorMsg: String = apiException.message ?? ""
-            let err = NSError(domain: "", code: code, userInfo: ["errorMsg" : errorMsg])
-            handleHttpError(err)
-        case let moyaError as MoyaError:
-            handleMoyaError(moyaError)
-        case let afError as AFError:
-            handleAFError(afError)
-        case let nsError as NSError:
-            handleHttpError(nsError)
-        default:
-            handleUnknownError(error)
-        }
+      APIErrorHandler(target: self).handle(error)
     }
-    
-    private func handleMoyaError(_ error: MoyaError) {
-        switch error {
-        case .statusCode(let response):
-            let domain = response.request?.url?.path ?? ""
-            let code = response.statusCode
-            let err = NSError(domain: domain, code: code, userInfo: ["errorMsg" : response.description])
-            handleHttpError(err)
-        case .underlying(let err, _):
-            if err is AFError {
-                handleAFError(err as! AFError)
-            } else {
-                handleHttpError(err as NSError)
-            }
-        case .parameterEncoding(let err):
-            Logger.shared.error(err)
-        case .jsonMapping, .encodableMapping, .imageMapping, .objectMapping, .stringMapping:
-            showAlertError(Localize.string("common_malformedexception"))
-        default:
-            handleUnknownError(error)
-        }
-    }
-
-    private func handleAFError(_ error: AFError) {
-        if case .sessionTaskFailed(let err) = error, let nsError = err as NSError? {
-            handleHttpError(nsError)
-        } else if case .explicitlyCancelled = error {
-            // do nothing
-        } else {
-            handleUnknownError(error)
-        }
-    }
-    
-    private func handleUnknownError(_ error: Error) {
-        let statusCode = (error as NSError).code
-        
-        if statusCode.isNetworkConnectionLost() {
-            showAlertError(Localize.string("common_unknownhostexception"))
-        }
-        else {
-            showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
-            Logger.shared.error(error)
-        }
-    }
-
-    private func handleHttpError(_ nsError: NSError) {
-        let statusCode = nsError.code
-        
-        switch statusCode {
-        case 401:
-            guard let delegate = UIApplication.shared.delegate as? AppDelegate,
-                  !delegate.viewModel.isCheckingLogged
-            else { return }
-            
-            handleUnknownError(nsError)
-        case 403:
-            showRestrictView()
-        case 404:
-            showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
-            Logger.shared.error(nsError)
-        case 410:
-            handleMaintenance()
-        case 429:
-            handleTooManyRequest()
-        case 503:
-            showAlertError(String(format: Localize.string("common_http_503"), "\(statusCode)"))
-        case 608:
-            showCDNErrorView()
-        default:
-            handleUnknownError(nsError)
-        }
-    }
-}
-
-extension UIViewController{
+  
     func handleMaintenance() {
         let viewModel = Injectable.resolve(PlayerViewModel.self)!
         let disposeBag = DisposeBag()
@@ -138,26 +42,7 @@ extension UIViewController{
             })
             .disposed(by: disposeBag)
     }
-
-    func handleTooManyRequest() {
-        showToastOnBottom(Localize.string("common_retry_later"), img: nil)
-    }
     
-    private func showAlertError(_ content: String) {
-        let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-        toastView.show(on: nil, statusTip: content, img: UIImage(named: "Failed"))
-    }
-
-    func showRestrictView() {
-        let restrictedVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "restrictedVC")
-        self.present(restrictedVC, animated: true, completion: nil)
-    }
-    
-    func showCDNErrorView() {
-        let cndErrorVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "CDNErrorViewController")
-        self.present(cndErrorVC, animated: true, completion: nil)
-    }
-
     func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {
         DispatchQueue.main.async {
             self.view.isUserInteractionEnabled = false
@@ -227,7 +112,8 @@ extension UIViewController{
     }
 }
 
-/// Reference: https://www.cnblogs.com/strengthen/p/13675147.html
+// MARK: - Rx
+// Reference: https://www.cnblogs.com/strengthen/p/13675147.html
 public extension Reactive where Base: UIViewController {
     var viewDidLoad: ControlEvent<Void> {
         let source = self.methodInvoked(#selector(Base.viewDidLoad)).map { _ in }
