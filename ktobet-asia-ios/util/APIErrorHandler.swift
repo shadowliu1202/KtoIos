@@ -188,7 +188,8 @@ private extension APIErrorHandler {
 
     return [
       "502_Detail": self.groups("<div class=message>(.*?)</div>", from: rawHtml).first?.last ?? "",
-      "502_Message": self.groups("<div class=detail>(.*?)</div>", from: rawHtml).first?.last ?? "",
+      "502_Message": self.groups("<div class=detail>(.*?)</div>", from: rawHtml).first?.last?.removeHtmlTag() ?? "",
+      "502_HOST": response.request?.url?.host ?? ""
     ]
   }
 }
