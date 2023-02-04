@@ -767,7 +767,7 @@ struct RecordSummary: Codable {
     }
     
     func toUnSettleNumberGame() throws -> NumberGameSummary.Date {
-        NumberGameSummary.Date(betDate: try self.betDate.toLocalDate(), count: count, stakes: stakes.toAccountCurrency(), winLoss: nil)
+        NumberGameSummary.Date(betDate: try self.betDate.toLocalDateWithAccountTimeZone(), count: count, stakes: stakes.toAccountCurrency(), winLoss: nil)
     }
 }
 
