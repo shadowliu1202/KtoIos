@@ -122,7 +122,7 @@ extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDat
         let cell = tableView.dequeueReusableCell(withIdentifier: "SlotUnsettleRecordsCell", cellType: SlotUnsettleRecordsCell.self).configure(self.unsettleds[indexPath.section].records[indexPath.row])
         cell.removeBorder()
         if indexPath.row != 0 {
-            cell.addBorder(rightConstant: 25, leftConstant: 25)
+            cell.addBorder(leftConstant: 25)
         }
         
         return cell
@@ -130,7 +130,7 @@ extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (unsettleds[indexPath.section].expanded) {
-            return 97
+            return 105
         }else{
             return 0
         }

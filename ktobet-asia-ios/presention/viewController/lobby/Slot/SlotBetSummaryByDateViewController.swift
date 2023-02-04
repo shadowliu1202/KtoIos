@@ -38,7 +38,7 @@ class SlotBetSummaryByDateViewController: LobbyViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SlotBetSummaryByDateCell", cellType: BetSummaryByDateCell.self).configure(item)
                 cell.removeBorder()
                 if row != 0 {
-                    cell.addBorder()
+                    cell.addBorder(leftConstant: 30)
                 }
                 
                 return cell

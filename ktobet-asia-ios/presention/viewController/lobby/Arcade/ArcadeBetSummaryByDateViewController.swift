@@ -29,7 +29,7 @@ class ArcadeBetSummaryByDateViewController: LobbyViewController {
     
     private func dataBinding() {
         viewModel.recordByDatePagination.elements
-            .catchError({ [weak self] (error) -> Observable<[GameGroupedRecord]> in
+            .catch({ [weak self] (error) -> Observable<[GameGroupedRecord]> in
                 self?.handleErrors(error)
                 return Observable<[GameGroupedRecord]>.just([])
             }).bind(to: tableView.rx.items) {[weak self] (tableView, row, element) in
@@ -37,7 +37,7 @@ class ArcadeBetSummaryByDateViewController: LobbyViewController {
                 let cell = self.tableView.dequeueReusableCell(withIdentifier: "ArcadeBetSummaryByDateCell", cellType: BetSummaryByDateCell.self).configure(element)
                 cell.removeBorder()
                 if row != 0 {
-                    cell.addBorder()
+                    cell.addBorder(leftConstant: 30)
                 }
                 
                 return cell

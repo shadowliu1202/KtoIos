@@ -108,7 +108,7 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
         
         cell.removeBorder()
         if indexPath.row != 0 {
-            cell.addBorder(rightConstant: 25, leftConstant: 25)
+            cell.addBorder(leftConstant: 25)
         }
         
         return cell
@@ -156,7 +156,7 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
         
         
         header.titleLabel.textColor = UIColor.whitePure
-        header.titleLabel.font = UIFont(name: "PingFangSC-Regular", size: 16)
+        header.titleLabel.font = UIFont(name: "PingFangSC-Semibold", size: 14)
         view.addSubview(header.titleLabel, constraints: [
             .constraint(.equal, \.leadingAnchor, offset: 24),
             .equal(\.centerYAnchor)

@@ -78,7 +78,7 @@ class NumberGameDetailViewController: LobbyViewController {
             
             cell.removeBorder()
             if row != 0 {
-                cell.addBorder(rightConstant: 24, leftConstant: 24)
+                cell.addBorder(leftConstant: 24)
             }
             
             return cell

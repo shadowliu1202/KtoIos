@@ -37,7 +37,7 @@ class P2PBetSummaryByDateViewController: LobbyViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "P2PBetSummaryByDateCell", cellType: P2PBetSummaryByDateCell.self).configure(item)
                 cell.removeBorder()
                 if row != 0 {
-                    cell.addBorder()
+                    cell.addBorder(leftConstant: 30)
                 }
                 
                 return cell
