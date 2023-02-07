@@ -68,7 +68,7 @@ protocol ProductSearchViewModelProtocol {
 }
 
 protocol ProductWebGameViewModelProtocol {
-    var activityIndicator: ActivityIndicator { get }
+    var loadingTracker: ActivityIndicator { get }
     var webGameResultDriver: Driver<WebGameResult> { get }
 
     func getGameProduct() -> String
@@ -88,7 +88,7 @@ extension ProductWebGameViewModelProtocol {
     ) -> Disposable {
         
         checkBonusAndCreateGame(game)
-            .trackActivity(activityIndicator)
+            .trackActivity(loadingTracker)
             .subscribe(onNext: {
                 resultSubject.onNext($0)
             }, onError: {

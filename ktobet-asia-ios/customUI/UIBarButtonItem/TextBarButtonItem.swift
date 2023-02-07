@@ -31,7 +31,7 @@ class CustomerServiceButtonItem: TextBarButtonItem {
         super.init(title: Localize.string("customerservice_action_bar_title"))
         self.senderId(customerServiceBarBtnId)
         CustomServicePresenter.shared.observeCsStatus(by: delegate, disposeBag)
-        self.actionHandler({ [weak self] _ in
+        self.actionHandler({ [weak self, weak delegate] _ in
             guard let `self` = self, let vc = delegate as? UIViewController else { return }
             self.isEnabled = false
             
@@ -44,10 +44,10 @@ class CustomerServiceButtonItem: TextBarButtonItem {
                     }, cancel: nil)
                 case is MaintenanceStatus.Product:
                     CustomServicePresenter.shared.startCustomerService(from: vc)
-                        .subscribe(onCompleted: { [weak self] in
-                            self?.isEnabled = true
-                        }, onError: { [weak self] in
-                            self?.isEnabled = true
+                        .subscribe(onCompleted: {
+                            self.isEnabled = true
+                        }, onError: {
+                            self.isEnabled = true
                             vc.handleErrors($0)
                         }).disposed(by: disposeBag)
                 default:

@@ -345,7 +345,10 @@ class CustomServicePresenter: NSObject {
     func observeCsStatus(by delegate: CustomServiceDelegate, _ disposeBag: DisposeBag) {
         observeCsIcon
             .subscribe(on: MainScheduler.instance)
-            .subscribe(onNext: delegate.didCsIconAppear).disposed(by: disposeBag)
+            .subscribe(onNext: { [weak delegate] in
+                delegate?.didCsIconAppear(isAppear: $0)
+            })
+            .disposed(by: disposeBag)
     }
     
     func changeCsDomainIfNeed() {

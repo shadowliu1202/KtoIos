@@ -20,6 +20,8 @@ class NewLoginViewModel: ObservableObject {
     
     @Published private(set) var refreshCount: Int = 0
     
+    @Injected private var loading: Loading
+  
     private let authUseCase : AuthenticationUseCase
     private let configUseCase : ConfigurationUseCase
     private let navigationViewModel: NavigationViewModel
@@ -27,6 +29,8 @@ class NewLoginViewModel: ObservableObject {
     private let timerOverLoginLimit : CountDownTimer = CountDownTimer()
     private let disposeBag = DisposeBag()
         
+    private var loadingTracker: ActivityIndicator { loading.tracker }
+  
     init(_ authenticationUseCase : AuthenticationUseCase,
          _ configurationUseCase : ConfigurationUseCase,
          _ navigationViewModel: NavigationViewModel,
@@ -108,28 +112,33 @@ class NewLoginViewModel: ObservableObject {
     }
     
     func login(callBack: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void) {
-        authUseCase.login(account: account, pwd: password, captcha: Captcha(passCode: captchaText))
-            .do(onSubscribe: { [unowned self] in
-                self.disableLoginButton = true
-            })
-            .flatMap({ [unowned self] (player) in
-                let setting = PlayerSetting(accountLocale: player.locale(), defaultProduct: player.defaultProduct)
-                return self.navigationViewModel.initLoginNavigation(playerSetting: setting)
-            })
-            .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [unowned self] (navigation: NavigationViewModel.LobbyPageNavigation) in
-                self.loginOnSuccess()
-                self.disableLoginButton = false
-                callBack(navigation, nil)
-            }, onFailure: { [unowned self] error in
-                guard let loginFail = error as? LoginException else {
-                    callBack(nil, error)
-                    return
-                }
-                self.disableLoginButton = false
-                self.loginOnError(loginFail)
-            })
-            .disposed(by: self.disposeBag)
+        authUseCase.login(
+          account: account,
+          pwd: password,
+          captcha: Captcha(passCode: captchaText)
+        )
+        .do(onSubscribe: { [unowned self] in
+            self.disableLoginButton = true
+        })
+        .flatMap { [unowned self] (player) in
+            let setting = PlayerSetting(accountLocale: player.locale(), defaultProduct: player.defaultProduct)
+            return self.navigationViewModel.initLoginNavigation(playerSetting: setting)
+        }
+        .trackActivity(loadingTracker)
+        .observe(on: MainScheduler.instance)
+        .subscribe(onSuccess: { [unowned self] navigation in
+            self.loginOnSuccess()
+            self.disableLoginButton = false
+            callBack(navigation, nil)
+        }, onFailure: { [unowned self] error in
+            guard let loginFail = error as? LoginException else {
+                callBack(nil, error)
+                return
+            }
+            self.disableLoginButton = false
+            self.loginOnError(loginFail)
+        })
+        .disposed(by: self.disposeBag)
     }
     
     private func loginOnSuccess() {

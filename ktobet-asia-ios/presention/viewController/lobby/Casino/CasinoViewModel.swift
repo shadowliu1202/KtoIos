@@ -4,6 +4,8 @@ import RxCocoa
 import SharedBu
 
 class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
+    @Injected private var loading: Loading
+  
     private let casinoRecordUseCase : CasinoRecordUseCase
     private let casinoUseCase: CasinoUseCase
     private let memoryCache: MemoryCacheImpl
@@ -49,7 +51,7 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
         webGameResultSubject.asDriverLogError()
     }
     
-    let activityIndicator: ActivityIndicator = .init()
+    var loadingTracker: ActivityIndicator { loading.tracker }
     
     init(
         casinoRecordUseCase: CasinoRecordUseCase,

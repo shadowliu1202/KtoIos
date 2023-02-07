@@ -4,6 +4,8 @@ import RxCocoa
 import SharedBu
 
 class SlotViewModel: CollectErrorViewModel, ProductViewModel {
+    @Injected private var loading: Loading
+  
     private let webGameResultSubject = PublishSubject<WebGameResult>()
     private let disposeBag = DisposeBag()
 
@@ -34,7 +36,7 @@ class SlotViewModel: CollectErrorViewModel, ProductViewModel {
         webGameResultSubject.asDriverLogError()
     }
     
-    let activityIndicator: ActivityIndicator = .init()
+    var loadingTracker: ActivityIndicator { loading.tracker }
     
     init(slotUseCase: SlotUseCase) {
         self.slotUseCase = slotUseCase

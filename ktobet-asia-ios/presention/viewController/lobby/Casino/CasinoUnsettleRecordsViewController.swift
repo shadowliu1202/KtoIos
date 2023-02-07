@@ -7,9 +7,7 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
     
     static let segueIdentifier = "toCasinoUnsettleRecords"
     @IBOutlet private weak var tableView: UITableView!
-    
-    @Injected private var loading: Loading
-    
+        
     private var viewModel = Injectable.resolve(CasinoViewModel.self)!
     private var disposeBag = DisposeBag()
     private var sections: [Section] = []
@@ -31,10 +29,6 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
             .disposed(by: disposeBag)
         
         bindWebGameResult(with: viewModel)
-        
-        viewModel.activityIndicator
-            .bind(to: loading)
-            .disposed(by: disposeBag)
     }
     
     deinit {

@@ -6,6 +6,8 @@ import SharedBu
 
 class P2PViewModel: CollectErrorViewModel,
                     ProductWebGameViewModelProtocol {
+    @Injected private var loading: Loading
+  
     private (set) var refreshTrigger = BehaviorSubject<Void>(value: ())
     
     private let gameSubject = PublishSubject<[P2PGame]>()
@@ -18,7 +20,7 @@ class P2PViewModel: CollectErrorViewModel,
     
     private var disposeBag = DisposeBag()
     
-    let activityIndicator: ActivityIndicator = .init()
+    var loadingTracker: ActivityIndicator { loading.tracker }
     
     var webGameResultDriver: Driver<WebGameResult> {
         webGameResultSubject.asDriverLogError()
