@@ -5,6 +5,8 @@ import SharedBu
 
 
 class ArcadeViewModel: CollectErrorViewModel, ProductViewModel {
+    @Injected private var loading: Loading
+  
     private let arcadeUseCase: ArcadeUseCase
     private let memoryCache: MemoryCacheImpl
     private let arcadeAppService: IArcadeAppService
@@ -32,7 +34,7 @@ class ArcadeViewModel: CollectErrorViewModel, ProductViewModel {
     
     var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
     
-    let activityIndicator: ActivityIndicator = .init()
+    var loadingTracker: ActivityIndicator { loading.tracker }
     
     var webGameResultDriver: Driver<WebGameResult> {
         webGameResultSubject.asDriverLogError()

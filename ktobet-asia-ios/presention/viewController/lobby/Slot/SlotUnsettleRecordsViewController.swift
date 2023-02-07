@@ -11,8 +11,6 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!
     
-    @Injected private var loading: Loading
-    
     lazy var unsettleGameDelegate = { return UnsettleGameDelegate(self) }()
     
     override func viewDidLoad() {
@@ -78,10 +76,6 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
             .disposed(by: disposeBag)
         
         bindWebGameResult(with: viewModel)
-        
-        viewModel.activityIndicator
-            .bind(to: loading)
-            .disposed(by: disposeBag)
     }
     
     private func fetchNextUnsettleRecords(sectionIndex: Int, rowIndex: Int = 0) {

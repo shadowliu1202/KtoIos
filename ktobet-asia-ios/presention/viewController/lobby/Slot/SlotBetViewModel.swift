@@ -4,6 +4,8 @@ import RxCocoa
 import SharedBu
 
 class SlotBetViewModel: CollectErrorViewModel, ProductWebGameViewModelProtocol {
+    @Injected private var loading: Loading
+  
     let PaginationTake = 20
     private var slotUseCase: SlotUseCase!
     private var slotRecordUseCase : SlotRecordUseCase!
@@ -13,7 +15,7 @@ class SlotBetViewModel: CollectErrorViewModel, ProductWebGameViewModelProtocol {
     lazy var unsettledBetSummary = BehaviorSubject<[SlotUnsettledSection]>(value: [])
     private var disposeBag = DisposeBag()
     
-    let activityIndicator: ActivityIndicator = .init()
+    var loadingTracker: ActivityIndicator { loading.tracker }
     
     private let webGameResultSubject = PublishSubject<WebGameResult>()
     var webGameResultDriver: Driver<WebGameResult> {

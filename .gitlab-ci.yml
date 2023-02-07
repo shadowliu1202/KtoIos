@@ -47,9 +47,15 @@ build-job:
       
       - >
         if [[ "${TicketStatus}" != "Merge Request" ]]; then
-          curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'$BEGIN_WORKING_ACTION'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
+            if [[ "${TicketStatus}" == "To Do" ]]; then
+                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'$BEGIN_WORKING_ACTION'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
 
-          curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'$SUBTASK_BEGIN_WORKING_ACTION'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
+                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'$SUBTASK_BEGIN_WORKING_ACTION'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
+            else
+                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'${JIRA_ISSUE_START_WORKING_ACTION}'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
+                
+                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'${JIRA_ISSUE_SUBTASK_START_WORKING_ACTION}'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
+            fi;
         fi;
         
       - >

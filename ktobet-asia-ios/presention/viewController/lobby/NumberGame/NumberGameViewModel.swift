@@ -4,6 +4,8 @@ import RxCocoa
 import SharedBu
 
 class NumberGameViewModel: CollectErrorViewModel, ProductViewModel {
+    @Injected private var loading: Loading
+  
     private let numberGameUseCase: NumberGameUseCase
     private let memoryCache: MemoryCacheImpl
     private let numberGameService: INumberGameAppService
@@ -62,7 +64,7 @@ class NumberGameViewModel: CollectErrorViewModel, ProductViewModel {
         webGameResultSubject.asDriverLogError()
     }
     
-    let activityIndicator: ActivityIndicator = .init()
+    var loadingTracker: ActivityIndicator { loading.tracker }
     
     init(numberGameUseCase: NumberGameUseCase, memoryCache: MemoryCacheImpl, numberGameService: INumberGameAppService) {
         self.numberGameUseCase = numberGameUseCase

@@ -8,9 +8,7 @@ class ArcadeViewController: DisplayProduct {
     @IBOutlet weak var tagsStackView: GameTagStackView!
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
-    
-    @Injected private var loading: Loading
-    
+        
     private var disposeBag = DisposeBag()
     
     var viewModel = Injectable.resolveWrapper(ArcadeViewModel.self)
@@ -56,10 +54,6 @@ class ArcadeViewController: DisplayProduct {
             .disposed(by: disposeBag)
         
         bindWebGameResult(with: viewModel)
-        
-        viewModel.activityIndicator
-            .bind(to: loading)
-            .disposed(by: disposeBag)
         
         viewModel
             .gameSource

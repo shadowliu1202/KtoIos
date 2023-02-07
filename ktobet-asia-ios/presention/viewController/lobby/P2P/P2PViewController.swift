@@ -10,9 +10,7 @@ class P2PViewController: ProductsViewController {
     @IBOutlet weak var tableView: UITableView!
     
     @Injected private (set) var viewModel: P2PViewModel
-    
-    @Injected private var loading: Loading
-    
+        
     private var disposeBag = DisposeBag()
     
     var barButtonItems: [UIBarButtonItem] = []
@@ -76,11 +74,7 @@ private extension P2PViewController {
                 self?.handleErrors($0)
             })
             .disposed(by: disposeBag)
-        
-        viewModel.activityIndicator
-            .bind(to: loading)
-            .disposed(by: disposeBag)
-        
+      
         tableView.rx
             .modelSelected(P2PGame.self)
             .bind { [unowned self] (data) in

@@ -21,8 +21,6 @@ class SlotViewController: ProductsViewController {
     @IBOutlet var recentlyViewTop: NSLayoutConstraint!
     @IBOutlet var newViewHeight: NSLayoutConstraint!
     @IBOutlet var jackpotViewHeight: NSLayoutConstraint!
-
-    @Injected private var loading: Loading
     
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
     private var disposeBag = DisposeBag()
@@ -132,10 +130,6 @@ class SlotViewController: ProductsViewController {
             .disposed(by: disposeBag)
         
         bindWebGameResult(with: viewModel)
-        
-        viewModel.activityIndicator
-            .bind(to: loading)
-            .disposed(by: disposeBag)
         
         loadMoreCollectionView(delegate: gameDataSourceDelegate, collectionView: recentlyCollectionView, getGame: viewModel.recentGames, containerView: recentlyView, containerViewHeight: recentlyViewHeight)
         loadMoreCollectionView(delegate: newGameDataSourceDelegate, collectionView: newCollectionView, getGame: viewModel.newGames, containerView: newView, containerViewHeight: newViewHeight)

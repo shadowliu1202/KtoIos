@@ -18,9 +18,7 @@ class NumberGameViewController: DisplayProduct {
     @IBOutlet weak var dropDownTitleLabel: UILabel!
     @IBOutlet var gamesCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet var blurBackgroundViewHeight: NSLayoutConstraint!
-    
-    @Injected private var loading: Loading
-    
+        
     private lazy var viewModel = Injectable.resolve(NumberGameViewModel.self)!
     private var disposeBag = DisposeBag()
     
@@ -104,10 +102,6 @@ class NumberGameViewController: DisplayProduct {
         }).disposed(by: disposeBag)
         
         bindWebGameResult(with: viewModel)
-        
-        viewModel.activityIndicator
-            .bind(to: loading)
-            .disposed(by: disposeBag)
         
         Observable.combineLatest(viewDidRotate, viewModel.tagStates)
             .flatMap { return Observable.just($1) }

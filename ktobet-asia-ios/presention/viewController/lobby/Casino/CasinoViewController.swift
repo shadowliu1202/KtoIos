@@ -15,9 +15,7 @@ class CasinoViewController: DisplayProduct {
     @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
     
     @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
-    
-    @Injected private var loading: Loading
-    
+        
     private var lobbies: [CasinoLobby] = []
     private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
     private var disposeBag = DisposeBag()
@@ -101,10 +99,6 @@ private extension CasinoViewController {
         .disposed(by: disposeBag)
         
         bindWebGameResult(with: viewModel)
-        
-        viewModel.activityIndicator
-            .bind(to: loading)
-            .disposed(by: disposeBag)
         
         Observable
             .combineLatest(

@@ -21,7 +21,7 @@ class NewLoginViewController: LandingViewController {
     
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
     private lazy var serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         Logger.shared.info("\(type(of: self)) viewDidLoad.")
@@ -69,17 +69,21 @@ class NewLoginViewController: LandingViewController {
     }
     
     @IBSegueAction func segueToHostingController(_ coder: NSCoder) -> UIViewController? {
-        return UIHostingController(coder: coder, rootView: LoginView(onLogin: { pageNavigation, generalError in
-            if let pageNavigation = pageNavigation {
-                self.executeNavigation(pageNavigation)
-            }
+        UIHostingController(
+          coder: coder,
+          rootView: LoginView(
+            onLogin: { [weak self] pageNavigation, generalError in
+              if let pageNavigation = pageNavigation {
+                  self?.executeNavigation(pageNavigation)
+              }
 
-            if let generalError = generalError {
-                self.handleErrors(generalError)
-            }
-        }, onResetPassword: {
-            self.navigateToResetPasswordPage()
-        }))
+              if let generalError = generalError {
+                  self?.handleErrors(generalError)
+              }
+            }, onResetPassword: { [weak self] in
+              self?.navigateToResetPasswordPage()
+            })
+        )
     }
     
     private func executeNavigation(_ navigation: NavigationViewModel.LobbyPageNavigation) {
@@ -164,6 +168,10 @@ class NewLoginViewController: LandingViewController {
             confirmUpdate(incoming.apkLink)
         }
     }
+  
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
 }
 
 extension NewLoginViewController {
@@ -223,7 +231,8 @@ extension NewLoginViewController: BarButtonItemable {
         let title = Localize.string("update_proceed_now")
         let msg = "目前版本 : \(currentVersion)+\(currentVersionCode) \n最新版本 : \(newVer)+\(newVersionCode)"
         if currentVersion.compareTo(other: newVer) < 0 {
-            Alert.shared.show(title, msg, confirm: {
+            Alert.shared.show(title, msg, confirm: { [weak self] in
+                guard let self else { return }
                 self.syncAppVersionUpdate(self.viewDisappearBag)
             }, confirmText: Localize.string("update_proceed_now"), cancel: {}, cancelText: "稍後")
         } else {
