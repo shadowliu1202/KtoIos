@@ -79,7 +79,7 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
             goTobtnHight.constant = 0
             return
         }
-        goToBtn.setTitle(Localize.string("notification_goto"), for: .normal)
+        goToBtn.setTitle(type?.goToBtnTitle, for: .normal)
     }
     
     private func setNavigationFactory(_ type: MyActivityType?) {
@@ -94,7 +94,11 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
                 vc.displayId = self.data.transactionId ?? ""
                 NavigationManagement.sharedInstance.pushViewController(vc: vc, unwindNavigate: self)
             }
-        case .paymentgroupchanged, .offlinecardschange:
+        case .paymentgroupchanged, .onlinecardschange:
+            self.navigateToDestination = {
+                NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
+            }
+        case .offlinecardschange:
             self.navigateToDestination = {
                 let vc = OfflinePaymentViewController()
                 vc.offlineConfirmUnwindSegueId = "unwindToNotificationDetail"
@@ -107,10 +111,6 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
                 vc.displayId = self.data.transactionId ?? ""
                 vc.transactionTransactionType = TransactionType.withdrawal
                 NavigationManagement.sharedInstance.pushViewController(vc: vc)
-            }
-        case .onlinecardschange:
-            self.navigateToDestination = {
-                NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
             }
         case .registercompleted, .levelup:
             self.navigateToDestination = {
@@ -140,4 +140,29 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
             }
         }
     }
+}
+
+private extension MyActivityType {
+  
+  var goToBtnTitle: String {
+    var destination = ""
+    switch self {
+    case .depositneedsverifieddoc:
+      destination = Localize.string("deposit_detail_title")
+    case .onlinecardschange,
+         .paymentgroupchanged:
+      destination = Localize.string("deposit_title")
+    case .offlinecardschange:
+      destination = Localize.string("deposit_offline_step1_title")
+    case .withdrawalneedsverifieddoc,
+         .withdrawalrejected:
+      destination = Localize.string("withdrawal_detail_title")
+    case .levelup,
+         .registercompleted:
+      destination = Localize.string("bonus_levelprivilege")
+    default:
+      break
+    }
+    return Localize.string("notification_goto", [destination])
+  }
 }

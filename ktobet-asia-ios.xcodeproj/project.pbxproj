@@ -6213,6 +6213,7 @@
 		FFDBCF59290FD98E00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		FFDBCF5B290FD98F00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		FFDBCF5C290FD98F00C0735F /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
+		FFE575132990E1EF008713F6 /* NotificationDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE575122990E1EF008713F6 /* NotificationDetailViewControllerTests.swift */; };
 		FFEC22762924BA94006EA6F2 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		FFEC22782924BB83006EA6F2 /* YTPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEC22772924BB83006EA6F2 /* YTPlayer.swift */; };
 		FFEF4A3D29349F7F001EEC73 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF4A3C29349F7F001EEC73 /* TermsView.swift */; };
@@ -7180,6 +7181,7 @@
 		FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorHandler.swift; sourceTree = "<group>"; };
 		FFD651C1298B5995007E8AF6 /* kto-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kto-bridging-header.h"; sourceTree = "<group>"; };
 		FFDBCF52290FD97000C0735F /* UITestAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestAdapter.swift; sourceTree = "<group>"; };
+		FFE575122990E1EF008713F6 /* NotificationDetailViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDetailViewControllerTests.swift; sourceTree = "<group>"; };
 		FFEC22772924BB83006EA6F2 /* YTPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTPlayer.swift; sourceTree = "<group>"; };
 		FFEF4A3C29349F7F001EEC73 /* TermsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PViewControllerTests.swift; sourceTree = "<group>"; };
@@ -8686,6 +8688,7 @@
 			isa = PBXGroup;
 			children = (
 				6D75934829235E54007D2BF3 /* AIO_unitTests.swift */,
+				FFE575112990E1C3008713F6 /* UIKit */,
 			);
 			path = "AIO-unitTests";
 			sourceTree = "<group>";
@@ -9013,6 +9016,14 @@
 				FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		FFE575112990E1C3008713F6 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				FFE575122990E1EF008713F6 /* NotificationDetailViewControllerTests.swift */,
+			);
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		FFEF4A3B29349F7F001EEC73 /* Sign Up */ = {
@@ -14563,6 +14574,7 @@
 			files = (
 				6D75934F29237F35007D2BF3 /* XCTestCase+Extension.swift in Sources */,
 				6D75934929235E54007D2BF3 /* AIO_unitTests.swift in Sources */,
+				FFE575132990E1EF008713F6 /* NotificationDetailViewControllerTests.swift in Sources */,
 				6D11303E2988E1B000EC04A8 /* Inspecting.swift in Sources */,
 				FF7ABFAF2936FBD9001D37EB /* APIWrapper.swift in Sources */,
 				6D1130452988EB5200EC04A8 /* XCTestCase+Wait.swift in Sources */,
