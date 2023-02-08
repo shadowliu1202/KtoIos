@@ -128,9 +128,16 @@ class TickCircle {
         if over5Day {
             timeLabel.text = Localize.string("common_long_maintenance")
         } else {
-            let hour = String(format: "%02d", (countDownSecond / 3600))
-            let minute = String(format: "%02d", (countDownSecond % 3600) / 60)
-            timeLabel.text = hour + ":" + minute
+            let hour = String(format: "%02d", countDownSecond / 3600)
+            let minute = String(format: "%02d", (countDownSecond / 60) % 60)
+            let second = String(format: "%02d", countDownSecond % 60)
+            
+            if countDownSecond < 60 {
+                timeLabel.text = second
+            }
+            else {
+                timeLabel.text = hour + ":" + minute
+            }
         }
     }
 
