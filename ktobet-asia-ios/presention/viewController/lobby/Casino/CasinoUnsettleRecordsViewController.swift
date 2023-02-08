@@ -105,7 +105,7 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
                    totalAmount: sections[indexPath.section].totalAmount[indexPath.row])
         cell.removeBorder()
         if indexPath.row != 0 {
-            cell.addBorder(rightConstant: 25, leftConstant: 25)
+            cell.addBorder(leftConstant: 25)
         }
         
         return cell
@@ -132,12 +132,14 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as! ExpandableHeaderView
-        header.imageView.frame = CGRect(x: view.frame.width - 44, y: view.frame.height / 2 - 10, width: 20, height: 20)
-        header.imageView.image = UIImage(named: "arrow-drop-down")
         view.addSubview(header.imageView)
+        header.imageView.image = UIImage(named: "arrow-drop-down")
+        header.imageView.translatesAutoresizingMaskIntoConstraints = false
+        header.imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24).isActive = true
+        header.imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         header.titleLabel.textColor = UIColor.whitePure
-        header.titleLabel.font = UIFont(name: "PingFangSC-Regular", size: 16)
+        header.titleLabel.font = UIFont(name: "PingFangSC-Semibold", size: 14)
         view.addSubview(header.titleLabel, constraints: [
             .constraint(.equal, \.leadingAnchor, offset: 24),
             .equal(\.centerYAnchor)
@@ -185,7 +187,7 @@ struct Section {
     
     init(periodOfRecord: PeriodOfRecord) {
         self.periodOfRecord = periodOfRecord
-        let dateTime = "(" + String(format: "%02d:%02d ~ %02d:%02d", self.periodOfRecord.startDate.hour, self.periodOfRecord.startDate.minute, self.periodOfRecord.endDate.hour, self.periodOfRecord.endDate.minute) + ")"
+        let dateTime = "( " + String(format: "%02d:%02d ~ %02d:%02d", self.periodOfRecord.startDate.hour, self.periodOfRecord.startDate.minute, self.periodOfRecord.endDate.hour, self.periodOfRecord.endDate.minute) + " )"
         self.sectionDate = dateTime
         self.sectionClass = self.periodOfRecord.lobbyName
     }

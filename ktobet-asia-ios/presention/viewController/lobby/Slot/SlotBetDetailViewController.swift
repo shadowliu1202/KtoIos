@@ -59,7 +59,7 @@ extension SlotBetDetailViewController: UITableViewDelegate, UITableViewDataSourc
         let cell = tableView.dequeueReusableCell(withIdentifier: "SlotBetDetailCell", cellType: SlotBetDetailCell.self).configure(self.records[indexPath.row])
         cell.removeBorder()
         if indexPath.row != 0 {
-            cell.addBorder(rightConstant: 24, leftConstant: 24)
+            cell.addBorder(leftConstant: 24)
         }
         
         return cell

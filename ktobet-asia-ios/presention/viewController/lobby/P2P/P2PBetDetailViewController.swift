@@ -22,6 +22,7 @@ class P2PBetDetailViewController: LobbyViewController {
     }
     
     private func initUI() {
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.setHeaderFooterDivider()
     }
     
@@ -35,7 +36,7 @@ class P2PBetDetailViewController: LobbyViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "P2PBetDetailCell", cellType: BetDetailCell.self).configure(item)
                 cell.removeBorder()
                 if row != 0 {
-                    cell.addBorder(rightConstant: 24, leftConstant: 24)
+                    cell.addBorder(leftConstant: 30)
                 }
                 return cell
         }.disposed(by: disposeBag)

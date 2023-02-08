@@ -27,7 +27,7 @@ class ArcadeBetDetailViewController: LobbyViewController {
     
     private func dataBinding() {
         viewModel.recordDetailPagination.elements
-            .catchError({ [weak self] (error) -> Observable<[ArcadeGameBetRecord]> in
+            .catch({ [weak self] (error) -> Observable<[ArcadeGameBetRecord]> in
                 self?.handleErrors(error)
                 return Observable<[ArcadeGameBetRecord]>.just([])
             }).bind(to: tableView.rx.items) {(tableView, row, element) in
@@ -35,7 +35,7 @@ class ArcadeBetDetailViewController: LobbyViewController {
                 cell.configure(element)
                 cell.removeBorder()
                 if row != 0 {
-                    cell.addBorder(rightConstant: 24, leftConstant: 24)
+                    cell.addBorder(leftConstant: 30)
                 }
                 
                 return cell

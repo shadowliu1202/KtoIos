@@ -107,7 +107,13 @@ fileprivate class StagingConfig: Env {
     var hostName: [String: [String]] = [SupportLocale.China.shared.cultureCode(): ["mobile.staging.support", "mobile2.staging.support"],
                                         SupportLocale.Vietnam.shared.cultureCode(): ["mobile2.staging.support", "mobile.staging.support"]]
     lazy var versionUpdateHostName = hostName
-    var isAutoUpdate: Bool = true
+    var isAutoUpdate: Bool {
+    #if targetEnvironment(simulator)
+      return false
+    #else
+      return true
+    #endif
+    }
     var manualUpdate: Bool = false
     var debugGesture: Bool = true
     var manualControlNetwork: Bool = false
