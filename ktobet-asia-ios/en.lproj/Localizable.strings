@@ -1171,7 +1171,7 @@ Withdrawal: (Principal + Bonus)%@ Times Bet Amount.";
 "notification_search" = "Search";
 "notification_result_empty" = "There is currently no relevant information.";
 "notification_search_result_empty" = "No Result.";
-"notification_goto" = "Go To";
+"notification_goto" = "Go To %@";
 
 //MARK: - Activity
 "activity_status" = "Status";

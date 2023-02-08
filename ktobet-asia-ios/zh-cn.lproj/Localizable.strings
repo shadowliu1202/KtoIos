@@ -1153,7 +1153,7 @@
 "notification_search" = "搜寻";
 "notification_result_empty" = "目前暂无相关资讯";
 "notification_search_result_empty" = "查无结果";
-"notification_goto" = "前往";
+"notification_goto" = "前往 %@";
 
 //MARK: - Activity
 "activity_status" = "状态";

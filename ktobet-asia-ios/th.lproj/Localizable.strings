@@ -1137,7 +1137,7 @@
 "notification_search" = "THTH搜寻";
 "notification_result_empty" = "THTH目前暂无相关资讯";
 "notification_search_result_empty" = "THTH查无结果";
-"notification_goto" = "前往";
+"notification_goto" = "前往 %@";
 
 //MARK: - Activity
 "activity_status" = "THTH状态";

@@ -1182,7 +1182,7 @@ Rút tiền: Đặt cược tối thiểu %@ lần (Số Dư + Tiền Thưởng)
 "notification_search" = "Tìm Kiếm";
 "notification_result_empty" = "Hiện tại không có thông tin liên quan.";
 "notification_search_result_empty" = "Không có Kết Quả.";
-"notification_goto" = "Đi Đến";
+"notification_goto" = "Đi Đến %@";
 
 //MARK: - Activity
 "activity_status" = "Trạng Thái";
@@ -1217,7 +1217,7 @@ Rút tiền: Đặt cược tối thiểu %@ lần (Số Dư + Tiền Thưởng)
 "notify_130" = "Tiền Thưởng đã nhận";
 "notify_140" = "Số Dư đã điều chỉnh";
 "notify_150" = "Tăng Cấp";
-"notify_content_10" = "Chúc mừng, Quý Khách đã trở thành thành viên độc quyền.";
+"notify_content_10" = "Chúc mừng Quý Khách đã trở thành Thành Viên KTO.";
 "notify_content_20" = "Giao dịch %@ VND yêu cầu xác minh chứng từ.
 Mã Số Giao Dịch: %@";
 "notify_content_30" = "Giao dịch %@ VND yêu cầu xác minh chứng từ.
