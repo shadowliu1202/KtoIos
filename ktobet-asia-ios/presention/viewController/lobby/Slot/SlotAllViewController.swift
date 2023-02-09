@@ -119,7 +119,7 @@ extension SlotAllViewController: BarButtonItemable {
             if let nav = UIStoryboard(name: "Slot", bundle: nil).instantiateViewController(withIdentifier: "SlotFilterNavViewController") as? UINavigationController, let vc = nav.viewControllers.first as? SlotFilterViewController {
                 nav.modalPresentationStyle = .fullScreen
                 vc.options = options
-                vc.conditionCallbck = { [weak self] (options) in
+                vc.conditionCallback = { [weak self] (options) in
                     let sorting = self?.dropDownItem.first(where: { $0.isSelected }).map { $0.sorting } ?? .popular
                     self?.getAllGame(sorting: sorting, filter: options)
                     self?.options = options

@@ -4321,6 +4321,24 @@
 		6D5BE317273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */; };
 		6D5BE318273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */; };
 		6D5BE319273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */; };
+		6D6E2EC3298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */; };
+		6D6E2EC4298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */; };
+		6D6E2EC5298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */; };
+		6D6E2EC6298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */; };
+		6D6E2EC7298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */; };
+		6D6E2EC8298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */; };
+		6D6E2EC9298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */; };
+		6D6E2ECA298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */; };
+		6D6E2ECB298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */; };
+		6D6E2ECD298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */; };
+		6D6E2ECE298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */; };
+		6D6E2ECF298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */; };
+		6D6E2ED0298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */; };
+		6D6E2ED1298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */; };
+		6D6E2ED2298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */; };
+		6D6E2ED3298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */; };
+		6D6E2ED4298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */; };
+		6D6E2ED5298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */; };
 		6D6E6F77274E2BE0005D88A6 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */; };
 		6D6E6F78274E2BE0005D88A6 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */; };
 		6D6E6F79274E2BE0005D88A6 /* CryptoCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */; };
@@ -6976,6 +6994,8 @@
 		6D5BE2F9273B9D600072F994 /* CustomerServiceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceMainViewController.swift; sourceTree = "<group>"; };
 		6D5BE309273CCAA70072F994 /* CustomerServiceHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceHistoryViewModel.swift; sourceTree = "<group>"; };
 		6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceHistoryEditViewController.swift; sourceTree = "<group>"; };
+		6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotFilterItemCell.swift; sourceTree = "<group>"; };
+		6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SlotFilterItemCell.xib; sourceTree = "<group>"; };
 		6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCurrency.swift; sourceTree = "<group>"; };
 		6D6E6FFC27507A28005D88A6 /* CurrencyUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUnit.swift; sourceTree = "<group>"; };
 		6D6E705D27546C1C005D88A6 /* CryptoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoViewModel.swift; sourceTree = "<group>"; };
@@ -8139,6 +8159,8 @@
 				6D4E9954263694EE00860FF7 /* SlotViewModel.swift */,
 				6D148E8D26427642001C40EC /* SlotBetViewModel.swift */,
 				6056E85426451A7800627148 /* SlotFilterViewController.swift */,
+				6D6E2EC2298DEEF200A60339 /* SlotFilterItemCell.swift */,
+				6D6E2ECC298DEF1500A60339 /* SlotFilterItemCell.xib */,
 			);
 			path = Slot;
 			sourceTree = "<group>";
@@ -9410,6 +9432,7 @@
 				6DF907A42697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib in Resources */,
 				6D9938AF271E72440068A616 /* ring3_cs_animation.ai in Resources */,
 				600A8FDE26D3471D00F56412 /* PromotionHistoryTableViewCell.xib in Resources */,
+				6D6E2ECE298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */,
 				4199A09025AE9918002E2D7E /* Launch.storyboard in Resources */,
 				6D0D33D628EC3E56004273D4 /* GoogleService-Info.plist in Resources */,
 				60251B0F261C427F00E89EE6 /* ImagePicker.storyboard in Resources */,
@@ -9472,6 +9495,7 @@
 				6D7275F525F5D3F9000BF51F /* MonthSelectView.xib in Resources */,
 				6D993893271E6AFD0068A616 /* cs_connection.json in Resources */,
 				6D5A035D28B365D8005D0960 /* NotProd.xcassets in Resources */,
+				6D6E2ECD298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */,
 				600E248126CCB58600D8B073 /* KTODateView.xib in Resources */,
 				6010413E26B2AA5C00B28FC8 /* Arcade.storyboard in Resources */,
 				4199A0A225AEACFD002E2D7E /* ktobet-asia-ios-qat-Info.plist in Resources */,
@@ -9566,6 +9590,7 @@
 				609013602640EE7000419F8E /* Toast.xib in Resources */,
 				6DF907A62697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib in Resources */,
 				6D9938B0271E72440068A616 /* ring3_cs_animation.ai in Resources */,
+				6D6E2ECF298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */,
 				600A8FDF26D3471D00F56412 /* PromotionHistoryTableViewCell.xib in Resources */,
 				609013612640EE7000419F8E /* Launch.storyboard in Resources */,
 				609013622640EE7000419F8E /* ImagePicker.storyboard in Resources */,
@@ -9634,6 +9659,7 @@
 				60E581E627F190E4008CE5A9 /* MyBetSummaryTableViewCell.xib in Resources */,
 				60E581E727F190E4008CE5A9 /* ring3_cs_animation.ai in Resources */,
 				60E581E827F190E4008CE5A9 /* PromotionHistoryTableViewCell.xib in Resources */,
+				6D6E2ED2298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */,
 				6D5A036328B36771005D0960 /* Prod.xcassets in Resources */,
 				60E581E927F190E4008CE5A9 /* Launch.storyboard in Resources */,
 				60E581EA27F190E4008CE5A9 /* ImagePicker.storyboard in Resources */,
@@ -9702,6 +9728,7 @@
 				6D0EDD2628743FAC004A9E3C /* Toast.xib in Resources */,
 				6D0EDD2728743FAC004A9E3C /* MyBetSummaryTableViewCell.xib in Resources */,
 				6D0EDD2828743FAC004A9E3C /* ring3_cs_animation.ai in Resources */,
+				6D6E2ED0298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */,
 				6D0EDD2928743FAC004A9E3C /* PromotionHistoryTableViewCell.xib in Resources */,
 				6D0EDD2A28743FAC004A9E3C /* Launch.storyboard in Resources */,
 				6D0EDD2B28743FAC004A9E3C /* ImagePicker.storyboard in Resources */,
@@ -9770,6 +9797,7 @@
 				6D0EDF8228744704004A9E3C /* MyBetSummaryTableViewCell.xib in Resources */,
 				6D0EDF8328744704004A9E3C /* ring3_cs_animation.ai in Resources */,
 				6D0EDF8428744704004A9E3C /* PromotionHistoryTableViewCell.xib in Resources */,
+				6D6E2ED3298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */,
 				6D5A036628B36771005D0960 /* Prod.xcassets in Resources */,
 				6D0EDF8528744704004A9E3C /* Launch.storyboard in Resources */,
 				6D0EDF8628744704004A9E3C /* ImagePicker.storyboard in Resources */,
@@ -9845,6 +9873,7 @@
 				6D966D7627FEE3FA006086B7 /* ring3_cs_animation.ai in Resources */,
 				6D966D7727FEE3FA006086B7 /* PromotionHistoryTableViewCell.xib in Resources */,
 				6D5A036428B36771005D0960 /* Prod.xcassets in Resources */,
+				6D6E2ED4298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */,
 				6D966D7827FEE3FA006086B7 /* Launch.storyboard in Resources */,
 				6D0094EB28C7371900A98D03 /* GoogleService-Info.plist in Resources */,
 				6D966D7927FEE3FA006086B7 /* ImagePicker.storyboard in Resources */,
@@ -9913,6 +9942,7 @@
 				6D966FC327FEE416006086B7 /* ring3_cs_animation.ai in Resources */,
 				6D966FC427FEE416006086B7 /* PromotionHistoryTableViewCell.xib in Resources */,
 				6D5A036528B36771005D0960 /* Prod.xcassets in Resources */,
+				6D6E2ED5298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */,
 				6D966FC527FEE416006086B7 /* Launch.storyboard in Resources */,
 				6D0094EE28C737A500A98D03 /* GoogleService-Info.plist in Resources */,
 				6D966FC627FEE416006086B7 /* ImagePicker.storyboard in Resources */,
@@ -9981,6 +10011,7 @@
 				6D96A7CF295181BC009DA4C5 /* Toast.xib in Resources */,
 				6D96A7D0295181BC009DA4C5 /* MyBetSummaryTableViewCell.xib in Resources */,
 				6D96A7D1295181BC009DA4C5 /* ring3_cs_animation.ai in Resources */,
+				6D6E2ED1298DEF1500A60339 /* SlotFilterItemCell.xib in Resources */,
 				6D96A7D2295181BC009DA4C5 /* PromotionHistoryTableViewCell.xib in Resources */,
 				6D96A7D3295181BC009DA4C5 /* Launch.storyboard in Resources */,
 				6D96A7D4295181BC009DA4C5 /* ImagePicker.storyboard in Resources */,
@@ -11219,6 +11250,7 @@
 				60F894AA27E2C9C400FC92D9 /* NotificationSearchViewController.swift in Sources */,
 				3C2F125028C0C58D0044CBA7 /* LoggerDelegate.swift in Sources */,
 				6D14DA7326FC18B80001ACFA /* TransactionHtmlViewController.swift in Sources */,
+				6D6E2EC4298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
 				41077D9F25BA63330057B340 /* LocalStorageRepository.swift in Sources */,
 				6DE2B99F283CDE0A00A54E55 /* VersionUpdateProtocol.swift in Sources */,
 				4199A06A25AE9918002E2D7E /* ServerInvocationHandler.swift in Sources */,
@@ -11902,6 +11934,7 @@
 				6018FA002695573300941BDD /* P2PUseCase.swift in Sources */,
 				60F894A927E2C9C400FC92D9 /* NotificationSearchViewController.swift in Sources */,
 				3C2F124F28C0C58D0044CBA7 /* LoggerDelegate.swift in Sources */,
+				6D6E2EC3298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
 				6D14DA7226FC18B80001ACFA /* TransactionHtmlViewController.swift in Sources */,
 				48AAA14F256E458800E075CA /* SignupLanguageViewController.swift in Sources */,
 				6DE2B99E283CDE0A00A54E55 /* VersionUpdateProtocol.swift in Sources */,
@@ -12268,6 +12301,7 @@
 				6D2D43442668C4E900E26A4A /* CustomIntensityVisualEffectView.swift in Sources */,
 				609012AD2640EE7000419F8E /* UITableViewExtension.swift in Sources */,
 				6D08725D27D6EAD500457215 /* TermsViewController.swift in Sources */,
+				6D6E2EC5298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
 				609012AE2640EE7000419F8E /* CasinoLobbyViewController.swift in Sources */,
 				6D48BA5A27633DDB00C8DC2D /* AppUpdateRepository.swift in Sources */,
 				609012AF2640EE7000419F8E /* SMSCodeTextField.swift in Sources */,
@@ -12896,6 +12930,7 @@
 				60E5806327F190E4008CE5A9 /* CustomIntensityVisualEffectView.swift in Sources */,
 				60E5806427F190E4008CE5A9 /* UITableViewExtension.swift in Sources */,
 				60E5806527F190E4008CE5A9 /* TermsViewController.swift in Sources */,
+				6D6E2EC8298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
 				60E5806627F190E4008CE5A9 /* CasinoLobbyViewController.swift in Sources */,
 				60E5806727F190E4008CE5A9 /* AppUpdateRepository.swift in Sources */,
 				60E5806827F190E4008CE5A9 /* SMSCodeTextField.swift in Sources */,
@@ -13890,6 +13925,7 @@
 				3CFC0B5628EEC4A90012DD73 /* LogRecorderViewWindow.swift in Sources */,
 				6D5A034228A4AC40005D0960 /* NumberGameAdapter.swift in Sources */,
 				6D0EDCC728743FAC004A9E3C /* CallingViewController.swift in Sources */,
+				6D6E2EC6298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
 				6D0EDCC828743FAC004A9E3C /* RecentViewController.swift in Sources */,
 				6D0EDCC928743FAC004A9E3C /* CasinoSummaryViewController.swift in Sources */,
 				6D0EDCCA28743FAC004A9E3C /* NumberGameRepository.swift in Sources */,
@@ -14519,6 +14555,7 @@
 				3CFC0B5728EEC4A90012DD73 /* LogRecorderViewWindow.swift in Sources */,
 				6D5A034328A4AC40005D0960 /* NumberGameAdapter.swift in Sources */,
 				6D0EDF2228744704004A9E3C /* CallingViewController.swift in Sources */,
+				6D6E2EC9298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
 				6D0EDF2328744704004A9E3C /* RecentViewController.swift in Sources */,
 				6D0EDF2428744704004A9E3C /* CasinoSummaryViewController.swift in Sources */,
 				6D0EDF2528744704004A9E3C /* NumberGameRepository.swift in Sources */,
@@ -14797,6 +14834,7 @@
 				6D966BF127FEE3FA006086B7 /* CustomIntensityVisualEffectView.swift in Sources */,
 				6D966BF227FEE3FA006086B7 /* UITableViewExtension.swift in Sources */,
 				6D966BF327FEE3FA006086B7 /* TermsViewController.swift in Sources */,
+				6D6E2ECA298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
 				6D966BF427FEE3FA006086B7 /* CasinoLobbyViewController.swift in Sources */,
 				6D966BF527FEE3FA006086B7 /* AppUpdateRepository.swift in Sources */,
 				6D966BF627FEE3FA006086B7 /* SMSCodeTextField.swift in Sources */,
@@ -15425,6 +15463,7 @@
 				6D966E3E27FEE416006086B7 /* CustomIntensityVisualEffectView.swift in Sources */,
 				6D966E3F27FEE416006086B7 /* UITableViewExtension.swift in Sources */,
 				6D966E4027FEE416006086B7 /* TermsViewController.swift in Sources */,
+				6D6E2ECB298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
 				6D966E4127FEE416006086B7 /* CasinoLobbyViewController.swift in Sources */,
 				6D966E4227FEE416006086B7 /* AppUpdateRepository.swift in Sources */,
 				6D966E4327FEE416006086B7 /* SMSCodeTextField.swift in Sources */,
@@ -16326,6 +16365,7 @@
 				6D55C974296662910038E8FB /* PromotionAlert1ViewController.swift in Sources */,
 				6D55C67629657DA50038E8FB /* PuppyLog.swift in Sources */,
 				6D55C98C296662A50038E8FB /* SlotBetSummaryByDateViewController.swift in Sources */,
+				6D6E2EC7298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
 				6D55C66029657D960038E8FB /* FilterViewController.swift in Sources */,
 				6D55C82929657EC50038E8FB /* NetworkFactory.swift in Sources */,
 				6D55C65329657D960038E8FB /* NavigationManagement.swift in Sources */,
