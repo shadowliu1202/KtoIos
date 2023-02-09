@@ -2,6 +2,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import SharedBu
+import RxDataSources
 
 class SlotViewModel: CollectErrorViewModel, ProductViewModel {
     @Injected private var loading: Loading
@@ -11,14 +12,17 @@ class SlotViewModel: CollectErrorViewModel, ProductViewModel {
 
     private var slotUseCase: SlotUseCase!
     private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
-    
+    private var gameCountFilters = BehaviorRelay<[SlotGameFilter]>(value: [])
+  
     lazy var popularGames = slotUseCase.getPopularSlots()
     lazy var recentGames = slotUseCase.getRecentlyPlaySlots()
     lazy var newGames = slotUseCase.getNewSlots()
     lazy var jackpotGames = slotUseCase.getJackpotSlots()
-    
-    lazy var gameCountWithSearchFilters = Observable<(Int, [SlotGameFilter])>.combineLatest(gameCount, gameCountFilters) { ($0, $1) }
-    lazy var gameCountFilters = BehaviorSubject<[SlotGameFilter]>(value: [])
+    lazy var gameCountWithSearchFilters = gameCountFilters
+      .flatMap({ [unowned self] _ in self.gameCount })
+      .map {
+        return ($0, self.gameCountFilters.value)
+      }
     lazy var gameCount = gameCountFilters.flatMapLatest { (filters) -> Observable<Int> in
         let featureTags: Set<SlotGameFilter.SlotGameFeature> = Set(filters.filter{ $0 is SlotGameFilter.SlotGameFeature }.map{ $0 as! SlotGameFilter.SlotGameFeature })
         let themeTags: Set<SlotGameFilter.SlotGameTheme> = Set(filters.filter{ $0 is SlotGameFilter.SlotGameTheme }.map{ $0 as! SlotGameFilter.SlotGameTheme })
@@ -29,9 +33,8 @@ class SlotViewModel: CollectErrorViewModel, ProductViewModel {
                                           themeTags: themeTags,
                                           payLineWayTags: payLineWayTags)
     }
-    
+    var slotFilter = BehaviorRelay<[SlotGameFilter]>(value: [])
     var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-    
     var webGameResultDriver: Driver<WebGameResult> {
         webGameResultSubject.asDriverLogError()
     }
@@ -40,6 +43,11 @@ class SlotViewModel: CollectErrorViewModel, ProductViewModel {
     
     init(slotUseCase: SlotUseCase) {
         self.slotUseCase = slotUseCase
+    }
+  
+    func setOptions(filter: [SlotGameFilter]) {
+        gameCountFilters.accept(filter)
+        slotFilter.accept(filter)
     }
 }
 
