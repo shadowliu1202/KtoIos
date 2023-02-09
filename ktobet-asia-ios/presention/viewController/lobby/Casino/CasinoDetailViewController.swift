@@ -111,7 +111,7 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
                 }
                 
                 if indexPath.row != 0 {
-                    cell.addBorder()
+                    cell.addBorder(rightConstant: 30, leftConstant: 30)
                 }
                 
                 return cell
@@ -119,13 +119,13 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
         } else {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "CasinoDetailRecord2Cell", for: indexPath) as? CasinoDetailRecord2TableViewCell {
                 cell.setup(index: indexPath.row, detail: detail, supportLocal: localStorageRepo.getSupportLocale())
+                
                 if indexPath.row != 0 {
-                    cell.addBorder()
+                    cell.addBorder(rightConstant: 30, leftConstant: 30)
                 }
                 if indexPath.row == 5 {
-                    cell.addBorder(.bottom)
+                    cell.addBorder(.bottom, rightConstant: 30, leftConstant: 30)
                 }
-                
                 return cell
             }
         }
