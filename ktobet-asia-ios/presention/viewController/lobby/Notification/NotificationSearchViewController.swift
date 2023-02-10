@@ -8,7 +8,7 @@ class NotificationSearchViewController: LobbyViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var keywordLengthTipLabel: UILabel!
-
+  
     private let viewModel = Injectable.resolve(NotificationViewModel.self)!
     private let disposeBag = DisposeBag()
 
@@ -40,7 +40,10 @@ class NotificationSearchViewController: LobbyViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.navigationBar.barTintColor = UIColor.black131313
+      
+        Theme.shared.configNavigationBar(
+          navigationController,
+          backgroundColor: UIColor.black131313.withAlphaComponent(0.9))
     }
 
     private func dateBinding() {
@@ -72,15 +75,18 @@ class NotificationSearchViewController: LobbyViewController {
     }
 
     private func initSearchTitle() {
+        Theme.shared.configNavigationBar(
+          navigationController,
+          backgroundColor: UIColor.gray303030.withAlphaComponent(0.9))
+      
         let frame = CGRect(x: -10, y: 0, width: searchBarView.frame.width, height: 32)
         let titleView = UIView(frame: frame)
         searchBarView.removeMagnifyingGlass()
         searchBarView.setClearButtonColorTo(color: .white)
         searchBarView.setCursorColorTo(color: UIColor.redF20000)
+        searchBarView.frame = .init(origin: .zero, size: titleView.frame.size)
         titleView.addSubview(searchBarView)
-        searchBarView.center = titleView.convert(titleView.center, from: titleView.superview)
         navigationItem.titleView = titleView
-        self.navigationController?.navigationBar.barTintColor = UIColor.gray202020
         searchBarView.addDoneButton(title: "Done", target: self, selector: #selector(pressDone(_:)))
         searchBarView.searchTextField.borderStyle = .none
         searchBarView.searchTextField.backgroundColor = UIColor.black

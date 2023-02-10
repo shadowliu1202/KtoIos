@@ -219,4 +219,19 @@ final class Theme {
             return UIColor.clear
         }
     }
+  
+    func configNavigationBar(
+      _ navigationController: UINavigationController?,
+      backgroundColor color: UIColor)
+    {
+      let barAppearance = UINavigationBarAppearance()
+
+      barAppearance.configureWithTransparentBackground()
+      barAppearance.backgroundColor = color
+      barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whitePure]
+      
+      navigationController?.navigationBar.isTranslucent = true
+      navigationController?.navigationBar.standardAppearance = barAppearance
+      navigationController?.navigationBar.scrollEdgeAppearance = barAppearance
+    }
 }
