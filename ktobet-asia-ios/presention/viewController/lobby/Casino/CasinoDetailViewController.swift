@@ -422,6 +422,7 @@ private extension CasinoDetailViewController {
   {
     let titleLabel = UILabel()
     titleLabel.textColor = UIColor.whitePure
+    titleLabel.font = UIFont(name: "PingFangSC-Regular", size: 14)
     titleLabel.text = title
 
     let cardStack = UIStackView(
@@ -472,6 +473,7 @@ private extension CasinoDetailViewController {
     let backgroundView = UIView()
     let titleLabel = UILabel()
     titleLabel.textColor = UIColor.whitePure
+    titleLabel.font = UIFont(name: "PingFangSC-Regular", size: 14)
     titleLabel.text = title
     
     backgroundView.addSubview(titleLabel)
