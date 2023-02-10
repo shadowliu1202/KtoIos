@@ -79,7 +79,7 @@ class CallingViewController: CommonViewController {
                 default:
                     break
                 }
-            } onError: {[weak self] error in
+            } onError: { [weak self] error in
                 self?.handleError(error)
             }.disposed(by: disposeBag)
     }
@@ -94,19 +94,28 @@ class CallingViewController: CommonViewController {
     }
     
     func confirmExitOrProceedToOfflineMessage() {
-        Alert.shared.show(Localize.string("customerservice_stop_call_title"),
-                   Localize.string("customerservice_stop_call_content"),
-                   confirm: { },
-                   confirmText: Localize.string("common_continue"),
-                   cancel: { [unowned self] in
-            self.csViewModel.closeChatRoom().subscribe(onCompleted: { [unowned self] in
-                self.csViewModel.setupSurveyAnswer(answers: nil)
-            }).disposed(by: self.disposeBag)
-            self.stopServiceAndShowServiceOccupied()
+      Alert.shared.show(
+        Localize.string("customerservice_stop_call_title"),
+        Localize.string("customerservice_stop_call_content"),
+        confirm: { },
+        confirmText: Localize.string("common_continue"),
+        cancel: { [weak self] in
+          guard let self else { return }
+
+          self.csViewModel
+            .closeChatRoom()
+            .subscribe(onCompleted: { [weak self] in
+              guard let self else { return }
+
+              self.csViewModel.setupSurveyAnswer(answers: nil)
+            })
+            .disposed(by: self.disposeBag)
+
+          self.stopServiceAndShowServiceOccupied()
         },
-                   cancelText: Localize.string("common_stop"))
+        cancelText: Localize.string("common_stop"))
     }
-    
+
     func stopServiceAndShowServiceOccupied() {
         Alert.shared.show(
             Localize.string("customerservice_leave_a_message_title"),
