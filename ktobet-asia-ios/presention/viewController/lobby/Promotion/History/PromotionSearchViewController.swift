@@ -11,7 +11,6 @@ class PromotionSearchViewController: LobbyViewController {
     private var viewModel = Injectable.resolve(PromotionHistoryViewModel.self)!
     
     private let searchText = BehaviorRelay<String?>(value: nil)
-    private var keepNavigationBar: UIColor?
     private var disposeBag: DisposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -31,9 +30,12 @@ class PromotionSearchViewController: LobbyViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.navigationBar.barTintColor = keepNavigationBar
         disposeBag = DisposeBag()
-        viewModel.keyword = "" 
+        viewModel.keyword = ""
+      
+        Theme.shared.configNavigationBar(
+          navigationController,
+          backgroundColor: UIColor.black131313.withAlphaComponent(0.9))
     }
     
     override func viewWillLayoutSubviews() {
@@ -49,16 +51,18 @@ class PromotionSearchViewController: LobbyViewController {
     }
     
     private func initSearchTitle() {
-        let frame = CGRect(x: -10, y: 0, width: searchBarView.frame.width, height: 44)
+        Theme.shared.configNavigationBar(
+          navigationController,
+          backgroundColor: UIColor.gray303030.withAlphaComponent(0.9))
+      
+        let frame = CGRect(x: -10, y: 0, width: searchBarView.frame.width, height: 32)
         let titleView = UIView(frame: frame)
         searchBarView.removeMagnifyingGlass()
         searchBarView.setClearButtonColorTo(color: .white)
         searchBarView.setCursorColorTo(color: UIColor.redF20000)
+        searchBarView.frame = .init(origin: .zero, size: titleView.frame.size)
         titleView.addSubview(searchBarView)
-        searchBarView.center = titleView.convert(titleView.center, from: titleView.superview)
         navigationItem.titleView = titleView
-        keepNavigationBar = self.navigationController?.navigationBar.barTintColor
-        self.navigationController?.navigationBar.barTintColor = UIColor.gray202020
         searchBarView.addDoneButton(title: "Done", target: self, selector: #selector(pressDone(_:)))
         searchBarView.searchTextField.borderStyle = .none
         searchBarView.searchTextField.backgroundColor = UIColor.black
