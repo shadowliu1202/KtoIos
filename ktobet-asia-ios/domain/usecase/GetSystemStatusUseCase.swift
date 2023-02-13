@@ -12,6 +12,7 @@ import SharedBu
 protocol GetSystemStatusUseCase {
     func getOtpStatus()-> Single<OtpStatus>
     func observePortalMaintenanceState() -> Observable<MaintenanceStatus>
+    func fetchMaintenanceStatus() -> Single<MaintenanceStatus>
     func getCustomerServiceEmail() -> Single<String>
     func refreshMaintenanceState()
     func getYearOfCopyRight() -> Single<String>
@@ -31,6 +32,10 @@ class GetSystemStatusUseCaseImpl: GetSystemStatusUseCase {
     
     func observePortalMaintenanceState() -> Observable<MaintenanceStatus> {
         repoSystem.observePortalMaintenanceState()
+    }
+  
+    func fetchMaintenanceStatus() -> Single<MaintenanceStatus> {
+      repoSystem.fetchMaintenanceStatus()
     }
     
     func getCustomerServiceEmail() -> Single<String> {

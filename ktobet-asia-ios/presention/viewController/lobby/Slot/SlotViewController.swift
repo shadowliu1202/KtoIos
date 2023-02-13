@@ -44,6 +44,10 @@ class SlotViewController: ProductsViewController {
         pagerView.backgroundView = UIImageView()
         return pagerView
     }()
+  
+    deinit {
+      Logger.shared.info("\(type(of: self)) deinit")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,8 +150,8 @@ class SlotViewController: ProductsViewController {
                 containerView.isHidden = true
                 containerViewHeight.constant = 0
             } else {
-                delegate.lookMoreTap = {
-                    self.performSegue(withIdentifier: SlotSeeMoreViewController.segueIdentifier, sender: (collectionView.tag, slotGames))
+                delegate.lookMoreTap = { [weak self] in
+                    self?.performSegue(withIdentifier: SlotSeeMoreViewController.segueIdentifier, sender: (collectionView.tag, slotGames))
                 }
                 
                 if slotGames.count > self.maxGamesDisplay {

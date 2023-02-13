@@ -26,9 +26,7 @@ class SideBarViewController: LobbyViewController {
     
     private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
     private let playerViewModel = Injectable.resolve(PlayerViewModel.self)!
-    private let systemViewModel = Injectable.resolve(SystemViewModel.self)!
     private let serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
-    private let slideViewModel = SlideMenuViewModel()
     
     private let refreshTrigger = PublishSubject<Void>()
     private let balanceTrigger = PublishSubject<Void>()
@@ -38,14 +36,9 @@ class SideBarViewController: LobbyViewController {
     private var balanceSummary = ""
     private var gameId = ""
     private var isBalanceLabelHidden = false
-    
-    private var disposableNotify: Disposable?
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        observeSystemMessage()
-    }
-    
+
+    var sideMenuViewModel: SideMenuViewModel? = Injectable.resolveWrapper(SideMenuViewModel.self)
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -78,63 +71,45 @@ class SideBarViewController: LobbyViewController {
             }
         }
     }
-    
-    func observeSystemMessage() {
-        disposableNotify = systemViewModel.observeSystemMessage().subscribe {[weak self](target: Target) in
-            guard let self = self else { return }
-            switch target {
-            case .Kickout(let type):
-                self.alertAndExitLobby(type)
-            case .Balance:
-                self.balanceTrigger.onNext(())
-            case .Maintenance:
-                self.serviceViewModel.refreshProductStatus()
+  
+    func observeLoginStatus() {
+        sideMenuViewModel!
+          .observeLoginStatus()
+          .subscribe(onNext: { [weak self] loginStatusDTO in
+            guard let self else { return }
+            
+            switch loginStatusDTO {
+            case .kickout(let type):
+              self.alertAndExitLobby(type)
+            case .fetch:
+              break
             }
-        }
+          })
+          .disposed(by: disposeBag)
     }
     
-    func disposeSystemNotify() {
-        self.systemViewModel.disconnectService()
-        self.disposableNotify?.dispose()
-    }
+    private func alertAndExitLobby(_ type: KickOutSignal?, cancel: (() -> ())? = nil) {
+          let (title, message, isMaintain) = parseKickOutType(type)
+          
+          Alert.shared.show(title, message, confirm: { [weak self] in
+              guard let self = self else { return }
+              
+              self.playerViewModel.logout()
+                  .subscribe(on: MainScheduler.instance)
+                  .subscribe(onCompleted: {
+                      if isMaintain {
+                          NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
+                      }
+                      else {
+                          NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+                      }
+                  })
+                  .disposed(by: self.disposeBag)
+              
+          }, cancel: cancel)
+      }
     
-    private func updateMaintainStatus(_ status: MaintenanceStatus) {
-        switch status {
-        case is MaintenanceStatus.AllPortal:
-            alertAndExitLobby(KickOutType.Maintenance)
-        case let productStatus as MaintenanceStatus.Product:
-            productMaintenanceStatus = productStatus
-        default:
-            break
-        }
-    }
-    
-    private func alertAndExitLobby(_ type: KickOutType?, cancel: (() -> ())? = nil) {
-        var title: String
-        var message: String
-        var isMaintain: Bool
-        
-        (title, message, isMaintain) = parseKickOutType(type)
-        
-        Alert.shared.show(title, message, confirm: { [weak self] in
-            guard let self = self else { return }
-            
-            self.playerViewModel.logout()
-                .subscribe(on: MainScheduler.instance)
-                .subscribe(onCompleted: {
-                    if isMaintain {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-                    }
-                    else {
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-                    }
-                })
-                .disposed(by: self.disposeBag)
-            
-        }, cancel: cancel)
-    }
-    
-    private func parseKickOutType(_ type: KickOutType?) -> (String, String, Bool) {
+    private func parseKickOutType(_ type: KickOutSignal?) -> (String, String, Bool) {
         var title: String
         var message: String
         var isMaintain: Bool
@@ -183,8 +158,7 @@ class SideBarViewController: LobbyViewController {
     
     private func dataRefresh() {
         refreshTrigger.onNext(())
-        balanceTrigger.onNext(())
-        serviceViewModel.refreshProductStatus()
+        sideMenuViewModel!.fetchData()
     }
     
     override func handleErrors(_ error: Error) {
@@ -246,13 +220,13 @@ extension SideBarViewController {
     }
     
     private func initFeatures() {
-        slideViewModel.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
+      sideMenuViewModel!.features.bind(to: listFeature.rx.items(cellIdentifier: String(describing: FeatureItemCell.self), cellType: FeatureItemCell.self)) { index, data, cell in
             cell.setup(data.name, image: UIImage(named: data.icon))
         }.disposed(by: disposeBag)
     }
     
     func cleanProductSelected() {
-        self.slideViewModel.currentSelectedProductType = ProductType.none
+        self.sideMenuViewModel!.currentSelectedProductType = ProductType.none
         self.listProduct.reloadData()
     }
     
@@ -268,10 +242,10 @@ extension SideBarViewController {
                 
         cell.setup(data)
         cell.finishCountDown = { [weak self] in
-            self?.serviceViewModel.refreshProductStatus()
+            self?.sideMenuViewModel!.fetchMaintenanceStatus()
         }
         
-        if let selectedProductType = self.slideViewModel.currentSelectedProductType, data.type == selectedProductType {
+        if let selectedProductType = self.sideMenuViewModel!.currentSelectedProductType, data.type == selectedProductType {
             cell.setSelectedIcon(selectedProductType, isSelected: true)
             self.listProduct.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .init())
         } else {
@@ -318,18 +292,12 @@ extension SideBarViewController {
     }
     
     private func balanceBinding() {
-        balanceTrigger
-            .asDriver(onErrorJustReturn: Void())
-            .flatMap { [weak self] _ -> Driver<AccountCurrency?> in
-                guard let self = self else { return .just(nil) }
-                
-                return self.playerViewModel.getBalance()
-            }
-            .compactMap { $0 }
+          sideMenuViewModel!
+            .observePlayerBalance()
             .map { (currency: AccountCurrency) -> String in
                 return "\(currency.symbol) \(currency.formatString())"
             }
-            .drive(onNext: { [weak self] balanceSummary in
+            .subscribe(onNext: { [weak self] balanceSummary in
                 guard let self = self else { return }
                 
                 self.balanceSummary = balanceSummary
@@ -360,8 +328,8 @@ extension SideBarViewController {
             .do(onNext: { [weak self] (player, balanceSummary) in
                 guard let self = self else { return }
                 
-                if self.slideViewModel.currentSelectedProductType == nil {
-                    self.slideViewModel.currentSelectedProductType = player.defaultProduct
+                if self.sideMenuViewModel!.currentSelectedProductType == nil {
+                    self.sideMenuViewModel!.currentSelectedProductType = player.defaultProduct
                 }
                 
                 self.gameId = player.gameId
@@ -380,7 +348,7 @@ extension SideBarViewController {
             .disposed(by: disposeBag)
     }
     
-    private func productsListBinding() {
+  private func productsListBinding() {
         refreshTrigger
             .asDriver(onErrorJustReturn: Void())
             .flatMapLatest({ [weak self] _ -> Driver<[(productType: ProductType, maintainTime: OffsetDateTime?)]?> in
@@ -389,23 +357,28 @@ extension SideBarViewController {
                 return self.getProductsMaintenanceTime()
             })
             .compactMap { $0 }
-            .map({ productsMaintainTimeArray in
-                self.slideViewModel.products
-                    .map { product in
-                        ProductItem(
+            .map { [weak self] (productsMaintainTimeArray: [(productType: ProductType, maintainTime: OffsetDateTime?)])
+              -> [ProductItem] in
+              guard let self
+              else { return [] }
+
+              return self.sideMenuViewModel!.products
+                .map { (product: ProductItem) -> ProductItem in
+                        return ProductItem(
                             title: product.title,
                             image: product.image,
                             type: product.type,
                             maintainTime: productsMaintainTimeArray.first(where: { $0.productType == product.type })?.maintainTime
                         )
                     }
-            })
+            }
+            .filter({ !$0.isEmpty })
             .do(afterNext: { [weak self] _ in
                 self?.listProduct.reloadData()
             })
             .drive(self.listProduct.rx.items) { [weak self] collection, row, data in
                 guard let self = self else { return .init() }
-                
+
                 return self.updateProductListCell(view: collection, at: row, source: data)
             }
             .disposed(by: disposeBag)
@@ -423,11 +396,26 @@ extension SideBarViewController {
     }
     
     private func maintenanceStatusBinding() {
-        serviceViewModel.output.portalMaintenanceStatus
-            .subscribe(onNext: {[weak self] status in
-                self?.updateMaintainStatus(status)
-            })
-            .disposed(by: disposeBag)
+      sideMenuViewModel!
+        .observeMaintenanceStatus()
+        .subscribe(onNext: { [weak self] status in
+            guard let self else { return }
+          
+            self.updateMaintainStatus(status)
+            self.refreshTrigger.onNext(Void())
+        })
+        .disposed(by: disposeBag)
+    }
+  
+    private func updateMaintainStatus(_ status: MaintenanceStatus) {
+        switch status {
+        case is MaintenanceStatus.AllPortal:
+          alertAndExitLobby(KickOutSignal.Maintenance)
+        case let productStatus as MaintenanceStatus.Product:
+            productMaintenanceStatus = productStatus
+        default:
+            break
+        }
     }
     
     fileprivate func eventHandler() {
@@ -436,7 +424,7 @@ extension SideBarViewController {
             NavigationManagement.sharedInstance.goTo(productType: data.type, isMaintenance: self.productMaintenanceStatus?.isProductMaintain(productType: data.type) ?? false)
             let cell = self.listProduct.cellForItem(at: indexPath) as? ProductItemCell
             cell?.setSelectedIcon(data.type, isSelected: true)
-            self.slideViewModel.currentSelectedProductType = data.type
+            self.sideMenuViewModel!.currentSelectedProductType = data.type
         }.disposed(by: disposeBag)
         
         Observable.zip(listProduct.rx.itemDeselected, listProduct.rx.modelDeselected(ProductItem.self)).bind { [weak self] (indexPath, data) in
@@ -483,6 +471,12 @@ extension SideBarViewController {
                 self?.handleErrors(error)
             })
             .disposed(by: disposeBag)
+      
+        sideMenuViewModel!.errors()
+          .subscribe(onNext: { [weak self] error in
+              self?.handleErrors(error)
+          })
+          .disposed(by: disposeBag)
     }
 }
 
@@ -499,7 +493,7 @@ extension SideBarViewController {
     }
     
     @IBAction func btnRefreshBalance(_ sender : UIButton) {
-        balanceTrigger.onNext(())
+        sideMenuViewModel!.fetchPlayerBalance()
     }
     
     @objc func accountTap(_ sender: UITapGestureRecognizer) {

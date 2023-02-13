@@ -25,6 +25,10 @@ class CasinoViewController: DisplayProduct {
     var barButtonItems: [UIBarButtonItem] = []
     
     var viewModel = Injectable.resolveWrapper(CasinoViewModel.self)
+  
+    deinit {
+      Logger.shared.info("\(type(of: self)) deinit")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,10 +61,6 @@ class CasinoViewController: DisplayProduct {
     
     override func setProductType() -> ProductType {
         .casino
-    }
-    
-    deinit {
-        print("\(type(of: self)) deinit")
     }
 }
 

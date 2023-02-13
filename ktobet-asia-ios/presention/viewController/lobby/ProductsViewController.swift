@@ -5,17 +5,23 @@ import SharedBu
 class ProductsViewController: LobbyViewController {
     private var disposeBag = DisposeBag()
     private var viewDisappearBag = DisposeBag()
-    private lazy var serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
-    private lazy var playerViewModel = Injectable.resolve(PlayerViewModel.self)!
+  
+    private lazy var serviceViewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
+    private lazy var playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
+    private lazy var productsViewModel = Injectable.resolveWrapper(ProductsViewModel.self)
+  
     private var productType: ProductType!
+  
     override func viewDidLoad() {
        super.viewDidLoad()
        self.productType = setProductType()
+      
+        binding()
     }
-
+  
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        observeSystemStatus()
+      productsViewModel.fetchMaintenanceStatus()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -27,28 +33,38 @@ class ProductsViewController: LobbyViewController {
         fatalError("implements in sub class")
     }
     
-    private func observeSystemStatus() {
-        serviceViewModel.output.portalMaintenanceStatus
-            .subscribe(onNext: { [weak self] status in
-                guard let self = self else { return }
-                
-                switch status {
-                case is MaintenanceStatus.AllPortal:
-                    self.playerViewModel.logout()
-                        .subscribe(onCompleted: {
-                            NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-                        })
-                        .disposed(by: self.disposeBag)
-                    
-                case let productStatus as MaintenanceStatus.Product:
-                    if productStatus.isProductMaintain(productType: self.productType) {
-                        NavigationManagement.sharedInstance.goTo(productType: self.productType, isMaintenance: true)
-                    }
-                default:
-                    break
-                }
-            })
-            .disposed(by: disposeBag)
+    private func binding() {
+      productsViewModel
+        .observeMaintenanceStatus()
+        .subscribe(onNext: { [weak self] status in
+          guard let self else { return }
+
+          switch status {
+          case is MaintenanceStatus.AllPortal:
+            self.playerViewModel.logout()
+              .subscribe(onCompleted: {
+                NavigationManagement.sharedInstance.goTo(
+                  storyboard: "Maintenance",
+                  viewControllerId: "PortalMaintenanceViewController")
+              })
+              .disposed(by: self.disposeBag)
+          case let productStatus as MaintenanceStatus.Product:
+            if productStatus.isProductMaintain(productType: self.productType) {
+              NavigationManagement.sharedInstance.goTo(productType: self.productType, isMaintenance: true)
+            }
+          default:
+            break
+          }
+        })
+        .disposed(by: disposeBag)
+      
+      productsViewModel.errors()
+        .subscribe(onNext: { [weak self] error in
+          guard let self else { return }
+          
+          self.handleErrors(error)
+        })
+        .disposed(by: disposeBag)
     }
 
     func gameDidDisappear() {
