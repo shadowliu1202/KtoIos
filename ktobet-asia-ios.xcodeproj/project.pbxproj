@@ -5987,6 +5987,15 @@
 		FF2F96D729125C2B0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF2F96D929125C2D0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
 		FF2F96DA29125C2E0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */; };
+		FF34CD4A2995EDB300495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
+		FF34CD4B2995F08A00495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
+		FF34CD4C2995F08E00495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
+		FF34CD4D2995F08F00495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
+		FF34CD4E2995F08F00495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
+		FF34CD4F2995F09000495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
+		FF34CD502995F09000495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
+		FF34CD512995F09100495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
+		FF34CD522995F09200495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
 		FF4E0B492942D99900678D1F /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
 		FF77F0F329261D3E001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0F429261F41001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
@@ -6262,6 +6271,7 @@
 		FFF7D833293DC631007462E0 /* DelegatedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF7D82D293DC5FC007462E0 /* DelegatedScrollView.swift */; };
 		FFF7D835293DC633007462E0 /* DelegatedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF7D82D293DC5FC007462E0 /* DelegatedScrollView.swift */; };
 		FFF7D836293DC633007462E0 /* DelegatedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF7D82D293DC5FC007462E0 /* DelegatedScrollView.swift */; };
+		FFF9A14B299374CF0058F32C /* KtoURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF9A14A299374CF0058F32C /* KtoURLTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -7177,6 +7187,7 @@
 		FF270F4F29385815008345EF /* TransationLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransationLogView.swift; sourceTree = "<group>"; };
 		FF282E452927767B005CD7A7 /* DepositView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepositView.swift; sourceTree = "<group>"; };
 		FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectMockingBirdWrapper.swift; sourceTree = "<group>"; };
+		FF34CD492995EDB300495818 /* CookieHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieHandler.swift; sourceTree = "<group>"; };
 		FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionFilterViewControllerTest.swift; sourceTree = "<group>"; };
 		FF4E0B482942D99900678D1F /* ItemSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelector.swift; sourceTree = "<group>"; };
 		FF694ACF2936F99200FF21EB /* Inspecting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inspecting.swift; sourceTree = "<group>"; };
@@ -7221,6 +7232,7 @@
 		FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PViewControllerTests.swift; sourceTree = "<group>"; };
 		FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PSummaryViewControllerTests.swift; sourceTree = "<group>"; };
 		FFF7D82D293DC5FC007462E0 /* DelegatedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegatedScrollView.swift; sourceTree = "<group>"; };
+		FFF9A14A299374CF0058F32C /* KtoURLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KtoURLTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -7600,6 +7612,7 @@
 				3C57DE3C28B8C6E90094780D /* Inspection.swift */,
 				FF9ED01B2924CAB600F99E2B /* SwiftUIConverter.swift */,
 				FFD397F1298BBBDC00C3C94B /* APIErrorHandler.swift */,
+				FF34CD492995EDB300495818 /* CookieHandler.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -8725,6 +8738,7 @@
 			children = (
 				6D75934829235E54007D2BF3 /* AIO_unitTests.swift */,
 				FFE575112990E1C3008713F6 /* UIKit */,
+				FFF9A14C299374D30058F32C /* Base */,
 			);
 			path = "AIO-unitTests";
 			sourceTree = "<group>";
@@ -9070,6 +9084,14 @@
 				FFEF4A3C29349F7F001EEC73 /* TermsView.swift */,
 			);
 			path = "Sign Up";
+			sourceTree = "<group>";
+		};
+		FFF9A14C299374D30058F32C /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				FFF9A14A299374CF0058F32C /* KtoURLTests.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -11058,6 +11080,7 @@
 				41077DAB25BA636F0057B340 /* ToastView.swift in Sources */,
 				6D48BA432760847600C8DC2D /* CryptoGuideViewController.swift in Sources */,
 				FFA486FE293886230088F172 /* DateFilter.swift in Sources */,
+				FF34CD4B2995F08A00495818 /* CookieHandler.swift in Sources */,
 				60DD1CF725C4097300863AF6 /* StringMapper.swift in Sources */,
 				4199A04725AE9918002E2D7E /* LocalizeUtils.swift in Sources */,
 				6D94B727263819EF00982901 /* MemoryCacheImpl.swift in Sources */,
@@ -11746,6 +11769,7 @@
 				48AAA131256E458800E075CA /* DefaultProductViewModel.swift in Sources */,
 				60DD1CF425C406ED00863AF6 /* StringMapper.swift in Sources */,
 				FFA486FD293886000088F172 /* DateFilter.swift in Sources */,
+				FF34CD4A2995EDB300495818 /* CookieHandler.swift in Sources */,
 				6D48BA422760847600C8DC2D /* CryptoGuideViewController.swift in Sources */,
 				60BCC2CA25B6AB2E00C56D6E /* PlayerDataUseCase.swift in Sources */,
 				6D94B726263819EF00982901 /* MemoryCacheImpl.swift in Sources */,
@@ -12450,6 +12474,7 @@
 				6D48BA482761D08100C8DC2D /* MarketHeaderView.swift in Sources */,
 				609012E72640EE7000419F8E /* DepositPresenter.swift in Sources */,
 				609012E82640EE7000419F8E /* HttpResponse.swift in Sources */,
+				FF34CD4C2995F08E00495818 /* CookieHandler.swift in Sources */,
 				3CFC0B6F28EFC7240012DD73 /* LoggerConfirmRecordView.swift in Sources */,
 				3CA9E40A28DDBABA00FFB33E /* JinYiDigitalViewController.swift in Sources */,
 				3C170559294C812800531357 /* OfflinePaymentViewController.swift in Sources */,
@@ -13080,6 +13105,7 @@
 				60E580CC27F190E4008CE5A9 /* MarketHeaderView.swift in Sources */,
 				60E580CD27F190E4008CE5A9 /* DepositPresenter.swift in Sources */,
 				60E580CE27F190E4008CE5A9 /* HttpResponse.swift in Sources */,
+				FF34CD4F2995F09000495818 /* CookieHandler.swift in Sources */,
 				3CFC0B7028EFC7240012DD73 /* LoggerConfirmRecordView.swift in Sources */,
 				3CA9E40B28DDBABA00FFB33E /* JinYiDigitalViewController.swift in Sources */,
 				3C17055A294C812800531357 /* OfflinePaymentViewController.swift in Sources */,
@@ -13572,6 +13598,7 @@
 				6D0EDB8E28743FAC004A9E3C /* DepositOfflineConfirmViewController.swift in Sources */,
 				6D0EDB8F28743FAC004A9E3C /* PromotionViewModel.swift in Sources */,
 				6D0EDB9028743FAC004A9E3C /* P2PBetSummaryByDateViewController.swift in Sources */,
+				FF34CD4D2995F08F00495818 /* CookieHandler.swift in Sources */,
 				6D0EDB9128743FAC004A9E3C /* APPViewController.swift in Sources */,
 				6D0EDB9228743FAC004A9E3C /* ExpandableHeaderView.swift in Sources */,
 				6D0EDB9328743FAC004A9E3C /* P2PAlertViewController.swift in Sources */,
@@ -14203,6 +14230,7 @@
 				6D0EDDE928744704004A9E3C /* DepositOfflineConfirmViewController.swift in Sources */,
 				6D0EDDEA28744704004A9E3C /* PromotionViewModel.swift in Sources */,
 				6D0EDDEB28744704004A9E3C /* P2PBetSummaryByDateViewController.swift in Sources */,
+				FF34CD502995F09000495818 /* CookieHandler.swift in Sources */,
 				6D0EDDEC28744704004A9E3C /* APPViewController.swift in Sources */,
 				6D0EDDED28744704004A9E3C /* ExpandableHeaderView.swift in Sources */,
 				6D0EDDEE28744704004A9E3C /* P2PAlertViewController.swift in Sources */,
@@ -14633,6 +14661,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFF9A14B299374CF0058F32C /* KtoURLTests.swift in Sources */,
 				6D75934F29237F35007D2BF3 /* XCTestCase+Extension.swift in Sources */,
 				6D75934929235E54007D2BF3 /* AIO_unitTests.swift in Sources */,
 				FFE575132990E1EF008713F6 /* NotificationDetailViewControllerTests.swift in Sources */,
@@ -14987,6 +15016,7 @@
 				6D966C5A27FEE3FA006086B7 /* MarketHeaderView.swift in Sources */,
 				6D966C5B27FEE3FA006086B7 /* DepositPresenter.swift in Sources */,
 				6D966C5C27FEE3FA006086B7 /* HttpResponse.swift in Sources */,
+				FF34CD512995F09100495818 /* CookieHandler.swift in Sources */,
 				3CFC0B7128EFC7240012DD73 /* LoggerConfirmRecordView.swift in Sources */,
 				3CA9E40C28DDBABA00FFB33E /* JinYiDigitalViewController.swift in Sources */,
 				3C17055B294C812800531357 /* OfflinePaymentViewController.swift in Sources */,
@@ -15617,6 +15647,7 @@
 				6D966EA727FEE416006086B7 /* MarketHeaderView.swift in Sources */,
 				6D966EA827FEE416006086B7 /* DepositPresenter.swift in Sources */,
 				6D966EA927FEE416006086B7 /* HttpResponse.swift in Sources */,
+				FF34CD522995F09200495818 /* CookieHandler.swift in Sources */,
 				3CFC0B7228EFC7240012DD73 /* LoggerConfirmRecordView.swift in Sources */,
 				3CA9E40D28DDBABA00FFB33E /* JinYiDigitalViewController.swift in Sources */,
 				3C17055C294C812800531357 /* OfflinePaymentViewController.swift in Sources */,
@@ -16120,6 +16151,7 @@
 				6D55C77029657E5C0038E8FB /* NumberGameMyBetDetailViewController.swift in Sources */,
 				6D55C71529657E0C0038E8FB /* ResetPasswordStep3ViewController.swift in Sources */,
 				6D55C90D2966622C0038E8FB /* HttpConnectionOptions.swift in Sources */,
+				FF34CD4E2995F08F00495818 /* CookieHandler.swift in Sources */,
 				6D55C92D296662480038E8FB /* NewPasswordValidator.swift in Sources */,
 				6D55C9822966629C0038E8FB /* P2PViewController.swift in Sources */,
 				6D55C7BF29657E960038E8FB /* CryptoGuideViewController.swift in Sources */,

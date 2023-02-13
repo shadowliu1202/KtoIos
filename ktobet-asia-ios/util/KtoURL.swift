@@ -1,76 +1,79 @@
-import RxSwift
 import Alamofire
+import RxSwift
 
 protocol KtoURL {
-    var baseUrl : [String : String]  {get}
+  var hosts: [String] { get }
+  var baseURL: String { get }
+  
+  func observeCookiesChanged()
 }
 
 extension KtoURL {
-    func checkNetwork(urlString: String) -> Bool {
-            let group = DispatchGroup()
-            group.enter()
-            var isSuccess = false
-            guard let url = URL(string: "\(Configuration.internetProtocol)\(urlString)") else {
-                group.leave()
-                return isSuccess
-            }
+  func observeCookiesChanged() { }
+  
+  func checkingHosts(_ hosts: [String]) -> String {
+    mergeRequestsAndBlocking(
+      hosts.map {
+        headRequest($0).asObservable()
+      },
+      default: "\(Configuration.internetProtocol)\(hosts.first!)/")
+  }
 
-            var request = URLRequest(url: url)
-            request.httpMethod = "HEAD"
-            let configuration = URLSessionConfiguration.default
-            configuration.timeoutIntervalForRequest = 4
-            URLSession(configuration: configuration)
-                .dataTask(with: request) { (_, response, error) -> Void in
-                guard error == nil else {
-                    print("Error:", error ?? "")
-                    isSuccess = false
-                    group.leave()
-                    return
-                }
+  func mergeRequestsAndBlocking(
+    _ request: [Observable<String?>],
+    default: String)
+    -> String
+  {
+    let merged = Observable.merge(request)
+      .compactMap { $0 }
+      .timeout(.seconds(4), scheduler: MainScheduler())
+      .catchAndReturn(`default`)
+      .take(1)
+      .toBlocking()
 
-                guard (response as? HTTPURLResponse)?
-                    .statusCode == 200 else {
-                    isSuccess = false
-                    group.leave()
-                    return
-                }
-
-                isSuccess = true
-                group.leave()
-            }.resume()
-
-            group.wait()
-            return isSuccess
-        }
-    
-    private func request(session: Session, hostName: String) -> Single<Bool> {
-        return RxSwift.Single<Bool>.create { observer in
-            let request = session.request("\(Configuration.internetProtocol)\(hostName)/", method: .head).response { response in
-                switch response.result {
-                case .success:
-                    observer(.success(true))
-                case let .failure(error):
-                    observer(.success(false))
-                    print("afRequestError:\(error)")
-                }
-            }
-            return Disposables.create {
-                request.cancel()
-            }
-        }
+    do {
+      return try merged.first() ?? `default`
     }
+    catch {
+      return `default`
+    }
+  }
+
+  private func headRequest(_ hostName: String) -> Single<String?> {
+    .create { observer in
+      let url = "\(Configuration.internetProtocol)\(hostName)/"
+      let request = Session.default
+        .request(url, method: .head)
+        .response { response in
+          switch response.result {
+          case .success:
+            observer(.success(url))
+          case .failure(_):
+            observer(.success(nil))
+          }
+        }
+      return Disposables.create { request.cancel() }
+    }
+  }
 }
 
 class PortalURL: KtoURL {
-    private lazy var hostName: [String: String] = Configuration.hostName
-        .mapValues {
-            Logger.shared.info("checkNetwork")
-            return $0.first(where: checkNetwork) ?? $0.first!
-        }
-    lazy var baseUrl = hostName.mapValues{ "\(Configuration.internetProtocol)\($0)/" }
+  private let cookieHandler = CookieHandler()
+  
+  let hosts = Configuration.hostName.values.flatMap { $0 }
+  lazy var baseURL = checkingHosts(hosts)
+  
+  func observeCookiesChanged() {
+    cookieHandler.observeCookiesChanged(
+      allHosts: hosts,
+      checkedHost: baseURL
+        .replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "")
+        .replacingOccurrences(of: "/", with: "")
+    )
+  }
 }
 
 class VersionUpdateURL: KtoURL {
-    private lazy var hostName: [String: String] = Configuration.versionUpdateHostName.mapValues{ $0.first(where: checkNetwork) ?? $0.first! }
-    lazy var baseUrl = hostName.mapValues{ "\(Configuration.internetProtocol)\($0)/" }
+  let hosts = Configuration.versionUpdateHostName.values.flatMap { $0 }
+  lazy var baseURL = checkingHosts(hosts)
 }

@@ -17,19 +17,23 @@ import RxBlocking
 
 let debugCharCount = 500
 
-class HttpClient {
+class HttpClient: CookieUtil {
+    
+  var cookiesHeader: String {
+    syncCookies()
+    
+    return cookies(for: host)
+      .map {
+        $0.name + "=" + $0.value
+      }
+      .joined(separator: ";")
+  }
+  
     var headers : [String : String] {
         var header : [String : String] = [:]
         header["Accept"] = "application/json"
         header["User-Agent"] = "AppleWebKit/" + Configuration.getKtoAgent()
-        header["Cookie"] = {
-            var token : [String] = []
-            for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: host) ?? []  {
-                token.append(cookie.name + "=" + cookie.value)
-            }
-
-            return token.joined(separator: ";")
-        }()
+        header["Cookie"] = cookiesHeader
 
         return header
     }
@@ -38,7 +42,7 @@ class HttpClient {
             if Configuration.manualControlNetwork && !NetworkStateMonitor.shared.isNetworkConnected {
                 return URL(string: "\(Configuration.internetProtocol)")!
             }
-            return URL(string: ktoUrl.baseUrl[localStorageRepo.getCultureCode()]!)!
+          return URL(string: ktoUrl.baseURL)!
         }
     }
     var domain: String {
@@ -116,47 +120,21 @@ class HttpClient {
     }
 
     func getCookies() -> [HTTPCookie] {
-        return session.sessionConfiguration.httpCookieStorage?.cookies(for: self.host) ?? []
+        cookies(for: host)
     }
-
-    func getCookieString() -> String {
-        var token: [String] = []
-        for cookie in session.sessionConfiguration.httpCookieStorage?.cookies(for: self.host) ?? [] {
-            token.append(cookie.name + "=" + cookie.value)
-        }
-        return token.joined(separator: ";")
-    }
-
-    func getCulture() -> String {
-        let culture = session.sessionConfiguration.httpCookieStorage?.cookies(for: host)?.first(where: { $0.name == "culture" })?.value ?? ""
-        return culture
-    }
-    
-    func replaceCookiesDomain(_ oldURLString: String, to newURLString: String) {
-        guard oldURLString != newURLString else { return }
-        let oldDomain = oldURLString.replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "").replacingOccurrences(of: "/", with: "")
-        let newDomain = newURLString.replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "").replacingOccurrences(of: "/", with: "")
-        let storage = self.session.sessionConfiguration.httpCookieStorage
-        
-        for cookie in storage?.cookies ?? [] {
-            if cookie.domain == oldDomain {
-                var props = cookie.properties!
-                props[HTTPCookiePropertyKey.domain] = newDomain
-                storage!.setCookie(HTTPCookie(properties: props)!)
-                storage!.deleteCookie(cookie)
-            }
-        }
-        
-        generateSession()
+  
+    func syncCookies() {
+      NotificationCenter.default.post(name: .NSHTTPCookieManagerCookiesChanged, object: nil)
     }
     
     func clearCookie() -> Completable {
-        return Completable.create { (completable) -> Disposable in
-            let storage = self.session.sessionConfiguration.httpCookieStorage
-            for cookie in self.getCookies() {
-                storage?.deleteCookie(cookie)
-            }
+        .create { [weak self] (completable) -> Disposable in
+            guard let self else { return Disposables.create {} }
+          
+            self.removeAllCookies()
+    
             completable(.completed)
+          
             return Disposables.create {}
         }
     }
@@ -185,10 +163,7 @@ class HttpClient {
     }
     
     func getAffiliateUrl() -> URL? {
-        if let host = self.ktoUrl.baseUrl[localStorageRepo.getCultureCode()] {
-            return URL(string: "\(host)affiliate")!
-        }
-        return nil
+        URL(string: "\(ktoUrl.baseURL)affiliate")
     }
     
     private func logConfig() -> NetworkLoggerPlugin.Configuration {

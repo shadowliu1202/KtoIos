@@ -2,7 +2,7 @@ import Connectivity
 import RxCocoa
 
 final class NetworkStateMonitor {
-  enum Status {
+  enum Status: Int {
     case connected
     case reconnected
     case disconnect
@@ -27,7 +27,7 @@ final class NetworkStateMonitor {
   }
 
   var listener: Observable<Status> {
-    _networkStatus.compactMap { $0 }
+    _networkStatus.compactMap { $0 }.distinctUntilChanged()
   }
 
   private init() { }
