@@ -70,10 +70,9 @@ extension APIErrorHandler {
 
     switch statusCode {
     case 401:
-      guard
-        let delegate = UIApplication.shared.delegate as? AppDelegate,
-        !delegate.viewModel.isCheckingLogged
-      else { return }
+      @Injected(name: "CheckingIsLogged") var tracker: ActivityIndicator
+
+      guard !tracker.isLoading else { return }
 
       handleUnknownError(nsError)
       
