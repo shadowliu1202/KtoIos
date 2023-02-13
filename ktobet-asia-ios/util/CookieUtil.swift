@@ -1,30 +1,59 @@
 import Foundation
 
-class CookieUtil {
-    static let shared = CookieUtil()
+protocol CookieUtil: LocalStorable { }
+
+extension CookieUtil {
+  
+  var storage: HTTPCookieStorage {
+    HTTPCookieStorage.shared
+  }
+  
+  var allCookies: [HTTPCookie] {
+    storage.cookies ?? []
+  }
+  
+  func cookies(for url: URL) -> [HTTPCookie] {
+    storage.cookies(for: url) ?? []
+  }
+  
+  func replaceCookie(
+    _ cookie: HTTPCookie,
+    domain: String,
+    value: String? = nil)
+  {
+    guard var properties = cookie.properties else { return }
     
-    private init() {}
+    storage.deleteCookie(cookie)
     
-    func saveCookieToUserDefault() {
-        guard let cookies = HTTPCookieStorage.shared.cookies else { return }
-        var cookieArray: [[HTTPCookiePropertyKey: Any]] = []
-        for cookie in cookies {
-            cookieArray.append(cookie.properties!)
-        }
-        
-        UserDefaults.standard.setValue(cookieArray, forKey: "TmpCookies")
+    properties[.domain] = domain
+    if let value {
+      properties[.value] = value
     }
     
-    func loadCookiesFromUserDefault() {
-        guard let cookieArray = UserDefaults.standard.object(forKey: "TmpCookies") as? [[HTTPCookiePropertyKey: Any]] else {
-            Logger.shared.debug("no TmpCookies.")
-            return
-        }
-        
-        for cookieProperties in cookieArray {
-            if let cookie = HTTPCookie(properties: cookieProperties) {
-                HTTPCookieStorage.shared.setCookie(cookie)
-            }
-        }
+    storage.setCookie(.init(properties: properties)!)
+  }
+  
+  func removeAllCookies() {
+    allCookies.forEach {
+      storage.deleteCookie($0)
     }
+    set(value: [], key: .cookies)
+  }
+  
+  func saveCookieToUserDefault() {
+    let cookies = allCookies.compactMap { $0.properties }
+    set(value: cookies, key: .cookies)
+  }
+
+  func loadCookiesFromUserDefault() {
+    guard
+      let saved: [[HTTPCookiePropertyKey: Any]] = get(key: .cookies)
+    else { return }
+
+    saved
+      .compactMap { HTTPCookie(properties: $0) }
+      .forEach {
+        storage.setCookie($0)
+      }
+  }
 }

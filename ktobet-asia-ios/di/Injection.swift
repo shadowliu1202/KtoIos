@@ -9,6 +9,12 @@ final class Injection {
     private (set) var container = Container()
     
     private init() {
+        container
+            .register(KtoURL.self) { _ in
+                return PortalURL()
+            }
+            .inObjectScope(.application)
+      
         registerAllDependency()
     }
     
@@ -26,12 +32,6 @@ final class Injection {
     }
     
     func registerHttpClient() {
-        container
-            .register(KtoURL.self) { _ in
-                return PortalURL()
-            }
-            .inObjectScope(.application)
-        
         container
             .register(KtoURL.self, name: "update") { _ in
                 return VersionUpdateURL()

@@ -1,10 +1,3 @@
-//
-//  UserDefaultsExtension.swift
-//  ktobet-asia-ios
-//
-//  Created by Finn Wu on 2022/10/25.
-//
-
 import Foundation
 
 extension UserDefaults {
@@ -25,6 +18,7 @@ extension UserDefaults {
         case lastLoginDate
         case balanceHiddenState(gameId: String)
         case isFirstLaunch
+        case cookies
         
         var rawValue: String {
             switch self {
@@ -58,6 +52,8 @@ extension UserDefaults {
                 return "balanceHiddenState" + gameId
             case .isFirstLaunch:
                 return "isFirstLaunch"
+            case .cookies:
+                return "TmpCookies"
             }
         }
         

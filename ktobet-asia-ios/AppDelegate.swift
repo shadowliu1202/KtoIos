@@ -11,7 +11,7 @@ import FirebaseCore
 public var isTesting: Bool { ProcessInfo.processInfo.arguments.contains("isTesting") }
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
     
     @Injected private var localStorageRepo: LocalStorageRepository
     @Injected private var applicationStorage: ApplicationStorable
@@ -53,19 +53,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else { return true }
         
         Logger.shared.info("APP launch.")
+
+        loadCookiesFromUserDefault()
         
-        CookieUtil.shared.loadCookiesFromUserDefault()
+        checkingPortalHost()
         
         FirebaseApp.configure()
-        
-        configUISetting(application)
         
         Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
         
         SharedBu.Platform.init().debugBuild()
         
         updateAndLogInstallDate(applicationStorage, keychain)
-        
+
+        configUISetting(application)
+      
         return true
     }
     
@@ -91,12 +93,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         self.endBackgroundUpdateTask()
-        
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
         WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
-        CookieUtil.shared.saveCookieToUserDefault()
+        saveCookieToUserDefault()
         Logger.shared.info("APP terminate.")
     }
 }
@@ -132,6 +133,7 @@ private extension AppDelegate {
             self.addNetworkControlGesture()
         }
         
+        window = .init(frame: UIScreen.main.bounds)
         let launchController = LaunchViewController.initFrom(storyboard: "Launch")
         window?.rootViewController = launchController
         window?.makeKeyAndVisible()
@@ -233,6 +235,11 @@ private extension AppDelegate {
                 NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
             })
             .disposed(by: disposeBag)
+    }
+  
+    func checkingPortalHost() {
+      @Injected var ktoURL: KtoURL
+      ktoURL.observeCookiesChanged()
     }
 }
 

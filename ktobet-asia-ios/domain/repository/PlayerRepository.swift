@@ -51,13 +51,8 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
     
     func refreshHttpClient(playerLocale: SupportLocale) {
-        let oldURLString = httpClient.host.description
-        self.localStorageRepo.setCultureCode(playerLocale.cultureCode())
+        localStorageRepo.setCultureCode(playerLocale.cultureCode())
         Theme.shared.changeEntireAPPFont(by: playerLocale)
-        Injectable.resetObjectScope(.locale)
-        
-        let newURLString = Injectable.resolve(HttpClient.self)!.host.description
-        self.httpClient.replaceCookiesDomain(oldURLString, to: newURLString)
         Injectable.resetObjectScope(.locale)
     }
     

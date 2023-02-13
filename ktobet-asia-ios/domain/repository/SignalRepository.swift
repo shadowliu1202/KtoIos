@@ -43,7 +43,7 @@ class SignalRepositoryImpl: SignalRepository {
         .withJSONHubProtocol()
         .withHttpConnectionOptions(configureHttpOptions: { option in
           option.skipNegotiation = true
-          option.headers["Cookie"] = self.httpClient.getCookieString()
+          option.headers["Cookie"] = self.httpClient.cookiesHeader
         })
         .withLogging(minLogLevel: .debug)
         .withAutoReconnect()
