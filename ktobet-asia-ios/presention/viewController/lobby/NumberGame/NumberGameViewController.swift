@@ -77,6 +77,10 @@ class NumberGameViewController: DisplayProduct {
             self?.handleErrors(error)
         }.disposed(by: disposeBag)
     }
+  
+    deinit {
+      Logger.shared.info("\(type(of: self)) deinit")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

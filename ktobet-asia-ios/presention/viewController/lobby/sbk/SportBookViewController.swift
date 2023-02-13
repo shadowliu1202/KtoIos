@@ -18,70 +18,36 @@ class SportBookViewController: LobbyViewController {
     
     private lazy var httpClient = Injectable.resolveWrapper(HttpClient.self)
     private lazy var localStorageRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
+    private lazy var playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
+    private lazy var serviceViewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
+    private lazy var sportBookViewModel = Injectable.resolveWrapper(SportBookViewModel.self)
         
     private var disposeBag = DisposeBag()
-    
-    lazy var playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
-    lazy var serviceViewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
+  
+    deinit {
+      Logger.shared.info("\(type(of: self)) deinit")
+    }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        Logger.shared.info("\(type(of: self)) viewDidLoad.")
-        NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("common_sportsbook"))
-        
-        self.view.addSubview(self.activityIndicator, constraints: [
-            .equal(\.centerXAnchor),
-            .equal(\.centerYAnchor)
+      super.viewDidLoad()
+      Logger.shared.info("\(type(of: self)) viewDidLoad.")
+
+      NavigationManagement.sharedInstance
+        .addMenuToBarButtonItem(vc: self, title: Localize.string("common_sportsbook"))
+
+      view.addSubview(
+        self.activityIndicator,
+        constraints: [
+          .equal(\.centerXAnchor),
+          .equal(\.centerYAnchor)
         ])
-        self.activityIndicator.startAnimating()
-        self.setupWebView()
-        
-        serviceViewModel.output.portalMaintenanceStatus
-            .subscribe(
-                onNext: { [weak self] status in
-                    guard let self = self else { return }
-                    
-                    switch status {
-                    case is MaintenanceStatus.AllPortal:
-                        self.playerViewModel.logout()
-                            .subscribe(onCompleted: {
-                                NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-                            })
-                            .disposed(by: self.disposeBag)
-                        
-                    case let productStatus as MaintenanceStatus.Product:
-                        if productStatus.isProductMaintain(productType: .sbk) {
-                            NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
-                        }
-                    default:
-                        break
-                    }
-                },
-                onError: { [weak self] error in
-                    self?.handleErrors(error)
-                }
-            )
-            .disposed(by: disposeBag)
-        
-        Observable
-            .combineLatest(
-                networkConnectRelay,
-                isWebLoadSuccess
-            )
-            .subscribe(onNext: { [unowned self] isNetworkConnected, isWebLoadSuccess in
-                guard isWebLoadSuccess == false else { return }
-                if isNetworkConnected {
-                    self.loadURL(webView: self.webView, urlString: self.sbkWebUrlString)
-                }
-            })
-            .disposed(by: disposeBag)
+
+      activityIndicator.startAnimating()
+      setupWebView()
+
+      binding()
     }
-    
-    deinit {
-        print("\(type(of: self)) deinit")
-    }
-    
+
     private func setupWebView() {
         let MockWebViewUserAgent = Configuration.getKtoAgent()
         webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1 \(MockWebViewUserAgent)"
@@ -104,7 +70,55 @@ class SportBookViewController: LobbyViewController {
         webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -self.view.safeAreaInsets.bottom, right: 0)
         self.view.addSubview(webView, constraints: .fill())
     }
-    
+  
+    private func binding() {
+      sportBookViewModel
+        .observeMaintenanceStatus()
+        .subscribe(onNext: { [weak self] status in
+            guard let self else { return }
+
+            switch status {
+            case is MaintenanceStatus.AllPortal:
+              self.playerViewModel.logout()
+                .subscribe(onCompleted: {
+                  NavigationManagement.sharedInstance.goTo(
+                    storyboard: "Maintenance",
+                    viewControllerId: "PortalMaintenanceViewController")
+                })
+                .disposed(by: self.disposeBag)
+
+            case let productStatus as MaintenanceStatus.Product:
+              if productStatus.isProductMaintain(productType: .sbk) {
+                NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
+              }
+            default:
+              break
+            }
+          })
+        .disposed(by: disposeBag)
+      
+      sportBookViewModel.errors()
+        .subscribe(onNext: { [weak self] error in
+          guard let self else { return }
+          
+          self.handleErrors(error)
+        })
+        .disposed(by: disposeBag)
+      
+      Observable
+          .combineLatest(
+              networkConnectRelay,
+              isWebLoadSuccess
+          )
+          .subscribe(onNext: { [unowned self] isNetworkConnected, isWebLoadSuccess in
+              guard isWebLoadSuccess == false else { return }
+              if isNetworkConnected {
+                  self.loadURL(webView: self.webView, urlString: self.sbkWebUrlString)
+              }
+          })
+          .disposed(by: disposeBag)
+    }
+
     private func loadURL(webView: WKWebView, urlString: String) {
         let url = URL(string: urlString)
         if let url = url {

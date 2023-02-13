@@ -252,12 +252,6 @@ final class Injection {
             }
         
         container
-            .register(SystemSignalRepository.self) { resolver in
-                let httpClient = resolver.resolveWrapper(HttpClient.self)
-                return SystemSignalRepositoryImpl(httpClient)
-            }
-        
-        container
             .register(PlayerConfiguration.self) { _ in
                 return PlayerConfigurationImpl()
             }
@@ -495,6 +489,13 @@ final class Injection {
                 return Keychain()
             }
             .inObjectScope(.application)
+      
+      container
+        .register(SignalRepository.self) { resolver in
+          let httpClient = resolver.resolveWrapper(HttpClient.self)
+          return SignalRepositoryImpl(httpClient: httpClient)
+        }
+        .inObjectScope(.locale)
     }
     
     func registUsecase(){
@@ -541,12 +542,6 @@ final class Injection {
                     repoSystem,
                     localRepository: repoLocal
                 )
-            }
-        
-        container
-            .register(SystemSignalRUseCase.self) { resolver in
-                let repoSystem = resolver.resolveWrapper(SystemSignalRepository.self)
-                return SystemSignalRUseCaseImpl(repoSystem)
             }
         
         container
@@ -735,6 +730,11 @@ final class Injection {
                 let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
                 return AppVersionUpdateUseCaseImpl(repo, repoLocalStorage)
             }
+      
+      container
+      .register(ObserveSystemMessageUseCase.self) { resolver in
+        return ObserveSystemMessageUseCaseImpl(signalRepository: resolver.resolveWrapper(SignalRepository.self))
+      }
     }
     
     func registNavigator() {
@@ -866,11 +866,6 @@ final class Injection {
                 return ResetPasswordViewModel(usecaseAuthentication, systemUseCase, localStorageRepo)
             }
         
-        container
-            .register(SystemViewModel.self) { resolver in
-                let systemSignalRUseCase = resolver.resolveWrapper(SystemSignalRUseCase.self)
-                return SystemViewModel(systemUseCase: systemSignalRUseCase)
-            }
         
         container
             .register(ServiceStatusViewModel.self) { resolver in
@@ -1119,6 +1114,29 @@ final class Injection {
                     playerUseCase: resolver.resolveWrapper(PlayerDataUseCase.self),
                     localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self))
             }
+      
+        container
+        .register(SideMenuViewModel.self) { resolver in
+          return SideMenuViewModel(
+            observeSystemMessageUseCase: resolver.resolveWrapper(ObserveSystemMessageUseCase.self),
+            playerDataUseCase: resolver.resolveWrapper(PlayerDataUseCase.self),
+            getSystemStatusUseCase: resolver.resolveWrapper(GetSystemStatusUseCase.self),
+            authenticationUseCase: resolver.resolveWrapper(AuthenticationUseCase.self))
+      }
+      
+        container
+          .register(ProductsViewModel.self) { resolver in
+            ProductsViewModel(
+              observeSystemMessageUseCase: resolver.resolveWrapper(ObserveSystemMessageUseCase.self),
+              getSystemStatusUseCase: resolver.resolveWrapper(GetSystemStatusUseCase.self))
+          }
+      
+      container
+        .register(SportBookViewModel.self) { resolver in
+          SportBookViewModel(
+            observeSystemMessageUseCase: resolver.resolveWrapper(ObserveSystemMessageUseCase.self),
+            getSystemStatusUseCase: resolver.resolveWrapper(GetSystemStatusUseCase.self))
+        }
     }
 
     func registSingleton() {

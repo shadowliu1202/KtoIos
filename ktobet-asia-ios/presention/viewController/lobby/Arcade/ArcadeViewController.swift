@@ -15,6 +15,10 @@ class ArcadeViewController: DisplayProduct {
     var barButtonItems: [UIBarButtonItem] = []
     
     lazy var gameDataSourceDelegate = { return ProductGameDataSourceDelegate(self) }()
+  
+    deinit {
+      Logger.shared.info("\(type(of: self)) deinit")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

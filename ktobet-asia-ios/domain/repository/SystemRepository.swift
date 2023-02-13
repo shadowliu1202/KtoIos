@@ -1,10 +1,3 @@
-//
-//  SystemRepository.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/12/15.
-//
-
 import Foundation
 import RxSwift
 import SharedBu
@@ -15,6 +8,7 @@ protocol SystemRepository {
     func getCustomerService() -> Single<String>
     func refreshPortalMaintenanceState()
     func getYearOfCopyRight() -> Single<String>
+    func fetchMaintenanceStatus() -> Single<MaintenanceStatus>
 }
 
 class SystemRepositoryImpl: SystemRepository{
@@ -68,7 +62,26 @@ class SystemRepositoryImpl: SystemRepository{
                 }
             })
     }
-    
+  
+  func fetchMaintenanceStatus() -> Single<MaintenanceStatus> {
+    portalApi.getProductStatus()
+      .map {
+        try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil)
+      }
+      .catch { [weak self] error in
+        guard
+          let self,
+          error.isMaintenance()
+        else {
+          return Single.error(error)
+        }
+
+        return Observable
+          .just(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
+          .asSingle()
+      }
+  }
+
     // FIXME: use concat in wrong way.
     private func updateMaintenanceStatus() -> Single<MaintenanceStatus> {
         portalApi.getProductStatus()

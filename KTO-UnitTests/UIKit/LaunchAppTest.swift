@@ -70,19 +70,21 @@ final class LaunchAppTest: XCTestCase {
     }
     
     private func stubMaintenanceStatus(isAllMaintenance: Bool) {
-        let stubServiceStatusViewModel = getFakeServiceStatusViewModelMock()
-        given(stubServiceStatusViewModel.output)
-        ~> .init(
-            portalMaintenanceStatus: isAllMaintenance ? .just(.AllPortal(duration: 1000)) : .never(),
-            portalMaintenanceStatusPerSecond: .never(),
-            otpService: .never(),
-            customerServiceEmail: .never(),
-            productMaintainTime: .never(),
-            productsMaintainTime: .never()
-        )
+      let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+      
+      given(stubGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: true, isSmsActive: true))
+      given(stubGetSystemStatusUseCase.getCustomerServiceEmail()) ~> .just("")
+      
+      if isAllMaintenance {
+        given(stubGetSystemStatusUseCase.fetchMaintenanceStatus()) ~> .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
+        given(stubGetSystemStatusUseCase.observePortalMaintenanceState()) ~> .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
+      } else {
+        given(stubGetSystemStatusUseCase.fetchMaintenanceStatus()) ~> .just(.Product(productsAvailable: [], status: [:]))
+        given(stubGetSystemStatusUseCase.observePortalMaintenanceState()) ~> .just(.Product(productsAvailable: [], status: [:]))
+      }
         
-        Injectable.register(ServiceStatusViewModel.self) { _ in
-            stubServiceStatusViewModel
+        Injectable.register(GetSystemStatusUseCase.self) { _ in
+          stubGetSystemStatusUseCase
         }
     }
     
@@ -101,23 +103,6 @@ final class LaunchAppTest: XCTestCase {
                 dummyLocalizationPolicyUseCase,
                 dummyGetSystemStatusUseCase,
                 dummyLocalStorageRepository
-            )
-    }
-    
-    private func getFakeServiceStatusViewModelMock() -> ServiceStatusViewModelMock {
-        
-        let dummyGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
-        let dummyLocalStorageRepository = mock(LocalStorageRepository.self)
-        
-        given(dummyGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: false, isSmsActive: false))
-        given(dummyGetSystemStatusUseCase.getCustomerServiceEmail()) ~> .just("")
-        given(dummyGetSystemStatusUseCase.getYearOfCopyRight()) ~> .just("")
-        given(dummyGetSystemStatusUseCase.observePortalMaintenanceState()) ~> .never()
-        
-        return mock(ServiceStatusViewModel.self)
-            .initialize(
-                systemStatusUseCase: dummyGetSystemStatusUseCase,
-                localStorageRepo: dummyLocalStorageRepository
             )
     }
     
@@ -287,7 +272,7 @@ final class LaunchAppTest: XCTestCase {
         let sut = NewLoginViewController.initFrom(storyboard: "Login")
 
         sut.loadViewIfNeeded()
-        sut.viewDidAppear(true)
+        sut.viewWillAppear(true)
         
         verify(
             mockNavigator.goTo(

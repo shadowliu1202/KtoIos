@@ -20,7 +20,8 @@ class NewLoginViewController: LandingViewController {
     private var viewDisappearBag = DisposeBag()
     
     private lazy var customService = UIBarButtonItem.kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
-    private lazy var serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+    private lazy var serviceStatusViewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
+    private lazy var getSystemStatusUseCase = Injectable.resolveWrapper(GetSystemStatusUseCase.self)
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +35,9 @@ class NewLoginViewController: LandingViewController {
         self.bind(position: .right, barButtonItems: barButtoms)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        observeSystemStatus()
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      observeSystemStatus()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -45,22 +46,26 @@ class NewLoginViewController: LandingViewController {
     }
     
     private func observeSystemStatus() {
-        serviceStatusViewModel.output.portalMaintenanceStatus
-            .subscribe(
-                onNext: { status in
-                    switch status {
-                    case is MaintenanceStatus.AllPortal:
-                        NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-                    default:
-                        break
-                    }
-                },
-                onError: { [weak self] error in
-                    self?.handleErrors(error)
-                }
-            )
-            .disposed(by: disposeBag)
-    }
+      getSystemStatusUseCase
+      .fetchMaintenanceStatus()
+      .subscribe(
+        onSuccess: { status in
+          switch status {
+          case is MaintenanceStatus.AllPortal:
+            NavigationManagement.sharedInstance.goTo(
+              storyboard: "Maintenance",
+              viewControllerId: "PortalMaintenanceViewController")
+          default:
+            break
+          }
+        },
+        onFailure: { [weak self] error in
+          guard let self else { return }
+
+          self.handleErrors(error)
+        })
+      .disposed(by: disposeBag)
+  }
     
     private func localize() {
         register.title = Localize.string("common_register")
