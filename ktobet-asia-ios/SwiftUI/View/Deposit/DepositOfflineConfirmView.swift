@@ -52,7 +52,7 @@ struct DepositOfflineConfirmView<ViewModel>: View
                                 color: .gray9B9B9B
                             )
                     }
-                    .visableLocale([.China()])
+                    .visibleLocale([.China()])
                     
                     LimitSpacer(40)
                     
@@ -307,6 +307,7 @@ extension DepositOfflineConfirmView {
                     $0.attributedText = viewModel.remitTip.amountAttributedString
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .onInspected(inspection, self)
         }
     }

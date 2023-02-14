@@ -1,76 +1,87 @@
 import Foundation
-import RxSwift
 import RxCocoa
+import RxSwift
 import SharedBu
 
-class CryptoDepositViewModel: CollectErrorViewModel, ViewModelType {
-    private(set) var input: Input!
-    private(set) var output: Output!
+protocol CryptoDepositViewModelProtocol {
+  var options: [CryptoDepositItemViewModel] { get }
+  var selected: CryptoDepositItemViewModel? { get }
+  func fetchOptions()
+  func setSelected(item: CryptoDepositItemViewModel?)
+  func confirm() -> Single<CommonDTO.WebUrl>
+}
 
-    private var depositService: IDepositAppService!
-    private var navigator: DepositNavigator!
+class CryptoDepositViewModel:
+  CollectErrorViewModel,
+  CryptoDepositViewModelProtocol,
+  ObservableObject
+{
+  private let depositService: IDepositAppService
+  private let navigator: DepositNavigator
+  private let disposeBag = DisposeBag()
 
-    private let selectPaymentGateway = ReplaySubject<PaymentsDTO.TypeOptions>.create(bufferSize: 1)
-    private let confirmTrigger = PublishSubject<Void>()
+  @Published private(set) var options: [CryptoDepositItemViewModel] = []
+  @Published private(set) var selected: CryptoDepositItemViewModel?
 
-    init(depositService: IDepositAppService, navigator: DepositNavigator) {
-        super.init()
-        self.depositService = depositService
-        self.navigator = navigator
-
-        let payments = RxSwift.Observable.from(depositService.getPayments())
-        let cryptoPayment = payments.compactMap { $0.crypto }
-        let options = getCryptoOptions(cryptoPayment)
-        let webUrl = request()
-
-        self.input = Input(selectPaymentGateway: selectPaymentGateway.asObserver(),
-                           confirmTrigger: confirmTrigger.asObserver())
-        self.output = Output(options: options,
-                             webUrl: webUrl)
-    }
-
-    private func getCryptoOptions(_ cryptoPayment: Observable<PaymentsDTO.Crypto>) -> Driver<[CryptoDepositItemViewModel]> {
-        let options = cryptoPayment.flatMap { RxSwift.Single.from($0.options) }
-            .map { $0 as! [PaymentsDTO.TypeOptions] }
-            .compose(self.applyObservableErrorHandle())
-            .asDriverLogError()
-            .do(onNext: { [weak self] gateway in self?.selectPaymentGateway.onNext(gateway.first!) })
-
-        return Driver.combineLatest(options, selectPaymentGateway.asDriverLogError()).map { (options, selectPaymentGateway) in
-            options.map { CryptoDepositItemViewModel(with: $0, icon: self.getIconNamed($0.cryptoType), isSelected: $0 == selectPaymentGateway) }
-        }
-    }
-
-    private func request() -> Driver<CommonDTO.WebUrl> {
-        confirmTrigger.withLatestFrom(selectPaymentGateway.asDriverLogError()).flatMapLatest { [unowned self] selectedOption in
-            Single.from(self.depositService.requestCryptoDeposit(request: CryptoDepositDTO.Request(typeOptionsId: selectedOption.optionsId))) }
-            .do(onNext: { [weak self] webPath in self?.navigator.toCryptoWebPage(url: webPath.url) })
-            .compose(self.applyObservableErrorHandle())
-            .asDriver(onErrorJustReturn: CommonDTO.WebUrl(url: ""))
-    }
-
-    private func getIconNamed(_ type: PaymentsDTO.TypeOptionsType) -> String {
-        switch type {
-        case .eth:
-            return "Main_ETH"
-        case .usdt:
-            return "Main_USDT"
-        case .usdc:
-            return "Main_USDC"
-        default:
-            return ""
-        }
-    }
+  init(depositService: IDepositAppService, navigator: DepositNavigator) {
+    self.depositService = depositService
+    self.navigator = navigator
+  }
 }
 
 extension CryptoDepositViewModel {
-    struct Input {
-        let selectPaymentGateway: AnyObserver<PaymentsDTO.TypeOptions>
-        let confirmTrigger: AnyObserver<Void>
-    }
+  func fetchOptions() {
+    getPayments()
+      .compactMap { $0.crypto }
+      .flatMap { RxSwift.Single.from($0.options) }
+      .map { $0 as! [PaymentsDTO.TypeOptions] }
+      .map {
+        $0.map {
+          CryptoDepositItemViewModel(with: $0, icon: self.getIconNamed($0.cryptoType), isSelected: false)
+        }
+      }
+      .subscribe(onNext: { [weak self] in
+        self?.options = $0
+        self?.setSelected(item: $0.first)
+      })
+      .disposed(by: disposeBag)
+  }
 
-    struct Output {
-        let options: Driver<[CryptoDepositItemViewModel]>
-        let webUrl: Driver<CommonDTO.WebUrl>
+  func setSelected(item: CryptoDepositItemViewModel?) {
+    options.forEach {
+      $0.isSelected = $0.option == item?.option ? true : false
     }
+    selected = item
+  }
+
+  func confirm() -> Single<CommonDTO.WebUrl> {
+    guard let option = selected?.option else {
+      return .error(KTOError.EmptyData)
+    }
+    return Single
+      .from(
+        self.depositService
+          .requestCryptoDeposit(
+            request: CryptoDepositDTO.Request(typeOptionsId: option.optionsId)))
+      .compose(applySingleErrorHandler())
+  }
+
+  private func getPayments() -> Observable<PaymentsDTO> {
+    Observable
+      .from(depositService.getPayments())
+      .compose(applyObservableErrorHandle())
+  }
+
+  private func getIconNamed(_ type: PaymentsDTO.TypeOptionsType) -> String {
+    switch type {
+    case .eth:
+      return "Main_ETH"
+    case .usdt:
+      return "Main_USDT"
+    case .usdc:
+      return "Main_USDC"
+    default:
+      return ""
+    }
+  }
 }
