@@ -4,7 +4,7 @@ import SharedBu
 final class CryptoDepositItemViewModel {
     let option: PaymentsDTO.TypeOptions
     let icon: String
-    let isSelected: Bool
+    var isSelected: Bool
     
     init (with option: PaymentsDTO.TypeOptions, icon: String, isSelected: Bool) {
         self.option = option

@@ -3618,6 +3618,7 @@
 		6D48BA5827633DDB00C8DC2D /* AppUpdateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D48BA5727633DDB00C8DC2D /* AppUpdateRepository.swift */; };
 		6D48BA5927633DDB00C8DC2D /* AppUpdateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D48BA5727633DDB00C8DC2D /* AppUpdateRepository.swift */; };
 		6D48BA5A27633DDB00C8DC2D /* AppUpdateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D48BA5727633DDB00C8DC2D /* AppUpdateRepository.swift */; };
+		6D4ACC9A299B3CE000C9848B /* CryptoSelectViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4ACC99299B3CE000C9848B /* CryptoSelectViewTests.swift */; };
 		6D4E8F7D28FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
 		6D4E8F7E28FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
 		6D4E8F7F28FE770C00D5AD03 /* PasteableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */; };
@@ -4413,6 +4414,15 @@
 		6D738AB8279551E70018CE1D /* BankCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D738AB5279551E70018CE1D /* BankCard.swift */; };
 		6D75934929235E54007D2BF3 /* AIO_unitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D75934829235E54007D2BF3 /* AIO_unitTests.swift */; };
 		6D75934F29237F35007D2BF3 /* XCTestCase+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C31F0CD291BA057002962E9 /* XCTestCase+Extension.swift */; };
+		6D7AC7B42994EB540014C0A1 /* CryptoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */; };
+		6D7AC7B52994EB540014C0A1 /* CryptoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */; };
+		6D7AC7B62994EB540014C0A1 /* CryptoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */; };
+		6D7AC7B72994EB540014C0A1 /* CryptoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */; };
+		6D7AC7B82994EB540014C0A1 /* CryptoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */; };
+		6D7AC7B92994EB540014C0A1 /* CryptoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */; };
+		6D7AC7BA2994EB540014C0A1 /* CryptoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */; };
+		6D7AC7BB2994EB540014C0A1 /* CryptoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */; };
+		6D7AC7BC2994EB540014C0A1 /* CryptoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */; };
 		6D7C1D802779C38800D45654 /* MaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7C1D7F2779C38800D45654 /* MaintenanceViewController.swift */; };
 		6D7C1D812779C38800D45654 /* MaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7C1D7F2779C38800D45654 /* MaintenanceViewController.swift */; };
 		6D7C1D822779C38800D45654 /* MaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7C1D7F2779C38800D45654 /* MaintenanceViewController.swift */; };
@@ -6996,6 +7006,7 @@
 		6D48BA492761D09300C8DC2D /* MarketHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MarketHeaderView.xib; sourceTree = "<group>"; };
 		6D48BA532763252B00C8DC2D /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		6D48BA5727633DDB00C8DC2D /* AppUpdateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateRepository.swift; sourceTree = "<group>"; };
+		6D4ACC99299B3CE000C9848B /* CryptoSelectViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoSelectViewTests.swift; sourceTree = "<group>"; };
 		6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteableTextField.swift; sourceTree = "<group>"; };
 		6D4E99482636907A00860FF7 /* ProductProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductProtocol.swift; sourceTree = "<group>"; };
 		6D4E994E2636943100860FF7 /* SlotGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotGame.swift; sourceTree = "<group>"; };
@@ -7042,6 +7053,7 @@
 		6D738AB5279551E70018CE1D /* BankCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankCard.swift; sourceTree = "<group>"; };
 		6D75934629235E54007D2BF3 /* AIO-unitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AIO-unitTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D75934829235E54007D2BF3 /* AIO_unitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIO_unitTests.swift; sourceTree = "<group>"; };
+		6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoSelectView.swift; sourceTree = "<group>"; };
 		6D7C1D7F2779C38800D45654 /* MaintenanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceViewController.swift; sourceTree = "<group>"; };
 		6D87629A26F1E4CA00EFD6CE /* TransactionLogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionLogDetailViewController.swift; sourceTree = "<group>"; };
 		6D8762EB26F4299700EFD6CE /* TranscationFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscationFlowViewController.swift; sourceTree = "<group>"; };
@@ -7364,6 +7376,7 @@
 		3C17058A29505CA900531357 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				6D4ACC98299B3C8300C9848B /* DepositCryptoSelector */,
 				3CF9BB42295C37AB00EC91DC /* DepositLogSummaryViewTests.swift */,
 				3CF9BB41295C37AB00EC91DC /* DepositOfflineConfirmViewTests.swift */,
 				3CF9BB40295C37AB00EC91DC /* ItemSelectorTests.swift */,
@@ -7516,6 +7529,7 @@
 				3CA9E3C728D962DB00FFB33E /* JinYiDigitalGuideView.swift */,
 				3CA9E3DB28DC3AAF00FFB33E /* OnlinePaymentView.swift */,
 				FF282E452927767B005CD7A7 /* DepositView.swift */,
+				6D7AC7B32994EB540014C0A1 /* CryptoSelectView.swift */,
 				FF270F4F29385815008345EF /* TransationLogView.swift */,
 				FFB20FFF29597A0A00ED3C3A /* DepositOfflineConfirmView.swift */,
 			);
@@ -8700,6 +8714,15 @@
 			path = DepositLogSummaryView;
 			sourceTree = "<group>";
 		};
+		6D4ACC98299B3C8300C9848B /* DepositCryptoSelector */ = {
+			isa = PBXGroup;
+			children = (
+				FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */,
+				6D4ACC99299B3CE000C9848B /* CryptoSelectViewTests.swift */,
+			);
+			path = DepositCryptoSelector;
+			sourceTree = "<group>";
+		};
 		6D71185E27BF328A000C3025 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -9042,7 +9065,6 @@
 				3CB830192914FB4D001246BB /* PromotionDetailViewControllerTests.swift */,
 				FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */,
 				FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */,
-				FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */,
 				FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */,
 				FFB016C32965841F007E0236 /* CasinoViewControllerTests.swift */,
 				6D885391296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift */,
@@ -11292,6 +11314,7 @@
 				3C2F125028C0C58D0044CBA7 /* LoggerDelegate.swift in Sources */,
 				6D14DA7326FC18B80001ACFA /* TransactionHtmlViewController.swift in Sources */,
 				6D6E2EC4298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
+				6D7AC7B52994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				41077D9F25BA63330057B340 /* LocalStorageRepository.swift in Sources */,
 				3C8FF8EE2990D51A009BD583 /* SideMenuViewModel.swift in Sources */,
 				6DE2B99F283CDE0A00A54E55 /* VersionUpdateProtocol.swift in Sources */,
@@ -11458,6 +11481,7 @@
 				3C17059D29505CCA00531357 /* OnlinePaymentViewTest.swift in Sources */,
 				FFBD376D294ACAE3009E9A97 /* LaunchAppTest.swift in Sources */,
 				3C17059929505CCA00531357 /* ExpandableBlockTest.swift in Sources */,
+				6D4ACC9A299B3CE000C9848B /* CryptoSelectViewTests.swift in Sources */,
 				FFBD376E294ACAE3009E9A97 /* CommonVerifyOtpViewControllerTest.swift in Sources */,
 				3CDF723D295D6BE900E0CF73 /* OfflinePaymentViewTests.swift in Sources */,
 				FFBD3771294ACAE3009E9A97 /* PromotionFilterViewControllerTest.swift in Sources */,
@@ -11979,6 +12003,7 @@
 				60F894A927E2C9C400FC92D9 /* NotificationSearchViewController.swift in Sources */,
 				3C2F124F28C0C58D0044CBA7 /* LoggerDelegate.swift in Sources */,
 				6D6E2EC3298DEEF200A60339 /* SlotFilterItemCell.swift in Sources */,
+				6D7AC7B42994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				6D14DA7226FC18B80001ACFA /* TransactionHtmlViewController.swift in Sources */,
 				3C8FF8ED2990D51A009BD583 /* SideMenuViewModel.swift in Sources */,
 				48AAA14F256E458800E075CA /* SignupLanguageViewController.swift in Sources */,
@@ -12263,6 +12288,7 @@
 				6D5A035128AA39B9005D0960 /* GameTagStackView.swift in Sources */,
 				600E249926CCF50A00D8B073 /* PromotionFilterViewController.swift in Sources */,
 				605559BF267C988800FC1749 /* ManageCryptoBankCardViewModel.swift in Sources */,
+				6D7AC7B62994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				609012972640EE7000419F8E /* CasinoSummaryTableViewCell.swift in Sources */,
 				6D94091226D4BF6700C70FDA /* DashedLineView.swift in Sources */,
 				600E50F227267C110043E302 /* EnumMapper.swift in Sources */,
@@ -12894,6 +12920,7 @@
 				6D5A035228AA39B9005D0960 /* GameTagStackView.swift in Sources */,
 				60E5801927F190E4008CE5A9 /* PromotionFilterViewController.swift in Sources */,
 				60E5801A27F190E4008CE5A9 /* ManageCryptoBankCardViewModel.swift in Sources */,
+				6D7AC7B92994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				60E5801B27F190E4008CE5A9 /* CasinoSummaryTableViewCell.swift in Sources */,
 				60E5801C27F190E4008CE5A9 /* DashedLineView.swift in Sources */,
 				60E5801D27F190E4008CE5A9 /* EnumMapper.swift in Sources */,
@@ -13439,6 +13466,7 @@
 				6D0EDB0A28743FAC004A9E3C /* WithdrawalRequestViewModel.swift in Sources */,
 				6D0EDB0B28743FAC004A9E3C /* KTOError.swift in Sources */,
 				6D0EDB0D28743FAC004A9E3C /* SearchViewController.swift in Sources */,
+				6D7AC7B72994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				6D0EDB0E28743FAC004A9E3C /* TermsPresenter.swift in Sources */,
 				6D0EDB0F28743FAC004A9E3C /* NotificationDetailViewController.swift in Sources */,
 				6D0EDB1028743FAC004A9E3C /* AccountCurrency.swift in Sources */,
@@ -14071,6 +14099,7 @@
 				6D0EDD6528744704004A9E3C /* WithdrawalRequestViewModel.swift in Sources */,
 				6D0EDD6628744704004A9E3C /* KTOError.swift in Sources */,
 				6D0EDD6828744704004A9E3C /* SearchViewController.swift in Sources */,
+				6D7AC7BA2994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				6D0EDD6928744704004A9E3C /* TermsPresenter.swift in Sources */,
 				6D0EDD6A28744704004A9E3C /* NotificationDetailViewController.swift in Sources */,
 				6D0EDD6B28744704004A9E3C /* AccountCurrency.swift in Sources */,
@@ -14805,6 +14834,7 @@
 				6D5A035328AA39B9005D0960 /* GameTagStackView.swift in Sources */,
 				6D966BA727FEE3FA006086B7 /* PromotionFilterViewController.swift in Sources */,
 				6D966BA827FEE3FA006086B7 /* ManageCryptoBankCardViewModel.swift in Sources */,
+				6D7AC7BB2994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				6D966BA927FEE3FA006086B7 /* CasinoSummaryTableViewCell.swift in Sources */,
 				6D966BAA27FEE3FA006086B7 /* DashedLineView.swift in Sources */,
 				6D966BAB27FEE3FA006086B7 /* EnumMapper.swift in Sources */,
@@ -15436,6 +15466,7 @@
 				6D5A035428AA39B9005D0960 /* GameTagStackView.swift in Sources */,
 				6D966DF427FEE416006086B7 /* PromotionFilterViewController.swift in Sources */,
 				6D966DF527FEE416006086B7 /* ManageCryptoBankCardViewModel.swift in Sources */,
+				6D7AC7BC2994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				6D966DF627FEE416006086B7 /* CasinoSummaryTableViewCell.swift in Sources */,
 				6D966DF727FEE416006086B7 /* DashedLineView.swift in Sources */,
 				6D966DF827FEE416006086B7 /* EnumMapper.swift in Sources */,
@@ -16181,6 +16212,7 @@
 				6D55C952296662720038E8FB /* SignupLanguageViewController.swift in Sources */,
 				6D55C9622966627E0038E8FB /* SportBookViewController.swift in Sources */,
 				6D55C9B3296662CD0038E8FB /* DepositTypeTableViewCell.swift in Sources */,
+				6D7AC7B82994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				6D55C68629657DA90038E8FB /* Units.swift in Sources */,
 				6D55C66E29657D960038E8FB /* MonthCollectionViewCell.swift in Sources */,
 				6D55C93F2966625E0038E8FB /* ChatLinkTableViewCell.swift in Sources */,

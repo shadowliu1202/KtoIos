@@ -1,7 +1,7 @@
 import SwiftUI
 import SharedBu
 
-struct VisableLocaleModifier: ViewModifier {
+struct VisibleLocaleModifier: ViewModifier {
     @Environment(\.playerLocale) var currentLocale: SupportLocale
     
     let locales: [SupportLocale]
@@ -18,7 +18,7 @@ struct VisableLocaleModifier: ViewModifier {
 
 extension View {
     
-    func visableLocale(_ locales: [SupportLocale]) -> some View {
-        self.modifier(VisableLocaleModifier(locales: locales))
+    func visibleLocale(_ locales: [SupportLocale]) -> some View {
+        self.modifier(VisibleLocaleModifier(locales: locales))
     }
 }

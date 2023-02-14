@@ -747,10 +747,8 @@ final class Injection {
     func registViewModel(){
         container
             .register(CryptoDepositViewModel.self) { resolver in
-                let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
-                let deposit = applicationFactory.deposit()
-                let navigator = resolver.resolveWrapper(DepositNavigator.self)
-                return CryptoDepositViewModel(depositService: deposit, navigator: navigator)
+              return CryptoDepositViewModel(depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+                                             navigator: resolver.resolveWrapper(DepositNavigator.self))
             }
         
         container
