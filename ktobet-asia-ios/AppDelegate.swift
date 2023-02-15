@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
     @Injected private var keychain: KeychainStorable
     
     private (set) var reachabilityObserver: NetworkStateMonitor?
-    private (set) var viewModel = Injectable.resolveWrapper(NavigationViewModel.self)
 
     private weak var timer: Timer?
     
@@ -194,6 +193,8 @@ private extension AppDelegate {
 private extension AppDelegate {
     
     func checkLoginStatus() {
+        let viewModel = Injectable.resolveWrapper(NavigationViewModel.self)
+      
         viewModel.checkIsLogged()
             .subscribe(onSuccess: { [weak self] isLogged in
                 if isLogged {

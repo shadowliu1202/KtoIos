@@ -520,10 +520,10 @@ final class Injection {
                 let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
                 let settingStore = resolver.resolveWrapper(SettingStore.self)
                 return AuthenticationUseCaseImpl(
-                    repoAuth,
-                    repoPlayer,
-                    repoLocalStorage,
-                    settingStore
+                    authRepository: repoAuth,
+                    playerRepository: repoPlayer,
+                    localStorageRepo: repoLocalStorage,
+                    settingStore: settingStore
                 )
             }
         
@@ -1153,6 +1153,12 @@ final class Injection {
         container
             .register(Loading.self) { _ in
                 return LoadingImpl.shared
+            }
+            .inObjectScope(.application)
+      
+        container
+            .register(ActivityIndicator.self, name: "CheckingIsLogged") { _ in
+                .init()
             }
             .inObjectScope(.application)
     }

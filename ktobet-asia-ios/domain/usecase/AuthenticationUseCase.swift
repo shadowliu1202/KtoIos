@@ -25,11 +25,15 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
     private let repoPlayer : PlayerRepository
     private let repoLocalStorage : LocalStorageRepository
     private let settingStore: SettingStore
-
-    init(_ authRepository : IAuthRepository,
-         _ playerRepository : PlayerRepository,
-         _ localStorageRepo : LocalStorageRepository,
-         _ settingStore: SettingStore) {
+  
+    @Injected(name: "CheckingIsLogged") private var checkIsLoggedTracker: ActivityIndicator
+  
+    init(
+      authRepository : IAuthRepository,
+      playerRepository : PlayerRepository,
+      localStorageRepo : LocalStorageRepository,
+      settingStore: SettingStore
+    ) {
         self.repoAuth = authRepository
         self.repoPlayer = playerRepository
         self.repoLocalStorage = localStorageRepo
@@ -80,8 +84,10 @@ class AuthenticationUseCaseImpl : AuthenticationUseCase {
         return lastAPISuccessDate.addingTimeInterval(1800) < Date()
     }
     
-    func isLogged() -> Single<Bool>{
-        return repoAuth.checkAuthorization()
+    func isLogged() -> Single<Bool> {
+      repoAuth
+        .checkAuthorization()
+        .trackActivity(checkIsLoggedTracker)
     }
     
     func getCaptchaImage() -> Single<UIImage>{
