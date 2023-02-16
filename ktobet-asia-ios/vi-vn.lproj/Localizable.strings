@@ -922,6 +922,8 @@ Quý Khách sẽ không thể
 "update_error_auto_submitted" = "Hệ thống đã tự động gửi đi vấn đề của Quý Khách, và Chúng Tôi sẽ cải thiện vấn đề sớm nhất có thể.";
 "update_feedback_success" = "Chúng Tôi đã nhận được Phản Hồi của Quý Khách, và sẽ thông báo về tiến trình của vấn đề trong vòng một tuần.";
 "update_open_web_page" = "Chuyển đến Phiên Bản WEB";
+"update_already_install" = "Đã cài đặt \"%@\"";
+"update_remove_app_and_reinstall" = "Để cài đặt lại APP, vui lòng xóa \"%@\" trong mục \"Quản lý VPN & Thiết Bị\" và thử lại.";
 
 //MARK: - CustomerService
 "customerservice_online" = "Chăm Sóc Khách Hàng";

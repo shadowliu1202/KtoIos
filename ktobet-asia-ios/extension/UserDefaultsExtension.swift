@@ -19,7 +19,8 @@ extension UserDefaults {
         case balanceHiddenState(gameId: String)
         case isFirstLaunch
         case cookies
-        
+        case isPoppedAutoUpdate
+      
         var rawValue: String {
             switch self {
             case .rememberAccount:
@@ -54,6 +55,8 @@ extension UserDefaults {
                 return "isFirstLaunch"
             case .cookies:
                 return "TmpCookies"
+            case .isPoppedAutoUpdate:
+                return "isPoppedAutoUpdate"
             }
         }
         

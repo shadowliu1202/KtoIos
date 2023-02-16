@@ -913,6 +913,8 @@
 "update_error_auto_submitted" = "系统已经自动提交您的问题，我们会尽快改善。";
 "update_feedback_success" = "我们已经收到您的反馈，会在一周内通知您问题的进展。";
 "update_open_web_page" = "前往网页版";
+"update_already_install" = "已安裝「%@」";
+"update_remove_app_and_reinstall" = "若要安裝此APP，請從裝置中刪除「%@」然後再試一次。";
 
 //MARK: - CustomerService
 "customerservice_online" = "在线客服";

@@ -58,13 +58,10 @@ class LobbyViewController: APPViewController, VersionUpdateProtocol {
             })
             .disposed(by: self.disposeBag)
     }
-    
-    // MARK: VersionUpdateProtocol
-    func updateStrategy(_ incoming: Version, _ superSignStatus: SuperSignStatus) {
-        let action = Bundle.main.currentVersion.getUpdateAction(latestVersion: incoming)
-        if action == .compulsoryupdate {
-            self.executeLogout()
-        }
+  
+    func updateStrategy(from info: VersionUpdateInfo) {
+      guard info.shouldPerformUpdateAction else { return }
+      executeLogout()
     }
     
     private func executeLogout() {

@@ -1066,8 +1066,10 @@ final class Injection {
         
         container
             .register(AppSynchronizeViewModel.self) { resolver in
-                let appUpdateUseCase = resolver.resolveWrapper(AppVersionUpdateUseCase.self)
-                return AppSynchronizeViewModel(appUpdateUseCase: appUpdateUseCase)
+                return AppSynchronizeViewModel(
+                  appUpdateUseCase: resolver.resolveWrapper(AppVersionUpdateUseCase.self),
+                  appStorage: resolver.resolveWrapper(ApplicationStorable.self)
+                )
             }
             .inObjectScope(.application)
         

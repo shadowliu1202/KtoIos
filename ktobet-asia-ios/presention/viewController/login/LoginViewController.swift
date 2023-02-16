@@ -356,18 +356,8 @@ class LoginViewController: LandingViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    override func updateStrategy(_ incoming: Version, _ superSignStatus: SuperSignStatus) {
-        super.updateStrategy(incoming, superSignStatus)
-        let action = Bundle.main.currentVersion.getUpdateAction(latestVersion: incoming)
-        if action == .optionalupdate {
-            doOptionalUpdateConfirm(incoming, superSignStatus)
-        }
-    }
-    
-    private func doOptionalUpdateConfirm(_ incoming: Version,_ superSignStatus: SuperSignStatus?) {
-        if superSignStatus?.isMaintenance == false {
-            confirmUpdate(incoming.apkLink)
-        }
+    override func updateStrategy(from info: VersionUpdateInfo) {
+        popAlert(from: info, force: true)
     }
 }
 
