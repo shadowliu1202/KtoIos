@@ -104,4 +104,11 @@ class StringExtensionTest: XCTestCase {
         XCTAssertFalse("".isValidRegex(format: .branchName), "空白不行")
         XCTAssertFalse("qwertyuiopasdfghjklzxcvbnmqwertyuiop".isValidRegex(format: .branchName), "長度不超過31")
     }
+  
+    func testFullWidthToHalfWidth() {
+        let text = "１１１１"
+        let actual = text.halfWidth
+        
+        XCTAssertEqual("1111", actual)
+    }
 }
