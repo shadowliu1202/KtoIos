@@ -184,7 +184,7 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
             self.affiliateView.isHidden = !$0
             self.affiliateViewHeight.constant = $0 ? 48 : 0
             self.affiliateView.setOnClick {
-                if let url = self.httpClient.getAffiliateUrl(), UIApplication.shared.canOpenURL(url) {
+                if let url = self.httpClient.affiliateUrl, UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url)
                 }
             }

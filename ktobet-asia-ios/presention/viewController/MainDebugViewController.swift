@@ -2,15 +2,69 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Moya
 
 struct DebugData {
-    var callbackTime: String? = nil
-    var url: String? = nil
-    var headers: String? = nil
-    var body: String? = nil
-    var error: String? = nil
-    var response: String? = nil
-    var hideHeader: Bool = true
+  let debugCharCount = 500
+
+  var callbackTime: String?
+  var url: String?
+  var headers: String?
+  var body: String?
+  var error: String?
+  var response: String?
+  var hideHeader = true
+
+  private let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.calendar = Calendar(identifier: .iso8601)
+    dateFormatter.locale = Locale(identifier: "zh_Hant_TW")
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    return dateFormatter
+  }()
+  
+  init(
+    callbackTime: String? = nil,
+    url: String? = nil,
+    headers: String? = nil,
+    body: String? = nil,
+    error: String? = nil,
+    response: String? = nil
+  ) {
+    self.callbackTime = callbackTime
+    self.url = url
+    self.headers = headers
+    self.body = body
+    self.error = error
+    self.response = response
+  }
+
+  init(moyaResponse: Response) {
+    self.callbackTime = dateFormatter.string(from: Date())
+
+    if let url = moyaResponse.request?.url {
+      self.url = url.absoluteString
+    }
+
+    if let headers = moyaResponse.request?.allHTTPHeaderFields {
+      self.headers = "\(headers)"
+    }
+
+    if
+      let body = moyaResponse.request?.httpBody,
+      let bodyString = String(data: body, encoding: .utf8)
+    {
+      let replaced = bodyString.replacingOccurrences(of: "\\", with: "")
+      self.body = replaced.count < debugCharCount ? replaced : replaced.prefix(debugCharCount) + "...more"
+    }
+
+    if let dataString = String(data: moyaResponse.data, encoding: .utf8) {
+      self.response = dataString.count < debugCharCount ? dataString : dataString.prefix(debugCharCount) + "...more"
+    }
+    else {
+      self.response = "response is empty"
+    }
+  }
 }
 
 class MainDebugViewController: UIViewController {

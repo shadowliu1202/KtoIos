@@ -1,265 +1,246 @@
-//
-//  API.swift
-//  ktobet-asia-ios
-//
-//  Created by Partick Chen on 2020/11/19.
-//
-
+import Alamofire
+import Connectivity
 import Foundation
 import Moya
+import RxBlocking
 import RxSwift
-import Alamofire
+import SharedBu
 import SwiftyJSON
 import UIKit
-import Connectivity
-import SharedBu
-import RxBlocking
-
-let debugCharCount = 500
 
 class HttpClient: CookieUtil {
-    
+  private let localStorageRepo: LocalStorageRepository
+  private let ktoUrl: KtoURL
+
+  private let provider: MoyaProvider<MultiTarget>
+  private let retryProvider: MoyaProvider<MultiTarget>
+
+  private(set) var debugDatas: [DebugData] = []
+
   var cookiesHeader: String {
     syncCookies()
-    
+
     return cookies(for: host)
       .map {
         $0.name + "=" + $0.value
       }
       .joined(separator: ";")
   }
-  
-    var headers : [String : String] {
-        var header : [String : String] = [:]
-        header["Accept"] = "application/json"
-        header["User-Agent"] = "AppleWebKit/" + Configuration.getKtoAgent()
-        header["Cookie"] = cookiesHeader
 
-        return header
-    }
-    var host: URL {
-        get {
-            if Configuration.manualControlNetwork && !NetworkStateMonitor.shared.isNetworkConnected {
-                return URL(string: "\(Configuration.internetProtocol)")!
-            }
-          return URL(string: ktoUrl.baseURL)!
-        }
-    }
-    var domain: String {
-        get {
-            host.absoluteString.replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "").replacingOccurrences(of: "/", with: "")
-        }
-    }
-    
-    private var provider: MoyaProvider<MultiTarget>!
-    private var retryProvider: MoyaProvider<MultiTarget>!
-    private var session: Session { return AF }
-    private var retrier = APIRequestRetrier()
-    private var dateFormatter: DateFormatter {
-        let dateFormatter = DateFormatter()
-        dateFormatter.calendar = Calendar(identifier: .iso8601)
-        dateFormatter.locale = Locale(identifier: "zh_Hant_TW")
-        return dateFormatter
-    }
-    
-    private(set) var debugDatas: [DebugData] = []
+  var headers: [String: String] {
+    [
+      "Accept": "application/json",
+      "User-Agent": "AppleWebKit/" + Configuration.getKtoAgent(),
+      "Cookie": cookiesHeader,
+    ]
+  }
 
-    private let localStorageRepo: LocalStorageRepository
-    private let ktoUrl: KtoURL
+  var host: URL {
+    if
+      Configuration.manualControlNetwork,
+      !NetworkStateMonitor.shared.isNetworkConnected
+    {
+      return URL(string: "\(Configuration.internetProtocol)")!
+    }
+    return URL(string: ktoUrl.baseURL)!
+  }
 
-    init(_ localStorageRepo: LocalStorageRepository, _ ktoUrl: KtoURL) {
-        self.localStorageRepo = localStorageRepo
-        self.ktoUrl = ktoUrl
-        generateSession()
+  var domain: String {
+    host.absoluteString
+      .replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "")
+      .replacingOccurrences(of: "/", with: "")
+  }
+
+  var affiliateUrl: URL? {
+    URL(string: "\(ktoUrl.baseURL)affiliate")
+  }
+
+  init(_ localStorageRepo: LocalStorageRepository, _ ktoUrl: KtoURL) {
+    self.localStorageRepo = localStorageRepo
+    self.ktoUrl = ktoUrl
+
+    let configuration = URLSessionConfiguration.default
+    configuration.headers = .default
+    configuration.timeoutIntervalForRequest = 30
+
+    self.provider = .init(
+      session: .init(
+        configuration: configuration,
+        startRequestsImmediately: false),
+      plugins: [NetworkLoggerPlugin.debug()])
+
+    self.retryProvider = .init(
+      session: .init(
+        configuration: configuration,
+        startRequestsImmediately: false,
+        interceptor: APIRequestRetrier()),
+      plugins: [NetworkLoggerPlugin.debug()])
+  }
+
+  deinit {
+    print("\(type(of: self)) deinit")
+  }
+
+  func request(_ target: APITarget) -> Single<Response> {
+    getProvider(method: target.method)
+      .rx
+      .request(MultiTarget(target))
+      .filterSuccessfulStatusCodes()
+      .flatMap({ [weak self] response -> Single<Response> in
+        self?.printResponseData(target.iMethod.rawValue, response: response)
+
+        if
+          let json = try? JSON(data: response.data),
+          let statusCode = json["statusCode"].string,
+          let errorMsg = json["errorMsg"].string,
+          statusCode.count > 0, errorMsg.count > 0
+        {
+          let domain = self?.host.path ?? ""
+          let code = Int(statusCode) ?? 0
+          let error = NSError(
+            domain: domain,
+            code: code,
+            userInfo: ["statusCode": statusCode, "errorMsg": errorMsg]) as Error
+          let err = ExceptionFactory.create(error)
+          return Single.error(err)
+        }
+
+        self?.refreshLastAPISuccessDate()
+
+        return Single.just(response)
+      })
+  }
+
+  func requestJsonString(_ target: APITarget) -> Single<String> {
+    getProvider(method: target.method)
+      .rx
+      .request(MultiTarget(target))
+      .filterSuccessfulStatusCodes()
+      .flatMap { [weak self] response in
+        self?.printResponseData(target.iMethod.rawValue, response: response)
+
+        if let str = String(data: response.data, encoding: .utf8) {
+          self?.refreshLastAPISuccessDate()
+          return Single.just(str)
+        }
+        else {
+          let domain = self?.host.path ?? ""
+          let error = NSError(
+            domain: domain,
+            code: response.statusCode,
+            userInfo: ["statusCode": response.statusCode, "errorMsg": ""]) as Error
+          return Single.error(error)
+        }
+      }
+  }
+
+  private func getProvider(method: Moya.Method) -> MoyaProvider<MultiTarget> {
+    method == .get ? retryProvider : provider
+  }
+
+  private func refreshLastAPISuccessDate() {
+    localStorageRepo.setLastAPISuccessDate(Date())
+    Logger.shared.debug("refresh API success date.")
+  }
+}
+
+// MARK: - Cookie
+
+extension HttpClient {
+  func getCookies() -> [HTTPCookie] {
+    cookies(for: host)
+  }
+
+  func syncCookies() {
+    NotificationCenter.default.post(name: .NSHTTPCookieManagerCookiesChanged, object: nil)
+  }
+
+  func clearCookie() -> Completable {
+    .create { [weak self] completable -> Disposable in
+      guard let self else { return Disposables.create { } }
+
+      self.removeAllCookies()
+
+      completable(.completed)
+
+      return Disposables.create { }
     }
-    
-    func generateSession() {
-        let uRLSessionConfiguration = URLSessionConfiguration.default
-        uRLSessionConfiguration.headers = .default
-        uRLSessionConfiguration.timeoutIntervalForRequest = 30
-        let session = AlamofireSessionWithRetrier(configuration: uRLSessionConfiguration, startRequestsImmediately: false)
-        let logConfiguration = logConfig()
-        self.provider = MoyaProvider<MultiTarget>(session: session, plugins: [NetworkLoggerPlugin(configuration: logConfiguration)])
-        let retrySession = AlamofireSessionWithRetrier(configuration: uRLSessionConfiguration, interceptor: retrier, startRequestsImmediately: false)
-        self.retryProvider = MoyaProvider<MultiTarget>(session: retrySession, plugins: [NetworkLoggerPlugin(configuration: logConfiguration)])
+  }
+}
+
+// MARK: - Debug Print
+
+extension HttpClient {
+  private func printResponseData(_: String, response: Response) {
+    if debugDatas.count > 20 {
+      debugDatas.remove(at: 0)
     }
 
-    func request(_ target: APITarget) -> Single<Response> {
-        var provider: MoyaProvider<MultiTarget>!
-        if target.method == .get {
-            provider = self.retryProvider
-        } else {
-            provider = self.provider
-        }
-        return provider
-            .rx
-            .request(MultiTarget(target))
-            .filterSuccessfulStatusCodes()
-            .flatMap({ [weak self] (response) -> Single<Response> in
-                self?.printResponseData(target.iMethod.rawValue, response: response)
-                if let json = try? JSON.init(data: response.data),
-                   let statusCode = json["statusCode"].string,
-                   let errorMsg = json["errorMsg"].string,
-                   statusCode.count > 0 && errorMsg.count > 0 {
-                    let domain = self?.host.path ?? ""
-                    let code = Int(statusCode) ?? 0
-                    let error = NSError(domain: domain, code: code, userInfo: ["statusCode": statusCode , "errorMsg" : errorMsg]) as Error
-                    let err = ExceptionFactory.create(error)
-                    return Single.error(err)
-                }
-                return Single.just(response)
-                    .do(onSuccess: { [unowned self] _ in
-                        self?.refreshLastAPISuccessDate()
-                    })
-            })
-    }
-    
-    private func refreshLastAPISuccessDate() {
-        localStorageRepo.setLastAPISuccessDate(Date())
-        Logger.shared.debug("refresh API success date.")
-    }
+    debugDatas.append(.init(moyaResponse: response))
+  }
+}
 
-    func getCookies() -> [HTTPCookie] {
-        cookies(for: host)
-    }
-  
-    func syncCookies() {
-      NotificationCenter.default.post(name: .NSHTTPCookieManagerCookiesChanged, object: nil)
-    }
-    
-    func clearCookie() -> Completable {
-        .create { [weak self] (completable) -> Disposable in
-            guard let self else { return Disposables.create {} }
-          
-            self.removeAllCookies()
-    
-            completable(.completed)
-          
-            return Disposables.create {}
-        }
-    }
-    
-    func requestJsonString(_ target: APITarget) -> Single<String> {
-        var provider: MoyaProvider<MultiTarget>!
-        if target.method == .get {
-            provider = self.retryProvider
-        } else {
-            provider = self.provider
-        }
-        return provider
-            .rx
-            .request(MultiTarget(target))
-            .filterSuccessfulStatusCodes()
-            .flatMap { [weak self] response in
-                self?.printResponseData(target.iMethod.rawValue, response: response)
-                if let str = String(data: response.data, encoding: .utf8) {
-                   return Single.just(str)
-                } else {
-                    let domain = self?.host.path ?? ""
-                    let error = NSError(domain: domain, code: response.statusCode, userInfo: ["statusCode": response.statusCode , "errorMsg" : ""]) as Error
-                    return Single.error(error)
-                }
-            }
-    }
-    
-    func getAffiliateUrl() -> URL? {
-        URL(string: "\(ktoUrl.baseURL)affiliate")
-    }
-    
-    private func logConfig() -> NetworkLoggerPlugin.Configuration {
-        let entry = { [unowned self] (identifier: String, message: String, target: TargetType) -> String in
-            let formatter = self.dateFormatter
-            formatter.dateFormat = "yyyy/MM/dd HH:mm:ss.SSSXXXXX"
-            let date = formatter.string(from: Date())
-            return "Moya_Logger: [\(date)] \(identifier): \(message)"
-        }
-        let formatter : NetworkLoggerPlugin.Configuration.Formatter = .init(entry: entry, responseData: JSONResponseDataFormatter)
-        let logOptions : NetworkLoggerPlugin.Configuration.LogOptions = .verbose
-        let configuration : NetworkLoggerPlugin.Configuration = .init(formatter: formatter, logOptions: logOptions)
-        return configuration
-    }
-    
-    private func JSONResponseDataFormatter(_ data: Data) -> String {
-        do {
-            let dataAsJSON = try JSONSerialization.jsonObject(with: data)
-            let prettyData = try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
+extension NetworkLoggerPlugin {
+  fileprivate static func debug() -> NetworkLoggerPlugin {
+    .init(
+      configuration: .init(
+        formatter: .init(
+          entry: { identifier, message, _ in
+            let dateFormatter = DateFormatter()
+            dateFormatter.calendar = Calendar(identifier: .iso8601)
+            dateFormatter.locale = Locale(identifier: "zh_Hant_TW")
+            dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss.SSSXXXXX"
+            return "Moya_Logger: [\(dateFormatter.string(from: Date()))] \(identifier): \(message)"
+          }, responseData: { data in
+            guard
+              let dataAsJSON = try? JSONSerialization.jsonObject(with: data),
+              let prettyData = try? JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
+            else { return "" }
+
             return String(data: prettyData, encoding: .utf8) ?? String(data: data, encoding: .utf8) ?? ""
-        } catch {
-            return String(data: data, encoding: .utf8) ?? ""
-        }
-    }
-    
-    private func printResponseData(_ method: String, response: Response) {
-        let data = self.loadResponseData(method, response: response)
-        
-        if self.debugDatas.count > 20 {
-            self.debugDatas.remove(at: 0)
-        }
-        
-        self.debugDatas.append(data)
-    }
-    
-    private func loadResponseData(_ method: String, response: Response) -> DebugData {
-        var debugData = DebugData()
-        let formatter = self.dateFormatter
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        debugData.callbackTime = "\(formatter.string(from: Date()))"
-        debugData.url = "\(String(describing: (response.request?.url)!))"
-        if response.request?.allHTTPHeaderFields != nil {
-            debugData.headers = "\((response.request?.allHTTPHeaderFields)!)"
-        }
-        
-        if response.request?.httpBody != nil {
-            var b = String(describing: String(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8)!).replacingOccurrences(of: "\\", with: "")
-            b = b.count < debugCharCount ? b : b.prefix(debugCharCount) + "...more"
-            debugData.body = "\(b)"
-        }
-        
-        let data = response.data
-        if let dataStr = String(data: data, encoding: .utf8) {
-            let s = dataStr.count > debugCharCount ? "\(dataStr.prefix(debugCharCount))...more" : dataStr
-            debugData.response = "\(s)"
-        } else {
-            debugData.response = "response is empty"
-        }
-        
-        return debugData
-    }
-    
+          }),
+        logOptions: .verbose))
+  }
 }
 
-class APIRequestRetrier: Retrier {
-    private let disposeBag = DisposeBag()
-    private var status: NetworkStateMonitor.Status?
-    
-    init() {
-        super.init { _, _, _, _ in }
-        
-        NetworkStateMonitor.shared.listener
-            .subscribe(onNext: { [weak self] in
-                self?.status = $0
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    override func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        switch status {
-        case .connected:
-            completion(.doNotRetry)
-        case .disconnect:
-            guard !request.isCancelled else {
-                completion(.doNotRetry)
-                return
-            }
-            completion(.retry)
-        default:
-            break
-        }
-    }
-}
+// MARK: - Retrier
 
-func AlamofireSessionWithRetrier(configuration: URLSessionConfiguration,
-                                 interceptor: APIRequestRetrier? = nil,
-                                 startRequestsImmediately: Bool = true) -> Session {
-    return Session(configuration: configuration, startRequestsImmediately: startRequestsImmediately, interceptor: interceptor)
+private class APIRequestRetrier: Retrier {
+  private let disposeBag = DisposeBag()
+  private var status: NetworkStateMonitor.Status?
+
+  private var retryEvents: [(RetryResult) -> Void] = []
+
+  init() {
+    super.init { _, _, _, _ in }
+
+    NetworkStateMonitor.shared.listener
+      .subscribe(onNext: { [weak self] in
+        self?.status = $0
+
+        guard $0 == .connected else { return }
+
+        self?.retryEvents.forEach { $0(.retry) }
+        self?.retryEvents.removeAll()
+      })
+      .disposed(by: disposeBag)
+  }
+
+  deinit {
+    print("\(type(of: self)) deinit")
+  }
+
+  override func retry(
+    _ request: Request,
+    for _: Session,
+    dueTo _: Error,
+    completion: @escaping (RetryResult) -> Void)
+  {
+    guard
+      status == .disconnect,
+      !request.isCancelled
+    else { return }
+
+    retryEvents.append(completion)
+  }
 }
