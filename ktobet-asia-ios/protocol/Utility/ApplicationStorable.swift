@@ -1,19 +1,28 @@
 import Foundation
 
 protocol ApplicationStorable: LocalStorable {
-    func getAppIsFirstLaunch() -> Bool
-    func setAppWasLaunch()
+  func getAppIsFirstLaunch() -> Bool
+  func setAppWasLaunch()
+  
+  func getIsPoppedAutoUpdate() -> Bool
+  func setIsPoppedAutoUpdate(_ popped: Bool)
 }
 
 class ApplicationStorage: ApplicationStorable {
-    
-    func getAppIsFirstLaunch() -> Bool {
-        let isFirst: Bool? = get(key: .isFirstLaunch)
-        return isFirst ?? true
-    }
-    
-    func setAppWasLaunch() {
-        set(value: false, key: .isFirstLaunch)
-    }
-    
+  
+  func getAppIsFirstLaunch() -> Bool {
+    get(key: .isFirstLaunch) ?? true
+  }
+
+  func setAppWasLaunch() {
+    set(value: false, key: .isFirstLaunch)
+  }
+  
+  func getIsPoppedAutoUpdate() -> Bool {
+    get(key: .isPoppedAutoUpdate) ?? false
+  }
+  
+  func setIsPoppedAutoUpdate(_ popped: Bool) {
+    set(value: popped, key: .isPoppedAutoUpdate)
+  }
 }

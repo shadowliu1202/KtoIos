@@ -914,6 +914,8 @@ bet %@.";
 "update_error_auto_submitted" = "The System has automatically submitted your concern, and we will improve it as soon as possible.";
 "update_feedback_success" = "We have received your Feedback and will notify you of the progress of the issue within a week.";
 "update_open_web_page" = "Go to WEB Version";
+"update_already_install" = "Installed \"%@\"";
+"update_remove_app_and_reinstall" = "To re-install this APP, please delete \"%@\" under \"Manage VPN and Device\" and try again.";
 
 //MARK: - CustomerService
 "customerservice_online" = "Customer Service";

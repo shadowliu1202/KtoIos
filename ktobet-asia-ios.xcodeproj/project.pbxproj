@@ -6010,6 +6010,15 @@
 		FF34CD512995F09100495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
 		FF34CD522995F09200495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
 		FF4E0B492942D99900678D1F /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
+		FF63B35C2999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
+		FF63B35D2999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
+		FF63B35E2999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
+		FF63B35F2999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
+		FF63B3602999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
+		FF63B3612999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
+		FF63B3622999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
+		FF63B3632999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
+		FF63B3642999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
 		FF77F0F329261D3E001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0F429261F41001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
 		FF77F0F529261F41001BD5B5 /* PlayerConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */; };
@@ -7206,6 +7215,7 @@
 		FF34CD492995EDB300495818 /* CookieHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieHandler.swift; sourceTree = "<group>"; };
 		FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionFilterViewControllerTest.swift; sourceTree = "<group>"; };
 		FF4E0B482942D99900678D1F /* ItemSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelector.swift; sourceTree = "<group>"; };
+		FF63B35B2999E92F00E30EB6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FF694ACF2936F99200FF21EB /* Inspecting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inspecting.swift; sourceTree = "<group>"; };
 		FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InspectableView+Extension.swift"; sourceTree = "<group>"; };
 		FF77F0F229261D3E001BD5B5 /* PlayerConfigurationImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerConfigurationImpl.swift; sourceTree = "<group>"; };
@@ -7647,6 +7657,7 @@
 		485DF02F25415453001F9D4A = {
 			isa = PBXGroup;
 			children = (
+				FF63B35B2999E92F00E30EB6 /* Settings.bundle */,
 				485DF03A25415453001F9D4A /* ktobet-asia-ios */,
 				485DF05125415454001F9D4A /* KTO-UnitTests */,
 				485DF05C25415454001F9D4A /* ktobet-asia-iosUITests */,
@@ -9133,6 +9144,7 @@
 				32C269E63089BAFE3EDF165C /* [CP] Check Pods Manifest.lock */,
 				4199A02725AE9918002E2D7E /* Sources */,
 				4199A08625AE9918002E2D7E /* Frameworks */,
+				FF63B3652999E97600E30EB6 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				4199A08925AE9918002E2D7E /* Resources */,
 				60EEA9E527605C9200BCFF81 /* ShellScript */,
 				B47C3619979782117F75D630 /* [CP] Embed Pods Frameworks */,
@@ -9196,6 +9208,7 @@
 				49B5951FE50D907A443DF606 /* [CP] Check Pods Manifest.lock */,
 				48AAA110256E458800E075CA /* Sources */,
 				48AAA167256E458800E075CA /* Frameworks */,
+				FFDB8EB4299CC1B8000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				48AAA169256E458800E075CA /* Resources */,
 				48AAA175256E458800E075CA /* Copy Files */,
 				60EEA9E727605FA700BCFF81 /* ShellScript */,
@@ -9217,6 +9230,7 @@
 				E08E7068E6D78768525B0832 /* [CP] Check Pods Manifest.lock */,
 				609012682640EE7000419F8E /* Sources */,
 				6090134C2640EE7000419F8E /* Frameworks */,
+				FFDB8EB5299CC23B000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6090134E2640EE7000419F8E /* Resources */,
 				609013642640EE7000419F8E /* Copy Files */,
 				60EEA9E627605E4D00BCFF81 /* ShellScript */,
@@ -9239,6 +9253,7 @@
 				BD113D0FF2CBBF4F5E566358 /* [CP] Check Pods Manifest.lock */,
 				60E57FAF27F190E4008CE5A9 /* Sources */,
 				60E581B027F190E4008CE5A9 /* Frameworks */,
+				FFDB8EB8299CC2D3000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				60E581B327F190E4008CE5A9 /* Resources */,
 				60E581EF27F190E4008CE5A9 /* Copy Files */,
 				60E581F127F190E4008CE5A9 /* ShellScript */,
@@ -9261,6 +9276,7 @@
 				6D0EDAE228743FAC004A9E3C /* [CP] Check Pods Manifest.lock */,
 				6D0EDAE328743FAC004A9E3C /* Sources */,
 				6D0EDCEF28743FAC004A9E3C /* Frameworks */,
+				FFDB8EB6299CC294000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D0EDCF328743FAC004A9E3C /* Resources */,
 				6D0EDD3028743FAC004A9E3C /* Copy Files */,
 				6D0EDD3228743FAC004A9E3C /* ShellScript */,
@@ -9283,6 +9299,7 @@
 				6D0EDD3D28744704004A9E3C /* [CP] Check Pods Manifest.lock */,
 				6D0EDD3E28744704004A9E3C /* Sources */,
 				6D0EDF4A28744704004A9E3C /* Frameworks */,
+				FFDB8EB9299CC2F5000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D0EDF4E28744704004A9E3C /* Resources */,
 				6D0EDF8B28744704004A9E3C /* Copy Files */,
 				6D0EDF8D28744704004A9E3C /* ShellScript */,
@@ -9327,6 +9344,7 @@
 				6D966B3C27FEE3FA006086B7 /* [CP] Check Pods Manifest.lock */,
 				6D966B3D27FEE3FA006086B7 /* Sources */,
 				6D966D3E27FEE3FA006086B7 /* Frameworks */,
+				FFDB8EBA299CC318000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D966D4127FEE3FA006086B7 /* Resources */,
 				6D966D7E27FEE3FA006086B7 /* Copy Files */,
 				6D966D8027FEE3FA006086B7 /* ShellScript */,
@@ -9348,6 +9366,7 @@
 				6D966D8927FEE416006086B7 /* [CP] Check Pods Manifest.lock */,
 				6D966D8A27FEE416006086B7 /* Sources */,
 				6D966F8B27FEE416006086B7 /* Frameworks */,
+				FFDB8EBB299CC33B000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D966F8E27FEE416006086B7 /* Resources */,
 				6D966FCB27FEE416006086B7 /* Copy Files */,
 				6D966FCD27FEE416006086B7 /* ShellScript */,
@@ -9369,6 +9388,7 @@
 				6F4931E6503709ADC65B7738 /* [CP] Check Pods Manifest.lock */,
 				6D96A546295181BC009DA4C5 /* Sources */,
 				6D96A798295181BC009DA4C5 /* Frameworks */,
+				FFDB8EB7299CC2B2000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D96A79B295181BC009DA4C5 /* Resources */,
 				6D96A7D9295181BC009DA4C5 /* ShellScript */,
 				6D96A7DB295181BC009DA4C5 /* Embed Frameworks */,
@@ -9479,6 +9499,7 @@
 				6D17952E26A65A14001C8BF8 /* LevelTableViewCell.xib in Resources */,
 				60AC5C1027683190008F0281 /* Maintenance.storyboard in Resources */,
 				6D48BA4B2761D09300C8DC2D /* MarketHeaderView.xib in Resources */,
+				FF63B35D2999E92F00E30EB6 /* Settings.bundle in Resources */,
 				4199A08D25AE9918002E2D7E /* Login.storyboard in Resources */,
 				6D72760225F5F499000BF51F /* MonthCollectionViewCell.xib in Resources */,
 				6D9938B2271E72440068A616 /* ring4_cs_animation.ai in Resources */,
@@ -9577,6 +9598,7 @@
 				6090138C2640FE5400419F8E /* ktobet-asia-ios-staging-Info.plist in Resources */,
 				6D9938B1271E72440068A616 /* ring4_cs_animation.ai in Resources */,
 				600A8FDD26D3471D00F56412 /* PromotionHistoryTableViewCell.xib in Resources */,
+				FF63B35C2999E92F00E30EB6 /* Settings.bundle in Resources */,
 				608112B326EF4D1500920B06 /* TransactionLog.storyboard in Resources */,
 				6DB1957A2701A952003C6730 /* SBK.storyboard in Resources */,
 				600E247526CCAB9A00D8B073 /* Date.storyboard in Resources */,
@@ -9637,6 +9659,7 @@
 				608112B526EF4D1500920B06 /* TransactionLog.storyboard in Resources */,
 				6D17952F26A65A14001C8BF8 /* LevelTableViewCell.xib in Resources */,
 				6D48BA4C2761D09300C8DC2D /* MarketHeaderView.xib in Resources */,
+				FF63B35E2999E92F00E30EB6 /* Settings.bundle in Resources */,
 				609013592640EE7000419F8E /* Login.storyboard in Resources */,
 				6090135A2640EE7000419F8E /* MonthCollectionViewCell.xib in Resources */,
 				6D9938B3271E72440068A616 /* ring4_cs_animation.ai in Resources */,
@@ -9706,6 +9729,7 @@
 				60E581D227F190E4008CE5A9 /* LevelTableViewCell.xib in Resources */,
 				60E581D327F190E4008CE5A9 /* MarketHeaderView.xib in Resources */,
 				60E581D427F190E4008CE5A9 /* Login.storyboard in Resources */,
+				FF63B3612999E92F00E30EB6 /* Settings.bundle in Resources */,
 				60E581D527F190E4008CE5A9 /* MonthCollectionViewCell.xib in Resources */,
 				60E581D627F190E4008CE5A9 /* ring4_cs_animation.ai in Resources */,
 				60E581D727F190E4008CE5A9 /* Slot.storyboard in Resources */,
@@ -9775,6 +9799,7 @@
 				6D0EDD1228743FAC004A9E3C /* TransactionLog.storyboard in Resources */,
 				6D0EDD1328743FAC004A9E3C /* LevelTableViewCell.xib in Resources */,
 				6D0EDD1428743FAC004A9E3C /* MarketHeaderView.xib in Resources */,
+				FF63B35F2999E92F00E30EB6 /* Settings.bundle in Resources */,
 				6D0EDD1528743FAC004A9E3C /* Login.storyboard in Resources */,
 				6D0EDD1628743FAC004A9E3C /* MonthCollectionViewCell.xib in Resources */,
 				6D0EDD1728743FAC004A9E3C /* ring4_cs_animation.ai in Resources */,
@@ -9844,6 +9869,7 @@
 				6D0EDF6E28744704004A9E3C /* LevelTableViewCell.xib in Resources */,
 				6D0EDF6F28744704004A9E3C /* MarketHeaderView.xib in Resources */,
 				6D0EDF7028744704004A9E3C /* Login.storyboard in Resources */,
+				FF63B3622999E92F00E30EB6 /* Settings.bundle in Resources */,
 				6D0EDF7128744704004A9E3C /* MonthCollectionViewCell.xib in Resources */,
 				6D0EDF7228744704004A9E3C /* ring4_cs_animation.ai in Resources */,
 				6D0EDF7328744704004A9E3C /* Slot.storyboard in Resources */,
@@ -9920,6 +9946,7 @@
 				6D966D6227FEE3FA006086B7 /* MarketHeaderView.xib in Resources */,
 				6D966D6327FEE3FA006086B7 /* Login.storyboard in Resources */,
 				6D966D6427FEE3FA006086B7 /* MonthCollectionViewCell.xib in Resources */,
+				FF63B3632999E92F00E30EB6 /* Settings.bundle in Resources */,
 				6D966D6527FEE3FA006086B7 /* ring4_cs_animation.ai in Resources */,
 				6D966D6627FEE3FA006086B7 /* Slot.storyboard in Resources */,
 				6D966D6727FEE3FA006086B7 /* Common.storyboard in Resources */,
@@ -9989,6 +10016,7 @@
 				6D966FAF27FEE416006086B7 /* MarketHeaderView.xib in Resources */,
 				6D966FB027FEE416006086B7 /* Login.storyboard in Resources */,
 				6D966FB127FEE416006086B7 /* MonthCollectionViewCell.xib in Resources */,
+				FF63B3642999E92F00E30EB6 /* Settings.bundle in Resources */,
 				6D966FB227FEE416006086B7 /* ring4_cs_animation.ai in Resources */,
 				6D966FB327FEE416006086B7 /* Slot.storyboard in Resources */,
 				6D966FB427FEE416006086B7 /* Common.storyboard in Resources */,
@@ -10058,6 +10086,7 @@
 				6D96A7BB295181BC009DA4C5 /* LevelTableViewCell.xib in Resources */,
 				6D96A7BC295181BC009DA4C5 /* Maintenance.storyboard in Resources */,
 				6D96A7BD295181BC009DA4C5 /* MarketHeaderView.xib in Resources */,
+				FF63B3602999E92F00E30EB6 /* Settings.bundle in Resources */,
 				6D96A7BE295181BC009DA4C5 /* Login.storyboard in Resources */,
 				6D96A7BF295181BC009DA4C5 /* MonthCollectionViewCell.xib in Resources */,
 				6D96A7C0295181BC009DA4C5 /* ring4_cs_animation.ai in Resources */,
@@ -10839,6 +10868,177 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-preprod/Pods-ktobet-asia-ios-preprod-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		FF63B3652999E97600E30EB6 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version At Setting (Place above Copy Bundle Resources)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
+		};
+		FFDB8EB4299CC1B8000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version At Setting (Place above Copy Bundle Resources)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
+		};
+		FFDB8EB5299CC23B000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version At Setting (Place above Copy Bundle Resources)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
+		};
+		FFDB8EB6299CC294000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version At Setting (Place above Copy Bundle Resources)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
+		};
+		FFDB8EB7299CC2B2000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version At Setting (Place above Copy Bundle Resources)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
+		};
+		FFDB8EB8299CC2D3000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version At Setting (Place above Copy Bundle Resources)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
+		};
+		FFDB8EB9299CC2F5000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version At Setting (Place above Copy Bundle Resources)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
+		};
+		FFDB8EBA299CC318000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version At Setting (Place above Copy Bundle Resources)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
+		};
+		FFDB8EBB299CC33B000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Update Version At Setting (Place above Copy Bundle Resources)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -1,86 +1,59 @@
-import UIKit
 import RxSwift
 import SharedBu
+import UIKit
 
 class CommonViewController: APPViewController, VersionUpdateProtocol {
-    private let playerViewModel = Injectable.resolve(PlayerViewModel.self)!
-    private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
-    
-    private var disposeBag = DisposeBag()
-    private var viewDisappearBag = DisposeBag()
-    
-    private lazy var playerTimeZone: Foundation.TimeZone = localStorageRepo.localeTimeZone()
-    
-    var appSyncViewModel = Injectable.resolve(AppSynchronizeViewModel.self)!
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        super.viewDidAppear(animated)
-        syncAppVersionUpdate(viewDisappearBag)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewDisappearBag = DisposeBag()
-    }
-    
-    // MARK: VersionUpdateProtocol
-    func updateStrategy(_ incoming: Version, _ superSignStatus: SuperSignStatus) {
-        let action = Bundle.main.currentVersion.getUpdateAction(latestVersion: incoming)
-        if action == .compulsoryupdate {
-            playerViewModel.checkIsLogged().subscribe(onSuccess: { [weak self] isLogin in
-                guard isLogin == false else {
-                    self?.executeLogout()
-                    return
-                }
-                if superSignStatus.isMaintenance, let endTime = superSignStatus.endTime {
-                    self?.alertSuperSignMaintain(endTime)
-                } else {
-                    self?.confirmUpdate(incoming.apkLink)
-                }
-            }, onFailure: { [weak self] in
-                self?.handleErrors($0)
-            }).disposed(by: viewDisappearBag)
+  @Injected private var playerViewModel: PlayerViewModel
+  @Injected private var localStorageRepo: LocalStorageRepository
+
+  @Injected var appSyncViewModel: AppSynchronizeViewModel
+
+  private var disposeBag = DisposeBag()
+  private var viewDisappearBag = DisposeBag()
+
+  lazy var localTimeZone = localStorageRepo.localeTimeZone()
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    syncAppVersionUpdate(viewDisappearBag)
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    viewDisappearBag = DisposeBag()
+  }
+
+  // MARK: VersionUpdateProtocol
+  func updateStrategy(from info: VersionUpdateInfo) {
+    guard info.action != .uptodate else { return }
+
+    playerViewModel
+      .checkIsLogged()
+      .observe(on: MainScheduler())
+      .subscribe(onSuccess: { [weak self] isLogin in
+        guard isLogin == false
+        else {
+          self?.executeLogout()
+          return
         }
-    }
-    
-    private func alertSuperSignMaintain(_ endTime: Date) {
-        guard !Alert.shared.isShown() else { return }
-        let endTimeStr = convertDateString(endTime)
-        Alert.shared.show(Localize.string("common_tip_title_warm"), Localize.string("common_super_signature_maintenance", endTimeStr), confirm: {
-            exit(0)
-        }, cancel: nil)
-    }
-    
-    private func convertDateString(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = playerTimeZone
-        dateFormatter.dateFormat = "MM/dd HH:mm"
-        return dateFormatter.string(from: date)
-    }
-    
-    private func confirmUpdate(_ urlString: String) {
-        guard !Alert.shared.isShown() else { return }
-        Alert.shared.show(nil,
-                   Localize.string("update_new_version_content"),
-                   confirm: {
-            if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url)
-            }
-        },
-                   confirmText: Localize.string("update_proceed_now"),
-                   cancel: {
-            exit(0)
-        },
-                   cancelText: Localize.string("update_exit"))
-    }
-    
-    private func executeLogout() {
-        playerViewModel.logout().subscribe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
-            self?.disposeBag = DisposeBag()
-            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-        }, onError: {
-            print($0)
-        }).disposed(by: disposeBag)
-    }
+
+        self?.popAlert(from: info)
+
+      }, onFailure: { [weak self] in
+        self?.handleErrors($0)
+      })
+      .disposed(by: viewDisappearBag)
+  }
+
+  private func executeLogout() {
+    playerViewModel
+      .logout()
+      .subscribe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
+        self?.disposeBag = DisposeBag()
+        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+      }, onError: {
+        Logger.shared.debug($0.localizedDescription)
+      })
+      .disposed(by: disposeBag)
+  }
 }
