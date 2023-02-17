@@ -3583,6 +3583,8 @@
 		6D41FEE52834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
 		6D41FEE62834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
 		6D41FEE72834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
+		6D425200299DCACE0045ABC6 /* OnlinePaymentViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4251FF299DCACE0045ABC6 /* OnlinePaymentViewControllerTests.swift */; };
+		6D425202299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D425201299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift */; };
 		6D4251FE299DC0500045ABC6 /* SwiftUIInputTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4251FD299DC0500045ABC6 /* SwiftUIInputTextTests.swift */; };
 		6D438B9427A1284400201AB4 /* PlayerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */; };
 		6D438B9527A1284400201AB4 /* PlayerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */; };
@@ -6995,6 +6997,8 @@
 		6D4083D6265212ED00BECD0E /* NumberGameRecordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameRecordUseCase.swift; sourceTree = "<group>"; };
 		6D40841326525FE400BECD0E /* NumberGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGame.swift; sourceTree = "<group>"; };
 		6D41FEE12834C29900065874 /* SuperSignStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperSignStatus.swift; sourceTree = "<group>"; };
+		6D4251FF299DCACE0045ABC6 /* OnlinePaymentViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePaymentViewControllerTests.swift; sourceTree = "<group>"; };
+		6D425201299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositOfflineConfirmViewControllerTests.swift; sourceTree = "<group>"; };
 		6D4251FD299DC0500045ABC6 /* SwiftUIInputTextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIInputTextTests.swift; sourceTree = "<group>"; };
 		6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerConfiguration.swift; sourceTree = "<group>"; };
 		6D43E2412719915B001F78DA /* CloseBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBarButtonItem.swift; sourceTree = "<group>"; };
@@ -9070,6 +9074,8 @@
 				FFB016C32965841F007E0236 /* CasinoViewControllerTests.swift */,
 				6D885391296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift */,
 				FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */,
+				6D4251FF299DCACE0045ABC6 /* OnlinePaymentViewControllerTests.swift */,
+				6D425201299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -11502,8 +11508,10 @@
 				6D3DD77D283231560065D6B3 /* AppVersionTest.swift in Sources */,
 				FFBD376F294ACAE3009E9A97 /* DepositGatewayViewControllerTest.swift in Sources */,
 				FFBD377A294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */,
+				6D425200299DCACE0045ABC6 /* OnlinePaymentViewControllerTests.swift in Sources */,
 				3C17059729505CCA00531357 /* TermsViewTests.swift in Sources */,
 				3CA721E52913CA9800B94548 /* PromotionApiTests.swift in Sources */,
+				6D425202299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift in Sources */,
 				6D1130442988EB5200EC04A8 /* XCTestCase+Wait.swift in Sources */,
 				FFBD3775294ACAE3009E9A97 /* CryptoSelectorViewControllerTests.swift in Sources */,
 				3C17059A29505CCA00531357 /* TransactionLogViewTests.swift in Sources */,

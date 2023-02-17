@@ -6,8 +6,8 @@ class DepositOfflineConfirmViewController:
   LobbyViewController,
   SwiftUIConverter
 {
-  @Injected private var viewModel: DepositOfflineConfirmViewModel
   @Injected private var alert: AlertProtocol
+  @Injected private var viewModel: DepositOfflineConfirmViewModel
 
   static let segueIdentifier = "toOfflineConfirmSegue"
   
@@ -24,7 +24,8 @@ class DepositOfflineConfirmViewController:
   static func instantiate(
     memo: OfflineDepositDTO.Memo,
     selectedBank: PaymentsDTO.BankCard,
-    unwindSegueId: String)
+    unwindSegueId: String,
+    viewModel: DepositOfflineConfirmViewModel? = nil)
     -> DepositOfflineConfirmViewController
   {
     let vc = DepositOfflineConfirmViewController.initFrom(storyboard: "Deposit")
@@ -32,7 +33,11 @@ class DepositOfflineConfirmViewController:
     vc.memo = memo
     vc.selectedBank = selectedBank
     vc.unwindSegueId = unwindSegueId
-
+    
+    if let viewModel {
+      vc._viewModel.wrappedValue = viewModel
+    }
+    
     return vc
   }
 

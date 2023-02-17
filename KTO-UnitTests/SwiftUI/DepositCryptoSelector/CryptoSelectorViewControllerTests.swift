@@ -10,8 +10,12 @@ extension CryptoDepositViewModelProtocolMock: ObservableObject { }
 
 final class CryptoSelectorViewControllerTests: XCTestCase {
 
+  override func tearDown() {
+      Injection.shared.registerAllDependency()
+  }
+  
   func test_TapVideoTutorialBtn_InCryptoSelectorPage_VideoTutorialIsDisplayed_KTO_TC_40() {
-    let sut = CryptoSelectorViewController.initFrom(storyboard: "Deposit")
+    let sut = CryptoSelectorViewController.instantiate()
 
     makeItVisible(sut)
 
@@ -29,8 +33,7 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
     let stubLocalRepo = mock(LocalStorageRepository.self)
     given(stubLocalRepo.getSupportLocale()) ~> .China()
     
-    let sut = CryptoSelectorViewController.initFrom(storyboard: "Deposit")
-    sut.localStorageRepo = stubLocalRepo
+    let sut = CryptoSelectorViewController.instantiate(localStorageRepo: stubLocalRepo)
     
     makeItVisible(sut)
     
@@ -48,8 +51,7 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
     let stubLocalRepo = mock(LocalStorageRepository.self)
     given(stubLocalRepo.getSupportLocale()) ~> .Vietnam()
     
-    let sut = CryptoSelectorViewController.initFrom(storyboard: "Deposit")
-    sut.localStorageRepo = stubLocalRepo
+    let sut = CryptoSelectorViewController.instantiate(localStorageRepo: stubLocalRepo)
     
     makeItVisible(sut)
     
@@ -64,7 +66,7 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
   }
   
   func test_TapSubmitBtn_InCryptoSelectorPage_DepositCryptoViewIsDisplayed() {
-    let sut = CryptoSelectorViewController.initFrom(storyboard: "Deposit")
+    let sut = CryptoSelectorViewController.instantiate()
 
     makeItVisible(sut)
 
@@ -76,5 +78,38 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
     let actual = "\(type(of: sut.presentedViewController!))"
 
     XCTAssertEqual(expact, actual)
+  }
+  
+  func test_givenDepositCountOverLimit_InCryptoSelectPage_thenAlertRequestLater() {
+    injectStubCultureCode(.CN)
+
+    let error = NSError(domain: "", code: 0, userInfo: ["statusCode": "10101", "errorMsg": ""])
+    let playerDepositCountOverLimit = ExceptionFactory.create(error)
+
+    let stubViewModel = mock(CryptoDepositViewModel.self)
+      .initialize(depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+                  navigator: mock(DepositNavigator.self))
+
+    given(stubViewModel.errors()) ~> .just(playerDepositCountOverLimit)
+
+    let stubAlert = mock(AlertProtocol.self)
+    Alert.shared = stubAlert
+
+    let sut = CryptoSelectorViewController.instantiate(viewModel: stubViewModel)
+  
+    sut.loadViewIfNeeded()
+
+    stubViewModel.errorsSubject.onNext(error)
+
+    verify(
+      stubAlert.show(
+        any(),
+        "您有五个待处理的充值请求，请您过三分钟后再试",
+        confirm: any(),
+        confirmText: any(),
+        cancel: any(),
+        cancelText: any(),
+        tintColor: any()))
+      .wasCalled()
   }
 }
