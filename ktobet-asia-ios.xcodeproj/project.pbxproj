@@ -6585,8 +6585,6 @@
 		4840646C258721740064AAC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4840646E258721780064AAC9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-cn.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		4840646F2587217B0064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi-vn.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		48406475258736170064AAC9 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		48406476258736180064AAC9 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4840648C258742150064AAC9 /* Signup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Signup.storyboard; sourceTree = "<group>"; };
 		4840648D258742150064AAC9 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		4840648E258742150064AAC9 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
@@ -16632,7 +16630,6 @@
 				4840646C258721740064AAC9 /* en */,
 				4840646E258721780064AAC9 /* zh-Hans */,
 				4840646F2587217B0064AAC9 /* vi */,
-				48406475258736170064AAC9 /* th */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -16643,7 +16640,6 @@
 				48D7F9EA2575E38B00540B85 /* en */,
 				48D7F9EE2575E38E00540B85 /* zh-Hans */,
 				4840645A25871BC70064AAC9 /* vi */,
-				48406476258736180064AAC9 /* th */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
