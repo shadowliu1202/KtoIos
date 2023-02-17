@@ -6,15 +6,31 @@ import UIKit
 class CryptoSelectorViewController: LobbyViewController,
                                     SwiftUIConverter
 {
-  static let segueIdentifier = "toCryptoSelector"
-  
   @Injected private var navigator: DepositNavigator
   @Injected private var playerConfig: PlayerConfiguration
-  @Injected private var viewModel: CryptoDepositViewModel
-  @Injected var localStorageRepo: LocalStorageRepository
   @Injected private var alert: AlertProtocol
+  @Injected private var localStorageRepo: LocalStorageRepository
+  @Injected private var viewModel: CryptoDepositViewModel
 
   private let disposeBag = DisposeBag()
+
+  static func instantiate(
+    localStorageRepo: LocalStorageRepository? = nil,
+    viewModel: CryptoDepositViewModel? = nil)
+    -> CryptoSelectorViewController
+  {
+    let vc = CryptoSelectorViewController.initFrom(storyboard: "Deposit")
+    
+    if let localStorageRepo {
+      vc._localStorageRepo.wrappedValue = localStorageRepo
+    }
+    
+    if let viewModel {
+      vc._viewModel.wrappedValue = viewModel
+    }
+    
+    return vc
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -22,7 +38,7 @@ class CryptoSelectorViewController: LobbyViewController,
     setupUI()
     binding()
   }
-  
+
   override func handleErrors(_ error: Error) {
     if error is PlayerDepositCountOverLimit {
       self.notifyTryLaterAndPopBack()
@@ -31,7 +47,7 @@ class CryptoSelectorViewController: LobbyViewController,
       super.handleErrors(error)
     }
   }
-  
+
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == DepositCryptoViewController.segueIdentifier {
       if let dest = segue.destination as? DepositCryptoViewController {
@@ -72,7 +88,7 @@ extension CryptoSelectorViewController {
       })
       .disposed(by: disposeBag)
   }
-  
+
   private func notifyTryLaterAndPopBack() {
     alert.show(
       nil,
@@ -86,11 +102,11 @@ extension CryptoSelectorViewController {
   func navigateToGuide() {
     navigator.toGuidePage(localStorageRepo.getSupportLocale())
   }
-  
+
   func navigateToVideoTutorial() {
     self.present(CryptoVideoTutorialViewController(), animated: true)
   }
-  
+
   func navigateToDepositCryptoVC(_ url: String) {
     navigator.toCryptoWebPage(url: url)
   }

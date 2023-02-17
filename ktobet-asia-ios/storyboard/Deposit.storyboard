@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -458,9 +458,7 @@
                         <segue destination="wU1-pf-ph2" kind="show" identifier="toOfflineSegue" id="4d0-Mf-VuQ"/>
                         <segue destination="2is-AB-lQC" kind="show" identifier="toDepositRecordSegue" id="keF-G9-Ps9"/>
                         <segue destination="AGT-ah-Yup" kind="show" identifier="toAllRecordSegue" id="F0Y-xT-FZE"/>
-                        <segue destination="Avu-Ft-lF9" kind="show" identifier="toCryptoSelector" id="nHC-IL-8gK"/>
                         <segue destination="YKU-wZ-kb4" kind="show" identifier="toStarMergerViewController" id="bFD-tn-R4q"/>
-                        <segue destination="USV-YY-4dQ" kind="show" identifier="toOnlinePaymentSegue" id="rzT-vK-EOZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FYP-XU-rzd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -472,11 +470,11 @@
             <objects>
                 <viewController storyboardIdentifier="DepositCryptoViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="H2h-kh-Eib" customClass="DepositCryptoViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="haG-T2-JSD">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JJT-vz-hiM">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="770"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="790"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -563,7 +561,7 @@
             <objects>
                 <viewController storyboardIdentifier="CryptoSelectorViewController" id="Avu-Ft-lF9" customClass="CryptoSelectorViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FZb-UK-SrM">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="DmU-Bz-8Wb"/>
                         <color key="backgroundColor" name="blackTwo"/>
@@ -584,11 +582,11 @@
             <objects>
                 <viewController storyboardIdentifier="CryptoGuideViewController" id="wxM-NB-YPP" customClass="CryptoGuideViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Bn-Vi-zMJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GfJ-KJ-7i3">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="rQz-DZ-LdT">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="128"/>
@@ -685,11 +683,11 @@
             <objects>
                 <viewController id="A4d-yS-7WD" customClass="CryptoGuideVNDViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Pt3-b5-96c">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jaw-OF-hKV">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="770"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                                 <connections>
                                     <segue destination="GeS-GV-Qnu" kind="embed" destinationCreationSelector="toCryptoGuideVNDView:" id="xvM-mW-KRU"/>
                                 </connections>
@@ -1139,11 +1137,11 @@
             <objects>
                 <viewController id="8tx-d2-eAY" customClass="DepositThirdPartWebViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1hf-vZ-8uu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRY-qE-d3O">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="770"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="790"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -1226,7 +1224,7 @@
         <!--Online Payment View Controller-->
         <scene sceneID="eWC-lP-24u">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" id="USV-YY-4dQ" customClass="OnlinePaymentViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OnlinePaymentViewController" extendedLayoutIncludesOpaqueBars="YES" id="USV-YY-4dQ" customClass="OnlinePaymentViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="51A-po-Iha">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1262,11 +1260,11 @@
             <objects>
                 <viewController extendedLayoutIncludesOpaqueBars="YES" id="bAT-IC-UKw" customClass="JinYiDigitalViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YEc-8X-bC4">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G8G-np-nNE">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                                 <connections>
                                     <segue destination="9aa-6X-jIr" kind="embed" destinationCreationSelector="toJinYiDigitalGuide:" id="jvW-dz-p5g"/>
                                 </connections>
@@ -1313,7 +1311,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pQr-oz-FEk"/>
+        <segue reference="FXa-X7-GJ5"/>
         <segue reference="keF-G9-Ps9"/>
     </inferredMetricsTieBreakers>
     <resources>

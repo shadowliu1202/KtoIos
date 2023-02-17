@@ -5,7 +5,7 @@ public let Injectable = Injection.shared.container
 
 @propertyWrapper
 struct Injected<Dependency> {
-    var _wrappedValue: Dependency
+    private var _wrappedValue: Dependency
     
     var wrappedValue: Dependency {
         get { _wrappedValue }

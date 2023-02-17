@@ -53,11 +53,6 @@ class DepositViewController: LobbyViewController,
                 dest.paymentGatewayID = (sender as? String)!
             }
             
-        case OnlinePaymentViewController.segueIdentifier:
-            if let dest = segue.destination as? OnlinePaymentViewController {
-                dest.selectedOnlinePayment = (sender as? OnlinePayment)!.paymentDTO
-            }
-            
         default:
             break
         }
@@ -109,7 +104,7 @@ private extension DepositViewController {
                 Localize.string("common_tip_title_warm"),
                 Localize.string("deposit_crypto_warning"),
                 confirm: { [weak self] in
-                    self?.performSegue(withIdentifier: CryptoSelectorViewController.segueIdentifier, sender: nil)
+                  self?.navigationController?.pushViewController(CryptoSelectorViewController.instantiate(), animated: true)
                 },
                 cancel: nil
             )
@@ -129,7 +124,8 @@ extension DepositViewController {
         case .CryptoMarket:
             self.performSegue(withIdentifier: StarMergerViewController.segueIdentifier, sender: selection.id)
         case .JinYiDigital:
-            self.performSegue(withIdentifier: OnlinePaymentViewController.segueIdentifier, sender: selection)
+            let vc = OnlinePaymentViewController.instantiate(selectedOnlinePayment: (selection as! OnlinePayment).paymentDTO)
+            navigationController?.pushViewController(vc, animated: true)
         default:
             self.performSegue(withIdentifier: DepositGatewayViewController.segueIdentifier, sender: selection)
         }

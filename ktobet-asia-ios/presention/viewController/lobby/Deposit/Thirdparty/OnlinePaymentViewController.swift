@@ -4,16 +4,39 @@ import SharedBu
 import RxSwift
 
 class OnlinePaymentViewController: LobbyViewController {
-    static let segueIdentifier = "toOnlinePaymentSegue"
-    
-    var selectedOnlinePayment: PaymentsDTO.Online!
+
     var alert: AlertProtocol = Injectable.resolve(AlertProtocol.self)!
     
-    private lazy var onlineDepositViewModel = OnlineDepositViewModel(selectedOnlinePayment: selectedOnlinePayment)
-    
+    private let onlineDepositViewModel: OnlineDepositViewModel
     private let httpClient = Injectable.resolve(HttpClient.self)!
     private let disposeBag = DisposeBag()
     
+    static func instantiate(
+      selectedOnlinePayment: PaymentsDTO.Online,
+      viewModel: OnlineDepositViewModel? = nil)
+    -> OnlinePaymentViewController {
+        let vc = OnlinePaymentViewController.initFrom(storyboard: "Deposit", creator: {
+          OnlinePaymentViewController.init(
+            coder: $0,
+            selectedOnlinePayment: selectedOnlinePayment,
+            viewModel: viewModel)
+        })
+        
+        return vc
+    }
+    
+    required init?(
+      coder: NSCoder,
+      selectedOnlinePayment: PaymentsDTO.Online,
+      viewModel: OnlineDepositViewModel? = nil) {
+        self.onlineDepositViewModel = viewModel ?? .init(selectedOnlinePayment: selectedOnlinePayment)
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, action: #selector(back))
