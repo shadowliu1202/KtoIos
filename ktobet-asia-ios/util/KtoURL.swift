@@ -29,7 +29,7 @@ extension KtoURL {
       .timeout(.seconds(4), scheduler: MainScheduler())
       .catchAndReturn(`default`)
       .take(1)
-      .toBlocking()
+      .toBlocking(timeout: 4)
 
     do {
       return try merged.first() ?? `default`
