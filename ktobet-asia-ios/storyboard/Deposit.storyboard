@@ -659,7 +659,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="VUP-pz-SqK"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="whiteFull"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="GfJ-KJ-7i3" secondAttribute="bottom" id="PNU-ua-Akg"/>
                             <constraint firstItem="GfJ-KJ-7i3" firstAttribute="leading" secondItem="VUP-pz-SqK" secondAttribute="leading" id="VFU-q0-lmO"/>
