@@ -3638,7 +3638,10 @@
 		6D41FEE62834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
 		6D41FEE72834C29900065874 /* SuperSignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D41FEE12834C29900065874 /* SuperSignStatus.swift */; };
 		6D4251FE299DC0500045ABC6 /* SwiftUIInputTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4251FD299DC0500045ABC6 /* SwiftUIInputTextTests.swift */; };
+<<<<<<< HEAD
 		6D425200299DCACE0045ABC6 /* OnlinePaymentViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4251FF299DCACE0045ABC6 /* OnlinePaymentViewControllerTests.swift */; };
+=======
+>>>>>>> master
 		6D425202299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D425201299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift */; };
 		6D438B9427A1284400201AB4 /* PlayerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */; };
 		6D438B9527A1284400201AB4 /* PlayerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */; };
@@ -7061,7 +7064,10 @@
 		6D40841326525FE400BECD0E /* NumberGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGame.swift; sourceTree = "<group>"; };
 		6D41FEE12834C29900065874 /* SuperSignStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperSignStatus.swift; sourceTree = "<group>"; };
 		6D4251FD299DC0500045ABC6 /* SwiftUIInputTextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIInputTextTests.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		6D4251FF299DCACE0045ABC6 /* OnlinePaymentViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePaymentViewControllerTests.swift; sourceTree = "<group>"; };
+=======
+>>>>>>> master
 		6D425201299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositOfflineConfirmViewControllerTests.swift; sourceTree = "<group>"; };
 		6D438B9327A1284400201AB4 /* PlayerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerConfiguration.swift; sourceTree = "<group>"; };
 		6D43E2412719915B001F78DA /* CloseBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBarButtonItem.swift; sourceTree = "<group>"; };
