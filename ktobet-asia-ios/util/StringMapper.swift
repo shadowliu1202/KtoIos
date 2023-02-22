@@ -30,6 +30,8 @@ class StringMapper {
             return (Localize.string("withdrawal_bankcard_new"), UIColor.gray9B9B9B)
         case .verified:
             return (Localize.string("cps_account_status_verified"), UIColor.green6AB336)
+        case .onhold:
+            return (Localize.string("withdrawal_bankcard_locked"), UIColor.orangeFF8000)
         default:
             return ("", UIColor.gray9B9B9B)
         }

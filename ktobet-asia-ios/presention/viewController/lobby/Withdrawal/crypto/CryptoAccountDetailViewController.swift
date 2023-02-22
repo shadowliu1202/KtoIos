@@ -28,6 +28,7 @@ class CryptoAccountDetailViewController: LobbyViewController {
         cryptoNetworkLabel.text = account.cryptoNetwork.name
         accountNumberLabel.text = account.walletAddress
         
+        deleteButton.isHidden = account.verifyStatus == .onhold ? true : false
         deleteButton.rx.tap.subscribe(onNext: {[weak self] in
             guard let self = self else { return }
             if self.account.verifyStatus == PlayerBankCardVerifyStatus.verified {
