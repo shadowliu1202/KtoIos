@@ -348,6 +348,7 @@ Mã Xác Minh gồm 4 số</br>
 "common_get_code" = "Lấy Mã Xác Minh";
 "common_get_code_countdown" = "Lấy Mã Xác Minh (%@)";
 "common_cs_email" = "Email CSKH %@";
+"common_all_maintenance" = "Hệ Thống đang bảo trì.";
 "common_maintenance_description" = "Hãy chờ đón một KTO tốt hơn.";
 "common_cs_email_description" = "Nếu Quý Khách có bất kỳ thắc mắc nào, vui lòng gửi email đến";
 "common_long_maintenance" = "Bảo Trì Dài Hạn";
@@ -415,7 +416,7 @@ Mã Xác Minh gồm 4 số</br>
 "common_p2p" = "Đánh Bài Đối Kháng";
 "common_arcade" = "Trò Chơi Arcade";
 "common_affiliate" = "Đại Lý";
-"common_email_spam_check" = "Vui lòng đồng thời kiểm tra
+"common_email_spam_check" = "Vui lòng đồng thời kiểm tra 
 Hộp Thư Rác/Quảng Cáo.";
 "common_day" = "Ngày";
 "common_crypto" = "Crypto";
@@ -590,6 +591,7 @@ Vui lòng Xác Minh.";
 "deposit_amount_option_hint" = "本通道为固定存款金额，请下拉选择存款金额进行存款操作";
 "deposit_crypto_video_tutorial" = "Video hướng dẫn";
 "deposit_download_jingdong_app" = "";
+"deposit_select_bank" = "Chọn Ngân Hàng";
 
 //MARK: - JinYiDigital
 "jinyidigital_instructions_click_here" = "";
@@ -847,7 +849,6 @@ Nếu Quý Khách cần thay đổi Họ Tên, vui lòng hủy giao dịch Rút 
 "product_unsettled_game" = "Chưa Hoàn Tất";
 "product_total_bet_with_win_lose" = "Tiền Cược %@    %@ %@";
 "product_total_bet" = "Tiền Cược %@";
-"product_maintenance_title" = "Hãy chờ đón một %@ tốt hơn.";
 "product_maintenance" = "Bảo Trì Sản Phẩm...";
 "product_none_favorite" = "Không có Trò Chơi Yêu Thích";
 "product_add_now" = "Thêm NGAY";
@@ -889,7 +890,7 @@ Nếu Quý Khách cần thay đổi Họ Tên, vui lòng hủy giao dịch Rút 
 Quý Khách sẽ không thể
 đặt cược \"Đánh Bài Đối Kháng\".";
 "product_mid_break" = "Nghỉ Giữa Hiệp";
-"product_will_be_back" = "Chúng Tôi sẽ quay lại sớm.
+"product_will_be_back" = "Chúng Tôi sẽ quay lại sớm. 
 Cám ơn.";
 "product_p2p_turnover_description" = "Trước khi tham gia “Đánh Bài Đối Kháng”, Quý Khách cần hoàn thành Yêu Cầu Đặt Cược cho tiền thưởng đã nhận vào %@. Chi tiết như sau:";
 "product_dealer" = "Nhà Cái";
@@ -1005,7 +1006,7 @@ Chăm Sóc Khách Hàng?";
 Tiền Thưởng Sẽ Nhận: %@ VND.
 Tổng Doanh Thu Cược yêu cầu sau khi nhận Tiền Thưởng: %@ VND.
 Công Thức Tính: %@ VND.";
-"bonus_islocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại.
+"bonus_islocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại. 
 
 Chi tiết như sau:
 
@@ -1063,7 +1064,7 @@ Mức Độ Hoàn Thành: %@%";
 "bonus_isturnoverremind" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành của %@. Sau khi đã nhận Tiền Thưởng này, Quý Khách vẫn cần hoàn thành Doanh Thu Cược còn lại, trước khi có thể thực hiện Rút Tiền. Chi tiết như sau:";
 "bonus_current_completion" = "Hiện Tại Đã Hoàn Thành %@%%";
 "bonus_waiting" = "Hủy";
-"bonus_computelocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại.
+"bonus_computelocked" = "Quý Khách hiện đang có Doanh Thu Cược chưa hoàn thành, do vậy không thể nhận Khuyến Mãi trong thời điểm hiện tại. 
 
 Chi tiết như sau:
 
@@ -1226,7 +1227,7 @@ Mã Số Giao Dịch: %@";
 Mã Số Giao Dịch: %@";
 "notify_content_40" = "Thay Đổi Họ Tên Rút Tiền yêu cầu xác minh chứng từ.";
 "notify_content_41" = "Chúc mừng, Họ Tên Rút Tiền của Quý Khách đã được thay đổi.";
-"notify_content_42" = "Thay Đổi Họ Tên Rút Tiền không thành công.
+"notify_content_42" = "Thay Đổi Họ Tên Rút Tiền không thành công. 
 Vui lòng kiểm tra tại mục cài đặt Thông Tin Cá Nhân – Họ Tên Rút Tiền.";
 "notify_content_50" = "Vui lòng lưu ý, thông tin Ngân Hàng Nhận Tiền của Quý Khách đã được thay đổi.";
 "notify_content_51" = "Vui lòng lưu ý, thông tin Phương Thức Gửi Tiền đã được thay đổi.";
@@ -1317,10 +1318,10 @@ Email Hiện Tại";
 "profile_defaultproduct_title" = "Cài Đặt Trang Chủ";
 "profile_defaultproduct_description" = "Mặc định hiện tại là Thể Thao. Bây giờ Quý Khách có thể tùy chọn một Sản Phẩm để đặt làm Trang Chủ mới, hoặc thay đổi sau.";
 "profile_defaultproduct_sportsbook_description" = "Những sự kiện Thể Thao toàn diện
-nhất. Một khi đã sở hữu Nền Tảng
-Cược Thể Thao KTO, Quý Khách
+nhất. Một khi đã sở hữu Nền Tảng 
+Cược Thể Thao KTO, Quý Khách 
 sẽ không còn cần gì khác!";
-"profile_defaultproduct_casino_description" = "KTO mang màu rực đỏ như chính
+"profile_defaultproduct_casino_description" = "KTO mang màu rực đỏ như chính 
 vận đỏ của Quý Khách tại 'Sòng' KTO.
 Có vận đỏ là có long mạch.
 Có long mạch là có cả thế giới!";
@@ -1337,7 +1338,7 @@ Quý Khách cũng sẽ vậy!";
 "profile_bind_identity_locked" = "Vì lý do bảo mật, tài khoản của Quý Khách đã bị đóng băng. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
 "profile_new_mobile_description" = "Số Di Động có thể sử dụng để Đăng Nhập và Xác Minh Bảo Mật.
 Vui lòng nhập Số Di Động để nhận Mã Xác Minh.";
-"profile_sms_unavailable_title" = "Bảo Trì
+"profile_sms_unavailable_title" = "Bảo Trì 
 Xác Minh Số Di Động ";
 "profile_sms_unavailable_description" = "KTO tạm ngưng Xác Minh Số Di Động do vấn đề máy chủ. Cám ơn Quý Khách đã thông cảm. ";
 "profile_mail_unavailable_title" = "Bảo Trì

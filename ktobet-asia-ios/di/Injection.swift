@@ -1115,6 +1115,14 @@ final class Injection {
                     localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self))
             }
       
+    container
+      .register(OnlinePaymentViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(PlayerDataUseCase.self),
+          resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+          resolver.resolveWrapper(HttpClient.self),
+          resolver.resolveWrapper(PlayerConfiguration.self))
+      }
         container
         .register(SideMenuViewModel.self) { resolver in
           return SideMenuViewModel(
