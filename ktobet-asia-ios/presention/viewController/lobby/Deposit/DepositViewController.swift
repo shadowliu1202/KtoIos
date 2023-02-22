@@ -36,13 +36,6 @@ class DepositViewController: LobbyViewController,
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case DepositGatewayViewController.segueIdentifier:
-            if let dest = segue.destination as? DepositGatewayViewController {
-                let depositType = sender as? DepositSelection
-                dest.depositType = depositType
-                dest.paymentIdentity = depositType?.id
-            }
-            
         case DepositCryptoViewController.segueIdentifier:
             if let dest = segue.destination as? DepositCryptoViewController {
                 dest.url = sender as? String
@@ -51,6 +44,11 @@ class DepositViewController: LobbyViewController,
         case StarMergerViewController.segueIdentifier:
             if let dest = segue.destination as? StarMergerViewController {
                 dest.paymentGatewayID = (sender as? String)!
+            }
+            
+        case OnlinePaymentViewController.segueIdentifier:
+            if let dest = segue.destination as? OnlinePaymentViewController {
+                dest.selectedOnlinePayment = (sender as? OnlinePayment)!.paymentDTO
             }
             
         default:
@@ -123,11 +121,8 @@ extension DepositViewController {
             self.presentCryptoDepositWarnings()
         case .CryptoMarket:
             self.performSegue(withIdentifier: StarMergerViewController.segueIdentifier, sender: selection.id)
-        case .JinYiDigital:
-            let vc = OnlinePaymentViewController.instantiate(selectedOnlinePayment: (selection as! OnlinePayment).paymentDTO)
-            navigationController?.pushViewController(vc, animated: true)
         default:
-            self.performSegue(withIdentifier: DepositGatewayViewController.segueIdentifier, sender: selection)
+            self.performSegue(withIdentifier: OnlinePaymentViewController.segueIdentifier, sender: selection)
         }
     }
     

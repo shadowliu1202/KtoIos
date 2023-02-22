@@ -78,7 +78,7 @@ struct OfflinePaymentView<ViewModel>: View
                 .padding(.horizontal, 30)
                 .padding(.vertical, 16)
                 .backgroundColor(.black131313)
-                .id(Identifier.remitButton.rawValue)
+                .id(OfflinePaymentView.Identifier.remitButton.rawValue)
             }
             .pageBackgroundColor(.black131313)
             .environment(\.playerLocale, localStorageRepo.getSupportLocale())
@@ -152,7 +152,7 @@ extension OfflinePaymentView {
                             Text(gatewayDM.name)
                                 .localized(weight: .medium, size: 14,color: .white)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .id(Identifier.gatewayName.rawValue + "-\(gatewayDM.id)")
+                                .id(OfflinePaymentView.Identifier.gatewayName.rawValue + "-\(gatewayDM.id)")
                             
                             LimitSpacer(8)
                             
@@ -175,7 +175,7 @@ extension OfflinePaymentView {
                                     .visible : .gone
                             )
                     }
-                    .id(Identifier.gatewayForEach.rawValue)
+                    .id(OfflinePaymentView.Identifier.gatewayForEach.rawValue)
                     
                     Separator(color: .gray3C3E40)
                 }
@@ -208,11 +208,10 @@ extension OfflinePaymentView {
                         textFieldText: $remitBankName ?? "",
                         errorText: viewModel.remitInfoErrorMessage.bankName,
                         items: viewModel.remitBankList,
-                        selectedItemIndex: .constant(nil),
                         featureType: .input,
                         dropDownArrowVisible: false
                     )
-                    .id(Identifier.remitBankDropDownText.rawValue)
+                    .id(OfflinePaymentView.Identifier.remitBankDropDownText.rawValue)
                     
                     SwiftUIInputText(
                         placeHolder: Localize.string("deposit_name"),
@@ -220,7 +219,7 @@ extension OfflinePaymentView {
                         errorText: viewModel.remitInfoErrorMessage.remitterName,
                         textFieldType: GeneralType(regex: .all)
                     )
-                    .id(Identifier.remitterInputText.rawValue)
+                    .id(OfflinePaymentView.Identifier.remitterInputText.rawValue)
                     
                     SwiftUIInputText(
                         placeHolder: Localize.string("deposit_accountlastfournumber"),
@@ -233,7 +232,7 @@ extension OfflinePaymentView {
                             maxLength: 4
                         )
                     )
-                    .id(Identifier.remitBankCardInputText.rawValue)
+                    .id(OfflinePaymentView.Identifier.remitBankCardInputText.rawValue)
                     
                     SwiftUIInputText(
                         placeHolder: Localize.string("deposit_amount"),
@@ -241,11 +240,11 @@ extension OfflinePaymentView {
                         errorText: viewModel.remitInfoErrorMessage.amount,
                         textFieldType: CurrencyType(regex: .noDecimal)
                     )
-                    .id(Identifier.remitAmountInputText.rawValue)
+                    .id(OfflinePaymentView.Identifier.remitAmountInputText.rawValue)
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text(viewModel.remitAmountLimitRange)
-                            .id(Identifier.remitAmountLimitRange.rawValue)
+                        .id(OfflinePaymentView.Identifier.remitAmountLimitRange.rawValue)
 
                         Text(Localize.string("deposit_notify_currency_ratio"))
                             .visibility(playerLocale == SupportLocale.Vietnam() ? .visible : .gone)

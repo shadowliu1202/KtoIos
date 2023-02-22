@@ -6,9 +6,9 @@ class CurrencyType: TextFieldType {
     private let maxAmount: Decimal?
     
     let regex: CurrencyRegex
-    let disablePaste: Bool? = true
+    let disablePaste: Bool = true
     
-    lazy var keyboardType: UIKeyboardType? = regex == .noDecimal ? .numberPad : .decimalPad
+    lazy var keyboardType: UIKeyboardType = regex == .noDecimal ? .numberPad : .decimalPad
     
     init(
         regex: CurrencyRegex,

@@ -18,7 +18,6 @@ final class SwiftUIDropDownTextTest: XCTestCase {
             placeHolder: "",
             textFieldText: .constant(""),
             items: [],
-            selectedItemIndex: .constant(nil),
             featureType: .input,
             dropDownArrowVisible: true
         )
@@ -36,7 +35,6 @@ final class SwiftUIDropDownTextTest: XCTestCase {
             placeHolder: "",
             textFieldText: .constant(""),
             items: [],
-            selectedItemIndex: .constant(nil),
             featureType: .select,
             dropDownArrowVisible: true
         )
@@ -54,7 +52,6 @@ final class SwiftUIDropDownTextTest: XCTestCase {
             placeHolder: "",
             textFieldText: .constant(""),
             items: [],
-            selectedItemIndex: .constant(nil),
             featureType: .input,
             dropDownArrowVisible: true
         )
@@ -73,7 +70,6 @@ final class SwiftUIDropDownTextTest: XCTestCase {
             placeHolder: "",
             textFieldText: Binding(wrappedValue: ""),
             items: stubDatas,
-            selectedItemIndex: .constant(nil),
             featureType: .select,
             dropDownArrowVisible: true
         )
@@ -114,7 +110,6 @@ final class SwiftUIDropDownTextTest: XCTestCase {
             placeHolder: "",
             textFieldText: Binding(wrappedValue: ""),
             items: stubDatas,
-            selectedItemIndex: .constant(nil),
             featureType: .input,
             dropDownArrowVisible: true
         )

@@ -349,6 +349,7 @@
 "common_get_code" = "获取验证码";
 "common_get_code_countdown" = "获取验证码(%@)";
 "common_cs_email" = "客服邮箱 %@";
+"common_all_maintenance" = "全站维护中...";
 "common_maintenance_description" = "等待，为了更好的KTO";
 "common_cs_email_description" = "如有问题，请发送邮件至";
 "common_long_maintenance" = "长期维护";
@@ -581,6 +582,7 @@
 "deposit_amount_option_hint" = "本通道为固定存款金额，请下拉选择存款金额进行存款操作";
 "deposit_crypto_video_tutorial" = "视频教程";
 "deposit_download_jingdong_app" = "温馨提示：请您在使用该充值渠道前，先行下载京东商城APP。";
+"deposit_select_bank" = "";
 
 //MARK: - JinYiDigital
 "jinyidigital_instructions_click_here" = "导览说明。看看这里";
@@ -600,14 +602,14 @@
 "jinyidigital_single_transfer_upper_limit" = "单笔支付限额上限";
 "jinyidigital_daily_transfer_upper_limit" = "日累计支付限额上限";
 "jinyidigital_annually_transfer_upper_limit" = "年累计支付限额上限";
-"jinyidigital_first_wallet_requirements" = "1. 手机号码
-2. 有效身份证件
-3. 本人银行账户
+"jinyidigital_first_wallet_requirements" = "1. 手机号码 
+2. 有效身份证件 
+3. 本人银行账户 
 4. 运营机构现场面签";
-"jinyidigital_second_wallet_requirements" = "1. 手机号码
-2. 有效身份证件
+"jinyidigital_second_wallet_requirements" = "1. 手机号码 
+2. 有效身份证件 
 3. 本人银行账户 ";
-"jinyidigital_third_wallet_requirements" = "1. 手机号码
+"jinyidigital_third_wallet_requirements" = "1. 手机号码 
 2. 有效身份证件 ";
 "jinyidigital_fourth_wallet_requirements" = "1. 手机号码 ";
 "jinyidigital_first_wallet_requirements_description" = "提供手机号、有效身份证及本人银行账户，并且至试点区内指定运营机构现场办理。";
@@ -756,7 +758,7 @@
 "withdrawal_bankcard_branch_placeholder" = "上海分行";
 "withdrawal_bankcard_state_placeholder" = "浙江省";
 "withdrawal_bankcard_city_placeholder" = "上海市";
-"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
+"withdrawal_bankcard_accountnumber_placeholder" = " 1234123412341234";
 "withdrawal_bankcard_change_confirm_title" = "是否要变更姓名?";
 "withdrawal_bankcard_change_confirm_content" = "如需要变更姓名，请前往个人设定";
 "withdrawal_step2_title_1_tip" = "本次申请提现金额为";
@@ -842,7 +844,6 @@
 "product_unsettled_game" = "未完成的游戏";
 "product_total_bet_with_win_lose" = "总投注额  %@    %@ %@";
 "product_total_bet" = "总投注额  %@";
-"product_maintenance_title" = "等待，为了更好的 %@";
 "product_maintenance" = "产品维护中…";
 "product_none_favorite" = "没有关注的游戏";
 "product_add_now" = "现在添加";
@@ -882,7 +883,7 @@
 "product_game_maintenance" = "游戏维护中";
 "product_p2p_bonus_calculating" = "已领取红利目前无法进入对战游戏。";
 "product_mid_break" = "中场休息";
-"product_will_be_back" = "我们很快重新开赛。
+"product_will_be_back" = "我们很快重新开赛。 
 谢谢。";
 "product_p2p_turnover_description" = "进入对战前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
 "product_dealer" = "荷官";

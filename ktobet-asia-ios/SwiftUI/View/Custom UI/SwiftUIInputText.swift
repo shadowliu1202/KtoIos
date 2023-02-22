@@ -4,7 +4,7 @@ import SwiftUI
 extension SwiftUIInputText {
     enum Identifier: String {
         case textField
-        case ErrorHint
+        case errorHint
         case inputText
     }    
 }
@@ -59,7 +59,7 @@ struct SwiftUIInputText: View {
                 }
             
             Text(errorText)
-                .id(Identifier.ErrorHint.rawValue)
+                .id(SwiftUIInputText.Identifier.errorHint.rawValue)
                 .localized(weight: .regular, size: 12, color: .orangeFF8000)
                 .visibility(errorText.isEmpty ? .gone : .visible)
         }
@@ -117,17 +117,7 @@ struct SwiftUIInputText: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .visibility(showTextField ? .visible : .gone)
                 .disabled(disableInput)
-                .id(Identifier.textField.rawValue)
-                .overlay(
-                    Text(textFieldText)
-                        .localized(
-                            weight: .regular,
-                            size: 16,
-                            color: .white
-                        )
-                        .visibility(disableInput ? .visible : .gone),
-                    alignment: .leading 
-                )
+                .id(SwiftUIInputText.Identifier.textField.rawValue)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())

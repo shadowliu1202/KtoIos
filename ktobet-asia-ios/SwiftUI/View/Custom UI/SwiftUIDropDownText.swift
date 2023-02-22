@@ -6,7 +6,24 @@ extension SwiftUIDropDownText {
         case arrow
         case candidateWordList
         case entireView
-        case textField
+    }
+}
+
+extension SwiftUIDropDownText {
+    enum FeatureType: Equatable {
+        case input
+        case select
+        
+        static func == (lhs: SwiftUIDropDownText.FeatureType, rhs: SwiftUIDropDownText.FeatureType) -> Bool {
+            switch (lhs, rhs) {
+            case (.input, .input):
+                return true
+            case (.select, .select):
+                return true
+            default:
+                return false
+            }
+        }
     }
 }
 
@@ -18,9 +35,8 @@ struct SwiftUIDropDownText: View {
     @State private var isEditing: Bool = false
     
     @State private var filteredItems: [String] = []
-    
+  
     @Binding var textFieldText: String
-    @Binding var selectedItemIndex: Int?
     
     private let placeHolder: String
     private let items: [String]
@@ -37,7 +53,6 @@ struct SwiftUIDropDownText: View {
         textFieldText: Binding<String>,
         errorText: String = "",
         items: [String],
-        selectedItemIndex: Binding<Int?>,
         featureType: FeatureType,
         dropDownArrowVisible: Bool = true
     ) {
@@ -45,7 +60,6 @@ struct SwiftUIDropDownText: View {
         self._textFieldText = textFieldText
         self.errorText = errorText
         self.items = items
-        self._selectedItemIndex = selectedItemIndex
         self.featureType = featureType
         self.dropDownArrowVisible = dropDownArrowVisible
     }
@@ -60,7 +74,6 @@ struct SwiftUIDropDownText: View {
             disableInput: featureType == .select ? true : false,
             isEditing: $isEditing
         )
-        .id(Identifier.textField.rawValue)
         .positionDetect(result: $isInTopSide)
         .overlay(
             GeometryReader { geometryProxy in
@@ -114,7 +127,9 @@ struct SwiftUIDropDownText: View {
         .onInspected(inspection, self)
         .id(Identifier.entireView.rawValue)
     }
-    
+   
+  // MARK: - TopSideDetectList
+  
     var topSideDetectList: some View {
         VStack(alignment: .leading ,spacing: 0) {
             Image("Triangle16x8")
@@ -151,12 +166,12 @@ struct SwiftUIDropDownText: View {
                                     )
                                     .contentShape(Rectangle())
                                     .onTapGesture {
-                                        selectedItemIndex = items.firstIndex(of: itemDescription)
                                         textFieldText = itemDescription
+                                      
                                         isEditing = false
                                     }
                             }
-                            .id(Identifier.candidateWordList.rawValue)
+                            .id(SwiftUIDropDownText.Identifier.candidateWordList.rawValue)
                         }
                         .padding(.vertical, 12)
                     }
@@ -189,25 +204,6 @@ struct SwiftUIDropDownText: View {
     }
 }
 
-extension SwiftUIDropDownText {
-    
-    enum FeatureType: Equatable {
-        case input
-        case select
-        
-        static func == (lhs: SwiftUIDropDownText.FeatureType, rhs: SwiftUIDropDownText.FeatureType) -> Bool {
-            switch (lhs, rhs) {
-            case (.input, .input):
-                return true
-            case (.select, .select):
-                return true
-            default:
-                return false
-            }
-        }
-    }
-}
-
 struct SwiftUIDropDownText_Previews: PreviewProvider {
     
     struct Preview: View {
@@ -226,7 +222,6 @@ struct SwiftUIDropDownText_Previews: PreviewProvider {
                         placeHolder: "银行所在省份",
                         textFieldText: $textFieldText,
                         items: fakeDatas,
-                        selectedItemIndex: $selectedItemIndex,
                         featureType: .input,
                         dropDownArrowVisible: false
                     )

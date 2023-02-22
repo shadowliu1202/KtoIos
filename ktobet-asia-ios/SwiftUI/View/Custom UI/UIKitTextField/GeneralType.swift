@@ -5,13 +5,13 @@ class GeneralType: TextFieldType {
     private let maxLength: Int?
     
     let regex: GeneralRegex
-    let keyboardType: UIKeyboardType?
-    let disablePaste: Bool?
+    let keyboardType: UIKeyboardType
+    let disablePaste: Bool
     
     init(
         regex: GeneralRegex = .all,
-        keyboardType: UIKeyboardType? = .default,
-        disablePaste: Bool? = false,
+        keyboardType: UIKeyboardType = .default,
+        disablePaste: Bool = false,
         maxLength: Int? = nil
     ) {
         self.regex = regex
