@@ -32,6 +32,7 @@ def default_pods
   pod 'RxGesture'
   pod 'youtube-ios-player-helper'
   pod 'SwiftKeychainWrapper'
+  pod 'SwiftFormat/CLI', '~> 0.49'
   use_frameworks!
 end
 

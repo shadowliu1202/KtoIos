@@ -4,13 +4,13 @@ import RxSwift
 protocol KtoURL {
   var hosts: [String] { get }
   var baseURL: String { get }
-  
+
   func observeCookiesChanged()
 }
 
 extension KtoURL {
   func observeCookiesChanged() { }
-  
+
   func checkingHosts(_ hosts: [String]) -> String {
     mergeRequestsAndBlocking(
       hosts.map {
@@ -48,7 +48,7 @@ extension KtoURL {
           switch response.result {
           case .success:
             observer(.success(url))
-          case .failure(_):
+          case .failure:
             observer(.success(nil))
           }
         }
@@ -59,17 +59,16 @@ extension KtoURL {
 
 class PortalURL: KtoURL {
   private let cookieHandler = CookieHandler()
-  
+
   let hosts = Configuration.hostName.values.flatMap { $0 }
   lazy var baseURL = checkingHosts(hosts)
-  
+
   func observeCookiesChanged() {
     cookieHandler.observeCookiesChanged(
       allHosts: hosts,
       checkedHost: baseURL
         .replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "")
-        .replacingOccurrences(of: "/", with: "")
-    )
+        .replacingOccurrences(of: "/", with: ""))
   }
 }
 

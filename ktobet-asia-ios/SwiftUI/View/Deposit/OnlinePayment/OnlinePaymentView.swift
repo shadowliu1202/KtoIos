@@ -123,7 +123,7 @@ extension OnlinePaymentView {
 
     private let selectedGateway: OnlinePaymentDataModel.Gateway?
     private let userGuideOnTap: () -> Void
-    
+
     var inspection = Inspection<Self>()
 
     init(
@@ -172,7 +172,7 @@ extension OnlinePaymentView {
     @State private var cellHeight: CGFloat?
 
     @Binding private var selectedGateway: OnlinePaymentDataModel.Gateway?
-    
+
     var inspection = Inspection<Self>()
 
     init(_ selectedGateway: Binding<OnlinePaymentDataModel.Gateway?>) {
@@ -365,7 +365,7 @@ extension OnlinePaymentView {
     private let remitAmount: String?
 
     private let remitButtonOnSuccess: (_ url: String) -> Void
-    
+
     var inspection = Inspection<Self>()
 
     init(
@@ -476,13 +476,13 @@ struct OnlinePaymentView_Previews: PreviewProvider {
     @Published private(set) var remitInfoErrorMessage: OnlinePaymentDataModel.RemittanceInfoError = .empty
     @Published private(set) var submitButtonDisable = true
 
-    func setupData(onlineDTO: PaymentsDTO.Online) { }
+    func setupData(onlineDTO _: PaymentsDTO.Online) { }
 
-    func verifyRemitInfo(info: OnlinePaymentDataModel.RemittanceInfo) { }
+    func verifyRemitInfo(info _: OnlinePaymentDataModel.RemittanceInfo) { }
 
     func submitRemittance(
-      info: OnlinePaymentDataModel.RemittanceInfo,
-      remitButtonOnSuccess: @escaping (_ url: String) -> Void) { }
+      info _: OnlinePaymentDataModel.RemittanceInfo,
+      remitButtonOnSuccess _: @escaping (_ url: String) -> Void) { }
   }
 
   static var previews: some View {

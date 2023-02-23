@@ -5,11 +5,11 @@ class CookieHandler: CookieUtil {
   @Injected private var localRepo: LocalStorageRepository
 
   private let disposeBag = DisposeBag()
-  
+
   func observeCookiesChanged(
     allHosts: [String],
-    checkedHost: String
-  ) {
+    checkedHost: String)
+  {
     NotificationCenter.default.rx
       .notification(.NSHTTPCookieManagerCookiesChanged)
       .distinct()

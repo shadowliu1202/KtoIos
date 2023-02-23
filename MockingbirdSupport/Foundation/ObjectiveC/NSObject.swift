@@ -1,9 +1,9 @@
 import ObjectiveC
 
-public protocol NSObjectProtocol {}
+public protocol NSObjectProtocol { }
 
-open class NSObject : NSObjectProtocol {
-  public init() {}
+open class NSObject: NSObjectProtocol {
+  public init() { }
 }
 
 public protocol NSCopying {

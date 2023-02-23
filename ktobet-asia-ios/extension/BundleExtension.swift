@@ -17,7 +17,7 @@ extension Bundle {
   var appName: String {
     infoDictionary?["CFBundleDisplayName"] as? String ?? "KTO"
   }
-  
+
   var currentVersion: Version {
     if
       let buildNumber = self.buildVersionNumber,

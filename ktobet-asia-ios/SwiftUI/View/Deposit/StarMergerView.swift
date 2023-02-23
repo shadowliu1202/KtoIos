@@ -1,80 +1,78 @@
-import SwiftUI
 import SharedBu
+import SwiftUI
 
 struct StarMergerView<ViewModel: StarMergerViewModel>: View {
-    var inspection = Inspection<Self>()
-    enum Identifier: String {
-        case submitButton
-    }
-    
-    @StateObject var viewModel: ViewModel
-    let confirmButtonAction: (CommonDTO.WebPath?) -> Void
-    
-    
-    init(viewModel: ViewModel, _ confirmButtonAction: @escaping (_ webPath: CommonDTO.WebPath?) -> Void) {
-        self._viewModel = StateObject.init(wrappedValue: viewModel)
-        self.confirmButtonAction = confirmButtonAction
-    }
-    
-    var body: some View {
-        ScrollView {
-            PageContainer {
-                VStack(spacing: 0) {
-                    starMergerInfo
-                    
-                    LimitSpacer(40)
-                    
-                    Button(Localize.string("common_submit2")) {
-                        confirmButtonAction(viewModel.paymentLink)
-                    }
-                    .buttonStyle(.confirmRed)
-                    .disabled(viewModel.paymentLink == nil ? true : false)
-                    .id(Identifier.submitButton.rawValue)
-                }
-                .padding(.horizontal, 30)
-            }
+  var inspection = Inspection<Self>()
+  enum Identifier: String {
+    case submitButton
+  }
+
+  @StateObject var viewModel: ViewModel
+  let confirmButtonAction: (CommonDTO.WebPath?) -> Void
+
+  init(viewModel: ViewModel, _ confirmButtonAction: @escaping (_ webPath: CommonDTO.WebPath?) -> Void) {
+    self._viewModel = StateObject(wrappedValue: viewModel)
+    self.confirmButtonAction = confirmButtonAction
+  }
+
+  var body: some View {
+    ScrollView {
+      PageContainer {
+        VStack(spacing: 0) {
+          starMergerInfo
+
+          LimitSpacer(40)
+
+          Button(Localize.string("common_submit2")) {
+            confirmButtonAction(viewModel.paymentLink)
+          }
+          .buttonStyle(.confirmRed)
+          .disabled(viewModel.paymentLink == nil ? true : false)
+          .id(Identifier.submitButton.rawValue)
         }
-        .pageBackgroundColor(.gray131313)
-        .onAppear {
-            viewModel.getGatewayInformation()
-        }
-        .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
+        .padding(.horizontal, 30)
+      }
     }
-    
-    @ViewBuilder
-    private var starMergerInfo: some View {
-        Text(Localize.string("cps_starmerger_title"))
-            .localized(weight: .semibold, size: 24, color: .white)
-        
-        LimitSpacer(16)
-        
-        VStack(alignment: .leading, spacing: 0) {
-            Text(Localize.string("common_tip_title_warm"))
-                .localized(weight: .regular, size: 14, color: .gray9B9B9B)
-            Text("\(viewModel.amountRange?.min.description() ?? "") RMB-\(viewModel.amountRange?.max.description() ?? "") RMB")
-                .localized(weight: .medium, size: 14, color: .white)
-            LimitSpacer(12)
-            Separator()
-            LimitSpacer(12)
-            Text(Localize.string("common_tip_title_warm"))
-                .localized(weight: .regular, size: 14, color: .gray9B9B9B)
-            Text(Localize.string("cps_starmerger_description"))
-                .localized(weight: .medium, size: 14, color: .white)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .padding(.vertical, 30)
-        .padding(.horizontal, 20)
-        .strokeBorder(color: .gray9B9B9B, cornerRadius: 14)
-        
-        LimitSpacer(30)
-        
-        Text(Localize.string("cps_starmerger_hint"))
-            .localized(weight: .regular, size: 14, color: .redF20000)
+    .pageBackgroundColor(.gray131313)
+    .onAppear {
+      viewModel.getGatewayInformation()
     }
+    .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
+  }
+
+  @ViewBuilder  private var starMergerInfo: some View {
+    Text(Localize.string("cps_starmerger_title"))
+      .localized(weight: .semibold, size: 24, color: .white)
+
+    LimitSpacer(16)
+
+    VStack(alignment: .leading, spacing: 0) {
+      Text(Localize.string("common_tip_title_warm"))
+        .localized(weight: .regular, size: 14, color: .gray9B9B9B)
+      Text("\(viewModel.amountRange?.min.description() ?? "") RMB-\(viewModel.amountRange?.max.description() ?? "") RMB")
+        .localized(weight: .medium, size: 14, color: .white)
+      LimitSpacer(12)
+      Separator()
+      LimitSpacer(12)
+      Text(Localize.string("common_tip_title_warm"))
+        .localized(weight: .regular, size: 14, color: .gray9B9B9B)
+      Text(Localize.string("cps_starmerger_description"))
+        .localized(weight: .medium, size: 14, color: .white)
+        .fixedSize(horizontal: false, vertical: true)
+    }
+    .padding(.vertical, 30)
+    .padding(.horizontal, 20)
+    .strokeBorder(color: .gray9B9B9B, cornerRadius: 14)
+
+    LimitSpacer(30)
+
+    Text(Localize.string("cps_starmerger_hint"))
+      .localized(weight: .regular, size: 14, color: .redF20000)
+  }
 }
 
 struct StarMergerView_Previews: PreviewProvider {
-    static var previews: some View {
-        StarMergerView(viewModel: Injectable.resolve(StarMergerViewModelImpl.self)!, { _ in })
-    }
+  static var previews: some View {
+    StarMergerView(viewModel: Injectable.resolve(StarMergerViewModelImpl.self)!, { _ in })
+  }
 }

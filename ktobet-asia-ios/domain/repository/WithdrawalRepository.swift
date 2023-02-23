@@ -3,307 +3,419 @@ import RxSwift
 import SharedBu
 
 protocol WithdrawalRepository {
-    func getWithdrawalLimitation() -> Single<WithdrawalLimits>
-    func getWithdrawalRecords() -> Single<[WithdrawalRecord]>
-    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail>
-    func getWithdrawalRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[WithdrawalRecord]>
-    func cancelWithdrawal(ticketId: String) -> Completable
-    func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
-    func getWithdrawalAccounts() -> Single<[FiatBankCard]>
-    func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable
-    func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
-    func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String>
-    func getCryptoBankCards() -> Single<[CryptoBankCard]>
-    func addCryptoBankCard(currency: SupportCryptoType, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String>
-    func getCryptoLimitTransactions() -> Single<CpsWithdrawalSummary>
-    func verifyCryptoBankCard(playerCryptoBankCardId: String, accountType: AccountType) -> Completable
-    func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable
-    func resendOtp(accountType: AccountType) -> Completable
-    func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType, _ supportLocale: SupportLocale) -> Single<IExchangeRate>
-    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable
-    func deleteCryptoBankCard(id: String) -> Completable
-    func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem>
-    func getIsAnyTicketApplying() -> Single<Bool>
-    func getCryptoWithdrawalLimits(cryptoType: SupportCryptoType, cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits>
-    func isCryptoProcessCertified() -> Single<Bool>
+  func getWithdrawalLimitation() -> Single<WithdrawalLimits>
+  func getWithdrawalRecords() -> Single<[WithdrawalRecord]>
+  func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail>
+  func getWithdrawalRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus])
+    -> Single<[WithdrawalRecord]>
+  func cancelWithdrawal(ticketId: String) -> Completable
+  func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable
+  func getWithdrawalAccounts() -> Single<[FiatBankCard]>
+  func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable
+  func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable
+  func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String>
+  func getCryptoBankCards() -> Single<[CryptoBankCard]>
+  func addCryptoBankCard(currency: SupportCryptoType, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork)
+    -> Single<String>
+  func getCryptoLimitTransactions() -> Single<CpsWithdrawalSummary>
+  func verifyCryptoBankCard(playerCryptoBankCardId: String, accountType: AccountType) -> Completable
+  func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable
+  func resendOtp(accountType: AccountType) -> Completable
+  func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType, _ supportLocale: SupportLocale) -> Single<IExchangeRate>
+  func requestCryptoWithdrawal(
+    playerCryptoBankCardId: String,
+    requestCryptoAmount: Double,
+    requestFiatAmount: Double,
+    cryptoCurrency: CryptoCurrency) -> Completable
+  func deleteCryptoBankCard(id: String) -> Completable
+  func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem>
+  func getIsAnyTicketApplying() -> Single<Bool>
+  func getCryptoWithdrawalLimits(cryptoType: SupportCryptoType, cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits>
+  func isCryptoProcessCertified() -> Single<Bool>
 }
 
 class WithdrawalRepositoryImpl: WithdrawalRepository {
-    private var bankApi: BankApi!
-    private var imageApi: ImageApi!
-    private var cpsApi: CPSApi!
-    private var bankRepository: BankRepository!
-    private let localStorageRepo: LocalStorageRepository
-    private let withdrawalSystem = WithdrawalSystem.create()
-    private var httpClient: HttpClient!
-    
-    init(_ bankApi: BankApi, imageApi: ImageApi, cpsApi: CPSApi, bankRepository: BankRepository!, localStorageRepo: LocalStorageRepository, httpClient: HttpClient) {
-        self.bankApi = bankApi
-        self.imageApi = imageApi
-        self.cpsApi = cpsApi
-        self.bankRepository = bankRepository
-        self.localStorageRepo = localStorageRepo
-        self.httpClient = httpClient
-    }
-    
-    func deleteCryptoBankCard(id: String) -> Completable {
-        let bankCardsMap = ["playerCryptoBankCardIds[0]": id]
-        return cpsApi.deleteBankCards(bankCardId: bankCardsMap)
-    }
-    
-    func getWithdrawalLimitation() -> Single<WithdrawalLimits> {
-        Single.zip(bankApi.getWithdrawalLimitation(), bankApi.getEachLimit(), bankApi.getTurnOver()).flatMap({ [unowned self] (daliyLimitsResponse, singleLimitsResponse, turnOverResponse) -> Single<WithdrawalLimits> in
-            guard let daily = daliyLimitsResponse.data, let single = singleLimitsResponse.data, let turnOver = turnOverResponse.data else {
-                return Single<WithdrawalLimits>.never()
-            }
-            let limits = WithdrawalLimits(dailyMaxCount: daily.withdrawalDailyCount, dailyMaxCash: daily.withdrawalDailyLimit.toAccountCurrency(), dailyCurrentCount: daily.withdrawalCount, dailyCurrentCash: daily.withdrawalLimit.toAccountCurrency(), singleCashMaximum: single.max.toAccountCurrency(), singleCashMinimum: single.minimum.toAccountCurrency(), turnoverAmount: turnOver.turnoverAmount.toAccountCurrency(), achievedAmount: turnOver.achievedAmount.toAccountCurrency(), unresolvedCryptoTurnover: self.sumOf(list: turnOver.cryptoWithdrawalRequestInfos))
-            return Single<WithdrawalLimits>.just(limits)
-        })
+  private var bankApi: BankApi!
+  private var imageApi: ImageApi!
+  private var cpsApi: CPSApi!
+  private var bankRepository: BankRepository!
+  private let localStorageRepo: LocalStorageRepository
+  private let withdrawalSystem = WithdrawalSystem.create()
+  private var httpClient: HttpClient!
+
+  init(
+    _ bankApi: BankApi,
+    imageApi: ImageApi,
+    cpsApi: CPSApi,
+    bankRepository: BankRepository!,
+    localStorageRepo: LocalStorageRepository,
+    httpClient: HttpClient)
+  {
+    self.bankApi = bankApi
+    self.imageApi = imageApi
+    self.cpsApi = cpsApi
+    self.bankRepository = bankRepository
+    self.localStorageRepo = localStorageRepo
+    self.httpClient = httpClient
+  }
+
+  func deleteCryptoBankCard(id: String) -> Completable {
+    let bankCardsMap = ["playerCryptoBankCardIds[0]": id]
+    return cpsApi.deleteBankCards(bankCardId: bankCardsMap)
+  }
+
+  func getWithdrawalLimitation() -> Single<WithdrawalLimits> {
+    Single.zip(bankApi.getWithdrawalLimitation(), bankApi.getEachLimit(), bankApi.getTurnOver())
+      .flatMap({ [unowned self] daliyLimitsResponse, singleLimitsResponse, turnOverResponse -> Single<WithdrawalLimits> in
+        guard
+          let daily = daliyLimitsResponse.data, let single = singleLimitsResponse.data,
+          let turnOver = turnOverResponse.data
+        else {
+          return Single<WithdrawalLimits>.never()
+        }
+        let limits = WithdrawalLimits(
+          dailyMaxCount: daily.withdrawalDailyCount,
+          dailyMaxCash: daily.withdrawalDailyLimit.toAccountCurrency(),
+          dailyCurrentCount: daily.withdrawalCount,
+          dailyCurrentCash: daily.withdrawalLimit.toAccountCurrency(),
+          singleCashMaximum: single.max.toAccountCurrency(),
+          singleCashMinimum: single.minimum.toAccountCurrency(),
+          turnoverAmount: turnOver.turnoverAmount.toAccountCurrency(),
+          achievedAmount: turnOver.achievedAmount.toAccountCurrency(),
+          unresolvedCryptoTurnover: self.sumOf(list: turnOver.cryptoWithdrawalRequestInfos))
+        return Single<WithdrawalLimits>.just(limits)
+      })
+  }
+
+  func getCryptoWithdrawalLimits(cryptoType: SupportCryptoType, cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits> {
+    Single.zip(bankApi.getWithdrawalLimitation(), cpsApi.getCryptoLimitations(), bankApi.getTurnOver())
+      .flatMap { daliyLimitsResponse, eachLimitResponse, turnOverResponse in
+        guard
+          let dailyLimit = daliyLimitsResponse.data,
+          let eachLimit = eachLimitResponse.data
+            .map({
+              $0.first(where: { $0.cryptoCurrency == cryptoType.currencyId && $0.cryptoNetwork == cryptoNetwork.index })
+            }),
+          let cryptoLimit = eachLimit,
+          let turnOver = turnOverResponse.data else { return Single<WithdrawalLimits>.never() }
+        let limits = WithdrawalLimits(
+          dailyMaxCount: dailyLimit.withdrawalDailyCount,
+          dailyMaxCash: dailyLimit.withdrawalDailyLimit.toAccountCurrency(),
+          dailyCurrentCount: dailyLimit.withdrawalCount,
+          dailyCurrentCash: dailyLimit.withdrawalLimit.toAccountCurrency(),
+          singleCashMaximum: cryptoLimit.max.toAccountCurrency(),
+          singleCashMinimum: cryptoLimit.min.toAccountCurrency(),
+          turnoverAmount: turnOver.turnoverAmount.toAccountCurrency(),
+          achievedAmount: turnOver.achievedAmount.toAccountCurrency(),
+          unresolvedCryptoTurnover: self.sumOf(list: turnOver.cryptoWithdrawalRequestInfos))
+        return Single<WithdrawalLimits>.just(limits)
+      }
+  }
+
+  private func sumOf(list: [CryptoWithdrawalRequestInfo]?) -> AccountCurrency {
+    guard let list else { return AccountCurrency.zero() }
+    return list.map({ $0.withdrawalRequest.toAccountCurrency() }).reduce(AccountCurrency.zero()) { $0 + $1 }
+  }
+
+  func getWithdrawalRecords() -> Single<[WithdrawalRecord]> {
+    let withdrawalRecord = bankApi.getWithdrawalRecords().map { response -> [WithdrawalRecordData] in
+      guard let data = response.data else { return [] }
+      let sortData = Array(data.sorted { $0.createdDate > $1.createdDate }.prefix(5))
+      let noFloatingData = sortData
+        .filter {
+          TransactionStatus.Companion().convertTransactionStatus(ticketStatus_: $0.status) != TransactionStatus.floating
+        }
+      let floatingData = sortData
+        .filter {
+          TransactionStatus.Companion().convertTransactionStatus(ticketStatus_: $0.status) == TransactionStatus.floating
+        }
+
+      return floatingData + noFloatingData
+    }.map {
+      try $0.map { r -> WithdrawalRecord in
+        try self.convertWithdrawalDataToWithdrawalRecord(r)
+      }
     }
 
-    func getCryptoWithdrawalLimits(cryptoType: SupportCryptoType, cryptoNetwork: CryptoNetwork) -> Single<WithdrawalLimits> {
-        return Single.zip(bankApi.getWithdrawalLimitation(), cpsApi.getCryptoLimitations(), bankApi.getTurnOver())
-            .flatMap { (daliyLimitsResponse, eachLimitResponse, turnOverResponse) in
-                guard let dailyLimit = daliyLimitsResponse.data,
-                      let eachLimit = eachLimitResponse.data.map({ $0.first(where: { $0.cryptoCurrency == cryptoType.currencyId && $0.cryptoNetwork == cryptoNetwork.index }) }),
-                      let cryptoLimit = eachLimit,
-                      let turnOver = turnOverResponse.data else { return Single<WithdrawalLimits>.never() }
-                let limits = WithdrawalLimits(dailyMaxCount: dailyLimit.withdrawalDailyCount,
-                                              dailyMaxCash: dailyLimit.withdrawalDailyLimit.toAccountCurrency(),
-                                              dailyCurrentCount: dailyLimit.withdrawalCount,
-                                              dailyCurrentCash: dailyLimit.withdrawalLimit.toAccountCurrency(),
-                                              singleCashMaximum: cryptoLimit.max.toAccountCurrency(),
-                                              singleCashMinimum: cryptoLimit.min.toAccountCurrency(),
-                                              turnoverAmount: turnOver.turnoverAmount.toAccountCurrency(),
-                                              achievedAmount: turnOver.achievedAmount.toAccountCurrency(),
-                                              unresolvedCryptoTurnover: self.sumOf(list: turnOver.cryptoWithdrawalRequestInfos))
-                return Single<WithdrawalLimits>.just(limits)
-            }
-    }
-    
-    private func sumOf(list: [CryptoWithdrawalRequestInfo]?) -> AccountCurrency {
-        guard let list = list else { return AccountCurrency.zero() }
-        return list.map({ $0.withdrawalRequest.toAccountCurrency()}).reduce(AccountCurrency.zero()) { $0+$1 }
-    }
-    
-    func getWithdrawalRecords() -> Single<[WithdrawalRecord]> {
-        let withdrawalRecord = bankApi.getWithdrawalRecords().map { (response) -> [WithdrawalRecordData] in
-            guard let data = response.data else { return [] }
-            let sortData = Array(data.sorted { $0.createdDate > $1.createdDate }.prefix(5))
-            let noFloatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) != TransactionStatus.floating }
-            let floatingData = sortData.filter{ TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: $0.status) ==  TransactionStatus.floating }
-            
-            return floatingData + noFloatingData
-        }.map {
-            try $0.map { (r) -> WithdrawalRecord in
-                return try self.convertWithdrawalDataToWithdrawalRecord(r)
-            }
-        }
-        
-        return withdrawalRecord
-    }
-    
-    fileprivate func convertWithdrawalDataToWithdrawalRecord(_ r: WithdrawalRecordData) throws -> WithdrawalRecord {
-        WithdrawalRecord(transactionTransactionType: TransactionType.Companion.init().convertTransactionType(transactionType_: r.ticketType), displayId: r.displayID,
-                         transactionStatus: TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus_: r.status),
-                         createDate: try r.createdDate.toOffsetDateTime(),
-                         cashAmount: r.requestAmount.toAccountCurrency(),
-                         isPendingHold: r.isPendingHold,
-                         groupDay: try r.createdDate.toLocalDate())
-    }
-    
-    func getWithdrawalRecordDetail(transactionId: String, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
-        return bankApi.getWithdrawalRecordDetail(displayId: transactionId, ticketType: TransactionType.Companion.init().convertTransactionType(transactionType: transactionTransactionType)).flatMap { self.createWithdrawalRecordDetail(detail: $0.data!, transactionTransactionType: transactionTransactionType)
-        }
-    }
-    
-    func getWithdrawalRecords(page: String, dateBegin: Date, dateEnd: Date, status: [TransactionStatus]) -> Single<[WithdrawalRecord]> {
-        var statusDic: [String: Int32] = [:]
-        status.enumerated().forEach { statusDic["ticketStatuses[\($0.0)]"] = TransactionStatus.Companion.init().convertTransactionStatus(ticketStatus: $0.1)}
-        return bankApi.getWithdrawalRecords(page: page, deteBegin: dateBegin.toDateStartTimeString(with: "-"), dateEnd: dateEnd.toDateStartTimeString(with: "-"), status: statusDic).map { (response) -> [WithdrawalRecord] in
-            let data = response.data ?? []
-            let sortedData = data.sorted(by: { $0.date > $1.date })
-            var records: [WithdrawalRecord] = []
-            for d in sortedData {
-                for r in d.logs {
-                    let record =  try self.convertWithdrawalDataToWithdrawalRecord(r)
-                    records.append(record)
-                }
-            }
-            
-            return records
-        }
-    }
-    
-    func cancelWithdrawal(ticketId: String) -> Completable {
-        return bankApi.cancelWithdrawal(ticketId: ticketId).catchException(transferLogic: {
-            switch $0 {
-            case is WithdrawalTicketBatched:
-                return KtoWithdrawalTicketBatched()
-            default:
-                return $0
-            }
-        })
-    }
-    
-    func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String> {
-        return bankApi.sendWithdrawalRequest(withdrawalRequest: WithdrawalRequest(requestAmount: cashAmount.bigAmount.doubleValue(exactRequired: false), playerBankCardId: playerBankCardId)).catchException(transferLogic: {
-            switch $0 {
-            case is PlayerWithdrawalDefective:
-                return KtoPlayerWithdrawalDefective()
-            default:
-                return $0
-            }
-        }).map{ $0.data ?? ""}
-    }
-    
-    func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable {
-        let imageBindingData = UploadImagesData(ticketStatus: transactionId, images: portalImages.map { ImageBean(imageID: $0.imageId, fileName: $0.fileName) })
-        
-        return bankApi.bindingImageWithWithdrawalRecord(displayId: displayId, uploadImagesData: imageBindingData)
-    }
-    
-    fileprivate func createWithdrawalRecordDetail(detail: WithdrawalRecordDetailData, transactionTransactionType: TransactionType) -> Single<WithdrawalDetail> {
-        return getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { (tHistories) -> WithdrawalDetail in
-            try detail.toWithdrawalDetail(transactionTransactionType: transactionTransactionType, statusChangeHistories: tHistories, playerLocale: self.localStorageRepo.getSupportLocale())
-        }
-    }
-    
-    fileprivate func getStatusChangeHistories(statusChangeHistories: [StatusChangeHistory]) -> Single<[Transaction.StatusChangeHistory]> {
-        var histories: [Single<Transaction.StatusChangeHistory>] = []
-        for history in statusChangeHistories {
-            histories.append(createStatusChangeHistory(changeHistory: history))
-        }
-        
-        return Single.zip(histories)
-    }
-    
-    fileprivate func createStatusChangeHistory(changeHistory: StatusChangeHistory) -> Single<Transaction.StatusChangeHistory> {
-        var imgIDs: [Single<ResponseData<String>>] = []
-        var portalImages: [PortalImage] = []
-        for id in changeHistory.imageIDS {
-            imgIDs.append(imageApi.getPrivateImageToken(imageId: id))
-        }
-        
-        return Single.zip(imgIDs).map { [unowned self] (response) -> Transaction.StatusChangeHistory in
-            for r in response {
-                portalImages.append(PortalImage.Private(imageId: r.data ?? "", fileName: "", host: self.httpClient.host.absoluteString))
-            }
-            
-            return Transaction.StatusChangeHistory(createdDate: try changeHistory.createdDate.toOffsetDateTime(), imageIds: portalImages, remarkLevel1: changeHistory.remarkLevel1, remarkLevel2: changeHistory.remarkLevel2, remarkLevel3: changeHistory.remarkLevel3)
-        }
-    }
-    
-    func getWithdrawalAccounts() -> Single<[FiatBankCard]> {
-        return Single<[FiatBankCard]>.zip(bankApi.getWithdrawalAccount(), bankRepository.getBankDictionary()) { [unowned self] (response, banks) in
-            if let databeans = response.data?.payload {
-                let data: [FiatBankCard] = databeans.map({ $0.toFiatBankCard(banks: banks, locale: self.localStorageRepo.getSupportLocale())
+    return withdrawalRecord
+  }
 
-                })
-                return data
-            }
-            return []
+  fileprivate func convertWithdrawalDataToWithdrawalRecord(_ r: WithdrawalRecordData) throws -> WithdrawalRecord {
+    WithdrawalRecord(
+      transactionTransactionType: TransactionType.Companion().convertTransactionType(transactionType_: r.ticketType),
+      displayId: r.displayID,
+      transactionStatus: TransactionStatus.Companion().convertTransactionStatus(ticketStatus_: r.status),
+      createDate: try r.createdDate.toOffsetDateTime(),
+      cashAmount: r.requestAmount.toAccountCurrency(),
+      isPendingHold: r.isPendingHold,
+      groupDay: try r.createdDate.toLocalDate())
+  }
+
+  func getWithdrawalRecordDetail(
+    transactionId: String,
+    transactionTransactionType: TransactionType) -> Single<WithdrawalDetail>
+  {
+    bankApi.getWithdrawalRecordDetail(
+      displayId: transactionId,
+      ticketType: TransactionType.Companion().convertTransactionType(transactionType: transactionTransactionType))
+      .flatMap { self.createWithdrawalRecordDetail(detail: $0.data!, transactionTransactionType: transactionTransactionType)
+      }
+  }
+
+  func getWithdrawalRecords(
+    page: String,
+    dateBegin: Date,
+    dateEnd: Date,
+    status: [TransactionStatus]) -> Single<[WithdrawalRecord]>
+  {
+    var statusDic: [String: Int32] = [:]
+    status.enumerated()
+      .forEach {
+        statusDic["ticketStatuses[\($0.0)]"] = TransactionStatus.Companion().convertTransactionStatus(ticketStatus: $0.1)
+      }
+    return bankApi.getWithdrawalRecords(
+      page: page,
+      deteBegin: dateBegin.toDateStartTimeString(with: "-"),
+      dateEnd: dateEnd.toDateStartTimeString(with: "-"),
+      status: statusDic).map { response -> [WithdrawalRecord] in
+      let data = response.data ?? []
+      let sortedData = data.sorted(by: { $0.date > $1.date })
+      var records: [WithdrawalRecord] = []
+      for d in sortedData {
+        for r in d.logs {
+          let record = try self.convertWithdrawalDataToWithdrawalRecord(r)
+          records.append(record)
         }
+      }
+
+      return records
     }
-    
-    func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable {
-        let request = WithdrawalAccountAddRequest(bankID: account.bankId, bankName: account.bankName, branch: account.branch, accountName: account.accountName, accountNumber: account.accountNumber, address: account.address, city: account.city, location: account.location)
-        return bankApi.isWithdrawalAccountExist(bankId: account.bankId, bankName: account.bankName, accountNumber: account.accountNumber).flatMapCompletable { (response) -> Completable in
-            if let data = response.data, data {
-                return Completable.error(KtoWithdrawalAccountExist())
-            } else {
-                return self.bankApi.sendWithdrawalAddAccount(request: request).asCompletable()
-            }
-        }
+  }
+
+  func cancelWithdrawal(ticketId: String) -> Completable {
+    bankApi.cancelWithdrawal(ticketId: ticketId).catchException(transferLogic: {
+      switch $0 {
+      case is WithdrawalTicketBatched:
+        return KtoWithdrawalTicketBatched()
+      default:
+        return $0
+      }
+    })
+  }
+
+  func sendWithdrawalRequest(playerBankCardId: String, cashAmount: AccountCurrency) -> Single<String> {
+    bankApi.sendWithdrawalRequest(withdrawalRequest: WithdrawalRequest(
+      requestAmount: cashAmount.bigAmount.doubleValue(exactRequired: false),
+      playerBankCardId: playerBankCardId)).catchException(transferLogic: {
+      switch $0 {
+      case is PlayerWithdrawalDefective:
+        return KtoPlayerWithdrawalDefective()
+      default:
+        return $0
+      }
+    }).map { $0.data ?? "" }
+  }
+
+  func bindingImageWithWithdrawalRecord(displayId: String, transactionId: Int32, portalImages: [PortalImage]) -> Completable {
+    let imageBindingData = UploadImagesData(
+      ticketStatus: transactionId,
+      images: portalImages.map { ImageBean(imageID: $0.imageId, fileName: $0.fileName) })
+
+    return bankApi.bindingImageWithWithdrawalRecord(displayId: displayId, uploadImagesData: imageBindingData)
+  }
+
+  fileprivate func createWithdrawalRecordDetail(
+    detail: WithdrawalRecordDetailData,
+    transactionTransactionType: TransactionType) -> Single<WithdrawalDetail>
+  {
+    getStatusChangeHistories(statusChangeHistories: detail.statusChangeHistories).map { tHistories -> WithdrawalDetail in
+      try detail.toWithdrawalDetail(
+        transactionTransactionType: transactionTransactionType,
+        statusChangeHistories: tHistories,
+        playerLocale: self.localStorageRepo.getSupportLocale())
     }
-    
-    func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
-        return bankApi.deleteWithdrawalAccount(playerBankCardId: playerBankCardId).asCompletable()
+  }
+
+  fileprivate func getStatusChangeHistories(statusChangeHistories: [StatusChangeHistory])
+    -> Single<[Transaction.StatusChangeHistory]>
+  {
+    var histories: [Single<Transaction.StatusChangeHistory>] = []
+    for history in statusChangeHistories {
+      histories.append(createStatusChangeHistory(changeHistory: history))
     }
-    
-    func getCryptoBankCards() -> Single<[CryptoBankCard]> {
-        return cpsApi.getCryptoBankCard().map { (response) -> [CryptoBankCard] in
-            guard let data = response.data?.payload else { return [] }
-            return try data.map{ try $0.toCryptoBankCard() }
-        }
+
+    return Single.zip(histories)
+  }
+
+  fileprivate func createStatusChangeHistory(changeHistory: StatusChangeHistory) -> Single<Transaction.StatusChangeHistory> {
+    var imgIDs: [Single<ResponseData<String>>] = []
+    var portalImages: [PortalImage] = []
+    for id in changeHistory.imageIDS {
+      imgIDs.append(imageApi.getPrivateImageToken(imageId: id))
     }
-    
-    func addCryptoBankCard(currency: SupportCryptoType, alias: String, walletAddress: String, cryptoNetwork: CryptoNetwork) -> Single<String> {
-        let cryptoBankCardRequest = CryptoBankCardRequest(cryptoCurrency: currency.id__, cryptoWalletName: alias, cryptoWalletAddress: walletAddress, cryptoNetwork: cryptoNetwork.index)
-        return self.cpsApi.createCryptoBankCard(cryptoBankCardRequest: cryptoBankCardRequest)
-            .catchException(transferLogic: {
-                switch $0 {
-                case is PlayerCryptoBankCardIsExist:
-                    return KtoWithdrawalAccountExist()
-                default:
-                    return $0
-                }
+
+    return Single.zip(imgIDs).map { [unowned self] response -> Transaction.StatusChangeHistory in
+      for r in response {
+        portalImages
+          .append(PortalImage.Private(imageId: r.data ?? "", fileName: "", host: self.httpClient.host.absoluteString))
+      }
+
+      return Transaction.StatusChangeHistory(
+        createdDate: try changeHistory.createdDate.toOffsetDateTime(),
+        imageIds: portalImages,
+        remarkLevel1: changeHistory.remarkLevel1,
+        remarkLevel2: changeHistory.remarkLevel2,
+        remarkLevel3: changeHistory.remarkLevel3)
+    }
+  }
+
+  func getWithdrawalAccounts() -> Single<[FiatBankCard]> {
+    Single<[FiatBankCard]>
+      .zip(bankApi.getWithdrawalAccount(), bankRepository.getBankDictionary()) { [unowned self] response, banks in
+        if let databeans = response.data?.payload {
+          let data: [FiatBankCard] = databeans
+            .map({ $0.toFiatBankCard(banks: banks, locale: self.localStorageRepo.getSupportLocale())
+
             })
-            .map { (response) -> String in
-                guard let data = response.data else { return "" }
-                return data
-            }
+          return data
+        }
+        return []
+      }
+  }
+
+  func addWithdrawalAccount(_ account: NewWithdrawalAccount) -> Completable {
+    let request = WithdrawalAccountAddRequest(
+      bankID: account.bankId,
+      bankName: account.bankName,
+      branch: account.branch,
+      accountName: account.accountName,
+      accountNumber: account.accountNumber,
+      address: account.address,
+      city: account.city,
+      location: account.location)
+    return bankApi.isWithdrawalAccountExist(
+      bankId: account.bankId,
+      bankName: account.bankName,
+      accountNumber: account.accountNumber).flatMapCompletable { response -> Completable in
+      if let data = response.data, data {
+        return Completable.error(KtoWithdrawalAccountExist())
+      }
+      else {
+        return self.bankApi.sendWithdrawalAddAccount(request: request).asCompletable()
+      }
     }
-    
-    func verifyCryptoBankCard(playerCryptoBankCardId: String, accountType: AccountType) -> Completable {
-        cpsApi.sendAccountVerifyOTP(verifyRequest: AccountVerifyRequest(playerCryptoBankCardId: playerCryptoBankCardId, accountType: accountType.rawValue)).asCompletable()
+  }
+
+  func deleteWithdrawalAccount(_ playerBankCardId: String) -> Completable {
+    bankApi.deleteWithdrawalAccount(playerBankCardId: playerBankCardId).asCompletable()
+  }
+
+  func getCryptoBankCards() -> Single<[CryptoBankCard]> {
+    cpsApi.getCryptoBankCard().map { response -> [CryptoBankCard] in
+      guard let data = response.data?.payload else { return [] }
+      return try data.map { try $0.toCryptoBankCard() }
     }
-    
-    func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable {
-        cpsApi.verifyOTP(verifyOtp: OTPVerifyRequest(verifyCode: verifyCode, accountType: accountType.rawValue)).asCompletable()
-    }
-    
-    func resendOtp(accountType: AccountType) -> Completable {
-        cpsApi.resendOTP(type: accountType.rawValue)
-    }
-    
-    func getCryptoLimitTransactions() -> Single<CpsWithdrawalSummary> {
-        return cpsApi.getCryptoWithdrawalLimitTransactions().map({ try $0.data.toSummary() })
-    }
-    
-    func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType, _ supportLocale: SupportLocale) -> Single<IExchangeRate> {
-        return cpsApi.getCryptoExchangeRate(cryptoCurrency.id__).map({ CryptoExchangeFactory.init().create(from: cryptoCurrency, to: supportLocale, exRate: "\($0.data)") })
-    }
-    
-    func requestCryptoWithdrawal(playerCryptoBankCardId: String, requestCryptoAmount: Double, requestFiatAmount: Double, cryptoCurrency: CryptoCurrency) -> Completable {
-        let currencyId = try! SupportCryptoType.companion.typeOf(cryptoCurrency: cryptoCurrency).id__
-        let bean = CryptoWithdrawalRequest(playerCryptoBankCardId: playerCryptoBankCardId, requestCryptoAmount: requestCryptoAmount, requestFiatAmount: requestFiatAmount, cryptoCurrency: currencyId)
-        return cpsApi.createCryptoWithdrawal(request: bean).catchException(transferLogic: {
-            switch $0 {
-            case is PlayerNotQualifiedForCryptoWithdrawal:
-                return KtoPlayerNotQualifiedForCryptoWithdrawal()
-            case is PlayerWithdrawalRequestCryptoRateChange:
-                return KtoRequestCryptoRateChange()
-            case is PlayerWithdrawalDefective:
-                return KtoPlayerWithdrawalDefective()
-            case is PlayerExceededPaymentGroupLimit:
-                return KtoPlayerExceededPaymentGroupLimit()
-            case is PlayerAmountExceededLimit:
-                return KtoPlayerAmountExceededLimit()
-            case is PlayerAmountBelowLimit:
-                return KtoPlayerAmountBelowLimit()
-            default:
-                return $0
-            }
-        }).asCompletable()
-    }
-    
-    func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem> {
-        return Single.just(withdrawalSystem)
-    }
-    
-    func getIsAnyTicketApplying() -> Single<Bool> {
-        return bankApi.getIsAnyTicketApplying().map { $0.data }
-    }
-    
-    func isCryptoProcessCertified() -> Single<Bool> {
-        return bankApi.isCryptoProcessCertified().catchException(transferLogic: {
-            switch $0 {
-            case is PlayerNotQualifiedForCryptoWithdrawal:
-                return KtoPlayerNotQualifiedForCryptoWithdrawal()
-            default:
-                return $0
-            }
-        }).map { $0.data }
-    }
+  }
+
+  func addCryptoBankCard(
+    currency: SupportCryptoType,
+    alias: String,
+    walletAddress: String,
+    cryptoNetwork: CryptoNetwork) -> Single<String>
+  {
+    let cryptoBankCardRequest = CryptoBankCardRequest(
+      cryptoCurrency: currency.id__,
+      cryptoWalletName: alias,
+      cryptoWalletAddress: walletAddress,
+      cryptoNetwork: cryptoNetwork.index)
+    return self.cpsApi.createCryptoBankCard(cryptoBankCardRequest: cryptoBankCardRequest)
+      .catchException(transferLogic: {
+        switch $0 {
+        case is PlayerCryptoBankCardIsExist:
+          return KtoWithdrawalAccountExist()
+        default:
+          return $0
+        }
+      })
+      .map { response -> String in
+        guard let data = response.data else { return "" }
+        return data
+      }
+  }
+
+  func verifyCryptoBankCard(playerCryptoBankCardId: String, accountType: AccountType) -> Completable {
+    cpsApi
+      .sendAccountVerifyOTP(verifyRequest: AccountVerifyRequest(
+        playerCryptoBankCardId: playerCryptoBankCardId,
+        accountType: accountType.rawValue)).asCompletable()
+  }
+
+  func verifyOtp(verifyCode: String, accountType: AccountType) -> Completable {
+    cpsApi.verifyOTP(verifyOtp: OTPVerifyRequest(verifyCode: verifyCode, accountType: accountType.rawValue)).asCompletable()
+  }
+
+  func resendOtp(accountType: AccountType) -> Completable {
+    cpsApi.resendOTP(type: accountType.rawValue)
+  }
+
+  func getCryptoLimitTransactions() -> Single<CpsWithdrawalSummary> {
+    cpsApi.getCryptoWithdrawalLimitTransactions().map({ try $0.data.toSummary() })
+  }
+
+  func getCryptoExchangeRate(_ cryptoCurrency: SupportCryptoType, _ supportLocale: SupportLocale) -> Single<IExchangeRate> {
+    cpsApi.getCryptoExchangeRate(cryptoCurrency.id__)
+      .map({ CryptoExchangeFactory().create(from: cryptoCurrency, to: supportLocale, exRate: "\($0.data)") })
+  }
+
+  func requestCryptoWithdrawal(
+    playerCryptoBankCardId: String,
+    requestCryptoAmount: Double,
+    requestFiatAmount: Double,
+    cryptoCurrency: CryptoCurrency)
+    -> Completable
+  {
+    let currencyId = try! SupportCryptoType.companion.typeOf(cryptoCurrency: cryptoCurrency).id__
+    let bean = CryptoWithdrawalRequest(
+      playerCryptoBankCardId: playerCryptoBankCardId,
+      requestCryptoAmount: requestCryptoAmount,
+      requestFiatAmount: requestFiatAmount,
+      cryptoCurrency: currencyId)
+    return cpsApi.createCryptoWithdrawal(request: bean).catchException(transferLogic: {
+      switch $0 {
+      case is PlayerNotQualifiedForCryptoWithdrawal:
+        return KtoPlayerNotQualifiedForCryptoWithdrawal()
+      case is PlayerWithdrawalRequestCryptoRateChange:
+        return KtoRequestCryptoRateChange()
+      case is PlayerWithdrawalDefective:
+        return KtoPlayerWithdrawalDefective()
+      case is PlayerExceededPaymentGroupLimit:
+        return KtoPlayerExceededPaymentGroupLimit()
+      case is PlayerAmountExceededLimit:
+        return KtoPlayerAmountExceededLimit()
+      case is PlayerAmountBelowLimit:
+        return KtoPlayerAmountBelowLimit()
+      default:
+        return $0
+      }
+    }).asCompletable()
+  }
+
+  func getPlayerWithdrawalSystem() -> Single<WithdrawalSystem> {
+    Single.just(withdrawalSystem)
+  }
+
+  func getIsAnyTicketApplying() -> Single<Bool> {
+    bankApi.getIsAnyTicketApplying().map { $0.data }
+  }
+
+  func isCryptoProcessCertified() -> Single<Bool> {
+    bankApi.isCryptoProcessCertified().catchException(transferLogic: {
+      switch $0 {
+      case is PlayerNotQualifiedForCryptoWithdrawal:
+        return KtoPlayerNotQualifiedForCryptoWithdrawal()
+      default:
+        return $0
+      }
+    }).map { $0.data }
+  }
 }

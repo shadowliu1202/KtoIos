@@ -7,21 +7,21 @@ struct VersionUpdateInfo {
   let superSignStatus: SuperSignStatus
   let isFromEnterForeground: Bool
   let action: Version.UpdateAction
-  
+
   var link: String {
     version.apkLink
   }
-  
+
   var shouldPerformUpdateAction: Bool {
     action == .compulsoryupdate ||
-    (action == .optionalupdate && isFromEnterForeground)
+      (action == .optionalupdate && isFromEnterForeground)
   }
-  
+
   init(
     version: Version,
     superSignStatus: SuperSignStatus,
-    isFromEnterForeground: Bool
-  ) {
+    isFromEnterForeground: Bool)
+  {
     self.version = version
     self.superSignStatus = superSignStatus
     self.isFromEnterForeground = isFromEnterForeground
@@ -42,7 +42,6 @@ protocol VersionUpdateProtocol {
 // MARK: - Sync Action
 
 extension VersionUpdateProtocol where Self: APPViewController {
-  
   func syncAppVersionUpdate(_ disposeBag: DisposeBag) {
     syncAppVersion(isFromEnterForeground: false, disposeBag: disposeBag)
     registerAppEnterForeground(disposeBag)
@@ -51,24 +50,22 @@ extension VersionUpdateProtocol where Self: APPViewController {
   private func syncAppVersion(isFromEnterForeground: Bool, disposeBag: DisposeBag) {
     Observable.combineLatest(
       appSyncViewModel.getLatestAppVersion().asObservable(),
-      appSyncViewModel.getSuperSignStatus().asObservable()
-    )
-    .filter { _ in Configuration.isAutoUpdate }
-    .map { version, superSignStatus in
-      VersionUpdateInfo(
-        version: version,
-        superSignStatus: superSignStatus,
-        isFromEnterForeground: isFromEnterForeground
-      )
-    }
-    .subscribe(onNext: { [weak self] info in
-      if info.action == .compulsoryupdate {
-        self?.appSyncViewModel.setIsPoppedAutoUpdate(false)
+      appSyncViewModel.getSuperSignStatus().asObservable())
+      .filter { _ in Configuration.isAutoUpdate }
+      .map { version, superSignStatus in
+        VersionUpdateInfo(
+          version: version,
+          superSignStatus: superSignStatus,
+          isFromEnterForeground: isFromEnterForeground)
       }
-      
-      self?.updateStrategy(from: info)
-    })
-    .disposed(by: disposeBag)
+      .subscribe(onNext: { [weak self] info in
+        if info.action == .compulsoryupdate {
+          self?.appSyncViewModel.setIsPoppedAutoUpdate(false)
+        }
+
+        self?.updateStrategy(from: info)
+      })
+      .disposed(by: disposeBag)
   }
 
   private func registerAppEnterForeground(_ disposeBag: DisposeBag) {
@@ -85,12 +82,11 @@ extension VersionUpdateProtocol where Self: APPViewController {
 // MARK: - UI
 
 extension VersionUpdateProtocol where Self: APPViewController {
-  
   var localTimeZone: Foundation.TimeZone { .current }
 
   func popAlert(from info: VersionUpdateInfo, force: Bool = false) {
     guard info.shouldPerformUpdateAction || force else { return }
-    
+
     switch info.action {
     case .compulsoryupdate:
       if

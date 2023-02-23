@@ -4,7 +4,6 @@ import RxSwift
 import SharedBu
 
 class AppSynchronizeViewModel {
-  
   private let appUpdateUseCase: AppVersionUpdateUseCase
   private let appStorage: ApplicationStorable
 
@@ -23,11 +22,11 @@ class AppSynchronizeViewModel {
   func getSuperSignStatus() -> Single<SuperSignStatus> {
     self.appUpdateUseCase.getSuperSignatureMaintenance()
   }
-  
+
   func getIsPoppedAutoUpdate() -> Bool {
     appStorage.getIsPoppedAutoUpdate()
   }
-  
+
   func setIsPoppedAutoUpdate(_ popped: Bool) {
     appStorage.setIsPoppedAutoUpdate(popped)
   }

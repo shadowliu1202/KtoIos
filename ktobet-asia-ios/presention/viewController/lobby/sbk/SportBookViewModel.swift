@@ -16,7 +16,7 @@ class SportBookViewModel: CollectErrorViewModel {
     self.getSystemStatusUseCase = getSystemStatusUseCase
   }
 
-   func observeMaintenanceStatus() -> Observable<MaintenanceStatus> {
+  func observeMaintenanceStatus() -> Observable<MaintenanceStatus> {
     observeSystemMessageUseCase
       .observeMaintenanceStatus(useCase: self.getSystemStatusUseCase)
   }

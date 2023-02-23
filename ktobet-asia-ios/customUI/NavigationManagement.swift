@@ -262,7 +262,7 @@ class NavigationManagement: Navigator {
     menu.settings = settings
     menu.menuWidth = viewController.view.bounds.width
     SideMenuManager.default.leftMenuNavigationController = menu
-    
+
     sideBarViewController.observeLoginStatus()
   }
 
@@ -320,7 +320,7 @@ class NavigationManagement: Navigator {
   private func dispose() {
     // FIXME: SideBarViewController retain cycle.
     // Manually release SideMenuViewModel to stop system massage socket connection.
-    
+
     sideBarViewController?.sideMenuViewModel = nil
     sideBarViewController = nil
     menu = nil

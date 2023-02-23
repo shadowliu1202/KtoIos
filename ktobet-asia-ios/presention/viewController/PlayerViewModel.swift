@@ -5,12 +5,12 @@ import SharedBu
 
 class PlayerViewModel: CollectErrorViewModel {
   @Injected private var loading: Loading
-  
+
   private let playerUseCase: PlayerDataUseCase
   private let authUseCase: AuthenticationUseCase
 
   private var loadingTracker: ActivityIndicator { loading.tracker }
-  
+
   init(playerUseCase: PlayerDataUseCase, authUseCase: AuthenticationUseCase) {
     self.playerUseCase = playerUseCase
     self.authUseCase = authUseCase

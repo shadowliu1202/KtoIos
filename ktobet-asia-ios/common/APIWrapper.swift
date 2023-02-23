@@ -1,7 +1,6 @@
+import Moya
 import RxCocoa
 import RxSwift
-import RxCocoa
-import Moya
 
 typealias Single = RxSwift.Single
 typealias Observable = RxSwift.Observable

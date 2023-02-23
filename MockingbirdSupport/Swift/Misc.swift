@@ -1,4 +1,4 @@
-public protocol AnyObject {}
+public protocol AnyObject { }
 
 public typealias `class` = AnyObject
 

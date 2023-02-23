@@ -4,7 +4,7 @@ import SharedBu
 import UIKit
 
 class CryptoSelectorViewController: LobbyViewController,
-                                    SwiftUIConverter
+  SwiftUIConverter
 {
   @Injected private var navigator: DepositNavigator
   @Injected private var playerConfig: PlayerConfiguration
@@ -20,15 +20,15 @@ class CryptoSelectorViewController: LobbyViewController,
     -> CryptoSelectorViewController
   {
     let vc = CryptoSelectorViewController.initFrom(storyboard: "Deposit")
-    
+
     if let localStorageRepo {
       vc._localStorageRepo.wrappedValue = localStorageRepo
     }
-    
+
     if let viewModel {
       vc._viewModel.wrappedValue = viewModel
     }
-    
+
     return vc
   }
 

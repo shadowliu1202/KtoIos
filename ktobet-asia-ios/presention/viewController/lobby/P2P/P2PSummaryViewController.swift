@@ -1,150 +1,145 @@
-import UIKit
-import RxSwift
 import RxDataSources
+import RxSwift
 import SharedBu
+import UIKit
 
 class P2PSummaryViewController: LobbyViewController {
-    @IBOutlet private weak var noDataView: UIView!
-    @IBOutlet weak var tableView: UITableView!
-    
-    @Injected private (set) var viewModel: P2PBetViewModel
-    
-    private var disposeBag = DisposeBag()
-    private var unfinishGameCount: Int32 = 0
+  @IBOutlet private weak var noDataView: UIView!
+  @IBOutlet weak var tableView: UITableView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupUI()
-        binding()
+  @Injected private(set) var viewModel: P2PBetViewModel
+
+  private var disposeBag = DisposeBag()
+  private var unfinishGameCount: Int32 = 0
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    setupUI()
+    binding()
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    viewModel.fetchBetSummary()
+  }
+
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == P2PBetSummaryByDateViewController.segueIdentifier {
+      if let dest = segue.destination as? P2PBetSummaryByDateViewController {
+        dest.selectDate = sender as? String
+      }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        viewModel.fetchBetSummary()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == P2PBetSummaryByDateViewController.segueIdentifier {
-            if let dest = segue.destination as? P2PBetSummaryByDateViewController {
-                dest.selectDate = sender as? String
-            }
-        }
-    }
-    
-    deinit {
-        print("\(type(of: self)) deinit")
-    }
+  }
+
+  deinit {
+    print("\(type(of: self)) deinit")
+  }
 }
 
 // MARK: - UI
 
-private extension P2PSummaryViewController {
-    
-    func setupUI() {
-        NavigationManagement.sharedInstance.addBarButtonItem(
-            vc: self,
-            barItemType: .back,
-            title: Localize.string("product_my_bet")
-        )
-        
-        tableView.setHeaderFooterDivider()
-    }
-    
-    func binding() {
-        viewModel.betSummary
-            .catch({ [weak self] (error) -> Observable<MyBetSummary> in
-                switch error {
-                case KTOError.EmptyData:
-                    self?.switchContent()
-                    break
-                default:
-                    self?.handleErrors(error)
-                }
-                return Observable.empty()
-            })
-            .do(onNext: { [weak self] in
-                self?.switchContent($0)
-            })
-            .map { $0.finishedGame }
-            .bind(to: tableView.rx.items) { (tableView, row, element) in
-                let cell = tableView
-                    .dequeueReusableCell(
-                        withIdentifier: "MyBetSummaryTableViewCell",
-                        cellType: MyBetSummaryTableViewCell.self
-                    )
-                    .config(element: element)
-                
-                cell.removeBorder()
-                
-                if row != 0 {
-                    cell.addBorder()
-                }
-                
-                return cell
-            }
-            .disposed(by: disposeBag)
-        
-        tableView.rx
-            .modelSelected(Record.self)
-            .bind { [weak self] data in
-                self?.performSegue(
-                    withIdentifier: P2PBetSummaryByDateViewController.segueIdentifier,
-                    sender: "\(data.createdDateTime)"
-                )
-            }
-            .disposed(by: disposeBag)
-        
-        tableView.rx
-            .setDelegate(self)
-            .disposed(by: disposeBag)
-    }
-    
-    func switchContent(_ summary: MyBetSummary? = nil) {
-        if let summary = summary as? SummaryAdapter,
-           summary.hasGameRecords {
-            self.tableView.isHidden = false
-            self.noDataView.isHidden = true
+extension P2PSummaryViewController {
+  private func setupUI() {
+    NavigationManagement.sharedInstance.addBarButtonItem(
+      vc: self,
+      barItemType: .back,
+      title: Localize.string("product_my_bet"))
+
+    tableView.setHeaderFooterDivider()
+  }
+
+  private func binding() {
+    viewModel.betSummary
+      .catch({ [weak self] error -> Observable<MyBetSummary> in
+        switch error {
+        case KTOError.EmptyData:
+          self?.switchContent()
+        default:
+          self?.handleErrors(error)
         }
-        else {
-            self.tableView.isHidden = true
-            self.noDataView.isHidden = false
+        return Observable.empty()
+      })
+      .do(onNext: { [weak self] in
+        self?.switchContent($0)
+      })
+      .map { $0.finishedGame }
+      .bind(to: tableView.rx.items) { tableView, row, element in
+        let cell = tableView
+          .dequeueReusableCell(
+            withIdentifier: "MyBetSummaryTableViewCell",
+            cellType: MyBetSummaryTableViewCell.self)
+          .config(element: element)
+
+        cell.removeBorder()
+
+        if row != 0 {
+          cell.addBorder()
         }
+
+        return cell
+      }
+      .disposed(by: disposeBag)
+
+    tableView.rx
+      .modelSelected(Record.self)
+      .bind { [weak self] data in
+        self?.performSegue(
+          withIdentifier: P2PBetSummaryByDateViewController.segueIdentifier,
+          sender: "\(data.createdDateTime)")
+      }
+      .disposed(by: disposeBag)
+
+    tableView.rx
+      .setDelegate(self)
+      .disposed(by: disposeBag)
+  }
+
+  private func switchContent(_ summary: MyBetSummary? = nil) {
+    if
+      let summary = summary as? SummaryAdapter,
+      summary.hasGameRecords
+    {
+      self.tableView.isHidden = false
+      self.noDataView.isHidden = true
     }
+    else {
+      self.tableView.isHidden = true
+      self.noDataView.isHidden = false
+    }
+  }
 }
 
 // MARK: - UITableViewDelegate
 
 extension P2PSummaryViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == 0 && unfinishGameCount != 0 ? 57 : 81
-    }
+  func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    indexPath.row == 0 && unfinishGameCount != 0 ? 57 : 81
+  }
 }
 
 // MARK: - SummaryAdapter
 
 class SummaryAdapter: MyBetSummary {
-    var beans: [DateSummary] = []
-    
-    var hasGameRecords: Bool {
-        finishedGame.count != 0
-    }
-    
-    init(_ beans: [DateSummary]) {
-        super.init()
-        
-        self.beans = beans
-        self.unfinishGameCount = 0
-        
-        self.finishedGame = beans.map({ (element) in
-            return Record(
-                count: Int(element.count),
-                createdDateTime: element.createdDateTime.toDateFormatString(),
-                totalStakes: element.totalStakes,
-                totalWinLoss: element.totalWinLoss
-            )
-        })
-    }
+  var beans: [DateSummary] = []
+
+  var hasGameRecords: Bool {
+    finishedGame.count != 0
+  }
+
+  init(_ beans: [DateSummary]) {
+    super.init()
+
+    self.beans = beans
+    self.unfinishGameCount = 0
+
+    self.finishedGame = beans.map({ element in
+      Record(
+        count: Int(element.count),
+        createdDateTime: element.createdDateTime.toDateFormatString(),
+        totalStakes: element.totalStakes,
+        totalWinLoss: element.totalWinLoss)
+    })
+  }
 }

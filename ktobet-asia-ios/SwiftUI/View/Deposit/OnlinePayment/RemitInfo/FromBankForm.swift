@@ -29,7 +29,7 @@ extension OnlinePaymentView.RemittanceInfo {
           textFieldText: $supportBankName ?? "",
           items: gateway.remitBanks,
           featureType: .select)
-        .id(OnlinePaymentView.Identifier.RemittanceInfo_FromBank.textFieldBankList.rawValue)
+          .id(OnlinePaymentView.Identifier.RemittanceInfo_FromBank.textFieldBankList.rawValue)
 
         SwiftUIInputText(
           placeHolder: Localize.string("deposit_accountlastfournumber"),
@@ -49,7 +49,7 @@ extension OnlinePaymentView.RemittanceInfo {
             errorText: viewModel.remitInfoErrorMessage.remitAmount,
             textFieldType: CurrencyType(
               regex: isFloatAllowed ? .withDecimal(4) : .noDecimal))
-          .id(OnlinePaymentView.Identifier.RemittanceInfo_FromBank.textFieldInputAmount.rawValue)
+            .id(OnlinePaymentView.Identifier.RemittanceInfo_FromBank.textFieldInputAmount.rawValue)
 
           Text(Localize.string(
             "deposit_offline_step1_tips",
@@ -65,7 +65,7 @@ extension OnlinePaymentView.RemittanceInfo {
             errorText: viewModel.remitInfoErrorMessage.remitAmount,
             items: amountList,
             featureType: .select)
-          .id(OnlinePaymentView.Identifier.RemittanceInfo_FromBank.textFieldOptionAmount.rawValue)
+            .id(OnlinePaymentView.Identifier.RemittanceInfo_FromBank.textFieldOptionAmount.rawValue)
 
           Text(Localize.string("deposit_amount_option_hint"))
             .localized(weight: .medium, size: 14, color: .gray9B9B9B)

@@ -30,14 +30,14 @@ class PromotionHistoryTableViewCell: UITableViewCell {
 
   func config(_ coupon: CouponHistory, tableView: UITableView) {
     datelabel.text = "\(coupon.receiveDate.toDateTimeFormatString()) \(Localize.string("bonus_receive"))"
-    
+
     typeButton.setTitle(StringMapper.parseBonusTypeString(bonusType: coupon.type), for: .normal)
-    
+
     typeNameLabel.isHidden = coupon.type != BonusType.product
     typeNameLabel.text = StringMapper.parseProductTypeString(productType: coupon.productType)
-    
+
     nameLabel.text = coupon.name
-    
+
     if let issue = coupon.issue, issue != 0 {
       noLabel.text = String(format: Localize.string("bonus_period"), "\(issue)")
       noLabel.isHidden = false
@@ -48,9 +48,9 @@ class PromotionHistoryTableViewCell: UITableViewCell {
 
     statusLabel.text = StringMapper.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
     statusLabel.textColor = Theme.shared.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
-    
+
     amountLabel.text = coupon.amount.description()
-    
+
     if coupon.isTurnOverCalculating {
       amountLabel.isHidden = true
       hourGlassImage.isHidden = false
@@ -63,11 +63,11 @@ class PromotionHistoryTableViewCell: UITableViewCell {
 
     expandLabel.text = coupon.isExpanded ? Localize.string("common_fold") : Localize.string("common_open")
     expandImg.image = coupon.isExpanded ? UIImage(named: "iconArrowDropUp16") : UIImage(named: "iconArrowDropDown16")
-   
+
     detailStackView.isHidden = !coupon.isExpanded
 
     let tap = UITapGestureRecognizer()
-    
+
     expandView.addGestureRecognizer(tap)
     tap.rx.event.bind { _ in
       coupon.isExpanded.toggle()

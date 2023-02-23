@@ -37,7 +37,7 @@ class SignalRepositoryImpl: SignalRepository {
   private func connectService() {
     let url = httpClient.host.absoluteString
       .replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "wss://") + "notification-ws"
-    
+
     if let url = URL(string: url) {
       socketConnection = HubConnectionBuilder(url: url)
         .withJSONHubProtocol()
@@ -93,19 +93,19 @@ class SignalRepositoryImpl: SignalRepository {
       method: KickOutSignal.getName(nil),
       callback: { [weak self] arg in
         guard let self else { return }
-        
+
         let type = (try? arg.getArgument(type: Int.self)) ?? 1
-        
+
         self._observeSignal.onNext(KickOutSignal(rawValue: type) ?? KickOutSignal.duplicatedLogin)
       })
   }
-  
+
   private func subscribeBalanceEvent() {
     socketConnection?.on(
       method: BalanceSignal.getName(nil),
       callback: { [weak self] _ in
         guard let self else { return }
-        
+
         self._observeSignal.onNext(BalanceSignal())
       })
   }

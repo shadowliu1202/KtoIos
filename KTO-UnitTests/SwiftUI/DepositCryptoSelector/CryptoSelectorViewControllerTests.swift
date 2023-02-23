@@ -1,19 +1,18 @@
 import Mockingbird
 import SharedBu
-import XCTest
 import SwiftUI
 import ViewInspector
+import XCTest
 
 @testable import ktobet_asia_ios_qat
 
 extension CryptoDepositViewModelProtocolMock: ObservableObject { }
 
 final class CryptoSelectorViewControllerTests: XCTestCase {
-
   override func tearDown() {
-      Injection.shared.registerAllDependency()
+    Injection.shared.registerAllDependency()
   }
-  
+
   func test_TapVideoTutorialBtn_InCryptoSelectorPage_VideoTutorialIsDisplayed_KTO_TC_40() {
     let sut = CryptoSelectorViewController.instantiate()
 
@@ -28,43 +27,43 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
 
     XCTAssertEqual(expact, actual)
   }
-  
+
   func test_AtCNEnvironmentTapCryptoGuideText_InCryptoSelectorPage_CNCryptoGuideIsDisplayed_KTO_TC_1() {
     let stubLocalRepo = mock(LocalStorageRepository.self)
     given(stubLocalRepo.getSupportLocale()) ~> .China()
-    
+
     let sut = CryptoSelectorViewController.instantiate(localStorageRepo: stubLocalRepo)
-    
+
     makeItVisible(sut)
-    
+
     sut.loadViewIfNeeded()
-    
+
     sut.navigateToGuide()
-    
+
     let expact = "\(CryptoGuideViewController.self)"
     let actual = "\(type(of: sut.presentedViewController!))"
 
     XCTAssertEqual(expact, actual)
   }
-  
+
   func test_AtVNEnvironmentTapCryptoGuideText_InCryptoSelectorPage_VNCryptoGuideIsDisplayed_KTO_TC_2() {
     let stubLocalRepo = mock(LocalStorageRepository.self)
     given(stubLocalRepo.getSupportLocale()) ~> .Vietnam()
-    
+
     let sut = CryptoSelectorViewController.instantiate(localStorageRepo: stubLocalRepo)
-    
+
     makeItVisible(sut)
-    
+
     sut.loadViewIfNeeded()
-    
+
     sut.navigateToGuide()
-    
+
     let expact = "\(CryptoGuideVNDViewController.self)"
     let actual = "\(type(of: sut.presentedViewController!))"
 
     XCTAssertEqual(expact, actual)
   }
-  
+
   func test_TapSubmitBtn_InCryptoSelectorPage_DepositCryptoViewIsDisplayed() {
     let sut = CryptoSelectorViewController.instantiate()
 
@@ -79,7 +78,7 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
 
     XCTAssertEqual(expact, actual)
   }
-  
+
   func test_givenDepositCountOverLimit_InCryptoSelectPage_thenAlertRequestLater() {
     injectStubCultureCode(.CN)
 
@@ -87,8 +86,9 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
     let playerDepositCountOverLimit = ExceptionFactory.create(error)
 
     let stubViewModel = mock(CryptoDepositViewModel.self)
-      .initialize(depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
-                  navigator: mock(DepositNavigator.self))
+      .initialize(
+        depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+        navigator: mock(DepositNavigator.self))
 
     given(stubViewModel.errors()) ~> .just(playerDepositCountOverLimit)
 
@@ -96,7 +96,7 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
     Alert.shared = stubAlert
 
     let sut = CryptoSelectorViewController.instantiate(viewModel: stubViewModel)
-  
+
     sut.loadViewIfNeeded()
 
     stubViewModel.errorsSubject.onNext(error)

@@ -1,19 +1,13 @@
-import SwiftUI
 import SharedBu
+import SwiftUI
 
 private struct supportLocale: EnvironmentKey {
-    static let defaultValue: SupportLocale = SupportLocale.China.init()
+  static let defaultValue: SupportLocale = .China()
 }
 
 extension EnvironmentValues {
-    var playerLocale: SupportLocale {
-        get { self[supportLocale.self] }
-        set { self[supportLocale.self] = newValue }
-    }
-}
-
-extension View {
-    func playerLocale(_ supportLocale: SupportLocale) -> some View {
-        environment(\.playerLocale, supportLocale)
-    }
+  var playerLocale: SupportLocale {
+    get { self[supportLocale.self] }
+    set { self[supportLocale.self] = newValue }
+  }
 }

@@ -32,11 +32,10 @@ final class NotificationDetailViewControllerTests: XCTestCase {
     verify(
       mockNavigator.goTo(
         storyboard: "Deposit",
-        viewControllerId: "DepositNavigation")
-    )
-    .wasCalled()
+        viewControllerId: "DepositNavigation"))
+      .wasCalled()
   }
-  
+
   func test_ReceiveOnlineCardsChanged_ClickGoToBtn_GoDepositPage_KTO_TC_103() {
     let stubNotificationItem = buildNotificationItem(type: .onlinecardschange)
     let mockNavigator = mock(Navigator.self)
@@ -52,11 +51,10 @@ final class NotificationDetailViewControllerTests: XCTestCase {
     verify(
       mockNavigator.goTo(
         storyboard: "Deposit",
-        viewControllerId: "DepositNavigation")
-    )
-    .wasCalled()
+        viewControllerId: "DepositNavigation"))
+      .wasCalled()
   }
-  
+
   func test_ReceiveOfflineBanksChanged_ClickGoToBtn_GoOfflinePaymentPage_KTO_TC_104() {
     let stubNotificationItem = buildNotificationItem(type: .offlinecardschange)
     let mockNavigator = mock(Navigator.self)
@@ -71,8 +69,7 @@ final class NotificationDetailViewControllerTests: XCTestCase {
 
     verify(
       mockNavigator.pushViewController(
-        vc: any(OfflinePaymentViewController.self))
-    )
-    .wasCalled()
+        vc: any(OfflinePaymentViewController.self)))
+      .wasCalled()
   }
 }

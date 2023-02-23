@@ -1,318 +1,336 @@
 
-import UIKit
+import Firebase
+import FirebaseCore
 import IQKeyboardManagerSwift
 import RxSwift
 import SharedBu
-import WebKit
-import Firebase
 import SwiftUI
-import FirebaseCore
+import UIKit
+import WebKit
 
 public var isTesting: Bool { ProcessInfo.processInfo.arguments.contains("isTesting") }
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
-    
-    @Injected private var localStorageRepo: LocalStorageRepository
-    @Injected private var applicationStorage: ApplicationStorable
-    @Injected private var keychain: KeychainStorable
-    
-    private (set) var reachabilityObserver: NetworkStateMonitor?
+  @Injected private var localStorageRepo: LocalStorageRepository
+  @Injected private var applicationStorage: ApplicationStorable
+  @Injected private var keychain: KeychainStorable
 
-    private weak var timer: Timer?
-    
-    private var networkControlWindow: NetworkControlWindow?
-    private var logRecorderViewWindow = LogRecorderViewWindow(
-        frame: CGRect(x: UIScreen.main.bounds.width - 50, y: 80, width: 50, height: 50)
-    )
-    
-    /// For recive message at phone lock state
-    var backgroundUpdateTask = UIBackgroundTaskIdentifier(rawValue: 0)
-    
-    let disposeBag = DisposeBag()
-    
-    var window: UIWindow?
-    
-    var isDebugModel = false
-    
-    var debugController: MainDebugViewController?
-    
-    var restrictRotation:UIInterfaceOrientationMask = .portrait
-    
-    override init() {
-        super.init()
+  private(set) var reachabilityObserver: NetworkStateMonitor?
 
-        NetworkStateMonitor.shared.startNotifier()
-    }
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        guard !isInTesting(),
-              !isInSwiftUIPreviewLiveMode()
-        else { return true }
-        
-        Logger.shared.info("APP launch.")
+  private weak var timer: Timer?
 
-        loadCookiesFromUserDefault()
-        
-        checkingPortalHost()
-        
-        FirebaseApp.configure()
-        
-        Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
-        
-        SharedBu.Platform.init().debugBuild()
-        
-        updateAndLogInstallDate(applicationStorage, keychain)
+  private var networkControlWindow: NetworkControlWindow?
+  private var logRecorderViewWindow = LogRecorderViewWindow(
+    frame: CGRect(x: UIScreen.main.bounds.width - 50, y: 80, width: 50, height: 50))
 
-        configUISetting(application)
-      
-        return true
+  /// For recive message at phone lock state
+  var backgroundUpdateTask = UIBackgroundTaskIdentifier(rawValue: 0)
+
+  let disposeBag = DisposeBag()
+
+  var window: UIWindow?
+
+  var isDebugModel = false
+
+  var debugController: MainDebugViewController?
+
+  var restrictRotation: UIInterfaceOrientationMask = .portrait
+
+  override init() {
+    super.init()
+
+    NetworkStateMonitor.shared.startNotifier()
+  }
+
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?)
+    -> Bool
+  {
+    guard
+      !isInTesting(),
+      !isInSwiftUIPreviewLiveMode()
+    else { return true }
+
+    Logger.shared.info("APP launch.")
+
+    loadCookiesFromUserDefault()
+
+    checkingPortalHost()
+
+    FirebaseApp.configure()
+
+    Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
+
+    SharedBu.Platform().debugBuild()
+
+    updateAndLogInstallDate(applicationStorage, keychain)
+
+    configUISetting(application)
+
+    return true
+  }
+
+  func applicationWillEnterForeground(_: UIApplication) {
+    let storyboardId = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController?
+      .restorationIdentifier ?? ""
+
+    if storyboardId != "LandingNavigation" {
+      checkLoginStatus()
     }
-    
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        let storyboardId = UIApplication.shared.windows.filter{ $0.isKeyWindow }.first?.rootViewController?.restorationIdentifier ?? ""
-        
-        if storyboardId != "LandingNavigation" {
-            checkLoginStatus()
-        } else {
-            checkMaintenanceStatus()
-        }
+    else {
+      checkMaintenanceStatus()
     }
-    
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        return self.restrictRotation
-    }
-    
-    func applicationWillResignActive(_ application: UIApplication) {
-        self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
-            self.endBackgroundUpdateTask()
-        })
-    }
-    
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        self.endBackgroundUpdateTask()
-    }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
-        saveCookieToUserDefault()
-        Logger.shared.info("APP terminate.")
-    }
+  }
+
+  func application(_: UIApplication, supportedInterfaceOrientationsFor _: UIWindow?) -> UIInterfaceOrientationMask {
+    self.restrictRotation
+  }
+
+  func applicationWillResignActive(_: UIApplication) {
+    self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+      self.endBackgroundUpdateTask()
+    })
+  }
+
+  func applicationDidBecomeActive(_: UIApplication) {
+    self.endBackgroundUpdateTask()
+  }
+
+  func applicationWillTerminate(_: UIApplication) {
+    WKWebsiteDataStore.default().removeData(
+      ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+      modifiedSince: Date(timeIntervalSince1970: 0),
+      completionHandler: { })
+    saveCookieToUserDefault()
+    Logger.shared.info("APP terminate.")
+  }
 }
 
 // MARK: - UI Setting
 
-private extension AppDelegate {
-    
-    func configUISetting(_ application: UIApplication) {
-        IQKeyboardManager.shared.enable = true
-        UIView.appearance().isExclusiveTouch = true
-        UICollectionView.appearance().isExclusiveTouch = true
-        
-        if #available(iOS 13.0, *) {
-            window?.overrideUserInterfaceStyle = .light
-        } else {
-            application.statusBarStyle = .lightContent
-        }
-        
-        let barAppearance = UINavigationBarAppearance()
-        barAppearance.configureWithTransparentBackground()
-        barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whitePure, .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())]
-        barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
-        
-        UINavigationBar.appearance().isTranslucent = true
-        UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
-        UINavigationBar.appearance().standardAppearance = barAppearance
-        
-        if Configuration.debugGesture {
-            self.addDebugGesture()
-        }
-        if Configuration.manualControlNetwork {
-            self.addNetworkControlGesture()
-        }
-        
-        window = .init(frame: UIScreen.main.bounds)
-        let launchController = LaunchViewController.initFrom(storyboard: "Launch")
-        window?.rootViewController = launchController
-        window?.makeKeyAndVisible()
+extension AppDelegate {
+  private func configUISetting(_ application: UIApplication) {
+    IQKeyboardManager.shared.enable = true
+    UIView.appearance().isExclusiveTouch = true
+    UICollectionView.appearance().isExclusiveTouch = true
+
+    if #available(iOS 13.0, *) {
+      window?.overrideUserInterfaceStyle = .light
     }
-    
-    func addDebugGesture() {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(debugGesture(_:)))
-        gesture.numberOfTouchesRequired = 2
-        gesture.numberOfTapsRequired = 2
-        self.window?.addGestureRecognizer(gesture)
+    else {
+      application.statusBarStyle = .lightContent
     }
-    
-    @objc func debugGesture(_ gesture: UITapGestureRecognizer) {
-        guard !isDebugModel else { return }
-        
-        let storyboard = UIStoryboard(name: "Launch", bundle: nil)
-        self.debugController = storyboard.instantiateViewController(withIdentifier: "MainDebugViewController") as? MainDebugViewController
-        self.debugController?.cancelHandle = { [weak self] in
-            self?.debugController?.view.removeFromSuperview()
-            self?.debugController = nil
-            self?.isDebugModel = false
-        }
-        
-        self.window?.addSubview(self.debugController!.view)
-        self.isDebugModel = true
-        
-        logRecorderViewWindow.isHidden = false
+
+    let barAppearance = UINavigationBarAppearance()
+    barAppearance.configureWithTransparentBackground()
+    barAppearance.titleTextAttributes = [
+      .foregroundColor: UIColor.whitePure,
+      .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())
+    ]
+    barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
+
+    UINavigationBar.appearance().isTranslucent = true
+    UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
+    UINavigationBar.appearance().standardAppearance = barAppearance
+
+    if Configuration.debugGesture {
+      self.addDebugGesture()
     }
-    
-    func addNetworkControlGesture() {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(addNetworkFloatButton(_:)))
-        gesture.numberOfTouchesRequired = 2
-        gesture.numberOfTapsRequired = 2
-        self.window?.addGestureRecognizer(gesture)
+    if Configuration.manualControlNetwork {
+      self.addNetworkControlGesture()
     }
-    
-    @objc func addNetworkFloatButton(_ gesture: UITapGestureRecognizer) {
-        if networkControlWindow == nil {
-            var rightPadding: CGFloat = 80
-            var bottomPadding: CGFloat = 80
-            if let window = UIApplication.shared.windows.first {
-                rightPadding += window.safeAreaInsets.right
-                bottomPadding += window.safeAreaInsets.bottom
-            }
-            networkControlWindow = NetworkControlWindow(frame: CGRect(x: UIScreen.main.bounds.width - rightPadding, y: UIScreen.main.bounds.height - bottomPadding, width: 56, height: 56))
-            networkControlWindow?.isHidden = false
-        }
+
+    window = .init(frame: UIScreen.main.bounds)
+    let launchController = LaunchViewController.initFrom(storyboard: "Launch")
+    window?.rootViewController = launchController
+    window?.makeKeyAndVisible()
+  }
+
+  private func addDebugGesture() {
+    let gesture = UITapGestureRecognizer(target: self, action: #selector(debugGesture(_:)))
+    gesture.numberOfTouchesRequired = 2
+    gesture.numberOfTapsRequired = 2
+    self.window?.addGestureRecognizer(gesture)
+  }
+
+  @objc
+  private func debugGesture(_: UITapGestureRecognizer) {
+    guard !isDebugModel else { return }
+
+    let storyboard = UIStoryboard(name: "Launch", bundle: nil)
+    self.debugController = storyboard
+      .instantiateViewController(withIdentifier: "MainDebugViewController") as? MainDebugViewController
+    self.debugController?.cancelHandle = { [weak self] in
+      self?.debugController?.view.removeFromSuperview()
+      self?.debugController = nil
+      self?.isDebugModel = false
     }
-    
-    func endBackgroundUpdateTask() {
-        UIApplication.shared.endBackgroundTask(self.backgroundUpdateTask)
-        self.backgroundUpdateTask = UIBackgroundTaskIdentifier.invalid
+
+    self.window?.addSubview(self.debugController!.view)
+    self.isDebugModel = true
+
+    logRecorderViewWindow.isHidden = false
+  }
+
+  private func addNetworkControlGesture() {
+    let gesture = UITapGestureRecognizer(target: self, action: #selector(addNetworkFloatButton(_:)))
+    gesture.numberOfTouchesRequired = 2
+    gesture.numberOfTapsRequired = 2
+    self.window?.addGestureRecognizer(gesture)
+  }
+
+  @objc
+  private func addNetworkFloatButton(_: UITapGestureRecognizer) {
+    if networkControlWindow == nil {
+      var rightPadding: CGFloat = 80
+      var bottomPadding: CGFloat = 80
+      if let window = UIApplication.shared.windows.first {
+        rightPadding += window.safeAreaInsets.right
+        bottomPadding += window.safeAreaInsets.bottom
+      }
+      networkControlWindow = NetworkControlWindow(frame: CGRect(
+        x: UIScreen.main.bounds.width - rightPadding,
+        y: UIScreen.main.bounds.height - bottomPadding,
+        width: 56,
+        height: 56))
+      networkControlWindow?.isHidden = false
     }
+  }
+
+  private func endBackgroundUpdateTask() {
+    UIApplication.shared.endBackgroundTask(self.backgroundUpdateTask)
+    self.backgroundUpdateTask = UIBackgroundTaskIdentifier.invalid
+  }
 }
 
 // MARK: - Status check
 
-private extension AppDelegate {
-    
-    func checkLoginStatus() {
-        let viewModel = Injectable.resolveWrapper(NavigationViewModel.self)
-      
-        viewModel.checkIsLogged()
-            .subscribe(onSuccess: { [weak self] isLogged in
-                if isLogged {
-                    CustomServicePresenter.shared.initService()
-                } else {
-                    self?.logoutToLanding()
-                }
-            }, onFailure: { [weak self] error in
-                if error.isUnauthorized() {
-                    self?.logoutToLanding()
-                } else {
-                    UIApplication.topViewController()?.handleErrors(error)
-                }
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    func checkMaintenanceStatus() {
-        let viewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
-        
-        viewModel.output.portalMaintenanceStatus
-            .subscribe(onNext: { status in
-                switch status {
-                case is MaintenanceStatus.AllPortal:
-                    NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
-                default:
-                    break
-                }
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    func logoutToLanding() {
-        let playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
-        
-        playerViewModel
-            .logout()
-            .subscribe(onCompleted: {
-                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-            })
-            .disposed(by: disposeBag)
-    }
-  
-    func checkingPortalHost() {
-      @Injected var ktoURL: KtoURL
-      ktoURL.observeCookiesChanged()
-    }
+extension AppDelegate {
+  private func checkLoginStatus() {
+    let viewModel = Injectable.resolveWrapper(NavigationViewModel.self)
+
+    viewModel.checkIsLogged()
+      .subscribe(onSuccess: { [weak self] isLogged in
+        if isLogged {
+          CustomServicePresenter.shared.initService()
+        }
+        else {
+          self?.logoutToLanding()
+        }
+      }, onFailure: { [weak self] error in
+        if error.isUnauthorized() {
+          self?.logoutToLanding()
+        }
+        else {
+          UIApplication.topViewController()?.handleErrors(error)
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+
+  private func checkMaintenanceStatus() {
+    let viewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
+
+    viewModel.output.portalMaintenanceStatus
+      .subscribe(onNext: { status in
+        switch status {
+        case is MaintenanceStatus.AllPortal:
+          NavigationManagement.sharedInstance.goTo(
+            storyboard: "Maintenance",
+            viewControllerId: "PortalMaintenanceViewController")
+        default:
+          break
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+
+  private func logoutToLanding() {
+    let playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
+
+    playerViewModel
+      .logout()
+      .subscribe(onCompleted: {
+        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+      })
+      .disposed(by: disposeBag)
+  }
+
+  private func checkingPortalHost() {
+    @Injected var ktoURL: KtoURL
+    ktoURL.observeCookiesChanged()
+  }
 }
 
 // MARK: - Install Date check
 
-private extension AppDelegate {
-    
-    func updateAndLogInstallDate(_ applicationStorage: ApplicationStorable, _ keychain: KeychainStorable) {
-        guard applicationStorage.getAppIsFirstLaunch() else { return }
-        
-        applicationStorage.setAppWasLaunch()
-        
-        let now = Date().convertdateToUTC()
-        
-        if keychain.getInstallDate() == nil {
-            keychain.setInstallDate(now)
-            AnalyticsLog.shared.brandNewInstall()
-        }
-        else {
-            let lastInstallDay = keychain.getInstallDate()!
-            keychain.setInstallDate(now)
-            let surviveDay = lastInstallDay.betweenTwoDay(sencondDate: now)
-            AnalyticsLog.shared.appReinstall(
-                lastInstallDate: lastInstallDay.convertdateToUTC().toDateString(),
-                surviveDay: surviveDay
-            )
-        }
-    }
-}
+extension AppDelegate {
+  private func updateAndLogInstallDate(_ applicationStorage: ApplicationStorable, _ keychain: KeychainStorable) {
+    guard applicationStorage.getAppIsFirstLaunch() else { return }
 
+    applicationStorage.setAppWasLaunch()
+
+    let now = Date().convertdateToUTC()
+
+    if keychain.getInstallDate() == nil {
+      keychain.setInstallDate(now)
+      AnalyticsLog.shared.brandNewInstall()
+    }
+    else {
+      let lastInstallDay = keychain.getInstallDate()!
+      keychain.setInstallDate(now)
+      let surviveDay = lastInstallDay.betweenTwoDay(sencondDate: now)
+      AnalyticsLog.shared.appReinstall(
+        lastInstallDate: lastInstallDay.convertdateToUTC().toDateString(),
+        surviveDay: surviveDay)
+    }
+  }
+}
 
 // MARK: - Test Task
 
-private extension AppDelegate {
-    
-    func isInTesting() -> Bool {
-        guard isTesting else { return false }
-        
-        configTesting()
-        
-        return true
+extension AppDelegate {
+  private func isInTesting() -> Bool {
+    guard isTesting else { return false }
+
+    configTesting()
+
+    return true
+  }
+
+  private func configTesting() {
+    let environment = ProcessInfo.processInfo.environment
+    let target: UIViewController
+
+    if
+      let viewName = environment["viewName"],
+      let rootViewController = UITestAdapter.getViewController(viewName)
+    {
+      target = rootViewController
     }
-    
-    func configTesting() {
-        let environment = ProcessInfo.processInfo.environment
-        let target: UIViewController
-        
-        if let viewName = environment["viewName"],
-           let rootViewController = UITestAdapter.getViewController(viewName) {
-            target = rootViewController
-        }
-        else {
-            target = .init()
-        }
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = target
-        window?.makeKeyAndVisible()
+    else {
+      target = .init()
     }
-    
-    func isInSwiftUIPreviewLiveMode() -> Bool {
-        let previewing = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
-        
-        if previewing {
-            self.window = UIWindow(frame: UIScreen.main.bounds)
-            self.window?.rootViewController = UIViewController()
-            self.window?.makeKeyAndVisible()
-            
-            return true
-        }
-        else {
-            return false
-        }
+
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.rootViewController = target
+    window?.makeKeyAndVisible()
+  }
+
+  private func isInSwiftUIPreviewLiveMode() -> Bool {
+    let previewing = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+
+    if previewing {
+      self.window = UIWindow(frame: UIScreen.main.bounds)
+      self.window?.rootViewController = UIViewController()
+      self.window?.makeKeyAndVisible()
+
+      return true
     }
+    else {
+      return false
+    }
+  }
 }

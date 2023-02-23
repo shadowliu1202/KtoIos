@@ -13,7 +13,7 @@ class LoadingImpl: Loading {
   private let loadingView = LoadingView()
 
   private let disposeBag = DisposeBag()
-  
+
   private(set) var tracker = ActivityIndicator()
 
   var isLoading: Bool { !loadingView.isHidden }
@@ -44,4 +44,3 @@ class LoadingImpl: Loading {
     }
   }
 }
-

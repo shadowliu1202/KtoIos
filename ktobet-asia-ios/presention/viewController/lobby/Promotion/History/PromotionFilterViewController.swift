@@ -101,23 +101,23 @@ extension PromotionFilterViewController {
             cell.addBorder(.top)
             cell.addBorder(.bottom)
             cell.titleLeadingConstraint.constant = 30
-            
+
           case 3:
             cell.addBorder(.top)
             cell.addBorder(.bottom, leftConstant: 30)
             cell.titleLeadingConstraint.constant = 30
-          
+
           case PromotionPresenter.productRows.first ?? 0:
             cell.titleLeadingConstraint.constant = 58
-            
+
           case PromotionPresenter.productRows:
             cell.addBorder(.top, leftConstant: 58)
             cell.titleLeadingConstraint.constant = 58
-            
+
           case (PromotionPresenter.productRows.last ?? 0) + 1:
             cell.addBorder(.top, leftConstant: 58)
             cell.titleLeadingConstraint.constant = 30
-            
+
           default:
             cell.addBorder(.top, leftConstant: 30)
             cell.titleLeadingConstraint.constant = 30
