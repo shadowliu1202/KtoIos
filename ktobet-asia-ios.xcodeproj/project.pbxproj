@@ -359,6 +359,7 @@
 		3C8FF908299242DD009BD583 /* OnlinePaymentViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8FF901299242DD009BD583 /* OnlinePaymentViewModelProtocol.swift */; };
 		3C8FF909299242DD009BD583 /* OnlinePaymentViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8FF901299242DD009BD583 /* OnlinePaymentViewModelProtocol.swift */; };
 		3C8FF90A299242DD009BD583 /* OnlinePaymentViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8FF901299242DD009BD583 /* OnlinePaymentViewModelProtocol.swift */; };
+		3C96B4D529A743A40080800C /* WithdrawalCryptoRequestViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C96B4D429A743A40080800C /* WithdrawalCryptoRequestViewControllerTests.swift */; };
 		3C9DA423281252EA0038C9D8 /* EmptyNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */; };
 		3C9DA424281252EA0038C9D8 /* EmptyNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */; };
 		3C9DA425281252EA0038C9D8 /* EmptyNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */; };
@@ -6542,6 +6543,7 @@
 		3C8FF8EC2990D519009BD583 /* SideMenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuViewModel.swift; sourceTree = "<group>"; };
 		3C8FF8F72992376D009BD583 /* OnlinePaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePaymentView.swift; sourceTree = "<group>"; };
 		3C8FF901299242DD009BD583 /* OnlinePaymentViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePaymentViewModelProtocol.swift; sourceTree = "<group>"; };
+		3C96B4D429A743A40080800C /* WithdrawalCryptoRequestViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoRequestViewControllerTests.swift; sourceTree = "<group>"; };
 		3C9DA422281252EA0038C9D8 /* EmptyNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNotificationView.swift; sourceTree = "<group>"; };
 		3CA1C55D29346DE50009D9C1 /* CryptoVideoTutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoVideoTutorialView.swift; sourceTree = "<group>"; };
 		3CA721E42913CA9800B94548 /* PromotionApiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionApiTests.swift; sourceTree = "<group>"; };
@@ -6638,7 +6640,6 @@
 		483F42BA258C41A90091960B /* UIWindowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindowExtension.swift; sourceTree = "<group>"; };
 		4840645A25871BC70064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi-vn.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		4840645B25871D760064AAC9 /* LocalizeUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizeUtils.swift; sourceTree = "<group>"; };
-		4840646C258721740064AAC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4840646E258721780064AAC9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-cn.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		4840646F2587217B0064AAC9 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi-vn.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		4840648C258742150064AAC9 /* Signup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Signup.storyboard; sourceTree = "<group>"; };
@@ -6697,7 +6698,6 @@
 		48CC3213255141EC00C9D1BF /* DefaultProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProductCell.swift; sourceTree = "<group>"; };
 		48CC321E2551432C00C9D1BF /* DefaultProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProductViewModel.swift; sourceTree = "<group>"; };
 		48CC32312551488F00C9D1BF /* ConfigurationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationUseCase.swift; sourceTree = "<group>"; };
-		48D7F9EA2575E38B00540B85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		48D7F9EE2575E38E00540B85 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-cn.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		48EDC9682564EE6D0046C337 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		48EDC96C2564EE8D0046C337 /* NavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewModel.swift; sourceTree = "<group>"; };
@@ -9168,6 +9168,7 @@
 				6D425201299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift */,
 				FF47BA2C29A4AD410033C2B0 /* PromotionHistoryViewControllerTests.swift */,
 				6D6A261129A367BC00EAF217 /* CryptoAccountDetailViewControllerTests.swift */,
+				3C96B4D429A743A40080800C /* WithdrawalCryptoRequestViewControllerTests.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -9515,9 +9516,6 @@
 			knownRegions = (
 				en,
 				Base,
-				"zh-Hans",
-				vi,
-				th,
 				"zh-CN",
 				"vi-VN",
 			);
@@ -11806,6 +11804,7 @@
 				FFBD3770294ACAE3009E9A97 /* PromotionViewControllerTest.swift in Sources */,
 				3CB830162914F1D5001246BB /* PromotionUseCaseImplTests.swift in Sources */,
 				3CB8300D2914DAF3001246BB /* PromotionRepositoryImplTests.swift in Sources */,
+				3C96B4D529A743A40080800C /* WithdrawalCryptoRequestViewControllerTests.swift in Sources */,
 				6D6A261229A367BC00EAF217 /* CryptoAccountDetailViewControllerTests.swift in Sources */,
 				FFB016C42965841F007E0236 /* CasinoViewControllerTests.swift in Sources */,
 				3CF9BB45295C37E700EC91DC /* ItemSelectorTests.swift in Sources */,
@@ -16974,7 +16973,6 @@
 		4840646D258721740064AAC9 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4840646C258721740064AAC9 /* en */,
 				4840646E258721780064AAC9 /* zh-Hans */,
 				4840646F2587217B0064AAC9 /* vi */,
 			);
@@ -16984,7 +16982,6 @@
 		48D7F9EB2575E38B00540B85 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				48D7F9EA2575E38B00540B85 /* en */,
 				48D7F9EE2575E38E00540B85 /* zh-Hans */,
 				4840645A25871BC70064AAC9 /* vi */,
 			);

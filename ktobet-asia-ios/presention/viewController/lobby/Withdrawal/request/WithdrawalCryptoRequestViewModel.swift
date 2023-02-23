@@ -135,4 +135,8 @@ class WithdrawalCryptoRequestViewModel {
   func getCryptoRequestBankCard(bankCardId: String) -> Single<CryptoBankCard?> {
     withdrawalUseCase.getCryptoBankCards().map({ $0.first(where: { $0.id_ == bankCardId }) })
   }
+
+  func getSupportLocale() -> SupportLocale {
+    localStorageRepository.getSupportLocale()
+  }
 }
