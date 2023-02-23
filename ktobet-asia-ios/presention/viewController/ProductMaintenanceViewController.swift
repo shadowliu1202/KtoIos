@@ -17,7 +17,7 @@ class ProductMaintenanceViewController: MaintenanceViewController {
     func initTextViewAttr() {
         textView.textContainerInset = .zero
         let suffix = Localize.string("common_kto")
-        let maintenance = Localize.string("product_maintenance_title", suffix)
+        let maintenance = Localize.string("common_maintenance_description")
         let txt = AttribTextHolder(text: maintenance)
             .addAttr((text: maintenance, type: .color, UIColor.gray9B9B9B))
             .addAttr((text: maintenance, type: .font, UIFont.init(name: "PingFangSC-Semibold", size: 24) as Any))
