@@ -1006,7 +1006,9 @@ final class Injection {
         
         container
             .register(PromotionHistoryViewModel.self) { resolver in
-                return PromotionHistoryViewModel(promotionUseCase: resolver.resolveWrapper(PromotionUseCase.self))
+                .init(
+                  promotionUseCase: resolver.resolveWrapper(PromotionUseCase.self),
+                  localRepo: resolver.resolveWrapper(LocalStorageRepository.self))
             }
         
         container

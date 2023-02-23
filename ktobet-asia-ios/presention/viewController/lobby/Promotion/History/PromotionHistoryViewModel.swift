@@ -1,60 +1,96 @@
 import Foundation
-import RxSwift
 import RxCocoa
+import RxSwift
 import SharedBu
 
+class PromotionHistoryViewModel: CollectErrorViewModel {
+  private let promotionUseCase: PromotionUseCase
 
-class PromotionHistoryViewModel {
-    private let promotionUseCase: PromotionUseCase
+  private let totalCountAmountRelay = BehaviorRelay(value: "")
+
+  private let disposeBag = DisposeBag()
+
+  private var recordPagination: Pagination<CouponHistory>!
+  
+  private(set) var localRepo: LocalStorageRepository
+  
+  private(set) var keywordRelay: BehaviorRelay<String?> = .init(value: nil)
+
+  var sortingBy: SortingType = .desc
+  var productTypes: [ProductType] = []
+  var privilegeTypes: [PrivilegeType] = [
+    .freebet,
+    .depositbonus,
+    .rebate,
+    .levelbonus,
+    .product,
+    .vvipcashback
+  ]
+
+  var beginDate = Date().getPastSevenDate()
+  var endDate = Date()
+
+  var totalCountAmountDriver: Driver<String> {
+    totalCountAmountRelay.asDriver()
+  }
+
+  var historiesDriver: Driver<[CouponHistory]> {
+    recordPagination.elements.skip(1).asDriverLogError()
+  }
+  
+  init(
+    promotionUseCase: PromotionUseCase,
+    localRepo: LocalStorageRepository)
+  {
+    self.promotionUseCase = promotionUseCase
+    self.localRepo = localRepo
     
-    var recordPagination: Pagination<CouponHistory>!
-    
-    var keyword: String = ""
-    var sortingBy: SortingType = .desc
-    var productTypes: [ProductType] = []
-    var privilegeTypes: [PrivilegeType] = [.freebet, .depositbonus, .rebate, .levelbonus, .product, .vvipcashback]
-    var beginDate = Date().getPastSevenDate()
-    var endDate = Date()
-    var relayTotalCountAmount = BehaviorRelay(value: "")
-    
-    init(promotionUseCase: PromotionUseCase) {
-        self.promotionUseCase = promotionUseCase
-        self.recordPagination = Pagination<CouponHistory>(
-            pageIndex: 1,
-            offset: 1,
-            observable: { [weak self] page -> Observable<[CouponHistory]> in
-                self?.searchBonusCoupons(page: page)
-                    .do(onError: { error in
-                        self?.recordPagination.error.onNext(error)
-                    })
-                    .catch( { error -> Observable<[CouponHistory]> in
-                        Observable.empty()
-                    }) ?? .just([])
-            }
+    super.init()
+
+    self.recordPagination = Pagination<CouponHistory>(
+      pageIndex: 1,
+      offset: 1,
+      observable: { [weak self] page -> Observable<[CouponHistory]> in
+        guard let self else { return .just([]) }
+        return self.searchBonusCoupons(page: page)
+      })
+
+    keywordRelay
+      .skip(1)
+      .distinctUntilChanged()
+      .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+      .subscribe(onNext: { [weak self] _ in
+        self?.fetchData()
+      })
+      .disposed(by: disposeBag)
+  }
+
+  func searchBonusCoupons(page: Int) -> Observable<[CouponHistory]> {
+    promotionUseCase
+      .searchBonusCoupons(
+        keyword: keywordRelay.value ?? "",
+        from: beginDate,
+        to: endDate,
+        productTypes: productTypes,
+        privilegeTypes: privilegeTypes,
+        sortingBy: sortingBy,
+        page: page)
+      .do(onSuccess: { [weak self] in
+        self?.totalCountAmountRelay.accept(
+          Localize.string("bonus_promotioncount", ["\($0.totalCoupon)", $0.summary.description()])
         )
-    }
-    
-    func searchBonusCoupons(page: Int) -> Observable<[CouponHistory]> {
-        promotionUseCase
-            .searchBonusCoupons(
-                keyword: keyword,
-                from: beginDate,
-                to: endDate,
-                productTypes: productTypes,
-                privilegeTypes: privilegeTypes,
-                sortingBy: sortingBy,
-                page: page
-            )
-            .do(onSuccess: { [weak self] in
-                self?.relayTotalCountAmount.accept(
-                    String(format: Localize.string("bonus_promotioncount"), "\($0.totalCoupon)", $0.summary.description())
-                )
-            })
-            .map{ $0.couponHistory }
-            .asObservable()
-    }
-    
-    deinit {
-        print("\(type(of: self)) deinit")
-    }
+      }, onError: { [weak self] in
+        self?.errorsSubject.onNext($0)
+      })
+      .map { $0.couponHistory }
+      .asObservable()
+  }
+
+  func fetchData() {
+    recordPagination.refreshTrigger.onNext(())
+  }
+
+  deinit {
+    print("\(type(of: self)) deinit")
+  }
 }

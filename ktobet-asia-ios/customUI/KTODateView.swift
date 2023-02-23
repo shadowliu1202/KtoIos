@@ -45,7 +45,7 @@ class KTODateView: UIView {
     private func setupUI() {
         self.layer.cornerRadius = 8
         self.layer.masksToBounds = true
-        self.layer.borderWidth = 1
+        self.layer.borderWidth = 0.5
         self.layer.borderColor = UIColor.gray9B9B9B.cgColor
         let tap = UITapGestureRecognizer.init()
         self.addGestureRecognizer(tap)

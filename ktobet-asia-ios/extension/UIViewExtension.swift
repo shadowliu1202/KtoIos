@@ -1,6 +1,6 @@
 import UIKit
 
-public enum BorderSide: Int {
+public enum BorderSide: Int, CaseIterable {
     case top = 1100, bottom, left, right, around
 }
 
@@ -49,6 +49,14 @@ extension UIView {
             }
         }
     }
+  
+    public func removeAllBorder() {
+      subviews.forEach { view in
+        if BorderSide.allCases.map { $0.rawValue }.contains(view.tag) {
+          view.removeFromSuperview()
+        }
+      }
+  }
     
     enum EdgeDirection { case left, right, none }
     
