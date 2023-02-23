@@ -10,7 +10,7 @@ class DepositOfflineConfirmViewController:
   @Injected private var viewModel: DepositOfflineConfirmViewModel
 
   static let segueIdentifier = "toOfflineConfirmSegue"
-  
+
   private let disposeBag = DisposeBag()
 
   /// Those parameter need to set before controller been presented
@@ -33,11 +33,11 @@ class DepositOfflineConfirmViewController:
     vc.memo = memo
     vc.selectedBank = selectedBank
     vc.unwindSegueId = unwindSegueId
-    
+
     if let viewModel {
       vc._viewModel.wrappedValue = viewModel
     }
-    
+
     return vc
   }
 

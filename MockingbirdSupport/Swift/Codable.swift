@@ -3,7 +3,8 @@ public protocol Encodable {
 }
 
 public protocol Decodable {
-  @objc(mkb_implicit) init(from decoder: Decoder) throws
+  @objc(mkb_implicit)
+  init(from decoder: Decoder) throws
 }
 
 public typealias Codable = Decodable & Encodable

@@ -3,13 +3,13 @@ import RxSwift
 import SharedBu
 
 class UploadPhotoViewModel {
-    private var imageUseCase : UploadImageUseCase!
+  private var imageUseCase: UploadImageUseCase!
 
-    init(imageUseCase: UploadImageUseCase) {
-        self.imageUseCase = imageUseCase
-    }
+  init(imageUseCase: UploadImageUseCase) {
+    self.imageUseCase = imageUseCase
+  }
 
-    func uploadImage(imageData: Data) -> Single<UploadImageDetail> {
-        return imageUseCase.uploadImage(imageData: imageData)
-    }
+  func uploadImage(imageData: Data) -> Single<UploadImageDetail> {
+    imageUseCase.uploadImage(imageData: imageData)
+  }
 }

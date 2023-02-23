@@ -2,26 +2,29 @@ import SharedBu
 import UIKit
 
 extension Crypto {
-    @objc var icon: UIImage? {
-        return nil
-    }
-    @objc var currencyId: Int {
-        return 0
-    }
-    
+  @objc var icon: UIImage? {
+    nil
+  }
+
+  @objc var currencyId: Int {
+    0
+  }
 }
 
 extension Crypto.Ethereum {
-    static func create() -> Crypto {
-        return Crypto.Companion.init().create(simpleName: Crypto.Ethereum.init().simpleName)
-    }
-    @objc override var icon: UIImage? {
-        return UIImage(named: "IconCrypto")
-    }
-    @objc override var flagIcon: UIImage? {
-        return UIImage(named: "IconCryptoTypeETH")
-    }
-    @objc override var currencyId: Int {
-        return 1001
-    }
+  static func create() -> Crypto {
+    Crypto.Companion().create(simpleName: Crypto.Ethereum().simpleName)
+  }
+
+  @objc override var icon: UIImage? {
+    UIImage(named: "IconCrypto")
+  }
+
+  @objc override var flagIcon: UIImage? {
+    UIImage(named: "IconCryptoTypeETH")
+  }
+
+  @objc override var currencyId: Int {
+    1001
+  }
 }

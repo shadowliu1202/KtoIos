@@ -1,6 +1,6 @@
 import UIKit
 
-///reference: https://gist.github.com/darrarski/29a2a4515508e385c90b3ffe6f975df7
+/// reference: https://gist.github.com/darrarski/29a2a4515508e385c90b3ffe6f975df7
 final class CustomIntensityVisualEffectView: UIVisualEffectView {
   /// Create visual effect view with given effect and its intensity
   ///
@@ -13,7 +13,7 @@ final class CustomIntensityVisualEffectView: UIVisualEffectView {
     super.init(effect: nil)
   }
 
-  required init?(coder aDecoder: NSCoder) { nil }
+  required init?(coder _: NSCoder) { nil }
 
   deinit {
     animator?.stopAnimation(true)

@@ -1,68 +1,68 @@
 import Foundation
-import RxSwift
 import RxCocoa
+import RxSwift
 
 protocol CollectErrorViewModelProtocol {
-    func errors() -> Observable<Error>
-    func applyObservableErrorHandle<T>() -> ObservableTransformer<T,T>
-    func applySingleErrorHandler<T>() -> SingleTransformer<T,T>
-    func applyCompletableErrorHandler() -> CompletableTransformer
+  func errors() -> Observable<Error>
+  func applyObservableErrorHandle<T>() -> ObservableTransformer<T, T>
+  func applySingleErrorHandler<T>() -> SingleTransformer<T, T>
+  func applyCompletableErrorHandler() -> CompletableTransformer
 }
 
 extension CollectErrorViewModelProtocol {
-    func errors() -> Observable<Error> {
-        return Observable<Error>.never()
+  func errors() -> Observable<Error> {
+    Observable<Error>.never()
+  }
+
+  func applyObservableErrorHandle<T>() -> ObservableTransformer<T, T> {
+    ObservableTransformer.init { observable in
+      observable
     }
-    
-    func applyObservableErrorHandle<T>() -> ObservableTransformer<T,T> {
-        return ObservableTransformer.init { observable in
-            return observable
-        }
+  }
+
+  func applySingleErrorHandler<T>() -> SingleTransformer<T, T> {
+    SingleTransformer.init { single in
+      single
     }
-    
-    func applySingleErrorHandler<T>() -> SingleTransformer<T,T> {
-        return SingleTransformer.init { single in
-            return single
-        }
+  }
+
+  func applyCompletableErrorHandler() -> CompletableTransformer {
+    CompletableTransformer.init { completable in
+      completable
     }
-    
-    func applyCompletableErrorHandler() -> CompletableTransformer {
-        return CompletableTransformer.init { completable in
-            return completable
-        }
-    }
+  }
 }
 
 class CollectErrorViewModel: CollectErrorViewModelProtocol {
-    let errorsSubject = PublishSubject<Error>.init()
-    
-    func errors() -> Observable<Error> {
-        return errorsSubject.throttle(.milliseconds(1500), latest: false, scheduler: MainScheduler.instance)
+  let errorsSubject = PublishSubject<Error>.init()
+
+  func errors() -> Observable<Error> {
+    errorsSubject.throttle(.milliseconds(1500), latest: false, scheduler: MainScheduler.instance)
+  }
+
+  func applyObservableErrorHandle<T>() -> ObservableTransformer<T, T> {
+    ObservableTransformer { observanle -> Observable<T> in
+      observanle
+        .do(onError: { [weak self] e in
+          self?.errorsSubject.onNext(e)
+        }).catch { _ in Observable.never() }
     }
-    
-    func applyObservableErrorHandle<T>() -> ObservableTransformer<T,T> {
-        return ObservableTransformer { (observanle) -> Observable<T> in
-            return observanle
-                .do(onError: { [weak self] (e) in
-                    self?.errorsSubject.onNext(e)
-                }).catch { _ in Observable.never() }
-        }
+  }
+
+  func applySingleErrorHandler<T>() -> SingleTransformer<T, T> {
+    SingleTransformer { single -> Single<T> in
+      single
+        .do(onError: { [weak self] e in
+          self?.errorsSubject.onNext(e)
+        }).catch { _ in Single.never() }
     }
-    
-    func applySingleErrorHandler<T>() -> SingleTransformer<T,T> {
-        return SingleTransformer { (single) -> Single<T> in
-            return single
-                .do(onError: { [weak self] (e) in
-                    self?.errorsSubject.onNext(e)
-                }).catch { _ in Single.never() }
-        }
+  }
+
+  func applyCompletableErrorHandler() -> CompletableTransformer {
+    CompletableTransformer { completable -> Completable in
+      completable.do(onError: { [weak self] e in
+        self?.errorsSubject.onNext(e)
+      }).catch { _ in Completable.never() }
     }
-    
-    func applyCompletableErrorHandler() -> CompletableTransformer {
-        return CompletableTransformer { (completable) -> Completable in
-            return completable.do(onError: { [weak self] (e) in
-                self?.errorsSubject.onNext(e)
-            }).catch { _ in Completable.never() }
-        }
-    }
+  }
 }

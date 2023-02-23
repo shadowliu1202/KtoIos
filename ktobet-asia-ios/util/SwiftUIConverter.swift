@@ -4,46 +4,43 @@ import UIKit
 protocol SwiftUIConverter: UIViewController { }
 
 extension SwiftUIConverter {
-    
-    func addSubView<Content>(
-        _ swiftUIView: Content,
-        to view: UIView,
-        configure: ((UIHostingController<Content>) -> Void)? = nil
-    ) where Content : View {
-        
-        let hostingController = embedHosting(swiftUIView)
-        configure?(hostingController)
-    }
-    
-    /// Use factory to init  *@StateObject*
-    /// Make sure to use unretain self
-    func addSubView<Content>(
-        from factory: () -> Content,
-        to view: UIView,
-        configure: ((UIHostingController<Content>) -> Void)? = nil
-    ) where Content : View {
-        
-        let hostingController = embedHosting(factory())
-        configure?(hostingController)
-    }
-    
-    private func embedHosting
-        <Content: View>
-        (_ content: Content)
-        -> UIHostingController<Content>
-    {
-        let hostingController = UIHostingController(rootView: content)
-        hostingController.view.backgroundColor = .clear
-        
-        addChild(hostingController)
-        
-        view.insertSubview(hostingController.view, at: 0)
-        hostingController.view.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+  func addSubView<Content>(
+    _ swiftUIView: Content,
+    to _: UIView,
+    configure: ((UIHostingController<Content>) -> Void)? = nil) where Content: View
+  {
+    let hostingController = embedHosting(swiftUIView)
+    configure?(hostingController)
+  }
 
-        hostingController.didMove(toParent: self)
-        
-        return hostingController
+  /// Use factory to init  *@StateObject*
+  /// Make sure to use unretain self
+  func addSubView<Content>(
+    from factory: () -> Content,
+    to _: UIView,
+    configure: ((UIHostingController<Content>) -> Void)? = nil) where Content: View
+  {
+    let hostingController = embedHosting(factory())
+    configure?(hostingController)
+  }
+
+  private func embedHosting
+  <Content: View>
+  (_ content: Content)
+    -> UIHostingController<Content>
+  {
+    let hostingController = UIHostingController(rootView: content)
+    hostingController.view.backgroundColor = .clear
+
+    addChild(hostingController)
+
+    view.insertSubview(hostingController.view, at: 0)
+    hostingController.view.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
     }
+
+    hostingController.didMove(toParent: self)
+
+    return hostingController
+  }
 }

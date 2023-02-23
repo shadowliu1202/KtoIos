@@ -71,7 +71,7 @@ class SideMenuViewModel: CollectErrorViewModel {
           .observeMaintenanceStatus(useCase: self.getSystemStatusUseCase)
           .subscribe(onNext: { [weak self] maintenanceStatus in
             guard let self else { return }
-            
+
             self.maintenanceStatusSubject
               .onNext(maintenanceStatus)
           })
@@ -89,7 +89,7 @@ class SideMenuViewModel: CollectErrorViewModel {
           .observePlayerBalance(useCase: self.playerDataUseCase)
           .subscribe(onNext: { [weak self] accountCurrency in
             guard let self else { return }
-            
+
             self.playerBalanceSubject
               .onNext(accountCurrency)
           })
@@ -106,7 +106,7 @@ class SideMenuViewModel: CollectErrorViewModel {
     errorsSubject
       .do(onSubscribe: { [weak self] in
         guard let self else { return }
-        
+
         self.observeSystemMessageUseCase.errors()
           .subscribe(onNext: { [weak self] error in
             guard let self else { return }

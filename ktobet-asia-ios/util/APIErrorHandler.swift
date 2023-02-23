@@ -31,7 +31,6 @@ struct APIErrorHandler {
 // MARK: - Error Handle
 
 extension APIErrorHandler {
-  
   private func handleMoyaError(_ error: MoyaError) {
     switch error {
     case .statusCode(let response):
@@ -39,7 +38,7 @@ extension APIErrorHandler {
         domain: response.request?.url?.path ?? "",
         code: response.statusCode,
         userInfo: ["errorMsg": response.description])
-      
+
       handleHttpError(nsError, errorResponse: response)
 
     case .underlying(let err, _):
@@ -75,23 +74,23 @@ extension APIErrorHandler {
       guard !tracker.isLoading else { return }
 
       handleUnknownError(nsError)
-      
+
     case 403:
       target.showRestrictView()
-      
+
     case 404:
       target.showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
       Logger.shared.error(nsError)
-      
+
     case 410:
       target.handleMaintenance()
-      
+
     case 429:
       target.handleTooManyRequest()
-      
+
     case 502:
       if
-        let errorResponse = errorResponse,
+        let errorResponse,
         let info = parse502Html(errorResponse)
       {
         target.showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
@@ -100,13 +99,13 @@ extension APIErrorHandler {
       else {
         handleUnknownError(nsError)
       }
-        
+
     case 503:
       target.showAlertError(String(format: Localize.string("common_http_503"), "\(statusCode)"))
-      
+
     case 608:
       target.showCDNErrorView()
-      
+
     default:
       handleUnknownError(nsError)
     }
@@ -139,50 +138,47 @@ extension APIErrorHandler {
 
 // MARK: - UI
 
-private extension UIViewController {
-  
-  func showAlertError(_ content: String) {
+extension UIViewController {
+  fileprivate func showAlertError(_ content: String) {
     let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
     toastView.show(on: nil, statusTip: content, img: UIImage(named: "Failed"))
   }
 
-  func showRestrictView() {
+  fileprivate func showRestrictView() {
     let restrictedVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "restrictedVC")
     self.present(restrictedVC, animated: true, completion: nil)
   }
 
-  func showCDNErrorView() {
+  fileprivate func showCDNErrorView() {
     let cndErrorVC = UIStoryboard(name: "slideMenu", bundle: nil)
       .instantiateViewController(withIdentifier: "CDNErrorViewController")
     self.present(cndErrorVC, animated: true, completion: nil)
   }
 
-  func handleTooManyRequest() {
+  fileprivate func handleTooManyRequest() {
     showToastOnBottom(Localize.string("common_retry_later"), img: nil)
   }
 }
 
 // MARK: - Parse Error Response
 
-private extension APIErrorHandler {
-
-  func groups(_ regexPattern: String, from: String) -> [[String]] {
+extension APIErrorHandler {
+  private func groups(_ regexPattern: String, from: String) -> [[String]] {
     let regex = try? NSRegularExpression(pattern: regexPattern)
 
     return regex?.matches(
       in: from,
-      range: NSRange(from.startIndex..., in: from)
-    )
-    .map { match in
-      (0..<match.numberOfRanges).map {
-        let rangeBounds = match.range(at: $0)
-        guard let range = Range(rangeBounds, in: from) else { return "" }
-        return String(from[range])
-      }
-    } ?? []
+      range: NSRange(from.startIndex..., in: from))
+      .map { match in
+        (0..<match.numberOfRanges).map {
+          let rangeBounds = match.range(at: $0)
+          guard let range = Range(rangeBounds, in: from) else { return "" }
+          return String(from[range])
+        }
+      } ?? []
   }
 
-  func parse502Html(_ response: Response) -> [String: String]? {
+  private func parse502Html(_ response: Response) -> [String: String]? {
     guard let rawHtml = String(data: response.data, encoding: .utf8) else { return nil }
 
     return [

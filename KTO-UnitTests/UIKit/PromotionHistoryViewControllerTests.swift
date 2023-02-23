@@ -24,14 +24,14 @@ final class PromotionHistoryViewControllerTests: XCTestCase {
     let stubUseCase = mock(PromotionUseCase.self)
 
     given(stubUseCase.searchBonusCoupons(
-        keyword: any(),
-        from: any(),
-        to: any(),
-        productTypes: any(),
-        privilegeTypes: any(),
-        sortingBy: any(),
-        page: any()))
-    ~>
+      keyword: any(),
+      from: any(),
+      to: any(),
+      productTypes: any(),
+      privilegeTypes: any(),
+      sortingBy: any(),
+      page: any()))
+      ~>
       .just(.init(
         summary: 100.toAccountCurrency(),
         totalCoupon: 1,
@@ -43,9 +43,9 @@ final class PromotionHistoryViewControllerTests: XCTestCase {
       viewModel: .init(
         promotionUseCase: stubUseCase,
         localRepo: Injectable.resolveWrapper(LocalStorageRepository.self)))
-    
+
     sut.loadViewIfNeeded()
-    
+
     XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
   }
 }

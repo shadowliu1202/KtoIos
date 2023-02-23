@@ -7,7 +7,7 @@ import UIKit
 class NotificationViewController: LobbyViewController {
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var emptyViewContainer: UIView!
-  
+
   private let viewModel = Injectable.resolve(NotificationViewModel.self)!
   private let disposeBag = DisposeBag()
 

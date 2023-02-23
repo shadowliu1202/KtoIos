@@ -537,16 +537,16 @@ final class OnlinePaymentViewTests: XCTestCase {
         nil,
         nil,
         { _ in })
-    
+
     let exp = sut.inspection.inspect { view in
       let isRemitButtonDisable = try view
         .find(viewWithId: "remittanceButton")
         .button()
         .isDisabled()
-      
+
       XCTAssertFalse(isRemitButtonDisable)
     }
-    
+
     ViewHosting.host(
       view: sut
         .environmentObject(stubViewModel)
@@ -567,16 +567,16 @@ final class OnlinePaymentViewTests: XCTestCase {
         nil,
         nil,
         { _ in })
-    
+
     let exp = sut.inspection.inspect { view in
       let isRemitButtonDisable = try view
         .find(viewWithId: "remittanceButton")
         .button()
         .isDisabled()
-      
+
       XCTAssertTrue(isRemitButtonDisable)
     }
-    
+
     ViewHosting.host(
       view: sut
         .environmentObject(stubViewModel)

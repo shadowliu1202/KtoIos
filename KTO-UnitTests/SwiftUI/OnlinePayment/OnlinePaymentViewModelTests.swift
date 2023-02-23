@@ -76,7 +76,7 @@ final class OnlinePaymentViewModelTests: XCTestCase {
 
     let expect = "1999"
     let actual = remitApplication.remittance as! String
-    
+
     XCTAssertEqual(expect, actual)
   }
 }

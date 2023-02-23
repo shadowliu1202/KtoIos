@@ -11,9 +11,9 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
   private let disposeBag = DisposeBag()
 
   private var recordPagination: Pagination<CouponHistory>!
-  
+
   private(set) var localRepo: LocalStorageRepository
-  
+
   private(set) var keywordRelay: BehaviorRelay<String?> = .init(value: nil)
 
   var sortingBy: SortingType = .desc
@@ -37,14 +37,14 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
   var historiesDriver: Driver<[CouponHistory]> {
     recordPagination.elements.skip(1).asDriverLogError()
   }
-  
+
   init(
     promotionUseCase: PromotionUseCase,
     localRepo: LocalStorageRepository)
   {
     self.promotionUseCase = promotionUseCase
     self.localRepo = localRepo
-    
+
     super.init()
 
     self.recordPagination = Pagination<CouponHistory>(
@@ -77,8 +77,7 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
         page: page)
       .do(onSuccess: { [weak self] in
         self?.totalCountAmountRelay.accept(
-          Localize.string("bonus_promotioncount", ["\($0.totalCoupon)", $0.summary.description()])
-        )
+          Localize.string("bonus_promotioncount", ["\($0.totalCoupon)", $0.summary.description()]))
       }, onError: { [weak self] in
         self?.errorsSubject.onNext($0)
       })
