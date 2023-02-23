@@ -184,8 +184,9 @@ extension PromotionViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension PromotionViewController: BarButtonItemable {
     func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
-        guard let promotionHistoryViewController = UIStoryboard(name: "PromotionHistory", bundle: nil).instantiateViewController(withIdentifier: "PromotionHistoryViewController") as? PromotionHistoryViewController else { return }
-        self.navigationController?.pushViewController(promotionHistoryViewController, animated: true)
+      navigationController?.pushViewController(
+        PromotionHistoryViewController.instantiate(),
+        animated: true)
     }
 }
 
