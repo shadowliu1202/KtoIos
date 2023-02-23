@@ -139,9 +139,9 @@ class SideBarViewController: LobbyViewController {
       isMaintain = false
 
     case .Maintenance:
-      if CustomServicePresenter.shared.topViewController is ChatRoomViewController {
+      if CustomServicePresenter.shared.isInChat {
         title = Localize.string("common_maintenance_notify")
-        message = Localize.string("common_maintenance_contact_later")
+        message = Localize.string("common_maintenance_chat_close")
         isMaintain = true
       }
       else {
