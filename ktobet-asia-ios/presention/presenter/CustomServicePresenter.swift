@@ -74,6 +74,17 @@ class CustomServicePresenter: NSObject {
     topViewController is ChatRoomViewController
   }
 
+  var isInChat: Bool {
+    if
+      isInChatRoom ||
+      isInCallingView ||
+      isCSIconAppear.value
+    {
+      return true
+    }
+    return false
+  }
+
   var topViewController: UIViewController? {
     if let root = UIApplication.shared.windows.first?.topViewController as? UINavigationController {
       if let top = root.topViewController {
