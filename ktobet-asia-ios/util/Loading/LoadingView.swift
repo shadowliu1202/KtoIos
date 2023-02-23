@@ -1,7 +1,7 @@
 import UIKit
 
 class LoadingView: UIView {
-    private let imageView = UIImageView(image: .init(named: "icon.loading") ?? .init())
+    private let imageView = DrawCircles()
     
     init() {
         super.init(frame: .zero)
@@ -11,7 +11,7 @@ class LoadingView: UIView {
         addSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.size.equalTo(64)
+            make.size.equalTo(48)
         }
         
         addLayerAnimation(to: imageView.layer, duration: 1)
@@ -36,4 +36,57 @@ class LoadingView: UIView {
     deinit {
         print("\(type(of: self)) deinit")
     }
+}
+
+private class DrawCircles: UIView {
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    backgroundColor = .clear
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func draw(_: CGRect) {
+    let lineWidth: CGFloat = 5
+    let strokeColor: UIColor = .whitePure
+    let startAngle: CGFloat = 0
+    let maxAngle: CGFloat = CGFloat(Double.pi * 2)
+    let lineCapStyle: CGLineCap = .round
+
+    let gradations = 255
+    let center = CGPoint(x: bounds.origin.x + bounds.size.width / 2, y: bounds.origin.y + bounds.size.height / 2)
+    let radius = (min(bounds.size.width, bounds.size.height) - lineWidth) / 2
+
+    for i in 1 ... gradations {
+      let percent0 = CGFloat(i - 1) / CGFloat(gradations)
+      let percent1 = CGFloat(i) / CGFloat(gradations)
+      let angle0 = startAngle + (maxAngle - startAngle) * percent0
+      let angle1 = startAngle + (maxAngle - startAngle) * percent1
+      
+      let context = UIGraphicsGetCurrentContext()!
+      context.setLineWidth(lineWidth)
+      context.setLineCap(lineCapStyle)
+      
+      let path = CGMutablePath()
+      path.addArc(center: center, radius: radius + lineWidth / 2, startAngle: angle0, endAngle: angle1, clockwise: true)
+      path.addArc(center: center, radius: radius - lineWidth / 2, startAngle: angle1, endAngle: angle0, clockwise: false)
+      path.closeSubpath()
+      
+      let colors = [strokeColor.withAlphaComponent(percent0).cgColor, strokeColor.withAlphaComponent(percent1).cgColor]
+      let colorSpace = CGColorSpaceCreateDeviceRGB()
+      let colorLocations: [CGFloat] = [0.0, 1.0]
+      let gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: colorLocations)!
+      let startPoint = CGPoint.init(x: center.x + cos(angle0) * radius, y: center.y + sin(angle0) * radius)
+      let endPoint = CGPoint.init(x: center.x + cos(angle1) * radius, y: center.y + sin(angle1) * radius)
+      
+      context.saveGState()
+      context.addPath(path)
+      context.clip()
+      context.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: [])
+      context.restoreGState()
+    }
+  }
 }
