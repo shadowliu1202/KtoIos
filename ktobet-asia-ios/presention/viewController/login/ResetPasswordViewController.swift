@@ -156,7 +156,7 @@ class ResetPasswordViewController: LandingViewController {
     case is PlayerIsInactive,
          is PlayerIsLocked,
          is PlayerIsNotExist,
-         is PlayerIsSuspend:  constraintResetErrorView.constant = 56
+         is PlayerIsSuspend: constraintResetErrorView.constant = 56
       constraintResetErrorViewPadding.constant = 12
       if viewModel.retryCount >= ResetPasswordViewModel.accountRetryLimit {
         self.btnSubmit.isValid = false

@@ -59,7 +59,7 @@ extension UIBarButtonItem {
     return self
   }
 
-  @IBInspectable  public var localizeTitle: String? {
+  @IBInspectable public var localizeTitle: String? {
     get { title }
     set { title = newValue == nil ? nil : Localize.string(newValue!) }
   }

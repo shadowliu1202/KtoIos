@@ -11,22 +11,22 @@ class ChatDialogTableViewCell: UITableViewCell {
 class UILabelPadding: UILabel {
   private var padding = UIEdgeInsets.zero
 
-  @IBInspectable  var paddingLeft: CGFloat {
+  @IBInspectable var paddingLeft: CGFloat {
     get { padding.left }
     set { padding.left = newValue }
   }
 
-  @IBInspectable  var paddingRight: CGFloat {
+  @IBInspectable var paddingRight: CGFloat {
     get { padding.right }
     set { padding.right = newValue }
   }
 
-  @IBInspectable  var paddingTop: CGFloat {
+  @IBInspectable var paddingTop: CGFloat {
     get { padding.top }
     set { padding.top = newValue }
   }
 
-  @IBInspectable  var paddingBottom: CGFloat {
+  @IBInspectable var paddingBottom: CGFloat {
     get { padding.bottom }
     set { padding.bottom = newValue }
   }

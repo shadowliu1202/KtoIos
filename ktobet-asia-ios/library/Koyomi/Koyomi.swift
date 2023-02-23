@@ -648,12 +648,12 @@ extension Koyomi {
         case (_, false),
              (.multiple(style: .background), true),
              (.sequence(style: .background), true),
-             (.single(style: .background), true):  return .standard
+             (.single(style: .background), true): return .standard
 
         // Selected and circle style of single, multiple, sequence mode
         case (.multiple(style: .circle), true),
              (.sequence(style: .circle), true),
-             (.single(style: .circle), true):  return .circle
+             (.single(style: .circle), true): return .circle
 
         // Selected and sequence mode, semicircleEdge style
         case (.sequence(style: .semicircleEdge), true):

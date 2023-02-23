@@ -4,7 +4,7 @@ import RxSwift
 import UIKit
 
 extension UIButton {
-  @IBInspectable  public var localizeTitle: String? {
+  @IBInspectable public var localizeTitle: String? {
     get { title(for: .normal) }
     set { setTitle(newValue == nil ? nil : Localize.string(newValue!), for: .normal) }
   }

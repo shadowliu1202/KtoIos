@@ -670,7 +670,7 @@ private struct ContentView: View {
 }
 
 struct PromotionFilterDropDwon_Previews: PreviewProvider {
-  @available(iOS 13.0.0, *)  static var previews: some View {
+  @available(iOS 13.0.0, *) static var previews: some View {
     Group {
       ContentView()
         .previewDevice(PreviewDevice(rawValue: "iPhone SE"))

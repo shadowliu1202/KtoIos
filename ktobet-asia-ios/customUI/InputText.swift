@@ -7,7 +7,7 @@ class InputText: UIView {
   private var isEditing = false
   private(set) var isEdited = false
 
-  @IBInspectable  public var disablePaste = false {
+  @IBInspectable public var disablePaste = false {
     didSet {
       textContent.disablePaste = disablePaste
     }
@@ -139,7 +139,7 @@ class InputText: UIView {
   }
 
   // MARK: SETUP UI
-  @IBInspectable  public var titleLocalizeText: String? {
+  @IBInspectable public var titleLocalizeText: String? {
     get { labTitle.text }
     set { labTitle.text = newValue == nil ? nil : Localize.string(newValue!) }
   }

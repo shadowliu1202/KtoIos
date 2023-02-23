@@ -33,11 +33,11 @@ class NotificationUseCaseImpl: NotificationUseCase {
     case .depositneedsverifieddoc,
          .levelup,
          .offlinecardschange,
-          .onlinecardschange,
+         .onlinecardschange,
          .paymentgroupchanged,
          .registercompleted,
          .withdrawalneedsverifieddoc,
-         .withdrawalrejected:  return true
+         .withdrawalrejected: return true
     default:
       return false
     }

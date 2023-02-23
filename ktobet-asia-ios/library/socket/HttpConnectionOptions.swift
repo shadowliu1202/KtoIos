@@ -21,7 +21,7 @@ public class HttpConnectionOptions {
   public var skipNegotiation = false
 
   /// The timeout value for individual requests, in seconds.
-  /// 
+  ///
   public var requestTimeout: TimeInterval = 120
 
   /// Initializes an `HttpConnectionOptions`.

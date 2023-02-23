@@ -151,7 +151,7 @@ struct SwiftUIInputText: View {
     }
   }
 
-  @ViewBuilder  private var eyeIcon: some View {
+  @ViewBuilder private var eyeIcon: some View {
     if showPassword {
       Image("Eye-Show")
     }

@@ -62,7 +62,7 @@ class SubTitleIdMapper: ResourceIdMapper {
          .none,
          .product,
          .rebate,
-         .withdrawal:  return ResourceKey(key: "")
+         .withdrawal: return ResourceKey(key: "")
     default:
       return ResourceKey(key: "")
     }
@@ -117,7 +117,7 @@ class ProductTypeDescriptionResourceIdMapper: PrivilegeDescriptionFactoryLeveLDe
     case .arcade,
          .casino,
          .none,
-         .numbergame:  return PrivilegeDescription.Product.Empty()
+         .numbergame: return PrivilegeDescription.Product.Empty()
     default:
       return PrivilegeDescription.Product.Empty()
     }

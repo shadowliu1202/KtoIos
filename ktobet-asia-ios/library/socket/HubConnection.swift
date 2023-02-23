@@ -4,7 +4,7 @@ import Foundation
 /// handlers for client side methods that can be invoked from the server.
 ///
 /// - note: You need to maintain the reference to the `HubConnection` instance until the connection is stopped
-/// 
+///
 public class HubConnection {
   private var invocationId = 0
   private let hubConnectionQueue: DispatchQueue
@@ -20,7 +20,7 @@ public class HubConnection {
   /// Allows setting a delegate that will be notified about connection lifecycle events
   ///
   /// - note: You need to maintain the reference of the `HubConnectionDelegate` instance for the entire lifetime of the connection
-  /// 
+  ///
   public weak var delegate: HubConnectionDelegate?
 
   /// Gets the connections connectionId. This value will be cleared when the connection is stopped and will have a new value every

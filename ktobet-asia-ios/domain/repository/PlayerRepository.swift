@@ -302,7 +302,7 @@ class PlayerRepositoryImpl: PlayerRepository {
         case is PlayerIdOverOtpLimit,
              is PlayerIpOverOtpDailyLimit,
              is PlayerResentOtpLessResendTime,
-             is PlayerResentOtpOverTenTimes:  return KtoPlayerOverOtpDailySendLimit()
+             is PlayerResentOtpOverTenTimes: return KtoPlayerOverOtpDailySendLimit()
         default:
           return $0
         }

@@ -40,7 +40,7 @@ struct StarMergerView<ViewModel: StarMergerViewModel>: View {
     .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
   }
 
-  @ViewBuilder  private var starMergerInfo: some View {
+  @ViewBuilder private var starMergerInfo: some View {
     Text(Localize.string("cps_starmerger_title"))
       .localized(weight: .semibold, size: 24, color: .white)
 

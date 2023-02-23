@@ -16,7 +16,7 @@ public protocol ReconnectPolicy {
   /// - parameter retryContext: information about the current reconnection attempt
   /// - returns: time interval when the next connect attempt should take place. Returning `.never` indicates that no further
   /// connect attemps should take place.
-  /// 
+  ///
   func nextAttemptInterval(retryContext: RetryContext) -> DispatchTimeInterval
 }
 

@@ -361,7 +361,7 @@ class LogDetailRowItem {
       self.remark = status.isEmpty ? remarkStr : "\(status)\n\(remarkStr)"
     case is ProductGroup.Arcade,
          is ProductGroup.NumberGame,
-         is ProductGroup.Slot:  if let remark = bean.remark as? BalanceLogDetailRemark.General
+         is ProductGroup.Slot: if let remark = bean.remark as? BalanceLogDetailRemark.General
       {
         if remark.ids.count > 1 {
           self.logId = bean.wagerMappingId

@@ -128,7 +128,7 @@ extension UIView {
     }
   }
 
-  @IBInspectable  var borderWidth: CGFloat {
+  @IBInspectable var borderWidth: CGFloat {
     get {
       layer.borderWidth
     }
@@ -137,7 +137,7 @@ extension UIView {
     }
   }
 
-  @IBInspectable  var bordersColor: UIColor? {
+  @IBInspectable var bordersColor: UIColor? {
     get {
       if let color = layer.borderColor {
         return UIColor(cgColor: color)
@@ -154,7 +154,7 @@ extension UIView {
     }
   }
 
-  @IBInspectable  public var cornerRadius: CGFloat {
+  @IBInspectable public var cornerRadius: CGFloat {
     get { layer.cornerRadius }
     set {
       self.clipsToBounds = true
@@ -162,7 +162,7 @@ extension UIView {
     }
   }
 
-  @IBInspectable  public var masksToBounds: Bool {
+  @IBInspectable public var masksToBounds: Bool {
     get { layer.masksToBounds }
     set { layer.masksToBounds = newValue }
   }
@@ -289,7 +289,7 @@ extension UIView {
     }
   }
 
-  @IBInspectable  var visibilityState: String {
+  @IBInspectable var visibilityState: String {
     get {
       self.visibility.rawValue
     }
