@@ -203,6 +203,13 @@ class OnlinePaymentViewModel:
       application: onlineRemitApplication)
 
     Single.from(self.depositService.requestOnlineDeposit(request: onlineRemitRequest))
+      .do(
+        onSubscribe: { [weak self] in
+          self?.submitButtonDisable = true
+        },
+        onDispose: { [weak self] in
+          self?.submitButtonDisable = false
+        })
       .subscribe(
         onSuccess: { [weak self] webPathDTO in
           guard let self else { return }
