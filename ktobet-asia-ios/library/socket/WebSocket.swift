@@ -2015,7 +2015,7 @@ public func == (lhs: WebSocket, rhs: WebSocket) -> Bool {
 
 extension WebSocket {
   /// The events of the WebSocket using a delegate.
-  @objc  public var delegate: WebSocketDelegate? {
+  @objc public var delegate: WebSocketDelegate? {
     get { ws.eventDelegate }
     set { ws.eventDelegate = newValue }
   }

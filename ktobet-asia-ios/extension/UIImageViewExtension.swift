@@ -17,7 +17,7 @@ extension UIImageView {
       completed: completed)
   }
 
-  @IBInspectable  public var setTintColor: UIColor {
+  @IBInspectable public var setTintColor: UIColor {
     get { self.tintColor }
     set {
       let templateImage = self.image?.withRenderingMode(.alwaysTemplate)

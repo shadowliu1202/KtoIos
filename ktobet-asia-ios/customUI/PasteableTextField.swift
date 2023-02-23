@@ -1,7 +1,7 @@
 import UIKit
 
 class PasteableTextField: UITextField {
-  @IBInspectable  public var disablePaste = false
+  @IBInspectable public var disablePaste = false
 
   override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
     if action == #selector(UIResponderStandardEditActions.paste(_:)) {

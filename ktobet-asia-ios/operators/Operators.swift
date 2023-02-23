@@ -79,7 +79,7 @@ func <-> <T>(property: ControlProperty<T>, relay: BehaviorRelay<T>) -> Disposabl
     //            "Find out more here: https://github.com/ReactiveX/RxSwift/issues/649\n"
     //            )
     // #endif
-    // 
+    //
   }
 
   let bindToUIDisposable = relay.bind(to: property)

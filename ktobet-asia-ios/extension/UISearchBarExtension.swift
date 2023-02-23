@@ -3,12 +3,12 @@ import RxSwift
 import UIKit
 
 extension UISearchBar {
-  @IBInspectable  public var localizePlaceholder: String? {
+  @IBInspectable public var localizePlaceholder: String? {
     get { placeholder }
     set { placeholder = newValue == nil ? nil : Localize.string(newValue!) }
   }
 
-  @IBInspectable  public var textColor: UIColor? {
+  @IBInspectable public var textColor: UIColor? {
     get {
       self.textField?.textColor
     }
