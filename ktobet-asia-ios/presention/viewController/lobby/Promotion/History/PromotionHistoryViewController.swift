@@ -100,6 +100,15 @@ extension PromotionHistoryViewController {
       .bind(to: viewModel.keywordRelay)
       .disposed(by: disposeBag)
 
+    searchTextField.rx.text
+      .orEmpty
+      .map { !$0.isEmpty }
+      .distinctUntilChanged()
+      .subscribe(onNext: { [weak self] in
+        self?.searchTextField.rightViewMode = $0 ? .always : .never
+      })
+      .disposed(by: disposeBag)
+    
     searchTextField.rightView?.rx
       .tapGesture()
       .subscribe(onNext: { [weak self] _ in
@@ -173,7 +182,7 @@ extension PromotionHistoryViewController {
     closeImage.isUserInteractionEnabled = false
 
     searchTextField.rightView = close
-    searchTextField.rightViewMode = .whileEditing
+    searchTextField.rightViewMode = .never
 
     searchTextField.font = .init(name: "PingFangSC-Medium", size: 14)
     searchTextField.textColor = .whitePure
