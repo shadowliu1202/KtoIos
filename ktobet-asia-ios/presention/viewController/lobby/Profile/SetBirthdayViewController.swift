@@ -23,7 +23,7 @@ class SetBirthdayViewController: LobbyViewController, AuthProfileVerification {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {

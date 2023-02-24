@@ -34,7 +34,7 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -56,7 +56,7 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
 
   private func dataBinding() {
     viewModel.unsettledBetSummary
-      .catchError({ [weak self] error -> Observable<[SlotUnsettledSection]> in
+      .catch({ [weak self] error -> Observable<[SlotUnsettledSection]> in
         switch error {
         case KTOError.EmptyData:
           self?.switchContent()

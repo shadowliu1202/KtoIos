@@ -47,7 +47,7 @@ class SearchViewController: SearchProduct {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -111,7 +111,7 @@ class SearchViewController: SearchProduct {
   private func dataBinding() {
     viewModel?.clearSearchResult()
     viewModel?.searchSuggestion()
-      .catchError({ [weak self] error -> Single<[String]> in
+      .catch({ [weak self] error -> Single<[String]> in
         self?.handleErrors(error)
         return Single.just([])
       })
@@ -132,7 +132,7 @@ class SearchViewController: SearchProduct {
 
     searchText.asObservable()
       .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
-      .observeOn(MainScheduler.asyncInstance)
+      .observe(on: MainScheduler.asyncInstance)
       .bind(onNext: { [weak self] text in
         self?.viewModel?.triggerSearch(text)
       }).disposed(by: disposeBag)

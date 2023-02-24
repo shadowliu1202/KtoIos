@@ -28,7 +28,7 @@ class SettleViewController: UIViewController {
     tableView.setHeaderFooterDivider(headerHeight: 87)
     dataSource.do(onNext: { [weak self] records in
       self?.switchContent(records.count)
-    }).catchError({ [weak self] error -> Observable<[NumberGameSummary.Date]> in
+    }).catch({ [weak self] error -> Observable<[NumberGameSummary.Date]> in
       self?.handleErrors(error)
       return Observable.just([])
     }).bind(to: tableView.rx.items) { [weak self] _, row, element in
@@ -85,7 +85,7 @@ class SettleViewController: UIViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

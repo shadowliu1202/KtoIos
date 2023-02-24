@@ -34,7 +34,7 @@ class PromotionViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {

@@ -46,7 +46,7 @@ class FavoriteViewController: DisplayProduct {
       NavigationManagement.sharedInstance.popViewController()
     }.disposed(by: disposeBag)
     viewModel?.favoriteProducts()
-      .catchError({ [weak self] error -> Observable<[WebGameWithDuplicatable]> in
+      .catch({ [weak self] error -> Observable<[WebGameWithDuplicatable]> in
         switch error {
         case KTOError.EmptyData:
           self?.switchContent()

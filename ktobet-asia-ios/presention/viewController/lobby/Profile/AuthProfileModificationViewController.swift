@@ -40,7 +40,7 @@ class AuthProfileModificationViewController: LobbyViewController {
       if $0 == .authenticated {
         self?.navigateToProfile()
       }
-    }, onError: { [weak self] in
+    }, onFailure: { [weak self] in
       if !$0.isUnauthorized() {
         self?.handleErrors($0)
       }
@@ -98,7 +98,7 @@ class AuthProfileModificationViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

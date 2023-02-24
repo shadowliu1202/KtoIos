@@ -97,7 +97,7 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
         if $0 is KtoPasswordVerifyFail {
           self.passwordErrorCount += 1
         }
-      }).catchError({ [unowned self] in
+      }).catch({ [unowned self] in
         Single.error(self.handlePasswordVerify($0))
       })
   }

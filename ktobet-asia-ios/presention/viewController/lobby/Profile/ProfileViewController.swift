@@ -84,7 +84,7 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
         if email.editable {
           self.setUpEmailModifyAction(email.content, status.isMailActive)
         }
-      } onError: { [weak self] error in
+      } onFailure: { [weak self] error in
         self?.handleErrors(error)
       }.disposed(by: self.disposeBag)
     }
@@ -132,7 +132,7 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
         if mobile.editable {
           self.setUpMobileModifyAction(mobile.content, status.isSmsActive)
         }
-      } onError: { [weak self] error in
+      } onFailure: { [weak self] error in
         self?.handleErrors(error)
       }.disposed(by: self.disposeBag)
     }
@@ -209,7 +209,7 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

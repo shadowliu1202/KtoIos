@@ -20,7 +20,7 @@ class SetWithdrawalNameViewController: LobbyViewController, AuthProfileVerificat
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func dataBinding() {
@@ -38,7 +38,7 @@ class SetWithdrawalNameViewController: LobbyViewController, AuthProfileVerificat
       }).flatMap({ [unowned self] _ -> Observable<Void> in
         let name = self.viewModel.relayRealName.value
         return self.viewModel.modifyWithdrawalName(name: name).andThen(.just(()))
-      }).catchError({ [weak self] in
+      }).catch({ [weak self] in
         self?.handleErrors($0)
         self?.submitBtn.isEnabled = true
         return Observable.error($0)

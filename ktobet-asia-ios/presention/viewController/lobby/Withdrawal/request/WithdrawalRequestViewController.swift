@@ -104,7 +104,7 @@ class WithdrawalRequestViewController: LobbyViewController, AuthProfileVerificat
         let gesture = UITapGestureRecognizer(target: self, action: #selector(self.editNameAction))
         self.nameLabel.addGestureRecognizer(gesture)
       }
-    }, onError: { [weak self] error in
+    }, onFailure: { [weak self] error in
       self?.handleErrors(error)
     }).disposed(by: disposeBag)
   }
@@ -129,7 +129,7 @@ class WithdrawalRequestViewController: LobbyViewController, AuthProfileVerificat
         format: Localize.string("withdrawal_amount_range"),
         withdrawalLimits.singleCashMinimum.description(),
         withdrawalLimits.singleCashMaximum.description())
-    } onError: { error in
+    } onFailure: { error in
       self.handleErrors(error)
     }.disposed(by: disposeBag)
   }

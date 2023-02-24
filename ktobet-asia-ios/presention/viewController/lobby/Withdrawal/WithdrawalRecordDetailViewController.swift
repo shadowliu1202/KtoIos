@@ -97,7 +97,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
 
   private func dataBinding() {
     viewModel.getWithdrawalRecordDetail(transactionId: displayId, transactionTransactionType: transactionTransactionType)
-      .subscribeOn(MainScheduler.instance)
+      .subscribe(on: MainScheduler.instance)
       .subscribe(onNext: { [weak self] data in
         if let generalData = data as? WithdrawalDetail.General {
           self?.updateUI(detail: generalData)
@@ -256,7 +256,7 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
       if count == self.imageIndex {
         self.stopActivityIndicator(activityIndicator: self.activityIndicator)
       }
-    } onError: { error in
+    } onFailure: { error in
       self.handleErrors(error)
       self.stopActivityIndicator(activityIndicator: self.activityIndicator)
     }.disposed(by: disposeBag)

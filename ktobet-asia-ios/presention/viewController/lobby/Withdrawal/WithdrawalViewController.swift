@@ -83,7 +83,7 @@ class WithdrawalViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   // MARK: PAGE ACTION
@@ -224,7 +224,7 @@ class WithdrawalViewController: LobbyViewController {
   fileprivate func cryptoWithdrawlDataBinding() {
     bankCardViewModel.getCryptoBankCards().subscribe { [weak self] cryptoBankCards in
       self?.cryptoBankCards = cryptoBankCards
-    } onError: { error in
+    } onFailure: { error in
       self.handleErrors(error)
     }.disposed(by: disposeBag)
   }
@@ -337,7 +337,7 @@ class WithdrawalViewController: LobbyViewController {
     let withdrawalRecord = self.rx.viewWillAppear.flatMap({ [unowned self] _ in
       self.viewModel.getWithdrawalRecords().asObservable()
     }).share(replay: 1)
-    withdrawalRecord.catchError({ [weak self] error in
+    withdrawalRecord.catch({ [weak self] error in
       self?.handleErrors(error)
       return Observable.just([])
     }).do(onNext: { [weak self] withdrawalRecord in

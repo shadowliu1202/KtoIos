@@ -17,14 +17,14 @@ class TransactionHtmlViewController: LobbyViewController {
   func buildUpHtml() -> String {
     do {
       guard let filePath = Bundle.main.path(forResource: "wager_template", ofType: "html") else {
-        print("File reading error")
+        Logger.shared.debug("File reading error")
         return ""
       }
       let template = try String(contentsOfFile: filePath, encoding: .utf8)
       return String(format: template, httpClient.host.absoluteString, httpClient.host.absoluteString, html)
     }
     catch {
-      print("File reading error")
+      Logger.shared.debug("File reading error")
     }
     return ""
   }

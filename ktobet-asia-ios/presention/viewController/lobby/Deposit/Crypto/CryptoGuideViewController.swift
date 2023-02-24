@@ -37,7 +37,7 @@ class CryptoGuideViewController: LobbyViewController {
       self?.descriptionLabel.text = Localize.string("cps_crypto_guidance_description")
       self?.tableView.layoutTableHeaderView()
       self?.resources = g.map({ Market($0.title, $0.links.map({ Guide(name: $0.title, link: $0.link) })) })
-    }, onError: { [weak self] in
+    }, onFailure: { [weak self] in
       self?.handleErrors($0)
     }).disposed(by: disposeBag)
   }
@@ -51,7 +51,7 @@ class CryptoGuideViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

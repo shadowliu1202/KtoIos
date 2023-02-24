@@ -14,10 +14,10 @@ class MaintenanceViewController: LobbyViewController {
     productType = ProductType.convert(self.view.tag)
     getMaintainRemainTime()
   }
-
+  
   deinit {
     self.timer?.stop()
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func getMaintainRemainTime() {

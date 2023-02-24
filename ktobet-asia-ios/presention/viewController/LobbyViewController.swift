@@ -68,8 +68,8 @@ class LobbyViewController: APPViewController, VersionUpdateProtocol {
     playerViewModel.logout().subscribe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
       self?.viewDisappearBag = DisposeBag()
       NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-    }, onError: {
-      print($0)
+    }, onError: { [weak self] in
+      self?.handleErrors($0)
     }).disposed(by: viewDisappearBag)
   }
 }

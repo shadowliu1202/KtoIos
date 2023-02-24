@@ -61,7 +61,7 @@ class DepositRecordDetailViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   // MARK: BUTTON ACTION
@@ -230,7 +230,7 @@ class DepositRecordDetailViewController: LobbyViewController {
       if count == self.imageIndex {
         self.stopActivityIndicator(activityIndicator: self.activityIndicator)
       }
-    } onError: { [weak self] error in
+    } onFailure: { [weak self] error in
       guard let self else { return }
       self.handleErrors(error)
       self.stopActivityIndicator(activityIndicator: self.activityIndicator)
@@ -278,7 +278,7 @@ class DepositRecordDetailViewController: LobbyViewController {
       }.disposed(by: disposeBag)
     let shareStatusChangeHistories = shareDepositRecordDetail.map { $0.updateHistories }.share()
     shareStatusChangeHistories
-      .catchError({ _ -> Observable<[UpdateHistory]> in
+      .catch({ _ -> Observable<[UpdateHistory]> in
         Observable<[UpdateHistory]>.just([])
       }).bind(to: self.remarkTableview.rx.items(
         cellIdentifier: String(describing: RemarkTableViewCell.self),
@@ -290,7 +290,7 @@ class DepositRecordDetailViewController: LobbyViewController {
       }
       cell.delegate = self
     }.disposed(by: disposeBag)
-    shareDepositRecordDetail.subscribeOn(MainScheduler.instance)
+    shareDepositRecordDetail.subscribe(on: MainScheduler.instance)
       .subscribe { [weak self] item in
         guard let self else { return }
         self.updateUI(data: item)

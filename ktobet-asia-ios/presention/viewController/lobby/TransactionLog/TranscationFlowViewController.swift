@@ -117,7 +117,7 @@ class TranscationFlowController {
       detail.isViewPager = false
       self?.navi?.pushViewController(detail, animated: true)
       self?.vc?.view.isUserInteractionEnabled = true
-    }, onError: { [weak self] error in
+    }, onFailure: { [weak self] error in
       self?.vc?.handleErrors(error)
       self?.vc?.view.isUserInteractionEnabled = true
     }).disposed(by: self.disposeBag)

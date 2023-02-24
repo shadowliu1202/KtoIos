@@ -11,6 +11,6 @@ class LegalSupervisionViewController: LobbyViewController {
   override func networkDisconnectHandler() { }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }

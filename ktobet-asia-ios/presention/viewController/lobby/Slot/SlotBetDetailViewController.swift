@@ -24,7 +24,7 @@ class SlotBetDetailViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -35,7 +35,7 @@ class SlotBetDetailViewController: LobbyViewController {
 
   private func dataBinding() {
     self.fetchNextBetRecords(0)
-    viewModel.betRecordDetails.catchError({ [weak self] error in
+    viewModel.betRecordDetails.catch({ [weak self] error in
       self?.handleErrors(error)
       return Observable.just(self?.records ?? [])
     }).subscribe(onNext: { [weak self] data in

@@ -22,7 +22,7 @@ class SlotBetSummaryByDateViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -34,7 +34,7 @@ class SlotBetSummaryByDateViewController: LobbyViewController {
   private func dataBinding() {
     guard let selectDate else { return }
     viewModel.betSummaryByDate(localDate: selectDate).asObservable()
-      .catchError({ [weak self] error -> Observable<[SlotGroupedRecord]> in
+      .catch({ [weak self] error -> Observable<[SlotGroupedRecord]> in
         self?.handleErrors(error)
         return Observable.just([])
       }).bind(to: tableView.rx.items) { tableView, row, item in

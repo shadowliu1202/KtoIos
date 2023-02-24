@@ -245,7 +245,7 @@ final class LaunchAppTest: XCTestCase {
 
     NavigationManagement.sharedInstance = mockNavigator
 
-    let sut = NewLoginViewController.initFrom(storyboard: "Login")
+    let sut = LoginViewController.initFrom(storyboard: "Login")
 
     sut.loadViewIfNeeded()
     sut.viewWillAppear(true)

@@ -78,7 +78,7 @@ class HttpClient: CookieUtil {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   func request(_ target: APITarget) -> Single<Response> {
@@ -227,7 +227,7 @@ private class APIRequestRetrier: Retrier {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   override func retry(

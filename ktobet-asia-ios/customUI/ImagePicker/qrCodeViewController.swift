@@ -86,7 +86,7 @@ class qrCodeViewController: UIViewController {
     }
     catch {
       // If any error occurs, simply print it out and don't continue any more.
-      print(error)
+      Logger.shared.debug(error.localizedDescription)
       return
     }
   }
@@ -96,7 +96,7 @@ extension qrCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
   func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
     // 檢查 metadataObjects 陣列是否為非空值，它至少需包含一個物件
     if metadataObjects.count == 0 {
-      print("No QR code is detected")
+      Logger.shared.debug("No QR code is detected")
       return
     }
 

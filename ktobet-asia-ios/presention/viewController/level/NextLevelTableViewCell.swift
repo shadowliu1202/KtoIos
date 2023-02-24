@@ -32,7 +32,7 @@ class NextLevelTableViewCell: UITableViewCell {
       stackView.isHidden = true
     }
     collapseBtn.rx.touchUpInside.bind { _ in
-      print(">>> collapseBtn click Lv \(item.level)")
+      Logger.shared.info("collapseBtn click Lv \(item.level)")
     }.disposed(by: disposeBag)
     callback(self.collapseBtn.rx.touchUpInside.asObservable(), disposeBag)
     return self

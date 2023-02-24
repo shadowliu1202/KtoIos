@@ -2,7 +2,8 @@ import SharedBu
 import SwiftUI
 import UIKit
 
-class TurnoverAlertViewController: UIViewController,
+class TurnoverAlertViewController:
+  UIViewController,
   SwiftUIConverter
 {
   @Injected var viewModel: TurnoverAlertViewModel
@@ -31,7 +32,7 @@ class TurnoverAlertViewController: UIViewController,
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

@@ -343,7 +343,7 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   // MARK: NotifyRateChanged

@@ -46,7 +46,7 @@ class ConfirmUseBonusCoupon: WaitingConfirm {
       else {
         return self.useCase.useBonusCoupon(bonusCoupon: self.bonusCoupon)
           .andThen(Single.just(UseCouponSucceeded()))
-          .catchError { error -> Single<WaitingConfirm> in
+          .catch { error -> Single<WaitingConfirm> in
             self.addUseCouponHandler(error)
           }
       }
@@ -97,7 +97,7 @@ class ConfirmLockedBonusHintForNoTurnOverCoupon: WaitingConfirm {
       if $0 {
         return self.useCase.useBonusCoupon(bonusCoupon: self.bonusCoupon)
           .andThen(Single.just(UseCouponSucceeded()))
-          .catchError { error -> Single<WaitingConfirm> in
+          .catch { error -> Single<WaitingConfirm> in
             self.addUseCouponHandler(error)
           }
       }
@@ -142,7 +142,7 @@ class ConfirmAutoUse: WaitingConfirm {
     confirm.flatMap({
       self.useCase.useRebateCoupon(bonusCoupon: self.bonusCoupon, autoUse: $0)
         .andThen(Single.just(UseCouponSucceeded()))
-        .catchError { error -> Single<WaitingConfirm> in
+        .catch { error -> Single<WaitingConfirm> in
           self.addUseCouponHandler(error)
         }
     })
@@ -164,7 +164,7 @@ class ConfirmUseWithTurnOver: WaitingConfirm {
       if $0 {
         return self.useCase.useBonusCoupon(bonusCoupon: self.bonusCoupon)
           .andThen(Single.just(UseCouponSucceeded()))
-          .catchError { error -> Single<WaitingConfirm> in
+          .catch { error -> Single<WaitingConfirm> in
             self.addUseCouponHandler(error)
           }
       }

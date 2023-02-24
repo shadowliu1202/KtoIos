@@ -121,7 +121,7 @@ struct WithdrawalCryptoDetailView: View {
           .foregroundColor(Color(UIColor.gray9B9B9B))
           .font(Font.custom("PingFangSC-Medium", size: 16))
           .padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
-        ForEach(applyInfoData.indices) { index in
+        ForEach(applyInfoData.indices, id: \.self) { index in
           WithdrawalCryptoDetailRowView(
             title: applyInfoData[index].title,
             content: applyInfoData[index].content,
@@ -138,7 +138,7 @@ struct WithdrawalCryptoDetailView: View {
           .font(Font.custom("PingFangSC-Medium", size: 16))
           .padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
         if TransactionStatus.approved == data.record.transactionStatus {
-          ForEach(finalInfoData.indices) { index in
+          ForEach(finalInfoData.indices, id: \.self) { index in
             WithdrawalCryptoDetailRowView(
               title: finalInfoData[index].title,
               content: finalInfoData[index].content,
@@ -147,7 +147,7 @@ struct WithdrawalCryptoDetailView: View {
           }
         }
         else {
-          ForEach(finalInfoData.indices) { index in
+          ForEach(finalInfoData.indices, id: \.self) { index in
             WithdrawalCryptoDetailRowView(title: finalInfoData[index].title, content: "-", isShowBottomDivider: false)
           }
         }
@@ -208,7 +208,7 @@ struct WithdrawalCryptoDetailView: View {
         .font(Font.custom("PingFangSC-Regular", size: 12))
 
       if !remarkContent.isEmpty {
-        ForEach(remarkContent.indices) { index in
+        ForEach(remarkContent.indices, id: \.self) { index in
           Text(remarkContent[index].date)
             .foregroundColor(Color(UIColor.gray9B9B9B))
             .font(Font.custom("PingFangSC-Regular", size: 12))

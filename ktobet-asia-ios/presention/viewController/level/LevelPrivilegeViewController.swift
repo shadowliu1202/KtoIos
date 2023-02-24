@@ -86,7 +86,7 @@ class LevelPrivilegeViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   override func networkDidConnectedHandler() {
@@ -127,7 +127,7 @@ class LevelPrivilegeViewController: LobbyViewController {
       let items = levelOverview.map({ Item($0) })
       self.mappingItem(items)
       return self.resource
-    }).catchError({ [weak self] error -> Observable<[Item]> in
+    }).catch({ [weak self] error -> Observable<[Item]> in
       self?.handleErrors(error)
       return Observable<[Item]>.just([])
     }).bind(to: tableView.rx.items) { [weak self] tableView, row, item in

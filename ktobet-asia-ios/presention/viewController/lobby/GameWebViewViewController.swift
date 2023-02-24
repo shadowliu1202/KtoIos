@@ -62,7 +62,7 @@ class GameWebViewViewController: UIViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   override func handleErrors(_ error: Error) {

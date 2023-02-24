@@ -41,7 +41,7 @@ class CasinoDetailViewController: LobbyViewController {
   }
 
   deinit {
-    print("CasinoDetailViewController deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func displayGameResult(_ detail: CasinoDetail) {

@@ -55,15 +55,9 @@ class ImagePickerViewController: UIViewController {
       switch status {
       case .authorized,
            .limited:
-        getPhotoAssets()
-      case .restricted:
-        print("status = restricted")
-      case .denied:
-        print("status = denied")
-      case .notDetermined:
-        print("status = notDetermined")
+        self.getPhotoAssets()
       default:
-        break
+        Logger.shared.debug("\(status)")
       }
     }
     uploadButton.isValid = false

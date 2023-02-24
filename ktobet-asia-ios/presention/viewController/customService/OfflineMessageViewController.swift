@@ -39,7 +39,7 @@ class OfflineMessageViewController: CommonViewController {
         self?.emailInputTextHetght.constant = 0
         self?.emailInputTextTopMargin.constant = 18
       }
-    }, onError: { [weak self] in
+    }, onFailure: { [weak self] in
       self?.handleErrors($0)
     }).disposed(by: disposeBag)
     (emailInputText.textContent.rx.text <-> viewModel.offlineSurveyAccount).disposed(by: disposeBag)
@@ -88,7 +88,7 @@ class OfflineMessageViewController: CommonViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

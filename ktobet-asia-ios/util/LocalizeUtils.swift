@@ -80,7 +80,7 @@ class LocalizeUtils: NSObject {
     }
     catch {
       result = str
-      print(error)
+      Logger.shared.debug(error.localizedDescription)
     }
     return result
   }

@@ -24,7 +24,7 @@ class CasinoSummaryViewController: LobbyViewController {
   }
 
   deinit {
-    print("CasinoSummaryViewController deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func bindingSummaryData() {
@@ -54,7 +54,7 @@ class CasinoSummaryViewController: LobbyViewController {
       }
     }).disposed(by: disposeBag)
 
-    dateSummaryObservable.catchError({ [weak self] error -> Observable<[DateSummary]> in
+    dateSummaryObservable.catch({ [weak self] error -> Observable<[DateSummary]> in
       self?.handleErrors(error)
       return Observable.just([])
     }).bind(to: tableView.rx.items) { [weak self] tableView, row, element in
@@ -92,7 +92,6 @@ class CasinoSummaryViewController: LobbyViewController {
           self.performSegue(withIdentifier: CasinoUnsettleRecordsViewController.segueIdentifier, sender: nil)
         }
         else {
-          print(data.createdDateTime)
           self.performSegue(
             withIdentifier: CasinoBetSummaryByDateViewController.segueIdentifier,
             sender: "\(data.createdDateTime)")

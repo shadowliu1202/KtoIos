@@ -238,7 +238,7 @@ extension DateViewController: KoyomiDelegate {
       seletedDate = date
       selectSingleDate(date: date)
       dateSegment.selectedSegmentIndex = 1
-      print("You Selected: \(date)")
+      Logger.shared.info("You Selected: \(date)")
     }
   }
 
@@ -249,7 +249,7 @@ extension DateViewController: KoyomiDelegate {
   @objc(koyomi:shouldSelectDates:to:withPeriodLength:)
   func koyomi(_: Koyomi, shouldSelectDates _: Date?, to _: Date?, withPeriodLength length: Int) -> Bool {
     if length > invalidPeriodLength {
-      print("More than \(invalidPeriodLength) days are invalid period.")
+      Logger.shared.info("More than \(invalidPeriodLength) days are invalid period.")
       return false
     }
     return true

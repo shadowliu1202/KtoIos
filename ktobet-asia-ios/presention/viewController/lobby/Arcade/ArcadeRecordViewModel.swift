@@ -20,7 +20,7 @@ class ArcadeRecordViewModel {
         self.betSummaryByDate(skip: page)
           .do(onError: { error in
             self.recordByDatePagination.error.onNext(error)
-          }).catchError({ _ -> Observable<[GameGroupedRecord]> in
+          }).catch({ _ -> Observable<[GameGroupedRecord]> in
             Observable.empty()
           })
       })
@@ -32,7 +32,7 @@ class ArcadeRecordViewModel {
         self.getBetDetail(skip: page)
           .do(onError: { error in
             self.recordDetailPagination.error.onNext(error)
-          }).catchError({ _ -> Observable<[ArcadeGameBetRecord]> in
+          }).catch({ _ -> Observable<[ArcadeGameBetRecord]> in
             Observable.empty()
           })
       })

@@ -33,7 +33,7 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
   }
 
   deinit {
-    print("CasinoUnsettleRecordsViewController deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func getUnsettledBetSummary() {

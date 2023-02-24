@@ -40,8 +40,7 @@ class SignupEmailViewModel {
         if success {
           return self.authenticationUseCase
             .login(account: account, pwd: password, captcha: Captcha(passCode: ""))
-            .map { [unowned self] player -> RegistrationVerification in
-
+            .map { player -> RegistrationVerification in
               .valid(player: player)
             }
         }

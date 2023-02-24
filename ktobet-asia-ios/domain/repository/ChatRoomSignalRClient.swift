@@ -6,8 +6,14 @@ import SharedBu
 
 extension ChatRoomSignalRClient: HubConnectionDelegate {
   func connectionDidOpen(hubConnection _: HubConnection) { }
-  func connectionDidFailToOpen(error _: Error) { }
-  func connectionWillReconnect(error _: Error) {
+
+  func connectionDidFailToOpen(error: Error) {
+    Logger.shared.error(error)
+  }
+
+  func connectionWillReconnect(error: Error) {
+    Logger.shared.error(error)
+
     subscription?.dispose()
 
     subscription = customerInfraService.isPlayerInChat()
@@ -19,7 +25,10 @@ extension ChatRoomSignalRClient: HubConnectionDelegate {
       })
   }
 
-  func connectionDidClose(error _: Error?) { }
+  func connectionDidClose(error: Error?) {
+    guard let error else { return }
+    Logger.shared.error(error)
+  }
 }
 
 class ChatRoomSignalRClient: PortalChatRoomChatService {
@@ -73,14 +82,14 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
       .subscribe(onCompleted: {
         onFinished()
       }, onError: {
-        print($0.localizedDescription)
+        Logger.shared.debug($0.localizedDescription)
         onFinished()
       })
       .disposed(by: disposeBag)
   }
 
   deinit {
-    print("deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   func getHistory(roomId: String) -> LoadingStatus<NSArray> {
@@ -94,7 +103,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
       }
     }
     catch {
-      print("ChatRoomSignalRClient, Please Check Date Format Return By API")
+      Logger.shared.debug("ChatRoomSignalRClient, Please Check Date Format Return By API")
     }
 
     let status: Status = messages != nil ? .success : .failed
@@ -182,11 +191,9 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
 
   func send(roomId: String, message: String, onError: @escaping (KotlinThrowable) -> Void) {
     repository.send(message, roomId: roomId).subscribe {
-      print("Completable")
     } onError: { error in
-      print(error)
-      let e = ExceptionFactory.create(error)
-      onError(e)
+      Logger.shared.debug(error.localizedDescription)
+      onError(ExceptionFactory.create(error))
     }.disposed(by: disposeBag)
   }
 

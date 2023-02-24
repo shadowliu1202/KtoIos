@@ -33,7 +33,7 @@ class ExitSurveyViewController: CommonViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -41,7 +41,7 @@ class ExitSurveyViewController: CommonViewController {
   }
 
   private func dataBinding() {
-    viewModel.getExitSurvey(skillId: skillId!).subscribe(onError: { [weak self] in
+    viewModel.getExitSurvey(skillId: skillId!).subscribe(onFailure: { [weak self] in
       self?.handleErrors($0)
     }).disposed(by: disposeBag)
 
@@ -63,7 +63,7 @@ class ExitSurveyViewController: CommonViewController {
           return Observable.error(KTOError.EmptyData)
         }
         return self.viewModel.answerExitSurvey(roomId: roomId, survey: survey).andThen(.just(()))
-      }).catchError({ [weak self] in
+      }).catch({ [weak self] in
         self?.handleErrors($0)
         self?.completeBtn.isEnabled = true
         return Observable.error($0)

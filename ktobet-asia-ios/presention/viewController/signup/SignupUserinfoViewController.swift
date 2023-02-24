@@ -331,7 +331,7 @@ extension SignupUserinfoViewController {
         case .email: self.performSegue(withIdentifier: self.segueEmail, sender: para)
         case .phone: self.navigateToPhoneVerifyPage(para["account"] ?? "")
         }
-      }, onError: { [weak self] error in
+      }, onFailure: { [weak self] error in
         let message: String = {
           switch error {
           case is PlayerIpOverOtpDailyLimit: return Localize.string("common_email_otp_exeed_send_limit")
