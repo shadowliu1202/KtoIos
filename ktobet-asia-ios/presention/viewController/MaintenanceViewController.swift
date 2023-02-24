@@ -21,14 +21,19 @@ class MaintenanceViewController: LobbyViewController {
   }
 
   private func getMaintainRemainTime() {
-    Observable.just(productType).bind(to: serviceViewModel.input.playerDefaultProductType).disposed(by: disposeBag)
+    Observable.just(productType)
+      .bind(to: serviceViewModel.input.playerDefaultProductType)
+      .disposed(by: disposeBag)
+
     serviceViewModel.output.productMaintainTime.drive(onNext: { [weak self] time in
       guard let self else { return }
       if time != nil {
         self.updateTimelabels(time!)
       }
       else {
-        NavigationManagement.sharedInstance.goTo(productType: self.productType)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+          NavigationManagement.sharedInstance.goTo(productType: self.productType)
+        }
       }
     }).disposed(by: disposeBag)
   }
