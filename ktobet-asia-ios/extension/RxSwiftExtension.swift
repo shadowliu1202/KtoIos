@@ -9,7 +9,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait {
       let e = transferLogic(error)
       return Single.error(e)
     }
-    return catchError(handler)
+    return self.catch(handler)
   }
 }
 
@@ -24,7 +24,10 @@ extension ObservableType {
     _ file: StaticString = #file,
     _ line: UInt = #line) -> SharedSequence<DriverSharingStrategy, Element>
   {
-    asDriver(onErrorRecover: { print("Error:", $0, " in file:", file, " atLine:", line); return .empty() })
+    asDriver(onErrorRecover: {
+      Logger.shared.debug("Error: \($0) in file: \(file) atLine: \(line)")
+      return .empty()
+    })
   }
 }
 
@@ -45,7 +48,7 @@ extension Completable {
       let e = transferLogic(error)
       return Completable.error(e)
     }
-    return catchError(handler)
+    return self.catch(handler)
   }
 }
 
@@ -88,7 +91,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
             statusCode: result.statusCode ?? "")
           emitter.onError(error: exception)
         }
-      } onError: { error in
+      } onFailure: { error in
         emitter.onError(error: ExceptionFactory.create(error))
       }
 
@@ -112,7 +115,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
             statusCode: result.statusCode ?? "")
           emitter.onError(error: exception)
         }
-      } onError: { error in
+      } onFailure: { error in
         emitter.onError(error: ExceptionFactory.create(error))
       }
 
@@ -138,12 +141,12 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
           return
         }
         let item: ResponseItem<T> = ResponseItem(
-          data: json["data"].rawValue as! T,
+          data: json["data"].rawValue as? T,
           errorMsg: "",
           node: "",
           statusCode: "")
         emitter.onSuccess(value: item)
-      } onError: { error in
+      } onFailure: { error in
         emitter.onError(error: ExceptionFactory.create(error))
       }
 

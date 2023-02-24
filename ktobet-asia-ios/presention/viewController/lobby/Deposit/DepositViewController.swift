@@ -31,7 +31,7 @@ class DepositViewController: LobbyViewController,
 
   deinit {
     Injectable.resetObjectScope(.depositFlow)
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

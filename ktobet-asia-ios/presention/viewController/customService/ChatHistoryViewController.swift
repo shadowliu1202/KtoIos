@@ -21,7 +21,7 @@ class ChatHistoryViewController: LobbyViewController {
 
     viewModel.getChatHistory(roomId: roomId)
       .do(onNext: { [weak self] data in self?.dataCount = data.count })
-      .catchError({ [weak self] error -> Observable<[ChatMessage]> in
+        .catch({ [weak self] error -> Observable<[ChatMessage]> in
         self?.handleErrors(error)
         return Observable<[ChatMessage]>.just([])
       })

@@ -27,7 +27,7 @@ class CustomerServiceHistoryEditViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -77,7 +77,7 @@ class CustomerServiceHistoryEditViewController: LobbyViewController {
   private func dataBinding() {
     fetchData(0)
     Observable.combineLatest(viewModel.getChatHistories(), viewModel.selectedHistory, viewModel.deleteMode)
-      .catchError({ [weak self] error in
+      .catch({ [weak self] error in
         self?.handleErrors(error)
         self?.activityIndicator.stopAnimating()
         return Observable.error(error)

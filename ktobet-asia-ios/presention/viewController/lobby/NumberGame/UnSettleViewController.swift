@@ -27,7 +27,7 @@ class UnSettleViewController: UIViewController {
       self.viewModel.unSettled
     }).share()
 
-    shareUnSettle.catchError({ [weak self] error -> Observable<[NumberGameSummary.Date]> in
+    shareUnSettle.catch({ [weak self] error -> Observable<[NumberGameSummary.Date]> in
       self?.handleErrors(error)
       return Observable.just([])
     }).do(onNext: { [weak self] records in
@@ -79,7 +79,7 @@ class UnSettleViewController: UIViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

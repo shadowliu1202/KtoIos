@@ -58,7 +58,7 @@ class CasinoBetSummaryByDateViewController: LobbyViewController {
   }
 
   deinit {
-    print("CasinoBetSummaryByDateViewController deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func getBetSummaryByDate() {
@@ -66,13 +66,13 @@ class CasinoBetSummaryByDateViewController: LobbyViewController {
       for p in periodOfRecords {
         self?.sections.append(Section(periodOfRecord: p))
       }
-
+      
       self?.sections.sort(by: { s1, s2 -> Bool in
         s1.sectionDate! > s2.sectionDate!
       })
-
+      
       self?.tableView.reloadData()
-    } onError: { [weak self] error in
+    } onFailure: { [weak self] error in
       self?.handleErrors(error)
     }.disposed(by: disposeBag)
   }

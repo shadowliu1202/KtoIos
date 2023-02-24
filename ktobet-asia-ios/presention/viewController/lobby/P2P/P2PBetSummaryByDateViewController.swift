@@ -18,7 +18,7 @@ class P2PBetSummaryByDateViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -30,7 +30,7 @@ class P2PBetSummaryByDateViewController: LobbyViewController {
   private func dataBinding() {
     guard let selectDate else { return }
     viewModel.betSummaryByDate(localDate: selectDate).asObservable()
-      .catchError({ [weak self] error -> Observable<[GameGroupedRecord]> in
+      .catch({ [weak self] error -> Observable<[GameGroupedRecord]> in
         self?.handleErrors(error)
         return Observable.empty()
       }).bind(to: tableView.rx.items) { tableView, row, item in

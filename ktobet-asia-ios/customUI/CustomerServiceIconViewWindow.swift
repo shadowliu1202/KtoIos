@@ -33,7 +33,7 @@ class CustomerServiceIconViewWindow: UIWindow {
     addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(dragga)))
     addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap)))
 
-    let chatRoomUnreadMessageOb = viewModel.chatRoomUnreadMessage.observeOn(MainScheduler.asyncInstance).share(replay: 1)
+    let chatRoomUnreadMessageOb = viewModel.chatRoomUnreadMessage.observe(on: MainScheduler.asyncInstance).share(replay: 1)
     chatRoomUnreadMessageOb.map { $0.count > 9 ? "9+" : "\($0.count)" }.bind(to: unReadNumberLabel.rx.text)
       .disposed(by: disposeBag)
     chatRoomUnreadMessageOb.map { $0.count <= 0 }.bind(to: unReadNumberLabel.rx.isHidden).disposed(by: disposeBag)

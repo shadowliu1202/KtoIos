@@ -42,7 +42,7 @@ extension ObservableType {
 
       return resultSelector(obj, element)
     }
-    .catchError { error -> RxSwift.Observable<Out> in
+    .catch { error -> RxSwift.Observable<Out> in
       guard
         let unretainedError = error as? UnretainedError,
         unretainedError == .failedRetaining

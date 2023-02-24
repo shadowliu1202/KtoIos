@@ -22,7 +22,7 @@ class WithdrawalViewModel {
       self.getWithdrawalRecords(page: String(page))
         .do(onError: { error in
           self.pagination.error.onNext(error)
-        }).catchError({ _ -> Observable<[WithdrawalRecord]> in
+        }).catch({ _ -> Observable<[WithdrawalRecord]> in
           Observable.empty()
         })
     })

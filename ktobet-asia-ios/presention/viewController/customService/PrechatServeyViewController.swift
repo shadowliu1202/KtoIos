@@ -35,7 +35,7 @@ class PrechatServeyViewController: CommonViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -67,7 +67,7 @@ class PrechatServeyViewController: CommonViewController {
         return self.setupAnswer(
           survey: self.survey,
           surveyAnswers: Dictionary(uniqueKeysWithValues: zip(question, options))).andThen(.just(()))
-      }).catchError({ [weak self] in
+      }).catch({ [weak self] in
         self?.handleErrors($0)
         self?.completeBtn.isEnabled = true
         return Observable.error($0)

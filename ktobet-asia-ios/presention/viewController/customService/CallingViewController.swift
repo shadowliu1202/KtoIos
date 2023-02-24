@@ -35,12 +35,12 @@ class CallingViewController: CommonViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
     lottieView.addSubview(animationView, constraints: .fill())
-    NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification).takeUntil(self.rx.deallocated)
+    NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification).take(until: self.rx.deallocated)
       .subscribe(onNext: { [weak self] _ in
         self?.animationView.play()
         CustomServicePresenter.shared.isInCallingView = true
@@ -60,7 +60,7 @@ class CallingViewController: CommonViewController {
         else {
           self?.connectChatRoom()
         }
-      }, onError: { [weak self] _ in
+      }, onFailure: { [weak self] _ in
         self?.stopServiceAndShowServiceOccupied()
       }).disposed(by: disposeBag)
   }

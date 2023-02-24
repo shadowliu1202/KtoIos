@@ -88,6 +88,6 @@ class PortalMaintenanceViewController: LandingViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }

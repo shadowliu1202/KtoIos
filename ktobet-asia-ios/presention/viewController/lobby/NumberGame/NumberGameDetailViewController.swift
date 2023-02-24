@@ -60,7 +60,7 @@ class NumberGameDetailViewController: LobbyViewController {
       }
     }).map({ [weak self] _ -> [NumberGameSummary.Bet] in
       self?.tempResult ?? []
-    }).catchError({ [weak self] error -> Observable<[NumberGameSummary.Bet]> in
+    }).catch({ [weak self] error -> Observable<[NumberGameSummary.Bet]> in
       self?.handleErrors(error)
       return Observable.just([])
     }).bind(to: tableView.rx.items) { [weak self] _, row, element in
@@ -109,17 +109,17 @@ class NumberGameDetailViewController: LobbyViewController {
         guard let status = self.betStatus, let date = self.betDate?.convertToDate(), let id = self.gameId else { return }
         self.viewModel.getGameBetsByDate(gameId: id, date: date, betStatus: status).subscribe { [weak self] bets in
           guard let self else { return }
-
+          
           let wagerIds = bets.map { $0.wagerId }
           self.viewModel.getRecentGamesDetail(wagerIds: wagerIds)
             .subscribe { [weak self] (details: [NumberGameBetDetail]) in
               guard let self else { return }
               self.details = details
               self.performSegue(withIdentifier: NumberGameMyBetDetailViewController.segueIdentifier, sender: indexPath.row)
-            } onError: { [weak self] error in
+            } onFailure: { [weak self] error in
               self?.handleErrors(error)
             }.disposed(by: self.disposeBag)
-        } onError: { [weak self] error in
+        } onFailure: { [weak self] error in
           self?.handleErrors(error)
         }.disposed(by: self.disposeBag)
       }.disposed(by: disposeBag)
@@ -149,6 +149,6 @@ class NumberGameDetailViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }

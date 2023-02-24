@@ -23,7 +23,7 @@ class ChangePasswordViewController: LobbyViewController, AuthProfileVerification
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -60,7 +60,7 @@ class ChangePasswordViewController: LobbyViewController, AuthProfileVerification
       }).flatMap({ [unowned self] _ -> Observable<Void> in
         let password = self.viewModel.relayChangePassword.value
         return self.viewModel.changePassword(password: password).andThen(.just(()))
-      }).catchError({ [weak self] in
+      }).catch({ [weak self] in
         self?.handleError($0)
         self?.btnSubmit.isEnabled = true
         return Observable.error($0)

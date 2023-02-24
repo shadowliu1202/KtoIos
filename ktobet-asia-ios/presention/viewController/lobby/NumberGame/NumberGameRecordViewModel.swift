@@ -24,7 +24,7 @@ class NumberGameRecordViewModel {
         self.getGamesSummaryByDate(skip: page)
           .do(onError: { error in
             self.pagination.error.onNext(error)
-          }).catchError({ _ -> Observable<[NumberGameSummary.Game]> in
+          }).catch({ _ -> Observable<[NumberGameSummary.Game]> in
             Observable.empty()
           })
       })
@@ -36,7 +36,7 @@ class NumberGameRecordViewModel {
         self.getGameBetsByDate(skip: page)
           .do(onError: { error in
             self.betPagination.error.onNext(error)
-          }).catchError({ _ -> Observable<[NumberGameSummary.Bet]> in
+          }).catch({ _ -> Observable<[NumberGameSummary.Bet]> in
             Observable.empty()
           })
       })

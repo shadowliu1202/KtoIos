@@ -23,7 +23,7 @@ class ArcadeSummaryViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -36,7 +36,7 @@ class ArcadeSummaryViewController: LobbyViewController {
       self.viewModel.getBetSummary().asObservable()
     }).share(replay: 1)
 
-    summaryData.catchError({ [weak self] error -> Observable<[DateSummary]> in
+    summaryData.catch({ [weak self] error -> Observable<[DateSummary]> in
       self?.handleErrors(error)
       return Observable.just([])
     }).do(onNext: { [weak self] data in

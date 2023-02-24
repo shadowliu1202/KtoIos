@@ -26,7 +26,7 @@ class RecentViewController: UIViewController {
       self.viewModel.recent
     }).share()
 
-    shareRecent.catchError({ [weak self] error -> Observable<[NumberGameSummary.RecentlyBet]> in
+    shareRecent.catch({ [weak self] error -> Observable<[NumberGameSummary.RecentlyBet]> in
       self?.handleErrors(error)
       return Observable.just([])
     }).do(onNext: { [weak self] records in
@@ -82,7 +82,7 @@ class RecentViewController: UIViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

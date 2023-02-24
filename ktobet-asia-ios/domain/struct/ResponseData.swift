@@ -419,7 +419,6 @@ struct WithdrawalRecordDetailData: Codable {
         date: try createdDate.toOffsetDateTime())
     }
     catch {
-      print(error)
       fatalError("SupportCryptoType.companion.typeOf got error = \(error.localizedDescription)")
     }
   }

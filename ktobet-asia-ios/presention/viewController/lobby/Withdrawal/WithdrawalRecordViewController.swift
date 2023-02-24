@@ -89,7 +89,7 @@ class WithdrawalRecordViewController: LobbyViewController {
       }
 
       return sectionModels.sorted(by: { $0.model > $1.model })
-    }.asObservable().catchError({ [weak self] error -> Observable<[SectionModel<String, WithdrawalRecord>]> in
+    }.asObservable().catch({ [weak self] error -> Observable<[SectionModel<String, WithdrawalRecord>]> in
       self?.handleErrors(error)
       return Observable.just([])
     }).bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)

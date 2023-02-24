@@ -57,7 +57,7 @@ class SurveyViewModel {
   private lazy var isAccountValid = accontValid.map({ $0 == .none ? true : false })
   lazy var isSurveyContentValid: Observable<Bool> = offlineSurveyContent.compactMap({ $0 }).map({ !$0.isEmpty })
   lazy var isGuest: Single<Bool> = self.authenticationUseCase.accountValidation().map({ !$0 })
-  lazy var isOfflineSurveyValid = isGuest.catchError({ _ in Single.just(false) }).asObservable()
+  lazy var isOfflineSurveyValid = isGuest.catch({ _ in Single.just(false) }).asObservable()
     .flatMap({ [unowned self] isGuest -> Observable<Bool> in
       if isGuest {
         return Observable.combineLatest(self.isAccountValid, self.isSurveyContentValid).compactMap({ ($0, $1) })

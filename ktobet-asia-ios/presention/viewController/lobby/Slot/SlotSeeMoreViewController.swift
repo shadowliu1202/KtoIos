@@ -59,7 +59,7 @@ class SlotSeeMoreViewController: DisplayProduct {
   }
 
   private func dataBinding() {
-    dataSource()?.catchError({ [weak self] error -> Observable<[SlotGame]> in
+    dataSource()?.catch({ [weak self] error -> Observable<[SlotGame]> in
       self?.handleErrors(error)
       return Observable.just([])
     }).subscribe(onNext: { [weak self] games in

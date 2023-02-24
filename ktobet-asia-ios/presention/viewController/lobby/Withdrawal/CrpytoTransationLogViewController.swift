@@ -23,7 +23,7 @@ class CrpytoTransationLogViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -54,7 +54,7 @@ class CrpytoTransationLogViewController: LobbyViewController {
       self?.totalAchievedAmount = model.totalAchievedAmount().denomination()
       self?.dataSource[1] = model.achievedRecords()
       self?.tableView.reloadData()
-    }, onError: {
+    }, onFailure: {
       print($0)
     }).disposed(by: disposeBag)
   }

@@ -54,7 +54,7 @@ class CustomerServiceHistoryViewModel {
         let data = response.1
         self?.chatHistories.onNext(data)
       }
-    }, onError: { [weak self] error in
+    }, onFailure: { [weak self] error in
       self?.chatHistories.onError(error)
     }).disposed(by: disposeBag)
   }

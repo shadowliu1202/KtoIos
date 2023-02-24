@@ -93,7 +93,7 @@ extension ImageRepository {
       query = try (JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any])!
     }
     catch {
-      print(error)
+      Logger.shared.debug(error.localizedDescription)
     }
 
     if let idx = query.index(forKey: "file") {

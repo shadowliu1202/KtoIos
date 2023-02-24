@@ -18,7 +18,7 @@ class P2PBetDetailViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -30,7 +30,7 @@ class P2PBetDetailViewController: LobbyViewController {
     guard let recordData else { return }
     viewModel.getBetDetail(startDate: recordData.startDate, endDate: recordData.endDate, gameId: recordData.gameId)
       .asObservable()
-      .catchError({ [weak self] error -> Observable<[P2PGameBetRecord]> in
+      .catch({ [weak self] error -> Observable<[P2PGameBetRecord]> in
         self?.handleErrors(error)
         return Observable.empty()
       }).bind(to: tableView.rx.items) { tableView, row, item in

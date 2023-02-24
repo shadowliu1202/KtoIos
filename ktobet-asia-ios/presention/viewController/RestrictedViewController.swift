@@ -8,7 +8,7 @@ class RestrictedViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification).takeUntil(self.rx.deallocated)
+    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification).take(until: self.rx.deallocated)
       .subscribe(onNext: { [weak self] _ in
         self?.dismiss(animated: true, completion: nil)
       }).disposed(by: disposeBag)

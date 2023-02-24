@@ -28,7 +28,7 @@ class SlotSummaryViewController: LobbyViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {
@@ -38,7 +38,7 @@ class SlotSummaryViewController: LobbyViewController {
 
   private func bindingSummaryData() {
     viewModel.betSummary
-      .catchError({ [weak self] error -> Observable<BetSummary> in
+      .catch({ [weak self] error -> Observable<BetSummary> in
         switch error {
         case KTOError.EmptyData:
           self?.switchContent()

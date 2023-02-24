@@ -62,7 +62,7 @@ extension UIView {
 
   public func removeAllBorder() {
     subviews.forEach { view in
-      if BorderSide.allCases.map { $0.rawValue }.contains(view.tag) {
+      if BorderSide.allCases.map({ $0.rawValue }).contains(view.tag) {
         view.removeFromSuperview()
       }
     }

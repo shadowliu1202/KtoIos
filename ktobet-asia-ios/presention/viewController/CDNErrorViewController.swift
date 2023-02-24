@@ -10,14 +10,14 @@ class CDNErrorViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification).takeUntil(self.rx.deallocated)
+    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification).take(until: self.rx.deallocated)
       .subscribe(onNext: { [weak self] _ in
         self?.dismiss(animated: true, completion: nil)
       }).disposed(by: disposeBag)
     setupWebView()
     viewModel.getCustomerServiceEmail.subscribe(onSuccess: { [weak self] _ in
       self?.dismiss(animated: true)
-    }, onError: { [weak self] in
+    }, onFailure: { [weak self] in
       if
         $0.isCDNError(),
         let data = ($0 as! MoyaError).response?.data,

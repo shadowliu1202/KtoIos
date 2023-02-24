@@ -115,7 +115,7 @@ class MainDebugViewController: UIViewController {
       loadData(data)
     }
     catch {
-      print(error)
+      Logger.shared.debug(error.localizedDescription)
     }
   }
 
@@ -126,7 +126,7 @@ class MainDebugViewController: UIViewController {
       try "".write(to: fileURL, atomically: false, encoding: .utf8)
     }
     catch {
-      print(error)
+      Logger.shared.debug(error.localizedDescription)
     }
 
     loadLogFile()
@@ -193,7 +193,7 @@ class MainDebugViewController: UIViewController {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

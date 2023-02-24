@@ -76,7 +76,7 @@ class CryptoAccountDetailViewController: LobbyViewController {
         else {
           NavigationManagement.sharedInstance.popViewController()
         }
-      } onError: { [weak self] error in
+      } onFailure: { [weak self] error in
         self?.handleErrors(error)
       }.disposed(by: self.disposeBag)
     }, onError: { [weak self] error in

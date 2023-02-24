@@ -34,7 +34,6 @@ class ServiceStatusViewModel: ViewModelType {
         }
       })
 
-    let playerDefaultType = playerDefaultProductType.asDriver(onErrorJustReturn: .none)
     let productMaintainTime = self.productMaintainTime(maintainStatus)
     let productsMaintainTime = self.productsMaintainTime(maintainStatus)
 

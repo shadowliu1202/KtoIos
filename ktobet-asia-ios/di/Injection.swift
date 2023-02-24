@@ -811,13 +811,6 @@ final class Injection {
       }
 
     container
-      .register(LoginViewModel.self) { resolver in
-        let usecaseAuthentication = resolver.resolveWrapper(AuthenticationUseCase.self)
-        let usecaseConfiguration = resolver.resolveWrapper(ConfigurationUseCase.self)
-        return LoginViewModel(usecaseAuthentication, usecaseConfiguration)
-      }
-
-    container
       .register(SignupUserInfoViewModel.self) { resolver in
         let registerUseCase = resolver.resolveWrapper(RegisterUseCase.self)
         let systemUseCase = resolver.resolveWrapper(GetSystemStatusUseCase.self)

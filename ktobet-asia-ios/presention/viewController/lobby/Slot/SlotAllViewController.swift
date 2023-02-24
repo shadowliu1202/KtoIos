@@ -45,7 +45,7 @@ class SlotAllViewController: DisplayProduct {
   }
 
   deinit {
-    print("all deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initUI() {

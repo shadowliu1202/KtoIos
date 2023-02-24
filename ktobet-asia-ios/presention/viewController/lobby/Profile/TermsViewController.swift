@@ -32,7 +32,7 @@ class TermsViewController: LobbyViewController, TermsTableDelegate {
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {

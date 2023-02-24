@@ -44,12 +44,12 @@ class AboutKTOViewController: LobbyViewController {
         .addAttr((text: csEmail, type: .color, UIColor.redD90101))
         .addAttr((text: $0, type: .link(true), URL(string: "mailto:\($0)") as Any))
       txt.setTo(textView: self.csLink)
-    }, onError: { [weak self] in
+    }, onFailure: { [weak self] in
       self?.handleErrors($0)
     }).disposed(by: disposeBag)
   }
 
   deinit {
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 }

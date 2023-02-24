@@ -137,44 +137,45 @@ class SportBookViewController: LobbyViewController {
 }
 
 extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
-  func webView(_: WKWebView, didStartProvisionalNavigation _: WKNavigation!) {
-    print("test:Strat to load")
+  func webView(_ webView: WKWebView, didStartProvisionalNavigation _: WKNavigation!) {
+    Logger.shared.info("\(String(describing: webView.url)) start to loading")
   }
 
-  func webView(_: WKWebView, didReceiveServerRedirectForProvisionalNavigation _: WKNavigation!) {
-    print("test:didReceiveServerRedirectForProvisionalNavigation")
+  func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation _: WKNavigation!) {
+    Logger.shared.info("\(String(describing: webView.url)) did receive server redirect")
   }
 
-  func webView(_: WKWebView, didFailProvisionalNavigation _: WKNavigation!, withError error: Error) {
-    print("test:\(error.localizedDescription)")
+  func webView(_ webView: WKWebView, didFailProvisionalNavigation _: WKNavigation!, withError error: Error) {
+    Logger.shared.debug("\(String(describing: webView.url)) did fail navigation with \(error.localizedDescription)")
     isWebLoadSuccess.accept(false)
     self.activityIndicator.stopAnimating()
   }
 
-  func webView(_: WKWebView, didCommit _: WKNavigation!) {
-    print("test:>>>>>>didCommit")
+  func webView(_ webView: WKWebView, didCommit _: WKNavigation!) {
+    Logger.shared.info("\(String(describing: webView.url)) did commit")
   }
 
-  func webView(_: WKWebView, didFail _: WKNavigation!, withError error: Error) {
-    print("test:\(error.localizedDescription)")
+  func webView(_ webView: WKWebView, didFail _: WKNavigation!, withError error: Error) {
+    Logger.shared.debug("\(String(describing: webView.url)) did fail with \(error.localizedDescription)")
   }
 
-  func webViewWebContentProcessDidTerminate(_: WKWebView) {
-    print("test:webViewWebContentProcessDidTerminate")
+  func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+    Logger.shared.info("\(String(describing: webView.url)) did terminate")
   }
 
-  func webView(_: WKWebView, didFinish _: WKNavigation!) {
+  func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
     serviceViewModel.refreshProductStatus()
-    print("test:didFinish")
+    Logger.shared.info("\(String(describing: webView.url)) did finish")
     isWebLoadSuccess.accept(true)
     self.activityIndicator.stopAnimating()
   }
 
   func webView(
-    _: WKWebView,
+    _ webView: WKWebView,
     didReceive challenge: URLAuthenticationChallenge,
     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
   {
+    Logger.shared.info("\(String(describing: webView.url)) did receive challenge \(challenge.protectionSpace.host)")
     if challenge.protectionSpace.host == httpClient.host.absoluteString {
       completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }

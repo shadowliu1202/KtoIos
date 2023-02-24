@@ -51,7 +51,7 @@ class WithdrawlRecordContainer: LobbyViewController {
     if let vc = presentingVC {
       self.removeChildViewController(vc)
     }
-    print("\(type(of: self)) deinit")
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func switchContain(_ detail: WithdrawalDetail) {

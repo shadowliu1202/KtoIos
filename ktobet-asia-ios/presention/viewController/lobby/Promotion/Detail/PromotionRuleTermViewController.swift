@@ -21,7 +21,7 @@ class PromotionRuleTermViewController: LobbyViewController {
       ruleTermTxt = p.title + "\n\n"
       p.content.forEach { ruleTermTxt += ($0 + "\n\n").replacingOccurrences(of: "{policy}", with: p.linkTitle) }
       self?.addHyperLinksToText(originalText: ruleTermTxt, hyperLinks: [p.linkTitle: "someUrl1"])
-    } onError: { [weak self] error in
+    } onFailure: { [weak self] error in
       self?.handleErrors(error)
     }.disposed(by: disposeBag)
 

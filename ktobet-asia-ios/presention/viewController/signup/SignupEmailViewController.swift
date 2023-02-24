@@ -219,7 +219,7 @@ class SignupEmailViewController: LandingViewController {
               Alert.shared.show(title, message, confirm: nil, cancel: nil)
             }
           }
-        }, onError: { [weak self] error in
+        }, onFailure: { [weak self] error in
           self?.checking = false
           if manual { self?.handleError(error) }
         }).disposed(by: self.disposebag)
