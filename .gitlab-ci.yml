@@ -38,7 +38,7 @@ build-job:
       - mac-slave
     variables:
       BEGIN_WORKING_ACTION: 291
-      SUBTASK_BEGIN_WORKING_ACTION: 171
+      SUBTASK_BEGIN_WORKING_ACTION: 251
     script:
       - EMAIL_NAME="$(echo $GITLAB_USER_EMAIL | sed "s/@.*//")"
       - >
