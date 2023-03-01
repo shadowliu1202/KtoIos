@@ -3,8 +3,7 @@ import SharedBu
 import UIKit
 import WebKit
 
-class GameWebViewViewController: UIViewController {
-  private var httpClient = Injectable.resolve(HttpClient.self)!
+class GameWebViewViewController: WebViewBase {
   var barButtonItems: [UIBarButtonItem] = []
   var viewModel: ProductWebGameViewModelProtocol?
   weak var delegate: WebGameViewCallback?
@@ -17,7 +16,6 @@ class GameWebViewViewController: UIViewController {
   }
 
   private let deposit = "deposit"
-  lazy var backSiteOption = httpClient.host.absoluteString
 
   private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
 
@@ -27,25 +25,14 @@ class GameWebViewViewController: UIViewController {
     self.title = gameName
     CustomServicePresenter.shared.isInGameWebView = true
     (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .all
-    let wkWebConfig = WKWebViewConfiguration()
-    let webView = WKWebView(frame: self.view.bounds, configuration: wkWebConfig)
-    if let defaultAgent = WKWebView().value(forKey: "userAgent") {
-      let MockWebViewUserAgent = Configuration.getKtoAgent()
-      webView.customUserAgent = "\(defaultAgent) Safari/604.1 \(MockWebViewUserAgent)"
-    }
-    self.view.addSubview(webView, constraints: .fill())
+    
     webView.navigationDelegate = self
-    webView.uiDelegate = self
     let webPagePreferences = WKWebpagePreferences()
     webPagePreferences.allowsContentJavaScript = true
     webView.configuration.defaultWebpagePreferences = webPagePreferences
     webView.configuration.allowsInlineMediaPlayback = true
     webView.configuration.dataDetectorTypes = .all
     webView.translatesAutoresizingMaskIntoConstraints = false
-
-    for cookie in httpClient.getCookies() {
-      webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
-    }
 
     guard let url = gameUrl else { return }
     let request = URLRequest(url: url)
@@ -94,8 +81,9 @@ class GameWebViewViewController: UIViewController {
   }
 }
 
-extension GameWebViewViewController: WKNavigationDelegate, WKUIDelegate {
+extension GameWebViewViewController: WKNavigationDelegate {
   func webView(_ webView: WKWebView, didStartProvisionalNavigation _: WKNavigation!) {
+    let backSiteOption = httpClient.host.absoluteString
     if let url = webView.url?.absoluteString {
       if url == backSiteOption + gameProduct {
         redirectCloseGame()
@@ -104,20 +92,6 @@ extension GameWebViewViewController: WKNavigationDelegate, WKUIDelegate {
         redirectNavigateToDeposit()
       }
     }
-  }
-
-  /// Handles target=_blank links by opening them in the same view
-  func webView(
-    _ webView: WKWebView,
-    createWebViewWith _: WKWebViewConfiguration,
-    for navigationAction: WKNavigationAction,
-    windowFeatures _: WKWindowFeatures)
-    -> WKWebView?
-  {
-    if navigationAction.targetFrame == nil {
-      webView.load(navigationAction.request)
-    }
-    return nil
   }
 
   func webView(

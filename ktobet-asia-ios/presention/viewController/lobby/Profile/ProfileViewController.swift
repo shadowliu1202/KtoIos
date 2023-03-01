@@ -188,16 +188,29 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
   }
 
   private func checkAffiliate() {
-    viewModel.isAffiliateMember.subscribe(onSuccess: { [weak self] in
-      guard let self else { return }
-      self.affiliateView.isHidden = !$0
-      self.affiliateViewHeight.constant = $0 ? 48 : 0
-      self.affiliateView.setOnClick {
-        if let url = self.httpClient.affiliateUrl, UIApplication.shared.canOpenURL(url) {
-          UIApplication.shared.open(url)
+    viewModel.isAffiliateMember
+      .subscribe(onSuccess: { [weak self] in
+        guard let self else { return }
+        self.affiliateView.isHidden = !$0
+        self.affiliateViewHeight.constant = $0 ? 48 : 0
+        self.affiliateView.setOnClick {
+          self.pressAffiliate()
         }
+      }).disposed(by: disposeBag)
+  }
+
+  private func pressAffiliate() {
+    viewModel.getAffiliateHashKey()
+      .map { [unowned self] in
+        self.viewModel.getAffiliateUrl(host: httpClient.host, hashKey: $0)
       }
-    }).disposed(by: disposeBag)
+      .subscribe(onSuccess: {
+        guard let url = $0 else { return }
+        let vc = AffiliateViewController(url: url)
+        vc.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        self.present(vc, animated: true)
+      })
+      .disposed(by: disposeBag)
   }
 
   private func alertWithdrawalOnGoing() {

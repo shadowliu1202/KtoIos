@@ -13,6 +13,7 @@ protocol PlayerDataUseCase {
   func getSupportLocalFromCache() -> SupportLocale
   func getPlayerRealName() -> Single<String>
   func isAffiliateMember() -> Single<Bool>
+  func getAffiliateHashKey() -> Single<String>
   func checkProfileEditable() -> Single<Bool>
   func loadPlayerProfile() -> Single<PlayerProfile>
   func authorizeProfileEdition(password: String) -> Single<Bool>
@@ -80,7 +81,11 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
   func isAffiliateMember() -> Single<Bool> {
     playerRepository.getAffiliateStatus().map({ $0 == AffiliateApplyStatus.applied })
   }
-
+  
+  func getAffiliateHashKey() -> Single<String> {
+    playerRepository.getAffiliateHashKey()
+  }
+  
   func checkProfileEditable() -> Single<Bool> {
     playerRepository.checkProfileAuthorization()
   }
