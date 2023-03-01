@@ -79,7 +79,9 @@ class SideBarViewController: LobbyViewController {
   }
 
   func observeLoginStatus() {
-    sideMenuViewModel!
+    guard let sideMenuViewModel else { return }
+
+    sideMenuViewModel
       .observeLoginStatus()
       .subscribe(onNext: { [weak self] loginStatusDTO in
         guard let self else { return }
@@ -165,8 +167,10 @@ class SideBarViewController: LobbyViewController {
   }
 
   private func dataRefresh() {
+    guard let sideMenuViewModel else { return }
+
     refreshTrigger.onNext(())
-    sideMenuViewModel!.fetchData()
+    sideMenuViewModel.fetchData()
   }
 
   override func handleErrors(_ error: Error) {
@@ -228,16 +232,20 @@ extension SideBarViewController {
   }
 
   private func initFeatures() {
-    sideMenuViewModel!.features.bind(to: listFeature.rx.items(
-      cellIdentifier: String(describing: FeatureItemCell.self),
-      cellType: FeatureItemCell.self))
+    guard let sideMenuViewModel else { return }
+
+    sideMenuViewModel.features
+      .bind(to: listFeature.rx.items(
+        cellIdentifier: String(describing: FeatureItemCell.self),
+        cellType: FeatureItemCell.self))
     { _, data, cell in
       cell.setup(data.name, image: UIImage(named: data.icon))
-    }.disposed(by: disposeBag)
+    }
+    .disposed(by: disposeBag)
   }
 
   func cleanProductSelected() {
-    self.sideMenuViewModel!.currentSelectedProductType = ProductType.none
+    self.sideMenuViewModel?.currentSelectedProductType = ProductType.none
     self.listProduct.reloadData()
   }
 
@@ -248,15 +256,20 @@ extension SideBarViewController {
   }
 
   private func updateProductListCell(view: UICollectionView, at row: Int, source data: ProductItem) -> ProductItemCell {
-    guard let cell = view.dequeueReusableCell(withReuseIdentifier: "ProductItemCell", for: [0, row]) as? ProductItemCell
+    guard
+      let sideMenuViewModel,
+      let cell = view.dequeueReusableCell(withReuseIdentifier: "ProductItemCell", for: [0, row]) as? ProductItemCell
     else { return .init() }
 
     cell.setup(data)
     cell.finishCountDown = { [weak self] in
-      self?.sideMenuViewModel!.fetchMaintenanceStatus()
+      self?.sideMenuViewModel?.fetchMaintenanceStatus()
     }
 
-    if let selectedProductType = self.sideMenuViewModel!.currentSelectedProductType, data.type == selectedProductType {
+    if
+      let selectedProductType = sideMenuViewModel.currentSelectedProductType,
+      data.type == selectedProductType
+    {
       cell.setSelectedIcon(selectedProductType, isSelected: true)
       self.listProduct.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .init())
     }
@@ -303,7 +316,9 @@ extension SideBarViewController {
   }
 
   private func balanceBinding() {
-    sideMenuViewModel!
+    guard let sideMenuViewModel else { return }
+
+    sideMenuViewModel
       .observePlayerBalance()
       .map { (currency: AccountCurrency) -> String in
         "\(currency.symbol) \(currency.formatString())"
@@ -339,8 +354,8 @@ extension SideBarViewController {
       .do(onNext: { [weak self] player, balanceSummary in
         guard let self else { return }
 
-        if self.sideMenuViewModel!.currentSelectedProductType == nil {
-          self.sideMenuViewModel!.currentSelectedProductType = player.defaultProduct
+        if self.sideMenuViewModel?.currentSelectedProductType == nil {
+          self.sideMenuViewModel?.currentSelectedProductType = player.defaultProduct
         }
 
         self.gameId = player.gameId
@@ -370,10 +385,10 @@ extension SideBarViewController {
       .compactMap { $0 }
       .map { [weak self] (productsMaintainTimeArray: [(productType: ProductType, maintainTime: OffsetDateTime?)])
         -> [ProductItem] in
-        guard let self
+        guard let sideMenuViewModel = self?.sideMenuViewModel
         else { return [] }
 
-        return self.sideMenuViewModel!.products
+        return sideMenuViewModel.products
           .map { (product: ProductItem) -> ProductItem in
             ProductItem(
               title: product.title,
@@ -406,7 +421,9 @@ extension SideBarViewController {
   }
 
   private func maintenanceStatusBinding() {
-    sideMenuViewModel!
+    guard let sideMenuViewModel else { return }
+
+    sideMenuViewModel
       .observeMaintenanceStatus()
       .subscribe(onNext: { [weak self] status in
         guard let self else { return }
@@ -437,7 +454,7 @@ extension SideBarViewController {
           isMaintenance: self.productMaintenanceStatus?.isProductMaintain(productType: data.type) ?? false)
         let cell = self.listProduct.cellForItem(at: indexPath) as? ProductItemCell
         cell?.setSelectedIcon(data.type, isSelected: true)
-        self.sideMenuViewModel!.currentSelectedProductType = data.type
+        self.sideMenuViewModel?.currentSelectedProductType = data.type
       }.disposed(by: disposeBag)
 
     Observable.zip(listProduct.rx.itemDeselected, listProduct.rx.modelDeselected(ProductItem.self))
@@ -489,7 +506,7 @@ extension SideBarViewController {
       })
       .disposed(by: disposeBag)
 
-    sideMenuViewModel!.errors()
+    sideMenuViewModel?.errors()
       .subscribe(onNext: { [weak self] error in
         self?.handleErrors(error)
       })
@@ -512,7 +529,7 @@ extension SideBarViewController {
 
   @IBAction
   func btnRefreshBalance(_: UIButton) {
-    sideMenuViewModel!.fetchPlayerBalance()
+    sideMenuViewModel?.fetchPlayerBalance()
   }
 
   @objc
