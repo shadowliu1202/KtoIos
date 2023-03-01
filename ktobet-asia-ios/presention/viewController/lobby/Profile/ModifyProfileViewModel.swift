@@ -4,10 +4,13 @@ import RxSwift
 import SharedBu
 
 class ModifyProfileViewModel: CollectErrorViewModel {
+  @Injected private var loading: Loading
+
   private var playerUseCase: PlayerDataUseCase!
   private var configurationUseCase: ConfigurationUseCase!
   private var withdrawalUseCase: WithdrawalUseCase!
   private var accountPatternGenerator: AccountPatternGenerator!
+  private var loadingTracker: ActivityIndicator { loading.tracker }
 
   let disposeBag = DisposeBag()
 
@@ -32,7 +35,7 @@ class ModifyProfileViewModel: CollectErrorViewModel {
   lazy var passwordValidationError: Observable<UserInfoStatus> = self.newPasswordValidator.passwordValidationError
   lazy var isPasswordValid: Observable<Bool> = self.newPasswordValidator.isPasswordValid
 
-  // MARK: Change withdrrawal real name
+  // MARK: Change withdrawal real name
   var relayRealName = BehaviorRelay(value: "")
   private lazy var realNameValidator = RealNameValidator(
     editAccountName: relayRealName,
@@ -132,5 +135,18 @@ class ModifyProfileViewModel: CollectErrorViewModel {
 
   func verifyNewOtp(otp: String, accountType: AccountType) -> Completable {
     playerUseCase.verifyNewAccountOtp(otp, accountType)
+  }
+
+  func getAffiliateHashKey() -> Single<String> {
+    playerUseCase
+      .getAffiliateHashKey()
+      .trackActivity(loadingTracker)
+  }
+
+  func getAffiliateUrl(host: URL, hashKey: String) -> URL? {
+    let urlString = host.absoluteString +
+      "view/redirect/\(hashKey)?culture=\(supportLocale.cultureCode())&backUrl=\(host.absoluteString)"
+
+    return URL(string: urlString)
   }
 }

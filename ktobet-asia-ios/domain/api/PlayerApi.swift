@@ -158,6 +158,11 @@ class PlayerApi: ApiService {
     let target = GetAPITarget(service: self.url("api/init/player-affiliate-status"))
     return httpClient.request(target).map(NonNullResponseData<Int32>.self)
   }
+  
+  func getAffiliateHashKey() -> Single<NonNullResponseData<String>> {
+    let target = GetAPITarget(service: self.url("api/auth/affiliate-redirect"))
+    return httpClient.request(target).map(NonNullResponseData<String>.self)
+  }
 
   func checkProfileToken() -> Single<NonNullResponseData<Bool>> {
     let target = GetAPITarget(service: self.url("api/profile/check-token"))
