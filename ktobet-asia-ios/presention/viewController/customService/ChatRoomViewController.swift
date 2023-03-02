@@ -341,10 +341,18 @@ class ChatRoomViewController: CommonViewController {
   private func confirmNetworkThenCloseChatRoom() {
     if NetworkStateMonitor.shared.isNetworkConnected == true {
       viewModel.findCurrentRoomId()
-        .flatMap { [unowned self] skillId, roomId in
-          self.viewModel.closeChatRoom().andThen(prepareExitSurvey(skillId, roomId))
+        .flatMap { [unowned self] roomId in
+          self.viewModel
+            .closeChatRoom()
+            .andThen(prepareExitSurvey(roomId))
         }
-        .subscribe(onSuccess: goToExitSurvey, onFailure: handleErrors)
+        .subscribe(
+          onSuccess: { [weak self] roomID, survey in
+            self?.goToExitSurvey(roomID, survey)
+          },
+          onFailure: { [weak self] error in
+            self?.handleErrors(error)
+          })
         .disposed(by: self.disposeBag)
     }
     else {
@@ -352,18 +360,22 @@ class ChatRoomViewController: CommonViewController {
     }
   }
 
-  private func prepareExitSurvey(_ skillId: SkillId, _ roomId: RoomId) -> Single<(SkillId, RoomId, Survey)> {
-    surveyViewModel.getExitSurvey(skillId: skillId).map { survey in (skillId, roomId, survey) }
+  private func prepareExitSurvey(_ roomId: RoomId) -> Single<(RoomId, Survey)> {
+    surveyViewModel
+      .getExitSurvey()
+      .map { survey in
+        (roomId, survey)
+      }
   }
 
-  private func goToExitSurvey(skillId: SkillId, roomId: RoomId, exitSurvey: Survey) {
+  private func goToExitSurvey(_ roomId: RoomId, _ exitSurvey: Survey) {
     if exitSurvey.surveyQuestions.isEmpty {
       CustomServicePresenter.shared.closeService()
         .subscribe()
         .disposed(by: disposeBag)
     }
     else {
-      CustomServicePresenter.shared.switchToExitSurvey(roomId: roomId, skillId: skillId)
+      CustomServicePresenter.shared.switchToExitSurvey(roomId: roomId)
     }
   }
 

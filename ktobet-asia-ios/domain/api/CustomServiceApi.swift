@@ -162,12 +162,9 @@ class CustomServiceApi: ApiService, ImageApiProtocol {
     return httpClient.request(target).map(NonNullResponseData<String>.self)
   }
 
-  func getSkillSurvey(type: Int32, skillId: String?) -> Single<NonNullResponseData<SurveyBean>> {
+  func getSkillSurvey(type: Int32) -> Single<NonNullResponseData<SurveyBean>> {
     var parameters: [String: Any] = [:]
     parameters["type"] = type
-    if let skillId {
-      parameters["skillId"] = skillId
-    }
 
     let target = GetAPITarget(service: self.url("\(prefix)/survey/skill-survey"))
       .parameters(parameters)

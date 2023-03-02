@@ -4,7 +4,7 @@ import SharedBu
 
 protocol CustomerServiceSurveyUseCase {
   func getPreChatSurvey() -> Single<Survey>
-  func getExitSurvey(skillId: SkillId) -> Single<Survey>
+  func getExitSurvey() -> Single<Survey>
   func answerExitSurvey(roomId: RoomId, survey: Survey, surveyAnswers: SurveyAnswers) -> Completable
   func bindChatRoomWithSurvey(roomId: RoomId, connectId: ConnectId) -> Completable
   func createOfflineSurvey(message: String, email: String) -> Completable
@@ -20,11 +20,11 @@ class CustomerServiceSurveyUseCaseImpl: CustomerServiceSurveyUseCase {
   }
 
   func getPreChatSurvey() -> Single<Survey> {
-    surveyInfraService.getSurveygetChatHistoryQuestion(surveyType: Survey.SurveyType.prechat, skillId: nil)
+    surveyInfraService.getSurveyGetChatHistoryQuestion(surveyType: Survey.SurveyType.prechat)
   }
 
-  func getExitSurvey(skillId: SkillId) -> Single<Survey> {
-    surveyInfraService.getSurveygetChatHistoryQuestion(surveyType: Survey.SurveyType.exit, skillId: skillId)
+  func getExitSurvey() -> Single<Survey> {
+    surveyInfraService.getSurveyGetChatHistoryQuestion(surveyType: Survey.SurveyType.exit)
   }
 
   func answerExitSurvey(roomId: RoomId, survey: Survey, surveyAnswers: SurveyAnswers) -> Completable {

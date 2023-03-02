@@ -326,7 +326,7 @@ class CustomServicePresenter: NSObject {
     }
   }
 
-  func switchToExitSurvey(roomId: RoomId, skillId: SkillId) {
+  func switchToExitSurvey(roomId: RoomId) {
     let exitSurveyVC = storyboard
       .instantiateViewController(identifier: "ExitSurveyViewController") as ExitSurveyViewController
     exitSurveyVC.bind(position: .left, barButtonItems: .kto(.close))
@@ -336,7 +336,6 @@ class CustomServicePresenter: NSObject {
     exitSurveyVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
     exitSurveyVC.viewModel = surveyViewModel
     exitSurveyVC.roomId = roomId
-    exitSurveyVC.skillId = skillId
     self.topViewController?.navigationController?.setViewControllers([exitSurveyVC], animated: false)
   }
 

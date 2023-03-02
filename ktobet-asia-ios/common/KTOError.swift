@@ -7,6 +7,7 @@ enum KTOError: Error {
   case EmptyData
   case WrongDateFormat
   case WrongProductType
+  case LostReference
 }
 
 extension KotlinThrowable: Error { }

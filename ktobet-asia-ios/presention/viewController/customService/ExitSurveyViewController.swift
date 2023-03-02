@@ -7,7 +7,6 @@ class ExitSurveyViewController: CommonViewController {
   var barButtonItems: [UIBarButtonItem] = []
   var viewModel: SurveyViewModel!
   var roomId: RoomId?
-  var skillId: SkillId?
   var surveyInfo: Survey? {
     didSet {
       self.survey = surveyInfo
@@ -41,9 +40,11 @@ class ExitSurveyViewController: CommonViewController {
   }
 
   private func dataBinding() {
-    viewModel.getExitSurvey(skillId: skillId!).subscribe(onFailure: { [weak self] in
-      self?.handleErrors($0)
-    }).disposed(by: disposeBag)
+    viewModel.getExitSurvey()
+      .subscribe(onFailure: { [weak self] in
+        self?.handleErrors($0)
+      })
+      .disposed(by: disposeBag)
 
     viewModel.cachedSurvey.compactMap({ $0 }).subscribe(onNext: { [weak self] in
       guard let self else { return }

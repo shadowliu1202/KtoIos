@@ -81,10 +81,11 @@ class SurveyViewModel {
     cachedSurveyAnswersRelay.accept(cachedSurveyAnswers)
   }
 
-  func getExitSurvey(skillId: SkillId) -> Single<Survey> {
-    surveyUseCase.getExitSurvey(skillId: skillId).do(afterSuccess: { [weak self] in
-      self?.chatSurveyInfo = $0
-    })
+  func getExitSurvey() -> Single<Survey> {
+    surveyUseCase.getExitSurvey()
+      .do(afterSuccess: { [weak self] in
+        self?.chatSurveyInfo = $0
+      })
   }
 
   func answerExitSurvey(roomId: RoomId, survey: Survey) -> Completable {
