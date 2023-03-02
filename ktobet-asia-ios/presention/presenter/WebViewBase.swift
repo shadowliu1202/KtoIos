@@ -8,19 +8,25 @@ class WebViewBase: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    setupUserAgent()
+    setupCookies()
     setupWebView(view: view)
   }
   
-  func setupWebView(view: UIView) {
+  func setupUserAgent() {
     if let defaultAgent = WKWebView().value(forKey: "userAgent") {
       let MockWebViewUserAgent = Configuration.getKtoAgent()
       webView.customUserAgent = "\(defaultAgent) Safari/604.1 \(MockWebViewUserAgent)"
     }
-    
+  }
+  
+  func setupCookies() {
     for cookie in httpClient.getCookies() {
       webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
     }
-    
+  }
+  
+  func setupWebView(view: UIView) {
     webView.scrollView.delegate = self
     webView.uiDelegate = self
     webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

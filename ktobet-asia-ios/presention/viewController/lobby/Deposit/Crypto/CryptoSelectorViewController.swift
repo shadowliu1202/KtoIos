@@ -108,6 +108,6 @@ extension CryptoSelectorViewController {
   }
 
   func navigateToDepositCryptoVC(_ url: String) {
-    navigator.toCryptoWebPage(url: url)
+    self.performSegue(withIdentifier: DepositCryptoViewController.segueIdentifier, sender: url)
   }
 }
