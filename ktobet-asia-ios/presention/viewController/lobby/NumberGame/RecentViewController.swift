@@ -95,8 +95,14 @@ class NumbergameRecentCell: UITableViewCell {
 
   func configure(_ item: NumberGameSummary.RecentlyBet) -> Self {
     titleLabel.text = item.betTypeName.isEmpty ? item.selection : "\(item.betTypeName) : \(item.selection)"
-    titleLabel.isHidden = titleLabel.text?.isEmpty ?? true
     
+    if
+      let text = titleLabel.text,
+      text.isEmpty
+    {
+      titleLabel.text = "-"
+    }
+
     productNameLabel.text = item.gameName
     matchMethodLabel.text = item.matchMethod + (item.isStrike == true ? " - \(Localize.string("common_strike"))" : "")
     let status = item.status
