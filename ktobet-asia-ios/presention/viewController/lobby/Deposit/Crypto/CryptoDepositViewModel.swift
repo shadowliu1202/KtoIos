@@ -6,6 +6,7 @@ import SharedBu
 protocol CryptoDepositViewModelProtocol {
   var options: [CryptoDepositItemViewModel] { get }
   var selected: CryptoDepositItemViewModel? { get }
+  var submitButtonDisable: Bool { get }
   func fetchOptions()
   func setSelected(item: CryptoDepositItemViewModel?)
   func confirm() -> Single<CommonDTO.WebUrl>
@@ -22,6 +23,7 @@ class CryptoDepositViewModel:
 
   @Published private(set) var options: [CryptoDepositItemViewModel] = []
   @Published private(set) var selected: CryptoDepositItemViewModel?
+  @Published private(set) var submitButtonDisable = false
 
   init(depositService: IDepositAppService, navigator: DepositNavigator) {
     self.depositService = depositService
@@ -64,6 +66,13 @@ extension CryptoDepositViewModel {
           .requestCryptoDeposit(
             request: CryptoDepositDTO.Request(typeOptionsId: option.optionsId)))
       .compose(applySingleErrorHandler())
+      .do(
+        onSubscribe: { [weak self] in
+          self?.submitButtonDisable = true
+        },
+        onDispose: { [weak self] in
+          self?.submitButtonDisable = false
+        })
   }
 
   private func getPayments() -> Observable<PaymentsDTO> {

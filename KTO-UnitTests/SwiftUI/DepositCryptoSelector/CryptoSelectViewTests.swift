@@ -13,6 +13,8 @@ extension CryptoSelectView.SelectorList: Inspecting { }
 final class CryptoSelectViewTests: XCTestCase {
   func test_TapTutorialBtn_InCryptoSelectView_CallbackFunctionIsCalled() {
     let stubViewModel = mock(CryptoDepositViewModelProtocol.self)
+    given(stubViewModel.submitButtonDisable) ~> false
+
     var str = ""
     let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
       userGuideOnTap: { },
@@ -132,6 +134,8 @@ final class CryptoSelectViewTests: XCTestCase {
     let stubViewModel = mock(CryptoDepositViewModelProtocol.self)
     given(stubViewModel.options) ~> []
     given(stubViewModel.confirm()) ~> .just(CommonDTO.WebUrl(url: ""))
+    given(stubViewModel.submitButtonDisable) ~> false
+
     let stubPlayerConfig = mock(PlayerConfiguration.self)
     given(stubPlayerConfig.supportLocale) ~> .Vietnam()
 

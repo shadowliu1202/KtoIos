@@ -24,6 +24,10 @@ class AffiliateViewController: WebViewBase {
     webView.load(URLRequest(url: url))
   }
 
+  override func setupUserAgent() { }
+
+  override func setupCookies() { }
+
   deinit {
     print("\(type(of: self)) deinit")
   }

@@ -5,7 +5,6 @@ protocol DepositNavigator {
   func toDepositOfflineConfirmPage()
   func toDepositHomePage(unwindSegueId: String)
   func toOnlineWebPage(url: String)
-  func toCryptoWebPage(url: String)
   func toGuidePage(_ playerLocale: SupportLocale)
 }
 
@@ -30,12 +29,6 @@ class DepositNavigatorImpl: DepositNavigator {
         withIdentifier: DepositThirdPartWebViewController.segueIdentifier,
         sender: url)
     }, cancel: nil)
-  }
-
-  func toCryptoWebPage(url: String) {
-    NavigationManagement.sharedInstance.viewController.performSegue(
-      withIdentifier: DepositCryptoViewController.segueIdentifier,
-      sender: url)
   }
 
   func toGuidePage(_ playerLocale: SupportLocale) {

@@ -40,6 +40,7 @@ struct CryptoSelectView<ViewModel>: View
               Text(Localize.string("deposit_offline_step1_button"))
             })
             .buttonStyle(.confirmRed)
+            .disabled(viewModel.submitButtonDisable)
             .padding(.horizontal, 30)
             .id(CryptoSelectView.Identifier.submitBtn.rawValue)
         }
@@ -194,7 +195,8 @@ extension CryptoSelectView {
 
 struct CryptoSelectView_Previews: PreviewProvider {
   class ViewModel: CryptoDepositViewModelProtocol, ObservableObject {
-    @Published var selected: CryptoDepositItemViewModel?
+    @Published private(set) var submitButtonDisable = true
+    @Published private(set) var selected: CryptoDepositItemViewModel?
 
     lazy var options: [CryptoDepositItemViewModel] = [
       generateItem(type: .usdt, icon: "Main_USDT"),
