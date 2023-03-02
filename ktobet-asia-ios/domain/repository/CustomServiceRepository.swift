@@ -291,15 +291,17 @@ struct Argument: Codable {
 }
 
 protocol SurveyInfraService {
-  func getSurveygetChatHistoryQuestion(surveyType: Survey.SurveyType, skillId: SkillId?) -> Single<Survey>
+  func getSurveyGetChatHistoryQuestion(surveyType: Survey.SurveyType) -> Single<Survey>
   func setOfflineSurveyAnswers(roomId: RoomId, survey: Survey, surveyAnswers: SurveyAnswers) -> Completable
   func connectSurveyWithChatRoom(surveyConnectionId: SurveyConnectionId, chatRoomId: RoomId) -> Completable
   func createOfflineSurvey(message: String, email: String) -> Completable
 }
 
 extension CustomServiceRepositoryImpl: SurveyInfraService {
-  func getSurveygetChatHistoryQuestion(surveyType: Survey.SurveyType, skillId: SkillId?) -> Single<Survey> {
-    apiCustomService.getSkillSurvey(type: surveyType.ordinal, skillId: skillId).map { $0.data.toSurvey() }
+  func getSurveyGetChatHistoryQuestion(surveyType: Survey.SurveyType) -> Single<Survey> {
+    apiCustomService
+      .getSkillSurvey(type: surveyType.ordinal)
+      .map { $0.data.toSurvey() }
   }
 
   private func convertPlatform(_ platform: Survey.Platform) -> Int {

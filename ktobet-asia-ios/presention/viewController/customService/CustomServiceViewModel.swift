@@ -174,10 +174,16 @@ class CustomerServiceViewModel {
     customerServiceUseCase.currentChatRoom().first().map { $0! }
   }
 
-  func findCurrentRoomId() -> Single<(SkillId, RoomId)> {
-    findChatRoom().flatMap { room in
-      Single.zip(self.waitSkillId(portalChatRoom: room), self.waitRoomId(portalChatRoom: room))
-    }
+  func findCurrentRoomId() -> Single<RoomId> {
+    findChatRoom()
+      .flatMap { [weak self] room -> Single<RoomId> in
+        guard let self
+        else {
+          return .error(KTOError.LostReference)
+        }
+
+        return self.waitRoomId(portalChatRoom: room)
+      }
   }
 
   private func waitRoomId(portalChatRoom: PortalChatRoom) -> Single<RoomId> {
