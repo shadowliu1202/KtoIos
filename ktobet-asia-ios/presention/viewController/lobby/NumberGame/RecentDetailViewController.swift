@@ -157,6 +157,11 @@ class RecentDetailCell: UITableViewCell {
   }
 
   private func setValue(_ txt: String) {
-    descriptionLabel.text = txt
+    if txt.isEmpty {
+      descriptionLabel.text = " "
+    }
+    else {
+      descriptionLabel.text = txt
+    }
   }
 }
