@@ -58,7 +58,7 @@ class Alert: AlertProtocol {
     if let topVc = UIApplication.topViewController() {
       DispatchQueue.main.async {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.view.backgroundColor = UIColor.white
+        alert.view.backgroundColor = UIColor.whitePure
         alert.view.layer.cornerRadius = 14
         alert.view.clipsToBounds = true
 
