@@ -15,7 +15,9 @@ class Item {
   private(set) var level: Int32 = 0
   private(set) var time = ""
   private(set) var privileges: [LevelPrivilege] = []
+
   var isFold = false
+
   var collapse: Collapse {
     isFold ? .fold : .unFold
   }
@@ -31,9 +33,6 @@ class Item {
 let TopLevel = 10
 
 class LevelPrivilegeViewController: LobbyViewController {
-  var currentLevel: Int32 = 0
-  let resource = BehaviorRelay<[Item]>(value: [])
-
   @IBOutlet weak var headerView: UIView!
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var levelLabel: UILabel!
@@ -43,13 +42,20 @@ class LevelPrivilegeViewController: LobbyViewController {
   @IBOutlet weak var expLabel: UILabel!
   @IBOutlet weak var progress: PlainHorizontalProgressBar!
   @IBOutlet weak var bannerContainer: UIView!
+
+  private let resource = BehaviorRelay<[Item]>(value: [])
+
+  private let viewModel = Injectable.resolve(PlayerViewModel.self)!
+  private let disposeBag = DisposeBag()
+
+  var currentLevel: Int32 = 0
   var banner: UIView?
-  private var disposeBag = DisposeBag()
-  private var viewModel = Injectable.resolve(PlayerViewModel.self)!
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("level_levelprivilege"))
+    NavigationManagement.sharedInstance
+      .addMenuToBarButtonItem(vc: self, title: Localize.string("level_levelprivilege"))
+
     dataBinding()
 
     headerView
@@ -57,6 +63,7 @@ class LevelPrivilegeViewController: LobbyViewController {
         UIColor.yellowFFD500.cgColor,
         UIColor(red: 254 / 255, green: 161 / 255, blue: 68 / 255, alpha: 1).cgColor
       ])
+
     progress.borderWidth = 1
     progress.bordersColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
     progress.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2)
@@ -67,13 +74,15 @@ class LevelPrivilegeViewController: LobbyViewController {
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    viewModel.loadPlayerInfo().subscribe(onNext: { [weak self] player in
-      self?.accountLabel.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
-      self?.idLabel.text = player.playerInfo.gameId
-      self?.progress.progress = CGFloat(player.playerInfo.exp.percent / 100)
-      self?.expLabel.text = player.playerInfo.exp.description() + "%"
-      self?.levelLabel.text = String(format: Localize.string("common_level_2"), String(player.playerInfo.level))
-    }).disposed(by: disposeBag)
+    viewModel.loadPlayerInfo()
+      .subscribe(onNext: { [weak self] player in
+        self?.accountLabel.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
+        self?.idLabel.text = player.playerInfo.gameId
+        self?.progress.progress = CGFloat(player.playerInfo.exp.percent / 100)
+        self?.expLabel.text = player.playerInfo.exp.description() + "%"
+        self?.levelLabel.text = String(format: Localize.string("common_level_2"), String(player.playerInfo.level))
+      })
+      .disposed(by: disposeBag)
   }
 
   @IBAction
@@ -99,8 +108,10 @@ class LevelPrivilegeViewController: LobbyViewController {
 
   private func addBanner() {
     guard banner == nil else { return }
+
     banner = UIHostingController(rootView: BannerView()).view
     banner?.backgroundColor = .clear
+
     UIView.animate(
       withDuration: 0.0,
       delay: 0.0,
@@ -119,64 +130,83 @@ class LevelPrivilegeViewController: LobbyViewController {
   }
 
   private func dataBinding() {
-    self.rx.viewWillAppear.flatMap({ [unowned self] _ in
-      Observable.combineLatest(self.viewModel.getPrivilege().asObservable(), self.viewModel.loadPlayerInfo())
-    })
-    .flatMap({ [unowned self] (levelOverview: [LevelOverview], player: Player) -> BehaviorRelay<[Item]> in
-      self.currentLevel = player.playerInfo.level
-      let items = levelOverview.map({ Item($0) })
-      self.mappingItem(items)
-      return self.resource
-    }).catch({ [weak self] error -> Observable<[Item]> in
-      self?.handleErrors(error)
-      return Observable<[Item]>.just([])
-    }).bind(to: tableView.rx.items) { [weak self] tableView, row, item in
-      let collapseHandler: (Observable<Void>, DisposeBag) -> Void = { [weak self] collapse, disposeBag in
-        self?.updateCollapse(tableView: tableView, item: item, collapse: collapse, disposeBag: disposeBag)
+    self.rx.viewWillAppear
+      .flatMap({ [unowned self] _ in
+        Observable.combineLatest(
+          self.viewModel.getPrivilege().asObservable(),
+          self.viewModel.loadPlayerInfo())
+      })
+      .flatMap({ [unowned self] (levelOverview: [LevelOverview], player: Player) -> BehaviorRelay<[Item]> in
+        self.currentLevel = player.playerInfo.level
+        let items = levelOverview.map({ Item($0) })
+        self.mappingItem(items)
+        return self.resource
+      })
+      .catch({ [weak self] error -> Observable<[Item]> in
+        self?.handleErrors(error)
+        return Observable<[Item]>.just([])
+      })
+      .bind(to: tableView.rx.items) { [weak self] tableView, row, item in
+        let collapseHandler: (Observable<Void>, DisposeBag) -> Void = { [weak self] collapse, disposeBag in
+          self?.updateCollapse(tableView: tableView, item: item, collapse: collapse, disposeBag: disposeBag)
+        }
+
+        let tapPrivilegeHandler: (LevelPrivilege) -> Void = { [weak self] privilege in
+          self?.clickPrivilege(level: item.level, privilege)
+        }
+
+        if self?.isPreviewLevel(row) == true {
+          return tableView.dequeueReusableCell(
+            withIdentifier: "NextLevelTableViewCell",
+            cellType: NextLevelTableViewCell.self)
+            .configure(item, callback: collapseHandler)
+        }
+        else if self?.isTopLevel(row) == true {
+          return tableView.dequeueReusableCell(
+            withIdentifier: "TopLevelTableViewCell",
+            cellType: TopLevelTableViewCell.self)
+            .configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
+        }
+        else if self?.isZeroLevel(row) == true {
+          return tableView.dequeueReusableCell(
+            withIdentifier: "ZeroLevelTableViewCell",
+            cellType: ZeroLevelTableViewCell.self)
+            .configure(item)
+        }
+        else {
+          return tableView.dequeueReusableCell(
+            withIdentifier: "LevelTableViewCell",
+            cellType: LevelTableViewCell.self)
+            .configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
+        }
       }
-      let tapPrivilegeHandler: (LevelPrivilege) -> Void = { [weak self] privilege in
-        self?.clickPrivilege(level: item.level, privilege)
-      }
-      if self?.isPreviewLevel(row) == true {
-        return tableView.dequeueReusableCell(
-          withIdentifier: "NextLevelTableViewCell",
-          cellType: NextLevelTableViewCell.self).configure(item, callback: collapseHandler)
-      }
-      else if self?.isTopLevel(row) == true {
-        return tableView
-          .dequeueReusableCell(withIdentifier: "TopLevelTableViewCell", cellType: TopLevelTableViewCell.self)
-          .configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
-      }
-      else if self?.isZeroLevel(row) == true {
-        return tableView.dequeueReusableCell(
-          withIdentifier: "ZeroLevelTableViewCell",
-          cellType: ZeroLevelTableViewCell.self).configure(item)
-      }
-      else {
-        return tableView.dequeueReusableCell(withIdentifier: "LevelTableViewCell", cellType: LevelTableViewCell.self)
-          .configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
-      }
-    }.disposed(by: disposeBag)
+      .disposed(by: disposeBag)
   }
 
   func updateCollapse(tableView: UITableView, item: Item, collapse: Observable<Void>, disposeBag: DisposeBag) {
-    collapse.bind(onNext: {
-      item.isFold.toggle()
-      tableView.reloadData()
-    }).disposed(by: disposeBag)
+    collapse
+      .bind(onNext: {
+        item.isFold.toggle()
+        tableView.reloadData()
+      })
+      .disposed(by: disposeBag)
   }
 
   func clickPrivilege(level: Int32, _ privilege: LevelPrivilege) {
-    self.performSegue(withIdentifier: LevelPrivilegeDetailViewController.segueIdentifier, sender: (level, privilege))
+    self.performSegue(
+      withIdentifier: LevelPrivilegeDetailViewController.segueIdentifier,
+      sender: (level, privilege))
   }
 
   private func mappingItem(_ newData: [Item]) {
     let copyValue = self.resource.value
-    newData.forEach({ theNew in
+
+    newData.forEach { theNew in
       if let theOld = copyValue.first(where: { $0.level == theNew.level }) {
         theNew.isFold = theOld.isFold
       }
-    })
+    }
+
     self.resource.accept(newData)
   }
 

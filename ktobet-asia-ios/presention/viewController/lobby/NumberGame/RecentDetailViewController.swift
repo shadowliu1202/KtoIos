@@ -100,7 +100,7 @@ extension RecentDetailViewController: UITableViewDataSource {
       .configure(index: indexPath.row, data: item, supportLocal: localStorageRepo.getSupportLocale())
     cell.removeBorder()
     if indexPath.row != 0 {
-      cell.addBorder()
+      cell.addBorder(rightConstant: 30, leftConstant: 30)
     }
 
     return cell

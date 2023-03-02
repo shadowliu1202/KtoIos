@@ -3,17 +3,20 @@ import SwiftUI
 let FunctionalButton_Content_ID = "FunctionalButton_Content_ID"
 
 struct FunctionalButton<Content: View>: View {
-  let imageName: String
-  let content: Content
-  let action: (() -> Void)?
+  private let imageName: String
+  private let content: Content
+  private let borderPadding: CGFloat
+  private let action: (() -> Void)?
 
   init(
     imageName: String,
     @ViewBuilder content: () -> Content,
+    borderPadding: CGFloat = 12,
     action: (() -> Void)?)
   {
     self.imageName = imageName
     self.content = content()
+    self.borderPadding = borderPadding
     self.action = action
   }
 
@@ -36,7 +39,7 @@ struct FunctionalButton<Content: View>: View {
         .resizable()
         .frame(width: 16, height: 16)
     }
-    .padding(16)
+    .padding(borderPadding)
     .strokeBorder(
       color: .gray9B9B9B,
       cornerRadius: 8,

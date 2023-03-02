@@ -92,6 +92,7 @@ extension TransactionLogView {
             }
           }
         },
+        borderPadding: 8,
         action: {
           onSelected?()
         })

@@ -585,9 +585,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GfJ-KJ-7i3">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GfJ-KJ-7i3">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="whiteFull"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="rQz-DZ-LdT">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="128"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -598,17 +598,17 @@
                                                 <constraint firstAttribute="height" constant="32" id="zHi-35-kLC"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" name="blackTwo"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyL-QM-Xjd">
                                             <rect key="frame" x="30" y="74" width="354" height="30"/>
                                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" name="blackTwo"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <color key="backgroundColor" name="whiteFull"/>
                                     <constraints>
                                         <constraint firstItem="RWz-x3-QSK" firstAttribute="leading" secondItem="rQz-DZ-LdT" secondAttribute="leading" constant="30" id="5Zk-DX-O5R"/>
                                         <constraint firstAttribute="bottom" secondItem="jyL-QM-Xjd" secondAttribute="bottom" constant="24" id="JKD-cK-Lgm"/>
@@ -618,11 +618,6 @@
                                         <constraint firstItem="jyL-QM-Xjd" firstAttribute="top" secondItem="RWz-x3-QSK" secondAttribute="bottom" constant="12" id="eiB-wa-0EY"/>
                                         <constraint firstItem="RWz-x3-QSK" firstAttribute="top" secondItem="rQz-DZ-LdT" secondAttribute="top" constant="30" id="pnA-0w-JZs"/>
                                     </constraints>
-                                </view>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="awT-zt-J9A" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="238" width="414" height="96"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GuideViewCell" id="0Mc-L4-TcG" customClass="GuideViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
@@ -649,6 +644,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="c95-YH-AuB" secondAttribute="bottom" constant="8" id="pfY-kZ-e0z"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" name="whiteFull"/>
                                         <connections>
                                             <outlet property="bottomMargin" destination="pfY-kZ-e0z" id="fiy-IY-Cri"/>
                                             <outlet property="titleLabel" destination="c95-YH-AuB" id="n9o-eK-YFw"/>
@@ -865,7 +861,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G8G-np-nNE">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <connections>
                                     <segue destination="9aa-6X-jIr" kind="embed" destinationCreationSelector="toJinYiDigitalGuide:" id="jvW-dz-p5g"/>
                                 </connections>
@@ -874,7 +870,7 @@
                         <viewLayoutGuide key="safeArea" id="Oe2-1c-Ijf"/>
                         <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
-                            <constraint firstItem="Oe2-1c-Ijf" firstAttribute="bottom" secondItem="G8G-np-nNE" secondAttribute="bottom" id="HeT-Vu-NeH"/>
+                            <constraint firstAttribute="bottom" secondItem="G8G-np-nNE" secondAttribute="bottom" id="O6y-Gv-bvH"/>
                             <constraint firstItem="Oe2-1c-Ijf" firstAttribute="trailing" secondItem="G8G-np-nNE" secondAttribute="trailing" id="ZJm-NI-mOh"/>
                             <constraint firstItem="G8G-np-nNE" firstAttribute="leading" secondItem="Oe2-1c-Ijf" secondAttribute="leading" id="b7w-70-Edw"/>
                             <constraint firstItem="G8G-np-nNE" firstAttribute="top" secondItem="YEc-8X-bC4" secondAttribute="top" id="rkm-cU-E5d"/>

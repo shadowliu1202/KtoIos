@@ -13,43 +13,55 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
   @IBOutlet private weak var levelLabel: UILabel!
   @IBOutlet private weak var iconImageView: UIImageView!
   @IBOutlet private weak var footerView: UIView!
-  @IBOutlet private weak var constraintTableViewHeight: NSLayoutConstraint!
-  @IBOutlet private weak var backgroundViewHeight: NSLayoutConstraint!
   @IBOutlet private weak var dailyLimitAmountLabel: UILabel!
   @IBOutlet private weak var buttonBackgroundView: UIView!
   @IBOutlet private weak var productUnlimitedView: UIView!
   @IBOutlet private weak var productUnlimitedTopBarView: UIView!
   @IBOutlet weak var bannerContainer: UIView!
-  var banner: UIView?
+
+  private let disposeBag = DisposeBag()
+  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+
+  private var arg: PrivilegeArg!
+  private var cells: [UITableViewCell] = []
 
   var levelPrivilege: LevelPrivilege!
   var level: Int32!
-  private var arg: PrivilegeArg!
-  private var cells: [UITableViewCell] = []
-  private var disposeBag = DisposeBag()
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+
+  var banner: UIView?
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
     tableView.delegate = self
     tableView.dataSource = self
-    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, image: "iconNavBack24")
+
+    NavigationManagement.sharedInstance
+      .addBarButtonItem(vc: self, barItemType: .back, image: "iconNavBack24")
 
     btnPromotion
       .applyGradient(horizontal: [
         UIColor.yellowFFD500.cgColor,
         UIColor(red: 254 / 255, green: 161 / 255, blue: 68 / 255, alpha: 1).cgColor
       ])
-    btnPromotion.rx.touchUpInside.subscribe(onNext: {
-      NavigationManagement.sharedInstance.goTo(storyboard: "Promotion", viewControllerId: "PromotionNavigationController")
-    }).disposed(by: disposeBag)
+
+    btnPromotion.rx.touchUpInside
+      .subscribe(onNext: {
+        NavigationManagement.sharedInstance.goTo(storyboard: "Promotion", viewControllerId: "PromotionNavigationController")
+      })
+      .disposed(by: disposeBag)
+
     backgroundView.setViewCorner(topCorner: true, bottomCorner: false, radius: 32)
+
     levelLabel.layer.masksToBounds = true
     levelLabel.layer.cornerRadius = 16
     levelLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-    buttonBackgroundView.addBorder(.top, color: UIColor(red: 155 / 255, green: 155 / 255, blue: 155 / 255, alpha: 0.3))
+
+    buttonBackgroundView
+      .addBorder(.top, color: UIColor(red: 155 / 255, green: 155 / 255, blue: 155 / 255, alpha: 0.3))
 
     levelLabel.text = String(format: Localize.string("common_level_2"), String(level))
+
     switch levelPrivilege {
     case let depositData as LevelPrivilege.Deposit:
       generateDepositView(data: depositData)
@@ -67,8 +79,9 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
     appearance.configureWithOpaqueBackground()
     appearance.backgroundColor = UIColor.clear
     appearance.shadowImage = UIImage(color: UIColor.clear)
-    self.navigationController?.navigationBar.standardAppearance = appearance
-    self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
+    navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -80,10 +93,12 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
       .foregroundColor: UIColor.whitePure,
       .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())
     ]
+
     barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
     UINavigationBar.appearance().isTranslucent = true
-    self.navigationController?.navigationBar.standardAppearance = barAppearance
-    self.navigationController?.navigationBar.scrollEdgeAppearance = barAppearance
+
+    navigationController?.navigationBar.standardAppearance = barAppearance
+    navigationController?.navigationBar.scrollEdgeAppearance = barAppearance
   }
 
   override func networkDidConnectedHandler() {
@@ -98,6 +113,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
     guard banner == nil else { return }
     banner = UIHostingController(rootView: BannerView()).view
     banner?.backgroundColor = .clear
+
     UIView.animate(
       withDuration: 0.0,
       delay: 0.0,
@@ -118,6 +134,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
   private func generateDepositView(data: LevelPrivilege.Deposit) {
     titleLabel.text = Localize.string("common_depositbonus")
     iconImageView.image = UIImage(named: "lvDetailBank")
+
     if (1...2).contains(level) {
       cells = generateDepositLevelOneTwo(data: data)
     }
@@ -136,11 +153,13 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
     dailyLimitAmountLabel.text = data.maxBonus.description()
 
     let products: [ProductType] = [.sbk, .casino, .slot, .numbergame, .arcade]
-    products.forEach({
-      let title = StringMapper.parseProductTypeString(productType: $0)
-      let content = generatePercentageText(data.percentages[$0])
-      cells.append(generateDetailOneRowCell(leftContent: title, RightContent: content))
-    })
+
+    products
+      .forEach {
+        let title = StringMapper.parseProductTypeString(productType: $0)
+        let content = generatePercentageText(data.percentages[$0])
+        cells.append(generateDetailOneRowCell(leftContent: title, RightContent: content))
+      }
 
     if !data.isMaxBonusLimited() {
       productUnlimitedTopBarView.backgroundColor = UIColor.orangeFF8000
@@ -159,6 +178,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
   private func generateSlot() {
     titleLabel.text = Localize.string("bonus_bonusproducttype_2")
     iconImageView.image = UIImage(named: "lvDetailSlot")
+
     cells.append(generateDetailTwoRowCell(
       firstRow: Localize.string("level_detail_3_1_title"),
       secondRow: Localize.string("level_detail_3_1_content")))
@@ -185,11 +205,13 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
   private func generateInsureance(data: LevelPrivilege.ProductBetInsurance) {
     titleLabel.text = Localize.string("level_producttype_1")
     iconImageView.image = UIImage(named: "lvDetailInsure")
+
     let titles = [Localize.string("level_detail_3_1_title1"), Localize.string("level_detail_3_1_title2")]
     let contents = [
       data.percentage.description(),
       data.maxBonus.description()
     ]
+
     for i in 0..<2 {
       cells.append(generateDetailOneRowCell(leftContent: titles[i], RightContent: contents[i]))
     }
@@ -200,11 +222,15 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
 
   private func generateDepositLevelOneTwo(data: LevelPrivilege.Deposit) -> [UITableViewCell] {
     cells.append(generateDetailOneRowCell(
-      leftContent: level == 1 ? Localize.string("level_detail_5_title1_first") : Localize.string("level_detail_5_title1"),
+      leftContent: level == 1
+        ? Localize.string("level_detail_5_title1_first")
+        : Localize.string("level_detail_5_title1"),
       RightContent: data.percentage.description() + "%"))
+    
     cells.append(generateDetailOneRowCell(
       leftContent: Localize.string("level_detail_5_maxamount"),
       RightContent: data.maxBonus.description()))
+    
     cells.append(generateDetailTwoRowCell(
       firstRow: Localize.string("level_detail_5_title3"),
       secondRow: String(
@@ -219,13 +245,14 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
     cells.append(generateDetailOneRowCell(
       leftContent: Localize.string("level_detail_5_title1"),
       RightContent: data.percentage.description() + "%"))
-    cells
-      .append(generateDetailOneRowCell(
-        leftContent: Localize.string("level_detail_5_maxamount"),
-        RightContent: data.maxBonus.description()))
+
+    cells.append(generateDetailOneRowCell(
+      leftContent: Localize.string("level_detail_5_maxamount"),
+      RightContent: data.maxBonus.description()))
 
     var frequencyTitle = ""
     var frequencyContent = ""
+
     switch data.issueFrequency {
     case .daily:
       frequencyTitle = Localize.string("level_detail_5_title2_3")
@@ -240,7 +267,10 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
       break
     }
 
-    cells.append(generateDetailTwoRowCell(firstRow: frequencyTitle, secondRow: frequencyContent))
+    cells.append(generateDetailTwoRowCell(
+      firstRow: frequencyTitle,
+      secondRow: frequencyContent))
+
     cells.append(generateDetailTwoRowCell(
       firstRow: Localize.string("level_detail_5_title3"),
       secondRow: String(
@@ -259,8 +289,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
   }
 
   private func generateDetailTwoRowCell(firstRow: String, secondRow: String) -> UITableViewCell {
-    let detail2RowCell = tableView
-      .dequeueReusableCell(withIdentifier: "LevelDetail2TableViewCell") as! LevelDetail2TableViewCell
+    let detail2RowCell = tableView.dequeueReusableCell(withIdentifier: "LevelDetail2TableViewCell") as! LevelDetail2TableViewCell
     detail2RowCell.titleLabel.text = firstRow
     detail2RowCell.secondLabel.text = secondRow
     return detail2RowCell

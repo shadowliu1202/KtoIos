@@ -33,6 +33,8 @@ class NumberGameDetailViewController: LobbyViewController {
     self.view.addSubview(activityIndicator)
     activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    tableView.estimatedRowHeight = 81.0
+    tableView.rowHeight = UITableView.automaticDimension
     self.tableView.setHeaderFooterDivider()
   }
 

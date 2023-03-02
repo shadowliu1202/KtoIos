@@ -93,27 +93,38 @@ extension CryptoGuideViewController: UITableViewDelegate, UITableViewDataSource 
   }
 
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let header = tableView.dequeueReusableHeaderFooter(withIdentifier: "MarketHeaderView", cellType: MarketHeaderView.self)
-      .configure(resources[section], callback: { [unowned self] header in
-        self.resources[section].expanded.toggle()
-        header.icon?.image = self.resources[section]
-          .expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
-        self.reloadRows(at: section, rowCount: resources[section].guides.count, with: .automatic)
-        if section == 0 {
-          if self.resources[section].expanded {
-            header.bottomLine.isHidden = false
+    tableView.dequeueReusableHeaderFooter(
+      withIdentifier: "MarketHeaderView",
+      cellType: MarketHeaderView.self)
+      .configure(
+        resources[section],
+        isLastSection: section == self.resources.count - 1,
+        callback: { [unowned self] header in
+          self.resources[section].expanded.toggle()
+
+          header.icon?.image = self.resources[section].expanded
+            ? UIImage(named: "arrow-drop-up")
+            : UIImage(named: "arrow-drop-down")
+
+          self.reloadRows(
+            at: section,
+            rowCount: resources[section].guides.count,
+            with: .automatic)
+
+          if section == self.resources.count - 1 {
+            header.bottomLine.backgroundColor = .gray3C3E40
           }
           else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-              header.bottomLine.isHidden = true
+            if self.resources[section].expanded {
+              header.bottomLine.backgroundColor = .gray3C3E40
+            }
+            else {
+              DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                header.bottomLine.backgroundColor = .clear
+              }
             }
           }
-        }
-      })
-    if section == 0 {
-      header.bottomLine.isHidden = !self.resources[section].expanded
-    }
-    return header
+        })
   }
 
   func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
