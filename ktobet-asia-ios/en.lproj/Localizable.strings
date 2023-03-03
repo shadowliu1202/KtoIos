@@ -1,0 +1,1722 @@
+
+
+//MARK: - CPS
+"cps_kto" = "KTO";
+"cps_daily_limit_widthrawal_amount" = "Daily Withdrawal amount limit：%@";
+"cps_daily_limit_widthrawal_times" = "Daily Withdrawal number of times：%@";
+"cps_turnover_requirement" = "Turnover Requirement：";
+"cps_crpyto_withdrawal_requirement" = "Cryptocurrency Withdrawal Requirement：";
+"cps_crpyto_withdrawal_requirement_title" = "Explanation of Cryptocurrency Withdrawal Requirement ";
+"cps_crpyto_withdrawal_requirement_desc" = "When cryptocurrency withdrawal requirement = Nil, it means that you can request cash withdrawal, also cryptocurrency withdrawal.
+When you deposit cryptocurrency successfully, cryptocurrency withdrawal requirement will be equivalent to the deposit value. Cryptocurrency pending withdrawal clearance is required before cash withdrawal becomes available.";
+"cps_cash_withdrawal_lock_title" = "Cash Withdrawal Locked";
+"cps_cash_withdrawal_lock_desc" = "Currently, there are %@ Cryptocurrency pending withdrawal clearance. Cash withdrawal will only be available after Cryptocurrency withdraw balance is cleared.  ";
+"cps_success_log" = "Cryptocurrency Success Transaction Log";
+"cps_remaining_requirement" = "Remaining Cryptocurrency Withdrawal Requirement：%@";
+"cps_total_require_amount" = "Total Cryptocurrency Withdrawal Requirement (accumulated deposit since last zeroized)：%@";
+"cps_total_completed_amount" = "Completed Cryptocurrency Withdrawal (accumulated withdrawal since last zeroized)：%@";
+"cps_require_completed" = "You currently have no cryptocurrency withdrawal requirement, and will be redirected to withdrawal main page.";
+"cps_set_crypto_account" = "Set Up Cryptocurrency Account";
+"cps_set_crypto_account_hint" = "You must set up a Cryptocurrency account to carry on withdrawal.";
+"cps_auto_fill_not_enough_balance" = "Insufficient account balance ";
+"cps_auto_fill_remaining_balance" = "Your account balance is lesser than cryptocurrency withdrawal amount requested, system will auto fill in current account balance.";
+"cps_auto_fill_maximum_limit" = "Your current account balance is greater than single transaction limit, system will auto fill in single transaction limit.";
+"cps_auto_fill_daily_limit_maximum" = "Your current account balance is greater than today withdrawal amount limit, system will auto fill in today withdrawal amount limit.";
+"cps_auto_fill_crypto_daily_limit_maximum" = "Your cryptocurrency withdrawal request is more than today withdrawal amount limit, system will auto fill in today withdrawal amount limit.";
+"cps_auto_fill_crypto_maximum_limit" = "Your cryptocurrency withdrawal request is more than single transaction limit, system will auto fill in single transaction limit";
+"cps_crypto_account_name" = "Account Alias";
+"cps_crypto_currency" = "Cryptocurrency";
+"cps_crypto_delete_hint" = "Current Cryptocurrency wallet is verified status, deletion and re-adding requires verification again.";
+"cps_excahange_rate" = "Transaction Rate";
+"cps_request_withdrawal_crypto_amount" = "The amount for this withdrawal application is";
+"cps_request_withdrawal_fiat_amount" = "Account deduction";
+"cps_remaining_crypto_requirement" = "Cryptocurrency required for Withdrawal Requirement";
+"cps_rate_changed" = "Rate has been changed.";
+"cps_please_refill_amounts" = "Please reconfirm and fill in amount.";
+"cps_wallet_address" = "Account Address";
+"cps_add_account" = "Add New Withdrawal Account";
+"cps_security_alert" = "For account security, identity verification is required.";
+"cps_verify_hint" = "Account has been verified, withdrawal is allowed.";
+"cps_add_hint" = "This account information cannot be changed, only be deleted.";
+"cps_bank_card_exist" = "The withdrawal account existed";
+"cps_cash_withdrawal" = "Cash Withdrawal";
+"cps_crpyto_withdrawal" = "Cryptocurrency Withdrawal";
+"cps_qr_code_read_fail" = "Scan failed.";
+"cps_qr_code_read_fail_content" = "QR Code failed to scan. Please try again.";
+"cps_auto_fill_balance" = "Automatic fill in current account balance";
+"cps_auto_fill_request" = "Automatic fill in cryptocurrency withdrawal request amount";
+"cps_account_status_verified" = "This account has been verified and approved.";
+"cps_close_otp_verify_hint" = " Your withdrawal account setting has not been completed, thus your withdrawal cannot be made.";
+"cps_eth_default_bank_card_name" = "";
+"cps_default_bank_card_name" = "";
+"cps_scan" = "Scan";
+"cps_scan_qrcode" = "Scan QR Code";
+"cps_otp_service_down" = "Verification is temporarily unavailable. Please try again later.";
+"cps_secruity_verification_failure" = "Security Verification failed.";
+"cps_crypto_network" = "";
+"cps_trc20_address_error" = "";
+"cps_erc20_address_error" = "";
+"cps_applied_network_address_title" = "";
+"cps_select_crypto_type" = "";
+"cps_crypto_currency_deposit_hint" = "";
+"cps_crypto_currency_guide_hint" = "";
+"cps_crypto_currency_guide_title" = "新虚拟币用户指南";
+"cps_crypto_guidance_description" = "";
+"cps_crypto_currency_deposit_times_hint" = "";
+"cps_withdrawal_all_fiat_first" = "";
+"cps_withdrawal_fiat_amount_below_limit_message" = "Your withdrawal amount is lower then the Single Withdrawal Limit.";
+"cps_withdrawal_fiat_amount_over_limit_message" = "Your withdrawal amount exceeds the Single Withdrawal Limit.";
+"cps_withdrawal_exceeding_daily_limit_message" = "";
+"cps_deposit_market_condition_amount_per_day" = "";
+"cps_deposit_market_condition_times_per_day" = "";
+"cps_starmerger_title" = "";
+"cps_deposit_amount_limit" = "";
+"cps_starmerger_description" = "";
+"cps_starmerger_hint" = "";
+"cps_crypto_market" = "";
+
+//MARK: - Common
+"common_kto" = "KTO";
+"common_accountinfo" = "Personal Info";
+"common_activity" = "Account Activity";
+"common_adjustment" = "Adjustment";
+"common_afterbalance" = "Balance";
+"common_all" = "All";
+"common_allow" = "Agree";
+"common_apply" = "Request";
+"common_applydate" = "Request Date";
+"common_applytime" = "Request Time";
+"common_approved" = "Successful";
+"common_back" = "Return";
+"common_bank" = "Bank Name";
+"common_beencancelcommonly" = "Cancelled Preferred";
+"common_beensetcommonly" = "Set Preferred ";
+"common_bet" = "Bet";
+"common_birthday" = "Date of Birth";
+"common_bonus" = "Bonus";
+"common_cancel" = "Cancel";
+"common_cashlog" = "Transaction Log";
+"common_casino" = "Casino";
+"common_chatsystem" = "Live Chat";
+"common_close" = "Close";
+"common_confirm" = "Confirm";
+"common_continue" = "Proceed";
+"common_continue2" = "Proceed";
+"common_currency" = "Vietnam Dong";
+"common_custom" = "Customize";
+"common_dataerror" = "Data Error";
+"common_delete" = "Delete";
+"common_delete_count" = "Delete (%@)";
+"common_deleted" = "Deleted successfully";
+"common_deposit" = "Deposit";
+"common_despositid" = "Desposit ID";
+"common_detailcontent" = "Detail";
+"common_determine" = "Confirm";
+"common_dollarsign" = "₫";
+"common_done" = "Complete";
+"common_email" = "Email";
+"common_error" = "Error";
+"common_floating" = "Need to upload Transaction Info";
+"common_floating_2" = "Need to upload Document";
+"common_fold" = "Collapse";
+"common_gamelobby" = "Game Hall Name";
+"common_gametype" = "Game Type";
+"common_hour" = "Hour";
+"common_invalid" = "The format of the information you filled in does not match.";
+"common_language" = "Vietnamese";
+"common_lastday" = "Last %@ Days";
+"common_level" = "Level";
+"common_level_2" = "LV %@";
+"common_login" = "Sign In";
+"common_minute" = "Minute";
+"common_mobile" = "Mobile";
+"common_mobile_2" = "Mobile";
+"common_mobileprefix" = "84";
+"common_moblie_number" = "Mobile Number";
+"common_next" = "Next";
+"common_norecord" = "No History";
+"common_norelevantnotice" = "There is currently no relevant notification.";
+"common_notification" = "Notification";
+"common_notset" = "Do Not Set Up Now";
+"common_open" = "Expand";
+"common_password" = "Password";
+"common_password_1" = "Please enter Password";
+"common_password_2" = "Confirm Password";
+"common_password_3" = "Please re-enter Password";
+"common_password_4" = "Please enter a New Password";
+"common_password_5" = "Please re-enter New Password";
+"common_password_repeat" = "Duplicated with Old Password";
+"common_password_tips_1" = "A combination of 6-12 letters and numbers; \"#$%\" is not available, it is case sensitive.";
+"common_pending" = "Processing";
+"common_pending_2" = "To be confirmed";
+"common_pending_hold" = "Pending Bank Processing";
+"common_player_inactive" = "Your account has been permanently closed. Please contact Customer Service for assistance.";
+"common_player_suspend" = "Your account has been frozen. Please contact Customer Service for assistance.";
+"common_playerid" = "Player ID";
+"common_previous" = "Previous";
+"common_promotion" = "Promotion";
+"common_realname" = "Withdrawal Name";
+"common_redirect" = "You will be redirected to the KTO Asia homepage in %@ seconds.";
+"common_register" = "Sign Up";
+"common_registerdate" = "Sign Up Date";
+"common_reject" = "Failed";
+"common_remark" = "Note";
+"common_remove" = "Remove";
+"common_resendotp" = "Resend";
+"common_resettle" = "Resettled";
+"common_second" = "Second";
+"common_selectall" = "Select All";
+"common_selectphoto" = "Select a Photo";
+"common_settingvalue" = "Set Value";
+"common_settle" = "Settled";
+"common_show_all" = "Display All";
+"common_skip" = "Skip";
+"common_slot" = "Slot";
+"common_stop" = "Stop";
+"common_sportsbook" = "Sportsbook";
+"common_status" = "Status";
+"common_filter" = "Filter";
+"common_statusfilter" = "Status Filter";
+"common_ticketnumber" = "Transaction ID";
+"common_timerange" = "Time Range";
+"common_transaction" = "Transaction Details";
+"common_transactionamount" = "Transaction Amount";
+"common_transactionsummary" = "Summary";
+"common_unknowbank" = "Please note that you can use this bank to apply and wait for approval, even though it is not included in the defaut list.";
+"common_unregister" = "You have not registered an account.";
+"common_unverified" = "Unverified";
+"common_upload" = "Upload";
+"common_uploadedfile" = "Document Uploaded";
+"common_uploadfail" = "Failed to upload Document";
+"common_uploadfile" = "Upload Document";
+"common_uploadphoto" = "Upload Photo";
+"common_verified" = "Verified";
+"common_verifing" = "Verifing";
+"common_verify" = "Verify";
+"common_version" = "1";
+"common_withdrawal" = "Withdrawal";
+"common_withdrawalname" = "Withdrawal Name";
+"common_submit" = "Submit";
+"common_depositbonus" = "Deposit Bonus";
+"common_freebet" = "Free Bet";
+"common_rebate" = "Rebate";
+"common_win" = "Win";
+"common_lose" = "Lose";
+"common_push" = "Push";
+"common_void" = "Void";
+"common_playercancel" = "Player Cancel";
+"common_unsettle" = "Unsettled";
+"common_otp_send_fail" = "Failed to send Verification Code";
+"common_otp_send_success" = "Verification Code sent";
+"common_otp_mail_send_success" = "Verification Email sent";
+"common_otp_invalid" = "Your Verification Code is incorrect.";
+"common_otp_resend_tips" = "If you did not receive the Verification Code, after %@ you can";
+"common_verify_mail_resend_tips" = "If you did not receive the Verification Email, after %@ you can";
+"common_yes" = "Yes";
+"common_no" = "No";
+"common_moveto" = "Move To";
+"common_customerservice" = "Contact Customer Service";
+"common_platinum" = "Platinum";
+"common_jade" = "Jade";
+"common_virtual" = "Virtual";
+"common_search" = "Search";
+"common_required" = "This field is required.";
+"common_transaction_daterange" = "Request Time";
+"common_depositfeerefund" = "Deposit Fee Refund %@";
+"common_ticketstatus_void" = "Failed";
+"common_edit" = "Edit";
+"common_new" = "New";
+"common_keno" = "Number Game";
+"common_show" = "Show";
+"common_hide" = "Hide";
+"common_unknownerror" = "An unknown error occurred, error code: %@";
+"common_connectionerror" = "The network is abnormal, please reconfirm the connection.";
+"common_try_again" = "Try Again";
+"common_password_not_the_same" = "Inconsistent Passwords.";
+"common_wrong_password_format" = "Password does not meet the rules.";
+"common_password_not_filled" = "This field is required.";
+"common_network_error" = "The network is abnormal, please reconfirm the connection.";
+"common_january" = "January";
+"common_february" = "February";
+"common_march" = "March";
+"common_april" = "April";
+"common_may" = "May";
+"common_june" = "June";
+"common_july" = "July";
+"common_august" = "August";
+"common_september" = "September";
+"common_october" = "October";
+"common_november" = "November";
+"common_december" = "December";
+"common_monday" = "Monday";
+"common_tuesday" = "Tuesday";
+"common_wednesday" = "Wednesday";
+"common_thursday" = "Thursday";
+"common_friday" = "Friday";
+"common_saturday" = "Saturday";
+"common_sunday" = "Sunday";
+"common_upload_file" = "Upload Document";
+"common_click_to_upload" = "Click to upload pictures";
+"common_camera" = "Camera";
+"common_gallery" = "Gallery";
+"common_upload_limit" = "Upload up to 3 pictures.";
+"common_copy" = "Copy";
+"common_copied" = "Copied";
+"common_submit2" = "Submit";
+"common_times_count" = "%@ Times";
+"common_privacy_terms" = "Privacy Policy";
+"common_service_terms" = "Terms of Service";
+"common_gambling_responsibility_terms" = "Responsible Gambling";
+"common_about_kto" = "About KTO";
+"common_legal_supervision" = "License";
+"common_change_setting" = "Change Setting";
+"common_setting_done" = "Setting succeeded";
+"common_setting_fail" = "Setting failed";
+"common_change_done" = "Change succeeded";
+"common_change_fail" = "Change failed";
+"common_tip_title_warm" = "Notice";
+"common_tip_content_bind" = "This Setting will be bound to the account and cannot be changed.";
+"common_tip_title_unfinished" = "The current page data has not been saved. Are you sure you want to leave?";
+"common_tip_content_unfinished" = "Once deleted, this account data will no longer exist.";
+"common_field_must_fill" = "This field is required.";
+"common_field_must_fill_2" = "This field is required.";
+"common_field_format_incorrect" = "The format of the information you filled in does not match.";
+"common_otp_content_error" = "Your Verification Code is incorrect.";
+"common_error_email_format" = "Please enter a valid Email.";
+"common_error_mobile_format" = "Consists of 10 numbers, and starts with 0.";
+"common_error_email_verify" = "Unable to verify this Email.";
+"common_error_phone_verify" = "Unable to verify this Mobile Number.";
+"common_error_try_later" = "You have entered incorrectly multiple times. Please try again later.";
+"common_otp_sent_content" = "KTOVN Email OTP:
+A 6-Digit Verification Code has been sent to
+
+KTOVN Mobile Number OTP:
+A 4-Digit Verification Code</br>
+has been sent Via Call to";
+"common_otp_sent_content_email" = "A 6-Digit Verification Code has been sent to";
+"common_otp_sent_content_mobile" = "A 4-Digit Verification Code</br>
+has been sent Via Call to";
+"common_otp_sent_content_highlight" = "Via Call";
+"common_notify_logout_title" = "Logout Notice";
+"common_notify_logout_content" = "Sorry, your account has been logged in elsewhere, please try to log in again.";
+"common_sms_otp_exeed_send_limit" = "This Mobile Number has reached the Sending Limit. Please try again at 00:00 the next day.";
+"common_email_otp_exeed_send_limit" = "This Email has reached the Sending Limit. Please try again at 00:00 the next day.";
+"common_app_version" = "%@-%@";
+"common_confirm_cancel_operation" = "Are you sure to cancel the current operation?";
+"common_today" = "Today";
+"common_yesterday" = "Yesterday";
+"common_kindly_remind" = "Notice";
+"common_success" = "Successful";
+"common_fail" = "Failed";
+"common_processing" = "Processing";
+"common_pending_or_pending_hold" = "Processing / Pending Bank Processing";
+"common_confirm_logout" = "Are you sure to sign out?";
+"common_logout" = "Sign Out";
+"common_last7day" = "Last 7 Days";
+"common_select_day" = "Select a Day";
+"common_select_month" = "Select a Month";
+"common_last30day" = "Last 30 Days";
+"common_experience" = "Experience Point %@";
+"common_total_amount" = "Total";
+"common_select_all" = "Select All";
+"common_unselect_all" = "Unselect All";
+"common_request_submitted" = "Request submitted";
+"common_confirm_delete" = "Confirm to Delete?";
+"common_photo_upload_limit" = "Upload limit: Up to 3 files at a time, and a single file cannot exceed 20MB.";
+"common_photo_upload_limit_reached" = "Upload at most %@ files at once.";
+"common_kick_out_suspend" = "For security reasons, your account has been frozen. Please contact Customer Service for assistance.";
+"common_kick_out_inactive" = "For security reasons, your account has been closed. Please contact Customer Service for assistance.";
+"common_kick_out_maintenance" = "System under Maintenance";
+"common_kick_out_token_expired" = "We found that you have been idled for a quite while, we suggest you to log in again to get the best user experience.";
+"common_kick_out_token_expired_title" = "Logout Notice";
+"common_recommend" = "Recommend";
+"common_win_amount" = "Win %@";
+"common_lose_amount" = "Lose %@";
+"common_self_canceled" = "Self Canceled";
+"common_strike" = "Strike";
+"common_strike_canceled" = "Strike Canceled";
+"common_other" = "Other";
+"common_confirm_submit" = "Confirm to Submit?";
+"common_submit_form" = "Submit Application";
+"common_start_setting" = "Start Setting";
+"common_please_select" = "Please select";
+"common_finish" = "Complete";
+"common_setting" = "Setting";
+"common_get_code" = "Get Verification Code";
+"common_get_code_countdown" = "Get Verification Code (%@)";
+"common_cs_email" = "CS Email %@";
+"common_maintenance_description" = "Wait for a better KTO.";
+"common_cs_email_description" = "If you have any concern, please send an email to";
+"common_long_maintenance" = "Long-Term Maintenance";
+"common_maintenance_notify" = "Maintenance Notice";
+"common_urgent_maintenance" = "Short Notice Maintenance";
+"common_maintenance_contact_later" = "The System is under maintenance. Please contact us later.";
+"common_maintenance_chat_close" = "Sorry, we need to end your chat now. Please contact us later.";
+"common_maintenance_logout" = "Sorry, we need to log you out immediately. Please try again later.";
+"common_p2p" = "P2P";
+"common_photo_upload_limit_count" = "Only %@ files can be selected at most.";
+"common_default_product_maintain_title" = "Maintenance Notice";
+"common_default_product_maintain_content" = "Currently %@ is under Maintenance. We will redirect you to other Product Pages for reference.";
+"common_cps_apply_info" = "Initial Request Info";
+"common_cps_apply_crypto" = "Request Amount (Crypto)";
+"common_cps_apply_rate" = "Request Rate";
+"common_cps_apply_amount" = "Request Amount (%@)";
+"common_cps_apply_datetime" = "Request Time";
+"common_cps_final_info" = "Final Transaction Info";
+"common_cps_final_crypto" = "Transaction Amount (Crypto)";
+"common_cps_final_rate" = "Transaction Rate";
+"common_cps_final_amount" = "Transaction Amount (%@)";
+"common_cps_final_datetime" = "Transaction Time";
+"common_cps_remitter" = "Sender (%@)";
+"common_cps_payee" = "Receiver (%@)";
+"common_cps_hash_id" = "Hash ID";
+"common_player" = "Member";
+"common_cps_incomplete_field_placeholder_hint" = "If the below table displays \" - \" Status, that means you have not completed the transaction.";
+"common_cps_submit_hash_id_to_complete" = "Please click to submit Hash ID to complete the transaction.";
+"common_ethereum" = "Ethereum";
+"common_i_know" = "I got it.";
+"common_maintaining" = "Under Maintenance";
+"common_month" = "Month";
+"common_unknownhostexception" = "Not connected to the Internet yet";
+"common_malformedexception" = "Incorrect Format";
+"common_timeoutexception" = "Connection Time Out";
+"common_ioexception" = "Database Error";
+"common_apiexception" = "Error: %@";
+"common_http_410" = "System under Maintenance";
+"common_http_503" = "A temporary error occurred. Please try again later.";
+"common_http_exception" = "Network abnormal. Error Code (%@)";
+"common_empty_data" = "No Data found";
+"common_requirement" = "%@ still required";
+"common_none" = "None";
+"common_select_verify_type" = "Select Verification Method";
+"common_otp_hint" = "KTOVN Email OTP:
+A 6-Digit Verification Code has been sent to
+
+KTOVN Mobile Number OTP:
+A 4-Digit Verification Code</br>
+has been sent Via Call to";
+"common_otp_hint_email" = "A 6-Digit Verification Code has been sent to";
+"common_otp_hint_mobile" = "A 4-Digit Verification Code</br>
+has been sent Via Call to";
+"common_otp_hint_highlight" = "Via Call";
+"common_not_set_mobile" = "Mobile Number has not been set up.";
+"common_not_set_email" = "Email has not been set up.";
+"common_verify_email" = "Verify Email";
+"common_verify_mobile" = "Verify Mobile Number";
+"common_maintainence_error" = "Under Maintenance. Please try again later.";
+"common_verify_finished" = "Verification completed";
+"common_add_finished" = "Add completed";
+"common_close_setting_hint" = "Confirm to end the Setting?";
+"common_p2p" = "P2P";
+"common_arcade" = "Arcade";
+"common_affiliate" = "Affiliate";
+"common_email_spam_check" = "Please check Spam/Promotion as well.";
+"common_day" = "Day";
+"common_crypto" = "虚拟币";
+"common_delete_all" = "Delete All";
+"common_no_record_temporarily" = "No History";
+"common_no_search_result" = "No Result found";
+"common_no_related_promotions" = "No Relevant Promotion";
+"common_no_notification" = "No Notification";
+"common_no_games_found" = "No Game matched";
+"common_copyright" = "%@ 版权所有 ©KTO亚洲";
+"common_image_max_selection" = "最多只能选择 %1$d 个文件";
+"common_image_format_not_support" = "您的档案不符合系统格式";
+"common_capture_image" = "拍一张";
+"common_super_signature_maintenance" = "下载服务器维护中\n请于%@再尝试";
+"common_retry_later" = "Please try again later";
+
+//MARK: - SportsBook
+"sportsbook_bet_rules" = "Sports Rules";
+"sportsbook_bet_type_setting" = "Odds Type Setting";
+"sportsbook_odds_type_hk" = "HongKong Odds";
+"sportsbook_odds_type_eu" = "Europe Odds";
+
+//MARK: - Register
+"register_language_option_chinese" = "简体中文 + 人民币";
+"register_language_option_thai" = "ภาษาไทย + บาทไทย";
+"register_language_option_vietnam" = "Tiếng Việt, Việt Nam Đồng";
+"register_step1_title_1" = "Sign Up 1/3";
+"register_step1_title_2" = "Select Language and Currency";
+"register_step1_warning" = "This Setting will be binded to the account and cannot be changed.";
+"register_step1_tips_1" = "By pressing \"Next Step\", you are deemed to have read and agreed to the KTO Asia Terms of Service.";
+"register_step1_tips_1_highlight" = "《Terms of Service》";
+"register_service_down" = "Unable to register temporarily. Please try again later.";
+"register_step2_title_1" = "Sign Up 2/3";
+"register_step2_title_2" = "Fill In Basic Info";
+"register_step2_withdrawal_name" = "Withdrawal Name";
+"register_step2_verify_mobile" = "Start Mobile Verification";
+"register_step2_verify_mail" = "Start Email Verification";
+"register_step2_name_format_error" = "KTOVN has set Multiple Rules to check Withdrawal Name on HTML5 Portal. So APP please simply follows the same Rules.";
+"register_name_format_error_no_number_symbol" = "";
+"register_name_format_error_only_vn_eng" = "";
+"register_name_format_error_length_limitation" = "";
+"register_name_format_error_conjunctive_blank" = "";
+"register_name_format_error_blank_before_and_after" = "";
+"register_step2_password_not_match" = "Inconsistent Passwords.";
+"register_step2_sms_inactive" = "Sorry, this Registration Method is temporarily unavailable.";
+"register_step2_email_inactive" = "Sorry, this Registration Method is temporarily unavailable.";
+"register_step3_title_1" = "Sign Up 3/3";
+"register_step3_verify_by_email_title" = "Verify Email";
+"register_step3_verify_by_phone_title" = "Verify Mobile Number";
+"register_step3_content_email" = "The Link has been sent to your Email
+%@
+Please go verify.";
+"register_step3_mobile_limit_exceeded" = "Mobile Number Registration is temporarily unavailable.";
+"register_step3_mail_limit_exceeded" = "Email Registration is temporarily unavailable.";
+"register_step3_incorrect_otp" = "Your Verification Code is incorrect.";
+"register_step3_verification_pending" = "You have not completed Verification.";
+"register_step3_open_mail" = "Open Email";
+"register_step3_mail_varify_hint" = "If you have passed Verification, try";
+"register_step3_mail_varify_hint_highlight" = "here";
+"register_step4_title_fail" = "Registration failed";
+"register_step4_content_fail" = "Your attempt frequency is too much. Please sign up again after ensuring that your contact info is true and valid.";
+"register_step4_retry_signup" = "Sign Up Again";
+"register_step4_title_success" = "Sign Up successful";
+"register_step4_content_unknown_fail" = "Sorry, this Registration Method is temporarily unavailable.";
+
+//MARK: - Login
+"login_account_identity" = "Mobile Number/Email";
+"login_account_remember_me" = "Save my Sign In";
+"login_tips_1" = "Forgot Password, use";
+"login_tips_1_highlight" = "Reset Password";
+"login_invalid_username_password" = "Incorrect Username or Password.";
+"login_invalid_username_password_captcha" = "Incorrect Username, Password or Verification Code.";
+"login_invalid_lockdown" = "You have entered Password incorrectly multiple times. Please Reset Password, or Sign In again later.";
+"login_enter_captcha_to_prceed" = "You have entered Password incorrectly multiple times. You now need to enter the Verification Code in the picture below to log in.";
+"login_button_countdown" = "Sign In (%@)";
+"login_captcha_new" = "Looks unclear? Change Verification Code.";
+"login_captcha" = "Verification Code";
+"login_resetpassword_service_down" = "Password cannot be reset at this time. Please try again later.";
+"login_resetpassword_step1_title_1" = "Reset Password 1/3";
+"login_resetpassword_step1_title_2" = "Select a Reset Method";
+"login_resetpassword_step1_sms_inactive" = "Sorry, this Reset Method is temporarily unavailable.";
+"login_resetpassword_step1_email_inactive" = "Sorry, this Reset Method is temporarily unavailable.";
+"login_resetpassword_lock_down" = "You have entered incorrectly multiple times. Please try again later.";
+"login_resetpassword_step2_title_1" = "Reset Password 2/3";
+"login_resetpassword_step2_verify_by_email_title" = "Confirm Email";
+"login_resetpassword_step2_verify_by_phone_title" = "Confirm Mobile Number";
+"login_resetpassword_step3_title" = "Reset Password 3/3";
+"login_resetpassword_step3_title_2" = "Set Up New Password";
+"login_resetpassword_step3_pass_cant_empty" = "This field is required.";
+"login_resetpassword_cancel_title" = "Are you sure to cancel the current operation?";
+"login_resetpassword_cancel_content" = "Reset Password will be interrupted and ended.";
+"login_resetpassword_success" = "Reset Password successful";
+"login_resetpassword_fail_title" = "Reset Password failed";
+"login_resetpassword_fail_unknown" = "Sorry, this Reset Method is temporarily unavailable.";
+
+//MARK: - Deposit
+"deposit_title" = "Deposit";
+"deposit_title_tips" = "The following list are your available deposit methods.";
+"deposit_alipay" = "Follow KTOVN Deposit Page Setting on HTML5 Portal.";
+"deposit_recommend" = "Recommend";
+"deposit_activiy" = "Deposit Activity";
+"deposit_activiy_tips" = "There is no deposit related notification currently.";
+"deposit_log" = "Deposit History";
+"deposit_setfavorite" = "Set as preferred deposit method.";
+"deposit_cancelfavorite" = "Cancel preferred deposit method setting.";
+"deposit_selectbank" = "KTO Receiving Bank";
+"deposit_offline_step1_title" = "";
+"deposit_info_title" = "Fill in Deposit Info";
+"deposit_bankname" = "Deposit Bank";
+"deposit_accountlastfournumber" = "Last 4 Digits of Bank Account Number (Optional)";
+"deposit_amount" = "Deposit Amount";
+"deposit_offline_step1_tips" = "Single Deposit Limit:  %@ - %@";
+"deposit_notify_currency_ratio" = "VND Currency is displayed by Ratio 1:1,000";
+"deposit_offline_step1_button" = "Apply for Deposit";
+"deposit_offline_step2_title" = "KTO Beneficiary Info";
+"deposit_offline_step2_title_tips" = "Please transfer to the bank account provided below.";
+"deposit_receiveinfo" = "Receiving Bank Account";
+"deposit_receivename" = "Receiver Name";
+"deposit_receivebank" = "Receiving Bank";
+"deposit_receiveaccount" = "Receiving Bank Account";
+"deposit_validdeposittime" = "Effective Deposit Time";
+"deposit_remmiterinfo" = "Sending Bank Account";
+"deposit_remmiterbankaccountname" = "Sender Name";
+"deposit_remmiteramount" = "Deposit Amount";
+"deposit_offline_step2_warning" = "Already removed this for KTOVN.";
+"deposit_offline_step3_title" = "Request submitted successfully";
+"deposit_offline_step3_fail" = "Request submitted failed";
+"deposit_ticketid" = "Deposit ID %@";
+"deposit_offline_step3_content" = "Average Deposit Processing Time is <span class=\"Deposit_Offline_Step3_Content\">%@</span>";
+"deposit_checklog" = "View Deposit History";
+"deposit_offline_step3_tips" = "You will be redirected to the KTO Asia homepage in %@ seconds.";
+"deposit_depositlog_title" = "Deposit History";
+"deposit_summary" = "Total Deposit";
+"deposit_success" = "Deposit successful ";
+"deposit_detail_title" = "Deposit Detail";
+"deposit_detail_button" = "Upload Verification Document";
+"deposit_selectpaymentgateway" = "Select Deposit Method";
+"deposit_input_invalid" = "The format of the information you filled in does not match.";
+"deposit_input_lowermin" = "Please input within the Single Deposit Limit.";
+"deposit_input_overmax" = "Please input within the Single Deposit Limit.";
+"deposit_ticketnumber" = "Deposit ID";
+"deposit_bankname_placeholder" = "Sender Bank";
+"deposit_remittername_placeholder" = "Nguyễn Phúc Vĩnh Thụy";
+"deposit_inputamount_placeholder" = "1000";
+"deposit_input_banknameempty" = "This field is required.";
+"deposit_branch" = "Branch Name";
+"deposit_selecttype" = "Select Deposit Method";
+"deposit_my_account_detail" = "My Deposit Info";
+"deposit_payee_detail" = "Receiving Bank Account";
+"deposit_custom_cash" = "Already removed this for KTOVN.";
+"deposit_offline_remitter_title" = "Already removed this for KTOVN.";
+"deposit_offline_summary_tip" = "Already removed this for KTOVN.";
+"deposit_limitation_hint" = "Please input within the Single Deposit Limit.";
+"deposit_offline_termniate" = "Local Bank Transfer will be interrupted and ended.";
+"deposit_online_terminate" = "Online Transfer will be interrupted and ended.";
+"deposit_payment_terminate" = "%@ will be interrupted and ended.";
+"deposit_crypto_terminate" = "Online Transfer will be interrupted and ended.";
+"deposit_select_method" = "Select Deposit Method";
+"deposit_no_available_type" = "There is no deposit method available currently.";
+"deposit_no_records" = "There is no deposit related history currently.";
+"deposit_execeed_limitation" = "Your file size is over the system 20MB limit.";
+"deposit_name" = "Sender Name";
+"deposit_thirdparty_transaction_remind" = "You are going to the transaction confirmation page, please do not close the window before the transaction is completed.";
+"deposit_file_format_invalid" = "Format of your File is invalid.";
+"deposit_crypto_warning" = "After your Cryptocurrency Deposit is successful, you need to withdraw that same Cryptocurrency Amount, before Cash Withdrawal becomes available.";
+"deposit_pay_multiple_hint" = "";
+"deposit_notify_request_later" = "您有五个待处理的充值请求，请您过三分钟后再试";
+"deposit_cps_hint" = "推广：存款优惠";
+"deposit_multiple_hint" = "温馨提示：支持支付宝、微信、网上银行、云闪付，支付宝微信如果遇到错误提示，尝试使用网银或者云闪付，以便您的款项实时到账。";
+"deposit_float_hint" = "请您提交带有小数点的金额，以便您的存款更快到账。";
+"deposit_amount_option_hint" = "本通道为固定存款金额，请下拉选择存款金额进行存款操作";
+"deposit_crypto_video_tutorial" = "Video Tutorial";
+"deposit_download_jingdong_app" = "";
+"deposit_select_bank" = "";
+
+//MARK: - JinYiDigital
+"jinyidigital_instructions_click_here" = "";
+"jinyidigital_instructions_title" = "";
+"jinyidigital_instructions_download" = "";
+"jinyidigital_app_title" = "";
+"jinyidigital_app_category" = "";
+"jinyidigital_wallet_categories" = "";
+"jinyidigital_wallet_application_requirements" = "";
+"jinyidigital_first_wallet" = "";
+"jinyidigital_second_wallet" = "";
+"jinyidigital_third_wallet" = "";
+"jinyidigital_fourth_wallet" = "";
+"jinyidigital_application_requirements" = "";
+"jinyidigital_application_limits" = "";
+"jinyidigital_balance_maximum" = "";
+"jinyidigital_single_transfer_upper_limit" = "";
+"jinyidigital_daily_transfer_upper_limit" = "";
+"jinyidigital_annually_transfer_upper_limit" = "";
+"jinyidigital_first_wallet_requirements" = "";
+"jinyidigital_second_wallet_requirements" = "";
+"jinyidigital_third_wallet_requirements" = "";
+"jinyidigital_fourth_wallet_requirements" = "";
+"jinyidigital_first_wallet_requirements_description" = "";
+"jinyidigital_second_wallet_requirements_description" = "";
+"jinyidigital_third_wallet_requirements_description" = "";
+"jinyidigital_fourth_wallet_requirements_description" = "";
+"jinyidigital_desciption_highlight_1" = "";
+"jinyidigital_desciption_highlight_2" = "";
+"jinyidigital_desciption_highlight_3" = "";
+"jinyidigital_desciption_highlight_4" = "";
+"jinyidigital_first_wallet_balance_maximum" = "";
+"jinyidigital_first_wallet_single_transfer_upper_limit" = "";
+"jinyidigital_first_wallet_daily_transfer_upper_limit" = "";
+"jinyidigital_first_wallet_annually_transfer_upper_limit" = "";
+"jinyidigital_second_wallet_balance_maximum" = "";
+"jinyidigital_second_wallet_single_transfer_upper_limit" = "";
+"jinyidigital_second_wallet_daily_transfer_upper_limit" = "";
+"jinyidigital_second_wallet_annually_transfer_upper_limit" = "";
+"jinyidigital_third_wallet_balance_maximum" = "";
+"jinyidigital_third_wallet_single_transfer_upper_limit" = "";
+"jinyidigital_third_wallet_daily_transfer_upper_limit" = "";
+"jinyidigital_third_wallet_annually_transfer_upper_limit" = "";
+"jinyidigital_fourth_wallet_balance_maximum" = "";
+"jinyidigital_fourth_wallet_single_transfer_upper_limit" = "";
+"jinyidigital_fourth_wallet_daily_transfer_upper_limit" = "";
+"jinyidigital_fourth_wallet_annually_transfer_upper_limit" = "";
+
+//MARK: - BalanceLog
+"balancelog_previousbalance" = "Pre-Transaction Balance";
+"balancelog_afterbalance" = "Post-Transaction Balance";
+"balancelog_ticketid" = "Transaction ID";
+"balancelog_gamefilter" = "Game Filter";
+"balancelog_bet" = "Bet";
+"balancelog_settle" = "Settle";
+"balancelog_cashflow" = "CashFlow";
+"balancelog_timezone _1" = "Time Zone (GMT+8)";
+"balancelog_timezone _2" = "Time Zone (GMT+7)";
+"balancelog_bonustype_2" = "Deposit Bonus %@";
+"balancelog_bonustype_5" = "Deposit Bonus %@";
+"balancelog_bonustype_1" = "Free Bet %@";
+"balancelog_producttype_1_bonustype_3" = "Sportsbook Insurance Bet
+Period %@";
+"balancelog_producttype_2_bonustype_3" = "Slot Rescue Fund
+Period %@";
+"balancelog_producttype_1_bonustype_4" = "Sportsbook Rebate %@";
+"balancelog_producttype_2_bonustype_4" = "Slot Rebate %@";
+"balancelog_producttype_3_bonustype_4" = "Casino Rebate %@";
+"balancelog_producttype_4_bonustype_4" = "Number Game Rebate %@";
+"balancelog_producttype_6_bonustype_4" = "Arcade Rebate %@";
+"balancelog_win" = "Win";
+"balancelog_push" = "Push";
+"balancelog_lose" = "Lose";
+"balancelog_timezone" = "Time Zone (GMT%@)";
+"balancelog_depositfeerefund" = "Deposit Fee Refund";
+"balancelog_summary" = "Summary";
+"balancelog_categoryfilter" = "Category Filter";
+"balancelog_summary_start_date" = "Starting Day %@";
+"balancelog_summary_start_amount" = "Starting Balance %@";
+"balancelog_summary_end_date" = "Ending Day %@";
+"balancelog_summary_end_amount" = "Ending Balance %@";
+"balancelog_summary_end_date_is_today" = "Balance To Date";
+"balancelog_detail_amount" = "Transaction Amount";
+"balancelog_detail_after_amount" = "Post-Transaction Balance";
+"balancelog_detail_datetime" = "Requested Time";
+"balancelog_detail_id" = "Transaction ID";
+"balancelog_detail_remark" = "Remark";
+"balancelog_deposit_a2p_in" = "Transfer In A2P";
+"balancelog_deposit_p2p_in" = "Transfer In P2P";
+"balancelog_withdrawal_p2a_out" = "Transfer Out P2A";
+"balancelog_withdrawal_p2p_out" = "Transfer Out P2P";
+"balancelog_deposit_refund" = "Deposit Fee Refund";
+"balancelog_cash" = "Cash";
+"balancelog_title" = "Transaction History";
+"balancelog_player_cancel" = "Self Canceled";
+"balancelog_unsettled" = "Unsettled";
+"balancelog_eventbonus" = "Event Bonus";
+"balancelog_other" = "Others";
+"balancelog_wager_detail" = "Bet Detail";
+"balancelog_wager_sync_unfinished" = "Wager Sync UnFinished";
+"balancelog_wager_detail_is_maintain" = "wager Detail is maintain";
+
+//MARK: - Withdrawal
+"withdrawal_accountnumber" = "Account Number";
+"withdrawal_accountrealname" = "Withdrawal Name";
+"withdrawal_accountsetting_title" = "Manage My Withdrawal Account";
+"withdrawal_activity" = "Withdrawal Activity";
+"withdrawal_addaccount" = "Add New Withdrawal Account";
+"withdrawal_amount" = "Withdrawal Amount";
+"withdrawal_bankaccountdetail_modal_content" = "Once deleted, this account data will no longer exist.";
+"withdrawal_bankaccountdetail_modal_title" = "Delete Withdrawal Account?";
+"withdrawal_bankaccountdetail_title" = "Withdrawal Account Details";
+"withdrawal_bankcity" = "Bank City";
+"withdrawal_bankstate" = "Bank Province";
+"withdrawal_branch" = "Branch Name";
+"withdrawal_cancel" = "Cancel Withdrawal";
+"withdrawal_dailywithdrawalamount" = "Withdrawal amount available today:";
+"withdrawal_dailywithdrawalcount" = "Number of withdrawal available today:";
+"withdrawal_dailywithdrawalamount_2" = "Withdrawal amount available today";
+"withdrawal_dailywithdrawalcount_2" = "Number of withdrawal available today";
+"withdrawal_detail_title" = "Withdrawal Details";
+"withdrawal_fail" = "Withdrawal Failed";
+"withdrawal_log" = "Withdrawal History";
+"withdrawal_log_title" = "Withdrawal History";
+"withdrawal_modal_content" = "Currently, you can withdraw %@ times, %@ VND a day.";
+"withdrawal_modal_title" = "Withdrawal Limit";
+"withdrawal_name" = "Withdrawal Name";
+"withdrawal_realname_modal_content" = "Withdrawal Name has been bound to the account and cannot be changed.";
+"withdrawal_realname_modal_title" = "Notice";
+"withdrawal_selectbank" = "Withdrawal Bank";
+"withdrawal_setaccount" = "Manage Withdrawal Account";
+"withdrawal_setbankaccount_button" = "Add New Withdrawal Account";
+"withdrawal_setbankaccount_modal_title" = "Confirm to end Add New Withdrawal Account?";
+"withdrawal_setbankaccount_tips" = "You must set up a Bank Account before you can withdraw Cash.";
+"withdrawal_setbankaccount_title" = "Set Up Bank Account";
+"withdrawal_setbankaccountsuccess_modal_content" = "This account information cannot be changed, only be deleted.";
+"withdrawal_setbankaccountsuccess_modal_title" = "Add New completed";
+"withdrawal_setnewrealname_modal_content" = "If you need to change Withdrawal Name, please go to Personal Info Setting.";
+"withdrawal_setnewrealname_modal_title" = "Do you need to change Withdrawal Name?";
+"withdrawal_start" = "Start Withdrawal";
+"withdrawal_status" = "Withdrawal Transaction Status";
+"withdrawal_step1_title_1" = "Withdrawal 1/2";
+"withdrawal_selectbankcard" = "Select Withdrawal Account";
+"withdrawal_step1_title_2" = "Fill In The Amount";
+"withdrawal_step2_button" = "Submit";
+"withdrawal_step2_tips" = "Single Withdrawal Limit: %@ - %@";
+"withdrawal_step2_title_1" = "Withdrawal 2/2";
+"withdrawal_step2_title_2" = "Withdrawal Confirmation";
+"withdrawal_step3_button" = "View Withdrawal History";
+"withdrawal_step3_title" = "Request submitted";
+"withdrawal_step3_ticketid" = "Withdrawal Transaction ID %@";
+"withdrawal_step3_title_tips" = "Your withdrawal processing time is approximately <span class=\"Withdrawal_Step3_Title_Tips\">%@</span>";
+"withdrawal_step3_content" = "You have completed the Withdrawal Process, but it still takes about 15 minutes to review. You can go to <span class=\"highlight\">Withdrawal History</span> on the Withdrawal Page to check the Review Status of the Withdrawal.";
+"withdrawal_success" = "Withdrawal Successful";
+"withdrawal_summary" = "Successful Withdrawal Amount %@";
+"withdrawal_title" = "Withdrawal";
+"withdrawal_success_confirm_title" = "Name Binding: %@";
+"withdrawal_success_confirm_content" = "Please take note! When your first withdrawal is successful, your name will be permanently binded to the platform and cannot be modified!
+
+If you need to change your name, please cancel the withdrawal application first, and then go to your Personal Info page to make changes.";
+"withdrawal_bankcard_new" = "This account has not been verified.";
+"withdrawal_bankcard_locked" = "This account is under Review and cannot be deleted.";
+"withdrawal_bankcard_verified" = "This account withdrew successfully.";
+"withdrawal_bankcard_fail" = "The account information is incorrect.";
+"withdrawal_bankcard_delete" = "Delete Withdrawal Account";
+"withdrawal_bankcard_delete_confirm_title" = "Confirm to delete this Withdrawal Account?";
+"withdrawal_bankcard_delete_confirm_content" = "Once deleted, this account data will no longer exist.";
+"withdrawal_bankcard_name_placeholder" = "Nguyễn Phúc Vĩnh Thụy";
+"withdrawal_bankcard_branch_placeholder" = "Phòng Giao Dịch Hòa Hưng";
+"withdrawal_bankcard_state_placeholder" = "Thành phố Hồ Chí Minh";
+"withdrawal_bankcard_city_placeholder" = "Thành phố Thủ Đức";
+"withdrawal_bankcard_accountnumber_placeholder" = "1111111111111111111111111";
+"withdrawal_bankcard_change_confirm_title" = "Confirm Change Name?";
+"withdrawal_bankcard_change_confirm_content" = "If you need to change your name, please go to Personal Info Page.";
+"withdrawal_step2_title_1_tip" = "The amount for this withdrawal application is";
+"withdrawal_step2_afterwithdrawal" = "When The Withdrawal Is Completed";
+"withdrawal_bankcard_add_overlimit" = "Sorry, you can only set up to %@ withdrawal accounts.";
+"withdrawal_setbankaccountfail" = "Add Account Failed";
+"withdrawal_bankcard_delete_fail" = "Delete Account Failed";
+"withdrawal_input_overmax" = "Please input within the Single Withdrawal Limit.";
+"withdrawal_input_lowermin" = "Please input within the Single Withdrawal Limit.";
+"withdrawal_tickerstatus_void" = "Failed";
+"withdrawal_isbatched_tip" = "If need to cancel withdrawal, please contact Customer Service. ";
+"withdrawal_quota_title" = "Withdrawal Limit";
+"withdrawal_quota_content" = "Currently, you can withdraw %@ times, %@ VND a day.";
+"withdrawal_quota_after_title" = "Withdrawal Limit when this Withdrawal is completed";
+"withdrawal_account_deleted" = "Deleted this Withdrawal Account.";
+"withdrawal_minutes_seconds" = "%@ Minutes %@ Seconds";
+"withdrawal_no_records" = "There is no withdrawal related history currently.";
+"withdrawal_bank_name" = "Withdrawal Bank";
+"withdrawal_choose_account" = "Select Withdrawal Account";
+"withdrawal_account_added" = "Added this Withdrawal Account.";
+"withdrawal_amount_range" = "Single Withdrawal Limit: %@ - %@";
+"withdrawal_amount_beyond_range" = "Please input within the Single Withdrawal Limit.";
+"withdrawal_amount_below_range" = "Please input within the Single Withdrawal Limit.";
+"withdrawal_amount_exceed_daily_limit" = "You have exceeded withdrawal amount today, please submit application tomorrow.";
+"withdrawal_balance_not_enough" = "Insufficient Balance";
+"withdrawal_account" = "Withdrawal Account";
+"withdrawal_bank_card_deleting" = "This Bank Account data will no longer exist.";
+"withdrawal_id" = "Withdrawal ID";
+"withdrawal_account_exist" = "This Withdrawal Account already exists.";
+"withdrawal_crypto_locked" = "APP does not support Deposit and Withdrawal of Crypto at the moment. Please log in to the WEB Terminal to operate.";
+"withdrawal_cancel_title" = "Confirm to Cancel?";
+"withdrawal_cancel_content" = "This Withdrawal will be cancelled immediately.";
+"withdrawal_cash_withdrawal" = "Cash Withdrawal";
+"withdrawal_daily_limit_widthrawal_amount" = "每日提现额度：%@";
+"withdrawal_daily_limit_widthrawal_times" = "每日提现次数：%@";
+"withdrawal_turnover_requirement" = "投注额提现要求：";
+"withdrawal_cancel_locked" = "";
+
+//MARK: - Product
+"product_slot_recent_play" = "Recently Played";
+"product_slot_new" = "New";
+"product_slot_jackpot" = "Jackpot";
+"product_slot_summary" = "Bet %@ %@ %@";
+"product_sbk_over" = "Over";
+"product_sbk_under" = "Under";
+"product_sbk_wager_stakes" = "Bet %@";
+"product_sbk_win_amount" = "Win %@";
+"product_sbk_parlay" = "Parlay";
+"product_casino_ag" = "Platinum";
+"product_casino_n2live" = "Emerald";
+"product_casino_pgsoft" = "Virtual";
+"product_winning_amount" = "Win %@";
+"product_losing_amount" = "Lose %@";
+"product_bet_id" = "Bet ID";
+"product_game_name_id" = "Game (Round ID)";
+"product_number_game_name_id" = "Game (Draw ID)";
+"product_bet_content" = "Bet Detail";
+"product_bet_time" = "Bet Time";
+"product_bet_amount" = "Bet Amount";
+"product_bet_win_lose" = "Win/Lose";
+"product_bet_result" = "Result";
+"product_player_title" = "Idle";
+"product_player_1_title" = "Idle 1";
+"product_player_2_title" = "Idle 2";
+"product_player_3_title" = "Idle 3";
+"product_banker_title" = "Banker";
+"product_tiger_title" = "Tiger";
+"product_dragon_title" = "Dragon";
+"product_phonix_title" = "Phoenix";
+"product_first_card" = "Deal";
+"product_black_bull" = "Black Bull";
+"product_red_bull" = "Red Bull";
+"product_top_search" = "Popular Search";
+"product_enter_search_keyword" = "Enter Game Name";
+"product_popular" = "Popular";
+"product_under_maintenance" = "Under Maintenance";
+"product_game_removed" = "Game has been removed.";
+"product_add_favorite" = "Add Favorite";
+"product_remove_favorite" = "Remove Favorite";
+"product_favorite" = "Favorite";
+"product_my_bet" = "My Bet";
+"product_count_bet_record" = "Bet History %@";
+"product_unsettled_game" = "Unfinished";
+"product_total_bet_with_win_lose" = "Total Win/Lose %@    %@ %@";
+"product_total_bet" = "Total Bet Amount %@";
+"product_maintenance_title" = "Wait for a better %@.";
+"product_maintenance" = "Product Maintenance...";
+"product_none_favorite" = "No Favorite Game";
+"product_add_now" = "Add NOW";
+"product_none_my_bet_record" = "No Bet History";
+"product_game_not_found" = "Can't find the Game you want to play?";
+"product_see_more" = "View More";
+"product_slot_game_feature" = "Features";
+"product_slot_game_theme" = "Theme";
+"product_slot_game_payline" = "Payline";
+"product_hot_sorting" = "Popular Sort";
+"product_name_sorting" = "A-Z";
+"product_release_sorting" = "Release Date";
+"product_all_slot" = "All Games";
+"product_all_games_selected" = "All Games selected";
+"product_count_selected_games" = "%@ Games selected";
+"product_slot_filter" = "Filter";
+"product_clear_filters" = "Clear";
+"product_slot_separate" = "Scatter Symbol";
+"product_slot_wild" = "Wild Symbol";
+"product_slot_feature" = "Featured";
+"product_slot_freespin" = "Free Spin";
+"product_slot_bidirectional_win" = "2-Way Winning";
+"product_slot_asia" = "Asia";
+"product_slot_west" = "Western";
+"product_slot_below_15" = "<15";
+"product_slot_from_15to30" = "15-30";
+"product_slot_above_30" = ">30";
+"product_slot_all" = "All";
+"product_slot_others" = "Others";
+"product_new_bets" = "Latest Bet";
+"product_unsettled_bets" = "Unsettled";
+"product_settled_bets" = "Settled";
+"product_draw_result" = "Draw Result";
+"product_prededuct" = "Pre-Deduction";
+"product_empty_unsettled_records" = "No Unfinished Games";
+"product_bet_has_settled" = "This bet has been settled. Please go to Settled to check.";
+"product_game_maintenance" = "Game is under Maintenance.";
+"product_p2p_bonus_calculating" = "Once Bonus is Credited,
+You will not be able to
+bet P2P.";
+"product_mid_break" = "Half Time Break";
+"product_will_be_back" = "We will resume soon
+Thank you";
+"product_p2p_turnover_description" = "进入对战前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
+"product_dealer" = "Dealer";
+"product_player" = "Player";
+"product_split" = "Split";
+"product_favorite_reach_max" = "";
+"product_search_condition_not_match" = "";
+"product_turnover_description" = "进入%@前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
+"product_bonus_calculating" = "Once Bonus is Credited,
+You will not be able to
+bet %@.";
+
+//MARK: - Update
+"update_new_version_content" = "The New Version has been released, please update before proceeding.";
+"update_exit" = "Exit";
+"update_proceed_now" = "Update Now";
+"update_title" = "Update";
+"update_progression" = "Your Download Progress %@, the Size is about %@.";
+"update_failure_title" = "Download failed";
+"update_failure_content" = "Please ensure that the network is unblocked and enough phone storage space.";
+"update_feedback" = "Feedback";
+"update_feedback_1" = "Feedback 1/2";
+"update_chose_feedback_type" = "Select a Feedback Method";
+"update_feedback_with_comment" = "I want to write more issue description.";
+"update_feedback_without_comment" = "I want to get a Feedback on the issue.";
+"update_feedback_2" = "Feedback 2/2";
+"update_leave_message" = "Write a Message";
+"update_reply_when_solved" = "Please leave your Email, and we will send you a Feedback after the issue is solved.";
+"update_fill_email" = "Fill in Email";
+"update_error_auto_submitted" = "The System has automatically submitted your concern, and we will improve it as soon as possible.";
+"update_feedback_success" = "We have received your Feedback and will notify you of the progress of the issue within a week.";
+"update_open_web_page" = "Go to WEB Version";
+"update_already_install" = "Installed \"%@\"";
+"update_remove_app_and_reinstall" = "To re-install this APP, please delete \"%@\" under \"Manage VPN and Device\" and try again.";
+
+//MARK: - CustomerService
+"customerservice_online" = "Customer Service";
+"customerservice_leave_a_message_confirm" = "Confirm";
+"customerservice_leave_a_message_title" = "Leave Customer Service a Message?";
+"customerservice_leave_a_message_content" = "We are sorry that our customer service are occupied at this moment, would you like to leave a message to them? Sorry for inconvience caused.";
+"customerservice_title" = "Customer Service";
+"customerservice_action_bar_title" = "Chat";
+"customerservice_chat_room_unread_below" = "Unread Messages";
+"customerservice_chat_room_end_by_host" = "Customer Service has ended the conversation.";
+"customerservice_chat_room_ended_view_history" = "Customer Service has ended the conversation. Please check Chat History.";
+"customerservice_chat_room_your_queue_number" = "Sorry, Sustomer Service are busy now. You are no.%@ in line. Thank you for your patience waiting.";
+"customerservice_stop_call_title" = "Stop contacting Customer Service?";
+"customerservice_stop_call_content" = "You can choose to Leave a Message after stopped contacting Customer Service.";
+"customerservice_chat_room_close_confirm_title" = "End Conversation?";
+"customerservice_chat_room_close_confirm_content" = "Confirm to End Conversation?";
+"customerservice_chat_ended" = "Chat Ended";
+"customerservice_offline_survey_confirm_title" = "Information submitted";
+"customerservice_offline_survey_confirm_content" = "Customer Service will contact you as soon as possible.";
+"customerservice_chat_room_connecting_title" = "Contact Customer Service";
+"customerservice_offline_survey_title" = "New Message";
+"customerservice_offline_survey_hint" = "Input Description";
+"customerservice_chat_room_title" = "Customer Service";
+"customerservice_pre_survey_title" = "Pre Survey";
+"customerservice_history_edit_title" = "Edit";
+"customerservice_history_title" = "Conversation Record";
+"customerservice_call_immediately" = "Contact Customer Service";
+"customerservice_call_connected" = "Chatting with Customer Service";
+"customerservice_chat_deleted" = "Chat History deleted";
+"customerservice_chat_history_empty" = "No Chat History";
+
+//MARK: - Bonus
+"bonus_amount" = "Bonus Amount";
+"bonus_bonuslockstatus_0" = "No Stake Requirement";
+"bonus_bonuslockstatus_1" = "Processing";
+"bonus_bonuslockstatus_2" = "Completed";
+"bonus_bonuslockstatus_3" = "Cancelled";
+"bonus_bonusproducttype_1" = "Sportsbook Insurance Bet";
+"bonus_bonusproducttype_2" = "Slot Rescue Bonus";
+"bonus_bonustype_manual" = "Manual Claim";
+"bonus_bonustype_1" = "Free Bet";
+"bonus_bonustype_2" = "Deposit Bonus";
+"bonus_bonustype_2_2" = "Deposit Bonus";
+"bonus_bonustype_3" = "Product Bonus";
+"bonus_bonustype_4" = "Rebate";
+"bonus_bonustype_5" = "Level Bonus";
+"bonus_bonustype_all_count" = "All (%@)";
+"bonus_bonustype_manual_count" = "Manual Claim (%@)";
+"bonus_bonustype_1_count" = "Free Bet (%@)";
+"bonus_bonustype_2_count" = "Deposit Bonus (%@)";
+"bonus_bonustype_3_count" = "Product Bonus (%@)";
+"bonus_bonustype_4_count" = "Rebate (%@)";
+"bonus_bonustype_5_count" = "Level Bonus (%@)";
+"bonus_categoryfilter" = "Filter";
+"bonus_freebonus" = "Free Bet";
+"bonus_getpromotion" = "Promotion claimed";
+"bonus_getcoupon" = "Claim Now";
+"bonus_getcoupon_time_limit" = "Claim Period";
+"bonus_gettop" = "Up To";
+"bonus_history" = "Promotion History ";
+"bonus_levelprivilege" = "Level Privilege";
+"bonus_promotioncount" = "Total %@ Times, %@";
+"bonus_producttype_1" = "Sportsbook";
+"bonus_status_expirydate" = "Valid Until %@";
+"bonus_status_progressing" = "Valid Until";
+"bonus_status_sbk_auditing" = "Under Review";
+"bonus_status_sbk_notstart" = "Untill Match Starts";
+"bonus_status_sbk_progressing" = "Match In Play";
+"bonus_title" = "Promotion";
+"bonus_rebate_title" = "%@ Rebate %@%%";
+"bonus_title_3_2" = "Slot Rescue Bonus";
+"bonus_title_4_1" = "Sportsbook Rebate %@%";
+"bonus_title_4_2" = "Slot Rebate %@%";
+"bonus_title_4_3" = "Casino Rebate %@ %";
+"bonus_use" = "Manual Claim";
+"bonus_applicationtrial" = "Current Balance: %@ VND.
+Bonus Amount Receivable: %@ VND.
+Total Turnover required after received Bonus: %@ VND.
+Calculation Method: %@ VND.";
+"bonus_islocked" = "There is currently an unfinished Bonus Turnover, and other Promotions are temporarily unclaimable.
+
+Details are as follows:
+
+Promotion ID: %@
+
+Promotion Name: %@
+
+Bonus Amount received: %@ VND
+
+Received Date: %@
+
+Turnover Requirement:
+
+Current Balance: %@ VND
+
+Bonus Amount received: %@ VND
+
+Total Turnover required after received Bonus: %@ VND
+
+Bonus Turnover required: %@ VND
+
+Deposit Turnover required: %@ VND
+
+Total Turnover required: %@ VND
+
+Currently Achieved: %@ VND
+
+Completed: %@%";
+"bonus_historyno" = "Promotion ID";
+"bonus_historyname" = "Promotion Name";
+"bonus_historyamount" = "Bonus Amount received";
+"bonus_historydate" = "Date Received";
+"bonus_historybetmutipler" = "Bonus Turnover required";
+"bonus_historytrialbalance" = "Current Balance";
+"bonus_historytrialamount" = "Bonus Amount Receivable";
+"bonus_historytrialrequest" = "Total Turnover required after received Bonus";
+"bonus_historytrialachieved" = "Currently Completed";
+"bonus_historytrialpercentage" = "Completed %";
+"bonus_historytrialformula" = "Calculation Method";
+"bonus_historytrialcompletion" = "Completed";
+"bonus_unlimited" = "Unlimited";
+"bonus_allowautouse" = "Agree to Auto Credit of Rebate in the future?";
+"bonus_auto_use" = "Auto Credit";
+"bonus_confirmapplication" = "Confirm ";
+"bonus_applicationtips" = "Notice";
+"bonus_applicationtitle" = "Promotion Name: %@";
+"bonus_couponnostart" = "Release Time %@";
+"bonus_promotioncontent" = "Promotion Content";
+"bonus_promotionrule" = "Terms and Conditions";
+"bonus_couponstatus_full_title" = "Promotion Quota Full";
+"bonus_coupon_full" = "Full";
+"bonus_period" = "Period %@";
+"bonus_promotion" = "Promotion";
+"bonus_compute" = "System in progress, please check details 5 mins later.";
+"bonus_isturnoverremind" = "There is currently an unfinished Bonus Turnover of %@. Once received this Bonus, you still need to complete the remaining Turnover, before any withdrawal can be made. Details are as follows:";
+"bonus_current_completion" = "Currently Completed %@%%";
+"bonus_waiting" = "Waiting";
+"bonus_computelocked" = "There is currently an unfinished Bonus Turnover, and other Promotions are temporarily unclaimable.
+
+Details are as follows:
+
+System in progress, please check back later…";
+"bonus_receive" = "Claimed";
+"bonus_receive_confirm" = "Confirm to Claim %@?";
+"bonus_receive_date" = "%@ Claimed";
+"bonus_condition_error" = "Disqualified";
+"bonus_orderby_desc" = "Time (Recent to Past)";
+"bonus_orderby_asc" = "Time (Past to Recent)";
+"bonus_custom_filter" = "Set Up Filter";
+"bonus_custom_sorting" = "Set Up Sort";
+"bonus_sortingandfilter" = "Sort and Filter";
+"bonus_usefreebet_title" = "Claim Free Bet";
+"bonus_usefreebet" = "Confirm to claim Free Bet?";
+"bonus_usebonus_fail" = "Coupon Claim failed";
+"bonus_turnover_adddeposit" = "Deposit Turnover required";
+"bonus_turnover_total" = "Total Turnover required";
+"bonus_detail_contentrule" = "KTO Asia Promotion General Rules & Terms";
+"bonus_usedepositbonus" = "Confirm to claim Deposit Bonus?";
+"bonus_rebate_unlimited" = "Unlimited";
+"bonus_deposit_not_satisfied" = "Sorry, you have not met the deposit requirement, thus are not eligible to claim this bonus.";
+"bonus_total_request" = "Total Turnover required";
+"bonus_remain_request" = "Remaining Turnover";
+"bonus_get_bonus" = "Bonus Amount received";
+"bonus_turnover_hint_title" = "Details of your Bonus Turnover required are as follows:";
+"bonus_turnover_confirm_title" = "You need to complete the Turnover of %@ first. Details are as follows:";
+"bonus_error_balance_limit" = "Your account balance is insufficient, you are not eligible to claim the Bonus at this time.";
+"bonus_error_bonus_quota_is_full" = "This promotion quota is already full. Please check out other promotions. Sorry for any inconvenience caused.";
+"bonus_quota_is_full" = "Promotion Quota Full";
+"bonus_quota_is_full_message" = "Sorry, please select another Promotion.";
+"bonus_use_expired_bonus_title" = "Promotion Expired";
+"bonus_use_expired_bonus_content" = "This promotion is already expired. Please check out other promotions. Sorry for any inconvenience caused.";
+"bonus_use_coupon" = "";
+"bonus_bonustype_7" = "负盈利返现";
+"bonus_bonustype_7_count" = "负盈利返现(%@)";
+"bonus_cashback_remark_title" = "负盈利返现:";
+"bonus_cashback_remark_subtitle" = "%@月会员输赢额 (不包含对战) :";
+"bonus_cashback_remark_total_bonus" = "%@月获取彩金总额：";
+"bonus_cashback_remark_percentage" = "负盈利返现百分比：";
+"bonus_cashback_remark_formula" = "计算公式：";
+"bonus_cashback_remark_formula_content" = "[ (-总计)- 彩金总额 ]×%@%%";
+"bonus_cashback_loss_amount" = "去除彩金后的负盈利($)";
+"bonus_cashback_percent" = "返现比例";
+"bonus_cashback_max_amount" = "最高金额";
+
+//MARK: - Level
+"level_4" = "Daily Rebate or all Products. Up to %@% of Valid Bet Amount.";
+"level_90" = "Your feedback, Management will meet to review...";
+"level_91" = "%@ Times daily, %@ VND Total Limit.";
+"level_92" = "Faster, more stable, it's exlusive to you.";
+"level_3_1" = "Play our designated matches and get insured with %@ VND.";
+"level_3_1_leveltop" = "For designated matches, we got you covered with insurance.";
+"level_3_2" = "Our Rescue is full of energy! Up to %@ VND.";
+"level_3_2_leveltop" = "Instant recovery, powerful Rescue Bonus!";
+"level_4_leveltop" = "Highest Unlimited Rebate!";
+"level_5_0_level1" = "%@%First Deposit Bonus！";
+"level_5_0_level2" = "Deposit again, get %@% of high bonus!";
+"level_5_1" = "Enjoy %@% Monthly Deposit Bonus.";
+"level_5_2" = "Enjoy %@% Weekly Deposit Bonus.";
+"level_5_3" = "Enjoy %@% Daily Deposit Bonus.";
+"level_5_4" = "Enjoy %@% Daily Deposit Bonus.";
+"level_91_leveltop" = "Your withdrawal, we will prioritise your request…";
+"level_desc_levelup" = "Level Up! Congratulation to you reaching Level %@.";
+"level_desc_register" = "Congratulation to you completing signing up.";
+"level_detail_3_1_content" = "The higher the negative profit amount in the day, the higher the rescue fund.";
+"level_detail_3_1_title" = "Negative Profit Rebate";
+"level_detail_3_1_title1" = "Insurance Percentage";
+"level_detail_3_1_title2" = "Maximum Bonus";
+"level_detail_4_dailylimited" = "Daily Limit";
+"level_detail_4_unlimited" = "Unlimited";
+"level_detail_5_content2_1" = "You will get to enjoy this bonus monthly.";
+"level_detail_5_content2_2" = "You will get to enjoy this bonus weekly.";
+"level_detail_5_content2_3" = "You will get to enjoy this bonus daily.";
+"level_detail_5_content3" = "Minimum Account Balance: %@ VND
+Withdrawal: (Principal + Bonus)%@ Times Bet Amount.";
+"level_detail_5_maxamount" = "Maximum Bonus";
+"level_detail_5_title1" = "Re-deposit Bonus";
+"level_detail_5_title1_first" = "First Deposit Bonus";
+"level_detail_5_title2_1" = "Monthly Bonus";
+"level_detail_5_title2_2" = "Weekly Bonus";
+"level_detail_5_title2_3" = "Daily Bonus";
+"level_detail_5_title3" = "Deposit Bonus Rule";
+"level_disabled" = "Not yet unlocked ";
+"level_experience" = "EXP";
+"level_experience_title" = "EXP Description";
+"level_experience_desc" = "EXPcis related to your behavior on the website, such as deposit. The higher the Level, the more EXP you need to advance to the next Level. Higher Levels will get more privileges.";
+"level_exclusive_90" = "Feedback";
+"level_exclusive_92" = "URL";
+"level_level" = "Level";
+"level_levelprivilege" = "Level Privilege";
+"level_privilegetype_3" = "Product Privilege";
+"level_privilegetype_4" = "Rebate Privilege";
+"level_privilegetype_5" = "Deposit Privilege";
+"level_privilegetype_90" = "Exclusive Privilege";
+"level_privilegetype_91" = "Withdrawl Privilege";
+"level_privilegetype_92" = "Exclusive Privilege";
+"level_producttype_1" = "Insurance Bet";
+"level_producttype_2" = "Slot Rescue Bonus";
+"level_navigate_to_promotion" = "Go To Promotion Page";
+"level_product_rebate" = "Product Rebate";
+
+//MARK: - Notification
+"notification_type_0" = "Maintenance";
+"notification_type_1" = "General";
+"notification_type_2" = "Personal";
+"notification_type_activity" = "Activity";
+"notification_validate_message_1" = "Input at least 3 characters";
+"notification_empty_result" = "No matching content.";
+"notification_deleted" = "Deleted";
+"notification_delete_title" = "Confirm to Delete?";
+"notification_delete_content" = "Notification will be permanently deleted.";
+"notification_delete_button" = "Delete This Message";
+"notification_maintenancetime" = "Maintenance Time: %@ - %@";
+"notification_search_result" = "Search Result";
+"notification_title" = "Notification";
+"notification_search" = "Search";
+"notification_result_empty" = "There is currently no relevant information.";
+"notification_search_result_empty" = "No Result.";
+"notification_goto" = "Go To %@";
+
+//MARK: - Activity
+"activity_status" = "Status";
+"activity_0" = "Personal Account";
+"activity_1" = "Deposit";
+"activity_2" = "Withdrawal";
+"activity_3" = "Private URL";
+"activity_4" = "Sign In/Sign Out Activity";
+"activity_5" = "Bonus";
+"activity_6" = "Adjustment";
+"activity_7" = "Level";
+"activity_8" = "Deposit Refund Bonus";
+
+//MARK: - Notify
+"notify_10" = "Sign Up Successful ";
+"notify_20" = "Deposit Requires Verification";
+"notify_30" = "Withdrawal Requires Verification";
+"notify_40" = "Withdrawal Name Change Requires Verification";
+"notify_41" = "Changed Withdrawal Name successfully";
+"notify_42" = "Changed Withdrawal Name failed";
+"notify_50" = "Change Receiving Bank Information";
+"notify_51" = "Change Deposit Channel Details";
+"notify_60" = "Received Exclusive Features";
+"notify_70" = "Deposit Successful ";
+"notify_72" = "Deposit Failed";
+"notify_80" = "Withdrawal Successful ";
+"notify_90" = "Withdrawal Cancelled";
+"notify_100" = "Withdrawal Failed";
+"notify_110" = "Change Deposit Channel Details";
+"notify_120" = "Change Daily Withdrawal Amount Limits";
+"notify_121" = "Change Number Of Daily Withdrawal Limits";
+"notify_130" = "Bonus Amount Received";
+"notify_140" = "Balance Adjusted";
+"notify_150" = "Level Upgraded";
+"notify_content_10" = "Congratulation for becoming our member! ";
+"notify_content_20" = "Your %@ VND deposit requires further actions.
+Transaction ID: %@";
+"notify_content_30" = "Your %@ VND withdrawal requires further actions.
+Transaction ID: %@";
+"notify_content_40" = "Withdrawal Name Change requires further actions.";
+"notify_content_41" = "Congratulations, your withdrawal name has been changed.";
+"notify_content_42" = "Withdrawal Name Change failed.
+\n Please check at Personal Info - Withdrawal Name Page.";
+"notify_content_50" = "Reminder,  your receiving bank information has been changed.";
+"notify_content_51" = "Reminder, The deposit channel details has been changed.";
+"notify_content_60" = "Congratulations, you have recieved %@.
+\n %@:%@";
+"notify_content_70" = "%@ VND deposit successful. ";
+"notify_content_72" = "%@ VND deposit failed.";
+"notify_content_80" = "Congratulations, %@ VND withdrawal has been successfully paid out.";
+"notify_content_90" = "%@ VND withdrawal has already been cancelled.";
+"notify_content_100" = "%@ VND withdrawal failed.
+Transaction ID: %@";
+"notify_content_110" = "Reminder, The deposit channel details has been changed.";
+"notify_content_120" = "Congratulations, your withdrawal amount limits per day have been increased to %@ VND.";
+"notify_content_121" = "Congratulations, your number of withdrawal limits per day have been increased to %@ time.";
+"notify_content_130" = "Congratulations, you have recieved bonus amount of ¥%@.";
+"notify_content_140" = "%@ VND has been adjusted to your account balance.";
+"notify_content_150" = "Congratulations, you have reached New Member Level %@.";
+
+//MARK: - Profile
+"profile_safety_verification_title" = "Security Verification";
+"profile_safety_verification_description" = "For account security, login password verification is required.";
+"profile_wrong_password" = "The Password is incorrect!";
+"profile_wrong_password_over_limit" = "Password input incorrectly over 5 times, please log in again.";
+"profile_my" = "My";
+"profile_personal_information" = "Personal Info";
+"profile_change_password" = "Change Password";
+"profile_change_password_title" = "Set Up New Password";
+"profile_change_password_description" = "Cannot be the same as the old Password.";
+"profile_player_game_id" = "Member Game ID";
+"profile_player_game_id_description" = "The system generates it automatically, in order to protect the privacy of your account, it serves as your codename in each game of KTO Asia.";
+"profile_field_not_set" = "Not yet set";
+"profile_setting" = "Setting";
+"profile_about" = "About";
+"profile_real_name_ticket_on_going_not_editable" = "You have a withdrawal transaction in progress, please go to the withdrawal page to cancel and then operate again to modify your name.";
+"profile_real_name_title" = "Modify Withdrawal Name";
+"profile_real_name_description" = "After a successful withdrawal, Withdrawal Name will be bond to the account and cannot be modified anymore.";
+"profile_real_name_edit_forbidden" = "Unable to change Withdrawal Name.";
+"profile_birthday_title" = "Set Up Date of Birth";
+"profile_birthday_description" = "Birthday can be used for security verification, please make sure to fill in the real information.";
+"profile_birthday_button" = "Confirm";
+"profile_birthday_not_adult" = "You have confirmed that you are at least 18 years old at the time of registration.";
+"profile_identity_mobile_bound_already_hint" = "Mobile Number has been bound. If it needs to be changed, the System will send a Verification Code to the bound Mobile Number for verification.";
+"profile_identity_email_bound_already_hint" = "Email has been bound. If it needs to be changed, the System will send a Verification Code to the bound Email for verification.";
+"profile_identity_mobile_step1" = "Set up a New Mobile Number 1/4";
+"profile_identity_email_step1" = "Set up a New Email 1/4";
+"profile_identity_mobile_step1_description" = "For account security, current Mobile Number Verification is required.
+
+A 4-Digit Verification Code will be sent Via Call to
+%@";
+"profile_identity_email_step1_description" = "For account security, current Email Verification is required.
+
+A 6-Digit Verification Code will be sent to
+%@";
+"profile_identity_mobile_step1_description_hightlight" = "Via Call";
+"profile_identity_old_mobile_fail" = "An error occurred in the Verification Code sent by the current Mobile Number. Please set it up again.";
+"profile_identity_old_email_fail" = "An error occurred in the Verification Code sent by the current Email. Please set it up again.";
+"profile_sms_inactive" = "Unable to set up Mobile Number temporarily. Please try again later.";
+"profile_email_inactive" = "Unable to set up Email temporarily. Please try again later.";
+"profile_identity_email_modify_fail" = "Email Modification failed";
+"profile_identity_mobile_modify_fail" = "Mobile Number Modification failed";
+"profile_identity_mobile_step2" = "Set up a New Mobile Number 2/4";
+"profile_identity_email_step2" = "Set up a New Email 2/4";
+"profile_identity_mobile_step2_title" = "Verify Current Mobile Number";
+"profile_identity_email_step2_title" = "Verify Current Email";
+"profile_identity_mobile_step3" = "Set up a New Mobile Number 3/4";
+"profile_identity_email_step3" = "Set up a New Email 3/4";
+"profile_identity_mobile_step3_title" = "New Mobile Number";
+"profile_identity_email_step3_title" = "New Email";
+"profile_identity_mobile_step3_description" = "Please enter a new Mobile Number to receive a Verification Code.";
+"profile_identity_email_step3_description" = "Please enter a new Email to receive a Verification Code.";
+"profile_identity_mobile_step4" = "Set up a New Mobile Number 4/4";
+"profile_identity_email_step4" = "Set up a New Email 4/4";
+"profile_identity_mobile_step4_title" = "Verify New Mobile Number";
+"profile_identity_email_step4_title" = "Verify New Email";
+"profile_identity_mobile_modify_success" = "Your Mobile Number has been modified successfully, please log in again.";
+"profile_identity_email_modify_success" = "Your Email has been modified successfully, please log in again.";
+"profile_otp_exceed_otp_limit" = "You have reached the Sending Limit. Please try again at 00:00 the next day.";
+"profile_home_page_setting" = "Home Page Setting";
+"profile_home_page_setting_description" = "This Setting will affect the Home Page after login.";
+"profile_defaultproduct_title" = "Set Up Home Page";
+"profile_defaultproduct_description" = "The current default is Sportsbook. Now you can select a Product as the New Home Page, or change it later.";
+"profile_defaultproduct_sportsbook_description" = "The most comprehensive sports events. Once you own it, there is nothing else needed.";
+"profile_defaultproduct_casino_description" = "KTO is as red as your own red fortune at the KTO 'Casino'. Having red luck is having a dragon vein in your hand. If you have a dragon vein in your hand, you have the whole world!";
+"profile_defaultproduct_slot_description" = "Accidentally but sometimes intentionally. With just one hit of the Bonus Feature, the next thing you will see is standing on Mount Everest. When it comes to Slots, nothing is impossible!";
+"profile_defaultproduct_end_setting_title" = "Confirm to end this Set Up?";
+"profile_defaultproduct_end_setting_description" = "Home Page Setting has not been completed. For the next login, its default will be Sportsbook.";
+"profile_defaultproduct_keno_description" = "The attraction to understanding the mysteries of numbers brought Isaac Newton to success. And with Number Games, you will too!";
+"profile_bind_identity_locked" = "Due to security issues, your account has been frozen. Please contact Customer Service for assistance.";
+"profile_new_mobile_description" = "Mobile Number can be used for login and security verification.
+Please enter your Mobile Number to receive the Verification Code.";
+"profile_sms_unavailable_title" = "Mobile Number Verification Maintenance ";
+"profile_sms_unavailable_description" = "";
+"profile_mail_unavailable_title" = "Email Verification Maintenance ";
+"profile_mail_unavailable_description" = "";
+
+//MARK: - License
+"license_definition_content" = "以下条规适用于会员使用、联接和参与由(统称KTO亚洲、「我们」及「我们的」，视具体情况而定)通过KTO亚洲经营的网站提供的网上博彩服务。本条规须与特定博彩的博彩规则及适用于博彩软件的使用及与连接进入博彩网站和其中所含条规一并阅读。我们有权通过网站向有关第三方支付平台服务提供商以及金融保险机构提供必要的个人信息以完成支付要求。
+
+「博彩」就本条规而言，包括但不限于通过博彩网站提供的任何及/或一切博彩服务进行的投注、游戏及各类博彩活动；「联接设备」指任何应用联接设备，包括但不限于为使用和联接博彩网站、参与博彩服务而采用的个人电脑、笔记本电脑、移动电话、个人数码助理、PDA电话、手提设备。";
+"license_agree_content" = "会员在注册过程中于「我声明我已年满18岁」及「我同意KTO亚洲的修款及条件与规则及规定。」字样之前的方框内打勾，并点击相应的「储存并继续」按钮，即表示会员确认并同意：
+
+1. 会员已经阅读、完全理解并同意本条规。
+
+2. 本条规构成会员与KTO亚洲之间关于博彩服务使用的具有法律约束力的协议(「使用协议」)。
+
+如果会员不同意本条规中的任何条款，请勾「本人不同意」按钮，并请不要点击「储存并继续」按钮，不要试图使用或继续使用任何博彩服务或下载和/或安装博彩软件。";
+"license_modify_content" = "KTO亚洲保留不时修订、更新和修改本条规和博彩规则(或其任何部分)的绝对权利。上述任何修订、更新或修改将在博彩网站上公布。经修订、更新或修改的本条规和博彩规则于其在博彩网站上公布时生效。会员在之后继续通过博彩网站和博彩设备使用、联接和参与博彩服务，将视为同意并接受所公布的经修改或更新的本条规和博彩规则。
+
+会员确认并同意及自行负责查阅上述修订、更新或修改。KTO亚洲可自主决定将上述修订、更新和修改通知会员。上述修订、更新和修改可由KTO亚洲自主决定不时通知会员，但KTO亚洲并无任何义务向会员通知任何修订、更新和修改。";
+"license_gaminginfo_intellectualproperty_content" = "通过博彩网站、博彩服务、博彩设备和/或任何其他方式提供向会员公开、获取、产生和/或收集的信息、资料和数据，包括但不限于营销计划和资料、成绩、统计数据、赛事数据、赛程表、概率和投注数据、文字、图标、音像资讯(「博彩资讯」)，将属于KTO亚洲和其许可人所有，仅供会员用于个人非商业性目的。
+
+除在本条规外，未经我们或第三方资料专有人的事先书面同意，会员不得以任何方式或手段改编、拷贝、修改、复制、储存、散发、展示、公开播放、制入有线节目、出版、传送、出售、出借、出租、许可使用博彩资讯。会员也不得或以其他方式使用任何他人网站、网上服务、公告板、任何媒体和/或联接设备可以获得、使用、或连接上述博彩资讯。
+
+在博彩网站和/或通过联接设备提供的博彩软件、博彩服务和博彩资讯享受著作权、商标和其他形式的知识产权和专利保护。博彩网站上的博彩软件、博彩服务和博彩资讯的所有权利、产权和利益均属KTO亚洲和其许可人所有、使用或控制。会员确认并未通过使用或联接在博彩网站和/或联接设备提供的博彩软件、博彩服务和博彩资讯取得KTO亚洲的博彩软件、博彩服务和博彩资讯的任何权利、利益或许可。";
+"license_condition_content" = "作为使用博彩服务的条件，会员保证并承诺不得以任何违反适用于会员的任何法律、违反本条规和/或被本条规所禁止的目的使用或联接博彩网站、博彩软件、博彩服务和/博彩资讯。除了本条规中所列一切其他声明和保证之外，会员在此进一步保证并承诺，作为使用博彩服务的条件：
+
+1. 会员以本人的身份及名义进行活动，而非代他人进行交易；
+
+2. 会员的法律行为能力不受限制；
+
+3. 会员未被诊断或认定为赌博强迫症；
+
+4. 会员年龄(a)至少已满19周岁；或(b)已满任何适用于会员的法律所规定的其他法定年龄或成人年龄，以较大者为准(「法定年龄」)；
+
+5. 会员充分了解在使用博彩服务的过程中亏损资金的风险；
+
+6. 会员存入的款项并非来源于犯罪或其他非法、未经授权或许可的活动；
+
+7. 会员并非从事犯罪或其他非法、未经授权或许可活动和/或企图利用会员在KTO亚洲开立的账户从事上述活动；会员不得利用或允许他人利用博彩服务或会员的博彩账户从事适用于会员或我们的任何法律所规定的任何犯罪或其他非法活动，包括但不限于洗钱；
+
+8. 对会员的户名、账号和密码予以保密，防止非法联接或使用，在户名、账号或密码以任何方式失密的情况下立即更改密码或通知我们；
+
+9. 对以会员的户名、账号和密码通过博彩网站和/或联接设备联接和使用博彩服务的任何及所有活动自行承担责任，不论上述联接和/或使用是否经会员授权或为会员所知晓；
+
+10. 不以任何干扰或可能干扰其他会员使用博彩服务和博彩网站的方式使用博彩服务、博彩网站、联接设备、博彩软件和博彩资讯，不实施任何降低或可能降低博彩服务和博彩网站运行效能的行为；
+
+11. 不征集或以任何方式企图获取有关其他会员的任何资料；
+
+12. 不上传或散发任何含有病毒、已经毁坏或可能影响联接设备、博彩软件、博彩服务和/或博彩网站运行效能的程序、文件或数据；
+
+13. 会员通过博彩网站和/或联接设备联接或使用博彩服务和博彩资讯不违反适用于会员的法律；亦不违反对会员个人或会员目前联接博彩网站或使用联接设备所在国家所有人具有约束力的合约义务；同时不受上述法律或合约义务禁止；
+
+14. 不使用任何设备、机械、装置、软件、程序或其他方法(或任何具有上述性质的事物)干扰或企图干扰博彩服务、联接设备、博彩软件、博彩网站、博彩资讯或博彩网站和/或联接设备提供的任何交易的正常运行；
+
+15. 不向博彩网站和/或联接设备或任何其他会员发布或传送任何违法、骚扰性、侮辱性、威胁性、诬蔑性、诽谤性、淫秽、猥亵、煽动性、种族歧视、色情或粗俗的内容，或可构成或教唆犯罪、引发民事责任或以其他方式违反任何法律的内容；
+
+16. 会员不是KTO亚洲或其任何关联公司的管理人员、董事、雇员、顾问、关联人或代理人，或与上述任何人员具有亲属或同屋居住关系；
+
+17. 不干扰其他会员使用博彩服务、博彩网站、博彩软件、联接设备和博彩资讯或发起和参与调查、竞赛、连锁信或发布传送「垃圾邮件」或其他未受请求的群发邮件。";
+"license_register_membership_content" = "欲通过KTO亚洲参与博彩、使用博彩服务，会员须按博彩网站所述程序完成开立账户和会员资格的申请(「会员资格申请」)。
+
+会员声明并承诺，会员在注册和办理会员资格申请时所提供的所有资料，包括会员资格申请所填会员姓名(「姓名」)、资金来源(包括有关银行账号和卡号)和住址，在一切方面均真实、准确、完整。
+
+KTO亚洲将采取必要和适当的措施对会员向我们披露的个人资料予以保密。我们将对所收到的会员个人数据和投注资料予以严格保密，除非法律、法规、规章、法院、监管机关、任何有关博彩管理、执法机关的命令和决定或本条规另要求披露。会员对其个人资料的保密自行承担责任。我们保留在完成博彩网站所提供的博彩服务的付款手续所需的范围内向我们支付结算服务提供者和金融机构披露会员个人数据的权利。
+
+会员还须自行负责确保会员使用和联接博彩网站和其中所含的博彩资讯、下载安装博彩软件和/或使用和参与博彩服务不受适用于会员的法律禁止。
+
+为验证会员的会员资格申请，我们还需要会员提供身份和年龄证明(如带照片的有效身份证明和借记卡或信用卡)。会员提供的具体原始资料如有任何变更，应及时通知我们。为确认会员的姓名和地址，KTO亚洲保留通过邮寄等方式确认会员姓名和地址的权利。KTO亚洲还可自行决定采用其他安全措施核实会员提供的任何资料。会员同意本条规，即同时表示同意KTO亚洲联接、使用、处理和储存对会员的任何身份验证或核实结果。
+
+我们保留基于任何理由拒绝会员会员资格申请的绝对权利。
+
+我们仅对在线即时帮助所公布的KTO亚洲官方备用网站负责。会员登录其它任意貌似KTO亚洲网站的链接，所造成的任何损失我们将不承担任何责任。如有其他疑问，请直接联络我们的在线客服。
+
+会员在KTO亚洲仅可开立一个账户。若我们发现会员在KTO亚洲开设不止一个账户，我们保留自行决定将会员在KTO亚洲的所有账户作为一个合并账户处理、取消多余账户或与会员终止本协议的权利。";
+"license_bet_acceptbet_content" = "我们于博彩网站上和/或通过联接设备所不时提供的游戏、体育赛事和其他博彩活动开放给会员下注。会员下注须遵守具体游戏或博彩活动的博彩规则以及本条规的规定。若任何赌局出现明显错误或显示错误的参赌人，该赌局的所有下注均告作废。KTO亚洲博彩系统发生故障时，我们亦有权宣布任何或所有下注无效。
+
+尽管本条规可能存在其他规定，但KTO亚洲有权基于任何理由酌情拒绝会员的全部或部分下注。
+
+我们仅接受会员按本条规通过互联网和/或联接设备进行下注。其他下注形式(邮寄、电邮、传真等)一概不予接受。我们即使收到其他形式的下注，不论赌盘最后开出的结果如何，均视为无效。
+
+1. KTO亚洲有权搁置或拒绝疑用欺骗手段如通过攻击、操纵等破坏操作系统所进行的投注。
+
+2. 任何不寻常的投注将被取消，而不需另行通知。特此声明，人工智能或软件(机器人\"Robots\")于线上投注服务的使用是被严禁的行为，而任何试图或利用该方式的投注将被取消，相关账号立即会被关闭。
+
+受限于本条规其他规定，会员输入正确的会员名和密码且账户内存有足够余额，会员即有效投下注码。
+
+会员均须对使用下列内容（或其各项结合）所进行的所有活动和交易负责（无论下述使用是否得到授权）：
+
+1. 会员姓名；
+
+2. 会员账户号；
+
+3. 会员的会员名和密码。
+
+会员自行负责确保其下注细节的准确性。受限于本条规其他规定，一旦会员下注且我们确认接受会员的下注，即为会员下注的最终确证；会员不得取消、撤回下注或更改下注细节。
+
+所有下注均收录于交易记录数据库。KTO亚洲的交易记录为所有交易及下注的相关信息的最终确证。
+
+受限于本条规其他规定，当交易代号出现在会员屏幕上并有效显示在会员的交易历史中时，下注即视为有效及被KTO亚洲接受。
+
+比赛开始后和/或下注时比赛结果已被知晓之情况下不得下注。若比赛开始和/或会员下注时已经知晓比赛结果之情况下仍错误地开放给会员下注，KTO亚洲有权不经通知会员即可拒绝会员下注或宣布下注无效；KTO亚洲享有是否接受全部或部分该等下注的自主决定权。为避免疑义，本条款不排除「下半场」投注盘(“inplay”bets)或「半场」投注盘(“halftime”bets)。
+
+博彩网站上预告的开赛时间仅为信息参考之用。若KTO亚洲因任何原因无意中于比赛开始后仍接受下注，则我们有权取消和宣布该等下注无效。
+
+除非有关比赛和游戏的具体规则另有规定，否则为了博彩的目的，开放下注的比赛或游戏的结果将于比赛或游戏实际结束当天决定。KTO亚洲不承认任何后来的可能导致推翻上述结果的质询，原派彩仍然有效。
+
+体育赛事的比赛地点发生变化的，以原赛场为基础的所有下注均告无效。
+
+比赛或游戏的赢家将根据博彩规则在上述比赛或游戏实际结束当天予以定。
+
+为博彩目的，KTO亚洲不承认任何延期比赛、抗议或推翻的结果。
+
+会员下注的多重彩中如包括非参赛者选项或无效选项，派彩将以剩余的有效选项为基础进行结算。
+
+会员承认所有赔率、指数和让分可不经通知上下浮动，上述赔率、指数和让分仅在会员下注被我们接受时予以确定。
+
+若明显错误或系统故障造成会员下注的赔率、指数或让分不正确时，则会员的下注或多重彩的部分下注无效。若有关错误或故障及时得到纠正，KTO亚洲有权自主(但无义务)决定尽合理努力和会员联络允许会员以正确的赔率、指数和让分重新下注。
+
+我们不接受会员同时对同一赛事重复下注。
+
+就任何下注及其相关交易而言，KTO亚洲享有最后决定权，且其所作决定系终局性并具有最终确定力的。";
+"license_gamingsoftware_usagerights_content" = "会员特此确认并同意，会员通过联接设备以下载或其他方式获得的以便其远程使用的博彩网站的博彩软件属于博彩服务的一部分，为KTO亚洲和/其许可人的财产；会员对该等博彩软件不享有任何权利。会员不得以任何方式或以任何手段改编、拷贝、修改、复制、储存、散发、展示、公开播放、传播、广播、制入有线节目、出版、传送、出售、出借、出租、或许可使用博彩软件。会员也不得以其他方式交流或使博彩软件对任何他人网站、网上服务或公告板或任何其他媒体和/或联接设备开放。
+
+KTO亚洲特此授予会员在联连设备上安装和使用博彩软件的非专属性、不可转让的个人使用权(「使用权」)，但博彩软件的安装和使用所用的联接设备须以会员为主要使用人。
+
+KTO亚洲授权和散发博彩软件的目的仅为博彩软件的终端会员能完全连接和使用博彩服务。
+
+会员不得：
+
+1. 安装或传载博彩软件至其他连网设备的服务器或采取其他步骤使博彩软件可以通过任何形式或公告板、网上服务或远程拨号或网络使他人得到；
+
+2. 散发、出借、出租、转授权、拷贝、转让、转移或以其他方式使任何其他人得到博彩软件和/或使用博彩软件的使用权；
+
+3. 允许其他人使用博彩软件；
+
+4. 设立或提供任何方式(包括但不限于仿真程序)使他人使用博彩软件；
+
+5. 翻译、反向工程、反向编译，反汇编、修改、破解、全部或部分的以博彩软件和其源代码为基础开发衍生产品。
+
+6. 拷贝、修改、翻译或全部或部分地以博彩软件的相关会员文件为基础开发衍生产品。
+
+会员承认并同意，博彩网站上提供的及或通过联连设备或其他方式提供的博彩软件或博彩软件会员方件均归KTO亚洲和许可人所有，并受著作权、商标权和其他知识产权和专利权的保护。会员特此承认，博彩软件的结构、组织和源代码为KTO亚洲和其许可人的极具价值的商业秘密。会员承认除根据使用权向会员授予的权利外，会员对博彩软件和/或博彩软件会员文件不享有任何权利和权益。
+
+本协议因任何原因终止，本协议顶下所授予的使用权自动作废，会员应停止使用博彩软件并将博彩软件从联连设备中卸载。";
+"license_transaction_settlement_content" = "会员使用信用卡或借记卡的，持卡人姓名须与会员登记和申请过程中所使用的姓名一致。若发生持卡人姓名和账户登记和会员申请所使用的姓名不一致的情况，KTO亚洲有权拒绝就相关交易进行结算。
+
+会员承担向KTO亚洲和/其他会员（视具体情况而定）支付所有应付款项的一切责任。会员同意对任何付款不实施或促使他人实施退款，不拒绝或撤销付款，并向KTO亚洲偿付所有被退还​​、拒绝或撤销的付款以及由此引起的所有损失和费用。KTO亚洲，根据自主判断，有权终止向个别会员或使用某类信用卡或借记卡付款的会员提供服务或支付款项。
+
+任何经KTO亚洲认可的有效彩金不包括下注额。
+
+任何款项或彩金在存入账户的过程中发生错误，KTO亚洲不负任何形式的任何责任，且我们有权在任何时候或在事后宣布涉及该等款项的交易无效。会员一旦发现账户内款项汇存有误，有责任立即通知KTO亚洲。
+
+在任何适用法律下就彩金所应缴付的税款和费用均由会员自行负责缴付。";
+"license_bouns_content" = "会员的彩金经结算后，将存入会员账户，具体提取办法参照我们彩金提取规定并须出示我们认可的有效带照身份证和信用/借记卡。
+
+在会员所持的信用/借记卡发行银行允许的情况下，彩金可以直接存入会员交纳押金所用的信用/借记卡账户。支票或电汇的收款人以登记或申请会员时所用的姓名为准。以信用卡或借记卡支付押金的，收款人还必须是信用卡或借记卡的登记持卡人。
+
+投注额必须与充值額相同才能进行提款，KTO亚洲将保留权利，收取必要的充值与提现手续费。
+
+KTO亚洲因会员的博彩交易而蒙受的所有银行收费均由会员承担和偿付，我们有权从会员彩金或账户中扣除和抵扣上述收费。";
+"license_promotion_reward_content" = "所有促销、奖励和特价均须遵守本条规及KTO亚洲针对具体促销活动所不时制定的规定。KTO亚洲保留在任何时候中止、取消或修改该等奖励或促销和/或其相关规定及条款的权力。
+
+若KTO亚洲认定有人滥用或企图滥用某项奖励或促销活动，或可能因该等滥用行为而获利，我们有权自主决定以其认为合适的方式阻止、拒绝，中止、或撤消任何会员参加有关奖励或促销活动。
+
+如发现任意带有串通勾结以及试图欺诈等嫌疑的个人或团队，我们将保留取消其部份或全部投注的权利。所涉及的个人，亲属，组织，博彩庄家及其员工账户中的金额会将被立即查封没收。";
+"license_compensation_content" = "会员同意，由于会员连接博彩网站、下载或安装博彩软件、下注和/或以其他方式使用博彩服务、博彩软件和/或博彩资讯、及/或违背本条规和/或博彩规则，而对KTO亚洲、其股东、雇员、管理人员、董事、受许可方、经销商、关联方、子公司和/代理商造成的任何损失、损害或及索赔(包括合理的律师费)，会员须予以全额赔偿。";
+"license_disclaimer_specialconsideration_content" = "博彩完全是一项个人选择，以个人判断与分析为依据，且风险自负的行为。会员下注的同时，即表明会员承认博彩服务、博彩网站和博彩资讯并无冒犯性，且并不令人反感、不公平或有悖公共道德。一些司法管辖区对网上及/或岸外网上博彩的合法性尚无定论；而另一些司法管辖区则明确规定网上博彩（在司法管辖区域内和/或岸外）均属非法行为。我们不鼓励任何人在非法的情况下使用和连接博彩网站、博彩资讯和/或博彩服​​务。博彩服务、博彩资讯和博彩网站的设立和提供并不构成我们发出要约、招揽或邀请任何人在那些规定使用或连接上述内容为非法行为的国家内使用或连接上述内容。会员独立承担遵守其所适用之相关法律规定的责任，而KTO亚洲不就博彩服务、博彩软件、博彩网站或其中的博彩资讯与会员所适用的法律规定相符作出任何声明。
+
+博彩服务、博彩软件、博彩网站和博彩资讯均按「原状原则」提供。除本条规明示的外，KTO亚洲不就博彩服务、博彩网站、博彩软件和博彩资讯作出任何声明或保证。故所有有关博彩服务、博彩软件、博彩网站和博彩资讯的声明或保证，不论明示或暗示、法定与否，特此在法律允许的最大范围内予以排除。KTO亚洲不就博彩服务、博彩软件、博彩网站或博彩资讯的准确性、及时性、安全性、连续性、正确性或抗外界干扰性（任何性​​质），以及更正所发现的任何缺陷作出保证。KTO亚洲亦不保证博彩服务、博彩软件、博彩网站和博彩资讯或提供上述内容的服务器不含有任何病毒、间​​谍软件、广告软件或其他具恶意性、破坏性或可导致电脑瘫痪的代码、程序、数据、宏指令或可影响任何联接设备和/或其中所存数据的其他软件或特性。会员承诺将自行自费采取预防措施，确保其使用或连接博彩服务所用的过程、方法和/或联接设备、以及博彩软件的安装和博彩网站的使用，均不会带来电脑病毒、间谍软件、广告软件或具恶意性、破坏性或可导致电脑瘫痪的其他代码，或导致其联接设备或其中所存数据受到干扰和破坏的其他风险。
+
+若发生与账户结算或博彩服务的其他方面有关的系统错误或通讯错误，KTO亚洲不承担由此引起的任何责任。在此情况下，KTO亚洲有权取消所有受上述错误影响的下注并采取任何更正行动。
+
+在任何情况下，因会员连接、使用或参与博彩服务、博彩网站、博彩软件和博彩资讯而发生任何损害、损失或支出，包括会员之联接设备或所存数据受到任何干扰或破坏，KTO亚洲不承担任何责任。此外，对博彩服务、博彩网站、博彩软件和博彩资讯中由第三方(包括但不限于宽带和电信服务供应商)所提供的内容，KTO亚洲亦不作任何保证和声明且不予负责；在任何情况下，KTO亚洲均不对上述第三方合作者的任何违约、过错或不作为承担责任。
+
+在任何情况下，KTO亚洲、其关联公司、关联方、合伙人、管理人员、雇员和代理均不对任何损害、损失或支出承担责任。上述包括但不限于因会员连接或使用博彩服务、博彩网站、博彩软件和博彩资讯、或与会员连接或使用博彩服务、博彩网站、博彩软件和博彩资讯有关的、或因会员下载、安装或使用博彩软件所引起的任何直接、间接、因果性或特别的损害或经济损失，不论KTO亚洲是否被告知可能发生上述损害、损失或支出。在任何情况下，就与会员下注直接相关的任何事宜、事件或情形所引起或与之相关的任何损失或损害(不论是否基于合约、侵权、严格责任或其他原因)，在法律允许的最大范围内，KTO亚洲对会员的全部责任(如有)应不超过会员的相应下注额。
+
+会员承认，博彩资讯在性质上可能全部或部分地具有临时性，并且可按本条规予以修订、修改或更改。因此，会员承认博彩资讯仅为参考之用，不构成任何建议、意见或招揽，不构成任何具约束力的声明、保证、合约义务或会员依据的内容和基础。
+
+会员特此承认并同意，在考虑所有相关因素，包括但不限于会员向KTO亚洲提供对价的价值后，本条规所述之所有责任豁免和义务排除代表会员和KTO亚洲协议中公平、合理的风险分担和利益分配。会员进一步同意上述免责和限制在适用法律允许的最大范围内具有强制执行力。
+
+如果会员对任何博彩或比赛的结果存有异议，应在该等结果宣布之日后十四(14)天内向我们书面投诉。若出现会员联接设备所显示与KTO亚洲系统的交易记录中所存的交易结果不符的情况(尽管发生这种情况的可能性很小)，会员同意KTO亚洲系统中交易记录所记载的由我们的技术总监认证的交易结果应为该等结果具终局性的不容置疑的证据。";
+"license_termination_content" = "如有充分理由相信或证明以下情形，除本条款项下所享有的其他权利外，KTO亚洲有权，根据自主判断，宣布任何彩金无效并没收会员下注账户中所存余额、终止本协议和/或暂停提供博彩服务/冻结会员账户：
+
+1. 会员在KTO亚洲拥有不止一个活动账户；
+
+2. 会员姓名与向KTO亚洲进行购卖或支付押金所用的信用卡或借记卡或其他付款账户的持有人姓名不符；
+
+3. 会员参与KTO亚洲促销并在未满足促销要求之前退出该促销；
+
+4. 会员提供不正确或误导性的注册信息；
+
+5. 会员未提供或遗漏提供必要的身份资料；
+
+6. 会员不满法定年龄；
+
+7. 会员连接和使用博彩服务所在的地区在法律上禁止使用博彩服务；
+
+8. 会员对我们实施或促使他人对我们实施「退款」，或否认以其账户名义进行的任何交易或押金；
+
+9. 会员押金来源于刑事犯罪或其他非法或未经授权的活动；
+
+10. 会员被发现欺诈或企图欺诈任何人或已经对任何人实施欺诈，或经KTO亚洲认定会员使用专门设计用以干扰/捣毁系统之人工智能或其他系统(包括机械、电脑、软件或其他自动化系统)，或被发现与其他博彩玩客勾结或企图与其他赌客勾结欺骗KTO亚洲或其他博彩玩客；
+
+11. 会员允许(不论是否故意)他人使用其账户；
+
+12. 会员未遵守本协议项下的任何使用规定；
+
+13. 会员未披露其位置在菲律宾、台湾、美国、新加坡及香港境内的事实。
+
+14. 若我们规定暂停提供博彩服务和/或冻结账户，在会员实施必要的纠正措施(如果可以纠正)，且我们确认完全满意会员的纠正措施之后，博彩服务和会员账户将被恢复和解冻。";
+"license_linktoexternal_content" = "博彩网站可能含有与并非KTO亚洲维护的外部网站的链接。与外部网站的链接仅为会员方便而提供，我们不承诺确保上述链接所含内容的准确性、时效性或被维护，且不就此承担任何责任。
+
+KTO亚洲不就外部网站的内容资讯或隐私保护政策或在外部网站宣传、出售或以其他方式开放的任何产品或服务承担任何责任、负责提供或审查、予以批准或核准、或作出任何声明或保证。
+
+KTO亚洲不就会员因使用博彩网站所提供的任何外部网站链接而发生的或与之相关的任何损失或损害承担合约、侵权、疏忽或其他责任。
+
+除非明文规定，否则KTO亚洲在任何情况下均不得被视为与外部网站上的任何声明、意见、产品或服务商标、标记、标志或其他图案、在外部网站宣传、出售或以其他方式开放的任何产品或服务、外部网站的经营者或所有者、或以任何方式与外部网站相关的任何人具有任何关系或联系。";
+"license_linktobettingsite_content" = "会员不得就博彩网站或博彩服务的任何部分设置链接、深链接或文中链接(deep or in-line links)、或框入(frame)博彩资讯。";
+"license_addorbreak_gamblingcategories_content" = "我们保留自行决定，不经通知会员，于任何时候在博彩网站增加新的博彩种类或功能，或开始、停止、中断、限制联接或修改任何博彩种类或功能的权利，且不就此对任何人承担任何责任。";
+"license_violation_content" = "KTO亚洲保留就违反本条规的行为依法寻求救济(法律及衡平法)的权利，包括自行决定在任何时候基于任何理由拒绝或限制任何特定的人联接博彩服务、博彩网站和博彩资讯、阻止通过特定互联网地址或联接设备联接博彩服务、博彩网站和博彩资讯的权利。";
+"license_priority_order_content" = "博彩规则(若适用)和适用于使用和联接博彩服务、博彩软件、博彩资讯和博彩网站的任何其他条规均构成本条规的组成部分。
+
+若博彩规则和适用于使用和联接博彩服务、博彩软件、博彩资讯和博彩网站的任何其他条规与本条规存有抵触，则除非另行明文规定，否则以本条规为准。";
+"license_forcemajeure_content" = "若KTO亚洲由于发生下列其无法控制的任何性质的事件(包括但不限于天灾、适用法律法规的变更、政府、民政或军事机关的作为或不作为、法院命令、恐怖活动、闪电或火灾、罢工、停工或其他劳资纠纷、洪水、干旱、战争、暴乱、盗窃、传输或系统故障、通讯或宽带服务故障或中断、电力供应或设备故障或不足、恶劣气候、地震和自然灾害)未能或迟延履行本条规所规定的任何义务，不构成违反本条规。会员同意采取一切必要行动尽量减轻上述事件的后果。";
+"license_abstain_content" = "KTO亚洲在任何时候未能执行本条规任何条款不可视为放弃本条规所规定的权利或以任何方式影响本条规全部或部分的有效性，且不影响KTO亚洲采取进一步行动的权利。";
+"license_severability_content" = "若任何条款或其任何部分被有关机关认定为在任何程度上无效、不合法或不可执行，则该条款或该部分在上述程度上与其他条款分割，其他条款在法律允许的范围内继续完全有效。";
+"license_law_jurisdiction_content" = "1. 会员同意，会员联接和使用博彩服务、博彩网站、博彩软件、博彩资讯及有关本条规的解释适用菲律宾法律，并按菲律宾法律解释。
+
+因本条规发生或与本条规有关的任何争议：
+
+2. 若由会员提起，则提交菲律宾First Cagayan公司卡卡湾经济区管理局(Cagayan Economic Zone Authority, First Cagayan Leisure and Resort Corporation)互动游戏主许可人最终解决。
+
+3. 若由KTO亚洲提起，则由KTO亚洲自行选择：
+
+  i. 根据以上规定提请仲裁最终解决。
+  
+  ii. 向会员同意的菲律宾法院提起诉讼或申请，但KTO亚洲在其他法律管辖区提起诉讼或法律程序的权利不受影响。";
+"license_terms_service" = "服务条款";
+"license_warning" = "请仔细阅读本条款，并确认您完全理解其内容。如果对于这一条款所产生的权利和义务有任何疑问，请向您所属法律管辖区域内的法律顾问寻求帮助。";
+"license_definition" = "定义";
+"license_agree" = "同意";
+"license_modify" = "修改";
+"license_gaminginfo_intellectualproperty" = "博彩资讯和知识产权";
+"license_condition" = "使用条件";
+"license_register_membership" = "注册开立博彩账户和会员资格";
+"license_bet_acceptbet" = "下注及接受下注";
+"license_gamingsoftware_usagerights" = "博彩软件使用权";
+"license_transaction_settlement" = "交易结算";
+"license_bouns" = "领取彩金";
+"license_promotion_reward" = "促销和奖励";
+"license_compensation" = "赔偿";
+"license_disclaimer_specialconsideration" = "免责声明及特别注意事项";
+"license_termination" = "终止、关户及暂停博彩服务";
+"license_linktoexternal" = "与外部网站的链接";
+"license_linktobettingsite" = "与博彩网站的链接/框入";
+"license_addorbreak_gamblingcategories" = "增加或中断博彩种类";
+"license_violation" = "违反本条规";
+"license_priority_order" = "优先顺序";
+"license_forcemajeure" = "不可抗力";
+"license_abstain" = "弃权";
+"license_severability" = "可分割性";
+"license_law_jurisdiction" = "适用法律和管辖";
+"license_privacy_responsibility" = "隐私政策";
+"license_privacy_warning" = "对于保存会员资料方面，KTO亚洲一向采取最谨慎的态度及工作程序作处理。我们对会员所肩负起的责任与承诺。另外，也清晰说明了我们处理会员资料的方式。
+
+当阁下使用KTO亚洲官网时，表示您承认并接受KTO亚洲隐私政策的规则与条件，并了解收集各项资料之目的及处理之方式。如果您不同意本隐私政策中的条款，请不要使用网站或将您的个人信息提供给我们。
+
+所有会员提供的个人信息，其传送都将通过安全端口(SSL 128 bit encryption Standard)并存放在公众无法进入的保密环境之下。所有数据的内部出入都受到限制及严密的监控。";
+"license_privacy_messagecollect_use" = "信息收集与使用";
+"license_privacy_definition_content" = "当会员在KTO亚洲开设及使用账户时，我们所收集的信息和数据包含姓名、位址、年龄、电邮、电话、IP地址等，而收集这些信息的目的为：
+
+1. 保留户口的交易记录
+
+2. 协助改善户口管理
+
+3. 安全理由(包括会员的身份证明)
+
+4. 建立会员档案
+
+5. 管理会员关系
+
+6. 在您同意的情况下，为您提供我们的优惠活动、产品和服务信息
+
+7. 为防止欺诈、不规律投注、洗黑钱和欺骗等行为而对交易进行监管";
+"license_privacy_transaction" = "户口的交易状况";
+"license_privacy_transaction_content" = "为鉴别会员的兴趣以提供相关优惠及资讯，或基于交易与业务运作等安全理由，我们会保留会员的交易记录以作分析。";
+"license_privacy_promotion_information" = "传送优惠资讯";
+"license_privacy_promotion_information_content" = "在注册账号时，会员可选择是否希望收到优惠资讯。登记后，会员亦可随时透过电邮作出有关更改：(email)。请注意：当会员选择不希望收到优惠资讯时，我们会尽力地停止相关传送，并承诺于28天内完成这个步骤。";
+"license_privacy_playerinformation" = "更改您的个人资料";
+"license_privacy_playerinformation_content" = "会员可随时更改个人资料。如有需要，可向我们的在线客服联络。";
+"license_privacy_playerinformationsafe" = "个人资料的安全与准确性";
+"license_privacy_playerinformationsafe_content" = "1. 我们承诺会妥善地保存会员的所有资料，并维护相关资料的准确性。根据法律，会员有权保留个人资料及要求更改任何错误。
+
+2. 同时，我们更会采取所有步骤以确保会员资料在处理过程中，能达至最严格的安全标准。此外，会员资料只有在适用的法律之下方有机会被透露，而资料则主要透露给KTO亚洲等有关部门、商业伙伴、顾问与供应商(如 信用卡处理机构)。我们承诺不会将会员的资料售卖给第三者。";
+"license_privacy_phone" = "电话";
+"license_privacy_phone_content" = "出于员工培训和安全原因，我们所有的会员往来电话均有录音，同时也可为您之前所受到的服务提供进一步的帮助。";
+"license_privacy_docfile" = "小型文字档案(Cookies)";
+"license_privacy_docfile_content" = "1. 会员使用本网站后，我们出于以上目的可能使用Cookies技术从服务器中收集会员信息。如果您在KTO亚洲注册或者继续使用网站，则您将被视为同意我们使用Cookies。
+
+2. Cookies包含转至您电脑硬盘上的信息。这将帮助我们完善网站，并提供更优质且人性化的服务。我们使用的某些Cookies对于网站的运行至关重要。
+
+3. 如果您想删除任何已储存在您电脑上的Cookies，或想停止那些记录您浏览网站模式的Cookies，您可以删除您的现有Cookies和/或更改您浏览器上的隐私设置，以阻挡Cookies(此过程在各个浏览器间有所不同)。如果您想获知更多关于如何操作的信息，请访问http://www.allaboutcookies.org/。请注意，如果删除我们的Cookies或阻挡我们之后的Cookies，将导致您无法使用网站的某些区域或特色功能。";
+"license_privacy_webmessage" = "网站信息";
+"license_privacy_webmessage_content" = "我们的系统会自动记录KTO亚洲浏览者的网路IP地址，但我们绝不会记录网站访问者的电邮地址，而此项主要是用作网站流量统计之用。";
+"license_privacy_advertisement" = "广告系统";
+"license_privacy_advertisement_content" = "我们的广告系统会自动记录点击者的网路IP地址，此项主要令网站宣传功能有效发挥。";
+"license_privacy_bonus" = "彩金";
+"license_privacy_bonus_content" = "我们会严格保密会员所赢取的彩金数额。如根据当地的法律规定，要求会员必须要向当地的政府机构申报所赢取之彩金数额。那这个申报权益则会留给会员作决定。";
+"license_privacy_safety" = "安全性";
+"license_privacy_safety_content" = "KTO亚洲为确保会员提供给我们的个人资讯及资料是绝对安全保密。所有传送给我们的相关内容，都必定经过高科技的保密设施后，然后储存进我们的伺服器内。这项保密设施，乃使用目前最先进的防火墙技术来维护。我们的娱乐网站和软体更会采用最佳的保密程式，目的是保证会员的个人资料不会被第三方胡乱使用。";
+"license_promotion_privacypolicy" = "KTO亚洲隐私政策";
+"license_promotion_terms" = "KTO亚洲优惠活动一般规则和条款";
+"license_promotion_warning" = "1. 优惠促销只适用于拥有一个独立账户的会员。住址、电子邮箱地址﹑电话号码﹑支付方式(相同借记卡/信用卡/银行账户号码)IP地址，同一网络环境等将可以作为判定是否独立会员的条件。
+
+2. 会员不能同时享有任意两种优惠，客户所参加一种优惠或获取一种优惠的彩金所需要的客观条件，比如存款额，有效投注额等或获取彩金后所需要完成的有效投注额要求均视为目前所拥有的优惠状态的参数，不会被计算到其他任意的优惠所需要的条件或获取优惠彩金后所需要完成的要求中。
+
+3. 除非有特别说明，否则所有与投注额相关的数据都将以KTO亚洲有效投注额为依据，KTO亚洲有效投注额是指参与一定风险产生的投注金额，KTO以最终的输赢额进行考量：最终结果输赢额超过或等于本金的50%%的注单投注实际扣除金额将被认定为有效投注额，反之则将不属于有效投注额的范畴。
+
+例如：
+
+案例1, 客户账户扣除100元进行投注，注单结果为赢，赢利的金额等于50元或高于50元，视为100元有效投注额
+
+案例2, 客户账户扣除100元进行投注，注单结果为输，输掉的金额低于50元，有效投注额为0
+
+案例3, 客户账户扣除100元进行投注，注单结果为输，输掉的金额高于或等于50元，有效投注额为100
+
+案例4, 客户账户扣除100元进行投注，注单被取消，返还本金，赢利和负利都为0，有效投注额为0
+
+4.\"智能下注\"的玩法不参与任何优惠投注额要求计算。
+
+5. 对于发现任何有违背、欺骗、或利用规则和条款进行非法获利的会员， KTO亚洲保留所有权利在任何时候都可以停止、取消优惠或索回已支付的全部优惠。
+
+6. 我们的优惠活动欢迎真实会员申请，真实会员的定义是指真正参与游戏而且有风险投注的会员。若发现任何有违背、欺骗、或利用规则和条款进行非法获利或获取其他利益，我们有权自行决定采取任何行动例如：终止登录、暂停使用网站，或者没收奖金及赢利。
+
+7. 某些特定优惠可能需要客户提交身份证件或地址等要求以便发放奖金或奖品，客户申请优惠将视为遵守优惠的规则和条款，在规定的时间未提交合格资料的情况下，将视为客户主动放弃优惠。客户所提交的信息将遵循%@。
+
+8. 会员需要遵守优惠的特定规则条款，优惠一般规则条款和网站条款。
+
+9. 在某些未知因素超出可控范围的情况下，KTO亚洲保留可单方面执行的决定权，在任何时候无事先通知的情况下，修改、改变、停止、取消以及/或使此优惠失效。KTO亚洲承诺会在这类紧急问题发生时解释给客户原因并听取客户反馈与客户沟通协商解决。";
+"license_responsibilitygambling_title" = "博彩责任";
+"license_responsibilitygambling_content" = "我们以提供最佳体育博彩，在线网上娱乐场服务而自豪，然而博彩只是一种娱乐消遣的方式，我们倾全力为顾客营造一个良好的网上娱乐环境并且衷心希望顾客能在这里获得最佳娱乐体验。作为一个声誉高责任感强的博彩公司，我们希望阁下您在尽情享受网站服务的同时调整好您的心态。我们所有的客户服务团队均有受到有关问题赌博的认识培训。有少部分客户或许过度沉迷于游戏以至于对其经济，事业，家庭和社会产生负面影响。对此，我司强烈建议阁下定时审视您的博彩行为，明确和调整您的娱乐心态。";
+"license_responsibilitygambling_age_limit_title" = "年龄限制";
+"license_responsibilitygambling_age_limit_content" = "阁下必须超过18岁(或在阁下居住的管辖范围内不被视为未成年人)才可进入此网站。任何未满18岁的人不得在我们网站开户和投注，我司以严谨的态度看待和处理此问题。
+
+
+
+如果您未满18岁，请勿在我们网站开户游戏，并请立即退出网站。未成年人在我们网站游戏，那么我司有没收其盈利的权利。
+
+
+
+以下是为预防未成年人访问在线游戏网站的一些参考网站
+
+
+
+http://www.gamblersanonymous.org";
+"license_gamblingprotection_title" = "赌博问题防护";
+"license_gamblingprotection_content" = "我们强烈建议阁下定期审视您的博彩行为，检验自己是否投入过度。这是一份来自匿名戒赌互助会的问券调查，以评估潜在的赌博问题。
+
+1. 有否曾因赌博而耽误工作时间?
+
+2. 赌博有否令您的生活不愉快?
+
+3. 赌博有否影响您的声望?
+
+4. 赌博之后，您是否感到自责?
+
+5. 阁下有否曾经用赌博所赢得的钱来还债，或者解决财政困难?
+
+6. 赌博有否导致您的抱负及效率减低?
+
+7. 输钱后，您是否感觉您一定要尽快回来赚您所失去的?
+
+8. 赢钱后，您是否有一种强烈的欲望，回来赢得更多?
+
+9. 您是否时常赌博至分文都用尽?
+
+10. 您是否借钱，作赌博之用?
+
+11. 您是否出卖任何物件，作赌博之用?
+
+12. 您是否不愿意用\"赌本\"来付正常的开支?
+
+13. 赌博是否令您疏忽您自己及您家人的健康快乐?
+
+14. 您是否花比预计更多的时间在赌博上?
+
+15. 您是否以赌博来逃避忧虑及困难?
+
+16. 您是否犯罪或考虑犯罪，为赌博筹备资金?
+
+17. 赌博有否令您有睡眠的困难?
+
+18. 围绕您的争执、失望或挫败有否造成赌博的推动力?
+
+19. 您是否为数小时的赌博而有冲动去庆祝好运?
+
+20. 您是否因赌博的结果而自毁或自杀?
+
+如果您的答案“是”越多，说明您存在赌博问题的风险越大。
+
+重要的是可以尽快发现赌博给您的生活带来的负面影响，以便采取预防措施，或请您联系在线客服来申请关闭您的账户。";
+"license_about_title" = "关于KTO";
+"license_about_content" = "KTO于2001年开始从事体育盘口数据业务。随着多年业务的发展与成长，KTO团队所提供的数据已经成为世界数个知名体育投注站预测赛事的专业参考指标之一，其中包括参与一些国家的官方体育投注项目合作。不止步于B2B的业务扩展，KTO于2017年开始著手拓展B2C业务。
+KTO是英文\"KNOW THE ODDS\"的缩写，代表KTO对赔率数据的专业理解，即：我们了解机率，我们创造赔率。致力于提供最具竞争力的产品，同时也传递KTO对用户体验的理解，这就是我们核心的价值理念。
+我们是KTO，我们是独立的存在。";
+"license_businesspartner_title" = "商业伙伴";
+"license_ktoglobal" = "了解KTO集团";
+"license_ktoglobal_link" = "https://ktoglobal.com/";
+"license_partner_title_1" = "国际米兰";
+"license_partner_description_1" = "2022, 2023官方合作伙伴";
+"license_partner_title_2" = "西班牙人";
+"license_partner_description_2" = "2021官方合作伙伴";

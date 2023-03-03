@@ -57,7 +57,7 @@ Khi Quý Khách gửi vào Crypto thành công, \"Số Crypto được yêu cầ
 "cps_erc20_address_error" = "Địa chỉ bắt đầu với \"0x\". Sau đó, bao gồm 40 ký tự (0-9, a-f, A-F).";
 "cps_applied_network_address_title" = "Mạng Lưới Crypto và Địa Chỉ Ví là:";
 "cps_select_crypto_type" = "Chọn Loại Tiền Gửi";
-"cps_crypto_currency_deposit_hint" = "Thưởng %@%% mỗi giao dịch, tối đa %@ VND mỗi ngày, doanh thu cược x1.";
+"cps_crypto_currency_deposit_hint" = "Thưởng %@%% mỗi giao dịch, tối đa %@ KVND mỗi ngày, doanh thu cược x1.";
 "cps_crypto_currency_guide_hint" = "Không sử dụng Crypto?Tham khảo tại đây!";
 "cps_crypto_currency_guide_title" = "Hướng Dẫn cho thành viên mới sử dụng Crypto.";
 "cps_crypto_guidance_description" = "Dưới đây là danh sách các Sàn Giao Dịch mà thành viên có thể mua Crypto.
@@ -433,7 +433,6 @@ Hộp Thư Rác/Quảng Cáo.";
 "common_super_signature_maintenance" = "Máy chủ tải xuống đang được bảo trì,
 vui lòng thử lại lúc %@";
 "common_retry_later" = "Vui lòng thử lại sau";
-"common_notify_currency_ratio" = "Tiền tệ VND được hiển thị theo Tỷ lệ 1:1,000";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "Luật Thể Thao";
@@ -531,6 +530,7 @@ Vui lòng Xác Minh.";
 "deposit_accountlastfournumber" = "4 Số Cuối Của Số Tài Khoản Gửi Tiền (Không bắt buộc)";
 "deposit_amount" = "Số Tiền Gửi";
 "deposit_offline_step1_tips" = "Giới Hạn Mỗi Giao Dịch Gửi Tiền: %@ - %@";
+"deposit_notify_currency_ratio" = "Tiền tệ VND được hiển thị theo Tỷ lệ 1:1,000";
 "deposit_offline_step1_button" = "Thực Hiện Gửi Tiền";
 "deposit_offline_step2_title" = "Thông Tin Thụ Hưởng KTO";
 "deposit_offline_step2_title_tips" = "Vui lòng gửi tiền vào tài khoản ngân hàng được cung cấp dưới đây.";

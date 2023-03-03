@@ -326,7 +326,7 @@ extension OnlinePaymentView {
         LimitSpacer(4)
 
         Text(Localize.string(
-          "common_notify_currency_ratio"))
+          "deposit_notify_currency_ratio"))
           .localized(weight: .medium, size: 14, color: .gray9B9B9B)
           .visibleLocale([.Vietnam()])
           .id(OnlinePaymentView.Identifier.vnCurrencyHint.rawValue)

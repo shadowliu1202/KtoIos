@@ -233,7 +233,7 @@ extension OfflinePaymentView {
             Text(viewModel.remitAmountLimitRange)
               .id(OfflinePaymentView.Identifier.remitAmountLimitRange.rawValue)
 
-            Text(Localize.string("common_notify_currency_ratio"))
+            Text(Localize.string("deposit_notify_currency_ratio"))
               .visibility(playerLocale == SupportLocale.Vietnam() ? .visible : .gone)
           }
           .localized(weight: .medium, size: 14, color: .gray9B9B9B)

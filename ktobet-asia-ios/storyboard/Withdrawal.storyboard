@@ -2410,7 +2410,7 @@
                                                         <color key="textColor" name="textPrimaryDustyGray"/>
                                                         <nil key="highlightedColor"/>
                                                         <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_notify_currency_ratio"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="deposit_notify_currency_ratio"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </label>
                                                 </subviews>
@@ -2807,7 +2807,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TJz-0R-XSD" userLabel="Content">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="684"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="660"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提现 1/2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0G0-NR-J4h">
                                                 <rect key="frame" x="30" y="30" width="354" height="20"/>
@@ -3087,34 +3087,20 @@
                                                     <outlet property="fiatView" destination="KbK-ry-W4K" id="AVp-kc-jws"/>
                                                 </connections>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="3OY-qB-OpF">
-                                                <rect key="frame" x="30" y="412" width="354" height="44"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提现金額，单笔限额" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00q-qO-8GA">
-                                                        <rect key="frame" x="0.0" y="0.0" width="126" height="20"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="20" id="1bU-cO-f2t"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
-                                                        <color key="textColor" name="textPrimaryDustyGray"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="withdrawal_amount_range"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tiền tệ VND được hiển thị theo Tỷ lệ 1:1,000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6j-Up-pAQ">
-                                                        <rect key="frame" x="0.0" y="24" width="295.5" height="20"/>
-                                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
-                                                        <color key="textColor" name="textPrimaryDustyGray"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_notify_currency_ratio"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提现金額，单笔限额" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00q-qO-8GA">
+                                                <rect key="frame" x="30" y="412" width="354" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="1bU-cO-f2t"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
+                                                <color key="textColor" name="textPrimaryDustyGray"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="withdrawal_amount_range"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jht-Fd-2y1">
-                                                <rect key="frame" x="30" y="480" width="354" height="20"/>
+                                                <rect key="frame" x="30" y="456" width="354" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="MlI-lK-dYf"/>
                                                 </constraints>
@@ -3124,7 +3110,7 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Q6-yV-CnW">
-                                                <rect key="frame" x="30" y="540" width="354" height="48"/>
+                                                <rect key="frame" x="30" y="516" width="354" height="48"/>
                                                 <color key="backgroundColor" name="red"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="ZHG-Pe-6ci"/>
@@ -3149,7 +3135,6 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="gOV-nK-tvI" firstAttribute="top" secondItem="iVN-Fo-5Fp" secondAttribute="bottom" constant="24" id="1sV-y7-XUq"/>
-                                            <constraint firstItem="3OY-qB-OpF" firstAttribute="top" secondItem="gOV-nK-tvI" secondAttribute="bottom" constant="12" id="3Ov-Mx-SaP"/>
                                             <constraint firstItem="gOV-nK-tvI" firstAttribute="trailing" secondItem="0G0-NR-J4h" secondAttribute="trailing" id="5ud-vx-Gwu"/>
                                             <constraint firstItem="iVN-Fo-5Fp" firstAttribute="trailing" secondItem="0G0-NR-J4h" secondAttribute="trailing" id="9Gp-DU-J2S"/>
                                             <constraint firstItem="22U-Ch-LCy" firstAttribute="trailing" secondItem="0G0-NR-J4h" secondAttribute="trailing" id="9cn-nf-o5Y"/>
@@ -3162,14 +3147,15 @@
                                             <constraint firstItem="iVN-Fo-5Fp" firstAttribute="top" secondItem="22U-Ch-LCy" secondAttribute="bottom" constant="24" id="Yuo-Jb-HsM"/>
                                             <constraint firstItem="gOV-nK-tvI" firstAttribute="leading" secondItem="0G0-NR-J4h" secondAttribute="leading" id="ZW9-bi-Gt9"/>
                                             <constraint firstItem="22U-Ch-LCy" firstAttribute="top" secondItem="0G0-NR-J4h" secondAttribute="bottom" constant="8" id="blX-2q-vfC"/>
+                                            <constraint firstItem="Jht-Fd-2y1" firstAttribute="top" secondItem="00q-qO-8GA" secondAttribute="bottom" constant="24" id="elA-Km-Dh1"/>
                                             <constraint firstItem="7Q6-yV-CnW" firstAttribute="leading" secondItem="TJz-0R-XSD" secondAttribute="leading" constant="30" id="fe7-Jj-0Ki"/>
+                                            <constraint firstAttribute="trailing" secondItem="00q-qO-8GA" secondAttribute="trailing" constant="30" id="jLi-7g-BTq"/>
                                             <constraint firstAttribute="bottom" secondItem="7Q6-yV-CnW" secondAttribute="bottom" constant="96" id="nrR-Ju-fCN"/>
-                                            <constraint firstAttribute="trailing" secondItem="3OY-qB-OpF" secondAttribute="trailing" constant="30" id="qz4-Yf-mKZ"/>
+                                            <constraint firstItem="00q-qO-8GA" firstAttribute="top" secondItem="gOV-nK-tvI" secondAttribute="bottom" constant="12" id="oP1-WF-csR"/>
                                             <constraint firstItem="iVN-Fo-5Fp" firstAttribute="leading" secondItem="0G0-NR-J4h" secondAttribute="leading" id="uzA-nO-sGy"/>
                                             <constraint firstAttribute="trailing" secondItem="Jht-Fd-2y1" secondAttribute="trailing" constant="30" id="vUU-tT-BbS"/>
+                                            <constraint firstItem="00q-qO-8GA" firstAttribute="leading" secondItem="TJz-0R-XSD" secondAttribute="leading" constant="30" id="wat-XX-FDb"/>
                                             <constraint firstAttribute="trailing" secondItem="7Q6-yV-CnW" secondAttribute="trailing" constant="30" id="wfW-hG-qdI"/>
-                                            <constraint firstItem="Jht-Fd-2y1" firstAttribute="top" secondItem="3OY-qB-OpF" secondAttribute="bottom" constant="24" id="yuc-Qz-Nh9"/>
-                                            <constraint firstItem="3OY-qB-OpF" firstAttribute="leading" secondItem="TJz-0R-XSD" secondAttribute="leading" constant="30" id="yyb-ui-GCJ"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -3194,7 +3180,6 @@
                     <navigationItem key="navigationItem" id="nk8-nd-B40"/>
                     <connections>
                         <outlet property="autoFillButton" destination="Jht-Fd-2y1" id="Vqn-VZ-byY"/>
-                        <outlet property="currencyRatioLabel" destination="Z6j-Up-pAQ" id="dK5-nC-MKK"/>
                         <outlet property="exchangeInput" destination="gOV-nK-tvI" id="3qB-zL-mUH"/>
                         <outlet property="exchangeRateView" destination="ltG-bW-0Az" id="Epe-pL-YLr"/>
                         <outlet property="nextButton" destination="7Q6-yV-CnW" id="gpg-E4-HrZ"/>

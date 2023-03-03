@@ -16,7 +16,6 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
   private weak var fiatView: FiatView!
   @IBOutlet private weak var withdrawalAmountErrorLabel: UILabel!
   @IBOutlet private weak var withdrawalLimitLabel: UILabel!
-  @IBOutlet weak var currencyRatioLabel: UILabel!
   @IBOutlet private weak var autoFillButton: UIButton!
   @IBOutlet private weak var nextButton: UIButton!
 
@@ -50,102 +49,64 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
   private func initUI() {
     cryptoView = exchangeInput.cryptoView
     fiatView = exchangeInput.fiatView
-
     let stream = self.rx.viewWillAppear.flatMap({ [unowned self] _ in
       Observable.combineLatest(
         viewModel.getWithdrawalLimitation().asObservable(),
         viewModel.getBalance().asObservable(),
         viewModel.cryptoCurrency(cryptoCurrency: cryptoType).asObservable())
-    })
-    .share()
-
+    }).share()
     setupExchangeUI(stream)
     setupWithdrawalAmountRange(stream)
-    setupCurrencyRatioLabel()
     setupAutoFillAmount(stream)
     dataBinding(stream)
   }
 
   private func setupExchangeUI(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
-    stream
-      .subscribe(
-        onNext: { [weak self] _, _, cryptoExchangeRate in
-          guard let self else { return }
-          self.exchangeRateView.setup(self.cryptoType, cryptoExchangeRate, self.fiat, self.cryptoNewrok.name)
-          self.exchangeInput.setup(
-            self.cryptoType,
-            0.toCryptoCurrency(self.cryptoType),
-            self.fiat,
-            exchangeRate: cryptoExchangeRate)
-        },
-        onError: { [weak self] error in
-          self?.handleErrors(error)
-        })
-      .disposed(by: disposeBag)
+    stream.subscribe(onNext: { [weak self] _, _, cryptoExchangeRate in
+      guard let self else { return }
+      self.exchangeRateView.setup(self.cryptoType, cryptoExchangeRate, self.fiat, self.cryptoNewrok.name)
+      self.exchangeInput.setup(
+        self.cryptoType,
+        0.toCryptoCurrency(self.cryptoType),
+        self.fiat,
+        exchangeRate: cryptoExchangeRate)
+    }, onError: { [weak self] error in
+      self?.handleErrors(error)
+    }).disposed(by: disposeBag)
   }
 
   private func setupWithdrawalAmountRange(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
-    stream
-      .subscribe(
-        onNext: { [weak self] limits, _, _ in
-          guard let self else { return }
-          let minimum = limits.singleCashMinimum.description()
-          let maximum = limits.singleCashMaximum.description()
-          self.withdrawalLimitLabel.text = Localize.string("withdrawal_amount_range", minimum, maximum)
-        },
-        onError: { [weak self] error in
-          self?.handleErrors(error)
-        })
-      .disposed(by: disposeBag)
-  }
-
-  private func setupCurrencyRatioLabel() {
-    switch viewModel.getSupportLocale() {
-    case .Vietnam():
-      currencyRatioLabel.isHidden = false
-    case .China():
-      currencyRatioLabel.isHidden = true
-    default:
-      currencyRatioLabel.isHidden = true
-    }
+    stream.subscribe(onNext: { [weak self] limits, _, _ in
+      guard let self else { return }
+      let minimum = limits.singleCashMinimum.description()
+      let maximum = limits.singleCashMaximum.description()
+      self.withdrawalLimitLabel.text = Localize.string("withdrawal_amount_range", minimum, maximum)
+    }, onError: { [weak self] error in
+      self?.handleErrors(error)
+    }).disposed(by: disposeBag)
   }
 
   private func setupAutoFillAmount(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
-    stream
-      .subscribe(
-        onNext: { [weak self] limits, _, _ in
-          let title = limits.hasCryptoRequirement()
-            ? Localize.string("cps_auto_fill_request")
-            : Localize.string("cps_auto_fill_balance")
-
-          self?.autoFillButton.setTitle(title, for: .normal)
-        },
-        onError: { [weak self] error in
-          self?.handleErrors(error)
-        })
-      .disposed(by: disposeBag)
+    stream.subscribe(onNext: { [weak self] limits, _, _ in
+      let title = limits.hasCryptoRequirement() ? Localize.string("cps_auto_fill_request") : Localize
+        .string("cps_auto_fill_balance")
+      self?.autoFillButton.setTitle(title, for: .normal)
+    }, onError: { [weak self] error in
+      self?.handleErrors(error)
+    }).disposed(by: disposeBag)
 
     self.autoFillButton.rx.touchUpInside.withLatestFrom(stream)
       .bind(onNext: { [weak self] withdrawalLimits, balance, cryptoExchangeRate in
-        self?.autoFillAmount(
-          limits: withdrawalLimits,
-          balance: balance,
-          rate: cryptoExchangeRate)
-      })
-      .disposed(by: disposeBag)
+        self?.autoFillAmount(limits: withdrawalLimits, balance: balance, rate: cryptoExchangeRate)
+      }).disposed(by: disposeBag)
   }
 
   private func autoFillAmount(limits: WithdrawalLimits, balance: AccountCurrency, rate: IExchangeRate) {
     if limits.hasCryptoRequirement() {
       let cryptoTurnover = limits.unresolvedCryptoTurnover
-
       switch verifyWithdrawalAmount(limits, cryptoTurnover) {
       case .Valid:
-        filledCryptoRequestByBalance(
-          cryptoTurnover: cryptoTurnover,
-          limits: limits,
-          balance: balance,
-          rate: rate)
+        filledCryptoRequestByBalance(cryptoTurnover: cryptoTurnover, limits: limits, balance: balance, rate: rate)
       case .NotAllowed:
         fillAmounts(
           accountCurrency: "0.0".toAccountCurrency(),
@@ -228,9 +189,7 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
         title: Localize.string("common_tip_title_warm"),
         message: Localize.string("cps_auto_fill_maximum_limit"))
       {
-        self.fillAmounts(
-          accountCurrency: limits.singleCashMaximum,
-          cryptoAmount: limits.singleCashMaximum * rate)
+        self.fillAmounts(accountCurrency: limits.singleCashMaximum, cryptoAmount: limits.singleCashMaximum * rate)
       }
     }
     else if limits.dailyMaxCash < limits.singleCashMaximum {
@@ -238,9 +197,7 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
         title: Localize.string("common_tip_title_warm"),
         message: Localize.string("cps_auto_fill_daily_limit_maximum"))
       {
-        self.fillAmounts(
-          accountCurrency: limits.dailyMaxCash,
-          cryptoAmount: limits.dailyMaxCash * rate)
+        self.fillAmounts(accountCurrency: limits.dailyMaxCash, cryptoAmount: limits.dailyMaxCash * rate)
       }
     }
   }
@@ -255,12 +212,7 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
   }
 
   private func alertAutoFillMessage(title: String, message: String, confirm: (() -> Void)?) {
-    Alert.shared.show(
-      title,
-      message,
-      confirm: confirm,
-      confirmText: Localize.string("common_determine"),
-      cancel: nil)
+    Alert.shared.show(title, message, confirm: confirm, confirmText: Localize.string("common_determine"), cancel: nil)
   }
 
   private func fillAmounts(accountCurrency: AccountCurrency, rate: IExchangeRate) {
@@ -273,63 +225,45 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
   }
 
   private func dataBinding(_ stream: Observable<(WithdrawalLimits, AccountCurrency, IExchangeRate)>) {
-    exchangeInput.text
-      .subscribe(onNext: { [weak self] cryptoAmountStr, fiatAmountStr in
-        if
-          let cryptoAmountStr,
-          let cryptoAmount = cryptoAmountStr.currencyAmountToDecimal()
-        {
-          self?.viewModel.inputCryptoAmount = cryptoAmount
-        }
+    exchangeInput.text.subscribe(onNext: { [weak self] cryptoAmountStr, fiatAmountStr in
+      if let cryptoAmountStr, let cryptoAmount = cryptoAmountStr.currencyAmountToDecimal() {
+        self?.viewModel.inputCryptoAmount = cryptoAmount
+      }
+      if let fiatAmountStr, let fiatAmount = fiatAmountStr.currencyAmountToDecimal() {
+        self?.viewModel.inputFiatAmount = fiatAmount
+      }
+    }).disposed(by: disposeBag)
 
-        if
-          let fiatAmountStr,
-          let fiatAmount = fiatAmountStr.currencyAmountToDecimal()
-        {
-          self?.viewModel.inputFiatAmount = fiatAmount
-        }
-      })
-      .disposed(by: disposeBag)
+    viewModel.withdrawalAmountValidation().bind(onNext: { [weak self] (error: WithdrawalCryptoRequestViewModel.ValidError) in
+      var errorMsg: String?
+      switch error {
+      case .none:
+        errorMsg = nil
+      case .amountBeyondRange:
+        errorMsg = Localize.string("withdrawal_amount_beyond_range")
+      case .amountBelowRange:
+        errorMsg = Localize.string("withdrawal_amount_below_range")
+      case .amountExceedDailyLimit:
+        errorMsg = Localize.string("withdrawal_amount_exceed_daily_limit")
+      case .notEnoughBalance:
+        errorMsg = Localize.string("withdrawal_balance_not_enough")
+      }
+      self?.exchangeInput.setError(errorMsg)
+    }).disposed(by: disposeBag)
 
-    viewModel.withdrawalAmountValidation()
-      .bind(onNext: { [weak self] (error: WithdrawalCryptoRequestViewModel.ValidError) in
-        var errorMsg: String?
+    viewModel.withdrawalValidation.bind(to: nextButton.rx.isValid).disposed(by: disposeBag)
 
-        switch error {
-        case .none:
-          errorMsg = nil
-        case .amountBeyondRange:
-          errorMsg = Localize.string("withdrawal_amount_beyond_range")
-        case .amountBelowRange:
-          errorMsg = Localize.string("withdrawal_amount_below_range")
-        case .amountExceedDailyLimit:
-          errorMsg = Localize.string("withdrawal_amount_exceed_daily_limit")
-        case .notEnoughBalance:
-          errorMsg = Localize.string("withdrawal_balance_not_enough")
-        }
-        self?.exchangeInput.setError(errorMsg)
-      })
-      .disposed(by: disposeBag)
-
-    viewModel.withdrawalValidation
-      .bind(to: nextButton.rx.isValid)
-      .disposed(by: disposeBag)
-
-    nextButton.rx.touchUpInside.withLatestFrom(stream)
-      .bind(onNext: { [weak self] _, _, cryptoExchangeRate in
-        guard let self else { return }
-
-        let request = RequestConfirm(
-          cardId: self.bankcardId!,
-          supportCryptoType: self.cryptoType,
-          cryptoAmount: self.viewModel.inputCryptoAmount,
-          fiatCurrency: self.fiat,
-          fiatAmount: self.viewModel.inputFiatAmount,
-          exchangeRate: cryptoExchangeRate)
-
-        self.performSegue(withIdentifier: WithdrawalCryptoRequestConfirmViewController.segueIdentifier, sender: request)
-      })
-      .disposed(by: disposeBag)
+    nextButton.rx.touchUpInside.withLatestFrom(stream).bind(onNext: { [weak self] _, _, cryptoExchangeRate in
+      guard let self else { return }
+      let request = RequestConfirm(
+        cardId: self.bankcardId!,
+        supportCryptoType: self.cryptoType,
+        cryptoAmount: self.viewModel.inputCryptoAmount,
+        fiatCurrency: self.fiat,
+        fiatAmount: self.viewModel.inputFiatAmount,
+        exchangeRate: cryptoExchangeRate)
+      self.performSegue(withIdentifier: WithdrawalCryptoRequestConfirmViewController.segueIdentifier, sender: request)
+    }).disposed(by: disposeBag)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -360,7 +294,6 @@ class ExchangeRateView: UIView {
   @IBOutlet private weak var networkNameLabel: UILabel!
   @IBOutlet private weak var exchangeRateLabel: UILabel!
   @IBOutlet private weak var exchangeLabel: UILabel!
-
   private var cryptoType: SupportCryptoType!
 
   required init?(coder aDecoder: NSCoder) {
@@ -376,10 +309,7 @@ class ExchangeRateView: UIView {
     cryptoLabel.text = cryptoType.name
     cryptoIcon.image = cryptoType.icon
     exchangeRateLabel.text = cryptoExchangeRate.formatString()
-    exchangeLabel.text = "1 \(cryptoType.name)"
-      + " = \(cryptoExchangeRate.formatString())"
-      + " \(fiatCurrency.simpleName)"
-
+    exchangeLabel.text = "1 \(cryptoType.name)" + " = \(cryptoExchangeRate.formatString())" + " \(fiatCurrency.simpleName)"
     networkNameLabel.text = cryptoNetworkName
   }
 }
@@ -414,15 +344,11 @@ class CurrencyView: UIView {
 
   func setAmount(_ text: String) {
     let str = text.replacingOccurrences(of: ",", with: "")
-
     guard var amount = str.currencyAmountToDecimal() else { return }
-
     let maximumAmount: Decimal = 9999999
-
     if amount > maximumAmount {
       amount = maximumAmount
     }
-
     textField.text = currencyFormat(amount)
     textField.sendActions(for: .valueChanged)
   }
@@ -462,10 +388,8 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
   @IBOutlet weak var cryptoView: CryptoView!
   @IBOutlet weak var fiatView: FiatView!
   @IBOutlet private weak var errorLabel: UILabel!
-
-  private var cryptoType: SupportCryptoType!
-
   var exchangeRate: IExchangeRate!
+  private var cryptoType: SupportCryptoType!
 
   var text: Observable<(ControlProperty<String?>.Element, ControlProperty<String?>.Element)> {
     Observable.combineLatest(cryptoView.textField.rx.text, fiatView.textField.rx.text)
@@ -509,9 +433,7 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
   @objc
   private func textFieldEditingChanged(_ textField: UITextField) {
     guard var str = textField.text else { return }
-
     str = checkPlayerInputFormat(textField, inputText: str)
-
     guard var amount = str.currencyAmountToDecimal() else {
       cryptoView.textField.text = "0"
       fiatView.textField.text = "0"
@@ -534,7 +456,6 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     else if textField == fiatView.textField {
       let fiatAmount = amount.toAccountCurrency()
       var fiatText = fiatAmount.description()
-
       if str.hasSuffix(".") {
         fiatText = fiatText.appending(".")
       }
@@ -578,7 +499,6 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
     var roundedTextFieldText = textFieldText
     let decimalPointIndex = roundedTextFieldText.firstIndex(of: ".")!
     let lengthAfterDecimalPoint = roundedTextFieldText[decimalPointIndex..<roundedTextFieldText.endIndex].count - 1
-
     if lengthAfterDecimalPoint > x {
       roundedTextFieldText.removeLast()
     }
@@ -594,15 +514,11 @@ class ExchangeInputStack: UIStackView, UITextFieldDelegate {
           str = String(str.dropLast())
         }
         while str.hasSuffix(".")
-
         textField.text = str
         textField.sendActions(for: .valueChanged)
       }
       else {
-        if
-          textField.superview is CurrencyView,
-          let amount = str.currencyAmountToDecimal()
-        {
+        if textField.superview is CurrencyView, let amount = str.currencyAmountToDecimal() {
           textField.text = (textField.superview as! CurrencyView).currencyFormat(amount)
           textField.sendActions(for: .valueChanged)
         }
