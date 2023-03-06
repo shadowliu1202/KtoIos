@@ -108,7 +108,7 @@ extension PromotionHistoryViewController {
         self?.searchTextField.rightViewMode = $0 ? .always : .never
       })
       .disposed(by: disposeBag)
-    
+
     searchTextField.rightView?.rx
       .tapGesture()
       .subscribe(onNext: { [weak self] _ in

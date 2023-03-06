@@ -14,13 +14,13 @@ class MarketHeaderView: UITableViewHeaderFooterView {
   {
     titleLabel.text = item.name
     icon.image = item.expanded
-    ? UIImage(named: "arrow-drop-up")
-    : UIImage(named: "arrow-drop-down")
-    
+      ? UIImage(named: "arrow-drop-up")
+      : UIImage(named: "arrow-drop-down")
+
     bottomLine.backgroundColor = isLastSection
-    ? .gray3C3E40
-    : .clear
-    
+      ? .gray3C3E40
+      : .clear
+
     self.callback = callback
     return self
   }

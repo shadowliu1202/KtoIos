@@ -220,7 +220,7 @@ class PromotionViewModel {
 }
 
 protocol PromotionVmItem {
-  var stampIcon: String { get }
+  var stampIcon: String? { get }
   var displayAmount: String { get }
   var issueNo: String { get }
   var title: String { get }
@@ -235,7 +235,7 @@ protocol PromotionVmItem {
 }
 
 extension PromotionVmItem {
-  var stampIcon: String { "" }
+  var stampIcon: String? { nil }
 }
 
 protocol BonusCouponItem: PromotionVmItem {

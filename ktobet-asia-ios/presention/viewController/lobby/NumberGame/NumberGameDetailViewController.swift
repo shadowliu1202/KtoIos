@@ -111,7 +111,7 @@ class NumberGameDetailViewController: LobbyViewController {
         guard let status = self.betStatus, let date = self.betDate?.convertToDate(), let id = self.gameId else { return }
         self.viewModel.getGameBetsByDate(gameId: id, date: date, betStatus: status).subscribe { [weak self] bets in
           guard let self else { return }
-          
+
           let wagerIds = bets.map { $0.wagerId }
           self.viewModel.getRecentGamesDetail(wagerIds: wagerIds)
             .subscribe { [weak self] (details: [NumberGameBetDetail]) in

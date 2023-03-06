@@ -2,12 +2,15 @@ import SharedBu
 import SwiftUI
 
 struct TurnoverAlert<ViewModel>: View
-  where ViewModel: TurnoverAlertViewModelProtocol & ObservableObject
+  where ViewModel:
+  TurnoverAlertViewModelProtocol &
+  ObservableObject
 {
-  @StateObject var viewModel: ViewModel
   @Environment(\.presentationMode) var presentation
 
-  let gameName: String
+  @StateObject var viewModel: ViewModel
+
+  let situation: TurnoverAlertDataModel.Situation
   let turnover: TurnOverDetail
 
   var body: some View {
@@ -48,13 +51,13 @@ struct TurnoverAlert<ViewModel>: View
       }
       .backgroundColor(.whitePure)
       .cornerRadius(14)
-      .frame(width: 270)
+      .padding(.horizontal, 53)
     }
     .environmentObject(viewModel)
     .environment(\.playerLocale, viewModel.locale)
     .onAppear {
       viewModel.prepareForAppear(
-        gameName: gameName,
+        situation: situation,
         turnover: turnover)
     }
   }
@@ -68,17 +71,11 @@ extension TurnoverAlert {
 
     var body: some View {
       VStack(alignment: .leading, spacing: 12) {
-        Text(
-          String(
-            format: Localize.string("product_turnover_description"),
-            arguments: [
-              viewModel.detail.gameName,
-              viewModel.detail.receiveBonusDate
-            ]))
-            .localized(
-              weight: .regular,
-              size: 14,
-              color: .gray131313)
+        Text(viewModel.detail.headerTitle)
+          .localized(
+            weight: .regular,
+            size: 14,
+            color: .gray131313)
 
         TurnoverAlert.Field(
           title: Localize.string("bonus_historyname"),
@@ -90,7 +87,7 @@ extension TurnoverAlert {
 
         TurnoverAlert.Field(
           title: Localize.string("bonus_total_request"),
-          content: viewModel.detail.totoalBetRequest)
+          content: viewModel.detail.totalBetRequest)
 
         Separator(color: .gray3F3F3F, lineWeight: 0.5)
 
@@ -103,7 +100,8 @@ extension TurnoverAlert {
           title: Localize.string("bonus_current_completion", [viewModel.detail.percentage]),
           ratio: viewModel.detail.ratio)
       }
-      .padding(.vertical, 14)
+      .padding(.top, 12)
+      .padding(.bottom, 14)
       .padding(.horizontal, 16)
     }
   }
@@ -144,7 +142,7 @@ struct TurnoverAlert_Previews: PreviewProvider {
   static var previews: some View {
     TurnoverAlert(
       viewModel: TurnoverAlertViewModel(locale: .China()),
-      gameName: "Test Game",
+      situation: .intoGame(gameName: "Test Game"),
       turnover: .init(
         achieved: "".toAccountCurrency(),
         formula: "",

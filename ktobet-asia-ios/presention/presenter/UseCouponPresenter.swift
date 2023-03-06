@@ -9,7 +9,7 @@ protocol UseCouponPresenter {
     confirmText: String?,
     cancel: (() -> Void)?,
     cancelText: String?)
-  func presentTurnOverLockedDialog(turnOver: TurnOverDetail, confirmAction: @escaping () -> Void)
+  func presentTurnOverLockedDialog(turnOver: TurnOverDetail)
   func presentTurnOverApproveDialog(
     title: String,
     turnOver: TurnOverDetail,
@@ -40,18 +40,17 @@ class UseCouponPresenterImpl: UseCouponPresenter {
     alert.show(title, message, confirm: confirm, confirmText: confirmText, cancel: cancel, cancelText: cancelText)
   }
 
-  func presentTurnOverLockedDialog(turnOver: TurnOverDetail, confirmAction: @escaping () -> Void) {
+  func presentTurnOverLockedDialog(turnOver: TurnOverDetail) {
     if
-      let alertView = UIStoryboard(name: "Promotion", bundle: nil)
-        .instantiateViewController(withIdentifier: "PromotionAlert1ViewController") as? PromotionAlert1ViewController,
-      let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController
+      let topVc = UIApplication.shared.windows
+        .filter({ $0.isKeyWindow })
+        .first?
+        .topViewController
     {
-      alertView.turnOver = turnOver
-      alertView.confirmAction = confirmAction
-      alertView.view.backgroundColor = UIColor.black131313.withAlphaComponent(0.8)
-      alertView.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-      alertView.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-      topVc.present(alertView, animated: true, completion: nil)
+      topVc
+        .present(
+          TurnoverAlertViewController(situation: .useCoupon, turnover: turnOver),
+          animated: true)
     }
   }
 

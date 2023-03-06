@@ -3,16 +3,17 @@ import SwiftUI
 import UIKit
 
 protocol TurnoverAlertViewModelProtocol {
-  var detail: TurnoverAlertViewModel.Detail { get }
+  var detail: TurnoverAlertDataModel.Detail { get }
   var locale: SupportLocale { get }
 
-  func prepareForAppear(gameName: String, turnover: TurnOverDetail)
+  func prepareForAppear(situation: TurnoverAlertDataModel.Situation, turnover: TurnOverDetail)
 }
 
-class TurnoverAlertViewModel: TurnoverAlertViewModelProtocol,
+class TurnoverAlertViewModel:
+  TurnoverAlertViewModelProtocol,
   ObservableObject
 {
-  @Published var detail: Detail = .init()
+  @Published var detail: TurnoverAlertDataModel.Detail = .init()
 
   let locale: SupportLocale
 
@@ -24,28 +25,53 @@ class TurnoverAlertViewModel: TurnoverAlertViewModelProtocol,
     Logger.shared.info("\(type(of: self)) deinit")
   }
 
-  func prepareForAppear(gameName: String, turnover: TurnOverDetail) {
+  func prepareForAppear(situation: TurnoverAlertDataModel.Situation, turnover: TurnOverDetail) {
     detail = .init(
-      gameName: gameName,
-      receiveBonusDate: turnover.informPlayerDate.toDateTimeString(),
+      headerTitle: getHeaderTitle(
+        situation,
+        receiveBonusDate: turnover.informPlayerDate.toDateTimeString()),
       turnoverName: turnover.name,
       receiveAmount: turnover.parameters.amount.description(),
-      totoalBetRequest: turnover.parameters.turnoverRequest.description(),
+      totalBetRequest: turnover.parameters.turnoverRequest.description(),
       remainBetRequest: turnover.remainAmount.description(),
       percentage: turnover.parameters.percentage.description(),
       ratio: turnover.parameters.percentage.percent / 100)
   }
+
+  private func getHeaderTitle(
+    _ situation: TurnoverAlertDataModel.Situation,
+    receiveBonusDate: String)
+    -> String
+  {
+    switch situation {
+    case .intoGame(let gameName):
+      return String(
+        format: Localize.string("product_turnover_description"),
+        arguments: [
+          gameName,
+          receiveBonusDate
+        ])
+    case .useCoupon:
+      return String(
+        format: Localize.string("bonus_turnover_confirm_title"),
+        receiveBonusDate)
+    }
+  }
 }
 
-// MARK: - Model
+// MARK: - DataModel
 
-extension TurnoverAlertViewModel {
+struct TurnoverAlertDataModel {
+  enum Situation {
+    case intoGame(gameName: String)
+    case useCoupon
+  }
+
   struct Detail {
-    var gameName = "-"
-    var receiveBonusDate = "-"
+    var headerTitle = "-"
     var turnoverName = "-"
     var receiveAmount = "-"
-    var totoalBetRequest = "-"
+    var totalBetRequest = "-"
     var remainBetRequest = "-"
     var percentage = "-"
     var ratio: Double = 0

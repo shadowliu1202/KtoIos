@@ -66,11 +66,11 @@ class CasinoBetSummaryByDateViewController: LobbyViewController {
       for p in periodOfRecords {
         self?.sections.append(Section(periodOfRecord: p))
       }
-      
+
       self?.sections.sort(by: { s1, s2 -> Bool in
         s1.sectionDate! > s2.sectionDate!
       })
-      
+
       self?.tableView.reloadData()
     } onFailure: { [weak self] error in
       self?.handleErrors(error)
