@@ -38,13 +38,23 @@ class LockPrivilegeView: UIView {
 
   fileprivate func addStampBorder() {
     stamp.roundCorners(corners: [.topLeft, .bottomLeft], radius: 4)
-    let n = (stamp.frame.height + 2) / 10
-    for _ in 0..<Int(n) {
-      let circleView = UIView()
-      circleView.layer.cornerRadius = 4
-      circleView.layer.masksToBounds = true
-      circleView.backgroundColor = UIColor.black131313
-      self.halfCircleStack.addArrangedSubview(circleView)
+    halfCircleStack.spacing = 2
+    halfCircleStack.alignment = .center
+    halfCircleStack.distribution = .equalSpacing
+
+    DispatchQueue.main.async {
+      let numberOfGap = Int((self.stamp.frame.height - 2) / 8)
+
+      (0..<numberOfGap).forEach { _ in
+        let circleView = UIView()
+        circleView.layer.cornerRadius = 3
+        circleView.layer.masksToBounds = true
+        circleView.backgroundColor = UIColor.black131313
+        circleView.snp.makeConstraints { make in
+          make.size.equalTo(6)
+        }
+        self.halfCircleStack.addArrangedSubview(circleView)
+      }
     }
   }
 

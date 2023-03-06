@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -29,7 +29,7 @@
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Khr-Cu-ngs" userLabel="leftLine">
                         <rect key="frame" x="35" y="30" width="2" height="273"/>
-                        <color key="backgroundColor" name="dividerCapeCodGray"/>
+                        <color key="backgroundColor" name="textSecondaryScorpionGray"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="2" id="oGj-kk-0tb"/>
                         </constraints>
@@ -87,9 +87,8 @@
                                 <color key="textColor" name="whiteFull"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXY-9r-ZFS">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dXY-9r-ZFS">
                                 <rect key="frame" x="0.0" y="0.0" width="56" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -97,14 +96,18 @@
                             <constraint firstItem="dkM-Dy-3fT" firstAttribute="top" secondItem="wny-8q-ebn" secondAttribute="top" id="31p-CN-ES9"/>
                             <constraint firstItem="I4z-nc-9Ot" firstAttribute="leading" secondItem="dkM-Dy-3fT" secondAttribute="trailing" constant="8" id="AiN-8c-RMI"/>
                             <constraint firstItem="dkM-Dy-3fT" firstAttribute="leading" secondItem="wny-8q-ebn" secondAttribute="leading" id="CJD-3w-cD2"/>
+                            <constraint firstItem="dXY-9r-ZFS" firstAttribute="leading" secondItem="wny-8q-ebn" secondAttribute="leading" id="Kik-tV-gAI"/>
                             <constraint firstItem="I4z-nc-9Ot" firstAttribute="top" secondItem="wny-8q-ebn" secondAttribute="top" id="QON-CE-9y1"/>
+                            <constraint firstAttribute="bottom" secondItem="dXY-9r-ZFS" secondAttribute="bottom" id="TMj-OB-vQ6"/>
+                            <constraint firstAttribute="trailing" secondItem="dXY-9r-ZFS" secondAttribute="trailing" id="al0-tA-ADo"/>
                             <constraint firstAttribute="bottom" secondItem="dkM-Dy-3fT" secondAttribute="bottom" id="cgx-de-ZRZ"/>
                             <constraint firstAttribute="height" constant="20" id="fQf-if-1fP"/>
                             <constraint firstAttribute="bottom" secondItem="I4z-nc-9Ot" secondAttribute="bottom" id="hBf-QK-xIT"/>
+                            <constraint firstItem="dXY-9r-ZFS" firstAttribute="top" secondItem="wny-8q-ebn" secondAttribute="top" id="kbV-xX-F92"/>
                             <constraint firstAttribute="trailing" secondItem="I4z-nc-9Ot" secondAttribute="trailing" id="ytF-r6-Z7b"/>
                         </constraints>
                     </view>
-                    <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="332" placeholderIntrinsicHeight="0.0" axis="vertical" distribution="fillProportionally" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="w4Z-1c-oe0" userLabel="ExpandView">
+                    <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="332" placeholderIntrinsicHeight="0.0" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="w4Z-1c-oe0" userLabel="ExpandView">
                         <rect key="frame" x="52" y="118" width="332" height="185"/>
                         <subviews>
                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="332" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="jZT-qu-xBV">
@@ -114,8 +117,11 @@
                                     <constraint firstAttribute="height" id="aFI-Rb-muN"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="yPm-KU-FYK">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="yPm-KU-FYK">
                                 <rect key="frame" x="0.0" y="12" width="332" height="173"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="173" placeholder="YES" id="nS4-sO-P1r"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                     </stackView>
@@ -155,11 +161,11 @@
         <namedColor name="blackFull">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="dividerCapeCodGray">
-            <color red="0.23499999940395355" green="0.24300000071525574" blue="0.25099998712539673" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="textPrimaryDustyGray">
-            <color red="0.60799998044967651" green="0.60799998044967651" blue="0.60799998044967651" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="textSecondaryScorpionGray">
+            <color red="0.34509803921568627" green="0.34509803921568627" blue="0.34509803921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="whiteFull">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

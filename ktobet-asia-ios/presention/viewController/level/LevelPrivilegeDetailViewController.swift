@@ -4,8 +4,6 @@ import SwiftUI
 import UIKit
 
 class LevelPrivilegeDetailViewController: LobbyViewController {
-  static let segueIdentifier = "toPrivilegeDetail"
-
   @IBOutlet private weak var btnPromotion: UIButton!
   @IBOutlet private weak var backgroundView: UIView!
   @IBOutlet private weak var tableView: UITableView!
@@ -29,6 +27,18 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
   var level: Int32!
 
   var banner: UIView?
+
+  static func instantiate(
+    levelPrivilege: LevelPrivilege,
+    level: Int32)
+    -> LevelPrivilegeDetailViewController {
+      let controller = LevelPrivilegeDetailViewController.initFrom(storyboard: "LevelPrivilege")
+      
+      controller.levelPrivilege = levelPrivilege
+      controller.level = level
+      
+      return controller
+    }
 
   override func viewDidLoad() {
     super.viewDidLoad()

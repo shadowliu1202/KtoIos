@@ -6038,6 +6038,15 @@
 		FF34CD502995F09000495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
 		FF34CD512995F09100495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
 		FF34CD522995F09200495818 /* CookieHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF34CD492995EDB300495818 /* CookieHandler.swift */; };
+		FF4361ED29B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */; };
+		FF4361EE29B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */; };
+		FF4361EF29B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */; };
+		FF4361F029B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */; };
+		FF4361F129B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */; };
+		FF4361F229B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */; };
+		FF4361F329B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */; };
+		FF4361F429B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */; };
+		FF4361F529B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */; };
 		FF47BA2D29A4AD410033C2B0 /* PromotionHistoryViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF47BA2C29A4AD410033C2B0 /* PromotionHistoryViewControllerTests.swift */; };
 		FF4E0B492942D99900678D1F /* ItemSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4E0B482942D99900678D1F /* ItemSelector.swift */; };
 		FF63B35C2999E92F00E30EB6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF63B35B2999E92F00E30EB6 /* Settings.bundle */; };
@@ -7247,6 +7256,7 @@
 		FF2F96D129125B970079D48A /* NSObjectMockingBirdWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectMockingBirdWrapper.swift; sourceTree = "<group>"; };
 		FF34CD492995EDB300495818 /* CookieHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieHandler.swift; sourceTree = "<group>"; };
 		FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionFilterViewControllerTest.swift; sourceTree = "<group>"; };
+		FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelPrivilegeViewModel.swift; sourceTree = "<group>"; };
 		FF47BA2C29A4AD410033C2B0 /* PromotionHistoryViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionHistoryViewControllerTests.swift; sourceTree = "<group>"; };
 		FF4E0B482942D99900678D1F /* ItemSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelector.swift; sourceTree = "<group>"; };
 		FF63B35B2999E92F00E30EB6 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -8769,6 +8779,7 @@
 		6D17950926A5626D001C8BF8 /* level */ = {
 			isa = PBXGroup;
 			children = (
+				FF4361EC29B5987600911B27 /* LevelPrivilegeViewModel.swift */,
 				6D17950A26A562A0001C8BF8 /* LevelPrivilegeViewController.swift */,
 				6D17952826A65A14001C8BF8 /* LevelTableViewCell.swift */,
 				6D17952926A65A14001C8BF8 /* LevelTableViewCell.xib */,
@@ -11336,6 +11347,7 @@
 				6DC749EB29278F0D00115601 /* DepositCryptoRecordViewController.swift in Sources */,
 				6D9E584E263F968C00E6942A /* SlotBetSummaryByDateViewController.swift in Sources */,
 				41077DC325BA63B80057B340 /* ResetPasswordStep3ViewController.swift in Sources */,
+				FF4361EE29B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */,
 				60074CF12632A7050014326A /* FavoriteViewController.swift in Sources */,
 				6D986A112718157E00194E0D /* RangeReplaceableCollection.swift in Sources */,
 				4199A03C25AE9918002E2D7E /* TermsOfServiceViewController.swift in Sources */,
@@ -12034,6 +12046,7 @@
 				48AAA125256E458800E075CA /* DefaultTransportFactory.swift in Sources */,
 				6D9E5813263A504800E6942A /* SlotRecordRepository.swift in Sources */,
 				6DC749EA29278F0D00115601 /* DepositCryptoRecordViewController.swift in Sources */,
+				FF4361ED29B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */,
 				6DB5CF272766ECD30018B0E8 /* BundleExtension.swift in Sources */,
 				6D9E584D263F968C00E6942A /* SlotBetSummaryByDateViewController.swift in Sources */,
 				48AAA126256E458800E075CA /* LaunchViewController.swift in Sources */,
@@ -12491,6 +12504,7 @@
 				609A0D352758B34C003242AE /* LocalizationRepository.swift in Sources */,
 				60340CDA27291C0E008680BC /* ChatRoomSignalRClient.swift in Sources */,
 				6D6E706627547755005D88A6 /* DepositSystem.swift in Sources */,
+				FF4361EF29B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */,
 				6090126E2640EE7000419F8E /* DictionaryExtension.swift in Sources */,
 				6D38599B2682C6A100C854CF /* UITextFieldExtension.swift in Sources */,
 				6048E226277B174600345E36 /* ChatMapper.swift in Sources */,
@@ -13126,6 +13140,7 @@
 				60E57FC327F190E4008CE5A9 /* LocalizationRepository.swift in Sources */,
 				60E57FC427F190E4008CE5A9 /* ChatRoomSignalRClient.swift in Sources */,
 				60E57FC527F190E4008CE5A9 /* DepositSystem.swift in Sources */,
+				FF4361F229B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */,
 				60E57FC627F190E4008CE5A9 /* DictionaryExtension.swift in Sources */,
 				60E57FC727F190E4008CE5A9 /* UITextFieldExtension.swift in Sources */,
 				60E57FC827F190E4008CE5A9 /* ChatMapper.swift in Sources */,
@@ -14183,6 +14198,7 @@
 				6D0EDC5728743FAC004A9E3C /* OldEmailVerifyViewController.swift in Sources */,
 				6D0EDC5828743FAC004A9E3C /* ZeroLevelTableViewCell.swift in Sources */,
 				6D0EDC5928743FAC004A9E3C /* SettingsViewController.swift in Sources */,
+				FF4361F029B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */,
 				3C2D6B38294882A200636237 /* OfflinePaymentViewModel.swift in Sources */,
 				6D0EDC5A28743FAC004A9E3C /* HttpConnection.swift in Sources */,
 				6D0EDC5B28743FAC004A9E3C /* CasinoViewModel.swift in Sources */,
@@ -14819,6 +14835,7 @@
 				6D0EDEB228744704004A9E3C /* OldEmailVerifyViewController.swift in Sources */,
 				6D0EDEB328744704004A9E3C /* ZeroLevelTableViewCell.swift in Sources */,
 				6D0EDEB428744704004A9E3C /* SettingsViewController.swift in Sources */,
+				FF4361F329B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */,
 				3C2D6B39294882A200636237 /* OfflinePaymentViewModel.swift in Sources */,
 				6D0EDEB528744704004A9E3C /* HttpConnection.swift in Sources */,
 				6D0EDEB628744704004A9E3C /* CasinoViewModel.swift in Sources */,
@@ -15049,6 +15066,7 @@
 				6D966B5127FEE3FA006086B7 /* LocalizationRepository.swift in Sources */,
 				6D966B5227FEE3FA006086B7 /* ChatRoomSignalRClient.swift in Sources */,
 				6D966B5327FEE3FA006086B7 /* DepositSystem.swift in Sources */,
+				FF4361F429B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */,
 				6D966B5427FEE3FA006086B7 /* DictionaryExtension.swift in Sources */,
 				6D966B5527FEE3FA006086B7 /* UITextFieldExtension.swift in Sources */,
 				6D966B5627FEE3FA006086B7 /* ChatMapper.swift in Sources */,
@@ -15684,6 +15702,7 @@
 				6D966D9E27FEE416006086B7 /* LocalizationRepository.swift in Sources */,
 				6D966D9F27FEE416006086B7 /* ChatRoomSignalRClient.swift in Sources */,
 				6D966DA027FEE416006086B7 /* DepositSystem.swift in Sources */,
+				FF4361F529B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */,
 				6D966DA127FEE416006086B7 /* DictionaryExtension.swift in Sources */,
 				6D966DA227FEE416006086B7 /* UITextFieldExtension.swift in Sources */,
 				6D966DA327FEE416006086B7 /* ChatMapper.swift in Sources */,
@@ -16814,6 +16833,7 @@
 				6D55C9CA296662D40038E8FB /* LandingViewController.swift in Sources */,
 				6D55CA0B296662F00038E8FB /* PlayerConfigurationImpl.swift in Sources */,
 				6D55C8FE296662240038E8FB /* iOSDropDown.swift in Sources */,
+				FF4361F129B5987600911B27 /* LevelPrivilegeViewModel.swift in Sources */,
 				6D55C79229657E770038E8FB /* SideBarViewController.swift in Sources */,
 				6D55C87F29657F0C0038E8FB /* CryptoGuideVNDView.swift in Sources */,
 				6D55C82129657EB90038E8FB /* GetSystemStatusUseCase.swift in Sources */,

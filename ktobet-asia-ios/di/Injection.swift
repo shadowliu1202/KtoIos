@@ -1147,6 +1147,11 @@ final class Injection {
           observeSystemMessageUseCase: resolver.resolveWrapper(ObserveSystemMessageUseCase.self),
           getSystemStatusUseCase: resolver.resolveWrapper(GetSystemStatusUseCase.self))
       }
+    
+    container
+      .register(LevelPrivilegeViewModel.self) { resolver in
+          .init(playerUseCase: resolver.resolveWrapper(PlayerDataUseCase.self))
+      }
   }
 
   func registSingleton() {

@@ -127,6 +127,14 @@ extension UIView {
       self.layer.insertSublayer(gradientLayer, at: 0)
     }
   }
+  
+  func gradientLayer(horizontal colors: [CGColor]) -> CAGradientLayer {
+    let gradientLayer = CAGradientLayer()
+    gradientLayer.colors = colors
+    gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+    gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+    return gradientLayer
+  }
 
   @IBInspectable var borderWidth: CGFloat {
     get {
