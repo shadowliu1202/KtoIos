@@ -226,11 +226,11 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
         ? Localize.string("level_detail_5_title1_first")
         : Localize.string("level_detail_5_title1"),
       RightContent: data.percentage.description() + "%"))
-    
+
     cells.append(generateDetailOneRowCell(
       leftContent: Localize.string("level_detail_5_maxamount"),
       RightContent: data.maxBonus.description()))
-    
+
     cells.append(generateDetailTwoRowCell(
       firstRow: Localize.string("level_detail_5_title3"),
       secondRow: String(

@@ -109,7 +109,7 @@ class ProductsViewController: LobbyViewController {
 
     case .lockedBonus(let gameName, let turnOverDetail):
       present(
-        TurnoverAlertViewController(gameName: gameName, turnover: turnOverDetail),
+        TurnoverAlertViewController(situation: .intoGame(gameName: gameName), turnover: turnOverDetail),
         animated: true)
 
     case .inactive:

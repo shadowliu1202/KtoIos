@@ -33,7 +33,8 @@ class UsableTableViewCell: PromotionTableViewCell {
   }
 
   private func setStampIcon(_ item: PromotionVmItem) {
-    self.stampIcon.image = UIImage(named: item.stampIcon)
+    guard let stampIcon = item.stampIcon else { return }
+    self.stampIcon.image = UIImage(named: stampIcon)
   }
 
   override func configureValidPeriodLayout(_ period: ValidPeriod.Duration) {

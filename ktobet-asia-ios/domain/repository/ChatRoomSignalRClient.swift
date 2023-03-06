@@ -190,8 +190,7 @@ class ChatRoomSignalRClient: PortalChatRoomChatService {
   }
 
   func send(roomId: String, message: String, onError: @escaping (KotlinThrowable) -> Void) {
-    repository.send(message, roomId: roomId).subscribe {
-    } onError: { error in
+    repository.send(message, roomId: roomId).subscribe { } onError: { error in
       Logger.shared.debug(error.localizedDescription)
       onError(ExceptionFactory.create(error))
     }.disposed(by: disposeBag)

@@ -229,7 +229,7 @@ class PlayerRepositoryImpl: PlayerRepository {
   func getAffiliateStatus() -> Single<AffiliateApplyStatus> {
     playerApi.getPlayerAffiliateStatus().map({ AffiliateApplyStatus.companion.create(type: $0.data) })
   }
-  
+
   func getAffiliateHashKey() -> Single<String> {
     playerApi.getAffiliateHashKey().map { $0.data }
   }

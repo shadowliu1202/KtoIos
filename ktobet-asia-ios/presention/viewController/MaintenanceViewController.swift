@@ -14,7 +14,7 @@ class MaintenanceViewController: LobbyViewController {
     productType = ProductType.convert(self.view.tag)
     getMaintainRemainTime()
   }
-  
+
   deinit {
     self.timer?.stop()
     Logger.shared.info("\(type(of: self)) deinit")

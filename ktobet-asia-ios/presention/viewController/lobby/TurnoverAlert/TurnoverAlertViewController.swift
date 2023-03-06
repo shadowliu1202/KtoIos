@@ -8,11 +8,11 @@ class TurnoverAlertViewController:
 {
   @Injected var viewModel: TurnoverAlertViewModel
 
-  let gameName: String
+  let situation: TurnoverAlertDataModel.Situation
   let turnover: TurnOverDetail
 
-  init(gameName: String, turnover: TurnOverDetail) {
-    self.gameName = gameName
+  init(situation: TurnoverAlertDataModel.Situation, turnover: TurnOverDetail) {
+    self.situation = situation
     self.turnover = turnover
 
     super.init(nibName: nil, bundle: nil)
@@ -44,7 +44,7 @@ extension TurnoverAlertViewController {
       from: { [unowned self] in
         TurnoverAlert(
           viewModel: self.viewModel,
-          gameName: self.gameName,
+          situation: self.situation,
           turnover: self.turnover)
       },
       to: view)

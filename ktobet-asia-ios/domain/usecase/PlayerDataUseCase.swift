@@ -81,11 +81,11 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
   func isAffiliateMember() -> Single<Bool> {
     playerRepository.getAffiliateStatus().map({ $0 == AffiliateApplyStatus.applied })
   }
-  
+
   func getAffiliateHashKey() -> Single<String> {
     playerRepository.getAffiliateHashKey()
   }
-  
+
   func checkProfileEditable() -> Single<Bool> {
     playerRepository.checkProfileAuthorization()
   }

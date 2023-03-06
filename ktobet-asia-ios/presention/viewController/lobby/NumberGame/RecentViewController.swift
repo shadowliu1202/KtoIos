@@ -95,7 +95,7 @@ class NumbergameRecentCell: UITableViewCell {
 
   func configure(_ item: NumberGameSummary.RecentlyBet) -> Self {
     titleLabel.text = item.betTypeName.isEmpty ? item.selection : "\(item.betTypeName) : \(item.selection)"
-    
+
     if
       let text = titleLabel.text,
       text.isEmpty

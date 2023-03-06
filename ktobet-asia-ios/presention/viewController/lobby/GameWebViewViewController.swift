@@ -25,7 +25,7 @@ class GameWebViewViewController: WebViewBase {
     self.title = gameName
     CustomServicePresenter.shared.isInGameWebView = true
     (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .all
-    
+
     webView.navigationDelegate = self
     let webPagePreferences = WKWebpagePreferences()
     webPagePreferences.allowsContentJavaScript = true

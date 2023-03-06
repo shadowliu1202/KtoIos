@@ -414,7 +414,7 @@ extension PromotionEvent.Rebate: PromotionEventItem {
 }
 
 extension BonusCoupon.VVIPCashback: BonusCouponItem {
-  var stampIcon: String {
+  var stampIcon: String? {
     "iconCrown"
   }
 
@@ -485,7 +485,7 @@ extension BonusCoupon.VVIPCashback: BonusCouponItem {
 }
 
 extension PromotionEvent.VVIPCashback: PromotionEventItem {
-  var stampIcon: String {
+  var stampIcon: String? {
     "iconCrown"
   }
 

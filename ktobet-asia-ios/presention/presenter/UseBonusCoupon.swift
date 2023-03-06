@@ -176,9 +176,8 @@ class UseBonusCoupon {
 
   private func createTurnOverLockedDialog(turnOver: TurnOverDetail) -> Completable {
     Completable.create { [weak self] completable -> Disposable in
-      self?.presenter.presentTurnOverLockedDialog(
-        turnOver: turnOver,
-        confirmAction: { completable(.completed) })
+      self?.presenter.presentTurnOverLockedDialog(turnOver: turnOver)
+      completable(.completed)
 
       return Disposables.create { }
     }

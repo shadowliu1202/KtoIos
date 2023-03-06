@@ -141,7 +141,7 @@ final class PromotionDetailViewControllerTests: XCTestCase {
 
     vc.getPromotionButton.sendActions(for: .touchUpInside)
 
-    verify(mockUseCouponPresenter.presentTurnOverLockedDialog(turnOver: any(), confirmAction: any())).wasCalled()
+    verify(mockUseCouponPresenter.presentTurnOverLockedDialog(turnOver: any())).wasCalled()
   }
 
   func test_manuallyUseCashBackCoupon_couponExpired_AlertExpiredTip_KTO_TC_21() {

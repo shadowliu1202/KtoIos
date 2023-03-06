@@ -53,7 +53,7 @@ class TransactionLogSummaryViewController: LobbyViewController {
 
         return logSummary
       }).asObservable()
-        .catch({ [weak self] in
+      .catch({ [weak self] in
         self?.handleErrors($0)
         return Observable.just([])
       }).bind(to: tableView.rx.items) { tableView, _, element in
