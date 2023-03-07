@@ -23,8 +23,6 @@ class P2PBetSummaryByDateViewController: LobbyViewController {
 
   private func initUI() {
     tableView.setHeaderFooterDivider()
-    tableView.estimatedRowHeight = 124.0
-    tableView.rowHeight = UITableView.automaticDimension
   }
 
   private func dataBinding() {

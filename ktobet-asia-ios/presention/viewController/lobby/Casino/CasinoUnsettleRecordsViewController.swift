@@ -108,7 +108,7 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
       totalAmount: sections[indexPath.section].totalAmount[indexPath.row])
     cell.removeBorder()
     if indexPath.row != 0 {
-      cell.addBorder(leftConstant: 25)
+      cell.addBorder(leftConstant: 30)
     }
 
     return cell
@@ -116,7 +116,7 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
 
   func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if sections[indexPath.section].expanded {
-      return 97
+      return UITableView.automaticDimension
     }
     else {
       return 0
@@ -124,30 +124,12 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
   }
 
   func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let header = ExpandableHeaderView()
-    header.customInit(title: sections[section].sectionClass, section: section, delegate: self)
-    header.removeBorder()
-    if section != 0 {
-      header.addBorder()
-    }
-
-    return header
-  }
-
-  func tableView(_: UITableView, willDisplayHeaderView view: UIView, forSection _: Int) {
-    let header = view as! ExpandableHeaderView
-    view.addSubview(header.imageView)
-    header.imageView.image = UIImage(named: "arrow-drop-down")
-    header.imageView.translatesAutoresizingMaskIntoConstraints = false
-    header.imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24).isActive = true
-    header.imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-
-    header.titleLabel.textColor = UIColor.whitePure
-    header.titleLabel.font = UIFont(name: "PingFangSC-Semibold", size: 14)
-    view.addSubview(header.titleLabel, constraints: [
-      .constraint(.equal, \.leadingAnchor, offset: 24),
-      .equal(\.centerYAnchor)
-    ])
+    ExpandableHeaderView(
+      title: sections[section].sectionClass,
+      section: section,
+      total: sections.count,
+      expanded: sections[section].expanded,
+      delegate: self)
   }
 
   func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -157,9 +139,8 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
 }
 
 extension CasinoUnsettleRecordsViewController: ExpandableHeaderViewDelegate {
-  func toggleSection(header: ExpandableHeaderView, section: Int) {
-    sections[section].expanded = !(sections[section].expanded)
-    header.imageView.image = sections[section].expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
+  func toggleSection(header: ExpandableHeaderView, section: Int, expanded: Bool) {
+    sections[section].expanded = expanded
     tableView.beginUpdates()
     for i in 0..<sections[section].name.count {
       tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .automatic)
