@@ -17,7 +17,7 @@ class NextLevelTableViewCell: UITableViewCell {
     stackView.removeAllArrangedSubviews()
   }
 
-  func configure(_ item: Item, callback: (Observable<Void>, DisposeBag) -> Void) -> Self {
+  func configure(_ item: LevelPrivilegeViewModel.Item, callback: (Observable<Void>, DisposeBag) -> Void) -> Self {
     self.selectionStyle = .none
     levelLabel.text = Localize.string("common_level_2", "\(item.level)")
     switch item.collapse {

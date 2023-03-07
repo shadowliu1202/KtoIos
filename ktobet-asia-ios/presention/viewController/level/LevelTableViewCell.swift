@@ -20,7 +20,7 @@ class LevelTableViewCell: UITableViewCell {
   }
 
   func configure(
-    _ item: Item,
+    _ item: LevelPrivilegeViewModel.Item,
     callback: (Observable<Void>, DisposeBag) -> Void,
     tapPrivilegeHandler: @escaping (LevelPrivilege) -> Void)
     -> Self

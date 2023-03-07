@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -35,14 +35,14 @@
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NyX-12-AHe">
                         <rect key="frame" x="37" y="24" width="347" height="2"/>
-                        <color key="backgroundColor" name="dividerCapeCodGray"/>
+                        <color key="backgroundColor" name="textSecondaryScorpionGray"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="2" id="Top-I1-gTf"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fvm-Ym-nJA">
                         <rect key="frame" x="35" y="0.0" width="2" height="329"/>
-                        <color key="backgroundColor" name="dividerCapeCodGray"/>
+                        <color key="backgroundColor" name="textSecondaryScorpionGray"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="2" id="Q3m-Pk-KxO"/>
                         </constraints>
@@ -125,7 +125,7 @@
                             <constraint firstItem="iPp-hZ-xxc" firstAttribute="leading" secondItem="niA-lb-ZTD" secondAttribute="trailing" constant="8" id="ksi-n6-cGr"/>
                         </constraints>
                     </view>
-                    <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="332" placeholderIntrinsicHeight="0.0" axis="vertical" distribution="fillProportionally" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="oNU-vU-Elg" userLabel="ExpandView">
+                    <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="332" placeholderIntrinsicHeight="0.0" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="oNU-vU-Elg" userLabel="ExpandView">
                         <rect key="frame" x="52" y="158" width="332" height="171"/>
                         <subviews>
                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="332" placeholderIntrinsicHeight="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="tPh-Yh-QHY">
@@ -135,8 +135,11 @@
                                     <constraint firstAttribute="height" id="TRB-RR-pt4"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="qF5-Z9-4kl">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="qF5-Z9-4kl">
                                 <rect key="frame" x="0.0" y="12" width="332" height="159"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="159" placeholder="YES" id="RGn-1d-921"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                     </stackView>
@@ -185,11 +188,8 @@
         <namedColor name="blackFull">
             <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="dividerCapeCodGray">
-            <color red="0.23499999940395355" green="0.24300000071525574" blue="0.25099998712539673" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="textSecondaryScorpionGray">
-            <color red="0.34900000691413879" green="0.34900000691413879" blue="0.34900000691413879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.34509803921568627" green="0.34509803921568627" blue="0.34509803921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="whiteFull">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

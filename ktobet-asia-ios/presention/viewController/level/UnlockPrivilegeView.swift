@@ -1,15 +1,19 @@
 import SharedBu
 import UIKit
 
-let subTagOneLineHeight: CGFloat = 14
+let subTagOneLineHeight: CGFloat = 17
+
 class UnlockPrivilegeView: UIView {
   @IBOutlet weak var stamp: UIView!
   @IBOutlet weak var icon: UIImageView!
   @IBOutlet weak var tagStack: UIStackView!
+  @IBOutlet weak var tagBackgroundView: UIView!
   @IBOutlet weak var tagLabel: UILabel!
   @IBOutlet weak var subTagLabel: UILabel!
   @IBOutlet weak var msgLabel: UILabel!
   @IBOutlet weak var halfCircleStack: UIStackView!
+
+  private lazy var gradientLayer = gradientLayer(horizontal: [UIColor(rgb: 0xffd500).cgColor, UIColor(rgb: 0xfea144).cgColor])
 
   var xibView: UIView!
   var clickHandler: (() -> Void)?
@@ -26,14 +30,22 @@ class UnlockPrivilegeView: UIView {
 
   convenience init(_ args: LevelPrivilege, tapPrivilege: ((LevelPrivilege) -> Void)? = nil) {
     self.init(frame: CGRect.zero)
+
     tagLabel.text = args.title.value as? String
     subTagLabel.text = args.subTitle.value as? String
-    adjustSubTagPosition()
+    subTagLabel.isHidden = (args.subTitle.value as? String)?.isEmpty ?? true
+    
+    tagBackgroundView.borderWidth = 0.5
+    tagBackgroundView.bordersColor = .gray595959
+
     msgLabel.text = args.description_.value as? String
+
     self.clickHandler = {
       tapPrivilege?(args)
     }
+
     let gesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+
     switch args {
     case is LevelPrivilege.Rebate:
       self.addGestureRecognizer(gesture)
@@ -67,33 +79,53 @@ class UnlockPrivilegeView: UIView {
 
   func loadXib() {
     xibView = loadNib()
-    stamp.applyGradient(horizontal: [UIColor(rgb: 0xffd500).cgColor, UIColor(rgb: 0xfea144).cgColor])
-    addSubview(xibView, constraints: .fill())
 
+    addSubview(xibView, constraints: .fill())
     addStampBorder()
+
+    stamp.layer.insertSublayer(gradientLayer, at: 0)
+    gradientLayer.frame = stamp.bounds
+  }
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
+
+    DispatchQueue.main.async {
+      self.gradientLayer.frame = self.stamp.bounds
+      self.adjustSubTagPosition()
+    }
   }
 
   fileprivate func addStampBorder() {
     stamp.roundCorners(corners: [.topLeft, .bottomLeft], radius: 4)
-    let n = (stamp.frame.height + 2) / 10
-    for _ in 0..<Int(n) {
-      let circleView = UIView()
-      circleView.layer.cornerRadius = 4
-      circleView.layer.masksToBounds = true
-      circleView.backgroundColor = UIColor.black131313
-      self.halfCircleStack.addArrangedSubview(circleView)
+    halfCircleStack.spacing = 2
+    halfCircleStack.alignment = .center
+    halfCircleStack.distribution = .equalSpacing
+
+    DispatchQueue.main.async {
+      let numberOfGap = Int((self.stamp.frame.height - 2) / 8)
+
+      (0..<numberOfGap).forEach { _ in
+        let circleView = UIView()
+        circleView.layer.cornerRadius = 3
+        circleView.layer.masksToBounds = true
+        circleView.backgroundColor = UIColor.black131313
+        circleView.snp.makeConstraints { make in
+          make.size.equalTo(6)
+        }
+        self.halfCircleStack.addArrangedSubview(circleView)
+      }
     }
   }
 
   func adjustSubTagPosition() {
-    DispatchQueue.main.async { [weak self] in
-      if self?.subTagLabel.frame.height ?? 0 > subTagOneLineHeight {
-        self?.tagStack.axis = .vertical
-        self?.subTagLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-      }
-      else {
-        self?.tagStack.axis = .horizontal
-      }
+    if subTagLabel.frame.height > subTagOneLineHeight {
+      tagStack.axis = .vertical
+      tagStack.alignment = .leading
+    }
+    else {
+      tagStack.axis = .horizontal
+      tagStack.alignment = .center
     }
   }
 }
