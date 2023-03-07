@@ -11,6 +11,7 @@ class NumberGameDetailViewController: LobbyViewController {
   var viewModel = Injectable.resolve(NumberGameRecordViewModel.self)!
   private let disposeBag = DisposeBag()
   private var details: [NumberGameBetDetail]?
+  private var rowSelectedDisable = false
 
   var gameId: Int32?
   var gameName: String?
@@ -103,28 +104,47 @@ class NumberGameDetailViewController: LobbyViewController {
   private func summaryDataHandler() {
     Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(NumberGameSummary.Bet.self))
       .bind { [weak self] indexPath, _ in
-        guard let self else { return }
+        guard let self, self.rowSelectedDisable == false else { return }
         if self.tempIndex.contains(indexPath.row) {
           Alert.shared.show(nil, Localize.string("product_bet_has_settled"), confirm: nil, cancel: nil)
           return
         }
-        guard let status = self.betStatus, let date = self.betDate?.convertToDate(), let id = self.gameId else { return }
-        self.viewModel.getGameBetsByDate(gameId: id, date: date, betStatus: status).subscribe { [weak self] bets in
-          guard let self else { return }
+        guard
+          let status = self.betStatus,
+          let date = self.betDate?.convertToDate(),
+          let id = self.gameId else { return }
 
-          let wagerIds = bets.map { $0.wagerId }
-          self.viewModel.getRecentGamesDetail(wagerIds: wagerIds)
-            .subscribe { [weak self] (details: [NumberGameBetDetail]) in
-              guard let self else { return }
-              self.details = details
-              self.performSegue(withIdentifier: NumberGameMyBetDetailViewController.segueIdentifier, sender: indexPath.row)
-            } onFailure: { [weak self] error in
-              self?.handleErrors(error)
-            }.disposed(by: self.disposeBag)
-        } onFailure: { [weak self] error in
-          self?.handleErrors(error)
-        }.disposed(by: self.disposeBag)
+        self.gotoBetDetail(id: id, date: date, status: status, row: indexPath.row)
+
       }.disposed(by: disposeBag)
+  }
+
+  private func gotoBetDetail(
+    id: Int32,
+    date: Date,
+    status: NumberGameSummary.CompanionStatus,
+    row: Int)
+  {
+    viewModel
+      .getGameBetsByDate(gameId: id, date: date, betStatus: status)
+      .flatMap { [unowned self] in
+        self.viewModel.getRecentGamesDetail(wagerIds: $0.map { $0.wagerId })
+      }
+      .do(
+        onSubscribe: { [weak self] in
+          self?.rowSelectedDisable = true
+        },
+        onDispose: {
+          [weak self] in
+          self?.rowSelectedDisable = false
+        })
+      .subscribe(onSuccess: { [weak self] in
+        let vc = NumberGameMyBetDetailViewController.initFrom(storyboard: "NumberGame")
+        vc.details = $0
+        vc.selectedIndex = row
+        self?.navigationController?.pushViewController(vc, animated: true)
+      })
+      .disposed(by: disposeBag)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
