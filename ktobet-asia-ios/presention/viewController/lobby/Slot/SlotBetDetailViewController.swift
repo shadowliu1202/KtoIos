@@ -59,7 +59,7 @@ extension SlotBetDetailViewController: UITableViewDelegate, UITableViewDataSourc
       .configure(self.records[indexPath.row])
     cell.removeBorder()
     if indexPath.row != 0 {
-      cell.addBorder(leftConstant: 24)
+      cell.addBorder(leftConstant: 30)
     }
 
     return cell

@@ -115,7 +115,7 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
 
     cell.removeBorder()
     if indexPath.row != 0 {
-      cell.addBorder(leftConstant: 25)
+      cell.addBorder(leftConstant: 30)
     }
 
     return cell
@@ -132,12 +132,12 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
   }
 
   func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
-    58
+    UITableView.automaticDimension
   }
 
   func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     if sections[indexPath.section].expanded {
-      return 118
+      return UITableView.automaticDimension
     }
     else {
       return 0
@@ -145,53 +145,22 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
   }
 
   func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let header = ExpandableHeaderView()
-    header.customInit(
+    ExpandableHeaderView(
       title: sections[section].sectionClass,
       section: section,
+      total: sections.count,
+      expanded: sections[section].expanded,
       delegate: self,
       date: sections[section].sectionDate)
-    header.removeBorder()
-    if section != 0 {
-      header.addBorder()
-    }
-
-    return header
-  }
-
-  func tableView(_: UITableView, willDisplayHeaderView view: UIView, forSection _: Int) {
-    let header = view as! ExpandableHeaderView
-    view.addSubview(header.imageView)
-
-    header.imageView.image = UIImage(named: "arrow-drop-down")
-    header.imageView.translatesAutoresizingMaskIntoConstraints = false
-    header.imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24).isActive = true
-    header.imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-
-    header.titleLabel.textColor = UIColor.whitePure
-    header.titleLabel.font = UIFont(name: "PingFangSC-Semibold", size: 14)
-    view.addSubview(header.titleLabel, constraints: [
-      .constraint(.equal, \.leadingAnchor, offset: 24),
-      .equal(\.centerYAnchor)
-    ])
-
-    header.dateTimeLabel.textColor = UIColor.gray595959
-    header.dateTimeLabel.font = UIFont(name: "PingFangSC-Regular", size: 14)
-    view.addSubview(header.dateTimeLabel, constraints: [
-      .equal(\.centerYAnchor)
-    ])
-    header.dateTimeLabel.constrain(to: header.titleLabel, constraints: [
-      .equal(\.leadingAnchor, \.trailingAnchor, offset: 11)
-    ])
   }
 }
 
 extension CasinoBetSummaryByDateViewController: ExpandableHeaderViewDelegate {
-  func toggleSection(header: ExpandableHeaderView, section: Int) {
+  func toggleSection(header: ExpandableHeaderView, section: Int, expanded: Bool) {
     if self.sections[section].expanded {
       self.tableView.beginUpdates()
       for i in 0..<self.sections[section].name.count {
-        self.tableView.deleteRows(at: [IndexPath(row: i, section: section)], with: .automatic)
+        self.tableView.deleteRows(at: [IndexPath(row: i, section: section)], with: .none)
       }
 
       self.sections[section].name = []
@@ -203,8 +172,6 @@ extension CasinoBetSummaryByDateViewController: ExpandableHeaderViewDelegate {
       self.viewModel.pagination.refreshTrigger.onNext(())
     }
 
-    self.sections[section].expanded = !self.sections[section].expanded
-    header.imageView.image = self.sections[section]
-      .expanded ? UIImage(named: "arrow-drop-up") : UIImage(named: "arrow-drop-down")
+    self.sections[section].expanded = expanded
   }
 }

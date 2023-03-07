@@ -127,8 +127,11 @@ extension SlotUnsettleRecordsViewController: UITableViewDelegate, UITableViewDat
       .dequeueReusableCell(withIdentifier: "SlotUnsettleRecordsCell", cellType: SlotUnsettleRecordsCell.self)
       .configure(self.unsettleds[indexPath.section].records[indexPath.row])
     cell.removeBorder()
-    if indexPath.row != 0 {
-      cell.addBorder(leftConstant: 25)
+    if indexPath.row == 0 {
+      cell.addBorder()
+    }
+    else {
+      cell.addBorder(leftConstant: 30)
     }
 
     return cell

@@ -22,7 +22,6 @@ class P2PBetDetailViewController: LobbyViewController {
   }
 
   private func initUI() {
-    tableView.rowHeight = UITableView.automaticDimension
     tableView.setHeaderFooterDivider()
   }
 
