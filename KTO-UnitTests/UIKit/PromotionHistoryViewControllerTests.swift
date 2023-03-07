@@ -46,6 +46,8 @@ final class PromotionHistoryViewControllerTests: XCTestCase {
 
     sut.loadViewIfNeeded()
 
+    sut.viewModel.fetchData()
+
     XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
   }
 }

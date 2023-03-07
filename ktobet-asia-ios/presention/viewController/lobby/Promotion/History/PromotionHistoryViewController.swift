@@ -3,7 +3,7 @@ import SharedBu
 import UIKit
 
 class PromotionHistoryViewController: LobbyViewController {
-  @Injected private var viewModel: PromotionHistoryViewModel
+  @Injected private(set) var viewModel: PromotionHistoryViewModel
 
   @IBOutlet private weak var scrollView: UIScrollView!
 
@@ -41,8 +41,6 @@ class PromotionHistoryViewController: LobbyViewController {
 
     setupUI()
     binding()
-
-    viewModel.fetchData()
   }
 
   deinit {
@@ -97,6 +95,7 @@ extension PromotionHistoryViewController {
 
   private func binding() {
     searchTextField.rx.text
+      .orEmpty
       .bind(to: viewModel.keywordRelay)
       .disposed(by: disposeBag)
 
@@ -152,7 +151,7 @@ extension PromotionHistoryViewController {
 
     scrollView.rx.reachedBottom
       .subscribe(onNext: { [weak self] in
-        self?.viewModel.fetchData()
+        self?.viewModel.fetchNextPage()
       })
       .disposed(by: disposeBag)
   }

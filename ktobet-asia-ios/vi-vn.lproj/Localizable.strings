@@ -961,8 +961,8 @@ Chăm Sóc Khách Hàng?";
 //MARK: - Bonus
 "bonus_amount" = "Tiền Thưởng";
 "bonus_bonuslockstatus_0" = "Không Có Yêu Cầu Đặt Cược";
-"bonus_bonuslockstatus_1" = "Đang Xử Lý";
-"bonus_bonuslockstatus_2" = "Đã Hoàn Thành";
+"bonus_bonuslockstatus_1" = "Chưa hoàn thành Doanh Thu Cược ";
+"bonus_bonuslockstatus_2" = "Đã hoàn thành Doanh Thu Cược";
 "bonus_bonuslockstatus_3" = "Đã Hủy";
 "bonus_bonusproducttype_1" = "Bảo Hiểm Cược Thể Thao";
 "bonus_bonusproducttype_2" = "Thưởng Giải Cứu Quay Số";
