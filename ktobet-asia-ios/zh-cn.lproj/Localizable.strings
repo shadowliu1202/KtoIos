@@ -950,8 +950,8 @@
 //MARK: - Bonus
 "bonus_amount" = "彩金金额";
 "bonus_bonuslockstatus_0" = "无投注额要求";
-"bonus_bonuslockstatus_1" = "进行中";
-"bonus_bonuslockstatus_2" = "已完成";
+"bonus_bonuslockstatus_1" = "未完成投注额";
+"bonus_bonuslockstatus_2" = "已完成投注额";
 "bonus_bonuslockstatus_3" = "已取消";
 "bonus_bonusproducttype_1" = "保险投注";
 "bonus_bonusproducttype_2" = "老虎机救援金";

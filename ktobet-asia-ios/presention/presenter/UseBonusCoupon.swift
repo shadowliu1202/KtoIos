@@ -151,10 +151,10 @@ class UseBonusCoupon {
       self?.presenter.showAlert(
         title,
         message,
-        confirm: { single(.success(true)) },
-        confirmText: Localize.string("common_confirm"),
-        cancel: { single(.success(false)) },
-        cancelText: Localize.string("common_cancel"))
+        confirm: { single(.success(false)) },
+        confirmText: Localize.string("bonus_waiting"),
+        cancel: { single(.success(true)) },
+        cancelText: Localize.string("common_confirm"))
 
       return Disposables.create()
     })

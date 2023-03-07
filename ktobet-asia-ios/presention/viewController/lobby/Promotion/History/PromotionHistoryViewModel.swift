@@ -56,7 +56,7 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
       })
 
     keywordRelay
-      .skip(1)
+      .compactMap { $0 }
       .distinctUntilChanged()
       .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
       .subscribe(onNext: { [weak self] _ in
@@ -87,6 +87,10 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
 
   func fetchData() {
     recordPagination.refreshTrigger.onNext(())
+  }
+
+  func fetchNextPage() {
+    recordPagination.loadNextPageTrigger.onNext(())
   }
 
   deinit {
