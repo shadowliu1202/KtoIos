@@ -20,7 +20,6 @@ class DepositRecordContainer: LobbyViewController {
   var paymentCurrencyType: PaymentLogDTO.PaymentCurrencyType?
   var transactionType: TransactionType?
   @Injected private var depositLogViewModel: DepositLogViewModel
-  private var viewModel = Injectable.resolve(DepositViewModel.self)!
   private var disposeBag = DisposeBag()
 
   override func viewDidLoad() {

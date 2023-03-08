@@ -267,12 +267,6 @@ final class Injection {
       }
 
     container
-      .register(DepositRepository.self) { resolver in
-        let bankApi = resolver.resolveWrapper(BankApi.self)
-        return DepositRepositoryImpl(bankApi)
-      }
-
-    container
       .register(ImageRepository.self) { resolver in
         let imageApi = resolver.resolveWrapper(ImageApi.self)
         return ImageRepositoryImpl(imageApi)
@@ -540,12 +534,6 @@ final class Injection {
       }
 
     container
-      .register(DepositUseCase.self) { resolver in
-        let repoDeposit = resolver.resolveWrapper(DepositRepository.self)
-        return DepositUseCaseImpl(repoDeposit)
-      }
-
-    container
       .register(NotificationUseCase.self) { resolver in
         let repo = resolver.resolveWrapper(NotificationRepository.self)
         return NotificationUseCaseImpl(repo)
@@ -762,11 +750,8 @@ final class Injection {
       .register(DepositViewModel.self) { resolver in
         let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
         let deposit = applicationFactory.deposit()
-        let depositUseCase = resolver.resolveWrapper(DepositUseCase.self)
 
-        return .init(
-          depositService: deposit,
-          depositUseCase: depositUseCase)
+        return .init(depositService: deposit)
       }
 
     container
@@ -883,8 +868,7 @@ final class Injection {
     container
       .register(CryptoViewModel.self) { resolver in
         let withdrawalUseCase = resolver.resolveWrapper(WithdrawalUseCase.self)
-        let depositUseCase = resolver.resolveWrapper(DepositUseCase.self)
-        return CryptoViewModel(withdrawalUseCase: withdrawalUseCase, depositUseCase: depositUseCase)
+        return CryptoViewModel(withdrawalUseCase: withdrawalUseCase)
       }
 
     container

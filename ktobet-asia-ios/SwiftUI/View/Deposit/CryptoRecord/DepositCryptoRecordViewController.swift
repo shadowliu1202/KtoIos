@@ -1,3 +1,4 @@
+import RxSwift
 import SharedBu
 import SwiftUI
 import UIKit
@@ -7,7 +8,9 @@ class DepositCryptoRecordViewController: LobbyViewController,
 {
   @Injected var viewModel: DepositCryptoRecordViewModel
   @Injected private var playerConfig: PlayerConfiguration
+  
   private let transactionId: String
+  private let disposeBag = DisposeBag()
 
   init(transactionId: String) {
     self.transactionId = transactionId
@@ -27,10 +30,20 @@ class DepositCryptoRecordViewController: LobbyViewController,
   private func navigateToDepositCryptoVC(_ updateUrl: SingleWrapper<HttpUrl>?) {
     guard
       let depositCryptoViewController = UIStoryboard(name: "Deposit", bundle: nil)
-        .instantiateViewController(withIdentifier: "DepositCryptoViewController") as? DepositCryptoViewController
+        .instantiateViewController(withIdentifier: "DepositCryptoViewController") as? DepositCryptoViewController,
+      let updateUrl
     else { return }
-    depositCryptoViewController.updateUrl = updateUrl
-    NavigationManagement.sharedInstance.pushViewController(vc: depositCryptoViewController)
+
+    Single.from(updateUrl)
+      .subscribe(
+        onSuccess: { url in
+          depositCryptoViewController.url = url.url
+          NavigationManagement.sharedInstance.pushViewController(vc: depositCryptoViewController)
+        },
+        onFailure: { [weak self] error in
+          self?.handleErrors(error)
+        })
+      .disposed(by: disposeBag)
   }
 
   deinit {

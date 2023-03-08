@@ -193,11 +193,6 @@ struct PaymentGroupPaymentCard: Codable {
   }
 }
 
-struct FullBankAccount {
-  var bank: Bank?
-  var bankAccount: BankAccount
-}
-
 struct SimpleBank: Codable {
   var bankId: Int32
   var name: String
