@@ -288,6 +288,15 @@
 		3C5C1FF028AB6FCC00D4C735 /* LocalizeFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5C1FEA28AB6FCC00D4C735 /* LocalizeFont.swift */; };
 		3C5C1FF228AB6FCC00D4C735 /* LocalizeFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5C1FEA28AB6FCC00D4C735 /* LocalizeFont.swift */; };
 		3C5C1FF328AB6FCC00D4C735 /* LocalizeFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5C1FEA28AB6FCC00D4C735 /* LocalizeFont.swift */; };
+		3C618A9029B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */; };
+		3C618A9129B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */; };
+		3C618A9229B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */; };
+		3C618A9329B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */; };
+		3C618A9429B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */; };
+		3C618A9529B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */; };
+		3C618A9629B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */; };
+		3C618A9729B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */; };
+		3C618A9829B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */; };
 		3C656E9628E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9528E30C8500EFB754 /* CryptoGuideVNDView.swift */; };
 		3C656E9728E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9528E30C8500EFB754 /* CryptoGuideVNDView.swift */; };
 		3C656E9828E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9528E30C8500EFB754 /* CryptoGuideVNDView.swift */; };
@@ -6485,6 +6494,7 @@
 		3C5C1FD628A652E000D4C735 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3C5C1FE028AB64CC00D4C735 /* EnvironmentValuesExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValuesExtension.swift; sourceTree = "<group>"; };
 		3C5C1FEA28AB6FCC00D4C735 /* LocalizeFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizeFont.swift; sourceTree = "<group>"; };
+		3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBetEmptyDataView.swift; sourceTree = "<group>"; };
 		3C656E9528E30C8500EFB754 /* CryptoGuideVNDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoGuideVNDView.swift; sourceTree = "<group>"; };
 		3C656E9F28E30DAF00EFB754 /* NewLoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLoginViewModel.swift; sourceTree = "<group>"; };
 		3C6E8B3BD2E06A8285F7AB5B /* Pods-AIO-unitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIO-unitTests.debug.xcconfig"; path = "Target Support Files/Pods-AIO-unitTests/Pods-AIO-unitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -8016,6 +8026,7 @@
 				6D5A034E28AA39B9005D0960 /* GameTagStackView.swift */,
 				6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */,
 				608BAC3D26F1C6A00013D930 /* FilterViewController.swift */,
+				3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */,
 			);
 			path = customUI;
 			sourceTree = "<group>";
@@ -11260,6 +11271,7 @@
 				6D3859792681ECF400C854CF /* Decimal.swift in Sources */,
 				6D9E57D4263936C700E6942A /* ProductGameDataSourceDelegate.swift in Sources */,
 				6DAEA6382601DD5A00995A6E /* iOSDropDown.swift in Sources */,
+				3C618A9129B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */,
 				41077DCC25BA63E20057B340 /* ResetPasswordUseCase.swift in Sources */,
 				6DD4BA24260C40CD001848EE /* RxSwiftExtension.swift in Sources */,
 				6D00CA742649348700C0CEC9 /* DisplayProduct.swift in Sources */,
@@ -11954,6 +11966,7 @@
 				6D17953C26A65A6F001C8BF8 /* ZeroLevelTableViewCell.swift in Sources */,
 				3C30A28A283D58C600BAC905 /* Theme.swift in Sources */,
 				600E240A26CB51AB00D8B073 /* PromotionRepository.swift in Sources */,
+				3C618A9029B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */,
 				6D3859782681ECF400C854CF /* Decimal.swift in Sources */,
 				6D9E57D3263936C700E6942A /* ProductGameDataSourceDelegate.swift in Sources */,
 				6DAEA6372601DD5A00995A6E /* iOSDropDown.swift in Sources */,
@@ -12992,6 +13005,7 @@
 				6D986A7927191BB300194E0D /* CallingViewController.swift in Sources */,
 				6DE36B7C26563B9B0058A1BC /* RecentViewController.swift in Sources */,
 				3CA1C56029346DE50009D9C1 /* CryptoVideoTutorialView.swift in Sources */,
+				3C618A9229B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */,
 				609013392640EE7000419F8E /* CasinoSummaryViewController.swift in Sources */,
 				6D4083C52652078C00BECD0E /* NumberGameRepository.swift in Sources */,
 				6090133A2640EE7000419F8E /* DataExtension.swift in Sources */,
@@ -13623,6 +13637,7 @@
 				60E5818927F190E4008CE5A9 /* CallingViewController.swift in Sources */,
 				60E5818A27F190E4008CE5A9 /* RecentViewController.swift in Sources */,
 				3CA1C56129346DE50009D9C1 /* CryptoVideoTutorialView.swift in Sources */,
+				3C618A9529B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */,
 				60E5818B27F190E4008CE5A9 /* CasinoSummaryViewController.swift in Sources */,
 				60E5818C27F190E4008CE5A9 /* NumberGameRepository.swift in Sources */,
 				60E5818D27F190E4008CE5A9 /* DataExtension.swift in Sources */,
@@ -13720,6 +13735,7 @@
 				6D0EDB0D28743FAC004A9E3C /* SearchViewController.swift in Sources */,
 				6D7AC7B72994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				6D0EDB0E28743FAC004A9E3C /* TermsPresenter.swift in Sources */,
+				3C618A9329B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */,
 				6D0EDB0F28743FAC004A9E3C /* NotificationDetailViewController.swift in Sources */,
 				6D0EDB1028743FAC004A9E3C /* AccountCurrency.swift in Sources */,
 				3CCD218A28F6942C00313212 /* UserDefaultCodable.swift in Sources */,
@@ -14352,6 +14368,7 @@
 				6D0EDD6828744704004A9E3C /* SearchViewController.swift in Sources */,
 				6D7AC7BA2994EB540014C0A1 /* CryptoSelectView.swift in Sources */,
 				6D0EDD6928744704004A9E3C /* TermsPresenter.swift in Sources */,
+				3C618A9629B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */,
 				6D0EDD6A28744704004A9E3C /* NotificationDetailViewController.swift in Sources */,
 				6D0EDD6B28744704004A9E3C /* AccountCurrency.swift in Sources */,
 				3CCD218B28F6942C00313212 /* UserDefaultCodable.swift in Sources */,
@@ -15534,6 +15551,7 @@
 				6D966D1727FEE3FA006086B7 /* CallingViewController.swift in Sources */,
 				6D966D1827FEE3FA006086B7 /* RecentViewController.swift in Sources */,
 				3CA1C56229346DE50009D9C1 /* CryptoVideoTutorialView.swift in Sources */,
+				3C618A9729B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */,
 				6D966D1927FEE3FA006086B7 /* CasinoSummaryViewController.swift in Sources */,
 				6D966D1A27FEE3FA006086B7 /* NumberGameRepository.swift in Sources */,
 				6D966D1B27FEE3FA006086B7 /* DataExtension.swift in Sources */,
@@ -16165,6 +16183,7 @@
 				6D966F6427FEE416006086B7 /* CallingViewController.swift in Sources */,
 				6D966F6527FEE416006086B7 /* RecentViewController.swift in Sources */,
 				3CA1C56329346DE50009D9C1 /* CryptoVideoTutorialView.swift in Sources */,
+				3C618A9829B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */,
 				6D966F6627FEE416006086B7 /* CasinoSummaryViewController.swift in Sources */,
 				6D966F6727FEE416006086B7 /* NumberGameRepository.swift in Sources */,
 				6D966F6827FEE416006086B7 /* DataExtension.swift in Sources */,
@@ -16819,6 +16838,7 @@
 				6D55C7DA29657EAB0038E8FB /* RestrictedViewController.swift in Sources */,
 				6D55C88229657F0C0038E8FB /* DepositLogSummaryView.swift in Sources */,
 				6D55C97C2966629C0038E8FB /* SearchProduct.swift in Sources */,
+				3C618A9429B8688000EF5699 /* MyBetEmptyDataView.swift in Sources */,
 				6D55C6A529657DB80038E8FB /* DefaultTransportFactory.swift in Sources */,
 				6D55C919296662340038E8FB /* ArrayExtension.swift in Sources */,
 				6D55C83129657ECB0038E8FB /* ImageRepository.swift in Sources */,
