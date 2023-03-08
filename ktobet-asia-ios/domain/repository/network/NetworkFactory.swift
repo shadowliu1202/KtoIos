@@ -47,4 +47,12 @@ class NetworkFactory: ExternalProtocolService {
   func getPlayer() -> PlayerProtocol {
     fatalError("TODO")
   }
+
+  func getCustomerService() -> CustomerServiceProtocol {
+    fatalError("TODO")
+  }
+
+  func getSurveyService() -> CSSurveyProtocol {
+    fatalError("TODO")
+  }
 }

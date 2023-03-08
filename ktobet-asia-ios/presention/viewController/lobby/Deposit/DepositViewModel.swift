@@ -18,20 +18,14 @@ class DepositViewModel: CollectErrorViewModel,
   ObservableObject
 {
   private let depositService: IDepositAppService
-  private let depositUseCase: DepositUseCase
 
   private let disposeBag = DisposeBag()
 
   @Published private(set) var selections: [DepositSelection]?
   @Published private(set) var recentLogs: [PaymentLogDTO.Log]?
 
-  // FIXME: depositUseCase 等withdrawal refactor後移除
-  init(
-    depositService: IDepositAppService,
-    depositUseCase: DepositUseCase)
-  {
+  init(depositService: IDepositAppService) {
     self.depositService = depositService
-    self.depositUseCase = depositUseCase
   }
 
   deinit {
@@ -72,10 +66,6 @@ extension DepositViewModel {
       depositService.getRecentPaymentLogs())
       .map { $0.compactMap { $0 as? PaymentLogDTO.Log } }
       .compose(applyObservableErrorHandle())
-  }
-
-  func requestCryptoDepositUpdate(displayId: String) -> Single<String> {
-    depositUseCase.requestCryptoDetailUpdate(displayId: displayId)
   }
 }
 

@@ -5,13 +5,10 @@ import SharedBu
 
 class CryptoViewModel {
   private var withdrawalUseCase: WithdrawalUseCase!
-  private var depositUseCase: DepositUseCase!
-  private lazy var depositSystem = depositUseCase.getDepositSystem()
   private lazy var withdrawalSystem = withdrawalUseCase.getWithdrawalSystem()
   lazy var supportCryptoTypes = withdrawalSystem.map({ $0.supportCryptos() })
 
-  init(withdrawalUseCase: WithdrawalUseCase, depositUseCase: DepositUseCase) {
+  init(withdrawalUseCase: WithdrawalUseCase) {
     self.withdrawalUseCase = withdrawalUseCase
-    self.depositUseCase = depositUseCase
   }
 }

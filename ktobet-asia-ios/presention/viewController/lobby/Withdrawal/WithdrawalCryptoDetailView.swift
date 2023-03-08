@@ -172,27 +172,10 @@ struct WithdrawalCryptoDetailView: View {
         .font(Font.custom("PingFangSC-Regular", size: 12))
 
       Spacer().frame(height: 2)
-
-      if TransactionStatus.floating == data.record.transactionStatus {
-        Button(action: {
-          guard
-            let depositCryptoViewController = UIStoryboard(name: "Deposit", bundle: nil)
-              .instantiateViewController(withIdentifier: "DepositCryptoViewController") as? DepositCryptoViewController
-          else { return }
-          depositCryptoViewController.displayId = data.record.displayId
-          NavigationManagement.sharedInstance.pushViewController(vc: depositCryptoViewController)
-        }) {
-          Text(Localize.string("common_cps_submit_hash_id_to_complete"))
-            .foregroundColor(Color(UIColor.redF20000))
-            .font(Font.custom("PingFangSC-Regular", size: 16))
-            .underline()
-        }
-      }
-      else {
-        Text(data.hashId.isEmpty ? "-" : data.hashId)
-          .foregroundColor(Color(UIColor.whitePure))
-          .font(Font.custom("PingFangSC-Regular", size: 16))
-      }
+      
+      Text(data.hashId.isEmpty ? "-" : data.hashId)
+        .foregroundColor(Color(UIColor.whitePure))
+        .font(Font.custom("PingFangSC-Regular", size: 16))
 
       Spacer().frame(height: 8.5)
       Divider()

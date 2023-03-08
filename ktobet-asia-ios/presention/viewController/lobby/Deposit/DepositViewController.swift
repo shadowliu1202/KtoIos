@@ -36,21 +36,14 @@ class DepositViewController: LobbyViewController,
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.identifier {
-    case DepositCryptoViewController.segueIdentifier:
-      if let dest = segue.destination as? DepositCryptoViewController {
-        dest.url = sender as? String
-      }
-
     case StarMergerViewController.segueIdentifier:
       if let dest = segue.destination as? StarMergerViewController {
         dest.paymentGatewayID = (sender as? String)!
       }
-
     case OnlinePaymentViewController.segueIdentifier:
       if let dest = segue.destination as? OnlinePaymentViewController {
         dest.selectedOnlinePayment = (sender as? OnlinePayment)!.paymentDTO
       }
-
     default:
       break
     }
