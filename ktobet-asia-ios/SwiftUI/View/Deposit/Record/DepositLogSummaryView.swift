@@ -37,7 +37,7 @@ struct DepositLogSummaryView<ViewModel>: View
     .pageBackgroundColor(.gray131313)
     .environmentObject(viewModel)
     .environment(\.playerLocale, playerConfig.supportLocale)
-    .onViewDidLoad {
+    .onAppear {
       viewModel.pagination.refreshTrigger.onNext(())
       viewModel.summaryRefreshTrigger.onNext(())
     }

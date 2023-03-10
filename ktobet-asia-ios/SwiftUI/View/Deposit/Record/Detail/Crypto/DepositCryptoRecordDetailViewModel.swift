@@ -2,8 +2,9 @@ import Foundation
 import RxSwift
 import SharedBu
 
-class DepositCryptoRecordViewModel: CollectErrorViewModel,
-  DepositCryptoRecordViewModelProtocol,
+class DepositCryptoRecordDetailViewModel:
+  CollectErrorViewModel,
+  DepositCryptoRecordDetailViewModelProtocol,
   ObservableObject
 {
   private let depositService: IDepositAppService
@@ -33,7 +34,7 @@ class DepositCryptoRecordViewModel: CollectErrorViewModel,
   }
 }
 
-extension DepositCryptoRecordViewModel {
+extension DepositCryptoRecordDetailViewModel {
   func generateRecords(_ data: PaymentLogDTO.CryptoLog?) -> [DepositCryptoRecord] {
     let log = data?.log
     let isTransactionComplete = data?.isTransactionComplete ?? false
@@ -121,11 +122,11 @@ extension DepositCryptoRecordViewModel {
 
 extension Optional where Wrapped: PaymentLogDTO.Log {
   fileprivate var statusString: String {
-    self?.status.toLogString() ?? ""
+    self?.status.toLogString() ?? "-"
   }
 
   fileprivate var _displayId: String {
-    self?.displayId ?? ""
+    self?.displayId ?? "-"
   }
 
   fileprivate var createDateTimeString: String {
@@ -139,7 +140,7 @@ extension Optional where Wrapped: PaymentLogDTO.Log {
 
 extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
   fileprivate var address: String {
-    self?.toAddress ?? "-"
+    self?.toAddress.isEmpty ?? true ? "-" : self!.toAddress
   }
 
   fileprivate var _hashId: String {
@@ -148,7 +149,7 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
 
   fileprivate var requestFromCrypto: String {
     if self?.request?.fromCrypto.formatString(.none) != "0" {
-      return self?.request?.fromCrypto.formatString() ?? ""
+      return self?.request?.fromCrypto.formatString() ?? "-"
     }
     else {
       return "-"
@@ -157,7 +158,7 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
 
   fileprivate var requestRate: String {
     if self?.request?.rate.formatString() != "0" {
-      return self?.request?.rate.formatString() ?? ""
+      return self?.request?.rate.formatString() ?? "-"
     }
     else {
       return "-"
@@ -166,7 +167,7 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
 
   fileprivate var requestFiatFormat: String {
     if self?.request?.toFiat.formatString(.none) != "0" {
-      return self?.request?.toFiat.formatString() ?? ""
+      return self?.request?.toFiat.formatString() ?? "-"
     }
     else {
       return "-"
@@ -175,7 +176,7 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
 
   fileprivate func actualFromCrypto(_ isTransactionComplete: Bool) -> String {
     if isTransactionComplete {
-      return self?.actual?.fromCrypto.formatString() ?? ""
+      return self?.actual?.fromCrypto.formatString() ?? "-"
     }
     else {
       return "-"
@@ -184,7 +185,7 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
 
   fileprivate func actualRate(_ isTransactionComplete: Bool) -> String {
     if isTransactionComplete {
-      return self?.actual?.rate.formatString() ?? ""
+      return self?.actual?.rate.formatString() ?? "-"
     }
     else {
       return "-"
@@ -193,7 +194,7 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
 
   fileprivate func actualToFiatFormat(_ isTransactionComplete: Bool) -> String {
     if isTransactionComplete {
-      return self?.actual?.toFiat.formatString() ?? ""
+      return self?.actual?.toFiat.formatString() ?? "-"
     }
     else {
       return "-"
@@ -202,7 +203,7 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
 
   fileprivate func actualDateTimeString(_ isTransactionComplete: Bool) -> String {
     if isTransactionComplete {
-      return self?.actual?.date.toDateTimeString() ?? ""
+      return self?.actual?.date.toDateTimeString() ?? "-"
     }
     else {
       return "-"

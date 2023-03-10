@@ -763,10 +763,11 @@ final class Injection {
       .inObjectScope(.depositFlow)
 
     container
-      .register(DepositLogViewModel.self) { resolver in
-        let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
-        let deposit = applicationFactory.deposit()
-        return .init(deposit)
+      .register(DepositRecordDetailViewModel.self) { resolver in
+        .init(
+          depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+          imageUseCase: resolver.resolveWrapper(UploadImageUseCase.self),
+          httpClient: resolver.resolveWrapper(HttpClient.self))
       }
 
     container
@@ -1083,8 +1084,8 @@ final class Injection {
       }
 
     container
-      .register(DepositCryptoRecordViewModel.self) { resolver in
-        DepositCryptoRecordViewModel(depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit())
+      .register(DepositCryptoRecordDetailViewModel.self) { resolver in
+        DepositCryptoRecordDetailViewModel(depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit())
       }
 
     container
@@ -1131,10 +1132,10 @@ final class Injection {
           observeSystemMessageUseCase: resolver.resolveWrapper(ObserveSystemMessageUseCase.self),
           getSystemStatusUseCase: resolver.resolveWrapper(GetSystemStatusUseCase.self))
       }
-    
+
     container
       .register(LevelPrivilegeViewModel.self) { resolver in
-          .init(playerUseCase: resolver.resolveWrapper(PlayerDataUseCase.self))
+        .init(playerUseCase: resolver.resolveWrapper(PlayerDataUseCase.self))
       }
   }
 

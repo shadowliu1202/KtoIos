@@ -172,7 +172,7 @@ struct WithdrawalCryptoDetailView: View {
         .font(Font.custom("PingFangSC-Regular", size: 12))
 
       Spacer().frame(height: 2)
-      
+
       Text(data.hashId.isEmpty ? "-" : data.hashId)
         .foregroundColor(Color(UIColor.whitePure))
         .font(Font.custom("PingFangSC-Regular", size: 16))

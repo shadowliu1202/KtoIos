@@ -1,7 +1,9 @@
 import Foundation
 
 extension Array {
-  subscript(safe index: Int) -> Element? {
+  subscript(safe index: Int?) -> Element? {
+    guard let index else { return nil }
+
     if index < 0 || index > count - 1 {
       return nil
     }

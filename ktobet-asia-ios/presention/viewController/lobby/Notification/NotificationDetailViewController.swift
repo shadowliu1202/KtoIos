@@ -97,10 +97,13 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
     switch type {
     case .depositneedsverifieddoc:
       self.navigateToDestination = { [unowned self] in
-        let storyboard = UIStoryboard(name: "Deposit", bundle: Bundle.main)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DepositRecordContainer") as! DepositRecordContainer
-        vc.displayId = self.data.transactionId ?? ""
-        NavigationManagement.sharedInstance.pushViewController(vc: vc, unwindNavigate: self)
+        let detailMainViewController = DepositRecordDetailMainViewController(
+          displayId: self.data.transactionId ?? "")
+
+        NavigationManagement.sharedInstance
+          .pushViewController(
+            vc: detailMainViewController,
+            unwindNavigate: self)
       }
     case .onlinecardschange,
          .paymentgroupchanged:

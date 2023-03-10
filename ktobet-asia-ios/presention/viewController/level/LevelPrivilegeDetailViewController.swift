@@ -31,14 +31,15 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
   static func instantiate(
     levelPrivilege: LevelPrivilege,
     level: Int32)
-    -> LevelPrivilegeDetailViewController {
-      let controller = LevelPrivilegeDetailViewController.initFrom(storyboard: "LevelPrivilege")
-      
-      controller.levelPrivilege = levelPrivilege
-      controller.level = level
-      
-      return controller
-    }
+    -> LevelPrivilegeDetailViewController
+  {
+    let controller = LevelPrivilegeDetailViewController.initFrom(storyboard: "LevelPrivilege")
+
+    controller.levelPrivilege = levelPrivilege
+    controller.level = level
+
+    return controller
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()

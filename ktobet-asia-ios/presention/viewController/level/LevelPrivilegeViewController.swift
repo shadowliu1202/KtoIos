@@ -31,11 +31,11 @@ class LevelPrivilegeViewController: LobbyViewController {
     super.viewWillAppear(animated)
     viewModel.fetchData()
   }
-  
+
   deinit {
     Logger.shared.info("\(type(of: self)) deinit")
   }
-  
+
   @IBAction
   func showExpInfo(_: UIButton) {
     Alert.shared.show(
@@ -66,7 +66,7 @@ extension LevelPrivilegeViewController {
     levelBackgroundView.roundCorners(
       corners: [.topLeft, .bottomLeft],
       radius: 16)
-    
+
     expButton.imageView?.contentMode = .scaleAspectFill
   }
 
@@ -126,7 +126,7 @@ extension LevelPrivilegeViewController {
   }
 
   private func updateCollapse(
-    tableView: UITableView,
+    tableView _: UITableView,
     item: LevelPrivilegeViewModel.Item,
     collapse: Observable<Void>,
     disposeBag: DisposeBag)
@@ -138,9 +138,9 @@ extension LevelPrivilegeViewController {
           let index = self.viewModel.itemsRelay.value
             .firstIndex(where: { $0.level == item.level })
         else { return }
-        
+
         item.isFold.toggle()
-        
+
         var updated = self.viewModel.itemsRelay.value
         updated[index] = item
         self.viewModel.itemsRelay.accept(updated)

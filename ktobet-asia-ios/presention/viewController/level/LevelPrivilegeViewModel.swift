@@ -50,18 +50,17 @@ extension LevelPrivilegeViewModel {
   func fetchData() {
     Observable.zip(
       getPrivilege().asObservable(),
-      loadPlayerInfo().asObservable()
-    )
-    .subscribe(onNext: { [weak self] (levelOverview, player) in
-      guard let self else { return }
-      self.currentLevel = player.playerInfo.level
-      
-      let items = levelOverview.map { Item($0) }
-      self.mappingItem(items)
-    }, onError: { [weak self] in
-      self?.errorsSubject.onNext($0)
-    })
-    .disposed(by: disposeBag)
+      loadPlayerInfo().asObservable())
+      .subscribe(onNext: { [weak self] levelOverview, player in
+        guard let self else { return }
+        self.currentLevel = player.playerInfo.level
+
+        let items = levelOverview.map { Item($0) }
+        self.mappingItem(items)
+      }, onError: { [weak self] in
+        self?.errorsSubject.onNext($0)
+      })
+      .disposed(by: disposeBag)
   }
 
   private func loadPlayerInfo() -> Single<Player> {

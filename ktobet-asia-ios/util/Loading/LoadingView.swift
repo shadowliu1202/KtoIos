@@ -1,3 +1,4 @@
+import SwiftUI
 import UIKit
 
 class LoadingView: UIView {
@@ -13,20 +14,6 @@ class LoadingView: UIView {
       make.center.equalToSuperview()
       make.size.equalTo(48)
     }
-
-    addLayerAnimation(to: imageView.layer, duration: 1)
-  }
-
-  private func addLayerAnimation(to layer: CALayer, duration: Double) {
-    let animation = CABasicAnimation(keyPath: "transform.rotation")
-
-    animation.fromValue = 0
-    animation.toValue = Double.pi * 2
-    animation.duration = CFTimeInterval(duration)
-    animation.repeatCount = .infinity
-    animation.timingFunction = CAMediaTimingFunction(name: .linear)
-
-    layer.add(animation, forKey: nil)
   }
 
   required init?(coder _: NSCoder) {
@@ -62,17 +49,16 @@ class GradientArcView: UIView {
 
     configure()
   }
-
-  override func layoutSubviews() {
-    super.layoutSubviews()
-
-    updateGradient()
-  }
 }
 
 extension GradientArcView {
   private func configure() {
     layer.addSublayer(gradientLayer)
+
+    DispatchQueue.main.async {
+      self.updateGradient()
+      self.addLayerAnimation(to: self.layer, duration: 1)
+    }
   }
 
   private func updateGradient() {
@@ -93,5 +79,30 @@ extension GradientArcView {
     mask.lineWidth = lineWidth
     mask.path = path.cgPath
     gradientLayer.mask = mask
+  }
+
+  private func addLayerAnimation(to layer: CALayer, duration: Double) {
+    let animation = CABasicAnimation(keyPath: "transform.rotation")
+
+    animation.fromValue = 0
+    animation.toValue = Double.pi * 2
+    animation.duration = CFTimeInterval(duration)
+    animation.repeatCount = .infinity
+    animation.timingFunction = CAMediaTimingFunction(name: .linear)
+    animation.isRemovedOnCompletion = false
+
+    layer.add(animation, forKey: nil)
+  }
+}
+
+struct SwiftUIGradientArcView: UIViewRepresentable {
+  let isVisible: Bool
+
+  func makeUIView(context _: Context) -> GradientArcView {
+    GradientArcView(frame: .zero)
+  }
+
+  func updateUIView(_ uiView: GradientArcView, context _: Context) {
+    uiView.isHidden = !isVisible
   }
 }

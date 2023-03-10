@@ -2,12 +2,15 @@ import SwiftUI
 
 struct ConfirmRed: ButtonStyle {
   @Environment(\.isEnabled) var isEnabled
+
+  var size: CGFloat = 14
+
   func makeBody(configuration: Self.Configuration) -> some View {
     configuration.label
       .foregroundColor(isEnabled ? .from(.whitePure) : .from(.whitePure, alpha: 0.4))
       .localized(
         weight: .regular,
-        size: 14)
+        size: size)
       .padding(10)
       .frame(maxWidth: .infinity)
       .lineLimit(1)

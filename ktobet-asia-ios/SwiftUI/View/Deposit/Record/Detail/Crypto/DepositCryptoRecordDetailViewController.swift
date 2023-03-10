@@ -3,12 +3,13 @@ import SharedBu
 import SwiftUI
 import UIKit
 
-class DepositCryptoRecordViewController: LobbyViewController,
+class DepositCryptoRecordDetailViewController:
+  LobbyViewController,
   SwiftUIConverter
 {
-  @Injected var viewModel: DepositCryptoRecordViewModel
+  @Injected var viewModel: DepositCryptoRecordDetailViewModel
   @Injected private var playerConfig: PlayerConfiguration
-  
+
   private let transactionId: String
   private let disposeBag = DisposeBag()
 
@@ -51,10 +52,10 @@ class DepositCryptoRecordViewController: LobbyViewController,
   }
 }
 
-extension DepositCryptoRecordViewController {
+extension DepositCryptoRecordDetailViewController {
   private func setupUI() {
     addSubView(from: { [unowned self] in
-      DepositCryptoRecordView(
+      DepositCryptoRecordDetailView(
         playerConfig: self.playerConfig,
         submitTransactionIdOnClick: {
           self.navigateToDepositCryptoVC($0)

@@ -2,7 +2,7 @@ import Foundation
 import RxSwift
 import SharedBu
 
-protocol DepositCryptoRecordViewModelProtocol {
+protocol DepositCryptoRecordDetailViewModelProtocol {
   var header: DepositCryptoRecordHeader? { get }
   var info: [DepositCryptoRecord]? { get }
 

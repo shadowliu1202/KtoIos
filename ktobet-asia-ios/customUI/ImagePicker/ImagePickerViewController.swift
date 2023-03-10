@@ -8,6 +8,8 @@ class ImagePickerViewController: UIViewController {
   @IBOutlet private weak var uploadButton: UIButton!
   @IBOutlet weak var footerView: UIView!
 
+  @Injected private var loading: Loading
+
   weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
   var selectedImageLimitCount = 3
   var imageLimitMBSize = 20
@@ -76,16 +78,25 @@ class ImagePickerViewController: UIViewController {
     footerView.isHidden = isHiddenFooterView
   }
 
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
+
   @IBAction
   private func upload(_: UIButton) {
-    startActivityIndicator(activityIndicator: activityIndicator)
-    selectedImages = []
-    for asset in selectedPhotoAssets {
-      selectedImages.append(asset.convertAssetToImage())
-    }
+    loading.setAppearance(isHidden: false)
 
-    stopActivityIndicator(activityIndicator: activityIndicator)
-    completion?(selectedImages)
+    DispatchQueue.global().async {
+      self.selectedImages = []
+      for asset in self.selectedPhotoAssets {
+        self.selectedImages.append(asset.convertAssetToImage())
+      }
+
+      DispatchQueue.main.async {
+        self.loading.setAppearance(isHidden: true)
+        self.completion?(self.selectedImages)
+      }
+    }
   }
 
   private func getPhotoAssets() {

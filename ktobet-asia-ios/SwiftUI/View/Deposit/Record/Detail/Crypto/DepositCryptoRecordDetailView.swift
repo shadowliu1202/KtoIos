@@ -1,8 +1,8 @@
 import SharedBu
 import SwiftUI
 
-struct DepositCryptoRecordView<ViewModel>: View
-  where ViewModel: DepositCryptoRecordViewModelProtocol & ObservableObject
+struct DepositCryptoRecordDetailView<ViewModel>: View
+  where ViewModel: DepositCryptoRecordDetailViewModelProtocol & ObservableObject
 {
   let playerConfig: PlayerConfiguration
   let submitTransactionIdOnClick: ((SingleWrapper<HttpUrl>?) -> Void)?
@@ -28,7 +28,7 @@ struct DepositCryptoRecordView<ViewModel>: View
   }
 }
 
-extension DepositCryptoRecordView {
+extension DepositCryptoRecordDetailView {
   enum Identifier: String {
     case headerCpsIncompleteHint
     case infoTable
@@ -54,7 +54,7 @@ extension DepositCryptoRecordView {
           Text("\(Localize.string("common_cps_incomplete_field_placeholder_hint"))")
             .localized(weight: .regular, size: 14, color: .gray9B9B9B)
             .visibility(viewModel.header?.showInCompleteHint ?? true ? .visible : .gone)
-            .id(DepositCryptoRecordView.Identifier.headerCpsIncompleteHint.rawValue)
+            .id(DepositCryptoRecordDetailView.Identifier.headerCpsIncompleteHint.rawValue)
         }
       }
       .frame(maxWidth: .infinity, alignment: .leading)
@@ -65,9 +65,9 @@ extension DepositCryptoRecordView {
   }
 
   struct Info: View {
-    typealias InfoRow = DepositCryptoRecordView.InfoRow
-    typealias InfoTable = DepositCryptoRecordView.InfoTable
-    typealias RemarkRow = DepositCryptoRecordView.RemarkRow
+    typealias InfoRow = DepositCryptoRecordDetailView.InfoRow
+    typealias InfoTable = DepositCryptoRecordDetailView.InfoTable
+    typealias RemarkRow = DepositCryptoRecordDetailView.RemarkRow
 
     @EnvironmentObject var viewModel: ViewModel
 
@@ -137,7 +137,7 @@ extension DepositCryptoRecordView {
         if let content = infoContent {
           Text(content)
             .localized(weight: .regular, size: 16, color: contentColor)
-            .id(DepositCryptoRecordView.Identifier.infoRowContent.rawValue)
+            .id(DepositCryptoRecordDetailView.Identifier.infoRowContent.rawValue)
         }
 
         if let attach = attachment {
@@ -147,7 +147,7 @@ extension DepositCryptoRecordView {
             .onTapGesture {
               clickAttachment?()
             }
-            .id(DepositCryptoRecordView.Identifier.infoRowAttachment.rawValue)
+            .id(DepositCryptoRecordDetailView.Identifier.infoRowAttachment.rawValue)
         }
       }
     }
@@ -168,7 +168,7 @@ extension DepositCryptoRecordView {
               }
               else {
                 let record = applyInfo[$0]
-                DepositCryptoRecordView.InfoRow(record)
+                DepositCryptoRecordDetailView.InfoRow(record)
               }
             }
           }
@@ -183,7 +183,7 @@ extension DepositCryptoRecordView {
               }
               else {
                 let record = finallyInfo[$0]
-                DepositCryptoRecordView.InfoRow(record)
+                DepositCryptoRecordDetailView.InfoRow(record)
               }
             }
           }
@@ -195,7 +195,7 @@ extension DepositCryptoRecordView {
       .frame(maxWidth: .infinity, alignment: .leading)
       .padding(16)
       .strokeBorder(color: .gray3C3E40, cornerRadius: 0)
-      .id(DepositCryptoRecordView.Identifier.infoTable.rawValue)
+      .id(DepositCryptoRecordDetailView.Identifier.infoTable.rawValue)
     }
   }
 
@@ -227,13 +227,13 @@ extension DepositCryptoRecordView {
           }
         }
       }
-      .id(DepositCryptoRecordView.Identifier.remarkRow.rawValue)
+      .id(DepositCryptoRecordDetailView.Identifier.remarkRow.rawValue)
     }
   }
 }
 
 struct DepositCryptoRecordViewPreviews: PreviewProvider {
-  class ViewModel: DepositCryptoRecordViewModelProtocol, ObservableObject {
+  class ViewModel: DepositCryptoRecordDetailViewModelProtocol, ObservableObject {
     let transactionId = ""
 
     @Published private(set) var header: DepositCryptoRecordHeader?
@@ -310,7 +310,7 @@ struct DepositCryptoRecordViewPreviews: PreviewProvider {
     var viewModel = ViewModel()
 
     var body: some View {
-      DepositCryptoRecordView(
+      DepositCryptoRecordDetailView(
         playerConfig: PlayerConfigurationImpl(supportLocale: .China()),
         submitTransactionIdOnClick: nil,
         transactionId: "123",

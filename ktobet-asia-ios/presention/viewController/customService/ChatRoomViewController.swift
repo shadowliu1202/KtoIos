@@ -290,7 +290,7 @@ class ChatRoomViewController: CommonViewController {
     imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil)
       .instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
     imagePickerView.delegate = self
-    imagePickerView.imageLimitMBSize = DepositLogViewModel.imageMBSizeLimit
+    imagePickerView.imageLimitMBSize = DepositRecordDetailViewModel.imageMBSizeLimit
     imagePickerView.selectedImageLimitCount = 3
     imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
     imagePickerView.completion = { [weak self] images in
