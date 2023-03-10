@@ -13,6 +13,17 @@ class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScro
   let maxScale: CGFloat = 4.0
   let minScale: CGFloat = 1.0
 
+  static func instantiate(
+    url: String,
+    thumbnailImage: UIImage? = nil)
+    -> ImageViewController
+  {
+    let controller = ImageViewController.initFrom(storyboard: "Deposit")
+    controller.url = url
+    controller.thumbnailImage = thumbnailImage
+    return controller
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))

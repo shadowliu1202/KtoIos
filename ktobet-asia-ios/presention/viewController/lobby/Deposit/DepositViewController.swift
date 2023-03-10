@@ -113,16 +113,15 @@ extension DepositViewController {
   }
 
   func pushToRecordPage(_ log: PaymentLogDTO.Log) {
-    let container = DepositRecordContainer.initFrom(storyboard: "Deposit")
+    let detailMainViewController = DepositRecordDetailMainViewController(
+      displayId: log.displayId,
+      paymentCurrencyType: log.currencyType)
 
-    container.displayId = log.displayId
-    container.paymentCurrencyType = log.currencyType
-
-    navigationController?.pushViewController(container, animated: true)
+    navigationController?.pushViewController(detailMainViewController, animated: true)
   }
 
   func pushToAllRecordPage() {
-    performSegue(withIdentifier: DepositRecordViewController.segueIdentifier, sender: nil)
+    navigationController?.pushViewController(DepositLogSummaryViewController(), animated: true)
   }
 
   @IBAction

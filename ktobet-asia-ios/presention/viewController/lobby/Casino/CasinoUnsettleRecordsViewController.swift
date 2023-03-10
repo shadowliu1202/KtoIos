@@ -139,7 +139,7 @@ extension CasinoUnsettleRecordsViewController: UITableViewDelegate, UITableViewD
 }
 
 extension CasinoUnsettleRecordsViewController: ExpandableHeaderViewDelegate {
-  func toggleSection(header: ExpandableHeaderView, section: Int, expanded: Bool) {
+  func toggleSection(header _: ExpandableHeaderView, section: Int, expanded: Bool) {
     sections[section].expanded = expanded
     tableView.beginUpdates()
     for i in 0..<sections[section].name.count {

@@ -34,7 +34,7 @@ class UnlockPrivilegeView: UIView {
     tagLabel.text = args.title.value as? String
     subTagLabel.text = args.subTitle.value as? String
     subTagLabel.isHidden = (args.subTitle.value as? String)?.isEmpty ?? true
-    
+
     tagBackgroundView.borderWidth = 0.5
     tagBackgroundView.bordersColor = .gray595959
 

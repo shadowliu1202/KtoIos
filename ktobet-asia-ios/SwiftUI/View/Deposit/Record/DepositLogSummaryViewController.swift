@@ -5,11 +5,10 @@ import SharedBu
 import SwiftUI
 import UIKit
 
-class DepositRecordViewController: LobbyViewController,
+class DepositLogSummaryViewController:
+  LobbyViewController,
   SwiftUIConverter
 {
-  static let segueIdentifier = "toAllRecordSegue"
-
   @Injected private var playerConfig: PlayerConfiguration
 
   @Injected var viewModel: DepositLogSummaryViewModel
@@ -27,7 +26,7 @@ class DepositRecordViewController: LobbyViewController,
 
 // MARK: - UI
 
-extension DepositRecordViewController {
+extension DepositLogSummaryViewController {
   private func setupUI() {
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
 
@@ -39,7 +38,6 @@ extension DepositRecordViewController {
             viewModel: self.viewModel,
             onDateSelected: { type in
               self.viewModel.dateType = type
-              self.refresh()
             },
             onNavigateToFilterController: {
               self.navigateToFilterViewController()
@@ -61,22 +59,15 @@ extension DepositRecordViewController {
         haveSelectAll: false,
         selectAtLeastOne: true,
         allowMultipleSelection: true,
-        onDone: { [unowned self] in
-          self.refresh()
-        }),
+        onDone: nil),
       animated: true)
   }
 
   private func navigateToDepositRecordDetail(log: PaymentLogDTO.Log) {
-    let storyboard = UIStoryboard(name: "Deposit", bundle: Bundle.main)
-    let vc = storyboard.instantiateViewController(withIdentifier: "DepositRecordContainer") as! DepositRecordContainer
-    vc.displayId = log.displayId
-    vc.paymentCurrencyType = log.currencyType
-    navigationController?.pushViewController(vc, animated: true)
-  }
+    let detailMainViewController = DepositRecordDetailMainViewController(
+      displayId: log.displayId,
+      paymentCurrencyType: log.currencyType)
 
-  private func refresh() {
-    viewModel.pagination.refreshTrigger.onNext(())
-    viewModel.summaryRefreshTrigger.onNext(())
+    navigationController?.pushViewController(detailMainViewController, animated: true)
   }
 }

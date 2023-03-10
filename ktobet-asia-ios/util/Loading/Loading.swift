@@ -4,7 +4,9 @@ import UIKit
 protocol Loading: AnyObject {
   var isLoading: Bool { get }
   var tracker: ActivityIndicator { get }
+
   func setAppearance(isHidden: Bool)
+  func bind(to observable: Observable<Bool>) -> Disposable
 }
 
 class LoadingImpl: Loading {
@@ -19,10 +21,7 @@ class LoadingImpl: Loading {
   var isLoading: Bool { !loadingView.isHidden }
 
   private init() {
-    tracker.asObservable()
-      .subscribe(onNext: { [unowned self] in
-        self.setAppearance(isHidden: !$0)
-      })
+    bind(to: tracker.asObservable())
       .disposed(by: disposeBag)
   }
 
@@ -42,5 +41,12 @@ class LoadingImpl: Loading {
       UIWindow.key?.bringSubviewToFront(loadingView)
       loadingView.isHidden = false
     }
+  }
+
+  func bind(to observable: Observable<Bool>) -> Disposable {
+    observable
+      .subscribe(onNext: { [unowned self] in
+        self.setAppearance(isHidden: !$0)
+      })
   }
 }

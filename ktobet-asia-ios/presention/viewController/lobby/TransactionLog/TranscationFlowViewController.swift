@@ -124,11 +124,11 @@ class TranscationFlowController {
   }
 
   private func goDepositDetail(_ depositLog: TransactionLog.MoneyTransferDeposit) {
-    let storyboard = UIStoryboard(name: "Deposit", bundle: Bundle.main)
-    let vc = storyboard.instantiateViewController(withIdentifier: "DepositRecordContainer") as! DepositRecordContainer
-    vc.displayId = depositLog.detailId()
-    vc.transactionType = depositLog.transferType
-    self.navi?.pushViewController(vc, animated: true)
+    let detailMainViewController = DepositRecordDetailMainViewController(
+      displayId: depositLog.detailId(),
+      transactionType: depositLog.transferType)
+
+    navi?.pushViewController(detailMainViewController, animated: true)
   }
 
   private func goWithdrawalDetail(_ log: TransactionLog.MoneyTransferWithdrawal) {

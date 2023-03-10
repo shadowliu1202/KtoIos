@@ -127,7 +127,7 @@ extension UIView {
       self.layer.insertSublayer(gradientLayer, at: 0)
     }
   }
-  
+
   func gradientLayer(horizontal colors: [CGColor]) -> CAGradientLayer {
     let gradientLayer = CAGradientLayer()
     gradientLayer.colors = colors

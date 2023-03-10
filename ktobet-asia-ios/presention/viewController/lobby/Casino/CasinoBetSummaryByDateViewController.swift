@@ -156,7 +156,7 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
 }
 
 extension CasinoBetSummaryByDateViewController: ExpandableHeaderViewDelegate {
-  func toggleSection(header: ExpandableHeaderView, section: Int, expanded: Bool) {
+  func toggleSection(header _: ExpandableHeaderView, section: Int, expanded: Bool) {
     if self.sections[section].expanded {
       self.tableView.beginUpdates()
       for i in 0..<self.sections[section].name.count {
