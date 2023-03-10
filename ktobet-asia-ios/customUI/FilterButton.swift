@@ -149,7 +149,7 @@ class FilterButton: UIView {
       self?.conditionCallback?(items)
     }
 
-    parentController?.navigationController?.pushViewController(vc, animated: true)
+    parentController?.present(vc.embedToNavigation(), animated: true)
   }
 }
 

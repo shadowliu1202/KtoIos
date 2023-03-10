@@ -1,6 +1,10 @@
+import RxSwift
 import UIKit
 
-class DateViewController: UIViewController {
+class DateViewController:
+  UIViewController,
+  EmbedNavigation
+{
   static let segueIdentifier = "toDateSegue"
   @IBOutlet fileprivate weak var dateSegment: UISegmentedControl!
   @IBOutlet fileprivate weak var currentDateLabel: UILabel!
@@ -17,15 +21,37 @@ class DateViewController: UIViewController {
   fileprivate var koyomi: Koyomi!
   fileprivate var seletedDate: Date?
   fileprivate var currentSelectedStyle: SelectionMode = .sequence(style: .semicircleEdge)
-  fileprivate var viewModel = Injectable.resolve(DepositViewModel.self)!
 
   private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
   private lazy var dateSegmentTitle = Theme.shared.getSegmentTitleName(by: localStorageRepo.getSupportLocale())
 
+  private let disposeBag = DisposeBag()
+
+  static func instantiate(
+    type: DateType,
+    didSelected: ((_ type: DateType) -> Void)?)
+    -> DateViewController
+  {
+    let storyboard = UIStoryboard(name: "Date", bundle: nil)
+    guard
+      let controller = storyboard
+        .instantiateViewController(withIdentifier: "DateConditionViewController") as? DateViewController
+    else { fatalError("DateViewController init error !!") }
+
+    controller.dateType = type
+    controller.conditionCallback = didSelected
+
+    return controller
+  }
+
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     month.addSubview(monthSelectView, constraints: .fill())
-    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
+    setBackItem(.close).disposed(by: disposeBag)
     self.setupDateSegmentLabel()
 
     DispatchQueue.main.async {
@@ -133,7 +159,7 @@ class DateViewController: UIViewController {
     }
 
     conditionCallback?(dateType)
-    NavigationManagement.sharedInstance.popViewController()
+    dismiss(animated: true)
   }
 
   fileprivate func changeMonth(month: MonthType) {
@@ -223,11 +249,6 @@ class DateViewController: UIViewController {
     default:
       break
     }
-  }
-
-  @objc
-  func close() {
-    NavigationManagement.sharedInstance.popViewController()
   }
 }
 

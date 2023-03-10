@@ -15,18 +15,18 @@ struct TransactionLogView<ViewModel>: View
 
   let playerConfig: PlayerConfiguration
 
-  var onDateSelected: DateFilter.Selection?
+  var dateFilterAction: DateFilter.Action?
   var onSummarySelected: (() -> Void)?
   var onRowSelected: ((TransactionLog) -> Void)?
-  var onNavigateToFilterController: (() -> Void)?
+  var onPresentFilterController: (() -> Void)?
 
   var body: some View {
     DelegatedScrollView {
       PageContainer {
         Header(
-          onDateSelected: onDateSelected,
+          dateFilterAction: dateFilterAction,
           onSummarySelected: onSummarySelected,
-          onNavigateToFilterController: onNavigateToFilterController)
+          onPresentFilterController: onPresentFilterController)
 
         LimitSpacer(30)
           .visibility(viewModel.sections.isNullOrEmpty() ? .gone : .visible)
@@ -105,20 +105,20 @@ extension TransactionLogView {
 
     @EnvironmentObject var viewModel: ViewModel
 
-    var onDateSelected: DateFilter.Selection?
+    var dateFilterAction: DateFilter.Action?
     var onSummarySelected: (() -> Void)?
-    var onNavigateToFilterController: (() -> Void)?
+    var onPresentFilterController: (() -> Void)?
 
     var body: some View {
       VStack(spacing: 12) {
         HStack(spacing: 9) {
           DateFilter(
             currentType: viewModel.dateType,
-            onDateSelected: onDateSelected)
+            action: dateFilterAction)
 
           TypeFilter(
             title: viewModel.selectedTitle,
-            onNavigateToController: onNavigateToFilterController)
+            onPresentController: onPresentFilterController)
         }
 
         TransactionLogView.Summary(

@@ -34,7 +34,7 @@ class DepositLogSummaryViewModel: CollectErrorViewModel,
 
   @Published var selectedItems: [Selectable] = []
 
-  var dateType: DateType = .week(
+  @Published var dateType: DateType = .week(
     fromDate: Date().adding(value: -6, byAdding: .day),
     toDate: Date())
 
