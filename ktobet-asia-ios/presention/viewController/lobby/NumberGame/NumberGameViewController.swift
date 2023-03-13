@@ -10,10 +10,7 @@ class NumberGameViewController: DisplayProduct {
   @IBOutlet var scrollView: UIScrollView!
   @IBOutlet weak var tagsStackView: GameTagStackView!
   @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
-  @IBOutlet weak var dropDownView: UIView!
-  @IBOutlet weak var dropDownTableView: UITableView!
-  @IBOutlet weak var iconArrowImageView: UIImageView!
-  @IBOutlet weak var dropDownTitleLabel: UILabel!
+  @IBOutlet weak var dropDownView: DropdownSelector!
   @IBOutlet var gamesCollectionViewHeight: NSLayoutConstraint!
   @IBOutlet var blurBackgroundViewHeight: NSLayoutConstraint!
 
@@ -37,19 +34,11 @@ class NumberGameViewController: DisplayProduct {
     return pagerView
   }()
 
-  var dropDownItem: [(contentText: String, isSelected: Bool, sorting: GameSorting)] =
+  private var dropDownItem: [DropdownItem] =
     [
-      (Localize.string("product_hot_sorting"), true, .popular),
-      (
-        Localize
-          .string("product_name_sorting"),
-        false,
-        .gamename),
-      (
-        Localize
-          .string("product_release_sorting"),
-        false,
-        .releaseddate)
+      .init(contentText: Localize.string("product_hot_sorting"), sorting: .popular),
+      .init(contentText: Localize.string("product_name_sorting"), sorting: .gamename),
+      .init(contentText: Localize.string("product_release_sorting"), sorting: .releaseddate)
     ]
 
   fileprivate func getPopularGames() {
@@ -100,40 +89,14 @@ class NumberGameViewController: DisplayProduct {
     NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
     self.bind(position: .right, barButtonItems: .kto(.search), .kto(.favorite), .kto(.record))
     scrollView.addSubview(pagerView)
-
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDropDown))
-    dropDownView.addGestureRecognizer(tapGesture)
-    dropDownTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
+    dropDownView.setItems(dropDownItem)
+    dropDownView.setSelectedItem(dropDownItem.first)
     gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
     gamesCollectionView.registerCellFromNib(WebGameItemCell.className)
 
     getPopularGames()
-
-    viewModel.errors().subscribe(onNext: { [weak self] in
-      if $0.isMaintenance() {
-        NavigationManagement.sharedInstance.goTo(productType: .numbergame, isMaintenance: true)
-      }
-      else {
-        self?.handleErrors($0)
-      }
-    }).disposed(by: disposeBag)
-
-    bindWebGameResult(with: viewModel)
-
-    Observable.combineLatest(viewDidRotate, viewModel.tagStates)
-      .flatMap { Observable.just($1) }
-      .subscribe(onNext: { [unowned self] data in
-        self.tagsStackView.initialize(
-          recommend: data.0,
-          new: data.1,
-          data: data.2,
-          allTagClick: { self.viewModel.selectAll() },
-          recommendClick: { self.viewModel.toggleRecommend() },
-          newClick: { self.viewModel.toggleNew() },
-          customClick: { self.viewModel.toggleTag($0) })
-      }).disposed(by: self.disposeBag)
-
     getAllGames()
+    dataBinding()
   }
 
   override func viewWillLayoutSubviews() {
@@ -147,21 +110,38 @@ class NumberGameViewController: DisplayProduct {
       self?.viewDidRotate.accept(true)
     })
   }
-
-  @objc
-  private func didTapDropDown() {
-    dropDownTableView.isHidden = !dropDownTableView.isHidden
-    iconArrowImageView.image = dropDownTableView
-      .isHidden ? UIImage(named: "iconAccordionArrowDown") : UIImage(named: "iconAccordionArrowUp")
-  }
-
-  fileprivate func setDropDownSort(index: Int) {
-    let indexPath = IndexPath(row: index, section: 0)
-    self.dropDownTitleLabel.text = dropDownItem[index].contentText
-    self.dropDownItem = self.dropDownItem.map { (contentText: $0.contentText, isSelected: false, sorting: $0.sorting) }
-    self.dropDownTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-    self.dropDownItem[index].isSelected = true
-    self.dropDownTableView.reloadData()
+  
+  func dataBinding() {
+    bindWebGameResult(with: viewModel)
+    
+    viewModel.errors().subscribe(onNext: { [weak self] in
+      if $0.isMaintenance() {
+        NavigationManagement.sharedInstance.goTo(productType: .numbergame, isMaintenance: true)
+      }
+      else {
+        self?.handleErrors($0)
+      }
+    }).disposed(by: disposeBag)
+    
+    Observable.combineLatest(viewDidRotate, viewModel.tagStates)
+      .flatMap { Observable.just($1) }
+      .subscribe(onNext: { [unowned self] data in
+        self.tagsStackView.initialize(
+          recommend: data.0,
+          new: data.1,
+          data: data.2,
+          allTagClick: { self.viewModel.selectAll() },
+          recommendClick: { self.viewModel.toggleRecommend() },
+          newClick: { self.viewModel.toggleNew() },
+          customClick: { self.viewModel.toggleTag($0) })
+      }).disposed(by: self.disposeBag)
+    
+    dropDownView.selectedItemObservable
+      .subscribe(onNext: { [weak self] in
+        guard let self, let sorting = ($0 as? DropdownItem)?.sorting else { return }
+        self.viewModel.gameSorting.accept(sorting)
+      })
+      .disposed(by: disposeBag)
   }
 
   private func addBlurBackgoundImageView(url: URL) {
@@ -283,37 +263,6 @@ extension NumberGameViewController: TYCyclePagerViewDelegate, TYCyclePagerViewDa
   }
 }
 
-extension NumberGameViewController: UITableViewDataSource, UITableViewDelegate {
-  func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-    3
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "DropDownCell") as! DropDownTableViewCell
-    cell.contentText.text = dropDownItem[indexPath.row].contentText
-    cell.selectedImageView.isHidden = !dropDownItem[indexPath.row].isSelected
-
-    return cell
-  }
-
-  func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-    self.dropDownItem = self.dropDownItem.map { (contentText: $0.contentText, isSelected: false, sorting: $0.sorting) }
-    dropDownTitleLabel.text = dropDownItem[indexPath.row].contentText
-    dropDownItem[indexPath.row].isSelected = true
-    dropDownTableView.isHidden = true
-    iconArrowImageView.image = UIImage(named: "iconAccordionArrowDown")
-    viewModel.gameSorting.accept(dropDownItem[indexPath.row].sorting)
-    dropDownTableView.reloadData()
-  }
-
-  func tableView(_: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
-    dropDownItem[indexPath.row].isSelected = false
-    dropDownTableView.reloadData()
-
-    return indexPath
-  }
-}
-
 extension NumberGameViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
     switch sender {
@@ -338,4 +287,13 @@ extension NumberGameViewController: BarButtonItemable {
     default: break
     }
   }
+}
+
+private struct DropdownItem:
+  DropdownSelectable,
+  Equatable
+{
+  var identity: String { contentText }
+  var contentText: String
+  var sorting: GameSorting
 }

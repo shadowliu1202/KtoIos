@@ -5,10 +5,7 @@ import UIKit
 class SlotAllViewController: DisplayProduct {
   static let segueIdentifier = "toShowAllSlot"
 
-  @IBOutlet weak var dropDownView: UIView!
-  @IBOutlet weak var dropDownTableView: UITableView!
-  @IBOutlet weak var dropDownTitleLabel: UILabel!
-  @IBOutlet weak var iconArrowImageView: UIImageView!
+  @IBOutlet weak var dropDownView: DropdownSelector!
   @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
   @IBOutlet var gamesCollectionViewHeight: NSLayoutConstraint!
 
@@ -16,19 +13,11 @@ class SlotAllViewController: DisplayProduct {
   var viewModel: SlotViewModel!
   var barButtonItems: [UIBarButtonItem] = []
   var options: [SlotGameFilter] = []
-  var dropDownItem: [(contentText: String, isSelected: Bool, sorting: GameSorting)] =
+  private var dropDownItem: [DropdownItem] =
     [
-      (Localize.string("product_hot_sorting"), true, .popular),
-      (
-        Localize
-          .string("product_name_sorting"),
-        false,
-        .gamename),
-      (
-        Localize
-          .string("product_release_sorting"),
-        false,
-        .releaseddate)
+      .init(contentText: Localize.string("product_hot_sorting"), sorting: .popular),
+      .init(contentText: Localize.string("product_name_sorting"), sorting: .gamename),
+      .init(contentText: Localize.string("product_release_sorting"), sorting: .releaseddate)
     ]
 
   private var disposeBag = DisposeBag()
@@ -42,6 +31,16 @@ class SlotAllViewController: DisplayProduct {
     self.bind(position: .right, barButtonItems: .kto(.search), .kto(.filter))
     initUI()
     getAllGame(sorting: .popular)
+    dataBinding()
+  }
+  
+  func dataBinding() {
+    dropDownView.selectedItemObservable
+      .subscribe(onNext: { [weak self] in
+        guard let self, let sorting = ($0 as? DropdownItem)?.sorting else { return }
+        self.getAllGame(sorting: sorting, filter: self.options)
+      })
+      .disposed(by: disposeBag)
   }
 
   deinit {
@@ -49,9 +48,8 @@ class SlotAllViewController: DisplayProduct {
   }
 
   private func initUI() {
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDropDown))
-    dropDownView.addGestureRecognizer(tapGesture)
-    dropDownTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
+    dropDownView.setItems(dropDownItem)
+    dropDownView.setSelectedItem(dropDownItem.first)
     gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
     gamesCollectionView.registerCellFromNib(WebGameItemCell.className)
   }
@@ -62,13 +60,6 @@ class SlotAllViewController: DisplayProduct {
     } onError: { [weak self] error in
       self?.handleErrors(error)
     }.disposed(by: disposeBag)
-  }
-
-  @objc
-  private func didTapDropDown() {
-    dropDownTableView.isHidden = !dropDownTableView.isHidden
-    iconArrowImageView.image = dropDownTableView
-      .isHidden ? UIImage(named: "iconAccordionArrowDown") : UIImage(named: "iconAccordionArrowUp")
   }
 
   // MARK: KVO
@@ -103,35 +94,6 @@ class SlotAllViewController: DisplayProduct {
   }
 }
 
-extension SlotAllViewController: UITableViewDataSource, UITableViewDelegate {
-  func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-    3
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "DropDownCell") as! DropDownTableViewCell
-    cell.contentText.text = dropDownItem[indexPath.row].contentText
-    cell.selectedImageView.isHidden = !dropDownItem[indexPath.row].isSelected
-
-    return cell
-  }
-
-  func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-    dropDownTitleLabel.text = dropDownItem[indexPath.row].contentText
-    dropDownItem[indexPath.row].isSelected = true
-    dropDownTableView.isHidden = true
-    iconArrowImageView.image = UIImage(named: "iconAccordionArrowDown")
-    getAllGame(sorting: dropDownItem[indexPath.row].sorting, filter: options)
-  }
-
-  func tableView(_: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
-    dropDownItem[indexPath.row].isSelected = false
-    dropDownTableView.reloadData()
-
-    return indexPath
-  }
-}
-
 extension SlotAllViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
     switch sender {
@@ -144,7 +106,7 @@ extension SlotAllViewController: BarButtonItemable {
         nav.modalPresentationStyle = .fullScreen
         vc.options = options
         vc.conditionCallback = { [weak self] options in
-          let sorting = self?.dropDownItem.first(where: { $0.isSelected }).map { $0.sorting } ?? .popular
+          let sorting = (self?.dropDownView.getSelectedItem() as? DropdownItem)?.sorting ?? .popular
           self?.getAllGame(sorting: sorting, filter: options)
           self?.options = options
         }
@@ -162,4 +124,13 @@ extension SlotAllViewController: BarButtonItemable {
       break
     }
   }
+}
+
+private struct DropdownItem:
+  DropdownSelectable,
+  Equatable
+{
+  var identity: String { contentText }
+  var contentText: String
+  var sorting: GameSorting
 }
