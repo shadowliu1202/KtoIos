@@ -2246,6 +2246,15 @@
 		6D0AA998260C8DF300131314 /* WithdrawlLandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0AA996260C8DF300131314 /* WithdrawlLandingViewModel.swift */; };
 		6D0AA99D260D7A1800131314 /* WithdrawalAccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0AA99C260D7A1800131314 /* WithdrawalAccountDetailViewController.swift */; };
 		6D0AA99E260D7A1800131314 /* WithdrawalAccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0AA99C260D7A1800131314 /* WithdrawalAccountDetailViewController.swift */; };
+		6D0B651F29B710DC000BE9D8 /* DropdownSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */; };
+		6D0B652029B710DC000BE9D8 /* DropdownSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */; };
+		6D0B652129B710DC000BE9D8 /* DropdownSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */; };
+		6D0B652229B710DC000BE9D8 /* DropdownSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */; };
+		6D0B652329B710DC000BE9D8 /* DropdownSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */; };
+		6D0B652429B710DC000BE9D8 /* DropdownSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */; };
+		6D0B652529B710DC000BE9D8 /* DropdownSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */; };
+		6D0B652629B710DC000BE9D8 /* DropdownSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */; };
+		6D0B652729B710DC000BE9D8 /* DropdownSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */; };
 		6D0BA4BD27D9D9F000B71F0F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0BA4BC27D9D9F000B71F0F /* SettingsViewController.swift */; };
 		6D0BA4BE27D9D9F000B71F0F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0BA4BC27D9D9F000B71F0F /* SettingsViewController.swift */; };
 		6D0BA4BF27D9D9F000B71F0F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0BA4BC27D9D9F000B71F0F /* SettingsViewController.swift */; };
@@ -3418,6 +3427,7 @@
 		6D14DA7226FC18B80001ACFA /* TransactionHtmlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14DA7126FC18B80001ACFA /* TransactionHtmlViewController.swift */; };
 		6D14DA7326FC18B80001ACFA /* TransactionHtmlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14DA7126FC18B80001ACFA /* TransactionHtmlViewController.swift */; };
 		6D14DA7426FC18B80001ACFA /* TransactionHtmlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D14DA7126FC18B80001ACFA /* TransactionHtmlViewController.swift */; };
+		6D1612E229BB0BF100BA1827 /* DropdownSelectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1612E129BB0BF100BA1827 /* DropdownSelectorTests.swift */; };
 		6D17950426A5623E001C8BF8 /* LevelPrivilege.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D17950326A5623E001C8BF8 /* LevelPrivilege.storyboard */; };
 		6D17950526A5623E001C8BF8 /* LevelPrivilege.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D17950326A5623E001C8BF8 /* LevelPrivilege.storyboard */; };
 		6D17950626A5623E001C8BF8 /* LevelPrivilege.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D17950326A5623E001C8BF8 /* LevelPrivilege.storyboard */; };
@@ -6975,6 +6985,7 @@
 		6D09CEFC26BD1C5100695C65 /* WebGameApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebGameApi.swift; sourceTree = "<group>"; };
 		6D0AA996260C8DF300131314 /* WithdrawlLandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawlLandingViewModel.swift; sourceTree = "<group>"; };
 		6D0AA99C260D7A1800131314 /* WithdrawalAccountDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalAccountDetailViewController.swift; sourceTree = "<group>"; };
+		6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownSelector.swift; sourceTree = "<group>"; };
 		6D0BA4BC27D9D9F000B71F0F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6D0C89E927C8EB0300DA95C7 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		6D0C89ED27CDF83000DA95C7 /* NewPasswordValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordValidator.swift; sourceTree = "<group>"; };
@@ -6996,6 +7007,7 @@
 		6D14D9E926FB18D70001ACFA /* WithdrawlRecordContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawlRecordContainer.swift; sourceTree = "<group>"; };
 		6D14DA6926FC17B40001ACFA /* wager_template.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = wager_template.html; sourceTree = "<group>"; };
 		6D14DA7126FC18B80001ACFA /* TransactionHtmlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHtmlViewController.swift; sourceTree = "<group>"; };
+		6D1612E129BB0BF100BA1827 /* DropdownSelectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownSelectorTests.swift; sourceTree = "<group>"; };
 		6D17950326A5623E001C8BF8 /* LevelPrivilege.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LevelPrivilege.storyboard; sourceTree = "<group>"; };
 		6D17950A26A562A0001C8BF8 /* LevelPrivilegeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelPrivilegeViewController.swift; sourceTree = "<group>"; };
 		6D17952826A65A14001C8BF8 /* LevelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelTableViewCell.swift; sourceTree = "<group>"; };
@@ -8076,6 +8088,7 @@
 				6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */,
 				608BAC3D26F1C6A00013D930 /* FilterViewController.swift */,
 				3C618A8F29B8688000EF5699 /* MyBetEmptyDataView.swift */,
+				6D0B651E29B710DC000BE9D8 /* DropdownSelector.swift */,
 			);
 			path = customUI;
 			sourceTree = "<group>";
@@ -9202,6 +9215,7 @@
 				6D425201299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift */,
 				FF47BA2C29A4AD410033C2B0 /* PromotionHistoryViewControllerTests.swift */,
 				6D6A261129A367BC00EAF217 /* CryptoAccountDetailViewControllerTests.swift */,
+				6D1612E129BB0BF100BA1827 /* DropdownSelectorTests.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -11543,6 +11557,7 @@
 				4199A05525AE9918002E2D7E /* TransferFormat.swift in Sources */,
 				6D1026A027CF044800C9D233 /* RealNameValidator.swift in Sources */,
 				6D53B71627D85BB2007B7F8E /* TermsPresenter.swift in Sources */,
+				6D0B652029B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				4199A05625AE9918002E2D7E /* HttpResponse.swift in Sources */,
 				4199A05725AE9918002E2D7E /* InputText.swift in Sources */,
 				4107E5E125F333AE00B42965 /* DepositPresenter.swift in Sources */,
@@ -11850,6 +11865,7 @@
 				3CDF723F295D99AB00E0CF73 /* OfflinePaymentViewModelTests.swift in Sources */,
 				3C84A9AE29A35F7100F0AEFA /* OnlinePaymentViewControllerTests.swift in Sources */,
 				FFBD3774294ACAE3009E9A97 /* P2PSummaryViewControllerTests.swift in Sources */,
+				6D1612E229BB0BF100BA1827 /* DropdownSelectorTests.swift in Sources */,
 				6D3DD77D283231560065D6B3 /* AppVersionTest.swift in Sources */,
 				FFBD377A294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */,
 				3C17059729505CCA00531357 /* TermsViewTests.swift in Sources */,
@@ -12242,6 +12258,7 @@
 				3CBC87972857318B00B57607 /* DateUtils.swift in Sources */,
 				6D17957C26A6CC75001C8BF8 /* TopLevelTableViewCell.swift in Sources */,
 				3C7672EA289912CE001DF62F /* SwiftUIInputText.swift in Sources */,
+				6D0B651F29B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				6DB4AC482726512F0084CF4D /* CustomServiceNavigationController.swift in Sources */,
 				4872891E258A17FB00D8983B /* StringExtension.swift in Sources */,
 				6D10269F27CF044800C9D233 /* RealNameValidator.swift in Sources */,
@@ -13026,6 +13043,7 @@
 				6D0701EC272B8A62002A5715 /* Persistent.swift in Sources */,
 				6D6E6FFF27507A28005D88A6 /* CurrencyUnit.swift in Sources */,
 				609013222640EE7000419F8E /* SystemRepository.swift in Sources */,
+				6D0B652129B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				6D9409BF26D8B67D00C70FDA /* UnusableTableViewCell.swift in Sources */,
 				6D5B14D8264A7B38004138E8 /* SlotSummaryViewController.swift in Sources */,
 				3CC064BF287E7BF9008AAC09 /* StarMergerView.swift in Sources */,
@@ -13662,6 +13680,7 @@
 				60E5815127F190E4008CE5A9 /* Persistent.swift in Sources */,
 				60E5815327F190E4008CE5A9 /* CurrencyUnit.swift in Sources */,
 				60E5815427F190E4008CE5A9 /* SystemRepository.swift in Sources */,
+				6D0B652429B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				60E5815527F190E4008CE5A9 /* UnusableTableViewCell.swift in Sources */,
 				60E5815627F190E4008CE5A9 /* SlotSummaryViewController.swift in Sources */,
 				3CC064C0287E7BF9008AAC09 /* StarMergerView.swift in Sources */,
@@ -13896,6 +13915,7 @@
 				FF9ED0192924BF2B00F99E2B /* (null) in Sources */,
 				6D0EDB3F28743FAC004A9E3C /* Constraint.swift in Sources */,
 				6D0EDB4028743FAC004A9E3C /* UIWindowExtension.swift in Sources */,
+				6D0B652229B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				3CA1C56529346DE50009D9C1 /* CryptoVideoTutorialView.swift in Sources */,
 				6D0EDB4128743FAC004A9E3C /* SlotRepository.swift in Sources */,
 				3C2F124C28C0C4DA0044CBA7 /* Logger.swift in Sources */,
@@ -14533,6 +14553,7 @@
 				FF9ED01A2924BF2B00F99E2B /* (null) in Sources */,
 				6D0EDD9A28744704004A9E3C /* Constraint.swift in Sources */,
 				6D0EDD9B28744704004A9E3C /* UIWindowExtension.swift in Sources */,
+				6D0B652529B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				3CA1C56629346DE50009D9C1 /* CryptoVideoTutorialView.swift in Sources */,
 				6D0EDD9C28744704004A9E3C /* SlotRepository.swift in Sources */,
 				3C2F124D28C0C4DA0044CBA7 /* Logger.swift in Sources */,
@@ -15592,6 +15613,7 @@
 				6D966CDF27FEE3FA006086B7 /* Persistent.swift in Sources */,
 				6D966CE127FEE3FA006086B7 /* CurrencyUnit.swift in Sources */,
 				6D966CE227FEE3FA006086B7 /* SystemRepository.swift in Sources */,
+				6D0B652629B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				6D966CE327FEE3FA006086B7 /* UnusableTableViewCell.swift in Sources */,
 				6D966CE427FEE3FA006086B7 /* SlotSummaryViewController.swift in Sources */,
 				3CC064C1287E7BF9008AAC09 /* StarMergerView.swift in Sources */,
@@ -16228,6 +16250,7 @@
 				6D966F2C27FEE416006086B7 /* Persistent.swift in Sources */,
 				6D966F2E27FEE416006086B7 /* CurrencyUnit.swift in Sources */,
 				6D966F2F27FEE416006086B7 /* SystemRepository.swift in Sources */,
+				6D0B652729B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				6D966F3027FEE416006086B7 /* UnusableTableViewCell.swift in Sources */,
 				6D966F3127FEE416006086B7 /* SlotSummaryViewController.swift in Sources */,
 				3CC064C2287E7BF9008AAC09 /* StarMergerView.swift in Sources */,
@@ -16421,6 +16444,7 @@
 				6D55C985296662A00038E8FB /* NumberGameViewController.swift in Sources */,
 				6D55C7CF29657EA60038E8FB /* ProductsViewController.swift in Sources */,
 				6D55C86C29657EF10038E8FB /* SafeAreaReader.swift in Sources */,
+				6D0B652329B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				6D55C6C229657DC30038E8FB /* UICollectionViewExtension.swift in Sources */,
 				6D55C9CD296662DE0038E8FB /* WagerType.swift in Sources */,
 				6D55C966296662880038E8FB /* TranscationFlowViewController.swift in Sources */,
