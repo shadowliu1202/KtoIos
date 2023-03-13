@@ -56,7 +56,8 @@ extension PromotionFilterViewController {
 
     displayLastRowSeparator()
 
-    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, image: "Close")
+    setBackItem(.close)
+      .disposed(by: disposeBag)
   }
 
   private func dataBinding() {
@@ -65,7 +66,7 @@ extension PromotionFilterViewController {
     btnSubmit.rx.touchUpInside
       .subscribe(onNext: { [weak self] in
         self?.conditionCallback?(self?.getConditions() ?? [])
-        NavigationManagement.sharedInstance.popViewController()
+        self?.dismiss(animated: true)
       })
       .disposed(by: disposeBag)
 
@@ -234,7 +235,7 @@ extension PromotionFilterViewController: UITableViewDelegate {
   }
 }
 
-class FilterConditionViewController: UIViewController {
+class FilterConditionViewController: UIViewController, EmbedNavigation {
   var presenter: FilterPresentProtocol!
   var conditionCallback: (([FilterItem]) -> Void)?
 }

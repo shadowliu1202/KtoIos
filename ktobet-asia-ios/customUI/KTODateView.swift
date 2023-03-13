@@ -61,33 +61,35 @@ class KTODateView: UIView {
   }
 
   fileprivate func goToDateVC() {
-    let storyboard = UIStoryboard(name: "Date", bundle: nil)
-    let vc = storyboard.instantiateViewController(withIdentifier: "DateConditionViewController") as! DateViewController
-    vc.conditionCallback = { [weak self] dateType in
-      DispatchQueue.main.async {
-        self?.currentSelectedDateType = dateType
-        let dateBegin: Date?
-        let dateEnd: Date?
-        switch dateType {
-        case .day(let day):
-          self?.dateLabel.text = day.toMonthDayString()
-          dateBegin = day
-          dateEnd = day
-        case .week(let fromDate, let toDate):
-          self?.dateLabel.text = Localize.string("common_last7day")
-          dateBegin = fromDate
-          dateEnd = toDate
-        case .month(let fromDate, let toDate):
-          dateBegin = fromDate
-          dateEnd = toDate
-          self?.dateLabel.text = dateBegin?.toYearMonthString()
+    let controller = DateViewController.instantiate(
+      type: currentSelectedDateType,
+      didSelected: { [weak self] dateType in
+        DispatchQueue.main.async {
+          self?.currentSelectedDateType = dateType
+          let dateBegin: Date?
+          let dateEnd: Date?
+          switch dateType {
+          case .day(let day):
+            self?.dateLabel.text = day.toMonthDayString()
+            dateBegin = day
+            dateEnd = day
+          case .week(let fromDate, let toDate):
+            self?.dateLabel.text = Localize.string("common_last7day")
+            dateBegin = fromDate
+            dateEnd = toDate
+          case .month(let fromDate, let toDate):
+            dateBegin = fromDate
+            dateEnd = toDate
+            self?.dateLabel.text = dateBegin?.toYearMonthString()
+          }
+
+          self?.callBackCondition?(dateBegin, dateEnd, dateType)
         }
+      })
 
-        self?.callBackCondition?(dateBegin, dateEnd, dateType)
-      }
-    }
-
-    vc.dateType = self.currentSelectedDateType
-    NavigationManagement.sharedInstance.pushViewController(vc: vc)
+    parentController?
+      .present(
+        controller.embedToNavigation(),
+        animated: true)
   }
 }

@@ -36,11 +36,15 @@ extension DepositLogSummaryViewController {
           DepositLogSummaryView(
             playerConfig: self.playerConfig,
             viewModel: self.viewModel,
-            onDateSelected: { type in
-              self.viewModel.dateType = type
-            },
-            onNavigateToFilterController: {
-              self.navigateToFilterViewController()
+            dateFilterAction: .init(
+              onDateSelected: {
+                self.viewModel.dateType = $0
+              },
+              onPresentController: {
+                self.presentDateViewController($0)
+              }),
+            onPresentFilterController: {
+              self.presentFilterViewController()
             },
             onRowSelected: {
               self.navigateToDepositRecordDetail(log: $0)
@@ -50,16 +54,25 @@ extension DepositLogSummaryViewController {
       to: view)
   }
 
-  private func navigateToFilterViewController() {
-    navigationController?.pushViewController(
+  private func presentDateViewController(_ didSelected: ((DateType) -> Void)?) {
+    present(
+      DateViewController
+        .instantiate(
+          type: viewModel.dateType,
+          didSelected: didSelected)
+        .embedToNavigation(),
+      animated: true)
+  }
+
+  private func presentFilterViewController() {
+    present(
       FilterViewController(
         presenter: viewModel,
-        barItemType: .back,
-        barItemImageName: "Close",
         haveSelectAll: false,
         selectAtLeastOne: true,
         allowMultipleSelection: true,
-        onDone: nil),
+        onDone: nil)
+      .embedToNavigation(),
       animated: true)
   }
 

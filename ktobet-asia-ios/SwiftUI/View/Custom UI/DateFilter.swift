@@ -1,12 +1,17 @@
 import SwiftUI
 
 struct DateFilter: View {
-  typealias Selection = (_ type: DateType) -> Void
+  struct Action {
+    typealias Selection = (DateType) -> Void
+    
+    var onDateSelected: Selection?
+    var onPresentController: ((Selection?) -> Void)?
+  }
 
-  @State var currentType: DateType
+  let currentType: DateType
 
-  var onDateSelected: Selection?
-
+  var action: Action?
+  
   var body: some View {
     FunctionalButton(
       imageName: "iconDatePicker24",
@@ -19,26 +24,9 @@ struct DateFilter: View {
           .lineLimit(1)
       },
       action: {
-        navigateToDateSelector()
+        let onSelected = action?.onDateSelected
+        action?.onPresentController?(onSelected)
       })
-  }
-}
-
-extension DateFilter {
-  private func navigateToDateSelector() {
-    let storyboard = UIStoryboard(name: "Date", bundle: nil)
-    guard
-      let controller = storyboard
-        .instantiateViewController(withIdentifier: "DateConditionViewController") as? DateViewController
-    else { fatalError("DateViewController init error !!") }
-
-    controller.dateType = currentType
-    controller.conditionCallback = {
-      self.currentType = $0
-      self.onDateSelected?($0)
-    }
-
-    NavigationManagement.sharedInstance.pushViewController(vc: controller)
   }
 }
 

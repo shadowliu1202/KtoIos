@@ -5,36 +5,33 @@ import UIKit
 
 class FilterViewController<Presenter>:
   UIViewController,
-  SwiftUIConverter
+  SwiftUIConverter,
+  EmbedNavigation
   where
   Presenter: Selecting & ObservableObject
 {
   let presenter: Presenter
-  let barItemType: BarItemType
-  var barItemImageName: String?
   var haveSelectAll: Bool
   var selectAtLeastOne: Bool
   var allowMultipleSelection: Bool
 
   var onDone: (() -> Void)?
 
+  private let disposeBag = DisposeBag()
+  
   init(
     presenter: Presenter,
-    barItemType: BarItemType,
-    barItemImageName: String? = nil,
     haveSelectAll: Bool = true,
     selectAtLeastOne: Bool = true,
     allowMultipleSelection: Bool = false,
     onDone: (() -> Void)?)
   {
     self.presenter = presenter
-    self.barItemType = barItemType
-    self.barItemImageName = barItemImageName
     self.haveSelectAll = haveSelectAll
     self.selectAtLeastOne = selectAtLeastOne
     self.allowMultipleSelection = allowMultipleSelection
     self.onDone = onDone
-
+        
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -57,12 +54,9 @@ class FilterViewController<Presenter>:
 
 extension FilterViewController {
   private func setupUI() {
-    NavigationManagement.sharedInstance
-      .addBarButtonItem(
-        vc: self,
-        barItemType: barItemType,
-        image: barItemImageName)
-
+    setBackItem(.close)
+      .disposed(by: disposeBag)
+    
     addSubView(
       from: { [unowned self] in
         FilterSelector(
@@ -71,7 +65,10 @@ extension FilterViewController {
           haveSelectAll: self.haveSelectAll,
           selectAtLeastOne: self.selectAtLeastOne,
           allowMultipleSelection: self.allowMultipleSelection,
-          onDone: self.onDone)
+          onDone: {
+            self.onDone?()
+            self.dismiss(animated: true)
+          })
       },
       to: view)
   }

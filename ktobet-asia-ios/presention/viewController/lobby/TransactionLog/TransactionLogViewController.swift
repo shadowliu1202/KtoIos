@@ -80,10 +80,14 @@ extension TransactionLogViewController {
           TransactionLogView(
             viewModel: self.viewModel,
             playerConfig: self.playerConfig,
-            onDateSelected: { type in
-              self.viewModel.dateType = type
-              self.refresh()
-            },
+            dateFilterAction: .init(
+              onDateSelected: {
+                self.viewModel.dateType = $0
+                self.refresh()
+              },
+              onPresentController: {
+                self.presentDateViewController($0)
+              }),
             onSummarySelected: {
               self.performSegue(
                 withIdentifier: TransactionLogSummaryViewController.segueIdentifier,
@@ -92,8 +96,8 @@ extension TransactionLogViewController {
             onRowSelected: {
               self.flowCoordinator.goNext($0)
             },
-            onNavigateToFilterController: {
-              self.navigateToFilterViewController()
+            onPresentFilterController: {
+              self.presentFilterViewController()
             })
         }
       },
@@ -104,16 +108,25 @@ extension TransactionLogViewController {
     viewModel.pagination.refreshTrigger.onNext(())
     viewModel.summaryRefreshTrigger.onNext(())
   }
+  
+  private func presentDateViewController(_ didSelected: ((DateType) -> Void)?) {
+    present(
+      DateViewController
+        .instantiate(
+          type: viewModel.dateType,
+          didSelected: didSelected)
+        .embedToNavigation(),
+      animated: true)
+  }
 
-  private func navigateToFilterViewController() {
-    navigationController?.pushViewController(
+  private func presentFilterViewController() {
+    present(
       FilterViewController(
         presenter: viewModel,
-        barItemType: .back,
-        barItemImageName: "Close",
         onDone: { [unowned self] in
           self.refresh()
-        }),
+        })
+      .embedToNavigation(),
       animated: true)
   }
 }

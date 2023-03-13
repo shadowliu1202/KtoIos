@@ -37,7 +37,6 @@ struct FilterSelector<Presenter>: View
         action: {
           presenter.selectedItems = selectedItems
           onDone?()
-          NavigationManagement.sharedInstance.popViewController()
         },
         label: {
           Text(Localize.string("common_done"))

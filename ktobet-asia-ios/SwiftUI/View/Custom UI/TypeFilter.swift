@@ -4,7 +4,7 @@ import UIKit
 struct TypeFilter: View {
   let title: String
 
-  var onNavigateToController: (() -> Void)?
+  var onPresentController: (() -> Void)?
 
   var body: some View {
     FunctionalButton(
@@ -18,7 +18,7 @@ struct TypeFilter: View {
           .lineLimit(1)
       },
       action: {
-        onNavigateToController?()
+        onPresentController?()
       })
   }
 }

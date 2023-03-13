@@ -39,14 +39,16 @@ class BankFilterConditionViewController: FilterConditionViewController {
     titleLabel.text = presenter.getTitle()
     tableView.separatorColor = UIColor.clear
     displayLastRowSperator()
-    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back, image: "Close")
+    
+    setBackItem(.close)
+      .disposed(by: disposeBag)
   }
 
   func dataBinding() {
     totalSource.accept(presenter.getDatasource())
     btnSubmit.rx.touchUpInside.subscribe(onNext: { [weak self] in
       self?.conditionCallback?(self?.getConditions() ?? [])
-      NavigationManagement.sharedInstance.popViewController()
+      self?.dismiss(animated: true)
     }).disposed(by: disposeBag)
 
     totalSource.asObservable().bind(to: tableView.rx.items) { [weak self] tableView, row, item in

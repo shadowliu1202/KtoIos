@@ -12,16 +12,16 @@ struct DepositLogSummaryView<ViewModel>: View
   @EnvironmentObject var safeAreaMonitor: SafeAreaMonitor
   @StateObject var viewModel: ViewModel
 
-  var onDateSelected: DateFilter.Selection?
-  var onNavigateToFilterController: (() -> Void)?
+  var dateFilterAction: DateFilter.Action?
+  var onPresentFilterController: (() -> Void)?
   var onRowSelected: ((PaymentLogDTO.Log) -> Void)?
-
+  
   var body: some View {
     DelegatedScrollView {
       PageContainer {
         Header(
-          onDateSelected: onDateSelected,
-          onNavigateToFilterController: onNavigateToFilterController)
+          dateFilterAction: dateFilterAction,
+          onPresentFilterController: onPresentFilterController)
 
         Sections(onRowSelected: onRowSelected)
       }
@@ -58,8 +58,9 @@ extension DepositLogSummaryView {
   struct Header: View {
     @EnvironmentObject var viewModel: ViewModel
 
-    var onDateSelected: DateFilter.Selection?
-    var onNavigateToFilterController: (() -> Void)?
+    var dateFilterAction: DateFilter.Action?
+    var onPresentFilterController: (() -> Void)?
+    
     var inspection = Inspection<Self>()
 
     var body: some View {
@@ -71,11 +72,11 @@ extension DepositLogSummaryView {
         VStack(spacing: 12) {
           DateFilter(
             currentType: viewModel.dateType,
-            onDateSelected: onDateSelected)
+            action: dateFilterAction)
 
           TypeFilter(
             title: viewModel.selectedTitle,
-            onNavigateToController: onNavigateToFilterController)
+            onPresentController: onPresentFilterController)
             .padding(.bottom, 4)
 
           HStack {
