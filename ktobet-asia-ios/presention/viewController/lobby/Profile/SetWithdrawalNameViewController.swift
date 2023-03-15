@@ -62,7 +62,7 @@ class SetWithdrawalNameViewController: LobbyViewController, AuthProfileVerificat
 
   private func popThenToastSuccess() {
     NavigationManagement.sharedInstance.popViewController({ [weak self] in
-      self?.showToastOnBottom(Localize.string("common_setting_done"), img: UIImage(named: "Success"))
+      self?.showToast(Localize.string("common_setting_done"), barImg: .success)
     })
   }
 }

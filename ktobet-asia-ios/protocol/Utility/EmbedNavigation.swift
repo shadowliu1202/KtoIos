@@ -13,24 +13,24 @@ extension EmbedNavigation where Self: UIViewController {
     button.style = .plain
 
     var _action: (() -> Void)? = action
-    
+
     switch barItemType {
     case .back:
       button.image = UIImage(named: "Back")?.withRenderingMode(.alwaysOriginal)
       _action = { [weak self] in
         self?.navigationController?.popViewController(animated: true)
       }
-      
+
     case .close:
       button.image = UIImage(named: "Close")?.withRenderingMode(.alwaysOriginal)
       _action = { [weak self] in
         self?.dismiss(animated: true)
       }
-      
+
     case .none:
       break
     }
-    
+
     navigationItem.leftBarButtonItem = button
 
     return button.rx

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,18 +41,6 @@
                                                 <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fyg-yY-cc9" customClass="ToastView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                                <rect key="frame" x="10" y="457.5" width="394" height="48"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="48" id="hAh-wi-zYD"/>
-                                                </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="8"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="l9x-Qi-jiU">
                                                 <rect key="frame" x="40" y="62" width="334" height="72"/>
                                                 <subviews>
@@ -157,14 +145,11 @@
                                             <constraint firstItem="6pg-BD-5b3" firstAttribute="top" secondItem="iAA-QM-GVR" secondAttribute="bottom" id="LfT-jy-aKJ"/>
                                             <constraint firstItem="MZd-kl-JO7" firstAttribute="leading" secondItem="9lw-11-5dg" secondAttribute="leading" id="QUX-mY-wPd"/>
                                             <constraint firstItem="MZd-kl-JO7" firstAttribute="trailing" secondItem="iAA-QM-GVR" secondAttribute="trailing" id="QVt-5m-TSW"/>
-                                            <constraint firstItem="fyg-yY-cc9" firstAttribute="leading" secondItem="T6w-zZ-WVA" secondAttribute="leading" constant="10" id="VWF-Gn-HVq"/>
                                             <constraint firstItem="MZd-kl-JO7" firstAttribute="trailing" secondItem="6pg-BD-5b3" secondAttribute="trailing" id="caT-P9-gJs"/>
                                             <constraint firstItem="BbD-up-363" firstAttribute="centerX" secondItem="9lw-11-5dg" secondAttribute="centerX" id="dU8-yd-sFg"/>
-                                            <constraint firstAttribute="trailing" secondItem="fyg-yY-cc9" secondAttribute="trailing" constant="10" id="g0Q-xG-aUW"/>
                                             <constraint firstItem="l9x-Qi-jiU" firstAttribute="top" secondItem="MZd-kl-JO7" secondAttribute="bottom" constant="30" id="hh3-oh-62n"/>
                                             <constraint firstItem="MZd-kl-JO7" firstAttribute="top" secondItem="6pg-BD-5b3" secondAttribute="bottom" constant="12" id="jdC-LL-Par"/>
                                             <constraint firstItem="iAA-QM-GVR" firstAttribute="top" secondItem="T6w-zZ-WVA" secondAttribute="top" constant="20" id="rjs-nL-Hee"/>
-                                            <constraint firstAttribute="bottom" secondItem="fyg-yY-cc9" secondAttribute="bottom" constant="32" id="x9K-Kd-aaa"/>
                                             <constraint firstItem="MZd-kl-JO7" firstAttribute="leading" secondItem="SbV-zQ-pJ4" secondAttribute="leading" id="yqt-wb-Z9h"/>
                                         </constraints>
                                     </view>
@@ -203,7 +188,6 @@
                         <outlet property="btnVerify" destination="SbV-zQ-pJ4" id="cDV-4T-aJo"/>
                         <outlet property="constraintLabelErrTipBottom" destination="IpS-yQ-zjs" id="CMi-zW-yh6"/>
                         <outlet property="constraintLabelErrTipTop" destination="G0t-u3-Rly" id="fNR-es-65i"/>
-                        <outlet property="constraintStatusTipBottom" destination="x9K-Kd-aaa" id="LSe-U2-EYo"/>
                         <outlet property="labDesc" destination="6pg-BD-5b3" id="h4Y-a1-ycC"/>
                         <outlet property="labErrTip" destination="y7z-Uu-6s8" id="cQY-AE-j9N"/>
                         <outlet property="labJunkTip" destination="BbD-up-363" id="IcW-BA-GLo"/>
@@ -212,7 +196,6 @@
                         <outlet property="naviItem" destination="o69-hM-bGW" id="Ycn-0N-BAS"/>
                         <outlet property="smsVerifyView" destination="jwX-x2-zUu" id="8eb-KE-iRG"/>
                         <outlet property="viewErrTip" destination="68X-9g-6I7" id="tSO-uj-2O9"/>
-                        <outlet property="viewStatusTip" destination="fyg-yY-cc9" id="bjN-UZ-C9r"/>
                         <segue destination="8jf-uz-sc3" kind="unwind" identifier="BackToUserInfo" unwindAction="backToUserInfoWithSegue:" id="1cs-yg-txT"/>
                     </connections>
                 </viewController>
@@ -230,7 +213,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="erI-o0-keC">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="djV-tj-V9h">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>

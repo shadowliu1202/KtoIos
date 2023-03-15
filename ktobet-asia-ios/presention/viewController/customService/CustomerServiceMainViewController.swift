@@ -105,7 +105,7 @@ class CustomerServiceMainViewController: LobbyViewController {
 
   private func networkLostToast() -> Completable {
     Completable.create { [weak self] completable -> Disposable in
-      self?.showToastOnBottom(Localize.string("common_unknownhostexception"), img: UIImage(named: "Failed"))
+      self?.showToast(Localize.string("common_unknownhostexception"), barImg: .failed)
       completable(.completed)
       return Disposables.create { }
     }

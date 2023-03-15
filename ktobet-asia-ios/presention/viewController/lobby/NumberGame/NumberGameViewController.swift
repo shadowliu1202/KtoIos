@@ -110,10 +110,10 @@ class NumberGameViewController: DisplayProduct {
       self?.viewDidRotate.accept(true)
     })
   }
-  
+
   func dataBinding() {
     bindWebGameResult(with: viewModel)
-    
+
     viewModel.errors().subscribe(onNext: { [weak self] in
       if $0.isMaintenance() {
         NavigationManagement.sharedInstance.goTo(productType: .numbergame, isMaintenance: true)
@@ -122,7 +122,7 @@ class NumberGameViewController: DisplayProduct {
         self?.handleErrors($0)
       }
     }).disposed(by: disposeBag)
-    
+
     Observable.combineLatest(viewDidRotate, viewModel.tagStates)
       .flatMap { Observable.just($1) }
       .subscribe(onNext: { [unowned self] data in
@@ -135,7 +135,7 @@ class NumberGameViewController: DisplayProduct {
           newClick: { self.viewModel.toggleNew() },
           customClick: { self.viewModel.toggleTag($0) })
       }).disposed(by: self.disposeBag)
-    
+
     dropDownView.selectedItemObservable
       .subscribe(onNext: { [weak self] in
         guard let self, let sorting = ($0 as? DropdownItem)?.sorting else { return }

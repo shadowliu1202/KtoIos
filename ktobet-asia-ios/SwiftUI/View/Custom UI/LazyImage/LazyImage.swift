@@ -43,13 +43,13 @@ struct LazyImage<Success, Placeholder, Failure>: View
       switch downloader.result {
       case .success(let image):
         success(image)
-        
+
       case .failure(let error):
         failure(error)
-        
+
       case .placeholder:
         placeholder()
-        
+
       default:
         Color.clear
           .if(downloader.result == nil && !havePlaceholderContent) {
@@ -71,7 +71,7 @@ struct LazyImage<Success, Placeholder, Failure>: View
   }
 }
 
- struct LazyImage_Previews: PreviewProvider {
+struct LazyImage_Previews: PreviewProvider {
   static var previews: some View {
     LazyImage(
       url: "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/store-card-14-16-mac-nav-202301?wid=200&hei=130&fmt=png-alpha&.v=1670959891635",
@@ -90,7 +90,7 @@ struct LazyImage<Success, Placeholder, Failure>: View
       })
       .frame(width: 300, height: 300)
       .backgroundColor(.darkGray)
-    
+
     LazyImage(
       url: "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/store-card-14-16-mac-nav-202301?wid=200&hei=130&fmt=png-alpha&.v=1670959891635",
       success: {
@@ -105,7 +105,7 @@ struct LazyImage<Success, Placeholder, Failure>: View
       })
       .frame(width: 300, height: 300)
       .backgroundColor(.darkGray)
-    
+
     HStack {
       LazyImage(
         url: "hts",
@@ -114,8 +114,8 @@ struct LazyImage<Success, Placeholder, Failure>: View
             .resizable()
             .scaledToFit()
         })
-      .frame(width: 300, height: 300)
-      .backgroundColor(.darkGray)
+        .frame(width: 300, height: 300)
+        .backgroundColor(.darkGray)
     }
   }
- }
+}

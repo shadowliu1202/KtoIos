@@ -57,7 +57,7 @@ extension APIErrorHandler {
          .jsonMapping,
          .objectMapping,
          .stringMapping:
-      target.showAlertError(Localize.string("common_malformedexception"))
+      target.showToast(Localize.string("common_malformedexception"), barImg: .failed)
 
     default:
       handleUnknownError(error)
@@ -79,7 +79,7 @@ extension APIErrorHandler {
       target.showRestrictView()
 
     case 404:
-      target.showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
+      target.showToast(Localize.string("common_unknownerror", "\(statusCode)"), barImg: .failed)
       Logger.shared.error(nsError)
 
     case 410:
@@ -93,7 +93,7 @@ extension APIErrorHandler {
         let errorResponse,
         let info = parse502Html(errorResponse)
       {
-        target.showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
+        target.showToast(Localize.string("common_unknownerror", "\(statusCode)"), barImg: .failed)
         Logger.shared.error(nsError, customValues: info)
       }
       else {
@@ -101,7 +101,7 @@ extension APIErrorHandler {
       }
 
     case 503:
-      target.showAlertError(String(format: Localize.string("common_http_503"), "\(statusCode)"))
+      target.showToast(Localize.string("common_http_503", "\(statusCode)"), barImg: .failed)
 
     case 608:
       target.showCDNErrorView()
@@ -127,10 +127,10 @@ extension APIErrorHandler {
     let statusCode = (error as NSError).code
 
     if statusCode.isNetworkConnectionLost() {
-      target.showAlertError(Localize.string("common_unknownhostexception"))
+      target.showToast(Localize.string("common_unknownhostexception"), barImg: .failed)
     }
     else {
-      target.showAlertError(String(format: Localize.string("common_unknownerror"), "\(statusCode)"))
+      target.showToast(Localize.string("common_unknownerror", "\(statusCode)"), barImg: .failed)
       Logger.shared.error(error)
     }
   }
@@ -139,11 +139,6 @@ extension APIErrorHandler {
 // MARK: - UI
 
 extension UIViewController {
-  fileprivate func showAlertError(_ content: String) {
-    let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-    toastView.show(on: nil, statusTip: content, img: UIImage(named: "Failed"))
-  }
-
   fileprivate func showRestrictView() {
     let restrictedVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "restrictedVC")
     self.present(restrictedVC, animated: true, completion: nil)
@@ -156,7 +151,7 @@ extension UIViewController {
   }
 
   fileprivate func handleTooManyRequest() {
-    showToastOnBottom(Localize.string("common_retry_later"), img: nil)
+    showToast(Localize.string("common_retry_later"), barImg: nil)
   }
 }
 

@@ -1,13 +1,13 @@
 import RxSwift
-import SwiftUI
 import SDWebImage
+import SwiftUI
 
 extension LazyImage {
   enum Result: Equatable {
     case placeholder
     case success(UIImage)
     case failure(Error)
-    
+
     var image: UIImage? {
       switch self {
       case .success(let image):
@@ -16,7 +16,7 @@ extension LazyImage {
         return nil
       }
     }
-    
+
     var error: Error? {
       switch self {
       case .failure(let error):
@@ -25,35 +25,35 @@ extension LazyImage {
         return nil
       }
     }
-    
+
     static func == (lhs: Self, rhs: Self) -> Bool {
       lhs.image == rhs.image
     }
   }
-  
+
   class Downloader: ObservableObject {
     @Published var result: Result?
-    
+
     private let downloader: SDWebImageDownloader
     private let disposeBag = DisposeBag()
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
       didSet {
         headers?.forEach {
           downloader.setValue($0.value, forHTTPHeaderField: $0.key)
         }
       }
     }
-    
+
     init(downloader: SDWebImageDownloader = .shared) {
       self.downloader = downloader
     }
-    
+
     func image(from url: String, startWith _result: Result? = nil) {
       if let _result {
         result = _result
       }
-      
+
       downloader.rx
         .image(from: url)
         .observe(on: MainScheduler.instance)

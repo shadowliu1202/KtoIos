@@ -222,22 +222,18 @@ class WithdrawalRecordDetailViewController: LobbyViewController {
         self.uploadImage(image: $0, count: images.count)
       }
     }
-    imagePickerView.showImageCountLimitAlert = { view in
-      let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
-      toastView.show(
-        on: view,
-        statusTip: String(
-          format: Localize.string("common_photo_upload_limit_count"),
+    imagePickerView.showImageCountLimitAlert = { [weak self] _ in
+      self?.showToast(
+        Localize.string(
+          "common_photo_upload_limit_count",
           String(WithdrawalViewModel.selectedImageCountLimit - currentSelectedImageCount)),
-        img: UIImage(named: "Failed"))
+        barImg: .failed)
     }
-    imagePickerView.showImageSizeLimitAlert = { view in
-      let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
-      toastView.show(on: view, statusTip: Localize.string("deposit_execeed_limitation"), img: UIImage(named: "Failed"))
+    imagePickerView.showImageSizeLimitAlert = { [weak self] _ in
+      self?.showToast(Localize.string("deposit_execeed_limitation"), barImg: .failed)
     }
-    imagePickerView.showImageFormatInvalidAlert = { view in
-      let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
-      toastView.show(on: view, statusTip: Localize.string("deposit_file_format_invalid"), img: UIImage(named: "Failed"))
+    imagePickerView.showImageFormatInvalidAlert = { [weak self] _ in
+      self?.showToast(Localize.string("deposit_file_format_invalid"), barImg: .failed)
     }
 
     NavigationManagement.sharedInstance.pushViewController(vc: imagePickerView)

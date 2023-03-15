@@ -39,7 +39,7 @@ class BankFilterConditionViewController: FilterConditionViewController {
     titleLabel.text = presenter.getTitle()
     tableView.separatorColor = UIColor.clear
     displayLastRowSperator()
-    
+
     setBackItem(.close)
       .disposed(by: disposeBag)
   }

@@ -18,7 +18,7 @@ class FilterViewController<Presenter>:
   var onDone: (() -> Void)?
 
   private let disposeBag = DisposeBag()
-  
+
   init(
     presenter: Presenter,
     haveSelectAll: Bool = true,
@@ -31,7 +31,7 @@ class FilterViewController<Presenter>:
     self.selectAtLeastOne = selectAtLeastOne
     self.allowMultipleSelection = allowMultipleSelection
     self.onDone = onDone
-        
+
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -56,7 +56,7 @@ extension FilterViewController {
   private func setupUI() {
     setBackItem(.close)
       .disposed(by: disposeBag)
-    
+
     addSubView(
       from: { [unowned self] in
         FilterSelector(

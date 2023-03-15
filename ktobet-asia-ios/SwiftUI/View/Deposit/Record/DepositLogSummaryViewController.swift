@@ -72,7 +72,7 @@ extension DepositLogSummaryViewController {
         selectAtLeastOne: true,
         allowMultipleSelection: true,
         onDone: nil)
-      .embedToNavigation(),
+        .embedToNavigation(),
       animated: true)
   }
 

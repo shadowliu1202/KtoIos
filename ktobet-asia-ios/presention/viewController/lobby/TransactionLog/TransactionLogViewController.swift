@@ -108,7 +108,7 @@ extension TransactionLogViewController {
     viewModel.pagination.refreshTrigger.onNext(())
     viewModel.summaryRefreshTrigger.onNext(())
   }
-  
+
   private func presentDateViewController(_ didSelected: ((DateType) -> Void)?) {
     present(
       DateViewController
@@ -126,7 +126,7 @@ extension TransactionLogViewController {
         onDone: { [unowned self] in
           self.refresh()
         })
-      .embedToNavigation(),
+        .embedToNavigation(),
       animated: true)
   }
 }

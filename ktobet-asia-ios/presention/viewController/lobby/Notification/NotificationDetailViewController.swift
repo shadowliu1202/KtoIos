@@ -140,7 +140,7 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
 
   private func popThenToastSuccess() {
     NavigationManagement.sharedInstance.popViewController({ [weak self] in
-      self?.showToastOnBottom(Localize.string("notification_deleted"), img: UIImage(named: "Success"))
+      self?.showToast(Localize.string("notification_deleted"), barImg: .success)
     })
   }
 
@@ -154,11 +154,7 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
     NavigationManagement.sharedInstance.viewController = self
     if let vc = segue.source as? DepositOfflineConfirmViewController {
       if vc.confirmSuccess {
-        let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-        toastView.show(
-          on: self.view,
-          statusTip: Localize.string("common_request_submitted"),
-          img: UIImage(named: "Success"))
+        showToast(Localize.string("common_request_submitted"), barImg: .success)
       }
     }
   }

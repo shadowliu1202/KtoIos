@@ -10,14 +10,12 @@ class CommonVerifyOtpViewController: CommonViewController {
   @IBOutlet weak var labJunkTip: UILabel!
   @IBOutlet private weak var labErrTip: UILabel!
   @IBOutlet private weak var viewErrTip: UIView!
-  @IBOutlet private weak var viewStatusTip: ToastView!
   @IBOutlet private weak var smsVerifyView: SMSVerifyCodeInputView!
   @IBOutlet private weak var btnBack: UIBarButtonItem!
   @IBOutlet weak var btnVerify: UIButton!
   @IBOutlet weak var btnResend: UIButton!
   @IBOutlet private weak var constraintLabelErrTipTop: NSLayoutConstraint!
   @IBOutlet private weak var constraintLabelErrTipBottom: NSLayoutConstraint!
-  @IBOutlet private weak var constraintStatusTipBottom: NSLayoutConstraint!
 
   var delegate: OtpViewControllerProtocol!
   var barButtonItems: [UIBarButtonItem] = []
@@ -43,22 +41,8 @@ class CommonVerifyOtpViewController: CommonViewController {
     bindingViews()
     setResendTimer()
     setStep2Timer()
-    viewStatusTip.show(on: self.view, statusTip: Localize.string("common_otp_send_success"), img: UIImage(named: "Success"))
+    showToast(Localize.string("common_otp_send_success"), barImg: .success)
     showPasscodeUncorrectTip(false)
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillShow),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil)
-  }
-
-  @objc
-  func keyboardWillShow(_ notification: RxSwift.Notification) {
-    if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-      let keyboardRectangle = keyboardFrame.cgRectValue
-      let keyboardHeight = keyboardRectangle.height
-      constraintStatusTipBottom.constant = keyboardHeight
-    }
   }
 
   private func initialize() {
@@ -164,20 +148,18 @@ class CommonVerifyOtpViewController: CommonViewController {
       return
     }
 
-    delegate.resendOtp().subscribe {
-      self.viewStatusTip.show(
-        on: self.view,
-        statusTip: Localize.string("common_otp_send_success"),
-        img: UIImage(named: "Success"))
-      self.setResendTimer()
-    } onError: { error in
-      self.viewStatusTip.show(
-        on: self.view,
-        statusTip: Localize.string("common_otp_send_fail"),
-        img: UIImage(named: "Success"))
-      self.setResendTimer()
-      self.handleError(error)
-    }.disposed(by: disposeBag)
+    delegate.resendOtp()
+      .subscribe(
+        onCompleted: { [weak self] in
+          self?.showToast(Localize.string("common_otp_send_success"), barImg: .success)
+          self?.setResendTimer()
+        },
+        onError: { [weak self] in
+          self?.showToast(Localize.string("common_otp_send_fail"), barImg: .failed)
+          self?.setResendTimer()
+          self?.handleError($0)
+        })
+      .disposed(by: disposeBag)
   }
 
   @IBAction

@@ -88,7 +88,7 @@ extension DepositRecordDetailViewModel {
       uploadedURLs: [(url: String, thumbnail: String)]? = nil)
     {
       self.date = updateHistory.createdDate.toDateTimeString()
-      
+
       if let uploadedURLs {
         self.uploadedURLs = uploadedURLs
       }

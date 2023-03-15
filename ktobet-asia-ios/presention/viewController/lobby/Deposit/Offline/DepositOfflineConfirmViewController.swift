@@ -79,10 +79,7 @@ extension DepositOfflineConfirmViewController {
           memo: self.memo,
           selectedBank: self.selectedBank,
           onCopyed: {
-            ToastView.show(
-              statusTip: Localize.string("common_copied"),
-              img: UIImage(named: "Success"),
-              on: self.view)
+            self.showToast(Localize.string("common_copied"), barImg: .success)
           })
       },
       to: view)

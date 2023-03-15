@@ -148,8 +148,7 @@ class LoginViewController: LandingViewController {
     segue.source.presentationController?.delegate?.presentationControllerDidDismiss?(segue.source.presentationController!)
     if let vc = segue.source as? ResetPasswordStep3ViewController {
       if vc.changePasswordSuccess {
-        let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-        toastView.show(on: nil, statusTip: Localize.string("login_resetpassword_success"), img: UIImage(named: "Success"))
+        showToast(Localize.string("login_resetpassword_success"), barImg: .success)
       }
     }
   }

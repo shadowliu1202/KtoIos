@@ -1159,6 +1159,12 @@ final class Injection {
       .inObjectScope(.application)
 
     container
+      .register(SnackBar.self) { _ in
+        SnackBarImpl.shared
+      }
+      .inObjectScope(.application)
+
+    container
       .register(ActivityIndicator.self, name: "CheckingIsLogged") { _ in
         .init()
       }

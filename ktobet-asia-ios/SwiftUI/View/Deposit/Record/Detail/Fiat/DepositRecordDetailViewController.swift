@@ -14,8 +14,6 @@ class DepositRecordDetailViewController:
 
   private let disposeBag = DisposeBag()
 
-  private lazy var toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
-
   init(
     transactionId: String,
     alert: AlertProtocol? = nil,
@@ -111,30 +109,23 @@ extension DepositRecordDetailViewController {
       self.viewModel.prepareSelectedImages(images, shouldReplaceAll: false)
     }
 
-    imagePickerViewController.showImageCountLimitAlert = { [weak self] view in
+    imagePickerViewController.showImageCountLimitAlert = { [weak self] _ in
       self?.showToast(
         Localize.string(
           "common_photo_upload_limit_reached",
           ["\(imagePickerViewController.selectedImageLimitCount)"]),
-        on: view)
+        barImg: .failed)
     }
 
-    imagePickerViewController.showImageSizeLimitAlert = { [weak self] view in
-      self?.showToast(Localize.string("deposit_execeed_limitation"), on: view)
+    imagePickerViewController.showImageSizeLimitAlert = { [weak self] _ in
+      self?.showToast(Localize.string("deposit_execeed_limitation"), barImg: .failed)
     }
 
-    imagePickerViewController.showImageFormatInvalidAlert = { [weak self] view in
-      self?.showToast(Localize.string("deposit_file_format_invalid"), on: view)
+    imagePickerViewController.showImageFormatInvalidAlert = { [weak self] _ in
+      self?.showToast(Localize.string("deposit_file_format_invalid"), barImg: .failed)
     }
 
     NavigationManagement.sharedInstance.pushViewController(vc: imagePickerViewController)
-  }
-
-  private func showToast(_ string: String, on view: UIView) {
-    toastView.show(
-      on: view,
-      statusTip: string,
-      img: UIImage(named: "Failed"))
   }
 }
 
