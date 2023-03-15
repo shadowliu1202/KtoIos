@@ -7,6 +7,20 @@ import SharedBu
 import UIKit
 
 extension UIViewController {
+  enum SnackBarStyle {
+    case success
+    case failed
+
+    var image: UIImage? {
+      switch self {
+      case .success:
+        return UIImage(named: "Success")
+      case .failed:
+        return UIImage(named: "Failed")
+      }
+    }
+  }
+
   @objc
   func handleErrors(_ error: Error) {
     APIErrorHandler(target: self).handle(error)
@@ -61,9 +75,9 @@ extension UIViewController {
     }
   }
 
-  func showToastOnBottom(_ msg: String, img: UIImage?) {
-    let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-    toastView.show(on: nil, statusTip: msg, img: img)
+  func showToast(_ msg: String, barImg: SnackBarStyle?) {
+    @Injected var snackBar: SnackBar
+    snackBar.show(tip: msg, image: barImg?.image)
   }
 
   func showToastOnCenter(_ popUp: ToastPopUp) {

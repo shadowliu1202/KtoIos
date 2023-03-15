@@ -33,7 +33,7 @@ class SlotAllViewController: DisplayProduct {
     getAllGame(sorting: .popular)
     dataBinding()
   }
-  
+
   func dataBinding() {
     dropDownView.selectedItemObservable
       .subscribe(onNext: { [weak self] in

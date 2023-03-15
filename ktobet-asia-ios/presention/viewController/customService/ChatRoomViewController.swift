@@ -302,13 +302,11 @@ class ChatRoomViewController: CommonViewController {
         self.uploadImage(image: $0, count: images.count)
       }
     }
-    imagePickerView.showImageSizeLimitAlert = { view in
-      let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
-      toastView.show(on: view, statusTip: Localize.string("deposit_execeed_limitation"), img: UIImage(named: "Failed"))
+    imagePickerView.showImageSizeLimitAlert = { [weak self] _ in
+      self?.showToast(Localize.string("deposit_execeed_limitation"), barImg: .failed)
     }
-    imagePickerView.showImageFormatInvalidAlert = { view in
-      let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 48))
-      toastView.show(on: view, statusTip: Localize.string("deposit_file_format_invalid"), img: UIImage(named: "Failed"))
+    imagePickerView.showImageFormatInvalidAlert = { [weak self] _ in
+      self?.showToast(Localize.string("deposit_file_format_invalid"), barImg: .failed)
     }
 
     self.navigationController?.pushViewController(imagePickerView, animated: true)
@@ -356,7 +354,7 @@ class ChatRoomViewController: CommonViewController {
         .disposed(by: self.disposeBag)
     }
     else {
-      showToastOnBottom(Localize.string("common_unknownhostexception"), img: UIImage(named: "Failed"))
+      showToast(Localize.string("common_unknownhostexception"), barImg: .failed)
     }
   }
 

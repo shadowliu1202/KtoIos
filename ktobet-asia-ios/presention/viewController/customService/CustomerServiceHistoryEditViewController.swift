@@ -138,13 +138,8 @@ class CustomerServiceHistoryEditViewController: LobbyViewController {
 
   private func popThenToast() {
     NavigationManagement.sharedInstance.popViewController({
-      if let topVc = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.topViewController {
-        let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: topVc.view.frame.width, height: 48))
-        toastView.show(
-          on: topVc.view,
-          statusTip: Localize.string("customerservice_chat_deleted"),
-          img: UIImage(named: "Success"))
-      }
+      @Injected var snackBar: SnackBar
+      snackBar.show(tip: Localize.string("customerservice_chat_deleted"), image: UIImage(named: "Success"))
     })
   }
 }

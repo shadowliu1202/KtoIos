@@ -1,5 +1,5 @@
-import UIKit
 import SharedBu
+import UIKit
 
 extension UILabel {
   @IBInspectable public var localizeText: String? {
@@ -51,7 +51,7 @@ extension UILabel {
       context: nil)
     return Int(ceil(CGFloat(labelSize.height) / self.font.lineHeight))
   }
-  
+
   func localizedFont(by playerLocale: SupportLocale, weight: KTOFontWeight, size: CGFloat) {
     font = UIFont(name: weight.fontString(playerLocale), size: size)
   }

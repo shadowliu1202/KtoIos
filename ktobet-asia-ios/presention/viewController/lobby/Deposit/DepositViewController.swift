@@ -128,24 +128,16 @@ extension DepositViewController {
   func backToDeposit(segue: UIStoryboardSegue) {
     NavigationManagement.sharedInstance.viewController = self
 
-    let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-
     switch segue.source {
     case is DepositOfflineConfirmViewController:
       let confirm = segue.source as! DepositOfflineConfirmViewController
 
       if confirm.confirmSuccess {
-        toastView.show(
-          on: self.view,
-          statusTip: Localize.string("deposit_offline_step3_title"),
-          img: UIImage(named: "Success"))
+        showToast(Localize.string("deposit_offline_step3_title"), barImg: .success)
       }
 
     case is DepositThirdPartWebViewController:
-      toastView.show(
-        on: self.view,
-        statusTip: Localize.string("common_request_submitted"),
-        img: UIImage(named: "Success"))
+      showToast(Localize.string("common_request_submitted"), barImg: .success)
 
     default:
       break

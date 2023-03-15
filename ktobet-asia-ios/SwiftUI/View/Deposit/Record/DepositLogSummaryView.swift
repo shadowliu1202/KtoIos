@@ -15,7 +15,7 @@ struct DepositLogSummaryView<ViewModel>: View
   var dateFilterAction: DateFilter.Action?
   var onPresentFilterController: (() -> Void)?
   var onRowSelected: ((PaymentLogDTO.Log) -> Void)?
-  
+
   var body: some View {
     DelegatedScrollView {
       PageContainer {
@@ -60,7 +60,7 @@ extension DepositLogSummaryView {
 
     var dateFilterAction: DateFilter.Action?
     var onPresentFilterController: (() -> Void)?
-    
+
     var inspection = Inspection<Self>()
 
     var body: some View {

@@ -3,7 +3,7 @@ import SwiftUI
 struct DateFilter: View {
   struct Action {
     typealias Selection = (DateType) -> Void
-    
+
     var onDateSelected: Selection?
     var onPresentController: ((Selection?) -> Void)?
   }
@@ -11,7 +11,7 @@ struct DateFilter: View {
   let currentType: DateType
 
   var action: Action?
-  
+
   var body: some View {
     FunctionalButton(
       imageName: "iconDatePicker24",

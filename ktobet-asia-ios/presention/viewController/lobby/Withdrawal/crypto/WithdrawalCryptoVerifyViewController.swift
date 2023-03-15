@@ -112,7 +112,7 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
           self?.viewModel.refreshOtpStatus()
         default:
           Logger.shared.error(error, tag: "KTO-876")
-          self?.showToastAlertFailed()
+          self?.showToast(Localize.string("common_otp_send_fail"), barImg: .failed)
         }
       }).disposed(by: self.disposeBag)
     }.disposed(by: disposeBag)
@@ -160,10 +160,5 @@ class WithdrawalCryptoVerifyViewController: LobbyViewController {
   @objc
   func close() {
     self.performSegue(withIdentifier: WithdrawlLandingViewController.unwindSegue, sender: nil)
-  }
-
-  private func showToastAlertFailed() {
-    let toastView = ToastView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 48))
-    toastView.show(on: self.view, statusTip: Localize.string("common_otp_send_fail"), img: UIImage(named: "Failed"))
   }
 }

@@ -47,7 +47,7 @@ class DateViewController:
   deinit {
     Logger.shared.info("\(type(of: self)) deinit")
   }
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     month.addSubview(monthSelectView, constraints: .fill())

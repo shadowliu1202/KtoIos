@@ -4,8 +4,6 @@ import UIKit
 
 class ResetPasswordStep3ViewController: LandingViewController {
   static let segueIdentifier = "toStep3Segue"
-  var barButtonItems: [UIBarButtonItem] = []
-
   @IBOutlet private weak var naviItem: UINavigationItem!
   @IBOutlet private weak var inputPassword: InputPassword!
   @IBOutlet private weak var inputCsPassword: InputConfirmPassword!
@@ -15,7 +13,7 @@ class ResetPasswordStep3ViewController: LandingViewController {
   @IBOutlet private weak var labDesc: UILabel!
   @IBOutlet private weak var labPasswordTip: UILabel!
   @IBOutlet private weak var labPasswordDesc: UILabel!
-  @IBOutlet private weak var viewStatusTip: ToastView!
+
   private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
   private lazy var customService = UIBarButtonItem
     .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
@@ -24,6 +22,7 @@ class ResetPasswordStep3ViewController: LandingViewController {
   private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
   private var disposeBag = DisposeBag()
 
+  var barButtonItems: [UIBarButtonItem] = []
   var changePasswordSuccess = true
 
   override func viewDidLoad() {
@@ -77,7 +76,7 @@ class ResetPasswordStep3ViewController: LandingViewController {
     case is PlayerChangePasswordFail:
       performSegue(withIdentifier: CommonFailViewController.segueIdentifier, sender: nil)
     default:
-      viewStatusTip.show(on: self.view, statusTip: Localize.string("common_unknownerror"), img: UIImage(named: "Failed"))
+      showToast(Localize.string("common_unknownerror"), barImg: .failed)
     }
   }
 
