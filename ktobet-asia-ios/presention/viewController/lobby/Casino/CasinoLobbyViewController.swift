@@ -18,11 +18,6 @@ class CasinoLobbyViewController: DisplayProduct {
     dataBinding()
   }
 
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    viewModel.refreshLobbyGames()
-  }
-
   private func initUI() {
     gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
     gamesCollectionView.registerCellFromNib(WebGameItemCell.className)
@@ -31,13 +26,22 @@ class CasinoLobbyViewController: DisplayProduct {
   private func dataBinding() {
     gamesCollectionView.dataSource = gameDataSourceDelegate
     gamesCollectionView.delegate = gameDataSourceDelegate
+    
+    viewModel.errors()
+      .subscribe(onNext: { [weak self] in
+        self?.handleErrors($0)
+      })
+      .disposed(by: disposeBag)
+    
     viewModel.getLobbyGames(lobby: lobby.lobby)
-      .catch({ [weak self] error -> Observable<[CasinoGame]> in
-        self?.handleErrors(error)
-        return Observable.just([])
-      }).subscribe(onNext: { [weak self] games in
+      .subscribe(onNext: { [weak self] games in
         self?.reloadGameData(games)
-      }).disposed(by: self.disposeBag)
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.refreshLobbyGames()
+    
+    bindPlaceholder(.casinoLobby, with: viewModel)
   }
 
   // MARK: KVO

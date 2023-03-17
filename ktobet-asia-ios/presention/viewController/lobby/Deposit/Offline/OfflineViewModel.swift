@@ -254,7 +254,7 @@ class OfflineViewModel: CollectErrorViewModel, ViewModelType {
     depositTrigger.withLatestFrom(memo).flatMapLatest { [unowned self] memo in
       Completable
         .from(CompletableWrapperKt.wrap(self.depositService.confirmOfflineDeposit(beneficiaryIdentity: memo.identity)))
-        .andThen(Single.just(true)).compose(self.applySingleErrorHandler()).trackActivity(self.inProgress)
+        .andThen(Single.just(true)).compose(self.applySingleErrorHandler()).trackOnDispose(self.inProgress)
         .asDriver(onErrorJustReturn: false)
     }
     .do(onNext: { [unowned self] _ in

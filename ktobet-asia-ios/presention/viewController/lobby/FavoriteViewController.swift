@@ -42,9 +42,14 @@ class FavoriteViewController: DisplayProduct {
 
   private func dataBinding() {
     viewModel?.getFavorites()
-    emptyViewAddButton.rx.touchUpInside.bind { _ in
-      NavigationManagement.sharedInstance.popViewController()
-    }.disposed(by: disposeBag)
+
+    emptyViewAddButton.rx
+      .touchUpInside
+      .bind { _ in
+        NavigationManagement.sharedInstance.popViewController()
+      }
+      .disposed(by: disposeBag)
+
     viewModel?.favoriteProducts()
       .catch({ [weak self] error -> Observable<[WebGameWithDuplicatable]> in
         switch error {
@@ -54,9 +59,15 @@ class FavoriteViewController: DisplayProduct {
           self?.handleErrors(error)
         }
         return Observable.just([])
-      }).subscribe(onNext: { [weak self] games in
+      })
+      .subscribe(onNext: { [weak self] games in
         self?.gameData = games
-      }).disposed(by: self.disposeBag)
+      })
+      .disposed(by: disposeBag)
+
+    guard let viewModel else { return }
+
+    bindPlaceholder(.favorite, with: viewModel)
   }
 
   private func switchContent(_ games: [WebGameWithProperties]? = nil) {

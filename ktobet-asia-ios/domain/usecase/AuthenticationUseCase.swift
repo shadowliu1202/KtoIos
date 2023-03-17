@@ -87,7 +87,7 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
   func isLogged() -> Single<Bool> {
     repoAuth
       .checkAuthorization()
-      .trackActivity(checkIsLoggedTracker)
+      .trackOnDispose(checkIsLoggedTracker)
   }
 
   func getCaptchaImage() -> Single<UIImage> {

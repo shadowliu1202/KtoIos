@@ -35,7 +35,6 @@ extension LazyImage {
     @Published var result: Result?
 
     private let downloader: SDWebImageDownloader
-    private let disposeBag = DisposeBag()
 
     var headers: [String: String]? {
       didSet {
@@ -49,42 +48,40 @@ extension LazyImage {
       self.downloader = downloader
     }
 
-    func image(from url: String, startWith _result: Result? = nil) {
+    @MainActor
+    func image(from url: String, startWith _result: Result? = nil) async {
       if let _result {
         result = _result
       }
-
-      downloader.rx
-        .image(from: url)
-        .observe(on: MainScheduler.instance)
-        .subscribe(onSuccess: { [weak self] in
-          self?.result = .success($0)
-        }, onFailure: { [weak self] in
-          self?.result = .failure($0)
-        })
-        .disposed(by: disposeBag)
+      
+      do {
+        let image = try await downloader.image(from: url)
+        result = .success(image)
+      }
+      catch {
+        result = .failure(error)
+      }
     }
   }
 }
 
-// MARK: - Rx
+// MARK: - SDWebImageDownloader
 
-extension Reactive where Base: SDWebImageDownloader {
-  fileprivate func image(from url: String) -> Single<UIImage> {
-    .create { single in
-      self.base.downloadImage(with: .init(string: url)) { image, _, error, _ in
-        if let error {
-          single(.failure(error))
-        }
-        else if let image {
-          single(.success(image))
-        }
-        else {
-          single(.failure(KTOError.EmptyData))
+extension SDWebImageDownloader {
+  fileprivate func image(from url: String) async throws -> UIImage {
+    try await
+      withCheckedThrowingContinuation { continuation in
+        self.downloadImage(with: .init(string: url)) { image, _, error, _ in
+          if let error {
+            continuation.resume(throwing: error)
+          }
+          else if let image {
+            continuation.resume(returning: image)
+          }
+          else {
+            continuation.resume(throwing: KTOError.EmptyData)
+          }
         }
       }
-
-      return Disposables.create()
-    }
   }
 }

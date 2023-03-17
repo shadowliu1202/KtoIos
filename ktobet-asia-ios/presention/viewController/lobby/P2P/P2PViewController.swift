@@ -70,6 +70,8 @@ extension P2PViewController {
       .disposed(by: disposeBag)
 
     bindWebGameResult(with: viewModel)
+    
+    bindPlaceholder(.p2p, with: viewModel)
 
     viewModel.errorsSubject
       .subscribe(onNext: { [weak self] in

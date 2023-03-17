@@ -6,7 +6,7 @@ protocol Loading: AnyObject {
   var tracker: ActivityIndicator { get }
 
   func setAppearance(isHidden: Bool)
-  func bind(to observable: Observable<Bool>) -> Disposable
+  func bindLoading(to observable: Observable<Bool>) -> Disposable
 }
 
 class LoadingImpl: Loading {
@@ -21,7 +21,7 @@ class LoadingImpl: Loading {
   var isLoading: Bool { !loadingView.isHidden }
 
   private init() {
-    bind(to: tracker.asObservable())
+    bindLoading(to: tracker.asObservable())
       .disposed(by: disposeBag)
   }
 
@@ -43,7 +43,7 @@ class LoadingImpl: Loading {
     }
   }
 
-  func bind(to observable: Observable<Bool>) -> Disposable {
+  func bindLoading(to observable: Observable<Bool>) -> Disposable {
     observable
       .subscribe(onNext: { [unowned self] in
         self.setAppearance(isHidden: !$0)

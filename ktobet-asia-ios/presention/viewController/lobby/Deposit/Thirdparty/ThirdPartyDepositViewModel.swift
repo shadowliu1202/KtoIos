@@ -247,7 +247,7 @@ final class ThirdPartyDepositViewModel: CollectErrorViewModel, ViewModelType {
         Single.from(self.depositService.requestOnlineDeposit(request: request))
           .observe(on: MainScheduler.instance)
           .compose(self.applySingleErrorHandler())
-          .trackActivity(self.inProgress)
+          .trackOnDispose(self.inProgress)
       }.do(onNext: { [weak self] url in
         guard let host = self?.httpClient.host.absoluteString else { return }
         let url = host + url.path + "&backUrl=\(host)"

@@ -45,7 +45,7 @@ class NavigationViewModel {
   func checkIsLogged() -> Single<isLogged> {
     authUseCase
       .isLogged()
-      .trackActivity(checkIsLoggedTracker)
+      .trackOnDispose(checkIsLoggedTracker)
   }
 
   func initLaunchNavigation() -> LaunchPageNavigation {

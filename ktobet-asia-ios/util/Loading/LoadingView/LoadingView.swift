@@ -30,6 +30,8 @@ class GradientArcView: UIView {
   var endColor: UIColor = .whitePure
   var lineWidth: CGFloat = 5
 
+  private let shapeMask = CAShapeLayer()
+
   private let gradientLayer: CAGradientLayer = {
     let gradientLayer = CAGradientLayer()
     gradientLayer.type = .conic
@@ -49,22 +51,30 @@ class GradientArcView: UIView {
 
     configure()
   }
+  
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    updateGradient()
+  }
 }
 
 extension GradientArcView {
   private func configure() {
+    shapeMask.fillColor = UIColor.clear.cgColor
+    shapeMask.strokeColor = UIColor.white.cgColor
+    shapeMask.lineWidth = lineWidth
+    
+    gradientLayer.colors = [startColor, endColor].map { $0.cgColor }
+    gradientLayer.mask = shapeMask
+    
     layer.addSublayer(gradientLayer)
-
+    
     DispatchQueue.main.async {
-      self.updateGradient()
       self.addLayerAnimation(to: self.layer, duration: 1)
     }
   }
 
   private func updateGradient() {
-    gradientLayer.frame = bounds
-    gradientLayer.colors = [startColor, endColor].map { $0.cgColor }
-
     let center = CGPoint(x: bounds.midX, y: bounds.midY)
     let radius = (min(bounds.width, bounds.height) - lineWidth) / 2
     let path = UIBezierPath(
@@ -73,12 +83,10 @@ extension GradientArcView {
       startAngle: 0,
       endAngle: 2 * .pi,
       clockwise: true)
-    let mask = CAShapeLayer()
-    mask.fillColor = UIColor.clear.cgColor
-    mask.strokeColor = UIColor.white.cgColor
-    mask.lineWidth = lineWidth
-    mask.path = path.cgPath
-    gradientLayer.mask = mask
+    
+    shapeMask.path = path.cgPath
+    
+    gradientLayer.frame = bounds
   }
 
   private func addLayerAnimation(to layer: CALayer, duration: Double) {

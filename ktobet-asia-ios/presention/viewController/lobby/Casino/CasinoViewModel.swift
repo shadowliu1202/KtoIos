@@ -31,7 +31,7 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
     .compose(applyObservableErrorHandle())
 
   lazy var searchedCasinoByTag = tagFilter
-    .flatMap { [unowned self] filters -> Observable<[CasinoGame]> in
+    .flatMap { [unowned self] filters in
       self.searchedCasinoByTag(tags: filters)
     }
 
@@ -51,7 +51,9 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
     webGameResultSubject.asDriverLogError()
   }
 
-  var loadingTracker: ActivityIndicator { loading.tracker }
+  var loadingWebTracker: ActivityIndicator { loading.tracker }
+
+  let placeholderTracker = ActivityIndicator()
 
   init(
     casinoRecordUseCase: CasinoRecordUseCase,
@@ -122,18 +124,23 @@ extension CasinoViewModel {
   }
 
   func lobby() -> Single<[CasinoLobby]> {
-    casinoUseCase.getLobbies().flatMap { lobbies -> Single<[CasinoLobby]> in
-      if lobbies.count > 0 {
-        return Single.just(lobbies.filter({ $0.lobby != .none }))
+    casinoUseCase.getLobbies()
+      .map {
+        if $0.count > 0 {
+          return $0.filter { $0.lobby != .none }
+        }
+        else {
+          throw KTOError.EmptyData
+        }
       }
-      else {
-        return Single.error(KTOError.EmptyData)
-      }
-    }
+      .trackOnDispose(placeholderTracker)
   }
 
   func getLobbyGames(lobby: CasinoLobbyType) -> Observable<[CasinoGame]> {
-    refreshTrigger.flatMapLatest { [unowned self] in self.casinoUseCase.searchGamesByLobby(lobby: lobby) }
+    refreshTrigger
+      .flatMapLatest { [unowned self] in
+        self.searchGamesByLobby(lobby: lobby)
+      }
   }
 
   func refreshLobbyGames() {
@@ -162,16 +169,21 @@ extension CasinoViewModel {
 extension CasinoViewModel {
   func getFavorites() {
     favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-    casinoUseCase.getFavorites().subscribe(onNext: { [weak self] games in
-      if games.count > 0 {
-        self?.favorites.onNext(games)
-      }
-      else {
-        self?.favorites.onError(KTOError.EmptyData)
-      }
-    }, onError: { [weak self] e in
-      self?.favorites.onError(e)
-    }).disposed(by: disposeBag)
+
+    casinoUseCase
+      .getFavorites()
+      .trackOnNext(placeholderTracker)
+      .subscribe(onNext: { [weak self] games in
+        if games.count > 0 {
+          self?.favorites.onNext(games)
+        }
+        else {
+          self?.favorites.onError(KTOError.EmptyData)
+        }
+      }, onError: { [weak self] in
+        self?.favorites.onError($0)
+      })
+      .disposed(by: disposeBag)
   }
 
   func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
@@ -230,14 +242,23 @@ extension CasinoViewModel {
     }
   }
 
+  func searchGamesByLobby(lobby: CasinoLobbyType) -> Observable<[CasinoGame]> {
+    casinoUseCase
+      .searchGamesByLobby(lobby: lobby)
+      .trackOnNext(placeholderTracker)
+      .do(onError: { [weak self] in
+        self?.errorsSubject.onNext($0)
+      })
+  }
+
   private func searchedCasinoByTag(tags: [ProductDTO.GameTag]) -> Observable<[CasinoGame]> {
     casinoUseCase
       .searchGamesByTag(tags: tags)
-      .compose(applyObservableErrorHandle())
-      .catch { error in
-        Observable.error(error)
-      }
       .retry(3)
+      .trackOnNext(placeholderTracker)
+      .do(onError: { [weak self] in
+        self?.errorsSubject.onNext($0)
+      })
   }
 }
 

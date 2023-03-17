@@ -3,6 +3,8 @@ import SharedBu
 import UIKit
 
 class ProductsViewController: LobbyViewController {
+  @Injected private var loading: Loading
+  
   private var disposeBag = DisposeBag()
   private var viewDisappearBag = DisposeBag()
 
@@ -11,6 +13,8 @@ class ProductsViewController: LobbyViewController {
   private lazy var productsViewModel = Injectable.resolveWrapper(ProductsViewModel.self)
 
   private var productType: ProductType!
+  
+  private var placeholder: LoadingPlaceholderViewController?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -78,6 +82,22 @@ class ProductsViewController: LobbyViewController {
       .drive(onNext: { [weak self] in
         self?.handleWebGameResult($0, with: viewModel)
       })
+      .disposed(by: disposeBag)
+  }
+  
+  func bindPlaceholder(
+    _ type: LoadingPlaceholder.`Type`,
+    with viewModel: ProductWebGameViewModelProtocol)
+  {
+    placeholder = .init(type)
+    
+    guard let placeholder else { return }
+
+    loading
+      .bindPlaceholder(
+        placeholder,
+        to: viewModel.placeholderTracker.asObservable(),
+        at: self)
       .disposed(by: disposeBag)
   }
 
