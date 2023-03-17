@@ -8,6 +8,7 @@ protocol TransactionLogViewModelProtocol {
 
   var summary: CashFlowSummary? { get }
   var sections: [Section]? { get }
+  var isPageLoading: Bool { get }
   var dateType: DateType { get }
 
   var pagination: Pagination<TransactionLog>! { get }
@@ -32,6 +33,7 @@ class TransactionLogViewModel: CollectErrorViewModel,
 
   @Published private(set) var summary: CashFlowSummary?
   @Published private(set) var sections: [TransactionLogViewModelProtocol.Section]?
+  @Published private(set) var isPageLoading = false
 
   @Published var selectedItems: [Selectable] = []
 
@@ -58,7 +60,11 @@ class TransactionLogViewModel: CollectErrorViewModel,
     self.pagination = .init(
       observable: { [unowned self] _ in
         self.searchTransactionLog()
-      }, onElementChanged: { [unowned self] in
+      },
+      onLoading: { [unowned self] in
+        self.isPageLoading = $0
+      },
+      onElementChanged: { [unowned self] in
         self.sections = self.buildSections($0)
       })
 

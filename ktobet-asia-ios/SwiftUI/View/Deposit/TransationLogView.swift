@@ -177,7 +177,7 @@ extension TransactionLogView {
     var body: some View {
       if let sections = viewModel.sections {
         if !sections.isEmpty {
-          LazyVStack(alignment: .leading) {
+          LazyVStack {
             ForEach(sections.indices, id: \.self) { sectionIndex in
               let section = sections[sectionIndex]
               Text(section.model)
@@ -185,6 +185,7 @@ extension TransactionLogView {
                   weight: .medium,
                   size: 16,
                   color: .whitePure)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
               VStack(spacing: 8) {
                 ForEach(section.items.indices, id: \.self) { rowIndex in
@@ -195,6 +196,10 @@ extension TransactionLogView {
               }
               .padding(.bottom, 24)
             }
+
+            SwiftUIGradientArcView()
+              .visibility(viewModel.isPageLoading ? .visible : .gone)
+              .frame(width: 24, height: 24)
           }
           .onInspected(inspection, self)
         }
@@ -233,6 +238,7 @@ struct TransactionLogView_Previews: PreviewProvider {
     @Published var sections: [TransactionLogViewModelProtocol.Section]?
     @Published var selectedItems: [Selectable] = []
 
+    var isPageLoading = true
     var dataSource: [Selectable] = []
     var selectedTitle = "Test"
 

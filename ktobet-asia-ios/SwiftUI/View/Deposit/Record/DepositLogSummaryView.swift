@@ -110,7 +110,7 @@ extension DepositLogSummaryView {
     var body: some View {
       if let sections = viewModel.sections {
         if !sections.isEmpty {
-          LazyVStack(alignment: .leading) {
+          LazyVStack {
             ForEach(sections.indices, id: \.self) { sectionIndex in
               let section = sections[sectionIndex]
               Text(section.model)
@@ -119,6 +119,7 @@ extension DepositLogSummaryView {
                   size: 16,
                   color: .whitePure)
                 .id(DepositLogSummaryView.Identifier.sectionHeader(at: sectionIndex).rawValue)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
               VStack(spacing: 8) {
                 ForEach(section.items.indices, id: \.self) { rowIndex in
@@ -130,6 +131,10 @@ extension DepositLogSummaryView {
               .padding(.bottom, 24)
               .id(DepositLogSummaryView.Identifier.section(at: sectionIndex).rawValue)
             }
+
+            SwiftUIGradientArcView()
+              .visibility(viewModel.isPageLoading ? .visible : .gone)
+              .frame(width: 24, height: 24)
           }
           .onInspected(inspection, self)
         }
@@ -214,6 +219,7 @@ struct DepositLogView_Previews: PreviewProvider {
     var totalAmount: String? = "1536"
     var dateType: DateType = .week()
     var sections: [DepositLogSummaryViewModelProtocol.Section]?
+    var isPageLoading = true
     var dataSource: [Selectable] = []
     var selectedTitle = "Test"
 

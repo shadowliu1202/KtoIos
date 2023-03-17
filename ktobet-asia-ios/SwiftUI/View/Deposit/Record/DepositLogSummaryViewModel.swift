@@ -8,6 +8,7 @@ protocol DepositLogSummaryViewModelProtocol {
 
   var totalAmount: String? { get }
   var sections: [Section]? { get }
+  var isPageLoading: Bool { get }
   var dateType: DateType { get }
   var pagination: Pagination<PaymentLogDTO.GroupLog>! { get }
   var summaryRefreshTrigger: PublishSubject<Void> { get }
@@ -28,6 +29,7 @@ class DepositLogSummaryViewModel: CollectErrorViewModel,
 
   @Published private(set) var totalAmount: String?
   @Published private(set) var sections: [Section]?
+  @Published private(set) var isPageLoading = false
 
   private(set) var pagination: Pagination<PaymentLogDTO.GroupLog>!
   private(set) var summaryRefreshTrigger = PublishSubject<Void>()
@@ -48,7 +50,11 @@ class DepositLogSummaryViewModel: CollectErrorViewModel,
     pagination = .init(
       observable: { [unowned self] page in
         self.getDepositRecords(page: Int32(page))
-      }, onElementChanged: { [unowned self] in
+      },
+      onLoading: { [unowned self] in
+        self.isPageLoading = $0
+      },
+      onElementChanged: { [unowned self] in
         self.sections = self.buildSections($0)
       })
 
