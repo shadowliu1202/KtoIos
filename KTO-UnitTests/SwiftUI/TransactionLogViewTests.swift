@@ -47,6 +47,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let stubViewModel = mock(TransactionLogViewModelProtocol.self)
 
+    given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> [
       .init(
         model: "test",
@@ -93,6 +94,7 @@ final class TransactionLogViewTests: XCTestCase {
   func test_HasOnePositive100ProfitLog_InTransactionLogPage_LogIsDisplayedWithNumber1_KTO_TC_53() {
     let stubViewModel = mock(TransactionLogViewModelProtocol.self)
 
+    given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> [
       .init(
         model: "test",
@@ -139,6 +141,7 @@ final class TransactionLogViewTests: XCTestCase {
   func test_HasOneNegative100ProfitLog_InTransactionLogPage_LogIsDisplayedWithNumber1() {
     let stubViewModel = mock(TransactionLogViewModelProtocol.self)
 
+    given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> [
       .init(
         model: "test",
@@ -185,6 +188,7 @@ final class TransactionLogViewTests: XCTestCase {
   func test_HasPositive1000AndNegative100Summary_InTransactionLogPage_SummaryIsDisplayedPositive1000AndNegative100_KTO_TC_54() {
     let stubViewModel = mock(TransactionLogViewModelProtocol.self)
 
+    given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.summary) ~> .init(
       income: "1000".toAccountCurrency(),
       outcome: "100".toAccountCurrency())
@@ -237,6 +241,7 @@ final class TransactionLogViewTests: XCTestCase {
   func test_HasLogToday_InTransactionLogPage_LogDateIsDisplayedWithToday_KTO_TC_55() {
     let stubViewModel = mock(TransactionLogViewModelProtocol.self)
 
+    given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> [
       .init(
         model: "今天",
@@ -273,6 +278,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let stubViewModel = mock(TransactionLogViewModelProtocol.self)
 
+    given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> []
 
     let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()

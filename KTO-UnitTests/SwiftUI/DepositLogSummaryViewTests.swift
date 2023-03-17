@@ -62,6 +62,7 @@ final class DepositLogSummaryViewTests: XCTestCase {
 
     let date = "2022/12/01".toDate(format: "yyyy/MM/dd", timeZone: Foundation.TimeZone(abbreviation: "UTC")!)!
     given(stubViewModel.sections) ~> self.generateSections(date: date)
+    given(stubViewModel.isPageLoading) ~> false
 
     let sut = DepositLogSummaryView<DepositLogSummaryViewModelProtocolMock>.Sections()
 
@@ -102,6 +103,7 @@ final class DepositLogSummaryViewTests: XCTestCase {
 
     given(stubViewModel.dateType) ~> .day(.init())
     given(stubViewModel.totalAmount) ~> "300"
+    given(stubViewModel.isPageLoading) ~> false
 
     let sut = DepositLogSummaryView<DepositLogSummaryViewModelProtocolMock>.Header()
 
@@ -134,6 +136,7 @@ final class DepositLogSummaryViewTests: XCTestCase {
     let stubViewModel = mock(DepositLogSummaryViewModelProtocol.self)
 
     given(stubViewModel.sections) ~> []
+    given(stubViewModel.isPageLoading) ~> false
 
     let sut = DepositLogSummaryView<DepositLogSummaryViewModelProtocolMock>.Sections()
 

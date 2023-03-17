@@ -16,23 +16,33 @@ class Pagination<T> {
   var offset = 1
   var isLastData = false
 
-  var onElementChanged: (([T]) -> Void)?
-
   init(
     pageIndex: Int = 1,
     offset: Int = 1,
     observable: @escaping ((Int) -> Observable<[T]>),
+    onLoading: ((Bool) -> Void)? = nil,
     onElementChanged: (([T]) -> Void)? = nil)
   {
     self.offset = offset
     self.startPageIndex = pageIndex
-    self.onElementChanged = onElementChanged
 
-    elements
-      .subscribe(onNext: { [unowned self] in
-        self.onElementChanged?($0)
-      })
-      .disposed(by: disposeBag)
+    if let onLoading {
+      loading
+        .observe(on: MainScheduler.instance)
+        .subscribe(onNext: {
+          onLoading($0)
+        })
+        .disposed(by: disposeBag)
+    }
+
+    if let onElementChanged {
+      elements
+        .observe(on: MainScheduler.instance)
+        .subscribe(onNext: {
+          onElementChanged($0)
+        })
+        .disposed(by: disposeBag)
+    }
 
     let refreshRequest = loading.asObservable()
       .sample(refreshTrigger)

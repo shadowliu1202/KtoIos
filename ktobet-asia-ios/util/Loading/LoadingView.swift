@@ -96,7 +96,7 @@ extension GradientArcView {
 }
 
 struct SwiftUIGradientArcView: UIViewRepresentable {
-  let isVisible: Bool
+  var isVisible = true
 
   func makeUIView(context _: Context) -> GradientArcView {
     GradientArcView(frame: .zero)
