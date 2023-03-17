@@ -65,7 +65,7 @@ class DepositRecordDetailViewModel:
   func prepareForAppear(transactionId: String) {
     self.transactionId = transactionId
     self.loading
-      .bind(to: $log.asObservable().map { $0 == nil })
+      .bindLoading(to: $log.asObservable().map { $0 == nil })
       .disposed(by: disposeBag)
   }
 
@@ -150,7 +150,7 @@ extension DepositRecordDetailViewModel {
         displayId: transactionId,
         images: selectedImages.compactMap { $0.detail?.portalImage }))
       .asObservable()
-      .trackActivity(loading.tracker)
+      .trackOnDispose(loading.tracker)
       .subscribe(onError: { [weak self] in
         self?.errorsSubject.onNext($0)
       })

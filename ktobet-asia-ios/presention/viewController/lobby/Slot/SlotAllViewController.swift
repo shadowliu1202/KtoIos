@@ -55,11 +55,16 @@ class SlotAllViewController: DisplayProduct {
   }
 
   private func getAllGame(sorting: GameSorting, filter: [SlotGameFilter] = []) {
-    viewModel.gatAllGame(sorting: sorting, filters: filter).subscribe { [weak self] slotGames in
-      self?.reloadGameData(slotGames)
-    } onError: { [weak self] error in
-      self?.handleErrors(error)
-    }.disposed(by: disposeBag)
+    viewModel
+      .gatAllGame(sorting: sorting, filters: filter)
+      .subscribe { [weak self] slotGames in
+        self?.reloadGameData(slotGames)
+      } onError: { [weak self] error in
+        self?.handleErrors(error)
+      }
+      .disposed(by: disposeBag)
+    
+    bindPlaceholder(.slotAllGame, with: viewModel)
   }
 
   // MARK: KVO

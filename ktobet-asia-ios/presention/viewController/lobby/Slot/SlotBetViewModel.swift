@@ -15,7 +15,7 @@ class SlotBetViewModel: CollectErrorViewModel, ProductWebGameViewModelProtocol {
   lazy var unsettledBetSummary = BehaviorSubject<[SlotUnsettledSection]>(value: [])
   private var disposeBag = DisposeBag()
 
-  var loadingTracker: ActivityIndicator { loading.tracker }
+  var loadingWebTracker: ActivityIndicator { loading.tracker }
 
   private let webGameResultSubject = PublishSubject<WebGameResult>()
   var webGameResultDriver: Driver<WebGameResult> {

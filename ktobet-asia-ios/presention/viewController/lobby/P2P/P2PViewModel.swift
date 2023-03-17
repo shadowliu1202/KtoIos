@@ -3,7 +3,8 @@ import RxCocoa
 import RxSwift
 import SharedBu
 
-class P2PViewModel: CollectErrorViewModel,
+class P2PViewModel:
+  CollectErrorViewModel,
   ProductWebGameViewModelProtocol
 {
   @Injected private var loading: Loading
@@ -20,11 +21,13 @@ class P2PViewModel: CollectErrorViewModel,
 
   private var disposeBag = DisposeBag()
 
-  var loadingTracker: ActivityIndicator { loading.tracker }
+  var loadingWebTracker: ActivityIndicator { loading.tracker }
 
   var webGameResultDriver: Driver<WebGameResult> {
     webGameResultSubject.asDriverLogError()
   }
+  
+  let placeholderTracker = ActivityIndicator()
 
   init(p2pUseCase: P2PUseCase) {
     super.init()
@@ -52,6 +55,7 @@ extension P2PViewModel {
   func getAllGames() -> Single<[P2PGame]> {
     p2pUseCase
       .getAllGames()
+      .trackOnDispose(placeholderTracker)
       .do(onSuccess: { [unowned self] in
         self.productName = $0.first?.productName
         self.gameSubject.onNext($0)

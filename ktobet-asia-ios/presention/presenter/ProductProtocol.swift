@@ -74,7 +74,9 @@ protocol ProductSearchViewModelProtocol {
 }
 
 protocol ProductWebGameViewModelProtocol {
-  var loadingTracker: ActivityIndicator { get }
+  var loadingWebTracker: ActivityIndicator { get }
+  var placeholderTracker: ActivityIndicator { get }
+  
   var webGameResultDriver: Driver<WebGameResult> { get }
 
   func getGameProduct() -> String
@@ -86,6 +88,9 @@ protocol ProductWebGameViewModelProtocol {
 }
 
 extension ProductWebGameViewModelProtocol {
+  
+  var placeholderTracker: ActivityIndicator { .init() }
+  
   func configFetchGame(
     _ game: WebGame,
     resultSubject: PublishSubject<WebGameResult>,
@@ -93,7 +98,7 @@ extension ProductWebGameViewModelProtocol {
     -> Disposable
   {
     checkBonusAndCreateGame(game)
-      .trackActivity(loadingTracker)
+      .trackOnDispose(loadingWebTracker)
       .subscribe(onNext: {
         resultSubject.onNext($0)
       }, onError: {

@@ -51,22 +51,23 @@ struct LazyImage<Success, Placeholder, Failure>: View
         placeholder()
 
       default:
-        Color.clear
-          .if(downloader.result == nil && !havePlaceholderContent) {
-            $0.overlay(
-              SwiftUIGradientArcView(isVisible: true)
-                .frame(width: 30, height: 30))
-          }
+        if downloader.result == nil, !havePlaceholderContent {
+          SwiftUIGradientArcView()
+            .frame(width: 30, height: 30)
+        }
+        else { Color.clear }
       }
     }
     .if(!haveFailureContent) {
       $0.visibility(downloader.result?.error == nil ? .visible : .gone)
     }
     .onAppear {
-      downloader.headers = headers
-      downloader.image(
-        from: url,
-        startWith: havePlaceholderContent ? .placeholder : nil)
+      Task {
+        downloader.headers = headers
+        await downloader.image(
+          from: url,
+          startWith: havePlaceholderContent ? .placeholder : nil)
+      }
     }
   }
 }

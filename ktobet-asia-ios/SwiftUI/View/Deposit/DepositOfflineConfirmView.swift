@@ -59,12 +59,9 @@ struct DepositOfflineConfirmView<ViewModel>: View
             },
             label: {
               Text(Localize.string("common_submit2"))
-                .localized(
-                  weight: .regular,
-                  size: 16,
-                  color: .whitePure)
             })
-            .buttonStyle(.confirmRed)
+            .buttonStyle(ConfirmRed(size: 16))
+            .disabled(!viewModel.isAllowConfirm)
         }
       }
       .frame(maxWidth: .infinity)
@@ -319,7 +316,8 @@ struct DepositOfflineConfirmView_Previews: PreviewProvider {
     var depositTrigger: PublishSubject<Void> = .init()
     var expiredDriver: Driver<Void> { Observable.just(()).asDriverLogError() }
     var depositSuccessDriver: Driver<Void> { Observable.just(()).asDriverLogError() }
-
+    var isAllowConfirm: Bool = false
+    
     func startCounting() { }
   }
 

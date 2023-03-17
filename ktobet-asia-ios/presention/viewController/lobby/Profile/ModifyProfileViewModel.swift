@@ -140,7 +140,7 @@ class ModifyProfileViewModel: CollectErrorViewModel {
   func getAffiliateHashKey() -> Single<String> {
     playerUseCase
       .getAffiliateHashKey()
-      .trackActivity(loadingTracker)
+      .trackOnDispose(loadingTracker)
   }
 
   func getAffiliateUrl(host: URL, hashKey: String) -> URL? {

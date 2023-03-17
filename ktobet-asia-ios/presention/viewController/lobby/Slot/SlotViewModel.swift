@@ -14,10 +14,22 @@ class SlotViewModel: CollectErrorViewModel, ProductViewModel {
   private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
   private var gameCountFilters = BehaviorRelay<[SlotGameFilter]>(value: [])
 
-  lazy var popularGames = slotUseCase.getPopularSlots()
-  lazy var recentGames = slotUseCase.getRecentlyPlaySlots()
-  lazy var newGames = slotUseCase.getNewSlots()
-  lazy var jackpotGames = slotUseCase.getJackpotSlots()
+  lazy var popularGames = slotUseCase
+    .getPopularSlots()
+    .trackOnNext(placeholderTracker)
+
+  lazy var recentGames = slotUseCase
+    .getRecentlyPlaySlots()
+    .trackOnNext(placeholderTracker)
+
+  lazy var newGames = slotUseCase
+    .getNewSlots()
+    .trackOnNext(placeholderTracker)
+
+  lazy var jackpotGames = slotUseCase
+    .getJackpotSlots()
+    .trackOnNext(placeholderTracker)
+
   lazy var gameCountWithSearchFilters = gameCountFilters
     .flatMap({ [unowned self] _ in self.gameCount })
     .map {
@@ -48,7 +60,9 @@ class SlotViewModel: CollectErrorViewModel, ProductViewModel {
     webGameResultSubject.asDriverLogError()
   }
 
-  var loadingTracker: ActivityIndicator { loading.tracker }
+  var loadingWebTracker: ActivityIndicator { loading.tracker }
+
+  let placeholderTracker = ActivityIndicator()
 
   init(slotUseCase: SlotUseCase) {
     self.slotUseCase = slotUseCase
@@ -87,6 +101,7 @@ extension SlotViewModel {
       featureTags: featureTags,
       themeTags: themeTags,
       payLineWayTags: payLineWayTags)
+      .trackOnNext(placeholderTracker, resetWhenSubscribe: false)
   }
 
   func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult> {
@@ -107,16 +122,21 @@ extension SlotViewModel {
 extension SlotViewModel {
   func getFavorites() {
     favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-    slotUseCase.getFavorites().subscribe(onNext: { [weak self] games in
-      if games.count > 0 {
-        self?.favorites.onNext(games)
-      }
-      else {
-        self?.favorites.onError(KTOError.EmptyData)
-      }
-    }, onError: { [weak self] e in
-      self?.favorites.onError(e)
-    }).disposed(by: disposeBag)
+
+    slotUseCase
+      .getFavorites()
+      .trackOnNext(placeholderTracker)
+      .subscribe(onNext: { [weak self] games in
+        if games.count > 0 {
+          self?.favorites.onNext(games)
+        }
+        else {
+          self?.favorites.onError(KTOError.EmptyData)
+        }
+      }, onError: { [weak self] e in
+        self?.favorites.onError(e)
+      })
+      .disposed(by: disposeBag)
   }
 
   func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {

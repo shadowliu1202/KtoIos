@@ -156,6 +156,8 @@ class SlotViewController: ProductsViewController {
       getGame: viewModel.jackpotGames,
       containerView: jackpotView,
       containerViewHeight: jackpotViewHeight)
+    
+    bindPlaceholder(.slot, with: viewModel)
   }
 
   private func loadMoreCollectionView(

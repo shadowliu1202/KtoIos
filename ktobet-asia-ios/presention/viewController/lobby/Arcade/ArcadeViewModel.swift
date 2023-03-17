@@ -26,15 +26,15 @@ class ArcadeViewModel: CollectErrorViewModel, ProductViewModel {
       ((gameTags.recommendTag, isRecommend), (gameTags.newTag, isNew))
     }).compose(applyObservableErrorHandle())
 
-  lazy var gameSource = filterSets.flatMapLatest({
-    self.arcadeUseCase.getGames(isRecommend: $0.0, isNew: $0.1).compose(self.applyObservableErrorHandle()).catch { error in
-      Observable.error(error)
-    }.retry()
-  })
+  lazy var gameSource = filterSets
+    .flatMapLatest { [unowned self] in
+      self.searchedByFilter($0)
+    }
 
   var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
 
-  var loadingTracker: ActivityIndicator { loading.tracker }
+  var loadingWebTracker: ActivityIndicator { loading.tracker }
+  let placeholderTracker = ActivityIndicator()
 
   var webGameResultDriver: Driver<WebGameResult> {
     webGameResultSubject.asDriverLogError()
@@ -129,17 +129,22 @@ extension ArcadeViewModel {
 extension ArcadeViewModel {
   func getFavorites() {
     favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-    arcadeUseCase.getFavorites().subscribe(onNext: { [weak self] games in
-      guard let games = games as? [ArcadeGame] else { return }
-      if games.count > 0 {
-        self?.favorites.onNext(games)
-      }
-      else {
-        self?.favorites.onError(KTOError.EmptyData)
-      }
-    }, onError: { [weak self] e in
-      self?.favorites.onError(e)
-    }).disposed(by: disposeBag)
+
+    arcadeUseCase
+      .getFavorites()
+      .trackOnNext(placeholderTracker)
+      .subscribe(onNext: { [weak self] games in
+        guard let games = games as? [ArcadeGame] else { return }
+        if games.count > 0 {
+          self?.favorites.onNext(games)
+        }
+        else {
+          self?.favorites.onError(KTOError.EmptyData)
+        }
+      }, onError: { [weak self] e in
+        self?.favorites.onError(e)
+      })
+      .disposed(by: disposeBag)
   }
 
   func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
@@ -196,5 +201,15 @@ extension ArcadeViewModel {
     self.searchKey.flatMapLatest { [unowned self] keyword -> Observable<Event<[WebGameWithDuplicatable]>> in
       self.arcadeUseCase.searchGames(keyword: keyword).materialize()
     }
+  }
+
+  private func searchedByFilter(_ filter: (Bool, Bool)) -> Observable<[ArcadeGame]> {
+    arcadeUseCase
+      .getGames(isRecommend: filter.0, isNew: filter.1)
+      .retry(3)
+      .trackOnNext(placeholderTracker)
+      .do(onError: { [weak self] in
+        self?.errorsSubject.onNext($0)
+      })
   }
 }

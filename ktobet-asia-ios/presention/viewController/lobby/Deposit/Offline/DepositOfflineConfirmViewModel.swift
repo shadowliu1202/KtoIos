@@ -15,6 +15,8 @@ protocol DepositOfflineConfirmViewModelProtocol {
 
   var depositTrigger: PublishSubject<Void> { get }
 
+  var isAllowConfirm: Bool { get }
+
   func prepareForAppear(memo: OfflineDepositDTO.Memo, selectedBank: PaymentsDTO.BankCard)
   func startCounting()
 }
@@ -31,6 +33,7 @@ class DepositOfflineConfirmViewModel:
   private let depositService: IDepositAppService
   private let expiredSubject = PublishSubject<Void>()
   private let depositSuccessSubject = PublishSubject<Void>()
+  private let depositTracker = ActivityIndicator()
   private let disposeBag = DisposeBag()
 
   let locale: SupportLocale
@@ -39,6 +42,8 @@ class DepositOfflineConfirmViewModel:
 
   var expiredDriver: Driver<Void> { expiredSubject.asDriver(onErrorJustReturn: ()) }
   var depositSuccessDriver: Driver<Void> { depositSuccessSubject.asDriver(onErrorJustReturn: ()) }
+  
+  var isAllowConfirm: Bool { !depositTracker.isLoading }
 
   init(
     depositService: IDepositAppService,
@@ -77,6 +82,7 @@ extension DepositOfflineConfirmViewModel {
           beneficiaryIdentity: receiverInfo.identity)))
       .do(onError: { [unowned self] in self.errorsSubject.onNext($0) })
       .andThen(.just(true))
+      .trackOnDispose(depositTracker)
   }
 }
 

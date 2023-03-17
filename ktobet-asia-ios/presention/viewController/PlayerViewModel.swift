@@ -36,7 +36,7 @@ class PlayerViewModel: CollectErrorViewModel {
     CustomServicePresenter.shared.closeService()
       .concat(
         authUseCase.logout())
-      .trackActivity(loadingTracker)
+      .trackOnDispose(loadingTracker)
       .do(onCompleted: {
         Injectable.resetObjectScope(.locale)
       })

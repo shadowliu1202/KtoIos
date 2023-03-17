@@ -66,6 +66,8 @@ class ArcadeViewController: DisplayProduct {
       })
       .disposed(by: disposeBag)
 
+    bindPlaceholder(.arcade, with: viewModel)
+    
     viewModel.tagStates
       .subscribe(onNext: { [unowned self] data in
         self.tagsStackView.initialize(

@@ -123,6 +123,8 @@ extension CasinoViewController {
       })
       .disposed(by: disposeBag)
 
+    bindPlaceholder(.casino, with: viewModel)
+    
     Observable
       .combineLatest(
         viewDidRotate,

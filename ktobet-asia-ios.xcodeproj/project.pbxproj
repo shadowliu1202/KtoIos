@@ -6188,6 +6188,15 @@
 		FFA7587529BB37FC0089A21F /* EmbedNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7586E29BB37FB0089A21F /* EmbedNavigation.swift */; };
 		FFA7587629BB37FC0089A21F /* EmbedNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7586E29BB37FB0089A21F /* EmbedNavigation.swift */; };
 		FFA7587729BB37FC0089A21F /* EmbedNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7586E29BB37FB0089A21F /* EmbedNavigation.swift */; };
+		FFA7588429BECED10089A21F /* LoadingPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */; };
+		FFA7588529BECED10089A21F /* LoadingPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */; };
+		FFA7588629BECED10089A21F /* LoadingPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */; };
+		FFA7588729BECED10089A21F /* LoadingPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */; };
+		FFA7588829BECED10089A21F /* LoadingPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */; };
+		FFA7588929BECED10089A21F /* LoadingPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */; };
+		FFA7588A29BECED10089A21F /* LoadingPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */; };
+		FFA7588B29BECED10089A21F /* LoadingPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */; };
+		FFA7588C29BECED10089A21F /* LoadingPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */; };
 		FFAB7A8029680C6C0002358B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB016F929680AC9007E0236 /* LoadingView.swift */; };
 		FFAB7A8129680C6D0002358B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB016F929680AC9007E0236 /* LoadingView.swift */; };
 		FFAB7A8229680C6E0002358B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB016F929680AC9007E0236 /* LoadingView.swift */; };
@@ -6289,6 +6298,33 @@
 		FFBD3777294ACBB6009E9A97 /* Inspecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694ACF2936F99200FF21EB /* Inspecting.swift */; };
 		FFBD377A294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF694AD02936F99200FF21EB /* InspectableView+Extension.swift */; };
 		FFC30E13294C80FA00A425F4 /* WithdrawalViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */; };
+		FFC51A7229BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */; };
+		FFC51A7329BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */; };
+		FFC51A7429BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */; };
+		FFC51A7529BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */; };
+		FFC51A7629BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */; };
+		FFC51A7729BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */; };
+		FFC51A7829BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */; };
+		FFC51A7929BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */; };
+		FFC51A7A29BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */; };
+		FFC51A7C29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */; };
+		FFC51A7D29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */; };
+		FFC51A7E29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */; };
+		FFC51A7F29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */; };
+		FFC51A8029BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */; };
+		FFC51A8129BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */; };
+		FFC51A8229BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */; };
+		FFC51A8329BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */; };
+		FFC51A8429BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */; };
+		FFC51A8629C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */; };
+		FFC51A8729C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */; };
+		FFC51A8829C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */; };
+		FFC51A8929C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */; };
+		FFC51A8A29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */; };
+		FFC51A8B29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */; };
+		FFC51A8C29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */; };
+		FFC51A8D29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */; };
+		FFC51A8E29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */; };
 		FFC6B8AE2907BAEB002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8AF2907BAEF002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
 		FFC6B8B02907BAF0002D843B /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */; };
@@ -7306,6 +7342,7 @@
 		FFA7585A29BB37C10089A21F /* SwiftUIConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUIConverter.swift; sourceTree = "<group>"; };
 		FFA7586429BB37C90089A21F /* CookieUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CookieUtil.swift; sourceTree = "<group>"; };
 		FFA7586E29BB37FB0089A21F /* EmbedNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbedNavigation.swift; sourceTree = "<group>"; };
+		FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingPlaceholder.swift; sourceTree = "<group>"; };
 		FFAB7A89296830900002358B /* Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 		FFB016B929658404007E0236 /* VisableLocaleModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisableLocaleModifier.swift; sourceTree = "<group>"; };
 		FFB016C32965841F007E0236 /* CasinoViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasinoViewControllerTests.swift; sourceTree = "<group>"; };
@@ -7320,6 +7357,9 @@
 		FFB2101529597A9B00ED3C3A /* UIKitLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitLabel.swift; sourceTree = "<group>"; };
 		FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotViewControllerTests.swift; sourceTree = "<group>"; };
 		FFC30E12294C80FA00A425F4 /* WithdrawalViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawalViewControllerTests.swift; sourceTree = "<group>"; };
+		FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationCompletionObserverModifier.swift; sourceTree = "<group>"; };
+		FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingPlaceholderViewController.swift; sourceTree = "<group>"; };
+		FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Loading+Placeholder.swift"; sourceTree = "<group>"; };
 		FFC6B8AC2907B8AD002D843B /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		FFC6B8B92907BB6C002D843B /* LocalStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorable.swift; sourceTree = "<group>"; };
 		FFC6B8EB290A4146002D843B /* InjectionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectionComponent.swift; sourceTree = "<group>"; };
@@ -9160,6 +9200,7 @@
 				FFB016B929658404007E0236 /* VisableLocaleModifier.swift */,
 				FFA26A45292C7B90008C3E71 /* ViewDidLoadModifier.swift */,
 				3CF19A562939F04300BB22FF /* PositionDetectModifier.swift */,
+				FFC51A7129BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift */,
 			);
 			path = Modifier;
 			sourceTree = "<group>";
@@ -9173,11 +9214,22 @@
 			path = LazyImage;
 			sourceTree = "<group>";
 		};
+		FFA7588229BECEA00089A21F /* Placeholder */ = {
+			isa = PBXGroup;
+			children = (
+				FFA7588329BECED10089A21F /* LoadingPlaceholder.swift */,
+				FFC51A7B29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift */,
+			);
+			path = Placeholder;
+			sourceTree = "<group>";
+		};
 		FFAB7A88296830430002358B /* Loading */ = {
 			isa = PBXGroup;
 			children = (
+				FFC51A8F29C02978000DE0A8 /* LoadingView */,
+				FFA7588229BECEA00089A21F /* Placeholder */,
 				FFAB7A89296830900002358B /* Loading.swift */,
-				FFB016F929680AC9007E0236 /* LoadingView.swift */,
+				FFC51A8529C028CF000DE0A8 /* Loading+Placeholder.swift */,
 			);
 			path = Loading;
 			sourceTree = "<group>";
@@ -9238,6 +9290,14 @@
 				6D1612F829C04CDA00BA1827 /* SnackBarTests.swift */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		FFC51A8F29C02978000DE0A8 /* LoadingView */ = {
+			isa = PBXGroup;
+			children = (
+				FFB016F929680AC9007E0236 /* LoadingView.swift */,
+			);
+			path = LoadingView;
 			sourceTree = "<group>";
 		};
 		FFC6B8B72907BB0A002D843B /* protocol */ = {
@@ -11261,6 +11321,7 @@
 				FF8C267A29B9866F009523BE /* DepositLogSummaryViewModel.swift in Sources */,
 				3CC06507287FB3B0008AAC09 /* ViewExtension.swift in Sources */,
 				6085051026007EBC009394CA /* WithdrawRecordTableViewCell.swift in Sources */,
+				FFC51A7329BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */,
 				6D4083D1265212A800BECD0E /* NumberGameUseCase.swift in Sources */,
 				608EA47B271D4A1300A3DA91 /* unreadTableViewCell.swift in Sources */,
 				60790C32264128BF0005D62F /* SlotAllViewController.swift in Sources */,
@@ -11277,6 +11338,7 @@
 				6DB5CF2C276722410018B0E8 /* LandingViewController.swift in Sources */,
 				6018F8C2268F066500941BDD /* WithdrawalCryptoDetailView.swift in Sources */,
 				600E249826CCF50A00D8B073 /* PromotionFilterViewController.swift in Sources */,
+				FFA7588529BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				60CAED2A25E349DE00FB5283 /* DepositThirdPartWebViewController.swift in Sources */,
 				6DADDEDA260B41B600247E80 /* WithdrawlLandingViewController.swift in Sources */,
 				4199A02D25AE9918002E2D7E /* PlayerRepository.swift in Sources */,
@@ -11430,6 +11492,7 @@
 				4199A04025AE9918002E2D7E /* Connection.swift in Sources */,
 				6082864427E067B400C7F492 /* NotificationViewModel.swift in Sources */,
 				6DADDEA52609EF1C00247E80 /* BankRepository.swift in Sources */,
+				FFC51A7D29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				60E4A7A92755B4FD0088245F /* CryptoSelectorTableViewCell.swift in Sources */,
 				6083DC7D279015FF00794145 /* APIWrapper.swift in Sources */,
 				60095DC825F5C43200F5DCE6 /* KoyomiLayout.swift in Sources */,
@@ -11493,6 +11556,7 @@
 				6DAEA6242600B2E600995A6E /* LockInputText.swift in Sources */,
 				4199A04925AE9918002E2D7E /* AuthenticationUseCase.swift in Sources */,
 				6DAEA5EE26008E5A00995A6E /* AddBankViewController.swift in Sources */,
+				FFC51A8729C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */,
 				6DA88BED2696DF4C008D77B9 /* P2PRecordRepository.swift in Sources */,
 				FF8C26A729B9866F009523BE /* DepositCryptoRecordDetailViewModel.swift in Sources */,
 				3CCD218428F6942C00313212 /* UserDefaultCodable.swift in Sources */,
@@ -11966,6 +12030,7 @@
 				FF8C267929B9866F009523BE /* DepositLogSummaryViewModel.swift in Sources */,
 				6056E85526451A7800627148 /* SlotFilterViewController.swift in Sources */,
 				48AAA114256E458800E075CA /* AuthenticationApi.swift in Sources */,
+				FFC51A7229BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */,
 				3CC06506287FB3B0008AAC09 /* ViewExtension.swift in Sources */,
 				6085050F26007EBC009394CA /* WithdrawRecordTableViewCell.swift in Sources */,
 				6D4083D0265212A800BECD0E /* NumberGameUseCase.swift in Sources */,
@@ -11982,6 +12047,7 @@
 				483F42BB258C41A90091960B /* UIWindowExtension.swift in Sources */,
 				6D02BBF827D0BBC900824F53 /* DatePickerPopup.swift in Sources */,
 				6DB5CF2B276722410018B0E8 /* LandingViewController.swift in Sources */,
+				FFA7588429BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				FFEC22782924BB83006EA6F2 /* YTPlayer.swift in Sources */,
 				6018F8C1268F066500941BDD /* WithdrawalCryptoDetailView.swift in Sources */,
 				600E249726CCF50A00D8B073 /* PromotionFilterViewController.swift in Sources */,
@@ -12135,6 +12201,8 @@
 				48AAA12A256E458800E075CA /* SocketLogger.swift in Sources */,
 				601041AA26B7CB1C00B28FC8 /* ArcadeSummaryViewController.swift in Sources */,
 				48AAA12B256E458800E075CA /* WebsocketsTransport.swift in Sources */,
+				FFC51A7C29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
+				6089834D25AFD13800BE28BB /* ToastView.swift in Sources */,
 				6DADDEA42609EF1C00247E80 /* BankRepository.swift in Sources */,
 				6082864327E067B400C7F492 /* NotificationViewModel.swift in Sources */,
 				60E4A7A82755B4FD0088245F /* CryptoSelectorTableViewCell.swift in Sources */,
@@ -12198,6 +12266,7 @@
 				6D7275E825F5D035000BF51F /* MonthSelectView.swift in Sources */,
 				6DAEA6232600B2E600995A6E /* LockInputText.swift in Sources */,
 				48AAA133256E458800E075CA /* JSONHubProtocol.swift in Sources */,
+				FFC51A8629C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */,
 				6DAEA5ED26008E5A00995A6E /* AddBankViewController.swift in Sources */,
 				FF8C26A629B9866F009523BE /* DepositCryptoRecordDetailViewModel.swift in Sources */,
 				6DA88BEC2696DF4C008D77B9 /* P2PRecordRepository.swift in Sources */,
@@ -12582,6 +12651,7 @@
 				60A551A827BF6A9900E5B1C0 /* ActivityIndicator.swift in Sources */,
 				600E240626CB514300D8B073 /* PromotionApi.swift in Sources */,
 				609012702640EE7000419F8E /* DropDownInputText.swift in Sources */,
+				FFC51A7429BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */,
 				FF2F96D429125C290079D48A /* NSObjectMockingBirdWrapper.swift in Sources */,
 				609A0D2D27587822003242AE /* TermsDetail.swift in Sources */,
 				609012722640EE7000419F8E /* UIViewControllerExtension.swift in Sources */,
@@ -12848,6 +12918,7 @@
 				6D9409C826DC7E4B00C70FDA /* PromotionTableViewCell.swift in Sources */,
 				FFB016BC29658404007E0236 /* VisableLocaleModifier.swift in Sources */,
 				609012D92640EE7000419F8E /* DefaultProductViewModel.swift in Sources */,
+				FFA7588629BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				601AAFF82774684D00BF4B21 /* TickCircle.swift in Sources */,
 				3CC064FE287FB17B008AAC09 /* Separator.swift in Sources */,
 				6D0D901726E0C15B00733C4D /* PromotionFilterDropDwon.swift in Sources */,
@@ -12912,6 +12983,7 @@
 				601041AC26B7CB1C00B28FC8 /* ArcadeSummaryViewController.swift in Sources */,
 				6DCC262027587825007C973B /* NotificationViewController.swift in Sources */,
 				609012EB2640EE7000419F8E /* ResetPasswordStep2ViewController.swift in Sources */,
+				FFC51A8829C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */,
 				6010407626A6C1C700B28FC8 /* LevelDetail2TableViewCell.swift in Sources */,
 				609012EC2640EE7000419F8E /* FavoriteBarButtonItem.swift in Sources */,
 				6DB5CF292766ECD30018B0E8 /* BundleExtension.swift in Sources */,
@@ -13160,6 +13232,7 @@
 				6DF53EDF28814F7300278ABE /* ConfirmRed.swift in Sources */,
 				609013442640EE7000419F8E /* Util.swift in Sources */,
 				6083DC7E279015FF00794145 /* APIWrapper.swift in Sources */,
+				FFC51A7E29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				609013452640EE7000419F8E /* ConnectionDelegate.swift in Sources */,
 				6D5A033328A39AB9005D0960 /* CasinoAdapter.swift in Sources */,
 				609013462640EE7000419F8E /* UnFinishGameTableViewCell.swift in Sources */,
@@ -13221,6 +13294,7 @@
 				60E57FCC27F190E4008CE5A9 /* ActivityIndicator.swift in Sources */,
 				60E57FCD27F190E4008CE5A9 /* PromotionApi.swift in Sources */,
 				60E57FCE27F190E4008CE5A9 /* DropDownInputText.swift in Sources */,
+				FFC51A7729BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */,
 				FF2F96D529125C290079D48A /* NSObjectMockingBirdWrapper.swift in Sources */,
 				60E57FCF27F190E4008CE5A9 /* TermsDetail.swift in Sources */,
 				60E57FD027F190E4008CE5A9 /* UIViewControllerExtension.swift in Sources */,
@@ -13487,6 +13561,7 @@
 				60E580AE27F190E4008CE5A9 /* PromotionTableViewCell.swift in Sources */,
 				FFB016BF29658404007E0236 /* VisableLocaleModifier.swift in Sources */,
 				60E580B027F190E4008CE5A9 /* DefaultProductViewModel.swift in Sources */,
+				FFA7588929BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				60E580B127F190E4008CE5A9 /* TickCircle.swift in Sources */,
 				3CC064FF287FB17B008AAC09 /* Separator.swift in Sources */,
 				60E580B227F190E4008CE5A9 /* PromotionFilterDropDwon.swift in Sources */,
@@ -13551,6 +13626,7 @@
 				60E580D927F190E4008CE5A9 /* ArcadeSummaryViewController.swift in Sources */,
 				60E580DA27F190E4008CE5A9 /* NotificationViewController.swift in Sources */,
 				60E580DB27F190E4008CE5A9 /* ResetPasswordStep2ViewController.swift in Sources */,
+				FFC51A8B29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */,
 				60E580DC27F190E4008CE5A9 /* LevelDetail2TableViewCell.swift in Sources */,
 				60E580DD27F190E4008CE5A9 /* FavoriteBarButtonItem.swift in Sources */,
 				60E580DE27F190E4008CE5A9 /* BundleExtension.swift in Sources */,
@@ -13799,6 +13875,7 @@
 				6DF53EE028814F7300278ABE /* ConfirmRed.swift in Sources */,
 				60E5819D27F190E4008CE5A9 /* Util.swift in Sources */,
 				60E5819E27F190E4008CE5A9 /* APIWrapper.swift in Sources */,
+				FFC51A8129BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				60E5819F27F190E4008CE5A9 /* ConnectionDelegate.swift in Sources */,
 				6D5A033428A39AB9005D0960 /* CasinoAdapter.swift in Sources */,
 				60E581A027F190E4008CE5A9 /* UnFinishGameTableViewCell.swift in Sources */,
@@ -13995,6 +14072,7 @@
 				6D0EDB6C28743FAC004A9E3C /* iOSDropDown.swift in Sources */,
 				6D0EDB6D28743FAC004A9E3C /* DatePickerPopup.swift in Sources */,
 				6D0EDB6E28743FAC004A9E3C /* SetBirthdayViewController.swift in Sources */,
+				FFA7588729BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				6D0EDB6F28743FAC004A9E3C /* ResetPasswordUseCase.swift in Sources */,
 				6D0EDB7028743FAC004A9E3C /* P2PTableViewCell.swift in Sources */,
 				6D0EDB7128743FAC004A9E3C /* WaitingConfirm.swift in Sources */,
@@ -14014,6 +14092,7 @@
 				6D0EDB7D28743FAC004A9E3C /* CustomServiceNavigationController.swift in Sources */,
 				6D0EDB7E28743FAC004A9E3C /* MyBetSummaryTableViewCell.swift in Sources */,
 				6D0EDB7F28743FAC004A9E3C /* LevelTableViewCell.swift in Sources */,
+				FFC51A8929C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */,
 				6D0EDB8028743FAC004A9E3C /* CommonEnum.swift in Sources */,
 				6D0EDB8128743FAC004A9E3C /* ExitSurveyViewController.swift in Sources */,
 				6D0EDB8228743FAC004A9E3C /* VerifyNewMobileViewController.swift in Sources */,
@@ -14048,6 +14127,7 @@
 				6D0EDB9828743FAC004A9E3C /* ViewModelType.swift in Sources */,
 				6D0EDB9928743FAC004A9E3C /* AboutKTOViewController.swift in Sources */,
 				6D0EDB9A28743FAC004A9E3C /* ServiceStatusViewModel.swift in Sources */,
+				FFC51A7F29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				3C2D6B242948824D00636237 /* OfflinePaymentViewModelProtocol.swift in Sources */,
 				6D0EDB9B28743FAC004A9E3C /* SlotAllViewController.swift in Sources */,
 				6D0EDB9C28743FAC004A9E3C /* CustomIntensityVisualEffectView.swift in Sources */,
@@ -14198,6 +14278,7 @@
 				3C656E9D28E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */,
 				6D0EDC1028743FAC004A9E3C /* InputText.swift in Sources */,
 				6D0EDC1128743FAC004A9E3C /* CasinoLobbyItemCell.swift in Sources */,
+				FFC51A7529BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */,
 				6D0EDC1228743FAC004A9E3C /* ArcadeSummaryViewController.swift in Sources */,
 				6D0EDC1328743FAC004A9E3C /* NotificationViewController.swift in Sources */,
 				6DB8320728DAC18500E0A704 /* Inspection.swift in Sources */,
@@ -14635,6 +14716,7 @@
 				6D0EDDC728744704004A9E3C /* iOSDropDown.swift in Sources */,
 				6D0EDDC828744704004A9E3C /* DatePickerPopup.swift in Sources */,
 				6D0EDDC928744704004A9E3C /* SetBirthdayViewController.swift in Sources */,
+				FFA7588A29BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				6D0EDDCA28744704004A9E3C /* ResetPasswordUseCase.swift in Sources */,
 				6D0EDDCB28744704004A9E3C /* P2PTableViewCell.swift in Sources */,
 				6D0EDDCC28744704004A9E3C /* WaitingConfirm.swift in Sources */,
@@ -14654,6 +14736,7 @@
 				6D0EDDD828744704004A9E3C /* CustomServiceNavigationController.swift in Sources */,
 				6D0EDDD928744704004A9E3C /* MyBetSummaryTableViewCell.swift in Sources */,
 				6D0EDDDA28744704004A9E3C /* LevelTableViewCell.swift in Sources */,
+				FFC51A8C29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */,
 				6D0EDDDB28744704004A9E3C /* CommonEnum.swift in Sources */,
 				6D0EDDDC28744704004A9E3C /* ExitSurveyViewController.swift in Sources */,
 				6D0EDDDD28744704004A9E3C /* VerifyNewMobileViewController.swift in Sources */,
@@ -14688,6 +14771,7 @@
 				6D0EDDF328744704004A9E3C /* ViewModelType.swift in Sources */,
 				6D0EDDF428744704004A9E3C /* AboutKTOViewController.swift in Sources */,
 				6D0EDDF528744704004A9E3C /* ServiceStatusViewModel.swift in Sources */,
+				FFC51A8229BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				3C2D6B252948824D00636237 /* OfflinePaymentViewModelProtocol.swift in Sources */,
 				6D0EDDF628744704004A9E3C /* SlotAllViewController.swift in Sources */,
 				6D0EDDF728744704004A9E3C /* CustomIntensityVisualEffectView.swift in Sources */,
@@ -14838,6 +14922,7 @@
 				3C656E9E28E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */,
 				6D0EDE6B28744704004A9E3C /* InputText.swift in Sources */,
 				6D0EDE6C28744704004A9E3C /* CasinoLobbyItemCell.swift in Sources */,
+				FFC51A7829BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */,
 				6D0EDE6D28744704004A9E3C /* ArcadeSummaryViewController.swift in Sources */,
 				6D0EDE6E28744704004A9E3C /* NotificationViewController.swift in Sources */,
 				6DB8320828DAC18500E0A704 /* Inspection.swift in Sources */,
@@ -15160,6 +15245,7 @@
 				6D966B5A27FEE3FA006086B7 /* ActivityIndicator.swift in Sources */,
 				6D966B5B27FEE3FA006086B7 /* PromotionApi.swift in Sources */,
 				6D966B5C27FEE3FA006086B7 /* DropDownInputText.swift in Sources */,
+				FFC51A7929BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */,
 				FF2F96D629125C2A0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */,
 				6D966B5D27FEE3FA006086B7 /* TermsDetail.swift in Sources */,
 				6D966B5E27FEE3FA006086B7 /* UIViewControllerExtension.swift in Sources */,
@@ -15426,6 +15512,7 @@
 				6D966C3C27FEE3FA006086B7 /* PromotionTableViewCell.swift in Sources */,
 				FFB016C129658404007E0236 /* VisableLocaleModifier.swift in Sources */,
 				6D966C3E27FEE3FA006086B7 /* DefaultProductViewModel.swift in Sources */,
+				FFA7588B29BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				6D966C3F27FEE3FA006086B7 /* TickCircle.swift in Sources */,
 				3CC06500287FB17B008AAC09 /* Separator.swift in Sources */,
 				6D966C4027FEE3FA006086B7 /* PromotionFilterDropDwon.swift in Sources */,
@@ -15490,6 +15577,7 @@
 				6D966C6727FEE3FA006086B7 /* ArcadeSummaryViewController.swift in Sources */,
 				6D966C6827FEE3FA006086B7 /* NotificationViewController.swift in Sources */,
 				6D966C6927FEE3FA006086B7 /* ResetPasswordStep2ViewController.swift in Sources */,
+				FFC51A8D29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */,
 				6D966C6A27FEE3FA006086B7 /* LevelDetail2TableViewCell.swift in Sources */,
 				6D966C6B27FEE3FA006086B7 /* FavoriteBarButtonItem.swift in Sources */,
 				6D966C6C27FEE3FA006086B7 /* BundleExtension.swift in Sources */,
@@ -15738,6 +15826,7 @@
 				6DF53EE128814F7300278ABE /* ConfirmRed.swift in Sources */,
 				6D966D2B27FEE3FA006086B7 /* Util.swift in Sources */,
 				6D966D2C27FEE3FA006086B7 /* APIWrapper.swift in Sources */,
+				FFC51A8329BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				6D966D2D27FEE3FA006086B7 /* ConnectionDelegate.swift in Sources */,
 				6D5A033528A39AB9005D0960 /* CasinoAdapter.swift in Sources */,
 				6D966D2E27FEE3FA006086B7 /* UnFinishGameTableViewCell.swift in Sources */,
@@ -15799,6 +15888,7 @@
 				6D966DA727FEE416006086B7 /* ActivityIndicator.swift in Sources */,
 				6D966DA827FEE416006086B7 /* PromotionApi.swift in Sources */,
 				6D966DA927FEE416006086B7 /* DropDownInputText.swift in Sources */,
+				FFC51A7A29BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */,
 				FF2F96D729125C2B0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */,
 				6D966DAA27FEE416006086B7 /* TermsDetail.swift in Sources */,
 				6D966DAB27FEE416006086B7 /* UIViewControllerExtension.swift in Sources */,
@@ -16065,6 +16155,7 @@
 				6D966E8927FEE416006086B7 /* PromotionTableViewCell.swift in Sources */,
 				FFB016C229658404007E0236 /* VisableLocaleModifier.swift in Sources */,
 				6D966E8B27FEE416006086B7 /* DefaultProductViewModel.swift in Sources */,
+				FFA7588C29BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				6D966E8C27FEE416006086B7 /* TickCircle.swift in Sources */,
 				3CC06501287FB17B008AAC09 /* Separator.swift in Sources */,
 				6D966E8D27FEE416006086B7 /* PromotionFilterDropDwon.swift in Sources */,
@@ -16129,6 +16220,7 @@
 				6D966EB427FEE416006086B7 /* ArcadeSummaryViewController.swift in Sources */,
 				6D966EB527FEE416006086B7 /* NotificationViewController.swift in Sources */,
 				6D966EB627FEE416006086B7 /* ResetPasswordStep2ViewController.swift in Sources */,
+				FFC51A8E29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */,
 				6D966EB727FEE416006086B7 /* LevelDetail2TableViewCell.swift in Sources */,
 				6D966EB827FEE416006086B7 /* FavoriteBarButtonItem.swift in Sources */,
 				6D966EB927FEE416006086B7 /* BundleExtension.swift in Sources */,
@@ -16377,6 +16469,7 @@
 				6DF53EE228814F7300278ABE /* ConfirmRed.swift in Sources */,
 				6D966F7827FEE416006086B7 /* Util.swift in Sources */,
 				6D966F7927FEE416006086B7 /* APIWrapper.swift in Sources */,
+				FFC51A8429BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				6D966F7A27FEE416006086B7 /* ConnectionDelegate.swift in Sources */,
 				6D5A033628A39AB9005D0960 /* CasinoAdapter.swift in Sources */,
 				6D966F7B27FEE416006086B7 /* UnFinishGameTableViewCell.swift in Sources */,
@@ -16408,7 +16501,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFB016BE29658404007E0236 /* VisableLocaleModifier.swift in Sources */,
+				FFC51A8029BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				FFAB7A8E296830BF0002358B /* Loading.swift in Sources */,
+				FFC51A7629BF178B000DE0A8 /* AnimationCompletionObserverModifier.swift in Sources */,
 				6D55C978296662970038E8FB /* ArcadeRecordViewModel.swift in Sources */,
 				3C24019E2861AC1100761FFC /* FontExtension.swift in Sources */,
 				6D55C9042966622C0038E8FB /* TransportDelegate.swift in Sources */,
@@ -16635,6 +16730,7 @@
 				6DC51E2C29A74D7F00C87632 /* AffiliateViewController.swift in Sources */,
 				6D55C65F29657D960038E8FB /* SegmentedProgressBar.swift in Sources */,
 				6D55CA0E296662F00038E8FB /* CustomServiceRepository.swift in Sources */,
+				FFC51A8A29C028CF000DE0A8 /* Loading+Placeholder.swift in Sources */,
 				6D55C8F02966621F0038E8FB /* DateUtils.swift in Sources */,
 				6D55C965296662820038E8FB /* NotificationSearchViewController.swift in Sources */,
 				6D55C92C296662480038E8FB /* UnsettleGameDelegate.swift in Sources */,
@@ -16752,6 +16848,7 @@
 				3C18A95C298A16840097DE19 /* BackendSignal.swift in Sources */,
 				6D55C8BB296661CF0038E8FB /* WebGameApi.swift in Sources */,
 				6D55C80729657EB90038E8FB /* CustomerServiceSurveyUseCase.swift in Sources */,
+				FFA7588829BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				6D55C9CF296662DE0038E8FB /* TransactionLogUseCase.swift in Sources */,
 				6D55C83B29657ECB0038E8FB /* SettingStore.swift in Sources */,
 				6D55C6A029657DB80038E8FB /* HttpConnection.swift in Sources */,

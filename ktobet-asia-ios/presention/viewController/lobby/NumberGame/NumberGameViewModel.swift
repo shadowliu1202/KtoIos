@@ -28,17 +28,20 @@ class NumberGameViewModel: CollectErrorViewModel, ProductViewModel {
       return gameFilters
     }
 
-  lazy var popularGames = numberGameUseCase.getPopularGames()
+  lazy var popularGames = numberGameUseCase
+    .getPopularGames()
+    .trackOnNext(placeholderTracker)
+
   lazy var allGames = Observable
     .combineLatest(gameSorting, filterSets)
-    .flatMapLatest { gameSorting, gameFilters -> Observable<[NumberGame]> in
+    .flatMapLatest { [unowned self] gameSorting, gameFilters -> Observable<[NumberGame]> in
       self.numberGameUseCase
         .getGames(order: gameSorting, tags: gameFilters)
-        .compose(self.applyObservableErrorHandle())
-        .catch { error in
-          Observable.error(error)
-        }
         .retry(3)
+        .trackOnNext(self.placeholderTracker)
+        .do(onError: {
+          self.errorsSubject.onNext($0)
+        })
     }
 
   private var tagFilter = BehaviorRelay<[ProductDTO.GameTag]>(value: [])
@@ -63,7 +66,9 @@ class NumberGameViewModel: CollectErrorViewModel, ProductViewModel {
     webGameResultSubject.asDriverLogError()
   }
 
-  var loadingTracker: ActivityIndicator { loading.tracker }
+  var loadingWebTracker: ActivityIndicator { loading.tracker }
+
+  let placeholderTracker = ActivityIndicator()
 
   init(numberGameUseCase: NumberGameUseCase, memoryCache: MemoryCacheImpl, numberGameService: INumberGameAppService) {
     self.numberGameUseCase = numberGameUseCase
@@ -200,16 +205,21 @@ extension NumberGameViewModel {
 extension NumberGameViewModel {
   func getFavorites() {
     favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-    numberGameUseCase.getFavorites().subscribe(onNext: { [weak self] games in
-      if games.count > 0 {
-        self?.favorites.onNext(games)
-      }
-      else {
-        self?.favorites.onError(KTOError.EmptyData)
-      }
-    }, onError: { [weak self] e in
-      self?.favorites.onError(e)
-    }).disposed(by: disposeBag)
+
+    numberGameUseCase
+      .getFavorites()
+      .trackOnNext(placeholderTracker)
+      .subscribe(onNext: { [weak self] games in
+        if games.count > 0 {
+          self?.favorites.onNext(games)
+        }
+        else {
+          self?.favorites.onError(KTOError.EmptyData)
+        }
+      }, onError: { [weak self] e in
+        self?.favorites.onError(e)
+      })
+      .disposed(by: disposeBag)
   }
 
   func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {

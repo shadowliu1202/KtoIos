@@ -128,7 +128,7 @@ class NewLoginViewModel: ObservableObject {
         let setting = PlayerSetting(accountLocale: player.locale(), defaultProduct: player.defaultProduct)
         return self.navigationViewModel.initLoginNavigation(playerSetting: setting)
       }
-      .trackActivity(loadingTracker)
+      .trackOnDispose(loadingTracker)
       .observe(on: MainScheduler.instance)
       .subscribe(onSuccess: { [unowned self] navigation in
         self.loginOnSuccess()

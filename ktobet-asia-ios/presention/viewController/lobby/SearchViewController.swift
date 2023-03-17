@@ -40,6 +40,7 @@ class SearchViewController: SearchProduct {
 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
+    self.searchBarView.resignFirstResponder()
 
     Theme.shared.configNavigationBar(
       navigationController,

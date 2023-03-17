@@ -23,6 +23,17 @@ extension SwiftUIConverter {
     let hostingController = embedHosting(factory())
     configure?(hostingController)
   }
+  
+  func addAsContainer(at controller: UIViewController) {
+    controller.addChild(self)
+    
+    controller.view.addSubview(view)
+    view.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+    
+    didMove(toParent: controller)
+  }
 
   private func embedHosting
   <Content: View>

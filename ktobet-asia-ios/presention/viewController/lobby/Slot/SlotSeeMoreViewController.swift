@@ -59,12 +59,17 @@ class SlotSeeMoreViewController: DisplayProduct {
   }
 
   private func dataBinding() {
-    dataSource()?.catch({ [weak self] error -> Observable<[SlotGame]> in
-      self?.handleErrors(error)
-      return Observable.just([])
-    }).subscribe(onNext: { [weak self] games in
-      self?.reloadGameData(games)
-    }).disposed(by: disposeBag)
+    dataSource()?
+      .subscribe(onNext: { [weak self] games in
+        self?.reloadGameData(games)
+      }, onError: { [weak self] in
+        self?.handleErrors($0)
+      })
+      .disposed(by: disposeBag)
+    
+    guard let viewModel else { return }
+    
+    bindPlaceholder(.slotSeeMore, with: viewModel)
   }
 
   // MARK: KVO

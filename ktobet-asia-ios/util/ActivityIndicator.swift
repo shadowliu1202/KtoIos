@@ -2,20 +2,28 @@ import RxCocoa
 import RxSwift
 
 extension ObservableType {
-  public func trackActivity(_ activityIndicator: ActivityIndicator) -> RxSwift.Observable<Element> {
-    activityIndicator.trackActivityOfObservable(self)
+  func trackOnDispose(_ activityIndicator: ActivityIndicator) -> RxSwift.Observable<Element> {
+    activityIndicator.trackOnDisposeOfObservable(self)
+  }
+
+  func trackOnNext(
+    _ activityIndicator: ActivityIndicator,
+    resetWhenSubscribe: Bool = true)
+    -> RxSwift.Observable<Element>
+  {
+    activityIndicator.trackOnNext(self, resetWhenSubscribe: resetWhenSubscribe)
   }
 }
 
 extension PrimitiveSequenceType where Trait == SingleTrait {
-  public func trackActivity(_ activityIndicator: ActivityIndicator) -> RxSwift.Single<Element> {
-    activityIndicator.trackActivityOfSingle(self)
+  func trackOnDispose(_ activityIndicator: ActivityIndicator) -> RxSwift.Single<Element> {
+    activityIndicator.trackOnDisposeOfSingle(self)
   }
 }
 
 extension PrimitiveSequenceType where Trait == CompletableTrait {
-  public func trackActivity(_ activityIndicator: ActivityIndicator) -> RxSwift.Completable {
-    activityIndicator.trackActivityOfCompletable(self)
+  func trackOnDispose(_ activityIndicator: ActivityIndicator) -> RxSwift.Completable {
+    activityIndicator.trackOnDisposeOfCompletable(self)
   }
 }
 
@@ -41,7 +49,28 @@ public class ActivityIndicator: SharedSequenceConvertibleType {
       .distinctUntilChanged()
   }
 
-  fileprivate func trackActivityOfObservable
+  fileprivate func trackOnNext
+  <Source: ObservableType>
+  (_ source: Source, resetWhenSubscribe: Bool)
+    -> RxSwift.Observable<Source.Element>
+  {
+    source
+      .do(
+        onNext: { _ in
+          self.decrement()
+        },
+        onSubscribe: {
+          if !self.isLoading, resetWhenSubscribe {
+            self.set(1)
+          }
+          else {
+            self.increment()
+          }
+        },
+        onDispose: { self.decrement() })
+  }
+
+  fileprivate func trackOnDisposeOfObservable
   <Source: ObservableConvertibleType>
   (_ source: Source)
     -> RxSwift.Observable<Source.Element>
@@ -54,7 +83,7 @@ public class ActivityIndicator: SharedSequenceConvertibleType {
     }
   }
 
-  fileprivate func trackActivityOfSingle
+  fileprivate func trackOnDisposeOfSingle
   <Source: PrimitiveSequenceType>
   (_ source: Source)
     -> RxSwift.Single<Source.Element>
@@ -68,7 +97,7 @@ public class ActivityIndicator: SharedSequenceConvertibleType {
     }
   }
 
-  fileprivate func trackActivityOfCompletable
+  fileprivate func trackOnDisposeOfCompletable
   <Source: PrimitiveSequenceType>
   (_ source: Source) -> RxSwift.Completable
     where Source.Trait == CompletableTrait
@@ -90,6 +119,12 @@ public class ActivityIndicator: SharedSequenceConvertibleType {
   private func decrement() {
     _lock.lock()
     _relay.accept(_relay.value - 1)
+    _lock.unlock()
+  }
+  
+  private func set(_ value: Int) {
+    _lock.lock()
+    _relay.accept(value)
     _lock.unlock()
   }
 
