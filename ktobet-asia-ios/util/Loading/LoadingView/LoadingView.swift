@@ -28,7 +28,7 @@ class LoadingView: UIView {
 class GradientArcView: UIView {
   var startColor: UIColor = .whitePure.withAlphaComponent(0)
   var endColor: UIColor = .whitePure
-  var lineWidth: CGFloat = 5
+  var lineWidth: CGFloat
 
   private let shapeMask = CAShapeLayer()
 
@@ -40,18 +40,20 @@ class GradientArcView: UIView {
     return gradientLayer
   }()
 
-  override init(frame: CGRect = .zero) {
+  init(
+    frame: CGRect = .zero,
+    lineWidth: CGFloat = 5)
+  {
+    self.lineWidth = lineWidth
     super.init(frame: frame)
 
     configure()
   }
 
   required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-
-    configure()
+    fatalError("init(coder:) has not been implemented")
   }
-  
+
   override func layoutSubviews() {
     super.layoutSubviews()
     updateGradient()
@@ -63,12 +65,12 @@ extension GradientArcView {
     shapeMask.fillColor = UIColor.clear.cgColor
     shapeMask.strokeColor = UIColor.white.cgColor
     shapeMask.lineWidth = lineWidth
-    
+
     gradientLayer.colors = [startColor, endColor].map { $0.cgColor }
     gradientLayer.mask = shapeMask
-    
+
     layer.addSublayer(gradientLayer)
-    
+
     DispatchQueue.main.async {
       self.addLayerAnimation(to: self.layer, duration: 1)
     }
@@ -83,9 +85,9 @@ extension GradientArcView {
       startAngle: 0,
       endAngle: 2 * .pi,
       clockwise: true)
-    
+
     shapeMask.path = path.cgPath
-    
+
     gradientLayer.frame = bounds
   }
 
@@ -105,9 +107,10 @@ extension GradientArcView {
 
 struct SwiftUIGradientArcView: UIViewRepresentable {
   var isVisible = true
+  var lineWidth: CGFloat = 5
 
   func makeUIView(context _: Context) -> GradientArcView {
-    GradientArcView(frame: .zero)
+    GradientArcView(frame: .zero, lineWidth: lineWidth)
   }
 
   func updateUIView(_ uiView: GradientArcView, context _: Context) {

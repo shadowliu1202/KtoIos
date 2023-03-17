@@ -197,7 +197,7 @@ extension TransactionLogView {
               .padding(.bottom, 24)
             }
 
-            SwiftUIGradientArcView()
+            SwiftUIGradientArcView(lineWidth: 3)
               .visibility(viewModel.isPageLoading ? .visible : .gone)
               .frame(width: 24, height: 24)
           }
@@ -273,7 +273,7 @@ struct TransactionLogView_Previews: PreviewProvider {
     }
 
     func searchTransactionLog() -> Observable<[TransactionLog]> {
-      .just((0...10).map {
+      .just((0...1).map {
         GeneralProduct(
           transactionLog: BalanceLogDetail(
             afterBalance: .zero(),
