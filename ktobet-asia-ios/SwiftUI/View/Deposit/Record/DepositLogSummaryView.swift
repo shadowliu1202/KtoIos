@@ -132,7 +132,7 @@ extension DepositLogSummaryView {
               .id(DepositLogSummaryView.Identifier.section(at: sectionIndex).rawValue)
             }
 
-            SwiftUIGradientArcView()
+            SwiftUIGradientArcView(lineWidth: 3)
               .visibility(viewModel.isPageLoading ? .visible : .gone)
               .frame(width: 24, height: 24)
           }
@@ -233,7 +233,7 @@ struct DepositLogView_Previews: PreviewProvider {
         sections = [
           .init(
             model: "今天",
-            items: (0...10).map({
+            items: (0...1).map({
               PaymentLogDTO.Log(
                 displayId: "TEST_A\($0)",
                 currencyType: .fiat,
