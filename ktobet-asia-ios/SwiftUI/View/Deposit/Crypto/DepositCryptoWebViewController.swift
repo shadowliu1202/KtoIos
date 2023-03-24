@@ -3,18 +3,30 @@ import SharedBu
 import UIKit
 import WebKit
 
-class DepositCryptoViewController: LobbyViewController {
-  static var segueIdentifier = "toCryptoWebView"
-
-  @IBOutlet private weak var webView: WKWebView!
+class DepositCryptoWebViewController: LobbyViewController {
+  private let webView = WKWebView()
 
   private let httpClient = Injectable.resolve(HttpClient.self)!
   private let disposeBag = DisposeBag()
 
-  var url: String?
+  let url: String?
+
+  init(url: String?) {
+    self.url = url
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder _: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    view.addSubview(webView)
+    webView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
 
     NavigationManagement.sharedInstance
       .addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
@@ -43,16 +55,13 @@ class DepositCryptoViewController: LobbyViewController {
   @objc
   func close() {
     webView
-      .evaluateJavaScript("window.sessionStorage.getItem('success')") { [weak self] result, error in
+      .evaluateJavaScript("window.sessionStorage.getItem('success')") { result, error in
         if
           let resultString = result as? String,
           error == nil,
           resultString == "success"
         {
-          NavigationManagement.sharedInstance
-            .popToNotificationOrBack { [weak self] in
-              self?.performSegue(withIdentifier: "unwindToDeposit", sender: nil)
-            }
+          NavigationManagement.sharedInstance.popToRootViewController()
         }
         else {
           let title = Localize.string("common_confirm_cancel_operation")
@@ -62,9 +71,7 @@ class DepositCryptoViewController: LobbyViewController {
             title,
             message,
             confirm: {
-              NavigationManagement.sharedInstance.popToNotificationOrBack { [weak self] in
-                self?.performSegue(withIdentifier: "unwindToDeposit", sender: nil)
-              }
+              NavigationManagement.sharedInstance.popToRootViewController()
             },
             cancel: { })
         }

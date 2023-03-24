@@ -55,5 +55,6 @@ extension XCTestCase {
     let keyWindow = (UIApplication.shared.delegate as? AppDelegate)?.window
     keyWindow?.rootViewController = target
     keyWindow?.makeKeyAndVisible()
+    keyWindow?.layoutIfNeeded()
   }
 }

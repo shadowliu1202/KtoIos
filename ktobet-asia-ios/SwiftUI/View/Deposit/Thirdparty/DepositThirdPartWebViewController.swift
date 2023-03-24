@@ -4,14 +4,28 @@ import WebKit
 
 class DepositThirdPartWebViewController: LobbyViewController {
   private var httpClient = Injectable.resolve(HttpClient.self)!
-  static let segueIdentifier = "toThirdPartWebSegue"
 
-  @IBOutlet private weak var webView: WKWebView!
+  private let webView = WKWebView()
 
-  var url: String!
+  let url: String
+
+  init(url: String) {
+    self.url = url
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder _: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    view.addSubview(webView)
+    webView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
 
     for cookie in httpClient.getCookies() {
@@ -33,6 +47,7 @@ class DepositThirdPartWebViewController: LobbyViewController {
 
   @objc
   func close() {
-    self.performSegue(withIdentifier: "unwindToDeposit", sender: nil)
+    NavigationManagement.sharedInstance.popToRootViewController()
+    showToast(Localize.string("common_request_submitted"), barImg: .success)
   }
 }

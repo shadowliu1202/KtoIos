@@ -57,6 +57,7 @@ class DepositOfflineConfirmViewModel:
     depositTrigger
       .flatMapLatest { [unowned self] in
         self.deposit()
+          .trackOnDispose(depositTracker)
           .asObservable()
           .materialize()
           .elements()
@@ -82,7 +83,6 @@ extension DepositOfflineConfirmViewModel {
           beneficiaryIdentity: receiverInfo.identity)))
       .do(onError: { [unowned self] in self.errorsSubject.onNext($0) })
       .andThen(.just(true))
-      .trackOnDispose(depositTracker)
   }
 }
 

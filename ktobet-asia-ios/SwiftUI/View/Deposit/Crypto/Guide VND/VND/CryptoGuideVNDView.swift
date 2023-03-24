@@ -37,6 +37,7 @@ struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
         .padding(.horizontal, 30)
       }
     }
+    .pageBackgroundColor(.whitePure)
     .environment(\.playerLocale, supportLocale)
     .onAppear {
       viewModel.getCryptoGuidance()

@@ -10,8 +10,6 @@ class OfflinePaymentViewController:
   private let alert: AlertProtocol = Injectable.resolve(AlertProtocol.self)!
   private let disposeBag = DisposeBag()
 
-  var offlineConfirmUnwindSegueId = "unwindToDeposit"
-
   init() {
     super.init(nibName: nil, bundle: nil)
   }
@@ -70,9 +68,8 @@ extension OfflinePaymentViewController {
   }
 
   private func navigateToOfflineConfirmVC(_ memoDTO: OfflineDepositDTO.Memo, _ bankCardDTO: PaymentsDTO.BankCard) {
-    let vc = DepositOfflineConfirmViewController
-      .instantiate(memo: memoDTO, selectedBank: bankCardDTO, unwindSegueId: offlineConfirmUnwindSegueId)
-
-    navigationController?.pushViewController(vc, animated: true)
+    navigationController?.pushViewController(
+      DepositOfflineConfirmViewController(memo: memoDTO, selectedBank: bankCardDTO),
+      animated: true)
   }
 }

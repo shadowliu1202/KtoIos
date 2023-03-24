@@ -74,6 +74,7 @@ struct WithdrawalMainView<ViewModel>: View
         }
       }
     }
+    .onPageLoading(viewModel.instruction == nil || viewModel.recentRecords == nil)
     .pageBackgroundColor(.gray131313)
     .environmentObject(viewModel)
     .onAppear {

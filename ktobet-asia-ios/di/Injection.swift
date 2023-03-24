@@ -674,8 +674,7 @@ final class Injection {
     container
       .register(CryptoDepositViewModel.self) { resolver in
         CryptoDepositViewModel(
-          depositService: resolver.resolveWrapper(IDepositAppService.self),
-          navigator: resolver.resolveWrapper(DepositNavigator.self))
+          depositService: resolver.resolveWrapper(IDepositAppService.self))
       }
 
     container

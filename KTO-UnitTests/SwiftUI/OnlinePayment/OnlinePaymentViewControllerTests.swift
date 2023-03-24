@@ -30,13 +30,10 @@ final class OnlinePaymentViewControllerTests: XCTestCase {
     let stubAlert = mock(AlertProtocol.self)
     Alert.shared = stubAlert
 
-    let sut = OnlinePaymentViewController.initFrom(storyboard: "Deposit") { nsCoder in
-      OnlinePaymentViewController(
-        coder: nsCoder,
-        selectedOnlinePayment: nil,
-        viewModel: stubViewModel,
-        alert: stubAlert)
-    }
+    let sut = OnlinePaymentViewController(
+      selectedOnlinePayment: nil,
+      viewModel: stubViewModel,
+      alert: stubAlert)
 
     sut.loadViewIfNeeded()
 
@@ -58,13 +55,10 @@ final class OnlinePaymentViewControllerTests: XCTestCase {
     let stubAlert = mock(AlertProtocol.self)
     Alert.shared = stubAlert
 
-    let sut = OnlinePaymentViewController.initFrom(storyboard: "Deposit") { nsCoder in
-      OnlinePaymentViewController(
-        coder: nsCoder,
-        selectedOnlinePayment: nil,
-        viewModel: stubViewModel,
-        alert: stubAlert)
-    }
+    let sut = OnlinePaymentViewController(
+      selectedOnlinePayment: nil,
+      viewModel: stubViewModel,
+      alert: stubAlert)
 
     sut.loadViewIfNeeded()
 

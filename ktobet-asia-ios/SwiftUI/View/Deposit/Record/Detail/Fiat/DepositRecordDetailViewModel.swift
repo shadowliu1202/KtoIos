@@ -26,8 +26,6 @@ class DepositRecordDetailViewModel:
   ObservableObject,
   DepositRecordDetailViewModelProtocol
 {
-  @Injected private var loading: Loading
-
   @Published private(set) var log: PaymentLogDTO.Log?
   @Published private(set) var remarks: [DepositRecordDetailViewModel.Remark] = []
 
@@ -64,9 +62,6 @@ class DepositRecordDetailViewModel:
 
   func prepareForAppear(transactionId: String) {
     self.transactionId = transactionId
-    self.loading
-      .bindLoading(to: $log.asObservable().map { $0 == nil })
-      .disposed(by: disposeBag)
   }
 
   deinit {
@@ -150,7 +145,6 @@ extension DepositRecordDetailViewModel {
         displayId: transactionId,
         images: selectedImages.compactMap { $0.detail?.portalImage }))
       .asObservable()
-      .trackOnDispose(loading.tracker)
       .subscribe(onError: { [weak self] in
         self?.errorsSubject.onNext($0)
       })

@@ -4,7 +4,8 @@ import SharedBu
 import SwiftUI
 import UIKit
 
-class DepositViewController: LobbyViewController,
+class DepositViewController:
+  LobbyViewController,
   SwiftUIConverter
 {
   @Injected private var playerConfig: PlayerConfiguration
@@ -32,21 +33,6 @@ class DepositViewController: LobbyViewController,
   deinit {
     Injectable.resetObjectScope(.depositFlow)
     Logger.shared.info("\(type(of: self)) deinit")
-  }
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    switch segue.identifier {
-    case StarMergerViewController.segueIdentifier:
-      if let dest = segue.destination as? StarMergerViewController {
-        dest.paymentGatewayID = (sender as? String)!
-      }
-    case OnlinePaymentViewController.segueIdentifier:
-      if let dest = segue.destination as? OnlinePaymentViewController {
-        dest.selectedOnlinePayment = (sender as? OnlinePayment)!.paymentDTO
-      }
-    default:
-      break
-    }
   }
 }
 
@@ -90,7 +76,7 @@ extension DepositViewController {
         Localize.string("common_tip_title_warm"),
         Localize.string("deposit_crypto_warning"),
         confirm: { [weak self] in
-          self?.navigationController?.pushViewController(CryptoSelectorViewController.instantiate(), animated: true)
+          self?.navigationController?.pushViewController(CryptoSelectorViewController(), animated: true)
         },
         cancel: nil)
   }
@@ -102,13 +88,24 @@ extension DepositViewController {
   func pushToMethodPage(_ selection: DepositSelection) {
     switch selection.type {
     case .OfflinePayment:
-      navigationController?.pushViewController(OfflinePaymentViewController(), animated: true)
+      navigationController?
+        .pushViewController(OfflinePaymentViewController(), animated: true)
+
     case .Crypto:
-      self.presentCryptoDepositWarnings()
+      presentCryptoDepositWarnings()
+
     case .CryptoMarket:
-      self.performSegue(withIdentifier: StarMergerViewController.segueIdentifier, sender: selection.id)
+      navigationController?
+        .pushViewController(
+          StarMergerViewController(paymentGatewayID: selection.id),
+          animated: true)
+
     default:
-      self.performSegue(withIdentifier: OnlinePaymentViewController.segueIdentifier, sender: selection)
+      guard let dto = (selection as? OnlinePayment)?.paymentDTO else { return }
+      navigationController?
+        .pushViewController(
+          OnlinePaymentViewController(selectedOnlinePayment: dto),
+          animated: true)
     }
   }
 
@@ -125,22 +122,7 @@ extension DepositViewController {
   }
 
   @IBAction
-  func backToDeposit(segue: UIStoryboardSegue) {
+  func backToDeposit(segue _: UIStoryboardSegue) {
     NavigationManagement.sharedInstance.viewController = self
-
-    switch segue.source {
-    case is DepositOfflineConfirmViewController:
-      let confirm = segue.source as! DepositOfflineConfirmViewController
-
-      if confirm.confirmSuccess {
-        showToast(Localize.string("deposit_offline_step3_title"), barImg: .success)
-      }
-
-    case is DepositThirdPartWebViewController:
-      showToast(Localize.string("common_request_submitted"), barImg: .success)
-
-    default:
-      break
-    }
   }
 }

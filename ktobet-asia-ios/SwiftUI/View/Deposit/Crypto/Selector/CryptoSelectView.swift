@@ -47,6 +47,7 @@ struct CryptoSelectView<ViewModel>: View
         .frame(maxWidth: .infinity)
       }
     }
+    .onPageLoading(viewModel.options.isEmpty)
     .pageBackgroundColor(.gray131313)
     .environmentObject(viewModel)
     .environment(\.playerLocale, playerConfig.supportLocale)

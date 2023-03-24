@@ -22,6 +22,7 @@ struct DepositView<ViewModel>: View
         .frame(maxWidth: .infinity)
       }
     }
+    .onPageLoading(viewModel.recentLogs == nil || viewModel.selections == nil)
     .pageBackgroundColor(.gray131313)
     .environmentObject(viewModel)
     .environment(\.playerLocale, playerConfig.supportLocale)
@@ -273,49 +274,49 @@ extension DepositView {
 // MARK: - Preview
 
 struct DepositView_Previews: PreviewProvider {
-  class ViewModel: DepositViewModelProtocol,
+  class ViewModel:
+    DepositViewModelProtocol,
     ObservableObject
   {
-    @Published var recentLogs: [PaymentLogDTO.Log]? = {
-      let status: [PaymentStatus] = [.approved, .floating, .cancel, .fail]
-
-      return status
-        .enumerated()
-        .map { index, value in
-          PaymentLogDTO.Log(
-            displayId: "TEST_" + "\(value.self)",
-            currencyType: .fiat,
-            status: value,
-            amount: "\(100 + index)".toAccountCurrency(),
-            createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
-            updateDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0))
-        }
-    }()
-
-    @Published var selections: [DepositSelection]? = [
-      OnlinePayment(.init(
-        identity: "\(DepositType.AlipayScan.rawValue)",
-        name: "TestAli",
-        hint: "This is test.\nThis is test\nThis is test",
-        isRecommend: false,
-        beneficiaries: Single<NSArray>.just([]).asWrapper())),
-      OnlinePayment(.init(
-        identity: "\(DepositType.WechatScan.rawValue)",
-        name: "TestWechat",
-        hint: "",
-        isRecommend: true,
-        beneficiaries: Single<NSArray>.just([]).asWrapper())),
-    ]
+    @Published var recentLogs: [PaymentLogDTO.Log]?
+    @Published var selections: [DepositSelection]?
 
     func getPayments() -> Observable<PaymentsDTO> {
       fatalError("No need to implement")
     }
 
     func getRecentPaymentLogs() -> Observable<[PaymentLogDTO.Log]> {
-      .just([])
+      fatalError("No need to implement")
     }
 
-    func fetchMethods() { }
+    func fetchMethods() {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        self.recentLogs = [.approved, .floating, .cancel, .fail]
+          .enumerated()
+          .map { index, value in
+            PaymentLogDTO.Log(
+              displayId: "TEST_" + "\(value.self)",
+              currencyType: .fiat,
+              status: value,
+              amount: "\(100 + index)".toAccountCurrency(),
+              createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
+              updateDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0))
+          }
+
+        self.selections = [
+          "\(DepositType.AlipayScan.rawValue)",
+          "\(DepositType.WechatScan.rawValue)"
+        ]
+        .map {
+          OnlinePayment(.init(
+            identity: $0,
+            name: "Test123",
+            hint: "",
+            isRecommend: true,
+            beneficiaries: Single<NSArray>.just([]).asWrapper()))
+        }
+      }
+    }
   }
 
   struct Preview: View {
@@ -327,6 +328,8 @@ struct DepositView_Previews: PreviewProvider {
   }
 
   static var previews: some View {
-    Preview()
+    VStack {
+      Preview()
+    }
   }
 }

@@ -19,6 +19,7 @@ struct DepositCryptoRecordDetailView<ViewModel>: View
         Separator(color: .gray3C3E40)
       }
     }
+    .onPageLoading(viewModel.info == nil || viewModel.header == nil)
     .pageBackgroundColor(.gray131313)
     .onViewDidLoad {
       viewModel.getDepositCryptoLog(transactionId: transactionId)
