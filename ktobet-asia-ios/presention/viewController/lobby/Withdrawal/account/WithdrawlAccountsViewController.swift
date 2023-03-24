@@ -108,7 +108,7 @@ class WithdrawlAccountsViewController: LobbyViewController {
         self.switchToCryptoAccountDetail(data)
       }
       else {
-        if data.bankCard.verifyStatus == PlayerBankCardVerifyStatus.verified {
+        if isVerified(bankCard: data.bankCard) {
           self.performSegue(withIdentifier: WithdrawalCryptoRequestViewController.segueIdentifier, sender: data)
         }
         else {
@@ -122,6 +122,22 @@ class WithdrawlAccountsViewController: LobbyViewController {
         }
       }
     }.disposed(by: disposeBag)
+  }
+
+  private func isVerified(bankCard: BankCard) -> Bool {
+    switch bankCard.verifyStatus {
+    case .onhold,
+         .verified:
+      return true
+
+    case .pending,
+         .unknown,
+         .void_:
+      fallthrough
+
+    default:
+      return false
+    }
   }
 
   private func generalDataBinding() {
