@@ -11,10 +11,12 @@ protocol PromotionUseCase {
     privilegeTypes: [PrivilegeType],
     sortingBy: SortingType,
     page: Int) -> Single<CouponHistorySummary>
+  
   func getBonusCoupons() -> Single<[BonusCoupon]>
   func getProductPromotionEvents() -> Single<[PromotionEvent.Product]>
   func getRebatePromotionEvents() -> Single<[PromotionEvent.Rebate]>
   func getVVIPCashbackPromotionEvents() -> Single<[PromotionEvent.VVIPCashback]>
+  
   func getPromotionDetail(promotionId: String) -> Single<PromotionDescriptions>
   func requestBonusCoupon(bonusCoupon: BonusCoupon) -> Single<WaitingConfirm>
   func getCashBackSettings(displayId: String) -> Single<[CashBackSetting]>
