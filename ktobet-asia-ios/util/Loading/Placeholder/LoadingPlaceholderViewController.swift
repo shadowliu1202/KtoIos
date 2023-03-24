@@ -1,13 +1,12 @@
 import SwiftUI
 import UIKit
 
-
 final class LoadingPlaceholderViewController:
   UIViewController,
   SwiftUIConverter
 {
   private(set) var viewModel: LoadingPlaceholderViewModel
-  
+
   init(_ type: LoadingPlaceholder.`Type`) {
     self.viewModel = .init(type)
     super.init(nibName: nil, bundle: nil)
@@ -28,7 +27,7 @@ final class LoadingPlaceholderViewController:
         LoadingPlaceholder(
           viewModel: self.viewModel,
           onViewDisappear: {
-            DispatchQueue.main.async {            
+            DispatchQueue.main.async {
               self.view.removeFromSuperview()
               self.removeFromParent()
             }
@@ -36,7 +35,7 @@ final class LoadingPlaceholderViewController:
       },
       to: view)
   }
-  
+
   func setIsLoading(_ isLoading: Bool) {
     viewModel.isLoading = isLoading
   }

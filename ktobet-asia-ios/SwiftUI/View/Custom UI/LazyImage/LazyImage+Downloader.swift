@@ -53,7 +53,7 @@ extension LazyImage {
       if let _result {
         result = _result
       }
-      
+
       do {
         let image = try await downloader.image(from: url)
         result = .success(image)

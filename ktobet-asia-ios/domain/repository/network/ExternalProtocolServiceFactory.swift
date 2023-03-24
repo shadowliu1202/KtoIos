@@ -1,7 +1,7 @@
 import Foundation
 import SharedBu
 
-class NetworkFactory: ExternalProtocolService {
+class ExternalProtocolServiceFactory: ExternalProtocolService {
   private var httpClient: HttpClient!
 
   init(_ httpClient: HttpClient) {
@@ -13,11 +13,11 @@ class NetworkFactory: ExternalProtocolService {
   }
 
   func getCommon() -> CommonProtocol {
-    CommonAdapter(BankApi(httpClient))
+    CommonAdapter(CommonAPI(httpClient))
   }
 
   func getDeposit() -> DepositProtocol {
-    DepositAdapter(BankApi(httpClient), CPSApi(httpClient))
+    DepositAdapter(DepositAPI(httpClient))
   }
 
   func getImage() -> ImageProtocol {
@@ -37,15 +37,15 @@ class NetworkFactory: ExternalProtocolService {
   }
 
   func getCrypto() -> CryptoProtocol {
-    fatalError("TODO")
+    CryptoAdapter(CryptoAPI(httpClient))
   }
 
   func getWithdrawal() -> WithdrawalProtocol {
-    fatalError("TODO")
+    WithdrawalAdapter(WithdrawalAPI(httpClient))
   }
 
   func getPlayer() -> PlayerProtocol {
-    fatalError("TODO")
+    PlayerAdapter(PlayerApi(httpClient))
   }
 
   func getCustomerService() -> CustomerServiceProtocol {

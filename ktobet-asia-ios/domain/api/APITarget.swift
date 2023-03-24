@@ -1,6 +1,7 @@
 import Foundation
 import Moya
 
+@available(*, deprecated, message: "Use NewAPITarget instead")
 class APITarget: TargetType {
   //
   var baseURL: URL { iBaseUrl }
@@ -34,17 +35,20 @@ protocol ApiService {
   var baseUrl: URL { get }
 }
 
+@available(*, deprecated, message: "Use NewAPITarget instead")
 class GetAPITarget: APITarget {
   init(service: ApiService, task: Task = .requestPlain) {
     super.init(baseUrl: service.baseUrl, path: service.surfixPath, method: .get, task: task, header: service.headers)
   }
 
+  @available(*, deprecated, message: "Use NewAPITarget instead")
   func parameters(_ parameters: [String: Any]) -> Self {
     self.iTask = .requestParameters(parameters: parameters, encoding: URLEncoding.default)
     return self
   }
 }
 
+@available(*, deprecated, message: "Use NewAPITarget instead")
 class PutAPITarget: APITarget {
   init(service: ApiService, parameters: Encodable) {
     super.init(
@@ -56,6 +60,7 @@ class PutAPITarget: APITarget {
   }
 }
 
+@available(*, deprecated, message: "Use NewAPITarget instead")
 class PostAPITarget: APITarget {
   init(service: ApiService, parameters: Encodable? = nil) {
     if let parameters {
@@ -77,6 +82,7 @@ class PostAPITarget: APITarget {
   }
 }
 
+@available(*, deprecated, message: "Use NewAPITarget instead")
 class DeleteAPITarget: APITarget {
   init(service: ApiService, task: Task = .requestPlain) {
     super.init(baseUrl: service.baseUrl, path: service.surfixPath, method: .delete, task: task, header: service.headers)
@@ -85,5 +91,38 @@ class DeleteAPITarget: APITarget {
   func parameters(_ parameters: [String: Any]) -> Self {
     self.iTask = .requestParameters(parameters: parameters, encoding: URLEncoding.default)
     return self
+  }
+}
+
+// MARK: - NewAPITarget
+
+class NewAPITarget: TargetType {
+  let baseURL: URL
+  let path: String
+  var method: Moya.Method
+  var task: Moya.Task = .requestPlain
+  let headers: [String: String]?
+
+  init(
+    path: String,
+    method: Moya.Method,
+    task: Moya.Task? = nil)
+  {
+    let httpClient = Injectable.resolveWrapper(HttpClient.self)
+
+    self.baseURL = httpClient.host
+    self.headers = httpClient.headers
+    self.path = path
+    self.method = method
+
+    if let task {
+      self.task = task
+    }
+  }
+}
+
+extension Moya.Task {
+  static func requestParameters(parameters: [String: Any]) -> Moya.Task {
+    .requestParameters(parameters: parameters, encoding: URLEncoding.default)
   }
 }

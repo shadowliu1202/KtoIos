@@ -2,13 +2,15 @@ import Foundation
 import SharedBu
 
 class CommonAdapter: CommonProtocol {
-  private var bankAPI: BankApi!
+  private let commonAPI: CommonAPI
 
-  init(_ bankAPI: BankApi) {
-    self.bankAPI = bankAPI
+  init(_ commonAPI: CommonAPI) {
+    self.commonAPI = commonAPI
   }
 
   func getBanks() -> SingleWrapper<ResponseList<BankBean>> {
-    bankAPI.getBanks().asReaktiveResponseList(serial: BankBean.companion.serializer())
+    commonAPI
+      .getBanks()
+      .asReaktiveResponseList(serial: BankBean.companion.serializer())
   }
 }

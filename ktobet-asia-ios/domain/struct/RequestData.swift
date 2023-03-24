@@ -44,7 +44,7 @@ struct RequestChangeBirthDay: Encodable {
   var birthday: String
 }
 
-struct DepositOfflineBankAccountsRequest: Codable {
+struct DepositOfflineRequestBeanCodable: Codable {
   let paymentTokenID, requestAmount, remitterAccountNumber, remitter: String
   let remitterBankName: String
   let channel, depositType: Int32
@@ -55,7 +55,7 @@ struct DepositOfflineBankAccountsRequest: Codable {
   }
 }
 
-struct DepositOnlineAccountsRequest: Codable {
+struct OnlineDepositRequestBeanCodable: Codable {
   let paymentTokenID, requestAmount, remitter: String
   let channel: Int32
   let remitterAccountNumber: String?
@@ -70,21 +70,21 @@ struct DepositOnlineAccountsRequest: Codable {
   }
 }
 
-struct WithdrawalCancelRequest: Codable {
+struct WithdrawalCancelRequestBeanCodable: Codable {
   let ticketId: String
 }
 
-struct WithdrawalRequest: Codable {
+struct WithdrawalBankCardRequestBeanCodable: Codable {
   let requestAmount: Double
   let playerBankCardId: String
 }
 
-struct UploadImagesData: Codable {
+struct WithdrawalImagesCodable: Codable {
   let ticketStatus: Int32
-  let images: [ImageBean]
+  let images: [ImageBeanCodable]
 }
 
-struct WithdrawalAccountAddRequest: Codable {
+struct BankCardBeanCodable: Codable {
   let bankID: Int32
   let bankName, branch, accountName, accountNumber, address, city, location: String
 
@@ -95,7 +95,7 @@ struct WithdrawalAccountAddRequest: Codable {
 }
 
 // MARK: - Image
-struct ImageBean: Codable {
+struct ImageBeanCodable: Codable {
   let imageID, fileName: String
 
   enum CodingKeys: String, CodingKey {
@@ -119,24 +119,24 @@ struct ChunkImageDetil: Codable {
 
 struct Empty: Encodable { }
 
-struct CryptoBankCardRequest: Codable {
+struct CryptoBankCardRequestCodable: Codable {
   var cryptoCurrency: Int32
   var cryptoWalletName: String
   var cryptoWalletAddress: String
   var cryptoNetwork: Int32
 }
 
-struct AccountVerifyRequest: Codable {
+struct AccountVerifyRequestCodable: Codable {
   var playerCryptoBankCardId: String
   var accountType: Int
 }
 
-struct OTPVerifyRequest: Codable {
+struct OTPVerifyRequestCodable: Codable {
   var verifyCode: String
   var accountType: Int
 }
 
-struct CryptoWithdrawalRequest: Codable {
+struct CryptoWithdrawalRequestCodable: Codable {
   let playerCryptoBankCardId: String
   let requestCryptoAmount, requestFiatAmount: Double
   let cryptoCurrency: Int32
@@ -215,7 +215,7 @@ struct DeleteCsRecords: Codable {
   let isExclude: Bool
 }
 
-struct CryptoDepositRequest: Codable {
+struct CryptoDepositRequestBeanCodable: Codable {
   let cryptoCurrency: Int32
 }
 

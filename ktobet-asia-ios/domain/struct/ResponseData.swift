@@ -1028,7 +1028,7 @@ struct CryptoDepositUrl: Codable {
   var url: String
 }
 
-struct CryptoBankCardBean: Codable {
+struct CryptoBankCardBeanCodable: Codable {
   var playerCryptoBankCardId: String
   var cryptoCurrency: Int
   var cryptoWalletName: String
@@ -2274,15 +2274,11 @@ struct InternalMessageBean: Codable {
   let currencyCode: Int
 }
 
-struct CryptoLimitBean: Codable {
+struct CryptoLimitBeanCodable: Codable {
   let cryptoCurrency: Int
   let cryptoNetwork: Int
   let max: Double
   let min: Double
-}
-
-struct CryptoCurrencyBean: Codable {
-  let cryptoCurrencyInfo: [CryptoCurrencyInfo]
 }
 
 struct CryptoCurrencyInfo: Codable {

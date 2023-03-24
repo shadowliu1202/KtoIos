@@ -81,13 +81,13 @@ class HttpClient: CookieUtil {
     Logger.shared.info("\(type(of: self)) deinit")
   }
 
-  func request(_ target: APITarget) -> Single<Response> {
+  func request(_ target: TargetType) -> Single<Response> {
     getProvider(method: target.method)
       .rx
       .request(MultiTarget(target))
       .filterSuccessfulStatusCodes()
       .flatMap({ [weak self] response -> Single<Response> in
-        self?.printResponseData(target.iMethod.rawValue, response: response)
+        self?.printResponseData(target.method.rawValue, response: response)
 
         if
           let json = try? JSON(data: response.data),
@@ -111,13 +111,13 @@ class HttpClient: CookieUtil {
       })
   }
 
-  func requestJsonString(_ target: APITarget) -> Single<String> {
+  func requestJsonString(_ target: TargetType) -> Single<String> {
     getProvider(method: target.method)
       .rx
       .request(MultiTarget(target))
       .filterSuccessfulStatusCodes()
       .flatMap { [weak self] response in
-        self?.printResponseData(target.iMethod.rawValue, response: response)
+        self?.printResponseData(target.method.rawValue, response: response)
 
         if let str = String(data: response.data, encoding: .utf8) {
           self?.refreshLastAPISuccessDate()

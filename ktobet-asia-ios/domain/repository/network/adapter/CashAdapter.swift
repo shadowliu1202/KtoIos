@@ -13,7 +13,7 @@ class CashAdapter: CashProtocol {
     end: String,
     balanceLogFilterType: Int32) -> SingleWrapper<ResponseItem<CashTransactionSummaryBean>>
   {
-    playerAPI.getCashLogSummary1(begin: begin, end: end, balanceLogFilterType: Int(balanceLogFilterType))
+    playerAPI._getCashLogSummary(begin: begin, end: end, balanceLogFilterType: Int(balanceLogFilterType))
       .asReaktiveResponseItem(serial: CashTransactionSummaryBean.companion.serializer())
   }
 }

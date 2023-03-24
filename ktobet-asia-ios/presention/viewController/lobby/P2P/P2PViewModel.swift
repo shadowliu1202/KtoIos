@@ -26,7 +26,7 @@ class P2PViewModel:
   var webGameResultDriver: Driver<WebGameResult> {
     webGameResultSubject.asDriverLogError()
   }
-  
+
   let placeholderTracker = ActivityIndicator()
 
   init(p2pUseCase: P2PUseCase) {

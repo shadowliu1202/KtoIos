@@ -66,12 +66,12 @@ class WithdrawalRequestConfirmViewController: LobbyViewController {
     self.viewModel.sendWithdrawalRequest(playerBankCardId: self.account.bankCard.id_, cashAmount: amount.toAccountCurrency())
       .subscribe(onSuccess: { [weak self] transactionId in
         self?.withdrawalSuccess = transactionId != ""
-        self?.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
+        self?.performSegue(withIdentifier: "unwindToWithdrawalMainPage", sender: nil)
         self?.confirmButton.isEnabled = true
       }, onFailure: { [weak self] error in
         if error is KtoPlayerWithdrawalDefective {
           Alert.shared.show("", Localize.string("withdrawal_fail"), confirm: { [weak self] in
-            self?.performSegue(withIdentifier: "unwindToWithdrawal", sender: nil)
+            self?.performSegue(withIdentifier: "unwindToWithdrawalMainPage", sender: nil)
           }, cancel: nil)
         }
         else {

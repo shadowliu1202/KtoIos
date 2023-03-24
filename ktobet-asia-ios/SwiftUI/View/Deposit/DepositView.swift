@@ -183,22 +183,40 @@ extension DepositView {
     var inspection = Inspection<Self>()
 
     var body: some View {
-      VStack(spacing: 0) {
+      VStack(spacing: 16) {
         if let recentLogs = viewModel.recentLogs {
           DepositView.HistoryHeader(
             isEmpty: recentLogs.isEmpty,
             onDisplayAll: onDisplayAll)
 
-          ForEach(recentLogs.indices, id: \.self) {
-            DepositView.HistoryRow(
-              log: recentLogs[$0],
-              onSelected: onSelected)
-
-            Separator(color: .gray3C3E40)
-              .padding(.top, 15)
+          if recentLogs.isEmpty {
+            HistoryNoRecords()
           }
-          .backgroundColor(.black1A1A1A)
-          .id(DepositView.Identifier.histories.rawValue)
+          else {
+            VStack(spacing: 0) {
+              ForEach(recentLogs.indices, id: \.self) {
+                let log = recentLogs[$0]
+
+                WalletRecentRecordCell(
+                  date: log.createdDate.toDateTimeString(),
+                  statusTitle: log.status.toLogString(),
+                  statusColor: log.status.toLogColor(),
+                  id: log.displayId,
+                  amount: log.amount.formatString(),
+                  isLastCell: $0 == recentLogs.endIndex)
+                  .onTapGesture {
+                    onSelected?(log)
+                  }
+              }
+              .id(DepositView.Identifier.histories.rawValue)
+            }
+            .overlay(
+              Separator(color: .gray3C3E40),
+              alignment: .top)
+            .overlay(
+              Separator(color: .gray3C3E40),
+              alignment: .bottom)
+          }
         }
         else {
           EmptyView()
@@ -214,90 +232,40 @@ extension DepositView {
     var onDisplayAll: (() -> Void)?
 
     var body: some View {
-      VStack(alignment: .leading, spacing: 16) {
-        HStack {
-          Text(Localize.string("deposit_log"))
-            .localized(
-              weight: .medium,
-              size: 18,
-              color: .gray9B9B9B)
-
-          Spacer()
-
-          Button(
-            action: { onDisplayAll?() },
-            label: {
-              Text(Localize.string("common_show_all"))
-                .localized(
-                  weight: .medium,
-                  size: 14,
-                  color: .redF20000)
-            })
-            .visibility(isEmpty ? .gone : .visible)
-            .id(DepositView.Identifier.historyShowAllButton.rawValue)
-        }
-        .padding(.horizontal, 30)
-
-        Separator(color: .gray3C3E40)
-          .visibility(isEmpty ? .gone : .visible)
-
-        Text(Localize.string("deposit_no_records"))
+      HStack(alignment: .bottom) {
+        Text(Localize.string("deposit_log"))
           .localized(
             weight: .medium,
-            size: 14,
-            color: .whitePure)
-          .padding(.horizontal, 30)
-          .visibility(isEmpty ? .visible : .gone)
-          .id(DepositView.Identifier.historiesEmptyReminder.rawValue)
+            size: 18,
+            color: .gray9B9B9B)
+
+        Spacer()
+
+        Button(
+          action: { onDisplayAll?() },
+          label: {
+            Text(Localize.string("common_show_all"))
+              .localized(
+                weight: .medium,
+                size: 14,
+                color: .redF20000)
+          })
+          .visibility(isEmpty ? .gone : .visible)
+          .id(DepositView.Identifier.historyShowAllButton.rawValue)
       }
+      .padding(.horizontal, 30)
     }
   }
 
-  struct HistoryRow: View {
-    let log: PaymentLogDTO.Log
-
-    var onSelected: ((PaymentLogDTO.Log) -> Void)?
-
+  struct HistoryNoRecords: View {
     var body: some View {
-      VStack(spacing: 9) {
-        HStack(alignment: .top) {
-          Text(log.createdDate.toDateTimeString())
-            .localized(
-              weight: .medium,
-              size: 12,
-              color: .gray9B9B9B)
-
-          Spacer()
-
-          Text(log.status.toLogString())
-            .localized(
-              weight: .regular,
-              size: 14,
-              color: log.status.toLogColor())
-        }
-
-        HStack {
-          Text(log.displayId)
-            .localized(
-              weight: .medium,
-              size: 14,
-              color: .whitePure)
-
-          Spacer()
-
-          Text(log.amount.formatString())
-            .localized(
-              weight: .regular,
-              size: 14,
-              color: .gray9B9B9B)
-        }
-      }
-      .padding(.horizontal, 30)
-      .padding(.top, 15)
-      .contentShape(Rectangle())
-      .onTapGesture {
-        onSelected?(log)
-      }
+      Text(Localize.string("deposit_no_records"))
+        .localized(
+          weight: .medium,
+          size: 14,
+          color: .whitePure)
+        .padding(.horizontal, 30)
+        .id(DepositView.Identifier.historiesEmptyReminder.rawValue)
     }
   }
 }

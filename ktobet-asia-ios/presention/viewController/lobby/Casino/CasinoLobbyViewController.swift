@@ -26,21 +26,21 @@ class CasinoLobbyViewController: DisplayProduct {
   private func dataBinding() {
     gamesCollectionView.dataSource = gameDataSourceDelegate
     gamesCollectionView.delegate = gameDataSourceDelegate
-    
+
     viewModel.errors()
       .subscribe(onNext: { [weak self] in
         self?.handleErrors($0)
       })
       .disposed(by: disposeBag)
-    
+
     viewModel.getLobbyGames(lobby: lobby.lobby)
       .subscribe(onNext: { [weak self] games in
         self?.reloadGameData(games)
       })
       .disposed(by: disposeBag)
-    
+
     viewModel.refreshLobbyGames()
-    
+
     bindPlaceholder(.casinoLobby, with: viewModel)
   }
 

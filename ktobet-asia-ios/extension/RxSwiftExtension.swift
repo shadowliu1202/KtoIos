@@ -32,7 +32,7 @@ extension ObservableType {
 }
 
 extension Completable {
-  func asReaktiveCompletable() -> SharedBu.Completable {
+  func asReaktiveCompletable() -> CompletableWrapper {
     CompletableWrapper(inner: CompletableByEmitterKt.completable(onSubscribe: { emitter in
       let swiftDisposable = self.subscribe {
         emitter.onComplete()
@@ -75,25 +75,86 @@ extension ObservableType where Element: Sequence {
 }
 
 extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element == String {
+  func asReaktiveResponseNothing() -> SingleWrapper<SharedBu.Response<KotlinNothing>> {
+    SingleWrapper(inner: SingleByEmitterKt.single { emitter in
+      let swiftDisposable = self
+        .subscribe(
+          onSuccess: { jsonString in
+            let json = JSON(parseJSON: jsonString)
+            if
+              let statusCode = json["statusCode"].string,
+              let errorMsg = json["errorMsg"].string,
+              statusCode.count > 0,
+              errorMsg.count > 0
+            {
+              let error = NSError(
+                domain: "",
+                code: Int(statusCode) ?? 0,
+                userInfo: ["statusCode": statusCode, "errorMsg": errorMsg]) as Error
+
+              emitter.onError(error: ExceptionFactory.create(error))
+              return
+            }
+
+            let result = ResponseParser.companion.fromNothing(jsonStr: jsonString)
+
+            emitter.onSuccess(value: result)
+          },
+          onFailure: { error in
+            emitter.onError(error: ExceptionFactory.create(error))
+          })
+
+      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+    })
+  }
+
+  func asReaktiveResponsePayload<T>(serial: Kotlinx_serialization_coreKSerializer) -> SingleWrapper<ResponsePayload<T>>
+    where T: KotlinBase
+  {
+    SingleWrapper(inner: SingleByEmitterKt.single { emitter in
+      let swiftDisposable = self.subscribe(
+        onSuccess: { jsonString in
+          let result = ResponseParser.companion.fromPayload(jsonStr: jsonString, benSerializable: serial)
+          if let data = result.data {
+            let item = ResponsePayload(data: data, errorMsg: "", node: "", statusCode: result.statusCode ?? "")
+            emitter.onSuccess(value: item)
+          }
+          else {
+            let exception = ExceptionFactory.companion.create(
+              message: result.errorMsg ?? "",
+              statusCode: result.statusCode ?? "")
+            emitter.onError(error: exception)
+          }
+        },
+        onFailure: { error in
+          emitter.onError(error: ExceptionFactory.create(error))
+        })
+
+      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+    })
+  }
+
   func asReaktiveResponseList<T>(serial: Kotlinx_serialization_coreKSerializer) -> SingleWrapper<ResponseList<T>>
     where T: KotlinBase
   {
     SingleWrapper(inner: SingleByEmitterKt.single { emitter in
-      let swiftDisposable = self.subscribe { jsonString in
-        let result = ResponseParser.companion.fromList(jsonStr: jsonString, benSerializable: serial)
-        if let data = result.data {
-          let item = ResponseList(data: data, errorMsg: "", node: "", statusCode: result.statusCode ?? "")
-          emitter.onSuccess(value: item)
-        }
-        else {
-          let exception = ExceptionFactory.companion.create(
-            message: result.errorMsg ?? "",
-            statusCode: result.statusCode ?? "")
-          emitter.onError(error: exception)
-        }
-      } onFailure: { error in
-        emitter.onError(error: ExceptionFactory.create(error))
-      }
+      let swiftDisposable = self.subscribe(
+        onSuccess: { jsonString in
+          let result = ResponseParser.companion.fromList(jsonStr: jsonString, benSerializable: serial)
+          if let data = result.data {
+            let item = ResponseList(data: data, errorMsg: "", node: "", statusCode: result.statusCode ?? "")
+            emitter.onSuccess(value: item)
+          }
+          else {
+            let exception = ExceptionFactory.companion.create(
+              message: result.errorMsg ?? "",
+              statusCode: result.statusCode ?? "")
+            emitter.onError(error: exception)
+          }
+        },
+        onFailure: { error in
+          emitter.onError(error: ExceptionFactory.create(error))
+        })
 
       emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
     })
@@ -103,21 +164,24 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
     where T: KotlinBase
   {
     SingleWrapper(inner: SingleByEmitterKt.single { emitter in
-      let swiftDisposable = self.subscribe { jsonString in
-        let result = ResponseParser.companion.from(jsonStr: jsonString, benSerializable: serial)
-        if let data = result.data {
-          let item = ResponseItem(data: data, errorMsg: "", node: "", statusCode: result.statusCode ?? "")
-          emitter.onSuccess(value: item)
-        }
-        else {
-          let exception = ExceptionFactory.companion.create(
-            message: result.errorMsg ?? "",
-            statusCode: result.statusCode ?? "")
-          emitter.onError(error: exception)
-        }
-      } onFailure: { error in
-        emitter.onError(error: ExceptionFactory.create(error))
-      }
+      let swiftDisposable = self.subscribe(
+        onSuccess: { jsonString in
+          let result = ResponseParser.companion.from(jsonStr: jsonString, benSerializable: serial)
+
+          if let data = result.data {
+            let item = ResponseItem(data: data, errorMsg: "", node: "", statusCode: result.statusCode ?? "")
+            emitter.onSuccess(value: item)
+          }
+          else {
+            let exception = ExceptionFactory.companion.create(
+              message: result.errorMsg ?? "",
+              statusCode: result.statusCode ?? "")
+            emitter.onError(error: exception)
+          }
+        },
+        onFailure: { error in
+          emitter.onError(error: ExceptionFactory.create(error))
+        })
 
       emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
     })
@@ -125,30 +189,46 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
 
   func asReaktiveResponseItem<T>() -> SingleWrapper<ResponseItem<T>> where T: Any {
     SingleWrapper(inner: SingleByEmitterKt.single { emitter in
-      let swiftDisposable = self.subscribe { jsonString in
-        let json = JSON(parseJSON: jsonString)
-        if
-          let statusCode = json["statusCode"].string, let errorMsg = json["errorMsg"].string, statusCode.count > 0,
-          errorMsg.count > 0
-        {
-          let domain = ""
-          let code = Int(statusCode) ?? 0
-          let error = NSError(
-            domain: domain,
-            code: code,
-            userInfo: ["statusCode": statusCode, "errorMsg": errorMsg]) as Error
+      let swiftDisposable = self.subscribe(
+        onSuccess: { jsonString in
+          let json = JSON(parseJSON: jsonString)
+          if
+            let statusCode = json["statusCode"].string,
+            let errorMsg = json["errorMsg"].string,
+            statusCode.count > 0,
+            errorMsg.count > 0
+          {
+            let error = NSError(
+              domain: "",
+              code: Int(statusCode) ?? 0,
+              userInfo: ["statusCode": statusCode, "errorMsg": errorMsg]) as Error
+
+            emitter.onError(error: ExceptionFactory.create(error))
+            return
+          }
+
+          var item: ResponseItem<T>
+
+          if let bool = json["data"].rawValue as? Bool {
+            item = .init(
+              data: KotlinBoolean(bool: bool) as? T,
+              errorMsg: "",
+              node: "",
+              statusCode: "")
+          }
+          else {
+            item = .init(
+              data: json["data"].rawValue as? T,
+              errorMsg: "",
+              node: "",
+              statusCode: "")
+          }
+
+          emitter.onSuccess(value: item)
+        },
+        onFailure: { error in
           emitter.onError(error: ExceptionFactory.create(error))
-          return
-        }
-        let item: ResponseItem<T> = ResponseItem(
-          data: json["data"].rawValue as? T,
-          errorMsg: "",
-          node: "",
-          statusCode: "")
-        emitter.onSuccess(value: item)
-      } onFailure: { error in
-        emitter.onError(error: ExceptionFactory.create(error))
-      }
+        })
 
       emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
     })

@@ -7,6 +7,11 @@ protocol AccountAddComplete: AnyObject {
   func addAccountSuccess()
 }
 
+enum BankCardType: String {
+  case crypto
+  case general
+}
+
 class WithdrawlAccountsViewController: LobbyViewController {
   static let unwindSegue = "unwindsegueAccount"
   @IBOutlet weak var titleLabel: UILabel!
