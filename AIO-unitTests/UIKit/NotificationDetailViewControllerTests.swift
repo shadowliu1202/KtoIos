@@ -5,6 +5,10 @@ import XCTest
 @testable import ktobet_asia_ios_qat
 
 final class NotificationDetailViewControllerTests: XCTestCase {
+  override func tearDown() {
+    Injection.shared.registerAllDependency()
+  }
+
   func buildNotificationItem(type: MyActivityType) -> SharedBu.Notification {
     SharedBu.Notification.Activity(
       messageId: "",
