@@ -66,9 +66,9 @@ class SlotSeeMoreViewController: DisplayProduct {
         self?.handleErrors($0)
       })
       .disposed(by: disposeBag)
-    
+
     guard let viewModel else { return }
-    
+
     bindPlaceholder(.slotSeeMore, with: viewModel)
   }
 

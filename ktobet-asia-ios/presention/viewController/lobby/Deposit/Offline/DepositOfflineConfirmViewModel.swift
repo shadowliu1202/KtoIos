@@ -42,7 +42,7 @@ class DepositOfflineConfirmViewModel:
 
   var expiredDriver: Driver<Void> { expiredSubject.asDriver(onErrorJustReturn: ()) }
   var depositSuccessDriver: Driver<Void> { depositSuccessSubject.asDriver(onErrorJustReturn: ()) }
-  
+
   var isAllowConfirm: Bool { !depositTracker.isLoading }
 
   init(

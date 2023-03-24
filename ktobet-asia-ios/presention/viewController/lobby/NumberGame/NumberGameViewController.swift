@@ -93,7 +93,7 @@ class NumberGameViewController: DisplayProduct {
     dropDownView.setSelectedItem(dropDownItem.first)
     gamesCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
     gamesCollectionView.registerCellFromNib(WebGameItemCell.className)
- 
+
     getPopularGames()
     getAllGames()
 
@@ -143,7 +143,7 @@ class NumberGameViewController: DisplayProduct {
         self.viewModel.gameSorting.accept(sorting)
       })
       .disposed(by: disposeBag)
-    
+
     bindPlaceholder(.numberGame, with: viewModel)
   }
 

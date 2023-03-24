@@ -20,11 +20,11 @@ struct LoadingPlaceholder: View {
     case numberGame
     case p2p
     case favorite
-    
+
     var shouldAddMask: Bool {
       self == .favorite ||
-      self == .casinoLobby ||
-      self == .slotSeeMore
+        self == .casinoLobby ||
+        self == .slotSeeMore
     }
   }
 
@@ -154,7 +154,6 @@ struct LoadingPlaceholder: View {
 // MARK: - Component
 
 extension LoadingPlaceholder {
-  
   func masking(_ view: some View) -> some View {
     view.mask(
       Rectangle()

@@ -126,6 +126,7 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
       .disposed(by: disposeBag)
 
     self.autoFillButton.rx.touchUpInside.withLatestFrom(stream)
+      .catchErrorJustComplete()
       .bind(onNext: { [weak self] withdrawalLimits, balance, cryptoExchangeRate in
         self?.autoFillAmount(
           limits: withdrawalLimits,
@@ -292,6 +293,7 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
       .disposed(by: disposeBag)
 
     viewModel.withdrawalAmountValidation()
+      .catchErrorJustComplete()
       .bind(onNext: { [weak self] (error: WithdrawalCryptoRequestViewModel.ValidError) in
         var errorMsg: String?
 
@@ -312,10 +314,12 @@ class WithdrawalCryptoRequestViewController: LobbyViewController, NotifyRateChan
       .disposed(by: disposeBag)
 
     viewModel.withdrawalValidation
+      .catchErrorJustComplete()
       .bind(to: nextButton.rx.isValid)
       .disposed(by: disposeBag)
 
     nextButton.rx.touchUpInside.withLatestFrom(stream)
+      .catchErrorJustComplete()
       .bind(onNext: { [weak self] _, _, cryptoExchangeRate in
         guard let self else { return }
 

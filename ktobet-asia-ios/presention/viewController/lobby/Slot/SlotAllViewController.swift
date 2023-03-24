@@ -63,7 +63,7 @@ class SlotAllViewController: DisplayProduct {
         self?.handleErrors(error)
       }
       .disposed(by: disposeBag)
-    
+
     bindPlaceholder(.slotAllGame, with: viewModel)
   }
 

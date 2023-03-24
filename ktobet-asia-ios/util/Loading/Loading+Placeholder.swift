@@ -2,7 +2,6 @@ import RxSwift
 import UIKit
 
 extension Loading {
-  
   func bindPlaceholder(
     _ placeholder: LoadingPlaceholderViewController,
     to observable: Observable<Bool>,

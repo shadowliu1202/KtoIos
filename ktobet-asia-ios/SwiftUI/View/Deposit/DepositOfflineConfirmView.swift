@@ -316,8 +316,8 @@ struct DepositOfflineConfirmView_Previews: PreviewProvider {
     var depositTrigger: PublishSubject<Void> = .init()
     var expiredDriver: Driver<Void> { Observable.just(()).asDriverLogError() }
     var depositSuccessDriver: Driver<Void> { Observable.just(()).asDriverLogError() }
-    var isAllowConfirm: Bool = false
-    
+    var isAllowConfirm = false
+
     func startCounting() { }
   }
 

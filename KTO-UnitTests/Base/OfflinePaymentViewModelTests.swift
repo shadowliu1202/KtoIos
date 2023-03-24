@@ -8,26 +8,27 @@ import XCTest
 final class OfflinePaymentViewModelTests: XCTestCase {
   private func buildSUT() -> OfflinePaymentViewModel {
     let dummyHttpClient = getFakeHttpClient()
-    let stubBankApi = mock(BankApi.self).initialize(dummyHttpClient)
+    let stubDepositAPI = mock(DepositAPI.self).initialize(dummyHttpClient)
+    let stubCommonAPI = mock(CommonAPI.self).initialize(dummyHttpClient)
 
-    given(stubBankApi.getDepositTypesString()) ~>
+    given(stubDepositAPI.getDepositTypesString()) ~>
       .just(
         "{\"statusCode\":\"\",\"errorMsg\":\"\",\"node\":\"1069e0061c30\",\"data\":[{\"depositTypeId\":0,\"depositTypeName\":\"Offline\",\"isFavorite\":false,\"depositLimitMaximum\":100.0,\"depositLimitMinimum\":50.0}]}")
 
-    given(stubBankApi.getDepositOfflineBankAccounts()) ~>
+    given(stubDepositAPI.getDepositOfflineBankAccounts()) ~>
       .just(
         "{\"statusCode\":\"\",\"errorMsg\":\"\",\"node\":\"1069e0061c30\",\"data\":{\"paymentGroupPaymentCards\":{\"1\":{\"paymentTokenId\":\"TokenIDTokenIDTokenI\",\"bankId\":1,\"branch\":\"\",\"accountName\":\"12345678901234567890\",\"accountNumber\":\"test-Acc No.\"}}}}")
 
-    given(stubBankApi.getBanks()) ~>
+    given(stubCommonAPI.getBanks()) ~>
       .just(
         "{\"statusCode\":\"\",\"errorMsg\":\"\",\"node\":\"1069e0061c30\",\"data\":[{\"bankId\":1,\"shortName\":\"ICBC\",\"name\":\"工商银行\"}]}")
 
-    let stubNetworkFactory = mock(NetworkFactory.self).initialize(dummyHttpClient)
+    let stubNetworkFactory = mock(ExternalProtocolServiceFactory.self).initialize(dummyHttpClient)
 
-    given(stubNetworkFactory.getDeposit()) ~> DepositAdapter(stubBankApi, CPSApi(dummyHttpClient))
+    given(stubNetworkFactory.getDeposit()) ~> DepositAdapter(stubDepositAPI)
     given(stubNetworkFactory.getCash()) ~> CashAdapter(PlayerApi(dummyHttpClient))
     given(stubNetworkFactory.getImage()) ~> ImageAdapter(ImageApi(dummyHttpClient))
-    given(stubNetworkFactory.getCommon()) ~> CommonAdapter(stubBankApi)
+    given(stubNetworkFactory.getCommon()) ~> CommonAdapter(stubCommonAPI)
 
     Injectable
       .register(ExternalProtocolService.self) { _ in

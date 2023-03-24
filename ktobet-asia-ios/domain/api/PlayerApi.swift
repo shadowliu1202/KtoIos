@@ -210,7 +210,7 @@ class PlayerApi: ApiService {
   }
 
   // MARK: New
-  func getCashLogSummary1(begin: String, end: String, balanceLogFilterType: Int) -> Single<String> {
+  func _getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<String> {
     let target = APITarget(
       baseUrl: httpClient.host,
       path: "api/cash/transaction-summary",
@@ -222,5 +222,13 @@ class PlayerApi: ApiService {
       ], encoding: URLEncoding.default),
       header: httpClient.headers)
     return httpClient.requestJsonString(target)
+  }
+
+  func _getCashBalance() -> Single<String> {
+    httpClient
+      .requestJsonString(
+        NewAPITarget(
+          path: "api/cash/balance",
+          method: .get))
   }
 }

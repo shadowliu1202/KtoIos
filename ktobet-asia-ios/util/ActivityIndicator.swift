@@ -121,7 +121,7 @@ public class ActivityIndicator: SharedSequenceConvertibleType {
     _relay.accept(_relay.value - 1)
     _lock.unlock()
   }
-  
+
   private func set(_ value: Int) {
     _lock.lock()
     _relay.accept(value)

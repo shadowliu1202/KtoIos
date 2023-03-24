@@ -1,0 +1,152 @@
+import Foundation
+import RxSwift
+import SharedBu
+import SwiftUI
+
+class WithdrawalMainViewModel:
+  CollectErrorViewModel,
+  WithdrawalMainViewModelProtocol,
+  ObservableObject
+{
+  @Published private(set) var instruction: WithdrawalMainViewDataModel.Instruction?
+  @Published private(set) var recentRecords: [WithdrawalMainViewDataModel.Record]?
+
+  @Published private(set) var enableWithdrawal = false
+  @Published private(set) var allowedWithdrawalFiat: Bool?
+  @Published private(set) var allowedWithdrawalCrypto: Bool?
+
+  private let withdrawalAppService: IWithdrawalAppService
+  private let playerConfiguration: PlayerConfiguration
+
+  // Delete after other page been refactor.
+  private let withdrawalUseCase: WithdrawalUseCase
+
+  private let disposeBag = DisposeBag()
+
+  init(
+    _ withdrawalAppService: IWithdrawalAppService,
+    _ playerConfiguration: PlayerConfiguration,
+    _ withdrawalUseCase: WithdrawalUseCase)
+  {
+    self.withdrawalAppService = withdrawalAppService
+    self.playerConfiguration = playerConfiguration
+    self.withdrawalUseCase = withdrawalUseCase
+  }
+
+  func setupData() {
+    getInstruction()
+    getRecords()
+  }
+
+  private func getInstruction() {
+    Single.from(
+      withdrawalAppService
+        .getWithdrawalInstruction())
+      .observe(on: MainScheduler.instance)
+      .subscribe(
+        onSuccess: { [weak self] instructionDTO in
+          guard let self else { return }
+
+          self.instruction = .init(
+            dailyAmountLimit: instructionDTO.dailyLimitation.maxAmount.description(),
+            dailyMaxCount: "\(instructionDTO.dailyLimitation.maxCount)",
+            turnoverRequirement: self.getTurnoverRequirement(instructionDTO),
+            cryptoWithdrawalRequirement: self.getCryptoWithdrawalRequirement(instructionDTO))
+
+          self.enableWithdrawal = instructionDTO.hasWithdrawalBudget
+
+          self.allowedWithdrawalFiat = instructionDTO.incompleteCryptoTurnOver?.isPositive == true
+            ? false
+            : true
+
+          self.allowedWithdrawalCrypto = instructionDTO.isCryptoProcessCertified
+        },
+        onFailure: { [weak self] error in
+          self?.errorsSubject
+            .onNext(error)
+        })
+      .disposed(by: disposeBag)
+  }
+
+  private func getTurnoverRequirement(_ instructionDTO: WithdrawalDto.Instruction) -> (String, String)? {
+    if
+      let amount = instructionDTO.incompleteBetTurnOver,
+      amount.isPositive
+    {
+      return (amount.formatString(.none), amount.simpleName)
+    }
+    else {
+      return nil
+    }
+  }
+
+  private func getCryptoWithdrawalRequirement(_ instructionDTO: WithdrawalDto.Instruction) -> String? {
+    if
+      let amount = instructionDTO.incompleteCryptoTurnOver,
+      amount.isPositive
+    {
+      return amount.description()
+    }
+    else {
+      return nil
+    }
+  }
+
+  private func getRecords() {
+    Single.from(
+      withdrawalAppService
+        .getRecentLogs())
+      .observe(on: MainScheduler.instance)
+      .subscribe(
+        onSuccess: { [weak self] nsArray in
+          guard let self else { return }
+
+          let logs = nsArray as! [WithdrawalDto.Log]
+
+          self.recentRecords = logs
+            .map { logDTO in
+              WithdrawalMainViewDataModel.Record(
+                id: logDTO.displayId,
+                currencyType: logDTO.type,
+                date: logDTO.createdDate.toDateTimeString(),
+                status: self.parseLogStatus(logDTO),
+                amount: logDTO.amount.description())
+            }
+        },
+        onFailure: { [weak self] error in
+          self?.errorsSubject
+            .onNext(error)
+        })
+      .disposed(by: disposeBag)
+  }
+
+  private func parseLogStatus(_ log: WithdrawalDto.Log) -> WithdrawalMainViewDataModel.TransactionStatus {
+    var title = ""
+    var color: UIColor = .gray9B9B9B
+
+    title = StringMapper.parse(log)
+
+    switch log.status {
+    case .floating:
+      color = .orangeFF8000
+    default:
+      break
+    }
+
+    return .init(title: title, color: color)
+  }
+
+  func getSupportLocale() -> SupportLocale {
+    playerConfiguration.supportLocale
+  }
+}
+
+extension WithdrawalMainViewModel {
+  // Delete after other page been refactor.
+
+  func getCryptoWithdrawalRequirement() -> Single<AccountCurrency> {
+    withdrawalUseCase
+      .getWithdrawalLimitation()
+      .map { $0.unresolvedCryptoTurnover }
+  }
+}

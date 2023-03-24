@@ -14,6 +14,8 @@ final class Injection {
       }
       .inObjectScope(.application)
 
+    HelperKt.doInitKoin()
+
     registerAllDependency()
   }
 
@@ -21,13 +23,14 @@ final class Injection {
   func registerAllDependency() {
     registerHttpClient()
     registerCustomServicePresenter()
-    registFactory()
     registApi()
     registRepo()
     registUsecase()
     registNavigator()
     registViewModel()
     registSingleton()
+
+    registerSharedBuModule()
   }
 
   func registerHttpClient() {
@@ -61,42 +64,6 @@ final class Injection {
         return CustomServicePresenter(csViewModel, surveyViewModel)
       }
       .inObjectScope(.application)
-  }
-
-  func registFactory() {
-    container
-      .register(ExternalProtocolService.self) { resolver in
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return NetworkFactory(httpClient)
-      }
-      .inObjectScope(.locale)
-
-    container
-      .register(ExternalStringService.self) { _ in
-        DepositStringServiceFactory()
-      }
-      .inObjectScope(.application)
-
-    container
-      .register(StringSupporter.self) { resolver in
-        resolver.resolveWrapper(LocalizeUtils.self)
-      }
-      .inObjectScope(.application)
-
-    container
-      .register(ApplicationFactory.self) { resolver in
-        let local = resolver.resolveWrapper(PlayerConfiguration.self)
-        let network = resolver.resolveWrapper(ExternalProtocolService.self)
-        let stringService = resolver.resolveWrapper(ExternalStringService.self)
-        let localize = resolver.resolveWrapper(StringSupporter.self)
-
-        return ApplicationFactory(
-          playerConfiguration: local,
-          externalProtocolService: network,
-          stringServiceFactory: stringService,
-          stringSupporter: localize)
-      }
-      .inObjectScope(.locale)
   }
 
   func registApi() {
@@ -161,9 +128,9 @@ final class Injection {
         return NumberGameApi(httpClient)
       }
     container
-      .register(CPSApi.self) { resolver in
+      .register(OldWithdrawalAPI.self) { resolver in
         let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return CPSApi(httpClient)
+        return OldWithdrawalAPI(httpClient)
       }
     container
       .register(P2PApi.self) { resolver in
@@ -280,17 +247,15 @@ final class Injection {
 
     container
       .register(WithdrawalRepository.self) { resolver in
-        let bankApi = resolver.resolveWrapper(BankApi.self)
         let imageApi = resolver.resolveWrapper(ImageApi.self)
-        let cpsApi = resolver.resolveWrapper(CPSApi.self)
+        let oldWithdrawalAPI = resolver.resolveWrapper(OldWithdrawalAPI.self)
         let repoBank = resolver.resolveWrapper(BankRepository.self)
         let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
         let httpClient = resolver.resolveWrapper(HttpClient.self)
 
         return WithdrawalRepositoryImpl(
-          bankApi,
           imageApi: imageApi,
-          cpsApi: cpsApi,
+          oldWithdrawalAPI: oldWithdrawalAPI,
           bankRepository: repoBank,
           localStorageRepo: localStorageRepo,
           httpClient: httpClient)
@@ -709,55 +674,20 @@ final class Injection {
     container
       .register(CryptoDepositViewModel.self) { resolver in
         CryptoDepositViewModel(
-          depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+          depositService: resolver.resolveWrapper(IDepositAppService.self),
           navigator: resolver.resolveWrapper(DepositNavigator.self))
       }
 
     container
-      .register(ThirdPartyDepositViewModel.self) { resolver in
-        let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
-        let deposit = applicationFactory.deposit()
-        let playerUseCase = resolver.resolveWrapper(PlayerDataUseCase.self)
-        let navigator = resolver.resolveWrapper(DepositNavigator.self)
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return ThirdPartyDepositViewModel(
-          playerUseCase: playerUseCase,
-          depositService: deposit,
-          navigator: navigator,
-          httpClient: httpClient)
-      }
-
-    container
-      .register(OfflineViewModel.self) { resolver in
-        let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
-        let deposit = applicationFactory.deposit()
-        let playerUseCase = resolver.resolveWrapper(PlayerDataUseCase.self)
-        let pattern = resolver.resolveWrapper(AccountPatternGenerator.self)
-        let bankUseCase = resolver.resolveWrapper(BankUseCase.self)
-        let navigator = resolver.resolveWrapper(DepositNavigator.self)
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        return OfflineViewModel(
-          deposit,
-          playerUseCase: playerUseCase,
-          accountPatternGenerator: pattern,
-          bankUseCase: bankUseCase,
-          navigator: navigator,
-          localStorageRepo: localStorageRepo)
-      }
-      .inObjectScope(.depositFlow)
-
-    container
       .register(DepositViewModel.self) { resolver in
-        let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
-        let deposit = applicationFactory.deposit()
-
-        return .init(depositService: deposit)
+        .init(
+          depositService: resolver.resolveWrapper(IDepositAppService.self))
       }
 
     container
       .register(DepositOfflineConfirmViewModel.self) { resolver in
         .init(
-          depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+          depositService: resolver.resolveWrapper(IDepositAppService.self),
           locale: resolver.resolveWrapper(PlayerConfiguration.self).supportLocale)
       }
       .inObjectScope(.depositFlow)
@@ -765,7 +695,7 @@ final class Injection {
     container
       .register(DepositRecordDetailViewModel.self) { resolver in
         .init(
-          depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+          depositService: resolver.resolveWrapper(IDepositAppService.self),
           imageUseCase: resolver.resolveWrapper(UploadImageUseCase.self),
           httpClient: resolver.resolveWrapper(HttpClient.self))
       }
@@ -912,7 +842,7 @@ final class Injection {
           casinoRecordUseCase: resolver.resolveWrapper(CasinoRecordUseCase.self),
           casinoUseCase: resolver.resolveWrapper(CasinoUseCase.self),
           memoryCache: resolver.resolveWrapper(MemoryCacheImpl.self),
-          casinoAppService: resolver.resolveWrapper(ApplicationFactory.self).casino())
+          casinoAppService: resolver.resolveWrapper(ICasinoAppService.self))
       }
 
     container
@@ -934,12 +864,10 @@ final class Injection {
 
     container
       .register(NumberGameViewModel.self) { resolver in
-        let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
-        let numberGameService = applicationFactory.numberGame()
-        return NumberGameViewModel(
+        .init(
           numberGameUseCase: resolver.resolveWrapper(NumberGameUseCase.self),
           memoryCache: resolver.resolveWrapper(MemoryCacheImpl.self),
-          numberGameService: numberGameService)
+          numberGameService: resolver.resolveWrapper(INumberGameAppService.self))
       }
 
     container
@@ -972,12 +900,10 @@ final class Injection {
 
     container
       .register(ArcadeViewModel.self) { resolver in
-        let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
-        let arcadeAppService = applicationFactory.arcade()
-        return ArcadeViewModel(
+        .init(
           arcadeUseCase: resolver.resolveWrapper(ArcadeUseCase.self),
           memoryCache: resolver.resolveWrapper(MemoryCacheImpl.self),
-          arcadeAppService: arcadeAppService)
+          arcadeAppService: resolver.resolveWrapper(IArcadeAppService.self))
       }
 
     container
@@ -1063,9 +989,8 @@ final class Injection {
 
     container
       .register(StarMergerViewModelImpl.self) { resolver in
-        let applicationFactory = resolver.resolveWrapper(ApplicationFactory.self)
-        let depositService = applicationFactory.deposit()
-        return StarMergerViewModelImpl(depositService: depositService)
+        .init(
+          depositService: resolver.resolveWrapper(IDepositAppService.self))
       }
 
     container
@@ -1085,13 +1010,13 @@ final class Injection {
 
     container
       .register(DepositCryptoRecordDetailViewModel.self) { resolver in
-        DepositCryptoRecordDetailViewModel(depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit())
+        .init(depositService: resolver.resolveWrapper(IDepositAppService.self))
       }
 
     container
       .register(DepositLogSummaryViewModel.self) { resolver in
-        DepositLogSummaryViewModel(
-          depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit())
+        .init(
+          depositService: resolver.resolveWrapper(IDepositAppService.self))
       }
 
     container
@@ -1106,7 +1031,7 @@ final class Injection {
       .register(OnlinePaymentViewModel.self) { resolver in
         .init(
           resolver.resolveWrapper(PlayerDataUseCase.self),
-          resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+          resolver.resolveWrapper(IDepositAppService.self),
           resolver.resolveWrapper(HttpClient.self),
           resolver.resolveWrapper(PlayerConfiguration.self))
       }
@@ -1136,6 +1061,14 @@ final class Injection {
     container
       .register(LevelPrivilegeViewModel.self) { resolver in
         .init(playerUseCase: resolver.resolveWrapper(PlayerDataUseCase.self))
+      }
+
+    container
+      .register(WithdrawalMainViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IWithdrawalAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self),
+          resolver.resolveWrapper(WithdrawalUseCase.self))
       }
   }
 
@@ -1169,5 +1102,94 @@ final class Injection {
         .init()
       }
       .inObjectScope(.application)
+  }
+
+  func registerSharedBuModule() {
+    registerExternalProtocol()
+    registerProductModule()
+    registerWalletModule()
+  }
+
+  func registerExternalProtocol() {
+    container
+      .register(PlayerConfiguration.self) { _ in
+        PlayerConfigurationImpl()
+      }
+      .inObjectScope(.locale)
+
+    container
+      .register(ExternalProtocolService.self) { resolver in
+        let httpClient = resolver.resolveWrapper(HttpClient.self)
+        return ExternalProtocolServiceFactory(httpClient)
+      }
+      .inObjectScope(.locale)
+
+    container
+      .register(ExternalStringService.self) { _ in
+        ExternalStringServiceFactory()
+      }
+      .inObjectScope(.application)
+
+    container
+      .register(StringSupporter.self) { resolver in
+        resolver.resolveWrapper(LocalizeUtils.self)
+      }
+      .inObjectScope(.application)
+
+    container
+      .register(ApplicationFactory.self) { resolver in
+        let playerConfiguration = resolver.resolveWrapper(PlayerConfiguration.self)
+        let protocolFactory = resolver.resolveWrapper(ExternalProtocolService.self)
+        let stringServiceFactory = resolver.resolveWrapper(ExternalStringService.self)
+        let localize = resolver.resolveWrapper(StringSupporter.self)
+
+        return ApplicationFactory(
+          playerConfiguration: playerConfiguration,
+          externalProtocolService: protocolFactory,
+          stringServiceFactory: stringServiceFactory,
+          stringSupporter: localize)
+      }
+      .inObjectScope(.locale)
+  }
+
+  func registerProductModule() {
+    container
+      .register(ICasinoAppService.self) { resolver in
+        resolver.resolveWrapper(ApplicationFactory.self)
+          .casino()
+      }
+
+    container
+      .register(INumberGameAppService.self) { resolver in
+        resolver.resolveWrapper(ApplicationFactory.self)
+          .numberGame()
+      }
+
+    container
+      .register(IArcadeAppService.self) { resolver in
+        resolver.resolveWrapper(ApplicationFactory.self)
+          .arcade()
+      }
+  }
+
+  func registerWalletModule() {
+    let walletModule = WalletModule()
+
+    container
+      .register(IDepositAppService.self) { resolver in
+        resolver.resolveWrapper(ApplicationFactory.self)
+          .deposit()
+      }
+
+    container
+      .register(IWithdrawalAppService.self) { resolver in
+        walletModule
+          .getWithdrawalAppService(
+            playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self),
+            withdrawalProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getWithdrawal(),
+            imageProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getImage(),
+            cryptoProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getCrypto(),
+            playerProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getPlayer())
+      }
   }
 }
