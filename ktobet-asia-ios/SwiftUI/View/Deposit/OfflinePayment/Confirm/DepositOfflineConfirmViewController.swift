@@ -9,36 +9,30 @@ class DepositOfflineConfirmViewController:
   @Injected private var alert: AlertProtocol
   @Injected private var viewModel: DepositOfflineConfirmViewModel
 
-  static let segueIdentifier = "toOfflineConfirmSegue"
-
   private let disposeBag = DisposeBag()
 
-  /// Those parameter need to set before controller been presented
-  var unwindSegueId = ""
-  var memo: OfflineDepositDTO.Memo!
-  var selectedBank: PaymentsDTO.BankCard!
+  private var unwindType: UIViewController.Type?
 
-  /// For unwind segue
-  var confirmSuccess = false
+  let memo: OfflineDepositDTO.Memo
+  let selectedBank: PaymentsDTO.BankCard
 
-  static func instantiate(
+  init(
+    viewModel: DepositOfflineConfirmViewModel? = nil,
     memo: OfflineDepositDTO.Memo,
-    selectedBank: PaymentsDTO.BankCard,
-    unwindSegueId: String,
-    viewModel: DepositOfflineConfirmViewModel? = nil)
-    -> DepositOfflineConfirmViewController
+    selectedBank: PaymentsDTO.BankCard)
   {
-    let vc = DepositOfflineConfirmViewController.initFrom(storyboard: "Deposit")
-
-    vc.memo = memo
-    vc.selectedBank = selectedBank
-    vc.unwindSegueId = unwindSegueId
+    self.memo = memo
+    self.selectedBank = selectedBank
 
     if let viewModel {
-      vc._viewModel.wrappedValue = viewModel
+      self._viewModel.wrappedValue = viewModel
     }
 
-    return vc
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder _: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 
   override func viewDidLoad() {
@@ -46,6 +40,15 @@ class DepositOfflineConfirmViewController:
 
     setupUI()
     binding()
+  }
+
+  override func willMove(toParent parent: UIViewController?) {
+    guard
+      let navigation = parent as? UINavigationController,
+      let root = navigation.viewControllers.first
+    else { return }
+
+    unwindType = type(of: root)
   }
 
   override func handleErrors(_ error: Error) {
@@ -88,8 +91,17 @@ extension DepositOfflineConfirmViewController {
   private func binding() {
     viewModel.depositSuccessDriver
       .drive(onNext: { [unowned self] in
-        self.confirmSuccess = true
-        self.performSegue(withIdentifier: self.unwindSegueId, sender: nil)
+        if self.unwindType == DepositViewController.self {
+          self.showToast(Localize.string("deposit_offline_step3_title"), barImg: .success)
+          NavigationManagement.sharedInstance.popToRootViewController()
+        }
+        else if
+          self.unwindType == NotificationViewController.self,
+          let detail = self.navigationController?.viewControllers.first(where: { $0 is NotificationDetailViewController })
+        {
+          self.showToast(Localize.string("common_request_submitted"), barImg: .success)
+          NavigationManagement.sharedInstance.popViewController(nil, to: detail)
+        }
       })
       .disposed(by: disposeBag)
 

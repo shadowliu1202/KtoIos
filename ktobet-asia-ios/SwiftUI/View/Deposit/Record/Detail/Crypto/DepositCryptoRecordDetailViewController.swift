@@ -29,17 +29,13 @@ class DepositCryptoRecordDetailViewController:
   }
 
   private func navigateToDepositCryptoVC(_ updateUrl: SingleWrapper<HttpUrl>?) {
-    guard
-      let depositCryptoViewController = UIStoryboard(name: "Deposit", bundle: nil)
-        .instantiateViewController(withIdentifier: "DepositCryptoViewController") as? DepositCryptoViewController,
-      let updateUrl
-    else { return }
+    guard let updateUrl else { return }
 
     Single.from(updateUrl)
       .subscribe(
         onSuccess: { url in
-          depositCryptoViewController.url = url.url
-          NavigationManagement.sharedInstance.pushViewController(vc: depositCryptoViewController)
+          NavigationManagement.sharedInstance
+            .pushViewController(vc: DepositCryptoWebViewController(url: url.url))
         },
         onFailure: { [weak self] error in
           self?.handleErrors(error)

@@ -113,7 +113,6 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
     case .offlinecardschange:
       self.navigateToDestination = {
         let vc = OfflinePaymentViewController()
-        vc.offlineConfirmUnwindSegueId = "unwindToNotificationDetail"
         NavigationManagement.sharedInstance.pushViewController(vc: vc)
       }
     case .withdrawalneedsverifieddoc,
@@ -150,13 +149,8 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
   }
 
   @IBAction
-  func backToNotificationDetail(segue: UIStoryboardSegue) {
+  func backToNotificationDetail(segue _: UIStoryboardSegue) {
     NavigationManagement.sharedInstance.viewController = self
-    if let vc = segue.source as? DepositOfflineConfirmViewController {
-      if vc.confirmSuccess {
-        showToast(Localize.string("common_request_submitted"), barImg: .success)
-      }
-    }
   }
 }
 

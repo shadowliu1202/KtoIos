@@ -18,16 +18,14 @@ class CryptoDepositViewModel:
   ObservableObject
 {
   private let depositService: IDepositAppService
-  private let navigator: DepositNavigator
   private let disposeBag = DisposeBag()
 
   @Published private(set) var options: [CryptoDepositItemViewModel] = []
   @Published private(set) var selected: CryptoDepositItemViewModel?
   @Published private(set) var submitButtonDisable = false
 
-  init(depositService: IDepositAppService, navigator: DepositNavigator) {
+  init(depositService: IDepositAppService) {
     self.depositService = depositService
-    self.navigator = navigator
   }
 }
 

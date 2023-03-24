@@ -3,10 +3,10 @@ import RxSwift
 import SharedBu
 import UIKit
 
-class CryptoSelectorViewController: LobbyViewController,
+class CryptoSelectorViewController:
+  LobbyViewController,
   SwiftUIConverter
 {
-  @Injected private var navigator: DepositNavigator
   @Injected private var playerConfig: PlayerConfiguration
   @Injected private var alert: AlertProtocol
   @Injected private var localStorageRepo: LocalStorageRepository
@@ -14,22 +14,23 @@ class CryptoSelectorViewController: LobbyViewController,
 
   private let disposeBag = DisposeBag()
 
-  static func instantiate(
+  init(
     localStorageRepo: LocalStorageRepository? = nil,
     viewModel: CryptoDepositViewModel? = nil)
-    -> CryptoSelectorViewController
   {
-    let vc = CryptoSelectorViewController.initFrom(storyboard: "Deposit")
-
     if let localStorageRepo {
-      vc._localStorageRepo.wrappedValue = localStorageRepo
+      self._localStorageRepo.wrappedValue = localStorageRepo
     }
 
     if let viewModel {
-      vc._viewModel.wrappedValue = viewModel
+      self._viewModel.wrappedValue = viewModel
     }
 
-    return vc
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder _: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 
   override func viewDidLoad() {
@@ -45,14 +46,6 @@ class CryptoSelectorViewController: LobbyViewController,
     }
     else {
       super.handleErrors(error)
-    }
-  }
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == DepositCryptoViewController.segueIdentifier {
-      if let dest = segue.destination as? DepositCryptoViewController {
-        dest.url = sender as? String
-      }
     }
   }
 }
@@ -100,7 +93,23 @@ extension CryptoSelectorViewController {
   }
 
   func navigateToGuide() {
-    navigator.toGuidePage(localStorageRepo.getSupportLocale())
+    switch localStorageRepo.getSupportLocale() {
+    case is SupportLocale.Vietnam:
+      navigationController?
+        .pushViewController(
+          CryptoGuideVNDViewController(),
+          animated: true)
+
+    case is SupportLocale.China,
+         is SupportLocale.Unknown:
+      fallthrough
+
+    default:
+      navigationController?
+        .pushViewController(
+          CryptoGuideViewController.initFrom(storyboard: "Deposit"),
+          animated: true)
+    }
   }
 
   func navigateToVideoTutorial() {
@@ -108,6 +117,9 @@ extension CryptoSelectorViewController {
   }
 
   func navigateToDepositCryptoVC(_ url: String) {
-    self.performSegue(withIdentifier: DepositCryptoViewController.segueIdentifier, sender: url)
+    navigationController?
+      .pushViewController(
+        DepositCryptoWebViewController(url: url),
+        animated: true)
   }
 }

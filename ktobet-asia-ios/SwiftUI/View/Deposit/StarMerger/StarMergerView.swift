@@ -33,6 +33,7 @@ struct StarMergerView<ViewModel: StarMergerViewModel>: View {
         .padding(.horizontal, 30)
       }
     }
+    .onPageLoading(viewModel.amountRange == nil || viewModel.paymentLink == nil)
     .pageBackgroundColor(.gray131313)
     .onAppear {
       viewModel.getGatewayInformation()
@@ -72,7 +73,17 @@ struct StarMergerView<ViewModel: StarMergerViewModel>: View {
 }
 
 struct StarMergerView_Previews: PreviewProvider {
+  class ViewModel: ObservableObject, StarMergerViewModel {
+    var amountRange: AmountRange? = .init(min: "100".toAccountCurrency(), max: "1000".toAccountCurrency())
+
+    var paymentLink: CommonDTO.WebPath? = .init(path: "123")
+
+    func getGatewayInformation() { }
+  }
+
   static var previews: some View {
-    StarMergerView(viewModel: Injectable.resolve(StarMergerViewModelImpl.self)!, { _ in })
+    VStack {
+      StarMergerView(viewModel: ViewModel(), { _ in })
+    }
   }
 }

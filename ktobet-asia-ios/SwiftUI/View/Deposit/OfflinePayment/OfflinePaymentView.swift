@@ -77,6 +77,7 @@ struct OfflinePaymentView<ViewModel>: View
           .backgroundColor(.black131313)
           .id(OfflinePaymentView.Identifier.remitButton.rawValue)
       }
+      .onPageLoading(viewModel.gateways.isEmpty || viewModel.remitBankList.isEmpty || viewModel.remitAmountLimitRange.isEmpty)
       .pageBackgroundColor(.black131313)
       .environment(\.playerLocale, localStorageRepo.getSupportLocale())
       .environmentObject(viewModel)

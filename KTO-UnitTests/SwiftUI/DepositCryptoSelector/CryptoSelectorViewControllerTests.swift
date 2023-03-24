@@ -14,12 +14,11 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
   }
 
   func test_TapVideoTutorialBtn_InCryptoSelectorPage_VideoTutorialIsDisplayed_KTO_TC_40() {
-    let sut = CryptoSelectorViewController.instantiate()
+    let sut = CryptoSelectorViewController()
 
     makeItVisible(sut)
 
     sut.loadViewIfNeeded()
-
     sut.navigateToVideoTutorial()
 
     let expact = "\(CryptoVideoTutorialViewController.self)"
@@ -32,51 +31,48 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
     let stubLocalRepo = mock(LocalStorageRepository.self)
     given(stubLocalRepo.getSupportLocale()) ~> .China()
 
-    let sut = CryptoSelectorViewController.instantiate(localStorageRepo: stubLocalRepo)
+    let sut = CryptoSelectorViewController(localStorageRepo: stubLocalRepo)
 
-    makeItVisible(sut)
+    makeItVisible(UINavigationController(rootViewController: sut))
 
     sut.loadViewIfNeeded()
-
     sut.navigateToGuide()
 
-    let expact = "\(CryptoGuideViewController.self)"
-    let actual = "\(type(of: sut.presentedViewController!))"
+    let expect = "\(CryptoGuideViewController.self)"
+    let actual = "\(type(of: sut.navigationController!.topViewController!))"
 
-    XCTAssertEqual(expact, actual)
+    XCTAssertEqual(expect, actual)
   }
 
   func test_AtVNEnvironmentTapCryptoGuideText_InCryptoSelectorPage_VNCryptoGuideIsDisplayed_KTO_TC_2() {
     let stubLocalRepo = mock(LocalStorageRepository.self)
     given(stubLocalRepo.getSupportLocale()) ~> .Vietnam()
 
-    let sut = CryptoSelectorViewController.instantiate(localStorageRepo: stubLocalRepo)
+    let sut = CryptoSelectorViewController(localStorageRepo: stubLocalRepo)
 
-    makeItVisible(sut)
+    makeItVisible(UINavigationController(rootViewController: sut))
 
     sut.loadViewIfNeeded()
-
     sut.navigateToGuide()
 
-    let expact = "\(CryptoGuideVNDViewController.self)"
-    let actual = "\(type(of: sut.presentedViewController!))"
+    let expect = "\(CryptoGuideVNDViewController.self)"
+    let actual = "\(type(of: sut.navigationController!.topViewController!))"
 
-    XCTAssertEqual(expact, actual)
+    XCTAssertEqual(expect, actual)
   }
 
   func test_TapSubmitBtn_InCryptoSelectorPage_DepositCryptoViewIsDisplayed() {
-    let sut = CryptoSelectorViewController.instantiate()
+    let sut = CryptoSelectorViewController()
 
-    makeItVisible(sut)
+    makeItVisible(UINavigationController(rootViewController: sut))
 
     sut.loadViewIfNeeded()
-
     sut.navigateToDepositCryptoVC("")
 
-    let expact = "\(DepositCryptoViewController.self)"
-    let actual = "\(type(of: sut.presentedViewController!))"
+    let expect = "\(DepositCryptoWebViewController.self)"
+    let actual = "\(type(of: sut.navigationController!.topViewController!))"
 
-    XCTAssertEqual(expact, actual)
+    XCTAssertEqual(expect, actual)
   }
 
   func test_givenDepositCountOverLimit_InCryptoSelectPage_thenAlertRequestLater() {
@@ -87,15 +83,14 @@ final class CryptoSelectorViewControllerTests: XCTestCase {
 
     let stubViewModel = mock(CryptoDepositViewModel.self)
       .initialize(
-        depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
-        navigator: mock(DepositNavigator.self))
+        depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit())
 
     given(stubViewModel.errors()) ~> .just(playerDepositCountOverLimit)
 
     let stubAlert = mock(AlertProtocol.self)
     Alert.shared = stubAlert
 
-    let sut = CryptoSelectorViewController.instantiate(viewModel: stubViewModel)
+    let sut = CryptoSelectorViewController(viewModel: stubViewModel)
 
     sut.loadViewIfNeeded()
 

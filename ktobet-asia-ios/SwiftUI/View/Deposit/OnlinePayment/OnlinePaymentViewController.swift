@@ -8,33 +8,33 @@ class OnlinePaymentViewController:
   LobbyViewController,
   SwiftUIConverter
 {
-  static let segueIdentifier = "toOnlinePaymentSegue"
+  @Injected private var viewModel: OnlinePaymentViewModel
+  @Injected private var alert: AlertProtocol
 
-  var selectedOnlinePayment: PaymentsDTO.Online!
-
-  private let viewModel: OnlinePaymentViewModel
-  private let alert: AlertProtocol
+  private let selectedOnlinePayment: PaymentsDTO.Online?
 
   private let disposeBag = DisposeBag()
 
-  init?(
-    coder: NSCoder,
+  init(
     selectedOnlinePayment: PaymentsDTO.Online?,
-    viewModel: OnlinePaymentViewModel,
-    alert: AlertProtocol)
+    viewModel: OnlinePaymentViewModel? = nil,
+    alert: AlertProtocol? = nil)
   {
     self.selectedOnlinePayment = selectedOnlinePayment
-    self.viewModel = viewModel
-    self.alert = alert
 
-    super.init(coder: coder)
+    if let viewModel {
+      self._viewModel.wrappedValue = viewModel
+    }
+
+    if let alert {
+      self._alert.wrappedValue = alert
+    }
+
+    super.init(nibName: nil, bundle: nil)
   }
 
-  required init?(coder: NSCoder) {
-    self.viewModel = Injectable.resolveWrapper(OnlinePaymentViewModel.self)
-    self.alert = Injectable.resolveWrapper(AlertProtocol.self)
-
-    super.init(coder: coder)
+  required init?(coder _: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 
   deinit {
@@ -65,14 +65,6 @@ class OnlinePaymentViewController:
     }
     else {
       super.handleErrors(error)
-    }
-  }
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == DepositThirdPartWebViewController.segueIdentifier {
-      if let dest = segue.destination as? DepositThirdPartWebViewController {
-        dest.url = sender as? String
-      }
     }
   }
 }
@@ -115,21 +107,17 @@ extension OnlinePaymentViewController {
 
 extension OnlinePaymentViewController {
   private func toJinYiUserGuidePage() {
-    NavigationManagement.sharedInstance.viewController
-      .performSegue(
-        withIdentifier: JinYiDigitalViewController.segueIdentifier,
-        sender: nil)
+    self.navigationController?
+      .pushViewController(JinYiDigitalViewController(), animated: true)
   }
 
   private func toOnlineWebPage(_ url: String) {
     Alert.shared.show(
       Localize.string("common_kindly_remind"),
       Localize.string("deposit_thirdparty_transaction_remind"),
-      confirm: {
-        NavigationManagement.sharedInstance.viewController
-          .performSegue(
-            withIdentifier: DepositThirdPartWebViewController.segueIdentifier,
-            sender: url)
+      confirm: { [unowned self] in
+        self.navigationController?
+          .pushViewController(DepositThirdPartWebViewController(url: url), animated: true)
       },
       cancel: nil)
   }

@@ -41,11 +41,10 @@ final class DepositOfflineConfirmViewControllerTests: XCTestCase {
     let stubAlert = mock(AlertProtocol.self)
     Alert.shared = stubAlert
 
-    let sut = DepositOfflineConfirmViewController.instantiate(
+    let sut = DepositOfflineConfirmViewController(
+      viewModel: stubViewModel,
       memo: memo,
-      selectedBank: bankCard,
-      unwindSegueId: "unwindToDeposit",
-      viewModel: stubViewModel)
+      selectedBank: bankCard)
     sut.loadViewIfNeeded()
 
     stubViewModel.errorsSubject.onNext(error)

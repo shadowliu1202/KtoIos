@@ -74,6 +74,9 @@ struct OnlinePaymentView<ViewModel>: View
           remitAmount,
           remitButtonOnSuccess)
       }
+      .onPageLoading(viewModel.gateways.isEmpty)
+      .pageBackgroundColor(.black131313)
+      .environmentObject(viewModel)
       .onViewDidLoad {
         viewModel.setupData(onlineDTO: onlinePaymentDTO!)
       }
@@ -110,8 +113,6 @@ struct OnlinePaymentView<ViewModel>: View
           remitAmount))
       }
     }
-    .pageBackgroundColor(.black131313)
-    .environmentObject(viewModel)
   }
 }
 
