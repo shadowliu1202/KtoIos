@@ -12,22 +12,6 @@ final class PromotionViewControllerTest: XCTestCase {
   private lazy var sut = PromotionViewController.initFrom(storyboard: "Promotion")
   private lazy var startDate = now.adding(value: -1, byAdding: .day).convertToKotlinx_datetimeLocalDateTime()
   private lazy var endDate = now.adding(value: 1, byAdding: .day).convertToKotlinx_datetimeLocalDateTime()
-  private lazy var vvipCoupon = BonusCoupon.VVIPCashback(
-    property: BonusCoupon.Property(
-      promotionId: "",
-      bonusId: "",
-      name: "ABC",
-      issueNumber: 0,
-      percentage: Percentage(percent: 20.0),
-      amount: "100".toAccountCurrency(),
-      endDate: endDate,
-      betMultiple: 0,
-      fixTurnoverRequirement: 0.0,
-      validPeriod: ValidPeriod.Always(),
-      couponStatus: CouponStatus.usable,
-      updatedDate: startDate,
-      informPlayerDate: now.toUTCOffsetDateTime(),
-      minCapital: "10".toAccountCurrency()))
 
   private lazy var vvipPromotion = PromotionEvent.VVIPCashback(
     promotionId: "",
@@ -52,6 +36,27 @@ final class PromotionViewControllerTest: XCTestCase {
     Injection.shared.registerAllDependency()
   }
 
+  private func vvipCoupon(delay: Double = 0) -> BonusCoupon.VVIPCashback {
+    .init(property: .init(
+      promotionId: "",
+      bonusId: "",
+      name: "ABC",
+      issueNumber: 0,
+      percentage: Percentage(percent: 20.0),
+      amount: "100".toAccountCurrency(),
+      endDate: endDate,
+      betMultiple: 0,
+      fixTurnoverRequirement: 0.0,
+      validPeriod: delay == 0 ?
+        .Always() : .Duration(
+          start: Date().toUTCOffsetDateTime(),
+          end: Date().addingTimeInterval(delay).toUTCOffsetDateTime()),
+      couponStatus: CouponStatus.usable,
+      updatedDate: startDate,
+      informPlayerDate: now.toUTCOffsetDateTime(),
+      minCapital: "10".toAccountCurrency()))
+  }
+
   private func givenPromotionUseCaseStubs(
     productPromotion: [PromotionEvent.Product],
     rebatePromotion: [PromotionEvent.Rebate],
@@ -68,7 +73,7 @@ final class PromotionViewControllerTest: XCTestCase {
     givenPromotionUseCaseStubs(
       productPromotion: [],
       rebatePromotion: [],
-      bonusCoupon: [vvipCoupon],
+      bonusCoupon: [vvipCoupon()],
       VVIPCashbackPromotion: [])
 
     sut.loadViewIfNeeded()
@@ -90,7 +95,7 @@ final class PromotionViewControllerTest: XCTestCase {
     givenPromotionUseCaseStubs(
       productPromotion: [],
       rebatePromotion: [],
-      bonusCoupon: [vvipCoupon],
+      bonusCoupon: [vvipCoupon()],
       VVIPCashbackPromotion: [])
 
     sut.loadViewIfNeeded()
@@ -114,7 +119,7 @@ final class PromotionViewControllerTest: XCTestCase {
     givenPromotionUseCaseStubs(
       productPromotion: [],
       rebatePromotion: [],
-      bonusCoupon: [vvipCoupon],
+      bonusCoupon: [vvipCoupon()],
       VVIPCashbackPromotion: [])
 
     sut.loadViewIfNeeded()
@@ -200,7 +205,7 @@ final class PromotionViewControllerTest: XCTestCase {
     givenPromotionUseCaseStubs(
       productPromotion: [],
       rebatePromotion: [],
-      bonusCoupon: [vvipCoupon],
+      bonusCoupon: [vvipCoupon()],
       VVIPCashbackPromotion: [])
 
     sut.loadViewIfNeeded()
@@ -218,7 +223,7 @@ final class PromotionViewControllerTest: XCTestCase {
     givenPromotionUseCaseStubs(
       productPromotion: [],
       rebatePromotion: [],
-      bonusCoupon: [vvipCoupon],
+      bonusCoupon: [vvipCoupon()],
       VVIPCashbackPromotion: [])
 
     sut.loadViewIfNeeded()
@@ -233,7 +238,7 @@ final class PromotionViewControllerTest: XCTestCase {
     givenPromotionUseCaseStubs(
       productPromotion: [],
       rebatePromotion: [],
-      bonusCoupon: [vvipCoupon],
+      bonusCoupon: [vvipCoupon()],
       VVIPCashbackPromotion: [vvipPromotion])
 
     sut.loadViewIfNeeded()
@@ -243,12 +248,32 @@ final class PromotionViewControllerTest: XCTestCase {
     let allTab = dropDown.tags.first(where: { $0.name.contains("全部") })!
     XCTAssertEqual(3, allTab.count)
   }
+  
+  func test_HaveTwoVVIPCashBackCopunsAndOneVVIPCashbackCouponWillExpire_InAllCouponPage_VVIPTabDisplayOne_KTO_TC_43() {
+    givenPromotionUseCaseStubs(
+      productPromotion: [],
+      rebatePromotion: [],
+      bonusCoupon: [vvipCoupon(delay: 1)],
+      VVIPCashbackPromotion: [vvipPromotion])
+
+    let stubTrigger = PublishSubject<Void>()
+    let stubViewModel = mock(PromotionViewModel.self).initialize(
+      promotionUseCase: Injectable.resolveWrapper(PromotionUseCase.self),
+      playerUseCase: Injectable.resolveWrapper(PlayerDataUseCase.self))
+    
+    given(stubViewModel.trigerRefresh) ~> stubTrigger
+    
+    sut.viewModel = stubViewModel
+    sut.loadViewIfNeeded()
+
+    verify(stubTrigger.onNext(any())).wasCalled(2)
+  }
 
   func test_PromotionFilterCasesCount_Equal_TabsCount() {
     givenPromotionUseCaseStubs(
       productPromotion: [],
       rebatePromotion: [],
-      bonusCoupon: [vvipCoupon],
+      bonusCoupon: [vvipCoupon()],
       VVIPCashbackPromotion: [vvipPromotion])
 
     sut.loadViewIfNeeded()

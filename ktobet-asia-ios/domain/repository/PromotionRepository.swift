@@ -11,21 +11,29 @@ protocol PromotionRepository {
     privilegeTypes: [PrivilegeType],
     sortingBy: SortingType,
     page: Int) -> Single<CouponHistorySummary>
+
+  func getCouponsAndPromotions() -> Single<BonusBean>
   func getBonusCoupons() -> Single<[BonusCoupon]>
   func getProductPromotions() -> Single<[PromotionEvent.Product]>
   func getRebatePromotions() -> Single<[PromotionEvent.Rebate]>
   func getCashbackPromotions() -> Single<[PromotionEvent.VVIPCashback]>
+
   func hasAccountLockedBonus() -> Single<Bool>
   func isLockedBonusCalculating() -> Single<Bool>
+
   func getLockedBonusDetail() -> Single<TurnOverDetail>
   func getTurnOverDetail(bonusCoupon: BonusCoupon) -> Single<TurnOverHint>
+
   func useCoupon(bonusCoupon: BonusCoupon, autoUse: Bool) -> Completable
   func getPromotionDetail(promotionId: String) -> Single<PromotionDescriptions>
   func getCashBackSettings(displayId: String) -> Single<[CashBackSetting]>
 }
 
 class PromotionRepositoryImpl: PromotionRepository {
-  private var promotionApi: PromotionApi!
+  private let promotionApi: PromotionApi
+  private lazy var couponsAndPromotions = getCouponsAndPromotions()
+    .asObservable()
+    .share()
 
   init(_ promotionApi: PromotionApi) {
     self.promotionApi = promotionApi
@@ -55,32 +63,73 @@ class PromotionRepositoryImpl: PromotionRepository {
     }
   }
 
+  func getCouponsAndPromotions() -> Single<BonusBean> {
+    promotionApi
+      .getBonusCoupons()
+      .map {
+        guard let data = $0.data else { throw KTOError.WrongDateFormat }
+        return data
+      }
+  }
+
   func getBonusCoupons() -> Single<[BonusCoupon]> {
-    self.promotionApi.getBonusCoupons().map({ response in
-      guard let data = response.data else { return [] }
-      return try data.map({ try $0.toBonusCoupon() })
-    })
+    couponsAndPromotions
+      .map { bonus in
+        bonus.coupons
+          .compactMap {
+            do {
+              return try $0.toBonusCoupon()
+            }
+            catch { Logger.shared.debug(error.localizedDescription) }
+            return nil
+          }
+      }
+      .asSingle()
   }
 
   func getProductPromotions() -> Single<[PromotionEvent.Product]> {
-    self.promotionApi.getProductPromotions().map { response in
-      guard let data = response.data else { return [] }
-      return try data.map({ try $0.toProductPromotion() })
-    }
+    couponsAndPromotions
+      .map { bonus in
+        bonus.productPromotions
+          .compactMap {
+            do {
+              return try $0.toProductPromotion()
+            }
+            catch { Logger.shared.debug(error.localizedDescription) }
+            return nil
+          }
+      }
+      .asSingle()
   }
 
   func getRebatePromotions() -> Single<[PromotionEvent.Rebate]> {
-    self.promotionApi.getPromotions().map { response in
-      guard let data = response.data else { return [] }
-      return try data.map({ try $0.toRebatePromotion() })
-    }
+    couponsAndPromotions
+      .map { bonus in
+        bonus.rebatePromotions
+          .compactMap {
+            do {
+              return try $0.toRebatePromotion()
+            }
+            catch { Logger.shared.debug(error.localizedDescription) }
+            return nil
+          }
+      }
+      .asSingle()
   }
 
   func getCashbackPromotions() -> Single<[PromotionEvent.VVIPCashback]> {
-    self.promotionApi.getCashbackPromotions().map { response in
-      guard let data = response.data else { return [] }
-      return try data.map({ try $0.toCashbackPromotion() })
-    }
+    couponsAndPromotions
+      .map { bonus in
+        bonus.cashbackPromotions
+          .compactMap {
+            do {
+              return try $0.toCashbackPromotion()
+            }
+            catch { Logger.shared.debug(error.localizedDescription) }
+            return nil
+          }
+      }
+      .asSingle()
   }
 
   func hasAccountLockedBonus() -> Single<Bool> {

@@ -35,24 +35,9 @@ class PromotionApi: ApiService {
     return httpClient.request(target).map(ResponseData<PromotionHistoryBean>.self)
   }
 
-  func getBonusCoupons() -> Single<ResponseData<[BonusBean]>> {
+  func getBonusCoupons() -> Single<ResponseData<BonusBean>> {
     let target = GetAPITarget(service: self.url("\(prefix)"))
-    return httpClient.request(target).map(ResponseData<[BonusBean]>.self)
-  }
-
-  func getPromotions() -> Single<ResponseData<[PromotionBean]>> {
-    let target = GetAPITarget(service: self.url("\(prefix)/promotions"))
-    return httpClient.request(target).map(ResponseData<[PromotionBean]>.self)
-  }
-
-  func getProductPromotions() -> Single<ResponseData<[ProductPromotionBean]>> {
-    let target = GetAPITarget(service: self.url("\(prefix)/product-promotions"))
-    return httpClient.request(target).map(ResponseData<[ProductPromotionBean]>.self)
-  }
-
-  func getCashbackPromotions() -> Single<ResponseData<[CashbackPromotionBean]>> {
-    let target = GetAPITarget(service: self.url("\(prefix)/cashback-promotions"))
-    return httpClient.request(target).map(ResponseData<[CashbackPromotionBean]>.self)
+    return httpClient.request(target).map(ResponseData<BonusBean>.self)
   }
 
   func getLockedBonus() -> Single<ResponseData<LockBonusBean>> {

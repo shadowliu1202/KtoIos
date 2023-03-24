@@ -1430,29 +1430,54 @@ struct PrivilegeBean: Codable {
 }
 
 struct BonusBean: Codable {
-  let amount: Double
-  let away: String
-  let betMultiple: Int32
-  let bonusCouponStatus: Int32
-  let displayId: String
-  let effectiveDate: String
-  let expiryDate: String
-  let home: String
-  let informPlayerDate: String
-  let isLimitedByDailyFull: Bool?
-  let issue: Int32
-  let league: String
-  let level: Int32
-  let maxAmount: Double
-  let minCapital: Double
-  let name: String
-  let no: String
-  let percentage: Double
-  let productType: Int32
-  let fixTurnoverRequirement: Double
-  let type: Int32
-  let updatedDate: String
+  struct Coupon: Codable {
+    let amount: Double
+    let away: String
+    let betMultiple: Int32
+    let bonusCouponStatus: Int32
+    let displayId: String
+    let home: String
+    let informPlayerDate: String
+    let isLimitedByDailyFull: Bool?
+    let issueNumber: Int32
+    let league: String
+    let level: Int32
+    let maxAmount: Double
+    let name: String
+    let no: String
+    let percentage: Double
+    let productType: Int32
+    let fixTurnoverRequirement: Double
+    let type: Int32
+    let minCapital: Double
+    
+    @DefaultCodable(String.minimumDate) var effectiveDate: String
+    @DefaultCodable(String.maximumDate) var expiryDate: String
+    @DefaultCodable(String.minimumDate) var updatedDate: String
+  }
 
+  struct Promotion: Codable {
+    let informPlayerDate: String
+    let displayId: String
+    let endDate: String
+    let issue: Int32
+    let maxAmount: Double
+    let name: String?
+    let productType: Int32
+    let sort: Int32?
+    let type: Int32
+
+    @DefaultCodable(Bool.false) var isAutoUse: Bool
+    @DefaultCodable(Double.zero) var percentage: Double
+  }
+
+  var coupons: [Coupon] = []
+  var productPromotions: [Promotion] = []
+  var rebatePromotions: [Promotion] = []
+  var cashbackPromotions: [Promotion] = []
+}
+
+extension BonusBean.Coupon {
   var couponStatus: CouponStatus {
     self.covertBonusPromotionStatus(self.bonusCouponStatus, isLimitedByDailyFull)
   }
@@ -1461,8 +1486,8 @@ struct BonusBean: Codable {
     self.amount.toAccountCurrency()
   }
 
-  var knMaxAmount: Promotion.IMaxAmount {
-    Promotion.companion.create(amount: self.maxAmount.toAccountCurrency())
+  var knMaxAmount: SharedBu.Promotion.IMaxAmount {
+    SharedBu.Promotion.companion.create(amount: self.maxAmount.toAccountCurrency())
   }
 
   var knMinCapital: AccountCurrency {
@@ -1523,7 +1548,7 @@ struct BonusBean: Codable {
     BonusCoupon.Product(
       promotionId: self.displayId,
       bonusId: self.no,
-      issueNumber: self.issue,
+      issueNumber: self.issueNumber,
       productType: ProductType.convert(self.productType),
       informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
       maxAmount: self.knMaxAmount,
@@ -1544,7 +1569,7 @@ struct BonusBean: Codable {
       promotionId: self.displayId,
       bonusId: self.no,
       name: self.name,
-      issueNumber: self.issue == 0 ? nil : KotlinInt(value: self.issue),
+      issueNumber: self.issueNumber == 0 ? nil : KotlinInt(value: self.issueNumber),
       percentage: self.knPercentage,
       amount: self.knAmount,
       endDate: try self.effectiveDate.toLocalDateTime(),
@@ -1589,7 +1614,7 @@ struct BonusBean: Codable {
       promotionId: self.displayId,
       bonusId: self.no,
       name: self.name,
-      issueNumber: KotlinInt(value: Int32(self.issue)),
+      issueNumber: KotlinInt(value: Int32(self.issueNumber)),
       percentage: self.knPercentage,
       amount: self.knAmount,
       endDate: try self.effectiveDate.toLocalDateTime(),
@@ -1609,16 +1634,28 @@ struct BonusBean: Codable {
   }
 }
 
-struct PromotionBean: Codable {
-  let informPlayerDate: String
-  let displayId: String
-  let endDate: String
-  let isAutoUse: Bool
-  let issue: Int32
-  let maxAmount: Double
-  let name: String?
-  let percentage: Double
-  let productType: Int32
+extension BonusBean.Promotion {
+  func toCashbackPromotion() throws -> PromotionEvent.VVIPCashback {
+    PromotionEvent.VVIPCashbackCompanion()
+      .create(
+        promotionId: self.displayId,
+        issueNumber: self.issue,
+        informPlayerDate: try self.informPlayerDate.toLocalDateTime(),
+        percentage: Percentage(percent: self.percentage),
+        maxBonusAmount: self.maxAmount.toAccountCurrency(),
+        endDate: try self.endDate.toOffsetDateTime())
+  }
+
+  func toProductPromotion() throws -> PromotionEvent.Product {
+    PromotionEvent.ProductCompanion()
+      .create(
+        promotionId: self.displayId,
+        issueNumber: self.issue,
+        informPlayerDate: try self.informPlayerDate.toLocalDateTime(),
+        endDate: try self.endDate.toOffsetDateTime(),
+        maxBonusAmount: self.maxAmount.toAccountCurrency(),
+        type: ProductType.convert(self.productType))
+  }
 
   func toRebatePromotion() throws -> PromotionEvent.Rebate {
     PromotionEvent.RebateCompanion()
@@ -1631,49 +1668,6 @@ struct PromotionBean: Codable {
         maxBonusAmount: self.maxAmount.toAccountCurrency(),
         endDate: try self.endDate.toOffsetDateTime(),
         isAutoUse: self.isAutoUse)
-  }
-}
-
-struct ProductPromotionBean: Codable {
-  let displayId: String
-  let endDate: String
-  let informPlayerDate: String
-  let issue: Int32
-  let maxAmount: Double
-  let name: String?
-  let productType: Int32
-  let sort: Int32
-
-  func toProductPromotion() throws -> PromotionEvent.Product {
-    PromotionEvent.ProductCompanion()
-      .create(
-        promotionId: self.displayId,
-        issueNumber: self.issue,
-        informPlayerDate: try self.informPlayerDate.toLocalDateTime(),
-        endDate: try self.endDate.toOffsetDateTime(),
-        maxBonusAmount: self.maxAmount.toAccountCurrency(),
-        type: ProductType.convert(self.productType))
-  }
-}
-
-struct CashbackPromotionBean: Codable {
-  let displayId: String
-  let issue: Int32
-  let type: Int32
-  let maxAmount: Double
-  let endDate: String
-  let percentage: Double
-  let informPlayerDate: String
-
-  func toCashbackPromotion() throws -> PromotionEvent.VVIPCashback {
-    PromotionEvent.VVIPCashbackCompanion()
-      .create(
-        promotionId: self.displayId,
-        issueNumber: self.issue,
-        informPlayerDate: try self.informPlayerDate.toLocalDateTime(),
-        percentage: Percentage(percent: self.percentage),
-        maxBonusAmount: self.maxAmount.toAccountCurrency(),
-        endDate: try self.endDate.toOffsetDateTime())
   }
 }
 
