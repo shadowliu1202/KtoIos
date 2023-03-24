@@ -9509,7 +9509,6 @@
 				32C269E63089BAFE3EDF165C /* [CP] Check Pods Manifest.lock */,
 				4199A02725AE9918002E2D7E /* Sources */,
 				4199A08625AE9918002E2D7E /* Frameworks */,
-				FF63B3652999E97600E30EB6 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				4199A08925AE9918002E2D7E /* Resources */,
 				60EEA9E527605C9200BCFF81 /* ShellScript */,
 				B47C3619979782117F75D630 /* [CP] Embed Pods Frameworks */,
@@ -9574,7 +9573,6 @@
 				49B5951FE50D907A443DF606 /* [CP] Check Pods Manifest.lock */,
 				48AAA110256E458800E075CA /* Sources */,
 				48AAA167256E458800E075CA /* Frameworks */,
-				FFDB8EB4299CC1B8000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				48AAA169256E458800E075CA /* Resources */,
 				48AAA175256E458800E075CA /* Copy Files */,
 				60EEA9E727605FA700BCFF81 /* ShellScript */,
@@ -9596,7 +9594,6 @@
 				E08E7068E6D78768525B0832 /* [CP] Check Pods Manifest.lock */,
 				609012682640EE7000419F8E /* Sources */,
 				6090134C2640EE7000419F8E /* Frameworks */,
-				FFDB8EB5299CC23B000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6090134E2640EE7000419F8E /* Resources */,
 				609013642640EE7000419F8E /* Copy Files */,
 				60EEA9E627605E4D00BCFF81 /* ShellScript */,
@@ -9619,7 +9616,6 @@
 				BD113D0FF2CBBF4F5E566358 /* [CP] Check Pods Manifest.lock */,
 				60E57FAF27F190E4008CE5A9 /* Sources */,
 				60E581B027F190E4008CE5A9 /* Frameworks */,
-				FFDB8EB8299CC2D3000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				60E581B327F190E4008CE5A9 /* Resources */,
 				60E581EF27F190E4008CE5A9 /* Copy Files */,
 				60E581F127F190E4008CE5A9 /* ShellScript */,
@@ -9642,7 +9638,6 @@
 				6D0EDAE228743FAC004A9E3C /* [CP] Check Pods Manifest.lock */,
 				6D0EDAE328743FAC004A9E3C /* Sources */,
 				6D0EDCEF28743FAC004A9E3C /* Frameworks */,
-				FFDB8EB6299CC294000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D0EDCF328743FAC004A9E3C /* Resources */,
 				6D0EDD3028743FAC004A9E3C /* Copy Files */,
 				6D0EDD3228743FAC004A9E3C /* ShellScript */,
@@ -9665,7 +9660,6 @@
 				6D0EDD3D28744704004A9E3C /* [CP] Check Pods Manifest.lock */,
 				6D0EDD3E28744704004A9E3C /* Sources */,
 				6D0EDF4A28744704004A9E3C /* Frameworks */,
-				FFDB8EB9299CC2F5000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D0EDF4E28744704004A9E3C /* Resources */,
 				6D0EDF8B28744704004A9E3C /* Copy Files */,
 				6D0EDF8D28744704004A9E3C /* ShellScript */,
@@ -9710,7 +9704,6 @@
 				6D966B3C27FEE3FA006086B7 /* [CP] Check Pods Manifest.lock */,
 				6D966B3D27FEE3FA006086B7 /* Sources */,
 				6D966D3E27FEE3FA006086B7 /* Frameworks */,
-				FFDB8EBA299CC318000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D966D4127FEE3FA006086B7 /* Resources */,
 				6D966D7E27FEE3FA006086B7 /* Copy Files */,
 				6D966D8027FEE3FA006086B7 /* ShellScript */,
@@ -9732,7 +9725,6 @@
 				6D966D8927FEE416006086B7 /* [CP] Check Pods Manifest.lock */,
 				6D966D8A27FEE416006086B7 /* Sources */,
 				6D966F8B27FEE416006086B7 /* Frameworks */,
-				FFDB8EBB299CC33B000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D966F8E27FEE416006086B7 /* Resources */,
 				6D966FCB27FEE416006086B7 /* Copy Files */,
 				6D966FCD27FEE416006086B7 /* ShellScript */,
@@ -9754,7 +9746,6 @@
 				6F4931E6503709ADC65B7738 /* [CP] Check Pods Manifest.lock */,
 				6D96A546295181BC009DA4C5 /* Sources */,
 				6D96A798295181BC009DA4C5 /* Frameworks */,
-				FFDB8EB7299CC2B2000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */,
 				6D96A79B295181BC009DA4C5 /* Resources */,
 				6D96A7D9295181BC009DA4C5 /* ShellScript */,
 				6D96A7DB295181BC009DA4C5 /* Embed Frameworks */,
@@ -11288,177 +11279,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-preprod/Pods-ktobet-asia-ios-preprod-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		FF63B3652999E97600E30EB6 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version At Setting (Place above Copy Bundle Resources)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
-		};
-		FFDB8EB4299CC1B8000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version At Setting (Place above Copy Bundle Resources)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
-		};
-		FFDB8EB5299CC23B000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version At Setting (Place above Copy Bundle Resources)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
-		};
-		FFDB8EB6299CC294000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version At Setting (Place above Copy Bundle Resources)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
-		};
-		FFDB8EB7299CC2B2000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version At Setting (Place above Copy Bundle Resources)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
-		};
-		FFDB8EB8299CC2D3000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version At Setting (Place above Copy Bundle Resources)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
-		};
-		FFDB8EB9299CC2F5000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version At Setting (Place above Copy Bundle Resources)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
-		};
-		FFDB8EBA299CC318000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version At Setting (Place above Copy Bundle Resources)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
-		};
-		FFDB8EBB299CC33B000859D4 /* Update Version At Setting (Place above Copy Bundle Resources) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version At Setting (Place above Copy Bundle Resources)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $MARKETING_VERSION ($CURRENT_PROJECT_VERSION)\" \"${SRCROOT}/Settings.bundle/Root.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -17690,9 +17510,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconNotProd;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 277T679FZ2;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 277T679FZ2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -17707,6 +17529,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kto.asia.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.kto.asia.dev";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia.dev";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEV;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -18332,10 +18155,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconNotProd;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 277T679FZ2;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 277T679FZ2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -18350,6 +18175,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kto.asia.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.kto.asia.dev";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia.dev";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEV;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
