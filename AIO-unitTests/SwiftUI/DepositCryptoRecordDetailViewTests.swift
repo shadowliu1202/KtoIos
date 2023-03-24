@@ -8,6 +8,10 @@ import XCTest
 extension DepositCryptoRecordDetailViewModelProtocolMock: ObservableObject { }
 
 final class DepositCryptoRecordDetailViewTests: XCTestCase {
+  override func tearDown() {
+    Injection.shared.registerAllDependency()
+  }
+
   func generateCryptoLog(status: PaymentStatus) -> PaymentLogDTO.CryptoLog {
     let log = PaymentLogDTO.Log(
       displayId: "TEST_" + "\(PaymentStatus.floating.self)",
