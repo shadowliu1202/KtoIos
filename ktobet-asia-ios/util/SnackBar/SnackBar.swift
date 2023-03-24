@@ -31,15 +31,18 @@ class SnackBarImpl: SnackBar {
 
 extension SnackBarImpl {
   private func setupUI() {
-    if snackBarView.superview == nil {
-      UIWindow.key?.addSubview(snackBarView)
+    if
+      snackBarView.superview == nil,
+      let keyWindow = UIWindow.key
+    {
+      keyWindow.addSubview(snackBarView)
 
       snackBarView.snp.makeConstraints { make in
         make.leading.trailing.equalToSuperview().inset(10)
         make.height.equalTo(48)
-        bottomConstraint = make.bottom.equalToSuperview().offset(60).constraint
+        bottomConstraint = make.bottom.equalTo(keyWindow.safeAreaLayoutGuide.snp.bottom).offset(100).constraint
       }
-      UIWindow.key?.layoutIfNeeded()
+      keyWindow.layoutIfNeeded()
     }
   }
 
@@ -79,7 +82,7 @@ extension SnackBarImpl {
       options: .curveLinear,
       animations: { [weak self] () in
         guard let self else { return }
-        self.bottomConstraint?.update(offset: 60)
+        self.bottomConstraint?.update(offset: 100)
         UIWindow.key?.layoutIfNeeded()
       })
   }
