@@ -37,7 +37,7 @@ struct DepositRecordDetailView<ViewModel>: View
           onClickImage: onClickImage)
       }
     }
-    .onPageLoading(viewModel.remarks.isEmpty || viewModel.log == nil)
+    .onPageLoading(viewModel.log == nil)
     .pageBackgroundColor(.gray131313)
     .environment(\.playerLocale, playerConfig.supportLocale)
     .environmentObject(viewModel)
