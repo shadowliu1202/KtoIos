@@ -73,20 +73,30 @@ class WithdrawalCryptoRequestConfirmViewController: LobbyViewController {
   }
 
   private func dataBinding() {
-    submitButton.rx.touchUpInside
-      .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
+    submitButton.rx.throttledTap
       .bind(onNext: { [weak self] _ in
         guard let self else { return }
         self.viewModel.requestCryptoWithdrawal(
           playerCryptoBankCardId: self.request.cardId,
           requestCryptoAmount: self.request.cryptoAmount.doubleValue,
           requestFiatAmount: self.request.fiatAmount.doubleValue,
-          cryptoCurrency: self.requestCryptoAmount).subscribe(onCompleted: { [weak self] in
-          self?.popThenToast()
-        }, onError: { [weak self] error in
-          self?.handleErrors(error)
-        }).disposed(by: self.disposeBag)
-      }).disposed(by: disposeBag)
+          cryptoCurrency: self.requestCryptoAmount)
+          .do(
+            onSubscribe: {
+              self.submitButton.isValid = false
+            },
+            onDispose: {
+              self.submitButton.isValid = true
+            })
+          .subscribe(
+            onCompleted: { [weak self] in
+              self?.popThenToast()
+            },
+            onError: { [weak self] error in
+              self?.handleErrors(error)
+            }).disposed(by: self.disposeBag)
+      })
+      .disposed(by: disposeBag)
   }
 
   private func popThenToast() {
