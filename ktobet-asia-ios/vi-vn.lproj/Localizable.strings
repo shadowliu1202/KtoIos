@@ -961,7 +961,7 @@ Chăm Sóc Khách Hàng?";
 //MARK: - Bonus
 "bonus_amount" = "Tiền Thưởng";
 "bonus_bonuslockstatus_0" = "Không Có Yêu Cầu Đặt Cược";
-"bonus_bonuslockstatus_1" = "Chưa hoàn thành Doanh Thu Cược ";
+"bonus_bonuslockstatus_1" = "Chưa hoàn thành Doanh Thu Cược";
 "bonus_bonuslockstatus_2" = "Đã hoàn thành Doanh Thu Cược";
 "bonus_bonuslockstatus_3" = "Đã Hủy";
 "bonus_bonusproducttype_1" = "Bảo Hiểm Cược Thể Thao";
@@ -1754,3 +1754,5 @@ Chúng Tôi là KTO, Chúng Tôi độc lập.";
 "license_partner_description_1" = "Đối Tác Khu Vực Chính Thức 2022, 2023";
 "license_partner_title_2" = "Câu Lạc Bộ Bóng Đá RCD Espanyol";
 "license_partner_description_2" = "Đối Tác Châu Á Chính Thức 2021";
+"license_partner_title_3" = "Võ đường Liên Phong MMA";
+"license_partner_description_3" = "Đối Tác Thương Hiệu độc quyền 2023";
