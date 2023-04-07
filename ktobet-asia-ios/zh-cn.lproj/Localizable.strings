@@ -786,7 +786,7 @@
 "withdrawal_balance_not_enough" = "您的钱包余额不足";
 "withdrawal_account" = "提现账户";
 "withdrawal_bank_card_deleting" = "此银行卡资料将不存在";
-"withdrawal_id" = "提现单号";
+"withdrawal_id" = "提现编号";
 "withdrawal_account_exist" = "您的提现账户已存在";
 "withdrawal_crypto_locked" = "APP暂时不支持虚拟币充值和提现，请登录网页端操作。";
 "withdrawal_cancel_title" = "确认取消？";
@@ -1697,3 +1697,5 @@ KTO是英文\"KNOW THE ODDS\"的缩写，代表KTO对赔率数据的专业理解
 "license_partner_description_1" = "2022, 2023官方合作伙伴";
 "license_partner_title_2" = "西班牙人";
 "license_partner_description_2" = "2021官方合作伙伴";
+"license_partner_title_3" = "";
+"license_partner_description_3" = "";
