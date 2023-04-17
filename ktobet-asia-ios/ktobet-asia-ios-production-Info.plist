@@ -34,6 +34,13 @@
 		<false/>
 		<key>NSExceptionDomains</key>
 		<dict>
+      <key>gci.aggdemo.com</key>
+      <dict>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <true/>
+        <key>NSIncludesSubdomains</key>
+        <true/>
+      </dict>
       <key>45.117.102.177</key>
       <dict>
         <key>NSExceptionAllowsInsecureHTTPLoads</key>
