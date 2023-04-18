@@ -54,8 +54,11 @@ class DepositLogSummaryViewModel: CollectErrorViewModel,
       onLoading: { [unowned self] in
         self.isPageLoading = $0
       },
-      onElementChanged: { [unowned self] in
-        self.sections = self.buildSections($0)
+      onElementChanged: { [unowned self] element in
+        //FIXME: workaround 
+        DispatchQueue.main.async {
+          self.sections = self.buildSections(element)
+        }
       })
 
     summaryRefreshTrigger

@@ -110,7 +110,8 @@ extension DepositLogSummaryView {
     var body: some View {
       if let sections = viewModel.sections {
         if !sections.isEmpty {
-          LazyVStack {
+          //FIXME: workaround 
+          VStack {
             ForEach(sections.indices, id: \.self) { sectionIndex in
               let section = sections[sectionIndex]
               Text(section.model)
