@@ -22,7 +22,7 @@ extension CasinoGameResult.DragonTiger: TwoSideGameResult {
   var leftCards: [PokerCard] { dragonCards }
   var rightTitleKey: String { "product_tiger_title" }
   var rightCards: [PokerCard] { tigerCards }
-  var spacing: CGFloat { 32 }
+  var spacing: CGFloat { 138 }
 }
 
 extension CasinoGameResult.WinThreeCards: TwoSideGameResult {
