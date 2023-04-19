@@ -68,7 +68,7 @@ final class DepositLogSummaryViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
-        .lazyVStack()
+        .vStack()
         .forEach(0)
 
       let numberOfSections = sections.count

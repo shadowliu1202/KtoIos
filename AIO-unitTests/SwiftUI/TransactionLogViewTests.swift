@@ -62,7 +62,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
-        .lazyVStack()
+        .vStack()
         .forEach(0)
 
       let numberOfSections = sections.count
@@ -109,7 +109,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
-        .lazyVStack()
+        .vStack()
         .forEach(0)
 
       let numberOfSections = sections.count
@@ -156,7 +156,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
-        .lazyVStack()
+        .vStack()
         .forEach(0)
 
       let numberOfSections = sections.count
@@ -256,7 +256,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sectionTitle = try view
-        .lazyVStack()
+        .vStack()
         .forEach(0)
         .tupleView(0)
         .localizedText(0)
