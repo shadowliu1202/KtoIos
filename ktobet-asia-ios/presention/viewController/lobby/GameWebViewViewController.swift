@@ -30,7 +30,6 @@ class GameWebViewViewController: WebViewBase {
     let webPagePreferences = WKWebpagePreferences()
     webPagePreferences.allowsContentJavaScript = true
     webView.configuration.defaultWebpagePreferences = webPagePreferences
-    webView.configuration.allowsInlineMediaPlayback = true
     webView.configuration.dataDetectorTypes = .all
     webView.translatesAutoresizingMaskIntoConstraints = false
 

@@ -5809,6 +5809,15 @@
 		6DBC86CF26F092E100A35B66 /* BetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBC86CE26F092E100A35B66 /* BetStatus.swift */; };
 		6DBC86D026F092E100A35B66 /* BetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBC86CE26F092E100A35B66 /* BetStatus.swift */; };
 		6DBC86D126F092E100A35B66 /* BetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBC86CE26F092E100A35B66 /* BetStatus.swift */; };
+		6DBE84B429F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */; };
+		6DBE84B529F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */; };
+		6DBE84B629F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */; };
+		6DBE84B729F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */; };
+		6DBE84B829F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */; };
+		6DBE84B929F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */; };
+		6DBE84BA29F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */; };
+		6DBE84BB29F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */; };
+		6DBE84BC29F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */; };
 		6DC17ECA26817356009665B4 /* WithdrawalCryptoRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC17EC926817356009665B4 /* WithdrawalCryptoRequestViewModel.swift */; };
 		6DC17ECB26817356009665B4 /* WithdrawalCryptoRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC17EC926817356009665B4 /* WithdrawalCryptoRequestViewModel.swift */; };
 		6DC17ECD26817356009665B4 /* WithdrawalCryptoRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC17EC926817356009665B4 /* WithdrawalCryptoRequestViewModel.swift */; };
@@ -7379,6 +7388,7 @@
 		6DB831F528D98C5500E0A704 /* CryptoGuideVNDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoGuideVNDViewController.swift; sourceTree = "<group>"; };
 		6DB8320D28DC3E6600E0A704 /* CryptoGuideVNDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoGuideVNDViewModel.swift; sourceTree = "<group>"; };
 		6DBC86CE26F092E100A35B66 /* BetStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetStatus.swift; sourceTree = "<group>"; };
+		6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BullBullGameResult.swift; sourceTree = "<group>"; };
 		6DC17EC926817356009665B4 /* WithdrawalCryptoRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoRequestViewModel.swift; sourceTree = "<group>"; };
 		6DC51E2729A74D7F00C87632 /* AffiliateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliateViewController.swift; sourceTree = "<group>"; };
 		6DCC261D27587825007C973B /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
@@ -9363,6 +9373,7 @@
 				FF2E4DAA29ECEEFA00B0C048 /* SicboGameResultBuilder.swift */,
 				FF2E4DBE29ECF15200B0C048 /* TwoSideGameResultBuilder.swift */,
 				FF2E4DD229ED106F00B0C048 /* HasFirstCardGameResultBuilder.swift */,
+				6DBE84B329F0ECF200B3DD25 /* BullBullGameResult.swift */,
 				FF2E4DD329ED115D00B0C048 /* BullFightGameResultBuilder.swift */,
 				FF2E4DDD29ED125100B0C048 /* BlackjackGameResultBuilder.swift */,
 				FF2E4DB429ECF04000B0C048 /* RouletteGameResultBuilder.swift */,
@@ -11879,6 +11890,7 @@
 				6D98EBA628EFDAF200065D68 /* KtoURL.swift in Sources */,
 				FFB016BB29658404007E0236 /* VisableLocaleModifier.swift in Sources */,
 				FF8C269E29B9866F009523BE /* DepositCryptoRecordDetailViewModelProtocol.swift in Sources */,
+				6DBE84B529F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */,
 				FFC6B8ED290A41EC002D843B /* InjectionComponent.swift in Sources */,
 				6D986A7E271923C200194E0D /* ChatRoomViewController.swift in Sources */,
 				6D6E6FFE27507A28005D88A6 /* CurrencyUnit.swift in Sources */,
@@ -12589,6 +12601,7 @@
 				60BCC2D425B7D2F200C56D6E /* DoubleExtension.swift in Sources */,
 				48AAA154256E458800E075CA /* FeatureItemCell.swift in Sources */,
 				FFB016BA29658404007E0236 /* VisableLocaleModifier.swift in Sources */,
+				6DBE84B429F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */,
 				FF8C269D29B9866F009523BE /* DepositCryptoRecordDetailViewModelProtocol.swift in Sources */,
 				60072DB325EE37D8001EFDAE /* ImageViewController.swift in Sources */,
 				FFC6B8EC290A4146002D843B /* InjectionComponent.swift in Sources */,
@@ -13172,6 +13185,7 @@
 				FFB2100E29597A6500ED3C3A /* DepositOfflineConfirmViewModel.swift in Sources */,
 				6D993876271D73050068A616 /* CustomImageBarButtonItem.swift in Sources */,
 				609013042640EE7000419F8E /* DefaultHttpClient.swift in Sources */,
+				6DBE84B629F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */,
 				6D986A73271915BB00194E0D /* CustomServicePresenter.swift in Sources */,
 				3C24019A2861AC1100761FFC /* FontExtension.swift in Sources */,
 				609013052640EE7000419F8E /* WebGameCollectionView.swift in Sources */,
@@ -13904,6 +13918,7 @@
 				60E5815027F190E4008CE5A9 /* VideoView.swift in Sources */,
 				60E5815127F190E4008CE5A9 /* Persistent.swift in Sources */,
 				60E5815327F190E4008CE5A9 /* CurrencyUnit.swift in Sources */,
+				6DBE84B929F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */,
 				60E5815427F190E4008CE5A9 /* SystemRepository.swift in Sources */,
 				6D0B652429B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				60E5815527F190E4008CE5A9 /* UnusableTableViewCell.swift in Sources */,
@@ -14561,6 +14576,7 @@
 				6D0EDC9128743FAC004A9E3C /* CurrencyUnit.swift in Sources */,
 				3C8FF8FB2992376D009BD583 /* OnlinePaymentView.swift in Sources */,
 				6D0EDC9228743FAC004A9E3C /* SystemRepository.swift in Sources */,
+				6DBE84B729F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */,
 				FFA26A4D292C7D07008C3E71 /* ViewDidLoadModifier.swift in Sources */,
 				6D0EDC9328743FAC004A9E3C /* UnusableTableViewCell.swift in Sources */,
 				FF270F5729385821008345EF /* TransationLogView.swift in Sources */,
@@ -15144,6 +15160,7 @@
 				3CA0C0BB29C1BC4400FD6ACF /* WithdrawalMainViewController.swift in Sources */,
 				6D0EDEAB28744704004A9E3C /* CustomImageBarButtonItem.swift in Sources */,
 				3CC06519287FDD9D008AAC09 /* StarMergerViewController.swift in Sources */,
+				6DBE84BA29F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */,
 				6D0EDEAC28744704004A9E3C /* DefaultHttpClient.swift in Sources */,
 				6D0EDEAD28744704004A9E3C /* CustomServicePresenter.swift in Sources */,
 				6D0EDEAE28744704004A9E3C /* FontExtension.swift in Sources */,
@@ -15836,6 +15853,7 @@
 				FFB2101029597A6500ED3C3A /* DepositOfflineConfirmViewModel.swift in Sources */,
 				6D966CA227FEE3FA006086B7 /* CustomImageBarButtonItem.swift in Sources */,
 				6D966CA327FEE3FA006086B7 /* DefaultHttpClient.swift in Sources */,
+				6DBE84BB29F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */,
 				6D966CA427FEE3FA006086B7 /* CustomServicePresenter.swift in Sources */,
 				3C24019C2861AC1100761FFC /* FontExtension.swift in Sources */,
 				6D966CA527FEE3FA006086B7 /* WebGameCollectionView.swift in Sources */,
@@ -16568,6 +16586,7 @@
 				6D966F2B27FEE416006086B7 /* VideoView.swift in Sources */,
 				6D966F2C27FEE416006086B7 /* Persistent.swift in Sources */,
 				6D966F2E27FEE416006086B7 /* CurrencyUnit.swift in Sources */,
+				6DBE84BC29F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */,
 				6D966F2F27FEE416006086B7 /* SystemRepository.swift in Sources */,
 				6D0B652729B710DC000BE9D8 /* DropdownSelector.swift in Sources */,
 				6D966F3027FEE416006086B7 /* UnusableTableViewCell.swift in Sources */,
@@ -17225,6 +17244,7 @@
 				6D55C7BC29657E960038E8FB /* CryptoDepositViewModel.swift in Sources */,
 				6D55CA09296662F00038E8FB /* CasinoAdapter.swift in Sources */,
 				6D55C74429657E380038E8FB /* TransactionLogDetailViewController.swift in Sources */,
+				6DBE84B829F0ECF200B3DD25 /* BullBullGameResult.swift in Sources */,
 				6D55C9002966622C0038E8FB /* HttpClientProtocol.swift in Sources */,
 				6D55C69629657DB80038E8FB /* ConnectionDelegate.swift in Sources */,
 				6D55CA1E296662FA0038E8FB /* NewLoginViewModel.swift in Sources */,
