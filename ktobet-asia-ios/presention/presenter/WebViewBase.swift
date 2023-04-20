@@ -3,16 +3,22 @@ import WebKit
 
 class WebViewBase: UIViewController {
   private(set) var httpClient = Injectable.resolveWrapper(HttpClient.self)
-  private(set) var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+  private(set) lazy var webView = setupWebView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     setupUserAgent()
     setupCookies()
-    setupWebView(view: view)
+    addWebView(view: view)
   }
 
+  private func setupWebView() -> WKWebView {
+    let webConfiguration = WKWebViewConfiguration()
+    webConfiguration.allowsInlineMediaPlayback = true
+    return WKWebView(frame: .zero, configuration: webConfiguration)
+  }
+  
   func setupUserAgent() {
     if let defaultAgent = WKWebView().value(forKey: "userAgent") {
       let MockWebViewUserAgent = Configuration.getKtoAgent()
@@ -26,7 +32,7 @@ class WebViewBase: UIViewController {
     }
   }
 
-  func setupWebView(view: UIView) {
+  private func addWebView(view: UIView) {
     webView.scrollView.delegate = self
     webView.uiDelegate = self
     webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

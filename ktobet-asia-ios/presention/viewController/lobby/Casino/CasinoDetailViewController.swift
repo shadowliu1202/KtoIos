@@ -165,6 +165,9 @@ extension CasinoDetailViewController {
     case let roulette as CasinoGameResult.Roulette:
       builder = RouletteGameResultBuilder(roulette: roulette)
       
+    case let bullbull as BullBullGameResult:
+      builder = BullBullGameResultBuilder(result: bullbull)
+      
     case let hasFirstCard as HasFirstCardGameResult:
       builder = HasFirstCardGameResultBuilder(result: hasFirstCard)
       

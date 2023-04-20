@@ -1,24 +1,21 @@
 import SharedBu
 import UIKit
 
-protocol HasFirstCardGameResult {
-  var firstCard: PokerCard { get }
+protocol BullBullGameResult {
+  var firstCard: PokerCard? { get }
   var bankerCards: [PokerCard] { get }
   var playerFirstCards: [PokerCard] { get }
   var playerSecondCards: [PokerCard] { get }
   var playerThirdCards: [PokerCard] { get }
 }
 
-extension CasinoGameResult.ThreeFace: HasFirstCardGameResult { }
+extension CasinoGameResult.BullBull: BullBullGameResult { }
 
-struct HasFirstCardGameResultBuilder: CasinoResultBuilder {
-  let result: HasFirstCardGameResult
+struct BullBullGameResultBuilder: CasinoResultBuilder {
+  let result: BullBullGameResult
 
   func build(to background: UIView) {
     var rowViews = [
-      pokerCardsRow(
-        title: Localize.string("product_first_card"),
-        pokerCards: [result.firstCard]),
       pokerCardsRow(
         title: Localize.string("product_banker_title"),
         pokerCards: result.bankerCards),
@@ -32,6 +29,14 @@ struct HasFirstCardGameResultBuilder: CasinoResultBuilder {
         title: Localize.string("product_player_3_title"),
         pokerCards: result.playerThirdCards),
     ]
+
+    if let firstCard = result.firstCard {
+      rowViews.insert(
+        pokerCardsRow(
+          title: Localize.string("product_first_card"),
+          pokerCards: [firstCard]),
+        at: 0)
+    }
 
     addPokerCardsRowsStackView(rowViews: rowViews, to: background)
   }
