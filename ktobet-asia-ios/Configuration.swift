@@ -61,7 +61,7 @@ enum Configuration: String {
 
   static func getKtoAgent() -> String {
     let userAgent =
-      "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(UIDevice.modelName))"
+      "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(UIDevice.deviceName))"
     return userAgent
   }
 }
