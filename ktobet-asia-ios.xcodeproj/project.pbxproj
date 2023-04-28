@@ -9440,9 +9440,9 @@
 		FF8C266D29B9866F009523BE /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				FF8C266E29B9866F009523BE /* DepositRecordDetailMainViewController.swift */,
 				FF8C266F29B9866F009523BE /* Crypto */,
 				FF8C267429B9866F009523BE /* Fiat */,
+				FF8C266E29B9866F009523BE /* DepositRecordDetailMainViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
