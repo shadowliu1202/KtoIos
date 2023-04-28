@@ -51,6 +51,8 @@ struct DepositRecordDetailView<ViewModel>: View
 // MARK: - Components
 
 extension DepositRecordDetailView {
+  // MARK: - Fields
+
   struct Fields: View {
     @EnvironmentObject var viewModel: ViewModel
 
@@ -79,6 +81,8 @@ extension DepositRecordDetailView {
         .visibility(viewModel.log?.status == .floating ? .gone : .visible)
     }
   }
+
+  // MARK: - Row
 
   struct Row: View {
     enum `Type`: CaseIterable {
@@ -137,6 +141,8 @@ extension DepositRecordDetailView {
       .onInspected(inspection, self)
     }
 
+    // MARK: - Default
+
     func buildDefault(
       titleTag: String? = nil,
       date: String? = nil,
@@ -169,6 +175,8 @@ extension DepositRecordDetailView {
       }
     }
 
+    // MARK: - Remark
+
     func buildRemark() -> some View {
       VStack(spacing: 2) {
         Text(Localize.string("common_remark"))
@@ -192,8 +200,9 @@ extension DepositRecordDetailView {
                   let uploaded = remark.uploadedURLs[safe: index]
 
                   if let uploaded {
-                    Rectangle()
-                      .fill(Color.clear)
+                    Color.from(.gray202020)
+                      .strokeBorder(color: .gray3C3E40, cornerRadius: 4)
+                      .frame(height: 96)
                       .overlay(
                         LazyImage(
                           headers: viewModel.downloadHeaders,
@@ -201,14 +210,11 @@ extension DepositRecordDetailView {
                         { image in
                           Image(uiImage: image)
                             .resizable()
-                            .scaledToFill()
-                            .clipped()
+                            .scaledToFit()
                             .onTapGesture {
                               onClickImage?(uploaded.url, image)
                             }
                         })
-                      .aspectRatio(1, contentMode: .fill)
-                      .cornerRadius(4)
                   }
                   else { Rectangle().fill(Color.clear) }
                 }
@@ -228,6 +234,8 @@ extension DepositRecordDetailView {
       }
     }
 
+    // MARK: - SelectImage
+
     func buildSelectImage() -> some View {
       VStack(spacing: 40) {
         VStack(spacing: 12) {
@@ -245,6 +253,10 @@ extension DepositRecordDetailView {
               Image(uiImage: selected.image)
                 .resizable()
                 .scaledToFit()
+                .frame(height: 192)
+                .frame(maxWidth: .infinity)
+                .strokeBorder(color: .gray3C3E40, cornerRadius: 10)
+                .backgroundColor(.gray202020)
                 .cornerRadius(10)
                 .allowsHitTesting(false)
                 .overlay(
@@ -348,11 +360,17 @@ struct DepositRecordDetailView_Previews: PreviewProvider {
           remarkLevel2: "",
           remarkLevel3: "remarkLevel3-1"),
         host: "",
-        uploadedURLs: (0...2).map { _ in
+        uploadedURLs: [
           (
             "",
-            "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/store-card-14-16-mac-nav-202301?wid=200&hei=130&fmt=png-alpha&.v=1670959891635")
-        })
+            "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/store-card-14-16-mac-nav-202301?wid=200&hei=130&fmt=png-alpha&.v=1670959891635"),
+          (
+            "",
+            "https://i.epochtimes.com/assets/uploads/2018/01/nature-2058243_1920-600x338.jpg"),
+          (
+            "",
+            "https://obs.line-scdn.net/0hJM6rJ9BPFWILCwIZno9qNS9dFg04ZwZhbz1EcFxuLTwmPFI0ZWVTUSxcTAAjPgZgN2UOASwOQ1VjOgYwPj4NViw/w644")
+        ])
     ]
 
     var selectedImages: [DepositRecordDetailViewModel.UploadImage] = []
@@ -377,11 +395,11 @@ struct DepositRecordDetailView_Previews: PreviewProvider {
 
       switch status {
       case .floating:
-        selectedImages = (0...2).map { _ in
-          .init(
-            image: .init(named: "AppIconNotProd")!,
-            detail: .init(uriString: "", portalImage: .Public(imageId: "", fileName: "", host: ""), fileName: ""))
-        }
+        selectedImages = [
+          .init(image: .init(named: "全站維護")!),
+          .init(image: .init(named: "group1-4")!),
+          .init(image: .init(named: "AppIconNotProd")!)
+        ]
 
       default:
         return
@@ -394,10 +412,12 @@ struct DepositRecordDetailView_Previews: PreviewProvider {
       viewModel: ViewModel(status: .floating),
       playerConfig: PlayerConfigurationImpl(supportLocale: .China()),
       transactionId: "")
+      .previewDisplayName("Status: Floating")
 
     DepositRecordDetailView(
       viewModel: ViewModel(status: .pending),
       playerConfig: PlayerConfigurationImpl(supportLocale: .China()),
       transactionId: "")
+      .previewDisplayName("Status: Pending")
   }
 }
