@@ -408,6 +408,9 @@ class LogDetailRowItem {
   }
 
   private func getBetStatus(_ transactionType: TransactionTypes.Product) -> String {
+    if isReturn(bean, transactionType) {
+      return Localize.string("balancelog_settle")
+    }
     switch transactionType {
     case .ProductBet():
       if let remark = bean.remark as? BalanceLogDetailRemark.General, remark.betStatus == BetStatus_.reject {
@@ -435,6 +438,12 @@ class LogDetailRowItem {
     default:
       return ""
     }
+  }
+  
+  private func isReturn(_ balanceLogDetail: BalanceLogDetail, _ transactionType: TransactionTypes.Product) -> Bool {
+    let excludeStatus: [TransactionTypes.Product] = [.ProductEnterTable(), .ProductLeaveTable()]
+    let isInclude = excludeStatus.contains { $0 == transactionType }
+    return balanceLogDetail.amount.isPositive && !isInclude
   }
 
   private func displayRemarks(_ ids: [KotlinPair<NSString, NSString>]) -> String {
