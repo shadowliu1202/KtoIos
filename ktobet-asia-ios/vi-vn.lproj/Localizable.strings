@@ -434,6 +434,7 @@ Hộp Thư Rác/Quảng Cáo.";
 vui lòng thử lại lúc %@";
 "common_retry_later" = "Vui lòng thử lại sau";
 "common_notify_currency_ratio" = "Tiền tệ VND được hiển thị theo Tỷ lệ 1:1,000";
+"common_unknown_exception" = "Đã xảy ra lỗi không xác định";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "Luật Thể Thao";
@@ -902,6 +903,8 @@ Cám ơn.";
 "product_bonus_calculating" = "Sau khi tiền thưởng được cập nhật,
 Quý Khách sẽ không thể
 đặt cược %@.";
+"product_enter_table" = "Vào Bàn Chơi";
+"product_leave_table" = "Rời Bàn Chơi";
 
 //MARK: - Update
 "update_new_version_content" = "Phiên Bản Mới đã được phát hành, vui lòng cập nhật trước khi tiếp tục.";

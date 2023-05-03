@@ -408,9 +408,6 @@ class LogDetailRowItem {
   }
 
   private func getBetStatus(_ transactionType: TransactionTypes.Product) -> String {
-    if bean.amount.isPositive {
-      return Localize.string("balancelog_settle")
-    }
     switch transactionType {
     case .ProductBet():
       if let remark = bean.remark as? BalanceLogDetailRemark.General, remark.betStatus == BetStatus_.reject {
@@ -431,6 +428,10 @@ class LogDetailRowItem {
       return Localize.string("common_cancel")
     case .ProductRevise():
       return Localize.string("balancelog_settle")
+    case .ProductEnterTable():
+      return Localize.string("product_enter_table")
+    case .ProductLeaveTable():
+      return Localize.string("product_leave_table")
     default:
       return ""
     }
