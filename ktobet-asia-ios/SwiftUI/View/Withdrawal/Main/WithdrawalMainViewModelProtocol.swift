@@ -17,8 +17,8 @@ struct WithdrawalMainViewDataModel {
   struct Instruction {
     let dailyAmountLimit: String
     let dailyMaxCount: String
-    let turnoverRequirement: (amount: String, simpleName: String)?
-    let cryptoWithdrawalRequirement: String?
+    let turnoverRequirement: String?
+    let cryptoWithdrawalRequirement: (amount: String, simpleName: String)?
   }
 
   struct Record: Identifiable, Equatable {

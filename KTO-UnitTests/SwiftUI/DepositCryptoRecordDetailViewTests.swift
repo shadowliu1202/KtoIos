@@ -60,14 +60,14 @@ final class DepositCryptoRecordViewTest: XCTestCase {
     return cryptoLog
   }
 
-  func test_PaymentStatusIsApproved_CpsInCompleteHintIsGone() {
-    given(stubViewModel.header) ~> .init(fromCryptoName: "Test", showInCompleteHint: false)
+  func test_PaymentStatusIsApproved_CpsUnCompleteHintIsGone() {
+    given(stubViewModel.header) ~> .init(fromCryptoName: "Test", showUnCompleteHint: false)
 
     let sut = DepositCryptoRecordDetailView<DepositCryptoRecordDetailViewModelProtocolMock>.Header()
 
     let expectation = sut.inspection.inspect { view in
       let hintView = try? view
-        .find(viewWithId: "headerCpsIncompleteHint")
+        .find(viewWithId: "headerCpsUnCompleteHint")
         .localizedText()
 
       XCTAssertNil(hintView)
@@ -79,14 +79,14 @@ final class DepositCryptoRecordViewTest: XCTestCase {
     wait(for: [expectation], timeout: 60)
   }
 
-  func test_PaymentStatusIsNotApproved_CpsInCompleteHintIsVisible() {
-    given(stubViewModel.header) ~> .init(fromCryptoName: "Test", showInCompleteHint: true)
+  func test_PaymentStatusIsNotApproved_CpsUnCompleteHintIsVisible() {
+    given(stubViewModel.header) ~> .init(fromCryptoName: "Test", showUnCompleteHint: true)
 
     let sut = DepositCryptoRecordDetailView<DepositCryptoRecordDetailViewModelProtocolMock>.Header()
 
     let expectation = sut.inspection.inspect { view in
       let hintView = try view
-        .find(viewWithId: "headerCpsIncompleteHint")
+        .find(viewWithId: "headerCpsUnCompleteHint")
         .localizedText()
 
       XCTAssertNotNil(hintView)

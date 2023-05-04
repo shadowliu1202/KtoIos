@@ -1,47 +1,51 @@
 import Foundation
-import RxDataSources
 import RxSwift
 import SharedBu
 
 protocol DepositLogSummaryViewModelProtocol {
-  typealias Section = SectionModel<String, PaymentLogDTO.Log>
+  typealias Section = LogSections<PaymentLogDTO.Log>.Model
 
+  var supportLocale: SupportLocale { get }
   var totalAmount: String? { get }
   var sections: [Section]? { get }
   var isPageLoading: Bool { get }
   var dateType: DateType { get }
   var pagination: Pagination<PaymentLogDTO.GroupLog>! { get }
   var summaryRefreshTrigger: PublishSubject<Void> { get }
-
-  func getCashLogSummary() -> Single<CurrencyUnit>
 }
 
-class DepositLogSummaryViewModel: CollectErrorViewModel,
+class DepositLogSummaryViewModel:
+  CollectErrorViewModel,
   ObservableObject,
   Selecting,
-  DepositLogSummaryViewModelProtocol
+  DepositLogSummaryViewModelProtocol,
+  LogSectionModelBuilder
 {
   typealias Section = DepositLogSummaryViewModelProtocol.Section
+
+  @Published private(set) var totalAmount: String?
+  @Published private(set) var sections: [Section]?
+  @Published private(set) var isPageLoading = false
+  @Published var selectedItems: [Selectable] = []
+  @Published var dateType: DateType = .week(
+    fromDate: Date().adding(value: -6, byAdding: .day),
+    toDate: Date())
 
   private let filterStatusSource: [PaymentLogDTO.LogStatus] = [.approved, .reject, .pending, .floating]
   private let depositService: IDepositAppService
   private let disposeBag = DisposeBag()
 
-  @Published private(set) var totalAmount: String?
-  @Published private(set) var sections: [Section]?
-  @Published private(set) var isPageLoading = false
-
   private(set) var pagination: Pagination<PaymentLogDTO.GroupLog>!
   private(set) var summaryRefreshTrigger = PublishSubject<Void>()
 
-  @Published var selectedItems: [Selectable] = []
+  let supportLocale: SupportLocale
 
-  @Published var dateType: DateType = .week(
-    fromDate: Date().adding(value: -6, byAdding: .day),
-    toDate: Date())
-
-  init(depositService: IDepositAppService) {
+  init(
+    depositService: IDepositAppService,
+    playerConfig: PlayerConfiguration)
+  {
     self.depositService = depositService
+    self.supportLocale = playerConfig.supportLocale
 
     super.init()
 
@@ -49,7 +53,7 @@ class DepositLogSummaryViewModel: CollectErrorViewModel,
 
     pagination = .init(
       observable: { [unowned self] page in
-        self.getDepositRecords(page: Int32(page))
+        self.getRecords(page: Int32(page))
       },
       onLoading: { [unowned self] in
         self.isPageLoading = $0
@@ -79,17 +83,13 @@ class DepositLogSummaryViewModel: CollectErrorViewModel,
   }
 
   func buildSections(_ records: [PaymentLogDTO.GroupLog]) -> [Section] {
-    Dictionary(grouping: records, by: { $0.groupDate.toDateString() })
-      .map { dateString, groupLog -> Section in
-        let today = Date().convertdateToUTC().toDateString()
-        let sectionTitle = dateString == today ? Localize.string("common_today") : dateString
-
-        return .init(model: sectionTitle, items: groupLog.flatMap { $0.logs })
-      }
-      .sorted(by: { $0.model > $1.model })
+    regrouping(
+      from: records,
+      by: { $0.groupDate.toDateString() },
+      converter: { $0.logs })
   }
 
-  private func getDepositRecords(page: Int32 = 1) -> Observable<[PaymentLogDTO.GroupLog]> {
+  private func getRecords(page: Int32 = 1) -> Observable<[PaymentLogDTO.GroupLog]> {
     let beginDate = dateType.result.from.convertToKotlinx_datetimeLocalDate()
     let endDate = dateType.result.to.convertToKotlinx_datetimeLocalDate()
     let statusSet: Set<PaymentLogDTO.LogStatus> = Set(selectedItems.filterThenCast())
@@ -101,7 +101,9 @@ class DepositLogSummaryViewModel: CollectErrorViewModel,
           from: beginDate,
           to: endDate,
           filter: statusSet)))
-      .map({ $0.compactMap { $0 as? PaymentLogDTO.GroupLog } })
+      .map {
+        $0.compactMap { $0 as? PaymentLogDTO.GroupLog }
+      }
       .do(onError: { [unowned self] in
         self.pagination.error.onNext($0)
       })
@@ -157,5 +159,21 @@ extension PaymentLogDTO.LogStatus: Selectable {
 
   var image: String? {
     nil
+  }
+}
+
+// MARK: - LogRowModel
+
+extension PaymentLogDTO.Log: LogRowModel {
+  var createdDateText: String {
+    createdDate.toTimeString()
+  }
+
+  var statusConfig: (text: String, color: UIColor)? {
+    (status.toLogString(), status.toLogColor())
+  }
+
+  var amountConfig: (text: String, color: UIColor) {
+    (amount.formatString(), .gray9B9B9B)
   }
 }

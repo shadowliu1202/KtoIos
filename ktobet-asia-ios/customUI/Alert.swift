@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-protocol AlertProtocol {
+protocol AlertProtocol: AnyObject {
   func show(
     _ title: String?,
     _ message: String?,

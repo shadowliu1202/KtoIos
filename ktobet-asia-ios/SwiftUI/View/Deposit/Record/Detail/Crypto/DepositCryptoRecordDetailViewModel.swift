@@ -2,6 +2,12 @@ import Foundation
 import RxSwift
 import SharedBu
 
+protocol DepositCryptoRecordDetailViewModelProtocol: CryptoRecordDetailViewModel {
+  func getDepositCryptoLog(
+    transactionId: String,
+    submitTransactionIdOnClick: ((SingleWrapper<HttpUrl>?) -> Void)?)
+}
+
 class DepositCryptoRecordDetailViewModel:
   CollectErrorViewModel,
   DepositCryptoRecordDetailViewModelProtocol,
@@ -10,21 +16,24 @@ class DepositCryptoRecordDetailViewModel:
   private let depositService: IDepositAppService
   private let disposeBag = DisposeBag()
 
-  @Published private(set) var header: DepositCryptoRecordHeader?
-  @Published private(set) var info: [DepositCryptoRecord]?
+  @Published private(set) var header: CryptoRecordHeader?
+  @Published private(set) var info: [CryptoRecord]?
 
   init(depositService: IDepositAppService) {
     self.depositService = depositService
   }
 
-  func getDepositCryptoLog(transactionId: String) {
+  func getDepositCryptoLog(transactionId: String, submitTransactionIdOnClick: ((SingleWrapper<HttpUrl>?) -> Void)?) {
     Observable.from(
       depositService.getCryptoLog(displayId: transactionId))
+      .compose(applyObservableErrorHandle())
       .subscribe(onNext: { [weak self] in
         self?.header = .init(
           fromCryptoName: $0.processingMemo.request?.fromCrypto.simpleName,
-          showInCompleteHint: $0.log.status != .approved)
-        self?.info = self?.generateRecords($0)
+          showUnCompleteHint: $0.log.status != .approved)
+        self?.info = self?.generateRecords(
+          $0,
+          submitTransactionIdOnClick: submitTransactionIdOnClick)
       })
       .disposed(by: disposeBag)
   }
@@ -35,20 +44,25 @@ class DepositCryptoRecordDetailViewModel:
 }
 
 extension DepositCryptoRecordDetailViewModel {
-  func generateRecords(_ data: PaymentLogDTO.CryptoLog?) -> [DepositCryptoRecord] {
+  func generateRecords(
+    _ data: PaymentLogDTO.CryptoLog?,
+    submitTransactionIdOnClick: ((SingleWrapper<HttpUrl>?) -> Void)?) -> [CryptoRecord]
+  {
     let log = data?.log
     let isTransactionComplete = data?.isTransactionComplete ?? false
     let processingMemo = data?.processingMemo
     let requestMemo = processingMemo?.request
 
-    var statusRow: DepositCryptoRecord
+    var statusRow: CryptoRecord
     if data?.log.status == .floating {
       statusRow = .link(
         .init(
           title: Localize.string("activity_status"),
           content: log.statusString,
           attachment: Localize.string("common_cps_submit_hash_id_to_complete"),
-          updateUrl: data?.updateUrl))
+          clickAttachment: {
+            submitTransactionIdOnClick?(data?.updateUrl)
+          }))
     }
     else {
       statusRow = .info(
@@ -58,12 +72,12 @@ extension DepositCryptoRecordDetailViewModel {
     }
 
     return [
-      DepositCryptoRecord.info(
+      .info(
         .init(
           title: Localize.string("balancelog_detail_id"),
           content: log._displayId)),
       statusRow,
-      DepositCryptoRecord.table(
+      .table(
         [
           .init(title: Localize.string("common_cps_apply_info")),
           .init(
@@ -95,28 +109,32 @@ extension DepositCryptoRecordDetailViewModel {
             title: Localize.string("common_cps_final_datetime"),
             content: processingMemo.actualDateTimeString(isTransactionComplete))
         ]),
-      DepositCryptoRecord.info(
+      .info(
         .init(
           title: Localize.string("common_cps_remitter", Localize.string("common_player")),
           content: "-")),
-      DepositCryptoRecord.info(
+      .info(
         .init(
           title: Localize.string("common_cps_payee", Localize.string("cps_kto")),
           content: processingMemo.address)),
-      DepositCryptoRecord.info(
+      .info(
         .init(
           title: Localize.string("common_cps_hash_id"),
           content: processingMemo._hashId)),
-      DepositCryptoRecord.remark(
+      .remark(
         .init(
           title: Localize.string("common_remark"),
           content: generateRemarkContent(data?.updateHistories),
-          date: log.updateTimeString))
+          date: generateRemarkDate(data?.updateHistories)))
     ]
   }
 
   private func generateRemarkContent(_ histories: [UpdateHistory]?) -> [String]? {
-    histories?.map({ $0.remarkLevel1 + " > " + $0.remarkLevel2 + " > " + $0.remarkLevel3 })
+    histories?.map { $0.remarkLevel1 + " > " + $0.remarkLevel2 + " > " + $0.remarkLevel3 }
+  }
+
+  private func generateRemarkDate(_ histories: [UpdateHistory]?) -> [String]? {
+    histories?.map { $0.createdDate.toDateTimeString() }
   }
 }
 
@@ -208,11 +226,5 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
     else {
       return "-"
     }
-  }
-}
-
-extension Optional where Wrapped: ExchangeMemo {
-  fileprivate var toFiatSimpleName: String {
-    self?.toFiat.simpleName ?? "-"
   }
 }

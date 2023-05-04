@@ -18,19 +18,14 @@ class WithdrawalMainViewModel:
   private let withdrawalAppService: IWithdrawalAppService
   private let playerConfiguration: PlayerConfiguration
 
-  // Delete after other page been refactor.
-  private let withdrawalUseCase: WithdrawalUseCase
-
   private let disposeBag = DisposeBag()
 
   init(
     _ withdrawalAppService: IWithdrawalAppService,
-    _ playerConfiguration: PlayerConfiguration,
-    _ withdrawalUseCase: WithdrawalUseCase)
+    _ playerConfiguration: PlayerConfiguration)
   {
     self.withdrawalAppService = withdrawalAppService
     self.playerConfiguration = playerConfiguration
-    self.withdrawalUseCase = withdrawalUseCase
   }
 
   func setupData() {
@@ -68,24 +63,24 @@ class WithdrawalMainViewModel:
       .disposed(by: disposeBag)
   }
 
-  private func getTurnoverRequirement(_ instructionDTO: WithdrawalDto.Instruction) -> (String, String)? {
+  private func getTurnoverRequirement(_ instructionDTO: WithdrawalDto.Instruction) -> String? {
     if
       let amount = instructionDTO.incompleteBetTurnOver,
       amount.isPositive
     {
-      return (amount.formatString(.none), amount.simpleName)
+      return amount.description()
     }
     else {
       return nil
     }
   }
 
-  private func getCryptoWithdrawalRequirement(_ instructionDTO: WithdrawalDto.Instruction) -> String? {
+  private func getCryptoWithdrawalRequirement(_ instructionDTO: WithdrawalDto.Instruction) -> (String, String)? {
     if
       let amount = instructionDTO.incompleteCryptoTurnOver,
       amount.isPositive
     {
-      return amount.description()
+      return (amount.description(), amount.simpleName)
     }
     else {
       return nil
@@ -138,15 +133,5 @@ class WithdrawalMainViewModel:
 
   func getSupportLocale() -> SupportLocale {
     playerConfiguration.supportLocale
-  }
-}
-
-extension WithdrawalMainViewModel {
-  // Delete after other page been refactor.
-
-  func getCryptoWithdrawalRequirement() -> Single<AccountCurrency> {
-    withdrawalUseCase
-      .getWithdrawalLimitation()
-      .map { $0.unresolvedCryptoTurnover }
   }
 }

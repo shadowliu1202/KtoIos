@@ -27,7 +27,7 @@ class SMSVerifyCodeInputView: UIView {
 
         return textField.rx.text.orEmpty
       }
-    
+
     return Observable.combineLatest(codesOb).map { stringElement -> String in
       stringElement.reduce("") { $0 + $1 }
     }
@@ -85,7 +85,7 @@ class SMSVerifyCodeInputView: UIView {
   private func btnCodePressed(_ sender: UIButton) {
     guard let codeTextField = codes[sender.tag].subviews.first as? SMSCodeTextField
     else { return }
-    
+
     codeTextField.becomeFirstResponder()
   }
 
@@ -98,10 +98,10 @@ class SMSVerifyCodeInputView: UIView {
       }()
 
       let index = sender.tag + 1 > otpLength - 1 ? otpLength - 1 : sender.tag + 1
-      
+
       guard let codeTextField = codes[index].subviews.first as? SMSCodeTextField
       else { return }
-      
+
       codeTextField.becomeFirstResponder()
     }
   }
@@ -111,10 +111,10 @@ extension SMSVerifyCodeInputView: SMSCodeTextFieldDelegate, UITextFieldDelegate 
   func textFieldDidDelete(_ sender: SMSCodeTextField) {
     if (sender.text?.count ?? 0) == 0 {
       let index = sender.tag - 1 < 0 ? 0 : sender.tag - 1
-      
+
       guard let codeTextField = codes[index].subviews.first as? SMSCodeTextField
       else { return }
-      
+
       codeTextField.becomeFirstResponder()
     }
   }

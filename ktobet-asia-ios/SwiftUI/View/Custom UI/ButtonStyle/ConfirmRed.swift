@@ -24,4 +24,6 @@ struct ConfirmRed: ButtonStyle {
 
 extension ButtonStyle where Self == ConfirmRed {
   static var confirmRed: ConfirmRed { self.init() }
+  
+  static func confirmRed(size: CGFloat) -> ConfirmRed { self.init(size: size) }
 }

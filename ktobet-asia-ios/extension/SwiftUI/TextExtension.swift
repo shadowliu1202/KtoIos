@@ -40,15 +40,16 @@ enum KTOFontWeight: String {
 }
 
 extension Text {
-  @ViewBuilder
-  func alertStyle() -> some View {
-    self
-      .localized(weight: .regular, size: 14, color: .whitePure)
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(.vertical, 12)
-      .padding(.horizontal, 15)
-      .backgroundColor(.orangeFF8000)
-      .cornerRadius(8)
-      .fixedSize(horizontal: false, vertical: true)
+  init(key: String) {
+    self.init(Localize.string(key))
+  }
+
+  init(key: String, _ parameters: String...) {
+    self.init(Localize.string(key, parameters))
+  }
+
+  // FIXME: workaround display vn localize string in preview
+  init(key: String, _ parameters: [String], cultureCode: String) {
+    self.init(Localize.string(key, parameters, cultureCode))
   }
 }

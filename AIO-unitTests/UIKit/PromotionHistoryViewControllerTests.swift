@@ -20,7 +20,7 @@ final class PromotionHistoryViewControllerTests: XCTestCase {
       turnOverDetail: nil)
   }
 
-  func test_HaveOnePromotionHistoryRecord_ShowOneRecord_KTO_TC_107() {
+  func test_HaveOnePromotionHistoryRecord_ShowOneRecord_KTO_TC_109() {
     let stubUseCase = mock(PromotionUseCase.self)
 
     given(stubUseCase.searchBonusCoupons(

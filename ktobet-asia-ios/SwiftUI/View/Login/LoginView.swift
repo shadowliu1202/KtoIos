@@ -76,8 +76,8 @@ struct LoginView: View {
   @ViewBuilder
   private func loginError(_ text: String?) -> some View {
     Group {
-      Text(text ?? "")
-        .alertStyle()
+      VerifiedAlert(text ?? "")
+
       LimitSpacer(12)
     }
     .visibility(text == nil ? .gone : .visible)
@@ -148,8 +148,7 @@ struct LoginView: View {
     Group {
       LimitSpacer(30)
       VStack(spacing: 12) {
-        Text(Localize.string("login_enter_captcha_to_prceed"))
-          .alertStyle()
+        VerifiedAlert(key: "login_enter_captcha_to_prceed")
         SwiftUIInputText(
           placeHolder: Localize.string("login_captcha"),
           textFieldText: text,

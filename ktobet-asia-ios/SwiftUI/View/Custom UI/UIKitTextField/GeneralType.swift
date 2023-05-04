@@ -20,12 +20,12 @@ class GeneralType: TextFieldType {
     self.maxLength = maxLength
   }
 
-  func format(_ oldText: String, _ newText: String, _ text: Binding<String>) {
+  func format(_ oldText: String, _ newText: String, _ afterFormat: (String) -> Void) {
     var newText = newText
 
     guard newText ~= regex.pattern
     else {
-      text.wrappedValue = oldText
+      afterFormat(oldText)
       return
     }
 
@@ -36,7 +36,7 @@ class GeneralType: TextFieldType {
       newText = String(newText[..<newText.index(newText.startIndex, offsetBy: maxLength)])
     }
 
-    text.wrappedValue = newText
+    afterFormat(newText)
   }
 
   func onEditEnd(_: Binding<String>) {

@@ -9,14 +9,13 @@ class CryptoAPI {
     self.httpClient = httpClient
   }
 
-  func deleteBankCards(_ bankCardId: [String: String]) -> Completable {
+  func deleteBankCards(_ bankCardId: [String: String]) -> Single<String> {
     httpClient
       .requestJsonString(
         NewAPITarget(
           path: "api/crypto-bank-card",
           method: .delete,
           task: .requestParameters(parameters: bankCardId)))
-      .asCompletable()
   }
 
   func getCryptoBankCard() -> Single<String> {
@@ -58,13 +57,12 @@ class CryptoAPI {
           task: .requestJSONEncodable(codable)))
   }
 
-  func resendOTP(_ accountType: Int32) -> Completable {
+  func resendOTP(_ accountType: Int32) -> Single<String> {
     httpClient
       .requestJsonString(
         NewAPITarget(
           path: "api/crypto-bank-card/resend-otp/\(accountType)",
           method: .post))
-      .asCompletable()
   }
 
   func sendAccountVerifyOTP(request: AccountVerifyRequest) -> Single<String> {

@@ -23,6 +23,10 @@ class OfflinePaymentViewController:
     fatalError("init(coder:) has not been implemented")
   }
 
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 

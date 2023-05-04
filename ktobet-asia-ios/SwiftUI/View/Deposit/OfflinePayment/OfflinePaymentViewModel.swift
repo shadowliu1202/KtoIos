@@ -41,6 +41,10 @@ class OfflinePaymentViewModel:
     self.localStorageRepo = localStorageRepo
   }
 
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
+
   func fetchGatewayData() {
     let offlineDTOStream = RxSwift.Observable.from(depositService.getPayments())
       .compactMap { paymentsDTO in

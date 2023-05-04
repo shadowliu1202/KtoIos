@@ -4,7 +4,7 @@ import SwiftUI
 import UIKit
 
 class DepositRecordDetailMainViewController: LobbyViewController {
-  @Injected private var depositLogViewModel: DepositRecordDetailViewModel
+  @Injected private var viewModel: DepositRecordDetailViewModel
 
   private let disposeBag = DisposeBag()
 
@@ -38,7 +38,7 @@ class DepositRecordDetailMainViewController: LobbyViewController {
 
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
 
-    // Deposit refactor feature兼容舊的流程
+    // FIXME: Deposit refactor feature兼容舊的流程
     if let paymentType = paymentCurrencyType {
       // new flow
       addContainer(paymentType)
@@ -61,7 +61,7 @@ class DepositRecordDetailMainViewController: LobbyViewController {
   }
 
   private func updateTransactionType() {
-    depositLogViewModel
+    viewModel
       .getDepositLog(displayId)
       .subscribe(onSuccess: { [weak self] in
         self?.addContainer($0.currencyType)

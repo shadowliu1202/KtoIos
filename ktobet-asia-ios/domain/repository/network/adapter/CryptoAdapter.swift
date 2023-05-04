@@ -23,7 +23,9 @@ class CryptoAdapter: CryptoProtocol {
   func getCryptoCurrencyExchangeRate(cryptoCurrency: Int32) -> SingleWrapper<ResponseItem<NSString>> {
     cryptoAPI
       .getCryptoExchangeRate(cryptoCurrency)
-      .asReaktiveResponseItem()
+      .asReaktiveResponseItem { (number: NSNumber) -> NSString in
+        NSString(string: number.stringValue)
+      }
   }
 
   func getWithdrawalEachCryptoLimit() -> SingleWrapper<ResponseList<CryptoLimitBean>> {

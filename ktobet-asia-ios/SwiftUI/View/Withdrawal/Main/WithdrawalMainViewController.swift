@@ -31,6 +31,7 @@ class WithdrawalMainViewController:
   }
 
   deinit {
+    Injectable.resetObjectScope(.withdrawalFlow)
     Logger.shared.info("\(type(of: self)) deinit")
   }
 
@@ -39,17 +40,6 @@ class WithdrawalMainViewController:
 
     setupUI()
     binding()
-  }
-
-  @IBAction
-  func backToWithdrawalMainPage(segue: UIStoryboardSegue) {
-    NavigationManagement.sharedInstance.viewController = self
-    if
-      let vc = segue.source as? WithdrawalRequestConfirmViewController,
-      vc.withdrawalSuccess
-    {
-      showToast(Localize.string("common_request_submitted"), barImg: .success)
-    }
   }
 }
 
@@ -125,7 +115,7 @@ extension WithdrawalMainViewController {
   }
 
   func alertCryptoWithdrawalNeeded() {
-    if let (amount, simpleName) = viewModel.instruction?.turnoverRequirement {
+    if let (amount, simpleName) = viewModel.instruction?.cryptoWithdrawalRequirement {
       alert.show(
         Localize.string("cps_cash_withdrawal_lock_title"),
         Localize.string("cps_cash_withdrawal_lock_desc", amount + simpleName),
@@ -141,62 +131,30 @@ extension WithdrawalMainViewController {
 
 extension WithdrawalMainViewController {
   func toCryptoLimitPage() {
-    let vc = CrpytoTransationLogViewController.initFrom(storyboard: "Withdrawal")
-
-    viewModel
-      .getCryptoWithdrawalRequirement()
-      .observe(on: MainScheduler.instance)
-      .subscribe(
-        onSuccess: { [weak self] accountCurrency in
-          vc.crpytoWithdrawalRequirementAmount = accountCurrency
-
-          self?.navigationController?.pushViewController(vc, animated: true)
-        },
-        onFailure: { [weak self] error in
-          self?.handleErrors(error)
-        })
-      .disposed(by: disposeBag)
+    navigationController?.pushViewController(WithdrawalCryptoLimitViewController(), animated: true)
   }
 
   func toFiatBankcardPage() {
-    let vc = WithdrawlLandingViewController.initFrom(storyboard: "Withdrawal")
-
-    vc.bankCardType = .general
-
-    navigationController?.pushViewController(vc, animated: true)
+    navigationController?
+      .pushViewController(WithdrawalFiatWalletsViewController(), animated: true)
   }
 
   func toCryptoBankcardPage() {
-    let vc = WithdrawlLandingViewController.initFrom(storyboard: "Withdrawal")
-
-    vc.bankCardType = .crypto
-
-    navigationController?.pushViewController(vc, animated: true)
+    navigationController?
+      .pushViewController(WithdrawalCryptoWalletsViewController(), animated: true)
   }
 
   func toWithdrawalLogs() {
-    let vc = WithdrawalRecordViewController.initFrom(storyboard: "Withdrawal")
-
-    navigationController?.pushViewController(vc, animated: true)
+    navigationController?
+      .pushViewController(WithdrawalLogSummaryViewController(), animated: true)
   }
 
   func toWithdrawalLogDetail(_ id: String, _ type: WithdrawalDto.LogCurrencyType) {
-    let vc = WithdrawlRecordContainer.initFrom(storyboard: "Withdrawal")
-
-    vc.displayId = id
-    vc.transactionTransactionType = parseLogCurrencyType(type)
-
-    navigationController?.pushViewController(vc, animated: true)
-  }
-
-  private func parseLogCurrencyType(_ type: WithdrawalDto.LogCurrencyType) -> TransactionType {
-    switch type {
-    case .fiat:
-      return .withdrawal
-    case .crypto:
-      return .cryptowithdrawal
-    default:
-      fatalError("Should not reach here.")
-    }
+    navigationController?
+      .pushViewController(
+        WithdrawalRecordDetailMainViewController(
+          displayId: id,
+          paymentCurrencyType: type),
+        animated: true)
   }
 }

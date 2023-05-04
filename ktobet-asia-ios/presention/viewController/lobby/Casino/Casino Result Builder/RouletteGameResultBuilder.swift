@@ -3,7 +3,7 @@ import UIKit
 
 struct RouletteGameResultBuilder: CasinoResultBuilder {
   let roulette: CasinoGameResult.Roulette
-  
+
   func build(to background: UIView) {
     let label = UILabel()
     label.text = String(roulette.result)
@@ -27,4 +27,3 @@ struct RouletteGameResultBuilder: CasinoResultBuilder {
     background.addBorder(.bottom)
   }
 }
-

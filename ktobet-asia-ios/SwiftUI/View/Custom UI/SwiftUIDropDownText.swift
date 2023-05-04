@@ -3,7 +3,6 @@ import SwiftUI
 
 extension SwiftUIDropDownText {
   enum Identifier: String {
-    case arrow
     case candidateWordList
     case entireView
   }
@@ -11,12 +10,15 @@ extension SwiftUIDropDownText {
 
 extension SwiftUIDropDownText {
   enum FeatureType: Equatable {
-    case input
+    case inputAssisted
+    case inputValidated
     case select
 
     static func == (lhs: SwiftUIDropDownText.FeatureType, rhs: SwiftUIDropDownText.FeatureType) -> Bool {
       switch (lhs, rhs) {
-      case (.input, .input):
+      case (.inputAssisted, .inputAssisted):
+        return true
+      case (.inputValidated, .inputValidated):
         return true
       case (.select, .select):
         return true
@@ -42,6 +44,7 @@ struct SwiftUIDropDownText: View {
 
   private let featureType: FeatureType
   private let dropDownArrowVisible: Bool
+  private let onTapGesture: (() -> Void)?
 
   private let errorText: String
 
@@ -53,7 +56,8 @@ struct SwiftUIDropDownText: View {
     errorText: String = "",
     items: [String],
     featureType: FeatureType,
-    dropDownArrowVisible: Bool = true)
+    dropDownArrowVisible: Bool = true,
+    onTapGesture: (() -> Void)? = nil)
   {
     self.placeHolder = placeHolder
     self._textFieldText = textFieldText
@@ -61,6 +65,7 @@ struct SwiftUIDropDownText: View {
     self.items = items
     self.featureType = featureType
     self.dropDownArrowVisible = dropDownArrowVisible
+    self.onTapGesture = onTapGesture
   }
 
   var body: some View {
@@ -68,9 +73,10 @@ struct SwiftUIDropDownText: View {
       placeHolder: placeHolder,
       textFieldText: $textFieldText,
       errorText: errorText,
-      featureType: dropDownArrowVisible ? .other : .nil,
+      featureType: dropDownArrowVisible ? .dropDownArrow : .nil,
       textFieldType: GeneralType(regex: .all),
       disableInput: featureType == .select ? true : false,
+      onTapGesture: onTapGesture,
       isEditing: $isEditing)
       .positionDetect(result: $isInTopSide)
       .overlay(
@@ -87,16 +93,6 @@ struct SwiftUIDropDownText: View {
             }
         })
       .overlay(
-        Image("DropDown")
-          .rotationEffect(
-            .degrees(isEditing ? 180 : 0),
-            anchor: .center)
-          .id(Identifier.arrow.rawValue)
-          .visibility(dropDownArrowVisible ? .visible : .invisible)
-          .alignmentGuide(.trailing, computeValue: { $0[.trailing] + 15 })
-          .allowsHitTesting(false),
-        alignment: .trailing)
-      .overlay(
         topSideDetectList,
         alignment: isInTopSide ? .top : .bottom)
       .onAppear {
@@ -106,7 +102,10 @@ struct SwiftUIDropDownText: View {
         filteredItems = newItems
       }
       .onChange(of: textFieldText) { keyword in
-        guard featureType == .input else { return }
+        guard
+          featureType == .inputAssisted ||
+          featureType == .inputValidated
+        else { return }
 
         if keyword.isEmpty {
           filteredItems = items
@@ -117,7 +116,17 @@ struct SwiftUIDropDownText: View {
           }
         }
       }
-      .zIndex(1)
+      .onChange(of: isEditing) { newValue in
+        guard
+          featureType == .inputValidated,
+          newValue == false
+        else { return }
+
+        if items.firstIndex(of: textFieldText) == nil {
+          textFieldText = ""
+        }
+      }
+      .zIndex(isEditing ? 1 : 0)
       .onInspected(inspection, self)
       .id(Identifier.entireView.rawValue)
   }
@@ -208,7 +217,7 @@ struct SwiftUIDropDownText_Previews: PreviewProvider {
             placeHolder: "银行所在省份",
             textFieldText: $textFieldText,
             items: fakeDatas,
-            featureType: .input,
+            featureType: .inputAssisted,
             dropDownArrowVisible: false)
             .padding(.horizontal, 30)
 

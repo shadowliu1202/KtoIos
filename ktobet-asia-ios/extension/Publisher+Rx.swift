@@ -1,10 +1,12 @@
 import Combine
+import RxCocoa
 import RxSwift
 
 extension Publisher {
-  func asObservable() -> Observable<Output> {
+  func asObservable(scheduler: some Scheduler = RunLoop.main) -> Observable<Output> {
     Observable<Output>.create { observer in
       let cancel = self
+        .receive(on: scheduler)
         .sink(
           receiveCompletion: { completion in
             switch completion {
@@ -20,5 +22,20 @@ extension Publisher {
 
       return Disposables.create { cancel.cancel() }
     }
+  }
+
+  func asDriver() -> Driver<Output> {
+    self
+      .receive(on: RunLoop.main)
+      .asObservable()
+      .asDriverLogError()
+  }
+
+  func skipOneThenAsDriver() -> Driver<Output> {
+    self
+      .dropFirst()
+      .receive(on: RunLoop.main)
+      .asObservable()
+      .asDriverLogError()
   }
 }

@@ -50,7 +50,7 @@ final class TransactionLogViewTests: XCTestCase {
     given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> [
       .init(
-        model: "test",
+        title: "test",
         items: [
           self.buildDummyBetLog(
             amount: 100,
@@ -62,6 +62,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
+        .view(LogSections<TransactionLog>.self)
         .vStack()
         .forEach(0)
 
@@ -77,7 +78,7 @@ final class TransactionLogViewTests: XCTestCase {
       XCTAssertEqual(numberOfRowAtSection0, 1)
 
       let rowText = try sectionAt0
-        .view(TransactionLogView<TransactionLogViewModelProtocolMock>.Row.self, 0)
+        .view(LogRow.self, 0)
         .find(text: "Đánh Bài Đối Kháng")
 
       XCTAssertNotNil(rowText)
@@ -97,7 +98,7 @@ final class TransactionLogViewTests: XCTestCase {
     given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> [
       .init(
-        model: "test",
+        title: "test",
         items: [
           self.buildDummyBetLog(
             amount: 100,
@@ -109,6 +110,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
+        .view(LogSections<TransactionLog>.self)
         .vStack()
         .forEach(0)
 
@@ -124,7 +126,7 @@ final class TransactionLogViewTests: XCTestCase {
       XCTAssertEqual(numberOfRowAtSection0, 1)
 
       let rowText = try sectionAt0
-        .view(TransactionLogView<TransactionLogViewModelProtocolMock>.Row.self, 0)
+        .view(LogRow.self, 0)
         .find(text: "+100")
 
       XCTAssertNotNil(rowText)
@@ -144,7 +146,7 @@ final class TransactionLogViewTests: XCTestCase {
     given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> [
       .init(
-        model: "test",
+        title: "test",
         items: [
           self.buildDummyBetLog(
             amount: -100,
@@ -156,6 +158,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
+        .view(LogSections<TransactionLog>.self)
         .vStack()
         .forEach(0)
 
@@ -171,7 +174,7 @@ final class TransactionLogViewTests: XCTestCase {
       XCTAssertEqual(numberOfRowAtSection0, 1)
 
       let rowText = try sectionAt0
-        .view(TransactionLogView<TransactionLogViewModelProtocolMock>.Row.self, 0)
+        .view(LogRow.self, 0)
         .find(text: "-100")
 
       XCTAssertNotNil(rowText)
@@ -220,10 +223,9 @@ final class TransactionLogViewTests: XCTestCase {
   }
 
   func test_HasLogToday_SectionTitleIsToday() {
-    injectStubCultureCode(.CN)
-
     let viewModel = TransactionLogViewModel(
-      transactionLogUseCase: Injectable.resolveWrapper(TransactionLogUseCase.self))
+      transactionLogUseCase: Injectable.resolveWrapper(TransactionLogUseCase.self),
+      playerConfig: PlayerConfigurationImpl(supportLocale: .China()))
 
     let stubSections = viewModel
       .buildSections([
@@ -234,7 +236,7 @@ final class TransactionLogViewTests: XCTestCase {
       ])
 
     let expect = "今天"
-    let actual = stubSections.first!.model
+    let actual = stubSections.first!.title
     XCTAssertEqual(expect, actual)
   }
 
@@ -244,7 +246,7 @@ final class TransactionLogViewTests: XCTestCase {
     given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> [
       .init(
-        model: "今天",
+        title: "今天",
         items: [
           self.buildDummyBetLog(
             amount: 100,
@@ -256,6 +258,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sectionTitle = try view
+        .view(LogSections<TransactionLog>.self)
         .vStack()
         .forEach(0)
         .tupleView(0)
@@ -285,6 +288,7 @@ final class TransactionLogViewTests: XCTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sectionTitle = try view
+        .view(LogSections<TransactionLog>.self)
         .vStack()
         .localizedText(1)
         .string()

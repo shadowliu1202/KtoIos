@@ -64,7 +64,6 @@ class CommonVerifyOtpFactory {
     case profileOld
     case profileNew
     case profileBrandNew
-    case crypto
     case register
   }
 
@@ -109,13 +108,6 @@ class CommonVerifyOtpFactory {
         return mode == .oldModify ? profileNewEmailArgs() : profileBrandNewEmailArgs()
       case .phone:
         return mode == .oldModify ? profileNewMobileArgs() : profileBrandNewMobileArgs()
-      }
-    case .crypto:
-      switch accountType {
-      case .email:
-        return cryptoEmailArgs()
-      case .phone:
-        return cryptoPhoneArgs()
       }
     case .register:
       return registerPhoneArgs()
@@ -216,22 +208,5 @@ class CommonVerifyOtpFactory {
       otpExeedSendLimitError: Localize.string("common_sms_otp_exeed_send_limit"),
       isHiddenCSBarItem: false,
       isHiddenBarTitle: false).build()
-  }
-
-  private func cryptoEmailArgs() -> CommonVerifyOtpArgs {
-    CommonVerifyOtpBuilder(
-      commonFailedType: WithdrawalFailedType(),
-      description: Localize.string("common_verify_email"),
-      identityTip: Localize.string("common_otp_sent_content_email") + "\n" + identity,
-      junkTip: Localize.string("common_email_spam_check"),
-      otpExeedSendLimitError: Localize.string("common_email_otp_exeed_send_limit")).build()
-  }
-
-  private func cryptoPhoneArgs() -> CommonVerifyOtpArgs {
-    CommonVerifyOtpBuilder(
-      commonFailedType: WithdrawalFailedType(),
-      description: Localize.string("common_verify_mobile"),
-      identityTip: Localize.string("common_otp_sent_content_mobile") + "\n" + identity,
-      otpExeedSendLimitError: Localize.string("common_sms_otp_exeed_send_limit")).build()
   }
 }

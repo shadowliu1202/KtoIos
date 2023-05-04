@@ -59,10 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
 
     checkingPortalHost()
 
-    #if !(DEV)
-    FirebaseApp.configure()
+    #if !DEV
+      FirebaseApp.configure()
     #endif
-    
+
     Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
 
     SharedBu.Platform().debugBuild()

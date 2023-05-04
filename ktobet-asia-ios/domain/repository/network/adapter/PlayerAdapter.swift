@@ -11,6 +11,8 @@ class PlayerAdapter: PlayerProtocol {
   func getCashBalance() -> SingleWrapper<ResponseItem<NSString>> {
     playerAPI
       ._getCashBalance()
-      .asReaktiveResponseItem()
+      .asReaktiveResponseItem { (number: NSNumber) -> NSString in
+        NSString(string: number.stringValue)
+      }
   }
 }

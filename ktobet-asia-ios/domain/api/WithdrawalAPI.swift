@@ -9,13 +9,12 @@ class WithdrawalAPI {
     self.httpClient = httpClient
   }
 
-  func deleteWithdrawalAccount(playerBankCardId: String) -> Completable {
+  func deleteWithdrawalAccount(playerBankCardId: String) -> Single<String> {
     httpClient
-      .request(
+      .requestJsonString(
         NewAPITarget(
           path: "api/bank-card/\(playerBankCardId)",
           method: .delete))
-      .asCompletable()
   }
 
   func isWithdrawalAccountExist(bankId: Int32, bankName: String, accountNumber: String) -> Single<String> {
@@ -126,7 +125,7 @@ class WithdrawalAPI {
           method: .get))
   }
 
-  func postBankCard(bean: BankCardBean) -> Completable {
+  func postBankCard(bean: BankCardBean) -> Single<String> {
     let codable = BankCardBeanCodable(
       bankID: bean.bankId,
       bankName: bean.bankName,
@@ -143,7 +142,6 @@ class WithdrawalAPI {
           path: "api/bank-card",
           method: .post,
           task: .requestJSONEncodable(codable)))
-      .asCompletable()
   }
 
   func postWithdrawalToBankCard(bean: WithdrawalBankCardRequestBean) -> Single<String> {
@@ -174,7 +172,7 @@ class WithdrawalAPI {
           task: .requestJSONEncodable(codable)))
   }
 
-  func putWithdrawalCancel(bean: WithdrawalCancelBean) -> Completable {
+  func putWithdrawalCancel(bean: WithdrawalCancelBean) -> Single<String> {
     let codable = WithdrawalCancelRequestBeanCodable(ticketId: bean.ticketId)
 
     return httpClient
@@ -183,10 +181,9 @@ class WithdrawalAPI {
           path: "api/withdrawal/cancel/",
           method: .put,
           task: .requestJSONEncodable(codable)))
-      .asCompletable()
   }
 
-  func putWithdrawalImages(id: String, bean: WithdrawalImages) -> Completable {
+  func putWithdrawalImages(id: String, bean: WithdrawalImages) -> Single<String> {
     let codable = WithdrawalImagesCodable(
       ticketStatus: bean.ticketStatus,
       images: bean.images
@@ -202,6 +199,5 @@ class WithdrawalAPI {
           path: "api/withdrawal/images/\(id)",
           method: .put,
           task: .requestJSONEncodable(codable)))
-      .asCompletable()
   }
 }

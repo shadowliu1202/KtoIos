@@ -144,13 +144,13 @@ class StringMapper {
     }
   }
 
-  static func localizeBankName(banks tuple: [(Int, Bank)], supportLocale: SupportLocale) -> [String] {
+  static func localizeBankNames(banks tuple: [Bank], supportLocale: SupportLocale) -> [String] {
     switch supportLocale {
     case is SupportLocale.Vietnam:
-      return tuple.map { "(\($0.1.shortName)) \($0.1.name)" }
+      return tuple.map { "(\($0.shortName)) \($0.name)" }
     case is SupportLocale.China,
          is SupportLocale.Unknown:
-      return tuple.map { $0.1.name }
+      return tuple.map { $0.name }
     default:
       return []
     }

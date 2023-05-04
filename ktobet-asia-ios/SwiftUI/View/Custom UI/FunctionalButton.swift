@@ -40,7 +40,7 @@ struct FunctionalButton<Content: View>: View {
         .frame(width: 16, height: 16)
     }
     .padding(borderPadding)
-    .strokeBorder(
+    .stroke(
       color: .gray9B9B9B,
       cornerRadius: 8,
       lineWidth: 0.5)

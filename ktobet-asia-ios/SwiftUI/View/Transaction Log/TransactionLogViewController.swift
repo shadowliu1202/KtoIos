@@ -1,32 +1,16 @@
-import RxDataSources
-import RxGesture
 import RxSwift
 import SharedBu
 import UIKit
 
-class TransactionLogViewController: LobbyViewController,
+class TransactionLogViewController:
+  LobbyViewController,
   SwiftUIConverter
 {
-  @Injected private var playerConfig: PlayerConfiguration
   @Injected private var viewModel: TransactionLogViewModel
 
   private lazy var flowCoordinator = TranscationFlowController(self, disposeBag: disposeBag)
 
   private let disposeBag = DisposeBag()
-
-  init?(
-    coder: NSCoder,
-    playerConfig: PlayerConfiguration,
-    viewModel: TransactionLogViewModel)
-  {
-    super.init(coder: coder)
-    self.playerConfig = playerConfig
-    self.viewModel = viewModel
-  }
-
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -76,30 +60,27 @@ extension TransactionLogViewController {
 
     addSubView(
       from: { [unowned self] in
-        SafeAreaReader {
-          TransactionLogView(
-            viewModel: self.viewModel,
-            playerConfig: self.playerConfig,
-            dateFilterAction: .init(
-              onDateSelected: {
-                self.viewModel.dateType = $0
-                self.refresh()
-              },
-              onPresentController: {
-                self.presentDateViewController($0)
-              }),
-            onSummarySelected: {
-              self.performSegue(
-                withIdentifier: TransactionLogSummaryViewController.segueIdentifier,
-                sender: nil)
+        TransactionLogView(
+          viewModel: self.viewModel,
+          dateFilterAction: .init(
+            onDateSelected: {
+              self.viewModel.dateType = $0
+              self.refresh()
             },
-            onRowSelected: {
-              self.flowCoordinator.goNext($0)
-            },
-            onPresentFilterController: {
-              self.presentFilterViewController()
-            })
-        }
+            onPresentController: {
+              self.presentDateViewController($0)
+            }),
+          onSummarySelected: {
+            self.performSegue(
+              withIdentifier: TransactionLogSummaryViewController.segueIdentifier,
+              sender: nil)
+          },
+          onRowSelected: {
+            self.flowCoordinator.goNext($0)
+          },
+          onPresentFilterController: {
+            self.presentFilterViewController()
+          })
       },
       to: view)
   }

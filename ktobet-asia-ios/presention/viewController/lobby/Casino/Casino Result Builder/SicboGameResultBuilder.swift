@@ -3,7 +3,7 @@ import UIKit
 
 struct SicboGameResultBuilder: CasinoResultBuilder {
   let sicbo: CasinoGameResult.Sicbo
-  
+
   func build(to background: UIView) {
     let stackView = UIStackView(
       arrangedSubviews: sicbo.diceNumbers.compactMap { diceImageView($0) },

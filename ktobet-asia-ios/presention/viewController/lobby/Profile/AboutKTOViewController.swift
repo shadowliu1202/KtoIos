@@ -1,6 +1,6 @@
 import RxSwift
-import UIKit
 import SharedBu
+import UIKit
 
 class AboutKTOViewController: LobbyViewController {
   static let segueIdentifier = "toAboutKTO"
@@ -10,7 +10,7 @@ class AboutKTOViewController: LobbyViewController {
   @IBOutlet weak var webLink: UITextView!
   @IBOutlet weak var csLink: UITextView!
   @IBOutlet weak var vnPartner: UIView!
-  
+
   private let httpClient = Injectable.resolve(HttpClient.self)!
   private let playerConfig = Injectable.resolve(PlayerConfiguration.self)!
   private let viewModel = Injectable.resolve(TermsViewModel.self)!
@@ -22,7 +22,7 @@ class AboutKTOViewController: LobbyViewController {
     initImage()
     setKtoWebLinkTextView()
     setCsLinkTextView()
-    
+
     vnPartner.isHidden = playerConfig.supportLocale != .Vietnam()
   }
 

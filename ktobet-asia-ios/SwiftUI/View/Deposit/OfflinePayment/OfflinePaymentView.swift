@@ -201,7 +201,7 @@ extension OfflinePaymentView {
             textFieldText: $remitBankName ?? "",
             errorText: viewModel.remitInfoErrorMessage.bankName,
             items: viewModel.remitBankList,
-            featureType: .input,
+            featureType: .inputAssisted,
             dropDownArrowVisible: false)
             .id(OfflinePaymentView.Identifier.remitBankDropDownText.rawValue)
 
