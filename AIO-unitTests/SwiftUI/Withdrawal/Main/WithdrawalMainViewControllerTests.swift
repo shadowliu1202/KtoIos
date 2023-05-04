@@ -60,8 +60,8 @@ final class WithdrawalMainViewControllerTests: XCTestCase {
     given(stubViewModel.instruction) ~> .init(
       dailyAmountLimit: "",
       dailyMaxCount: "",
-      turnoverRequirement: ("1,000", "CNY"),
-      cryptoWithdrawalRequirement: nil)
+      turnoverRequirement: nil,
+      cryptoWithdrawalRequirement: ("1,000", "CNY"))
 
     sut.loadViewIfNeeded()
 

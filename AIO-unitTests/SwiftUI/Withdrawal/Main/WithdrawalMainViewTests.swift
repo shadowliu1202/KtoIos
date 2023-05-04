@@ -70,7 +70,7 @@ final class WithdrawalMainViewTests: XCTestCase {
       dailyAmountLimit: "",
       dailyMaxCount: "",
       turnoverRequirement: nil,
-      cryptoWithdrawalRequirement: "200")
+      cryptoWithdrawalRequirement: ("200", "CNY"))
 
     let exp = sut.inspection.inspect { view in
       let cryptoRequirementAmountText = try view.find(viewWithId: "cryptoRequirementAmount")
@@ -155,7 +155,7 @@ final class WithdrawalMainViewTests: XCTestCase {
     given(stubViewModel.instruction) ~> .init(
       dailyAmountLimit: "",
       dailyMaxCount: "",
-      turnoverRequirement: ("1,000", "CNY"),
+      turnoverRequirement: "1,000",
       cryptoWithdrawalRequirement: nil)
 
     given(stubViewModel.enableWithdrawal) ~> true
