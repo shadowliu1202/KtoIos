@@ -16,6 +16,7 @@ final class WithdrawalFiatWalletDetailViewTests: XCTestCase {
     given(stubViewModel.realName) ~> ""
     given(stubViewModel.supportLocale) ~> .China()
     given(stubViewModel.isDeleteSuccess) ~> false
+    given(stubViewModel.isDeleteButtonDisable) ~> false
   }
 
   func dummyWallet(deletable: Bool) -> WithdrawalDto.FiatWallet {

@@ -113,7 +113,6 @@ final class WithdrawalAddFiatBankCardViewTests: XCTestCase {
     let expectation = sut.inspection.inspect { view in
       let textField = try view
         .find(viewWithId: "usernameTextField")
-        .find(viewWithId: "inputText")
 
       try textField.callOnTapGesture()
 

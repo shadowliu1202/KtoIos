@@ -17,6 +17,7 @@ final class WithdrawalCryptoWalletDetailViewTests: XCTestCase {
     super.setUp()
     given(stubViewModel.supportLocale) ~> .China()
     given(stubViewModel.isDeleteSuccess) ~> false
+    given(stubViewModel.isDeleteButtonDisable) ~> false
   }
 
   func dummyWallet(deletable: Bool) -> WithdrawalDto.CryptoWallet {
@@ -40,6 +41,7 @@ final class WithdrawalCryptoWalletDetailViewTests: XCTestCase {
       models: [],
       status: Localize.string("cps_account_status_verified"),
       deletable: true,
+      deleteActionDisable: false,
       onDelete: nil)
 
     let exp = sut.inspection.inspect { view in
@@ -63,6 +65,7 @@ final class WithdrawalCryptoWalletDetailViewTests: XCTestCase {
       models: [],
       status: "",
       deletable: false,
+      deleteActionDisable: false,
       onDelete: nil)
 
     let exp = sut.inspection.inspect { view in

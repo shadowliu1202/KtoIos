@@ -26,7 +26,7 @@ final class WithdrawalOTPVerificationViewTests: XCTestCase {
     given(dummyViewModel.otpCodeLength) ~> 4
 
     let sut = WithdrawalOTPVerificationView<WithdrawalOTPVerificationViewModelProtocolMock>
-      .VerificationForm(.constant(""))
+      .VerificationForm(.constant(""), .phone)
 
     let exp = sut.inspection.inspect { view in
       let highLightText = try view.find(viewWithId: "HighLightText")
