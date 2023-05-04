@@ -207,7 +207,9 @@ extension String {
   }
 
   func toCryptoCurrency(supportCryptoType: SupportCryptoType) -> CryptoCurrency {
-    CryptoFactory.shared.create(supportCryptoType: supportCryptoType, amount_: self)
+    CryptoFactory.shared.create(
+      supportCryptoType: supportCryptoType,
+      amount_: self.replacingOccurrences(of: ",", with: ""))
   }
 }
 

@@ -109,7 +109,7 @@ class DepositAPI {
           task: .requestJSONEncodable(codable)))
   }
 
-  func bindingImageWithDepositRecord(id: String, bean: ImageMappingRequestBean) -> Completable {
+  func bindingImageWithDepositRecord(id: String, bean: ImageMappingRequestBean) -> Single<String> {
     let codable = WithdrawalImagesCodable(
       ticketStatus: bean.ticketStatus,
       images: bean.images
@@ -125,7 +125,6 @@ class DepositAPI {
           path: "api/deposit/images/\(id)",
           method: .put,
           task: .requestJSONEncodable(codable)))
-      .asCompletable()
   }
 
   func sendOfflineDepositRequest(request: DepositOfflineRequestBean) -> Single<String> {

@@ -18,12 +18,12 @@ class CurrencyType: TextFieldType {
     self.maxAmount = maxAmount
   }
 
-  func format(_ oldText: String, _ newText: String, _ text: Binding<String>) {
+  func format(_ oldText: String, _ newText: String, _ afterFormat: (String) -> Void) {
     var newText = newText
 
     guard newText ~= regex.pattern
     else {
-      text.wrappedValue = oldText
+      afterFormat(oldText)
       return
     }
 
@@ -32,14 +32,14 @@ class CurrencyType: TextFieldType {
         !isEndWithDecimalPoint(newText),
         !isAfterDecimalPointInputInProgress(newText, maxDigits: maxDigits)
       else {
-        text.wrappedValue = newText
+        afterFormat(newText)
         return
       }
     }
 
     checkDeletedThousandsSeparators(oldText, &newText)
 
-    text.wrappedValue = toCurrencyFormat(newText) ?? ""
+    afterFormat(toCurrencyFormat(newText) ?? "")
   }
 
   private func isEndWithDecimalPoint(_ text: String) -> Bool {
@@ -56,7 +56,7 @@ class CurrencyType: TextFieldType {
 
     guard splittedText.count == 2 else { return false }
 
-    if splittedText[1].contains(where: { $0 != "0" }) || splittedText[1].count == maxDigits {
+    if splittedText[1].count == maxDigits {
       return false
     }
     else {

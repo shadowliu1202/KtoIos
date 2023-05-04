@@ -119,8 +119,8 @@ extension WithdrawalMainView {
         HStack(spacing: 0) {
           Text(Localize.string("withdrawal_turnover_requirement"))
 
-          if let (amount, _) = viewModel.instruction?.turnoverRequirement {
-            Text(Localize.string("common_requirement", amount))
+          if let turnoverRequirement = viewModel.instruction?.turnoverRequirement {
+            Text(Localize.string("common_requirement", turnoverRequirement))
           }
           else {
             Text(Localize.string("common_none"))
@@ -128,16 +128,17 @@ extension WithdrawalMainView {
         }
         .localized(weight: .medium, size: 14, color: .gray9B9B9B)
 
-        if let cryptoWithdrawalRequirement = viewModel.instruction?.cryptoWithdrawalRequirement {
+        if let (amount, _) = viewModel.instruction?.cryptoWithdrawalRequirement {
           HStack(alignment: .center, spacing: 0) {
             Text(Localize.string("cps_crpyto_withdrawal_requirement"))
               .foregroundColor(.from(.gray9B9B9B)) +
-              Text(Localize.string("common_requirement", cryptoWithdrawalRequirement))
+              Text(Localize.string("common_requirement", amount))
               .foregroundColor(.from(.redF20000)) +
               Text(" \(Image(systemName: "chevron.right"))")
               .foregroundColor(
                 .from(.redF20000))
           }
+          .contentShape(Rectangle())
           .onTapGesture {
             cryptoTurnOverOnClick()
           }
@@ -331,7 +332,7 @@ extension WithdrawalMainView {
     func recordCells(_ recentRecords: [WithdrawalMainViewDataModel.Record]) -> some View {
       VStack(spacing: 0) {
         ForEach(recentRecords) { record in
-          WalletRecentRecordCell(
+          RecentRecordRow(
             date: record.date,
             statusTitle: record.status.title,
             statusColor: record.status.color,
@@ -368,8 +369,8 @@ struct WithdrawalMainView_Previews: PreviewProvider {
     @Published var instruction: WithdrawalMainViewDataModel.Instruction? = .init(
       dailyAmountLimit: "100,000",
       dailyMaxCount: "5",
-      turnoverRequirement: ("仍需20,00", "$"),
-      cryptoWithdrawalRequirement: "1,003 ")
+      turnoverRequirement: "仍需20,00",
+      cryptoWithdrawalRequirement: ("1,003 ", "$"))
 
     @Published var recentRecords: [WithdrawalMainViewDataModel.Record]? = [
       .init(

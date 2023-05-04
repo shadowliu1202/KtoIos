@@ -1,3 +1,4 @@
+import Foundation
 import RxCocoa
 import RxSwift
 import SharedBu
@@ -32,17 +33,6 @@ extension ObservableType {
 }
 
 extension Completable {
-  func asReaktiveCompletable() -> CompletableWrapper {
-    CompletableWrapper(inner: CompletableByEmitterKt.completable(onSubscribe: { emitter in
-      let swiftDisposable = self.subscribe {
-        emitter.onComplete()
-      } onError: { error in
-        emitter.onError(error: ExceptionFactory.create(error))
-      }
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
-    }))
-  }
-
   public func catchException(transferLogic: @escaping (Error) -> Error) -> PrimitiveSequence<CompletableTrait, Swift.Never> {
     let handler: (Swift.Error) throws -> PrimitiveSequence<CompletableTrait, Swift.Never> = { error in
       let e = transferLogic(error)
@@ -64,6 +54,39 @@ extension RxSwift.Observable where Element: AnyObject {
       return Disposables.create(with: disposable.dispose)
     }
   }
+
+  func asWrapper() -> ObservableWrapper<Element> {
+    ObservableWrapper(inner: ObservableByEmitterKt.observable(onSubscribe: { emitter in
+      let swiftDisposable = self.subscribe(
+        onNext: { element in
+          emitter.onNext(value: element)
+        },
+        onError: { error in
+          emitter.onError(error: ExceptionFactory.create(error))
+        },
+        onCompleted: {
+          emitter.onComplete()
+        })
+
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
+    }))
+  }
+}
+
+extension RxCocoa.SharedSequenceConvertibleType where Element: AnyObject, SharingStrategy == DriverSharingStrategy {
+  func toWrapper() -> ObservableWrapper<Element> {
+    ObservableWrapper<Element>(
+      inner: ObservableByEmitterKt
+        .observable { emitter in
+
+          let swiftDisposable = self
+            .drive(onNext: {
+              emitter.onNext(value: $0)
+            })
+
+          emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
+        })
+  }
 }
 
 extension ObservableType where Element: Sequence {
@@ -75,36 +98,56 @@ extension ObservableType where Element: Sequence {
 }
 
 extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element == String {
+  func asReaktiveCompletable() -> CompletableWrapper {
+    CompletableWrapper(inner: CompletableByEmitterKt.completable(onSubscribe: { emitter in
+      let swiftDisposable = self.createCompletableWithParsedError()
+        .subscribe(
+          onCompleted: {
+            emitter.onComplete()
+          },
+          onError: { error in
+            emitter.onError(error: ExceptionFactory.create(error))
+          })
+
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
+    }))
+  }
+
+  private func createCompletableWithParsedError() -> Completable {
+    Completable.create { completable in
+      self.subscribe(
+        onSuccess: { jsonString in
+          if let error = self.parseResponseToError(json: .init(parseJSON: jsonString)) {
+            completable(.error(error))
+          }
+          else {
+            completable(.completed)
+          }
+        },
+        onFailure: { error in
+          completable(.error(error))
+        })
+    }
+  }
+
   func asReaktiveResponseNothing() -> SingleWrapper<SharedBu.Response<KotlinNothing>> {
     SingleWrapper(inner: SingleByEmitterKt.single { emitter in
       let swiftDisposable = self
         .subscribe(
           onSuccess: { jsonString in
-            let json = JSON(parseJSON: jsonString)
-            if
-              let statusCode = json["statusCode"].string,
-              let errorMsg = json["errorMsg"].string,
-              statusCode.count > 0,
-              errorMsg.count > 0
-            {
-              let error = NSError(
-                domain: "",
-                code: Int(statusCode) ?? 0,
-                userInfo: ["statusCode": statusCode, "errorMsg": errorMsg]) as Error
-
+            if let error = self.parseResponseToError(json: .init(parseJSON: jsonString)) {
               emitter.onError(error: ExceptionFactory.create(error))
-              return
             }
-
-            let result = ResponseParser.companion.fromNothing(jsonStr: jsonString)
-
-            emitter.onSuccess(value: result)
+            else {
+              let result = ResponseParser.companion.fromNothing(jsonStr: jsonString)
+              emitter.onSuccess(value: result)
+            }
           },
           onFailure: { error in
             emitter.onError(error: ExceptionFactory.create(error))
           })
 
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     })
   }
 
@@ -130,7 +173,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
           emitter.onError(error: ExceptionFactory.create(error))
         })
 
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     })
   }
 
@@ -156,7 +199,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
           emitter.onError(error: ExceptionFactory.create(error))
         })
 
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     })
   }
 
@@ -183,42 +226,55 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
           emitter.onError(error: ExceptionFactory.create(error))
         })
 
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     })
   }
 
   func asReaktiveResponseItem<T>() -> SingleWrapper<ResponseItem<T>> where T: Any {
+    asReaktiveResponseItem(transfrom: { (result: T) -> T in result })
+  }
+
+  func asReaktiveResponseItem<T: Any, F: Any>(transfrom: @escaping ((T) -> F)) -> SingleWrapper<ResponseItem<F>> {
     SingleWrapper(inner: SingleByEmitterKt.single { emitter in
       let swiftDisposable = self.subscribe(
         onSuccess: { jsonString in
           let json = JSON(parseJSON: jsonString)
-          if
-            let statusCode = json["statusCode"].string,
-            let errorMsg = json["errorMsg"].string,
-            statusCode.count > 0,
-            errorMsg.count > 0
-          {
-            let error = NSError(
-              domain: "",
-              code: Int(statusCode) ?? 0,
-              userInfo: ["statusCode": statusCode, "errorMsg": errorMsg]) as Error
 
+          if let error = self.parseResponseToError(json: json) {
             emitter.onError(error: ExceptionFactory.create(error))
             return
           }
 
-          var item: ResponseItem<T>
+          var item: ResponseItem<F>
 
-          if let bool = json["data"].rawValue as? Bool {
-            item = .init(
-              data: KotlinBoolean(bool: bool) as? T,
-              errorMsg: "",
-              node: "",
-              statusCode: "")
+          let value = json["data"].rawValue
+
+          if
+            let number = value as? NSNumber,
+            number === kCFBooleanTrue ||
+            number === kCFBooleanFalse
+          {
+            if
+              let bool = json["data"].rawValue as? Bool,
+              F.self == KotlinBoolean.self
+            {
+              item = .init(
+                data: transfrom(KotlinBoolean(bool: bool) as! T),
+                errorMsg: "",
+                node: "",
+                statusCode: "")
+            }
+            else {
+              item = .init(
+                data: transfrom(json["data"].rawValue as! T),
+                errorMsg: "",
+                node: "",
+                statusCode: "")
+            }
           }
           else {
             item = .init(
-              data: json["data"].rawValue as? T,
+              data: transfrom(json["data"].rawValue as! T),
               errorMsg: "",
               node: "",
               statusCode: "")
@@ -230,8 +286,25 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
           emitter.onError(error: ExceptionFactory.create(error))
         })
 
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     })
+  }
+
+  private func parseResponseToError(json: JSON) -> Error? {
+    if
+      let statusCode = json["statusCode"].string,
+      let errorMsg = json["errorMsg"].string,
+      statusCode.count > 0,
+      errorMsg.count > 0
+    {
+      return NSError(
+        domain: "",
+        code: Int(statusCode) ?? 0,
+        userInfo: ["statusCode": statusCode, "errorMsg": errorMsg]) as Error
+    }
+    else {
+      return nil
+    }
   }
 }
 
@@ -243,7 +316,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
       } onFailure: { error in
         emitter.onError(error: ExceptionFactory.create(error))
       }
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     })
   }
 }
@@ -256,7 +329,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait {
       } onFailure: { error in
         emitter.onError(error: ExceptionFactory.create(error))
       }
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     })
   }
 }
@@ -282,7 +355,7 @@ extension RxSwift.Observable where Element == String {
         emitter.onError(error: ExceptionFactory.create(error))
       }
 
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     })
   }
 
@@ -306,7 +379,7 @@ extension RxSwift.Observable where Element == String {
         emitter.onError(error: ExceptionFactory.create(error))
       }
 
-      emitter.setDisposable(disposable: DisposableWrapper(dispoable: swiftDisposable))
+      emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     })
   }
 }
@@ -352,15 +425,15 @@ extension RxSwift.Completable {
 }
 
 class DisposableWrapper: SharedBu.Disposable {
-  private var _dispoable: Disposable
+  private var _disposable: Disposable
   var isDisposed = false
 
-  init(dispoable: Disposable) {
-    _dispoable = dispoable
+  init(disposable: Disposable) {
+    _disposable = disposable
   }
 
   func dispose() {
-    _dispoable.dispose()
+    _disposable.dispose()
     isDisposed = true
   }
 }

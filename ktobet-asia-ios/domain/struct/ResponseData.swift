@@ -1450,7 +1450,7 @@ struct BonusBean: Codable {
     let fixTurnoverRequirement: Double
     let type: Int32
     let minCapital: Double
-    
+
     @DefaultCodable(String.minimumDate) var effectiveDate: String
     @DefaultCodable(String.maximumDate) var expiryDate: String
     @DefaultCodable(String.minimumDate) var updatedDate: String

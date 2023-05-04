@@ -15,14 +15,16 @@ struct DepositCryptoRecordDetailView<ViewModel>: View
       PageContainer {
         Header()
         Separator(color: .gray3C3E40)
-        Info(submitTransactionIdOnClick: submitTransactionIdOnClick)
+        Info()
         Separator(color: .gray3C3E40)
       }
     }
     .onPageLoading(viewModel.info == nil || viewModel.header == nil)
     .pageBackgroundColor(.gray131313)
     .onViewDidLoad {
-      viewModel.getDepositCryptoLog(transactionId: transactionId)
+      viewModel.getDepositCryptoLog(
+        transactionId: transactionId,
+        submitTransactionIdOnClick: submitTransactionIdOnClick)
     }
     .environmentObject(viewModel)
     .environment(\.playerLocale, playerConfig.supportLocale)
@@ -31,7 +33,7 @@ struct DepositCryptoRecordDetailView<ViewModel>: View
 
 extension DepositCryptoRecordDetailView {
   enum Identifier: String {
-    case headerCpsIncompleteHint
+    case headerCpsUnCompleteHint
     case infoTable
     case remarkRow
     case infoRowContent
@@ -52,10 +54,10 @@ extension DepositCryptoRecordDetailView {
           Text("\(Localize.string("deposit_title")) - \(viewModel.header?.fromCryptoName ?? "")")
             .localized(weight: .medium, size: 16, color: .whitePure)
 
-          Text("\(Localize.string("common_cps_incomplete_field_placeholder_hint"))")
+          Text(Localize.string("common_cps_incomplete_field_placeholder_hint"))
             .localized(weight: .regular, size: 14, color: .gray9B9B9B)
-            .visibility(viewModel.header?.showInCompleteHint ?? true ? .visible : .gone)
-            .id(DepositCryptoRecordDetailView.Identifier.headerCpsIncompleteHint.rawValue)
+            .visibility(viewModel.header?.showUnCompleteHint ?? true ? .visible : .gone)
+            .id(DepositCryptoRecordDetailView.Identifier.headerCpsUnCompleteHint.rawValue)
         }
       }
       .frame(maxWidth: .infinity, alignment: .leading)
@@ -66,13 +68,8 @@ extension DepositCryptoRecordDetailView {
   }
 
   struct Info: View {
-    typealias InfoRow = DepositCryptoRecordDetailView.InfoRow
-    typealias InfoTable = DepositCryptoRecordDetailView.InfoTable
-    typealias RemarkRow = DepositCryptoRecordDetailView.RemarkRow
-
     @EnvironmentObject var viewModel: ViewModel
 
-    var submitTransactionIdOnClick: ((SingleWrapper<HttpUrl>?) -> Void)?
     var inspection = Inspection<Self>()
 
     var body: some View {
@@ -91,21 +88,23 @@ extension DepositCryptoRecordDetailView {
       .onInspected(inspection, self)
     }
 
-    private func generateInfoRow(_ records: [DepositCryptoRecord]) -> some View {
+    private func generateInfoRow(_ records: [CryptoRecord]) -> some View {
       ForEach(records.indices, id: \.self) { index in
         let record = records[index]
         switch record {
         case .info(let item):
-          InfoRow(item)
+          DefaultRow(model: item)
+            .id(DepositCryptoRecordDetailView.Identifier.infoRowContent.rawValue)
         case .link(let item):
-          InfoRow(item, clickAttachment: {
-            self.submitTransactionIdOnClick?(item.updateUrl)
-          })
+          LinkRow(model: item)
+            .id(DepositCryptoRecordDetailView.Identifier.infoRowAttachment.rawValue)
         case .remark(let item):
-          RemarkRow(item)
+          RemarkRow(model: item)
         case .table(let requests, let finals):
           LimitSpacer(0)
-          InfoTable(applyInfo: requests, finallyInfo: finals)
+          InfoTable(
+            applyInfo: requests,
+            finallyInfo: finals)
           LimitSpacer(0)
         }
 
@@ -114,145 +113,28 @@ extension DepositCryptoRecordDetailView {
       }
     }
   }
-
-  struct InfoRow: View {
-    let infoTitle: String
-    let infoContent: String?
-    let contentColor: UIColor
-    let attachment: String?
-    let clickAttachment: (() -> Void)?
-
-    init(_ record: DepositCryptoRecord.Item?, clickAttachment: (() -> Void)? = nil) {
-      self.infoTitle = record?.title ?? ""
-      self.infoContent = record?.content
-      self.contentColor = record?.contentColor ?? .whitePure
-      self.attachment = record?.attachment
-      self.clickAttachment = clickAttachment
-    }
-
-    var body: some View {
-      VStack(alignment: .leading, spacing: 2) {
-        Text(infoTitle)
-          .localized(weight: .regular, size: 12, color: .gray9B9B9B)
-
-        if let content = infoContent {
-          Text(content)
-            .localized(weight: .regular, size: 16, color: contentColor)
-            .id(DepositCryptoRecordDetailView.Identifier.infoRowContent.rawValue)
-        }
-
-        if let attach = attachment {
-          Text(attach)
-            .underline(true, color: .from(.redF20000))
-            .localized(weight: .regular, size: 16, color: .redF20000)
-            .onTapGesture {
-              clickAttachment?()
-            }
-            .id(DepositCryptoRecordDetailView.Identifier.infoRowAttachment.rawValue)
-        }
-      }
-    }
-  }
-
-  struct InfoTable: View {
-    let applyInfo: [DepositCryptoRecord.Item]?
-    let finallyInfo: [DepositCryptoRecord.Item]?
-
-    var body: some View {
-      VStack(alignment: .leading, spacing: 16) {
-        if let applyInfo, let finallyInfo {
-          VStack(alignment: .leading, spacing: 8) {
-            ForEach(applyInfo.indices, id: \.self) {
-              if $0 == 0 {
-                Text(applyInfo[$0].title)
-                  .localized(weight: .medium, size: 16, color: .gray9B9B9B)
-              }
-              else {
-                let record = applyInfo[$0]
-                DepositCryptoRecordDetailView.InfoRow(record)
-              }
-            }
-          }
-
-          Separator(color: .gray3C3E40)
-
-          VStack(alignment: .leading, spacing: 8) {
-            ForEach(finallyInfo.indices, id: \.self) {
-              if $0 == 0 {
-                Text(finallyInfo[$0].title)
-                  .localized(weight: .medium, size: 16, color: .gray9B9B9B)
-              }
-              else {
-                let record = finallyInfo[$0]
-                DepositCryptoRecordDetailView.InfoRow(record)
-              }
-            }
-          }
-        }
-        else {
-          EmptyView()
-        }
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(16)
-      .strokeBorder(color: .gray3C3E40, cornerRadius: 0)
-      .id(DepositCryptoRecordDetailView.Identifier.infoTable.rawValue)
-    }
-  }
-
-  struct RemarkRow: View {
-    let remarkTitle: String
-    let remarkContent: [String]?
-    let date: String?
-
-    init(_ remark: DepositCryptoRecord.Remark?) {
-      self.remarkTitle = remark?.title ?? ""
-      self.remarkContent = remark?.content
-      self.date = remark?.date
-    }
-
-    var body: some View {
-      VStack(alignment: .leading, spacing: 2) {
-        Text(remarkTitle)
-          .localized(weight: .regular, size: 12, color: .gray9B9B9B)
-
-        if let date, let content = remarkContent {
-          ForEach(content.indices, id: \.self) {
-            Text(date)
-              .localized(weight: .regular, size: 12, color: .gray9B9B9B)
-            LimitSpacer(2)
-            Text(content[$0])
-              .localized(weight: .regular, size: 16, color: .whitePure)
-            LimitSpacer(18)
-              .visibility(($0 == content.count - 1) ? .gone : .visible)
-          }
-        }
-      }
-      .id(DepositCryptoRecordDetailView.Identifier.remarkRow.rawValue)
-    }
-  }
 }
 
 struct DepositCryptoRecordViewPreviews: PreviewProvider {
   class ViewModel: DepositCryptoRecordDetailViewModelProtocol, ObservableObject {
     let transactionId = ""
 
-    @Published private(set) var header: DepositCryptoRecordHeader?
-    @Published private(set) var info: [DepositCryptoRecord]?
+    @Published private(set) var header: CryptoRecordHeader?
+    @Published private(set) var info: [CryptoRecord]?
 
     init() {
-      self.header = .init(fromCryptoName: "USDT", showInCompleteHint: true)
+      self.header = .init(fromCryptoName: "USDT", showUnCompleteHint: true)
 
       self.info = [
-        DepositCryptoRecord.info(
+        .info(
           .init(
             title: Localize.string("balancelog_detail_id"),
             content: "log._displayId")),
-        DepositCryptoRecord.info(
+        .info(
           .init(
             title: Localize.string("activity_status"),
             content: "log.statusString")),
-        DepositCryptoRecord.table(
+        .table(
           [
             .init(title: Localize.string("common_cps_apply_info")),
             .init(
@@ -284,27 +166,29 @@ struct DepositCryptoRecordViewPreviews: PreviewProvider {
               title: Localize.string("common_cps_final_datetime"),
               content: "processingMemo.actualDateTimeString(isTransactionComplete)")
           ]),
-        DepositCryptoRecord.info(
+        .info(
           .init(
             title: Localize.string("common_cps_remitter", Localize.string("common_player")),
             content: "-")),
-        DepositCryptoRecord.info(
+        .info(
           .init(
             title: Localize.string("common_cps_payee", Localize.string("cps_kto")),
             content: "processingMemo.address")),
-        DepositCryptoRecord.info(
+        .info(
           .init(
             title: Localize.string("common_cps_hash_id"),
             content: "processingMemo._hashId")),
-        DepositCryptoRecord.remark(
+        .remark(
           .init(
             title: Localize.string("common_remark"),
             content: ["1 > 2 > 3", "3 > 4 > 5"],
-            date: "log.updateTimeString"))
+            date: ["date1", "date2"]))
       ]
     }
 
-    func getDepositCryptoLog(transactionId _: String) { }
+    func getDepositCryptoLog(
+      transactionId _: String,
+      submitTransactionIdOnClick _: ((SingleWrapper<HttpUrl>?) -> Void)?) { }
   }
 
   struct Preview: View {

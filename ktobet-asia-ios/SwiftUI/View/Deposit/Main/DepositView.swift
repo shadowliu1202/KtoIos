@@ -198,7 +198,7 @@ extension DepositView {
               ForEach(recentLogs.indices, id: \.self) {
                 let log = recentLogs[$0]
 
-                WalletRecentRecordCell(
+                RecentRecordRow(
                   date: log.createdDate.toDateTimeString(),
                   statusTitle: log.status.toLogString(),
                   statusColor: log.status.toLogColor(),

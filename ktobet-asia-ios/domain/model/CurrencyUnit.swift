@@ -1,6 +1,7 @@
 import SharedBu
 
 extension ICurrencyUnit {
+  @available(*, deprecated, message: "Use SharedBu formatString, review .none type before delete, see KTO-4693.")
   /// format string with comma 100,000.11
   func formatString(_ sign: FormatPattern.Currency = .normal) -> String {
     switch sign {

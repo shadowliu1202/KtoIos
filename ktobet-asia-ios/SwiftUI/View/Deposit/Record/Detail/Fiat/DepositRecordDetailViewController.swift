@@ -8,11 +8,11 @@ class DepositRecordDetailViewController:
 {
   @Injected private var alert: AlertProtocol
   @Injected private var viewModel: DepositRecordDetailViewModel
-  @Injected private var playerConfig: PlayerConfiguration
 
   private let transactionId: String
-
   private let disposeBag = DisposeBag()
+
+  private(set) var imagePickable: ImagePickable?
 
   init(
     transactionId: String,
@@ -52,11 +52,19 @@ class DepositRecordDetailViewController:
 
 extension DepositRecordDetailViewController {
   private func setupUI() {
+    imagePickable = .init(
+      target: self,
+      alert: alert,
+      selectedImageCountLimit: DepositRecordDetailViewModel.selectedImageCountLimit,
+      imageMBSizeLimit: DepositRecordDetailViewModel.imageMBSizeLimit,
+      didSelected: { [weak self] fromCamera, images in
+        self?.viewModel.prepareSelectedImages(images, shouldReplaceAll: fromCamera)
+      })
+
     addSubView(
       from: { [unowned self] in
         DepositRecordDetailView(
           viewModel: self.viewModel,
-          playerConfig: self.playerConfig,
           transactionId: transactionId,
           onUploadImage: {
             self.pushImagePicker()
@@ -79,79 +87,7 @@ extension DepositRecordDetailViewController {
   }
 
   func pushImagePicker() {
-    let currentSelectedImageCount = viewModel.selectedImages.count
-
-    guard currentSelectedImageCount < DepositRecordDetailViewModel.selectedImageCountLimit
-    else {
-      alert.show(
-        Localize.string("common_tip_title_warm"),
-        Localize.string(
-          "common_photo_upload_limit_reached",
-          ["\(DepositRecordDetailViewModel.selectedImageCountLimit)"]),
-        confirm: nil,
-        cancel: nil)
-      return
-    }
-
-    let imagePickerViewController = ImagePickerViewController.initFrom(storyboard: "ImagePicker")
-
-    imagePickerViewController.delegate = self
-    imagePickerViewController.imageLimitMBSize = DepositRecordDetailViewModel.imageMBSizeLimit
-    imagePickerViewController.selectedImageLimitCount = DepositRecordDetailViewModel
-      .selectedImageCountLimit - currentSelectedImageCount
-    imagePickerViewController.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
-
-    imagePickerViewController.completion = { [weak self] images in
-      guard let self else { return }
-
-      NavigationManagement.sharedInstance.popViewController()
-
-      self.viewModel.prepareSelectedImages(images, shouldReplaceAll: false)
-    }
-
-    imagePickerViewController.showImageCountLimitAlert = { [weak self] _ in
-      self?.showToast(
-        Localize.string(
-          "common_photo_upload_limit_reached",
-          ["\(imagePickerViewController.selectedImageLimitCount)"]),
-        barImg: .failed)
-    }
-
-    imagePickerViewController.showImageSizeLimitAlert = { [weak self] _ in
-      self?.showToast(Localize.string("deposit_execeed_limitation"), barImg: .failed)
-    }
-
-    imagePickerViewController.showImageFormatInvalidAlert = { [weak self] _ in
-      self?.showToast(Localize.string("deposit_file_format_invalid"), barImg: .failed)
-    }
-
-    NavigationManagement.sharedInstance.pushViewController(vc: imagePickerViewController)
-  }
-}
-
-// MARK: Camera event
-
-extension DepositRecordDetailViewController:
-  UIImagePickerControllerDelegate,
-  UINavigationControllerDelegate
-{
-  func imagePickerController(
-    _: UIImagePickerController,
-    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any])
-  {
-    dismiss(animated: true) { [unowned self] in
-      NavigationManagement.sharedInstance.popViewController()
-
-      guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-      UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-
-      DispatchQueue.main.async {
-        self.viewModel.prepareSelectedImages([image], shouldReplaceAll: true)
-      }
-    }
-  }
-
-  func imagePickerControllerDidCancel(_: UIImagePickerController) {
-    dismiss(animated: true, completion: nil)
+    imagePickable?.pushImagePicker(
+      currentSelectedImageCount: viewModel.selectedImages.count)
   }
 }

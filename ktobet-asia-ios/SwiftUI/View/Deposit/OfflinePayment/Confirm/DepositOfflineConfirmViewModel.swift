@@ -55,6 +55,7 @@ class DepositOfflineConfirmViewModel:
     super.init()
 
     depositTrigger
+      .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
       .flatMapLatest { [unowned self] in
         self.deposit()
           .trackOnDispose(depositTracker)

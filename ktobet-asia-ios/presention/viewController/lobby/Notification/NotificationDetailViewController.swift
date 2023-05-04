@@ -101,9 +101,7 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
           displayId: self.data.transactionId ?? "")
 
         NavigationManagement.sharedInstance
-          .pushViewController(
-            vc: detailMainViewController,
-            unwindNavigate: self)
+          .pushViewController(vc: detailMainViewController)
       }
     case .onlinecardschange,
          .paymentgroupchanged:
@@ -118,12 +116,13 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
     case .withdrawalneedsverifieddoc,
          .withdrawalrejected:
       self.navigateToDestination = { [unowned self] in
-        let storyboard = UIStoryboard(name: "Withdrawal", bundle: Bundle.main)
-        let vc = storyboard
-          .instantiateViewController(withIdentifier: "WithdrawlRecordContainer") as! WithdrawlRecordContainer
-        vc.displayId = self.data.transactionId ?? ""
-        vc.transactionTransactionType = TransactionType.withdrawal
-        NavigationManagement.sharedInstance.pushViewController(vc: vc)
+        let detailMainViewController = WithdrawalRecordDetailMainViewController(
+          displayId: self.data.transactionId ?? "")
+
+        NavigationManagement.sharedInstance
+          .pushViewController(
+            vc: detailMainViewController,
+            unwindNavigate: self)
       }
     case .levelup,
          .registercompleted:

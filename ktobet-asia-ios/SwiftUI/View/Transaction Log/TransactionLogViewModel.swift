@@ -1,11 +1,11 @@
 import Foundation
-import RxDataSources
 import RxSwift
 import SharedBu
 
 protocol TransactionLogViewModelProtocol {
-  typealias Section = SectionModel<String, TransactionLog>
+  typealias Section = LogSections<TransactionLog>.Model
 
+  var supportLocale: SupportLocale { get }
   var summary: CashFlowSummary? { get }
   var sections: [Section]? { get }
   var isPageLoading: Bool { get }
@@ -13,33 +13,30 @@ protocol TransactionLogViewModelProtocol {
 
   var pagination: Pagination<TransactionLog>! { get }
   var summaryRefreshTrigger: PublishSubject<Void> { get }
-
-  func searchTransactionLog() -> Observable<[TransactionLog]>
-  func getCashFlowSummary() -> Single<CashFlowSummary>
 }
 
-class TransactionLogViewModel: CollectErrorViewModel,
+class TransactionLogViewModel:
+  CollectErrorViewModel,
   ObservableObject,
   Selecting,
-  TransactionLogViewModelProtocol
+  TransactionLogViewModelProtocol,
+  LogSectionModelBuilder
 {
-  private let transactionLogUseCase: TransactionLogUseCase
-
-  private let disposeBag = DisposeBag()
-
-  private(set) var pagination: Pagination<TransactionLog>!
-
-  private(set) var summaryRefreshTrigger = PublishSubject<Void>()
-
   @Published private(set) var summary: CashFlowSummary?
   @Published private(set) var sections: [TransactionLogViewModelProtocol.Section]?
   @Published private(set) var isPageLoading = false
-
   @Published var selectedItems: [Selectable] = []
-
   @Published var dateType: DateType = .week(
     fromDate: Date().adding(value: -6, byAdding: .day),
     toDate: Date())
+
+  private let transactionLogUseCase: TransactionLogUseCase
+  private let disposeBag = DisposeBag()
+
+  private(set) var pagination: Pagination<TransactionLog>!
+  private(set) var summaryRefreshTrigger = PublishSubject<Void>()
+
+  let supportLocale: SupportLocale
 
   var selectedLogType: Int {
     if isSelectedAll {
@@ -50,8 +47,12 @@ class TransactionLogViewModel: CollectErrorViewModel,
     return Int(selected) ?? LogType.all.rawValue
   }
 
-  init(transactionLogUseCase: TransactionLogUseCase) {
+  init(
+    transactionLogUseCase: TransactionLogUseCase,
+    playerConfig: PlayerConfiguration)
+  {
     self.transactionLogUseCase = transactionLogUseCase
+    self.supportLocale = playerConfig.supportLocale
 
     super.init()
 
@@ -139,20 +140,11 @@ extension TransactionLogViewModel {
 
 extension TransactionLogViewModel {
   func buildSections(_ logs: [TransactionLog]) -> [TransactionLogViewModelProtocol.Section] {
-    Dictionary(
-      grouping: logs,
+    regrouping(
+      from: logs,
       by: {
         String(format: "%02d/%02d/%02d", $0.date.year, $0.date.monthNumber, $0.date.dayOfMonth)
       })
-      .map { key, value -> TransactionLogViewModelProtocol.Section in
-        let today = Date().convertdateToUTC().toDateString()
-        let title = key == today ? Localize.string("common_today") : key
-
-        return .init(
-          model: title,
-          items: value)
-      }
-      .sorted(by: { $0.model > $1.model })
   }
 }
 
@@ -215,4 +207,20 @@ extension TransactionLogViewModel.LogType: Selectable {
   }
 
   var image: String? { nil }
+}
+
+// MARK: - LogRowModel
+
+extension TransactionLog: LogRowModel {
+  var createdDateText: String {
+    date.toTimeString()
+  }
+
+  var statusConfig: (text: String, color: UIColor)? { nil }
+
+  var displayId: String { name }
+
+  var amountConfig: (text: String, color: UIColor) {
+    (amount.formatString(sign: .signed_), amount.isPositive ? .green6AB336 : .gray9B9B9B)
+  }
 }

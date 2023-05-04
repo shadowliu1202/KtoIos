@@ -1,9 +1,9 @@
-import UIKit
 import SharedBu
+import UIKit
 
 struct BullFightGameResultBuilder: CasinoResultBuilder {
   let result: CasinoGameResult.BullFight
-  
+
   func build(to background: UIView) {
     addPokerCardsRowsStackView(
       rowViews: [

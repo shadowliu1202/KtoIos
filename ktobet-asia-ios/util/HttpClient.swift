@@ -129,6 +129,7 @@ class HttpClient: CookieUtil {
             domain: domain,
             code: response.statusCode,
             userInfo: ["statusCode": response.statusCode, "errorMsg": ""]) as Error
+
           return Single.error(error)
         }
       }

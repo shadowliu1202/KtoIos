@@ -29,35 +29,29 @@ public enum ValidError {
 }
 
 extension BankNamePatternValidateResult {
-  func toValidError() -> ValidError {
+  var localizeDescription: String {
     switch self {
-    case .exceededlength:
-      return .length
+    case .exceededlength,
+         .malformed:
+      return Localize.string("common_invalid")
     case .mustfill:
-      return .empty
-    case .malformed:
-      return .regex
-    case .none:
-      return .none
+      return Localize.string("common_field_must_fill")
     default:
-      return .none
+      return ""
     }
   }
 }
 
 extension BankBranchPatternValidateResult {
-  func toValidError() -> ValidError {
+  var localizeDescription: String {
     switch self {
-    case .exceededlength:
-      return .length
+    case .exceededlength,
+         .malformed:
+      return Localize.string("common_invalid")
     case .mustfill:
-      return .empty
-    case .malformed:
-      return .regex
-    case .none:
-      return .none
+      return Localize.string("common_field_must_fill")
     default:
-      return .none
+      return ""
     }
   }
 }

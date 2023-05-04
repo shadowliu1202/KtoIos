@@ -9,7 +9,7 @@ final class DepositRecordDetailViewControllerTests: XCTestCase {
     Injection.shared.registerAllDependency()
   }
 
-  func buildUploadedImages() -> [DepositRecordDetailViewModel.UploadImage] {
+  func buildUploadedImages() -> [RecordRemark.Uploader.Model] {
     (0...2).map { _ in
       .init(
         image: .init(),
@@ -25,7 +25,8 @@ final class DepositRecordDetailViewControllerTests: XCTestCase {
       .initialize(
         depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
         imageUseCase: mock(UploadImageUseCase.self),
-        httpClient: getFakeHttpClient())
+        httpClient: getFakeHttpClient(),
+        playerConfig: PlayerConfigurationImpl())
 
     given(stubViewModel.errors()) ~> .never()
     given(stubViewModel.selectedImages) ~> self.buildUploadedImages()

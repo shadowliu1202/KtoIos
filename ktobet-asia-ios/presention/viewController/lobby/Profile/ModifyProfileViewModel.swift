@@ -8,7 +8,7 @@ class ModifyProfileViewModel: CollectErrorViewModel {
 
   private var playerUseCase: PlayerDataUseCase!
   private var configurationUseCase: ConfigurationUseCase!
-  private var withdrawalUseCase: WithdrawalUseCase!
+  private var withdrawalService: IWithdrawalAppService!
   private var accountPatternGenerator: AccountPatternGenerator!
   private var loadingTracker: ActivityIndicator { loading.tracker }
 
@@ -23,7 +23,9 @@ class ModifyProfileViewModel: CollectErrorViewModel {
   lazy var playerProfile = PublishSubject<PlayerProfile>()
   lazy var emailState: Observable<EditableContent<String?>> = playerProfile.map({ $0.email })
   lazy var mobileState: Observable<EditableContent<String?>> = playerProfile.map({ $0.mobile })
-  lazy var isAnyWithdrawalTicketApplying = withdrawalUseCase.isAnyTicketApplying()
+  lazy var isAnyWithdrawalTicketApplying = Single
+    .from(withdrawalService.isAnyApplyingWithdrawal())
+    .map { $0.boolValue }
 
   // MARK: Change password
   var relayChangePassword = BehaviorRelay(value: "")
@@ -53,13 +55,13 @@ class ModifyProfileViewModel: CollectErrorViewModel {
   init(
     _ playerDataUseCase: PlayerDataUseCase,
     _ configurationUseCase: ConfigurationUseCase,
-    _ withdrawalUseCase: WithdrawalUseCase,
+    _ withdrawalService: IWithdrawalAppService,
     _ accountPatternGenerator: AccountPatternGenerator)
   {
     super.init()
     self.playerUseCase = playerDataUseCase
     self.configurationUseCase = configurationUseCase
-    self.withdrawalUseCase = withdrawalUseCase
+    self.withdrawalService = withdrawalService
     self.accountPatternGenerator = accountPatternGenerator
   }
 

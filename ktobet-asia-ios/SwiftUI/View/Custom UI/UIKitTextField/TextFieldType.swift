@@ -9,7 +9,7 @@ protocol TextFieldType: AnyObject {
   var keyboardType: UIKeyboardType { get }
   var disablePaste: Bool { get }
 
-  func format(_ oldText: String, _ newText: String, _ text: Binding<String>)
+  func format(_ oldText: String, _ newText: String, _ afterFormat: (String) -> Void)
   func onEditEnd(_ text: Binding<String>)
 }
 

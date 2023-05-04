@@ -248,7 +248,7 @@ final class PromotionViewControllerTest: XCTestCase {
     let allTab = dropDown.tags.first(where: { $0.name.contains("全部") })!
     XCTAssertEqual(3, allTab.count)
   }
-  
+
   func test_HaveTwoVVIPCashBackCopunsAndOneVVIPCashbackCouponWillExpire_InAllCouponPage_VVIPTabDisplayOne_KTO_TC_43() {
     givenPromotionUseCaseStubs(
       productPromotion: [],
@@ -260,9 +260,9 @@ final class PromotionViewControllerTest: XCTestCase {
     let stubViewModel = mock(PromotionViewModel.self).initialize(
       promotionUseCase: Injectable.resolveWrapper(PromotionUseCase.self),
       playerUseCase: Injectable.resolveWrapper(PlayerDataUseCase.self))
-    
+
     given(stubViewModel.trigerRefresh) ~> stubTrigger
-    
+
     sut.viewModel = stubViewModel
     sut.loadViewIfNeeded()
 

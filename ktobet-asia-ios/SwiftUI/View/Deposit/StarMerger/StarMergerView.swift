@@ -63,7 +63,7 @@ struct StarMergerView<ViewModel: StarMergerViewModel>: View {
     }
     .padding(.vertical, 30)
     .padding(.horizontal, 20)
-    .strokeBorder(color: .gray9B9B9B, cornerRadius: 14)
+    .stroke(color: .gray9B9B9B, cornerRadius: 14)
 
     LimitSpacer(30)
 

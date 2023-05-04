@@ -696,7 +696,8 @@ final class Injection {
         .init(
           depositService: resolver.resolveWrapper(IDepositAppService.self),
           imageUseCase: resolver.resolveWrapper(UploadImageUseCase.self),
-          httpClient: resolver.resolveWrapper(HttpClient.self))
+          httpClient: resolver.resolveWrapper(HttpClient.self),
+          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -783,59 +784,6 @@ final class Injection {
       }
 
     container
-      .register(WithdrawalViewModel.self) { resolver in
-        let withdrawalUseCase = resolver.resolveWrapper(WithdrawalUseCase.self)
-        let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
-        return WithdrawalViewModel(withdrawalUseCase: withdrawalUseCase, localStorageRepository: repoLocalStorage)
-      }
-
-    container
-      .register(ManageCryptoBankCardViewModel.self) { resolver in
-        let withdrawalUseCase = resolver.resolveWrapper(WithdrawalUseCase.self)
-        return ManageCryptoBankCardViewModel(withdrawalUseCase: withdrawalUseCase)
-      }
-
-    container
-      .register(CryptoViewModel.self) { resolver in
-        let withdrawalUseCase = resolver.resolveWrapper(WithdrawalUseCase.self)
-        return CryptoViewModel(withdrawalUseCase: withdrawalUseCase)
-      }
-
-    container
-      .register(AddBankViewModel.self) { resolver in
-        AddBankViewModel(
-          resolver.resolveWrapper(LocalStorageRepository.self),
-          resolver.resolveWrapper(AuthenticationUseCase.self),
-          resolver.resolveWrapper(BankUseCase.self),
-          resolver.resolveWrapper(WithdrawalUseCase.self),
-          resolver.resolveWrapper(PlayerDataUseCase.self),
-          resolver.resolveWrapper(AccountPatternGenerator.self))
-      }
-
-    container
-      .register(WithdrawlLandingViewModel.self) { resolver in
-        WithdrawlLandingViewModel(resolver.resolveWrapper(WithdrawalUseCase.self))
-      }
-
-    container
-      .register(WithdrawalRequestViewModel.self) { resolver in
-        let withdrawalUseCase = resolver.resolveWrapper(WithdrawalUseCase.self)
-        let playerUseCase = resolver.resolveWrapper(PlayerDataUseCase.self)
-        return WithdrawalRequestViewModel(withdrawalUseCase: withdrawalUseCase, playerDataUseCase: playerUseCase)
-      }
-
-    container
-      .register(WithdrawalCryptoRequestViewModel.self) { resolver in
-        let withdrawalUseCase = resolver.resolveWrapper(WithdrawalUseCase.self)
-        let playerUseCase = resolver.resolveWrapper(PlayerDataUseCase.self)
-        let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
-        return WithdrawalCryptoRequestViewModel(
-          withdrawalUseCase: withdrawalUseCase,
-          playerUseCase: playerUseCase,
-          localStorageRepository: repoLocalStorage)
-      }
-
-    container
       .register(CasinoViewModel.self) { resolver in
         CasinoViewModel(
           casinoRecordUseCase: resolver.resolveWrapper(CasinoRecordUseCase.self),
@@ -872,14 +820,6 @@ final class Injection {
     container
       .register(NumberGameRecordViewModel.self) { resolver in
         NumberGameRecordViewModel(numberGameRecordUseCase: resolver.resolveWrapper(NumberGameRecordUseCase.self))
-      }
-
-    container
-      .register(CryptoVerifyViewModel.self) { resolver in
-        CryptoVerifyViewModel(
-          playerUseCase: resolver.resolveWrapper(PlayerDataUseCase.self),
-          withdrawalUseCase: resolver.resolveWrapper(WithdrawalUseCase.self),
-          systemUseCase: resolver.resolveWrapper(GetSystemStatusUseCase.self))
       }
 
     container
@@ -921,7 +861,9 @@ final class Injection {
 
     container
       .register(TransactionLogViewModel.self) { resolver in
-        TransactionLogViewModel(transactionLogUseCase: resolver.resolveWrapper(TransactionLogUseCase.self))
+        TransactionLogViewModel(
+          transactionLogUseCase: resolver.resolveWrapper(TransactionLogUseCase.self),
+          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -960,9 +902,9 @@ final class Injection {
       .register(ModifyProfileViewModel.self) { resolver in
         let playerUseCase = resolver.resolveWrapper(PlayerDataUseCase.self)
         let usecaseConfiguration = resolver.resolveWrapper(ConfigurationUseCase.self)
-        let withdrawalUseCase = resolver.resolveWrapper(WithdrawalUseCase.self)
+        let withdrawalService = resolver.resolveWrapper(IWithdrawalAppService.self)
         let pattern = resolver.resolveWrapper(AccountPatternGenerator.self)
-        return ModifyProfileViewModel(playerUseCase, usecaseConfiguration, withdrawalUseCase, pattern)
+        return ModifyProfileViewModel(playerUseCase, usecaseConfiguration, withdrawalService, pattern)
       }
 
     container
@@ -1015,7 +957,8 @@ final class Injection {
     container
       .register(DepositLogSummaryViewModel.self) { resolver in
         .init(
-          depositService: resolver.resolveWrapper(IDepositAppService.self))
+          depositService: resolver.resolveWrapper(IDepositAppService.self),
+          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -1066,8 +1009,127 @@ final class Injection {
       .register(WithdrawalMainViewModel.self) { resolver in
         .init(
           resolver.resolveWrapper(IWithdrawalAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalCryptoLimitViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IWithdrawalAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalLogSummaryViewModel.self) { resolver in
+        .init(
+          withdrawalService: resolver.resolveWrapper(IWithdrawalAppService.self),
+          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalRecordDetailViewModel.self) { resolver in
+        .init(
+          withdrawalService: resolver.resolveWrapper(IWithdrawalAppService.self),
+          imageUseCase: resolver.resolveWrapper(UploadImageUseCase.self),
+          httpClient: resolver.resolveWrapper(HttpClient.self),
+          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalCryptoRecordDetailViewModel.self) { resolver in
+        .init(appService: resolver.resolveWrapper(IWithdrawalAppService.self))
+      }
+
+    container
+      .register(WithdrawalFiatWalletsViewModel.self) { resolver in
+        .init(
+          withdrawalService: resolver.resolveWrapper(IWithdrawalAppService.self),
+          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalFiatRequestStep1ViewModel.self) { resolver in
+        .init(
+          withdrawalService: resolver.resolveWrapper(IWithdrawalAppService.self),
+          playerDataUseCase: resolver.resolveWrapper(PlayerDataUseCase.self),
+          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalFiatRequestStep2ViewModel.self) { resolver in
+        .init(
+          withdrawalService: resolver.resolveWrapper(IWithdrawalAppService.self),
+          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalCryptoWalletsViewModel.self) { resolver in
+        .init(
+          withdrawalService: resolver.resolveWrapper(IWithdrawalAppService.self),
+          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalFiatWalletDetailViewModel.self) { resolver in
+        .init(
+          withdrawalService: resolver.resolveWrapper(IWithdrawalAppService.self),
+          playerDataUseCase: resolver.resolveWrapper(PlayerDataUseCase.self),
+          playerConfigure: resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalCryptoWalletDetailViewModel.self) { resolver in
+        .init(
+          withdrawalService: resolver.resolveWrapper(IWithdrawalAppService.self),
+          playerConfigure: resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalCreateCryptoAccountViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IWithdrawalAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+
+    container
+      .register(WithdrawalOTPVerifyMethodSelectViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(GetSystemStatusUseCase.self),
+          resolver.resolveWrapper(PlayerDataUseCase.self),
           resolver.resolveWrapper(PlayerConfiguration.self),
-          resolver.resolveWrapper(WithdrawalUseCase.self))
+          resolver.resolveWrapper(IWithdrawalAppService.self))
+      }
+
+    container
+      .register(WithdrawalOTPVerificationViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(PlayerConfiguration.self),
+          resolver.resolveWrapper(PlayerDataUseCase.self),
+          resolver.resolveWrapper(IWithdrawalAppService.self))
+      }
+
+    container.register(WithdrawalAddFiatBankCardViewModel.self) { resolver in
+      WithdrawalAddFiatBankCardViewModel(
+        resolver.resolveWrapper(LocalStorageRepository.self),
+        resolver.resolveWrapper(AuthenticationUseCase.self),
+        resolver.resolveWrapper(BankUseCase.self),
+        resolver.resolveWrapper(PlayerDataUseCase.self),
+        resolver.resolveWrapper(AccountPatternGenerator.self),
+        resolver.resolveWrapper(IWithdrawalAppService.self))
+    }
+
+    container
+      .register(WithdrawalCryptoRequestStep1ViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IWithdrawalAppService.self),
+          resolver.resolveWrapper(LocalStorageRepository.self))
+      }
+
+    container
+      .register(WithdrawalCryptoRequestStep2ViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IWithdrawalAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self))
       }
   }
 
@@ -1190,5 +1252,6 @@ final class Injection {
             cryptoProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getCrypto(),
             playerProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getPlayer())
       }
+      .inObjectScope(.withdrawalFlow)
   }
 }

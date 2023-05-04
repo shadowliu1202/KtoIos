@@ -9,7 +9,8 @@ struct UIKitTextField: UIViewRepresentable {
   private let isPasswordType: Bool
   private let textFieldType: any TextFieldType
 
-  private var configuration = { (_: UITextField) in }
+  private var initConfiguration = { (_: UITextField) in }
+  private var updateConfiguration = { (_: UITextField) in }
 
   init(
     text: Binding<String>,
@@ -17,7 +18,8 @@ struct UIKitTextField: UIViewRepresentable {
     showPassword: Binding<Bool>,
     isPasswordType: Bool,
     textFieldType: some TextFieldType,
-    configuration: @escaping (UITextField) -> Void = { (_: UITextField) in })
+    initConfiguration: @escaping (UITextField) -> Void = { (_: UITextField) in },
+    updateConfiguration: @escaping (UITextField) -> Void = { (_: UITextField) in })
   {
     self._text = text
     self._isFirstResponder = isFirstResponder
@@ -25,7 +27,8 @@ struct UIKitTextField: UIViewRepresentable {
 
     self.isPasswordType = isPasswordType
     self.textFieldType = textFieldType
-    self.configuration = configuration
+    self.initConfiguration = initConfiguration
+    self.updateConfiguration = updateConfiguration
   }
 
   func makeCoordinator() -> Coordinator {
@@ -40,7 +43,7 @@ struct UIKitTextField: UIViewRepresentable {
     view.disableAutoFillOnIos16()
     view.text = text
     view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-    configuration(view)
+    initConfiguration(view)
     textFieldType.functionalConfig(view)
 
     view.addTarget(context.coordinator, action: #selector(context.coordinator.textEditChanged), for: .editingChanged)
@@ -54,6 +57,7 @@ struct UIKitTextField: UIViewRepresentable {
     uiView.isSecureTextEntry = isPasswordType && !showPassword
     uiView.disableAutoFillOnIos16()
     uiView.text = text
+    updateConfiguration(uiView)
 
     switch isFirstResponder {
     case true:
@@ -96,9 +100,11 @@ struct UIKitTextField: UIViewRepresentable {
 
       guard let newText = sender.text?.halfWidth else { return }
 
-      textFieldType.format(oldText, newText, $text)
-      sender.remainCursor(to: text)
-      oldText = text
+      textFieldType.format(oldText, newText) {
+        $text.wrappedValue = $0
+        sender.remainCursor(to: $0)
+        oldText = $0
+      }
     }
 
     @objc

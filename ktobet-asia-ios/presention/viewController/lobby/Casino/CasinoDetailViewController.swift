@@ -158,25 +158,25 @@ extension CasinoDetailViewController {
     switch gameResult {
     case let twoSide as TwoSideGameResult:
       builder = TwoSideGameResultBuilder(result: twoSide)
-      
+
     case let sicbo as CasinoGameResult.Sicbo:
       builder = SicboGameResultBuilder(sicbo: sicbo)
-      
+
     case let roulette as CasinoGameResult.Roulette:
       builder = RouletteGameResultBuilder(roulette: roulette)
-      
+
     case let bullbull as BullBullGameResult:
       builder = BullBullGameResultBuilder(result: bullbull)
-      
+
     case let hasFirstCard as HasFirstCardGameResult:
       builder = HasFirstCardGameResultBuilder(result: hasFirstCard)
-      
+
     case let bullFight as CasinoGameResult.BullFight:
       builder = BullFightGameResultBuilder(result: bullFight)
-      
+
     case let blackjack as CasinoGameResult.BlackjackN2:
       builder = BlackjackGameResultBuilder(result: blackjack)
-      
+
     default:
       addResultBottomLine()
       return

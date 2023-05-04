@@ -130,7 +130,7 @@ extension DepositOfflineConfirmView {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 30)
-        .strokeBorder(color: .gray9B9B9B, cornerRadius: 14)
+        .stroke(color: .gray9B9B9B, cornerRadius: 14)
       }
     }
   }
@@ -242,7 +242,7 @@ extension DepositOfflineConfirmView {
                 color: .gray9B9B9B)
               .padding(4)
           })
-          .strokeBorder(color: .gray9B9B9B, cornerRadius: 4)
+          .stroke(color: .gray9B9B9B, cornerRadius: 4)
           .visibility(isCopy ? .visible : .gone)
       }
       .onInspected(inspection, self)

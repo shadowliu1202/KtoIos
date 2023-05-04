@@ -26,6 +26,7 @@ extension ObjectScope {
   static let locale = ObjectScope(storageFactory: PermanentStorage.init)
   static let landing = ObjectScope(storageFactory: PermanentStorage.init)
   static let depositFlow = ObjectScope(storageFactory: PermanentStorage.init)
+  static let withdrawalFlow = ObjectScope(storageFactory: PermanentStorage.init)
 }
 
 extension Resolver {

@@ -17,7 +17,7 @@ final class SwiftUIDropDownTextTest: XCTestCase {
       placeHolder: "",
       textFieldText: .constant(""),
       items: [],
-      featureType: .input,
+      featureType: .inputAssisted,
       dropDownArrowVisible: true)
       .environmentObject(SafeAreaMonitor())
 
@@ -49,7 +49,7 @@ final class SwiftUIDropDownTextTest: XCTestCase {
       placeHolder: "",
       textFieldText: .constant(""),
       items: [],
-      featureType: .input,
+      featureType: .inputAssisted,
       dropDownArrowVisible: true)
       .environmentObject(SafeAreaMonitor())
 
@@ -69,7 +69,7 @@ final class SwiftUIDropDownTextTest: XCTestCase {
       dropDownArrowVisible: true)
 
     let expectation1 = sut.inspection.inspect { view in
-      let textField = try view.find(viewWithId: "inputText")
+      let textField = try view.find(viewWithId: "wholeInputView")
       try textField.callOnChange(newValue: true)
 
       self.publisher.send()
@@ -103,11 +103,11 @@ final class SwiftUIDropDownTextTest: XCTestCase {
       placeHolder: "",
       textFieldText: Binding(wrappedValue: ""),
       items: stubDatas,
-      featureType: .input,
+      featureType: .inputAssisted,
       dropDownArrowVisible: true)
 
     let expectation1 = sut.inspection.inspect { view in
-      let textField = try view.find(viewWithId: "inputText")
+      let textField = try view.find(viewWithId: "wholeInputView")
       try textField.callOnChange(newValue: true)
 
       self.publisher.send()

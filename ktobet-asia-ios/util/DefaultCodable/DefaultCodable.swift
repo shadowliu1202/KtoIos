@@ -8,12 +8,12 @@ protocol DefaultCodableValue {
 @propertyWrapper
 struct DefaultCodable<T: DefaultCodableValue> {
   var wrappedValue: T.Value
-  
+
   init(wrappedValue: T.Value) {
     self.wrappedValue = wrappedValue
   }
-  
-  init(_ decodableValue: T) {
+
+  init(_: T) {
     self.wrappedValue = T.defaultValue
   }
 }

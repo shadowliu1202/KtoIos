@@ -35,7 +35,7 @@ extension CasinoResultBuilder {
 
     return squareView
   }
-  
+
   func cardStackView(title: String, cardsView: [UIView]) -> UIStackView {
     let titleLabel = UILabel()
     titleLabel.textColor = UIColor.whitePure
@@ -56,7 +56,7 @@ extension CasinoResultBuilder {
       distribution: .equalSpacing,
       alignment: .center)
   }
-  
+
   func diceImageView(_ diceNumber: DiceNumber) -> UIImageView? {
     guard let image = diceNumber.image else { return nil }
     let imageView = UIImageView(image: image)
@@ -67,10 +67,10 @@ extension CasinoResultBuilder {
 
     return imageView
   }
-  
+
   func pokerCardsRow(title: String, pokerCards: [PokerCard]) -> UIView? {
     guard !pokerCards.isEmpty else { return nil }
-    
+
     let numbersOfCardPerRow = 7
     let numbersOfRow = Int(ceil(Double(pokerCards.count / numbersOfCardPerRow))) + 1
 
@@ -127,7 +127,7 @@ extension CasinoResultBuilder {
 
     return backgroundView
   }
-  
+
   func addPokerCardsRowsStackView(rowViews: [UIView?], to background: UIView) {
     let stackView = UIStackView(
       arrangedSubviews: rowViews.compactMap { $0 },

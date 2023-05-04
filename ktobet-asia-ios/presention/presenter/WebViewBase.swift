@@ -18,7 +18,7 @@ class WebViewBase: UIViewController {
     webConfiguration.allowsInlineMediaPlayback = true
     return WKWebView(frame: .zero, configuration: webConfiguration)
   }
-  
+
   func setupUserAgent() {
     if let defaultAgent = WKWebView().value(forKey: "userAgent") {
       let MockWebViewUserAgent = Configuration.getKtoAgent()

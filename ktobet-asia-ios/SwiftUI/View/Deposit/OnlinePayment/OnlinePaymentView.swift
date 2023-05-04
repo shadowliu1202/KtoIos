@@ -274,7 +274,14 @@ extension OnlinePaymentView {
   // MARK: - RemittanceInfo
 
   struct RemittanceInfo: View {
+    enum FocusStatus {
+      case focusOnBank
+      case focusOnOptionAmount
+    }
+
     @EnvironmentObject var viewModel: ViewModel
+
+    @State var focusSelection: FocusStatus = .focusOnBank
 
     @Binding var supportBankName: String?
     @Binding var remitterName: String?
@@ -413,8 +420,6 @@ extension OnlinePaymentView {
   }
 }
 
-// Mark onViewDidLoad to view preview.
-
 struct OnlinePaymentView_Previews: PreviewProvider {
   class FakeViewModel:
     OnlinePaymentViewModelProtocol &
@@ -486,16 +491,20 @@ struct OnlinePaymentView_Previews: PreviewProvider {
       remitButtonOnSuccess _: @escaping (_ url: String) -> Void) { }
   }
 
+  // Mark onViewDidLoad to view preview.
+
   static var previews: some View {
-    OnlinePaymentView(
-      viewModel: FakeViewModel(),
-      onlinePaymentDTO: nil,
-      userGuideOnTap: {
-        // do nothing
-      },
-      remitButtonOnSuccess: { _ in
-        // do nothing
-      })
-      .environment(\.playerLocale, .Vietnam())
+    VStack {
+      OnlinePaymentView(
+        viewModel: FakeViewModel(),
+        onlinePaymentDTO: nil,
+        userGuideOnTap: {
+          // do nothing
+        },
+        remitButtonOnSuccess: { _ in
+          // do nothing
+        })
+        .environment(\.playerLocale, .Vietnam())
+    }
   }
 }

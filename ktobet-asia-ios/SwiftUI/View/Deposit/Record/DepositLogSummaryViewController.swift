@@ -1,5 +1,3 @@
-import RxCocoa
-import RxDataSources
 import RxSwift
 import SharedBu
 import SwiftUI
@@ -9,9 +7,9 @@ class DepositLogSummaryViewController:
   LobbyViewController,
   SwiftUIConverter
 {
-  @Injected private var playerConfig: PlayerConfiguration
-
   @Injected var viewModel: DepositLogSummaryViewModel
+
+  private let disposeBag = DisposeBag()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,7 +32,6 @@ extension DepositLogSummaryViewController {
       from: { [unowned self] in
         SafeAreaReader {
           DepositLogSummaryView(
-            playerConfig: self.playerConfig,
             viewModel: self.viewModel,
             dateFilterAction: .init(
               onDateSelected: {
@@ -52,6 +49,14 @@ extension DepositLogSummaryViewController {
         }
       },
       to: view)
+  }
+
+  private func binding() {
+    viewModel.errors()
+      .subscribe(onNext: { [weak self] in
+        self?.handleErrors($0)
+      })
+      .disposed(by: disposeBag)
   }
 
   private func presentDateViewController(_ didSelected: ((DateType) -> Void)?) {

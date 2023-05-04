@@ -16,6 +16,11 @@ struct APIErrorHandler {
       let errorMsg: String = apiException.message ?? ""
       let err = NSError(domain: "", code: code, userInfo: ["errorMsg": errorMsg])
       handleHttpError(err)
+    case let ktoException as KtoException:
+      let code = Int(ktoException.errorCode ?? "0") ?? 0
+      let errorMsg: String = ktoException.message ?? ""
+      let err = NSError(domain: "", code: code, userInfo: ["errorMsg": errorMsg])
+      handleHttpError(err)
     case let moyaError as MoyaError:
       handleMoyaError(moyaError)
     case let afError as AFError:

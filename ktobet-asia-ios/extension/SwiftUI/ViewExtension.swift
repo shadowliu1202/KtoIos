@@ -1,18 +1,28 @@
 
+import Combine
 import CoreGraphics
 import SwiftUI
 
 extension View {
-  func strokeBorder(color: UIColor, cornerRadius: CGFloat, lineWidth: CGFloat = 1) -> some View {
-    background(
+  func stroke(color: UIColor, cornerRadius: CGFloat = 0, lineWidth: CGFloat = 1) -> some View {
+    overlay(
       RoundedRectangle(cornerRadius: cornerRadius)
         .stroke(lineWidth: lineWidth)
         .foregroundColor(.from(color)))
   }
 
-  func backgroundColor(_ color: UIColor, alpha: CGFloat = 1) -> some View {
+  func strokeBorder(color: UIColor, cornerRadius: CGFloat = 0, lineWidth: CGFloat = 1) -> some View {
+    overlay(
+      RoundedRectangle(cornerRadius: cornerRadius)
+        .strokeBorder(lineWidth: lineWidth)
+        .foregroundColor(.from(color)))
+  }
+
+  func backgroundColor(_ color: UIColor, alpha: CGFloat = 1, cornerRadius: CGFloat = 0) -> some View {
     background(
-      Color.from(color, alpha: alpha))
+      RoundedRectangle(cornerRadius: cornerRadius)
+        .fill(
+          Color.from(color, alpha: alpha)))
   }
 
   func pageBackgroundColor(_ color: UIColor, alpha: CGFloat = 1) -> some View {

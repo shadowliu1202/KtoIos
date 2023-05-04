@@ -31,6 +31,15 @@ class LocalizeUtils: NSObject {
       arguments: parameters)
   }
 
+  // FIXME: workaround display vn localize string in preview
+  func string(_ key: String, _ parameters: [String], _ cultureCode: String) -> String {
+    let path = Bundle.main.path(forResource: cultureCode, ofType: "lproj")
+    let bundle = Bundle(path: path!)
+    return String(
+      format: NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: ""),
+      arguments: parameters)
+  }
+
   func string(_ key: String, _ parameters: String...) -> String {
     let localizationFileName = localStorageRepo.getCultureCode()
     let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")

@@ -132,11 +132,11 @@ class TranscationFlowController {
   }
 
   private func goWithdrawalDetail(_ log: TransactionLog.MoneyTransferWithdrawal) {
-    let storyboard = UIStoryboard(name: "Withdrawal", bundle: Bundle.main)
-    let vc = storyboard.instantiateViewController(withIdentifier: "WithdrawlRecordContainer") as! WithdrawlRecordContainer
-    vc.displayId = log.detailId()
-    vc.transactionTransactionType = log.transferType
-    self.navi?.pushViewController(vc, animated: true)
+    let detailMainViewController = WithdrawalRecordDetailMainViewController(
+      displayId: log.detailId(),
+      transactionType: log.transferType)
+
+    navi?.pushViewController(detailMainViewController, animated: true)
   }
 
   private func displaySportsBookDetail(wagerId: String) {

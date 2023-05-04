@@ -6,6 +6,8 @@ extension SwiftUIInputText {
     case textField
     case errorHint
     case inputText
+    case arrow
+    case wholeInputView
   }
 }
 
@@ -13,6 +15,8 @@ struct SwiftUIInputText: View {
   @State private var innerIsEditing = false
   @State private var showTextField = false
   @State private var showPassword = false
+
+  @State private var textFieldHight: CGFloat?
 
   @Binding var textFieldText: String
   @Binding var isEditing: Bool
@@ -24,6 +28,8 @@ struct SwiftUIInputText: View {
 
   private let disableInput: Bool
 
+  private let onTapGesture: (() -> Void)?
+
   init(
     placeHolder: String,
     textFieldText: Binding<String>,
@@ -31,6 +37,7 @@ struct SwiftUIInputText: View {
     featureType: FeatureType = .nil,
     textFieldType: some TextFieldType,
     disableInput: Bool = false,
+    onTapGesture: (() -> Void)? = nil,
     isEditing: Binding<Bool> = .constant(false))
   {
     self.placeHolder = placeHolder
@@ -39,6 +46,7 @@ struct SwiftUIInputText: View {
     self.featureType = featureType
     self.textFieldType = textFieldType
     self.disableInput = disableInput
+    self.onTapGesture = onTapGesture
     self._isEditing = isEditing
   }
 
@@ -48,12 +56,15 @@ struct SwiftUIInputText: View {
         .overlay(
           errorUnderline
             .visibility(errorText.isEmpty ? .gone : .visible))
+        .id(Identifier.inputText.rawValue)
         .onTapGesture {
           withAnimation(.easeOut(duration: 0.2)) {
             showTextField = true
           }
 
           innerIsEditing = true
+
+          onTapGesture?()
         }
 
       Text(errorText)
@@ -87,7 +98,7 @@ struct SwiftUIInputText: View {
         innerIsEditing = newValue
       }
     }
-    .id(Identifier.inputText.rawValue)
+    .id(Identifier.wholeInputView.rawValue)
   }
 
   private var inputText: some View {
@@ -105,7 +116,7 @@ struct SwiftUIInputText: View {
           showPassword: $showPassword,
           isPasswordType: featureType == .password,
           textFieldType: textFieldType,
-          configuration: { uiTextField in
+          initConfiguration: { uiTextField in
             uiTextField.font = UIFont(name: "PingFangSC", size: 16)
             uiTextField.textColor = .white
             uiTextField.tintColor = .redF20000
@@ -118,6 +129,9 @@ struct SwiftUIInputText: View {
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       .contentShape(Rectangle())
+      .frameDetecter(onAppear: { frame in
+        textFieldHight = frame.height
+      })
 
       featureButton(featureType)
     }
@@ -140,11 +154,27 @@ struct SwiftUIInputText: View {
           showPassword.toggle()
         }
 
-    case .lock(let buttonOnTap):
+    case .lock:
       Image("Lock")
-        .onTapGesture {
-          buttonOnTap()
-        }
+
+    case .qrCode(let buttonOnTap):
+      HStack(spacing: 8) {
+        Rectangle()
+          .foregroundColor(.from(.gray9B9B9B))
+          .frame(width: 0.5, height: textFieldHight)
+
+        Image("QRcode")
+          .onTapGesture {
+            buttonOnTap()
+          }
+      }
+
+    case .dropDownArrow:
+      Image("DropDown")
+        .rotationEffect(
+          .degrees(isEditing ? 180 : 0),
+          anchor: .center)
+        .id(Identifier.arrow.rawValue)
 
     case .other:
       LimitSpacer(24)
@@ -180,7 +210,9 @@ extension SwiftUIInputText {
   enum FeatureType: Equatable {
     case `nil`
     case password
-    case lock(() -> Void)
+    case lock
+    case qrCode(() -> Void)
+    case dropDownArrow
     case other
 
     static func == (lhs: SwiftUIInputText.FeatureType, rhs: SwiftUIInputText.FeatureType) -> Bool {
