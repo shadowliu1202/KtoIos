@@ -5953,9 +5953,6 @@
 		6DA9643329D531D1004F2F0E /* RecordRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA963E629D531D0004F2F0E /* RecordRow.swift */; };
 		6DA9643429D531D1004F2F0E /* RecordRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA963E629D531D0004F2F0E /* RecordRow.swift */; };
 		6DA9643529D531D1004F2F0E /* RecordRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA963E629D531D0004F2F0E /* RecordRow.swift */; };
-		6DA9643A29D531D1004F2F0E /* LogSectionModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA963E829D531D0004F2F0E /* LogSectionModelBuilder.swift */; };
-		6DA9643D29D531D1004F2F0E /* LogSectionModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA963E829D531D0004F2F0E /* LogSectionModelBuilder.swift */; };
-		6DA9646629D531D1004F2F0E /* RemarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA963ED29D531D1004F2F0E /* RemarkRow.swift */; };
 		6DA9647729D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA9647629D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift */; };
 		6DA9647829D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA9647629D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift */; };
 		6DA9647929D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA9647629D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift */; };
@@ -15903,7 +15900,6 @@
 				6D0EDCAB28743FAC004A9E3C /* NotificationSearchViewController.swift in Sources */,
 				FFA7586829BB37C90089A21F /* CookieUtil.swift in Sources */,
 				6D0EDCAC28743FAC004A9E3C /* NotificationApi.swift in Sources */,
-				6DA9646629D531D1004F2F0E /* RemarkRow.swift in Sources */,
 				3C6597B029E8137F00CDD8D4 /* WithdrawalOTPVerifyMethodSelectViewModelProtocol.swift in Sources */,
 				3C49949229E52A3600A8829F /* RemarkRow.swift in Sources */,
 				FF890FA329E540F80087F04E /* WithdrawalCryptoWalletsViewModel.swift in Sources */,
@@ -17096,7 +17092,6 @@
 				6D966C3527FEE3FA006086B7 /* ProductType.swift in Sources */,
 				6D966C3627FEE3FA006086B7 /* CasinoDetailViewController.swift in Sources */,
 				6D966C3727FEE3FA006086B7 /* AuthProfileModificationViewController.swift in Sources */,
-				6DA9643D29D531D1004F2F0E /* LogSectionModelBuilder.swift in Sources */,
 				6D966C3827FEE3FA006086B7 /* CryptoCurrency.swift in Sources */,
 				3CC0651F287FDF60008AAC09 /* StarMergerViewModel.swift in Sources */,
 				6D966C3927FEE3FA006086B7 /* SearchButtonItem.swift in Sources */,
@@ -18717,7 +18712,6 @@
 				6D55C8CB2966620E0038E8FB /* SearchButtonItem.swift in Sources */,
 				6D55C9102966622C0038E8FB /* HubConnectionBuilder.swift in Sources */,
 				6D182D0F29710843006FD964 /* CustomerServiceMainViewModel.swift in Sources */,
-				6DA9643A29D531D1004F2F0E /* LogSectionModelBuilder.swift in Sources */,
 				3CDF66D429E94D7A0094BD1E /* WithdrawalOTPVerifyMethodSelectViewController.swift in Sources */,
 				6D55C70129657DFA0038E8FB /* SystemDialogTableViewCell.swift in Sources */,
 				6D55C9DF296662DE0038E8FB /* WebGameUseCase.swift in Sources */,
