@@ -21,7 +21,7 @@ struct TabGray: ButtonStyle {
   }
 }
 
-struct MyButtonStyle_Previews: PreviewProvider {
+struct TabGray_Previews: PreviewProvider {
   struct Preview: View {
     @State private var isSelected = true
 
