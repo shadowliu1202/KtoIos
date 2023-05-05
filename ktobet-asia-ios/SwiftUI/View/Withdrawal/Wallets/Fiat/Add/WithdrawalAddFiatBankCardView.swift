@@ -26,8 +26,8 @@ struct WithdrawalAddFiatBankCardView<ViewModel>: View
                 .frame(maxWidth: .infinity, alignment: .leading)
 
               Info(tapUserName: tapUserName)
-                .zIndex(1)
             }
+            .zIndex(1)
 
             Button(
               Localize.string("withdrawal_setbankaccount_button"),

@@ -60,7 +60,7 @@ class WithdrawalCreateCryptoAccountViewModel:
   @Published var accountAlias = ""
   @Published var accountAddress = ""
 
-  @Published private var isSubmitButtonDisable = false
+  @Published private var isAddWalletInProgress = false
   @Published private var isInputValid = false
 
   private let withdrawalAppService: IWithdrawalAppService
@@ -177,12 +177,13 @@ class WithdrawalCreateCryptoAccountViewModel:
       })
       .disposed(by: disposeBag)
   }
-  
+
   private func setupCreateAccountEnable() {
-    Observable
-      .combineLatest($isSubmitButtonDisable.asObservable(), $isInputValid.asObservable())
-      .subscribe(onNext: { [weak self] isSubmitButtonDisable, isInputValid in
-        self?.isCreateAccountEnable = !isSubmitButtonDisable && isInputValid
+    Driver.combineLatest(
+      $isAddWalletInProgress.receive(on: RunLoop.main).asDriver(),
+      $isInputValid.receive(on: RunLoop.main).skipOneThenAsDriver())
+      .drive(onNext: { [weak self] isAddWalletInProgress, isInputValid in
+        self?.isCreateAccountEnable = !isAddWalletInProgress && isInputValid
       })
       .disposed(by: disposeBag)
   }
@@ -260,10 +261,10 @@ class WithdrawalCreateCryptoAccountViewModel:
         .addCryptoWallet(wallet: newCryptoWallet))
       .do(
         onSubscribe: { [weak self] in
-          self?.isSubmitButtonDisable = true
+          self?.isAddWalletInProgress = true
         },
         onDispose: { [weak self] in
-          self?.isSubmitButtonDisable = false
+          self?.isAddWalletInProgress = false
         })
       .subscribe(
         onSuccess: { bankCardID in

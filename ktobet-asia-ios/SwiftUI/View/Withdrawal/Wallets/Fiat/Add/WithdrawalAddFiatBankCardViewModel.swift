@@ -198,41 +198,22 @@ class WithdrawalAddFiatBankCardViewModel:
   }
 
   private func setupAllValidation() {
-    let validationObservables = Observable.combineLatest(
-      $selectedBank.asObservable(),
-      $inputBranch.asObservable(),
-      $selectedProvince.asObservable(),
-      $selectedCity.asObservable(),
-      $inputAccountNumber.asObservable(),
-      $accountNumberError.asObservable())
+    let validationObservables = Driver.combineLatest(
+      $selectedBank.asDriver(),
+      $inputBranch.asDriver(),
+      $selectedProvince.asDriver(),
+      $selectedCity.asDriver(),
+      $inputAccountNumber.asDriver(),
+      $accountNumberError.asDriver())
       .map {
         $0.0.isNotEmpty && $0.1.isNotEmpty && $0.2.isNotEmpty && $0.3.isNotEmpty && $0.4.isNotEmpty && $0.5.isEmpty
       }
 
-    Observable.combineLatest(validationObservables, $addWalletInProgress.asObservable())
-      .subscribe(onNext: { [weak self] in
+    Driver.combineLatest(validationObservables, $addWalletInProgress.asDriver())
+      .drive(onNext: { [weak self] in
         self?.isSubmitButtonDisable = !$0.0 || $0.1
       })
       .disposed(by: disposeBag)
-  }
-
-  private func generateWalletFiatDto() -> WithdrawalDto.NewWalletFiat {
-    let pureBankName = StringMapper
-      .splitShortNameAndBankName(
-        bankName: selectedBank,
-        supportLocale: supportLocale)
-
-    let bankId = banks.first(where: { $0.name == pureBankName })?.bankId ?? 0
-
-    return .init(
-      bankName: pureBankName,
-      bankAccount: .init(
-        bankId: bankId,
-        branch: inputBranch,
-        accountName: self.userName,
-        accountNumber: inputAccountNumber,
-        city: selectedCity,
-        location: selectedProvince))
   }
 
   private func initUserName() {
@@ -278,7 +259,7 @@ class WithdrawalAddFiatBankCardViewModel:
   func addWithdrawalAccount(_ callback: @escaping () -> Void) {
     Single.from(
       appService
-        .addFiatWallet(wallet: generateWalletFiatDto()))
+        .addFiatWallet(wallet: generateWalletFiatDTO()))
       .asCompletable()
       .do(
         onSubscribe: { [weak self] in
@@ -294,5 +275,24 @@ class WithdrawalAddFiatBankCardViewModel:
           self?.errorsSubject.onNext($0)
         })
       .disposed(by: disposeBag)
+  }
+  
+  private func generateWalletFiatDTO() -> WithdrawalDto.NewWalletFiat {
+    let pureBankName = StringMapper
+      .splitShortNameAndBankName(
+        bankName: selectedBank,
+        supportLocale: supportLocale)
+
+    let bankId = banks.first(where: { $0.name == pureBankName })?.bankId ?? 0
+
+    return .init(
+      bankName: pureBankName,
+      bankAccount: .init(
+        bankId: bankId,
+        branch: inputBranch,
+        accountName: self.userName,
+        accountNumber: inputAccountNumber,
+        city: selectedCity,
+        location: selectedProvince))
   }
 }

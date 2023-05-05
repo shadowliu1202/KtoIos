@@ -629,6 +629,15 @@
 		3C7672F2289912CE001DF62F /* SwiftUIInputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7672E9289912CE001DF62F /* SwiftUIInputText.swift */; };
 		3C76F04329A498E20070800F /* SwiftUIDropDownTextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C17059129505CC900531357 /* SwiftUIDropDownTextTest.swift */; };
 		3C76F04529A4D41B0070800F /* OnlinePaymentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C76F04429A4D41B0070800F /* OnlinePaymentViewModelTests.swift */; };
+		3C7A41272A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */; };
+		3C7A41282A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */; };
+		3C7A41292A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */; };
+		3C7A412A2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */; };
+		3C7A412B2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */; };
+		3C7A412C2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */; };
+		3C7A412D2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */; };
+		3C7A412E2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */; };
+		3C7A412F2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */; };
 		3C84A9AC29A357CB00F0AEFA /* OnlinePaymentViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84A9AB29A357CB00F0AEFA /* OnlinePaymentViewTests.swift */; };
 		3C84A9AE29A35F7100F0AEFA /* OnlinePaymentViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84A9AD29A35F7100F0AEFA /* OnlinePaymentViewControllerTests.swift */; };
 		3C8FF8ED2990D51A009BD583 /* SideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8FF8EC2990D519009BD583 /* SideMenuViewModel.swift */; };
@@ -7307,6 +7316,7 @@
 		3C7672DF2899127A001DF62F /* UIKitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitTextField.swift; sourceTree = "<group>"; };
 		3C7672E9289912CE001DF62F /* SwiftUIInputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIInputText.swift; sourceTree = "<group>"; };
 		3C76F04429A4D41B0070800F /* OnlinePaymentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePaymentViewModelTests.swift; sourceTree = "<group>"; };
+		3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyleContent.swift; sourceTree = "<group>"; };
 		3C84A9AB29A357CB00F0AEFA /* OnlinePaymentViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePaymentViewTests.swift; sourceTree = "<group>"; };
 		3C84A9AD29A35F7100F0AEFA /* OnlinePaymentViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePaymentViewControllerTests.swift; sourceTree = "<group>"; };
 		3C8FF8EC2990D519009BD583 /* SideMenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuViewModel.swift; sourceTree = "<group>"; };
@@ -10078,6 +10088,7 @@
 		6DF53EDB28814F1A00278ABE /* ButtonStyle */ = {
 			isa = PBXGroup;
 			children = (
+				3C7A41262A04DEA700B9C619 /* ButtonStyleContent.swift */,
 				6DA963E129D531D0004F2F0E /* ClearBorder.swift */,
 				6DF53EDC28814F7300278ABE /* ConfirmRed.swift */,
 				3CDF66C529E93D3F0094BD1E /* TabGray.swift */,
@@ -12410,6 +12421,7 @@
 				3C1FA9E828A510DA00F9AEC0 /* AdaptiveScrollView.swift in Sources */,
 				3C6597B829E8139400CDD8D4 /* WithdrawalOTPVerifyMethodSelectViewModel.swift in Sources */,
 				6034620626327DC800F5D1D9 /* SearchViewController.swift in Sources */,
+				3C7A41282A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */,
 				6D899BF42705461400AC164E /* PaymentProvider.swift in Sources */,
 				60251AFD261C419600E89EE6 /* ImagePickerViewController.swift in Sources */,
 				60072D8D25E795C3001EFDAE /* ImageRepository.swift in Sources */,
@@ -13180,6 +13192,7 @@
 				486CD98425A41C0F003244B1 /* InputConfirmPassword.swift in Sources */,
 				3C6597B729E8139400CDD8D4 /* WithdrawalOTPVerifyMethodSelectViewModel.swift in Sources */,
 				3C1FA9E728A510DA00F9AEC0 /* AdaptiveScrollView.swift in Sources */,
+				3C7A41272A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */,
 				3C4994E029E52B9D00A8829F /* InfoTable.swift in Sources */,
 				6034620526327DC800F5D1D9 /* SearchViewController.swift in Sources */,
 				6D899BF32705461400AC164E /* PaymentProvider.swift in Sources */,
@@ -13965,6 +13978,7 @@
 				6D5A034728A511A8005D0960 /* ArcadeAdapter.swift in Sources */,
 				3C18A94F298A12C40097DE19 /* ObserveSystemMessageUseCase.swift in Sources */,
 				6090128B2640EE7000419F8E /* AuthenticationApi.swift in Sources */,
+				3C7A41292A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */,
 				6DA88BEF2696DF4C008D77B9 /* P2PRecordRepository.swift in Sources */,
 				6D738AB8279551E70018CE1D /* BankCard.swift in Sources */,
 				FFBA844029E5332C0022FE6A /* WithdrawalRecordDetailView.swift in Sources */,
@@ -14611,6 +14625,7 @@
 				FF2F96D529125C290079D48A /* NSObjectMockingBirdWrapper.swift in Sources */,
 				60E57FCF27F190E4008CE5A9 /* TermsDetail.swift in Sources */,
 				60E57FD027F190E4008CE5A9 /* UIViewControllerExtension.swift in Sources */,
+				3C7A412C2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */,
 				3C6597BC29E8139400CDD8D4 /* WithdrawalOTPVerifyMethodSelectViewModel.swift in Sources */,
 				60E57FD127F190E4008CE5A9 /* NumberGame.swift in Sources */,
 				60E57FD227F190E4008CE5A9 /* TransactionLogDetailViewController.swift in Sources */,
@@ -15396,6 +15411,7 @@
 				6D0EDB3928743FAC004A9E3C /* AuthenticationApi.swift in Sources */,
 				FFB4320E29E798BD00F85B7F /* WithdrawalFiatRequestSetp2ViewModel.swift in Sources */,
 				6D0EDB3A28743FAC004A9E3C /* P2PRecordRepository.swift in Sources */,
+				3C7A412A2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */,
 				6D0EDB3B28743FAC004A9E3C /* BankCard.swift in Sources */,
 				FF9ED0262924CD6F00F99E2B /* CryptoVideoTutorialViewController.swift in Sources */,
 				6D7BBDC429E7F141006682C8 /* ImageExtension.swift in Sources */,
@@ -16111,6 +16127,7 @@
 				6D0EDD9428744704004A9E3C /* AuthenticationApi.swift in Sources */,
 				6D0EDD9528744704004A9E3C /* P2PRecordRepository.swift in Sources */,
 				6D0EDD9628744704004A9E3C /* BankCard.swift in Sources */,
+				3C7A412D2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */,
 				FF9ED0272924CD6F00F99E2B /* CryptoVideoTutorialViewController.swift in Sources */,
 				6D0EDD9728744704004A9E3C /* NumberGameViewController.swift in Sources */,
 				6D0EDD9828744704004A9E3C /* PlayerApi.swift in Sources */,
@@ -16811,6 +16828,7 @@
 				FF2F96D629125C2A0079D48A /* NSObjectMockingBirdWrapper.swift in Sources */,
 				6D966B5D27FEE3FA006086B7 /* TermsDetail.swift in Sources */,
 				FFB431ED29E7950300F85B7F /* WithdrawalFiatRequestStep1View.swift in Sources */,
+				3C7A412E2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */,
 				6D966B5E27FEE3FA006086B7 /* UIViewControllerExtension.swift in Sources */,
 				6D966B5F27FEE3FA006086B7 /* NumberGame.swift in Sources */,
 				6D966B6027FEE3FA006086B7 /* TransactionLogDetailViewController.swift in Sources */,
@@ -17596,6 +17614,7 @@
 				6D98EBA028EFD7D400065D68 /* VersionUpdateApi.swift in Sources */,
 				6D966DDA27FEE416006086B7 /* DateExtension.swift in Sources */,
 				6D966DDB27FEE416006086B7 /* CryptoDepositItemViewModel.swift in Sources */,
+				3C7A412F2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */,
 				6D5A034028A4AC40005D0960 /* NumberGameAdapter.swift in Sources */,
 				6D966DDC27FEE416006086B7 /* ProductMaintenanceViewController.swift in Sources */,
 				6D5A034A28A511A8005D0960 /* ArcadeAdapter.swift in Sources */,
@@ -18311,6 +18330,7 @@
 				6D55C91C296662340038E8FB /* UIButtonExtension.swift in Sources */,
 				3C4DAC2629680AB200A48AE8 /* TextFieldRegex.swift in Sources */,
 				6D55C68829657DA90038E8FB /* Theme.swift in Sources */,
+				3C7A412B2A04DEA700B9C619 /* ButtonStyleContent.swift in Sources */,
 				6D55C69B29657DB80038E8FB /* JSONHubProtocol.swift in Sources */,
 				FFB4320F29E798BD00F85B7F /* WithdrawalFiatRequestSetp2ViewModel.swift in Sources */,
 				6D55C66429657D960038E8FB /* CustomIntensityVisualEffectView.swift in Sources */,
