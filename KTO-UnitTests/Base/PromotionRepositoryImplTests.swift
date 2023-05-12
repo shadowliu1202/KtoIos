@@ -6,7 +6,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class PromotionRepositoryImplTests: XCTestCase {
+final class PromotionRepositoryImplTests: XCBaseTestCase {
   func test_whenGetCashBackSettings_thenReturnCashBackSettings() throws {
     let dummyHttpClient = getFakeHttpClient()
     let stubPromotionApi = mock(PromotionApi.self).initialize(dummyHttpClient)

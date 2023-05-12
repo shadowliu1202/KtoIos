@@ -27,9 +27,7 @@ class CryptoDepositViewModel:
   init(depositService: IDepositAppService) {
     self.depositService = depositService
   }
-}
 
-extension CryptoDepositViewModel {
   func fetchOptions() {
     getPayments()
       .compactMap { $0.crypto }

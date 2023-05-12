@@ -5,7 +5,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class WithdrawalCreateCryptoAccountViewModelTests: XCTestCase {
+final class WithdrawalCreateCryptoAccountViewModelTests: XCBaseTestCase {
   func test_givenPlayerHasThreeAccounts_thenPreFilledAccountAliasIsFour_KTO_TC_184() {
     let stubWithdrawalAppService = mock(AbsWithdrawalAppService.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)

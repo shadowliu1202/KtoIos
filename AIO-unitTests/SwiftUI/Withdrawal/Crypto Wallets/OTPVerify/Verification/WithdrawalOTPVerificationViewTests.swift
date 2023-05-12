@@ -9,12 +9,7 @@ extension WithdrawalOTPVerificationView.VerificationForm: Inspecting { }
 
 extension WithdrawalOTPVerificationViewModelProtocolMock: ObservableObject { }
 
-final class WithdrawalOTPVerificationViewTests: XCTestCase {
-  override class func tearDown() {
-    super.tearDown()
-    Injection.shared.registerAllDependency()
-  }
-
+final class WithdrawalOTPVerificationViewTests: XCBaseTestCase {
   func test_givenMobileVerificationAndPlayerLocaleIsVietnam_thenInfoHintIsHighLightWithF20000_KTO_TC_191() {
     injectStubCultureCode(.VN)
 

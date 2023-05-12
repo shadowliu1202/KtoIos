@@ -16,7 +16,8 @@ class CryptoSelectorViewController:
 
   init(
     localStorageRepo: LocalStorageRepository? = nil,
-    viewModel: CryptoDepositViewModel? = nil)
+    viewModel: CryptoDepositViewModel? = nil,
+    alert: AlertProtocol? = nil)
   {
     if let localStorageRepo {
       self._localStorageRepo.wrappedValue = localStorageRepo
@@ -24,6 +25,10 @@ class CryptoSelectorViewController:
 
     if let viewModel {
       self._viewModel.wrappedValue = viewModel
+    }
+
+    if let alert {
+      self._alert.wrappedValue = alert
     }
 
     super.init(nibName: nil, bundle: nil)

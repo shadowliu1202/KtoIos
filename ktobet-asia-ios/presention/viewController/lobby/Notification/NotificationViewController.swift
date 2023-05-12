@@ -25,6 +25,7 @@ class NotificationViewController: LobbyViewController {
   }
 
   private func dateBinding() {
+    viewModel.setup()
     disposeBag.insert(
       rx.sentMessage(#selector(UIViewController.viewWillAppear(_:))).map { _ in () }
         .bind(to: viewModel.input.refreshTrigger),

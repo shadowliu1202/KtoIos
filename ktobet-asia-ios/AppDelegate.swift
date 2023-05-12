@@ -8,8 +8,6 @@ import SwiftUI
 import UIKit
 import WebKit
 
-public var isTesting: Bool { ProcessInfo.processInfo.arguments.contains("isTesting") }
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
   @Injected private var localStorageRepo: LocalStorageRepository
@@ -48,10 +46,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
     didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?)
     -> Bool
   {
-    guard
-      !isInTesting(),
-      !isInSwiftUIPreviewLiveMode()
-    else { return true }
+    guard !Configuration.isTesting else {
+      configTesting()
+      return true
+    }
+    guard !isInSwiftUIPreviewLiveMode() else {
+      return true
+    }
 
     Logger.shared.info("APP launch.")
 
@@ -294,14 +295,6 @@ extension AppDelegate {
 // MARK: - Test Task
 
 extension AppDelegate {
-  private func isInTesting() -> Bool {
-    guard isTesting else { return false }
-
-    configTesting()
-
-    return true
-  }
-
   private func configTesting() {
     let environment = ProcessInfo.processInfo.environment
     let target: UIViewController

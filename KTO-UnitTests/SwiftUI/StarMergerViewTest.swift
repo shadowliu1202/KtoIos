@@ -13,7 +13,7 @@ class StubStarMergerViewModel: StarMergerViewModel {
   func getGatewayInformation() { }
 }
 
-class StarMergerViewTest: XCTestCase {
+class StarMergerViewTest: XCBaseTestCase {
   let stubObject = StubStarMergerViewModel()
 
   func test_Get_Payment_Link_On_Success() throws {

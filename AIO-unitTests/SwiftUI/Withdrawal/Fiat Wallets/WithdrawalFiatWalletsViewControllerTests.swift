@@ -4,7 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class WithdrawalFiatWalletsViewControllerTests: XCTestCase {
+final class WithdrawalFiatWalletsViewControllerTests: XCBaseTestCase {
   func test_HasThreeFiatWallets_ClickAddButton_DisplayAlert_KTO_TC_116() {
     let stubViewModel = mock(WithdrawalFiatWalletsViewModel.self)
       .initialize(

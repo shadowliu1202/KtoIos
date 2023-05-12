@@ -4,7 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class ArcadeViewControllerTests: XCTestCase {
+final class ArcadeViewControllerTests: XCBaseTestCase {
   let dummyGame = ArcadeGame(
     gameId: 0,
     gameName: "Test Arcade",
@@ -20,9 +20,9 @@ final class ArcadeViewControllerTests: XCTestCase {
 
     let memoryCache = mock(MemoryCacheImpl.self)
 
-    let arcadeService = Injectable
-      .resolveWrapper(ApplicationFactory.self)
-      .arcade()
+    let arcadeService = mock(AbsArcadeAppService.self)
+    let tags: ArcadeDTO.GameTags = .init(newTag: nil, recommendTag: nil)
+    given(arcadeService.getTags()) ~> Single.just(tags).asWrapper()
 
     return ArcadeViewModel(
       arcadeUseCase: stubUseCase,

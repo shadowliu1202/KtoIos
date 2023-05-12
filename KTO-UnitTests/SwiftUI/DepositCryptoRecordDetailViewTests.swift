@@ -11,7 +11,7 @@ extension DepositCryptoRecordDetailViewModelProtocolMock: ObservableObject { }
 extension DepositCryptoRecordDetailView.Header: Inspecting { }
 extension DepositCryptoRecordDetailView.Info: Inspecting { }
 
-final class DepositCryptoRecordViewTest: XCTestCase {
+final class DepositCryptoRecordViewTest: XCBaseTestCase {
   private let stubViewModel = mock(DepositCryptoRecordDetailViewModelProtocol.self)
 
   override func tearDown() {

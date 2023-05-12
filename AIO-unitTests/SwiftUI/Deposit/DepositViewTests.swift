@@ -11,7 +11,7 @@ extension DepositViewModelProtocolMock: ObservableObject { }
 extension DepositView.Payments: Inspecting { }
 extension DepositView.Histories: Inspecting { }
 
-final class DepositViewTests: XCTestCase {
+final class DepositViewTests: XCBaseTestCase {
   func buildStubDepositViewModel() -> DepositViewModelProtocolMock {
     injectStubCultureCode(.CN)
     return mock(DepositViewModelProtocol.self)

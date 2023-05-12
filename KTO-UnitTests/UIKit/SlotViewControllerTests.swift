@@ -4,7 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class SlotViewControllerTests: XCTestCase {
+final class SlotViewControllerTests: XCBaseTestCase {
   let dummyGame = SlotGame(
     gameId: 0,
     gameName: "",

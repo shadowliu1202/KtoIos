@@ -19,8 +19,9 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
   @IBOutlet weak var csLabel: UILabel!
   @IBOutlet weak var deleteBtnHight: NSLayoutConstraint!
   private var navigateToDestination: (() -> Void)?
-  private let viewModel = Injectable.resolve(NotificationViewModel.self)!
   private let disposeBag = DisposeBag()
+
+  var viewModel = Injectable.resolveWrapper(NotificationViewModel.self)
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,6 +35,7 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
   }
 
   private func dateBinding() {
+    viewModel.setup()
     viewModel.input.selectedMessageId.onNext(data.messageId)
 
     disposeBag.insert(

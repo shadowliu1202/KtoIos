@@ -2,7 +2,7 @@ import SharedBu
 import XCTest
 @testable import ktobet_asia_ios_qat
 
-class AppVersionTest: XCTestCase {
+class AppVersionTest: XCBaseTestCase {
   func testVersion() {
     test("when init Version by different constructor then two versions are equal") {
       let version1 = Version.companion.create(version: "1.9.10", code: 3)

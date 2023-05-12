@@ -8,7 +8,7 @@ import XCTest
 extension WithdrawalCryptoWalletsViewModelProtocolMock: ObservableObject { }
 extension WithdrawalCryptoWalletsView: Inspecting { }
 
-final class WithdrawalCryptoWalletsViewTests: XCTestCase {
+final class WithdrawalCryptoWalletsViewTests: XCBaseTestCase {
   func test_HasNoCryptoWallet_DisplayAddWalletComponents_KTO_TC_172() {
     let stubViewModel = mock(WithdrawalCryptoWalletsViewModelProtocol.self)
 

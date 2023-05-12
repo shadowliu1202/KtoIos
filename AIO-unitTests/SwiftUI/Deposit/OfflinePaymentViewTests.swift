@@ -11,7 +11,7 @@ extension OfflinePaymentView.RemittanceInfo: Inspecting { }
 
 extension OfflinePaymentViewModelProtocolMock: ObservableObject { }
 
-final class OfflinePaymentViewTests: XCTestCase {
+final class OfflinePaymentViewTests: XCBaseTestCase {
   func test_whenHaveOneAvailableGateway_thenDisplayedThatGateway_KTO_TC_49() {
     let stubViewModel = mock(OfflinePaymentViewModelProtocol.self)
 

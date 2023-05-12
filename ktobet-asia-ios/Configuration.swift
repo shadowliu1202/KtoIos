@@ -64,6 +64,10 @@ enum Configuration: String {
       "kto-app-ios/\(UIDevice.current.systemVersion) APPv\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(UIDevice.deviceName))"
     return userAgent
   }
+  
+  static var isTesting: Bool {
+    ProcessInfo.processInfo.arguments.contains("isTesting")
+  }
 }
 
 protocol Env {

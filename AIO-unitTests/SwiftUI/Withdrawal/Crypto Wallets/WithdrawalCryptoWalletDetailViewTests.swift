@@ -10,7 +10,7 @@ extension WithdrawalCryptoWalletDetailViewModelProtocolMock: ObservableObject { 
 
 extension WalletDetail: Inspecting { }
 
-final class WithdrawalCryptoWalletDetailViewTests: XCTestCase {
+final class WithdrawalCryptoWalletDetailViewTests: XCBaseTestCase {
   let stubViewModel = mock(WithdrawalCryptoWalletDetailViewModelProtocol.self)
 
   override func setUp() {

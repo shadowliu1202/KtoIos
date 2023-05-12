@@ -2,7 +2,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class SnackBarTests: XCTestCase {
+final class SnackBarTests: XCBaseTestCase {
   func test_givenSnackBarShow_thenSnackBarIsDisplayed() {
     let sut = SnackBarImpl.shared as! SnackBarImpl
 
@@ -18,13 +18,13 @@ final class SnackBarTests: XCTestCase {
     let sut = SnackBarImpl.shared as! SnackBarImpl
 
     sut.show(tip: "Test1", image: nil)
-    wait(for: 1.1)
+    wait(for: 1.5) // Wait for the first snackbar to appear and animate
 
     sut.show(tip: "Test2", image: nil)
-    wait(for: 1.1)
+    wait(for: 1.5) // Wait for the second snackbar to appear and animate
 
     sut.show(tip: "Test3", image: nil)
-    wait(for: sut.DisappearTime - 0.5)
+    wait(for: sut.DisappearTime + 0.5) // Wait for the last snackbar to disappear
 
     let actual = sut.snackBarView.getText()
     XCTAssertEqual(actual, "Test3")

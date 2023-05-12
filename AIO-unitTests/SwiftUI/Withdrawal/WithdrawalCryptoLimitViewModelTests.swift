@@ -5,7 +5,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-class WithdrawalCryptoLimitViewModelTests: XCTestCase {
+class WithdrawalCryptoLimitViewModelTests: XCBaseTestCase {
   func test_givenDepositTotalAmountIs10CNY_thenDisplayedDepositTotalAmount10CNY_KTO_TC_141() {
     let stubWithdrawalAppService = mock(AbsWithdrawalAppService.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)

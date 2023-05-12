@@ -3,7 +3,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class DropdownSelectorTests: XCTestCase {
+final class DropdownSelectorTests: XCBaseTestCase {
   func test_givenListExpandTrue_thenTableIsDisplayed() {
     let option = mock(DropdownSelectable.self)
     given(option.contentText) ~> "Amy"

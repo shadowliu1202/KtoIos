@@ -18,7 +18,7 @@ extension WithdrawalLogSummaryViewModelProtocolMock: Selecting {
 extension WithdrawalLogSummaryView.Sections: Inspecting { }
 extension WithdrawalLogSummaryView.Header: Inspecting { }
 
-final class WithdrawalLogSummaryViewTests: XCTestCase {
+final class WithdrawalLogSummaryViewTests: XCBaseTestCase {
   private func generateGroupLog(date: Date = .init(), count: Int = 1) -> WithdrawalDto.GroupLog {
     .init(
       groupDate: date.toUTCOffsetDateTime().toInstant(),

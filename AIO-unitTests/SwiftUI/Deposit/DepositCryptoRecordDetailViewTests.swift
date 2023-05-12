@@ -7,11 +7,7 @@ import XCTest
 
 extension DepositCryptoRecordDetailViewModelProtocolMock: ObservableObject { }
 
-final class DepositCryptoRecordDetailViewTests: XCTestCase {
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
-  }
-
+final class DepositCryptoRecordDetailViewTests: XCBaseTestCase {
   func generateCryptoLog(status: PaymentStatus) -> PaymentLogDTO.CryptoLog {
     let log = PaymentLogDTO.Log(
       displayId: "TEST_" + "\(PaymentStatus.floating.self)",
@@ -56,7 +52,7 @@ final class DepositCryptoRecordDetailViewTests: XCTestCase {
 
   func test_PaymentStatusIsApprove_FinalCryptoAmountTextColorIsOrangeFF8000_KTO_TC_92() {
     let stubViewModel = DepositCryptoRecordDetailViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit())
+      depositService: mock(AbsDepositAppService.self))
 
     let records = stubViewModel.generateRecords(
       generateCryptoLog(status: .approved),
@@ -74,7 +70,7 @@ final class DepositCryptoRecordDetailViewTests: XCTestCase {
 
   func test_PaymentStatusIsFloating_ShouldDisplayUploadFileLink_KTO_TC_93() {
     let stubViewModel = DepositCryptoRecordDetailViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit())
+      depositService: mock(AbsDepositAppService.self))
 
     let records = stubViewModel.generateRecords(
       self.generateCryptoLog(status: .floating),
@@ -123,7 +119,7 @@ final class DepositCryptoRecordDetailViewTests: XCTestCase {
 
   func test_PaymentStatusIsNotApprove_FieldShouldDisplayDash_KTO_TC_94() {
     let stubViewModel = DepositCryptoRecordDetailViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit())
+      depositService: mock(AbsDepositAppService.self))
 
     let records = stubViewModel.generateRecords(
       self.generateCryptoLog(status: .pending),

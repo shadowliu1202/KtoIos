@@ -7,7 +7,7 @@ import XCTest
 @testable import ktobet_asia_ios_qat
 
 @MainActor
-final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCTestCase {
+final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
   private let notSetContactInfoPlayer = Player(
     gameId: "",
     playerInfo: .init(

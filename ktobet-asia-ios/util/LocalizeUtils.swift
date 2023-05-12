@@ -6,7 +6,7 @@ private var _Localize = Injectable.resolve(LocalizeUtils.self)!
 var Localize: LocalizeUtils {
   get { _Localize }
   set {
-    if !isTesting {
+    if !Configuration.isTesting {
       fatalError("Only allow change when testing !!")
     }
     else {

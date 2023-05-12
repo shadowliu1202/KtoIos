@@ -4,12 +4,12 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class OnlinePaymentViewControllerTests: XCTestCase {
+final class OnlinePaymentViewControllerTests: XCBaseTestCase {
   private func getFakeOnlinePaymentViewModel() -> OnlinePaymentViewModelMock {
     let stubViewModel = mock(OnlinePaymentViewModel.self)
       .initialize(
         mock(PlayerDataUseCase.self),
-        Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+        mock(AbsDepositAppService.self),
         getFakeHttpClient(),
         mock(PlayerConfiguration.self))
 

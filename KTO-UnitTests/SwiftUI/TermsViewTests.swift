@@ -6,7 +6,7 @@ import XCTest
 
 extension TermsView.Sections: Inspecting { }
 
-final class TermsViewTests: XCTestCase {
+final class TermsViewTests: XCBaseTestCase {
   func test_HasOneTerm_InTermsPage_OneTermIsDisplayed() {
     let stubPresenter = mock(SecurityPrivacyTerms.self)
 

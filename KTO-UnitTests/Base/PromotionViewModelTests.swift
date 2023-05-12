@@ -6,7 +6,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class PromotionViewModelTests: XCTestCase {
+final class PromotionViewModelTests: XCBaseTestCase {
   func test_whenCallCashBackSettings_thenGetCashBackSettings() throws {
     let dummyPlayerUseCase = mock(PlayerDataUseCase.self)
     let stubPromotionUseCase = mock(PromotionUseCase.self)

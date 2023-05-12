@@ -4,12 +4,8 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class NotificationDetailViewControllerTests: XCTestCase {
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
-  }
-
-  func buildNotificationItem(type: MyActivityType) -> SharedBu.Notification {
+final class NotificationDetailViewControllerTests: XCBaseTestCase {
+  private func buildNotificationItem(type: MyActivityType) -> SharedBu.Notification {
     SharedBu.Notification.Activity(
       messageId: "",
       title: "",
@@ -21,6 +17,29 @@ final class NotificationDetailViewControllerTests: XCTestCase {
       value: "")
   }
 
+  private func getStubViewModel() -> NotificationViewModel {
+    let notificationViewModel = mock(NotificationViewModel.self)
+      .initialize(
+        useCase: mock(NotificationUseCase.self),
+        configurationUseCase: mock(ConfigurationUseCase.self),
+        systemStatusUseCase: mock(GetSystemStatusUseCase.self))
+    given(notificationViewModel.setup()) ~> { }
+    given(notificationViewModel.input) ~> .init(
+      refreshTrigger: .init(eventHandler: { _ in }),
+      loadNextPageTrigger: .init(eventHandler: { _ in }),
+      keywod: .init(eventHandler: { _ in }),
+      deleteTrigger: .init(eventHandler: { _ in }),
+      selectedMessageId: .init(eventHandler: { _ in }))
+    given(notificationViewModel.output) ~> .init(
+      notifications: .never(),
+      isHiddenEmptyView: .never(),
+      customerServiceEmail: .never(),
+      deletedMessage: .never())
+    given(notificationViewModel.errors()) ~> .never()
+
+    return notificationViewModel
+  }
+
   func test_ReceivePaymentRickGroupChanged_ClickGoToBtn_GoDepositPage_KTO_TC_102() {
     let stubNotificationItem = buildNotificationItem(type: .paymentgroupchanged)
     let mockNavigator = mock(Navigator.self)
@@ -28,6 +47,7 @@ final class NotificationDetailViewControllerTests: XCTestCase {
     NavigationManagement.sharedInstance = mockNavigator
 
     let sut = NotificationDetailViewController.initFrom(storyboard: "Notification")
+    sut.viewModel = getStubViewModel()
     sut.data = .init(stubNotificationItem, supportLocale: .China())
 
     sut.loadViewIfNeeded()
@@ -47,6 +67,7 @@ final class NotificationDetailViewControllerTests: XCTestCase {
     NavigationManagement.sharedInstance = mockNavigator
 
     let sut = NotificationDetailViewController.initFrom(storyboard: "Notification")
+    sut.viewModel = getStubViewModel()
     sut.data = .init(stubNotificationItem, supportLocale: .China())
 
     sut.loadViewIfNeeded()
@@ -66,6 +87,7 @@ final class NotificationDetailViewControllerTests: XCTestCase {
     NavigationManagement.sharedInstance = mockNavigator
 
     let sut = NotificationDetailViewController.initFrom(storyboard: "Notification")
+    sut.viewModel = getStubViewModel()
     sut.data = .init(stubNotificationItem, supportLocale: .China())
 
     sut.loadViewIfNeeded()

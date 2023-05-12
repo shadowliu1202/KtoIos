@@ -3,7 +3,7 @@ import UIKit
 import WebKit
 
 class DepositThirdPartWebViewController: LobbyViewController {
-  private var httpClient = Injectable.resolve(HttpClient.self)!
+  private var httpClient = Injectable.resolveWrapper(HttpClient.self)
 
   private let webView = WKWebView()
 

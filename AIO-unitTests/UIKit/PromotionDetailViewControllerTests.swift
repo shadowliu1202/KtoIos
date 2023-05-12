@@ -5,7 +5,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class PromotionDetailViewControllerTests: XCTestCase {
+final class PromotionDetailViewControllerTests: XCBaseTestCase {
   struct CouponForTest {
     enum CouponType {
       case VVIP
@@ -21,14 +21,9 @@ final class PromotionDetailViewControllerTests: XCTestCase {
 
   override func setUp() {
     injectStubCultureCode(.CN)
-    injectStubPlayerLoginStatus()
 
     let storyboard = UIStoryboard(name: "Promotion", bundle: nil)
     vc = (storyboard.instantiateViewController(identifier: "PromotionDetailViewController") as! PromotionDetailViewController)
-  }
-
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
   }
 
   private func getStubCoupon(type: CouponForTest.CouponType, status: CouponForTest.CouponStatus) -> PromotionVmItem {
