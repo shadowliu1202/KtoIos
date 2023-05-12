@@ -38,6 +38,16 @@ extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewContr
 class CustomServicePresenter: NSObject {
   static let shared: CustomServicePresenter = Injectable.resolve(CustomServicePresenter.self)!
 
+  private let storyboard = UIStoryboard(name: "CustomService", bundle: nil)
+  private let isCSIconAppear = BehaviorRelay(value: false)
+  private let disposeBag = DisposeBag()
+
+  private(set) var ballWindow: CustomerServiceIconViewWindow?
+  private var csViewModel: CustomerServiceViewModel
+  private var surveyViewModel: SurveyViewModel
+
+  lazy var observeCsIcon: Observable<Bool> = isCSIconAppear.share(replay: 1)
+
   var isInSideMenu = false {
     willSet(inSideMenu) {
       guard isCSIconAppear.value else { return }
@@ -97,16 +107,7 @@ class CustomServicePresenter: NSObject {
     return nil
   }
 
-  var csViewModel: CustomerServiceViewModel
-  var surveyViewModel: SurveyViewModel
-  lazy var observeCsIcon: Observable<Bool> = isCSIconAppear.share(replay: 1)
   var chatRoomConnectStatus: Observable<PortalChatRoom.ConnectStatus> { csViewModel.preLoadChatRoomStatus.share(replay: 1) }
-
-  private(set) var ballWindow: CustomerServiceIconViewWindow?
-
-  private let storyboard = UIStoryboard(name: "CustomService", bundle: nil)
-  private let isCSIconAppear = BehaviorRelay(value: false)
-  private let disposeBag = DisposeBag()
 
   init(_ customerServiceViewModel: CustomerServiceViewModel, _ surveyViewModel: SurveyViewModel) {
     Logger.shared.info("\(type(of: self)) init.")

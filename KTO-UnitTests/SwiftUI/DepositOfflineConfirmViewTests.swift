@@ -7,7 +7,7 @@ import XCTest
 
 extension DepositOfflineConfirmView.Row: Inspecting { }
 
-final class DepositOfflineConfirmViewTests: XCTestCase {
+final class DepositOfflineConfirmViewTests: XCBaseTestCase {
   func buildMemo(amount: String) -> OfflineDepositDTO.Memo {
     .init(
       identity: "",
@@ -30,7 +30,7 @@ final class DepositOfflineConfirmViewTests: XCTestCase {
 
   func test_RemitAmountHaveTwoDecimal_DecimalTextColorIsOrangeFF8000() {
     let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      depositService: mock(AbsDepositAppService.self),
       locale: .China())
 
     let attributed = stubViewModel
@@ -46,7 +46,7 @@ final class DepositOfflineConfirmViewTests: XCTestCase {
 
   func test_RemitAmountHaveNotDecimal_AllTextColorIsWhitePure() {
     let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      depositService: mock(AbsDepositAppService.self),
       locale: .China())
 
     let attributed = stubViewModel
@@ -62,7 +62,7 @@ final class DepositOfflineConfirmViewTests: XCTestCase {
 
   func test_ValidTimeLeft3Hours_TextIsCorrect() {
     let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      depositService: mock(AbsDepositAppService.self),
       locale: .China())
 
     let leftTime = stubViewModel.configTimeString(3 * 3600)
@@ -72,7 +72,7 @@ final class DepositOfflineConfirmViewTests: XCTestCase {
 
   func test_ValidTimeLeft30Minutes_TextIsCorrect() {
     let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      depositService: mock(AbsDepositAppService.self),
       locale: .China())
 
     let leftTime = stubViewModel.configTimeString(30 * 60)
@@ -82,7 +82,7 @@ final class DepositOfflineConfirmViewTests: XCTestCase {
 
   func test_ContentWillBeCopied_PressCopyButton() {
     let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      depositService: mock(AbsDepositAppService.self),
       locale: .China())
 
     let row = DepositOfflineConfirmView<DepositOfflineConfirmViewModel>.Row(type: .receiveBank)

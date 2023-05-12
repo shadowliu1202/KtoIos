@@ -8,7 +8,7 @@ import XCTest
 
 extension SwiftUIDropDownText: Inspecting { }
 
-final class SwiftUIDropDownTextTest: XCTestCase {
+final class SwiftUIDropDownTextTest: XCBaseTestCase {
   private let publisher = PassthroughSubject<Void, Never>()
   private let stubDatas = ["中国银行", "中国工商银行", "中国农民银行", "中国建设银行", "交通银行", "中國信託", "玉山銀行"]
 

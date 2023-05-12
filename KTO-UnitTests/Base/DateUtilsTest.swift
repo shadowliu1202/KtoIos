@@ -3,7 +3,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-class DateUtilsTest: XCTestCase {
+class DateUtilsTest: XCBaseTestCase {
   func testParseOffsetDate() throws {
     let apiReturnDate = "2022-06-10T00:00:00+08:00"
     let timeZone = TimeZone(identifier: "Asia/Taipei")!

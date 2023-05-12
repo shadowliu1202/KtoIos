@@ -6,7 +6,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class WithdrawalOTPVerifyMethodSelectViewControllerTests: XCTestCase {
+final class WithdrawalOTPVerifyMethodSelectViewControllerTests: XCBaseTestCase {
   func test_givenOTPServiceDown_whenInWithdrawalOTPVerifyMethodSelectPage_thenAlertPlayer_KTO_TC_185() {
     let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)

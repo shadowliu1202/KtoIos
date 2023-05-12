@@ -4,11 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class OnlinePaymentViewModelTests: XCTestCase {
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
-  }
-
+final class OnlinePaymentViewModelTests: XCBaseTestCase {
   func test_givenChinaUser_whenNavigationPopback_thenAlertOnlinePaymentTerminate_KTO_TC_64() {
     injectStubCultureCode(.CN)
 
@@ -17,7 +13,7 @@ final class OnlinePaymentViewModelTests: XCTestCase {
 
     let sut = OnlinePaymentViewModel(
       mock(PlayerDataUseCase.self),
-      Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      mock(AbsDepositAppService.self),
       getFakeHttpClient(),
       stubPlayerConfiguration)
 
@@ -34,7 +30,7 @@ final class OnlinePaymentViewModelTests: XCTestCase {
 
     let sut = OnlinePaymentViewModel(
       mock(PlayerDataUseCase.self),
-      Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      mock(AbsDepositAppService.self),
       getFakeHttpClient(),
       stubPlayerConfiguration)
 
@@ -63,7 +59,7 @@ final class OnlinePaymentViewModelTests: XCTestCase {
 
     let sut = OnlinePaymentViewModel(
       mock(PlayerDataUseCase.self),
-      Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      mock(AbsDepositAppService.self),
       getFakeHttpClient(),
       stubPlayerConfiguration)
 

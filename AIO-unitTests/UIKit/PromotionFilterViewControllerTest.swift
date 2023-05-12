@@ -4,7 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class PromotionFilterViewControllerTest: XCTestCase {
+final class PromotionFilterViewControllerTest: XCBaseTestCase {
   private lazy var sut = PromotionFilterViewController.initFrom(storyboard: "Filter")
 
   let stubDataSource = mock(FilterPresentProtocol.self)
@@ -12,10 +12,6 @@ final class PromotionFilterViewControllerTest: XCTestCase {
   override func setUp() {
     super.setUp()
     injectStubCultureCode(.CN)
-  }
-
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
   }
 
   func test_HasVVIPRebateCoupon_InPromtionFilterPage_VVIPCouponFilterIsDisplayed_KTO_TC_25() {

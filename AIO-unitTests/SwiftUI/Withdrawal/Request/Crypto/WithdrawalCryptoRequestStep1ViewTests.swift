@@ -9,7 +9,7 @@ import XCTest
 extension WithdrawalCryptoRequestStep1View.RequestInput: Inspecting { }
 extension WithdrawalCryptoRequestStep1ViewModelProtocolMock: ObservableObject { }
 
-final class WithdrawalCryptoRequestStep1ViewTests: XCTestCase {
+final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
   private let publisher = PassthroughSubject<Void, Never>()
   private let stubWallet: WithdrawalDto.CryptoWallet =
     .init(
@@ -34,10 +34,6 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCTestCase {
       from: .eth,
       to: .China(),
       cryptoExchangeRate: "2")
-
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
-  }
 
   private func getViewModelProtocol(supportLocale: SupportLocale) -> WithdrawalCryptoRequestStep1ViewModelProtocolMock {
     let stubViewModel = mock(WithdrawalCryptoRequestStep1ViewModelProtocol.self)

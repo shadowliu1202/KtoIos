@@ -6,7 +6,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class PromotionApiTests: XCTestCase {
+final class PromotionApiTests: XCBaseTestCase {
   let disposeBag = DisposeBag()
 
   func test_whenGetCashBackSettings_thenReturnCashBackSettingBean() throws {

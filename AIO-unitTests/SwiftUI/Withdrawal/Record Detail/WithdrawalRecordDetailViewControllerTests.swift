@@ -4,11 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class WithdrawalRecordDetailViewControllerTests: XCTestCase {
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
-  }
-
+final class WithdrawalRecordDetailViewControllerTests: XCBaseTestCase {
   func buildUploadedImages() -> [RecordRemark.Uploader.Model] {
     (0...2).map { _ in
       .init(

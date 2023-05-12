@@ -4,11 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class DepositRecordDetailViewControllerTests: XCTestCase {
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
-  }
-
+final class DepositRecordDetailViewControllerTests: XCBaseTestCase {
   func buildUploadedImages() -> [RecordRemark.Uploader.Model] {
     (0...2).map { _ in
       .init(
@@ -23,7 +19,7 @@ final class DepositRecordDetailViewControllerTests: XCTestCase {
   func test_PaymentStatusIsFloating_SelectedThreePhotos_ClickUploadButtonWillPopAlert_KTO_TC_90() {
     let stubViewModel = mock(DepositRecordDetailViewModel.self)
       .initialize(
-        depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+        depositService: mock(AbsDepositAppService.self),
         imageUseCase: mock(UploadImageUseCase.self),
         httpClient: getFakeHttpClient(),
         playerConfig: PlayerConfigurationImpl())

@@ -4,11 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class P2PViewControllerTests: XCTestCase {
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
-  }
-
+final class P2PViewControllerTests: XCBaseTestCase {
   func test_HasOneP2PGame_InP2PPage_GameIsDisplayedWithNumber1_KTO_TC_34() {
     let dummyGame = P2PGame(
       gameId: 1,
@@ -22,8 +18,6 @@ final class P2PViewControllerTests: XCTestCase {
     given(stubRepo.getAllGames()) ~> .just([dummyGame])
 
     Injectable.register(P2PRepository.self) { _ in stubRepo }
-
-    injectStubPlayerLoginStatus()
 
     let sut = P2PViewController.initFrom(storyboard: "P2P")
 

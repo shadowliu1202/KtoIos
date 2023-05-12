@@ -9,7 +9,7 @@ extension WithdrawalRecordDetailViewModelProtocolMock: ObservableObject { }
 
 extension WithdrawalRecordDetailView: Inspecting { }
 
-final class WithdrawalRecordDetailViewTests: XCTestCase {
+final class WithdrawalRecordDetailViewTests: XCBaseTestCase {
   func buildDummyLog(status: WithdrawalDto.LogStatus) -> WithdrawalDto.FiatLog {
     .init(
       log: .init(

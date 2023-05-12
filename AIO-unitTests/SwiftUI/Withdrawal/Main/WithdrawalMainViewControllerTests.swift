@@ -6,9 +6,9 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class WithdrawalMainViewControllerTests: XCTestCase {
+final class WithdrawalMainViewControllerTests: XCBaseTestCase {
   private func getFakeWithdrawalMainViewModel() -> WithdrawalMainViewModelMock {
-    let dummyWithdrawalAppService = Injectable.resolveWrapper(IWithdrawalAppService.self)
+    let dummyWithdrawalAppService = mock(AbsWithdrawalAppService.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
     let dummyWithdrawalUseCase = mock(WithdrawalUseCase.self)
 

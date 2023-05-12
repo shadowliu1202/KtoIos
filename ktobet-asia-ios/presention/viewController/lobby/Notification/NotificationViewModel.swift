@@ -21,7 +21,9 @@ class NotificationViewModel: CollectErrorViewModel, ViewModelType {
     self.useCase = useCase
     self.configurationUseCase = configurationUseCase
     self.systemStatusUseCase = systemStatusUseCase
+  }
 
+  func setup() {
     initPagination()
 
     let notifications = getNotifications()

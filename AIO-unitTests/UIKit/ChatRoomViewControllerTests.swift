@@ -5,7 +5,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class ChatRoomViewControllerTests: XCTestCase {
+final class ChatRoomViewControllerTests: XCBaseTestCase {
   private var vc: ChatRoomViewController!
 
   override func setUp() {

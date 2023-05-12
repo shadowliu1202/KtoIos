@@ -4,7 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class WithdrawalCryptoWalletsViewControllerTests: XCTestCase {
+final class WithdrawalCryptoWalletsViewControllerTests: XCBaseTestCase {
   let stubViewModel = mock(WithdrawalCryptoWalletsViewModel.self)
     .initialize(
       withdrawalService: mock(AbsWithdrawalAppService.self),

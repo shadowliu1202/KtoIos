@@ -17,7 +17,7 @@ extension TransactionLogViewModelProtocolMock: Selecting {
 extension TransactionLogView.Sections: Inspecting { }
 extension TransactionLogView.Summary: Inspecting { }
 
-final class TransactionLogViewTests: XCTestCase {
+final class TransactionLogViewTests: XCBaseTestCase {
   private func buildDummyBetLog(
     amount: Int,
     displayName: String,

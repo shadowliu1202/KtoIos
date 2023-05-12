@@ -40,17 +40,6 @@ extension XCTestCase {
     Localize = LocalizeUtils(localStorageRepo: stubLocalStorageRepository)
   }
 
-  func injectStubPlayerLoginStatus(isLogin: Bool = true) {
-    let stubAuthenticationUseCase = mock(AuthenticationUseCase.self)
-
-    given(stubAuthenticationUseCase.isLogged()) ~> .just(isLogin)
-
-    Injectable
-      .register(AuthenticationUseCase.self) { _ in
-        stubAuthenticationUseCase
-      }
-  }
-
   func makeItVisible(_ target: UIViewController) {
     let keyWindow = (UIApplication.shared.delegate as? AppDelegate)?.window
     keyWindow?.rootViewController = target

@@ -9,7 +9,7 @@ extension SelectingMock: ObservableObject { }
 
 extension ItemSelector: Inspecting { }
 
-final class ItemSelectorTests: XCTestCase {
+final class ItemSelectorTests: XCBaseTestCase {
   func buildDummySelectable(_ index: [Int]) -> [SelectableMock] {
     index.map {
       let stub = mock(Selectable.self)

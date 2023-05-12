@@ -4,11 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class P2PSummaryViewControllerTests: XCTestCase {
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
-  }
-
+final class P2PSummaryViewControllerTests: XCBaseTestCase {
   func test_HasOneP2PGameBetRecord_InP2PSummaryPage_RecordIsDisplayedWithNumber1_KTO_TC_35() {
     let dummySummary = DateSummary(
       totalStakes: .zero(),
@@ -24,8 +20,6 @@ final class P2PSummaryViewControllerTests: XCTestCase {
 
     Injectable.register(PlayerRepository.self) { _ in stubPlayerRepo }
     Injectable.register(P2PRecordRepository.self) { _ in stubRecordRepo }
-
-    injectStubPlayerLoginStatus()
 
     let sut = P2PSummaryViewController.initFrom(storyboard: "P2P")
 

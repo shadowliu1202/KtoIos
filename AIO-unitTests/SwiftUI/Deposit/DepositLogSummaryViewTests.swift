@@ -31,7 +31,7 @@ extension DepositLogSummaryViewModelProtocolMock: Selecting {
 extension DepositLogSummaryView.Sections: Inspecting { }
 extension DepositLogSummaryView.Header: Inspecting { }
 
-final class DepositLogSummaryViewTests: XCTestCase {
+final class DepositLogSummaryViewTests: XCBaseTestCase {
   private func generateGroupLog(date: Date = .init(), count: Int = 1) -> PaymentLogDTO.GroupLog {
     .init(
       groupDate: date.toUTCOffsetDateTime().toInstant(),

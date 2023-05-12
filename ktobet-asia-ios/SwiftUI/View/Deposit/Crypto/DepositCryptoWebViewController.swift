@@ -6,7 +6,7 @@ import WebKit
 class DepositCryptoWebViewController: LobbyViewController {
   private let webView = WKWebView()
 
-  private let httpClient = Injectable.resolve(HttpClient.self)!
+  private let httpClient = Injectable.resolveWrapper(HttpClient.self)
   private let disposeBag = DisposeBag()
 
   let url: String?

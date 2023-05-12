@@ -4,7 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class SingleExtensionTests: XCTestCase {
+final class SingleExtensionTests: XCBaseTestCase {
   func testTransformBoolToString() {
     let json =
       """

@@ -9,7 +9,7 @@ extension DepositRecordDetailViewModelProtocolMock: ObservableObject { }
 
 extension DepositRecordDetailView: Inspecting { }
 
-final class DepositRecordDetailViewTests: XCTestCase {
+final class DepositRecordDetailViewTests: XCBaseTestCase {
   func buildDummyLog(status: PaymentStatus) -> PaymentLogDTO.FiatLog {
     .init(
       log: .init(

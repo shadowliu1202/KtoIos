@@ -5,7 +5,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class OfflinePaymentViewModelTests: XCTestCase {
+final class OfflinePaymentViewModelTests: XCBaseTestCase {
   private func buildSUT() -> OfflinePaymentViewModel {
     let dummyHttpClient = getFakeHttpClient()
     let stubDepositAPI = mock(DepositAPI.self).initialize(dummyHttpClient)
@@ -30,28 +30,25 @@ final class OfflinePaymentViewModelTests: XCTestCase {
     given(stubNetworkFactory.getImage()) ~> ImageAdapter(ImageApi(dummyHttpClient))
     given(stubNetworkFactory.getCommon()) ~> CommonAdapter(stubCommonAPI)
 
-    Injectable
-      .register(ExternalProtocolService.self) { _ in
-        stubNetworkFactory
-      }
-
     let dummyPlayerUseCase = mock(PlayerDataUseCase.self)
     let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
 
     given(dummyLocalStorageRepo.getCultureCode()) ~> "zh-cn"
 
+    let applicationFactory: ApplicationFactory = .init(
+      playerConfiguration: Injectable.resolveWrapper(PlayerConfiguration.self),
+      externalProtocolService: stubNetworkFactory,
+      stringServiceFactory: Injectable.resolveWrapper(ExternalStringService.self),
+      stringSupporter: Injectable.resolveWrapper(StringSupporter.self))
+
     return OfflinePaymentViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      depositService: applicationFactory.deposit(),
       playerUseCase: dummyPlayerUseCase,
       localStorageRepo: dummyLocalStorageRepo)
   }
 
   override func setUp() {
     injectStubCultureCode(.CN)
-  }
-
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
   }
 
   func test_givenRemitAmountLimitRangeIs10To100_whenRemittanceIs101_thenSubmitRemittanceButtonDisableAndDisplayedErrorMessage_KTO_TC_51(

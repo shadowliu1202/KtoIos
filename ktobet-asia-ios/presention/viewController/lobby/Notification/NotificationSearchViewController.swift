@@ -61,6 +61,7 @@ class NotificationSearchViewController: LobbyViewController {
   }
 
   private func dateBinding() {
+    viewModel.setup()
     searchBarView.rx.text.orEmpty.bind(to: viewModel.input.keywod).disposed(by: disposeBag)
     searchBarView.rx.text.orEmpty.map { $0.count >= 3 }.bind(to: keywordLengthTipLabel.rx.isHidden).disposed(by: disposeBag)
     searchBarView.rx.text.orEmpty.map { $0.count < 3 }.bind(to: tableView.rx.isHidden).disposed(by: disposeBag)

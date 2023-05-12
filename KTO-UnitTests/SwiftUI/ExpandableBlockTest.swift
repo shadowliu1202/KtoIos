@@ -6,7 +6,7 @@ import XCTest
 
 extension ExpandableBlock: Inspecting { }
 
-class ExpandableBlockTest: XCTestCase {
+class ExpandableBlockTest: XCBaseTestCase {
   func test_Guide_Link_isExpanded() throws {
     let sut = ExpandableBlock(title: "Title", content: { Text("content") })
 

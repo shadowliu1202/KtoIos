@@ -5,7 +5,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class LaunchAppTest: XCTestCase {
+final class LaunchAppTest: XCBaseTestCase {
   private let loggedPlayer = PlayerInfoCache(
     account: "",
     ID: "",
@@ -18,7 +18,6 @@ final class LaunchAppTest: XCTestCase {
   override func tearDown() {
     super.tearDown()
     reset(mockNavigator)
-    Injection.shared.registerAllDependency()
   }
 
   private func simulateApplicationWillEnterForeground() {
@@ -113,7 +112,37 @@ final class LaunchAppTest: XCTestCase {
         authUseCase: dummyAuthenticationUseCase)
   }
 
+  private func injectCustomerServiceUseCase() {
+    let stubCustomerServiceUseCase = mock(CustomerServiceUseCase.self)
+
+    given(stubCustomerServiceUseCase.currentChatRoom()) ~> .never()
+    given(stubCustomerServiceUseCase.searchChatRoom()) ~> .never()
+
+    Injectable
+      .register(CustomerServiceUseCase.self) { _ in
+        stubCustomerServiceUseCase
+      }
+  }
+
+  private func getStubCasinoViewModel() -> CasinoViewModel {
+    let stubCasinoUseCase = mock(CasinoUseCase.self)
+    given(stubCasinoUseCase.getLobbies()) ~> .just([])
+    given(stubCasinoUseCase.checkBonusAndCreateGame(any())) ~> .just(.inactive)
+    given(stubCasinoUseCase.searchGamesByTag(tags: any())) ~> .just([])
+
+    let stubViewModel = CasinoViewModel(
+      casinoRecordUseCase: mock(CasinoRecordUseCase.self),
+      casinoUseCase: stubCasinoUseCase,
+      memoryCache: mock(MemoryCacheImpl.self),
+      casinoAppService: mock(AbsCasinoAppService.self))
+    stubViewModel.tagStates = .just([])
+
+    return stubViewModel
+  }
+
   func test_givenUserLoggedInAndUnexpired_whenColdStart_thenEnterLobbyPage() {
+    injectCustomerServiceUseCase()
+
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> false
 
@@ -140,6 +169,8 @@ final class LaunchAppTest: XCTestCase {
   }
 
   func test_givenUserLoggedInAndExpired_whenColdStart_thenEnterLandingPage() {
+    injectCustomerServiceUseCase()
+
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> true
 
@@ -168,6 +199,8 @@ final class LaunchAppTest: XCTestCase {
   }
 
   func test_givenUserNotLoggedInAndUnexpired_whenColdStart_thenEnterLandingPage() {
+    injectCustomerServiceUseCase()
+
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> false
 
@@ -196,6 +229,8 @@ final class LaunchAppTest: XCTestCase {
   }
 
   func test_givenUserNotLoggedInAndExpired_whenColdStart_thenEnterLandingPage() {
+    injectCustomerServiceUseCase()
+
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> true
 
@@ -224,11 +259,14 @@ final class LaunchAppTest: XCTestCase {
   }
 
   func test_givenUserLoggedInAndAllMaintenance_whenColdStart_thenEnterMaintenancePage() {
+    injectCustomerServiceUseCase()
+    stubLoginStatus(isLogged: true)
     stubMaintenanceStatus(isAllMaintenance: true)
 
     NavigationManagement.sharedInstance = mockNavigator
 
     let sut = CasinoViewController.initFrom(storyboard: "Casino")
+    sut.viewModel = getStubCasinoViewModel()
 
     sut.loadViewIfNeeded()
     sut.viewDidAppear(true)
@@ -241,6 +279,7 @@ final class LaunchAppTest: XCTestCase {
   }
 
   func test_givenUserNotLoggedInAndAllMaintenance_whenColdStart_thenEnterMaintenancePage() {
+    injectCustomerServiceUseCase()
     stubMaintenanceStatus(isAllMaintenance: true)
 
     NavigationManagement.sharedInstance = mockNavigator
@@ -258,6 +297,7 @@ final class LaunchAppTest: XCTestCase {
   }
 
   func test_givenUserLoggedInAndNoAllMaintenance_whenHotStart_thenNotEnterMaintenancePage() {
+    injectCustomerServiceUseCase()
     stubLoginStatus(isLogged: true)
     stubMaintenanceStatus(isAllMaintenance: false)
 
@@ -279,6 +319,7 @@ final class LaunchAppTest: XCTestCase {
     NavigationManagement.sharedInstance = mockNavigator
 
     let sut = CasinoViewController.initFrom(storyboard: "Casino")
+    sut.viewModel = getStubCasinoViewModel()
 
     makeItVisible(sut)
 
@@ -295,6 +336,7 @@ final class LaunchAppTest: XCTestCase {
   }
 
   func test_givenUserNotLoggedInAndNoAllMaintenance_whenHotStart_thenNotEnterMaintenancePage() {
+    injectCustomerServiceUseCase()
     stubLoginStatus(isLogged: false)
     stubMaintenanceStatus(isAllMaintenance: false)
 
@@ -310,6 +352,7 @@ final class LaunchAppTest: XCTestCase {
   }
 
   func test_givenUserNotLoggedInAndAllMaintenance_whenHotStart_thenEnterMaintenancePage() {
+    injectCustomerServiceUseCase()
     stubLoginStatus(isLogged: false)
     stubMaintenanceStatus(isAllMaintenance: true)
 

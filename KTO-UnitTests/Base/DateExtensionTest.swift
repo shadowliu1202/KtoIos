@@ -3,7 +3,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-class DateExtensionTest: XCTestCase {
+class DateExtensionTest: XCBaseTestCase {
   func testOffsetDateTimeToDate() {
     let timeZoneID = "Asia/Taipei"
 

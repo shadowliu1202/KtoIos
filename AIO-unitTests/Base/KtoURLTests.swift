@@ -5,7 +5,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class KtoURLTests: XCTestCase {
+final class KtoURLTests: XCBaseTestCase {
   func stubRequest(name: String?, delay: Int) -> Single<String?> {
     .just(name)
       .delay(.seconds(delay), scheduler: MainScheduler())

@@ -4,7 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class PromotionHistoryViewControllerTests: XCTestCase {
+final class PromotionHistoryViewControllerTests: XCBaseTestCase {
   func dummyHistory() -> CouponHistory {
     .init(
       amount: 100.toAccountCurrency(),

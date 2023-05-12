@@ -9,7 +9,7 @@ import XCTest
 
 extension WithdrawalAddFiatBankCardView.Info: Inspecting { }
 
-final class WithdrawalAddFiatBankCardViewTests: XCTestCase {
+final class WithdrawalAddFiatBankCardViewTests: XCBaseTestCase {
   private let publisher = PassthroughSubject<Void, Never>()
 
   func getStubViewModel(locale: SupportLocale) -> WithdrawalAddFiatBankCardViewModel {
@@ -34,10 +34,6 @@ final class WithdrawalAddFiatBankCardViewTests: XCTestCase {
     stubViewModel.setup()
 
     return stubViewModel
-  }
-
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
   }
 
   func test_addWithdrawalBank_InVNDropdownItems_ItmesDisplayBankNameWithShortName_KTO_TC_154() {

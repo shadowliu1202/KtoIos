@@ -5,7 +5,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class PromotionViewControllerTest: XCTestCase {
+final class PromotionViewControllerTest: XCBaseTestCase {
   private let mockPromotionUseCase = mock(PromotionUseCase.self)
   private let now = Date()
 
@@ -24,16 +24,10 @@ final class PromotionViewControllerTest: XCTestCase {
   override func setUp() {
     super.setUp()
     injectStubCultureCode(.CN)
-    injectStubPlayerLoginStatus()
     Injectable
       .register(PromotionUseCase.self) { _ in
         self.mockPromotionUseCase
       }
-  }
-
-  override func tearDown() {
-    super.tearDown()
-    Injection.shared.registerAllDependency()
   }
 
   private func vvipCoupon(delay: Double = 0) -> BonusCoupon.VVIPCashback {

@@ -11,7 +11,7 @@ extension WithdrawalMainView.Methods: Inspecting { }
 
 extension WithdrawalMainViewModelProtocolMock: ObservableObject { }
 
-final class WithdrawalMainViewTests: XCTestCase {
+final class WithdrawalMainViewTests: XCBaseTestCase {
   private func getFakeWithdrawalMainViewModelProtocol() -> WithdrawalMainViewModelProtocolMock {
     let fakeViewModel = mock(WithdrawalMainViewModelProtocol.self)
 

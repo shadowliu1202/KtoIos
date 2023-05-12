@@ -4,7 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class CasinoViewControllerTests: XCTestCase {
+final class CasinoViewControllerTests: XCBaseTestCase {
   let dummyTurnoverDetail: TurnOverDetail = .init(
     achieved: "".toAccountCurrency(),
     formula: "",
@@ -55,7 +55,7 @@ final class CasinoViewControllerTests: XCTestCase {
       casinoRecordUseCase: mock(CasinoRecordUseCase.self),
       casinoUseCase: stubCasinoUseCase(requireNoBonusLock: requireNoBonusLock, result: result),
       memoryCache: mock(MemoryCacheImpl.self),
-      casinoAppService: Injectable.resolveWrapper(ApplicationFactory.self).casino())
+      casinoAppService: mock(AbsCasinoAppService.self))
 
     viewModel.tagStates = .just([])
 

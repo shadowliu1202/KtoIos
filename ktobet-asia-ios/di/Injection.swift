@@ -8,18 +8,11 @@ final class Injection {
   private(set) var container = Container()
 
   private init() {
-    container
-      .register(KtoURL.self) { _ in
-        PortalURL()
-      }
-      .inObjectScope(.application)
-
     HelperKt.doInitKoin()
 
     registerAllDependency()
   }
 
-  /// Only be use in unit test.
   func registerAllDependency() {
     registerHttpClient()
     registerCustomServicePresenter()
@@ -34,6 +27,12 @@ final class Injection {
   }
 
   func registerHttpClient() {
+    container
+      .register(KtoURL.self) { _ in
+        PortalURL()
+      }
+      .inObjectScope(.application)
+    
     container
       .register(KtoURL.self, name: "update") { _ in
         VersionUpdateURL()
@@ -964,7 +963,7 @@ final class Injection {
     container
       .register(OfflinePaymentViewModel.self) { resolver in
         OfflinePaymentViewModel(
-          depositService: resolver.resolveWrapper(ApplicationFactory.self).deposit(),
+          depositService: resolver.resolveWrapper(IDepositAppService.self),
           playerUseCase: resolver.resolveWrapper(PlayerDataUseCase.self),
           localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self))
       }

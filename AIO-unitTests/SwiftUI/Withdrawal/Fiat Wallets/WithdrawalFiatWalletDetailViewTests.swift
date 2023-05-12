@@ -8,7 +8,7 @@ import XCTest
 extension WithdrawalFiatWalletDetailView: Inspecting { }
 extension WithdrawalFiatWalletDetailViewModelProtocolMock: ObservableObject { }
 
-final class WithdrawalFiatWalletDetailViewTests: XCTestCase {
+final class WithdrawalFiatWalletDetailViewTests: XCBaseTestCase {
   let stubViewModel = mock(WithdrawalFiatWalletDetailViewModelProtocol.self)
 
   override func setUp() {

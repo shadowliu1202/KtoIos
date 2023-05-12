@@ -4,7 +4,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-final class DepositOfflineConfirmViewControllerTests: XCTestCase {
+final class DepositOfflineConfirmViewControllerTests: XCBaseTestCase {
   let bankCard: PaymentsDTO.BankCard =
     .init(
       identity: "",
@@ -31,7 +31,7 @@ final class DepositOfflineConfirmViewControllerTests: XCTestCase {
 
     let stubViewModel = mock(DepositOfflineConfirmViewModel.self)
       .initialize(
-        depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+        depositService: mock(AbsDepositAppService.self),
         locale: .China())
 
     given(stubViewModel.depositSuccessDriver) ~> .just(())
@@ -39,15 +39,14 @@ final class DepositOfflineConfirmViewControllerTests: XCTestCase {
     given(stubViewModel.errors()) ~> .just(playerDepositCountOverLimit)
 
     let stubAlert = mock(AlertProtocol.self)
-    Alert.shared = stubAlert
 
     let sut = DepositOfflineConfirmViewController(
       viewModel: stubViewModel,
       memo: memo,
-      selectedBank: bankCard)
-    sut.loadViewIfNeeded()
+      selectedBank: bankCard,
+      alert: stubAlert)
 
-    stubViewModel.errorsSubject.onNext(error)
+    sut.loadViewIfNeeded()
 
     verify(
       stubAlert.show(

@@ -13,7 +13,7 @@ extension OnlinePaymentView.RemittanceButton: Inspecting { }
 
 extension OnlinePaymentViewModelProtocolMock: ObservableObject { }
 
-final class OnlinePaymentViewTests: XCTestCase {
+final class OnlinePaymentViewTests: XCBaseTestCase {
   private let dummyOnlinePaymentDTO = mock(PaymentsDTO.Online.self)
 
   private func getFakeOnlinePaymentViewModelProtocol() -> OnlinePaymentViewModelProtocolMock {
@@ -25,10 +25,6 @@ final class OnlinePaymentViewTests: XCTestCase {
     given(stubViewModel.submitButtonDisable) ~> true
 
     return stubViewModel
-  }
-
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
   }
 
   func test_givenInputCashTypeAndRemitanceLimitRange50To100_whenInOnlinePaymentPage_thenDisplayAmountRangeHint50To100_KTO_TC_58(

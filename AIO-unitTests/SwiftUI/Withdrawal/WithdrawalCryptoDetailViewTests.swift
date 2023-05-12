@@ -9,7 +9,7 @@ extension WithdrawalCryptoRecordDetailView.Header: Inspecting { }
 
 extension WithdrawalCryptoRecordDetailViewModelProtocolMock: ObservableObject { }
 
-final class WithdrawalCryptoDetailViewTests: XCTestCase {
+final class WithdrawalCryptoDetailViewTests: XCBaseTestCase {
   private func generateCryptoLog(status: WithdrawalDto.LogStatus) -> WithdrawalDto.CryptoLog {
     let withdrawalDtoLog: WithdrawalDto.Log = .init(
       displayId: "Test123",
@@ -51,10 +51,6 @@ final class WithdrawalCryptoDetailViewTests: XCTestCase {
       processingMemo: memo)
 
     return log
-  }
-
-  override func tearDown() {
-    Injection.shared.registerAllDependency()
   }
 
   func test_PaymentStatusIsApprove_FinalCryptoAmountTextColorIsOrangeFF8000_KTO_TC_136() {

@@ -15,7 +15,7 @@ class AppSynchronizeViewModel {
     self.appStorage = appStorage
   }
 
-  func getLatestAppVersion() -> Single<Version> {
+  func getLatestAppVersion() -> Single<SharedBu.Version> {
     self.appUpdateUseCase.getLatestAppVersion()
   }
 

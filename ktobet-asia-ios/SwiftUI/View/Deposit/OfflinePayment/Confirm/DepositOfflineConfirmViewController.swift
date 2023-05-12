@@ -19,13 +19,18 @@ class DepositOfflineConfirmViewController:
   init(
     viewModel: DepositOfflineConfirmViewModel? = nil,
     memo: OfflineDepositDTO.Memo,
-    selectedBank: PaymentsDTO.BankCard)
+    selectedBank: PaymentsDTO.BankCard,
+    alert: AlertProtocol? = nil)
   {
     self.memo = memo
     self.selectedBank = selectedBank
 
     if let viewModel {
       self._viewModel.wrappedValue = viewModel
+    }
+
+    if let alert {
+      self._alert.wrappedValue = alert
     }
 
     super.init(nibName: nil, bundle: nil)

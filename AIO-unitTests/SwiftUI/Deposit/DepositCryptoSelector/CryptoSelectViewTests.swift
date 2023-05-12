@@ -10,7 +10,7 @@ extension CryptoSelectView: Inspecting { }
 extension CryptoSelectView.Header: Inspecting { }
 extension CryptoSelectView.SelectorList: Inspecting { }
 
-final class CryptoSelectViewTests: XCTestCase {
+final class CryptoSelectViewTests: XCBaseTestCase {
   func test_TapTutorialBtn_InCryptoSelectView_CallbackFunctionIsCalled() {
     let stubViewModel = mock(CryptoDepositViewModelProtocol.self)
     given(stubViewModel.submitButtonDisable) ~> false
