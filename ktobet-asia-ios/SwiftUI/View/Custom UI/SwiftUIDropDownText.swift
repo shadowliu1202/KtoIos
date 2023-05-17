@@ -33,7 +33,7 @@ struct SwiftUIDropDownText: View {
   @State private var isInTopSide = true
   @State private var viewHeight: CGFloat = 0
 
-  @State private var isEditing = false
+  @State private var onFocus = false
 
   @State private var filteredItems: [String] = []
 
@@ -48,6 +48,8 @@ struct SwiftUIDropDownText: View {
 
   private let errorText: String
 
+  private var shouldBeFocus = false
+
   let inspection = Inspection<Self>()
 
   init(
@@ -57,6 +59,7 @@ struct SwiftUIDropDownText: View {
     items: [String],
     featureType: FeatureType,
     dropDownArrowVisible: Bool = true,
+    shouldBeFocus: Bool? = nil,
     onTapGesture: (() -> Void)? = nil)
   {
     self.placeHolder = placeHolder
@@ -65,6 +68,7 @@ struct SwiftUIDropDownText: View {
     self.items = items
     self.featureType = featureType
     self.dropDownArrowVisible = dropDownArrowVisible
+    self.shouldBeFocus = shouldBeFocus ?? false
     self.onTapGesture = onTapGesture
   }
 
@@ -77,7 +81,7 @@ struct SwiftUIDropDownText: View {
       textFieldType: GeneralType(regex: .all),
       disableInput: featureType == .select ? true : false,
       onTapGesture: onTapGesture,
-      isEditing: $isEditing)
+      onFocus: $onFocus)
       .positionDetect(result: $isInTopSide)
       .overlay(
         GeometryReader { geometryProxy in
@@ -116,7 +120,7 @@ struct SwiftUIDropDownText: View {
           }
         }
       }
-      .onChange(of: isEditing) { newValue in
+      .onChange(of: onFocus) { newValue in
         guard
           featureType == .inputValidated,
           newValue == false
@@ -126,7 +130,10 @@ struct SwiftUIDropDownText: View {
           textFieldText = ""
         }
       }
-      .zIndex(isEditing ? 1 : 0)
+      .onChange(of: shouldBeFocus) { newValue in
+        onFocus = newValue
+      }
+      .zIndex(onFocus ? 1 : 0)
       .onInspected(inspection, self)
       .id(Identifier.entireView.rawValue)
   }
@@ -168,7 +175,7 @@ struct SwiftUIDropDownText: View {
                   .onTapGesture {
                     textFieldText = itemDescription
 
-                    isEditing = false
+                    onFocus = false
                   }
               }
               .id(SwiftUIDropDownText.Identifier.candidateWordList.rawValue)
@@ -187,7 +194,7 @@ struct SwiftUIDropDownText: View {
         .alignmentGuide(.leading, computeValue: { $0[.leading] - 20 })
         .visibility(isInTopSide ? .invisible : .visible)
     }
-    .visibility(isEditing ? .visible : .gone)
+    .visibility(onFocus ? .visible : .gone)
     .alignmentGuide(
       .top,
       computeValue: {

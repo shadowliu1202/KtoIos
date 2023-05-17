@@ -19,7 +19,7 @@ struct SwiftUIInputText: View {
   @State private var textFieldHight: CGFloat?
 
   @Binding var textFieldText: String
-  @Binding var isEditing: Bool
+  @Binding var onFocus: Bool
 
   private let placeHolder: String
   private let errorText: String
@@ -38,7 +38,7 @@ struct SwiftUIInputText: View {
     textFieldType: some TextFieldType,
     disableInput: Bool = false,
     onTapGesture: (() -> Void)? = nil,
-    isEditing: Binding<Bool> = .constant(false))
+    onFocus: Binding<Bool> = .constant(false))
   {
     self.placeHolder = placeHolder
     self._textFieldText = textFieldText
@@ -47,7 +47,7 @@ struct SwiftUIInputText: View {
     self.textFieldType = textFieldType
     self.disableInput = disableInput
     self.onTapGesture = onTapGesture
-    self._isEditing = isEditing
+    self._onFocus = onFocus
   }
 
   var body: some View {
@@ -83,8 +83,8 @@ struct SwiftUIInputText: View {
       }
     }
     .onChange(of: innerIsEditing) { newValue in
-      if isEditing != newValue {
-        isEditing = newValue
+      if onFocus != newValue {
+        onFocus = newValue
       }
 
       if !newValue {
@@ -93,7 +93,7 @@ struct SwiftUIInputText: View {
         }
       }
     }
-    .onChange(of: isEditing) { newValue in
+    .onChange(of: onFocus) { newValue in
       if innerIsEditing != newValue {
         innerIsEditing = newValue
       }
@@ -172,7 +172,7 @@ struct SwiftUIInputText: View {
     case .dropDownArrow:
       Image("DropDown")
         .rotationEffect(
-          .degrees(isEditing ? 180 : 0),
+          .degrees(onFocus ? 180 : 0),
           anchor: .center)
         .id(Identifier.arrow.rawValue)
 
