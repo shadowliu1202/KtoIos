@@ -6,14 +6,7 @@ struct WithdrawalCreateCryptoAccountView<ViewModel>: View
   WithdrawalCreateCryptoAccountViewModelProtocol &
   ObservableObject
 {
-  enum CurrentFocus {
-    case currency
-    case network
-  }
-
   @StateObject private var viewModel: ViewModel
-
-  @State var currentFocus: CurrentFocus?
 
   private let readQRCodeButtonOnTap: (() -> Void)?
   private let createAccountOnSuccess: ((_ bankCardId: String) -> Void)?
@@ -44,21 +37,13 @@ struct WithdrawalCreateCryptoAccountView<ViewModel>: View
                   placeHolder: Localize.string("cps_crypto_currency"),
                   textFieldText: $viewModel.selectedCryptoType,
                   items: viewModel.cryptoTypes,
-                  featureType: .select,
-                  shouldBeFocus: currentFocus == .currency,
-                  onTapGesture: {
-                    currentFocus = .currency
-                  })
+                  featureType: .select)
 
                 SwiftUIDropDownText(
                   placeHolder: Localize.string("cps_crypto_network"),
                   textFieldText: $viewModel.selectedCryptoNetwork,
                   items: viewModel.cryptoNetworks,
-                  featureType: .select,
-                  shouldBeFocus: currentFocus == .network,
-                  onTapGesture: {
-                    currentFocus = .network
-                  })
+                  featureType: .select)
 
                 SwiftUIInputText(
                   placeHolder: Localize.string("cps_crypto_account_name"),

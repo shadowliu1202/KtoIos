@@ -33,22 +33,22 @@ struct SwiftUIDropDownText: View {
   @State private var isInTopSide = true
   @State private var viewHeight: CGFloat = 0
 
-  @State private var onFocus = false
+  @State private var isFocus = false
 
   @State private var filteredItems: [String] = []
 
   @Binding var textFieldText: String
 
+  private let id = UUID()
+  
   private let placeHolder: String
   private let items: [String]
 
   private let featureType: FeatureType
   private let dropDownArrowVisible: Bool
-  private let onTapGesture: (() -> Void)?
+  private let onInputTextTap: (() -> Void)?
 
   private let errorText: String
-
-  private var shouldBeFocus = false
 
   let inspection = Inspection<Self>()
 
@@ -59,8 +59,7 @@ struct SwiftUIDropDownText: View {
     items: [String],
     featureType: FeatureType,
     dropDownArrowVisible: Bool = true,
-    shouldBeFocus: Bool? = nil,
-    onTapGesture: (() -> Void)? = nil)
+    onInputTextTap: (() -> Void)? = nil)
   {
     self.placeHolder = placeHolder
     self._textFieldText = textFieldText
@@ -68,20 +67,20 @@ struct SwiftUIDropDownText: View {
     self.items = items
     self.featureType = featureType
     self.dropDownArrowVisible = dropDownArrowVisible
-    self.shouldBeFocus = shouldBeFocus ?? false
-    self.onTapGesture = onTapGesture
+    self.onInputTextTap = onInputTextTap
   }
 
   var body: some View {
     SwiftUIInputText(
+      id: id,
       placeHolder: placeHolder,
       textFieldText: $textFieldText,
       errorText: errorText,
       featureType: dropDownArrowVisible ? .dropDownArrow : .nil,
       textFieldType: GeneralType(regex: .all),
       disableInput: featureType == .select ? true : false,
-      onTapGesture: onTapGesture,
-      onFocus: $onFocus)
+      onInputTextTap: onInputTextTap,
+      isFocus: $isFocus)
       .positionDetect(result: $isInTopSide)
       .overlay(
         GeometryReader { geometryProxy in
@@ -120,7 +119,7 @@ struct SwiftUIDropDownText: View {
           }
         }
       }
-      .onChange(of: onFocus) { newValue in
+      .onChange(of: isFocus) { newValue in
         guard
           featureType == .inputValidated,
           newValue == false
@@ -130,12 +129,27 @@ struct SwiftUIDropDownText: View {
           textFieldText = ""
         }
       }
-      .onChange(of: shouldBeFocus) { newValue in
-        onFocus = newValue
-      }
-      .zIndex(onFocus ? 1 : 0)
+      .onReceive(
+        NotificationCenter.default.publisher(for: Notification.Name("collapseNotification")),
+        perform: { notification in
+          if
+            let userInfo = notification.userInfo,
+            let senderId = userInfo["senderId"] as? UUID,
+            senderId != self.id
+          {
+            isFocus = false
+          }
+        })
+      .zIndex(isFocus ? 1 : 0)
       .onInspected(inspection, self)
       .id(Identifier.entireView.rawValue)
+  }
+  
+  static func notifyClearFocusState(id: UUID) {
+    NotificationCenter.default.post(
+      name: Notification.Name("collapseNotification"),
+      object: nil,
+      userInfo: ["senderId": id])
   }
 
   // MARK: - TopSideDetectList
@@ -175,7 +189,8 @@ struct SwiftUIDropDownText: View {
                   .onTapGesture {
                     textFieldText = itemDescription
 
-                    onFocus = false
+                    isFocus = false
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                   }
               }
               .id(SwiftUIDropDownText.Identifier.candidateWordList.rawValue)
@@ -194,7 +209,7 @@ struct SwiftUIDropDownText: View {
         .alignmentGuide(.leading, computeValue: { $0[.leading] - 20 })
         .visibility(isInTopSide ? .invisible : .visible)
     }
-    .visibility(onFocus ? .visible : .gone)
+    .visibility(isFocus ? .visible : .gone)
     .alignmentGuide(
       .top,
       computeValue: {
