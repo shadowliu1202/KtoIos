@@ -1,4 +1,3 @@
-
 import SwiftUI
 
 struct UIKitTextField: UIViewRepresentable {
@@ -58,15 +57,10 @@ struct UIKitTextField: UIViewRepresentable {
     uiView.disableAutoFillOnIos16()
     uiView.text = text
     updateConfiguration(uiView)
-
-    switch isFirstResponder {
-    case true:
-      DispatchQueue.main.async {
+    
+    DispatchQueue.main.async {
+      if isFirstResponder {
         uiView.becomeFirstResponder()
-      }
-    case false:
-      DispatchQueue.main.async {
-        uiView.resignFirstResponder()
       }
     }
   }

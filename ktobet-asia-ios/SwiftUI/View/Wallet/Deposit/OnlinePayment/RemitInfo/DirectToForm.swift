@@ -23,7 +23,7 @@ extension OnlinePaymentView.RemittanceInfo {
           textFieldText: $supportBankName ?? "",
           items: gateway.remitBanks,
           featureType: .select,
-          onTapGesture: {
+          onInputTextTap: {
             focusSelection = .focusOnBank
           })
           .id(OnlinePaymentView.Identifier.RemittanceInfo_DirectTo.textFieldBankList.rawValue)
@@ -75,7 +75,7 @@ extension OnlinePaymentView.RemittanceInfo {
               errorText: viewModel.remitInfoErrorMessage.remitAmount,
               items: amountList,
               featureType: .select,
-              onTapGesture: {
+              onInputTextTap: {
                 focusSelection = .focusOnOptionAmount
               })
               .id(OnlinePaymentView.Identifier.RemittanceInfo_DirectTo.textFieldOptionAmount.rawValue)

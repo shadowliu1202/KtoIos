@@ -12,14 +12,16 @@ extension SwiftUIInputText {
 }
 
 struct SwiftUIInputText: View {
-  @State private var innerIsEditing = false
+  @State private var syncIsFocus = false
   @State private var showTextField = false
   @State private var showPassword = false
 
   @State private var textFieldHight: CGFloat?
 
   @Binding var textFieldText: String
-  @Binding var onFocus: Bool
+  @Binding var isFocus: Bool
+
+  private let id: UUID
 
   private let placeHolder: String
   private let errorText: String
@@ -28,26 +30,28 @@ struct SwiftUIInputText: View {
 
   private let disableInput: Bool
 
-  private let onTapGesture: (() -> Void)?
+  private let onInputTextTap: (() -> Void)?
 
   init(
+    id: UUID? = nil,
     placeHolder: String,
     textFieldText: Binding<String>,
     errorText: String = "",
     featureType: FeatureType = .nil,
     textFieldType: some TextFieldType,
     disableInput: Bool = false,
-    onTapGesture: (() -> Void)? = nil,
-    onFocus: Binding<Bool> = .constant(false))
+    onInputTextTap: (() -> Void)? = nil,
+    isFocus: Binding<Bool> = .constant(false))
   {
+    self.id = id ?? UUID()
     self.placeHolder = placeHolder
     self._textFieldText = textFieldText
     self.errorText = errorText
     self.featureType = featureType
     self.textFieldType = textFieldType
     self.disableInput = disableInput
-    self.onTapGesture = onTapGesture
-    self._onFocus = onFocus
+    self.onInputTextTap = onInputTextTap
+    self._isFocus = isFocus
   }
 
   var body: some View {
@@ -62,9 +66,10 @@ struct SwiftUIInputText: View {
             showTextField = true
           }
 
-          innerIsEditing = true
+          SwiftUIDropDownText.notifyClearFocusState(id: id)
+          syncIsFocus = true
 
-          onTapGesture?()
+          onInputTextTap?()
         }
 
       Text(errorText)
@@ -82,9 +87,9 @@ struct SwiftUIInputText: View {
         showTextField = true
       }
     }
-    .onChange(of: innerIsEditing) { newValue in
-      if onFocus != newValue {
-        onFocus = newValue
+    .onChange(of: syncIsFocus) { newValue in
+      if isFocus != newValue {
+        isFocus = newValue
       }
 
       if !newValue {
@@ -93,9 +98,9 @@ struct SwiftUIInputText: View {
         }
       }
     }
-    .onChange(of: onFocus) { newValue in
-      if innerIsEditing != newValue {
-        innerIsEditing = newValue
+    .onChange(of: isFocus) { newValue in
+      if syncIsFocus != newValue {
+        syncIsFocus = newValue
       }
     }
     .id(Identifier.wholeInputView.rawValue)
@@ -112,7 +117,7 @@ struct SwiftUIInputText: View {
 
         UIKitTextField(
           text: $textFieldText,
-          isFirstResponder: $innerIsEditing,
+          isFirstResponder: $syncIsFocus,
           showPassword: $showPassword,
           isPasswordType: featureType == .password,
           textFieldType: textFieldType,
@@ -138,7 +143,7 @@ struct SwiftUIInputText: View {
     .padding(.top, 8)
     .padding(.bottom, 10)
     .padding(.horizontal, 15)
-    .backgroundColor(innerIsEditing ? .inputFocus : .inputDefault)
+    .backgroundColor(syncIsFocus ? .inputFocus : .inputDefault)
     .cornerRadius(8)
   }
 
@@ -172,7 +177,7 @@ struct SwiftUIInputText: View {
     case .dropDownArrow:
       Image("DropDown")
         .rotationEffect(
-          .degrees(onFocus ? 180 : 0),
+          .degrees(syncIsFocus ? 180 : 0),
           anchor: .center)
         .id(Identifier.arrow.rawValue)
 
@@ -193,8 +198,8 @@ struct SwiftUIInputText: View {
   private var errorUnderline: some View {
     VStack(spacing: 0) {
       Rectangle()
-        .foregroundColor(.from(innerIsEditing ? .inputFocus : .inputDefault))
-        .frame(height: 10)
+        .foregroundColor(.from(syncIsFocus ? .inputFocus : .inputDefault))
+        .frame(height: 5)
 
       Rectangle()
         .foregroundColor(.from(.alert))
