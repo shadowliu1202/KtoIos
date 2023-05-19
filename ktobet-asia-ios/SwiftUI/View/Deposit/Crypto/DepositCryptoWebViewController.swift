@@ -5,7 +5,8 @@ import WebKit
 
 class DepositCryptoWebViewController: LobbyViewController {
   private let webView = WKWebView()
-
+  private let delegate = WebViewSSLErrorLogger()
+  
   private let httpClient = Injectable.resolveWrapper(HttpClient.self)
   private let disposeBag = DisposeBag()
 
@@ -46,6 +47,8 @@ class DepositCryptoWebViewController: LobbyViewController {
     webView.customUserAgent =
       "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1 \(MockWebViewUserAgent)"
 
+    webView.navigationDelegate = delegate
+    
     if let urlString = url, let urlHost = URL(string: urlString) {
       let request = URLRequest(url: urlHost)
       webView.load(request)
