@@ -278,7 +278,7 @@ class CustomServicePresenter: NSObject {
     let chatTitle = UIBarButtonItem.kto(.text(text: Localize.string("customerservice_chat_room_title"))).isEnable(false)
     let attributes: [NSAttributedString.Key: Any] = [
       .font: UIFont(name: "PingFangSC-Semibold", size: 16.0)!,
-      .foregroundColor: UIColor.whitePure
+      .foregroundColor: UIColor.greyScaleWhite
     ]
     chatTitle.setTitleTextAttributes(attributes, for: .disabled)
     chatTitle.setTitleTextAttributes(attributes, for: .normal)

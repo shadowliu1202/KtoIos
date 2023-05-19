@@ -21,7 +21,7 @@ class MyBetEmptyDataView: UIView {
 
     let noRecordsLabel = UILabel()
     noRecordsLabel.text = Localize.string("product_none_my_bet_record")
-    noRecordsLabel.textColor = .gray9B9B9B
+    noRecordsLabel.textColor = .textPrimary
     noRecordsLabel.font = UIFont(name: "PingFangSC-Medium", size: 16)
 
     let vStack = UIStackView(

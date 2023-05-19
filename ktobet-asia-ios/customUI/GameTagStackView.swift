@@ -78,11 +78,11 @@ class GameTagStackView: UIStackView {
     button.layer.masksToBounds = true
     if isSelected {
       button.applyGradient(vertical: [UIColor(rgb: 0xf74d25).cgColor, UIColor(rgb: 0xf20000).cgColor])
-      button.setTitleColor(UIColor.whitePure, for: .normal)
+      button.setTitleColor(UIColor.greyScaleWhite, for: .normal)
     }
     else {
       button.applyGradient(vertical: [UIColor(rgb: 0x32383e).cgColor, UIColor(rgb: 0x17191c).cgColor])
-      button.setTitleColor(UIColor.gray9B9B9B, for: .normal)
+      button.setTitleColor(UIColor.textPrimary, for: .normal)
     }
     if isRowWidthExceed(button.frame.size.width) {
       let childRow = createOneChildView(self)

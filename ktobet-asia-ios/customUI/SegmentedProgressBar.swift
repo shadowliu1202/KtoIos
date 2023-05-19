@@ -8,13 +8,13 @@ protocol SegmentedProgressBarDelegate: AnyObject {
 
 class SegmentedProgressBar: UIView {
   weak var delegate: SegmentedProgressBarDelegate?
-  var topColor = UIColor.green6AB336 {
+  var topColor = UIColor.statusSuccess {
     didSet {
       self.updateColors()
     }
   }
 
-  var bottomColor = UIColor.gray9B9B9B {
+  var bottomColor = UIColor.textPrimary {
     didSet {
       self.updateColors()
     }

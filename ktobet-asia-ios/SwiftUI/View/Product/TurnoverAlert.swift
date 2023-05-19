@@ -15,7 +15,7 @@ struct TurnoverAlert<ViewModel>: View
 
   var body: some View {
     ZStack {
-      Color.from(.gray131313, alpha: 0.8)
+      Color.from(.greyScaleDefault, alpha: 0.8)
         .ignoresSafeArea()
 
       VStack(spacing: 0) {
@@ -25,15 +25,15 @@ struct TurnoverAlert<ViewModel>: View
           .localized(
             weight: .semibold,
             size: 16,
-            color: .gray131313)
+            color: .greyScaleDefault)
 
         LimitSpacer(10)
 
-        Separator(color: .gray3F3F3F, lineWeight: 0.5)
+        Separator(color: .greyScaleList, lineWeight: 0.5)
 
         Info()
 
-        Separator(color: .gray3F3F3F, lineWeight: 0.5)
+        Separator(color: .greyScaleList, lineWeight: 0.5)
 
         Button(
           action: {
@@ -44,12 +44,12 @@ struct TurnoverAlert<ViewModel>: View
               .localized(
                 weight: .semibold,
                 size: 16,
-                color: .redD90101)
+                color: .primaryForLight)
               .frame(maxWidth: .infinity)
           })
           .frame(height: 44)
       }
-      .backgroundColor(.whitePure)
+      .backgroundColor(.greyScaleWhite)
       .cornerRadius(14)
       .padding(.horizontal, 53)
     }
@@ -75,7 +75,7 @@ extension TurnoverAlert {
           .localized(
             weight: .regular,
             size: 14,
-            color: .gray131313)
+            color: .greyScaleDefault)
 
         TurnoverAlert.Field(
           title: Localize.string("bonus_historyname"),
@@ -89,7 +89,7 @@ extension TurnoverAlert {
           title: Localize.string("bonus_total_request"),
           content: viewModel.detail.totalBetRequest)
 
-        Separator(color: .gray3F3F3F, lineWeight: 0.5)
+        Separator(color: .greyScaleList, lineWeight: 0.5)
 
         TurnoverAlert.Field(
           title: Localize.string("bonus_remain_request"),
@@ -110,7 +110,7 @@ extension TurnoverAlert {
     let title: String
 
     var content = ""
-    var contentColor: UIColor = .blackPure
+    var contentColor: UIColor = .greyScaleBlack
 
     var ratio: Double?
 
@@ -120,7 +120,7 @@ extension TurnoverAlert {
           .localized(
             weight: .regular,
             size: 14,
-            color: .gray595959)
+            color: .textSecondary)
 
         if let ratio {
           BarProgressView(to: ratio)
@@ -161,4 +161,8 @@ struct TurnoverAlert_Previews: PreviewProvider {
           requirement: "".toAccountCurrency(),
           turnoverRequest: "95270".toAccountCurrency())))
   }
+}
+
+extension UIColor {
+  fileprivate static let orangeFF691D: UIColor = #colorLiteral(red: 1, green: 0.4117647059, blue: 0.1137254902, alpha: 1)
 }

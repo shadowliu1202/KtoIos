@@ -7,7 +7,7 @@ class LoadingView: UIView {
   init() {
     super.init(frame: .zero)
     isHidden = true
-    backgroundColor = .gray131313.withAlphaComponent(0.8)
+    backgroundColor = .greyScaleDefault.withAlphaComponent(0.8)
 
     addSubview(imageView)
     imageView.snp.makeConstraints { make in
@@ -26,8 +26,8 @@ class LoadingView: UIView {
 }
 
 class GradientArcView: UIView {
-  var startColor: UIColor = .whitePure.withAlphaComponent(0)
-  var endColor: UIColor = .whitePure
+  var startColor: UIColor = .greyScaleWhite.withAlphaComponent(0)
+  var endColor: UIColor = .greyScaleWhite
   var lineWidth: CGFloat
 
   private let shapeMask = CAShapeLayer()

@@ -119,8 +119,8 @@ final class KoyomiCell: UICollectionViewCell {
       else if case .middle = position {
         rightSemicircleView.isHidden = false
         leftSemicircleView.isHidden = false
-        leftSemicircleView.backgroundColor = .yellowFFD500.withAlphaComponent(0.3)
-        rightSemicircleView.backgroundColor = .yellowFFD500.withAlphaComponent(0.3)
+        leftSemicircleView.backgroundColor = .complementaryDefault.withAlphaComponent(0.3)
+        rightSemicircleView.backgroundColor = .complementaryDefault.withAlphaComponent(0.3)
 
         let lastSelectedDate = model.getSelectedDates()
         let formatter = DateFormatter()
@@ -213,12 +213,12 @@ extension KoyomiCell {
 
     leftSemicircleView.frame = CGRect(x: 0, y: 2, width: bounds.width / 2, height: bounds.height - 4)
     leftSemicircleView.isHidden = true
-    leftSemicircleView.backgroundColor = .yellowFFD500.withAlphaComponent(0.3)
+    leftSemicircleView.backgroundColor = .complementaryDefault.withAlphaComponent(0.3)
     addSubview(leftSemicircleView)
 
     rightSemicircleView.frame = CGRect(x: bounds.width / 2, y: 2, width: bounds.width / 2, height: bounds.height - 4)
     rightSemicircleView.isHidden = true
-    rightSemicircleView.backgroundColor = .yellowFFD500.withAlphaComponent(0.3)
+    rightSemicircleView.backgroundColor = .complementaryDefault.withAlphaComponent(0.3)
     addSubview(rightSemicircleView)
 
     addSubview(contentLabel)

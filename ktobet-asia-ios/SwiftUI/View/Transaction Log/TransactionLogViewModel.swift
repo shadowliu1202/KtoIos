@@ -221,6 +221,6 @@ extension TransactionLog: LogRowModel {
   var displayId: String { name }
 
   var amountConfig: (text: String, color: UIColor) {
-    (amount.formatString(sign: .signed_), amount.isPositive ? .green6AB336 : .gray9B9B9B)
+    (amount.formatString(sign: .signed_), amount.isPositive ? .statusSuccess : .textPrimary)
   }
 }

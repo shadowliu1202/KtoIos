@@ -17,16 +17,16 @@ extension BankCard {
   var verifyStatusColor: UIColor {
     switch self.verifyStatus {
     case .void_:
-      return UIColor.redF20000
+      return UIColor.primaryDefault
     case .onhold:
-      return UIColor.orangeFF8000
+      return UIColor.alert
     case .verified:
-      return UIColor.green6AB336
+      return UIColor.statusSuccess
     case .pending,
          .unknown:
-      return UIColor.gray9B9B9B
+      return UIColor.textPrimary
     default:
-      return UIColor.gray9B9B9B
+      return UIColor.textPrimary
     }
   }
 

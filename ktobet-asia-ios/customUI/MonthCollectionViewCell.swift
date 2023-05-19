@@ -22,9 +22,9 @@ class MonthCollectionViewCell: UICollectionViewCell {
     callback: (Observable<Void>, DisposeBag) -> Void)
   {
     self.label.text = Theme.shared.getMonthCollectionViewCellTitle(month, by: playerLocale)
-    self.label.textColor = isSelected ? UIColor.black131313 : isEnable ? UIColor.whitePure : UIColor.gray595959
+    self.label.textColor = isSelected ? UIColor.greyScaleDefault : isEnable ? UIColor.greyScaleWhite : UIColor.textSecondary
     self.interactiveBtn.isEnabled = isEnable
-    self.backView.backgroundColor = isSelected ? UIColor.yellowFFD500 : UIColor.clear
+    self.backView.backgroundColor = isSelected ? UIColor.complementaryDefault : UIColor.clear
     callback(self.interactiveBtn.rx.touchUpInside.asObservable(), disposeBag)
   }
 }

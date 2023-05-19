@@ -69,7 +69,7 @@ class UseCouponPresenterImpl: UseCouponPresenter {
       alertView.confirmAction = confirmAction
       alertView.cancelAction = cancelAction
       alertView.turnOver = turnOver
-      alertView.view.backgroundColor = UIColor.black131313.withAlphaComponent(0.8)
+      alertView.view.backgroundColor = UIColor.greyScaleDefault.withAlphaComponent(0.8)
       alertView.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
       alertView.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
       topVc.present(alertView, animated: true, completion: nil)
@@ -91,7 +91,7 @@ class UseCouponPresenterImpl: UseCouponPresenter {
       alertView.confirmAction = confirmAction
       alertView.cancelAction = cancelAction
       alertView.turnOver = turnOver
-      alertView.view.backgroundColor = UIColor.black131313.withAlphaComponent(0.8)
+      alertView.view.backgroundColor = UIColor.greyScaleDefault.withAlphaComponent(0.8)
       alertView.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
       alertView.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
       topVc.present(alertView, animated: true, completion: nil)

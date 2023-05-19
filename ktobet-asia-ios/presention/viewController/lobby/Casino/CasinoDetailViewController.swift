@@ -61,7 +61,7 @@ class CasinoDetailViewController: LobbyViewController {
     let cancelTitleLabel = UILabel()
     cancelTitleLabel.text = Localize.string("common_cancel")
     cancelTitleLabel.font = UIFont(name: "PingFangSC-Medium", size: 14)
-    cancelTitleLabel.textColor = UIColor.whitePure
+    cancelTitleLabel.textColor = UIColor.greyScaleWhite
     scrollView.addSubview(cancelTitleLabel)
     cancelTitleLabel.translatesAutoresizingMaskIntoConstraints = false
     cancelTitleLabel.leadingAnchor.constraint(equalTo: betResultTitleLabel.leadingAnchor, constant: 0).isActive = true
@@ -71,7 +71,7 @@ class CasinoDetailViewController: LobbyViewController {
 
   private func addResultBottomLine() {
     let bottomBorderLine = UIView()
-    bottomBorderLine.backgroundColor = UIColor.gray3C3E40
+    bottomBorderLine.backgroundColor = UIColor.greyScaleDivider
     scrollView.addSubview(bottomBorderLine)
     bottomBorderLine.translatesAutoresizingMaskIntoConstraints = false
     bottomBorderLine.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor, multiplier: 1).isActive = true
@@ -117,7 +117,7 @@ extension CasinoDetailViewController: UITableViewDataSource, UITableViewDelegate
           cell.betIdLabel.text = detail.stakes.description()
           cell.otherBetIdLabel.text = Localize.string("product_prededuct") + " " + detail.prededuct.description()
           cell.otherBetIdLabel.font = UIFont(name: "PingFangSC-Semibold", size: 14)
-          cell.otherBetIdLabel.textColor = UIColor.whitePure
+          cell.otherBetIdLabel.textColor = UIColor.greyScaleWhite
         }
 
         if indexPath.row != 0 {

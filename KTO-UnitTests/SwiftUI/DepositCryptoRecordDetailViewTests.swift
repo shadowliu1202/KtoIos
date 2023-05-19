@@ -68,7 +68,8 @@ final class DepositCryptoRecordViewTest: XCBaseTestCase {
     let expectation = sut.inspection.inspect { view in
       let hintView = try? view
         .find(viewWithId: "headerCpsUnCompleteHint")
-        .localizedText()
+        .modifier(VisibilityModifier.self)
+        .viewModifierContent()
 
       XCTAssertNil(hintView)
     }

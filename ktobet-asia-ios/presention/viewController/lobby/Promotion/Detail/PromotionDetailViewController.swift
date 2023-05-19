@@ -23,15 +23,15 @@ class PromotionDetailViewController: LobbyViewController {
   private let stampIconImageView = UIImageView()
 
   private let yellowGradient = [
-    UIColor.yellowFFD500.cgColor,
+    UIColor.complementaryDefault.cgColor,
     UIColor(red: 254 / 255, green: 161 / 255, blue: 68 / 255, alpha: 1).cgColor
   ]
   private let yellowGradientAlpha60 = [
-    UIColor.yellowFFD500.withAlphaComponent(0.6).cgColor,
+    UIColor.complementaryDefault.withAlphaComponent(0.6).cgColor,
     UIColor(red: 254 / 255, green: 161 / 255, blue: 68 / 255, alpha: 0.6).cgColor
   ]
   private let yellowGradientAlpha20 = [
-    UIColor.yellowFFD500.withAlphaComponent(0.2).cgColor,
+    UIColor.complementaryDefault.withAlphaComponent(0.2).cgColor,
     UIColor(red: 254 / 255, green: 161 / 255, blue: 68 / 255, alpha: 0.2).cgColor
   ]
 
@@ -53,13 +53,13 @@ class PromotionDetailViewController: LobbyViewController {
 
     textViewContent.linkTextAttributes = [
       .underlineStyle: NSUnderlineStyle.single.rawValue,
-      .underlineColor: UIColor.redF20000,
-      .foregroundColor: UIColor.redF20000
+      .underlineColor: UIColor.primaryDefault,
+      .foregroundColor: UIColor.primaryDefault
     ]
     textViewRule.linkTextAttributes = [
       .underlineStyle: NSUnderlineStyle.single.rawValue,
-      .underlineColor: UIColor.redF20000,
-      .foregroundColor: UIColor.redF20000
+      .underlineColor: UIColor.primaryDefault,
+      .foregroundColor: UIColor.primaryDefault
     ]
 
     textViewContent.delegate = self
@@ -117,7 +117,7 @@ class PromotionDetailViewController: LobbyViewController {
     paragraphStyle.lineHeightMultiple = 1.2
     let fontAttribute = [
       NSAttributedString.Key.font: UIFont(name: "PingFangSC-Regular", size: 14)!,
-      NSAttributedString.Key.foregroundColor: UIColor.gray595959,
+      NSAttributedString.Key.foregroundColor: UIColor.textSecondary,
       NSAttributedString.Key.paragraphStyle: paragraphStyle
     ]
 
@@ -148,7 +148,7 @@ class PromotionDetailViewController: LobbyViewController {
   private func replaceParameter(text: inout NSMutableAttributedString, parameter: String, value: String) {
     guard let index = text.string.index(of: parameter)?.utf16Offset(in: text.string) else { return }
     text.replaceCharacters(in: NSRange(location: index, length: parameter.count), with: NSAttributedString(string: value))
-    text.addAttribute(.foregroundColor, value: UIColor.redF20000, range: NSRange(location: index, length: value.count))
+    text.addAttribute(.foregroundColor, value: UIColor.primaryDefault, range: NSRange(location: index, length: value.count))
     text.addAttribute(
       .font,
       value: UIFont(name: "PingFangSC-Regular", size: 14)!,
@@ -438,4 +438,8 @@ extension PromotionDetailViewController {
       }
     }
   }
+}
+
+extension UIColor {
+  fileprivate static let yellowEA9E16: UIColor = #colorLiteral(red: 0.9176470588, green: 0.6196078431, blue: 0.0862745098, alpha: 1)
 }

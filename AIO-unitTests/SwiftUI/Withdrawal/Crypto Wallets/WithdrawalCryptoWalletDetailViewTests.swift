@@ -69,7 +69,8 @@ final class WithdrawalCryptoWalletDetailViewTests: XCBaseTestCase {
       onDelete: nil)
 
     let exp = sut.inspection.inspect { view in
-      let accountButtonIsExist = view.isExist(viewWithId: "deleteAccountButton")
+      let accountButtonIsExist = view
+        .isExistByVisibleModifier(viewWithId: "deleteAccountButton")
 
       XCTAssertFalse(accountButtonIsExist)
     }
@@ -87,8 +88,12 @@ final class WithdrawalCryptoWalletDetailViewTests: XCBaseTestCase {
     given(stubViewModel.wallet) ~> self.dummyWallet(deletable: false)
 
     let expectation = sut.inspection.inspect { view in
-      let delete = try? view.find(button: Localize.string("withdrawal_bankcard_delete"))
-      XCTAssertNil(delete)
+      let empty = try view
+        .find(viewWithId: "deleteAccountButton")
+        .modifier(VisibilityModifier.self)
+        .emptyView()
+
+      XCTAssertNotNil(empty)
     }
 
     ViewHosting.host(view: sut)

@@ -135,9 +135,9 @@ class PromotionHistoryDetailView: UIView {
     titleLbl = UILabel(frame: .zero)
     contentLbl = UILabel(frame: .zero)
     titleLbl.font = UIFont(name: "PingFangSC-Regular", size: 14)
-    titleLbl.textColor = UIColor.gray9B9B9B
+    titleLbl.textColor = UIColor.textPrimary
     contentLbl.font = UIFont(name: "PingFangSC-Medium", size: 14)
-    contentLbl.textColor = UIColor.whitePure
+    contentLbl.textColor = UIColor.greyScaleWhite
     titleLbl.numberOfLines = 0
     titleLbl.lineBreakMode = .byWordWrapping
     contentLbl.numberOfLines = 0

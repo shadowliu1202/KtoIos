@@ -205,7 +205,7 @@ class DropdownOptionCell: UITableViewCell {
     -> Self
   {
     self.selectionStyle = .none
-    optionDropDown.customizeBackgroundColor = (.black1A1A1A, .black1A1A1A)
+    optionDropDown.customizeBackgroundColor = (.greyScaleList, .greyScaleList)
     optionDropDown.optionArray = item.map({ $0.values })
     if let selected = theSelected {
       optionDropDown.setContent(selected.values)
@@ -259,7 +259,7 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
     self.selectionStyle = .none
     self.textView.delegate = self
     self.textView.text = Localize.string("customerservice_offline_survey_hint")
-    self.textView.textColor = UIColor.gray9B9B9B
+    self.textView.textColor = UIColor.textPrimary
     self.textView.textContainer.lineFragmentPadding = 0
     self.textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
     self.viewModel = viewModel
@@ -268,9 +268,9 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
   }
 
   func textViewDidBeginEditing(_ textView: UITextView) {
-    if textView.textColor == UIColor.gray9B9B9B {
+    if textView.textColor == UIColor.textPrimary {
       textView.text = nil
-      textView.textColor = UIColor.whitePure
+      textView.textColor = UIColor.greyScaleWhite
     }
   }
 
@@ -278,7 +278,7 @@ class TextFieldCell: UITableViewCell, UITextViewDelegate {
     callback?(textView.text)
     if textView.text.isEmpty {
       textView.text = Localize.string("customerservice_offline_survey_hint")
-      textView.textColor = UIColor.gray9B9B9B
+      textView.textColor = UIColor.textPrimary
     }
   }
 

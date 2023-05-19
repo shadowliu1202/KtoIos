@@ -124,10 +124,10 @@ final class Theme {
       let barAppearance = UINavigationBarAppearance()
       barAppearance.configureWithTransparentBackground()
       barAppearance.titleTextAttributes = [
-        .foregroundColor: UIColor.whitePure,
+        .foregroundColor: UIColor.greyScaleWhite,
         .font: UIFont(name: "HelveticaNeue-Bold", size: 16)!
       ]
-      barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
+      barAppearance.backgroundColor = UIColor.greyScaleDefault.withAlphaComponent(0.9)
       UINavigationBar.appearance().isTranslucent = true
       UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
       UINavigationBar.appearance().standardAppearance = barAppearance
@@ -143,10 +143,10 @@ final class Theme {
       let barAppearance = UINavigationBarAppearance()
       barAppearance.configureWithTransparentBackground()
       barAppearance.titleTextAttributes = [
-        .foregroundColor: UIColor.whitePure,
+        .foregroundColor: UIColor.greyScaleWhite,
         .font: UIFont(name: "PingFangSC-Semibold", size: 16)!
       ]
-      barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
+      barAppearance.backgroundColor = UIColor.greyScaleDefault.withAlphaComponent(0.9)
       UINavigationBar.appearance().isTranslucent = true
       UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
       UINavigationBar.appearance().standardAppearance = barAppearance
@@ -226,22 +226,22 @@ final class Theme {
   func parse(_ transactionStatus: TransactionStatus) -> UIColor {
     switch transactionStatus {
     case .floating:
-      return UIColor.orangeFF8000
+      return UIColor.alert
     default:
-      return UIColor.gray9B9B9B
+      return UIColor.textPrimary
     }
   }
 
   func parse(bonusReceivingStatus: BonusReceivingStatus) -> UIColor {
     switch bonusReceivingStatus {
     case .inprogress:
-      return UIColor.orangeFF8000
+      return UIColor.alert
     case .noturnover:
-      return UIColor.green6AB336
+      return UIColor.statusSuccess
     case .completed:
-      return UIColor.green6AB336
+      return UIColor.statusSuccess
     case .canceled:
-      return UIColor.gray9B9B9B
+      return UIColor.textPrimary
     default:
       return UIColor.clear
     }
@@ -255,7 +255,7 @@ final class Theme {
 
     barAppearance.configureWithTransparentBackground()
     barAppearance.backgroundColor = color
-    barAppearance.titleTextAttributes = [.foregroundColor: UIColor.whitePure]
+    barAppearance.titleTextAttributes = [.foregroundColor: UIColor.greyScaleWhite]
 
     navigationController?.navigationBar.isTranslucent = true
     navigationController?.navigationBar.standardAppearance = barAppearance

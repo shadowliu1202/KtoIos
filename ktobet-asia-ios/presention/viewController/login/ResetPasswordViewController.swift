@@ -61,7 +61,7 @@ class ResetPasswordViewController: LandingViewController {
     inputEmail.maxLength = Account.Email.companion.MAX_LENGTH
     btnSubmit.setTitle(Localize.string("common_get_code"), for: .normal)
     for button in [btnEmail, btnPhone] {
-      let selectedColor = UIColor.gray636366
+      let selectedColor = UIColor.greyScaleIconDisable
       let unSelectedColor = UIColor.clear
       button?.setBackgroundImage(UIImage(color: selectedColor), for: .selected)
       button?.setBackgroundImage(UIImage(color: unSelectedColor), for: .normal)
@@ -211,7 +211,7 @@ class ResetPasswordViewController: LandingViewController {
       message,
       confirm: nil,
       cancel: nil,
-      tintColor: UIColor.redF20000)
+      tintColor: UIColor.primaryDefault)
   }
 
   private func navigateToStep2() {

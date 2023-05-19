@@ -36,7 +36,7 @@ class UnlockPrivilegeView: UIView {
     subTagLabel.isHidden = (args.subTitle.value as? String)?.isEmpty ?? true
 
     tagBackgroundView.borderWidth = 0.5
-    tagBackgroundView.bordersColor = .gray595959
+    tagBackgroundView.bordersColor = .textSecondary
 
     msgLabel.text = args.description_.value as? String
 
@@ -109,7 +109,7 @@ class UnlockPrivilegeView: UIView {
         let circleView = UIView()
         circleView.layer.cornerRadius = 3
         circleView.layer.masksToBounds = true
-        circleView.backgroundColor = UIColor.black131313
+        circleView.backgroundColor = UIColor.greyScaleDefault
         circleView.snp.makeConstraints { make in
           make.size.equalTo(6)
         }

@@ -28,7 +28,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
     super.init(reuseIdentifier: nil)
 
     addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(clickSectionHeader)))
-    contentView.backgroundColor = UIColor.black131313
+    contentView.backgroundColor = UIColor.greyScaleDefault
 
     setupUI(title: title, date: date, section: section, total: total)
 
@@ -60,13 +60,13 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
 
     hStack.addArrangedSubview(titleLabel)
     titleLabel.text = title
-    titleLabel.textColor = UIColor.whitePure
+    titleLabel.textColor = UIColor.greyScaleWhite
     titleLabel.font = UIFont(name: "PingFangSC-Semibold", size: 14)
     titleLabel.setContentHuggingPriority(.required, for: .horizontal)
 
     hStack.addArrangedSubview(dateTimeLabel)
     dateTimeLabel.text = date
-    dateTimeLabel.textColor = UIColor.gray595959
+    dateTimeLabel.textColor = UIColor.textSecondary
     dateTimeLabel.font = UIFont(name: "PingFangSC-Regular", size: 14)
 
     if section != 0 {
@@ -74,7 +74,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
     }
 
     addSubview(bottomLine)
-    bottomLine.backgroundColor = .gray3C3E40
+    bottomLine.backgroundColor = .greyScaleDivider
     bottomLine.snp.makeConstraints { make in
       make.left.equalToSuperview()
       make.right.equalToSuperview()

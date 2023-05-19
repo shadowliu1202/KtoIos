@@ -118,7 +118,7 @@ extension ProductGameDataSourceDelegate: UICollectionViewDataSource {
           reuseView.addSubview(textLabel)
           textLabel.text = Localize.string("product_see_more")
           textLabel.font = UIFont(name: "PingFangSC-Regular", size: 12)
-          textLabel.textColor = UIColor.gray9B9B9B
+          textLabel.textColor = UIColor.textPrimary
           textLabel.translatesAutoresizingMaskIntoConstraints = false
           textLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
           textLabel.centerXAnchor.constraint(equalTo: reuseView.centerXAnchor, constant: -4).isActive = true

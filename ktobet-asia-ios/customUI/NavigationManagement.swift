@@ -289,7 +289,7 @@ class NavigationManagement: Navigator {
     titleItem.setTitleTextAttributes(
       [NSAttributedString.Key.font: UIFont(name: "PingFangSC-Semibold", size: 16.0)!],
       for: .normal)
-    titleItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.whitePure], for: .normal)
+    titleItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.greyScaleWhite], for: .normal)
     return titleItem
   }
 

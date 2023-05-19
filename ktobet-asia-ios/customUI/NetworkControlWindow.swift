@@ -21,7 +21,7 @@ class NetworkControlWindow: UIWindow {
     label.roundCorners(corners: .allCorners, radius: label.frame.width / 2)
     label.text = "連線中"
     addSubview(label, constraints: .fill())
-    label.backgroundColor = .redF20000
+    label.backgroundColor = .primaryDefault
     windowLevel = UIWindow.Level.alert + 1
 
     addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(dragga)))

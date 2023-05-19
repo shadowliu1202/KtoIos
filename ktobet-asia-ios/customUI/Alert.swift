@@ -40,7 +40,7 @@ class Alert: AlertProtocol {
 
   private var alertOutsideBackground: UIView = {
     let view = UIView(frame: UIWindow.key!.frame)
-    view.backgroundColor = .black131313.withAlphaComponent(0.8)
+    view.backgroundColor = .greyScaleDefault.withAlphaComponent(0.8)
     return view
   }()
 
@@ -58,7 +58,7 @@ class Alert: AlertProtocol {
     if let topVc = UIApplication.topViewController() {
       DispatchQueue.main.async {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.view.backgroundColor = UIColor.whitePure
+        alert.view.backgroundColor = UIColor.greyScaleWhite
         alert.view.layer.cornerRadius = 14
         alert.view.clipsToBounds = true
 
@@ -72,8 +72,8 @@ class Alert: AlertProtocol {
           cancel?()
         }
 
-        cancelction.setValue(tintColor ?? UIColor.redD90101, forKey: "titleTextColor")
-        confirmAction.setValue(tintColor ?? UIColor.redD90101, forKey: "titleTextColor")
+        cancelction.setValue(tintColor ?? UIColor.primaryForLight, forKey: "titleTextColor")
+        confirmAction.setValue(tintColor ?? UIColor.primaryForLight, forKey: "titleTextColor")
         alert.addAction(confirmAction)
 
         if cancel != nil {

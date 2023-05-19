@@ -57,7 +57,7 @@ class NotificationSearchViewController: LobbyViewController {
 
     Theme.shared.configNavigationBar(
       navigationController,
-      backgroundColor: UIColor.black131313.withAlphaComponent(0.9))
+      backgroundColor: UIColor.greyScaleDefault.withAlphaComponent(0.9))
   }
 
   private func dateBinding() {
@@ -95,13 +95,13 @@ class NotificationSearchViewController: LobbyViewController {
   private func initSearchTitle() {
     Theme.shared.configNavigationBar(
       navigationController,
-      backgroundColor: UIColor.gray303030.withAlphaComponent(0.9))
+      backgroundColor: UIColor.greyScaleChatWindow.withAlphaComponent(0.9))
 
     let frame = CGRect(x: -10, y: 0, width: searchBarView.frame.width, height: 32)
     let titleView = UIView(frame: frame)
     searchBarView.removeMagnifyingGlass()
     searchBarView.setClearButtonColorTo(color: .white)
-    searchBarView.setCursorColorTo(color: UIColor.redF20000)
+    searchBarView.setCursorColorTo(color: UIColor.primaryDefault)
     searchBarView.frame = .init(origin: .zero, size: titleView.frame.size)
     titleView.addSubview(searchBarView)
     navigationItem.titleView = titleView
@@ -110,7 +110,7 @@ class NotificationSearchViewController: LobbyViewController {
     searchBarView.searchTextField.backgroundColor = UIColor.black
     searchBarView.searchTextField.attributedPlaceholder = NSAttributedString(
       string: " \(Localize.string("common_search"))",
-      attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray9B9B9B])
+      attributes: [NSAttributedString.Key.foregroundColor: UIColor.textPrimary])
   }
 
   @objc

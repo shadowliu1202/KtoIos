@@ -20,7 +20,7 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
       title: Localize.string("product_unsettled_game"))
     tableView.delegate = unsettleGameDelegate
     tableView.dataSource = self
-    tableView.setHeaderFooterDivider(headerColor: UIColor.black131313)
+    tableView.setHeaderFooterDivider(headerColor: UIColor.greyScaleDefault)
     getUnsettledBetSummary()
 
     viewModel.errors()

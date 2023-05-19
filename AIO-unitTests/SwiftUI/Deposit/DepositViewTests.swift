@@ -119,6 +119,7 @@ final class DepositViewTests: XCBaseTestCase {
     let showAllBtnExpectation = sut.inspection.inspect { view in
       let empty = try view
         .find(viewWithId: "historyShowAllButton")
+        .modifier(VisibilityModifier.self)
         .emptyView()
 
       XCTAssertNotNil(empty)

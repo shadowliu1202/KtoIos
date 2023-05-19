@@ -23,7 +23,7 @@ class PlainHorizontalProgressBar: UIView {
 
   private func setup() {
     let top = UIView()
-    top.backgroundColor = .green6AB336
+    top.backgroundColor = .statusSuccess
     let bottom = UIView()
     bottom.backgroundColor = .green5D9B31
 
@@ -59,4 +59,8 @@ class PlainHorizontalProgressBar: UIView {
       self.layoutIfNeeded()
     })
   }
+}
+
+extension UIColor {
+  fileprivate static let green5D9B31: UIColor = #colorLiteral(red: 0.3647058824, green: 0.6078431373, blue: 0.1921568627, alpha: 1)
 }

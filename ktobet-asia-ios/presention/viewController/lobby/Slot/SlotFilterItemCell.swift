@@ -14,12 +14,12 @@ class SlotFilterItemCell: UICollectionViewCell {
   }
 
   private func setUnSelectTheme() {
-    contentView.backgroundColor = .black131313
-    titleLabel.textColor = .yellowFFD500
+    contentView.backgroundColor = .greyScaleDefault
+    titleLabel.textColor = .complementaryDefault
   }
 
   private func setSelectTheme() {
-    contentView.backgroundColor = .yellowFFD500
-    titleLabel.textColor = .black131313
+    contentView.backgroundColor = .complementaryDefault
+    titleLabel.textColor = .greyScaleDefault
   }
 }

@@ -20,10 +20,10 @@ extension CasinoResultBuilder {
     numberLabel.textAlignment = .center
 
     if suit == PokerSuits.diamond || suit == PokerSuits.heart {
-      numberLabel.textColor = UIColor.redF20000
+      numberLabel.textColor = UIColor.primaryDefault
     }
     else {
-      numberLabel.textColor = UIColor.black131313
+      numberLabel.textColor = UIColor.greyScaleDefault
     }
 
     let img = UIImageView(frame: CGRect(
@@ -38,7 +38,7 @@ extension CasinoResultBuilder {
 
   func cardStackView(title: String, cardsView: [UIView]) -> UIStackView {
     let titleLabel = UILabel()
-    titleLabel.textColor = UIColor.whitePure
+    titleLabel.textColor = UIColor.greyScaleWhite
     titleLabel.font = UIFont(name: "PingFangSC-Regular", size: 14)
     titleLabel.text = title
 
@@ -76,7 +76,7 @@ extension CasinoResultBuilder {
 
     let backgroundView = UIView()
     let titleLabel = UILabel()
-    titleLabel.textColor = UIColor.whitePure
+    titleLabel.textColor = UIColor.greyScaleWhite
     titleLabel.font = UIFont(name: "PingFangSC-Regular", size: 14)
     titleLabel.text = title
 

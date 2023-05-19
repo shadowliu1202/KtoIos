@@ -49,7 +49,9 @@ class DefaultProductCell: UITableViewCell {
     self.labDesc.text = try! getDesc(gameType)
     self.viewBg.layer.borderWidth = isSelected ? 1 : 0
     self.viewBg.layer
-      .borderColor = (isSelected ? UIColor.whitePure.withAlphaComponent(0.5) : UIColor.whitePure.withAlphaComponent(0.3))
+      .borderColor = (
+        isSelected ? UIColor.greyScaleWhite.withAlphaComponent(0.5) : UIColor.greyScaleWhite
+          .withAlphaComponent(0.3))
       .cgColor
     self.viewShadow.isHidden = !isSelected
     titleLeading.constant = Theme.shared.getDefaultProductTextPadding(by: local)

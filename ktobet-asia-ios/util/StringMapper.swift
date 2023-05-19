@@ -53,13 +53,13 @@ class StringMapper {
   static func getVerifyStatus(status: PlayerBankCardVerifyStatus) -> (text: String, color: UIColor) {
     switch status {
     case .pending:
-      return (Localize.string("withdrawal_bankcard_new"), UIColor.gray9B9B9B)
+      return (Localize.string("withdrawal_bankcard_new"), UIColor.textPrimary)
     case .verified:
-      return (Localize.string("cps_account_status_verified"), UIColor.green6AB336)
+      return (Localize.string("cps_account_status_verified"), UIColor.statusSuccess)
     case .onhold:
-      return (Localize.string("withdrawal_bankcard_locked"), UIColor.orangeFF8000)
+      return (Localize.string("withdrawal_bankcard_locked"), UIColor.alert)
     default:
-      return ("", UIColor.gray9B9B9B)
+      return ("", UIColor.textPrimary)
     }
   }
 

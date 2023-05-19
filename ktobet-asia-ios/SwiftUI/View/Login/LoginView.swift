@@ -52,7 +52,7 @@ struct LoginView: View {
         .padding(.horizontal, 30)
       }
     }
-    .pageBackgroundColor(.gray131313)
+    .pageBackgroundColor(.greyScaleDefault)
     .environment(\.playerLocale, localStorageRepo.getSupportLocale())
     .onAppear {
       if !isLoadedData {
@@ -70,7 +70,7 @@ struct LoginView: View {
   @ViewBuilder
   private func loginTitle() -> some View {
     Text(Localize.string("common_login"))
-      .localized(weight: .semibold, size: 24, color: .gray9B9B9B)
+      .localized(weight: .semibold, size: 24, color: .textPrimary)
   }
 
   @ViewBuilder
@@ -116,13 +116,13 @@ struct LoginView: View {
         }
         else {
           Circle()
-            .strokeBorder(Color.from(.gray9B9B9B), lineWidth: 1.5)
+            .strokeBorder(Color.from(.textPrimary), lineWidth: 1.5)
             .frame(width: 22, height: 22)
             .padding(1)
         }
 
         Text(Localize.string("login_account_remember_me"))
-          .localized(weight: .regular, size: 12, color: .gray9B9B9B)
+          .localized(weight: .regular, size: 12, color: .textPrimary)
       }
       .onTapGesture {
         isRememberMe.wrappedValue.toggle()
@@ -159,7 +159,7 @@ struct LoginView: View {
           .scaledToFit()
           .frame(width: 80, height: 32)
         Text(Localize.string("login_captcha_new"))
-          .localized(weight: .medium, size: 14, color: .redF20000)
+          .localized(weight: .medium, size: 14, color: .primaryDefault)
           .onTapGesture {
             getCaptchaOnTap()
           }
@@ -191,10 +191,10 @@ struct LoginView: View {
   private func resetPassword(onTapped: @escaping () -> Void) -> some View {
     HStack(spacing: 0) {
       Text(Localize.string("login_tips_1"))
-        .foregroundColor(.from(.gray9B9B9B))
+        .foregroundColor(.from(.textPrimary))
       Text(" ")
       Text(Localize.string("login_tips_1_highlight"))
-        .foregroundColor(.from(.redF20000))
+        .foregroundColor(.from(.primaryDefault))
         .onTapGesture {
           onTapped()
         }

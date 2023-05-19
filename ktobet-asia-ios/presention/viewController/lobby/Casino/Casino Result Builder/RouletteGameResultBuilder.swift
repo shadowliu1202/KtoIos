@@ -8,9 +8,9 @@ struct RouletteGameResultBuilder: CasinoResultBuilder {
     let label = UILabel()
     label.text = String(roulette.result)
     label.font = UIFont(name: "PingFangTC-Semibold", size: 18)
-    label.textColor = UIColor.whitePure
+    label.textColor = UIColor.greyScaleWhite
     label.textAlignment = .center
-    label.backgroundColor = .redF20000
+    label.backgroundColor = .primaryDefault
     label.cornerRadius = 20
 
     background.addSubview(label)

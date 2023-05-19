@@ -56,7 +56,7 @@ class SetBirthdayViewController: LobbyViewController, AuthProfileVerification {
 
   private func popupCalendar() {
     calendarBackground = UIView(frame: UIWindow.key!.frame)
-    calendarBackground.backgroundColor = .black131313.withAlphaComponent(0.8)
+    calendarBackground.backgroundColor = .greyScaleDefault.withAlphaComponent(0.8)
     self.view.addSubview(calendarBackground)
     let locale = viewModel.locale
     let dateStr = birthdayInput.textContent.text
