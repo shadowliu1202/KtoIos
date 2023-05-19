@@ -6103,6 +6103,15 @@
 		6DCC261E27587825007C973B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC261D27587825007C973B /* NotificationViewController.swift */; };
 		6DCC261F27587825007C973B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC261D27587825007C973B /* NotificationViewController.swift */; };
 		6DCC262027587825007C973B /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCC261D27587825007C973B /* NotificationViewController.swift */; };
+		6DCCD5272A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */; };
+		6DCCD5282A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */; };
+		6DCCD5292A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */; };
+		6DCCD52A2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */; };
+		6DCCD52B2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */; };
+		6DCCD52C2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */; };
+		6DCCD52D2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */; };
+		6DCCD52E2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */; };
+		6DCCD52F2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */; };
 		6DCE99922828C647002CA7A5 /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
 		6DCE99932828C647002CA7A5 /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
 		6DCE99942828C648002CA7A5 /* NetworkControlWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D35F3892819264B0094FA2B /* NetworkControlWindow.swift */; };
@@ -7994,6 +8003,7 @@
 		6DC51E2729A74D7F00C87632 /* AffiliateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliateViewController.swift; sourceTree = "<group>"; };
 		6DC5E56D29D284030048319A /* WithdrawalCryptoRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoRecordDetailView.swift; sourceTree = "<group>"; };
 		6DCC261D27587825007C973B /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewSSLErrorLogger.swift; sourceTree = "<group>"; };
 		6DCEC6B5265DFB3D005E4F8B /* NumberGameMyBetDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameMyBetDetailViewController.swift; sourceTree = "<group>"; };
 		6DCEC6BC265E1902005E4F8B /* RecentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDetailViewController.swift; sourceTree = "<group>"; };
 		6DCEC6C5265E2655005E4F8B /* NumberGameMyBetPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameMyBetPageViewController.swift; sourceTree = "<group>"; };
@@ -8382,6 +8392,7 @@
 				3CFC666128BF03F1006060FD /* PuppyLog.swift */,
 				6D0094F228C741D900A98D03 /* FirebaseLog.swift */,
 				6D55C8AB296580E90038E8FB /* AnalyticsLog.swift */,
+				6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */,
 			);
 			path = Log;
 			sourceTree = "<group>";
@@ -12448,6 +12459,7 @@
 				3C18A964298A53F10097DE19 /* SignalRepository.swift in Sources */,
 				6D385A6E2686074F00C854CF /* ExceptionFactory.swift in Sources */,
 				6018FA522697505800941BDD /* SegmentedProgressBar.swift in Sources */,
+				6DCCD5282A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				6056E85626451A7800627148 /* SlotFilterViewController.swift in Sources */,
 				FF80C99C29E67DFA00EBF4BB /* WithdrawalCryptoWalletDetailView.swift in Sources */,
 				6DC51E2929A74D7F00C87632 /* AffiliateViewController.swift in Sources */,
@@ -13463,6 +13475,7 @@
 				6D4E99692636A2CF00860FF7 /* SlotUseCase.swift in Sources */,
 				6D72755625F0DB99000BF51F /* UILabelExtension.swift in Sources */,
 				6D4083AD2652069E00BECD0E /* NumberGameViewModel.swift in Sources */,
+				6DCCD5272A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				48AAA130256E458800E075CA /* HandshakeProtocol.swift in Sources */,
 				6D96671929E67DBD006DF170 /* WithdrawalCryptoRequestStep1View.swift in Sources */,
 				6D1612E429BEC19B00BA1827 /* SnackBar.swift in Sources */,
@@ -13933,6 +13946,7 @@
 				FFD397F4298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D53B71727D85BB2007B7F8E /* TermsPresenter.swift in Sources */,
 				FFBA843629E5332C0022FE6A /* WithdrawalRecordDetailViewModel.swift in Sources */,
+				6DCCD5292A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				6D1A5C5427E187EF002BF3A0 /* NotificationDetailViewController.swift in Sources */,
 				3CDF670129EE50D90094BD1E /* CombineCountdownTimer.swift in Sources */,
 				6DA5F299274C96CB005479A3 /* AccountCurrency.swift in Sources */,
@@ -14898,6 +14912,7 @@
 				60E5808627F190E4008CE5A9 /* SlotViewModel.swift in Sources */,
 				60E5808727F190E4008CE5A9 /* SlotRecordRepository.swift in Sources */,
 				60E5808827F190E4008CE5A9 /* NotificationUseCase.swift in Sources */,
+				6DCCD52C2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				3CA0C09B29C0427D00FD6ACF /* WithdrawalMainView.swift in Sources */,
 				FFC89B73294311F3003925AC /* ItemSelector.swift in Sources */,
 				60E5808A27F190E4008CE5A9 /* NumberGameApi.swift in Sources */,
@@ -15368,6 +15383,7 @@
 				6D0EDB1028743FAC004A9E3C /* AccountCurrency.swift in Sources */,
 				FF8C26A029B9866F009523BE /* CryptoRecordDetailViewModel.swift in Sources */,
 				3CCD218A28F6942C00313212 /* UserDefaultCodable.swift in Sources */,
+				6DCCD52A2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				6D0EDB1128743FAC004A9E3C /* OfflineMessageViewController.swift in Sources */,
 				6D5A035628AA39B9005D0960 /* GameTagStackView.swift in Sources */,
 				6D0EDB1228743FAC004A9E3C /* ImagePickerViewController.swift in Sources */,
@@ -16085,6 +16101,7 @@
 				3CCD218B28F6942C00313212 /* UserDefaultCodable.swift in Sources */,
 				6D0EDD6C28744704004A9E3C /* OfflineMessageViewController.swift in Sources */,
 				FF80C9A129E67DFA00EBF4BB /* WithdrawalCryptoWalletDetailView.swift in Sources */,
+				6DCCD52D2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				6D5A035728AA39B9005D0960 /* GameTagStackView.swift in Sources */,
 				6D0EDD6D28744704004A9E3C /* ImagePickerViewController.swift in Sources */,
 				6D0EDD6E28744704004A9E3C /* ImageRepository.swift in Sources */,
@@ -17110,6 +17127,7 @@
 				6D966C1F27FEE3FA006086B7 /* OldEmailModifyConfirmViewController.swift in Sources */,
 				6D966C2127FEE3FA006086B7 /* AuthenticationUseCase.swift in Sources */,
 				6D966C2227FEE3FA006086B7 /* SetWithdrawalNameViewController.swift in Sources */,
+				6DCCD52E2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				6D966C2327FEE3FA006086B7 /* MemoryCacheImpl.swift in Sources */,
 				6D966C2527FEE3FA006086B7 /* MonthSelectView.swift in Sources */,
 				FF2E4DBC29ECF04000B0C048 /* RouletteGameResultBuilder.swift in Sources */,
@@ -17580,6 +17598,7 @@
 				6D966DB327FEE416006086B7 /* KTOError.swift in Sources */,
 				FF1B76B329C9A5C400B5B893 /* PageLoadingModifier.swift in Sources */,
 				FF80C9A329E67DFA00EBF4BB /* WithdrawalCryptoWalletDetailView.swift in Sources */,
+				6DCCD52F2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				6D966DB527FEE416006086B7 /* SearchViewController.swift in Sources */,
 				FFD397FA298BBBDC00C3C94B /* APIErrorHandler.swift in Sources */,
 				6D966DB627FEE416006086B7 /* TermsPresenter.swift in Sources */,
@@ -18297,6 +18316,7 @@
 				3C1DF74E299B86D6007E5EF4 /* OnlinePaymentViewModel.swift in Sources */,
 				6D55C94F2966626D0038E8FB /* ResetPasswordStep2ViewController.swift in Sources */,
 				6D55C71A29657E130038E8FB /* SignupUserinfoViewController.swift in Sources */,
+				6DCCD52B2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				6D55C8D22966620E0038E8FB /* FilterBarButtonItem.swift in Sources */,
 				6D55C9B2296662CD0038E8FB /* DepositThirdPartWebViewController.swift in Sources */,
 				6D55CA1A296662FA0038E8FB /* LimitSpacer.swift in Sources */,
