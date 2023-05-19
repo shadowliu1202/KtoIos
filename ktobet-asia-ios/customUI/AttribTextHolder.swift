@@ -44,7 +44,7 @@ class AttribTextHolder {
         }
 
         textView.linkTextAttributes = [
-          kCTForegroundColorAttributeName: UIColor.redF20000,
+          kCTForegroundColorAttributeName: UIColor.primaryDefault,
           kCTUnderlineStyleAttributeName: NSUnderlineStyle.single.rawValue,
         ] as [NSAttributedString.Key: Any]
 

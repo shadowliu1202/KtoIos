@@ -49,7 +49,7 @@ class LockPrivilegeView: UIView {
         let circleView = UIView()
         circleView.layer.cornerRadius = 3
         circleView.layer.masksToBounds = true
-        circleView.backgroundColor = UIColor.black131313
+        circleView.backgroundColor = UIColor.greyScaleDefault
         circleView.snp.makeConstraints { make in
           make.size.equalTo(6)
         }

@@ -14,7 +14,7 @@ struct TermsView<Presenter: TermsPresenter>: View {
     }
     .environmentObject(presenter)
     .padding(.horizontal, 30)
-    .pageBackgroundColor(.whitePure)
+    .pageBackgroundColor(.greyScaleWhite)
     .frame(maxWidth: .infinity)
   }
 }
@@ -35,13 +35,13 @@ extension TermsView {
           .localized(
             weight: .semibold,
             size: 24,
-            color: .black131313)
+            color: .greyScaleDefault)
 
         Text(presenter.description)
           .localized(
             weight: .regular,
             size: 14,
-            color: .black131313)
+            color: .greyScaleDefault)
       }
     }
   }
@@ -79,13 +79,13 @@ extension TermsView {
           .localized(
             weight: .semibold,
             size: 14,
-            color: .black131313)
+            color: .greyScaleDefault)
 
         Text(term.content)
           .localized(
             weight: .regular,
             size: 14,
-            color: .gray595959)
+            color: .textSecondary)
       }
     }
   }

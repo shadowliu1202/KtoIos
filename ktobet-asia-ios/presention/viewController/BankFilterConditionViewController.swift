@@ -82,7 +82,7 @@ class BankFilterConditionViewController: FilterConditionViewController {
     let sepFrame = CGRect(x: 0, y: -1, width: self.tableView.bounds.width, height: 1)
     let sep = CALayer()
     sep.frame = sepFrame
-    sep.backgroundColor = UIColor.gray3C3E40.cgColor
+    sep.backgroundColor = UIColor.greyScaleDivider.cgColor
     return sep
   }
 

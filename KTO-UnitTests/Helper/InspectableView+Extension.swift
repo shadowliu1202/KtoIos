@@ -35,6 +35,14 @@ extension InspectableView {
     }
   }
 
+  func isExistByVisibleModifier(viewWithId id: String) -> Bool {
+    let empty = try? self.find(viewWithId: id)
+      .modifier(VisibilityModifier.self)
+      .emptyView()
+
+    return empty == nil
+  }
+
   func isHideByLocale() -> Bool {
     let empty = try? self.modifier(VisibleLocaleModifier.self).emptyView()
     return empty != nil

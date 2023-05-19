@@ -281,7 +281,7 @@ extension SlotFilterViewController {
     override init(frame: CGRect) {
       super.init(frame: frame)
       label.textAlignment = .left
-      label.textColor = UIColor.gray9B9B9B
+      label.textColor = UIColor.textPrimary
 
       self.addSubview(label)
       label.snp.makeConstraints { make in
@@ -299,7 +299,7 @@ extension SlotFilterViewController {
 
     override init(frame: CGRect) {
       super.init(frame: frame)
-      line.backgroundColor = .gray3C3E40
+      line.backgroundColor = .greyScaleDivider
 
       self.addSubview(line)
       line.snp.makeConstraints { make in

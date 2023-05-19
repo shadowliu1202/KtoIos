@@ -28,9 +28,9 @@ class InputPassword: UIView {
   override func awakeFromNib() {
     super.awakeFromNib()
 
-    backgroundColor = UIColor.gray454545
+    backgroundColor = UIColor.inputFocus
     labTitle.font = UIFont(name: "PingFangSC-Regular", size: 12)
-    labTitle.textColor = UIColor.gray9B9B9B
+    labTitle.textColor = UIColor.textPrimary
     labTitle.backgroundColor = .clear
 
     textContent.keyboardType = .alphabet
@@ -50,7 +50,7 @@ class InputPassword: UIView {
     btnHideContent.imageView?.contentMode = .center
     btnHideContent.isSelected = true
 
-    underline.backgroundColor = UIColor.orangeFF8000
+    underline.backgroundColor = UIColor.alert
     underline.isHidden = true
 
     addSubview(labTitle)
@@ -80,7 +80,7 @@ class InputPassword: UIView {
       self.btnHideContent.frame = position.hideBtn
       self.textContent.frame = position.content
       self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-      self.backgroundColor = self.getAllFocus() ? UIColor.gray454545 : UIColor.gray333333
+      self.backgroundColor = self.getAllFocus() ? UIColor.inputFocus : UIColor.inputDefault
     }
     if firstPosition {
       changePosition()
@@ -229,9 +229,9 @@ extension InputPassword: InputConfirmPasswordDelegate {
     isFocus = focus
     self.backgroundColor = {
       guard self.getAllFocus() else {
-        return UIColor.gray333333
+        return UIColor.inputDefault
       }
-      return UIColor.gray454545
+      return UIColor.inputFocus
     }()
   }
 }

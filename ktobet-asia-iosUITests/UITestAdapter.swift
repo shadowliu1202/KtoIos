@@ -14,7 +14,7 @@ class UITestAdapter {
       tf.accessibilityIdentifier = "PasteableTextField"
       vc.view.addSubview(tf, constraints: .fillWidth())
       tf.constrain(to: vc.view, constraints: [.equal(\.centerYAnchor)])
-      vc.view.backgroundColor = .redF20000
+      vc.view.backgroundColor = .primaryDefault
       return vc
     }
     else if viewName == "SwiftUIInputText" {

@@ -23,7 +23,7 @@ class CasinoBetSummaryByDateViewController: LobbyViewController {
       title: selectDate?.replacingOccurrences(of: "-", with: "/"))
     tableView.delegate = self
     tableView.dataSource = self
-    tableView.setHeaderFooterDivider(headerColor: UIColor.black131313)
+    tableView.setHeaderFooterDivider(headerColor: UIColor.greyScaleDefault)
     activityIndicator.translatesAutoresizingMaskIntoConstraints = false
     self.view.addSubview(activityIndicator)
     activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

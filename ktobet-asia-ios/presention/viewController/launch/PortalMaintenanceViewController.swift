@@ -55,9 +55,9 @@ class PortalMaintenanceViewController: LandingViewController {
     let suffix = Localize.string("common_kto")
     let maintenance = Localize.string("common_maintenance_description")
     let txt = AttribTextHolder(text: maintenance)
-      .addAttr((text: maintenance, type: .color, UIColor.gray9B9B9B))
+      .addAttr((text: maintenance, type: .color, UIColor.textPrimary))
       .addAttr((text: maintenance, type: .font, UIFont(name: "PingFangSC-Semibold", size: 24)!))
-      .addAttr((text: suffix, type: .color, UIColor.redF20000))
+      .addAttr((text: suffix, type: .color, UIColor.primaryDefault))
       .addAttr((text: maintenance, type: .center, ""))
     txt.setTo(textView: textView)
   }

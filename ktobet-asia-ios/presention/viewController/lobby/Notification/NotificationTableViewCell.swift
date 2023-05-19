@@ -38,9 +38,9 @@ class NotificationTableViewCell: UITableViewCell {
 
     self.title.highlight(
       text: keyword.trimmingCharacters(in: .whitespacesAndNewlines),
-      color: .redF20000.withAlphaComponent(0.5))
+      color: .primaryDefault.withAlphaComponent(0.5))
     self.content.highlight(
       text: keyword.trimmingCharacters(in: .whitespacesAndNewlines),
-      color: .redF20000.withAlphaComponent(0.5))
+      color: .primaryDefault.withAlphaComponent(0.5))
   }
 }

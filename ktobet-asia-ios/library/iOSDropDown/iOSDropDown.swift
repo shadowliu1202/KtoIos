@@ -660,8 +660,8 @@ class NoResultFooter: UIControl {
 
   private lazy var label: UILabel = {
     let label = UILabel()
-    label.backgroundColor = UIColor.black2B2B2B
-    label.textColor = UIColor.gray595959
+    label.backgroundColor = UIColor.greyScaleToast
+    label.textColor = UIColor.textSecondary
     label.font = UIFont(name: "PingFangSC-Regular", size: 16)
     label.textAlignment = .center
     return label

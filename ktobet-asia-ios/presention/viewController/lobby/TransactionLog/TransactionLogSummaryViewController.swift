@@ -64,7 +64,7 @@ class TransactionLogSummaryViewController: LobbyViewController {
         cell.removeBorder()
         cell.typeLabel.text = element.typeName
         cell.amountLabel.text = element.amount.formatString(sign: .signed_)
-        cell.amountLabel.textColor = element.amount.isPositive ? .green6AB336 : .gray9B9B9B
+        cell.amountLabel.textColor = element.amount.isPositive ? .statusSuccess : .textPrimary
         cell.addBorder()
         return cell
       }.disposed(by: disposeBag)

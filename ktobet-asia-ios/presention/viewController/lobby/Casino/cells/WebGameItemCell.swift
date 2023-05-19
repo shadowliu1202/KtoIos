@@ -78,7 +78,7 @@ class WebGameSearchItemCell: WebGameItemCell {
     self.previousKeyword = searchKeyword
     self.labTitle.highlight(
       text: searchKeyword?.trimmingCharacters(in: .whitespacesAndNewlines),
-      color: .redF20000.withAlphaComponent(0.5))
+      color: .primaryDefault.withAlphaComponent(0.5))
     return self
   }
 }

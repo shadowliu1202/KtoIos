@@ -60,8 +60,8 @@ extension LevelPrivilegeViewController {
       ])
 
     progress.borderWidth = 1
-    progress.bordersColor = .whitePure.withAlphaComponent(0.6)
-    progress.backgroundColor = .whitePure.withAlphaComponent(0.2)
+    progress.bordersColor = .greyScaleWhite.withAlphaComponent(0.6)
+    progress.backgroundColor = .greyScaleWhite.withAlphaComponent(0.2)
 
     levelBackgroundView.roundCorners(
       corners: [.topLeft, .bottomLeft],
@@ -155,4 +155,9 @@ extension LevelPrivilegeViewController {
         level: level),
       animated: true)
   }
+}
+
+extension UIColor {
+  fileprivate static let yellowFFD500: UIColor = #colorLiteral(red: 1, green: 0.8352941176, blue: 0, alpha: 1)
+  fileprivate static let yellowFEA144: UIColor = #colorLiteral(red: 0.9960784314, green: 0.631372549, blue: 0.2666666667, alpha: 1)
 }

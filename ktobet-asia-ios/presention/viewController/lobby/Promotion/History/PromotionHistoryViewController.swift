@@ -158,7 +158,7 @@ extension PromotionHistoryViewController {
 
   private func setupSearchField() {
     searchTextField.cornerRadius = 8
-    searchTextField.bordersColor = .gray9B9B9B
+    searchTextField.bordersColor = .textPrimary
     searchTextField.borderWidth = 0.5
 
     let search = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 48))
@@ -166,7 +166,7 @@ extension PromotionHistoryViewController {
       image: .init(named: "Search")?.withRenderingMode(.alwaysTemplate))
 
     search.addSubview(searchImage)
-    searchImage.tintColor = .gray9B9B9B
+    searchImage.tintColor = .textPrimary
     searchImage.frame = .init(origin: .init(x: 15, y: 15), size: .init(width: 18, height: 18))
 
     searchTextField.leftView = search
@@ -184,10 +184,10 @@ extension PromotionHistoryViewController {
     searchTextField.rightViewMode = .never
 
     searchTextField.font = .init(name: "PingFangSC-Medium", size: 14)
-    searchTextField.textColor = .whitePure
+    searchTextField.textColor = .greyScaleWhite
     searchTextField.attributedPlaceholder = Localize.string("common_search")
       .attributed
-      .textColor(.gray595959)
+      .textColor(.textSecondary)
       .font(
         weight: .medium,
         locale: viewModel.localRepo.getSupportLocale(),

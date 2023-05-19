@@ -52,7 +52,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
 
     btnPromotion
       .applyGradient(horizontal: [
-        UIColor.yellowFFD500.cgColor,
+        UIColor.complementaryDefault.cgColor,
         UIColor(red: 254 / 255, green: 161 / 255, blue: 68 / 255, alpha: 1).cgColor
       ])
 
@@ -101,11 +101,11 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
     let barAppearance = UINavigationBarAppearance()
     barAppearance.configureWithTransparentBackground()
     barAppearance.titleTextAttributes = [
-      .foregroundColor: UIColor.whitePure,
+      .foregroundColor: UIColor.greyScaleWhite,
       .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())
     ]
 
-    barAppearance.backgroundColor = UIColor.black131313.withAlphaComponent(0.9)
+    barAppearance.backgroundColor = UIColor.greyScaleDefault.withAlphaComponent(0.9)
     UINavigationBar.appearance().isTranslucent = true
 
     navigationController?.navigationBar.standardAppearance = barAppearance
@@ -173,7 +173,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
       }
 
     if !data.isMaxBonusLimited() {
-      productUnlimitedTopBarView.backgroundColor = UIColor.orangeFF8000
+      productUnlimitedTopBarView.backgroundColor = UIColor.alert
       productUnlimitedView.backgroundColor = UIColor(red: 1, green: 128 / 255, blue: 0, alpha: 0.2)
       dailyLimitAmountLabel.text = Localize.string("bonus_unlimited")
     }

@@ -67,7 +67,7 @@ final class WithdrawalCryptoDetailViewTests: XCBaseTestCase {
       return
     }
 
-    XCTAssertTrue(final.contains(where: { $0.contentColor == .orangeFF8000 }))
+    XCTAssertTrue(final.contains(where: { $0.contentColor == .alert }))
   }
 
   func test_PaymentStatusIsNotComplete_notCompleteHintIsDisplayed_KTO_TC_137() {

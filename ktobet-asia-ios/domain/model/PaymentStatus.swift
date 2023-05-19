@@ -22,9 +22,9 @@ extension PaymentStatus {
   func toLogColor() -> UIColor {
     switch self {
     case .floating:
-      return UIColor.orangeFF8000
+      return UIColor.alert
     default:
-      return UIColor.gray9B9B9B
+      return UIColor.textPrimary
     }
   }
 }

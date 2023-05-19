@@ -82,7 +82,7 @@ class PromotionFilterDropDwon: UIView {
     let label = UILabel()
     label.textAlignment = .left
     label.font = UIFont(name: "PingFangSC-Medium", size: 12)
-    label.textColor = UIColor.gray9B9B9B
+    label.textColor = UIColor.textPrimary
     return label
   }()
 
@@ -103,12 +103,12 @@ class PromotionFilterDropDwon: UIView {
     didSet {
       if isExpand {
         arrowIcon.image = UIImage(named: "promotionArrowDropUp")
-        titleLabel.textColor = UIColor.yellowFFD500
+        titleLabel.textColor = UIColor.complementaryDefault
         showList()
       }
       else {
         arrowIcon.image = UIImage(named: "promotionArrowDropDown")
-        titleLabel.textColor = UIColor.gray9B9B9B
+        titleLabel.textColor = UIColor.textPrimary
         hideList()
       }
     }
@@ -124,7 +124,7 @@ class PromotionFilterDropDwon: UIView {
   private var mainStackView: UIStackView!
   private lazy var line: UIView! = {
     let line = UIView(frame: .zero)
-    line.backgroundColor = .gray595959
+    line.backgroundColor = .textSecondary
     return line
   }()
 
@@ -173,10 +173,10 @@ class PromotionFilterDropDwon: UIView {
   }
 
   private func setupUI() {
-    self.backgroundColor = UIColor.black1A1A1A
+    self.backgroundColor = UIColor.greyScaleList
     button.addTarget(self, action: #selector(touchAction), for: .touchUpInside)
-    self.addBorder(.top, color: .gray595959)
-    self.addBorder(.bottom, color: .gray595959)
+    self.addBorder(.top, color: .textSecondary)
+    self.addBorder(.bottom, color: .textSecondary)
   }
 
   private func addGesture() {
@@ -464,7 +464,7 @@ class PromotionFilterDropDwon: UIView {
       button.setContentCompressionResistancePriority(.required, for: .vertical)
       button.layer.cornerRadius = 2
       button.layer.masksToBounds = true
-      button.backgroundColor = .gray333333
+      button.backgroundColor = .inputDefault
       setProductTagHighlight(with: button, data[i].isSelected)
       button.tag = productTags[i].tagId
       button.addTarget(self, action: #selector(pressSecondLayerTag(_:)), for: .touchUpInside)
@@ -493,26 +493,26 @@ class PromotionFilterDropDwon: UIView {
 
   private func setTagHighlight(with btn: UIButton, _ isHighlight: Bool) {
     if isHighlight {
-      btn.backgroundColor = .yellowFFD500
-      btn.setTitleColor(UIColor.black131313, for: .normal)
+      btn.backgroundColor = .complementaryDefault
+      btn.setTitleColor(UIColor.greyScaleDefault, for: .normal)
     }
     else {
-      btn.backgroundColor = .gray333333
-      btn.setTitleColor(UIColor.gray9B9B9B, for: .normal)
+      btn.backgroundColor = .inputDefault
+      btn.setTitleColor(UIColor.textPrimary, for: .normal)
     }
   }
 
   private func setProductTagHighlight(with btn: UIButton, _ isHighlight: Bool) {
     if isHighlight {
       btn.borderWidth = 1.0
-      btn.bordersColor = .yellowFFD500
-      btn.setTitleColor(.yellowFFD500, for: .normal)
+      btn.bordersColor = .complementaryDefault
+      btn.setTitleColor(.complementaryDefault, for: .normal)
       button.titleLabel?.font = UIFont(name: "PingFangSC-Medium", size: 12)
     }
     else {
       btn.borderWidth = 0.0
-      btn.bordersColor = .gray333333
-      btn.setTitleColor(.gray9B9B9B, for: .normal)
+      btn.bordersColor = .inputDefault
+      btn.setTitleColor(.textPrimary, for: .normal)
       button.titleLabel?.font = UIFont(name: "PingFangSC-Regular", size: 12)
     }
   }

@@ -13,8 +13,8 @@ class TermsOfServiceCell: UITableViewCell {
 
   override func awakeFromNib() {
     super.awakeFromNib()
-    labTitle.textColor = UIColor.black131313
-    labContent.textColor = UIColor.black131313
+    labTitle.textColor = UIColor.greyScaleDefault
+    labContent.textColor = UIColor.greyScaleDefault
   }
 
   override func setSelected(_ selected: Bool, animated: Bool) {

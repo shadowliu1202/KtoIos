@@ -32,9 +32,9 @@ class InputText: UIView {
   override func awakeFromNib() {
     super.awakeFromNib()
 
-    backgroundColor = UIColor.gray454545
+    backgroundColor = UIColor.inputFocus
     labTitle.font = UIFont(name: "PingFangSC-Regular", size: 12)
-    labTitle.textColor = UIColor.gray9B9B9B
+    labTitle.textColor = UIColor.textPrimary
     labTitle.backgroundColor = .clear
     labTitle.numberOfLines = 0
 
@@ -50,7 +50,7 @@ class InputText: UIView {
     textContent.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
     textContent.addTarget(self, action: #selector(textFieldEditingDidEnd(_:)), for: .editingDidEnd)
 
-    underline.backgroundColor = UIColor.orangeFF8000
+    underline.backgroundColor = UIColor.alert
     underline.isHidden = true
 
     addSubview(labTitle)
@@ -80,7 +80,7 @@ class InputText: UIView {
       self.labTitle.frame = position.title
       self.textContent.frame = position.content
       self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
-      self.backgroundColor = self.isEditing ? UIColor.gray454545 : UIColor.gray333333
+      self.backgroundColor = self.isEditing ? UIColor.inputFocus : UIColor.inputDefault
     }
     if firstPosition {
       changePosition()

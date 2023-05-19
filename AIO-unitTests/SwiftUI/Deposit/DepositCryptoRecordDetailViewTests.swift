@@ -65,7 +65,7 @@ final class DepositCryptoRecordDetailViewTests: XCBaseTestCase {
       return
     }
 
-    XCTAssertTrue(final.contains(where: { $0.contentColor == .orangeFF8000 }))
+    XCTAssertTrue(final.contains(where: { $0.contentColor == .alert }))
   }
 
   func test_PaymentStatusIsFloating_ShouldDisplayUploadFileLink_KTO_TC_93() {

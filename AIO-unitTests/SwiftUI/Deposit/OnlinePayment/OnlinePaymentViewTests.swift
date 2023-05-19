@@ -406,7 +406,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
     let exp = sut.inspection.inspect { view in
       let isAccountNumberDisplay = view
-        .isExist(viewWithId: "textFieldAccountNumber")
+        .isExistByVisibleModifier(viewWithId: "textFieldAccountNumber")
 
       XCTAssertFalse(isAccountNumberDisplay)
     }

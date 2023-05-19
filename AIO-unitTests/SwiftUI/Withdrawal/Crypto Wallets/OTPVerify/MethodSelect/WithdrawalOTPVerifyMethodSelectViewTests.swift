@@ -26,7 +26,7 @@ final class WithdrawalOTPVerifyMethodSelectViewTests: XCBaseTestCase {
     let exp = sut.inspection.inspect { view in
       let highLightText = try view.find(viewWithId: "HighLightText")
 
-      let expect = ("Qua Cuộc Gọi", UIColor.redF20000)
+      let expect = ("Qua Cuộc Gọi", UIColor.primaryDefault)
       let actual = try highLightText.view(HighLightText.self).actualView().highlights[0]
 
       XCTAssertEqual(expect.0, actual.0)

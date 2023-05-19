@@ -23,11 +23,11 @@ struct SharedOTPVerificationFailureView: View {
 
         VStack(spacing: 12) {
           Text(key: "cps_secruity_verification_failure")
-            .localized(weight: .semibold, size: 24, color: .gray9B9B9B)
+            .localized(weight: .semibold, size: 24, color: .textPrimary)
 
           if let message {
             Text(message)
-              .localized(weight: .medium, size: 14, color: .gray9B9B9B)
+              .localized(weight: .medium, size: 14, color: .textPrimary)
           }
         }
         .multilineTextAlignment(.center)
@@ -45,7 +45,7 @@ struct SharedOTPVerificationFailureView: View {
       .padding(.horizontal, 30)
       .frame(maxHeight: .infinity, alignment: .top)
     }
-    .pageBackgroundColor(.black131313)
+    .pageBackgroundColor(.greyScaleDefault)
   }
 }
 

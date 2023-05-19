@@ -12,7 +12,7 @@ extension UIView {
   func addBorder(
     _ side: BorderSide = .top,
     size: CGFloat = 1,
-    color: UIColor = .gray3C3E40,
+    color: UIColor = .greyScaleDivider,
     rightConstant: CGFloat = 0,
     leftConstant: CGFloat = 0)
   {

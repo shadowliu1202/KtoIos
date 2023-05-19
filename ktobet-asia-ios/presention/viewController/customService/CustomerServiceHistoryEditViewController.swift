@@ -52,7 +52,7 @@ class CustomerServiceHistoryEditViewController: LobbyViewController {
     let label = UILabel()
     label.textAlignment = .left
     label.font = UIFont(name: "PingFangSC-Semibold", size: 24)
-    label.textColor = UIColor.whitePure
+    label.textColor = UIColor.greyScaleWhite
     label.text = Localize.string("customerservice_history_edit_title")
     headView.addSubview(label, constraints: [
       .constraint(.equal, \.trailingAnchor, offset: 30),
@@ -63,7 +63,7 @@ class CustomerServiceHistoryEditViewController: LobbyViewController {
 
     let button = UIButton(frame: .zero)
     button.titleLabel?.font = UIFont(name: "PingFangSC-Medium", size: 14)
-    button.setTitleColor(UIColor.yellowFFD500, for: .normal)
+    button.setTitleColor(UIColor.complementaryDefault, for: .normal)
     button.contentHorizontalAlignment = .right
     headView.addSubview(button, constraints: [
       .constraint(.equal, \.trailingAnchor, offset: -16),

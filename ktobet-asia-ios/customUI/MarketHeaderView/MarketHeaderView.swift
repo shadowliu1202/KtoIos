@@ -18,7 +18,7 @@ class MarketHeaderView: UITableViewHeaderFooterView {
       : UIImage(named: "arrow-drop-down")
 
     bottomLine.backgroundColor = isLastSection
-      ? .gray3C3E40
+      ? .greyScaleDivider
       : .clear
 
     self.callback = callback

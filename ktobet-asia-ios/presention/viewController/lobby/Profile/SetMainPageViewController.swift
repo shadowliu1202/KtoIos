@@ -138,7 +138,7 @@ class ProductItemView: UIView {
   }
 
   private func modifySelected(_ selected: Bool) {
-    self.backgroundColor = selected ? .gray454545 : .gray333333
+    self.backgroundColor = selected ? .inputFocus : .inputDefault
     self.radioButton.isSelected = selected
     layoutSubviews()
   }

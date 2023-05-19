@@ -40,7 +40,7 @@ struct LoadingPlaceholder: View {
 
   var body: some View {
     ZStack {
-      Color.from(.black131313, alpha: 0.8)
+      Color.from(.greyScaleDefault, alpha: 0.8)
         .ignoresSafeArea()
         .opacity(backgroundOpacity)
         .onAnimationCompleted(for: backgroundOpacity) {
@@ -73,10 +73,10 @@ struct LoadingPlaceholder: View {
         }
       }
       .padding(.horizontal, 22)
-      .if(type.shouldAddMask) {
-        masking($0)
+      .applyTransform(when: type.shouldAddMask) { contentView in
+        masking(contentView)
       }
-      .pageBackgroundColor(.black131313)
+      .pageBackgroundColor(.greyScaleDefault)
       .visibility(isLoading ? .visible : .invisible)
     }
   }
@@ -160,9 +160,9 @@ extension LoadingPlaceholder {
         .fill(
           .linearGradient(
             .init(colors: [
-              Color.from(.black131313, alpha: 0),
-              Color.from(.black131313, alpha: 0.4),
-              Color.from(.black131313, alpha: 1)
+              Color.from(.greyScaleDefault, alpha: 0),
+              Color.from(.greyScaleDefault, alpha: 0.4),
+              Color.from(.greyScaleDefault, alpha: 1)
             ]),
             startPoint: .bottom,
             endPoint: .top)))
@@ -237,8 +237,8 @@ extension LoadingPlaceholder {
 
     func buildBreath() -> some View {
       ZStack {
-        Color.from(.black2B2B2B)
-        Color.from(.gray202020)
+        Color.from(.greyScaleToast)
+        Color.from(.greyScaleSidebar)
           .opacity(isBreathing ? 0 : 1)
           .animation(
             .linear(duration: 1)
@@ -248,10 +248,10 @@ extension LoadingPlaceholder {
     }
 
     func buildDirection(start: UnitPoint, end: UnitPoint) -> some View {
-      Color.from(.gray202020)
+      Color.from(.greyScaleSidebar)
         .overlay(
           ZStack {
-            Color.from(.black2B2B2B)
+            Color.from(.greyScaleToast)
               .mask(
                 Rectangle()
                   .fill(

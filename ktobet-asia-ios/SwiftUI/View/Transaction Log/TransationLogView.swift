@@ -33,7 +33,7 @@ struct TransactionLogView<ViewModel>: View
         onBottomReached: {
           viewModel.pagination.loadNextPageTrigger.onNext(())
         })
-        .pageBackgroundColor(.gray131313)
+        .pageBackgroundColor(.greyScaleDefault)
         .environmentObject(viewModel)
         .environment(\.playerLocale, viewModel.supportLocale)
         .onViewDidLoad {
@@ -63,7 +63,7 @@ extension TransactionLogView {
               .localized(
                 weight: .medium,
                 size: 14,
-                color: .gray9B9B9B)
+                color: .textPrimary)
 
             Spacer()
 
@@ -73,14 +73,14 @@ extension TransactionLogView {
                 .localized(
                   weight: .regular,
                   size: 14,
-                  color: .green6AB336)
+                  color: .statusSuccess)
 
               Text(
                 "-" + (viewModel.summary?.outcome.formatString(.none) ?? "0.00"))
                 .localized(
                   weight: .regular,
                   size: 14,
-                  color: .gray9B9B9B)
+                  color: .textPrimary)
             }
           }
         },

@@ -121,7 +121,7 @@ extension TransactionLogViewController: TranscationFlowDelegate {
       .subscribe(onSuccess: { [weak self] html in
         let controller = TransactionHtmlViewController.initFrom(storyboard: "TransactionLog")
         controller.html = html
-        controller.view.backgroundColor = UIColor.black131313.withAlphaComponent(0.8)
+        controller.view.backgroundColor = UIColor.greyScaleDefault.withAlphaComponent(0.8)
         controller.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         controller.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         self?.present(controller, animated: true, completion: nil)

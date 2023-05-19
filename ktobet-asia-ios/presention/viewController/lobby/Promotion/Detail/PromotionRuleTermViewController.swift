@@ -40,7 +40,7 @@ class PromotionRuleTermViewController: LobbyViewController {
     setTextFont(attributedOriginalText: &attributedOriginalText)
 
     textView.linkTextAttributes = [
-      NSAttributedString.Key.foregroundColor: UIColor.redF20000,
+      NSAttributedString.Key.foregroundColor: UIColor.primaryDefault,
       NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
     ]
     textView.attributedText = attributedOriginalText

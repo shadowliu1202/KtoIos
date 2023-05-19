@@ -19,44 +19,32 @@ extension UIColor {
 }
 
 extension UIColor {
-  static let whitePure: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-  static let whiteE6E6E6: UIColor = #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1)
+  static let greyScaleBlack: UIColor = .init(hex: 0x000000)
+  static let greyScaleDefault: UIColor = .init(hex: 0x131313)
+  static let greyScaleWhite: UIColor = .init(hex: 0xFFFFFF)
+  static let greyScaleList: UIColor = .init(hex: 0x1A1A1A)
+  static let greyScaleSidebar: UIColor = .init(hex: 0x202020)
+  static let greyScaleToast: UIColor = .init(hex: 0x2B2B2B)
+  static let greyScaleChatWindow: UIColor = .init(hex: 0x303030)
+  static let greyScaleDivider: UIColor = .init(hex: 0x3C3E40)
+  static let greyScaleIconDisable: UIColor = .init(hex: 0x5C5C5C)
+  static let greyScaleIcon: UIColor = .init(hex: 0xE6E6E6)
 
-  static let blackPure: UIColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-  static let black131313: UIColor = #colorLiteral(red: 0.07450980392, green: 0.07450980392, blue: 0.07450980392, alpha: 1)
-  static let black1A1A1A: UIColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 1)
-  static let black2B2B2B: UIColor = #colorLiteral(red: 0.168627451, green: 0.168627451, blue: 0.168627451, alpha: 1)
+  static let textPrimary: UIColor = .init(hex: 0x9B9B9B)
+  static let textSecondary: UIColor = .init(hex: 0x595959)
 
-  static let gray1A1A1A: UIColor = #colorLiteral(red: 0.1019607843, green: 0.1019607843, blue: 0.1019607843, alpha: 1)
-  static let gray131313: UIColor = #colorLiteral(red: 0.07450980392, green: 0.07450980392, blue: 0.07450980392, alpha: 1)
-  static let gray202020: UIColor = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.1254901961, alpha: 1)
-  static let gray2B2B2B: UIColor = #colorLiteral(red: 0.168627451, green: 0.168627451, blue: 0.168627451, alpha: 1)
-  static let gray454545: UIColor = #colorLiteral(red: 0.2705882353, green: 0.2705882353, blue: 0.2705882353, alpha: 1)
-  static let gray3F3F3F: UIColor = #colorLiteral(red: 0.2470588235, green: 0.2470588235, blue: 0.2470588235, alpha: 1)
-  static let gray333333: UIColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
-  static let gray979797: UIColor = #colorLiteral(red: 0.5921568627, green: 0.5921568627, blue: 0.5921568627, alpha: 1)
-  static let gray595959: UIColor = #colorLiteral(red: 0.3490196078, green: 0.3490196078, blue: 0.3490196078, alpha: 1)
-  static let gray636366: UIColor = #colorLiteral(red: 0.3882352941, green: 0.3882352941, blue: 0.4, alpha: 1)
-  static let gray303030: UIColor = #colorLiteral(red: 0.1882352941, green: 0.1882352941, blue: 0.1882352941, alpha: 1)
-  static let gray5C5C5C: UIColor = #colorLiteral(red: 0.3607843137, green: 0.3607843137, blue: 0.3607843137, alpha: 1)
-  static let gray3C3E40: UIColor = #colorLiteral(red: 0.2352941176, green: 0.2431372549, blue: 0.2509803922, alpha: 1)
-  static let gray9B9B9B: UIColor = #colorLiteral(red: 0.6078431373, green: 0.6078431373, blue: 0.6078431373, alpha: 1)
-  static let grayC8D4DE: UIColor = #colorLiteral(red: 0.8232876658, green: 0.8638820052, blue: 0.8960149288, alpha: 1)
-  static let grayF2F2F2: UIColor = #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)
+  static let inputDefault: UIColor = .init(hex: 0x333333)
+  static let inputFocus: UIColor = .init(hex: 0x454545)
 
-  static let redF20000: UIColor = #colorLiteral(red: 0.9490196078, green: 0, blue: 0, alpha: 1)
-  static let redD90101: UIColor = #colorLiteral(red: 0.8509803922, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
-
-  static let orangeFF8000: UIColor = #colorLiteral(red: 1, green: 0.5019607843, blue: 0, alpha: 1)
-  static let orangeFF691D: UIColor = #colorLiteral(red: 1, green: 0.4117647059, blue: 0.1137254902, alpha: 1)
-
-  static let yellowFFD500: UIColor = #colorLiteral(red: 1, green: 0.8352941176, blue: 0, alpha: 1)
-  static let yellowEA9E16: UIColor = #colorLiteral(red: 0.9176470588, green: 0.6196078431, blue: 0.0862745098, alpha: 1)
-  static let yellowFEA144: UIColor = #colorLiteral(red: 0.9960784314, green: 0.631372549, blue: 0.2666666667, alpha: 1)
-
-  static let green116739: UIColor = #colorLiteral(red: 0.06666666667, green: 0.4039215686, blue: 0.2235294118, alpha: 1)
-  static let green5D9B31: UIColor = #colorLiteral(red: 0.3647058824, green: 0.6078431373, blue: 0.1921568627, alpha: 1)
-  static let green6AB336: UIColor = #colorLiteral(red: 0.4156862745, green: 0.7019607843, blue: 0.2117647059, alpha: 1)
+  static let primaryDefault: UIColor = .init(hex: 0xF20000)
+  static let primaryForLight: UIColor = .init(hex: 0xD90101)
+  
+  static let complementaryDefault: UIColor = .init(hex: 0xFED500)
+  
+  static let alert: UIColor = .init(hex: 0xFF8000)
+  
+  static let statusSuccess: UIColor = .init(hex: 0x6AB336)
+  static let statusSuccessToast: UIColor = .init(hex: 0x116739)
 }
 
 extension UIColor {

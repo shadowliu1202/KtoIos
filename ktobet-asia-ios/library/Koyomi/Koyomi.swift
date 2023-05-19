@@ -306,10 +306,10 @@ public final class Koyomi: UICollectionView {
 
   public var style: KoyomiStyle = .standard {
     didSet {
-      dayBackgrondColor = .black131313 // style.colors.dayBackgrond
-      weekBackgrondColor = .black131313 // style.colors.weekBackgrond
-      weekColor = .black131313 // style.colors.week
-      weekdayColor = .black131313 // style.colors.weekday
+      dayBackgrondColor = .greyScaleDefault // style.colors.dayBackgrond
+      weekBackgrondColor = .greyScaleDefault // style.colors.weekBackgrond
+      weekColor = .greyScaleDefault // style.colors.week
+      weekdayColor = .greyScaleDefault // style.colors.weekday
       holidayColor = style.colors.holiday
       otherMonthColor = style.colors.otherMonth
       backgroundColor = style.colors.separator
@@ -704,11 +704,11 @@ extension Koyomi {
       }
       else {
         if cell.xLabel.text != "" {
-          return UIColor.gray595959
+          return UIColor.textSecondary
         }
         else {
           if indexPath.section == 0 {
-            return UIColor.yellowFFD500
+            return UIColor.complementaryDefault
           }
           else {
             if
@@ -718,7 +718,7 @@ extension Koyomi {
               return UIColor.white
             }
             else {
-              return UIColor.gray595959
+              return UIColor.textSecondary
             }
           }
         }

@@ -1,4 +1,5 @@
 import AlignedCollectionViewFlowLayout
+import QuartzCore
 import RxCocoa
 import RxSwift
 import SDWebImage
@@ -97,4 +98,8 @@ extension P2PViewController: BarButtonItemable {
     let betSummaryViewController = P2PSummaryViewController.initFrom(storyboard: "P2P")
     navigationController?.pushViewController(betSummaryViewController, animated: true)
   }
+}
+
+extension UIColor {
+  fileprivate static let grayC8D4DE: UIColor = #colorLiteral(red: 0.7843137255, green: 0.831372549, blue: 0.8705882353, alpha: 1)
 }

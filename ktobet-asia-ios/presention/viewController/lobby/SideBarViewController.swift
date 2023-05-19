@@ -56,8 +56,8 @@ class SideBarViewController: LobbyViewController {
     appearance.configureWithOpaqueBackground()
     appearance.shadowColor = .clear
     appearance.shadowImage = .init()
-    appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.whitePure]
-    appearance.backgroundColor = UIColor.gray202020.withAlphaComponent(0.9)
+    appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.greyScaleWhite]
+    appearance.backgroundColor = UIColor.greyScaleSidebar.withAlphaComponent(0.9)
     self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     self.navigationController?.navigationBar.standardAppearance = appearance
   }
@@ -200,7 +200,7 @@ class SideBarViewController: LobbyViewController {
 extension SideBarViewController {
   private func initUI() {
     let navigationBar = navigationController?.navigationBar
-    navigationBar?.barTintColor = UIColor.gray202020
+    navigationBar?.barTintColor = UIColor.greyScaleSidebar
     navigationBar?.isTranslucent = false
     navigationBar?.setBackgroundImage(UIImage(), for: .default)
     navigationBar?.shadowImage = UIImage()

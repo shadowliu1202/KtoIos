@@ -109,11 +109,11 @@ class SignupUserinfoViewController: LandingViewController {
     inputCsPassword.setCorner(topCorner: false, bottomCorner: true)
     btnSubmit.layer.cornerRadius = 8
     btnSubmit.layer.masksToBounds = true
-    btnSubmit.backgroundColor = UIColor.redF20000
+    btnSubmit.backgroundColor = UIColor.primaryDefault
     btnSubmit.isValid = false
 
     for button in [btnEmail, btnPhone] {
-      let selectedColor = UIColor.gray636366
+      let selectedColor = UIColor.greyScaleIconDisable
       let unSelectedColor = UIColor.clear
       button?.setBackgroundImage(UIImage(color: selectedColor), for: .selected)
       button?.setBackgroundImage(UIImage(color: unSelectedColor), for: .normal)

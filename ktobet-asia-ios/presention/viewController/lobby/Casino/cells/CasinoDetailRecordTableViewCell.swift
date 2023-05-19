@@ -40,7 +40,7 @@ class CasinoDetailRecord2TableViewCell: UITableViewCell {
       self.titleLabel.text = Localize.string("product_bet_win_lose")
       if detail.winLoss.isPositive {
         self.contentLabel.text = String(format: Localize.string("product_winning_amount"), detail.winLoss.description())
-        self.contentLabel.textColor = UIColor.green6AB336
+        self.contentLabel.textColor = UIColor.statusSuccess
       }
       else {
         self.contentLabel.text = String(

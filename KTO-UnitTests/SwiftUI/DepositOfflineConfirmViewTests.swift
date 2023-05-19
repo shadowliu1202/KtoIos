@@ -41,7 +41,7 @@ final class DepositOfflineConfirmViewTests: XCBaseTestCase {
         longestEffectiveRange: nil,
         in: .init(location: 0, length: 2)) as! UIColor
 
-    XCTAssertEqual(attributed, UIColor.orangeFF8000)
+    XCTAssertEqual(attributed, UIColor.alert)
   }
 
   func test_RemitAmountHaveNotDecimal_AllTextColorIsWhitePure() {
@@ -57,7 +57,7 @@ final class DepositOfflineConfirmViewTests: XCBaseTestCase {
         longestEffectiveRange: nil,
         in: .init(location: 0, length: 3)) as! UIColor
 
-    XCTAssertEqual(attributed, UIColor.whitePure)
+    XCTAssertEqual(attributed, UIColor.greyScaleWhite)
   }
 
   func test_ValidTimeLeft3Hours_TextIsCorrect() {

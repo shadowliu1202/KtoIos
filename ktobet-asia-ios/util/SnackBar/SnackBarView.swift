@@ -17,14 +17,14 @@ class SnackBarView: UIView {
   }
 
   private func setupUI() {
-    backgroundColor = .gray2B2B2B
+    backgroundColor = .greyScaleToast
     layer.cornerRadius = 8
     clipsToBounds = true
     layer.masksToBounds = false
     layer.shadowRadius = 4
     layer.shadowOpacity = 1
     layer.shadowOffset = CGSize(width: 0, height: 0)
-    layer.shadowColor = UIColor.whitePure.withAlphaComponent(0.3).cgColor
+    layer.shadowColor = UIColor.greyScaleWhite.withAlphaComponent(0.3).cgColor
   }
 
   private func setupConstraints() {
@@ -47,7 +47,7 @@ class SnackBarView: UIView {
     imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
     label.localizedFont(by: repo.getSupportLocale(), weight: .regular, size: 14)
-    label.textColor = .whitePure
+    label.textColor = .greyScaleWhite
     label.numberOfLines = 0
   }
 

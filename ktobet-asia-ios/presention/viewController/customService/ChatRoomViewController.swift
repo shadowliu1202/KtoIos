@@ -518,7 +518,7 @@ class MixTableViewCell: UITableViewCell {
         NSAttributedString.Key.underlineStyle,
         value: NSUnderlineStyle.single.rawValue,
         range: range)
-      underlineAttriString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.redF20000, range: range)
+      underlineAttriString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.primaryDefault, range: range)
     }
 
     label.attributedText = underlineAttriString
@@ -575,7 +575,7 @@ class MixTableViewCell: UITableViewCell {
       linkTextView.attributedText = attributedString
       linkTextView.dataDetectorTypes = .all
       linkTextView.linkTextAttributes = [
-        .foregroundColor: UIColor.redF20000,
+        .foregroundColor: UIColor.primaryDefault,
         .underlineStyle: NSUnderlineStyle.single.rawValue
       ]
     }

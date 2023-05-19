@@ -103,7 +103,7 @@ extension DropdownSelector {
 
     mainStack.addArrangedSubview(titleLabel)
     titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-    titleLabel.textColor = UIColor.whitePure
+    titleLabel.textColor = UIColor.greyScaleWhite
     titleLabel.localizedFont(by: repo.getSupportLocale(), weight: .medium, size: 14)
 
     mainStack.addArrangedSubview(imageView)
@@ -111,7 +111,7 @@ extension DropdownSelector {
     imageView.image = arrowImage(expanded: expanded)
 
     DispatchQueue.main.async {
-      self.tableView.backgroundColor = .gray1A1A1A
+      self.tableView.backgroundColor = .greyScaleList
       self.tableView.separatorStyle = .none
     }
     tableView.tableHeaderView = UIView(
@@ -256,7 +256,7 @@ private class SortCell: UITableViewCell {
     contentView.addSubview(label)
     contentView.addSubview(selectedImageView)
 
-    label.textColor = .whitePure
+    label.textColor = .greyScaleWhite
     label.localizedFont(by: locale ?? .China(), weight: .regular, size: 14)
     label.snp.makeConstraints { make in
       make.top.bottom.equalToSuperview().inset(6)
