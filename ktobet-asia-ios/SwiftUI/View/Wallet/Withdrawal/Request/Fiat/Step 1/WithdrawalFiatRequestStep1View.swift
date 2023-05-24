@@ -59,15 +59,14 @@ struct WithdrawalFiatRequestStep1View<ViewModel>: View
               errorText: viewModel.amountErrorText,
               featureType: .nil,
               textFieldType: CurrencyType(
-                regex: viewModel.supportLocale is SupportLocale.Vietnam ?
-                  .noDecimal : .withDecimal(2),
+                regex: .noDecimal,
                 maxAmount: 99999999))
 
             VStack(spacing: 4) {
               Text(
                 key: "withdrawal_amount_range",
-                viewModel.wallet?.limitation.oneOffMinimumAmount.formatString() ?? "",
-                viewModel.wallet?.limitation.oneOffMaximumAmount.formatString() ?? "")
+                viewModel.wallet?.limitation.oneOffMinimumAmount.formatString(sign: .normal) ?? "",
+                viewModel.wallet?.limitation.oneOffMaximumAmount.formatString(sign: .normal) ?? "")
 
               Text(key: "common_notify_currency_ratio")
                 .visibleLocale([.Vietnam()])
