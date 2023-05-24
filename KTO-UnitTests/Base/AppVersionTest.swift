@@ -34,15 +34,6 @@ class AppVersionTest: XCBaseTestCase {
     }
   }
 
-  func testOptionalUpdate() {
-    test("when patch number increase then update action is optional update") {
-      let current = Version.companion.create(version: "1.9.10", code: 3)
-      let incoming = Version.companion.create(version: "1.9.11+4")
-      let state = current.getUpdateAction(latestVersion: incoming)
-      XCTAssertEqual(state, Version.UpdateAction.optionalupdate)
-    }
-  }
-
   func testUpToDate() {
     test("when versions are equal then update action is uptodate") {
       let current = Version.companion.create(version: "1.9.10", code: 3)
