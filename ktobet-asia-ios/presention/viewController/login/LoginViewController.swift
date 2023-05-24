@@ -170,10 +170,6 @@ class LoginViewController: LandingViewController {
     }).disposed(by: self.disposeBag)
   }
 
-  override func updateStrategy(from info: VersionUpdateInfo) {
-    popAlert(from: info, force: true)
-  }
-
   deinit {
     Logger.shared.info("\(type(of: self)) deinit")
   }

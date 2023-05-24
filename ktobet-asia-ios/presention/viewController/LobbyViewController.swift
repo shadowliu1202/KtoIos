@@ -60,7 +60,8 @@ class LobbyViewController: APPViewController, VersionUpdateProtocol {
   }
 
   func updateStrategy(from info: VersionUpdateInfo) {
-    guard info.shouldPerformUpdateAction else { return }
+    guard info.action == .compulsoryupdate else { return }
+    
     executeLogout()
   }
 

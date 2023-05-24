@@ -5,26 +5,18 @@ import UIKit
 struct VersionUpdateInfo {
   let version: Version
   let superSignStatus: SuperSignStatus
-  let isFromEnterForeground: Bool
   let action: Version.UpdateAction
 
   var link: String {
     version.apkLink
   }
 
-  var shouldPerformUpdateAction: Bool {
-    action == .compulsoryupdate ||
-      (action == .optionalupdate && isFromEnterForeground)
-  }
-
   init(
     version: Version,
-    superSignStatus: SuperSignStatus,
-    isFromEnterForeground: Bool)
+    superSignStatus: SuperSignStatus)
   {
     self.version = version
     self.superSignStatus = superSignStatus
-    self.isFromEnterForeground = isFromEnterForeground
     self.action = Bundle.main.currentVersion.getUpdateAction(latestVersion: version)
   }
 }
@@ -43,26 +35,21 @@ protocol VersionUpdateProtocol {
 
 extension VersionUpdateProtocol where Self: APPViewController {
   func syncAppVersionUpdate(_ disposeBag: DisposeBag) {
-    syncAppVersion(isFromEnterForeground: false, disposeBag: disposeBag)
+    syncAppVersion(disposeBag: disposeBag)
     registerAppEnterForeground(disposeBag)
   }
 
-  private func syncAppVersion(isFromEnterForeground: Bool, disposeBag: DisposeBag) {
-    Observable.combineLatest(
-      appSyncViewModel.getLatestAppVersion().asObservable(),
-      appSyncViewModel.getSuperSignStatus().asObservable())
+  private func syncAppVersion(disposeBag: DisposeBag) {
+    Single.zip(
+      appSyncViewModel.getLatestAppVersion(),
+      appSyncViewModel.getSuperSignStatus())
       .filter { _ in Configuration.isAutoUpdate }
       .map { version, superSignStatus in
         VersionUpdateInfo(
           version: version,
-          superSignStatus: superSignStatus,
-          isFromEnterForeground: isFromEnterForeground)
+          superSignStatus: superSignStatus)
       }
-      .subscribe(onNext: { [weak self] info in
-        if info.action == .compulsoryupdate {
-          self?.appSyncViewModel.setIsPoppedAutoUpdate(false)
-        }
-
+      .subscribe(onSuccess: { [weak self] info in
         self?.updateStrategy(from: info)
       })
       .disposed(by: disposeBag)
@@ -73,7 +60,7 @@ extension VersionUpdateProtocol where Self: APPViewController {
       .notification(UIApplication.willEnterForegroundNotification)
       .take(until: self.rx.deallocated)
       .subscribe(onNext: { [weak self] _ in
-        self?.syncAppVersion(isFromEnterForeground: true, disposeBag: disposeBag)
+        self?.syncAppVersion(disposeBag: disposeBag)
       })
       .disposed(by: disposeBag)
   }
@@ -84,32 +71,20 @@ extension VersionUpdateProtocol where Self: APPViewController {
 extension VersionUpdateProtocol where Self: APPViewController {
   var localTimeZone: Foundation.TimeZone { .current }
 
-  func popAlert(from info: VersionUpdateInfo, force: Bool = false) {
-    guard info.shouldPerformUpdateAction || force else { return }
-
-    switch info.action {
-    case .compulsoryupdate:
-      if
-        info.superSignStatus.isMaintenance,
-        let endTime = info.superSignStatus.endTime
-      {
-        alertSuperSignMaintain(endTime)
+  func popForceUpdateAlert(superSignStatus: SuperSignStatus, downloadLink: String) {
+    if
+      superSignStatus.isMaintenance,
+      let endTime = superSignStatus.endTime
+    {
+      alertSuperSignMaintain(endTime)
+    }
+    else {
+      if appSyncViewModel.getIsPoppedAutoUpdate() {
+        popRemoveAppAndReinstall(urlString: downloadLink)
       }
       else {
-        if appSyncViewModel.getIsPoppedAutoUpdate() {
-          popRemoveAppAndReinstall(urlString: info.link)
-        }
-        else {
-          popConfirmUpdateAlert(urlString: info.link)
-        }
+        popConfirmUpdateAlert(urlString: downloadLink)
       }
-
-    case .optionalupdate:
-      guard !info.superSignStatus.isMaintenance else { return }
-      popConfirmUpdateAlert(urlString: info.link)
-
-    default:
-      return
     }
   }
 

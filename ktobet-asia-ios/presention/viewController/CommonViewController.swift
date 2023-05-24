@@ -25,7 +25,7 @@ class CommonViewController: APPViewController, VersionUpdateProtocol {
 
   // MARK: VersionUpdateProtocol
   func updateStrategy(from info: VersionUpdateInfo) {
-    guard info.action != .uptodate else { return }
+    guard info.action == .compulsoryupdate else { return }
 
     playerViewModel
       .checkIsLogged()
@@ -37,7 +37,9 @@ class CommonViewController: APPViewController, VersionUpdateProtocol {
           return
         }
 
-        self?.popAlert(from: info)
+        self?.popForceUpdateAlert(
+          superSignStatus: info.superSignStatus,
+          downloadLink: info.link)
 
       }, onFailure: { [weak self] in
         self?.handleErrors($0)
