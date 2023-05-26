@@ -43,15 +43,15 @@ struct WithdrawalFiatRequestStep1View<ViewModel>: View
               featureType: .lock,
               textFieldType: GeneralType(),
               disableInput: true)
-            .disabled(true)
-            .onTapGesture {
-              guard let editable = viewModel.realNameInfo?.editable
-              else {
-                return
-              }
+              .disabled(true)
+              .onTapGesture {
+                guard let editable = viewModel.realNameInfo?.editable
+                else {
+                  return
+                }
 
-              onRealNameClick?(editable)
-            }
+                onRealNameClick?(editable)
+              }
 
             SwiftUIInputText(
               placeHolder: Localize.string("withdrawal_amount"),

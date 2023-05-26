@@ -38,11 +38,11 @@ extension UIColor {
 
   static let primaryDefault: UIColor = .init(hex: 0xF20000)
   static let primaryForLight: UIColor = .init(hex: 0xD90101)
-  
+
   static let complementaryDefault: UIColor = .init(hex: 0xFED500)
-  
+
   static let alert: UIColor = .init(hex: 0xFF8000)
-  
+
   static let statusSuccess: UIColor = .init(hex: 0x6AB336)
   static let statusSuccessToast: UIColor = .init(hex: 0x116739)
 }

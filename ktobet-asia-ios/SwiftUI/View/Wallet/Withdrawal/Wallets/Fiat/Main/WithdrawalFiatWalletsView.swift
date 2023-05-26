@@ -74,7 +74,7 @@ struct WithdrawalFiatWalletsView_Previews: PreviewProvider {
     var isUpToMaximum = false
 
     func observeWallets() { }
-    
+
     func resetDisposeBag() { }
 
     init(isEmpty: Bool) {

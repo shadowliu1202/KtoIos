@@ -3,14 +3,20 @@ import RxCocoa
 import RxSwift
 
 final class Pagination<T> {
+  enum Mode {
+    case refresh
+    case loadNext
+  }
+
   private let disposeBag = DisposeBag()
 
-  private(set) var pageIndex = 1
-  private(set) var startPageIndex = 0
-  private(set) var offset = 1
+  private let startIndex: Int
+
+  private var currentIndex: Int
+  private var offset: Int
+  private var mode = Mode.refresh
 
   private var isLastData = false
-  private var isRefreshing = false
 
   let refreshTrigger = PublishSubject<Void>()
   let loadNextPageTrigger = PublishSubject<Void>()
@@ -19,14 +25,15 @@ final class Pagination<T> {
   let elements = BehaviorRelay<[T]>(value: [])
 
   init(
-    pageIndex: Int = 1,
-    offset: Int = 1,
+    startIndex: Int,
+    offset: Int,
     observable: @escaping ((Int) -> Observable<[T]>),
     onLoading: ((Bool) -> Void)? = nil,
     onElementChanged: (([T]) -> Void)? = nil)
   {
     self.offset = offset
-    self.startPageIndex = pageIndex
+    self.startIndex = startIndex
+    self.currentIndex = startIndex
 
     if let onLoading {
       loading
@@ -58,69 +65,51 @@ final class Pagination<T> {
 
 extension Pagination {
   private func binding(_ observable: @escaping (Int) -> Observable<[T]>) {
-    let request = Observable
-      .of(refreshRequest(), nextPageRequest())
-      .merge()
-      .share(replay: 1)
-
-    let response = request
-      .flatMap { [unowned self] page in
-        if page > 1, self.isRefreshing {
+    Observable.merge(
+      refreshRequest(),
+      nextPageRequest())
+      .do(onNext: { [unowned self] _ in
+        self.loading.accept(true)
+      })
+      .flatMap { [unowned self] currentIndex in
+        switch mode {
+        case .refresh:
           return Observable
-            .concat((0..<page).map { observable($0 + 1) })
+            .concat(queriedIndicesSoFar().map { observable($0) })
             .scan([T](), accumulator: { $0 + $1 })
             .takeLast(1)
-        }
-        else {
-          return observable(page)
+
+        case .loadNext:
+          return observable(currentIndex)
+            .map {
+              self.elements.value + $0
+            }
         }
       }
       .do(onNext: { [unowned self] in
+        self.loading.accept(false)
         self.isLastData = $0.count == 0
       })
-      .share(replay: 1)
-
-    Observable
-      .combineLatest(
-        request,
-        response,
-        elements.asObservable())
-      .map { [unowned self] _, response, elements in
-        self.pageIndex == self.startPageIndex ? response : elements + response
-      }
-      .sample(response)
       .bind(to: elements)
       .disposed(by: disposeBag)
 
-    Observable
-      .of(
-        request.map { _ in true },
-        response.map { _ in false },
-        error.map { _ in false })
-      .merge()
+    error
+      .map { _ in false }
       .bind(to: loading)
       .disposed(by: disposeBag)
   }
 
   private func refreshRequest() -> Observable<Int> {
-    loading.asObservable()
-      .sample(refreshTrigger)
-      .flatMap { [unowned self] loading -> Observable<Int> in
-        if loading {
+    refreshTrigger
+      .flatMap { [unowned self] _ -> Observable<Int> in
+        if self.loading.value {
           return Observable.empty()
         }
         else {
-          self.isRefreshing = true
-
-          if self.pageIndex < pageIndex {
-            self.pageIndex = pageIndex
-          }
-          else {
-            self.startPageIndex = self.pageIndex
-          }
+          self.mode = .refresh
 
           return Observable<Int>.create { observer in
-            observer.onNext(self.pageIndex)
+            observer.onNext(self.currentIndex)
             observer.onCompleted()
             return Disposables.create()
           }
@@ -129,22 +118,30 @@ extension Pagination {
   }
 
   private func nextPageRequest() -> Observable<Int> {
-    loading.asObservable()
-      .sample(loadNextPageTrigger)
-      .flatMap { [unowned self] loading -> Observable<Int> in
-        if loading || self.isLastData {
+    loadNextPageTrigger
+      .flatMap { [unowned self] _ -> Observable<Int> in
+        if self.loading.value || self.isLastData {
           return Observable.empty()
         }
         else {
-          self.isRefreshing = false
+          self.mode = .loadNext
 
           return Observable<Int>.create { observer in
-            self.pageIndex += self.offset
-            observer.onNext(self.pageIndex)
+            self.currentIndex += self.offset
+            observer.onNext(self.currentIndex)
             observer.onCompleted()
             return Disposables.create()
           }
         }
       }
+  }
+
+  private func queriedIndicesSoFar() -> [Int] {
+    var array = [Int]()
+    for i in stride(from: startIndex, through: currentIndex, by: offset) {
+      array.append(i)
+    }
+
+    return array
   }
 }

@@ -9,7 +9,7 @@ class WebViewSSLErrorLogger: NSObject, WKNavigationDelegate {
     handleSSLError(webView, error)
   }
 
-  private func handleSSLError(_ webView: WKWebView, _ error: Error) {
+  private func handleSSLError(_: WKWebView, _ error: Error) {
     if
       let sslError = error as? URLError,
       sslError.code == .secureConnectionFailed ||

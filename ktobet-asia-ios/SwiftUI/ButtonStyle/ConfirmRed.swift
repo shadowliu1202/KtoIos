@@ -39,10 +39,9 @@ struct ConfirmRed_Previews: PreviewProvider {
           label: {
             Text("Press Me")
           })
-        .buttonStyle(.confirmRed)
-        .frame(width: 150)
-        
-        
+          .buttonStyle(.confirmRed)
+          .frame(width: 150)
+
         Button(
           action: {
             isSelected.toggle()
@@ -50,9 +49,9 @@ struct ConfirmRed_Previews: PreviewProvider {
           label: {
             Text("Press Me")
           })
-        .buttonStyle(.confirmRed)
-        .frame(width: 150)
-        .disabled(true)
+          .buttonStyle(.confirmRed)
+          .frame(width: 150)
+          .disabled(true)
       }
     }
   }

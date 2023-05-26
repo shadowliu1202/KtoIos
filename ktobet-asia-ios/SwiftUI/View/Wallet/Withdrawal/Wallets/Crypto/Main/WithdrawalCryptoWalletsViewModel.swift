@@ -49,7 +49,7 @@ class WithdrawalCryptoWalletsViewModel:
       .subscribe()
       .disposed(by: disposeBag)
   }
-  
+
   func resetDisposeBag() {
     disposeBag = DisposeBag()
   }

@@ -220,6 +220,7 @@
 		3C25C73229E697860098DB57 /* WithdrawalCreateCryptoAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C25C72A29E697860098DB57 /* WithdrawalCreateCryptoAccountViewController.swift */; };
 		3C25C73329E697860098DB57 /* WithdrawalCreateCryptoAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C25C72A29E697860098DB57 /* WithdrawalCreateCryptoAccountViewController.swift */; };
 		3C25C73829E7A11F0098DB57 /* WithdrawalCreateCryptoAccountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C25C73729E7A11F0098DB57 /* WithdrawalCreateCryptoAccountViewModelTests.swift */; };
+		3C26523F2A208C0900BBB342 /* PaginationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C26523E2A208C0900BBB342 /* PaginationTests.swift */; };
 		3C2D6B1D2948824D00636237 /* OfflinePaymentViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6B1C2948824D00636237 /* OfflinePaymentViewModelProtocol.swift */; };
 		3C2D6B1E2948824D00636237 /* OfflinePaymentViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6B1C2948824D00636237 /* OfflinePaymentViewModelProtocol.swift */; };
 		3C2D6B1F2948824D00636237 /* OfflinePaymentViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6B1C2948824D00636237 /* OfflinePaymentViewModelProtocol.swift */; };
@@ -674,8 +675,6 @@
 		3C7A415F2A0506BE00B9C619 /* VisibilityModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41582A0506BE00B9C619 /* VisibilityModifier.swift */; };
 		3C7A41602A0506BE00B9C619 /* VisibilityModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41582A0506BE00B9C619 /* VisibilityModifier.swift */; };
 		3C7A41612A0506BE00B9C619 /* VisibilityModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41582A0506BE00B9C619 /* VisibilityModifier.swift */; };
-		3C84A9AC29A357CB00F0AEFA /* OnlinePaymentViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84A9AB29A357CB00F0AEFA /* OnlinePaymentViewTests.swift */; };
-		3C84A9AE29A35F7100F0AEFA /* OnlinePaymentViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84A9AD29A35F7100F0AEFA /* OnlinePaymentViewControllerTests.swift */; };
 		3C8FF8ED2990D51A009BD583 /* SideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8FF8EC2990D519009BD583 /* SideMenuViewModel.swift */; };
 		3C8FF8EE2990D51A009BD583 /* SideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8FF8EC2990D519009BD583 /* SideMenuViewModel.swift */; };
 		3C8FF8EF2990D51A009BD583 /* SideMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8FF8EC2990D519009BD583 /* SideMenuViewModel.swift */; };
@@ -7322,6 +7321,7 @@
 		3C25C72029E68F3D0098DB57 /* FrameDetecter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameDetecter.swift; sourceTree = "<group>"; };
 		3C25C72A29E697860098DB57 /* WithdrawalCreateCryptoAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCreateCryptoAccountViewController.swift; sourceTree = "<group>"; };
 		3C25C73729E7A11F0098DB57 /* WithdrawalCreateCryptoAccountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCreateCryptoAccountViewModelTests.swift; sourceTree = "<group>"; };
+		3C26523E2A208C0900BBB342 /* PaginationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginationTests.swift; sourceTree = "<group>"; };
 		3C2D6B1C2948824D00636237 /* OfflinePaymentViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflinePaymentViewModelProtocol.swift; sourceTree = "<group>"; };
 		3C2D6B262948826400636237 /* OfflinePaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflinePaymentView.swift; sourceTree = "<group>"; };
 		3C2D6B30294882A200636237 /* OfflinePaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflinePaymentViewModel.swift; sourceTree = "<group>"; };
@@ -10652,6 +10652,7 @@
 				3CB830152914F1D5001246BB /* PromotionUseCaseImplTests.swift */,
 				3CB830172914F6BF001246BB /* PromotionViewModelTests.swift */,
 				6D1062E82A00DF290055C947 /* SingleExtensionTests.swift */,
+				3C26523E2A208C0900BBB342 /* PaginationTests.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -13221,6 +13222,7 @@
 				FFBD376E294ACAE3009E9A97 /* CommonVerifyOtpViewControllerTest.swift in Sources */,
 				3CBC879528530FFB00B57607 /* StringExtensionTest.swift in Sources */,
 				3CDB7B59284F035B006DE0FA /* DateExtensionTest.swift in Sources */,
+				3C26523F2A208C0900BBB342 /* PaginationTests.swift in Sources */,
 				3C6244FC29BECE0800F3813F /* KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
 				3C17059C29505CCA00531357 /* StarMergerViewTest.swift in Sources */,
 				3CB830182914F6BF001246BB /* PromotionViewModelTests.swift in Sources */,

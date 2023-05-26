@@ -75,7 +75,7 @@ struct WithdrawalCryptoWalletsView_Previews: PreviewProvider {
 
     func observeWallets() { }
     func resetDisposeBag() { }
-    
+
     init(isEmpty: Bool) {
       if isEmpty {
         playerWallet = .init(wallets: [], maxAmount: 0)

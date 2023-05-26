@@ -143,16 +143,6 @@ class SearchViewController: SearchProduct {
       self?.searchBarView.endEditing(true)
     }.disposed(by: disposeBag)
 
-    viewModel?.searchResult()
-      .subscribe(onNext: { [weak self] event in
-        if let games = event.element {
-          self?.gameData = games.filter { $0.gameStatus != .maintenance }
-        }
-        if let error = event.error {
-          self?.handleErrors(error)
-        }
-      }).disposed(by: self.disposeBag)
-
     Observable.combineLatest(searchText.asObservable(), viewModel!.searchResult())
       .subscribe(onNext: { [weak self] text, event in
         if let games = event.element {

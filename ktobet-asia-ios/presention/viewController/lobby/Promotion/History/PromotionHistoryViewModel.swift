@@ -48,7 +48,7 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
     super.init()
 
     self.recordPagination = Pagination<CouponHistory>(
-      pageIndex: 1,
+      startIndex: 1,
       offset: 1,
       observable: { [weak self] page -> Observable<[CouponHistory]> in
         guard let self else { return .just([]) }

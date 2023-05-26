@@ -57,7 +57,7 @@ struct UIKitTextField: UIViewRepresentable {
     uiView.disableAutoFillOnIos16()
     uiView.text = text
     updateConfiguration(uiView)
-    
+
     DispatchQueue.main.async {
       if isFirstResponder {
         uiView.becomeFirstResponder()

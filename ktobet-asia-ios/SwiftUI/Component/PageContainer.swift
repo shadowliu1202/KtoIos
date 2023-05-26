@@ -46,15 +46,15 @@ struct PageContainer_Previews: PreviewProvider {
       Text("!")
         .localized(weight: .medium, size: 16, color: .white)
     }
-    
+
     PageContainer(backgroundColor: .greyScaleDefault) {
       VStack(spacing: 30) {
         Text("Hello2")
           .localized(weight: .medium, size: 16, color: .white)
-        
+
         Text("world2")
           .localized(weight: .medium, size: 16, color: .white)
-        
+
         Text("!2")
           .localized(weight: .medium, size: 16, color: .white)
       }
