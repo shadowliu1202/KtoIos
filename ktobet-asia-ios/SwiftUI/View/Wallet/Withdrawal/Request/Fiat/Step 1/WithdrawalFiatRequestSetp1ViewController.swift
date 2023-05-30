@@ -62,7 +62,7 @@ extension WithdrawalFiatRequestStep1ViewController {
         WithdrawalFiatRequestStep1View(
           viewModel: self.viewModel,
           wallet: self.wallet,
-          onRealNameClick: { editable in 
+          onRealNameClick: { editable in
             editable ? self.goToEditRealName() : self.showUsernameCannotEditAlert()
           },
           toStep2: {
@@ -96,7 +96,7 @@ extension WithdrawalFiatRequestStep1ViewController {
       confirmText: Localize.string("common_moveto"),
       cancel: { })
   }
-  
+
   private func showUsernameCannotEditAlert() {
     alert.show(
       Localize.string("withdrawal_realname_modal_title"),

@@ -439,7 +439,7 @@ class LogDetailRowItem {
       return ""
     }
   }
-  
+
   private func isReturn(_ balanceLogDetail: BalanceLogDetail, _ transactionType: TransactionTypes.Product) -> Bool {
     let excludeStatus: [TransactionTypes.Product] = [.ProductEnterTable(), .ProductLeaveTable()]
     let isInclude = excludeStatus.contains { $0 == transactionType }

@@ -158,7 +158,7 @@ struct TransactionLogView_Previews: PreviewProvider {
 
     var dateType: DateType = .week()
 
-    var pagination: Pagination<TransactionLog>! = .init(observable: { _ in .never() })
+    var pagination: Pagination<TransactionLog>! = .init(startIndex: 0, offset: 0, observable: { _ in .just([]) })
 
     init(isEmpty: Bool) {
       if isEmpty {

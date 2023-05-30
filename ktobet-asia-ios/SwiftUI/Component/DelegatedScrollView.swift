@@ -20,6 +20,8 @@ struct DelegatedScrollView<Content: View>: View {
   @State var offsetY = CGFloat.zero
   @State var size = CGSize.zero
   @State var contentSize = CGSize.zero
+  @State var hasReachedBottom = false
+  @State var lastOffsetY = CGFloat.zero
 
   init(
     @ViewBuilder content: @escaping () -> Content,
@@ -45,12 +47,27 @@ struct DelegatedScrollView<Content: View>: View {
     }
     .coordinateSpace(name: spaceName)
     .onPreferenceChange(OffsetPreferenceKey.self) {
+      let isScrollingUp = $0 < lastOffsetY
+      lastOffsetY = $0
       offsetY = $0
       onOffsetChanged?($0)
 
       let scrollable = contentSize.height - size.height > 0 && size != .zero
       let bottomReached = -$0 >= contentSize.height - size.height
-      if scrollable, bottomReached { onBottomReached?() }
+      if
+        scrollable,
+        bottomReached,
+        !hasReachedBottom
+      {
+        onBottomReached?()
+        hasReachedBottom = true
+      }
+      else if
+        !bottomReached,
+        isScrollingUp
+      {
+        hasReachedBottom = false
+      }
     }
   }
 

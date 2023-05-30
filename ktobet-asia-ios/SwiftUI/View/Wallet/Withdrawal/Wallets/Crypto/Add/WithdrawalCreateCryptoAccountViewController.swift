@@ -74,7 +74,7 @@ extension WithdrawalCreateCryptoAccountViewController {
       })
       .disposed(by: disposeBag)
   }
-  
+
   override func handleErrors(_ error: Error) {
     if error is KtoWithdrawalAccountExist {
       alert.show(

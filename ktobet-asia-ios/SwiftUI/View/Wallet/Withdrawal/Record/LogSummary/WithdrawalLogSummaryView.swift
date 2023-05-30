@@ -84,7 +84,7 @@ struct WithdrawalLogView_Previews: PreviewProvider {
     var supportLocale: SupportLocale = .China()
     var isPageLoading = true
     var dateType: DateType = .week()
-    var pagination: Pagination<WithdrawalDto.GroupLog>! = .init(observable: { _ in .just([]) })
+    var pagination: Pagination<WithdrawalDto.GroupLog>! = .init(startIndex: 0, offset: 0, observable: { _ in .just([]) })
     var dataSource: [Selectable] = []
     var selectedItems: [Selectable] = []
     var selectedTitle = "Test"

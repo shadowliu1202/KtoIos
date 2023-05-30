@@ -49,6 +49,8 @@ class WithdrawalLogSummaryViewModel:
     selectedItems = filterStatusSource
 
     pagination = .init(
+      startIndex: 1,
+      offset: 1,
       observable: { [unowned self] page in
         self.getRecords(page: Int32(page))
       },

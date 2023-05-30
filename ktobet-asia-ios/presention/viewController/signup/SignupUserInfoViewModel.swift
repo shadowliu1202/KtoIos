@@ -60,8 +60,8 @@ class SignupUserInfoViewModel {
   }
 
   func inputAccountType(_ type: AccountType) {
-    refreshOtpStatus()
     relayAccountType.accept(type)
+    refreshOtpStatus()
   }
 
   func inputLocale(_ locale: SupportLocale) {

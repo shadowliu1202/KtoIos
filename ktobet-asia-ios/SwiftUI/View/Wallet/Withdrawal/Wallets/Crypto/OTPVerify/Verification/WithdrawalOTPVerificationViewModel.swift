@@ -66,14 +66,14 @@ class WithdrawalOTPVerificationViewModel:
       })
       .disposed(by: disposeBag)
   }
-  
+
   private func cacheAccountType(_ accountType: SharedBu.AccountType) {
     self.accountType = accountType
   }
 
   private func initHeaderTitle() {
     guard let accountType else { return }
-    
+
     switch accountType {
     case .phone:
       headerTitle = Localize.string("common_verify_mobile")
@@ -86,7 +86,7 @@ class WithdrawalOTPVerificationViewModel:
 
   private func initSentCodeMessage() {
     guard let accountType else { return }
-    
+
     playerDataUseCase
       .loadPlayer()
       .map { player in
@@ -120,13 +120,13 @@ class WithdrawalOTPVerificationViewModel:
 
   private func initOTPCodeLength() {
     guard let accountType else { return }
-    
+
     switch playerConfiguration.supportLocale {
     case
       is SupportLocale.China,
       is SupportLocale.Unknown:
       otpCodeLength = 6
-      
+
     case is SupportLocale.Vietnam:
       switch accountType {
       case .phone:
@@ -136,7 +136,7 @@ class WithdrawalOTPVerificationViewModel:
       default:
         fatalError("should not reach here.")
       }
-     
+
     default:
       fatalError("should not reach here.")
     }

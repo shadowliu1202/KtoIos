@@ -75,10 +75,10 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
     }
 
     pagination = Pagination<BetRecord>(
-      pageIndex: 0,
+      startIndex: 0,
       offset: 20,
-      observable: { [unowned self] page -> Observable<[BetRecord]> in
-        self.getBetRecords(offset: page)
+      observable: { [unowned self] currentIndex -> Observable<[BetRecord]> in
+        self.getBetRecords(offset: currentIndex)
           .do(onError: { error in
             self.pagination.error.onNext(error)
           }).catch({ _ -> Observable<[BetRecord]> in

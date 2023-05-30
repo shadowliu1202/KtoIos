@@ -14,10 +14,10 @@ class ArcadeRecordViewModel {
     self.arcadeRecordUseCase = arcadeRecordUseCase
 
     recordByDatePagination = Pagination<GameGroupedRecord>(
-      pageIndex: 0,
+      startIndex: 0,
       offset: 20,
-      observable: { page -> Observable<[GameGroupedRecord]> in
-        self.betSummaryByDate(skip: page)
+      observable: { currentIndex -> Observable<[GameGroupedRecord]> in
+        self.betSummaryByDate(skip: currentIndex)
           .do(onError: { error in
             self.recordByDatePagination.error.onNext(error)
           }).catch({ _ -> Observable<[GameGroupedRecord]> in
@@ -26,10 +26,10 @@ class ArcadeRecordViewModel {
       })
 
     recordDetailPagination = Pagination<ArcadeGameBetRecord>(
-      pageIndex: 0,
+      startIndex: 0,
       offset: 20,
-      observable: { page -> Observable<[ArcadeGameBetRecord]> in
-        self.getBetDetail(skip: page)
+      observable: { currentIndex -> Observable<[ArcadeGameBetRecord]> in
+        self.getBetDetail(skip: currentIndex)
           .do(onError: { error in
             self.recordDetailPagination.error.onNext(error)
           }).catch({ _ -> Observable<[ArcadeGameBetRecord]> in
