@@ -32,7 +32,7 @@ final class Injection {
         PortalURL()
       }
       .inObjectScope(.application)
-    
+
     container
       .register(KtoURL.self, name: "update") { _ in
         VersionUpdateURL()

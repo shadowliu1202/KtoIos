@@ -101,7 +101,7 @@ extension WithdrawalOTPVerificationView {
               Text(viewModel.sentCodeMessage)
             default:
               fatalError("should not reach here.")
-            }            
+            }
           }
         }
         .localized(weight: .medium, size: 14, color: .textPrimary)

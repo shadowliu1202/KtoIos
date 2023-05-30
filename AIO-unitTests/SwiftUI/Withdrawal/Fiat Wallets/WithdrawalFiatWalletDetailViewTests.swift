@@ -53,7 +53,7 @@ final class WithdrawalFiatWalletDetailViewTests: XCBaseTestCase {
         .find(viewWithId: "deleteAccountButton")
         .modifier(VisibilityModifier.self)
         .emptyView()
-      
+
       XCTAssertNotNil(empty)
     }
 

@@ -107,7 +107,7 @@ struct DepositLogView_Previews: PreviewProvider {
 
     var supportLocale: SupportLocale = .China()
 
-    var pagination: Pagination<PaymentLogDTO.GroupLog>! = .init(observable: { _ in .just([]) })
+    var pagination: Pagination<PaymentLogDTO.GroupLog>! = .init(startIndex: 0, offset: 0, observable: { _ in .just([]) })
     var summaryRefreshTrigger = PublishSubject<Void>()
     var totalAmount: String? = "1536"
     var dateType: DateType = .week()

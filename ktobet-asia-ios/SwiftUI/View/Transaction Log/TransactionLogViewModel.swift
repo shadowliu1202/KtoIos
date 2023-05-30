@@ -59,8 +59,10 @@ class TransactionLogViewModel:
     selectedItems = dataSource
 
     self.pagination = .init(
-      observable: { [unowned self] _ in
-        self.searchTransactionLog()
+      startIndex: 1,
+      offset: 1,
+      observable: { [unowned self] currentIndex in
+        self.searchTransactionLog(currentPage: currentIndex)
       },
       onLoading: { [unowned self] in
         self.isPageLoading = $0
@@ -85,13 +87,13 @@ class TransactionLogViewModel:
 // MARK: - API
 
 extension TransactionLogViewModel {
-  func searchTransactionLog() -> Observable<[TransactionLog]> {
+  func searchTransactionLog(currentPage: Int) -> Observable<[TransactionLog]> {
     transactionLogUseCase
       .searchTransactionLog(
         from: dateType.result.from,
         to: dateType.result.to,
         BalanceLogFilterType: selectedLogType,
-        page: pagination.pageIndex)
+        page: currentPage)
       .do(onError: { [unowned self] in
         self.pagination.error.onNext($0)
       })

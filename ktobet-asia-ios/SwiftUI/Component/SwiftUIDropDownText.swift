@@ -40,7 +40,7 @@ struct SwiftUIDropDownText: View {
   @Binding var textFieldText: String
 
   private let id = UUID()
-  
+
   private let placeHolder: String
   private let items: [String]
 
@@ -144,7 +144,7 @@ struct SwiftUIDropDownText: View {
       .onInspected(inspection, self)
       .id(Identifier.entireView.rawValue)
   }
-  
+
   static func notifyClearFocusState(id: UUID) {
     NotificationCenter.default.post(
       name: Notification.Name("collapseNotification"),

@@ -36,7 +36,8 @@ extension View {
     color: UIColor,
     cornerRadius: CGFloat = 0,
     lineWidth: CGFloat = 1)
-    -> some View {
-      modifier(StrokeModifier(color, cornerRadius, lineWidth))
-    }
+    -> some View
+  {
+    modifier(StrokeModifier(color, cornerRadius, lineWidth))
+  }
 }

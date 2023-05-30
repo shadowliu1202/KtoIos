@@ -276,7 +276,7 @@ class WithdrawalAddFiatBankCardViewModel:
         })
       .disposed(by: disposeBag)
   }
-  
+
   private func generateWalletFiatDTO() -> WithdrawalDto.NewWalletFiat {
     let pureBankName = StringMapper
       .splitShortNameAndBankName(
