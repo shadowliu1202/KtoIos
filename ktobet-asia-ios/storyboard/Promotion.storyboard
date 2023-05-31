@@ -857,13 +857,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uan-RM-NH9" userLabel="SeaweedView" customClass="PromotionFilterDropDwon" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="48"/>
-                                <color key="backgroundColor" name="backgroundListCodGray"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="EXf-kh-Z7l"/>
-                                </constraints>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="UcC-5D-oGp">
                                 <rect key="frame" x="30" y="48" width="354" height="756"/>
                                 <color key="backgroundColor" name="blackFull"/>
@@ -910,18 +903,14 @@
                         <viewLayoutGuide key="safeArea" id="6pa-Cw-qlC"/>
                         <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
+                            <constraint firstItem="UcC-5D-oGp" firstAttribute="top" secondItem="6pa-Cw-qlC" secondAttribute="top" constant="48" id="55D-i2-34s"/>
                             <constraint firstItem="UcC-5D-oGp" firstAttribute="leading" secondItem="6pa-Cw-qlC" secondAttribute="leading" constant="30" id="Vhw-gw-CKn"/>
-                            <constraint firstItem="uan-RM-NH9" firstAttribute="top" secondItem="6pa-Cw-qlC" secondAttribute="top" id="YvI-NM-ioV"/>
                             <constraint firstAttribute="bottom" secondItem="UcC-5D-oGp" secondAttribute="bottom" id="eGp-rd-A4x"/>
-                            <constraint firstItem="UcC-5D-oGp" firstAttribute="top" secondItem="uan-RM-NH9" secondAttribute="bottom" id="fC7-sD-I6h"/>
-                            <constraint firstItem="6pa-Cw-qlC" firstAttribute="trailing" secondItem="uan-RM-NH9" secondAttribute="trailing" id="kUi-aC-bCp"/>
-                            <constraint firstItem="uan-RM-NH9" firstAttribute="leading" secondItem="6pa-Cw-qlC" secondAttribute="leading" id="xTf-3s-PgT"/>
                             <constraint firstItem="UcC-5D-oGp" firstAttribute="trailing" secondItem="6pa-Cw-qlC" secondAttribute="trailing" constant="-30" id="xUT-Mg-dFG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qFg-2v-6y5"/>
                     <connections>
-                        <outlet property="filterDropDwon" destination="uan-RM-NH9" id="ZeM-e1-kSp"/>
                         <outlet property="tableView" destination="UcC-5D-oGp" id="glP-bv-eR3"/>
                     </connections>
                 </viewController>
@@ -935,9 +924,6 @@
         <image name="promotionAutoUse" width="74" height="75"/>
         <namedColor name="alert">
             <color red="1" green="0.50196078431372548" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="backgroundListCodGray">
-            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="blackFull">
             <color red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
