@@ -1,20 +1,21 @@
+import Combine
 import RxCocoa
 import RxSwift
 import SharedBu
+import SwiftUI
 import UIKit
 
 class PromotionViewController: LobbyViewController {
-  @IBOutlet weak var filterDropDwon: PromotionFilterDropDwon!
   @IBOutlet weak var tableView: UITableView!
   
+  private var dropDownFilterView: UIView!
   private var emptyStateView: EmptyStateView!
 
   private var dataSource: [[PromotionVmItem]] = [[]]
-  private var lastTag: PromotionTag?
-  private var lastProductTags: [PromotionProductTag]?
 
   private var localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
   private var disposeBag = DisposeBag()
+  private var cancellables = Set<AnyCancellable>()
 
   var barButtonItems: [UIBarButtonItem] = []
   var viewModel = Injectable.resolve(PromotionViewModel.self)!
@@ -47,11 +48,53 @@ class PromotionViewController: LobbyViewController {
     tableView.dataSource = self
     tableView.delegate = self
     
-    filterDropDwon.clickHandler = { [weak self] promotionTag, promotionProductTags in
-      self?.filterClickHandler(tag: promotionTag, productTags: promotionProductTags)
-    }
-    
+    initFilterDropDownView()
     initEmptyStateView()
+    
+    tableView.snp.makeConstraints { make in
+      make.top.equalTo(dropDownFilterView.snp.bottom)
+      make.bottom.equalToSuperview()
+      make.leading.equalToSuperview().offset(30)
+      make.trailing.equalToSuperview().offset(-30)
+    }
+  }
+  
+  private func initFilterDropDownView() {
+    dropDownFilterView = UIHostingController(
+      rootView:
+      VStack {
+        PromotionDropDownFilter(
+          viewModel: viewModel,
+          onExpandStateChange: { [weak self] isExpand in
+            guard let self else { return }
+              
+            self.dropDownFilterView.snp.remakeConstraints { make in
+              if isExpand {
+                make.height.equalToSuperview()
+              }
+                
+              make.width.equalToSuperview()
+                
+              make.top.equalTo(self.view.safeAreaLayoutGuide)
+              make.centerX.equalToSuperview()
+            }
+              
+            self.view.layoutIfNeeded()
+          })
+          
+        Spacer(minLength: 0)
+      })
+      .view
+    
+    dropDownFilterView.backgroundColor = .clear
+    view.addSubview(dropDownFilterView)
+    
+    dropDownFilterView.snp.makeConstraints { make in
+      make.width.equalToSuperview()
+      
+      make.top.equalTo(view.safeAreaLayoutGuide)
+      make.centerX.equalToSuperview()
+    }
   }
   
   private func initEmptyStateView() {
@@ -64,7 +107,7 @@ class PromotionViewController: LobbyViewController {
     view.addSubview(emptyStateView)
 
     emptyStateView.snp.makeConstraints { make in
-      make.top.equalTo(filterDropDwon.snp.bottom)
+      make.top.equalTo(dropDownFilterView.snp.bottom)
       make.bottom.leading.trailing.equalToSuperview()
     }
   }
@@ -93,32 +136,29 @@ class PromotionViewController: LobbyViewController {
       self?.navigationController?.pushViewController(promotionDetailViewController, animated: true)
     }).disposed(by: self.disposeBag)
 
-    viewModel.filterSource.subscribe(onNext: { [weak self] (filters: [(PromotionFilter, Int)]) in
-      if self?.filterDropDwon.tags.count == 0 {
-        self?.initFilterDropDwon(filters)
+    viewModel.filterSource
+      .subscribe(
+        onNext: { [weak self] (filters: [(PromotionFilter, Int)]) in
+          self?.viewModel.promotionTags = filters
+            .map { promotionTagRecipes in
+              let (filter, count) = promotionTagRecipes
+              
+              return PromotionTag(isSelected: false, filter: filter, count: count)
+            }
+        },
+        onError: { [weak self] error in
+          self?.handleErrors(error)
+        })
+      .disposed(by: disposeBag)
+                                
+    Publishers.CombineLatest(
+      viewModel.$selectedPromotionFilter,
+      viewModel.$selectedProductFilters)
+      .sink { [weak self] selectedPromotionFilter, selectedProductFilters in
+        self?.viewModel
+          .setCouponFilter(selectedPromotionFilter, Array(selectedProductFilters))
       }
-      else {
-        self?.updateFilterDropDwonCount(filters)
-      }
-    }, onError: { [weak self] error in
-      self?.handleErrors(error)
-    }).disposed(by: disposeBag)
-  }
-
-  private func initFilterDropDwon(_ filters: [(PromotionFilter, Int)]) {
-    self.filterDropDwon.tags = filters.map({ tuple in
-      let (filter, count) = tuple
-      if case .all = filter {
-        return PromotionTag(isSelected: true, filter: filter, count: count)
-      }
-      else {
-        return PromotionTag(isSelected: false, filter: filter, count: count)
-      }
-    })
-  }
-
-  private func updateFilterDropDwonCount(_ filters: [(PromotionFilter, Int)]) {
-    self.filterDropDwon.updateDropDwonTag(filters)
+      .store(in: &cancellables)
   }
 
   private func switchContent(_ items: [[PromotionVmItem]]) {
@@ -129,15 +169,6 @@ class PromotionViewController: LobbyViewController {
     else {
       self.tableView.isHidden = false
       self.emptyStateView.isHidden = true
-    }
-  }
-
-  private func filterClickHandler(tag: PromotionTag?, productTags: [PromotionProductTag]) {
-    let theSameProductTags: Bool = self.lastProductTags?.elementsEqual(productTags) ?? false
-    if let tag, self.lastTag != tag || !theSameProductTags {
-      self.lastTag = tag
-      self.lastProductTags = productTags.map({ PromotionProductTag(isSelected: $0.isSelected, filter: $0.filter) })
-      viewModel.setCouponFilter(tag.filter, productTags.filter({ $0.isSelected }).map({ $0.filter }))
     }
   }
 }

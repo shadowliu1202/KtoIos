@@ -2,8 +2,25 @@ import Foundation
 import RxCocoa
 import RxSwift
 import SharedBu
+import SwiftUI
 
-class PromotionViewModel {
+protocol CouponFilterable: ObservableObject{
+  var promotionTags: [PromotionTag] { get set }
+  var selectedPromotionFilter: PromotionFilter { get set }
+  var selectedProductFilters: Set<PromotionFilter.Product> { get set }
+}
+
+class PromotionViewModel: CouponFilterable {
+  @Published var promotionTags: [PromotionTag] = []
+  @Published var selectedPromotionFilter: PromotionFilter = .all
+  @Published var selectedProductFilters: Set<PromotionFilter.Product> = [
+    .Sport,
+    .Slot,
+    .Casino,
+    .Numbergame,
+    .Arcade
+  ]
+  
   private let promotionUseCase: PromotionUseCase
   private let playerUseCase: PlayerDataUseCase
 
@@ -181,9 +198,9 @@ class PromotionViewModel {
     trigerRefresh.onNext(())
   }
 
-  func setCouponFilter(_ filter: PromotionFilter, _ selectedProductTags: [PromotionFilter.Product]) {
-    self.filterOfSorce.accept(filter)
-    self.filterOfProduct.accept(selectedProductTags)
+  func setCouponFilter(_ selectedPromotionFilter: PromotionFilter, _ selectedProductFilters: [PromotionFilter.Product]) {
+    self.filterOfSorce.accept(selectedPromotionFilter)
+    self.filterOfProduct.accept(selectedProductFilters)
   }
 
   func getPromotionDetail(id promotionId: String) -> Driver<PromotionDescriptions> {
