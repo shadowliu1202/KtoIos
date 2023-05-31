@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 import UIKit
 
-class SearchViewController: SearchProduct {
+class SearchViewController: SearchProduct, UISearchBarDelegate {
   @IBOutlet var searchBarView: UISearchBar!
   @IBOutlet weak var suggestionView: UIView!
   @IBOutlet weak var tagsStackView: UIStackView!
@@ -98,6 +98,7 @@ class SearchViewController: SearchProduct {
     searchBarView.setClearButtonColorTo(color: .white)
     searchBarView.setCursorColorTo(color: UIColor.primaryDefault)
     searchBarView.frame = .init(origin: .zero, size: titleView.frame.size)
+    searchBarView.delegate = self
     titleView.addSubview(searchBarView)
     searchBarView.center = titleView.convert(titleView.center, from: titleView.superview)
     navigationItem.titleView = titleView
@@ -111,6 +112,7 @@ class SearchViewController: SearchProduct {
 
   private func dataBinding() {
     viewModel?.clearSearchResult()
+
     viewModel?.searchSuggestion()
       .catch({ [weak self] error -> Single<[String]> in
         self?.handleErrors(error)
@@ -119,29 +121,38 @@ class SearchViewController: SearchProduct {
       .subscribe(onSuccess: { [weak self] suggestions in
         guard let self else { return }
         self.addTagBtns(stackView: self.tagsStackView, data: suggestions)
-      }).disposed(by: disposeBag)
+      })
+      .disposed(by: disposeBag)
 
-    searchBarView.rx.text.orEmpty.asDriver().drive(searchText).disposed(by: disposeBag)
-    searchText.asObservable().subscribe(onNext: { [weak self] text in
-      if let self, self.searchBarView.text != text {
-        self.searchBarView.text = text
-      }
-      if text?.isEmpty ?? true {
-        self?.searchBarView.endEditing(true)
-      }
-    }).disposed(by: disposeBag)
+    searchBarView.rx.text.orEmpty.asDriver()
+      .drive(searchText)
+      .disposed(by: disposeBag)
+
+    searchText
+      .compactMap { $0 }
+      .subscribe(onNext: { [weak self] text in
+        if self?.searchBarView.text != text {
+          self?.searchBarView.text = text
+        }
+        if text.isEmpty {
+          self?.searchBarView.endEditing(true)
+        }
+      })
+      .disposed(by: disposeBag)
 
     searchText.asObservable()
       .debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance)
       .observe(on: MainScheduler.asyncInstance)
       .bind(onNext: { [weak self] text in
         self?.viewModel?.triggerSearch(text)
-      }).disposed(by: disposeBag)
+      })
+      .disposed(by: disposeBag)
 
     searchBarView.rx.searchButtonClicked.bind { [weak self] _ in
       self?.viewModel?.triggerSearch(self?.searchText.value)
       self?.searchBarView.endEditing(true)
-    }.disposed(by: disposeBag)
+    }
+    .disposed(by: disposeBag)
 
     Observable.combineLatest(searchText.asObservable(), viewModel!.searchResult())
       .subscribe(onNext: { [weak self] text, event in
@@ -152,7 +163,8 @@ class SearchViewController: SearchProduct {
         if let error = event.error {
           self?.handleErrors(error)
         }
-      }).disposed(by: self.disposeBag)
+      })
+      .disposed(by: self.disposeBag)
   }
 
   private func changeContent(text: String, games: [WebGameWithProperties]) {
@@ -268,5 +280,34 @@ class SearchViewController: SearchProduct {
 
   override func setProductType() -> ProductType {
     viewModel!.getGameProductType()
+  }
+
+  // MARK: UISearchBarDelegate
+
+  func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    let currentText = searchBar.text ?? ""
+    let newText = (currentText as NSString).replacingCharacters(in: range, with: text)
+
+    let characterLimit = 30
+
+    return countTextLength(newText) <= characterLimit
+  }
+
+  private func countTextLength(_ text: String) -> Int {
+    var count = 0
+
+    for scalar in text.unicodeScalars {
+      let value = scalar.value
+      let isHalfWidthCharacter = (value >= 0x0000 && value <= 0x00FF)
+      
+      if isHalfWidthCharacter {
+        count += 1
+      }
+      else {
+        count += 2
+      }
+    }
+
+    return count
   }
 }
