@@ -5,8 +5,9 @@ import UIKit
 
 class PromotionViewController: LobbyViewController {
   @IBOutlet weak var filterDropDwon: PromotionFilterDropDwon!
-  @IBOutlet private weak var noDataView: UIView!
   @IBOutlet weak var tableView: UITableView!
+  
+  private var emptyStateView: EmptyStateView!
 
   private var dataSource: [[PromotionVmItem]] = [[]]
   private var lastTag: PromotionTag?
@@ -22,8 +23,7 @@ class PromotionViewController: LobbyViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("bonus_title"))
-    self.bind(position: .right, barButtonItems: .kto(.history))
+    
     initUI()
     dataBinding()
   }
@@ -38,13 +38,34 @@ class PromotionViewController: LobbyViewController {
   }
 
   private func initUI() {
+    NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("bonus_title"))
+    self.bind(position: .right, barButtonItems: .kto(.history))
+    
     tableView.estimatedRowHeight = 173.0
     tableView.sectionHeaderHeight = 54.0
     tableView.rowHeight = UITableView.automaticDimension
     tableView.dataSource = self
     tableView.delegate = self
+    
     filterDropDwon.clickHandler = { [weak self] promotionTag, promotionProductTags in
       self?.filterClickHandler(tag: promotionTag, productTags: promotionProductTags)
+    }
+    
+    initEmptyStateView()
+  }
+  
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "Coupon"),
+      description: Localize.string("common_no_related_promotions"),
+      keyboardAppearance: .impossible)
+    emptyStateView.isHidden = true
+    
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.top.equalTo(filterDropDwon.snp.bottom)
+      make.bottom.leading.trailing.equalToSuperview()
     }
   }
 
@@ -103,11 +124,11 @@ class PromotionViewController: LobbyViewController {
   private func switchContent(_ items: [[PromotionVmItem]]) {
     if items.allSatisfy({ $0.count == 0 }) {
       self.tableView.isHidden = true
-      self.noDataView.isHidden = false
+      self.emptyStateView.isHidden = false
     }
     else {
       self.tableView.isHidden = false
-      self.noDataView.isHidden = true
+      self.emptyStateView.isHidden = true
     }
   }
 

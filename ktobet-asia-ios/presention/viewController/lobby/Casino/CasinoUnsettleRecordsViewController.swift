@@ -6,6 +6,8 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
   static let segueIdentifier = "toCasinoUnsettleRecords"
   @IBOutlet private weak var tableView: UITableView!
 
+  private var emptyStateView: EmptyStateView!
+
   private var viewModel = Injectable.resolve(CasinoViewModel.self)!
   private var disposeBag = DisposeBag()
   private var sections: [Section] = []
@@ -14,15 +16,48 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    initUI()
+    dataBinding()
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    getUnsettledBetSummary()
+  }
+
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
+
+  private func initUI() {
     NavigationManagement.sharedInstance.addBarButtonItem(
       vc: self,
       barItemType: .back,
       title: Localize.string("product_unsettled_game"))
+
     tableView.delegate = unsettleGameDelegate
     tableView.dataSource = self
     tableView.setHeaderFooterDivider(headerColor: UIColor.greyScaleDefault)
-    getUnsettledBetSummary()
 
+    initEmptyStateView()
+  }
+
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Unsettle Casino"),
+      description: Localize.string("product_empty_unsettled_records"),
+      keyboardAppearance: .impossible)
+
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+  }
+
+  private func dataBinding() {
     viewModel.errors()
       .subscribe(onNext: { [weak self] in
         self?.handleErrors($0)
@@ -32,16 +67,26 @@ class CasinoUnsettleRecordsViewController: ProductsViewController {
     bindWebGameResult(with: viewModel)
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func getUnsettledBetSummary() {
-    viewModel.getUnsettledBetSummary().subscribe { [weak self] _ in
-      self?.getUnsettledRecords()
-    } onError: { [weak self] error in
-      self?.handleErrors(error)
-    }.disposed(by: disposeBag)
+    viewModel
+      .getUnsettledBetSummary()
+      .subscribe(
+        onNext: { [weak self] unsettledBetSummaryDTOs in
+          if unsettledBetSummaryDTOs.isEmpty {
+            self?.tableView.isHidden = true
+            self?.emptyStateView.isHidden = false
+          }
+          else {
+            self?.tableView.isHidden = false
+            self?.emptyStateView.isHidden = true
+          }
+
+          self?.getUnsettledRecords()
+        },
+        onError: { [weak self] error in
+          self?.handleErrors(error)
+        })
+      .disposed(by: disposeBag)
   }
 
   private func getUnsettledRecords() {

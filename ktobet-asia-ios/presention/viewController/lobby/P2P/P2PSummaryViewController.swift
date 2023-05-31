@@ -4,8 +4,9 @@ import SharedBu
 import UIKit
 
 class P2PSummaryViewController: LobbyViewController {
-  @IBOutlet private weak var noDataView: UIView!
   @IBOutlet weak var tableView: UITableView!
+  
+  private var emptyStateView: EmptyStateView!
 
   @Injected private(set) var viewModel: P2PBetViewModel
 
@@ -48,6 +49,21 @@ extension P2PSummaryViewController {
       title: Localize.string("product_my_bet"))
 
     tableView.setHeaderFooterDivider()
+    
+    setupEmptyStateView()
+  }
+  
+  private func setupEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Records"),
+      description: Localize.string("product_none_my_bet_record"),
+      keyboardAppearance: .impossible)
+
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 
   private func binding() {
@@ -102,11 +118,11 @@ extension P2PSummaryViewController {
       summary.hasGameRecords
     {
       self.tableView.isHidden = false
-      self.noDataView.isHidden = true
+      self.emptyStateView.isHidden = true
     }
     else {
       self.tableView.isHidden = true
-      self.noDataView.isHidden = false
+      self.emptyStateView.isHidden = false
     }
   }
 }

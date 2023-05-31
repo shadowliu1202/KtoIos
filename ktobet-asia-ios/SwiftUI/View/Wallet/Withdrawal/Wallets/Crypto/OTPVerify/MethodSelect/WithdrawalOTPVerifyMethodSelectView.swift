@@ -28,7 +28,7 @@ struct WithdrawalOTPVerifyMethodSelectView<ViewModel>: View
   }
 
   var body: some View {
-    PageContainer {
+    PageContainer(backgroundColor: .greyScaleDefault, bottomPadding: 0) {
       VStack(spacing: 0) {
         VStack(spacing: 30) {
           Text(key: "common_select_verify_type")
@@ -68,12 +68,14 @@ struct WithdrawalOTPVerifyMethodSelectView<ViewModel>: View
             otpRequestOnCompleted)
 
         case .unavailable(let hint):
-          ServiceUnavailable(hint)
+          SwiftUIEmptyStateView(
+            iconImage: Image("Maintenance"),
+            description: hint,
+            keyboardAppearance: .impossible)
         }
       }
     }
     .onPageLoading(viewModel.isLoading)
-    .pageBackgroundColor(.greyScaleDefault)
     .environmentObject(viewModel)
     .onAppear {
       viewModel.setup(otpServiceUnavailable)
@@ -134,32 +136,6 @@ extension WithdrawalOTPVerifyMethodSelectView {
       .padding(.top, 30)
       .frame(maxHeight: .infinity, alignment: .top)
       .onInspected(inspection, self)
-    }
-  }
-
-  // MARK: - ServiceUnavailable
-
-  struct ServiceUnavailable: View {
-    private let hint: String
-
-    init(_ hint: String) {
-      self.hint = hint
-    }
-
-    var body: some View {
-      VStack(spacing: 0) {
-        Image("Cone")
-          .frame(width: 128, height: 128)
-
-        Text(hint)
-          .localized(weight: .regular, size: 14, color: .textPrimary)
-          .multilineTextAlignment(.center)
-      }
-      .alignmentGuide(VerticalAlignment.center) { viewDimensions in
-        viewDimensions[VerticalAlignment.center] + 50
-      }
-      .padding(.horizontal, 30)
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
   }
 }

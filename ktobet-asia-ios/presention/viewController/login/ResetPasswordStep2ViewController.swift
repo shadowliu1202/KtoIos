@@ -33,15 +33,6 @@ class ResetPasswordStep2ViewController: OtpViewControllerProtocol {
     } cancel: { }
   }
 
-  func onExccedResendLimit() {
-    let title = Localize.string("common_tip_title_warm")
-    let message = viewModel.currentAccountType() == .phone ? Localize.string("common_sms_otp_exeed_send_limit") : Localize
-      .string("common_sms_otp_exeed_send_limit")
-    Alert.shared.show(title, message, confirm: {
-      NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-    }, cancel: nil)
-  }
-
   func validateAccountType(validator: OtpValidatorDelegation) {
     let type = EnumMapper.convert(accountType: accountType.rawValue)
     validator.otpAccountType.onNext(type)

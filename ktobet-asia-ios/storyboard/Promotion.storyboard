@@ -864,35 +864,6 @@
                                     <constraint firstAttribute="height" constant="48" id="EXf-kh-Z7l"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jl2-p0-7Xm">
-                                <rect key="frame" x="0.0" y="48" width="414" height="722"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GsT-0c-Yy0">
-                                        <rect key="frame" x="0.0" y="216" width="414" height="0.0"/>
-                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                        <color key="textColor" name="textPrimaryDustyGray"/>
-                                        <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_no_related_promotions"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="promotionListEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="vK2-ws-TDz">
-                                        <rect key="frame" x="166" y="120" width="82" height="64"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="64" id="ESA-YA-o59"/>
-                                            <constraint firstAttribute="width" constant="82" id="sV2-tB-7yb"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" name="blackFull"/>
-                                <constraints>
-                                    <constraint firstItem="vK2-ws-TDz" firstAttribute="top" secondItem="Jl2-p0-7Xm" secondAttribute="top" constant="120" id="CyH-Ux-cLS"/>
-                                    <constraint firstAttribute="trailing" secondItem="GsT-0c-Yy0" secondAttribute="trailing" id="N8E-aY-GbM"/>
-                                    <constraint firstItem="GsT-0c-Yy0" firstAttribute="top" secondItem="vK2-ws-TDz" secondAttribute="bottom" constant="32" id="T7v-Xv-fX1"/>
-                                    <constraint firstItem="vK2-ws-TDz" firstAttribute="centerX" secondItem="Jl2-p0-7Xm" secondAttribute="centerX" id="w6O-Oe-FVY"/>
-                                    <constraint firstItem="GsT-0c-Yy0" firstAttribute="leading" secondItem="Jl2-p0-7Xm" secondAttribute="leading" id="ysJ-Tv-Bjk"/>
-                                </constraints>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="UcC-5D-oGp">
                                 <rect key="frame" x="30" y="48" width="354" height="756"/>
                                 <color key="backgroundColor" name="blackFull"/>
@@ -902,20 +873,20 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="IoM-gM-ToQ" userLabel="footer">
-                                    <rect key="frame" x="0.0" y="129.5" width="354" height="96"/>
+                                    <rect key="frame" x="0.0" y="130" width="354" height="96"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PromotionHeaderViewCell" id="pYD-1Q-vQS" customClass="PromotionHeaderViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="354" height="56"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="354" height="56.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pYD-1Q-vQS" id="t81-s2-X1e">
-                                            <rect key="frame" x="0.0" y="0.0" width="354" height="56"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="354" height="56.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONp-OA-9gE">
-                                                    <rect key="frame" x="0.0" y="24" width="354" height="26"/>
+                                                    <rect key="frame" x="0.0" y="24" width="354" height="26.5"/>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="18"/>
                                                     <color key="textColor" name="whiteFull"/>
                                                     <nil key="highlightedColor"/>
@@ -941,13 +912,9 @@
                         <constraints>
                             <constraint firstItem="UcC-5D-oGp" firstAttribute="leading" secondItem="6pa-Cw-qlC" secondAttribute="leading" constant="30" id="Vhw-gw-CKn"/>
                             <constraint firstItem="uan-RM-NH9" firstAttribute="top" secondItem="6pa-Cw-qlC" secondAttribute="top" id="YvI-NM-ioV"/>
-                            <constraint firstItem="6pa-Cw-qlC" firstAttribute="bottom" secondItem="Jl2-p0-7Xm" secondAttribute="bottom" id="Zuh-tD-izO"/>
-                            <constraint firstItem="6pa-Cw-qlC" firstAttribute="trailing" secondItem="Jl2-p0-7Xm" secondAttribute="trailing" id="aES-Js-laL"/>
                             <constraint firstAttribute="bottom" secondItem="UcC-5D-oGp" secondAttribute="bottom" id="eGp-rd-A4x"/>
                             <constraint firstItem="UcC-5D-oGp" firstAttribute="top" secondItem="uan-RM-NH9" secondAttribute="bottom" id="fC7-sD-I6h"/>
-                            <constraint firstItem="Jl2-p0-7Xm" firstAttribute="leading" secondItem="6pa-Cw-qlC" secondAttribute="leading" id="heR-FV-ykR"/>
                             <constraint firstItem="6pa-Cw-qlC" firstAttribute="trailing" secondItem="uan-RM-NH9" secondAttribute="trailing" id="kUi-aC-bCp"/>
-                            <constraint firstItem="Jl2-p0-7Xm" firstAttribute="top" secondItem="uan-RM-NH9" secondAttribute="bottom" id="uPE-In-84A"/>
                             <constraint firstItem="uan-RM-NH9" firstAttribute="leading" secondItem="6pa-Cw-qlC" secondAttribute="leading" id="xTf-3s-PgT"/>
                             <constraint firstItem="UcC-5D-oGp" firstAttribute="trailing" secondItem="6pa-Cw-qlC" secondAttribute="trailing" constant="-30" id="xUT-Mg-dFG"/>
                         </constraints>
@@ -955,7 +922,6 @@
                     <navigationItem key="navigationItem" id="qFg-2v-6y5"/>
                     <connections>
                         <outlet property="filterDropDwon" destination="uan-RM-NH9" id="ZeM-e1-kSp"/>
-                        <outlet property="noDataView" destination="Jl2-p0-7Xm" id="unJ-Vc-HZy"/>
                         <outlet property="tableView" destination="UcC-5D-oGp" id="glP-bv-eR3"/>
                     </connections>
                 </viewController>
@@ -967,7 +933,6 @@
     <resources>
         <image name="iconLvSlot48" width="48" height="48"/>
         <image name="promotionAutoUse" width="74" height="75"/>
-        <image name="promotionListEmpty" width="82" height="64"/>
         <namedColor name="alert">
             <color red="1" green="0.50196078431372548" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -975,19 +940,16 @@
             <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="blackFull">
-            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="blackTwo">
-            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="dividerCapeCodGray">
             <color red="0.23499999940395355" green="0.24300000071525574" blue="0.25099998712539673" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="redForLightFull">
             <color red="0.85100001096725464" green="0.0040000001899898052" blue="0.0040000001899898052" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="textPrimaryDustyGray">
-            <color red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="textSecondaryScorpionGray">
             <color red="0.34509803921568627" green="0.34509803921568627" blue="0.34509803921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

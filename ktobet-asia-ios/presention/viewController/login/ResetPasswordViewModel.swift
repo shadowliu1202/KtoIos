@@ -2,23 +2,27 @@ import Foundation
 import RxCocoa
 import RxDataSources
 import RxSwift
+import RxSwiftExt
 import SharedBu
 
-class ResetPasswordViewModel {
-  static let accountRetryLimit = 11
-  static let retryCountDownTime = 60
-  private var resetUseCase: ResetPasswordUseCase!
-  private var systemUseCase: GetSystemStatusUseCase!
+class ResetPasswordViewModel: CollectErrorViewModel {
+  private let resetUseCase: ResetPasswordUseCase
+  private let systemUseCase: GetSystemStatusUseCase
   private let localStorageRepo: LocalStorageRepository
+  
+  private let disposeBag = DisposeBag()
+  
+  private let otpStatusRefreshSubject = PublishSubject<Void>()
+  
   private var phoneEdited = false
   private var mailEdited = false
   private var passwordEdited = false
+  
   var relayEmail = BehaviorRelay(value: "")
   var relayMobile = BehaviorRelay(value: "")
   var relayPassword = BehaviorRelay(value: "")
   var relayConfirmPassword = BehaviorRelay(value: "")
-  var relayAccountType = BehaviorRelay(value: AccountType.phone)
-  var remainTime = 0
+  
   var retryCount: Int {
     get {
       resetUseCase.getRetryCount()
@@ -48,10 +52,6 @@ class ResetPasswordViewModel {
 
   lazy var locale = localStorageRepo.getSupportLocale()
 
-  private var otpStatusRefreshSubject = PublishSubject<Void>()
-  private let otpStatus: ReplaySubject<OtpStatus> = .create(bufferSize: 1)
-  private let disposeBag = DisposeBag()
-
   init(
     _ resetUseCase: ResetPasswordUseCase,
     _ systemUseCase: GetSystemStatusUseCase,
@@ -60,28 +60,12 @@ class ResetPasswordViewModel {
     self.resetUseCase = resetUseCase
     self.systemUseCase = systemUseCase
     self.localStorageRepo = localStorageRepo
-
-    otpStatusRefreshSubject.asObservable()
-      .flatMapLatest { [unowned self] in self.systemUseCase.getOtpStatus().asObservable() }
-      .bind(to: otpStatus)
-      .disposed(by: disposeBag)
-  }
-
-  func currentAccountType() -> AccountType {
-    relayAccountType.value
-  }
-
-  func inputAccountType(_ type: AccountType) {
-    refreshOtpStatus()
-    relayAccountType.accept(type)
   }
 
   func event() -> (
-    otpValid: Observable<UserInfoStatus>,
-    accountValid: Observable<Bool>,
+    otpStatus: Driver<OtpStatus>,
     emailValid: Observable<UserInfoStatus>,
     mobileValid: Observable<UserInfoStatus>,
-    typeChange: Observable<AccountType>,
     passwordValid: Observable<UserInfoStatus>)
   {
     let emailValid = relayEmail
@@ -107,21 +91,26 @@ class ResetPasswordViewModel {
         }
         else { return .errPhoneFormat }
       }
-
-    let typeChange = relayAccountType.asObservable()
-    let otpValid = Observable.combineLatest(otpStatus, typeChange)
-      .map { otpStatus, type -> UserInfoStatus in
-        switch type {
-        case .email: return otpStatus.isMailActive ? .valid : .errEmailOtpInactive
-        case .phone: return otpStatus.isSmsActive ? .valid : .errSMSOtpInactive
+    
+    let otpStatus = otpStatusRefreshSubject
+      .flatMapLatest { [weak self] _ -> Single<OtpStatus?> in
+        guard let self
+        else {
+          return .just(nil)
         }
+        
+        return self.systemUseCase
+          .getOtpStatus()
+          .map { $0 }
+          .catch { [weak self] error in
+            self?.errorsSubject
+              .onNext(error)
+            
+            return .just(nil)
+          }
       }
-
-    let accountValid = Observable.combineLatest(typeChange, emailValid, mobileValid) {
-      (
-        ($0 == AccountType.email && $1 == UserInfoStatus.valid) ||
-          ($0 == AccountType.phone && $2 == UserInfoStatus.valid)) && self.remainTime == 0
-    }
+      .compactMap { $0 }
+      .asDriverLogError()
 
     let password = relayPassword.asObservable()
     let confirmPassword = relayConfirmPassword.asObservable()
@@ -147,11 +136,9 @@ class ResetPasswordViewModel {
       }
 
     return (
-      otpValid: otpValid,
-      accountValid: accountValid,
+      otpStatus: otpStatus,
       emailValid: emailValid,
       mobileValid: mobileValid,
-      typeChange: typeChange,
       passwordValid: passwordValid)
   }
 
@@ -159,9 +146,11 @@ class ResetPasswordViewModel {
     otpStatusRefreshSubject.onNext(())
   }
 
-  func requestPasswordReset() -> Completable {
-    let account = relayAccountType.value == .phone ? Account.Phone(phone: relayMobile.value, locale: locale) :
-      Account.Email(email: relayEmail.value)
+  func requestPasswordReset(_ selectedVerifyWay: AccountType) -> Completable {
+    let account = selectedVerifyWay == .phone
+      ? Account.Phone(phone: relayMobile.value, locale: locale)
+      : Account.Email(email: relayEmail.value)
+    
     return resetUseCase.forgetPassword(account: account)
   }
 
@@ -169,8 +158,8 @@ class ResetPasswordViewModel {
     self.locale = locale
   }
 
-  func getAccount() -> String {
-    relayAccountType.value == .phone ? relayMobile.value : relayEmail.value
+  func getAccount(_ selectedVerifyWay: AccountType) -> String {
+    selectedVerifyWay == .phone ? relayMobile.value : relayEmail.value
   }
 
   func verifyResetOtp(otpCode: String) -> Completable {

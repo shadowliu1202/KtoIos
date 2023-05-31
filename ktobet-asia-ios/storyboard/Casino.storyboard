@@ -17,10 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zDS-1h-HQv" customClass="MyBetEmptyDataView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nya-Sz-0uG">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <color key="backgroundColor" name="blackFull"/>
@@ -128,18 +124,13 @@
                         <viewLayoutGuide key="safeArea" id="OFR-XN-4QQ"/>
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
-                            <constraint firstItem="zDS-1h-HQv" firstAttribute="top" secondItem="OFR-XN-4QQ" secondAttribute="top" id="6JU-MI-5kS"/>
-                            <constraint firstItem="OFR-XN-4QQ" firstAttribute="trailing" secondItem="zDS-1h-HQv" secondAttribute="trailing" id="997-Hq-GuD"/>
                             <constraint firstItem="OFR-XN-4QQ" firstAttribute="trailing" secondItem="nya-Sz-0uG" secondAttribute="trailing" id="9wo-LX-fZb"/>
                             <constraint firstItem="nya-Sz-0uG" firstAttribute="leading" secondItem="OFR-XN-4QQ" secondAttribute="leading" id="Lut-XL-vDx"/>
                             <constraint firstItem="nya-Sz-0uG" firstAttribute="top" secondItem="8lb-YG-01J" secondAttribute="top" id="Pi0-N4-1Xl"/>
-                            <constraint firstItem="OFR-XN-4QQ" firstAttribute="bottom" secondItem="zDS-1h-HQv" secondAttribute="bottom" id="Rsa-Pa-5eX"/>
                             <constraint firstItem="OFR-XN-4QQ" firstAttribute="bottom" secondItem="nya-Sz-0uG" secondAttribute="bottom" id="bKN-E3-6ug"/>
-                            <constraint firstItem="zDS-1h-HQv" firstAttribute="leading" secondItem="OFR-XN-4QQ" secondAttribute="leading" id="hFH-UN-3Tz"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="noDataView" destination="zDS-1h-HQv" id="Bgw-5R-dir"/>
                         <outlet property="tableView" destination="nya-Sz-0uG" id="HaG-mO-RTX"/>
                         <segue destination="1Db-4K-oE4" kind="show" identifier="toCasinoUnsettleRecords" id="Fvn-HQ-fbn"/>
                         <segue destination="MiT-xN-lz3" kind="show" identifier="toCasinoBetSummaryByDate" id="7cK-zk-JAy"/>

@@ -110,15 +110,7 @@ class NotificationViewModel: CollectErrorViewModel, ViewModelType {
   private func isHiddenEmptyView(_ notifications: Driver<[NotificationItem]>) -> Driver<Bool> {
     Driver.combineLatest(notifications, keyword.map { $0.count >= 3 }.asDriver(onErrorJustReturn: false))
       .map({ notifications, isValidKeyword in
-        if notifications.count == 0, isValidKeyword {
-          return false
-        }
-        else if notifications.count == 0 {
-          return false
-        }
-        else {
-          return true
-        }
+        !(notifications.isEmpty && isValidKeyword)
       })
   }
 

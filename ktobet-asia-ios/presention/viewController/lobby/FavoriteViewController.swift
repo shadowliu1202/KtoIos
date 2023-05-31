@@ -5,7 +5,6 @@ import UIKit
 
 class FavoriteViewController: DisplayProduct {
   @IBOutlet weak var scrollViewContentHeight: NSLayoutConstraint!
-  @IBOutlet weak var emptyViewAddButton: UIButton!
   @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
   lazy var gameDataSourceDelegate = ProductGameDataSourceDelegate(self)
   private var gameData: [WebGameWithDuplicatable] = [] {
@@ -15,7 +14,8 @@ class FavoriteViewController: DisplayProduct {
     }
   }
 
-  @IBOutlet weak var emptyView: UIView!
+  private var favoriteGameEmptyStateView: FavoriteGameEmptyStateView!
+  
   var viewModel: DisplayProductViewModel?
   private var disposeBag = DisposeBag()
 
@@ -38,12 +38,24 @@ class FavoriteViewController: DisplayProduct {
         self?.scrollViewContentHeight.constant = $0.height + space + bottomPadding
       })
       .disposed(by: disposeBag)
+    
+    initFavoriteGameEmptyStateView()
+  }
+  
+  private func initFavoriteGameEmptyStateView() {
+    favoriteGameEmptyStateView = FavoriteGameEmptyStateView()
+
+    view.addSubview(favoriteGameEmptyStateView)
+    
+    favoriteGameEmptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 
   private func dataBinding() {
     viewModel?.getFavorites()
 
-    emptyViewAddButton.rx
+    favoriteGameEmptyStateView.addFavoriteButton.rx
       .touchUpInside
       .bind { _ in
         NavigationManagement.sharedInstance.popViewController()
@@ -73,11 +85,11 @@ class FavoriteViewController: DisplayProduct {
   private func switchContent(_ games: [WebGameWithProperties]? = nil) {
     if let items = games, items.count > 0 {
       self.gamesCollectionView.isHidden = false
-      self.emptyView.isHidden = true
+      self.favoriteGameEmptyStateView.isHidden = true
     }
     else {
       self.gamesCollectionView.isHidden = true
-      self.emptyView.isHidden = false
+      self.favoriteGameEmptyStateView.isHidden = false
     }
   }
 

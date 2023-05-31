@@ -41,7 +41,7 @@ struct ConfirmRed_Previews: PreviewProvider {
           })
           .buttonStyle(.confirmRed)
           .frame(width: 150)
-
+        
         Button(
           action: {
             isSelected.toggle()

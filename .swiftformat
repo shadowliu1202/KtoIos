@@ -61,7 +61,7 @@
 --swiftversion 5.7
 --tabwidth unspecified
 --trailingclosures 
---trimwhitespace always
+--trimwhitespace nonblank-lines
 --typeattributes prev-line
 --typeblanklines remove
 --typemark "MARK: - %t"
