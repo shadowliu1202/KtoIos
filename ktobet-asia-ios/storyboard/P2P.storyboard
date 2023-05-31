@@ -407,10 +407,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LXY-Ec-F7S" customClass="MyBetEmptyDataView" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Kbf-tl-boQ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <color key="backgroundColor" name="blackFull"/>
@@ -423,18 +419,13 @@
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
                             <constraint firstItem="Waf-ea-SYp" firstAttribute="trailing" secondItem="Kbf-tl-boQ" secondAttribute="trailing" id="F2Y-Le-Pd1"/>
-                            <constraint firstItem="LXY-Ec-F7S" firstAttribute="leading" secondItem="Waf-ea-SYp" secondAttribute="leading" id="Lyh-J4-xqm"/>
                             <constraint firstItem="Kbf-tl-boQ" firstAttribute="top" secondItem="VQ9-ei-TgN" secondAttribute="top" id="SZG-d4-Ibs"/>
                             <constraint firstItem="Waf-ea-SYp" firstAttribute="bottom" secondItem="Kbf-tl-boQ" secondAttribute="bottom" id="aLH-O0-aVk"/>
                             <constraint firstItem="Kbf-tl-boQ" firstAttribute="leading" secondItem="Waf-ea-SYp" secondAttribute="leading" id="gfo-hC-oy1"/>
-                            <constraint firstItem="LXY-Ec-F7S" firstAttribute="top" secondItem="Waf-ea-SYp" secondAttribute="top" id="l53-Hv-EvJ"/>
-                            <constraint firstItem="Waf-ea-SYp" firstAttribute="trailing" secondItem="LXY-Ec-F7S" secondAttribute="trailing" id="pDp-Kw-pZ1"/>
-                            <constraint firstItem="Waf-ea-SYp" firstAttribute="bottom" secondItem="LXY-Ec-F7S" secondAttribute="bottom" id="y0b-Rs-9W0"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="0Ia-fO-HiH"/>
                     <connections>
-                        <outlet property="noDataView" destination="LXY-Ec-F7S" id="v1g-vU-T9r"/>
                         <outlet property="tableView" destination="Kbf-tl-boQ" id="bVn-dM-yih"/>
                         <segue destination="yPw-lo-MVQ" kind="show" identifier="toP2PBetSummaryByDate" id="zlc-9H-z0I"/>
                     </connections>

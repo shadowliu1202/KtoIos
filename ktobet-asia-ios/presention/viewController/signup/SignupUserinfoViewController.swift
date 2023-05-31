@@ -19,7 +19,6 @@ class SignupUserinfoViewController: LandingViewController {
   @IBOutlet private weak var labNameTip: UILabel!
   @IBOutlet private weak var labPasswordTip: UILabel!
   @IBOutlet private weak var labPasswordDesc: UILabel!
-  @IBOutlet private weak var labOtpInvalid: UILabel!
 
   @IBOutlet private weak var inputMobile: InputText!
   @IBOutlet private weak var inputEmail: InputText!
@@ -29,10 +28,12 @@ class SignupUserinfoViewController: LandingViewController {
 
   @IBOutlet private weak var scrollView: UIScrollView!
   @IBOutlet private weak var viewButtons: UIView!
-  @IBOutlet private weak var viewOtpInvalid: UIView!
   @IBOutlet private weak var viewRegistErrMessage: UIView!
 
   @IBOutlet private weak var constraintRegistErrMessageHeight: NSLayoutConstraint!
+  
+  private var emptyStateView: EmptyStateView!
+  
   var barButtonItems: [UIBarButtonItem] = []
   lazy var locale: SupportLocale = localStorageRepo.getSupportLocale()
   private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
@@ -120,15 +121,14 @@ class SignupUserinfoViewController: LandingViewController {
       button?.layer.cornerRadius = 8
       button?.layer.masksToBounds = true
     }
+    
+    initEmptyStateView(hint: "")
   }
 
   private func showServiceInactiveView(status: OtpStatus) {
     self.view.layoutIfNeeded()
-    let width = self.scrollView.bounds.size.width
-    let height = self.scrollView.contentSize.height - self.viewButtons.frame.maxY
-    self.viewOtpInvalid.frame = CGRect(x: 0, y: self.viewButtons.frame.maxY, width: width, height: height)
-    self.scrollView.addSubview(self.viewOtpInvalid)
-    self.labOtpInvalid.text = {
+    
+    let emptyStateHint = {
       if !status.isSmsActive {
         return Localize.string("register_step2_sms_inactive")
       }
@@ -139,6 +139,23 @@ class SignupUserinfoViewController: LandingViewController {
 
       return ""
     }()
+    
+    initEmptyStateView(hint: emptyStateHint)
+  }
+  
+  private func initEmptyStateView(hint: String) {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "Maintenance"),
+      description: hint,
+      keyboardAppearance: .impossible)
+    emptyStateView.backgroundColor = .greyScaleDefault
+    
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.top.equalTo(viewButtons.snp.bottom)
+      make.leading.trailing.bottom.equalToSuperview()
+    }
   }
 
   private func selectedAccountTypeIsMaintain(isActive: Bool, otpStatus: OtpStatus) {
@@ -146,7 +163,7 @@ class SignupUserinfoViewController: LandingViewController {
       showServiceInactiveView(status: otpStatus)
     }
     else {
-      viewOtpInvalid.removeFromSuperview()
+      emptyStateView.removeFromSuperview()
     }
   }
 

@@ -1,11 +1,13 @@
 import RxDataSources
 import RxSwift
 import SharedBu
+import SnapKit
 import UIKit
 
 class SlotSummaryViewController: LobbyViewController {
-  @IBOutlet private weak var noDataView: UIView!
   @IBOutlet private weak var tableView: UITableView!
+
+  private var emptyStateView: EmptyStateView!
 
   private var viewModel = Injectable.resolve(SlotBetViewModel.self)!
   private var disposeBag = DisposeBag()
@@ -13,10 +15,7 @@ class SlotSummaryViewController: LobbyViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    NavigationManagement.sharedInstance.addBarButtonItem(
-      vc: self,
-      barItemType: .back,
-      title: Localize.string("product_my_bet"))
+     
     initUI()
     bindingSummaryData()
     summaryDataHandler()
@@ -32,8 +31,28 @@ class SlotSummaryViewController: LobbyViewController {
   }
 
   private func initUI() {
+    NavigationManagement.sharedInstance.addBarButtonItem(
+      vc: self,
+      barItemType: .back,
+      title: Localize.string("product_my_bet"))
+    
     tableView.rx.setDelegate(self).disposed(by: disposeBag)
     tableView.setHeaderFooterDivider()
+
+    initEmptyStateView()
+  }
+  
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Records"),
+      description: Localize.string("product_none_my_bet_record"),
+      keyboardAppearance: .impossible)
+
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 
   private func bindingSummaryData() {
@@ -93,11 +112,11 @@ class SlotSummaryViewController: LobbyViewController {
   private func switchContent(_ summary: BetSummary? = nil) {
     if let items = summary, hasGameRecords(summary: items) || hasUnsettleGameRecords(summary: items) {
       self.tableView.isHidden = false
-      self.noDataView.isHidden = true
+      self.emptyStateView.isHidden = true
     }
     else {
       self.tableView.isHidden = true
-      self.noDataView.isHidden = false
+      self.emptyStateView.isHidden = false
     }
   }
 

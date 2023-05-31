@@ -4,8 +4,9 @@ import SharedBu
 import UIKit
 
 class ArcadeSummaryViewController: LobbyViewController {
-  @IBOutlet private weak var noDataView: UIView!
   @IBOutlet private weak var tableView: UITableView!
+  
+  private var emptyStateView: EmptyStateView!
 
   private var viewModel = Injectable.resolve(ArcadeRecordViewModel.self)!
   private var disposeBag = DisposeBag()
@@ -29,6 +30,21 @@ class ArcadeSummaryViewController: LobbyViewController {
   private func initUI() {
     tableView.rx.setDelegate(self).disposed(by: disposeBag)
     tableView.setHeaderFooterDivider()
+    
+    initEmptyStateView()
+  }
+  
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Records"),
+      description: Localize.string("product_none_my_bet_record"),
+      keyboardAppearance: .impossible)
+
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 
   private func bindingSummaryData() {
@@ -61,11 +77,11 @@ class ArcadeSummaryViewController: LobbyViewController {
   private func switchContent(_ summary: MyBetSummary? = nil) {
     if let items = summary, hasGameRecords(summary: items) {
       self.tableView.isHidden = false
-      self.noDataView.isHidden = true
+      self.emptyStateView.isHidden = true
     }
     else {
       self.tableView.isHidden = true
-      self.noDataView.isHidden = false
+      self.emptyStateView.isHidden = false
     }
   }
 

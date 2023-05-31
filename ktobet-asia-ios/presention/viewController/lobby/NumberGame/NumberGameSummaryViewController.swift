@@ -3,6 +3,7 @@ import RxSwift
 import UIKit
 
 class NumberGameSummaryViewController: LobbyViewController {
+  @IBOutlet weak var headerView: UIView!
   @IBOutlet weak var segment: UISegmentedControl!
   @IBOutlet weak var containView: UIView!
 
@@ -72,6 +73,7 @@ class NumberGameSummaryViewController: LobbyViewController {
     }
     if let vc = presentingVC {
       self.addChildViewController(vc, inner: containView)
+      vc.additionalSafeAreaInsets = .init(top: headerView.frame.height, left: 0, bottom: 0, right: 0)
     }
   }
 

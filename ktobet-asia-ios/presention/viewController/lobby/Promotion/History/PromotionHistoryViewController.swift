@@ -10,15 +10,14 @@ class PromotionHistoryViewController: LobbyViewController {
   @IBOutlet private weak var dateView: KTODateView!
   @IBOutlet private weak var filterBtn: FilterButton!
   @IBOutlet private weak var searchTextField: UITextField!
-
-  @IBOutlet private weak var emptyView: UIView!
-  @IBOutlet private weak var emptyImgView: UIImageView!
-  @IBOutlet private weak var emptyLabel: UILabel!
-
   @IBOutlet private weak var summaryLabel: UILabel!
+  
+  @IBOutlet private weak var couponFilterStackView: UIStackView!
 
   @IBOutlet weak var tableView: UITableView!
 
+  private var emptyStateView: EmptyStateView!
+  
   private let filterPersenter = PromotionPresenter()
   private let disposeBag = DisposeBag()
 
@@ -91,6 +90,21 @@ extension PromotionHistoryViewController {
     }
 
     setupSearchField()
+    initEmptyStateView()
+  }
+  
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Records")!,
+      description: Localize.string("common_no_record_temporarily"),
+      keyboardAppearance: .possible)
+    
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.top.equalTo(couponFilterStackView.snp.bottom)
+      make.bottom.leading.trailing.equalToSuperview()
+    }
   }
 
   private func binding() {
@@ -139,7 +153,7 @@ extension PromotionHistoryViewController {
     viewModel.historiesDriver
       .drive(onNext: { [weak self] element in
         self?.tableView.isHidden = element.isEmpty
-        self?.emptyView.isHidden = !element.isEmpty
+        self?.emptyStateView.isHidden = !element.isEmpty
       })
       .disposed(by: disposeBag)
 

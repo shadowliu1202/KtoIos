@@ -39,46 +39,52 @@ class NumberGameMyBetGameGroupedViewController: LobbyViewController {
 
   var tempResult: [NumberGameSummary.Game] = []
   var tempIndex: [Int] = []
+  
   private func dataBinding() {
     viewModel.selectedDate = betDate
     viewModel.selectedStatus = betStatus
-    viewModel.pagination.elements.do(onNext: { [weak self] games in
-      guard let self else { return }
-      self.tempIndex = []
-      if !self.tempResult.isEmpty {
-        let difference = self.tempResult.difference(from: games)
-        difference.forEach { game in
-          if let index = self.tempResult.firstIndex(of: game) {
-            self.tempIndex.append(index)
+    viewModel.pagination
+      .elements
+      .do(onNext: { [weak self] games in
+        guard let self else { return }
+        self.tempIndex = []
+        if !self.tempResult.isEmpty {
+          let difference = self.tempResult.difference(from: games)
+          difference.forEach { game in
+            if let index = self.tempResult.firstIndex(of: game) {
+              self.tempIndex.append(index)
+            }
           }
         }
-      }
 
-      if games.count > self.tempResult.count {
-        self.tempResult = games
-      }
-    }).map({ [weak self] _ -> [NumberGameSummary.Game] in
-      self?.tempResult ?? []
-    }).bind(to: tableView.rx.items) { [weak self] _, row, element in
-      guard let self else { return UITableViewCell() }
-      let cell = self.tableView.dequeueReusableCell(
-        withIdentifier: "SlotBetSummaryByDateCell",
-        cellType: BetSummaryByDateCell.self)
-      cell.configure(element)
-      if self.tempIndex.contains(row) {
-        cell.iconImageView.isHidden = true
-        for view in cell.contentView.subviews {
-          view.alpha = 0.4
+        if games.count > self.tempResult.count {
+          self.tempResult = games
         }
-      }
+      })
+      .map({ [weak self] _ -> [NumberGameSummary.Game] in
+        self?.tempResult ?? []
+      })
+      .bind(to: tableView.rx.items) { [weak self] _, row, element in
+        guard let self else { return UITableViewCell() }
+        let cell = self.tableView.dequeueReusableCell(
+          withIdentifier: "SlotBetSummaryByDateCell",
+          cellType: BetSummaryByDateCell.self)
+        cell.configure(element)
+        if self.tempIndex.contains(row) {
+          cell.iconImageView.isHidden = true
+          for view in cell.contentView.subviews {
+            view.alpha = 0.4
+          }
+        }
 
-      cell.removeBorder()
-      if row != 0 {
-        cell.addBorder(leftConstant: 30)
-      }
+        cell.removeBorder()
+        if row != 0 {
+          cell.addBorder(leftConstant: 30)
+        }
 
-      return cell
-    }.disposed(by: disposeBag)
+        return cell
+      }
+      .disposed(by: disposeBag)
 
     rx.sentMessage(#selector(UIViewController.viewWillAppear(_:)))
       .map { _ in () }

@@ -6,17 +6,17 @@ import UIKit
 class NotificationSearchViewController: LobbyViewController {
   @IBOutlet weak var searchBarView: UISearchBar!
   @IBOutlet weak var tableView: UITableView!
-  @IBOutlet weak var emptyView: UIView!
   @IBOutlet weak var keywordLengthTipLabel: UILabel!
 
+  private var emptyStateView: EmptyStateView!
+  
   private let viewModel = Injectable.resolve(NotificationViewModel.self)!
   private let disposeBag = DisposeBag()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
-    tableView.tableFooterView = UIView()
-    initSearchTitle()
+    
+    initUI()
     dateBinding()
 
     NotificationCenter.default.addObserver(
@@ -59,6 +59,28 @@ class NotificationSearchViewController: LobbyViewController {
       navigationController,
       backgroundColor: UIColor.greyScaleDefault.withAlphaComponent(0.9))
   }
+  
+  private func initUI() {
+    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
+    tableView.tableFooterView = UIView()
+    
+    initSearchTitle()
+    initEmptyStateView()
+  }
+  
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Results Found"),
+      description: Localize.string("common_no_search_result"),
+      keyboardAppearance: .possible)
+    emptyStateView.isHidden = true
+    
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+  }
 
   private func dateBinding() {
     viewModel.setup()
@@ -77,7 +99,7 @@ class NotificationSearchViewController: LobbyViewController {
       .bind(to: viewModel.input.refreshTrigger)
       .disposed(by: disposeBag)
 
-    viewModel.output.isHiddenEmptyView.drive(emptyView.rx.isHidden).disposed(by: disposeBag)
+    viewModel.output.isHiddenEmptyView.drive(emptyStateView.rx.isHidden).disposed(by: disposeBag)
     viewModel.output.notifications.drive(tableView.rx.items(
       cellIdentifier: String(describing: NotificationTableViewCell.self),
       cellType: NotificationTableViewCell.self))

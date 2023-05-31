@@ -9,7 +9,8 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
   private var unsettleds: [SlotUnsettledSection] = []
 
   @IBOutlet private weak var tableView: UITableView!
-  @IBOutlet weak var emptyView: UIView!
+
+  private var emptyStateView: EmptyStateView!
 
   lazy var unsettleGameDelegate = UnsettleGameDelegate(self)
 
@@ -41,16 +42,31 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
     tableView.delegate = unsettleGameDelegate
     tableView.dataSource = self
     tableView.setHeaderFooterDivider()
+    
+    initEmptyStateView()
+  }
+
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Unsettle Slot"),
+      description: Localize.string("product_empty_unsettled_records"),
+      keyboardAppearance: .impossible)
+    
+    view.addSubview(emptyStateView)
+    
+    emptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 
   private func switchContent(_ games: [SlotUnsettledSection]? = nil) {
     if let items = games, items.count > 0 {
       self.tableView.isHidden = false
-      self.emptyView.isHidden = true
+      self.emptyStateView.isHidden = true
     }
     else {
       self.tableView.isHidden = true
-      self.emptyView.isHidden = false
+      self.emptyStateView.isHidden = false
     }
   }
 

@@ -13,7 +13,8 @@ class CustomerServiceMainViewController: LobbyViewController {
 
   @IBOutlet weak var callinBtn: CallinButton!
   @IBOutlet weak var tableView: UITableView!
-  @IBOutlet weak var emptyView: UIView!
+  
+  private var emptyStateView: EmptyStateView!
 
   var barButtonItems: [UIBarButtonItem] = []
   var records: [ChatHistory] = [] {
@@ -58,6 +59,22 @@ class CustomerServiceMainViewController: LobbyViewController {
     tableView.delegate = self
     tableView.setHeaderFooterDivider()
     tableView.rowHeight = UITableView.automaticDimension
+    
+    initEmptyStateView()
+  }
+  
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Chat Records"),
+      description: Localize.string("customerservice_chat_history_empty"),
+      keyboardAppearance: .possible)
+    
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.top.equalTo(callinBtn.snp.bottom)
+      make.leading.trailing.bottom.equalToSuperview()
+    }
   }
 
   private func binding() {
@@ -94,7 +111,7 @@ class CustomerServiceMainViewController: LobbyViewController {
 
   private func switchContent(_ element: [ChatHistory]? = nil) {
     self.tableView.isHidden = element?.isEmpty ?? true
-    self.emptyView.isHidden = !(element?.isEmpty ?? true)
+    self.emptyStateView.isHidden = !(element?.isEmpty ?? true)
     if let items = element?.isEmpty ?? true ? nil : [padding, edit] {
       self.bind(position: .right, barButtonItems: items)
     }

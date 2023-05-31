@@ -5,8 +5,9 @@ import SharedBu
 import UIKit
 
 class SettleViewController: UIViewController {
-  @IBOutlet private weak var noDataView: UIView!
   @IBOutlet private weak var tableView: UITableView!
+  
+  private var emptyStateView: EmptyStateView!
 
   var viewModel: NumberGameRecordViewModel!
   private var disposeBag = DisposeBag()
@@ -14,6 +15,7 @@ class SettleViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     initUI()
     summaryDataHandler()
   }
@@ -25,7 +27,10 @@ class SettleViewController: UIViewController {
 
   private func initUI() {
     tableView.rx.setDelegate(self).disposed(by: disposeBag)
-    tableView.setHeaderFooterDivider(headerHeight: 87)
+    tableView.setHeaderFooterDivider(headerHeight: 0)
+    
+    initEmptyStateView()
+    
     dataSource.do(onNext: { [weak self] records in
       self?.switchContent(records.count)
     }).catch({ [weak self] error -> Observable<[NumberGameSummary.Date]> in
@@ -45,6 +50,19 @@ class SettleViewController: UIViewController {
       return cell
     }.disposed(by: disposeBag)
   }
+  
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Records"),
+      description: Localize.string("product_none_my_bet_record"),
+      keyboardAppearance: .impossible)
+
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+  }
 
   private func bindingSummaryData() {
     viewModel.settled.subscribe { [weak self] data in
@@ -57,11 +75,11 @@ class SettleViewController: UIViewController {
   private func switchContent(_ count: Int) {
     if count != 0 {
       self.tableView.isHidden = false
-      self.noDataView.isHidden = true
+      self.emptyStateView.isHidden = true
     }
     else {
       self.tableView.isHidden = true
-      self.noDataView.isHidden = false
+      self.emptyStateView.isHidden = false
     }
   }
 

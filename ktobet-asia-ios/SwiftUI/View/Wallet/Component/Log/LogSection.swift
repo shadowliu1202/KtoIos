@@ -57,18 +57,11 @@ struct LogSections<T: LogRowModel>: View {
         }
       }
       else {
-        VStack(alignment: .center, spacing: 32) {
-          Image("groupCopy")
-
-          Text(Localize.string("common_no_record_temporarily"))
-            .localized(
-              weight: .regular,
-              size: 14,
-              color: .textPrimary)
-        }
-        .frame(
-          maxHeight: .infinity)
-        .id(Identifier.emptyReminder.rawValue)
+        SwiftUIEmptyStateView(
+          iconImage: Image("No Records"),
+          description: Localize.string("common_no_record_temporarily"),
+          keyboardAppearance: .impossible)
+          .id(Identifier.emptyReminder.rawValue)
       }
     }
     else {

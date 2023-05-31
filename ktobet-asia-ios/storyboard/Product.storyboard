@@ -54,73 +54,11 @@
                                     <constraint firstItem="ZIH-8S-ilS" firstAttribute="top" secondItem="ibj-4c-0VK" secondAttribute="top" id="vtO-mp-CuI"/>
                                 </constraints>
                             </scrollView>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="scb-m9-AC9" userLabel="EmptyView">
-                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="没有关注的游戏" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Is-aa-tar">
-                                        <rect key="frame" x="0.0" y="395" width="414" height="24"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="24" id="Hen-Zv-g9A"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
-                                        <color key="textColor" name="whiteFull"/>
-                                        <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="product_none_favorite"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="remove-favorite" translatesAutoresizingMaskIntoConstraints="NO" id="eW6-4u-i2o">
-                                        <rect key="frame" x="171.5" y="290" width="71" height="71"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="71" id="7Ka-n5-idF"/>
-                                            <constraint firstAttribute="width" constant="71" id="Wxp-ip-LxO"/>
-                                        </constraints>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tfb-ll-7Dj">
-                                        <rect key="frame" x="30" y="450" width="354" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="9Tt-Dg-81T"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
-                                        <state key="normal" title="现在添加">
-                                            <color key="titleColor" name="red"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <real key="value" value="9"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="product_add_now"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="bordersColor">
-                                                <color key="value" name="textSecondaryScorpionGray"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="3Is-aa-tar" firstAttribute="centerY" secondItem="scb-m9-AC9" secondAttribute="centerY" id="0Uv-22-qby"/>
-                                    <constraint firstItem="Tfb-ll-7Dj" firstAttribute="top" secondItem="3Is-aa-tar" secondAttribute="bottom" constant="31" id="8Th-UG-CSE"/>
-                                    <constraint firstItem="3Is-aa-tar" firstAttribute="top" secondItem="eW6-4u-i2o" secondAttribute="bottom" constant="34" id="RRg-yt-UWU"/>
-                                    <constraint firstAttribute="trailing" secondItem="Tfb-ll-7Dj" secondAttribute="trailing" constant="30" id="kfW-3K-ftw"/>
-                                    <constraint firstItem="Tfb-ll-7Dj" firstAttribute="leading" secondItem="scb-m9-AC9" secondAttribute="leading" constant="30" id="qac-yh-PtO"/>
-                                    <constraint firstItem="eW6-4u-i2o" firstAttribute="centerX" secondItem="scb-m9-AC9" secondAttribute="centerX" id="rqk-MU-uID"/>
-                                    <constraint firstItem="3Is-aa-tar" firstAttribute="leading" secondItem="scb-m9-AC9" secondAttribute="leading" id="s5Y-k2-p0Y"/>
-                                    <constraint firstAttribute="trailing" secondItem="3Is-aa-tar" secondAttribute="trailing" id="yXi-fn-Sap"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="odT-zy-8kC"/>
                         <color key="backgroundColor" name="blackFull"/>
                         <constraints>
-                            <constraint firstItem="scb-m9-AC9" firstAttribute="leading" secondItem="odT-zy-8kC" secondAttribute="leading" id="3GU-oy-a19"/>
                             <constraint firstItem="ibj-4c-0VK" firstAttribute="bottom" secondItem="odT-zy-8kC" secondAttribute="bottom" id="5vp-EI-3yv"/>
-                            <constraint firstItem="scb-m9-AC9" firstAttribute="trailing" secondItem="odT-zy-8kC" secondAttribute="trailing" id="6Zq-V3-w22"/>
-                            <constraint firstItem="odT-zy-8kC" firstAttribute="bottom" secondItem="scb-m9-AC9" secondAttribute="bottom" id="938-0N-YC1"/>
-                            <constraint firstItem="scb-m9-AC9" firstAttribute="top" secondItem="odT-zy-8kC" secondAttribute="top" id="ZKN-5b-OoB"/>
                             <constraint firstItem="ibj-4c-0VK" firstAttribute="trailing" secondItem="odT-zy-8kC" secondAttribute="trailing" id="g2W-Ui-ONf"/>
                             <constraint firstItem="ibj-4c-0VK" firstAttribute="leading" secondItem="odT-zy-8kC" secondAttribute="leading" id="vxR-GQ-CYC"/>
                             <constraint firstItem="ibj-4c-0VK" firstAttribute="top" secondItem="MxY-I3-iDI" secondAttribute="top" id="whQ-jX-Skx"/>
@@ -128,8 +66,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="GxO-Pn-8Jg"/>
                     <connections>
-                        <outlet property="emptyView" destination="scb-m9-AC9" id="rTI-nN-yt4"/>
-                        <outlet property="emptyViewAddButton" destination="Tfb-ll-7Dj" id="j3L-a0-WMZ"/>
                         <outlet property="gamesCollectionView" destination="Nyu-qd-Noy" id="miK-Hx-a6x"/>
                         <outlet property="scrollViewContentHeight" destination="eFm-zu-vOz" id="Kxg-ni-L7X"/>
                     </connections>
@@ -164,30 +100,6 @@
                                     <constraint firstAttribute="trailing" secondItem="DHB-qc-Gv2" secondAttribute="trailing" constant="20" id="RIp-FD-TuR"/>
                                     <constraint firstItem="DHB-qc-Gv2" firstAttribute="top" secondItem="DKD-mn-pBp" secondAttribute="top" constant="24" id="tLx-er-KFA"/>
                                     <constraint firstItem="DHB-qc-Gv2" firstAttribute="leading" secondItem="DKD-mn-pBp" secondAttribute="leading" constant="20" id="vFf-MK-At9"/>
-                                </constraints>
-                            </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HF8-n3-zOD">
-                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="searchEmptyState" translatesAutoresizingMaskIntoConstraints="NO" id="srl-9v-Cr4">
-                                        <rect key="frame" x="175" y="126" width="64" height="64"/>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nek-Hj-QdV">
-                                        <rect key="frame" x="207" y="228" width="0.0" height="0.0"/>
-                                        <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
-                                        <color key="textColor" name="textPrimaryDustyGray"/>
-                                        <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_no_games_found"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="Nek-Hj-QdV" firstAttribute="top" secondItem="srl-9v-Cr4" secondAttribute="bottom" constant="38" id="JCg-XX-5Hm"/>
-                                    <constraint firstItem="srl-9v-Cr4" firstAttribute="centerX" secondItem="HF8-n3-zOD" secondAttribute="centerX" id="dDg-1z-VNS"/>
-                                    <constraint firstItem="srl-9v-Cr4" firstAttribute="top" secondItem="HF8-n3-zOD" secondAttribute="top" constant="126" id="h0e-yZ-slC"/>
-                                    <constraint firstItem="Nek-Hj-QdV" firstAttribute="centerX" secondItem="HF8-n3-zOD" secondAttribute="centerX" id="rd0-cZ-3dy"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NXQ-sa-B1r" userLabel="SugView">
@@ -351,14 +263,10 @@
                         <constraints>
                             <constraint firstItem="NXQ-sa-B1r" firstAttribute="top" secondItem="PDN-8K-a5f" secondAttribute="top" id="2pU-59-CPz"/>
                             <constraint firstItem="PDN-8K-a5f" firstAttribute="trailing" secondItem="DGS-FL-ry6" secondAttribute="trailing" constant="24" id="6pB-a7-7HS"/>
-                            <constraint firstItem="HF8-n3-zOD" firstAttribute="leading" secondItem="PDN-8K-a5f" secondAttribute="leading" id="CNb-lh-KPl"/>
                             <constraint firstItem="DKD-mn-pBp" firstAttribute="bottom" secondItem="PDN-8K-a5f" secondAttribute="bottom" id="GzG-oT-1zl"/>
                             <constraint firstItem="NXQ-sa-B1r" firstAttribute="bottom" secondItem="PDN-8K-a5f" secondAttribute="bottom" id="Tfr-xm-UEm"/>
                             <constraint firstItem="DGS-FL-ry6" firstAttribute="leading" secondItem="PDN-8K-a5f" secondAttribute="leading" constant="24" id="WH6-n0-kbN"/>
-                            <constraint firstItem="PDN-8K-a5f" firstAttribute="bottom" secondItem="HF8-n3-zOD" secondAttribute="bottom" id="Wf2-Sv-kqi"/>
-                            <constraint firstItem="HF8-n3-zOD" firstAttribute="top" secondItem="PDN-8K-a5f" secondAttribute="top" id="Ydm-Ip-Pu5"/>
                             <constraint firstItem="DKD-mn-pBp" firstAttribute="leading" secondItem="PDN-8K-a5f" secondAttribute="leading" id="aWZ-m0-VBd"/>
-                            <constraint firstItem="PDN-8K-a5f" firstAttribute="trailing" secondItem="HF8-n3-zOD" secondAttribute="trailing" id="aop-e8-msQ"/>
                             <constraint firstItem="DKD-mn-pBp" firstAttribute="trailing" secondItem="PDN-8K-a5f" secondAttribute="trailing" id="dh8-8d-1T6"/>
                             <constraint firstItem="NXQ-sa-B1r" firstAttribute="trailing" secondItem="PDN-8K-a5f" secondAttribute="trailing" id="eDs-KD-Iya"/>
                             <constraint firstItem="NXQ-sa-B1r" firstAttribute="leading" secondItem="PDN-8K-a5f" secondAttribute="leading" id="mez-3M-va2"/>
@@ -368,7 +276,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="emptyView" destination="HF8-n3-zOD" id="O9r-1S-6VK"/>
                         <outlet property="gamesCollectionView" destination="DGS-FL-ry6" id="NVG-PU-lLe"/>
                         <outlet property="lackConditionView" destination="DKD-mn-pBp" id="QsK-IN-4yh"/>
                         <outlet property="searchBarView" destination="YdC-Kq-9x6" id="Lub-Fq-fUh"/>
@@ -11161,19 +11068,11 @@ dU51VnVYdVp1XHVehv6HA4cQhxOHIIclhy2HMIc1hz0AAAAAAAACAQAAAAAAAABoAAAAAAAAAAAAAAAA
 AACHQA
 </mutableData>
         </image>
-        <image name="remove-favorite" width="52" height="52"/>
-        <image name="searchEmptyState" width="64" height="64"/>
         <namedColor name="blackFull">
-            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="red">
-            <color red="0.94901960784313721" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="textPrimaryDustyGray">
-            <color red="0.60799998044967651" green="0.60799998044967651" blue="0.60799998044967651" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="textSecondaryScorpionGray">
-            <color red="0.34900000691413879" green="0.34900000691413879" blue="0.34900000691413879" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="whiteFull">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

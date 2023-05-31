@@ -18,17 +18,24 @@ struct LogSummary<Header, Section>: View
 
   var body: some View {
     DelegatedScrollView {
-      PageContainer {
-        header()
-
-        LimitSpacer(30)
-          .visibility(isResultEmpty ? .gone : .visible)
-
-        section()
-      }
-      .applyTransform(when: isResultEmpty) { contentView in
-        contentView
+      Group {
+        if isResultEmpty {
+          PageContainer(bottomPadding: 0) {
+            header()
+            
+            section()
+          }
           .frame(height: safeAreaMonitor.safeAreaSize.height)
+        }
+        else {
+          PageContainer {
+            header()
+            
+            LimitSpacer(30)
+            
+            section()
+          }
+        }
       }
       .frame(maxWidth: .infinity)
       .padding(.horizontal, 24)

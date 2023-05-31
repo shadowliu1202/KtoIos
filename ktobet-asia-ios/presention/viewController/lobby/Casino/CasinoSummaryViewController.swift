@@ -4,8 +4,9 @@ import SharedBu
 import UIKit
 
 class CasinoSummaryViewController: LobbyViewController {
-  @IBOutlet private weak var noDataView: UIView!
   @IBOutlet private weak var tableView: UITableView!
+  
+  private var emptyStateView: EmptyStateView!
 
   private var viewModel = Injectable.resolve(CasinoViewModel.self)!
   private var disposeBag = DisposeBag()
@@ -13,12 +14,8 @@ class CasinoSummaryViewController: LobbyViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    NavigationManagement.sharedInstance.addBarButtonItem(
-      vc: self,
-      barItemType: .back,
-      title: Localize.string("product_my_bet"))
-    tableView.rx.setDelegate(self).disposed(by: disposeBag)
-    tableView.setHeaderFooterDivider()
+    
+    initUI()
     bindingSummaryData()
     summaryDataHandler()
   }
@@ -26,7 +23,33 @@ class CasinoSummaryViewController: LobbyViewController {
   deinit {
     Logger.shared.info("\(type(of: self)) deinit")
   }
+  
+  private func initUI() {
+    NavigationManagement.sharedInstance.addBarButtonItem(
+      vc: self,
+      barItemType: .back,
+      title: Localize.string("product_my_bet"))
+    
+    tableView.rx.setDelegate(self).disposed(by: disposeBag)
+    tableView.setHeaderFooterDivider()
+    
+    initEmptyStateView()
+  }
 
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Records"),
+      description: Localize.string("product_none_my_bet_record"),
+      keyboardAppearance: .impossible)
+    emptyStateView.isHidden = true
+    
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+  }
+  
   private func bindingSummaryData() {
     let betSummaryObservable = viewModel.betSummary.asObservable().share(replay: 1)
     let dateSummaryObservable = betSummaryObservable.map { [weak self] betSummary -> [DateSummary] in
@@ -49,7 +72,7 @@ class CasinoSummaryViewController: LobbyViewController {
       guard let self else { return }
       self.unfinishGameCount = betSummary.unFinishedGames
       if !self.hasUnsettleGameRecords(summary: betSummary), !self.hasGameRecords(summary: betSummary) {
-        self.noDataView.isHidden = false
+        self.emptyStateView.isHidden = false
         self.tableView.isHidden = true
       }
     }).disposed(by: disposeBag)

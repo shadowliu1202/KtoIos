@@ -8,8 +8,10 @@ class SearchViewController: SearchProduct, UISearchBarDelegate {
   @IBOutlet weak var suggestionView: UIView!
   @IBOutlet weak var tagsStackView: UIStackView!
   @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
-  @IBOutlet weak var emptyView: UIView!
   @IBOutlet weak var lackConditionView: UIView!
+  
+  private var emptyStateView: EmptyStateView!
+  
   lazy var gameDataSourceDelegate = SearchGameDataSourceDelegate(self)
   private var gameData: [WebGameWithDuplicatable] = [] {
     didSet {
@@ -53,6 +55,8 @@ class SearchViewController: SearchProduct, UISearchBarDelegate {
 
   private func initUI() {
     initSearchTitle()
+    initEmptyStateView()
+    
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(keyboardWillShow),
@@ -108,6 +112,20 @@ class SearchViewController: SearchProduct, UISearchBarDelegate {
     searchBarView.searchTextField.attributedPlaceholder = NSAttributedString(
       string: " \(Localize.string("product_enter_search_keyword"))",
       attributes: [NSAttributedString.Key.foregroundColor: UIColor.textPrimary])
+  }
+  
+  private func initEmptyStateView() {
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "No Results Found"),
+      description: Localize.string("common_no_games_found"),
+      keyboardAppearance: .possible)
+    emptyStateView.isHidden = true
+    
+    view.addSubview(emptyStateView)
+
+    emptyStateView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 
   private func dataBinding() {
@@ -185,28 +203,28 @@ class SearchViewController: SearchProduct, UISearchBarDelegate {
 
   private func displayResult() {
     gamesCollectionView.isHidden = false
-    emptyView.isHidden = true
+    emptyStateView.isHidden = true
     suggestionView.isHidden = true
     lackConditionView.isHidden = true
   }
 
   private func noResult() {
     gamesCollectionView.isHidden = true
-    emptyView.isHidden = false
+    emptyStateView.isHidden = false
     suggestionView.isHidden = true
     lackConditionView.isHidden = true
   }
 
   private func lackCondition() {
     gamesCollectionView.isHidden = true
-    emptyView.isHidden = true
+    emptyStateView.isHidden = true
     suggestionView.isHidden = true
     lackConditionView.isHidden = false
   }
 
   private func takeSuggestion() {
     gamesCollectionView.isHidden = true
-    emptyView.isHidden = true
+    emptyStateView.isHidden = true
     suggestionView.isHidden = false
     lackConditionView.isHidden = true
   }

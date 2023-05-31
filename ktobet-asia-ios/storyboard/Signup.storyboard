@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZeL-97-8Rz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZeL-97-8Rz">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -560,7 +560,6 @@
                         <outlet property="labAccountTip" destination="EXo-3q-4zJ" id="vMy-PC-Y4g"/>
                         <outlet property="labDesc" destination="uzw-4o-il6" id="h1I-Le-4kF"/>
                         <outlet property="labNameTip" destination="Uz0-gE-RvW" id="0oS-Hy-xme"/>
-                        <outlet property="labOtpInvalid" destination="iyl-1d-dRQ" id="JmP-ld-72O"/>
                         <outlet property="labPasswordDesc" destination="o10-9b-Lob" id="B4W-qZ-M8Q"/>
                         <outlet property="labPasswordTip" destination="Gz0-NA-YMR" id="yE0-xo-g7I"/>
                         <outlet property="labRegistErrMessage" destination="axe-2G-DYx" id="bO7-jI-xuZ"/>
@@ -568,7 +567,6 @@
                         <outlet property="naviItem" destination="oJc-cl-6EO" id="qUp-W7-ciy"/>
                         <outlet property="scrollView" destination="AER-6a-mvy" id="z8P-KX-Yd8"/>
                         <outlet property="viewButtons" destination="6IU-b0-yvD" id="yuW-0o-HE4"/>
-                        <outlet property="viewOtpInvalid" destination="fn5-n1-gxR" id="8wg-ND-2Td"/>
                         <outlet property="viewRegistErrMessage" destination="kmm-jb-Tty" id="v6o-9s-MJu"/>
                         <segue destination="hn4-gC-jv3" kind="show" identifier="GoToEmail" id="Ds8-mF-ek8"/>
                         <segue destination="zri-4Q-kU6" kind="unwind" identifier="BackToLanguageList" unwindAction="backToLanguageListWithSegue:" id="esb-gR-rCl"/>
@@ -576,47 +574,6 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5d8-4Z-Y7a" sceneMemberID="firstResponder"/>
                 <exit id="zri-4Q-kU6" userLabel="Exit" sceneMemberID="exit"/>
-                <view contentMode="scaleToFill" id="fn5-n1-gxR">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljR-Wf-epp">
-                            <rect key="frame" x="77" y="98" width="260" height="104"/>
-                            <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cone" translatesAutoresizingMaskIntoConstraints="NO" id="uIz-3b-ibc">
-                                    <rect key="frame" x="91" y="0.0" width="78" height="72"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="78" id="4fR-b9-vek"/>
-                                        <constraint firstAttribute="height" constant="72" id="b0b-e3-tbJ"/>
-                                    </constraints>
-                                </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyl-1d-dRQ">
-                                    <rect key="frame" x="0.0" y="104" width="260" height="0.0"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="trailing" secondItem="iyl-1d-dRQ" secondAttribute="trailing" id="1g3-pM-Ysu"/>
-                                <constraint firstItem="iyl-1d-dRQ" firstAttribute="top" secondItem="uIz-3b-ibc" secondAttribute="bottom" constant="32" id="Pmn-8F-PZw"/>
-                                <constraint firstItem="uIz-3b-ibc" firstAttribute="centerX" secondItem="ljR-Wf-epp" secondAttribute="centerX" id="QgF-ir-9yf"/>
-                                <constraint firstItem="uIz-3b-ibc" firstAttribute="top" secondItem="ljR-Wf-epp" secondAttribute="top" id="b2p-cd-6fQ"/>
-                                <constraint firstItem="iyl-1d-dRQ" firstAttribute="leading" secondItem="ljR-Wf-epp" secondAttribute="leading" id="m1m-eY-XRE"/>
-                                <constraint firstAttribute="bottom" secondItem="iyl-1d-dRQ" secondAttribute="bottom" id="pNh-9v-u4P"/>
-                            </constraints>
-                        </view>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="6t6-EY-eDF"/>
-                    <color key="backgroundColor" red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstItem="6t6-EY-eDF" firstAttribute="trailing" secondItem="ljR-Wf-epp" secondAttribute="trailing" constant="77" id="540-HJ-X7d"/>
-                        <constraint firstItem="ljR-Wf-epp" firstAttribute="centerY" secondItem="fn5-n1-gxR" secondAttribute="centerY" id="JQ3-rC-EMh"/>
-                        <constraint firstItem="ljR-Wf-epp" firstAttribute="leading" secondItem="6t6-EY-eDF" secondAttribute="leading" constant="77" id="Opt-ug-MMZ"/>
-                        <constraint firstItem="ljR-Wf-epp" firstAttribute="centerX" secondItem="fn5-n1-gxR" secondAttribute="centerX" id="vPw-2i-lBF"/>
-                    </constraints>
-                </view>
             </objects>
             <point key="canvasLocation" x="2398.5507246376815" y="112.5"/>
         </scene>
@@ -846,16 +803,15 @@ john.doe@higgstar.com
     <resources>
         <image name="Back" width="24" height="24"/>
         <image name="Close" width="24" height="24"/>
-        <image name="Cone" width="79" height="72"/>
         <image name="Single Selection (Empty)" width="24" height="24"/>
         <image name="Single Selection (Selected)" width="24" height="24"/>
         <image name="Success" width="16" height="16"/>
         <image name="Tips" width="24" height="24"/>
         <namedColor name="blackFull">
-            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="blackTwo">
-            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
