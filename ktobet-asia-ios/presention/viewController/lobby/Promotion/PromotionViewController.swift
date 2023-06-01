@@ -17,6 +17,8 @@ class PromotionViewController: LobbyViewController {
   private var disposeBag = DisposeBag()
   private var cancellables = Set<AnyCancellable>()
 
+  private var dropDownFilterViewCollapseHeight = CGFloat()
+  
   var barButtonItems: [UIBarButtonItem] = []
   var viewModel = Injectable.resolve(PromotionViewModel.self)!
 
@@ -48,8 +50,8 @@ class PromotionViewController: LobbyViewController {
     tableView.dataSource = self
     tableView.delegate = self
     
-    initFilterDropDownView()
     initEmptyStateView()
+    initFilterDropDownView()
     
     tableView.snp.makeConstraints { make in
       make.top.equalTo(dropDownFilterView.snp.bottom)
@@ -95,6 +97,8 @@ class PromotionViewController: LobbyViewController {
       make.top.equalTo(view.safeAreaLayoutGuide)
       make.centerX.equalToSuperview()
     }
+    
+    dropDownFilterViewCollapseHeight = dropDownFilterView.frame.height
   }
   
   private func initEmptyStateView() {
@@ -107,7 +111,7 @@ class PromotionViewController: LobbyViewController {
     view.addSubview(emptyStateView)
 
     emptyStateView.snp.makeConstraints { make in
-      make.top.equalTo(dropDownFilterView.snp.bottom)
+      make.top.equalToSuperview().offset(dropDownFilterViewCollapseHeight)
       make.bottom.leading.trailing.equalToSuperview()
     }
   }
