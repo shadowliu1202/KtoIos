@@ -32,7 +32,7 @@ class SignupUserinfoViewController: LandingViewController {
 
   @IBOutlet private weak var constraintRegistErrMessageHeight: NSLayoutConstraint!
   
-  private var emptyStateView: EmptyStateView!
+  private var emptyStateView: EmptyStateView?
   
   var barButtonItems: [UIBarButtonItem] = []
   lazy var locale: SupportLocale = localStorageRepo.getSupportLocale()
@@ -120,50 +120,6 @@ class SignupUserinfoViewController: LandingViewController {
       button?.setBackgroundImage(UIImage(color: unSelectedColor), for: .normal)
       button?.layer.cornerRadius = 8
       button?.layer.masksToBounds = true
-    }
-    
-    initEmptyStateView(hint: "")
-  }
-
-  private func showServiceInactiveView(status: OtpStatus) {
-    self.view.layoutIfNeeded()
-    
-    let emptyStateHint = {
-      if !status.isSmsActive {
-        return Localize.string("register_step2_sms_inactive")
-      }
-
-      if !status.isMailActive {
-        return Localize.string("register_step2_sms_inactive")
-      }
-
-      return ""
-    }()
-    
-    initEmptyStateView(hint: emptyStateHint)
-  }
-  
-  private func initEmptyStateView(hint: String) {
-    emptyStateView = EmptyStateView(
-      icon: UIImage(named: "Maintenance"),
-      description: hint,
-      keyboardAppearance: .impossible)
-    emptyStateView.backgroundColor = .greyScaleDefault
-    
-    view.addSubview(emptyStateView)
-
-    emptyStateView.snp.makeConstraints { make in
-      make.top.equalTo(viewButtons.snp.bottom)
-      make.leading.trailing.bottom.equalToSuperview()
-    }
-  }
-
-  private func selectedAccountTypeIsMaintain(isActive: Bool, otpStatus: OtpStatus) {
-    if !isActive {
-      showServiceInactiveView(status: otpStatus)
-    }
-    else {
-      emptyStateView.removeFromSuperview()
     }
   }
 
@@ -281,6 +237,50 @@ class SignupUserinfoViewController: LandingViewController {
         self?.hideError()
       }).disposed(by: disposeBag)
   }
+  
+  private func selectedAccountTypeIsMaintain(isActive: Bool, otpStatus: OtpStatus) {
+    if !isActive {
+      showServiceInactiveView(status: otpStatus)
+    }
+    else {
+      emptyStateView?.removeFromSuperview()
+    }
+  }
+  
+  private func showServiceInactiveView(status: OtpStatus) {
+    self.view.layoutIfNeeded()
+    
+    let emptyStateHint = {
+      if !status.isSmsActive {
+        return Localize.string("register_step2_sms_inactive")
+      }
+
+      if !status.isMailActive {
+        return Localize.string("register_step2_sms_inactive")
+      }
+
+      return ""
+    }()
+    
+    initEmptyStateView(hint: emptyStateHint)
+  }
+  
+  private func initEmptyStateView(hint: String) {
+    emptyStateView?.removeFromSuperview()
+    emptyStateView = EmptyStateView(
+      icon: UIImage(named: "Maintenance"),
+      description: hint,
+      keyboardAppearance: .impossible)
+    emptyStateView!.backgroundColor = .greyScaleDefault
+    
+    view.addSubview(emptyStateView!)
+
+    emptyStateView!.snp.makeConstraints { make in
+      make.top.equalTo(viewButtons.snp.bottom)
+      make.leading.trailing.bottom.equalToSuperview()
+    }
+  }
+
 
   func displayError(error: String) {
     self.viewRegistErrMessage.isHidden = false
