@@ -36,6 +36,7 @@ extension View {
   func localized(
     weight: KTOFontWeight,
     size: CGFloat,
+    // KTO-4957 [iOS] 修改localize修飾器預設的顏色
     color: UIColor = UIColor(.black.opacity(0.00001)))
     -> some View
   {
