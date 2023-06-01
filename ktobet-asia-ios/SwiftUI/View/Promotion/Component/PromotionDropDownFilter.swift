@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PromotionDropDownFilter<ViewModel>: View
-where ViewModel: CouponFilterable
+  where ViewModel: CouponFilterable
 {
   @State private var isExpand = false
   
@@ -314,7 +314,6 @@ class PromotionTag: Equatable {
     lhs.tagId == rhs.tagId
   }
 }
-
 
 @available(*, deprecated, message: "Waiting Refactor.")
 class PromotionProductTag: Equatable {

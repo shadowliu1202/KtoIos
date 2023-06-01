@@ -287,13 +287,13 @@ final class TransactionLogViewTests: XCBaseTestCase {
     let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
 
     let expectation = sut.inspection.inspect { view in
-      let sectionTitle = try view
-        .view(LogSections<TransactionLog>.self)
-        .vStack()
-        .localizedText(1)
+      let description = try view
+        .find(viewWithId: "emptyStateView")
+        .find(viewWithId: "description")
+        .localizedText()
         .string()
 
-      XCTAssertEqual(sectionTitle, "暂无纪录")
+      XCTAssertEqual(description, "暂无纪录")
     }
 
     ViewHosting.host(

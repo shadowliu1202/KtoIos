@@ -10,7 +10,7 @@ struct LogSections<T: LogRowModel>: View {
   enum Identifier {
     case sectionHeader(at: Int)
     case section(at: Int)
-    case emptyReminder
+    case emptyStateView
 
     var rawValue: String { "\(self)" }
   }
@@ -61,7 +61,7 @@ struct LogSections<T: LogRowModel>: View {
           iconImage: Image("No Records"),
           description: Localize.string("common_no_record_temporarily"),
           keyboardAppearance: .impossible)
-          .id(Identifier.emptyReminder.rawValue)
+          .id(Identifier.emptyStateView.rawValue)
       }
     }
     else {

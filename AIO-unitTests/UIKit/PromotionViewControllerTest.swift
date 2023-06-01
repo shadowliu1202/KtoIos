@@ -95,8 +95,9 @@ final class PromotionViewControllerTest: XCBaseTestCase {
     sut.loadViewIfNeeded()
     sut.viewModel.trigerRefresh.onNext(())
 
-    let dropDown = sut.filterDropDwon!
-    XCTAssertTrue(dropDown.tags.contains(where: { $0.name == "负盈利返现(1)" }))
+    XCTAssertTrue(
+      sut.viewModel.promotionTags
+        .contains(where: { $0.name == "负盈利返现(1)" }))
   }
 
   func test_HasZeroVVIPCashbackCouponAndZeroVVIPPromotionEvent_InMainPage_VVIPCashbackTabIsNotDisplayed_KTO_TC_19() {
@@ -105,8 +106,9 @@ final class PromotionViewControllerTest: XCBaseTestCase {
     sut.loadViewIfNeeded()
     sut.viewModel.trigerRefresh.onNext(())
 
-    let dropDown = sut.filterDropDwon!
-    XCTAssertFalse(dropDown.tags.contains(where: { $0.name.contains("负盈利返现") }))
+    XCTAssertFalse(
+      sut.viewModel.promotionTags
+        .contains(where: { $0.name.contains("负盈利返现") }))
   }
 
   func test_HasOneVVIPCashbackCoupon_InVVIPCouponPage_OneCashbackCouponIsDisplayed_KTO_TC_26() {
@@ -166,8 +168,9 @@ final class PromotionViewControllerTest: XCBaseTestCase {
     sut.loadViewIfNeeded()
     sut.viewModel.trigerRefresh.onNext(())
 
-    let dropDown = sut.filterDropDwon!
-    XCTAssertTrue(dropDown.tags.contains(where: { $0.name == "负盈利返现(1)" }))
+    XCTAssertTrue(
+      sut.viewModel.promotionTags
+        .contains(where: { $0.name == "负盈利返现(1)" }))
   }
 
   func test_HasOneVVIPPromotionEvent_InVVIPCouponPage_OneVVIPPromotionEventIsDisplayed_KTO_TC_33() {
@@ -205,10 +208,9 @@ final class PromotionViewControllerTest: XCBaseTestCase {
     sut.loadViewIfNeeded()
     sut.viewModel.trigerRefresh.onNext(())
 
-    let dropDown = sut.filterDropDwon!
-    let indexManual = dropDown.tags.firstIndex(where: { $0.name.contains("手动领取") })!
-    let indexVVIPCashback = dropDown.tags.firstIndex(where: { $0.name.contains("负盈利返现") })!
-    let indexFreebet = dropDown.tags.firstIndex(where: { $0.name.contains("免费金") })!
+    let indexManual = sut.viewModel.promotionTags.firstIndex(where: { $0.name.contains("手动领取") })!
+    let indexVVIPCashback = sut.viewModel.promotionTags.firstIndex(where: { $0.name.contains("负盈利返现") })!
+    let indexFreebet = sut.viewModel.promotionTags.firstIndex(where: { $0.name.contains("免费金") })!
     XCTAssertGreaterThan(indexVVIPCashback, indexManual)
     XCTAssertLessThan(indexVVIPCashback, indexFreebet)
   }
@@ -223,8 +225,7 @@ final class PromotionViewControllerTest: XCBaseTestCase {
     sut.loadViewIfNeeded()
     sut.viewModel.trigerRefresh.onNext(())
 
-    let dropDown = sut.filterDropDwon!
-    let manualTab = dropDown.tags.first(where: { $0.name.contains("手动领取") })!
+    let manualTab = sut.viewModel.promotionTags.first(where: { $0.name.contains("手动领取") })!
     XCTAssertEqual(1, manualTab.count)
   }
 
@@ -238,8 +239,7 @@ final class PromotionViewControllerTest: XCBaseTestCase {
     sut.loadViewIfNeeded()
     sut.viewModel.trigerRefresh.onNext(())
 
-    let dropDown = sut.filterDropDwon!
-    let allTab = dropDown.tags.first(where: { $0.name.contains("全部") })!
+    let allTab = sut.viewModel.promotionTags.first(where: { $0.name.contains("全部") })!
     XCTAssertEqual(3, allTab.count)
   }
 
@@ -274,8 +274,8 @@ final class PromotionViewControllerTest: XCBaseTestCase {
     sut.viewModel.trigerRefresh.onNext(())
 
     let expect = PromotionFilter.allCases.count
-    let dropDown = sut.filterDropDwon!
-    let actual = dropDown.tags.count
+
+    let actual = sut.viewModel.promotionTags.count
 
     XCTAssertEqual(expect, actual)
   }

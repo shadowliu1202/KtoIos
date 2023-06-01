@@ -1,6 +1,10 @@
 import SwiftUI
 
 extension SwiftUIEmptyStateView {
+  enum Identifier: String {
+    case description
+  }
+  
   enum KeyboardAppearance {
     case possible
     case impossible
@@ -35,6 +39,7 @@ struct SwiftUIEmptyStateView: View {
             Text(description)
               .localized(weight: .regular, size: 14, color: .textPrimary)
               .multilineTextAlignment(.center)
+              .id(Identifier.description.rawValue)
           }
           .offset(
             y: keyboardAppearance == .impossible
