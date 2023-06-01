@@ -56,16 +56,16 @@ final class WithdrawalLogSummaryViewTests: XCBaseTestCase {
     let sut = WithdrawalLogSummaryView<WithdrawalLogSummaryViewModelProtocolMock>.Sections()
 
     let expectation = sut.inspection.inspect { view in
-      let reminder = try view
-        .find(viewWithId: "emptyReminder")
-        .vStack()
+      let emptyStateView = try view
+        .find(viewWithId: "emptyStateView")
 
-      let text = try reminder
-        .localizedText(1)
+      let description = try emptyStateView
+        .find(viewWithId: "description")
+        .localizedText()
         .string()
 
-      XCTAssertNotNil(reminder)
-      XCTAssertEqual("暂无纪录", text)
+      XCTAssertNotNil(emptyStateView)
+      XCTAssertEqual("暂无纪录", description)
     }
 
     ViewHosting.host(

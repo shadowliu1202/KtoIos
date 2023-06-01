@@ -4,7 +4,7 @@ import RxSwift
 import SharedBu
 import SwiftUI
 
-protocol CouponFilterable: ObservableObject{
+protocol CouponFilterable: ObservableObject {
   var promotionTags: [PromotionTag] { get set }
   var selectedPromotionFilter: PromotionFilter { get set }
   var selectedProductFilters: Set<PromotionFilter.Product> { get set }
