@@ -33,7 +33,12 @@ struct FontAndColor_Previews: PreviewProvider {
 }
 
 extension View {
-  func localized(weight: KTOFontWeight, size: CGFloat, color: UIColor = .clear) -> some View {
+  func localized(
+    weight: KTOFontWeight,
+    size: CGFloat,
+    color: UIColor = UIColor(.black.opacity(0.00001)))
+    -> some View
+  {
     LocalizeFont(
       fontWeight: weight,
       size: size,

@@ -195,7 +195,6 @@ struct LoginView: View {
       Text(" ")
       Text(Localize.string("login_tips_1_highlight"))
         .foregroundColor(.from(.primaryDefault))
-        .contentShape(Rectangle())
         .onTapGesture {
           onTapped()
         }
