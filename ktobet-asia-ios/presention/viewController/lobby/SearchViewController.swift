@@ -4,6 +4,8 @@ import SharedBu
 import UIKit
 
 class SearchViewController: SearchProduct, UISearchBarDelegate {
+  static private let searchCharacterLimit = 30
+  
   @IBOutlet var searchBarView: UISearchBar!
   @IBOutlet weak var suggestionView: UIView!
   @IBOutlet weak var tagsStackView: UIStackView!
@@ -305,10 +307,10 @@ class SearchViewController: SearchProduct, UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     let currentText = searchBar.text ?? ""
     let newText = (currentText as NSString).replacingCharacters(in: range, with: text)
-
-    let characterLimit = 30
-
-    return countTextLength(newText) <= characterLimit
+        
+    let isSpellingMode = (searchBar.searchTextField.markedTextRange != nil)
+        
+    return isSpellingMode ? true : countTextLength(newText) <= Self.searchCharacterLimit
   }
 
   private func countTextLength(_ text: String) -> Int {
@@ -327,5 +329,23 @@ class SearchViewController: SearchProduct, UISearchBarDelegate {
     }
 
     return count
+  }
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if countTextLength(searchText) > Self.searchCharacterLimit {
+      let trimmedText = trimText(searchText, to: Self.searchCharacterLimit)
+      searchBar.text = trimmedText
+    }
+  }
+  
+  private func trimText(_ text: String, to maxLength: Int) -> String {
+    var trimmedText = text
+      
+    while countTextLength(trimmedText) > maxLength {
+      let endIndex = trimmedText.index(trimmedText.endIndex, offsetBy: -1)
+      trimmedText = String(trimmedText[..<endIndex])
+    }
+      
+    return trimmedText
   }
 }
