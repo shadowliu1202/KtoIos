@@ -88,7 +88,7 @@ struct PromotionDropDownFilter<ViewModel>: View
           isExpand.toggle()
         }
       
-      VStack(spacing: 0) {
+      VStack(spacing: 16) {
         FlowLayout(
           items: viewModel.promotionTags,
           hSpacing: 16,
@@ -101,11 +101,9 @@ struct PromotionDropDownFilter<ViewModel>: View
               viewModel.selectedPromotionFilter = promotionTag.filter
             })
         }
-        .padding(30)
 
         if viewModel.selectedPromotionFilter == .product {
           Separator(color: .textSecondary, lineWeight: 0.5)
-            .padding(.horizontal, 30)
 
           FlowLayout(
             items: productFilters,
@@ -126,9 +124,10 @@ struct PromotionDropDownFilter<ViewModel>: View
                 }
               })
           }
-          .padding(30)
         }
       }
+      .padding(.horizontal, 30)
+      .padding(.vertical, 24)
       .backgroundColor(.greyScaleList)
     }
   }
