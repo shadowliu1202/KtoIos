@@ -45,6 +45,7 @@ extension LazyImage {
     }
 
     init(downloader: SDWebImageDownloader = .shared) {
+      downloader.config.downloadTimeout = .infinity
       self.downloader = downloader
     }
 
