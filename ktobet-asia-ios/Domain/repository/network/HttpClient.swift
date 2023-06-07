@@ -61,7 +61,7 @@ class HttpClient: CookieUtil {
 
     let configuration = URLSessionConfiguration.default
     configuration.headers = .default
-    configuration.timeoutIntervalForRequest = 30
+    configuration.timeoutIntervalForRequest = .infinity
 
     self.provider = .init(
       session: .init(
