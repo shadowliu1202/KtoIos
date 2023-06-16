@@ -41,10 +41,6 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
 
   var betTime: [SharedBu.LocalDateTime] = []
 
-  var pagination: Pagination<BetRecord>!
-
-  var periodOfRecord: PeriodOfRecord!
-
   var section = 0
 
   var webGameResultDriver: Driver<WebGameResult> {
@@ -54,6 +50,8 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
   var loadingWebTracker: ActivityIndicator { loading.tracker }
 
   let placeholderTracker = ActivityIndicator()
+  
+  private(set) var periodPaginationDic: [PeriodOfRecord : Pagination<BetRecord>] = [:]
 
   init(
     casinoRecordUseCase: CasinoRecordUseCase,
@@ -73,18 +71,6 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
         ProductDTO.GameTag(id: $0.tag.type, name: $0.tag.name)
       }))
     }
-
-    pagination = Pagination<BetRecord>(
-      startIndex: 0,
-      offset: 20,
-      observable: { [unowned self] currentIndex -> Observable<[BetRecord]> in
-        self.getBetRecords(offset: currentIndex)
-          .do(onError: { error in
-            self.pagination.error.onNext(error)
-          }).catch({ _ -> Observable<[BetRecord]> in
-            Observable.empty()
-          })
-      })
   }
 
   func selectAll() {
@@ -284,29 +270,31 @@ extension CasinoViewModel {
 
   func getBetSummaryByDate(localDate: String) -> Single<[PeriodOfRecord]> {
     casinoRecordUseCase.getBetSummaryByDate(localDate: localDate)
-      .do(onSuccess: { [unowned self] periodOfRecords in
-        self.periodOfRecord = periodOfRecords.first
+      .do(onSuccess: { [unowned self] in
+        self.setupPeriodPaginationDictionary(periodOfRecords: $0)
       })
   }
-
-  func getBetRecords(offset: Int) -> Observable<[BetRecord]> {
-    casinoRecordUseCase.getBetRecords(periodOfRecord: self.periodOfRecord, offset: offset).asObservable()
+  
+  private func setupPeriodPaginationDictionary(periodOfRecords: [PeriodOfRecord]) {
+    periodPaginationDic = Dictionary(uniqueKeysWithValues: periodOfRecords.map { period in
+      (period, Pagination<BetRecord>(
+        startIndex: 0,
+        offset: 20,
+        observable: { [unowned self] currentIndex -> Observable<[BetRecord]> in
+          self.getBetRecords(periodOfRecord: period, offset: currentIndex)
+            .do(onError: { error in
+              self.periodPaginationDic[period]?.error.onNext(error)
+            }).catch({ _ -> Observable<[BetRecord]> in
+              Observable.empty()
+            })
+        }))
+    })
   }
 
-  func getBetRecords(periodOfRecords: [PeriodOfRecord], offset: Int) -> Observable<[PeriodOfRecord: [BetRecord]]> {
-    var obs: [Observable<[PeriodOfRecord: [BetRecord]]>] = []
-    for p in periodOfRecords {
-      let o = casinoRecordUseCase.getBetRecords(periodOfRecord: p, offset: offset)
-        .map { betRecords -> [PeriodOfRecord: [BetRecord]] in
-          [p: betRecords]
-        }.asObservable()
-
-      obs.append(o)
-    }
-
-    return Observable.merge(obs)
+  func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Observable<[BetRecord]> {
+    casinoRecordUseCase.getBetRecords(periodOfRecord: periodOfRecord, offset: offset).asObservable()
   }
-
+  
   func getWagerDetail(wagerId: String) -> Single<CasinoDetail?> {
     casinoRecordUseCase.getCasinoWagerDetail(wagerId: wagerId)
   }
