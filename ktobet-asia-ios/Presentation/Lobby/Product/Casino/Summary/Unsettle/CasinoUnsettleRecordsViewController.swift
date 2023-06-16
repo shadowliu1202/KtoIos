@@ -195,64 +195,51 @@ extension CasinoUnsettleRecordsViewController: ExpandableHeaderViewDelegate {
   }
 }
 
-struct Section {
-  var webGames: [WebGame] = []
-  var gameId: [Int32] = []
-  var sectionClass: String!
-  var sectionDate: String?
-  var name: [String] = []
-  var betId: [String] = []
-  var totalAmount: [AccountCurrency] = []
-  var winAmount: [AccountCurrency] = []
-  var expanded = false
-  var betStatus: [BetStatus] = []
-  var hasDetail: [Bool] = []
-  var wagerId: [String] = []
-  var periodOfRecord: PeriodOfRecord!
-  var prededuct: [AccountCurrency] = []
+extension CasinoUnsettleRecordsViewController {
+  struct Section {
+    var webGames: [WebGame] = []
+    var gameId: [Int32] = []
+    var sectionClass: String!
+    var sectionDate: String?
+    var name: [String] = []
+    var betId: [String] = []
+    var totalAmount: [AccountCurrency] = []
+    var winAmount: [AccountCurrency] = []
+    var expanded = false
+    var betStatus: [BetStatus] = []
+    var hasDetail: [Bool] = []
+    var wagerId: [String] = []
+    var periodOfRecord: PeriodOfRecord!
+    var prededuct: [AccountCurrency] = []
 
-  init() { }
-
-  init(periodOfRecord: PeriodOfRecord) {
-    self.periodOfRecord = periodOfRecord
-    let dateTime = "( " +
-      String(
-        format: "%02d:%02d ~ %02d:%02d",
-        self.periodOfRecord.startDate.hour,
-        self.periodOfRecord.startDate.minute,
-        self.periodOfRecord.endDate.hour,
-        self.periodOfRecord.endDate.minute) + " )"
-    self.sectionDate = dateTime
-    self.sectionClass = self.periodOfRecord.lobbyName
-  }
-
-  init(
-    webGames: [WebGame],
-    sectionClass: String,
-    name: [String] = [],
-    betId: [String] = [],
-    totalAmount: [AccountCurrency] = [],
-    winAmount: [AccountCurrency] = [],
-    expanded: Bool,
-    sectionDate: String? = nil,
-    betStatus: [BetStatus] = [],
-    hasDetail: [Bool] = [],
-    wagerId: [String] = [],
-    gameId: [Int32] = [],
-    prededuct: [AccountCurrency] = [])
-  {
-    self.webGames = webGames
-    self.sectionClass = sectionClass
-    self.name = name
-    self.betId = betId
-    self.totalAmount = totalAmount
-    self.winAmount = winAmount
-    self.betStatus = betStatus
-    self.expanded = expanded
-    self.sectionDate = sectionDate ?? ""
-    self.hasDetail = hasDetail
-    self.wagerId = wagerId
-    self.gameId = gameId
-    self.prededuct = prededuct
+    init(
+      webGames: [WebGame],
+      sectionClass: String,
+      name: [String] = [],
+      betId: [String] = [],
+      totalAmount: [AccountCurrency] = [],
+      winAmount: [AccountCurrency] = [],
+      expanded: Bool,
+      sectionDate: String? = nil,
+      betStatus: [BetStatus] = [],
+      hasDetail: [Bool] = [],
+      wagerId: [String] = [],
+      gameId: [Int32] = [],
+      prededuct: [AccountCurrency] = [])
+    {
+      self.webGames = webGames
+      self.sectionClass = sectionClass
+      self.name = name
+      self.betId = betId
+      self.totalAmount = totalAmount
+      self.winAmount = winAmount
+      self.betStatus = betStatus
+      self.expanded = expanded
+      self.sectionDate = sectionDate ?? ""
+      self.hasDetail = hasDetail
+      self.wagerId = wagerId
+      self.gameId = gameId
+      self.prededuct = prededuct
+    }
   }
 }

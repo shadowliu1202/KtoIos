@@ -29,54 +29,69 @@ class CasinoBetSummaryByDateViewController: LobbyViewController {
     activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 
-    getBetSummaryByDate()
-    viewModel.pagination.elements.subscribe(onNext: { betRecords in
-      if self.sections.isEmpty {
-        self.tableView.reloadData()
+    viewModel.getBetSummaryByDate(localDate: selectDate!)
+      .do(onSuccess: { [weak self] in
+        self?.setupTableView(periodOfRecords: $0)
+      })
+      .asObservable()
+      .flatMap { [unowned self] _ in
+        self.bindEachPeriodPagination()
       }
-      else {
-        let lastIndex = (self.sections[self.viewModel.section].name.count - 1) < 0 ? 0 : self
-          .sections[self.viewModel.section].name.count
-        self.sections[self.viewModel.section].name = betRecords.map { $0.gameName }
-        self.sections[self.viewModel.section].betId = betRecords.map { $0.betId }
-        self.sections[self.viewModel.section].totalAmount = betRecords.map { $0.stakes }
-        self.sections[self.viewModel.section].winAmount = betRecords.map { $0.winLoss }
-        self.sections[self.viewModel.section].betStatus = betRecords.map { $0.getBetStatus() }
-        self.sections[self.viewModel.section].hasDetail = betRecords.map { $0.hasDetails }
-        self.sections[self.viewModel.section].wagerId = betRecords.map { $0.wagerId }
-        self.sections[self.viewModel.section].prededuct = betRecords.map { $0.prededuct }
-        self.tableView.beginUpdates()
-        for i in 0..<self.sections[self.viewModel.section].name.count - lastIndex {
-          self.tableView.insertRows(
-            at: [IndexPath(row: i + lastIndex, section: self.viewModel.section)],
-            with: .automatic)
+      .subscribe(onNext: { [unowned self] periodOfRecord, betRecords in
+        if let sectionIndex = sections.firstIndex(where: { $0.periodOfRecord == periodOfRecord }) {
+          appendBetRecordToSection(sectionIndex, betRecords: betRecords)
+          
+          let rowCountOfSection = self.tableView.numberOfRows(inSection: sectionIndex)
+          
+          insertRowsWithAnimation(
+            recordCount: betRecords.count,
+            offsetIndex: rowCountOfSection,
+            sectionIndex: sectionIndex)
         }
-
-        self.tableView.endUpdates()
-      }
-    }).disposed(by: disposeBag)
+      })
+      .disposed(by: disposeBag)
   }
-
+  
   deinit {
     Logger.shared.info("\(type(of: self)) deinit")
   }
+  
+  private func setupTableView(periodOfRecords: [PeriodOfRecord]) {
+    sections = periodOfRecords.map { Section(periodOfRecord: $0) }
 
-  private func getBetSummaryByDate() {
-    viewModel.getBetSummaryByDate(localDate: selectDate!).subscribe { [weak self] periodOfRecords in
-      for p in periodOfRecords {
-        self?.sections.append(Section(periodOfRecord: p))
-      }
+    sections.sort(by: { s1, s2 -> Bool in
+      s1.sectionDate! > s2.sectionDate!
+    })
 
-      self?.sections.sort(by: { s1, s2 -> Bool in
-        s1.sectionDate! > s2.sectionDate!
-      })
-
-      self?.tableView.reloadData()
-    } onFailure: { [weak self] error in
-      self?.handleErrors(error)
-    }.disposed(by: disposeBag)
+    tableView.reloadData()
   }
+  
+  private func bindEachPeriodPagination() -> Observable<(PeriodOfRecord, [BetRecord])> {
+    Observable
+      .from(viewModel.periodPaginationDic)
+      .flatMap { (key: PeriodOfRecord, value: Pagination<BetRecord>) in
+        value.elements.map { betRecords in
+          (key, betRecords)
+        }
+      }
+  }
+  
+  private func appendBetRecordToSection(_ index: Int, betRecords: [BetRecord]) {
+    sections[index].betRecord = betRecords.map { Section.Record(betRecord: $0) }
+  }
+  
+  private func insertRowsWithAnimation(recordCount: Int, offsetIndex: Int, sectionIndex: Int) {
+    self.tableView.beginUpdates()
+    
+    for i in 0..<recordCount - offsetIndex {
+      self.tableView.insertRows(
+        at: [IndexPath(row: i + offsetIndex, section: sectionIndex)],
+        with: .automatic)
+    }
 
+    self.tableView.endUpdates()
+  }
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == CasinoDetailViewController.segueIdentifier {
       if let dest = segue.destination as? CasinoDetailViewController {
@@ -96,21 +111,28 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
   }
 
   func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-    sections[section].name.count
+    sections[section].betRecord.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! BetRecordTableViewCell
+    let betRecord = sections[indexPath.section].betRecord[indexPath.row]
     cell.setup(
-      name: sections[indexPath.section].name[indexPath.row],
-      betId: sections[indexPath.section].betId[indexPath.row],
-      totalAmount: sections[indexPath.section].totalAmount[indexPath.row],
-      winAmount: sections[indexPath.section].winAmount[indexPath.row],
-      betStatus: sections[indexPath.section].betStatus[indexPath.row],
-      hasDetail: sections[indexPath.section].hasDetail[indexPath.row],
-      prededuct: sections[indexPath.section].prededuct[indexPath.row])
-    if viewModel.section == indexPath.section, sections[indexPath.section].name.count - 2 == indexPath.row {
-      viewModel.pagination.loadNextPageTrigger.onNext(())
+      name: betRecord.name,
+      betId: betRecord.betId,
+      totalAmount: betRecord.totalAmount,
+      winAmount: betRecord.winAmount,
+      betStatus: betRecord.betStatus,
+      hasDetail: betRecord.hasDetail,
+      prededuct: betRecord.prededuct)
+    
+    let isSecondLastRowOfSection = sections[indexPath.section].betRecord.count - 2 == indexPath.row
+    
+    if
+      self.sections[indexPath.section].expanded,
+      isSecondLastRowOfSection
+    {
+      viewModel.periodPaginationDic[sections[indexPath.section].periodOfRecord]?.loadNextPageTrigger.onNext(())
     }
 
     cell.removeBorder()
@@ -122,10 +144,10 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    if sections[indexPath.section].hasDetail[indexPath.row] {
+    if sections[indexPath.section].betRecord[indexPath.row].hasDetail {
       performSegue(
         withIdentifier: CasinoDetailViewController.segueIdentifier,
-        sender: sections[indexPath.section].wagerId[indexPath.row])
+        sender: sections[indexPath.section].betRecord[indexPath.row].wagerId)
     }
 
     tableView.deselectRow(at: indexPath, animated: true)
@@ -159,19 +181,66 @@ extension CasinoBetSummaryByDateViewController: ExpandableHeaderViewDelegate {
   func toggleSection(header _: ExpandableHeaderView, section: Int, expanded: Bool) {
     if self.sections[section].expanded {
       self.tableView.beginUpdates()
-      for i in 0..<self.sections[section].name.count {
+      for i in 0..<self.sections[section].betRecord.count {
         self.tableView.deleteRows(at: [IndexPath(row: i, section: section)], with: .none)
       }
 
-      self.sections[section].name = []
+      self.sections[section].betRecord = []
       self.tableView.endUpdates()
     }
     else {
-      viewModel.periodOfRecord = sections[section].periodOfRecord
-      viewModel.section = section
-      self.viewModel.pagination.refreshTrigger.onNext(())
+      viewModel.periodPaginationDic[sections[section].periodOfRecord]?.refreshTrigger.onNext(())
     }
 
     self.sections[section].expanded = expanded
+  }
+}
+
+extension CasinoBetSummaryByDateViewController {
+  struct Section {
+    var webGames: [WebGame] = []
+    var gameId: [Int32] = []
+    var sectionClass: String!
+    var sectionDate: String?
+    var expanded = false
+    var periodOfRecord: PeriodOfRecord!
+    var betRecord: [Record] = []
+
+    init() { }
+
+    init(periodOfRecord: PeriodOfRecord) {
+      self.periodOfRecord = periodOfRecord
+      let dateTime = "( " +
+        String(
+          format: "%02d:%02d ~ %02d:%02d",
+          self.periodOfRecord.startDate.hour,
+          self.periodOfRecord.startDate.minute,
+          self.periodOfRecord.endDate.hour,
+          self.periodOfRecord.endDate.minute) + " )"
+      self.sectionDate = dateTime
+      self.sectionClass = self.periodOfRecord.lobbyName
+    }
+    
+    struct Record {
+      let name: String
+      let betId: String
+      let totalAmount: AccountCurrency
+      let winAmount: AccountCurrency
+      let betStatus: BetStatus
+      let hasDetail: Bool
+      let wagerId: String
+      let prededuct: AccountCurrency
+      
+      init(betRecord: BetRecord) {
+        self.name = betRecord.gameName
+        self.betId = betRecord.betId
+        self.totalAmount = betRecord.stakes
+        self.winAmount = betRecord.winLoss
+        self.betStatus = betRecord.getBetStatus()
+        self.hasDetail = betRecord.hasDetails
+        self.wagerId = betRecord.wagerId
+        self.prededuct = betRecord.prededuct
+      }
+    }
   }
 }
