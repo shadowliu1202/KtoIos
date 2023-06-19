@@ -32,7 +32,6 @@ struct DepositLogSummaryView<ViewModel>: View
           viewModel.pagination.loadNextPageTrigger.onNext(())
         })
         .environmentObject(viewModel)
-        .environment(\.playerLocale, viewModel.supportLocale)
         .onAppear {
           viewModel.pagination.refreshTrigger.onNext(())
           viewModel.summaryRefreshTrigger.onNext(())

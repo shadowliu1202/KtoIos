@@ -106,4 +106,26 @@ class DateExtensionTest: XCBaseTestCase {
 
     XCTAssertEqual(expect1, actual1)
   }
+  
+  func testToLocalDateTime() {
+    let dateComponent = DateComponents(timeZone: .init(secondsFromGMT: 0)!, year: 2023, month: 6, day: 15, hour: 23)
+    let date = Calendar.current.date(from: dateComponent)!
+    
+    let actual = date.toLocalDateTime(Foundation.TimeZone(identifier: "Asia/Taipei")!)
+    
+    let expect = SharedBu.LocalDateTime(year: 2023, month: .june, dayOfMonth: 16, hour: 7, minute: 0, second: 0, nanosecond: 0)
+    
+    XCTAssertEqual(expect, actual)
+  }
+  
+  func testToLocalDate() {
+    let dateComponent = DateComponents(timeZone: .init(secondsFromGMT: 0)!, year: 2023, month: 6, day: 15, hour: 23)
+    let date = Calendar.current.date(from: dateComponent)!
+    
+    let actual = date.toLocalDate(Foundation.TimeZone(identifier: "Asia/Taipei")!)
+    
+    let expect = SharedBu.LocalDate(year: 2023, month: .june, dayOfMonth: 16)
+    
+    XCTAssertEqual(expect, actual)
+  }
 }

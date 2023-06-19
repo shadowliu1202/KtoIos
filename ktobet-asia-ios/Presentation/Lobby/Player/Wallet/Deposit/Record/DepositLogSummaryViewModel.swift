@@ -5,7 +5,6 @@ import SharedBu
 protocol DepositLogSummaryViewModelProtocol {
   typealias Section = LogSections<PaymentLogDTO.Log>.Model
 
-  var supportLocale: SupportLocale { get }
   var totalAmount: String? { get }
   var sections: [Section]? { get }
   var isPageLoading: Bool { get }
@@ -33,19 +32,19 @@ class DepositLogSummaryViewModel:
 
   private let filterStatusSource: [PaymentLogDTO.LogStatus] = [.approved, .reject, .pending, .floating]
   private let depositService: IDepositAppService
+  private let playerConfiguration: PlayerConfiguration
+
   private let disposeBag = DisposeBag()
 
   private(set) var pagination: Pagination<PaymentLogDTO.GroupLog>!
   private(set) var summaryRefreshTrigger = PublishSubject<Void>()
-
-  let supportLocale: SupportLocale
 
   init(
     depositService: IDepositAppService,
     playerConfig: PlayerConfiguration)
   {
     self.depositService = depositService
-    self.supportLocale = playerConfig.supportLocale
+    self.playerConfiguration = playerConfig
 
     super.init()
 
@@ -71,10 +70,14 @@ class DepositLogSummaryViewModel:
       .subscribe()
       .disposed(by: disposeBag)
   }
+  
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
 
   func getCashLogSummary() -> Single<CurrencyUnit> {
-    let beginDate = dateType.result.from.convertToKotlinx_datetimeLocalDate()
-    let endDate = dateType.result.to.convertToKotlinx_datetimeLocalDate()
+    let beginDate = dateType.result.from.toLocalDate(playerConfiguration.localeTimeZone())
+    let endDate = dateType.result.to.toLocalDate(playerConfiguration.localeTimeZone())
 
     return Single.from(
       depositService.getPaymentSummary(from: beginDate, to: endDate))
@@ -92,8 +95,8 @@ class DepositLogSummaryViewModel:
   }
 
   private func getRecords(page: Int32 = 1) -> Observable<[PaymentLogDTO.GroupLog]> {
-    let beginDate = dateType.result.from.convertToKotlinx_datetimeLocalDate()
-    let endDate = dateType.result.to.convertToKotlinx_datetimeLocalDate()
+    let beginDate = dateType.result.from.toLocalDate(playerConfiguration.localeTimeZone())
+    let endDate = dateType.result.to.toLocalDate(playerConfiguration.localeTimeZone())
     let statusSet: Set<PaymentLogDTO.LogStatus> = Set(selectedItems.filterThenCast())
 
     return Single.from(
@@ -112,9 +115,9 @@ class DepositLogSummaryViewModel:
       .asObservable()
       .compose(applyObservableErrorHandle())
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
+  
+  func getSupportLocale() -> SupportLocale {
+    playerConfiguration.supportLocale
   }
 }
 

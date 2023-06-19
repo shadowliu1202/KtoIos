@@ -47,6 +47,7 @@ extension WithdrawalLogSummaryViewController {
               self.navigateToWithdrawalRecordDetail(log: $0)
             })
         }
+        .environment(\.playerLocale, viewModel.getSupportLocale())
       },
       to: view)
   }
