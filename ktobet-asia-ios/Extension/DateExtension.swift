@@ -173,6 +173,7 @@ extension Date {
     Date().adding(value: -adultAge, byAdding: .year)
   }
 
+  @available(*, deprecated, message: "Convert logic is wrong, use new API `toLocalDateTime`.")
   func convertToKotlinx_datetimeLocalDateTime() -> SharedBu.LocalDateTime {
     SharedBu.LocalDateTime(
       year: self.getYear(),
@@ -184,8 +185,33 @@ extension Date {
       nanosecond: self.getNanosecond())
   }
 
+  @available(*, deprecated, message: "Convert logic is wrong, use new API `toLocalDate`.")
   func convertToKotlinx_datetimeLocalDate() -> SharedBu.LocalDate {
     SharedBu.LocalDate(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth())
+  }
+  
+  func toLocalDateTime(_ timeZone: Foundation.TimeZone) -> LocalDateTime {
+    var calendar = Calendar.current
+    calendar.timeZone = timeZone
+    
+    return SharedBu.LocalDateTime(
+      year: Int32(calendar.component(.year, from: self)),
+      monthNumber: Int32(calendar.component(.month, from: self)),
+      dayOfMonth: Int32(calendar.component(.day, from: self)),
+      hour: Int32(calendar.component(.hour, from: self)),
+      minute: Int32(calendar.component(.minute, from: self)),
+      second: Int32(calendar.component(.second, from: self)),
+      nanosecond: Int32(calendar.component(.nanosecond, from: self)))
+  }
+  
+  func toLocalDate(_ timeZone: Foundation.TimeZone) -> LocalDate {
+    var calendar = Calendar.current
+    calendar.timeZone = timeZone
+    
+    return SharedBu.LocalDate(
+      year: Int32(calendar.component(.year, from: self)),
+      monthNumber: Int32(calendar.component(.month, from: self)),
+      dayOfMonth: Int32(calendar.component(.day, from: self)))
   }
 
   func toUTCOffsetDateTime() -> OffsetDateTime {

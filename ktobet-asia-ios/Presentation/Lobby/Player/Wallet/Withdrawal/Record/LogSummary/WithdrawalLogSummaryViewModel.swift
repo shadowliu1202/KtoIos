@@ -5,7 +5,6 @@ import SharedBu
 protocol WithdrawalLogSummaryViewModelProtocol {
   typealias Section = LogSections<WithdrawalDto.Log>.Model
 
-  var supportLocale: SupportLocale { get }
   var sections: [Section]? { get }
   var isPageLoading: Bool { get }
   var dateType: DateType { get }
@@ -30,19 +29,19 @@ class WithdrawalLogSummaryViewModel:
 
   private let filterStatusSource: [WithdrawalDto.LogFilterStatus] = [.approved, .reject, .pending, .floating, .canceled]
   private let withdrawalService: IWithdrawalAppService
+  private let playerConfiguration: PlayerConfiguration
+  
   private let disposeBag = DisposeBag()
 
   private(set) var pagination: Pagination<WithdrawalDto.GroupLog>!
   private(set) var summaryRefreshTrigger = PublishSubject<Void>()
-
-  let supportLocale: SupportLocale
 
   init(
     withdrawalService: IWithdrawalAppService,
     playerConfig: PlayerConfiguration)
   {
     self.withdrawalService = withdrawalService
-    self.supportLocale = playerConfig.supportLocale
+    self.playerConfiguration = playerConfig
 
     super.init()
 
@@ -65,6 +64,10 @@ class WithdrawalLogSummaryViewModel:
       })
   }
 
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
+  
   func buildSections(_ records: [WithdrawalDto.GroupLog]) -> [Section] {
     regrouping(
       from: records,
@@ -73,8 +76,8 @@ class WithdrawalLogSummaryViewModel:
   }
 
   private func getRecords(page: Int32 = 1) -> Observable<[WithdrawalDto.GroupLog]> {
-    let beginDate = dateType.result.from.convertToKotlinx_datetimeLocalDate()
-    let endDate = dateType.result.to.convertToKotlinx_datetimeLocalDate()
+    let beginDate = dateType.result.from.toLocalDate(playerConfiguration.localeTimeZone())
+    let endDate = dateType.result.to.toLocalDate(playerConfiguration.localeTimeZone())
     let statusSet: Set<WithdrawalDto.LogFilterStatus> = Set(selectedItems.filterThenCast())
 
     return Single.from(
@@ -93,9 +96,9 @@ class WithdrawalLogSummaryViewModel:
       .asObservable()
       .compose(applyObservableErrorHandle())
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
+  
+  func getSupportLocale() -> SupportLocale {
+    playerConfiguration.supportLocale
   }
 }
 
