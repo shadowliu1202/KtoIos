@@ -39,6 +39,7 @@ end
 def unitTest_pods
   pod 'MockingbirdFramework', '~> 0.20'
   pod 'ViewInspector'
+  pod 'RxTest', '6.5.0'
 end
 
 target 'ktobet-asia-ios-qat' do

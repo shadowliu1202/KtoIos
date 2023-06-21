@@ -27,6 +27,13 @@ class SnackBarImpl: SnackBar {
   func show(tip: String, image: UIImage?) {
     toastRelay.accept((tip, image))
   }
+  
+  func getToastObservable(scheduler: SchedulerType = MainScheduler.instance)
+    -> Observable<(tip: String, image: UIImage?)>
+  {
+    toastRelay
+      .throttle(.seconds(3), scheduler: scheduler)
+  }
 }
 
 extension SnackBarImpl {
@@ -47,9 +54,7 @@ extension SnackBarImpl {
   }
 
   private func bindData() {
-    toastRelay
-      .observe(on: MainScheduler.instance)
-      .throttle(.seconds(3), scheduler: MainScheduler.instance)
+    getToastObservable()
       .bind(onNext: { [weak self] in
         self?.snackBarView.setText($0.0)
         self?.snackBarView.setImage($0.1)

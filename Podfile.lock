@@ -164,6 +164,8 @@ PODS:
   - RxSwiftExt/RxCocoa (6.0.1):
     - RxCocoa (~> 6.0)
     - RxSwiftExt/Core
+  - RxTest (6.5.0):
+    - RxSwift (= 6.5.0)
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
@@ -197,6 +199,7 @@ DEPENDENCIES:
   - RxGesture
   - RxSwift (= 6.5.0)
   - RxSwiftExt (= 6.0.1)
+  - RxTest (= 6.5.0)
   - SDWebImage (= 5.10.4)
   - sharedbu (= 2.28.2)
   - SideMenu (= 6.5.0)
@@ -246,6 +249,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - RxSwiftExt
+    - RxTest
     - SDWebImage
     - SideMenu
     - SnapKit
@@ -291,6 +295,7 @@ SPEC CHECKSUMS:
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   RxSwiftExt: d61c4b9b06e0a448041b1c659e0f1b5c5a035afc
+  RxTest: eb2d23adefc5a5ebf5779c7792fa3edfe6ebcc17
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   sharedbu: 7feb44fc2e31c8ac702bb041145c4be229b01c9e
   SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
@@ -303,6 +308,6 @@ SPEC CHECKSUMS:
   ViewInspector: 607c4f3ea4be92c4c9e1e0cccfef54a1b8335b64
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: 79d7f568c18094d364e00e1fc4cfa5e24f2e2fa2
+PODFILE CHECKSUM: 5ff04743e35df1b62cdc0371191d5b17b894e043
 
 COCOAPODS: 1.11.3
