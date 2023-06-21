@@ -51,7 +51,7 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
 
   let placeholderTracker = ActivityIndicator()
   
-  private(set) var periodPaginationDic: [PeriodOfRecord : Pagination<BetRecord>] = [:]
+  private(set) var periodPaginationDic: [PeriodOfRecord: Pagination<BetRecord>] = [:]
 
   init(
     casinoRecordUseCase: CasinoRecordUseCase,
