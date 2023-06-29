@@ -57,6 +57,7 @@ extension String {
 
 // MARK: String to DateTime
 extension String {
+  @available(*, deprecated, message: "Should not use DI in extension.")
   private static func getPlayerTimeZone() -> Foundation.TimeZone {
     Injectable.resolve(LocalStorageRepository.self)!.localeTimeZone()
   }

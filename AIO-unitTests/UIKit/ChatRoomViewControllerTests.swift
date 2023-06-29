@@ -24,9 +24,8 @@ final class ChatRoomViewControllerTests: XCBaseTestCase {
   }
 
   private func getDummyCustomerServiceViewModel() -> CustomerServiceViewModel {
-    let dummyCustomerServiceUseCase = mock(CustomerServiceUseCase.self)
     let dummyCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
-      .initialize(customerServiceUseCase: dummyCustomerServiceUseCase)
+      .initialize(mock(AbsCustomerServiceAppService.self))
 
     given(dummyCustomerServiceViewModel.fullscreen())
       ~> RxSwift.Completable
@@ -35,8 +34,8 @@ final class ChatRoomViewControllerTests: XCBaseTestCase {
 
         return Disposables.create { }
       })
-
-    given(dummyCustomerServiceUseCase.currentChatRoom()) ~> Observable.error(NSError(domain: "", code: 401))
+    
+    given(dummyCustomerServiceViewModel.currentChatRoom()) ~> .never()
 
     return dummyCustomerServiceViewModel
   }

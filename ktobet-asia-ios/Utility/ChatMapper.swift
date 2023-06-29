@@ -3,47 +3,54 @@ import RxSwift
 import SharedBu
 
 class ChatMapper {
-  static func mapTo(speakingAsyncBean: SpeakingAsyncBean, httpClient: HttpClient) throws -> ChatMessage.Message {
-    let type = EnumMapper.convert(speakerType: speakingAsyncBean.speakerType)
-    return ChatMessage.Message(
-      id: speakingAsyncBean.messageId,
-      speaker: convertSpeaker(speaker: speakingAsyncBean.speaker, speakerType: type),
-      message: mapTo(
-        speakingAsyncBean: speakingAsyncBean.message,
-        speakerType: type,
-        httpClient: httpClient),
-      createTimeTick: try speakingAsyncBean.createdDate.toLocalDateTime())
+  private static let dateTimeMapper = DateTimeMapper()
+  
+  static func convert(beans: [InProcessBean]) throws -> [ChatMessage_.Message] {
+    beans.map { bean in
+      ChatMessage_.Message(
+        id: bean.messageId,
+        speaker: convert(speaker: bean.speaker, speakerType: bean.speakerType),
+        message: convert(message: bean.message),
+        createTimeTick: dateTimeMapper.toInstant(isoString: bean.createdDate),
+        isProcessing: false)
+    }
   }
-
-  private static func convertSpeaker(speaker: String, speakerType: SpeakerType) -> PortalChatRoom.Speaker {
+  
+  static func convert(bean: SpeakingAsyncBean) throws -> ChatMessage_.Message {
+    ChatMessage_.Message(
+      id: bean.messageId,
+      speaker: convert(speaker: bean.speaker, speakerType: bean.speakerType),
+      message: convert(message: bean.message),
+      createTimeTick: dateTimeMapper.toInstant(isoString: bean.createdDate),
+      isProcessing: false)
+  }
+  
+  private static func convert(speaker: String, speakerType: Int32) -> ChatMessage_.Speaker {
+    let speakerType = EnumMapper.convert(speakerType: speakerType)
     switch speakerType {
     case .player:
-      return PortalChatRoom.SpeakerPlayer(name: speaker)
+      return ChatMessage_.SpeakerPlayer(name: speaker)
     case .handler:
-      return PortalChatRoom.SpeakerHandler(name: speaker)
+      return ChatMessage_.SpeakerHandler(name: speaker)
     case .system:
-      return PortalChatRoom.SpeakerSystem(name: speaker)
+      return ChatMessage_.SpeakerSystem(name: speaker)
     default:
-      fatalError()
+      fatalError("should not be here")
     }
   }
 
-  private static func mapTo(
-    speakingAsyncBean: Message,
-    speakerType _: SpeakerType,
-    httpClient: HttpClient) -> [ChatMessage.Content]
-  {
-    speakingAsyncBean.quillDeltas.map { it in
-      if let image = it.attributes?.image {
-        return ChatMessage
-          .ContentImage(image: PortalImage.ChatImage(host: httpClient.host.absoluteString, path: image, isInChat: true))
+  private static func convert(message: Message) -> [ChatMessage_.Content] {
+    message.quillDeltas.map {
+      let attributes = $0.attributes
+      if let image = attributes?.image {
+        return ChatMessage_.ContentImage(image: ChatImage(path: image, inChat: true))
       }
-
-      if let link = it.attributes?.link {
-        return ChatMessage.ContentLink(content: link)
+      else if let link = attributes?.link {
+        return ChatMessage_.ContentLink(content: link)
       }
-
-      return ChatMessage.ContentText(content: it.insert ?? "", attributes: it.attributes?.convert())
+      else {
+        return ChatMessage_.ContentText(content: $0.insert, attributes: attributes?.convert())
+      }
     }
   }
 }

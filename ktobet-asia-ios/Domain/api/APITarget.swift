@@ -103,6 +103,10 @@ class NewAPITarget: TargetType {
   var task: Moya.Task = .requestPlain
   let headers: [String: String]?
 
+  @available(
+    *,
+    deprecated,
+    message: "Use init(path: String, method: Moya.Method, task: Moya.Task?, baseURL: URL, headers: [String: String]) instead")
   init(
     path: String,
     method: Moya.Method,
@@ -112,6 +116,23 @@ class NewAPITarget: TargetType {
 
     self.baseURL = httpClient.host
     self.headers = httpClient.headers
+    self.path = path
+    self.method = method
+
+    if let task {
+      self.task = task
+    }
+  }
+  
+  init(
+    path: String,
+    method: Moya.Method,
+    task: Moya.Task? = nil,
+    baseURL: URL,
+    headers: [String: String])
+  {
+    self.baseURL = baseURL
+    self.headers = headers
     self.path = path
     self.method = method
 

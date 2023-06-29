@@ -81,8 +81,6 @@ class OfflineMessageViewController: CommonViewController {
       Localize.string("customerservice_offline_survey_confirm_content"),
       confirm: {
         CustomServicePresenter.shared.closeService()
-          .subscribe()
-          .disposed(by: self.disposeBag)
       },
       cancel: nil)
   }
@@ -95,8 +93,6 @@ class OfflineMessageViewController: CommonViewController {
 extension OfflineMessageViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_: UIBarButtonItem) {
     CustomServicePresenter.shared.closeService()
-      .subscribe()
-      .disposed(by: disposeBag)
   }
 }
 

@@ -48,49 +48,57 @@ class CallingViewController: CommonViewController {
   }
 
   private func dataBinding() {
-    csViewModel.fullscreen().subscribe(onCompleted: { }).disposed(by: disposeBag)
-    csViewModel.currentQueueNumber.map { Localize.string("customerservice_chat_room_your_queue_number", "\($0)") }
-      .bind(to: self.waitingCountLabel.rx.text).disposed(by: self.disposeBag)
-
-    csViewModel.checkServiceAvailable()
-      .subscribe(onSuccess: { [weak self] isAvailable in
-        if !isAvailable {
-          self?.stopServiceAndShowServiceOccupied()
-        }
-        else {
-          self?.connectChatRoom()
-        }
-      }, onFailure: { [weak self] _ in
-        self?.stopServiceAndShowServiceOccupied()
-      }).disposed(by: disposeBag)
+    csViewModel.fullscreen()
+      .subscribe(onCompleted: { })
+      .disposed(by: disposeBag)
+    
+    csViewModel.currentQueueNumber
+      .map { Localize.string("customerservice_chat_room_your_queue_number", "\($0)") }
+      .bind(to: self.waitingCountLabel.rx.text)
+      .disposed(by: self.disposeBag)
+    
+    connectChatRoom()
   }
 
   private func connectChatRoom() {
-    svViewModel.cachedSurvey.flatMapLatest(csViewModel.connectChatRoom)
-      .subscribe { status in
-        switch status {
-        case .connected:
-          Alert.shared.dismiss {
-            CustomServicePresenter.shared.switchToChatRoom(isRoot: false)
-          }
-        case .connecting:
-          print("connecting")
-        case .closed:
-          print("close")
-        case .notexist:
-          print("notexist")
-        default:
-          break
+    csViewModel
+      .currentChatRoom()
+      .take(1)
+      .flatMap { [weak self] chatRoomDTO -> Completable in
+        guard let self else { throw KTOError.LostReference }
+        
+        if chatRoomDTO.status == SharedBu.Connection.StatusNotExist() {
+          return self.csViewModel.connectChatRoom()
         }
-      } onError: { [weak self] error in
+        else {
+          return Observable.just(()).asSingle().asCompletable()
+        }
+      }
+      .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+      .observe(on: MainScheduler.instance)
+      .subscribe(onError: { [weak self] error in
         self?.handleError(error)
-      }.disposed(by: disposeBag)
+      })
+      .disposed(by: disposeBag)
+    
+    csViewModel.chatRoomConnection
+      .filter { $0 is SharedBu.Connection.StatusConnected }
+      .observe(on: MainScheduler.instance)
+      .subscribe(
+        onNext: { _ in
+          CustomServicePresenter.shared.switchToChatRoom(isRoot: false)
+        })
+      .disposed(by: disposeBag)
   }
 
   private func handleError(_ e: Error) {
     switch e {
-    case is ChatCheckGuestIPFail:
+    case is ChatCheckGuestIPFail,
+         is ChatRoomNotExist,
+         is ServiceUnavailableException:
+      
       stopServiceAndShowServiceOccupied()
+      
     default:
       self.handleErrors(e)
     }
@@ -107,7 +115,7 @@ class CallingViewController: CommonViewController {
 
         self.csViewModel
           .closeChatRoom()
-          .subscribe(onCompleted: { [weak self] in
+          .subscribe(onSuccess: { [weak self] _ in
             guard let self else { return }
 
             self.csViewModel.setupSurveyAnswer(answers: nil)
@@ -127,8 +135,6 @@ class CallingViewController: CommonViewController {
       confirmText: Localize.string("customerservice_leave_a_message_confirm"),
       cancel: {
         CustomServicePresenter.shared.closeService()
-          .subscribe()
-          .disposed(by: self.disposeBag)
       },
       cancelText: Localize.string("common_skip"))
   }

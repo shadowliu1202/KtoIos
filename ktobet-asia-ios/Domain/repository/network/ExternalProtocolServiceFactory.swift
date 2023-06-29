@@ -24,10 +24,6 @@ class ExternalProtocolServiceFactory: ExternalProtocolService {
     ImageAdapter(ImageApi(httpClient))
   }
 
-  func getCasino() -> CasinoProtocol {
-    CasinoAdapter(CasinoApi(httpClient))
-  }
-
   func getNumberGame() -> NumberGameProtocol {
     NumberGameAdapter(NumberGameApi(httpClient))
   }
@@ -49,10 +45,10 @@ class ExternalProtocolServiceFactory: ExternalProtocolService {
   }
 
   func getCustomerService() -> CustomerServiceProtocol {
-    fatalError("TODO")
+    CSAdapter(CustomServiceAPI(httpClient))
   }
 
   func getSurveyService() -> CSSurveyProtocol {
-    fatalError("TODO")
+    CSSurveyAdapter(SurveyAPI(httpClient))
   }
 }

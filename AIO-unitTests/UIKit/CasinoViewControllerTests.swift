@@ -52,10 +52,10 @@ final class CasinoViewControllerTests: XCBaseTestCase {
     -> CasinoViewModel
   {
     let viewModel = CasinoViewModel(
-      casinoRecordUseCase: mock(CasinoRecordUseCase.self),
-      casinoUseCase: stubCasinoUseCase(requireNoBonusLock: requireNoBonusLock, result: result),
-      memoryCache: mock(MemoryCacheImpl.self),
-      casinoAppService: mock(AbsCasinoAppService.self))
+      mock(CasinoRecordUseCase.self),
+      stubCasinoUseCase(requireNoBonusLock: requireNoBonusLock, result: result),
+      mock(MemoryCacheImpl.self),
+      mock(AbsCasinoAppService.self))
 
     viewModel.tagStates = .just([])
 

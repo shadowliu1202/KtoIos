@@ -19,6 +19,7 @@ class ImagePickerViewController: UIViewController {
   var isHiddenFooterView = false
   var cameraType: CameraType = .general
   var completion: ((_ assets: [UIImage]) -> Void)?
+  var completionWithLocalIdentifier: ((_ identifier: [String]) -> Void)?
   var qrCodeCompletion: ((_ qrCodeString: String) -> Void)?
   var cancel: (() -> Void)?
   var showImageCountLimitAlert: ((_ view: UIView) -> Void)?
@@ -30,7 +31,6 @@ class ImagePickerViewController: UIViewController {
   private var albums: [AlbumModel] = []
   private var photoAssets: PHFetchResult<PHAsset> = PHFetchResult()
   private var selectedAlbum: AlbumModel?
-  private var selectedImages: [UIImage] = []
   private var selectedPhotoAssets: [PHAsset] = [] {
     didSet {
       if selectedPhotoAssets.count != 0 {
@@ -87,14 +87,20 @@ class ImagePickerViewController: UIViewController {
     loading.setAppearance(isHidden: false)
 
     DispatchQueue.global().async {
-      self.selectedImages = []
-      for asset in self.selectedPhotoAssets {
-        self.selectedImages.append(asset.convertAssetToImage())
-      }
+      let selectedImages = self.selectedPhotoAssets
+        .map { photoAsset in
+          photoAsset.convertAssetToImage()
+        }
+      
+      let selectedImageIDs = self.selectedPhotoAssets
+        .map { photoAsset in
+          photoAsset.localIdentifier
+        }
 
       DispatchQueue.main.async {
         self.loading.setAppearance(isHidden: true)
-        self.completion?(self.selectedImages)
+        self.completion?(selectedImages)
+        self.completionWithLocalIdentifier?(selectedImageIDs)
       }
     }
   }

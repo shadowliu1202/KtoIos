@@ -76,8 +76,9 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
       stubService,
       stubLocalRepo)
   }
-
+  
   func test_givenLocaleIsVietnam_whenInCryptoWithdrawalPage_thenDisplayCurrencyRatioNotify_KTO_TC_107() {
+    injectLocalStorageRepository(.Vietnam())
     let stubViewModel = getViewModelProtocol(supportLocale: .Vietnam())
 
     let sut = WithdrawalCryptoRequestStep1View<WithdrawalCryptoRequestStep1ViewModelProtocolMock>.RequestInput()
@@ -96,6 +97,7 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
   }
 
   func test_givenLocaleIsChina_whenInCryptoWithdrawalPage_thenHideCurrencyRatioNotify_KTO_TC_108() {
+    injectLocalStorageRepository(.China())
     let stubViewModel = getViewModelProtocol(supportLocale: .China())
 
     let sut = WithdrawalCryptoRequestStep1View<WithdrawalCryptoRequestStep1ViewModelProtocolMock>.RequestInput()
@@ -115,9 +117,11 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
   }
 
   func test_givenExchangeRate2_whenInputCryptoAmount1_thenOutPutFiatAmount2_177() {
+    injectLocalStorageRepository(.China())
+    
     let stubViewModel = getWithdrawalCryptoRequestStep1ViewModel()
-    stubViewModel.setup()
     stubViewModel.fetchExchangeRate(cryptoWallet: stubWallet)
+    stubViewModel.setup()
 
     let sut = WithdrawalCryptoRequestStep1View<WithdrawalCryptoRequestStep1ViewModel>.RequestInput()
 
@@ -140,9 +144,11 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
   }
 
   func test_givenExchangeRate2_whenInputFiatAmount2_thenOutPutCryptoAmount1_178() {
+    injectLocalStorageRepository(.China())
+    
     let stubViewModel = getWithdrawalCryptoRequestStep1ViewModel()
-    stubViewModel.setup()
     stubViewModel.fetchExchangeRate(cryptoWallet: stubWallet)
+    stubViewModel.setup()
 
     let sut = WithdrawalCryptoRequestStep1View<WithdrawalCryptoRequestStep1ViewModel>.RequestInput()
 
@@ -165,6 +171,8 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
   }
 
   func test_givenExchangeRate2_whenTapAutoFill_thenOutPutCryptoAmount1OutPutFiatAmount2_179() {
+    injectLocalStorageRepository(.China())
+    
     let stubViewModel = getWithdrawalCryptoRequestStep1ViewModel()
     stubViewModel.setup()
 
