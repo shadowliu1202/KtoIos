@@ -9,7 +9,7 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
   private let casinoRecordUseCase: CasinoRecordUseCase
   private let casinoUseCase: CasinoUseCase
   private let memoryCache: MemoryCacheImpl
-  private let casinoAppService: ICasinoAppService
+  private let casinoGameAppService: ICasinoGameAppService
 
   private let refreshTrigger = PublishSubject<Void>()
 
@@ -17,7 +17,7 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
 
   private let disposeBag = DisposeBag()
 
-  private lazy var gameTags = RxSwift.Single<CasinoDTO.GameTags>.from(casinoAppService.getTags()).asObservable()
+  private lazy var gameTags = RxSwift.Single<CasinoDTO.GameTags>.from(casinoGameAppService.getTags()).asObservable()
 
   private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
 
@@ -54,15 +54,15 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
   private(set) var periodPaginationDic: [PeriodOfRecord: Pagination<BetRecord>] = [:]
 
   init(
-    casinoRecordUseCase: CasinoRecordUseCase,
-    casinoUseCase: CasinoUseCase,
-    memoryCache: MemoryCacheImpl,
-    casinoAppService: ICasinoAppService)
+    _ casinoRecordUseCase: CasinoRecordUseCase,
+    _ casinoUseCase: CasinoUseCase,
+    _ memoryCache: MemoryCacheImpl,
+    _ casinoGameAppService: ICasinoGameAppService)
   {
     self.casinoRecordUseCase = casinoRecordUseCase
     self.casinoUseCase = casinoUseCase
     self.memoryCache = memoryCache
-    self.casinoAppService = casinoAppService
+    self.casinoGameAppService = casinoGameAppService
 
     super.init()
 

@@ -112,18 +112,6 @@ final class LaunchAppTest: XCBaseTestCase {
         authUseCase: dummyAuthenticationUseCase)
   }
 
-  private func injectCustomerServiceUseCase() {
-    let stubCustomerServiceUseCase = mock(CustomerServiceUseCase.self)
-
-    given(stubCustomerServiceUseCase.currentChatRoom()) ~> .never()
-    given(stubCustomerServiceUseCase.searchChatRoom()) ~> .never()
-
-    Injectable
-      .register(CustomerServiceUseCase.self) { _ in
-        stubCustomerServiceUseCase
-      }
-  }
-
   private func getStubCasinoViewModel() -> CasinoViewModel {
     let stubCasinoUseCase = mock(CasinoUseCase.self)
     given(stubCasinoUseCase.getLobbies()) ~> .just([])
@@ -131,18 +119,16 @@ final class LaunchAppTest: XCBaseTestCase {
     given(stubCasinoUseCase.searchGamesByTag(tags: any())) ~> .just([])
 
     let stubViewModel = CasinoViewModel(
-      casinoRecordUseCase: mock(CasinoRecordUseCase.self),
-      casinoUseCase: stubCasinoUseCase,
-      memoryCache: mock(MemoryCacheImpl.self),
-      casinoAppService: mock(AbsCasinoAppService.self))
+      mock(CasinoRecordUseCase.self),
+      stubCasinoUseCase,
+      mock(MemoryCacheImpl.self),
+      mock(AbsCasinoAppService.self))
     stubViewModel.tagStates = .just([])
 
     return stubViewModel
   }
 
   func test_givenUserLoggedInAndUnexpired_whenColdStart_thenEnterLobbyPage() {
-    injectCustomerServiceUseCase()
-
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> false
 
@@ -169,8 +155,6 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserLoggedInAndExpired_whenColdStart_thenEnterLandingPage() {
-    injectCustomerServiceUseCase()
-
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> true
 
@@ -199,8 +183,6 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserNotLoggedInAndUnexpired_whenColdStart_thenEnterLandingPage() {
-    injectCustomerServiceUseCase()
-
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> false
 
@@ -229,8 +211,6 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserNotLoggedInAndExpired_whenColdStart_thenEnterLandingPage() {
-    injectCustomerServiceUseCase()
-
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> true
 
@@ -259,7 +239,6 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserLoggedInAndAllMaintenance_whenColdStart_thenEnterMaintenancePage() {
-    injectCustomerServiceUseCase()
     stubLoginStatus(isLogged: true)
     stubMaintenanceStatus(isAllMaintenance: true)
 
@@ -279,7 +258,6 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserNotLoggedInAndAllMaintenance_whenColdStart_thenEnterMaintenancePage() {
-    injectCustomerServiceUseCase()
     stubMaintenanceStatus(isAllMaintenance: true)
 
     NavigationManagement.sharedInstance = mockNavigator
@@ -297,7 +275,6 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserLoggedInAndNoAllMaintenance_whenHotStart_thenNotEnterMaintenancePage() {
-    injectCustomerServiceUseCase()
     stubLoginStatus(isLogged: true)
     stubMaintenanceStatus(isAllMaintenance: false)
 
@@ -336,7 +313,6 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserNotLoggedInAndNoAllMaintenance_whenHotStart_thenNotEnterMaintenancePage() {
-    injectCustomerServiceUseCase()
     stubLoginStatus(isLogged: false)
     stubMaintenanceStatus(isAllMaintenance: false)
 
@@ -352,7 +328,6 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserNotLoggedInAndAllMaintenance_whenHotStart_thenEnterMaintenancePage() {
-    injectCustomerServiceUseCase()
     stubLoginStatus(isLogged: false)
     stubMaintenanceStatus(isAllMaintenance: true)
 

@@ -210,7 +210,7 @@ struct CustomerMessageData: Codable {
   var title = "Offline Survey"
 }
 
-struct DeleteCsRecords: Codable {
+struct DeleteCsRecordsCodable: Codable {
   let roomIds: [RoomId]
   let isExclude: Bool
 }

@@ -8,9 +8,13 @@ enum DeleteMode {
   case exclude
 }
 
-class CustomerServiceHistoryViewModel {
-  private var historyUseCase: ChatRoomHistoryUseCase!
-  private var disposeBag = DisposeBag()
+class CustomerServiceHistoryViewModel: CollectErrorViewModel {
+  private let chatHistoryAppService: IChatHistoryAppService
+  
+  private let chatRoomTempMapper = ChatRoomTempMapper()
+  
+  private let disposeBag = DisposeBag()
+  
   private var historiesTotalCount = 0 {
     didSet {
       chatHistoryTotalSize.accept(historiesTotalCount)
@@ -22,8 +26,8 @@ class CustomerServiceHistoryViewModel {
   private(set) var deleteMode = BehaviorRelay<DeleteMode>(value: .include)
   lazy var selectedHistory = BehaviorRelay<[ChatHistory]>(value: [])
 
-  init(historyUseCase: ChatRoomHistoryUseCase) {
-    self.historyUseCase = historyUseCase
+  init(_ chatHistoryAppService: IChatHistoryAppService) {
+    self.chatHistoryAppService = chatHistoryAppService
   }
 
   func hasNext(_ lastIndex: Int) -> Bool {
@@ -40,7 +44,7 @@ class CustomerServiceHistoryViewModel {
 
   func fetchNext(from lastIndex: Int) {
     let page = ((lastIndex + 1) / 20) + 1
-    self.getchatHistory(page).subscribe(onSuccess: { [weak self] response in
+    self.getChatHistory(page).subscribe(onSuccess: { [weak self] response in
       self?.historiesTotalCount = response.0
       if var copyValue = try? self?.chatHistories.value() {
         let data = response.1
@@ -59,10 +63,15 @@ class CustomerServiceHistoryViewModel {
     }).disposed(by: disposeBag)
   }
 
-  private func getchatHistory(_ page: Int) -> Single<(TotalCount, [ChatHistory])> {
-    historyUseCase.getChatHistorySummaries(page: page)
+  private func getChatHistory(_ page: Int) -> Single<(TotalCount, [ChatHistory])> {
+    Single.from(
+      chatHistoryAppService
+        .getHistories(page: Int32(page), pageSize: 20))
+      .map { [unowned self] in
+        (Int($0.totalCount), chatRoomTempMapper.convertToChatHistories($0))
+      }
   }
-
+  
   func updateDeleteMode(_ mode: DeleteMode) {
     deleteMode.accept(mode)
     selectedHistory.accept([])
@@ -110,10 +119,20 @@ class CustomerServiceHistoryViewModel {
     })
 
   func deleteChatHistory() -> Completable {
-    historyUseCase.deleteChatHistories(chatHistories: selectedHistory.value, isExclude: deleteMode.value == .exclude)
+    Completable.from(
+      chatHistoryAppService.deletes(
+        chatHistories: chatRoomTempMapper.convertToDTOChatHistoriesHistory(chatHistories: selectedHistory.value),
+        isExclude: deleteMode.value == .exclude))
   }
-
+  
   func getChatHistory(roomId: String) -> Observable<[ChatMessage]> {
-    historyUseCase.getChatHistories(roomId: roomId).asObservable()
+    Single.from(chatHistoryAppService.getHistory(roomId: roomId)).asObservable()
+      .map { [unowned self] in
+        guard let DTOChatMessages = $0 as? [CustomerServiceDTO.ChatMessage] else {
+          return []
+        }
+        return chatRoomTempMapper.convertMessages(DTOChatMessages)
+      }
+      .asObservable()
   }
 }

@@ -30,7 +30,19 @@ class CustomerServiceButtonItem: TextBarButtonItem {
   init(serviceStatusViewModel: ServiceStatusViewModel, _ delegate: CustomServiceDelegate, _ disposeBag: DisposeBag) {
     super.init(title: Localize.string("customerservice_action_bar_title"))
     self.senderId(customerServiceBarBtnId)
-    CustomServicePresenter.shared.observeCsStatus(by: delegate, disposeBag)
+    self.isEnabled = false
+    
+    CustomServicePresenter.shared.observeCsStatus
+      .subscribe(on: MainScheduler.instance)
+      .subscribe(onNext: { [weak delegate] in
+        delegate?.didCsIconAppear(isAppear: $0)
+        
+        if self.isEnabled == false {
+          self.isEnabled = true
+        }
+      })
+      .disposed(by: disposeBag)
+    
     self.actionHandler({ [weak self, weak delegate] _ in
       guard let self, let vc = delegate as? UIViewController else { return }
       self.isEnabled = false

@@ -4,186 +4,130 @@ import RxSwift
 import SharedBu
 
 class CustomerServiceViewModel {
-  private var customerServiceUseCase: CustomerServiceUseCase!
-
-  var uploadImageDetail: [Int: UploadImageDetail] = [:]
+  private let chatAppService: IChatAppService
+  
+  private let chatRoomTempMapper = ChatRoomTempMapper()
+  private let surveyTempMapper = SurveyTempMapper()
+  
+  private var surveyAnswers: SurveyAnswers?
+  
   var screenSizeOption = BehaviorRelay<ChatRoomScreen>(value: .Minimize)
 
-  init(customerServiceUseCase: CustomerServiceUseCase) {
-    self.customerServiceUseCase = customerServiceUseCase
+  init(_ chatAppService: IChatAppService) {
+    self.chatAppService = chatAppService
   }
 
-  lazy var chatMaintenanceStatus = customerServiceUseCase.currentChatRoom()
-    .flatMapLatest { room in
-      Observable<KotlinBoolean>.create { observer -> Disposable in
-        room.setMaintenanceListener(callback: observer.onNext)
-        return Disposables.create()
-      }
-    }
-    .catchAndReturn(false)
+  lazy var chatMaintenanceStatus = currentChatRoom()
+    .map(\.isMaintained)
+    
+  lazy var chatRoomMessage = currentChatRoom()
+    .map { [unowned self] in chatRoomTempMapper.convertToReadMessages($0) }
 
-  lazy var chatRoomMessage = customerServiceUseCase.currentChatRoom()
-    .flatMapLatest { room in
-      Observable<[ChatMessage]>.create { observer -> Disposable in
-        room.setMessageListener(callback: observer.onNext)
-        return Disposables.create()
-      }
-    }
-    .catchAndReturn([])
+  lazy var chatRoomUnreadMessage = currentChatRoom()
+    .map { [unowned self] in chatRoomTempMapper.convertToUnreadMessages($0) }
 
-  lazy var chatRoomUnreadMessage = customerServiceUseCase.currentChatRoom()
-    .flatMapLatest { room in
-      Observable<[ChatMessage]>.create { observer -> Disposable in
-        room.setUnreadMessageListener(callback: observer.onNext)
-        return Disposables.create()
-      }
-    }
-    .catchAndReturn([])
+  lazy var preLoadChatRoomStatus = currentChatRoom()
+    .map { [unowned self] in chatRoomTempMapper.convertToStatus($0) }
 
-  lazy var preLoadChatRoomStatus = customerServiceUseCase.currentChatRoom()
-    .flatMapLatest { room in
-      Observable<PortalChatRoom.ConnectStatus>.create { observer -> Disposable in
-        room.setStatusListener(callback: observer.onNext)
-        return Disposables.create()
+  lazy var observeChatRoom = Observable.from(chatAppService.observeChatRoom()).share(replay: 1)
+  
+  lazy var chatRoomConnection = observeChatRoom
+    .map { result -> SharedBu.Connection.Status in
+      guard let chatRoom = result.value else {
+        return SharedBu.Connection.StatusNotExist()
       }
+      
+      return chatRoom.status
     }
-    .catchAndReturn(PortalChatRoom.ConnectStatus.notexist)
-    .distinctUntilChanged()
-
-  lazy var currentQueueNumber = customerServiceUseCase.currentChatRoom()
-    .flatMapLatest { room in
-      Observable<KotlinInt>.create { observer -> Disposable in
-        room.setNumberInLineListener(callback: observer.onNext)
-        return Disposables.create()
-      }
+  
+  lazy var currentQueueNumber = chatRoomConnection.map {
+    if let connecting = $0 as? SharedBu.Connection.StatusConnecting {
+      return Int(connecting.waitInLine)
     }
-    .catchAndReturn(0)
-
-  private var surveyAnswers: SurveyAnswers?
-  func connectChatRoom(survey: Survey?) -> Observable<PortalChatRoom.ConnectStatus> {
-    findChatRoom().asObservable().flatMap { room -> Single<PortalChatRoom> in
-      if room == CustomServiceRepositoryImpl.PortalChatRoomNoExist {
-        return self.customerServiceUseCase.createChatRoom(survey: survey!, surveyAnswers: self.surveyAnswers)
-      }
-      else {
-        return Single.just(room)
-      }
-    }.flatMap { room in
-      Observable<PortalChatRoom.ConnectStatus>.create { observer -> Disposable in
-        room.setStatusListener(callback: observer.onNext)
-        return Disposables.create()
-      }
-    }.distinctUntilChanged()
+    else {
+      return 0
+    }
   }
-
-  func checkServiceAvailable() -> Single<Bool> {
-    customerServiceUseCase.checkServiceAvailable()
-  }
-
-  func closeChatRoom() -> Completable {
-    findChatRoom().flatMapCompletable { chatRoom -> Completable in
-      Completable.create { event -> Disposable in
-        if chatRoom == CustomServiceRepositoryImpl.PortalChatRoomNoExist {
-          event(.completed)
+  .catchAndReturn(0)
+  
+  func currentChatRoom() -> Observable<CustomerServiceDTO.ChatRoom> {
+    observeChatRoom
+      .map { singleResult -> CustomerServiceDTO.ChatRoom in
+        if let chatRoomDTO = singleResult.value {
+          return chatRoomDTO
         }
-        else {
-          DispatchQueue.main.async {
-            chatRoom.leaveChatRoom(onFinished: {
-              event(.completed)
-            })
+        else if let error = singleResult.error {
+          if error.exception is ChatRoomNotExist {
+            return CustomerServiceDTO.ChatRoom(
+              roomId: "",
+              readMessage: [],
+              unReadMessage: [],
+              status: SharedBu.Connection.StatusNotExist(),
+              isMaintained: false)
+          }
+          else {
+            throw error.exception.asError()
           }
         }
-
-        return Disposables.create { }
+        
+        throw KTOError.EmptyData
       }
-    }
+  }
+  
+  func connectChatRoom() -> Completable {
+    Completable.from(
+      chatAppService.create(
+        surveyAnswers: surveyAnswers == nil
+          ? nil
+          : surveyTempMapper.convertToCSSurveyAnswersDTO(surveyAnswers!)))
+  }
+
+  func closeChatRoom(forceExit: Bool = false) -> Single<CustomerServiceDTO.ExitChat> {
+    Single.from(chatAppService.exit(forceExit: forceExit))
   }
 
   func send(message: String) -> Completable {
-    findChatRoom().flatMapCompletable { chatRoom in
-      self.send(message: message, chatRoom: chatRoom)
-    }
+    Completable.from(
+      chatAppService
+        .send(message: message))
   }
 
   private func send(message: String, chatRoom: PortalChatRoom) -> Completable {
     Completable.create { completeble in
-      chatRoom.send(message: message, onError: { apiException in
-        completeble(.error(apiException))
-      })
+      chatRoom.send(
+        message: message,
+        onError: { apiException in
+          completeble(.error(apiException))
+        })
 
       return Disposables.create { }
     }
-  }
-
-  func send(image: UploadImageDetail) -> Completable {
-    findChatRoom().flatMapCompletable { chatRoom in
-      self.send(image: image, chatRoom: chatRoom)
-    }
-  }
-
-  private func send(image: UploadImageDetail, chatRoom: PortalChatRoom) -> Completable {
-    Completable.create { completeble in
-      chatRoom.send(imageDetail: image) { throwable in
-        completeble(.error(throwable.asError()))
-      }
-
-      completeble(.completed)
-      return Disposables.create { }
-    }
-  }
-
-  func searchChatRoom() -> Single<PortalChatRoom> {
-    customerServiceUseCase.searchChatRoom()
   }
 
   func minimize() -> Completable {
     screenSizeOption.accept(.Minimize)
-    return findChatRoom().flatMapCompletable { chatRoom in
-      Completable.create { completeble in
-        chatRoom.setFocus(isFocus: false)
-        completeble(.completed)
-        return Disposables.create { }
-      }
-    }
+    return Completable.from(
+      chatAppService
+        .readAllMessage(updateToLast: nil, isAuto: KotlinBoolean(bool: false)))
   }
 
   func fullscreen() -> Completable {
     screenSizeOption.accept(.Fullscreen)
-    return findChatRoom().flatMapCompletable { chatRoom in
-      Completable.create { completeble in
-        chatRoom.setFocus(isFocus: true)
-        completeble(.completed)
-        return Disposables.create { }
-      }
-    }
+    return Completable.from(
+      chatAppService
+        .readAllMessage(updateToLast: nil, isAuto: KotlinBoolean(bool: true)))
   }
 
   func markAllRead() -> Completable {
-    findChatRoom().flatMapCompletable { chatRoom in
-      Completable.create { completeble in
-        if self.screenSizeOption.value == .Fullscreen {
-          chatRoom.markAllRead()
-        }
-        completeble(.completed)
-        return Disposables.create { }
-      }
-    }
-  }
-
-  private func findChatRoom() -> Single<PortalChatRoom> {
-    customerServiceUseCase.currentChatRoom().first().map { $0! }
+    Completable.from(
+      chatAppService
+        .readAllMessage(updateToLast: KotlinBoolean(bool: true), isAuto: nil))
   }
 
   func findCurrentRoomId() -> Single<RoomId> {
-    findChatRoom()
-      .flatMap { [weak self] room -> Single<RoomId> in
-        guard let self
-        else {
-          return .error(KTOError.LostReference)
-        }
-
-        return self.waitRoomId(portalChatRoom: room)
-      }
+    currentChatRoom()
+      .map(\.roomId)
+      .asSingle()
   }
 
   private func waitRoomId(portalChatRoom: PortalChatRoom) -> Single<RoomId> {
@@ -206,12 +150,10 @@ class CustomerServiceViewModel {
     }
   }
 
-  func uploadImage(imageData: Data) -> Single<UploadImageDetail> {
-    customerServiceUseCase.uploadImage(imageData: imageData)
-  }
-
-  func getBelongedSkillId(platform: Int) -> Single<String> {
-    customerServiceUseCase.getBelongedSkillId(platform: platform)
+  func sendImages(URIs: [String]) -> Completable {
+    Completable.from(
+      chatAppService
+        .send(images: URIs.map { .init(uri: $0, extra: [:]) }))
   }
 
   func setupSurveyAnswer(answers: SurveyAnswers?) {

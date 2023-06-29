@@ -2043,6 +2043,21 @@ struct ExitAnswerSurveyBean: Codable {
   let surveyType: Int32
 }
 
+struct AnswerSurveyBean: Codable {
+  let questions: [Question]
+}
+
+struct Question: Codable {
+  let questionId: String
+  let questionText: String
+  let surveyAnswerOptions: [SurveyAnswerOption]
+}
+
+struct SurveyAnswerOption: Codable {
+  let optionId: String?
+  let optionText: String
+}
+
 struct SurveyBean: Codable {
   let copyFrom: String
   let createdDate: String
@@ -2162,7 +2177,7 @@ struct ChatMessageBean: Codable {
   let text: String
 }
 
-struct ChatHistories: Codable {
+struct OldChatHistories: Codable {
   let payload: [Payload]
   let totalCount: Int
 
@@ -2204,7 +2219,7 @@ struct Message: Codable {
 
 struct QuillDelta: Codable {
   let attributes: Attributes?
-  let insert: String?
+  let insert: String
 }
 
 struct Attributes: Codable {
@@ -2232,6 +2247,33 @@ struct Attributes: Codable {
       size: size,
       underline: KotlinBoolean(value: underline ?? false))
   }
+  
+  func convert() -> SharedBu.Attributes_ {
+    SharedBu.Attributes_(
+      align: KotlinInt(value: Int32(align ?? 0)),
+      background: background,
+      bold: KotlinBoolean(value: bold ?? false),
+      color: color,
+      font: font,
+      image: image,
+      italic: KotlinBoolean(value: italic ?? false),
+      link: link,
+      size: size,
+      underline: KotlinBoolean(value: underline ?? false))
+  }
+}
+
+struct SpeakingAsyncBean: Codable {
+  let createdDate: String
+  let message: Message
+  let messageId: Int32
+  let messageType: Int
+  let playerRead: Bool
+  let roomId: String
+  let speaker: String
+  let speakerId: String
+  let speakerType: Int32
+  let text: String
 }
 
 struct ActivityMessagePageBean: Codable {

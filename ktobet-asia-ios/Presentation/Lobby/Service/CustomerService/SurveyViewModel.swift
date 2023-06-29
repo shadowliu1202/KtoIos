@@ -6,9 +6,12 @@ import SharedBu
 class SurveyViewModel {
   let InitAndKeyboardFirstEvent = 2
 
-  private var surveyUseCase: CustomerServiceSurveyUseCase
-  private var authenticationUseCase: AuthenticationUseCase
-  private var disposeBag = DisposeBag()
+  private let surveyTempMapper = SurveyTempMapper()
+  
+  private let surveyAppService: ISurveyAppService
+  private let authenticationUseCase: AuthenticationUseCase
+  private let disposeBag = DisposeBag()
+  
   private var chatSurveyInfo: Survey? {
     didSet {
       cachedSurveyAnswers = chatSurveyInfo?.surveyQuestions.map({
@@ -66,34 +69,63 @@ class SurveyViewModel {
       return self.isSurveyContentValid
     }).startWith(false)
 
-  init(_ surveyUseCase: CustomerServiceSurveyUseCase, _ authenticationUseCase: AuthenticationUseCase) {
-    self.surveyUseCase = surveyUseCase
+  init(
+    _ surveyAppService: ISurveyAppService,
+    _ authenticationUseCase: AuthenticationUseCase)
+  {
+    self.surveyAppService = surveyAppService
     self.authenticationUseCase = authenticationUseCase
   }
 
   func getPreChatSurvey() -> Single<Survey> {
-    surveyUseCase.getPreChatSurvey().do(afterSuccess: { [weak self] in
-      self?.chatSurveyInfo = $0
-    })
+    Single.from(
+      surveyAppService
+        .getPreChatSurvey())
+      .map { [weak self] csSurveyDTO -> Survey in
+        guard let self
+        else {
+          throw KTOError.LostReference
+        }
+      
+        return self.surveyTempMapper.covertToSurvey(csSurveyDTO)
+      }
+      .do(afterSuccess: { [weak self] in
+        self?.chatSurveyInfo = $0
+      })
   }
 
   func answerUpdate() {
     cachedSurveyAnswersRelay.accept(cachedSurveyAnswers)
   }
 
-  func getExitSurvey() -> Single<Survey> {
-    surveyUseCase.getExitSurvey()
+  func getExitSurvey(roomId: String) -> Single<Survey> {
+    Single.from(
+      surveyAppService
+        .getExitSurvey(roomId: roomId))
+      .map { [weak self] csSurveyDTO -> Survey in
+        guard let self
+        else {
+          throw KTOError.LostReference
+        }
+        
+        return self.surveyTempMapper.covertToSurvey(csSurveyDTO)
+      }
       .do(afterSuccess: { [weak self] in
         self?.chatSurveyInfo = $0
       })
   }
 
   func answerExitSurvey(roomId: RoomId, survey: Survey) -> Completable {
-    let surveyAnswers = converSurveyAnswerItems(with: survey)
-    return surveyUseCase.answerExitSurvey(roomId: roomId, survey: survey, surveyAnswers: surveyAnswers)
+    let surveyAnswers = convertSurveyAnswerItems(with: survey)
+    return Completable
+      .from(
+        surveyAppService
+          .answerExitSurvey(
+            roomId: roomId,
+            answer: surveyTempMapper.convertToCSSurveyAnswersDTO(surveyAnswers)))
   }
 
-  private func converSurveyAnswerItems(with survey: Survey) -> SurveyAnswers {
+  private func convertSurveyAnswerItems(with survey: Survey) -> SurveyAnswers {
     var answers: [SurveyQuestion_: [SurveyQuestion_.SurveyQuestionOption]] = [:]
     cachedSurveyAnswers?.forEach({
       answers[$0.question] = Array($0.options)
@@ -108,7 +140,11 @@ class SurveyViewModel {
   func createOfflineSurvey() -> Completable {
     let msg = offlineSurveyContent.value ?? ""
     let email = offlineSurveyAccount.value ?? ""
-    return surveyUseCase.createOfflineSurvey(message: msg, email: email)
+    
+    return Completable
+      .from(
+        surveyAppService
+          .answerOfflineSurvey(message: msg, email: email))
   }
 }
 

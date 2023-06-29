@@ -30,8 +30,8 @@ extension ObjectScope {
 }
 
 extension Resolver {
-  func resolveWrapper<T>(_: T.Type, name: String? = nil) -> T {
-    guard let object = resolve(T.self, name: name)
+  func resolveWrapper<T>(_ type: T.Type, name: String? = nil) -> T {
+    guard let object = resolve(type, name: name)
     else {
       fatalError("\(T.self) init error")
     }

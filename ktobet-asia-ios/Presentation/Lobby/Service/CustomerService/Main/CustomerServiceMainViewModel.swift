@@ -4,10 +4,18 @@ import RxSwift
 import SharedBu
 
 class CustomerServiceMainViewModel {
-  func getIsChatRoomExist() -> Observable<Bool> {
-    CustomServicePresenter.shared.getIsChatRoomExist()
+  private let chatAppService: IChatAppService
+  
+  init(_ chatAppService: IChatAppService) {
+    self.chatAppService = chatAppService
   }
-
+  
+  func getIsChatRoomExist() -> Observable<Bool> {
+    Observable
+      .from(chatAppService.observeChatRoom())
+      .map { $0.value == nil ? false : true }
+  }
+  
   func leftCustomerService() -> Observable<Void> {
     getIsChatRoomExist()
       .skip(1)

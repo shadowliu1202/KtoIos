@@ -40,7 +40,7 @@ class ExitSurveyViewController: CommonViewController {
   }
 
   private func dataBinding() {
-    viewModel.getExitSurvey()
+    viewModel.getExitSurvey(roomId: roomId!)
       .subscribe(onFailure: { [weak self] in
         self?.handleErrors($0)
       })
@@ -76,23 +76,16 @@ class ExitSurveyViewController: CommonViewController {
 
   private func popThenToast() {
     CustomServicePresenter.shared.closeService()
-      .subscribe(onCompleted: { [weak self] in
-        self?.showToast(Localize.string("customerservice_offline_survey_confirm_title"), barImg: .success)
-      })
-      .disposed(by: disposeBag)
+    showToast(Localize.string("customerservice_offline_survey_confirm_title"), barImg: .success)
   }
 }
 
 extension ExitSurveyViewController: BarButtonItemable {
   func pressedLeftBarButtonItems(_: UIBarButtonItem) {
     CustomServicePresenter.shared.closeService()
-      .subscribe()
-      .disposed(by: disposeBag)
   }
 
   func pressedRightBarButtonItems(_: UIBarButtonItem) {
     CustomServicePresenter.shared.closeService()
-      .subscribe()
-      .disposed(by: disposeBag)
   }
 }

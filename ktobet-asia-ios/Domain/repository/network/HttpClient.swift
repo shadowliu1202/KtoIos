@@ -111,6 +111,7 @@ class HttpClient: CookieUtil {
       })
   }
 
+  @available(*, deprecated, message: "Target should create in HTTPClient.")
   func requestJsonString(_ target: TargetType) -> Single<String> {
     getProvider(method: target.method)
       .rx
@@ -133,6 +134,20 @@ class HttpClient: CookieUtil {
           return Single.error(error)
         }
       }
+  }
+  
+  func requestJsonString(
+    path: String,
+    method: Moya.Method,
+    task: Moya.Task? = nil) -> Single<String>
+  {
+    requestJsonString(
+      NewAPITarget(
+        path: path,
+        method: method,
+        task: task,
+        baseURL: host,
+        headers: headers))
   }
 
   private func getProvider(method: Moya.Method) -> MoyaProvider<MultiTarget> {

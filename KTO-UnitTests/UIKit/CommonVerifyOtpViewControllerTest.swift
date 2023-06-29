@@ -28,16 +28,14 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   private func injectCustomServicePresenter() {
-    let stubCustomerServiceUseCase = mock(CustomerServiceUseCase.self)
-    given(stubCustomerServiceUseCase.currentChatRoom()) ~> .never()
-    given(stubCustomerServiceUseCase.searchChatRoom()) ~> .never()
+    let stubChatAppService = mock(AbsCustomerServiceAppService.self)
 
     let stubCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
-      .initialize(customerServiceUseCase: stubCustomerServiceUseCase)
+      .initialize(stubChatAppService)
 
     let stubSurveyViewModel = mock(SurveyViewModel.self)
       .initialize(
-        mock(CustomerServiceSurveyUseCase.self),
+        mock(AbsCustomerServiceAppService.self),
         mock(AuthenticationUseCase.self))
 
     let customServicePresenter = mock(CustomServicePresenter.self)
@@ -46,6 +44,7 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
         stubSurveyViewModel)
 
     given(customServicePresenter.initService()) ~> { }
+    given(customServicePresenter.observeCsStatus) ~> .just(false)
 
     Injectable
       .register(CustomServicePresenter.self) { _ in

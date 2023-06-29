@@ -1,4 +1,5 @@
 import IQKeyboardManagerSwift
+import Photos
 import RxSwift
 import SDWebImage
 import SharedBu
@@ -20,7 +21,6 @@ class ChatRoomViewController: CommonViewController {
   private var disposeBag = DisposeBag()
   private var imagePickerView: ImagePickerViewController!
   private var imageIndex = 0
-  private var imageUploadInex = 0
   private var dataCount = 0
 
   var banner: UIView?
@@ -129,21 +129,18 @@ class ChatRoomViewController: CommonViewController {
       .share(replay: 1)
 
     var firstLoad = true
-    viewModel.chatRoomUnreadMessage
-      .flatMapLatest { [unowned self] unreadMessages in
-        self.tableView.rx.reachedBottom.map { unreadMessages }
-      }
-      .observe(on: MainScheduler.asyncInstance)
-      .subscribe(onNext: { [weak self] unreadMessages in
-        if unreadMessages.count != 0, !firstLoad {
-          guard let self else { return }
+    tableView.rx.reachedBottom
+      .flatMap { _ in self.viewModel.chatRoomUnreadMessage.filter { !$0.isEmpty } }
+      .subscribe(onNext: { _ in
+        if !firstLoad {
           self.viewModel.markAllRead().subscribe(onCompleted: { }).disposed(by: self.disposeBag)
         }
-
-        firstLoad = false
+        else {
+          firstLoad = false
+        }
       })
       .disposed(by: disposeBag)
-
+        
     var dividerIndex = 0
     messagesOb
       .map { read, unread -> NSArray in
@@ -251,7 +248,7 @@ class ChatRoomViewController: CommonViewController {
     viewModel.chatMaintenanceStatus.subscribe { [weak self] isMaintain in
       guard let self else { return }
       DispatchQueue.main.async {
-        if isMaintain.boolValue {
+        if isMaintain {
           self.viewModel.closeChatRoom().subscribe().disposed(by: self.disposeBag)
           self.handleMaintenance()
         }
@@ -293,56 +290,50 @@ class ChatRoomViewController: CommonViewController {
     imagePickerView.imageLimitMBSize = DepositRecordDetailViewModel.imageMBSizeLimit
     imagePickerView.selectedImageLimitCount = 3
     imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
-    imagePickerView.completion = { [weak self] images in
-      guard let self else { return }
-      self.navigationController?.popViewController(animated: true)
-      self.imageIndex = 0
-      self.startActivityIndicator(activityIndicator: self.activityIndicator)
-      images.forEach {
-        self.uploadImage(image: $0, count: images.count)
-      }
+    imagePickerView.completionWithLocalIdentifier = { [weak self] imageIDs in
+      self?.navigationController?.popViewController(animated: true)
+      self?.sendImages(URIs: imageIDs)
     }
+    
     imagePickerView.showImageSizeLimitAlert = { [weak self] _ in
       self?.showToast(Localize.string("deposit_execeed_limitation"), barImg: .failed)
     }
+    
     imagePickerView.showImageFormatInvalidAlert = { [weak self] _ in
       self?.showToast(Localize.string("deposit_file_format_invalid"), barImg: .failed)
     }
 
     self.navigationController?.pushViewController(imagePickerView, animated: true)
   }
-
-  private func uploadImage(image: UIImage, count: Int) {
-    let imageData = image.jpegData(compressionQuality: 1.0)!
-    viewModel.uploadImage(imageData: imageData)
-      .do(onSuccess: { [weak self] img in
-        guard let self else { return }
-        self.viewModel.send(image: img).subscribe(onError: { [weak self] error in
-          self?.handleErrors(error)
-        }).disposed(by: self.disposeBag)
-      })
-      .subscribe { [weak self] result in
-        guard let self else { return }
-        self.viewModel.uploadImageDetail[self.imageUploadInex] = result
-        self.imageUploadInex += 1
-        self.imageIndex += 1
-        if count == self.imageIndex {
+  
+  private func sendImages(URIs: [String]) {
+    viewModel
+      .sendImages(URIs: URIs)
+      .do(
+        onSubscribe: { [weak self] in
+          guard let self else { return }
+          
+          self.startActivityIndicator(activityIndicator: self.activityIndicator)
+        },
+        onDispose: { [weak self] in
+          guard let self else { return }
+        
           self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-        }
-      } onFailure: { [weak self] error in
-        guard let self else { return }
-        self.handleErrors(error)
-        self.stopActivityIndicator(activityIndicator: self.activityIndicator)
-      }.disposed(by: disposeBag)
+        })
+      .subscribe(onError: { [weak self] error in
+        self?.handleErrors(error)
+      })
+      .disposed(by: disposeBag)
   }
 
   private func confirmNetworkThenCloseChatRoom() {
     if NetworkStateMonitor.shared.isNetworkConnected == true {
-      viewModel.findCurrentRoomId()
-        .flatMap { [unowned self] roomId in
-          self.viewModel
-            .closeChatRoom()
-            .andThen(prepareExitSurvey(roomId))
+      viewModel
+        .closeChatRoom()
+        .flatMap { [weak self] exitChatDTO -> Single<(RoomId, Survey)> in
+          guard let self else { return .error(KTOError.LostReference) }
+          
+          return self.prepareExitSurvey(exitChatDTO.roomId)
         }
         .subscribe(
           onSuccess: { [weak self] roomID, survey in
@@ -360,7 +351,7 @@ class ChatRoomViewController: CommonViewController {
 
   private func prepareExitSurvey(_ roomId: RoomId) -> Single<(RoomId, Survey)> {
     surveyViewModel
-      .getExitSurvey()
+      .getExitSurvey(roomId: roomId)
       .map { survey in
         (roomId, survey)
       }
@@ -369,8 +360,6 @@ class ChatRoomViewController: CommonViewController {
   private func goToExitSurvey(_ roomId: RoomId, _ exitSurvey: Survey) {
     if exitSurvey.surveyQuestions.isEmpty {
       CustomServicePresenter.shared.closeService()
-        .subscribe()
-        .disposed(by: disposeBag)
     }
     else {
       CustomServicePresenter.shared.switchToExitSurvey(roomId: roomId)
@@ -425,8 +414,9 @@ extension ChatRoomViewController: BarButtonItemable {
         cancel: { self.confirmNetworkThenCloseChatRoom() },
         cancelText: Localize.string("common_finish"))
     case collapseBarBtnId:
-      self.presentationController?.delegate?.presentationControllerDidDismiss?(self.presentationController!)
-      CustomServicePresenter.shared.collapse()
+      self.dismiss(animated: true) {
+        CustomServicePresenter.shared.collapse()
+      }
     default:
       break
     }
@@ -441,12 +431,20 @@ extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationC
   {
     dismiss(animated: true) {
       NavigationManagement.sharedInstance.popViewController()
-      if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        self.startActivityIndicator(activityIndicator: self.activityIndicator)
-        self.imageIndex = 0
-        self.uploadImage(image: image, count: 1)
-      }
+      
+      guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+      var imageID: String?
+        
+      PHPhotoLibrary.shared().performChanges(
+        {
+          let createRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+          imageID = createRequest.placeholderForCreatedAsset!.localIdentifier
+        },
+        completionHandler: { [weak self] success, _ in
+          guard success, let imageID else { return }
+          
+          self?.sendImages(URIs: [imageID])
+        })
     }
   }
 

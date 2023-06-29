@@ -4,7 +4,7 @@ import SharedBu
 import UIKit
 
 class CustomerServiceMainViewController: LobbyViewController {
-  private let viewModel = Injectable.resolveWrapper(CustomerServiceHistoryViewModel.self)
+  private let historyViewModel = Injectable.resolveWrapper(CustomerServiceHistoryViewModel.self)
   private let mainViewModel = Injectable.resolveWrapper(CustomerServiceMainViewModel.self)
   private var disposeBag = DisposeBag()
 
@@ -28,7 +28,12 @@ class CustomerServiceMainViewController: LobbyViewController {
     NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("customerservice_online"))
     initUI()
     binding()
-    viewModel.refreshData()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    historyViewModel.refreshData()
   }
 
   deinit {
@@ -80,6 +85,7 @@ class CustomerServiceMainViewController: LobbyViewController {
   private func binding() {
     mainViewModel
       .getIsChatRoomExist()
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         self?.callinBtn.isEnable = !$0
       })
@@ -88,23 +94,23 @@ class CustomerServiceMainViewController: LobbyViewController {
     mainViewModel
       .leftCustomerService()
       .subscribe(onNext: { [weak self] _ in
-        self?.viewModel.refreshData()
+        self?.historyViewModel.refreshData()
       })
       .disposed(by: disposeBag)
 
-    viewModel.getChatHistories()
-      .catch({ [weak self] error in
-        switch error {
-        case KTOError.EmptyData:
-          self?.switchContent()
-        default:
-          self?.handleErrors(error)
-        }
-        return Observable.just(self?.records ?? [])
+    historyViewModel.getChatHistories()
+      .catch({ [weak self] _ in
+        Observable.just(self?.records ?? [])
       })
       .subscribe(onNext: { [weak self] data in
         self?.switchContent(data)
         self?.records = data
+      })
+      .disposed(by: disposeBag)
+              
+    historyViewModel.errors()
+      .subscribe(onNext: { [weak self] error in
+        self?.handleErrors(error)
       })
       .disposed(by: disposeBag)
   }
@@ -146,8 +152,8 @@ extension CustomerServiceMainViewController: UITableViewDelegate, UITableViewDat
   }
 
   func tableView(_ tableView: UITableView, willDisplay _: UITableViewCell, forRowAt indexPath: IndexPath) {
-    if isLoadingIndexPath(tableView, indexPath), viewModel.hasNext(indexPath.row) {
-      self.viewModel.fetchNext(from: indexPath.row)
+    if isLoadingIndexPath(tableView, indexPath), historyViewModel.hasNext(indexPath.row) {
+      self.historyViewModel.fetchNext(from: indexPath.row)
     }
   }
 

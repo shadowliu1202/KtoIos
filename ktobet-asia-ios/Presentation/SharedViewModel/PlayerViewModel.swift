@@ -5,7 +5,8 @@ import SharedBu
 
 class PlayerViewModel: CollectErrorViewModel {
   @Injected private var loading: Loading
-
+  @Injected private var chatAppService: IChatAppService
+  
   private let playerUseCase: PlayerDataUseCase
   private let authUseCase: AuthenticationUseCase
 
@@ -33,13 +34,29 @@ class PlayerViewModel: CollectErrorViewModel {
   }
 
   func logout() -> Completable {
-    CustomServicePresenter.shared.closeService()
-      .concat(
-        authUseCase.logout())
-      .trackOnDispose(loadingTracker)
+    closeChatRoomIfExist()
+      .observe(on: MainScheduler.instance)
       .do(onCompleted: {
         Injectable.resetObjectScope(.locale)
+        CustomServicePresenter.shared.closeService()
       })
+      .concat(authUseCase.logout())
+      .trackOnDispose(loadingTracker)
+  }
+  
+  private func closeChatRoomIfExist() -> Completable {
+    CustomServicePresenter.shared.csViewModel
+      .currentChatRoom()
+      .take(1)
+      .flatMap { chatRoom -> Completable in
+        if chatRoom.roomId.isEmpty {
+          return Single.just(()).asCompletable()
+        }
+        else {
+          return CustomServicePresenter.shared.csViewModel.closeChatRoom(forceExit: true).asCompletable()
+        }
+      }
+      .asCompletable()
   }
 
   func checkIsLogged() -> Single<Bool> {
