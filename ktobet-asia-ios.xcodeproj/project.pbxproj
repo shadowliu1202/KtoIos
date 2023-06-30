@@ -6388,15 +6388,6 @@
 		9D251F82C849689504792088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		B194D3901D07FE3F3264CC06 /* Pods_ktobet_asia_ios_preprod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C842B6FA2A4EE93BC8D865C /* Pods_ktobet_asia_ios_preprod.framework */; };
 		FE414492400C787590E5F6B4 /* Pods_ktobet_asia_ios_staging_vn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFBE31E73FC50AD947897C /* Pods_ktobet_asia_ios_staging_vn.framework */; };
-		FF1B76A129C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */; };
-		FF1B76A229C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */; };
-		FF1B76A329C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */; };
-		FF1B76A429C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */; };
-		FF1B76A529C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */; };
-		FF1B76A629C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */; };
-		FF1B76A729C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */; };
-		FF1B76A829C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */; };
-		FF1B76A929C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */; };
 		FF1B76AB29C9A5C000B5B893 /* PageLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76AA29C9A3E400B5B893 /* PageLoadingModifier.swift */; };
 		FF1B76AC29C9A5C000B5B893 /* PageLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76AA29C9A3E400B5B893 /* PageLoadingModifier.swift */; };
 		FF1B76AD29C9A5C100B5B893 /* PageLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1B76AA29C9A3E400B5B893 /* PageLoadingModifier.swift */; };
@@ -8189,7 +8180,6 @@
 		F6B7476CD5F4286011272436 /* Pods-KTO-UnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KTO-UnitTests.debug.xcconfig"; path = "Target Support Files/Pods-KTO-UnitTests/Pods-KTO-UnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F709D799CF4A890846129123 /* Pods-ktobet-asia-ios-staging-vn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging-vn.release.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn.release.xcconfig"; sourceTree = "<group>"; };
 		F92587415FD8526B9C269127 /* Pods_UIKit_unitTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UIKit_unitTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemarkTableViewCell.swift; sourceTree = "<group>"; };
 		FF1B76AA29C9A3E400B5B893 /* PageLoadingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageLoadingModifier.swift; sourceTree = "<group>"; };
 		FF270F4F29385815008345EF /* TransationLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransationLogView.swift; sourceTree = "<group>"; };
 		FF282E452927767B005CD7A7 /* DepositView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepositView.swift; sourceTree = "<group>"; };
@@ -9734,7 +9724,6 @@
 				6D4E8F7C28FE770C00D5AD03 /* PasteableTextField.swift */,
 				604608AA26A57A53008A378F /* PlainHorizontalProgressBar.swift */,
 				6077038D25C8E5AE003FBEE4 /* RadioButton.swift */,
-				FF1B76A029C9A20600B5B893 /* RemarkTableViewCell.swift */,
 				6018FA502697505700941BDD /* SegmentedProgressBar.swift */,
 				48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */,
 				4149B3BB25B13F93001F21C9 /* SMSVerifyCodeInputView.swift */,
@@ -13527,7 +13516,6 @@
 				3C4994E129E52B9D00A8829F /* InfoTable.swift in Sources */,
 				3CDF66EC29ED3B5E0094BD1E /* WithdrawalOTPVerificationViewModelProtocol.swift in Sources */,
 				6D09CEFE26BD1C5100695C65 /* WebGameApi.swift in Sources */,
-				FF1B76A229C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */,
 				FF8C26B929B9866F009523BE /* DepositRecordDetailViewModel.swift in Sources */,
 				6D148E95264299D0001C40EC /* SlotUnsettleRecordsViewController.swift in Sources */,
 				6DBC86D026F092E100A35B66 /* BetStatus.swift in Sources */,
@@ -14313,7 +14301,6 @@
 				6D48BA422760847600C8DC2D /* CryptoGuideViewController.swift in Sources */,
 				60BCC2CA25B6AB2E00C56D6E /* PlayerDataUseCase.swift in Sources */,
 				6D94B726263819EF00982901 /* MemoryCacheImpl.swift in Sources */,
-				FF1B76A129C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */,
 				FF8C26B829B9866F009523BE /* DepositRecordDetailViewModel.swift in Sources */,
 				6D09CEFD26BD1C5100695C65 /* WebGameApi.swift in Sources */,
 				6D148E94264299D0001C40EC /* SlotUnsettleRecordsViewController.swift in Sources */,
@@ -14853,7 +14840,6 @@
 				6D5B14C5264A7B0C004138E8 /* SlotRepository.swift in Sources */,
 				6DCE99922828C647002CA7A5 /* NetworkControlWindow.swift in Sources */,
 				609012922640EE7000419F8E /* DateModel.swift in Sources */,
-				FF1B76A329C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */,
 				6D5B14F3264A7BA7004138E8 /* TextBarButtonItem.swift in Sources */,
 				3C656E9828E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */,
 				6DF9079A2697DCB70086AF54 /* P2PBetDetailViewController.swift in Sources */,
@@ -15596,7 +15582,6 @@
 				60E5800A27F190E4008CE5A9 /* SlotRepository.swift in Sources */,
 				6DCE99932828C647002CA7A5 /* NetworkControlWindow.swift in Sources */,
 				60E5800B27F190E4008CE5A9 /* DateModel.swift in Sources */,
-				FF1B76A629C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */,
 				60E5800C27F190E4008CE5A9 /* TextBarButtonItem.swift in Sources */,
 				3C656E9928E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */,
 				60E5800D27F190E4008CE5A9 /* P2PBetDetailViewController.swift in Sources */,
@@ -16594,7 +16579,6 @@
 				3C25C71A29E537250098DB57 /* WithdrawalCreateCryptoAccountViewModel.swift in Sources */,
 				3C724DF829D2C6C100C490A6 /* HighLightText.swift in Sources */,
 				3C2652382A1E186A00BBB342 /* SwiftUIEmptyStateView.swift in Sources */,
-				FF1B76A429C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */,
 				6D0EDC0728743FAC004A9E3C /* HttpResponse.swift in Sources */,
 				6D0EDC0828743FAC004A9E3C /* WithdrawalRecordDetailMainViewController.swift in Sources */,
 				3CA0C0AE29C07E9C00FD6ACF /* WithdrawalMainViewModel.swift in Sources */,
@@ -17326,7 +17310,6 @@
 				6DF112462A1357AB007C4CC1 /* CSHistoryAdapter.swift in Sources */,
 				6D7BBDC729E7F141006682C8 /* ImageExtension.swift in Sources */,
 				FFA1107E29D19A3700718FBE /* ImagePickable.swift in Sources */,
-				FF1B76A729C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */,
 				3C26523B2A1E186A00BBB342 /* SwiftUIEmptyStateView.swift in Sources */,
 				6D0EDE6228744704004A9E3C /* HttpResponse.swift in Sources */,
 				6D0EDE6328744704004A9E3C /* WithdrawalRecordDetailMainViewController.swift in Sources */,
@@ -17849,7 +17832,6 @@
 				6D966B9827FEE3FA006086B7 /* SlotRepository.swift in Sources */,
 				6DCE99942828C648002CA7A5 /* NetworkControlWindow.swift in Sources */,
 				6D966B9927FEE3FA006086B7 /* DateModel.swift in Sources */,
-				FF1B76A829C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */,
 				6D966B9A27FEE3FA006086B7 /* TextBarButtonItem.swift in Sources */,
 				3C656E9A28E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */,
 				6D966B9B27FEE3FA006086B7 /* P2PBetDetailViewController.swift in Sources */,
@@ -18586,7 +18568,6 @@
 				6D966DE527FEE416006086B7 /* SlotRepository.swift in Sources */,
 				6DCE99952828C648002CA7A5 /* NetworkControlWindow.swift in Sources */,
 				6D966DE627FEE416006086B7 /* DateModel.swift in Sources */,
-				FF1B76A929C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */,
 				6D966DE727FEE416006086B7 /* TextBarButtonItem.swift in Sources */,
 				3C656E9B28E30C8500EFB754 /* CryptoGuideVNDView.swift in Sources */,
 				6D966DE827FEE416006086B7 /* P2PBetDetailViewController.swift in Sources */,
@@ -19430,7 +19411,6 @@
 				6D55C9F8296662F00038E8FB /* NumberGameAdapter.swift in Sources */,
 				6D55C914296662340038E8FB /* DateExtension.swift in Sources */,
 				6D55C77829657E660038E8FB /* SlotFilterViewController.swift in Sources */,
-				FF1B76A529C9A20600B5B893 /* RemarkTableViewCell.swift in Sources */,
 				6D55C7D029657EA60038E8FB /* ImageViewController.swift in Sources */,
 				6D55C9E9296662DE0038E8FB /* BankUseCase.swift in Sources */,
 				6D55C86329657EEB0038E8FB /* PositionDetectModifier.swift in Sources */,

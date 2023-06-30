@@ -335,6 +335,7 @@ class ChatRoomViewController: CommonViewController {
           
           return self.prepareExitSurvey(exitChatDTO.roomId)
         }
+        .observe(on: MainScheduler.instance)
         .subscribe(
           onSuccess: { [weak self] roomID, survey in
             self?.goToExitSurvey(roomID, survey)
