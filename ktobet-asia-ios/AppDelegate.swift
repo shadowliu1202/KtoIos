@@ -7,6 +7,7 @@ import SharedBu
 import SwiftUI
 import UIKit
 import WebKit
+import SDWebImage
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
@@ -72,6 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
 
     configUISetting(application)
 
+    SDWebImageDownloader.shared.config.downloadTimeout = .infinity
+    
     return true
   }
 
