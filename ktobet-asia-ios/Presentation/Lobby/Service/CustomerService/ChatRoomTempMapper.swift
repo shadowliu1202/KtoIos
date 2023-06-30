@@ -66,7 +66,7 @@ class ChatRoomTempMapper {
         .ContentImage(image: .ChatImage(
           host: httpClient.host.absoluteString,
           path: content.image?.path() ?? "",
-          isInChat: true))
+          isInChat: false))
     case .link:
       return ChatMessage.ContentLink(content: content.link)
     default:
