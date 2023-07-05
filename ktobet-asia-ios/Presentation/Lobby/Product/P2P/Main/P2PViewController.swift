@@ -56,6 +56,7 @@ extension P2PViewController {
 
   private func binding() {
     viewModel.dataSource
+      .observe(on: MainScheduler.instance)
       .bind(to: tableView.rx.items) { tableView, row, item in
         let cell: P2PTableViewCell = tableView.dequeueReusableCell(forIndexPath: [0, row])
 
