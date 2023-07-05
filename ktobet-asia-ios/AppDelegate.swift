@@ -3,6 +3,7 @@ import Firebase
 import FirebaseCore
 import IQKeyboardManagerSwift
 import RxSwift
+import SDWebImage
 import SharedBu
 import SwiftUI
 import UIKit
@@ -71,6 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
     updateAndLogInstallDate(applicationStorage, keychain)
 
     configUISetting(application)
+    
+    configImageDownloader()
 
     return true
   }
@@ -149,6 +152,11 @@ extension AppDelegate {
     let launchController = LaunchViewController.initFrom(storyboard: "Launch")
     window?.rootViewController = launchController
     window?.makeKeyAndVisible()
+  }
+  
+  private func configImageDownloader() {
+    SDWebImageDownloader.shared.config.downloadTimeout = .infinity
+    SDWebImageDownloader.shared.setValue("AppleWebKit/" + Configuration.getKtoAgent(), forHTTPHeaderField: "User-Agent")
   }
 
   private func addDebugGesture() {
