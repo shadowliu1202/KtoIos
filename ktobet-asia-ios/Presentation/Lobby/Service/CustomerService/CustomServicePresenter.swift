@@ -370,7 +370,7 @@ class CustomServicePresenter: NSObject {
       .map({ connectStatus in
         connectStatus == PortalChatRoom.ConnectStatus.notexist
       })
-      .subscribe(on: MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onSuccess: { [unowned self] noConnectStatus in
         if noConnectStatus {
           self.csViewModel = Injectable.resolve(CustomerServiceViewModel.self)!
