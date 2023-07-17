@@ -14,7 +14,7 @@ class CasinoSummaryTableViewCell: UITableViewCell {
     let status = element.totalWinLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
     betAmountLabel
       .text = String(format: Localize.string("product_total_bet"), element.totalStakes.description()) + "  " + status +
-      " \(element.totalWinLoss.formatString(.none))"
+      " \(element.totalWinLoss.abs().formatString())"
   }
 
   func setup(element: NumberGameSummary.Date) {
@@ -27,7 +27,7 @@ class CasinoSummaryTableViewCell: UITableViewCell {
       let status = winLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
       betAmountLabel
         .text = String(format: Localize.string("product_total_bet"), element.stakes.description()) + "  " + status +
-        " \(winLoss.formatString(.none))"
+        " \(winLoss.abs().formatString())"
     }
     else {
       betAmountLabel.text = String(format: Localize.string("product_total_bet"), element.stakes.description())

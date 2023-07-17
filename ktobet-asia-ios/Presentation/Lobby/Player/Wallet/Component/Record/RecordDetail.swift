@@ -44,7 +44,7 @@ struct RecordDetail<Buttons: View>: View {
 
         LimitSpacer(30)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
 
         VStack(spacing: 0) {
           ForEach(rowTypes.indices, id: \.self) {
@@ -64,7 +64,7 @@ struct RecordDetail<Buttons: View>: View {
           }
           else {
             LimitSpacer(40)
-            Separator(color: .greyScaleDivider)
+            Separator()
           }
         }
       }

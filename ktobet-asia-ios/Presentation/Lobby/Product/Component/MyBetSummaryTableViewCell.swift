@@ -23,7 +23,7 @@ class MyBetSummaryTableViewCell: UITableViewCell {
     let status = element.totalWinLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
     betAmountLabel.text = String(
       format: Localize.string("product_total_bet"),
-      element.totalStakes.description() + "  " + status + " " + element.totalWinLoss.formatString(.none))
+      element.totalStakes.description() + "  " + status + " " + element.totalWinLoss.abs().formatString())
 
     return self
   }

@@ -63,7 +63,7 @@ struct ItemSelector: View {
       .padding(.horizontal, 30)
       .padding(.vertical, 16)
 
-      Separator(color: .greyScaleDivider)
+      Separator()
 
       ForEach(dataSource.indices, id: \.self) {
         Item(
@@ -76,7 +76,7 @@ struct ItemSelector: View {
           })
       }
 
-      Separator(color: .greyScaleDivider)
+      Separator()
     }
     .backgroundColor(.greyScaleDefault)
     .onInspected(inspection, self)
@@ -179,7 +179,7 @@ extension ItemSelector {
         .padding(.vertical, 12)
         .padding(.horizontal, 30)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
           .padding(.leading, (selectable.image == nil) ? 30 : 78)
           .visibility(bottomLineVisible ? .visible : .gone)
       }

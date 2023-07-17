@@ -122,6 +122,7 @@ final class LaunchAppTest: XCBaseTestCase {
       mock(CasinoRecordUseCase.self),
       stubCasinoUseCase,
       mock(MemoryCacheImpl.self),
+      mock(AbsCasinoAppService.self),
       mock(AbsCasinoAppService.self))
     stubViewModel.tagStates = .just([])
 

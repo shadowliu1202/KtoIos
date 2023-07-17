@@ -91,14 +91,6 @@ class CasinoBetSummaryByDateViewController: LobbyViewController {
 
     self.tableView.endUpdates()
   }
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == CasinoDetailViewController.segueIdentifier {
-      if let dest = segue.destination as? CasinoDetailViewController {
-        dest.wagerId = sender as? String
-      }
-    }
-  }
 }
 
 extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableViewDelegate {
@@ -144,10 +136,10 @@ extension CasinoBetSummaryByDateViewController: UITableViewDataSource, UITableVi
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    if sections[indexPath.section].betRecord[indexPath.row].hasDetail {
-      performSegue(
-        withIdentifier: CasinoDetailViewController.segueIdentifier,
-        sender: sections[indexPath.section].betRecord[indexPath.row].wagerId)
+    let wager = sections[indexPath.section].betRecord[indexPath.row]
+    
+    if wager.hasDetail {
+      navigationController?.pushViewController(CasinoBetDetailViewController(wagerID: wager.wagerId), animated: true)
     }
 
     tableView.deselectRow(at: indexPath, animated: true)

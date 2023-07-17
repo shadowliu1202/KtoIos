@@ -43,7 +43,7 @@ struct RecordRow: View {
         RecordRemark(config: config, shouldShowUploader: shouldShowUploader)
       }
 
-      Separator(color: .greyScaleDivider)
+      Separator()
         .visibility(shouldShowBottomLine ? .visible : .gone)
     }
   }

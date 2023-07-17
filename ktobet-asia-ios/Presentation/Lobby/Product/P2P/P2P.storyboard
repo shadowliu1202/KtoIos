@@ -290,10 +290,10 @@
             </objects>
             <point key="canvasLocation" x="286.95652173913044" y="1764.5089285714284"/>
         </scene>
-        <!--Bet Detail View Controller-->
+        <!--Bet Detail By Game View Controller-->
         <scene sceneID="ap5-Ft-2u3">
             <objects>
-                <viewController id="txW-I4-5fU" customClass="P2PBetDetailViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="txW-I4-5fU" customClass="P2PBetDetailByGameViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xOT-R9-27L">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -305,49 +305,62 @@
                                 <inset key="separatorInset" minX="24" minY="0.0" maxX="24" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" name="blackFull"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="P2PBetDetailCell" id="ulg-QS-gxH" customClass="BetDetailCell" customModule="ktobet_asia_ios" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="P2PBetDetailByGameCell" id="ulg-QS-gxH" customClass="BetDetailCell" customModule="ktobet_asia_ios" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="414" height="92"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ulg-QS-gxH" id="Tdt-zV-qt8">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="92"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="NH9-xY-4oP">
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="CcX-9k-my5">
                                                     <rect key="frame" x="30" y="12" width="368" height="68"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="LabelLabel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0sw-gE-lpp" userLabel="betId">
-                                                            <rect key="frame" x="0.0" y="0.0" width="368" height="22.5"/>
-                                                            <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="16"/>
-                                                            <color key="textColor" name="whiteFull"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QRg-ns-OSV" userLabel="betTime">
-                                                            <rect key="frame" x="0.0" y="27" width="368" height="20"/>
-                                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                                            <color key="textColor" name="whiteFull"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zB2-Mp-kE0" userLabel="betAmount">
-                                                            <rect key="frame" x="0.0" y="51" width="368" height="17"/>
-                                                            <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="12"/>
-                                                            <color key="textColor" name="textPrimaryDustyGray"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="NH9-xY-4oP">
+                                                            <rect key="frame" x="0.0" y="0.5" width="368" height="67.5"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="LabelLabel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0sw-gE-lpp" userLabel="betId">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="368" height="22.5"/>
+                                                                    <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="16"/>
+                                                                    <color key="textColor" name="whiteFull"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QRg-ns-OSV" userLabel="betTime">
+                                                                    <rect key="frame" x="0.0" y="26.5" width="368" height="20"/>
+                                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                                    <color key="textColor" name="whiteFull"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zB2-Mp-kE0" userLabel="betAmount">
+                                                                    <rect key="frame" x="0.0" y="50.5" width="368" height="17"/>
+                                                                    <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="12"/>
+                                                                    <color key="textColor" name="textPrimaryDustyGray"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconChevronRight16" translatesAutoresizingMaskIntoConstraints="NO" id="ZCD-VT-SgG">
+                                                            <rect key="frame" x="0.0" y="26" width="16" height="16"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="16" id="4X5-At-SQ0"/>
+                                                                <constraint firstAttribute="width" constant="16" id="fsq-RT-wOu"/>
+                                                            </constraints>
+                                                        </imageView>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
                                             <color key="backgroundColor" name="backgroundSidebarMineShaftGray90"/>
                                             <constraints>
-                                                <constraint firstItem="NH9-xY-4oP" firstAttribute="top" secondItem="Tdt-zV-qt8" secondAttribute="top" constant="12" id="Mjp-HP-91L"/>
-                                                <constraint firstAttribute="trailing" secondItem="NH9-xY-4oP" secondAttribute="trailing" constant="16" id="a5g-TL-U5A"/>
-                                                <constraint firstAttribute="bottom" secondItem="NH9-xY-4oP" secondAttribute="bottom" constant="12" id="msh-aE-dut"/>
-                                                <constraint firstItem="NH9-xY-4oP" firstAttribute="leading" secondItem="Tdt-zV-qt8" secondAttribute="leading" constant="30" id="vCs-cU-KoD"/>
+                                                <constraint firstItem="CcX-9k-my5" firstAttribute="leading" secondItem="Tdt-zV-qt8" secondAttribute="leading" constant="30" id="b67-5A-Tag"/>
+                                                <constraint firstAttribute="trailing" secondItem="CcX-9k-my5" secondAttribute="trailing" constant="16" id="eXL-Kb-Eam"/>
+                                                <constraint firstAttribute="bottom" secondItem="CcX-9k-my5" secondAttribute="bottom" constant="12" id="hgG-Sx-gW9"/>
+                                                <constraint firstItem="CcX-9k-my5" firstAttribute="top" secondItem="Tdt-zV-qt8" secondAttribute="top" constant="12" id="n41-Uz-QC2"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="backgroundListCodGray"/>
                                         <connections>
                                             <outlet property="amountLabel" destination="zB2-Mp-kE0" id="0A3-Ch-Jwr"/>
                                             <outlet property="betIdLabel" destination="0sw-gE-lpp" id="IqE-oV-Yxb"/>
+                                            <outlet property="chevronIcon" destination="ZCD-VT-SgG" id="QwX-zK-8or"/>
                                             <outlet property="timeLabel" destination="QRg-ns-OSV" id="u2S-yP-H4d"/>
                                         </connections>
                                     </tableViewCell>

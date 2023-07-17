@@ -247,6 +247,28 @@ extension Date {
   }
 }
 
+extension Date {
+  // MARK: - Format to String
+  
+  func toDateTimeWithDayOfWeekString(by supportLocale: SupportLocale) -> String {
+    let dateFormatter = DateFormatter()
+    
+    switch supportLocale {
+    case is SupportLocale.Vietnam:
+      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+      dateFormatter.dateFormat = "yyyy/MM/dd (EEE) HH:mm:ss"
+    case is SupportLocale.China,
+         is SupportLocale.Unknown:
+      fallthrough
+    default:
+      dateFormatter.locale = Locale(identifier: "zh_Hans_CN")
+      dateFormatter.dateFormat = "yyyy/MM/dd (EEEEE) HH:mm:ss"
+    }
+    
+    return dateFormatter.string(from: self)
+  }
+}
+
 extension OffsetDateTime {
   func convertToDate() -> Date {
     Date(timeIntervalSince1970: Double(self.toInstant().epochSeconds))
@@ -395,6 +417,10 @@ extension SharedBu.Instant {
   func toTimeString() -> String {
     let dateFormat = "HH:mm:ss"
     return convertToDateString(dateFormat)
+  }
+  
+  func toDateTimeWithDayOfWeekString(by supportLocale: SupportLocale) -> String {
+    self.toNSDate().toDateTimeWithDayOfWeekString(by: supportLocale)
   }
 }
 

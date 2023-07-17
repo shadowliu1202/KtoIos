@@ -321,7 +321,7 @@ class LogDetailRowItem {
   }
 
   var balancelogAfterAmount: String {
-    bean.afterBalance.formatString(.normal)
+    bean.afterBalance.formatString()
   }
 
   var dateTime: String { bean.date.toDateTimeFormatString() }

@@ -172,7 +172,7 @@ extension Optional where Wrapped: ExchangeMemo {
   fileprivate var fromCrypto: String {
     replaceEmpty(
       from: self?.fromCrypto.formatString(),
-      condition: self?.fromCrypto.formatString(.none) != "0")
+      condition: self?.fromCrypto.abs().formatString() != "0")
   }
 
   fileprivate var rate: String {
@@ -184,7 +184,7 @@ extension Optional where Wrapped: ExchangeMemo {
   fileprivate var fiatFormat: String {
     replaceEmpty(
       from: self?.toFiat.formatString(),
-      condition: self?.toFiat.formatString(.none) != "0")
+      condition: self?.toFiat.abs().formatString() != "0")
   }
 
   fileprivate var dateTimeString: String {

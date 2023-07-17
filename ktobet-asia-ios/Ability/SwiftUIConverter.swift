@@ -1,6 +1,7 @@
 import SwiftUI
 import UIKit
 
+@available(*, deprecated, message: "Use UIViewController Extension")
 protocol SwiftUIConverter: UIViewController { }
 
 extension SwiftUIConverter {

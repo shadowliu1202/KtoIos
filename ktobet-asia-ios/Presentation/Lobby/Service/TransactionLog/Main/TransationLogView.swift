@@ -69,14 +69,14 @@ extension TransactionLogView {
 
             VStack(alignment: .trailing) {
               Text(
-                "+" + (viewModel.summary?.income.formatString(.none) ?? "0.00"))
+                "+" + (viewModel.summary?.income.abs().formatString() ?? "0.00"))
                 .localized(
                   weight: .regular,
                   size: 14,
                   color: .statusSuccess)
 
               Text(
-                "-" + (viewModel.summary?.outcome.formatString(.none) ?? "0.00"))
+                "-" + (viewModel.summary?.outcome.abs().formatString() ?? "0.00"))
                 .localized(
                   weight: .regular,
                   size: 14,

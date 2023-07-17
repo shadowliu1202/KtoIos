@@ -11,7 +11,7 @@ extension NumberGameBetDetail.BetStatus {
     case is NumberGameBetDetail.BetStatusSettledWinLose:
       let amount: AccountCurrency = (self as! NumberGameBetDetail.BetStatusSettledWinLose).winLoss
       let prefix = amount.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
-      return prefix + " \(amount.formatString(.none))"
+      return prefix + " \(amount.abs().formatString())"
     case is NumberGameBetDetail.BetStatusSettledVoid:
       return Localize.string("common_void")
     case is NumberGameBetDetail.BetStatusSettledSelfCancelled:

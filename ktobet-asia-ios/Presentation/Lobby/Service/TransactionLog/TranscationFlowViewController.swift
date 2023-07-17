@@ -97,11 +97,7 @@ class TranscationFlowController {
   }
 
   private func goCasinoDetail(_ wagerId: String) {
-    guard
-      let detail = UIStoryboard(name: "Casino", bundle: nil)
-        .instantiateViewController(withIdentifier: "CasinoDetailViewController") as? CasinoDetailViewController else { return }
-    detail.wagerId = wagerId
-    self.navi?.pushViewController(detail, animated: true)
+    self.navi?.pushViewController(CasinoBetDetailViewController(wagerID: wagerId), animated: true)
   }
 
   private func goNumberGameDetail(_ wagerId: String) {

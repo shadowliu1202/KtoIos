@@ -43,13 +43,13 @@ class P2PBetSummaryByDateViewController: LobbyViewController {
         return cell
       }.disposed(by: disposeBag)
     tableView.rx.modelSelected(GameGroupedRecord.self).bind { [unowned self] data in
-      self.performSegue(withIdentifier: P2PBetDetailViewController.segueIdentifier, sender: data)
+      self.performSegue(withIdentifier: P2PBetDetailByGameViewController.segueIdentifier, sender: data)
     }.disposed(by: disposeBag)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == P2PBetDetailViewController.segueIdentifier {
-      if let dest = segue.destination as? P2PBetDetailViewController {
+    if segue.identifier == P2PBetDetailByGameViewController.segueIdentifier {
+      if let dest = segue.destination as? P2PBetDetailByGameViewController {
         dest.recordData = sender as? GameGroupedRecord
       }
     }
@@ -75,7 +75,7 @@ class P2PBetSummaryByDateCell: UITableViewCell {
     betCountLabel.text = Localize.string("product_count_bet_record", "\(item.recordsCount)")
     let status = item.winLoss.isPositive ? Localize.string("common_win") : Localize.string("common_lose")
     betAmountLabel.text = Localize.string("product_total_bet", item.stakes.description())
-    betWinLossLabel.text = status + " \(item.winLoss.formatString(.none))"
+    betWinLossLabel.text = status + " \(item.winLoss.abs().formatString())"
     return self
   }
 }

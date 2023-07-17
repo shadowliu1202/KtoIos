@@ -62,7 +62,7 @@ extension DepositView {
               selection: selections[$0],
               onSelected: onSelected)
 
-            Separator(color: .greyScaleDivider)
+            Separator()
               .padding(.leading, 48)
               .visibility($0 == selections.count - 1 ? .invisible : .visible)
           }
@@ -91,7 +91,7 @@ extension DepositView {
             color: .textPrimary)
           .padding(.horizontal, 30)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
           .visibility(isEmpty ? .gone : .visible)
 
         Text(Localize.string("deposit_no_available_type"))
@@ -170,7 +170,7 @@ extension DepositView {
     let isEmpty: Bool
 
     var body: some View {
-      Separator(color: .greyScaleDivider)
+      Separator()
         .visibility(isEmpty ? .gone : .visible)
     }
   }
@@ -212,10 +212,10 @@ extension DepositView {
               .id(DepositView.Identifier.histories.rawValue)
             }
             .overlay(
-              Separator(color: .greyScaleDivider),
+              Separator(),
               alignment: .top)
             .overlay(
-              Separator(color: .greyScaleDivider),
+              Separator(),
               alignment: .bottom)
           }
         }

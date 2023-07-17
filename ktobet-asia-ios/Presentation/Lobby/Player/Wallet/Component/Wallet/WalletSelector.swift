@@ -35,7 +35,7 @@ struct WalletSelector: View {
         .padding(.horizontal, 30)
 
       VStack(spacing: 0) {
-        Separator(color: .greyScaleDivider)
+        Separator()
 
         ForEach(wallets, id: \.accountNumber) { wallet in
           Row(
@@ -66,7 +66,7 @@ struct WalletSelector: View {
           })
           .padding(.leading, 30)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
       }
       .backgroundColor(.greyScaleList)
     }

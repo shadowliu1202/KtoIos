@@ -1,8 +1,10 @@
 import CoreGraphics
 import SwiftUI
 
+/// - Default color = greyScaleDivider
+/// - Default lineWeight = 1
 struct Separator: View {
-  var color: UIColor = .textPrimary
+  var color: UIColor = .greyScaleDivider
   var lineWeight: CGFloat = 1
 
   var body: some View {

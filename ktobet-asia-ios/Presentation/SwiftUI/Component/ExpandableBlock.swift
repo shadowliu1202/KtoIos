@@ -30,7 +30,7 @@ struct ExpandableBlock<Content: View>: View {
   var body: some View {
     VStack(alignment: contentAlignment, spacing: 0) {
       VStack(spacing: 0) {
-        Separator(color: .greyScaleDivider)
+        Separator()
 
         LimitSpacer(11)
 
@@ -47,7 +47,7 @@ struct ExpandableBlock<Content: View>: View {
         LimitSpacer(11)
 
         if isExpand || bottomLineVisible {
-          Separator(color: .greyScaleDivider)
+          Separator()
         }
       }
       .contentShape(Rectangle())

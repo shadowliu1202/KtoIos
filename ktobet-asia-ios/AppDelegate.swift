@@ -8,7 +8,6 @@ import SharedBu
 import SwiftUI
 import UIKit
 import WebKit
-import SDWebImage
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {

@@ -73,7 +73,7 @@ class WithdrawalCryptoRequestStep1ViewModel:
         }
 
         self?.outPutCryptoAmount = $0
-        self?.outPutFiatAmount = $0.isNotEmpty ? fiatAmount.formatString(.none) : ""
+        self?.outPutFiatAmount = $0.isNotEmpty ? fiatAmount.abs().formatString() : ""
       })
       .disposed(by: disposeBag)
   }
@@ -86,7 +86,7 @@ class WithdrawalCryptoRequestStep1ViewModel:
         else { return }
 
         self?.outPutFiatAmount = $0
-        self?.outPutCryptoAmount = $0.isNotEmpty ? cryptoAmount.formatString(.none) : ""
+        self?.outPutCryptoAmount = $0.isNotEmpty ? cryptoAmount.abs().formatString() : ""
       })
       .disposed(by: disposeBag)
   }
@@ -170,8 +170,8 @@ class WithdrawalCryptoRequestStep1ViewModel:
   }
 
   func fillAmounts(accountCurrency: AccountCurrency, cryptoAmount: CryptoCurrency) {
-    outPutFiatAmount = accountCurrency.formatString(.none)
-    outPutCryptoAmount = cryptoAmount.formatString(.none)
+    outPutFiatAmount = accountCurrency.abs().formatString()
+    outPutCryptoAmount = cryptoAmount.abs().formatString()
   }
 
   func generateRequestConfirmModel() -> WithdrawalCryptoRequestConfirmDataModel.SetupModel? {

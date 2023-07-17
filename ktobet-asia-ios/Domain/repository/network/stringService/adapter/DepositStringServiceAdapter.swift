@@ -2,29 +2,11 @@ import Foundation
 import SharedBu
 
 class DepositStringServiceAdapter: DepositStringService {
-  var cpsCryptoCurrencyDepositFeeMaximumHint: ResourceKey
-  var cpsCryptoCurrencyDepositFeeTimesHint: ResourceKey
-  var cryptoMarketPromotionFeeMaximumHint: ResourceKey
-  var cryptoMarketPromotionFeeTimesHint: ResourceKey
-  var depositCpsHint: KotlinLazy
-  var depositMultipleHint: KotlinLazy
-  var jingDongRequiredHint: KotlinLazy
-
-  init(
-    cpsCryptoCurrencyDepositFeeMaximumHint: ResourceKey,
-    cpsCryptoCurrencyDepositFeeTimesHint: ResourceKey,
-    cryptoMarketPromotionFeeMaximumHint: ResourceKey,
-    cryptoMarketPromotionFeeTimesHint: ResourceKey,
-    depositCpsHint: KotlinLazy,
-    depositMultipleHint: KotlinLazy,
-    jingDongRequiredHint: KotlinLazy)
-  {
-    self.cpsCryptoCurrencyDepositFeeMaximumHint = cpsCryptoCurrencyDepositFeeMaximumHint
-    self.cpsCryptoCurrencyDepositFeeTimesHint = cpsCryptoCurrencyDepositFeeTimesHint
-    self.cryptoMarketPromotionFeeMaximumHint = cryptoMarketPromotionFeeMaximumHint
-    self.cryptoMarketPromotionFeeTimesHint = cryptoMarketPromotionFeeTimesHint
-    self.depositCpsHint = depositCpsHint
-    self.depositMultipleHint = depositMultipleHint
-    self.jingDongRequiredHint = jingDongRequiredHint
-  }
+  let cpsCryptoCurrencyDepositFeeMaximumHint = ResourceKey(key: Localize.string("cps_crypto_currency_deposit_hint"))
+  let cpsCryptoCurrencyDepositFeeTimesHint = ResourceKey(key: Localize.string("cps_crypto_currency_deposit_times_hint"))
+  let cryptoMarketPromotionFeeMaximumHint = ResourceKey(key: Localize.string("cps_deposit_market_condition_amount_per_day"))
+  let cryptoMarketPromotionFeeTimesHint = ResourceKey(key: Localize.string("cps_deposit_market_condition_times_per_day"))
+  let depositCpsHint: KotlinLazy = KNLazyCompanion().create(input: Localize.string("deposit_cps_hint"))
+  let depositMultipleHint: KotlinLazy = KNLazyCompanion().create(input: Localize.string("deposit_pay_multiple_hint"))
+  let jingDongRequiredHint: KotlinLazy = KNLazyCompanion().create(input: Localize.string("deposit_download_jingdong_app"))
 }

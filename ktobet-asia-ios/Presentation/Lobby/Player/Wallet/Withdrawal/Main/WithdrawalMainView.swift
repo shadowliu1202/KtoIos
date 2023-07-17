@@ -196,7 +196,7 @@ extension WithdrawalMainView {
 
     var body: some View {
       VStack(spacing: 0) {
-        Separator(color: .greyScaleDivider)
+        Separator()
 
         methodCell(
           iconName: "IconPayWithdrawal",
@@ -233,7 +233,7 @@ extension WithdrawalMainView {
           }
           .id(WithdrawalMainView.Identifier.methodCrypto.rawValue)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
       }
       .id(WithdrawalMainView.Identifier.methods.rawValue)
       .disabled(!viewModel.enableWithdrawal)
@@ -267,7 +267,7 @@ extension WithdrawalMainView {
       .padding(.trailing, 16)
       .backgroundColor(.greyScaleList)
       .overlay(
-        Separator(color: .greyScaleDivider)
+        Separator()
           .padding(.leading, 78)
           .visibility(isLastCell ? .gone : .visible),
         alignment: .bottom)
@@ -345,10 +345,10 @@ extension WithdrawalMainView {
         }
       }
       .overlay(
-        Separator(color: .greyScaleDivider),
+        Separator(),
         alignment: .top)
       .overlay(
-        Separator(color: .greyScaleDivider),
+        Separator(),
         alignment: .bottom)
     }
 

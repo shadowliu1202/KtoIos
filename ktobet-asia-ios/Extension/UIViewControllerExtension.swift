@@ -4,6 +4,7 @@ import Moya
 import RxCocoa
 import RxSwift
 import SharedBu
+import SwiftUI
 import UIKit
 
 extension UIViewController {
@@ -205,5 +206,59 @@ extension Reactive where Base: UIViewController {
     let source = self.sentMessage(#selector(Base.dismiss))
       .map { $0.first as? Bool ?? false }
     return ControlEvent(events: source)
+  }
+}
+
+extension UIViewController {
+  // MARK: - Add SwiftUI View
+  func addSubView<Content>(
+    _ swiftUIView: Content,
+    to _: UIView,
+    configure: ((UIHostingController<Content>) -> Void)? = nil) where Content: View
+  {
+    let hostingController = embedHosting(swiftUIView)
+    configure?(hostingController)
+  }
+
+  /// Use factory to init  *@StateObject*
+  /// Make sure to use unretain self
+  func addSubView<Content>(
+    from factory: () -> Content,
+    to _: UIView,
+    configure: ((UIHostingController<Content>) -> Void)? = nil) where Content: View
+  {
+    let hostingController = embedHosting(factory())
+    configure?(hostingController)
+  }
+
+  func addAsContainer(at controller: UIViewController) {
+    controller.addChild(self)
+
+    controller.view.addSubview(view)
+    view.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+
+    didMove(toParent: controller)
+  }
+
+  private func embedHosting
+  <Content: View>
+  (_ content: Content)
+    -> UIHostingController<Content>
+  {
+    let hostingController = UIHostingController(rootView: content)
+    hostingController.view.backgroundColor = .clear
+
+    addChild(hostingController)
+
+    view.insertSubview(hostingController.view, at: 0)
+    hostingController.view.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+
+    hostingController.didMove(toParent: self)
+
+    return hostingController
   }
 }

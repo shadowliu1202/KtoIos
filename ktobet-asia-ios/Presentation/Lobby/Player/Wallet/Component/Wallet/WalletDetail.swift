@@ -42,7 +42,7 @@ struct WalletDetail: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 30)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
 
         VStack {
           ForEach(models.indices, id: \.self) { index in
@@ -51,14 +51,14 @@ struct WalletDetail: View {
 
               DefaultRow(model: models[index])
 
-              Separator(color: .greyScaleDivider)
+              Separator()
                 .visibility(index != models.count - 1 ? .visible : .invisible)
             }
           }
         }
         .padding(.horizontal, 30)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
 
         Group {
           LimitSpacer(40)
