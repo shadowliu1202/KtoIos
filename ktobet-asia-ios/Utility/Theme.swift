@@ -206,7 +206,8 @@ final class Theme {
       return 100
     }
   }
-
+  
+  @available(*, deprecated, message: "Use extension function, not singleton function.")
   func getBetTimeWeekdayFormat(by playerLocale: SupportLocale) -> DateFormatter {
     let dateFormatter = DateFormatter()
     switch playerLocale {

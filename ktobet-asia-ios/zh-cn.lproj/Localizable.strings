@@ -815,23 +815,29 @@
 "product_losing_amount" = "输 %@";
 "product_bet_id" = "注单编号";
 "product_game_name_id" = "投注游戏(局号)";
+"product_game_name" = "投注游戏";
 "product_number_game_name_id" = "投注游戏 (期号)";
 "product_bet_content" = "投注内容";
 "product_bet_time" = "下注时间";
+"product_bet_times" = "下注倍数 : %@";
 "product_bet_amount" = "投注额";
 "product_bet_win_lose" = "赢/输";
 "product_bet_result" = "投注结果";
-"product_player_title" = "闲";
-"product_player_1_title" = "闲 1";
-"product_player_2_title" = "闲 2";
-"product_player_3_title" = "闲 3";
-"product_banker_title" = "庄";
-"product_tiger_title" = "虎";
-"product_dragon_title" = "龙";
-"product_phonix_title" = "凤";
+"product_player" = "闲";
+"product_player_with_position" = "闲 %@";
+"product_banker" = "庄";
+"product_tiger" = "虎";
+"product_dragon" = "龙";
+"product_phoenix" = "凤";
 "product_first_card" = "头牌";
 "product_black_bull" = "黑牛";
 "product_red_bull" = "红牛";
+"product_red" = "红";
+"product_black" = "黑";
+"product_tian" = "天";
+"product_di" = "地";
+"product_xuan" = "玄";
+"product_huang" = "黃";
 "product_top_search" = "热门搜寻";
 "product_enter_search_keyword" = "输入游戏名称";
 "product_popular" = "熱門";
@@ -888,7 +894,6 @@
 谢谢。";
 "product_p2p_turnover_description" = "进入对战前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
 "product_dealer" = "荷官";
-"product_player" = "玩家";
 "product_split" = "分牌";
 "product_favorite_reach_max" = "已达到收藏上限，请移除部份后再加入";
 "product_search_condition_not_match" = "搜寻条件需要超过两个字符。";
@@ -896,6 +901,9 @@
 "product_bonus_calculating" = "已领取红利目前无法进入%@。";
 "product_enter_table" = "进桌";
 "product_leave_table" = "出桌";
+"product_game_player" = "玩家";
+"product_game_player_with_position" = "玩家 %@";
+"product_no_player" = "没有玩家";
 
 //MARK: - Update
 "update_new_version_content" = "新版本已发布，请更新后再进行操作。";

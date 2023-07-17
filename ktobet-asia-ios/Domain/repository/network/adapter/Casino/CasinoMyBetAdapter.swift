@@ -2,12 +2,20 @@ import Foundation
 import SharedBu
 
 class CasinoMyBetAdapter: CasinoMyBetProtocol {
+  private let casinoMyBetAPI: CasinoMyBetAPI
+  
+  init(_ casinoMyBetAPI: CasinoMyBetAPI) {
+    self.casinoMyBetAPI = casinoMyBetAPI
+  }
+  
   func getBetSummary() -> SingleWrapper<ResponseItem<BetSummaryBean>> {
     fatalError()
   }
   
-  func getDetail(id _: String) -> SingleWrapper<ResponseItem<RecordDetailBean>> {
-    fatalError()
+  func getDetail(id: String) -> SingleWrapper<ResponseItem<RecordDetailBean>> {
+    casinoMyBetAPI
+      .getDetail(id: id)
+      .asReaktiveResponseItem(serial: RecordDetailBean.companion.serializer())
   }
   
   func getIncompleteBetSummary() -> SingleWrapper<ResponseList<IncompleteDateSummaryBean>> {

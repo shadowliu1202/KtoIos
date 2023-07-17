@@ -4,23 +4,36 @@ struct BackgroundColorModifier: ViewModifier {
   private let color: UIColor
   private let alpha: CGFloat
   private let cornerRadius: CGFloat
+  private let ignoresSafeArea: Bool
 
   init(
     _ color: UIColor,
     _ alpha: CGFloat,
-    _ cornerRadius: CGFloat)
+    _ cornerRadius: CGFloat,
+    _ ignoresSafeArea: Bool)
   {
     self.color = color
     self.alpha = alpha
     self.cornerRadius = cornerRadius
+    self.ignoresSafeArea = ignoresSafeArea
   }
 
   func body(content: Content) -> some View {
-    content
-      .background(
-        RoundedRectangle(cornerRadius: cornerRadius)
-          .fill(
-            Color.from(color, alpha: alpha)))
+    if ignoresSafeArea {
+      ZStack {
+        Color.from(color, alpha: alpha)
+          .cornerRadius(cornerRadius)
+          .ignoresSafeArea()
+        
+        content
+      }
+    }
+    else {
+      content
+        .background(
+          Color.from(color, alpha: alpha)
+            .cornerRadius(cornerRadius))
+    }
   }
 }
 
@@ -36,9 +49,10 @@ extension View {
   func backgroundColor(
     _ color: UIColor,
     alpha: CGFloat = 1,
-    cornerRadius: CGFloat = 0)
+    cornerRadius: CGFloat = 0,
+    ignoresSafeArea: Bool = false)
     -> some View
   {
-    modifier(BackgroundColorModifier(color, alpha, cornerRadius))
+    modifier(BackgroundColorModifier(color, alpha, cornerRadius, ignoresSafeArea))
   }
 }

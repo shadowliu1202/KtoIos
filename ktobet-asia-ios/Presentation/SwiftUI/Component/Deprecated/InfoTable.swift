@@ -22,7 +22,7 @@ struct InfoTable: View {
           }
         }
 
-        Separator(color: .greyScaleDivider)
+        Separator()
 
         VStack(alignment: .leading, spacing: 8) {
           ForEach(finallyInfo.indices, id: \.self) {

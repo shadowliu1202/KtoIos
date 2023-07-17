@@ -14,9 +14,9 @@ struct DepositCryptoRecordDetailView<ViewModel>: View
     ScrollView {
       PageContainer {
         Header()
-        Separator(color: .greyScaleDivider)
+        Separator()
         Info()
-        Separator(color: .greyScaleDivider)
+        Separator()
       }
     }
     .onPageLoading(viewModel.info == nil || viewModel.header == nil)
@@ -108,7 +108,7 @@ extension DepositCryptoRecordDetailView {
           LimitSpacer(0)
         }
 
-        Separator(color: .greyScaleDivider)
+        Separator()
           .visibility((index == records.count - 1) ? .gone : .visible)
       }
     }

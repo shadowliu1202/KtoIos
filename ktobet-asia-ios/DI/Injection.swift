@@ -748,7 +748,8 @@ final class Injection {
           resolver.resolveWrapper(CasinoRecordUseCase.self),
           resolver.resolveWrapper(CasinoUseCase.self),
           resolver.resolveWrapper(MemoryCacheImpl.self),
-          resolver.resolveWrapper(ICasinoGameAppService.self))
+          resolver.resolveWrapper(ICasinoGameAppService.self),
+          resolver.resolveWrapper(ICasinoMyBetAppService.self))
       }
 
     container
@@ -1135,6 +1136,7 @@ final class Injection {
     registerCustomerServiceModule()
     registerCasinoModule()
     registerPromotionModule()
+    registerP2PModule()
   }
 
   // MARK: - ExternalProtocol
@@ -1287,8 +1289,8 @@ final class Injection {
       }
     
     container
-      .register(CasinoMyBetProtocol.self) { _ in
-        CasinoMyBetAdapter()
+      .register(CasinoMyBetProtocol.self) { resolver in
+        CasinoMyBetAdapter(.init(resolver.resolveWrapper(HttpClient.self)))
       }
     
     container
@@ -1297,7 +1299,9 @@ final class Injection {
           casinoGameProtocol: resolver.resolveWrapper(CasinoGameProtocol.self),
           casinoMyBetProtocol: resolver.resolveWrapper(CasinoMyBetProtocol.self),
           promotionProtocol: resolver.resolveWrapper(PromotionProtocol.self),
-          playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self))
+          playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self),
+          stringServiceFactory: resolver.resolveWrapper(ExternalStringService.self),
+          stringSupporter: resolver.resolveWrapper(StringSupporter.self))
       }
     
     container
@@ -1311,9 +1315,27 @@ final class Injection {
       }
   }
   
+  // MARK: - PromotionModule
+  
   func registerPromotionModule() {
     container.register(PromotionProtocol.self) { _ in
       PromotionAdapter()
+    }
+  }
+  
+  // MARK: - P2PModule
+  
+  func registerP2PModule() {
+    container.register(P2PMyBetProtocol.self) { resolver in
+      P2PMyBetAdapter(.init(resolver.resolveWrapper(HttpClient.self)))
+    }
+    
+    container.register(IP2PAppService.self) { resolver in
+      P2PModule().getP2PAppService(
+        p2PMyBetProtocol: resolver.resolveWrapper(P2PMyBetProtocol.self),
+        playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self),
+        stringSupporter: resolver.resolveWrapper(StringSupporter.self),
+        externalStringService: resolver.resolveWrapper(ExternalStringService.self))
     }
   }
 }

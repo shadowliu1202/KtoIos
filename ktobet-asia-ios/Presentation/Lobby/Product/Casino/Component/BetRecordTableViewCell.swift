@@ -11,7 +11,7 @@ class BetRecordTableViewCell: UITableViewCell {
   func setupUnSettleGame(_ name: String, betId: String, totalAmount: AccountCurrency) {
     nameLabel.text = name
     orderIdLabel.text = betId
-    totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.formatString(.none))
+    totalAmountLabel.text = String(format: Localize.string("product_total_bet"), totalAmount.abs().formatString())
   }
 
   func setup(
@@ -27,10 +27,10 @@ class BetRecordTableViewCell: UITableViewCell {
     nameLabel.text = name
     orderIdLabel.text = betId
     totalAmountLabel
-      .text = String(format: Localize.string("product_total_bet"), totalAmount.formatString(.none)) +
-      (prededuct != AccountCurrency.zero() ? " \(Localize.string("product_prededuct")) " + prededuct.formatString(.none) : "")
+      .text = String(format: Localize.string("product_total_bet"), totalAmount.abs().formatString()) +
+      (prededuct != AccountCurrency.zero() ? " \(Localize.string("product_prededuct")) " + prededuct.abs().formatString() : "")
     winAmountLabel
       .text = (betStatus == BetStatus.lose ? Localize.string("common_lose") : Localize.string("common_win")) +
-      " \(winAmount.formatString(.none))"
+      " \(winAmount.abs().formatString())"
   }
 }

@@ -36,7 +36,7 @@ struct WithdrawalFiatRequestStep2View<ViewModel>: View
 
         LimitSpacer(24)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
 
         VStack(spacing: 16) {
           VStack(spacing: 8) {
@@ -46,7 +46,7 @@ struct WithdrawalFiatRequestStep2View<ViewModel>: View
                 content: viewModel.amount.toAccountCurrency().formatString()))
               .padding(.top, 8)
 
-            Separator(color: .greyScaleDivider)
+            Separator()
           }
           .padding(.horizontal, 30)
 
@@ -69,7 +69,7 @@ struct WithdrawalFiatRequestStep2View<ViewModel>: View
                 DefaultRow(
                   common: .init(
                     title: Localize.string("withdrawal_dailywithdrawalamount_2"),
-                    content: (limitation.currentAmount - viewModel.amount.toAccountCurrency()).formatString(.none)))
+                    content: (limitation.currentAmount - viewModel.amount.toAccountCurrency()).abs().formatString()))
               }
             }
             .padding(.vertical, 24)
@@ -78,7 +78,7 @@ struct WithdrawalFiatRequestStep2View<ViewModel>: View
           .stroke(color: .greyScaleDivider, cornerRadius: 0)
           .padding(.horizontal, 30)
 
-          Separator(color: .greyScaleDivider)
+          Separator()
 
           LimitSpacer(24)
 

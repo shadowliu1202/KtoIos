@@ -8,7 +8,6 @@ protocol CasinoRecordRepository {
   func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]>
   func getPeriodRecords(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[PeriodOfRecord]>
   func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]>
-  func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?>
 }
 
 class CasinoRecordRepositoryImpl: CasinoRecordRepository {
@@ -113,36 +112,6 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
       }
 
       return betRecords
-    }
-  }
-
-  func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?> {
-    do {
-      return casinoApi.getWagerDetail(wagerId: wagerId).map { response -> CasinoDetail? in
-        guard let data = response.data else { return nil }
-
-        let betTime = try data.betTime.toLocalDateTime()
-        let casinoBetType = CasinoBetType.Companion().convert(type: data.gameType)
-        let provider = GameProvider.Companion().convert(type: data.gameProviderId)
-        let gameResult = try CasinoGameResult.Companion()
-          .create(casinoBetType: casinoBetType, provider: provider, gameResult: data.gameResult)
-
-        return CasinoDetail(
-          betId: data.betId,
-          otherId: data.otherId,
-          betTime: betTime,
-          selection: data.selection,
-          roundId: data.roundId,
-          gameName: data.gameName,
-          gameResult: gameResult,
-          stakes: data.stakes.toAccountCurrency(),
-          prededuct: data.prededuct.toAccountCurrency(),
-          winLoss: data.winLoss.toAccountCurrency(),
-          status: CasinoWagerStatus.Companion().convert(type: data.status))
-      }
-    }
-    catch {
-      return .error(error)
     }
   }
 }

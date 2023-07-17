@@ -71,7 +71,7 @@ extension WalletSelector {
         .padding(.leading, 30)
         .padding(.trailing, 16)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
           .padding(.leading, 30)
       }
       .contentShape(Rectangle())

@@ -24,9 +24,9 @@ struct CryptoSelectView<ViewModel>: View
             Header(
               userGuideOnTap: userGuideOnTap,
               tutorialOnTap: tutorialOnTap)
-            Separator(color: .greyScaleDivider)
+            Separator()
             SelectorList()
-            Separator(color: .greyScaleDivider)
+            Separator()
           }
           Button(
             action: {
@@ -179,7 +179,7 @@ extension CryptoSelectView {
               viewModel.setSelected(item: item)
             }
 
-            Separator(color: .greyScaleDivider)
+            Separator()
               .padding(.leading, 78)
               .visibility(
                 index != viewModel.options.count - 1 ?

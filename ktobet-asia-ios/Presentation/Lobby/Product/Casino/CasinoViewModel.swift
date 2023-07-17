@@ -10,6 +10,7 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
   private let casinoUseCase: CasinoUseCase
   private let memoryCache: MemoryCacheImpl
   private let casinoGameAppService: ICasinoGameAppService
+  private let casinoMyBetAppService: ICasinoMyBetAppService
 
   private let refreshTrigger = PublishSubject<Void>()
 
@@ -57,13 +58,15 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
     _ casinoRecordUseCase: CasinoRecordUseCase,
     _ casinoUseCase: CasinoUseCase,
     _ memoryCache: MemoryCacheImpl,
-    _ casinoGameAppService: ICasinoGameAppService)
+    _ casinoGameAppService: ICasinoGameAppService,
+    _ casinoMyBetAppService: ICasinoMyBetAppService)
   {
     self.casinoRecordUseCase = casinoRecordUseCase
     self.casinoUseCase = casinoUseCase
     self.memoryCache = memoryCache
     self.casinoGameAppService = casinoGameAppService
-
+    self.casinoMyBetAppService = casinoMyBetAppService
+    
     super.init()
 
     if let tags: [GameFilter] = memoryCache.getGameTag(.casinoGameTag) {
@@ -295,7 +298,7 @@ extension CasinoViewModel {
     casinoRecordUseCase.getBetRecords(periodOfRecord: periodOfRecord, offset: offset).asObservable()
   }
   
-  func getWagerDetail(wagerId: String) -> Single<CasinoDetail?> {
-    casinoRecordUseCase.getCasinoWagerDetail(wagerId: wagerId)
+  func getWagerDetail(wagerId: String) -> Single<CasinoDTO.BetDetail> {
+    Single.from(casinoMyBetAppService.getDetail(id: wagerId))
   }
 }

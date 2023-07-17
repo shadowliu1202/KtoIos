@@ -136,7 +136,7 @@ extension OfflinePaymentView {
           .padding(.horizontal, 30)
 
         VStack(spacing: 0) {
-          Separator(color: .greyScaleDivider)
+          Separator()
 
           ForEach(viewModel.gateways, id: \.id) { gatewayDM in
             HStack(spacing: 0) {
@@ -162,7 +162,7 @@ extension OfflinePaymentView {
               selectedGatewayId = gatewayDM.id
             }
 
-            Separator(color: .greyScaleDivider)
+            Separator()
               .padding(.leading, 78)
               .visibility(
                 gatewayDM != viewModel.gateways.last ?
@@ -170,7 +170,7 @@ extension OfflinePaymentView {
           }
           .id(OfflinePaymentView.Identifier.gatewayForEach.rawValue)
 
-          Separator(color: .greyScaleDivider)
+          Separator()
         }
       }
       .onInspected(inspection, self)

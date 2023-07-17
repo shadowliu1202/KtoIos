@@ -76,7 +76,7 @@ class WithdrawalCryptoRequestStep2ViewModel:
       ratio: model.ratio,
       dailyCount: "\(model.cryptoWallet.limitation.currentCount - 1)",
       dailyAmount: "\(model.cryptoWallet.limitation.currentAmount - model.fiatAmount.toAccountCurrency())",
-      remainingRequirement: "\(model.cryptoWallet.remainTurnOver.formatString(.none)) \(model.fiatSimpleName)",
+      remainingRequirement: "\(model.cryptoWallet.remainTurnOver.abs().formatString()) \(model.fiatSimpleName)",
       request: .init(
         walletId: model.cryptoWallet.walletId,
         fiatAmount: model.fiatAmount.replacingOccurrences(of: ",", with: ""),

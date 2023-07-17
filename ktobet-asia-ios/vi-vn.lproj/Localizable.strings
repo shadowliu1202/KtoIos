@@ -820,23 +820,29 @@ Nếu Quý Khách cần thay đổi Họ Tên, vui lòng hủy giao dịch Rút 
 "product_losing_amount" = "Thua %@";
 "product_bet_id" = "Mã Số Cược";
 "product_game_name_id" = "Trò Chơi (Mã Ván Bài)";
+"product_game_name" = "Trò Chơi";
 "product_number_game_name_id" = "Trò Chơi (Mã Lượt Rút)";
 "product_bet_content" = "Chi Tiết Cược";
 "product_bet_time" = "Thời Gian Cược";
+"product_bet_times" = "Số Lần Đặt Cược: %@";
 "product_bet_amount" = "Số Tiền Cược";
 "product_bet_win_lose" = "Thắng/Thua";
 "product_bet_result" = "Kết Quả";
-"product_player_title" = "Không Có Hoạt Động";
-"product_player_1_title" = "Không Có Hoạt Động 1";
-"product_player_2_title" = "Không Có Hoạt Động 2";
-"product_player_3_title" = "Không Có Hoạt Động 3";
-"product_banker_title" = "Nhà Cái";
-"product_tiger_title" = "Hổ";
-"product_dragon_title" = "Rồng";
-"product_phonix_title" = "Phượng";
+"product_player" = "Không Có Hoạt Động";
+"product_player_with_position" = "Không Có Hoạt Động %@";
+"product_banker" = "Nhà Cái";
+"product_tiger" = "Hổ";
+"product_dragon" = "Rồng";
+"product_phoenix" = "Phượng";
 "product_first_card" = "Chia Bài";
 "product_black_bull" = "Bull Đen";
 "product_red_bull" = "Bull Đỏ";
+"product_red" = "Đỏ";
+"product_black" = "Đen";
+"product_tian" = "Thiên";
+"product_di" = "Địa";
+"product_xuan" = "Huyền";
+"product_huang" = "Hoàng";
 "product_top_search" = "Tìm Kiếm Phổ Biến";
 "product_enter_search_keyword" = "Nhập Tên Trò Chơi";
 "product_popular" = "Phổ Biến";
@@ -895,7 +901,6 @@ Quý Khách sẽ không thể
 Cám ơn.";
 "product_p2p_turnover_description" = "Trước khi tham gia “Đánh Bài Đối Kháng”, Quý Khách cần hoàn thành Yêu Cầu Đặt Cược cho tiền thưởng đã nhận vào %@. Chi tiết như sau:";
 "product_dealer" = "Nhà Cái";
-"product_player" = "Người Chơi";
 "product_split" = "Tách Bài";
 "product_favorite_reach_max" = "Đã đạt số Trò Chơi Yêu Thích tối đa, vui lòng xóa bớt trước khi thêm mới.";
 "product_search_condition_not_match" = "Vui lòng điền hơn 2 ký tự để tìm kiếm";
@@ -905,6 +910,9 @@ Quý Khách sẽ không thể
 đặt cược %@.";
 "product_enter_table" = "Vào Bàn Chơi";
 "product_leave_table" = "Rời Bàn Chơi";
+"product_game_player" = "Người Chơi";
+"product_game_player_with_position" = "Người Chơi %@";
+"product_no_player" = "Không có Người Chơi";
 
 //MARK: - Update
 "update_new_version_content" = "Phiên Bản Mới đã được phát hành, vui lòng cập nhật trước khi tiếp tục.";

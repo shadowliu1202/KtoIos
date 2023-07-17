@@ -187,7 +187,7 @@ extension OnlinePaymentView {
           .padding(.horizontal, 30)
 
         VStack(spacing: 0) {
-          Separator(color: .greyScaleDivider)
+          Separator()
 
           if viewModel.gateways.isEmpty {
             gatewayCell(id: "", name: "", hint: "", isLastCell: true)
@@ -203,7 +203,7 @@ extension OnlinePaymentView {
             .id(OnlinePaymentView.Identifier.gatewayCells.rawValue)
           }
 
-          Separator(color: .greyScaleDivider)
+          Separator()
         }
         .backgroundColor(.greyScaleDefault)
         .onPreferenceChange(LargestCGFloat.self) { cellHeight in
@@ -251,7 +251,7 @@ extension OnlinePaymentView {
         .padding(.vertical, 12)
         .padding(.horizontal, 30)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
           .padding(.leading, 78)
           .visibility(isLastCell ? .gone : .visible)
       }

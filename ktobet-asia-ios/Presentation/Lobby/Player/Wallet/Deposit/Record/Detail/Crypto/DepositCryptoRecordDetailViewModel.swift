@@ -166,7 +166,7 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
   }
 
   fileprivate var requestFromCrypto: String {
-    if self?.request?.fromCrypto.formatString(.none) != "0" {
+    if self?.request?.fromCrypto.abs().formatString() != "0" {
       return self?.request?.fromCrypto.formatString() ?? "-"
     }
     else {
@@ -184,7 +184,7 @@ extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
   }
 
   fileprivate var requestFiatFormat: String {
-    if self?.request?.toFiat.formatString(.none) != "0" {
+    if self?.request?.toFiat.abs().formatString() != "0" {
       return self?.request?.toFiat.formatString() ?? "-"
     }
     else {

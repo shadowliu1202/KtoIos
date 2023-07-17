@@ -55,7 +55,7 @@ extension WithdrawalCryptoRequestStep2View {
     var body: some View {
       VStack(spacing: 16) {
         VStack(spacing: 8) {
-          Separator(color: .greyScaleDivider)
+          Separator()
 
           ForEach(viewModel.requestInfo.indices, id: \.self) { index in
             VStack(spacing: 8) {
@@ -63,7 +63,7 @@ extension WithdrawalCryptoRequestStep2View {
                 model: viewModel.requestInfo[index],
                 contentLineLimit: nil)
 
-              Separator(color: .greyScaleDivider)
+              Separator()
             }
           }
           .padding(.horizontal, 30)
@@ -91,7 +91,7 @@ extension WithdrawalCryptoRequestStep2View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 30)
 
-        Separator(color: .greyScaleDivider)
+        Separator()
       }
     }
   }

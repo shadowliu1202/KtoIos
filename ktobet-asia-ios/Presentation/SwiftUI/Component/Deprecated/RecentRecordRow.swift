@@ -54,7 +54,7 @@ struct RecentRecordRow: View {
     .padding(.vertical, 16)
     .backgroundColor(.greyScaleList)
     .overlay(
-      Separator(color: .greyScaleDivider)
+      Separator()
         .visibility(
           isLastCell ? .gone : .visible),
       alignment: .bottom)

@@ -8,7 +8,6 @@ protocol CasinoRecordUseCase {
   func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]>
   func getBetSummaryByDate(localDate: String) -> Single<[PeriodOfRecord]>
   func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]>
-  func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?>
 }
 
 class CasinoRecordUseCaseImpl: CasinoRecordUseCase {
@@ -47,9 +46,5 @@ class CasinoRecordUseCaseImpl: CasinoRecordUseCase {
 
   func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]> {
     casinoRecordRepository.getBetRecords(periodOfRecord: periodOfRecord, offset: offset)
-  }
-
-  func getCasinoWagerDetail(wagerId: String) -> Single<CasinoDetail?> {
-    casinoRecordRepository.getCasinoWagerDetail(wagerId: wagerId)
   }
 }
