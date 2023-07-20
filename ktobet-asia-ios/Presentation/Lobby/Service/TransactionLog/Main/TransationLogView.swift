@@ -186,7 +186,7 @@ struct TransactionLogView_Previews: PreviewProvider {
               transactionLog: BalanceLogDetail(
                 afterBalance: .zero(),
                 amount: "\($0 + 100)".toAccountCurrency(),
-                date: Date().convertToKotlinx_datetimeLocalDateTime(),
+                date: Date().toLocalDateTime(.current),
                 wagerMappingId: "",
                 productGroup: .P2P(supportProvider: .CompanionNone()),
                 productType: .p2p,

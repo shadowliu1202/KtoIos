@@ -13,7 +13,7 @@ final class PromotionHistoryViewControllerTests: XCBaseTestCase {
       name: "",
       bonusId: "",
       type: .freebet,
-      receiveDate: Date().convertToKotlinx_datetimeLocalDateTime(),
+      receiveDate: Date().toLocalDateTime(.current),
       issue: 0,
       productType: .casino,
       percentage: .init(percent: 100),

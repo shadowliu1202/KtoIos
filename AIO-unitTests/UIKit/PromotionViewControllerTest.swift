@@ -10,13 +10,13 @@ final class PromotionViewControllerTest: XCBaseTestCase {
   private let now = Date()
 
   private lazy var sut = PromotionViewController.initFrom(storyboard: "Promotion")
-  private lazy var startDate = now.adding(value: -1, byAdding: .day).convertToKotlinx_datetimeLocalDateTime()
-  private lazy var endDate = now.adding(value: 1, byAdding: .day).convertToKotlinx_datetimeLocalDateTime()
+  private lazy var startDate = now.adding(value: -1, byAdding: .day).toLocalDateTime(.current)
+  private lazy var endDate = now.adding(value: 1, byAdding: .day).toLocalDateTime(.current)
 
   private lazy var vvipPromotion = PromotionEvent.VVIPCashback(
     promotionId: "",
     issueNumber: 0,
-    informPlayerDate: now.convertToKotlinx_datetimeLocalDateTime(),
+    informPlayerDate: now.toLocalDateTime(.current),
     percentage: Percentage(percent: 20.0),
     maxBonus: Promotion.companion.create(amount: "100.0".toAccountCurrency()),
     endDate: now.adding(value: 1, byAdding: .day).toUTCOffsetDateTime())

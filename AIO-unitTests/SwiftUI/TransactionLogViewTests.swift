@@ -24,13 +24,14 @@ final class TransactionLogViewTests: XCBaseTestCase {
   private func buildDummyBetLog(
     amount: Int,
     displayName: String,
-    date: Date = .init())
+    date: Date = .init(),
+    timeZone: Foundation.TimeZone = .current)
     -> GeneralProduct
   {
     let dummyDetail = BalanceLogDetail(
       afterBalance: .zero(),
       amount: "\(amount)".toAccountCurrency(),
-      date: date.convertToKotlinx_datetimeLocalDateTime(),
+      date: date.toLocalDateTime(timeZone),
       wagerMappingId: "",
       productGroup: .UnSupport(),
       productType: .none,
@@ -226,6 +227,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
   }
 
   func test_HasLogToday_SectionTitleIsToday() {
+    let stubPlayerConfig = PlayerConfigurationImpl(supportLocale: .China())
     let viewModel = TransactionLogViewModel()
 
     let stubSections = viewModel
@@ -233,7 +235,8 @@ final class TransactionLogViewTests: XCBaseTestCase {
         buildDummyBetLog(
           amount: 100,
           displayName: "test",
-          date: .init())
+          date: .init(),
+          timeZone: stubPlayerConfig.localeTimeZone())
       ])
 
     let expect = "今天"
