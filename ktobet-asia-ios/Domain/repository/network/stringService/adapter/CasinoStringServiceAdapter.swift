@@ -19,4 +19,5 @@ class CasinoStringServiceAdapter: CasinoStringService {
   let productTian = ResourceKey(key: Localize.string("product_tian"))
   let productTiger = ResourceKey(key: Localize.string("product_tiger"))
   let productXuan = ResourceKey(key: Localize.string("product_xuan"))
+  var productNoPlayer = ResourceKey(key: Localize.string("product_no_player"))
 }

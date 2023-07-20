@@ -11,11 +11,9 @@ class CustomerServiceViewModel {
   
   private var surveyAnswers: SurveyAnswers?
   
+  private lazy var observeChatRoom = Observable.from(chatAppService.observeChatRoom()).share(replay: 1)
+  
   var screenSizeOption = BehaviorRelay<ChatRoomScreen>(value: .Minimize)
-
-  init(_ chatAppService: IChatAppService) {
-    self.chatAppService = chatAppService
-  }
 
   lazy var chatMaintenanceStatus = currentChatRoom()
     .map(\.isMaintained)
@@ -29,16 +27,7 @@ class CustomerServiceViewModel {
   lazy var preLoadChatRoomStatus = currentChatRoom()
     .map { [unowned self] in chatRoomTempMapper.convertToStatus($0) }
 
-  lazy var observeChatRoom = Observable.from(chatAppService.observeChatRoom()).share(replay: 1)
-  
-  lazy var chatRoomConnection = observeChatRoom
-    .map { result -> SharedBu.Connection.Status in
-      guard let chatRoom = result.value else {
-        return SharedBu.Connection.StatusNotExist()
-      }
-      
-      return chatRoom.status
-    }
+  lazy var chatRoomConnection = observeChatRoom.map { $0.status }
   
   lazy var currentQueueNumber = chatRoomConnection.map {
     if let connecting = $0 as? SharedBu.Connection.StatusConnecting {
@@ -50,28 +39,12 @@ class CustomerServiceViewModel {
   }
   .catchAndReturn(0)
   
+  init(_ chatAppService: IChatAppService) {
+    self.chatAppService = chatAppService
+  }
+
   func currentChatRoom() -> Observable<CustomerServiceDTO.ChatRoom> {
     observeChatRoom
-      .map { singleResult -> CustomerServiceDTO.ChatRoom in
-        if let chatRoomDTO = singleResult.value {
-          return chatRoomDTO
-        }
-        else if let error = singleResult.error {
-          if error.exception is ChatRoomNotExist {
-            return CustomerServiceDTO.ChatRoom(
-              roomId: "",
-              readMessage: [],
-              unReadMessage: [],
-              status: SharedBu.Connection.StatusNotExist(),
-              isMaintained: false)
-          }
-          else {
-            throw error.exception.asError()
-          }
-        }
-        
-        throw KTOError.EmptyData
-      }
   }
   
   func connectChatRoom() -> Completable {

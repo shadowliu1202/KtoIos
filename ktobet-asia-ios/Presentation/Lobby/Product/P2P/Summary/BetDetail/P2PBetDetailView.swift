@@ -96,7 +96,7 @@ extension P2PBetDetailView {
           Text(key: "product_bet_win_lose")
             .localized(weight: .regular, size: 12, color: .textPrimary)
           
-          let winLoss = betDetail.winLoss
+          let winLoss = betDetail.winLose
           
           switch winLoss.status {
           case .win:
@@ -155,7 +155,7 @@ struct P2PBetDetailView_Previews: PreviewProvider {
       gameName: "Four Cards Bull",
       betTime: Instant.companion.fromEpochSeconds(epochSeconds: 0, nanosecondAdjustment: 0),
       selections: "Player 1\nBet x5",
-      winLoss: .init(_amount: FiatFactory.shared.create(supportLocale: .China(), amount_: "500.00")),
+      winLose: .init(status: .win, amount: FiatFactory.shared.create(supportLocale: .China(), amount_: "500.00")),
       gameResult: .init(
         displayType: .colorplate,
         cards: stubPokerGroup,

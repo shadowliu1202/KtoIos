@@ -180,31 +180,21 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
     bankCardID: String,
     onCompleted: ((_ selectedAccountType: SharedBu.AccountType) -> Void)?)
   {
-    Single.from(
+    Completable.from(
       withdrawalAppService
         .requestCryptoWalletVerification(walletId: bankCardID, type: selectedAccountType))
       .do(
-        onSubscribe: { [weak self] in
-          self?.isOTPRequestInProgress = true
-        },
-        onDispose: { [weak self] in
-          self?.isOTPRequestInProgress = false
-        })
+        onSubscribe: { self.isOTPRequestInProgress = true },
+        onDispose: { self.isOTPRequestInProgress = false })
       .subscribe(
-        onSuccess: { [weak self] result in
-          guard let self else { return }
-
-          guard let _ = result.error
-          else {
-            onCompleted?(self.selectedAccountType)
-            return
+        onCompleted: { onCompleted?(self.selectedAccountType) },
+        onError: {
+          switch $0 {
+          case is WithdrawalDto.VerifyRequestErrorStatus:
+            self.fetchOTPStatus()
+          default:
+            self.errorsSubject.onNext($0)
           }
-
-          self.fetchOTPStatus()
-        },
-        onFailure: { [weak self] error in
-          self?.errorsSubject
-            .onNext(error)
         })
       .disposed(by: disposeBag)
   }

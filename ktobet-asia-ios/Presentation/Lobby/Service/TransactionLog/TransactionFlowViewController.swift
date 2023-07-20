@@ -2,23 +2,32 @@ import RxSwift
 import SharedBu
 import UIKit
 
-protocol TranscationFlowDelegate: AnyObject {
+protocol TransactionFlowDelegate: AnyObject {
+  func getIsCasinoWagerDetailExist(by wagerID: String) async -> Bool?
+  
+  func getIsP2PWagerDetailExist(by wagerID: String) async -> Bool?
+  
   func displaySportsBookDetail(wagerId: String)
 }
 
-class TranscationFlowController {
+class TransactionFlowController {
   private weak var vc: UIViewController?
+  private var decideNavigationTask: Task<Void, Never>?
   private var navi: UINavigationController? {
     vc?.navigationController
   }
 
   var disposeBag: DisposeBag
 
-  weak var delegate: TranscationFlowDelegate?
+  weak var delegate: TransactionFlowDelegate?
 
   init(_ vc: UIViewController?, disposeBag: DisposeBag) {
     self.vc = vc
     self.disposeBag = disposeBag
+  }
+  
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   func goNext(_ wagerId: String) {
@@ -49,6 +58,8 @@ class TranscationFlowController {
       displaySportsBookDetail(wagerId: sportLog.detailId())
     case let numbergameLog as TransactionLog.GameProductNumberGame:
       consider(numbergame: numbergameLog)
+    case let p2pLog as TransactionLog.GameProductP2P:
+      consider(p2pLog)
     default:
       break
     }
@@ -67,10 +78,23 @@ class TranscationFlowController {
 
   private func consider(casino: TransactionLog.GameProductCasino) {
     switch casino {
-    case let log as TransactionLog.GameProductCasinoGeneral:
-      self.goTransactionLogDetail(LogDetail(title: log.name, transactionId: log.detailId(), isSmartBet: log.isSmartBet))
+    case let casino as TransactionLog.GameProductCasinoGeneral:
+      goTransactionLogDetail(LogDetail(title: casino.name, transactionId: casino.detailId(), isSmartBet: casino.isSmartBet))
     case is TransactionLog.GameProductCasinoGameResultMode:
-      self.goCasinoDetail(casino.detailId())
+      goCasinoDetail(casino.detailId())
+    case is TransactionLog.GameProductCasinoUnknownDetail:
+      guard let delegate, decideNavigationTask != nil else { return }
+      
+      decideNavigationTask = Task {
+        guard let isWagerDetailExist = await delegate.getIsCasinoWagerDetailExist(by: casino.detailId())
+        else { return }
+
+        await MainActor.run {
+          isWagerDetailExist
+            ? goCasinoDetail(casino.detailId())
+            : goTransactionLogDetail(LogDetail(title: casino.name, transactionId: casino.detailId()))
+        }
+      }
     default:
       break
     }
@@ -84,6 +108,21 @@ class TranscationFlowController {
       goTransactionLogDetail(LogDetail(title: numbergame.name, transactionId: numbergame.detailId()))
     default:
       break
+    }
+  }
+  
+  private func consider(_ p2pLog: TransactionLog.GameProductP2P) {
+    guard let delegate, decideNavigationTask != nil else { return }
+    
+    decideNavigationTask = Task {
+      guard let isWagerDetailExist = await delegate.getIsP2PWagerDetailExist(by: p2pLog.detailId())
+      else { return }
+
+      await MainActor.run {
+        isWagerDetailExist
+          ? goP2PMyBetDetail(p2pLog.detailId())
+          : goTransactionLogDetail(LogDetail(title: p2pLog.name, transactionId: p2pLog.detailId()))
+      }
     }
   }
 
@@ -137,5 +176,13 @@ class TranscationFlowController {
 
   private func displaySportsBookDetail(wagerId: String) {
     delegate?.displaySportsBookDetail(wagerId: wagerId)
+  }
+  
+  private func goP2PMyBetDetail(_ wagerID: String) {
+    navi?.pushViewController(P2PBetDetailViewController(wagerID: wagerID), animated: true)
+  }
+  
+  func resetDecideNavigationTask() {
+    decideNavigationTask = nil
   }
 }
