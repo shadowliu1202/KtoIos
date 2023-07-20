@@ -172,23 +172,6 @@ extension Date {
   static func getMinimumAdultBirthday() -> Date {
     Date().adding(value: -adultAge, byAdding: .year)
   }
-
-  @available(*, deprecated, message: "Convert logic is wrong, use new API `toLocalDateTime`.")
-  func convertToKotlinx_datetimeLocalDateTime() -> SharedBu.LocalDateTime {
-    SharedBu.LocalDateTime(
-      year: self.getYear(),
-      monthNumber: self.getMonth(),
-      dayOfMonth: self.getDayOfMonth(),
-      hour: self.getHour(),
-      minute: self.getMinute(),
-      second: self.getSecond(),
-      nanosecond: self.getNanosecond())
-  }
-
-  @available(*, deprecated, message: "Convert logic is wrong, use new API `toLocalDate`.")
-  func convertToKotlinx_datetimeLocalDate() -> SharedBu.LocalDate {
-    SharedBu.LocalDate(year: self.getYear(), monthNumber: self.getMonth(), dayOfMonth: self.getDayOfMonth())
-  }
   
   func toLocalDateTime(_ timeZone: Foundation.TimeZone) -> LocalDateTime {
     var calendar = Calendar.current
