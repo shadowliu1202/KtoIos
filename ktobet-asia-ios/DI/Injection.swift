@@ -820,13 +820,6 @@ final class Injection {
       }
 
     container
-      .register(TransactionLogViewModel.self) { resolver in
-        TransactionLogViewModel(
-          transactionLogUseCase: resolver.resolveWrapper(TransactionLogUseCase.self),
-          playerConfig: resolver.resolveWrapper(PlayerConfiguration.self))
-      }
-
-    container
       .register(CustomerServiceViewModel.self) { resolver in
         .init(resolver.resolveWrapper(IChatAppService.self))
       }

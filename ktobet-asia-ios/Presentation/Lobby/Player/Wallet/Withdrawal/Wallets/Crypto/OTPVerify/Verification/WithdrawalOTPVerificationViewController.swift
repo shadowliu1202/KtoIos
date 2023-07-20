@@ -3,10 +3,7 @@ import SharedBu
 import SwiftUI
 import UIKit
 
-class WithdrawalOTPVerificationViewController:
-  LobbyViewController &
-  SwiftUIConverter
-{
+class WithdrawalOTPVerificationViewController: LobbyViewController {
   @Injected private var viewModel: WithdrawalOTPVerificationViewModel
   @Injected private var alert: AlertProtocol
 
@@ -77,43 +74,62 @@ extension WithdrawalOTPVerificationViewController {
         WithdrawalOTPVerificationView(
           viewModel: viewModel,
           accountType: accountType,
-          otpVerifyOnCompleted: { [weak self] in
-            self?.alertVerifyFinishedThenPopToRoot()
+          otpVerifyOnCompleted: { [unowned self] in
+            alertVerifyFinishedThenPopToRoot()
           },
-          otpVerifyOnErrorRedirect: { [weak self] in
-            self?.pushToVerifyFailurePage()
+          otpResentOnCompleted: { [unowned self] in
+            showSendOTPSuccess()
           },
-          otpResentOnCompleted: { [weak self] in
-            self?.showSendOTPSuccess()
-          },
-          otpResentOnErrorRedirect: { [weak self] error in
-            guard let self else { return }
-
-            switch error {
-            case .overdailylimit:
-              self.alertOverLimitThenPushToVerifyFailurePage()
-
-            case .maintenance:
-              break
-
-            default:
-              fatalError("should not reach here.")
-            }
+          onErrorRedirect: { [unowned self] in
+            handleErrorToRedirect($0)
           })
           .environment(\.playerLocale, viewModel.getSupportLocale())
       }, to: view)
   }
 
+  func showSendOTPSuccess() {
+    showToast(Localize.string("common_otp_send_success"), barImg: .success)
+  }
+
   func binding() {
     viewModel.errors()
-      .subscribe(onNext: { [weak self] error in
-        self?.handleErrors(error)
+      .subscribe(onNext: { [unowned self] error in
+        handleErrors(error)
       })
       .disposed(by: disposeBag)
   }
+  
+  private func handleErrorToRedirect(_ error: Error) {
+    switch error {
+    case let error as WithdrawalDto.VerifyConfirmErrorStatus:
+      handleVerifyConfirmError(error)
+    case let error as WithdrawalDto.VerifyRequestErrorStatus:
+      handleVerifyRequestError(error)
+    default:
+      assertionFailure("should not reach here.")
+    }
+  }
+  
+  private func handleVerifyConfirmError(_ error: WithdrawalDto.VerifyConfirmErrorStatus) {
+    switch error {
+    case is WithdrawalDto.VerifyConfirmErrorStatusWrongOtp:
+      break
+    case is WithdrawalDto.VerifyConfirmErrorStatusMaintenance:
+      break
+    case is WithdrawalDto.VerifyConfirmErrorStatusRetryLimit:
+      pushToVerifyFailurePage()
+    default: fatalError("should not reach here.")
+    }
+  }
 
-  func showSendOTPSuccess() {
-    showToast(Localize.string("common_otp_send_success"), barImg: .success)
+  private func handleVerifyRequestError(_ error: WithdrawalDto.VerifyRequestErrorStatus) {
+    switch error {
+    case is WithdrawalDto.VerifyRequestErrorStatusOverDailyLimit:
+      alertOverLimitThenPushToVerifyFailurePage()
+    case is WithdrawalDto.VerifyRequestErrorStatusMaintenance:
+      break
+    default: fatalError("should not reach here.")
+    }
   }
 }
 

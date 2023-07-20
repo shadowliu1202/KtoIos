@@ -5,7 +5,6 @@ import SharedBu
 protocol TransactionLogViewModelProtocol {
   typealias Section = LogSections<TransactionLog>.Model
 
-  var supportLocale: SupportLocale { get }
   var summary: CashFlowSummary? { get }
   var sections: [Section]? { get }
   var isPageLoading: Bool { get }
@@ -13,6 +12,8 @@ protocol TransactionLogViewModelProtocol {
 
   var pagination: Pagination<TransactionLog>! { get }
   var summaryRefreshTrigger: PublishSubject<Void> { get }
+  
+  func getSupportLocale() -> SupportLocale
 }
 
 class TransactionLogViewModel:
@@ -30,13 +31,15 @@ class TransactionLogViewModel:
     fromDate: Date().adding(value: -6, byAdding: .day),
     toDate: Date())
 
-  private let transactionLogUseCase: TransactionLogUseCase
+  @Injected private var transactionLogUseCase: TransactionLogUseCase
+  @Injected private var casinoMyBetAppService: ICasinoMyBetAppService
+  @Injected private var p2pAppService: IP2PAppService
+  @Injected private var playerConfig: PlayerConfiguration
+  
   private let disposeBag = DisposeBag()
 
   private(set) var pagination: Pagination<TransactionLog>!
   private(set) var summaryRefreshTrigger = PublishSubject<Void>()
-
-  let supportLocale: SupportLocale
 
   var selectedLogType: Int {
     if isSelectedAll {
@@ -47,15 +50,9 @@ class TransactionLogViewModel:
     return Int(selected) ?? LogType.all.rawValue
   }
 
-  init(
-    transactionLogUseCase: TransactionLogUseCase,
-    playerConfig: PlayerConfiguration)
-  {
-    self.transactionLogUseCase = transactionLogUseCase
-    self.supportLocale = playerConfig.supportLocale
-
+  override init() {
     super.init()
-
+    
     selectedItems = dataSource
 
     self.pagination = .init(
@@ -81,6 +78,10 @@ class TransactionLogViewModel:
 
   deinit {
     Logger.shared.info("\(type(of: self)) deinit")
+  }
+  
+  func getSupportLocale() -> SupportLocale {
+    playerConfig.supportLocale
   }
 }
 
@@ -135,6 +136,47 @@ extension TransactionLogViewModel {
     transactionLogUseCase
       .getSportsBookWagerDetail(wagerId: wagerId)
       .compose(applySingleErrorHandler())
+  }
+  
+  func getIsCasinoWagerDetailExist(by wagerID: String) async throws -> Bool {
+    try await withCheckedThrowingContinuation { continuation in
+      Single.from(
+        casinoMyBetAppService.getDetail(id: wagerID))
+        .asCompletable()
+        .observe(on: MainScheduler.instance)
+        .subscribe(
+          onCompleted: { continuation.resume(returning: true) },
+          onError: {
+            if $0 is HasNoWagerDetail {
+              continuation.resume(returning: false)
+            }
+            else {
+              continuation.resume(throwing: $0)
+            }
+          })
+        .disposed(by: disposeBag)
+    }
+  }
+  
+  func getIsP2PWagerDetailExist(by wagerID: String) async throws -> Bool {
+    try await withCheckedThrowingContinuation { continuation in
+      Observable.from(
+        p2pAppService.getDetail(id: wagerID))
+        .first()
+        .asCompletable()
+        .observe(on: MainScheduler.instance)
+        .subscribe(
+          onCompleted: { continuation.resume(returning: true) },
+          onError: {
+            if $0 is HasNoWagerDetail {
+              continuation.resume(returning: false)
+            }
+            else {
+              continuation.resume(throwing: $0)
+            }
+          })
+        .disposed(by: disposeBag)
+    }
   }
 }
 

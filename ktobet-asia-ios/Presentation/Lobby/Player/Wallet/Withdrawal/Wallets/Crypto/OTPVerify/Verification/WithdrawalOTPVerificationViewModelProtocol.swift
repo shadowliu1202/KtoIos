@@ -18,7 +18,7 @@ protocol WithdrawalOTPVerificationViewModelProtocol: AnyObject {
 
   func setup(accountType: SharedBu.AccountType)
 
-  func verifyOTP(onCompleted: (() -> Void)?, onErrorRedirect: (() -> Void)?)
+  func verifyOTP(onCompleted: (() -> Void)?, onErrorRedirect: ((Error) -> Void)?)
 
-  func resendOTP(onCompleted: (() -> Void)?, onErrorRedirect: ((WithdrawalDto.VerifyRequestErrorStatus) -> Void)?)
+  func resendOTP(onCompleted: (() -> Void)?, onErrorRedirect: ((Error) -> Void)?)
 }

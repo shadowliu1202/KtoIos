@@ -74,8 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
     configUISetting(application)
     
     configImageDownloader()
-
-    SDWebImageDownloader.shared.config.downloadTimeout = .infinity
     
     return true
   }

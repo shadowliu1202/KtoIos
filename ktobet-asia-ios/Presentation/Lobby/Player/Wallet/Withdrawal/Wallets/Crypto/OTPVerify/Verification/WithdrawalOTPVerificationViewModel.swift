@@ -157,70 +157,52 @@ class WithdrawalOTPVerificationViewModel:
         })
   }
 
-  func verifyOTP(onCompleted: (() -> Void)?, onErrorRedirect: (() -> Void)?) {
+  func verifyOTP(onCompleted: (() -> Void)?, onErrorRedirect: ((Error) -> Void)?) {
     guard let accountType else { return }
 
-    Single.from(
-      withdrawalAppService
-        .confirmVerificationOTP(otp: otpCode, type: accountType))
+    Completable.from(
+      withdrawalAppService.confirmVerificationOTP(otp: otpCode, type: accountType))
       .observe(on: MainScheduler.instance)
       .do(
-        onSubscribe: { [weak self] in
-          self?.isOTPVerifyInProgress = true
-        },
-        onDispose: { [weak self] in
-          self?.isOTPVerifyInProgress = false
-        })
+        onSubscribe: { self.isOTPVerifyInProgress = true },
+        onDispose: { self.isOTPVerifyInProgress = false })
       .subscribe(
-        onSuccess: { [weak self] result in
-          guard let error = result.error
-          else {
-            onCompleted?()
-            return
-          }
-
-          switch error {
-          case .wrongotp:
-            self?.isVerifiedFail = true
-
-          case .retrylimit:
-            onErrorRedirect?()
-
+        onCompleted: { onCompleted?() },
+        onError: {
+          switch $0 {
+          case let error as WithdrawalDto.VerifyConfirmErrorStatus:
+            switch error {
+            case is WithdrawalDto.VerifyConfirmErrorStatusWrongOtp:
+              self.isVerifiedFail = true
+            default:
+              onErrorRedirect?(error)
+            }
           default:
-            fatalError()
+            self.errorsSubject.onNext($0)
           }
-        },
-        onFailure: { [weak self] error in
-          self?.errorsSubject
-            .onNext(error)
         })
       .disposed(by: disposeBag)
   }
 
-  func resendOTP(onCompleted: (() -> Void)?, onErrorRedirect: ((WithdrawalDto.VerifyRequestErrorStatus) -> Void)?) {
+  func resendOTP(onCompleted: (() -> Void)?, onErrorRedirect: ((Error) -> Void)?) {
     guard let accountType else { return }
-
-    Single.from(
-      withdrawalAppService
-        .resendVerificationOTP(type: accountType))
+    
+    Completable.from(
+      withdrawalAppService.resendVerificationOTP(type: accountType))
       .observe(on: MainScheduler.instance)
-      .do(onSubscribe: { [weak self] in
-        self?.isResentOTPEnable = false
-      })
+      .do(onSubscribe: { self.isResentOTPEnable = false })
       .subscribe(
-        onSuccess: { [weak self] result in
-          guard let error = result.error
-          else {
-            self?.startCountdownTimer()
-            onCompleted?()
-            return
-          }
-
-          onErrorRedirect?(error)
+        onCompleted: {
+          self.startCountdownTimer()
+          onCompleted?()
         },
-        onFailure: { [weak self] error in
-          self?.errorsSubject
-            .onNext(error)
+        onError: {
+          switch $0 {
+          case let error as WithdrawalDto.VerifyRequestErrorStatus:
+            onErrorRedirect?(error)
+          default:
+            self.errorsSubject.onNext($0)
+          }
         })
       .disposed(by: disposeBag)
   }

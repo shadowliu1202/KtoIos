@@ -13,7 +13,7 @@ class CustomerServiceMainViewModel {
   func getIsChatRoomExist() -> Observable<Bool> {
     Observable
       .from(chatAppService.observeChatRoom())
-      .map { $0.value == nil ? false : true }
+      .map { $0.status != SharedBu.Connection.StatusNotExist() }
   }
   
   func leftCustomerService() -> Observable<Void> {

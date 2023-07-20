@@ -1,3 +1,4 @@
+import Combine
 import Mockingbird
 import SharedBu
 import ViewInspector
@@ -18,6 +19,8 @@ extension TransactionLogView.Sections: Inspecting { }
 extension TransactionLogView.Summary: Inspecting { }
 
 final class TransactionLogViewTests: XCBaseTestCase {
+  private let dummySubject = PassthroughSubject<TransactionLog, Never>()
+  
   private func buildDummyBetLog(
     amount: Int,
     displayName: String,
@@ -58,7 +61,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
         ])
     ]
 
-    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
+    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections(dummySubject)
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
@@ -106,7 +109,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
         ])
     ]
 
-    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
+    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections(dummySubject)
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
@@ -154,7 +157,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
         ])
     ]
 
-    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
+    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections(dummySubject)
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
@@ -223,9 +226,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
   }
 
   func test_HasLogToday_SectionTitleIsToday() {
-    let viewModel = TransactionLogViewModel(
-      transactionLogUseCase: Injectable.resolveWrapper(TransactionLogUseCase.self),
-      playerConfig: PlayerConfigurationImpl(supportLocale: .China()))
+    let viewModel = TransactionLogViewModel()
 
     let stubSections = viewModel
       .buildSections([
@@ -254,7 +255,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
         ])
     ]
 
-    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
+    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections(dummySubject)
 
     let expectation = sut.inspection.inspect { view in
       let sectionTitle = try view
@@ -284,7 +285,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
     given(stubViewModel.isPageLoading) ~> false
     given(stubViewModel.sections) ~> []
 
-    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections()
+    let sut = TransactionLogView<TransactionLogViewModelProtocolMock>.Sections(dummySubject)
 
     let expectation = sut.inspection.inspect { view in
       let description = try view

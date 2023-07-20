@@ -1,3 +1,4 @@
+import Combine
 import RxSwift
 import SharedBu
 import SwiftUI
@@ -11,6 +12,8 @@ struct TransactionLogView<ViewModel>: View
 {
   @StateObject var viewModel: ViewModel
 
+  private let selectedLogSubject = PassthroughSubject<TransactionLog, Never>()
+  
   var dateFilterAction: DateFilter.Action?
   var onSummarySelected: (() -> Void)?
   var onRowSelected: ((TransactionLog) -> Void)?
@@ -26,7 +29,7 @@ struct TransactionLogView<ViewModel>: View
             onPresentFilterController: onPresentFilterController)
         },
         section: {
-          Sections(onRowSelected: onRowSelected)
+          Sections(selectedLogSubject)
         },
         isResultEmpty: viewModel.sections.isNullOrEmpty(),
         isLoading: viewModel.sections == nil || viewModel.summary == nil,
@@ -35,11 +38,17 @@ struct TransactionLogView<ViewModel>: View
         })
         .pageBackgroundColor(.greyScaleDefault)
         .environmentObject(viewModel)
-        .environment(\.playerLocale, viewModel.supportLocale)
+        .environment(\.playerLocale, viewModel.getSupportLocale())
         .onViewDidLoad {
           viewModel.pagination.refreshTrigger.onNext(())
           viewModel.summaryRefreshTrigger.onNext(())
         }
+        .onReceive(
+          selectedLogSubject
+            .throttle(for: .milliseconds(300), scheduler: DispatchQueue.main, latest: false))
+      {
+        onRowSelected?($0)
+      }
     }
   }
 }
@@ -119,16 +128,22 @@ extension TransactionLogView {
   struct Sections: View {
     @EnvironmentObject var viewModel: ViewModel
 
-    var onRowSelected: ((TransactionLog) -> Void)?
+    private let selectedLogSubject: PassthroughSubject<TransactionLog, Never>
 
     var inspection = Inspection<Self>()
 
+    init(
+      _ selectedLogSubject: PassthroughSubject<TransactionLog, Never>)
+    {
+      self.selectedLogSubject = selectedLogSubject
+    }
+    
     var body: some View {
       LogSections(
         models: viewModel.sections,
         isPageLoading: viewModel.isPageLoading,
         onRowSelected: {
-          onRowSelected?($0)
+          selectedLogSubject.send($0)
         })
         .onInspected(inspection, self)
     }
@@ -142,8 +157,6 @@ struct TransactionLogView_Previews: PreviewProvider {
     Selecting,
     ObservableObject
   {
-    var supportLocale: SupportLocale = .China()
-
     var summaryRefreshTrigger = PublishSubject<Void>()
 
     @Published var summary: CashFlowSummary? = .init(
@@ -153,6 +166,7 @@ struct TransactionLogView_Previews: PreviewProvider {
     @Published var selectedItems: [Selectable] = []
 
     var isPageLoading = true
+    var isDecidingNavigation = false
     var dataSource: [Selectable] = []
     var selectedTitle = "Test"
 
@@ -182,6 +196,10 @@ struct TransactionLogView_Previews: PreviewProvider {
               displayName: .init(title: KNLazyCompanion().create(input: "Test only")))
           })]
       }
+    }
+    
+    func getSupportLocale() -> SupportLocale {
+      .China()
     }
   }
 

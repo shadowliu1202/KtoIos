@@ -11,32 +11,29 @@ struct WithdrawalOTPVerificationView<ViewModel>: View
   private let accountType: SharedBu.AccountType?
 
   private let otpVerifyOnCompleted: (() -> Void)?
-  private let otpVerifyOnErrorRedirect: (() -> Void)?
-
   private let otpResentOnCompleted: (() -> Void)?
-  private let otpResentOnErrorRedirect: ((WithdrawalDto.VerifyRequestErrorStatus) -> Void)?
+  
+  private let onErrorRedirect: ((Error) -> Void)?
 
   init(
     viewModel: ViewModel,
     accountType: SharedBu.AccountType?,
     otpVerifyOnCompleted: (() -> Void)? = nil,
-    otpVerifyOnErrorRedirect: (() -> Void)? = nil,
     otpResentOnCompleted: (() -> Void)? = nil,
-    otpResentOnErrorRedirect: ((WithdrawalDto.VerifyRequestErrorStatus) -> Void)? = nil)
+    onErrorRedirect: ((Error) -> Void)? = nil)
   {
     self._viewModel = .init(wrappedValue: viewModel)
 
     self.accountType = accountType
 
     self.otpVerifyOnCompleted = otpVerifyOnCompleted
-    self.otpVerifyOnErrorRedirect = otpVerifyOnErrorRedirect
-
     self.otpResentOnCompleted = otpResentOnCompleted
-    self.otpResentOnErrorRedirect = otpResentOnErrorRedirect
+    
+    self.onErrorRedirect = onErrorRedirect
   }
 
   var body: some View {
-    PageContainer {
+    PageContainer(backgroundColor: .greyScaleDefault) {
       VStack(spacing: 40) {
         VerificationForm(
           $viewModel.otpCode,
@@ -46,15 +43,13 @@ struct WithdrawalOTPVerificationView<ViewModel>: View
           viewModel.otpCode,
           accountType,
           otpVerifyOnCompleted,
-          otpVerifyOnErrorRedirect,
           otpResentOnCompleted,
-          otpResentOnErrorRedirect)
+          onErrorRedirect)
       }
       .frame(maxHeight: .infinity, alignment: .top)
+      .padding(.horizontal, 30)
     }
     .onPageLoading(viewModel.isLoading)
-    .padding(.horizontal, 30)
-    .pageBackgroundColor(.greyScaleDefault)
     .environmentObject(viewModel)
     .onAppear {
       guard let accountType else { return }
@@ -133,27 +128,24 @@ extension WithdrawalOTPVerificationView {
     private let accountType: SharedBu.AccountType?
 
     private let otpVerifyOnCompleted: (() -> Void)?
-    private let otpVerifyOnErrorRedirect: (() -> Void)?
-
     private let otpResentOnCompleted: (() -> Void)?
-    private let otpResentOnErrorRedirect: ((WithdrawalDto.VerifyRequestErrorStatus) -> Void)?
+    
+    private let onErrorRedirect: ((Error) -> Void)?
 
     init(
       _ otpCode: String,
       _ accountType: SharedBu.AccountType?,
       _ otpVerifyOnCompleted: (() -> Void)?,
-      _ otpVerifyOnErrorRedirect: (() -> Void)?,
       _ otpResentOnCompleted: (() -> Void)?,
-      _ otpResentOnErrorRedirect: ((WithdrawalDto.VerifyRequestErrorStatus) -> Void)?)
+      _ onErrorRedirect: ((Error) -> Void)?)
     {
       self.otpCode = otpCode
       self.accountType = accountType
 
       self.otpVerifyOnCompleted = otpVerifyOnCompleted
-      self.otpVerifyOnErrorRedirect = otpVerifyOnErrorRedirect
-
       self.otpResentOnCompleted = otpResentOnCompleted
-      self.otpResentOnErrorRedirect = otpResentOnErrorRedirect
+      
+      self.onErrorRedirect = onErrorRedirect
     }
 
     var body: some View {
@@ -162,7 +154,7 @@ extension WithdrawalOTPVerificationView {
           action: {
             viewModel.verifyOTP(
               onCompleted: otpVerifyOnCompleted,
-              onErrorRedirect: otpVerifyOnErrorRedirect)
+              onErrorRedirect: onErrorRedirect)
           },
           label: {
             Text(key: "common_verify")
@@ -189,7 +181,7 @@ extension WithdrawalOTPVerificationView {
             .onTapGesture {
               viewModel.resendOTP(
                 onCompleted: otpResentOnCompleted,
-                onErrorRedirect: otpResentOnErrorRedirect)
+                onErrorRedirect: onErrorRedirect)
             }
             .disabled(!viewModel.isResentOTPEnable)
 
@@ -230,9 +222,9 @@ struct WithdrawalOTPVerificationView_Previews: PreviewProvider {
 
     func setup(accountType _: SharedBu.AccountType) { }
 
-    func verifyOTP(onCompleted _: (() -> Void)?, onErrorRedirect _: (() -> Void)?) { }
-
-    func resendOTP(onCompleted _: (() -> Void)?, onErrorRedirect _: ((WithdrawalDto.VerifyRequestErrorStatus) -> Void)?) { }
+    func verifyOTP(onCompleted _: (() -> Void)?, onErrorRedirect _: ((Error) -> Void)?) { }
+    
+    func resendOTP(onCompleted _: (() -> Void)?, onErrorRedirect _: ((Error) -> Void)?) { }
   }
 
   static var previews: some View {

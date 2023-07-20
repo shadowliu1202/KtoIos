@@ -2,13 +2,10 @@ import RxSwift
 import SharedBu
 import UIKit
 
-class TransactionLogViewController:
-  LobbyViewController,
-  SwiftUIConverter
-{
-  @Injected private var viewModel: TransactionLogViewModel
+class TransactionLogViewController: LobbyViewController {
+  private let viewModel = TransactionLogViewModel()
 
-  private lazy var flowCoordinator = TranscationFlowController(self, disposeBag: disposeBag)
+  private lazy var flowCoordinator = TransactionFlowController(self, disposeBag: disposeBag)
 
   private let disposeBag = DisposeBag()
 
@@ -16,6 +13,12 @@ class TransactionLogViewController:
     super.viewDidLoad()
 
     setupUI()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    flowCoordinator.resetDecideNavigationTask()
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
@@ -112,9 +115,29 @@ extension TransactionLogViewController {
   }
 }
 
-// MARK: - TranscationFlowDelegate
+// MARK: - TransactionFlowDelegate
 
-extension TransactionLogViewController: TranscationFlowDelegate {
+extension TransactionLogViewController: TransactionFlowDelegate {
+  func getIsCasinoWagerDetailExist(by wagerID: String) async -> Bool? {
+    do {
+      return try await viewModel.getIsCasinoWagerDetailExist(by: wagerID)
+    }
+    catch {
+      handleErrors(error)
+      return nil
+    }
+  }
+  
+  func getIsP2PWagerDetailExist(by wagerID: String) async -> Bool? {
+    do {
+      return try await viewModel.getIsP2PWagerDetailExist(by: wagerID)
+    }
+    catch {
+      handleErrors(error)
+      return nil
+    }
+  }
+  
   func displaySportsBookDetail(wagerId: String) {
     viewModel
       .getSportsBookWagerDetail(wagerId: wagerId)

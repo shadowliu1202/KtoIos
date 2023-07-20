@@ -143,14 +143,14 @@ extension CasinoBetDetailView {
           Text(key: "product_bet_win_lose")
             .localized(weight: .regular, size: 12, color: .textPrimary)
           
-          let winLoss = betDetail.winLoss
+          let winLose = betDetail.winLose
           
-          switch winLoss.status {
+          switch winLose.status {
           case .win:
-            Text(key: "product_winning_amount", winLoss.amount.formatString())
+            Text(key: "product_winning_amount", winLose.amount.formatString())
               .localized(weight: .regular, size: 16, color: .statusSuccess)
-          case .loss:
-            Text(key: "product_losing_amount", winLoss.amount.formatString())
+          case .lose:
+            Text(key: "product_losing_amount", winLose.amount.formatString())
               .localized(weight: .regular, size: 16, color: .greyScaleWhite)
           default:
             fatalError("should not reach here.")
@@ -235,7 +235,7 @@ struct CasinoBetDetailView_Previews: PreviewProvider {
         colorPlates: stubColorPlates),
       stakes: FiatFactory.shared.create(supportLocale: .China(), amount_: "50.00"),
       prededuct: FiatFactory.shared.create(supportLocale: .China(), amount_: "50.00"),
-      winLoss: .init(status: .win, amount: FiatFactory.shared.create(supportLocale: .China(), amount_: "500.00")),
+      winLose: .init(status: .win, amount: FiatFactory.shared.create(supportLocale: .China(), amount_: "500.00")),
       status: .settled)
     
     static let stubPokerGroup: [PokerGroup] = [
