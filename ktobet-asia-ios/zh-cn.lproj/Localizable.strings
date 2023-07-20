@@ -797,6 +797,8 @@
 "withdrawal_daily_limit_widthrawal_times" = "每日提现次数：%@";
 "withdrawal_turnover_requirement" = "投注额提现要求：";
 "withdrawal_cancel_locked" = "提款已至银行端，不可取消此提款。";
+"withdrawal_resent_otp_maintenance_phone" = "KTO 由于服务器问题以「手机」验证方式暂停，谢谢您的谅解。";
+"withdrawal_resent_otp_maintenance_email" = "KTO 由于服务器问题以「电子邮箱」验证方式暂停，谢谢您的谅解。";
 
 //MARK: - Product
 "product_slot_recent_play" = "最近游玩";

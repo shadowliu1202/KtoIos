@@ -127,7 +127,14 @@ extension WithdrawalOTPVerificationViewController {
     case is WithdrawalDto.VerifyRequestErrorStatusOverDailyLimit:
       alertOverLimitThenPushToVerifyFailurePage()
     case is WithdrawalDto.VerifyRequestErrorStatusMaintenance:
-      break
+      var message = ""
+      switch accountType {
+      case .phone: message = Localize.string("withdrawal_resent_otp_maintenance_phone")
+      case .email: message = Localize.string("withdrawal_resent_otp_maintenance_email")
+      default: fatalError("should not reach here.")
+      }
+      
+      pushToVerifyFailurePage(message)
     default: fatalError("should not reach here.")
     }
   }
@@ -147,10 +154,10 @@ extension WithdrawalOTPVerificationViewController {
         cancel: nil)
   }
 
-  func pushToVerifyFailurePage() {
+  func pushToVerifyFailurePage(_ message: String? = nil) {
     navigationController?
       .pushViewController(
-        SharedOTPVerificationFailureViewController(),
+        SharedOTPVerificationFailureViewController(message: message),
         animated: true)
   }
 
