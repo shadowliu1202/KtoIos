@@ -18,6 +18,7 @@
 		35B9B39B259B034400050914 /* ResetPasswordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B39A259B034400050914 /* ResetPasswordUseCase.swift */; };
 		35B9B3CE259C796F00050914 /* CommonEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B3CD259C796F00050914 /* CommonEnum.swift */; };
 		36D20D0C03D14BD48684D53B /* Pods_ktobet_asia_iosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E976814BCFB436375C8A311 /* Pods_ktobet_asia_iosUITests.framework */; };
+		3C0129192A6A67260030750C /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
 		3C032A9F29F285BF00DC2764 /* WithdrawalOTPVerifyMethodSelectViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C032A9E29F285BF00DC2764 /* WithdrawalOTPVerifyMethodSelectViewTests.swift */; };
 		3C032AA429F2919E00DC2764 /* WithdrawalOTPVerificationViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C032AA329F2919E00DC2764 /* WithdrawalOTPVerificationViewTests.swift */; };
 		3C0426F729EE944200AA9AC4 /* WithdrawalOTPVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0426F629EE944200AA9AC4 /* WithdrawalOTPVerificationViewController.swift */; };
@@ -521,6 +522,17 @@
 		3C4E51042A2D7F0600714B42 /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C4E50FD2A2D7F0600714B42 /* slideMenu.storyboard */; };
 		3C4E51052A2D7F0600714B42 /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C4E50FD2A2D7F0600714B42 /* slideMenu.storyboard */; };
 		3C4E51062A2D7F0600714B42 /* slideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C4E50FD2A2D7F0600714B42 /* slideMenu.storyboard */; };
+		3C4FA7CF2A6A6452004E7377 /* CasinoBetDetailViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7CE2A6A6451004E7377 /* CasinoBetDetailViewTests.swift */; };
+		3C4FA7D12A6A6482004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
+		3C4FA7D22A6A6482004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
+		3C4FA7D32A6A6482004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
+		3C4FA7D42A6A6482004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
+		3C4FA7D52A6A6482004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
+		3C4FA7D62A6A6482004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
+		3C4FA7D72A6A6482004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
+		3C4FA7D82A6A6482004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
+		3C4FA7D92A6A6482004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
+		3C4FA7DA2A6A6631004E7377 /* StubProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */; };
 		3C50CB2729BF1112000F3183 /* PlayerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C50CB2629BF1112000F3183 /* PlayerAdapter.swift */; };
 		3C50CB2829BF1112000F3183 /* PlayerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C50CB2629BF1112000F3183 /* PlayerAdapter.swift */; };
 		3C50CB2929BF1112000F3183 /* PlayerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C50CB2629BF1112000F3183 /* PlayerAdapter.swift */; };
@@ -7468,10 +7480,10 @@
 		3C17057E29503C9400531357 /* Overload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload.swift; sourceTree = "<group>"; };
 		3C17058D29505CC700531357 /* TermsViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TermsViewTests.swift; path = "KTO-UnitTests/SwiftUI/TermsViewTests.swift"; sourceTree = SOURCE_ROOT; };
 		3C17058F29505CC800531357 /* ExpandableBlockTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpandableBlockTest.swift; path = "KTO-UnitTests/SwiftUI/ExpandableBlockTest.swift"; sourceTree = SOURCE_ROOT; };
-		3C17059029505CC800531357 /* TransactionLogViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionLogViewTests.swift; path = "AIO-unitTests/SwiftUI/TransactionLogViewTests.swift"; sourceTree = SOURCE_ROOT; };
+		3C17059029505CC800531357 /* TransactionLogViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionLogViewTests.swift; path = "AIO-unitTests/TransactionLogViewTests.swift"; sourceTree = SOURCE_ROOT; };
 		3C17059129505CC900531357 /* SwiftUIDropDownTextTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUIDropDownTextTest.swift; path = "KTO-UnitTests/SwiftUI/SwiftUIDropDownTextTest.swift"; sourceTree = SOURCE_ROOT; };
 		3C17059229505CC900531357 /* StarMergerViewTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StarMergerViewTest.swift; path = "KTO-UnitTests/SwiftUI/StarMergerViewTest.swift"; sourceTree = SOURCE_ROOT; };
-		3C17059429505CC900531357 /* DepositViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DepositViewTests.swift; path = "AIO-unitTests/SwiftUI/Deposit/DepositViewTests.swift"; sourceTree = SOURCE_ROOT; };
+		3C17059429505CC900531357 /* DepositViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DepositViewTests.swift; path = "AIO-unitTests/DepositViewTests.swift"; sourceTree = SOURCE_ROOT; };
 		3C18A94C298A12C40097DE19 /* ObserveSystemMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveSystemMessageUseCase.swift; sourceTree = "<group>"; };
 		3C18A957298A16840097DE19 /* BackendSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendSignal.swift; sourceTree = "<group>"; };
 		3C18A962298A53F10097DE19 /* SignalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalRepository.swift; sourceTree = "<group>"; };
@@ -7527,6 +7539,8 @@
 		3C4DAC3529680B0A00A48AE8 /* GeneralType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralType.swift; sourceTree = "<group>"; };
 		3C4DAC3F29690DCE00A48AE8 /* TextFieldType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldType.swift; sourceTree = "<group>"; };
 		3C4E50FD2A2D7F0600714B42 /* slideMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = slideMenu.storyboard; sourceTree = "<group>"; };
+		3C4FA7CE2A6A6451004E7377 /* CasinoBetDetailViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasinoBetDetailViewTests.swift; sourceTree = "<group>"; };
+		3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubProvidable.swift; sourceTree = "<group>"; };
 		3C50CB2629BF1112000F3183 /* PlayerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAdapter.swift; sourceTree = "<group>"; };
 		3C52CC042816449F00B0AEC6 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		3C57DE3C28B8C6E90094780D /* Inspection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspection.swift; sourceTree = "<group>"; };
@@ -8525,24 +8539,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		3C032A9C29F2858200DC2764 /* MethodSelect */ = {
-			isa = PBXGroup;
-			children = (
-				3C032A9E29F285BF00DC2764 /* WithdrawalOTPVerifyMethodSelectViewTests.swift */,
-				3CDF66DA29ED16B90094BD1E /* WithdrawalOTPVerifyMethodSelectViewModelTests.swift */,
-				3CDF66DC29ED2AB40094BD1E /* WithdrawalOTPVerifyMethodSelectViewControllerTests.swift */,
-			);
-			path = MethodSelect;
-			sourceTree = "<group>";
-		};
-		3C032A9D29F2859800DC2764 /* Verification */ = {
-			isa = PBXGroup;
-			children = (
-				3C032AA329F2919E00DC2764 /* WithdrawalOTPVerificationViewTests.swift */,
-			);
-			path = Verification;
-			sourceTree = "<group>";
-		};
 		3C0A8E912A56A0A000EB5B56 /* BetDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -8823,24 +8819,6 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		3C619B9E29E5134A00CDC4B1 /* Record Detail */ = {
-			isa = PBXGroup;
-			children = (
-				FFA4B6CF29D55DAE005913ED /* WithdrawalRecordDetailMainViewControllerTests.swift */,
-				FFA4B6D129D55E50005913ED /* WithdrawalRecordDetailViewControllerTests.swift */,
-				FFA4B6D329D55E72005913ED /* WithdrawalRecordDetailViewTests.swift */,
-			);
-			path = "Record Detail";
-			sourceTree = "<group>";
-		};
-		3C65979E29E8082600CDD8D4 /* CreateAccount */ = {
-			isa = PBXGroup;
-			children = (
-				3C25C73729E7A11F0098DB57 /* WithdrawalCreateCryptoAccountViewModelTests.swift */,
-			);
-			path = CreateAccount;
-			sourceTree = "<group>";
-		};
 		3C6597A129E812E600CDD8D4 /* OTPVerify */ = {
 			isa = PBXGroup;
 			children = (
@@ -8889,29 +8867,6 @@
 				3C724E0829D3EF0900C490A6 /* WithdrawalCryptoLimitViewController.swift */,
 			);
 			path = CryptoLimit;
-			sourceTree = "<group>";
-		};
-		3C724E1229D40F7700C490A6 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				3CE91A3229D4428000ABF387 /* WithdrawalMainViewControllerTests.swift */,
-				3CE91A3329D4428000ABF387 /* WithdrawalMainViewTests.swift */,
-			);
-			path = Main;
-			sourceTree = "<group>";
-		};
-		3C724E1329D40F9600C490A6 /* Deposit */ = {
-			isa = PBXGroup;
-			children = (
-				3C84A9AA29A3575200F0AEFA /* OnlinePayment */,
-				6D4ACC98299B3C8300C9848B /* DepositCryptoSelector */,
-				FF8C266229B98646009523BE /* DepositCryptoRecordDetailViewTests.swift */,
-				FF8C266329B98646009523BE /* DepositRecordDetailViewTests.swift */,
-				3CF9BB42295C37AB00EC91DC /* DepositLogSummaryViewTests.swift */,
-				3C17059429505CC900531357 /* DepositViewTests.swift */,
-				3CDF723C295D6BE900E0CF73 /* OfflinePaymentViewTests.swift */,
-			);
-			path = Deposit;
 			sourceTree = "<group>";
 		};
 		3C7A416C2A051E5A00B9C619 /* Deprecated */ = {
@@ -8987,16 +8942,6 @@
 				3C7E48192A60F47C00A22B79 /* CasinoBetDetailViewController.swift */,
 			);
 			path = BetDetail;
-			sourceTree = "<group>";
-		};
-		3C84A9AA29A3575200F0AEFA /* OnlinePayment */ = {
-			isa = PBXGroup;
-			children = (
-				3C84A9AB29A357CB00F0AEFA /* OnlinePaymentViewTests.swift */,
-				3C84A9AD29A35F7100F0AEFA /* OnlinePaymentViewControllerTests.swift */,
-				3C76F04429A4D41B0070800F /* OnlinePaymentViewModelTests.swift */,
-			);
-			path = OnlinePayment;
 			sourceTree = "<group>";
 		};
 		3C8FF8F629921ABF009BD583 /* OnlinePayment */ = {
@@ -9494,15 +9439,6 @@
 				3CA19AC92A2DB8EA00237262 /* Common.storyboard */,
 				3CA19AD32A2DB93100237262 /* Verification */,
 				3CA19AD42A2DB93900237262 /* Fail */,
-			);
-			path = OTPVerify;
-			sourceTree = "<group>";
-		};
-		3CDF66D929ED169A0094BD1E /* OTPVerify */ = {
-			isa = PBXGroup;
-			children = (
-				3C032A9D29F2859800DC2764 /* Verification */,
-				3C032A9C29F2858200DC2764 /* MethodSelect */,
 			);
 			path = OTPVerify;
 			sourceTree = "<group>";
@@ -10349,14 +10285,6 @@
 			path = Event;
 			sourceTree = "<group>";
 		};
-		6D10C4CE29E51102009C21D9 /* FiatBankCard */ = {
-			isa = PBXGroup;
-			children = (
-				6D10C4CF29E51133009C21D9 /* WithdrawalAddFiatBankCardViewTests.swift */,
-			);
-			path = FiatBankCard;
-			sourceTree = "<group>";
-		};
 		6D1612ED29BEC1A300BA1827 /* SnackBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -10377,15 +10305,6 @@
 			path = LevelPrivilege;
 			sourceTree = "<group>";
 		};
-		6D4ACC98299B3C8300C9848B /* DepositCryptoSelector */ = {
-			isa = PBXGroup;
-			children = (
-				FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */,
-				6D4ACC99299B3CE000C9848B /* CryptoSelectViewTests.swift */,
-			);
-			path = DepositCryptoSelector;
-			sourceTree = "<group>";
-		};
 		6D73C83729D16A5E00110BD7 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
@@ -10399,9 +10318,52 @@
 		6D75934729235E54007D2BF3 /* AIO-unitTests */ = {
 			isa = PBXGroup;
 			children = (
-				FF8C266129B98646009523BE /* SwiftUI */,
-				FFE575112990E1C3008713F6 /* UIKit */,
-				FFF9A14C299374D30058F32C /* Base */,
+				3C4FA7CE2A6A6451004E7377 /* CasinoBetDetailViewTests.swift */,
+				FFB016C32965841F007E0236 /* CasinoViewControllerTests.swift */,
+				3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */,
+				FF9ED0322924E9FD00F99E2B /* CryptoSelectorViewControllerTests.swift */,
+				6D4ACC99299B3CE000C9848B /* CryptoSelectViewTests.swift */,
+				FF8C266229B98646009523BE /* DepositCryptoRecordDetailViewTests.swift */,
+				3CF9BB42295C37AB00EC91DC /* DepositLogSummaryViewTests.swift */,
+				FF8C266729B98651009523BE /* DepositRecordDetailMainViewControllerTests.swift */,
+				FF8C266629B98650009523BE /* DepositRecordDetailViewControllerTests.swift */,
+				FF8C266329B98646009523BE /* DepositRecordDetailViewTests.swift */,
+				3C17059429505CC900531357 /* DepositViewTests.swift */,
+				FFF9A14A299374CF0058F32C /* KtoURLTests.swift */,
+				FFE575122990E1EF008713F6 /* NotificationDetailViewControllerTests.swift */,
+				3CDF723E295D99AB00E0CF73 /* OfflinePaymentViewModelTests.swift */,
+				3CDF723C295D6BE900E0CF73 /* OfflinePaymentViewTests.swift */,
+				3C84A9AD29A35F7100F0AEFA /* OnlinePaymentViewControllerTests.swift */,
+				3C76F04429A4D41B0070800F /* OnlinePaymentViewModelTests.swift */,
+				3C84A9AB29A357CB00F0AEFA /* OnlinePaymentViewTests.swift */,
+				FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */,
+				FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */,
+				3CB830192914FB4D001246BB /* PromotionDetailViewControllerTests.swift */,
+				FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */,
+				FF47BA2C29A4AD410033C2B0 /* PromotionHistoryViewControllerTests.swift */,
+				6DEA282C291397C700D85CD4 /* PromotionViewControllerTest.swift */,
+				3C17059029505CC800531357 /* TransactionLogViewTests.swift */,
+				6D10C4CF29E51133009C21D9 /* WithdrawalAddFiatBankCardViewTests.swift */,
+				3C25C73729E7A11F0098DB57 /* WithdrawalCreateCryptoAccountViewModelTests.swift */,
+				6DA963C729D2D64E004F2F0E /* WithdrawalCryptoDetailViewTests.swift */,
+				3CE91A3629D5689900ABF387 /* WithdrawalCryptoLimitViewModelTests.swift */,
+				6DBE84BF29F6274500B3DD25 /* WithdrawalCryptoRequestStep1ViewTests.swift */,
+				FFB431E029E6B91200F85B7F /* WithdrawalCryptoWalletDetailViewTests.swift */,
+				FF80C96229E5570900EBF4BB /* WithdrawalCryptoWalletsViewControllerTests.swift */,
+				FF80C96429E55DF100EBF4BB /* WithdrawalCryptoWalletsViewTests.swift */,
+				FF80C9BA29E6A00400EBF4BB /* WithdrawalFiatWalletDetailViewTests.swift */,
+				FFBA841029E532D20022FE6A /* WithdrawalFiatWalletsViewControllerTests.swift */,
+				FFBA840F29E532D20022FE6A /* WithdrawalFiatWalletsViewTests.swift */,
+				FFDEB18B29D12D0700323DEA /* WithdrawalLogSummaryTests.swift */,
+				3CE91A3229D4428000ABF387 /* WithdrawalMainViewControllerTests.swift */,
+				3CE91A3329D4428000ABF387 /* WithdrawalMainViewTests.swift */,
+				3C032AA329F2919E00DC2764 /* WithdrawalOTPVerificationViewTests.swift */,
+				3CDF66DC29ED2AB40094BD1E /* WithdrawalOTPVerifyMethodSelectViewControllerTests.swift */,
+				3CDF66DA29ED16B90094BD1E /* WithdrawalOTPVerifyMethodSelectViewModelTests.swift */,
+				3C032A9E29F285BF00DC2764 /* WithdrawalOTPVerifyMethodSelectViewTests.swift */,
+				FFA4B6CF29D55DAE005913ED /* WithdrawalRecordDetailMainViewControllerTests.swift */,
+				FFA4B6D129D55E50005913ED /* WithdrawalRecordDetailViewControllerTests.swift */,
+				FFA4B6D329D55E72005913ED /* WithdrawalRecordDetailViewTests.swift */,
 			);
 			path = "AIO-unitTests";
 			sourceTree = "<group>";
@@ -10665,22 +10627,6 @@
 				6D9D7AF429EE6F3300CD6A35 /* WithdrawalCryptoRequestStep2ViewController.swift */,
 			);
 			path = Step2;
-			sourceTree = "<group>";
-		};
-		6DBE84BD29F626DC00B3DD25 /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				6DBE84BE29F6270E00B3DD25 /* Crypto */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		6DBE84BE29F6270E00B3DD25 /* Crypto */ = {
-			isa = PBXGroup;
-			children = (
-				6DBE84BF29F6274500B3DD25 /* WithdrawalCryptoRequestStep1ViewTests.swift */,
-			);
-			path = Crypto;
 			sourceTree = "<group>";
 		};
 		6DCC261C27587808007C973B /* Notification */ = {
@@ -11254,18 +11200,6 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
-		FF80C96129E556A700EBF4BB /* Crypto Wallets */ = {
-			isa = PBXGroup;
-			children = (
-				3CDF66D929ED169A0094BD1E /* OTPVerify */,
-				3C65979E29E8082600CDD8D4 /* CreateAccount */,
-				FF80C96229E5570900EBF4BB /* WithdrawalCryptoWalletsViewControllerTests.swift */,
-				FF80C96429E55DF100EBF4BB /* WithdrawalCryptoWalletsViewTests.swift */,
-				FFB431E029E6B91200F85B7F /* WithdrawalCryptoWalletDetailViewTests.swift */,
-			);
-			path = "Crypto Wallets";
-			sourceTree = "<group>";
-		};
 		FF80C97029E568C700EBF4BB /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -11276,22 +11210,6 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
-		FF88620029CD7F260003DF20 /* Withdrawal */ = {
-			isa = PBXGroup;
-			children = (
-				6DBE84BD29F626DC00B3DD25 /* Request */,
-				FF80C96129E556A700EBF4BB /* Crypto Wallets */,
-				FFBA842529E532DB0022FE6A /* Fiat Wallets */,
-				6D10C4CE29E51102009C21D9 /* FiatBankCard */,
-				3C724E1229D40F7700C490A6 /* Main */,
-				3C619B9E29E5134A00CDC4B1 /* Record Detail */,
-				6DA963C729D2D64E004F2F0E /* WithdrawalCryptoDetailViewTests.swift */,
-				FFDEB18B29D12D0700323DEA /* WithdrawalLogSummaryTests.swift */,
-				3CE91A3629D5689900ABF387 /* WithdrawalCryptoLimitViewModelTests.swift */,
-			);
-			path = Withdrawal;
-			sourceTree = "<group>";
-		};
 		FF88621629CD8FB60003DF20 /* DefaultCodable */ = {
 			isa = PBXGroup;
 			children = (
@@ -11299,16 +11217,6 @@
 				FF88621829CD8FB60003DF20 /* DefaultCodable+Value.swift */,
 			);
 			path = DefaultCodable;
-			sourceTree = "<group>";
-		};
-		FF8C266129B98646009523BE /* SwiftUI */ = {
-			isa = PBXGroup;
-			children = (
-				3C724E1329D40F9600C490A6 /* Deposit */,
-				FF88620029CD7F260003DF20 /* Withdrawal */,
-				3C17059029505CC800531357 /* TransactionLogViewTests.swift */,
-			);
-			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		FF8C266A29B9866F009523BE /* Record */ = {
@@ -11468,16 +11376,6 @@
 			path = Fiat;
 			sourceTree = "<group>";
 		};
-		FFBA842529E532DB0022FE6A /* Fiat Wallets */ = {
-			isa = PBXGroup;
-			children = (
-				FFBA841029E532D20022FE6A /* WithdrawalFiatWalletsViewControllerTests.swift */,
-				FFBA840F29E532D20022FE6A /* WithdrawalFiatWalletsViewTests.swift */,
-				FF80C9BA29E6A00400EBF4BB /* WithdrawalFiatWalletDetailViewTests.swift */,
-			);
-			path = "Fiat Wallets";
-			sourceTree = "<group>";
-		};
 		FFBA842629E5332C0022FE6A /* Fiat */ = {
 			isa = PBXGroup;
 			children = (
@@ -11561,6 +11459,7 @@
 		FFC6B8B82907BB1F002D843B /* Ability */ = {
 			isa = PBXGroup;
 			children = (
+				3C4FA7D02A6A6482004E7377 /* StubProvidable.swift */,
 				6D55C8972965806A0038E8FB /* ApplicationStorable.swift */,
 				FFA7585A29BB37C10089A21F /* SwiftUIConverter.swift */,
 				6D55C8982965806A0038E8FB /* KeychainStorable.swift */,
@@ -11580,33 +11479,6 @@
 				3C6978852A010D4700B466BD /* LogSummary */,
 			);
 			path = Record;
-			sourceTree = "<group>";
-		};
-		FFE575112990E1C3008713F6 /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-				FFB016C32965841F007E0236 /* CasinoViewControllerTests.swift */,
-				3CD7B4482918AD7900CA04A0 /* ChatRoomViewControllerTests.swift */,
-				FF8C266729B98651009523BE /* DepositRecordDetailMainViewControllerTests.swift */,
-				FF8C266629B98650009523BE /* DepositRecordDetailViewControllerTests.swift */,
-				FFE575122990E1EF008713F6 /* NotificationDetailViewControllerTests.swift */,
-				6DEA282C291397C700D85CD4 /* PromotionViewControllerTest.swift */,
-				FF4081F02918A5A100297D4E /* PromotionFilterViewControllerTest.swift */,
-				3CB830192914FB4D001246BB /* PromotionDetailViewControllerTests.swift */,
-				FF47BA2C29A4AD410033C2B0 /* PromotionHistoryViewControllerTests.swift */,
-				FFF5CA2A292603AF00FC161B /* P2PSummaryViewControllerTests.swift */,
-				FFF5CA29292603AE00FC161B /* P2PViewControllerTests.swift */,
-			);
-			path = UIKit;
-			sourceTree = "<group>";
-		};
-		FFF9A14C299374D30058F32C /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				3CDF723E295D99AB00E0CF73 /* OfflinePaymentViewModelTests.swift */,
-				FFF9A14A299374CF0058F32C /* KtoURLTests.swift */,
-			);
-			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -14007,6 +13879,7 @@
 				6D1612F029BEC1D200BA1827 /* SnackBarView.swift in Sources */,
 				4199A07725AE9918002E2D7E /* RequestData.swift in Sources */,
 				3C6597AE29E8137F00CDD8D4 /* WithdrawalOTPVerifyMethodSelectViewModelProtocol.swift in Sources */,
+				3C4FA7D22A6A6482004E7377 /* StubProvidable.swift in Sources */,
 				4199A07825AE9918002E2D7E /* TransportDelegate.swift in Sources */,
 				6DA9647829D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift in Sources */,
 				4199A07925AE9918002E2D7E /* ReconnectableConnection.swift in Sources */,
@@ -14086,6 +13959,7 @@
 				FFB70491296D5AF7008834D3 /* SlotViewControllerTests.swift in Sources */,
 				3CF9BB43295C37AB00EC91DC /* DepositOfflineConfirmViewTests.swift in Sources */,
 				3C31F0CE291BA057002962E9 /* XCTestCase+Extension.swift in Sources */,
+				3C4FA7DA2A6A6631004E7377 /* StubProvidable.swift in Sources */,
 				6DBCA1902A05035700DF23C2 /* XCBaseTestCase.swift in Sources */,
 				FFBD3777294ACBB6009E9A97 /* Inspecting.swift in Sources */,
 				FF8C266029B9862B009523BE /* DepositCryptoRecordDetailViewTests.swift in Sources */,
@@ -14445,6 +14319,7 @@
 				6D72755625F0DB99000BF51F /* UILabelExtension.swift in Sources */,
 				6D4083AD2652069E00BECD0E /* NumberGameViewModel.swift in Sources */,
 				6DCCD5272A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
+				3C4FA7D12A6A6482004E7377 /* StubProvidable.swift in Sources */,
 				48AAA130256E458800E075CA /* HandshakeProtocol.swift in Sources */,
 				6D96671929E67DBD006DF170 /* WithdrawalCryptoRequestStep1View.swift in Sources */,
 				6D1612E429BEC19B00BA1827 /* SnackBar.swift in Sources */,
@@ -15543,6 +15418,7 @@
 				609013352640EE7000419F8E /* PortalApi.swift in Sources */,
 				609013362640EE7000419F8E /* RequestData.swift in Sources */,
 				6D08725927D6119F00457215 /* ConfigurationViewModel.swift in Sources */,
+				3C4FA7D32A6A6482004E7377 /* StubProvidable.swift in Sources */,
 				609013372640EE7000419F8E /* TransportDelegate.swift in Sources */,
 				FF88621B29CD8FB60003DF20 /* DefaultCodable.swift in Sources */,
 				609013382640EE7000419F8E /* ReconnectableConnection.swift in Sources */,
@@ -15930,6 +15806,7 @@
 				60E5808627F190E4008CE5A9 /* SlotViewModel.swift in Sources */,
 				60E5808727F190E4008CE5A9 /* SlotRecordRepository.swift in Sources */,
 				60E5808827F190E4008CE5A9 /* NotificationUseCase.swift in Sources */,
+				3C4FA7D62A6A6482004E7377 /* StubProvidable.swift in Sources */,
 				6DCCD52C2A1628B800FACA12 /* WebViewSSLErrorLogger.swift in Sources */,
 				3CA0C09B29C0427D00FD6ACF /* WithdrawalMainView.swift in Sources */,
 				FFC89B73294311F3003925AC /* ItemSelector.swift in Sources */,
@@ -17028,6 +16905,7 @@
 				6D0EDCBF28743FAC004A9E3C /* WithdrawalUseCase.swift in Sources */,
 				6D0EDCC028743FAC004A9E3C /* PortalApi.swift in Sources */,
 				3C4994ED29E52D0800A8829F /* LinkRow.swift in Sources */,
+				3C4FA7D42A6A6482004E7377 /* StubProvidable.swift in Sources */,
 				6D0EDCC128743FAC004A9E3C /* RequestData.swift in Sources */,
 				FF7E602E2938916B00A1BAD3 /* TypeFilter.swift in Sources */,
 				6D0EDCC228743FAC004A9E3C /* ConfigurationViewModel.swift in Sources */,
@@ -17770,6 +17648,7 @@
 				6DF53EE528814F7300278ABE /* ConfirmRed.swift in Sources */,
 				6D0EDF1E28744704004A9E3C /* TransportDelegate.swift in Sources */,
 				FF88621F29CD8FB60003DF20 /* DefaultCodable.swift in Sources */,
+				3C4FA7D72A6A6482004E7377 /* StubProvidable.swift in Sources */,
 				3CFC0B9328EFD5D60012DD73 /* LoggerConfirmTerminateView.swift in Sources */,
 				6D182D1129710843006FD964 /* CustomerServiceMainViewModel.swift in Sources */,
 				3C6597B329E8137F00CDD8D4 /* WithdrawalOTPVerifyMethodSelectViewModelProtocol.swift in Sources */,
@@ -17869,7 +17748,9 @@
 				3CDF66DB29ED16B90094BD1E /* WithdrawalOTPVerifyMethodSelectViewModelTests.swift in Sources */,
 				6D11303E2988E1B000EC04A8 /* Inspecting.swift in Sources */,
 				3C032AA429F2919E00DC2764 /* WithdrawalOTPVerificationViewTests.swift in Sources */,
+				3C4FA7CF2A6A6452004E7377 /* CasinoBetDetailViewTests.swift in Sources */,
 				FF8C266529B98646009523BE /* DepositRecordDetailViewTests.swift in Sources */,
+				3C0129192A6A67260030750C /* StubProvidable.swift in Sources */,
 				6DBCA1962A08972A00DF23C2 /* OnlinePaymentViewModelTests.swift in Sources */,
 				FF8C266929B98651009523BE /* DepositRecordDetailMainViewControllerTests.swift in Sources */,
 				FF7ABFAF2936FBD9001D37EB /* APIWrapper.swift in Sources */,
@@ -18217,6 +18098,7 @@
 				6D966C1C27FEE3FA006086B7 /* SurveyViewModel.swift in Sources */,
 				6D966C1D27FEE3FA006086B7 /* NetworkStateMonitor.swift in Sources */,
 				6D966C1E27FEE3FA006086B7 /* LocalizeUtils.swift in Sources */,
+				3C4FA7D82A6A6482004E7377 /* StubProvidable.swift in Sources */,
 				6D966C1F27FEE3FA006086B7 /* OldEmailModifyConfirmViewController.swift in Sources */,
 				6D966C2127FEE3FA006086B7 /* AuthenticationUseCase.swift in Sources */,
 				6D966C2227FEE3FA006086B7 /* SetWithdrawalNameViewController.swift in Sources */,
@@ -19279,6 +19161,7 @@
 				6D966F4827FEE416006086B7 /* NotificationSearchViewController.swift in Sources */,
 				3C49949729E52A3600A8829F /* RemarkRow.swift in Sources */,
 				6D966F4927FEE416006086B7 /* NotificationApi.swift in Sources */,
+				3C4FA7D92A6A6482004E7377 /* StubProvidable.swift in Sources */,
 				6D966F4A27FEE416006086B7 /* ArcadeBetSummaryByDateViewController.swift in Sources */,
 				FFC6B8BF2907BB9D002D843B /* LocalStorable.swift in Sources */,
 				6D966F4B27FEE416006086B7 /* CustomServiceViewModel.swift in Sources */,
@@ -20056,6 +19939,7 @@
 				3C4994EE29E52D0800A8829F /* LinkRow.swift in Sources */,
 				6D55C8D9296662150038E8FB /* VideoView.swift in Sources */,
 				6D55C8DB296662150038E8FB /* qrCodeViewController.swift in Sources */,
+				3C4FA7D52A6A6482004E7377 /* StubProvidable.swift in Sources */,
 				6D55C9E5296662DE0038E8FB /* RegisterUseCase.swift in Sources */,
 				6D55C76C29657E5C0038E8FB /* NumberGameViewModel.swift in Sources */,
 				6D55C9C8296662D40038E8FB /* CollectErrorViewModel.swift in Sources */,
