@@ -3,7 +3,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-class XCBaseTestCase: XCTestCase {
+class XCBaseTestCase: XCTestCase, StubProvidable {
   override func setUp() {
     super.setUp()
 

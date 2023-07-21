@@ -1,6 +1,14 @@
 import SharedBu
 import SwiftUI
 
+extension CasinoBetDetailView {
+  enum Identifier: String {
+    case roundIDCell
+    case title
+    case content
+  }
+}
+
 struct CasinoBetDetailView<ViewModel>: View
   where ViewModel: ICasinoBetDetailViewModel & ObservableObject
 {
@@ -27,9 +35,7 @@ struct CasinoBetDetailView<ViewModel>: View
           if let betDetail = viewModel.betDetail {
             WagerIDCell(betDetail)
             
-            Cell(
-              titleKey: "product_game_name_id",
-              content: betDetail.gameName + "(\(betDetail.roundId))")
+            RoundIDCell(betDetail)
             
             Cell(
               titleKey: "product_bet_content",
@@ -73,6 +79,8 @@ extension CasinoBetDetailView {
     private let content: String
     private let isLastCell: Bool
  
+    var inspection = Inspection<Self>()
+    
     init(titleKey: String, content: String, isLastCell: Bool = false) {
       self.titleKey = titleKey
       self.content = content
@@ -84,9 +92,11 @@ extension CasinoBetDetailView {
         VStack(alignment: .leading, spacing: 2) {
           Text(key: titleKey)
             .localized(weight: .regular, size: 12, color: .textPrimary)
+            .id(CasinoBetDetailView.Identifier.title.rawValue)
             
           Text(content)
             .localized(weight: .regular, size: 16, color: .greyScaleWhite)
+            .id(CasinoBetDetailView.Identifier.content.rawValue)
         }
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -95,6 +105,7 @@ extension CasinoBetDetailView {
           .visibility(isLastCell ? .gone : .visible)
       }
       .padding(.horizontal, 30)
+      .onInspected(inspection, self)
     }
   }
   
@@ -125,6 +136,35 @@ extension CasinoBetDetailView {
         Separator()
       }
       .padding(.horizontal, 30)
+    }
+  }
+  
+  // MARK: - RoundIDCell
+  
+  struct RoundIDCell: View {
+    private let betDetail: CasinoDTO.BetDetail
+    
+    var inspection = Inspection<Self>()
+    
+    init(_ betDetail: CasinoDTO.BetDetail) {
+      self.betDetail = betDetail
+    }
+    
+    var body: some View {
+      VStack {
+        if let roundID = betDetail.roundId {
+          CasinoBetDetailView.Cell(
+            titleKey: "product_game_name_id",
+            content: betDetail.gameName + "(\(roundID))")
+        }
+        else {
+          CasinoBetDetailView.Cell(
+            titleKey: "product_game_name",
+            content: betDetail.gameName)
+        }
+      }
+      .id(CasinoBetDetailView.Identifier.roundIDCell.rawValue)
+      .onInspected(inspection, self)
     }
   }
   

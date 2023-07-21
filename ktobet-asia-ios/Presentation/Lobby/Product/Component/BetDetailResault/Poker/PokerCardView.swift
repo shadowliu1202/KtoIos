@@ -15,9 +15,9 @@ struct PokerCardView: View {
       card.pokerSuits.mapToImage()
     }
     .foregroundColor(card.pokerSuits.mapToTint())
-    .padding(.horizontal, 6)
     .padding(.top, 4)
     .padding(.bottom, 8)
+    .frame(width: 36, height: 54)
     .background(
       RoundedRectangle(cornerRadius: 8)
         .foregroundColor(.from(.greyScaleWhite))
