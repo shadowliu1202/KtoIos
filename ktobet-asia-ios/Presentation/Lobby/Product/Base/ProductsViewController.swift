@@ -4,18 +4,26 @@ import UIKit
 
 class ProductsViewController: LobbyViewController {
   @Injected private var loading: Loading
+  @Injected private var alert: AlertProtocol
+  @Injected private var serviceViewModel: ServiceStatusViewModel
+  @Injected private var playerViewModel: PlayerViewModel
+  @Injected private var productsViewModel: ProductsViewModel
 
   private var disposeBag = DisposeBag()
   private var viewDisappearBag = DisposeBag()
 
-  private lazy var serviceViewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
-  private lazy var playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
-  private lazy var productsViewModel = Injectable.resolveWrapper(ProductsViewModel.self)
-
   private var productType: ProductType!
 
   private var placeholder: LoadingPlaceholderViewController?
-
+  
+  init() {
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     self.productType = setProductType()
@@ -140,9 +148,15 @@ class ProductsViewController: LobbyViewController {
   override func handleErrors(_ error: Error) {
     switch error {
     case is KtoGameUnderMaintenance:
-      Alert.shared.show(
+      alert.show(
         nil,
         Localize.string("product_game_maintenance"),
+        confirm: { },
+        cancel: nil)
+    case is GameFavoriteReachMaxLimit:
+      alert.show(
+        Localize.string("common_error"),
+        Localize.string("product_favorite_reach_max"),
         confirm: { },
         cancel: nil)
     default:

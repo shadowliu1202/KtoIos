@@ -14,7 +14,9 @@ class WebGameItemCell: UICollectionViewCell {
   @IBOutlet private weak var blurView: UIView!
   @IBOutlet private weak var blurLabel: UILabel!
   @IBOutlet private weak var blurImageView: UIImageView!
-  var favoriteBtnClick: ((UIButton?) -> Void)?
+  
+  var isFavorite = false
+  var favoriteBtnClick: (() -> Void)?
   lazy var disposeBag = DisposeBag()
 
   override func awakeFromNib() {
@@ -39,7 +41,7 @@ class WebGameItemCell: UICollectionViewCell {
     }
     gameImage.sd_setImage(url: URL(string: game.thumbnail.url()), placeholderImage: nil)
     backgroundImage.image = UIImage(named: "game-icon-small")
-    var originFavorite = game.isFavorite
+    isFavorite = game.isFavorite
     let imgName = game.isFavorite == true ? "game-favorite-active" : "game-favorite-activeinactive"
     favoriteBtn.setImage(UIImage(named: imgName), for: .normal)
     labTitle.text = game.gameName
@@ -54,13 +56,21 @@ class WebGameItemCell: UICollectionViewCell {
       self.isUserInteractionEnabled = false
     }
 
-    favoriteBtn.rx.touchUpInside.bind(onNext: { [weak self] in
-      originFavorite.toggle()
-      let imgName = originFavorite == true ? "game-favorite-active" : "game-favorite-activeinactive"
-      self?.favoriteBtn.setImage(UIImage(named: imgName), for: .normal)
-      self?.favoriteBtnClick?(self?.favoriteBtn)
-    }).disposed(by: disposeBag)
+    favoriteBtn.rx.touchUpInside
+      .bind(onNext: { [unowned self] in favoriteBtnClick?() })
+      .disposed(by: disposeBag)
+    
     return self
+  }
+  
+  func setIsFavoriteButtonEnable(_ enable: Bool) {
+    favoriteBtn.isUserInteractionEnabled = enable
+  }
+  
+  func toggleFavoriteIcon() {
+    isFavorite.toggle()
+    let imgName = isFavorite ? "game-favorite-active" : "game-favorite-activeinactive"
+    favoriteBtn.setImage(UIImage(named: imgName), for: .normal)
   }
 }
 
