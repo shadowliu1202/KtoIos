@@ -77,16 +77,23 @@ extension ProductGameDataSourceDelegate: UICollectionViewDataSource {
       cell = collectionView.dequeueReusableCell(cellType: WebGameSearchItemCell.self, indexPath: indexPath)
         .configure(game: game, searchKeyword: self.searchKeyword)
     }
-    cell.favoriteBtnClick = { [weak self] favoriteBtn in
-      favoriteBtn?.isUserInteractionEnabled = false
-      self?.vc?.toggleFavorite(game, onCompleted: { action in
-        favoriteBtn?.isUserInteractionEnabled = true
-        self?.showToast(action)
-      }, onError: { error in
-        favoriteBtn?.isUserInteractionEnabled = true
-        self?.vc?.handleErrors(error)
-      })
+    cell.favoriteBtnClick = { [weak self] in
+      cell.setIsFavoriteButtonEnable(false)
+      cell.toggleFavoriteIcon()
+      
+      self?.vc?.toggleFavorite(
+        game,
+        onCompleted: { action in
+          cell.setIsFavoriteButtonEnable(true)
+          self?.showToast(action)
+        },
+        onError: { error in
+          cell.toggleFavoriteIcon()
+          cell.setIsFavoriteButtonEnable(true)
+          self?.vc?.handleErrors(error)
+        })
     }
+    
     return cell
   }
 

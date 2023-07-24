@@ -768,6 +768,7 @@
 		3C7A415F2A0506BE00B9C619 /* VisibilityModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41582A0506BE00B9C619 /* VisibilityModifier.swift */; };
 		3C7A41602A0506BE00B9C619 /* VisibilityModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41582A0506BE00B9C619 /* VisibilityModifier.swift */; };
 		3C7A41612A0506BE00B9C619 /* VisibilityModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A41582A0506BE00B9C619 /* VisibilityModifier.swift */; };
+		3C7C29102A6E27B800719E20 /* ProductsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7C290F2A6E27B800719E20 /* ProductsViewControllerTests.swift */; };
 		3C7E47942A5EA50000A22B79 /* FanTanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7E47932A5EA50000A22B79 /* FanTanView.swift */; };
 		3C7E47952A5EA50000A22B79 /* FanTanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7E47932A5EA50000A22B79 /* FanTanView.swift */; };
 		3C7E47962A5EA50000A22B79 /* FanTanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7E47932A5EA50000A22B79 /* FanTanView.swift */; };
@@ -7478,11 +7479,11 @@
 		3C0A8E922A56A0CE00EB5B56 /* P2PBetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PBetDetailView.swift; sourceTree = "<group>"; };
 		3C170556294C812800531357 /* OfflinePaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflinePaymentViewController.swift; sourceTree = "<group>"; };
 		3C17057E29503C9400531357 /* Overload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload.swift; sourceTree = "<group>"; };
-		3C17058D29505CC700531357 /* TermsViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TermsViewTests.swift; path = "KTO-UnitTests/SwiftUI/TermsViewTests.swift"; sourceTree = SOURCE_ROOT; };
-		3C17058F29505CC800531357 /* ExpandableBlockTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpandableBlockTest.swift; path = "KTO-UnitTests/SwiftUI/ExpandableBlockTest.swift"; sourceTree = SOURCE_ROOT; };
+		3C17058D29505CC700531357 /* TermsViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TermsViewTests.swift; path = "KTO-UnitTests/TermsViewTests.swift"; sourceTree = SOURCE_ROOT; };
+		3C17058F29505CC800531357 /* ExpandableBlockTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpandableBlockTest.swift; path = "KTO-UnitTests/ExpandableBlockTest.swift"; sourceTree = SOURCE_ROOT; };
 		3C17059029505CC800531357 /* TransactionLogViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionLogViewTests.swift; path = "AIO-unitTests/TransactionLogViewTests.swift"; sourceTree = SOURCE_ROOT; };
-		3C17059129505CC900531357 /* SwiftUIDropDownTextTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUIDropDownTextTest.swift; path = "KTO-UnitTests/SwiftUI/SwiftUIDropDownTextTest.swift"; sourceTree = SOURCE_ROOT; };
-		3C17059229505CC900531357 /* StarMergerViewTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StarMergerViewTest.swift; path = "KTO-UnitTests/SwiftUI/StarMergerViewTest.swift"; sourceTree = SOURCE_ROOT; };
+		3C17059129505CC900531357 /* SwiftUIDropDownTextTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUIDropDownTextTest.swift; path = "KTO-UnitTests/SwiftUIDropDownTextTest.swift"; sourceTree = SOURCE_ROOT; };
+		3C17059229505CC900531357 /* StarMergerViewTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StarMergerViewTest.swift; path = "KTO-UnitTests/StarMergerViewTest.swift"; sourceTree = SOURCE_ROOT; };
 		3C17059429505CC900531357 /* DepositViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DepositViewTests.swift; path = "AIO-unitTests/DepositViewTests.swift"; sourceTree = SOURCE_ROOT; };
 		3C18A94C298A12C40097DE19 /* ObserveSystemMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveSystemMessageUseCase.swift; sourceTree = "<group>"; };
 		3C18A957298A16840097DE19 /* BackendSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendSignal.swift; sourceTree = "<group>"; };
@@ -7572,6 +7573,7 @@
 		3C7A41442A04F35900B9C619 /* BackgroundColorModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColorModifier.swift; sourceTree = "<group>"; };
 		3C7A414E2A04F45400B9C619 /* PageBackgroundColorModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageBackgroundColorModifier.swift; sourceTree = "<group>"; };
 		3C7A41582A0506BE00B9C619 /* VisibilityModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibilityModifier.swift; sourceTree = "<group>"; };
+		3C7C290F2A6E27B800719E20 /* ProductsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewControllerTests.swift; sourceTree = "<group>"; };
 		3C7E47932A5EA50000A22B79 /* FanTanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanTanView.swift; sourceTree = "<group>"; };
 		3C7E479D2A5EA83E00A22B79 /* ColorPlateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPlateView.swift; sourceTree = "<group>"; };
 		3C7E47A72A5FC65C00A22B79 /* P2PBetDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PBetDetailViewModel.swift; sourceTree = "<group>"; };
@@ -8547,20 +8549,6 @@
 				3C7E47DB2A5FD6BB00A22B79 /* P2PBetDetailViewController.swift */,
 			);
 			path = BetDetail;
-			sourceTree = "<group>";
-		};
-		3C17058A29505CA900531357 /* SwiftUI */ = {
-			isa = PBXGroup;
-			children = (
-				3CF9BB41295C37AB00EC91DC /* DepositOfflineConfirmViewTests.swift */,
-				3CF9BB40295C37AB00EC91DC /* ItemSelectorTests.swift */,
-				FF8C265F29B9862B009523BE /* DepositCryptoRecordDetailViewTests.swift */,
-				3C17058F29505CC800531357 /* ExpandableBlockTest.swift */,
-				3C17059229505CC900531357 /* StarMergerViewTest.swift */,
-				3C17059129505CC900531357 /* SwiftUIDropDownTextTest.swift */,
-				3C17058D29505CC700531357 /* TermsViewTests.swift */,
-			);
-			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		3C1DF720299A17EF007E5EF4 /* RemitInfo */ = {
@@ -9573,9 +9561,10 @@
 			children = (
 				FF63B35B2999E92F00E30EB6 /* Settings.bundle */,
 				485DF03A25415453001F9D4A /* ktobet-asia-ios */,
+				FF4081EB29189D1A00297D4E /* UnitTestHelper */,
+				6D75934729235E54007D2BF3 /* AIO-unitTests */,
 				485DF05125415454001F9D4A /* KTO-UnitTests */,
 				485DF05C25415454001F9D4A /* ktobet-asia-iosUITests */,
-				6D75934729235E54007D2BF3 /* AIO-unitTests */,
 				485DF03925415453001F9D4A /* Products */,
 				FB115C1C0A068F47EB84C1FE /* Pods */,
 				4C474D9E99E3A650D6F478B2 /* Frameworks */,
@@ -9642,10 +9631,31 @@
 			isa = PBXGroup;
 			children = (
 				485DF05425415454001F9D4A /* Info.plist */,
-				FF4081EB29189D1A00297D4E /* Helper */,
-				FFBD376A294ACA78009E9A97 /* Base */,
-				FFBD376B294ACABC009E9A97 /* UIKit */,
-				3C17058A29505CA900531357 /* SwiftUI */,
+				6D3DD77C283231560065D6B3 /* AppVersionTest.swift */,
+				6D885391296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift */,
+				6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */,
+				3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */,
+				3CBC879E2857396400B57607 /* DateUtilsTest.swift */,
+				FF8C265F29B9862B009523BE /* DepositCryptoRecordDetailViewTests.swift */,
+				6D425201299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift */,
+				3CF9BB41295C37AB00EC91DC /* DepositOfflineConfirmViewTests.swift */,
+				6D1612E129BB0BF100BA1827 /* DropdownSelectorTests.swift */,
+				3C17058F29505CC800531357 /* ExpandableBlockTest.swift */,
+				3CF9BB40295C37AB00EC91DC /* ItemSelectorTests.swift */,
+				FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */,
+				3C26523E2A208C0900BBB342 /* PaginationTests.swift */,
+				3CA721E42913CA9800B94548 /* PromotionApiTests.swift */,
+				3CB8300C2914DAF3001246BB /* PromotionRepositoryImplTests.swift */,
+				3CB830152914F1D5001246BB /* PromotionUseCaseImplTests.swift */,
+				3CB830172914F6BF001246BB /* PromotionViewModelTests.swift */,
+				6D1062E82A00DF290055C947 /* SingleExtensionTests.swift */,
+				FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */,
+				6D1612F829C04CDA00BA1827 /* SnackBarTests.swift */,
+				3C17059229505CC900531357 /* StarMergerViewTest.swift */,
+				3CBC879428530FFB00B57607 /* StringExtensionTest.swift */,
+				3C17059129505CC900531357 /* SwiftUIDropDownTextTest.swift */,
+				3C17058D29505CC700531357 /* TermsViewTests.swift */,
+				3C7C290F2A6E27B800719E20 /* ProductsViewControllerTests.swift */,
 			);
 			path = "KTO-UnitTests";
 			sourceTree = "<group>";
@@ -11187,7 +11197,7 @@
 			path = VND;
 			sourceTree = "<group>";
 		};
-		FF4081EB29189D1A00297D4E /* Helper */ = {
+		FF4081EB29189D1A00297D4E /* UnitTestHelper */ = {
 			isa = PBXGroup;
 			children = (
 				6D1130432988EB5200EC04A8 /* XCTestCase+Wait.swift */,
@@ -11197,7 +11207,7 @@
 				3C90EE2529FBA28E0088F352 /* NavigationControllerMock.swift */,
 				6DBCA18F2A05035700DF23C2 /* XCBaseTestCase.swift */,
 			);
-			path = Helper;
+			path = UnitTestHelper;
 			sourceTree = "<group>";
 		};
 		FF80C97029E568C700EBF4BB /* Detail */ = {
@@ -11423,37 +11433,6 @@
 				FF2E4D8029E7DB7000B0C048 /* WalletEmptyView.swift */,
 			);
 			path = Wallet;
-			sourceTree = "<group>";
-		};
-		FFBD376A294ACA78009E9A97 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				6D3DD77C283231560065D6B3 /* AppVersionTest.swift */,
-				3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */,
-				3CBC879428530FFB00B57607 /* StringExtensionTest.swift */,
-				3CBC879E2857396400B57607 /* DateUtilsTest.swift */,
-				3CA721E42913CA9800B94548 /* PromotionApiTests.swift */,
-				3CB8300C2914DAF3001246BB /* PromotionRepositoryImplTests.swift */,
-				3CB830152914F1D5001246BB /* PromotionUseCaseImplTests.swift */,
-				3CB830172914F6BF001246BB /* PromotionViewModelTests.swift */,
-				6D1062E82A00DF290055C947 /* SingleExtensionTests.swift */,
-				3C26523E2A208C0900BBB342 /* PaginationTests.swift */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		FFBD376B294ACABC009E9A97 /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-				FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */,
-				6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */,
-				6D885391296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift */,
-				FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */,
-				6D425201299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift */,
-				6D1612E129BB0BF100BA1827 /* DropdownSelectorTests.swift */,
-				6D1612F829C04CDA00BA1827 /* SnackBarTests.swift */,
-			);
-			path = UIKit;
 			sourceTree = "<group>";
 		};
 		FFC6B8B82907BB1F002D843B /* Ability */ = {
@@ -13977,6 +13956,7 @@
 				3CB830162914F1D5001246BB /* PromotionUseCaseImplTests.swift in Sources */,
 				3CB8300D2914DAF3001246BB /* PromotionRepositoryImplTests.swift in Sources */,
 				3CF9BB45295C37E700EC91DC /* ItemSelectorTests.swift in Sources */,
+				3C7C29102A6E27B800719E20 /* ProductsViewControllerTests.swift in Sources */,
 				3CBC879F2857396400B57607 /* DateUtilsTest.swift in Sources */,
 				6D1612E229BB0BF100BA1827 /* DropdownSelectorTests.swift in Sources */,
 				6D3DD77D283231560065D6B3 /* AppVersionTest.swift in Sources */,
