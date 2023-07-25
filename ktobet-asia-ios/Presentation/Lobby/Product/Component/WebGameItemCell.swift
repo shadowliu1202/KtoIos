@@ -31,6 +31,7 @@ class WebGameItemCell: UICollectionViewCell {
     disposeBag = DisposeBag()
     gameImage.sd_cancelCurrentImageLoad()
     gameImage.image = nil
+    isUserInteractionEnabled = true
   }
 
   @discardableResult
@@ -53,7 +54,6 @@ class WebGameItemCell: UICollectionViewCell {
       blurView.isHidden = false
       blurLabel.text = text
       blurImageView.image = icon
-      self.isUserInteractionEnabled = false
     }
 
     favoriteBtn.rx.touchUpInside
