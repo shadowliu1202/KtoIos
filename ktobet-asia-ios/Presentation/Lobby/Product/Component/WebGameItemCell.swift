@@ -15,6 +15,8 @@ class WebGameItemCell: UICollectionViewCell {
   @IBOutlet private weak var blurLabel: UILabel!
   @IBOutlet private weak var blurImageView: UIImageView!
   
+  private var toggleFavoriteProcessing = false
+  
   var isFavorite = false
   var favoriteBtnClick: (() -> Void)?
   lazy var disposeBag = DisposeBag()
@@ -57,14 +59,17 @@ class WebGameItemCell: UICollectionViewCell {
     }
 
     favoriteBtn.rx.touchUpInside
-      .bind(onNext: { [unowned self] in favoriteBtnClick?() })
+      .bind(onNext: { [unowned self] in
+        guard !toggleFavoriteProcessing else { return }
+        favoriteBtnClick?()
+      })
       .disposed(by: disposeBag)
     
     return self
   }
   
-  func setIsFavoriteButtonEnable(_ enable: Bool) {
-    favoriteBtn.isUserInteractionEnabled = enable
+  func setToggleFavoriteProcessing(_ inProcess: Bool) {
+    toggleFavoriteProcessing = inProcess
   }
   
   func toggleFavoriteIcon() {

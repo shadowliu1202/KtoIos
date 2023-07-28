@@ -11,6 +11,11 @@ class ProductGameDataSourceDelegate: NSObject {
     case search
     case loadMore
   }
+  
+  enum DifferentGames {
+    case all
+    case some([IndexPath])
+  }
 
   fileprivate var games: [WebGameWithDuplicatable] = []
   fileprivate weak var vc: ProductFavoriteHelper?
@@ -32,9 +37,29 @@ class ProductGameDataSourceDelegate: NSObject {
   deinit {
     Logger.shared.info("\(type(of: self)) deinit")
   }
+  
+  func handleGameUpdates(_ games: [WebGameWithDuplicatable]) -> DifferentGames {
+    let oldGames = self.games
+    setGames(games)
+      
+    return computeDifferences(oldGames: oldGames, newGames: games)
+  }
 
   func setGames(_ games: [WebGameWithDuplicatable]) {
     self.games = games
+  }
+  
+  private func computeDifferences(oldGames: [WebGameWithDuplicatable], newGames: [WebGameWithDuplicatable]) -> DifferentGames {
+    if oldGames.count != newGames.count {
+      return .all
+    }
+    else {
+      let differentIndexPaths = newGames.enumerated()
+        .filter { !$1.equalTo(other: oldGames[$0]) }
+        .map { IndexPath(item: $0.0, section: 0) }
+        
+      return .some(differentIndexPaths)
+    }
   }
 
   func game(at indexPath: IndexPath) -> WebGameWithDuplicatable {
@@ -78,18 +103,18 @@ extension ProductGameDataSourceDelegate: UICollectionViewDataSource {
         .configure(game: game, searchKeyword: self.searchKeyword)
     }
     cell.favoriteBtnClick = { [weak self] in
-      cell.setIsFavoriteButtonEnable(false)
+      cell.setToggleFavoriteProcessing(true)
       cell.toggleFavoriteIcon()
       
       self?.vc?.toggleFavorite(
         game,
         onCompleted: { action in
-          cell.setIsFavoriteButtonEnable(true)
+          cell.setToggleFavoriteProcessing(false)
           self?.showToast(action)
         },
         onError: { error in
           cell.toggleFavoriteIcon()
-          cell.setIsFavoriteButtonEnable(true)
+          cell.setToggleFavoriteProcessing(false)
           self?.vc?.handleErrors(error)
         })
     }

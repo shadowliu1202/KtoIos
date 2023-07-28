@@ -25,6 +25,8 @@ protocol WebGameCreateRepository {
 }
 
 class WebGameRepositoryImpl: WebGameRepository {
+  private let lock = NSLock()
+  
   private var api: WebGameApi!
   private var httpClient: HttpClient!
 
@@ -37,6 +39,9 @@ class WebGameRepositoryImpl: WebGameRepository {
 
   func addFavorite(game: WebGameWithDuplicatable) -> Completable {
     api.addFavoriteGame(id: game.gameId).do(onCompleted: { [weak self] in
+      defer { self?.lock.unlock() }
+      self?.lock.lock()
+      
       guard let self else { return }
       var copyValue = self.favoriteRecord.value
       if let i = copyValue.firstIndex(where: { $0.gameId == game.gameId }) {
@@ -52,6 +57,9 @@ class WebGameRepositoryImpl: WebGameRepository {
 
   func removeFavorite(game: WebGameWithDuplicatable) -> Completable {
     api.removeFavoriteGame(id: game.gameId).do(onCompleted: { [weak self] in
+      defer { self?.lock.unlock() }
+      self?.lock.lock()
+      
       guard let self else { return }
       var copyValue = self.favoriteRecord.value
       if let i = copyValue.firstIndex(where: { $0.gameId == game.gameId }) {
