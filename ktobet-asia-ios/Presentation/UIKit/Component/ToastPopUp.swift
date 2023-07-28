@@ -33,6 +33,7 @@ class ToastPopUp: UIView {
     ])
     self.msgLabel.constrain([.equal(\.heightAnchor, length: 24)])
     self.msgLabel.constrain(to: self.imageView, constraints: [.equal(\.topAnchor, \.bottomAnchor, offset: 9)])
+    isUserInteractionEnabled = false
   }
 
   required init?(coder: NSCoder) {

@@ -27,8 +27,15 @@ class DisplayGameCollectionBaseViewController: ProductsViewController, ProductVC
 
   func reloadGameData(_ games: [WebGameWithDuplicatable]) {
     guard let self = self as? DisplayProduct else { return }
-    self.setProductGameDataSourceDelegate().setGames(games)
-    self.setCollectionView().reloadData()
+    
+    let differentGames = self.setProductGameDataSourceDelegate().handleGameUpdates(games)
+    
+    switch differentGames {
+    case .all:
+      self.setCollectionView().reloadData()
+    case .some(let indexPaths):
+      self.setCollectionView().reloadItems(at: indexPaths)
+    }
   }
 
   func toggleFavorite(

@@ -32,7 +32,7 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
     .compose(applyObservableErrorHandle())
 
   lazy var searchedCasinoByTag = tagFilter
-    .flatMap { [unowned self] filters in
+    .flatMapLatest { [unowned self] filters in
       self.searchedCasinoByTag(tags: filters)
     }
 

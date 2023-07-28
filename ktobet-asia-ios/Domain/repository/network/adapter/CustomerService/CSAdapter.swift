@@ -145,4 +145,8 @@ class CSAdapter: CustomerServiceProtocol {
 
     return query
   }
+  
+  func upload(imagePath_ _: String) -> SingleWrapper<ImageToken> {
+    fatalError("not implemented")
+  }
 }
