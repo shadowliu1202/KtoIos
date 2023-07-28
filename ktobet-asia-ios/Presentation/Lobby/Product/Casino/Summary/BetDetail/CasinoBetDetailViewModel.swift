@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import RxSwift
 import SharedBu
@@ -14,7 +15,7 @@ protocol ICasinoBetDetailViewModel {
 class CasinoBetDetailViewModel:
   ICasinoBetDetailViewModel &
   ObservableObject &
-  CollectErrorViewModel
+  ErrorCollectViewModel
 {
   @Published var betDetail: CasinoDTO.BetDetail? = nil
   
@@ -36,13 +37,10 @@ class CasinoBetDetailViewModel:
   }
   
   func bindBetDetail(_ wagerID: String) {
-    Single.from(
-      casinoMyBetAppService.getDetail(id: wagerID))
-      .observe(on: MainScheduler.instance)
-      .subscribe(
-        onSuccess: { self.betDetail = $0 },
-        onFailure: { self.errorsSubject.onNext($0) })
-      .disposed(by: disposeBag)
+    AnyPublisher.from(casinoMyBetAppService.getDetail(id: wagerID))
+      .receive(on: DispatchQueue.main)
+      .redirectErrors(to: errorsSubject)
+      .assignOptional(to: &$betDetail)
   }
   
   func getSupportLocale() -> SupportLocale {

@@ -36,13 +36,13 @@ class SlotApi: ApiService, WebGameApi {
 
   @available(*, deprecated, renamed: "addFavoriteGame")
   func addFavoriteCasino(id: Int32) -> Completable {
-    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/add/\(id)"), parameters: Empty())
+    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/add/\(id)"), parameters: .empty)
     return httpClient.request(target).asCompletable()
   }
 
   @available(*, deprecated, renamed: "removeFavoriteGame")
   func removeFavoriteCasino(id: Int32) -> Completable {
-    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/remove/\(id)"), parameters: Empty())
+    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/remove/\(id)"), parameters: .empty)
     return httpClient.request(target).asCompletable()
   }
 
@@ -151,12 +151,12 @@ class SlotApi: ApiService, WebGameApi {
 
   // MARK: WebGameApi
   func addFavoriteGame(id: Int32) -> Completable {
-    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/add/\(id)"), parameters: Empty())
+    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/add/\(id)"), parameters: .empty)
     return httpClient.request(target).asCompletable()
   }
 
   func removeFavoriteGame(id: Int32) -> Completable {
-    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/remove/\(id)"), parameters: Empty())
+    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/remove/\(id)"), parameters: .empty)
     return httpClient.request(target).asCompletable()
   }
 

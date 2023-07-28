@@ -11,7 +11,7 @@ class CustomServiceAPI: CustomServiceAPIConvertor {
   }
 
   func createRoom(_ bean: PreChatAnswerSurvey?) -> Single<String> {
-    var codableBean: Encodable = Empty()
+    var codableBean: Encodable = .empty
     if let bean {
       codableBean = convert(surveyAnswers: bean.answerSurvey)
     }
