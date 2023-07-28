@@ -65,7 +65,7 @@ class OldWithdrawalAPI: ApiService {
   }
 
   func resendOTP(type: Int) -> Completable {
-    let target = PostAPITarget(service: self.url("api/crypto-bank-card/resend-otp/\(type)"), parameters: Empty())
+    let target = PostAPITarget(service: self.url("api/crypto-bank-card/resend-otp/\(type)"), parameters: .empty)
     return httpClient.request(target).asCompletable()
   }
 

@@ -120,12 +120,12 @@ class NumberGameApi: ApiService, WebGameApi {
 
   // MARK: WebGameApi
   func addFavoriteGame(id: Int32) -> Completable {
-    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/add/\(id)"), parameters: Empty())
+    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/add/\(id)"), parameters: .empty)
     return httpClient.request(target).asCompletable()
   }
 
   func removeFavoriteGame(id: Int32) -> Completable {
-    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/remove/\(id)"), parameters: Empty())
+    let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/remove/\(id)"), parameters: .empty)
     return httpClient.request(target).asCompletable()
   }
 

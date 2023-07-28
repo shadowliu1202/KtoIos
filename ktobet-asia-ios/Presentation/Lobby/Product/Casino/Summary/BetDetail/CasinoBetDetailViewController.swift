@@ -1,11 +1,12 @@
+import Combine
 import Foundation
-import RxSwift
 import UIKit
 
 class CasinoBetDetailViewController: LobbyViewController {
   private let viewModel: CasinoBetDetailViewModel
   private let wagerID: String
-  private let disposeBag = DisposeBag()
+  
+  private var cancellables = Set<AnyCancellable>()
     
   init(
     viewModel: CasinoBetDetailViewModel = .init(),
@@ -39,8 +40,8 @@ class CasinoBetDetailViewController: LobbyViewController {
   
   private func bindErrorHandle() {
     viewModel.errorsSubject
-      .observe(on: MainScheduler.instance)
-      .subscribe(onNext: { [unowned self] it in handleErrors(it) })
-      .disposed(by: disposeBag)
+      .receive(on: DispatchQueue.main)
+      .sink(receiveValue: { [unowned self] it in handleErrors(it) })
+      .store(in: &cancellables)
   }
 }
