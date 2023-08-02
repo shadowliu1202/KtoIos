@@ -1,4 +1,5 @@
 import Foundation
+import SwiftSignalRClient
 
 class KeepReconnectPolicy: ReconnectPolicy {
   private let timeInterval: DispatchTimeInterval

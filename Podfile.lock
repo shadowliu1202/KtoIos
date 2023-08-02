@@ -174,6 +174,7 @@ PODS:
   - SnapKit (5.0.1)
   - SwiftFormat/CLI (0.50.9)
   - SwiftKeychainWrapper (4.0.1)
+  - SwiftSignalRClient (0.9.4)
   - SwiftyJSON (5.0.0)
   - Swinject (2.7.1)
   - TYCyclePagerView (1.2.0)
@@ -206,6 +207,7 @@ DEPENDENCIES:
   - SnapKit
   - SwiftFormat/CLI (~> 0.49)
   - SwiftKeychainWrapper
+  - SwiftSignalRClient
   - SwiftyJSON (= 5.0.0)
   - Swinject (= 2.7.1)
   - TYCyclePagerView (= 1.2.0)
@@ -255,6 +257,7 @@ SPEC REPOS:
     - SnapKit
     - SwiftFormat
     - SwiftKeychainWrapper
+    - SwiftSignalRClient
     - SwiftyJSON
     - Swinject
     - TYCyclePagerView
@@ -302,12 +305,13 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftFormat: 823c799054862ecd9143ff00de06997f5e68967c
   SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
+  SwiftSignalRClient: f259c3394e21c81b6f2ddf614866afa234e0e0dd
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
   ViewInspector: 607c4f3ea4be92c4c9e1e0cccfef54a1b8335b64
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: a914c623d252a8165274a134adf85e0737273003
+PODFILE CHECKSUM: 0a97d62e504196e23dffa764e9df0ca0ac0afa0e
 
 COCOAPODS: 1.11.3
