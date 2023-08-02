@@ -19,13 +19,13 @@ class CustomerServiceViewModel {
     .map(\.isMaintained)
     
   lazy var chatRoomMessage = currentChatRoom()
-    .map { [unowned self] in chatRoomTempMapper.convertToReadMessages($0) }
+    .compactMap { [weak chatRoomTempMapper] in chatRoomTempMapper?.convertToReadMessages($0) }
 
   lazy var chatRoomUnreadMessage = currentChatRoom()
-    .map { [unowned self] in chatRoomTempMapper.convertToUnreadMessages($0) }
+    .compactMap { [weak chatRoomTempMapper] in chatRoomTempMapper?.convertToUnreadMessages($0) }
 
   lazy var preLoadChatRoomStatus = currentChatRoom()
-    .map { [unowned self] in chatRoomTempMapper.convertToStatus($0) }
+    .compactMap { [weak chatRoomTempMapper] in chatRoomTempMapper?.convertToStatus($0) }
 
   lazy var chatRoomConnection = observeChatRoom.map { $0.status }
   
