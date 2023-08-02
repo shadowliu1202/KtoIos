@@ -7,8 +7,6 @@ struct RecordRemark: View {
     let previous: [Previous.Model]
     @Binding var uploader: [Uploader.Model]
 
-    var httpHeaders: [String: String] = [:]
-
     var onClickImage: ((_ urlString: String, _ image: UIImage) -> Void)?
     var onUpload: (() -> Void)?
 
@@ -31,7 +29,7 @@ struct RecordRemark: View {
             color: .textPrimary)
           .frame(maxWidth: .infinity, alignment: .leading)
 
-        Previous(models: config.previous, httpHeaders: config.httpHeaders, onClickImage: config.onClickImage)
+        Previous(models: config.previous, onClickImage: config.onClickImage)
       }
 
       if shouldShowUploader {
@@ -62,8 +60,7 @@ extension RecordRemark {
     }
 
     let models: [Model]
-
-    var httpHeaders: [String: String] = [:]
+    
     var onClickImage: ((_ urlString: String, _ image: UIImage) -> Void)?
 
     var body: some View {
@@ -84,10 +81,7 @@ extension RecordRemark {
                     .strokeBorder(color: .greyScaleDivider, cornerRadius: 4)
                     .frame(height: 96)
                     .overlay(
-                      LazyImage(
-                        headers: httpHeaders,
-                        url: uploaded.thumbnail)
-                      { image in
+                      LazyImage(url: uploaded.thumbnail) { image in
                         Image(uiImage: image)
                           .resizable()
                           .scaledToFit()

@@ -36,14 +36,6 @@ extension LazyImage {
 
     private let downloader: SDWebImageDownloader
 
-    var headers: [String: String]? {
-      didSet {
-        headers?.forEach {
-          downloader.setValue($0.value, forHTTPHeaderField: $0.key)
-        }
-      }
-    }
-
     init(downloader: SDWebImageDownloader = .shared) {
       self.downloader = downloader
     }

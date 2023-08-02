@@ -31,7 +31,6 @@ struct WithdrawalRecordDetailView<ViewModel>: View
         .remark(.init(
           previous: viewModel.remarks,
           uploader: $viewModel.selectedImages,
-          httpHeaders: viewModel.httpHeaders,
           onClickImage: onClickImage,
           onUpload: onUploadImage,
           imagesOnSend: viewModel.confirmUploadedImages,

@@ -38,10 +38,6 @@ class WebGameItemCell: UICollectionViewCell {
 
   @discardableResult
   func configure(game: WebGameWithProperties) -> Self {
-    let imageDownloader = SDWebImageDownloader.shared
-    for header in httpClient.headers {
-      imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
-    }
     gameImage.sd_setImage(url: URL(string: game.thumbnail.url()), placeholderImage: nil)
     backgroundImage.image = UIImage(named: "game-icon-small")
     isFavorite = game.isFavorite

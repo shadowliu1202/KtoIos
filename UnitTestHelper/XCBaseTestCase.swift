@@ -1,4 +1,5 @@
 import Mockingbird
+import SharedBu
 import XCTest
 
 @testable import ktobet_asia_ios_qat
@@ -12,6 +13,7 @@ class XCBaseTestCase: XCTestCase, StubProvidable {
     injectStubPlayerLoginStatus()
     injectStubGetProductStatus()
     injectStubAppVersionUpdateUseCase()
+    injectStubCustomServicePresenter()
   }
 }
 
@@ -76,4 +78,30 @@ private func injectStubAppVersionUpdateUseCase() {
     .register(AppVersionUpdateUseCase.self) { _ in
       appVersionUpdateUseCase
     }
+}
+
+private func injectStubCustomServicePresenter() {
+  let stubChatAppService = mock(AbsCustomerServiceAppService.self)
+
+  let stubCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
+    .initialize(stubChatAppService)
+
+  let stubSurveyViewModel = mock(SurveyViewModel.self)
+    .initialize(
+      mock(AbsCustomerServiceAppService.self),
+      mock(AuthenticationUseCase.self))
+
+  let customServicePresenter = mock(CustomServicePresenter.self)
+    .initialize(
+      stubCustomerServiceViewModel,
+      stubSurveyViewModel)
+
+  given(customServicePresenter.initService()) ~> { }
+  given(customServicePresenter.observeCsStatus) ~> .just(false)
+
+  Injectable
+    .register(CustomServicePresenter.self) { _ in
+      customServicePresenter
+    }
+    .inObjectScope(.application)
 }

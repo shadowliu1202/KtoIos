@@ -4,6 +4,7 @@ import Foundation
 import Moya
 import RxBlocking
 import RxSwift
+import SDWebImage
 import SharedBu
 import SwiftyJSON
 import UIKit
@@ -75,10 +76,23 @@ class HttpClient: CookieUtil {
         startRequestsImmediately: false,
         interceptor: APIRequestRetrier()),
       plugins: [NetworkLoggerPlugin.debug()])
+    
+    configImageDownloader()
   }
 
   deinit {
     Logger.shared.info("\(type(of: self)) deinit")
+  }
+  
+  private func configImageDownloader() {
+    // Unit Test will fail without this check because headers use before stub in init().
+    guard !Configuration.isTesting else { return }
+    
+    SDWebImageDownloader.shared.config.downloadTimeout = .infinity
+    
+    for header in headers {
+      SDWebImageDownloader.shared.setValue(header.value, forHTTPHeaderField: header.key)
+    }
   }
 
   func request(_ target: TargetType) -> Single<Response> {

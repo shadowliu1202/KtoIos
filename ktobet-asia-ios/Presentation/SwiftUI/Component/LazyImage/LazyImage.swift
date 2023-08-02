@@ -14,8 +14,6 @@ struct LazyImage<Success, Placeholder, Failure>: View
   private let placeholder: () -> Placeholder
   private let failure: (Error) -> Failure
 
-  private var headers: [String: String]?
-
   private var haveFailureContent: Bool {
     !(failure(KTOError.EmptyData) is EmptyView)
   }
@@ -25,13 +23,11 @@ struct LazyImage<Success, Placeholder, Failure>: View
   }
 
   init(
-    headers: [String: String]? = nil,
     url: String,
     @ViewBuilder success: @escaping (UIImage) -> Success,
     @ViewBuilder placeholder: @escaping () -> Placeholder = { EmptyView() },
     @ViewBuilder failure: @escaping (Error) -> Failure = { _ in EmptyView() })
   {
-    self.headers = headers
     self.url = url
     self.success = success
     self.placeholder = placeholder
@@ -64,7 +60,6 @@ struct LazyImage<Success, Placeholder, Failure>: View
     }
     .onAppear {
       Task {
-        downloader.headers = headers
         await downloader.image(
           from: url,
           startWith: havePlaceholderContent ? .placeholder : nil)

@@ -8,7 +8,6 @@ protocol DepositRecordDetailViewModelProtocol: AnyObject {
   var selectedImages: [RecordRemark.Uploader.Model] { get set }
 
   var supportLocale: SupportLocale { get }
-  var httpHeaders: [String: String] { get }
   var isAllowConfirm: Bool { get }
 
   func prepareForAppear(transactionId: String)
@@ -38,10 +37,6 @@ class DepositRecordDetailViewModel:
   let disposeBag = DisposeBag()
 
   private var transactionId = ""
-
-  var httpHeaders: [String: String] {
-    httpClient.headers
-  }
 
   var isAllowConfirm: Bool {
     !selectedImages.isEmpty && selectedImages.filter { $0.isUploading }.isEmpty
