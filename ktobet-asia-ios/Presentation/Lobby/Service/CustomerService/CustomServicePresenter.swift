@@ -261,9 +261,12 @@ class CustomServicePresenter: NSObject {
       topViewController?.present(navi, animated: false, completion: nil)
     }
     else {
-      guard topViewController?.navigationController is CustomServiceNavigationController else {
-        fatalError("check NavigationController of presented VC")
+      guard topViewController?.navigationController is CustomServiceNavigationController
+      else {
+        let navigationControllerName = topViewController?.navigationController?.description ?? ""
+        fatalError("Wrong NavigationController: \(navigationControllerName)")
       }
+      
       topViewController?.navigationController?.setViewControllers([callingVC], animated: false)
     }
   }
@@ -292,9 +295,12 @@ class CustomServicePresenter: NSObject {
       topViewController?.present(navi, animated: true, completion: nil)
     }
     else {
-      guard topViewController?.navigationController is CustomServiceNavigationController else {
-        fatalError("check NavigationController of presented VC")
+      guard topViewController?.navigationController is CustomServiceNavigationController
+      else {
+        let navigationControllerName = topViewController?.navigationController?.description ?? ""
+        fatalError("Wrong NavigationController: \(navigationControllerName)")
       }
+      
       topViewController?.navigationController?.setViewControllers([chatRoomVC], animated: false)
     }
   }
