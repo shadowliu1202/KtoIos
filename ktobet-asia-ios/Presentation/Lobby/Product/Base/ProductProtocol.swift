@@ -58,7 +58,6 @@ protocol WebGameViewCallback: AnyObject {
 typealias ProductViewModel = ProductFavoriteViewModelProtocol & ProductSearchViewModelProtocol & ProductWebGameViewModelProtocol
 
 protocol ProductFavoriteViewModelProtocol {
-  func getFavorites()
   func favoriteProducts() -> Observable<[WebGameWithDuplicatable]>
   func toggleFavorite(
     game: WebGameWithDuplicatable,

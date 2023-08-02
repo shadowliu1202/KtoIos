@@ -31,8 +31,6 @@ class ArcadeViewModel: CollectErrorViewModel, ProductViewModel {
       self.searchedByFilter($0)
     }
 
-  var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-
   var loadingWebTracker: ActivityIndicator { loading.tracker }
   let placeholderTracker = ActivityIndicator()
 
@@ -127,28 +125,9 @@ extension ArcadeViewModel {
 // MARK: - Favorite
 
 extension ArcadeViewModel {
-  func getFavorites() {
-    favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-
-    arcadeUseCase
-      .getFavorites()
-      .trackOnNext(placeholderTracker)
-      .subscribe(onNext: { [weak self] games in
-        guard let games = games as? [ArcadeGame] else { return }
-        if games.count > 0 {
-          self?.favorites.onNext(games)
-        }
-        else {
-          self?.favorites.onError(KTOError.EmptyData)
-        }
-      }, onError: { [weak self] e in
-        self?.favorites.onError(e)
-      })
-      .disposed(by: disposeBag)
-  }
-
   func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
-    favorites.asObservable()
+    arcadeUseCase.getFavorites()
+      .trackOnNext(placeholderTracker)
   }
 
   func toggleFavorite(

@@ -13,15 +13,11 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
   private let casinoMyBetAppService: ICasinoMyBetAppService
 
   private let refreshTrigger = PublishSubject<Void>()
-
   private let webGameResultSubject = PublishSubject<WebGameResult>()
-
   private let disposeBag = DisposeBag()
 
   private lazy var gameTags = RxSwift.Single<CasinoDTO.GameTags>.from(casinoGameAppService.getTags()).asObservable()
-
   private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
-
   private var tagFilter = BehaviorRelay<[ProductDTO.GameTag]>(value: [])
 
   lazy var tagStates = Observable
@@ -37,8 +33,6 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
     }
 
   lazy var betSummary = casinoRecordUseCase.getBetSummary()
-
-  var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
 
   var betTime: [SharedBu.LocalDateTime] = []
 
@@ -156,27 +150,9 @@ extension CasinoViewModel {
 // MARK: - Favorite
 
 extension CasinoViewModel {
-  func getFavorites() {
-    favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-
-    casinoUseCase
-      .getFavorites()
-      .trackOnNext(placeholderTracker)
-      .subscribe(onNext: { [weak self] games in
-        if games.count > 0 {
-          self?.favorites.onNext(games)
-        }
-        else {
-          self?.favorites.onError(KTOError.EmptyData)
-        }
-      }, onError: { [weak self] in
-        self?.favorites.onError($0)
-      })
-      .disposed(by: disposeBag)
-  }
-
   func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
-    favorites.asObservable()
+    casinoUseCase.getFavorites()
+      .trackOnNext(placeholderTracker)
   }
 
   func toggleFavorite(

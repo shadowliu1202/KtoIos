@@ -10,14 +10,11 @@ class NumberGameViewModel: CollectErrorViewModel, ProductViewModel {
   private let memoryCache: MemoryCacheImpl
   private let numberGameService: INumberGameAppService
 
+  private let webGameResultSubject = PublishSubject<WebGameResult>()
   private let disposeBag = DisposeBag()
 
-  private let webGameResultSubject = PublishSubject<WebGameResult>()
-
   private var searchKey = BehaviorRelay<SearchKeyword>(value: SearchKeyword(keyword: ""))
-
   private lazy var gameTags = RxSwift.Single<NumberGameDTO.GameTags>.from(numberGameService.getTags()).asObservable()
-
   private lazy var filterSets: Observable<Set<GameFilter>> = Observable
     .combineLatest(tagFilter, recommendFilter, newFilter) { tags, recommand, new -> Set<GameFilter> in
       var gameFilters: Set<GameFilter> = Set(tags.map({
@@ -58,8 +55,7 @@ class NumberGameViewModel: CollectErrorViewModel, ProductViewModel {
       ((gameTags.recommendTag, isRecommend), (gameTags.newTag, isNew), gameTags.gameTags.map({ ($0, filter.contains($0)) }))
     }
     .compose(applyObservableErrorHandle())
-
-  var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
+  
   var gameSorting = BehaviorRelay<GameSorting>(value: .popular)
 
   var webGameResultDriver: Driver<WebGameResult> {
@@ -203,27 +199,9 @@ extension NumberGameViewModel {
 // MARK: - Favorite
 
 extension NumberGameViewModel {
-  func getFavorites() {
-    favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-
-    numberGameUseCase
-      .getFavorites()
-      .trackOnNext(placeholderTracker)
-      .subscribe(onNext: { [weak self] games in
-        if games.count > 0 {
-          self?.favorites.onNext(games)
-        }
-        else {
-          self?.favorites.onError(KTOError.EmptyData)
-        }
-      }, onError: { [weak self] e in
-        self?.favorites.onError(e)
-      })
-      .disposed(by: disposeBag)
-  }
-
   func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
-    favorites.asObservable()
+    numberGameUseCase.getFavorites()
+      .trackOnNext(placeholderTracker)
   }
 
   func toggleFavorite(

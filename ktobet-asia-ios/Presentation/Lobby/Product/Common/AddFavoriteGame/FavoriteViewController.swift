@@ -53,8 +53,6 @@ class FavoriteViewController: DisplayProduct {
   }
 
   private func dataBinding() {
-    viewModel?.getFavorites()
-
     favoriteGameEmptyStateView.addFavoriteButton.rx
       .touchUpInside
       .bind { _ in
@@ -63,18 +61,11 @@ class FavoriteViewController: DisplayProduct {
       .disposed(by: disposeBag)
 
     viewModel?.favoriteProducts()
-      .catch({ [weak self] error -> Observable<[WebGameWithDuplicatable]> in
-        switch error {
-        case KTOError.EmptyData:
-          self?.switchContent()
-        default:
-          self?.handleErrors(error)
-        }
-        return Observable.just([])
-      })
-      .subscribe(onNext: { [weak self] games in
-        self?.gameData = games
-      })
+      .catch { [unowned self] in
+        handleErrors($0)
+        return Observable<[WebGameWithDuplicatable]>.never()
+      }
+      .subscribe(onNext: { [unowned self] in gameData = $0 })
       .disposed(by: disposeBag)
 
     guard let viewModel else { return }
@@ -82,15 +73,9 @@ class FavoriteViewController: DisplayProduct {
     bindPlaceholder(.favorite, with: viewModel)
   }
 
-  private func switchContent(_ games: [WebGameWithProperties]? = nil) {
-    if let items = games, items.count > 0 {
-      self.gamesCollectionView.isHidden = false
-      self.favoriteGameEmptyStateView.isHidden = true
-    }
-    else {
-      self.gamesCollectionView.isHidden = true
-      self.favoriteGameEmptyStateView.isHidden = false
-    }
+  private func switchContent(_ games: [WebGameWithProperties]) {
+    gamesCollectionView.isHidden = games.count < 0
+    favoriteGameEmptyStateView.isHidden = games.count > 0
   }
 
   // MARK: ProductBaseCollection

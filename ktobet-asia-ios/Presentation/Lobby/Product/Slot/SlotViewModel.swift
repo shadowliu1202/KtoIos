@@ -55,7 +55,6 @@ class SlotViewModel: CollectErrorViewModel, ProductViewModel {
   }
 
   var slotFilter = BehaviorRelay<[SlotGameFilter]>(value: [])
-  var favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
   var webGameResultDriver: Driver<WebGameResult> {
     webGameResultSubject.asDriverLogError()
   }
@@ -120,27 +119,9 @@ extension SlotViewModel {
 // MARK: - Favorite
 
 extension SlotViewModel {
-  func getFavorites() {
-    favorites = BehaviorSubject<[WebGameWithDuplicatable]>(value: [])
-
-    slotUseCase
-      .getFavorites()
-      .trackOnNext(placeholderTracker)
-      .subscribe(onNext: { [weak self] games in
-        if games.count > 0 {
-          self?.favorites.onNext(games)
-        }
-        else {
-          self?.favorites.onError(KTOError.EmptyData)
-        }
-      }, onError: { [weak self] e in
-        self?.favorites.onError(e)
-      })
-      .disposed(by: disposeBag)
-  }
-
   func favoriteProducts() -> Observable<[WebGameWithDuplicatable]> {
-    favorites.asObservable()
+    slotUseCase.getFavorites()
+      .trackOnNext(placeholderTracker)
   }
 
   func toggleFavorite(
