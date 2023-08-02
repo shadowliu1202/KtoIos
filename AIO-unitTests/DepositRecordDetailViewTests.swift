@@ -33,7 +33,6 @@ final class DepositRecordDetailViewTests: XCBaseTestCase {
   func stubViewModel() -> DepositRecordDetailViewModelProtocolMock {
     let stubViewModel = mock(DepositRecordDetailViewModelProtocol.self)
     given(stubViewModel.supportLocale) ~> .China()
-    given(stubViewModel.httpHeaders) ~> [:]
     given(stubViewModel.selectedImages) ~> []
     given(stubViewModel.isAllowConfirm) ~> false
     return stubViewModel

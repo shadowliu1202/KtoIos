@@ -28,11 +28,6 @@ class ImageViewController: UIViewController, UIGestureRecognizerDelegate, UIScro
     super.viewDidLoad()
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
 
-    let imageDownloader = SDWebImageDownloader.shared
-    for header in httpClient.headers {
-      imageDownloader.setValue(header.value, forHTTPHeaderField: header.key)
-    }
-
     self.imageView.sd_setImage(url: URL(string: url), placeholderImage: thumbnailImage)
     self.imageView.enableZoom()
     let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapAction))

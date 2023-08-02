@@ -27,32 +27,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
       .commonFailedType(self.mockCommonFailed)
   }
 
-  private func injectCustomServicePresenter() {
-    let stubChatAppService = mock(AbsCustomerServiceAppService.self)
-
-    let stubCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
-      .initialize(stubChatAppService)
-
-    let stubSurveyViewModel = mock(SurveyViewModel.self)
-      .initialize(
-        mock(AbsCustomerServiceAppService.self),
-        mock(AuthenticationUseCase.self))
-
-    let customServicePresenter = mock(CustomServicePresenter.self)
-      .initialize(
-        stubCustomerServiceViewModel,
-        stubSurveyViewModel)
-
-    given(customServicePresenter.initService()) ~> { }
-    given(customServicePresenter.observeCsStatus) ~> .just(false)
-
-    Injectable
-      .register(CustomServicePresenter.self) { _ in
-        customServicePresenter
-      }
-      .inObjectScope(.application)
-  }
-
   private func makeSUT(_ given: (CommonVerifyOtpViewController) -> Void) -> CommonVerifyOtpViewController {
     let storyboard = UIStoryboard(name: "Common", bundle: nil)
     let vc = storyboard
@@ -64,8 +38,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_Show_CS_BarButtonItem_When_isHiddenCSBarItem_Is_False() throws {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { _ in
       args.isHiddenCSBarItem(false)
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
@@ -75,8 +47,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_Not_Show_CS_BarButtonItem_When_isHiddenCSBarItem_Is_True() {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { _ in
       args.isHiddenCSBarItem(true)
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
@@ -86,8 +56,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_Verify_Button_Enable_When_Otp_Is_Valid() {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { vc in
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
       vc.validator = validator
@@ -98,8 +66,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_Verify_Button_disable_When_Otp_Is_Not_Valid() {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { vc in
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
       vc.validator = validator
@@ -110,8 +76,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_Title_Label_Text_When_Set_Title() {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { _ in
       args.title("Title")
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
@@ -121,8 +85,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_Desc_Label_Text_When_Set_Description() {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { _ in
       args.description("Desc")
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
@@ -132,8 +94,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_JunkTip_Label_Text_When_Set_JunkTip() {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { _ in
       args.junkTip("JunkTip")
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
@@ -143,8 +103,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_Tip_Label_Text_When_Set_IdentityTip() {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { _ in
       args.identityTip("identityTip")
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
@@ -154,8 +112,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_Resend_Button_Enable_When_Timer_Is_Zero() {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { _ in
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
     }
@@ -165,8 +121,6 @@ final class CommonVerifyOtpViewControllerTest: XCBaseTestCase {
   }
 
   func test_Resend_Button_disnable_When_Timer_Is_Ten() {
-    injectCustomServicePresenter()
-
     let sut = makeSUT { _ in
       given(mockDelegate.commonVerifyOtpArgs) ~> self.args.create()
     }
