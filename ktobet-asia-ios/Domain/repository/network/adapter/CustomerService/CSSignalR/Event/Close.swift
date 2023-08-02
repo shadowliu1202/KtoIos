@@ -12,6 +12,6 @@ class Close: ChatRoomVisitor {
   }
   
   func visit(messageManager: MessageManager) {
-    messageManager.update(unReadMessage: ChatMessage_.Close())
+    // Do nothing
   }
 }
