@@ -1,6 +1,7 @@
 import Foundation
 import RxSwift
 import SharedBu
+import SwiftSignalRClient
 
 class CSSignalRClient: CSEventSubject {
   private enum Target: String {

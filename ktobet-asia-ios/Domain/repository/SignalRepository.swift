@@ -1,5 +1,6 @@
 import Foundation
 import RxSwift
+import SwiftSignalRClient
 
 protocol SignalRepository {
   func observeSystemSignal() -> Observable<any BackendSignal>

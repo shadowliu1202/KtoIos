@@ -33,6 +33,7 @@ def default_pods
   pod 'youtube-ios-player-helper'
   pod 'SwiftKeychainWrapper'
   pod 'SwiftFormat/CLI', '~> 0.49'
+  pod 'SwiftSignalRClient'
   use_frameworks!
 end
 
