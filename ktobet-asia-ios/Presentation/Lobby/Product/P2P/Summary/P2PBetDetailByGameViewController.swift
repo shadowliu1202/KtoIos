@@ -78,7 +78,7 @@ class BetDetailCell: UITableViewCell {
   func configure(_ item: P2PGameBetRecord) -> Self {
     self.selectionStyle = .none
     self.betIdLabel.text = item.groupId
-    betDetailID = item.groupId
+    betDetailID = item.wagerId
     let date = item.betTime.convertToDate()
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "HH:mm:ss"

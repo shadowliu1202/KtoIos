@@ -127,8 +127,10 @@ extension CasinoBetDetailView {
           Text(betDetail.id)
             .localized(weight: .regular, size: 16, color: .greyScaleWhite)
           
-          Text(betDetail.otherId)
-            .localized(weight: .regular, size: 14, color: .textPrimary)
+          if !betDetail.otherId.isEmpty {
+            Text(betDetail.otherId)
+              .localized(weight: .regular, size: 14, color: .textPrimary)            
+          }
         }
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity, alignment: .leading)

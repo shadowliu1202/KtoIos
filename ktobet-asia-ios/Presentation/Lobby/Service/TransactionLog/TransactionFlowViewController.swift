@@ -83,16 +83,19 @@ class TransactionFlowController {
     case is TransactionLog.GameProductCasinoGameResultMode:
       goCasinoDetail(casino.detailId())
     case is TransactionLog.GameProductCasinoUnknownDetail:
-      guard let delegate, decideNavigationTask != nil else { return }
+      guard let delegate, decideNavigationTask == nil else { return }
       
       decideNavigationTask = Task {
         guard let isWagerDetailExist = await delegate.getIsCasinoWagerDetailExist(by: casino.detailId())
-        else { return }
+        else {
+          resetDecideNavigationTask()
+          return
+        }
 
         await MainActor.run {
           isWagerDetailExist
             ? goCasinoDetail(casino.detailId())
-            : goTransactionLogDetail(LogDetail(title: casino.name, transactionId: casino.detailId()))
+            : goTransactionLogDetail(LogDetail(title: casino.name, transactionId: casino.id_))
         }
       }
     default:
@@ -112,16 +115,19 @@ class TransactionFlowController {
   }
   
   private func consider(_ p2pLog: TransactionLog.GameProductP2P) {
-    guard let delegate, decideNavigationTask != nil else { return }
+    guard let delegate, decideNavigationTask == nil else { return }
     
     decideNavigationTask = Task {
       guard let isWagerDetailExist = await delegate.getIsP2PWagerDetailExist(by: p2pLog.detailId())
-      else { return }
+      else {
+        resetDecideNavigationTask()
+        return
+      }
 
       await MainActor.run {
         isWagerDetailExist
           ? goP2PMyBetDetail(p2pLog.detailId())
-          : goTransactionLogDetail(LogDetail(title: p2pLog.name, transactionId: p2pLog.detailId()))
+          : goTransactionLogDetail(LogDetail(title: p2pLog.name, transactionId: p2pLog.id_))
       }
     }
   }
