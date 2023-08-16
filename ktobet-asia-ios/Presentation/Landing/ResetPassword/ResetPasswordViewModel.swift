@@ -7,7 +7,7 @@ import SharedBu
 
 class ResetPasswordViewModel: CollectErrorViewModel {
   private let resetUseCase: ResetPasswordUseCase
-  private let systemUseCase: GetSystemStatusUseCase
+  private let systemUseCase: ISystemStatusUseCase
   private let localStorageRepo: LocalStorageRepository
   
   private let disposeBag = DisposeBag()
@@ -54,7 +54,7 @@ class ResetPasswordViewModel: CollectErrorViewModel {
 
   init(
     _ resetUseCase: ResetPasswordUseCase,
-    _ systemUseCase: GetSystemStatusUseCase,
+    _ systemUseCase: ISystemStatusUseCase,
     _ localStorageRepo: LocalStorageRepository)
   {
     self.resetUseCase = resetUseCase
@@ -100,7 +100,7 @@ class ResetPasswordViewModel: CollectErrorViewModel {
         }
         
         return self.systemUseCase
-          .getOtpStatus()
+          .fetchOTPStatus()
           .map { $0 }
           .catch { [weak self] error in
             self?.errorsSubject

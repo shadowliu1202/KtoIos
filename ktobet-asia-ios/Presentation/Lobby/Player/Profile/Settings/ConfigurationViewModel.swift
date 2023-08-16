@@ -20,17 +20,6 @@ class ConfigurationViewModel {
   }
 
   func refreshPlayerInfoCache(_ productType: ProductType) {
-    guard let playerInfoCache = localStorageRepo.getPlayerInfo() else {
-      fatalError("Should not happened.")
-    }
-
-    let newPlayerInfoCache = PlayerInfoCache(
-      account: playerInfoCache.account,
-      ID: playerInfoCache.ID,
-      locale: playerInfoCache.locale,
-      VIPLevel: playerInfoCache.VIPLevel,
-      defaultProduct: ProductType.convert(productType))
-
-    localStorageRepo.setPlayerInfo(newPlayerInfoCache)
+    localStorageRepo.updatePlayerInfoCache(productType: productType)
   }
 }

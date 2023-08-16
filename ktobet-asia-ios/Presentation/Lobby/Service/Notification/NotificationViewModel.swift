@@ -8,7 +8,7 @@ class NotificationViewModel: CollectErrorViewModel {
   private(set) var output: Output!
   private var useCase: NotificationUseCase!
   private var configurationUseCase: ConfigurationUseCase!
-  private var systemStatusUseCase: GetSystemStatusUseCase!
+  private var systemStatusUseCase: ISystemStatusUseCase!
 
   private let keyword = BehaviorSubject<String>(value: "")
   private let selectedMessageId = BehaviorSubject<String>(value: "")
@@ -16,7 +16,7 @@ class NotificationViewModel: CollectErrorViewModel {
   private let deleteTrigger = PublishSubject<Void>()
   private var pagination: Pagination<SharedBu.Notification>!
 
-  init(useCase: NotificationUseCase, configurationUseCase: ConfigurationUseCase, systemStatusUseCase: GetSystemStatusUseCase) {
+  init(useCase: NotificationUseCase, configurationUseCase: ConfigurationUseCase, systemStatusUseCase: ISystemStatusUseCase) {
     super.init()
     self.useCase = useCase
     self.configurationUseCase = configurationUseCase
@@ -63,7 +63,7 @@ class NotificationViewModel: CollectErrorViewModel {
   }
 
   private func getCustomerServiceEmail() -> Driver<String> {
-    systemStatusUseCase.getCustomerServiceEmail()
+    systemStatusUseCase.fetchCustomerServiceEmail()
       .compose(self.applySingleErrorHandler())
       .asDriver(onErrorJustReturn: "")
   }

@@ -6,9 +6,9 @@ import UIKit
 class DefaultProductViewModel {
   private var disposeBag = DisposeBag()
   private var usecaseConfig: ConfigurationUseCase!
-  private let systemStatusUseCase: GetSystemStatusUseCase!
+  private let systemStatusUseCase: ISystemStatusUseCase!
 
-  init(_ usecaseConfig: ConfigurationUseCase, _ systemStatusUseCase: GetSystemStatusUseCase) {
+  init(_ usecaseConfig: ConfigurationUseCase, _ systemStatusUseCase: ISystemStatusUseCase) {
     self.usecaseConfig = usecaseConfig
     self.systemStatusUseCase = systemStatusUseCase
   }
@@ -21,7 +21,7 @@ class DefaultProductViewModel {
     usecaseConfig.getPlayerInfo()
   }
 
-  func getPortalMaintenanceState() -> Single<MaintenanceStatus?> {
-    systemStatusUseCase.observePortalMaintenanceState().first()
+  func getPortalMaintenanceState() -> Single<MaintenanceStatus> {
+    systemStatusUseCase.fetchMaintenanceStatus()
   }
 }

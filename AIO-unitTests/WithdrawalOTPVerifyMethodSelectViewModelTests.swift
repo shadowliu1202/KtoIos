@@ -24,7 +24,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
   private var cancellables = Set<AnyCancellable>()
 
   func test_givenMobileVerificationAvaildAndMobileNotSet_thenDisplayHintAndHideOTPRequestButton_KTO_TC_186() async {
-    let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+    let stubGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
     let dummyAbsWithdrawalAppService = mock(AbsWithdrawalAppService.self)
@@ -35,7 +35,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
       dummyPlayerConfiguration,
       dummyAbsWithdrawalAppService)
 
-    given(stubGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: false, isSmsActive: true))
+    given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: false, isSmsActive: true))
     given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
 
     sut.selectedAccountType = .phone
@@ -57,7 +57,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
   }
 
   func test_givenEmailVerificationAvaildAndEmailNotSet_thenDisplayHintAndHideOTPRequestButton_KTO_TC_187() async {
-    let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+    let stubGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
     let dummyAbsWithdrawalAppService = mock(AbsWithdrawalAppService.self)
@@ -68,7 +68,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
       dummyPlayerConfiguration,
       dummyAbsWithdrawalAppService)
 
-    given(stubGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: true, isSmsActive: false))
+    given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: false))
     given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
     sut.selectedAccountType = .email
 
@@ -89,7 +89,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
   }
 
   func test_givenMobileVerificationUnavailed_thenDisplayHintAndHideOTPRequestButton_KTO_TC_188() async {
-    let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+    let stubGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
     let dummyAbsWithdrawalAppService = mock(AbsWithdrawalAppService.self)
@@ -100,7 +100,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
       dummyPlayerConfiguration,
       dummyAbsWithdrawalAppService)
 
-    given(stubGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: true, isSmsActive: false))
+    given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: false))
     given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
 
     sut.selectedAccountType = .phone
@@ -122,7 +122,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
   }
 
   func test_givenEmailVerificationUnavailed_thenDisplayHintAndHideOTPRequestButton_KTO_TC_189() async {
-    let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+    let stubGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
     let dummyAbsWithdrawalAppService = mock(AbsWithdrawalAppService.self)
@@ -133,7 +133,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
       dummyPlayerConfiguration,
       dummyAbsWithdrawalAppService)
 
-    given(stubGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: false, isSmsActive: true))
+    given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: false, isSmsActive: true))
     given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
     sut.selectedAccountType = .email
 
@@ -154,7 +154,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
   }
 
   func test_givenMobileVerificationUnavailed_thenDefaultSelectedAccountTypeIsEmail_KTO_TC_192() async {
-    let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+    let stubGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
     let dummyAbsWithdrawalAppService = mock(AbsWithdrawalAppService.self)
@@ -165,7 +165,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
       dummyPlayerConfiguration,
       dummyAbsWithdrawalAppService)
 
-    given(stubGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: true, isSmsActive: false))
+    given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: false))
     given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
 
     sut.selectedAccountType = .phone
@@ -185,7 +185,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
   }
 
   func test_givenMobileVerificationAvaildAndMobileNotSet_thenDefaultSelectedAccountTypeIsEmail_KTO_TC_193() async {
-    let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+    let stubGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
     let dummyAbsWithdrawalAppService = mock(AbsWithdrawalAppService.self)
@@ -196,7 +196,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
       dummyPlayerConfiguration,
       dummyAbsWithdrawalAppService)
 
-    given(stubGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: false, isSmsActive: true))
+    given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: false, isSmsActive: true))
     given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
 
     sut.selectedAccountType = .phone

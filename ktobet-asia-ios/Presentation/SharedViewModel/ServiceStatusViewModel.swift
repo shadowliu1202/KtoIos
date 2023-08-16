@@ -5,7 +5,7 @@ import RxSwiftExt
 import SharedBu
 
 class ServiceStatusViewModel {
-  private let systemStatusUseCase: GetSystemStatusUseCase
+  private let systemStatusUseCase: ISystemStatusUseCase
   private let localStorageRepo: LocalStorageRepository
   private let playerDefaultProductType = ReplaySubject<ProductType>.create(bufferSize: 1)
   private var countDownTimer: CountDownTimer?
@@ -15,16 +15,16 @@ class ServiceStatusViewModel {
   var output: Output!
 
   init(
-    systemStatusUseCase: GetSystemStatusUseCase,
+    systemStatusUseCase: ISystemStatusUseCase,
     localStorageRepo: LocalStorageRepository)
   {
     self.systemStatusUseCase = systemStatusUseCase
     self.localStorageRepo = localStorageRepo
 
-    let otpService = systemStatusUseCase.getOtpStatus()
-    let customerServiceEmail = systemStatusUseCase.getCustomerServiceEmail().asDriver(onErrorJustReturn: "")
-    let maintainStatus = systemStatusUseCase.observePortalMaintenanceState()
-    let maintainStatusPerSecond = systemStatusUseCase.observePortalMaintenanceState()
+    let otpService = systemStatusUseCase.fetchOTPStatus()
+    let customerServiceEmail = systemStatusUseCase.fetchCustomerServiceEmail().asDriver(onErrorJustReturn: "")
+    let maintainStatus = systemStatusUseCase.observeMaintenanceStatusByFetch()
+    let maintainStatusPerSecond = systemStatusUseCase.observeMaintenanceStatusByFetch()
       .do(onNext: { [weak self] status in
         switch status {
         case let allPortal as MaintenanceStatus.AllPortal:

@@ -5,6 +5,7 @@ import SharedBu
 protocol PlayerRepository {
   func refreshHttpClient(playerLocale: SupportLocale)
   func loadPlayer() -> Single<Player>
+  func fetchPlayerInfo() -> Single<PlayerBean>
   func getUtcOffset() -> Single<UtcOffset>
   func getDefaultProduct() -> Single<ProductType>
   func saveDefaultProduct(_ productType: ProductType) -> Completable
@@ -71,7 +72,7 @@ class PlayerRepositoryImpl: PlayerRepository {
 
     return Single
       .zip(favorProduct, localization, playerInfo, contactInfo)
-      .map { defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo -> (Player, PlayerInfoCache) in
+      .map { defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo -> Player in
         let playerLocale = SupportLocale.Companion().create(language: responseLocalization.data)
 
         let playerInfo = PlayerInfo(
@@ -84,34 +85,32 @@ class PlayerRepositoryImpl: PlayerRepository {
           contact: PlayerInfo.Contact(
             email: responseContactInfo.data?.email,
             mobile: responseContactInfo.data?.mobile))
-        let player = Player(
+        
+        return Player(
           gameId: responsePlayerInfo.data?.gameId ?? "",
           playerInfo: playerInfo,
           bindLocale: playerLocale,
           defaultProduct: defaultProduct)
-
-        let playerInfoCache = PlayerInfoCache(
-          account: playerInfo.displayId,
-          ID: playerInfo.gameId,
-          locale: responseLocalization.data,
-          VIPLevel: playerInfo.level,
-          defaultProduct: ProductType.convert(defaultProduct))
-
-        return (player, playerInfoCache)
       }
-      .do(onSuccess: { [weak self] player, playerInfoCache in
-        guard let self else {
-          Logger.shared.debug("set player info fail: missing reference.")
-          return
-        }
-
-        self.localStorageRepo.setUserName(player.playerInfo.withdrawalName)
-        self.localStorageRepo.setPlayerInfo(playerInfoCache)
-        self.localStorageRepo.setLastAPISuccessDate(Date())
+      .do(onSuccess: { [localStorageRepo] player in
+        localStorageRepo.setUserName(player.playerInfo.withdrawalName)
+        localStorageRepo.setPlayerInfo(player)
+        localStorageRepo.setLastAPISuccessDate(Date())
         Logger.shared.debug("set player info.")
-      }).map { player, _ in
-        player
+      })
+  }
+  
+  func fetchPlayerInfo() -> Single<PlayerBean> {
+    playerApi.getPlayerInfo()
+      .flatMap {
+        guard let playerBean = $0.data
+        else { return .error(KTOError.EmptyData) }
+        
+        return .just(playerBean)
       }
+      .do(onSuccess: { [localStorageRepo] in
+        localStorageRepo.updatePlayerInfoCache(level: Int32($0.level))
+      })
   }
 
   func getUtcOffset() -> Single<UtcOffset> {

@@ -18,7 +18,7 @@ class NavigationViewModel {
 
   private let playerUseCase: PlayerDataUseCase!
   private let localizationPolicyUseCase: LocalizationPolicyUseCase!
-  private let systemStatusUseCase: GetSystemStatusUseCase!
+  private let systemStatusUseCase: ISystemStatusUseCase!
   private let authUseCase: AuthenticationUseCase!
   private let localStorageRepo: LocalStorageRepository
 
@@ -32,7 +32,7 @@ class NavigationViewModel {
     _ authUseCase: AuthenticationUseCase,
     _ playerUseCase: PlayerDataUseCase,
     _ localizationPolicyUseCase: LocalizationPolicyUseCase,
-    _ systemStatusUseCase: GetSystemStatusUseCase,
+    _ systemStatusUseCase: ISystemStatusUseCase,
     _ localStorageRepo: LocalStorageRepository)
   {
     self.authUseCase = authUseCase
@@ -88,8 +88,8 @@ class NavigationViewModel {
     }
   }
 
-  private func getLoginNeededStatus() -> Single<MaintenanceStatus?> {
-    initLocale().andThen(systemStatusUseCase.observePortalMaintenanceState().first())
+  private func getLoginNeededStatus() -> Single<MaintenanceStatus> {
+    initLocale().andThen(systemStatusUseCase.fetchMaintenanceStatus())
   }
 
   private func initLocale() -> Completable {

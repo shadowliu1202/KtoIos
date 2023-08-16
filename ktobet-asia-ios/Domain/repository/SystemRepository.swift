@@ -3,11 +3,11 @@ import RxSwift
 import SharedBu
 
 protocol SystemRepository {
-  func getPortalMaintenance() -> Single<OtpStatus>
+  func fetchOTPStatus() -> Single<OtpStatus>
   func observePortalMaintenanceState() -> Observable<MaintenanceStatus>
-  func getCustomerService() -> Single<String>
+  func fetchCustomerServiceEmail() -> Single<String>
   func refreshPortalMaintenanceState()
-  func getYearOfCopyRight() -> Single<String>
+  func fetchCopyRight() -> Single<String>
   func fetchMaintenanceStatus() -> Single<MaintenanceStatus>
 }
 
@@ -33,7 +33,7 @@ class SystemRepositoryImpl: SystemRepository {
       }
   }
 
-  func getPortalMaintenance() -> Single<OtpStatus> {
+  func fetchOTPStatus() -> Single<OtpStatus> {
     portalApi
       .getPortalMaintenance()
       .map { response -> OtpStatus in
@@ -49,7 +49,7 @@ class SystemRepositoryImpl: SystemRepository {
     portalMaintenanceStateRefresh.onNext(())
   }
 
-  func getCustomerService() -> Single<String> {
+  func fetchCustomerServiceEmail() -> Single<String> {
     portalApi.getCustomerServiceEmail()
       .map { $0.data ?? "" }
       .catch({ [weak self] error in
@@ -115,7 +115,7 @@ class SystemRepositoryImpl: SystemRepository {
     httpClient.getCookies().first(where: { $0.name == csMailCookieName })?.value ?? ""
   }
 
-  func getYearOfCopyRight() -> Single<String> {
+  func fetchCopyRight() -> Single<String> {
     portalApi.getYearOfCopyRight().map({ $0.data })
   }
 }

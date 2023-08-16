@@ -5,7 +5,7 @@ import SharedBu
 
 class SignupEmailViewModel {
   enum RegistrationVerification {
-    case valid(player: Player)
+    case valid
     case invalid
   }
 
@@ -40,8 +40,8 @@ class SignupEmailViewModel {
         if success {
           return self.authenticationUseCase
             .login(account: account, pwd: password, captcha: Captcha(passCode: ""))
-            .map { player -> RegistrationVerification in
-              .valid(player: player)
+            .map { _ -> RegistrationVerification in
+              .valid
             }
         }
         else {

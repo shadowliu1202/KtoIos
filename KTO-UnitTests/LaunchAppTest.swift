@@ -6,11 +6,11 @@ import XCTest
 @testable import ktobet_asia_ios_qat
 
 final class LaunchAppTest: XCBaseTestCase {
-  private let loggedPlayer = PlayerInfoCache(
-    account: "",
-    ID: "",
+  private let loggedPlayer = PlayerInfoCacheBean(
+    displayID: "",
+    gamerID: "",
     locale: "",
-    VIPLevel: 1,
+    level: 1,
     defaultProduct: 3)
 
   private lazy var mockNavigator = mock(Navigator.self)
@@ -36,7 +36,7 @@ final class LaunchAppTest: XCBaseTestCase {
     stubAuthenticationUseCase: AuthenticationUseCaseMock = mock(AuthenticationUseCase.self),
     stubPlayerDataUseCase: PlayerDataUseCaseMock = mock(PlayerDataUseCase.self),
     stubLocalizationPolicyUseCase: LocalizationPolicyUseCaseMock = mock(LocalizationPolicyUseCase.self),
-    stubGetSystemStatusUseCase: GetSystemStatusUseCaseMock = mock(GetSystemStatusUseCase.self),
+    stubGetSystemStatusUseCase: ISystemStatusUseCaseMock = mock(ISystemStatusUseCase.self),
     stubLocalStorageRepository: LocalStorageRepositoryMock = mock(LocalStorageRepository.self))
     -> NavigationViewModel
   {
@@ -66,23 +66,40 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   private func stubMaintenanceStatus(isAllMaintenance: Bool) {
-    let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+    let stubGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
 
-    given(stubGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: true, isSmsActive: true))
-    given(stubGetSystemStatusUseCase.getCustomerServiceEmail()) ~> .just("")
+    given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: true))
+    given(stubGetSystemStatusUseCase.fetchCustomerServiceEmail()) ~> .just("")
 
     if isAllMaintenance {
       given(stubGetSystemStatusUseCase.fetchMaintenanceStatus()) ~> .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
-      given(stubGetSystemStatusUseCase.observePortalMaintenanceState()) ~>
+      given(stubGetSystemStatusUseCase.observeMaintenanceStatusByFetch()) ~>
         .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
+      given(stubGetSystemStatusUseCase.observeMaintenanceStatusChange()) ~>
+        .just(())
     }
     else {
       given(stubGetSystemStatusUseCase.fetchMaintenanceStatus()) ~> .just(.Product(productsAvailable: [], status: [:]))
-      given(stubGetSystemStatusUseCase.observePortalMaintenanceState()) ~> .just(.Product(productsAvailable: [], status: [:]))
+      given(stubGetSystemStatusUseCase.observeMaintenanceStatusByFetch()) ~> .just(.Product(productsAvailable: [], status: [:]))
+      given(stubGetSystemStatusUseCase.observeMaintenanceStatusChange()) ~> .just(())
     }
 
-    Injectable.register(GetSystemStatusUseCase.self) { _ in
+    Injectable.register(ISystemStatusUseCase.self) { _ in
       stubGetSystemStatusUseCase
+    }
+    
+    let stubProductsViewModel = mock(ProductsViewModel.self)
+
+    given(stubProductsViewModel.observeMaintenanceStatus()).willReturn(
+      isAllMaintenance ?
+        .just(MaintenanceStatus.AllPortal(remainingSeconds: nil)) :
+        .just(.Product(productsAvailable: [], status: [:])))
+
+    given(stubProductsViewModel.errors()) ~> .empty()
+    given(stubProductsViewModel.logout()) ~> .empty()
+
+    Injectable.register(ProductsViewModel.self) { _ in
+      stubProductsViewModel
     }
   }
 
@@ -90,7 +107,7 @@ final class LaunchAppTest: XCBaseTestCase {
     let dummyAuthenticationUseCase = mock(AuthenticationUseCase.self)
     let dummyPlayerDataUseCase = mock(PlayerDataUseCase.self)
     let dummyLocalizationPolicyUseCase = mock(LocalizationPolicyUseCase.self)
-    let dummyGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+    let dummyGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
     let dummyLocalStorageRepository = mock(LocalStorageRepository.self)
 
     return mock(NavigationViewModel.self)
@@ -103,13 +120,9 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   private func getFakePlayerViewModelMock() -> PlayerViewModelMock {
-    let dummyPlayerDataUseCase = mock(PlayerDataUseCase.self)
     let dummyAuthenticationUseCase = mock(AuthenticationUseCase.self)
 
-    return mock(PlayerViewModel.self)
-      .initialize(
-        playerUseCase: dummyPlayerDataUseCase,
-        authUseCase: dummyAuthenticationUseCase)
+    return mock(PlayerViewModel.self).initialize(authUseCase: dummyAuthenticationUseCase)
   }
 
   private func getStubCasinoViewModel() -> CasinoViewModel {

@@ -12,37 +12,11 @@ final class ProductsViewControllerTests: XCBaseTestCase {
   }
   
   func test_whenAddFavoriteGameOverLimit_thenDisplayAlert() {
-    let dummySystemStatusUseCase = mock(GetSystemStatusUseCase.self)
-    let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
-    let dummyPlayerUseCase = mock(PlayerDataUseCase.self)
-    let dummyAuthUseCase = mock(AuthenticationUseCase.self)
-    let dummyObserveSystemMessageUseCase = mock(ObserveSystemMessageUseCase.self)
-    
-    given(dummySystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: true, isSmsActive: true))
-    given(dummySystemStatusUseCase.getCustomerServiceEmail()) ~> .just("")
-    given(dummySystemStatusUseCase.observePortalMaintenanceState()) ~> .just(.Product(productsAvailable: [], status: [:]))
-    
-    let dummyServiceViewModel = mock(ServiceStatusViewModel.self)
-      .initialize(systemStatusUseCase: dummySystemStatusUseCase, localStorageRepo: dummyLocalStorageRepo)
-    let dummyPlayerViewModel = mock(PlayerViewModel.self)
-      .initialize(playerUseCase: dummyPlayerUseCase, authUseCase: dummyAuthUseCase)
     let stubProductsViewModel = mock(ProductsViewModel.self)
-      .initialize(observeSystemMessageUseCase: dummyObserveSystemMessageUseCase, getSystemStatusUseCase: dummySystemStatusUseCase)
     let mockAlert = mock(AlertProtocol.self)
     
-    given(dummyPlayerViewModel.checkIsLogged()) ~> .just(true)
-    given(stubProductsViewModel.observeMaintenanceStatus()) ~> .just(.Product(productsAvailable: [], status: [:]))
+    given(stubProductsViewModel.observeMaintenanceStatus()) ~> .empty()
     given(stubProductsViewModel.errors()) ~> .empty()
-    
-    Injection.shared.container
-      .register(ServiceStatusViewModel.self) { _ in
-        dummyServiceViewModel
-      }
-    
-    Injection.shared.container
-      .register(PlayerViewModel.self) { _ in
-        dummyPlayerViewModel
-      }
     
     Injection.shared.container
       .register(ProductsViewModel.self) { _ in

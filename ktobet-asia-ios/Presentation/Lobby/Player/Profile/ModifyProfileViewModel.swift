@@ -3,6 +3,11 @@ import RxCocoa
 import RxSwift
 import SharedBu
 
+enum AuthenticationState {
+  case unauthenticated // Initial state, the user needs to authenticate
+  case authenticated // The user has authenticated successfully
+}
+
 class ModifyProfileViewModel: CollectErrorViewModel {
   @Injected private var loading: Loading
 

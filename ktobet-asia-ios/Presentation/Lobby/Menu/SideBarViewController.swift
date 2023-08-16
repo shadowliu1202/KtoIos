@@ -4,7 +4,7 @@ import SharedBu
 import SideMenu
 import UIKit
 
-class SideBarViewController: LobbyViewController {
+class SideBarViewController: APPViewController {
   @IBOutlet private weak var btnGift: UIBarButtonItem!
   @IBOutlet private weak var btnNotification: UIBarButtonItem!
   @IBOutlet private weak var btnClose: UIBarButtonItem!
@@ -22,33 +22,36 @@ class SideBarViewController: LobbyViewController {
   @IBOutlet private weak var accountView: UIView!
   @IBOutlet private weak var levelView: UIView!
   @IBOutlet private weak var balanceView: UIView!
+  
+  private let features = [
+    FeatureItem(type: .deposit, name: Localize.string("common_deposit"), icon: "Deposit"),
+    FeatureItem(type: .withdraw, name: Localize.string("common_withdrawal"), icon: "Withdrawl"),
+    FeatureItem(type: .callService, name: Localize.string("common_customerservice"), icon: "Customer Service"),
+    FeatureItem(type: .logout, name: Localize.string("common_logout"), icon: "Logout")
+  ]
+  
+  private let balanceHiddenStateSubject = BehaviorRelay(value: true)
+  private let productSelectedSubject = BehaviorRelay<ProductType?>(value: nil)
 
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
-  private let playerViewModel = Injectable.resolve(PlayerViewModel.self)!
-  private let serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+  private var disposeBag = DisposeBag()
 
-  private let refreshTrigger = PublishSubject<Void>()
-  private let balanceTrigger = PublishSubject<Void>()
-  private let disposeBag = DisposeBag()
+  private var gamerID = ""
+  private var firstTimeEntry = true
 
-  private var productMaintenanceStatus: MaintenanceStatus.Product?
-  private var balanceSummary = ""
-  private var gameId = ""
-  private var isBalanceLabelHidden = false
-
-  var sideMenuViewModel: SideMenuViewModel? = Injectable.resolveWrapper(SideMenuViewModel.self)
+  var sideMenuViewModel: SideMenuViewModel? = SideMenuViewModel()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     initUI()
-    initFeatures()
-    eventHandler()
     dataBinding()
+    selectEventBinding()
+    
     setupNetworkRetry()
 
-    guard let menu = navigationController as? SideMenuNavigationController, menu.blurEffectStyle == nil else {
-      return
-    }
+    guard
+      let menu = navigationController as? SideMenuNavigationController,
+      menu.blurEffectStyle == nil
+    else { return }
 
     menu.sideMenuDelegate = self
 
@@ -58,8 +61,8 @@ class SideBarViewController: LobbyViewController {
     appearance.shadowImage = .init()
     appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.greyScaleWhite]
     appearance.backgroundColor = UIColor.greyScaleSidebar.withAlphaComponent(0.9)
-    self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    self.navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    navigationController?.navigationBar.standardAppearance = appearance
   }
 
   override func observeValue(
@@ -78,32 +81,21 @@ class SideBarViewController: LobbyViewController {
     }
   }
 
-  func observeLoginStatus() {
+  func observeKickOutSignal() {
     guard let sideMenuViewModel else { return }
-
-    sideMenuViewModel
-      .observeLoginStatus()
-      .subscribe(onNext: { [weak self] loginStatusDTO in
-        guard let self else { return }
-
-        switch loginStatusDTO {
-        case .kickout(let type):
-          self.alertAndExitLobby(type)
-        case .fetch:
-          break
-        }
-      })
+    
+    sideMenuViewModel.observeKickOutSignal()
+      .subscribe(onNext: { [unowned self] in alertAndExitLobby($0) })
       .disposed(by: disposeBag)
   }
 
   private func alertAndExitLobby(_ type: KickOutSignal?, cancel: (() -> Void)? = nil) {
     let (title, message, isMaintain) = parseKickOutType(type)
 
-    Alert.shared.show(title, message, confirm: { [weak self] in
-      guard let self else { return }
+    Alert.shared.show(title, message, confirm: { [unowned self] in
+      guard let sideMenuViewModel else { return }
 
-      self.playerViewModel.logout()
-        .subscribe(on: MainScheduler.instance)
+      sideMenuViewModel.logout()
         .subscribe(onCompleted: {
           if isMaintain {
             NavigationManagement.sharedInstance.goTo(
@@ -114,7 +106,7 @@ class SideBarViewController: LobbyViewController {
             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
           }
         })
-        .disposed(by: self.disposeBag)
+        .disposed(by: disposeBag)
 
     }, cancel: cancel)
   }
@@ -166,13 +158,6 @@ class SideBarViewController: LobbyViewController {
     return (title, message, isMaintain)
   }
 
-  private func dataRefresh() {
-    guard let sideMenuViewModel else { return }
-
-    refreshTrigger.onNext(())
-    sideMenuViewModel.fetchData()
-  }
-
   override func handleErrors(_ error: Error) {
     if !error.isNetworkLost() {
       super.handleErrors(error)
@@ -186,19 +171,23 @@ class SideBarViewController: LobbyViewController {
   private func setupNetworkRetry() {
     networkConnectRelay
       .skip(1)
-      .subscribe(onNext: { [weak self] isConnected in
+      .subscribe(onNext: { [weak sideMenuViewModel] isConnected in
         if isConnected {
-          self?.dataRefresh()
+          sideMenuViewModel?.refreshData()
         }
       })
       .disposed(by: disposeBag)
   }
-}
+  
+  func deallocate() {
+    sideMenuViewModel = nil
+    disposeBag = DisposeBag()
+  }
 
-// MARK: - UI
-
-extension SideBarViewController {
+  // MARK: - UI
   private func initUI() {
+    guard let sideMenuViewModel else { return }
+    
     let navigationBar = navigationController?.navigationBar
     navigationBar?.barTintColor = UIColor.greyScaleSidebar
     navigationBar?.isTranslucent = false
@@ -215,7 +204,7 @@ extension SideBarViewController {
       let width = (UIScreen.main.bounds.size.width - space * 5) / 4
       let flowLayout = UICollectionViewFlowLayout()
       flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
-      if localStorageRepo.getCultureCode() == SupportLocale.China().cultureCode() {
+      if sideMenuViewModel.getCultureCode() == SupportLocale.China().cultureCode() {
         flowLayout.itemSize = CGSize(width: width, height: 84)
       }
       else {
@@ -229,263 +218,7 @@ extension SideBarViewController {
     labBalance.lineBreakMode = .byCharWrapping
     labUserAcoount.numberOfLines = 0
     labUserAcoount.lineBreakMode = .byCharWrapping
-  }
-
-  private func initFeatures() {
-    guard let sideMenuViewModel else { return }
-
-    sideMenuViewModel.features
-      .bind(to: listFeature.rx.items(
-        cellIdentifier: String(describing: FeatureItemCell.self),
-        cellType: FeatureItemCell.self))
-    { _, data, cell in
-      cell.setup(data.name, image: UIImage(named: data.icon))
-    }
-    .disposed(by: disposeBag)
-  }
-
-  func cleanProductSelected() {
-    self.sideMenuViewModel?.currentSelectedProductType = ProductType.none
-    self.listProduct.reloadData()
-  }
-
-  private func updatePlayerInfoUI(_ player: Player) {
-    self.labUserLevel.text = Localize.string("common_level_2", "\(player.playerInfo.level)")
-    self.labUserAcoount.text = "\(AccountMask.maskAccount(account: player.playerInfo.displayId))"
-    self.labUserName.text = "\(player.playerInfo.gameId)"
-  }
-
-  private func updateProductListCell(view: UICollectionView, at row: Int, source data: ProductItem) -> ProductItemCell {
-    guard
-      let sideMenuViewModel,
-      let cell = view.dequeueReusableCell(withReuseIdentifier: "ProductItemCell", for: [0, row]) as? ProductItemCell
-    else { return .init() }
-
-    cell.setup(data)
-    cell.finishCountDown = { [weak self] in
-      self?.sideMenuViewModel?.fetchMaintenanceStatus()
-    }
-
-    if
-      let selectedProductType = sideMenuViewModel.currentSelectedProductType,
-      data.type == selectedProductType
-    {
-      cell.setSelectedIcon(selectedProductType, isSelected: true)
-      self.listProduct.selectItem(at: IndexPath(item: row, section: 0), animated: true, scrollPosition: .init())
-    }
-    else {
-      cell.setSelectedIcon(data.type, isSelected: false)
-    }
-
-    return cell
-  }
-
-  private func setupBalanceLabel(gameId: String) {
-    let isHidden = playerViewModel.getBalanceHiddenState(gameId: gameId)
-    setBalanceLabel(isHidden)
-  }
-
-  private func updateBalanceLabel(isHidden: Bool) {
-    setBalanceLabel(isHidden)
-    playerViewModel.saveBalanceHiddenState(gameId: self.gameId, isHidden: isBalanceLabelHidden)
-  }
-
-  private func setBalanceLabel(_ isHidden: Bool) {
-    isBalanceLabelHidden = isHidden
-
-    if isBalanceLabelHidden {
-      btnBalanceHide.setTitle(Localize.string("common_show"), for: .normal)
-      labBalance.text = "\(balanceSummary.first ?? " ") •••••••"
-    }
-    else {
-      btnBalanceHide.setTitle(Localize.string("common_hide"), for: .normal)
-      labBalance.text = balanceSummary
-    }
-  }
-}
-
-// MARK: - Binding
-
-extension SideBarViewController {
-  private func dataBinding() {
-    balanceBinding()
-    playerInfoBinding()
-    productsListBinding()
-    maintenanceStatusBinding()
-    errorsHandingBinding()
-  }
-
-  private func balanceBinding() {
-    guard let sideMenuViewModel else { return }
-
-    sideMenuViewModel
-      .observePlayerBalance()
-      .map { (currency: AccountCurrency) -> String in
-        "\(currency.symbol) \(currency.formatString())"
-      }
-      .subscribe(onNext: { [weak self] balanceSummary in
-        guard let self else { return }
-
-        self.balanceSummary = balanceSummary
-        self.updateBalanceLabel(isHidden: self.isBalanceLabelHidden)
-      })
-      .disposed(by: disposeBag)
-  }
-
-  private func playerInfoBinding() {
-    refreshTrigger
-      .asDriver(onErrorJustReturn: ())
-      .flatMapLatest { [weak self] _ -> Driver<(Player?, AccountCurrency?)> in
-        guard let self else { return .just((nil, nil)) }
-
-        return self.playerViewModel.getPlayerInfo()
-          .zip(with: self.playerViewModel.getBalance()) { player, accountCurrency in
-            (player, accountCurrency)
-          }
-          .asDriver(onErrorJustReturn: (nil, nil))
-      }
-      .filter { player, accountCurrency in
-        player != nil && accountCurrency != nil
-      }
-      .map { player, accountCurrency in
-        (player!, accountCurrency!)
-      }
-      .map { ($0, "\($1.symbol) \($1.formatString())") }
-      .do(onNext: { [weak self] player, balanceSummary in
-        guard let self else { return }
-
-        if self.sideMenuViewModel?.currentSelectedProductType == nil {
-          self.sideMenuViewModel?.currentSelectedProductType = player.defaultProduct
-        }
-
-        self.gameId = player.gameId
-        self.balanceSummary = balanceSummary
-
-        self.updatePlayerInfoUI(player)
-        self.setupBalanceLabel(gameId: player.gameId)
-      })
-      .filter { player, _ in
-        player.defaultProduct != nil
-      }
-      .map { player, _ -> ProductType in
-        player.defaultProduct!
-      }
-      .drive(serviceViewModel.input.playerDefaultProductType)
-      .disposed(by: disposeBag)
-  }
-
-  private func productsListBinding() {
-    refreshTrigger
-      .asDriver(onErrorJustReturn: ())
-      .flatMapLatest({ [weak self] _ -> Driver<[(productType: ProductType, maintainTime: OffsetDateTime?)]?> in
-        guard let self else { return .just(nil) }
-
-        return self.getProductsMaintenanceTime()
-      })
-      .compactMap { $0 }
-      .map { [weak self] (productsMaintainTimeArray: [(productType: ProductType, maintainTime: OffsetDateTime?)])
-        -> [ProductItem] in
-        guard let sideMenuViewModel = self?.sideMenuViewModel
-        else { return [] }
-
-        return sideMenuViewModel.products
-          .map { (product: ProductItem) -> ProductItem in
-            ProductItem(
-              title: product.title,
-              image: product.image,
-              type: product.type,
-              maintainTime: productsMaintainTimeArray.first(where: { $0.productType == product.type })?.maintainTime)
-          }
-      }
-      .filter({ !$0.isEmpty })
-      .do(afterNext: { [weak self] _ in
-        self?.listProduct.reloadData()
-      })
-      .drive(self.listProduct.rx.items) { [weak self] collection, row, data in
-        guard let self else { return .init() }
-
-        return self.updateProductListCell(view: collection, at: row, source: data)
-      }
-      .disposed(by: disposeBag)
-  }
-
-  private func getProductsMaintenanceTime() -> Driver<[(productType: ProductType, maintainTime: OffsetDateTime?)]?> {
-    serviceViewModel.output.productsMaintainTime
-      .map { $0 }
-      .asDriver(onErrorRecover: { [weak self] error in
-        self?.playerViewModel.errorsSubject
-          .onNext(error)
-
-        return .just(nil)
-      })
-  }
-
-  private func maintenanceStatusBinding() {
-    guard let sideMenuViewModel else { return }
-
-    sideMenuViewModel
-      .observeMaintenanceStatus()
-      .subscribe(onNext: { [weak self] status in
-        guard let self else { return }
-
-        self.updateMaintainStatus(status)
-        self.refreshTrigger.onNext(())
-      })
-      .disposed(by: disposeBag)
-  }
-
-  private func updateMaintainStatus(_ status: MaintenanceStatus) {
-    switch status {
-    case is MaintenanceStatus.AllPortal:
-      alertAndExitLobby(KickOutSignal.Maintenance)
-    case let productStatus as MaintenanceStatus.Product:
-      productMaintenanceStatus = productStatus
-    default:
-      break
-    }
-  }
-
-  private func eventHandler() {
-    Observable.zip(listProduct.rx.itemSelected, listProduct.rx.modelSelected(ProductItem.self))
-      .bind { [weak self] indexPath, data in
-        guard let self else { return }
-        NavigationManagement.sharedInstance.goTo(
-          productType: data.type,
-          isMaintenance: self.productMaintenanceStatus?.isProductMaintain(productType: data.type) ?? false)
-        let cell = self.listProduct.cellForItem(at: indexPath) as? ProductItemCell
-        cell?.setSelectedIcon(data.type, isSelected: true)
-        self.sideMenuViewModel?.currentSelectedProductType = data.type
-      }.disposed(by: disposeBag)
-
-    Observable.zip(listProduct.rx.itemDeselected, listProduct.rx.modelDeselected(ProductItem.self))
-      .bind { [weak self] indexPath, data in
-        let cell = self?.listProduct.cellForItem(at: indexPath) as? ProductItemCell
-        cell?.setSelectedIcon(data.type, isSelected: false)
-      }.disposed(by: disposeBag)
-
-    Observable.zip(listFeature.rx.itemSelected, listFeature.rx.modelSelected(FeatureItem.self))
-      .bind { [weak self] indexPath, data in
-        let featureType = data.type
-        if featureType != .logout {
-          self?.cleanProductSelected()
-        }
-
-        switch featureType {
-        case .logout:
-          self?.alertAndExitLobby(nil, cancel: { })
-        case .withdraw:
-          NavigationManagement.sharedInstance.goTo(storyboard: "Withdrawal", viewControllerId: "WithdrawalNavigation")
-        case .deposit:
-          NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
-        case .callService:
-          NavigationManagement.sharedInstance.goTo(
-            storyboard: "CustomService",
-            viewControllerId: "CustomerServiceMainNavigationController")
-        }
-
-        self?.listFeature.deselectRow(at: indexPath, animated: true)
-      }.disposed(by: disposeBag)
-
+    
     let labAccountTap = UITapGestureRecognizer(target: self, action: #selector(self.accountTap(_:)))
     self.accountView.isUserInteractionEnabled = true
     self.accountView.addGestureRecognizer(labAccountTap)
@@ -499,24 +232,168 @@ extension SideBarViewController {
     self.balanceView.addGestureRecognizer(labBalanceTap)
   }
 
-  private func errorsHandingBinding() {
-    playerViewModel.errors()
-      .subscribe(onNext: { [weak self] error in
-        self?.handleErrors(error)
+  // MARK: - Binding
+
+  private func dataBinding() {
+    guard let sideMenuViewModel else { return }
+    
+    playerInfoBinding(sideMenuViewModel)
+    balanceBinding(sideMenuViewModel)
+    productsListBinding(sideMenuViewModel)
+    featuresBinding()
+    maintenanceStatusBinding(sideMenuViewModel)
+    errorsHandingBinding()
+  }
+  
+  private func playerInfoBinding(_ sideMenuViewModel: SideMenuViewModel) {
+    sideMenuViewModel.playerInfo
+      .drive(onNext: { [unowned self] in updatePlayerInfoUI($0) })
+      .disposed(by: disposeBag)
+    
+    sideMenuViewModel.playerInfo.asObservable()
+      .first()
+      .compactMap { $0 }
+      .subscribe(onSuccess: { [unowned self] in
+        // FIXME: Avoid using `sideMenuViewModel` here, as the strong reference created by this statement leads to a
+        // problem where the viewController isn't released. Even manually setting `sideMenuViewModel` to nil doesn't release it
+        // because the strong reference in the closure keeps it alive. The current implementation avoids this strong reference
+        // issue.
+        guard let viewModel = self.sideMenuViewModel else { return }
+
+        productSelectedSubject.accept($0.defaultProduct)
+        balanceHiddenStateSubject.accept(viewModel.loadBalanceHiddenState(by: $0.gamerID))
       })
       .disposed(by: disposeBag)
+  }
+  
+  private func updatePlayerInfoUI(_ playerInfo: PlayerInfoDTO) {
+    gamerID = playerInfo.gamerID
+    
+    labUserLevel.text = Localize.string("common_level_2", "\(playerInfo.level)")
+    labUserAcoount.text = "\(AccountMask.maskAccount(account: playerInfo.displayID))"
+    labUserName.text = "\(playerInfo.gamerID)"
+  }
 
+  private func balanceBinding(_ sideMenuViewModel: SideMenuViewModel) {
+    Driver.combineLatest(
+      sideMenuViewModel.playerBalance
+        .map { "\($0.symbol) \($0.formatString())" },
+      balanceHiddenStateSubject.asDriverOnErrorJustComplete()) { ($0, $1) }
+      .drive(onNext: { [unowned self] balanceString, isHidden in
+        if isHidden {
+          btnBalanceHide.setTitle(Localize.string("common_show"), for: .normal)
+          labBalance.text = "\(balanceString.first ?? " ") •••••••"
+        }
+        else {
+          btnBalanceHide.setTitle(Localize.string("common_hide"), for: .normal)
+          labBalance.text = balanceString
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func productsListBinding(_ sideMenuViewModel: SideMenuViewModel) {
+    Driver.combineLatest(
+      sideMenuViewModel.productsStatus,
+      productSelectedSubject.asDriver()) { productItems, _ in productItems }
+      .drive(listProduct.rx.items) { [unowned self] collection, row, data in
+        updateProductListCell(view: collection, at: row, source: data)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func updateProductListCell(view: UICollectionView, at row: Int, source data: ProductItem) -> ProductItemCell {
+    guard let cell = view.dequeueReusableCell(withReuseIdentifier: "ProductItemCell", for: [0, row]) as? ProductItemCell
+    else { return .init() }
+
+    cell.setup(data)
+    cell.finishCountDown = { [weak self] in
+      self?.sideMenuViewModel?.refreshMaintenanceStatus()
+    }
+
+    cell.setSelectedIcon(isSelected: data.type == productSelectedSubject.value)
+
+    return cell
+  }
+  
+  private func featuresBinding() {
+    Observable.of(features)
+      .bind(to: listFeature.rx.items(
+        cellIdentifier: String(describing: FeatureItemCell.self),
+        cellType: FeatureItemCell.self))
+    { _, data, cell in
+      cell.setup(data.name, image: UIImage(named: data.icon))
+    }
+    .disposed(by: disposeBag)
+  }
+
+  private func maintenanceStatusBinding(_ sideMenuViewModel: SideMenuViewModel) {
+    sideMenuViewModel.maintenanceStatus
+      .filter { $0 is MaintenanceStatus.AllPortal }
+      .drive(onNext: { [unowned self] _ in alertAndExitLobby(KickOutSignal.Maintenance) })
+      .disposed(by: disposeBag)
+  }
+
+  func cleanProductSelected() {
+    productSelectedSubject.accept(nil)
+  }
+  
+  private func errorsHandingBinding() {
     sideMenuViewModel?.errors()
       .subscribe(onNext: { [weak self] error in
         self?.handleErrors(error)
       })
       .disposed(by: disposeBag)
   }
-}
 
-// MARK: - Touch Event
+  // MARK: - Select Event
 
-extension SideBarViewController {
+  private func selectEventBinding() {
+    productSelectBinding()
+    featureSelectBinding()
+  }
+
+  private func productSelectBinding() {
+    listProduct.rx.modelSelected(ProductItem.self)
+      .subscribe(onNext: { [productSelectedSubject] in
+        NavigationManagement.sharedInstance
+          .goTo(productType: $0.type, isMaintenance: $0.maintainTime != nil)
+      
+        productSelectedSubject.accept($0.type)
+      })
+      .disposed(by: disposeBag)
+  }
+
+  private func featureSelectBinding() {
+    Observable.zip(
+      listFeature.rx.itemSelected,
+      listFeature.rx.modelSelected(FeatureItem.self))
+      .bind { [unowned self] indexPath, data in
+        let featureType = data.type
+      
+        if featureType != .logout {
+          cleanProductSelected()
+        }
+
+        switch featureType {
+        case .logout:
+          alertAndExitLobby(nil, cancel: { })
+        case .withdraw:
+          NavigationManagement.sharedInstance.goTo(storyboard: "Withdrawal", viewControllerId: "WithdrawalNavigation")
+        case .deposit:
+          NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
+        case .callService:
+          NavigationManagement.sharedInstance.goTo(
+            storyboard: "CustomService",
+            viewControllerId: "CustomerServiceMainNavigationController")
+        }
+
+        listFeature.deselectRow(at: indexPath, animated: true)
+      }
+      .disposed(by: disposeBag)
+  }
+
+  // MARK: - Touch Event
   @IBAction
   func btnClosePressed(_: UIButton) {
     navigationController?.dismiss(animated: true, completion: nil)
@@ -524,12 +401,18 @@ extension SideBarViewController {
 
   @IBAction
   func btnHideBalance(_: UIButton) {
-    updateBalanceLabel(isHidden: !isBalanceLabelHidden)
+    toggleBalanceHiddenState()
+  }
+  
+  private func toggleBalanceHiddenState() {
+    let currentHiddenState = balanceHiddenStateSubject.value
+    balanceHiddenStateSubject.accept(!currentHiddenState)
+    sideMenuViewModel?.saveBalanceHiddenState(gamerID: gamerID, isHidden: !currentHiddenState)
   }
 
   @IBAction
   func btnRefreshBalance(_: UIButton) {
-    sideMenuViewModel?.fetchPlayerBalance()
+    sideMenuViewModel?.refreshPlayerBalance()
   }
 
   @objc
@@ -579,8 +462,12 @@ extension SideBarViewController {
 
 extension SideBarViewController: SideMenuNavigationControllerDelegate {
   func sideMenuWillAppear(menu _: SideMenuNavigationController, animated _: Bool) {
-    dataRefresh()
+    if !firstTimeEntry {
+      sideMenuViewModel?.refreshData()
+    }
+    
     CustomServicePresenter.shared.isInSideMenu = true
+    firstTimeEntry = false
   }
 
   func sideMenuWillDisappear(menu _: SideMenuNavigationController, animated _: Bool) {

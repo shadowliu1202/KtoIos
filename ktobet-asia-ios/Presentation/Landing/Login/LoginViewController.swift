@@ -21,7 +21,7 @@ class LoginViewController: LandingViewController {
   private lazy var customService = UIBarButtonItem
     .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
   private lazy var serviceStatusViewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
-  private lazy var getSystemStatusUseCase = Injectable.resolveWrapper(GetSystemStatusUseCase.self)
+  private lazy var getSystemStatusUseCase = Injectable.resolveWrapper(ISystemStatusUseCase.self)
 
   override func viewDidLoad() {
     super.viewDidLoad()

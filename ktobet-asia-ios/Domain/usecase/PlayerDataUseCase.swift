@@ -7,6 +7,7 @@ protocol PlayerDataUseCase {
   func setBalanceHiddenState(gameId: String, isHidden: Bool)
   func getBalanceHiddenState(gameId: String) -> Bool
   func loadPlayer() -> Single<Player>
+  func fetchPlayer() -> Single<PlayerInfoDTO>
   func getCashLogSummary(begin: Date, end: Date, balanceLogFilterType: Int) -> Single<[String: Double]>
   func isRealNameEditable() -> Single<Bool>
   func getPrivilege() -> Single<[LevelOverview]>
@@ -31,31 +32,73 @@ protocol PlayerDataUseCase {
 
 let PASSWORD_ERROR_LIMIT = 5
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
-  var playerRepository: PlayerRepository!
-  var localRepository: LocalStorageRepository!
-  var settingStore: SettingStore!
+  private let playerRepository: PlayerRepository
+  private let localStorageRepo: LocalStorageRepository
   private var passwordErrorCount = 0
 
-  init(_ playerRepository: PlayerRepository, localRepository: LocalStorageRepository, settingStore: SettingStore) {
+  private var playerInfo: PlayerInfoDTO?
+  
+  init(
+    _ playerRepository: PlayerRepository,
+    _ localRepository: LocalStorageRepository)
+  {
     self.playerRepository = playerRepository
-    self.localRepository = localRepository
-    self.settingStore = settingStore
+    self.localStorageRepo = localRepository
   }
 
   func getBalance() -> Single<AccountCurrency> {
-    self.playerRepository.getBalance(localRepository.getSupportLocale())
+    self.playerRepository.getBalance(localStorageRepo.getSupportLocale())
   }
 
   func setBalanceHiddenState(gameId: String, isHidden: Bool) {
-    localRepository.setBalanceHiddenState(isHidden: isHidden, gameId: gameId)
+    localStorageRepo.setBalanceHiddenState(isHidden: isHidden, gameId: gameId)
   }
 
   func getBalanceHiddenState(gameId: String) -> Bool {
-    localRepository.getBalanceHiddenState(gameId: gameId)
+    localStorageRepo.getBalanceHiddenState(gameId: gameId)
   }
 
   func loadPlayer() -> Single<Player> {
     playerRepository.loadPlayer()
+  }
+  
+  func fetchPlayer() -> Single<PlayerInfoDTO> {
+    if let playerInfo {
+      return updatePlayerInfo(playerInfo)
+    }
+    else {
+      return getPlayerInfo()
+    }
+  }
+  
+  private func updatePlayerInfo(_ playerInfo: PlayerInfoDTO) -> Single<PlayerInfoDTO> {
+    playerRepository.fetchPlayerInfo()
+      .map { [weak self] playerBean in
+        if playerInfo.level != playerBean.level {
+          let newPlayerInfo = playerInfo.copy(level: playerBean.level)
+          self?.playerInfo = newPlayerInfo
+          
+          return newPlayerInfo
+        }
+        else {
+          return playerInfo
+        }
+      }
+  }
+  
+  private func getPlayerInfo() -> Single<PlayerInfoDTO> {
+    guard let bean = localStorageRepo.getPlayerInfo()
+    else { return .error(KTOError.EmptyData) }
+    
+    let playerInfo = PlayerInfoDTO(
+      displayID: bean.displayID,
+      gamerID: bean.gamerID,
+      level: Int(bean.level),
+      defaultProduct: ProductType.convert(bean.defaultProduct))
+
+    self.playerInfo = playerInfo
+
+    return .just(playerInfo)
   }
 
   func getPlayerRealName() -> Single<String> {
@@ -75,7 +118,7 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
   }
 
   func getSupportLocalFromCache() -> SupportLocale {
-    localRepository.getSupportLocale()
+    localStorageRepo.getSupportLocale()
   }
 
   func isAffiliateMember() -> Single<Bool> {
@@ -125,7 +168,7 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
   }
 
   func getLocale() -> Locale {
-    localRepository.getLocale()
+    localStorageRepo.getLocale()
   }
 
   func setBirthDay(birthDay: Date) -> Completable {

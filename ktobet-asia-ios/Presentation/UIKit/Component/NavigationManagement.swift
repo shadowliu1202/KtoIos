@@ -263,7 +263,7 @@ class NavigationManagement: Navigator {
     menu.menuWidth = viewController.view.bounds.width
     SideMenuManager.default.leftMenuNavigationController = menu
 
-    sideBarViewController.observeLoginStatus()
+    sideBarViewController.observeKickOutSignal()
   }
 
   private func getBarButtonItem(barItemType: BarItemType, action: Selector? = nil, image: String? = nil) -> UIBarButtonItem {
@@ -321,7 +321,7 @@ class NavigationManagement: Navigator {
     // FIXME: SideBarViewController retain cycle.
     // Manually release SideMenuViewModel to stop system massage socket connection.
 
-    sideBarViewController?.sideMenuViewModel = nil
+    sideBarViewController?.deallocate()
     sideBarViewController = nil
     menu = nil
     UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController = nil

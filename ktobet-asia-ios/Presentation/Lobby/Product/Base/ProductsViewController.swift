@@ -5,8 +5,6 @@ import UIKit
 class ProductsViewController: LobbyViewController {
   @Injected private var loading: Loading
   @Injected private var alert: AlertProtocol
-  @Injected private var serviceViewModel: ServiceStatusViewModel
-  @Injected private var playerViewModel: PlayerViewModel
   @Injected private var productsViewModel: ProductsViewModel
 
   private var disposeBag = DisposeBag()
@@ -31,11 +29,6 @@ class ProductsViewController: LobbyViewController {
     binding()
   }
 
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    productsViewModel.fetchMaintenanceStatus()
-  }
-
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     viewDisappearBag = DisposeBag()
@@ -46,14 +39,13 @@ class ProductsViewController: LobbyViewController {
   }
 
   private func binding() {
-    productsViewModel
-      .observeMaintenanceStatus()
-      .subscribe(onNext: { [weak self] status in
+    productsViewModel.maintenanceStatus
+      .drive(onNext: { [weak self, productsViewModel] status in
         guard let self else { return }
 
         switch status {
         case is MaintenanceStatus.AllPortal:
-          self.playerViewModel.logout()
+          productsViewModel.logout()
             .subscribe(onCompleted: {
               NavigationManagement.sharedInstance.goTo(
                 storyboard: "Maintenance",
@@ -81,7 +73,7 @@ class ProductsViewController: LobbyViewController {
 
   func gameDidDisappear() {
     syncAppVersionUpdate(viewDisappearBag)
-    serviceViewModel.refreshProductStatus()
+    productsViewModel.refreshMaintenanceStatus()
   }
 
   func bindWebGameResult(with viewModel: ProductWebGameViewModelProtocol) {
