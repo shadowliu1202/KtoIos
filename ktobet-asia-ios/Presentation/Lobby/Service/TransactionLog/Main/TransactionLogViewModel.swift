@@ -151,8 +151,7 @@ extension TransactionLogViewModel {
               continuation.resume(returning: false)
             }
             else {
-              // FIXME: Filter error before 8/22.
-              continuation.resume(returning: false)
+              continuation.resume(throwing: $0)
             }
           })
         .disposed(by: disposeBag)
@@ -173,8 +172,7 @@ extension TransactionLogViewModel {
               continuation.resume(returning: false)
             }
             else {
-              // FIXME: Filter error before 8/22.
-              continuation.resume(returning: false)
+              continuation.resume(throwing: $0)
             }
           })
         .disposed(by: disposeBag)

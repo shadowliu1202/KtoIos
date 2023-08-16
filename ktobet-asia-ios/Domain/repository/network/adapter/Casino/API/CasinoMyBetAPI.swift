@@ -11,7 +11,7 @@ class CasinoMyBetAPI {
   func getDetail(id: String) -> Single<String> {
     httpClient
       .requestJsonString(
-        path: "/casino/api/wager/mybet/detail",
+        path: "/casino/api/v2/wager/mybet/detail",
         method: .get,
         task: .requestParameters(
           parameters: [
