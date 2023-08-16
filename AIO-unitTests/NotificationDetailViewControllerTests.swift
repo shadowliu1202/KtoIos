@@ -22,7 +22,7 @@ final class NotificationDetailViewControllerTests: XCBaseTestCase {
       .initialize(
         useCase: mock(NotificationUseCase.self),
         configurationUseCase: mock(ConfigurationUseCase.self),
-        systemStatusUseCase: mock(GetSystemStatusUseCase.self))
+        systemStatusUseCase: mock(ISystemStatusUseCase.self))
     given(notificationViewModel.setup()) ~> { }
     given(notificationViewModel.input) ~> .init(
       refreshTrigger: .init(eventHandler: { _ in }),

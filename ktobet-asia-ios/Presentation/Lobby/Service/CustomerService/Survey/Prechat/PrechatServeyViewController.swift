@@ -96,7 +96,7 @@ class PrechatServeyViewController: CommonViewController {
 
 extension PrechatServeyViewController: BarButtonItemable {
   func pressedLeftBarButtonItems(_: UIBarButtonItem) {
-    CustomServicePresenter.shared.closeService()
+    CustomServicePresenter.shared.resetStatus()
   }
 
   func pressedRightBarButtonItems(_: UIBarButtonItem) {

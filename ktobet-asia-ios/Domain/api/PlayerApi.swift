@@ -29,14 +29,14 @@ class PlayerApi: ApiService {
     self.httpClient = httpClient
   }
 
-  func getPlayerInfo() -> Single<ResponseData<IPlayer>> {
+  func getPlayerInfo() -> Single<ResponseData<PlayerBean>> {
     let target = APITarget(
       baseUrl: httpClient.host,
       path: "api/profile/player-info",
       method: .get,
       task: .requestPlain,
       header: httpClient.headers)
-    return httpClient.request(target).map(ResponseData<IPlayer>.self)
+    return httpClient.request(target).map(ResponseData<PlayerBean>.self)
   }
 
   func getPlayerContact() -> Single<ResponseData<ContactInfoBean>> {

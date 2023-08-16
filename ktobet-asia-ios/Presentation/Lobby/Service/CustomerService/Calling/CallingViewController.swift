@@ -134,7 +134,7 @@ class CallingViewController: CommonViewController {
       confirm: { [weak self] in CustomServicePresenter.shared.switchToOfflineMessage(from: self) },
       confirmText: Localize.string("customerservice_leave_a_message_confirm"),
       cancel: {
-        CustomServicePresenter.shared.closeService()
+        CustomServicePresenter.shared.resetStatus()
       },
       cancelText: Localize.string("common_skip"))
   }

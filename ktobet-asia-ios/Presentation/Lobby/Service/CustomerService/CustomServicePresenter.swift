@@ -340,10 +340,32 @@ class CustomServicePresenter: NSObject {
     self.topViewController?.navigationController?.setViewControllers([exitSurveyVC], animated: false)
   }
 
-  func closeService() {
+  func closeService() -> Completable {
+    closeChatRoomIfExist()
+      .do(onCompleted: { [weak self] in
+        Injectable.resetObjectScope(.locale)
+        self?.resetStatus()
+      })
+  }
+  
+  private func closeChatRoomIfExist() -> Completable {
+    csViewModel.currentChatRoom()
+      .take(1)
+      .flatMap { chatRoom -> Completable in
+        if chatRoom.roomId.isEmpty {
+          return Single.just(()).asCompletable()
+        }
+        else {
+          return CustomServicePresenter.shared.csViewModel.closeChatRoom(forceExit: true).asCompletable()
+        }
+      }
+      .asCompletable()
+  }
+  
+  func resetStatus() {
     cleanSurveyAnswers()
     hiddenServiceIcon()
-    Logger.shared.info("Customer service close.")
+    Logger.shared.info("Customer service status reset.")
 
     changeCsDomainIfNeed()
     

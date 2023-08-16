@@ -43,8 +43,13 @@ class CustomerServiceButtonItem: TextBarButtonItem {
       })
       .disposed(by: disposeBag)
     
-    self.actionHandler({ [weak self, weak delegate] _ in
-      guard let self, let vc = delegate as? UIViewController else { return }
+    self.actionHandler({ [weak self, weak serviceStatusViewModel, weak delegate] _ in
+      guard
+        let self,
+        let vc = delegate as? UIViewController,
+        let serviceStatusViewModel
+      else { return }
+      
       self.isEnabled = false
 
       serviceStatusViewModel.output.portalMaintenanceStatus.subscribe(onNext: { maintenanceStatus in

@@ -8,7 +8,7 @@ import XCTest
 
 final class WithdrawalOTPVerifyMethodSelectViewControllerTests: XCBaseTestCase {
   func test_givenOTPServiceDown_whenInWithdrawalOTPVerifyMethodSelectPage_thenAlertPlayer_KTO_TC_185() {
-    let stubGetSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
+    let stubGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)
     let stubPlayerConfiguration = mock(PlayerConfiguration.self)
     let dummyAbsWithdrawalAppService = mock(AbsWithdrawalAppService.self)
@@ -26,7 +26,7 @@ final class WithdrawalOTPVerifyMethodSelectViewControllerTests: XCBaseTestCase {
       alert: mockAlert,
       bankCardID: "")
 
-    given(stubGetSystemStatusUseCase.getOtpStatus()) ~> .just(.init(isMailActive: false, isSmsActive: false))
+    given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: false, isSmsActive: false))
     given(stubPlayerDataUseCase.loadPlayer()) ~> .just(.init(
       gameId: "",
       playerInfo: .init(

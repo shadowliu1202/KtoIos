@@ -16,7 +16,7 @@ protocol LocalStorageRepository {
   func getLocale() -> Locale
   func getCultureCode() -> String
   func getSupportLocale() -> SupportLocale
-  func getPlayerInfo() -> PlayerInfoCache?
+  func getPlayerInfo() -> PlayerInfoCacheBean?
   func getLastAPISuccessDate() -> Date?
   func getLastLoginDate() -> Date?
 
@@ -31,11 +31,18 @@ protocol LocalStorageRepository {
   func setBalanceHiddenState(isHidden: Bool, gameId: String)
   func setUserName(_ name: String)
   func setCultureCode(_ cultureCode: String)
-  func setPlayerInfo(_ playerInfo: PlayerInfoCache?)
+  func setPlayerInfo(_ player: Player?)
+  func updatePlayerInfoCache(level: Int32?, productType: ProductType?)
   func setLastAPISuccessDate(_ time: Date?)
   func setLastLoginDate(_ day: Date?)
   func timezone() -> SharedBu.TimeZone
   func localeTimeZone() -> Foundation.TimeZone
+}
+
+extension LocalStorageRepository {
+  func updatePlayerInfoCache(level: Int32? = nil, productType: ProductType? = nil) {
+    updatePlayerInfoCache(level: level, productType: productType)
+  }
 }
 
 class LocalStorageRepositoryImpl: LocalStorageRepository,
@@ -126,9 +133,9 @@ class LocalStorageRepositoryImpl: LocalStorageRepository,
     playerConfiguration.supportLocale
   }
 
-  func getPlayerInfo() -> PlayerInfoCache? {
+  func getPlayerInfo() -> PlayerInfoCacheBean? {
     do {
-      return try getObject(key: .playerInfoCache, to: PlayerInfoCache.self)
+      return try getObject(key: .playerInfoCache, to: PlayerInfoCacheBean.self)
     }
     catch {
       return nil
@@ -187,9 +194,43 @@ class LocalStorageRepositoryImpl: LocalStorageRepository,
     set(value: cultureCode, key: .cultureCode)
   }
 
-  func setPlayerInfo(_ playerInfo: PlayerInfoCache?) {
+  func setPlayerInfo(_ player: Player?) {
+    let playerInfoCache: PlayerInfoCacheBean?
+    
+    if let player {
+      playerInfoCache = PlayerInfoCacheBean(
+        displayID: player.playerInfo.displayId,
+        gamerID: player.gameId,
+        locale: player.locale().cultureCode(),
+        level: player.playerInfo.level,
+        defaultProduct: ProductType.convert(player.defaultProduct ?? .none))
+    }
+    else {
+      playerInfoCache = nil
+    }
+    
     do {
-      try setObject(playerInfo, for: .playerInfoCache)
+      try setObject(playerInfoCache, for: .playerInfoCache)
+    }
+    catch {
+      Logger.shared.error(error)
+    }
+  }
+  
+  func updatePlayerInfoCache(level: Int32? = nil, productType: ProductType? = nil) {
+    guard let playerInfoCache = getPlayerInfo()
+    else {
+      fatalError("should not reach here.")
+    }
+    
+    do {
+      var newDefaultProduct: Int32?
+      
+      if let productType {
+        newDefaultProduct = ProductType.convert(productType)
+      }
+      
+      try setObject(playerInfoCache.copy(level: level, defaultProduct: newDefaultProduct), for: .playerInfoCache)
     }
     catch {
       Logger.shared.error(error)

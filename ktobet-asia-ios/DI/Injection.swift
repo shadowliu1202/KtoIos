@@ -464,9 +464,10 @@ final class Injection {
       }
 
     container
-      .register(GetSystemStatusUseCase.self) { resolver in
-        let repoSystem = resolver.resolveWrapper(SystemRepository.self)
-        return GetSystemStatusUseCaseImpl(repoSystem)
+      .register(ISystemStatusUseCase.self) { resolver in
+        SystemStatusUseCase(
+          resolver.resolveWrapper(SystemRepository.self),
+          resolver.resolveWrapper(SignalRepository.self))
       }
 
     container
@@ -483,12 +484,8 @@ final class Injection {
       .register(PlayerDataUseCase.self) { resolver in
         let repoPlayer = resolver.resolveWrapper(PlayerRepository.self)
         let repoLocal = resolver.resolveWrapper(LocalStorageRepository.self)
-        let settingStore = resolver.resolveWrapper(SettingStore.self)
 
-        return PlayerDataUseCaseImpl(
-          repoPlayer,
-          localRepository: repoLocal,
-          settingStore: settingStore)
+        return PlayerDataUseCaseImpl(repoPlayer, repoLocal)
       }
 
     container
@@ -617,11 +614,6 @@ final class Injection {
         let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
         return AppVersionUpdateUseCaseImpl(repo, repoLocalStorage)
       }
-
-    container
-      .register(ObserveSystemMessageUseCase.self) { resolver in
-        ObserveSystemMessageUseCaseImpl(signalRepository: resolver.resolveWrapper(SignalRepository.self))
-      }
   }
 
   // MARK: - Navigator
@@ -669,7 +661,7 @@ final class Injection {
       .register(NotificationViewModel.self) { resolver in
         let useCase = resolver.resolveWrapper(NotificationUseCase.self)
         let usecaseConfiguration = resolver.resolveWrapper(ConfigurationUseCase.self)
-        let systemUseCase = resolver.resolveWrapper(GetSystemStatusUseCase.self)
+        let systemUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
         return NotificationViewModel(
           useCase: useCase,
           configurationUseCase: usecaseConfiguration,
@@ -681,7 +673,7 @@ final class Injection {
         let usecaseAuth = resolver.resolveWrapper(AuthenticationUseCase.self)
         let playerUseCase = resolver.resolveWrapper(PlayerDataUseCase.self)
         let localizationUseCase = resolver.resolveWrapper(LocalizationPolicyUseCase.self)
-        let getSystemStatusUseCase = resolver.resolveWrapper(GetSystemStatusUseCase.self)
+        let getSystemStatusUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
         let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
         return NavigationViewModel(
           usecaseAuth,
@@ -694,7 +686,7 @@ final class Injection {
     container
       .register(SignupUserInfoViewModel.self) { resolver in
         let registerUseCase = resolver.resolveWrapper(RegisterUseCase.self)
-        let systemUseCase = resolver.resolveWrapper(GetSystemStatusUseCase.self)
+        let systemUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
         let pattern = resolver.resolveWrapper(AccountPatternGenerator.self)
         return SignupUserInfoViewModel(registerUseCase, systemUseCase, pattern)
       }
@@ -716,30 +708,28 @@ final class Injection {
     container
       .register(DefaultProductViewModel.self) { resolver in
         let usecase = resolver.resolveWrapper(ConfigurationUseCase.self)
-        let systemUseCase = resolver.resolveWrapper(GetSystemStatusUseCase.self)
+        let systemUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
         return DefaultProductViewModel(usecase, systemUseCase)
       }
 
     container
       .register(ResetPasswordViewModel.self) { resolver in
         let usecaseAuthentication = resolver.resolveWrapper(ResetPasswordUseCase.self)
-        let systemUseCase = resolver.resolveWrapper(GetSystemStatusUseCase.self)
+        let systemUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
         let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
         return ResetPasswordViewModel(usecaseAuthentication, systemUseCase, localStorageRepo)
       }
 
     container
       .register(ServiceStatusViewModel.self) { resolver in
-        let systemUseCase = resolver.resolveWrapper(GetSystemStatusUseCase.self)
+        let systemUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
         let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
         return ServiceStatusViewModel(systemStatusUseCase: systemUseCase, localStorageRepo: localStorageRepo)
       }
 
     container
       .register(PlayerViewModel.self) { resolver in
-        let playerUseCase = resolver.resolveWrapper(PlayerDataUseCase.self)
-        let authUseCase = resolver.resolveWrapper(AuthenticationUseCase.self)
-        return PlayerViewModel(playerUseCase: playerUseCase, authUseCase: authUseCase)
+        .init(authUseCase: resolver.resolveWrapper(AuthenticationUseCase.self))
       }
 
     container
@@ -844,7 +834,7 @@ final class Injection {
 
     container
       .register(TermsViewModel.self) { resolver in
-        let systemUseCase = resolver.resolveWrapper(GetSystemStatusUseCase.self)
+        let systemUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
         return TermsViewModel(
           localizationPolicyUseCase: resolver.resolveWrapper(LocalizationPolicyUseCase.self),
           systemStatusUseCase: systemUseCase)
@@ -930,27 +920,10 @@ final class Injection {
           resolver.resolveWrapper(HttpClient.self),
           resolver.resolveWrapper(PlayerConfiguration.self))
       }
-    container
-      .register(SideMenuViewModel.self) { resolver in
-        SideMenuViewModel(
-          observeSystemMessageUseCase: resolver.resolveWrapper(ObserveSystemMessageUseCase.self),
-          playerDataUseCase: resolver.resolveWrapper(PlayerDataUseCase.self),
-          getSystemStatusUseCase: resolver.resolveWrapper(GetSystemStatusUseCase.self),
-          authenticationUseCase: resolver.resolveWrapper(AuthenticationUseCase.self))
-      }
 
     container
-      .register(ProductsViewModel.self) { resolver in
-        ProductsViewModel(
-          observeSystemMessageUseCase: resolver.resolveWrapper(ObserveSystemMessageUseCase.self),
-          getSystemStatusUseCase: resolver.resolveWrapper(GetSystemStatusUseCase.self))
-      }
-
-    container
-      .register(SportBookViewModel.self) { resolver in
-        SportBookViewModel(
-          observeSystemMessageUseCase: resolver.resolveWrapper(ObserveSystemMessageUseCase.self),
-          getSystemStatusUseCase: resolver.resolveWrapper(GetSystemStatusUseCase.self))
+      .register(ProductsViewModel.self) { _ in
+        .init()
       }
 
     container
@@ -1047,7 +1020,7 @@ final class Injection {
     container
       .register(WithdrawalOTPVerifyMethodSelectViewModel.self) { resolver in
         .init(
-          resolver.resolveWrapper(GetSystemStatusUseCase.self),
+          resolver.resolveWrapper(ISystemStatusUseCase.self),
           resolver.resolveWrapper(PlayerDataUseCase.self),
           resolver.resolveWrapper(PlayerConfiguration.self),
           resolver.resolveWrapper(IWithdrawalAppService.self))

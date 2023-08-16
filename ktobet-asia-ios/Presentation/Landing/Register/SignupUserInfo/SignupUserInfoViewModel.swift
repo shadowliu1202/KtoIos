@@ -25,7 +25,7 @@ class SignupUserInfoViewModel {
   }
 
   private var usecaseRegister: RegisterUseCase!
-  private var usecaseSystemStatus: GetSystemStatusUseCase!
+  private var usecaseSystemStatus: ISystemStatusUseCase!
 
   private var phoneEdited = false
   private var mailEdited = false
@@ -46,7 +46,7 @@ class SignupUserInfoViewModel {
 
   init(
     _ usecaseRegister: RegisterUseCase,
-    _ usecaseSystem: GetSystemStatusUseCase,
+    _ usecaseSystem: ISystemStatusUseCase,
     _ accountPatternGenerator: AccountPatternGenerator)
   {
     self.usecaseRegister = usecaseRegister
@@ -54,7 +54,7 @@ class SignupUserInfoViewModel {
     self.accountPatternGenerator = accountPatternGenerator
 
     otpStatusRefreshSubject.asObservable()
-      .flatMapLatest { [unowned self] in self.usecaseSystemStatus.getOtpStatus().asObservable() }
+      .flatMapLatest { [unowned self] in self.usecaseSystemStatus.fetchOTPStatus().asObservable() }
       .bind(to: otpStatus)
       .disposed(by: disposeBag)
   }

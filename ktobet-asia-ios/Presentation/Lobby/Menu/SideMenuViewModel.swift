@@ -4,41 +4,14 @@ import RxSwift
 import SharedBu
 
 class SideMenuViewModel: CollectErrorViewModel {
-  private let maintenanceStatusSubject = PublishSubject<MaintenanceStatus>()
-  private let playerBalanceSubject = PublishSubject<AccountCurrency>()
+  @Injected private var systemStatusUseCase: ISystemStatusUseCase
+  @Injected private var playerDataUseCase: PlayerDataUseCase
+  @Injected private var authenticationUseCase: AuthenticationUseCase
+  @Injected private var localStorageRepo: LocalStorageRepository
 
-  private let observeSystemMessageUseCase: ObserveSystemMessageUseCase
-  private let playerDataUseCase: PlayerDataUseCase
-  private let getSystemStatusUseCase: GetSystemStatusUseCase
-  private let authenticationUseCase: AuthenticationUseCase
-
-  private let disposeBag = DisposeBag()
-
-  let features = Observable<[FeatureItem]>.from(optional: [
-    FeatureItem(type: .deposit, name: Localize.string("common_deposit"), icon: "Deposit"),
-    FeatureItem(type: .withdraw, name: Localize.string("common_withdrawal"), icon: "Withdrawl"),
-    FeatureItem(type: .callService, name: Localize.string("common_customerservice"), icon: "Customer Service"),
-    FeatureItem(type: .logout, name: Localize.string("common_logout"), icon: "Logout")
-  ])
-
-  lazy var products = getProducts()
-
-  var currentSelectedCell: ProductItemCell?
-  var currentSelectedProductType: ProductType?
-
-  init(
-    observeSystemMessageUseCase: ObserveSystemMessageUseCase,
-    playerDataUseCase: PlayerDataUseCase,
-    getSystemStatusUseCase: GetSystemStatusUseCase,
-    authenticationUseCase: AuthenticationUseCase)
-  {
-    self.observeSystemMessageUseCase = observeSystemMessageUseCase
-    self.playerDataUseCase = playerDataUseCase
-    self.getSystemStatusUseCase = getSystemStatusUseCase
-    self.authenticationUseCase = authenticationUseCase
-  }
-
-  private func getProducts() -> [ProductItem] {
+  @Injected private var loading: Loading
+  
+  private let products = {
     let titles = [
       Localize.string("common_sportsbook"),
       Localize.string("common_casino"),
@@ -49,113 +22,128 @@ class SideMenuViewModel: CollectErrorViewModel {
     ]
 
     let imgs = ["SBK", "Casino", "Slot", "Number Game", "P2P", "Arcade"]
-    let type: [ProductType] = [.sbk, .casino, .slot, .numbergame, .p2p, .arcade]
-    var arr = [ProductItem]()
+    let types: [ProductType] = [.sbk, .casino, .slot, .numbergame, .p2p, .arcade]
 
-    titles.enumerated()
-      .forEach { index, _ in
-        let item = ProductItem(title: titles[index], image: imgs[index], type: type[index])
-        arr.append(item)
+    return zip(titles, zip(imgs, types))
+      .map { title, imgAndType in
+        let (image, type) = imgAndType
+        return ProductItem(title: title, image: image, type: type)
       }
+  }()
 
-    return arr
+  private let playerInfoTrigger = BehaviorRelay(value: ())
+  private let playerBalanceTrigger = BehaviorRelay(value: ())
+  private let maintenanceStatusTrigger = BehaviorRelay(value: ())
+
+  private let disposeBag = DisposeBag()
+  
+  private var loadingTracker: ActivityIndicator { loading.tracker }
+
+  lazy var playerInfo = observePlayerInfo()
+  lazy var playerBalance = observePlayerBalance()
+  lazy var productsStatus = observeProductsStatus()
+  lazy var maintenanceStatus = observeMaintenanceStatus()
+  
+  // MARK: - PlayerInfo
+  
+  private func observePlayerInfo() -> Driver<PlayerInfoDTO> {
+    playerInfoTrigger
+      .flatMapLatest { [weak self, playerDataUseCase] _ in
+        playerDataUseCase.fetchPlayer()
+          .catch {
+            self?.errorsSubject.onNext($0)
+            return .never()
+          }
+      }
+      .asDriverOnErrorJustComplete()
   }
 
-  func observeMaintenanceStatus() -> Observable<MaintenanceStatus> {
-    maintenanceStatusSubject
-      .asObservable()
-      .do(onSubscribe: { [weak self] in
-        guard let self else { return }
-
-        self.observeSystemMessageUseCase
-          .observeMaintenanceStatus(useCase: self.getSystemStatusUseCase)
-          .subscribe(onNext: { [weak self] maintenanceStatus in
-            guard let self else { return }
-
-            self.maintenanceStatusSubject
-              .onNext(maintenanceStatus)
-          })
-          .disposed(by: self.disposeBag)
-      })
+  private func refreshPlayerInfo() {
+    playerInfoTrigger.accept(())
+  }
+  
+  // MARK: - PlayerBalance
+  
+  private func observePlayerBalance() -> Driver<AccountCurrency> {
+    Observable.merge(
+      playerBalanceTrigger.asObservable(),
+      systemStatusUseCase.observePlayerBalanceChange())
+      .flatMapLatest { [weak self, playerDataUseCase] _ in
+        playerDataUseCase.getBalance()
+          .catch {
+            self?.errorsSubject.onNext($0)
+            return .never()
+          }
+      }
+      .asDriverOnErrorJustComplete()
+  }
+  
+  func refreshPlayerBalance() {
+    playerBalanceTrigger.accept(())
+  }
+  
+  // MARK: - ProductsStatus
+  
+  private func observeProductsStatus() -> Driver<[ProductItem]> {
+    maintenanceStatus
+      .compactMap { [products] status -> [ProductItem]? in
+        guard let status = status as? MaintenanceStatus.Product
+        else { return nil }
+        
+        return products
+          .map { $0.updateMaintainTime(status.getMaintenanceTime(productType: $0.type)) }
+      }
   }
 
-  func observePlayerBalance() -> Observable<AccountCurrency> {
-    playerBalanceSubject
-      .asObservable()
-      .do(onSubscribe: { [weak self] in
-        guard let self else { return }
-
-        self.observeSystemMessageUseCase
-          .observePlayerBalance(useCase: self.playerDataUseCase)
-          .subscribe(onNext: { [weak self] accountCurrency in
-            guard let self else { return }
-
-            self.playerBalanceSubject
-              .onNext(accountCurrency)
-          })
-          .disposed(by: self.disposeBag)
-      })
+  // MARK: - MaintenanceStatus
+  
+  private func observeMaintenanceStatus() -> Driver<MaintenanceStatus> {
+    Observable.merge(
+      maintenanceStatusTrigger.asObservable(),
+      systemStatusUseCase.observeMaintenanceStatusChange())
+      .flatMapLatest { [weak self, systemStatusUseCase] _ in
+        systemStatusUseCase.fetchMaintenanceStatus()
+          .catch {
+            self?.errorsSubject.onNext($0)
+            return .never()
+          }
+      }
+      .asDriverOnErrorJustComplete()
+  }
+  
+  func refreshMaintenanceStatus() {
+    maintenanceStatusTrigger.accept(())
+  }
+  
+  // MARK: - KickOutSignal
+  
+  func observeKickOutSignal() -> RxSwift.Observable<KickOutSignal> {
+    systemStatusUseCase.observeKickOutSignal()
   }
 
-  func observeLoginStatus() -> Observable<LoginStatusDTO> {
-    self.observeSystemMessageUseCase
-      .observeLoginStatus(useCase: self.authenticationUseCase)
+  func refreshData() {
+    refreshPlayerInfo()
+    refreshPlayerBalance()
+    refreshMaintenanceStatus()
+  }
+  
+  func loadBalanceHiddenState(by gamerID: String) -> Bool {
+    playerDataUseCase.getBalanceHiddenState(gameId: gamerID)
   }
 
-  override func errors() -> Observable<Error> {
-    errorsSubject
-      .do(onSubscribe: { [weak self] in
-        guard let self else { return }
-
-        self.observeSystemMessageUseCase.errors()
-          .subscribe(onNext: { [weak self] error in
-            guard let self else { return }
-
-            self.errorsSubject
-              .onNext(error)
-          })
-          .disposed(by: self.disposeBag)
-      })
-      .throttle(.milliseconds(1500), latest: false, scheduler: MainScheduler.instance)
+  func saveBalanceHiddenState(gamerID: String, isHidden: Bool) {
+    playerDataUseCase.setBalanceHiddenState(gameId: gamerID, isHidden: isHidden)
   }
-
-  func fetchData() {
-    fetchMaintenanceStatus()
-    fetchPlayerBalance()
+  
+  func getCultureCode() -> String {
+    localStorageRepo.getCultureCode()
   }
-
-  func fetchMaintenanceStatus() {
-    getSystemStatusUseCase
-      .fetchMaintenanceStatus()
-      .subscribe(
-        onSuccess: { [weak self] maintenanceStatus in
-          guard let self else { return }
-
-          self.maintenanceStatusSubject.onNext(maintenanceStatus)
-        },
-        onFailure: { [weak self] error in
-          guard let self else { return }
-
-          self.errorsSubject.onNext(error)
-        })
-      .disposed(by: disposeBag)
-  }
-
-  func fetchPlayerBalance() {
-    playerDataUseCase
-      .getBalance()
-      .subscribe(
-        onSuccess: { [weak self] accountCurrency in
-          guard let self else { return }
-
-          self.playerBalanceSubject.onNext(accountCurrency)
-        },
-        onFailure: { [weak self] error in
-          guard let self else { return }
-
-          self.errorsSubject.onNext(error)
-        })
-      .disposed(by: disposeBag)
+  
+  func logout() -> Completable {
+    CustomServicePresenter.shared.closeService()
+      .observe(on: MainScheduler.instance)
+      .concat(authenticationUseCase.logout())
+      .trackOnDispose(loadingTracker)
   }
 }
 
@@ -164,6 +152,10 @@ struct ProductItem {
   var image = ""
   var type = ProductType.none
   var maintainTime: OffsetDateTime?
+  
+  func updateMaintainTime(_ time: OffsetDateTime?) -> Self {
+    .init(title: title, image: image, type: type, maintainTime: time)
+  }
 }
 
 struct FeatureItem {

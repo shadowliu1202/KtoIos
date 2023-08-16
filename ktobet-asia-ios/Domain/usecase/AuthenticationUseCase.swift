@@ -23,7 +23,7 @@ protocol AuthenticationUseCase {
 class AuthenticationUseCaseImpl: AuthenticationUseCase {
   private let repoAuth: IAuthRepository
   private let repoPlayer: PlayerRepository
-  private let repoLocalStorage: LocalStorageRepository
+  private let localStorageRepo: LocalStorageRepository
   private let settingStore: SettingStore
 
   @Injected(name: "CheckingIsLogged") private var checkIsLoggedTracker: ActivityIndicator
@@ -36,22 +36,25 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
   {
     self.repoAuth = authRepository
     self.repoPlayer = playerRepository
-    self.repoLocalStorage = localStorageRepo
+    self.localStorageRepo = localStorageRepo
     self.settingStore = settingStore
   }
 
   func login(account: String, pwd: String, captcha: Captcha) -> Single<Player> {
-    repoAuth.authorize(account, pwd, captcha).flatMap { data -> Single<Player> in
-      switch data.status {
-      case .success: return self.repoPlayer.loadPlayer()
-      case .failed1to5: return Single.error(LoginException.Failed1to5Exception(isLocked: data.isLocked))
-      case .failed6to10: return Single.error(LoginException.Failed6to10Exception(isLocked: data.isLocked))
-      case .failedabove11: return Single.error(LoginException.AboveVerifyLimitation(isLocked: data.isLocked))
-      default: fatalError()
+    repoAuth.authorize(account, pwd, captcha)
+      .flatMap { data -> Single<Player> in
+        switch data.status {
+        case .success: return self.repoPlayer.loadPlayer()
+        case .failed1to5: return Single.error(LoginException.Failed1to5Exception(isLocked: data.isLocked))
+        case .failed6to10: return Single.error(LoginException.Failed6to10Exception(isLocked: data.isLocked))
+        case .failedabove11: return Single.error(LoginException.AboveVerifyLimitation(isLocked: data.isLocked))
+        default: fatalError()
+        }
       }
-    }
-    .do(onSuccess: refreshHttpClient)
-    .do(onSuccess: logLoginDay)
+      .do(onSuccess: { [weak self, localStorageRepo] in
+        self?.refreshHttpClient($0)
+        self?.logLoginDay()
+      })
   }
 
   private func refreshHttpClient(_ player: Player) {
@@ -59,12 +62,12 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
     CustomServicePresenter.shared.changeCsDomainIfNeed()
   }
 
-  private func logLoginDay(_: Player) {
+  private func logLoginDay() {
     let now = Date().convertdateToUTC()
-    let lastDay = repoLocalStorage.getLastLoginDate()?.convertdateToUTC()
+    let lastDay = localStorageRepo.getLastLoginDate()?.convertdateToUTC()
     if lastDay?.betweenTwoDay(sencondDate: now) != 0 {
       AnalyticsLog.shared.playerLogin()
-      repoLocalStorage.setLastLoginDate(now)
+      localStorageRepo.setLastLoginDate(now)
     }
   }
 
@@ -73,14 +76,14 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
       .do(onCompleted: { [weak self] in
         self?.settingStore.clearCache()
         FirebaseLog.shared.clearUserID()
-        self?.repoLocalStorage.setPlayerInfo(nil)
-        self?.repoLocalStorage.setLastAPISuccessDate(nil)
+        self?.localStorageRepo.setPlayerInfo(nil)
+        self?.localStorageRepo.setLastAPISuccessDate(nil)
         Logger.shared.debug("clear player info.")
       })
   }
 
   func isLastAPISuccessDateExpire() -> Bool {
-    guard let lastAPISuccessDate = repoLocalStorage.getLastAPISuccessDate() else { return true }
+    guard let lastAPISuccessDate = localStorageRepo.getLastAPISuccessDate() else { return true }
     return lastAPISuccessDate.addingTimeInterval(1800) < Date()
   }
 
@@ -95,35 +98,35 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
   }
 
   func getRememberAccount() -> String {
-    repoLocalStorage.getRememberAccount()
+    localStorageRepo.getRememberAccount()
   }
 
   func getNeedCaptcha() -> Bool {
-    repoLocalStorage.getNeedCaptcha()
+    localStorageRepo.getNeedCaptcha()
   }
 
   func getLastOverLoginLimitDate() -> Date {
-    repoLocalStorage.getLastOverLoginLimitDate() ?? Date()
+    localStorageRepo.getLastOverLoginLimitDate() ?? Date()
   }
 
   func getUserName() -> String {
-    repoLocalStorage.getUserName()
+    localStorageRepo.getUserName()
   }
 
   func setRememberAccount(_ rememberAccount: String?) {
-    repoLocalStorage.setRememberAccount(rememberAccount)
+    localStorageRepo.setRememberAccount(rememberAccount)
   }
 
   func setLastOverLoginLimitDate(_ lastOverLoginLimitDate: Date?) {
-    repoLocalStorage.setLastOverLoginLimitDate(lastOverLoginLimitDate)
+    localStorageRepo.setLastOverLoginLimitDate(lastOverLoginLimitDate)
   }
 
   func setNeedCaptcha(_ needCaptcha: Bool?) {
-    repoLocalStorage.setNeedCaptcha(needCaptcha)
+    localStorageRepo.setNeedCaptcha(needCaptcha)
   }
 
   func setUserName(_ name: String) {
-    repoLocalStorage.setUserName(name)
+    localStorageRepo.setUserName(name)
   }
 
   func accountValidation() -> Single<Bool> {

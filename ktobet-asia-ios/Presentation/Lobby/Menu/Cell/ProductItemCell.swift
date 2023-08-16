@@ -6,15 +6,17 @@ class ProductItemCell: UICollectionViewCell {
   @IBOutlet weak var imgIcon: UIImageView!
   @IBOutlet weak var labTitle: UILabel!
 
-  var finishCountDown: (() -> Void)?
-
+  private var type: ProductType?
   private var tickCircle: TickCircle?
+
+  var finishCountDown: (() -> Void)?
 
   override func awakeFromNib() {
     super.awakeFromNib()
   }
 
   func setup(_ data: ProductItem) {
+    type = data.type
     labTitle.text = data.title
     imgIcon.image = UIImage(named: data.image)
 
@@ -32,7 +34,9 @@ class ProductItemCell: UICollectionViewCell {
     }
   }
 
-  func setSelectedIcon(_ type: ProductType, isSelected: Bool) {
+  func setSelectedIcon(isSelected: Bool) {
+    guard let type else { return }
+    
     switch type {
     case .sbk:
       imgIcon.image = isSelected ? UIImage(named: "SBK_Selected") : UIImage(named: "SBK")

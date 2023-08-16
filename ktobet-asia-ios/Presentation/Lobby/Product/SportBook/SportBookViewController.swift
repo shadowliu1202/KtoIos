@@ -1,5 +1,4 @@
 import NotificationBannerSwift
-import RxRelay
 import RxSwift
 import SharedBu
 import SwiftUI
@@ -16,10 +15,7 @@ class SportBookViewController: LobbyViewController {
   private var banner: NotificationBanner?
 
   private lazy var httpClient = Injectable.resolveWrapper(HttpClient.self)
-  private lazy var localStorageRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
-  private lazy var playerViewModel = Injectable.resolveWrapper(PlayerViewModel.self)
-  private lazy var serviceViewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
-  private lazy var sportBookViewModel = Injectable.resolveWrapper(SportBookViewModel.self)
+  private lazy var productViewModel = Injectable.resolveWrapper(ProductsViewModel.self)
 
   private var disposeBag = DisposeBag()
 
@@ -73,14 +69,13 @@ class SportBookViewController: LobbyViewController {
   }
 
   private func binding() {
-    sportBookViewModel
-      .observeMaintenanceStatus()
-      .subscribe(onNext: { [weak self] status in
+    productViewModel.maintenanceStatus
+      .drive(onNext: { [weak self, productViewModel] status in
         guard let self else { return }
 
         switch status {
         case is MaintenanceStatus.AllPortal:
-          self.playerViewModel.logout()
+          productViewModel.logout()
             .subscribe(onCompleted: {
               NavigationManagement.sharedInstance.goTo(
                 storyboard: "Maintenance",
@@ -98,7 +93,7 @@ class SportBookViewController: LobbyViewController {
       })
       .disposed(by: disposeBag)
 
-    sportBookViewModel.errors()
+    productViewModel.errors()
       .subscribe(onNext: { [weak self] error in
         guard let self else { return }
 
@@ -164,7 +159,7 @@ extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
   }
 
   func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-    serviceViewModel.refreshProductStatus()
+    productViewModel.refreshMaintenanceStatus()
     Logger.shared.info("\(String(describing: webView.url)) did finish")
     isWebLoadSuccess.accept(true)
     self.activityIndicator.stopAnimating()

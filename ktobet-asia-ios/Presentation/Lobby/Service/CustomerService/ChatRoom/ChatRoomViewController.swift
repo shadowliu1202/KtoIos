@@ -360,7 +360,7 @@ class ChatRoomViewController: CommonViewController {
 
   private func goToExitSurvey(_ roomId: RoomId, _ exitSurvey: Survey) {
     if exitSurvey.surveyQuestions.isEmpty {
-      CustomServicePresenter.shared.closeService()
+      CustomServicePresenter.shared.resetStatus()
     }
     else {
       CustomServicePresenter.shared.switchToExitSurvey(roomId: roomId)

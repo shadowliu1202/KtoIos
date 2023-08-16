@@ -18,7 +18,7 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
 
   private let disposeBag = DisposeBag()
 
-  private let getSystemStatusUseCase: GetSystemStatusUseCase
+  private let getSystemStatusUseCase: ISystemStatusUseCase
   private let playerDataUseCase: PlayerDataUseCase
   private let playerConfiguration: PlayerConfiguration
   private let withdrawalAppService: IWithdrawalAppService
@@ -26,7 +26,7 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
   private var isFirstLoad = true
 
   init(
-    _ getSystemStatusUseCase: GetSystemStatusUseCase,
+    _ getSystemStatusUseCase: ISystemStatusUseCase,
     _ playerDataUseCase: PlayerDataUseCase,
     _ playerConfiguration: PlayerConfiguration,
     _ withdrawalAppService: IWithdrawalAppService)
@@ -163,7 +163,7 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
 
   private func fetchOTPStatus() {
     getSystemStatusUseCase
-      .getOtpStatus()
+      .fetchOTPStatus()
       .subscribe(
         onSuccess: { [weak self] otpStatus in
           self?.otpStatusSubject

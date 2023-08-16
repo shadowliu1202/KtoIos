@@ -4,13 +4,12 @@ import SharedBu
 
 class TermsViewModel {
   private var localizationPolicyUseCase: LocalizationPolicyUseCase!
-  private var systemStatusUseCase: GetSystemStatusUseCase
-//    lazy var cryptoGuidance: Single<CryptoGuidance> = localizationPolicyUseCase.getCryptoGuidance()
+  private var systemStatusUseCase: ISystemStatusUseCase
   lazy var cryptoGuidance = localizationPolicyUseCase.getCryptoGuidance()
-  lazy var yearOfCopyRight = systemStatusUseCase.getYearOfCopyRight()
-  lazy var getCustomerServiceEmail = systemStatusUseCase.getCustomerServiceEmail()
+  lazy var yearOfCopyRight = systemStatusUseCase.fetchCopyRight()
+  lazy var getCustomerServiceEmail = systemStatusUseCase.fetchCustomerServiceEmail()
 
-  init(localizationPolicyUseCase: LocalizationPolicyUseCase, systemStatusUseCase: GetSystemStatusUseCase) {
+  init(localizationPolicyUseCase: LocalizationPolicyUseCase, systemStatusUseCase: ISystemStatusUseCase) {
     self.localizationPolicyUseCase = localizationPolicyUseCase
     self.systemStatusUseCase = systemStatusUseCase
   }

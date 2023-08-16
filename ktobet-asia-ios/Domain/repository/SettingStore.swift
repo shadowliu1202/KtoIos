@@ -6,7 +6,7 @@ struct SettingStore {
   }
 
   @Persistent(key: .defaultProduct) var defaultProduct: Int32?
-  @PersistentObject(key: .playerInfo) var playerInfo: IPlayer?
+  @PersistentObject(key: .playerInfo) var playerInfo: PlayerBean?
 }
 
 extension Key {

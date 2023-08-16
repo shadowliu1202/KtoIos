@@ -11,7 +11,7 @@ class Close: ChatRoomVisitor {
     connection.update(connectStatus: SharedBu.Connection.StatusClose())
   }
   
-  func visit(messageManager: MessageManager) {
+  func visit(messageManager _: MessageManager) {
     // Do nothing
   }
 }

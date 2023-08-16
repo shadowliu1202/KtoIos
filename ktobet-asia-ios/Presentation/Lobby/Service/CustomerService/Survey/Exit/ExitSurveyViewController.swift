@@ -75,17 +75,17 @@ class ExitSurveyViewController: CommonViewController {
   }
 
   private func popThenToast() {
-    CustomServicePresenter.shared.closeService()
+    CustomServicePresenter.shared.resetStatus()
     showToast(Localize.string("customerservice_offline_survey_confirm_title"), barImg: .success)
   }
 }
 
 extension ExitSurveyViewController: BarButtonItemable {
   func pressedLeftBarButtonItems(_: UIBarButtonItem) {
-    CustomServicePresenter.shared.closeService()
+    CustomServicePresenter.shared.resetStatus()
   }
 
   func pressedRightBarButtonItems(_: UIBarButtonItem) {
-    CustomServicePresenter.shared.closeService()
+    CustomServicePresenter.shared.resetStatus()
   }
 }

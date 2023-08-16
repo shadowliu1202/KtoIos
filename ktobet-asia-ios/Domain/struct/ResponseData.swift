@@ -118,7 +118,7 @@ struct SkillData: Codable {
   var skillId: String
 }
 
-struct IPlayer: Codable {
+struct PlayerBean: Codable {
   var displayId: String
   var exp: Double
   var gameId: String

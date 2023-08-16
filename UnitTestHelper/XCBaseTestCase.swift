@@ -45,26 +45,17 @@ private func injectStubPlayerLoginStatus() {
 }
 
 private func injectStubGetProductStatus() {
-  let observeSystemMessageUseCase = mock(ObserveSystemMessageUseCase.self)
+  let systemStatusUseCase = mock(ISystemStatusUseCase.self)
 
-  given(observeSystemMessageUseCase.observeMaintenanceStatus(useCase: any())) ~> .just(.AllPortal(duration: 0))
-  given(observeSystemMessageUseCase.errors()) ~> .never()
-
-  Injectable
-    .register(ObserveSystemMessageUseCase.self) { _ in
-      observeSystemMessageUseCase
-    }
-
-  let getSystemStatusUseCase = mock(GetSystemStatusUseCase.self)
-
-  given(getSystemStatusUseCase.fetchMaintenanceStatus()) ~> .never()
-  given(getSystemStatusUseCase.getOtpStatus()) ~> .never()
-  given(getSystemStatusUseCase.getCustomerServiceEmail()) ~> .never()
-  given(getSystemStatusUseCase.observePortalMaintenanceState()) ~> .never()
+  given(systemStatusUseCase.fetchMaintenanceStatus()) ~> .never()
+  given(systemStatusUseCase.fetchOTPStatus()) ~> .never()
+  given(systemStatusUseCase.fetchCustomerServiceEmail()) ~> .never()
+  given(systemStatusUseCase.observeMaintenanceStatusByFetch()) ~> .never()
+  given(systemStatusUseCase.observeMaintenanceStatusChange()) ~> .never()
 
   Injectable
-    .register(GetSystemStatusUseCase.self) { _ in
-      getSystemStatusUseCase
+    .register(ISystemStatusUseCase.self) { _ in
+      systemStatusUseCase
     }
 }
 
