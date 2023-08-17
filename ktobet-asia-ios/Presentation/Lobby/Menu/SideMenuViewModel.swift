@@ -93,6 +93,7 @@ class SideMenuViewModel: CollectErrorViewModel {
         return products
           .map { $0.updateMaintainTime(status.getMaintenanceTime(productType: $0.type)) }
       }
+      .startWith(products)
   }
 
   // MARK: - MaintenanceStatus

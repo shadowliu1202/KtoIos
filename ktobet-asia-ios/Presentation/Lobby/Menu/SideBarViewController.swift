@@ -92,8 +92,11 @@ class SideBarViewController: APPViewController {
   private func alertAndExitLobby(_ type: KickOutSignal?, cancel: (() -> Void)? = nil) {
     let (title, message, isMaintain) = parseKickOutType(type)
 
-    Alert.shared.show(title, message, confirm: { [unowned self] in
-      guard let sideMenuViewModel else { return }
+    Alert.shared.show(title, message, confirm: { [weak self] in
+      guard
+        let self,
+        let sideMenuViewModel = self.sideMenuViewModel
+      else { return }
 
       sideMenuViewModel.logout()
         .subscribe(onCompleted: {
@@ -106,7 +109,7 @@ class SideBarViewController: APPViewController {
             NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
           }
         })
-        .disposed(by: disposeBag)
+        .disposed(by: self.disposeBag)
 
     }, cancel: cancel)
   }
