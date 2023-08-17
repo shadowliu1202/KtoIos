@@ -42,8 +42,12 @@ extension APIErrorHandler {
       let nsError = NSError(
         domain: response.request?.url?.path ?? "",
         code: response.statusCode,
-        userInfo: ["errorMsg": response.description])
-
+        userInfo: [
+          "errorMsg": response.description,
+          "ResponseBody": response.data.prettyJSON ?? "",
+          "Cookie": response.request?.value(forHTTPHeaderField: "Cookie") ?? ""
+        ])
+      
       handleHttpError(nsError, errorResponse: response)
 
     case .underlying(let err, _):
