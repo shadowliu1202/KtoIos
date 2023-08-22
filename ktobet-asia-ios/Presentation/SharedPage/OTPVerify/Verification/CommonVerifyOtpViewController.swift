@@ -93,7 +93,7 @@ class CommonVerifyOtpViewController: CommonViewController {
 
       mutableAttributedString.addAttribute(
         NSAttributedString.Key.foregroundColor,
-        value: UIColor.primaryDefault.withAlphaComponent(0.5),
+        value: UIColor.primaryDefault.withAlphaComponent(isTimeUp ? 1 : 0.5),
         range: range)
       self?.btnResend.setAttributedTitle(mutableAttributedString, for: .normal)
       self?.btnResend.isEnabled = isTimeUp
