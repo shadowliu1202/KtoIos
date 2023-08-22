@@ -43,7 +43,9 @@ struct OTPVerifyTextField: View {
                 offsetBy: index)])
               : "",
             onFocus: (index == otpCode.count) && isEditing,
-            onInputFinished: isLast && otpCode.count == length && isEditing)
+            onInputFinished: isLast &&
+              otpCode.count == length &&
+              isEditing)
 
           if length != OTPVerifyTextField.VNMobileLength {
             Spacer()
@@ -60,16 +62,14 @@ struct OTPVerifyTextField: View {
 
   func codeCell(text: String, onFocus: Bool, onInputFinished: Bool) -> some View {
     RoundedRectangle(cornerRadius: 6)
-      .fill(Color.from(.inputDefault))
+      .fill(Color.from(
+        onFocus || onInputFinished
+          ? .inputFocus
+          : .inputDefault))
       .frame(width: 40, height: 40)
       .overlay(
         Text(text)
           .localized(weight: .semibold, size: 18, color: .greyScaleWhite))
-      .overlay(
-        BlinkingCursor()
-          .padding(10)
-          .visibility(onFocus || onInputFinished ? .visible : .gone),
-        alignment: onInputFinished ? .trailing : .leading)
   }
 }
 

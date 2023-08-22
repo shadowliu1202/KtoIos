@@ -4,6 +4,7 @@ import UIKit
 
 class CommonVerifyOtpViewController: CommonViewController {
   @IBOutlet weak var naviItem: UINavigationItem!
+  @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var labTitle: UILabel!
   @IBOutlet weak var labDesc: UILabel!
   @IBOutlet weak var labTip: UILabel!
@@ -14,30 +15,32 @@ class CommonVerifyOtpViewController: CommonViewController {
   @IBOutlet private weak var btnBack: UIBarButtonItem!
   @IBOutlet weak var btnVerify: UIButton!
   @IBOutlet weak var btnResend: UIButton!
-  @IBOutlet private weak var constraintLabelErrTipTop: NSLayoutConstraint!
-  @IBOutlet private weak var constraintLabelErrTipBottom: NSLayoutConstraint!
+  @IBOutlet private weak var labTipButtonConstraint: NSLayoutConstraint!
 
-  var delegate: OtpViewControllerProtocol!
-  var barButtonItems: [UIBarButtonItem] = []
-
-  private let errTipLabelPadding = CGFloat(12)
-  private var disposeBag = DisposeBag()
-  private let resendTimer = CountDownTimer()
-  private let step2CountDownTimer = CountDownTimer()
-  private var overStep2TimeLimit = false
-  private var otpRetryCount = 0
-  private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-  private lazy var customService = UIBarButtonItem
-    .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
-  lazy var validator: OtpValidatorDelegation = OtpValidator(accountPatternGenerator: accountPatternGenerator)
-  private var accountPatternGenerator = Injectable.resolve(AccountPatternGenerator.self)!
+  private let accountPatternGenerator = Injectable.resolve(AccountPatternGenerator.self)!
   private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
 
+  private let resendTimer = CountDownTimer()
+  private let step2CountDownTimer = CountDownTimer()
+  
+  private let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+  private let disposeBag = DisposeBag()
+  
+  private var overStep2TimeLimit = false
+  private var otpRetryCount = 0
+  private lazy var customService = UIBarButtonItem
+    .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+
+  lazy var validator: OtpValidatorDelegation = OtpValidator(accountPatternGenerator: accountPatternGenerator)
+  var delegate: OtpViewControllerProtocol!
+  var barButtonItems: [UIBarButtonItem] = []
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     Logger.shared.info("", tag: "KTO-876")
-    if !delegate.commonVerifyOtpArgs.isHiddenCSBarItem { self.bind(position: .right, barButtonItems: padding, customService) }
-    initialize()
+    
+    initUI()
     bindingViews()
     setResendTimer()
     setStep2Timer()
@@ -45,8 +48,16 @@ class CommonVerifyOtpViewController: CommonViewController {
     showPasscodeUncorrectTip(false)
   }
 
-  private func initialize() {
-    if !delegate.commonVerifyOtpArgs.isHiddenBarTitle { naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)")) }
+  private func initUI() {
+    if !delegate.commonVerifyOtpArgs.isHiddenCSBarItem {
+      self.bind(position: .right, barButtonItems: padding, customService)
+    }
+    
+    if !delegate.commonVerifyOtpArgs.isHiddenBarTitle {
+      naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
+    }
+    
+    scrollView.alwaysBounceVertical = true
     labTitle.text = delegate.commonVerifyOtpArgs.title
     labDesc.text = delegate.commonVerifyOtpArgs.description
     labTip.text = delegate.commonVerifyOtpArgs.identityTip
@@ -136,8 +147,7 @@ class CommonVerifyOtpViewController: CommonViewController {
   }
 
   private func showPasscodeUncorrectTip(_ show: Bool) {
-    constraintLabelErrTipTop.constant = show ? errTipLabelPadding : 0
-    constraintLabelErrTipBottom.constant = show ? errTipLabelPadding : 0
+    labTipButtonConstraint.constant = show ? 40 : 30
     viewErrTip.isHidden = !show
   }
 
@@ -165,26 +175,19 @@ class CommonVerifyOtpViewController: CommonViewController {
   @IBAction
   func btnVerifyPressed(_: UIButton) {
     Logger.shared.info("btnVerifyPressed", tag: "KTO-876")
-    if overStep2TimeLimit {
-      navigateToErrorPage()
-      return
-    }
-    btnVerify.isValid = false
-    smsVerifyView.getOtpCode().first()
-      .flatMapCompletable(verifyOTP)
-      .do(onDispose: enableBtnVerify)
-      .subscribe(onCompleted: { [weak self] in
-        self?.delegate.verifyOnCompleted()
-      }, onError: handleError)
+    
+    guard !overStep2TimeLimit else { navigateToErrorPage(); return }
+    
+    smsVerifyView.getOtpCode()
+      .first()
+      .flatMapCompletable { [delegate] in delegate!.verify(otp: $0!) }
+      .do(
+        onSubscribe: { [btnVerify] in btnVerify?.isValid = false },
+        onDispose: { [btnVerify] in btnVerify?.isValid = true })
+      .subscribe(
+        onCompleted: { [delegate] in delegate?.verifyOnCompleted() },
+        onError: { [unowned self] in handleError($0) })
       .disposed(by: disposeBag)
-  }
-
-  private func verifyOTP(_ code: String?) -> Completable {
-    delegate.verify(otp: code!)
-  }
-
-  private func enableBtnVerify() {
-    btnVerify.isValid = true
   }
 
   @IBAction
