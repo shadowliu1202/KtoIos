@@ -24,16 +24,13 @@ struct DefaultRow: View {
   }
 
   let model: DefaultRowModel
-  let contentLineLimit: Int?
 
-  init(model: DefaultRowModel, contentLineLimit: Int? = 2) {
+  init(model: DefaultRowModel) {
     self.model = model
-    self.contentLineLimit = contentLineLimit
   }
 
-  init(common: Common, contentLineLimit: Int? = 2) {
+  init(common: Common) {
     self.model = common
-    self.contentLineLimit = contentLineLimit
   }
 
   var body: some View {
@@ -59,7 +56,6 @@ struct DefaultRow: View {
           weight: .regular,
           size: 16,
           color: model.contentColor)
-        .lineLimit(contentLineLimit)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
   }

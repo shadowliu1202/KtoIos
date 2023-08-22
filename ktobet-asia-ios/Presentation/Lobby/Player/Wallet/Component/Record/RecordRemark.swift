@@ -206,6 +206,7 @@ extension RecordRemark {
               size: 14,
               color: .textPrimary)
             .frame(maxWidth: .infinity, alignment: .leading)
+            .fixedSize(horizontal: false, vertical: true)
         }
 
         LimitSpacer(40)
