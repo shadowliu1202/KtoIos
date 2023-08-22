@@ -59,9 +59,7 @@ extension WithdrawalCryptoRequestStep2View {
 
           ForEach(viewModel.requestInfo.indices, id: \.self) { index in
             VStack(spacing: 8) {
-              DefaultRow(
-                model: viewModel.requestInfo[index],
-                contentLineLimit: nil)
+              DefaultRow(model: viewModel.requestInfo[index])
 
               Separator()
             }
