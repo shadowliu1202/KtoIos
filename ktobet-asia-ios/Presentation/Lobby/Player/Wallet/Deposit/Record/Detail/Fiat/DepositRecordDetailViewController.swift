@@ -55,8 +55,6 @@ extension DepositRecordDetailViewController {
     imagePickable = .init(
       target: self,
       alert: alert,
-      selectedImageCountLimit: DepositRecordDetailViewModel.selectedImageCountLimit,
-      imageMBSizeLimit: DepositRecordDetailViewModel.imageMBSizeLimit,
       didSelected: { [weak self] fromCamera, images in
         self?.viewModel.prepareSelectedImages(images, shouldReplaceAll: fromCamera)
       })

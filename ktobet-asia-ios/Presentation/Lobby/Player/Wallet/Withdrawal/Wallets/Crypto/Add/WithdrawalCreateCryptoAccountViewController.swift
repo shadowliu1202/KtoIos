@@ -109,8 +109,6 @@ extension WithdrawalCreateCryptoAccountViewController {
   func pushToImagePicker() {
     let imagePickerView = ImagePickerViewController.initFrom(storyboard: "ImagePicker")
 
-    imagePickerView.selectedImageLimitCount = 1
-    imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
     imagePickerView.isHiddenFooterView = true
     imagePickerView.cameraImage = UIImage(named: "Scan")
     imagePickerView.cameraText = Localize.string("cps_scan")

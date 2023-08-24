@@ -31,9 +31,6 @@ class WithdrawalRecordDetailViewModel:
 
   @Published var selectedImages: [RecordRemark.Uploader.Model] = []
 
-  static let imageMBSizeLimit = 20
-  static let selectedImageCountLimit = 3
-
   private let withdrawalService: IWithdrawalAppService
   private let httpClient: HttpClient
 

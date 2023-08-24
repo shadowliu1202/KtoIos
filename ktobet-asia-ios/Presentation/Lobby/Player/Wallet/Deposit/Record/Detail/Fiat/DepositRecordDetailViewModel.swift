@@ -27,9 +27,6 @@ class DepositRecordDetailViewModel:
 
   @Published var selectedImages: [RecordRemark.Uploader.Model] = []
 
-  static let imageMBSizeLimit = 20
-  static let selectedImageCountLimit = 3
-
   private let depositService: IDepositAppService
   private let httpClient: HttpClient
 

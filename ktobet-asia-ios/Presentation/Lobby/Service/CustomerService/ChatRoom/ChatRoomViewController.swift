@@ -287,20 +287,9 @@ class ChatRoomViewController: CommonViewController {
     imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil)
       .instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
     imagePickerView.delegate = self
-    imagePickerView.imageLimitMBSize = DepositRecordDetailViewModel.imageMBSizeLimit
-    imagePickerView.selectedImageLimitCount = 3
-    imagePickerView.allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
     imagePickerView.completionWithLocalIdentifier = { [weak self] imageIDs in
       self?.navigationController?.popViewController(animated: true)
       self?.sendImages(URIs: imageIDs)
-    }
-    
-    imagePickerView.showImageSizeLimitAlert = { [weak self] _ in
-      self?.showToast(Localize.string("deposit_execeed_limitation"), barImg: .failed)
-    }
-    
-    imagePickerView.showImageFormatInvalidAlert = { [weak self] _ in
-      self?.showToast(Localize.string("deposit_file_format_invalid"), barImg: .failed)
     }
 
     self.navigationController?.pushViewController(imagePickerView, animated: true)
